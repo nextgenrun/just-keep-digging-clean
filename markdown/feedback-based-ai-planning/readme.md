@@ -21,6 +21,14 @@ No gameplay code, balance values, assets, saves, or deployment state were change
 5. A later player report outranks an older “implemented” note. Reopen the row as a regression instead of arguing from historical green checks.
 6. Update a row to `accepted` only when its listed evidence exists. “Compiles,” “looks wired,” and self-play alone are insufficient.
 
+## Current implementation boundary
+
+The P0 death, centralized UI ownership, and hazard-admission code slices are now
+implemented on the isolated implementation branch. Their focused Node contracts
+pass, but the ledger deliberately keeps them below accepted until foreground-safe
+browser runs, natural hazard scheduling, save/reload, viewport review, and the
+required playtest evidence are recorded.
+
 ## Scope boundary
 
 This is a plan for the existing Phaser game. It does not authorize an engine rewrite, a smaller replacement game, deletion of abilities, deployment, or a silent change to movement/progression authority. Those choices are represented as explicit product gates where the feedback warrants them.

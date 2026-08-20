@@ -377,6 +377,7 @@ const summonNotices = [];
 const summonScene = {
   graveborerWurmRuntime: {
     system: summonedSystem,
+    visual: { ready: true },
     devToolsEnabled: true,
     forcedDevEncounter: false,
     devSaveIsolation: false,

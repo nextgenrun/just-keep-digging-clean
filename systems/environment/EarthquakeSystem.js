@@ -24,6 +24,7 @@ import {
   resolveFallZoneGeometry,
   rockSweptAabbCrossesBody,
 } from "./earthquakeFallZoneMath.js";
+import { EarthquakeDiagnostics } from "./EarthquakeDiagnostics.js";
 
 const MUTABLE_TYPES = new Set([
   TILE_TYPES.DIRT,
@@ -62,14 +63,14 @@ export class EarthquakeSystem {
     this._openedPassageKeys = new Set();
     this._openedPassageTiles = [];
     this._nextFallZoneId = 0;
-
     this.fx = scene.add.graphics().setDepth(34);
     this.stressFx = scene.add.graphics().setDepth(18);
+    this.diagnostics = new EarthquakeDiagnostics(scene, this, config);
     this._stressTimer = 0;
     this._scheduleNext();
     this._scheduleNextDebrisEvent();
     this.syncSuppression();
-    this._installDebugApi();
+    this.diagnostics.recordInitial();
     this._log("initialized", this.getStatus());
   }
 
@@ -133,21 +134,17 @@ export class EarthquakeSystem {
     }
   }
 
-  start(forcedIntensity = null) {
-    if (this.syncSuppression()) return false;
+  start(forcedIntensity = null, options = {}) {
+    const epicenter = this.diagnostics
+      ? this.diagnostics.prepareStart(options)
+      : (!this.syncSuppression() && this._selectWorldEpicenter());
+    if (!epicenter) return false;
     if (this.state !== "idle") this.cancelActiveHazards();
     this._trapGuidanceShown = false;
     this._openedPassageKeys.clear();
     this._openedPassageTiles = [];
     this.scene.earthquakeHazardOverlay?.clear?.();
-    this.epicenter = this._selectWorldEpicenter();
-    if (!this.epicenter) {
-      this._scheduleNext();
-      this._log("start deferred: no valid epicenter", {
-        nextEventMs: Math.round(this.nextEventMs),
-      });
-      return false;
-    }
+    this.epicenter = epicenter;
     const depth = this.epicenter?.depth ?? this.config.minimumDepth;
     this.intensity = forcedIntensity && this.config.intensities[forcedIntensity]
       ? forcedIntensity
@@ -164,6 +161,13 @@ export class EarthquakeSystem {
       ? this.scene.soundSystem?.playSeismicWarning?.(warningProximity)
       : null;
     if (!warningSound) this._playTone("rumble");
+    this.diagnostics.showFirstResponseCaption();
+    this.diagnostics.recordWarning(
+      this.intensity,
+      this.epicenter,
+      Boolean(forcedIntensity),
+      options,
+    );
 
     this._log("warning started", {
       intensity: this.intensity,
@@ -176,25 +180,29 @@ export class EarthquakeSystem {
 
   setPaused(paused) {
     this.paused = Boolean(paused);
+    this.diagnostics?.recordPause(this.paused);
     this._log(this.paused ? "paused" : "resumed");
   }
 
-  triggerDebrisEvent() {
+  triggerDebrisEvent(options = {}) {
     const cfg = this.config.debrisEvents;
-    if (cfg?.enabled !== true || this._getDepth() < cfg.minimumDepthTiles) {
-      this._scheduleNextDebrisEvent();
-      return false;
-    }
-    this.epicenter = this._selectWorldEpicenter();
+    const epicenter = this.diagnostics
+      ? this.diagnostics.prepareDebris(cfg, options)
+      : this._selectWorldEpicenter();
+    if (!epicenter) return false;
+    this.epicenter = epicenter;
     this.intensity = cfg.intensity;
     const candidate = this._findCeilingCandidates(1)[0];
     if (!candidate) {
       this._scheduleNextDebrisEvent();
+      this.diagnostics.recordNoCeiling("debris", this.epicenter);
       return false;
     }
     this._queueCaveInGroup(candidate, false);
+    this.diagnostics.showFirstResponseCaption();
     this.scene.soundSystem?.playSeismicWarning?.(0.72);
     this._scheduleNextDebrisEvent();
+    this.diagnostics.recordDebrisTelegraph(this.epicenter, candidate, options);
     this._log("debris event queued", candidate);
     return true;
   }
@@ -213,18 +221,20 @@ export class EarthquakeSystem {
 
     this.suppressed = nextSuppressed;
     if (this.suppressed) {
-      this.cancelActiveHazards();
+      this.cancelActiveHazards("suppressed");
       this.nextEventMs = Number.POSITIVE_INFINITY;
       this.scene.earthquakeTileFeedbackSystem?.clear?.();
+      this.diagnostics?.record("suppressed");
       this._log("permanently suppressed by upgrade");
     } else {
       this._scheduleNext();
+      this.diagnostics?.record("armed");
       this._log("suppression removed");
     }
     return this.suppressed;
   }
 
-  cancelActiveHazards() {
+  cancelActiveHazards(reason = "cancelled") {
     this.scene.soundSystem?.stopSeismicWarning?.();
     this.state = "idle";
     this.epicenter = null;
@@ -253,6 +263,7 @@ export class EarthquakeSystem {
     this.scene.earthquakeHazardOverlay?.clear?.();
     if (this.suppressed) this.nextEventMs = Number.POSITIVE_INFINITY;
     else this._scheduleNext();
+    this.diagnostics?.record(reason, {}, "resolved");
     this._log("active hazards cancelled");
   }
 
@@ -276,16 +287,16 @@ export class EarthquakeSystem {
       suppressed: this.suppressed,
       warningTextActive: false,
       debug: this._debugEnabled(),
+      ...this.diagnostics?.statusFields?.(),
     };
   }
 
   destroy() {
-    this.cancelActiveHazards();
+    this.cancelActiveHazards("destroyed");
     this.fx?.destroy();
     this.stressFx?.destroy();
-    if (typeof window !== "undefined" && window.earthquakeDebug?.system === this) {
-      delete window.earthquakeDebug;
-    }
+    this.diagnostics?.destroy?.();
+    this.diagnostics = null;
   }
 
   // ── State handlers ────────────────────────────────────────────
@@ -299,9 +310,11 @@ export class EarthquakeSystem {
     this.mutationTimer = 0;
 
     const count = randInt(...cfg.caveIns);
-    for (const candidate of this._findCeilingCandidates(count)) {
+    const candidates = this._findCeilingCandidates(count);
+    for (const candidate of candidates) {
       this._queueCaveInGroup(candidate, false);
     }
+    this.diagnostics?.recordQuake(count, candidates);
 
     this._playTone("crack");
 
@@ -334,6 +347,7 @@ export class EarthquakeSystem {
     });
 
     this.scene.queueDugTilesSave?.();
+    this.diagnostics?.record("aftermath", {}, "aftermath");
     this._log("aftermath started");
   }
 
@@ -352,6 +366,7 @@ export class EarthquakeSystem {
     this.stateTotalMs = 0;
     this.fx.clear();
     this._scheduleNext();
+    this.diagnostics?.recordResolved(completedIntensity, passagesOpened, distanceEndured);
     this._log("event complete", { nextEventMs: Math.round(this.nextEventMs) });
   }
 
@@ -1105,22 +1120,6 @@ export class EarthquakeSystem {
     if (!this._debugEnabled()) return;
     if (data === undefined) console.log(`[Earthquakes] ${message}`);
     else console.log(`[Earthquakes] ${message}`, data);
-  }
-
-  _installDebugApi() {
-    if (!this._debugEnabled() || typeof window === "undefined") return;
-    const system = this;
-    window.earthquakeDebug = {
-      system,
-      status: () => system.getStatus(),
-      force: intensity => {
-        const selected = String(intensity ?? "minor").toLowerCase();
-        if (!system.config.intensities[selected]) throw new Error(`Unknown intensity: ${selected}`);
-        system.start(selected);
-        return system.getStatus();
-      },
-      cancel: () => system.cancelActiveHazards(),
-    };
   }
 
   _playTone(kind) {

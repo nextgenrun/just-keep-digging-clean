@@ -8,7 +8,6 @@ import {
 } from "../../systems/UserSettings.js";
 import {
   GRAVEBORER_WURM_CONFIG,
-  GRAVEBORER_WURM_PHASES,
   sanitizeGraveborerWurmData,
 } from "../../values/graveborerWurm.js";
 import { GAME_CONFIG } from "../../values/gameConfig.js";
@@ -19,6 +18,10 @@ import {
   GAMEPLAY_FEATURE_IDS,
   isGameplayFeatureEnabled,
 } from "../../values/gameplayDevFlags.js";
+import {
+  resolveGraveborerWurmAdmission,
+  resolveGraveborerWurmLifecycleStage,
+} from "./GraveborerWurmAdmission.js";
 
 function readBooleanQuery(params, name, fallback) {
   if (!params.has(name)) return fallback;
@@ -53,27 +56,14 @@ export function resolveGraveborerWurmActivation(
   system,
   devForceActive = false,
 ) {
-  const config = GRAVEBORER_WURM_CONFIG;
-  const hardcoreArmed = isHardcoreModeArmed(scene.hardcoreModeData);
-  const flightUnlocked = scene.upgradeSystem?.isGemPowerUnlocked?.() === true;
-  const depth = Math.max(0, (playerTile?.ty || 0) - scene.config.topAirRows + 1);
-  const encounterCommitted = system.phase === GRAVEBORER_WURM_PHASES.warning
-    || system.phase === GRAVEBORER_WURM_PHASES.burrowing;
-  const productionActive = hardcoreArmed
-    && (!config.activation.requiresFlightUnlock || flightUnlocked)
-    && (depth >= config.activation.minDepthTiles || encounterCommitted);
-  const devOverride = isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.DEV_CHEATS)
-    && (system.devTest10x === true || devForceActive === true);
-  return {
-    active: devOverride || productionActive,
-    productionActive,
-    hardcoreArmed,
-    flightUnlocked,
-    depth,
-    depthEligible: depth >= config.activation.minDepthTiles,
-    devOverride,
-    devForceActive: devForceActive === true,
-  };
+  return resolveGraveborerWurmAdmission({
+    scene,
+    playerTile,
+    system,
+    devForceActive,
+    devToolsEnabled: scene.graveborerWurmRuntime?.devToolsEnabled === true,
+    visualReady: scene.graveborerWurmRuntime?.visual?.ready !== false,
+  });
 }
 
 export function forceGraveborerWurmEncounter(scene) {
@@ -85,6 +75,16 @@ export function forceGraveborerWurmEncounter(scene) {
       GRAVEBORER_WURM_CONFIG.labels.devDisabled,
       { key: controls.disabledNoticeKey, durationMs: controls.noticeDurationMs },
     );
+    return false;
+  }
+  if (runtime.visual?.ready !== true) {
+    runtime.lastGate = Object.freeze({
+      ...(runtime.lastGate || {}),
+      active: false,
+      reason: "asset-missing",
+      stage: "asset-missing",
+      visualReady: false,
+    });
     return false;
   }
   runtime.forcedDevEncounter = true;
@@ -189,6 +189,7 @@ export function createGraveborerWurmRuntime(scene) {
     forcedDevEncounter: false,
     devSaveIsolation: flags.devTest10x === true,
     lastGate: null,
+    lifecycleStage: "disabled",
     tilesCarved: 0,
     carveEventCount: 0,
     encountersCompleted: 0,
@@ -238,6 +239,21 @@ export function updateGraveborerWurmRuntime(scene, time, delta, playerTile) {
     })(),
     worldWidthTiles: scene.config.worldWidthTiles,
     depth: runtime.lastGate.depth,
+  });
+  runtime.lastGate = resolveGraveborerWurmActivation(
+    scene,
+    playerTile,
+    runtime.system,
+    runtime.forcedDevEncounter,
+  );
+  runtime.lifecycleStage = resolveGraveborerWurmLifecycleStage(
+    runtime.system,
+    runtime.lastGate,
+    runtime.lifecycleStage,
+  );
+  runtime.lastGate = Object.freeze({
+    ...runtime.lastGate,
+    stage: runtime.lifecycleStage,
   });
   handleGraveborerWurmEvents(scene, runtime);
   runtime.visual.update(runtime.system.getRenderState(time), time);

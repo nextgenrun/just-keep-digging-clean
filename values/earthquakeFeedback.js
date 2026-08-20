@@ -177,6 +177,9 @@ export const EARTHQUAKE_FEEDBACK_CONFIG = Object.freeze({
     calm: 0x8cb8c2,
   }),
   labels: Object.freeze({
+    firstResponseCaption: "FALLING DEBRIS  •  HOLD Q FOR GP SHIELD  •  MOVE OUT OF MARKED GROUND",
+    firstResponseKey: "earthquake-first-response",
+    firstResponseDurationMs: 7200,
     warningTitle: "TREMOR",
     quakeTitle: "QUAKE",
     aftermathTitle: "SETTLING",
