@@ -155,6 +155,10 @@ export class TownSquareTutorialSystem {
     return this.firstFive.getUpgradePreview(upgradeId);
   }
 
+  getMiningBlockerReason(targetTile, fallbackReason) {
+    return this.firstFive.getMiningBlockerReason(targetTile, fallbackReason);
+  }
+
   isDescentBlocked() {
     return this.firstFive.isDescentBlocked();
   }

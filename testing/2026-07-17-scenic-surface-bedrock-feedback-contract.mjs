@@ -415,11 +415,9 @@ gameplay.applyMineFeedback.call(
   createBlockedDigResult(TILE_TYPES.BEDROCK),
   { tx: 4, ty: 7 },
 );
-assert.deepEqual(
-  warnings,
-  [],
-  "blocked terrain must not restore the removed low-quality warning indicator",
-);
+assert.equal(warnings.length, 1);
+assert.match(warnings[0].message, /PERMANENT BOUNDARY/);
+assert.equal(warnings[0].options.key, "mining-blocker-permanent-boundary");
 assert.deepEqual(
   floatingTexts,
   [],
@@ -427,10 +425,16 @@ assert.deepEqual(
 );
 gameplay.applyMineFeedback.call(
   gameplayScene,
-  { success: false, reason: "blocked", blockedByBedrock: false },
+  {
+    success: false,
+    reason: "blocked",
+    blockedByBedrock: false,
+    blockerReason: "tool-gate",
+  },
   { tx: 5, ty: 7 },
 );
-assert.equal(warnings.length, 0, "ordinary blocked attempts must remain indicator-free");
+assert.equal(warnings.length, 2, "every intentional blocker must name its semantic reason");
+assert.match(warnings[1].message, /TOOL GATE/);
 assert.equal(floatingTexts.length, 0, "ordinary blocked attempts must not create floating popup text");
 
 function mixColor(from, to, amount) {

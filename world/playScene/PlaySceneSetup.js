@@ -129,6 +129,7 @@ import { HeavenblocksPresentationSystem } from "../../systems/visual/Heavenblock
 import { OpeningFlightArtifactSystem } from "../../systems/onboarding/OpeningFlightArtifactSystem.js";
 import { TownSquareTutorialSystem } from "../../systems/onboarding/TownSquareTutorialSystem.js";
 import { FirstSessionPortalSystem } from "../../systems/onboarding/FirstSessionPortalSystem.js";
+import { LocalRecoverySystem } from "../../systems/onboarding/LocalRecoverySystem.js";
 import { UnderstarEndingSystem } from "../../systems/demo/UnderstarEndingSystem.js";
 import { isHardcoreMode } from "../../values/hardcoreMode.js";
 
@@ -820,6 +821,7 @@ async function _setupSceneSafe(data = {}, uiPorts = {}) {
   this.openingFlightArtifactSystem = new OpeningFlightArtifactSystem(this);
   this.firstSessionPortalSystem = new FirstSessionPortalSystem(this);
   this.townSquareTutorialSystem = new TownSquareTutorialSystem(this);
+  this.localRecoverySystem = new LocalRecoverySystem(this);
 
   const keys = this.inputHandler.getKeys();
   this.interactKey = keys.interact;

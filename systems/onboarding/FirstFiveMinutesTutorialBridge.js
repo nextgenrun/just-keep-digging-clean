@@ -8,6 +8,7 @@ import {
   TOWN_TUTORIAL_STAGES,
 } from "../../values/retentionConfig.js";
 import { TILE_TYPES } from "../../values/tileTypes.js";
+import { resolveFirstUpgradePreview } from "./firstUpgradePreview.js";
 import { prepareTownTutorialDigSite } from "./TownSquareTutorialDigSite.js";
 import { TutorialNarrationController } from "./TutorialNarrationController.js";
 import { TutorialPortalGhostGuide } from "./TutorialPortalGhostGuide.js";
@@ -204,6 +205,7 @@ export class FirstFiveMinutesTutorialBridge {
 
   handleSurfaceDropBlocked() {
     if (!this.enabled) return;
+    this.retention?.recordFirstSessionAssist?.("unsafe-descent", "recover");
     this._surfaceBlockedUntil = (this.scene.time?.now || 0)
       + this.config.surfaceSafety.blockedDetailMs;
   }
@@ -237,7 +239,19 @@ export class FirstFiveMinutesTutorialBridge {
   }
 
   getUpgradePreview(upgradeId) {
-    return null;
+    return resolveFirstUpgradePreview({
+      scene: this.scene,
+      retention: this.retention,
+      enabled: this.enabled,
+      search: this.search,
+      upgradeId,
+    });
+  }
+
+  getMiningBlockerReason(targetTile, fallbackReason) {
+    return this.townExitBarrier?.ownsTile?.(targetTile)
+      ? "temporary-state"
+      : fallbackReason;
   }
 
   getHealthSnapshot() {

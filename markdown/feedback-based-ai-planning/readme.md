@@ -23,11 +23,11 @@ No gameplay code, balance values, assets, saves, or deployment state were change
 
 ## Current implementation boundary
 
-The P0 death, centralized UI ownership, and hazard-admission code slices are now
-implemented on the isolated implementation branch. Their focused Node contracts
-pass, but the ledger deliberately keeps them below accepted until foreground-safe
-browser runs, natural hazard scheduling, save/reload, viewport review, and the
-required playtest evidence are recorded.
+The P0 death, centralized UI ownership, hazard-admission, and first-session
+route/safety code slices are now implemented on the isolated implementation
+branch. Their focused Node contracts pass, but the ledger deliberately keeps
+them below accepted until foreground-safe browser runs, natural hazard
+scheduling, viewport review, and the required playtest evidence are recorded.
 
 ## Scope boundary
 

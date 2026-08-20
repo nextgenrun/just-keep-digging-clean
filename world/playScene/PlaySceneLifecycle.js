@@ -85,6 +85,7 @@ const SYSTEM_DISPOSAL_SEQUENCE = Object.freeze([
   "surfaceTunnelDoorSystem",
   "openingFlightArtifactSystem",
   "firstSessionPortalSystem",
+  "localRecoverySystem",
   "systemIntroductionSystem",
   "townSquareTutorialSystem",
   "arcCoreVehicleSystem",

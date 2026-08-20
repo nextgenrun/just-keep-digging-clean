@@ -446,7 +446,16 @@ export function setupUIMethods(prototype, dependencies) {
           },
         }] : []),
         { label: "SAVE GAME", icon: "journal", accent: UI_COLORS.borderGood, action: null },
-        { label: "RETURN TO SAFETY", icon: "prev", accent: UI_COLORS.borderHov, action: () => this.unstuckPlayer() },
+        {
+          label: "LOCAL RECOVERY  •  NO CARGO LOSS",
+          icon: "unstuck",
+          accent: UI_COLORS.borderGood,
+          action: () => {
+            const result = this.localRecoverySystem?.recover?.();
+            if (result?.success) this.resumeGame();
+          },
+        },
+        { label: "ABANDON EXPEDITION  •  LOSE 50% CARGO", icon: "prev", accent: UI_COLORS.borderHov, action: () => this.unstuckPlayer() },
         { label: "MAIN MENU", icon: "close", accent: UI_COLORS.borderBad, action: () => this.returnToMainMenu() },
       ];
       definitions.forEach((definition, index) => {

@@ -34,6 +34,7 @@ import {
   isGameplayFeatureEnabled,
 } from "../../values/gameplayDevFlags.js";
 import { setBlockingSurfaceOpen } from "./SceneModeBridge.js";
+import { showMiningBlockerFeedback } from "./MiningBlockerFeedback.js";
 import {
   resolveComplexDigSelection,
   resolveComplexDigSourceFacesRight,
@@ -336,6 +337,7 @@ export function setupGameplayMethods(prototype) {
     if (!result || !targetTile) return;
     this._lastMinedTileType = result.typeBeforeDamage ?? result.tileType ?? null;
     this._applyMineShake?.(result);
+    showMiningBlockerFeedback(this, result, targetTile);
     if (result.success) this.playerBodyLanguage?.onDigImpact(result.destroyed === true);
     if (result.destroyed) {
       const worldX = targetTile.tx * this.config.tileSize + this.config.tileSize / 2;

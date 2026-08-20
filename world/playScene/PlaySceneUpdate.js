@@ -92,7 +92,16 @@ function showMiningRetentionFeedback(scene, result, targetTile, options = {}) {
   }
 
   if (options.consumeUpgradePayoff !== false) {
-    scene.retentionProgressSystem?.consumeUpgradePayoff?.();
+    const payoff = scene.retentionProgressSystem?.consumeUpgradePayoff?.();
+    if (payoff) {
+      const measured = payoff.afterDamage > payoff.beforeDamage
+        ? `  •  DAMAGE ${payoff.beforeDamage} → ${payoff.afterDamage}`
+        : "  •  ITS EFFECT IS ACTIVE";
+      scene.uiNotifications?.warning?.(
+        `${payoff.upgradeName.toUpperCase()} FELT ON THIS DIG${measured}`,
+        { key: "first-upgrade-payoff", durationMs: 4200 },
+      );
+    }
   }
 }
 

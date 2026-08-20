@@ -14,6 +14,12 @@ import {
   sanitizeRetentionExpedition,
   sanitizeRetentionProgressData,
 } from "./retentionProgressState.js";
+import {
+  completeMilestoneForTutorialStage,
+  recordFirstSessionAssist as addFirstSessionAssist,
+  recordFirstSessionStop as setFirstSessionStop,
+  startFirstSessionRoute,
+} from "./firstSessionRouteState.js";
 
 const TUTORIAL_STAGES = RETENTION_CONFIG.tutorial.stages;
 const TITAN_IDS = new Set(TITAN_DEFINITIONS.map(definition => definition.id));
@@ -76,6 +82,7 @@ export class RetentionProgressSystem {
       ? TOWN_TUTORIAL_CHOICES.YES
       : TOWN_TUTORIAL_CHOICES.NO;
     this.data.tutorialChoice = normalized;
+    this.data.firstSessionRoute = startFirstSessionRoute(this.data.firstSessionRoute);
     this._setTutorialStage(
       normalized === TOWN_TUTORIAL_CHOICES.YES
         ? TOWN_TUTORIAL_STAGES.MOVE
@@ -98,6 +105,27 @@ export class RetentionProgressSystem {
         ...this.data.tutorialFreeTeleportPassesConsumed,
       ],
     };
+  }
+
+  getFirstSessionRouteSnapshot() {
+    return structuredClone(this.data.firstSessionRoute);
+  }
+
+  recordFirstSessionAssist(reason, milestone = this.data.tutorialStage) {
+    this.data.firstSessionRoute = addFirstSessionAssist(
+      this.data.firstSessionRoute,
+      reason,
+      milestone,
+    );
+    return this.getFirstSessionRouteSnapshot();
+  }
+
+  recordFirstSessionStop(reason) {
+    this.data.firstSessionRoute = setFirstSessionStop(
+      this.data.firstSessionRoute,
+      reason,
+    );
+    return this.getFirstSessionRouteSnapshot();
   }
 
   isTutorialActive() {
@@ -436,6 +464,10 @@ export class RetentionProgressSystem {
   _setTutorialStage(stage) {
     if (!TUTORIAL_STAGES.includes(stage) || stage === this.data.tutorialStage) return;
     this.data.tutorialStage = stage;
+    this.data.firstSessionRoute = completeMilestoneForTutorialStage(
+      this.data.firstSessionRoute,
+      stage,
+    );
     const copy = RETENTION_CONFIG.tutorial.copy[stage];
     this.events.push({
       type: RETENTION_EVENT_TYPES.TUTORIAL,
@@ -524,6 +556,7 @@ export class RetentionProgressSystem {
       tutorialFreeTeleportPassesConsumed: [
         ...this.data.tutorialFreeTeleportPassesConsumed,
       ],
+      firstSessionRoute: this.getFirstSessionRouteSnapshot(),
       titanClueTracking: this.getTitanClueTrackingState(),
       objective: this.getObjective(),
       lastExpedition: this.data.lastExpedition ? { ...this.data.lastExpedition } : null,

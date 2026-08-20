@@ -63,6 +63,15 @@ export class TutorialTownExitBarrierSystem {
     };
   }
 
+  ownsTile(target) {
+    if (!this.active || !Number.isInteger(target?.tx) || !Number.isInteger(target?.ty)) {
+      return false;
+    }
+    return this._barrierTiles().some(tile => (
+      tile.tx === target.tx && tile.ty === target.ty
+    ));
+  }
+
   _shouldBeActive() {
     const state = this.retention?.getTutorialState?.();
     return state?.choice === TOWN_TUTORIAL_CHOICES.YES

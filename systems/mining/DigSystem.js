@@ -35,6 +35,7 @@ import {
 import { validateCooldownMs } from "../../values/progressionInvariants.js";
 import { reportProgressionInvariantFailure } from "../health/progressionInvariantReporter.js";
 import { grantResourceTotal, replaceResourceTotals } from "./ResourceTotalAuthority.js";
+import { resolveMiningBlockerReason } from "../../values/firstSessionSafety.js";
 
 const RESOURCE_KEY_SET = new Set(RESOURCE_KEYS);
 
@@ -674,6 +675,7 @@ export class DigSystem {
         typeBeforeDamage: tileType,
         damage: 0,
         blockedByBedrock: isUnbreakableMiningSurface(tileType),
+        blockerReason: resolveMiningBlockerReason(tileType),
       };
     }
 

@@ -122,7 +122,11 @@ assert.equal(
 assert.equal(resumedTutorial.configureTutorialChoice(TOWN_TUTORIAL_CHOICES.YES), false);
 assert.equal(resumedTutorial.isTutorialActive(), false);
 assert.equal(resumedTutorial.claimTutorialFlightTraining(), null);
-assert.equal(resumedTutorial.getTutorialState().freeFlightRemainingMs, 30000);
+assert.equal(
+  resumedTutorial.getTutorialState().freeFlightRemainingMs,
+  0,
+  "the free Flight teaching reserve must end when recovery is demonstrated",
+);
 
 const skipped = new RetentionProgressSystem();
 skipped.configureTutorialChoice(TOWN_TUTORIAL_CHOICES.NO);
