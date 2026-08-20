@@ -21,12 +21,22 @@ const recommendation = (candidate) => {
     "unarmed-run": "RUN ALTERNATIVE",
     "crouched-walk": "USEFUL ADDITION",
     "falling-idle": "DESCENT ROLE",
-    "unarmed-jump-reference": "REFERENCE ONLY",
+    "unarmed-jump-reference": "JUMP CHALLENGER",
   };
   if (selected[candidate.id]) return selected[candidate.id];
   if (["walk-start", "walk-stop", "crouch-enter", "crouch-idle", "crouch-exit", "flight-loop", "hard-landing-approved", "thunder-ground", "hurricane-quickslash"].includes(candidate.id)) return "CURRENT · KEEP";
   return candidate.group === "combat" ? "V4 COMBAT PROOF" : "V4 PROOF";
 };
+
+const currentCanon = (candidate) => candidate.id === "unarmed-jump-reference"
+  ? {
+      currentKey: "jump",
+      role: "Fixed 1.2-tile jump",
+      description: "Full jump-motion challenger beside the current fixed Space jump.",
+      tags: ["jump", "deformation", "current-state"],
+      referenceOnly: false,
+    }
+  : {};
 
 const proofs = [...GROUND, ...CROUCH, ...AIR, ...COMBAT, ...ABILITIES, ...REACTIONS, ...IDLES]
   .filter((candidate) => candidate.stage === "v4")
@@ -34,6 +44,7 @@ const proofs = [...GROUND, ...CROUCH, ...AIR, ...COMBAT, ...ABILITIES, ...REACTI
     const name = candidate.localGif.split("/").pop();
     return Object.freeze({
       ...candidate,
+      ...currentCanon(candidate),
       preview: `./previews/${sourceFamily(candidate.localGif)}-${name}`,
       recommendation: recommendation(candidate),
       infiniteReplay: true,
