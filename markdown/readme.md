@@ -340,6 +340,7 @@ See `markdown/archive-policy.md` for full details.
 | `2026-08-03-safe-asset-resolution-polish.md` | Full raster inventory, safe Ultra backing-density promotion, authored main-menu bitmap polish, live evidence, validation, and exact rollbacks |
 | `2026-08-15-survival-hero-quality-v4-benchmark.md` | Review-only six-family V4 material reconstruction, correct packed ORM routing, punch-first current/123/155 px action proofs, drift gates, and runtime/source isolation |
 | `2026-08-20-complex-dig-animation-runtime.md` | Approved ten-stage SIDE and Uppercut-only UP animation wiring, unchanged one-contact gameplay authority, validation, and instant legacy rollback |
+| `2026-08-20-injured-locomotion-earthquake-plan.md` | Plan-only low-GP strained locomotion and event-driven earthquake reaction family, including Mixamo discovery leads, priority, retarget gates, and unchanged gameplay authority |
 | `2026-07-26-titan-chambers-production-v2.md` | 25 unique high-resolution Titan chambers, v3 seamless-edge/depth-grade amendment, colossal discovery zones, streamed runtime/archive wiring, health, and rollback |
 | `2026-07-26-titan-discovery-player-path-correction.md` | Historical 700 m guidance correction; its partial-entry admission is superseded |
 | `2026-07-28-titan-clues-and-creature-footprint-unlock.md` | Catalog clues, exact directions, 25 sharp underground/surface stances, compact dais, colored cover-tile glow, 50% auto-clear authority, plinth inspection, ESC lore, and trophy/save wiring |

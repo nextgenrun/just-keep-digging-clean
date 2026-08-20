@@ -177,6 +177,14 @@ source-only motion scouting, and strict gate failures. Decisions are
 browser-local; jump-only clips remain future reference and production is not
 wired or changed.
 
+## Mixamo proof audit V3
+
+`mixamo-proof-audit-v3/` restores the clearer one-row comparison format while
+retaining the expanded research pool behind it. The auditable surface contains
+only 44 Survival-rig V4 proofs beside exact current runtime references; all
+candidate GIFs replay infinitely and generic Mixamo-character previews are
+excluded. It reuses Atlas V2 browser-local verdicts and does not wire runtime.
+
 ## Spritesheets Loaded
 
 | Sheet | Source | Frames | Size |
