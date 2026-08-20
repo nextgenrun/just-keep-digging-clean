@@ -36,6 +36,22 @@ resets, deletes, or pushes files.
 See `markdown/version-control/version-control.md` for the complete branch,
 checkpoint, publishing, and rollback policy.
 
+## Rollback the feedback master plan
+
+Preview every commit and path that would be reverted after the published
+feedback-plan safety tag:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File tools/version-control/2026-08-21-rollback-feedback-master-plan.ps1
+```
+
+The tool is plan-only by default. Applying a rollback requires `-Apply` plus
+the reviewed full target SHA through `-ExpectedTargetCommit`. It refuses dirty
+or diverged state, creates a new `codex/rollback-feedback-master-plan-*`
+branch, makes a normal revert commit, and proves the final tree is byte-exact
+with `safety/2026-08-20-pre-feedback-master-plan`. It never resets, deletes,
+pushes, or force-pushes.
+
 ## Validate and automatically roll back Heavenblocks
 
 Run the Heavenblocks release gate only from its clean, single-commit feature

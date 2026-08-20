@@ -10,6 +10,7 @@ No gameplay code, balance values, assets, saves, or deployment state were change
 - `2026-08-20-raw-feedback-coverage-register.md` — point-by-point coverage of Frank and the dated solo-developer raw feedback.
 - `2026-08-20-analysis-feedback-coverage-register.md` — point-by-point coverage of Fnab, Kimmo, Borick, cross-playtester analysis, and the historical planning decisions.
 - `2026-08-20-validation-and-playtest-gates.md` — required contracts, browser/runtime proof, telemetry, blind-test gates, and release rules.
+- `2026-08-21-implementation-ledger.md` — pushed baseline identity, rollback function, slice status, coverage counts, and evidence links.
 
 ## How to use this plan
 
