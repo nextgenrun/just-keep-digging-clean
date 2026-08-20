@@ -62,7 +62,7 @@ export class GameSaveCoordinator {
   }
 
   requestSnapshot(reason = "mutation") {
-    if (this.destroyed || this.ports.isBlocked?.()) return false;
+    if (this.destroyed || this.ports.isBlocked?.({ operation: "snapshot" })) return false;
     const now = this.now();
     const alreadyPending = this._dirty;
     this._dirty = true;
@@ -83,7 +83,9 @@ export class GameSaveCoordinator {
   schedule(reason) { return this.requestSnapshot(reason); }
 
   flush({ force = false, scheduled = false, reason = "flush" } = {}) {
-    if (this.destroyed || this.ports.isBlocked?.()) return Promise.resolve(false);
+    if (this.destroyed || this.ports.isBlocked?.({ operation: "flush" })) {
+      return Promise.resolve(false);
+    }
     if (force) {
       this.metrics.forcedFlushes += 1;
       this._dirty = true;
@@ -110,7 +112,14 @@ export class GameSaveCoordinator {
     if (!transactionId || typeof mutate !== "function") {
       return Promise.reject(new TypeError("Save transaction requires a stable id and mutate callback"));
     }
-    if (this.destroyed || this.ports.isBlocked?.()) return Promise.resolve(false);
+    const blockContext = Object.freeze({
+      operation: "transaction",
+      transactionId,
+      reason,
+    });
+    if (this.destroyed || this.ports.isBlocked?.(blockContext)) {
+      return Promise.resolve(false);
+    }
     this._cancelHandles();
     return this._enqueue(async () => {
       if (this._completedTransactions.has(transactionId)) {
@@ -122,7 +131,11 @@ export class GameSaveCoordinator {
         if (value === false) return false;
         mutated = true;
         this._dirty = true;
-        const saved = await this._captureAndWrite({ reason, transactionId });
+        const saved = await this._captureAndWrite({
+          reason,
+          transactionId,
+          blockContext,
+        });
         if (!saved) throw new Error(`Save transaction failed: ${transactionId}`);
         this._completedTransactions.add(transactionId);
         return Object.freeze({ success: true, transactionId, value });
@@ -130,7 +143,11 @@ export class GameSaveCoordinator {
         if (mutated && typeof rollback === "function") {
           await rollback(error);
           this._dirty = true;
-          await this._captureAndWrite({ reason: `${reason}-rollback`, transactionId: `${transactionId}:rollback` });
+          await this._captureAndWrite({
+            reason: `${reason}-rollback`,
+            transactionId: `${transactionId}:rollback`,
+            blockContext,
+          });
         }
         throw error;
       }
@@ -176,8 +193,15 @@ export class GameSaveCoordinator {
     return run;
   }
 
-  async _captureAndWrite({ reason, transactionId }) {
-    if (!this._dirty || this.destroyed || this.ports.isBlocked?.()) return false;
+  async _captureAndWrite({ reason, transactionId, blockContext = null }) {
+    const context = blockContext || Object.freeze({
+      operation: "write",
+      transactionId,
+      reason,
+    });
+    if (!this._dirty || this.destroyed || this.ports.isBlocked?.(context)) {
+      return false;
+    }
     this._dirty = false;
     const totalStartedAtMs = this.now();
     const revision = this._committedRevision + 1;

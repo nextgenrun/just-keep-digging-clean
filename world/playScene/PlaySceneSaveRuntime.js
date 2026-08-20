@@ -43,7 +43,15 @@ export function createPlaySceneSaveCoordinator(scene) {
   const initialRevision = scene._cachedSaveData?.revisionMetadata?.revision || 0;
   return new GameSaveCoordinator({
     initialRevision,
-    isBlocked: () => scene._saveWritesBlocked || scene._hardcoreDeathInProgress,
+    isBlocked: context => {
+      if (scene._saveWritesBlocked) return true;
+      if (!scene._hardcoreDeathInProgress) return false;
+      return !(
+        context?.operation === "transaction"
+        && typeof scene._hardcoreDeathTransactionId === "string"
+        && context.transactionId === scene._hardcoreDeathTransactionId
+      );
+    },
     capture: metadata => capturePlaySceneSaveSnapshot(scene, metadata),
     validate: validateSaveSnapshotIntegrity,
     write: snapshot => scene.dugTileSaveStore.saveSnapshot(snapshot),

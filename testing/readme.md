@@ -409,6 +409,12 @@ paid teleports, typed 50% unstuck, exact position/fractional-GP persistence,
 active-oath rollback rejection, one-second checkpoints, non-destructive death
 bridge wiring, legacy purge API isolation, cross-slot preservation, and approved art.
 
+`2026-08-21-hardcore-death-transaction-contract.mjs` reproduces the death-time
+save lock and proves ordinary writes remain blocked, only the exact death
+transaction crosses it, a failed remote write leaves one durable local life
+decrement, retry resends that same revision, and readback verifies transaction,
+lives, revive, death-count, and exhaustion fields before UI release.
+
 `2026-07-28-hardcore-memorial-contract.mjs` guards complete stat and bounded
 Journey-achievement recap coverage, duration/run-counter formatting,
 append/read-only memorial persistence outside save slots, per-slot/global

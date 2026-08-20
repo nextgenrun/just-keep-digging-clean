@@ -4,8 +4,14 @@ import {
   sanitizeHardcoreMemorialRecord,
 } from "../../systems/hardcore/hardcoreMemorialRecord.js";
 import { isHardcoreModeArmed } from "../../values/hardcoreMode.js";
+import { buildHardcoreDeathPresentation } from
+  "../../values/hardcoreDeathPresentation.js";
 import { HARDCORE_MEMORIAL_CONFIG } from "../../values/hardcoreMemorials.js";
 import { SCENE_BASE_PHASES } from "../../values/sceneRuntime.js";
+import {
+  createHardcoreDeathTransactionId,
+  persistHardcoreDeathTransaction,
+} from "./HardcoreDeathSaveTransaction.js";
 
 export function getHardcoreDepth(scene, playerTile = null) {
   const tile = playerTile || scene.playerController?.getPlayerTile?.();
@@ -122,62 +128,6 @@ export function captureHardcoreDeathRecord(scene, context = {}) {
   };
 }
 
-function waitForSceneDelay(scene, delayMs) {
-  return new Promise(resolve => {
-    scene.time.delayedCall(delayMs, resolve);
-  });
-}
-
-function withTimeout(promise, timeoutMs) {
-  return new Promise((resolve, reject) => {
-    const timeoutId = globalThis.setTimeout?.(
-      () => reject(new Error("life-state-save-timeout")),
-      timeoutMs,
-    );
-    Promise.resolve(promise).then(
-      value => {
-        globalThis.clearTimeout?.(timeoutId);
-        resolve(value);
-      },
-      error => {
-        globalThis.clearTimeout?.(timeoutId);
-        reject(error);
-      },
-    );
-  });
-}
-
-function buildDeathPresentation(result) {
-  if (result.outcome === "free-revive") {
-    return {
-      title: "THE OATH GRANTS ONE MERCY",
-      subtitlePrefix: "FREE FIRST REVIVE",
-      readyStatus: "FREE REVIVE SAVED • 2 LIVES REMAIN",
-      readyDetail: "RETURNING TO TOWN WITH FULL GEM POWER",
-      primaryLabel: "REVIVE IN TOWN",
-      secondaryLabel: "BACK TO SAVE VAULT",
-    };
-  }
-  if (result.outcome === "life-lost") {
-    return {
-      title: "ONE LIFE IS SPENT",
-      subtitlePrefix: "HARDCORE LIFE LOST",
-      readyStatus: `${result.livesRemaining} LIFE REMAINS • SAVE INTACT`,
-      readyDetail: "RETURNING TO TOWN WITH FULL GEM POWER",
-      primaryLabel: "REVIVE IN TOWN",
-      secondaryLabel: "BACK TO SAVE VAULT",
-    };
-  }
-  return {
-    title: "THE EXPEDITION IS ENDED",
-    subtitlePrefix: "HARDCORE EXHAUSTED",
-    readyStatus: "0 LIVES REMAIN • SAVE AND RECORD INTACT",
-    readyDetail: "EXPORT OR CLEAR THE ENDED EXPEDITION FROM THE SAVE VAULT",
-    primaryLabel: "BACK TO SAVE VAULT",
-    secondaryLabel: "MAIN MENU",
-  };
-}
-
 export async function beginHardcorePermanentDeath(scene, context = {}) {
   const runtime = scene._hardcoreRuntime;
   if (
@@ -188,12 +138,16 @@ export async function beginHardcorePermanentDeath(scene, context = {}) {
     return false;
   }
 
+  const transactionId = createHardcoreDeathTransactionId(scene, context);
+  scene._hardcoreDeathTransactionId = transactionId;
   scene._hardcoreDeathInProgress = true;
   scene.gameSaveCoordinator?.discardPending?.();
   scene.hidePauseMenu?.();
   scene.lightSystem?.forceTorchOff?.();
-  scene.sceneModeController.clearSuspensions();
-  scene.setSceneBasePhase(SCENE_BASE_PHASES.DEAD, { owner: "hardcore-death" });
+  scene.sceneModeController?.clearSuspensions?.();
+  scene.setSceneBasePhase?.(SCENE_BASE_PHASES.DEAD, {
+    owner: "hardcore-death",
+  });
   scene.playerController?.setControlsEnabled?.(false);
   scene.isDigAnimating = false;
   scene.player?.anims?.stop?.();
@@ -201,7 +155,7 @@ export async function beginHardcorePermanentDeath(scene, context = {}) {
 
   const source = context.source || "unknown";
   const result = runtime.system.recordDeath(source);
-  const presentation = buildDeathPresentation(result);
+  const presentation = buildHardcoreDeathPresentation(result);
   scene.hardcoreModeData = runtime.system.getSaveData();
   const memorial = captureHardcoreDeathRecord(scene, {
     ...context,
@@ -235,11 +189,10 @@ export async function beginHardcorePermanentDeath(scene, context = {}) {
     pages: memorial.pages,
     presentation,
     onRetry: continueFromDeath,
-    onReturn: () => scene.scene.start(
-      result.outcome === "exhausted" ? "MainMenuScene" : "StartMenuScene",
-    ),
+    onReturn: () => scene.scene.start("StartMenuScene"),
   });
   runtime.lastDeath = {
+    transactionId,
     source: record.source,
     depth: record.depth,
     memorialId: record.id,
@@ -255,25 +208,30 @@ export async function beginHardcorePermanentDeath(scene, context = {}) {
     saveInFlight = true;
     runtime.modal.setDeathSaving(presentation);
     try {
-      scene.queueDugTilesSave?.();
-      const saved = await withTimeout(
-        scene.flushDugTilesSave?.({ scheduled: false, force: true }),
-        runtime.config.death.lifeStateSaveTimeoutMs,
-      );
-      if (saved === false) throw new Error("flush-returned-false");
-      await waitForSceneDelay(scene, runtime.config.death.returnDelayMs);
+      const verification = await persistHardcoreDeathTransaction(scene, {
+        transactionId,
+        expectedData: runtime.system.getSaveData(),
+        timeoutMs: runtime.config.death.lifeStateSaveTimeoutMs,
+        returnDelayMs: runtime.config.death.returnDelayMs,
+      });
       lifeStateSaved = true;
+      runtime.lastDeath.saveRevision = verification.revision || null;
+      runtime.lastDeath.readbackSkipped = verification.skipped === true;
       runtime.lastDeath.saveError = null;
-      runtime.modal.setDeathReady(
-        `${HARDCORE_MEMORIAL_CONFIG.copy.slotPrefix} ${scene.saveSlot}  •  SAVE INTACT`,
-        presentation,
-      );
+      if (scene._hardcoreRuntime === runtime) {
+        runtime.modal.setDeathReady(
+          `${HARDCORE_MEMORIAL_CONFIG.copy.slotPrefix} ${scene.saveSlot}  •  SAVE INTACT`,
+          presentation,
+        );
+      }
       runtime.updateDiagnostics?.();
       return true;
     } catch (error) {
       console.error("[HardcoreDeathBridge] Life-state save failed:", error);
       runtime.lastDeath.saveError = String(error?.message || "unknown");
-      runtime.modal.setError("LIFE STATE NOT SAVED  •  PRESS RETRY SAVE");
+      if (scene._hardcoreRuntime === runtime) {
+        runtime.modal.setError("LIFE STATE NOT SAVED  •  PRESS RETRY SAVE");
+      }
       runtime.updateDiagnostics?.();
       return false;
     } finally {

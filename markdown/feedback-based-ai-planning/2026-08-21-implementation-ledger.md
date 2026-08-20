@@ -34,8 +34,8 @@ The apply route refuses dirty worktrees, moved targets, non-descendant history, 
 
 | Slice | Coverage | Status | Commit | Evidence | Rollback |
 |---|---|---|---|---|---|
-| R0 rollback foundation | Objective-wide | Complete | Recorded in slice history | `FEEDBACK_MASTER_PLAN_ROLLBACK_CONTRACT_OK`; disposable two-commit apply proof restored the exact clean baseline tree | Full-range rollback tool |
-| P0 death transaction | A17-27, A20-01, A20-03 | Pending | — | — | Slice revert plus full-range tool |
+| R0 rollback foundation | Objective-wide | Complete | `240e0f2` | `FEEDBACK_MASTER_PLAN_ROLLBACK_CONTRACT_OK`; disposable two-commit apply proof restored the exact clean baseline tree | Full-range rollback tool |
+| P0 death transaction | A17-27, A20-01, A20-03 | Implemented; runtime proof pending | Next slice commit | `HARDCORE_DEATH_TRANSACTION_CONTRACT_OK`; legacy Hardcore and save contracts pass | Slice revert plus full-range tool |
 | P0 UI ownership/menu | A17-05, A17-06, A17-23, BY-02, BY-10 | Pending | — | — | Slice revert plus full-range tool |
 | P0 hazard truth | A17-12, A20-12, J06-04 | Pending | — | — | Runtime flags plus slice revert |
 | P1 first expedition | FR-03–FR-07, FN-01–FN-17, XP-01–XP-04 | Pending | — | — | Onboarding value rollback plus slice revert |

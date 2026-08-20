@@ -87,7 +87,10 @@ Surviving outcomes save and restart at town with full GP. Zero lives marks the
 expedition exhausted, records its memorial, and returns to the Save Vault; the
 slot remains intact and exportable until the player explicitly clears it. A
 failed life-state write switches the recap to `RETRY SAVE` and keeps every exit
-locked until the retry succeeds.
+locked until the retry succeeds. Ordinary snapshots remain blocked throughout
+death; only the stable `hardcore-death:*` transaction may cross that lock. The
+recap unlocks only after revision and life-state readback match, and every
+exhausted action routes to `StartMenuScene`, the actual Save Vault.
 `HardcoreModalStateBridge.js` turns a grave click into the same blocking,
 large-panel presentation used by the oath/depth-gate family, supplies every
 saved recap page, and restores controls only after explicit close. The world

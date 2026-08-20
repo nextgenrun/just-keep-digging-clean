@@ -226,6 +226,7 @@ export function createHardcoreModeRuntime(scene) {
   );
   scene._hardcoreRuntime = runtime;
   scene._hardcoreDeathInProgress = false;
+  scene._hardcoreDeathTransactionId = null;
   scene._saveWritesBlocked = false;
   syncSceneModeData(scene);
 
@@ -393,5 +394,6 @@ export function destroyHardcoreModeRuntime(scene) {
   if (typeof window !== "undefined") {
     delete window[runtime.config.diagnostics.globalKey];
   }
+  scene._hardcoreDeathTransactionId = null;
   scene._hardcoreRuntime = null;
 }

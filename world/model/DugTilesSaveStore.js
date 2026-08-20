@@ -219,10 +219,21 @@ export class DugTilesSaveStore {
 
   async commitPayload(payload) {
     if (this.isDeathTombstoned()) return false;
-    const revision = sanitizeSaveRevisionMetadata(payload?.revisionMetadata).revision;
-    const storedRevision = this.normalizePayload(this.loadFromLocalStorage())
-      ?.revisionMetadata?.revision || 0;
-    if (revision <= Math.max(this._lastCommittedRevision, storedRevision)) return false;
+    const metadata = sanitizeSaveRevisionMetadata(payload?.revisionMetadata);
+    const revision = metadata.revision;
+    const storedPayload = this.normalizePayload(this.loadFromLocalStorage());
+    const storedMetadata = storedPayload?.revisionMetadata;
+    const storedRevision = storedMetadata?.revision || 0;
+    if (revision <= Math.max(this._lastCommittedRevision, storedRevision)) {
+      const isExactTransactionRetry = Boolean(
+        metadata.transactionId
+        && revision === storedRevision
+        && metadata.transactionId === storedMetadata?.transactionId,
+      );
+      if (!isExactTransactionRetry) return false;
+      this._lastCommittedRevision = Math.max(this._lastCommittedRevision, revision);
+      return this.endpoint ? this.saveToEndpoint(storedPayload) : true;
+    }
     if (!this.saveToLocalStorage(payload)) return false;
     this._lastCommittedRevision = revision;
     this.clearHardcoreCheckpoint();

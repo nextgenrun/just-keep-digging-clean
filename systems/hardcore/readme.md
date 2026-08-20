@@ -12,7 +12,11 @@ full-screen grave inspection. `HardcoreMemorialStore.js` persists those records
 outside save slots. It exposes append/read only, so new-save cleanup and Casual
 save management cannot remove graves. `world/playScene/HardcoreDeathBridge.js`
 consumes the shared lives reducer, returns surviving runs to town, and persists
-zero lives as an exhausted but intact and exportable save. The legacy explicit
+zero lives as an exhausted but intact and exportable save. Its exact transaction
+ID is the only write allowed through the death-time save lock; local revision
+metadata and the resulting life state are read back before either recap action
+unlocks. A failed remote write can therefore retry the already-committed local
+payload without spending a second life. The legacy explicit
 purge helpers remain compatibility-only and are not called by the death bridge.
 If that life-state write fails, the recap exposes only `RETRY SAVE`; revival
 and menu exits stay locked until persistence succeeds.
