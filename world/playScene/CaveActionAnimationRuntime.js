@@ -16,6 +16,10 @@ import {
 import { updateCaveLocomotionVisual } from "./CaveLocomotionAnimationRuntime.js";
 import { ThunderStrikeActionRuntime } from "./ThunderStrikeActionRuntime.js";
 import {
+  resolveComplexDigSelection,
+  resolveComplexDigSourceFacesRight,
+} from "./ComplexDigAnimationRuntime.js";
+import {
   UAL_NATIVE_ACTION_TUNING, resolveUalActionContact, resolveUalActionTimeScale,
 } from "../../values/ualNativeActionTuning.js";
 
@@ -146,14 +150,20 @@ export class CaveActionAnimationRuntime {
         key = select("down-side", profile.digDownSidewaysHitAnims, profile.digDownAnim);
         sourceFacesRight = profile.digDownSourceFacesRight === true;
       } else if (up) {
-        key = select("up", profile.digUpHitAnims, profile.digUpAnim);
+        const selection = resolveComplexDigSelection(scene, profile, "up", profile.digUpHitAnims, profile.digUpAnim);
+        key = select(selection.family, selection.animationKeys, selection.fallback);
         sourceFacesRight = profile.digUpSourceFacesRight === true;
       } else if (down) {
         key = select("down", profile.digDownHitAnims, profile.digDownAnim);
         sourceFacesRight = profile.digDownSourceFacesRight === true;
       } else {
-        key = select("side", profile.digSidewaysHitAnims, profile.digSidewaysAnim);
-        sourceFacesRight = profile.digSidewaysSourceFacesRight === true;
+        const selection = resolveComplexDigSelection(scene, profile, "side", profile.digSidewaysHitAnims, profile.digSidewaysAnim);
+        key = select(selection.family, selection.animationKeys, selection.fallback);
+        sourceFacesRight = resolveComplexDigSourceFacesRight(
+          profile,
+          key,
+          profile.digSidewaysSourceFacesRight === true,
+        );
       }
       if (aim.includes("LEFT")) scene.player.setFlipX(sourceFacesRight);
       if (aim.includes("RIGHT")) scene.player.setFlipX(!sourceFacesRight);

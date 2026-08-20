@@ -26,6 +26,11 @@ desktop.ini
 __pycache__/
 *.py[cod]
 
+# Generated local document/render output (not runtime or canonical authoring input)
+output/
+tmp/
+testing/artifacts/
+
 # Local Unreal-generated state
 testing/unreal-survival-motion-v2/Binaries/
 testing/unreal-survival-motion-v2/DerivedDataCache/

@@ -98,15 +98,26 @@ export class GroundFootstepFxSystem {
     );
     const anchor = this._resolveContactAnchor(frame);
     const tileSize = this.scene?.config?.tileSize || 1;
-    const tileType = this.worldModel?.getTileType?.(
-      Math.floor(anchor.x / tileSize),
-      Math.floor((anchor.y + tileSize * this.config.rig.floorProbeTiles) / tileSize),
-    );
+    const tileType = this._resolveGroundTileType(anchor, tileSize);
     const family = resolveTileDestructionFamily(tileType, TILE_DESTRUCTION_FX_CONFIG);
     const tint = resolveTileDestructionTint(tileType, TILE_DESTRUCTION_FX_CONFIG);
     this._spawnParticles(anchor, family, tint, intensity);
     this.contactSequence += 1;
     return true;
+  }
+
+  _resolveGroundTileType(anchor, tileSize) {
+    const tx = Math.floor(anchor.x / tileSize);
+    const startTy = Math.floor(
+      (anchor.y + tileSize * this.config.rig.floorProbeTiles) / tileSize,
+    );
+    const fallbackRows = Math.max(0, this.config.rig.floorProbeFallbackRows || 0);
+    for (let row = 0; row <= fallbackRows; row += 1) {
+      const ty = startTy + row;
+      const tileType = this.worldModel?.getTileType?.(tx, ty);
+      if (this.worldModel?.isSolid?.(tx, ty) !== false) return tileType;
+    }
+    return this.worldModel?.getTileType?.(tx, startTy);
   }
 
   _resolveContactAnchor(frame) {

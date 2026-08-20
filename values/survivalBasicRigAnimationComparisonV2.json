@@ -1,0 +1,110 @@
+{
+  "version": "survival-basic-rig-animation-comparison-v2",
+  "reviewOnly": true,
+  "productionChanged": false,
+  "retargetMode": "REST_WORLD_DELTA",
+  "sourceBlend": "sprites/character/survival-character-blender-v2/blender/survival-character-blender-v2.blend",
+  "candidateBlend": "testing/blender-animation-lab-v1/review-drafts/manual-rerig-workbook-v1/basic-rig-soft-corrected-v2/survival-basic-rig-soft-corrected-v2.blend",
+  "qualityScript": "ai-tools/2026-08-15-render-survival-hero-quality-v4.py",
+  "comparisonScript": "ai-tools/2026-08-19-render-basic-rig-animation-comparison.py",
+  "outputRoot": "testing/blender-animation-lab-v1/review-drafts/manual-rerig-workbook-v1/animation-comparison-v2",
+  "outputBlend": "testing/blender-animation-lab-v1/review-drafts/manual-rerig-workbook-v1/animation-comparison-v2/survival-current-vs-updated-basic-rig-animation-comparison-v2.blend",
+  "reportPath": "testing/blender-animation-lab-v1/review-drafts/manual-rerig-workbook-v1/animation-comparison-v2/comparison-report.json",
+  "objects": {
+    "sourceRig": "SurvivalPolishRig",
+    "sourceMesh": "SurvivalPolishBody",
+    "candidateRig": "RERIG_EmptyArmature",
+    "candidateMesh": "RERIG_CleanMesh",
+    "sourceOffset": "COMPARE_CurrentRig_Offset",
+    "candidateOffset": "COMPARE_UpdatedRig_Offset",
+    "camera": "COMPARE_Camera",
+    "floor": "COMPARE_Floor"
+  },
+  "layout": {
+    "sourceWorldScale": 0.01,
+    "sourceOffsetX": -88.0,
+    "candidateOffsetX": 88.0,
+    "floorZ": -0.6,
+    "floorSize": 430.0
+  },
+  "render": {
+    "engine": "BLENDER_EEVEE",
+    "widthPx": 1280,
+    "singleWidthPx": 640,
+    "heightPx": 720,
+    "resolutionPercentage": 100,
+    "transparent": false,
+    "viewTransform": "AgX",
+    "look": "AgX - Medium High Contrast",
+    "exposure": 1.35,
+    "worldColor": [0.045, 0.055, 0.075],
+    "worldStrength": 0.68,
+    "cameraLocation": [0.0, -480.0, 106.0],
+    "cameraTarget": [0.0, 0.0, 95.0],
+    "cameraOrthoScale": 222.0,
+    "floorColor": [0.012, 0.016, 0.022, 1.0],
+    "floorRoughness": 0.74,
+    "lights": [
+      {"name": "COMPARE_Key", "location": [210.0, -260.0, 270.0], "energy": 170000.0, "color": [1.0, 0.82, 0.66], "size": 170.0},
+      {"name": "COMPARE_Fill", "location": [-230.0, -150.0, 170.0], "energy": 105000.0, "color": [0.60, 0.76, 1.0], "size": 200.0},
+      {"name": "COMPARE_Rim", "location": [0.0, 220.0, 250.0], "energy": 145000.0, "color": [0.74, 0.88, 1.0], "size": 150.0}
+    ]
+  },
+  "constraint": {
+    "type": "COPY_ROTATION",
+    "targetSpace": "LOCAL",
+    "ownerSpace": "LOCAL",
+    "mixMode": "REPLACE",
+    "influence": 1.0,
+    "namePrefix": "COMPARE_RETARGET_"
+  },
+  "boneMap": {
+    "root": "pelvis",
+    "lower_spine": "spine_01",
+    "upper_spine": "spine_03",
+    "chest": "spine_05",
+    "head": "head",
+    "clavicle.L": "clavicle_l",
+    "upper_arm.L": "upperarm_l",
+    "forearm.L": "lowerarm_l",
+    "clavicle.R": "clavicle_r",
+    "upper_arm.R": "upperarm_r",
+    "forearm.R": "lowerarm_r",
+    "thigh.L": "thigh_l",
+    "shin.L": "calf_l",
+    "foot.L": "foot_l",
+    "toe.L": "ball_l",
+    "thigh.R": "thigh_r",
+    "shin.R": "calf_r",
+    "foot.R": "foot_r",
+    "toe.R": "ball_r"
+  },
+  "families": {
+    "walk": {"action": "SRC_walk", "frameCount": 16, "fps": 16, "loop": true},
+    "attack": {"action": "SRC_attack", "frameCount": 16, "fps": 16, "loop": false},
+    "run": {"action": "SRC_run", "frameCount": 18, "fps": 18, "loop": true}
+  },
+  "preview": {
+    "headerHeightPx": 54,
+    "footerHeightPx": 44,
+    "fontPath": "C:/Windows/Fonts/segoeuib.ttf",
+    "titleFontSizePx": 19,
+    "labelFontSizePx": 18,
+    "dividerWidthPx": 2,
+    "frameDurationMs": 85,
+    "pauseDurationMs": 420,
+    "backgroundColor": [10, 14, 20, 255],
+    "textColor": [236, 241, 247, 255],
+    "sourceColor": [242, 184, 91, 255],
+    "candidateColor": [100, 215, 195, 255],
+    "sourceTitle": "CURRENT 160-BONE RIG",
+    "candidateTitle": "YOUR UPDATED 20-BONE RIG + SOFT CORRECTIONS",
+    "familyLabels": {
+      "walk": "WALK",
+      "attack": "ATTACK / PUNCH",
+      "run": "RUN / LEG STRESS"
+    },
+    "outputPattern": "current-vs-updated-basic-rig-{family}.gif",
+    "combinedOutput": "current-vs-updated-basic-rig-all-actions.gif"
+  }
+}

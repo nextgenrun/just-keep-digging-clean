@@ -1,0 +1,34 @@
+{
+  "version": "survival-rigify-motion-test-v1",
+  "reviewOnly": true,
+  "snapshotBlend": "testing/blender-animation-lab-v1/review-drafts/rigify-human-workbook-v1/input-snapshots/survival-rigify-human-user-save-20260819-170402.blend",
+  "snapshotSha256": "e9b25b698dfd5a1c6a4ef6974a7cfe875b0d7460fbcc703a419788a63cab01ed",
+  "metarigBones": 159,
+  "generatedBones": 706,
+  "deformBones": 160,
+  "softRepairs": [
+    {
+      "parentBone": "spine.003",
+      "childBone": "spine.004",
+      "operation": "MIDPOINT_ALIGN",
+      "gapBefore": 2.071466667003662,
+      "maximumGap": 3.0,
+      "maximumEndpointMove": 1.035733333501831,
+      "preservedConnectedFlag": false,
+      "gapAfter": 0.0,
+      "connectedAfter": false
+    }
+  ],
+  "sourceVertices": 83188,
+  "sourceVertexGroups": 110,
+  "mappedSourceGroups": 110,
+  "unmappedSourceGroups": 0,
+  "unweightedVertices": 0,
+  "weightBuckets": 9685,
+  "candidateGroups": 69,
+  "maximumInfluencesPerVertex": 4,
+  "candidateBlend": "testing/blender-animation-lab-v1/review-drafts/rigify-generated-candidate-v1/survival-rigify-generated-weighted-v1.blend",
+  "candidateBlendSha256": "b5f0bf05bcc94ad2305831f0a0cdc015f9f999eae92c8c527ead52f938c79950",
+  "productionChanged": false,
+  "runtimeWired": false
+}

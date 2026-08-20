@@ -97,11 +97,25 @@ function showMiningRetentionFeedback(scene, result, targetTile, options = {}) {
 }
 
 function isSystemFeatureAvailable(scene, feature) {
+  if (
+    feature === "abilities"
+    && scene.upgradeSystem?.isGodModeActive?.() === true
+  ) {
+    return true;
+  }
   return scene.systemIntroductionSystem?.isFeatureAvailable?.(feature) !== false;
 }
 
 function isTutorialDescentBlocked(scene) {
   return scene.townSquareTutorialSystem?.isDescentBlocked?.() === true;
+}
+
+function isTutorialDownwardMineBlocked(scene, targetTile) {
+  const tutorial = scene.townSquareTutorialSystem;
+  if (tutorial?.shouldBlockDownwardMine) {
+    return tutorial.shouldBlockDownwardMine(targetTile) === true;
+  }
+  return isTutorialDescentBlocked(scene);
 }
 
 function isDownwardAimLabel(label) {
@@ -354,6 +368,9 @@ function handleArcCoreMine(scene, aimTargetTile, time, abilities, aimDirectionOv
 export function updateScene(time, delta) {
   // Safety guard: if setup hasn't completed, skip update
   if (!this.gameInputHandler) return false;
+  const comboShouldPause = this.gameState !== "playing" || hasEscapeClosableUi(this);
+  if (comboShouldPause) this.comboSystem?.pause?.(this.time?.now ?? time);
+  else this.comboSystem?.resume?.(this.time?.now ?? time);
   if (this._hardcoreRuntime?.modal?.isVisible || this._randomEventModalVisible) {
     this.uiNotifications?.setPaused?.(true);
     return false;
@@ -485,7 +502,7 @@ function _updateSystems(time, delta, keys, samplePerformancePhases = false) {
   const activePlayerTile = this._framePlayerTile;
 
   phaseStartedAtMs = samplePerformancePhases ? performanceNow() : null;
-  // Update combo system timer (always active — checks expiry)
+  // UI suspension preserves the remaining combo window.
   if (this.comboSystem) {
     this.comboSystem.update(this.time.now);
     this.retentionProgressSystem?.recordComboCount?.(
@@ -578,7 +595,7 @@ function _updateSystems(time, delta, keys, samplePerformancePhases = false) {
  */
 function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
   // Block all gameplay while star chart view is open
-  const featureAvailable = feature => this.systemIntroductionSystem?.isFeatureAvailable?.(feature) !== false;
+  const featureAvailable = feature => isSystemFeatureAvailable(this, feature);
   if (this._pillarViewActive) return;
   const featureDistance = (feature, getter) => featureAvailable(feature) ? getter?.() ?? Number.POSITIVE_INFINITY : Number.POSITIVE_INFINITY;
 
@@ -599,6 +616,7 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
   if (featureAvailable("campfire") && this.campfireSystem && this.campfireSystem.isSelecting()) return;
 
   this.celestialActionBarInputBridge?.update?.();
+  this.debrisShieldSystem?.update?.(delta, keys.q, this.earthquakeSystem);
   // Update player controller (physics, movement, flight logic)
   this.playerController.update(delta);
   // A player can still enter the authored surface shaft by walking into it;
@@ -650,6 +668,8 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
   const eventDistance = featureDistance("randomEvents", () => this.randomEventBridge?.getInteractionDistance?.(playerTile));
   const memoryReliquaryDistance = featureDistance("relics", () => this.memoryReliquaryWorldSystem?.getInteractionDistance?.(playerTile));
   const pillarDistance = featureDistance("constellations", () => this.starPillarSystem?.getInteractionDistance?.(playerTile));
+  const understarDistance = this.understarEndingSystem?.getInteractionDistance?.(playerTile)
+    ?? Number.POSITIVE_INFINITY;
   const priority = resolveInteractionPriorities({
     milestone: milestoneDistance,
     npc: nearestNpcDistance,
@@ -658,6 +678,7 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
     event: eventDistance,
     memoryReliquary: memoryReliquaryDistance,
     pillar: pillarDistance,
+    understar: understarDistance,
   });
   this.memoryReliquaryWorldSystem?.setInteractionAllowed?.(
     !arcCoreConsumedInteraction && priority.memoryReliquary,
@@ -690,6 +711,7 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
     && !priority.event
     && !priority.memoryReliquary
     && !priority.pillar
+    && !priority.understar
   ) {
     this.npcManager.checkNPCInteraction();
   }
@@ -710,6 +732,7 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
     && !priority.event
     && !priority.memoryReliquary
     && !priority.pillar
+    && !priority.understar
     && featureAvailable("caves")
     && this.caveEntryController?.update(playerTile, keys)
   ) return;
@@ -809,7 +832,10 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
   // Normal mining (configured dig key or primary mouse click/hold).
   const keyboardMineRequested = this.playerController.consumeMineInput();
   const normalMineRequested = keyboardMineRequested || miningInputState.mouseRequested;
-  const tutorialDownwardMineBlocked = isTutorialDescentBlocked(this)
+  const tutorialDownwardMineBlocked = isTutorialDownwardMineBlocked(
+    this,
+    aimTargetTile,
+  )
     && isDownwardAimLabel(effectiveAimLabel)
     && !isRequiredTownTutorialDigTarget(this, aimTargetTile);
   if (tutorialDownwardMineBlocked && normalMineRequested && !isQuickslashActive) {
@@ -907,7 +933,14 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
   }
 
   // Special tile interaction (E key for gamble/teleport tiles)
-  if (!arcCoreConsumedInteraction && Phaser.Input.Keyboard.JustDown(keys.interact)) {
+  if (
+    !arcCoreConsumedInteraction
+    && this.inputHandler.consumeSpecialTileInteractInput()
+  ) {
+    if (priority.understar && this.understarEndingSystem?.handleInteract?.(playerTile)) {
+      return;
+    }
+
     if (priority.pillar && this.starPillarSystem?.handleInteract?.(playerTile)) {
       return;
     }
@@ -969,6 +1002,7 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
   }
   
   const depth = Math.max(0, playerTile.ty - this.config.topAirRows + 1);
+  this.understarEndingSystem?.update?.(time, delta, playerTile, depth);
   const inTown = playerTile.ty >= this.config.topAirRows - 4
     && playerTile.ty <= this.config.topAirRows;
   this.retentionProgressSystem?.updateDepth?.(depth, { isTown: inTown });
@@ -989,7 +1023,9 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
       }
       this.shakeSystem?.shake("misc.depthMilestone");
       // Trigger cinematic for curated depths (100, 300, 500, 750, 1000, 1500, 2000)
-      this.depthMilestoneCinematic?.trigger?.(depth, milestone);
+      if (!this.understarEndingSystem?.isFinaleDepth?.(depth)) {
+        this.depthMilestoneCinematic?.trigger?.(depth, milestone);
+      }
       // Exact permanent totals live in the Milestone board and ESC > Journey.
       // Curated depths already receive the centered cinematic; never enqueue
       // an additional normal notification card.

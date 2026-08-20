@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 
 import {
+  DEVELOPMENT_GAMEPLAY_CAPABILITIES,
   DEFAULT_GAMEPLAY_CAPABILITIES,
   GAMEPLAY_FEATURE_IDS,
   GAMEPLAY_PROFILE_IDS,
@@ -16,6 +17,21 @@ for (const featureId of Object.values(GAMEPLAY_FEATURE_IDS)) {
 }
 assert.equal(DEFAULT_GAMEPLAY_CAPABILITIES.isShowcaseEnabled("campfire"), true);
 assert.equal(DEFAULT_GAMEPLAY_CAPABILITIES.isShowcaseEnabled("constellations"), true);
+assert.equal(DEVELOPMENT_GAMEPLAY_CAPABILITIES.profileId, GAMEPLAY_PROFILE_IDS.DEMO);
+assert.equal(DEVELOPMENT_GAMEPLAY_CAPABILITIES.demoMode, true);
+assert.equal(DEVELOPMENT_GAMEPLAY_CAPABILITIES.developmentTools, true);
+assert.equal(DEVELOPMENT_GAMEPLAY_CAPABILITIES.isEnabled(
+  GAMEPLAY_FEATURE_IDS.GOD_MODE,
+), true);
+assert.equal(DEVELOPMENT_GAMEPLAY_CAPABILITIES.isEnabled(
+  GAMEPLAY_FEATURE_IDS.DEV_CHEATS,
+), false);
+assert.equal(DEVELOPMENT_GAMEPLAY_CAPABILITIES.isEnabled(
+  GAMEPLAY_FEATURE_IDS.SCREEN_CAPTURE,
+), true);
+assert.equal(DEVELOPMENT_GAMEPLAY_CAPABILITIES.isEnabled(
+  GAMEPLAY_FEATURE_IDS.LEVEL_TWO,
+), false);
 
 const fullReview = createGameplayCapabilities(GAMEPLAY_PROFILE_IDS.FULL_REVIEW);
 assert.equal(fullReview.profileId, GAMEPLAY_PROFILE_IDS.FULL_REVIEW);
@@ -38,6 +54,15 @@ assert.equal(resolveGameplayCapabilities({
   hostname: "localhost",
   allowProfileOverride: false,
 }).profileId, GAMEPLAY_PROFILE_IDS.DEMO, "production disables query overrides");
+const localDemo = resolveGameplayCapabilities({
+  hostname: "localhost",
+  allowProfileOverride: true,
+});
+assert.equal(localDemo.profileId, GAMEPLAY_PROFILE_IDS.DEMO);
+assert.equal(localDemo.isEnabled(GAMEPLAY_FEATURE_IDS.GOD_MODE), true);
+assert.equal(localDemo.isEnabled(GAMEPLAY_FEATURE_IDS.DEV_CHEATS), false);
+assert.equal(localDemo.isEnabled(GAMEPLAY_FEATURE_IDS.SCREEN_CAPTURE), true);
+assert.equal(localDemo.isEnabled(GAMEPLAY_FEATURE_IDS.LEVEL_TWO), false);
 assert.equal(resolveGameplayCapabilities({
   search: reviewSearch,
   hostname: "127.0.0.1",

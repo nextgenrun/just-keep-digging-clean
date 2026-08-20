@@ -1,5 +1,49 @@
 # Testing
 
+- `2026-08-20-mixamo-locomotion-comparison-contract.mjs` guards the five new
+  V4-retargeted walk/run/crouch-walk/jump/falling review carriers, 1024-to-256
+  one-pass packing, zero green pixels, clipping/residual gates, the complete
+  13-row synchronized comparison, the no-jump boundary, and zero runtime
+  references.
+
+- `2026-08-19-critical-feedback-fixes-contract.mjs` guards the clock-only HUD,
+  complete removal of weather UI actors/assets/constants, Thunderstrike on V
+  with Shift+V reserved for God Mode, first-use ability-asset buffering, free
+  God Mode Star Pillar talent purchases, and removal of the recent level-up
+  reward sound. The runtime asset coordinator contract additionally proves
+  that diffuse/normal pairs bypass bitmap activation and do not settle on the
+  diffuse-only file event.
+
+- `2026-08-03-celestial-talent-tree-ui-contract.mjs` now guards the socket-free
+  V2 foundation, 33 resident node icons, Pillar-matched node frame, restrained
+  connector, and unchanged three-branch runtime topology. The 2026-08-14
+  visual harness renders the exact production view at wide and compact sizes.
+
+- `2026-08-14-understar-ending-contract.mjs` guards the reachable 2,000 m demo
+  bound, enormous 1672x941 authored backdrop, fail-closed save state, codec
+  round trip, Interact priority, ordinary-cinematic suppression, raster-only
+  finale UI, module budgets, and save-safe E2E installation order.
+- The save-safe `window.__jkdE2E.previewUnderstarEnding()` hook moves the real
+  PlayScene player to displayed depth 2,000 m, advances the production ending
+  system once, and returns both scene and ending state for visual/runtime QA.
+  `Ctrl+Alt+E` invokes the same preview without browser-script access.
+
+- `2026-08-14-survival-animation-global-polish-contract.mjs` pins all 78
+  current Survival/UAL animations and 1,617 referenced frames, proves the
+  lean-wall loop registers from a loaded sheet, preserves the 101–123 px
+  reviewed scale band and 31x75 collision body, and verifies the profile-local
+  1.12-tile marker-fitted run stride plus the 107 px standing-quickslash size
+  continuity calibration. It also locks the measured 101/119/104/114/123 px
+  idle/start/walk/run/stop display cells that remove locomotion size pumping.
+
+- `2026-08-14-material-lighting-polish-contract.mjs` guards the additive-only
+  Phaser material-response pass, its below-darkness ordering, conservative
+  highlight/lighting ceilings, SSOT uniforms, and `?materialLighting=0`
+  rollback.
+- `2026-08-14-material-lighting-webgl-harness.html` compiles, links, draws, and
+  samples the production material fragment in real WebGL so a shader setup
+  failure cannot be mistaken for a successful visual fallback.
+
 - `2026-07-22-deep-game-logic-health.py --lane demo-release` is the strict
   production-demo gate. `--lane full-compat` and `--lane artifact-review`
   accept only the exact reviewed failure hashes in
@@ -21,10 +65,10 @@
   interrupted-write recovery, corrupted payload rejection, rounding, numeric
   bounds, and duplicate reward protection.
 
-- `2026-08-11-demo-mode-contract.mjs` proves the current default-on demo profile
-  excludes Level Two, its gate and saved portals, Arc Core/Omega content,
-  developer cheats, and screen recording across state, UI, input, rendering,
-  preloading, world bounds, and save-restoration admission points.
+- `2026-08-11-demo-mode-contract.mjs` proves the current default-on development
+  demo excludes Level Two, its gate and saved portals, and Arc Core/Omega
+  content while admitting local V-key God Mode and F9 screen recording across
+  state, UI, input, rendering, preloading, world bounds, and save restoration.
 - `2026-08-11-demo-intro-recovery-contract.mjs` locks the clean aligned Inventory
   and ESC controls, integrated new-expedition choices, typed Skip/hidden One-Life
   guards, seven-beat route, no-bank Skip, durable Hardcore lives, and restored
@@ -71,7 +115,7 @@ transition, and graceful continuation after a save-teardown error.
 `2026-07-30-fire-light-v3-contract.mjs` locks all ten exact 1252x1252 ImageGen
 atlases and 160 retained components, spritesheet wiring, character-aware socket,
 compact flame limits, default-hidden ray allocation, real exposure response,
-one-layer natural default, legacy-style procedural falloff, lifecycle cleanup,
+three-layer material default, natural rollback, lifecycle cleanup,
 class separation, line budgets, complete legacy rollback, and the exact former
 layered profile.
 
@@ -115,6 +159,16 @@ adaptation, checks each radius against the authoritative piecewise depth curve,
 and records identical settled reach of 3.412, 3.021, and 2.973 tiles at darkness
 alpha 1. All twenty Fire assets returned HTTP 200; depth streaming intentionally
 aborted outgoing biome-video requests during jumps, with no UI or fatal errors.
+
+## Material lighting runtime A/B - 2026-08-15
+
+`2026-08-15-material-lighting-live-compare.html` boots the previous
+`natural-fire-v1` and production `material-lighting-v1` in deterministic real
+Phaser/WebGL worlds. `2026-08-15-material-lighting-live-capture.html` provides
+full-width before/after captures at the same generated standing tile, weather,
+day phase, camera, GP profile, and gameplay darkness. The after route must
+report three authored layers; the `?fireLightStyle=natural` before route must
+report one.
 
 ## Old-school lamp light review — 2026-07-30
 
@@ -908,7 +962,8 @@ missing expansion pages.
 Phaser-like doubles. It requires the 1536x800 foundation, twelve visible
 selectors, authored previous/next arrows, five Common pages, one large
 preview, all sixty Common frames, and correct page-two identity routing
-without Graphics.
+without Graphics. It also pins the painted socket alignment and complete
+Tab/grid/page/rarity keyboard navigation path.
 
 `2026-07-30-star-identity-light-smoke.mjs` executes the real pooled
 `SkySteadyLightRenderer`, proves a newly appended Astral dedicated light frame
@@ -1018,3 +1073,57 @@ gutters. The upgraded 2026-08-02 weather harness additionally proves the storm
 medallion is visible and dynamically selected in a real Phaser render.
 The same contract guards that the active random-event ribbon consumes only the
 derived lane between the player and weather panels with exact 16 px gaps.
+
+`2026-08-15-approved-sfx-findings-contract.mjs` pins the four audio candidates
+explicitly rated `good`, their production OGG hashes, two-entry non-repeating
+seismic-warning and rare-discovery families, Boot preload parity, warning-phase
+stop behavior, and the exact Ancient Relic and Titan discovery hooks. Rejected
+mining sounds and the `maybe` crystal candidate remain review-only.
+
+`2026-08-15-town-surface-relief-bake-contract.mjs` pins the exact active
+source and derived hashes, unchanged 1801x941 geometry, default-off
+`?surfaceRelief=1` routing, complete rollback precedence, selected preload,
+and restrained measured correction ceilings.
+
+`2026-08-15-survival-animation-contract-repair-v2-contract.mjs` pins the six
+active animation families and both rig manifests to the last known-good motion
+authority, while protecting the 31x75 collider, 1.12-tile run stride, corrected
+locomotion sizes, complete 36-frame prone flight loop, and repair version.
+
+`2026-08-15-survival-motion-locked-mesh-quality-v2-contract.py` proves the
+review candidate is production-isolated, all six pre-lock silhouettes pass,
+packed alpha is pixel-identical to restored authority, Blender reports contain
+no bone/weight/camera/geometry edits, and runtime sheets remain byte-identical
+to the last known-good rollback authority.
+
+`2026-08-15-survival-mesh-quality-v2-v3-contract.py` proves every V3 frame
+changes RGB presentation while retaining V2.1 alpha exactly, keeps all six
+family counts/cadences, records zero motion change, and produces the complete
+164-frame animated comparison.
+
+`2026-08-15-survival-microdetail-secondary-v3-2-contract.py` proves the
+representative 24-frame walk remains review-only, retains the exact V2.1 body
+action and original 83,188-vertex mesh, adds no subdivision, limits deformation
+to named secondary shape keys, restores full-resolution maps, and keeps alpha
+IoU above 0.95 with centroid drift below one packed pixel.
+
+`2026-08-15-survival-hero-quality-v4-contract.py` proves all five equipment
+materials use reconstructed ORM channels, full-resolution maps and full-glove
+coverage across the exact 164-frame six-family set while facing, camera, weights,
+root and source actions remain unchanged. It gates per-family frame counts,
+silhouette/centroid/bounds drift, rejects saturated green pixels, verifies every
+native-cadence GIF, and confirms both V4 scales remain production-isolated.
+
+`2026-08-20-complex-dig-animation-runtime-contract.mjs` pins the approved
+ten-stage SIDE and Uppercut-only UP families, byte-exact green-free sheets,
+101 px scale, single-contact authority, current cadence, cave/main-world wiring,
+and the `?complexDig=0` plus Ctrl+Alt+9 legacy rollback paths.
+`2026-08-15-celestial-talent-tree-polish-browser-check.mjs` opens the production
+Celestial tree harness at wide and compact sizes, proves the three-lock
+pre-level gate, exercises a near-edge mouse target, and captures the rebuilt
+tooltip on both an outer capstone and an inner branch node.
+`2026-08-15-celestial-actionbar-empty-browser-check.mjs` renders the production
+floating action bar with five unowned abilities and proves that all five
+authored sockets remain empty: no ghost icons and no repeated lock objects. It
+also hovers Hollow Sun and verifies the shared Star Pillar frame, larger type,
+and lower-trim copy clearance.

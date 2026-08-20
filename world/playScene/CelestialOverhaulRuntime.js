@@ -27,6 +27,7 @@ export function initializeCelestialOverhaulRuntime(scene, savedData = null) {
   scene.celestialTalentProgressionSystem?.destroy?.();
   scene.celestialTalentProgressionSystem = new CelestialTalentProgressionSystem({
     getPlayerLevel: () => scene.playerLevelSystem?.level || 1,
+    isGodModeActive: () => scene.upgradeSystem?.godModeActive === true,
     onChanged: (snapshot) => {
       syncTalentEngines(scene, snapshot, false);
       scene.starPillarSystem?.syncTalentProgress?.(snapshot, true);

@@ -429,7 +429,7 @@ sprite.emit(
 assert.equal(abilities.executeCalls, 10, "a cancelled pre-contact slam must deal no damage");
 assert.equal(runtime.cancelThunderStrike(scene.time.now + 2), false);
 
-// Powered flight: authored enter -> Shield Dash travel -> Jump hover -> exit -> land.
+// Powered flight: authored enter -> travel, including strong vertical momentum -> exit -> land.
 assert.equal(profile.sourceClips.fly, "Shield_Dash");
 assert.equal(profile.flySourceFrames.length, 14);
 assert.equal(profile.rejectedSourceClips.fly, "Swim_Fwd_Loop");
@@ -459,8 +459,8 @@ assert.equal(sprite.played.at(-1), profile.flightTravelLoopAnim, "flight travel 
 flightHorizontalSpeed = 30;
 flightVerticalSpeed = 160;
 runtime.updateLocomotionVisual(1200);
-assert.equal(sprite.played.at(-1), profile.flightHoverAnim);
-assert.equal(sprite.anims.timeScale, resolveUalFlightTimeScale(Math.hypot(30, 160), false));
+assert.equal(sprite.played.at(-1), profile.flightTravelLoopAnim);
+assert.equal(sprite.anims.timeScale, resolveUalFlightTimeScale(Math.hypot(30, 160), true));
 
 abilities.flying = false;
 motionState = "airborne";

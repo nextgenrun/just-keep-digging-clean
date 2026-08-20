@@ -1,0 +1,64 @@
+{
+  "kind": "deterministic-material-relief-bake",
+  "source": "sprites/backgrounds/start-zone-scenic-v1/npc-town-scenic-composite-v2.webp",
+  "output": "sprites/backgrounds/start-zone-scenic-v1/npc-town-scenic-composite-v2-relief-bake-v1.webp",
+  "sourceSha256": "c38f74e9ca985a475812c052113bc419c7c433dbd78d6a68011858087f07d415",
+  "outputSha256": "8221eb8c14a8645375754482b13e5f61da8aa372043c46d7596dc53bb7138d85",
+  "width": 1801,
+  "height": 941,
+  "meanAbsoluteChannelDifference": 0.003397,
+  "p95AbsoluteChannelDifference": 0.016775,
+  "maximumPositiveCorrection": 0.075,
+  "maximumNegativeCorrection": -0.06,
+  "config": {
+    "source": "sprites/backgrounds/start-zone-scenic-v1/npc-town-scenic-composite-v2.webp",
+    "output": "sprites/backgrounds/start-zone-scenic-v1/npc-town-scenic-composite-v2-relief-bake-v1.webp",
+    "manifest": "sprites/backgrounds/start-zone-scenic-v1/npc-town-scenic-composite-v2-relief-bake-v1.json",
+    "reviewOutput": "visual-approval-previews/2026-08-15-town-surface-relief-bake-v1/asset-before-after.png",
+    "detailReviewOutput": "visual-approval-previews/2026-08-15-town-surface-relief-bake-v1/asset-detail-before-after.png",
+    "runtimeBefore": "visual-approval-previews/2026-08-15-town-surface-relief-bake-v1/runtime-before.png",
+    "runtimeAfter": "visual-approval-previews/2026-08-15-town-surface-relief-bake-v1/runtime-after.png",
+    "runtimeReviewOutput": "visual-approval-previews/2026-08-15-town-surface-relief-bake-v1/runtime-before-after.png",
+    "detailCrops": [
+      {
+        "label": "MOUNTAINS + FOREST",
+        "x": 260,
+        "y": 70,
+        "width": 900,
+        "height": 300
+      },
+      {
+        "label": "VILLAGE MATERIALS",
+        "x": 120,
+        "y": 330,
+        "width": 1180,
+        "height": 260
+      },
+      {
+        "label": "SOIL + ROCK RELIEF",
+        "x": 120,
+        "y": 535,
+        "width": 1180,
+        "height": 300
+      }
+    ],
+    "fineBlurPx": 1.15,
+    "mediumBlurPx": 5.5,
+    "microDetailStrength": 0.032,
+    "mediumDetailStrength": 0.024,
+    "directionalReliefStrength": 0.036,
+    "lightVector": {
+      "x": -0.72,
+      "y": -0.69
+    },
+    "highlightCeiling": 0.075,
+    "shadowCeiling": 0.06,
+    "darkProtectStart": 0.035,
+    "darkProtectEnd": 0.15,
+    "brightProtectStart": 0.84,
+    "brightProtectEnd": 0.98,
+    "upperPlateStrength": 0.54,
+    "fullStrengthStartFraction": 0.48,
+    "webpQuality": 96
+  }
+}

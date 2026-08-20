@@ -38,5 +38,15 @@ assert.match(
   source("world/playScene/PlaySceneGameplay.js"),
   /playerDeferredAnimationAssetController\?\.resolveOrRequest/,
 );
+assert.match(
+  source("world/playScene/PlaySceneGameplay.js"),
+  /ualActionContactTimeline\.handleAnimationUpdate\(/,
+  "PlayScene must sample an already-advanced action frame after arming its contact timeline",
+);
+assert.match(
+  source("world/playScene/PlaySceneGameplay.js"),
+  /fireContactFallback\(/,
+  "PlayScene must recover an action whose animation stops before contact",
+);
 
 console.log("Gameplay capability injection and Robo checkpoint cleanup contract passed.");

@@ -1,0 +1,218 @@
+{
+  "version": 1,
+  "reviewOnly": true,
+  "productionChanged": false,
+  "renderSize": 1024,
+  "downsamplePasses": 1,
+  "textures": {
+    "normalMaps": 9,
+    "relinkedTextures": 32,
+    "eyeTexture": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\visual-approval-previews\\2026-08-14-survival-global-benchmark-v1\\texture-cache-2k\\Textures\\Eye\\Eye_BaseColor.png"
+  },
+  "actions": {
+    "run": {
+      "motionSource": "survival-ual-jog-fwd-loop.fbx",
+      "meshPass": {
+        "cleanedWeightVertices": 14015,
+        "correctiveShapes": {
+          "DG_CORRECTIVE_FISTS": 5064,
+          "DG_CORRECTIVE_WRISTS": 2108,
+          "DG_CORRECTIVE_ELBOWS": 2205,
+          "DG_CORRECTIVE_HIPS": 2052,
+          "DG_CORRECTIVE_JACKET": 6304
+        },
+        "secondaryShapes": {
+          "DG_SECONDARY_JACKET": 6304,
+          "DG_SECONDARY_BACKPACK": 13961
+        },
+        "fullGlovePolygons": 6162,
+        "preserveVolume": true,
+        "correctiveSmooth": true
+      },
+      "frames": 28,
+      "fps": 30,
+      "loop": true,
+      "sourceFrames": [
+        1.0,
+        1.8214285714285714,
+        2.642857142857143,
+        3.4642857142857144,
+        4.285714285714286,
+        5.107142857142857,
+        5.928571428571429,
+        6.75,
+        7.571428571428571,
+        8.392857142857142,
+        9.214285714285714,
+        10.035714285714286,
+        10.857142857142858,
+        11.678571428571429,
+        12.5,
+        13.321428571428571,
+        14.142857142857142,
+        14.964285714285714,
+        15.785714285714286,
+        16.607142857142858,
+        17.428571428571427,
+        18.25,
+        19.071428571428573,
+        19.892857142857142,
+        20.714285714285715,
+        21.535714285714285,
+        22.357142857142858,
+        23.178571428571427
+      ]
+    },
+    "mining-side": {
+      "motionSource": "survival-ual-punch-jab.fbx",
+      "meshPass": {
+        "cleanedWeightVertices": 14015,
+        "correctiveShapes": {
+          "DG_CORRECTIVE_FISTS": 5064,
+          "DG_CORRECTIVE_WRISTS": 2108,
+          "DG_CORRECTIVE_ELBOWS": 2205,
+          "DG_CORRECTIVE_HIPS": 2052,
+          "DG_CORRECTIVE_JACKET": 6304
+        },
+        "secondaryShapes": {
+          "DG_SECONDARY_JACKET": 6304,
+          "DG_SECONDARY_BACKPACK": 13961
+        },
+        "fullGlovePolygons": 6162,
+        "preserveVolume": true,
+        "correctiveSmooth": true
+      },
+      "frames": 15,
+      "fps": 30,
+      "loop": false,
+      "sourceFrames": [
+        1.0,
+        2.571428571428571,
+        4.142857142857142,
+        5.714285714285714,
+        7.285714285714286,
+        8.857142857142858,
+        10.428571428571429,
+        12.0,
+        13.571428571428571,
+        15.142857142857142,
+        16.714285714285715,
+        18.285714285714285,
+        19.857142857142858,
+        21.428571428571427,
+        23.0
+      ]
+    },
+    "mining-up": {
+      "motionSource": "SRC_dig_up",
+      "meshPass": {
+        "cleanedWeightVertices": 14015,
+        "correctiveShapes": {
+          "DG_CORRECTIVE_FISTS": 5064,
+          "DG_CORRECTIVE_WRISTS": 2108,
+          "DG_CORRECTIVE_ELBOWS": 2205,
+          "DG_CORRECTIVE_HIPS": 2052,
+          "DG_CORRECTIVE_JACKET": 6304
+        },
+        "secondaryShapes": {
+          "DG_SECONDARY_JACKET": 6304,
+          "DG_SECONDARY_BACKPACK": 13961
+        },
+        "fullGlovePolygons": 6162,
+        "preserveVolume": true,
+        "correctiveSmooth": true
+      },
+      "frames": 24,
+      "fps": 27,
+      "loop": false,
+      "sourceFrames": [
+        1.0,
+        2.3478260869565215,
+        3.6956521739130435,
+        5.043478260869565,
+        6.391304347826087,
+        7.739130434782608,
+        9.08695652173913,
+        10.434782608695652,
+        11.782608695652174,
+        13.130434782608695,
+        14.478260869565217,
+        15.826086956521738,
+        17.17391304347826,
+        18.52173913043478,
+        19.869565217391305,
+        21.217391304347824,
+        22.565217391304348,
+        23.91304347826087,
+        25.26086956521739,
+        26.608695652173914,
+        27.956521739130434,
+        29.304347826086957,
+        30.652173913043477,
+        32.0
+      ]
+    },
+    "mining-down": {
+      "motionSource": "survival-ual-overhandthrow.fbx",
+      "meshPass": {
+        "cleanedWeightVertices": 14015,
+        "correctiveShapes": {
+          "DG_CORRECTIVE_FISTS": 5064,
+          "DG_CORRECTIVE_WRISTS": 2108,
+          "DG_CORRECTIVE_ELBOWS": 2205,
+          "DG_CORRECTIVE_HIPS": 2052,
+          "DG_CORRECTIVE_JACKET": 6304
+        },
+        "secondaryShapes": {
+          "DG_SECONDARY_JACKET": 6304,
+          "DG_SECONDARY_BACKPACK": 13961
+        },
+        "fullGlovePolygons": 6162,
+        "preserveVolume": true,
+        "correctiveSmooth": true
+      },
+      "frames": 37,
+      "fps": 30,
+      "loop": false,
+      "sourceFrames": [
+        1.0,
+        1.9166666666666665,
+        2.833333333333333,
+        3.75,
+        4.666666666666666,
+        5.583333333333333,
+        6.5,
+        7.416666666666667,
+        8.333333333333332,
+        9.25,
+        10.166666666666666,
+        11.083333333333334,
+        12.0,
+        12.916666666666666,
+        13.833333333333334,
+        14.75,
+        15.666666666666666,
+        16.583333333333336,
+        17.5,
+        18.416666666666668,
+        19.333333333333332,
+        20.25,
+        21.166666666666668,
+        22.083333333333332,
+        23.0,
+        23.916666666666668,
+        24.833333333333332,
+        25.75,
+        26.666666666666668,
+        27.583333333333332,
+        28.5,
+        29.416666666666668,
+        30.333333333333332,
+        31.25,
+        32.16666666666667,
+        33.083333333333336,
+        34.0
+      ]
+    }
+  }
+}

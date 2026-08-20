@@ -1,0 +1,22 @@
+{
+  "walk": {
+    "frames": 16,
+    "output": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\blender-animation-lab-v1\\review-drafts\\rigify-motion-comparison-v1\\current-vs-rigify-walk-diagnostic.gif"
+  },
+  "attack": {
+    "frames": 16,
+    "output": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\blender-animation-lab-v1\\review-drafts\\rigify-motion-comparison-v1\\current-vs-rigify-attack-diagnostic.gif"
+  },
+  "run": {
+    "frames": 18,
+    "output": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\blender-animation-lab-v1\\review-drafts\\rigify-motion-comparison-v1\\current-vs-rigify-run-diagnostic.gif"
+  },
+  "combined": {
+    "frames": 50,
+    "output": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\blender-animation-lab-v1\\review-drafts\\rigify-motion-comparison-v1\\current-vs-rigify-all-actions-diagnostic.gif"
+  },
+  "visualization": {
+    "output": "C:\\Users\\Mila\\.codex\\visualizations\\2026\\08\\14\\01a00007-9604-7af3-986a-09fe1c8565e9\\rigify-difference-lab.html",
+    "bytes": 912746
+  }
+}

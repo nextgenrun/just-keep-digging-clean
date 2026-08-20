@@ -152,6 +152,7 @@ export class DugTilesSaveStore {
     milestoneData = null,
     starCollectionData = null,
     revisionMetadata = null,
+    understarEndingData = null,
   ) {
     if (this.isDeathTombstoned()) return false;
     const payload = this.createPayload(
@@ -180,6 +181,7 @@ export class DugTilesSaveStore {
       milestoneData,
       starCollectionData,
       revisionMetadata,
+      understarEndingData,
     );
     return this.commitPayload(payload);
   }
@@ -211,6 +213,7 @@ export class DugTilesSaveStore {
       snapshot.milestoneData,
       snapshot.starCollectionData,
       snapshot.revisionMetadata,
+      snapshot.understarEndingData,
     ));
   }
 
@@ -255,6 +258,7 @@ export class DugTilesSaveStore {
     milestoneData = null,
     starCollectionData = null,
     revisionMetadata = null,
+    understarEndingData = null,
   ) {
     return createDugTilesSavePayload({
       worldIdentity, dugTileKeys, resources, upgrades, levelData,
@@ -264,6 +268,7 @@ export class DugTilesSaveStore {
       heavenblocksData, hardcoreModeData, graveborerWurmData,
       playerStateData, campfireData, journeyData, celestialOverhaulData,
       milestoneData, starCollectionData,
+      understarEndingData,
       revisionMetadata: revisionMetadata ?? this._createNextRevisionMetadata("direct-save"),
     });
   }

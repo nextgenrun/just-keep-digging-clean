@@ -1,0 +1,211 @@
+{
+  "version": "4.0",
+  "reviewOnly": true,
+  "productionChanged": false,
+  "sourceBlendChanged": false,
+  "family": "run",
+  "sourceAction": "Jog_Fwd_Loop",
+  "renderFrameCount": 28,
+  "sourceFrames": [
+    1.0,
+    1.8,
+    2.6,
+    3.4000000000000004,
+    4.2,
+    5.0,
+    5.800000000000001,
+    6.6000000000000005,
+    7.4,
+    8.2,
+    9.0,
+    9.8,
+    10.600000000000001,
+    11.4,
+    12.200000000000001,
+    13.0,
+    13.8,
+    14.600000000000001,
+    15.4,
+    16.200000000000003,
+    17.0,
+    17.8,
+    18.6,
+    19.400000000000002,
+    20.200000000000003,
+    21.0,
+    21.8,
+    22.6
+  ],
+  "renderedIndices": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27
+  ],
+  "meshVertices": 83188,
+  "meshPolygons": 119304,
+  "subdivisionAdded": false,
+  "motionEdits": {
+    "bodyBones": false,
+    "weights": false,
+    "camera": false,
+    "root": false,
+    "secondaryShapeKeysReviewOnly": true
+  },
+  "pbrReconstruction": {
+    "Jacket1": {
+      "ormSplit": true,
+      "aoMix": 0.28,
+      "roughnessMultiply": 0.82,
+      "roughnessAdd": 0.08,
+      "normalStrength": 1.2,
+      "coatWeight": 0.12,
+      "coatRoughness": 0.22
+    },
+    "Backpack2": {
+      "ormSplit": true,
+      "aoMix": 0.24,
+      "roughnessMultiply": 0.9,
+      "roughnessAdd": 0.06,
+      "normalStrength": 1.15,
+      "coatWeight": 0.05,
+      "coatRoughness": 0.3
+    },
+    "Gloves1": {
+      "ormSplit": true,
+      "aoMix": 0.24,
+      "roughnessMultiply": 0.8,
+      "roughnessAdd": 0.08,
+      "normalStrength": 1.15,
+      "coatWeight": 0.08,
+      "coatRoughness": 0.24
+    },
+    "Jeans1": {
+      "ormSplit": true,
+      "aoMix": 0.18,
+      "roughnessMultiply": 1.02,
+      "roughnessAdd": 0.04,
+      "normalStrength": 1.12,
+      "sheenWeight": 0.035
+    },
+    "Shoes1": {
+      "ormSplit": true,
+      "aoMix": 0.25,
+      "roughnessMultiply": 0.76,
+      "roughnessAdd": 0.08,
+      "normalStrength": 1.12,
+      "coatWeight": 0.1,
+      "coatRoughness": 0.2
+    }
+  },
+  "specialMaterials": {
+    "Hair3": {
+      "roughness": 0.4,
+      "specularIorLevel": 0.24,
+      "anisotropic": 0.3,
+      "sheenWeight": 0.05,
+      "normalStrength": 1.1
+    },
+    "Head": {
+      "roughness": 0.38,
+      "specularIorLevel": 0.2,
+      "subsurfaceWeight": 0.04,
+      "subsurfaceScale": 0.08
+    },
+    "Body_Arkit:Eye": {
+      "roughness": 0.09,
+      "ior": 1.38,
+      "coatWeight": 0.38,
+      "coatRoughness": 0.055
+    }
+  },
+  "secondaryMotion": {
+    "hair": {
+      "material": "Hair3",
+      "vertices": 30063,
+      "weightedVertices": 11603,
+      "amplitudeLocal": 0.18,
+      "phaseOffset": 0.35
+    },
+    "jacketHem": {
+      "material": "Jacket1",
+      "vertices": 6304,
+      "weightedVertices": 1321,
+      "amplitudeLocal": 0.14,
+      "phaseOffset": 0.0
+    },
+    "backpackSettle": {
+      "material": "Backpack2",
+      "vertices": 13961,
+      "weightedVertices": 4670,
+      "amplitudeLocal": 0.1,
+      "phaseOffset": 0.7
+    }
+  },
+  "textures": {
+    "normalMaps": 9,
+    "relinkedTextures": 32,
+    "eye": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\visual-approval-previews\\2026-08-14-survival-global-benchmark-v1\\texture-cache-2k\\Textures\\Eye\\Eye_BaseColor.png",
+    "fullResolutionRestored": [
+      "Backpack_BaseColor.jpg",
+      "Backpack_Normal.jpg",
+      "Backpack_OcclusionRoughnessMetallic.jpg",
+      "Backpack_OcclusionRoughnessMetallic.jpg.001",
+      "Backpack_OcclusionRoughnessMetallic.jpg.002",
+      "Eye_BaseColor.png",
+      "Eyebrows_AO.jpg",
+      "Eyebrows_BaseColor.jpg",
+      "Eyebrows_Normal.jpg",
+      "Eyebrows_Opacity.jpg",
+      "Gloves_BaseColor.jpg",
+      "Gloves_Normal.jpg",
+      "Gloves_OcclusionRoughnessMetallic.jpg",
+      "Gloves_OcclusionRoughnessMetallic.jpg.001",
+      "Gloves_OcclusionRoughnessMetallic.jpg.002",
+      "HairBrown_Alpha.jpg",
+      "HairBrown_Diffuse_2.jpg",
+      "HairBrown_Normal.jpg",
+      "Jacket_BaseColor.jpg",
+      "Jacket_Normal.jpg",
+      "Jacket_OcclusionRoughnessMetallic.jpg",
+      "Jacket_OcclusionRoughnessMetallic.jpg.001",
+      "Jacket_OcclusionRoughnessMetallic.jpg.002",
+      "Jeans_BaseColor.jpg",
+      "Jeans_Normal.jpg",
+      "Jeans_OcclusionRoughnessMetallic.jpg",
+      "Jeans_OcclusionRoughnessMetallic.jpg.001",
+      "Jeans_OcclusionRoughnessMetallic.jpg.002",
+      "Shoes_BaseColor.jpg",
+      "Shoes_Normal.jpg",
+      "Shoes_OcclusionRoughnessMetallic.jpg",
+      "Shoes_OcclusionRoughnessMetallic.jpg.001",
+      "Shoes_OcclusionRoughnessMetallic.jpg.002"
+    ]
+  },
+  "fullGlovePolygons": 6162,
+  "objectTranslationKeysFrozen": 72
+}

@@ -15,6 +15,13 @@ export const CELESTIAL_ENGINE_ORDER = Object.freeze([
   CELESTIAL_ENGINE_IDS.COMET_ENGINE,
 ]);
 
+export const CELESTIAL_ENGINE_CORE_ASSETS = Object.freeze({
+  starHeart: "sprites/celestial-engines/star-heart-core-v1.png",
+  waywardStar: "sprites/celestial-engines/wayward-star-core-v1.png",
+  hollowSun: "sprites/celestial-engines/hollow-sun-core-v1.png",
+  cometEngine: "sprites/celestial-engines/comet-engine-core-v1.png",
+});
+
 const ENGINE_DEFINITIONS = Object.freeze({
   [CELESTIAL_ENGINE_IDS.WAYWARD_STAR]: Object.freeze({
     id: CELESTIAL_ENGINE_IDS.WAYWARD_STAR,

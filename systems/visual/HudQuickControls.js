@@ -19,6 +19,9 @@ export class HudQuickControls {
     this.onPause = typeof options.onPause === "function"
       ? options.onPause
       : () => false;
+    this.onMap = typeof options.onMap === "function"
+      ? options.onMap
+      : () => false;
     this.inventoryContainer = null;
     this.inventoryIcon = null;
     this.inventoryKeyFrame = null;
@@ -28,6 +31,10 @@ export class HudQuickControls {
     this.pauseFrame = null;
     this.pauseLabel = null;
     this.pauseHit = null;
+    this.mapContainer = null;
+    this.mapFrame = null;
+    this.mapLabel = null;
+    this.mapHit = null;
     this._destroyed = false;
     this._create();
   }
@@ -123,6 +130,32 @@ export class HudQuickControls {
         pressScale: this.config.pause.pressScale,
         activate: this.onPause,
       });
+
+      this.mapContainer = this.scene.add.container(0, 0)
+        .setScrollFactor(0)
+        .setDepth(this.depth)
+        .setVisible(this.visible)
+        .setSize(1, 1)
+        .setInteractive({ useHandCursor: true });
+      this.mapHit = this.mapContainer;
+      this.mapFrame = this.scene.add.image(0, 0, ASSET_KEYS.ui.approvedHud.buffChip);
+      this.mapLabel = this.scene.add.text(0, 0, "", {
+        fontFamily: APPROVED_HUD_SKIN.font.family,
+        fontSize: `${this.config.map.fontSize}px`,
+        fontStyle: "bold",
+        color: this.config.map.color,
+        stroke: this.config.map.stroke,
+        strokeThickness: this.config.map.strokeThickness,
+      }).setOrigin(0.5);
+      this.mapContainer.add([this.mapFrame, this.mapLabel]);
+      this._wireControl({
+        hit: this.mapHit,
+        visual: this.mapFrame,
+        container: this.mapContainer,
+        hoverAlpha: this.config.map.hoverAlpha,
+        pressScale: this.config.map.pressScale,
+        activate: this.onMap,
+      });
     }
 
     this.resize();
@@ -205,12 +238,29 @@ export class HudQuickControls {
     const pauseHitHeight = (pause.height + pause.hitPaddingY * 2) * scale;
     this.pauseHit.setSize(pauseHitWidth, pauseHitHeight);
     this.pauseHit.input?.hitArea?.setTo?.(0, 0, pauseHitWidth, pauseHitHeight);
+
+    if (!this.mapContainer) return;
+    const map = this.config.map;
+    const mapWidth = map.width * scale;
+    const mapHeight = map.height * scale;
+    const mapX = viewportWidth - map.right * scale - mapWidth / 2;
+    const mapY = pauseY - pauseHeight / 2 - map.gapAbovePause * scale - mapHeight / 2;
+    this.mapContainer.setPosition(mapX, mapY);
+    this.mapFrame.setDisplaySize(mapWidth, mapHeight);
+    this.mapLabel
+      .setFontSize(Math.max(10, Math.round(map.fontSize * scale)))
+      .setText(map.label.replace("{key}", USER_SETTINGS.getKeyLabel("map")));
+    const mapHitWidth = (map.width + map.hitPaddingX * 2) * scale;
+    const mapHitHeight = (map.height + map.hitPaddingY * 2) * scale;
+    this.mapHit.setSize(mapHitWidth, mapHitHeight);
+    this.mapHit.input?.hitArea?.setTo?.(0, 0, mapHitWidth, mapHitHeight);
   }
 
   setVisible(value) {
     this.visible = value === true;
     this.inventoryContainer?.setVisible(this.visible);
     this.pauseContainer?.setVisible(this.visible);
+    this.mapContainer?.setVisible(this.visible);
   }
 
   getInventoryTarget() {
@@ -260,6 +310,12 @@ export class HudQuickControls {
         hitWidth: this.pauseHit?.input?.hitArea?.width || 0,
         hitHeight: this.pauseHit?.input?.hitArea?.height || 0,
       },
+      map: {
+        active: Boolean(this.mapContainer),
+        label: this.mapLabel?.text || "",
+        hitWidth: this.mapHit?.input?.hitArea?.width || 0,
+        hitHeight: this.mapHit?.input?.hitArea?.height || 0,
+      },
     };
   }
 
@@ -268,10 +324,13 @@ export class HudQuickControls {
     this._destroyed = true;
     this.inventoryHit?.removeAllListeners?.();
     this.pauseHit?.removeAllListeners?.();
+    this.mapHit?.removeAllListeners?.();
     this.scene?.tweens?.killTweensOf?.(this.inventoryContainer);
     this.scene?.tweens?.killTweensOf?.(this.pauseContainer);
+    this.scene?.tweens?.killTweensOf?.(this.mapContainer);
     this.inventoryContainer?.destroy(true);
     this.pauseContainer?.destroy(true);
+    this.mapContainer?.destroy(true);
     this.inventoryContainer = null;
     this.pauseContainer = null;
     this.inventoryIcon = null;
@@ -279,6 +338,10 @@ export class HudQuickControls {
     this.inventoryKey = null;
     this.inventoryHit = null;
     this.pauseHit = null;
+    this.mapContainer = null;
+    this.mapFrame = null;
+    this.mapLabel = null;
+    this.mapHit = null;
     this.scene = null;
   }
 }

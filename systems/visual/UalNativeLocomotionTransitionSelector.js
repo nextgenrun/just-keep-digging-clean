@@ -126,7 +126,7 @@ export class UalNativeLocomotionTransitionSelector {
     this._markAirborneInterval();
     this._adoptVelocityFacing(state.horizontalVelocity);
 
-    const speed = Math.abs(state.horizontalVelocity);
+    const speed = Math.hypot(state.horizontalVelocity, state.verticalVelocity);
     const flight = this.config.flight;
     const wantsTravel = speed >= (this._flightTraveling
       ? flight.travelExitSpeedPxPerSec

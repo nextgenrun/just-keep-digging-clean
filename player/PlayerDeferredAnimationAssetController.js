@@ -1,5 +1,5 @@
 import { getPlayerDeferredAssetPack } from "./PlayerAssetLoader.js";
-import { createUalNativePlayerAnimations } from "./UalNativePlayerAnimations.js";
+import { createUalNativePlayerAnimations } from "./UalNativePlayerAnimations.js?rev=20260820-complex-dig-v1";
 import { PLAYER_DEFERRED_ASSET_PACK_IDS } from
   "../values/playerDeferredAssetPacks.js";
 import {
@@ -25,7 +25,9 @@ function animationKeysByPack(profile) {
     if (packId) result.get(packId)?.add(key);
   };
   [
-    [PLAYER_DEFERRED_ASSET_PACK_IDS.crouch, [profile.duckAnim]],
+    [PLAYER_DEFERRED_ASSET_PACK_IDS.crouch, [
+      profile.duckAnim, profile.crouchEnterAnim, profile.crouchExitAnim,
+    ]],
     [PLAYER_DEFERRED_ASSET_PACK_IDS.flight, [
       profile.flyAnim, profile.flightEnterAnim, profile.flightTravelEnterAnim,
       profile.flightTravelLoopAnim, profile.flightHoverAnim, profile.flightExitAnim,

@@ -73,9 +73,25 @@ const TOWN_BENCHMARK_V1 = Object.freeze({
   }),
 });
 
+const TOWN_BENCHMARK_RELIEF_V1 = Object.freeze({
+  ...TOWN_BENCHMARK_V1,
+  id: "town-benchmark-relief-v1",
+  beauty: Object.freeze({
+    ...TOWN_BENCHMARK_V1.beauty,
+    asset: asset(
+      "world-visual-surface-pack-town-benchmark-relief-v1",
+      "sprites/backgrounds/start-zone-scenic-v1/npc-town-scenic-composite-v2-relief-bake-v1.webp"
+    ),
+    frameName: "world-visual-surface-pack-town-benchmark-relief-v1-upper",
+  }),
+});
+
 export const WORLD_VISUAL_SURFACE_PACKS = Object.freeze({
   queryParam: "surfacePack",
+  reliefQueryParam: "surfaceRelief",
+  reliefEnabledValue: "1",
   defaultPackId: TOWN_BENCHMARK_V1.id,
+  reliefPackId: TOWN_BENCHMARK_RELIEF_V1.id,
   benchmarkValues: Object.freeze([
     "benchmark",
     "town-benchmark",
@@ -86,6 +102,7 @@ export const WORLD_VISUAL_SURFACE_PACKS = Object.freeze({
   currentValues: Object.freeze(["current", "current-v2", "split", "off", "0"]),
   packs: Object.freeze({
     [TOWN_BENCHMARK_V1.id]: TOWN_BENCHMARK_V1,
+    [TOWN_BENCHMARK_RELIEF_V1.id]: TOWN_BENCHMARK_RELIEF_V1,
   }),
 });
 
@@ -93,8 +110,13 @@ export function resolveWorldVisualSurfacePack(
   config = WORLD_VISUAL_SURFACE_PACKS,
   search = globalThis.location?.search || ""
 ) {
-  const requested = new URLSearchParams(search).get(config.queryParam)?.trim().toLowerCase();
+  const params = new URLSearchParams(search);
+  const requested = params.get(config.queryParam)?.trim().toLowerCase();
   if (requested && config.currentValues.includes(requested)) return null;
+  const reliefRequested = params.get(config.reliefQueryParam)?.trim().toLowerCase();
+  if (reliefRequested === config.reliefEnabledValue) {
+    return config.packs[config.reliefPackId];
+  }
   if (requested && config.benchmarkValues.includes(requested)) {
     return config.packs[config.defaultPackId];
   }

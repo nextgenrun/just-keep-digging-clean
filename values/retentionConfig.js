@@ -21,8 +21,14 @@ export const TOWN_TUTORIAL_STAGES = Object.freeze({
   SKIPPED: "skipped",
 });
 
+export const TUTORIAL_FREE_TELEPORT_PASSES = Object.freeze({
+  EARLY_SKY_RETURN: "early-sky-return",
+  GROUND_ASCENT: "ground-ascent",
+  RESUME_RETURN: "resume-return",
+});
+
 export const RETENTION_CONFIG = Object.freeze({
-  saveVersion: 6,
+  saveVersion: 7,
 
   depth: Object.freeze({
     surfaceMaxMeters: 2,
@@ -65,6 +71,29 @@ export const RETENTION_CONFIG = Object.freeze({
       flightUpgradeId: "gemPowerUnlock",
       freeFlightMs: 30000,
     }),
+    freeTeleports: Object.freeze({
+      passIds: Object.freeze(Object.values(TUTORIAL_FREE_TELEPORT_PASSES)),
+      rules: Object.freeze([
+        Object.freeze({
+          id: TUTORIAL_FREE_TELEPORT_PASSES.EARLY_SKY_RETURN,
+          kind: "skyToDungeon",
+          stages: Object.freeze([
+            TOWN_TUTORIAL_STAGES.SELL,
+            TOWN_TUTORIAL_STAGES.UPGRADE,
+          ]),
+        }),
+        Object.freeze({
+          id: TUTORIAL_FREE_TELEPORT_PASSES.GROUND_ASCENT,
+          kind: "groundToSky",
+          stages: Object.freeze([TOWN_TUTORIAL_STAGES.RESUME]),
+        }),
+        Object.freeze({
+          id: TUTORIAL_FREE_TELEPORT_PASSES.RESUME_RETURN,
+          kind: "skyToDungeon",
+          stages: Object.freeze([TOWN_TUTORIAL_STAGES.RESUME]),
+        }),
+      ]),
+    }),
     choice: Object.freeze({
       title: "DO YOU WANT TO PLAY THE TUTORIAL?",
       body: "A short guided start through movement, digging, Flight,\na permanent return gate, selling, and resuming below.\n\nSkip it if you know the loop — Flight is still unlocked.",
@@ -81,7 +110,7 @@ export const RETENTION_CONFIG = Object.freeze({
       dig: Object.freeze({
         phase: "2 / 7  •  DIG",
         title: "BREAK THE PRACTICE BLOCK",
-        body: "Walk to the mining marker  •  face the block  •  hold {mine} to dig",
+        body: "Follow the marker  •  face the block  •  hold {mine} to dig",
       }),
       flight: Object.freeze({
         phase: "3 / 7  •  FLIGHT",
@@ -91,7 +120,7 @@ export const RETENTION_CONFIG = Object.freeze({
       portal: Object.freeze({
         phase: "4 / 7  •  RETURN GATE",
         title: "OPEN A PERMANENT ROUTE HOME",
-        body: "Follow the starter route to 15m  •  press {interact} at the gate",
+        body: "Hold {down} to go down  •  follow the guide to 15m  •  press {interact}",
       }),
       sell: Object.freeze({
         phase: "5 / 7  •  SELL",
@@ -119,6 +148,9 @@ export const RETENTION_CONFIG = Object.freeze({
       markerDepth: 54,
       markerPulseScale: 1.045,
       markerPulseMs: 820,
+      markerKeyFontSize: "22px",
+      markerKeyStrokePx: 5,
+      markerKeyOffsetYPx: 46,
       digMarkerOffsetYPx: -8,
       merchantMarkerGapPx: 10,
       merchantMinimumHeightPx: 48,
@@ -234,10 +266,10 @@ export const RETENTION_CONFIG = Object.freeze({
   }),
 
   floatingText: Object.freeze({
-    preferenceVersion: 1,
-    enabled: false,
+    preferenceVersion: 2,
+    enabled: true,
     legacyDefaultMode: "reduced",
-    defaultMode: "reduced",
+    defaultMode: "full",
     modes: Object.freeze({
       off: Object.freeze({
         label: "OFF",

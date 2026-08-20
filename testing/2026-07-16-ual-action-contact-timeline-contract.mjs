@@ -106,6 +106,18 @@ sprite.emit("animationcomplete", animation("ual-complete-only"), frame(7), sprit
 assert.equal(fallbackContact.trigger, "animationcomplete-fallback");
 assert.equal(fallbackCompleted, 1);
 
+// A wall-clock watchdog can recover an animation that never advances or completes.
+let watchdogContact = null;
+const watchdogActionId = timeline.begin({
+  animationKey: "ual-stalled-action",
+  contactFrame: 7,
+  onContact: (event) => { watchdogContact = event; },
+});
+assert.equal(timeline.fireContactFallback(watchdogActionId + 1), false);
+assert.equal(timeline.fireContactFallback(watchdogActionId, "wall-clock-contact-watchdog"), true);
+assert.equal(timeline.fireContactFallback(watchdogActionId, "duplicate-watchdog"), false);
+assert.equal(watchdogContact.trigger, "wall-clock-contact-watchdog");
+
 // Cancel and replacement suppress every stale callback.
 let staleCallbacks = 0;
 timeline.begin({

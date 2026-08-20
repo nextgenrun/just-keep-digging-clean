@@ -2,6 +2,103 @@
 
 All scripts created by LLMs to audit, fix, or edit the codebase.
 
+`2026-08-20-render-mixamo-atlas-v2.py` retargets the strongest missing
+locomotive prospects onto the approved Survival V4 rig at 1024 px.
+`2026-08-20-pack-mixamo-atlas-v2.py` applies the existing baseline, edge,
+green-pixel and one-downsample gates and writes only review-draft assets.
+
+`2026-08-15-build-celestial-talent-tree-v2.py` rebuilds the topology-correct
+socket-free 1672x941 Celestial foundation plus the transparent WoW-like node
+frame, restrained connector, and aligned Star Pillar tooltip from checked-in
+ImageGen sources.
+
+`2026-08-15-build-town-surface-relief-bake-v1.py` derives a pixel-aligned,
+review-gated town plate from the exact active scenic asset. It adds bounded
+multi-scale detail and upper-left relief without repainting, resizing, shifting,
+or globally regrading the source, and emits hash and correction evidence.
+
+`2026-08-15-build-survival-character-quality-v2-review.py` builds the
+review-only animated Character Quality V2 before/after from exact active
+runtime sheets, motion-locked 1024 px sources and an illustrative ImageGen
+hero target. It writes approval artifacts only and never changes runtime.
+
+`2026-08-15-render-survival-motion-locked-mesh-quality-v2.py` rerenders the
+six restored motion-authority families at 2048 px with 2K materials, correct
+normal-map color space, repaired eye response, full-glove finger coverage, and
+the approved four-light rig.
+It samples UAL clips from their manifests and rejects geometry, camera, bone,
+or weight edits. `2026-08-15-pack-survival-motion-locked-mesh-quality-v2.py`
+applies only family-wide export scale and integer cell registration, enforces
+the legacy alpha authority, gates every frame, and builds the animated A/B.
+`2026-08-15-audit-survival-blender-motion-authority.py` reports the underlying
+mesh/action authority without writing production files.
+
+`2026-08-15-build-survival-mesh-quality-v2-v3.py` builds the review-only V2.1
+versus V3 animation set from the exact approved packed frames. V3 changes RGB
+only through bounded saturation, contrast and micro-sharpening, preserves alpha
+and motion byte-for-byte, and emits combined plus native-cadence family GIFs.
+
+`2026-08-15-audit-survival-material-nodes.py` and
+`2026-08-15-audit-survival-geometry-detail.py` inspect the Survival material
+links, texture colour spaces, normal strengths, material polygon allocation,
+vertex groups and shape-key inventory without saving the Blender source.
+`2026-08-15-render-survival-material-quality-v3-1.py` and its packer retain the
+rejected contrast-heavy V3 as comparison evidence while testing real material
+separation and original-resolution maps in an isolated review lane.
+
+`2026-08-15-render-survival-microdetail-secondary-v3-2.py` starts from the
+approved V2.1 tone, restores full-resolution maps, adds restrained per-material
+normal/hair response and a loop-safe review-only deformation limited to lower
+hair, jacket hem and backpack vertices. Its packer produces an animated 256 px,
+exact-123 px and upper-body zoom comparison, with alpha/centroid evidence. It
+does not subdivide, alter body bones or save the source `.blend`.
+
+`2026-08-15-render-survival-hero-quality-v4.py` reconstructs the packed
+occlusion/roughness/metallic channels for the five textured equipment materials,
+restores original-resolution maps, retains all six exact restored action and
+four-light authorities, and emits 16-bit review frames. Its packer compares the
+actual current runtime against synchronized V4 123 px and unclipped 155 px lanes
+for walk, run, punch/mining, ground strike and flight, plus a punch-first
+164-frame reel; neither tool writes runtime assets or saves the Blender source.
+
+`2026-08-14-export-survival-animation-audit.mjs` exports the actual current
+Survival/UAL animation registry, resolved sheets, scales, origins, contacts,
+and runtime handoff graph. `2026-08-14-analyze-survival-animation-audit.py`
+measures alpha geometry, baseline/center drift, loop seams, and transition
+continuity without changing production assets.
+`2026-08-14-build-survival-skating-polish-reel.py` renders a synchronized
+moving-ground MP4 comparing the old 1.55-tile cadence with the marker-fitted
+1.12-tile cadence while using the exact same approved run sheet and world speed.
+
+`2026-08-14-openrouter-audio-lab.py`, its secure PowerShell/CMD launcher,
+configuration, and review dashboard form an isolated audio audition lab. The
+lab compares five TTS models, tests three explicitly experimental SFX prompts,
+checks two current voice files with two transcription models, stores no API
+key, and writes only UNTESTED review candidates outside the Phaser runtime.
+
+`2026-08-14-promote-survival-quality-runtime-v1.py` promotes the approved
+1024 px walk, UAL Jog, side/up/down mining, and exact prone-v3 flight candidate
+into the current 256 px runtime sheets. It preserves existing motion/timing,
+aligns each frame to its previous runtime anchor, updates manifest alpha bounds,
+protects transition/moving-dig sheets by hash, and creates byte-exact rollback
+evidence under `archive/2026-08-14-survival-quality-runtime-promotion-v1/`.
+
+`2026-08-14-render-survival-current-motion-quality-candidate.py` renders the
+active walk/Jog and mining source motions at 1024 px with review-only weight,
+corrective-shape, grounding, eye, glove and secondary-motion improvements; it
+never saves the Blender source or writes runtime files.
+
+`2026-08-14-render-survival-current-flight-quality-candidate.py` applies the
+same isolated pass to the exact active prone-v3 flight source.
+
+`2026-08-14-build-survival-runtime-vs-quality-reels.py` reads the exact active
+runtime sheets and builds synchronized walk-transition, mining and flight MP4
+comparisons against the 1024 px candidates, including 123 px and 145 px checks.
+
+The older `2026-08-14-render-survival-global-benchmark-review.py` and global
+benchmark reels are hard-rejected historical evidence because their rollback
+run and raw action mapping were not current-runtime authority.
+
 `2026-08-14-render-survival-global-benchmark-review.py` renders all twenty
 Survival motion roles into an isolated review directory using the approved
 four-light, Non-Color-normal, AgX, preserve-volume benchmark; the accepted
@@ -220,3 +317,35 @@ control strip or redundant floating reward text. Neither is wired into runtime.
 
 ## Archive
 Outdated import fixers from the initial restructuring have been archived to `/archive/2026-06-25-import-fixer-batch/`.
+
+## 2026-08-14 audio review labs
+
+| Tool | Purpose |
+|---|---|
+| `2026-08-14-openrouter-audio-lab.py` | Original review-only speech/audio capability batch retained with its raw results and ratings |
+| `2026-08-14-openrouter-sfx-first-lab-v2.py` | Build the corrected SFX-first comparison: guarded GPT Audio probes, four-by-three prompt matrix, reversible local SFX masters, corrected Gemini PCM wrapping, and focused voice challengers |
+| `2026-08-14-launch-openrouter-sfx-first-lab-v2.cmd` | Prompt securely for an OpenRouter key, run V2, clear the process key, and open the playable dashboard |
+| `2026-08-15-build-survival-animation-contract-repair-review.py` | Render the rejected quality-v1 and restored motion-authority sheets at fixed source-cell scale as an animated drift, clipping, collider, and facing review |
+| `2026-08-19-build-basic-rig-soft-correction.py` | Preserve a user-authored manual rig snapshot, add only review hierarchy/naming/distance weights, and render non-destructive deformation stress evidence |
+| `2026-08-19-render-basic-rig-animation-comparison.py` | Retarget current walk, attack, and run actions onto a manual-rig review candidate with optional rest-pose-aware world rotation deltas; never wires runtime assets |
+| `2026-08-19-render-current-rig-animation-baseline.py` | Render the production 160-bone baseline with the V4 material treatment and a bounds-following review camera |
+| `2026-08-19-compose-basic-rig-animation-comparison.py` | Package matched current/manual-rig PNG sequences into per-family and combined animated GIF review evidence |
+| `2026-08-19-inspect-mixamo-accepted-retarget.py` | Inspect the accepted Mixamo animation carriers, including Hurricane Kick Quickslash, against the production 160-bone Survival armature without saving or changing either source |
+| `2026-08-19-render-mixamo-accepted-survival.py` | Retarget the accepted Mixamo clips onto the production Survival rig, apply the approved V4 materials/full-glove treatment, stabilize grounding/fingers, and render isolated 1024 px RGBA candidate frames |
+| `2026-08-19-pack-mixamo-accepted-survival.py` | Gate clipping, grounded drift, retarget residuals and green-finger pixels, then downsample accepted 1024 px renders exactly once into 256 px candidate sheets and animated/contact-sheet proofs |
+| `2026-08-20-render-mixamo-locomotion-comparison.py` | Reuse the approved Survival V4 retarget and 1024 px render path for review-only neutral walk, run, crouch-walk, full-jump and falling candidates |
+| `2026-08-20-pack-mixamo-locomotion-comparison.py` | Gate and once-downsample the review-only locomotive candidates into synchronized sheets, GIFs, contact sheets and a no-runtime-write manifest |
+| `2026-08-20-analyze-mixamo-locomotion-continuity.py` | Compare active-size, active-origin alpha silhouettes across startup, walk, run and slowdown to identify the lowest-discontinuity loop handoff frames without wiring runtime |
+| `2026-08-19-inspect-mixamo-combat-fbx.py` | Report source action ranges for the review-only Mixamo combat carriers without saving or changing them |
+| `2026-08-19-build-mixamo-combat-overview.py` | Compose the 16 new V4-retargeted combat contact sheets into one family overview for rapid visual review |
+| `2026-08-19-render-mixamo-punch-sequence-sandbox.py` | Reuse the approved Survival V4 retarget/render pipeline for the 16-motion combat expansion without changing production assets |
+| `2026-08-19-pack-mixamo-punch-sequence-sandbox.py` | Gate and pack all 24 combat-sandbox motions at 1024-to-256 px with one downsample, animated GIFs, contact sheets and no runtime writes |
+| `2026-08-20-build-complex-dig-runtime-manifest.mjs` | Verify the 11 approved complex-dig runtime sheets are byte-exact copies of their green-free sandbox candidates and emit the reversible runtime manifest |
+| `2026-08-19-build-rigify-motion-test.py` | Generate a protected user-edited Rigify Human snapshot, transfer all current production skin groups by exact vertex index, cap weights at four influences, and save a review-only candidate |
+| `2026-08-19-render-rigify-motion-test.py` | Retarget the current walk, punch/attack, and run actions onto the generated Rigify deform rig, compensate the source/candidate view-axis difference, and render matched review sequences without runtime writes |
+| `2026-08-19-build-rigify-diagnostic-comparison.py` | Turn matched original/Rigify frames into synchronized three-panel diagnostic GIFs plus an interactive wipe, flicker, silhouette-outline and anatomical-zoom comparison |
+| `2026-08-19-build-rigify-human-workbook.py` | Build an isolated, globally fitted stock Rigify Human metarig over the clean V4/full-glove Survival mesh for manual Edit Mode placement; never generates, binds or wires production |
+| `2026-08-19-build-basic-rig-soft-correction.py` | Preserve a user-authored manual rig snapshot, add only review hierarchy/naming/distance weights, and render non-destructive deformation stress evidence |
+| `2026-08-19-render-basic-rig-animation-comparison.py` | Retarget current walk, attack, and run actions onto a manual-rig review candidate with optional rest-pose-aware world rotation deltas; never wires runtime assets |
+| `2026-08-19-render-current-rig-animation-baseline.py` | Render the production 160-bone baseline with the V4 material treatment and a bounds-following review camera |
+| `2026-08-19-compose-basic-rig-animation-comparison.py` | Package matched current/manual-rig PNG sequences into per-family and combined animated GIF review evidence |

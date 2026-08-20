@@ -2,7 +2,10 @@
 
 | Archived Item | Original Location | Date Archived | Reason |
 |---------------|------------------|---------------|--------|
+| 2026-08-14-survival-animation-global-polish-v1 | Survival profile and kinematic-motion runtime files | 2026-08-14 | Byte-exact rollback for the marker-fitted run cadence and restored lean-wall animation registration |
+| 2026-08-14-survival-quality-runtime-promotion-v1 | Six active survival-character sheets, two manifests, and profile routing; see package index/report | 2026-08-14 | Byte-exact rollback for the approved high-resolution render, deformation, material, eye, and secondary-motion quality promotion |
 | 2026-08-03-loading-mining-minigame | Loading minigame code, authored loader assets, tests, QA captures, and docs; see package manifest | 2026-08-03 | Restored the regular pre-minigame loader; retained this complete scoped package for rollback |
+| 2026-08-15-survival-animation-contract-repair-v2 | Rejected quality-v1 walk, run, mining, flight sheets and promoted manifests | 2026-08-15 | Restored the pre-quality frame, rig, contact, anchor and facing contract while retaining shader/material polish |
 | 2026-08-02-root-overlay-climb-dash-prune | Root-overlay, climb, and retired vertical-ability artifacts; see package manifest | 2026-08-02 | Active runtime paths were removed; unused generators, visual trail code, and non-runtime climb assets are retained here for rollback while powered flight remains live |
 | rejected-arc-review-random-art | Arc v3 tile source/Piskel/runtime/mockups, legacy HTML/placeholder review board, and supplied rejected screenshots | 2026-07-26 | User approved the Small/Omega machine and VFX package but rejected the ornamental HUD, random generated tiles, and low-quality browser presentation; active production uses only the fixed-center Piskel machine/VFX roles |
 | manifests/tiled-world-retirement | active Tiled-era world assembly (staged only) | 2026-07-16 | Scenic-v2 is default; physical move waits until the explicit legacy rollback and hidden layout imports are retired |

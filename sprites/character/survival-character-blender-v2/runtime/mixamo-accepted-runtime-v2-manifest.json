@@ -1,0 +1,39 @@
+{
+  "version": "mixamo-accepted-runtime-v2-20260819",
+  "productionChanged": true,
+  "runtimeWired": true,
+  "sourceRenderSizePx": 1024,
+  "packedFrameSizePx": 256,
+  "downsamplePasses": 1,
+  "qualityAuthority": "Survival V4 PBR, full-resolution textures, full glove and four-light rig",
+  "fixedRuntimeDisplaySizePx": 101,
+  "gates": {
+    "minimumRawEdgeMarginPx": 35,
+    "maximumSuspiciousGreenPixelsPerFrame": 0,
+    "maximumGroundedBaselineRangePx": 32
+  },
+  "clips": {
+    "flight-loop": "be4b5a9618355cfe9c3b1923746fa4835faab737771b4157f3a4ea7e6d1fb188",
+    "walk-start": "d6d21aadc103d6efaed5b6c4ef23df1efceaa4d1456144a0c384867ba549f611",
+    "walk-stop": "33bfd9fd9b49373beebadcf5d94be27eb1f5d805837c57c21b8770af673c5418",
+    "idle-fidget": "6fde471fe58eb93acbbe536f0584f16e56f24fe452ea80713a431c33a7d15618",
+    "crouch-idle": "8b64b9ea682b82ec21e6665ded961a82ca36d22c236926518a6765222ea60a0b",
+    "crouch-enter": "7de3634c97f7977fe6da9ac28ff6cc82e03a3be9dc28a77ffdd30cc67fbb752e",
+    "crouch-exit": "a3a1a58130b7f59f602db1177b475810d8e8337ca401b81417e6d169a4c0fcca",
+    "thunder-strike": "2ada8ec94b8d502e5a4777e5000ecef9cd41bc6b468020026428b3e63d67c537",
+    "hard-landing": "a6c0fe7778d9cce9a166908e17dd17c0b0f615e5224c41d0430fb458d992c220",
+    "hurricane-quickslash": "c7afb9a37dd360198e291fec32234fe0b1071f911bba542beebdc59610e03321"
+  },
+  "retainedCurrentFamilies": [
+    "walk-loop",
+    "run-loop",
+    "side-mining",
+    "up-mining",
+    "down-mining",
+    "flight-enter",
+    "flight-exit",
+    "wall",
+    "reaction",
+    "death"
+  ]
+}

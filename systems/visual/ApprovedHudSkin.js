@@ -4,13 +4,6 @@ import { HUD_LAYOUT } from "../../values/hudLayout.js";
 import { PickaxeHudView } from "./PickaxeHudView.js";
 
 const REQUIRED_KEYS = Object.freeze(Object.values(ASSET_KEYS.ui.approvedHud));
-const WEATHER_TEXTURE_KEYS = Object.freeze({
-  clear: ASSET_KEYS.ui.approvedHud.weatherClear,
-  drizzle: ASSET_KEYS.ui.approvedHud.weatherDrizzle,
-  rain: ASSET_KEYS.ui.approvedHud.weatherRain,
-  storm: ASSET_KEYS.ui.approvedHud.weatherStorm,
-  snow: ASSET_KEYS.ui.approvedHud.weatherSnow,
-});
 
 export function hasApprovedHudSkin(scene) {
   return APPROVED_HUD_SKIN.enabled === true
@@ -37,7 +30,6 @@ export class ApprovedHudSkin {
     this.buffFrames = [];
     this.buffTexts = [];
     this.pickaxeHudView = null;
-    this.weatherKind = "clear";
     if (!this.active) return;
 
     this.scale = Math.min(
@@ -75,22 +67,15 @@ export class ApprovedHudSkin {
     ).setVisible(false);
 
     const worldX = width - (layout.worldState.right + layout.worldState.width) * s;
-    this.worldFrame = this._image(
+    this.worldFrame = this._croppedImage(
       worldX,
       layout.worldState.y * s,
       ASSET_KEYS.ui.approvedHud.worldState,
+      layout.worldState.sourceCrop,
       layout.worldState.width * s,
       layout.worldState.height * s,
       depth,
     );
-    this.weatherIcon = this.scene.add.image(
-      worldX + layout.worldState.iconX * s,
-      (layout.worldState.y + layout.worldState.iconY) * s,
-      WEATHER_TEXTURE_KEYS.clear,
-    ).setOrigin(0.5)
-      .setDisplaySize(layout.worldState.iconSize * s, layout.worldState.iconSize * s)
-      .setScrollFactor(0)
-      .setDepth(depth + 1);
 
     for (let index = 0; index < layout.buffs.maxVisible; index += 1) {
       const x = (layout.buffs.x + index * (layout.buffs.width + layout.buffs.gap)) * s;
@@ -127,8 +112,6 @@ export class ApprovedHudSkin {
     hud.torchStatusText?.setVisible(false);
     hud.buffTimerText?.setVisible(false);
     hud.clockPanel?.setVisible(false);
-    hud.weatherPanel?.setVisible(false);
-    hud.weatherSeasonText?.setVisible(false);
 
     hud.statsText?.setPosition(layout.depth.x * s, layout.depth.y * s).setOrigin(0, 0);
     setHudTextStyle(hud.statsText, layout.depth.fontSize * s);
@@ -145,14 +128,6 @@ export class ApprovedHudSkin {
       worldX + layout.worldState.dayX * s,
       (layout.worldState.y + layout.worldState.topY) * s,
     ).setOrigin(0, 0.5);
-    hud.weatherText?.setPosition(
-      worldX + layout.worldState.weatherX * s,
-      (layout.worldState.y + layout.worldState.bottomY) * s,
-    ).setOrigin(0, 0.5);
-    hud.weatherTempText?.setPosition(
-      worldX + layout.worldState.temperatureX * s,
-      (layout.worldState.y + layout.worldState.bottomY) * s,
-    ).setOrigin(0, 0.5);
     setHudTextStyle(
       hud.clockTimeText,
       layout.worldState.timeFontSize * s,
@@ -162,16 +137,6 @@ export class ApprovedHudSkin {
       hud.clockDayText,
       layout.worldState.dayFontSize * s,
       APPROVED_HUD_SKIN.font.secondary,
-    );
-    setHudTextStyle(
-      hud.weatherText,
-      layout.worldState.weatherFontSize * s,
-      APPROVED_HUD_SKIN.font.cyan,
-    );
-    setHudTextStyle(
-      hud.weatherTempText,
-      layout.worldState.temperatureFontSize * s,
-      APPROVED_HUD_SKIN.font.color,
     );
   }
 
@@ -202,18 +167,6 @@ export class ApprovedHudSkin {
     };
   }
 
-  getWeatherBarLayout() {
-    const layout = APPROVED_HUD_SKIN.layout;
-    const s = this.scale;
-    const worldX = (this.scene.scale?.width || 1280) - (layout.worldState.right + layout.worldState.width) * s;
-    return {
-      x: worldX + layout.weatherBar.xInset * s,
-      y: (layout.worldState.y + layout.weatherBar.y) * s,
-      width: layout.weatherBar.width * s,
-      height: layout.weatherBar.height * s,
-    };
-  }
-
   setBuffLines(lines) {
     if (!this.active) return;
     this.buffFrames.forEach((frame, index) => {
@@ -225,31 +178,6 @@ export class ApprovedHudSkin {
 
   setComboVisible(visible) {
     this.comboFrame?.setVisible(Boolean(visible));
-  }
-
-  setWeatherKind(kind) {
-    if (!this.active) return false;
-    const normalizedKind = WEATHER_TEXTURE_KEYS[kind] ? kind : "clear";
-    const changed = normalizedKind !== this.weatherKind;
-    if (!changed) return false;
-    this.weatherKind = normalizedKind;
-    this.weatherIcon?.setTexture(WEATHER_TEXTURE_KEYS[normalizedKind]);
-    return true;
-  }
-
-  setWeatherVisible(visible) {
-    this.weatherIcon?.setVisible(Boolean(visible));
-  }
-
-  getWeatherIndicatorSnapshot() {
-    return Object.freeze({
-      ready: this.active && Boolean(this.weatherIcon),
-      visible: this.weatherIcon?.visible === true,
-      kind: this.weatherKind,
-      textureKey: this.weatherIcon?.texture?.key || null,
-      width: this.weatherIcon?.displayWidth || 0,
-      height: this.weatherIcon?.displayHeight || 0,
-    });
   }
 
   setTorchState(active) {
@@ -287,14 +215,12 @@ export class ApprovedHudSkin {
       this.playerFrame,
       this.comboFrame,
       this.worldFrame,
-      this.weatherIcon,
       ...this.buffFrames,
       ...this.buffTexts,
     ]
       .forEach((object) => object?.destroy());
     this.buffFrames = [];
     this.buffTexts = [];
-    this.weatherIcon = null;
     this.pickaxeHudView = null;
     this.scene = null;
     this.hud = null;
@@ -304,6 +230,16 @@ export class ApprovedHudSkin {
     return this.scene.add.image(x, y, key)
       .setOrigin(0, 0)
       .setDisplaySize(width, height)
+      .setScrollFactor(0)
+      .setDepth(depth);
+  }
+
+  _croppedImage(x, y, key, crop, width, height, depth) {
+    return this.scene.add.image(x, y, key)
+      .setOrigin(0, 0)
+      .setCrop(crop.x, crop.y, crop.width, crop.height)
+      .setDisplayOrigin(crop.x, crop.y)
+      .setScale(width / crop.width, height / crop.height)
       .setScrollFactor(0)
       .setDepth(depth);
   }

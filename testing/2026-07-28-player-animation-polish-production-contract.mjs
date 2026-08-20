@@ -10,6 +10,8 @@ import { UalGroundPhaseHandoffSelector } from "../systems/visual/UalGroundPhaseH
 import { UalNativeLocomotionTransitionSelector } from "../systems/visual/UalNativeLocomotionTransitionSelector.js";
 import { UalWallBraceSelector } from "../systems/visual/UalWallBraceSelector.js";
 import { PLAYER_ANIMATION_POLISH as polish } from "../values/playerAnimationPolish.js";
+import { MIXAMO_ACCEPTED_PLAYER_ANIMATIONS as mixamo } from
+  "../values/mixamoAcceptedPlayerAnimations.js";
 import { PLAYER_MOTION_POLISH_CONFIG } from "../values/playerMotionPolish.js";
 import { SURVIVAL_UAL_PLAYER_ASSET_PROFILE as profile } from "../values/survivalUalPlayerAssetProfile.js";
 import {
@@ -42,9 +44,9 @@ assert.equal(polish.transitionAnimations.length, 29);
 assert.equal(polish.diagonalMining.variants.length, 8);
 assert.equal(profile.animationPolishAnimations.length, 37);
 assert.equal(profile.landingCompressionOwner, "authored-animation");
-assert.equal(profile.walkStartAnim, polish.groundHandoff.start.key);
-assert.equal(profile.walkStopAnim, polish.groundHandoff.stopVariants[0].key);
-assert.equal(profile.landingAnim, polish.landing.hard.key);
+assert.equal(profile.walkStartAnim, mixamo.animations.walkStart);
+assert.equal(profile.walkStopAnim, mixamo.animations.walkStop);
+assert.equal(profile.landingAnim, mixamo.animations.hardLanding);
 assert.equal(profile.softLandingAnim, polish.landing.soft.key);
 assert.equal(profile.wallBraceEnterAnim, polish.wallBrace.entry.key);
 assert.equal(profile.wallBraceExitAnim, polish.wallBrace.exit.key);
@@ -261,7 +263,7 @@ const start = locomotion.resolve({
   currentAnimationKey: profile.idleAnim,
   isPlaying: true,
 });
-assert.equal(start.animationKey, polish.groundHandoff.start.key);
+assert.equal(start.animationKey, profile.walkStartAnim);
 assert.equal(start.phase, "walk-start");
 assert.equal(start.restart, true);
 locomotion.resolve({
@@ -288,7 +290,7 @@ const stop = locomotion.resolve({
   currentTextureFrame: 5,
   isPlaying: true,
 });
-assert.equal(stop.animationKey, polish.groundHandoff.stopAnimationKeyByOutgoingJogFrame[5]);
+assert.equal(stop.animationKey, profile.walkStopAnim);
 assert.equal(stop.phase, "walk-stop");
 
 const recovery = new UalActionRecoverySelector(profile);

@@ -46,15 +46,10 @@ export class CelestialActionBarSlotView {
       "",
       textStyle(UI_FONTS.mono, presentation.keyFontSizePx, presentation.textColor),
     ).setOrigin(0.5);
-    this.lockImage = assetHealth.lockAvailable
-      ? scene.add.image(0, 0, assetHealth.chrome.lock)
-        .setDisplaySize(layout.lockIconWidthPx, layout.lockIconHeightPx)
-      : null;
     this.root.add([
       this.icon,
       this.keyText,
-      this.lockImage,
-    ].filter(Boolean));
+    ]);
 
     scene.input.setDraggable(this.root, true);
     this.draggable = true;
@@ -128,11 +123,12 @@ export class CelestialActionBarSlotView {
     const presentation = this.config.presentation;
     const locked = state.unlocked !== true;
     const available = !locked && state.available !== false;
-    this.lockImage?.setVisible(locked);
 
-    this.icon.clearTint();
+    this.icon.setVisible(!locked).clearTint();
     if (locked) {
-      this.icon.setTint(presentation.lockedTint).setAlpha(presentation.lockedAlpha);
+      // An unowned ability is an empty socket. The hover target and shortcut
+      // label stay available, but repeated lock seals and ghost icons do not.
+      this.icon.setAlpha(0);
     } else if (!available) {
       this.icon.setTint(presentation.unavailableTint)
         .setAlpha(presentation.unavailableAlpha);

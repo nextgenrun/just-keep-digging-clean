@@ -1,0 +1,53 @@
+{
+  "version": "survival-basic-rig-test-v1",
+  "reviewOnly": true,
+  "sourceBlend": "testing/blender-animation-lab-v1/review-drafts/manual-rerig-workbook-v1/survival-character-rerig-from-scratch-v1.blend",
+  "sourceSha256Before": "e8a803bc46c0e39c0e0e965902316e89dea76e5dac2fa883989a03a146ed9b7d",
+  "sourceSha256After": "e8a803bc46c0e39c0e0e965902316e89dea76e5dac2fa883989a03a146ed9b7d",
+  "sourcePreserved": true,
+  "outputBlend": "testing/blender-animation-lab-v1/review-drafts/manual-rerig-workbook-v1/basic-rig-test-v1/survival-basic-rig-test-v1.blend",
+  "outputSha256": "e5a29b03bbb1619d47d8eb8bbf51dc44ac78e2b65883fa847574cd2dd82d4d28",
+  "hierarchy": {
+    "boneCount": 18,
+    "rootCount": 14,
+    "roots": [
+      "Bone",
+      "Bone.002",
+      "Bone.004",
+      "Bone.006",
+      "Bone.008",
+      "Bone.010",
+      "Bone.012",
+      "Bone.014",
+      "Bone.016",
+      "Bone.018",
+      "Bone.020",
+      "Bone.022",
+      "Bone.024",
+      "Bone.026"
+    ],
+    "leafCount": 14,
+    "connectedBoneCount": 4,
+    "connectedBones": [
+      "Bone.021",
+      "Bone.023",
+      "Bone.025",
+      "Bone.027"
+    ]
+  },
+  "weights": {
+    "vertexGroups": 18,
+    "unweightedVertices": 83188,
+    "maximumInfluencesPerVertex": 0,
+    "averageInfluencesPerVertex": 0.0
+  },
+  "renderedFrames": [
+    "testing/blender-animation-lab-v1/review-drafts/manual-rerig-workbook-v1/basic-rig-test-v1/frame-001.png",
+    "testing/blender-animation-lab-v1/review-drafts/manual-rerig-workbook-v1/basic-rig-test-v1/frame-009.png",
+    "testing/blender-animation-lab-v1/review-drafts/manual-rerig-workbook-v1/basic-rig-test-v1/frame-017.png",
+    "testing/blender-animation-lab-v1/review-drafts/manual-rerig-workbook-v1/basic-rig-test-v1/frame-025.png",
+    "testing/blender-animation-lab-v1/review-drafts/manual-rerig-workbook-v1/basic-rig-test-v1/frame-032.png"
+  ],
+  "productionRuntimeChanged": false,
+  "animationsRetargeted": false
+}

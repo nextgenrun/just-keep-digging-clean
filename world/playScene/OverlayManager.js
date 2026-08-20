@@ -93,7 +93,7 @@ export class OverlayManager {
       USER_SETTINGS.getKeyLabel("moveLeft") + "/" + USER_SETTINGS.getKeyLabel("moveRight") +
         " move    " + USER_SETTINGS.getKeyLabel("aimDown") + " aim down    " +
         USER_SETTINGS.getKeyLabel("dig") + " dig",
-      flightCopy,
+      USER_SETTINGS.getKeyLabel("jump") + " jump    " + flightCopy,
       USER_SETTINGS.getKeyLabel("inventory") + " inventory    " +
         USER_SETTINGS.getKeyLabel("interact") + " interact    " +
         USER_SETTINGS.getKeyLabel("pause") + " pause",

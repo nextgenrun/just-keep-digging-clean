@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dig Game · Locomotion set comparison</title>
+  <link rel="stylesheet" href="review.css">
+</head>
+<body>
+  <header class="hero">
+    <div>
+      <p class="eyebrow">Dig Game · review only · no runtime wiring</p>
+      <h1>Current runtime <span>vs</span> Mixamo locomotion</h1>
+      <p class="lede">One synchronized audit for idle, walk/run, start/stop, ducking, takeoff, airborne and landing. Existing Mixamo states are marked <strong>same / keep</strong> so we only replace the conflicting parts.</p>
+    </div>
+    <div class="status-card">
+      <span class="status-dot"></span>
+      <strong>V4 mesh + full glove</strong>
+      <small>1024 px render → one 256 px downsample · 0 green pixels</small>
+    </div>
+  </header>
+
+  <section class="toolbar" aria-label="Comparison controls">
+    <button id="play-toggle" class="primary" type="button">Pause all</button>
+    <div class="segmented" aria-label="Scale">
+      <button type="button" data-scale="game" class="active">Game scale 101–123 px</button>
+      <button type="button" data-scale="inspect">Inspection 1.65×</button>
+    </div>
+    <label>Speed
+      <select id="speed">
+        <option value="0.5">0.5×</option>
+        <option value="1" selected>1×</option>
+        <option value="1.5">1.5×</option>
+      </select>
+    </label>
+    <label class="check"><input id="guides" type="checkbox" checked> Foot baseline</label>
+    <label class="check"><input id="onion" type="checkbox"> Onion skin</label>
+  </section>
+
+  <main>
+    <section class="recommendation">
+      <div>
+        <p class="eyebrow">Recommended coherent set</p>
+        <h2>Replace the walk. Keep the better-connected current run.</h2>
+      </div>
+      <div class="set-map">
+        <span><b>Idle</b> Current Blender</span>
+        <span><b>Start / stop</b> Current Mixamo</span>
+        <span class="change"><b>Walk</b> Standard Walk</span>
+        <span><b>Run</b> Current UAL · handoff winner</span>
+        <span><b>Duck</b> Current Mixamo + crouch walk</span>
+        <span><b>Flight / landing</b> Current Mixamo</span>
+      </div>
+      <p class="boundary">The jump clips remain reference-only. They do not add or imply a jump mechanic.</p>
+    </section>
+
+    <section class="sequence-card">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Most important test</p>
+          <h2>Idle → startup → walk → run → slowdown → idle</h2>
+        </div>
+        <p>The only changing pieces are the walk and run loops. Start/stop timing is identical on both sides.</p>
+      </div>
+      <div class="pair sequence-pair">
+        <article class="pane current-pane">
+          <div class="pane-label"><span>Current mixed set</span><small>Blender walk + UAL run</small></div>
+          <canvas id="sequence-current" width="420" height="286"></canvas>
+          <div class="phase" id="sequence-current-phase">Idle</div>
+        </article>
+        <article class="pane candidate-pane">
+          <div class="pane-label"><span>All-Mixamo challenger</span><small>Mixamo start + walk + run + stop</small></div>
+          <canvas id="sequence-candidate" width="420" height="286"></canvas>
+          <div class="phase" id="sequence-candidate-phase">Idle</div>
+        </article>
+      </div>
+      <p class="continuity-callout"><strong>Audit result:</strong> all-Mixamo walk→run scores 0.44 discontinuity; Standard Walk→current UAL run scores 0.36. Lower is better. The right side remains visible so the rejected handoff can be judged directly.</p>
+    </section>
+
+    <section class="library">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">State-by-state decision</p>
+          <h2>Full locomotive family</h2>
+        </div>
+        <div id="verdict-summary" class="verdict-summary"></div>
+      </div>
+      <div id="rows"></div>
+    </section>
+  </main>
+
+  <template id="row-template">
+    <article class="motion-row">
+      <header class="motion-copy">
+        <div>
+          <p class="motion-group"></p>
+          <h3 class="motion-title"></h3>
+        </div>
+        <span class="recommend-badge"></span>
+        <p class="motion-note"></p>
+      </header>
+      <div class="pair">
+        <div class="pane current-pane">
+          <div class="pane-label"><span>Current runtime</span><small class="current-name"></small></div>
+          <canvas class="current-canvas" width="340" height="250"></canvas>
+          <div class="metrics current-metrics"></div>
+        </div>
+        <div class="pane candidate-pane">
+          <div class="pane-label"><span>Mixamo candidate</span><small class="candidate-name"></small></div>
+          <canvas class="candidate-canvas" width="340" height="250"></canvas>
+          <div class="metrics candidate-metrics"></div>
+        </div>
+      </div>
+      <div class="verdicts" role="group" aria-label="Choose verdict">
+        <button type="button" data-verdict="current">Choose current</button>
+        <button type="button" data-verdict="mixamo">Choose Mixamo</button>
+        <button type="button" data-verdict="keep">Keep / role split</button>
+      </div>
+    </article>
+  </template>
+
+  <script type="module" src="review.js"></script>
+</body>
+</html>

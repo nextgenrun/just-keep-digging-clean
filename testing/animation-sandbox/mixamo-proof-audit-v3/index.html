@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dig Game · Mixamo proof audit V3</title>
+  <link rel="stylesheet" href="review.css">
+</head>
+<body data-scale="game">
+  <header class="hero">
+    <p class="eyebrow">Dig Game · review only · no runtime wiring</p>
+    <h1>Current runtime vs matched Mixamo proofs</h1>
+    <p class="intro">The clear first-audit format, expanded. Every candidate shown below uses the approved Survival mesh and rig, matched V4 materials and lighting, and infinite replay. Generic Mixamo characters are excluded.</p>
+    <div class="stats" id="stats"></div>
+  </header>
+
+  <main>
+    <section class="decision-note">
+      <div><strong>Valid comparison</strong><span>Exact current runtime on the left. Matched V4 character proof on the right. Same game/inspection scale control for every row.</span></div>
+      <div><strong>Research queue</strong><span>Injured locomotion and earthquake reactions stay out of the audit until their FBXs are exported and retargeted. No generic preview is presented as evidence.</span></div>
+      <div><strong>Gameplay boundary</strong><span>The injured state is planned only. No GP thresholds, earthquake events, movement speed, hitboxes or animation registration are changed.</span></div>
+    </section>
+
+    <section class="shortlist" aria-labelledby="shortlist-title">
+      <div>
+        <p class="eyebrow">Current locomotive finding</p>
+        <h2 id="shortlist-title">Standard Walk → Slow Run</h2>
+      </div>
+      <p>Standard Walk remains the visual benchmark. Slow Run is the only newly retargeted run that passed the strict grounded gate and is the clearest transition candidate for the next focused continuity test.</p>
+    </section>
+
+    <section class="controls" aria-label="Audit filters">
+      <label>Family <select id="group-filter"></select></label>
+      <label>Search <input id="search" type="search" placeholder="walk, crouch, uppercut…"></label>
+      <label>Verdict <select id="verdict-filter">
+        <option value="all">All verdicts</option>
+        <option value="accept">Accepted</option>
+        <option value="maybe">Maybe</option>
+        <option value="reject">Rejected</option>
+        <option value="unreviewed">Unreviewed</option>
+      </select></label>
+      <button type="button" id="scale-toggle">Inspection 1.46×</button>
+    </section>
+    <p class="result" id="result" aria-live="polite"></p>
+    <section id="audit" class="audit" aria-label="Matched animation audit"></section>
+  </main>
+
+  <footer>44 matched proofs · infinite replay · productionChanged: false · runtimeWired: false</footer>
+  <script type="module" src="review.js"></script>
+</body>
+</html>

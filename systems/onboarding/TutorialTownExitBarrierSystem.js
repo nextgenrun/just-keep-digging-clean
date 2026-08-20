@@ -52,11 +52,14 @@ export class TutorialTownExitBarrierSystem {
   }
 
   getHealthSnapshot() {
+    const tiles = this._barrierTiles();
     return {
       active: this.active,
       created: this.created,
       tileX: this.config.tileX,
-      tileCount: this.config.heightTiles,
+      tileCount: tiles.length,
+      surfaceTileCount: this.config.heightTiles,
+      starterRouteTileCount: Math.max(0, tiles.length - this.config.heightTiles),
     };
   }
 
@@ -70,10 +73,30 @@ export class TutorialTownExitBarrierSystem {
     const surfaceRow = this.scene?.config?.topAirRows;
     if (!Number.isInteger(surfaceRow)) return [];
     const topTy = surfaceRow + this.config.topSurfaceRowOffset;
-    return Array.from({ length: this.config.heightTiles }, (_, offset) => ({
-      tx: this.config.tileX,
-      ty: topTy + offset,
-    }));
+    const tiles = new Map();
+    const add = (tx, ty) => tiles.set(`${tx},${ty}`, { tx, ty });
+    Array.from({ length: this.config.heightTiles }, (_, offset) => (
+      add(this.config.tileX, topTy + offset)
+    ));
+
+    const route = this.config.starterRoute;
+    const portal = FIRST_FIVE_MINUTES_CONFIG.firstPortal;
+    if (route && portal) {
+      const leftTx = portal.tileX - route.halfWidthTiles;
+      const rightTx = portal.tileX + route.halfWidthTiles;
+      for (
+        let depth = route.sideStartDepthMeters;
+        depth <= route.sideEndDepthMeters;
+        depth += 1
+      ) {
+        add(leftTx, surfaceRow + depth);
+        add(rightTx, surfaceRow + depth);
+      }
+      for (let tx = leftTx; tx <= rightTx; tx += 1) {
+        add(tx, surfaceRow + route.floorDepthMeters);
+      }
+    }
+    return Array.from(tiles.values());
   }
 
   _isInstalled() {
@@ -81,7 +104,7 @@ export class TutorialTownExitBarrierSystem {
     const tiles = this._barrierTiles();
     return Boolean(
       world
-      && tiles.length === this.config.heightTiles
+      && tiles.length > 0
       && tiles.every(tile => (
         world.inBounds?.(tile.tx, tile.ty) !== false
         && world.getTileType?.(tile.tx, tile.ty) === TILE_TYPES.BEDROCK

@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Mixamo Current-Role Review · Dig Game</title>
+  <link rel="stylesheet" href="./review.css">
+</head>
+<body>
+  <header class="hero">
+    <p>Dig Game · review only · no runtime wiring</p>
+    <h1>Current animation → possible replacement or addition</h1>
+    <p>Only motions with a specific active-game role are included. “Jumping Down” is evaluated as descent/landing—not as a new jump mechanic.</p>
+  </header>
+  <section class="toolbar" aria-label="Review controls">
+    <div id="filters" class="filters"></div>
+    <label><input id="game-scale" type="checkbox"> Show current at 109 px game scale</label>
+    <button id="clear" type="button">Clear all verdicts</button>
+    <output id="summary">Loading…</output>
+  </section>
+  <main id="library" class="library" aria-label="Mixamo replacement candidates"></main>
+  <template id="card-template">
+    <article class="card">
+      <header><div><span class="mode"></span><h2></h2><p class="role"></p></div><span class="verdict">Unreviewed</span></header>
+      <div class="compare">
+        <figure><figcaption>Current game</figcaption><canvas></canvas></figure>
+        <figure><figcaption>Mixamo candidate</figcaption><img alt=""></figure>
+      </div>
+      <p class="description"></p>
+      <p class="rationale"></p>
+      <div class="risks"></div>
+      <div class="decisions" role="group" aria-label="Candidate verdict">
+        <button data-verdict="accept" type="button">Accept</button>
+        <button data-verdict="maybe" type="button">Maybe</button>
+        <button data-verdict="reject" type="button">Reject</button>
+      </div>
+    </article>
+  </template>
+  <script type="module" src="./review.js"></script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+{
+  "version": 3,
+  "reviewOnly": true,
+  "productionChanged": false,
+  "grade": {
+    "saturation": 1.12,
+    "contrast": 1.09,
+    "brightness": 1.01,
+    "blackPoint": 3,
+    "whitePoint": 252,
+    "midtoneGamma": 1.03,
+    "localContrastRadiusPx": 4.0,
+    "localContrastPercent": 18,
+    "localContrastThreshold": 4,
+    "crispRadiusPx": 0.7,
+    "crispPercent": 88,
+    "crispThreshold": 2
+  },
+  "families": {
+    "walk": {
+      "frames": 24,
+      "fps": 16,
+      "alphaIdentical": true,
+      "motionChanged": false
+    },
+    "run": {
+      "frames": 28,
+      "fps": 30,
+      "alphaIdentical": true,
+      "motionChanged": false
+    },
+    "mining-side": {
+      "frames": 15,
+      "fps": 30,
+      "alphaIdentical": true,
+      "motionChanged": false
+    },
+    "mining-up": {
+      "frames": 24,
+      "fps": 27,
+      "alphaIdentical": true,
+      "motionChanged": false
+    },
+    "mining-down": {
+      "frames": 37,
+      "fps": 30,
+      "alphaIdentical": true,
+      "motionChanged": false
+    },
+    "flight": {
+      "frames": 36,
+      "fps": 16,
+      "alphaIdentical": true,
+      "motionChanged": false
+    }
+  }
+}

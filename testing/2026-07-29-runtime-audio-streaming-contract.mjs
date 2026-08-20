@@ -77,7 +77,7 @@ const registeredCount = Object.keys(ASSET_KEYS.audio.runtime.paths).length;
 assert.equal(resolveRuntimeAudioStreamingEnabled(AUDIO_RUNTIME_LOADING, ""), true);
 assert.equal(playlist.length, 144, "the expanded music catalog must remain fully registered");
 assert.ok(registeredCount > 250, "all music and voice assets must remain addressable");
-assert.equal(streamedBoot.queued.length, 17, "Boot must queue 1 music + 10 SFX + 6 voice seeds");
+assert.equal(streamedBoot.queued.length, 21, "Boot must queue 1 music + 14 SFX + 6 voice seeds");
 assert.deepEqual(ASSET_KEYS.audio.runtime.bootQueuedKeys, streamedBoot.queued.map(item => item.key));
 let streamedBootBytes = 0;
 for (const asset of streamedBoot.queued) {

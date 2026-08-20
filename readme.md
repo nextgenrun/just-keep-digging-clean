@@ -44,10 +44,12 @@ ui/           ← Layer 3: Reads from all layers above
 ## Active Gameplay Profile
 
 `values/gameplayCapabilities.js` owns the immutable `demo` and `full-review`
-profiles. Production always resolves `demo`, excluding Level Two and its gate,
-Arc Core, Heavenblocks, developer cheats, and screen capture. Local review can
-request `?gameplayProfile=full-review`; remote and production hosts ignore that
-override. `gameplayDevFlags.js` is the compatibility facade for untouched code.
+profiles. Production always resolves the production-safe `demo`, excluding
+Level Two and its gate, Arc Core, Heavenblocks, developer cheats, and screen
+capture. The local development `demo` keeps the same bounded world but admits
+the V-key God Mode cheat and F9 screen capture. Local review can request
+`?gameplayProfile=full-review`; remote and production hosts ignore that override.
+`gameplayDevFlags.js` is the compatibility facade for untouched code.
 
 Runtime scenic assets use one prioritized PlayScene loading lane: image decode
 is moved to `createImageBitmap`, original source dimensions are preserved, and
@@ -56,8 +58,8 @@ GPU activation is spread across post-render idle windows. See
 `?runtimeAssetBitmap=0` for the serialized Phaser fallback or
 `?runtimeAssetQueue=0` for the complete legacy rollback.
 
-The same runtime lane keeps all 292 audio entries available while Boot queues
-only a 15-file working set; use `?runtimeAudioQueue=0` to restore the old eager
+The same runtime lane keeps all 296 audio entries available while Boot queues
+only a 21-file working set; use `?runtimeAudioQueue=0` to restore the old eager
 audio preload for comparison.
 
 Feature-heavy visuals are now tiered without resizing or recompressing their

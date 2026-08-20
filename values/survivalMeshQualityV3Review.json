@@ -1,0 +1,31 @@
+{
+  "version": 3,
+  "reviewOnly": true,
+  "productionChanged": false,
+  "sourceConfig": "values/survivalMeshQualityV2Review.json",
+  "sourceRoot": "visual-approval-previews/2026-08-15-survival-motion-locked-mesh-quality-v2",
+  "outputRoot": "visual-approval-previews/2026-08-15-survival-mesh-quality-v2-v3",
+  "cellSizePx": 256,
+  "runtimeDisplaySizePx": 123,
+  "preview": {
+    "canvasWidthPx": 1000,
+    "canvasHeightPx": 760,
+    "inspectionSizePx": 400
+  },
+  "grade": {
+    "saturation": 1.12,
+    "contrast": 1.09,
+    "brightness": 1.01,
+    "blackPoint": 3,
+    "whitePoint": 252,
+    "midtoneGamma": 1.03,
+    "localContrastRadiusPx": 4.0,
+    "localContrastPercent": 18,
+    "localContrastThreshold": 4,
+    "crispRadiusPx": 0.7,
+    "crispPercent": 88,
+    "crispThreshold": 2
+  },
+  "combinedOutput": "v2-1-vs-v3-all-families.gif",
+  "nativeOutputPattern": "v2-1-vs-v3-{family}-native-cadence.gif"
+}

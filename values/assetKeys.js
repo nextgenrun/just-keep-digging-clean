@@ -157,11 +157,6 @@ export const ASSET_KEYS = Object.freeze({
       combo: "ui-hud-approved-combo",
       notification: "ui-hud-approved-notification",
       worldState: "ui-hud-approved-world-state",
-      weatherClear: "ui-hud-approved-weather-clear",
-      weatherDrizzle: "ui-hud-approved-weather-drizzle",
-      weatherRain: "ui-hud-approved-weather-rain",
-      weatherStorm: "ui-hud-approved-weather-storm",
-      weatherSnow: "ui-hud-approved-weather-snow",
       audioMusic: "ui-hud-approved-audio-music",
       audioSfx: "ui-hud-approved-audio-sfx",
       xp: "ui-hud-approved-xp",
@@ -298,6 +293,10 @@ export const ASSET_KEYS = Object.freeze({
   background: {
     world1: "bg-world-1",
     loading: "bg-loading",
+    understarEnding: Object.freeze({
+      key: "bg-understar-ending-v1",
+      path: "sprites/backgrounds/understar-ending-v1/understar-ending-backdrop-v1.webp",
+    }),
     secondWorldTown: "bg-second-world-town",
     startZoneScenic: "bg-start-zone-scenic-v1",
     startZoneGroundFacade: "bg-start-zone-ground-solid-v1",

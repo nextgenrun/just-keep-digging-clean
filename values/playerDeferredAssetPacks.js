@@ -12,7 +12,10 @@ export const PLAYER_DEFERRED_ASSET_PACK_IDS = Object.freeze({
 
 const PACK_BY_SHEET_PROPERTY = Object.freeze({
   duckSheet: PLAYER_DEFERRED_ASSET_PACK_IDS.crouch,
+  crouchEnterSheet: PLAYER_DEFERRED_ASSET_PACK_IDS.crouch,
+  crouchExitSheet: PLAYER_DEFERRED_ASSET_PACK_IDS.crouch,
   flySheet: PLAYER_DEFERRED_ASSET_PACK_IDS.flight,
+  legacyFlightTransitionSheet: PLAYER_DEFERRED_ASSET_PACK_IDS.flight,
   teleportInSheet: PLAYER_DEFERRED_ASSET_PACK_IDS.teleport,
   digUpLookSheet: PLAYER_DEFERRED_ASSET_PACK_IDS.upwardAim,
   thunderStrikeChargeSheet: PLAYER_DEFERRED_ASSET_PACK_IDS.upwardAim,

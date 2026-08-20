@@ -18,6 +18,11 @@ export class CelestialTalentTreeNodeView {
       .setAlpha(0);
     this.icon = scene.add.image(0, 0, iconKey)
       .setDisplaySize(size, size);
+    this.frame = scene.add.image(0, 0, assets.nodeFrame.key)
+      .setDisplaySize(
+        size * layout.nodeFrameScale,
+        size * layout.nodeFrameScale,
+      );
     this.lock = scene.add.image(0, 0, assets.lock.key)
       .setDisplaySize(layout.lockWidthPx, layout.lockHeightPx)
       .setVisible(false);
@@ -41,8 +46,15 @@ export class CelestialTalentTreeNodeView {
       .setDisplaySize(layout.nodeHitWidthPx, layout.nodeHitHeightPx)
       .setAlpha(0.001)
       .setInteractive({ useHandCursor: true });
-    this.root.add([this.halo, this.icon, this.lock, this.status, this.hit]);
-    this._fitIcon(size);
+    this.root.add([
+      this.halo,
+      this.icon,
+      this.frame,
+      this.lock,
+      this.status,
+      this.hit,
+    ]);
+    this._fitIcon(size * layout.nodeIconScale);
     this._bind();
   }
 
@@ -75,11 +87,23 @@ export class CelestialTalentTreeNodeView {
         .setColor(presentation.readyColor);
     } else {
       this.icon.setTint(presentation.lockedTint).setAlpha(presentation.lockedAlpha);
-      this.status.setText(CELESTIAL_TALENT_TREE_UI_CONFIG.copy.nodeLocked)
+      const preLevelGate = snapshot?.reason === "talents-locked";
+      this.status.setText(preLevelGate
+        ? this.node.kind === "ability" ? "LV 20" : ""
+        : CELESTIAL_TALENT_TREE_UI_CONFIG.copy.nodeLocked)
         .setColor(presentation.lockedColor);
     }
-    this.lock.setVisible(!purchased && !available);
-    this.halo.setAlpha(selected || purchased ? presentation.haloAlpha : 0);
+    const preLevelGate = snapshot?.reason === "talents-locked";
+    this.lock.setVisible(
+      !purchased
+        && !available
+        && (!preLevelGate || this.node.kind === "ability"),
+    );
+    this.halo.setAlpha(selected
+      ? presentation.haloAlpha
+      : purchased
+        ? presentation.purchasedHaloAlpha
+        : 0);
     this.root.setScale(selected ? presentation.selectedScale : 1);
   }
 

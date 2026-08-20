@@ -50,5 +50,14 @@ export function createCommonShaderUniforms() {
     uUndergroundDarknessInfluence: float(0),
     uStormCavePulse: float(0),
     uSunStrength: float(1),
+
+    uMaterialWetSurfaceStrength: float(0),
+    uMaterialWarmPoolStrength: float(0),
+    uMaterialFloorBounceStrength: float(0),
+    uMaterialCaveReliefStrength: float(0),
+    uMaterialHighlightCeiling: float(0),
+    uMaterialGroundBandStart: float(0.2),
+    uMaterialGroundBandEnd: float(0.64),
+    uMaterialDetailFrequency: float(64),
   };
 }

@@ -2,7 +2,7 @@ import { LIGHT_CONFIG } from "../../values/lightConfig.js";
 import { TILE_TYPES } from "../../values/tileTypes.js";
 import { resolveOldSchoolLampLightReviewEnabled } from
   "../../values/oldSchoolLampLightConfig.js";
-import { FireLightSystem } from "./FireLightSystem.js";
+import { FireLightSystem } from "./FireLightSystem.js?rev=20260815-shallow-material-v1";
 import { OldSchoolLampLightSystem } from "./OldSchoolLampLightSystem.js";
 import { resolveFireLightAnchor } from "./resolveFireLightAnchor.js";
 import { SkyBeaconPulseRenderer } from "./SkyBeaconPulseRenderer.js";

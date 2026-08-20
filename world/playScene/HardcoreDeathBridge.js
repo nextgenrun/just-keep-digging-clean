@@ -128,6 +128,25 @@ function waitForSceneDelay(scene, delayMs) {
   });
 }
 
+function withTimeout(promise, timeoutMs) {
+  return new Promise((resolve, reject) => {
+    const timeoutId = globalThis.setTimeout?.(
+      () => reject(new Error("life-state-save-timeout")),
+      timeoutMs,
+    );
+    Promise.resolve(promise).then(
+      value => {
+        globalThis.clearTimeout?.(timeoutId);
+        resolve(value);
+      },
+      error => {
+        globalThis.clearTimeout?.(timeoutId);
+        reject(error);
+      },
+    );
+  });
+}
+
 function buildDeathPresentation(result) {
   if (result.outcome === "free-revive") {
     return {
@@ -237,7 +256,10 @@ export async function beginHardcorePermanentDeath(scene, context = {}) {
     runtime.modal.setDeathSaving(presentation);
     try {
       scene.queueDugTilesSave?.();
-      const saved = await scene.flushDugTilesSave?.({ scheduled: false, force: true });
+      const saved = await withTimeout(
+        scene.flushDugTilesSave?.({ scheduled: false, force: true }),
+        runtime.config.death.lifeStateSaveTimeoutMs,
+      );
       if (saved === false) throw new Error("flush-returned-false");
       await waitForSceneDelay(scene, runtime.config.death.returnDelayMs);
       lifeStateSaved = true;

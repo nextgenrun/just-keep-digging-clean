@@ -1,0 +1,9 @@
+{
+  "video": "01-run-skating-before-vs-after.mp4",
+  "frames": 270,
+  "fps": 30,
+  "worldSpeedPxPerSec": 200,
+  "beforeStrideTiles": 1.55,
+  "afterStrideTiles": 1.12,
+  "approvedAnimationFramesUnchanged": true
+}

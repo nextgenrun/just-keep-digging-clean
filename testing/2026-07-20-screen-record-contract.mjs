@@ -85,6 +85,7 @@ assert.equal(createDefaultKeybinds().screenRecord, "F9");
 const inputSource = fs.readFileSync(new URL("../world/playScene/PlayerInputHandler.js", import.meta.url), "utf8");
 const globalInputSource = fs.readFileSync(new URL("../world/playScene/GameInputHandler.js", import.meta.url), "utf8");
 const setupSource = fs.readFileSync(new URL("../world/playScene/PlaySceneSetup.js", import.meta.url), "utf8");
+const lifecycleSource = fs.readFileSync(new URL("../world/playScene/PlaySceneLifecycle.js", import.meta.url), "utf8");
 const keybindSource = fs.readFileSync(new URL("../values/keybindActions.js", import.meta.url), "utf8");
 const gameConfigSource = fs.readFileSync(new URL("../values/gameConfig.js", import.meta.url), "utf8");
 const mainSource = fs.readFileSync(new URL("../main.js", import.meta.url), "utf8");
@@ -100,13 +101,13 @@ assert.match(inputSource, /GAME_CONFIG\.debugMode \? addBoundKey\("screenRecord"
 assert.match(globalInputSource, /GAME_CONFIG\.debugMode && justDown\(keys\.screenRecord\)/);
 assert.match(globalInputSource, /screenRecordSystem\?\.toggle\(\)/);
 assert.match(setupSource, /GAME_CONFIG\.debugMode \? new ScreenRecordSystem\(this\) : null/);
-assert.match(setupSource, /screenRecordSystem\?\.destroy\(\)/);
+assert.match(lifecycleSource, /screenRecordSystem/);
 assert.match(gameConfigSource, /preserveDrawingBuffer: DEBUG_MODE/);
 assert.match(
   mainSource,
   /preserveDrawingBuffer: GAME_CONFIG\.rendererQuality\.preserveDrawingBuffer/,
 );
-assert.match(recordSource, /if \(!GAME_CONFIG\.debugMode\) return false/);
+assert.match(recordSource, /if \(!this\.enabled \|\| !GAME_CONFIG\.debugMode\) return false/);
 assert.match(recordSource, /uiNotifications\?\.\[kind\]/);
 assert.doesNotMatch(recordSource, /notificationSystem\?\.\[kind\]/);
 assert.match(recordSource, /__isGameFullscreen/);
@@ -123,8 +124,13 @@ const productionProbe = spawnSync(
     `
 globalThis.__DIG_GAME_PRODUCTION__ = true;
 const { GAME_CONFIG } = await import("./values/gameConfig.js");
+const {
+  GAMEPLAY_FEATURE_IDS,
+  RUNTIME_GAMEPLAY_CAPABILITIES,
+} = await import("./values/gameplayCapabilities.js");
 const { KEYBIND_ACTIONS, createDefaultKeybinds } = await import("./values/keybindActions.js");
 const { ScreenRecordSystem } = await import("./systems/visual/ScreenRecordSystem.js");
+const { UpgradeSystem } = await import("./systems/progression/UpgradeSystem.js");
 if (GAME_CONFIG.debugMode !== false) throw new Error("production debugMode stayed enabled");
 if (GAME_CONFIG.rendererQuality.preserveDrawingBuffer !== false) {
   throw new Error("production preserveDrawingBuffer stayed enabled");
@@ -134,6 +140,17 @@ if (KEYBIND_ACTIONS.some(action => action.id === "screenRecord")) {
 }
 if (Object.prototype.hasOwnProperty.call(createDefaultKeybinds(), "screenRecord")) {
   throw new Error("production defaults expose screenRecord");
+}
+if (
+  RUNTIME_GAMEPLAY_CAPABILITIES.isEnabled(GAMEPLAY_FEATURE_IDS.GOD_MODE)
+  || RUNTIME_GAMEPLAY_CAPABILITIES.isEnabled(GAMEPLAY_FEATURE_IDS.SCREEN_CAPTURE)
+) {
+  throw new Error("production runtime admits development capabilities");
+}
+const productionUpgrades = new UpgradeSystem();
+productionUpgrades.setGodMode(true);
+if (productionUpgrades.isGodModeActive()) {
+  throw new Error("production UpgradeSystem accepted God Mode");
 }
 let prompted = false;
 globalThis.prompt = () => {

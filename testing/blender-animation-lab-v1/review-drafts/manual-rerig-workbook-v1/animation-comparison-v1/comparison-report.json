@@ -1,0 +1,142 @@
+{
+  "version": "survival-basic-rig-animation-comparison-v1",
+  "reviewOnly": true,
+  "sourceBlendSha256": "3fcbe5965b699b633f6e03b6128ec0403528e485005565ad38f28dc298664b82",
+  "candidateBlendSha256": "66239df6f2236ccddb42be5761b7a6e869d30ad4deaa022a8b5f443613bed745",
+  "sourceRigBones": 160,
+  "candidateRigBones": 16,
+  "retargetConstraints": [
+    {
+      "target": "root",
+      "source": "pelvis"
+    },
+    {
+      "target": "spine",
+      "source": "spine_03"
+    },
+    {
+      "target": "head",
+      "source": "head"
+    },
+    {
+      "target": "upper_arm.L",
+      "source": "upperarm_l"
+    },
+    {
+      "target": "forearm.L",
+      "source": "lowerarm_l"
+    },
+    {
+      "target": "upper_arm.R",
+      "source": "upperarm_r"
+    },
+    {
+      "target": "forearm.R",
+      "source": "lowerarm_r"
+    },
+    {
+      "target": "thigh.L",
+      "source": "thigh_l"
+    },
+    {
+      "target": "shin.L",
+      "source": "calf_l"
+    },
+    {
+      "target": "foot.L",
+      "source": "foot_l"
+    },
+    {
+      "target": "toe.L",
+      "source": "ball_l"
+    },
+    {
+      "target": "thigh.R",
+      "source": "thigh_r"
+    },
+    {
+      "target": "shin.R",
+      "source": "calf_r"
+    },
+    {
+      "target": "foot.R",
+      "source": "foot_r"
+    },
+    {
+      "target": "toe.R",
+      "source": "ball_r"
+    }
+  ],
+  "sourceFullGlovePolygonsChanged": 6162,
+  "families": {
+    "walk": {
+      "samples": [
+        1.0,
+        3.875,
+        6.75,
+        9.625,
+        12.5,
+        15.375,
+        18.25,
+        21.125,
+        24.0,
+        26.875,
+        29.75,
+        32.625,
+        35.5,
+        38.375,
+        41.25,
+        44.125
+      ],
+      "frameCount": 16
+    },
+    "attack": {
+      "samples": [
+        1.0,
+        3.066666666666667,
+        5.133333333333334,
+        7.2,
+        9.266666666666667,
+        11.333333333333334,
+        13.4,
+        15.466666666666667,
+        17.533333333333335,
+        19.6,
+        21.666666666666668,
+        23.733333333333334,
+        25.8,
+        27.866666666666667,
+        29.933333333333334,
+        32.0
+      ],
+      "frameCount": 16
+    },
+    "run": {
+      "samples": [
+        1.0,
+        4.0,
+        7.0,
+        10.0,
+        13.0,
+        16.0,
+        19.0,
+        22.0,
+        25.0,
+        28.0,
+        31.0,
+        34.0,
+        37.0,
+        40.0,
+        43.0,
+        46.0,
+        49.0,
+        52.0
+      ],
+      "frameCount": 18
+    }
+  },
+  "outputBlend": "testing/blender-animation-lab-v1/review-drafts/manual-rerig-workbook-v1/animation-comparison-v1/survival-current-vs-basic-rig-animation-comparison-v1.blend",
+  "outputBlendSha256": "a062c2de30089af845aaa1cd227767508b4d0b5090f0266204a7d017d747723e",
+  "productionChanged": false,
+  "runtimeWired": false
+}

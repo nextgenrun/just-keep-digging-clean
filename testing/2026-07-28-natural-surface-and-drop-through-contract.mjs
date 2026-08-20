@@ -192,6 +192,20 @@ assert.equal(controllerCalls, 2);
 
 const productionWorld = new WorldModel(GAME_CONFIG);
 for (let tx = 0; tx < productionWorld.widthTiles; tx += 1) {
+  const isDemoLevelTwoBoundary = tx === SECOND_WORLD_CONFIG.runtimeArea.leftTile;
+  if (isDemoLevelTwoBoundary) {
+    assert.equal(
+      productionWorld.getTileType(tx, surfaceRow),
+      TILE_TYPES.BEDROCK,
+      "demo Level-Two exclusion wall must remain solid at the surface",
+    );
+    assert.equal(
+      productionWorld.getTileType(tx, surfaceRow + 1),
+      TILE_TYPES.BEDROCK,
+      "demo Level-Two exclusion wall must remain continuous below the surface",
+    );
+    continue;
+  }
   assert.ok(
     productionWorld.getTileType(tx, surfaceRow) === TILE_TYPES.FLOOR_TOWN_1
       || productionWorld.getTileType(tx, surfaceRow) === TILE_TYPES.FLOOR_TOWN_2,
@@ -208,8 +222,8 @@ assert.equal(
     SECOND_WORLD_CONFIG.levelDivider.tileX,
     surfaceRow + 1,
   ),
-  TILE_TYPES.AIR,
-  "the Level 1/2 divider may not puncture the shared surface-clearance row",
+  TILE_TYPES.BEDROCK,
+  "the demo Level-Two exclusion wall intentionally seals the shared clearance row",
 );
 
 const productionSpawnBody = createStandingBody(GAME_CONFIG.playerSpawnTileX);

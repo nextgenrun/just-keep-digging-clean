@@ -1,4 +1,8 @@
-import { SHADER_CONFIG } from "../../values/shaderConfig.js";
+import {
+  SHADER_CONFIG,
+  isDarknessLightEnabled,
+  isMaterialResponseEnabled,
+} from "../../values/shaderConfig.js";
 import { clamp01Finite as clamp01 } from "../../values/mathUtils.js";
 import {
   createCommonShaderUniforms,
@@ -8,6 +12,8 @@ import {
   DARKNESS_LIGHT_FRAGMENT,
   LIGHTNING_FLASH_SHADER_KEY,
   LIGHTNING_FLASH_FRAGMENT,
+  MATERIAL_RESPONSE_SHADER_KEY,
+  MATERIAL_RESPONSE_FRAGMENT,
 } from "./shaderIndex.js";
 
 function hexToVec3(hex, fallback = 0xffffff) {
@@ -39,6 +45,8 @@ export class ShaderSystem {
     this.disabledReason = "";
     this.layers = new Map();
     this._debugSnapshot = null;
+    this.materialResponseEnabled = isMaterialResponseEnabled();
+    this.darknessLightEnabled = isDarknessLightEnabled();
   }
 
   create() {
@@ -61,10 +69,22 @@ export class ShaderSystem {
         this.config.layers.weatherAtmosphere
       );
       this._createLayer(
+        "materialResponse",
+        MATERIAL_RESPONSE_SHADER_KEY,
+        MATERIAL_RESPONSE_FRAGMENT,
+        {
+          ...this.config.layers.materialResponse,
+          enabled: this.materialResponseEnabled,
+        }
+      );
+      this._createLayer(
         "darknessLight",
         DARKNESS_LIGHT_SHADER_KEY,
         DARKNESS_LIGHT_FRAGMENT,
-        this.config.layers.darknessLight
+        {
+          ...this.config.layers.darknessLight,
+          enabled: this.darknessLightEnabled,
+        }
       );
       this._createLayer(
         "lightningFlash",
@@ -299,6 +319,16 @@ export class ShaderSystem {
     shader.setUniform("uUndergroundDarknessInfluence.value", clamp01(light.undergroundDarknessInfluence));
     shader.setUniform("uStormCavePulse.value", clamp01(light.stormCavePulse));
     shader.setUniform("uSunStrength.value", clamp01(light.sunStrength));
+
+    const material = this.config.layers.materialResponse;
+    shader.setUniform("uMaterialWetSurfaceStrength.value", Math.max(0, Number(material.wetSurfaceStrength) || 0));
+    shader.setUniform("uMaterialWarmPoolStrength.value", Math.max(0, Number(material.warmPoolStrength) || 0));
+    shader.setUniform("uMaterialFloorBounceStrength.value", Math.max(0, Number(material.floorBounceStrength) || 0));
+    shader.setUniform("uMaterialCaveReliefStrength.value", Math.max(0, Number(material.caveReliefStrength) || 0));
+    shader.setUniform("uMaterialHighlightCeiling.value", clamp01(material.highlightCeiling));
+    shader.setUniform("uMaterialGroundBandStart.value", clamp01(material.groundBandStart));
+    shader.setUniform("uMaterialGroundBandEnd.value", clamp01(material.groundBandEnd));
+    shader.setUniform("uMaterialDetailFrequency.value", Math.max(8, Number(material.detailFrequency) || 8));
   }
 
   _getLayerAlpha(name, layerConfig, snapshot = this._debugSnapshot) {
@@ -311,6 +341,18 @@ export class ShaderSystem {
         + weather.stormAmount * 0.55
         + weather.undergroundSignal * 0.55
         + snapshot.dayNight.nightAmount * weather.surfaceAmount * 0.25
+      );
+    } else if (name === "materialResponse") {
+      const weather = snapshot.weather;
+      const light = snapshot.light;
+      const wetness = Math.max(
+        clamp01(weather.worldWetnessAmount ?? weather.surfaceWetness ?? 0),
+        clamp01(weather.rainAmount) * 0.72 + clamp01(weather.stormAmount) * 0.22,
+      );
+      alpha *= clamp01(
+        wetness * clamp01(weather.surfaceAmount) * 0.88
+        + clamp01(light.torchGlowStrength) * 0.72
+        + clamp01(light.undergroundDarknessInfluence) * 0.18
       );
     } else if (name === "darknessLight") {
       const light = snapshot.light;

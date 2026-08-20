@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dig Game · Mixamo Atlas V2</title>
+  <link rel="stylesheet" href="review.css">
+</head>
+<body data-scale="game">
+  <header class="hero">
+    <p class="eyebrow">Dig Game · review only · no runtime wiring</p>
+    <h1>Current runtime vs Mixamo Atlas V2</h1>
+    <p class="intro">Exactly 130 role-mapped candidates—ten times the focused locomotive audit. Every card keeps the real current runtime motion on the left. V4 proofs use our approved character; source scouts use Mixamo’s animated source preview and are labelled accordingly.</p>
+    <div class="stats" id="stats" aria-live="polite"></div>
+  </header>
+
+  <main>
+    <section class="parity-note" aria-label="Render parity rule">
+      <div>
+        <strong>Why Mixamo looked brighter</strong>
+        <span>The motion was retargeted through the newer V4 PBR, full-glove and four-light render path. Old runtime sheets remain darker. Only cards marked V4 character proof are valid brightness, material and deformation comparisons.</span>
+      </div>
+      <div>
+        <strong>Approval boundary</strong>
+        <span>Verdicts stay in this browser. Jump-only clips are future deformation references. Nothing here changes animation registration, hitboxes, contacts, timing or gameplay.</span>
+      </div>
+    </section>
+
+    <section class="featured" aria-labelledby="featured-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Most important gap</p>
+          <h2 id="featured-title">Walk → run shortlist</h2>
+        </div>
+        <p>Standard Walk is the new visual benchmark. Slow Run is the new bridge candidate; Standard, Medium, Fast and Sprint remain visible but failed the strict baseline gate.</p>
+      </div>
+      <div class="featured-grid" id="featured"></div>
+    </section>
+
+    <section class="controls" aria-label="Atlas filters">
+      <label>Search <input id="search" type="search" placeholder="walk, uppercut, wall, landing…"></label>
+      <label>Family <select id="group-filter"></select></label>
+      <label>Proof <select id="stage-filter">
+        <option value="all">All proof levels</option>
+        <option value="v4">V4 character proof</option>
+        <option value="source">Source scout</option>
+        <option value="gated">Gate failed</option>
+      </select></label>
+      <label>Verdict <select id="verdict-filter">
+        <option value="all">All verdicts</option>
+        <option value="accept">Accepted</option>
+        <option value="maybe">Maybe</option>
+        <option value="reject">Rejected</option>
+        <option value="unreviewed">Unreviewed</option>
+      </select></label>
+      <button id="scale-toggle" type="button">Inspection 1.46×</button>
+      <button id="clear-verdicts" type="button" class="quiet">Clear verdicts</button>
+    </section>
+
+    <p class="result-line" id="result-line" aria-live="polite"></p>
+    <section class="atlas-grid" id="atlas" aria-label="Animation candidates"></section>
+  </main>
+
+  <footer>Review artifact only · productionChanged: false · runtimeWired: false</footer>
+  <script type="module" src="review.js"></script>
+</body>
+</html>

@@ -1,0 +1,988 @@
+{
+  "version": 1,
+  "reviewOnly": true,
+  "productionChanged": false,
+  "limit": 2048,
+  "files": [
+    {
+      "relative": "Textures/Backpack/Backpack_BaseColor.jpg",
+      "source_size": [
+        8192,
+        8192
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "a7790650c0d6128905e38e30dcd69ee72ca022847cea44770ab0db00ff4ec0a1",
+      "cached_sha256": "28ead93f2ebb6501fc55fdab7795bbae1e5e32a392fd84c49c48ba5ae8c52c72",
+      "review_polish": null
+    },
+    {
+      "relative": "Textures/Backpack/Backpack_Normal.jpg",
+      "source_size": [
+        8192,
+        8192
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "d5e1f144cea126ea31e64d40ecd38b06e35146f73bb08e3f7804527d52e88a90",
+      "cached_sha256": "7ae4a2f92ab770f22087bc3c066b954ac95bd7c803bbc8a9ef582fa1e88349ec",
+      "review_polish": null
+    },
+    {
+      "relative": "Textures/Backpack/Backpack_OcclusionRoughnessMetallic.jpg",
+      "source_size": [
+        8192,
+        8192
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "f1bc5648ca033d3b6ee09fafc1079bc3e9393439433f9bd87eb40430c1ef36cd",
+      "cached_sha256": "dab7e08e3650368ef48d9761411482c8c94b6cd86038313b18d9a23f977fdebf",
+      "review_polish": null
+    },
+    {
+      "relative": "Textures/Body/Body_BaseColor.1001.png",
+      "source_size": [
+        4096,
+        4096
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "48f5ff7467108e62ef76165b864db40e606e5427d38ee7be622aa131df6d6e4e",
+      "cached_sha256": "53dd3b7dab8d8366e313d141e5f7a1178d93a3f83ca9749f40971be16dd35e43",
+      "review_polish": null
+    },
+    {
+      "relative": "Textures/Body/Body_BaseColor.1002.png",
+      "source_size": [
+        4096,
+        4096
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "ff0affe74108d7946701308c9424cc8afd8b76ae520d23610e61da400b483dc0",
+      "cached_sha256": "0ba885300cfb59a02a13e1b168a1316c88ccbd642d0f5a71983237daea76d205",
+      "review_polish": null
+    },
+    {
+      "relative": "Textures/Body/Body_BaseColor.1003.png",
+      "source_size": [
+        4096,
+        4096
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "4dfcc1a56938214673bedc376e9d222ea85892286f7664546bc5aa841660e859",
+      "cached_sha256": "dcf2508f1fdd618f2ad473be26a60fc91421dc4dd8db5d633dd5213ce513e5b6",
+      "review_polish": null
+    },
+    {
+      "relative": "Textures/Body/Body_BaseColor.1004.png",
+      "source_size": [
+        4096,
+        4096
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "58357aba68c56b13d87b3e3cc2df4caccd464396b78f9f975e85c1969ec65c92",
+      "cached_sha256": "663b0345e7861c5e2a69302fd3ab3b0659e98c3375b7063ef995c93bc3ba62fd",
+      "review_polish": null
+    },
+    {
+      "relative": "Textures/Body/Body_Cavity_1001.png",
+      "source_size": [
+        8192,
+        8192
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "f2b477cc01a9eb998a37b228b891da767b8778d3ecc9e20d8165e29d39118f03",
+      "cached_sha256": "59b855f5a7bc13ff56fd54063f6c7e67b6899285fd3f54c27074367121cc5fe2",
+      "review_polish": null
+    },
+    {
+      "relative": "Textures/Body/Body_Cavity_1002.png",
+      "source_size": [
+        8192,
+        8192
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "a66b678d2644a9c99b70ec086758be29feba76b905fbaa85c8637e5bc73470fb",
+      "cached_sha256": "57002e2964225b667a68232b14fd39e97c07a817bb10cd26f73e34506c61dea3",
+      "review_polish": null
+    },
+    {
+      "relative": "Textures/Body/Body_Cavity_1003.png",
+      "source_size": [
+        8192,
+        8192
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "7485ac5a7416c425c725a8a619db2d776e7efb3fe73a84cbb65e011db60055a0",
+      "cached_sha256": "4a4a36a79ac946124b36dd432e359c66dd3d650704fe48a0f3493364fef658f1",
+      "review_polish": null
+    },
+    {
+      "relative": "Textures/Body/Body_Cavity_1004.png",
+      "source_size": [
+        8192,
+        8192
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "b70cd5c446d1819bf2399cec47091821f438e11b9daddd3d4b156c7640ec90b2",
+      "cached_sha256": "39d524eb3a1345e1ca1b23bebde3b8e6526a3e9f2eca3e6473784a9b47f39abd",
+      "review_polish": null
+    },
+    {
+      "relative": "Textures/Body/Body_Normal.1001.png",
+      "source_size": [
+        4096,
+        4096
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "fb3af880eed0f46257b5896a35792335570ed8319eff877677a1141ade4389a1",
+      "cached_sha256": "498d04a35938d4532a00db3d323483f17a5fe3ce89412aa2b8aa43ee354e3dbc",
+      "review_polish": null
+    },
+    {
+      "relative": "Textures/Body/Body_Normal.1002.png",
+      "source_size": [
+        4096,
+        4096
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "7d5125ab50dcb91d554c58dbddc5ffbed3581f151515760ff628df7e795e668c",
+      "cached_sha256": "4dca8637b1495bbac375aa5e36f345eea7bc0a7c47fbd1bfd60611818aa58b50",
+      "review_polish": null
+    },
+    {
+      "relative": "Textures/Body/Body_Normal.1003.png",
+      "source_size": [
+        4096,
+        4096
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "b6adb4146a1d6cdaaf0eb5f472274fbdc31efa1dbde45d2543d528292223098a",
+      "cached_sha256": "c6c93bdc0b25c98c6145647893f28c61de41719c6c93dd12eddc386487d877e2",
+      "review_polish": null
+    },
+    {
+      "relative": "Textures/Body/Body_Normal.1004.png",
+      "source_size": [
+        4096,
+        4096
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "930c765cd2832d9676cf38cf7ab9774a8af912255e1c45a838247b6ddcb28d1a",
+      "cached_sha256": "501f9dc8082599421706016b503e72ee178caf6056ebe98138f193b6dde78c80",
+      "review_polish": null
+    },
+    {
+      "relative": "Textures/Body/Body_OcclusionRoughnessMetallic.1001.png",
+      "source_size": [
+        4096,
+        4096
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "54f55210e903888859289dfa62fcd973e66df95b914239341839bb1d11fa11f2",
+      "cached_sha256": "f287d3dc53262758a51ea739d5b8082614b222734851488d5eb4e6820490208e",
+      "review_polish": null
+    },
+    {
+      "relative": "Textures/Body/Body_OcclusionRoughnessMetallic.1002.png",
+      "source_size": [
+        4096,
+        4096
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "57b3336d56dde592c00221e4729255e2a70bcd4e73d5fdeeda0bb5cea80a0ced",
+      "cached_sha256": "ab11231c097de2c0df9df3d5c4f5b7a4f1ade4b4d3839a34a550238b09efb98e",
+      "review_polish": null
+    },
+    {
+      "relative": "Textures/Body/Body_OcclusionRoughnessMetallic.1003.png",
+      "source_size": [
+        4096,
+        4096
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "c3a402689d094dfa26d9b4f3b4a595b2fc24870865a47f9c3a6a80225bcff52a",
+      "cached_sha256": "41b483bda889c7c3b6b93626c3c246f6c3a49a5b56be6d5683cf21796086414f",
+      "review_polish": null
+    },
+    {
+      "relative": "Textures/Body/Body_OcclusionRoughnessMetallic.1004.png",
+      "source_size": [
+        4096,
+        4096
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "81a967e64363dcbdedb00b79f5335736e6511d641047a1d96745490fffc93099",
+      "cached_sha256": "a00709fc12e23007bd44b17894285475a6b0c8df1579e728122f0a19f787e18e",
+      "review_polish": null
+    },
+    {
+      "relative": "Textures/Body/Body_Specular.1001.png",
+      "source_size": [
+        4096,
+        4096
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "c4c6a4b5330a410f291fcf973f7c38cf0580d02d0dfdbdb1d465d02945f24785",
+      "cached_sha256": "f6066c6b32e535833afe2dfb7ab5b671a8c2a22ea5d00a3e78d6be21fe184992",
+      "review_polish": null
+    },
+    {
+      "relative": "Textures/Body/Body_Specular.1002.png",
+      "source_size": [
+        4096,
+        4096
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "101abff13a31717a726ba22be66c4eed1db17e74fa8f774e6e4b9c0a36dde7fa",
+      "cached_sha256": "f08b4c124400a19bd5fd6aa9cdbd05f6d6c1175b0961e8437bc5ee465ee41743",
+      "review_polish": null
+    },
+    {
+      "relative": "Textures/Body/Body_Specular.1003.png",
+      "source_size": [
+        4096,
+        4096
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "43292f2136219b5953c3de4ec0f6cd0b2139658f9561fefe32bcefb581c828c7",
+      "cached_sha256": "23ab4c8c09686e96f527c2bf781a85b203500679a69fc45f5d2aa5456edac73f",
+      "review_polish": null
+    },
+    {
+      "relative": "Textures/Body/Body_Specular.1004.png",
+      "source_size": [
+        4096,
+        4096
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "b7fb8dcee0f2bbad0907a93e30aef83328d51793cbe764483d6e57f7878da731",
+      "cached_sha256": "c66b070b8ab597cfb031b1177af849dfc1dc0f7d1a7753e210c25f97d61e720d",
+      "review_polish": null
+    },
+    {
+      "relative": "Textures/Body/Body_SSS.1001.png",
+      "source_size": [
+        4096,
+        4096
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "51dc4444b1313f3edf7bd4e85c431d9d8dd9ddbf880067cca1a7c3c7dd8c5d95",
+      "cached_sha256": "1a40693f66d2e7485c7c9c468760304b48c5bcd76b41bd45adc1354bf5d29e98",
+      "review_polish": null
+    },
+    {
+      "relative": "Textures/Body/Body_SSS.1002.png",
+      "source_size": [
+        4096,
+        4096
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "289ee4d555397c41e0bbc3976682c01035807c90475a6fc0f91aa9a9870767d9",
+      "cached_sha256": "5ec02d304ade88d6d0d57261d5a324d1426a822cdd9440dd79ab6cbe0fff235e",
+      "review_polish": null
+    },
+    {
+      "relative": "Textures/Body/Body_SSS.1003.png",
+      "source_size": [
+        4096,
+        4096
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "3903b3daac529ae861958593ded7df3acf4b42d88458fcde6bb99d3757ec6156",
+      "cached_sha256": "69f1dc58e6b5c66153467d386c5226e743485d15a327452b6bcf230f42632531",
+      "review_polish": null
+    },
+    {
+      "relative": "Textures/Body/Body_SSS.1004.png",
+      "source_size": [
+        4096,
+        4096
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "2b14b8b7ae2382923eeb8586982c3512edc2f336f6be9fe967769bc2ec1963ce",
+      "cached_sha256": "d2581a521fc5ae5645d246c66c691144015cfff67b32204af0f2229e4824548a",
+      "review_polish": null
+    },
+    {
+      "relative": "Textures/Eye/Eye_AO.jpg",
+      "source_size": [
+        2048,
+        2048
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "ab811d1b6994cb2b68c38ad061056e27c51e5aed182335fcdfbef64543698240",
+      "cached_sha256": "ab811d1b6994cb2b68c38ad061056e27c51e5aed182335fcdfbef64543698240",
+      "review_polish": null
+    },
+    {
+      "relative": "Textures/Eye/Eye_BaseColor.png",
+      "source_size": [
+        2048,
+        2048
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "59fd565285789f55e8c11267ef2c56f1ae99be5ba5c92c117efe4ad75a56b5d7",
+      "cached_sha256": "59fd565285789f55e8c11267ef2c56f1ae99be5ba5c92c117efe4ad75a56b5d7",
+      "review_polish": null
+    },
+    {
+      "relative": "Textures/Eye/Eye_Gloss.jpg",
+      "source_size": [
+        2048,
+        2048
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "b9fe9de74bff9e692ce10b1bd61a1d3ff860b56e177a28816706df0e9319fdf3",
+      "cached_sha256": "b9fe9de74bff9e692ce10b1bd61a1d3ff860b56e177a28816706df0e9319fdf3",
+      "review_polish": null
+    },
+    {
+      "relative": "Textures/Eye/Eye_Normal.jpg",
+      "source_size": [
+        2048,
+        2048
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "62e2aa658774d1374afc03ecdfb08fba96275d2fc751052998a4d49a1dd27325",
+      "cached_sha256": "62e2aa658774d1374afc03ecdfb08fba96275d2fc751052998a4d49a1dd27325",
+      "review_polish": null
+    },
+    {
+      "relative": "Textures/Eye/Eye_Parallax.jpg",
+      "source_size": [
+        2048,
+        2048
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "02eb950cdd869d85e42529b80ff53f7be423cf22c9d17bda099d6fb2522db0db",
+      "cached_sha256": "02eb950cdd869d85e42529b80ff53f7be423cf22c9d17bda099d6fb2522db0db",
+      "review_polish": null
+    },
+    {
+      "relative": "Textures/Eye/Eye_SpecularColourBrown.png",
+      "source_size": [
+        2048,
+        2048
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "119e216cce7c13481456631fdd2160b6e4c1d3e851ad7cf3d23583ee1d8458ed",
+      "cached_sha256": "119e216cce7c13481456631fdd2160b6e4c1d3e851ad7cf3d23583ee1d8458ed",
+      "review_polish": null
+    },
+    {
+      "relative": "Textures/Eyebrow_EyeLeashes/Eyebrows_AO.jpg",
+      "source_size": [
+        4096,
+        4096
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "a3a1d59e19b1eea40e4170b800c585526d7cc78a34d92494b135b00a8155665a",
+      "cached_sha256": "0c461be31eb08ffff87c33810061e4fb3ef9b3a57922320ec47a4e18bfbe1a19",
+      "review_polish": null
+    },
+    {
+      "relative": "Textures/Eyebrow_EyeLeashes/Eyebrows_BaseColor.jpg",
+      "source_size": [
+        4096,
+        4096
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "936446ecd361e14ac929e6ac1ff4044aab582a2ae5c9aeb9787e6cd69a175ab4",
+      "cached_sha256": "49f132398f80d23c9a94f2983084673eb073973de25d234439156f66207da897",
+      "review_polish": null
+    },
+    {
+      "relative": "Textures/Eyebrow_EyeLeashes/Eyebrows_Depth.jpg",
+      "source_size": [
+        4096,
+        4096
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "3529a7567a9786c0fc3d18ce1eb127f03905463d607562b91bf402809b406fd1",
+      "cached_sha256": "bd2cf7421109534c5bd07d2504bf633f943ef10b5f0525639d2825cdb79301be",
+      "review_polish": null
+    },
+    {
+      "relative": "Textures/Eyebrow_EyeLeashes/Eyebrows_Flow.jpg",
+      "source_size": [
+        4096,
+        4096
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "236e6f288f4f8e85d2d051aa20412afccc1b3bafa5276f2b6652de99bef3b865",
+      "cached_sha256": "444c6174f84cf1b1c69a7f3b742eb83132cbe0253f40a8559582461821297f09",
+      "review_polish": null
+    },
+    {
+      "relative": "Textures/Eyebrow_EyeLeashes/Eyebrows_ID.jpg",
+      "source_size": [
+        4096,
+        4096
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "f7c7e616ba7da439c7c01db5ee0f252a5e854437d8a13cdb94412d531e6a53e4",
+      "cached_sha256": "fd034f6a693e9cfd024ec9437d9618a87ae695afed2aff8553a0107c9e52a565",
+      "review_polish": null
+    },
+    {
+      "relative": "Textures/Eyebrow_EyeLeashes/Eyebrows_Normal.jpg",
+      "source_size": [
+        4096,
+        4096
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "d36eec8af8dcc7e7b88fa9ffee3f8145bcc1e3ecd823c75c850bb93da3dc1df0",
+      "cached_sha256": "afc9b9b7a97ee5a9f246be5309be408a25e7faf8cfc3ea78ee11ae5314221267",
+      "review_polish": null
+    },
+    {
+      "relative": "Textures/Eyebrow_EyeLeashes/Eyebrows_Opacity.jpg",
+      "source_size": [
+        4096,
+        4096
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "460e39165d02327b4f274a9fb33463ee0a6c4c6d92ed0464ce83660d75f91397",
+      "cached_sha256": "34db0f4ceb1c70fc66b4deb34b620c3f01323ee2fd31dc0ac3c6f17e6be2f5b2",
+      "review_polish": null
+    },
+    {
+      "relative": "Textures/Eyebrow_EyeLeashes/Eyebrows_Roots.jpg",
+      "source_size": [
+        4096,
+        4096
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "78cbe71e2acdc55e02d220e2febd8caa20159dca7c897c2f0bbd2dc918f7abef",
+      "cached_sha256": "04216e807d7902c7dbb7adf962466d28eb180554830e390065d3297245b4dd69",
+      "review_polish": null
+    },
+    {
+      "relative": "Textures/Gloves/Gloves_BaseColor.jpg",
+      "source_size": [
+        4096,
+        4096
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "3991159ed6f7399d1c78cd0812f5ebea7b00b97297df74c2c159c88f6c25b02f",
+      "cached_sha256": "d3c5d3491dbbe60a2c9fa615a69a81c1b160d820b5bdb5e66ae72f96b4f85569",
+      "review_polish": "suppress near-white glove patches"
+    },
+    {
+      "relative": "Textures/Gloves/Gloves_Normal.jpg",
+      "source_size": [
+        4096,
+        4096
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "e9304a0805936c2f7072bff013e599569247f4356399061713a138a264ad2b0b",
+      "cached_sha256": "21ce32d9a5355c2169cc88a22d4d7dbf6034598ad23a05047dc12503ce4c07ab",
+      "review_polish": null
+    },
+    {
+      "relative": "Textures/Gloves/Gloves_OcclusionRoughnessMetallic.jpg",
+      "source_size": [
+        4096,
+        4096
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "9c29b96c14d100b0a0b96afcab4910655ec92116a09da3064667c6760d48dee6",
+      "cached_sha256": "1edfa3220558bd313759ef6a7a16bcc14dadc0cf2c30e0b9e527147450db6901",
+      "review_polish": null
+    },
+    {
+      "relative": "Textures/HairCap/MP_Haircap_Albedo.jpg",
+      "source_size": [
+        2048,
+        2048
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "8f1c219ac5c384b9a457950c1ae718a5866f46d963d7242acb9a285c6d283b49",
+      "cached_sha256": "8f1c219ac5c384b9a457950c1ae718a5866f46d963d7242acb9a285c6d283b49",
+      "review_polish": null
+    },
+    {
+      "relative": "Textures/HairCap/MP_Haircap_Alpha4.jpg",
+      "source_size": [
+        2048,
+        2048
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "e69d91cf61dada4d35e6ece422ad2e3f3e41ae891062fa8596a19c1b9362f200",
+      "cached_sha256": "e69d91cf61dada4d35e6ece422ad2e3f3e41ae891062fa8596a19c1b9362f200",
+      "review_polish": null
+    },
+    {
+      "relative": "Textures/HairCap/MP_Haircap_AO.jpg",
+      "source_size": [
+        2048,
+        2048
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "4b75f7f464ee8d511cfba9d8912d8dcbf2927ba70edd99164dff45dd47889c39",
+      "cached_sha256": "4b75f7f464ee8d511cfba9d8912d8dcbf2927ba70edd99164dff45dd47889c39",
+      "review_polish": null
+    },
+    {
+      "relative": "Textures/HairCap/MP_Haircap_Direction.jpg",
+      "source_size": [
+        2048,
+        2048
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "eaa718ab5387d87fc22bb5ed8e767cc62f2506176021d9d0cd78f6243b91db96",
+      "cached_sha256": "eaa718ab5387d87fc22bb5ed8e767cc62f2506176021d9d0cd78f6243b91db96",
+      "review_polish": null
+    },
+    {
+      "relative": "Textures/HairCap/MP_Haircap_Height.jpg",
+      "source_size": [
+        2048,
+        2048
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "ba0994bd5b9599f67f0c8f6933f0a45c8b7965eae04a113b168ff9bd7e0d7d1c",
+      "cached_sha256": "ba0994bd5b9599f67f0c8f6933f0a45c8b7965eae04a113b168ff9bd7e0d7d1c",
+      "review_polish": null
+    },
+    {
+      "relative": "Textures/HairCap/MP_Haircap_ID.jpg",
+      "source_size": [
+        2048,
+        2048
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "aed685611157082e1576e9e55b2300ee04bfa1083fd9622077ba38315773fcac",
+      "cached_sha256": "aed685611157082e1576e9e55b2300ee04bfa1083fd9622077ba38315773fcac",
+      "review_polish": null
+    },
+    {
+      "relative": "Textures/HairCap/MP_Haircap_Normal.jpg",
+      "source_size": [
+        2048,
+        2048
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "9163eb1cb44764ad99b10e23a9b3ce5a8d67e17ab80c42737e45818c7cb6ed3e",
+      "cached_sha256": "9163eb1cb44764ad99b10e23a9b3ce5a8d67e17ab80c42737e45818c7cb6ed3e",
+      "review_polish": null
+    },
+    {
+      "relative": "Textures/HairStyle/HairBrown_Alpha.jpg",
+      "source_size": [
+        4096,
+        4096
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "c9a735ddd3aa45a47f6dd413489a5653561aeb3d4bcc355f00885a5611b8c32f",
+      "cached_sha256": "04676ce4a8a975916f04e2fdce7c07ced7de068e147c988d695f78539c7c6067",
+      "review_polish": null
+    },
+    {
+      "relative": "Textures/HairStyle/HairBrown_AO.jpg",
+      "source_size": [
+        4096,
+        4096
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "ea0c2b07e3dbcd2709a4363f883437a275d1891643cac9632b93b5de1f1d9732",
+      "cached_sha256": "6a2de8fa4da59226d4af7863a34ff947ff84f0667b4f5dd445a4cc705032b249",
+      "review_polish": null
+    },
+    {
+      "relative": "Textures/HairStyle/HairBrown_Diffuse_2.jpg",
+      "source_size": [
+        4096,
+        4096
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "46c33a9b28f32ff5455282ff9c7ea80347d4141940cd724cba609df67e835078",
+      "cached_sha256": "94564183a9e6c80be685eddeab893130ddab8343d72b34ce980e50247df06b67",
+      "review_polish": null
+    },
+    {
+      "relative": "Textures/HairStyle/HairBrown_Direction.jpg",
+      "source_size": [
+        4096,
+        4096
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "4715143d23b2c79056fa1c7022379323063bb6cff741686111493b6d5756b4a9",
+      "cached_sha256": "8b9863cff86c8a5ee4ad6dd00c66f1c9b97c302d25511305c05d827a8f056888",
+      "review_polish": null
+    },
+    {
+      "relative": "Textures/HairStyle/HairBrown_Height.jpg",
+      "source_size": [
+        4096,
+        4096
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "bca6450f7b9fa25dc6b4bc5a4ab55aac0077cd91836aa5605282094646183e27",
+      "cached_sha256": "8a44072f496f6d3acda39ff6fb9c3c645c4095b03bdbf804baf2bf16b0d53192",
+      "review_polish": null
+    },
+    {
+      "relative": "Textures/HairStyle/HairBrown_Normal.jpg",
+      "source_size": [
+        4096,
+        4096
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "9295576af62c7aca00c557cb6ec2bab278e6cb0a982cdee7e2e8f0ed7c2d88fe",
+      "cached_sha256": "0412eaf9e25274a0b84cde63424fb6bc8ab1073d408e87c036f4896b05b42002",
+      "review_polish": null
+    },
+    {
+      "relative": "Textures/HairStyle/HairBrown_Roots.jpg",
+      "source_size": [
+        4096,
+        4096
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "1f4b49b4b3158b7e3969a13cfa0b23f091a6bd54a7f37abf67ad22ccb79cb01a",
+      "cached_sha256": "5048646571a9ad9773fe440af44adaf74891ac065a9125f2993cb7a7c446b8b1",
+      "review_polish": null
+    },
+    {
+      "relative": "Textures/Jacket/Jacket_BaseColor.jpg",
+      "source_size": [
+        8192,
+        8192
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "07883ec47b270900a5c5a9361fd677d39612e2b72a94793cd99c023505c6f796",
+      "cached_sha256": "8c2553e2c6c70715e1e754937d64ac1dde7b7d3c3b0dabfec1fdd348da05dc1a",
+      "review_polish": null
+    },
+    {
+      "relative": "Textures/Jacket/Jacket_Normal.jpg",
+      "source_size": [
+        8192,
+        8192
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "bbd5ce07f90a091c109f8054b9517eb00d3c4d6a666d5a59187335e59316765e",
+      "cached_sha256": "c0b0ce4083f201ab0c6bfc78d932b09365d9d5df31630a31945c58dd68cda89c",
+      "review_polish": null
+    },
+    {
+      "relative": "Textures/Jacket/Jacket_OcclusionRoughnessMetallic.jpg",
+      "source_size": [
+        8192,
+        8192
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "69695f0491412c07eadde32f57d661418d05735d3e7d6e14ff698b0afffb3653",
+      "cached_sha256": "8e943c9a5d5ca9866a45caf634f13e29cda5f89c0ec1a33f93822b919e936593",
+      "review_polish": null
+    },
+    {
+      "relative": "Textures/Jeans/Jeans_BaseColor.jpg",
+      "source_size": [
+        4096,
+        4096
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "e83767aebe2121d6b01c1ca6fcbeb19daad8aaf15a284cf4dd814b14dcfe75fc",
+      "cached_sha256": "140f7f447a7706bc81e11df010a9f6156a5474feadba22035601768840bc33c2",
+      "review_polish": null
+    },
+    {
+      "relative": "Textures/Jeans/Jeans_Normal.jpg",
+      "source_size": [
+        4096,
+        4096
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "3215d0896bfeec2617a4a8b99078c11b3111c2fcf952286bbf80b0fba19c68e0",
+      "cached_sha256": "83d380ba58823eb05696d8e53979eeec274d3ec738103e6302d996d95aec1c70",
+      "review_polish": null
+    },
+    {
+      "relative": "Textures/Jeans/Jeans_OcclusionRoughnessMetallic.jpg",
+      "source_size": [
+        4096,
+        4096
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "a1f0333c3431b4d6789c0392d77b8fb72d364a2d2654da9882a40ef859855647",
+      "cached_sha256": "40f6308a579be2af2bc1ae2fd648732861157285c586e4d4684faaaf40fdc837",
+      "review_polish": null
+    },
+    {
+      "relative": "Textures/Mouth/Teet_Normal.png",
+      "source_size": [
+        4096,
+        4096
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "ab38a354ed57b99d733effc54a6b3a9d1c6811f8fd82420ce73bb301289daa6d",
+      "cached_sha256": "7ee2cd5692836c6416a7f1490f75dc19c764a0b24ce9364bbb3a01d6c7832bfe",
+      "review_polish": null
+    },
+    {
+      "relative": "Textures/Mouth/Teeth_ORM.png",
+      "source_size": [
+        4096,
+        4096
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "bfe5a0379df73ca975eaad683c41fcec9ccfe7731f0df590c55aa6fc3e501b88",
+      "cached_sha256": "54e0ef207a326a979a228854eb8ee5094dfe37a1b3ccb9b42cdba8c72374a4e2",
+      "review_polish": null
+    },
+    {
+      "relative": "Textures/Mouth/TeethBaseColor.png",
+      "source_size": [
+        4096,
+        4096
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "bf830a977563e584f35a4ac4bdad40a13966dc8a865bd8f81e56820f12ede37b",
+      "cached_sha256": "3f8f54cd22a730d2972e53383629b1239a7710ef8a21391d7b60bdca2ea15fae",
+      "review_polish": null
+    },
+    {
+      "relative": "Textures/Shoes/Shoes_BaseColor.jpg",
+      "source_size": [
+        4096,
+        4096
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "896c910197f1ef60aff717c8da1073ea3a4cf7303ed3e6e71b183bf820865798",
+      "cached_sha256": "08f9670c9cca86b5a97a66016caeeb08a9ed6b1176152bf98b36456899c7250c",
+      "review_polish": null
+    },
+    {
+      "relative": "Textures/Shoes/Shoes_Normal.jpg",
+      "source_size": [
+        4096,
+        4096
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "168fcade46aee5fbb688db3202e03efdd3a53fec8dd6c0026126f6311d411a5a",
+      "cached_sha256": "610a3c1c4ff7fef1b5876af258d5b1e486a736e249e0691d749bf81c7260d838",
+      "review_polish": null
+    },
+    {
+      "relative": "Textures/Shoes/Shoes_OcclusionRoughnessMetallic.jpg",
+      "source_size": [
+        4096,
+        4096
+      ],
+      "cached_size": [
+        2048,
+        2048
+      ],
+      "source_sha256": "f3cd2c8d18c7b1eb8c23c3e023cbd4b21e019f49ec4f2fab29fc60bf5775b410",
+      "cached_sha256": "b1a801dfc962790d0d66de7ecdc8acca72fe4e842bd87325e75ba92b137fa47d",
+      "review_polish": null
+    }
+  ]
+}

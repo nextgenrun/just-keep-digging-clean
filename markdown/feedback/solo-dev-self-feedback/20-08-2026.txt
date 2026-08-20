@@ -1,0 +1,13 @@
+Perma death UI broken
+Star UI still unclear allignment issues unreadable
+When you die the game crashes and no lives are lost
+Need clearer indication of low GP can we use sound and audio cues for stress levels?
+While good new animation sets are not alligned look broken and should be heaviliy polished with existing animations
+Need more sound on digs/reward
+old sideways dig animation was removed but should be wired in between all existing sidedig animations
+digup animation should cycle between the 2 dig up variants
+allot of moves like kicks and digs should not be used random but depend on the actual hitbox if they hit the tile and use the according animation, now there is allot of the main character clipping inside tiles there is no colission on player animations and tiles, we should implement a system where they interact so animations armslegs dont clip inside diggable tiles
+Sideways dig run needs big polishing
+abilities need overhaul/tweaking maby one removal, talent tree needs to be more impactfull
+digging down should be more rewarding we made a change for this recentle see git longs but its not nearly enough down = danger = risk = higher resource reward
+eathquake random event + wurm seem non functional broken?

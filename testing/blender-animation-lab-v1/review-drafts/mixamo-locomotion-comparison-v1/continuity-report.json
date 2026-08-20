@@ -1,0 +1,65 @@
+{
+  "version": "mixamo-locomotion-continuity-v1-20260820",
+  "reviewOnly": true,
+  "productionChanged": false,
+  "runtimeWired": false,
+  "method": "Runtime-scale alpha-silhouette IoU after active display-size and origin projection",
+  "comparisons": {
+    "startToCurrentWalk": {
+      "source": "start",
+      "target": "currentWalk",
+      "sourceFrame": 15,
+      "targetFrame": 12,
+      "silhouetteDiscontinuity": 0.2988
+    },
+    "startToMixamoWalk": {
+      "source": "start",
+      "target": "mixamoWalk",
+      "sourceFrame": 15,
+      "targetFrame": 11,
+      "silhouetteDiscontinuity": 0.3019
+    },
+    "currentWalkToRun": {
+      "source": "currentWalk",
+      "target": "currentRun",
+      "sourceFrame": 0,
+      "targetFrame": 18,
+      "silhouetteDiscontinuity": 0.3253
+    },
+    "currentWalkToMixamoRun": {
+      "source": "currentWalk",
+      "target": "mixamoRun",
+      "sourceFrame": 17,
+      "targetFrame": 5,
+      "silhouetteDiscontinuity": 0.4207
+    },
+    "mixamoWalkToCurrentRun": {
+      "source": "mixamoWalk",
+      "target": "currentRun",
+      "sourceFrame": 1,
+      "targetFrame": 18,
+      "silhouetteDiscontinuity": 0.3575
+    },
+    "mixamoWalkToRun": {
+      "source": "mixamoWalk",
+      "target": "mixamoRun",
+      "sourceFrame": 11,
+      "targetFrame": 7,
+      "silhouetteDiscontinuity": 0.4424
+    },
+    "currentWalkToStop": {
+      "source": "currentWalk",
+      "target": "stop",
+      "sourceFrame": 12,
+      "targetFrame": 0,
+      "silhouetteDiscontinuity": 0.2994
+    },
+    "mixamoWalkToStop": {
+      "source": "mixamoWalk",
+      "target": "stop",
+      "sourceFrame": 11,
+      "targetFrame": 0,
+      "silhouetteDiscontinuity": 0.3011
+    }
+  }
+}

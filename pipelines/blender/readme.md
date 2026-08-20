@@ -24,3 +24,13 @@ those points through the exact fixed crop into final 256px frame coordinates.
 Their runtime validation is diagnostic and may drive capped visual alignment;
 it never gates body-adjacent mining. Cooldown begins at action start while tile
 damage remains synchronized to the authored visual contact.
+
+`mixamoSurvivalRetarget.py` transfers accepted Mixamo body motion to the
+production Survival armature using rest-joint facing alignment, hierarchy-safe
+joint directions, planted-foot correction, a protected natural finger pose,
+and a separate terminal-head delta.
+
+`mixamoSurvivalRetarget.py` transfers accepted Mixamo body motion to the
+production Survival armature using rest-joint facing alignment, hierarchy-safe
+joint directions, planted-foot correction, a protected natural finger pose,
+and a separate terminal-head delta.

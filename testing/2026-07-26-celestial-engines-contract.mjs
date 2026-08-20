@@ -275,17 +275,27 @@ assert.ok(
   ),
 );
 
-const [setupSource, updateSource, bootSource, pillarSource, portsSource] = await Promise.all([
+const [
+  setupSource,
+  updateSource,
+  bootSource,
+  pillarSource,
+  portsSource,
+  talentUiSource,
+] = await Promise.all([
   readFile(new URL("../world/playScene/PlaySceneSetup.js", import.meta.url), "utf8"),
   readFile(new URL("../world/playScene/PlaySceneUpdate.js", import.meta.url), "utf8"),
   readFile(new URL("../ui/scenes/BootScene.js", import.meta.url), "utf8"),
   readFile(new URL("../systems/visual/StarPillarSystem.js", import.meta.url), "utf8"),
   readFile(new URL("../ui/scenes/PlayScenePorts.js", import.meta.url), "utf8"),
+  readFile(new URL("../values/celestialTalentTreeUi.js", import.meta.url), "utf8"),
 ]);
 assert.match(setupSource, /new StarHeartProgressionSystem/);
 assert.match(setupSource, /new CelestialEngineController/);
 assert.match(updateSource, /celestialEngineController\?\.update/);
-assert.match(bootSource, /celestial-engines/);
+assert.match(bootSource, /CELESTIAL_TALENT_TREE_PRELOAD_ASSETS/);
+assert.match(talentUiSource, /sprites\/UI\/celestial-overhaul-v1/);
+assert.match(talentUiSource, /talent-icon-/);
 assert.match(setupSource, /uiPorts\.worldUiFactories/);
 assert.match(portsSource, /createCelestialTalentTreeView/);
 assert.match(pillarSource, /createCelestialTalentTreeView/);

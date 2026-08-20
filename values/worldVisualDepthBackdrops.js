@@ -11,8 +11,21 @@ const TERRAIN_VARIATION_ROOT = (
 const TERRAIN_VARIATION_V5_ROOT = (
   "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v5"
 );
+const SHALLOW_MATERIAL_NORMAL_ROOT = (
+  "sprites/backgrounds/world-visual-v2/depth/material-normal-v1"
+);
 
-const asset = (key, path, type = "image") => Object.freeze({ key, path, type });
+const resolveMaterialNormalPath = (path, type) => (
+  type === "image" && path.includes("weathered-roots-")
+    ? `${SHALLOW_MATERIAL_NORMAL_ROOT}/${path.split("/").pop().replace(/\.[^.]+$/, "")}-normal-v1.webp?rev=20260815b`
+    : null
+);
+const asset = (key, path, type = "image") => Object.freeze({
+  key,
+  path,
+  type,
+  normalMapPath: resolveMaterialNormalPath(path, type),
+});
 const biomeAsset = stem => asset(`world-visual-biome-${stem}`, `${BIOME_ROOT}/${stem}-v2.webp`);
 const expansionAsset = stem => asset(
   `world-visual-biome-expansion-v3-${stem}`,
@@ -297,6 +310,28 @@ export const WORLD_VISUAL_DEPTH_BACKDROPS = Object.freeze({
     enabledByDefault: true,
     queryParam: "biomeBackdropExpansionV5",
   }),
+  materialLighting: Object.freeze({
+    enabledByDefault: true,
+    queryParam: "shallowMaterialLighting",
+    enabledValues: Object.freeze(["1", "on", "true", "material"]),
+    disabledValues: DISABLED_QUERY_VALUES,
+    targetRegionIds: Object.freeze(["surface-entry"]),
+    ambientColor: 0x5b7489,
+    coolFill: Object.freeze({
+      color: 0x78b4d2,
+      radiusPx: 940,
+      intensity: 1.9,
+      offsetXPx: -240,
+      offsetYPx: -110,
+    }),
+    warmPlayerLight: Object.freeze({
+      color: 0xffb563,
+      radiusPx: 430,
+      intensity: 2.75,
+      offsetXPx: 24,
+      offsetYPx: 10,
+    }),
+  }),
   regions: DEPTH_REGIONS,
   region: DEPTH_REGIONS[0],
   assets: Object.freeze({ backwall: VARIANTS.roots[0] }),
@@ -420,6 +455,21 @@ export function resolveWorldVisualDepthBackdropsEnabled(
   return config.enabledByDefault;
 }
 
+export function resolveWorldVisualShallowMaterialLightingEnabled(
+  config = WORLD_VISUAL_DEPTH_BACKDROPS,
+  search = globalThis.location?.search || ""
+) {
+  const feature = config.materialLighting;
+  if (!feature) return false;
+  const value = new URLSearchParams(search)
+    .get(feature.queryParam)
+    ?.trim()
+    .toLowerCase();
+  if (value && feature.disabledValues.includes(value)) return false;
+  if (value && feature.enabledValues.includes(value)) return true;
+  return feature.enabledByDefault === true;
+}
+
 export function resolveWorldVisualDepthBackdropVariantsEnabled(
   config = WORLD_VISUAL_DEPTH_BACKDROPS,
   search = globalThis.location?.search || ""
@@ -472,21 +522,24 @@ export function resolveWorldVisualDepthBackdropRegionAssets(
   config = WORLD_VISUAL_DEPTH_BACKDROPS,
   search = globalThis.location?.search || ""
 ) {
+  let assets;
   if (resolveWorldVisualDepthBackdropVariantsEnabled(config, search)) {
     if (!resolveWorldVisualDepthBackdropExpansionEnabled(config, search)) {
-      return region?.baseVariantBackwalls || region?.variantBackwalls || region?.backwalls || [];
-    }
-    if (resolveWorldVisualDepthBackdropExpansionV5Enabled(config, search)) {
-      return (
+      assets = region?.baseVariantBackwalls || region?.variantBackwalls || region?.backwalls || [];
+    } else if (resolveWorldVisualDepthBackdropExpansionV5Enabled(config, search)) {
+      assets = (
         region?.wholeWorldVariantBackwalls
         || region?.variantBackwalls
         || region?.backwalls
         || []
       );
+    } else {
+      assets = region?.variantBackwalls || region?.backwalls || [];
     }
-    return region?.variantBackwalls || region?.backwalls || [];
+  } else {
+    assets = region?.legacyBackwalls || [];
   }
-  return region?.legacyBackwalls || [];
+  return assets;
 }
 
 export function getWorldVisualDepthBackdropAllAssets(

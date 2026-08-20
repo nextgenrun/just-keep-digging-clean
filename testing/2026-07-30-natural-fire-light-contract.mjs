@@ -68,8 +68,10 @@ function makeScene() {
 }
 
 const natural = FIRE_LIGHT_PRESENTATION_CONFIG.profiles.natural;
+const material = FIRE_LIGHT_PRESENTATION_CONFIG.profiles.material;
 const layered = FIRE_LIGHT_PRESENTATION_CONFIG.profiles.layered;
-assert.equal(resolveFireLightPresentation("").id, natural.id);
+assert.equal(resolveFireLightPresentation("").id, material.id);
+assert.equal(resolveFireLightPresentation("?fireLightStyle=material").id, material.id);
 assert.equal(resolveFireLightPresentation("?fireLightStyle=natural").id, natural.id);
 assert.equal(resolveFireLightPresentation("?fireLightStyle=layered").id, layered.id);
 assert.equal(natural.authoredLayerTarget, 1);
@@ -83,7 +85,19 @@ assert.equal(layered.authoredLayerTarget, 8);
 assert.equal(layered.expandedIllumination, true);
 assert.equal(layered.proceduralWorldGlow, false);
 
-const naturalSystem = new FireLightSystem(makeScene(), FIRE_LIGHT_CONFIG, "");
+assert.equal(material.authoredLayerTarget, 3);
+assert.ok(material.volumeAlphaScale > 0 && material.volumeAlphaScale < 0.7);
+assert.ok(material.atmosphereAlphaScale > 0 && material.atmosphereAlphaScale < 0.5);
+assert.equal(material.expandedIllumination, false);
+assert.equal(material.proceduralWorldGlow, true);
+assert.ok(material.proceduralShaderMix > 0.8);
+assert.ok(material.eyeAdaptationEffectScale < 0.5);
+
+const naturalSystem = new FireLightSystem(
+  makeScene(),
+  FIRE_LIGHT_CONFIG,
+  "?fireLightStyle=natural"
+);
 naturalSystem.renderFrame(renderArguments);
 let snapshot = naturalSystem.getSnapshot();
 assert.equal(snapshot.presentationId, natural.id);
@@ -96,6 +110,20 @@ assert.equal(snapshot.proceduralWorldGlow, true);
 assert.equal(snapshot.proceduralShaderMix, natural.proceduralShaderMix);
 assert.equal(snapshot.eyeAdaptation.effectScale, natural.eyeAdaptationEffectScale);
 naturalSystem.destroy();
+
+const materialSystem = new FireLightSystem(makeScene(), FIRE_LIGHT_CONFIG, "");
+materialSystem.renderFrame(renderArguments);
+snapshot = materialSystem.getSnapshot();
+assert.equal(snapshot.presentationId, material.id);
+assert.equal(snapshot.illuminationRequested, false);
+assert.equal(snapshot.renderer.visibleLayerCount, 3);
+assert.equal(materialSystem.renderer.volume.visible, true);
+assert.equal(materialSystem.renderer.flame.visible, true);
+assert.equal(materialSystem.renderer.atmosphere.visible, true);
+assert.equal(snapshot.proceduralWorldGlow, true);
+assert.equal(snapshot.proceduralShaderMix, material.proceduralShaderMix);
+assert.equal(snapshot.eyeAdaptation.effectScale, material.eyeAdaptationEffectScale);
+materialSystem.destroy();
 
 const layeredSystem = new FireLightSystem(
   makeScene(),
@@ -143,5 +171,5 @@ for (const file of [
 }
 
 console.log(
-  "natural fire passed: one authored flame, legacy-style procedural falloff, restrained adaptation, exact layered rollback"
+  "material lighting passed: restrained three-layer default, exact natural and layered rollbacks"
 );

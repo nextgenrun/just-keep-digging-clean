@@ -29,8 +29,8 @@ export const UAL_NATIVE_LOCOMOTION_TRANSITION_CONFIG = Object.freeze({
     pivotMinSpeedPxPerSec: 36,
   }),
   flight: Object.freeze({
-    travelEnterSpeedPxPerSec: 72,
-    travelExitSpeedPxPerSec: 38,
+    travelEnterSpeedPxPerSec: 92,
+    travelExitSpeedPxPerSec: 48,
   }),
   airborne: Object.freeze({
     riseEnterVelocityPxPerSec: -18,

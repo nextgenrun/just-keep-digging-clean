@@ -23,6 +23,12 @@ World layer module — rendering.
   UIs never invent timer-based progress.
 
 - `WorldBackgroundMasterSystem.js` streams the reversible v11 composition-master bands near the camera; its ordered crop union reaches the final Level 1 row at `y=2064`. `WorldBackgroundVisibilityIndex.js` caches crop/object geometry and uses `WorldBackgroundSpatialIndex.js` to query only nearby vertical bands. `WorldBackgroundTextureStream.js` loads at most one missing large texture per batch and releases distant owned textures. Use `?worldStreamScheduler=0` for the exact legacy scan/batch cadence.
+- `WorldVisualDepthBackdropStage.js` applies Phaser `Light2D` only to the
+  shallow `surface-entry` backdrop cards that have derived normal maps. Its
+  cool fill and compact warm player light follow the live player while the
+  existing darkness/reveal system remains authoritative. The owned diffuse
+  art, camera composition, masks, gameplay tiles, HUD, and deeper biomes are
+  unchanged; `?shallowMaterialLighting=0` is the narrow rollback.
 - `WorldRenderer.js` keeps the full 5,065-row model authoritative but streams a 256-row Phaser tilemap window around the player, avoiding eager multi-million-tile layer allocation. `WorldRenderWindowScheduler.js` plans early bounded shifts and `WorldRenderWindowBuffer.js` paints 24 rows per frame into hidden world/root layers before an atomic swap; teleports retain an immediate safe path. Use `?tileStreamStaging=0` for the synchronous legacy repaint. The renderer implements the same Titan create/update/invalidate/refresh/snapshot/destroy and unlocked-plinth inspection surface as scenic mode, so `?worldVisualRuntime=legacy` never disables discovery, persistence, the archive, Titan Walk, or statue lore.
 - `WorldBackgroundAmbientMotionSystem.js` redraws one pooled Graphics layer for subtle v11 town lights, smoke, shallow L1 crystal/drip motion, and shallow L2 ember/steam motion. It stays behind terrain, requires the master background, and supports `?worldMotion=0` rollback.
 - `LevelOneLivingBackdropSystem.js` retains its compatibility name but now carries the complete active authored Level 1 + Level 2 backdrop. Four fixed 8/10/8/9-sprite pools reuse the approved atmosphere atlas across `x0..279 / y65..2064`; soft 7–18 second motion, camera culling, FPS gates, and surface-to-depth weather fading keep it alive without camera-following art. `?worldLiving=0` rolls back this pass, `?level1Living=0` remains an alias, and `?worldMotion=0` rolls back all background motion.

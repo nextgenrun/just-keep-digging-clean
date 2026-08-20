@@ -85,17 +85,6 @@ export const HUD_LAYOUT = Object.freeze({
   clockPanelW: 180, clockPanelH: 66,
   clockPanelBgColor: 0x000000, clockPanelBgAlpha: 0.45,
 
-  // Weather widget (below clock)
-  weatherX: 0, weatherY: 90, weatherFontSize: "16px",
-  weatherColor: "#88ccff",
-  weatherTempColor: "#ffaa44",
-  weatherSeasonColor: "#66dd88",
-  weatherPanelW: 180, weatherPanelH: 90,
-  weatherPanelBgColor: 0x000000, weatherPanelBgAlpha: 0.40,
-
-  // Season indicator
-  seasonX: 0, seasonY: 140, seasonFontSize: "14px",
-
   // Flight hint text (below stats)
   flyHintX: 500, flyHintY: 80, flyHintFontSize: "15px",
 

@@ -6,6 +6,7 @@ import {
   getSurfacePropPreloadAssets,
 } from "../../values/assetKeys.js";
 import {
+  APPROVED_SFX_FAMILIES,
   AUDIO_RUNTIME_LOADING,
   resolveRuntimeAudioStreamingEnabled,
 } from "../../values/audioConfig.js";
@@ -14,6 +15,8 @@ import {
   getCampfireTierAsset,
 } from "../../values/campfireConfig.js";
 import { CELESTIAL_ACTION_BAR_EAGER_ASSETS } from "../../values/celestialActionBar.js";
+import { CELESTIAL_ENGINE_CORE_ASSETS } from "../../values/celestialEngines.js";
+import { DEBRIS_SHIELD_PRELOAD_ASSETS } from "../../values/debrisShield.js";
 import { CELESTIAL_CURRENCY_HUD_PRELOAD_ASSETS } from
   "../../values/celestialCurrencyHud.js";
 import { CELESTIAL_TALENT_TREE_PRELOAD_ASSETS } from
@@ -98,7 +101,7 @@ import {
   queueCapabilityFireAssets,
   queueCapabilityUiAssets,
   queueLevelTwoResourceTileAssets,
-} from "./BootCapabilityAssetPreloader.js";
+} from "./BootCapabilityAssetPreloader.js?rev=20260815-shallow-material-v1";
 
 const SKY_PORTAL_CANONICAL_PATH = TELEPORT_PORTAL_CONFIG.canonicalAssetPath;
 const SKY_PORTAL_FILENAME = TELEPORT_PORTAL_CONFIG.gateFilename;
@@ -624,6 +627,9 @@ export class BootScene extends Phaser.Scene {
     keys.starStages.forEach((key, index) => {
       this.queueImage(key, `${base}${PILLAR_VISUAL_CONFIG.star.filenames[index]}`);
     });
+    for (const [role, path] of Object.entries(CELESTIAL_ENGINE_CORE_ASSETS)) {
+      this.queueImage(ASSET_KEYS.celestialEngines[role], path);
+    }
   }
 
     preloadOpeningFlightSprites() {
@@ -1093,6 +1099,7 @@ export class BootScene extends Phaser.Scene {
     for (const asset of [
       ...CELESTIAL_ACTION_BAR_EAGER_ASSETS,
       ...CELESTIAL_CURRENCY_HUD_PRELOAD_ASSETS,
+      ...DEBRIS_SHIELD_PRELOAD_ASSETS,
     ]) {
       this.queueImage(asset.key, asset.path);
     }
@@ -1448,6 +1455,10 @@ export class BootScene extends Phaser.Scene {
     const uiBasePath = 'sound/soundEffects/ui/';
     this.queueAudio(ASSET_KEYS.audio.sfx.uiSelect, uiBasePath + 'ui-select.wav');
     this.queueAudio(ASSET_KEYS.audio.sfx.uiConfirm, uiBasePath + 'ui-confirm.wav');
+
+    Object.values(APPROVED_SFX_FAMILIES)
+      .flat()
+      .forEach(asset => this.queueAudio(asset.key, asset.path));
   }
 
   loadVoiceLineLibraries({ streaming = false } = {}) {

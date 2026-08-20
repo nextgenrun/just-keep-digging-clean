@@ -1,0 +1,3331 @@
+{
+  "version": 1,
+  "status": "promoted",
+  "source": "visual-approval-previews/2026-08-14-survival-current-runtime-vs-full-improvements-v1/candidate-1024",
+  "principle": "same runtime motion and timing; approved render/deformation/material quality only",
+  "rollback_sha256": {
+    "sprites/character/survival-character-blender-v2/runtime/survival-character-blender-v2-walk-sheet.png": "5a4a596101a5a46a2172a76f05ca23d15549ec5057f16a001481adc2d6a50ab9",
+    "sprites/character/survival-ual-player-v1/runtime/survival-ual-player-v1-animation-polish-run-sheet.webp": "8ea1584981a362b737d07b48fee9d0d7a5e9b1e5778310964fc3caf37fbb0550",
+    "sprites/character/survival-ual-player-v1/runtime/survival-ual-player-v1-punch-jab-sheet.webp": "53d6f16d77ade59ba25a4b84989b293644d1d9296f3067164a391146d7f8e544",
+    "sprites/character/survival-character-blender-v2/runtime/survival-character-blender-v2-dig-up-piskel-polished-sheet.png": "4f29a0df2a78fe8942ef4491c6496ac27fde251a1e9effe10bf1fdfc9865f480",
+    "sprites/character/survival-ual-player-v1/runtime/survival-ual-player-v1-ground-strike-sheet.webp": "d7829cb9d3281db161d9912f0e7259fec7a14b330c81173d78a707ab61cd374f",
+    "sprites/character/survival-character-blender-v2/runtime/survival-character-blender-v2-superman-flight-prone-v3-sheet.png": "a1d35ad7a0009ac3856e72596e69d9df6b517d1ebccc00f501c35b6f9af6fbb4",
+    "sprites/character/survival-ual-player-v1/runtime/manifest.json": "c1372162972171677709d124aa0c0cb9b15b7c65b34d7db4b7dd6f7dfa5c6ce2",
+    "sprites/character/survival-character-blender-v2/runtime/manifest.json": "403d071d7b02c42edc87ecd9eae8f1c9b6b03375862df1ed679004cf474dd48c",
+    "values/survivalUalPlayerAssetProfile.js": "b61401555442d434b0a4e379e43142ae9e16c168607ebec1fd5f6f480193e9b5",
+    "values/playerAssetProfiles.js": "422c9e35cdf2718b2084a90e646644c596decfe6a64f474d195a4d1e7e95c380"
+  },
+  "promoted_sha256": {
+    "sprites/character/survival-character-blender-v2/runtime/survival-character-blender-v2-walk-sheet.png": "699e07f83bdd23efaf78b7ef43d22df9f85e425e2f9304b92195c8297853a5e1",
+    "sprites/character/survival-ual-player-v1/runtime/survival-ual-player-v1-animation-polish-run-sheet.webp": "880395e3621ea8dccb40cd809ffc887dd8944d440b9d664b99cf70a3c3f88292",
+    "sprites/character/survival-ual-player-v1/runtime/survival-ual-player-v1-punch-jab-sheet.webp": "bface75c40fa8d660a1603b899d44cf293055da498d28b35f671909ddc48aeab",
+    "sprites/character/survival-character-blender-v2/runtime/survival-character-blender-v2-dig-up-piskel-polished-sheet.png": "f2b0120f38937cf06b26f713fcf178d27fe5b9afb4eaf13eac84181dad6bfafd",
+    "sprites/character/survival-ual-player-v1/runtime/survival-ual-player-v1-ground-strike-sheet.webp": "193f69e1a5e804962c9608ae82b6de0e80324685868fca59d250d73b45c4bfc6",
+    "sprites/character/survival-character-blender-v2/runtime/survival-character-blender-v2-superman-flight-prone-v3-sheet.png": "e38e5ef3e30da5afd9f2a04612a192c74a4e271685943d73f11dd6918a6b6069",
+    "sprites/character/survival-ual-player-v1/runtime/manifest.json": "1d031370c911315e5b7a2df02f839afa1494fe6074067b7138981b39bba6454e",
+    "sprites/character/survival-character-blender-v2/runtime/manifest.json": "aa6c5d9745721f07874acc8e9c3083d2748e0deedcb521a00922c9b94bf934bf"
+  },
+  "routing_sha256": {
+    "values/survivalUalPlayerAssetProfile.js": "ce8f5f0a61dd6cbf9d9117386a098ddfb37a65791d9930e3b01c4f248477e050",
+    "values/playerAssetProfiles.js": "3ebfa54fd6ee8ecc57706088c420ac2120d6be7f1a85e84ea6214738c023990b"
+  },
+  "protected_sha256": {
+    "sprites/character/survival-ual-player-v1/runtime/survival-ual-player-v1-animation-polish-transitions-sheet.webp": "e376ce9b12f69d013d1e81bf45bddaee44edc4c900173f85bb69ff970ff009fa",
+    "sprites/character/survival-ual-player-v1/runtime/survival-ual-player-v1-moving-side-dig-jab-sheet.webp": "b3c6d3e9a9f108f07004af72e57dfd59ea9023216f4d208ec6494c6a2eeba117",
+    "sprites/character/survival-ual-player-v1/runtime/survival-ual-player-v1-moving-side-dig-cross-sheet.webp": "96472ecce2c1bdb7b10af8bdd4cac3e64c35c4832d8a0ac70709bc1059421f41"
+  },
+  "families": {
+    "walk": [
+      {
+        "source": "frame-000.png",
+        "cell": 0,
+        "old_alpha_bounds": [
+          91,
+          39,
+          163,
+          226
+        ],
+        "new_alpha_bounds": [
+          91,
+          39,
+          163,
+          226
+        ],
+        "translation_px": [
+          0,
+          0
+        ]
+      },
+      {
+        "source": "frame-001.png",
+        "cell": 1,
+        "old_alpha_bounds": [
+          91,
+          39,
+          165,
+          226
+        ],
+        "new_alpha_bounds": [
+          91,
+          39,
+          165,
+          226
+        ],
+        "translation_px": [
+          0,
+          -1
+        ]
+      },
+      {
+        "source": "frame-002.png",
+        "cell": 2,
+        "old_alpha_bounds": [
+          83,
+          39,
+          194,
+          223
+        ],
+        "new_alpha_bounds": [
+          83,
+          40,
+          194,
+          223
+        ],
+        "translation_px": [
+          1,
+          -4
+        ]
+      },
+      {
+        "source": "frame-003.png",
+        "cell": 3,
+        "old_alpha_bounds": [
+          67,
+          38,
+          204,
+          221
+        ],
+        "new_alpha_bounds": [
+          67,
+          39,
+          204,
+          221
+        ],
+        "translation_px": [
+          0,
+          -7
+        ]
+      },
+      {
+        "source": "frame-004.png",
+        "cell": 4,
+        "old_alpha_bounds": [
+          61,
+          38,
+          190,
+          222
+        ],
+        "new_alpha_bounds": [
+          61,
+          38,
+          190,
+          222
+        ],
+        "translation_px": [
+          -3,
+          -6
+        ]
+      },
+      {
+        "source": "frame-005.png",
+        "cell": 5,
+        "old_alpha_bounds": [
+          72,
+          38,
+          171,
+          225
+        ],
+        "new_alpha_bounds": [
+          72,
+          39,
+          171,
+          225
+        ],
+        "translation_px": [
+          -4,
+          -2
+        ]
+      },
+      {
+        "source": "frame-006.png",
+        "cell": 6,
+        "old_alpha_bounds": [
+          91,
+          38,
+          159,
+          227
+        ],
+        "new_alpha_bounds": [
+          91,
+          38,
+          159,
+          227
+        ],
+        "translation_px": [
+          -3,
+          0
+        ]
+      },
+      {
+        "source": "frame-007.png",
+        "cell": 7,
+        "old_alpha_bounds": [
+          91,
+          38,
+          170,
+          225
+        ],
+        "new_alpha_bounds": [
+          91,
+          38,
+          170,
+          225
+        ],
+        "translation_px": [
+          -2,
+          -2
+        ]
+      },
+      {
+        "source": "frame-008.png",
+        "cell": 8,
+        "old_alpha_bounds": [
+          84,
+          38,
+          194,
+          222
+        ],
+        "new_alpha_bounds": [
+          83,
+          39,
+          194,
+          222
+        ],
+        "translation_px": [
+          -2,
+          -5
+        ]
+      },
+      {
+        "source": "frame-009.png",
+        "cell": 9,
+        "old_alpha_bounds": [
+          68,
+          38,
+          198,
+          221
+        ],
+        "new_alpha_bounds": [
+          68,
+          39,
+          198,
+          221
+        ],
+        "translation_px": [
+          -3,
+          -7
+        ]
+      },
+      {
+        "source": "frame-010.png",
+        "cell": 10,
+        "old_alpha_bounds": [
+          65,
+          38,
+          180,
+          222
+        ],
+        "new_alpha_bounds": [
+          65,
+          38,
+          180,
+          222
+        ],
+        "translation_px": [
+          -5,
+          -6
+        ]
+      },
+      {
+        "source": "frame-011.png",
+        "cell": 11,
+        "old_alpha_bounds": [
+          81,
+          38,
+          169,
+          224
+        ],
+        "new_alpha_bounds": [
+          81,
+          39,
+          169,
+          224
+        ],
+        "translation_px": [
+          -4,
+          -2
+        ]
+      },
+      {
+        "source": "frame-012.png",
+        "cell": 12,
+        "old_alpha_bounds": [
+          91,
+          39,
+          159,
+          226
+        ],
+        "new_alpha_bounds": [
+          91,
+          39,
+          159,
+          226
+        ],
+        "translation_px": [
+          -3,
+          0
+        ]
+      },
+      {
+        "source": "frame-013.png",
+        "cell": 13,
+        "old_alpha_bounds": [
+          91,
+          39,
+          174,
+          225
+        ],
+        "new_alpha_bounds": [
+          91,
+          39,
+          174,
+          225
+        ],
+        "translation_px": [
+          -2,
+          -2
+        ]
+      },
+      {
+        "source": "frame-014.png",
+        "cell": 14,
+        "old_alpha_bounds": [
+          78,
+          39,
+          200,
+          221
+        ],
+        "new_alpha_bounds": [
+          78,
+          38,
+          200,
+          221
+        ],
+        "translation_px": [
+          -1,
+          -6
+        ]
+      },
+      {
+        "source": "frame-015.png",
+        "cell": 15,
+        "old_alpha_bounds": [
+          64,
+          38,
+          205,
+          219
+        ],
+        "new_alpha_bounds": [
+          64,
+          38,
+          205,
+          219
+        ],
+        "translation_px": [
+          -1,
+          -8
+        ]
+      },
+      {
+        "source": "frame-016.png",
+        "cell": 16,
+        "old_alpha_bounds": [
+          61,
+          38,
+          187,
+          222
+        ],
+        "new_alpha_bounds": [
+          60,
+          38,
+          187,
+          222
+        ],
+        "translation_px": [
+          -4,
+          -6
+        ]
+      },
+      {
+        "source": "frame-017.png",
+        "cell": 17,
+        "old_alpha_bounds": [
+          75,
+          38,
+          170,
+          225
+        ],
+        "new_alpha_bounds": [
+          75,
+          39,
+          170,
+          225
+        ],
+        "translation_px": [
+          -3,
+          -2
+        ]
+      },
+      {
+        "source": "frame-018.png",
+        "cell": 18,
+        "old_alpha_bounds": [
+          91,
+          38,
+          159,
+          228
+        ],
+        "new_alpha_bounds": [
+          91,
+          39,
+          159,
+          228
+        ],
+        "translation_px": [
+          -1,
+          0
+        ]
+      },
+      {
+        "source": "frame-019.png",
+        "cell": 19,
+        "old_alpha_bounds": [
+          91,
+          39,
+          173,
+          226
+        ],
+        "new_alpha_bounds": [
+          91,
+          38,
+          173,
+          226
+        ],
+        "translation_px": [
+          0,
+          -2
+        ]
+      },
+      {
+        "source": "frame-020.png",
+        "cell": 20,
+        "old_alpha_bounds": [
+          84,
+          39,
+          198,
+          223
+        ],
+        "new_alpha_bounds": [
+          84,
+          39,
+          198,
+          223
+        ],
+        "translation_px": [
+          1,
+          -5
+        ]
+      },
+      {
+        "source": "frame-021.png",
+        "cell": 21,
+        "old_alpha_bounds": [
+          69,
+          39,
+          197,
+          223
+        ],
+        "new_alpha_bounds": [
+          69,
+          39,
+          197,
+          223
+        ],
+        "translation_px": [
+          0,
+          -6
+        ]
+      },
+      {
+        "source": "frame-022.png",
+        "cell": 22,
+        "old_alpha_bounds": [
+          68,
+          39,
+          181,
+          223
+        ],
+        "new_alpha_bounds": [
+          68,
+          39,
+          181,
+          223
+        ],
+        "translation_px": [
+          -2,
+          -4
+        ]
+      },
+      {
+        "source": "frame-023.png",
+        "cell": 23,
+        "old_alpha_bounds": [
+          86,
+          39,
+          171,
+          225
+        ],
+        "new_alpha_bounds": [
+          86,
+          39,
+          171,
+          225
+        ],
+        "translation_px": [
+          0,
+          -1
+        ]
+      }
+    ],
+    "run": [
+      {
+        "source": "frame-000.png",
+        "cell": 0,
+        "old_alpha_bounds": [
+          54,
+          86,
+          192,
+          248
+        ],
+        "new_alpha_bounds": [
+          50,
+          77,
+          195,
+          248
+        ],
+        "translation_px": [
+          0,
+          23
+        ]
+      },
+      {
+        "source": "frame-001.png",
+        "cell": 1,
+        "old_alpha_bounds": [
+          60,
+          87,
+          186,
+          248
+        ],
+        "new_alpha_bounds": [
+          57,
+          79,
+          189,
+          248
+        ],
+        "translation_px": [
+          1,
+          19
+        ]
+      },
+      {
+        "source": "frame-002.png",
+        "cell": 2,
+        "old_alpha_bounds": [
+          73,
+          91,
+          183,
+          248
+        ],
+        "new_alpha_bounds": [
+          71,
+          83,
+          185,
+          248
+        ],
+        "translation_px": [
+          0,
+          20
+        ]
+      },
+      {
+        "source": "frame-003.png",
+        "cell": 3,
+        "old_alpha_bounds": [
+          91,
+          90,
+          177,
+          248
+        ],
+        "new_alpha_bounds": [
+          89,
+          82,
+          179,
+          248
+        ],
+        "translation_px": [
+          0,
+          18
+        ]
+      },
+      {
+        "source": "frame-004.png",
+        "cell": 4,
+        "old_alpha_bounds": [
+          91,
+          87,
+          172,
+          248
+        ],
+        "new_alpha_bounds": [
+          89,
+          78,
+          174,
+          248
+        ],
+        "translation_px": [
+          0,
+          16
+        ]
+      },
+      {
+        "source": "frame-005.png",
+        "cell": 5,
+        "old_alpha_bounds": [
+          75,
+          84,
+          175,
+          248
+        ],
+        "new_alpha_bounds": [
+          71,
+          76,
+          179,
+          248
+        ],
+        "translation_px": [
+          1,
+          18
+        ]
+      },
+      {
+        "source": "frame-006.png",
+        "cell": 6,
+        "old_alpha_bounds": [
+          64,
+          86,
+          181,
+          248
+        ],
+        "new_alpha_bounds": [
+          59,
+          79,
+          186,
+          248
+        ],
+        "translation_px": [
+          0,
+          26
+        ]
+      },
+      {
+        "source": "frame-007.png",
+        "cell": 7,
+        "old_alpha_bounds": [
+          59,
+          87,
+          191,
+          248
+        ],
+        "new_alpha_bounds": [
+          55,
+          78,
+          195,
+          248
+        ],
+        "translation_px": [
+          1,
+          29
+        ]
+      },
+      {
+        "source": "frame-008.png",
+        "cell": 8,
+        "old_alpha_bounds": [
+          56,
+          87,
+          195,
+          248
+        ],
+        "new_alpha_bounds": [
+          51,
+          78,
+          199,
+          248
+        ],
+        "translation_px": [
+          0,
+          31
+        ]
+      },
+      {
+        "source": "frame-009.png",
+        "cell": 9,
+        "old_alpha_bounds": [
+          54,
+          87,
+          197,
+          248
+        ],
+        "new_alpha_bounds": [
+          50,
+          79,
+          201,
+          248
+        ],
+        "translation_px": [
+          1,
+          33
+        ]
+      },
+      {
+        "source": "frame-010.png",
+        "cell": 10,
+        "old_alpha_bounds": [
+          53,
+          88,
+          198,
+          248
+        ],
+        "new_alpha_bounds": [
+          49,
+          81,
+          202,
+          248
+        ],
+        "translation_px": [
+          1,
+          35
+        ]
+      },
+      {
+        "source": "frame-011.png",
+        "cell": 11,
+        "old_alpha_bounds": [
+          52,
+          92,
+          199,
+          248
+        ],
+        "new_alpha_bounds": [
+          48,
+          85,
+          203,
+          248
+        ],
+        "translation_px": [
+          1,
+          38
+        ]
+      },
+      {
+        "source": "frame-012.png",
+        "cell": 12,
+        "old_alpha_bounds": [
+          50,
+          91,
+          199,
+          248
+        ],
+        "new_alpha_bounds": [
+          46,
+          82,
+          203,
+          248
+        ],
+        "translation_px": [
+          1,
+          33
+        ]
+      },
+      {
+        "source": "frame-013.png",
+        "cell": 13,
+        "old_alpha_bounds": [
+          48,
+          88,
+          199,
+          248
+        ],
+        "new_alpha_bounds": [
+          44,
+          79,
+          203,
+          248
+        ],
+        "translation_px": [
+          1,
+          27
+        ]
+      },
+      {
+        "source": "frame-014.png",
+        "cell": 14,
+        "old_alpha_bounds": [
+          49,
+          85,
+          197,
+          248
+        ],
+        "new_alpha_bounds": [
+          49,
+          76,
+          197,
+          248
+        ],
+        "translation_px": [
+          0,
+          20
+        ]
+      },
+      {
+        "source": "frame-015.png",
+        "cell": 15,
+        "old_alpha_bounds": [
+          60,
+          89,
+          187,
+          248
+        ],
+        "new_alpha_bounds": [
+          64,
+          81,
+          184,
+          248
+        ],
+        "translation_px": [
+          -2,
+          20
+        ]
+      },
+      {
+        "source": "frame-016.png",
+        "cell": 16,
+        "old_alpha_bounds": [
+          84,
+          92,
+          179,
+          248
+        ],
+        "new_alpha_bounds": [
+          88,
+          85,
+          175,
+          248
+        ],
+        "translation_px": [
+          -1,
+          21
+        ]
+      },
+      {
+        "source": "frame-017.png",
+        "cell": 17,
+        "old_alpha_bounds": [
+          92,
+          91,
+          172,
+          248
+        ],
+        "new_alpha_bounds": [
+          89,
+          83,
+          174,
+          248
+        ],
+        "translation_px": [
+          0,
+          19
+        ]
+      },
+      {
+        "source": "frame-018.png",
+        "cell": 18,
+        "old_alpha_bounds": [
+          91,
+          87,
+          172,
+          248
+        ],
+        "new_alpha_bounds": [
+          89,
+          76,
+          174,
+          248
+        ],
+        "translation_px": [
+          0,
+          16
+        ]
+      },
+      {
+        "source": "frame-019.png",
+        "cell": 19,
+        "old_alpha_bounds": [
+          82,
+          84,
+          173,
+          248
+        ],
+        "new_alpha_bounds": [
+          76,
+          77,
+          178,
+          248
+        ],
+        "translation_px": [
+          4,
+          22
+        ]
+      },
+      {
+        "source": "frame-020.png",
+        "cell": 20,
+        "old_alpha_bounds": [
+          69,
+          87,
+          173,
+          248
+        ],
+        "new_alpha_bounds": [
+          65,
+          76,
+          178,
+          248
+        ],
+        "translation_px": [
+          2,
+          27
+        ]
+      },
+      {
+        "source": "frame-021.png",
+        "cell": 21,
+        "old_alpha_bounds": [
+          64,
+          84,
+          180,
+          248
+        ],
+        "new_alpha_bounds": [
+          58,
+          75,
+          185,
+          248
+        ],
+        "translation_px": [
+          0,
+          30
+        ]
+      },
+      {
+        "source": "frame-022.png",
+        "cell": 22,
+        "old_alpha_bounds": [
+          61,
+          84,
+          186,
+          248
+        ],
+        "new_alpha_bounds": [
+          56,
+          75,
+          191,
+          248
+        ],
+        "translation_px": [
+          0,
+          32
+        ]
+      },
+      {
+        "source": "frame-023.png",
+        "cell": 23,
+        "old_alpha_bounds": [
+          59,
+          84,
+          190,
+          248
+        ],
+        "new_alpha_bounds": [
+          55,
+          77,
+          194,
+          248
+        ],
+        "translation_px": [
+          0,
+          34
+        ]
+      },
+      {
+        "source": "frame-024.png",
+        "cell": 24,
+        "old_alpha_bounds": [
+          58,
+          86,
+          192,
+          248
+        ],
+        "new_alpha_bounds": [
+          54,
+          80,
+          195,
+          248
+        ],
+        "translation_px": [
+          0,
+          36
+        ]
+      },
+      {
+        "source": "frame-025.png",
+        "cell": 25,
+        "old_alpha_bounds": [
+          57,
+          89,
+          193,
+          248
+        ],
+        "new_alpha_bounds": [
+          53,
+          83,
+          197,
+          248
+        ],
+        "translation_px": [
+          1,
+          37
+        ]
+      },
+      {
+        "source": "frame-026.png",
+        "cell": 26,
+        "old_alpha_bounds": [
+          56,
+          89,
+          193,
+          248
+        ],
+        "new_alpha_bounds": [
+          52,
+          79,
+          197,
+          248
+        ],
+        "translation_px": [
+          1,
+          30
+        ]
+      },
+      {
+        "source": "frame-027.png",
+        "cell": 27,
+        "old_alpha_bounds": [
+          55,
+          86,
+          193,
+          248
+        ],
+        "new_alpha_bounds": [
+          52,
+          77,
+          197,
+          248
+        ],
+        "translation_px": [
+          2,
+          25
+        ]
+      }
+    ],
+    "mining-side": [
+      {
+        "source": "frame-000.png",
+        "cell": 3,
+        "old_alpha_bounds": [
+          79,
+          74,
+          166,
+          248
+        ],
+        "new_alpha_bounds": [
+          75,
+          65,
+          169,
+          248
+        ],
+        "translation_px": [
+          -6,
+          13
+        ]
+      },
+      {
+        "source": "frame-001.png",
+        "cell": 4,
+        "old_alpha_bounds": [
+          80,
+          74,
+          174,
+          248
+        ],
+        "new_alpha_bounds": [
+          81,
+          65,
+          173,
+          248
+        ],
+        "translation_px": [
+          0,
+          13
+        ]
+      },
+      {
+        "source": "frame-002.png",
+        "cell": 5,
+        "old_alpha_bounds": [
+          85,
+          75,
+          201,
+          248
+        ],
+        "new_alpha_bounds": [
+          95,
+          65,
+          191,
+          248
+        ],
+        "translation_px": [
+          13,
+          13
+        ]
+      },
+      {
+        "source": "frame-003.png",
+        "cell": 6,
+        "old_alpha_bounds": [
+          85,
+          74,
+          210,
+          248
+        ],
+        "new_alpha_bounds": [
+          82,
+          65,
+          213,
+          248
+        ],
+        "translation_px": [
+          -5,
+          13
+        ]
+      },
+      {
+        "source": "frame-004.png",
+        "cell": 7,
+        "old_alpha_bounds": [
+          85,
+          74,
+          210,
+          248
+        ],
+        "new_alpha_bounds": [
+          81,
+          65,
+          213,
+          248
+        ],
+        "translation_px": [
+          -6,
+          13
+        ]
+      },
+      {
+        "source": "frame-005.png",
+        "cell": 8,
+        "old_alpha_bounds": [
+          85,
+          74,
+          210,
+          248
+        ],
+        "new_alpha_bounds": [
+          82,
+          65,
+          213,
+          248
+        ],
+        "translation_px": [
+          -4,
+          13
+        ]
+      },
+      {
+        "source": "frame-006.png",
+        "cell": 9,
+        "old_alpha_bounds": [
+          84,
+          74,
+          209,
+          248
+        ],
+        "new_alpha_bounds": [
+          81,
+          65,
+          211,
+          248
+        ],
+        "translation_px": [
+          -2,
+          13
+        ]
+      },
+      {
+        "source": "frame-007.png",
+        "cell": 10,
+        "old_alpha_bounds": [
+          83,
+          74,
+          208,
+          248
+        ],
+        "new_alpha_bounds": [
+          82,
+          65,
+          208,
+          248
+        ],
+        "translation_px": [
+          2,
+          13
+        ]
+      },
+      {
+        "source": "frame-008.png",
+        "cell": 11,
+        "old_alpha_bounds": [
+          82,
+          74,
+          206,
+          248
+        ],
+        "new_alpha_bounds": [
+          86,
+          65,
+          202,
+          248
+        ],
+        "translation_px": [
+          7,
+          13
+        ]
+      },
+      {
+        "source": "frame-009.png",
+        "cell": 12,
+        "old_alpha_bounds": [
+          80,
+          74,
+          204,
+          248
+        ],
+        "new_alpha_bounds": [
+          90,
+          65,
+          194,
+          248
+        ],
+        "translation_px": [
+          11,
+          13
+        ]
+      },
+      {
+        "source": "frame-010.png",
+        "cell": 13,
+        "old_alpha_bounds": [
+          79,
+          74,
+          201,
+          248
+        ],
+        "new_alpha_bounds": [
+          91,
+          65,
+          190,
+          248
+        ],
+        "translation_px": [
+          12,
+          13
+        ]
+      },
+      {
+        "source": "frame-011.png",
+        "cell": 14,
+        "old_alpha_bounds": [
+          78,
+          74,
+          197,
+          248
+        ],
+        "new_alpha_bounds": [
+          90,
+          65,
+          186,
+          248
+        ],
+        "translation_px": [
+          10,
+          13
+        ]
+      },
+      {
+        "source": "frame-012.png",
+        "cell": 15,
+        "old_alpha_bounds": [
+          77,
+          74,
+          192,
+          248
+        ],
+        "new_alpha_bounds": [
+          87,
+          65,
+          182,
+          248
+        ],
+        "translation_px": [
+          7,
+          13
+        ]
+      },
+      {
+        "source": "frame-013.png",
+        "cell": 16,
+        "old_alpha_bounds": [
+          77,
+          74,
+          185,
+          248
+        ],
+        "new_alpha_bounds": [
+          84,
+          65,
+          178,
+          248
+        ],
+        "translation_px": [
+          3,
+          13
+        ]
+      },
+      {
+        "source": "frame-014.png",
+        "cell": 17,
+        "old_alpha_bounds": [
+          77,
+          74,
+          180,
+          248
+        ],
+        "new_alpha_bounds": [
+          81,
+          65,
+          175,
+          248
+        ],
+        "translation_px": [
+          0,
+          13
+        ]
+      }
+    ],
+    "mining-up": [
+      {
+        "source": "frame-000.png",
+        "cell": 0,
+        "old_alpha_bounds": [
+          54,
+          69,
+          183,
+          248
+        ],
+        "new_alpha_bounds": [
+          54,
+          70,
+          183,
+          248
+        ],
+        "translation_px": [
+          -24,
+          22
+        ]
+      },
+      {
+        "source": "frame-001.png",
+        "cell": 1,
+        "old_alpha_bounds": [
+          58,
+          71,
+          185,
+          248
+        ],
+        "new_alpha_bounds": [
+          58,
+          72,
+          185,
+          248
+        ],
+        "translation_px": [
+          -22,
+          22
+        ]
+      },
+      {
+        "source": "frame-002.png",
+        "cell": 2,
+        "old_alpha_bounds": [
+          64,
+          75,
+          186,
+          248
+        ],
+        "new_alpha_bounds": [
+          64,
+          76,
+          187,
+          248
+        ],
+        "translation_px": [
+          -20,
+          22
+        ]
+      },
+      {
+        "source": "frame-003.png",
+        "cell": 3,
+        "old_alpha_bounds": [
+          72,
+          81,
+          189,
+          248
+        ],
+        "new_alpha_bounds": [
+          72,
+          81,
+          189,
+          248
+        ],
+        "translation_px": [
+          -18,
+          21
+        ]
+      },
+      {
+        "source": "frame-004.png",
+        "cell": 4,
+        "old_alpha_bounds": [
+          75,
+          87,
+          189,
+          248
+        ],
+        "new_alpha_bounds": [
+          75,
+          87,
+          189,
+          248
+        ],
+        "translation_px": [
+          -18,
+          21
+        ]
+      },
+      {
+        "source": "frame-005.png",
+        "cell": 5,
+        "old_alpha_bounds": [
+          68,
+          93,
+          186,
+          248
+        ],
+        "new_alpha_bounds": [
+          68,
+          94,
+          186,
+          248
+        ],
+        "translation_px": [
+          -21,
+          21
+        ]
+      },
+      {
+        "source": "frame-006.png",
+        "cell": 6,
+        "old_alpha_bounds": [
+          67,
+          97,
+          179,
+          248
+        ],
+        "new_alpha_bounds": [
+          67,
+          97,
+          179,
+          248
+        ],
+        "translation_px": [
+          -27,
+          21
+        ]
+      },
+      {
+        "source": "frame-007.png",
+        "cell": 7,
+        "old_alpha_bounds": [
+          82,
+          94,
+          166,
+          248
+        ],
+        "new_alpha_bounds": [
+          82,
+          93,
+          167,
+          248
+        ],
+        "translation_px": [
+          -28,
+          20
+        ]
+      },
+      {
+        "source": "frame-008.png",
+        "cell": 8,
+        "old_alpha_bounds": [
+          77,
+          82,
+          164,
+          248
+        ],
+        "new_alpha_bounds": [
+          77,
+          82,
+          164,
+          248
+        ],
+        "translation_px": [
+          -34,
+          19
+        ]
+      },
+      {
+        "source": "frame-009.png",
+        "cell": 9,
+        "old_alpha_bounds": [
+          87,
+          78,
+          175,
+          248
+        ],
+        "new_alpha_bounds": [
+          87,
+          78,
+          175,
+          248
+        ],
+        "translation_px": [
+          -37,
+          19
+        ]
+      },
+      {
+        "source": "frame-010.png",
+        "cell": 10,
+        "old_alpha_bounds": [
+          86,
+          73,
+          205,
+          248
+        ],
+        "new_alpha_bounds": [
+          86,
+          73,
+          205,
+          248
+        ],
+        "translation_px": [
+          -27,
+          19
+        ]
+      },
+      {
+        "source": "frame-011.png",
+        "cell": 11,
+        "old_alpha_bounds": [
+          92,
+          72,
+          209,
+          248
+        ],
+        "new_alpha_bounds": [
+          92,
+          72,
+          209,
+          248
+        ],
+        "translation_px": [
+          -18,
+          21
+        ]
+      },
+      {
+        "source": "frame-012.png",
+        "cell": 12,
+        "old_alpha_bounds": [
+          89,
+          70,
+          202,
+          248
+        ],
+        "new_alpha_bounds": [
+          89,
+          71,
+          202,
+          248
+        ],
+        "translation_px": [
+          -21,
+          22
+        ]
+      },
+      {
+        "source": "frame-013.png",
+        "cell": 13,
+        "old_alpha_bounds": [
+          91,
+          70,
+          195,
+          248
+        ],
+        "new_alpha_bounds": [
+          91,
+          69,
+          195,
+          248
+        ],
+        "translation_px": [
+          -22,
+          22
+        ]
+      },
+      {
+        "source": "frame-014.png",
+        "cell": 14,
+        "old_alpha_bounds": [
+          86,
+          71,
+          183,
+          248
+        ],
+        "new_alpha_bounds": [
+          86,
+          71,
+          182,
+          248
+        ],
+        "translation_px": [
+          -24,
+          24
+        ]
+      },
+      {
+        "source": "frame-015.png",
+        "cell": 15,
+        "old_alpha_bounds": [
+          85,
+          70,
+          168,
+          248
+        ],
+        "new_alpha_bounds": [
+          85,
+          70,
+          168,
+          248
+        ],
+        "translation_px": [
+          -26,
+          24
+        ]
+      },
+      {
+        "source": "frame-016.png",
+        "cell": 16,
+        "old_alpha_bounds": [
+          87,
+          70,
+          172,
+          248
+        ],
+        "new_alpha_bounds": [
+          87,
+          70,
+          172,
+          248
+        ],
+        "translation_px": [
+          -27,
+          24
+        ]
+      },
+      {
+        "source": "frame-017.png",
+        "cell": 17,
+        "old_alpha_bounds": [
+          86,
+          70,
+          173,
+          248
+        ],
+        "new_alpha_bounds": [
+          86,
+          70,
+          173,
+          248
+        ],
+        "translation_px": [
+          -28,
+          24
+        ]
+      },
+      {
+        "source": "frame-018.png",
+        "cell": 18,
+        "old_alpha_bounds": [
+          86,
+          70,
+          174,
+          248
+        ],
+        "new_alpha_bounds": [
+          85,
+          71,
+          174,
+          248
+        ],
+        "translation_px": [
+          -28,
+          24
+        ]
+      },
+      {
+        "source": "frame-019.png",
+        "cell": 19,
+        "old_alpha_bounds": [
+          86,
+          70,
+          175,
+          248
+        ],
+        "new_alpha_bounds": [
+          86,
+          71,
+          175,
+          248
+        ],
+        "translation_px": [
+          -26,
+          24
+        ]
+      },
+      {
+        "source": "frame-020.png",
+        "cell": 20,
+        "old_alpha_bounds": [
+          86,
+          70,
+          175,
+          248
+        ],
+        "new_alpha_bounds": [
+          86,
+          70,
+          175,
+          248
+        ],
+        "translation_px": [
+          -25,
+          23
+        ]
+      },
+      {
+        "source": "frame-021.png",
+        "cell": 21,
+        "old_alpha_bounds": [
+          86,
+          69,
+          174,
+          248
+        ],
+        "new_alpha_bounds": [
+          86,
+          70,
+          174,
+          248
+        ],
+        "translation_px": [
+          -24,
+          22
+        ]
+      },
+      {
+        "source": "frame-022.png",
+        "cell": 22,
+        "old_alpha_bounds": [
+          86,
+          68,
+          173,
+          248
+        ],
+        "new_alpha_bounds": [
+          85,
+          69,
+          173,
+          248
+        ],
+        "translation_px": [
+          -24,
+          21
+        ]
+      },
+      {
+        "source": "frame-023.png",
+        "cell": 23,
+        "old_alpha_bounds": [
+          86,
+          68,
+          173,
+          248
+        ],
+        "new_alpha_bounds": [
+          85,
+          68,
+          173,
+          248
+        ],
+        "translation_px": [
+          -24,
+          20
+        ]
+      }
+    ],
+    "mining-down": [
+      {
+        "source": "frame-000.png",
+        "cell": 4,
+        "old_alpha_bounds": [
+          75,
+          70,
+          177,
+          248
+        ],
+        "new_alpha_bounds": [
+          86,
+          59,
+          166,
+          248
+        ],
+        "translation_px": [
+          5,
+          15
+        ]
+      },
+      {
+        "source": "frame-001.png",
+        "cell": 5,
+        "old_alpha_bounds": [
+          67,
+          73,
+          188,
+          248
+        ],
+        "new_alpha_bounds": [
+          87,
+          58,
+          167,
+          248
+        ],
+        "translation_px": [
+          6,
+          14
+        ]
+      },
+      {
+        "source": "frame-002.png",
+        "cell": 6,
+        "old_alpha_bounds": [
+          62,
+          77,
+          195,
+          248
+        ],
+        "new_alpha_bounds": [
+          88,
+          58,
+          169,
+          248
+        ],
+        "translation_px": [
+          7,
+          14
+        ]
+      },
+      {
+        "source": "frame-003.png",
+        "cell": 7,
+        "old_alpha_bounds": [
+          62,
+          81,
+          198,
+          248
+        ],
+        "new_alpha_bounds": [
+          83,
+          60,
+          177,
+          248
+        ],
+        "translation_px": [
+          2,
+          14
+        ]
+      },
+      {
+        "source": "frame-004.png",
+        "cell": 8,
+        "old_alpha_bounds": [
+          76,
+          80,
+          201,
+          248
+        ],
+        "new_alpha_bounds": [
+          79,
+          63,
+          198,
+          248
+        ],
+        "translation_px": [
+          7,
+          15
+        ]
+      },
+      {
+        "source": "frame-005.png",
+        "cell": 9,
+        "old_alpha_bounds": [
+          92,
+          69,
+          176,
+          248
+        ],
+        "new_alpha_bounds": [
+          66,
+          67,
+          202,
+          248
+        ],
+        "translation_px": [
+          1,
+          15
+        ]
+      },
+      {
+        "source": "frame-006.png",
+        "cell": 10,
+        "old_alpha_bounds": [
+          97,
+          67,
+          175,
+          248
+        ],
+        "new_alpha_bounds": [
+          65,
+          72,
+          207,
+          248
+        ],
+        "translation_px": [
+          2,
+          16
+        ]
+      },
+      {
+        "source": "frame-007.png",
+        "cell": 11,
+        "old_alpha_bounds": [
+          79,
+          103,
+          232,
+          248
+        ],
+        "new_alpha_bounds": [
+          91,
+          71,
+          221,
+          248
+        ],
+        "translation_px": [
+          12,
+          16
+        ]
+      },
+      {
+        "source": "frame-008.png",
+        "cell": 12,
+        "old_alpha_bounds": [
+          88,
+          114,
+          237,
+          248
+        ],
+        "new_alpha_bounds": [
+          119,
+          59,
+          206,
+          248
+        ],
+        "translation_px": [
+          23,
+          17
+        ]
+      },
+      {
+        "source": "frame-009.png",
+        "cell": 13,
+        "old_alpha_bounds": [
+          99,
+          120,
+          218,
+          248
+        ],
+        "new_alpha_bounds": [
+          104,
+          66,
+          214,
+          248
+        ],
+        "translation_px": [
+          14,
+          18
+        ]
+      },
+      {
+        "source": "frame-010.png",
+        "cell": 14,
+        "old_alpha_bounds": [
+          100,
+          121,
+          212,
+          248
+        ],
+        "new_alpha_bounds": [
+          72,
+          101,
+          240,
+          248
+        ],
+        "translation_px": [
+          -12,
+          18
+        ]
+      },
+      {
+        "source": "frame-011.png",
+        "cell": 15,
+        "old_alpha_bounds": [
+          100,
+          121,
+          208,
+          248
+        ],
+        "new_alpha_bounds": [
+          89,
+          113,
+          219,
+          248
+        ],
+        "translation_px": [
+          -11,
+          19
+        ]
+      },
+      {
+        "source": "frame-012.png",
+        "cell": 16,
+        "old_alpha_bounds": [
+          100,
+          121,
+          206,
+          248
+        ],
+        "new_alpha_bounds": [
+          93,
+          115,
+          212,
+          248
+        ],
+        "translation_px": [
+          -10,
+          20
+        ]
+      },
+      {
+        "source": "frame-013.png",
+        "cell": 17,
+        "old_alpha_bounds": [
+          100,
+          121,
+          205,
+          248
+        ],
+        "new_alpha_bounds": [
+          95,
+          115,
+          209,
+          248
+        ],
+        "translation_px": [
+          -8,
+          20
+        ]
+      },
+      {
+        "source": "frame-014.png",
+        "cell": 18,
+        "old_alpha_bounds": [
+          99,
+          121,
+          205,
+          248
+        ],
+        "new_alpha_bounds": [
+          96,
+          115,
+          208,
+          248
+        ],
+        "translation_px": [
+          -7,
+          20
+        ]
+      },
+      {
+        "source": "frame-015.png",
+        "cell": 19,
+        "old_alpha_bounds": [
+          99,
+          121,
+          204,
+          248
+        ],
+        "new_alpha_bounds": [
+          97,
+          115,
+          207,
+          248
+        ],
+        "translation_px": [
+          -6,
+          20
+        ]
+      },
+      {
+        "source": "frame-016.png",
+        "cell": 20,
+        "old_alpha_bounds": [
+          99,
+          120,
+          204,
+          248
+        ],
+        "new_alpha_bounds": [
+          97,
+          115,
+          207,
+          248
+        ],
+        "translation_px": [
+          -6,
+          20
+        ]
+      },
+      {
+        "source": "frame-017.png",
+        "cell": 21,
+        "old_alpha_bounds": [
+          99,
+          120,
+          203,
+          248
+        ],
+        "new_alpha_bounds": [
+          97,
+          114,
+          206,
+          248
+        ],
+        "translation_px": [
+          -6,
+          20
+        ]
+      },
+      {
+        "source": "frame-018.png",
+        "cell": 22,
+        "old_alpha_bounds": [
+          99,
+          120,
+          203,
+          248
+        ],
+        "new_alpha_bounds": [
+          96,
+          114,
+          206,
+          248
+        ],
+        "translation_px": [
+          -6,
+          20
+        ]
+      },
+      {
+        "source": "frame-019.png",
+        "cell": 23,
+        "old_alpha_bounds": [
+          98,
+          119,
+          203,
+          248
+        ],
+        "new_alpha_bounds": [
+          96,
+          113,
+          205,
+          248
+        ],
+        "translation_px": [
+          -6,
+          20
+        ]
+      },
+      {
+        "source": "frame-020.png",
+        "cell": 24,
+        "old_alpha_bounds": [
+          98,
+          119,
+          203,
+          248
+        ],
+        "new_alpha_bounds": [
+          96,
+          113,
+          205,
+          248
+        ],
+        "translation_px": [
+          -6,
+          20
+        ]
+      },
+      {
+        "source": "frame-021.png",
+        "cell": 25,
+        "old_alpha_bounds": [
+          97,
+          118,
+          204,
+          248
+        ],
+        "new_alpha_bounds": [
+          95,
+          112,
+          205,
+          248
+        ],
+        "translation_px": [
+          -6,
+          20
+        ]
+      },
+      {
+        "source": "frame-022.png",
+        "cell": 26,
+        "old_alpha_bounds": [
+          96,
+          118,
+          202,
+          248
+        ],
+        "new_alpha_bounds": [
+          93,
+          112,
+          204,
+          248
+        ],
+        "translation_px": [
+          -8,
+          20
+        ]
+      },
+      {
+        "source": "frame-023.png",
+        "cell": 27,
+        "old_alpha_bounds": [
+          92,
+          116,
+          199,
+          248
+        ],
+        "new_alpha_bounds": [
+          90,
+          111,
+          201,
+          248
+        ],
+        "translation_px": [
+          -8,
+          20
+        ]
+      },
+      {
+        "source": "frame-024.png",
+        "cell": 28,
+        "old_alpha_bounds": [
+          88,
+          115,
+          196,
+          248
+        ],
+        "new_alpha_bounds": [
+          86,
+          109,
+          198,
+          248
+        ],
+        "translation_px": [
+          -7,
+          20
+        ]
+      },
+      {
+        "source": "frame-025.png",
+        "cell": 29,
+        "old_alpha_bounds": [
+          84,
+          112,
+          192,
+          248
+        ],
+        "new_alpha_bounds": [
+          82,
+          107,
+          195,
+          248
+        ],
+        "translation_px": [
+          -6,
+          20
+        ]
+      },
+      {
+        "source": "frame-026.png",
+        "cell": 30,
+        "old_alpha_bounds": [
+          81,
+          107,
+          187,
+          248
+        ],
+        "new_alpha_bounds": [
+          78,
+          101,
+          189,
+          248
+        ],
+        "translation_px": [
+          -6,
+          20
+        ]
+      },
+      {
+        "source": "frame-027.png",
+        "cell": 31,
+        "old_alpha_bounds": [
+          80,
+          100,
+          183,
+          248
+        ],
+        "new_alpha_bounds": [
+          78,
+          93,
+          186,
+          248
+        ],
+        "translation_px": [
+          -4,
+          19
+        ]
+      },
+      {
+        "source": "frame-028.png",
+        "cell": 32,
+        "old_alpha_bounds": [
+          82,
+          93,
+          177,
+          248
+        ],
+        "new_alpha_bounds": [
+          80,
+          84,
+          179,
+          248
+        ],
+        "translation_px": [
+          -4,
+          18
+        ]
+      },
+      {
+        "source": "frame-029.png",
+        "cell": 33,
+        "old_alpha_bounds": [
+          85,
+          86,
+          174,
+          248
+        ],
+        "new_alpha_bounds": [
+          84,
+          76,
+          176,
+          248
+        ],
+        "translation_px": [
+          -4,
+          17
+        ]
+      },
+      {
+        "source": "frame-030.png",
+        "cell": 34,
+        "old_alpha_bounds": [
+          84,
+          80,
+          173,
+          248
+        ],
+        "new_alpha_bounds": [
+          82,
+          70,
+          174,
+          248
+        ],
+        "translation_px": [
+          -4,
+          17
+        ]
+      },
+      {
+        "source": "frame-031.png",
+        "cell": 35,
+        "old_alpha_bounds": [
+          82,
+          76,
+          171,
+          248
+        ],
+        "new_alpha_bounds": [
+          81,
+          65,
+          172,
+          248
+        ],
+        "translation_px": [
+          -3,
+          16
+        ]
+      },
+      {
+        "source": "frame-032.png",
+        "cell": 36,
+        "old_alpha_bounds": [
+          81,
+          72,
+          167,
+          248
+        ],
+        "new_alpha_bounds": [
+          80,
+          62,
+          168,
+          248
+        ],
+        "translation_px": [
+          -2,
+          15
+        ]
+      },
+      {
+        "source": "frame-033.png",
+        "cell": 37,
+        "old_alpha_bounds": [
+          80,
+          70,
+          163,
+          248
+        ],
+        "new_alpha_bounds": [
+          80,
+          60,
+          164,
+          248
+        ],
+        "translation_px": [
+          -2,
+          15
+        ]
+      },
+      {
+        "source": "frame-034.png",
+        "cell": 38,
+        "old_alpha_bounds": [
+          79,
+          69,
+          160,
+          248
+        ],
+        "new_alpha_bounds": [
+          79,
+          59,
+          161,
+          248
+        ],
+        "translation_px": [
+          -2,
+          15
+        ]
+      },
+      {
+        "source": "frame-035.png",
+        "cell": 39,
+        "old_alpha_bounds": [
+          79,
+          68,
+          157,
+          248
+        ],
+        "new_alpha_bounds": [
+          78,
+          59,
+          158,
+          248
+        ],
+        "translation_px": [
+          -3,
+          15
+        ]
+      },
+      {
+        "source": "frame-036.png",
+        "cell": 40,
+        "old_alpha_bounds": [
+          79,
+          67,
+          156,
+          248
+        ],
+        "new_alpha_bounds": [
+          77,
+          59,
+          157,
+          248
+        ],
+        "translation_px": [
+          -4,
+          15
+        ]
+      }
+    ],
+    "flight": [
+      {
+        "source": "frame-000.png",
+        "cell": 0,
+        "old_alpha_bounds": [
+          34,
+          100,
+          241,
+          170
+        ],
+        "new_alpha_bounds": [
+          34,
+          100,
+          241,
+          170
+        ],
+        "translation_px": [
+          20,
+          0
+        ]
+      },
+      {
+        "source": "frame-001.png",
+        "cell": 1,
+        "old_alpha_bounds": [
+          34,
+          99,
+          241,
+          170
+        ],
+        "new_alpha_bounds": [
+          34,
+          100,
+          242,
+          170
+        ],
+        "translation_px": [
+          20,
+          0
+        ]
+      },
+      {
+        "source": "frame-002.png",
+        "cell": 2,
+        "old_alpha_bounds": [
+          34,
+          99,
+          241,
+          169
+        ],
+        "new_alpha_bounds": [
+          34,
+          99,
+          242,
+          169
+        ],
+        "translation_px": [
+          20,
+          0
+        ]
+      },
+      {
+        "source": "frame-003.png",
+        "cell": 3,
+        "old_alpha_bounds": [
+          34,
+          99,
+          241,
+          169
+        ],
+        "new_alpha_bounds": [
+          34,
+          99,
+          242,
+          169
+        ],
+        "translation_px": [
+          20,
+          0
+        ]
+      },
+      {
+        "source": "frame-004.png",
+        "cell": 4,
+        "old_alpha_bounds": [
+          34,
+          99,
+          241,
+          169
+        ],
+        "new_alpha_bounds": [
+          34,
+          99,
+          242,
+          169
+        ],
+        "translation_px": [
+          20,
+          0
+        ]
+      },
+      {
+        "source": "frame-005.png",
+        "cell": 5,
+        "old_alpha_bounds": [
+          34,
+          99,
+          241,
+          169
+        ],
+        "new_alpha_bounds": [
+          34,
+          99,
+          242,
+          169
+        ],
+        "translation_px": [
+          20,
+          0
+        ]
+      },
+      {
+        "source": "frame-006.png",
+        "cell": 6,
+        "old_alpha_bounds": [
+          34,
+          98,
+          241,
+          169
+        ],
+        "new_alpha_bounds": [
+          34,
+          98,
+          242,
+          169
+        ],
+        "translation_px": [
+          20,
+          0
+        ]
+      },
+      {
+        "source": "frame-007.png",
+        "cell": 7,
+        "old_alpha_bounds": [
+          34,
+          98,
+          241,
+          169
+        ],
+        "new_alpha_bounds": [
+          34,
+          98,
+          242,
+          168
+        ],
+        "translation_px": [
+          20,
+          0
+        ]
+      },
+      {
+        "source": "frame-008.png",
+        "cell": 8,
+        "old_alpha_bounds": [
+          34,
+          98,
+          241,
+          168
+        ],
+        "new_alpha_bounds": [
+          34,
+          98,
+          242,
+          168
+        ],
+        "translation_px": [
+          20,
+          0
+        ]
+      },
+      {
+        "source": "frame-009.png",
+        "cell": 9,
+        "old_alpha_bounds": [
+          34,
+          98,
+          241,
+          168
+        ],
+        "new_alpha_bounds": [
+          34,
+          98,
+          241,
+          168
+        ],
+        "translation_px": [
+          20,
+          0
+        ]
+      },
+      {
+        "source": "frame-010.png",
+        "cell": 10,
+        "old_alpha_bounds": [
+          35,
+          98,
+          241,
+          168
+        ],
+        "new_alpha_bounds": [
+          34,
+          98,
+          241,
+          168
+        ],
+        "translation_px": [
+          20,
+          0
+        ]
+      },
+      {
+        "source": "frame-011.png",
+        "cell": 11,
+        "old_alpha_bounds": [
+          35,
+          98,
+          241,
+          169
+        ],
+        "new_alpha_bounds": [
+          34,
+          98,
+          241,
+          168
+        ],
+        "translation_px": [
+          20,
+          0
+        ]
+      },
+      {
+        "source": "frame-012.png",
+        "cell": 12,
+        "old_alpha_bounds": [
+          35,
+          98,
+          241,
+          169
+        ],
+        "new_alpha_bounds": [
+          34,
+          98,
+          241,
+          169
+        ],
+        "translation_px": [
+          20,
+          0
+        ]
+      },
+      {
+        "source": "frame-013.png",
+        "cell": 13,
+        "old_alpha_bounds": [
+          35,
+          99,
+          241,
+          169
+        ],
+        "new_alpha_bounds": [
+          34,
+          99,
+          241,
+          169
+        ],
+        "translation_px": [
+          20,
+          0
+        ]
+      },
+      {
+        "source": "frame-014.png",
+        "cell": 14,
+        "old_alpha_bounds": [
+          35,
+          99,
+          241,
+          169
+        ],
+        "new_alpha_bounds": [
+          34,
+          99,
+          241,
+          169
+        ],
+        "translation_px": [
+          20,
+          0
+        ]
+      },
+      {
+        "source": "frame-015.png",
+        "cell": 15,
+        "old_alpha_bounds": [
+          35,
+          99,
+          241,
+          169
+        ],
+        "new_alpha_bounds": [
+          34,
+          99,
+          241,
+          169
+        ],
+        "translation_px": [
+          20,
+          0
+        ]
+      },
+      {
+        "source": "frame-016.png",
+        "cell": 16,
+        "old_alpha_bounds": [
+          35,
+          99,
+          241,
+          169
+        ],
+        "new_alpha_bounds": [
+          34,
+          99,
+          241,
+          169
+        ],
+        "translation_px": [
+          20,
+          0
+        ]
+      },
+      {
+        "source": "frame-017.png",
+        "cell": 17,
+        "old_alpha_bounds": [
+          35,
+          99,
+          241,
+          170
+        ],
+        "new_alpha_bounds": [
+          34,
+          99,
+          241,
+          170
+        ],
+        "translation_px": [
+          20,
+          0
+        ]
+      },
+      {
+        "source": "frame-018.png",
+        "cell": 18,
+        "old_alpha_bounds": [
+          34,
+          100,
+          241,
+          170
+        ],
+        "new_alpha_bounds": [
+          34,
+          100,
+          241,
+          170
+        ],
+        "translation_px": [
+          20,
+          0
+        ]
+      },
+      {
+        "source": "frame-019.png",
+        "cell": 19,
+        "old_alpha_bounds": [
+          34,
+          100,
+          241,
+          170
+        ],
+        "new_alpha_bounds": [
+          34,
+          100,
+          242,
+          170
+        ],
+        "translation_px": [
+          20,
+          0
+        ]
+      },
+      {
+        "source": "frame-020.png",
+        "cell": 20,
+        "old_alpha_bounds": [
+          34,
+          100,
+          241,
+          170
+        ],
+        "new_alpha_bounds": [
+          34,
+          100,
+          242,
+          170
+        ],
+        "translation_px": [
+          20,
+          0
+        ]
+      },
+      {
+        "source": "frame-021.png",
+        "cell": 21,
+        "old_alpha_bounds": [
+          34,
+          100,
+          241,
+          171
+        ],
+        "new_alpha_bounds": [
+          34,
+          101,
+          242,
+          171
+        ],
+        "translation_px": [
+          20,
+          0
+        ]
+      },
+      {
+        "source": "frame-022.png",
+        "cell": 22,
+        "old_alpha_bounds": [
+          34,
+          101,
+          241,
+          171
+        ],
+        "new_alpha_bounds": [
+          34,
+          101,
+          242,
+          171
+        ],
+        "translation_px": [
+          20,
+          0
+        ]
+      },
+      {
+        "source": "frame-023.png",
+        "cell": 23,
+        "old_alpha_bounds": [
+          34,
+          101,
+          241,
+          171
+        ],
+        "new_alpha_bounds": [
+          34,
+          101,
+          242,
+          171
+        ],
+        "translation_px": [
+          20,
+          0
+        ]
+      },
+      {
+        "source": "frame-024.png",
+        "cell": 24,
+        "old_alpha_bounds": [
+          34,
+          101,
+          241,
+          171
+        ],
+        "new_alpha_bounds": [
+          34,
+          101,
+          242,
+          171
+        ],
+        "translation_px": [
+          20,
+          0
+        ]
+      },
+      {
+        "source": "frame-025.png",
+        "cell": 25,
+        "old_alpha_bounds": [
+          34,
+          101,
+          241,
+          171
+        ],
+        "new_alpha_bounds": [
+          34,
+          101,
+          242,
+          171
+        ],
+        "translation_px": [
+          20,
+          0
+        ]
+      },
+      {
+        "source": "frame-026.png",
+        "cell": 26,
+        "old_alpha_bounds": [
+          34,
+          101,
+          241,
+          171
+        ],
+        "new_alpha_bounds": [
+          34,
+          101,
+          242,
+          171
+        ],
+        "translation_px": [
+          20,
+          0
+        ]
+      },
+      {
+        "source": "frame-027.png",
+        "cell": 27,
+        "old_alpha_bounds": [
+          34,
+          101,
+          241,
+          171
+        ],
+        "new_alpha_bounds": [
+          34,
+          101,
+          241,
+          171
+        ],
+        "translation_px": [
+          20,
+          0
+        ]
+      },
+      {
+        "source": "frame-028.png",
+        "cell": 28,
+        "old_alpha_bounds": [
+          35,
+          101,
+          241,
+          171
+        ],
+        "new_alpha_bounds": [
+          34,
+          101,
+          241,
+          171
+        ],
+        "translation_px": [
+          20,
+          0
+        ]
+      },
+      {
+        "source": "frame-029.png",
+        "cell": 29,
+        "old_alpha_bounds": [
+          35,
+          101,
+          241,
+          171
+        ],
+        "new_alpha_bounds": [
+          34,
+          101,
+          241,
+          171
+        ],
+        "translation_px": [
+          20,
+          0
+        ]
+      },
+      {
+        "source": "frame-030.png",
+        "cell": 30,
+        "old_alpha_bounds": [
+          35,
+          101,
+          241,
+          171
+        ],
+        "new_alpha_bounds": [
+          34,
+          101,
+          241,
+          171
+        ],
+        "translation_px": [
+          20,
+          0
+        ]
+      },
+      {
+        "source": "frame-031.png",
+        "cell": 31,
+        "old_alpha_bounds": [
+          35,
+          101,
+          241,
+          171
+        ],
+        "new_alpha_bounds": [
+          34,
+          101,
+          241,
+          171
+        ],
+        "translation_px": [
+          20,
+          0
+        ]
+      },
+      {
+        "source": "frame-032.png",
+        "cell": 32,
+        "old_alpha_bounds": [
+          35,
+          101,
+          241,
+          171
+        ],
+        "new_alpha_bounds": [
+          34,
+          101,
+          241,
+          171
+        ],
+        "translation_px": [
+          20,
+          0
+        ]
+      },
+      {
+        "source": "frame-033.png",
+        "cell": 33,
+        "old_alpha_bounds": [
+          35,
+          100,
+          241,
+          171
+        ],
+        "new_alpha_bounds": [
+          34,
+          101,
+          241,
+          171
+        ],
+        "translation_px": [
+          20,
+          0
+        ]
+      },
+      {
+        "source": "frame-034.png",
+        "cell": 34,
+        "old_alpha_bounds": [
+          35,
+          100,
+          241,
+          171
+        ],
+        "new_alpha_bounds": [
+          34,
+          100,
+          241,
+          170
+        ],
+        "translation_px": [
+          20,
+          0
+        ]
+      },
+      {
+        "source": "frame-035.png",
+        "cell": 35,
+        "old_alpha_bounds": [
+          35,
+          100,
+          241,
+          170
+        ],
+        "new_alpha_bounds": [
+          34,
+          100,
+          241,
+          170
+        ],
+        "translation_px": [
+          20,
+          0
+        ]
+      }
+    ]
+  }
+}

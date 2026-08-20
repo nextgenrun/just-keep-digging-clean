@@ -395,7 +395,7 @@ assert.match(updateSource, /thunderStrikeActionRuntime\?\.update/);
 assert.doesNotMatch(
   updateSource,
   /getHorizontalMovement[\s\S]{0,180}thunderStrikeActionRuntime\?\.cancel/,
-  "held A/D must not abort the committed C strike on the next frame",
+  "held A/D must not abort the committed V strike on the next frame",
 );
 assert.match(caveSource, /new ThunderStrikeActionRuntime\(controller\.scene/);
 assert.match(caveSource, /cancelThunderStrike\(time\)/);
@@ -416,11 +416,11 @@ assert.match(
 );
 assert.match(
   playerInputSource,
-  /return queued \|\| Phaser\.Input\.Keyboard\.JustDown\(this\.keys\.c\)/,
+  /const key = this\.keys\.thunderStrike \|\| this\.keys\.c;[\s\S]{0,120}JustDown\(key\)/,
 );
 assert.match(
   keybindActionsSource,
-  /id:\s*["']thunderStrike["'][\s\S]{0,120}defaultKey:\s*["']C["']/,
+  /id:\s*["']thunderStrike["'][\s\S]{0,120}defaultKey:\s*["']V["']/,
 );
 assert.match(timingBarSource, /getPresentedTimingSnapshot/);
 assert.match(timingBarViewSource, /getKeyLabel\("thunderStrike"\)/);
@@ -479,6 +479,39 @@ for (const indicatorAsset of indicatorAssets) {
 
 // Phaser removes Sprite.anims before PlayScene's shutdown callback runs. The
 // Thunder Strike teardown must cancel gameplay state without restoring visuals.
+{
+  let interactiveOptions = null;
+  let resolveAssets = null;
+  let assetsReady = false;
+  const runtime = Object.assign(
+    Object.create(ThunderStrikeActionRuntime.prototype),
+    {
+      scene: {
+        time: { now: 400 },
+        playerAbilityAssetController: {
+          isReady: () => assetsReady,
+          ensure: (_abilityId, options) => {
+            interactiveOptions = options;
+            return new Promise(resolve => { resolveAssets = resolve; });
+          },
+        },
+      },
+      adapter: { inputBufferMs: 200 },
+      assetLoadPromise: null,
+      inputBufferedUntilMs: -Infinity,
+      destroyed: false,
+    },
+  );
+  const abilities = { isThunderStrikeUnlocked: () => true };
+  assert.equal(runtime._waitForAbilityAssets(abilities, 100), true);
+  assert.deepEqual(interactiveOptions, { interactive: true });
+  assert.equal(runtime.inputBufferedUntilMs, Number.POSITIVE_INFINITY);
+  assetsReady = true;
+  resolveAssets({ ready: true });
+  await runtime.assetLoadPromise;
+  assert.equal(runtime.inputBufferedUntilMs, 600);
+}
+
 {
   let cancelledTimeline = 0;
   let cancelledAbility = 0;

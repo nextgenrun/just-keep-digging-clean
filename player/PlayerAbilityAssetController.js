@@ -64,7 +64,7 @@ export class PlayerAbilityAssetController {
       || assets.every(asset => this.scene?.textures?.exists?.(asset.key));
   }
 
-  ensure(abilityId) {
+  ensure(abilityId, { interactive = false } = {}) {
     if (this.destroyed) return Promise.resolve({ ready: false, reason: "destroyed" });
     if (this.isReady(abilityId)) {
       this._createAnimations(abilityId);
@@ -75,7 +75,11 @@ export class PlayerAbilityAssetController {
       return Promise.resolve({ ready: false, abilityId, reason: "unavailable" });
     }
     const previous = this.states.get(abilityId);
-    if (["loading", "deferred"].includes(previous?.status)) return previous.promise;
+    if (previous?.status === "loading") return previous.promise;
+    if (previous?.status === "deferred") {
+      if (interactive) this._start(previous, policy);
+      return previous.promise;
+    }
     if (Number(previous?.retryAfterMs) > now(this.scene)) {
       return Promise.resolve({ ready: false, abilityId, reason: "retry-wait" });
     }
@@ -93,7 +97,7 @@ export class PlayerAbilityAssetController {
     };
     state.promise = new Promise(resolve => { state.resolve = resolve; });
     this.states.set(abilityId, state);
-    if (this._overBudget()) state.status = "deferred";
+    if (!interactive && this._overBudget()) state.status = "deferred";
     else this._start(state, policy);
     return state.promise;
   }

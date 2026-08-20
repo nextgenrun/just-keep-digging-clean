@@ -1,0 +1,18 @@
+{
+  "walk": {
+    "frames": 16,
+    "output": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\blender-animation-lab-v1\\review-drafts\\manual-rerig-workbook-v1\\animation-comparison-v2\\current-vs-updated-basic-rig-walk.gif"
+  },
+  "attack": {
+    "frames": 16,
+    "output": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\blender-animation-lab-v1\\review-drafts\\manual-rerig-workbook-v1\\animation-comparison-v2\\current-vs-updated-basic-rig-attack.gif"
+  },
+  "run": {
+    "frames": 18,
+    "output": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\blender-animation-lab-v1\\review-drafts\\manual-rerig-workbook-v1\\animation-comparison-v2\\current-vs-updated-basic-rig-run.gif"
+  },
+  "combined": {
+    "frames": 50,
+    "output": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\blender-animation-lab-v1\\review-drafts\\manual-rerig-workbook-v1\\animation-comparison-v2\\current-vs-updated-basic-rig-all-actions.gif"
+  }
+}

@@ -24,7 +24,10 @@ export class ScreenRecordSystem {
   constructor(scene, config = SCREEN_RECORD_CONFIG) {
     this.scene = scene;
     this.config = config;
-    this.enabled = isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.SCREEN_CAPTURE);
+    this.enabled = GAME_CONFIG.debugMode && isGameplayFeatureEnabled(
+      GAMEPLAY_FEATURE_IDS.SCREEN_CAPTURE,
+      scene?.gameplayCapabilities,
+    );
     this.recorder = null;
     this.stream = null;
     this.chunks = [];

@@ -22,6 +22,7 @@ export class ThunderStrikeActionRuntime {
     this.impactFx = new ThunderStrikeImpactFxSystem(scene);
     this.animating = false;
     this.inputBufferedUntilMs = -Infinity;
+    this.assetLoadPromise = null;
     this.holdUntilMs = 0;
     this.facingFlipX = null;
     this.destroyed = false;
@@ -119,6 +120,7 @@ export class ThunderStrikeActionRuntime {
 
   _beginCharge(nowMs) {
     const abilities = this._abilities();
+    if (this._waitForAbilityAssets(abilities, nowMs)) return false;
     if (!abilities?.startThunderStrikeCharge?.(nowMs)) {
       this.inputBufferedUntilMs = -Infinity;
       const currentGp = Number(
@@ -151,6 +153,42 @@ export class ThunderStrikeActionRuntime {
     this._setLocked(true);
     if (this.scene.player?.anims) this.scene.player.anims.timeScale = 1;
     this._playAnimation(this._profile().thunderStrikeChargeAnim);
+    return true;
+  }
+
+  _waitForAbilityAssets(abilities, nowMs) {
+    const controller = this.scene?.playerAbilityAssetController;
+    if (
+      abilities?.isThunderStrikeUnlocked?.() !== true
+      || !controller
+      || controller.isReady?.("thunderStrike") === true
+    ) {
+      return false;
+    }
+    this.inputBufferedUntilMs = Number.POSITIVE_INFINITY;
+    if (!this.assetLoadPromise) {
+      this.assetLoadPromise = Promise.resolve(controller.ensure?.(
+        "thunderStrike",
+        { interactive: true },
+      ))
+        .then((result) => {
+          this.assetLoadPromise = null;
+          if (this.destroyed) return;
+          const ready = result?.ready === true
+            || controller.isReady?.("thunderStrike") === true;
+          const resumedAtMs = Number(this.scene?.time?.now) || nowMs;
+          this.inputBufferedUntilMs = ready
+            ? resumedAtMs + (
+              this.adapter.inputBufferMs
+              ?? RETENTION_CONFIG.intentPreview.abilityInputBufferMs
+            )
+            : -Infinity;
+        })
+        .catch(() => {
+          this.assetLoadPromise = null;
+          this.inputBufferedUntilMs = -Infinity;
+        });
+    }
     return true;
   }
 
@@ -344,6 +382,7 @@ export class ThunderStrikeActionRuntime {
   destroy() {
     if (this.destroyed) return;
     this.destroyed = true;
+    this.assetLoadPromise = null;
     this._finish({ restoreVisuals: false });
     this.timingBar?.destroy?.();
     this.impactFx?.destroy?.();

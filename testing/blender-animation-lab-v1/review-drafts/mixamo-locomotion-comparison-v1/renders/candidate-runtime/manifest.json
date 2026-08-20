@@ -1,0 +1,2161 @@
+{
+  "version": "mixamo-locomotion-comparison-v1-20260820",
+  "productionChanged": false,
+  "runtimeWired": false,
+  "qualityAuthority": "Survival V4 PBR, full-resolution textures, full glove and four-light rig",
+  "clips": {
+    "walk-loop": {
+      "file": "survival-character-mixamo-locomotion-v1-walk-loop-sheet.png",
+      "frames": 24,
+      "columns": 16,
+      "rows": 2,
+      "fps": 24,
+      "loop": true,
+      "role": "Neutral walk loop",
+      "source": "mixamo-standard-walk-123500901.fbx",
+      "sourceRenderSizePx": 1024,
+      "packedFrameSizePx": 256,
+      "downsamplePasses": 1,
+      "minimumRawEdgeMarginPx": 100,
+      "baselineRangePx": 27,
+      "maximumSuspiciousGreenPixels": 0,
+      "sheetSha256": "d9dadfdabf16473bec644d7b36d9a225a22c7f6d42ae797e0658e0d779d02978",
+      "preview": "walk-loop.gif",
+      "contactSheet": "walk-loop-contact-sheet.png",
+      "frameMetrics": [
+        {
+          "bounds": [
+            383,
+            130,
+            630,
+            899
+          ],
+          "centroid": [
+            527.733,
+            465.489
+          ],
+          "visiblePixels": 97179,
+          "edgeMarginPx": 125,
+          "baselinePx": 898,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            384,
+            134,
+            664,
+            899
+          ],
+          "centroid": [
+            533.061,
+            501.891
+          ],
+          "visiblePixels": 114823,
+          "edgeMarginPx": 125,
+          "baselinePx": 898,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            385,
+            140,
+            706,
+            900
+          ],
+          "centroid": [
+            534.877,
+            508.658
+          ],
+          "visiblePixels": 118936,
+          "edgeMarginPx": 124,
+          "baselinePx": 899,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            384,
+            152,
+            750,
+            902
+          ],
+          "centroid": [
+            534.89,
+            518.471
+          ],
+          "visiblePixels": 121109,
+          "edgeMarginPx": 122,
+          "baselinePx": 901,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            368,
+            159,
+            772,
+            905
+          ],
+          "centroid": [
+            534.631,
+            524.042
+          ],
+          "visiblePixels": 122890,
+          "edgeMarginPx": 119,
+          "baselinePx": 904,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            349,
+            163,
+            777,
+            913
+          ],
+          "centroid": [
+            533.149,
+            527.783
+          ],
+          "visiblePixels": 123229,
+          "edgeMarginPx": 111,
+          "baselinePx": 912,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            337,
+            165,
+            763,
+            923
+          ],
+          "centroid": [
+            529.692,
+            530.799
+          ],
+          "visiblePixels": 122808,
+          "edgeMarginPx": 101,
+          "baselinePx": 922,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            343,
+            156,
+            735,
+            924
+          ],
+          "centroid": [
+            526.96,
+            523.852
+          ],
+          "visiblePixels": 122099,
+          "edgeMarginPx": 100,
+          "baselinePx": 923,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            360,
+            148,
+            703,
+            916
+          ],
+          "centroid": [
+            526.271,
+            515.631
+          ],
+          "visiblePixels": 119888,
+          "edgeMarginPx": 108,
+          "baselinePx": 915,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            385,
+            140,
+            673,
+            904
+          ],
+          "centroid": [
+            526.321,
+            504.347
+          ],
+          "visiblePixels": 113045,
+          "edgeMarginPx": 120,
+          "baselinePx": 903,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            384,
+            134,
+            646,
+            903
+          ],
+          "centroid": [
+            526.147,
+            492.729
+          ],
+          "visiblePixels": 104880,
+          "edgeMarginPx": 121,
+          "baselinePx": 902,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            385,
+            132,
+            634,
+            903
+          ],
+          "centroid": [
+            530.806,
+            477.29
+          ],
+          "visiblePixels": 99797,
+          "edgeMarginPx": 121,
+          "baselinePx": 902,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            385,
+            132,
+            646,
+            901
+          ],
+          "centroid": [
+            534.484,
+            495.284
+          ],
+          "visiblePixels": 107623,
+          "edgeMarginPx": 123,
+          "baselinePx": 900,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            386,
+            135,
+            696,
+            899
+          ],
+          "centroid": [
+            538.401,
+            503.745
+          ],
+          "visiblePixels": 110386,
+          "edgeMarginPx": 125,
+          "baselinePx": 898,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            387,
+            140,
+            754,
+            899
+          ],
+          "centroid": [
+            543.333,
+            508.922
+          ],
+          "visiblePixels": 113996,
+          "edgeMarginPx": 125,
+          "baselinePx": 898,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            387,
+            148,
+            800,
+            900
+          ],
+          "centroid": [
+            546.735,
+            513.36
+          ],
+          "visiblePixels": 116362,
+          "edgeMarginPx": 124,
+          "baselinePx": 899,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            377,
+            155,
+            812,
+            902
+          ],
+          "centroid": [
+            546.557,
+            518.102
+          ],
+          "visiblePixels": 117552,
+          "edgeMarginPx": 122,
+          "baselinePx": 901,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            349,
+            161,
+            801,
+            905
+          ],
+          "centroid": [
+            542.184,
+            523.262
+          ],
+          "visiblePixels": 118129,
+          "edgeMarginPx": 119,
+          "baselinePx": 904,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            326,
+            162,
+            777,
+            913
+          ],
+          "centroid": [
+            534.834,
+            527.488
+          ],
+          "visiblePixels": 118326,
+          "edgeMarginPx": 111,
+          "baselinePx": 912,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            324,
+            154,
+            748,
+            918
+          ],
+          "centroid": [
+            528.424,
+            522.611
+          ],
+          "visiblePixels": 117864,
+          "edgeMarginPx": 106,
+          "baselinePx": 917,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            333,
+            145,
+            715,
+            901
+          ],
+          "centroid": [
+            524.879,
+            514.982
+          ],
+          "visiblePixels": 114750,
+          "edgeMarginPx": 123,
+          "baselinePx": 900,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            355,
+            140,
+            685,
+            897
+          ],
+          "centroid": [
+            523.151,
+            507.67
+          ],
+          "visiblePixels": 110390,
+          "edgeMarginPx": 127,
+          "baselinePx": 896,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            383,
+            135,
+            659,
+            897
+          ],
+          "centroid": [
+            522.713,
+            498.545
+          ],
+          "visiblePixels": 105754,
+          "edgeMarginPx": 127,
+          "baselinePx": 896,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            383,
+            131,
+            636,
+            898
+          ],
+          "centroid": [
+            522.672,
+            487.57
+          ],
+          "visiblePixels": 100108,
+          "edgeMarginPx": 126,
+          "baselinePx": 897,
+          "suspiciousGreenPixels": 0
+        }
+      ]
+    },
+    "run-loop": {
+      "file": "survival-character-mixamo-locomotion-v1-run-loop-sheet.png",
+      "frames": 20,
+      "columns": 16,
+      "rows": 2,
+      "fps": 30,
+      "loop": true,
+      "role": "Unarmed run loop",
+      "source": "mixamo-unarmed-run-forward-128650943.fbx",
+      "sourceRenderSizePx": 1024,
+      "packedFrameSizePx": 256,
+      "downsamplePasses": 1,
+      "minimumRawEdgeMarginPx": 99,
+      "baselineRangePx": 34,
+      "maximumSuspiciousGreenPixels": 0,
+      "sheetSha256": "f97a53f25f5e7d48993fd3a40d44ed86d00d06361042ba5bfb496ed89d901718",
+      "preview": "run-loop.gif",
+      "contactSheet": "run-loop-contact-sheet.png",
+      "frameMetrics": [
+        {
+          "bounds": [
+            347,
+            204,
+            752,
+            909
+          ],
+          "centroid": [
+            550.15,
+            505.526
+          ],
+          "visiblePixels": 102106,
+          "edgeMarginPx": 115,
+          "baselinePx": 908,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            338,
+            187,
+            759,
+            919
+          ],
+          "centroid": [
+            544.287,
+            517.048
+          ],
+          "visiblePixels": 113425,
+          "edgeMarginPx": 105,
+          "baselinePx": 918,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            331,
+            183,
+            764,
+            925
+          ],
+          "centroid": [
+            547.0,
+            514.882
+          ],
+          "visiblePixels": 115692,
+          "edgeMarginPx": 99,
+          "baselinePx": 924,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            325,
+            180,
+            767,
+            915
+          ],
+          "centroid": [
+            550.159,
+            511.15
+          ],
+          "visiblePixels": 117173,
+          "edgeMarginPx": 109,
+          "baselinePx": 914,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            320,
+            187,
+            766,
+            907
+          ],
+          "centroid": [
+            552.15,
+            516.227
+          ],
+          "visiblePixels": 117581,
+          "edgeMarginPx": 117,
+          "baselinePx": 906,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            307,
+            192,
+            763,
+            894
+          ],
+          "centroid": [
+            551.738,
+            518.634
+          ],
+          "visiblePixels": 116414,
+          "edgeMarginPx": 130,
+          "baselinePx": 893,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            314,
+            191,
+            760,
+            891
+          ],
+          "centroid": [
+            552.495,
+            513.049
+          ],
+          "visiblePixels": 112203,
+          "edgeMarginPx": 133,
+          "baselinePx": 890,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            341,
+            196,
+            754,
+            893
+          ],
+          "centroid": [
+            552.875,
+            509.045
+          ],
+          "visiblePixels": 107065,
+          "edgeMarginPx": 131,
+          "baselinePx": 892,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            372,
+            204,
+            739,
+            894
+          ],
+          "centroid": [
+            553.908,
+            513.338
+          ],
+          "visiblePixels": 106898,
+          "edgeMarginPx": 130,
+          "baselinePx": 893,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            400,
+            203,
+            727,
+            895
+          ],
+          "centroid": [
+            555.977,
+            507.33
+          ],
+          "visiblePixels": 103223,
+          "edgeMarginPx": 129,
+          "baselinePx": 894,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            372,
+            195,
+            743,
+            906
+          ],
+          "centroid": [
+            554.849,
+            519.134
+          ],
+          "visiblePixels": 115003,
+          "edgeMarginPx": 118,
+          "baselinePx": 905,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            345,
+            181,
+            759,
+            906
+          ],
+          "centroid": [
+            553.204,
+            514.132
+          ],
+          "visiblePixels": 117037,
+          "edgeMarginPx": 118,
+          "baselinePx": 905,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            334,
+            175,
+            768,
+            918
+          ],
+          "centroid": [
+            556.837,
+            509.536
+          ],
+          "visiblePixels": 117641,
+          "edgeMarginPx": 106,
+          "baselinePx": 917,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            321,
+            185,
+            773,
+            924
+          ],
+          "centroid": [
+            558.474,
+            517.867
+          ],
+          "visiblePixels": 118431,
+          "edgeMarginPx": 100,
+          "baselinePx": 923,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            305,
+            189,
+            771,
+            912
+          ],
+          "centroid": [
+            556.196,
+            521.717
+          ],
+          "visiblePixels": 118294,
+          "edgeMarginPx": 112,
+          "baselinePx": 911,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            284,
+            182,
+            764,
+            896
+          ],
+          "centroid": [
+            552.75,
+            513.706
+          ],
+          "visiblePixels": 117438,
+          "edgeMarginPx": 128,
+          "baselinePx": 895,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            272,
+            188,
+            751,
+            897
+          ],
+          "centroid": [
+            548.996,
+            517.344
+          ],
+          "visiblePixels": 117027,
+          "edgeMarginPx": 127,
+          "baselinePx": 896,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            278,
+            203,
+            738,
+            898
+          ],
+          "centroid": [
+            546.918,
+            530.274
+          ],
+          "visiblePixels": 118094,
+          "edgeMarginPx": 126,
+          "baselinePx": 897,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            301,
+            214,
+            740,
+            899
+          ],
+          "centroid": [
+            543.621,
+            535.953
+          ],
+          "visiblePixels": 112523,
+          "edgeMarginPx": 125,
+          "baselinePx": 898,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            341,
+            215,
+            741,
+            900
+          ],
+          "centroid": [
+            545.141,
+            526.74
+          ],
+          "visiblePixels": 106902,
+          "edgeMarginPx": 124,
+          "baselinePx": 899,
+          "suspiciousGreenPixels": 0
+        }
+      ]
+    },
+    "crouch-walk": {
+      "file": "survival-character-mixamo-locomotion-v1-crouch-walk-sheet.png",
+      "frames": 24,
+      "columns": 16,
+      "rows": 2,
+      "fps": 24,
+      "loop": true,
+      "role": "Crouched movement loop",
+      "source": "mixamo-crouched-walk-101610901.fbx",
+      "sourceRenderSizePx": 1024,
+      "packedFrameSizePx": 256,
+      "downsamplePasses": 1,
+      "minimumRawEdgeMarginPx": 108,
+      "baselineRangePx": 13,
+      "maximumSuspiciousGreenPixels": 0,
+      "sheetSha256": "424d47b3435ef11caf8cc23c27c48f866c6378df06ed76c1665ebae4bab4fedc",
+      "preview": "crouch-walk.gif",
+      "contactSheet": "crouch-walk-contact-sheet.png",
+      "frameMetrics": [
+        {
+          "bounds": [
+            438,
+            286,
+            818,
+            911
+          ],
+          "centroid": [
+            606.179,
+            522.636
+          ],
+          "visiblePixels": 107620,
+          "edgeMarginPx": 113,
+          "baselinePx": 910,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            438,
+            281,
+            819,
+            912
+          ],
+          "centroid": [
+            606.927,
+            535.349
+          ],
+          "visiblePixels": 113841,
+          "edgeMarginPx": 112,
+          "baselinePx": 911,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            437,
+            279,
+            819,
+            914
+          ],
+          "centroid": [
+            607.677,
+            541.534
+          ],
+          "visiblePixels": 116996,
+          "edgeMarginPx": 110,
+          "baselinePx": 913,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            437,
+            282,
+            817,
+            916
+          ],
+          "centroid": [
+            609.073,
+            545.196
+          ],
+          "visiblePixels": 117312,
+          "edgeMarginPx": 108,
+          "baselinePx": 915,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            438,
+            292,
+            818,
+            916
+          ],
+          "centroid": [
+            611.324,
+            553.501
+          ],
+          "visiblePixels": 117522,
+          "edgeMarginPx": 108,
+          "baselinePx": 915,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            411,
+            305,
+            819,
+            916
+          ],
+          "centroid": [
+            611.053,
+            563.936
+          ],
+          "visiblePixels": 117616,
+          "edgeMarginPx": 108,
+          "baselinePx": 915,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            384,
+            305,
+            819,
+            908
+          ],
+          "centroid": [
+            607.518,
+            562.828
+          ],
+          "visiblePixels": 117663,
+          "edgeMarginPx": 116,
+          "baselinePx": 907,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            365,
+            310,
+            818,
+            908
+          ],
+          "centroid": [
+            602.842,
+            565.648
+          ],
+          "visiblePixels": 117394,
+          "edgeMarginPx": 116,
+          "baselinePx": 907,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            367,
+            315,
+            818,
+            910
+          ],
+          "centroid": [
+            600.918,
+            568.154
+          ],
+          "visiblePixels": 116704,
+          "edgeMarginPx": 114,
+          "baselinePx": 909,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            387,
+            317,
+            818,
+            912
+          ],
+          "centroid": [
+            600.227,
+            569.202
+          ],
+          "visiblePixels": 115965,
+          "edgeMarginPx": 112,
+          "baselinePx": 911,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            408,
+            314,
+            817,
+            906
+          ],
+          "centroid": [
+            600.401,
+            565.945
+          ],
+          "visiblePixels": 114543,
+          "edgeMarginPx": 118,
+          "baselinePx": 905,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            433,
+            307,
+            817,
+            903
+          ],
+          "centroid": [
+            601.854,
+            558.603
+          ],
+          "visiblePixels": 112527,
+          "edgeMarginPx": 121,
+          "baselinePx": 902,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            440,
+            298,
+            817,
+            908
+          ],
+          "centroid": [
+            603.739,
+            548.114
+          ],
+          "visiblePixels": 109374,
+          "edgeMarginPx": 116,
+          "baselinePx": 907,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            439,
+            288,
+            817,
+            911
+          ],
+          "centroid": [
+            607.707,
+            520.134
+          ],
+          "visiblePixels": 100733,
+          "edgeMarginPx": 113,
+          "baselinePx": 910,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            437,
+            282,
+            815,
+            906
+          ],
+          "centroid": [
+            605.671,
+            530.151
+          ],
+          "visiblePixels": 105079,
+          "edgeMarginPx": 118,
+          "baselinePx": 905,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            434,
+            282,
+            813,
+            906
+          ],
+          "centroid": [
+            605.354,
+            539.054
+          ],
+          "visiblePixels": 109327,
+          "edgeMarginPx": 118,
+          "baselinePx": 905,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            432,
+            287,
+            810,
+            907
+          ],
+          "centroid": [
+            604.601,
+            546.827
+          ],
+          "visiblePixels": 112116,
+          "edgeMarginPx": 117,
+          "baselinePx": 906,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            429,
+            294,
+            808,
+            908
+          ],
+          "centroid": [
+            602.475,
+            553.788
+          ],
+          "visiblePixels": 114955,
+          "edgeMarginPx": 116,
+          "baselinePx": 907,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            413,
+            298,
+            814,
+            908
+          ],
+          "centroid": [
+            600.206,
+            555.251
+          ],
+          "visiblePixels": 116815,
+          "edgeMarginPx": 116,
+          "baselinePx": 907,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            410,
+            302,
+            818,
+            910
+          ],
+          "centroid": [
+            598.804,
+            556.916
+          ],
+          "visiblePixels": 117184,
+          "edgeMarginPx": 114,
+          "baselinePx": 909,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            425,
+            309,
+            818,
+            911
+          ],
+          "centroid": [
+            599.01,
+            558.472
+          ],
+          "visiblePixels": 115583,
+          "edgeMarginPx": 113,
+          "baselinePx": 910,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            434,
+            311,
+            816,
+            910
+          ],
+          "centroid": [
+            598.927,
+            556.237
+          ],
+          "visiblePixels": 113180,
+          "edgeMarginPx": 114,
+          "baselinePx": 909,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            435,
+            303,
+            812,
+            910
+          ],
+          "centroid": [
+            598.424,
+            547.895
+          ],
+          "visiblePixels": 111144,
+          "edgeMarginPx": 114,
+          "baselinePx": 909,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            436,
+            294,
+            816,
+            910
+          ],
+          "centroid": [
+            601.275,
+            540.197
+          ],
+          "visiblePixels": 111774,
+          "edgeMarginPx": 114,
+          "baselinePx": 909,
+          "suspiciousGreenPixels": 0
+        }
+      ]
+    },
+    "jump-full": {
+      "file": "survival-character-mixamo-locomotion-v1-jump-full-sheet.png",
+      "frames": 36,
+      "columns": 16,
+      "rows": 3,
+      "fps": 30,
+      "loop": false,
+      "role": "Full takeoff, airborne and landing reference",
+      "source": "mixamo-unarmed-jump-128650940.fbx",
+      "sourceRenderSizePx": 1024,
+      "packedFrameSizePx": 256,
+      "downsamplePasses": 1,
+      "minimumRawEdgeMarginPx": 60,
+      "baselineRangePx": 271,
+      "maximumSuspiciousGreenPixels": 0,
+      "sheetSha256": "02f6ae1c75e98204e8370930b7de20d7a9ac420368ce2f89bac6c33987ec16ae",
+      "preview": "jump-full.gif",
+      "contactSheet": "jump-full-contact-sheet.png",
+      "frameMetrics": [
+        {
+          "bounds": [
+            393,
+            143,
+            664,
+            904
+          ],
+          "centroid": [
+            543.99,
+            465.947
+          ],
+          "visiblePixels": 94475,
+          "edgeMarginPx": 120,
+          "baselinePx": 903,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            394,
+            143,
+            670,
+            904
+          ],
+          "centroid": [
+            543.932,
+            463.893
+          ],
+          "visiblePixels": 92254,
+          "edgeMarginPx": 120,
+          "baselinePx": 903,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            397,
+            146,
+            681,
+            904
+          ],
+          "centroid": [
+            545.339,
+            462.187
+          ],
+          "visiblePixels": 90409,
+          "edgeMarginPx": 120,
+          "baselinePx": 903,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            401,
+            153,
+            701,
+            904
+          ],
+          "centroid": [
+            547.894,
+            465.822
+          ],
+          "visiblePixels": 93706,
+          "edgeMarginPx": 120,
+          "baselinePx": 903,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            406,
+            167,
+            728,
+            904
+          ],
+          "centroid": [
+            551.743,
+            469.834
+          ],
+          "visiblePixels": 97257,
+          "edgeMarginPx": 120,
+          "baselinePx": 903,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            381,
+            184,
+            751,
+            902
+          ],
+          "centroid": [
+            559.201,
+            474.715
+          ],
+          "visiblePixels": 97705,
+          "edgeMarginPx": 122,
+          "baselinePx": 901,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            369,
+            210,
+            772,
+            898
+          ],
+          "centroid": [
+            570.048,
+            486.051
+          ],
+          "visiblePixels": 97726,
+          "edgeMarginPx": 126,
+          "baselinePx": 897,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            370,
+            241,
+            791,
+            894
+          ],
+          "centroid": [
+            580.622,
+            500.945
+          ],
+          "visiblePixels": 98037,
+          "edgeMarginPx": 130,
+          "baselinePx": 893,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            390,
+            260,
+            797,
+            890
+          ],
+          "centroid": [
+            590.201,
+            513.762
+          ],
+          "visiblePixels": 96195,
+          "edgeMarginPx": 134,
+          "baselinePx": 889,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            437,
+            259,
+            788,
+            889
+          ],
+          "centroid": [
+            598.523,
+            516.584
+          ],
+          "visiblePixels": 92801,
+          "edgeMarginPx": 135,
+          "baselinePx": 888,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            427,
+            240,
+            767,
+            890
+          ],
+          "centroid": [
+            602.878,
+            516.637
+          ],
+          "visiblePixels": 104212,
+          "edgeMarginPx": 134,
+          "baselinePx": 889,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            418,
+            206,
+            827,
+            895
+          ],
+          "centroid": [
+            599.472,
+            492.996
+          ],
+          "visiblePixels": 105132,
+          "edgeMarginPx": 129,
+          "baselinePx": 894,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            403,
+            156,
+            835,
+            906
+          ],
+          "centroid": [
+            583.286,
+            455.536
+          ],
+          "visiblePixels": 103240,
+          "edgeMarginPx": 118,
+          "baselinePx": 905,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            397,
+            112,
+            815,
+            895
+          ],
+          "centroid": [
+            576.327,
+            420.5
+          ],
+          "visiblePixels": 105361,
+          "edgeMarginPx": 112,
+          "baselinePx": 894,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            403,
+            84,
+            795,
+            834
+          ],
+          "centroid": [
+            585.19,
+            370.342
+          ],
+          "visiblePixels": 101065,
+          "edgeMarginPx": 84,
+          "baselinePx": 833,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            417,
+            74,
+            790,
+            737
+          ],
+          "centroid": [
+            602.885,
+            326.329
+          ],
+          "visiblePixels": 99513,
+          "edgeMarginPx": 74,
+          "baselinePx": 736,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            424,
+            71,
+            805,
+            646
+          ],
+          "centroid": [
+            611.229,
+            299.502
+          ],
+          "visiblePixels": 96229,
+          "edgeMarginPx": 71,
+          "baselinePx": 645,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            420,
+            64,
+            816,
+            635
+          ],
+          "centroid": [
+            607.831,
+            294.245
+          ],
+          "visiblePixels": 96504,
+          "edgeMarginPx": 64,
+          "baselinePx": 634,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            422,
+            60,
+            817,
+            684
+          ],
+          "centroid": [
+            605.237,
+            308.327
+          ],
+          "visiblePixels": 98872,
+          "edgeMarginPx": 60,
+          "baselinePx": 683,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            422,
+            64,
+            819,
+            743
+          ],
+          "centroid": [
+            599.85,
+            328.731
+          ],
+          "visiblePixels": 100716,
+          "edgeMarginPx": 64,
+          "baselinePx": 742,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            418,
+            86,
+            824,
+            800
+          ],
+          "centroid": [
+            592.179,
+            360.181
+          ],
+          "visiblePixels": 103401,
+          "edgeMarginPx": 86,
+          "baselinePx": 799,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            412,
+            121,
+            816,
+            858
+          ],
+          "centroid": [
+            581.644,
+            411.486
+          ],
+          "visiblePixels": 107894,
+          "edgeMarginPx": 121,
+          "baselinePx": 857,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            411,
+            174,
+            796,
+            905
+          ],
+          "centroid": [
+            577.872,
+            467.184
+          ],
+          "visiblePixels": 108237,
+          "edgeMarginPx": 119,
+          "baselinePx": 904,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            421,
+            266,
+            778,
+            882
+          ],
+          "centroid": [
+            592.253,
+            521.692
+          ],
+          "visiblePixels": 100526,
+          "edgeMarginPx": 142,
+          "baselinePx": 881,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            431,
+            308,
+            808,
+            879
+          ],
+          "centroid": [
+            602.181,
+            540.473
+          ],
+          "visiblePixels": 100454,
+          "edgeMarginPx": 145,
+          "baselinePx": 878,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            439,
+            337,
+            828,
+            877
+          ],
+          "centroid": [
+            607.425,
+            551.403
+          ],
+          "visiblePixels": 99310,
+          "edgeMarginPx": 147,
+          "baselinePx": 876,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            441,
+            339,
+            832,
+            877
+          ],
+          "centroid": [
+            608.715,
+            553.097
+          ],
+          "visiblePixels": 99406,
+          "edgeMarginPx": 147,
+          "baselinePx": 876,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            433,
+            325,
+            818,
+            878
+          ],
+          "centroid": [
+            604.891,
+            548.752
+          ],
+          "visiblePixels": 101583,
+          "edgeMarginPx": 146,
+          "baselinePx": 877,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            424,
+            288,
+            797,
+            881
+          ],
+          "centroid": [
+            597.516,
+            536.521
+          ],
+          "visiblePixels": 102754,
+          "edgeMarginPx": 143,
+          "baselinePx": 880,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            415,
+            242,
+            769,
+            888
+          ],
+          "centroid": [
+            587.561,
+            514.885
+          ],
+          "visiblePixels": 102832,
+          "edgeMarginPx": 136,
+          "baselinePx": 887,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            407,
+            198,
+            736,
+            895
+          ],
+          "centroid": [
+            575.691,
+            492.697
+          ],
+          "visiblePixels": 101944,
+          "edgeMarginPx": 129,
+          "baselinePx": 894,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            401,
+            169,
+            708,
+            900
+          ],
+          "centroid": [
+            565.016,
+            478.874
+          ],
+          "visiblePixels": 100773,
+          "edgeMarginPx": 124,
+          "baselinePx": 899,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            397,
+            155,
+            686,
+            902
+          ],
+          "centroid": [
+            556.837,
+            473.087
+          ],
+          "visiblePixels": 99580,
+          "edgeMarginPx": 122,
+          "baselinePx": 901,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            395,
+            147,
+            675,
+            904
+          ],
+          "centroid": [
+            550.984,
+            469.113
+          ],
+          "visiblePixels": 98066,
+          "edgeMarginPx": 120,
+          "baselinePx": 903,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            393,
+            144,
+            667,
+            904
+          ],
+          "centroid": [
+            546.616,
+            467.212
+          ],
+          "visiblePixels": 96258,
+          "edgeMarginPx": 120,
+          "baselinePx": 903,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            393,
+            143,
+            664,
+            904
+          ],
+          "centroid": [
+            543.994,
+            465.97
+          ],
+          "visiblePixels": 94460,
+          "edgeMarginPx": 120,
+          "baselinePx": 903,
+          "suspiciousGreenPixels": 0
+        }
+      ]
+    },
+    "falling-loop": {
+      "file": "survival-character-mixamo-locomotion-v1-falling-loop-sheet.png",
+      "frames": 24,
+      "columns": 16,
+      "rows": 2,
+      "fps": 24,
+      "loop": true,
+      "role": "Mid-air falling loop reference",
+      "source": "mixamo-falling-idle-118120901.fbx",
+      "sourceRenderSizePx": 1024,
+      "packedFrameSizePx": 256,
+      "downsamplePasses": 1,
+      "minimumRawEdgeMarginPx": 169,
+      "baselineRangePx": 2,
+      "maximumSuspiciousGreenPixels": 0,
+      "sheetSha256": "bad70690c6c4799a1d760de6589ddba92492667571b20b558418852e0d0147a8",
+      "preview": "falling-loop.gif",
+      "contactSheet": "falling-loop-contact-sheet.png",
+      "frameMetrics": [
+        {
+          "bounds": [
+            410,
+            197,
+            803,
+            782
+          ],
+          "centroid": [
+            591.077,
+            455.141
+          ],
+          "visiblePixels": 102376,
+          "edgeMarginPx": 197,
+          "baselinePx": 781,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            410,
+            197,
+            803,
+            782
+          ],
+          "centroid": [
+            591.009,
+            455.501
+          ],
+          "visiblePixels": 102524,
+          "edgeMarginPx": 197,
+          "baselinePx": 781,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            410,
+            195,
+            803,
+            782
+          ],
+          "centroid": [
+            591.05,
+            455.713
+          ],
+          "visiblePixels": 102736,
+          "edgeMarginPx": 195,
+          "baselinePx": 781,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            410,
+            194,
+            804,
+            782
+          ],
+          "centroid": [
+            591.143,
+            455.813
+          ],
+          "visiblePixels": 102972,
+          "edgeMarginPx": 194,
+          "baselinePx": 781,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            411,
+            192,
+            804,
+            781
+          ],
+          "centroid": [
+            591.307,
+            455.785
+          ],
+          "visiblePixels": 103271,
+          "edgeMarginPx": 192,
+          "baselinePx": 780,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            411,
+            189,
+            805,
+            781
+          ],
+          "centroid": [
+            591.558,
+            455.542
+          ],
+          "visiblePixels": 103602,
+          "edgeMarginPx": 189,
+          "baselinePx": 780,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            411,
+            187,
+            805,
+            781
+          ],
+          "centroid": [
+            591.797,
+            455.305
+          ],
+          "visiblePixels": 103898,
+          "edgeMarginPx": 187,
+          "baselinePx": 780,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            412,
+            184,
+            805,
+            781
+          ],
+          "centroid": [
+            592.034,
+            454.841
+          ],
+          "visiblePixels": 104216,
+          "edgeMarginPx": 184,
+          "baselinePx": 780,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            412,
+            181,
+            805,
+            781
+          ],
+          "centroid": [
+            592.293,
+            454.256
+          ],
+          "visiblePixels": 104516,
+          "edgeMarginPx": 181,
+          "baselinePx": 780,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            412,
+            177,
+            806,
+            780
+          ],
+          "centroid": [
+            592.451,
+            453.597
+          ],
+          "visiblePixels": 104745,
+          "edgeMarginPx": 177,
+          "baselinePx": 779,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            412,
+            174,
+            806,
+            780
+          ],
+          "centroid": [
+            592.551,
+            452.961
+          ],
+          "visiblePixels": 104964,
+          "edgeMarginPx": 174,
+          "baselinePx": 779,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            413,
+            172,
+            806,
+            780
+          ],
+          "centroid": [
+            592.625,
+            452.358
+          ],
+          "visiblePixels": 105092,
+          "edgeMarginPx": 172,
+          "baselinePx": 779,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            413,
+            170,
+            806,
+            780
+          ],
+          "centroid": [
+            592.68,
+            451.825
+          ],
+          "visiblePixels": 105164,
+          "edgeMarginPx": 170,
+          "baselinePx": 779,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            413,
+            169,
+            806,
+            780
+          ],
+          "centroid": [
+            592.749,
+            451.509
+          ],
+          "visiblePixels": 105162,
+          "edgeMarginPx": 169,
+          "baselinePx": 779,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            412,
+            170,
+            806,
+            781
+          ],
+          "centroid": [
+            592.766,
+            451.352
+          ],
+          "visiblePixels": 105084,
+          "edgeMarginPx": 170,
+          "baselinePx": 780,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            412,
+            171,
+            805,
+            781
+          ],
+          "centroid": [
+            592.779,
+            451.314
+          ],
+          "visiblePixels": 104963,
+          "edgeMarginPx": 171,
+          "baselinePx": 780,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            412,
+            174,
+            805,
+            781
+          ],
+          "centroid": [
+            592.743,
+            451.443
+          ],
+          "visiblePixels": 104751,
+          "edgeMarginPx": 174,
+          "baselinePx": 780,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            412,
+            176,
+            805,
+            781
+          ],
+          "centroid": [
+            592.646,
+            451.702
+          ],
+          "visiblePixels": 104527,
+          "edgeMarginPx": 176,
+          "baselinePx": 780,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            411,
+            179,
+            804,
+            782
+          ],
+          "centroid": [
+            592.509,
+            452.08
+          ],
+          "visiblePixels": 104264,
+          "edgeMarginPx": 179,
+          "baselinePx": 781,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            411,
+            182,
+            804,
+            782
+          ],
+          "centroid": [
+            592.317,
+            452.517
+          ],
+          "visiblePixels": 103994,
+          "edgeMarginPx": 182,
+          "baselinePx": 781,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            411,
+            185,
+            804,
+            782
+          ],
+          "centroid": [
+            592.047,
+            452.989
+          ],
+          "visiblePixels": 103681,
+          "edgeMarginPx": 185,
+          "baselinePx": 781,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            410,
+            188,
+            804,
+            782
+          ],
+          "centroid": [
+            591.808,
+            453.461
+          ],
+          "visiblePixels": 103389,
+          "edgeMarginPx": 188,
+          "baselinePx": 781,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            410,
+            191,
+            803,
+            782
+          ],
+          "centroid": [
+            591.525,
+            454.052
+          ],
+          "visiblePixels": 103022,
+          "edgeMarginPx": 191,
+          "baselinePx": 781,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            410,
+            194,
+            803,
+            782
+          ],
+          "centroid": [
+            591.298,
+            454.576
+          ],
+          "visiblePixels": 102684,
+          "edgeMarginPx": 194,
+          "baselinePx": 781,
+          "suspiciousGreenPixels": 0
+        }
+      ]
+    }
+  }
+}

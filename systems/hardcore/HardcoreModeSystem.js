@@ -92,9 +92,17 @@ export class HardcoreModeSystem {
     const depth = Math.max(0, finiteOr(context.depth, 0));
     const darknessAlpha = clamp(finiteOr(context.darknessAlpha, 0), 0, 1);
     const torchActive = context.torchActive === true;
+    const nearIntactStarLight = context.nearIntactStarLight === true;
+    const playerLevel = Math.max(1, Math.floor(finiteOr(context.playerLevel, 1)));
+    const stressResistance = clamp(
+      (playerLevel - 1) * stressCfg.stressResistancePerPlayerLevel,
+      0,
+      stressCfg.stressResistanceMaximum,
+    );
     const descentSpeed = Math.max(0, finiteOr(context.descentTilesPerSecond, 0));
     const darknessActive = depth >= stressCfg.minimumDepthTiles
       && !torchActive
+      && !nearIntactStarLight
       && darknessAlpha >= stressCfg.darknessAlphaThreshold;
 
     let stressGainPerSecond = 0;
@@ -139,9 +147,16 @@ export class HardcoreModeSystem {
       if (ratio > 0.05) sources.push("deep-pressure");
     }
 
+    stressGainPerSecond *= 1 - stressResistance;
+
     const previousStress = this.state.stress;
     let nextStress = previousStress;
-    if (stressGainPerSecond > 0) {
+    if (nearIntactStarLight) {
+      nextStress += (
+        stressGainPerSecond - stressCfg.intactStarRecoveryPerSecond
+      ) * dt;
+      sources.push("intact-star-light");
+    } else if (stressGainPerSecond > 0) {
       nextStress += stressGainPerSecond * dt;
     } else {
       const recovery = depth < stressCfg.minimumDepthTiles
@@ -163,7 +178,10 @@ export class HardcoreModeSystem {
     return {
       ...this.getSnapshot(),
       darknessActive,
+      nearIntactStarLight,
       descentTilesPerSecond: descentSpeed,
+      playerLevel,
+      stressResistance,
       stressGainPerSecond,
       stressSources: sources,
       stressGpDrainPerSecond: drainRate,

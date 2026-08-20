@@ -1,0 +1,59 @@
+{
+  "version": "survival-rigify-diagnostic-comparison-v2",
+  "reviewOnly": true,
+  "productionChanged": false,
+  "sourceConfig": "values/survivalRigifyMotionTestV1.json",
+  "outputRoot": "testing/blender-animation-lab-v1/review-drafts/rigify-motion-comparison-v1",
+  "visualizationOutput": "C:/Users/Mila/.codex/visualizations/2026/08/14/01a00007-9604-7af3-986a-09fe1c8565e9/rigify-difference-lab.html",
+  "embeddedFrame": {
+    "widthPx": 480,
+    "heightPx": 540,
+    "webpQuality": 55,
+    "webpMethod": 6
+  },
+  "diagnosticGif": {
+    "panelWidthPx": 400,
+    "panelHeightPx": 450,
+    "headerHeightPx": 52,
+    "footerHeightPx": 42,
+    "frameDurationMs": 120,
+    "pauseDurationMs": 520,
+    "fontPath": "C:/Windows/Fonts/segoeuib.ttf",
+    "titleFontSizePx": 17,
+    "labelFontSizePx": 17,
+    "backgroundColor": [10, 14, 20, 255],
+    "textColor": [236, 241, 247, 255],
+    "sourceColor": [242, 184, 91, 255],
+    "candidateColor": [100, 215, 195, 255],
+    "overlapColor": [242, 242, 242, 255],
+    "sourceTitle": "CURRENT",
+    "candidateTitle": "RIGIFY",
+    "differenceTitle": "SILHOUETTE DISPLACEMENT",
+    "outputPattern": "current-vs-rigify-{family}-diagnostic.gif",
+    "combinedOutput": "current-vs-rigify-all-actions-diagnostic.gif"
+  },
+  "silhouette": {
+    "edgeSampleWidthPx": 24,
+    "backgroundDistanceThreshold": 18.0,
+    "floorCutoffRatio": 0.91,
+    "outlineRadiusPx": 2,
+    "baseBrightness": 0.38,
+    "sourceColor": [242, 184, 91, 255],
+    "candidateColor": [100, 215, 195, 255],
+    "overlapColor": [242, 242, 242, 255]
+  },
+  "interactive": {
+    "motionIntervalMs": 120,
+    "flickerIntervalMs": 420,
+    "initialFamily": "attack",
+    "initialMode": "wipe",
+    "initialZoom": "full",
+    "initialWipePercent": 50,
+    "zoomPresets": {
+      "full": {"label": "Full body", "scale": 1.0, "originXPercent": 50, "originYPercent": 50},
+      "face": {"label": "Face / shoulders", "scale": 2.25, "originXPercent": 50, "originYPercent": 20},
+      "upper": {"label": "Hands / hips", "scale": 1.8, "originXPercent": 50, "originYPercent": 48},
+      "legs": {"label": "Knees / feet", "scale": 1.72, "originXPercent": 50, "originYPercent": 78}
+    }
+  }
+}

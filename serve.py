@@ -9,6 +9,7 @@ import os
 import socket
 import socketserver
 import sys
+import threading
 import webbrowser
 from urllib.parse import urlsplit
 
@@ -107,8 +108,26 @@ class Handler(http.server.SimpleHTTPRequestHandler):
     def log_message(self, fmt, *args):
         print(fmt % args)
 
-class ReuseAddrServer(socketserver.TCPServer):
+class ReuseAddrServer(socketserver.ThreadingTCPServer):
     allow_reuse_address = True
+    daemon_threads = True
+    request_queue_size = 64
+    request_slots = threading.BoundedSemaphore(16)
+
+    def process_request(self, request, client_address):
+        self.request_slots.acquire()
+        try:
+            super().process_request(request, client_address)
+        except BaseException:
+            self.request_slots.release()
+            raise
+
+    def process_request_thread(self, request, client_address):
+        try:
+            super().process_request_thread(request, client_address)
+        finally:
+            self.request_slots.release()
+
     def server_bind(self):
         self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         self.socket.bind(self.server_address)

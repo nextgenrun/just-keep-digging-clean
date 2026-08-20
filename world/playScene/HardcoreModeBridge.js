@@ -23,6 +23,7 @@ import {
   GAMEPLAY_FEATURE_IDS,
   isGameplayFeatureEnabled,
 } from "../../values/gameplayDevFlags.js";
+import { TILE_TYPES } from "../../values/tileTypes.js";
 
 function isFlightUnlocked(scene) {
   return scene.upgradeSystem?.isGemPowerUnlocked?.() === true;
@@ -39,11 +40,28 @@ function flash(scene, text, color, duration) {
   scene.hudSystem?.flashStatus?.(text, color, duration);
 }
 
+function isNearIntactStarLight(scene, playerTile, radiusTiles) {
+  if (!playerTile || !scene.worldModel || !(radiusTiles > 0)) return false;
+  const radiusSquared = radiusTiles * radiusTiles;
+  for (let offsetY = -radiusTiles; offsetY <= radiusTiles; offsetY += 1) {
+    for (let offsetX = -radiusTiles; offsetX <= radiusTiles; offsetX += 1) {
+      if (offsetX * offsetX + offsetY * offsetY > radiusSquared) continue;
+      const tx = playerTile.tx + offsetX;
+      const ty = playerTile.ty + offsetY;
+      if (scene.worldModel.inBounds?.(tx, ty) === false) continue;
+      if (scene.worldModel.getTileType?.(tx, ty) === TILE_TYPES.SKY_TILE) return true;
+    }
+  }
+  return false;
+}
+
 function processSystemEvents(scene) {
   const runtime = scene._hardcoreRuntime;
   if (!runtime) return;
   for (const event of runtime.system.drainEvents()) {
-    if (event.type !== "stress-band" || event.band !== "critical") continue;
+    if (event.type !== "stress-band") continue;
+    scene.soundSystem?.playSeismicWarning?.(event.band === "critical" ? 1 : 0.55);
+    if (event.band !== "critical") continue;
     flash(
       scene,
       runtime.config.feedback.stressCriticalText,
@@ -133,6 +151,7 @@ function tryPayTeleport(scene, options = {}) {
   const depth = Math.max(0, Number(options.depth) || getDepth(scene));
   const kind = String(options.kind || "undergroundToSky");
   const cost = runtime.system.getTeleportCost(depth, kind);
+  if (cost <= 0) return { success: true, cost: 0 };
   if (!scene.upgradeSystem?.spendMoney?.(cost)) {
     return { success: false, cost };
   }
@@ -283,12 +302,20 @@ export function updateHardcoreModeRuntime(scene, time, delta, playerTile = null)
 
   const light = scene.lightSystem?.getShaderSnapshot?.() || {};
   const body = scene.playerController?.physicsBody;
+  const starLightRadius = runtime.config.stress.intactStarLightRadiusTiles;
+  const nearIntactStarLight = isNearIntactStarLight(
+    scene,
+    playerTile,
+    starLightRadius,
+  );
   const snapshot = runtime.system.update(delta, {
     gameplayActive: scene.gameState === "playing",
     nowMs: time,
     depth: getDepth(scene, playerTile),
     darknessAlpha: light.darknessAlpha,
     torchActive: light.torchActive,
+    nearIntactStarLight,
+    playerLevel: scene.playerLevelSystem?.level || 1,
     descentTilesPerSecond: body && scene.config.tileSize > 0
       ? Math.max(0, body.vy / scene.config.tileSize)
       : 0,
@@ -303,6 +330,23 @@ export function updateHardcoreModeRuntime(scene, time, delta, playerTile = null)
     );
   }
   const currentGp = scene.playerController?.getGemPowerExact?.() || 0;
+  const nearDeath = snapshot.armed
+    && currentGp > runtime.config.death.zeroGpEpsilon
+    && currentGp <= runtime.config.stress.nearDeathGpThreshold;
+  if (nearDeath && runtime.nearDeathActive !== true) {
+    const lastCueAt = Number(runtime.lastNearDeathCueAt) || 0;
+    if (lastCueAt === 0 || time - lastCueAt >= runtime.config.stress.nearDeathCueCooldownMs) {
+      runtime.lastNearDeathCueAt = time;
+      scene.soundSystem?.playHardcoreNearDeath?.();
+      flash(
+        scene,
+        "HARDCORE DANGER  •  GP NEAR ZERO",
+        runtime.config.feedback.dangerColor,
+        runtime.config.feedback.dangerFlashMs,
+      );
+    }
+  }
+  runtime.nearDeathActive = nearDeath;
   if (
     snapshot.armed
     && currentGp <= runtime.config.death.zeroGpEpsilon

@@ -1,0 +1,582 @@
+{
+  "version": 1,
+  "reviewOnly": true,
+  "productionChanged": false,
+  "benchmark": {
+    "lighting": "four SurvivalCinematic lights only",
+    "normal_maps": "Non-Color",
+    "view_transform": "AgX",
+    "look": "AgX - Medium High Contrast",
+    "deformation": "preserve volume enabled",
+    "render_size": 512,
+    "sample_count": 8,
+    "review_texture_limit": 2048,
+    "review_texture_cache": "visual-approval-previews/2026-08-14-survival-global-benchmark-v1/texture-cache-2k",
+    "accepted_motion_override": "run -> MINER_run Blender rollback",
+    "rejected_motion_sources": [
+      "Epic GASP comparison set"
+    ]
+  },
+  "actions": {
+    "idle": {
+      "id": "idle",
+      "loop": true,
+      "frames": [
+        "frame-000.png",
+        "frame-001.png",
+        "frame-002.png",
+        "frame-003.png",
+        "frame-004.png",
+        "frame-005.png",
+        "frame-006.png",
+        "frame-007.png"
+      ],
+      "sampled_source_frames": [
+        1.0,
+        8.625,
+        16.25,
+        23.875,
+        31.5,
+        39.125,
+        46.75,
+        54.375
+      ],
+      "motion_authority": "current-ual-survival-fbx",
+      "source": "survival-ual-idle-loop.fbx",
+      "preserve_volume": true,
+      "full_glove_polygon_overrides": 6162
+    },
+    "idle-talk": {
+      "id": "idle-talk",
+      "loop": true,
+      "frames": [
+        "frame-000.png",
+        "frame-001.png",
+        "frame-002.png",
+        "frame-003.png",
+        "frame-004.png",
+        "frame-005.png",
+        "frame-006.png",
+        "frame-007.png"
+      ],
+      "sampled_source_frames": [
+        1.0,
+        9.875,
+        18.75,
+        27.625,
+        36.5,
+        45.375,
+        54.25,
+        63.125
+      ],
+      "motion_authority": "current-ual-survival-fbx",
+      "source": "survival-ual-idle-talking-loop.fbx",
+      "preserve_volume": true,
+      "full_glove_polygon_overrides": 6162
+    },
+    "walk": {
+      "id": "walk",
+      "loop": true,
+      "frames": [
+        "frame-000.png",
+        "frame-001.png",
+        "frame-002.png",
+        "frame-003.png",
+        "frame-004.png",
+        "frame-005.png",
+        "frame-006.png",
+        "frame-007.png"
+      ],
+      "sampled_source_frames": [
+        1.0,
+        3.875,
+        6.75,
+        9.625,
+        12.5,
+        15.375,
+        18.25,
+        21.125
+      ],
+      "motion_authority": "current-ual-survival-fbx",
+      "source": "survival-ual-jog-fwd-loop.fbx",
+      "preserve_volume": true,
+      "full_glove_polygon_overrides": 6162
+    },
+    "run": {
+      "id": "run",
+      "loop": true,
+      "frames": [
+        "frame-000.png",
+        "frame-001.png",
+        "frame-002.png",
+        "frame-003.png",
+        "frame-004.png",
+        "frame-005.png",
+        "frame-006.png",
+        "frame-007.png"
+      ],
+      "sampled_source_frames": [
+        1.0,
+        7.75,
+        14.5,
+        21.25,
+        28.0,
+        34.75,
+        41.5,
+        48.25
+      ],
+      "motion_authority": "approved-blender-rollback",
+      "source": "MINER_run",
+      "preserve_volume": true,
+      "full_glove_polygon_overrides": 6162
+    },
+    "crouch": {
+      "id": "crouch",
+      "loop": true,
+      "frames": [
+        "frame-000.png",
+        "frame-001.png",
+        "frame-002.png",
+        "frame-003.png",
+        "frame-004.png",
+        "frame-005.png",
+        "frame-006.png",
+        "frame-007.png"
+      ],
+      "sampled_source_frames": [
+        1.0,
+        9.875,
+        18.75,
+        27.625,
+        36.5,
+        45.375,
+        54.25,
+        63.125
+      ],
+      "motion_authority": "current-ual-survival-fbx",
+      "source": "survival-ual-crouch-idle-loop.fbx",
+      "preserve_volume": true,
+      "full_glove_polygon_overrides": 6162
+    },
+    "airborne": {
+      "id": "airborne",
+      "loop": false,
+      "frames": [
+        "frame-000.png",
+        "frame-001.png",
+        "frame-002.png",
+        "frame-003.png",
+        "frame-004.png",
+        "frame-005.png",
+        "frame-006.png",
+        "frame-007.png"
+      ],
+      "sampled_source_frames": [
+        1.0,
+        5.714285714285714,
+        10.428571428571429,
+        15.142857142857142,
+        19.857142857142858,
+        24.571428571428573,
+        29.285714285714285,
+        34.0
+      ],
+      "motion_authority": "current-ual-survival-fbx",
+      "source": "survival-ual-jump-start.fbx",
+      "preserve_volume": true,
+      "full_glove_polygon_overrides": 6162
+    },
+    "falling": {
+      "id": "falling",
+      "loop": true,
+      "frames": [
+        "frame-000.png",
+        "frame-001.png",
+        "frame-002.png",
+        "frame-003.png",
+        "frame-004.png",
+        "frame-005.png",
+        "frame-006.png",
+        "frame-007.png"
+      ],
+      "sampled_source_frames": [
+        1.0,
+        8.625,
+        16.25,
+        23.875,
+        31.5,
+        39.125,
+        46.75,
+        54.375
+      ],
+      "motion_authority": "current-ual-survival-fbx",
+      "source": "survival-ual-jump-loop.fbx",
+      "preserve_volume": true,
+      "full_glove_polygon_overrides": 6162
+    },
+    "fly": {
+      "id": "fly",
+      "loop": false,
+      "frames": [
+        "frame-000.png",
+        "frame-001.png",
+        "frame-002.png",
+        "frame-003.png",
+        "frame-004.png",
+        "frame-005.png",
+        "frame-006.png",
+        "frame-007.png"
+      ],
+      "sampled_source_frames": [
+        2.6,
+        4.085714285714285,
+        5.571428571428571,
+        7.057142857142857,
+        8.542857142857143,
+        10.028571428571428,
+        11.514285714285714,
+        13.0
+      ],
+      "motion_authority": "current-ual-survival-fbx",
+      "source": "survival-ual-shield-dash.fbx",
+      "preserve_volume": true,
+      "full_glove_polygon_overrides": 6162
+    },
+    "climb": {
+      "id": "climb",
+      "loop": true,
+      "frames": [
+        "frame-000.png",
+        "frame-001.png",
+        "frame-002.png",
+        "frame-003.png",
+        "frame-004.png",
+        "frame-005.png",
+        "frame-006.png",
+        "frame-007.png"
+      ],
+      "sampled_source_frames": [
+        1.0,
+        3.125,
+        5.25,
+        7.375,
+        9.5,
+        11.625,
+        13.75,
+        15.875
+      ],
+      "motion_authority": "current-ual-survival-fbx",
+      "source": "survival-ual-climbup-1m.fbx",
+      "preserve_volume": true,
+      "full_glove_polygon_overrides": 6162
+    },
+    "landing": {
+      "id": "landing",
+      "loop": false,
+      "frames": [
+        "frame-000.png",
+        "frame-001.png",
+        "frame-002.png",
+        "frame-003.png",
+        "frame-004.png",
+        "frame-005.png",
+        "frame-006.png",
+        "frame-007.png"
+      ],
+      "sampled_source_frames": [
+        1.0,
+        5.428571428571429,
+        9.857142857142858,
+        14.285714285714286,
+        18.714285714285715,
+        23.142857142857142,
+        27.571428571428573,
+        32.0
+      ],
+      "motion_authority": "current-ual-survival-fbx",
+      "source": "survival-ual-jump-land.fbx",
+      "preserve_volume": true,
+      "full_glove_polygon_overrides": 6162
+    },
+    "punch-jab": {
+      "id": "punch-jab",
+      "loop": false,
+      "frames": [
+        "frame-000.png",
+        "frame-001.png",
+        "frame-002.png",
+        "frame-003.png",
+        "frame-004.png",
+        "frame-005.png",
+        "frame-006.png",
+        "frame-007.png"
+      ],
+      "sampled_source_frames": [
+        1.0,
+        4.142857142857142,
+        7.285714285714286,
+        10.428571428571429,
+        13.571428571428571,
+        16.714285714285715,
+        19.857142857142858,
+        23.0
+      ],
+      "motion_authority": "current-ual-survival-fbx",
+      "source": "survival-ual-punch-jab.fbx",
+      "preserve_volume": true,
+      "full_glove_polygon_overrides": 6162
+    },
+    "punch-cross": {
+      "id": "punch-cross",
+      "loop": false,
+      "frames": [
+        "frame-000.png",
+        "frame-001.png",
+        "frame-002.png",
+        "frame-003.png",
+        "frame-004.png",
+        "frame-005.png",
+        "frame-006.png",
+        "frame-007.png"
+      ],
+      "sampled_source_frames": [
+        1.0,
+        4.571428571428571,
+        8.142857142857142,
+        11.714285714285714,
+        15.285714285714286,
+        18.857142857142858,
+        22.428571428571427,
+        26.0
+      ],
+      "motion_authority": "current-ual-survival-fbx",
+      "source": "survival-ual-punch-cross.fbx",
+      "preserve_volume": true,
+      "full_glove_polygon_overrides": 6162
+    },
+    "punch-uppercut": {
+      "id": "punch-uppercut",
+      "loop": false,
+      "frames": [
+        "frame-000.png",
+        "frame-001.png",
+        "frame-002.png",
+        "frame-003.png",
+        "frame-004.png",
+        "frame-005.png",
+        "frame-006.png",
+        "frame-007.png"
+      ],
+      "sampled_source_frames": [
+        1.0,
+        2.7142857142857144,
+        4.428571428571429,
+        6.142857142857143,
+        7.857142857142857,
+        9.571428571428571,
+        11.285714285714286,
+        13.0
+      ],
+      "motion_authority": "current-ual-survival-fbx",
+      "source": "survival-ual-melee-hook.fbx",
+      "preserve_volume": true,
+      "full_glove_polygon_overrides": 6162
+    },
+    "pickaxe-mining": {
+      "id": "pickaxe-mining",
+      "loop": true,
+      "frames": [
+        "frame-000.png",
+        "frame-001.png",
+        "frame-002.png",
+        "frame-003.png",
+        "frame-004.png",
+        "frame-005.png",
+        "frame-006.png",
+        "frame-007.png"
+      ],
+      "sampled_source_frames": [
+        1.0,
+        4.0,
+        7.0,
+        10.0,
+        13.0,
+        16.0,
+        19.0,
+        22.0
+      ],
+      "motion_authority": "current-ual-survival-fbx",
+      "source": "survival-ual-treechopping-loop.fbx",
+      "preserve_volume": true,
+      "full_glove_polygon_overrides": 6162
+    },
+    "ground-strike": {
+      "id": "ground-strike",
+      "loop": false,
+      "frames": [
+        "frame-000.png",
+        "frame-001.png",
+        "frame-002.png",
+        "frame-003.png",
+        "frame-004.png",
+        "frame-005.png",
+        "frame-006.png",
+        "frame-007.png"
+      ],
+      "sampled_source_frames": [
+        1.0,
+        5.714285714285714,
+        10.428571428571429,
+        15.142857142857142,
+        19.857142857142858,
+        24.571428571428573,
+        29.285714285714285,
+        34.0
+      ],
+      "motion_authority": "current-ual-survival-fbx",
+      "source": "survival-ual-overhandthrow.fbx",
+      "preserve_volume": true,
+      "full_glove_polygon_overrides": 6162
+    },
+    "wall-push": {
+      "id": "wall-push",
+      "loop": true,
+      "frames": [
+        "frame-000.png",
+        "frame-001.png",
+        "frame-002.png",
+        "frame-003.png",
+        "frame-004.png",
+        "frame-005.png",
+        "frame-006.png",
+        "frame-007.png"
+      ],
+      "sampled_source_frames": [
+        1.0,
+        9.125,
+        17.25,
+        25.375,
+        33.5,
+        41.625,
+        49.75,
+        57.875
+      ],
+      "motion_authority": "current-ual-survival-fbx",
+      "source": "survival-ual-push-loop.fbx",
+      "preserve_volume": true,
+      "full_glove_polygon_overrides": 6162
+    },
+    "teleport": {
+      "id": "teleport",
+      "loop": false,
+      "frames": [
+        "frame-000.png",
+        "frame-001.png",
+        "frame-002.png",
+        "frame-003.png",
+        "frame-004.png",
+        "frame-005.png",
+        "frame-006.png",
+        "frame-007.png"
+      ],
+      "sampled_source_frames": [
+        1.0,
+        6.142857142857143,
+        11.285714285714286,
+        16.42857142857143,
+        21.571428571428573,
+        26.714285714285715,
+        31.857142857142858,
+        37.0
+      ],
+      "motion_authority": "current-ual-survival-fbx",
+      "source": "survival-ual-roll.fbx",
+      "preserve_volume": true,
+      "full_glove_polygon_overrides": 6162
+    },
+    "thunder-charge": {
+      "id": "thunder-charge",
+      "loop": true,
+      "frames": [
+        "frame-000.png",
+        "frame-001.png",
+        "frame-002.png",
+        "frame-003.png",
+        "frame-004.png",
+        "frame-005.png",
+        "frame-006.png",
+        "frame-007.png"
+      ],
+      "sampled_source_frames": [
+        1.0,
+        7.375,
+        13.75,
+        20.125,
+        26.5,
+        32.875,
+        39.25,
+        45.625
+      ],
+      "motion_authority": "current-ual-survival-fbx",
+      "source": "survival-ual-spell-simple-idle-loop.fbx",
+      "preserve_volume": true,
+      "full_glove_polygon_overrides": 6162
+    },
+    "hit-react": {
+      "id": "hit-react",
+      "loop": false,
+      "frames": [
+        "frame-000.png",
+        "frame-001.png",
+        "frame-002.png",
+        "frame-003.png",
+        "frame-004.png",
+        "frame-005.png",
+        "frame-006.png",
+        "frame-007.png"
+      ],
+      "sampled_source_frames": [
+        1.0,
+        2.2857142857142856,
+        3.5714285714285716,
+        4.857142857142858,
+        6.142857142857143,
+        7.428571428571429,
+        8.714285714285715,
+        10.0
+      ],
+      "motion_authority": "current-ual-survival-fbx",
+      "source": "survival-ual-hit-chest.fbx",
+      "preserve_volume": true,
+      "full_glove_polygon_overrides": 6162
+    },
+    "death": {
+      "id": "death",
+      "loop": false,
+      "frames": [
+        "frame-000.png",
+        "frame-001.png",
+        "frame-002.png",
+        "frame-003.png",
+        "frame-004.png",
+        "frame-005.png",
+        "frame-006.png",
+        "frame-007.png"
+      ],
+      "sampled_source_frames": [
+        1.0,
+        9.428571428571429,
+        17.857142857142858,
+        26.285714285714285,
+        34.714285714285715,
+        43.142857142857146,
+        51.57142857142857,
+        60.0
+      ],
+      "motion_authority": "current-ual-survival-fbx",
+      "source": "survival-ual-death01.fbx",
+      "preserve_volume": true,
+      "full_glove_polygon_overrides": 6162
+    }
+  }
+}

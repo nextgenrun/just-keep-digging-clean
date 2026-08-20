@@ -1,0 +1,139 @@
+{
+  "schemaVersion": 2,
+  "reviewOnly": true,
+  "sfxModels": [
+    {
+      "id": "openai/gpt-audio",
+      "label": "GPT Audio",
+      "voice": "alloy"
+    },
+    {
+      "id": "openai/gpt-audio-mini",
+      "label": "GPT Audio Mini",
+      "voice": "alloy"
+    }
+  ],
+  "sfxProbePrompts": [
+    {
+      "id": "direct-foley",
+      "label": "Direct Foley instruction",
+      "text": "Return audio only. Create one dry 0.8-second gameplay sound effect: a steel pickaxe striking dense underground stone, followed by one compact rock crack and a tiny grit tail. No voice, speech, music, melody, room ambience, or explanation. Begin immediately and end cleanly."
+    },
+    {
+      "id": "studio-cue-sheet",
+      "label": "Timed studio cue sheet",
+      "text": "Render this studio Foley cue as audio, not a spoken description. 0.00s steel transient; 0.05s dense stone fracture; 0.18s three small grit particles; silence by 0.75s. Dry, close-miked, weighty, game-ready. Absolutely no words, human vocalization, music, or background ambience."
+    }
+  ],
+  "sfxCues": [
+    {
+      "id": "mining-impact",
+      "role": "Core mining hit",
+      "duration": "0.8 seconds",
+      "layers": "steel pick transient; dense rock fracture; tiny grit tail",
+      "character": "dry, tactile, weighty, close-miked"
+    },
+    {
+      "id": "crystal-break",
+      "role": "Crystal block break",
+      "duration": "1.2 seconds",
+      "layers": "brittle mineral snap; glassy crystal fragments; restrained low resonance",
+      "character": "valuable, physical, crystalline, not magical music"
+    },
+    {
+      "id": "seismic-warning",
+      "role": "Underground danger warning",
+      "duration": "1.8 seconds",
+      "layers": "deep stone strain; one sub-heavy fracture; falling dust granules",
+      "character": "ominous, geological, readable without being loud"
+    },
+    {
+      "id": "rare-discovery",
+      "role": "Rare discovery reward",
+      "duration": "1.3 seconds",
+      "layers": "mineral reveal ping; warm metallic confirmation; short crystalline decay",
+      "character": "premium, restrained, memorable, no melody"
+    }
+  ],
+  "promptStyles": [
+    {
+      "id": "direct",
+      "label": "Direct Foley",
+      "template": "Return audio only. Create one {duration} game sound effect for {role}: {layers}. It must feel {character}. No speech, vocalization, music, melody, ambience, or explanation. Start immediately and end cleanly."
+    },
+    {
+      "id": "layered",
+      "label": "Layered cue sheet",
+      "template": "Render a professional game Foley cue as audio, never as spoken narration. Target length: {duration}. Build only these ordered layers: {layers}. Mix character: {character}. Dry mono-compatible center, strong transient, controlled tail. No voice, music, tune, reverb wash, or background bed."
+    },
+    {
+      "id": "negative-first",
+      "label": "Negative-first constraint",
+      "template": "Do not speak, sing, hum, narrate, or add music. Do not add an ambient bed. Output only a clean {duration} sound-design asset for {role}. Required sonic events: {layers}. Desired identity: {character}. One isolated event with a hard clean ending."
+    }
+  ],
+  "localSfxSources": [
+    {
+      "id": "mining-impact",
+      "role": "Core mining hit",
+      "searchRoot": "sound/library-v2/SoundLibrary_Review/handpicks/no-organisation",
+      "filenameContains": "Gx287_dig_tool_upgrade_hit_01"
+    },
+    {
+      "id": "crystal-break",
+      "role": "Crystal block break",
+      "searchRoot": "sound/library-v2/SoundLibrary_Review/handpicks/no-organisation",
+      "filenameContains": "Gx276_dig_crystal_break_sparkle_01"
+    },
+    {
+      "id": "seismic-warning",
+      "role": "Underground danger warning",
+      "searchRoot": "sound/library-v2/SoundLibrary_Review/handpicks/no-organisation/depth",
+      "filenameContains": "Gx357_depth_far_collapse_rumble_02"
+    },
+    {
+      "id": "rare-discovery",
+      "role": "Rare discovery reward",
+      "searchRoot": "sound/library-v2/SoundLibrary_Review/handpicks/no-organisation",
+      "filenameContains": "Gx312_achievement_unlock_01"
+    }
+  ],
+  "localTreatments": [
+    {
+      "id": "source",
+      "label": "Existing handpick"
+    },
+    {
+      "id": "tight",
+      "label": "Tight gameplay master",
+      "filter": "silenceremove=start_periods=1:start_silence=0.01:start_threshold=-50dB,atrim=0:2.2,highpass=f=55,acompressor=threshold=-18dB:ratio=3:attack=4:release=65,loudnorm=I=-18:TP=-1.5:LRA=6,areverse,afade=t=in:st=0:d=0.035,areverse"
+    },
+    {
+      "id": "heavy",
+      "label": "Heavy low-end master",
+      "filter": "highpass=f=38,bass=g=5:f=105:w=0.8,lowpass=f=13500,acompressor=threshold=-20dB:ratio=2.5:attack=8:release=100,loudnorm=I=-19:TP=-1.5:LRA=7"
+    },
+    {
+      "id": "crisp",
+      "label": "Crisp readable master",
+      "filter": "highpass=f=85,equalizer=f=2600:t=q:w=1.1:g=3.5,acompressor=threshold=-17dB:ratio=3.2:attack=3:release=55,loudnorm=I=-17:TP=-1.2:LRA=5"
+    }
+  ],
+  "voiceScript": {
+    "id": "bobo-return-v2",
+    "role": "Bobo return greeting",
+    "text": "[quietly amused] Back already? [short pause] Good. I saved the strange parts for you.",
+    "plainText": "Back already? Good. I saved the strange parts for you."
+  },
+  "voiceCandidates": [
+    {"id": "x-ai/grok-voice-tts-1.0", "label": "Grok", "voices": ["rex", "leo", "sal"], "responseFormat": "mp3"},
+    {"id": "deepgram/aura-2", "label": "Deepgram Aura 2", "voices": ["aura-2-orpheus-en", "aura-2-zeus-en", "aura-2-apollo-en"], "responseFormat": "mp3"},
+    {"id": "mistralai/voxtral-mini-tts-2603", "label": "Mistral Voxtral", "voices": ["gb_oliver_curious", "gb_oliver_confident", "en_paul_neutral"], "responseFormat": "mp3"},
+    {"id": "microsoft/mai-voice-2-flash", "label": "Microsoft MAI Voice 2 Flash", "voices": ["en-US-Harper:MAI-Voice-2"], "responseFormat": "mp3"},
+    {"id": "qwen/qwen-audio-3.0-tts-plus", "label": "Qwen Audio TTS Plus", "voices": ["longanlingxin", "longanlufeng"], "responseFormat": "mp3"},
+    {"id": "canopylabs/orpheus-3b-0.1-ft", "label": "Canopy Orpheus 3B", "voices": ["dan", "zac"], "responseFormat": "mp3"},
+    {"id": "sesame/csm-1b", "label": "Sesame CSM 1B", "voices": ["conversational_a", "read_speech_d"], "responseFormat": "mp3"},
+    {"id": "deepgram/flux-tts:free", "label": "Deepgram Flux Free", "voices": ["flux-bruce-en", "flux-cliff-en", "flux-colin-en"], "responseFormat": "mp3"},
+    {"id": "google/gemini-3.1-flash-tts-preview", "label": "Gemini 3.1 Flash TTS", "voices": ["Charon"], "responseFormat": "pcm", "pcmRate": 24000}
+  ]
+}

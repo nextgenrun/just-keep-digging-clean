@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Dig Game SFX-first Audio Lab V2</title>
+  <style>
+    :root{color-scheme:dark;--bg:#080a0c;--panel:#12171a;--panel2:#192125;--ink:#edf2ee;--muted:#99a7a3;--amber:#e2ab56;--cyan:#69ccc4;--red:#ed716b;--green:#8ed59c;--line:#2c383c}
+    *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 15% -10%,#223b38 0,transparent 34%),radial-gradient(circle at 90% 10%,#332516 0,transparent 28%),var(--bg);color:var(--ink);font:15px/1.5 system-ui,sans-serif}
+    header,main{width:min(1500px,calc(100% - 34px));margin:auto}header{padding:42px 0 25px;border-bottom:1px solid var(--line)}h1{margin:0;font:750 clamp(32px,5vw,64px)/1 Georgia,serif;letter-spacing:-.035em}h2{margin:44px 0 7px;font:700 28px/1.1 Georgia,serif}h3{margin:0 0 4px;font-size:16px}.eyebrow{color:var(--amber);font-weight:900;letter-spacing:.16em;text-transform:uppercase}.lead{max-width:940px;color:var(--muted);font-size:17px}
+    .truth{margin:20px 0 0;padding:13px 16px;border:1px solid #604f33;border-left:4px solid var(--amber);border-radius:8px;background:#17140f;color:#d7c9ae}.toolbar,.filters,.ratings{display:flex;gap:8px;flex-wrap:wrap}.toolbar{margin-top:20px}.button,.filter,.rate{border:1px solid var(--line);border-radius:999px;background:#101518;color:var(--ink);padding:9px 14px;cursor:pointer}.button:hover,.filter:hover,.rate:hover{border-color:var(--amber)}.filter.selected,.rate.selected{background:var(--amber);border-color:var(--amber);color:#171108;font-weight:800}.status{display:inline-flex;gap:8px;align-items:center;border:1px solid #3c5b58;border-radius:999px;padding:8px 12px;color:var(--cyan);font-weight:750}.dot{width:8px;height:8px;border-radius:50%;background:currentColor}
+    .stats,.grid{display:grid;gap:13px}.stats{grid-template-columns:repeat(5,minmax(0,1fr));margin:24px 0}.grid{grid-template-columns:repeat(4,minmax(0,1fr))}.stat,.card,.finding{background:linear-gradient(145deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:14px;padding:15px;box-shadow:0 14px 34px #0005}.stat strong{display:block;color:var(--amber);font-size:28px}.card{display:flex;flex-direction:column;min-width:0}.meta{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}.pill{border-radius:5px;background:#090e10;color:#b6c3bf;padding:3px 7px;font-size:11px}.pill.good{color:var(--green)}.pill.bad{color:var(--red)}.copy{color:#cfd7d3;min-height:44px;font-size:13px}.prompt{margin-top:7px;color:#7f918c;font-size:12px;max-height:62px;overflow:auto}audio{width:100%;height:38px;margin:11px 0 8px}.error{color:var(--red);font-size:12px;overflow-wrap:anywhere;margin-top:9px}.ratings{margin-top:auto}.rate{padding:6px 10px;font-size:12px}.empty{grid-column:1/-1;padding:28px;border:1px dashed var(--line);border-radius:14px;color:var(--muted)}.filters{margin:15px 0}.finding{border-left:4px solid var(--cyan);margin-top:18px}.fine{color:var(--muted);font-size:13px}footer{padding:42px 0 70px;color:var(--muted)}
+    @media(max-width:1180px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.stats{grid-template-columns:repeat(3,minmax(0,1fr))}}@media(max-width:820px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:560px){header,main{width:min(100% - 20px,1500px)}.grid,.stats{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<header>
+  <div class="eyebrow">Review-only · SFX before voices</div>
+  <h1>Sound Forge Arena V2</h1>
+  <p class="lead">Four gameplay cues, three prompt architectures, both viable non-music OpenRouter audio models, and four local mastering treatments. The smaller voice lane tests fresh challengers against Grok, Deepgram, and Mistral.</p>
+  <div class="truth"><b>Why V2 exists:</b> the first batch generated zero SFX. All three SFX requests failed, Gemini was asked for an unsupported MP3 response, and the Bobo transcription source path was stale. This page does not pretend those were valid sound-effect tests.</div>
+  <div class="toolbar"><span class="status"><span class="dot"></span><span id="statusText">Waiting for V2 generation</span></span><button class="button" id="exportRatings">Export V2 ratings</button><button class="button" onclick="location.reload()">Refresh</button></div>
+</header>
+<main>
+  <section class="stats" id="stats"></section>
+  <section>
+    <h2>1. OpenRouter non-speech capability</h2>
+    <p class="fine">Each GPT Audio model gets one speech control and two SFX probes. Full cue generation runs only if a probe succeeds; this separates a broken route from a real non-speech limitation without burning credits blindly.</p>
+    <div class="grid" id="capability"></div>
+  </section>
+  <section>
+    <h2>2. Generated SFX prompt arena</h2>
+    <p class="fine">Compare direct Foley, timed layer sheets, and negative-first constraints. Reject anything containing words, mouth sounds, music, weak transients, or a long cinematic tail.</p>
+    <div class="filters" id="sfxFilters"></div>
+    <div class="grid" id="modelSfx"></div>
+  </section>
+  <section>
+    <h2>3. Existing-library mastering arena</h2>
+    <p class="fine">The same four handpicked source cues are heard untouched, tight, heavy, and crisp. These previews never overwrite the originals and often provide a more useful game result than a generative model.</p>
+    <div class="filters" id="localFilters"></div>
+    <div class="grid" id="localSfx"></div>
+  </section>
+  <section>
+    <h2>4. Focused voice challenger lane</h2>
+    <p class="fine">One Bobo line across Grok, Aura, Mistral and five new model families. Multiple voices matter more here than repeating four scripts with one poorly matched identity.</p>
+    <div class="grid" id="voices"></div>
+  </section>
+  <section>
+    <h2>5. Decision rule</h2>
+    <div class="finding"><b>Promote nothing automatically.</b> First pick a winning SFX identity per cue, then build a coherent family around it. A model that cannot beat the existing handpick plus a light master should not enter the production pipeline.</div>
+  </section>
+  <footer>All output remains in SoundLibrary_Review. No production manifest, preload, SoundSystem route, or gameplay event is changed.</footer>
+</main>
+<script src="../sound/library-v2/SoundLibrary_Review/00_INBOX_RAW_EXPORTS/openrouter-sfx-first-v2-2026-08-14/2026-08-14-openrouter-sfx-first-results-v2.js"></script>
+<script>
+  const manifest=window.OPENROUTER_SFX_V2_RESULTS||{results:[],summary:{}};
+  const outputBase='../sound/library-v2/SoundLibrary_Review/00_INBOX_RAW_EXPORTS/openrouter-sfx-first-v2-2026-08-14/';
+  const storeKey='digSfxFirstV2Ratings';
+  const ratings=JSON.parse(localStorage.getItem(storeKey)||'{}');
+  const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const items=k=>manifest.results.filter(x=>x.kind===k);
+  const sampleId=x=>[x.kind,x.model,x.id,x.voice||x.treatment||''].join('|');
+  const audio=x=>x.file?`<audio controls preload="none" src="${outputBase+encodeURIComponent(x.file)}"></audio>`:'';
+  function ratingButtons(x){if(x.status==='skipped')return'';const id=sampleId(x);return `<div class="ratings" data-id="${esc(id)}">${['good','maybe','reject'].map(v=>`<button class="rate ${ratings[id]===v?'selected':''}" data-rate="${v}">${v}</button>`).join('')}</div>`}
+  function card(x){const ok=x.status==='ready',state=x.status==='skipped'?'skipped':ok?'playable':'failed';return `<article class="card"><h3>${esc(x.role||x.id)}</h3><div class="meta"><span class="pill">${esc(x.modelLabel||x.model)}</span>${x.voice?`<span class="pill">${esc(x.voice)}</span>`:''}<span class="pill ${ok?'good':'bad'}">${state}</span></div>${x.text?`<div class="copy">“${esc(x.text)}”</div>`:''}${x.source?`<div class="copy">Source: ${esc(x.source.split('/').pop())}</div>`:''}${x.prompt?`<div class="prompt">${esc(x.prompt)}</div>`:''}${x.transcript?`<div class="prompt">Transcript: ${esc(x.transcript)}</div>`:''}${audio(x)}${x.error?`<div class="error">${esc(x.error)}</div>`:''}${ratingButtons(x)}</article>`}
+  function bindRatings(){document.querySelectorAll('.rate').forEach(button=>button.onclick=()=>{const row=button.closest('.ratings'),id=row.dataset.id;ratings[id]=button.dataset.rate;localStorage.setItem(storeKey,JSON.stringify(ratings));row.querySelectorAll('.rate').forEach(item=>item.classList.toggle('selected',item===button));});}
+  function buildFilters(targetId,rows,gridId){const cueIds=[...new Set(rows.map(x=>x.cueId).filter(Boolean))],target=document.getElementById(targetId);target.innerHTML=['all',...cueIds].map((id,i)=>`<button class="filter ${i===0?'selected':''}" data-cue="${id}">${id==='all'?'All cues':id.replaceAll('-',' ')}</button>`).join('');target.querySelectorAll('.filter').forEach(button=>button.onclick=()=>{target.querySelectorAll('.filter').forEach(x=>x.classList.toggle('selected',x===button));document.getElementById(gridId).innerHTML=rows.filter(x=>button.dataset.cue==='all'||x.cueId===button.dataset.cue).map(card).join('')||'<div class="empty">No candidates in this filter.</div>';bindRatings();});}
+  function render(){const capability=[...items('capability'),...items('sfx-probe')],modelSfx=items('model-sfx'),localSfx=items('local-sfx'),voices=items('voice'),ready=manifest.results.filter(x=>x.status==='ready').length,failed=manifest.results.filter(x=>x.status==='error').length,skipped=manifest.results.filter(x=>x.status==='skipped').length;
+    document.getElementById('statusText').textContent=manifest.results.length?`${ready} playable · ${failed} failed · ${skipped} protected skips`:'Waiting for the secure CMD batch';
+    document.getElementById('stats').innerHTML=[['Playable',ready],['Generated SFX',modelSfx.filter(x=>x.status==='ready').length],['Local SFX',localSfx.filter(x=>x.status==='ready').length],['Voice variants',voices.filter(x=>x.status==='ready').length],['Failed',failed]].map(([label,value])=>`<div class="stat"><strong>${value}</strong>${label}</div>`).join('');
+    document.getElementById('capability').innerHTML=capability.length?capability.map(card).join(''):'<div class="empty">Capability diagnostics appear after generation.</div>';
+    document.getElementById('modelSfx').innerHTML=modelSfx.length?modelSfx.map(card).join(''):'<div class="empty">Generated SFX candidates appear only after a capability probe succeeds.</div>';
+    document.getElementById('localSfx').innerHTML=localSfx.length?localSfx.map(card).join(''):'<div class="empty">Local comparisons appear after the batch builds them.</div>';
+    document.getElementById('voices').innerHTML=voices.length?voices.map(card).join(''):'<div class="empty">Voice challengers appear after generation.</div>';
+    buildFilters('sfxFilters',modelSfx,'modelSfx');buildFilters('localFilters',localSfx,'localSfx');bindRatings();
+  }
+  document.getElementById('exportRatings').onclick=()=>{const blob=new Blob([JSON.stringify({schemaVersion:2,exportedAt:new Date().toISOString(),ratings},null,2)],{type:'application/json'}),link=document.createElement('a');link.href=URL.createObjectURL(blob);link.download='2026-08-14-openrouter-sfx-first-ratings-v2.json';link.click();URL.revokeObjectURL(link.href)};
+  render();
+</script>
+</body>
+</html>

@@ -2,12 +2,18 @@
 
 UI module — overlays.
 
+- `UnderstarEndingOverlay.js` presents the demo-complete story and run summary
+  over the approved full-screen Understar painting. Escape returns to the mine;
+  Enter uses PlayScene's serialized save-and-main-menu transition.
+
 - `CelestialTalentTreeView.js`, `CelestialTalentTreeNodeView.js`, and
   `CelestialTalentTreeConnectorLayer.js` — the physical Star Pillar's
   image-backed 33-node Celestial progression surface. Three Engine roots fan
   upward through authored connector art into three alternate mastery paths;
   the view reads the live row/lane graph and Star Point authority instead of
-  hard-coding the retired five-node columns.
+  hard-coding the retired five-node columns. V2 uses a socket-free cobalt
+  foundation, Pillar-matched square skill frames, and restrained stretchable
+  rails so the bitmap cannot contradict the live graph.
 - `UIInventoryPopup.js`, `UIInventoryHoldingsView.js`,
   `UIInventoryResourceGuide.js`, `UIInventoryWorldTilePreview.js`, and
   `UIInventoryStarAtlas.js` — the three-tab `I`-key field inventory. `INVENTORY` keeps all fourteen real
@@ -24,7 +30,9 @@ UI module — overlays.
   ImageGen foundation. Every selector and the large dossier pair the crisp
   identity core with its separate authored light-only underlay.
   `UIInventoryStarAtlasControls.js` pages all 250 identities without shrinking
-  or crowding them and gives page arrows a short sideways click response. It
+  or crowding them and gives page arrows a short sideways click response.
+  `UIInventoryStarAtlasKeyboard.js` keeps Tab navigation, grid arrows/WASD,
+  Page Up/Page Down, and Q/E rarity changes aligned with those selectors. It
   explains each colour's rarity, flavour, exact light style, first depth, Sign
   XP, material multiplier, and Engine charge. Rarity owns rewards while
   identity owns colour/art/flavour. Phaser supplies exact atlas frames, dynamic

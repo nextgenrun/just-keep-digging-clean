@@ -112,7 +112,8 @@ export class WorldVisualDepthBackdropRegionView {
     backwalls = region.backwalls,
     motionEnabled = true,
     blendMaskAsset = config.blend?.maskAtlas,
-    fallbackAsset = null
+    fallbackAsset = null,
+    materialLightingEnabled = false
   ) {
     this.scene = scene;
     this.region = region;
@@ -121,6 +122,7 @@ export class WorldVisualDepthBackdropRegionView {
     this.motionEnabled = motionEnabled;
     this.blendMaskAsset = blendMaskAsset;
     this.fallbackAsset = fallbackAsset;
+    this.materialLightingEnabled = materialLightingEnabled;
     this.segments = new Map();
   }
 
@@ -381,6 +383,13 @@ export class WorldVisualDepthBackdropRegionView {
       const card = this.scene.add.image(baseX, baseY, asset.key)
         .setOrigin(0)
         .setDepth(depth);
+      if (
+        this.materialLightingEnabled
+        && asset.normalMapPath
+        && config.materialLighting?.targetRegionIds?.includes(region.id)
+      ) {
+        card.setPipeline?.("Light2D");
+      }
       card.setBlendMode?.(config.blend.blendMode);
       applyCardGeometry(card, cardGeometry);
       applyBlendMask(card);

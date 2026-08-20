@@ -2,6 +2,7 @@ import { getCarriedLightLiveComparisonFrameUrl } from
   "../values/carriedLightLiveComparison.js";
 import { findDepthTarget, isStanding, nearestStanding } from
   "./2026-07-30-carried-light-live-depth.js";
+import { prepareShallowMaterialGallery } from "./2026-08-15-shallow-material-gallery.js";
 const sleep = durationMs => new Promise(resolve => setTimeout(resolve, durationMs));
 function waitFor(probe, timeoutMs, label, pollIntervalMs) {
   const startedAt = performance.now();
@@ -56,8 +57,6 @@ export function createCarriedLightLiveRuntime(frameEntries, CONFIG) {
         : null;
     }, CONFIG.timing.playTimeoutMs, `${entry.scenario.id} PlayScene`, CONFIG.timing.pollIntervalMs);
   }
-
-
   function currentTile(scene) {
     const body = scene.playerController?.physicsBody;
     const tileSize = scene.config.tileSize;
@@ -66,7 +65,6 @@ export function createCarriedLightLiveRuntime(frameEntries, CONFIG) {
     return scene.worldModel.worldToTile?.(worldX, worldY) || {
       tx: Math.floor(worldX / tileSize), ty: Math.floor(worldY / tileSize) };
   }
-
   function stabilizeLighting(scene) {
     const system = scene.lightSystem;
     const depth = Math.max(
@@ -82,7 +80,6 @@ export function createCarriedLightLiveRuntime(frameEntries, CONFIG) {
     const win = scene.game.canvas.ownerDocument.defaultView;
     win.__jkdE2E.closeAll();
     win.__jkdE2E.forcePlayerState(target);
-    scene.gameState = "playing";
     scene.worldRenderer?.updateRenderWindow?.(target);
     scene.worldRenderer?.invalidate?.();
     scene.cameras.main.startFollow(scene.player, true);
@@ -267,9 +264,12 @@ export function createCarriedLightLiveRuntime(frameEntries, CONFIG) {
     for (const entry of frameEntries) await launch(entry);
     const scenes = allScenes();
     const initialProfile = CONFIG.depthProfiles?.[CONFIG.defaultDepthProfile];
-    const target = findDepthTarget(
-      scenes[0], CONFIG.world,
-      initialProfile?.depthTiles ?? CONFIG.world.startDepthOffsetTiles
+    const requestedDepth = initialProfile?.depthTiles ?? CONFIG.world.startDepthOffsetTiles;
+    const galleryTargets = CONFIG.world.captureGallery
+      ? scenes.map(scene => prepareShallowMaterialGallery(scene, CONFIG.world, requestedDepth))
+      : null;
+    const target = galleryTargets?.[0] || findDepthTarget(
+      scenes[0], CONFIG.world, requestedDepth
     );
     if (!scenes.every(scene => isStanding(scene, target.tx, target.ty))) {
       throw new Error("Generated comparison worlds do not share the target tile");

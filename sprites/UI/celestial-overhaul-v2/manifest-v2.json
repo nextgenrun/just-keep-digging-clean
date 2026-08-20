@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 2,
+  "packageId": "celestial-overhaul-v2",
+  "date": "2026-08-15",
+  "topology": {
+    "branchCount": 3,
+    "nodeCount": 33,
+    "bakedSockets": 0
+  },
+  "assets": [
+    {
+      "path": "celestial-talent-foundation-v2.png",
+      "width": 1672,
+      "height": 941,
+      "mode": "RGB",
+      "alphaExtrema": null,
+      "sha256": "0e8f2bb29f90644f523dedf0f1e27c808a9ad09cca628ce6a34d0fa1e67be794"
+    },
+    {
+      "path": "talent-node-frame-v2.png",
+      "width": 256,
+      "height": 256,
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "sha256": "715216ab89458093b769edad308f6f1009d7cbd053c44bedf1f7f10af4aee37b"
+    },
+    {
+      "path": "talent-connector-v2.png",
+      "width": 1024,
+      "height": 64,
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "sha256": "ed8c90bb8c58eff6ce7d5a87179825e0ecc2875b6365806217a83c9a716a6d2c"
+    },
+    {
+      "path": "talent-tooltip-v2.png",
+      "width": 1200,
+      "height": 360,
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "sha256": "5f4a908c433c332d38b7b804965b1c2bcc6fe7c784b3485b8c5d3624fb0d1ed3"
+    }
+  ]
+}

@@ -14,8 +14,14 @@ listeners, autosave timing, abortable async work, and reverse-order system
 teardown. `PlaySceneFramePhases.js` separates world, presentation, camera, and
 lighting boundaries from the authority update. `interactionPriority.js` is the
 single pure arbitration rule for Milestone, NPC, Titan, special-tile, event,
-Reliquary, and Star Pillar prompts, preventing independent comparisons from
+Reliquary, Star Pillar, and Understar prompts, preventing independent comparisons from
 silently disagreeing.
+
+The production demo bound includes `topAirRows`, so displayed depth 2,000 m is
+physically reachable at row 2064. `UnderstarEndingSystem` then suppresses the
+ordinary 2,000 m milestone cinematic, reveals the enormous authored world
+backdrop, and opens the injected demo-complete overlay on Interact. Discovery
+and completion travel through the normal serialized save snapshot.
 
 `PlayerInputHandler` resolves mining targets through the actual player body AABB. The shared resolver is used unchanged by main-world and compact-cave gameplay, so directional aim never selects a tile occupied by the taller UAL collider.
 
@@ -32,7 +38,7 @@ through their exit tween. Opening any such menu cancels a held mouse dig, and
 the event-time Phaser hit list still belongs to UI even when that same click
 already hid or destroyed its visible target.
 
-UAL main-world and compact-cave actions share contact-synchronised damage: SIDE keeps Jab/Cross/Jab/Cross, default-Survivor UP and UP-SIDE use the complete 24-frame Piskel-stabilized Blender dig-up, DOWN uses the same-facing ground strike, and Quickslash/Thunder remain one-contact actions. The explicit native rollback keeps its recovered uppercut. Held mining can replace only post-contact recovery after the authoritative cooldown is ready. Both runtimes route every grounded speed through Jog with immediate input-facing, use the resolved body velocity for first-step/reversal cadence, apply frame-rate-independent flight banking, skip soft landing clips, and allow movement to cancel harder landing recovery after its readable prefix. Survivor flight uses one continuous loop; the explicit native rollback retains its authored phase chain.
+UAL main-world and compact-cave actions share contact-synchronised damage. The default Survivor uses the approved ten-stage complex SIDE chain and Uppercut-only exact UP replacement; UP-SIDE, DOWN-SIDE and DOWN retain their previous actions, while Quickslash and Thunder remain separate one-contact actions. Every complex clip is retimed through the existing visible-action cadence and fires exactly one authoritative tile contact even when its source motion contains multiple strikes. `?complexDig=0`, Ctrl+Alt+9, or the runtime global restores the previous SIDE/UP visuals on the next action. Held mining can replace only post-contact recovery after the authoritative cooldown is ready. Both runtimes route every grounded speed through Jog with immediate input-facing, use resolved body velocity for first-step/reversal cadence, apply frame-rate-independent velocity-aware flight pitch and playback, skip soft landing clips, and allow movement to cancel harder landing recovery after its readable prefix.
 
 UAL locomotion cadence is measured from resolved body displacement, while grounded start/stop activity comes from the post-collision body and facing comes from current input. A blocked body therefore stops producing fake jog cycles. Input intent and facing react on the current frame, while grounded velocity uses the shared 120 ms acceleration, 90 ms release, and 150 ms full-reversal envelope; upgraded or weather-adjusted speed remains stride-matched, and airborne flight timing stays consistent across both world implementations. The production Jog is now Piskel-round-tripped with one uniform 5-source-pixel root correction, a zero-drift bottom row, unchanged 28-frame cadence, and identically transformed rig markers. Its sequence-13/27 plants drive the existing footstep sound plus small material-matched bitmap fragments at the collision-owned floor. Idle and standing actions retain the 109px base presentation; UAL Jog and Piskel moving strikes use a normalized 123px canvas while preserving the same apparent body height. Moving Quickslash reuses the phase-nearest Jog lower body, keeps its original 16-frame/sequence-4 hit timing, and never applies contact-driven sprite translation. Both worlds apply the chosen animation, display size, and origin before beginning rig contact, preventing a one-frame scale or anchor bootstrap mismatch.
 Moving SIDE actions also hold the authoritative 31 px body 21 px away from a

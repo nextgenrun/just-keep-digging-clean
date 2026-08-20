@@ -51,6 +51,8 @@ class Actor {
   setStyle(value) { this.style = value; return this; }
   setPosition(x, y) { this.x = x; this.y = y; return this; }
   setDisplaySize(width, height) { this.displayWidth = width; this.displayHeight = height; return this; }
+  setCrop(x, y, width, height) { this.crop = { x, y, width, height }; return this; }
+  setDisplayOrigin(x, y) { this.displayOrigin = { x, y }; return this; }
   setScale(x, y = x) { this.scaleX = x; this.scaleY = y; return this; }
   setFlipX(value) { this.flipX = value; return this; }
   setAngle(value) { this.angle = value; return this; }
@@ -128,7 +130,7 @@ function makeScene(allTextures = false) {
 const plainScene = makeScene(false);
 assert.equal(hasApprovedHudSkin(plainScene), false);
 const skinScene = makeScene(true);
-const hudActors = Object.fromEntries(["hudBg", "statusBg", "torchIcon", "buffTimerText", "clockPanel", "weatherPanel", "weatherSeasonText", "statsText", "comboText", "torchStatusText", "clockTimeText", "clockDayText", "weatherText", "weatherTempText"].map((key) => [key, new Actor()]));
+const hudActors = Object.fromEntries(["hudBg", "statusBg", "torchIcon", "buffTimerText", "clockPanel", "statsText", "comboText", "torchStatusText", "clockTimeText", "clockDayText"].map((key) => [key, new Actor()]));
 hudActors.torchActive = true;
 const skin = new ApprovedHudSkin(skinScene, hudActors);
 assert.equal(skin.active, true);

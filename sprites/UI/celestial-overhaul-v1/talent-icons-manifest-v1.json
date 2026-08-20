@@ -1,0 +1,1032 @@
+{
+  "schemaVersion": 1,
+  "packageId": "celestial-talent-icons-v1",
+  "date": "2026-08-14",
+  "canvasSizePx": 256,
+  "glyphMaximumPx": 220,
+  "assets": [
+    {
+      "nodeId": "wayward-star-root",
+      "family": "wayward",
+      "outputPath": "talent-icon-wayward-star-root-v1.png",
+      "outputSha256": "49c6382c53636d0fa00f80c8a56e0a96fd49e22e1c96609bcc5527d3429b7a4b",
+      "sourceCell": 1,
+      "sourceCellBox": [
+        0,
+        0,
+        314,
+        314
+      ],
+      "sourceAlphaBounds": [
+        33,
+        36,
+        291,
+        314
+      ],
+      "outputSize": [
+        256,
+        256
+      ],
+      "glyphSize": [
+        204,
+        220
+      ],
+      "glyphOffset": [
+        26,
+        18
+      ]
+    },
+    {
+      "nodeId": "wayward-stellar-bearings",
+      "family": "wayward",
+      "outputPath": "talent-icon-wayward-stellar-bearings-v1.png",
+      "outputSha256": "cd98ee75ef37b8143d5a1d254c69bc99eafc2922ca8d678905030484cf899255",
+      "sourceCell": 2,
+      "sourceCellBox": [
+        314,
+        0,
+        627,
+        314
+      ],
+      "sourceAlphaBounds": [
+        19,
+        36,
+        295,
+        314
+      ],
+      "outputSize": [
+        256,
+        256
+      ],
+      "glyphSize": [
+        218,
+        220
+      ],
+      "glyphOffset": [
+        19,
+        18
+      ]
+    },
+    {
+      "nodeId": "wayward-ricochet-matrix",
+      "family": "wayward",
+      "outputPath": "talent-icon-wayward-ricochet-matrix-v1.png",
+      "outputSha256": "33e7baed0a0ce3f2ce91b9af3477751d1b7bed623d830303512d9ce3c82497eb",
+      "sourceCell": 3,
+      "sourceCellBox": [
+        627,
+        0,
+        940,
+        314
+      ],
+      "sourceAlphaBounds": [
+        9,
+        56,
+        313,
+        292
+      ],
+      "outputSize": [
+        256,
+        256
+      ],
+      "glyphSize": [
+        220,
+        171
+      ],
+      "glyphOffset": [
+        18,
+        42
+      ]
+    },
+    {
+      "nodeId": "wayward-nova-lens",
+      "family": "wayward",
+      "outputPath": "talent-icon-wayward-nova-lens-v1.png",
+      "outputSha256": "2849bbe0ffd55759f8607a33e76621fc811e199b4d7c4403d990f777dd5f3a75",
+      "sourceCell": 4,
+      "sourceCellBox": [
+        940,
+        0,
+        1254,
+        314
+      ],
+      "sourceAlphaBounds": [
+        0,
+        36,
+        283,
+        314
+      ],
+      "outputSize": [
+        256,
+        256
+      ],
+      "glyphSize": [
+        220,
+        216
+      ],
+      "glyphOffset": [
+        18,
+        20
+      ]
+    },
+    {
+      "nodeId": "wayward-echo-orbit",
+      "family": "wayward",
+      "outputPath": "talent-icon-wayward-echo-orbit-v1.png",
+      "outputSha256": "b128e73ae493380d2b2415f1e71a9aca2de3f3241318fa037fa882e5f8bfdab9",
+      "sourceCell": 5,
+      "sourceCellBox": [
+        0,
+        314,
+        314,
+        627
+      ],
+      "sourceAlphaBounds": [
+        33,
+        0,
+        283,
+        301
+      ],
+      "outputSize": [
+        256,
+        256
+      ],
+      "glyphSize": [
+        183,
+        220
+      ],
+      "glyphOffset": [
+        36,
+        18
+      ]
+    },
+    {
+      "nodeId": "wayward-vector-command",
+      "family": "wayward",
+      "outputPath": "talent-icon-wayward-vector-command-v1.png",
+      "outputSha256": "2dc4cf7155e5efc2e73107c2d444b14cf359fb8f57d5064c5ca42e50270054b7",
+      "sourceCell": 6,
+      "sourceCellBox": [
+        314,
+        314,
+        627,
+        627
+      ],
+      "sourceAlphaBounds": [
+        22,
+        0,
+        291,
+        313
+      ],
+      "outputSize": [
+        256,
+        256
+      ],
+      "glyphSize": [
+        189,
+        220
+      ],
+      "glyphOffset": [
+        33,
+        18
+      ]
+    },
+    {
+      "nodeId": "wayward-fracture-bloom",
+      "family": "wayward",
+      "outputPath": "talent-icon-wayward-fracture-bloom-v1.png",
+      "outputSha256": "3b3ff42574263f4404f8be3cb672daaad99ab9aee290409a6292b455b59f6666",
+      "sourceCell": 7,
+      "sourceCellBox": [
+        627,
+        314,
+        940,
+        627
+      ],
+      "sourceAlphaBounds": [
+        28,
+        70,
+        274,
+        313
+      ],
+      "outputSize": [
+        256,
+        256
+      ],
+      "glyphSize": [
+        220,
+        217
+      ],
+      "glyphOffset": [
+        18,
+        19
+      ]
+    },
+    {
+      "nodeId": "wayward-perihelion-loop",
+      "family": "wayward",
+      "outputPath": "talent-icon-wayward-perihelion-loop-v1.png",
+      "outputSha256": "f2fe08e82a0f9c7bfac8fe96f95aaee004c3b224365fa5dfd15d5c6e9c12eb37",
+      "sourceCell": 8,
+      "sourceCellBox": [
+        940,
+        314,
+        1254,
+        627
+      ],
+      "sourceAlphaBounds": [
+        23,
+        80,
+        277,
+        313
+      ],
+      "outputSize": [
+        256,
+        256
+      ],
+      "glyphSize": [
+        220,
+        202
+      ],
+      "glyphOffset": [
+        18,
+        27
+      ]
+    },
+    {
+      "nodeId": "wayward-impact-lattice",
+      "family": "wayward",
+      "outputPath": "talent-icon-wayward-impact-lattice-v1.png",
+      "outputSha256": "4db189bd3e736beb2eac2baaa9d2dc5ee290b57be32fe7a5f6220707d3809135",
+      "sourceCell": 9,
+      "sourceCellBox": [
+        0,
+        627,
+        314,
+        940
+      ],
+      "sourceAlphaBounds": [
+        31,
+        81,
+        295,
+        313
+      ],
+      "outputSize": [
+        256,
+        256
+      ],
+      "glyphSize": [
+        220,
+        193
+      ],
+      "glyphOffset": [
+        18,
+        31
+      ]
+    },
+    {
+      "nodeId": "wayward-supernova-core",
+      "family": "wayward",
+      "outputPath": "talent-icon-wayward-supernova-core-v1.png",
+      "outputSha256": "628b8c9e663bbb91a4175efc7a449c5a7e31db24da8429f2ceb99c45391e504a",
+      "sourceCell": 10,
+      "sourceCellBox": [
+        314,
+        627,
+        627,
+        940
+      ],
+      "sourceAlphaBounds": [
+        37,
+        0,
+        278,
+        313
+      ],
+      "outputSize": [
+        256,
+        256
+      ],
+      "glyphSize": [
+        169,
+        220
+      ],
+      "glyphOffset": [
+        43,
+        18
+      ]
+    },
+    {
+      "nodeId": "wayward-white-dwarf-shell",
+      "family": "wayward",
+      "outputPath": "talent-icon-wayward-white-dwarf-shell-v1.png",
+      "outputSha256": "5a4da4c6d491c257cb9876d46e2d447f86100553dd1663167e7bd774e78c6eef",
+      "sourceCell": 11,
+      "sourceCellBox": [
+        627,
+        627,
+        940,
+        940
+      ],
+      "sourceAlphaBounds": [
+        24,
+        0,
+        280,
+        313
+      ],
+      "outputSize": [
+        256,
+        256
+      ],
+      "glyphSize": [
+        180,
+        220
+      ],
+      "glyphOffset": [
+        38,
+        18
+      ]
+    },
+    {
+      "nodeId": "hollow-sun-root",
+      "family": "hollow",
+      "outputPath": "talent-icon-hollow-sun-root-v1.png",
+      "outputSha256": "760f73dff89fe23642265b6ccbbe653defdead8e806eef676686ac08d9ba2384",
+      "sourceCell": 1,
+      "sourceCellBox": [
+        0,
+        0,
+        314,
+        314
+      ],
+      "sourceAlphaBounds": [
+        0,
+        20,
+        310,
+        308
+      ],
+      "outputSize": [
+        256,
+        256
+      ],
+      "glyphSize": [
+        220,
+        204
+      ],
+      "glyphOffset": [
+        18,
+        26
+      ]
+    },
+    {
+      "nodeId": "hollow-orbit-anchor",
+      "family": "hollow",
+      "outputPath": "talent-icon-hollow-orbit-anchor-v1.png",
+      "outputSha256": "217bb0d33f3b3a6730c0baaf562d9a7f264d95364a6c3d6dbd9ea2e558ee0902",
+      "sourceCell": 2,
+      "sourceCellBox": [
+        314,
+        0,
+        627,
+        314
+      ],
+      "sourceAlphaBounds": [
+        0,
+        10,
+        299,
+        314
+      ],
+      "outputSize": [
+        256,
+        256
+      ],
+      "glyphSize": [
+        216,
+        220
+      ],
+      "glyphOffset": [
+        20,
+        18
+      ]
+    },
+    {
+      "nodeId": "hollow-gravity-well",
+      "family": "hollow",
+      "outputPath": "talent-icon-hollow-gravity-well-v1.png",
+      "outputSha256": "b1d71f01b1b6294a33d15df69e99f7f96f5a4eeb502e18e2497e6aaf65b7b100",
+      "sourceCell": 3,
+      "sourceCellBox": [
+        627,
+        0,
+        940,
+        314
+      ],
+      "sourceAlphaBounds": [
+        9,
+        17,
+        313,
+        312
+      ],
+      "outputSize": [
+        256,
+        256
+      ],
+      "glyphSize": [
+        220,
+        213
+      ],
+      "glyphOffset": [
+        18,
+        21
+      ]
+    },
+    {
+      "nodeId": "hollow-echo-seed",
+      "family": "hollow",
+      "outputPath": "talent-icon-hollow-echo-seed-v1.png",
+      "outputSha256": "0a0fab89948e9c5ed0e4197d929a7c7273c1f6457c8ce671e862e4d4b01062b4",
+      "sourceCell": 4,
+      "sourceCellBox": [
+        940,
+        0,
+        1254,
+        314
+      ],
+      "sourceAlphaBounds": [
+        0,
+        11,
+        298,
+        310
+      ],
+      "outputSize": [
+        256,
+        256
+      ],
+      "glyphSize": [
+        219,
+        220
+      ],
+      "glyphOffset": [
+        18,
+        18
+      ]
+    },
+    {
+      "nodeId": "hollow-tidal-lens",
+      "family": "hollow",
+      "outputPath": "talent-icon-hollow-tidal-lens-v1.png",
+      "outputSha256": "6740958af31c1691cfbb3b52c7630a43d8008e46736982eb6a8468912f214264",
+      "sourceCell": 5,
+      "sourceCellBox": [
+        0,
+        314,
+        314,
+        627
+      ],
+      "sourceAlphaBounds": [
+        0,
+        18,
+        314,
+        301
+      ],
+      "outputSize": [
+        256,
+        256
+      ],
+      "glyphSize": [
+        220,
+        198
+      ],
+      "glyphOffset": [
+        18,
+        29
+      ]
+    },
+    {
+      "nodeId": "hollow-event-horizon",
+      "family": "hollow",
+      "outputPath": "talent-icon-hollow-event-horizon-v1.png",
+      "outputSha256": "0e484d5d0978d32162f0e0c8e447af232a71db5c22deee41425879765924c969",
+      "sourceCell": 6,
+      "sourceCellBox": [
+        314,
+        314,
+        627,
+        627
+      ],
+      "sourceAlphaBounds": [
+        6,
+        6,
+        313,
+        303
+      ],
+      "outputSize": [
+        256,
+        256
+      ],
+      "glyphSize": [
+        220,
+        213
+      ],
+      "glyphOffset": [
+        18,
+        21
+      ]
+    },
+    {
+      "nodeId": "hollow-dark-reservoir",
+      "family": "hollow",
+      "outputPath": "talent-icon-hollow-dark-reservoir-v1.png",
+      "outputSha256": "9533826db4831a9c772d431c653a3bfd05cae92ffb8f17959fecc7868c2b24bc",
+      "sourceCell": 7,
+      "sourceCellBox": [
+        627,
+        314,
+        940,
+        627
+      ],
+      "sourceAlphaBounds": [
+        17,
+        7,
+        295,
+        309
+      ],
+      "outputSize": [
+        256,
+        256
+      ],
+      "glyphSize": [
+        203,
+        220
+      ],
+      "glyphOffset": [
+        26,
+        18
+      ]
+    },
+    {
+      "nodeId": "hollow-abyssal-field",
+      "family": "hollow",
+      "outputPath": "talent-icon-hollow-abyssal-field-v1.png",
+      "outputSha256": "450bd2192a40119eae4c9e3700200fd35d35a485d1a0a8db0eef8584108e1ae1",
+      "sourceCell": 8,
+      "sourceCellBox": [
+        940,
+        314,
+        1254,
+        627
+      ],
+      "sourceAlphaBounds": [
+        5,
+        0,
+        313,
+        307
+      ],
+      "outputSize": [
+        256,
+        256
+      ],
+      "glyphSize": [
+        220,
+        219
+      ],
+      "glyphOffset": [
+        18,
+        18
+      ]
+    },
+    {
+      "nodeId": "hollow-collapse-cycle",
+      "family": "hollow",
+      "outputPath": "talent-icon-hollow-collapse-cycle-v1.png",
+      "outputSha256": "80127be0a7e5d652e73fd44440b31d1292a2824a7d3e66c6a6a3ff5a89ba6d0e",
+      "sourceCell": 9,
+      "sourceCellBox": [
+        0,
+        627,
+        314,
+        940
+      ],
+      "sourceAlphaBounds": [
+        0,
+        12,
+        306,
+        312
+      ],
+      "outputSize": [
+        256,
+        256
+      ],
+      "glyphSize": [
+        220,
+        216
+      ],
+      "glyphOffset": [
+        18,
+        20
+      ]
+    },
+    {
+      "nodeId": "hollow-singularity-core",
+      "family": "hollow",
+      "outputPath": "talent-icon-hollow-singularity-core-v1.png",
+      "outputSha256": "78c81354e9e59141b3a143801269d74f67c86c26d6b18a3c0435eb459931e630",
+      "sourceCell": 10,
+      "sourceCellBox": [
+        314,
+        627,
+        627,
+        940
+      ],
+      "sourceAlphaBounds": [
+        4,
+        13,
+        313,
+        308
+      ],
+      "outputSize": [
+        256,
+        256
+      ],
+      "glyphSize": [
+        220,
+        210
+      ],
+      "glyphOffset": [
+        18,
+        23
+      ]
+    },
+    {
+      "nodeId": "hollow-chronosphere",
+      "family": "hollow",
+      "outputPath": "talent-icon-hollow-chronosphere-v1.png",
+      "outputSha256": "0ccce221cc2fc7d05e22e4b5e9439d5c3682c2fba2123055d245652c8a579096",
+      "sourceCell": 11,
+      "sourceCellBox": [
+        627,
+        627,
+        940,
+        940
+      ],
+      "sourceAlphaBounds": [
+        0,
+        13,
+        308,
+        313
+      ],
+      "outputSize": [
+        256,
+        256
+      ],
+      "glyphSize": [
+        220,
+        214
+      ],
+      "glyphOffset": [
+        18,
+        21
+      ]
+    },
+    {
+      "nodeId": "comet-engine-root",
+      "family": "comet",
+      "outputPath": "talent-icon-comet-engine-root-v1.png",
+      "outputSha256": "c247c5dcc8e2a6e0d2d890820654b26652d50e183441a9a739a4c033eda12f0e",
+      "sourceCell": 1,
+      "sourceCellBox": [
+        0,
+        0,
+        314,
+        314
+      ],
+      "sourceAlphaBounds": [
+        11,
+        13,
+        314,
+        306
+      ],
+      "outputSize": [
+        256,
+        256
+      ],
+      "glyphSize": [
+        220,
+        213
+      ],
+      "glyphOffset": [
+        18,
+        21
+      ]
+    },
+    {
+      "nodeId": "comet-ignition-coil",
+      "family": "comet",
+      "outputPath": "talent-icon-comet-ignition-coil-v1.png",
+      "outputSha256": "82b98d237e55bcaf50399ea0d7d15990b8296cbb2117a2bcf9bd060a882c471d",
+      "sourceCell": 2,
+      "sourceCellBox": [
+        314,
+        0,
+        627,
+        314
+      ],
+      "sourceAlphaBounds": [
+        0,
+        0,
+        309,
+        314
+      ],
+      "outputSize": [
+        256,
+        256
+      ],
+      "glyphSize": [
+        216,
+        220
+      ],
+      "glyphOffset": [
+        20,
+        18
+      ]
+    },
+    {
+      "nodeId": "comet-bore-drive",
+      "family": "comet",
+      "outputPath": "talent-icon-comet-bore-drive-v1.png",
+      "outputSha256": "94a8f40cc078a0140187f782a341037a2b3b3654611f8f5bc98c2379fe047444",
+      "sourceCell": 3,
+      "sourceCellBox": [
+        627,
+        0,
+        940,
+        314
+      ],
+      "sourceAlphaBounds": [
+        8,
+        39,
+        313,
+        310
+      ],
+      "outputSize": [
+        256,
+        256
+      ],
+      "glyphSize": [
+        220,
+        195
+      ],
+      "glyphOffset": [
+        18,
+        30
+      ]
+    },
+    {
+      "nodeId": "comet-fracture-nose",
+      "family": "comet",
+      "outputPath": "talent-icon-comet-fracture-nose-v1.png",
+      "outputSha256": "aad40bb11ed82b997b2fbb6a8bd71bdcd9e87b5effb5bcfaf6cd080dd0437289",
+      "sourceCell": 4,
+      "sourceCellBox": [
+        940,
+        0,
+        1254,
+        314
+      ],
+      "sourceAlphaBounds": [
+        0,
+        21,
+        298,
+        314
+      ],
+      "outputSize": [
+        256,
+        256
+      ],
+      "glyphSize": [
+        220,
+        216
+      ],
+      "glyphOffset": [
+        18,
+        20
+      ]
+    },
+    {
+      "nodeId": "comet-longburn-reservoir",
+      "family": "comet",
+      "outputPath": "talent-icon-comet-longburn-reservoir-v1.png",
+      "outputSha256": "fcc0b7eec567b5d7ddbd835b41b579d52f3b1eda128b144b212f9adf033ad6d4",
+      "sourceCell": 5,
+      "sourceCellBox": [
+        0,
+        314,
+        314,
+        627
+      ],
+      "sourceAlphaBounds": [
+        0,
+        18,
+        308,
+        313
+      ],
+      "outputSize": [
+        256,
+        256
+      ],
+      "glyphSize": [
+        220,
+        211
+      ],
+      "glyphOffset": [
+        18,
+        22
+      ]
+    },
+    {
+      "nodeId": "comet-rider-plating",
+      "family": "comet",
+      "outputPath": "talent-icon-comet-rider-plating-v1.png",
+      "outputSha256": "4615c9d467bad866a0ef93eedf10fb0d375e8ed2b2198ad47168ea907c92020f",
+      "sourceCell": 6,
+      "sourceCellBox": [
+        314,
+        314,
+        627,
+        627
+      ],
+      "sourceAlphaBounds": [
+        20,
+        14,
+        313,
+        313
+      ],
+      "outputSize": [
+        256,
+        256
+      ],
+      "glyphSize": [
+        216,
+        220
+      ],
+      "glyphOffset": [
+        20,
+        18
+      ]
+    },
+    {
+      "nodeId": "comet-wide-wake",
+      "family": "comet",
+      "outputPath": "talent-icon-comet-wide-wake-v1.png",
+      "outputSha256": "c0cc734f2e8a8c95f9abc6b7392a63976c24b9ab4ba6de6371266e2e6befcf53",
+      "sourceCell": 7,
+      "sourceCellBox": [
+        627,
+        314,
+        940,
+        627
+      ],
+      "sourceAlphaBounds": [
+        13,
+        20,
+        308,
+        313
+      ],
+      "outputSize": [
+        256,
+        256
+      ],
+      "glyphSize": [
+        220,
+        219
+      ],
+      "glyphOffset": [
+        18,
+        18
+      ]
+    },
+    {
+      "nodeId": "comet-aphelion-drive",
+      "family": "comet",
+      "outputPath": "talent-icon-comet-aphelion-drive-v1.png",
+      "outputSha256": "97093ed4d4c463ec375eeb245d5177852d1f07f00ed3e9d3f0e010ae75e81668",
+      "sourceCell": 8,
+      "sourceCellBox": [
+        940,
+        314,
+        1254,
+        627
+      ],
+      "sourceAlphaBounds": [
+        5,
+        20,
+        302,
+        301
+      ],
+      "outputSize": [
+        256,
+        256
+      ],
+      "glyphSize": [
+        220,
+        208
+      ],
+      "glyphOffset": [
+        18,
+        24
+      ]
+    },
+    {
+      "nodeId": "comet-impact-wake",
+      "family": "comet",
+      "outputPath": "talent-icon-comet-impact-wake-v1.png",
+      "outputSha256": "d60a380b80c63eb41f7c0d77df4f93be2001cad87bc20711dff78c13fa861d28",
+      "sourceCell": 9,
+      "sourceCellBox": [
+        0,
+        627,
+        314,
+        940
+      ],
+      "sourceAlphaBounds": [
+        0,
+        0,
+        314,
+        313
+      ],
+      "outputSize": [
+        256,
+        256
+      ],
+      "glyphSize": [
+        220,
+        219
+      ],
+      "glyphOffset": [
+        18,
+        18
+      ]
+    },
+    {
+      "nodeId": "comet-zenith-drive",
+      "family": "comet",
+      "outputPath": "talent-icon-comet-zenith-drive-v1.png",
+      "outputSha256": "58dea3df6c642d7ad06387cb0f68c21d9f46cfa2b71514918b2cc1dadd9d9b87",
+      "sourceCell": 10,
+      "sourceCellBox": [
+        314,
+        627,
+        627,
+        940
+      ],
+      "sourceAlphaBounds": [
+        0,
+        0,
+        297,
+        308
+      ],
+      "outputSize": [
+        256,
+        256
+      ],
+      "glyphSize": [
+        212,
+        220
+      ],
+      "glyphOffset": [
+        22,
+        18
+      ]
+    },
+    {
+      "nodeId": "comet-shockfront",
+      "family": "comet",
+      "outputPath": "talent-icon-comet-shockfront-v1.png",
+      "outputSha256": "cd3516cbf8140c19779176ebf90ab7a84801f4b92c2d72a494c829ec97426b30",
+      "sourceCell": 11,
+      "sourceCellBox": [
+        627,
+        627,
+        940,
+        940
+      ],
+      "sourceAlphaBounds": [
+        11,
+        13,
+        306,
+        313
+      ],
+      "outputSize": [
+        256,
+        256
+      ],
+      "glyphSize": [
+        216,
+        220
+      ],
+      "glyphOffset": [
+        20,
+        18
+      ]
+    }
+  ]
+}

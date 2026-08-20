@@ -2,11 +2,11 @@
 
 import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { CELESTIAL_ACTION_BAR_ASSET_KEYS } from "../../values/celestialActionBar.js";
+import { CELESTIAL_TALENT_TREE_UI_CONFIG } from "../../values/celestialTalentTreeUi.js";
 
 const chrome = Object.freeze({
   foundation: CELESTIAL_ACTION_BAR_ASSET_KEYS.foundation,
-  tooltip: ASSET_KEYS.ui.approvedHud.notification,
-  lock: CELESTIAL_ACTION_BAR_ASSET_KEYS.lock,
+  tooltip: CELESTIAL_TALENT_TREE_UI_CONFIG.assets.tooltip.key,
 });
 
 const iconCandidates = Object.freeze({
@@ -19,13 +19,13 @@ const iconCandidates = Object.freeze({
     Object.freeze({ key: ASSET_KEYS.player.thunderStrikeStrikeSheet, frame: 0 }),
   ]),
   waywardStar: Object.freeze([
-    Object.freeze({ key: ASSET_KEYS.celestialEngines.waywardStar }),
+    Object.freeze({ key: CELESTIAL_ACTION_BAR_ASSET_KEYS.waywardStar }),
   ]),
   hollowSun: Object.freeze([
-    Object.freeze({ key: ASSET_KEYS.celestialEngines.hollowSun }),
+    Object.freeze({ key: CELESTIAL_ACTION_BAR_ASSET_KEYS.hollowSun }),
   ]),
   cometEngine: Object.freeze([
-    Object.freeze({ key: ASSET_KEYS.celestialEngines.cometEngine }),
+    Object.freeze({ key: CELESTIAL_ACTION_BAR_ASSET_KEYS.cometEngine }),
   ]),
 });
 
@@ -49,7 +49,7 @@ export function resolveCelestialActionBarIcon(scene, assetRole) {
 
 export function inspectCelestialActionBarAssets(scene, entries) {
   const missingTextures = [];
-  const requiredChrome = [chrome.foundation, chrome.tooltip, chrome.lock];
+  const requiredChrome = [chrome.foundation, chrome.tooltip];
   for (const key of new Set(requiredChrome)) {
     if (!hasTexture(scene, key)) missingTextures.push(key);
   }
@@ -66,7 +66,6 @@ export function inspectCelestialActionBarAssets(scene, entries) {
   return Object.freeze({
     chrome,
     icons: Object.freeze(icons),
-    lockAvailable: hasTexture(scene, chrome.lock),
     fallbackEntryIds: Object.freeze(fallbackEntryIds),
     missingTextures: Object.freeze([...new Set(missingTextures)]),
   });

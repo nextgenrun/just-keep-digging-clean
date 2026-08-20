@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Real underground rendering capture</title>
+  <style>
+    :root { color-scheme:dark; --bg:#07080b; --panel:#111319; --line:#4b4f59; --copy:#f4eee2; --muted:#a7acb8; --accent:#e1b052; --live:#63dca5; }
+    * { box-sizing:border-box; }
+    html,body { min-height:100%; margin:0; background:var(--bg); color:var(--copy); }
+    body { font-family:"Segoe UI",system-ui,sans-serif; }
+    header { display:grid; grid-template-columns:minmax(260px,1fr) auto minmax(220px,1fr); gap:18px; align-items:center; padding:13px 18px; border-bottom:1px solid var(--line); background:linear-gradient(180deg,#111318,#0b0c10); }
+    h1 { margin:0; font-size:19px; letter-spacing:.075em; font-weight:600; }
+    .subtitle,.hint,.telemetry { color:var(--muted); font-size:11px; }
+    .subtitle { margin-top:3px; }
+    #status { justify-self:end; color:var(--live); font-size:11px; }
+    .controls { display:flex; flex-wrap:wrap; justify-content:center; gap:6px; }
+    button { border:1px solid var(--line); border-radius:6px; padding:6px 9px; background:#171a21; color:var(--copy); font:inherit; font-size:11px; cursor:pointer; }
+    button[aria-pressed="true"] { border-color:var(--accent); background:#2a251b; }
+    button:disabled { opacity:.42; cursor:wait; }
+    main { padding:10px; }
+    .runtime { width:100%; border:1px solid var(--accent); border-radius:9px; overflow:hidden; background:var(--panel); }
+    .runtime-head { display:grid; grid-template-columns:1fr auto; gap:12px; align-items:center; min-height:48px; padding:7px 12px; border-bottom:1px solid var(--line); }
+    .runtime h2 { margin:0; font-size:13px; letter-spacing:.05em; }
+    .runtime-detail { margin-top:2px; color:var(--muted); font-size:10px; }
+    .telemetry { text-align:right; font-variant-numeric:tabular-nums; }
+    .frame-wrap { position:relative; width:100%; aspect-ratio:16/9; background:#000; }
+    iframe { display:block; width:100%; height:100%; border:0; pointer-events:none; background:#000; }
+    footer { display:flex; justify-content:center; padding:0 14px 10px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div><h1 id="title"></h1><div class="subtitle" id="subtitle"></div></div>
+    <div class="controls" aria-label="Synchronized capture controls">
+      <button type="button" data-action="step" data-value="-1" disabled>&larr; Step</button>
+      <button type="button" data-action="step" data-value="1" disabled>Step &rarr;</button>
+      <button type="button" data-action="resync" disabled>Resync</button>
+      <button type="button" data-action="depth" data-value="entry" disabled>18 m</button>
+      <button type="button" data-action="depth" data-value="deep" disabled>700 m</button>
+      <button type="button" data-action="depth" data-value="abyss" disabled>1000 m</button>
+      <button type="button" data-action="fuel" data-value="full" disabled>Full GP</button>
+      <button type="button" data-action="fuel" data-value="low" disabled>Low GP</button>
+      <button type="button" data-action="weather" data-value="clear" disabled>Clear</button>
+      <button type="button" data-action="weather" data-value="rain" disabled>Rain</button>
+      <button type="button" data-action="day" data-value="day" disabled>Day</button>
+      <button type="button" data-action="day" data-value="night" disabled>Night</button>
+      <button type="button" data-action="torch" disabled>Torch on/off</button>
+    </div>
+    <div id="status" role="status" aria-live="polite"></div>
+  </header>
+  <main><section class="runtime"><div class="runtime-head"><div><h2 data-label></h2><div class="runtime-detail" data-detail></div></div><div class="telemetry" data-telemetry>Waiting...</div></div><div class="frame-wrap"><iframe title="Live game capture"></iframe></div></section></main>
+  <footer><div class="hint" id="hint"></div></footer>
+  <script type="module" src="./2026-08-15-material-lighting-live-capture.js?v=20260815f"></script>
+</body>
+</html>

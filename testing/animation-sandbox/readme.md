@@ -2,6 +2,23 @@
 
 Standalone Phaser 3 mini-game for rapid animation & collision testing. Loads player spritesheets and tile textures into a small collidable world — no need to boot the full game.
 
+## Mixamo punch sequence review
+
+`mixamo-punch-sequence-review-v1/` retargets eight clean unarmed Mixamo
+motions onto the approved high-resolution Survival character, then compares
+the current repeated SIDE/UP/DOWN attacks with rhythmic authored chains. It
+includes individual animated clips, six preset recipes, a custom three-strike
+builder, 94 px target tiles, the 31x75 collider, game-scale viewing and
+browser-local verdicts. It never changes production animation ownership.
+
+## Mixamo current-role replacement review
+
+`mixamo-replacement-review-v1/` compares only game-mapped Mixamo candidates
+against the exact current runtime animation family they could replace or extend.
+It includes flight/descent, locomotion handoffs, directional mining, crouch,
+wall/abilities, reactions, and death. Accept/Maybe/Reject verdicts are local to
+the browser and never change runtime animation ownership.
+
 ## Flight style lab
 
 `ual-flight-style-lab-v1/` is the additive five-direction flight chooser for the
@@ -150,6 +167,16 @@ lenses. Its synchronized Before/After loops target stationary SIDE/Q release,
 landing finish, and wall brace/push with visible collider, tile, anchor, and
 silhouette guides. Filters and approvals are browser-local; production remains
 untouched.
+
+## Mixamo Atlas V2
+
+`mixamo-atlas-v2/` expands the focused 13-row locomotive comparison into
+exactly 130 role-mapped animated candidates. Every card keeps an exact current
+runtime reference on the left and clearly distinguishes V4 character proof,
+source-only motion scouting, and strict gate failures. Decisions are
+browser-local; jump-only clips remain future reference and production is not
+wired or changed.
+
 ## Spritesheets Loaded
 
 | Sheet | Source | Frames | Size |

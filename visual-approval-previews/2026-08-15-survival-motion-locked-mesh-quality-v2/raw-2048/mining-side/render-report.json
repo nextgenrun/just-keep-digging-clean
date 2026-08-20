@@ -1,0 +1,54 @@
+{
+  "version": 2,
+  "reviewOnly": true,
+  "productionChanged": false,
+  "family": "mining-side",
+  "sourceAction": "Punch_Jab",
+  "sourceFrames": [
+    1.0,
+    1.8,
+    2.6,
+    3.4000000000000004,
+    4.2,
+    5.0,
+    5.800000000000001,
+    6.6,
+    7.4,
+    8.200000000000001,
+    9.0,
+    9.8,
+    10.600000000000001,
+    11.400000000000002,
+    12.2,
+    13.0,
+    13.8,
+    14.600000000000001,
+    15.400000000000002,
+    16.2,
+    17.0,
+    17.8,
+    18.6,
+    19.400000000000002,
+    20.200000000000003,
+    21.0,
+    21.800000000000004
+  ],
+  "renderFrameCount": 27,
+  "meshVertices": 83188,
+  "meshPolygons": 119304,
+  "motionEdits": {
+    "bone": false,
+    "weights": false,
+    "camera": false,
+    "geometry": false
+  },
+  "materialEdits": {
+    "fullGlovePolygons": 6162
+  },
+  "objectTranslationKeysFrozen": 69,
+  "textures": {
+    "normalMaps": 9,
+    "relinkedTextures": 32,
+    "eye": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\visual-approval-previews\\2026-08-14-survival-global-benchmark-v1\\texture-cache-2k\\Textures\\Eye\\Eye_BaseColor.png"
+  }
+}

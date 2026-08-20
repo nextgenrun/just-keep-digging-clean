@@ -147,7 +147,12 @@ export class RuntimeAssetLoadCoordinator {
       if (!record) return;
       this.activeRecords.add(record);
       record.startedAtMs = this.now();
-      record.backend = this.bitmapDecodeEnabled && record.type === this.config.types.image
+      // Phaser must create diffuse + normal-map sources atomically. The bitmap
+      // fast path only activates one source and leaves Light2D cards without a
+      // valid paired texture when the shallow depth band streams in.
+      record.backend = this.bitmapDecodeEnabled
+        && record.type === this.config.types.image
+        && !record.asset.normalMapPath
         ? "bitmap"
         : "phaser";
       this.metrics.started += 1;
@@ -233,7 +238,10 @@ export class RuntimeAssetLoadCoordinator {
       if (!loader) {
         throw bitmapError || new Error(`Loader unavailable: ${record.asset.key}`);
       }
-      const eventName = `filecomplete-${record.type}-${record.asset.key}`;
+      // A normal-mapped image is a Phaser MultiFile. Its diffuse filecomplete
+      // event can fire before the normal source is attached to the texture, so
+      // only expose it after the whole loader cycle has completed.
+      const eventName = this._getLoaderCompletionEvent(record);
       record.loaderComplete = () => {
         this._clearLoaderListeners(record, eventName);
         if (this._assetExists(record.asset, record.type)) this._finish(record);
@@ -252,6 +260,11 @@ export class RuntimeAssetLoadCoordinator {
       if (this._isCurrent(record)) this._finish(record, error);
     }
   }
+  _getLoaderCompletionEvent(record) {
+    return record.asset.normalMapPath
+      ? this.config.phaserLoader.completeEvent
+      : `filecomplete-${record.type}-${record.asset.key}`;
+  }
   _clearLoaderListeners(record, eventName) {
     const loader = this.scene.load;
     loader?.off?.(eventName, record.loaderComplete);
@@ -261,7 +274,7 @@ export class RuntimeAssetLoadCoordinator {
   _finish(record, error = null, cancelled = false) {
     if (!record || (!this._isCurrent(record) && !this.records.has(record.id))) return;
     if (record.subscribers.size === 0) cancelled = true;
-    const eventName = `filecomplete-${record.type}-${record.asset.key}`;
+    const eventName = this._getLoaderCompletionEvent(record);
     this._clearLoaderListeners(record, eventName);
     record.abortController = null;
     this.records.delete(record.id); this.activeRecords.delete(record);
@@ -338,7 +351,7 @@ export class RuntimeAssetLoadCoordinator {
     this.destroyed = true;
     for (const record of this.activeRecords) {
       record.abortController?.abort?.();
-      const eventName = `filecomplete-${record.type}-${record.asset.key}`;
+      const eventName = this._getLoaderCompletionEvent(record);
       this._clearLoaderListeners(record, eventName);
     }
     this.scheduler.destroy();

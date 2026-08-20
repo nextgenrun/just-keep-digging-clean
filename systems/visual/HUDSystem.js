@@ -9,21 +9,6 @@ import { HUD_QUICK_CONTROLS } from "../../values/hudQuickControls.js";
 import { ApprovedHudSkin } from "./ApprovedHudSkin.js";
 import { HudQuickControls } from "./HudQuickControls.js";
 
-const LEGACY_WEATHER_ICONS = Object.freeze({
-  clear: "☀️",
-  drizzle: "🌦",
-  rain: "🌧",
-  storm: "⛈",
-  snow: "",
-});
-
-const SEASON_ICONS = Object.freeze({
-  spring: "🌸",
-  summer: "☀️",
-  autumn: "🍂",
-  winter: "❄️",
-});
-
 function setTextIfChanged(textObject, value) {
   if (textObject?.text !== value) textObject?.setText(value);
 }
@@ -92,7 +77,6 @@ export class HUDSystem {
     this._destroyed = false;
     this._systemVisibility = {
       clock: true,
-      weather: true,
       torch: true,
       combo: true,
       buff: true,
@@ -279,46 +263,6 @@ export class HUDSystem {
       .setScrollFactor(0)
       .setDepth(HUD_LAYOUT.hudDepth);
 
-    this.weatherPanelX = vw - HUD_LAYOUT.weatherPanelW - 12;
-    this.weatherPanel = scene.add
-      .rectangle(this.weatherPanelX, HUD_LAYOUT.weatherY, HUD_LAYOUT.weatherPanelW, HUD_LAYOUT.weatherPanelH, UI_COLORS.bg, 0.58)
-      .setOrigin(0, 0)
-      .setScrollFactor(0)
-      .setDepth(HUD_LAYOUT.hudDepth - 1);
-    this.weatherPanel.setStrokeStyle(1, UI_COLORS.borderDim, 0.72);
-
-    this.weatherText = scene.add
-      .text(this.weatherPanelX + 10, HUD_LAYOUT.weatherY + 6, "☀️ Clear", {
-        fontFamily: "Consolas, monospace",
-        fontSize: HUD_LAYOUT.weatherFontSize,
-        color: HUD_LAYOUT.weatherColor,
-      })
-      .setScrollFactor(0)
-      .setDepth(HUD_LAYOUT.hudDepth);
-
-    this.weatherTempText = scene.add
-      .text(this.weatherPanelX + 10, HUD_LAYOUT.weatherY + 28, "25°C", {
-        fontFamily: "Consolas, monospace",
-        fontSize: "14px",
-        color: HUD_LAYOUT.weatherTempColor,
-      })
-      .setScrollFactor(0)
-      .setDepth(HUD_LAYOUT.hudDepth);
-
-    this.weatherSeasonText = scene.add
-      .text(this.weatherPanelX + 10, HUD_LAYOUT.weatherY + 50, "🌸 Spring", {
-        fontFamily: "Consolas, monospace",
-        fontSize: HUD_LAYOUT.seasonFontSize,
-        color: HUD_LAYOUT.weatherSeasonColor,
-      })
-      .setScrollFactor(0)
-      .setDepth(HUD_LAYOUT.hudDepth);
-
-    this.weatherIntensityBar = scene.add
-      .graphics()
-      .setScrollFactor(0)
-      .setDepth(HUD_LAYOUT.hudDepth + 1);
-
     this.approvedSkin = new ApprovedHudSkin(scene, this);
     this.setCurrentPickaxe(scene.upgradeSystem?.ownedPickaxe, { force: true });
     this._createQuickControls();
@@ -340,7 +284,6 @@ export class HUDSystem {
     const approvedSkinActive = this.approvedSkin?.active === true;
     const groups = {
       clock: [this.clockTimeText, this.clockDayText],
-      weather: [this.weatherText, this.weatherTempText, this.weatherIntensityBar],
       torch: approvedSkinActive ? [] : [this.torchIcon, this.torchStatusText],
       combo: [this.comboText, this.comboTimerBg, this.comboTimerBar],
       buff: approvedSkinActive ? [] : [this.buffTimerText],
@@ -349,17 +292,12 @@ export class HUDSystem {
       objects.forEach(object => object?.setVisible(this._systemVisibility[key]))
     ));
     this.clockPanel?.setVisible(!approvedSkinActive && this._systemVisibility.clock);
-    this.weatherPanel?.setVisible(!approvedSkinActive && this._systemVisibility.weather);
-    this.weatherSeasonText?.setVisible(!approvedSkinActive && this._systemVisibility.weather);
     if (approvedSkinActive) {
       this.torchIcon?.setVisible(false);
       this.torchStatusText?.setVisible(false);
       this.buffTimerText?.setVisible(false);
     }
-    this.approvedSkin?.worldFrame?.setVisible(
-      this._systemVisibility.clock || this._systemVisibility.weather,
-    );
-    this.approvedSkin?.setWeatherVisible(this._systemVisibility.weather);
+    this.approvedSkin?.worldFrame?.setVisible(this._systemVisibility.clock);
     this.approvedSkin?.setComboVisible(this._systemVisibility.combo && this.comboVisible);
     if (!this._systemVisibility.buff) this.approvedSkin?.setBuffLines([]);
   }
@@ -372,6 +310,7 @@ export class HUDSystem {
       depth: HUD_QUICK_CONTROLS.depth,
       visible: lootVisualsEnabled,
       onInventory: () => this.scene.toggleInventoryFromHud?.() === true,
+      onMap: () => this.scene.toggleWorldMap?.() === true,
       onPause: () => this.scene.togglePauseMenuFromHud?.() === true,
     });
     this.lootBagContainer = this.quickControls.inventoryContainer;
@@ -589,12 +528,11 @@ export class HUDSystem {
 
     this.updateProgressBar(timeMs);
 
-    this.updateClockWeather();
+    this.updateClock();
   }
 
-  updateClockWeather() {
+  updateClock() {
     const dnc = this.scene.dayNightCycle;
-    const ws = this.scene.weatherSystem;
 
     if (dnc) {
       const phaseLabel = dnc.getCurrentPhaseLabel();
@@ -609,53 +547,6 @@ export class HUDSystem {
       }
     }
 
-    if (ws) {
-      const snap = ws.getSnapshot();
-      this.approvedSkin?.setWeatherKind(snap.kind);
-      const icon = this.approvedSkin?.active
-        ? ""
-        : LEGACY_WEATHER_ICONS[snap.kind] || "";
-      const label = snap.kind.charAt(0).toUpperCase() + snap.kind.slice(1);
-      const weatherLabel = [icon, label].filter(Boolean).join(" ");
-      const forecast = snap.forecastKind && snap.forecastKind !== snap.kind
-        ? ` -> ${snap.forecastKind.charAt(0).toUpperCase() + snap.forecastKind.slice(1)}`
-        : "";
-      setTextIfChanged(
-        this.weatherText,
-        this.approvedSkin?.active ? weatherLabel.toUpperCase() : `${weatherLabel}${forecast}`,
-      );
-
-      if (dnc) {
-        setTextIfChanged(this.weatherTempText, `${dnc.getCurrentTemperature()}°C`);
-      }
-
-      if (dnc && !this.approvedSkin?.active) {
-        const season = dnc.getSeason();
-        setTextIfChanged(this.weatherSeasonText, `${SEASON_ICONS[season] || ""} ${season.charAt(0).toUpperCase() + season.slice(1)}`);
-      }
-
-      const intensity = snap.intensity;
-      const approvedBar = this.approvedSkin?.getWeatherBarLayout();
-      const barW = approvedBar?.width ?? (HUD_LAYOUT.weatherPanelW - 20);
-      const barH = approvedBar?.height ?? 4;
-      const barX = approvedBar?.x ?? (this.weatherPanelX + 10);
-      const barY = approvedBar?.y ?? (HUD_LAYOUT.weatherY + HUD_LAYOUT.weatherPanelH - 10);
-
-      this.weatherIntensityBar.clear();
-      if (intensity > 0.05) {
-        this.weatherIntensityBar.fillStyle(0x1a1a2e, 0.6);
-        this.weatherIntensityBar.fillRect(barX, barY, barW, barH);
-        const fillColor = snap.isStorming
-          ? 0xf0c765
-          : snap.kind === "snow"
-            ? 0xd9f7ff
-            : snap.kind === "rain"
-              ? 0x4488ff
-              : 0x65d8f2;
-        this.weatherIntensityBar.fillStyle(fillColor, 0.8);
-        this.weatherIntensityBar.fillRect(barX, barY, barW * intensity, barH);
-      }
-    }
   }
 
   updateCombo(timeMs) {
@@ -855,8 +746,6 @@ export class HUDSystem {
       this.comboText, this.comboTimerBg, this.comboTimerBar,
       this.progressBarBg, this.progressBar, this.progressBarText,
       this.clockPanel, this.clockTimeText, this.clockDayText,
-      this.weatherPanel, this.weatherText, this.weatherTempText,
-      this.weatherSeasonText, this.weatherIntensityBar,
     ];
     objects.forEach(obj => obj?.destroy());
     this.lootBagHit = null;

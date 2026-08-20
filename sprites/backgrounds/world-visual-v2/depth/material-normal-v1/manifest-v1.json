@@ -1,0 +1,141 @@
+{
+  "kind": "derived-phaser-light2d-normal-maps",
+  "sourceArtChanged": false,
+  "strength": 7.5,
+  "heightBlurPx": 1.15,
+  "microDetailStrength": 0.72,
+  "mediumDetailStrength": 0.38,
+  "detailCeiling": 0.072,
+  "assets": [
+    {
+      "source": "sprites/backgrounds/world-visual-v2/depth/biome-expansion-v3/weathered-roots-amber-seed-sanctum-v3.webp",
+      "output": "sprites/backgrounds/world-visual-v2/depth/material-normal-v1/weathered-roots-amber-seed-sanctum-v3-normal-v1.webp",
+      "sourceSha256": "dba5478b818dd5a9cb70e9f3eefea83d585d42d07d7b3c7cb081320c19b448a4",
+      "outputSha256": "9f1d555a10300adb56f9cb66ad7d0eebfe2383e6f79b94267117100369bff192",
+      "materialDiffuse": "sprites/backgrounds/world-visual-v2/depth/material-diffuse-v1/weathered-roots-amber-seed-sanctum-v3-material-v1.webp",
+      "materialDiffuseSha256": "2fcfda538b670495734ae70edd10af0708271c3aa66dbb2c34a3b6697dc2ce88",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "source": "sprites/backgrounds/world-visual-v2/depth/biome-expansion-v3/weathered-roots-mycorrhizal-procession-v3.webp",
+      "output": "sprites/backgrounds/world-visual-v2/depth/material-normal-v1/weathered-roots-mycorrhizal-procession-v3-normal-v1.webp",
+      "sourceSha256": "37515b290f007fe9dd492057aa986e8190aa8036a9d740e7fb43996e6ba0b017",
+      "outputSha256": "05f3f860a5cc663c71f10029e39e00e247cdf8420712f559a413fd85adb50c8a",
+      "materialDiffuse": "sprites/backgrounds/world-visual-v2/depth/material-diffuse-v1/weathered-roots-mycorrhizal-procession-v3-material-v1.webp",
+      "materialDiffuseSha256": "d257e41dee26190134111dc8e423d90f6329978dd2e7225a3851bee32665c556",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "source": "sprites/backgrounds/world-visual-v2/depth/biome-expansion-v3/weathered-roots-rainwell-canopy-v3.webp",
+      "output": "sprites/backgrounds/world-visual-v2/depth/material-normal-v1/weathered-roots-rainwell-canopy-v3-normal-v1.webp",
+      "sourceSha256": "72043a76acd045ac6e8d74534602b9b7e0363b48d48099a795999f399ec98e3f",
+      "outputSha256": "46c43ddb31fe0325c2839308885fc1912ae19735aa4767ded2c0db4cf40b5ae4",
+      "materialDiffuse": "sprites/backgrounds/world-visual-v2/depth/material-diffuse-v1/weathered-roots-rainwell-canopy-v3-material-v1.webp",
+      "materialDiffuseSha256": "95987a8939263ec3b65606d9f326752afc998605a7375e8f2a3a101adc1091aa",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "source": "sprites/backgrounds/world-visual-v2/depth/biome-expansion-v3/weathered-roots-sunken-orchard-vault-v3.webp",
+      "output": "sprites/backgrounds/world-visual-v2/depth/material-normal-v1/weathered-roots-sunken-orchard-vault-v3-normal-v1.webp",
+      "sourceSha256": "00dc49afcd1e08522d87cc4718bf5520b51af6748a52cc8e681639c920a16748",
+      "outputSha256": "271b7e8591a05be075764ef5e57662819a0d00032ba5037e144bad6b252fe14a",
+      "materialDiffuse": "sprites/backgrounds/world-visual-v2/depth/material-diffuse-v1/weathered-roots-sunken-orchard-vault-v3-material-v1.webp",
+      "materialDiffuseSha256": "e2fb9d694982b7be3a0ab9a532b13668840e512001369820e5b7885533ac9bad",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "source": "sprites/backgrounds/world-visual-v2/depth/biome-expansion-v3/weathered-roots-uprooted-bell-tower-v3.webp",
+      "output": "sprites/backgrounds/world-visual-v2/depth/material-normal-v1/weathered-roots-uprooted-bell-tower-v3-normal-v1.webp",
+      "sourceSha256": "e2dfa635aa52a9899067e93ad4af876f62e332c25f72290ceea34432008bee4c",
+      "outputSha256": "0dc18cd7f63c4c4e72526a1795c5fe093d2e534ec4e29cb6898e0ceb88adfe57",
+      "materialDiffuse": "sprites/backgrounds/world-visual-v2/depth/material-diffuse-v1/weathered-roots-uprooted-bell-tower-v3-material-v1.webp",
+      "materialDiffuseSha256": "38675fd230b3e558ae2d34a683b97f4a26a52dd713042de26210218e14941d23",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "source": "sprites/backgrounds/world-visual-v2/depth/biome-expansion-v5/weathered-roots-rootwater-sink-valley-v5.webp",
+      "output": "sprites/backgrounds/world-visual-v2/depth/material-normal-v1/weathered-roots-rootwater-sink-valley-v5-normal-v1.webp",
+      "sourceSha256": "0c8fad855ae1e2c3cbfb73b5418bb0dd10b39b09d890527473eda202dc472d90",
+      "outputSha256": "1f6e72afd225e6876e21ff8926eb0045cff734e0fd055c55768f7348cfea5a6f",
+      "materialDiffuse": "sprites/backgrounds/world-visual-v2/depth/material-diffuse-v1/weathered-roots-rootwater-sink-valley-v5-material-v1.webp",
+      "materialDiffuseSha256": "b3d668a5b47e6f6b9bba529ead07d6a78bf64e781e1e90f2fe4d05b31a6ee3c8",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "source": "sprites/backgrounds/world-visual-v2/depth/biome-expansion-v5/weathered-roots-shale-root-escarpment-v5.webp",
+      "output": "sprites/backgrounds/world-visual-v2/depth/material-normal-v1/weathered-roots-shale-root-escarpment-v5-normal-v1.webp",
+      "sourceSha256": "3c9b8c6a9918d7b8245c9dbb9603c48998d625ca6ca0e2b3c3b0c590428775af",
+      "outputSha256": "886956435816d1c3052c21160e0aa1ff86ef87a82e608ec7aa4c42753b58438a",
+      "materialDiffuse": "sprites/backgrounds/world-visual-v2/depth/material-diffuse-v1/weathered-roots-shale-root-escarpment-v5-material-v1.webp",
+      "materialDiffuseSha256": "489c6e530dd3651160d04c330aee360509826e6c766373f633f8a4ddcbf8db90",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "source": "sprites/backgrounds/world-visual-v2/depth/biome-variation-v2/weathered-roots-collapsed-cistern-v2.webp",
+      "output": "sprites/backgrounds/world-visual-v2/depth/material-normal-v1/weathered-roots-collapsed-cistern-v2-normal-v1.webp",
+      "sourceSha256": "ab2955bd1f88958d5168b2141b0d3b9cc28fe6c0badc2ec1389da375ed38ddb3",
+      "outputSha256": "baebba29f8cbc0dd762d00e67bd13f5daff641a1584c3e7045f9bd9e28322788",
+      "materialDiffuse": "sprites/backgrounds/world-visual-v2/depth/material-diffuse-v1/weathered-roots-collapsed-cistern-v2-material-v1.webp",
+      "materialDiffuseSha256": "8ce29d94e87927abdbb4fca58b74a96ae709c8652fa35f95e838545ae39872ab",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "source": "sprites/backgrounds/world-visual-v2/depth/biome-variation-v2/weathered-roots-drowned-timber-bridge-v2.webp",
+      "output": "sprites/backgrounds/world-visual-v2/depth/material-normal-v1/weathered-roots-drowned-timber-bridge-v2-normal-v1.webp",
+      "sourceSha256": "a2e7200a4a07c120facd62d580101f41e6e9f17b4b79387ec7d88fe0d6ea93e3",
+      "outputSha256": "36a1c478cfc45d90ee7540d46eb8b06d76580f4cd49a2fa03125ccc236d2e887",
+      "materialDiffuse": "sprites/backgrounds/world-visual-v2/depth/material-diffuse-v1/weathered-roots-drowned-timber-bridge-v2-material-v1.webp",
+      "materialDiffuseSha256": "43620396bf0221ac2ab03aa9738d2e4d969fd392363684a8f50198fac794fcdd",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "source": "sprites/backgrounds/world-visual-v2/depth/biome-variation-v2/weathered-roots-fungal-lantern-hollow-v2.webp",
+      "output": "sprites/backgrounds/world-visual-v2/depth/material-normal-v1/weathered-roots-fungal-lantern-hollow-v2-normal-v1.webp",
+      "sourceSha256": "c707249eacc421d90589d2d39eaa1f2149e64a0547d155f6d1506f9a482bd030",
+      "outputSha256": "aa43b2a1938d37bb4ecb20a1c79def0418ce18fc8aa24de7d094c75260f8ef0b",
+      "materialDiffuse": "sprites/backgrounds/world-visual-v2/depth/material-diffuse-v1/weathered-roots-fungal-lantern-hollow-v2-material-v1.webp",
+      "materialDiffuseSha256": "82bde528d1d79e3d94779b66b35d8c560f6481649bb9d86dd3221269891346cb",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "source": "sprites/backgrounds/world-visual-v2/depth/biome-variation-v2/weathered-roots-quiet-loam-pocket-v2.webp",
+      "output": "sprites/backgrounds/world-visual-v2/depth/material-normal-v1/weathered-roots-quiet-loam-pocket-v2-normal-v1.webp",
+      "sourceSha256": "4763441b977ec3c97f7a7b48732e0aa07688873584af1e75f353b9fd269037c0",
+      "outputSha256": "5d10f56c25bb4e406fed49d9a8bb7ddcc56fe2739442d13ab9099baecf84e3e2",
+      "materialDiffuse": "sprites/backgrounds/world-visual-v2/depth/material-diffuse-v1/weathered-roots-quiet-loam-pocket-v2-material-v1.webp",
+      "materialDiffuseSha256": "85ab0c1e44cda2248134ed084a66d54d0281274ecc1a0d966218e2f4d76956cc",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "source": "sprites/backgrounds/world-visual-v2/depth/biome-variation-v2/weathered-roots-root-canyon-v2.webp",
+      "output": "sprites/backgrounds/world-visual-v2/depth/material-normal-v1/weathered-roots-root-canyon-v2-normal-v1.webp",
+      "sourceSha256": "0ba285bcd169c4e07b76495336c1decf0546d3a671af3a5b9d43517e6475a952",
+      "outputSha256": "ccdb4d10214a5bf0014570d388521ad47dc20a868157398d9288ef1927bb9509",
+      "materialDiffuse": "sprites/backgrounds/world-visual-v2/depth/material-diffuse-v1/weathered-roots-root-canyon-v2-material-v1.webp",
+      "materialDiffuseSha256": "71ccaefe1cdc1601cd636afda9b590c2b098250a72ac8120c07badd8523e9820",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "source": "sprites/backgrounds/world-visual-v2/depth/biome-variation-v2/weathered-roots-root-tide-lantern-hollow-motion-v1.webp",
+      "output": "sprites/backgrounds/world-visual-v2/depth/material-normal-v1/weathered-roots-root-tide-lantern-hollow-motion-v1-normal-v1.webp",
+      "sourceSha256": "fff7c32715d1c654c9b86323452455350da9092f529d4ea19bea89ec64b33d3f",
+      "outputSha256": "94dbbdd3fc76a8f50d66b5dd777023e25093042b74e3eec7575a7121d7a3e52b",
+      "materialDiffuse": "sprites/backgrounds/world-visual-v2/depth/material-diffuse-v1/weathered-roots-root-tide-lantern-hollow-motion-v1-material-v1.webp",
+      "materialDiffuseSha256": "8441b7ed92f0d97701b53f2856836c634e021851f1189fad4cf827d2aa6e55c4",
+      "width": 1536,
+      "height": 1024
+    }
+  ]
+}

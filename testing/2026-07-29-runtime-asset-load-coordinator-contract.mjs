@@ -237,6 +237,44 @@ sheetLoader.emit("filecomplete-spritesheet-ability-sheet");
 await sheetReady;
 sheetCoordinator.destroy();
 
+const normalMapLoader = new FakeLoader();
+const normalMapKeys = new Set();
+const normalMapCoordinator = new RuntimeAssetLoadCoordinator({
+  load: normalMapLoader,
+  game: { events: new Emitter() },
+  textures: {
+    exists: key => normalMapKeys.has(key),
+    get: () => ({ source: [
+      { image: { width: 1672, height: 941 } },
+      { image: { width: 1672, height: 941 } },
+    ] }),
+  },
+}, SERIAL_RUNTIME_ASSET_LOADING, "");
+const normalMapReady = new Promise((resolve, reject) => normalMapCoordinator.request({
+  key: "shallow-depth-card",
+  path: "shallow-depth-card.webp",
+  normalMapPath: "shallow-depth-card-normal.webp",
+}, { onReady: resolve, onError: reject }));
+await flush();
+assert.deepEqual(normalMapLoader.queued, [{
+  key: "shallow-depth-card",
+  path: ["shallow-depth-card.webp", "shallow-depth-card-normal.webp"],
+  type: "image",
+}], "normal-mapped images must load their diffuse and normal sources atomically");
+assert.equal(normalMapCoordinator.getSnapshot().activeBackend, "phaser");
+normalMapKeys.add("shallow-depth-card");
+normalMapLoader.emit("filecomplete-image-shallow-depth-card");
+await flush();
+assert.equal(
+  normalMapCoordinator.getSnapshot().active,
+  1,
+  "the diffuse file event must not expose a texture before its normal source settles",
+);
+normalMapLoader.loading = false;
+normalMapLoader.emit(RUNTIME_ASSET_LOADING.phaserLoader.completeEvent);
+await normalMapReady;
+normalMapCoordinator.destroy();
+
 const concurrentTextureKeys = new Set();
 const concurrentFetches = new Map();
 let concurrentActivationWaits = 0;

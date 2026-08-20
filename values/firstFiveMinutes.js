@@ -15,6 +15,7 @@ export const FIRST_FIVE_MINUTES_CONFIG = Object.freeze({
     useNormalTileHp: true,
   }),
   firstPortal: Object.freeze({
+    levelId: 1,
     tileX: 12,
     depthMeters: 15,
     tileTypeName: "TELEPORT_TILE",
@@ -26,10 +27,28 @@ export const FIRST_FIVE_MINUTES_CONFIG = Object.freeze({
     safeReturnTileX: 4,
   }),
   townExitBarrier: Object.freeze({
-    // Matches the approved Town Square doorway centered at tile 65.9.
-    tileX: 66,
-    topSurfaceRowOffset: -3,
-    heightTiles: 3,
+    // The Money Monster is the final tutorial-facing Town stop at x17.
+    // A full Flight-height wall at x18 makes that boundary physical.
+    tileX: 18,
+    topSurfaceRowOffset: -20,
+    heightTiles: 20,
+    starterRoute: Object.freeze({
+      halfWidthTiles: 2,
+      sideStartDepthMeters: 1,
+      sideEndDepthMeters: 17,
+      floorDepthMeters: 17,
+    }),
+  }),
+  portalGhostGuide: Object.freeze({
+    activeStages: Object.freeze(["flight", "portal"]),
+    startDepthMeters: -1,
+    destinationDepthOffsetMeters: -1,
+    moveMsPerTile: 190,
+    minimumMoveMs: 240,
+    alpha: 0.48,
+    tint: 0x7bdcff,
+    depth: 53,
+    displayScaleRatio: 0.82,
   }),
   copy: Object.freeze({
     protectedGround: Object.freeze({

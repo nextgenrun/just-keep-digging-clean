@@ -62,23 +62,23 @@ export class SleepingJackpotModalOverlay {
     this.title.setFontStyle("bold");
     this.subtitle.setFontStyle("bold");
 
-    this.leftTitle = this._text(-layout.cardCenterX, -160, "GAMBLE NOW", 22, UI_COLORS.gold, UI_FONTS.display);
-    this.rightTitle = this._text(layout.cardCenterX, -160, "LET IT MATURE", 22, UI_COLORS.gold, UI_FONTS.display);
-    this.leftBody = this._text(-layout.cardCenterX, -115, "", 15, UI_COLORS.body, UI_FONTS.mono, 390);
-    this.rightBody = this._text(layout.cardCenterX, -115, "", 13, UI_COLORS.body, UI_FONTS.mono, 405);
+    this.leftTitle = this._text(-layout.cardCenterX, layout.cardTitleY, "GAMBLE NOW", 22, UI_COLORS.gold, UI_FONTS.display);
+    this.rightTitle = this._text(layout.cardCenterX, layout.cardTitleY, "LET IT MATURE", 22, UI_COLORS.gold, UI_FONTS.display);
+    this.leftBody = this._text(-layout.cardCenterX, layout.cardBodyY, "", 15, UI_COLORS.body, UI_FONTS.mono, 390);
+    this.rightBody = this._text(layout.cardCenterX, layout.cardBodyY, "", 13, UI_COLORS.body, UI_FONTS.mono, 405);
     this.leftBody.setOrigin(0.5, 0).setLineSpacing(7);
     this.rightBody.setOrigin(0.5, 0).setLineSpacing(4);
-    this.leftFocus = this._text(-layout.cardCenterX, 150, "", 17, "#78f5ff", UI_FONTS.mono);
-    this.rightFocus = this._text(layout.cardCenterX, 150, "", 17, "#78f5ff", UI_FONTS.mono);
+    this.leftFocus = this._text(-layout.cardCenterX, layout.cardFocusY, "", 17, "#78f5ff", UI_FONTS.mono);
+    this.rightFocus = this._text(layout.cardCenterX, layout.cardFocusY, "", 17, "#78f5ff", UI_FONTS.mono);
     this.leftFocusIcon = createUiIcon(this.scene, "check", {
-      x: -layout.cardCenterX - 145,
-      y: 150,
+      x: -layout.cardCenterX - layout.cardFocusIconInsetX,
+      y: layout.cardFocusY,
       size: 20,
       alpha: 0.94,
     });
     this.rightFocusIcon = createUiIcon(this.scene, "check", {
-      x: layout.cardCenterX - 145,
-      y: 150,
+      x: layout.cardCenterX - layout.cardFocusIconInsetX,
+      y: layout.cardFocusY,
       size: 20,
       alpha: 0.94,
     });
@@ -87,10 +87,10 @@ export class SleepingJackpotModalOverlay {
     this.typed.setFontStyle("bold");
     this.footer = this._text(0, layout.footerY, "A/D OR ←/→ SELECT  •  ESC CANCEL", 11, UI_COLORS.hint, UI_FONTS.mono);
 
-    this.resultTitle = this._text(0, -135, "", 30, UI_COLORS.gold, UI_FONTS.display);
-    this.resultBody = this._text(0, -75, "", 16, UI_COLORS.body, UI_FONTS.mono, 820);
+    this.resultTitle = this._text(0, layout.resultTitleY, "", 30, UI_COLORS.gold, UI_FONTS.display);
+    this.resultBody = this._text(0, layout.resultBodyY, "", 16, UI_COLORS.body, UI_FONTS.mono, 820);
     this.resultBody.setOrigin(0.5, 0).setLineSpacing(8);
-    this.resultFooter = this._text(0, 235, "ENTER OR ESC  •  CLOSE", 12, UI_COLORS.hint, UI_FONTS.mono);
+    this.resultFooter = this._text(0, layout.resultFooterY, "ENTER OR ESC  •  CLOSE", 12, UI_COLORS.hint, UI_FONTS.mono);
 
     this.leftHit = this.scene.add.zone(
       -layout.cardCenterX,

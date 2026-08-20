@@ -6,11 +6,11 @@ import { ASSET_KEYS } from "../../values/assetKeys.js";
 import {
   resolvePlayerDisplaySizePx,
   resolvePlayerVisualOrigin,
-} from "../../values/playerAssetProfiles.js?rev=20260718-mesh-grounded";
+} from "../../values/playerAssetProfiles.js?rev=20260820-complex-dig-v1";
 import { PlayerAbilityAssetController } from
   "../../player/PlayerAbilityAssetController.js";
 import { PlayerDeferredAnimationAssetController } from
-  "../../player/PlayerDeferredAnimationAssetController.js";
+  "../../player/PlayerDeferredAnimationAssetController.js?rev=20260820-complex-dig-v1";
 import { UalActionContactTimeline } from "../../player/UalActionContactTimeline.js";
 import { GAME_CONFIG } from "../../values/gameConfig.js";
 import { HUD_LAYOUT } from "../../values/hudLayout.js";
@@ -22,7 +22,7 @@ import { RuntimeAssetLoadCoordinator } from
 import { RuntimeFeatureAssetManager } from
   "../rendering/RuntimeFeatureAssetManager.js";
 import { createPlaySceneSaveCoordinator } from "./PlaySceneSaveRuntime.js";
-import { preparePlayScenePlayerAssets } from "./PlayScenePlayerAssetSetup.js";
+import { preparePlayScenePlayerAssets } from "./PlayScenePlayerAssetSetup.js?rev=20260820-complex-dig-v1";
 import { RuntimeFeaturePrefetchSystem } from
   "../rendering/RuntimeFeaturePrefetchSystem.js";
 import { WORLD_VISUAL_RUNTIME_MODES } from
@@ -91,6 +91,7 @@ import { PickaxeTrailSystem } from "../../systems/visual/PickaxeTrailSystem.js";
 import { FlightFootParticleSystem } from "../../systems/visual/FlightFootParticleSystem.js";
 import { GroundFootstepFxSystem } from "../../systems/visual/GroundFootstepFxSystem.js";
 import { PostFxSystem } from "../../systems/visual/PostFxSystem.js";
+import { FullWorldMaterialSystem } from "../../systems/visual/FullWorldMaterialSystem.js";
 import { PlayerBodyLanguageSystem } from "../../systems/visual/PlayerBodyLanguageSystem.js";
 import { PlayerContactShadowSystem } from "../../systems/visual/PlayerContactShadowSystem.js";
 import { PlayerMotionPolishSystem } from "../../systems/visual/PlayerMotionPolishSystem.js";
@@ -114,6 +115,7 @@ import BiomeSystem from "../../systems/environment/BiomeSystem.js";
 import { CampfireSystem } from "../../systems/environment/CampfireSystem.js";
 import { CaveHazardSystem } from "../../systems/environment/CaveHazardSystem.js";
 import { EarthquakeSystem } from "../../systems/environment/EarthquakeSystem.js";
+import { DebrisShieldSystem } from "../../systems/visual/DebrisShieldSystem.js";
 import { EarthquakeFeedbackUI } from "../../systems/visual/EarthquakeFeedbackUI.js";
 import { EarthquakeHazardOverlay } from "../../systems/visual/EarthquakeHazardOverlay.js";
 import { EarthquakeTileFeedbackSystem } from "../../systems/visual/EarthquakeTileFeedbackSystem.js";
@@ -127,9 +129,10 @@ import { HeavenblocksPresentationSystem } from "../../systems/visual/Heavenblock
 import { OpeningFlightArtifactSystem } from "../../systems/onboarding/OpeningFlightArtifactSystem.js";
 import { TownSquareTutorialSystem } from "../../systems/onboarding/TownSquareTutorialSystem.js";
 import { FirstSessionPortalSystem } from "../../systems/onboarding/FirstSessionPortalSystem.js";
+import { UnderstarEndingSystem } from "../../systems/demo/UnderstarEndingSystem.js";
 import { isHardcoreMode } from "../../values/hardcoreMode.js";
 
-import { LightSystem } from "../../systems/lighting/LightSystem.js";
+import { LightSystem } from "../../systems/lighting/LightSystem.js?rev=20260815-shallow-material-v1";
 import { CameraShakeSystem } from "../../systems/visual/CameraShakeSystem.js";
 import { TileDestructionFxSystem } from "../../systems/visual/TileDestructionFxSystem.js";
 import { USER_SETTINGS } from "../../systems/UserSettings.js";
@@ -145,6 +148,7 @@ import { ensureHardcorePresentationRuntime } from
   "./HardcorePresentationRuntime.js";
 import { RandomEventBridge } from "./RandomEventBridge.js";
 import { installPlaySceneLifecycle } from "./PlaySceneLifecycle.js";
+import { installComplexDigAnimationRuntime } from "./ComplexDigAnimationRuntime.js";
 import { SURFACE_TUNNEL_DOOR_CONFIG } from "../../values/surfaceTunnelDoorConfig.js";
 import { WORLD_DEPTH_CONFIG } from "../../values/worldDepthConfig.js";
 import {
@@ -163,7 +167,11 @@ function resolveGameplayWorldBounds(config, gameplayCapabilities) {
     ),
     height: Math.min(
       config.worldDepthPx,
-      (WORLD_DEPTH_CONFIG.levelOneRuntimeDepthTiles + 1) * config.tileSize,
+      (
+        WORLD_DEPTH_CONFIG.topAirRows
+        + WORLD_DEPTH_CONFIG.levelOneRuntimeDepthTiles
+        + 1
+      ) * config.tileSize,
     ),
   };
 }
@@ -694,6 +702,8 @@ async function _setupSceneSafe(data = {}, uiPorts = {}) {
   );
 
   // ── AAA polish layer: postFX grading, body language, ambient atmosphere ──
+  this.fullWorldMaterialSystem = new FullWorldMaterialSystem(this);
+  this.fullWorldMaterialSystem.create();
   this.postFxSystem = new PostFxSystem(this);
   this.postFxSystem.create();
   this.playerBodyLanguage = new PlayerBodyLanguageSystem(this, this.player);
@@ -817,6 +827,7 @@ async function _setupSceneSafe(data = {}, uiPorts = {}) {
   this.overlayManager.createOverlay();
 
   this.earthquakeSystem = new EarthquakeSystem(this);
+  this.debrisShieldSystem = new DebrisShieldSystem(this);
   this.earthquakeFeedbackUI = new EarthquakeFeedbackUI(this, this.earthquakeSystem);
   this.earthquakeHazardOverlay = new EarthquakeHazardOverlay(this, this.earthquakeSystem);
   this.earthquakeTileFeedbackSystem = new EarthquakeTileFeedbackSystem(this);
@@ -837,11 +848,19 @@ async function _setupSceneSafe(data = {}, uiPorts = {}) {
   this.specialTileSystem?.setChestEventHandler?.(this.randomEventBridge);
   this.systemIntroductionSystem = new SystemIntroductionSystem(this, this.retentionProgressSystem);
   this.systemIntroductionSystem.refresh({ announce: false });
+  this.understarEndingSystem = new UnderstarEndingSystem(this, {
+    capabilities: this.gameplayCapabilities,
+    assetCoordinator: this.runtimeAssetLoadCoordinator,
+    createEndingOverlay: uiPorts.createUnderstarEndingOverlay,
+    onChanged: reason => this.queueDugTilesSave?.(reason),
+    onMainMenu: () => this.returnToMainMenu?.(),
+  });
 
+  installComplexDigAnimationRuntime(this);
   installDebugUiSmokeHooks(this);
-  installJkdE2EHarness(this);
 
   this.gameSaveCoordinator = createPlaySceneSaveCoordinator(this);
+  installJkdE2EHarness(this);
   installPlaySceneLifecycle(this);
   markSetupPhase("persistent-state");
 

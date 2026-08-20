@@ -53,6 +53,7 @@ export class TitanUnlockController {
         this.registerTransient,
         this.releaseTransient
       );
+      this.scene.soundSystem?.playRareDiscovery?.();
       this.surfaceGallery.unlock(view.definition);
       this.guidance.announceDiscovery(view.definition);
       this.scene.queueDugTilesSave?.();

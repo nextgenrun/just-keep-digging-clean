@@ -1,0 +1,73 @@
+{
+  "version": "mixamo-atlas-v2-20260820",
+  "reviewOnly": true,
+  "productionChanged": false,
+  "runtimeWired": false,
+  "baseConfig": "values/mixamoAcceptedRuntime.json",
+  "sourceBonePrefix": "mixamorig:",
+  "renderRoot": "testing/blender-animation-lab-v1/review-drafts/mixamo-atlas-v2/renders/raw-1024",
+  "candidateRoot": "testing/blender-animation-lab-v1/review-drafts/mixamo-atlas-v2/renders/candidate-runtime",
+  "gatedOut": {
+    "standard-run": "Grounded baseline range 43 px exceeds the 36 px V4 gate",
+    "medium-run": "Grounded baseline range 40 px exceeds the 36 px V4 gate",
+    "fast-run": "Grounded baseline range 39 px exceeds the 36 px V4 gate",
+    "sprint-forward": "Grounded baseline range 42 px exceeds the 36 px V4 gate"
+  },
+  "clips": {
+    "slow-run": {
+      "source": "mixamo-slow-run-128630901.fbx",
+      "file": "survival-mixamo-atlas-v2-slow-run-sheet.png",
+      "frames": 24,
+      "fps": 30,
+      "loop": true,
+      "grounding": "PER_FRAME",
+      "reference": "MEAN",
+      "preserveVertical": false,
+      "role": "Slow run bridge"
+    },
+    "unarmed-walk": {
+      "source": "mixamo-unarmed-walk-forward-128650947.fbx",
+      "file": "survival-mixamo-atlas-v2-unarmed-walk-sheet.png",
+      "frames": 24,
+      "fps": 30,
+      "loop": true,
+      "grounding": "PER_FRAME",
+      "reference": "MEAN",
+      "preserveVertical": false,
+      "role": "Unarmed forward walk alternative"
+    },
+    "walker-walk": {
+      "source": "mixamo-walker-walk-128600901.fbx",
+      "file": "survival-mixamo-atlas-v2-walker-walk-sheet.png",
+      "frames": 24,
+      "fps": 30,
+      "loop": true,
+      "grounding": "PER_FRAME",
+      "reference": "MEAN",
+      "preserveVertical": false,
+      "role": "Weighted walk alternative"
+    },
+    "turn-left-90": {
+      "source": "mixamo-unarmed-turn-left-90-128650944.fbx",
+      "file": "survival-mixamo-atlas-v2-turn-left-90-sheet.png",
+      "frames": 24,
+      "fps": 30,
+      "loop": false,
+      "grounding": "PER_FRAME",
+      "reference": "FIRST",
+      "preserveVertical": false,
+      "role": "Unarmed 90 degree left turn"
+    },
+    "turn-right-90": {
+      "source": "mixamo-unarmed-turn-right-90-128650945.fbx",
+      "file": "survival-mixamo-atlas-v2-turn-right-90-sheet.png",
+      "frames": 24,
+      "fps": 30,
+      "loop": false,
+      "grounding": "PER_FRAME",
+      "reference": "FIRST",
+      "preserveVertical": false,
+      "role": "Unarmed 90 degree right turn"
+    }
+  }
+}

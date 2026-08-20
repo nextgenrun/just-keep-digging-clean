@@ -1,0 +1,198 @@
+{
+  "version": "mixamo-accepted-runtime-v2-20260819",
+  "reviewOnly": false,
+  "productionChanged": true,
+  "sourceBlend": "sprites/character/survival-character-blender-v2/blender/survival-character-blender-v2.blend",
+  "sourceRoot": "testing/blender-animation-lab-v1/review-drafts/mixamo-library-v1/source-fbx",
+  "renderRoot": "testing/blender-animation-lab-v1/review-drafts/mixamo-library-v1/renders/raw-1024",
+  "candidateRoot": "testing/blender-animation-lab-v1/review-drafts/mixamo-library-v1/renders/candidate-runtime",
+  "objects": {
+    "rig": "SurvivalPolishRig",
+    "body": "SurvivalPolishBody",
+    "camera": "SurvivalPolishCamera",
+    "referenceAction": "MINER_idle"
+  },
+  "render": {
+    "sourceSizePx": 1024,
+    "packedSizePx": 256,
+    "columns": 16,
+    "colorDepth": "16",
+    "alphaThreshold": 8,
+    "contactSheetFrameSizePx": 192,
+    "previewDisplaySizePx": 123
+  },
+  "gates": {
+    "minimumRawEdgeMarginPx": 4,
+    "maximumGroundedBaselineRangePx": 36,
+    "maximumSuspiciousGreenPixelsPerFrame": 0,
+    "maximumRetargetResidualWorld": 0.22
+  },
+  "retarget": {
+    "groundContactBones": ["foot_l", "ball_l", "foot_r", "ball_r"],
+    "fingerPosePrefixes": ["index_", "middle_", "ring_", "pinky_", "thumb_"],
+    "boneMap": {
+      "pelvis": "mixamorig:Hips",
+      "spine_01": "mixamorig:Spine",
+      "spine_03": "mixamorig:Spine1",
+      "spine_05": "mixamorig:Spine2",
+      "neck_01": "mixamorig:Neck",
+      "head": "mixamorig:Head",
+      "clavicle_l": "mixamorig:LeftShoulder",
+      "upperarm_l": "mixamorig:LeftArm",
+      "lowerarm_l": "mixamorig:LeftForeArm",
+      "hand_l": "mixamorig:LeftHand",
+      "clavicle_r": "mixamorig:RightShoulder",
+      "upperarm_r": "mixamorig:RightArm",
+      "lowerarm_r": "mixamorig:RightForeArm",
+      "hand_r": "mixamorig:RightHand",
+      "thigh_l": "mixamorig:LeftUpLeg",
+      "calf_l": "mixamorig:LeftLeg",
+      "foot_l": "mixamorig:LeftFoot",
+      "ball_l": "mixamorig:LeftToeBase",
+      "thigh_r": "mixamorig:RightUpLeg",
+      "calf_r": "mixamorig:RightLeg",
+      "foot_r": "mixamorig:RightFoot",
+      "ball_r": "mixamorig:RightToeBase"
+    },
+    "driverChildren": {
+      "pelvis": [["thigh_l", "mixamorig:LeftUpLeg"], ["thigh_r", "mixamorig:RightUpLeg"], ["spine_01", "mixamorig:Spine"]],
+      "thigh_l": [["calf_l", "mixamorig:LeftLeg"]],
+      "calf_l": [["foot_l", "mixamorig:LeftFoot"]],
+      "foot_l": [["ball_l", "mixamorig:LeftToeBase"]],
+      "thigh_r": [["calf_r", "mixamorig:RightLeg"]],
+      "calf_r": [["foot_r", "mixamorig:RightFoot"]],
+      "foot_r": [["ball_r", "mixamorig:RightToeBase"]],
+      "spine_01": [["spine_03", "mixamorig:Spine1"]],
+      "spine_03": [["spine_05", "mixamorig:Spine2"]],
+      "spine_05": [["neck_01", "mixamorig:Neck"], ["clavicle_l", "mixamorig:LeftShoulder"], ["clavicle_r", "mixamorig:RightShoulder"]],
+      "neck_01": [["head", "mixamorig:Head"]],
+      "clavicle_l": [["upperarm_l", "mixamorig:LeftArm"]],
+      "upperarm_l": [["lowerarm_l", "mixamorig:LeftForeArm"]],
+      "lowerarm_l": [["hand_l", "mixamorig:LeftHand"]],
+      "hand_l": [["index_01_l", "mixamorig:LeftHandIndex1"], ["pinky_01_l", "mixamorig:LeftHandPinky1"], ["thumb_01_l", "mixamorig:LeftHandThumb1"]],
+      "clavicle_r": [["upperarm_r", "mixamorig:RightArm"]],
+      "upperarm_r": [["lowerarm_r", "mixamorig:RightForeArm"]],
+      "lowerarm_r": [["hand_r", "mixamorig:RightHand"]],
+      "hand_r": [["index_01_r", "mixamorig:RightHandIndex1"], ["pinky_01_r", "mixamorig:RightHandPinky1"], ["thumb_01_r", "mixamorig:RightHandThumb1"]]
+    },
+    "worldDeltaBones": {
+      "head": "mixamorig:Head"
+    }
+  },
+  "clips": {
+    "flight-loop": {
+      "source": "mixamo-flying-idle-111080901.fbx",
+      "file": "survival-character-mixamo-v1-flight-loop-sheet.png",
+      "frames": 48,
+      "fps": 18,
+      "loop": true,
+      "grounding": "NONE",
+      "reference": "MEAN",
+      "preserveVertical": true,
+      "role": "Flight hover/travel loop"
+    },
+    "walk-start": {
+      "source": "mixamo-start-walking-135950901.fbx",
+      "file": "survival-character-mixamo-v1-walk-start-sheet.png",
+      "frames": 16,
+      "fps": 30,
+      "loop": false,
+      "grounding": "PER_FRAME",
+      "reference": "FIRST",
+      "preserveVertical": false,
+      "role": "Idle to movement"
+    },
+    "walk-stop": {
+      "source": "mixamo-stop-walking-136220901.fbx",
+      "file": "survival-character-mixamo-v1-walk-stop-sheet.png",
+      "frames": 16,
+      "fps": 30,
+      "loop": false,
+      "grounding": "PER_FRAME",
+      "reference": "LAST",
+      "preserveVertical": false,
+      "role": "Movement to idle"
+    },
+    "idle-fidget": {
+      "source": "mixamo-unarmed-idle-looking-v1-128650938.fbx",
+      "file": "survival-character-mixamo-v1-idle-looking-sheet.png",
+      "frames": 120,
+      "fps": 18,
+      "loop": false,
+      "grounding": "PER_FRAME",
+      "reference": "MEAN",
+      "preserveVertical": false,
+      "role": "Idle fidget"
+    },
+    "crouch-idle": {
+      "source": "mixamo-crouch-idle-128670901.fbx",
+      "file": "survival-character-mixamo-v1-crouch-idle-sheet.png",
+      "frames": 28,
+      "fps": 20,
+      "loop": true,
+      "grounding": "PER_FRAME",
+      "reference": "MEAN",
+      "preserveVertical": false,
+      "role": "Crouch hold"
+    },
+    "crouch-enter": {
+      "source": "mixamo-standing-idle-to-crouch-128670929.fbx",
+      "file": "survival-character-mixamo-v1-crouch-enter-sheet.png",
+      "frames": 18,
+      "fps": 24,
+      "loop": false,
+      "grounding": "PER_FRAME",
+      "reference": "FIRST",
+      "preserveVertical": false,
+      "role": "Standing to crouch"
+    },
+    "crouch-exit": {
+      "source": "mixamo-crouch-to-standing-idle-128670902.fbx",
+      "file": "survival-character-mixamo-v1-crouch-exit-sheet.png",
+      "frames": 18,
+      "fps": 24,
+      "loop": false,
+      "grounding": "PER_FRAME",
+      "reference": "LAST",
+      "preserveVertical": false,
+      "role": "Crouch to standing"
+    },
+    "thunder-strike": {
+      "source": "mixamo-standing-2h-magic-ground-128670914.fbx",
+      "file": "survival-character-mixamo-v1-thunder-ground-sheet.png",
+      "frames": 30,
+      "fps": 24,
+      "loop": false,
+      "grounding": "PER_FRAME",
+      "reference": "FIRST",
+      "preserveVertical": false,
+      "contactSequenceIndex": 20,
+      "role": "Thunder ground strike"
+    },
+    "hard-landing": {
+      "source": "mixamo-jumping-down-higher-level-135970901.fbx",
+      "file": "survival-character-mixamo-v1-hard-landing-sheet.png",
+      "frames": 24,
+      "fps": 30,
+      "loop": false,
+      "grounding": "LAND_AT_END",
+      "reference": "LAST",
+      "preserveVertical": true,
+      "maxVerticalTravelWorld": 0.25,
+      "screenOffsetWorld": -0.2,
+      "role": "Hard landing"
+    },
+    "hurricane-quickslash": {
+      "source": "mixamo-hurricane-kick.fbx",
+      "file": "survival-character-mixamo-v2-hurricane-quickslash-sheet.png",
+      "frames": 28,
+      "fps": 30,
+      "loop": false,
+      "grounding": "PER_FRAME",
+      "reference": "FIRST",
+      "preserveVertical": false,
+      "contactSequenceIndex": 16,
+      "role": "Quickslash hurricane kick"
+    }
+  }
+}

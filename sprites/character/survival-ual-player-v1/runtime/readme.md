@@ -35,6 +35,15 @@ to the action review sandbox but are not promoted into the active profile.
 `manifest.json` is authoritative for sheet dimensions, marker coordinates,
 Unreal retarget provenance, and packed-frame alpha bounds.
 
+The approved 2026-08-14 quality-v1 promotion replaces only the active pixels
+for the centralized 28-frame Jog, punch-jab cells 3-17, and ground-strike cells
+4-40. Each 1024 px candidate was downsampled once and aligned to the previous
+frame's center/ground anchor. Frame order, FPS, contacts, animation keys,
+transitions, moving side-dig composites, diagonal digs, and gameplay authority
+are unchanged. The rejected Blender `MINER_run` is not used. Byte-exact
+rollback files and SHA-256 evidence live under
+`archive/2026-08-14-survival-quality-runtime-promotion-v1/`.
+
 `moving-side-dig-jab` and `moving-side-dig-cross` are 22-frame, 30 fps
 phase-locked composites. Jog still advances only 14 source phases across each
 strike, while the upper body uses denser Jab/Cross sampling and reaches contact

@@ -113,11 +113,17 @@ export class PlayerKinematicMotionSystem {
       : Math.abs(this._speedX);
     if (speed < this.config.sampling.zeroSpeedEpsilonPxPerSec) return 1;
     const tileSize = this.scene?.config?.tileSize || 1;
+    const profileStride = Number(
+      this.profile?.strideTilesPerCycleByAnimation?.[animationKey],
+    );
+    const strideTilesPerCycle = Number.isFinite(profileStride) && profileStride > 0
+      ? profileStride
+      : cadence.strideTilesPerCycle;
     return calculateStrideMatchedTimeScale({
       speedPxPerSec: speed,
       frameCount: animation.frames?.length || 1,
       frameRate: animation.frameRate || 30,
-      stridePx: cadence.strideTilesPerCycle * tileSize,
+      stridePx: strideTilesPerCycle * tileSize,
       minTimeScale: cadence.minTimeScale,
       maxTimeScale: cadence.maxTimeScale,
     });

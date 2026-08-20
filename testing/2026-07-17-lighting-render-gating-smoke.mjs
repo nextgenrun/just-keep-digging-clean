@@ -75,6 +75,9 @@ shaderSystem.update(1016, 16);
 assert.equal(shaderSystem.layers.get("weatherAtmosphere").shader.visible, true);
 assert.equal(shaderSystem.layers.get("weatherAtmosphere").image.visible, true);
 assert.ok(shaderSystem.layers.get("weatherAtmosphere").shader.uniformWrites > 0);
+assert.equal(shaderSystem.layers.get("materialResponse").shader.visible, true);
+assert.equal(shaderSystem.layers.get("materialResponse").image.visible, true);
+assert.ok(shaderSystem.layers.get("materialResponse").shader.uniformWrites > 0);
 assert.equal(shaderSystem.layers.get("darknessLight").shader.visible, false);
 assert.equal(shaderSystem.layers.get("lightningFlash").shader.visible, false);
 

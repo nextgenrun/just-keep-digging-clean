@@ -19,6 +19,12 @@ export const EARTHQUAKE_CONFIG = Object.freeze({
   }),
   debugFrequencyMultiplier: 10,
   baseIntervalMs: Object.freeze([360000, 600000]),
+  debrisEvents: Object.freeze({
+    enabled: true,
+    intervalMs: Object.freeze([45000, 90000]),
+    minimumDepthTiles: 20,
+    intensity: "minor",
+  }),
   minimumDepth: 1,
   depthBands: Object.freeze([
     { min: 0, max: 99, cooldown: 1, weights: { minor: 1 } },

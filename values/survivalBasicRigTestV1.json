@@ -1,0 +1,159 @@
+{
+  "version": "survival-basic-rig-test-v1",
+  "reviewOnly": true,
+  "sourceBlend": "testing/blender-animation-lab-v1/review-drafts/manual-rerig-workbook-v1/basic-rig-input-snapshots/survival-basic-rig-user-save-20260819-150634.blend",
+  "sourceRig": "RERIG_EmptyArmature",
+  "sourceMesh": "RERIG_CleanMesh",
+  "outputRoot": "testing/blender-animation-lab-v1/review-drafts/manual-rerig-workbook-v1/basic-rig-test-v1",
+  "outputBlend": "testing/blender-animation-lab-v1/review-drafts/manual-rerig-workbook-v1/basic-rig-test-v1/survival-basic-rig-test-v1.blend",
+  "reportPath": "testing/blender-animation-lab-v1/review-drafts/manual-rerig-workbook-v1/basic-rig-test-v1/test-report.json",
+  "testBuilderScript": "ai-tools/2026-08-19-build-basic-rig-deformation-test.py",
+  "correctedOutputRoot": "testing/blender-animation-lab-v1/review-drafts/manual-rerig-workbook-v1/basic-rig-soft-corrected-v1",
+  "correctedOutputBlend": "testing/blender-animation-lab-v1/review-drafts/manual-rerig-workbook-v1/basic-rig-soft-corrected-v1/survival-basic-rig-soft-corrected-v1.blend",
+  "correctedReportPath": "testing/blender-animation-lab-v1/review-drafts/manual-rerig-workbook-v1/basic-rig-soft-corrected-v1/test-report.json",
+  "preview": {
+    "outputGif": "testing/blender-animation-lab-v1/review-drafts/manual-rerig-workbook-v1/basic-rig-soft-corrected-v1/user-rest-vs-soft-corrected-motion.gif",
+    "outputContactSheet": "testing/blender-animation-lab-v1/review-drafts/manual-rerig-workbook-v1/basic-rig-soft-corrected-v1/soft-corrected-deformation-contact-sheet.png",
+    "displaySizePx": 512,
+    "headerHeightPx": 54,
+    "footerHeightPx": 42,
+    "frameDurationMs": 420,
+    "backgroundColor": [12, 16, 22, 255],
+    "textColor": [235, 240, 246, 255],
+    "accentColor": [100, 210, 190, 255],
+    "leftTitle": "USER 15-BONE REST POSE",
+    "rightTitle": "SOFT-CORRECTED MOTION TEST",
+    "captions": {
+      "1": "REST",
+      "9": "ARM LOAD",
+      "17": "ARM EXTENSION",
+      "25": "LEG / FOOT STRESS",
+      "32": "RECOVER"
+    }
+  },
+  "render": {
+    "engine": "BLENDER_EEVEE",
+    "sizePx": 768,
+    "resolutionPercentage": 100,
+    "transparent": false,
+    "viewTransform": "AgX",
+    "look": "AgX - Medium High Contrast",
+    "exposure": 1.35,
+    "worldColor": [0.055, 0.065, 0.085],
+    "worldStrength": 0.72,
+    "cameraLocation": [255.0, -430.0, 108.0],
+    "cameraTarget": [0.0, 0.0, 95.0],
+    "cameraOrthoScale": 225.0,
+    "lights": [
+      {"name": "TEST_Key", "type": "AREA", "location": [180.0, -240.0, 260.0], "energy": 130000.0, "color": [1.0, 0.82, 0.66], "size": 140.0},
+      {"name": "TEST_Fill", "type": "AREA", "location": [-210.0, -120.0, 150.0], "energy": 70000.0, "color": [0.58, 0.75, 1.0], "size": 170.0},
+      {"name": "TEST_Rim", "type": "AREA", "location": [80.0, 190.0, 230.0], "energy": 105000.0, "color": [0.72, 0.86, 1.0], "size": 120.0}
+    ]
+  },
+  "test": {
+    "actionName": "DG_BASIC_RIG_DEFORMATION_TEST",
+    "fps": 12,
+    "frameStart": 1,
+    "frameEnd": 32,
+    "renderFrames": [1, 9, 17, 25, 32],
+    "roleBones": {
+      "positiveForearm": "Bone.008",
+      "positiveUpperArm": "Bone.010",
+      "negativeForearm": "Bone.012",
+      "negativeUpperArm": "Bone.014",
+      "head": "Bone.016",
+      "torso": "Bone.018",
+      "positiveUpperLeg": "Bone.002",
+      "positiveLowerLeg": "Bone.006",
+      "negativeUpperLeg": "Bone",
+      "negativeLowerLeg": "Bone.004"
+    },
+    "poses": {
+      "1": {},
+      "9": {
+        "positiveUpperArm": [0.0, 0.0, -0.42],
+        "positiveForearm": [0.0, 0.0, -0.68],
+        "negativeUpperArm": [0.0, 0.0, 0.24],
+        "negativeForearm": [0.0, 0.0, 0.44],
+        "torso": [0.08, 0.0, 0.0]
+      },
+      "17": {
+        "positiveUpperArm": [0.0, 0.0, 0.62],
+        "positiveForearm": [0.0, 0.0, 0.12],
+        "negativeUpperArm": [0.0, 0.0, -0.32],
+        "negativeForearm": [0.0, 0.0, -0.58],
+        "torso": [-0.10, 0.0, 0.0]
+      },
+      "25": {
+        "positiveUpperLeg": [0.30, 0.0, 0.0],
+        "positiveLowerLeg": [-0.52, 0.0, 0.0],
+        "negativeUpperLeg": [0.30, 0.0, 0.0],
+        "negativeLowerLeg": [-0.52, 0.0, 0.0],
+        "torso": [0.18, 0.0, 0.0]
+      },
+      "32": {}
+    }
+  },
+  "expected": {
+    "sourceBoneCount": 15,
+    "minimumWeightedVertexGroups": 8,
+    "maximumInfluencesPerVertex": 4
+  },
+  "softCorrection": {
+    "addRootName": "root",
+    "addRootHead": [0.0, 0.0, 0.0],
+    "addRootTail": [0.0, 0.0, 12.0],
+    "flipBones": ["Bone", "Bone.002", "Bone.008", "Bone.010", "Bone.012", "Bone.014", "Bone.018"],
+    "rename": {
+      "Bone": "thigh.R",
+      "Bone.002": "thigh.L",
+      "Bone.004": "shin.R",
+      "Bone.006": "shin.L",
+      "Bone.008": "forearm.L",
+      "Bone.010": "upper_arm.L",
+      "Bone.012": "forearm.R",
+      "Bone.014": "upper_arm.R",
+      "Bone.016": "head",
+      "Bone.018": "spine",
+      "Bone.020": "foot.L",
+      "Bone.022": "toe.L",
+      "Bone.024": "ankle_helper.R",
+      "Bone.025": "foot.R",
+      "Bone.026": "toe.R"
+    },
+    "parents": {
+      "spine": "root",
+      "head": "spine",
+      "upper_arm.L": "spine",
+      "forearm.L": "upper_arm.L",
+      "upper_arm.R": "spine",
+      "forearm.R": "upper_arm.R",
+      "thigh.L": "root",
+      "shin.L": "thigh.L",
+      "foot.L": "shin.L",
+      "toe.L": "foot.L",
+      "thigh.R": "root",
+      "shin.R": "thigh.R",
+      "ankle_helper.R": "shin.R",
+      "foot.R": "ankle_helper.R",
+      "toe.R": "foot.R"
+    },
+    "nonDeformBones": ["root", "ankle_helper.R"],
+    "distanceWeightBones": ["spine", "head", "upper_arm.L", "forearm.L", "upper_arm.R", "forearm.R", "thigh.L", "shin.L", "foot.L", "toe.L", "thigh.R", "shin.R", "foot.R", "toe.R"],
+    "weightSigma": 18.0,
+    "weightQuantizationSteps": 64,
+    "maximumInfluencesPerVertex": 4,
+    "poseRoleBones": {
+      "positiveForearm": "forearm.L",
+      "positiveUpperArm": "upper_arm.L",
+      "negativeForearm": "forearm.R",
+      "negativeUpperArm": "upper_arm.R",
+      "head": "head",
+      "torso": "spine",
+      "positiveUpperLeg": "thigh.L",
+      "positiveLowerLeg": "shin.L",
+      "negativeUpperLeg": "thigh.R",
+      "negativeLowerLeg": "shin.R"
+    }
+  }
+}

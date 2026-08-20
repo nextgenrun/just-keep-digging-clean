@@ -136,7 +136,11 @@ export const HARDCORE_MODE_CONFIG = Object.freeze({
     deepPressureStartDepthTiles: 420,
     deepPressureFullDepthTiles: 1800,
     deepPressureStressPerSecondMax: 3.4,
+    stressResistancePerPlayerLevel: 0.005,
+    stressResistanceMaximum: 0.4,
     litRecoveryPerSecond: 7.2,
+    intactStarLightRadiusTiles: 5,
+    intactStarRecoveryPerSecond: 10,
     surfaceRecoveryPerSecond: 13,
     warningThreshold: 55,
     criticalThreshold: 80,
@@ -146,13 +150,15 @@ export const HARDCORE_MODE_CONFIG = Object.freeze({
     thresholdNoticeCooldownMs: 9000,
     persistenceIntervalMs: 10000,
     persistenceDelta: 5,
+    nearDeathGpThreshold: 8,
+    nearDeathCueCooldownMs: 7000,
   }),
   checkpoint: Object.freeze({
     intervalMs: 1000,
     lowGpImmediateThreshold: 1,
   }),
   upkeepProtection: Object.freeze({
-    floorGp: 1, sources: Object.freeze(["flight", "torch"]),
+    floorGp: 1, sources: Object.freeze(["flight", "torch", "debrisShield"]),
   }),
   runStats: Object.freeze({
     maximumActivePlayMs: 315360000000,
@@ -161,6 +167,7 @@ export const HARDCORE_MODE_CONFIG = Object.freeze({
     maximumMoneySpent: 1000000000000,
   }),
   teleport: Object.freeze({
+    free: true,
     minimumCost: 60,
     baseCost: 85,
     costPerDepthTile: 1.35,
@@ -185,6 +192,7 @@ export const HARDCORE_MODE_CONFIG = Object.freeze({
     zeroGpEpsilon: 0.0001,
     returnDelayMs: 350,
     inFlightSaveWaitMs: 2500,
+    lifeStateSaveTimeoutMs: 8000,
     remotePurgeWaitMs: 5000,
     sourceLabels: Object.freeze({
       flight: "Flight exhausted the last of your Gem Power",
@@ -414,6 +422,7 @@ export function getHardcoreModePreloadAssets() {
 
 export function resolveHardcoreTeleportCost(depthTiles, kind = "undergroundToSky") {
   const cfg = HARDCORE_MODE_CONFIG.teleport;
+  if (cfg.free === true) return 0;
   const depth = Math.max(0, finiteOr(depthTiles, 0));
   const multiplier = cfg.kindMultipliers[kind] ?? 1;
   const raw = (cfg.baseCost + depth * cfg.costPerDepthTile) * multiplier;

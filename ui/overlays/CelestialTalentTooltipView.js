@@ -89,8 +89,9 @@ export class CelestialTalentTooltipView {
 
   _position(nodeView) {
     const layout = this.config.layout;
-    const halfWidth = layout.tooltipWidthPx / 2;
-    const halfHeight = layout.tooltipHeightPx / 2;
+    const tooltipScale = this.root.scaleX || 1;
+    const halfWidth = layout.tooltipWidthPx * tooltipScale / 2;
+    const halfHeight = layout.tooltipHeightPx * tooltipScale / 2;
     const halfReferenceWidth = layout.referenceWidthPx / 2;
     const halfReferenceHeight = layout.referenceHeightPx / 2;
     const branchDirection = nodeView.branchIndex === 0
@@ -99,11 +100,11 @@ export class CelestialTalentTooltipView {
         ? -1
         : nodeView.lane > 0 ? -1 : 1;
     const isApexChoice = nodeView.node.kind === "capstone";
-    const requestedX = isApexChoice
-      ? nodeView.root.x
-      : nodeView.root.x + branchDirection * (
-        layout.nodeHitWidthPx / 2 + layout.tooltipGapPx + halfWidth
-      );
+    // Every branch opens toward the tree interior. Apex cards also drop one
+    // row, avoiding the title/currency rail and the capstone's own node stack.
+    const requestedX = nodeView.root.x + branchDirection * (
+      layout.nodeHitWidthPx / 2 + layout.tooltipGapPx + halfWidth
+    );
     const x = Math.max(
       -halfReferenceWidth + layout.tooltipViewportMarginPx + halfWidth,
       Math.min(
@@ -128,6 +129,13 @@ export class CelestialTalentTooltipView {
   refresh(snapshot) {
     if (!this.visible || !this.nodeView || snapshot?.id !== this.nodeId) return false;
     return this.show(this.nodeView, snapshot);
+  }
+
+  setViewportScale(parentScale) {
+    const minimum = this.config.layout.tooltipMinimumScreenScale;
+    const localScale = parentScale < minimum ? minimum / parentScale : 1;
+    this.root.setScale(localScale);
+    if (this.visible && this.nodeView) this._position(this.nodeView);
   }
 
   hide() {

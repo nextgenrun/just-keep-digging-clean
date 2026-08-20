@@ -1,0 +1,31 @@
+{
+  "version": "3.2",
+  "reviewOnly": true,
+  "productionChanged": false,
+  "baseVersion": "2.1",
+  "renderSizePx": 2048,
+  "packedFrameSizePx": 256,
+  "previewDisplaySizePx": 123,
+  "outputRoot": "visual-approval-previews/2026-08-15-survival-microdetail-secondary-v3-2",
+  "v21Root": "visual-approval-previews/2026-08-15-survival-motion-locked-mesh-quality-v2",
+  "textureSourceMode": "original-full-resolution",
+  "materials": {
+    "Jacket1": {"normalStrength": 1.12, "sheenWeight": 0.012},
+    "Hair3": {"normalStrength": 1.08, "anisotropic": 0.12, "sheenWeight": 0.018},
+    "Backpack2": {"normalStrength": 1.10},
+    "Gloves1": {"normalStrength": 1.06},
+    "Jeans1": {"normalStrength": 1.08},
+    "Shoes1": {"normalStrength": 1.06}
+  },
+  "secondaryMotion": {
+    "hair": {"material": "Hair3", "lowerFraction": 0.58, "axis": 1, "amplitudeLocal": 0.22, "phaseOffset": 0.35},
+    "jacketHem": {"material": "Jacket1", "lowerFraction": 0.28, "axis": 1, "amplitudeLocal": 0.18, "phaseOffset": 0.0},
+    "backpackSettle": {"material": "Backpack2", "lowerFraction": 0.48, "axis": 1, "amplitudeLocal": 0.12, "phaseOffset": 0.7}
+  },
+  "limits": {
+    "maximumExpectedRuntimeMotionPx": 1.0,
+    "bodyMotionChanged": false,
+    "sourceBlendChanged": false,
+    "addedSubdivision": false
+  }
+}

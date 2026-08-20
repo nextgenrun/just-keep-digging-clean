@@ -24,13 +24,15 @@ attack without enlarging the authored attack skeleton.
 
 `PlayerMovement.js` resolves grounded horizontal speed through a short
 frame-rate-independent envelope: 120 ms acceleration, 90 ms release, and 150 ms
-for a full left/right reversal. Input and facing still change on the current
-frame, while airborne and powered-flight control keep the previous direct
-velocity response. `?smoothGroundRun=0` is the isolated physics rollback.
+for a full left/right reversal. `PlayerJumpMotion.js` derives one fixed Spacebar
+impulse from gravity and the 1.2-tile height contract. `PlayerFlightMotion.js`
+owns Shift takeoff assist, A/D/W/S acceleration, neutral braking, reversal, and
+post-power coast; Flight no longer overwrites upward velocity each frame.
+`?smoothGroundRun=0` is the isolated grounded-physics rollback.
 
 `UalActionContactTimeline.js` turns Phaser animation updates into one deterministic gameplay contact per visible action and exposes whether that contact has fired. Mining, Quickslash, and Thunder mutate tiles only at authored contact; skipped frames and animation-complete fallback still fire exactly once. Once contact plus the configured recovery delay have passed and `DigSystem` confirms the action-start cooldown is ready, held mining may replace only the visible recovery with the next action without replaying the old contact.
 
-`UalMiningComboSelector.js` owns the shared resettable UAL mining chain. Repeated side hits advance through the approved punch-only Jab, Cross, Jab, Cross sequence; UP and UP-SIDE retain alternating action keys while the default Survivor maps both to its complete Piskel-stabilized Blender dig-up clip. Changing direction or pausing beyond the configured combo window returns to the first swing in both the main world and compact caves.
+`UalMiningComboSelector.js` owns the shared resettable UAL mining chain. The default Survivor advances repeated stationary SIDE hits through Cross, Jab, Roundhouse, Jab-Elbow, Low Kick, High Kick, Spinning Back Kick, Elbow-Uppercut, Single Elbow, and Hook; exact UP uses Uppercut. UP-SIDE, DOWN-SIDE and DOWN retain their prior families. Changing direction, changing enabled family, or pausing beyond the configured combo window returns to stage one in both the main world and compact caves. `?complexDig=0`, Ctrl+Alt+9, or `__DIG_GAME_COMPLEX_DIG_ANIMATIONS__.setEnabled(false)` restores the legacy SIDE/UP selection on the next action.
 
 `PlayerAssetLoader.js` also queues the generated UAL runtime manifest. Game Rig
 v2 consumes its packed-frame hand/foot/pelvis/head markers while preserving the
@@ -42,9 +44,9 @@ same spritesheet and animation loading path.
 body-adjacent contract. It accepts only in-bounds solid cells beside the real
 collider, so click digging cannot reach through the player or mine at range.
 
-The promoted directional set stays on the native UAL skeleton: Jab/Cross supplies SIDE, UP, and UP-SIDE, while `OverhandThrow` is retained only for same-facing DOWN and ground-directed Thunder. Hook, the authored kick, and the `Sword_Regular_C` up strike are rejected review/rollback sources, alongside Swim, TreeChopping, Farm Harvest, spell-shot, and NinjaJump. `PlayerKinematicMotionSystem` exposes signed post-collision velocity for shared locomotion transitions and flight banking. The measured 31x75 body and one-cell contact perimeter are authoritative in both world implementations; projected limb-marker validation is diagnostic evidence and visual alignment only, never a gate on an otherwise valid dig.
+The promoted complex SIDE/UP subset stays on the production 160-bone Survival skeleton and V4 material treatment. The prior native Jab/Cross and Blender upward dig remain immediate visual rollback sources; DOWN, diagonals and Thunder retain their existing routing. `PlayerKinematicMotionSystem` exposes signed post-collision velocity for shared locomotion transitions and flight banking. The measured 31x75 body and one-cell contact perimeter are authoritative in both world implementations; projected limb-marker validation is diagnostic evidence and visual alignment only, never a gate on an otherwise valid dig.
 
-`SURVIVAL_UAL_PLAYER_ASSET_PROFILE` is the approved default player visual. It promotes the Blender Survivor v2 idle, idle-talk, and latest face-down prone-v3 Superman flight sheet; its separate Blender walk remains loaded as review/rollback evidence, while live grounded movement always selects the UAL `Jog_Fwd_Loop` run slot and the compatible UAL-retarget action set. Existing `ualNative` / `legacy` save selections migrate to Survivor, while `?character=ualNative` remains the explicit native-placeholder rollback. The 31x75 collider, contacts, action timing, and fist-only policy remain identical to native UAL.
+`SURVIVAL_UAL_PLAYER_ASSET_PROFILE` is the approved default player visual. It promotes the Blender Survivor v2 idle and idle-talk plus the accepted prone Mixamo flight loop; the prone-v3 Superman sheet remains transition/rollback evidence. Live grounded movement always selects the UAL `Jog_Fwd_Loop` run slot and the compatible UAL-retarget action set. Existing `ualNative` / `legacy` save selections migrate to Survivor, while `?character=ualNative` remains the explicit native-placeholder rollback. The 31x75 collider, contacts, action timing, and fist-only policy remain identical to native UAL.
 
 `PlayerAbilities.js` owns Thunderstrike economy and damage authority. Slam I
 consumes the single 3x upfront GP cost; Slams II-X cost zero and are rejected
@@ -65,7 +67,8 @@ zero floor and can consume the final GP.
 The development God Mode path immediately fills and preserves GP, unlocks
 Flight, Quickslash, and Thunderstrike, reports their costs as zero, applies all
 constellation ability modifiers, and makes torch drain zero. The dormant legacy
-Gem Dash was removed; powered Flight is the only vertical ability.
+Gem Dash was removed. Space supplies the fixed 1.2-tile jump; powered Flight is
+the GP-backed sustained vertical traversal ability.
 
 `PlayerController.getPersistenceData()` snapshots the authoritative physics
 body position rather than a tile approximation. Restore bounds-checks the exact

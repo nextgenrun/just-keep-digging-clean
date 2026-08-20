@@ -14,11 +14,11 @@ const groundedVisual = (visibleHeightPx, groundAnchorPx) => Object.freeze({
   originY: groundAnchorPx / FRAME_SIZE_PX,
 });
 const GROUNDED_VISUAL_CALIBRATION = Object.freeze({
-  // Alpha-bounds audit: idle 191px/228px, walk 185px/224px median,
-  // run 177px/226px median. The anchor is the visible foot baseline.
+  // Contract-authority alpha audit: idle 191px/228px, walk 185px/224px,
+  // polished UAL run 158px/248px median. The anchor is the visible foot baseline.
   idle: groundedVisual(191, 228),
   walk: groundedVisual(185, 224),
-  run: groundedVisual(177, 226),
+  run: groundedVisual(158, 248),
 });
 
 const IDLE_FIDGETS = Object.freeze([

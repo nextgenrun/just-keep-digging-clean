@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 1,
+  "ttsModels": [
+    {
+      "id": "google/gemini-3.1-flash-tts-preview",
+      "label": "Gemini 3.1 Flash TTS",
+      "preferredVoice": "Kore",
+      "characterFit": "Titan discoveries and mystical narration"
+    },
+    {
+      "id": "mistralai/voxtral-mini-tts-2603",
+      "label": "Voxtral Mini TTS",
+      "preferredVoice": "en_paul_neutral",
+      "characterFit": "Grounded merchants and tutorial delivery"
+    },
+    {
+      "id": "x-ai/grok-voice-tts-1.0",
+      "label": "Grok Voice TTS",
+      "preferredVoice": "rex",
+      "characterFit": "Forceful warnings and larger characters"
+    },
+    {
+      "id": "deepgram/aura-2",
+      "label": "Deepgram Aura 2",
+      "preferredVoice": "aura-2-thalia-en",
+      "characterFit": "Fast reactive barks and clean UI narration"
+    },
+    {
+      "id": "hexgrad/kokoro-82m",
+      "label": "Kokoro 82M",
+      "preferredVoice": "am_onyx",
+      "characterFit": "Low-cost ambient NPC variation"
+    }
+  ],
+  "voiceScripts": [
+    {
+      "id": "danger-warning",
+      "role": "Player danger warning",
+      "delivery": "Urgent, short, controlled fear",
+      "text": "The stone is shifting. Move, now!"
+    },
+    {
+      "id": "bobo-return",
+      "role": "Bobo return greeting",
+      "delivery": "Warm, odd, conspiratorial",
+      "text": "Back already? Good. I saved the strange parts for you."
+    },
+    {
+      "id": "gem-memory",
+      "role": "Gem Merchant lore",
+      "delivery": "Quiet, ancient, unsettling",
+      "text": "The Gem remembers every hand that tried to own it."
+    },
+    {
+      "id": "titan-breathing",
+      "role": "Titan discovery",
+      "delivery": "Awe turning into dread",
+      "text": "That is not a statue. It is breathing."
+    }
+  ],
+  "sfxModel": "openai/gpt-audio-mini",
+  "sfxVoice": "alloy",
+  "sfxPrompts": [
+    {
+      "id": "stone-pick-impact",
+      "role": "Mining material layer",
+      "text": "Create only a dry one-second pickaxe impact into dense underground stone: sharp metal contact, compact rock crack, tiny grit tail. No speech, no music, no ambience."
+    },
+    {
+      "id": "crystal-discovery",
+      "role": "Rare resource reveal",
+      "text": "Create only a two-second rare crystal discovery sound: brittle mineral chime, deep crystalline resonance, restrained magical shimmer. No speech, no melody, no music."
+    },
+    {
+      "id": "seismic-warning",
+      "role": "Earthquake warning",
+      "text": "Create only a two-second underground seismic warning: distant stone strain, one heavy sub crack, falling dust texture, abrupt safe ending. No speech and no music."
+    }
+  ],
+  "sttModels": [
+    "openai/gpt-4o-mini-transcribe",
+    "openai/whisper-large-v3"
+  ],
+  "sttSources": [
+    "sound/voice-lines/player-voice-lines/random-voice-lines/manifest:first",
+    "sound/voice-lines/npc-voicelines/bobo-voice-lines/Bobo2.wav"
+  ]
+}

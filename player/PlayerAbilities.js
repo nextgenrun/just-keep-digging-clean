@@ -69,7 +69,10 @@ export class PlayerAbilities {
 
   setGodMode(enabled) {
     this._godMode = enabled === true
-      && isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.DEV_CHEATS);
+      && isGameplayFeatureEnabled(
+        GAMEPLAY_FEATURE_IDS.GOD_MODE,
+        this.upgradeSystem?.gameplayCapabilities,
+      );
     this._constellationStatsSig = null;
     if (this._godMode) this.fillGemPower();
   }
@@ -150,7 +153,6 @@ export class PlayerAbilities {
         }
 
         if (upkeepPaid) {
-          this.body.vy = -this._getFlightSpeed();
           this._flying = true;
           usingGemPowerMovement = true;
         } else {
@@ -622,6 +624,10 @@ export class PlayerAbilities {
       return this.upgradeSystem.getEffectiveFlightSpeed(this.config.flightSpeedPxPerSec || 252);
     }
     return this.config.flightSpeedPxPerSec || 252;
+  }
+
+  getEffectiveFlightSpeed() {
+    return this._getFlightSpeed();
   }
 
   _getFlyStartCost() {

@@ -1,14 +1,25 @@
 import { GAME_CONFIG } from "./gameConfig.js";
 import { isGameplayKeybindActionEnabled } from "./gameplayDevFlags.js";
 
-export const KEYBIND_STORAGE_VERSION = 4;
+export const KEYBIND_STORAGE_VERSION = 6;
+
+export const GAMEPLAY_DEV_INPUT = Object.freeze({
+  godModeKey: "V",
+  godModeRequiresShift: true,
+});
+
+export const GAMEPLAY_INPUT_TIMING = Object.freeze({
+  // Keeps a visible special-tile E tap alive across one severely delayed frame.
+  specialTileInteractBufferMs: 1600,
+});
 
 const KEYBIND_ACTION_DEFINITIONS = Object.freeze([
   { id: "moveLeft", label: "Move / Aim Left", description: "Walk left and aim left.", defaultKey: "A", group: "Gameplay" },
   { id: "moveRight", label: "Move / Aim Right", description: "Walk right and aim right.", defaultKey: "D", group: "Gameplay" },
-  { id: "aimUp", label: "Aim Up", description: "Aim mining and abilities upward.", defaultKey: "W", group: "Gameplay" },
-  { id: "aimDown", label: "Aim Down", description: "Aim mining and abilities downward.", defaultKey: "S", group: "Gameplay" },
-  { id: "fly", label: "Fly", description: "Hold to fly when you have Gem Power.", defaultKey: "SHIFT", group: "Gameplay" },
+  { id: "aimUp", label: "Aim Up / Climb", description: "Aim upward or build upward Flight momentum.", defaultKey: "W", group: "Gameplay" },
+  { id: "aimDown", label: "Aim Down / Dive", description: "Aim downward or build downward Flight momentum.", defaultKey: "S", group: "Gameplay" },
+  { id: "jump", label: "Jump", description: "Jump a fixed 1.2 tiles high.", defaultKey: "SPACE", group: "Gameplay" },
+  { id: "fly", label: "Power Flight", description: "Hold to power momentum Flight when you have Gem Power.", defaultKey: "SHIFT", group: "Gameplay" },
   { id: "dig", label: "Dig", description: "Mine the aimed tile.", defaultKey: "F", group: "Gameplay" },
   { id: "interact", label: "Interact", description: "Talk, use campfires, boards, pillars, and special tiles.", defaultKey: "E", group: "Gameplay" },
   { id: "arcCoreVehicle", label: "Board / Exit Arc Core", description: "Enter or leave the Arc Core vehicle.", defaultKey: "B", group: "Gameplay" },
@@ -20,7 +31,7 @@ const KEYBIND_ACTION_DEFINITIONS = Object.freeze([
   { id: "restart", label: "Restart Run", description: "Restart the current run in debug/death flows.", defaultKey: "R", group: "System" },
   { id: "mainMenu", label: "Main Menu", description: "Return to the main menu from pause.", defaultKey: "HOME", group: "System" },
   { id: "quickslash", label: "Quickslash", description: "Use quickslash when unlocked.", defaultKey: "Q", group: "Abilities" },
-  { id: "thunderStrike", label: "Thunderstrike", description: "Use thunderstrike when unlocked.", defaultKey: "C", group: "Abilities" },
+  { id: "thunderStrike", label: "Thunderstrike", description: "Use thunderstrike when unlocked.", defaultKey: "V", group: "Abilities" },
   { id: "torch", label: "Torch", description: "Toggle or use torch behavior.", defaultKey: "T", group: "Abilities" },
   { id: "fullscreen", label: "Fullscreen", description: "Dedicated browser fullscreen toggle.", defaultKey: "F10", group: "Display", rebindable: false },
   { id: "screenRecord", label: "Screen Recording", description: "Start or stop recording the game canvas.", defaultKey: "F9", group: "Display", devOnly: true },

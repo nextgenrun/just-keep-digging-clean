@@ -35,6 +35,7 @@ export function capturePlaySceneSaveSnapshot(scene, revisionMetadata) {
     celestialOverhaulData: captureCelestialOverhaulState(scene),
     milestoneData: scene.milestoneBoardSystem?.getSaveData?.() ?? null,
     starCollectionData: scene.floatingTextSystem?.getSaveData?.() ?? null,
+    understarEndingData: scene.understarEndingSystem?.getSaveData?.() ?? null,
   });
 }
 

@@ -4,7 +4,7 @@ import {
 } from "../../values/worldVisualRuntime.js?rev=20260729-native-density-v14";
 import { WorldRenderer } from "./WorldRenderer.js";
 import { WorldVisualRuntime } from
-  "./scenic-world/WorldVisualRuntime.js?rev=20260729-native-density-v14";
+  "./scenic-world/WorldVisualRuntime.js?rev=20260815-normal-map-lighting-v1";
 
 export function createWorldRenderer(scene, worldModel, gameConfig, search = globalThis.location?.search || "") {
   const mode = resolveWorldVisualRuntimeMode(undefined, search);

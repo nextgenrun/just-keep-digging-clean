@@ -48,9 +48,9 @@ See /markdown/archive-policy.md. Archive unused with date prefix. Delete if >180
 - If approved final art is unavailable, keep the feature review-only or disabled. Do not wire a placeholder into production.
 
 ### 9. Player Locomotion Canon
-- The current player has NO jump mechanic. Do not add jump input, jump prompts, jump animation requirements, or jump-only counterplay.
-- Vertical traversal and airborne evasion use Flight. Walking, lateral movement, digging, cover, and Flight reserve are the valid movement tools.
-- Hazards must remain avoidable without jumping. This rule remains authoritative until the user explicitly changes it later.
+- Space performs one fixed, non-variable jump exactly 1.2 tiles high.
+- Flight is momentum-based magic-plane traversal: Shift powers it, A/D steer horizontally, and W/S build upward or downward momentum through acceleration and braking.
+- Hazards must remain avoidable without requiring jump-only counterplay; walking, digging, cover, jumping, and Flight reserve are all valid movement tools.
 
 ---
 
@@ -98,6 +98,7 @@ PlayScene (game runs here)
 | Lighting | /systems/lighting/ | LightSystem, ShaderSystem |
 | Combo | /systems/combo/ | ComboSystem, HitstopSystem |
 | Health | /systems/health/ | RuntimeCanarySystem, RuntimeCanaryReporter |
+| Demo | /systems/demo/ | UnderstarEndingSystem |
 
 <!-- Quick map is kept in sync with actual directory contents — update whenever systems are added/moved -->
 

@@ -1,0 +1,205 @@
+{
+  "version": "3.2",
+  "reviewOnly": true,
+  "productionChanged": false,
+  "family": "walk",
+  "sourceAction": "SRC_walk",
+  "renderFrameCount": 24,
+  "meshVertices": 83188,
+  "meshPolygons": 119304,
+  "subdivisionAdded": false,
+  "motionEdits": {
+    "bodyBones": false,
+    "weights": false,
+    "camera": false,
+    "root": false,
+    "secondaryShapeKeysReviewOnly": true
+  },
+  "secondaryMotion": {
+    "hair": {
+      "material": "Hair3",
+      "vertices": 30063,
+      "weightedVertices": 11603,
+      "amplitudeLocal": 0.22,
+      "phaseOffset": 0.35
+    },
+    "jacketHem": {
+      "material": "Jacket1",
+      "vertices": 6304,
+      "weightedVertices": 1321,
+      "amplitudeLocal": 0.18,
+      "phaseOffset": 0.0
+    },
+    "backpackSettle": {
+      "material": "Backpack2",
+      "vertices": 13961,
+      "weightedVertices": 4670,
+      "amplitudeLocal": 0.12,
+      "phaseOffset": 0.7
+    }
+  },
+  "materials": {
+    "Jacket1": {
+      "normalStrength": 1.12,
+      "sheenWeight": 0.012
+    },
+    "Hair3": {
+      "normalStrength": 1.08,
+      "anisotropic": 0.12,
+      "sheenWeight": 0.018
+    },
+    "Backpack2": {
+      "normalStrength": 1.1
+    },
+    "Gloves1": {
+      "normalStrength": 1.06
+    },
+    "Jeans1": {
+      "normalStrength": 1.08
+    },
+    "Shoes1": {
+      "normalStrength": 1.06
+    }
+  },
+  "textures": {
+    "normalMaps": 9,
+    "relinkedTextures": 32,
+    "eye": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\visual-approval-previews\\2026-08-14-survival-global-benchmark-v1\\texture-cache-2k\\Textures\\Eye\\Eye_BaseColor.png",
+    "fullResolutionRestored": [
+      {
+        "image": "Backpack_BaseColor.jpg",
+        "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\Textures\\Textures\\Backpack\\Backpack_BaseColor.jpg"
+      },
+      {
+        "image": "Backpack_Normal.jpg",
+        "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\Textures\\Textures\\Backpack\\Backpack_Normal.jpg"
+      },
+      {
+        "image": "Backpack_OcclusionRoughnessMetallic.jpg",
+        "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\Textures\\Textures\\Backpack\\Backpack_OcclusionRoughnessMetallic.jpg"
+      },
+      {
+        "image": "Backpack_OcclusionRoughnessMetallic.jpg.001",
+        "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\Textures\\Textures\\Backpack\\Backpack_OcclusionRoughnessMetallic.jpg"
+      },
+      {
+        "image": "Backpack_OcclusionRoughnessMetallic.jpg.002",
+        "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\Textures\\Textures\\Backpack\\Backpack_OcclusionRoughnessMetallic.jpg"
+      },
+      {
+        "image": "Eye_BaseColor.png",
+        "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\Textures\\Textures\\Eye\\Eye_BaseColor.png"
+      },
+      {
+        "image": "Eyebrows_AO.jpg",
+        "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\Textures\\Textures\\Eyebrow_EyeLeashes\\Eyebrows_AO.jpg"
+      },
+      {
+        "image": "Eyebrows_BaseColor.jpg",
+        "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\Textures\\Textures\\Eyebrow_EyeLeashes\\Eyebrows_BaseColor.jpg"
+      },
+      {
+        "image": "Eyebrows_Normal.jpg",
+        "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\Textures\\Textures\\Eyebrow_EyeLeashes\\Eyebrows_Normal.jpg"
+      },
+      {
+        "image": "Eyebrows_Opacity.jpg",
+        "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\Textures\\Textures\\Eyebrow_EyeLeashes\\Eyebrows_Opacity.jpg"
+      },
+      {
+        "image": "Gloves_BaseColor.jpg",
+        "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\Textures\\Textures\\Gloves\\Gloves_BaseColor.jpg"
+      },
+      {
+        "image": "Gloves_Normal.jpg",
+        "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\Textures\\Textures\\Gloves\\Gloves_Normal.jpg"
+      },
+      {
+        "image": "Gloves_OcclusionRoughnessMetallic.jpg",
+        "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\Textures\\Textures\\Gloves\\Gloves_OcclusionRoughnessMetallic.jpg"
+      },
+      {
+        "image": "Gloves_OcclusionRoughnessMetallic.jpg.001",
+        "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\Textures\\Textures\\Gloves\\Gloves_OcclusionRoughnessMetallic.jpg"
+      },
+      {
+        "image": "Gloves_OcclusionRoughnessMetallic.jpg.002",
+        "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\Textures\\Textures\\Gloves\\Gloves_OcclusionRoughnessMetallic.jpg"
+      },
+      {
+        "image": "HairBrown_Alpha.jpg",
+        "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\Textures\\Textures\\HairStyle\\HairBrown_Alpha.jpg"
+      },
+      {
+        "image": "HairBrown_Diffuse_2.jpg",
+        "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\Textures\\Textures\\HairStyle\\HairBrown_Diffuse_2.jpg"
+      },
+      {
+        "image": "HairBrown_Normal.jpg",
+        "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\Textures\\Textures\\HairStyle\\HairBrown_Normal.jpg"
+      },
+      {
+        "image": "Jacket_BaseColor.jpg",
+        "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\Textures\\Textures\\Jacket\\Jacket_BaseColor.jpg"
+      },
+      {
+        "image": "Jacket_Normal.jpg",
+        "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\Textures\\Textures\\Jacket\\Jacket_Normal.jpg"
+      },
+      {
+        "image": "Jacket_OcclusionRoughnessMetallic.jpg",
+        "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\Textures\\Textures\\Jacket\\Jacket_OcclusionRoughnessMetallic.jpg"
+      },
+      {
+        "image": "Jacket_OcclusionRoughnessMetallic.jpg.001",
+        "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\Textures\\Textures\\Jacket\\Jacket_OcclusionRoughnessMetallic.jpg"
+      },
+      {
+        "image": "Jacket_OcclusionRoughnessMetallic.jpg.002",
+        "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\Textures\\Textures\\Jacket\\Jacket_OcclusionRoughnessMetallic.jpg"
+      },
+      {
+        "image": "Jeans_BaseColor.jpg",
+        "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\Textures\\Textures\\Jeans\\Jeans_BaseColor.jpg"
+      },
+      {
+        "image": "Jeans_Normal.jpg",
+        "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\Textures\\Textures\\Jeans\\Jeans_Normal.jpg"
+      },
+      {
+        "image": "Jeans_OcclusionRoughnessMetallic.jpg",
+        "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\Textures\\Textures\\Jeans\\Jeans_OcclusionRoughnessMetallic.jpg"
+      },
+      {
+        "image": "Jeans_OcclusionRoughnessMetallic.jpg.001",
+        "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\Textures\\Textures\\Jeans\\Jeans_OcclusionRoughnessMetallic.jpg"
+      },
+      {
+        "image": "Jeans_OcclusionRoughnessMetallic.jpg.002",
+        "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\Textures\\Textures\\Jeans\\Jeans_OcclusionRoughnessMetallic.jpg"
+      },
+      {
+        "image": "Shoes_BaseColor.jpg",
+        "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\Textures\\Textures\\Shoes\\Shoes_BaseColor.jpg"
+      },
+      {
+        "image": "Shoes_Normal.jpg",
+        "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\Textures\\Textures\\Shoes\\Shoes_Normal.jpg"
+      },
+      {
+        "image": "Shoes_OcclusionRoughnessMetallic.jpg",
+        "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\Textures\\Textures\\Shoes\\Shoes_OcclusionRoughnessMetallic.jpg"
+      },
+      {
+        "image": "Shoes_OcclusionRoughnessMetallic.jpg.001",
+        "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\Textures\\Textures\\Shoes\\Shoes_OcclusionRoughnessMetallic.jpg"
+      },
+      {
+        "image": "Shoes_OcclusionRoughnessMetallic.jpg.002",
+        "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-fab-v1\\source\\Textures\\Textures\\Shoes\\Shoes_OcclusionRoughnessMetallic.jpg"
+      }
+    ]
+  },
+  "fullGlovePolygons": 6162,
+  "objectTranslationKeysFrozen": 141
+}

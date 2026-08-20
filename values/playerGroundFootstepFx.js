@@ -9,6 +9,7 @@ export const PLAYER_GROUND_FOOTSTEP_FX_CONFIG = Object.freeze({
     sourceAction: "run",
     markerGroup: "feet",
     floorProbeTiles: 0.04,
+    floorProbeFallbackRows: 2,
   }),
   speed: Object.freeze({
     minimumPxPerSec: 55,

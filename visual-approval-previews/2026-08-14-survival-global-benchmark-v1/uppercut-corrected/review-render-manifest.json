@@ -1,0 +1,49 @@
+{
+  "version": 1,
+  "reviewOnly": true,
+  "productionChanged": false,
+  "benchmark": {
+    "lighting": "four SurvivalCinematic lights only",
+    "normal_maps": "Non-Color",
+    "view_transform": "AgX",
+    "look": "AgX - Medium High Contrast",
+    "deformation": "preserve volume enabled",
+    "render_size": 512,
+    "sample_count": 8,
+    "review_texture_limit": 2048,
+    "review_texture_cache": "visual-approval-previews/2026-08-14-survival-global-benchmark-v1/texture-cache-2k",
+    "accepted_motion_override": "run -> MINER_run Blender rollback",
+    "rejected_motion_sources": [
+      "Epic GASP comparison set"
+    ]
+  },
+  "actions": {
+    "punch-uppercut": {
+      "id": "punch-uppercut",
+      "loop": false,
+      "frames": [
+        "frame-000.png",
+        "frame-001.png",
+        "frame-002.png",
+        "frame-003.png",
+        "frame-004.png",
+        "frame-005.png",
+        "frame-006.png",
+        "frame-007.png"
+      ],
+      "sampled_source_frames": [
+        1.0,
+        2.7142857142857144,
+        4.428571428571429,
+        6.142857142857143,
+        7.857142857142857,
+        9.571428571428571,
+        11.285714285714286,
+        13.0
+      ],
+      "motion_authority": "current-ual-survival-fbx",
+      "source": "survival-ual-melee-hook.fbx",
+      "preserve_volume": true
+    }
+  }
+}

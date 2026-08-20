@@ -55,6 +55,12 @@ and the resulting surface unlock state survive saves. The shared Sky Island
 visual system is created in both scenic and legacy render modes so these routes
 cannot remain functional but invisible.
 
+The guaranteed Level-1 tutorial pair is free in both directions through
+PORTAL, SELL, UPGRADE, and RESUME, including the unlocked Town ascent. Its
+prompt suppresses Hardcore cost through the same authority used by payment.
+Completing RESUME restores normal teleport pricing; unrelated pairs are never
+included in the exemption.
+
 `resourceDepthYield.js` applies the coordinate-stable Level One/Two yield
 curve after native rarity, detects compact-cave world ownership, and enforces
 the shared final reward cap. `DigSystem` uses it for ordinary, Heavy Punch,

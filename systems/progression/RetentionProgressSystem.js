@@ -94,6 +94,9 @@ export class RetentionProgressSystem {
         0,
         RETENTION_CONFIG.tutorial.flightTraining.freeFlightMs,
       ),
+      freeTeleportPassesConsumed: [
+        ...this.data.tutorialFreeTeleportPassesConsumed,
+      ],
     };
   }
 
@@ -132,12 +135,15 @@ export class RetentionProgressSystem {
 
   recordTutorialFlight() {
     if (this.data.tutorialStage !== TOWN_TUTORIAL_STAGES.FLIGHT) return false;
+    // The free reserve teaches Flight; it is not a post-tutorial currency.
+    this.data.tutorialFreeFlightRemainingMs = 0;
     this._setTutorialStage(TOWN_TUTORIAL_STAGES.PORTAL);
     return true;
   }
 
   isTutorialFreeFlightActive() {
-    return this.data.tutorialFreeFlightRemainingMs > 0;
+    return this.data.tutorialStage === TOWN_TUTORIAL_STAGES.FLIGHT
+      && this.data.tutorialFreeFlightRemainingMs > 0;
   }
 
   consumeTutorialFreeFlight(deltaMs) {
@@ -148,6 +154,23 @@ export class RetentionProgressSystem {
       previous - Math.max(0, Number(deltaMs) || 0),
     );
     return previous - this.data.tutorialFreeFlightRemainingMs;
+  }
+
+  hasTutorialFreeTeleportPass(passId) {
+    return RETENTION_CONFIG.tutorial.freeTeleports.passIds.includes(passId)
+      && !this.data.tutorialFreeTeleportPassesConsumed.includes(passId);
+  }
+
+  consumeTutorialFreeTeleportPass(passId) {
+    if (
+      this.data.tutorialChoice !== TOWN_TUTORIAL_CHOICES.YES
+      || !this.isTutorialActive()
+      || !this.hasTutorialFreeTeleportPass(passId)
+    ) {
+      return false;
+    }
+    this.data.tutorialFreeTeleportPassesConsumed.push(passId);
+    return true;
   }
 
   seedLegacyProgress({
@@ -498,6 +521,9 @@ export class RetentionProgressSystem {
       tutorialChoice: this.data.tutorialChoice,
       tutorialStage: this.data.tutorialStage,
       tutorialFreeFlightRemainingMs: this.data.tutorialFreeFlightRemainingMs,
+      tutorialFreeTeleportPassesConsumed: [
+        ...this.data.tutorialFreeTeleportPassesConsumed,
+      ],
       titanClueTracking: this.getTitanClueTrackingState(),
       objective: this.getObjective(),
       lastExpedition: this.data.lastExpedition ? { ...this.data.lastExpedition } : null,

@@ -1,0 +1,6341 @@
+{
+  "version": 2,
+  "reviewOnly": true,
+  "productionChanged": false,
+  "families": {
+    "walk": {
+      "passed": true,
+      "frames": 24,
+      "candidateFrameStart": 0,
+      "renderScale": 1.0,
+      "minimumAlphaIou": 0.9588227864089933,
+      "maximumCentroidDeltaPx": 0.6394447546502375,
+      "maximumBoundsDeltaPx": 1,
+      "maximumRigidRootTranslationPx": 8,
+      "rigidRootTranslations": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 1,
+          "y": -1
+        },
+        {
+          "x": 1,
+          "y": -5
+        },
+        {
+          "x": 0,
+          "y": -7
+        },
+        {
+          "x": -4,
+          "y": -6
+        },
+        {
+          "x": -4,
+          "y": -2
+        },
+        {
+          "x": -3,
+          "y": 0
+        },
+        {
+          "x": -2,
+          "y": -2
+        },
+        {
+          "x": -2,
+          "y": -6
+        },
+        {
+          "x": -3,
+          "y": -7
+        },
+        {
+          "x": -5,
+          "y": -6
+        },
+        {
+          "x": -5,
+          "y": -3
+        },
+        {
+          "x": -3,
+          "y": 0
+        },
+        {
+          "x": -1,
+          "y": -2
+        },
+        {
+          "x": 0,
+          "y": -6
+        },
+        {
+          "x": -1,
+          "y": -8
+        },
+        {
+          "x": -3,
+          "y": -6
+        },
+        {
+          "x": -3,
+          "y": -2
+        },
+        {
+          "x": -1,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": -2
+        },
+        {
+          "x": 1,
+          "y": -5
+        },
+        {
+          "x": 0,
+          "y": -6
+        },
+        {
+          "x": -2,
+          "y": -4
+        },
+        {
+          "x": -1,
+          "y": -1
+        }
+      ],
+      "rawFrameMetrics": [
+        {
+          "alphaIou": 0.9957608536763631,
+          "centroidDeltaPx": 0.031263555622568495,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            93,
+            41,
+            161,
+            224
+          ],
+          "candidateBounds": [
+            93,
+            41,
+            161,
+            224
+          ]
+        },
+        {
+          "alphaIou": 0.9347316130812751,
+          "centroidDeltaPx": 1.2621580204256992,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            93,
+            41,
+            163,
+            224
+          ],
+          "candidateBounds": [
+            93,
+            42,
+            162,
+            225
+          ]
+        },
+        {
+          "alphaIou": 0.7791198277923942,
+          "centroidDeltaPx": 5.049178413107757,
+          "boundsDeltaPx": 5,
+          "legacyBounds": [
+            85,
+            41,
+            192,
+            220
+          ],
+          "candidateBounds": [
+            84,
+            46,
+            190,
+            225
+          ]
+        },
+        {
+          "alphaIou": 0.6768823723955463,
+          "centroidDeltaPx": 7.280799622456688,
+          "boundsDeltaPx": 8,
+          "legacyBounds": [
+            69,
+            40,
+            202,
+            219
+          ],
+          "candidateBounds": [
+            69,
+            48,
+            202,
+            226
+          ]
+        },
+        {
+          "alphaIou": 0.6697674418604651,
+          "centroidDeltaPx": 6.961988906618846,
+          "boundsDeltaPx": 6,
+          "legacyBounds": [
+            63,
+            40,
+            188,
+            220
+          ],
+          "candidateBounds": [
+            66,
+            46,
+            191,
+            226
+          ]
+        },
+        {
+          "alphaIou": 0.7329478404531509,
+          "centroidDeltaPx": 4.543939852447216,
+          "boundsDeltaPx": 4,
+          "legacyBounds": [
+            74,
+            40,
+            169,
+            223
+          ],
+          "candidateBounds": [
+            78,
+            43,
+            173,
+            225
+          ]
+        },
+        {
+          "alphaIou": 0.8129349160867786,
+          "centroidDeltaPx": 3.408004434793304,
+          "boundsDeltaPx": 3,
+          "legacyBounds": [
+            93,
+            41,
+            157,
+            225
+          ],
+          "candidateBounds": [
+            96,
+            41,
+            160,
+            225
+          ]
+        },
+        {
+          "alphaIou": 0.8377236580516899,
+          "centroidDeltaPx": 2.8823294384913667,
+          "boundsDeltaPx": 3,
+          "legacyBounds": [
+            93,
+            41,
+            168,
+            223
+          ],
+          "candidateBounds": [
+            96,
+            42,
+            170,
+            225
+          ]
+        },
+        {
+          "alphaIou": 0.7352097130242825,
+          "centroidDeltaPx": 6.002871549203445,
+          "boundsDeltaPx": 6,
+          "legacyBounds": [
+            86,
+            40,
+            192,
+            220
+          ],
+          "candidateBounds": [
+            88,
+            46,
+            194,
+            225
+          ]
+        },
+        {
+          "alphaIou": 0.6380577699554819,
+          "centroidDeltaPx": 8.10018043784741,
+          "boundsDeltaPx": 8,
+          "legacyBounds": [
+            70,
+            40,
+            196,
+            219
+          ],
+          "candidateBounds": [
+            73,
+            48,
+            199,
+            226
+          ]
+        },
+        {
+          "alphaIou": 0.6016310519252607,
+          "centroidDeltaPx": 7.992591330023119,
+          "boundsDeltaPx": 6,
+          "legacyBounds": [
+            67,
+            40,
+            178,
+            220
+          ],
+          "candidateBounds": [
+            72,
+            46,
+            183,
+            226
+          ]
+        },
+        {
+          "alphaIou": 0.7161312849162011,
+          "centroidDeltaPx": 5.235405788331267,
+          "boundsDeltaPx": 4,
+          "legacyBounds": [
+            83,
+            40,
+            167,
+            221
+          ],
+          "candidateBounds": [
+            87,
+            43,
+            171,
+            224
+          ]
+        },
+        {
+          "alphaIou": 0.8255692811430272,
+          "centroidDeltaPx": 3.144096102754147,
+          "boundsDeltaPx": 4,
+          "legacyBounds": [
+            93,
+            41,
+            156,
+            224
+          ],
+          "candidateBounds": [
+            96,
+            41,
+            160,
+            224
+          ]
+        },
+        {
+          "alphaIou": 0.876264284776041,
+          "centroidDeltaPx": 2.0264609838418637,
+          "boundsDeltaPx": 2,
+          "legacyBounds": [
+            93,
+            41,
+            172,
+            223
+          ],
+          "candidateBounds": [
+            95,
+            43,
+            174,
+            224
+          ]
+        },
+        {
+          "alphaIou": 0.7420101899027327,
+          "centroidDeltaPx": 5.855115834829535,
+          "boundsDeltaPx": 6,
+          "legacyBounds": [
+            80,
+            41,
+            198,
+            219
+          ],
+          "candidateBounds": [
+            81,
+            47,
+            198,
+            225
+          ]
+        },
+        {
+          "alphaIou": 0.6528881254026198,
+          "centroidDeltaPx": 7.888248972924013,
+          "boundsDeltaPx": 8,
+          "legacyBounds": [
+            66,
+            40,
+            202,
+            217
+          ],
+          "candidateBounds": [
+            67,
+            48,
+            204,
+            225
+          ]
+        },
+        {
+          "alphaIou": 0.670880510058261,
+          "centroidDeltaPx": 6.734459602950854,
+          "boundsDeltaPx": 6,
+          "legacyBounds": [
+            63,
+            40,
+            185,
+            220
+          ],
+          "candidateBounds": [
+            66,
+            46,
+            189,
+            226
+          ]
+        },
+        {
+          "alphaIou": 0.7885440941984545,
+          "centroidDeltaPx": 3.626570463084616,
+          "boundsDeltaPx": 3,
+          "legacyBounds": [
+            78,
+            40,
+            168,
+            223
+          ],
+          "candidateBounds": [
+            80,
+            43,
+            171,
+            225
+          ]
+        },
+        {
+          "alphaIou": 0.9204100090443171,
+          "centroidDeltaPx": 1.4100883251980958,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            93,
+            41,
+            157,
+            225
+          ],
+          "candidateBounds": [
+            94,
+            41,
+            158,
+            225
+          ]
+        },
+        {
+          "alphaIou": 0.9197586339709847,
+          "centroidDeltaPx": 1.6876556761434047,
+          "boundsDeltaPx": 2,
+          "legacyBounds": [
+            93,
+            41,
+            171,
+            224
+          ],
+          "candidateBounds": [
+            93,
+            43,
+            171,
+            226
+          ]
+        },
+        {
+          "alphaIou": 0.7586436170212766,
+          "centroidDeltaPx": 5.305553666185542,
+          "boundsDeltaPx": 5,
+          "legacyBounds": [
+            87,
+            41,
+            196,
+            221
+          ],
+          "candidateBounds": [
+            85,
+            46,
+            195,
+            226
+          ]
+        },
+        {
+          "alphaIou": 0.7120509224296041,
+          "centroidDeltaPx": 6.098669100547953,
+          "boundsDeltaPx": 6,
+          "legacyBounds": [
+            71,
+            41,
+            195,
+            221
+          ],
+          "candidateBounds": [
+            71,
+            47,
+            195,
+            227
+          ]
+        },
+        {
+          "alphaIou": 0.7691079169518594,
+          "centroidDeltaPx": 4.618366125121757,
+          "boundsDeltaPx": 4,
+          "legacyBounds": [
+            71,
+            41,
+            179,
+            221
+          ],
+          "candidateBounds": [
+            72,
+            45,
+            181,
+            225
+          ]
+        },
+        {
+          "alphaIou": 0.9229843561973526,
+          "centroidDeltaPx": 1.4803310526708668,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            88,
+            41,
+            169,
+            223
+          ],
+          "candidateBounds": [
+            88,
+            42,
+            169,
+            224
+          ]
+        }
+      ],
+      "frameMetrics": [
+        {
+          "alphaIou": 0.9957608536763631,
+          "centroidDeltaPx": 0.031263555622568495,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            93,
+            41,
+            161,
+            224
+          ],
+          "candidateBounds": [
+            93,
+            41,
+            161,
+            224
+          ]
+        },
+        {
+          "alphaIou": 0.9848527746319365,
+          "centroidDeltaPx": 0.1879447829695454,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            93,
+            41,
+            163,
+            224
+          ],
+          "candidateBounds": [
+            94,
+            41,
+            163,
+            224
+          ]
+        },
+        {
+          "alphaIou": 0.9862483311081441,
+          "centroidDeltaPx": 0.23355569711288848,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            85,
+            41,
+            192,
+            220
+          ],
+          "candidateBounds": [
+            85,
+            41,
+            191,
+            220
+          ]
+        },
+        {
+          "alphaIou": 0.9685518312411027,
+          "centroidDeltaPx": 0.45183478203598965,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            69,
+            40,
+            202,
+            219
+          ],
+          "candidateBounds": [
+            69,
+            41,
+            202,
+            219
+          ]
+        },
+        {
+          "alphaIou": 0.9658409387222947,
+          "centroidDeltaPx": 0.469763598929769,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            63,
+            40,
+            188,
+            220
+          ],
+          "candidateBounds": [
+            62,
+            40,
+            187,
+            220
+          ]
+        },
+        {
+          "alphaIou": 0.9820488594952085,
+          "centroidDeltaPx": 0.34824676566604745,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            74,
+            40,
+            169,
+            223
+          ],
+          "candidateBounds": [
+            74,
+            41,
+            169,
+            223
+          ]
+        },
+        {
+          "alphaIou": 0.9745876058849755,
+          "centroidDeltaPx": 0.4292050925155757,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            93,
+            41,
+            157,
+            225
+          ],
+          "candidateBounds": [
+            93,
+            41,
+            157,
+            225
+          ]
+        },
+        {
+          "alphaIou": 0.9788600481669789,
+          "centroidDeltaPx": 0.34083341534919837,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            93,
+            41,
+            168,
+            223
+          ],
+          "candidateBounds": [
+            94,
+            40,
+            168,
+            223
+          ]
+        },
+        {
+          "alphaIou": 0.9784797382330732,
+          "centroidDeltaPx": 0.3672579611404435,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            86,
+            40,
+            192,
+            220
+          ],
+          "candidateBounds": [
+            86,
+            40,
+            192,
+            219
+          ]
+        },
+        {
+          "alphaIou": 0.9681552431894515,
+          "centroidDeltaPx": 0.49302533768212986,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            70,
+            40,
+            196,
+            219
+          ],
+          "candidateBounds": [
+            70,
+            41,
+            196,
+            219
+          ]
+        },
+        {
+          "alphaIou": 0.9787016962122178,
+          "centroidDeltaPx": 0.23459535465260825,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            67,
+            40,
+            178,
+            220
+          ],
+          "candidateBounds": [
+            67,
+            40,
+            178,
+            220
+          ]
+        },
+        {
+          "alphaIou": 0.9610320521345924,
+          "centroidDeltaPx": 0.6394447546502375,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            83,
+            40,
+            167,
+            221
+          ],
+          "candidateBounds": [
+            82,
+            40,
+            166,
+            221
+          ]
+        },
+        {
+          "alphaIou": 0.9892961401232566,
+          "centroidDeltaPx": 0.16751768712739112,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            93,
+            41,
+            156,
+            224
+          ],
+          "candidateBounds": [
+            93,
+            41,
+            157,
+            224
+          ]
+        },
+        {
+          "alphaIou": 0.9751106194690266,
+          "centroidDeltaPx": 0.5163249560794833,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            93,
+            41,
+            172,
+            223
+          ],
+          "candidateBounds": [
+            94,
+            41,
+            173,
+            222
+          ]
+        },
+        {
+          "alphaIou": 0.9870558710870426,
+          "centroidDeltaPx": 0.20117179848562197,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            80,
+            41,
+            198,
+            219
+          ],
+          "candidateBounds": [
+            81,
+            41,
+            198,
+            219
+          ]
+        },
+        {
+          "alphaIou": 0.979809670781893,
+          "centroidDeltaPx": 0.35811751376178874,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            66,
+            40,
+            202,
+            217
+          ],
+          "candidateBounds": [
+            66,
+            40,
+            203,
+            217
+          ]
+        },
+        {
+          "alphaIou": 0.9758221760041597,
+          "centroidDeltaPx": 0.2951870566440711,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            63,
+            40,
+            185,
+            220
+          ],
+          "candidateBounds": [
+            63,
+            40,
+            186,
+            220
+          ]
+        },
+        {
+          "alphaIou": 0.9801738185768604,
+          "centroidDeltaPx": 0.3088412788249827,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            78,
+            40,
+            168,
+            223
+          ],
+          "candidateBounds": [
+            77,
+            41,
+            168,
+            223
+          ]
+        },
+        {
+          "alphaIou": 0.9758064516129032,
+          "centroidDeltaPx": 0.41011128008064446,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            93,
+            41,
+            157,
+            225
+          ],
+          "candidateBounds": [
+            93,
+            41,
+            157,
+            225
+          ]
+        },
+        {
+          "alphaIou": 0.9700922266139658,
+          "centroidDeltaPx": 0.5727505161107257,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            93,
+            41,
+            171,
+            224
+          ],
+          "candidateBounds": [
+            93,
+            41,
+            171,
+            224
+          ]
+        },
+        {
+          "alphaIou": 0.9662990955271962,
+          "centroidDeltaPx": 0.4681807670097463,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            87,
+            41,
+            196,
+            221
+          ],
+          "candidateBounds": [
+            86,
+            41,
+            196,
+            221
+          ]
+        },
+        {
+          "alphaIou": 0.9866049073610416,
+          "centroidDeltaPx": 0.1825862485190655,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            71,
+            41,
+            195,
+            221
+          ],
+          "candidateBounds": [
+            71,
+            41,
+            195,
+            221
+          ]
+        },
+        {
+          "alphaIou": 0.9588227864089933,
+          "centroidDeltaPx": 0.5945960282817464,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            71,
+            41,
+            179,
+            221
+          ],
+          "candidateBounds": [
+            70,
+            41,
+            179,
+            221
+          ]
+        },
+        {
+          "alphaIou": 0.9698671414874674,
+          "centroidDeltaPx": 0.5156813586838975,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            88,
+            41,
+            169,
+            223
+          ],
+          "candidateBounds": [
+            87,
+            41,
+            168,
+            223
+          ]
+        }
+      ],
+      "packedAlphaAuthority": "sprites/character/survival-character-blender-v2/runtime/survival-character-blender-v2-walk-sheet.png"
+    },
+    "run": {
+      "passed": true,
+      "frames": 28,
+      "candidateFrameStart": 0,
+      "renderScale": 0.95,
+      "minimumAlphaIou": 0.9616573033707865,
+      "maximumCentroidDeltaPx": 0.510540566559942,
+      "maximumBoundsDeltaPx": 2,
+      "maximumRigidRootTranslationPx": 42,
+      "rigidRootTranslations": [
+        {
+          "x": 1,
+          "y": 28
+        },
+        {
+          "x": 1,
+          "y": 25
+        },
+        {
+          "x": 1,
+          "y": 25
+        },
+        {
+          "x": 1,
+          "y": 23
+        },
+        {
+          "x": 1,
+          "y": 22
+        },
+        {
+          "x": 1,
+          "y": 22
+        },
+        {
+          "x": 1,
+          "y": 29
+        },
+        {
+          "x": 1,
+          "y": 33
+        },
+        {
+          "x": 1,
+          "y": 36
+        },
+        {
+          "x": 1,
+          "y": 38
+        },
+        {
+          "x": 1,
+          "y": 39
+        },
+        {
+          "x": 1,
+          "y": 42
+        },
+        {
+          "x": 1,
+          "y": 40
+        },
+        {
+          "x": 1,
+          "y": 34
+        },
+        {
+          "x": 1,
+          "y": 27
+        },
+        {
+          "x": 1,
+          "y": 26
+        },
+        {
+          "x": 1,
+          "y": 26
+        },
+        {
+          "x": 1,
+          "y": 24
+        },
+        {
+          "x": 1,
+          "y": 22
+        },
+        {
+          "x": 1,
+          "y": 24
+        },
+        {
+          "x": 1,
+          "y": 32
+        },
+        {
+          "x": 1,
+          "y": 33
+        },
+        {
+          "x": 1,
+          "y": 36
+        },
+        {
+          "x": 1,
+          "y": 38
+        },
+        {
+          "x": 1,
+          "y": 39
+        },
+        {
+          "x": 1,
+          "y": 41
+        },
+        {
+          "x": 1,
+          "y": 39
+        },
+        {
+          "x": 1,
+          "y": 33
+        }
+      ],
+      "rawFrameMetrics": [
+        {
+          "alphaIou": 0.23871919472405415,
+          "centroidDeltaPx": 28.41630685086643,
+          "boundsDeltaPx": 28,
+          "legacyBounds": [
+            56,
+            88,
+            190,
+            246
+          ],
+          "candidateBounds": [
+            55,
+            60,
+            189,
+            218
+          ]
+        },
+        {
+          "alphaIou": 0.3232591189009948,
+          "centroidDeltaPx": 24.697889075061184,
+          "boundsDeltaPx": 25,
+          "legacyBounds": [
+            62,
+            89,
+            184,
+            246
+          ],
+          "candidateBounds": [
+            61,
+            64,
+            182,
+            221
+          ]
+        },
+        {
+          "alphaIou": 0.3442901388750125,
+          "centroidDeltaPx": 25.299328190783996,
+          "boundsDeltaPx": 25,
+          "legacyBounds": [
+            75,
+            93,
+            181,
+            246
+          ],
+          "candidateBounds": [
+            74,
+            68,
+            180,
+            221
+          ]
+        },
+        {
+          "alphaIou": 0.38273878020713464,
+          "centroidDeltaPx": 22.88587672029687,
+          "boundsDeltaPx": 23,
+          "legacyBounds": [
+            93,
+            92,
+            175,
+            245
+          ],
+          "candidateBounds": [
+            90,
+            69,
+            174,
+            223
+          ]
+        },
+        {
+          "alphaIou": 0.3925266487056343,
+          "centroidDeltaPx": 21.739571449459618,
+          "boundsDeltaPx": 22,
+          "legacyBounds": [
+            93,
+            89,
+            170,
+            246
+          ],
+          "candidateBounds": [
+            92,
+            67,
+            169,
+            224
+          ]
+        },
+        {
+          "alphaIou": 0.37115055603079555,
+          "centroidDeltaPx": 22.385990969957767,
+          "boundsDeltaPx": 23,
+          "legacyBounds": [
+            77,
+            86,
+            173,
+            246
+          ],
+          "candidateBounds": [
+            76,
+            63,
+            172,
+            224
+          ]
+        },
+        {
+          "alphaIou": 0.26565409113179816,
+          "centroidDeltaPx": 29.064633657833596,
+          "boundsDeltaPx": 30,
+          "legacyBounds": [
+            67,
+            88,
+            179,
+            246
+          ],
+          "candidateBounds": [
+            65,
+            59,
+            177,
+            216
+          ]
+        },
+        {
+          "alphaIou": 0.22624686542212316,
+          "centroidDeltaPx": 33.03078838769986,
+          "boundsDeltaPx": 34,
+          "legacyBounds": [
+            61,
+            89,
+            189,
+            246
+          ],
+          "candidateBounds": [
+            60,
+            55,
+            188,
+            213
+          ]
+        },
+        {
+          "alphaIou": 0.2108509116910976,
+          "centroidDeltaPx": 36.183159777478764,
+          "boundsDeltaPx": 36,
+          "legacyBounds": [
+            58,
+            89,
+            193,
+            246
+          ],
+          "candidateBounds": [
+            56,
+            53,
+            192,
+            210
+          ]
+        },
+        {
+          "alphaIou": 0.21113427132186902,
+          "centroidDeltaPx": 37.63338218034074,
+          "boundsDeltaPx": 38,
+          "legacyBounds": [
+            56,
+            89,
+            195,
+            246
+          ],
+          "candidateBounds": [
+            55,
+            51,
+            194,
+            208
+          ]
+        },
+        {
+          "alphaIou": 0.209207508706362,
+          "centroidDeltaPx": 38.73809377322771,
+          "boundsDeltaPx": 39,
+          "legacyBounds": [
+            55,
+            90,
+            196,
+            245
+          ],
+          "candidateBounds": [
+            54,
+            51,
+            195,
+            207
+          ]
+        },
+        {
+          "alphaIou": 0.19786096256684493,
+          "centroidDeltaPx": 41.54461073189109,
+          "boundsDeltaPx": 42,
+          "legacyBounds": [
+            54,
+            94,
+            197,
+            246
+          ],
+          "candidateBounds": [
+            53,
+            52,
+            196,
+            204
+          ]
+        },
+        {
+          "alphaIou": 0.2009147609147609,
+          "centroidDeltaPx": 39.94954811412366,
+          "boundsDeltaPx": 41,
+          "legacyBounds": [
+            52,
+            94,
+            197,
+            246
+          ],
+          "candidateBounds": [
+            51,
+            53,
+            196,
+            206
+          ]
+        },
+        {
+          "alphaIou": 0.20798196543374803,
+          "centroidDeltaPx": 33.645964933636726,
+          "boundsDeltaPx": 34,
+          "legacyBounds": [
+            50,
+            90,
+            197,
+            246
+          ],
+          "candidateBounds": [
+            49,
+            56,
+            196,
+            212
+          ]
+        },
+        {
+          "alphaIou": 0.2527119673696086,
+          "centroidDeltaPx": 26.597192941839214,
+          "boundsDeltaPx": 27,
+          "legacyBounds": [
+            52,
+            87,
+            195,
+            245
+          ],
+          "candidateBounds": [
+            50,
+            60,
+            194,
+            219
+          ]
+        },
+        {
+          "alphaIou": 0.31756693721429236,
+          "centroidDeltaPx": 26.27139431286562,
+          "boundsDeltaPx": 27,
+          "legacyBounds": [
+            62,
+            91,
+            184,
+            246
+          ],
+          "candidateBounds": [
+            61,
+            64,
+            183,
+            219
+          ]
+        },
+        {
+          "alphaIou": 0.35883128740996245,
+          "centroidDeltaPx": 26.256896425971117,
+          "boundsDeltaPx": 26,
+          "legacyBounds": [
+            86,
+            94,
+            177,
+            246
+          ],
+          "candidateBounds": [
+            85,
+            68,
+            175,
+            220
+          ]
+        },
+        {
+          "alphaIou": 0.39591645153719784,
+          "centroidDeltaPx": 23.746572830999504,
+          "boundsDeltaPx": 24,
+          "legacyBounds": [
+            94,
+            93,
+            170,
+            246
+          ],
+          "candidateBounds": [
+            93,
+            69,
+            169,
+            222
+          ]
+        },
+        {
+          "alphaIou": 0.43291170634920634,
+          "centroidDeltaPx": 21.673525812868252,
+          "boundsDeltaPx": 22,
+          "legacyBounds": [
+            94,
+            89,
+            170,
+            246
+          ],
+          "candidateBounds": [
+            92,
+            67,
+            169,
+            224
+          ]
+        },
+        {
+          "alphaIou": 0.40522438044206294,
+          "centroidDeltaPx": 23.95808010604724,
+          "boundsDeltaPx": 24,
+          "legacyBounds": [
+            84,
+            87,
+            171,
+            246
+          ],
+          "candidateBounds": [
+            83,
+            63,
+            169,
+            222
+          ]
+        },
+        {
+          "alphaIou": 0.3018886581627608,
+          "centroidDeltaPx": 31.873548363564062,
+          "boundsDeltaPx": 32,
+          "legacyBounds": [
+            71,
+            89,
+            171,
+            246
+          ],
+          "candidateBounds": [
+            70,
+            57,
+            170,
+            214
+          ]
+        },
+        {
+          "alphaIou": 0.28205128205128205,
+          "centroidDeltaPx": 33.00918920913863,
+          "boundsDeltaPx": 33,
+          "legacyBounds": [
+            66,
+            86,
+            177,
+            245
+          ],
+          "candidateBounds": [
+            65,
+            53,
+            176,
+            212
+          ]
+        },
+        {
+          "alphaIou": 0.25923862581244195,
+          "centroidDeltaPx": 35.82264216952719,
+          "boundsDeltaPx": 36,
+          "legacyBounds": [
+            63,
+            86,
+            184,
+            246
+          ],
+          "candidateBounds": [
+            62,
+            50,
+            183,
+            210
+          ]
+        },
+        {
+          "alphaIou": 0.2420796100731113,
+          "centroidDeltaPx": 37.57710654381134,
+          "boundsDeltaPx": 38,
+          "legacyBounds": [
+            61,
+            86,
+            188,
+            246
+          ],
+          "candidateBounds": [
+            60,
+            48,
+            187,
+            208
+          ]
+        },
+        {
+          "alphaIou": 0.22519989456111061,
+          "centroidDeltaPx": 39.37065321473986,
+          "boundsDeltaPx": 40,
+          "legacyBounds": [
+            60,
+            88,
+            190,
+            246
+          ],
+          "candidateBounds": [
+            59,
+            48,
+            189,
+            207
+          ]
+        },
+        {
+          "alphaIou": 0.21027796842827728,
+          "centroidDeltaPx": 41.22404220276015,
+          "boundsDeltaPx": 41,
+          "legacyBounds": [
+            59,
+            91,
+            191,
+            245
+          ],
+          "candidateBounds": [
+            58,
+            50,
+            190,
+            205
+          ]
+        },
+        {
+          "alphaIou": 0.1969454054510168,
+          "centroidDeltaPx": 38.76006185742822,
+          "boundsDeltaPx": 39,
+          "legacyBounds": [
+            58,
+            91,
+            191,
+            246
+          ],
+          "candidateBounds": [
+            55,
+            52,
+            190,
+            207
+          ]
+        },
+        {
+          "alphaIou": 0.20759837177747625,
+          "centroidDeltaPx": 32.53599558736208,
+          "boundsDeltaPx": 32,
+          "legacyBounds": [
+            57,
+            88,
+            191,
+            245
+          ],
+          "candidateBounds": [
+            55,
+            56,
+            190,
+            213
+          ]
+        }
+      ],
+      "frameMetrics": [
+        {
+          "alphaIou": 0.9695088300220751,
+          "centroidDeltaPx": 0.4166559395364776,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            56,
+            88,
+            190,
+            246
+          ],
+          "candidateBounds": [
+            56,
+            88,
+            190,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9616573033707865,
+          "centroidDeltaPx": 0.34444688003259366,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            62,
+            89,
+            184,
+            246
+          ],
+          "candidateBounds": [
+            62,
+            89,
+            183,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9792586054721977,
+          "centroidDeltaPx": 0.3106368476772792,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            75,
+            93,
+            181,
+            246
+          ],
+          "candidateBounds": [
+            75,
+            93,
+            181,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9815303430079155,
+          "centroidDeltaPx": 0.1823947794974562,
+          "boundsDeltaPx": 2,
+          "legacyBounds": [
+            93,
+            92,
+            175,
+            245
+          ],
+          "candidateBounds": [
+            91,
+            92,
+            175,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9773785761809713,
+          "centroidDeltaPx": 0.3184877767354992,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            93,
+            89,
+            170,
+            246
+          ],
+          "candidateBounds": [
+            93,
+            89,
+            170,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9755045447542752,
+          "centroidDeltaPx": 0.37412994059017,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            77,
+            86,
+            173,
+            246
+          ],
+          "candidateBounds": [
+            77,
+            85,
+            173,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9809815950920245,
+          "centroidDeltaPx": 0.18758652387855004,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            67,
+            88,
+            179,
+            246
+          ],
+          "candidateBounds": [
+            66,
+            88,
+            178,
+            245
+          ]
+        },
+        {
+          "alphaIou": 0.9854135338345865,
+          "centroidDeltaPx": 0.17124501112857213,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            61,
+            89,
+            189,
+            246
+          ],
+          "candidateBounds": [
+            61,
+            88,
+            189,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.966753774680604,
+          "centroidDeltaPx": 0.20117245894118094,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            58,
+            89,
+            193,
+            246
+          ],
+          "candidateBounds": [
+            57,
+            89,
+            193,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9777336548007375,
+          "centroidDeltaPx": 0.471494743623386,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            56,
+            89,
+            195,
+            246
+          ],
+          "candidateBounds": [
+            56,
+            89,
+            195,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9819017123764444,
+          "centroidDeltaPx": 0.36289117902763846,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            55,
+            90,
+            196,
+            245
+          ],
+          "candidateBounds": [
+            55,
+            90,
+            196,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9743836937061011,
+          "centroidDeltaPx": 0.4905478596000198,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            54,
+            94,
+            197,
+            246
+          ],
+          "candidateBounds": [
+            54,
+            94,
+            197,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9847443650357339,
+          "centroidDeltaPx": 0.21352354647271796,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            52,
+            94,
+            197,
+            246
+          ],
+          "candidateBounds": [
+            52,
+            93,
+            197,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9756930219855251,
+          "centroidDeltaPx": 0.457880516137486,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            50,
+            90,
+            197,
+            246
+          ],
+          "candidateBounds": [
+            50,
+            90,
+            197,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9792952145893322,
+          "centroidDeltaPx": 0.510540566559942,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            52,
+            87,
+            195,
+            245
+          ],
+          "candidateBounds": [
+            51,
+            87,
+            195,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9771804563908721,
+          "centroidDeltaPx": 0.2927232864795169,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            62,
+            91,
+            184,
+            246
+          ],
+          "candidateBounds": [
+            62,
+            90,
+            184,
+            245
+          ]
+        },
+        {
+          "alphaIou": 0.9723163009865999,
+          "centroidDeltaPx": 0.3053367206140116,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            86,
+            94,
+            177,
+            246
+          ],
+          "candidateBounds": [
+            86,
+            94,
+            176,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9833277759253084,
+          "centroidDeltaPx": 0.3644237428109601,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            94,
+            93,
+            170,
+            246
+          ],
+          "candidateBounds": [
+            94,
+            93,
+            170,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9792737238780405,
+          "centroidDeltaPx": 0.4169320630488851,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            94,
+            89,
+            170,
+            246
+          ],
+          "candidateBounds": [
+            93,
+            89,
+            170,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9826744369191999,
+          "centroidDeltaPx": 0.16211317183854773,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            84,
+            87,
+            171,
+            246
+          ],
+          "candidateBounds": [
+            84,
+            87,
+            170,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.981339352896915,
+          "centroidDeltaPx": 0.21471972684755833,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            71,
+            89,
+            171,
+            246
+          ],
+          "candidateBounds": [
+            71,
+            89,
+            171,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9810060839887224,
+          "centroidDeltaPx": 0.15258682018693753,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            66,
+            86,
+            177,
+            245
+          ],
+          "candidateBounds": [
+            66,
+            86,
+            177,
+            245
+          ]
+        },
+        {
+          "alphaIou": 0.9824587048677094,
+          "centroidDeltaPx": 0.2663929938887538,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            63,
+            86,
+            184,
+            246
+          ],
+          "candidateBounds": [
+            63,
+            86,
+            184,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9746018080068877,
+          "centroidDeltaPx": 0.4872561967033164,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            61,
+            86,
+            188,
+            246
+          ],
+          "candidateBounds": [
+            61,
+            86,
+            188,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9703264094955489,
+          "centroidDeltaPx": 0.3958919850992734,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            60,
+            88,
+            190,
+            246
+          ],
+          "candidateBounds": [
+            60,
+            87,
+            190,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9774320156994674,
+          "centroidDeltaPx": 0.30793538407569276,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            59,
+            91,
+            191,
+            245
+          ],
+          "candidateBounds": [
+            59,
+            91,
+            191,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9728789986091794,
+          "centroidDeltaPx": 0.41686014094442614,
+          "boundsDeltaPx": 2,
+          "legacyBounds": [
+            58,
+            91,
+            191,
+            246
+          ],
+          "candidateBounds": [
+            56,
+            91,
+            191,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.961972995315514,
+          "centroidDeltaPx": 0.5086757924922926,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            57,
+            88,
+            191,
+            245
+          ],
+          "candidateBounds": [
+            56,
+            89,
+            191,
+            246
+          ]
+        }
+      ],
+      "packedAlphaAuthority": "sprites/character/survival-ual-player-v1/runtime/survival-ual-player-v1-animation-polish-run-sheet.webp"
+    },
+    "mining-side": {
+      "passed": true,
+      "frames": 15,
+      "candidateFrameStart": 3,
+      "renderScale": 0.95,
+      "minimumAlphaIou": 0.9735118614466599,
+      "maximumCentroidDeltaPx": 0.5200360960434226,
+      "maximumBoundsDeltaPx": 1,
+      "maximumRigidRootTranslationPx": 19,
+      "rigidRootTranslations": [
+        {
+          "x": -4,
+          "y": 18
+        },
+        {
+          "x": -4,
+          "y": 18
+        },
+        {
+          "x": -4,
+          "y": 19
+        },
+        {
+          "x": -4,
+          "y": 19
+        },
+        {
+          "x": -4,
+          "y": 19
+        },
+        {
+          "x": -4,
+          "y": 19
+        },
+        {
+          "x": -4,
+          "y": 19
+        },
+        {
+          "x": -4,
+          "y": 19
+        },
+        {
+          "x": -4,
+          "y": 19
+        },
+        {
+          "x": -4,
+          "y": 19
+        },
+        {
+          "x": -4,
+          "y": 19
+        },
+        {
+          "x": -4,
+          "y": 19
+        },
+        {
+          "x": -4,
+          "y": 19
+        },
+        {
+          "x": -4,
+          "y": 19
+        },
+        {
+          "x": -4,
+          "y": 19
+        }
+      ],
+      "rawFrameMetrics": [
+        {
+          "alphaIou": 0.5014948510685416,
+          "centroidDeltaPx": 18.392612136002,
+          "boundsDeltaPx": 19,
+          "legacyBounds": [
+            81,
+            76,
+            164,
+            245
+          ],
+          "candidateBounds": [
+            84,
+            57,
+            167,
+            227
+          ]
+        },
+        {
+          "alphaIou": 0.48202222706472,
+          "centroidDeltaPx": 18.474570460546204,
+          "boundsDeltaPx": 18,
+          "legacyBounds": [
+            82,
+            76,
+            172,
+            245
+          ],
+          "candidateBounds": [
+            85,
+            58,
+            176,
+            227
+          ]
+        },
+        {
+          "alphaIou": 0.45089702374779633,
+          "centroidDeltaPx": 19.015980843819104,
+          "boundsDeltaPx": 19,
+          "legacyBounds": [
+            87,
+            77,
+            199,
+            246
+          ],
+          "candidateBounds": [
+            90,
+            58,
+            203,
+            227
+          ]
+        },
+        {
+          "alphaIou": 0.442797685514161,
+          "centroidDeltaPx": 18.93539371564532,
+          "boundsDeltaPx": 19,
+          "legacyBounds": [
+            87,
+            76,
+            208,
+            246
+          ],
+          "candidateBounds": [
+            91,
+            57,
+            211,
+            227
+          ]
+        },
+        {
+          "alphaIou": 0.4411050394656952,
+          "centroidDeltaPx": 19.1115231524739,
+          "boundsDeltaPx": 19,
+          "legacyBounds": [
+            87,
+            76,
+            208,
+            246
+          ],
+          "candidateBounds": [
+            91,
+            57,
+            212,
+            227
+          ]
+        },
+        {
+          "alphaIou": 0.4404580926320057,
+          "centroidDeltaPx": 18.99914730667995,
+          "boundsDeltaPx": 19,
+          "legacyBounds": [
+            87,
+            76,
+            208,
+            246
+          ],
+          "candidateBounds": [
+            90,
+            57,
+            212,
+            227
+          ]
+        },
+        {
+          "alphaIou": 0.44006484952882763,
+          "centroidDeltaPx": 18.994733653623218,
+          "boundsDeltaPx": 19,
+          "legacyBounds": [
+            86,
+            76,
+            207,
+            246
+          ],
+          "candidateBounds": [
+            90,
+            57,
+            211,
+            227
+          ]
+        },
+        {
+          "alphaIou": 0.4389971579374746,
+          "centroidDeltaPx": 19.004549601309563,
+          "boundsDeltaPx": 19,
+          "legacyBounds": [
+            86,
+            76,
+            206,
+            246
+          ],
+          "candidateBounds": [
+            89,
+            57,
+            210,
+            227
+          ]
+        },
+        {
+          "alphaIou": 0.439548137594138,
+          "centroidDeltaPx": 18.994608686169226,
+          "boundsDeltaPx": 19,
+          "legacyBounds": [
+            84,
+            76,
+            204,
+            246
+          ],
+          "candidateBounds": [
+            88,
+            57,
+            208,
+            227
+          ]
+        },
+        {
+          "alphaIou": 0.4410350823360949,
+          "centroidDeltaPx": 18.9803562398943,
+          "boundsDeltaPx": 19,
+          "legacyBounds": [
+            82,
+            76,
+            202,
+            246
+          ],
+          "candidateBounds": [
+            86,
+            57,
+            206,
+            227
+          ]
+        },
+        {
+          "alphaIou": 0.4413430837367391,
+          "centroidDeltaPx": 19.01802021378772,
+          "boundsDeltaPx": 19,
+          "legacyBounds": [
+            81,
+            76,
+            199,
+            246
+          ],
+          "candidateBounds": [
+            85,
+            57,
+            203,
+            227
+          ]
+        },
+        {
+          "alphaIou": 0.44350899074940237,
+          "centroidDeltaPx": 18.970096229707394,
+          "boundsDeltaPx": 19,
+          "legacyBounds": [
+            80,
+            76,
+            195,
+            246
+          ],
+          "candidateBounds": [
+            83,
+            57,
+            199,
+            227
+          ]
+        },
+        {
+          "alphaIou": 0.4455871550005247,
+          "centroidDeltaPx": 19.07065113592011,
+          "boundsDeltaPx": 19,
+          "legacyBounds": [
+            79,
+            76,
+            190,
+            246
+          ],
+          "candidateBounds": [
+            83,
+            57,
+            193,
+            227
+          ]
+        },
+        {
+          "alphaIou": 0.44788792188495014,
+          "centroidDeltaPx": 19.04641585537291,
+          "boundsDeltaPx": 19,
+          "legacyBounds": [
+            79,
+            76,
+            183,
+            246
+          ],
+          "candidateBounds": [
+            82,
+            57,
+            187,
+            227
+          ]
+        },
+        {
+          "alphaIou": 0.45494529071014805,
+          "centroidDeltaPx": 18.96306618253014,
+          "boundsDeltaPx": 19,
+          "legacyBounds": [
+            79,
+            76,
+            177,
+            246
+          ],
+          "candidateBounds": [
+            82,
+            57,
+            181,
+            227
+          ]
+        }
+      ],
+      "frameMetrics": [
+        {
+          "alphaIou": 0.9735118614466599,
+          "centroidDeltaPx": 0.27610143673731113,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            81,
+            76,
+            164,
+            245
+          ],
+          "candidateBounds": [
+            80,
+            75,
+            163,
+            245
+          ]
+        },
+        {
+          "alphaIou": 0.9758861127251598,
+          "centroidDeltaPx": 0.2634809504097576,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            82,
+            76,
+            172,
+            245
+          ],
+          "candidateBounds": [
+            81,
+            76,
+            172,
+            245
+          ]
+        },
+        {
+          "alphaIou": 0.9766883300367335,
+          "centroidDeltaPx": 0.4359037430077028,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            87,
+            77,
+            199,
+            246
+          ],
+          "candidateBounds": [
+            86,
+            77,
+            199,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9809059233449477,
+          "centroidDeltaPx": 0.5200360960434226,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            87,
+            76,
+            208,
+            246
+          ],
+          "candidateBounds": [
+            87,
+            76,
+            207,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9817701085443918,
+          "centroidDeltaPx": 0.3202257858344208,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            87,
+            76,
+            208,
+            246
+          ],
+          "candidateBounds": [
+            87,
+            76,
+            208,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.97980220086363,
+          "centroidDeltaPx": 0.4633226399558606,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            87,
+            76,
+            208,
+            246
+          ],
+          "candidateBounds": [
+            86,
+            76,
+            208,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9818714265792776,
+          "centroidDeltaPx": 0.446289694976403,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            86,
+            76,
+            207,
+            246
+          ],
+          "candidateBounds": [
+            86,
+            76,
+            207,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9805811679240011,
+          "centroidDeltaPx": 0.4301207222343493,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            86,
+            76,
+            206,
+            246
+          ],
+          "candidateBounds": [
+            85,
+            76,
+            206,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9805376645197423,
+          "centroidDeltaPx": 0.4452976860927106,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            84,
+            76,
+            204,
+            246
+          ],
+          "candidateBounds": [
+            84,
+            76,
+            204,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9785142536160651,
+          "centroidDeltaPx": 0.47466449427978,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            82,
+            76,
+            202,
+            246
+          ],
+          "candidateBounds": [
+            82,
+            76,
+            202,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9799094510469722,
+          "centroidDeltaPx": 0.4271735624885374,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            81,
+            76,
+            199,
+            246
+          ],
+          "candidateBounds": [
+            81,
+            76,
+            199,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9789113707609005,
+          "centroidDeltaPx": 0.4805260166770122,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            80,
+            76,
+            195,
+            246
+          ],
+          "candidateBounds": [
+            79,
+            76,
+            195,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9777458722182341,
+          "centroidDeltaPx": 0.39741667490263916,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            79,
+            76,
+            190,
+            246
+          ],
+          "candidateBounds": [
+            79,
+            76,
+            189,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.977961432506887,
+          "centroidDeltaPx": 0.3954865321490462,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            79,
+            76,
+            183,
+            246
+          ],
+          "candidateBounds": [
+            78,
+            76,
+            183,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9779787078897477,
+          "centroidDeltaPx": 0.4759874159209888,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            79,
+            76,
+            177,
+            246
+          ],
+          "candidateBounds": [
+            78,
+            76,
+            177,
+            246
+          ]
+        }
+      ],
+      "packedAlphaAuthority": "sprites/character/survival-ual-player-v1/runtime/survival-ual-player-v1-punch-jab-sheet.webp"
+    },
+    "mining-up": {
+      "passed": true,
+      "frames": 24,
+      "candidateFrameStart": 0,
+      "renderScale": 1.0,
+      "minimumAlphaIou": 0.9567365469355054,
+      "maximumCentroidDeltaPx": 0.6935810628322377,
+      "maximumBoundsDeltaPx": 1,
+      "maximumRigidRootTranslationPx": 37,
+      "rigidRootTranslations": [
+        {
+          "x": -24,
+          "y": 21
+        },
+        {
+          "x": -22,
+          "y": 22
+        },
+        {
+          "x": -21,
+          "y": 22
+        },
+        {
+          "x": -19,
+          "y": 22
+        },
+        {
+          "x": -18,
+          "y": 21
+        },
+        {
+          "x": -21,
+          "y": 21
+        },
+        {
+          "x": -27,
+          "y": 21
+        },
+        {
+          "x": -29,
+          "y": 21
+        },
+        {
+          "x": -34,
+          "y": 19
+        },
+        {
+          "x": -37,
+          "y": 19
+        },
+        {
+          "x": -27,
+          "y": 19
+        },
+        {
+          "x": -19,
+          "y": 22
+        },
+        {
+          "x": -21,
+          "y": 21
+        },
+        {
+          "x": -22,
+          "y": 23
+        },
+        {
+          "x": -24,
+          "y": 24
+        },
+        {
+          "x": -26,
+          "y": 23
+        },
+        {
+          "x": -27,
+          "y": 23
+        },
+        {
+          "x": -28,
+          "y": 24
+        },
+        {
+          "x": -28,
+          "y": 24
+        },
+        {
+          "x": -27,
+          "y": 23
+        },
+        {
+          "x": -25,
+          "y": 23
+        },
+        {
+          "x": -24,
+          "y": 22
+        },
+        {
+          "x": -24,
+          "y": 21
+        },
+        {
+          "x": -23,
+          "y": 21
+        }
+      ],
+      "rawFrameMetrics": [
+        {
+          "alphaIou": 0.2694757044403734,
+          "centroidDeltaPx": 31.919784410875575,
+          "boundsDeltaPx": 24,
+          "legacyBounds": [
+            56,
+            71,
+            181,
+            245
+          ],
+          "candidateBounds": [
+            80,
+            50,
+            205,
+            224
+          ]
+        },
+        {
+          "alphaIou": 0.27278379818795523,
+          "centroidDeltaPx": 31.10242460412707,
+          "boundsDeltaPx": 22,
+          "legacyBounds": [
+            60,
+            73,
+            183,
+            246
+          ],
+          "candidateBounds": [
+            82,
+            52,
+            205,
+            224
+          ]
+        },
+        {
+          "alphaIou": 0.27446672159663094,
+          "centroidDeltaPx": 29.903048357963975,
+          "boundsDeltaPx": 22,
+          "legacyBounds": [
+            66,
+            77,
+            184,
+            246
+          ],
+          "candidateBounds": [
+            87,
+            56,
+            205,
+            224
+          ]
+        },
+        {
+          "alphaIou": 0.28386976047904194,
+          "centroidDeltaPx": 28.54697155369512,
+          "boundsDeltaPx": 21,
+          "legacyBounds": [
+            74,
+            83,
+            187,
+            246
+          ],
+          "candidateBounds": [
+            92,
+            62,
+            205,
+            225
+          ]
+        },
+        {
+          "alphaIou": 0.2630134479919495,
+          "centroidDeltaPx": 27.896036145696623,
+          "boundsDeltaPx": 21,
+          "legacyBounds": [
+            77,
+            89,
+            187,
+            246
+          ],
+          "candidateBounds": [
+            95,
+            68,
+            205,
+            225
+          ]
+        },
+        {
+          "alphaIou": 0.2247309931204798,
+          "centroidDeltaPx": 29.699892646101127,
+          "boundsDeltaPx": 21,
+          "legacyBounds": [
+            70,
+            95,
+            184,
+            245
+          ],
+          "candidateBounds": [
+            91,
+            75,
+            205,
+            225
+          ]
+        },
+        {
+          "alphaIou": 0.1763694212744002,
+          "centroidDeltaPx": 34.00247745679735,
+          "boundsDeltaPx": 27,
+          "legacyBounds": [
+            69,
+            99,
+            177,
+            246
+          ],
+          "candidateBounds": [
+            96,
+            78,
+            204,
+            225
+          ]
+        },
+        {
+          "alphaIou": 0.15889510613731236,
+          "centroidDeltaPx": 35.413780855965676,
+          "boundsDeltaPx": 29,
+          "legacyBounds": [
+            84,
+            96,
+            164,
+            246
+          ],
+          "candidateBounds": [
+            112,
+            75,
+            193,
+            225
+          ]
+        },
+        {
+          "alphaIou": 0.14144144144144144,
+          "centroidDeltaPx": 38.965348141173514,
+          "boundsDeltaPx": 34,
+          "legacyBounds": [
+            80,
+            84,
+            162,
+            246
+          ],
+          "candidateBounds": [
+            113,
+            65,
+            196,
+            226
+          ]
+        },
+        {
+          "alphaIou": 0.17193490670529096,
+          "centroidDeltaPx": 41.53082647553372,
+          "boundsDeltaPx": 37,
+          "legacyBounds": [
+            89,
+            80,
+            173,
+            246
+          ],
+          "candidateBounds": [
+            126,
+            61,
+            210,
+            227
+          ]
+        },
+        {
+          "alphaIou": 0.2075955452287477,
+          "centroidDeltaPx": 33.549842647476986,
+          "boundsDeltaPx": 28,
+          "legacyBounds": [
+            88,
+            75,
+            203,
+            246
+          ],
+          "candidateBounds": [
+            116,
+            56,
+            230,
+            227
+          ]
+        },
+        {
+          "alphaIou": 0.2639135208174985,
+          "centroidDeltaPx": 28.562477338881088,
+          "boundsDeltaPx": 21,
+          "legacyBounds": [
+            94,
+            74,
+            207,
+            246
+          ],
+          "candidateBounds": [
+            112,
+            53,
+            225,
+            225
+          ]
+        },
+        {
+          "alphaIou": 0.25342178184566294,
+          "centroidDeltaPx": 30.030850609898515,
+          "boundsDeltaPx": 21,
+          "legacyBounds": [
+            92,
+            72,
+            200,
+            245
+          ],
+          "candidateBounds": [
+            113,
+            51,
+            221,
+            224
+          ]
+        },
+        {
+          "alphaIou": 0.2579620568289124,
+          "centroidDeltaPx": 31.865652453014615,
+          "boundsDeltaPx": 23,
+          "legacyBounds": [
+            93,
+            72,
+            193,
+            246
+          ],
+          "candidateBounds": [
+            116,
+            50,
+            215,
+            223
+          ]
+        },
+        {
+          "alphaIou": 0.25935117886899484,
+          "centroidDeltaPx": 33.92694781883792,
+          "boundsDeltaPx": 24,
+          "legacyBounds": [
+            88,
+            73,
+            181,
+            246
+          ],
+          "candidateBounds": [
+            112,
+            49,
+            204,
+            222
+          ]
+        },
+        {
+          "alphaIou": 0.24590780809031043,
+          "centroidDeltaPx": 34.48709009908133,
+          "boundsDeltaPx": 26,
+          "legacyBounds": [
+            88,
+            72,
+            166,
+            245
+          ],
+          "candidateBounds": [
+            113,
+            49,
+            192,
+            222
+          ]
+        },
+        {
+          "alphaIou": 0.23851865432211936,
+          "centroidDeltaPx": 35.39320405060853,
+          "boundsDeltaPx": 27,
+          "legacyBounds": [
+            89,
+            72,
+            170,
+            245
+          ],
+          "candidateBounds": [
+            116,
+            48,
+            196,
+            222
+          ]
+        },
+        {
+          "alphaIou": 0.22403184943901555,
+          "centroidDeltaPx": 36.951393809245424,
+          "boundsDeltaPx": 28,
+          "legacyBounds": [
+            88,
+            73,
+            171,
+            246
+          ],
+          "candidateBounds": [
+            116,
+            48,
+            199,
+            222
+          ]
+        },
+        {
+          "alphaIou": 0.2240501726958735,
+          "centroidDeltaPx": 36.46607113607286,
+          "boundsDeltaPx": 27,
+          "legacyBounds": [
+            88,
+            72,
+            172,
+            246
+          ],
+          "candidateBounds": [
+            115,
+            49,
+            199,
+            222
+          ]
+        },
+        {
+          "alphaIou": 0.22583012291322693,
+          "centroidDeltaPx": 35.4087811572463,
+          "boundsDeltaPx": 26,
+          "legacyBounds": [
+            88,
+            72,
+            173,
+            246
+          ],
+          "candidateBounds": [
+            114,
+            49,
+            199,
+            222
+          ]
+        },
+        {
+          "alphaIou": 0.22803755693966718,
+          "centroidDeltaPx": 34.117704071761956,
+          "boundsDeltaPx": 25,
+          "legacyBounds": [
+            88,
+            72,
+            173,
+            246
+          ],
+          "candidateBounds": [
+            113,
+            49,
+            198,
+            223
+          ]
+        },
+        {
+          "alphaIou": 0.22734110567882662,
+          "centroidDeltaPx": 32.60802065085265,
+          "boundsDeltaPx": 24,
+          "legacyBounds": [
+            88,
+            71,
+            172,
+            246
+          ],
+          "candidateBounds": [
+            112,
+            50,
+            196,
+            224
+          ]
+        },
+        {
+          "alphaIou": 0.228893948017454,
+          "centroidDeltaPx": 31.491992115949984,
+          "boundsDeltaPx": 24,
+          "legacyBounds": [
+            88,
+            70,
+            171,
+            246
+          ],
+          "candidateBounds": [
+            111,
+            50,
+            195,
+            225
+          ]
+        },
+        {
+          "alphaIou": 0.22963596616291226,
+          "centroidDeltaPx": 31.356063489676533,
+          "boundsDeltaPx": 24,
+          "legacyBounds": [
+            88,
+            70,
+            171,
+            246
+          ],
+          "candidateBounds": [
+            111,
+            50,
+            195,
+            226
+          ]
+        }
+      ],
+      "frameMetrics": [
+        {
+          "alphaIou": 0.9945175438596491,
+          "centroidDeltaPx": 0.0573589834960928,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            56,
+            71,
+            181,
+            245
+          ],
+          "candidateBounds": [
+            56,
+            71,
+            181,
+            245
+          ]
+        },
+        {
+          "alphaIou": 0.973963355834137,
+          "centroidDeltaPx": 0.1863897908598676,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            60,
+            73,
+            183,
+            246
+          ],
+          "candidateBounds": [
+            60,
+            74,
+            183,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9640237020316027,
+          "centroidDeltaPx": 0.5110600376923841,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            66,
+            77,
+            184,
+            246
+          ],
+          "candidateBounds": [
+            66,
+            78,
+            184,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9602857142857143,
+          "centroidDeltaPx": 0.5352424433123991,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            74,
+            83,
+            187,
+            246
+          ],
+          "candidateBounds": [
+            73,
+            84,
+            186,
+            247
+          ]
+        },
+        {
+          "alphaIou": 0.9652669039145908,
+          "centroidDeltaPx": 0.4862697268087582,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            77,
+            89,
+            187,
+            246
+          ],
+          "candidateBounds": [
+            77,
+            89,
+            187,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9744063699701407,
+          "centroidDeltaPx": 0.4498453307068104,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            70,
+            95,
+            184,
+            245
+          ],
+          "candidateBounds": [
+            70,
+            96,
+            184,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9717497837993658,
+          "centroidDeltaPx": 0.33486669690071696,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            69,
+            99,
+            177,
+            246
+          ],
+          "candidateBounds": [
+            69,
+            99,
+            177,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9715926261710487,
+          "centroidDeltaPx": 0.41574031460788535,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            84,
+            96,
+            164,
+            246
+          ],
+          "candidateBounds": [
+            83,
+            96,
+            164,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9886987913985246,
+          "centroidDeltaPx": 0.2966231278357067,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            80,
+            84,
+            162,
+            246
+          ],
+          "candidateBounds": [
+            79,
+            84,
+            162,
+            245
+          ]
+        },
+        {
+          "alphaIou": 0.9894417124674574,
+          "centroidDeltaPx": 0.2247550279827485,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            89,
+            80,
+            173,
+            246
+          ],
+          "candidateBounds": [
+            89,
+            80,
+            173,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9691664489155997,
+          "centroidDeltaPx": 0.5409338314587837,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            88,
+            75,
+            203,
+            246
+          ],
+          "candidateBounds": [
+            89,
+            75,
+            203,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9589005235602094,
+          "centroidDeltaPx": 0.5070595604878402,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            94,
+            74,
+            207,
+            246
+          ],
+          "candidateBounds": [
+            93,
+            75,
+            206,
+            247
+          ]
+        },
+        {
+          "alphaIou": 0.9860298030867483,
+          "centroidDeltaPx": 0.33940028605190525,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            92,
+            72,
+            200,
+            245
+          ],
+          "candidateBounds": [
+            92,
+            72,
+            200,
+            245
+          ]
+        },
+        {
+          "alphaIou": 0.9567365469355054,
+          "centroidDeltaPx": 0.6375621811263817,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            93,
+            72,
+            193,
+            246
+          ],
+          "candidateBounds": [
+            94,
+            73,
+            193,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9960663107614498,
+          "centroidDeltaPx": 0.07910822668031613,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            88,
+            73,
+            181,
+            246
+          ],
+          "candidateBounds": [
+            88,
+            73,
+            180,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9690752304490039,
+          "centroidDeltaPx": 0.48377932615550545,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            88,
+            72,
+            166,
+            245
+          ],
+          "candidateBounds": [
+            87,
+            72,
+            166,
+            245
+          ]
+        },
+        {
+          "alphaIou": 0.9724087591240876,
+          "centroidDeltaPx": 0.5165263285586101,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            89,
+            72,
+            170,
+            245
+          ],
+          "candidateBounds": [
+            89,
+            71,
+            169,
+            245
+          ]
+        },
+        {
+          "alphaIou": 0.9923416789396171,
+          "centroidDeltaPx": 0.11727102089742829,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            88,
+            73,
+            171,
+            246
+          ],
+          "candidateBounds": [
+            88,
+            72,
+            171,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.971453667105841,
+          "centroidDeltaPx": 0.4898191224725643,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            88,
+            72,
+            172,
+            246
+          ],
+          "candidateBounds": [
+            87,
+            73,
+            171,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9635615633264767,
+          "centroidDeltaPx": 0.6935810628322377,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            88,
+            72,
+            173,
+            246
+          ],
+          "candidateBounds": [
+            87,
+            72,
+            172,
+            245
+          ]
+        },
+        {
+          "alphaIou": 0.9846754807692307,
+          "centroidDeltaPx": 0.2548121698353065,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            88,
+            72,
+            173,
+            246
+          ],
+          "candidateBounds": [
+            88,
+            72,
+            173,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.982685297691373,
+          "centroidDeltaPx": 0.1872631646514437,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            88,
+            71,
+            172,
+            246
+          ],
+          "candidateBounds": [
+            88,
+            72,
+            172,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9721418785203227,
+          "centroidDeltaPx": 0.42980715493678523,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            88,
+            70,
+            171,
+            246
+          ],
+          "candidateBounds": [
+            87,
+            71,
+            171,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9616376042456406,
+          "centroidDeltaPx": 0.5410551266801977,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            88,
+            70,
+            171,
+            246
+          ],
+          "candidateBounds": [
+            88,
+            71,
+            172,
+            247
+          ]
+        }
+      ],
+      "packedAlphaAuthority": "sprites/character/survival-character-blender-v2/runtime/survival-character-blender-v2-dig-up-piskel-polished-sheet.png"
+    },
+    "mining-down": {
+      "passed": true,
+      "frames": 37,
+      "candidateFrameStart": 4,
+      "renderScale": 0.95,
+      "minimumAlphaIou": 0.9558865654540246,
+      "maximumCentroidDeltaPx": 0.5810489451202706,
+      "maximumBoundsDeltaPx": 2,
+      "maximumRigidRootTranslationPx": 25,
+      "rigidRootTranslations": [
+        {
+          "x": -4,
+          "y": 20
+        },
+        {
+          "x": -4,
+          "y": 20
+        },
+        {
+          "x": -4,
+          "y": 21
+        },
+        {
+          "x": -4,
+          "y": 21
+        },
+        {
+          "x": -4,
+          "y": 22
+        },
+        {
+          "x": -4,
+          "y": 22
+        },
+        {
+          "x": -4,
+          "y": 23
+        },
+        {
+          "x": -4,
+          "y": 24
+        },
+        {
+          "x": -4,
+          "y": 24
+        },
+        {
+          "x": -4,
+          "y": 25
+        },
+        {
+          "x": -4,
+          "y": 25
+        },
+        {
+          "x": -4,
+          "y": 25
+        },
+        {
+          "x": -4,
+          "y": 25
+        },
+        {
+          "x": -4,
+          "y": 25
+        },
+        {
+          "x": -4,
+          "y": 25
+        },
+        {
+          "x": -4,
+          "y": 25
+        },
+        {
+          "x": -4,
+          "y": 25
+        },
+        {
+          "x": -4,
+          "y": 25
+        },
+        {
+          "x": -4,
+          "y": 25
+        },
+        {
+          "x": -4,
+          "y": 25
+        },
+        {
+          "x": -4,
+          "y": 25
+        },
+        {
+          "x": -4,
+          "y": 25
+        },
+        {
+          "x": -4,
+          "y": 25
+        },
+        {
+          "x": -4,
+          "y": 24
+        },
+        {
+          "x": -4,
+          "y": 25
+        },
+        {
+          "x": -4,
+          "y": 25
+        },
+        {
+          "x": -4,
+          "y": 25
+        },
+        {
+          "x": -4,
+          "y": 24
+        },
+        {
+          "x": -4,
+          "y": 24
+        },
+        {
+          "x": -4,
+          "y": 23
+        },
+        {
+          "x": -4,
+          "y": 22
+        },
+        {
+          "x": -4,
+          "y": 21
+        },
+        {
+          "x": -4,
+          "y": 21
+        },
+        {
+          "x": -4,
+          "y": 20
+        },
+        {
+          "x": -4,
+          "y": 20
+        },
+        {
+          "x": -4,
+          "y": 20
+        },
+        {
+          "x": -4,
+          "y": 20
+        }
+      ],
+      "rawFrameMetrics": [
+        {
+          "alphaIou": 0.4695725415877027,
+          "centroidDeltaPx": 20.314084447438148,
+          "boundsDeltaPx": 20,
+          "legacyBounds": [
+            77,
+            72,
+            175,
+            246
+          ],
+          "candidateBounds": [
+            81,
+            52,
+            178,
+            226
+          ]
+        },
+        {
+          "alphaIou": 0.4198796962824179,
+          "centroidDeltaPx": 20.76205266925479,
+          "boundsDeltaPx": 20,
+          "legacyBounds": [
+            70,
+            75,
+            186,
+            246
+          ],
+          "candidateBounds": [
+            74,
+            55,
+            190,
+            226
+          ]
+        },
+        {
+          "alphaIou": 0.3843688130479872,
+          "centroidDeltaPx": 21.17881506125023,
+          "boundsDeltaPx": 21,
+          "legacyBounds": [
+            64,
+            79,
+            193,
+            246
+          ],
+          "candidateBounds": [
+            68,
+            58,
+            197,
+            225
+          ]
+        },
+        {
+          "alphaIou": 0.370542212518195,
+          "centroidDeltaPx": 21.440822108048796,
+          "boundsDeltaPx": 21,
+          "legacyBounds": [
+            64,
+            83,
+            195,
+            246
+          ],
+          "candidateBounds": [
+            67,
+            62,
+            199,
+            225
+          ]
+        },
+        {
+          "alphaIou": 0.3827216985448888,
+          "centroidDeltaPx": 21.918580128664995,
+          "boundsDeltaPx": 22,
+          "legacyBounds": [
+            78,
+            82,
+            199,
+            246
+          ],
+          "candidateBounds": [
+            82,
+            61,
+            203,
+            224
+          ]
+        },
+        {
+          "alphaIou": 0.4562359730682911,
+          "centroidDeltaPx": 22.409038803402588,
+          "boundsDeltaPx": 22,
+          "legacyBounds": [
+            94,
+            71,
+            173,
+            246
+          ],
+          "candidateBounds": [
+            98,
+            49,
+            177,
+            224
+          ]
+        },
+        {
+          "alphaIou": 0.46088511399195353,
+          "centroidDeltaPx": 23.70920791392632,
+          "boundsDeltaPx": 24,
+          "legacyBounds": [
+            99,
+            70,
+            173,
+            246
+          ],
+          "candidateBounds": [
+            102,
+            46,
+            176,
+            223
+          ]
+        },
+        {
+          "alphaIou": 0.32243925678894714,
+          "centroidDeltaPx": 23.866238145508195,
+          "boundsDeltaPx": 24,
+          "legacyBounds": [
+            82,
+            105,
+            230,
+            246
+          ],
+          "candidateBounds": [
+            85,
+            81,
+            233,
+            223
+          ]
+        },
+        {
+          "alphaIou": 0.3177487476672233,
+          "centroidDeltaPx": 24.250732406506007,
+          "boundsDeltaPx": 24,
+          "legacyBounds": [
+            90,
+            116,
+            235,
+            246
+          ],
+          "candidateBounds": [
+            94,
+            92,
+            238,
+            222
+          ]
+        },
+        {
+          "alphaIou": 0.3198097936058276,
+          "centroidDeltaPx": 24.887657301369117,
+          "boundsDeltaPx": 25,
+          "legacyBounds": [
+            101,
+            122,
+            216,
+            246
+          ],
+          "candidateBounds": [
+            105,
+            97,
+            220,
+            221
+          ]
+        },
+        {
+          "alphaIou": 0.326133688197359,
+          "centroidDeltaPx": 25.382372139861932,
+          "boundsDeltaPx": 25,
+          "legacyBounds": [
+            102,
+            123,
+            210,
+            246
+          ],
+          "candidateBounds": [
+            106,
+            98,
+            213,
+            221
+          ]
+        },
+        {
+          "alphaIou": 0.3356483880999274,
+          "centroidDeltaPx": 25.517070851358458,
+          "boundsDeltaPx": 25,
+          "legacyBounds": [
+            102,
+            123,
+            206,
+            246
+          ],
+          "candidateBounds": [
+            106,
+            98,
+            210,
+            221
+          ]
+        },
+        {
+          "alphaIou": 0.3425316191073482,
+          "centroidDeltaPx": 25.501427450009643,
+          "boundsDeltaPx": 25,
+          "legacyBounds": [
+            102,
+            123,
+            204,
+            246
+          ],
+          "candidateBounds": [
+            106,
+            98,
+            208,
+            221
+          ]
+        },
+        {
+          "alphaIou": 0.34717416378316035,
+          "centroidDeltaPx": 25.305467917270732,
+          "boundsDeltaPx": 25,
+          "legacyBounds": [
+            102,
+            123,
+            203,
+            246
+          ],
+          "candidateBounds": [
+            106,
+            98,
+            207,
+            221
+          ]
+        },
+        {
+          "alphaIou": 0.34894957983193275,
+          "centroidDeltaPx": 25.359162005822554,
+          "boundsDeltaPx": 25,
+          "legacyBounds": [
+            102,
+            123,
+            203,
+            246
+          ],
+          "candidateBounds": [
+            105,
+            98,
+            206,
+            221
+          ]
+        },
+        {
+          "alphaIou": 0.35141088849260466,
+          "centroidDeltaPx": 25.44305222190035,
+          "boundsDeltaPx": 25,
+          "legacyBounds": [
+            101,
+            123,
+            202,
+            245
+          ],
+          "candidateBounds": [
+            105,
+            98,
+            206,
+            221
+          ]
+        },
+        {
+          "alphaIou": 0.35176089455533494,
+          "centroidDeltaPx": 25.52405067470451,
+          "boundsDeltaPx": 26,
+          "legacyBounds": [
+            101,
+            123,
+            202,
+            245
+          ],
+          "candidateBounds": [
+            105,
+            97,
+            205,
+            221
+          ]
+        },
+        {
+          "alphaIou": 0.3524828589237482,
+          "centroidDeltaPx": 25.51333086568037,
+          "boundsDeltaPx": 25,
+          "legacyBounds": [
+            101,
+            122,
+            201,
+            245
+          ],
+          "candidateBounds": [
+            105,
+            97,
+            205,
+            221
+          ]
+        },
+        {
+          "alphaIou": 0.3532502317914907,
+          "centroidDeltaPx": 25.460152011911568,
+          "boundsDeltaPx": 26,
+          "legacyBounds": [
+            101,
+            122,
+            201,
+            245
+          ],
+          "candidateBounds": [
+            105,
+            96,
+            205,
+            221
+          ]
+        },
+        {
+          "alphaIou": 0.3542938542938543,
+          "centroidDeltaPx": 25.34473364290146,
+          "boundsDeltaPx": 25,
+          "legacyBounds": [
+            100,
+            121,
+            200,
+            245
+          ],
+          "candidateBounds": [
+            104,
+            96,
+            204,
+            221
+          ]
+        },
+        {
+          "alphaIou": 0.3524696924155896,
+          "centroidDeltaPx": 25.32279256568631,
+          "boundsDeltaPx": 26,
+          "legacyBounds": [
+            100,
+            121,
+            201,
+            246
+          ],
+          "candidateBounds": [
+            104,
+            95,
+            205,
+            221
+          ]
+        },
+        {
+          "alphaIou": 0.34961591491038013,
+          "centroidDeltaPx": 25.438769563455118,
+          "boundsDeltaPx": 25,
+          "legacyBounds": [
+            99,
+            120,
+            202,
+            246
+          ],
+          "candidateBounds": [
+            103,
+            95,
+            205,
+            221
+          ]
+        },
+        {
+          "alphaIou": 0.3449696018827221,
+          "centroidDeltaPx": 25.35102027438922,
+          "boundsDeltaPx": 26,
+          "legacyBounds": [
+            99,
+            120,
+            200,
+            246
+          ],
+          "candidateBounds": [
+            102,
+            94,
+            203,
+            221
+          ]
+        },
+        {
+          "alphaIou": 0.35074183976261125,
+          "centroidDeltaPx": 24.6933984877989,
+          "boundsDeltaPx": 25,
+          "legacyBounds": [
+            94,
+            118,
+            197,
+            245
+          ],
+          "candidateBounds": [
+            98,
+            93,
+            200,
+            221
+          ]
+        },
+        {
+          "alphaIou": 0.3478044903636002,
+          "centroidDeltaPx": 25.34977038153787,
+          "boundsDeltaPx": 26,
+          "legacyBounds": [
+            90,
+            117,
+            194,
+            246
+          ],
+          "candidateBounds": [
+            92,
+            91,
+            197,
+            221
+          ]
+        },
+        {
+          "alphaIou": 0.36835662552279913,
+          "centroidDeltaPx": 25.490517781434406,
+          "boundsDeltaPx": 26,
+          "legacyBounds": [
+            86,
+            115,
+            190,
+            246
+          ],
+          "candidateBounds": [
+            90,
+            89,
+            193,
+            221
+          ]
+        },
+        {
+          "alphaIou": 0.3753106876553438,
+          "centroidDeltaPx": 25.418164217736916,
+          "boundsDeltaPx": 25,
+          "legacyBounds": [
+            83,
+            109,
+            185,
+            246
+          ],
+          "candidateBounds": [
+            87,
+            84,
+            189,
+            221
+          ]
+        },
+        {
+          "alphaIou": 0.3721958925750395,
+          "centroidDeltaPx": 24.66721565564848,
+          "boundsDeltaPx": 25,
+          "legacyBounds": [
+            82,
+            102,
+            181,
+            246
+          ],
+          "candidateBounds": [
+            86,
+            77,
+            184,
+            221
+          ]
+        },
+        {
+          "alphaIou": 0.37600773943889065,
+          "centroidDeltaPx": 24.11543123899256,
+          "boundsDeltaPx": 24,
+          "legacyBounds": [
+            84,
+            95,
+            175,
+            246
+          ],
+          "candidateBounds": [
+            87,
+            71,
+            178,
+            222
+          ]
+        },
+        {
+          "alphaIou": 0.40373421197144427,
+          "centroidDeltaPx": 23.462835353173677,
+          "boundsDeltaPx": 23,
+          "legacyBounds": [
+            87,
+            88,
+            172,
+            246
+          ],
+          "candidateBounds": [
+            91,
+            65,
+            175,
+            223
+          ]
+        },
+        {
+          "alphaIou": 0.4328105607582083,
+          "centroidDeltaPx": 22.48195350758315,
+          "boundsDeltaPx": 22,
+          "legacyBounds": [
+            86,
+            82,
+            171,
+            246
+          ],
+          "candidateBounds": [
+            90,
+            60,
+            174,
+            224
+          ]
+        },
+        {
+          "alphaIou": 0.45105098130298454,
+          "centroidDeltaPx": 21.771803656596493,
+          "boundsDeltaPx": 22,
+          "legacyBounds": [
+            84,
+            78,
+            169,
+            246
+          ],
+          "candidateBounds": [
+            88,
+            56,
+            172,
+            224
+          ]
+        },
+        {
+          "alphaIou": 0.4674343288952861,
+          "centroidDeltaPx": 21.079428989253817,
+          "boundsDeltaPx": 22,
+          "legacyBounds": [
+            83,
+            75,
+            165,
+            246
+          ],
+          "candidateBounds": [
+            87,
+            53,
+            169,
+            225
+          ]
+        },
+        {
+          "alphaIou": 0.4889215326233321,
+          "centroidDeltaPx": 20.713456484070957,
+          "boundsDeltaPx": 21,
+          "legacyBounds": [
+            82,
+            72,
+            161,
+            246
+          ],
+          "candidateBounds": [
+            86,
+            51,
+            165,
+            225
+          ]
+        },
+        {
+          "alphaIou": 0.5126143952510512,
+          "centroidDeltaPx": 20.65198593241862,
+          "boundsDeltaPx": 21,
+          "legacyBounds": [
+            81,
+            71,
+            158,
+            246
+          ],
+          "candidateBounds": [
+            85,
+            50,
+            161,
+            226
+          ]
+        },
+        {
+          "alphaIou": 0.5317420644838791,
+          "centroidDeltaPx": 20.219700159780054,
+          "boundsDeltaPx": 20,
+          "legacyBounds": [
+            81,
+            70,
+            155,
+            245
+          ],
+          "candidateBounds": [
+            85,
+            50,
+            159,
+            226
+          ]
+        },
+        {
+          "alphaIou": 0.5396107972379158,
+          "centroidDeltaPx": 20.320646495107326,
+          "boundsDeltaPx": 21,
+          "legacyBounds": [
+            81,
+            70,
+            154,
+            246
+          ],
+          "candidateBounds": [
+            84,
+            49,
+            157,
+            226
+          ]
+        }
+      ],
+      "frameMetrics": [
+        {
+          "alphaIou": 0.9798581560283688,
+          "centroidDeltaPx": 0.23056693015256802,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            77,
+            72,
+            175,
+            246
+          ],
+          "candidateBounds": [
+            77,
+            72,
+            174,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9619839215151929,
+          "centroidDeltaPx": 0.42663001645200727,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            70,
+            75,
+            186,
+            246
+          ],
+          "candidateBounds": [
+            70,
+            75,
+            186,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9749831876260928,
+          "centroidDeltaPx": 0.3754950365253327,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            64,
+            79,
+            193,
+            246
+          ],
+          "candidateBounds": [
+            64,
+            79,
+            193,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9780724789915967,
+          "centroidDeltaPx": 0.2920037681288635,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            64,
+            83,
+            195,
+            246
+          ],
+          "candidateBounds": [
+            63,
+            83,
+            195,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9662935970848516,
+          "centroidDeltaPx": 0.48428230073401773,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            78,
+            82,
+            199,
+            246
+          ],
+          "candidateBounds": [
+            78,
+            83,
+            199,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9770748694138132,
+          "centroidDeltaPx": 0.230359102908838,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            94,
+            71,
+            173,
+            246
+          ],
+          "candidateBounds": [
+            94,
+            71,
+            173,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9607019649017549,
+          "centroidDeltaPx": 0.5155313200675244,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            99,
+            70,
+            173,
+            246
+          ],
+          "candidateBounds": [
+            98,
+            69,
+            172,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9564420637158162,
+          "centroidDeltaPx": 0.4922196946076272,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            82,
+            105,
+            230,
+            246
+          ],
+          "candidateBounds": [
+            81,
+            105,
+            229,
+            247
+          ]
+        },
+        {
+          "alphaIou": 0.9746835443037974,
+          "centroidDeltaPx": 0.3060413436533665,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            90,
+            116,
+            235,
+            246
+          ],
+          "candidateBounds": [
+            90,
+            116,
+            234,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9610643415514131,
+          "centroidDeltaPx": 0.5250195404680965,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            101,
+            122,
+            216,
+            246
+          ],
+          "candidateBounds": [
+            101,
+            122,
+            216,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.971841704718417,
+          "centroidDeltaPx": 0.3237072932152166,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            102,
+            123,
+            210,
+            246
+          ],
+          "candidateBounds": [
+            102,
+            123,
+            209,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9707861731416335,
+          "centroidDeltaPx": 0.38106816519513353,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            102,
+            123,
+            206,
+            246
+          ],
+          "candidateBounds": [
+            102,
+            123,
+            206,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9696365588099984,
+          "centroidDeltaPx": 0.46687423488901764,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            102,
+            123,
+            204,
+            246
+          ],
+          "candidateBounds": [
+            102,
+            123,
+            204,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9717618170656844,
+          "centroidDeltaPx": 0.2669652456667127,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            102,
+            123,
+            203,
+            246
+          ],
+          "candidateBounds": [
+            102,
+            123,
+            203,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9723544770388574,
+          "centroidDeltaPx": 0.3247220696302484,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            102,
+            123,
+            203,
+            246
+          ],
+          "candidateBounds": [
+            101,
+            123,
+            202,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9710832313341493,
+          "centroidDeltaPx": 0.41063718708741254,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            101,
+            123,
+            202,
+            245
+          ],
+          "candidateBounds": [
+            101,
+            123,
+            202,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9730018303843807,
+          "centroidDeltaPx": 0.46877144234444984,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            101,
+            123,
+            202,
+            245
+          ],
+          "candidateBounds": [
+            101,
+            122,
+            201,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9749696601941747,
+          "centroidDeltaPx": 0.4141011661722087,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            101,
+            122,
+            201,
+            245
+          ],
+          "candidateBounds": [
+            101,
+            122,
+            201,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9708927231807952,
+          "centroidDeltaPx": 0.3329568854193511,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            101,
+            122,
+            201,
+            245
+          ],
+          "candidateBounds": [
+            101,
+            121,
+            201,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9727286201274641,
+          "centroidDeltaPx": 0.2954720108595,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            100,
+            121,
+            200,
+            245
+          ],
+          "candidateBounds": [
+            100,
+            121,
+            200,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9726728043255882,
+          "centroidDeltaPx": 0.38643017004702696,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            100,
+            121,
+            201,
+            246
+          ],
+          "candidateBounds": [
+            100,
+            120,
+            201,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.971514889943893,
+          "centroidDeltaPx": 0.49362408448116213,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            99,
+            120,
+            202,
+            246
+          ],
+          "candidateBounds": [
+            99,
+            120,
+            201,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9726736660434345,
+          "centroidDeltaPx": 0.38940014170549364,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            99,
+            120,
+            200,
+            246
+          ],
+          "candidateBounds": [
+            98,
+            119,
+            199,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9558865654540246,
+          "centroidDeltaPx": 0.5810489451202706,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            94,
+            118,
+            197,
+            245
+          ],
+          "candidateBounds": [
+            94,
+            117,
+            196,
+            245
+          ]
+        },
+        {
+          "alphaIou": 0.9742433061699651,
+          "centroidDeltaPx": 0.3085199967653322,
+          "boundsDeltaPx": 2,
+          "legacyBounds": [
+            90,
+            117,
+            194,
+            246
+          ],
+          "candidateBounds": [
+            88,
+            116,
+            193,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9772995283018868,
+          "centroidDeltaPx": 0.3938764272950465,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            86,
+            115,
+            190,
+            246
+          ],
+          "candidateBounds": [
+            86,
+            114,
+            189,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9747211895910781,
+          "centroidDeltaPx": 0.28725133475664105,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            83,
+            109,
+            185,
+            246
+          ],
+          "candidateBounds": [
+            83,
+            109,
+            185,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9604273247065904,
+          "centroidDeltaPx": 0.4892069112870545,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            82,
+            102,
+            181,
+            246
+          ],
+          "candidateBounds": [
+            82,
+            101,
+            180,
+            245
+          ]
+        },
+        {
+          "alphaIou": 0.9721152364812817,
+          "centroidDeltaPx": 0.3765923131412858,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            84,
+            95,
+            175,
+            246
+          ],
+          "candidateBounds": [
+            83,
+            95,
+            174,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9675184729064039,
+          "centroidDeltaPx": 0.2507468584709596,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            87,
+            88,
+            172,
+            246
+          ],
+          "candidateBounds": [
+            87,
+            88,
+            171,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9758829936206628,
+          "centroidDeltaPx": 0.2884061122904813,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            86,
+            82,
+            171,
+            246
+          ],
+          "candidateBounds": [
+            86,
+            82,
+            170,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9593852908891328,
+          "centroidDeltaPx": 0.5308149824473035,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            84,
+            78,
+            169,
+            246
+          ],
+          "candidateBounds": [
+            84,
+            77,
+            168,
+            245
+          ]
+        },
+        {
+          "alphaIou": 0.9783311772315654,
+          "centroidDeltaPx": 0.3321613802572839,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            83,
+            75,
+            165,
+            246
+          ],
+          "candidateBounds": [
+            83,
+            74,
+            165,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9700356333009394,
+          "centroidDeltaPx": 0.40141679723104917,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            82,
+            72,
+            161,
+            246
+          ],
+          "candidateBounds": [
+            82,
+            71,
+            161,
+            245
+          ]
+        },
+        {
+          "alphaIou": 0.9705171580473658,
+          "centroidDeltaPx": 0.3553822236804792,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            81,
+            71,
+            158,
+            246
+          ],
+          "candidateBounds": [
+            81,
+            70,
+            157,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9820504527813713,
+          "centroidDeltaPx": 0.2591566043967063,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            81,
+            70,
+            155,
+            245
+          ],
+          "candidateBounds": [
+            81,
+            70,
+            155,
+            246
+          ]
+        },
+        {
+          "alphaIou": 0.9810985460420032,
+          "centroidDeltaPx": 0.20501096865074797,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            81,
+            70,
+            154,
+            246
+          ],
+          "candidateBounds": [
+            80,
+            69,
+            153,
+            246
+          ]
+        }
+      ],
+      "packedAlphaAuthority": "sprites/character/survival-ual-player-v1/runtime/survival-ual-player-v1-ground-strike-sheet.webp"
+    },
+    "flight": {
+      "passed": true,
+      "frames": 36,
+      "candidateFrameStart": 0,
+      "renderScale": 1.0,
+      "minimumAlphaIou": 0.9938488576449912,
+      "maximumCentroidDeltaPx": 0.17173243346241873,
+      "maximumBoundsDeltaPx": 1,
+      "maximumRigidRootTranslationPx": 0,
+      "rigidRootTranslations": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        }
+      ],
+      "rawFrameMetrics": [
+        {
+          "alphaIou": 0.9953030970204022,
+          "centroidDeltaPx": 0.12810925094287615,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            37,
+            102,
+            239,
+            168
+          ],
+          "candidateBounds": [
+            37,
+            102,
+            239,
+            168
+          ]
+        },
+        {
+          "alphaIou": 0.994135757220349,
+          "centroidDeltaPx": 0.17173243346241873,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            36,
+            102,
+            239,
+            168
+          ],
+          "candidateBounds": [
+            37,
+            102,
+            239,
+            168
+          ]
+        },
+        {
+          "alphaIou": 0.9947252747252747,
+          "centroidDeltaPx": 0.09371885944924215,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            36,
+            101,
+            239,
+            167
+          ],
+          "candidateBounds": [
+            36,
+            101,
+            239,
+            167
+          ]
+        },
+        {
+          "alphaIou": 0.9947252747252747,
+          "centroidDeltaPx": 0.001624477677837398,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            36,
+            101,
+            239,
+            167
+          ],
+          "candidateBounds": [
+            36,
+            101,
+            239,
+            167
+          ]
+        },
+        {
+          "alphaIou": 0.9948740480374927,
+          "centroidDeltaPx": 0.05091485512515838,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            36,
+            101,
+            239,
+            167
+          ],
+          "candidateBounds": [
+            36,
+            101,
+            239,
+            167
+          ]
+        },
+        {
+          "alphaIou": 0.9951662516478688,
+          "centroidDeltaPx": 0.1271608242851891,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            36,
+            101,
+            239,
+            167
+          ],
+          "candidateBounds": [
+            36,
+            101,
+            239,
+            167
+          ]
+        },
+        {
+          "alphaIou": 0.9953092934623278,
+          "centroidDeltaPx": 0.07113795704520946,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            36,
+            101,
+            239,
+            167
+          ],
+          "candidateBounds": [
+            36,
+            101,
+            239,
+            167
+          ]
+        },
+        {
+          "alphaIou": 0.9951655435101084,
+          "centroidDeltaPx": 0.12769499757326247,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            36,
+            100,
+            239,
+            166
+          ],
+          "candidateBounds": [
+            36,
+            100,
+            239,
+            166
+          ]
+        },
+        {
+          "alphaIou": 0.9947198591962453,
+          "centroidDeltaPx": 0.1419593874065111,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            36,
+            100,
+            239,
+            166
+          ],
+          "candidateBounds": [
+            37,
+            100,
+            239,
+            166
+          ]
+        },
+        {
+          "alphaIou": 0.9955972996771353,
+          "centroidDeltaPx": 0.06560296354204354,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            37,
+            100,
+            239,
+            166
+          ],
+          "candidateBounds": [
+            37,
+            100,
+            239,
+            166
+          ]
+        },
+        {
+          "alphaIou": 0.9954525451078187,
+          "centroidDeltaPx": 0.01842731300625036,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            37,
+            100,
+            239,
+            166
+          ],
+          "candidateBounds": [
+            37,
+            100,
+            239,
+            166
+          ]
+        },
+        {
+          "alphaIou": 0.9950153936372966,
+          "centroidDeltaPx": 0.02580677034483017,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            37,
+            100,
+            239,
+            166
+          ],
+          "candidateBounds": [
+            37,
+            100,
+            239,
+            166
+          ]
+        },
+        {
+          "alphaIou": 0.9957459292944111,
+          "centroidDeltaPx": 0.032336909972843046,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            37,
+            100,
+            239,
+            167
+          ],
+          "candidateBounds": [
+            37,
+            101,
+            239,
+            167
+          ]
+        },
+        {
+          "alphaIou": 0.9938488576449912,
+          "centroidDeltaPx": 0.08241042629148157,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            37,
+            101,
+            239,
+            167
+          ],
+          "candidateBounds": [
+            37,
+            101,
+            239,
+            167
+          ]
+        },
+        {
+          "alphaIou": 0.9945787545787546,
+          "centroidDeltaPx": 0.05131603606783804,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            37,
+            101,
+            239,
+            167
+          ],
+          "candidateBounds": [
+            37,
+            101,
+            239,
+            167
+          ]
+        },
+        {
+          "alphaIou": 0.996329467038614,
+          "centroidDeltaPx": 0.10141281543337707,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            37,
+            101,
+            239,
+            167
+          ],
+          "candidateBounds": [
+            37,
+            101,
+            239,
+            167
+          ]
+        },
+        {
+          "alphaIou": 0.9963316214233309,
+          "centroidDeltaPx": 0.06120879746581406,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            37,
+            101,
+            239,
+            167
+          ],
+          "candidateBounds": [
+            37,
+            101,
+            239,
+            167
+          ]
+        },
+        {
+          "alphaIou": 0.9961843263868506,
+          "centroidDeltaPx": 0.025852578259415455,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            37,
+            102,
+            239,
+            168
+          ],
+          "candidateBounds": [
+            37,
+            102,
+            239,
+            168
+          ]
+        },
+        {
+          "alphaIou": 0.9953030970204022,
+          "centroidDeltaPx": 0.12810925094287615,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            37,
+            102,
+            239,
+            168
+          ],
+          "candidateBounds": [
+            37,
+            102,
+            239,
+            168
+          ]
+        },
+        {
+          "alphaIou": 0.9950102729674201,
+          "centroidDeltaPx": 0.02340226796823004,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            36,
+            102,
+            239,
+            168
+          ],
+          "candidateBounds": [
+            37,
+            102,
+            239,
+            168
+          ]
+        },
+        {
+          "alphaIou": 0.9945787545787546,
+          "centroidDeltaPx": 0.14603153396017385,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            36,
+            102,
+            239,
+            168
+          ],
+          "candidateBounds": [
+            36,
+            102,
+            239,
+            168
+          ]
+        },
+        {
+          "alphaIou": 0.9942865514210372,
+          "centroidDeltaPx": 0.10723851433152583,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            36,
+            103,
+            239,
+            169
+          ],
+          "candidateBounds": [
+            36,
+            103,
+            239,
+            169
+          ]
+        },
+        {
+          "alphaIou": 0.9941400527395253,
+          "centroidDeltaPx": 0.10074841179692728,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            36,
+            103,
+            239,
+            169
+          ],
+          "candidateBounds": [
+            36,
+            103,
+            239,
+            169
+          ]
+        },
+        {
+          "alphaIou": 0.9953127288706606,
+          "centroidDeltaPx": 0.053682712096379225,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            36,
+            103,
+            239,
+            169
+          ],
+          "candidateBounds": [
+            36,
+            103,
+            239,
+            169
+          ]
+        },
+        {
+          "alphaIou": 0.9960410557184751,
+          "centroidDeltaPx": 0.06318514607590536,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            36,
+            103,
+            239,
+            169
+          ],
+          "candidateBounds": [
+            36,
+            103,
+            239,
+            169
+          ]
+        },
+        {
+          "alphaIou": 0.9960393134810034,
+          "centroidDeltaPx": 0.11363486066562102,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            36,
+            103,
+            239,
+            169
+          ],
+          "candidateBounds": [
+            36,
+            103,
+            239,
+            169
+          ]
+        },
+        {
+          "alphaIou": 0.9950124688279302,
+          "centroidDeltaPx": 0.0681350339933108,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            36,
+            103,
+            239,
+            169
+          ],
+          "candidateBounds": [
+            37,
+            103,
+            239,
+            169
+          ]
+        },
+        {
+          "alphaIou": 0.9957434316747394,
+          "centroidDeltaPx": 0.06778189305600207,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            37,
+            103,
+            239,
+            169
+          ],
+          "candidateBounds": [
+            37,
+            103,
+            239,
+            169
+          ]
+        },
+        {
+          "alphaIou": 0.9950102729674201,
+          "centroidDeltaPx": 0.06540001118379804,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            37,
+            103,
+            239,
+            169
+          ],
+          "candidateBounds": [
+            37,
+            103,
+            239,
+            169
+          ]
+        },
+        {
+          "alphaIou": 0.9958914159941306,
+          "centroidDeltaPx": 0.03379418986453761,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            37,
+            103,
+            239,
+            169
+          ],
+          "candidateBounds": [
+            37,
+            103,
+            239,
+            169
+          ]
+        },
+        {
+          "alphaIou": 0.9950146627565982,
+          "centroidDeltaPx": 0.06981598102924835,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            37,
+            103,
+            239,
+            169
+          ],
+          "candidateBounds": [
+            37,
+            103,
+            239,
+            169
+          ]
+        },
+        {
+          "alphaIou": 0.9958938260742044,
+          "centroidDeltaPx": 0.073120219653772,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            37,
+            103,
+            239,
+            169
+          ],
+          "candidateBounds": [
+            37,
+            103,
+            239,
+            169
+          ]
+        },
+        {
+          "alphaIou": 0.9950190448285965,
+          "centroidDeltaPx": 0.07903315100544393,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            37,
+            103,
+            239,
+            169
+          ],
+          "candidateBounds": [
+            37,
+            103,
+            239,
+            169
+          ]
+        },
+        {
+          "alphaIou": 0.9951627088830255,
+          "centroidDeltaPx": 0.017393391740410893,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            37,
+            103,
+            239,
+            169
+          ],
+          "candidateBounds": [
+            37,
+            103,
+            239,
+            169
+          ]
+        },
+        {
+          "alphaIou": 0.9972120322817315,
+          "centroidDeltaPx": 0.03143334112003298,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            37,
+            102,
+            239,
+            168
+          ],
+          "candidateBounds": [
+            37,
+            102,
+            239,
+            168
+          ]
+        },
+        {
+          "alphaIou": 0.995741556534508,
+          "centroidDeltaPx": 0.022645465554645895,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            37,
+            102,
+            239,
+            168
+          ],
+          "candidateBounds": [
+            37,
+            102,
+            239,
+            168
+          ]
+        }
+      ],
+      "frameMetrics": [
+        {
+          "alphaIou": 0.9953030970204022,
+          "centroidDeltaPx": 0.12810925094287615,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            37,
+            102,
+            239,
+            168
+          ],
+          "candidateBounds": [
+            37,
+            102,
+            239,
+            168
+          ]
+        },
+        {
+          "alphaIou": 0.994135757220349,
+          "centroidDeltaPx": 0.17173243346241873,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            36,
+            102,
+            239,
+            168
+          ],
+          "candidateBounds": [
+            37,
+            102,
+            239,
+            168
+          ]
+        },
+        {
+          "alphaIou": 0.9947252747252747,
+          "centroidDeltaPx": 0.09371885944924215,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            36,
+            101,
+            239,
+            167
+          ],
+          "candidateBounds": [
+            36,
+            101,
+            239,
+            167
+          ]
+        },
+        {
+          "alphaIou": 0.9947252747252747,
+          "centroidDeltaPx": 0.001624477677837398,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            36,
+            101,
+            239,
+            167
+          ],
+          "candidateBounds": [
+            36,
+            101,
+            239,
+            167
+          ]
+        },
+        {
+          "alphaIou": 0.9948740480374927,
+          "centroidDeltaPx": 0.05091485512515838,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            36,
+            101,
+            239,
+            167
+          ],
+          "candidateBounds": [
+            36,
+            101,
+            239,
+            167
+          ]
+        },
+        {
+          "alphaIou": 0.9951662516478688,
+          "centroidDeltaPx": 0.1271608242851891,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            36,
+            101,
+            239,
+            167
+          ],
+          "candidateBounds": [
+            36,
+            101,
+            239,
+            167
+          ]
+        },
+        {
+          "alphaIou": 0.9953092934623278,
+          "centroidDeltaPx": 0.07113795704520946,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            36,
+            101,
+            239,
+            167
+          ],
+          "candidateBounds": [
+            36,
+            101,
+            239,
+            167
+          ]
+        },
+        {
+          "alphaIou": 0.9951655435101084,
+          "centroidDeltaPx": 0.12769499757326247,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            36,
+            100,
+            239,
+            166
+          ],
+          "candidateBounds": [
+            36,
+            100,
+            239,
+            166
+          ]
+        },
+        {
+          "alphaIou": 0.9947198591962453,
+          "centroidDeltaPx": 0.1419593874065111,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            36,
+            100,
+            239,
+            166
+          ],
+          "candidateBounds": [
+            37,
+            100,
+            239,
+            166
+          ]
+        },
+        {
+          "alphaIou": 0.9955972996771353,
+          "centroidDeltaPx": 0.06560296354204354,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            37,
+            100,
+            239,
+            166
+          ],
+          "candidateBounds": [
+            37,
+            100,
+            239,
+            166
+          ]
+        },
+        {
+          "alphaIou": 0.9954525451078187,
+          "centroidDeltaPx": 0.01842731300625036,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            37,
+            100,
+            239,
+            166
+          ],
+          "candidateBounds": [
+            37,
+            100,
+            239,
+            166
+          ]
+        },
+        {
+          "alphaIou": 0.9950153936372966,
+          "centroidDeltaPx": 0.02580677034483017,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            37,
+            100,
+            239,
+            166
+          ],
+          "candidateBounds": [
+            37,
+            100,
+            239,
+            166
+          ]
+        },
+        {
+          "alphaIou": 0.9957459292944111,
+          "centroidDeltaPx": 0.032336909972843046,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            37,
+            100,
+            239,
+            167
+          ],
+          "candidateBounds": [
+            37,
+            101,
+            239,
+            167
+          ]
+        },
+        {
+          "alphaIou": 0.9938488576449912,
+          "centroidDeltaPx": 0.08241042629148157,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            37,
+            101,
+            239,
+            167
+          ],
+          "candidateBounds": [
+            37,
+            101,
+            239,
+            167
+          ]
+        },
+        {
+          "alphaIou": 0.9945787545787546,
+          "centroidDeltaPx": 0.05131603606783804,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            37,
+            101,
+            239,
+            167
+          ],
+          "candidateBounds": [
+            37,
+            101,
+            239,
+            167
+          ]
+        },
+        {
+          "alphaIou": 0.996329467038614,
+          "centroidDeltaPx": 0.10141281543337707,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            37,
+            101,
+            239,
+            167
+          ],
+          "candidateBounds": [
+            37,
+            101,
+            239,
+            167
+          ]
+        },
+        {
+          "alphaIou": 0.9963316214233309,
+          "centroidDeltaPx": 0.06120879746581406,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            37,
+            101,
+            239,
+            167
+          ],
+          "candidateBounds": [
+            37,
+            101,
+            239,
+            167
+          ]
+        },
+        {
+          "alphaIou": 0.9961843263868506,
+          "centroidDeltaPx": 0.025852578259415455,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            37,
+            102,
+            239,
+            168
+          ],
+          "candidateBounds": [
+            37,
+            102,
+            239,
+            168
+          ]
+        },
+        {
+          "alphaIou": 0.9953030970204022,
+          "centroidDeltaPx": 0.12810925094287615,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            37,
+            102,
+            239,
+            168
+          ],
+          "candidateBounds": [
+            37,
+            102,
+            239,
+            168
+          ]
+        },
+        {
+          "alphaIou": 0.9950102729674201,
+          "centroidDeltaPx": 0.02340226796823004,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            36,
+            102,
+            239,
+            168
+          ],
+          "candidateBounds": [
+            37,
+            102,
+            239,
+            168
+          ]
+        },
+        {
+          "alphaIou": 0.9945787545787546,
+          "centroidDeltaPx": 0.14603153396017385,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            36,
+            102,
+            239,
+            168
+          ],
+          "candidateBounds": [
+            36,
+            102,
+            239,
+            168
+          ]
+        },
+        {
+          "alphaIou": 0.9942865514210372,
+          "centroidDeltaPx": 0.10723851433152583,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            36,
+            103,
+            239,
+            169
+          ],
+          "candidateBounds": [
+            36,
+            103,
+            239,
+            169
+          ]
+        },
+        {
+          "alphaIou": 0.9941400527395253,
+          "centroidDeltaPx": 0.10074841179692728,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            36,
+            103,
+            239,
+            169
+          ],
+          "candidateBounds": [
+            36,
+            103,
+            239,
+            169
+          ]
+        },
+        {
+          "alphaIou": 0.9953127288706606,
+          "centroidDeltaPx": 0.053682712096379225,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            36,
+            103,
+            239,
+            169
+          ],
+          "candidateBounds": [
+            36,
+            103,
+            239,
+            169
+          ]
+        },
+        {
+          "alphaIou": 0.9960410557184751,
+          "centroidDeltaPx": 0.06318514607590536,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            36,
+            103,
+            239,
+            169
+          ],
+          "candidateBounds": [
+            36,
+            103,
+            239,
+            169
+          ]
+        },
+        {
+          "alphaIou": 0.9960393134810034,
+          "centroidDeltaPx": 0.11363486066562102,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            36,
+            103,
+            239,
+            169
+          ],
+          "candidateBounds": [
+            36,
+            103,
+            239,
+            169
+          ]
+        },
+        {
+          "alphaIou": 0.9950124688279302,
+          "centroidDeltaPx": 0.0681350339933108,
+          "boundsDeltaPx": 1,
+          "legacyBounds": [
+            36,
+            103,
+            239,
+            169
+          ],
+          "candidateBounds": [
+            37,
+            103,
+            239,
+            169
+          ]
+        },
+        {
+          "alphaIou": 0.9957434316747394,
+          "centroidDeltaPx": 0.06778189305600207,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            37,
+            103,
+            239,
+            169
+          ],
+          "candidateBounds": [
+            37,
+            103,
+            239,
+            169
+          ]
+        },
+        {
+          "alphaIou": 0.9950102729674201,
+          "centroidDeltaPx": 0.06540001118379804,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            37,
+            103,
+            239,
+            169
+          ],
+          "candidateBounds": [
+            37,
+            103,
+            239,
+            169
+          ]
+        },
+        {
+          "alphaIou": 0.9958914159941306,
+          "centroidDeltaPx": 0.03379418986453761,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            37,
+            103,
+            239,
+            169
+          ],
+          "candidateBounds": [
+            37,
+            103,
+            239,
+            169
+          ]
+        },
+        {
+          "alphaIou": 0.9950146627565982,
+          "centroidDeltaPx": 0.06981598102924835,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            37,
+            103,
+            239,
+            169
+          ],
+          "candidateBounds": [
+            37,
+            103,
+            239,
+            169
+          ]
+        },
+        {
+          "alphaIou": 0.9958938260742044,
+          "centroidDeltaPx": 0.073120219653772,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            37,
+            103,
+            239,
+            169
+          ],
+          "candidateBounds": [
+            37,
+            103,
+            239,
+            169
+          ]
+        },
+        {
+          "alphaIou": 0.9950190448285965,
+          "centroidDeltaPx": 0.07903315100544393,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            37,
+            103,
+            239,
+            169
+          ],
+          "candidateBounds": [
+            37,
+            103,
+            239,
+            169
+          ]
+        },
+        {
+          "alphaIou": 0.9951627088830255,
+          "centroidDeltaPx": 0.017393391740410893,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            37,
+            103,
+            239,
+            169
+          ],
+          "candidateBounds": [
+            37,
+            103,
+            239,
+            169
+          ]
+        },
+        {
+          "alphaIou": 0.9972120322817315,
+          "centroidDeltaPx": 0.03143334112003298,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            37,
+            102,
+            239,
+            168
+          ],
+          "candidateBounds": [
+            37,
+            102,
+            239,
+            168
+          ]
+        },
+        {
+          "alphaIou": 0.995741556534508,
+          "centroidDeltaPx": 0.022645465554645895,
+          "boundsDeltaPx": 0,
+          "legacyBounds": [
+            37,
+            102,
+            239,
+            168
+          ],
+          "candidateBounds": [
+            37,
+            102,
+            239,
+            168
+          ]
+        }
+      ],
+      "packedAlphaAuthority": "sprites/character/survival-character-blender-v2/runtime/survival-character-blender-v2-superman-flight-prone-v3-sheet.png"
+    }
+  }
+}

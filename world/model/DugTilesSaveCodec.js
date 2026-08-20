@@ -12,6 +12,7 @@ import { sanitizeRetentionProgressData } from "../../systems/progression/retenti
 import { sanitizePlayerPersistenceData } from "../../values/playerPersistence.js";
 import { sanitizeCampfireData } from "../../values/campfireConfig.js";
 import { sanitizeJourneySaveData } from "../../systems/progression/JourneyLedger.js";
+import { sanitizeUnderstarEndingData } from "../../values/understarEnding.js";
 import {
   SAVE_PAYLOAD_VERSION,
   sanitizeMilestoneData,
@@ -151,6 +152,7 @@ export function createDugTilesSavePayload(data) {
     celestialOverhaulData: sanitizeCelestialOverhaulData(data.celestialOverhaulData),
     milestoneData: sanitizeMilestoneData(data.milestoneData),
     starCollectionData: sanitizeStarCollectionData(data.starCollectionData),
+    understarEndingData: sanitizeUnderstarEndingData(data.understarEndingData),
   };
 }
 
@@ -190,6 +192,7 @@ export function normalizeDugTilesSavePayload(payload) {
     milestoneData: version >= SAVE_PAYLOAD_VERSION ? sanitizeMilestoneData(payload.milestoneData) : null,
     starCollectionData: version >= SAVE_PAYLOAD_VERSION
       ? sanitizeStarCollectionData(payload.starCollectionData) : null,
+    understarEndingData: sanitizeUnderstarEndingData(payload.understarEndingData),
     playerCharacterId: typeof payload.playerCharacterId === "string" ? payload.playerCharacterId : null,
   };
 }

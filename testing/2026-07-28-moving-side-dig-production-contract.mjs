@@ -70,9 +70,12 @@ assert.equal(MOVING_SIDE_DIG_ANIMATION.rollbackQuery, "movingSideDig");
 assert.equal(UAL_NATIVE_ACTION_TUNING.cadence.normal.minDurationMs, 360);
 
 for (const action of actions) {
+  const expectedBaseDisplaySize = action.baseAnimationKey === profile.quickslashAnim
+    ? profile.displaySizePxByAnimation[profile.quickslashAnim]
+    : profile.displaySizePx;
   assert.equal(
     resolvePlayerDisplaySizePx(profile, profile.displaySizePx, action.baseAnimationKey),
-    profile.displaySizePx,
+    expectedBaseDisplaySize,
   );
   assert.equal(profile.movingSideDigAnimationMap[action.baseAnimationKey], action.animationKey);
   assert.ok(profile.requiredSheets.includes(action.sheetKey));
@@ -196,11 +199,16 @@ assert.equal(select({ grounded: false }), jab.baseAnimationKey);
 assert.equal(select({ motionState: "walk-left" }), jab.baseAnimationKey);
 assert.equal(select({ aim: "UP-RIGHT" }), jab.baseAnimationKey);
 assert.equal(
-  select({ actionKind: "quickslash" }),
-  MOVING_SIDE_DIG_ANIMATION.quickslash.animationKey,
+  select({ animationKey: profile.quickslashAnim, actionKind: "quickslash" }),
+  profile.quickslashAnim,
 );
 assert.equal(
-  select({ actionKind: "quickslash", motionState: "idle", horizontalVelocity: 0 }),
+  select({
+    animationKey: profile.quickslashAnim,
+    actionKind: "quickslash",
+    motionState: "idle",
+    horizontalVelocity: 0,
+  }),
   profile.quickslashAnim,
 );
 assert.equal(select({ search: "?movingSideDig=0" }), jab.baseAnimationKey);
@@ -223,32 +231,21 @@ assert.equal(phaseLocked.resumeJogFrame, 10);
 assert.equal(phaseLocked.movingSideDigActive, true);
 assert.equal(phaseLocked.targetDirectionX, 1);
 
-assert.equal(profile.movingSideQuickslashAnimationKeys.length, 8);
-const standingQuickslashHeight = profile.displaySizePx * median(
-  profile.quickslashFrames.map((frame) => alphaHeight(runtimeManifest.actions["punch-jab"].alpha_bounds[frame])),
-) / profile.frameHeight;
-for (const variant of profile.movingSideQuickslashPhaseVariants) {
-  const registered = profile.digAnimationVariants.find(({ key }) => key === variant.animationKey);
-  assert.equal(registered?.frames.length, 16);
-  assert.equal(profile.displaySizePxByAnimation[variant.animationKey], 123);
-  const metadata = runtimeManifest.actions[variant.manifestAction];
-  const movingQuickslashHeight = MOVING_SIDE_DIG_ANIMATION.displaySizePx * median(
-    MOVING_SIDE_DIG_ANIMATION.quickslash.frameIndexes.map(
-      (frame) => alphaHeight(metadata.alpha_bounds[frame]),
-    ),
-  ) / profile.frameHeight;
-  assert.ok(
-    Math.abs(movingQuickslashHeight - standingQuickslashHeight) < 3,
-    `${variant.id} apparent size drift exceeds 3 px`,
-  );
-  assert.deepEqual(resolveUalActionContact(profile, variant.animationKey, "quickslash"), {
-    textureFrame: 6,
-    sequenceIndex: 4,
-    sourceAction: variant.manifestAction,
-    markerGroup: "hands",
-    visualAlignmentEnabled: false,
-  });
-}
+assert.deepEqual(profile.movingSideQuickslashAnimationKeys, [profile.quickslashAnim]);
+assert.deepEqual(profile.movingSideQuickslashPhaseVariants, []);
+const standingQuickslashDisplaySize = resolvePlayerDisplaySizePx(
+  profile,
+  profile.displaySizePx,
+  profile.quickslashAnim,
+);
+assert.equal(standingQuickslashDisplaySize, 101);
+assert.deepEqual(resolveUalActionContact(profile, profile.quickslashAnim, "quickslash"), {
+  textureFrame: 16,
+  sequenceIndex: 16,
+  sourceAction: "mixamo-hurricane-kick",
+  markerGroup: "feet",
+  visualAlignmentEnabled: false,
+});
 const phaseLockedQuickslash = resolveMovingSideDigAnimation({
   profile,
   animationKey: profile.quickslashAnim,

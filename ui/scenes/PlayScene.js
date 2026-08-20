@@ -7,8 +7,8 @@ import {
   updatePlayScenePresentationPhase,
   updatePlaySceneWorld,
   updatePlaySceneWorldPhase,
-} from "../../world/PlayScene.js?rev=20260812-stability-foundation";
-import { setupUIMethods } from "../../world/playScene/PlaySceneUI.js?rev=20260812-ui-ports";
+} from "../../world/PlayScene.js?rev=20260820-complex-dig-v1";
+import { setupUIMethods } from "../../world/playScene/PlaySceneUI.js?rev=20260818-feedback-session-v1";
 import { SceneModeController } from "../../systems/runtime/SceneModeController.js";
 import { SceneLifecycleRegistry } from "../../systems/runtime/SceneLifecycleRegistry.js";
 import { FramePhaseScheduler } from "../../systems/runtime/FramePhaseScheduler.js";

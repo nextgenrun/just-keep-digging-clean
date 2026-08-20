@@ -1,0 +1,3473 @@
+{
+  "generatedAt": "2026-08-14T16:58:19.291Z",
+  "profile": {
+    "characterId": "survivalUal",
+    "version": "survival-blender-v2-approved-quality-v1-20260814",
+    "renderPipeline": "survival-blender-v2-piskel-central-animation-polish-v2-superman-prone-v3-quality-v1",
+    "frameWidth": 256,
+    "frameHeight": 256,
+    "defaultDisplaySizePx": 109,
+    "defaultOrigin": {
+      "x": 0.5,
+      "y": 0.96484375
+    },
+    "groundedGaitRole": "run",
+    "kinematicMotion": {
+      "enabled": true,
+      "anchor": {
+        "ualGroundedOffsetPx": 0,
+        "legacyGroundedOffsetPx": 6
+      },
+      "sampling": {
+        "maxDeltaMs": 100,
+        "maxDisplacementTiles": 1.5,
+        "responsePerSecond": 18,
+        "zeroSpeedEpsilonPxPerSec": 4
+      },
+      "locomotion": {
+        "walk": {
+          "strideTilesPerCycle": 1.55,
+          "minTimeScale": 0.75,
+          "maxTimeScale": 2.8
+        },
+        "run": {
+          "strideTilesPerCycle": 1.55,
+          "minTimeScale": 0.75,
+          "maxTimeScale": 2.8
+        }
+      },
+      "airborne": {
+        "fallingEnterVyPxPerSec": 70,
+        "fallingExitVyPxPerSec": 24
+      }
+    }
+  },
+  "inventory": {
+    "animations": 78,
+    "referencedFrames": 1617,
+    "uniqueSheets": 22,
+    "transitionEdges": 103
+  },
+  "coverage": {
+    "animationsMeasured": 77,
+    "sheetsLoaded": 22,
+    "missingSheets": [],
+    "transitionEdgesMeasured": 84
+  },
+  "familySummary": {
+    "transition": {
+      "animations": 11,
+      "medianVisibleHeightPx": 74.473,
+      "maxBaselineSpreadPx": 0.0,
+      "maxCenterSpreadPx": 10.81
+    },
+    "idle-pose": {
+      "animations": 18,
+      "medianVisibleHeightPx": 75.794,
+      "maxBaselineSpreadPx": 0.0,
+      "maxCenterSpreadPx": 3.123
+    },
+    "mining-combat": {
+      "animations": 26,
+      "medianVisibleHeightPx": 75.434,
+      "maxBaselineSpreadPx": 0.0,
+      "maxCenterSpreadPx": 19.373
+    },
+    "ability-other": {
+      "animations": 10,
+      "medianVisibleHeightPx": 75.914,
+      "maxBaselineSpreadPx": 0.0,
+      "maxCenterSpreadPx": 14.414
+    },
+    "locomotion": {
+      "animations": 2,
+      "medianVisibleHeightPx": 78.076,
+      "maxBaselineSpreadPx": 3.656,
+      "maxCenterSpreadPx": 7.922
+    },
+    "airborne-flight": {
+      "animations": 8,
+      "medianVisibleHeightPx": 29.805,
+      "maxBaselineSpreadPx": 1.278,
+      "maxCenterSpreadPx": 4.045
+    },
+    "reaction": {
+      "animations": 2,
+      "medianVisibleHeightPx": 58.971,
+      "maxBaselineSpreadPx": 0.0,
+      "maxCenterSpreadPx": 0.639
+    }
+  },
+  "gaitSkating": {
+    "animation": "survival-ual-player-v1-run-anim",
+    "method": "sum of left/right planted-step marker travel",
+    "markerStridePx": 104.838,
+    "markerStrideTiles": 1.115,
+    "configuredStridePx": 145.7,
+    "configuredStrideTiles": 1.55,
+    "cycleSlipProxyPx": 40.862,
+    "footMarkerRangesSourcePx": {
+      "foot_l": 103.073,
+      "foot_r": 115.127
+    }
+  },
+  "issueCounts": {
+    "medium": 10,
+    "high": 1
+  },
+  "issues": [
+    {
+      "severity": "high",
+      "animation": "survival-ual-player-v1-run-anim",
+      "finding": "foot-skating-cadence-mismatch",
+      "valuePx": 40.862
+    },
+    {
+      "severity": "medium",
+      "animation": "survival-ual-player-v1-landing-anim",
+      "finding": "small-visible-silhouette",
+      "valuePx": 57.656
+    },
+    {
+      "severity": "medium",
+      "animation": "survival-ual-player-v1-soft-landing-continuity-anim",
+      "finding": "small-visible-silhouette",
+      "valuePx": 49.969
+    },
+    {
+      "severity": "medium",
+      "animation": "survival-ual-player-v1-hard-landing-continuity-anim",
+      "finding": "small-visible-silhouette",
+      "valuePx": 49.969
+    },
+    {
+      "severity": "medium",
+      "animation": "survival-ual-player-v1-wall-brace-exit-anim",
+      "finding": "horizontal-drift",
+      "valuePx": 10.81
+    },
+    {
+      "severity": "medium",
+      "animation": "survival-ual-player-v1-walk-loop-anim",
+      "finding": "standby-baseline-variation",
+      "valuePx": 3.656
+    },
+    {
+      "severity": "medium",
+      "animation": "survival-ual-player-v1-crouch-anim",
+      "finding": "small-visible-silhouette",
+      "valuePx": 48.539
+    },
+    {
+      "severity": "medium",
+      "animation": "survival-ual-player-v1-dig-down-ground-strike-anim",
+      "finding": "small-visible-silhouette",
+      "valuePx": 56.629
+    },
+    {
+      "severity": "medium",
+      "animation": "survival-ual-player-v1-roll-anim",
+      "finding": "small-visible-silhouette",
+      "valuePx": 43.855
+    },
+    {
+      "severity": "medium",
+      "animation": "survival-ual-player-v1-thunder-ground-strike-anim",
+      "finding": "small-visible-silhouette",
+      "valuePx": 56.629
+    },
+    {
+      "severity": "medium",
+      "animation": "survival-ual-player-v1-attack-down-ground-strike-anim",
+      "finding": "small-visible-silhouette",
+      "valuePx": 56.629
+    }
+  ],
+  "animations": [
+    {
+      "key": "survival-ual-player-v1-landing-anim",
+      "family": "transition",
+      "sheetKey": "survival-ual-player-v1-landing-sheet",
+      "frameCount": 14,
+      "frameRate": 40,
+      "displaySizePx": 123,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 72.071,
+        "min": 57.656,
+        "max": 86.965,
+        "spread": 29.309
+      },
+      "centerSpreadPx": 8.408,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": null,
+      "first": {
+        "frame": 0,
+        "widthPx": 39.398,
+        "heightPx": 83.602,
+        "centerOffsetXPx": -3.844,
+        "baselineOffsetYPx": 0.48
+      },
+      "last": {
+        "frame": 38,
+        "widthPx": 36.996,
+        "heightPx": 86.965,
+        "centerOffsetXPx": -5.045,
+        "baselineOffsetYPx": 0.48
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-jog-idle-start-bridge-anim",
+      "family": "idle-pose",
+      "sheetKey": "survival-ual-player-v1-animation-polish-transitions-sheet",
+      "frameCount": 2,
+      "frameRate": 30,
+      "displaySizePx": 123,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 77.836,
+        "min": 77.836,
+        "max": 77.836,
+        "spread": 0.0
+      },
+      "centerSpreadPx": 0.0,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": null,
+      "first": {
+        "frame": 0,
+        "widthPx": 66.305,
+        "heightPx": 77.836,
+        "centerOffsetXPx": -2.402,
+        "baselineOffsetYPx": 0.48
+      },
+      "last": {
+        "frame": 1,
+        "widthPx": 66.305,
+        "heightPx": 77.836,
+        "centerOffsetXPx": -2.402,
+        "baselineOffsetYPx": 0.48
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-jog-idle-stop-phase-00-anim",
+      "family": "idle-pose",
+      "sheetKey": "survival-ual-player-v1-animation-polish-transitions-sheet",
+      "frameCount": 2,
+      "frameRate": 30,
+      "displaySizePx": 123,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 75.914,
+        "min": 74.953,
+        "max": 76.875,
+        "spread": 1.922
+      },
+      "centerSpreadPx": 0.961,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": null,
+      "first": {
+        "frame": 2,
+        "widthPx": 66.305,
+        "heightPx": 76.875,
+        "centerOffsetXPx": -2.402,
+        "baselineOffsetYPx": 0.48
+      },
+      "last": {
+        "frame": 3,
+        "widthPx": 27.867,
+        "heightPx": 74.953,
+        "centerOffsetXPx": -1.441,
+        "baselineOffsetYPx": 0.48
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-jog-idle-stop-phase-02-anim",
+      "family": "idle-pose",
+      "sheetKey": "survival-ual-player-v1-animation-polish-transitions-sheet",
+      "frameCount": 2,
+      "frameRate": 30,
+      "displaySizePx": 123,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 75.194,
+        "min": 74.953,
+        "max": 75.434,
+        "spread": 0.481
+      },
+      "centerSpreadPx": 1.681,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": null,
+      "first": {
+        "frame": 4,
+        "widthPx": 52.371,
+        "heightPx": 75.434,
+        "centerOffsetXPx": 0.24,
+        "baselineOffsetYPx": 0.48
+      },
+      "last": {
+        "frame": 5,
+        "widthPx": 27.867,
+        "heightPx": 74.953,
+        "centerOffsetXPx": -1.441,
+        "baselineOffsetYPx": 0.48
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-jog-idle-stop-phase-04-anim",
+      "family": "idle-pose",
+      "sheetKey": "survival-ual-player-v1-animation-polish-transitions-sheet",
+      "frameCount": 2,
+      "frameRate": 30,
+      "displaySizePx": 123,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 76.154,
+        "min": 74.953,
+        "max": 77.355,
+        "spread": 2.402
+      },
+      "centerSpreadPx": 2.882,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": null,
+      "first": {
+        "frame": 6,
+        "widthPx": 37.477,
+        "heightPx": 77.355,
+        "centerOffsetXPx": 1.441,
+        "baselineOffsetYPx": 0.48
+      },
+      "last": {
+        "frame": 7,
+        "widthPx": 27.867,
+        "heightPx": 74.953,
+        "centerOffsetXPx": -1.441,
+        "baselineOffsetYPx": 0.48
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-jog-idle-stop-phase-06-anim",
+      "family": "idle-pose",
+      "sheetKey": "survival-ual-player-v1-animation-polish-transitions-sheet",
+      "frameCount": 2,
+      "frameRate": 30,
+      "displaySizePx": 123,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 75.914,
+        "min": 74.953,
+        "max": 76.875,
+        "spread": 1.922
+      },
+      "centerSpreadPx": 1.442,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": null,
+      "first": {
+        "frame": 8,
+        "widthPx": 54.773,
+        "heightPx": 76.875,
+        "centerOffsetXPx": -2.883,
+        "baselineOffsetYPx": 0.48
+      },
+      "last": {
+        "frame": 9,
+        "widthPx": 27.867,
+        "heightPx": 74.953,
+        "centerOffsetXPx": -1.441,
+        "baselineOffsetYPx": 0.48
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-jog-idle-stop-phase-08-anim",
+      "family": "idle-pose",
+      "sheetKey": "survival-ual-player-v1-animation-polish-transitions-sheet",
+      "frameCount": 2,
+      "frameRate": 30,
+      "displaySizePx": 123,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 75.674,
+        "min": 74.953,
+        "max": 76.395,
+        "spread": 1.442
+      },
+      "centerSpreadPx": 0.241,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": null,
+      "first": {
+        "frame": 10,
+        "widthPx": 65.824,
+        "heightPx": 76.395,
+        "centerOffsetXPx": -1.682,
+        "baselineOffsetYPx": 0.48
+      },
+      "last": {
+        "frame": 11,
+        "widthPx": 27.867,
+        "heightPx": 74.953,
+        "centerOffsetXPx": -1.441,
+        "baselineOffsetYPx": 0.48
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-jog-idle-stop-phase-10-anim",
+      "family": "idle-pose",
+      "sheetKey": "survival-ual-player-v1-animation-polish-transitions-sheet",
+      "frameCount": 2,
+      "frameRate": 30,
+      "displaySizePx": 123,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 75.434,
+        "min": 74.953,
+        "max": 75.914,
+        "spread": 0.961
+      },
+      "centerSpreadPx": 0.48,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": null,
+      "first": {
+        "frame": 12,
+        "widthPx": 69.188,
+        "heightPx": 75.914,
+        "centerOffsetXPx": -0.961,
+        "baselineOffsetYPx": 0.48
+      },
+      "last": {
+        "frame": 13,
+        "widthPx": 27.867,
+        "heightPx": 74.953,
+        "centerOffsetXPx": -1.441,
+        "baselineOffsetYPx": 0.48
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-jog-idle-stop-phase-12-anim",
+      "family": "idle-pose",
+      "sheetKey": "survival-ual-player-v1-animation-polish-transitions-sheet",
+      "frameCount": 2,
+      "frameRate": 30,
+      "displaySizePx": 123,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 74.953,
+        "min": 74.953,
+        "max": 74.953,
+        "spread": 0.0
+      },
+      "centerSpreadPx": 0.0,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": null,
+      "first": {
+        "frame": 14,
+        "widthPx": 71.109,
+        "heightPx": 74.953,
+        "centerOffsetXPx": -1.441,
+        "baselineOffsetYPx": 0.48
+      },
+      "last": {
+        "frame": 15,
+        "widthPx": 27.867,
+        "heightPx": 74.953,
+        "centerOffsetXPx": -1.441,
+        "baselineOffsetYPx": 0.48
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-jog-idle-stop-phase-14-anim",
+      "family": "idle-pose",
+      "sheetKey": "survival-ual-player-v1-animation-polish-transitions-sheet",
+      "frameCount": 2,
+      "frameRate": 30,
+      "displaySizePx": 123,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 76.635,
+        "min": 74.953,
+        "max": 78.316,
+        "spread": 3.363
+      },
+      "centerSpreadPx": 0.721,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": null,
+      "first": {
+        "frame": 16,
+        "widthPx": 70.629,
+        "heightPx": 78.316,
+        "centerOffsetXPx": -2.162,
+        "baselineOffsetYPx": 0.48
+      },
+      "last": {
+        "frame": 17,
+        "widthPx": 27.867,
+        "heightPx": 74.953,
+        "centerOffsetXPx": -1.441,
+        "baselineOffsetYPx": 0.48
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-jog-idle-stop-phase-16-anim",
+      "family": "idle-pose",
+      "sheetKey": "survival-ual-player-v1-animation-polish-transitions-sheet",
+      "frameCount": 2,
+      "frameRate": 30,
+      "displaySizePx": 123,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 74.953,
+        "min": 74.953,
+        "max": 74.953,
+        "spread": 0.0
+      },
+      "centerSpreadPx": 2.642,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": null,
+      "first": {
+        "frame": 18,
+        "widthPx": 44.684,
+        "heightPx": 74.953,
+        "centerOffsetXPx": 1.201,
+        "baselineOffsetYPx": 0.48
+      },
+      "last": {
+        "frame": 19,
+        "widthPx": 27.867,
+        "heightPx": 74.953,
+        "centerOffsetXPx": -1.441,
+        "baselineOffsetYPx": 0.48
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-jog-idle-stop-phase-18-anim",
+      "family": "idle-pose",
+      "sheetKey": "survival-ual-player-v1-animation-polish-transitions-sheet",
+      "frameCount": 2,
+      "frameRate": 30,
+      "displaySizePx": 123,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 76.154,
+        "min": 74.953,
+        "max": 77.355,
+        "spread": 2.402
+      },
+      "centerSpreadPx": 3.123,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": null,
+      "first": {
+        "frame": 20,
+        "widthPx": 36.996,
+        "heightPx": 77.355,
+        "centerOffsetXPx": 1.682,
+        "baselineOffsetYPx": 0.48
+      },
+      "last": {
+        "frame": 21,
+        "widthPx": 27.867,
+        "heightPx": 74.953,
+        "centerOffsetXPx": -1.441,
+        "baselineOffsetYPx": 0.48
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-jog-idle-stop-phase-20-anim",
+      "family": "idle-pose",
+      "sheetKey": "survival-ual-player-v1-animation-polish-transitions-sheet",
+      "frameCount": 2,
+      "frameRate": 30,
+      "displaySizePx": 123,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 76.154,
+        "min": 74.953,
+        "max": 77.355,
+        "spread": 2.402
+      },
+      "centerSpreadPx": 1.922,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": null,
+      "first": {
+        "frame": 22,
+        "widthPx": 48.047,
+        "heightPx": 77.355,
+        "centerOffsetXPx": -3.363,
+        "baselineOffsetYPx": 0.48
+      },
+      "last": {
+        "frame": 23,
+        "widthPx": 27.867,
+        "heightPx": 74.953,
+        "centerOffsetXPx": -1.441,
+        "baselineOffsetYPx": 0.48
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-jog-idle-stop-phase-22-anim",
+      "family": "idle-pose",
+      "sheetKey": "survival-ual-player-v1-animation-polish-transitions-sheet",
+      "frameCount": 2,
+      "frameRate": 30,
+      "displaySizePx": 123,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 76.875,
+        "min": 74.953,
+        "max": 78.797,
+        "spread": 3.844
+      },
+      "centerSpreadPx": 0.721,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": null,
+      "first": {
+        "frame": 24,
+        "widthPx": 60.059,
+        "heightPx": 78.797,
+        "centerOffsetXPx": -2.162,
+        "baselineOffsetYPx": 0.48
+      },
+      "last": {
+        "frame": 25,
+        "widthPx": 27.867,
+        "heightPx": 74.953,
+        "centerOffsetXPx": -1.441,
+        "baselineOffsetYPx": 0.48
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-jog-idle-stop-phase-24-anim",
+      "family": "idle-pose",
+      "sheetKey": "survival-ual-player-v1-animation-polish-transitions-sheet",
+      "frameCount": 2,
+      "frameRate": 30,
+      "displaySizePx": 123,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 75.914,
+        "min": 74.953,
+        "max": 76.875,
+        "spread": 1.922
+      },
+      "centerSpreadPx": 0.24,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": null,
+      "first": {
+        "frame": 26,
+        "widthPx": 63.902,
+        "heightPx": 76.875,
+        "centerOffsetXPx": -1.201,
+        "baselineOffsetYPx": 0.48
+      },
+      "last": {
+        "frame": 27,
+        "widthPx": 27.867,
+        "heightPx": 74.953,
+        "centerOffsetXPx": -1.441,
+        "baselineOffsetYPx": 0.48
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-jog-idle-stop-phase-26-anim",
+      "family": "idle-pose",
+      "sheetKey": "survival-ual-player-v1-animation-polish-transitions-sheet",
+      "frameCount": 2,
+      "frameRate": 30,
+      "displaySizePx": 123,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 75.194,
+        "min": 74.953,
+        "max": 75.434,
+        "spread": 0.481
+      },
+      "centerSpreadPx": 0.241,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": null,
+      "first": {
+        "frame": 28,
+        "widthPx": 65.824,
+        "heightPx": 75.434,
+        "centerOffsetXPx": -1.682,
+        "baselineOffsetYPx": 0.48
+      },
+      "last": {
+        "frame": 29,
+        "widthPx": 27.867,
+        "heightPx": 74.953,
+        "centerOffsetXPx": -1.441,
+        "baselineOffsetYPx": 0.48
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-jab-idle-settle-anim",
+      "family": "transition",
+      "sheetKey": "survival-ual-player-v1-animation-polish-transitions-sheet",
+      "frameCount": 2,
+      "frameRate": 30,
+      "displaySizePx": 123,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 74.472,
+        "min": 73.992,
+        "max": 74.953,
+        "spread": 0.961
+      },
+      "centerSpreadPx": 0.481,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": null,
+      "first": {
+        "frame": 30,
+        "widthPx": 38.438,
+        "heightPx": 73.992,
+        "centerOffsetXPx": -1.922,
+        "baselineOffsetYPx": 0.48
+      },
+      "last": {
+        "frame": 31,
+        "widthPx": 27.867,
+        "heightPx": 74.953,
+        "centerOffsetXPx": -1.441,
+        "baselineOffsetYPx": 0.48
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-cross-idle-settle-anim",
+      "family": "transition",
+      "sheetKey": "survival-ual-player-v1-animation-polish-transitions-sheet",
+      "frameCount": 2,
+      "frameRate": 30,
+      "displaySizePx": 123,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 74.472,
+        "min": 73.992,
+        "max": 74.953,
+        "spread": 0.961
+      },
+      "centerSpreadPx": 0.241,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": null,
+      "first": {
+        "frame": 32,
+        "widthPx": 37.957,
+        "heightPx": 73.992,
+        "centerOffsetXPx": -1.682,
+        "baselineOffsetYPx": 0.48
+      },
+      "last": {
+        "frame": 33,
+        "widthPx": 27.867,
+        "heightPx": 74.953,
+        "centerOffsetXPx": -1.441,
+        "baselineOffsetYPx": 0.48
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-dig-up-idle-settle-anim",
+      "family": "transition",
+      "sheetKey": "survival-ual-player-v1-animation-polish-transitions-sheet",
+      "frameCount": 2,
+      "frameRate": 30,
+      "displaySizePx": 123,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 75.434,
+        "min": 74.953,
+        "max": 75.914,
+        "spread": 0.961
+      },
+      "centerSpreadPx": 0.481,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": null,
+      "first": {
+        "frame": 34,
+        "widthPx": 37.477,
+        "heightPx": 75.914,
+        "centerOffsetXPx": -1.922,
+        "baselineOffsetYPx": 0.48
+      },
+      "last": {
+        "frame": 35,
+        "widthPx": 27.867,
+        "heightPx": 74.953,
+        "centerOffsetXPx": -1.441,
+        "baselineOffsetYPx": 0.48
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-dig-down-idle-settle-anim",
+      "family": "transition",
+      "sheetKey": "survival-ual-player-v1-animation-polish-transitions-sheet",
+      "frameCount": 2,
+      "frameRate": 30,
+      "displaySizePx": 123,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 75.194,
+        "min": 74.953,
+        "max": 75.434,
+        "spread": 0.481
+      },
+      "centerSpreadPx": 0.0,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": null,
+      "first": {
+        "frame": 36,
+        "widthPx": 32.672,
+        "heightPx": 75.434,
+        "centerOffsetXPx": -1.441,
+        "baselineOffsetYPx": 0.48
+      },
+      "last": {
+        "frame": 37,
+        "widthPx": 27.867,
+        "heightPx": 74.953,
+        "centerOffsetXPx": -1.441,
+        "baselineOffsetYPx": 0.48
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-soft-landing-continuity-anim",
+      "family": "transition",
+      "sheetKey": "survival-ual-player-v1-animation-polish-transitions-sheet",
+      "frameCount": 5,
+      "frameRate": 40,
+      "displaySizePx": 123,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 62.941,
+        "min": 49.969,
+        "max": 75.914,
+        "spread": 25.945
+      },
+      "centerSpreadPx": 5.526,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": null,
+      "first": {
+        "frame": 38,
+        "widthPx": 35.074,
+        "heightPx": 73.031,
+        "centerOffsetXPx": -1.682,
+        "baselineOffsetYPx": 0.48
+      },
+      "last": {
+        "frame": 42,
+        "widthPx": 33.633,
+        "heightPx": 75.914,
+        "centerOffsetXPx": -1.441,
+        "baselineOffsetYPx": 0.48
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-hard-landing-continuity-anim",
+      "family": "transition",
+      "sheetKey": "survival-ual-player-v1-animation-polish-transitions-sheet",
+      "frameCount": 14,
+      "frameRate": 40,
+      "displaySizePx": 123,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 63.422,
+        "min": 49.969,
+        "max": 75.914,
+        "spread": 25.945
+      },
+      "centerSpreadPx": 6.246,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": null,
+      "first": {
+        "frame": 43,
+        "widthPx": 35.074,
+        "heightPx": 73.031,
+        "centerOffsetXPx": -1.682,
+        "baselineOffsetYPx": 0.48
+      },
+      "last": {
+        "frame": 56,
+        "widthPx": 33.633,
+        "heightPx": 75.914,
+        "centerOffsetXPx": -1.441,
+        "baselineOffsetYPx": 0.48
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-wall-brace-enter-anim",
+      "family": "transition",
+      "sheetKey": "survival-ual-player-v1-animation-polish-transitions-sheet",
+      "frameCount": 3,
+      "frameRate": 30,
+      "displaySizePx": 123,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 74.473,
+        "min": 74.473,
+        "max": 74.953,
+        "spread": 0.48
+      },
+      "centerSpreadPx": 0.721,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": null,
+      "first": {
+        "frame": 57,
+        "widthPx": 50.93,
+        "heightPx": 74.953,
+        "centerOffsetXPx": 10.09,
+        "baselineOffsetYPx": 0.48
+      },
+      "last": {
+        "frame": 59,
+        "widthPx": 49.488,
+        "heightPx": 74.473,
+        "centerOffsetXPx": 10.811,
+        "baselineOffsetYPx": 0.48
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-wall-brace-loop-anim",
+      "family": "transition",
+      "sheetKey": "survival-ual-player-v1-animation-polish-transitions-sheet",
+      "frameCount": 16,
+      "frameRate": 30,
+      "displaySizePx": 123,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 74.473,
+        "min": 74.473,
+        "max": 74.953,
+        "spread": 0.48
+      },
+      "centerSpreadPx": 5.525,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": 0.481,
+      "first": {
+        "frame": 60,
+        "widthPx": 49.488,
+        "heightPx": 74.473,
+        "centerOffsetXPx": 10.811,
+        "baselineOffsetYPx": 0.48
+      },
+      "last": {
+        "frame": 75,
+        "widthPx": 47.566,
+        "heightPx": 74.473,
+        "centerOffsetXPx": 10.33,
+        "baselineOffsetYPx": 0.48
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-wall-brace-exit-anim",
+      "family": "transition",
+      "sheetKey": "survival-ual-player-v1-animation-polish-transitions-sheet",
+      "frameCount": 3,
+      "frameRate": 30,
+      "displaySizePx": 123,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 74.953,
+        "min": 74.473,
+        "max": 74.953,
+        "spread": 0.48
+      },
+      "centerSpreadPx": 10.81,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": null,
+      "first": {
+        "frame": 76,
+        "widthPx": 49.488,
+        "heightPx": 74.473,
+        "centerOffsetXPx": 9.369,
+        "baselineOffsetYPx": 0.48
+      },
+      "last": {
+        "frame": 78,
+        "widthPx": 27.867,
+        "heightPx": 74.953,
+        "centerOffsetXPx": -1.441,
+        "baselineOffsetYPx": 0.48
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-dig-up-jab-anim",
+      "family": "mining-combat",
+      "sheetKey": "survival-ual-player-v1-animation-polish-transitions-sheet",
+      "frameCount": 24,
+      "frameRate": 30,
+      "displaySizePx": 123,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 74.473,
+        "min": 69.668,
+        "max": 75.914,
+        "spread": 6.246
+      },
+      "centerSpreadPx": 13.213,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": null,
+      "first": {
+        "frame": 79,
+        "widthPx": 55.734,
+        "heightPx": 74.953,
+        "centerOffsetXPx": -2.402,
+        "baselineOffsetYPx": 0.48
+      },
+      "last": {
+        "frame": 102,
+        "widthPx": 37.477,
+        "heightPx": 75.914,
+        "centerOffsetXPx": -1.922,
+        "baselineOffsetYPx": 0.48
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-dig-up-cross-anim",
+      "family": "mining-combat",
+      "sheetKey": "survival-ual-player-v1-animation-polish-transitions-sheet",
+      "frameCount": 24,
+      "frameRate": 30,
+      "displaySizePx": 123,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 74.473,
+        "min": 69.668,
+        "max": 75.914,
+        "spread": 6.246
+      },
+      "centerSpreadPx": 13.213,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": null,
+      "first": {
+        "frame": 79,
+        "widthPx": 55.734,
+        "heightPx": 74.953,
+        "centerOffsetXPx": -2.402,
+        "baselineOffsetYPx": 0.48
+      },
+      "last": {
+        "frame": 102,
+        "widthPx": 37.477,
+        "heightPx": 75.914,
+        "centerOffsetXPx": -1.922,
+        "baselineOffsetYPx": 0.48
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-dig-up-side-jab-anim",
+      "family": "mining-combat",
+      "sheetKey": "survival-ual-player-v1-animation-polish-transitions-sheet",
+      "frameCount": 24,
+      "frameRate": 30,
+      "displaySizePx": 123,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 74.473,
+        "min": 69.668,
+        "max": 75.914,
+        "spread": 6.246
+      },
+      "centerSpreadPx": 13.213,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": null,
+      "first": {
+        "frame": 79,
+        "widthPx": 55.734,
+        "heightPx": 74.953,
+        "centerOffsetXPx": -2.402,
+        "baselineOffsetYPx": 0.48
+      },
+      "last": {
+        "frame": 102,
+        "widthPx": 37.477,
+        "heightPx": 75.914,
+        "centerOffsetXPx": -1.922,
+        "baselineOffsetYPx": 0.48
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-dig-up-side-cross-anim",
+      "family": "mining-combat",
+      "sheetKey": "survival-ual-player-v1-animation-polish-transitions-sheet",
+      "frameCount": 24,
+      "frameRate": 30,
+      "displaySizePx": 123,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 74.473,
+        "min": 69.668,
+        "max": 75.914,
+        "spread": 6.246
+      },
+      "centerSpreadPx": 13.213,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": null,
+      "first": {
+        "frame": 79,
+        "widthPx": 55.734,
+        "heightPx": 74.953,
+        "centerOffsetXPx": -2.402,
+        "baselineOffsetYPx": 0.48
+      },
+      "last": {
+        "frame": 102,
+        "widthPx": 37.477,
+        "heightPx": 75.914,
+        "centerOffsetXPx": -1.922,
+        "baselineOffsetYPx": 0.48
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-moving-diagonal-up-phase-01-anim",
+      "family": "ability-other",
+      "sheetKey": "survival-ual-player-v1-animation-polish-diagonal-dig-sheet",
+      "frameCount": 15,
+      "frameRate": 30,
+      "displaySizePx": 123,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 75.434,
+        "min": 70.629,
+        "max": 77.355,
+        "spread": 6.726
+      },
+      "centerSpreadPx": 5.045,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": null,
+      "first": {
+        "frame": 0,
+        "widthPx": 57.176,
+        "heightPx": 75.914,
+        "centerOffsetXPx": -4.084,
+        "baselineOffsetYPx": 0.48
+      },
+      "last": {
+        "frame": 14,
+        "widthPx": 60.539,
+        "heightPx": 77.355,
+        "centerOffsetXPx": -2.402,
+        "baselineOffsetYPx": 0.48
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-moving-diagonal-up-phase-08-anim",
+      "family": "ability-other",
+      "sheetKey": "survival-ual-player-v1-animation-polish-diagonal-dig-sheet",
+      "frameCount": 15,
+      "frameRate": 30,
+      "displaySizePx": 123,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 75.914,
+        "min": 70.629,
+        "max": 76.875,
+        "spread": 6.246
+      },
+      "centerSpreadPx": 7.928,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": null,
+      "first": {
+        "frame": 15,
+        "widthPx": 66.785,
+        "heightPx": 75.914,
+        "centerOffsetXPx": -1.201,
+        "baselineOffsetYPx": 0.48
+      },
+      "last": {
+        "frame": 29,
+        "widthPx": 60.059,
+        "heightPx": 76.875,
+        "centerOffsetXPx": -2.162,
+        "baselineOffsetYPx": 0.48
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-moving-diagonal-up-phase-15-anim",
+      "family": "ability-other",
+      "sheetKey": "survival-ual-player-v1-animation-polish-diagonal-dig-sheet",
+      "frameCount": 15,
+      "frameRate": 30,
+      "displaySizePx": 123,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 75.914,
+        "min": 70.629,
+        "max": 76.875,
+        "spread": 6.246
+      },
+      "centerSpreadPx": 5.525,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": null,
+      "first": {
+        "frame": 30,
+        "widthPx": 60.539,
+        "heightPx": 76.395,
+        "centerOffsetXPx": -2.402,
+        "baselineOffsetYPx": 0.48
+      },
+      "last": {
+        "frame": 44,
+        "widthPx": 57.176,
+        "heightPx": 76.875,
+        "centerOffsetXPx": -4.084,
+        "baselineOffsetYPx": 0.48
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-moving-diagonal-up-phase-22-anim",
+      "family": "ability-other",
+      "sheetKey": "survival-ual-player-v1-animation-polish-diagonal-dig-sheet",
+      "frameCount": 15,
+      "frameRate": 30,
+      "displaySizePx": 123,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 75.914,
+        "min": 71.109,
+        "max": 76.875,
+        "spread": 5.766
+      },
+      "centerSpreadPx": 3.123,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": null,
+      "first": {
+        "frame": 45,
+        "widthPx": 60.059,
+        "heightPx": 75.914,
+        "centerOffsetXPx": -2.162,
+        "baselineOffsetYPx": 0.48
+      },
+      "last": {
+        "frame": 59,
+        "widthPx": 66.785,
+        "heightPx": 76.875,
+        "centerOffsetXPx": -1.201,
+        "baselineOffsetYPx": 0.48
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-moving-diagonal-down-phase-01-anim",
+      "family": "ability-other",
+      "sheetKey": "survival-ual-player-v1-animation-polish-diagonal-dig-sheet",
+      "frameCount": 15,
+      "frameRate": 30,
+      "displaySizePx": 123,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 75.914,
+        "min": 62.941,
+        "max": 81.199,
+        "spread": 18.258
+      },
+      "centerSpreadPx": 11.291,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": null,
+      "first": {
+        "frame": 60,
+        "widthPx": 61.5,
+        "heightPx": 75.914,
+        "centerOffsetXPx": -1.922,
+        "baselineOffsetYPx": 0.48
+      },
+      "last": {
+        "frame": 74,
+        "widthPx": 60.539,
+        "heightPx": 81.199,
+        "centerOffsetXPx": -2.402,
+        "baselineOffsetYPx": 0.48
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-moving-diagonal-down-phase-08-anim",
+      "family": "ability-other",
+      "sheetKey": "survival-ual-player-v1-animation-polish-diagonal-dig-sheet",
+      "frameCount": 15,
+      "frameRate": 30,
+      "displaySizePx": 123,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 75.914,
+        "min": 63.422,
+        "max": 81.199,
+        "spread": 17.777
+      },
+      "centerSpreadPx": 12.252,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": null,
+      "first": {
+        "frame": 75,
+        "widthPx": 66.785,
+        "heightPx": 75.914,
+        "centerOffsetXPx": -1.201,
+        "baselineOffsetYPx": 0.48
+      },
+      "last": {
+        "frame": 89,
+        "widthPx": 60.059,
+        "heightPx": 80.719,
+        "centerOffsetXPx": -2.162,
+        "baselineOffsetYPx": 0.48
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-moving-diagonal-down-phase-15-anim",
+      "family": "ability-other",
+      "sheetKey": "survival-ual-player-v1-animation-polish-diagonal-dig-sheet",
+      "frameCount": 15,
+      "frameRate": 30,
+      "displaySizePx": 123,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 75.914,
+        "min": 63.422,
+        "max": 80.719,
+        "spread": 17.297
+      },
+      "centerSpreadPx": 14.414,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": null,
+      "first": {
+        "frame": 90,
+        "widthPx": 63.422,
+        "heightPx": 76.395,
+        "centerOffsetXPx": -0.961,
+        "baselineOffsetYPx": 0.48
+      },
+      "last": {
+        "frame": 104,
+        "widthPx": 57.176,
+        "heightPx": 80.719,
+        "centerOffsetXPx": -4.084,
+        "baselineOffsetYPx": 0.48
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-moving-diagonal-down-phase-22-anim",
+      "family": "ability-other",
+      "sheetKey": "survival-ual-player-v1-animation-polish-diagonal-dig-sheet",
+      "frameCount": 15,
+      "frameRate": 30,
+      "displaySizePx": 123,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 75.914,
+        "min": 62.941,
+        "max": 80.719,
+        "spread": 17.778
+      },
+      "centerSpreadPx": 7.928,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": null,
+      "first": {
+        "frame": 105,
+        "widthPx": 61.02,
+        "heightPx": 75.914,
+        "centerOffsetXPx": -1.682,
+        "baselineOffsetYPx": 0.48
+      },
+      "last": {
+        "frame": 119,
+        "widthPx": 66.785,
+        "heightPx": 80.719,
+        "centerOffsetXPx": -1.201,
+        "baselineOffsetYPx": 0.48
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-idle-anim",
+      "family": "idle-pose",
+      "sheetKey": "survival-blender-v2-idle-sheet",
+      "frameCount": 48,
+      "frameRate": 12,
+      "displaySizePx": 101,
+      "origin": {
+        "x": 0.5,
+        "y": 0.890625
+      },
+      "visibleHeightPx": {
+        "median": 75.355,
+        "min": 75.355,
+        "max": 75.75,
+        "spread": 0.395
+      },
+      "centerSpreadPx": 0.197,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": 0.0,
+      "first": {
+        "frame": 0,
+        "widthPx": 27.617,
+        "heightPx": 75.355,
+        "centerOffsetXPx": 0.0,
+        "baselineOffsetYPx": 0.0
+      },
+      "last": {
+        "frame": 47,
+        "widthPx": 27.617,
+        "heightPx": 75.355,
+        "centerOffsetXPx": 0.0,
+        "baselineOffsetYPx": 0.0
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-walk-loop-anim",
+      "family": "locomotion",
+      "sheetKey": "survival-blender-v2-walk-sheet",
+      "frameCount": 24,
+      "frameRate": 30,
+      "displaySizePx": 104,
+      "origin": {
+        "x": 0.5,
+        "y": 0.875
+      },
+      "visibleHeightPx": {
+        "median": 74.953,
+        "min": 73.531,
+        "max": 76.781,
+        "spread": 3.25
+      },
+      "centerSpreadPx": 7.922,
+      "baselineSpreadPx": 3.656,
+      "loopSeamPx": 0.732,
+      "first": {
+        "frame": 0,
+        "widthPx": 29.25,
+        "heightPx": 75.969,
+        "centerOffsetXPx": -0.406,
+        "baselineOffsetYPx": 0.812
+      },
+      "last": {
+        "frame": 23,
+        "widthPx": 34.531,
+        "heightPx": 75.562,
+        "centerOffsetXPx": 0.203,
+        "baselineOffsetYPx": 0.406
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-run-anim",
+      "family": "locomotion",
+      "sheetKey": "survival-ual-player-v1-animation-polish-run-sheet",
+      "frameCount": 28,
+      "frameRate": 30,
+      "displaySizePx": 123,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 81.199,
+        "min": 78.316,
+        "max": 83.121,
+        "spread": 4.805
+      },
+      "centerSpreadPx": 6.006,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": 0.961,
+      "first": {
+        "frame": 0,
+        "widthPx": 69.668,
+        "heightPx": 82.16,
+        "centerOffsetXPx": -2.643,
+        "baselineOffsetYPx": 0.48
+      },
+      "last": {
+        "frame": 27,
+        "widthPx": 69.668,
+        "heightPx": 82.16,
+        "centerOffsetXPx": -1.682,
+        "baselineOffsetYPx": 0.48
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-airborne-anim",
+      "family": "airborne-flight",
+      "sheetKey": "survival-ual-player-v1-airborne-sheet",
+      "frameCount": 41,
+      "frameRate": 30,
+      "displaySizePx": 109,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 71.957,
+        "min": 57.48,
+        "max": 81.324,
+        "spread": 23.844
+      },
+      "centerSpreadPx": 4.045,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": null,
+      "first": {
+        "frame": 0,
+        "widthPx": 38.32,
+        "heightPx": 57.48,
+        "centerOffsetXPx": -1.703,
+        "baselineOffsetYPx": 0.426
+      },
+      "last": {
+        "frame": 40,
+        "widthPx": 32.785,
+        "heightPx": 78.344,
+        "centerOffsetXPx": -5.748,
+        "baselineOffsetYPx": 0.426
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-falling-anim",
+      "family": "airborne-flight",
+      "sheetKey": "survival-ual-player-v1-falling-sheet",
+      "frameCount": 75,
+      "frameRate": 30,
+      "displaySizePx": 109,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 77.492,
+        "min": 76.215,
+        "max": 78.344,
+        "spread": 2.129
+      },
+      "centerSpreadPx": 0.639,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": 0.0,
+      "first": {
+        "frame": 0,
+        "widthPx": 32.785,
+        "heightPx": 78.344,
+        "centerOffsetXPx": -5.748,
+        "baselineOffsetYPx": 0.426
+      },
+      "last": {
+        "frame": 74,
+        "widthPx": 32.785,
+        "heightPx": 78.344,
+        "centerOffsetXPx": -5.748,
+        "baselineOffsetYPx": 0.426
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-fly-anim",
+      "family": "airborne-flight",
+      "sheetKey": "survival-blender-v2-fly-sheet",
+      "frameCount": 36,
+      "frameRate": 16,
+      "displaySizePx": 109,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 29.805,
+        "min": 29.805,
+        "max": 30.23,
+        "spread": 0.425
+      },
+      "centerSpreadPx": 0.213,
+      "baselineSpreadPx": 1.278,
+      "loopSeamPx": 0.0,
+      "first": {
+        "frame": 0,
+        "widthPx": 88.137,
+        "heightPx": 29.805,
+        "centerOffsetXPx": 4.045,
+        "baselineOffsetYPx": -32.785
+      },
+      "last": {
+        "frame": 35,
+        "widthPx": 88.137,
+        "heightPx": 29.805,
+        "centerOffsetXPx": 4.045,
+        "baselineOffsetYPx": -32.785
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-flight-enter-anim",
+      "family": "airborne-flight",
+      "sheetKey": "survival-blender-v2-fly-sheet",
+      "frameCount": 36,
+      "frameRate": 16,
+      "displaySizePx": 109,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 29.805,
+        "min": 29.805,
+        "max": 30.23,
+        "spread": 0.425
+      },
+      "centerSpreadPx": 0.213,
+      "baselineSpreadPx": 1.278,
+      "loopSeamPx": null,
+      "first": {
+        "frame": 0,
+        "widthPx": 88.137,
+        "heightPx": 29.805,
+        "centerOffsetXPx": 4.045,
+        "baselineOffsetYPx": -32.785
+      },
+      "last": {
+        "frame": 35,
+        "widthPx": 88.137,
+        "heightPx": 29.805,
+        "centerOffsetXPx": 4.045,
+        "baselineOffsetYPx": -32.785
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-flight-travel-enter-anim",
+      "family": "airborne-flight",
+      "sheetKey": "survival-blender-v2-fly-sheet",
+      "frameCount": 36,
+      "frameRate": 16,
+      "displaySizePx": 109,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 29.805,
+        "min": 29.805,
+        "max": 30.23,
+        "spread": 0.425
+      },
+      "centerSpreadPx": 0.213,
+      "baselineSpreadPx": 1.278,
+      "loopSeamPx": null,
+      "first": {
+        "frame": 0,
+        "widthPx": 88.137,
+        "heightPx": 29.805,
+        "centerOffsetXPx": 4.045,
+        "baselineOffsetYPx": -32.785
+      },
+      "last": {
+        "frame": 35,
+        "widthPx": 88.137,
+        "heightPx": 29.805,
+        "centerOffsetXPx": 4.045,
+        "baselineOffsetYPx": -32.785
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-flight-travel-loop-anim",
+      "family": "airborne-flight",
+      "sheetKey": "survival-blender-v2-fly-sheet",
+      "frameCount": 36,
+      "frameRate": 16,
+      "displaySizePx": 109,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 29.805,
+        "min": 29.805,
+        "max": 30.23,
+        "spread": 0.425
+      },
+      "centerSpreadPx": 0.213,
+      "baselineSpreadPx": 1.278,
+      "loopSeamPx": 0.0,
+      "first": {
+        "frame": 0,
+        "widthPx": 88.137,
+        "heightPx": 29.805,
+        "centerOffsetXPx": 4.045,
+        "baselineOffsetYPx": -32.785
+      },
+      "last": {
+        "frame": 35,
+        "widthPx": 88.137,
+        "heightPx": 29.805,
+        "centerOffsetXPx": 4.045,
+        "baselineOffsetYPx": -32.785
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-flight-hover-anim",
+      "family": "airborne-flight",
+      "sheetKey": "survival-blender-v2-fly-sheet",
+      "frameCount": 36,
+      "frameRate": 16,
+      "displaySizePx": 109,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 29.805,
+        "min": 29.805,
+        "max": 30.23,
+        "spread": 0.425
+      },
+      "centerSpreadPx": 0.213,
+      "baselineSpreadPx": 1.278,
+      "loopSeamPx": 0.0,
+      "first": {
+        "frame": 0,
+        "widthPx": 88.137,
+        "heightPx": 29.805,
+        "centerOffsetXPx": 4.045,
+        "baselineOffsetYPx": -32.785
+      },
+      "last": {
+        "frame": 35,
+        "widthPx": 88.137,
+        "heightPx": 29.805,
+        "centerOffsetXPx": 4.045,
+        "baselineOffsetYPx": -32.785
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-flight-exit-anim",
+      "family": "airborne-flight",
+      "sheetKey": "survival-blender-v2-fly-sheet",
+      "frameCount": 36,
+      "frameRate": 16,
+      "displaySizePx": 109,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 29.805,
+        "min": 29.805,
+        "max": 30.23,
+        "spread": 0.425
+      },
+      "centerSpreadPx": 0.213,
+      "baselineSpreadPx": 1.278,
+      "loopSeamPx": null,
+      "first": {
+        "frame": 0,
+        "widthPx": 88.137,
+        "heightPx": 29.805,
+        "centerOffsetXPx": 4.045,
+        "baselineOffsetYPx": -32.785
+      },
+      "last": {
+        "frame": 35,
+        "widthPx": 88.137,
+        "heightPx": 29.805,
+        "centerOffsetXPx": 4.045,
+        "baselineOffsetYPx": -32.785
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-crouch-anim",
+      "family": "idle-pose",
+      "sheetKey": "survival-ual-player-v1-crouch-sheet",
+      "frameCount": 88,
+      "frameRate": 30,
+      "displaySizePx": 109,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 48.539,
+        "min": 48.539,
+        "max": 48.965,
+        "spread": 0.426
+      },
+      "centerSpreadPx": 0.639,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": 0.213,
+      "first": {
+        "frame": 0,
+        "widthPx": 40.023,
+        "heightPx": 48.539,
+        "centerOffsetXPx": -2.129,
+        "baselineOffsetYPx": 0.426
+      },
+      "last": {
+        "frame": 87,
+        "widthPx": 40.449,
+        "heightPx": 48.539,
+        "centerOffsetXPx": -1.916,
+        "baselineOffsetYPx": 0.426
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-dig-down-ground-strike-anim",
+      "family": "mining-combat",
+      "sheetKey": "survival-ual-player-v1-ground-strike-sheet",
+      "frameCount": 37,
+      "frameRate": 30,
+      "displaySizePx": 109,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 69.828,
+        "min": 56.629,
+        "max": 80.898,
+        "spread": 24.269
+      },
+      "centerSpreadPx": 19.373,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": null,
+      "first": {
+        "frame": 4,
+        "widthPx": 34.062,
+        "heightPx": 80.473,
+        "centerOffsetXPx": -0.852,
+        "baselineOffsetYPx": 0.426
+      },
+      "last": {
+        "frame": 40,
+        "widthPx": 34.062,
+        "heightPx": 80.473,
+        "centerOffsetXPx": -4.684,
+        "baselineOffsetYPx": 0.426
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-dig-side-cross-anim",
+      "family": "mining-combat",
+      "sheetKey": "survival-ual-player-v1-punch-cross-sheet",
+      "frameCount": 31,
+      "frameRate": 30,
+      "displaySizePx": 109,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 73.66,
+        "min": 73.66,
+        "max": 74.086,
+        "spread": 0.426
+      },
+      "centerSpreadPx": 8.303,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": null,
+      "first": {
+        "frame": 0,
+        "widthPx": 37.895,
+        "heightPx": 74.086,
+        "centerOffsetXPx": -1.916,
+        "baselineOffsetYPx": 0.426
+      },
+      "last": {
+        "frame": 30,
+        "widthPx": 37.895,
+        "heightPx": 74.086,
+        "centerOffsetXPx": -1.916,
+        "baselineOffsetYPx": 0.426
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-moving-side-dig-jab-phase-01-anim",
+      "family": "mining-combat",
+      "sheetKey": "survival-ual-player-v1-moving-side-dig-phase-handoff-sheet",
+      "frameCount": 22,
+      "frameRate": 30,
+      "displaySizePx": 123,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 75.194,
+        "min": 69.668,
+        "max": 78.316,
+        "spread": 8.648
+      },
+      "centerSpreadPx": 8.889,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": null,
+      "first": {
+        "frame": 0,
+        "widthPx": 60.059,
+        "heightPx": 77.355,
+        "centerOffsetXPx": -2.643,
+        "baselineOffsetYPx": 0.48
+      },
+      "last": {
+        "frame": 21,
+        "widthPx": 71.109,
+        "heightPx": 78.316,
+        "centerOffsetXPx": -2.402,
+        "baselineOffsetYPx": 0.48
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-moving-side-dig-cross-phase-15-anim",
+      "family": "mining-combat",
+      "sheetKey": "survival-ual-player-v1-moving-side-dig-phase-handoff-sheet",
+      "frameCount": 22,
+      "frameRate": 30,
+      "displaySizePx": 123,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 75.434,
+        "min": 69.668,
+        "max": 78.316,
+        "spread": 8.648
+      },
+      "centerSpreadPx": 6.486,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": null,
+      "first": {
+        "frame": 22,
+        "widthPx": 60.539,
+        "heightPx": 76.395,
+        "centerOffsetXPx": -2.402,
+        "baselineOffsetYPx": 0.48
+      },
+      "last": {
+        "frame": 43,
+        "widthPx": 66.305,
+        "heightPx": 77.836,
+        "centerOffsetXPx": -2.402,
+        "baselineOffsetYPx": 0.48
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-moving-side-dig-jab-phase-05-anim",
+      "family": "mining-combat",
+      "sheetKey": "survival-ual-player-v1-moving-side-dig-phase-handoff-sheet",
+      "frameCount": 22,
+      "frameRate": 30,
+      "displaySizePx": 123,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 75.914,
+        "min": 68.227,
+        "max": 78.797,
+        "spread": 10.57
+      },
+      "centerSpreadPx": 3.844,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": null,
+      "first": {
+        "frame": 44,
+        "widthPx": 48.047,
+        "heightPx": 78.797,
+        "centerOffsetXPx": -1.441,
+        "baselineOffsetYPx": 0.48
+      },
+      "last": {
+        "frame": 65,
+        "widthPx": 40.359,
+        "heightPx": 77.355,
+        "centerOffsetXPx": 0.961,
+        "baselineOffsetYPx": 0.48
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-moving-side-dig-cross-phase-19-anim",
+      "family": "mining-combat",
+      "sheetKey": "survival-ual-player-v1-moving-side-dig-phase-handoff-sheet",
+      "frameCount": 22,
+      "frameRate": 30,
+      "displaySizePx": 123,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 76.395,
+        "min": 69.188,
+        "max": 78.797,
+        "spread": 9.609
+      },
+      "centerSpreadPx": 5.285,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": null,
+      "first": {
+        "frame": 66,
+        "widthPx": 42.762,
+        "heightPx": 78.316,
+        "centerOffsetXPx": -0.721,
+        "baselineOffsetYPx": 0.48
+      },
+      "last": {
+        "frame": 87,
+        "widthPx": 40.359,
+        "heightPx": 77.355,
+        "centerOffsetXPx": 0.961,
+        "baselineOffsetYPx": 0.48
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-moving-side-dig-jab-anim",
+      "family": "mining-combat",
+      "sheetKey": "survival-ual-player-v1-moving-side-dig-jab-sheet",
+      "frameCount": 22,
+      "frameRate": 30,
+      "displaySizePx": 123,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 76.875,
+        "min": 72.07,
+        "max": 78.797,
+        "spread": 6.727
+      },
+      "centerSpreadPx": 10.09,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": null,
+      "first": {
+        "frame": 0,
+        "widthPx": 68.707,
+        "heightPx": 77.355,
+        "centerOffsetXPx": -1.201,
+        "baselineOffsetYPx": 0.48
+      },
+      "last": {
+        "frame": 21,
+        "widthPx": 60.059,
+        "heightPx": 78.797,
+        "centerOffsetXPx": -2.162,
+        "baselineOffsetYPx": 0.48
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-moving-side-dig-cross-anim",
+      "family": "mining-combat",
+      "sheetKey": "survival-ual-player-v1-moving-side-dig-cross-sheet",
+      "frameCount": 22,
+      "frameRate": 30,
+      "displaySizePx": 123,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 77.115,
+        "min": 73.031,
+        "max": 78.797,
+        "spread": 5.766
+      },
+      "centerSpreadPx": 9.129,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": null,
+      "first": {
+        "frame": 0,
+        "widthPx": 62.941,
+        "heightPx": 78.797,
+        "centerOffsetXPx": -1.682,
+        "baselineOffsetYPx": 0.48
+      },
+      "last": {
+        "frame": 21,
+        "widthPx": 66.785,
+        "heightPx": 77.355,
+        "centerOffsetXPx": -1.201,
+        "baselineOffsetYPx": 0.48
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-moving-side-dig-cross-phase-10-anim",
+      "family": "mining-combat",
+      "sheetKey": "survival-ual-player-v1-moving-side-dig-phase-handoff-sheet",
+      "frameCount": 22,
+      "frameRate": 30,
+      "displaySizePx": 123,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 76.395,
+        "min": 73.992,
+        "max": 78.797,
+        "spread": 4.805
+      },
+      "centerSpreadPx": 9.61,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": null,
+      "first": {
+        "frame": 88,
+        "widthPx": 69.668,
+        "heightPx": 76.875,
+        "centerOffsetXPx": -1.201,
+        "baselineOffsetYPx": 0.48
+      },
+      "last": {
+        "frame": 109,
+        "widthPx": 62.941,
+        "heightPx": 78.797,
+        "centerOffsetXPx": -1.682,
+        "baselineOffsetYPx": 0.48
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-moving-side-dig-jab-phase-24-anim",
+      "family": "mining-combat",
+      "sheetKey": "survival-ual-player-v1-moving-side-dig-phase-handoff-sheet",
+      "frameCount": 22,
+      "frameRate": 30,
+      "displaySizePx": 123,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 76.875,
+        "min": 74.953,
+        "max": 77.836,
+        "spread": 2.883
+      },
+      "centerSpreadPx": 9.37,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": null,
+      "first": {
+        "frame": 110,
+        "widthPx": 64.383,
+        "heightPx": 77.836,
+        "centerOffsetXPx": -1.441,
+        "baselineOffsetYPx": 0.48
+      },
+      "last": {
+        "frame": 131,
+        "widthPx": 68.707,
+        "heightPx": 77.355,
+        "centerOffsetXPx": -1.201,
+        "baselineOffsetYPx": 0.48
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-moving-side-quickslash-jab-phase-01-anim",
+      "family": "mining-combat",
+      "sheetKey": "survival-ual-player-v1-moving-side-dig-phase-handoff-sheet",
+      "frameCount": 16,
+      "frameRate": 30,
+      "displaySizePx": 123,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 75.194,
+        "min": 70.148,
+        "max": 78.316,
+        "spread": 8.168
+      },
+      "centerSpreadPx": 8.889,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": null,
+      "first": {
+        "frame": 0,
+        "widthPx": 60.059,
+        "heightPx": 77.355,
+        "centerOffsetXPx": -2.643,
+        "baselineOffsetYPx": 0.48
+      },
+      "last": {
+        "frame": 21,
+        "widthPx": 71.109,
+        "heightPx": 78.316,
+        "centerOffsetXPx": -2.402,
+        "baselineOffsetYPx": 0.48
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-moving-side-quickslash-cross-phase-15-anim",
+      "family": "mining-combat",
+      "sheetKey": "survival-ual-player-v1-moving-side-dig-phase-handoff-sheet",
+      "frameCount": 16,
+      "frameRate": 30,
+      "displaySizePx": 123,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 75.434,
+        "min": 70.629,
+        "max": 78.316,
+        "spread": 7.687
+      },
+      "centerSpreadPx": 6.486,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": null,
+      "first": {
+        "frame": 22,
+        "widthPx": 60.539,
+        "heightPx": 76.395,
+        "centerOffsetXPx": -2.402,
+        "baselineOffsetYPx": 0.48
+      },
+      "last": {
+        "frame": 43,
+        "widthPx": 66.305,
+        "heightPx": 77.836,
+        "centerOffsetXPx": -2.402,
+        "baselineOffsetYPx": 0.48
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-moving-side-quickslash-jab-phase-05-anim",
+      "family": "mining-combat",
+      "sheetKey": "survival-ual-player-v1-moving-side-dig-phase-handoff-sheet",
+      "frameCount": 16,
+      "frameRate": 30,
+      "displaySizePx": 123,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 73.992,
+        "min": 68.227,
+        "max": 78.797,
+        "spread": 10.57
+      },
+      "centerSpreadPx": 3.844,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": null,
+      "first": {
+        "frame": 44,
+        "widthPx": 48.047,
+        "heightPx": 78.797,
+        "centerOffsetXPx": -1.441,
+        "baselineOffsetYPx": 0.48
+      },
+      "last": {
+        "frame": 65,
+        "widthPx": 40.359,
+        "heightPx": 77.355,
+        "centerOffsetXPx": 0.961,
+        "baselineOffsetYPx": 0.48
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-moving-side-quickslash-cross-phase-19-anim",
+      "family": "mining-combat",
+      "sheetKey": "survival-ual-player-v1-moving-side-dig-phase-handoff-sheet",
+      "frameCount": 16,
+      "frameRate": 30,
+      "displaySizePx": 123,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 74.713,
+        "min": 69.188,
+        "max": 78.797,
+        "spread": 9.609
+      },
+      "centerSpreadPx": 5.285,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": null,
+      "first": {
+        "frame": 66,
+        "widthPx": 42.762,
+        "heightPx": 78.316,
+        "centerOffsetXPx": -0.721,
+        "baselineOffsetYPx": 0.48
+      },
+      "last": {
+        "frame": 87,
+        "widthPx": 40.359,
+        "heightPx": 77.355,
+        "centerOffsetXPx": 0.961,
+        "baselineOffsetYPx": 0.48
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-moving-side-quickslash-anim",
+      "family": "mining-combat",
+      "sheetKey": "survival-ual-player-v1-moving-side-dig-jab-sheet",
+      "frameCount": 16,
+      "frameRate": 30,
+      "displaySizePx": 123,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 76.394,
+        "min": 72.07,
+        "max": 78.797,
+        "spread": 6.727
+      },
+      "centerSpreadPx": 10.09,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": null,
+      "first": {
+        "frame": 0,
+        "widthPx": 68.707,
+        "heightPx": 77.355,
+        "centerOffsetXPx": -1.201,
+        "baselineOffsetYPx": 0.48
+      },
+      "last": {
+        "frame": 21,
+        "widthPx": 60.059,
+        "heightPx": 78.797,
+        "centerOffsetXPx": -2.162,
+        "baselineOffsetYPx": 0.48
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-moving-side-quickslash-cross-phase-23-anim",
+      "family": "mining-combat",
+      "sheetKey": "survival-ual-player-v1-moving-side-dig-cross-sheet",
+      "frameCount": 16,
+      "frameRate": 30,
+      "displaySizePx": 123,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 76.875,
+        "min": 73.031,
+        "max": 78.797,
+        "spread": 5.766
+      },
+      "centerSpreadPx": 9.129,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": null,
+      "first": {
+        "frame": 0,
+        "widthPx": 62.941,
+        "heightPx": 78.797,
+        "centerOffsetXPx": -1.682,
+        "baselineOffsetYPx": 0.48
+      },
+      "last": {
+        "frame": 21,
+        "widthPx": 66.785,
+        "heightPx": 77.355,
+        "centerOffsetXPx": -1.201,
+        "baselineOffsetYPx": 0.48
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-moving-side-quickslash-cross-phase-10-anim",
+      "family": "mining-combat",
+      "sheetKey": "survival-ual-player-v1-moving-side-dig-phase-handoff-sheet",
+      "frameCount": 16,
+      "frameRate": 30,
+      "displaySizePx": 123,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 76.154,
+        "min": 73.992,
+        "max": 78.797,
+        "spread": 4.805
+      },
+      "centerSpreadPx": 9.61,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": null,
+      "first": {
+        "frame": 88,
+        "widthPx": 69.668,
+        "heightPx": 76.875,
+        "centerOffsetXPx": -1.201,
+        "baselineOffsetYPx": 0.48
+      },
+      "last": {
+        "frame": 109,
+        "widthPx": 62.941,
+        "heightPx": 78.797,
+        "centerOffsetXPx": -1.682,
+        "baselineOffsetYPx": 0.48
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-moving-side-quickslash-jab-phase-24-anim",
+      "family": "mining-combat",
+      "sheetKey": "survival-ual-player-v1-moving-side-dig-phase-handoff-sheet",
+      "frameCount": 16,
+      "frameRate": 30,
+      "displaySizePx": 123,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 76.875,
+        "min": 74.953,
+        "max": 77.836,
+        "spread": 2.883
+      },
+      "centerSpreadPx": 9.129,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": null,
+      "first": {
+        "frame": 110,
+        "widthPx": 64.383,
+        "heightPx": 77.836,
+        "centerOffsetXPx": -1.441,
+        "baselineOffsetYPx": 0.48
+      },
+      "last": {
+        "frame": 131,
+        "widthPx": 68.707,
+        "heightPx": 77.355,
+        "centerOffsetXPx": -1.201,
+        "baselineOffsetYPx": 0.48
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-dig-up-look-anim",
+      "family": "mining-combat",
+      "sheetKey": "survival-ual-player-v1-thunder-charge-sheet",
+      "frameCount": 63,
+      "frameRate": 30,
+      "displaySizePx": 109,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 76.215,
+        "min": 76.215,
+        "max": 76.641,
+        "spread": 0.426
+      },
+      "centerSpreadPx": 0.638,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": 0.212,
+      "first": {
+        "frame": 0,
+        "widthPx": 52.797,
+        "heightPx": 76.641,
+        "centerOffsetXPx": 4.684,
+        "baselineOffsetYPx": 0.426
+      },
+      "last": {
+        "frame": 62,
+        "widthPx": 52.371,
+        "heightPx": 76.215,
+        "centerOffsetXPx": 4.896,
+        "baselineOffsetYPx": 0.426
+      }
+    },
+    {
+      "key": "survival-blender-v2-idle-breath-fidget-anim",
+      "family": "idle-pose",
+      "sheetKey": "survival-blender-v2-idle-sheet",
+      "frameCount": 40,
+      "frameRate": 18,
+      "displaySizePx": 101,
+      "origin": {
+        "x": 0.5,
+        "y": 0.890625
+      },
+      "visibleHeightPx": {
+        "median": 75.355,
+        "min": 75.355,
+        "max": 75.75,
+        "spread": 0.395
+      },
+      "centerSpreadPx": 0.197,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": null,
+      "first": {
+        "frame": 8,
+        "widthPx": 27.617,
+        "heightPx": 75.75,
+        "centerOffsetXPx": 0.0,
+        "baselineOffsetYPx": 0.0
+      },
+      "last": {
+        "frame": 47,
+        "widthPx": 27.617,
+        "heightPx": 75.355,
+        "centerOffsetXPx": 0.0,
+        "baselineOffsetYPx": 0.0
+      }
+    },
+    {
+      "key": "survival-blender-v2-idle-settle-fidget-anim",
+      "family": "transition",
+      "sheetKey": "survival-blender-v2-idle-sheet",
+      "frameCount": 20,
+      "frameRate": 18,
+      "displaySizePx": 101,
+      "origin": {
+        "x": 0.5,
+        "y": 0.890625
+      },
+      "visibleHeightPx": {
+        "median": 75.75,
+        "min": 75.355,
+        "max": 75.75,
+        "spread": 0.395
+      },
+      "centerSpreadPx": 0.0,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": null,
+      "first": {
+        "frame": 28,
+        "widthPx": 27.617,
+        "heightPx": 75.355,
+        "centerOffsetXPx": 0.0,
+        "baselineOffsetYPx": 0.0
+      },
+      "last": {
+        "frame": 47,
+        "widthPx": 27.617,
+        "heightPx": 75.355,
+        "centerOffsetXPx": 0.0,
+        "baselineOffsetYPx": 0.0
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-punch-jab-anim",
+      "family": "mining-combat",
+      "sheetKey": "survival-ual-player-v1-punch-jab-sheet",
+      "frameCount": 15,
+      "frameRate": 30,
+      "displaySizePx": 109,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 77.918,
+        "min": 77.918,
+        "max": 77.918,
+        "spread": 0.0
+      },
+      "centerSpreadPx": 10.858,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": null,
+      "first": {
+        "frame": 3,
+        "widthPx": 40.023,
+        "heightPx": 77.918,
+        "centerOffsetXPx": -2.555,
+        "baselineOffsetYPx": 0.426
+      },
+      "last": {
+        "frame": 17,
+        "widthPx": 40.023,
+        "heightPx": 77.918,
+        "centerOffsetXPx": 0.0,
+        "baselineOffsetYPx": 0.426
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-roll-anim",
+      "family": "ability-other",
+      "sheetKey": "survival-ual-player-v1-teleport-sheet",
+      "frameCount": 45,
+      "frameRate": 30,
+      "displaySizePx": 109,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 57.906,
+        "min": 37.469,
+        "max": 77.066,
+        "spread": 39.597
+      },
+      "centerSpreadPx": 13.838,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": null,
+      "first": {
+        "frame": 0,
+        "widthPx": 36.617,
+        "heightPx": 57.906,
+        "centerOffsetXPx": -2.555,
+        "baselineOffsetYPx": 0.426
+      },
+      "last": {
+        "frame": 44,
+        "widthPx": 32.785,
+        "heightPx": 77.066,
+        "centerOffsetXPx": -4.471,
+        "baselineOffsetYPx": 0.426
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-spell-charge-anim",
+      "family": "ability-other",
+      "sheetKey": "survival-ual-player-v1-thunder-charge-sheet",
+      "frameCount": 30,
+      "frameRate": 30,
+      "displaySizePx": 109,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 76.641,
+        "min": 76.215,
+        "max": 76.641,
+        "spread": 0.426
+      },
+      "centerSpreadPx": 0.638,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": null,
+      "first": {
+        "frame": 0,
+        "widthPx": 52.797,
+        "heightPx": 76.641,
+        "centerOffsetXPx": 4.684,
+        "baselineOffsetYPx": 0.426
+      },
+      "last": {
+        "frame": 29,
+        "widthPx": 51.52,
+        "heightPx": 76.215,
+        "centerOffsetXPx": 5.322,
+        "baselineOffsetYPx": 0.426
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-thunder-ground-strike-anim",
+      "family": "mining-combat",
+      "sheetKey": "survival-ual-player-v1-ground-strike-sheet",
+      "frameCount": 34,
+      "frameRate": 42,
+      "displaySizePx": 109,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 64.293,
+        "min": 56.629,
+        "max": 80.473,
+        "spread": 23.844
+      },
+      "centerSpreadPx": 19.373,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": null,
+      "first": {
+        "frame": 7,
+        "widthPx": 40.023,
+        "heightPx": 80.047,
+        "centerOffsetXPx": 0.852,
+        "baselineOffsetYPx": 0.426
+      },
+      "last": {
+        "frame": 40,
+        "widthPx": 34.062,
+        "heightPx": 80.473,
+        "centerOffsetXPx": -4.684,
+        "baselineOffsetYPx": 0.426
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-attack-down-ground-strike-anim",
+      "family": "mining-combat",
+      "sheetKey": "survival-ual-player-v1-ground-strike-sheet",
+      "frameCount": 37,
+      "frameRate": 30,
+      "displaySizePx": 109,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 69.828,
+        "min": 56.629,
+        "max": 80.898,
+        "spread": 24.269
+      },
+      "centerSpreadPx": 19.373,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": null,
+      "first": {
+        "frame": 4,
+        "widthPx": 34.062,
+        "heightPx": 80.473,
+        "centerOffsetXPx": -0.852,
+        "baselineOffsetYPx": 0.426
+      },
+      "last": {
+        "frame": 40,
+        "widthPx": 34.062,
+        "heightPx": 80.473,
+        "centerOffsetXPx": -4.684,
+        "baselineOffsetYPx": 0.426
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-hit-react-anim",
+      "family": "reaction",
+      "sheetKey": "survival-ual-player-v1-hit-react-sheet",
+      "frameCount": 11,
+      "frameRate": 30,
+      "displaySizePx": 109,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 77.066,
+        "min": 76.215,
+        "max": 77.918,
+        "spread": 1.703
+      },
+      "centerSpreadPx": 0.638,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": null,
+      "first": {
+        "frame": 0,
+        "widthPx": 34.488,
+        "heightPx": 76.215,
+        "centerOffsetXPx": -4.896,
+        "baselineOffsetYPx": 0.426
+      },
+      "last": {
+        "frame": 10,
+        "widthPx": 32.785,
+        "heightPx": 77.066,
+        "centerOffsetXPx": -4.471,
+        "baselineOffsetYPx": 0.426
+      }
+    },
+    {
+      "key": "survival-ual-player-v1-death-anim",
+      "family": "reaction",
+      "sheetKey": "survival-ual-player-v1-death-sheet",
+      "frameCount": 73,
+      "frameRate": 30,
+      "displaySizePx": 109,
+      "origin": {
+        "x": 0.5,
+        "y": 0.96484375
+      },
+      "visibleHeightPx": {
+        "median": 40.875,
+        "min": 27.25,
+        "max": 76.215,
+        "spread": 48.965
+      },
+      "centerSpreadPx": 0.639,
+      "baselineSpreadPx": 0.0,
+      "loopSeamPx": null,
+      "first": {
+        "frame": 0,
+        "widthPx": 32.785,
+        "heightPx": 76.215,
+        "centerOffsetXPx": 0.213,
+        "baselineOffsetYPx": 0.426
+      },
+      "last": {
+        "frame": 72,
+        "widthPx": 83.027,
+        "heightPx": 27.25,
+        "centerOffsetXPx": 0.213,
+        "baselineOffsetYPx": 0.426
+      }
+    }
+  ],
+  "transitions": [
+    {
+      "from": "survival-ual-player-v1-idle-anim",
+      "to": "survival-ual-player-v1-jog-idle-start-bridge-anim",
+      "reason": "movement-enter",
+      "anchorSeamPx": 2.449,
+      "visibleExtentJumpPx": 2.481
+    },
+    {
+      "from": "survival-ual-player-v1-jog-idle-start-bridge-anim",
+      "to": "survival-ual-player-v1-run-anim",
+      "reason": "start-to-gait",
+      "anchorSeamPx": 0.241,
+      "visibleExtentJumpPx": 4.324
+    },
+    {
+      "from": "survival-ual-player-v1-run-anim",
+      "to": "survival-ual-player-v1-jog-idle-stop-phase-00-anim",
+      "reason": "movement-release",
+      "anchorSeamPx": 0.72,
+      "visibleExtentJumpPx": 5.285
+    },
+    {
+      "from": "survival-ual-player-v1-jog-idle-stop-phase-00-anim",
+      "to": "survival-ual-player-v1-idle-anim",
+      "reason": "stop-to-idle",
+      "anchorSeamPx": 1.519,
+      "visibleExtentJumpPx": 0.402
+    },
+    {
+      "from": "survival-ual-player-v1-flight-enter-anim",
+      "to": "survival-ual-player-v1-flight-travel-loop-anim",
+      "reason": "flight-enter",
+      "anchorSeamPx": 0.0,
+      "visibleExtentJumpPx": 0.0
+    },
+    {
+      "from": "survival-ual-player-v1-flight-travel-loop-anim",
+      "to": "survival-ual-player-v1-flight-exit-anim",
+      "reason": "flight-exit",
+      "anchorSeamPx": 0.0,
+      "visibleExtentJumpPx": 0.0
+    },
+    {
+      "from": "survival-ual-player-v1-flight-exit-anim",
+      "to": "survival-ual-player-v1-hard-landing-continuity-anim",
+      "reason": "flight-land",
+      "anchorSeamPx": 33.754,
+      "visibleExtentJumpPx": 15.106
+    },
+    {
+      "from": "survival-ual-player-v1-airborne-anim",
+      "to": "survival-ual-player-v1-falling-anim",
+      "reason": "jump-apex",
+      "anchorSeamPx": 0.0,
+      "visibleExtentJumpPx": 0.0
+    },
+    {
+      "from": "survival-ual-player-v1-falling-anim",
+      "to": "survival-ual-player-v1-hard-landing-continuity-anim",
+      "reason": "ground-impact",
+      "anchorSeamPx": 4.066,
+      "visibleExtentJumpPx": 5.313
+    },
+    {
+      "from": "survival-ual-player-v1-punch-jab-anim",
+      "to": "survival-ual-player-v1-jab-idle-settle-anim",
+      "reason": "action-recovery",
+      "anchorSeamPx": 1.923,
+      "visibleExtentJumpPx": 3.926
+    },
+    {
+      "from": "survival-ual-player-v1-jab-idle-settle-anim",
+      "to": "survival-ual-player-v1-idle-anim",
+      "reason": "recovery-idle",
+      "anchorSeamPx": 1.519,
+      "visibleExtentJumpPx": 0.402
+    },
+    {
+      "from": "survival-ual-player-v1-dig-side-cross-anim",
+      "to": "survival-ual-player-v1-cross-idle-settle-anim",
+      "reason": "action-recovery",
+      "anchorSeamPx": 0.24,
+      "visibleExtentJumpPx": 0.094
+    },
+    {
+      "from": "survival-ual-player-v1-cross-idle-settle-anim",
+      "to": "survival-ual-player-v1-idle-anim",
+      "reason": "recovery-idle",
+      "anchorSeamPx": 1.519,
+      "visibleExtentJumpPx": 0.402
+    },
+    {
+      "from": "survival-ual-player-v1-dig-up-jab-anim",
+      "to": "survival-ual-player-v1-dig-up-idle-settle-anim",
+      "reason": "action-recovery",
+      "anchorSeamPx": 0.0,
+      "visibleExtentJumpPx": 0.0
+    },
+    {
+      "from": "survival-ual-player-v1-dig-up-idle-settle-anim",
+      "to": "survival-ual-player-v1-idle-anim",
+      "reason": "recovery-idle",
+      "anchorSeamPx": 1.519,
+      "visibleExtentJumpPx": 0.402
+    },
+    {
+      "from": "survival-ual-player-v1-dig-up-cross-anim",
+      "to": "survival-ual-player-v1-dig-up-idle-settle-anim",
+      "reason": "action-recovery",
+      "anchorSeamPx": 0.0,
+      "visibleExtentJumpPx": 0.0
+    },
+    {
+      "from": "survival-ual-player-v1-dig-up-side-jab-anim",
+      "to": "survival-ual-player-v1-dig-up-idle-settle-anim",
+      "reason": "action-recovery",
+      "anchorSeamPx": 0.0,
+      "visibleExtentJumpPx": 0.0
+    },
+    {
+      "from": "survival-ual-player-v1-dig-up-side-cross-anim",
+      "to": "survival-ual-player-v1-dig-up-idle-settle-anim",
+      "reason": "action-recovery",
+      "anchorSeamPx": 0.0,
+      "visibleExtentJumpPx": 0.0
+    },
+    {
+      "from": "survival-ual-player-v1-dig-down-ground-strike-anim",
+      "to": "survival-ual-player-v1-dig-down-idle-settle-anim",
+      "reason": "action-recovery",
+      "anchorSeamPx": 3.243,
+      "visibleExtentJumpPx": 5.039
+    },
+    {
+      "from": "survival-ual-player-v1-dig-down-idle-settle-anim",
+      "to": "survival-ual-player-v1-idle-anim",
+      "reason": "recovery-idle",
+      "anchorSeamPx": 1.519,
+      "visibleExtentJumpPx": 0.402
+    },
+    {
+      "from": "survival-ual-player-v1-moving-side-dig-jab-phase-01-anim",
+      "to": "survival-ual-player-v1-jab-idle-settle-anim",
+      "reason": "action-recovery",
+      "anchorSeamPx": 0.48,
+      "visibleExtentJumpPx": 4.324
+    },
+    {
+      "from": "survival-ual-player-v1-moving-side-dig-cross-phase-15-anim",
+      "to": "survival-ual-player-v1-cross-idle-settle-anim",
+      "reason": "action-recovery",
+      "anchorSeamPx": 0.72,
+      "visibleExtentJumpPx": 3.844
+    },
+    {
+      "from": "survival-ual-player-v1-moving-side-dig-jab-phase-05-anim",
+      "to": "survival-ual-player-v1-jab-idle-settle-anim",
+      "reason": "action-recovery",
+      "anchorSeamPx": 2.883,
+      "visibleExtentJumpPx": 3.363
+    },
+    {
+      "from": "survival-ual-player-v1-moving-side-dig-cross-phase-19-anim",
+      "to": "survival-ual-player-v1-cross-idle-settle-anim",
+      "reason": "action-recovery",
+      "anchorSeamPx": 2.643,
+      "visibleExtentJumpPx": 3.363
+    },
+    {
+      "from": "survival-ual-player-v1-moving-side-dig-jab-anim",
+      "to": "survival-ual-player-v1-jab-idle-settle-anim",
+      "reason": "action-recovery",
+      "anchorSeamPx": 0.24,
+      "visibleExtentJumpPx": 4.805
+    },
+    {
+      "from": "survival-ual-player-v1-moving-side-dig-cross-anim",
+      "to": "survival-ual-player-v1-cross-idle-settle-anim",
+      "reason": "action-recovery",
+      "anchorSeamPx": 0.481,
+      "visibleExtentJumpPx": 3.363
+    },
+    {
+      "from": "survival-ual-player-v1-moving-side-dig-cross-phase-10-anim",
+      "to": "survival-ual-player-v1-cross-idle-settle-anim",
+      "reason": "action-recovery",
+      "anchorSeamPx": 0.0,
+      "visibleExtentJumpPx": 4.805
+    },
+    {
+      "from": "survival-ual-player-v1-moving-side-dig-jab-phase-24-anim",
+      "to": "survival-ual-player-v1-jab-idle-settle-anim",
+      "reason": "action-recovery",
+      "anchorSeamPx": 0.721,
+      "visibleExtentJumpPx": 3.363
+    },
+    {
+      "from": "survival-ual-player-v1-moving-diagonal-up-phase-01-anim",
+      "to": "survival-ual-player-v1-dig-up-idle-settle-anim",
+      "reason": "action-recovery",
+      "anchorSeamPx": 0.48,
+      "visibleExtentJumpPx": 1.441
+    },
+    {
+      "from": "survival-ual-player-v1-moving-diagonal-up-phase-08-anim",
+      "to": "survival-ual-player-v1-dig-up-idle-settle-anim",
+      "reason": "action-recovery",
+      "anchorSeamPx": 0.24,
+      "visibleExtentJumpPx": 0.961
+    },
+    {
+      "from": "survival-ual-player-v1-moving-diagonal-up-phase-15-anim",
+      "to": "survival-ual-player-v1-dig-up-idle-settle-anim",
+      "reason": "action-recovery",
+      "anchorSeamPx": 2.162,
+      "visibleExtentJumpPx": 0.961
+    },
+    {
+      "from": "survival-ual-player-v1-moving-diagonal-up-phase-22-anim",
+      "to": "survival-ual-player-v1-dig-up-idle-settle-anim",
+      "reason": "action-recovery",
+      "anchorSeamPx": 0.721,
+      "visibleExtentJumpPx": 0.961
+    },
+    {
+      "from": "survival-ual-player-v1-moving-diagonal-down-phase-01-anim",
+      "to": "survival-ual-player-v1-dig-down-idle-settle-anim",
+      "reason": "action-recovery",
+      "anchorSeamPx": 0.961,
+      "visibleExtentJumpPx": 5.765
+    },
+    {
+      "from": "survival-ual-player-v1-moving-diagonal-down-phase-08-anim",
+      "to": "survival-ual-player-v1-dig-down-idle-settle-anim",
+      "reason": "action-recovery",
+      "anchorSeamPx": 0.721,
+      "visibleExtentJumpPx": 5.285
+    },
+    {
+      "from": "survival-ual-player-v1-moving-diagonal-down-phase-15-anim",
+      "to": "survival-ual-player-v1-dig-down-idle-settle-anim",
+      "reason": "action-recovery",
+      "anchorSeamPx": 2.643,
+      "visibleExtentJumpPx": 5.285
+    },
+    {
+      "from": "survival-ual-player-v1-moving-diagonal-down-phase-22-anim",
+      "to": "survival-ual-player-v1-dig-down-idle-settle-anim",
+      "reason": "action-recovery",
+      "anchorSeamPx": 0.24,
+      "visibleExtentJumpPx": 5.285
+    },
+    {
+      "from": "survival-ual-player-v1-run-anim",
+      "to": "survival-ual-player-v1-moving-diagonal-up-phase-01-anim",
+      "reason": "moving-action-enter",
+      "anchorSeamPx": 2.402,
+      "visibleExtentJumpPx": 6.246
+    },
+    {
+      "from": "survival-ual-player-v1-moving-diagonal-up-phase-01-anim",
+      "to": "survival-ual-player-v1-run-anim",
+      "reason": "moving-action-resume",
+      "anchorSeamPx": 0.241,
+      "visibleExtentJumpPx": 4.805
+    },
+    {
+      "from": "survival-ual-player-v1-run-anim",
+      "to": "survival-ual-player-v1-moving-diagonal-up-phase-08-anim",
+      "reason": "moving-action-enter",
+      "anchorSeamPx": 0.481,
+      "visibleExtentJumpPx": 6.246
+    },
+    {
+      "from": "survival-ual-player-v1-moving-diagonal-up-phase-08-anim",
+      "to": "survival-ual-player-v1-run-anim",
+      "reason": "moving-action-resume",
+      "anchorSeamPx": 0.481,
+      "visibleExtentJumpPx": 5.285
+    },
+    {
+      "from": "survival-ual-player-v1-run-anim",
+      "to": "survival-ual-player-v1-moving-diagonal-up-phase-15-anim",
+      "reason": "moving-action-enter",
+      "anchorSeamPx": 0.72,
+      "visibleExtentJumpPx": 5.765
+    },
+    {
+      "from": "survival-ual-player-v1-moving-diagonal-up-phase-15-anim",
+      "to": "survival-ual-player-v1-run-anim",
+      "reason": "moving-action-resume",
+      "anchorSeamPx": 1.441,
+      "visibleExtentJumpPx": 5.285
+    },
+    {
+      "from": "survival-ual-player-v1-run-anim",
+      "to": "survival-ual-player-v1-moving-diagonal-up-phase-22-anim",
+      "reason": "moving-action-enter",
+      "anchorSeamPx": 0.48,
+      "visibleExtentJumpPx": 6.246
+    },
+    {
+      "from": "survival-ual-player-v1-moving-diagonal-up-phase-22-anim",
+      "to": "survival-ual-player-v1-run-anim",
+      "reason": "moving-action-resume",
+      "anchorSeamPx": 1.442,
+      "visibleExtentJumpPx": 5.285
+    },
+    {
+      "from": "survival-ual-player-v1-run-anim",
+      "to": "survival-ual-player-v1-moving-diagonal-down-phase-01-anim",
+      "reason": "moving-action-enter",
+      "anchorSeamPx": 0.24,
+      "visibleExtentJumpPx": 6.246
+    },
+    {
+      "from": "survival-ual-player-v1-moving-diagonal-down-phase-01-anim",
+      "to": "survival-ual-player-v1-run-anim",
+      "reason": "moving-action-resume",
+      "anchorSeamPx": 0.241,
+      "visibleExtentJumpPx": 0.961
+    },
+    {
+      "from": "survival-ual-player-v1-run-anim",
+      "to": "survival-ual-player-v1-moving-diagonal-down-phase-08-anim",
+      "reason": "moving-action-enter",
+      "anchorSeamPx": 0.481,
+      "visibleExtentJumpPx": 6.246
+    },
+    {
+      "from": "survival-ual-player-v1-moving-diagonal-down-phase-08-anim",
+      "to": "survival-ual-player-v1-run-anim",
+      "reason": "moving-action-resume",
+      "anchorSeamPx": 0.481,
+      "visibleExtentJumpPx": 1.441
+    },
+    {
+      "from": "survival-ual-player-v1-run-anim",
+      "to": "survival-ual-player-v1-moving-diagonal-down-phase-15-anim",
+      "reason": "moving-action-enter",
+      "anchorSeamPx": 0.721,
+      "visibleExtentJumpPx": 5.765
+    },
+    {
+      "from": "survival-ual-player-v1-moving-diagonal-down-phase-15-anim",
+      "to": "survival-ual-player-v1-run-anim",
+      "reason": "moving-action-resume",
+      "anchorSeamPx": 1.441,
+      "visibleExtentJumpPx": 1.441
+    },
+    {
+      "from": "survival-ual-player-v1-run-anim",
+      "to": "survival-ual-player-v1-moving-diagonal-down-phase-22-anim",
+      "reason": "moving-action-enter",
+      "anchorSeamPx": 0.0,
+      "visibleExtentJumpPx": 6.246
+    },
+    {
+      "from": "survival-ual-player-v1-moving-diagonal-down-phase-22-anim",
+      "to": "survival-ual-player-v1-run-anim",
+      "reason": "moving-action-resume",
+      "anchorSeamPx": 1.442,
+      "visibleExtentJumpPx": 1.441
+    },
+    {
+      "from": "survival-ual-player-v1-run-anim",
+      "to": "survival-ual-player-v1-moving-side-dig-jab-phase-01-anim",
+      "reason": "moving-action-enter",
+      "anchorSeamPx": 0.961,
+      "visibleExtentJumpPx": 4.805
+    },
+    {
+      "from": "survival-ual-player-v1-moving-side-dig-jab-phase-01-anim",
+      "to": "survival-ual-player-v1-run-anim",
+      "reason": "moving-action-resume",
+      "anchorSeamPx": 0.241,
+      "visibleExtentJumpPx": 3.844
+    },
+    {
+      "from": "survival-ual-player-v1-run-anim",
+      "to": "survival-ual-player-v1-moving-side-dig-cross-phase-15-anim",
+      "reason": "moving-action-enter",
+      "anchorSeamPx": 0.72,
+      "visibleExtentJumpPx": 5.765
+    },
+    {
+      "from": "survival-ual-player-v1-moving-side-dig-cross-phase-15-anim",
+      "to": "survival-ual-player-v1-run-anim",
+      "reason": "moving-action-resume",
+      "anchorSeamPx": 0.241,
+      "visibleExtentJumpPx": 4.324
+    },
+    {
+      "from": "survival-ual-player-v1-run-anim",
+      "to": "survival-ual-player-v1-moving-side-dig-jab-phase-05-anim",
+      "reason": "moving-action-enter",
+      "anchorSeamPx": 0.241,
+      "visibleExtentJumpPx": 3.363
+    },
+    {
+      "from": "survival-ual-player-v1-moving-side-dig-jab-phase-05-anim",
+      "to": "survival-ual-player-v1-run-anim",
+      "reason": "moving-action-resume",
+      "anchorSeamPx": 3.604,
+      "visibleExtentJumpPx": 4.805
+    },
+    {
+      "from": "survival-ual-player-v1-run-anim",
+      "to": "survival-ual-player-v1-moving-side-dig-cross-phase-19-anim",
+      "reason": "moving-action-enter",
+      "anchorSeamPx": 0.961,
+      "visibleExtentJumpPx": 3.844
+    },
+    {
+      "from": "survival-ual-player-v1-moving-side-dig-cross-phase-19-anim",
+      "to": "survival-ual-player-v1-run-anim",
+      "reason": "moving-action-resume",
+      "anchorSeamPx": 3.604,
+      "visibleExtentJumpPx": 4.805
+    },
+    {
+      "from": "survival-ual-player-v1-run-anim",
+      "to": "survival-ual-player-v1-moving-side-dig-jab-anim",
+      "reason": "moving-action-enter",
+      "anchorSeamPx": 0.481,
+      "visibleExtentJumpPx": 4.805
+    },
+    {
+      "from": "survival-ual-player-v1-moving-side-dig-jab-anim",
+      "to": "survival-ual-player-v1-run-anim",
+      "reason": "moving-action-resume",
+      "anchorSeamPx": 0.481,
+      "visibleExtentJumpPx": 3.363
+    },
+    {
+      "from": "survival-ual-player-v1-run-anim",
+      "to": "survival-ual-player-v1-moving-side-dig-cross-anim",
+      "reason": "moving-action-enter",
+      "anchorSeamPx": 0.0,
+      "visibleExtentJumpPx": 3.363
+    },
+    {
+      "from": "survival-ual-player-v1-moving-side-dig-cross-anim",
+      "to": "survival-ual-player-v1-run-anim",
+      "reason": "moving-action-resume",
+      "anchorSeamPx": 1.442,
+      "visibleExtentJumpPx": 4.805
+    },
+    {
+      "from": "survival-ual-player-v1-run-anim",
+      "to": "survival-ual-player-v1-moving-side-dig-cross-phase-10-anim",
+      "reason": "moving-action-enter",
+      "anchorSeamPx": 0.481,
+      "visibleExtentJumpPx": 5.285
+    },
+    {
+      "from": "survival-ual-player-v1-moving-side-dig-cross-phase-10-anim",
+      "to": "survival-ual-player-v1-run-anim",
+      "reason": "moving-action-resume",
+      "anchorSeamPx": 0.961,
+      "visibleExtentJumpPx": 3.363
+    },
+    {
+      "from": "survival-ual-player-v1-run-anim",
+      "to": "survival-ual-player-v1-moving-side-dig-jab-phase-24-anim",
+      "reason": "moving-action-enter",
+      "anchorSeamPx": 0.241,
+      "visibleExtentJumpPx": 4.324
+    },
+    {
+      "from": "survival-ual-player-v1-moving-side-dig-jab-phase-24-anim",
+      "to": "survival-ual-player-v1-run-anim",
+      "reason": "moving-action-resume",
+      "anchorSeamPx": 1.442,
+      "visibleExtentJumpPx": 4.805
+    },
+    {
+      "from": "survival-ual-player-v1-run-anim",
+      "to": "survival-ual-player-v1-moving-side-quickslash-jab-phase-01-anim",
+      "reason": "moving-action-enter",
+      "anchorSeamPx": 0.961,
+      "visibleExtentJumpPx": 4.805
+    },
+    {
+      "from": "survival-ual-player-v1-moving-side-quickslash-jab-phase-01-anim",
+      "to": "survival-ual-player-v1-run-anim",
+      "reason": "moving-action-resume",
+      "anchorSeamPx": 0.241,
+      "visibleExtentJumpPx": 3.844
+    },
+    {
+      "from": "survival-ual-player-v1-run-anim",
+      "to": "survival-ual-player-v1-moving-side-quickslash-cross-phase-15-anim",
+      "reason": "moving-action-enter",
+      "anchorSeamPx": 0.72,
+      "visibleExtentJumpPx": 5.765
+    },
+    {
+      "from": "survival-ual-player-v1-moving-side-quickslash-cross-phase-15-anim",
+      "to": "survival-ual-player-v1-run-anim",
+      "reason": "moving-action-resume",
+      "anchorSeamPx": 0.241,
+      "visibleExtentJumpPx": 4.324
+    },
+    {
+      "from": "survival-ual-player-v1-run-anim",
+      "to": "survival-ual-player-v1-moving-side-quickslash-jab-phase-05-anim",
+      "reason": "moving-action-enter",
+      "anchorSeamPx": 0.241,
+      "visibleExtentJumpPx": 3.363
+    },
+    {
+      "from": "survival-ual-player-v1-moving-side-quickslash-jab-phase-05-anim",
+      "to": "survival-ual-player-v1-run-anim",
+      "reason": "moving-action-resume",
+      "anchorSeamPx": 3.604,
+      "visibleExtentJumpPx": 4.805
+    },
+    {
+      "from": "survival-ual-player-v1-run-anim",
+      "to": "survival-ual-player-v1-moving-side-quickslash-cross-phase-19-anim",
+      "reason": "moving-action-enter",
+      "anchorSeamPx": 0.961,
+      "visibleExtentJumpPx": 3.844
+    },
+    {
+      "from": "survival-ual-player-v1-moving-side-quickslash-cross-phase-19-anim",
+      "to": "survival-ual-player-v1-run-anim",
+      "reason": "moving-action-resume",
+      "anchorSeamPx": 3.604,
+      "visibleExtentJumpPx": 4.805
+    },
+    {
+      "from": "survival-ual-player-v1-run-anim",
+      "to": "survival-ual-player-v1-moving-side-quickslash-anim",
+      "reason": "moving-action-enter",
+      "anchorSeamPx": 0.481,
+      "visibleExtentJumpPx": 4.805
+    },
+    {
+      "from": "survival-ual-player-v1-moving-side-quickslash-anim",
+      "to": "survival-ual-player-v1-run-anim",
+      "reason": "moving-action-resume",
+      "anchorSeamPx": 0.481,
+      "visibleExtentJumpPx": 3.363
+    },
+    {
+      "from": "survival-ual-player-v1-run-anim",
+      "to": "survival-ual-player-v1-moving-side-quickslash-cross-phase-23-anim",
+      "reason": "moving-action-enter",
+      "anchorSeamPx": 0.0,
+      "visibleExtentJumpPx": 3.363
+    },
+    {
+      "from": "survival-ual-player-v1-moving-side-quickslash-cross-phase-23-anim",
+      "to": "survival-ual-player-v1-run-anim",
+      "reason": "moving-action-resume",
+      "anchorSeamPx": 1.442,
+      "visibleExtentJumpPx": 4.805
+    },
+    {
+      "from": "survival-ual-player-v1-run-anim",
+      "to": "survival-ual-player-v1-moving-side-quickslash-cross-phase-10-anim",
+      "reason": "moving-action-enter",
+      "anchorSeamPx": 0.481,
+      "visibleExtentJumpPx": 5.285
+    },
+    {
+      "from": "survival-ual-player-v1-moving-side-quickslash-cross-phase-10-anim",
+      "to": "survival-ual-player-v1-run-anim",
+      "reason": "moving-action-resume",
+      "anchorSeamPx": 0.961,
+      "visibleExtentJumpPx": 3.363
+    },
+    {
+      "from": "survival-ual-player-v1-run-anim",
+      "to": "survival-ual-player-v1-moving-side-quickslash-jab-phase-24-anim",
+      "reason": "moving-action-enter",
+      "anchorSeamPx": 0.241,
+      "visibleExtentJumpPx": 4.324
+    },
+    {
+      "from": "survival-ual-player-v1-moving-side-quickslash-jab-phase-24-anim",
+      "to": "survival-ual-player-v1-run-anim",
+      "reason": "moving-action-resume",
+      "anchorSeamPx": 1.442,
+      "visibleExtentJumpPx": 4.805
+    }
+  ]
+}

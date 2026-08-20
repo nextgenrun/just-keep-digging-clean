@@ -32,7 +32,12 @@ export function queueRuntimeAsset(loader, record, config) {
   } else if (record.type === config.types.spritesheet) {
     loader.spritesheet?.(record.asset.key, record.asset.path, record.asset.frameConfig);
   } else {
-    loader.image?.(record.asset.key, record.asset.path);
+    loader.image?.(
+      record.asset.key,
+      record.asset.normalMapPath
+        ? [record.asset.path, record.asset.normalMapPath]
+        : record.asset.path,
+    );
   }
 }
 

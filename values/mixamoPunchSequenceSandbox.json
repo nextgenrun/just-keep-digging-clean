@@ -1,0 +1,180 @@
+{
+  "version": "mixamo-punch-sequence-sandbox-v1-20260819",
+  "reviewOnly": true,
+  "productionChanged": false,
+  "sourceBlend": "sprites/character/survival-character-blender-v2/blender/survival-character-blender-v2.blend",
+  "sourceRoot": "testing/blender-animation-lab-v1/review-drafts/mixamo-punch-sequence-sandbox-v1/source-fbx",
+  "renderRoot": "testing/blender-animation-lab-v1/review-drafts/mixamo-punch-sequence-sandbox-v1/renders/raw-1024",
+  "candidateRoot": "testing/blender-animation-lab-v1/review-drafts/mixamo-punch-sequence-sandbox-v1/renders/candidate",
+  "objects": {
+    "rig": "SurvivalPolishRig",
+    "body": "SurvivalPolishBody",
+    "camera": "SurvivalPolishCamera",
+    "referenceAction": "MINER_idle"
+  },
+  "render": {
+    "sourceSizePx": 1024,
+    "packedSizePx": 256,
+    "columns": 16,
+    "colorDepth": "16",
+    "alphaThreshold": 8,
+    "contactSheetFrameSizePx": 192,
+    "previewDisplaySizePx": 123
+  },
+  "gates": {
+    "minimumRawEdgeMarginPx": 4,
+    "maximumGroundedBaselineRangePx": 36,
+    "maximumSuspiciousGreenPixelsPerFrame": 0,
+    "maximumRetargetResidualWorld": 0.22
+  },
+  "retarget": {
+    "groundContactBones": ["foot_l", "ball_l", "foot_r", "ball_r"],
+    "fingerPosePrefixes": ["index_", "middle_", "ring_", "pinky_", "thumb_"],
+    "boneMap": {
+      "pelvis": "mixamorig:Hips",
+      "spine_01": "mixamorig:Spine",
+      "spine_03": "mixamorig:Spine1",
+      "spine_05": "mixamorig:Spine2",
+      "neck_01": "mixamorig:Neck",
+      "head": "mixamorig:Head",
+      "clavicle_l": "mixamorig:LeftShoulder",
+      "upperarm_l": "mixamorig:LeftArm",
+      "lowerarm_l": "mixamorig:LeftForeArm",
+      "hand_l": "mixamorig:LeftHand",
+      "clavicle_r": "mixamorig:RightShoulder",
+      "upperarm_r": "mixamorig:RightArm",
+      "lowerarm_r": "mixamorig:RightForeArm",
+      "hand_r": "mixamorig:RightHand",
+      "thigh_l": "mixamorig:LeftUpLeg",
+      "calf_l": "mixamorig:LeftLeg",
+      "foot_l": "mixamorig:LeftFoot",
+      "ball_l": "mixamorig:LeftToeBase",
+      "thigh_r": "mixamorig:RightUpLeg",
+      "calf_r": "mixamorig:RightLeg",
+      "foot_r": "mixamorig:RightFoot",
+      "ball_r": "mixamorig:RightToeBase"
+    },
+    "driverChildren": {
+      "pelvis": [["thigh_l", "mixamorig:LeftUpLeg"], ["thigh_r", "mixamorig:RightUpLeg"], ["spine_01", "mixamorig:Spine"]],
+      "thigh_l": [["calf_l", "mixamorig:LeftLeg"]],
+      "calf_l": [["foot_l", "mixamorig:LeftFoot"]],
+      "foot_l": [["ball_l", "mixamorig:LeftToeBase"]],
+      "thigh_r": [["calf_r", "mixamorig:RightLeg"]],
+      "calf_r": [["foot_r", "mixamorig:RightFoot"]],
+      "foot_r": [["ball_r", "mixamorig:RightToeBase"]],
+      "spine_01": [["spine_03", "mixamorig:Spine1"]],
+      "spine_03": [["spine_05", "mixamorig:Spine2"]],
+      "spine_05": [["neck_01", "mixamorig:Neck"], ["clavicle_l", "mixamorig:LeftShoulder"], ["clavicle_r", "mixamorig:RightShoulder"]],
+      "neck_01": [["head", "mixamorig:Head"]],
+      "clavicle_l": [["upperarm_l", "mixamorig:LeftArm"]],
+      "upperarm_l": [["lowerarm_l", "mixamorig:LeftForeArm"]],
+      "lowerarm_l": [["hand_l", "mixamorig:LeftHand"]],
+      "hand_l": [["index_01_l", "mixamorig:LeftHandIndex1"], ["pinky_01_l", "mixamorig:LeftHandPinky1"], ["thumb_01_l", "mixamorig:LeftHandThumb1"]],
+      "clavicle_r": [["upperarm_r", "mixamorig:RightArm"]],
+      "upperarm_r": [["lowerarm_r", "mixamorig:RightForeArm"]],
+      "lowerarm_r": [["hand_r", "mixamorig:RightHand"]],
+      "hand_r": [["index_01_r", "mixamorig:RightHandIndex1"], ["pinky_01_r", "mixamorig:RightHandPinky1"], ["thumb_01_r", "mixamorig:RightHandThumb1"]]
+    },
+    "worldDeltaBones": {
+      "head": "mixamorig:Head"
+    }
+  },
+  "clips": {
+    "jab": {
+      "source": "mixamo-jab-punch.fbx",
+      "file": "survival-mixamo-punch-v1-jab-sheet.png",
+      "frames": 18,
+      "fps": 30,
+      "loop": false,
+      "grounding": "PER_FRAME",
+      "reference": "FIRST",
+      "preserveVertical": false,
+      "contactSequenceIndex": 9,
+      "role": "Fast side jab"
+    },
+    "cross": {
+      "source": "mixamo-cross-punch.fbx",
+      "file": "survival-mixamo-punch-v1-cross-sheet.png",
+      "frames": 18,
+      "fps": 30,
+      "loop": false,
+      "grounding": "PER_FRAME",
+      "reference": "FIRST",
+      "preserveVertical": false,
+      "contactSequenceIndex": 10,
+      "role": "Rear-hand power cross"
+    },
+    "hook": {
+      "source": "mixamo-hook-punch.fbx",
+      "file": "survival-mixamo-punch-v1-hook-sheet.png",
+      "frames": 22,
+      "fps": 30,
+      "loop": false,
+      "grounding": "PER_FRAME",
+      "reference": "FIRST",
+      "preserveVertical": false,
+      "contactSequenceIndex": 11,
+      "role": "Rotational side hook"
+    },
+    "uppercut": {
+      "source": "mixamo-uppercut.fbx",
+      "file": "survival-mixamo-punch-v1-uppercut-sheet.png",
+      "frames": 24,
+      "fps": 30,
+      "loop": false,
+      "grounding": "PER_FRAME",
+      "reference": "FIRST",
+      "preserveVertical": false,
+      "contactSequenceIndex": 17,
+      "role": "Rising UP strike"
+    },
+    "body-low": {
+      "source": "mixamo-body-punch-low.fbx",
+      "file": "survival-mixamo-punch-v1-body-low-sheet.png",
+      "frames": 24,
+      "fps": 30,
+      "loop": false,
+      "grounding": "PER_FRAME",
+      "reference": "FIRST",
+      "preserveVertical": false,
+      "contactSequenceIndex": 12,
+      "role": "Low DOWN body punch"
+    },
+    "jab-cross": {
+      "source": "mixamo-boxing-jab-cross.fbx",
+      "file": "survival-mixamo-punch-v1-jab-cross-sheet.png",
+      "frames": 30,
+      "fps": 30,
+      "loop": false,
+      "grounding": "PER_FRAME",
+      "reference": "FIRST",
+      "preserveVertical": false,
+      "contactSequenceIndex": 9,
+      "role": "Two-hit rhythmic chain"
+    },
+    "four-combo": {
+      "source": "mixamo-four-punch-combo.fbx",
+      "file": "survival-mixamo-punch-v1-four-combo-sheet.png",
+      "frames": 44,
+      "fps": 30,
+      "loop": false,
+      "grounding": "PER_FRAME",
+      "reference": "FIRST",
+      "preserveVertical": false,
+      "contactSequenceIndex": 12,
+      "role": "Four-hit authored rhythm chain"
+    },
+    "eight-combo": {
+      "source": "mixamo-eight-punch-combo.fbx",
+      "file": "survival-mixamo-punch-v1-eight-combo-sheet.png",
+      "frames": 29,
+      "fps": 30,
+      "loop": false,
+      "grounding": "PER_FRAME",
+      "reference": "FIRST",
+      "preserveVertical": false,
+      "contactSequenceIndex": 18,
+      "role": "Rapid eight-hit chain"
+    }
+  }
+}

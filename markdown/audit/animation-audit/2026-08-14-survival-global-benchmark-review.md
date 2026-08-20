@@ -1,16 +1,22 @@
-# Survival Global Benchmark Review
+# Survival Global Benchmark Review — REJECTED / SUPERSEDED
 
 Date: 2026-08-14  
 Boundary: full-inventory mockup only; no runtime wiring
 
-## Approved Benchmark
+Decision update: hard rejected on 2026-08-14. The rollback `MINER_run` and the
+raw action inventory used here are not current-runtime motion authority. Retain
+only as historical evidence; use
+`visual-approval-previews/2026-08-14-survival-current-runtime-vs-full-improvements-v1/`
+for the corrected review.
+
+## Historical Visual Settings Only
 
 - Four `SurvivalCinematic` lights only.
 - Normal textures interpreted as Non-Color data.
 - AgX with Medium High Contrast.
 - Preserve-volume deformation enabled.
 - Full dark gloves on finger-bone-driven polygons.
-- Blender rollback `MINER_run` as the only approved motion replacement.
+- Blender rollback `MINER_run` was rejected and is not an approved replacement.
 - Epic GASP comparison motions rejected and excluded.
 
 ## Coverage and Evidence

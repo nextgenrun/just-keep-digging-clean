@@ -1,0 +1,28 @@
+import { candidate as c, local as l } from "./atlas-schema.js";
+
+export const GROUND = Object.freeze([
+  c("walk-start", "ground", "Idle to movement", "Start Walking", "Authored weight transfer into a forward step.", "135950901", "walkStart", { localGif: l("library", "walk-start"), tags: ["transition", "foot-lock"] }),
+  c("walk-stop", "ground", "Movement to idle", "Stop Walking", "Planted slowdown and settle into idle.", "136220901", "walkStop", { localGif: l("library", "walk-stop"), tags: ["transition", "phase-match"] }),
+  c("standard-walk", "ground", "Primary walk loop", "Standard Walk", "The smooth walk currently preferred over the runtime run presentation.", "123500901", "walk", { localGif: l("locomotion", "walk-loop"), tags: ["loop", "shortlist"] }),
+  c("unarmed-walk", "ground", "Walk loop alternative", "Unarmed Walk Forward", "Unarmed forward stride from the same motion family as the run.", "128650947", "walk", { localGif: l("atlas", "unarmed-walk"), tags: ["loop", "family-match"] }),
+  c("walker-walk", "ground", "Weighted walk alternative", "Walker Walk", "A heavier stride useful as a miner-weight stress test.", "128600901", "walk", { localGif: l("atlas", "walker-walk"), tags: ["loop", "weight"] }),
+  c("walk-neutral", "ground", "Walk loop alternative", "Walk", "Neutral forward walk source prospect.", "124540901", "walk", { tags: ["loop"] }),
+  c("walking-male", "ground", "Walk loop alternative", "Walking", "General forward walking motion.", "102000901", "walk", { tags: ["loop"] }),
+  c("walking-intent", "ground", "Walk loop alternative", "Walking", "Forward walk with stronger intent and momentum.", "117660901", "walk", { tags: ["loop", "weight"] }),
+  c("walking-back", "ground", "Reverse movement", "Walking Backwards", "Backwards walk for controlled reverse movement.", "101350901", "walk", { tags: ["reverse"] }),
+  c("unarmed-walk-back", "ground", "Reverse movement", "Unarmed Walk Back", "Matched unarmed backward walk.", "128650946", "walk", { tags: ["reverse", "family-match"] }),
+  c("walk-backward", "ground", "Reverse movement", "Walk Backward", "Alternate backwards walk source.", "123680901", "walk", { tags: ["reverse"] }),
+  c("walking-left-turn", "ground", "Moving turn", "Walking Left Turn", "Walk-cycle left turn for directional continuity.", "123510901", "walk", { tags: ["turn", "transition"] }),
+  c("walking-turn-180", "ground", "Moving turnaround", "Walking Turn 180", "Full moving turnaround without an idle reset.", "118330901", "walk", { tags: ["turn", "transition"] }),
+  c("standard-run", "ground", "Run loop prospect", "Standard Run", "Visually attractive source, but the V4 retarget exceeded the grounded baseline gate.", "123560901", "run", { gate: "43 px baseline range; limit is 36 px", tags: ["loop", "gate-fail"] }),
+  c("unarmed-run", "ground", "Primary run challenger", "Unarmed Run Forward", "Crisp unarmed run already proven on the V4 character.", "128650943", "run", { localGif: l("locomotion", "run-loop"), tags: ["loop", "v4"] }),
+  c("slow-run", "ground", "Walk-to-run bridge", "Slow Run", "Lower-energy run intended to close the Standard Walk handoff gap.", "128630901", "run", { localGif: l("atlas", "slow-run"), tags: ["loop", "bridge"] }),
+  c("medium-run", "ground", "Run loop prospect", "Medium Run", "Medium-speed run source; V4 baseline motion exceeded the strict grounded gate.", "128630903", "run", { gate: "40 px baseline range; limit is 36 px", tags: ["loop", "gate-fail"] }),
+  c("fast-run", "ground", "Fast run prospect", "Fast Run", "Fast run source; V4 baseline motion exceeded the strict grounded gate.", "128630905", "run", { gate: "39 px baseline range; limit is 36 px", tags: ["loop", "gate-fail"] }),
+  c("sprint-forward", "ground", "Sprint upper bound", "Sprint Forward", "Aggressive source sprint; the V4 retarget exceeded the grounded baseline gate.", "128620909", "run", { gate: "42 px baseline range; limit is 36 px", tags: ["loop", "upper-bound", "gate-fail"] }),
+  c("run-side-profile", "ground", "Run loop alternative", "Run", "Forward run with a stronger side-facing presentation.", "111290901", "run", { tags: ["loop", "facing"] }),
+  c("running-intention", "ground", "Run loop alternative", "Running", "Forward run with deliberate body lean.", "118090901", "run", { tags: ["loop", "weight"] }),
+  c("unarmed-run-back", "ground", "Reverse run", "Unarmed Run Back", "Matched unarmed backward run.", "128650942", "run", { tags: ["reverse", "family-match"] }),
+  c("turn-left-90", "ground", "Standing direction change", "Unarmed Turn Left 90", "Planted 90-degree left turn on the V4 character.", "128650944", "idle", { localGif: l("atlas", "turn-left-90"), tags: ["turn", "foot-lock"] }),
+  c("turn-right-90", "ground", "Standing direction change", "Unarmed Turn Right 90", "Planted 90-degree right turn on the V4 character.", "128650945", "idle", { localGif: l("atlas", "turn-right-90"), tags: ["turn", "foot-lock"] }),
+]);

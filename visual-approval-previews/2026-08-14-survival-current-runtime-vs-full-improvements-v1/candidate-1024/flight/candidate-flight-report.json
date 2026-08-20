@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "reviewOnly": true,
+  "productionChanged": false,
+  "motionSource": "DG_SUPERMAN_FLIGHT_IDLE_PRONE_V3",
+  "frames": 36,
+  "fps": 16,
+  "renderSize": 1024,
+  "downsamplePasses": 1,
+  "textures": {
+    "normalMaps": 9,
+    "relinkedTextures": 32,
+    "eyeTexture": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\visual-approval-previews\\2026-08-14-survival-global-benchmark-v1\\texture-cache-2k\\Textures\\Eye\\Eye_BaseColor.png"
+  },
+  "meshPass": {
+    "cleanedWeightVertices": 14015,
+    "correctiveShapes": {
+      "DG_CORRECTIVE_FISTS": 5064,
+      "DG_CORRECTIVE_WRISTS": 2108,
+      "DG_CORRECTIVE_ELBOWS": 2205,
+      "DG_CORRECTIVE_HIPS": 2052,
+      "DG_CORRECTIVE_JACKET": 6304
+    },
+    "secondaryShapes": {
+      "DG_SECONDARY_JACKET": 6304,
+      "DG_SECONDARY_BACKPACK": 13961
+    },
+    "fullGlovePolygons": 6162,
+    "preserveVolume": true,
+    "correctiveSmooth": true
+  }
+}

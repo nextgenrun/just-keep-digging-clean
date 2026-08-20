@@ -11,3 +11,7 @@ export {
   LIGHTNING_FLASH_SHADER_KEY,
   LIGHTNING_FLASH_FRAGMENT,
 } from "./lightningFlashShader.js";
+export {
+  MATERIAL_RESPONSE_SHADER_KEY,
+  MATERIAL_RESPONSE_FRAGMENT,
+} from "./materialResponseShader.js";

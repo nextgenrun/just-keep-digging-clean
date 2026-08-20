@@ -10,6 +10,7 @@ import { COMBO_CONFIG, getNextComboGpCheckpoint } from "../values/comboConfig.js
 import { getResourceRarityDescriptor } from "../values/dynamicSoil.js";
 import { LEVEL_CONFIG } from "../values/levelConfig.js";
 import {
+  TUTORIAL_FREE_TELEPORT_PASSES,
   TOWN_TUTORIAL_CHOICES,
   TOWN_TUTORIAL_STAGES,
 } from "../values/retentionConfig.js";
@@ -106,6 +107,21 @@ assert.equal(retention.getTutorialState().freeFlightRemainingMs, 29000);
 assert.equal(retention.recordTutorialFlight(), true);
 retention.recordPortalActivated("Starter Return Gate");
 assert.equal(retention.getTutorialState().stage, TOWN_TUTORIAL_STAGES.SELL);
+assert.equal(retention.hasTutorialFreeTeleportPass(
+  TUTORIAL_FREE_TELEPORT_PASSES.EARLY_SKY_RETURN,
+), true);
+assert.equal(retention.consumeTutorialFreeTeleportPass(
+  TUTORIAL_FREE_TELEPORT_PASSES.EARLY_SKY_RETURN,
+), true);
+assert.equal(retention.consumeTutorialFreeTeleportPass(
+  TUTORIAL_FREE_TELEPORT_PASSES.EARLY_SKY_RETURN,
+), false);
+const teleportPassSave = retention.getSaveData();
+const resumedTeleportPasses = new RetentionProgressSystem({ saveSlot: 1 });
+resumedTeleportPasses.loadSaveData(teleportPassSave);
+assert.equal(resumedTeleportPasses.hasTutorialFreeTeleportPass(
+  TUTORIAL_FREE_TELEPORT_PASSES.EARLY_SKY_RETURN,
+), false, "a used free teleport pass must remain consumed after reload");
 retention.recordSale(30, 2);
 assert.equal(retention.getTutorialState().stage, TOWN_TUTORIAL_STAGES.UPGRADE);
 retention.recordUpgrade("Agility Training", {
@@ -146,6 +162,16 @@ const sanitized = sanitizeRetentionProgressData({
 assert.equal(sanitized.stats.bestDepth, 0);
 assert.equal(sanitized.stats.moneyEarned, 0);
 assert.deepEqual(sanitized.discoveries.materials, ["stone"]);
+assert.deepEqual(
+  sanitizeRetentionProgressData({
+    tutorialFreeTeleportPassesConsumed: [
+      TUTORIAL_FREE_TELEPORT_PASSES.GROUND_ASCENT,
+      "invalid-pass",
+      TUTORIAL_FREE_TELEPORT_PASSES.GROUND_ASCENT,
+    ],
+  }).tutorialFreeTeleportPassesConsumed,
+  [TUTORIAL_FREE_TELEPORT_PASSES.GROUND_ASCENT],
+);
 assert.equal(sanitized.tutorialChoice, TOWN_TUTORIAL_CHOICES.LEGACY);
 assert.equal(sanitized.tutorialStage, TOWN_TUTORIAL_STAGES.SKIPPED);
 assert.equal(

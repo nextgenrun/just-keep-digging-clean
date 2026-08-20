@@ -46,20 +46,23 @@ export class PlayerInput {
   _registerFallbackKeys() {
     const scene = this.scene;
     
-    return scene.input.keyboard.addKeys({
+    const keys = scene.input.keyboard.addKeys({
       left: Phaser.Input.Keyboard.KeyCodes.A,
       right: Phaser.Input.Keyboard.KeyCodes.D,
       aimLeft: Phaser.Input.Keyboard.KeyCodes.A,
       aimRight: Phaser.Input.Keyboard.KeyCodes.D,
       aimUp: Phaser.Input.Keyboard.KeyCodes.W,
       aimDown: Phaser.Input.Keyboard.KeyCodes.S,
+      jump: Phaser.Input.Keyboard.KeyCodes.SPACE,
       mine: Phaser.Input.Keyboard.KeyCodes.F,
       reset: Phaser.Input.Keyboard.KeyCodes.R,
       shift: Phaser.Input.Keyboard.KeyCodes.SHIFT,
       z: "Z",
       q: "Q",
-      c: Phaser.Input.Keyboard.KeyCodes.C,
+      thunderStrike: Phaser.Input.Keyboard.KeyCodes.V,
     });
+    keys.c = keys.thunderStrike;
+    return keys;
   }
   
   /**
@@ -164,6 +167,21 @@ export class PlayerInput {
     return this.keys.shift.isDown || false;
   }
 
+  consumeJumpInput() {
+    if (!this.controlsEnabled || !this.keys.jump) return false;
+    return Phaser.Input.Keyboard.JustDown(this.keys.jump) || false;
+  }
+
+  getFlightMovement() {
+    if (!this.controlsEnabled) return { x: 0, y: 0 };
+    const horizontal = this.getHorizontalMovement();
+    const vertical = this.getVerticalAim();
+    return {
+      x: horizontal.left ? -1 : horizontal.right ? 1 : 0,
+      y: vertical.up ? -1 : vertical.down ? 1 : 0,
+    };
+  }
+
   
   /**
    * Get Q input (for quickslash ability)
@@ -181,11 +199,12 @@ export class PlayerInput {
     if (!this.controlsEnabled) {
       return false;
     }
+    if (this.scene?.debrisShieldSystem?.isInputCaptured?.()) return false;
     return queued || this.keys.q.isDown || false;
   }
   
   /**
-   * Get C input (for thunder strike ability)
+   * Get the configured Thunder Strike input.
    * @returns {boolean}
    */
   queueThunderStrikeInput() {
@@ -200,7 +219,8 @@ export class PlayerInput {
     if (!this.controlsEnabled) {
       return false;
     }
-    return queued || Phaser.Input.Keyboard.JustDown(this.keys.c) || false;
+    const key = this.keys.thunderStrike || this.keys.c;
+    return queued || (key && Phaser.Input.Keyboard.JustDown(key)) || false;
   }
   
   /**
@@ -259,7 +279,8 @@ export class PlayerInput {
       this.keys.left.isDown ||
       this.keys.right.isDown ||
       this.keys.aimUp.isDown ||
-      this.keys.aimDown.isDown
+      this.keys.aimDown.isDown ||
+      this.keys.jump?.isDown
     );
   }
 }

@@ -63,6 +63,22 @@ export function createUalNativePlayerAnimations(scene, profile) {
     0,
   );
   createAnimation(scene, profile.duckAnim, profile.duckSheet, profile.duckFrames, profile.duckAnimationFps, -1);
+  createAnimation(
+    scene,
+    profile.crouchEnterAnim,
+    profile.crouchEnterSheet,
+    profile.crouchEnterFrames,
+    profile.crouchEnterAnimationFps || profile.duckAnimationFps,
+    0,
+  );
+  createAnimation(
+    scene,
+    profile.crouchExitAnim,
+    profile.crouchExitSheet,
+    profile.crouchExitFrames,
+    profile.crouchExitAnimationFps || profile.duckAnimationFps,
+    0,
+  );
 
   createAnimation(scene, profile.digDownAnim, profile.digDownSheet, profile.digDownFrames, profile.digDownAnimationFps, 0);
   createConfiguredAnimations(scene, profile.digAnimationVariants);

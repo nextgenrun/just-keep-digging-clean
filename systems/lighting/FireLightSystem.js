@@ -12,7 +12,7 @@ import {
 import {
   FIRE_LIGHT_PRESENTATION_CONFIG,
   resolveFireLightPresentation,
-} from "../../values/fireLightPresentation.js";
+} from "../../values/fireLightPresentation.js?rev=20260815-shallow-material-v1";
 import { EyeAdaptationSystem } from "./EyeAdaptationSystem.js";
 import { FireIlluminationRenderer } from "./FireIlluminationRenderer.js";
 import { FireLightRayRenderer } from "./FireLightRayRenderer.js";

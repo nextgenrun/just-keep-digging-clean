@@ -1,0 +1,51 @@
+{
+  "version": 2,
+  "reviewOnly": true,
+  "productionChanged": false,
+  "family": "walk",
+  "sourceAction": "SRC_walk",
+  "sourceFrames": [
+    1.0,
+    2.916666666666667,
+    4.833333333333334,
+    6.75,
+    8.666666666666668,
+    10.583333333333334,
+    12.5,
+    14.416666666666666,
+    16.333333333333336,
+    18.25,
+    20.166666666666668,
+    22.083333333333332,
+    24.0,
+    25.916666666666668,
+    27.833333333333332,
+    29.75,
+    31.666666666666668,
+    33.583333333333336,
+    35.5,
+    37.416666666666664,
+    39.333333333333336,
+    41.25,
+    43.166666666666664,
+    45.083333333333336
+  ],
+  "renderFrameCount": 24,
+  "meshVertices": 83188,
+  "meshPolygons": 119304,
+  "motionEdits": {
+    "bone": false,
+    "weights": false,
+    "camera": false,
+    "geometry": false
+  },
+  "materialEdits": {
+    "fullGlovePolygons": 6162
+  },
+  "objectTranslationKeysFrozen": 141,
+  "textures": {
+    "normalMaps": 9,
+    "relinkedTextures": 32,
+    "eye": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\visual-approval-previews\\2026-08-14-survival-global-benchmark-v1\\texture-cache-2k\\Textures\\Eye\\Eye_BaseColor.png"
+  }
+}

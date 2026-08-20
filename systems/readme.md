@@ -2,6 +2,13 @@
 
 systems directory.
 
+## Demo ending
+
+`demo/UnderstarEndingSystem.js` owns the demo-only 2,000 m finale. It defers
+the authored Understar backdrop until the final descent, arbitrates the normal
+Interact action, persists discovery/completion, and injects its UI surface
+through the PlayScene composition port.
+
 ## UI input priority
 
 `UiInputPriorityRegistry.js` is the scene-scoped, nested lock shared by full UI

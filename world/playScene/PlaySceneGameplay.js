@@ -10,11 +10,13 @@ import { getMaterialFeedback, getMineShakeSignature, GLINT_CONFIG } from "../../
 import { ARC_CORE_UPGRADE_ID, OMEGA_ARC_CORE_UPGRADE_ID } from "../../values/arcCoreConfig.js";
 import { PLAYER_MOTION_POLISH_CONFIG } from "../../values/playerMotionPolish.js";
 import { CELESTIAL_ENGINE_CONFIG } from "../../values/celestialEngines.js";
+import { GAME_CONFIG } from "../../values/gameConfig.js";
 import {
   UAL_NATIVE_ACTION_TUNING,
   resolveUalActionContact,
   resolveUalActionTimeScale,
   resolveUalFlightBankAlpha,
+  resolveUalFlightPoseAngle,
   resolveUalFlightTravel,
   resolveUalFlightTimeScale,
 } from "../../values/ualNativeActionTuning.js";
@@ -32,6 +34,10 @@ import {
   isGameplayFeatureEnabled,
 } from "../../values/gameplayDevFlags.js";
 import { setBlockingSurfaceOpen } from "./SceneModeBridge.js";
+import {
+  resolveComplexDigSelection,
+  resolveComplexDigSourceFacesRight,
+} from "./ComplexDigAnimationRuntime.js";
 
 export function setupGameplayMethods(prototype) {
   const formatResourceLabel = (resourceType) => {
@@ -85,8 +91,13 @@ export function setupGameplayMethods(prototype) {
   const getP = (scene) => scene.playerAssetProfile || ASSET_KEYS.player;
   const isLivingDrill = (scene) => getP(scene).isLivingDrill === true;
   const flipXForDirectionX = (directionX) => directionX < 0;
-  const flipXForSidewaysDigDirectionX = (scene, directionX) => {
-    const sourceFacesRight = getP(scene).digSidewaysSourceFacesRight === true;
+  const flipXForSidewaysDigDirectionX = (scene, directionX, animationKey = null) => {
+    const profile = getP(scene);
+    const sourceFacesRight = resolveComplexDigSourceFacesRight(
+      profile,
+      animationKey,
+      profile.digSidewaysSourceFacesRight === true,
+    );
     return sourceFacesRight ? directionX < 0 : directionX > 0;
   };
   const flipXForUpSidewaysDirectionX = (scene, directionX) => {
@@ -447,15 +458,18 @@ export function setupGameplayMethods(prototype) {
       flipX = flipXForSidewaysDigDirectionX(this, 1);
       postActionFacingFlipX = false;
     } else if (aim === "LEFT" || aim === "DOWN-LEFT") {
-      animKey = selectComboAnim(this, "side", aim, profile.digSidewaysHitAnims || ASSET_KEYS.player.digSidewaysHitAnims, profile.digSidewaysAnim || ASSET_KEYS.player.digSidewaysAnim, mineFeedback?.targetTile);
-      flipX = flipXForSidewaysDigDirectionX(this, -1);
+      const selection = resolveComplexDigSelection(this, profile, "side", profile.digSidewaysHitAnims || ASSET_KEYS.player.digSidewaysHitAnims, profile.digSidewaysAnim || ASSET_KEYS.player.digSidewaysAnim);
+      animKey = selectComboAnim(this, selection.family, aim, selection.animationKeys, selection.fallback, mineFeedback?.targetTile);
+      flipX = flipXForSidewaysDigDirectionX(this, -1, animKey);
       postActionFacingFlipX = true;
     } else if (aim === "RIGHT" || aim === "DOWN-RIGHT") {
-      animKey = selectComboAnim(this, "side", aim, profile.digSidewaysHitAnims || ASSET_KEYS.player.digSidewaysHitAnims, profile.digSidewaysAnim || ASSET_KEYS.player.digSidewaysAnim, mineFeedback?.targetTile);
-      flipX = flipXForSidewaysDigDirectionX(this, 1);
+      const selection = resolveComplexDigSelection(this, profile, "side", profile.digSidewaysHitAnims || ASSET_KEYS.player.digSidewaysHitAnims, profile.digSidewaysAnim || ASSET_KEYS.player.digSidewaysAnim);
+      animKey = selectComboAnim(this, selection.family, aim, selection.animationKeys, selection.fallback, mineFeedback?.targetTile);
+      flipX = flipXForSidewaysDigDirectionX(this, 1, animKey);
       postActionFacingFlipX = false;
     } else if (aim === "UP") {
-      animKey = selectComboAnim(this, "up", aim, profile.digUpHitAnims || ASSET_KEYS.player.digUpHitAnims, profile.digUpAnim || ASSET_KEYS.player.digUpAnim, mineFeedback?.targetTile);
+      const selection = resolveComplexDigSelection(this, profile, "up", profile.digUpHitAnims || ASSET_KEYS.player.digUpHitAnims, profile.digUpAnim || ASSET_KEYS.player.digUpAnim);
+      animKey = selectComboAnim(this, selection.family, aim, selection.animationKeys, selection.fallback, mineFeedback?.targetTile);
       flipX = postActionFacingFlipX;
     } else if (aim === "DOWN") {
       animKey = selectComboAnim(this, "down", aim, profile.digDownHitAnims, profile.digDownAnim || ASSET_KEYS.player.digDownAnim, mineFeedback?.targetTile);
@@ -584,7 +598,7 @@ export function setupGameplayMethods(prototype) {
           directionX: movingSideDig.targetDirectionX,
         });
       }
-      this.ualActionContactTimeline.begin({
+      const contactActionId = this.ualActionContactTimeline.begin({
         animationKey: animKey,
         contactFrame: contactSpec.textureFrame,
         contactSequenceIndex: contactSpec.sequenceIndex,
@@ -600,6 +614,26 @@ export function setupGameplayMethods(prototype) {
         },
         onComplete: () => this.playerRigContact?.endAction(),
       });
+      // A long frame can advance past contact before the listener is armed.
+      // Sample the already-current frame once so mining cannot stay latched
+      // forever waiting for an animation event that has already happened.
+      this.ualActionContactTimeline.handleAnimationUpdate(
+        this.player.anims.currentAnim,
+        this.player.anims.currentFrame,
+        this.player,
+      );
+      const contactPosition = contactSpec.sequenceIndex ?? contactSpec.textureFrame ?? 0;
+      const contactFallbackDelayMs = Math.max(
+        250,
+        Math.ceil(((contactPosition + 1) / Math.max(1, frameRate) / Math.max(0.1, actionTimeScale)) * 1000) + 250,
+      );
+      globalThis.setTimeout?.(() => {
+        if (this.gameState !== "playing" || this.scene?.isActive?.() === false) return;
+        this.ualActionContactTimeline?.fireContactFallback(
+          contactActionId,
+          "wall-clock-contact-watchdog",
+        );
+      }, contactFallbackDelayMs);
     } else {
       mineFeedback?.onContact?.({
         now: this.time?.now || 0,
@@ -854,7 +888,13 @@ export function setupGameplayMethods(prototype) {
   };
 
   prototype.activateDevCheat = function() {
-    if (!isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.DEV_CHEATS)) return false;
+    if (
+      !GAME_CONFIG.debugMode
+      || !isGameplayFeatureEnabled(
+        GAMEPLAY_FEATURE_IDS.GOD_MODE,
+        this.gameplayCapabilities,
+      )
+    ) return false;
     console.log('[DEVCHEAT] ========================================');
     console.log('[DEVCHEAT] activateDevCheat() called!');
     this.digSystem.setResourceTotals({
@@ -1153,6 +1193,22 @@ export function setupGameplayMethods(prototype) {
     }
 
     const duckAnim = profile.duckAnim || ASSET_KEYS.player.duckAnim;
+    const crouchEnterAnim = profile.crouchEnterAnim || null;
+    const crouchExitAnim = profile.crouchExitAnim || null;
+    const wantsCrouch = targetAnim === duckAnim;
+    if (wantsCrouch && crouchEnterAnim) {
+      if (currentAnimKey === crouchEnterAnim) {
+        targetAnim = this.player.anims.isPlaying ? crouchEnterAnim : duckAnim;
+      } else if (currentAnimKey !== duckAnim) {
+        targetAnim = crouchEnterAnim;
+      }
+    } else if (!wantsCrouch && crouchExitAnim) {
+      if (currentAnimKey === crouchExitAnim && this.player.anims.isPlaying) {
+        targetAnim = crouchExitAnim;
+      } else if (currentAnimKey === duckAnim || currentAnimKey === crouchEnterAnim) {
+        targetAnim = crouchExitAnim;
+      }
+    }
     if (targetAnim === duckAnim && profile.duckSourceFacesRight === false) {
       // Legacy Miner duck frames are authored facing left while the standing
       // frames face right. Invert only once the duck animation is actually
@@ -1168,13 +1224,14 @@ export function setupGameplayMethods(prototype) {
         ?? body?.vx
         ?? 0;
       const flightActive = poweredFlight;
-      const flight = UAL_NATIVE_ACTION_TUNING.flight;
-      const velocitySign = Math.sign(horizontalVelocity) || (flipX ? -1 : 1);
-      const hoverRatio = Math.min(1, Math.abs(horizontalVelocity) / flight.referenceSpeedPxPerSec);
+      const flightMotion = this.playerController?.flightMotion?.getSnapshot?.();
       const targetAngle = flightActive
-        ? velocitySign * (flightTravelVisual
-          ? flight.travelBankDegrees
-          : flight.hoverBankDegrees * hoverRatio)
+        ? resolveUalFlightPoseAngle({
+          horizontalVelocityPxPerSec: horizontalVelocity,
+          verticalVelocityPxPerSec: body?.vy || 0,
+          verticalAccelerationPxPerSecondSquared: flightMotion?.accelerationY,
+          facingFlipX: flipX,
+        })
         : 0;
       const currentAngle = Number(this.player.angle) || 0;
       const bankAlpha = resolveUalFlightBankAlpha(this.game?.loop?.delta);
@@ -1182,6 +1239,8 @@ export function setupGameplayMethods(prototype) {
     }
     const oneShotHoldAnims = [
       duckAnim,
+      crouchEnterAnim,
+      crouchExitAnim,
       profile.fallingAnim || ASSET_KEYS.player.fallingAnim,
       profile.wallPushAnim || ASSET_KEYS.player.wallPushAnim,
       profile.leanAgainstWallAnim || ASSET_KEYS.player.leanAgainstWallAnim,

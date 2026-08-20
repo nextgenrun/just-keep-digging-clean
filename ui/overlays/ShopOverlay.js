@@ -1315,7 +1315,9 @@ export class ShopOverlay {
       this.scene.showGameDialog?.(
         "Gem of Great Power",
         "Flight is unlocked.\n\nHold " + USER_SETTINGS.getKeyLabel("fly") +
-        " in the air to fly. Visit the Gem Power Workshop to improve capacity, efficiency, and speed."
+        " to power Flight. Use " + USER_SETTINGS.getKeyLabel("aimUp") + "/" +
+        USER_SETTINGS.getKeyLabel("aimDown") +
+        " to build climb or dive momentum. Visit the Gem Power Workshop to improve capacity, efficiency, and speed."
       );
       return;
     }

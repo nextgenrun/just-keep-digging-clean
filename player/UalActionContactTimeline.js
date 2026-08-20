@@ -95,6 +95,19 @@ export class UalActionContactTimeline {
     return hadActiveAction;
   }
 
+  fireContactFallback(actionId, trigger = "contact-watchdog-fallback") {
+    const action = this._activeAction;
+    if (!action || action.actionId !== actionId || action.contactFired) return false;
+    this._fireContact(
+      action,
+      this.sprite?.anims?.currentAnim,
+      this.sprite?.anims?.currentFrame,
+      this.sprite,
+      trigger,
+    );
+    return action.contactFired === true;
+  }
+
   handleAnimationUpdate(animation, animationFrame, gameObject) {
     const action = this._matchingAction(animation);
     if (!action) return;

@@ -14,6 +14,10 @@ import { renderInventoryResourceGuide } from "./UIInventoryResourceGuide.js";
 import { renderInventoryStarAtlas } from "./UIInventoryStarAtlas.js";
 import { UIInventoryStarAtlasAssetController } from
   "./UIInventoryStarAtlasAssetController.js";
+import { UIInventoryStarAtlasKeyboard } from
+  "./UIInventoryStarAtlasKeyboard.js";
+import { INVENTORY_SPECIAL_BLOCKS } from "../../values/inventorySpecialBlocks.js";
+import { renderInventorySpecialBlocks } from "./UIInventorySpecialBlocks.js";
 
 export class UIInventoryPopup {
   constructor(scene) {
@@ -32,7 +36,19 @@ export class UIInventoryPopup {
     this.selectedGuideResource = INVENTORY_RESOURCE_GUIDE.resourceKeys[0];
     this.selectedStarRarity = 0;
     this.selectedStarIdentity = 0;
+    this.selectedSpecialBlock = INVENTORY_SPECIAL_BLOCKS.entries[0].id;
     this.starAtlasAssets = new UIInventoryStarAtlasAssetController(scene);
+    this.starAtlasKeyboard = new UIInventoryStarAtlasKeyboard(scene, {
+      getState: () => this.getHealthSnapshot(),
+      onCycleTab: direction => this._cycleTab(direction),
+      onSelectRarity: rarityIndex => {
+        void this._activateStarAtlasRarity(rarityIndex);
+      },
+      onSelectIdentity: identityIndex => {
+        this.selectedStarIdentity = identityIndex;
+        this._render();
+      },
+    });
     Object.keys(UI_RESOURCE_PRESENTATION).forEach(key => {
       this.items[key] = 0;
     });
@@ -119,11 +135,13 @@ export class UIInventoryPopup {
     const starAtlas = STAR_IDENTITY_LIBRARY_CONFIG.inventory;
     const showStarAtlas = this.scene.systemIntroductionSystem
       ?.isFeatureAvailable?.("inventoryStarAtlas") ?? true;
-    if (!showStarAtlas && this.activeTab === 2) this.activeTab = 0;
+    const specialTabIndex = showStarAtlas ? 3 : 2;
     const subtitle = this.activeTab === 1
       ? guide.copy.guideSubtitle
-      : this.activeTab === 2
+      : showStarAtlas && this.activeTab === 2
         ? starAtlas.copy.subtitle
+        : this.activeTab === specialTabIndex
+          ? INVENTORY_SPECIAL_BLOCKS.subtitle
         : UI_INVENTORY_COPY.subtitle;
     this.shell.setHeader(
       UI_INVENTORY_COPY.title,
@@ -139,6 +157,7 @@ export class UIInventoryPopup {
           label: starAtlas.copy.tabLabel,
           icon: "gem",
         }] : []),
+        { label: INVENTORY_SPECIAL_BLOCKS.tabLabel, icon: "power" },
       ],
       activeIndex: this.activeTab,
       spacing: guide.layout.tabSpacing,
@@ -147,7 +166,7 @@ export class UIInventoryPopup {
       fontSize: "10px",
       parent: this.shell.content,
       onChange: index => {
-        if (index === 2) {
+        if (showStarAtlas && index === 2) {
           // Keep the visible tab state truthful until its on-demand art is
           // actually ready. The successful render below selects STAR ATLAS.
           this.tabs?.setActive?.(this.activeTab, true);
@@ -188,7 +207,7 @@ export class UIInventoryPopup {
           this._render();
         }
       );
-    } else {
+    } else if (showStarAtlas && this.activeTab === 2) {
       const state = renderInventoryStarAtlas(
         this.scene,
         this.shell,
@@ -205,6 +224,17 @@ export class UIInventoryPopup {
       );
       this.selectedStarRarity = state.rarityIndex;
       this.selectedStarIdentity = state.identityIndex;
+    } else {
+      this.selectedSpecialBlock = renderInventorySpecialBlocks(
+        this.scene,
+        this.shell,
+        bodyRect,
+        this.selectedSpecialBlock,
+        blockId => {
+          this.selectedSpecialBlock = blockId;
+          this._render();
+        },
+      );
     }
 
     this.returnButton = createButton(this.scene, {
@@ -220,6 +250,20 @@ export class UIInventoryPopup {
       fontSize: "11px",
       onClick: () => this.close(),
     });
+  }
+
+  _cycleTab(direction) {
+    const navigation = STAR_IDENTITY_LIBRARY_CONFIG.inventory.navigation;
+    const showStarAtlas = this.scene.systemIntroductionSystem
+      ?.isFeatureAvailable?.("inventoryStarAtlas") ?? true;
+    const tabCount = showStarAtlas ? navigation.starAtlasTabIndex + 2 : 3;
+    const target = (this.activeTab + direction + tabCount) % tabCount;
+    if (target === navigation.starAtlasTabIndex) {
+      void this._activateStarAtlasRarity(this.selectedStarRarity);
+      return;
+    }
+    this.activeTab = target;
+    this._render();
   }
 
   async _activateStarAtlasRarity(rarityIndex) {
@@ -265,6 +309,7 @@ export class UIInventoryPopup {
       selectedGuideResource: this.selectedGuideResource,
       selectedStarRarity: this.selectedStarRarity,
       selectedStarIdentity: this.selectedStarIdentity,
+      selectedSpecialBlock: this.selectedSpecialBlock,
     });
   }
 
@@ -273,6 +318,7 @@ export class UIInventoryPopup {
     else this.shell?.destroy?.();
     this.inventoryKey?.off("down", this.handleInventoryToggle, this);
     this.escapeKey?.off("down", this.handleInventoryClose, this);
+    this.starAtlasKeyboard.destroy();
     this.starAtlasAssets.destroy();
   }
 }

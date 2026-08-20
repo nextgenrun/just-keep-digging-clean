@@ -203,6 +203,8 @@ function getState(scene) {
     starChartOpen: Boolean(scene._pillarViewActive || scene.starPillarSystem?._isViewOpen),
     starHeart: scene.starHeartProgressionSystem?.getSnapshot?.() || null,
     celestialEngine: scene.celestialEngineController?.getHealthSnapshot?.() || null,
+    materialLightingEnabled: Boolean(scene.shaderSystem?.materialResponseEnabled),
+    shader: scene.shaderSystem?.getDebugSnapshot?.() || null,
     caveHazards: scene.caveHazardSystem?.getSnapshot?.() || null,
     depthGateOpen: Boolean(scene.depthGateSystem?.isOpen?.()),
     depthGateThreshold: scene.depthGateSystem?.activeGate?.threshold || null,
@@ -328,6 +330,107 @@ function forcePlayerState(scene, options = {}) {
     scene.digSystem.setResourceTotals(options.resources);
   }
   return getState(scene);
+}
+
+function previewTutorialPortal(scene) {
+  closeTransientUi(scene);
+  const retention = scene.retentionProgressSystem;
+  let state = retention?.getTutorialState?.();
+  if (state?.choice !== "yes") {
+    console.warn("[JkdE2EHarness] Guided tutorial save required for portal preview");
+    return null;
+  }
+  if (state.stage === "move") {
+    retention.recordTutorialMovement(2);
+    state = retention.getTutorialState();
+  }
+  if (state.stage === "dig") {
+    retention.recordMiningResult({
+      success: true,
+      destroyed: true,
+      resourceType: "dirt",
+      resourceAmount: 1,
+    });
+    state = retention.getTutorialState();
+  }
+  if (state.stage === "flight") {
+    scene.townSquareTutorialSystem?._grantFlightTraining?.();
+    retention.recordTutorialFlight();
+    state = retention.getTutorialState();
+  }
+  if (state.stage !== "portal") {
+    console.warn(`[JkdE2EHarness] Tutorial portal preview unavailable at ${state.stage}`);
+    return null;
+  }
+
+  const portal = scene.firstSessionPortalSystem?.getPortalTile?.();
+  scene.firstSessionPortalSystem?.ensure?.();
+  scene.townSquareTutorialSystem?.firstFive?.townExitBarrier?.sync?.();
+  scene.townSquareTutorialSystem?.firstFive?.portalGhostGuide?.sync?.(state.stage);
+  if (portal) {
+    forcePlayerState(scene, {
+      tx: portal.tx,
+      ty: portal.ty - 1,
+      money: 0,
+    });
+  }
+  scene.uiResourceBar?.setMoney?.(scene.upgradeSystem?.getMoney?.() || 0);
+  console.info(
+    `[JkdE2EHarness] Tutorial portal preview at ${portal?.tx},${portal?.ty}; `
+    + "press the real interact key",
+  );
+  return {
+    portal,
+    tutorial: retention.getTutorialState(),
+    barrier: scene.townSquareTutorialSystem?.getHealthSnapshot?.()
+      ?.townExitBarrier || null,
+  };
+}
+
+function previewTutorialContainment(scene) {
+  const preview = previewTutorialPortal(scene);
+  if (!preview?.portal) return null;
+  const barrierX = scene.townSquareTutorialSystem?.firstFive?.config
+    ?.townExitBarrier?.tileX;
+  const tx = Number.isInteger(barrierX) ? barrierX + 2 : preview.portal.tx + 8;
+  const ty = scene.config.topAirRows - 1;
+  forcePlayerState(scene, { tx, ty, money: 0 });
+  console.info(
+    `[JkdE2EHarness] Tutorial containment preview at ${tx},${ty}; `
+    + "press the real down key and confirm depth remains 0m",
+  );
+  return {
+    ...preview,
+    player: { tx, ty },
+  };
+}
+
+function previewUnderstarEnding(scene) {
+  closeTransientUi(scene);
+  scene.understarEndingSystem?.loadSaveData?.(null);
+  const currentTile = scene.playerController?.getPlayerTile?.();
+  const tx = Number.isFinite(currentTile?.tx)
+    ? currentTile.tx
+    : scene.config.playerSpawnTileX;
+  const ty = scene.config.topAirRows + 2000 - 1;
+  forcePlayerState(scene, { tx, ty });
+  scene.understarEndingSystem?.update?.(
+    scene.time?.now || 0,
+    16,
+    { tx, ty },
+    2000,
+  );
+  console.info(`[JkdE2EHarness] Understar ending preview at ${tx},${ty}`);
+  scene.time?.delayedCall?.(2200, () => {
+    console.info(
+      "[JkdE2EHarness] Understar ending health",
+      scene.understarEndingSystem?.getHealthSnapshot?.() || null,
+    );
+  });
+  return {
+    state: getState(scene),
+    ending: scene.understarEndingSystem?.getSaveData?.() || null,
+  };
 }
 
 function buildTextureAuditGallery(scene, mode = "sparse") {
@@ -761,6 +864,21 @@ export function installJkdE2EHarness(scene) {
       return;
     }
     if (!event.ctrlKey || !event.altKey) return;
+    if (event.code === "KeyG") {
+      event.preventDefault?.();
+      previewTutorialPortal(scene);
+      return;
+    }
+    if (event.code === "KeyB") {
+      event.preventDefault?.();
+      previewTutorialContainment(scene);
+      return;
+    }
+    if (event.code === "KeyE") {
+      event.preventDefault?.();
+      previewUnderstarEnding(scene);
+      return;
+    }
     if (event.code === "KeyA") {
       event.preventDefault?.();
       previewHeavenblocksSurfaceAltar();
@@ -899,10 +1017,13 @@ export function installJkdE2EHarness(scene) {
     advanceTitanPreview: () => titanPreview.advance(),
     previewFirstUnlockedTitanStatue,
     previewHeavenblocksSurfaceAltar,
+    previewTutorialPortal: () => previewTutorialPortal(scene),
+    previewTutorialContainment: () => previewTutorialContainment(scene),
+    previewUnderstarEnding: () => previewUnderstarEnding(scene),
   };
 
   window.__jkdE2E = harness;
-  console.info("[JkdE2EHarness] Installed in save-safe mode; F1 opens the sparse opaque-ImageGen texture gallery and Shift+F1 shows the intentionally over-dense comparison; F2 cycles cave hazards; F3 enters the selected hazard; F4 cycles one example of each hazard family; F5 previews the ImageGen Star Block release without awarding it; F6/F7/F8 preview star/bedrock/resource semantics; F9 previews the scenic mine entrance; F10 cycles surface benchmark anchors; Ctrl+Alt+F10 cycles modular surface prop clusters; Ctrl+Alt+S previews the Level 1/2 surface drop-through seam; F11 forces clear-weather benchmark lighting; F12 forces the swept-collision snow preview; 9/0 or Ctrl+Alt+Insert/Delete preview the two Sky Islands; 8 cycles Star Pillar stages; Ctrl+Alt+A cycles all nine surface-altar art stages without save writes; Ctrl+Alt+U funds and opens the Titan catalog; Ctrl+Alt+Y advances sealed/partial/one-left/complete Titan cover; Ctrl+Alt+I previews the first unlocked Titan plinth; Ctrl+Alt+PageDown/PageUp preview backgrounds; Ctrl+Alt+T previews a Level 2 teleport; Ctrl+Alt+H cycles the three Heavenblocks; Ctrl+Alt+C/V remain cave-hazard aliases");
+  console.info("[JkdE2EHarness] Installed in save-safe mode; F1 opens the sparse opaque-ImageGen texture gallery and Shift+F1 shows the intentionally over-dense comparison; F2 cycles cave hazards; F3 enters the selected hazard; F4 cycles one example of each hazard family; F5 previews the ImageGen Star Block release without awarding it; F6/F7/F8 preview star/bedrock/resource semantics; F9 previews the scenic mine entrance; F10 cycles surface benchmark anchors; Ctrl+Alt+F10 cycles modular surface prop clusters; Ctrl+Alt+S previews the Level 1/2 surface drop-through seam; F11 forces clear-weather benchmark lighting; F12 forces the swept-collision snow preview; 9/0 or Ctrl+Alt+Insert/Delete preview the two Sky Islands; 8 cycles Star Pillar stages; Ctrl+Alt+G stages the save-safe first tutorial gate for a real E-key test; Ctrl+Alt+B stages an off-route tutorial surface-drop bypass test; Ctrl+Alt+E previews the Understar ending; Ctrl+Alt+A cycles all nine surface-altar art stages without save writes; Ctrl+Alt+U funds and opens the Titan catalog; Ctrl+Alt+Y advances sealed/partial/one-left/complete Titan cover; Ctrl+Alt+I previews the first unlocked Titan plinth; Ctrl+Alt+PageDown/PageUp preview backgrounds; Ctrl+Alt+T previews a Level 2 teleport; Ctrl+Alt+H cycles the three Heavenblocks; Ctrl+Alt+C/V remain cave-hazard aliases");
   scene.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
     window.removeEventListener("keydown", handleBackgroundPreviewKey);
     if (window.__jkdE2E === harness) {

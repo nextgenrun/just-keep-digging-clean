@@ -6,6 +6,11 @@ import {
 import {
   renderInventoryStarAtlas,
 } from "../ui/overlays/UIInventoryStarAtlas.js";
+import {
+  UIInventoryStarAtlasKeyboard,
+  resolveStarAtlasIdentityMove,
+  resolveStarAtlasPageMove,
+} from "../ui/overlays/UIInventoryStarAtlasKeyboard.js";
 
 globalThis.Phaser = { BlendModes: { ADD: 1, SCREEN: 7 } };
 
@@ -122,6 +127,26 @@ assert.ok(
   objects.some(object => object.kind === "text" && /RARITY IS REWARD/.test(object.value)),
 );
 assert.ok(
+  objects.some(object => object.kind === "text" && /PGUP \/ PGDN PAGE/.test(object.value)),
+  "the keyboard navigation legend is visible on the authored foundation",
+);
+const layout = STAR_IDENTITY_LIBRARY_CONFIG.inventory.layout;
+const foundation = objects.find(
+  object => object.kind === "image"
+    && object.key === STAR_IDENTITY_LIBRARY_CONFIG.inventory.foundation.key,
+);
+const commonLabel = objects.find(
+  object => object.kind === "text" && object.value === "COMMON",
+);
+assert.equal(commonLabel.x, foundation.x + foundation.displayWidth * layout.rarityTabCentersX[0]);
+assert.equal(commonLabel.y, foundation.y + foundation.displayHeight * layout.rarityTabCenterY);
+const firstIdentityZone = objects.find(
+  object => object.kind === "zone"
+    && object.x === foundation.x + foundation.displayWidth * layout.selectorCentersX[0]
+    && object.y === foundation.y + foundation.displayHeight * layout.selectorCentersY[0],
+);
+assert.ok(firstIdentityZone, "the first selector hit zone matches its painted socket");
+assert.ok(
   textureFrames.get(configKey("common")).size === 60,
   "all Common atlas frames were installed",
 );
@@ -141,6 +166,62 @@ const nextZone = objects.find(
 nextZone.handlers.pointerdown();
 assert.equal(selectedIdentityTarget, 50, "page two begins at preserved global index 50");
 
+assert.equal(resolveStarAtlasIdentityMove(0, 0, 1), 1);
+assert.equal(resolveStarAtlasIdentityMove(0, 0, 4), 4);
+assert.equal(resolveStarAtlasPageMove(0, 0, 1), 50);
+assert.equal(resolveStarAtlasPageMove(0, 50, -1), 0);
+
+let keydownHandler = null;
+let keyboardDetached = false;
+const keyboardScene = {
+  input: {
+    keyboard: {
+      on: (event, handler) => {
+        assert.equal(event, "keydown");
+        keydownHandler = handler;
+      },
+      off: (event, handler) => {
+        assert.equal(event, "keydown");
+        assert.equal(handler, keydownHandler);
+        keyboardDetached = true;
+      },
+    },
+  },
+};
+const keyboardState = {
+  isOpen: true,
+  activeTab: STAR_IDENTITY_LIBRARY_CONFIG.inventory.navigation.starAtlasTabIndex,
+  selectedStarRarity: 0,
+  selectedStarIdentity: 0,
+};
+let cycledTabs = 0;
+let selectedRarity = null;
+const keyboard = new UIInventoryStarAtlasKeyboard(keyboardScene, {
+  getState: () => ({ ...keyboardState }),
+  onCycleTab: direction => { cycledTabs += direction; },
+  onSelectRarity: rarityIndex => { selectedRarity = rarityIndex; },
+  onSelectIdentity: identityIndex => {
+    keyboardState.selectedStarIdentity = identityIndex;
+  },
+});
+const keyboardEvent = code => ({
+  code,
+  preventDefault() { this.prevented = true; },
+  stopPropagation() { this.stopped = true; },
+});
+keydownHandler(keyboardEvent("ArrowRight"));
+assert.equal(keyboardState.selectedStarIdentity, 1);
+keydownHandler(keyboardEvent("ArrowDown"));
+assert.equal(keyboardState.selectedStarIdentity, 5);
+keydownHandler(keyboardEvent("PageDown"));
+assert.equal(keyboardState.selectedStarIdentity, 55);
+keydownHandler(keyboardEvent("KeyE"));
+assert.equal(selectedRarity, 1);
+keydownHandler(keyboardEvent("Tab"));
+assert.equal(cycledTabs, 1);
+keyboard.destroy();
+assert.equal(keyboardDetached, true);
+
 function configKey(rarityId) {
   return STAR_IDENTITY_LIBRARY_CONFIG.atlases
     .find(atlas => atlas.id === rarityId).key;
@@ -151,4 +232,4 @@ function lightConfigKey(rarityId) {
     .find(atlas => atlas.id === rarityId).key;
 }
 
-console.log("star atlas UI smoke: PASS (250 paired core/light entries through authored controls)");
+console.log("star atlas UI smoke: PASS (aligned mouse + keyboard atlas navigation)");

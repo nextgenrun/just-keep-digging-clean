@@ -1,0 +1,63 @@
+Toturial got much better but the ghost that u spawn mirrors playercontroll instead of showing what player should do. should be more clear and show the logical next step not mirror player actions shoud guide the player and point towards next objective
+
+Need slightly more clariy that player is supposte to press S to go down and F for dig how can we implement without UI spam"?
+
+i ineventory screen needs more polish
+
+animations are on older version with less polish more skating harsher transitions need full animation audit and maby hand polish in blender
+
+ESQ still closes full screen instead of active UI opening UI should Always pauze combo timer
+
+is the weather UI redundant? it doenst serve function consider deleleting
+
+Sideways dig/run no longer polished now is skating instead of working version, sometimes randomly gets fixed than issues start again
+
+in toturial free 30 seconds flight is very unclear and cause conffusion since persist after toturial
+
+I start Ui needs way more polish
+
+Lets add special block UI in I menu where you can see all specialblocks/what they do
+
+I menu resources needs art audit
+
+Standing still sideways dig has skating
+
+high stress needs more Obvious visual clues/sound when stress is high so player knows he is in danger/losing GP
+
+can we consider falling debree as another danger need to ad frequent random events where player can dodge debree this would need another skill we will bind on UI wow like action bar where player can block falling debree, consider how this is explained to player debree could be anotther cause of dead or collapsing tunnel player can dodge or have a shield around him draining GP holding Q
+
+floating dmg numbers keep randomly being disable at start ot game not able to see randomly
+
+floating hint indications for example merchant money monster gear merchant float way to high above characters (new issue) they where in correct position before
+
+need improved reward lvl up and UI sounds
+
+all upgrades need full audit some need adjustment/change
+
+next unlock should give relevant hints now its just stuck on the cheapest availble upgrade should change sometimes with relevant information not stay stuck on the same information talking about left bottom screen UI
+
+stars should relieve stress when standing near them since the emmit light, digging stars wont relieve stress
+
+footstep effects that happen when walking on certain material dont happen on dirt correclty underground
+
+randomly no floating dmg numbers dont work even when enable/disable
+
+Map menu M needs major polish and olso visability/clickability in right bottom screen
+
+assets ontop of sky pillar not visible
+
+Sky pilar talenttree need beter visiability user friendlness and clarity
+
+Ui wow like ability bar dissapeared after unlocking first talent can not use ability?
+
+Lock on torch drain abilities for dept should be removed since you need them to traverse deeper without stress these upgrades all need rebalance especially for hardcore, maby we should consider stress reduction element per lvl? too allow player to dig deeper currently on hardcore it seems like u will be stuck at 20M since u cant go deeper without torch upgrades yet can not buy them
+
+sleeping jackpot and chests need animation/asset polish UI of sleeping jackpot need allignments
+
+remove the cost of teleports on hardcore mode completely (was bad idea) make all hardcore teleports free
+
+hardcore death screen needs allignment and polish
+
+after first hardcore death game freezes/gets stuck hardcore death UI needs clickability more user friendlyness
+
+Need hardcore olmost death/about too die sounds

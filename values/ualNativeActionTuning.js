@@ -48,16 +48,18 @@ export const UAL_NATIVE_ACTION_TUNING = Object.freeze({
 
   flight: Object.freeze({
     referenceSpeedPxPerSec: 252,
-    hoverBaseTimeScale: 1,
-    travelBaseTimeScale: 1.2,
+    hoverBaseTimeScale: 0.85,
+    travelBaseTimeScale: 1.15,
     speedExponent: 0.5,
-    minTimeScale: 0.85,
-    maxTimeScale: 2,
-    travelEnterHorizontalSpeedPxPerSec: 72,
-    travelExitHorizontalSpeedPxPerSec: 38,
-    horizontalDominanceRatio: 0.8,
-    travelBankDegrees: 10,
-    hoverBankDegrees: 3,
+    minTimeScale: 0.72,
+    maxTimeScale: 2.25,
+    travelEnterSpeedPxPerSec: 92,
+    travelExitSpeedPxPerSec: 48,
+    pitchReferenceSpeedPxPerSec: 120,
+    maxRiseAngleDegrees: 32,
+    maxDiveAngleDegrees: 38,
+    accelerationReferencePxPerSecondSquared: 900,
+    accelerationLeanDegrees: 6,
     bankResponsePerSecond: 20,
     bankMaxDeltaMs: 100,
     bankFallbackDeltaMs: 1000 / 60,
@@ -69,10 +71,12 @@ export function resolveUalActionContact(profile, animationKey, kind = "normal") 
   if (kind === "quickslash") {
     return profile?.quickslashActionContactByAnimation?.[animationKey] || contacts.quickslash;
   }
-  if (animationKey === profile?.quickslashAnim) return contacts.quickslash;
-  if (kind === "thunderstrike" || animationKey === profile?.thunderStrikeStrikeAnim) return contacts.thunderStrike;
+  if (animationKey === profile?.quickslashAnim) {
+    return profile?.quickslashActionContactByAnimation?.[animationKey] || contacts.quickslash;
+  }
   const profileContact = profile?.actionContactByAnimation?.[animationKey];
   if (profileContact) return profileContact;
+  if (kind === "thunderstrike" || animationKey === profile?.thunderStrikeStrikeAnim) return contacts.thunderStrike;
   if (animationKey === profile?.digDownAnim || animationKey === profile?.attackDownAnim) return contacts.digDown;
 
   const variant = profile?.digAnimationVariants?.find((entry) => entry.key === animationKey);
@@ -123,8 +127,32 @@ export function resolveUalFlightTravel({
   const horizontal = Math.abs(Number(horizontalSpeedPxPerSec) || 0);
   const vertical = Math.abs(Number(verticalSpeedPxPerSec) || 0);
   const threshold = wasTraveling
-    ? flight.travelExitHorizontalSpeedPxPerSec
-    : flight.travelEnterHorizontalSpeedPxPerSec;
-  return horizontal >= threshold
-    && horizontal >= vertical * flight.horizontalDominanceRatio;
+    ? flight.travelExitSpeedPxPerSec
+    : flight.travelEnterSpeedPxPerSec;
+  return Math.hypot(horizontal, vertical) >= threshold;
+}
+
+export function resolveUalFlightPoseAngle({
+  horizontalVelocityPxPerSec = 0,
+  verticalVelocityPxPerSec = 0,
+  verticalAccelerationPxPerSecondSquared = 0,
+  facingFlipX = false,
+} = {}) {
+  const flight = UAL_NATIVE_ACTION_TUNING.flight;
+  const horizontal = Number(horizontalVelocityPxPerSec) || 0;
+  const vertical = Number(verticalVelocityPxPerSec) || 0;
+  const acceleration = Number(verticalAccelerationPxPerSecondSquared) || 0;
+  const directionSign = Math.sign(horizontal) || (facingFlipX ? -1 : 1);
+  const forwardReference = flight.pitchReferenceSpeedPxPerSec + Math.abs(horizontal) * 0.35;
+  const velocityPitch = Math.atan2(vertical, forwardReference) * 180 / Math.PI;
+  const accelerationPitch = Math.max(-1, Math.min(
+    1,
+    acceleration / flight.accelerationReferencePxPerSecondSquared,
+  )) * flight.accelerationLeanDegrees;
+  const combinedPitch = velocityPitch + accelerationPitch;
+  const limitedPitch = Math.max(
+    -flight.maxRiseAngleDegrees,
+    Math.min(flight.maxDiveAngleDegrees, combinedPitch),
+  );
+  return directionSign * limitedPitch;
 }

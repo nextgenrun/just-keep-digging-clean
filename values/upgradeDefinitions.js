@@ -306,7 +306,7 @@ export const UPGRADES = Object.freeze({
     category: UPGRADE_CATEGORIES.PICKAXES,
     name: "Dragon Pickaxe",
     description: "80 flat damage. Bonus on gold. Efficient on all tiles.",
-    goldCost: 360,
+    goldCost: 360000,
     resources: {
       iron: 200,
       steel: 400,
@@ -413,12 +413,13 @@ export const UPGRADES = Object.freeze({
     id: "thunderStrikeAbility",
     category: UPGRADE_CATEGORIES.SPECIAL,
     name: "Thunder Strike",
-    description: "Unlock Thunder Strike (C). Any mastered Thunder Strike constellations activate immediately.",
+    description: "Unlock Thunder Strike (V). Any mastered Thunder Strike constellations activate immediately.",
     purchaseCopy: "Thunder Strike unlocked. Mastered Thunder Strike constellations are now active.",
     baseCost: 0,
     goldCost: 250,
     baseEffect: 1,
     effectType: "unlockThunderStrike",
+    requiresLevel: 20,
     merchant: "boboMerchant",
     oneTimePurchase: true
   },

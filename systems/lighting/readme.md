@@ -2,6 +2,11 @@
 
 Game system — lighting.
 
+`ShaderSystem` retains the rejected tint-only `materialResponse` diagnostic
+below the darkness mask and HUD, but it is disabled by default. It does not
+sample scene textures and therefore is not the production material solution;
+`?materialLighting=1` enables it only for regression review.
+
 `LightSystem.getSunlightSnapshot()` is the production sunlight contract: it
 combines the `DayNightCycle` sun position/alpha with smooth weather
 transmittance, exposure, cloud cover, fog, and tint for atmosphere and shaders.
@@ -53,12 +58,12 @@ orchestrates `FireLightRenderer`, `FireIlluminationRenderer`,
 the surface-only `LightRayAtmosphere` or either Star Block renderer.
 
 Ten 4x4 ImageGen atlases remain available, but the production natural profile
-no longer stacks them. `natural-fire-v1` displays only the compact authored
-flame and restores the existing procedural world glow and shader falloff at
-0.98 and 0.96 strength. The volume, atmosphere, four steady illumination
-layers, and environment layer are invisible. Eye adaptation remains real but
-its presentation overlay is scaled to 0.24, preventing radius, glow, flicker,
-and exposure from becoming one overpowered combined effect.
+does not stack them. `natural-fire-v1` displays only the compact authored flame
+and keeps the existing procedural world glow and shader falloff at 0.98 and
+0.96 strength. The volume, atmosphere, four steady illumination layers, and
+environment layer are invisible. Eye adaptation remains real but its
+presentation overlay is scaled to 0.24. `?fireLightStyle=material` retains the
+rejected orange-layer comparison only; it is not the default.
 
 The exposed flame remains compact: its configured envelope is `0.46 x 0.62`
 tiles and the final live sample measured about `0.450 x 0.607` during flicker.
@@ -108,6 +113,14 @@ V3 immediately; saves, GP drain, reveal radius, and gameplay state are not
 changed.
 
 The retained lamp A/B is `testing/2026-07-30-old-school-lamp-live-compare.html`.
+The shallow material-lighting A/B is
+`testing/2026-08-15-material-lighting-live-compare.html`; its matching
+single-frame capture route is
+`testing/2026-08-15-material-lighting-live-capture.html?variant=before|after`.
+It uses real Phaser/WebGL worlds and a deterministic dug 18 m gameplay gallery,
+with the same camera, diffuse composition, player state, GP, weather, and time.
+Before disables derived material lighting; after uses derived diffuse/normal
+companions and Phaser `Light2D`.
 The selected-direction comparison is
 `testing/2026-07-30-natural-fire-live-compare.html`: natural fire and untouched
 legacy procedural light in two synchronized Phaser/WebGL worlds with shared

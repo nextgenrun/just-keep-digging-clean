@@ -19,13 +19,13 @@ const survivor = getPlayerAssetProfile(PLAYER_CHARACTER_IDS.survivalUal);
 const robot = PLAYER_ASSET_PROFILES.robot;
 assert.equal(
   getPlayerAbilityAssetPack(survivor, PLAYER_ABILITY_ASSET_IDS.quickslash).length,
-  0,
-  "Survivor Quickslash reuses its core Jab sheet",
+  1,
+  "Survivor Hurricane Kick is a dedicated deferred Quickslash sheet",
 );
 assert.equal(
   getPlayerAbilityAssetPack(survivor, PLAYER_ABILITY_ASSET_IDS.thunderStrike).length,
-  0,
-  "Survivor Thunder sources also serve core Dig Up Look and Down mining",
+  1,
+  "Survivor Mixamo Thunder Strike is a dedicated deferred ability sheet",
 );
 assert.equal(
   getPlayerAbilityAssetPack(robot, PLAYER_ABILITY_ASSET_IDS.quickslash).length,
@@ -120,6 +120,30 @@ for (const request of requests) {
 assert.equal((await ready).ready, true);
 assert.equal(controller.isReady(PLAYER_ABILITY_ASSET_IDS.thunderStrike), true);
 assert.ok(animations.some(animation => animation.key === robot.thunderStrikeChargeAnim));
+controller.destroy();
+
+textures.clear();
+requests.length = 0;
+overBudget = true;
+const interactiveController = new PlayerAbilityAssetController(scene, robot, {
+  ...RUNTIME_ASSET_LOADING,
+});
+const passivelyDeferred = interactiveController.ensure(
+  PLAYER_ABILITY_ASSET_IDS.thunderStrike,
+);
+assert.equal(requests.length, 0);
+const interactivelyPromoted = interactiveController.ensure(
+  PLAYER_ABILITY_ASSET_IDS.thunderStrike,
+  { interactive: true },
+);
+assert.equal(interactivelyPromoted, passivelyDeferred);
+assert.equal(requests.length, 2, "an explicit player action must promote deferred ability art");
+for (const request of requests) {
+  textures.add(request.asset.key);
+  request.options.onReady();
+}
+assert.equal((await interactivelyPromoted).ready, true);
+interactiveController.destroy();
 
 let ensureCalls = 0;
 const abilities = new PlayerAbilities(
@@ -142,6 +166,5 @@ assert.deepEqual(abilities.executeThunderStrike(0), {
 });
 assert.equal(abilities.gemPower, 500, "asset waits must not spend GP");
 assert.ok(ensureCalls >= 2);
-controller.destroy();
 
 console.log("player ability asset contract: PASS");

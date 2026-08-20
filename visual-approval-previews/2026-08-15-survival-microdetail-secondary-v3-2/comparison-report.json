@@ -1,0 +1,15 @@
+{
+  "version": "3.2",
+  "reviewOnly": true,
+  "productionChanged": false,
+  "family": "walk",
+  "frames": 24,
+  "fps": 16,
+  "bodyActionChanged": false,
+  "subdivisionAdded": false,
+  "alpha": {
+    "minimumIou": 0.9579757698132256,
+    "maximumCentroidDeltaPx": 0.6615380789854145
+  },
+  "preview": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\visual-approval-previews\\2026-08-15-survival-microdetail-secondary-v3-2\\v2-1-vs-v3-2-microdetail-secondary.gif"
+}

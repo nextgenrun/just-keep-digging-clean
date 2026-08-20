@@ -12,9 +12,15 @@ import { TILE_TYPES } from "../values/tileTypes.js";
 
 const barrierConfig = FIRST_FIVE_MINUTES_CONFIG.townExitBarrier;
 assert.deepEqual(barrierConfig, {
-  tileX: 66,
-  topSurfaceRowOffset: -3,
-  heightTiles: 3,
+  tileX: 18,
+  topSurfaceRowOffset: -20,
+  heightTiles: 20,
+  starterRoute: {
+    halfWidthTiles: 2,
+    sideStartDepthMeters: 1,
+    sideEndDepthMeters: 17,
+    floorDepthMeters: 17,
+  },
 });
 assert.equal("flightReminders" in FIRST_FIVE_MINUTES_CONFIG, false);
 
@@ -28,8 +34,14 @@ const dugTiles = new Map();
 const rubbleTiles = new Map();
 const dugTileSource = new Map();
 const rendererUpdates = [];
-for (const ty of [62, 63, 64]) {
-  const key = `66,${ty}`;
+const barrierTiles = [];
+for (let ty = 45; ty <= 64; ty += 1) barrierTiles.push({ tx: 18, ty });
+for (let ty = 66; ty <= 82; ty += 1) {
+  barrierTiles.push({ tx: 10, ty }, { tx: 14, ty });
+}
+for (let tx = 11; tx <= 13; tx += 1) barrierTiles.push({ tx, ty: 82 });
+for (const tile of barrierTiles) {
+  const key = `${tile.tx},${tile.ty}`;
   tiles.set(key, TILE_TYPES.AIR);
   dugTiles.set(key, { original: "dug" });
 }
@@ -57,10 +69,10 @@ const barrier = new TutorialTownExitBarrierSystem(
 );
 
 assert.equal(barrier.create(), true);
-for (const ty of [62, 63, 64]) {
-  assert.equal(tiles.get(`66,${ty}`), TILE_TYPES.BEDROCK);
+for (const tile of barrierTiles) {
+  assert.equal(tiles.get(`${tile.tx},${tile.ty}`), TILE_TYPES.BEDROCK);
 }
-assert.equal(rendererUpdates.length, 3);
+assert.equal(rendererUpdates.length, 57);
 for (const stage of [
   TOWN_TUTORIAL_STAGES.MOVE,
   TOWN_TUTORIAL_STAGES.DIG,
@@ -71,18 +83,19 @@ for (const stage of [
   assert.equal(barrier.sync(), true);
 }
 
-tiles.set("66,63", TILE_TYPES.AIR);
+tiles.set("18,55", TILE_TYPES.AIR);
 assert.equal(barrier.sync(), true);
-assert.equal(tiles.get("66,63"), TILE_TYPES.BEDROCK);
-assert.equal(rendererUpdates.length, 4);
+assert.equal(tiles.get("18,55"), TILE_TYPES.BEDROCK);
+assert.equal(rendererUpdates.length, 58);
 
 tutorialState = { ...tutorialState, stage: TOWN_TUTORIAL_STAGES.SELL };
 assert.equal(barrier.sync(), false);
-for (const ty of [62, 63, 64]) {
-  assert.equal(tiles.get(`66,${ty}`), TILE_TYPES.AIR);
-  assert.deepEqual(dugTiles.get(`66,${ty}`), { original: "dug" });
+for (const tile of barrierTiles) {
+  const key = `${tile.tx},${tile.ty}`;
+  assert.equal(tiles.get(key), TILE_TYPES.AIR);
+  assert.deepEqual(dugTiles.get(key), { original: "dug" });
 }
-assert.equal(rendererUpdates.length, 7);
+assert.equal(rendererUpdates.length, 115);
 assert.equal(barrier.getHealthSnapshot().active, false);
 barrier.destroy();
 

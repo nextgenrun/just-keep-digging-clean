@@ -1,0 +1,26 @@
+export const INVENTORY_SPECIAL_BLOCKS = Object.freeze({
+  tabLabel: "SPECIAL BLOCKS",
+  subtitle: "Exact block art, rarity, effect, and safe-use notes",
+  selectorTitle: "BLOCK CODEX",
+  detailTitle: "WHAT IT DOES",
+  entries: Object.freeze([
+    Object.freeze({ id: "gemPowerBlock", renderKey: "GEM_POWER_BLOCK", name: "Gem Power Block", rarity: "RARE", color: "#c88cff", effect: "Restores GP instantly. The restored amount grows at deeper tiers.", use: "Mine it when your GP reserve is low; it does not create a timed buff." }),
+    Object.freeze({ id: "speedBlock", renderKey: "SPEED_BLOCK", name: "Speed Block", rarity: "VERY RARE", color: "#ffd76b", effect: "+50% mining speed for 20 seconds. Multiple boosts can stack.", use: "Best used before a dense route or timed objective." }),
+    Object.freeze({ id: "xpBlock", renderKey: "XP_BLOCK", name: "XP Block", rarity: "RARE", color: "#fff36b", effect: "Grants one full player level instantly.", use: "The reward is immediate; there is no buff to preserve." }),
+    Object.freeze({ id: "critBlock", renderKey: "CRIT_BLOCK", name: "Critical Block", rarity: "VERY RARE", color: "#ff7468", effect: "Guarantees critical mining hits for 20 seconds.", use: "Use the window on hard materials or high-value routes." }),
+    Object.freeze({ id: "berserkBlock", renderKey: "BERSERK_BLOCK", name: "Berserk Block", rarity: "VERY RARE", color: "#ff6d8b", effect: "+50% mining damage for 20 seconds. Multiple boosts can stack.", use: "Pairs well with speed and critical effects." }),
+    Object.freeze({ id: "comboBlock", renderKey: "COMBO_BLOCK", name: "Combo Block", rarity: "RARE", color: "#bcecff", effect: "Adds 50 combo immediately.", use: "Opening any UI pauses the combo timer; the added combo is safe in menus." }),
+    Object.freeze({ id: "legendBlock", renderKey: "LEGEND_BLOCK", name: "Legend Block", rarity: "LEGENDARY", color: "#f2c96b", effect: "Grants five full player levels instantly.", use: "Extremely rare and always worth collecting." }),
+  ]),
+  layout: Object.freeze({
+    desktopThresholdPx: 760,
+    selectorWidthPx: 330,
+    panelGapPx: 14,
+    panelPaddingPx: 14,
+    selectorHeaderHeightPx: 42,
+    selectorGapPx: 7,
+    previewTileSizePx: 164,
+    previewTileCompactSizePx: 104,
+    detailTextWidthInsetPx: 34,
+  }),
+});

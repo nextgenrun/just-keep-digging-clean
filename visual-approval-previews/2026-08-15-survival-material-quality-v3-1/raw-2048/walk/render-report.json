@@ -1,0 +1,232 @@
+{
+  "version": "3.1",
+  "reviewOnly": true,
+  "productionChanged": false,
+  "family": "walk",
+  "sourceFrames": [
+    1.0,
+    2.916666666666667,
+    4.833333333333334,
+    6.75,
+    8.666666666666668,
+    10.583333333333334,
+    12.5,
+    14.416666666666666,
+    16.333333333333336,
+    18.25,
+    20.166666666666668,
+    22.083333333333332,
+    24.0,
+    25.916666666666668,
+    27.833333333333332,
+    29.75,
+    31.666666666666668,
+    33.583333333333336,
+    35.5,
+    37.416666666666664,
+    39.333333333333336,
+    41.25,
+    43.166666666666664,
+    45.083333333333336
+  ],
+  "meshVertices": 83188,
+  "meshPolygons": 119304,
+  "motionEdits": {
+    "bone": false,
+    "weights": false,
+    "camera": false,
+    "geometry": false
+  },
+  "secondaryMotion": false,
+  "fullGlovePolygons": 6162,
+  "objectTranslationKeysFrozen": 141,
+  "textures": {
+    "normalMaps": 9,
+    "relinkedTextures": 32,
+    "eye": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\visual-approval-previews\\2026-08-14-survival-global-benchmark-v1\\texture-cache-2k\\Textures\\Eye\\Eye_BaseColor.png",
+    "fullResolutionRestored": [
+      "Backpack_BaseColor.jpg",
+      "Backpack_Normal.jpg",
+      "Backpack_OcclusionRoughnessMetallic.jpg",
+      "Backpack_OcclusionRoughnessMetallic.jpg.001",
+      "Backpack_OcclusionRoughnessMetallic.jpg.002",
+      "Eye_BaseColor.png",
+      "Eyebrows_AO.jpg",
+      "Eyebrows_BaseColor.jpg",
+      "Eyebrows_Normal.jpg",
+      "Eyebrows_Opacity.jpg",
+      "Gloves_BaseColor.jpg",
+      "Gloves_Normal.jpg",
+      "Gloves_OcclusionRoughnessMetallic.jpg",
+      "Gloves_OcclusionRoughnessMetallic.jpg.001",
+      "Gloves_OcclusionRoughnessMetallic.jpg.002",
+      "HairBrown_Alpha.jpg",
+      "HairBrown_Diffuse_2.jpg",
+      "HairBrown_Normal.jpg",
+      "Jacket_BaseColor.jpg",
+      "Jacket_Normal.jpg",
+      "Jacket_OcclusionRoughnessMetallic.jpg",
+      "Jacket_OcclusionRoughnessMetallic.jpg.001",
+      "Jacket_OcclusionRoughnessMetallic.jpg.002",
+      "Jeans_BaseColor.jpg",
+      "Jeans_Normal.jpg",
+      "Jeans_OcclusionRoughnessMetallic.jpg",
+      "Jeans_OcclusionRoughnessMetallic.jpg.001",
+      "Jeans_OcclusionRoughnessMetallic.jpg.002",
+      "Shoes_BaseColor.jpg",
+      "Shoes_Normal.jpg",
+      "Shoes_OcclusionRoughnessMetallic.jpg",
+      "Shoes_OcclusionRoughnessMetallic.jpg.001",
+      "Shoes_OcclusionRoughnessMetallic.jpg.002"
+    ]
+  },
+  "materials": {
+    "Jacket1": {
+      "baseColor": "linked*0.9",
+      "roughness": "linked*0.9",
+      "normalStrength": 1.08,
+      "nonColorDataMaps": [
+        {
+          "socket": "Roughness",
+          "image": "Jacket_OcclusionRoughnessMetallic.jpg.001"
+        },
+        {
+          "socket": "Metallic",
+          "image": "Jacket_OcclusionRoughnessMetallic.jpg"
+        }
+      ],
+      "surfaceSettings": {
+        "coatWeight": 0.04,
+        "coatRoughness": 0.24
+      }
+    },
+    "Backpack2": {
+      "baseColor": "linked*0.91",
+      "roughness": "linked*0.95",
+      "normalStrength": 1.03,
+      "nonColorDataMaps": [
+        {
+          "socket": "Roughness",
+          "image": "Backpack_OcclusionRoughnessMetallic.jpg.001"
+        },
+        {
+          "socket": "Metallic",
+          "image": "Backpack_OcclusionRoughnessMetallic.jpg"
+        }
+      ],
+      "surfaceSettings": {
+        "coatWeight": 0.02,
+        "coatRoughness": 0.28
+      }
+    },
+    "Gloves1": {
+      "baseColor": "linked*0.88",
+      "roughness": "linked*0.85",
+      "normalStrength": 1.08,
+      "nonColorDataMaps": [
+        {
+          "socket": "Roughness",
+          "image": "Gloves_OcclusionRoughnessMetallic.jpg.001"
+        },
+        {
+          "socket": "Metallic",
+          "image": "Gloves_OcclusionRoughnessMetallic.jpg"
+        }
+      ],
+      "surfaceSettings": {
+        "coatWeight": 0.05,
+        "coatRoughness": 0.22
+      }
+    },
+    "Jeans1": {
+      "baseColor": "linked*0.92",
+      "roughness": "linked*1.05",
+      "normalStrength": 0.96,
+      "nonColorDataMaps": [
+        {
+          "socket": "Roughness",
+          "image": "Jeans_OcclusionRoughnessMetallic.jpg.001"
+        },
+        {
+          "socket": "Metallic",
+          "image": "Jeans_OcclusionRoughnessMetallic.jpg"
+        }
+      ],
+      "surfaceSettings": {
+        "coatWeight": 0.0,
+        "coatRoughness": 0.3
+      }
+    },
+    "Shoes1": {
+      "baseColor": "linked*0.89",
+      "roughness": "linked*0.86",
+      "normalStrength": 1.03,
+      "nonColorDataMaps": [
+        {
+          "socket": "Roughness",
+          "image": "Shoes_OcclusionRoughnessMetallic.jpg.001"
+        },
+        {
+          "socket": "Metallic",
+          "image": "Shoes_OcclusionRoughnessMetallic.jpg"
+        }
+      ],
+      "surfaceSettings": {
+        "coatWeight": 0.05,
+        "coatRoughness": 0.22
+      }
+    },
+    "Hair3": {
+      "baseColor": "linked*0.9",
+      "roughness": 0.42,
+      "normalStrength": 0.88,
+      "nonColorDataMaps": [],
+      "surfaceSettings": {
+        "coatWeight": 0.0,
+        "coatRoughness": 0.28,
+        "specularIorLevel": 0.12,
+        "anisotropic": 0.22,
+        "sheenWeight": 0.04,
+        "sheenRoughness": 0.32
+      }
+    },
+    "Head": {
+      "baseColor": "linked*0.95",
+      "roughness": 0.52,
+      "normalStrength": 0.72,
+      "nonColorDataMaps": [
+        {
+          "socket": "Metallic",
+          "image": "Body_OcclusionRoughnessMetallic.<UDIM>.png.003"
+        }
+      ],
+      "surfaceSettings": {
+        "coatWeight": 0.0,
+        "coatRoughness": 0.32,
+        "specularIorLevel": 0.08,
+        "subsurfaceWeight": 0.02,
+        "subsurfaceScale": 0.014
+      }
+    },
+    "Body2": {
+      "baseColor": "unchanged",
+      "roughness": 0.5,
+      "normalStrength": 0.72,
+      "nonColorDataMaps": [],
+      "surfaceSettings": {
+        "coatWeight": 0.01,
+        "coatRoughness": 0.28
+      }
+    },
+    "Arms": {
+      "baseColor": "unchanged",
+      "roughness": 0.5,
+      "normalStrength": 0.72,
+      "nonColorDataMaps": [],
+      "surfaceSettings": {
+        "coatWeight": 0.01,
+        "coatRoughness": 0.28
+      }
+    }
+  }
+}

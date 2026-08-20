@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "reviewOnly": true,
+  "productionChanged": false,
+  "runtimeWiring": "none",
+  "canvas": { "width": 1920, "height": 1080, "fps": 24 },
+  "fallbackAnimatedWebp": { "width": 1280, "height": 720, "fps": 12, "quality": 86, "method": 4 },
+  "segmentSeconds": {
+    "heroTarget": 3.0,
+    "run": 2.4,
+    "miningSide": 1.8,
+    "miningUp": 1.8,
+    "miningDown": 2.0,
+    "flight": 2.4
+  },
+  "presentationHeights": { "trueSize": 107, "inspection2x": 214, "inspection4x": 428 },
+  "qualityPass": {
+    "contrast": 1.08,
+    "color": 0.96,
+    "sharpness": 1.2,
+    "unsharpRadius": 1.4,
+    "unsharpPercent": 115,
+    "unsharpThreshold": 3,
+    "rimRadius": 9,
+    "rimOpacity": 54
+  }
+}

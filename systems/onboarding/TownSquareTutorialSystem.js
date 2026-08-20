@@ -110,6 +110,31 @@ export class TownSquareTutorialSystem {
     return this.firstFive.isEnabled();
   }
 
+  isFirstPortalPending(tile = null) {
+    const state = this.retention?.getTutorialState?.();
+    if (
+      state?.choice !== TOWN_TUTORIAL_CHOICES.YES
+      || state.stage !== TOWN_TUTORIAL_STAGES.PORTAL
+    ) {
+      return false;
+    }
+    if (!tile) return true;
+    const portal = this.scene.firstSessionPortalSystem?.getPortalTile?.();
+    return Boolean(
+      portal
+      && tile.tx === portal.tx
+      && tile.ty === portal.ty
+    );
+  }
+
+  recordFirstPortalActivated(label, tile) {
+    if (!this.isFirstPortalPending(tile)) return false;
+    this.retention.recordPortalActivated(label);
+    this.firstFive?.townExitBarrier?.sync?.();
+    this.scene.queueDugTilesSave?.();
+    return true;
+  }
+
   getNextPromiseOverride() {
     return this.firstFive.getNextPromiseOverride();
   }
@@ -132,6 +157,20 @@ export class TownSquareTutorialSystem {
 
   isDescentBlocked() {
     return this.firstFive.isDescentBlocked();
+  }
+
+  shouldBlockDownwardMine(targetTile) {
+    return this.firstFive.shouldBlockDownwardMine(targetTile);
+  }
+
+  isTutorialTeleportFree(options = {}) {
+    return this.firstFive.isTutorialTeleportFree(options);
+  }
+
+  consumeTutorialTeleportFreePass(options = {}) {
+    const consumed = this.firstFive.consumeTutorialTeleportFreePass(options);
+    if (consumed) this.scene.queueDugTilesSave?.();
+    return consumed;
   }
 
   getRequiredDigSite() {
@@ -179,6 +218,7 @@ export class TownSquareTutorialSystem {
       this.view.pointAt(
         (site.tx + 0.5) * tileSize,
         site.ty * tileSize + RETENTION_CONFIG.tutorial.ui.digMarkerOffsetYPx,
+        USER_SETTINGS.getKeyLabel("dig"),
       );
       return;
     }
@@ -254,6 +294,9 @@ export class TownSquareTutorialSystem {
     this.view.pointAt(
       (site.tx + 0.5) * tileSize,
       site.ty * tileSize + RETENTION_CONFIG.tutorial.ui.digMarkerOffsetYPx,
+      this.lastStage === TOWN_TUTORIAL_STAGES.PORTAL
+        ? USER_SETTINGS.getKeyLabel("aimDown")
+        : "",
     );
   }
 

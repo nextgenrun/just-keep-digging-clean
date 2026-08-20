@@ -275,7 +275,9 @@ queueCapabilityFireAssets({
   textures: { exists: () => false },
   load: { spritesheet: key => queuedFireSheets.push(key) },
 }, "");
-const activeLayerIds = new Set(["steadyFlame", "stateFlame"]);
+const activeLayerIds = new Set([
+  "steadyFlame", "stateFlame",
+]);
 if (resolveFireRaysEnabled("")) activeLayerIds.add("rays");
 assert.deepEqual(
   queuedFireSheets,
@@ -309,4 +311,4 @@ for (const file of [
   assert.ok(lines <= 300, `${file} must remain at or below 300 lines`);
 }
 
-console.log("fire light passed: one-layer natural default, legacy-style falloff, hidden rays, layered rollback");
+console.log("fire light passed: natural default, hidden rays, material review, layered rollback");

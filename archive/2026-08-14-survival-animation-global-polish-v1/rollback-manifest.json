@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "created": "2026-08-14",
+  "scope": "survival-animation-global-polish-v1",
+  "files": [
+    {
+      "restorePath": "values/survivalUalPlayerAssetProfile.js",
+      "archivePath": "values/survivalUalPlayerAssetProfile.js",
+      "bytes": 14119,
+      "sha256": "ce8f5f0a61dd6cbf9d9117386a098ddfb37a65791d9930e3b01c4f248477e050"
+    },
+    {
+      "restorePath": "systems/visual/PlayerKinematicMotionSystem.js",
+      "archivePath": "systems/visual/PlayerKinematicMotionSystem.js",
+      "bytes": 4297,
+      "sha256": "9c1e5bfdf1a8185ab86028df69fb9d83bbec040da94aa6d55eeebaf19cf7d528"
+    }
+  ]
+}

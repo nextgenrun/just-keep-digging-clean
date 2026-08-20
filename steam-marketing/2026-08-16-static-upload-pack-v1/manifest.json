@@ -1,0 +1,130 @@
+[
+  {
+    "file": "store-header-capsule-920x430.png",
+    "width": 920,
+    "height": 430,
+    "mode": "RGBA",
+    "sha256": "1d561f713108402cb0940fc98494762ed536c3fccc9a451130ab25a3435061f8",
+    "upload_ready": true
+  },
+  {
+    "file": "store-small-capsule-462x174.png",
+    "width": 462,
+    "height": 174,
+    "mode": "RGBA",
+    "sha256": "ee82fb3f847d3b07eca8e844a8b8f5f3f2ddcd8d144871c63c55d779005a05cd",
+    "upload_ready": true
+  },
+  {
+    "file": "store-main-capsule-1232x706.png",
+    "width": 1232,
+    "height": 706,
+    "mode": "RGBA",
+    "sha256": "fbed416b508b8275a0dd11b661fc93a41d5d7945db338d1ab0d187dbc3665563",
+    "upload_ready": true
+  },
+  {
+    "file": "store-vertical-capsule-748x896.png",
+    "width": 748,
+    "height": 896,
+    "mode": "RGBA",
+    "sha256": "ffc08a3b3485256b9aeb937e3c0271e20c2f7c48ddce4e891ef4dd195fd2441c",
+    "upload_ready": true
+  },
+  {
+    "file": "library-capsule-600x900.png",
+    "width": 600,
+    "height": 900,
+    "mode": "RGBA",
+    "sha256": "bbd3ec908a6a5d6e5c7df4abe4a3e197703df1ed8d6e02a4b96a2cb8e2d0adb5",
+    "upload_ready": true
+  },
+  {
+    "file": "library-header-capsule-920x430.png",
+    "width": 920,
+    "height": 430,
+    "mode": "RGBA",
+    "sha256": "1d561f713108402cb0940fc98494762ed536c3fccc9a451130ab25a3435061f8",
+    "upload_ready": true
+  },
+  {
+    "file": "library-hero-artwork-only-3840x1240.png",
+    "width": 3840,
+    "height": 1240,
+    "mode": "RGB",
+    "sha256": "b56ab1115bab4d5417c28d8fade962918551f28e7b925677cf2c2d56e3ab4e44",
+    "upload_ready": true
+  },
+  {
+    "file": "library-logo-transparent-1280px-wide.png",
+    "width": 1280,
+    "height": 352,
+    "mode": "RGBA",
+    "sha256": "1c771507e0ff75be51a6da3cb9f16311fbd1fe058b6c76aa2fd32369aa3e15d4",
+    "upload_ready": true
+  },
+  {
+    "file": "store-page-background-1438x810.png",
+    "width": 1438,
+    "height": 810,
+    "mode": "RGBA",
+    "sha256": "d5549b4fa7a955a31b65fa530ee559612c2ec1c07ae87aa367d98d04ffab6b1c",
+    "upload_ready": true
+  },
+  {
+    "file": "broadcast-slate-1920x1080.png",
+    "width": 1920,
+    "height": 1080,
+    "mode": "RGBA",
+    "sha256": "ef9e1e9575df707cd12375aee7b87bbfd5171cbedbba95bf1419e0ef7067a3e1",
+    "upload_ready": true
+  },
+  {
+    "file": "client-shortcut-icon-256x256.png",
+    "width": 256,
+    "height": 256,
+    "mode": "RGB",
+    "sha256": "d438b1425d9b3e81fedb9c5f2d4a1fdbf4bc13611351df5d7f267ec6099bc692",
+    "upload_ready": true
+  },
+  {
+    "file": "client-app-icon-184x184.jpg",
+    "width": 184,
+    "height": 184,
+    "mode": "RGB",
+    "sha256": "04c94c1e5e3748ca8900587b37aa04eb7f0818f9886e04b4c29a833cea3a4357",
+    "upload_ready": true
+  },
+  {
+    "file": "review-only-screenshot-01-surface-town-1920x1080.png",
+    "width": 1920,
+    "height": 1080,
+    "mode": "RGB",
+    "sha256": "32992e5f8ecdd7286f9b593d7d0c5956a0d8eb07cc3ac874ac57319b2660faf5",
+    "upload_ready": false
+  },
+  {
+    "file": "review-only-screenshot-02-first-dig-1920x1080.png",
+    "width": 1920,
+    "height": 1080,
+    "mode": "RGB",
+    "sha256": "a2d0f5d8d856f1015a1f8a89c79a26d3d9f6a2a04a03fd4e275370b1d74b4e6b",
+    "upload_ready": false
+  },
+  {
+    "file": "review-only-screenshot-03-celestial-talents-1920x1080.png",
+    "width": 1920,
+    "height": 1080,
+    "mode": "RGB",
+    "sha256": "bcaf08197e142c8635f0231bdc6cb2a688c9b608a972fbd7ba0ce6d5aed2ab6e",
+    "upload_ready": false
+  },
+  {
+    "file": "understar-steam-static-pack-contact-sheet.png",
+    "width": 1536,
+    "height": 1694,
+    "mode": "RGB",
+    "sha256": "1f06509e138a5d49580b4c9656326cfc2cb368e2f9407bf0f0284d42d8ab92b8",
+    "upload_ready": false
+  }
+]

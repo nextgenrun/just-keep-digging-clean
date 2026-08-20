@@ -6,7 +6,7 @@ import {
 import {
   PLAYER_ASSET_PROFILES,
   getPlayerAssetProfile,
-} from "../../values/playerAssetProfiles.js?rev=20260718-mesh-grounded";
+} from "../../values/playerAssetProfiles.js?rev=20260820-complex-dig-v1";
 import {
   awaitLoadComplete,
   hasPlayerProfileSheets,
@@ -15,7 +15,7 @@ import {
   queueRobotSheets,
 } from "../../player/PlayerAssetLoader.js";
 import { createUalNativePlayerAnimations } from
-  "../../player/UalNativePlayerAnimations.js";
+  "../../player/UalNativePlayerAnimations.js?rev=20260820-complex-dig-v1";
 import { sanitizeHardcoreModeData } from "../../values/hardcoreMode.js";
 
 async function loadQueuedAssets(scene, queued, label) {

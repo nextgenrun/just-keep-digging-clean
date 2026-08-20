@@ -1,0 +1,43 @@
+{
+  "version": 2,
+  "frameSizePx": 256,
+  "canvasWidthPx": 1000,
+  "canvasHeightPx": 600,
+  "previewCellSizePx": 400,
+  "fps": 12,
+  "cycles": 1,
+  "output": "visual-approval-previews/2026-08-15-survival-animation-contract-repair-v2",
+  "beforeRoot": "archive/2026-08-15-survival-animation-contract-repair-v2/rollback-quality-v1",
+  "families": [
+    {
+      "label": "WALK",
+      "path": "sprites/character/survival-character-blender-v2/runtime/survival-character-blender-v2-walk-sheet.png",
+      "frames": [0, 23]
+    },
+    {
+      "label": "RUN",
+      "path": "sprites/character/survival-ual-player-v1/runtime/survival-ual-player-v1-animation-polish-run-sheet.webp",
+      "frames": [0, 27]
+    },
+    {
+      "label": "SIDE MINING",
+      "path": "sprites/character/survival-ual-player-v1/runtime/survival-ual-player-v1-punch-jab-sheet.webp",
+      "frames": [3, 17]
+    },
+    {
+      "label": "UP MINING",
+      "path": "sprites/character/survival-character-blender-v2/runtime/survival-character-blender-v2-dig-up-piskel-polished-sheet.png",
+      "frames": [0, 23]
+    },
+    {
+      "label": "DOWN MINING",
+      "path": "sprites/character/survival-ual-player-v1/runtime/survival-ual-player-v1-ground-strike-sheet.webp",
+      "frames": [4, 40]
+    },
+    {
+      "label": "FLIGHT - SOURCE FACES RIGHT",
+      "path": "sprites/character/survival-character-blender-v2/runtime/survival-character-blender-v2-superman-flight-prone-v3-sheet.png",
+      "frames": [0, 35]
+    }
+  ]
+}

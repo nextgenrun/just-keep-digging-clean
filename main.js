@@ -1,10 +1,10 @@
 import { GAME_CONFIG } from "./values/gameConfig.js";
-import { BootScene } from "./ui/scenes/BootScene.js?rev=20260729-native-density-v14";
+import { BootScene } from "./ui/scenes/BootScene.js?rev=20260818-feedback-session-v1";
 import { MenuAudioScene } from "./ui/scenes/MenuAudioScene.js";
 import { MainMenuScene } from "./ui/scenes/MainMenuScene.js";
 import { StartMenuScene } from "./ui/scenes/StartMenuScene.js?rev=20260727-save-transfer-v1";
 import { WorldLoadScene } from "./ui/scenes/WorldLoadScene.js?rev=20260718";
-import { PlayScene } from "./ui/scenes/PlayScene.js?rev=20260812-stability-foundation";
+import { PlayScene } from "./ui/scenes/PlayScene.js?rev=20260820-complex-dig-v1";
 import { CaveScene } from "./ui/scenes/CaveScene.js?rev=20260729-native-density-v14";
 import {
   finalizeRenderDensityFoundation,

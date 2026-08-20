@@ -10,6 +10,11 @@ scenic surface runtime.
 - `npc-town-scenic-composite-v2.webp` preserves that plate 1:1 across its original
   span and adds a mirrored right-edge continuation, preventing a hard viewport edge
   without stretching doors, buildings, or atmospheric detail.
+- `npc-town-scenic-composite-v2-relief-bake-v1.webp` is an exact-size,
+  deterministically derived review variant of V2. It preserves alignment,
+  palette, global exposure, and source identity while adding bounded local
+  material detail and directional relief. Its adjacent JSON pins hashes and
+  measured correction ceilings; `?surfaceRelief=1` selects it.
 - `npc-town-far-background-v1.webp` is retained as the clean far-distance source
   variant for a future independently parallaxed layer pass.
 - `town-square-slate-strip-v3.png` is the current production promotion of

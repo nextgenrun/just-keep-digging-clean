@@ -323,6 +323,7 @@ export class CelestialTalentTreeView {
       (height - inset) / layout.referenceHeightPx,
     ));
     this.root.setPosition(width / 2, height / 2).setScale(scale);
+    this.tooltip?.setViewportScale(scale);
     const compact = scale < layout.compactStatusScaleThreshold;
     this.nodes.forEach(node => node.setCompactStatus(compact));
   }

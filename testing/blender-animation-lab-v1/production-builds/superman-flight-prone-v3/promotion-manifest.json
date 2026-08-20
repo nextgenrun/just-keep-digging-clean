@@ -10,6 +10,13 @@
   "runtime": {
     "file": "survival-character-blender-v2-superman-flight-prone-v3-sheet.png",
     "sha256": "a1d35ad7a0009ac3856e72596e69d9df6b517d1ebccc00f501c35b6f9af6fbb4",
+    "rejectedQualityV1Sha256": "e38e5ef3e30da5afd9f2a04612a192c74a4e271685943d73f11dd6918a6b6069",
+    "contractRepair": {
+      "version": 2,
+      "date": "2026-08-15",
+      "motionAuthorityRestored": true,
+      "reason": "quality-v1 changed facing/silhouette placement without updating the authored rig contract"
+    },
     "frameCount": 36,
     "frameWidth": 256,
     "frameHeight": 256,

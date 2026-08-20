@@ -239,7 +239,24 @@ const scene = {
     abilities: {
       isFlying: () => flightActive,
     },
+    getPlayerTile() {
+      return {
+        tx: Math.floor(
+          (this.physicsBody.x + this.physicsBody.w / 2) / GAME_CONFIG.tileSize,
+        ),
+        ty: Math.floor(
+          (this.physicsBody.y + this.physicsBody.h / 2) / GAME_CONFIG.tileSize,
+        ),
+      };
+    },
     getAimTargetTile: () => null,
+  },
+  firstSessionPortalSystem: {
+    getPortalTile: () => ({
+      tx: FIRST_FIVE_MINUTES_CONFIG.firstPortal.tileX,
+      ty: GAME_CONFIG.topAirRows
+        + FIRST_FIVE_MINUTES_CONFIG.firstPortal.depthMeters,
+    }),
   },
   upgradeSystem: {
     getUpgradeLevel: () => 0,
@@ -304,7 +321,11 @@ flightActive = true;
 retention.consumeTutorialFreeFlight(16);
 assert.equal(retention.recordTutorialFlight(), true);
 bridge.update();
-assert.equal(canDropThrough(), true);
+assert.equal(canDropThrough(), false, "PORTAL stage stays closed outside x12 route");
+scene.playerController.physicsBody.x = (
+  FIRST_FIVE_MINUTES_CONFIG.firstPortal.tileX * GAME_CONFIG.tileSize
+);
+assert.equal(canDropThrough(), true, "surface drop opens only above starter route");
 assert.match(bridge.getNextPromiseOverride().promise, /STEP 4/);
 retention.recordPortalActivated("Starter Return Gate");
 assert.equal(retention.getTutorialState().stage, TOWN_TUTORIAL_STAGES.SELL);

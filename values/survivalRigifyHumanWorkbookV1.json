@@ -1,0 +1,92 @@
+{
+  "version": "survival-rigify-human-workbook-v1",
+  "reviewOnly": true,
+  "sourceBlend": "sprites/character/survival-character-blender-v2/blender/survival-character-blender-v2.blend",
+  "outputBlend": "testing/blender-animation-lab-v1/review-drafts/rigify-human-workbook-v1/survival-character-rigify-human-workbook-v1.blend",
+  "manifestPath": "testing/blender-animation-lab-v1/review-drafts/rigify-human-workbook-v1/workbook-manifest.json",
+  "manualBuilderScript": "ai-tools/2026-08-19-build-manual-rerig-workbook.py",
+  "source": {
+    "meshObject": "SurvivalPolishBody"
+  },
+  "quality": {
+    "heroScript": "ai-tools/2026-08-15-render-survival-hero-quality-v4.py",
+    "applyLatestV4Materials": true,
+    "restoreOriginalFullResolutionTextures": true,
+    "applyFullGloveCorrection": true,
+    "expectedGloveMaterial": "Gloves1"
+  },
+  "workbook": {
+    "sceneName": "RIGIFY_HUMAN_EDIT",
+    "workspaceName": "RIGIFY HUMAN - EDIT BONES",
+    "collectionName": "RIGIFY_HUMAN_WORKBOOK",
+    "meshObject": "RIGIFY_CleanMesh",
+    "metarigObject": "RIGIFY_HumanMetarig",
+    "metarigData": "RIGIFY_HumanMetarig_Data",
+    "instructionsText": "START_HERE_RIGIFY_HUMAN",
+    "rigifyAddonModule": "rigify",
+    "rigifyPresetOperator": "armature_human_metarig_add",
+    "packResources": true,
+    "saveInEditMode": true,
+    "armatureDisplayType": "OCTAHEDRAL",
+    "armatureDisplaySize": 0.01,
+    "showArmatureInFront": true,
+    "mirrorX": true,
+    "worldColor": [0.018, 0.022, 0.03],
+    "timelineStart": 1,
+    "timelineEnd": 1
+  },
+  "fit": {
+    "targetExtentRatios": [0.92, 0.48, 0.95],
+    "meshCenterOffset": [0.0, -3.226488, 0.0],
+    "groundClearance": 0.0,
+    "applyObjectTransforms": true
+  },
+  "viewport": {
+    "shadingType": "MATERIAL",
+    "viewPerspective": "ORTHO",
+    "frontViewQuaternion": [0.7071068, 0.7071068, 0.0, 0.0],
+    "framePadding": 1.2,
+    "clipStart": 0.001,
+    "clipEnd": 1000.0,
+    "showFloor": true,
+    "showAxisX": true,
+    "showAxisY": false,
+    "showAxisZ": true,
+    "showRelationshipLines": false,
+    "showText": true,
+    "showStats": true
+  },
+  "validation": {
+    "expectedVertexCount": 83188,
+    "expectedPolygonCount": 119304,
+    "expectedMetarigBoneCount": 159,
+    "expectedActionCount": 0,
+    "expectedVertexGroupCount": 0,
+    "expectedModifierCount": 0,
+    "minimumFullGlovePolygonsChanged": 6000,
+    "requiredBones": [
+      "spine", "spine.001", "spine.002", "spine.003", "spine.004", "spine.005", "spine.006",
+      "upper_arm.L", "forearm.L", "hand.L", "thigh.L", "shin.L", "foot.L", "toe.L",
+      "upper_arm.R", "forearm.R", "hand.R", "thigh.R", "shin.R", "foot.R", "toe.R"
+    ]
+  },
+  "instructions": [
+    "RIGIFY HUMAN METARIG - MANUAL POLISH WORKBOOK",
+    "",
+    "This is Blender's stock 159-bone Rigify Human metarig, globally fitted to the clean Survival character.",
+    "The mesh keeps the latest full-resolution V4 materials, repaired eye response and full black-glove correction.",
+    "The production rig, animations and runtime remain unchanged.",
+    "",
+    "1. Stay in Edit Mode and move bone joints only; do not pose the metarig.",
+    "2. First align pelvis, hips, knees, ankles, heels and toes in front and side views.",
+    "3. Then align spine, chest, neck, head, clavicles, elbows, wrists and palms.",
+    "4. Polish finger bases and lengths last. Facial bones may remain approximate for the first motion test.",
+    "5. Preserve .L/.R names, Rigify types, connected chains and bone direction.",
+    "6. Keep RIGIFY_CleanMesh transforms unchanged and do not parent or weight it yet.",
+    "7. Save this workbook when your metarig placement is ready.",
+    "8. Do not Generate Rig in this working file; generation, weights and retargeting will happen in a snapshot copy.",
+    "",
+    "After saving, ask Codex to compare ORIGINAL vs MANUAL vs RIGIFY using walk, punch and run.",
+    "Nothing in this workbook is wired to production."
+  ]
+}

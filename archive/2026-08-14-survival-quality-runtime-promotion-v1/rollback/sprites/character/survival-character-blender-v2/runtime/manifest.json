@@ -1,0 +1,91 @@
+{
+  "frameWidth": 256,
+  "frameHeight": 256,
+  "sourceRenderWidth": 512,
+  "sourceRenderHeight": 512,
+  "authoringAuthority": "Blender-authored Survival Miner v2 persistent master",
+  "cameraAuthority": "SurvivalPolishCamera fixed framing; no per-frame recentering",
+  "postProcess": "Pillow Lanczos RGBA downsample from 512px to 256px cells",
+  "clips": {
+    "idle": {
+      "file": "survival-character-blender-v2-idle-sheet.png",
+      "frames": 48,
+      "columns": 16,
+      "rows": 3,
+      "fps": 12,
+      "loop": true,
+      "motionAuthority": "Blender action: MINER_idle",
+      "renderVariant": "high-quality PBR base; procedural gear and tool hidden"
+    },
+    "walk": {
+      "file": "survival-character-blender-v2-walk-sheet.png",
+      "frames": 24,
+      "columns": 16,
+      "rows": 2,
+      "fps": 16,
+      "loop": true,
+      "motionAuthority": "Blender action: MINER_walk",
+      "renderVariant": "high-quality PBR base; procedural gear and tool hidden"
+    },
+    "run": {
+      "file": "survival-character-blender-v2-run-sheet.png",
+      "frames": 28,
+      "columns": 16,
+      "rows": 2,
+      "fps": 16,
+      "loop": true,
+      "motionAuthority": "Blender action: MINER_run",
+      "renderVariant": "high-quality PBR base; procedural gear and tool hidden"
+    },
+    "fly": {
+      "file": "survival-character-blender-v2-superman-flight-prone-v3-sheet.png",
+      "frames": 36,
+      "columns": 12,
+      "rows": 3,
+      "fps": 16,
+      "loop": true,
+      "motionAuthority": "Exact Blender DG_SUPERMAN_FLIGHT_IDLE_PRONE_V3 pose with restrained whole-body hover motion",
+      "renderVariant": "approved face-down Superman prone v3 with corrected closed forward fist; source-facing right; no weapon"
+    },
+    "attack": {
+      "file": "survival-character-blender-v2-attack-sheet.png",
+      "frames": 18,
+      "columns": 16,
+      "rows": 2,
+      "fps": 18,
+      "loop": false,
+      "motionAuthority": "Blender action: MINER_attack",
+      "renderVariant": "high-quality PBR base; procedural gear and tool hidden"
+    },
+    "dig-side": {
+      "file": "survival-character-blender-v2-dig-side-sheet.png",
+      "frames": 32,
+      "columns": 16,
+      "rows": 2,
+      "fps": 36,
+      "loop": false,
+      "motionAuthority": "Blender action: MINER_dig_side",
+      "renderVariant": "high-quality PBR base; procedural gear and tool hidden"
+    },
+    "dig-up": {
+      "file": "survival-character-blender-v2-dig-up-sheet.png",
+      "frames": 24,
+      "columns": 16,
+      "rows": 2,
+      "fps": 27,
+      "loop": false,
+      "motionAuthority": "Blender action: MINER_dig_up",
+      "renderVariant": "high-quality PBR base; procedural gear and tool hidden"
+    },
+    "dig-down": {
+      "file": "survival-character-blender-v2-dig-down-sheet.png",
+      "frames": 30,
+      "columns": 16,
+      "rows": 2,
+      "fps": 33,
+      "loop": false,
+      "motionAuthority": "Blender action: MINER_dig_down",
+      "renderVariant": "high-quality PBR base; procedural gear and tool hidden"
+    }
+  }
+}

@@ -145,11 +145,12 @@ assert.equal(casualSystem.convertFromCasual("bobo", 6000), false);
 
 const shallowCost = resolveHardcoreTeleportCost(0, "groundToSky");
 const deepCost = resolveHardcoreTeleportCost(1000, "quickResume");
-assert.ok(shallowCost >= HARDCORE_MODE_CONFIG.teleport.minimumCost);
-assert.ok(deepCost > shallowCost);
-assert.equal(casualSystem.recordTeleport(deepCost), true);
-assert.equal(casualSystem.getSaveData().paidTeleports, 1);
-assert.equal(casualSystem.getSaveData().teleportMoneySpent, deepCost);
+assert.equal(HARDCORE_MODE_CONFIG.teleport.free, true);
+assert.equal(shallowCost, 0);
+assert.equal(deepCost, 0);
+assert.equal(casualSystem.recordTeleport(deepCost), false);
+assert.equal(casualSystem.getSaveData().paidTeleports, 0);
+assert.equal(casualSystem.getSaveData().teleportMoneySpent, 0);
 
 assert.equal(casualSystem.canUseUnstuck(10000), true);
 casualSystem.recordUnstuck(10000);

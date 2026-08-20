@@ -225,6 +225,10 @@ function sanitizeSettings(input) {
   const keybinds = candidate.keybinds && typeof candidate.keybinds === "object" ? candidate.keybinds : {};
   const floatingTextPreference = resolveFloatingTextPreference(display);
   const needsMapKeyMigration = !Object.prototype.hasOwnProperty.call(keybinds, "map");
+  const needsThunderStrikeVMigration = (
+    Number(candidate.version || 0) < KEYBIND_STORAGE_VERSION
+    && normalizeKey(keybinds.thunderStrike) === "C"
+  );
   const fixedKeyOwners = new Map(
     KEYBIND_ACTIONS
       .filter(action => action.rebindable === false)
@@ -265,6 +269,9 @@ function sanitizeSettings(input) {
     )
       ? action.defaultKey
       : keybinds[action.id];
+    if (action.id === "thunderStrike" && needsThunderStrikeVMigration) {
+      savedKey = action.defaultKey;
+    }
     const savedInteractKey = normalizeKey(
       keybinds.interact || KEYBIND_ACTION_BY_ID.interact.defaultKey
     );

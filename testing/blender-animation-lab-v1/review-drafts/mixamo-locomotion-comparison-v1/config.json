@@ -1,0 +1,68 @@
+{
+  "version": "mixamo-locomotion-comparison-v1-20260820",
+  "reviewOnly": true,
+  "productionChanged": false,
+  "runtimeWired": false,
+  "baseConfig": "values/mixamoAcceptedRuntime.json",
+  "sourceBonePrefix": "mixamorig9:",
+  "renderRoot": "testing/blender-animation-lab-v1/review-drafts/mixamo-locomotion-comparison-v1/renders/raw-1024",
+  "candidateRoot": "testing/blender-animation-lab-v1/review-drafts/mixamo-locomotion-comparison-v1/renders/candidate-runtime",
+  "clips": {
+    "walk-loop": {
+      "source": "mixamo-standard-walk-123500901.fbx",
+      "file": "survival-character-mixamo-locomotion-v1-walk-loop-sheet.png",
+      "frames": 24,
+      "fps": 24,
+      "loop": true,
+      "grounding": "PER_FRAME",
+      "reference": "MEAN",
+      "preserveVertical": false,
+      "role": "Neutral walk loop"
+    },
+    "run-loop": {
+      "source": "mixamo-unarmed-run-forward-128650943.fbx",
+      "file": "survival-character-mixamo-locomotion-v1-run-loop-sheet.png",
+      "frames": 20,
+      "fps": 30,
+      "loop": true,
+      "grounding": "PER_FRAME",
+      "reference": "MEAN",
+      "preserveVertical": false,
+      "role": "Unarmed run loop"
+    },
+    "crouch-walk": {
+      "source": "mixamo-crouched-walk-101610901.fbx",
+      "file": "survival-character-mixamo-locomotion-v1-crouch-walk-sheet.png",
+      "frames": 24,
+      "fps": 24,
+      "loop": true,
+      "grounding": "PER_FRAME",
+      "reference": "MEAN",
+      "preserveVertical": false,
+      "role": "Crouched movement loop"
+    },
+    "jump-full": {
+      "source": "mixamo-unarmed-jump-128650940.fbx",
+      "file": "survival-character-mixamo-locomotion-v1-jump-full-sheet.png",
+      "frames": 36,
+      "fps": 30,
+      "loop": false,
+      "grounding": "LAND_AT_END",
+      "reference": "LAST",
+      "preserveVertical": true,
+      "maxVerticalTravelWorld": 0.55,
+      "role": "Full takeoff, airborne and landing reference"
+    },
+    "falling-loop": {
+      "source": "mixamo-falling-idle-118120901.fbx",
+      "file": "survival-character-mixamo-locomotion-v1-falling-loop-sheet.png",
+      "frames": 24,
+      "fps": 24,
+      "loop": true,
+      "grounding": "NONE",
+      "reference": "MEAN",
+      "preserveVertical": true,
+      "role": "Mid-air falling loop reference"
+    }
+  }
+}

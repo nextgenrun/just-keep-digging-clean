@@ -1,0 +1,58 @@
+{
+  "version": "4.0",
+  "reviewOnly": true,
+  "productionChanged": false,
+  "sourceBlendChanged": false,
+  "baseConfig": "values/survivalMeshQualityV2Review.json",
+  "outputRoot": "visual-approval-previews/2026-08-15-survival-hero-quality-v4",
+  "render": {
+    "sizePx": 2048,
+    "colorDepth": "16",
+    "engine": "BLENDER_EEVEE",
+    "viewTransform": "AgX",
+    "look": "AgX - Medium High Contrast"
+  },
+  "comparison": {
+    "runtimeSizePx": 123,
+    "largerSizePx": 155,
+    "packedCellPx": 256,
+    "fps": 16,
+    "output": "current-vs-v4-123-vs-v4-155.gif"
+  },
+  "actionReview": {
+    "order": ["mining-side", "mining-up", "mining-down", "run", "flight", "walk"],
+    "families": {
+      "mining-side": {"label": "PUNCH JAB / SIDE MINING", "output": "current-vs-v4-punch-jab.gif"},
+      "mining-up": {"label": "MINING UP", "output": "current-vs-v4-mining-up.gif"},
+      "mining-down": {"label": "GROUND STRIKE / MINING DOWN", "output": "current-vs-v4-ground-strike.gif"},
+      "run": {"label": "RUN", "output": "current-vs-v4-run.gif"},
+      "flight": {"label": "PRONE FLIGHT", "output": "current-vs-v4-flight.gif"},
+      "walk": {"label": "WALK", "output": "current-vs-v4-walk.gif"}
+    },
+    "combinedOutput": "current-vs-v4-punch-and-other-actions.gif"
+  },
+  "pbrMaterials": {
+    "Jacket1": {"aoMix": 0.28, "roughnessMultiply": 0.82, "roughnessAdd": 0.08, "normalStrength": 1.20, "coatWeight": 0.12, "coatRoughness": 0.22},
+    "Backpack2": {"aoMix": 0.24, "roughnessMultiply": 0.90, "roughnessAdd": 0.06, "normalStrength": 1.15, "coatWeight": 0.05, "coatRoughness": 0.30},
+    "Gloves1": {"aoMix": 0.24, "roughnessMultiply": 0.80, "roughnessAdd": 0.08, "normalStrength": 1.15, "coatWeight": 0.08, "coatRoughness": 0.24},
+    "Jeans1": {"aoMix": 0.18, "roughnessMultiply": 1.02, "roughnessAdd": 0.04, "normalStrength": 1.12, "sheenWeight": 0.035},
+    "Shoes1": {"aoMix": 0.25, "roughnessMultiply": 0.76, "roughnessAdd": 0.08, "normalStrength": 1.12, "coatWeight": 0.10, "coatRoughness": 0.20}
+  },
+  "specialMaterials": {
+    "Hair3": {"roughness": 0.40, "specularIorLevel": 0.24, "anisotropic": 0.30, "sheenWeight": 0.05, "normalStrength": 1.10},
+    "Head": {"roughness": 0.38, "specularIorLevel": 0.20, "subsurfaceWeight": 0.04, "subsurfaceScale": 0.08},
+    "Body_Arkit:Eye": {"roughness": 0.09, "ior": 1.38, "coatWeight": 0.38, "coatRoughness": 0.055}
+  },
+  "secondaryMotion": {
+    "hair": {"material": "Hair3", "lowerFraction": 0.58, "axis": 1, "amplitudeLocal": 0.18, "phaseOffset": 0.35},
+    "jacketHem": {"material": "Jacket1", "lowerFraction": 0.28, "axis": 1, "amplitudeLocal": 0.14, "phaseOffset": 0.0},
+    "backpackSettle": {"material": "Backpack2", "lowerFraction": 0.48, "axis": 1, "amplitudeLocal": 0.10, "phaseOffset": 0.7}
+  },
+  "gates": {
+    "minimumAlphaIou": 0.94,
+    "maximumCentroidDeltaPx": 1.0,
+    "maximumBoundsDeltaPx": 2,
+    "bodyMotionChanged": false,
+    "subdivisionAdded": false
+  }
+}

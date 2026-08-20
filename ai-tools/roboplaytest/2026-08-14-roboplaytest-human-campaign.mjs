@@ -1,9 +1,8 @@
-const DEPTH_ROUTE = Object.freeze([18, 55, 95, 145, 220, 295, 380, 495, 540]);
+const DEPTH_ROUTE = Object.freeze([18, 220, 540]);
 const EARLY_UPGRADES = Object.freeze([
   ["playerUpgrades", "agility"],
   ["playerUpgrades", "strength"],
   ["playerUpgrades", "quickReflexes"],
-  ["gearMerchant", "bronzePickaxe"],
 ]);
 
 async function humanPress(page, key, holdMs = 180) {
@@ -44,10 +43,12 @@ async function readCampaignState(driver) {
       tile,
       depth: Math.max(0, tile.ty - scene.config.topAirRows + 1),
       bestDepth: journal.stats?.bestDepth || 0,
+      level: scene.playerLevelSystem?.level || 1,
       tilesBroken: journal.stats?.totalTilesBroken || 0,
       resourcesSold: journal.stats?.resourcesSold || 0,
       upgrades: scene.upgradeSystem.getUpgradeLevels(),
-      gemPower: scene.playerController.abilities?.getGemPower?.() ?? null,
+      gemPower: scene.playerController.abilities?.getGemPowerExact?.() ?? null,
+      gemPowerMax: scene.playerController.abilities?.getGemPowerMax?.() ?? null,
       shop: scene.shopOverlay?.isVisible ? scene.shopOverlay.currentMerchant : null,
     };
   });
@@ -117,6 +118,44 @@ async function prepareValuableTarget(driver, centerDepth) {
   await driver.page.evaluate(() => (
     globalThis.__phaserGame.scene.getScene("PlayScene").systemIntroductionSystem?.refresh?.()
   ));
+  return target;
+}
+
+async function prepareGemPowerTarget(driver, centerDepth = 540) {
+  const target = await driver.page.evaluate(async ({ centerDepth }) => {
+    const scene = globalThis.__phaserGame.scene.getScene("PlayScene");
+    const model = scene.worldModel;
+    const { TILE_TYPES } = await import("/values/tileTypes.js");
+    const directions = [
+      { dx: 0, dy: 1, key: "s", aim: "down" },
+      { dx: 1, dy: 0, key: "d", aim: "right" },
+      { dx: -1, dy: 0, key: "a", aim: "left" },
+    ];
+    const maxX = scene.config.levelTwoLeftTile - 2;
+    let best = null;
+    for (let py = scene.config.topAirRows; py < model.depth - 3; py += 1) {
+      for (let px = 1; px <= maxX; px += 1) {
+        if (model.isSolid(px, py) || !model.isSolid(px, py + 1)) continue;
+        for (const direction of directions) {
+          const tx = px + direction.dx;
+          const ty = py + direction.dy;
+          if (model.getTileType(tx, ty) !== TILE_TYPES.GEM_POWER_BLOCK) continue;
+          const depth = ty - scene.config.topAirRows + 1;
+          const distance = Math.abs(centerDepth - depth);
+          if (!best || distance < best.distance) best = {
+            tx, ty, playerTx: px, playerTy: py,
+            hp: model.getTileHp(tx, ty), depth, distance,
+            key: direction.key, aim: direction.aim,
+          };
+        }
+      }
+    }
+    if (best) globalThis.__jkdE2E.forcePlayerState({ tx: best.playerTx, ty: best.playerTy });
+    return best;
+  }, { centerDepth });
+  if (!target) throw new Error("No human-reachable Gem Power block was generated.");
+  await driver.page.waitForTimeout(700);
+  await acceptOpenDepthGate(driver);
   return target;
 }
 
@@ -197,7 +236,10 @@ async function walkToMerchant(driver, merchantId) {
   }, targetX);
   await driver.page.waitForTimeout(700);
   for (let attempt = 0; attempt < 3; attempt += 1) {
-    await humanPress(driver.page, "e", 260);
+    // Merchant interaction is sampled by Phaser's frame-level JustDown check.
+    // Keep E down across even the slowest observed gameplay frame instead of
+    // generating a synthetic tap that a human/browser frame could entirely miss.
+    await humanPress(driver.page, "e", 1_000);
     const opened = await driver.page.evaluate(expected => {
       const shop = globalThis.__phaserGame?.scene?.getScene?.("PlayScene")?.shopOverlay;
       return shop?.isVisible === true && shop.currentMerchant === expected;
@@ -238,25 +280,37 @@ async function sellCargo(driver) {
     return shop.sellItems.map(item => item.resource);
   });
   for (let index = 0; index < items.length; index += 1) {
+    for (let step = 0; step < items.length + 2; step += 1) {
+      const selected = await driver.page.evaluate(() => {
+        const shop = globalThis.__phaserGame.scene.getScene("PlayScene").shopOverlay;
+        return shop.sellItems[shop.selectedIndex]?.resource || null;
+      });
+      if (selected === items[index]) break;
+      await humanPress(driver.page, "ArrowDown", 900);
+    }
     const amount = await driver.page.evaluate(resource => (
       globalThis.__phaserGame.scene.getScene("PlayScene").digSystem.getResourceTotals()[resource] || 0
     ), items[index]);
     if (amount > 0) {
-      await humanPress(driver.page, "f");
-      await driver.page.waitForTimeout(120);
-      const remaining = await driver.page.evaluate(resource => (
-        globalThis.__phaserGame.scene.getScene("PlayScene").digSystem.getResourceTotals()[resource] || 0
-      ), items[index]);
-      if (remaining > 0) await humanPress(driver.page, "f");
+      for (let attempt = 0; attempt < 4; attempt += 1) {
+        await humanPress(driver.page, "f", 1_000);
+        const remaining = await driver.page.evaluate(resource => (
+          globalThis.__phaserGame.scene.getScene("PlayScene").digSystem.getResourceTotals()[resource] || 0
+        ), items[index]);
+        if (remaining <= 0) break;
+      }
     }
-    if (index < items.length - 1) await humanPress(driver.page, "ArrowDown");
   }
   await humanPress(driver.page, "Escape");
   return readCampaignState(driver);
 }
 
-async function buyUpgrade(driver, merchantId, upgradeId) {
-  await walkToMerchant(driver, merchantId);
+async function buyUpgrade(driver, merchantId, upgradeId, { closeAfter = true } = {}) {
+  const alreadyOpen = await driver.page.evaluate(expected => {
+    const shop = globalThis.__phaserGame?.scene?.getScene?.("PlayScene")?.shopOverlay;
+    return shop?.isVisible === true && shop.currentMerchant === expected;
+  }, merchantId);
+  if (!alreadyOpen) await walkToMerchant(driver, merchantId);
   const selection = await driver.page.evaluate(upgradeId => {
     const scene = globalThis.__phaserGame.scene.getScene("PlayScene");
     const shop = scene.shopOverlay;
@@ -268,26 +322,66 @@ async function buyUpgrade(driver, merchantId, upgradeId) {
     };
   }, upgradeId);
   if (selection.index < 0 || !selection.canPurchase.canPurchase) {
-    await humanPress(driver.page, "Escape");
+    if (closeAfter) await humanPress(driver.page, "Escape");
     return { purchased: false, reason: selection.canPurchase.reason || "not-listed" };
   }
-  for (let index = 0; index < selection.index; index += 1) {
-    await humanPress(driver.page, "ArrowDown");
+  for (let step = 0; step < 30; step += 1) {
+    const selectedId = await driver.page.evaluate(() => {
+      const shop = globalThis.__phaserGame.scene.getScene("PlayScene").shopOverlay;
+      return shop.allUpgrades[shop.selectedIndex]?.id || null;
+    });
+    if (selectedId === upgradeId) break;
+    await humanPress(driver.page, "ArrowDown", 900);
   }
   let after = selection.before;
   for (let attempt = 0; attempt < 4 && after <= selection.before; attempt += 1) {
-    await humanPress(driver.page, "Enter", 320);
+    await humanPress(driver.page, "Enter", 1_000);
     await driver.page.waitForTimeout(300);
     after = await driver.page.evaluate(upgradeId => (
       globalThis.__phaserGame.scene.getScene("PlayScene").upgradeSystem.getUpgradeLevel(upgradeId)
     ), upgradeId);
   }
-  await humanPress(driver.page, "Escape");
+  if (closeAfter) await humanPress(driver.page, "Escape");
   if (after <= selection.before) throw new Error(`${upgradeId} did not purchase through keyboard input.`);
   return { purchased: true, upgradeId, before: selection.before, after };
 }
 
 async function exerciseAbilities(driver) {
+  await driver.page.evaluate(() => {
+    const abilities = globalThis.__phaserGame.scene.getScene("PlayScene")
+      .playerController.abilities;
+    if (abilities.__roboplaytestRestoreWrapped) return;
+    const original = abilities.restoreGemPower;
+    globalThis.__roboplaytestGemPowerRestores = [];
+    abilities.restoreGemPower = function restoreGemPowerWithAudit(amount, context) {
+      const before = this.getGemPowerExact();
+      const restored = original.call(this, amount, context);
+      globalThis.__roboplaytestGemPowerRestores.push({
+        amount,
+        before,
+        after: this.getGemPowerExact(),
+        restored,
+        context: { ...(context || {}) },
+      });
+      return restored;
+    };
+    abilities.__roboplaytestRestoreWrapped = true;
+    const digSystem = globalThis.__phaserGame.scene.getScene("PlayScene").digSystem;
+    if (!digSystem.__roboplaytestSpecialWrapped) {
+      const originalSpecial = digSystem._handleSpecialBlockEffects;
+      globalThis.__roboplaytestSpecialBlocks = [];
+      digSystem._handleSpecialBlockEffects = function specialBlockWithAudit(result, targetTile) {
+        const output = originalSpecial.call(this, result, targetTile);
+        globalThis.__roboplaytestSpecialBlocks.push({
+          result: { ...(result || {}) },
+          targetTile: { ...(targetTile || {}) },
+          output: { ...(output || {}) },
+        });
+        return output;
+      };
+      digSystem.__roboplaytestSpecialWrapped = true;
+    }
+  });
   const target = await prepareValuableTarget(driver, 540);
   await driver.page.keyboard.down(target.key === "a" ? "a" : "d");
   await driver.page.keyboard.down("q");
@@ -297,21 +391,128 @@ async function exerciseAbilities(driver) {
   ), "Quick Slash activation", 8_000);
   await driver.page.keyboard.up("q");
   await driver.page.keyboard.up(target.key === "a" ? "a" : "d");
-  await driver.page.waitForTimeout(900);
-  await driver.page.keyboard.down("c");
-  await driver.waitFor(() => (
+  await driver.waitFor(() => !(
     globalThis.__phaserGame.scene.getScene("PlayScene")
-      .playerController.abilities.isThunderStrikeCharging()
-  ), "Thunder Strike charge", 8_000);
-  await driver.page.waitForTimeout(850);
-  await driver.page.keyboard.up("c");
-  await driver.page.waitForTimeout(1_400);
+      .playerController.abilities.isQuickslashActive()
+  ), "Quick Slash release", 8_000);
+  const rechargeTargets = [];
+  for (let attempt = 0; attempt < 3; attempt += 1) {
+    const gpState = await driver.page.evaluate(() => {
+      const abilities = globalThis.__phaserGame.scene.getScene("PlayScene")
+        .playerController.abilities;
+      return {
+        current: abilities.getGemPowerExact(),
+        required: abilities.getThunderStrikeCost(),
+      };
+    });
+    if (gpState.current >= gpState.required) break;
+    const rechargeTarget = await prepareGemPowerTarget(driver);
+    const rechargedState = await breakTargetWithHumanInput(driver, rechargeTarget);
+    const restoreEvent = await driver.page.evaluate(({ tx, ty }) => (
+      [...(globalThis.__roboplaytestGemPowerRestores || [])]
+        .reverse()
+        .find(event => event.context?.tx === tx && event.context?.ty === ty) || null
+    ), rechargeTarget);
+    if (!restoreEvent || restoreEvent.restored <= 0) {
+      const specialAudit = await driver.page.evaluate(({ tx, ty }) => ({
+        targetType: globalThis.__phaserGame.scene.getScene("PlayScene")
+          .worldModel.getTileType(tx, ty),
+        events: globalThis.__roboplaytestSpecialBlocks || [],
+        restores: globalThis.__roboplaytestGemPowerRestores || [],
+      }), rechargeTarget);
+      throw new Error(
+        `Mining a Gem Power block did not restore Gem Power: ${JSON.stringify(specialAudit)}`,
+      );
+    }
+    rechargeTargets.push({ ...rechargeTarget, restoreEvent, rechargedGemPower: rechargedState.gemPower });
+  }
+  await driver.waitFor(() => {
+    const abilities = globalThis.__phaserGame.scene.getScene("PlayScene")
+      .playerController.abilities;
+    return abilities.getGemPowerExact() >= abilities.getThunderStrikeCost();
+  }, "Gem Power recharge for Thunder Strike", 30_000);
+  await driver.waitFor(() => {
+    const scene = globalThis.__phaserGame.scene.getScene("PlayScene");
+    return scene.isDigAnimating !== true
+      && scene.ualActionContactTimeline?.isActive !== true
+      && scene.thunderStrikeActionRuntime?.isAnimating !== true;
+  }, "idle action lane before Thunder Strike", driver.config.naturalDigMs);
+  const thunderBefore = await driver.page.evaluate(() => {
+    const abilities = globalThis.__phaserGame.scene.getScene("PlayScene")
+      .playerController.abilities;
+    return {
+      gemPower: abilities.getGemPowerExact(),
+      cost: abilities.getThunderStrikeCost(),
+    };
+  });
+  await driver.page.keyboard.down("c");
+  try {
+    await driver.waitFor(() => {
+      const scene = globalThis.__phaserGame.scene.getScene("PlayScene");
+      return scene.playerController.abilities.isThunderStrikeCharging()
+        || scene.thunderStrikeActionRuntime?.isAnimating === true;
+    }, "Thunder Strike activation", 8_000);
+    await driver.page.waitForTimeout(850);
+  } finally {
+    await driver.page.keyboard.up("c").catch(() => undefined);
+  }
+  await driver.waitFor(before => (
+    globalThis.__phaserGame.scene.getScene("PlayScene")
+      .playerController.abilities.getGemPowerExact() < before.gemPower
+  ), "Thunder Strike paid impact", 20_000, thunderBefore);
+  await driver.page.waitForTimeout(800);
   const state = await readCampaignState(driver);
-  return { target, state };
+  const gemPowerAudit = await driver.page.evaluate(() => ({
+    restores: globalThis.__roboplaytestGemPowerRestores || [],
+    specialBlocks: globalThis.__roboplaytestSpecialBlocks || [],
+  }));
+  return { target, rechargeTargets, thunderBefore, state, gemPowerAudit };
+}
+
+async function seedFocusedAbilityContinuation(driver) {
+  return driver.page.evaluate(() => {
+    const scene = globalThis.__phaserGame.scene.getScene("PlayScene");
+    scene.upgradeSystem.setUpgradeLevels({
+      ...scene.upgradeSystem.getUpgradeLevels(),
+      gemPowerUnlock: 1,
+      quickslashAbility: 1,
+      thunderStrikeAbility: 1,
+    });
+    scene.playerLevelSystem.fromJSON({
+      level: 20,
+      currentXP: 0,
+      totalXP: 0,
+      choiceSelections: {},
+      automaticMilestoneRewards: 0,
+    });
+    scene.playerController.setProgressionGemPowerMaxBonus(
+      scene.playerLevelSystem.getGemPowerMaxBonus(),
+    );
+    scene.playerController.abilities.setGemPowerExact(20, {
+      silent: false,
+      source: "roboplaytest-focused-ability-setup",
+    });
+    scene.systemIntroductionSystem?.refresh?.();
+    return {
+      upgrades: scene.upgradeSystem.getUpgradeLevels(),
+      gemPower: scene.playerController.abilities.getGemPowerExact(),
+      thunderCost: scene.playerController.abilities.getThunderStrikeCost(),
+    };
+  });
 }
 
 export async function runHumanCampaignScenarios(driver) {
   await installHumanPointer(driver);
+  if (driver.config.humanStage === "abilities") {
+    const setup = await seedFocusedAbilityContinuation(driver);
+    await driver.runPhase({
+      id: "human-abilities-focused",
+      title: "Focused continuation: Gem Power block, Quick Slash, and Thunder Strike through F/Q/C input",
+      accelerated: true,
+      fatal: true,
+    }, async () => ({ setup, ...(await exerciseAbilities(driver)) }));
+    return;
+  }
   const purchases = [];
   let nextEarlyUpgrade = 0;
   await driver.runPhase({
@@ -329,21 +530,35 @@ export async function runHumanCampaignScenarios(driver) {
         state = await breakTargetWithHumanInput(driver, target);
       }
       console.log(`[roboplaytest:human] cycle=${cycle + 1} depth=${state.depth}m cargo=${state.cargoValue}M wallet=${state.money}M`);
-      if (state.cargoValue >= prePenaltyCargoGoal && state.bestDepth >= 500) break;
+      if (
+        state.cargoValue >= prePenaltyCargoGoal
+        && state.bestDepth >= 500
+        && state.level >= 20
+      ) break;
     }
     state = await readCampaignState(driver);
     if (state.cargoValue < prePenaltyCargoGoal) {
       throw new Error(`Expedition cargo reached ${state.cargoValue}M; needed ${prePenaltyCargoGoal}M before the safety penalty.`);
     }
+    if (state.level < 20) {
+      throw new Error(`Human campaign reached level ${state.level}; Thunder Strike requires level 20.`);
+    }
     state = await sellCargo(driver);
     while (nextEarlyUpgrade < EARLY_UPGRADES.length) {
       const [merchant, upgrade] = EARLY_UPGRADES[nextEarlyUpgrade];
-      const result = await buyUpgrade(driver, merchant, upgrade);
+      const nextMerchant = EARLY_UPGRADES[nextEarlyUpgrade + 1]?.[0] || null;
+      const result = await buyUpgrade(driver, merchant, upgrade, {
+        closeAfter: nextMerchant !== merchant,
+      });
       if (result.purchased) purchases.push(result);
       nextEarlyUpgrade += 1;
     }
-    for (const upgrade of ["quickslashAbility", "thunderStrikeAbility"]) {
-      const result = await buyUpgrade(driver, "boboMerchant", upgrade);
+    const abilityUpgrades = ["quickslashAbility", "thunderStrikeAbility"];
+    for (let index = 0; index < abilityUpgrades.length; index += 1) {
+      const upgrade = abilityUpgrades[index];
+      const result = await buyUpgrade(driver, "boboMerchant", upgrade, {
+        closeAfter: index === abilityUpgrades.length - 1,
+      });
       if (!result.purchased) throw new Error(`${upgrade} was not purchasable: ${result.reason}`);
       purchases.push(result);
     }

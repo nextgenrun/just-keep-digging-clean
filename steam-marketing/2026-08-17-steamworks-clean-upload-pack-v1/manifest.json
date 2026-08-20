@@ -1,0 +1,122 @@
+[
+  {
+    "section": "01-store-assets",
+    "file": "header_english.png",
+    "width": 920,
+    "height": 430,
+    "mode": "RGB",
+    "sha256": "de61c8189c3b026387f3ee7c2769da720dfdd28d7eb775f85416a7e7e8e182c9"
+  },
+  {
+    "section": "01-store-assets",
+    "file": "small_capsule_english.png",
+    "width": 462,
+    "height": 174,
+    "mode": "RGB",
+    "sha256": "c440d8faacfcaf0891a1d7f1f09233c656b0d230cc0e9ab5798c80fb577903b3"
+  },
+  {
+    "section": "01-store-assets",
+    "file": "main_capsule_english.png",
+    "width": 1232,
+    "height": 706,
+    "mode": "RGB",
+    "sha256": "ee2e1ebdc8126932a911189afc0d3e2eef654fe471e25a3c71b51ba39afc451a"
+  },
+  {
+    "section": "01-store-assets",
+    "file": "vertical_capsule_english.png",
+    "width": 748,
+    "height": 896,
+    "mode": "RGB",
+    "sha256": "65557a0750134a1909b88d849e449c75df8e4d9495795586fe55de1410e23bcc"
+  },
+  {
+    "section": "02-library-assets",
+    "file": "library_capsule_english.png",
+    "width": 600,
+    "height": 900,
+    "mode": "RGB",
+    "sha256": "285180c9577cd435ab718bcfa66bf575bee05fefef20cffece9884a8f5d05fba"
+  },
+  {
+    "section": "02-library-assets",
+    "file": "library_header_english.png",
+    "width": 920,
+    "height": 430,
+    "mode": "RGB",
+    "sha256": "de61c8189c3b026387f3ee7c2769da720dfdd28d7eb775f85416a7e7e8e182c9"
+  },
+  {
+    "section": "02-library-assets",
+    "file": "library_hero.png",
+    "width": 3840,
+    "height": 1240,
+    "mode": "RGB",
+    "sha256": "b56ab1115bab4d5417c28d8fade962918551f28e7b925677cf2c2d56e3ab4e44"
+  },
+  {
+    "section": "02-library-assets",
+    "file": "library_logo.png",
+    "width": 1280,
+    "height": 352,
+    "mode": "RGBA",
+    "sha256": "1c771507e0ff75be51a6da3cb9f16311fbd1fe058b6c76aa2fd32369aa3e15d4"
+  },
+  {
+    "section": "03-page-background",
+    "file": "page_background.png",
+    "width": 1438,
+    "height": 810,
+    "mode": "RGB",
+    "sha256": "3f1467b325c074cbc379ea10b2532de1b77152cedee9f60b0791b642de59cbfa"
+  },
+  {
+    "section": "04-screenshots-review-only",
+    "file": "screenshot_01_surface_town_english.png",
+    "width": 1920,
+    "height": 1080,
+    "mode": "RGB",
+    "sha256": "32992e5f8ecdd7286f9b593d7d0c5956a0d8eb07cc3ac874ac57319b2660faf5"
+  },
+  {
+    "section": "04-screenshots-review-only",
+    "file": "screenshot_02_first_dig_english.png",
+    "width": 1920,
+    "height": 1080,
+    "mode": "RGB",
+    "sha256": "a2d0f5d8d856f1015a1f8a89c79a26d3d9f6a2a04a03fd4e275370b1d74b4e6b"
+  },
+  {
+    "section": "04-screenshots-review-only",
+    "file": "screenshot_03_celestial_talents_english.png",
+    "width": 1920,
+    "height": 1080,
+    "mode": "RGB",
+    "sha256": "bcaf08197e142c8635f0231bdc6cb2a688c9b608a972fbd7ba0ce6d5aed2ab6e"
+  },
+  {
+    "section": "05-client-icons",
+    "file": "shortcut_icon.png",
+    "width": 256,
+    "height": 256,
+    "mode": "RGB",
+    "sha256": "d438b1425d9b3e81fedb9c5f2d4a1fdbf4bc13611351df5d7f267ec6099bc692"
+  },
+  {
+    "section": "05-client-icons",
+    "file": "app_icon.jpg",
+    "width": 184,
+    "height": 184,
+    "mode": "RGB",
+    "sha256": "765f27c1638acdae17fb82fd10faa1ba19786914bd8d07a5e82f7c1d9c18acfb"
+  },
+  {
+    "section": "06-broadcast-review-only",
+    "file": "broadcast_slate.png",
+    "width": 1920,
+    "height": 1080,
+    "mode": "RGB",
+    "sha256": "fbd99af31cb2222e04f5bf22f7a70629d5d218d38721b1637c28203913bb0960"
+  }
+]

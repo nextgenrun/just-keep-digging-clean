@@ -287,19 +287,21 @@ assert.ok(resolveUalActionTimeScale({
   effectiveCooldownMs: 187.5,
   kind: "quickslash",
 }) > 2);
-assert.equal(resolveUalFlightTimeScale(252, false), 1);
-assert.equal(resolveUalFlightTimeScale(252, true), 1.2);
+assert.equal(resolveUalFlightTimeScale(252, false), UAL_NATIVE_ACTION_TUNING.flight.hoverBaseTimeScale);
+assert.equal(resolveUalFlightTimeScale(252, true), UAL_NATIVE_ACTION_TUNING.flight.travelBaseTimeScale);
 assert.equal(resolveUalFlightTimeScale(0, false), UAL_NATIVE_ACTION_TUNING.flight.minTimeScale);
-assert.equal(resolveUalFlightTravel({ horizontalSpeedPxPerSec: 71, verticalSpeedPxPerSec: 0 }), false);
-assert.equal(resolveUalFlightTravel({ horizontalSpeedPxPerSec: 72, verticalSpeedPxPerSec: 0 }), true);
-assert.equal(resolveUalFlightTravel({ horizontalSpeedPxPerSec: 100, verticalSpeedPxPerSec: 160 }), false);
+assert.equal(resolveUalFlightTravel({ horizontalSpeedPxPerSec: 91, verticalSpeedPxPerSec: 0 }), false);
+assert.equal(resolveUalFlightTravel({ horizontalSpeedPxPerSec: 92, verticalSpeedPxPerSec: 0 }), true);
+assert.equal(resolveUalFlightTravel({ horizontalSpeedPxPerSec: 100, verticalSpeedPxPerSec: 160 }), true);
 assert.equal(resolveUalFlightTravel({
-  horizontalSpeedPxPerSec: 39,
+  horizontalSpeedPxPerSec: 49,
   verticalSpeedPxPerSec: 0,
   wasTraveling: true,
 }), true);
 assert.equal(UAL_NATIVE_ACTION_TUNING.cadence.normal.recoveryCancelDelayMs, 100);
 assert.ok(UAL_NATIVE_ACTION_TUNING.flight.bankResponsePerSecond > 0);
+assert.ok(UAL_NATIVE_ACTION_TUNING.flight.maxDiveAngleDegrees
+  > UAL_NATIVE_ACTION_TUNING.flight.maxRiseAngleDegrees);
 for (const fidget of PLAYER_MOTION_POLISH_CONFIG.idle.fidgets) {
   const animation = animationSpecs.get(fidget.key);
   assert.ok(animation, `missing idle fidget: ${fidget.key}`);

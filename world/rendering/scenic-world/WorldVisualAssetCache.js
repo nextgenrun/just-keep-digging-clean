@@ -3,6 +3,7 @@ import {
   resolveScenicAssetSchedulerEnabled,
 } from "../../../values/worldVisualRuntime.js";
 import { RUNTIME_ASSET_LOADING } from "../../../values/runtimeAssetLoading.js";
+import { RuntimeTextureReleaseQueue } from "../RuntimeTextureReleaseQueue.js";
 
 export class WorldVisualAssetCache {
   constructor(scene, {
@@ -11,6 +12,7 @@ export class WorldVisualAssetCache {
     schedulerConfig = WORLD_VISUAL_RUNTIME.streaming.assetLoadScheduler,
     owner = RUNTIME_ASSET_LOADING.owners.default,
     priority = RUNTIME_ASSET_LOADING.priorities.default,
+    deferTextureRelease = false,
   } = {}) {
     this.scene = scene;
     this.retainKeys = new Set(retainKeys);
@@ -19,6 +21,7 @@ export class WorldVisualAssetCache {
     this.schedulerEnabled = resolveScenicAssetSchedulerEnabled(schedulerConfig);
     this.owner = owner;
     this.priority = priority;
+    this.deferTextureRelease = deferTextureRelease === true;
     this.coordinator = scene.runtimeAssetLoadCoordinator?.enabled
       ? scene.runtimeAssetLoadCoordinator
       : null;
@@ -30,6 +33,16 @@ export class WorldVisualAssetCache {
     this.destroyed = false;
     this.loaderWaitArmed = false;
     this.cancelledLoads = 0;
+    this.textureReleases = this.deferTextureRelease
+      ? new RuntimeTextureReleaseQueue(scene, {
+        canRelease: key => (
+          !this.pending.has(key)
+          && !this.retainKeys.has(key)
+          && this.loadedByCache.has(key)
+        ),
+        release: (key, asset) => this._releaseNow(key, asset),
+      })
+      : null;
     this._handleLoadError = this._handleLoadError.bind(this);
     this._handleLoaderComplete = this._handleLoaderComplete.bind(this);
     this.scene.load.on("loaderror", this._handleLoadError);
@@ -37,6 +50,7 @@ export class WorldVisualAssetCache {
 
   ensure(asset, { onReady = null, onError = null } = {}) {
     if (this.destroyed || !asset?.key || !asset?.path) return false;
+    this.textureReleases?.cancel(asset.key);
     this.assetsByKey.set(asset.key, asset);
     if (this._exists(asset)) {
       onReady?.(asset);
@@ -51,7 +65,9 @@ export class WorldVisualAssetCache {
     }
 
     const type = asset.type === "video" ? "video" : "image";
-    const eventName = `filecomplete-${type}-${asset.key}`;
+    const eventName = asset.normalMapPath
+      ? this.schedulerConfig.loaderCompleteEvent
+      : `filecomplete-${type}-${asset.key}`;
     const record = {
       asset,
       eventName,
@@ -110,7 +126,10 @@ export class WorldVisualAssetCache {
     if (type === "video") {
       this.scene.load.video(asset.key, asset.path, this.videoNoAudio);
     } else {
-      this.scene.load.image(asset.key, asset.path);
+      this.scene.load.image(
+        asset.key,
+        asset.normalMapPath ? [asset.path, asset.normalMapPath] : asset.path
+      );
     }
     if (!this.scene.load.isLoading()) this.scene.load.start();
     console.info(`[WorldVisualAssetCache] Streaming ${asset.key}`);
@@ -157,6 +176,12 @@ export class WorldVisualAssetCache {
       return false;
     }
     if (!this._exists(asset, key)) return false;
+    if (this.textureReleases) return this.textureReleases.schedule(key, asset);
+    return this._releaseNow(key, asset);
+  }
+
+  _releaseNow(key, asset = this.assetsByKey.get(key)) {
+    if (!key || this.retainKeys.has(key) || !this._exists(asset, key)) return false;
     if (asset?.type === "video") {
       this.scene.cache.video.remove(key);
     } else {
@@ -239,7 +264,9 @@ export class WorldVisualAssetCache {
     this.pending.clear();
     this.waiting.length = 0;
     this.activeKeys.clear();
-    for (const key of this.loadedByCache) this.release(key);
+    this.textureReleases?.destroy();
+    this.textureReleases = null;
+    for (const key of [...this.loadedByCache]) this._releaseNow(key);
     this.loadedByCache.clear();
     this.assetsByKey.clear();
   }

@@ -1,0 +1,344 @@
+{
+  "blend": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\character\\survival-character-blender-v2\\blender\\survival-character-blender-v2.blend",
+  "body": "SurvivalPolishBody",
+  "vertices": 83188,
+  "edges": 200756,
+  "polygons": 119304,
+  "modifiers": [
+    {
+      "name": "root",
+      "type": "ARMATURE"
+    }
+  ],
+  "materials": {
+    "Jacket1": {
+      "slot": 0,
+      "polygons": 10446,
+      "loops": 31338,
+      "vertices": 6344,
+      "bounds": {
+        "min": [
+          -53.85736846923828,
+          -22.15462875366211,
+          91.17413330078125
+        ],
+        "max": [
+          54.143402099609375,
+          16.27716827392578,
+          162.9599151611328
+        ]
+      }
+    },
+    "Brows_Leashes": {
+      "slot": 1,
+      "polygons": 7158,
+      "loops": 21474,
+      "vertices": 8230,
+      "bounds": {
+        "min": [
+          -6.8285746574401855,
+          -15.002310752868652,
+          171.88858032226562
+        ],
+        "max": [
+          6.830425262451172,
+          -10.087013244628906,
+          175.77098083496094
+        ]
+      }
+    },
+    "Hair3": {
+      "slot": 2,
+      "polygons": 36812,
+      "loops": 110436,
+      "vertices": 30063,
+      "bounds": {
+        "min": [
+          -11.418902397155762,
+          -15.092599868774414,
+          161.24880981445312
+        ],
+        "max": [
+          11.128931999206543,
+          10.57175350189209,
+          187.91334533691406
+        ]
+      }
+    },
+    "Backpack2": {
+      "slot": 3,
+      "polygons": 22175,
+      "loops": 66525,
+      "vertices": 13961,
+      "bounds": {
+        "min": [
+          -21.656352996826172,
+          -13.39930534362793,
+          99.8185043334961
+        ],
+        "max": [
+          22.280733108520508,
+          34.62736511230469,
+          159.62100219726562
+        ]
+      }
+    },
+    "Gloves1": {
+      "slot": 4,
+      "polygons": 2580,
+      "loops": 7740,
+      "vertices": 1646,
+      "bounds": {
+        "min": [
+          -56.057437896728516,
+          -28.174335479736328,
+          92.2055892944336
+        ],
+        "max": [
+          56.210391998291016,
+          -9.384955406188965,
+          110.3985595703125
+        ]
+      }
+    },
+    "Mouth": {
+      "slot": 5,
+      "polygons": 8203,
+      "loops": 24609,
+      "vertices": 4739,
+      "bounds": {
+        "min": [
+          -3.556002616882324,
+          -14.028342247009277,
+          163.64828491210938
+        ],
+        "max": [
+          3.564697265625,
+          -7.072944164276123,
+          167.7166748046875
+        ]
+      }
+    },
+    "Head": {
+      "slot": 6,
+      "polygons": 10420,
+      "loops": 31260,
+      "vertices": 5445,
+      "bounds": {
+        "min": [
+          -9.871602058410645,
+          -16.70123291015625,
+          151.85855102539062
+        ],
+        "max": [
+          9.881596565246582,
+          7.441151142120361,
+          185.46240234375
+        ]
+      }
+    },
+    "Body2": {
+      "slot": 7,
+      "polygons": 1000,
+      "loops": 3000,
+      "vertices": 561,
+      "bounds": {
+        "min": [
+          -23.845918655395508,
+          -13.43134593963623,
+          139.6251678466797
+        ],
+        "max": [
+          23.77890396118164,
+          12.538409233093262,
+          158.66758728027344
+        ]
+      }
+    },
+    "Arms": {
+      "slot": 8,
+      "polygons": 6760,
+      "loops": 20280,
+      "vertices": 3827,
+      "bounds": {
+        "min": [
+          -55.55086898803711,
+          -28.121780395507812,
+          89.28711700439453
+        ],
+        "max": [
+          55.685691833496094,
+          -10.91985034942627,
+          107.81736755371094
+        ]
+      }
+    },
+    "Body_Arkit:Eye": {
+      "slot": 9,
+      "polygons": 1680,
+      "loops": 5040,
+      "vertices": 942,
+      "bounds": {
+        "min": [
+          -4.966020584106445,
+          -13.03022289276123,
+          171.4646759033203
+        ],
+        "max": [
+          4.966014862060547,
+          -9.878273963928223,
+          174.65647888183594
+        ]
+      }
+    },
+    "Jeans1": {
+      "slot": 10,
+      "polygons": 4058,
+      "loops": 12174,
+      "vertices": 2410,
+      "bounds": {
+        "min": [
+          -20.300662994384766,
+          -15.766074180603027,
+          8.83949089050293
+        ],
+        "max": [
+          21.23979949951172,
+          11.871928215026855,
+          112.27191162109375
+        ]
+      }
+    },
+    "Shoes1": {
+      "slot": 11,
+      "polygons": 8012,
+      "loops": 24036,
+      "vertices": 5020,
+      "bounds": {
+        "min": [
+          -22.137054443359375,
+          -23.387845993041992,
+          -0.4470767080783844
+        ],
+        "max": [
+          22.521949768066406,
+          8.219023704528809,
+          14.532394409179688
+        ]
+      }
+    }
+  },
+  "vertexGroups": [
+    "pelvis",
+    "spine_01",
+    "spine_02",
+    "spine_03",
+    "spine_04",
+    "neck_01",
+    "neck_02",
+    "head",
+    "clavicle_l",
+    "lowerarm_twist_02_l",
+    "lowerarm_twist_01_l",
+    "lowerarm_fwd_l",
+    "lowerarm_bck_l",
+    "hand_l",
+    "wrist_inner_l",
+    "wrist_outer_l",
+    "index_metacarpal_l",
+    "index_01_l",
+    "index_02_l",
+    "index_03_l",
+    "middle_metacarpal_l",
+    "middle_01_l",
+    "middle_02_l",
+    "middle_03_l",
+    "thumb_01_l",
+    "thumb_02_l",
+    "thumb_03_l",
+    "pinky_metacarpal_l",
+    "pinky_01_l",
+    "pinky_02_l",
+    "pinky_03_l",
+    "ring_metacarpal_l",
+    "ring_01_l",
+    "ring_02_l",
+    "ring_03_l",
+    "upperarm_twist_01_l",
+    "upperarm_twist_02_l",
+    "upperarm_bck_l",
+    "upperarm_fwd_l",
+    "upperarm_in_l",
+    "upperarm_out_l",
+    "clavicle_out_l",
+    "clavicle_scap_l",
+    "clavicle_r",
+    "lowerarm_twist_02_r",
+    "lowerarm_twist_01_r",
+    "lowerarm_fwd_r",
+    "lowerarm_bck_r",
+    "hand_r",
+    "wrist_inner_r",
+    "wrist_outer_r",
+    "pinky_metacarpal_r",
+    "pinky_01_r",
+    "pinky_02_r",
+    "pinky_03_r",
+    "ring_metacarpal_r",
+    "ring_01_r",
+    "ring_02_r",
+    "ring_03_r",
+    "middle_metacarpal_r",
+    "middle_01_r",
+    "middle_02_r",
+    "middle_03_r",
+    "index_metacarpal_r",
+    "index_01_r",
+    "index_02_r",
+    "index_03_r",
+    "thumb_01_r",
+    "thumb_02_r",
+    "thumb_03_r",
+    "upperarm_twist_01_r",
+    "upperarm_twist_02_r",
+    "upperarm_bck_r",
+    "upperarm_in_r",
+    "upperarm_fwd_r",
+    "upperarm_out_r",
+    "clavicle_out_r",
+    "clavicle_scap_r",
+    "foot_r",
+    "ball_r",
+    "ankle_fwd_r",
+    "ankle_bck_r",
+    "calf_twist_02_r",
+    "calf_twist_01_r",
+    "calf_kneeBack_r",
+    "calf_knee_r",
+    "thigh_twist_01_r",
+    "thigh_twist_02_r",
+    "thigh_fwd_r",
+    "thigh_bck_r",
+    "thigh_out_r",
+    "thigh_in_r",
+    "thigh_bck_lwr_r",
+    "thigh_fwd_lwr_r",
+    "foot_l",
+    "ball_l",
+    "ankle_bck_l",
+    "ankle_fwd_l",
+    "calf_twist_02_l",
+    "calf_twist_01_l",
+    "calf_kneeBack_l",
+    "calf_knee_l",
+    "thigh_twist_01_l",
+    "thigh_twist_02_l",
+    "thigh_bck_l",
+    "thigh_fwd_l",
+    "thigh_out_l",
+    "thigh_bck_lwr_l",
+    "thigh_in_l",
+    "thigh_fwd_lwr_l"
+  ],
+  "shapeKeys": []
+}

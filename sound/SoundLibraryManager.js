@@ -5,25 +5,30 @@
  * Allows adding new files to directories - they're automatically included
  */
 
+const DEFAULT_LIBRARY_NAMES = Object.freeze([
+  "dig",
+  "footsteps",
+  "tileBreak",
+  "tileHit",
+]);
+
 export class SoundLibraryManager {
-  constructor(scene) {
+  constructor(scene, additionalLibraryNames = []) {
     this.scene = scene;
-    
+    const libraryNames = [...new Set([
+      ...DEFAULT_LIBRARY_NAMES,
+      ...additionalLibraryNames,
+    ])];
+
     // Sound pools (will be populated dynamically)
-    this.libraries = {
-      dig: [],
-      footsteps: [],
-      tileBreak: [],
-      tileHit: []
-    };
+    this.libraries = Object.fromEntries(
+      libraryNames.map(libraryName => [libraryName, []]),
+    );
     
     // Track last played sound for each library to prevent repeats
-    this.lastPlayed = {
-      dig: null,
-      footsteps: null,
-      tileBreak: null,
-      tileHit: null
-    };
+    this.lastPlayed = Object.fromEntries(
+      libraryNames.map(libraryName => [libraryName, null]),
+    );
     
     // Track which libraries have already logged a warning to prevent spam
     this.warnedLibraries = new Set();
@@ -122,11 +127,9 @@ export class SoundLibraryManager {
    * Get statistics about loaded libraries
    */
   getStats() {
-    return {
-      dig: this.libraries.dig.length,
-      footsteps: this.libraries.footsteps.length,
-      tileBreak: this.libraries.tileBreak.length,
-      tileHit: this.libraries.tileHit.length
-    };
+    return Object.fromEntries(
+      Object.entries(this.libraries)
+        .map(([libraryName, entries]) => [libraryName, entries.length]),
+    );
   }
 }

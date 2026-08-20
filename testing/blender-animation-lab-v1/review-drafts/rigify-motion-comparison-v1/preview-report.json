@@ -1,0 +1,18 @@
+{
+  "walk": {
+    "frames": 16,
+    "output": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\blender-animation-lab-v1\\review-drafts\\rigify-motion-comparison-v1\\current-vs-rigify-walk.gif"
+  },
+  "attack": {
+    "frames": 16,
+    "output": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\blender-animation-lab-v1\\review-drafts\\rigify-motion-comparison-v1\\current-vs-rigify-attack.gif"
+  },
+  "run": {
+    "frames": 18,
+    "output": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\blender-animation-lab-v1\\review-drafts\\rigify-motion-comparison-v1\\current-vs-rigify-run.gif"
+  },
+  "combined": {
+    "frames": 50,
+    "output": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\blender-animation-lab-v1\\review-drafts\\rigify-motion-comparison-v1\\current-vs-rigify-all-actions.gif"
+  }
+}

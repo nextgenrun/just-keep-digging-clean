@@ -32,6 +32,7 @@ export class ComboSystem {
     this.comboCount = 0;
     this.lastComboTime = 0;
     this.currentMultiplier = 1.0;
+    this.pausedAtMs = null;
     
     // Timer settings
     this.comboDurationMs = 6000; // 6 seconds to maintain combo
@@ -130,6 +131,7 @@ export class ComboSystem {
    * @returns {boolean} True if combo is still active, false if broken
    */
   update(nowMs) {
+    if (this.pausedAtMs !== null) return this.comboCount > 0;
     if (this.comboCount === 0) return false;
     
     if (nowMs - this.lastComboTime > this.comboDurationMs) {
@@ -151,6 +153,21 @@ export class ComboSystem {
     this.comboCount = 0;
     this.currentMultiplier = 1.0;
     this.milestonesReached.clear();
+    this.pausedAtMs = null;
+  }
+
+  pause(nowMs) {
+    if (this.pausedAtMs !== null) return false;
+    this.pausedAtMs = Math.max(0, Number(nowMs) || 0);
+    return true;
+  }
+
+  resume(nowMs) {
+    if (this.pausedAtMs === null) return false;
+    const resumedAtMs = Math.max(this.pausedAtMs, Number(nowMs) || 0);
+    if (this.comboCount > 0) this.lastComboTime += resumedAtMs - this.pausedAtMs;
+    this.pausedAtMs = null;
+    return true;
   }
 
   /**
@@ -176,7 +193,8 @@ export class ComboSystem {
    */
   getTimeRemaining(nowMs) {
     if (this.comboCount === 0) return 0;
-    return Math.max(0, this.comboDurationMs - (nowMs - this.lastComboTime));
+    const effectiveNow = this.pausedAtMs ?? nowMs;
+    return Math.max(0, this.comboDurationMs - (effectiveNow - this.lastComboTime));
   }
 
   /**

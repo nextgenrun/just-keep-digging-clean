@@ -9,7 +9,8 @@ import {
   resolveWorldVisualDepthBackdropRegionAssets,
   resolveWorldVisualDepthBackdropRegions,
   resolveWorldVisualDepthBackdropsEnabled,
-} from "../../../values/worldVisualDepthBackdrops.js?rev=20260729-native-density-v14";
+  resolveWorldVisualShallowMaterialLightingEnabled,
+} from "../../../values/worldVisualDepthBackdrops.js?rev=20260815-normal-map-lighting-v1";
 import { WORLD_VISUAL_DEPTH_CAMERA_MOTION } from
   "../../../values/worldVisualDepthCameraMotion.js";
 import {
@@ -19,7 +20,7 @@ import {
 import { RUNTIME_ASSET_LOADING } from "../../../values/runtimeAssetLoading.js";
 import { WorldVisualAssetCache } from "./WorldVisualAssetCache.js";
 import { WorldVisualDepthBackdropRegionView } from
-  "./WorldVisualDepthBackdropRegionView.js?rev=20260729-native-density-v14";
+  "./WorldVisualDepthBackdropRegionView.js?rev=20260815-normal-map-lighting-v1";
 import { WorldVisualDepthCameraMotion } from "./WorldVisualDepthCameraMotion.js";
 
 export class WorldVisualDepthBackdropStage {
@@ -34,6 +35,10 @@ export class WorldVisualDepthBackdropStage {
     this.search = search;
     this.enabled = resolveWorldVisualDepthBackdropsEnabled(config, search);
     this.motionEnabled = resolveWorldVisualDepthBackdropMotionEnabled(config, search);
+    this.materialLightingEnabled = resolveWorldVisualShallowMaterialLightingEnabled(
+      config,
+      search
+    );
     this.blendMaskAsset = resolveWorldVisualDepthBackdropBlendMask(config, search);
     this.fallbackAsset = getWorldVisualDepthBackdropFallbackAsset(config, search);
     this.demandStreamingConfig = WORLD_VISUAL_RUNTIME.streaming.demandAssetStreaming;
@@ -52,6 +57,7 @@ export class WorldVisualDepthBackdropStage {
     this.assetCache = null;
     this.cameraMotion = null;
     this.matte = null;
+    this.materialLights = [];
   }
 
   get segments() {
@@ -77,12 +83,14 @@ export class WorldVisualDepthBackdropStage {
       videoNoAudio: this.config.motion.smoothVideo.noAudio,
       owner: RUNTIME_ASSET_LOADING.owners.depthBackdrop,
       priority: RUNTIME_ASSET_LOADING.priorities.depthBackdrop,
+      deferTextureRelease: true,
     });
     this.cameraMotion = new WorldVisualDepthCameraMotion(
       this.scene,
       this.cameraMotionConfig,
       this.motionEnabled
     );
+    this._createMaterialLights();
     const tileSize = this.scene.config.tileSize;
     const leftTile = Math.min(...this.config.regions.map(region => region.leftTile));
     const rightTile = Math.max(
@@ -189,7 +197,8 @@ export class WorldVisualDepthBackdropStage {
       backwalls,
       this.motionEnabled,
       this.blendMaskAsset,
-      this.fallbackAsset
+      this.fallbackAsset,
+      this.materialLightingEnabled
     );
     this.regionViews.set(region.id, view);
     return view;
@@ -229,6 +238,7 @@ export class WorldVisualDepthBackdropStage {
 
   update(time, lighting) {
     if (!this.enabled || !lighting) return;
+    this._updateMaterialLights();
     const cameraOffset = this.cameraMotion?.update(time, this.activeRegions);
     this.regionViews.forEach(view => view.update(time, lighting, cameraOffset));
   }
@@ -236,6 +246,35 @@ export class WorldVisualDepthBackdropStage {
   _destroyRegionViews() {
     this.regionViews.forEach(view => view.destroy());
     this.regionViews.clear();
+  }
+
+  _createMaterialLights() {
+    if (!this.materialLightingEnabled || !this.scene.lights) return;
+    const feature = this.config.materialLighting;
+    this.scene.lights.enable().setAmbientColor(feature.ambientColor);
+    this.materialLights = [feature.coolFill, feature.warmPlayerLight].map(spec => ({
+      light: this.scene.lights.addLight(
+        0,
+        0,
+        spec.radiusPx,
+        spec.color,
+        spec.intensity
+      ),
+      spec,
+    }));
+    this._updateMaterialLights();
+  }
+
+  _updateMaterialLights() {
+    if (!this.materialLightingEnabled || this.materialLights.length === 0) return;
+    const player = this.scene.player || this.scene.playerController?.sprite;
+    if (!player) return;
+    for (const entry of this.materialLights) {
+      entry.light.setPosition(
+        player.x + entry.spec.offsetXPx,
+        player.y + entry.spec.offsetYPx
+      );
+    }
   }
 
   destroy() {
@@ -247,6 +286,10 @@ export class WorldVisualDepthBackdropStage {
     this.cameraMotion = null;
     this.matte?.destroy?.();
     this.matte = null;
+    for (const entry of this.materialLights) {
+      this.scene.lights?.removeLight?.(entry.light);
+    }
+    this.materialLights = [];
     this.activeRegions = [];
     this.activeRegionIds.clear();
     this.activeAssetKeys.clear();

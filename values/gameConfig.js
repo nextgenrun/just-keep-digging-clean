@@ -18,7 +18,10 @@ const TOP_AIR_ROWS = WORLD_DEPTH_CONFIG.topAirRows;
 // marker before loading any modules, so production builds cannot enable the
 // E2E/debug harness through query parameters.
 const DEBUG_MODE = globalThis.__DIG_GAME_PRODUCTION__ !== true
-  && isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.DEV_CHEATS);
+  && (
+    isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.GOD_MODE)
+    || isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.SCREEN_CAPTURE)
+  );
 
 export const GAME_CONFIG = Object.freeze({
   debugMode: DEBUG_MODE,

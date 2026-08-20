@@ -179,30 +179,45 @@ export class SystemIntroductionSystem {
     if (!state || ACTIVE_TUTORIAL_STAGES.has(state.stage)) return null;
     if (!snapshot.tutorialComplete) return null;
 
-    const affordableUpgrade = Object.entries(UPGRADES).find(([upgradeId, upgrade]) => (
+    const priority = this._getPromiseUpgradePriority();
+    const priorityIndex = new Map(priority.map((upgradeId, index) => [upgradeId, index]));
+    const affordableUpgrades = Object.entries(UPGRADES).filter(([upgradeId, upgrade]) => (
       !upgrade.comingSoon
       && !upgrade.hiddenFromShop
       && this.scene.upgradeSystem?.canPurchaseUpgrade?.(upgradeId)?.canPurchase === true
+    )).sort(([leftId], [rightId]) => (
+      (priorityIndex.get(leftId) ?? Number.MAX_SAFE_INTEGER)
+        - (priorityIndex.get(rightId) ?? Number.MAX_SAFE_INTEGER)
     ));
-    if (affordableUpgrade) {
-      return {
-        promise: `UPGRADE AVAILABLE  •  ${affordableUpgrade[1].name.toUpperCase()}`,
+    const candidates = affordableUpgrades.slice(0, 2).map(([, upgrade]) => ({
+        promise: `UPGRADE AVAILABLE  •  ${upgrade.name.toUpperCase()}`,
         detail: "SPEND EARNED MONEY NOW  •  OR KEEP SAVING FOR YOUR ROUTE",
-      };
-    }
+      }));
     if (snapshot.playerLevel < this.config.thresholds.talentLevel) {
-      return {
+      candidates.push({
         promise: "NEXT MASTERY PATH  •  REACH LEVEL 20",
         detail: "THE STAR PILLAR UNLOCKS YOUR FIRST CELESTIAL ABILITY",
-      };
+      });
     }
 
     const next = this.config.promiseOrder.find(item => (
       !this.isFeatureAvailable(item.feature, snapshot)
     ));
-    return next
-      ? { promise: next.promise, detail: replaceKeys(next.detail) }
-      : null;
+    if (next) {
+      candidates.push({ promise: next.promise, detail: replaceKeys(next.detail) });
+    }
+    if (!candidates.length) return null;
+    const rotationMs = Math.max(1000, Number(this.config.promiseRotationMs) || 18000);
+    const time = Math.max(0, Number(this.scene.time?.now) || 0);
+    return candidates[Math.floor(time / rotationMs) % candidates.length];
+  }
+
+  _getPromiseUpgradePriority() {
+    const defaultPriority = this.config.promiseUpgradePriority || [];
+    const hardcore = this.scene._hardcoreModeRuntime?.system?.getSnapshot?.();
+    if (hardcore?.armed !== true) return defaultPriority;
+    const survival = this.config.hardcoreSurvivalUpgradePriority || [];
+    return [...new Set([...survival, ...defaultPriority])];
   }
 
   getHealthSnapshot() {
@@ -223,7 +238,7 @@ export class SystemIntroductionSystem {
   _applyRuntimeVisibility(snapshot) {
     const visibility = {
       clock: this.isFeatureAvailable("clock", snapshot),
-      weather: this.isFeatureAvailable("weather", snapshot),
+      weather: false,
       torch: this.isFeatureAvailable("caveRun", snapshot),
       combo: this.isFeatureAvailable("comboHud", snapshot),
       buff: this.isFeatureAvailable("campfire", snapshot),

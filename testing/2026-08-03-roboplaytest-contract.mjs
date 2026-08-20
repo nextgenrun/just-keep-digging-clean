@@ -21,6 +21,10 @@ const guidedOpeningSource = fs.readFileSync(
   path.join(moduleRoot, "2026-08-13-roboplaytest-guided-opening.mjs"),
   "utf8",
 );
+const humanCampaignSource = fs.readFileSync(
+  path.join(moduleRoot, "2026-08-14-roboplaytest-human-campaign.mjs"),
+  "utf8",
+);
 const deepModules = [
   "2026-08-03-roboplaytest-deep-core.mjs",
   "2026-08-03-roboplaytest-deep-ui.mjs",
@@ -72,13 +76,30 @@ assert.equal(ui.profile, "ui");
 const human = parseRoboplaytestConfig(["--profile=human", "--goal-money=2000"]);
 assert.equal(human.profile, "human");
 assert.equal(human.goalMoney, 2000);
+assert.equal(human.humanStage, "full");
 assert.equal(new URL(human.url).searchParams.get("gameplayProfile"), "demo");
+const focusedHuman = parseRoboplaytestConfig(["--profile=human", "--human-stage=abilities"]);
+assert.equal(focusedHuman.humanStage, "abilities");
+assert.throws(() => parseRoboplaytestConfig(["--human-stage=fast"]), /full or abilities/);
 assert.throws(() => parseRoboplaytestConfig(["--profile=wide"]), /deep, critical, opening, ui, or human/);
 assert.match(harnessSource, /dialogVisible: Boolean\(scene\.overlayManager\?\.shell\?\.root\?\.visible\)/);
 assert.match(harnessSource, /isLocalGameplayProfileHost/);
 assert.match(harnessSource, /__DIG_GAME_PRODUCTION__ === true/);
 assert.match(driverSource, /prepareGuidedTutorialMineTarget/);
 assert.match(guidedOpeningSource, /stage === "dig"/);
+assert.match(humanCampaignSource, /humanPress\(driver\.page, "e", 1_000\)/);
+assert.match(humanCampaignSource, /closeAfter: nextMerchant !== merchant/);
+assert.doesNotMatch(humanCampaignSource, /\["gearMerchant", "bronzePickaxe"\]/);
+assert.match(humanCampaignSource, /getGemPowerExact\(\) >= abilities\.getThunderStrikeCost\(\)/);
+assert.match(humanCampaignSource, /TILE_TYPES\.GEM_POWER_BLOCK/);
+assert.match(humanCampaignSource, /Mining a Gem Power block did not restore Gem Power/);
+assert.match(humanCampaignSource, /for \(let attempt = 0; attempt < 3; attempt \+= 1\)/);
+assert.match(humanCampaignSource, /__roboplaytestGemPowerRestores/);
+assert.match(humanCampaignSource, /Quick Slash release/);
+assert.match(humanCampaignSource, /idle action lane before Thunder Strike/);
+assert.match(humanCampaignSource, /Thunder Strike paid impact/);
+assert.match(humanCampaignSource, /human-abilities-focused/);
+assert.match(humanCampaignSource, /state\.level >= 20/);
 const summary = buildSummaryMarkdown({
   status: "warning",
   url: config.url,

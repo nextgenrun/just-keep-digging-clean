@@ -44,8 +44,8 @@ import { WORLD_DEPTH_CONFIG } from "../values/worldDepthConfig.js";
 assert.equal(GAMEPLAY_DEV_FLAGS.demoMode, true);
 assert.equal(isDemoModeEnabled(), true);
 assert.equal(GAME_CONFIG.demoMode, true);
-assert.equal(GAME_CONFIG.debugMode, false);
-assert.equal(GAME_CONFIG.rendererQuality.preserveDrawingBuffer, false);
+assert.equal(GAME_CONFIG.debugMode, true);
+assert.equal(GAME_CONFIG.rendererQuality.preserveDrawingBuffer, true);
 assert.equal(isDemoShowcaseSystemFeature("campfire"), true);
 assert.equal(isDemoShowcaseSystemFeature("constellations"), true);
 assert.equal(isDemoShowcaseSystemFeature("caves"), false);
@@ -55,7 +55,13 @@ assert.equal(demoPacing.isFeatureAvailable("campfire"), true);
 assert.equal(demoPacing.isFeatureAvailable("constellations"), true);
 
 for (const featureId of Object.values(GAMEPLAY_FEATURE_IDS)) {
-  assert.equal(isGameplayFeatureEnabled(featureId), false, `${featureId} must be disabled`);
+  const developmentOnly = featureId === GAMEPLAY_FEATURE_IDS.GOD_MODE
+    || featureId === GAMEPLAY_FEATURE_IDS.SCREEN_CAPTURE;
+  assert.equal(
+    isGameplayFeatureEnabled(featureId),
+    developmentOnly,
+    `${featureId} development-demo admission mismatch`,
+  );
 }
 assert.equal(isGameplayLevelEnabled(1), true);
 assert.equal(isGameplayLevelEnabled(2), false);
@@ -64,13 +70,14 @@ assert.equal(isGameplayUpgradeEnabled("arcCoreVehicle"), false);
 assert.equal(isGameplayUpgradeEnabled("omegaArcCoreVehicle"), false);
 assert.equal(isGameplayUpgradeEnabled("gemPowerUnlock"), true);
 assert.equal(isGameplayKeybindActionEnabled("arcCoreVehicle"), false);
-assert.equal(isGameplayKeybindActionEnabled("screenRecord"), false);
+assert.equal(isGameplayKeybindActionEnabled("screenRecord"), true);
 
 const keybindIds = new Set(KEYBIND_ACTIONS.map(action => action.id));
 assert.equal(keybindIds.has("arcCoreVehicle"), false);
-assert.equal(keybindIds.has("screenRecord"), false);
+assert.equal(keybindIds.has("screenRecord"), true);
 assert.equal(Object.hasOwn(createDefaultKeybinds(), "arcCoreVehicle"), false);
-assert.equal(Object.hasOwn(createDefaultKeybinds(), "screenRecord"), false);
+assert.equal(createDefaultKeybinds().screenRecord, "F9");
+assert.equal(createDefaultKeybinds().thunderStrike, "V");
 
 const upgradeSystem = new UpgradeSystem();
 upgradeSystem.setUpgradeLevels({
@@ -88,11 +95,11 @@ assert.equal(upgradeSystem.grantUpgrade("worldTwoTunnelAccess").reason, "gamepla
 assert.equal(upgradeSystem.grantUpgrade("arcCoreVehicle").reason, "gameplay_mode_disabled");
 assert.equal(upgradeSystem.canPurchaseUpgrade("omegaArcCoreVehicle").reason, "gameplay_mode_disabled");
 upgradeSystem.setGodMode(true);
-assert.equal(upgradeSystem.isGodModeActive(), false);
+assert.equal(upgradeSystem.isGodModeActive(), true);
 
 const abilities = new PlayerAbilities({}, {}, { tileSize: 94 }, upgradeSystem);
 abilities.setGodMode(true);
-assert.equal(abilities.isGodModeActive(), false);
+assert.equal(abilities.isGodModeActive(), true);
 
 const craftingSystem = new CraftingSystem();
 assert.deepEqual(craftingSystem.getRecipes(), []);
@@ -223,7 +230,7 @@ assert.equal(randomFlags.debug, false);
 assert.equal(randomFlags.forcedType, null);
 
 const recorder = new ScreenRecordSystem({});
-assert.equal(recorder.enabled, false);
+assert.equal(recorder.enabled, true);
 assert.equal(await recorder.toggle(), false);
 
 const setupSource = await readFile(

@@ -12,7 +12,7 @@ import {
   resolveFireRaysEnabled,
 } from "../../values/fireLightConfig.js";
 import { resolveFireLightPresentation } from
-  "../../values/fireLightPresentation.js";
+  "../../values/fireLightPresentation.js?rev=20260815-shallow-material-v1";
 
 export function queueCapabilityFireAssets(
   scene,

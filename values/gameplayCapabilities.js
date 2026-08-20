@@ -10,6 +10,7 @@ export const GAMEPLAY_FEATURE_IDS = Object.freeze({
   ARC_CORES: "arcCores",
   HEAVENBLOCKS: "heavenblocks",
   DEV_CHEATS: "devCheats",
+  GOD_MODE: "godMode",
   SCREEN_CAPTURE: "screenCapture",
   DEEP_TITAN_CATALOG: "deepTitanCatalog",
   NPC_ACTIVITIES: "npcActivities",
@@ -27,9 +28,15 @@ const DEMO_DISABLED_FEATURES = Object.freeze({
   [GAMEPLAY_FEATURE_IDS.ARC_CORES]: true,
   [GAMEPLAY_FEATURE_IDS.HEAVENBLOCKS]: true,
   [GAMEPLAY_FEATURE_IDS.DEV_CHEATS]: true,
+  [GAMEPLAY_FEATURE_IDS.GOD_MODE]: true,
   [GAMEPLAY_FEATURE_IDS.SCREEN_CAPTURE]: true,
   [GAMEPLAY_FEATURE_IDS.DEEP_TITAN_CATALOG]: true,
   [GAMEPLAY_FEATURE_IDS.NPC_ACTIVITIES]: true,
+});
+
+const DEVELOPMENT_FEATURES = Object.freeze({
+  [GAMEPLAY_FEATURE_IDS.GOD_MODE]: true,
+  [GAMEPLAY_FEATURE_IDS.SCREEN_CAPTURE]: true,
 });
 
 const DEMO_SHOWCASE_SYSTEM_FEATURES = Object.freeze({
@@ -54,16 +61,22 @@ function normalizeProfileId(profileId) {
     : GAMEPLAY_PROFILE_IDS.DEMO;
 }
 
-export function createGameplayCapabilities(profileId = GAMEPLAY_CAPABILITY_CONFIG.productionProfileId) {
+export function createGameplayCapabilities(
+  profileId = GAMEPLAY_CAPABILITY_CONFIG.productionProfileId,
+  { enableDevelopmentTools = false } = {},
+) {
   const resolvedProfileId = normalizeProfileId(profileId);
   const demoMode = resolvedProfileId === GAMEPLAY_PROFILE_IDS.DEMO;
   const isEnabled = featureId => (
-    !demoMode || DEMO_DISABLED_FEATURES[featureId] !== true
+    !demoMode
+    || DEMO_DISABLED_FEATURES[featureId] !== true
+    || (enableDevelopmentTools && DEVELOPMENT_FEATURES[featureId] === true)
   );
 
   return Object.freeze({
     profileId: resolvedProfileId,
     demoMode,
+    developmentTools: enableDevelopmentTools === true,
     isEnabled,
     isShowcaseEnabled: featureId => (
       demoMode && DEMO_SHOWCASE_SYSTEM_FEATURES[featureId] === true
@@ -84,6 +97,15 @@ export function createGameplayCapabilities(profileId = GAMEPLAY_CAPABILITY_CONFI
 
 export const DEFAULT_GAMEPLAY_CAPABILITIES = createGameplayCapabilities();
 
+export const DEVELOPMENT_GAMEPLAY_CAPABILITIES = createGameplayCapabilities(
+  GAMEPLAY_PROFILE_IDS.DEMO,
+  { enableDevelopmentTools: true },
+);
+
+export const RUNTIME_GAMEPLAY_CAPABILITIES = globalThis.__DIG_GAME_PRODUCTION__ === true
+  ? DEFAULT_GAMEPLAY_CAPABILITIES
+  : DEVELOPMENT_GAMEPLAY_CAPABILITIES;
+
 export function isLocalGameplayProfileHost(hostname = "") {
   return GAMEPLAY_CAPABILITY_CONFIG.localHostnames.includes(
     String(hostname || "").trim().toLowerCase(),
@@ -100,5 +122,5 @@ export function resolveGameplayCapabilities({
   }
   const requested = new URLSearchParams(String(search || ""))
     .get(GAMEPLAY_CAPABILITY_CONFIG.queryParam);
-  return createGameplayCapabilities(requested);
+  return createGameplayCapabilities(requested, { enableDevelopmentTools: true });
 }

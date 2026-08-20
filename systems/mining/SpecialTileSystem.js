@@ -91,6 +91,7 @@ export class SpecialTileSystem {
               + this._hardcoreCostSuffix(
                 Math.max(0, pair.dungeonTy - this.worldModel.config.topAirRows),
                 "skyToDungeon",
+                { pairData: pair },
               )
           );
           this.promptTile = { tx: tile.tx, ty: tile.ty, type: "teleportSkyReturn", key: tileKey, dungeonKey: dungeonKeyFromSky };
@@ -105,7 +106,9 @@ export class SpecialTileSystem {
           tile.tx,
           tile.ty,
           `Press ${USER_SETTINGS.getKeyLabel("interact")} to ${groundPortalLevel.groundPortal.promptLabel}`
-            + this._hardcoreCostSuffix(0, "groundToSky")
+            + this._hardcoreCostSuffix(0, "groundToSky", {
+              levelId: groundPortalLevel.levelId,
+            })
         );
         this.promptTile = {
           tx: tile.tx,
@@ -148,7 +151,11 @@ export class SpecialTileSystem {
             tile.tx,
             tile.ty,
             `Press ${USER_SETTINGS.getKeyLabel("interact")} to Use ${label}`
-              + this._hardcoreCostSuffix(depthTiles, "undergroundToSky")
+              + this._hardcoreCostSuffix(
+                depthTiles,
+                "undergroundToSky",
+                { tile, pairData: pair },
+              )
           );
           this.promptTile = { tx: tile.tx, ty: tile.ty, type: "teleportPaired", key: tileKey };
         } else {
@@ -156,7 +163,11 @@ export class SpecialTileSystem {
             tile.tx,
             tile.ty,
             `Press ${USER_SETTINGS.getKeyLabel("interact")} to Activate ${label}`
-              + this._hardcoreCostSuffix(depthTiles, "undergroundToSky")
+              + this._hardcoreCostSuffix(
+                depthTiles,
+                "undergroundToSky",
+                { tile },
+              )
           );
           this.promptTile = { tx: tile.tx, ty: tile.ty, type: "teleport", key: tileKey };
         }
@@ -225,9 +236,20 @@ export class SpecialTileSystem {
     return getTeleportPortalLabel(pairData.levelId, depth);
   }
 
-  _hardcoreCostSuffix(depth, kind) {
+  _hardcoreCostSuffix(depth, kind, context = {}) {
+    if (this._isTutorialTeleportFree({ ...context, kind })) return "";
     const cost = this.scene.getHardcoreTeleportCost?.({ depth, kind }) || 0;
     return cost > 0 ? `  •  HARDCORE COST ${cost.toLocaleString()} M` : "";
+  }
+
+  _isTutorialTeleportFree(context = {}) {
+    return this.scene.townSquareTutorialSystem
+      ?.isTutorialTeleportFree?.(context) === true;
+  }
+
+  _consumeTutorialTeleportFreePass(context = {}) {
+    return this.scene.townSquareTutorialSystem
+      ?.consumeTutorialTeleportFreePass?.(context) === true;
   }
 
   _activateChest() {
@@ -698,10 +720,14 @@ export class SpecialTileSystem {
       return { success: false, reason: "no-sky-portal-slot" };
     }
     const depth = Math.max(0, tile.ty - this.worldModel.config.topAirRows);
-    const payment = this.scene.tryPayHardcoreTeleport?.({
-      depth,
-      kind: "undergroundToSky",
-    }) || { success: true, cost: 0 };
+    const tutorialPortal = this.scene.townSquareTutorialSystem
+      ?.isFirstPortalPending?.(tile) === true;
+    const payment = tutorialPortal
+      ? { success: true, cost: 0 }
+      : this.scene.tryPayHardcoreTeleport?.({
+          depth,
+          kind: "undergroundToSky",
+        }) || { success: true, cost: 0 };
     if (!payment.success) {
       return { success: false, reason: "hardcore-teleport-cost", cost: payment.cost };
     }
@@ -729,7 +755,18 @@ export class SpecialTileSystem {
       console.warn("[SpecialTileSystem] No safe sky portal landing tile found, using assigned fallback.", pairData.gateSlotId);
     }
     const depth = Math.max(0, pairData.dungeonTy - this.worldModel.config.topAirRows);
-    const payment = options.paymentHandled
+    const tutorialTile = {
+      tx: pairData.dungeonTx,
+      ty: pairData.dungeonTy,
+    };
+    const tutorialPortal = this.scene.townSquareTutorialSystem
+      ?.isFirstPortalPending?.(tutorialTile) === true;
+    const tutorialTravelFree = this._consumeTutorialTeleportFreePass({
+      tile: tutorialTile,
+      pairData,
+      kind: "undergroundToSky",
+    });
+    const payment = options.paymentHandled || tutorialTravelFree
       ? { success: true, cost: options.cost || 0 }
       : this.scene.tryPayHardcoreTeleport?.({
           depth,
@@ -744,6 +781,12 @@ export class SpecialTileSystem {
     this.scene.earthquakeHazardOverlay?.clear?.();
     this._playSound("teleport");
     if (firstActivation) this._celebratePortalActivation(pairData, target);
+    else if (tutorialPortal) {
+      this.scene.townSquareTutorialSystem?.recordFirstPortalActivated?.(
+        this._getPairLabel(pairData),
+        tutorialTile,
+      );
+    }
 
     return {
       success: true,
@@ -767,10 +810,15 @@ export class SpecialTileSystem {
     const arrival = level.groundPortal.skyArrivalTile;
     const target = this._findSafeStandingTile(arrival.tx, arrival.ty);
     if (!target) return { success: false, reason: "no-safe-sky-arrival" };
-    const payment = this.scene.tryPayHardcoreTeleport?.({
-      depth: 0,
+    const payment = this._consumeTutorialTeleportFreePass({
+      levelId,
       kind: "groundToSky",
-    }) || { success: true, cost: 0 };
+    })
+      ? { success: true, cost: 0 }
+      : this.scene.tryPayHardcoreTeleport?.({
+          depth: 0,
+          kind: "groundToSky",
+        }) || { success: true, cost: 0 };
     if (!payment.success) {
       return { success: false, reason: "hardcore-teleport-cost", cost: payment.cost };
     }
@@ -814,10 +862,15 @@ export class SpecialTileSystem {
       );
     }
     const depth = Math.max(0, pair.dungeonTy - this.worldModel.config.topAirRows);
-    const payment = this.scene.tryPayHardcoreTeleport?.({
-      depth,
+    const payment = this._consumeTutorialTeleportFreePass({
+      pairData: pair,
       kind: options.kind || "skyToDungeon",
-    }) || { success: true, cost: 0 };
+    })
+      ? { success: true, cost: 0 }
+      : this.scene.tryPayHardcoreTeleport?.({
+          depth,
+          kind: options.kind || "skyToDungeon",
+        }) || { success: true, cost: 0 };
     if (!payment.success) {
       return { success: false, reason: "hardcore-teleport-cost", cost: payment.cost };
     }
@@ -855,7 +908,14 @@ export class SpecialTileSystem {
       ease: "Power2.out",
       onComplete: () => ring.destroy(),
     });
-    this.scene.retentionProgressSystem?.recordPortalActivated?.(label);
+    const tutorialRecorded = this.scene.townSquareTutorialSystem
+      ?.recordFirstPortalActivated?.(label, {
+        tx: pairData.dungeonTx,
+        ty: pairData.dungeonTy,
+      }) === true;
+    if (!tutorialRecorded) {
+      this.scene.retentionProgressSystem?.recordPortalActivated?.(label);
+    }
     this.scene.screenFlashSystem?.flashLucky?.();
     this.scene.shakeSystem?.shake?.("misc.depthMilestone", 0.55);
     this.scene.soundSystem?.playSfx?.("reward");

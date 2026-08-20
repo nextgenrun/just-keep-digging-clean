@@ -1,0 +1,226 @@
+{
+  "version": "manual-rerig-workbook-v1",
+  "reviewOnly": true,
+  "sourceBlend": "sprites/character/survival-character-blender-v2/blender/survival-character-blender-v2.blend",
+  "sourceSha256Before": "3fcbe5965b699b633f6e03b6128ec0403528e485005565ad38f28dc298664b82",
+  "sourceSha256After": "3fcbe5965b699b633f6e03b6128ec0403528e485005565ad38f28dc298664b82",
+  "sourcePreserved": true,
+  "outputBlend": "testing/blender-animation-lab-v1/review-drafts/manual-rerig-workbook-v1/survival-character-rerig-from-scratch-v1.blend",
+  "outputSha256": "a9327af92193561c6f32eaf6024f9473b0f8b38fda84e8bb777a986302820325",
+  "editableMesh": {
+    "name": "RERIG_CleanMesh",
+    "vertices": 83188,
+    "polygons": 119304,
+    "vertexGroups": 0,
+    "modifiers": 0,
+    "constraints": 0,
+    "shapeKeys": 0,
+    "parent": null,
+    "bounds": {
+      "minimum": [
+        -56.057438,
+        -28.174389,
+        -0.447085
+      ],
+      "maximum": [
+        56.210392,
+        34.627365,
+        187.913361
+      ],
+      "centre": [
+        0.076477,
+        3.226488,
+        93.733139
+      ],
+      "maximumExtent": 188.360443
+    }
+  },
+  "emptyArmature": {
+    "name": "RERIG_EmptyArmature",
+    "bones": 0,
+    "animationData": false,
+    "mirrorX": true,
+    "displayType": "STICK",
+    "savedMode": "EDIT"
+  },
+  "quality": {
+    "applied": true,
+    "sourceProfile": "4.0",
+    "textureRelink": {
+      "normalMaps": 9,
+      "relinkedTextures": 32,
+      "eye": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\visual-approval-previews\\2026-08-14-survival-global-benchmark-v1\\texture-cache-2k\\Textures\\Eye\\Eye_BaseColor.png"
+    },
+    "fullResolutionRestored": [
+      "Backpack_BaseColor.jpg",
+      "Backpack_Normal.jpg",
+      "Backpack_OcclusionRoughnessMetallic.jpg",
+      "Backpack_OcclusionRoughnessMetallic.jpg.001",
+      "Backpack_OcclusionRoughnessMetallic.jpg.002",
+      "Eye_BaseColor.png",
+      "Eyebrows_AO.jpg",
+      "Eyebrows_BaseColor.jpg",
+      "Eyebrows_Normal.jpg",
+      "Eyebrows_Opacity.jpg",
+      "Gloves_BaseColor.jpg",
+      "Gloves_Normal.jpg",
+      "Gloves_OcclusionRoughnessMetallic.jpg",
+      "Gloves_OcclusionRoughnessMetallic.jpg.001",
+      "Gloves_OcclusionRoughnessMetallic.jpg.002",
+      "HairBrown_Alpha.jpg",
+      "HairBrown_Diffuse_2.jpg",
+      "HairBrown_Normal.jpg",
+      "Jacket_BaseColor.jpg",
+      "Jacket_Normal.jpg",
+      "Jacket_OcclusionRoughnessMetallic.jpg",
+      "Jacket_OcclusionRoughnessMetallic.jpg.001",
+      "Jacket_OcclusionRoughnessMetallic.jpg.002",
+      "Jeans_BaseColor.jpg",
+      "Jeans_Normal.jpg",
+      "Jeans_OcclusionRoughnessMetallic.jpg",
+      "Jeans_OcclusionRoughnessMetallic.jpg.001",
+      "Jeans_OcclusionRoughnessMetallic.jpg.002",
+      "Shoes_BaseColor.jpg",
+      "Shoes_Normal.jpg",
+      "Shoes_OcclusionRoughnessMetallic.jpg",
+      "Shoes_OcclusionRoughnessMetallic.jpg.001",
+      "Shoes_OcclusionRoughnessMetallic.jpg.002"
+    ],
+    "pbrMaterials": {
+      "Jacket1": {
+        "ormSplit": true,
+        "aoMix": 0.28,
+        "roughnessMultiply": 0.82,
+        "roughnessAdd": 0.08,
+        "normalStrength": 1.2,
+        "coatWeight": 0.12,
+        "coatRoughness": 0.22
+      },
+      "Backpack2": {
+        "ormSplit": true,
+        "aoMix": 0.24,
+        "roughnessMultiply": 0.9,
+        "roughnessAdd": 0.06,
+        "normalStrength": 1.15,
+        "coatWeight": 0.05,
+        "coatRoughness": 0.3
+      },
+      "Gloves1": {
+        "ormSplit": true,
+        "aoMix": 0.24,
+        "roughnessMultiply": 0.8,
+        "roughnessAdd": 0.08,
+        "normalStrength": 1.15,
+        "coatWeight": 0.08,
+        "coatRoughness": 0.24
+      },
+      "Jeans1": {
+        "ormSplit": true,
+        "aoMix": 0.18,
+        "roughnessMultiply": 1.02,
+        "roughnessAdd": 0.04,
+        "normalStrength": 1.12,
+        "sheenWeight": 0.035
+      },
+      "Shoes1": {
+        "ormSplit": true,
+        "aoMix": 0.25,
+        "roughnessMultiply": 0.76,
+        "roughnessAdd": 0.08,
+        "normalStrength": 1.12,
+        "coatWeight": 0.1,
+        "coatRoughness": 0.2
+      }
+    },
+    "specialMaterials": {
+      "Hair3": {
+        "roughness": 0.4,
+        "specularIorLevel": 0.24,
+        "anisotropic": 0.3,
+        "sheenWeight": 0.05,
+        "normalStrength": 1.1
+      },
+      "Head": {
+        "roughness": 0.38,
+        "specularIorLevel": 0.2,
+        "subsurfaceWeight": 0.04,
+        "subsurfaceScale": 0.08
+      },
+      "Body_Arkit:Eye": {
+        "roughness": 0.09,
+        "ior": 1.38,
+        "coatWeight": 0.38,
+        "coatRoughness": 0.055
+      }
+    },
+    "fullGlovePolygonsChanged": 6162,
+    "gloveMaterial": "Gloves1",
+    "missingImageRepair": {
+      "repaired": [
+        "Body_Arkit:base_color_texture"
+      ],
+      "removed": [
+        "Body_Arkit:base_color_texture"
+      ],
+      "unresolved": []
+    }
+  },
+  "actions": 0,
+  "recommendedBoneNames": [
+    "root",
+    "pelvis",
+    "spine_01",
+    "spine_02",
+    "chest",
+    "neck",
+    "head",
+    "clavicle.L",
+    "upper_arm.L",
+    "forearm.L",
+    "hand.L",
+    "clavicle.R",
+    "upper_arm.R",
+    "forearm.R",
+    "hand.R",
+    "thigh.L",
+    "shin.L",
+    "foot.L",
+    "toe.L",
+    "thigh.R",
+    "shin.R",
+    "foot.R",
+    "toe.R",
+    "thumb_01.L",
+    "thumb_02.L",
+    "thumb_03.L",
+    "index_01.L",
+    "index_02.L",
+    "index_03.L",
+    "middle_01.L",
+    "middle_02.L",
+    "middle_03.L",
+    "ring_01.L",
+    "ring_02.L",
+    "ring_03.L",
+    "pinky_01.L",
+    "pinky_02.L",
+    "pinky_03.L",
+    "thumb_01.R",
+    "thumb_02.R",
+    "thumb_03.R",
+    "index_01.R",
+    "index_02.R",
+    "index_03.R",
+    "middle_01.R",
+    "middle_02.R",
+    "middle_03.R",
+    "ring_01.R",
+    "ring_02.R",
+    "ring_03.R",
+    "pinky_01.R",
+    "pinky_02.R",
+    "pinky_03.R"
+  ],
+  "productionRuntimeChanged": false,
+  "animationsAttached": false
+}

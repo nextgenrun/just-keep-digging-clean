@@ -4,6 +4,11 @@ Runtime and generated world-background art. Region-specific generation notes and
 provenance live in each versioned subdirectory; the active Level 1 facade package
 is documented in `world-scenic-regions-v1/readme.md`.
 
+`understar-ending-v1/` contains the approved 1672x941 ImageGen finale painting.
+Its stellar sphere fills and escapes the frame so both the 2,000 m world reveal
+and full-screen completion view communicate impossible scale without procedural
+replacement art.
+
 `world-visual-v2/` is the first production art kit for the non-Tiled scenic runtime: a moonlit far plate, transparent town hero layer, transparent walk-surface edge, and seamless dark-earth material. Runtime far cards preserve the far plate's aspect ratio and never exceed native source density. Production repeats `town-surface-edge-thin-v2.png` across all 280 surface columns at the Town Square's calibrated physical scale; its 48 px approved-slate crop stays thinner than one tile and adds no collision. `?surfaceEdge=0` restores tile-only presentation, while the deeper v1 edge remains retained for provenance. Chroma-key source images are retained under `sources/` for reproducible alpha cleanup.
 
 `titan-discoveries-v1/` contains the 25 compact transparent Titan archive
@@ -36,5 +41,4 @@ stance. Underground uses them at chamber scale with near-opaque normal
 presentation; the unlocked surface Titan Walk uses the same sharp inventory
 with identity-specific larger scales over the much thinner shared basalt dais
 inside the prop-free town-edge corridor.
-
 

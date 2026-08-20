@@ -169,7 +169,8 @@ export class NPCManager {
       this._interactPrompts.push({
         npc: npc,
         text: promptText,
-        spriteHeight: spriteSize
+        spriteHeight: spriteSize,
+        baseY: promptText.y,
       });
       
       // Register NPC with decoration system for debug mode
@@ -203,6 +204,8 @@ export class NPCManager {
         && dist <= competingDistance;
       
       if (inRange && !prompt.text.visible) {
+        this.scene.tweens.killTweensOf?.(prompt.text);
+        prompt.text.setY(prompt.baseY);
         prompt.text.setVisible(true);
         // Fade in with a subtle bounce
         prompt.text.setAlpha(0);
@@ -215,11 +218,13 @@ export class NPCManager {
           yoyo: true,
           hold: 100,
           onComplete: () => {
-            prompt.text.y -= 8; // Reset position after animation
+            prompt.text.setY(prompt.baseY);
             prompt.text.setAlpha(1);
           }
         });
       } else if (!inRange && prompt.text.visible) {
+        this.scene.tweens.killTweensOf?.(prompt.text);
+        prompt.text.setY(prompt.baseY);
         prompt.text.setVisible(false);
       }
     }

@@ -1,0 +1,31 @@
+{
+  "version": "3.1",
+  "reviewOnly": true,
+  "productionChanged": false,
+  "baseConfig": "values/survivalMeshQualityV2Review.json",
+  "outputRoot": "visual-approval-previews/2026-08-15-survival-material-quality-v3-1",
+  "v2Root": "visual-approval-previews/2026-08-15-survival-motion-locked-mesh-quality-v2",
+  "rejectedV3Root": "visual-approval-previews/2026-08-15-survival-mesh-quality-v2-v3",
+  "previewOutput": "v2-1-vs-v3-1-material-quality.gif",
+  "threeWayPreviewOutput": "v2-1-vs-rejected-v3-vs-v3-1-material-quality.gif",
+  "materialAudit": "material-audit.json",
+  "textureSourceMode": "original-full-resolution",
+  "materials": {
+    "Jacket1": {"baseColorScale": 0.90, "roughnessMultiplier": 0.90, "coatWeight": 0.04, "coatRoughness": 0.24, "normalStrength": 1.08},
+    "Backpack2": {"baseColorScale": 0.91, "roughnessMultiplier": 0.95, "coatWeight": 0.02, "coatRoughness": 0.28, "normalStrength": 1.03},
+    "Gloves1": {"baseColorScale": 0.88, "roughnessMultiplier": 0.85, "coatWeight": 0.05, "coatRoughness": 0.22, "normalStrength": 1.08},
+    "Jeans1": {"baseColorScale": 0.92, "roughnessMultiplier": 1.05, "coatWeight": 0.0, "coatRoughness": 0.30, "normalStrength": 0.96},
+    "Shoes1": {"baseColorScale": 0.89, "roughnessMultiplier": 0.86, "coatWeight": 0.05, "coatRoughness": 0.22, "normalStrength": 1.03},
+    "Hair3": {"baseColorScale": 0.90, "roughness": 0.42, "coatWeight": 0.0, "coatRoughness": 0.28, "normalStrength": 0.88, "specularIorLevel": 0.12, "anisotropic": 0.22, "sheenWeight": 0.04, "sheenRoughness": 0.32},
+    "Head": {"baseColorScale": 0.95, "roughness": 0.52, "coatWeight": 0.0, "coatRoughness": 0.32, "normalStrength": 0.72, "specularIorLevel": 0.08, "subsurfaceWeight": 0.02, "subsurfaceScale": 0.014},
+    "Body2": {"roughness": 0.50, "coatWeight": 0.01, "coatRoughness": 0.28, "normalStrength": 0.72},
+    "Arms": {"roughness": 0.50, "coatWeight": 0.01, "coatRoughness": 0.28, "normalStrength": 0.72}
+  },
+  "finalPixel": {
+    "saturation": 1.015,
+    "contrast": 1.0,
+    "crispRadiusPx": 0.45,
+    "crispPercent": 28,
+    "crispThreshold": 2
+  }
+}

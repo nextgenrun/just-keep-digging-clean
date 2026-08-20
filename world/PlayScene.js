@@ -1,6 +1,6 @@
-import { setupScene } from "./playScene/PlaySceneSetup.js?rev=20260729-native-density-v14";
-import { setupGameplayMethods } from "./playScene/PlaySceneGameplay.js?rev=20260727-restart-lifecycle-v1";
-import { updateScene } from "./playScene/PlaySceneUpdate.js";
+import { setupScene } from "./playScene/PlaySceneSetup.js?rev=20260820-complex-dig-v1";
+import { setupGameplayMethods } from "./playScene/PlaySceneGameplay.js?rev=20260820-complex-dig-v1";
+import { updateScene } from "./playScene/PlaySceneUpdate.js?rev=20260818-feedback-session-v1";
 import {
   updatePlaySceneCameraPhase,
   updatePlaySceneLightingPhase,

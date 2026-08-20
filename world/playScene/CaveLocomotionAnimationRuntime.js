@@ -1,8 +1,8 @@
 /** Keeps compact-cave locomotion playback aligned with the shared UAL selector. */
 import { ASSET_KEYS } from "../../values/assetKeys.js";
 import {
-  UAL_NATIVE_ACTION_TUNING,
   resolveUalFlightBankAlpha,
+  resolveUalFlightPoseAngle,
   resolveUalFlightTimeScale,
 } from "../../values/ualNativeActionTuning.js";
 
@@ -102,13 +102,15 @@ export function updateCaveLocomotionVisual(runtime, time, deltaMs) {
   if (!profile.isUalNative) return;
   const velocityX = scene.playerKinematicMotion?.getResolvedVelocityX?.() ?? body?.vx ?? 0;
   const flightActive = poweredFlight;
-  const flight = UAL_NATIVE_ACTION_TUNING.flight;
-  const velocitySign = Math.sign(velocityX) || (selection?.facingFlipX ? -1 : 1);
-  const hoverRatio = Math.min(1, Math.abs(velocityX) / flight.referenceSpeedPxPerSec);
+  const velocityY = body?.vy || scene.playerKinematicMotion?.getResolvedVelocityY?.() || 0;
+  const flightMotion = controller.playerController?.flightMotion?.getSnapshot?.();
   const targetAngle = flightActive
-    ? velocitySign * (flightTravel
-      ? flight.travelBankDegrees
-      : flight.hoverBankDegrees * hoverRatio)
+    ? resolveUalFlightPoseAngle({
+      horizontalVelocityPxPerSec: velocityX,
+      verticalVelocityPxPerSec: velocityY,
+      verticalAccelerationPxPerSecondSquared: flightMotion?.accelerationY,
+      facingFlipX: selection?.facingFlipX === true,
+    })
     : 0;
   const currentAngle = Number(scene.player.angle) || 0;
   const bankAlpha = resolveUalFlightBankAlpha(deltaMs);

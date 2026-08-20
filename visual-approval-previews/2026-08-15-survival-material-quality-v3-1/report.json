@@ -1,0 +1,13 @@
+{
+  "version": "3.1",
+  "reviewOnly": true,
+  "productionChanged": false,
+  "families": {
+    "walk": {
+      "frames": 24,
+      "fps": 16,
+      "motionChanged": false,
+      "alphaAuthority": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\visual-approval-previews\\2026-08-15-survival-motion-locked-mesh-quality-v2\\packed-256\\walk"
+    }
+  }
+}

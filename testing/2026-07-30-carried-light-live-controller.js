@@ -1,5 +1,5 @@
 import { createCarriedLightLiveRuntime } from
-  "./2026-07-30-carried-light-live-runtime.js";
+  "./2026-07-30-carried-light-live-runtime.js?v=20260815-normal-map-lighting-v1";
 
 export function startCarriedLightLiveComparison(CONFIG) {
   const status = document.getElementById("status");
@@ -47,6 +47,9 @@ export function startCarriedLightLiveComparison(CONFIG) {
       entry.telemetry.textContent = data
         ? `${Math.round(data.depth)}m · radius ${data.visibilityRadiusTiles.toFixed(2)}t · GP ${Math.round(data.gpRatio * 100)}% · layers ${data.authoredLayers}`
         : "Booting…";
+      if (data?.presentationId) {
+        entry.telemetry.append(` | ${data.presentationId}`);
+      }
     }
     updatePressedControls(live);
   }

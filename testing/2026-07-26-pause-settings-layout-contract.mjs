@@ -16,16 +16,16 @@ import {
 const floatingText = RETENTION_CONFIG.floatingText;
 assert.equal("starPopupsDefaultEnabled" in RETENTION_CONFIG.settings, false);
 assert.equal("starPopupHint" in RETENTION_CONFIG.settings, false);
-assert.equal(floatingText.defaultMode, "reduced");
+assert.equal(floatingText.defaultMode, "full");
 assert.deepEqual(floatingText.modes.full.hiddenCategories, []);
 assert.deepEqual(floatingText.modes.reduced.hiddenCategories, ["damage", "resource"]);
 assert.deepEqual(
   resolveFloatingTextPreference({ floatingTextMode: "reduced" }),
   {
-    mode: "reduced",
+    mode: "full",
     preferenceVersion: floatingText.preferenceVersion,
   },
-  "legacy saves must migrate to the uncluttered REDUCED default",
+  "legacy saves must migrate to the visible FULL default",
 );
 assert.equal(
   resolveFloatingTextPreference({ floatingTextMode: "off" }).mode,

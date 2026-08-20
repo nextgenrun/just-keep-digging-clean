@@ -1,0 +1,63 @@
+{
+  "version": 2,
+  "reviewOnly": true,
+  "productionChanged": false,
+  "family": "flight",
+  "sourceAction": "DG_SUPERMAN_FLIGHT_IDLE_PRONE_V3",
+  "sourceFrames": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+  ],
+  "renderFrameCount": 36,
+  "meshVertices": 83188,
+  "meshPolygons": 119304,
+  "motionEdits": {
+    "bone": false,
+    "weights": false,
+    "camera": false,
+    "geometry": false
+  },
+  "materialEdits": {
+    "fullGlovePolygons": 6162
+  },
+  "objectTranslationKeysFrozen": 0,
+  "textures": {
+    "normalMaps": 9,
+    "relinkedTextures": 32,
+    "eye": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\visual-approval-previews\\2026-08-14-survival-global-benchmark-v1\\texture-cache-2k\\Textures\\Eye\\Eye_BaseColor.png"
+  }
+}

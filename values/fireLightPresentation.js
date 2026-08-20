@@ -4,10 +4,23 @@ export const FIRE_LIGHT_PRESENTATION_CONFIG = Object.freeze({
   legacyPresentationId: "legacy-procedural-v2",
   query: Object.freeze({
     name: "fireLightStyle",
+    materialValue: "material",
     naturalValue: "natural",
     layeredValue: "layered",
   }),
   profiles: Object.freeze({
+    material: Object.freeze({
+      id: "material-lighting-v1",
+      flameAlphaScale: 0.92,
+      volumeAlphaScale: 0.58,
+      atmosphereAlphaScale: 0.42,
+      expandedIllumination: false,
+      proceduralWorldGlow: true,
+      proceduralWorldGlowScale: 1.04,
+      proceduralShaderMix: 0.92,
+      eyeAdaptationEffectScale: 0.32,
+      authoredLayerTarget: 3,
+    }),
     natural: Object.freeze({
       id: "natural-fire-v1",
       flameAlphaScale: 0.88,
@@ -48,7 +61,8 @@ export function resolveFireLightPresentation(
   config = FIRE_LIGHT_PRESENTATION_CONFIG
 ) {
   const selected = queryValue(search, config.query.name);
-  return selected === config.query.layeredValue
-    ? config.profiles.layered
-    : config.profiles.natural;
+  if (selected === config.query.materialValue) return config.profiles.material;
+  if (selected === config.query.naturalValue) return config.profiles.natural;
+  if (selected === config.query.layeredValue) return config.profiles.layered;
+  return config.profiles[config.defaultProfile] || config.profiles.natural;
 }

@@ -1,0 +1,139 @@
+{
+  "version": 2,
+  "reviewOnly": true,
+  "productionChanged": false,
+  "renderSizePx": 2048,
+  "packedFrameSizePx": 256,
+  "previewDisplaySizePx": 123,
+  "previewTitle": "MOTION-LOCKED MESH QUALITY V2.1 - FULL GLOVE",
+  "candidateLabel": "V2.1 QUALITY + FULL GLOVE",
+  "previewOutput": "before-vs-v2-1-full-glove-motion-locked.gif",
+  "preview": {
+    "canvasWidthPx": 1000,
+    "canvasHeightPx": 760,
+    "cellSizePx": 400,
+    "fps": 12
+  },
+  "textureCache": "visual-approval-previews/2026-08-14-survival-global-benchmark-v1/texture-cache-2k",
+  "sourceTextures": "sprites/character/survival-character-fab-v1/source/Textures",
+  "fbxRoot": "testing/unreal-survival-motion-v2/SourceAssets/ual-exports",
+  "materials": [
+    "Jacket1", "Brows_Leashes", "Hair3", "Backpack2", "Gloves1", "Mouth",
+    "Head", "Body2", "Arms", "Body_Arkit:Eye", "Jeans1", "Shoes1"
+  ],
+  "gloveCorrection": {
+    "material": "Gloves1",
+    "fingerGroupTokens": ["index_", "middle_", "ring_", "pinky_", "thumb_"],
+    "minimumVertexWeight": 0.5
+  },
+  "outputRoot": "visual-approval-previews/2026-08-15-survival-motion-locked-mesh-quality-v2",
+  "camera": "SurvivalPolishCamera",
+  "rig": "SurvivalPolishRig",
+  "body": "SurvivalPolishBody",
+  "hiddenPrefixes": ["ACC_"],
+  "hiddenObjects": ["SurvivalMinerPickaxe"],
+  "activeLights": [
+    "SurvivalCinematicKey",
+    "SurvivalCinematicFill",
+    "SurvivalCinematicRim",
+    "SurvivalCinematicTop"
+  ],
+  "quality": {
+    "viewTransform": "AgX",
+    "look": "AgX - Medium High Contrast",
+    "eyeRoughness": 0.16,
+    "eyeIor": 1.38,
+    "eyeCoatWeight": 0.18,
+    "eyeCoatRoughness": 0.08
+  },
+  "contractGate": {
+    "minimumAlphaIou": 0.9,
+    "maximumCentroidDeltaPx": 2.0,
+    "maximumBoundsDeltaPx": 3,
+    "alphaThreshold": 8
+  },
+  "families": {
+    "walk": {
+      "blend": "sprites/character/survival-character-blender-v2/blender/survival-character-blender-v2.blend",
+      "action": "SRC_walk",
+      "frameCount": 24,
+      "fps": 16,
+      "loop": true,
+      "freezeObjectTranslation": true,
+      "mirror": false,
+      "legacySheet": "sprites/character/survival-character-blender-v2/runtime/survival-character-blender-v2-walk-sheet.png"
+    },
+    "run": {
+      "blend": "sprites/character/survival-character-blender-v2/blender/survival-character-blender-v2.blend",
+      "fbx": "survival-ual-jog-fwd-loop.fbx",
+      "sourceClip": "Jog_Fwd_Loop",
+      "sampleStart": 1.0,
+      "sampleEnd": 22.6,
+      "renderFrameCount": 28,
+      "renderScale": 0.95,
+      "frameCount": 28,
+      "fps": 30,
+      "loop": true,
+      "freezeObjectTranslation": true,
+      "mirror": false,
+      "legacySheet": "sprites/character/survival-ual-player-v1/runtime/survival-ual-player-v1-animation-polish-run-sheet.webp"
+    },
+    "mining-side": {
+      "blend": "sprites/character/survival-character-blender-v2/blender/survival-character-blender-v2.blend",
+      "fbx": "survival-ual-punch-jab.fbx",
+      "sourceClip": "Punch_Jab",
+      "sampleStart": 1.0,
+      "sampleEnd": 21.8,
+      "renderFrameCount": 27,
+      "candidateFrameStart": 3,
+      "renderScale": 0.95,
+      "legacyFrameStart": 3,
+      "frameCount": 15,
+      "fps": 30,
+      "loop": false,
+      "freezeObjectTranslation": true,
+      "mirror": false,
+      "legacySheet": "sprites/character/survival-ual-player-v1/runtime/survival-ual-player-v1-punch-jab-sheet.webp"
+    },
+    "mining-up": {
+      "blend": "sprites/character/survival-character-blender-v2/blender/survival-character-blender-v2.blend",
+      "action": "SRC_dig_up",
+      "frameCount": 24,
+      "fps": 27,
+      "loop": false,
+      "freezeObjectTranslation": true,
+      "mirror": false,
+      "legacySheet": "sprites/character/survival-character-blender-v2/runtime/survival-character-blender-v2-dig-up-piskel-polished-sheet.png"
+    },
+    "mining-down": {
+      "blend": "sprites/character/survival-character-blender-v2/blender/survival-character-blender-v2.blend",
+      "fbx": "survival-ual-overhandthrow.fbx",
+      "sourceClip": "OverhandThrow",
+      "sampleStart": 1.0,
+      "sampleEnd": 33.0,
+      "renderFrameCount": 41,
+      "candidateFrameStart": 4,
+      "renderScale": 0.95,
+      "legacyFrameStart": 4,
+      "frameCount": 37,
+      "fps": 30,
+      "loop": false,
+      "freezeObjectTranslation": true,
+      "mirror": false,
+      "legacySheet": "sprites/character/survival-ual-player-v1/runtime/survival-ual-player-v1-ground-strike-sheet.webp"
+    },
+    "flight": {
+      "blend": "testing/blender-animation-lab-v1/review-drafts/superman-flight-idle-prone-v3/superman-flight-idle-prone-v3.blend",
+      "action": "DG_SUPERMAN_FLIGHT_IDLE_PRONE_V3",
+      "sourceFrame": 1,
+      "root": "DG_PRONE_FLIGHT_IDLE_V3_ROOT",
+      "frameCount": 36,
+      "fps": 16,
+      "loop": true,
+      "verticalBobWorld": 0.015,
+      "horizontalDriftWorld": 0.003,
+      "mirror": true,
+      "legacySheet": "sprites/character/survival-character-blender-v2/runtime/survival-character-blender-v2-superman-flight-prone-v3-sheet.png"
+    }
+  }
+}

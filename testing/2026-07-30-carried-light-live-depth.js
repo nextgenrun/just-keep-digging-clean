@@ -35,13 +35,17 @@ export function isStanding(scene, tx, ty) {
 
 export function findDepthTarget(scene, world, depthTiles) {
   const bounds = getDepthBounds(scene);
-  const desiredY = Math.max(
-    bounds.minimum,
-    Math.min(
-      bounds.maximum,
-      scene.config.topAirRows + Math.round(depthTiles) - 1
-    )
-  );
+  const surfaceRequested = Number(depthTiles) <= 0;
+  const minimumY = surfaceRequested ? 1 : bounds.minimum;
+  const desiredY = surfaceRequested
+    ? Math.max(minimumY, scene.config.topAirRows - 1)
+    : Math.max(
+      bounds.minimum,
+      Math.min(
+        bounds.maximum,
+        scene.config.topAirRows + Math.round(depthTiles) - 1
+      )
+    );
   const visited = new Set();
 
   for (let distance = 0; distance <= world.searchDepthTiles; distance += 1) {
@@ -49,7 +53,7 @@ export function findDepthTarget(scene, world, depthTiles) {
       ? [desiredY]
       : [desiredY - distance, desiredY + distance];
     for (const ty of rows) {
-      if (ty < bounds.minimum || ty > bounds.maximum) continue;
+      if (ty < minimumY || ty > bounds.maximum) continue;
       for (const [startX, endX] of getHorizontalRanges(scene, world)) {
         const rangeKey = `${startX}:${endX}:${ty}`;
         if (visited.has(rangeKey)) continue;

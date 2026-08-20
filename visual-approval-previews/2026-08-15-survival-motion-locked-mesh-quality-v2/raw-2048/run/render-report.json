@@ -1,0 +1,55 @@
+{
+  "version": 2,
+  "reviewOnly": true,
+  "productionChanged": false,
+  "family": "run",
+  "sourceAction": "Jog_Fwd_Loop",
+  "sourceFrames": [
+    1.0,
+    1.8,
+    2.6,
+    3.4000000000000004,
+    4.2,
+    5.0,
+    5.800000000000001,
+    6.6000000000000005,
+    7.4,
+    8.2,
+    9.0,
+    9.8,
+    10.600000000000001,
+    11.4,
+    12.200000000000001,
+    13.0,
+    13.8,
+    14.600000000000001,
+    15.4,
+    16.200000000000003,
+    17.0,
+    17.8,
+    18.6,
+    19.400000000000002,
+    20.200000000000003,
+    21.0,
+    21.8,
+    22.6
+  ],
+  "renderFrameCount": 28,
+  "meshVertices": 83188,
+  "meshPolygons": 119304,
+  "motionEdits": {
+    "bone": false,
+    "weights": false,
+    "camera": false,
+    "geometry": false
+  },
+  "materialEdits": {
+    "fullGlovePolygons": 6162
+  },
+  "objectTranslationKeysFrozen": 72,
+  "textures": {
+    "normalMaps": 9,
+    "relinkedTextures": 32,
+    "eye": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\visual-approval-previews\\2026-08-14-survival-global-benchmark-v1\\texture-cache-2k\\Textures\\Eye\\Eye_BaseColor.png"
+  }
+}

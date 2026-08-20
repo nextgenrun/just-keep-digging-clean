@@ -87,7 +87,14 @@ export class SleepingJackpotWorldSupport {
     }
     const pulse = 0.5 + Math.sin((Number(time) || 0) * 0.004) * 0.5;
     const sizeScale = 0.92 + pulse * 0.08;
+    const world = this.scene.worldModel.tileToWorld(record?.chest?.tx ?? this.cue._eventTile.tx, record?.chest?.ty ?? this.cue._eventTile.ty);
+    const cycle = (Number(time) || 0) * 0.0032;
     this.cue.setAlpha(0.58 + pulse * 0.34)
+      .setPosition(
+        world.x,
+        world.y + Math.sin(cycle) * RANDOM_WORLD_EVENT_CONFIG.visuals.sleepingCueBobPx,
+      )
+      .setAngle(Math.sin(cycle * 0.72) * RANDOM_WORLD_EVENT_CONFIG.visuals.sleepingCueTiltDeg)
       .setDisplaySize(92 * sizeScale, 70 * sizeScale);
     if (this.cuePhase === "awake") this.cue.setTint(0xffd76a);
     else this.cue.clearTint();

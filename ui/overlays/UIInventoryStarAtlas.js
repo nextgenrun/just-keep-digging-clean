@@ -214,6 +214,21 @@ export function renderInventoryStarAtlas(
       strokeThickness: 2,
     },
   );
+  addStarAtlasText(
+    scene,
+    shell.content,
+    bounds.left + bounds.width * config.inventory.layout.ruleCenterX,
+    bounds.top + bounds.height * config.inventory.layout.navigationHintCenterY,
+    config.inventory.copy.navigationHint,
+    {
+      fontFamily: UI_FONTS.mono,
+      fontSizePx: config.inventory.layout.navigationHintFontSizePx,
+      fontStyle: "bold",
+      color: identity.secondary,
+      stroke: "#02060A",
+      strokeThickness: 2,
+    },
+  );
   return Object.freeze({
     rarityIndex,
     identityIndex: identity.index,

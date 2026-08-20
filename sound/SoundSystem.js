@@ -1,5 +1,8 @@
 import { ASSET_KEYS } from "../values/assetKeys.js";
-import { AUDIO_CONFIG } from "../values/audioConfig.js";
+import {
+  APPROVED_SFX_FAMILIES,
+  AUDIO_CONFIG,
+} from "../values/audioConfig.js";
 import { SoundLibraryManager } from "./SoundLibraryManager.js";
 import { VoiceLineManager } from "./VoiceLineManager.js";
 import { RuntimeAudioAssetManager } from "./RuntimeAudioAssetManager.js";
@@ -23,6 +26,7 @@ export class SoundSystem {
     this.sfxEnabled = true;
     this.lastFootstepTime = 0;
     this.lastUiSelectTime = -Infinity;
+    this.activeSeismicWarning = null;
 
     this.voiceLineTimer = null;
     this.lastVoiceLineTime = 0;
@@ -39,7 +43,10 @@ export class SoundSystem {
     this.sfxCache = new Map();
     this.voiceLineCache = new Map();
 
-    this.soundLibraryManager = new SoundLibraryManager(scene);
+    this.soundLibraryManager = new SoundLibraryManager(
+      scene,
+      Object.keys(APPROVED_SFX_FAMILIES),
+    );
     this.voiceLineManager = new VoiceLineManager(scene, this);
     this.runtimeAudioAssetManager = new RuntimeAudioAssetManager(scene);
     this.musicStreamController = new MusicStreamController(this, this.runtimeAudioAssetManager);
@@ -280,6 +287,55 @@ export class SoundSystem {
     return null;
   }
 
+  playApprovedSfxFamily(libraryName, volumeMultiplier = 1, options = {}) {
+    if (!this.sfxEnabled || !this.audioInitialized) return null;
+    const soundKey = this.soundLibraryManager.getRandomSound(libraryName);
+    if (!soundKey || !this.soundLibraryManager.soundExists(soundKey)) return null;
+    return this.playSfx(soundKey, volumeMultiplier, options);
+  }
+
+  playSeismicWarning(proximity = 1) {
+    this.stopSeismicWarning();
+    const sound = this.playApprovedSfxFamily(
+      "seismicWarning",
+      this.config.seismicWarningVolume * Math.max(0, Math.min(1, proximity)),
+    );
+    this.activeSeismicWarning = sound;
+    sound?.once?.("complete", () => {
+      if (this.activeSeismicWarning === sound) this.activeSeismicWarning = null;
+    });
+    return sound;
+  }
+
+  playHardcoreNearDeath() {
+    this.stopSeismicWarning();
+    const sound = this.playFirstAvailableSfx(
+      ["sfx-seismic-warning-1", "sfx-seismic-warning-0"],
+      this.config.hardcoreNearDeathVolume,
+      { rate: this.config.hardcoreNearDeathRate },
+    );
+    this.activeSeismicWarning = sound;
+    sound?.once?.("complete", () => {
+      if (this.activeSeismicWarning === sound) this.activeSeismicWarning = null;
+    });
+    return sound;
+  }
+
+  stopSeismicWarning() {
+    const sound = this.activeSeismicWarning;
+    this.activeSeismicWarning = null;
+    if (!this._isUsableSound(sound)) return;
+    try { sound.stop(); } catch (_) {}
+    try { sound.destroy(); } catch (_) {}
+  }
+
+  playRareDiscovery() {
+    return this.playApprovedSfxFamily(
+      "rareDiscovery",
+      this.config.rareDiscoveryVolume,
+    );
+  }
+
   setMasterVolume(volume) {
     this.masterVolume = Math.max(0, Math.min(1, volume));
     this.scene.sound.volume = this.masterVolume;
@@ -412,11 +468,16 @@ export class SoundSystem {
       this.soundLibraryManager.libraries.starDig.push({ key: 'dig-star-0', file: 'dig-star-0', path: 'sound/soundEffects/costume-sounds/dig/dig-star/MUSCChim_Chimes dream 3 (ID 2081)_BigSoundBank.com.wav' });
     }
 
-    const totalLoaded = this.soundLibraryManager.libraries.dig.length
-      + this.soundLibraryManager.libraries.footsteps.length
-      + this.soundLibraryManager.libraries.tileBreak.length
-      + this.soundLibraryManager.libraries.tileHit.length
-      + (this.soundLibraryManager.libraries.starDig?.length || 0);
+    for (const [libraryName, assets] of Object.entries(APPROVED_SFX_FAMILIES)) {
+      for (const asset of assets) {
+        if (this.scene.cache.audio.exists(asset.key)) {
+          this.soundLibraryManager.libraries[libraryName].push(asset);
+        }
+      }
+    }
+
+    const totalLoaded = Object.values(this.soundLibraryManager.libraries)
+      .reduce((total, library) => total + library.length, 0);
     console.log(`[SoundSystem] Populated ${totalLoaded} sound effect libraries from pre-loaded cache`);
   }
 
@@ -563,6 +624,7 @@ export class SoundSystem {
 
   destroy() {
     console.log('[SoundSystem] Destroying sound system');
+    this.stopSeismicWarning();
     this.stopVoiceLineTimer();
     this.voiceLineManager?.destroy();
     this.musicStreamController?.destroy();

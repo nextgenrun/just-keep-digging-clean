@@ -13,6 +13,10 @@ import {
   isGameplayFeatureEnabled,
   isGameplayKeybindActionEnabled,
 } from "../../values/gameplayDevFlags.js";
+import {
+  GAMEPLAY_DEV_INPUT,
+  GAMEPLAY_INPUT_TIMING,
+} from "../../values/keybindActions.js";
 
 export class PlayerInputHandler {
   constructor(scene) {
@@ -23,6 +27,9 @@ export class PlayerInputHandler {
     this.stableMineAim = "";
     this.targetVisual = null;
     this.mouseDigInput = null;
+    this.interactBufferKey = null;
+    this.interactBufferHandler = null;
+    this.specialTileInteractBufferedUntilMs = -Infinity;
     
     // Register all keys
     this.keys = this._registerKeys();
@@ -39,6 +46,7 @@ export class PlayerInputHandler {
    */
   _registerKeys() {
     const scene = this.scene;
+    this._unbindInteractBuffer();
     const binds = USER_SETTINGS.getKeybinds();
     const addBoundKey = (actionId) => {
       if (!isGameplayKeybindActionEnabled(actionId) || !binds[actionId]) return null;
@@ -52,9 +60,11 @@ export class PlayerInputHandler {
     const moveDown = addBoundKey("aimDown");
 
     // Register action keys
+    const jump = addBoundKey("jump");
     const fly = addBoundKey("fly");
     const mine = addBoundKey("dig");
     const interact = addBoundKey("interact");
+    this._bindInteractBuffer(interact);
     const arcCoreVehicle = addBoundKey("arcCoreVehicle");
     const quickslash = addBoundKey("quickslash");
     const thunderStrike = addBoundKey("thunderStrike");
@@ -65,8 +75,12 @@ export class PlayerInputHandler {
     const restart = addBoundKey("restart");
     const shift = fly;
     const enter = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
-    const devCheat = isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.DEV_CHEATS)
-      ? scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.V)
+    const devCheat = GAME_CONFIG.debugMode
+      && isGameplayFeatureEnabled(
+        GAMEPLAY_FEATURE_IDS.GOD_MODE,
+        scene.gameplayCapabilities,
+      )
+      ? scene.input.keyboard.addKey(keyToPhaserKey(GAMEPLAY_DEV_INPUT.godModeKey))
       : null;
     const escape = addBoundKey("pause");
     const hardEscape = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
@@ -81,8 +95,11 @@ export class PlayerInputHandler {
     const captureKeys = new Set([
       ...Object.values(binds).map(keyToPhaserKey),
       Phaser.Input.Keyboard.KeyCodes.ENTER,
-      ...(isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.DEV_CHEATS)
-        ? [Phaser.Input.Keyboard.KeyCodes.V]
+      ...(GAME_CONFIG.debugMode && isGameplayFeatureEnabled(
+        GAMEPLAY_FEATURE_IDS.GOD_MODE,
+        scene.gameplayCapabilities,
+      )
+        ? [keyToPhaserKey(GAMEPLAY_DEV_INPUT.godModeKey)]
         : []),
       Phaser.Input.Keyboard.KeyCodes.ESC,
     ]);
@@ -103,11 +120,13 @@ export class PlayerInputHandler {
       aimDown: moveDown,
       
       // Actions
+      jump,
       fly,
       mine,
       interact,
       arcCoreVehicle,
       q: quickslash,
+      thunderStrike,
       c: thunderStrike,
       torch,
       celestialEngine,
@@ -140,6 +159,42 @@ export class PlayerInputHandler {
    */
   getKeys() {
     return this.keys;
+  }
+
+  consumeSpecialTileInteractInput() {
+    const justDown = this.keys.interact
+      && Phaser.Input.Keyboard.JustDown(this.keys.interact);
+    const now = globalThis.performance?.now?.() ?? Date.now();
+    const buffered = now <= this.specialTileInteractBufferedUntilMs;
+    if (!justDown && !buffered) return false;
+    this.specialTileInteractBufferedUntilMs = -Infinity;
+    return true;
+  }
+
+  _bindInteractBuffer(key) {
+    if (!key?.on) return;
+    this.interactBufferKey = key;
+    this.interactBufferHandler = () => {
+      if (
+        this.scene?.gameState !== "playing"
+        || !this.scene?.specialTileSystem?.promptTile
+      ) {
+        return;
+      }
+      const now = globalThis.performance?.now?.() ?? Date.now();
+      this.specialTileInteractBufferedUntilMs = now
+        + GAMEPLAY_INPUT_TIMING.specialTileInteractBufferMs;
+    };
+    key.on("down", this.interactBufferHandler);
+  }
+
+  _unbindInteractBuffer() {
+    if (this.interactBufferKey && this.interactBufferHandler) {
+      this.interactBufferKey.off?.("down", this.interactBufferHandler);
+    }
+    this.interactBufferKey = null;
+    this.interactBufferHandler = null;
+    this.specialTileInteractBufferedUntilMs = -Infinity;
   }
 
   refreshKeybinds() {
@@ -243,6 +298,7 @@ export class PlayerInputHandler {
   }
 
   destroy() {
+    this._unbindInteractBuffer();
     this.stableMineTarget = null;
     this.stableMineAim = "";
     this.mouseDigInput?.destroy();

@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "packageId": "celestial-talent-icons-v1",
+  "date": "2026-08-14",
+  "processor": "C:\\Users\\Mila\\.codex\\skills\\.system\\imagegen\\scripts\\remove_chroma_key.py",
+  "sheets": [
+    {
+      "family": "wayward",
+      "source": "source/celestial-talent-icons-wayward-imagegen-source-v1.png",
+      "originalPath": "C:\\Users\\Mila\\.codex\\generated_images\\01a0006a-4830-7dd3-920a-fcf678e2b340\\exec-5e32294f-471e-4543-a121-62661f00c018.png",
+      "sourceSha256": "c6b542150c8df5613886f570eca17133bc56914ddfa3810e68e0565ec4363dc5",
+      "alphaCommand": [
+        "C:\\Users\\Mila\\AppData\\Local\\Microsoft\\WindowsApps\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\python.exe",
+        "C:\\Users\\Mila\\.codex\\skills\\.system\\imagegen\\scripts\\remove_chroma_key.py",
+        "--input",
+        "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\sprites\\UI\\celestial-overhaul-v1\\source\\celestial-talent-icons-wayward-imagegen-source-v1.png",
+        "--out",
+        "C:\\Users\\Mila\\AppData\\Local\\Temp\\celestial-talent-icons-qfrukshf\\celestial-talent-icons-wayward-imagegen-source-v1-alpha.png",
+        "--auto-key",
+        "border",
+        "--soft-matte",
+        "--transparent-threshold",
+        "12",
+        "--opaque-threshold",
+        "220",
+        "--despill",
+        "--force"
+      ]
+    },
+    {
+      "family": "hollow",
+      "source": "source/celestial-talent-icons-hollow-imagegen-source-v1.png",
+      "originalPath": "C:\\Users\\Mila\\.codex\\generated_images\\01a0006a-4830-7dd3-920a-fcf678e2b340\\exec-af6e8b81-c617-41c8-a92c-e3aafe6c162c.png",
+      "sourceSha256": "186c8bdbddcac12bb606d291520f92b8198087a989569ee439c65bf1fae42b24",
+      "alphaCommand": [
+        "source-alpha-preserved"
+      ]
+    },
+    {
+      "family": "comet",
+      "source": "source/celestial-talent-icons-comet-imagegen-source-v1.png",
+      "originalPath": "C:\\Users\\Mila\\.codex\\generated_images\\01a0006a-4830-7dd3-920a-fcf678e2b340\\exec-382e8879-3a37-4a71-8784-0602f40589fc.png",
+      "sourceSha256": "81826eb8c411114cd1844784bf5d4524ef934aef70849bb347a7b5cb273cd8ee",
+      "alphaCommand": [
+        "source-alpha-preserved"
+      ]
+    }
+  ]
+}

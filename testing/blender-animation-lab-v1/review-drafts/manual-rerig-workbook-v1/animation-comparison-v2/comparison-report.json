@@ -1,0 +1,177 @@
+{
+  "version": "survival-basic-rig-animation-comparison-v2",
+  "reviewOnly": true,
+  "sourceBlendSha256": "3fcbe5965b699b633f6e03b6128ec0403528e485005565ad38f28dc298664b82",
+  "candidateBlendSha256": "acb82193067137dbefc408d380c6a0ec9df411415561776ce5340192e814f1be",
+  "sourceRigBones": 160,
+  "candidateRigBones": 21,
+  "retargetConstraints": [
+    {
+      "target": "root",
+      "source": "pelvis",
+      "mode": "REST_WORLD_DELTA"
+    },
+    {
+      "target": "lower_spine",
+      "source": "spine_01",
+      "mode": "REST_WORLD_DELTA"
+    },
+    {
+      "target": "upper_spine",
+      "source": "spine_03",
+      "mode": "REST_WORLD_DELTA"
+    },
+    {
+      "target": "chest",
+      "source": "spine_05",
+      "mode": "REST_WORLD_DELTA"
+    },
+    {
+      "target": "head",
+      "source": "head",
+      "mode": "REST_WORLD_DELTA"
+    },
+    {
+      "target": "clavicle.L",
+      "source": "clavicle_l",
+      "mode": "REST_WORLD_DELTA"
+    },
+    {
+      "target": "upper_arm.L",
+      "source": "upperarm_l",
+      "mode": "REST_WORLD_DELTA"
+    },
+    {
+      "target": "forearm.L",
+      "source": "lowerarm_l",
+      "mode": "REST_WORLD_DELTA"
+    },
+    {
+      "target": "clavicle.R",
+      "source": "clavicle_r",
+      "mode": "REST_WORLD_DELTA"
+    },
+    {
+      "target": "upper_arm.R",
+      "source": "upperarm_r",
+      "mode": "REST_WORLD_DELTA"
+    },
+    {
+      "target": "forearm.R",
+      "source": "lowerarm_r",
+      "mode": "REST_WORLD_DELTA"
+    },
+    {
+      "target": "thigh.L",
+      "source": "thigh_l",
+      "mode": "REST_WORLD_DELTA"
+    },
+    {
+      "target": "shin.L",
+      "source": "calf_l",
+      "mode": "REST_WORLD_DELTA"
+    },
+    {
+      "target": "foot.L",
+      "source": "foot_l",
+      "mode": "REST_WORLD_DELTA"
+    },
+    {
+      "target": "toe.L",
+      "source": "ball_l",
+      "mode": "REST_WORLD_DELTA"
+    },
+    {
+      "target": "thigh.R",
+      "source": "thigh_r",
+      "mode": "REST_WORLD_DELTA"
+    },
+    {
+      "target": "shin.R",
+      "source": "calf_r",
+      "mode": "REST_WORLD_DELTA"
+    },
+    {
+      "target": "foot.R",
+      "source": "foot_r",
+      "mode": "REST_WORLD_DELTA"
+    },
+    {
+      "target": "toe.R",
+      "source": "ball_r",
+      "mode": "REST_WORLD_DELTA"
+    }
+  ],
+  "sourceFullGlovePolygonsChanged": 6162,
+  "families": {
+    "walk": {
+      "samples": [
+        1.0,
+        3.875,
+        6.75,
+        9.625,
+        12.5,
+        15.375,
+        18.25,
+        21.125,
+        24.0,
+        26.875,
+        29.75,
+        32.625,
+        35.5,
+        38.375,
+        41.25,
+        44.125
+      ],
+      "frameCount": 16
+    },
+    "attack": {
+      "samples": [
+        1.0,
+        3.066666666666667,
+        5.133333333333334,
+        7.2,
+        9.266666666666667,
+        11.333333333333334,
+        13.4,
+        15.466666666666667,
+        17.533333333333335,
+        19.6,
+        21.666666666666668,
+        23.733333333333334,
+        25.8,
+        27.866666666666667,
+        29.933333333333334,
+        32.0
+      ],
+      "frameCount": 16
+    },
+    "run": {
+      "samples": [
+        1.0,
+        4.0,
+        7.0,
+        10.0,
+        13.0,
+        16.0,
+        19.0,
+        22.0,
+        25.0,
+        28.0,
+        31.0,
+        34.0,
+        37.0,
+        40.0,
+        43.0,
+        46.0,
+        49.0,
+        52.0
+      ],
+      "frameCount": 18
+    }
+  },
+  "outputBlend": "testing/blender-animation-lab-v1/review-drafts/manual-rerig-workbook-v1/animation-comparison-v2/survival-current-vs-updated-basic-rig-animation-comparison-v2.blend",
+  "outputBlendSha256": "d7a678564ae5acec551e9cb2ceebe8bccb52ffd207d0ddda4ba38affac44ba8e",
+  "productionChanged": false,
+  "runtimeWired": false
+}

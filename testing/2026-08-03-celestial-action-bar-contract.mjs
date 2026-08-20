@@ -14,6 +14,7 @@ import {
   isCelestialActionBarOrderValid,
   sanitizeCelestialActionBarOrder,
 } from "../values/celestialActionBar.js";
+import { CELESTIAL_TALENT_TREE_UI_CONFIG } from "../values/celestialTalentTreeUi.js";
 
 const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -85,7 +86,7 @@ function makeScene(textureKeys) {
 function productionTextures() {
   return new Set([
     ...CELESTIAL_ACTION_BAR_EAGER_ASSETS.map(asset => asset.key),
-    ASSET_KEYS.ui.approvedHud.notification,
+    CELESTIAL_TALENT_TREE_UI_CONFIG.assets.tooltip.key,
     ASSET_KEYS.celestialEngines.waywardStar,
     ASSET_KEYS.celestialEngines.hollowSun,
     ASSET_KEYS.celestialEngines.cometEngine,
@@ -125,7 +126,11 @@ function dragTo(system, sourceIndex, targetIndex) {
   ]);
   const { foundationWidthPx, foundationHeightPx } = CELESTIAL_ACTION_BAR_CONFIG.layout;
   assert.ok(Math.abs(foundationWidthPx / foundationHeightPx - 1024 / 320) < 0.001);
-  assert.equal(new Set(CELESTIAL_ACTION_BAR_EAGER_ASSETS.map(asset => asset.key)).size, 4);
+  assert.equal(new Set(CELESTIAL_ACTION_BAR_EAGER_ASSETS.map(asset => asset.key)).size, 6);
+  assert.ok(CELESTIAL_ACTION_BAR_CONFIG.layout.tooltipWidthPx >= 440);
+  assert.ok(CELESTIAL_ACTION_BAR_CONFIG.layout.tooltipHeightPx >= 132);
+  assert.ok(CELESTIAL_ACTION_BAR_CONFIG.layout.tooltipMinimumScreenScale >= 0.78);
+  assert.ok(CELESTIAL_ACTION_BAR_CONFIG.presentation.tooltipBodyFontSizePx >= 14);
   for (const asset of CELESTIAL_ACTION_BAR_EAGER_ASSETS) {
     assert.equal(asset.type, "image");
     assert.equal(existsSync(resolve(repoRoot, asset.path)), true, `missing eager asset ${asset.path}`);
@@ -157,6 +162,7 @@ function dragTo(system, sourceIndex, targetIndex) {
     "utf8",
   );
   assert.doesNotMatch(slotSource, /slotSocket|this\.socket/);
+  assert.doesNotMatch(slotSource, /lockImage/);
 }
 
 {
@@ -209,8 +215,8 @@ function dragTo(system, sourceIndex, targetIndex) {
   });
 
   const lockedSlot = system.slotsById.get("quickslash");
-  assert.equal(lockedSlot.lockImage.displayWidth, layout.lockIconWidthPx);
-  assert.equal(lockedSlot.lockImage.displayHeight, layout.lockIconHeightPx);
+  assert.equal(lockedSlot.icon.visible, false, "unowned abilities must leave empty sockets");
+  assert.equal(lockedSlot.keyText.visible, true, "empty sockets retain their shortcut number");
   lockedSlot.root.emit("pointerover", { x: lockedSlot.basePosition.x, y: lockedSlot.basePosition.y });
   assert.equal(system.getHealthSnapshot().tooltipVisible, true);
   assert.match(system.tooltip.body.text, /Reach Bobo and buy Quick Slash/);
@@ -279,4 +285,4 @@ function dragTo(system, sourceIndex, targetIndex) {
   system.destroy();
 }
 
-console.log("PASS celestial actionbar: eager authored shell, five slots, locks, activation, drag-save rollback, resize, teardown");
+console.log("PASS celestial actionbar: eager authored shell, empty unowned slots, activation, drag-save rollback, resize, teardown");

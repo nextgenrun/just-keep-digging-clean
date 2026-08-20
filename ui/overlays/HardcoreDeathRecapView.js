@@ -216,7 +216,9 @@ export class HardcoreDeathRecapView {
       .setColor(UI_COLORS.gold);
     this.detail.setText("");
     this.footer.setText(copy.busyFooter || this.config.copy.busyFooter);
-    this.buttons.forEach(button => button.root.setVisible(false));
+    this.retryButton.actionLabel.setText("SAVING...");
+    this.menuButton.actionLabel.setText("PLEASE WAIT");
+    this.buttons.forEach(button => button.root.setVisible(true).setAlpha(0.46));
   }
 
   setError(message = "LIFE STATE NOT SAVED") {
@@ -228,7 +230,7 @@ export class HardcoreDeathRecapView {
     this.detail.setText(String(message));
     this.footer.setText("ENTER OR CLICK RETRY SAVE  •  LEAVING REMAINS LOCKED");
     this.retryButton.actionLabel.setText("RETRY SAVE");
-    this.retryButton.setVisible(true);
+    this.retryButton.setVisible(true).setAlpha(1);
     this.menuButton.setVisible(false);
   }
 
@@ -248,7 +250,7 @@ export class HardcoreDeathRecapView {
     this.menuButton.actionLabel.setText(
       copy.secondaryLabel || this.config.copy.menuLabel,
     );
-    this.buttons.forEach(button => button.root.setVisible(true));
+    this.buttons.forEach(button => button.root.setVisible(true).setAlpha(1));
   }
 
   handleKey(event) {

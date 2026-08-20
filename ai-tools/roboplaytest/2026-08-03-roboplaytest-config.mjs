@@ -37,6 +37,7 @@ Options:
   --natural-dig-ms=<number>   Maximum real-input mining hold (default: 90000)
   --goal-money=<number>       Human campaign wallet goal in M (default: 2000)
   --human-cycles=<number>     Maximum mine/sell campaign cycles (default: 36)
+  --human-stage=<full|abilities> Run the full campaign or a focused ability continuation
   --fail-on-warning=1         Return failure when only warnings were found
   --help                      Show this help
 
@@ -102,6 +103,10 @@ export function parseRoboplaytestConfig(argv = process.argv.slice(2), now = new 
   if (!["guided", "skip"].includes(tutorial)) {
     throw new Error("--tutorial must be guided or skip");
   }
+  const humanStage = String(options.get("human-stage") || "full").toLowerCase();
+  if (!["full", "abilities"].includes(humanStage)) {
+    throw new Error("--human-stage must be full or abilities");
+  }
   const baseUrl = suppliedUrl || "http://127.0.0.1:8092/";
   const output = path.resolve(
     options.get("output") || path.join(os.tmpdir(), "dig-game-roboplaytest", runId),
@@ -128,6 +133,7 @@ export function parseRoboplaytestConfig(argv = process.argv.slice(2), now = new 
     naturalDigMs: integerOption(options, "natural-dig-ms", 90_000, 1_000),
     goalMoney: integerOption(options, "goal-money", 2_000, 100),
     humanCycles: integerOption(options, "human-cycles", 36, 4),
+    humanStage,
     playwrightPath: options.get("playwright") || DEFAULT_PLAYWRIGHT_PATH,
     sharpPath: options.get("sharp") || DEFAULT_SHARP_PATH,
     viewport: Object.freeze({

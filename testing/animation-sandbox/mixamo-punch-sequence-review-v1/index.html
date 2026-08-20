@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Mixamo Combat Sequence Lab · Dig Game</title>
+  <link rel="stylesheet" href="./review.css">
+</head>
+<body>
+  <header class="hero">
+    <p>Dig Game · review only · zero runtime wiring</p>
+    <h1>Build a broader combat language</h1>
+    <p>Twenty-four Mixamo motions retargeted onto the approved high-resolution Survival character: punches, elbows, knees, low/high kicks and mixed chains. Compare them against the current SIDE, UP and DOWN attacks, then build your own three-strike sequence.</p>
+  </header>
+
+  <section class="toolbar" aria-label="Playback controls">
+    <button id="play-pause" type="button">Pause</button>
+    <button id="restart" type="button">Restart</button>
+    <button id="clear" type="button">Clear verdicts</button>
+    <label>Speed <select id="speed"><option value="0.75">0.75×</option><option value="1" selected>1×</option><option value="1.25">1.25×</option><option value="1.5">1.5×</option></select></label>
+    <label><input id="game-scale" type="checkbox"> 109 px game scale</label>
+    <output id="summary">Loading…</output>
+  </section>
+
+  <main>
+    <section class="builder panel" aria-labelledby="builder-title">
+      <div class="section-heading">
+        <div><p>Interactive sequence builder</p><h2 id="builder-title">Mix three motions and judge the flow</h2></div>
+        <span class="review-badge">Sandbox only</span>
+      </div>
+      <div class="builder-layout">
+        <canvas id="builder-canvas" aria-label="Custom combat sequence preview"></canvas>
+        <div class="builder-controls">
+          <div id="presets" class="presets" aria-label="Authored sequence presets"></div>
+          <label>Target direction <select id="builder-mode"><option value="side">SIDE</option><option value="up">UP</option><option value="down">DOWN</option></select></label>
+          <label>Strike 1 <select class="strike-select" data-slot="0"></select></label>
+          <label>Strike 2 <select class="strike-select" data-slot="1"></select></label>
+          <label>Finisher <select class="strike-select" data-slot="2"></select></label>
+          <p id="builder-readout">Preparing sequence…</p>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="sequence-title">
+      <div class="section-heading"><div><p>Authored rhythm tests</p><h2 id="sequence-title">Current repeated attack vs proposed chain</h2></div></div>
+      <div id="sequence-library" class="sequence-library"></div>
+    </section>
+
+    <section aria-labelledby="motion-title">
+      <div class="section-heading"><div><p>Broad source library</p><h2 id="motion-title">Inspect each retargeted motion independently</h2></div></div>
+      <div id="motion-library" class="motion-library"></div>
+    </section>
+  </main>
+
+  <template id="sequence-template">
+    <article class="sequence-card card">
+      <header><div><span class="mode"></span><h3></h3></div><span class="verdict">Unreviewed</span></header>
+      <p class="description"></p>
+      <div class="compare">
+        <figure><figcaption>Current repeated motion</figcaption><canvas class="current"></canvas></figure>
+        <figure><figcaption>Proposed rhythmic chain</figcaption><canvas class="candidate"></canvas></figure>
+      </div>
+      <p class="timeline"></p>
+      <div class="decisions"><button data-verdict="accept">Accept</button><button data-verdict="maybe">Maybe</button><button data-verdict="reject">Reject</button></div>
+    </article>
+  </template>
+
+  <template id="motion-template">
+    <article class="motion-card card">
+      <header><div><span class="mode">source</span><h3></h3><p class="role"></p></div><span class="verdict">Unreviewed</span></header>
+      <img alt="">
+      <p class="contacts"></p>
+      <div class="decisions"><button data-verdict="accept">Accept</button><button data-verdict="maybe">Maybe</button><button data-verdict="reject">Reject</button></div>
+    </article>
+  </template>
+
+  <script type="module" src="./review.js"></script>
+</body>
+</html>

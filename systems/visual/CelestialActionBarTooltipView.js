@@ -26,8 +26,9 @@ export class CelestialActionBarTooltipView {
       strokeThickness: presentation.shadowThicknessPx,
     }).setOrigin(0.5);
     this.body = scene.add.text(0, layout.tooltipBodyOffsetYPx, "", {
-      fontFamily: UI_FONTS.mono,
+      fontFamily: UI_FONTS.display,
       fontSize: `${presentation.tooltipBodyFontSizePx}px`,
+      fontStyle: "bold",
       color: presentation.secondaryTextColor,
       align: "center",
       wordWrap: { width: layout.tooltipBodyWidthPx },
@@ -58,18 +59,20 @@ export class CelestialActionBarTooltipView {
     this.uiScale = uiScale;
     if (!this.slot || !Number.isFinite(viewportWidth)) return;
     const layout = this.config.layout;
-    const halfWidth = layout.tooltipWidthPx * uiScale / 2;
-    const margin = layout.viewportMarginPx * uiScale;
+    const tooltipScale = Math.max(uiScale, layout.tooltipMinimumScreenScale);
+    const halfWidth = layout.tooltipWidthPx * tooltipScale / 2;
+    const margin = layout.viewportMarginPx * tooltipScale;
     const x = Math.max(margin + halfWidth, Math.min(
       viewportWidth - margin - halfWidth,
       this.slot.basePosition.x,
     ));
     const y = barCenterY - (
       layout.foundationHeightPx / 2
-      + layout.tooltipGapPx
-      + layout.tooltipHeightPx / 2
-    ) * uiScale;
-    this.root.setPosition(x, y).setScale(uiScale);
+    ) * uiScale - (
+      layout.tooltipGapPx * uiScale
+      + layout.tooltipHeightPx * tooltipScale / 2
+    );
+    this.root.setPosition(x, y).setScale(tooltipScale);
   }
 
   setParentVisible(visible) {

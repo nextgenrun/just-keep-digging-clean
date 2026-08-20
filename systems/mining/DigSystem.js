@@ -320,6 +320,10 @@ export class DigSystem {
         },
       });
     }
+    const audioScene = this.worldRenderer?.scene;
+    const soundSystem = audioScene?.soundSystem
+      || audioScene?.originScene?.soundSystem;
+    soundSystem?.playRareDiscovery?.();
     this.floatingTextSystem?.tryUnlockEligibleConstellations?.();
     const purpose = this.floatingTextSystem?.getRelicPurposeSummary?.(
       finalRelicCount

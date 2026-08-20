@@ -47,6 +47,7 @@ export class CelestialTalentTreeConnectorLayer {
             textureKey,
           ).setDisplaySize(length, layout.connectorThicknessPx)
             .setRotation(Math.atan2(dy, dx))
+            .setTint(presentation.branchAccents[branchIndex])
             .setAlpha(presentation.connectorLockedAlpha);
           this.root.add(image);
           this.items.push({ image, sourceId, destinationId: node.id, branchIndex });

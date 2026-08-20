@@ -1,0 +1,1765 @@
+{
+  "materials": {
+    "Jacket1": {
+      "principledInputs": {
+        "Base Color": {
+          "linked": true,
+          "default": [
+            0.4750250577926636,
+            0.5,
+            0.37199997901916504,
+            1.0
+          ]
+        },
+        "Metallic": {
+          "linked": true,
+          "default": 0.0
+        },
+        "Roughness": {
+          "linked": true,
+          "default": 0.5527864098548889
+        },
+        "IOR": {
+          "linked": false,
+          "default": 1.4500000476837158
+        },
+        "Alpha": {
+          "linked": false,
+          "default": 1.0
+        },
+        "Normal": {
+          "linked": true,
+          "default": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "Weight": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Diffuse Roughness": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Subsurface Weight": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Subsurface Radius": {
+          "linked": false,
+          "default": [
+            1.0,
+            0.20000000298023224,
+            0.10000000149011612
+          ]
+        },
+        "Subsurface Scale": {
+          "linked": false,
+          "default": 0.05000000074505806
+        },
+        "Subsurface IOR": {
+          "linked": false,
+          "default": 1.399999976158142
+        },
+        "Subsurface Anisotropy": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Specular IOR Level": {
+          "linked": false,
+          "default": 0.5
+        },
+        "Specular Tint": {
+          "linked": false,
+          "default": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "Anisotropic": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Anisotropic Rotation": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Tangent": {
+          "linked": false,
+          "default": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "Transmission Weight": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Coat Weight": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Coat Roughness": {
+          "linked": false,
+          "default": 0.029999999329447746
+        },
+        "Coat IOR": {
+          "linked": false,
+          "default": 1.5
+        },
+        "Coat Tint": {
+          "linked": false,
+          "default": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "Coat Normal": {
+          "linked": false,
+          "default": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "Sheen Weight": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Sheen Roughness": {
+          "linked": false,
+          "default": 0.5
+        },
+        "Sheen Tint": {
+          "linked": false,
+          "default": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "Emission Color": {
+          "linked": false,
+          "default": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        "Emission Strength": {
+          "linked": false,
+          "default": 1.0
+        },
+        "Thin Film Thickness": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Thin Film IOR": {
+          "linked": false,
+          "default": 1.3300000429153442
+        }
+      },
+      "normalMaps": [
+        {
+          "name": "Normal Map",
+          "strength": 1.0
+        }
+      ],
+      "links": [
+        {
+          "fromNode": "Image Texture",
+          "fromType": "TEX_IMAGE",
+          "fromSocket": "Color",
+          "toSocket": "Base Color"
+        },
+        {
+          "fromNode": "Image Texture.001",
+          "fromType": "TEX_IMAGE",
+          "fromSocket": "Color",
+          "toSocket": "Metallic"
+        },
+        {
+          "fromNode": "Image Texture.002",
+          "fromType": "TEX_IMAGE",
+          "fromSocket": "Color",
+          "toSocket": "Roughness"
+        },
+        {
+          "fromNode": "Normal Map",
+          "fromType": "NORMAL_MAP",
+          "fromSocket": "Normal",
+          "toSocket": "Normal"
+        }
+      ]
+    },
+    "Backpack2": {
+      "principledInputs": {
+        "Base Color": {
+          "linked": true,
+          "default": [
+            0.47470736503601074,
+            0.4390000104904175,
+            0.5,
+            1.0
+          ]
+        },
+        "Metallic": {
+          "linked": true,
+          "default": 0.0
+        },
+        "Roughness": {
+          "linked": true,
+          "default": 0.5527864098548889
+        },
+        "IOR": {
+          "linked": false,
+          "default": 1.4500000476837158
+        },
+        "Alpha": {
+          "linked": false,
+          "default": 1.0
+        },
+        "Normal": {
+          "linked": true,
+          "default": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "Weight": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Diffuse Roughness": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Subsurface Weight": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Subsurface Radius": {
+          "linked": false,
+          "default": [
+            1.0,
+            0.20000000298023224,
+            0.10000000149011612
+          ]
+        },
+        "Subsurface Scale": {
+          "linked": false,
+          "default": 0.05000000074505806
+        },
+        "Subsurface IOR": {
+          "linked": false,
+          "default": 1.399999976158142
+        },
+        "Subsurface Anisotropy": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Specular IOR Level": {
+          "linked": false,
+          "default": 0.5
+        },
+        "Specular Tint": {
+          "linked": false,
+          "default": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "Anisotropic": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Anisotropic Rotation": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Tangent": {
+          "linked": false,
+          "default": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "Transmission Weight": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Coat Weight": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Coat Roughness": {
+          "linked": false,
+          "default": 0.029999999329447746
+        },
+        "Coat IOR": {
+          "linked": false,
+          "default": 1.5
+        },
+        "Coat Tint": {
+          "linked": false,
+          "default": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "Coat Normal": {
+          "linked": false,
+          "default": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "Sheen Weight": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Sheen Roughness": {
+          "linked": false,
+          "default": 0.5
+        },
+        "Sheen Tint": {
+          "linked": false,
+          "default": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "Emission Color": {
+          "linked": false,
+          "default": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        "Emission Strength": {
+          "linked": false,
+          "default": 1.0
+        },
+        "Thin Film Thickness": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Thin Film IOR": {
+          "linked": false,
+          "default": 1.3300000429153442
+        }
+      },
+      "normalMaps": [
+        {
+          "name": "Normal Map",
+          "strength": 1.0
+        }
+      ],
+      "links": [
+        {
+          "fromNode": "Image Texture",
+          "fromType": "TEX_IMAGE",
+          "fromSocket": "Color",
+          "toSocket": "Base Color"
+        },
+        {
+          "fromNode": "Image Texture.001",
+          "fromType": "TEX_IMAGE",
+          "fromSocket": "Color",
+          "toSocket": "Metallic"
+        },
+        {
+          "fromNode": "Image Texture.002",
+          "fromType": "TEX_IMAGE",
+          "fromSocket": "Color",
+          "toSocket": "Roughness"
+        },
+        {
+          "fromNode": "Normal Map",
+          "fromType": "NORMAL_MAP",
+          "fromSocket": "Normal",
+          "toSocket": "Normal"
+        }
+      ]
+    },
+    "Gloves1": {
+      "principledInputs": {
+        "Base Color": {
+          "linked": true,
+          "default": [
+            0.4205000102519989,
+            0.43019503355026245,
+            0.5,
+            1.0
+          ]
+        },
+        "Metallic": {
+          "linked": true,
+          "default": 0.0
+        },
+        "Roughness": {
+          "linked": true,
+          "default": 0.5527864098548889
+        },
+        "IOR": {
+          "linked": false,
+          "default": 1.4500000476837158
+        },
+        "Alpha": {
+          "linked": false,
+          "default": 1.0
+        },
+        "Normal": {
+          "linked": true,
+          "default": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "Weight": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Diffuse Roughness": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Subsurface Weight": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Subsurface Radius": {
+          "linked": false,
+          "default": [
+            1.0,
+            0.20000000298023224,
+            0.10000000149011612
+          ]
+        },
+        "Subsurface Scale": {
+          "linked": false,
+          "default": 0.05000000074505806
+        },
+        "Subsurface IOR": {
+          "linked": false,
+          "default": 1.399999976158142
+        },
+        "Subsurface Anisotropy": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Specular IOR Level": {
+          "linked": false,
+          "default": 0.5
+        },
+        "Specular Tint": {
+          "linked": false,
+          "default": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "Anisotropic": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Anisotropic Rotation": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Tangent": {
+          "linked": false,
+          "default": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "Transmission Weight": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Coat Weight": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Coat Roughness": {
+          "linked": false,
+          "default": 0.029999999329447746
+        },
+        "Coat IOR": {
+          "linked": false,
+          "default": 1.5
+        },
+        "Coat Tint": {
+          "linked": false,
+          "default": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "Coat Normal": {
+          "linked": false,
+          "default": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "Sheen Weight": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Sheen Roughness": {
+          "linked": false,
+          "default": 0.5
+        },
+        "Sheen Tint": {
+          "linked": false,
+          "default": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "Emission Color": {
+          "linked": false,
+          "default": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        "Emission Strength": {
+          "linked": false,
+          "default": 1.0
+        },
+        "Thin Film Thickness": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Thin Film IOR": {
+          "linked": false,
+          "default": 1.3300000429153442
+        }
+      },
+      "normalMaps": [
+        {
+          "name": "Normal Map",
+          "strength": 1.0
+        }
+      ],
+      "links": [
+        {
+          "fromNode": "Image Texture",
+          "fromType": "TEX_IMAGE",
+          "fromSocket": "Color",
+          "toSocket": "Base Color"
+        },
+        {
+          "fromNode": "Image Texture.001",
+          "fromType": "TEX_IMAGE",
+          "fromSocket": "Color",
+          "toSocket": "Metallic"
+        },
+        {
+          "fromNode": "Image Texture.002",
+          "fromType": "TEX_IMAGE",
+          "fromSocket": "Color",
+          "toSocket": "Roughness"
+        },
+        {
+          "fromNode": "Normal Map",
+          "fromType": "NORMAL_MAP",
+          "fromSocket": "Normal",
+          "toSocket": "Normal"
+        }
+      ]
+    },
+    "Jeans1": {
+      "principledInputs": {
+        "Base Color": {
+          "linked": true,
+          "default": [
+            0.5,
+            0.41850000619888306,
+            0.4940369129180908,
+            1.0
+          ]
+        },
+        "Metallic": {
+          "linked": true,
+          "default": 0.0
+        },
+        "Roughness": {
+          "linked": true,
+          "default": 0.5527864098548889
+        },
+        "IOR": {
+          "linked": false,
+          "default": 1.4500000476837158
+        },
+        "Alpha": {
+          "linked": false,
+          "default": 1.0
+        },
+        "Normal": {
+          "linked": true,
+          "default": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "Weight": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Diffuse Roughness": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Subsurface Weight": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Subsurface Radius": {
+          "linked": false,
+          "default": [
+            1.0,
+            0.20000000298023224,
+            0.10000000149011612
+          ]
+        },
+        "Subsurface Scale": {
+          "linked": false,
+          "default": 0.05000000074505806
+        },
+        "Subsurface IOR": {
+          "linked": false,
+          "default": 1.399999976158142
+        },
+        "Subsurface Anisotropy": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Specular IOR Level": {
+          "linked": false,
+          "default": 0.5
+        },
+        "Specular Tint": {
+          "linked": false,
+          "default": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "Anisotropic": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Anisotropic Rotation": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Tangent": {
+          "linked": false,
+          "default": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "Transmission Weight": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Coat Weight": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Coat Roughness": {
+          "linked": false,
+          "default": 0.029999999329447746
+        },
+        "Coat IOR": {
+          "linked": false,
+          "default": 1.5
+        },
+        "Coat Tint": {
+          "linked": false,
+          "default": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "Coat Normal": {
+          "linked": false,
+          "default": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "Sheen Weight": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Sheen Roughness": {
+          "linked": false,
+          "default": 0.5
+        },
+        "Sheen Tint": {
+          "linked": false,
+          "default": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "Emission Color": {
+          "linked": false,
+          "default": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        "Emission Strength": {
+          "linked": false,
+          "default": 1.0
+        },
+        "Thin Film Thickness": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Thin Film IOR": {
+          "linked": false,
+          "default": 1.3300000429153442
+        }
+      },
+      "normalMaps": [
+        {
+          "name": "Normal Map",
+          "strength": 1.0
+        }
+      ],
+      "links": [
+        {
+          "fromNode": "Image Texture",
+          "fromType": "TEX_IMAGE",
+          "fromSocket": "Color",
+          "toSocket": "Base Color"
+        },
+        {
+          "fromNode": "Image Texture.001",
+          "fromType": "TEX_IMAGE",
+          "fromSocket": "Color",
+          "toSocket": "Metallic"
+        },
+        {
+          "fromNode": "Image Texture.002",
+          "fromType": "TEX_IMAGE",
+          "fromSocket": "Color",
+          "toSocket": "Roughness"
+        },
+        {
+          "fromNode": "Normal Map",
+          "fromType": "NORMAL_MAP",
+          "fromSocket": "Normal",
+          "toSocket": "Normal"
+        }
+      ]
+    },
+    "Shoes1": {
+      "principledInputs": {
+        "Base Color": {
+          "linked": true,
+          "default": [
+            0.46943873167037964,
+            0.5,
+            0.32099997997283936,
+            1.0
+          ]
+        },
+        "Metallic": {
+          "linked": true,
+          "default": 0.0
+        },
+        "Roughness": {
+          "linked": true,
+          "default": 0.5527864098548889
+        },
+        "IOR": {
+          "linked": false,
+          "default": 1.4500000476837158
+        },
+        "Alpha": {
+          "linked": false,
+          "default": 1.0
+        },
+        "Normal": {
+          "linked": true,
+          "default": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "Weight": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Diffuse Roughness": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Subsurface Weight": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Subsurface Radius": {
+          "linked": false,
+          "default": [
+            1.0,
+            0.20000000298023224,
+            0.10000000149011612
+          ]
+        },
+        "Subsurface Scale": {
+          "linked": false,
+          "default": 0.05000000074505806
+        },
+        "Subsurface IOR": {
+          "linked": false,
+          "default": 1.399999976158142
+        },
+        "Subsurface Anisotropy": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Specular IOR Level": {
+          "linked": false,
+          "default": 0.5
+        },
+        "Specular Tint": {
+          "linked": false,
+          "default": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "Anisotropic": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Anisotropic Rotation": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Tangent": {
+          "linked": false,
+          "default": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "Transmission Weight": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Coat Weight": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Coat Roughness": {
+          "linked": false,
+          "default": 0.029999999329447746
+        },
+        "Coat IOR": {
+          "linked": false,
+          "default": 1.5
+        },
+        "Coat Tint": {
+          "linked": false,
+          "default": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "Coat Normal": {
+          "linked": false,
+          "default": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "Sheen Weight": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Sheen Roughness": {
+          "linked": false,
+          "default": 0.5
+        },
+        "Sheen Tint": {
+          "linked": false,
+          "default": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "Emission Color": {
+          "linked": false,
+          "default": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        "Emission Strength": {
+          "linked": false,
+          "default": 1.0
+        },
+        "Thin Film Thickness": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Thin Film IOR": {
+          "linked": false,
+          "default": 1.3300000429153442
+        }
+      },
+      "normalMaps": [
+        {
+          "name": "Normal Map",
+          "strength": 1.0
+        }
+      ],
+      "links": [
+        {
+          "fromNode": "Image Texture",
+          "fromType": "TEX_IMAGE",
+          "fromSocket": "Color",
+          "toSocket": "Base Color"
+        },
+        {
+          "fromNode": "Image Texture.001",
+          "fromType": "TEX_IMAGE",
+          "fromSocket": "Color",
+          "toSocket": "Metallic"
+        },
+        {
+          "fromNode": "Image Texture.002",
+          "fromType": "TEX_IMAGE",
+          "fromSocket": "Color",
+          "toSocket": "Roughness"
+        },
+        {
+          "fromNode": "Normal Map",
+          "fromType": "NORMAL_MAP",
+          "fromSocket": "Normal",
+          "toSocket": "Normal"
+        }
+      ]
+    },
+    "Hair3": {
+      "principledInputs": {
+        "Base Color": {
+          "linked": true,
+          "default": [
+            0.5,
+            0.5,
+            0.5,
+            1.0
+          ]
+        },
+        "Metallic": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Roughness": {
+          "linked": false,
+          "default": 0.8428165912628174
+        },
+        "IOR": {
+          "linked": false,
+          "default": 1.4500000476837158
+        },
+        "Alpha": {
+          "linked": true,
+          "default": 1.0
+        },
+        "Normal": {
+          "linked": true,
+          "default": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "Weight": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Diffuse Roughness": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Subsurface Weight": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Subsurface Radius": {
+          "linked": false,
+          "default": [
+            1.0,
+            0.20000000298023224,
+            0.10000000149011612
+          ]
+        },
+        "Subsurface Scale": {
+          "linked": false,
+          "default": 0.05000000074505806
+        },
+        "Subsurface IOR": {
+          "linked": false,
+          "default": 1.399999976158142
+        },
+        "Subsurface Anisotropy": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Specular IOR Level": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Specular Tint": {
+          "linked": false,
+          "default": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "Anisotropic": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Anisotropic Rotation": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Tangent": {
+          "linked": false,
+          "default": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "Transmission Weight": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Coat Weight": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Coat Roughness": {
+          "linked": false,
+          "default": 0.029999999329447746
+        },
+        "Coat IOR": {
+          "linked": false,
+          "default": 1.5
+        },
+        "Coat Tint": {
+          "linked": false,
+          "default": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "Coat Normal": {
+          "linked": false,
+          "default": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "Sheen Weight": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Sheen Roughness": {
+          "linked": false,
+          "default": 0.5
+        },
+        "Sheen Tint": {
+          "linked": false,
+          "default": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "Emission Color": {
+          "linked": false,
+          "default": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        "Emission Strength": {
+          "linked": false,
+          "default": 1.0
+        },
+        "Thin Film Thickness": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Thin Film IOR": {
+          "linked": false,
+          "default": 1.3300000429153442
+        }
+      },
+      "normalMaps": [
+        {
+          "name": "Normal Map",
+          "strength": 1.0
+        }
+      ],
+      "links": [
+        {
+          "fromNode": "Image Texture",
+          "fromType": "TEX_IMAGE",
+          "fromSocket": "Color",
+          "toSocket": "Base Color"
+        },
+        {
+          "fromNode": "Normal Map",
+          "fromType": "NORMAL_MAP",
+          "fromSocket": "Normal",
+          "toSocket": "Normal"
+        },
+        {
+          "fromNode": "Image Texture.002",
+          "fromType": "TEX_IMAGE",
+          "fromSocket": "Color",
+          "toSocket": "Alpha"
+        }
+      ]
+    },
+    "Head": {
+      "principledInputs": {
+        "Base Color": {
+          "linked": true,
+          "default": [
+            0.9529411792755127,
+            0.7686274647712708,
+            0.4745098054409027,
+            1.0
+          ]
+        },
+        "Metallic": {
+          "linked": true,
+          "default": 0.0
+        },
+        "Roughness": {
+          "linked": false,
+          "default": 0.4054063856601715
+        },
+        "IOR": {
+          "linked": false,
+          "default": 1.4500000476837158
+        },
+        "Alpha": {
+          "linked": false,
+          "default": 1.0
+        },
+        "Normal": {
+          "linked": true,
+          "default": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "Weight": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Diffuse Roughness": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Subsurface Weight": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Subsurface Radius": {
+          "linked": false,
+          "default": [
+            1.0,
+            0.20000000298023224,
+            0.10000000149011612
+          ]
+        },
+        "Subsurface Scale": {
+          "linked": false,
+          "default": 0.05000000074505806
+        },
+        "Subsurface IOR": {
+          "linked": false,
+          "default": 1.399999976158142
+        },
+        "Subsurface Anisotropy": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Specular IOR Level": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Specular Tint": {
+          "linked": false,
+          "default": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "Anisotropic": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Anisotropic Rotation": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Tangent": {
+          "linked": false,
+          "default": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "Transmission Weight": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Coat Weight": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Coat Roughness": {
+          "linked": false,
+          "default": 0.029999999329447746
+        },
+        "Coat IOR": {
+          "linked": false,
+          "default": 1.5
+        },
+        "Coat Tint": {
+          "linked": false,
+          "default": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "Coat Normal": {
+          "linked": false,
+          "default": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "Sheen Weight": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Sheen Roughness": {
+          "linked": false,
+          "default": 0.5
+        },
+        "Sheen Tint": {
+          "linked": false,
+          "default": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "Emission Color": {
+          "linked": false,
+          "default": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        "Emission Strength": {
+          "linked": false,
+          "default": 1.0
+        },
+        "Thin Film Thickness": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Thin Film IOR": {
+          "linked": false,
+          "default": 1.3300000429153442
+        }
+      },
+      "normalMaps": [
+        {
+          "name": "Normal Map",
+          "strength": 1.0
+        }
+      ],
+      "links": [
+        {
+          "fromNode": "Image Texture.001",
+          "fromType": "TEX_IMAGE",
+          "fromSocket": "Color",
+          "toSocket": "Metallic"
+        },
+        {
+          "fromNode": "Normal Map",
+          "fromType": "NORMAL_MAP",
+          "fromSocket": "Normal",
+          "toSocket": "Normal"
+        },
+        {
+          "fromNode": "Image Texture",
+          "fromType": "TEX_IMAGE",
+          "fromSocket": "Color",
+          "toSocket": "Base Color"
+        }
+      ]
+    },
+    "Body2": {
+      "principledInputs": {
+        "Base Color": {
+          "linked": false,
+          "default": [
+            0.5882353186607361,
+            0.3450980484485626,
+            0.3450980484485626,
+            1.0
+          ]
+        },
+        "Metallic": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Roughness": {
+          "linked": false,
+          "default": 0.858578622341156
+        },
+        "IOR": {
+          "linked": false,
+          "default": 1.4500000476837158
+        },
+        "Alpha": {
+          "linked": false,
+          "default": 1.0
+        },
+        "Normal": {
+          "linked": true,
+          "default": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "Weight": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Diffuse Roughness": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Subsurface Weight": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Subsurface Radius": {
+          "linked": false,
+          "default": [
+            1.0,
+            0.20000000298023224,
+            0.10000000149011612
+          ]
+        },
+        "Subsurface Scale": {
+          "linked": false,
+          "default": 0.05000000074505806
+        },
+        "Subsurface IOR": {
+          "linked": false,
+          "default": 1.399999976158142
+        },
+        "Subsurface Anisotropy": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Specular IOR Level": {
+          "linked": false,
+          "default": 0.5
+        },
+        "Specular Tint": {
+          "linked": false,
+          "default": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "Anisotropic": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Anisotropic Rotation": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Tangent": {
+          "linked": false,
+          "default": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "Transmission Weight": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Coat Weight": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Coat Roughness": {
+          "linked": false,
+          "default": 0.029999999329447746
+        },
+        "Coat IOR": {
+          "linked": false,
+          "default": 1.5
+        },
+        "Coat Tint": {
+          "linked": false,
+          "default": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "Coat Normal": {
+          "linked": false,
+          "default": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "Sheen Weight": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Sheen Roughness": {
+          "linked": false,
+          "default": 0.5
+        },
+        "Sheen Tint": {
+          "linked": false,
+          "default": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "Emission Color": {
+          "linked": false,
+          "default": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        "Emission Strength": {
+          "linked": false,
+          "default": 1.0
+        },
+        "Thin Film Thickness": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Thin Film IOR": {
+          "linked": false,
+          "default": 1.3300000429153442
+        }
+      },
+      "normalMaps": [
+        {
+          "name": "Normal Map",
+          "strength": 1.0
+        }
+      ],
+      "links": [
+        {
+          "fromNode": "Normal Map",
+          "fromType": "NORMAL_MAP",
+          "fromSocket": "Normal",
+          "toSocket": "Normal"
+        }
+      ]
+    },
+    "Arms": {
+      "principledInputs": {
+        "Base Color": {
+          "linked": false,
+          "default": [
+            0.35686275362968445,
+            0.5882353186607361,
+            0.37254902720451355,
+            1.0
+          ]
+        },
+        "Metallic": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Roughness": {
+          "linked": false,
+          "default": 0.858578622341156
+        },
+        "IOR": {
+          "linked": false,
+          "default": 1.4500000476837158
+        },
+        "Alpha": {
+          "linked": false,
+          "default": 1.0
+        },
+        "Normal": {
+          "linked": true,
+          "default": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "Weight": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Diffuse Roughness": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Subsurface Weight": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Subsurface Radius": {
+          "linked": false,
+          "default": [
+            1.0,
+            0.20000000298023224,
+            0.10000000149011612
+          ]
+        },
+        "Subsurface Scale": {
+          "linked": false,
+          "default": 0.05000000074505806
+        },
+        "Subsurface IOR": {
+          "linked": false,
+          "default": 1.399999976158142
+        },
+        "Subsurface Anisotropy": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Specular IOR Level": {
+          "linked": false,
+          "default": 0.5
+        },
+        "Specular Tint": {
+          "linked": false,
+          "default": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "Anisotropic": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Anisotropic Rotation": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Tangent": {
+          "linked": false,
+          "default": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "Transmission Weight": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Coat Weight": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Coat Roughness": {
+          "linked": false,
+          "default": 0.029999999329447746
+        },
+        "Coat IOR": {
+          "linked": false,
+          "default": 1.5
+        },
+        "Coat Tint": {
+          "linked": false,
+          "default": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "Coat Normal": {
+          "linked": false,
+          "default": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "Sheen Weight": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Sheen Roughness": {
+          "linked": false,
+          "default": 0.5
+        },
+        "Sheen Tint": {
+          "linked": false,
+          "default": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "Emission Color": {
+          "linked": false,
+          "default": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        "Emission Strength": {
+          "linked": false,
+          "default": 1.0
+        },
+        "Thin Film Thickness": {
+          "linked": false,
+          "default": 0.0
+        },
+        "Thin Film IOR": {
+          "linked": false,
+          "default": 1.3300000429153442
+        }
+      },
+      "normalMaps": [
+        {
+          "name": "Normal Map",
+          "strength": 1.0
+        }
+      ],
+      "links": [
+        {
+          "fromNode": "Normal Map",
+          "fromType": "NORMAL_MAP",
+          "fromSocket": "Normal",
+          "toSocket": "Normal"
+        }
+      ]
+    }
+  }
+}

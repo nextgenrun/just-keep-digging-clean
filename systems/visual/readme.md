@@ -15,6 +15,12 @@ Notable systems:
   exact responsive alignment, larger invisible hit zones, and routing into the
   existing Inventory and Pause authorities remain unchanged. The quick-control
   input rail sits above gameplay/actionbar input and below canonical modals
+- `CelestialActionBarSystem.js` keeps the five authored shortcut sockets and
+  ordering authority active, but unowned abilities render as empty bays instead
+  of repeated Bobo seals or dim ghost icons. Owned-but-unavailable abilities
+  retain their icon and muted availability state. Hover help reuses the
+  symmetric Star Pillar tooltip, with a compact-screen readability floor and
+  copy aligned clear of its lower trim.
 - `MiningTargetVisualSystem.js` — image-backed four-corner world-space mining target shared by the main world and compact caves; its approved duplicate-art glow stays restrained on hover and tightens/brightens during held mouse digging; `?miningTargetVisuals=0` restores the former rectangle comparison
 - `ApprovedHudSkin.js` — optional approved image-frame presentation layer that preserves HUDSystem runtime data and legacy fallback; its player core switches between matched illustrated torch ON/OFF frames instead of drawing a status dot. The top-right world-state frame now selects one of five ImageGen-authored weather medallions, keeps live copy in two aligned bays, and shares the 14 px top rail with player, combo, and audio chrome.
 - `PickaxeHudView.js` — permanent owned-pickaxe presentation layered over the
@@ -39,6 +45,7 @@ Notable systems:
   fracture/pulse art remains beneath it; the view never draws circles,
   graphics, tints art, or generates textures
 - `PostFxSystem.js` — camera vignette + depth-based color grading (values/postFxConfig.js)
+- `FullWorldMaterialSystem.js` — review-only (`?fullWorldMaterials=1`) whole-frame WebGL material pass. It recovers bounded local detail, adds restrained directional relief to existing composed assets, varies strength by depth, publishes `window.__jkdFullWorldMaterials`, and shuts itself down after sustained low FPS. The production default and original source textures remain unchanged (`values/fullWorldMaterialConfig.js`).
 - `PlayerBodyLanguageSystem.js` — landing squash, fall stretch, dig impact pop (values/gamefeel.js → bodyLanguage)
 - `PlayerMotionPolishSystem.js` — contextual calm idle fidgets, delayed wall bracing, native hit reactions, and action-safe animation priority (`values/playerMotionPolish.js`)
 - `NPCActivitySystem.js` — v11 Piskel merchant motion direction: four
@@ -51,7 +58,7 @@ Notable systems:
   one large activity at a time. `?npcActivities=0` restores the v6/static
   baseline (`values/npcActivityConfig.js`).
 - `PlayerKinematicMotionSystem.js` — UAL feet anchoring plus signed post-collision displacement; grounded Jog cadence can use the immediate body velocity while airborne flight retains smoothed travel and teleport suppression (`values/playerKinematicMotion.js`)
-- `UalNativeLocomotionTransitionSelector.js` / `UalGroundPhaseHandoffSelector.js` — Phaser-independent shared routing: every grounded speed uses Jog, moving actions resume its exact lower-body phase, and input-facing reversals flip immediately while replaying only the two closest planted Jog frames as pivot-stop/pivot-start. Survivor flight keeps one continuous loop, soft touchdowns skip landing, and harder landings expose a short movement-cancellable prefix (`values/ualNativeLocomotionTransitions.js`, `values/movingSideDigAnimation.js`; `?phaseHandoff=0`)
+- `UalNativeLocomotionTransitionSelector.js` / `UalGroundPhaseHandoffSelector.js` — Phaser-independent shared routing: every grounded speed uses Jog, moving actions resume its exact lower-body phase, and input-facing reversals flip immediately while replaying only the two closest planted Jog frames as pivot-stop/pivot-start. Survivor flight keeps one continuous loop whose travel phase responds to total 2D speed; playback rate and climb/dive pitch follow momentum, soft touchdowns skip landing, and harder landings expose a short movement-cancellable prefix (`values/ualNativeLocomotionTransitions.js`, `values/ualNativeActionTuning.js`, `values/movingSideDigAnimation.js`; `?phaseHandoff=0`)
 - `PlayerSolidOcclusionSystem.js` — WebGL-only inverted solid-cell mask that clips UAL limbs at authoritative tile faces in both the main world and compact caves (`values/playerTileContact.js`)
 - `PlayerRigContactSystem.js` — marker-driven UAL action contact, separate fist/foot hitboxes, and capped sprite-only tile-face alignment that eases in and out across the main world and compact caves (`values/playerRigContact.js`); phase-locked moving strikes explicitly disable that translation so the physics-owned running feet cannot skate while marker validation remains diagnostic; pure geometry lives in `playerRigContactGeometry.js`
 - `player/MovingSideDigStandOffController.js` — supplies the body-owned 18 px

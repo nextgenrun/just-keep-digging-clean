@@ -158,6 +158,10 @@ export function sanitizeRetentionProgressData(value) {
       0,
       RETENTION_CONFIG.tutorial.flightTraining.freeFlightMs,
     ),
+    tutorialFreeTeleportPassesConsumed: sanitizeStringArray(
+      source.tutorialFreeTeleportPassesConsumed,
+      RETENTION_CONFIG.tutorial.freeTeleports.passIds.length,
+    ).filter(passId => RETENTION_CONFIG.tutorial.freeTeleports.passIds.includes(passId)),
     titanClueTracking: sanitizeTitanClueTracking(source.titanClueTracking),
     lastExpedition: sanitizeRetentionExpedition(source.lastExpedition),
   };

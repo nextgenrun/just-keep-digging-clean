@@ -13,6 +13,7 @@ import { ShopOverlay } from "../overlays/ShopOverlay.js";
 import { SleepingJackpotModalOverlay } from "../overlays/SleepingJackpotModalOverlay.js";
 import { TitanArchiveView } from "../overlays/TitanArchiveView.js";
 import { UIInventoryPopup } from "../overlays/UIInventoryPopup.js";
+import { UnderstarEndingOverlay } from "../overlays/UnderstarEndingOverlay.js";
 import { WorldMapOverlay } from "../overlays/WorldMapOverlay.js";
 import { PlaySceneRecoveryOverlay } from "./PlaySceneRecoveryOverlay.js";
 
@@ -50,5 +51,8 @@ export const PLAY_SCENE_UI_PORTS = Object.freeze({
   createNotificationSystem: scene => new UINotificationSystem(scene),
   createHardcoreModalOverlay: (scene, config) => new HardcoreModalOverlay(scene, config),
   createSleepingJackpotModalOverlay: scene => new SleepingJackpotModalOverlay(scene),
+  createUnderstarEndingOverlay: (scene, callbacks) => (
+    new UnderstarEndingOverlay(scene, callbacks)
+  ),
   createRecoveryOverlay: scene => new PlaySceneRecoveryOverlay(scene),
 });

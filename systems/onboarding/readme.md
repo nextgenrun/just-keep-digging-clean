@@ -12,10 +12,19 @@ encounters.
   and 40 terrain rows below the air layer. It repairs model, health, dug-source,
   and renderer state after persistent world restore, so the opening return
   promise cannot disappear behind an asynchronous save load.
-- `TutorialTownExitBarrierSystem.js` temporarily restores three authored
-  doorway cells as Bedrock through MOVE, DIG, FLIGHT, and PORTAL. The protected
-  15 m return advances into SELL and restores the exact prior model/map state;
+- `TutorialTownExitBarrierSystem.js` temporarily closes the Town immediately
+  beyond the Money Monster and wraps the x12 starter descent in restorable
+  Bedrock sides/floor through MOVE, DIG, FLIGHT, and PORTAL. The protected 15 m
+  activation advances into SELL, immediately restores the exact prior model/map
+  state, and makes the guaranteed pair plus Town ascent free until RESUME
+  completes;
   skip, completion, and scene teardown also restore it. It owns no popup or reminder.
+- `TutorialPortalGhostGuide.js` reuses the live approved player sprite as a
+  translucent route ghost from Town to the guaranteed 15 m gate during FLIGHT
+  and PORTAL. Its one-tile player footprint probes the live collision model,
+  advances only through already-open shaft tiles, and stops above the next
+  solid tile instead of falling through the terrain. It changes no physics,
+  terrain, rewards, or progression.
 - `FirstFiveMinutesTutorialBridge.js` is the reversible presentation/safety
   layer. It feeds the existing Next Promise strip with one persistent,
   remapped-key action, blocks the one-way surface drop until one real Flight
@@ -49,4 +58,6 @@ encounters.
   flow while `OPENING_FLIGHT_ARTIFACT_CONFIG.enabled` is false.
 - `TutorialSurfaceSafetySystem.js` closes every tutorial descent route until
   Flight is visibly used, including the authored surface shaft and downward
-  mining, and returns an accidental underground position to a safe town tile.
+  mining. Until the first portal actually succeeds, surface drop and downward
+  mining are allowed only inside the Bedrock-wrapped x12 starter corridor; an
+  accidental underground position anywhere else is returned to a safe town tile.

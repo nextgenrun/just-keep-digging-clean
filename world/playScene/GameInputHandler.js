@@ -9,6 +9,7 @@ import {
   GAMEPLAY_FEATURE_IDS,
   isGameplayFeatureEnabled,
 } from "../../values/gameplayDevFlags.js";
+import { GAMEPLAY_DEV_INPUT } from "../../values/keybindActions.js";
 
 function justDown(key) {
   return key && Phaser.Input.Keyboard.JustDown(key);
@@ -105,8 +106,12 @@ export class GameInputHandler {
       return true;
     }
 
-    if (GAME_CONFIG.debugMode && justDown(keys.devCheat)) {
-      console.log('[DEVCHEAT] V key pressed! Game state:', this.scene.gameState);
+    if (
+      GAME_CONFIG.debugMode
+      && (!GAMEPLAY_DEV_INPUT.godModeRequiresShift || keys.shift?.isDown)
+      && justDown(keys.devCheat)
+    ) {
+      console.log('[DEVCHEAT] Shift+V pressed! Game state:', this.scene.gameState);
       this.scene.activateDevCheat();
       return true;
     }
@@ -120,9 +125,11 @@ export class GameInputHandler {
     }
 
     if (
-      isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.SCREEN_CAPTURE)
-      && GAME_CONFIG.debugMode
-      && justDown(keys.screenRecord)
+      GAME_CONFIG.debugMode && justDown(keys.screenRecord)
+      && isGameplayFeatureEnabled(
+        GAMEPLAY_FEATURE_IDS.SCREEN_CAPTURE,
+        this.scene.gameplayCapabilities,
+      )
     ) {
       this.scene.screenRecordSystem?.toggle();
       return true;

@@ -19,3 +19,16 @@ python ai-tools/2026-08-03-package-celestial-overhaul-v1.py
 
 See `manifest-v1.json` for production hashes and `provenance-v1.json` for the
 source and exact chroma-removal commands.
+
+## Resident talent icons
+
+The 2026-08-14 extension adds 33 distinct 256x256 RGBA glyphs named
+`talent-icon-<node-id>-v1.png`: one authored runtime texture for every Wayward
+Star, Hollow Sun, and Comet Engine node. Rebuild and validate them with:
+
+```powershell
+python ai-tools/2026-08-14-build-celestial-talent-icons-v1.py
+```
+
+See `talent-icons-manifest-v1.json` for per-node geometry and hashes, and
+`talent-icons-provenance-v1.json` for source-sheet and alpha-processing records.

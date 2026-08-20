@@ -933,6 +933,10 @@ export function setupUIMethods(prototype, dependencies) {
   prototype.closeTopOverlay = function(reason = "escape") {
     if (this._settingsKeyCaptureActive) return false;
 
+    if (this.understarEndingSystem?.closeOverlay?.()) {
+      return true;
+    }
+
     if (this._hardcoreRuntime?.modal?.isVisible) {
       this._hardcoreRuntime.modal.close?.({ cancelled: reason === "escape" });
       return true;
@@ -1252,6 +1256,7 @@ export function setupUIMethods(prototype, dependencies) {
     }
     this.journeySystem?.loadSaveData?.(savedData.journeyData);
     this.journeySystem?.seedCurrentState?.();
+    this.understarEndingSystem?.loadSaveData?.(savedData.understarEndingData);
 
     if (savedData.updatedAt) {
       this.lastAppliedSaveUpdatedAt = savedData.updatedAt;

@@ -134,12 +134,12 @@ function resolveHollow(base, owned) {
   let implosionRadiusTiles = Number(base.implosionRadiusTiles) || 0;
 
   if (owned.has("hollow-placement-range")) next.placementTiles += cfg.placementBonusTiles;
-  if (owned.has("hollow-pulse-radius")) {
-    pulseRadii = pulseRadii.map(radius => radius + cfg.pulseRadiusTiles);
-  }
   if (owned.has("hollow-extra-pulse") && pulseTimes.length < cfg.caps.pulseCount) {
     pulseTimes.push(cfg.extraPulseAtMs);
     pulseRadii.push(cfg.extraPulseRadiusTiles);
+  }
+  if (owned.has("hollow-pulse-radius")) {
+    pulseRadii = pulseRadii.map(radius => radius + cfg.pulseRadiusTiles);
   }
   if (owned.has("hollow-tidal-radius")) {
     pulseRadii = pulseRadii.map(radius => radius + cfg.tidalRadiusTiles);

@@ -31,6 +31,17 @@ assert.ok(hollow.pulseTimesMs.at(-1) < baseHollow.pulseTimesMs.at(-1));
 assert.equal(hollow.implosionRadiusTiles, 2);
 assert.equal(hollow.implosionMaxImpacts, 6);
 
+const stackedHollow = resolveCelestialTalentEngineDefinition("hollow-sun", [
+  "hollow-pulse-radius",
+  "hollow-extra-pulse",
+  "hollow-tidal-radius",
+]);
+assert.deepEqual(
+  stackedHollow.pulseRadiiTiles,
+  [4, 5, 6, 7],
+  "the added fourth pulse must receive both global radius upgrades",
+);
+
 const baseComet = CELESTIAL_ENGINE_CONFIG.engines["comet-engine"];
 const comet = resolveCelestialTalentEngineDefinition("comet-engine", [
   "comet-travel-capacity",

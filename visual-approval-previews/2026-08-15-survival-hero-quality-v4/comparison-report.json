@@ -1,0 +1,71 @@
+{
+  "version": "4.0",
+  "reviewOnly": true,
+  "productionChanged": false,
+  "bodyMotionChanged": false,
+  "facingChanged": false,
+  "subdivisionAdded": false,
+  "families": {
+    "mining-side": {
+      "frames": 15,
+      "fps": 30,
+      "currentRuntimeSheet": "sprites/character/survival-ual-player-v1/runtime/survival-ual-player-v1-punch-jab-sheet.webp",
+      "minimumAlphaIou": 0.9732324701774804,
+      "maximumCentroidDeltaPx": 0.5076837068850404,
+      "maximumBoundsDeltaPx": 1,
+      "saturatedGreenPixels": 0,
+      "preview": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\visual-approval-previews\\2026-08-15-survival-hero-quality-v4\\current-vs-v4-punch-jab.gif"
+    },
+    "mining-up": {
+      "frames": 24,
+      "fps": 27,
+      "currentRuntimeSheet": "sprites/character/survival-character-blender-v2/runtime/survival-character-blender-v2-dig-up-piskel-polished-sheet.png",
+      "minimumAlphaIou": 0.9567365469355054,
+      "maximumCentroidDeltaPx": 0.6935810628322377,
+      "maximumBoundsDeltaPx": 1,
+      "saturatedGreenPixels": 0,
+      "preview": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\visual-approval-previews\\2026-08-15-survival-hero-quality-v4\\current-vs-v4-mining-up.gif"
+    },
+    "mining-down": {
+      "frames": 37,
+      "fps": 30,
+      "currentRuntimeSheet": "sprites/character/survival-ual-player-v1/runtime/survival-ual-player-v1-ground-strike-sheet.webp",
+      "minimumAlphaIou": 0.9554929577464789,
+      "maximumCentroidDeltaPx": 0.5810489451202706,
+      "maximumBoundsDeltaPx": 2,
+      "saturatedGreenPixels": 0,
+      "preview": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\visual-approval-previews\\2026-08-15-survival-hero-quality-v4\\current-vs-v4-ground-strike.gif"
+    },
+    "run": {
+      "frames": 28,
+      "fps": 30,
+      "currentRuntimeSheet": "sprites/character/survival-ual-player-v1/runtime/survival-ual-player-v1-animation-polish-run-sheet.webp",
+      "minimumAlphaIou": 0.9601683029453015,
+      "maximumCentroidDeltaPx": 0.512494140809853,
+      "maximumBoundsDeltaPx": 2,
+      "saturatedGreenPixels": 0,
+      "preview": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\visual-approval-previews\\2026-08-15-survival-hero-quality-v4\\current-vs-v4-run.gif"
+    },
+    "flight": {
+      "frames": 36,
+      "fps": 16,
+      "currentRuntimeSheet": "sprites/character/survival-character-blender-v2/runtime/survival-character-blender-v2-superman-flight-prone-v3-sheet.png",
+      "minimumAlphaIou": 0.9934123847167325,
+      "maximumCentroidDeltaPx": 0.1834898887886999,
+      "maximumBoundsDeltaPx": 1,
+      "saturatedGreenPixels": 0,
+      "preview": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\visual-approval-previews\\2026-08-15-survival-hero-quality-v4\\current-vs-v4-flight.gif"
+    },
+    "walk": {
+      "frames": 24,
+      "fps": 16,
+      "currentRuntimeSheet": "sprites/character/survival-character-blender-v2/runtime/survival-character-blender-v2-walk-sheet.png",
+      "minimumAlphaIou": 0.9580966805502966,
+      "maximumCentroidDeltaPx": 0.6612418753836525,
+      "maximumBoundsDeltaPx": 1,
+      "saturatedGreenPixels": 0,
+      "preview": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\visual-approval-previews\\2026-08-15-survival-hero-quality-v4\\current-vs-v4-walk.gif"
+    }
+  },
+  "combinedPreview": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\visual-approval-previews\\2026-08-15-survival-hero-quality-v4\\current-vs-v4-punch-and-other-actions.gif"
+}

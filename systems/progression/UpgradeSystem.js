@@ -12,7 +12,7 @@ import {
   isGameplayFeatureEnabled,
   isGameplayUpgradeEnabled,
 } from "../../values/gameplayDevFlags.js";
-import { DEFAULT_GAMEPLAY_CAPABILITIES } from "../../values/gameplayCapabilities.js";
+import { RUNTIME_GAMEPLAY_CAPABILITIES } from "../../values/gameplayCapabilities.js";
 
 export class UpgradeSystem {
   constructor(digSystem = null, playerLevelSystem = null, options = {}) {
@@ -21,7 +21,7 @@ export class UpgradeSystem {
     this.depthEconomyEnabled = options.depthEconomyEnabled
       ?? resolveDepthEconomyEnabled();
     this.gameplayCapabilities = options.gameplayCapabilities
-      || DEFAULT_GAMEPLAY_CAPABILITIES;
+      || RUNTIME_GAMEPLAY_CAPABILITIES;
     this.upgradeLevels = {}; // Maps upgradeId -> level
     this.money = 0;
     this.ownedPickaxe = null; // Currently equipped pickaxe
@@ -409,7 +409,7 @@ export class UpgradeSystem {
 
   setGodMode(active) {
     this.godModeActive = active === true
-      && isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.DEV_CHEATS, this.gameplayCapabilities);
+      && isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.GOD_MODE, this.gameplayCapabilities);
     this.invalidateEffectsCache();
   }
 
