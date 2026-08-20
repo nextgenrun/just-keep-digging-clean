@@ -429,6 +429,11 @@ Flight/Torch floor, full startup-plus-upkeep Flight admission, shutdown instead
 of free Flight, torch shutdown without auto-relight flicker, unchanged Casual
 zero-GP behavior, and final-GP lethality for stress and Hardcore hazards.
 
+`2026-08-21-ui-layer-ownership-contract.mjs` proves the ordered active stack,
+one-layer-per-Escape closure, random-event ownership, close-failure containment,
+debug-only diagnostics, explicit F10 fullscreen routing, and idempotent combo
+pause/resume with unchanged remaining time.
+
 `2026-07-16-scenic-world-runtime-foundation.mjs` verifies the default scenic/legacy selector, complete depth-material coverage, renderer compatibility surface, absence of tilemap construction in scenic mode, and versioned gameplay-layout save identity.
 
 `2026-07-16-scenic-shallow-cavern-smoke.mjs` keeps its pilot-era filename while

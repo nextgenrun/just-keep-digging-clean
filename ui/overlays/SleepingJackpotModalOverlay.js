@@ -292,6 +292,15 @@ export class SleepingJackpotModalOverlay {
     return true;
   }
 
+  requestClose() {
+    if (!this.isVisible || this.busy) return false;
+    if (this.mode === "result") return this.closeResult();
+    const callback = this.onCancel;
+    this._close();
+    callback?.();
+    return true;
+  }
+
   _close() {
     this.scene.input.keyboard.off("keydown", this._keyHandler);
     this.root.setVisible(false).setAlpha(1);

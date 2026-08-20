@@ -15,6 +15,10 @@ through the PlayScene composition port.
 surfaces and gameplay pointer consumers. Modal shells hold one lock from show
 through completed exit, and releases are idempotent so overlapping menus cannot
 prematurely return the mouse to the world.
+`world/playScene/UiLayerOwnership.js` is the ordered keyboard/Escape authority
+for PlayScene surfaces. It reports the complete active stack, closes exactly one
+top layer, includes the random-event modal, and publishes `__jkdUiLayers` only
+in debug builds. Gameplay and combo sampling consume this same authority.
 
 ## User settings
 

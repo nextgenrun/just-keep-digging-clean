@@ -171,6 +171,7 @@ function dragTo(system, sourceIndex, targetIndex) {
   const loadoutChanges = [];
   const activations = [];
   const blocked = [];
+  let quickslashUnlocked = false;
   const initialOrder = [
     "hollow-sun", "quickslash", "thunderStrike", "wayward-star", "comet-engine",
   ];
@@ -180,7 +181,11 @@ function dragTo(system, sourceIndex, targetIndex) {
       setLoadout: (order, metadata) => { persisted.push({ order: [...order], metadata }); },
     },
     getAbilityState: entryId => entryId === "quickslash"
-      ? { unlocked: false, unlockCondition: "Reach Bobo and buy Quick Slash." }
+      ? {
+          unlocked: quickslashUnlocked,
+          available: quickslashUnlocked,
+          unlockCondition: "Reach Bobo and buy Quick Slash.",
+        }
       : { unlocked: true, available: true, active: entryId === "hollow-sun" },
     getMetrics: () => ({ gpCurrent: 72.8, gpMax: 100, miningDamage: 42 }),
     onActivate: (entryId, context) => { activations.push({ entryId, context }); },
@@ -224,6 +229,12 @@ function dragTo(system, sourceIndex, targetIndex) {
   lockedSlot.root.emit("pointerup", {});
   assert.equal(activations.length, 0);
   assert.equal(blocked.length, 1);
+
+  quickslashUnlocked = true;
+  system.sync();
+  assert.equal(lockedSlot.icon.visible, true, "a live unlock must reveal its slot");
+  assert.equal(system.foundation.visible, true, "unlock sync must not hide the action bar");
+  assert.equal(system.getHealthSnapshot().visible, true);
 
   const activeSlot = system.slotsById.get("hollow-sun");
   activeSlot.root.emit("pointerdown", {});

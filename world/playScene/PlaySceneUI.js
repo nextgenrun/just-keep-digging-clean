@@ -5,6 +5,7 @@
 
 import { WelcomeMessageGenerator } from "../model/WelcomeMessageGenerator.js";
 import { UI_CONFIG } from "../../values/uiConfig.js";
+import { GAME_CONFIG } from "../../values/gameConfig.js";
 import { HUD_LAYOUT } from "../../values/hudLayout.js";
 import { UI_COLORS } from "../../values/uiColors.js";
 import {
@@ -47,6 +48,10 @@ import {
   loadHardcoreModeSaveData,
 } from "./HardcoreModeBridge.js";
 import { hasEscapeClosableUi } from "./hasEscapeClosableUi.js";
+import {
+  closeTopUiLayer,
+  installUiLayerDiagnostics,
+} from "./UiLayerOwnership.js";
 import { enterSceneBasePhase, releaseSceneSuspension } from "./SceneModeBridge.js";
 
 /**
@@ -66,6 +71,10 @@ export function setupUIMethods(prototype, dependencies) {
   prototype.createSceneUI = function() {
     if (this._sceneUIInitialized) return;
     this._sceneUIInitialized = true;
+    this._releaseUiLayerDiagnostics = installUiLayerDiagnostics(
+      this,
+      GAME_CONFIG.debugMode,
+    );
 
     this.uiNotifications ||= new UINotificationSystem(this);
     this.uiMuteToggle = new UIMuteToggle(this, this.soundSystem, this.config.viewportWidth - 123, 20);
@@ -115,6 +124,8 @@ export function setupUIMethods(prototype, dependencies) {
   prototype.destroySceneUI = function() {
     if (!this._sceneUIInitialized) return;
     this._sceneUIInitialized = false;
+    this._releaseUiLayerDiagnostics?.();
+    this._releaseUiLayerDiagnostics = null;
 
     this.uiNotifications?.destroy();
     this.uiMuteToggle?.destroy();
@@ -932,73 +943,7 @@ export function setupUIMethods(prototype, dependencies) {
 
   prototype.closeTopOverlay = function(reason = "escape") {
     if (this._settingsKeyCaptureActive) return false;
-
-    if (this.understarEndingSystem?.closeOverlay?.()) {
-      return true;
-    }
-
-    if (this._hardcoreRuntime?.modal?.isVisible) {
-      this._hardcoreRuntime.modal.close?.({ cancelled: reason === "escape" });
-      return true;
-    }
-
-    if (this.worldMapOverlay?.isOpen) {
-      this.hideWorldMap();
-      return true;
-    }
-
-    if (this.depthGateSystem?.isOpen?.()) {
-      this.depthGateSystem._decline?.();
-      return true;
-    }
-
-    if (this.shopOverlay?.isVisible) {
-      this.soundSystem?.playUiConfirm?.();
-      this.shopOverlay.hide?.();
-      return true;
-    }
-
-    if (this.campfireSystem?.isSelecting?.()) {
-      this.campfireSystem._closeBuffSelection?.();
-      return true;
-    }
-
-    if (this.milestoneBoardSystem?._isBoardOpen) {
-      this.milestoneBoardSystem._closeBoardView?.();
-      return true;
-    }
-
-    if (this.starHeartOverlay?.isOpen?.()) {
-      this.starHeartOverlay.close?.();
-      return true;
-    }
-
-    if (this._pillarViewActive && this.starPillarSystem) {
-      this.starPillarSystem.closeConstellationView?.();
-      return true;
-    }
-
-    if (this.uiInventoryPopup?.isOpen) {
-      this.uiInventoryPopup.close?.();
-      return true;
-    }
-
-    if (
-      this.gameState === "dialog"
-      && this.overlayManager?.shell?.root?.visible
-    ) {
-      this.hideOverlay?.();
-      releaseSceneSuspension(this, "_dialogSuspension");
-      this.playerController?.setControlsEnabled?.(this.sceneModeController.isGameplayActive);
-      return true;
-    }
-
-    if (this._pausePanel || this.gameState === "paused") {
-      this.resumeGame?.();
-      return true;
-    }
-
-    return false;
+    return closeTopUiLayer(this, reason);
   };
 
   prototype.saveGame = async function(labelObj) {

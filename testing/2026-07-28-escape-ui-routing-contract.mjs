@@ -229,21 +229,30 @@ const uiSource = readFileSync(
   new URL("../world/playScene/PlaySceneUI.js", import.meta.url),
   "utf8",
 );
+const ownershipSource = readFileSync(
+  new URL("../world/playScene/UiLayerOwnership.js", import.meta.url),
+  "utf8",
+);
 const harnessSource = readFileSync(
   new URL("./2026-07-28-escape-ui-routing-harness.js", import.meta.url),
   "utf8",
 );
 assert.match(updateSource, /gameInputHandler\.handleEscapeInput\(\)/);
 assert.doesNotMatch(updateSource, /const escPressed\s*=/);
-assert.match(uiSource, /starHeartOverlay\?\.isOpen\?\.\(\)/);
+assert.match(uiSource, /closeTopUiLayer\(this, reason\)/);
 assert.match(
-  uiSource,
-  /gameState === "dialog"[\s\S]*?hideOverlay\?\.\(\)[\s\S]*?releaseSceneSuspension\(this, "_dialogSuspension"\)/,
+  ownershipSource,
+  /id: "game-dialog"[\s\S]*?hideOverlay\?\.\(\)[\s\S]*?closeGameDialog\?\.\(\)/,
 );
 assert.ok(
-  uiSource.indexOf("starHeartOverlay?.isOpen?.()")
-    < uiSource.indexOf("_pillarViewActive && this.starPillarSystem"),
+  ownershipSource.indexOf('id: "star-heart"')
+    < ownershipSource.indexOf('id: "star-pillar"'),
   "Star Heart must close before its underlying Pillar view",
+);
+assert.ok(
+  ownershipSource.indexOf('id: "random-event"')
+    < ownershipSource.indexOf('id: "hardcore-modal"'),
+  "The visibly top random-event modal must own Escape before lower layers",
 );
 assert.match(harnessSource, /new GameInputHandler\(this, inputHandler, \{\}\)/);
 assert.match(harnessSource, /hardEscape\.on\("down"/);

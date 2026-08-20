@@ -46,6 +46,16 @@ still-solid target face in both runtime worlds. The clamp is symmetric, keeps
 the target adjacent for mining, releases when the tile is destroyed, and does
 not delay input or change damage/reach.
 
+## UI layer ownership
+
+`UiLayerOwnership.js` is the ordered authority for Escape across Understar,
+random-event, Hardcore, Map, Depth Gate, shop, Campfire, Milestone, Star,
+Inventory, dialog, and Pause surfaces. One physical press closes one top layer;
+it cannot fall through and reopen Pause. `hasEscapeClosableUi` delegates to the
+same stack used to pause combo and gameplay input. Debug builds expose the
+read-only `window.__jkdUiLayers.snapshot()` record, while F10 remains the only
+gameplay fullscreen command.
+
 ## Tutorial and resume authority
 
 `PlaySceneSetup` keeps the configured player fallback inside Town Square and
