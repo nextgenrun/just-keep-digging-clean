@@ -42,6 +42,9 @@ export const SURVIVAL_COMPLEX_DIG_PROFILE = Object.freeze({
   contactByAnimation: Object.freeze(Object.fromEntries(
     entries.map(([, spec]) => [spec.animationKey, spec.contact]),
   )),
+  clearanceByAnimation: Object.freeze(Object.fromEntries(
+    entries.map(([, spec]) => [spec.animationKey, spec.clearance]),
+  )),
   displaySizeByAnimation: Object.freeze(Object.fromEntries(
     entries.map(([, spec]) => [spec.animationKey, COMPLEX_DIG_ANIMATIONS.displaySizePx]),
   )),

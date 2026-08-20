@@ -7,6 +7,7 @@ import { SURVIVAL_COMPLEX_DIG_PROFILE } from "./survivalComplexDigProfile.js";
 import { buildSurvivalUalAnimationPolishProfile } from "./survivalUalAnimationPolishProfile.js";
 import { buildSurvivalUalMovingSideDigProfile } from "./survivalUalMovingSideDigProfile.js";
 import { UAL_NATIVE_PLAYER_ASSET_PROFILE } from "./ualNativePlayerAssetProfile.js";
+import { ANIMATION_TILE_CLEARANCE_POLICIES } from "./animationTileClearance.js";
 
 const UAL_RUNTIME_KEY_PREFIX = "ual-native-v1";
 const UAL_RUNTIME_FILE_PREFIX = "ual-native-player-v1-";
@@ -42,6 +43,34 @@ const mixamo = MIXAMO_ACCEPTED_PLAYER_ANIMATIONS;
 const mixamoSheets = mixamo.sheets;
 const mixamoAnimations = mixamo.animations;
 const complexDig = SURVIVAL_COMPLEX_DIG_PROFILE;
+const legacySideDigKeys = Object.freeze(Array.from(new Set(
+  remappedProfile.digSidewaysHitAnims,
+)));
+const contactAwareSideDigKeys = Object.freeze([
+  complexDig.profileProperties.complexDigSideAnimationKeys[0],
+  ...legacySideDigKeys,
+  ...complexDig.profileProperties.complexDigSideAnimationKeys.slice(1),
+]);
+const contactAwareUpDigKeys = Object.freeze([
+  remappedProfile.digUpHitAnims[0],
+  complexDig.profileProperties.complexDigUpAnimationKeys[0],
+]);
+const animationTileClearanceByAnimation = Object.freeze({
+  ...Object.fromEntries(legacySideDigKeys.map(key => [
+    key,
+    ANIMATION_TILE_CLEARANCE_POLICIES.sideCanonical,
+  ])),
+  ...Object.fromEntries(remappedProfile.digUpHitAnims.map(key => [
+    key,
+    ANIMATION_TILE_CLEARANCE_POLICIES.upCanonical,
+  ])),
+  ...Object.fromEntries(remappedProfile.digUpSidewaysHitAnims.map(key => [
+    key,
+    ANIMATION_TILE_CLEARANCE_POLICIES.diagonalCanonical,
+  ])),
+  [remappedProfile.digDownAnim]: ANIMATION_TILE_CLEARANCE_POLICIES.downCanonical,
+  ...complexDig.clearanceByAnimation,
+});
 const groundedVisual = blenderV2.groundedVisualCalibration;
 const digUpSheet = blenderV2.sheets.digUp;
 const movingSideDig = buildSurvivalUalMovingSideDigProfile(MOVING_SIDE_DIG_ANIMATION);
@@ -231,6 +260,9 @@ const blenderCoreOriginBySheet = Object.freeze({
 export const SURVIVAL_UAL_PLAYER_ASSET_PROFILE = Object.freeze({
   ...remappedProfile,
   ...complexDig.profileProperties,
+  complexDigSideAnimationKeys: contactAwareSideDigKeys,
+  complexDigUpAnimationKeys: contactAwareUpDigKeys,
+  animationTileClearanceByAnimation,
   characterId: PLAYER_CHARACTER_IDS.survivalUal,
   renderPipeline: "survival-blender-v2-piskel-polish-v2-mixamo-complex-dig-v1",
   basePath: "sprites/character/survival-ual-player-v1/runtime",

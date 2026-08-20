@@ -1,6 +1,7 @@
 /** Owns cave-only character action timing, authored UAL contacts, and flight animation selection. */
 import { UalActionContactTimeline } from "../../player/UalActionContactTimeline.js";
 import { UalMiningComboSelector } from "../../player/UalMiningComboSelector.js";
+import { resolveAnimationTileClearance } from "../../player/AnimationTileClearanceResolver.js";
 import { resolveMovingDiagonalDigAnimation } from "../../player/UalMovingDiagonalDigSelector.js";
 import { resolveMovingSideDigAnimation } from "../../player/UalMovingSideDigSelector.js";
 import { UalActionRecoverySelector } from "../../systems/visual/UalActionRecoverySelector.js";
@@ -135,14 +136,26 @@ export class CaveActionAnimationRuntime {
       const downSide = aim === "DOWN-LEFT" || aim === "DOWN-RIGHT";
       const up = aim === "UP";
       const down = aim === "DOWN";
-      const select = (family, animationKeys, fallback) => this.miningCombo.select({
-        family,
-        direction: aim,
-        animationKeys,
-        fallback,
-        targetTile,
-        nowMs: time,
-      });
+      const select = (family, animationKeys, fallback) => {
+        const clearance = resolveAnimationTileClearance({
+          scene,
+          profile,
+          family,
+          animationKeys,
+          fallback,
+          targetTile,
+          playerController: this.controller.playerController,
+          worldModel: this.controller.worldModel,
+        });
+        return this.miningCombo.select({
+          family,
+          direction: aim,
+          animationKeys: clearance.animationKeys,
+          fallback: clearance.fallback,
+          targetTile,
+          nowMs: time,
+        });
+      };
       if (upSide) {
         key = select("up-side", profile.digUpSidewaysHitAnims, profile.digUpSidewaysAnim);
         sourceFacesRight = profile.digUpSidewaysSourceFacesRight !== false;

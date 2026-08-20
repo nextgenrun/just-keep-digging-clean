@@ -21,6 +21,7 @@ import {
   resolveUalFlightTimeScale,
 } from "../../values/ualNativeActionTuning.js";
 import { UalMiningComboSelector } from "../../player/UalMiningComboSelector.js";
+import { resolveAnimationTileClearance } from "../../player/AnimationTileClearanceResolver.js";
 import { resolveMovingDiagonalDigAnimation } from "../../player/UalMovingDiagonalDigSelector.js";
 import { resolveMovingSideDigAnimation } from "../../player/UalMovingSideDigSelector.js";
 import {
@@ -74,11 +75,19 @@ export function setupGameplayMethods(prototype) {
     if (!scene.ualMiningComboSelector) {
       scene.ualMiningComboSelector = new UalMiningComboSelector();
     }
+    const clearance = resolveAnimationTileClearance({
+      scene,
+      profile: scene.playerAssetProfile || ASSET_KEYS.player,
+      family,
+      animationKeys: anims,
+      fallback,
+      targetTile,
+    });
     return scene.ualMiningComboSelector.select({
       family,
       direction,
-      animationKeys: anims,
-      fallback,
+      animationKeys: clearance.animationKeys,
+      fallback: clearance.fallback,
       targetTile,
       nowMs: scene.time?.now || 0,
     });

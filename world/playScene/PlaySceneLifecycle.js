@@ -1,6 +1,8 @@
 import { SAVE_SCHEDULING_CONFIG } from "../../values/saveScheduling.js";
 import { destroyGraveborerWurmRuntime } from "./GraveborerWurmBridge.js";
 import { destroyHardcoreModeRuntime } from "./HardcoreModeBridge.js";
+import { destroyAnimationTileClearanceDiagnostics } from
+  "../../player/AnimationTileClearanceResolver.js";
 
 const SYSTEM_DISPOSAL_SEQUENCE = Object.freeze([
   "caveEntryController",
@@ -155,6 +157,10 @@ function registerCustomDisposals(scene, registry) {
   }, { id: "motion-transients" });
   registry.register(() => destroyGraveborerWurmRuntime(scene), { id: "graveborer-runtime" });
   registry.register(() => destroyHardcoreModeRuntime(scene), { id: "hardcore-runtime" });
+  registry.register(
+    () => destroyAnimationTileClearanceDiagnostics(scene),
+    { id: "animation-clearance-diagnostics" },
+  );
   registry.register(() => scene.destroySceneUI?.(), { id: "scene-ui" });
   registry.register(() => {
     scene.worldModel?.setTileDamageGuard?.(null);

@@ -66,8 +66,14 @@ for (const [id, clip] of Object.entries(config.clips)) {
   assert.deepEqual(resolveUalActionContact(profile, clip.animationKey), clip.contact);
 }
 
-assert.deepEqual(profile.complexDigSideAnimationKeys, config.sideSequence.map((id) => config.clips[id].animationKey));
-assert.deepEqual(profile.complexDigUpAnimationKeys, [config.clips.uppercut.animationKey]);
+assert.deepEqual(
+  profile.complexDigSideAnimationKeys.filter(key => profile.complexDigAnimationKeys.includes(key)),
+  config.sideSequence.map((id) => config.clips[id].animationKey),
+);
+assert.deepEqual(
+  profile.complexDigUpAnimationKeys.filter(key => profile.complexDigAnimationKeys.includes(key)),
+  [config.clips.uppercut.animationKey],
+);
 assert.ok(profile.digAnims.every((key) => (
   !profile.complexDigAnimationKeys.includes(key) || profile.punchActionAnims.includes(key)
 )));
@@ -101,7 +107,9 @@ assert.deepEqual(disabled, {
 });
 
 const selector = new UalMiningComboSelector();
-const selected = Array.from({ length: 10 }, (_, index) => selector.select({
+const selected = Array.from({
+  length: profile.complexDigSideAnimationKeys.length,
+}, (_, index) => selector.select({
   family: enabled.family,
   direction: "RIGHT",
   animationKeys: enabled.animationKeys,
