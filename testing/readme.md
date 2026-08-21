@@ -1147,6 +1147,11 @@ the resolver instead of positioning prompts from the top of the canvas.
 injected gameplay capability authority and proves the backdrop honors it. This
 keeps focused Level Two tests deterministic without weakening the production
 demo-profile gate.
+`2026-08-21-ambient-particle-band-contract.mjs` pins four distinct underground
+ambient depth identities, verifies the live diagnostic snapshot, and proves an
+explicit building-occupancy signal immediately clears the bounded particle set.
+The legacy environment contract continues to guard depth, FPS, cap, and teardown
+behavior.
 `2026-08-15-celestial-talent-tree-polish-browser-check.mjs` opens the production
 Celestial tree harness at wide and compact sizes, proves the three-lock
 pre-level gate, exercises a near-edge mouse target, and captures the rebuilt
