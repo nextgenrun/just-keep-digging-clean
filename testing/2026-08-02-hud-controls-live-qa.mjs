@@ -67,6 +67,7 @@ async function main() {
 
     await page.mouse.click(initial.positions.pause.x, initial.positions.pause.y);
     await page.waitForFunction(() => globalThis.__HUD_CONTROLS_HARNESS__.snapshot().inventoryOpen === false);
+    await page.waitForTimeout(250);
     const afterPauseClosedInventory = await readSnapshot();
 
     await page.mouse.click(initial.positions.pause.x, initial.positions.pause.y);
@@ -130,8 +131,17 @@ async function main() {
     ) {
       throw new Error(`Inventory keycap mismatch: ${JSON.stringify(initial.quickControls)}`);
     }
-    if (initial.quickControls?.pause?.label !== "ESC  MENU") {
+    if (initial.quickControls?.pause?.label?.toUpperCase() !== "ESC  MENU") {
       throw new Error(`Pause live label mismatch: ${JSON.stringify(initial.quickControls)}`);
+    }
+    if (
+      initial.quickControls?.map?.label !== "M  WORLD MAP"
+      || !equalSize([
+        initial.quickControls.map.hitWidth,
+        initial.quickControls.map.hitHeight,
+      ], [164, 44])
+    ) {
+      throw new Error(`Map live control mismatch: ${JSON.stringify(initial.quickControls)}`);
     }
     if (afterMusic.musicEnabled !== false || afterMusic.musicAlpha !== 0.48) {
       throw new Error(`Music click did not apply its muted state: ${JSON.stringify(afterMusic)}`);

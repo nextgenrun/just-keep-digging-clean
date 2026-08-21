@@ -310,6 +310,7 @@ export class BootScene extends Phaser.Scene {
   queueResidentUiImage(key, path, consumer) {
     this.queueImage(key, path, {
       owner: RUNTIME_ASSET_LOADING.owners.bootCore,
+      capability: null,
       packId: RUNTIME_ASSET_PACK_IDS.bootCore,
       residencyClass: RUNTIME_ASSET_RESIDENCY_CLASSES.boot,
       managed: false,
@@ -1019,12 +1020,15 @@ export class BootScene extends Phaser.Scene {
     } else {
       // The inventory collection remains a complete visual field guide even
       // when Level Two gameplay is excluded from the active capability pack.
-      loadDamageStages(
-        [ASSET_KEYS.tiles.lavaDirtHp1, ASSET_KEYS.tiles.lavaDirtHp2,
-          ASSET_KEYS.tiles.lavaDirtHp3, ASSET_KEYS.tiles.lavaDirtHp4,
-          ASSET_KEYS.tiles.lavaDirtHp5],
-        "sprites/tiles/second-world/lava-dirt",
-      );
+      [ASSET_KEYS.tiles.lavaDirtHp1, ASSET_KEYS.tiles.lavaDirtHp2,
+        ASSET_KEYS.tiles.lavaDirtHp3, ASSET_KEYS.tiles.lavaDirtHp4,
+        ASSET_KEYS.tiles.lavaDirtHp5].forEach((key, index) => {
+        this.queueResidentUiImage(
+          key,
+          `sprites/tiles/second-world/lava-dirt/${index + 1}-of-5-hp.webp`,
+          "inventory-world-guide",
+        );
+      });
     }
 
     this.load.image(

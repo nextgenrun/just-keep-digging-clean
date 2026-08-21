@@ -4,6 +4,7 @@ import { UIInventoryPopup } from "../ui/overlays/UIInventoryPopup.js";
 import { UIMuteToggle } from "../ui/hud/UIMuteToggle.js";
 import { APPROVED_HUD_SKIN } from "../values/approvedHudSkin.js";
 import { ASSET_KEYS } from "../values/assetKeys.js";
+import { WORLD_VISUAL_SEMANTIC_ASSETS } from "../values/worldVisualSemanticAssets.js";
 
 class HudControlsVisualHarnessScene extends Phaser.Scene {
   constructor() {
@@ -14,6 +15,18 @@ class HudControlsVisualHarnessScene extends Phaser.Scene {
     for (const [id, path] of Object.entries(APPROVED_HUD_SKIN.paths)) {
       this.load.image(ASSET_KEYS.ui.approvedHud[id], `../${path}`);
     }
+    const soil = ASSET_KEYS.tiles.dynamicSoil;
+    this.load.image(
+      WORLD_VISUAL_SEMANTIC_ASSETS.resources.atlas.key,
+      `../${WORLD_VISUAL_SEMANTIC_ASSETS.resources.atlas.path}`,
+    );
+    this.load.image(soil.bases[0][0], "../sprites/tiles/dynamic-soil/bases/soil-000-200-v1.webp");
+    this.load.image(soil.bases[2][0], "../sprites/tiles/dynamic-soil/bases/soil-400-600-v1.webp");
+    this.load.image(soil.bases[4][0], "../sprites/tiles/dynamic-soil/bases/soil-800-1000-v1.webp");
+    this.load.image(soil.cracks[4], "../sprites/tiles/dynamic-soil/overlays/crack-stage-5.png");
+    this.load.image(soil.hardness.compact, "../sprites/tiles/dynamic-soil/overlays/hardness-compact.png");
+    this.load.image(soil.hardness.strong, "../sprites/tiles/dynamic-soil/overlays/hardness-strong.png");
+    this.load.image(ASSET_KEYS.tiles.lavaDirtHp5, "../sprites/tiles/second-world/lava-dirt/5-of-5-hp.webp");
   }
 
   create() {
@@ -77,7 +90,7 @@ class HudControlsVisualHarnessScene extends Phaser.Scene {
       combo: false,
       buff: false,
     });
-    this.hudSystem.updateClockWeather();
+    this.hudSystem.updateClock();
 
     this.uiMuteToggle = new UIMuteToggle(this, this.soundSystem);
     this.uiInventoryPopup = new UIInventoryPopup(this);
@@ -154,12 +167,12 @@ class HudControlsVisualHarnessScene extends Phaser.Scene {
             y: this.uiMuteToggle.container.y + sfxHit.y,
           },
           inventory: {
-            x: this.hudSystem.lootBagContainer.x + lootHit.x,
-            y: this.hudSystem.lootBagContainer.y + lootHit.y,
+            x: this.hudSystem.lootBagContainer.x,
+            y: this.hudSystem.lootBagContainer.y,
           },
           pause: {
-            x: this.hudSystem.pauseMenuContainer.x + pauseHit.x,
-            y: this.hudSystem.pauseMenuContainer.y + pauseHit.y,
+            x: this.hudSystem.pauseMenuContainer.x,
+            y: this.hudSystem.pauseMenuContainer.y,
           },
         },
         quickControls: this.hudSystem.quickControls?.getHealthSnapshot?.(),

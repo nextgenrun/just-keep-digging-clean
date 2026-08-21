@@ -26,11 +26,15 @@ function inferPolicy(key, config) {
   if (/screen-record|screenrecord/.test(value)) {
     return [config.owners.screenCapture, GAMEPLAY_FEATURE_IDS.SCREEN_CAPTURE, RUNTIME_ASSET_PACK_IDS.screenCapture];
   }
-  if (/level-?2|leveltwo|second-world|surface-hero|lava-dirt|obsidian|ember-ore|magma-crystal/.test(value)) {
-    return [config.owners.levelTwo, GAMEPLAY_FEATURE_IDS.LEVEL_TWO, RUNTIME_ASSET_PACK_IDS.levelTwo];
-  }
+  // Archive portraits are synchronous ESC-menu UI, even when a Titan name also
+  // contains a gated world token such as "obsidian". Keep this specific policy
+  // ahead of the broad Level Two matcher so presentation art never inherits a
+  // gameplay capability by accident.
   if (/^titan-discovery-(?!chamber)/.test(value)) {
     return [config.owners.featureTitanArchive, null, "titan-archive"];
+  }
+  if (/level-?2|leveltwo|second-world|surface-hero|lava-dirt|obsidian|ember-ore|magma-crystal/.test(value)) {
+    return [config.owners.levelTwo, GAMEPLAY_FEATURE_IDS.LEVEL_TWO, RUNTIME_ASSET_PACK_IDS.levelTwo];
   }
   if (/star-identity|star-block-(steady|pulse)|sky-star-(release|fracture)/.test(value)) {
     return [config.owners.starRarity, null, RUNTIME_ASSET_PACK_IDS.starRarity];
@@ -84,8 +88,9 @@ export class RuntimeAssetCatalog {
     const previous = this.descriptors.get(asset.key);
     const inferred = inferPolicy(asset.key, this.config);
     const owner = metadata.owner || previous?.owner || inferred[0];
-    const capability = metadata.capability ?? previous?.capability
-      ?? OWNER_CAPABILITIES[owner] ?? inferred[1];
+    const capability = Object.prototype.hasOwnProperty.call(metadata, "capability")
+      ? metadata.capability
+      : previous?.capability ?? OWNER_CAPABILITIES[owner] ?? inferred[1];
     const descriptor = Object.freeze({
       key: asset.key,
       path: asset.path || previous?.path || null,
@@ -175,9 +180,13 @@ export class RuntimeAssetCatalog {
       ? residentKeys.filter(key => !this.descriptors.has(key))
       : [];
     const gatedResidentOwners = new Set();
+    const gatedResidentKeys = [];
     for (const key of residentKeys) {
       const descriptor = this.descriptors.get(key);
-      if (descriptor && !this.isAllowed(descriptor)) gatedResidentOwners.add(descriptor.owner);
+      if (descriptor && !this.isAllowed(descriptor)) {
+        gatedResidentOwners.add(descriptor.owner);
+        gatedResidentKeys.push(key);
+      }
     }
     return Object.freeze({
       profileId: this.capabilities?.profileId || "unknown",
@@ -187,6 +196,7 @@ export class RuntimeAssetCatalog {
       blockedOwners: Object.freeze([...this.blockedOwners].sort()),
       blockedKeys: Object.freeze([...this.blockedKeys].sort()),
       gatedResidentOwners: Object.freeze([...gatedResidentOwners].sort()),
+      gatedResidentKeys: Object.freeze(gatedResidentKeys.sort()),
       untrackedTextures: untrackedKeys.length,
     });
   }

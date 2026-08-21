@@ -8,7 +8,9 @@ const { chromium } = require(
   "C:/Users/Mila/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright",
 );
 
-const URL = "http://127.0.0.1:8080/?jkd_e2e=1&recoveryQa=20260811-first-five";
+const DEFAULT_URL = "http://127.0.0.1:8080/?jkd_e2e=1&recoveryQa=20260811-first-five";
+const URL = process.argv.find((entry) => entry.startsWith("--url="))?.slice(6)
+  || DEFAULT_URL;
 const OUTPUT_DIR = path.resolve("tmp/2026-08-11-demo-first-five-live-qa");
 const EDGE = "C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe";
 

@@ -75,6 +75,40 @@ const demoSnapshot = demoCatalog.getSnapshot();
 assert.equal(demoSnapshot.profileId, GAMEPLAY_PROFILE_IDS.DEMO);
 assert.equal(demoSnapshot.blockedQueueAttempts, gatedAssets.length);
 assert.deepEqual(demoSnapshot.blockedOwners, gatedAssets.map(([, owner]) => owner).sort());
+assert.deepEqual(demoSnapshot.gatedResidentKeys, []);
+
+const archivePortrait = demoCatalog.registerQueuedAsset({
+  key: "titan-discovery-obsidian-sleeper",
+  path: "sprites/titans/21-obsidian-sleeper.png",
+});
+assert.ok(
+  archivePortrait,
+  "Titan archive UI must outrank broad Level Two tokens in portrait names",
+);
+assert.equal(archivePortrait.owner, RUNTIME_ASSET_LOADING.owners.featureTitanArchive);
+assert.equal(archivePortrait.capability, null);
+const residentGuideTexture = demoCatalog.registerQueuedAsset(
+  {
+    key: "tile-lava-dirt-hp1",
+    path: "sprites/tiles/second-world/lava-dirt/1-of-5-hp.webp",
+  },
+  {
+    owner: RUNTIME_ASSET_LOADING.owners.bootCore,
+    capability: null,
+    consumers: ["inventory-world-guide"],
+  },
+);
+assert.ok(residentGuideTexture, "resident field-guide art must bypass gameplay gating");
+assert.equal(residentGuideTexture.capability, null);
+assert.deepEqual(residentGuideTexture.consumers, ["inventory-world-guide"]);
+assert.equal(
+  demoCatalog.registerQueuedAsset({
+    key: "titan-surface-stance-obsidian-sleeper-v1",
+    path: "sprites/titans/21-obsidian-sleeper-surface-stance-v1.webp",
+  }),
+  null,
+  "the separate in-world Obsidian Sleeper stance must remain Level Two gated",
+);
 
 const reviewCatalog = new RuntimeAssetCatalog(reviewCapabilities);
 for (const [key] of gatedAssets) {

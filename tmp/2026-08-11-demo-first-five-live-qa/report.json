@@ -1,7 +1,7 @@
 {
   "schema": "demo-first-five-live-qa@1",
-  "generatedUtc": "2026-08-11T17:02:27.979Z",
-  "url": "http://127.0.0.1:8080/?jkd_e2e=1&recoveryQa=20260811-first-five",
+  "generatedUtc": "2026-08-21T01:10:02.049Z",
+  "url": "http://127.0.0.1:8093/?jkd_e2e=1&recoveryQa=20260821-feedback-branch-asset-fix",
   "selection": {
     "mode": "hardcore",
     "tutorialChoice": "yes",
@@ -12,7 +12,8 @@
       "choice": "yes",
       "stage": "move",
       "flightTrainingGranted": false,
-      "freeFlightRemainingMs": 0
+      "freeFlightRemainingMs": 0,
+      "freeTeleportPassesConsumed": []
     },
     "hardcore": {
       "version": 4,
@@ -24,7 +25,7 @@
       "exhausted": false,
       "stress": 0,
       "peakStress": 0,
-      "selectedAt": 1786467734386,
+      "selectedAt": 1787274582218,
       "armedAt": 0,
       "lastUnstuckAt": 0,
       "activePlayMs": 0,
@@ -35,16 +36,22 @@
     "barrier": {
       "active": true,
       "created": true,
-      "tileX": 66,
-      "tileCount": 3
+      "tileX": 18,
+      "tileCount": 57,
+      "surfaceTileCount": 20,
+      "starterRouteTileCount": 37
     },
     "hud": {
       "active": true,
       "visible": true,
+      "depth": 1970,
       "inventory": {
         "keyLabel": "I",
         "width": 93.99999999999999,
         "height": 93.99999999999999,
+        "keycapTextureKey": "ui-hud-approved-inventory-keycap-v1",
+        "keycapWidth": 25,
+        "keycapHeight": 25,
         "hitWidth": 102,
         "hitHeight": 102
       },
@@ -55,16 +62,23 @@
         "height": 36,
         "hitWidth": 164,
         "hitHeight": 44
+      },
+      "map": {
+        "active": true,
+        "label": "M  WORLD MAP",
+        "hitWidth": 164,
+        "hitHeight": 44
       }
     },
     "promiseHud": {
       "active": true,
       "visible": true,
-      "x": 16,
-      "y": 551,
+      "x": 14,
+      "y": 528.5,
       "width": 430,
-      "height": 85,
-      "textureKey": "opening-flight-v2-objective-hud-frame",
+      "height": 107.5,
+      "textureKey": "ui-hud-approved-tutorial-current-action-v1",
+      "badge": "GUIDE 1 / 7",
       "promise": "STEP 1  •  WALK TO THE MARKED GROUND",
       "detail": "A/D MOVE  •  NEXT: MINE YOUR FIRST BLOCK"
     },
@@ -154,10 +168,10 @@
           "frameName": null,
           "x": 1927,
           "y": 6098.1,
-          "width": 170.45425430944272,
+          "width": 170.791279070577,
           "height": 34,
           "depth": 11,
-          "alpha": 0.1987975621220634
+          "alpha": 0.19790543775435507
         },
         {
           "type": "Image",
@@ -176,17 +190,17 @@
         {
           "tx": 18,
           "ty": 62,
-          "type": 0
+          "type": 4
         },
         {
           "tx": 18,
           "ty": 63,
-          "type": 0
+          "type": 4
         },
         {
           "tx": 18,
           "ty": 64,
-          "type": 0
+          "type": 4
         },
         {
           "tx": 18,
@@ -356,5 +370,5 @@
     "[MemoryReliquaryWorldSystem] Omitted unsafe authored anchor deep-constellation"
   ],
   "errors": [],
-  "screenshot": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\tmp\\2026-08-11-demo-first-five-live-qa\\guided-opening-live.png"
+  "screenshot": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\tmp\\codex-feedback-master-implementation\\tmp\\2026-08-11-demo-first-five-live-qa\\guided-opening-live.png"
 }

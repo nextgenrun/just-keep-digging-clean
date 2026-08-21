@@ -7,6 +7,8 @@ const { chromium } = require(
   "C:/Users/Mila/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright",
 );
 const artifactDir = new URL("./artifacts/", import.meta.url);
+const baseUrl = process.argv.find((entry) => entry.startsWith("--base-url="))
+  ?.slice("--base-url=".length) || "http://localhost:8080";
 await mkdir(artifactDir, { recursive: true });
 
 const browser = await chromium.launch({
@@ -16,7 +18,7 @@ const browser = await chromium.launch({
 try {
   const page = await browser.newPage({ viewport: { width: 1280, height: 720 } });
   await page.goto(
-    "http://localhost:8080/testing/2026-08-15-celestial-actionbar-empty-visual-harness.html?v=20260815-empty-slots",
+    `${baseUrl}/testing/2026-08-15-celestial-actionbar-empty-visual-harness.html?v=20260821-feedback`,
     { waitUntil: "networkidle" },
   );
   await page.waitForFunction(() => document.body.dataset.celestialActionBarReady === "true");
