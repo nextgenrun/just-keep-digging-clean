@@ -8,6 +8,7 @@ import { buildHardcoreDeathPresentation } from
   "../../values/hardcoreDeathPresentation.js";
 import { HARDCORE_MEMORIAL_CONFIG } from "../../values/hardcoreMemorials.js";
 import { SCENE_BASE_PHASES } from "../../values/sceneRuntime.js";
+import { AUDIO_SEMANTIC_CUE_POLICY } from "../../values/audioConfig.js";
 import {
   createHardcoreDeathTransactionId,
   persistHardcoreDeathTransaction,
@@ -248,6 +249,28 @@ export function handleHardcoreGpChanged(scene, event = {}) {
   const current = Number.isFinite(event.current)
     ? event.current
     : scene.playerController?.getGemPowerExact?.() || 0;
+  const maximum = Math.max(
+    1,
+    Number(scene.playerController?.getGemPowerMax?.()) || 1,
+  );
+  const ratio = current / maximum;
+  const lowGpPolicy = AUDIO_SEMANTIC_CUE_POLICY.lowGemPower;
+  const enterRatio = lowGpPolicy.hysteresis.enterRatio;
+  const exitRatio = lowGpPolicy.hysteresis.exitRatio;
+  if (ratio >= exitRatio) runtime.lowGpCueActive = false;
+  if (
+    current > runtime.config.death.zeroGpEpsilon
+    && ratio <= enterRatio
+    && runtime.lowGpCueActive !== true
+  ) {
+    runtime.lowGpCueActive = true;
+    const cue = scene.soundSystem?.playSemanticCue?.("lowGemPower");
+    runtime.flash?.(
+      cue?.caption || lowGpPolicy.caption,
+      runtime.config.feedback.dangerColor,
+      runtime.config.feedback.dangerFlashMs,
+    );
+  }
   if (!isHardcoreModeArmed(runtime.system.state)) return;
 
   if (current > 1) {

@@ -62,11 +62,12 @@ function processSystemEvents(scene) {
   if (!runtime) return;
   for (const event of runtime.system.drainEvents()) {
     if (event.type !== "stress-band") continue;
-    scene.soundSystem?.playSeismicWarning?.(event.band === "critical" ? 1 : 0.55);
-    if (event.band !== "critical") continue;
+    scene.soundSystem?.playHardcoreStressWarning?.(event.band);
     flash(
       scene,
-      runtime.config.feedback.stressCriticalText,
+      event.band === "critical"
+        ? runtime.config.feedback.stressCriticalText
+        : runtime.config.feedback.stressWarningText,
       runtime.config.feedback.dangerColor,
       runtime.config.feedback.dangerFlashMs,
     );
@@ -218,6 +219,7 @@ export function createHardcoreModeRuntime(scene) {
     hud: new HardcoreStatusHud(scene, config),
     modal: createModal(scene, config),
     oneGpWarned: false,
+    lowGpCueActive: false,
     lastPersistedStress: system.state.stress,
     lastStressPersistAt: 0,
     lastCheckpointAt: scene.time?.now || 0,

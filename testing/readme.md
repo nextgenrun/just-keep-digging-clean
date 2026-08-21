@@ -1134,6 +1134,11 @@ layouts automatically focus one readable branch, wide layouts retain the full
 overview, branch selectors reuse authored chrome, connector geometry follows
 the visible topology, and the dossier compares current state with the exact
 configured effect without changing progression or purchase authority.
+`2026-08-21-semantic-audio-safety-contract.mjs` prevents urgent gameplay states
+from borrowing misleading audio: Hardcore stress and near-death cannot reuse
+seismic warnings, low-GP alerts use threshold hysteresis, portal transitions
+own distinct semantic slots, and every unauditioned slot remains silent while
+returning actionable caption metadata until a human approves matching assets.
 `2026-08-15-celestial-talent-tree-polish-browser-check.mjs` opens the production
 Celestial tree harness at wide and compact sizes, proves the three-lock
 pre-level gate, exercises a near-edge mouse target, and captures the rebuilt

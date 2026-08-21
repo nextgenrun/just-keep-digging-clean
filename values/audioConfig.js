@@ -64,6 +64,53 @@ export const APPROVED_SFX_FAMILIES = Object.freeze({
   ]),
 });
 
+function pendingSemanticCue(caption, priority, cooldownMs, hysteresis = null) {
+  return Object.freeze({
+    caption,
+    priority,
+    cooldownMs,
+    hysteresis,
+    approvedFamily: null,
+    approvalStatus: "awaiting-human-audition",
+  });
+}
+
+// Semantic event slots are deliberately separate from the currently approved
+// seismic and rare-discovery libraries. A slot remains caption-only until a
+// human-auditioned family is assigned; callers still receive caption metadata,
+// and runtime code must never substitute a misleading sound merely because an
+// urgent cue is unavailable.
+export const AUDIO_SEMANTIC_CUE_POLICY = Object.freeze({
+  hardcoreStressWarning: pendingSemanticCue(
+    "Stress rising - find light and slow your descent.",
+    60,
+    9000,
+    Object.freeze({ enter: 55, exit: 48 }),
+  ),
+  hardcoreStressCritical: pendingSemanticCue(
+    "Critical stress - panic is draining Gem Power.",
+    80,
+    9000,
+    Object.freeze({ enter: 80, exit: 70 }),
+  ),
+  hardcoreNearDeath: pendingSemanticCue(
+    "Gem Power near zero - recover now.",
+    100,
+    7000,
+    Object.freeze({ enter: 8, exit: 12 }),
+  ),
+  lowGemPower: pendingSemanticCue(
+    "Gem Power low.",
+    70,
+    8000,
+    Object.freeze({ enterRatio: 0.2, exitRatio: 0.3 }),
+  ),
+  portalStart: pendingSemanticCue("Portal route opening.", 50, 800),
+  portalLoop: pendingSemanticCue("Portal route active.", 30, 4000),
+  portalArrival: pendingSemanticCue("Portal arrival complete.", 55, 800),
+  levelReward: pendingSemanticCue("Level reward earned.", 45, 900),
+});
+
 const RUNTIME_AUDIO_ENABLE_VALUES = Object.freeze(["1", "on", "true"]);
 const RUNTIME_AUDIO_DISABLE_VALUES = Object.freeze(["0", "off", "false"]);
 

@@ -777,6 +777,7 @@ export class SpecialTileSystem {
       return { success: false, reason: "hardcore-teleport-cost", cost: payment.cost };
     }
 
+    this.scene.soundSystem?.playSemanticCue?.("portalStart");
     this.playerController.teleportToTile(target.tx, target.ty);
     this.scene.retentionProgressSystem?.recordReturnRoute?.({
       kind: RETURN_ROUTE_KINDS.PORTAL_ASCENT,
@@ -836,6 +837,7 @@ export class SpecialTileSystem {
       return { success: false, reason: "hardcore-teleport-cost", cost: payment.cost };
     }
 
+    this.scene.soundSystem?.playSemanticCue?.("portalStart");
     this.playerController.teleportToTile(target.tx, target.ty);
     this.scene.retentionProgressSystem?.recordReturnRoute?.({
       kind: RETURN_ROUTE_KINDS.GROUND_TO_SKY,
@@ -894,6 +896,7 @@ export class SpecialTileSystem {
       return { success: false, reason: "hardcore-teleport-cost", cost: payment.cost };
     }
 
+    this.scene.soundSystem?.playSemanticCue?.("portalStart");
     this.playerController.teleportToTile(target.tx, target.ty);
     this.scene.retentionProgressSystem?.recordReturnRoute?.({
       kind: options.kind === "quickResume"
@@ -1036,6 +1039,7 @@ export class SpecialTileSystem {
     if (!this.scene.soundSystem) return;
     switch (type) {
       case "teleport":
+        this.scene.soundSystem.playSemanticCue?.("portalArrival");
         break;
       case "gamble-win":
         this.scene.soundSystem.playSfx("reward");

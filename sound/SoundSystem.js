@@ -2,6 +2,7 @@ import { ASSET_KEYS } from "../values/assetKeys.js";
 import {
   APPROVED_SFX_FAMILIES,
   AUDIO_CONFIG,
+  AUDIO_SEMANTIC_CUE_POLICY,
 } from "../values/audioConfig.js";
 import { SoundLibraryManager } from "./SoundLibraryManager.js";
 import { VoiceLineManager } from "./VoiceLineManager.js";
@@ -27,6 +28,7 @@ export class SoundSystem {
     this.lastFootstepTime = 0;
     this.lastUiSelectTime = -Infinity;
     this.activeSeismicWarning = null;
+    this.semanticCueHistory = new Map();
 
     this.voiceLineTimer = null;
     this.lastVoiceLineTime = 0;
@@ -308,17 +310,61 @@ export class SoundSystem {
   }
 
   playHardcoreNearDeath() {
-    this.stopSeismicWarning();
-    const sound = this.playFirstAvailableSfx(
-      ["sfx-seismic-warning-1", "sfx-seismic-warning-0"],
-      this.config.hardcoreNearDeathVolume,
-      { rate: this.config.hardcoreNearDeathRate },
+    return this.playSemanticCue("hardcoreNearDeath");
+  }
+
+  playHardcoreStressWarning(band = "warning") {
+    return this.playSemanticCue(
+      band === "critical" ? "hardcoreStressCritical" : "hardcoreStressWarning",
     );
-    this.activeSeismicWarning = sound;
-    sound?.once?.("complete", () => {
-      if (this.activeSeismicWarning === sound) this.activeSeismicWarning = null;
+  }
+
+  playSemanticCue(cueId, options = {}) {
+    const policy = AUDIO_SEMANTIC_CUE_POLICY[cueId];
+    if (!policy) return Object.freeze({ played: false, reason: "unknown-cue", cueId });
+    const now = Number(options.nowMs ?? this.scene.time?.now) || 0;
+    const lastAt = this.semanticCueHistory.get(cueId) ?? -Infinity;
+    if (now - lastAt < policy.cooldownMs) {
+      return Object.freeze({
+        played: false,
+        reason: "cooldown",
+        cueId,
+        caption: policy.caption,
+        priority: policy.priority,
+      });
+    }
+    this.semanticCueHistory.set(cueId, now);
+    if (!policy.approvedFamily) {
+      return Object.freeze({
+        played: false,
+        reason: policy.approvalStatus,
+        cueId,
+        caption: policy.caption,
+        priority: policy.priority,
+      });
+    }
+    const sound = this.playApprovedSfxFamily(
+      policy.approvedFamily,
+      Number.isFinite(options.volumeMultiplier) ? options.volumeMultiplier : 1,
+      options,
+    );
+    return Object.freeze({
+      played: Boolean(sound),
+      reason: sound ? "played" : "approved-family-unavailable",
+      cueId,
+      caption: policy.caption,
+      priority: policy.priority,
+      sound,
     });
-    return sound;
+  }
+
+  getSemanticCueSnapshot() {
+    return Object.freeze({
+      pendingAuditionCueIds: Object.entries(AUDIO_SEMANTIC_CUE_POLICY)
+        .filter(([, policy]) => !policy.approvedFamily)
+        .map(([cueId]) => cueId),
+      lastCueAtById: Object.freeze(Object.fromEntries(this.semanticCueHistory)),
+    });
   }
 
   stopSeismicWarning() {
