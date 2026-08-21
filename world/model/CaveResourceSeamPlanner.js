@@ -150,6 +150,9 @@ export function applyCaveResourceSeams(
       tileType,
       caveId: zone.id,
       source: config.source,
+      yieldMultiplier: config.reward.multiplier,
+      minimumYieldBonusUnits: config.reward.minimumBonusUnits,
+      rewardReason: config.reward.reason,
     });
   });
   return zone.resourceSeams;

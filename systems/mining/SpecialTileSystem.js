@@ -14,6 +14,7 @@ import { USER_SETTINGS } from "../UserSettings.js";
 import { createZeroResourceTotals } from "../../values/resourceTypes.js";
 import { GAMBLE_TILE_CONFIG } from "../../values/gambleTileConfig.js";
 import { isGameplayLevelEnabled } from "../../values/gameplayDevFlags.js";
+import { RETURN_ROUTE_KINDS } from "../../values/returnRouteTelemetry.js";
 
 export class SpecialTileSystem {
   constructor(scene, worldModel, playerController, floatingTextSystem) {
@@ -777,6 +778,18 @@ export class SpecialTileSystem {
     }
 
     this.playerController.teleportToTile(target.tx, target.ty);
+    this.scene.retentionProgressSystem?.recordReturnRoute?.({
+      kind: RETURN_ROUTE_KINDS.PORTAL_ASCENT,
+      fromDepth: depth,
+      toDepth: 0,
+      cost: payment.cost || 0,
+      distanceTiles: depth,
+    });
+    if (payment.cost > 0) {
+      this.scene.retentionProgressSystem?.recordExpeditionCost?.({
+        returnCost: payment.cost,
+      });
+    }
     this.scene.earthquakeFeedbackUI?.clearEscapeObjective?.();
     this.scene.earthquakeHazardOverlay?.clear?.();
     this._playSound("teleport");
@@ -824,6 +837,12 @@ export class SpecialTileSystem {
     }
 
     this.playerController.teleportToTile(target.tx, target.ty);
+    this.scene.retentionProgressSystem?.recordReturnRoute?.({
+      kind: RETURN_ROUTE_KINDS.GROUND_TO_SKY,
+      fromDepth: 0,
+      toDepth: 0,
+      cost: payment.cost || 0,
+    });
     this.scene.earthquakeFeedbackUI?.clearEscapeObjective?.();
     this.scene.earthquakeHazardOverlay?.clear?.();
     this._playSound("teleport");
@@ -876,6 +895,15 @@ export class SpecialTileSystem {
     }
 
     this.playerController.teleportToTile(target.tx, target.ty);
+    this.scene.retentionProgressSystem?.recordReturnRoute?.({
+      kind: options.kind === "quickResume"
+        ? RETURN_ROUTE_KINDS.QUICK_RESUME
+        : RETURN_ROUTE_KINDS.PORTAL_DESCENT,
+      fromDepth: 0,
+      toDepth: depth,
+      cost: payment.cost || 0,
+      distanceTiles: depth,
+    });
     this.scene.earthquakeFeedbackUI?.clearEscapeObjective?.();
     this._playSound("teleport");
     if (options.kind === "skyToDungeon") {

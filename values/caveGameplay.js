@@ -21,6 +21,11 @@ export const CAVE_GAMEPLAY_CONFIG = Object.freeze({
     minimumFormationSeparationTiles: 5,
     preserveCenterTravelLane: true,
     archetypeBiasWeight: 4,
+    reward: Object.freeze({
+      multiplier: 1.5,
+      minimumBonusUnits: 1,
+      reason: "authored-cave-risk-premium",
+    }),
     depthPools: Object.freeze([
       Object.freeze({
         maxDepthExclusive: 80,

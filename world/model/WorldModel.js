@@ -105,6 +105,7 @@ export class WorldModel {
     this.glowCrystalZones = [];
     this.caveLightZones = [];
     this.caveResourceSeams = [];
+    this.caveResourceSeamByCell = new Map();
     this.caveHazardZones = [];
     this.rng = new SeededRandom(config.seed || 133742);
     this.tileDamageGuard = null;
@@ -169,6 +170,11 @@ export class WorldModel {
     return { type, hp, solid: type !== TILE_TYPES.AIR, diggable: DIGGABLE_TYPES.has(type) };
   }
 
+  getCaveResourceSeam(tileX, tileY) {
+    const seam = this.caveResourceSeamByCell?.get(makeTileKey(tileX, tileY)) || null;
+    return seam && this.getType(tileX, tileY) === seam.tileType ? seam : null;
+  }
+
   get widthPx() { return this.widthTiles * this.tileSize; }
   get depthPx() { return this.depthTiles * this.tileSize; }
 
@@ -217,6 +223,7 @@ export class WorldModel {
     this.glowCrystalZones = [];
     this.caveLightZones = [];
     this.caveResourceSeams = [];
+    this.caveResourceSeamByCell = new Map();
     this.caveHazardZones = [];
     this.rng = new SeededRandom(this.config.seed || 133742);
 

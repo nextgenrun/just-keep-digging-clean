@@ -8,6 +8,10 @@ import { TITAN_DEFINITIONS } from "../../values/titanDiscoveries.js";
 import { TREASURE_CHEST_CONFIG } from "../../values/treasureChestConfig.js";
 import { RESOURCE_PRICES_CONFIG } from "../../values/resourcePrices.js";
 import {
+  RETURN_ROUTE_TELEMETRY_CONFIG,
+  sanitizeReturnRouteEvent,
+} from "../../values/returnRouteTelemetry.js";
+import {
   createRetentionExpedition,
   createRetentionObjective,
   finiteRetentionInt,
@@ -376,6 +380,19 @@ export class RetentionProgressSystem {
     );
     if (Number(failureLoss) > 0) this.expedition.failed = true;
     return sanitizeRetentionExpedition(this.expedition);
+  }
+
+  recordReturnRoute(detail = {}) {
+    const event = sanitizeReturnRouteEvent({
+      ...detail,
+      atActiveMs: this.expedition.activeMs,
+    });
+    if (!event) return null;
+    this.expedition.returnRouteCounts[event.kind] += 1;
+    this.expedition.returnRouteEvents.push(event);
+    this.expedition.returnRouteEvents = this.expedition.returnRouteEvents
+      .slice(-RETURN_ROUTE_TELEMETRY_CONFIG.eventLimit);
+    return { ...event };
   }
 
   recordUpgrade(upgradeName, preview = null) {

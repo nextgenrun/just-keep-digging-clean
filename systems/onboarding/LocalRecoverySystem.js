@@ -1,5 +1,6 @@
 import { FIRST_SESSION_SAFETY_CONFIG } from "../../values/firstSessionSafety.js";
 import { TILE_TYPES } from "../../values/tileTypes.js";
+import { RETURN_ROUTE_KINDS } from "../../values/returnRouteTelemetry.js";
 
 const TOWN_FLOOR_TYPES = new Set([
   TILE_TYPES.FLOOR_TOWN_1,
@@ -60,6 +61,16 @@ export class LocalRecoverySystem {
       return this.lastResult;
     }
     this.lastUsedAt = this.scene.time?.now || 0;
+    const surfaceRow = Number.isInteger(this.scene.config?.topAirRows)
+      ? this.scene.config.topAirRows
+      : admission.destination.ty + 1;
+    this.scene.retentionProgressSystem?.recordReturnRoute?.({
+      kind: RETURN_ROUTE_KINDS.LOCAL_RECOVERY,
+      fromDepth: Math.max(0, admission.source.ty - surfaceRow),
+      toDepth: 0,
+      distanceTiles: Math.abs(admission.source.tx - admission.destination.tx)
+        + Math.abs(admission.source.ty - admission.destination.ty),
+    });
     this.scene.retentionProgressSystem?.recordFirstSessionAssist?.(
       "local-recovery",
       "recover",

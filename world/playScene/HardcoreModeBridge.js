@@ -24,6 +24,8 @@ import {
   isGameplayFeatureEnabled,
 } from "../../values/gameplayDevFlags.js";
 import { TILE_TYPES } from "../../values/tileTypes.js";
+import { getCargoSellValue } from "../../values/resourcePrices.js";
+import { RETURN_ROUTE_KINDS } from "../../values/returnRouteTelemetry.js";
 
 function isFlightUnlocked(scene) {
   return scene.upgradeSystem?.isGemPowerUnlocked?.() === true;
@@ -114,16 +116,29 @@ function requestUnstuck(scene) {
       }
       const resources = scene.digSystem?.getResourceTotals?.() || {};
       const remaining = {};
+      const lost = {};
       for (const [resource, rawAmount] of Object.entries(resources)) {
         const amount = Math.max(0, Math.floor(Number(rawAmount) || 0));
         const nextAmount = Math.floor(
           amount * (1 - runtime.config.unstuck.resourceLossRatio),
         );
         remaining[resource] = nextAmount;
+        lost[resource] = amount - nextAmount;
       }
+      const cargoLossUnits = Object.values(lost).reduce((sum, amount) => sum + amount, 0);
+      const failureLoss = getCargoSellValue(lost);
+      const fromDepth = Math.max(0, Math.floor(getDepth(scene)));
       scene.digSystem?.setResourceTotals?.(remaining);
       scene.uiResourceBar?.setResources?.(scene.digSystem?.getResourceTotals?.() || remaining);
       runtime.system.recordUnstuck();
+      scene.retentionProgressSystem?.recordReturnRoute?.({
+        kind: RETURN_ROUTE_KINDS.ABANDON,
+        fromDepth,
+        toDepth: 0,
+        distanceTiles: fromDepth,
+        cargoLossUnits,
+      });
+      scene.retentionProgressSystem?.recordExpeditionCost?.({ failureLoss });
       syncSceneModeData(scene);
       scene._resetPlayerToSpawn?.();
       scene.earthquakeFeedbackUI?.clearEscapeObjective?.();

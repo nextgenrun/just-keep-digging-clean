@@ -5,6 +5,11 @@ import {
 } from "../../values/retentionConfig.js";
 import { sanitizeTitanDiscoveryIds } from "../../values/titanDiscoveries.js";
 import { sanitizeFirstSessionRouteState } from "./firstSessionRouteState.js";
+import {
+  createReturnRouteCounts,
+  sanitizeReturnRouteCounts,
+  sanitizeReturnRouteEvents,
+} from "../../values/returnRouteTelemetry.js";
 
 const TUTORIAL_STAGES = RETENTION_CONFIG.tutorial.stages;
 
@@ -68,6 +73,8 @@ export function createRetentionExpedition() {
     failureLoss: 0,
     failed: false,
     lastGemPower: null,
+    returnRouteCounts: createReturnRouteCounts(),
+    returnRouteEvents: [],
   };
 }
 
@@ -106,6 +113,8 @@ export function sanitizeRetentionExpedition(value) {
     returnCost,
     failureLoss,
     failed: value.failed === true,
+    returnRouteCounts: sanitizeReturnRouteCounts(value.returnRouteCounts),
+    returnRouteEvents: sanitizeReturnRouteEvents(value.returnRouteEvents),
     netValue,
     netValuePerActiveMinute: activeMs > 0
       ? Math.round((netValue * 60000 / activeMs) * 100000) / 100000

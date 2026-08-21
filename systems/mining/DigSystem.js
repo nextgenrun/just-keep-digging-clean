@@ -142,6 +142,18 @@ export class DigSystem {
     return capFinalResourceYield(value, this._isDepthEconomyEnabled());
   }
 
+  _applyCaveSeamYield(value, tileX, tileY) {
+    const baseYield = Math.max(0, Math.floor(Number(value) || 0));
+    const seam = this.worldModel.getCaveResourceSeam?.(tileX, tileY);
+    if (!seam) return baseYield;
+    const multiplier = Math.max(1, Number(seam.yieldMultiplier) || 1);
+    const minimumBonus = Math.max(0, Math.floor(seam.minimumYieldBonusUnits || 0));
+    return Math.max(
+      baseYield + minimumBonus,
+      Math.ceil(baseYield * multiplier),
+    );
+  }
+
   getDepthEconomyHealthSnapshot() {
     const enabled = this._isDepthEconomyEnabled();
     const configHealth = getResourceEconomyConfigHealth();
@@ -773,7 +785,11 @@ export class DigSystem {
           );
           rarityId = rarity.id;
           rarityMultiplier = rarity.multiplier;
-          resourceAmount = this._getNativeYield(rewardTileType, targetTile.tx, targetTile.ty);
+          resourceAmount = this._applyCaveSeamYield(
+            this._getNativeYield(rewardTileType, targetTile.tx, targetTile.ty),
+            targetTile.tx,
+            targetTile.ty,
+          );
 
           if (isSkyTileBonus) {
             const skyReward = this._getSkyTileRewardMultiplier(skyTileRarity, resourceType);
@@ -1026,7 +1042,11 @@ export class DigSystem {
       result.rarityId = rarity.id;
       result.rarityMultiplier = rarity.multiplier;
       result.resourceType = resourceType;
-      result.resourceAmount = this._getNativeYield(rewardTileType, tx, ty) * skyMultiplier;
+      result.resourceAmount = this._applyCaveSeamYield(
+        this._getNativeYield(rewardTileType, tx, ty) * skyMultiplier,
+        tx,
+        ty,
+      );
       if (this._rollLuckyDrop()) {
         result.resourceAmount += 1;
         result.isLuckyDrop = true;

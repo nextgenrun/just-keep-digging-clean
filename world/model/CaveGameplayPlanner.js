@@ -16,6 +16,7 @@ export function finalizeCaveGameplay(worldModel, gameplayConfig = CAVE_GAMEPLAY_
     }
   }
   worldModel.caveResourceSeams = [...seamByCell.values()];
+  worldModel.caveResourceSeamByCell = seamByCell;
   for (const zone of worldModel.caveZones || []) {
     zone.resourceSeams = (zone.resourceSeams || []).filter(seam => (
       seamByCell.get(`${seam.tx},${seam.ty}`) === seam
