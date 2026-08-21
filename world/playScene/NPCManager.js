@@ -8,6 +8,7 @@ import { ARC_CORE_CONFIG } from "../../values/arcCoreConfig.js";
 import {
   NPC_ACTIVITY_CONFIG,
   resolveNpcGroundContact,
+  resolveNpcPromptY,
 } from "../../values/npcActivityConfig.js";
 import { TOWN_SQUARE_CONFIG } from "../../values/townSquareConfig.js";
 import {
@@ -156,7 +157,11 @@ export class NPCManager {
       // Create "Press E" interact prompt above each NPC (hidden by default)
       const promptText = this.scene.add.text(
         pos.x,
-        pos.y - spriteSize - NPC_ACTIVITY_CONFIG.render.promptGapPx,
+        resolveNpcPromptY(
+          groundSurfaceY,
+          spriteSize,
+          NPC_ACTIVITY_CONFIG.render,
+        ),
         `[${USER_SETTINGS.getKeyLabel("interact")}] ${this._merchantNames[npc.merchantId] || 'Shop'}`, {
           fontFamily: 'Consolas, monospace',
           fontSize: '14px',

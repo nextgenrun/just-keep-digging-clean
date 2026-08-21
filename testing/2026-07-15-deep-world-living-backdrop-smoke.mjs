@@ -42,6 +42,7 @@ function makeScene() {
   const view = { x: 132 * 94, y: 2065 * 94, width: 14 * 94, height: 10 * 94 };
   const scene = {
     config: { tileSize: 94 },
+    gameplayCapabilities: { isEnabled: () => true },
     time: { now: 0 },
     game: { loop: { actualFps: 60 } },
     worldBackgroundMasterSystem: { enabled: true, depthEnabled: true },

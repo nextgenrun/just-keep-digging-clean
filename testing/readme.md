@@ -1139,6 +1139,14 @@ from borrowing misleading audio: Hardcore stress and near-death cannot reuse
 seismic warnings, low-GP alerts use threshold hysteresis, portal transitions
 own distinct semantic slots, and every unauditioned slot remains silent while
 returning actionable caption metadata until a human approves matching assets.
+`2026-08-21-merchant-prompt-anchor-contract.mjs` pins merchant interaction copy
+to a measured ground-relative anchor, keeps compact legacy NPCs within their
+existing safe offset, and verifies that the shared play-scene NPC manager uses
+the resolver instead of positioning prompts from the top of the canvas.
+`2026-07-15-deep-world-living-backdrop-smoke.mjs` now supplies the scene's
+injected gameplay capability authority and proves the backdrop honors it. This
+keeps focused Level Two tests deterministic without weakening the production
+demo-profile gate.
 `2026-08-15-celestial-talent-tree-polish-browser-check.mjs` opens the production
 Celestial tree harness at wide and compact sizes, proves the three-lock
 pre-level gate, exercises a near-edge mouse target, and captures the rebuilt

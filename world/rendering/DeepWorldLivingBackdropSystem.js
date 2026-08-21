@@ -43,7 +43,10 @@ export class DeepWorldLivingBackdropSystem {
   }
 
   create() {
-    if (!isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.LEVEL_TWO)) return false;
+    if (!isGameplayFeatureEnabled(
+      GAMEPLAY_FEATURE_IDS.LEVEL_TWO,
+      this.scene.gameplayCapabilities,
+    )) return false;
     if (!resolveDeepWorldLivingBackdropEnabled(this.config)) {
       console.info("[DeepWorldLivingBackdropSystem] Disabled; use ?deepWorldLiving=1 to enable");
       return false;

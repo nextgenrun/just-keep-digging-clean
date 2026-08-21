@@ -10,6 +10,7 @@ import {
   resolveTileDestructionTint,
 } from "../values/tileDestructionFx.js";
 import { TILE_TYPES } from "../values/tileTypes.js";
+import { GEODE_RETIREMENT_CONFIG } from "../values/geodeRetirement.js";
 import {
   PLAYER_GROUND_FOOTSTEP_FX_CONFIG,
   resolvePlayerGroundFootstepFxEnabled,
@@ -186,7 +187,8 @@ assert.equal(resolvePlayerGroundFootstepFxEnabled("?groundFootFx=0"), false);
 assert.equal(resolvePlayerGroundFootstepFxEnabled("?groundFootFx=1"), true);
 
 const materialTiles = Object.entries(TILE_TYPES)
-  .filter(([name]) => name !== "AIR");
+  .filter(([name, tileType]) => name !== "AIR"
+    && !GEODE_RETIREMENT_CONFIG.legacyTileTypes.includes(tileType));
 const materialIdentities = materialTiles.map(([name, tileType]) => {
   assert.equal(
     Object.prototype.hasOwnProperty.call(TILE_DESTRUCTION_FX_CONFIG.familyByTile, tileType),
@@ -202,7 +204,7 @@ const materialIdentities = materialTiles.map(([name, tileType]) => {
   assert.equal(Number.isInteger(TILE_DESTRUCTION_FX_CONFIG.families[family]), true);
   return `${family}:${resolveTileDestructionTint(tileType).toString(16)}`;
 });
-assert.equal(materialTiles.length, 33);
+assert.equal(materialTiles.length, 31);
 assert.equal(
   new Set(materialIdentities).size,
   materialIdentities.length,

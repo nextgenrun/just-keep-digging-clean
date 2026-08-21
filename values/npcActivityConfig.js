@@ -133,6 +133,10 @@ export const NPC_ACTIVITY_CONFIG = Object.freeze({
     groundContactSinkPx: 1.5,
     defaultGroundOffsetPx: 10,
     promptGapPx: 20,
+    // Anchor prompt copy to the shared platform, not the top of differently
+    // shaped 1.55x merchant canvases. This keeps interaction guidance near the
+    // merchant without covering the planted feet or focal face.
+    promptGroundOffsetPx: 112,
     crossfadeInMs: 1400,
     crossfadeOutMs: 1650,
     visibleAlphaThreshold: 0.005,
@@ -171,6 +175,22 @@ export const NPC_ACTIVITY_CONFIG = Object.freeze({
   }),
   merchants: MERCHANTS,
 });
+
+export function resolveNpcPromptY(
+  groundSurfaceY,
+  spriteSize,
+  render = NPC_ACTIVITY_CONFIG.render,
+) {
+  const groundY = Number(groundSurfaceY) || 0;
+  const legacyOffset = Math.max(0, Number(spriteSize) || 0)
+    + Math.max(0, Number(render.promptGapPx) || 0);
+  const groundOffset = Number(render.promptGroundOffsetPx);
+  return groundY - (
+    Number.isFinite(groundOffset) && groundOffset > 0
+      ? Math.min(legacyOffset, groundOffset)
+      : legacyOffset
+  );
+}
 
 export function resolveNpcGroundContact(
   merchantId,
