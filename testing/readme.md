@@ -1129,6 +1129,11 @@ native-cadence GIF, and confirms both V4 scales remain production-isolated.
 ten-stage SIDE and Uppercut-only UP families, byte-exact green-free sheets,
 101 px scale, single-contact authority, current cadence, cave/main-world wiring,
 and the `?complexDig=0` plus Ctrl+Alt+9 legacy rollback paths.
+`2026-08-21-celestial-branch-focus-contract.mjs` proves compact Celestial talent
+layouts automatically focus one readable branch, wide layouts retain the full
+overview, branch selectors reuse authored chrome, connector geometry follows
+the visible topology, and the dossier compares current state with the exact
+configured effect without changing progression or purchase authority.
 `2026-08-15-celestial-talent-tree-polish-browser-check.mjs` opens the production
 Celestial tree harness at wide and compact sizes, proves the three-lock
 pre-level gate, exercises a near-edge mouse target, and captures the rebuilt

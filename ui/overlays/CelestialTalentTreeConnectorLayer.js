@@ -59,7 +59,27 @@ export class CelestialTalentTreeConnectorLayer {
   refresh(nodesById) {
     const presentation = CELESTIAL_TALENT_TREE_UI_CONFIG.presentation;
     this.items.forEach(item => {
-      const destination = nodesById.get(item.destinationId)?.snapshot;
+      const sourceView = nodesById.get(item.sourceId);
+      const destinationView = nodesById.get(item.destinationId);
+      const destination = destinationView?.snapshot;
+      const visible = Boolean(
+        sourceView?.root
+          && destinationView?.root
+          && sourceView.root.visible !== false
+          && destinationView.root.visible !== false,
+      );
+      item.image.setVisible(visible);
+      if (visible) {
+        const dx = destinationView.root.x - sourceView.root.x;
+        const dy = destinationView.root.y - sourceView.root.y;
+        item.image.setPosition(
+          sourceView.root.x + dx / 2,
+          sourceView.root.y + dy / 2,
+        ).setDisplaySize(
+          Math.max(1, Math.hypot(dx, dy)),
+          CELESTIAL_TALENT_TREE_UI_CONFIG.layout.connectorThicknessPx,
+        ).setRotation(Math.atan2(dy, dx));
+      }
       const alpha = destination?.purchased
         ? presentation.connectorOwnedAlpha
         : destination?.available

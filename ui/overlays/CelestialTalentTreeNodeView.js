@@ -8,6 +8,8 @@ export class CelestialTalentTreeNodeView {
     this.scene = scene;
     this.node = node;
     this.callbacks = callbacks;
+    this.baseScale = 1;
+    this.selected = false;
     const { assets, layout, presentation } = CELESTIAL_TALENT_TREE_UI_CONFIG;
     const size = layout.nodeSizeByKindPx[node.kind]
       || layout.nodeSizeByKindPx.upgrade;
@@ -104,7 +106,24 @@ export class CelestialTalentTreeNodeView {
       : purchased
         ? presentation.purchasedHaloAlpha
         : 0);
-    this.root.setScale(selected ? presentation.selectedScale : 1);
+    this.selected = selected;
+    this._applyScale();
+  }
+
+  _applyScale() {
+    const selectedScale = this.selected
+      ? CELESTIAL_TALENT_TREE_UI_CONFIG.presentation.selectedScale
+      : 1;
+    this.root.setScale(this.baseScale * selectedScale);
+  }
+
+  setFocusScale(scale = 1) {
+    this.baseScale = Math.max(0.5, Number(scale) || 1);
+    this._applyScale();
+  }
+
+  setBranchVisibility(visible) {
+    this.root.setVisible(visible === true);
   }
 
   setCompactStatus(compact) {

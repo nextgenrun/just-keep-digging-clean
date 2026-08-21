@@ -108,6 +108,12 @@ export const CELESTIAL_TALENT_TREE_UI_CONFIG = Object.freeze({
     viewportInsetPx: 8,
     // Runtime graph centers; the V2 foundation intentionally bakes no sockets.
     branchCenterXFractions: Object.freeze([0.194, 0.5, 0.804]),
+    focusedBranchCenterXFraction: 0.5,
+    focusedLaneStepXFraction: 0.105,
+    focusedNodeScale: 1.28,
+    branchFocusScaleThreshold: 0.72,
+    branchTabWidthPx: 254,
+    branchTabHeightPx: 58,
     // Bottom root, lower tier, middle tier, apex. Runtime owns the topology.
     // Keeping the root above the dossier prevents panel collision.
     rowYFractions: Object.freeze([0.695, 0.552, 0.455, 0.235]),
@@ -189,6 +195,8 @@ export const CELESTIAL_TALENT_TREE_UI_CONFIG = Object.freeze({
     connectorLockedAlpha: 0.18,
     connectorReadyAlpha: 0.72,
     connectorOwnedAlpha: 0.95,
+    branchTabIdleAlpha: 0.46,
+    branchTabFocusedAlpha: 0.92,
     branchAccents: Object.freeze([0xe0a843, 0xa96dff, 0x65d8f2]),
   }),
   copy: Object.freeze({
@@ -200,6 +208,9 @@ export const CELESTIAL_TALENT_TREE_UI_CONFIG = Object.freeze({
     nodeLocked: "0/1",
     free: "FREE",
     inspect: "Hover a node to inspect its effect and exact unlock condition.",
+    branchFocusHint: "SELECT A BRANCH  -  ESC RETURNS TO ALL BRANCHES",
+    comparisonCurrent: "CURRENT",
+    comparisonAfter: "AFTER UNLOCK",
     talentsLocked: "Requires Player Level 20.",
     rootChoiceLocked: "Complete an apex path in your current Engine to unlock another root ability.",
     prerequisiteLocked: "Requires an earlier node on this path.",
@@ -235,6 +246,28 @@ export function getCelestialTalentNodePosition(branchIndex, node) {
       ? layout.bridgeRowYFraction
       : layout.rowYFractions[node.row],
   });
+}
+
+export function getCelestialTalentFocusedNodePosition(node) {
+  const layout = CELESTIAL_TALENT_TREE_UI_CONFIG.layout;
+  return Object.freeze({
+    xFraction: layout.focusedBranchCenterXFraction
+      + node.lane * layout.focusedLaneStepXFraction,
+    yFraction: node.displayRole === "bridge"
+      ? layout.bridgeRowYFraction
+      : layout.rowYFractions[node.row],
+  });
+}
+
+export function describeCelestialTalentComparison(node, nodeSnapshot) {
+  const copy = CELESTIAL_TALENT_TREE_UI_CONFIG.copy;
+  if (!node || !nodeSnapshot) return copy.inspect;
+  if (nodeSnapshot.purchased) {
+    return `${copy.comparisonCurrent}: ACTIVE - ${node.description}\n`
+      + `${copy.comparisonAfter}: ALREADY MASTERED`;
+  }
+  return `${copy.comparisonCurrent}: INACTIVE\n`
+    + `${copy.comparisonAfter}: ${node.description}`;
 }
 
 export function describeCelestialTalentAvailability(nodeSnapshot) {

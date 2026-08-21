@@ -4,6 +4,8 @@ import {
   CELESTIAL_TALENT_TREE_PRELOAD_ASSETS,
   CELESTIAL_TALENT_TREE_UI_CONFIG,
   describeCelestialTalentAvailability,
+  describeCelestialTalentComparison,
+  getCelestialTalentFocusedNodePosition,
   getCelestialTalentNodeIconKey,
   getCelestialTalentNodePosition,
 } from "../../values/celestialTalentTreeUi.js";
@@ -28,6 +30,10 @@ export class CelestialTalentTreeView {
     this.nodesById = new Map();
     this.expectedNodeCount = 0;
     this.selectedIndex = 0;
+    this.branches = [];
+    this.branchHeaders = [];
+    this.focusedBranchIndex = null;
+    this.branchFocusSource = null;
     this.visible = false;
     this.destroyed = false;
     this._build();
@@ -83,9 +89,18 @@ export class CelestialTalentTreeView {
     ]);
 
     const branches = this.progression?.getSnapshot?.()?.branches || [];
+    this.branches = branches;
     this.expectedNodeCount = branches.reduce((total, branch) => total + branch.nodes.length, 0);
     branches.forEach((branch, branchIndex) => {
       const accent = presentation.branchAccents[branchIndex];
+      const headerFrame = this.scene.add.image(
+        this._x(layout.branchCenterXFractions[branchIndex]),
+        this._y(layout.branchTitleYFraction),
+        assets.nodeFrame.key,
+      ).setDisplaySize(layout.branchTabWidthPx, layout.branchTabHeightPx)
+        .setTint(accent)
+        .setAlpha(presentation.branchTabIdleAlpha)
+        .setInteractive({ useHandCursor: true });
       const header = this._text(
         this._x(layout.branchCenterXFractions[branchIndex]),
         this._y(layout.branchTitleYFraction),
@@ -93,7 +108,8 @@ export class CelestialTalentTreeView {
         presentation.branchFontSizePx,
         `#${accent.toString(16).padStart(6, "0")}`,
       );
-      this.root.add(header);
+      this.root.add([headerFrame, header]);
+      this.branchHeaders.push({ frame: headerFrame, label: header, branchIndex });
     });
     this.connectorLayer = new CelestialTalentTreeConnectorLayer(
       this.scene,
@@ -180,7 +196,19 @@ export class CelestialTalentTreeView {
       return true;
     }
 
+    for (const header of this.branchHeaders) {
+      const point = this.root.getWorldTransformMatrix().applyInverse(pointer.x, pointer.y);
+      if (
+        Math.abs(point.x - header.frame.x) <= layout.branchTabWidthPx / 2
+        && Math.abs(point.y - header.frame.y) <= layout.branchTabHeightPx / 2
+      ) {
+        this.setBranchFocus(header.branchIndex, "manual");
+        return true;
+      }
+    }
+
     for (const view of this.nodes) {
+      if (view.root.visible === false) continue;
       const point = view.root.getWorldTransformMatrix().applyInverse(pointer.x, pointer.y);
       if (
         Math.abs(point.x) <= layout.nodeHitWidthPx / 2
@@ -229,12 +257,63 @@ export class CelestialTalentTreeView {
       }
     }
     this.connectorLayer?.refresh(this.nodesById);
+    this._refreshBranchPresentation();
     this._refreshDetail();
+  }
+
+  setBranchFocus(branchIndex = null, source = "manual") {
+    const nextIndex = Number.isInteger(branchIndex)
+      && branchIndex >= 0
+      && branchIndex < this.branches.length
+      ? branchIndex
+      : null;
+    this.focusedBranchIndex = nextIndex;
+    this.branchFocusSource = nextIndex === null ? null : source;
+    if (nextIndex !== null) {
+      const selected = this.nodes[this.selectedIndex];
+      if (!selected || selected.branchIndex !== nextIndex) {
+        const first = this.nodes.find(view => view.branchIndex === nextIndex);
+        if (first) this.selectedIndex = this.nodes.indexOf(first);
+      }
+    }
+    this._refreshBranchPresentation();
+    this.refresh();
+    return this.focusedBranchIndex;
+  }
+
+  _refreshBranchPresentation() {
+    const { layout, presentation, copy } = this.config;
+    const focused = this.focusedBranchIndex;
+    this.subtitle.setText(focused === null ? copy.subtitle : copy.branchFocusHint);
+    for (const view of this.nodes) {
+      const visible = focused === null || view.branchIndex === focused;
+      const position = focused === null
+        ? getCelestialTalentNodePosition(view.branchIndex, view.node)
+        : getCelestialTalentFocusedNodePosition(view.node);
+      view.setBranchVisibility(visible);
+      view.setPosition(this._x(position.xFraction), this._y(position.yFraction));
+      view.setFocusScale(focused === null ? 1 : layout.focusedNodeScale);
+    }
+    for (const header of this.branchHeaders) {
+      const selected = focused === header.branchIndex;
+      header.frame.setAlpha(selected
+        ? presentation.branchTabFocusedAlpha
+        : presentation.branchTabIdleAlpha);
+      header.label.setAlpha(focused === null || selected ? 1 : 0.58);
+    }
+    this.connectorLayer?.refresh(this.nodesById);
   }
 
   selectNode(nodeId, showPopup = false) {
     const nextIndex = this.nodes.findIndex(view => view.node.id === nodeId);
     if (nextIndex < 0) return false;
+    if (
+      this.focusedBranchIndex !== null
+      && this.nodes[nextIndex].branchIndex !== this.focusedBranchIndex
+    ) {
+      this.focusedBranchIndex = this.nodes[nextIndex].branchIndex;
+      this.branchFocusSource = "manual";
+    }
     this.selectedIndex = nextIndex;
     this.refresh();
     if (showPopup) {
@@ -263,8 +342,9 @@ export class CelestialTalentTreeView {
     const directionX = Math.sign(dx || 0);
     const directionY = Math.sign(dy || 0);
     const candidates = this.nodes
+      .filter(view => view.root.visible !== false)
       .map((view, index) => ({
-        index,
+        index: this.nodes.indexOf(view),
         deltaX: view.root.x - current.root.x,
         deltaY: view.root.y - current.root.y,
       }))
@@ -287,6 +367,10 @@ export class CelestialTalentTreeView {
 
   handleInput(keys) {
     if (!this.isOpen()) return false;
+    if (justDown(keys?.escape) && this.focusedBranchIndex !== null) {
+      this.setBranchFocus(null);
+      return true;
+    }
     if (justDown(keys?.escape) || justDown(keys?.interact)) {
       this.onClose?.();
       return true;
@@ -307,7 +391,7 @@ export class CelestialTalentTreeView {
     const node = view?.snapshot;
     if (!view || !node) return;
     this.detailTitle.setText(view.node.name.toUpperCase());
-    this.detailBody.setText(view.node.description);
+    this.detailBody.setText(describeCelestialTalentComparison(view.node, node));
     this.detailStatus.setText(describeCelestialTalentAvailability(node));
     this.tooltip?.refresh(node);
   }
@@ -326,6 +410,15 @@ export class CelestialTalentTreeView {
     this.tooltip?.setViewportScale(scale);
     const compact = scale < layout.compactStatusScaleThreshold;
     this.nodes.forEach(node => node.setCompactStatus(compact));
+    const needsBranchFocus = scale < layout.branchFocusScaleThreshold;
+    if (needsBranchFocus && this.focusedBranchIndex === null) {
+      this.focusedBranchIndex = this.nodes[this.selectedIndex]?.branchIndex ?? 0;
+      this.branchFocusSource = "responsive";
+    } else if (!needsBranchFocus && this.branchFocusSource === "responsive") {
+      this.focusedBranchIndex = null;
+      this.branchFocusSource = null;
+    }
+    this._refreshBranchPresentation();
   }
 
   getControls() {
@@ -365,6 +458,12 @@ export class CelestialTalentTreeView {
       selectedIndex: this.selectedIndex,
       tooltipVisible: this.tooltip?.visible === true,
       tooltipNodeId: this.tooltip?.nodeId || null,
+      focusedBranchIndex: this.focusedBranchIndex,
+      focusedBranchId: this.focusedBranchIndex === null
+        ? null
+        : this.branches[this.focusedBranchIndex]?.id || null,
+      visibleNodeCount: this.nodes.filter(view => view.root.visible !== false).length,
+      branchFocusSource: this.branchFocusSource,
       missingTextureKeys,
     });
   }
