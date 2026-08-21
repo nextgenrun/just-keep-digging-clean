@@ -1068,6 +1068,15 @@ sequence, Star Pillar textures, the full seven-beat Move → Dig → Flight →
 Portal → Sell → Upgrade → Resume route, and the absence of browser/page errors
 while saving its report and screenshot under
 `tmp/2026-08-11-demo-first-five-live-qa/`.
+It accepts `--url=` so an isolated branch can be proven against its own server
+instead of silently exercising another checkout on port 8080.
+
+`2026-08-21-demo-route-matrix-playwright-live-qa.mjs` is the branch-qualified
+Playwright route matrix for Casual/Hardcore × guided/skipped starts. It asserts
+the selected mode and tutorial stage, Hardcore lives, guided Town barrier,
+playing state, empty UI-error stream, zero blocked capability queues, zero
+gated resident textures, and a fully catalogued texture set. Pass `--url=` and
+`--output=` to bind both the served revision and the reproducible JSON report.
 
 `2026-08-03-celestial-action-bar-contract.mjs` now pins the v2 1024x320 authored
 foundation ratio, five equal slot centers, aligned live-number tabs and metric
@@ -1161,3 +1170,4 @@ floating action bar with five unowned abilities and proves that all five
 authored sockets remain empty: no ghost icons and no repeated lock objects. It
 also hovers Hollow Sun and verifies the shared Star Pillar frame, larger type,
 and lower-trim copy clearance.
+Both scripts accept `--base-url=` for isolated-worktree browser qualification.

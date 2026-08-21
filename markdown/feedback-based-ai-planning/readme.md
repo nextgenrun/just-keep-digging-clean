@@ -23,11 +23,16 @@ No gameplay code, balance values, assets, saves, or deployment state were change
 
 ## Current implementation boundary
 
-The P0 death, centralized UI ownership, hazard-admission, and first-session
-route/safety code slices are now implemented on the isolated implementation
-branch. Their focused Node contracts pass, but the ledger deliberately keeps
-them below accepted until foreground-safe browser runs, natural hazard
-scheduling, viewport review, and the required playtest evidence are recorded.
+All code-authorized slices in the master plan are implemented on the isolated
+implementation branch, including the exact rollback function. Focused Node
+contracts pass, and branch-qualified hidden-browser runs now cover the complete
+first expedition, HUD controls, compact/wide Celestial surfaces, and all four
+Casual/Hardcore × guided/skipped starts with clean capability ownership.
+
+That is implementation completion, not player acceptance. Natural hazard runs,
+motion/audio expert review, economy sampling, and the frozen five-player blind
+protocol still require foreground or human evidence. The implementation ledger
+keeps all 140 rows pending until those closure packets exist.
 
 ## Scope boundary
 
