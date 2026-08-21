@@ -85,7 +85,6 @@ export function getMineShakeSignature(tileType, { critical = false, destroyed = 
     case TILE_TYPES.DARK_DIRT_STRONG:
     case TILE_TYPES.BRONZE:
     case TILE_TYPES.IRON:
-    case TILE_TYPES.GEODE_INTERIOR: return "mining.medium";
     case TILE_TYPES.SKY_TILE: return "mining.skyTile";
     default: return "mining.heavy";
   }

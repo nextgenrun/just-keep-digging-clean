@@ -34,7 +34,6 @@ const functionalTypes = [
   "BERSERK_BLOCK",
   "COMBO_BLOCK",
   "LEGEND_BLOCK",
-  "GEODE_WALL",
   "CHEST",
   "ANCIENT_RELIC_CACHE",
 ];
@@ -47,6 +46,8 @@ for (const type of world.tileType) {
 for (const [name, count] of Object.entries(counts)) {
   assert.ok(count > 0, `${name} must survive the scenic world port`);
 }
+assert.equal(world.tileType.includes(TILE_TYPES.GEODE_WALL), false);
+assert.equal(world.tileType.includes(TILE_TYPES.GEODE_INTERIOR), false);
 
 let digTarget = null;
 for (let ty = world.topAirRows + 1; ty < world.depthTiles - 1 && !digTarget; ty += 1) {

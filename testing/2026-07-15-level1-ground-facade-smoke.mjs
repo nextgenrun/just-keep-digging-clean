@@ -91,7 +91,7 @@ const tileTypes = new Map([
   ["5,66", TILE_TYPES.AIR],
   ["7,66", TILE_TYPES.BEDROCK],
   ["8,66", TILE_TYPES.STONE],
-  ["9,66", TILE_TYPES.GEODE_INTERIOR],
+  ["9,66", TILE_TYPES.STONE],
   ["10,66", TILE_TYPES.ANCIENT_RELIC_CACHE],
   ["11,66", TILE_TYPES.GLOW_CRYSTAL],
 ]);
@@ -162,7 +162,7 @@ const stone = system.cellByKey.get("8,66");
 assert.match(stone.recognition.frameName, /level1-ground-recognition-5[4-9]$/);
 const distinctFrames = ["9,66", "10,66", "11,66"].map(key => system.cellByKey.get(key).recognition.frameName);
 assert.deepEqual(distinctFrames, [
-  "level1-ground-recognition-73",
+  "level1-ground-recognition-55",
   "level1-ground-recognition-76",
   "level1-ground-recognition-77",
 ]);

@@ -16,6 +16,7 @@ import {
 } from "../values/firstSessionSafety.js";
 import { TOWN_TUTORIAL_CHOICES } from "../values/retentionConfig.js";
 import { TILE_TYPES } from "../values/tileTypes.js";
+import { migrateLegacyGeodeTileType } from "../values/geodeRetirement.js";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const source = relative => readFile(path.join(root, relative), "utf8");
@@ -95,7 +96,7 @@ const source = relative => readFile(path.join(root, relative), "utf8");
 
 {
   assert.equal(resolveMiningBlockerReason(TILE_TYPES.BEDROCK), "permanent-boundary");
-  assert.equal(resolveMiningBlockerReason(TILE_TYPES.GEODE_WALL), "tool-gate");
+  assert.equal(migrateLegacyGeodeTileType(TILE_TYPES.GEODE_WALL), TILE_TYPES.STONE);
   assert.equal(resolveMiningBlockerReason(TILE_TYPES.FLOOR_TOWN_1), "protected-structure");
   assert.equal(resolveMiningBlockerReason(TILE_TYPES.CAVE_WALL), "protected-structure");
   assert.equal(resolveMiningBlockerReason(-1), "temporary-state");

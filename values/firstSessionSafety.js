@@ -30,7 +30,6 @@ export const FIRST_SESSION_SAFETY_CONFIG = Object.freeze({
 });
 
 export function resolveMiningBlockerReason(tileType) {
-  if (tileType === TILE_TYPES.GEODE_WALL) return "tool-gate";
   if (
     tileType === TILE_TYPES.FLOOR_TOWN_1
     || tileType === TILE_TYPES.FLOOR_TOWN_2

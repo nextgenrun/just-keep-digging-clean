@@ -46,6 +46,10 @@ import { SeededRandom } from "./SeededRandom.js";
 import { enforceUndergroundBedrockLayout } from "./UndergroundBedrockLayout.js";
 import { resolveBaseTerrainResourceType } from "./baseTerrainResourceResolver.js";
 import { enforceSurfaceTraversalLayout } from "./surfaceTraversalLayout.js";
+import {
+  migrateLegacyGeodeTileType,
+  retireLegacyGeodeTiles,
+} from "../../values/geodeRetirement.js";
 
 const RESOURCE_TILE_TYPES = new Set(RESOURCE_TILE_TYPE_VALUES);
 const DIGGABLE_TYPES = new Set([
@@ -58,7 +62,6 @@ const DIGGABLE_TYPES = new Set([
   TILE_TYPES.BERSERK_BLOCK,
   TILE_TYPES.COMBO_BLOCK,
   TILE_TYPES.LEGEND_BLOCK,
-  TILE_TYPES.GEODE_INTERIOR,
   TILE_TYPES.ANCIENT_RELIC_CACHE,
 ]);
 const RUBBLE_HP_RATIO = 0.25;
@@ -99,7 +102,6 @@ export class WorldModel {
     this.caveZones = [];
     this.hiddenCaveZones = [];
     this.treasureRoomZones = [];
-    this.geodeZones = [];
     this.glowCrystalZones = [];
     this.caveLightZones = [];
     this.caveResourceSeams = [];
@@ -125,7 +127,12 @@ export class WorldModel {
 
   setType(tileX, tileY, type) {
     if (!this.inBounds(tileX, tileY)) return;
-    this._types[this.index(tileX, tileY)] = type;
+    const idx = this.index(tileX, tileY);
+    const activeType = migrateLegacyGeodeTileType(type);
+    this._types[idx] = activeType;
+    if (activeType !== type && this._hp[idx] <= 0) {
+      this._hp[idx] = this.getTileMaxHp(tileX, tileY, activeType);
+    }
   }
 
   getHp(tileX, tileY) {
@@ -144,10 +151,13 @@ export class WorldModel {
     if (!this.inBounds(tileX, tileY)) return;
     const idx = this.index(tileX, tileY);
     const key = makeTileKey(tileX, tileY);
-    this._types[idx] = type;
-    this._hp[idx] = hp;
+    const activeType = migrateLegacyGeodeTileType(type);
+    this._types[idx] = activeType;
+    this._hp[idx] = activeType !== type && hp <= 0
+      ? this.getTileMaxHp(tileX, tileY, activeType)
+      : hp;
     this.rubbleTiles.delete(key);
-    if (type !== TILE_TYPES.AIR) this.dugTiles.delete(key);
+    if (activeType !== TILE_TYPES.AIR) this.dugTiles.delete(key);
   }
 
   isSolid(tileX, tileY) { return this.getType(tileX, tileY) !== TILE_TYPES.AIR; }
@@ -204,7 +214,6 @@ export class WorldModel {
     this.caveZones = [];
     this.hiddenCaveZones = [];
     this.treasureRoomZones = [];
-    this.geodeZones = [];
     this.glowCrystalZones = [];
     this.caveLightZones = [];
     this.caveResourceSeams = [];
@@ -244,6 +253,7 @@ export class WorldModel {
       + `${bedrockLayout.removedLevelOne + bedrockLayout.removedLevelTwo} stray tiles replaced`,
     );
     this.applyGameplayModeBoundaries();
+    this.geodeRetirementReport = retireLegacyGeodeTiles(this);
   }
 
   generateBaseTerrain() {
@@ -867,11 +877,12 @@ export class WorldModel {
   }
 
   _getRestorableRubbleType(tileX, tileY, type) {
-    if (type === TILE_TYPES.SKY_TILE) {
+    const activeType = migrateLegacyGeodeTileType(type);
+    if (activeType === TILE_TYPES.SKY_TILE) {
       const originalType = this.getSkyTileOriginalType(tileX, tileY);
       return RESOURCE_TILE_TYPES.has(originalType) ? originalType : null;
     }
-    return RESOURCE_TILE_TYPES.has(type) ? type : null;
+    return RESOURCE_TILE_TYPES.has(activeType) ? activeType : null;
   }
 
   setRubbleTile(tileX, tileY, type, hp = null, maxHp = null) {
@@ -917,7 +928,6 @@ export class WorldModel {
       const type = this.getType(tx, ty);
       if (type === TILE_TYPES.BEDROCK
         || type === TILE_TYPES.CAVE_WALL
-        || type === TILE_TYPES.GEODE_WALL
         || type === TILE_TYPES.FLOOR_TOWN_1
         || type === TILE_TYPES.FLOOR_TOWN_2) continue;
       const keyStr = makeTileKey(tx, ty);

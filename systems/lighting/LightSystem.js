@@ -31,7 +31,6 @@ const hashTileCycle = (tx, ty, cycle) => {
   return ((hash ^ (hash >>> 15)) >>> 0) / 0x100000000;
 };
 const SKY_LIGHT_TILE_TYPES = Object.freeze(new Set([TILE_TYPES.SKY_TILE]));
-const GEODE_LIGHT_TILE_TYPES = Object.freeze(new Set([TILE_TYPES.GEODE_INTERIOR, TILE_TYPES.GEODE_WALL]));
 
 /**
  * Depth-aware lighting compositor.
@@ -625,7 +624,7 @@ export class LightSystem {
         playerTile,
         radiusTiles
       );
-      this._eraseSkyAndGeodeLights(
+      this._eraseSkyTileLights(
         time,
         lighting,
         camera,
@@ -994,7 +993,7 @@ export class LightSystem {
     this._activeCaveArchetypeId = cave?.archetypeId || null;
   }
 
-  _eraseSkyAndGeodeLights(time, lighting, camera, darkness, playerTile = null, playerVisionRadiusTiles = 0) {
+  _eraseSkyTileLights(time, lighting, camera, darkness, playerTile = null, playerVisionRadiusTiles = 0) {
     this._eraseTileTypeLightSources({
       time,
       lighting,
@@ -1004,17 +1003,6 @@ export class LightSystem {
       playerVisionRadiusTiles,
       cfg: this.config.skyTileLights,
       tileTypes: SKY_LIGHT_TILE_TYPES,
-    });
-
-    this._eraseTileTypeLightSources({
-      time,
-      lighting,
-      camera,
-      darkness,
-      playerTile,
-      playerVisionRadiusTiles,
-      cfg: this.config.geodeTileLights,
-      tileTypes: GEODE_LIGHT_TILE_TYPES,
     });
   }
 

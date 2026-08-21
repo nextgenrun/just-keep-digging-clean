@@ -1,10 +1,10 @@
-import { CAVE_GEODE_CRYSTAL_TEMPLATES } from "../../values/caveGeodeCrystalTemplates.js";
+const CAVE_VISUAL_TEMPLATES = Object.freeze({ enabled: false });
 
 /**
- * Places optional authored visual templates over procedural cave/geode/crystal zones.
+ * Places optional authored visual templates over caves and crystal zones.
  */
 export class CaveTemplateVisualSystem {
-  constructor(scene, templateData = CAVE_GEODE_CRYSTAL_TEMPLATES) {
+  constructor(scene, templateData = CAVE_VISUAL_TEMPLATES) {
     this.scene = scene;
     this.templateData = templateData;
     this.placedObjects = [];
@@ -18,10 +18,9 @@ export class CaveTemplateVisualSystem {
     this.placeZoneGroup(worldModel.caveZones, groups.normalCaves, "normalCaves");
     this.placeZoneGroup(worldModel.hiddenCaveZones, groups.hiddenCaves, "hiddenCaves");
     this.placeTreasureRoomGroup(worldModel.hiddenCaveZones, groups.hiddenCaveTreasureRooms);
-    this.placeZoneGroup(worldModel.geodeZones, groups.geodes, "geodes");
     this.placeZoneGroup(worldModel.glowCrystalZones, groups.glowCrystals, "glowCrystals");
 
-    console.log(`[CaveTemplateVisualSystem] placed ${this.placedObjects.length} authored cave/geode/crystal visuals`);
+    console.log(`[CaveTemplateVisualSystem] placed ${this.placedObjects.length} authored cave/crystal visuals`);
   }
 
   destroy() {

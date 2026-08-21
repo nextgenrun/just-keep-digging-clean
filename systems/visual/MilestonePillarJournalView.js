@@ -29,7 +29,6 @@ function formatJournalEntry(key) {
     const band = RETENTION_CONFIG.depth.journalBands.find(entry => entry.depth === depth);
     return band ? `Depth Band: ${band.label}` : `Depth Band: ${depth}m`;
   }
-  if (key.startsWith("geode-")) return "Crystal Geode";
   if (key.startsWith("hiddenTreasure-")) return "Hidden Treasure Room";
   if (key.startsWith("hiddenCave-")) return "Hidden Cave";
   if (key.startsWith("cave-")) return "Integrated Cave";

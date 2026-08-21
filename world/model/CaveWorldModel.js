@@ -31,7 +31,6 @@ export class CaveWorldModel extends WorldModel {
     this.caveZones = [];
     this.hiddenCaveZones = [];
     this.treasureRoomZones = [];
-    this.geodeZones = [];
     this.glowCrystalZones = [];
 
     const runtime = this.config.caveRuntime;

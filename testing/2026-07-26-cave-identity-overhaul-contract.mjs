@@ -34,7 +34,6 @@ function makeBlankWorld(width = 90, depth = 90) {
   model.caveZones = [];
   model.hiddenCaveZones = [];
   model.treasureRoomZones = [];
-  model.geodeZones = [];
   model.glowCrystalZones = [];
   model.getTileMaxHp = () => 10;
   return model;

@@ -140,7 +140,6 @@ const STATIC_SOURCE_KEYS = Object.freeze([
   ASSET_KEYS.tiles.berserkBlock,
   ASSET_KEYS.tiles.comboBlock,
   ASSET_KEYS.tiles.legendBlock,
-  ASSET_KEYS.tiles.geodeInterior,
   ASSET_KEYS.tiles.ancientRelicCache,
   ASSET_KEYS.tiles.gemPowerBlockTiers.gp250,
   ASSET_KEYS.tiles.gemPowerBlockTiers.gp500,
@@ -182,12 +181,11 @@ export const TILE_RENDER_INDEX = Object.freeze({
   COMBO_BLOCK: STATIC_INDEX_START + 19,
   LEGEND_BLOCK: STATIC_INDEX_START + 20,
   GLOW_CRYSTAL: -1,
-  GEODE_INTERIOR: STATIC_INDEX_START + 21,
-  ANCIENT_RELIC_CACHE: STATIC_INDEX_START + 22,
-  GEM_POWER_BLOCK_250: STATIC_INDEX_START + 23,
-  GEM_POWER_BLOCK_500: STATIC_INDEX_START + 24,
-  GEM_POWER_BLOCK_1000: STATIC_INDEX_START + 25,
-  GEM_POWER_BLOCK_1700: STATIC_INDEX_START + 26,
+  ANCIENT_RELIC_CACHE: STATIC_INDEX_START + 21,
+  GEM_POWER_BLOCK_250: STATIC_INDEX_START + 22,
+  GEM_POWER_BLOCK_500: STATIC_INDEX_START + 23,
+  GEM_POWER_BLOCK_1000: STATIC_INDEX_START + 24,
+  GEM_POWER_BLOCK_1700: STATIC_INDEX_START + 25,
 });
 
 function visualHash(tx, ty, seed, salt = 0) {
@@ -261,10 +259,6 @@ export function getTileRenderIndex(type, hp, maxHp = hp, tx = 0, ty = 0, depthTi
     }
     if (visualHint === "caveEdge") return TILE_RENDER_INDEX.CAVE_EDGE;
     return TILE_RENDER_INDEX.CAVE_WALL;
-  }
-
-  if (type === TILE_TYPES.GEODE_WALL) {
-    return TILE_RENDER_INDEX.TREASURE_STONE;
   }
 
   const damageRenderIndex = getDamageRenderIndex(type, hp, maxHp);
@@ -341,10 +335,6 @@ export function getTileRenderIndex(type, hp, maxHp = hp, tx = 0, ty = 0, depthTi
 
   if (type === TILE_TYPES.GLOW_CRYSTAL) {
     return -1;
-  }
-
-  if (type === TILE_TYPES.GEODE_INTERIOR) {
-    return TILE_RENDER_INDEX.GEODE_INTERIOR;
   }
 
   return -1;

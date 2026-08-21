@@ -25,9 +25,8 @@ const FAMILY_ROWS = Object.freeze({
   ember: 11,
   magma: 12,
   crystal: 13,
-  geode: 14,
-  relic: 15,
-  special: 16,
+  relic: 14,
+  special: 15,
 });
 
 const FAMILY_BY_TILE = Object.freeze({
@@ -55,8 +54,6 @@ const FAMILY_BY_TILE = Object.freeze({
   [TILE_TYPES.COMBO_BLOCK]: "special",
   [TILE_TYPES.LEGEND_BLOCK]: "special",
   [TILE_TYPES.CAVE_WALL]: "hard",
-  [TILE_TYPES.GEODE_INTERIOR]: "geode",
-  [TILE_TYPES.GEODE_WALL]: "geode",
   [TILE_TYPES.CHEST]: "relic",
   [TILE_TYPES.GLOW_CRYSTAL]: "crystal",
   [TILE_TYPES.LAVA_DIRT]: "lava",
@@ -101,8 +98,6 @@ const TINT_BY_TILE = Object.freeze({
   [TILE_TYPES.COMBO_BLOCK]: SPECIAL_BLOCKS_CONFIG.glowEffects.comboBlock.color,
   [TILE_TYPES.LEGEND_BLOCK]: 0xffe28a,
   [TILE_TYPES.CAVE_WALL]: 0x8499a8,
-  [TILE_TYPES.GEODE_INTERIOR]: 0x70ffd6,
-  [TILE_TYPES.GEODE_WALL]: 0xb675ff,
   [TILE_TYPES.CHEST]: 0xd8a35a,
   [TILE_TYPES.GLOW_CRYSTAL]: 0x66e8ff,
   [TILE_TYPES.LAVA_DIRT]: 0xffb274,

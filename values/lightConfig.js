@@ -364,19 +364,6 @@ export const LIGHT_CONFIG = Object.freeze({
     }),
   }),
 
-  geodeTileLights: Object.freeze({
-    enabled: true,
-    maxSourcesPerFrame: 18,
-    cameraPaddingTiles: 6,
-    revealAlpha: 0.11,
-    undergroundRevealBoost: 0.16,
-    flickerSpeed: 0.0012,
-    flickerAmount: 0.07,
-    playerRevealLeashTiles: 2.8,
-    radiusTiles: 1.4,
-    maxRadiusTiles: 2.1,
-  }),
-
   // Night penalty — darkness shrinks vision further
   nightVisibilityPenalty: 0.4,        // Radius reduced by up to 40% at full night
 

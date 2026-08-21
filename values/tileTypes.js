@@ -30,9 +30,8 @@ export const TILE_TYPES = Object.freeze({
   // Cave wall — unbreakable decorative shell using the shared unbreakable material.
   CAVE_WALL: 24,
 
-  // Geode interior — rare resource tile inside a geode pocket
+  // Reserved legacy save IDs. Runtime migration replaces both with STONE.
   GEODE_INTERIOR: 27,
-  // Geode wall — undiggable shell (heavy punch type)
   GEODE_WALL: 28,
 
   // Chest — treasure chest (visual-only, non-diggable)

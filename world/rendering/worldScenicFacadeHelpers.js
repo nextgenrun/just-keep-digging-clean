@@ -11,8 +11,6 @@ export const SPECIAL_MARKER_KEY_BY_TYPE = Object.freeze({
   [TILE_TYPES.BERSERK_BLOCK]: "berserk",
   [TILE_TYPES.COMBO_BLOCK]: "combo",
   [TILE_TYPES.LEGEND_BLOCK]: "legend",
-  [TILE_TYPES.GEODE_INTERIOR]: "geodeInterior",
-  [TILE_TYPES.GEODE_WALL]: "geodeWall",
   [TILE_TYPES.CHEST]: "chest",
   [TILE_TYPES.ANCIENT_RELIC_CACHE]: "ancientRelic",
   [TILE_TYPES.GLOW_CRYSTAL]: "glowCrystal",

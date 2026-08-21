@@ -53,7 +53,6 @@ const expectedFamilies = new Map([
   [TILE_TYPES.SILVER, "silver"],
   [TILE_TYPES.GOLD, "gold"],
   [TILE_TYPES.SKY_TILE, "crystal"],
-  [TILE_TYPES.GEODE_INTERIOR, "geode"],
   [TILE_TYPES.LAVA_DIRT, "lava"],
   [TILE_TYPES.OBSIDIAN, "obsidian"],
   [TILE_TYPES.EMBER_ORE, "ember"],
@@ -166,8 +165,9 @@ const scene = {
 
 const system = new TileDestructionFxSystem(scene);
 assert.equal(system.ready, true);
-assert.equal(textureFrames.core.size, 17 * 4);
-assert.equal(textureFrames.shards.size, 17 * 5);
+const familyCount = Object.keys(TILE_DESTRUCTION_FX_CONFIG.families).length;
+assert.equal(textureFrames.core.size, familyCount * 4);
+assert.equal(textureFrames.shards.size, familyCount * 5);
 assert.equal(system.play({ worldX: 94, worldY: 94, tileType: TILE_TYPES.COPPER }), true);
 const core = images[0];
 assert.equal(core.frame, "copper-p01");

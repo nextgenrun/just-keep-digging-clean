@@ -28,8 +28,6 @@ const SPECIAL_RECOGNITION = Object.freeze({
   [TILE_TYPES.COMBO_BLOCK]: ASSET_KEYS.tiles.comboBlock,
   [TILE_TYPES.LEGEND_BLOCK]: ASSET_KEYS.tiles.legendBlock,
   [TILE_TYPES.CAVE_WALL]: ASSET_KEYS.tiles.caveWall,
-  [TILE_TYPES.GEODE_INTERIOR]: ASSET_KEYS.tiles.geodeInterior,
-  [TILE_TYPES.GEODE_WALL]: ASSET_KEYS.tiles.treasureStone,
   [TILE_TYPES.CHEST]: ASSET_KEYS.tiles.chestNormal,
   [TILE_TYPES.ANCIENT_RELIC_CACHE]: ASSET_KEYS.tiles.ancientRelicCache,
 });

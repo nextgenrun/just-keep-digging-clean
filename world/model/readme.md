@@ -35,7 +35,7 @@ would create an external rollback backup outside the permadeath purge.
 Rotating Hardcore backups remain available only to the death purge; neither
 the current slot nor another slot may restore one as a rewind.
 Legacy dug-key restoration now rejects both town-floor types alongside
-bedrock/cave/geode walls, so an old save cannot reopen the unbreakable surface
+bedrock/cave walls, so an old save cannot reopen the unbreakable surface
 foundation.
 
 `WorldModel.skyTileIdentity` is a one-byte visual identity index for Star

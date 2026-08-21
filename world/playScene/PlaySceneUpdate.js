@@ -732,7 +732,7 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
   );
 
   // Integrated caves stay in PlayScene. Only explicit compact review mouths
-  // open CaveScene; geodes always remain in the authoritative world.
+  // open CaveScene; integrated caves remain in the authoritative world.
   if (
     !arcCoreConsumedInteraction
     && !milestoneConsumedInteraction

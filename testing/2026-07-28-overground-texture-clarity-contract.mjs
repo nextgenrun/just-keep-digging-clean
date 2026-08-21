@@ -163,8 +163,6 @@ const expectedSpecialFrames = {
   berserk: 70,
   combo: 71,
   legend: 72,
-  geodeInterior: 73,
-  geodeWall: 74,
   chest: 75,
   ancientRelic: 76,
   glowCrystal: 77,
@@ -173,6 +171,8 @@ for (const [key, frame] of Object.entries(expectedSpecialFrames)) {
   assert.equal(WORLD_VISUAL_FEEDBACK.specialMarkers[key].frame, frame);
   assert.equal(LEVEL_ONE_GROUND_FACADE.specialMarkers[key].frame, frame);
 }
+assert.equal("geodeInterior" in WORLD_VISUAL_FEEDBACK.specialMarkers, false);
+assert.equal("geodeWall" in LEVEL_ONE_GROUND_FACADE.specialMarkers, false);
 assert.deepEqual(
   WORLD_VISUAL_FEEDBACK.specialMarkers.gemPowerTiers,
   LEVEL_ONE_GROUND_FACADE.specialMarkers.gemPowerTiers,

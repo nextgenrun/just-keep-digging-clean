@@ -20,6 +20,11 @@ function sanitizeStringArray(value, max = 128) {
     .slice(0, max);
 }
 
+function isRetiredJournalEntry(key) {
+  const normalized = String(key).toLowerCase();
+  return normalized.startsWith("geode-") || normalized.startsWith("geode:");
+}
+
 function createStats() {
   return {
     bestDepth: 0,
@@ -180,7 +185,8 @@ export function sanitizeRetentionProgressData(value) {
     discoveries: {
       materials: sanitizeStringArray(rawDiscoveries.materials, 64),
       portals: sanitizeStringArray(rawDiscoveries.portals, 32),
-      journal: sanitizeStringArray(rawDiscoveries.journal, 128),
+      journal: sanitizeStringArray(rawDiscoveries.journal, 128)
+        .filter(key => !isRetiredJournalEntry(key)),
       titans: sanitizeTitanDiscoveryIds(rawDiscoveries.titans),
     },
     tutorialChoice,

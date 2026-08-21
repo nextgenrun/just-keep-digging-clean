@@ -7,7 +7,6 @@ import { TILE_TYPES } from "../values/tileTypes.js";
 const tileSize = 94;
 const starTile = Object.freeze({ tx: 8, ty: 5 });
 const neighboringStarTile = Object.freeze({ tx: 7, ty: 5 });
-const geodeTile = Object.freeze({ tx: 9, ty: 5 });
 const playerTile = Object.freeze({ tx: 0, ty: 0 });
 let includeNeighboringStar = false;
 const worldModel = {
@@ -22,7 +21,6 @@ const worldModel = {
     ) {
       return TILE_TYPES.SKY_TILE;
     }
-    if (tx === geodeTile.tx && ty === geodeTile.ty) return TILE_TYPES.GEODE_INTERIOR;
     return TILE_TYPES.AIR;
   },
 };
@@ -376,21 +374,6 @@ assert.equal(
 );
 includeNeighboringStar = false;
 
-eraseCalls.length = 0;
-lightSystem._eraseTileTypeLightSources({
-  time: quietTime,
-  lighting: { undergroundDarknessInfluence: 1 },
-  camera,
-  darkness,
-  playerTile,
-  playerVisionRadiusTiles: LIGHT_CONFIG.minVisibilityRadiusTiles,
-  cfg: LIGHT_CONFIG.geodeTileLights,
-  tileTypes: new Set([TILE_TYPES.GEODE_INTERIOR]),
-});
-assert.equal(
-  eraseCalls.length,
-  0,
-  "the Star Block exception must not make every geological light source reveal the whole viewport"
-);
+assert.equal("geodeTileLights" in LIGHT_CONFIG, false);
 
 console.log("Star Block light persistence contract passed: steady hard-darkness light plus rare non-stacking outward-fading ImageGen pulses");

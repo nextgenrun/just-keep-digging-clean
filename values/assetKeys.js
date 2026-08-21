@@ -720,8 +720,6 @@ export const ASSET_KEYS = Object.freeze({
     berserkBlock: "berserk-block",
     comboBlock: "combo-block",
     legendBlock: "crown-block",
-    // Geode interior
-    geodeInterior: "tile-geode-interior",
   },
   fx: {
     break1: "fx-break-1",

@@ -199,38 +199,6 @@ export const WORLD_GEN_CONFIG = Object.freeze({
     chestGlowRadius: 2,
   },
 
-  // Geode pockets — hard-walled chambers with ultra-rare resources.
-  // Layout: [WALL] [WALL] [INTERIOR...] [WALL] [WALL]
-  //	   WALL = GEODE_WALL (undiggable, requires heavy punch to pass through)
-  //	   INTERIOR = rich rare resources inside
-  // NO entrance — player MUST have Heavy Punch upgrade to break through.
-  geodes: {
-    totalMin: 8,
-    totalMax: 20,
-    // Geode dimensions — interior is 4-8 tiles wide, 4-8 tiles tall
-    radiusXMin: 2,    // minimum X radius (4 tiles wide diamond)
-    radiusXMax: 4,    // maximum X radius (8 tiles wide)
-    radiusYMin: 2,    // minimum Y radius (4 tiles tall)
-    radiusYMax: 4,    // maximum Y radius (8 tiles tall)
-    sizeBands: Object.freeze([
-      Object.freeze({ name: 'small', weight: 55, radiusXMin: 2, radiusXMax: 4, radiusYMin: 2, radiusYMax: 4 }),
-      Object.freeze({ name: 'large', weight: 35, radiusXMin: 5, radiusXMax: 11, radiusYMin: 3, radiusYMax: 7 }),
-      Object.freeze({ name: 'huge', weight: 10, radiusXMin: 12, radiusXMax: 20, radiusYMin: 6, radiusYMax: 11 }),
-    ]),
-    // Wall thickness — 2-tile-thick undiggable shell around the interior
-    wallThickness: 2,
-    // Depth restrictions
-    surfaceSkipDepth: 20,
-    // ALL geode walls are GEODE_WALL (undiggable, need heavy punch)
-    heavyPunchChance: 1.0,
-    // Rarity boost for interior resources — 4 tiers deeper
-    interiorRarityBoostTiers: 4,
-    // Resource density multiplier inside geode (3x normal)
-    interiorResourceMultiplier: 3.0,
-    // Special block multiplier inside geode (5x chance)
-    specialBlockMultiplier: 5,
-  },
-
   // Decorative crystal veins — visual-only clusters that also emit soft local light.
   glowCrystals: {
     totalMin: 18,

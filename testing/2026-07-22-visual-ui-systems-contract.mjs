@@ -144,20 +144,20 @@ assert.equal(skin.playerFrame.key, ASSET_KEYS.ui.approvedHud.playerCore);
 skin.destroy();
 assert.equal(skinScene.actors.filter((actor) => actor.destroyed).length > 0, true);
 
-// Cave covers collect all zone types, reveal on entry, and detect opened wall rings.
+// Cave covers collect authored cave types and reveal on player entry.
 const caveScene = makeScene();
 const world = {
   caveZones: [{ cx: 4, cy: 4, rx: 2, ry: 2, wallThickness: 1 }],
   hiddenCaveZones: [{ cx: 10, cy: 5, rx: 2, ry: 1, hasTreasureRoom: true }],
-  geodeZones: [{ cx: 15, cy: 6, rx: 2, ry: 2, wallThickness: 1 }], inBounds: () => true,
+  inBounds: () => true,
   getTileType: () => TILE_TYPES.DIRT,
 };
 const covers = new CaveInteriorOcclusionSystem(caveScene, { enabled: true, depth: 2, updateRangeTiles: 99, fillColor: 1, fillAlpha: 1, edgeColor: 2, edgeAlpha: 1, bandAlpha: 0.1 });
 covers.create(world);
-assert.equal(covers.zones.length, 4);
+assert.equal(covers.zones.length, 3);
 covers.update({ tx: 4, ty: 4 });
 assert.equal(covers.revealed.has(covers.zones[0].id), true);
-assert.equal(covers.isBreached(covers.zones.find((zone) => zone.type === "geode")), true);
+assert.equal(covers.isBreached(covers.zones[0]), false);
 covers.destroy();
 
 // Authored templates choose by size deterministically and clamp object opacity.

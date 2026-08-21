@@ -465,12 +465,8 @@ export class DigSystem {
     if (!direction) return null;
     const tileType = this.worldModel.getTileType(targetTile.tx, targetTile.ty);
     const damage = this.getDamagePreview(tileType);
-    let tx = targetTile.tx + direction[0];
-    let ty = targetTile.ty + direction[1];
-    if (this.worldModel.getTileType(tx, ty) === TILE_TYPES.GEODE_WALL) {
-      tx += direction[0];
-      ty += direction[1];
-    }
+    const tx = targetTile.tx + direction[0];
+    const ty = targetTile.ty + direction[1];
     if (!this.worldModel.inBounds(tx, ty) || !this.worldModel.isDiggable(tx, ty)) return null;
     return {
       tx,
@@ -494,7 +490,7 @@ export class DigSystem {
       : 0;
   }
 
-  _tryApplyHeavyPunchBehind(targetTile, damage, aimDirection, options = {}) {
+  _tryApplyHeavyPunchBehind(targetTile, damage, aimDirection) {
     const heavyPunchResult = {
       heavyPunchHit: false,
       heavyPunchTile: null,
@@ -522,16 +518,8 @@ export class DigSystem {
     const dir = dirMap[aimDirection];
     if (!dir) return heavyPunchResult;
 
-    let bx = targetTile.tx + dir[0];
-    let by = targetTile.ty + dir[1];
-
-    if (options.skipGeodeWallBehind !== false) {
-      const behindType = this.worldModel.inBounds(bx, by) ? this.worldModel.getTileType(bx, by) : null;
-      if (behindType === TILE_TYPES.GEODE_WALL) {
-        bx += dir[0];
-        by += dir[1];
-      }
-    }
+    const bx = targetTile.tx + dir[0];
+    const by = targetTile.ty + dir[1];
 
     if (!this.worldModel.inBounds(bx, by) || !this.worldModel.isDiggable(bx, by)) {
       return heavyPunchResult;
@@ -627,48 +615,6 @@ export class DigSystem {
     const tileType = this.worldModel.getTileType(targetTile.tx, targetTile.ty);
 
     if (!this.worldModel.isDiggable(targetTile.tx, targetTile.ty)) {
-      if (tileType === TILE_TYPES.GEODE_WALL) {
-        const hasHeavyPunch = this._getHeavyPunchFraction() > 0;
-        if (hasHeavyPunch && !options.skipHeavyPunch) {
-          const baseDamage = this._getBaseDamageForTile(tileType);
-          const damage = this._getDamage(baseDamage, tileType);
-          const heavyPunchResult = this._tryApplyHeavyPunchBehind(targetTile, damage, aimDirection, {
-            skipGeodeWallBehind: false,
-          });
-
-          if (heavyPunchResult.heavyPunchHit) {
-            return {
-              success: true,
-              tileType,
-              typeBeforeDamage: tileType,
-              destroyed: false,
-              hp: null,
-              damage,
-              resourceType: null,
-              resourceAmount: 0,
-              resource: null,
-              xpGained: 0,
-              levelUp: false,
-              newLevel: null,
-              hasChoice: false,
-              rewards: null,
-              isCriticalHit: false,
-              isLuckyDrop: false,
-              frontDamageApplied: false,
-              ...heavyPunchResult,
-              specialBlockEffect: null,
-              specialBlockDestroyed: false,
-              gemPowerRestored: 0,
-              gemPowerTierId: null,
-              gemPowerRestoreCapacity: 0,
-              levelsGained: 0,
-              skyTileMultiplier: 1,
-              skyTilePassiveBonus: false,
-            };
-          }
-
-        }
-      }
       return {
         success: false,
         reason: "blocked",

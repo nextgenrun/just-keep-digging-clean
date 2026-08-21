@@ -1,8 +1,7 @@
 import { CAVE_OCCLUSION_CONFIG } from "../../values/caveOcclusionConfig.js";
-import { TILE_TYPES } from "../../values/tileTypes.js";
 
 /**
- * Draws visual-only cover over cave and geode interiors until discovered.
+ * Draws visual-only cover over cave interiors until discovered.
  */
 export class CaveInteriorOcclusionSystem {
   constructor(scene, config = CAVE_OCCLUSION_CONFIG) {
@@ -51,7 +50,6 @@ export class CaveInteriorOcclusionSystem {
     this.addEllipseZones(zones, "cave", worldModel.caveZones || []);
     this.addEllipseZones(zones, "hiddenCave", worldModel.hiddenCaveZones || []);
     this.addTreasureRooms(zones, worldModel.hiddenCaveZones || []);
-    this.addEllipseZones(zones, "geode", worldModel.geodeZones || []);
     return zones;
   }
 
@@ -60,7 +58,6 @@ export class CaveInteriorOcclusionSystem {
       const fallbackLabel = {
         cave: "Integrated Cave",
         hiddenCave: "Hidden Cave",
-        geode: "Crystal Geode",
       }[type] || "Underground Discovery";
       const sourceId = zone.id || `${type}-${index}-${zone.cx}-${zone.cy}`;
       out.push({
@@ -181,24 +178,8 @@ export class CaveInteriorOcclusionSystem {
   }
 
   isBreached(zone) {
-    if (zone.shape !== "ellipse" || zone.wallThickness <= 0) return false;
-    // Integrated caves intentionally have permanent AIR entrances. Treating
-    // those authored mouths as damage would reveal every cave on the first
-    // update; normal caves reveal only when the player crosses the shell.
-    if (zone.type === "cave") return false;
-
-    const wallRx = zone.rx + zone.wallThickness;
-    const wallRy = zone.ry + zone.wallThickness;
-    for (let ty = Math.floor(zone.cy - wallRy); ty <= Math.ceil(zone.cy + wallRy); ty += 1) {
-      for (let tx = Math.floor(zone.cx - wallRx); tx <= Math.ceil(zone.cx + wallRx); tx += 1) {
-        if (!this.worldModel.inBounds(tx, ty)) continue;
-        const outer = ((tx - zone.cx) / wallRx) ** 2 + ((ty - zone.cy) / wallRy) ** 2 <= 1;
-        const inner = this.contains(zone, tx, ty);
-        if (!outer || inner) continue;
-        const tileType = this.worldModel.getTileType(tx, ty);
-        if (zone.type === "geode" && tileType !== TILE_TYPES.GEODE_WALL) return true;
-      }
-    }
+    // Authored cave mouths are permanent AIR, so shell damage cannot be used
+    // as a discovery signal. Caves reveal only when the player enters them.
     return false;
   }
 }

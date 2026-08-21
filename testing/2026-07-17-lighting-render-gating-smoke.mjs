@@ -178,7 +178,7 @@ lightSystem._setShaderSnapshot = () => {};
 lightSystem._eraseCrystalLights = () => {
   darknessCalls.crystal += 1;
 };
-lightSystem._eraseSkyAndGeodeLights = () => {
+lightSystem._eraseSkyTileLights = () => {
   darknessCalls.semantic += 1;
 };
 

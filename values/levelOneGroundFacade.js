@@ -79,8 +79,6 @@ export const LEVEL_ONE_GROUND_FACADE = Object.freeze({
     berserk: freezeMarker(70, 1, 1, 1),
     combo: freezeMarker(71, 1, 1, 1),
     legend: freezeMarker(72, 1, 1, 1),
-    geodeInterior: freezeMarker(73, 1, 0.8, 0.94),
-    geodeWall: freezeMarker(74, 1, 0.78, 0.9),
     chest: freezeMarker(75, 1, 0.78, 0.96),
     ancientRelic: freezeMarker(76, 1, 0.74, 0.94),
     glowCrystal: freezeMarker(77, 1, 0.82, 0.96),
