@@ -19,10 +19,20 @@ function Invoke-GitText {
     $startInfo.CreateNoWindow = $true
     $startInfo.RedirectStandardOutput = $true
     $startInfo.RedirectStandardError = $true
-    $startInfo.ArgumentList.Add("-C")
-    $startInfo.ArgumentList.Add($script:RepoRoot)
-    foreach ($argument in $Arguments) {
-        $startInfo.ArgumentList.Add($argument)
+    $nativeArguments = @("-C", $script:RepoRoot) + $Arguments
+    if ($null -ne $startInfo.ArgumentList) {
+        foreach ($argument in $nativeArguments) {
+            $startInfo.ArgumentList.Add($argument)
+        }
+    }
+    else {
+        # Windows PowerShell 5.1 runs on .NET Framework, where ArgumentList is
+        # unavailable. Every rollback argument is already a discrete trusted
+        # value, so quote it for the legacy Arguments string without invoking a
+        # shell. This keeps the documented powershell.exe route operational.
+        $startInfo.Arguments = ($nativeArguments | ForEach-Object {
+            '"' + ([string]$_).Replace('"', '\"') + '"'
+        }) -join " "
     }
 
     $process = [Diagnostics.Process]::new()

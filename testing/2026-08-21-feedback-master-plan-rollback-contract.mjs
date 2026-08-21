@@ -18,6 +18,8 @@ for (const required of [
   "Invoke-FeedbackMasterPlanRollback",
   "RedirectStandardOutput",
   "RedirectStandardError",
+  "$startInfo.Arguments",
+  "Windows PowerShell 5.1",
   "safety/2026-08-20-pre-feedback-master-plan",
   "ExpectedTargetCommit",
   "merge-base --is-ancestor",
