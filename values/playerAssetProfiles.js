@@ -1,8 +1,8 @@
 import { PLAYER_CHARACTER_IDS, normalizePlayerCharacterId } from "./playerCharacters.js";
-import { SURVIVAL_UAL_PLAYER_ASSET_PROFILE } from "./survivalUalPlayerAssetProfile.js?rev=20260820-complex-dig-v1";
+import { SURVIVAL_UAL_PLAYER_ASSET_PROFILE } from "./survivalUalPlayerAssetProfile.js?rev=20260825-unified-animation-v1";
 import { UAL_NATIVE_PLAYER_ASSET_PROFILE } from "./ualNativePlayerAssetProfile.js";
 
-export { SURVIVAL_UAL_PLAYER_ASSET_PROFILE } from "./survivalUalPlayerAssetProfile.js?rev=20260820-complex-dig-v1";
+export { SURVIVAL_UAL_PLAYER_ASSET_PROFILE } from "./survivalUalPlayerAssetProfile.js?rev=20260825-unified-animation-v1";
 
 const range = (length) => Array.from({ length }, (_, index) => index);
 

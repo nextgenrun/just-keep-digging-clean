@@ -6,9 +6,10 @@ revive, and hidden One-Life Hardcore starts with one life and no free revive.
 It also owns post-Flight arming, persisted stress/high-water mark, armed play
 time, paid-teleport/unstuck counters, high-stress GP drain, and cooldowns.
 
-`hardcoreMemorialRecord.js` sanitizes a final run and builds every stat and
-bounded Journey-achievement recap page for both the death result and later
-full-screen grave inspection. `HardcoreMemorialStore.js` persists those records
+`hardcoreMemorialRecord.js` sanitizes a final run, migrates stored memorial
+levels to the meaningful ten-to-one scale, and builds every stat and bounded
+Journey-achievement recap page for both the death result and later full-screen
+grave inspection. `HardcoreMemorialStore.js` persists those records
 outside save slots. It exposes append/read only, so new-save cleanup and Casual
 save management cannot remove graves. `world/playScene/HardcoreDeathBridge.js`
 consumes the shared lives reducer, returns surviving runs to town, and persists

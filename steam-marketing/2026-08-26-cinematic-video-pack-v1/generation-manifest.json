@@ -1,0 +1,219 @@
+{
+  "schemaVersion": 1,
+  "startedAt": "2026-08-25T23:22:56.985462+00:00",
+  "completedAt": "2026-08-25T23:26:39.398370+00:00",
+  "model": "google/veo-3.1-lite",
+  "ttsModel": "mistralai/voxtral-mini-tts-2603",
+  "hardBudgetUsd": 10.0,
+  "estimatedVideoCostUsd": 4.16,
+  "knownVideoCostUsd": 4.16,
+  "creditsBefore": {
+    "data": {
+      "total_credits": 1716,
+      "total_usage": 1668.123372835
+    }
+  },
+  "creditsAfter": {
+    "data": {
+      "total_credits": 1716,
+      "total_usage": 1672.283372835
+    }
+  },
+  "results": [
+    {
+      "shotId": "roots-descent",
+      "status": "completed",
+      "poll": {
+        "id": "IivhwDhdYob9pd8VV6zL",
+        "generation_id": "gen-vid-1787700177-G5FWpUIiS7FBvtNSEmHf",
+        "polling_url": "https://openrouter.ai/api/v1/videos/IivhwDhdYob9pd8VV6zL",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/IivhwDhdYob9pd8VV6zL/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.48,
+          "is_byok": false
+        }
+      },
+      "output": "steam-marketing/2026-08-26-cinematic-video-pack-v1/source-clips/roots-descent.mp4",
+      "sha256": "e8c909c1e2c8a8477d684884b06343f71533d8d3da2fab42fe7457625b2d7b5e"
+    },
+    {
+      "shotId": "rift-flight",
+      "status": "completed",
+      "poll": {
+        "id": "oRnWFIXwpB0S4TPhyJJK",
+        "generation_id": "gen-vid-1787700180-H1KDGVAvRQia81QEhrc0",
+        "polling_url": "https://openrouter.ai/api/v1/videos/oRnWFIXwpB0S4TPhyJJK",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/oRnWFIXwpB0S4TPhyJJK/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.48,
+          "is_byok": false
+        }
+      },
+      "output": "steam-marketing/2026-08-26-cinematic-video-pack-v1/source-clips/rift-flight.mp4",
+      "sha256": "5a51baaedd237b1a8ec106f3c2be27daf9c00f11f320c8d34a447fe808305b5c"
+    },
+    {
+      "shotId": "star-core-release",
+      "status": "completed",
+      "poll": {
+        "id": "mGi2rSAuIjWcFFtvclkR",
+        "generation_id": "gen-vid-1787700184-WOLTtmSUN0WV3SOPEP3h",
+        "polling_url": "https://openrouter.ai/api/v1/videos/mGi2rSAuIjWcFFtvclkR",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/mGi2rSAuIjWcFFtvclkR/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.48,
+          "is_byok": false
+        }
+      },
+      "output": "steam-marketing/2026-08-26-cinematic-video-pack-v1/source-clips/star-core-release.mp4",
+      "sha256": "a485b7ee7c3ea2d0b1c3c0b4eab53ad4c29ad52c6cb22f0cb52cc6dbc36c55bc"
+    },
+    {
+      "shotId": "understar-awakening",
+      "status": "completed",
+      "poll": {
+        "id": "bPi6omQ3CQTdFpqiGAbL",
+        "generation_id": "gen-vid-1787700187-FUhevhPJp88Gb110WjQg",
+        "polling_url": "https://openrouter.ai/api/v1/videos/bPi6omQ3CQTdFpqiGAbL",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/bPi6omQ3CQTdFpqiGAbL/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.64,
+          "is_byok": false
+        }
+      },
+      "output": "steam-marketing/2026-08-26-cinematic-video-pack-v1/source-clips/understar-awakening.mp4",
+      "sha256": "af02a3e8b3cc12e025f6d3b8d8bcfef38cc8e3e538ee811aed6952264db39950"
+    },
+    {
+      "shotId": "mossback-stirs",
+      "status": "completed",
+      "poll": {
+        "id": "1E0bND0F9Y6LwkTYyeJM",
+        "generation_id": "gen-vid-1787700190-ZFR9jAaMY2eOw72idaaB",
+        "polling_url": "https://openrouter.ai/api/v1/videos/1E0bND0F9Y6LwkTYyeJM",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/1E0bND0F9Y6LwkTYyeJM/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.64,
+          "is_byok": false
+        }
+      },
+      "output": "steam-marketing/2026-08-26-cinematic-video-pack-v1/source-clips/mossback-stirs.mp4",
+      "sha256": "feac35181f8639cc7aec2499426f31dcf0a7ae07575d81deb07f297cd8933d6f"
+    },
+    {
+      "shotId": "mossback-close",
+      "status": "completed",
+      "poll": {
+        "id": "dnc8LglCeJpkmqTOrftY",
+        "generation_id": "gen-vid-1787700193-f6zXPo6CXcBWl24RgHuL",
+        "polling_url": "https://openrouter.ai/api/v1/videos/dnc8LglCeJpkmqTOrftY",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/dnc8LglCeJpkmqTOrftY/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.48,
+          "is_byok": false
+        }
+      },
+      "output": "steam-marketing/2026-08-26-cinematic-video-pack-v1/source-clips/mossback-close.mp4",
+      "sha256": "5fc3170d8068d395534c80f2c12e5d3ce182e6056f2eb39dcb86b996f5327f16"
+    },
+    {
+      "shotId": "mossback-vertical",
+      "status": "completed",
+      "poll": {
+        "id": "k1FXCbkDqi6omjsOKcoh",
+        "generation_id": "gen-vid-1787700196-laLhBIUy73NRLvYDWyq1",
+        "polling_url": "https://openrouter.ai/api/v1/videos/k1FXCbkDqi6omjsOKcoh",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/k1FXCbkDqi6omjsOKcoh/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.48,
+          "is_byok": false
+        }
+      },
+      "output": "steam-marketing/2026-08-26-cinematic-video-pack-v1/source-clips/mossback-vertical.mp4",
+      "sha256": "7b406cd19d7b83a88faa5153662847d8223bcdedf81c12e83b61e2122eb358f0"
+    },
+    {
+      "shotId": "rift-flight-vertical",
+      "status": "completed",
+      "poll": {
+        "id": "grfble5ttFc9llyEhjVQ",
+        "generation_id": "gen-vid-1787700200-Z7Xs5TSOrMZTW8Aeks6X",
+        "polling_url": "https://openrouter.ai/api/v1/videos/grfble5ttFc9llyEhjVQ",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/grfble5ttFc9llyEhjVQ/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.48,
+          "is_byok": false
+        }
+      },
+      "output": "steam-marketing/2026-08-26-cinematic-video-pack-v1/source-clips/rift-flight-vertical.mp4",
+      "sha256": "5ef69a7946ea10d6a1c3b9a040f9eb31c5e59d7515e8550688f2c42b9ced1504"
+    }
+  ],
+  "voices": [
+    {
+      "id": "opening",
+      "status": "completed",
+      "voice": "gb_oliver_curious",
+      "text": "Below the last light, the mine remembers every path. Dig. Return. Grow stronger. Then descend, where earth, sky, and starlight meet. The Understar is waiting.",
+      "output": "steam-marketing/2026-08-26-cinematic-video-pack-v1/audio/narration-opening.mp3",
+      "sha256": "f37ae2d879a5b6b29c19bcf117a5c2d2c60375c4154ef257b3eb8dc78b518955"
+    },
+    {
+      "id": "mossback",
+      "status": "completed",
+      "voice": "gb_oliver_curious",
+      "text": "That is not a statue. It is breathing.",
+      "output": "steam-marketing/2026-08-26-cinematic-video-pack-v1/audio/narration-mossback.mp3",
+      "sha256": "74f885d94809296984873c3a42706ce74581bd6fb3c4d11a63ed122937e5f6c2"
+    },
+    {
+      "id": "trailer",
+      "status": "completed",
+      "voice": "gb_oliver_confident",
+      "text": "Every descent is a decision. Every return makes you stronger. Master Flight. Find the Titans. Wake the Understar. Wishlist Understar on Steam.",
+      "output": "steam-marketing/2026-08-26-cinematic-video-pack-v1/audio/narration-trailer.mp3",
+      "sha256": "78182d9465ca4de0d4acc5dbf5b137592b4a1d2e282ba48b43eeceb0e3e062d2"
+    },
+    {
+      "id": "short-mossback",
+      "status": "completed",
+      "voice": "gb_oliver_curious",
+      "text": "At ninety meters, the roots started breathing. Find all twenty-five Titans. Wishlist Understar on Steam.",
+      "output": "steam-marketing/2026-08-26-cinematic-video-pack-v1/audio/narration-short-mossback.mp3",
+      "sha256": "7181fd408cc16e8cec98fbb417970b17918251844421e116c9c19f4878ad2835"
+    },
+    {
+      "id": "short-depth",
+      "status": "completed",
+      "voice": "gb_oliver_confident",
+      "text": "How deep would you go? Dig. Return. Grow stronger. The Understar is waiting. Wishlist now on Steam.",
+      "output": "steam-marketing/2026-08-26-cinematic-video-pack-v1/audio/narration-short-depth.mp3",
+      "sha256": "7463f5bef3d3f7f28da746f9b1713c73098cbd79410b57acf9677023810eefea"
+    }
+  ],
+  "apiKeyStored": false
+}

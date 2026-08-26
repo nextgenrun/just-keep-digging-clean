@@ -5,6 +5,7 @@ import { resolve } from "node:path";
 import { APPROVED_HUD_SKIN } from "../values/approvedHudSkin.js";
 import { CELESTIAL_CURRENCY_HUD_CONFIG } from "../values/celestialCurrencyHud.js";
 import { HARDCORE_MODE_CONFIG } from "../values/hardcoreMode.js";
+import { HUD_LAYOUT } from "../values/hudLayout.js";
 import { HUD_QUICK_CONTROLS } from "../values/hudQuickControls.js";
 import { RETENTION_CONFIG } from "../values/retentionConfig.js";
 import { RANDOM_WORLD_EVENT_CONFIG } from "../values/randomWorldEvents.js";
@@ -12,6 +13,8 @@ import { getRandomEventRibbonGeometry } from
   "../systems/visual/RandomEventWorldView.js";
 
 const root = resolve(import.meta.dirname, "..");
+
+assert.equal(HUD_LAYOUT.showWorldStateHud, false);
 
 function readPngHeader(path) {
   const bytes = readFileSync(path);
@@ -77,5 +80,6 @@ assert.match(approvedSource, /_croppedImage\(/);
 assert.doesNotMatch(approvedSource, /WEATHER_TEXTURE_KEYS|setWeatherKind|setWeatherVisible|weatherIcon/);
 assert.doesNotMatch(hudSource, /weatherPanel|weatherText|weatherTemp|weatherSeason|weatherIntensity|LEGACY_WEATHER_ICONS|setWeatherKind|setWeatherVisible/);
 assert.doesNotMatch(hudSource, /phaseIcon/);
+assert.match(hudSource, /if \(!HUD_LAYOUT\.showWorldStateHud\) return;/);
 
-console.log("clock-only HUD contract: ok");
+console.log("weather and world-state HUD removal contract: ok");

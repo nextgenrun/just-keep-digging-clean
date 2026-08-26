@@ -1,0 +1,95 @@
+{
+  "schemaVersion": 1,
+  "startedAt": "2026-08-26T01:28:17.349643+00:00",
+  "completedAt": "2026-08-26T01:30:43.488750+00:00",
+  "model": "google/veo-3.1-lite",
+  "hardBudgetUsd": 0.75,
+  "estimatedVideoCostUsd": 0.36,
+  "knownVideoCostUsd": 0.36,
+  "modelCapabilities": {
+    "supported_durations": [
+      8,
+      4,
+      6
+    ],
+    "supported_resolutions": [
+      "720p",
+      "1080p"
+    ],
+    "supported_aspect_ratios": [
+      "16:9",
+      "9:16"
+    ],
+    "supported_frame_images": [
+      "first_frame",
+      "last_frame"
+    ],
+    "generate_audio": true,
+    "pricing_skus": {
+      "duration_seconds_with_audio": "0.08",
+      "duration_seconds_without_audio": "0.05",
+      "duration_seconds_with_audio_720p": "0.05",
+      "duration_seconds_without_audio_720p": "0.03"
+    }
+  },
+  "results": [
+    {
+      "variantId": "facet-sweep",
+      "status": "completed",
+      "poll": {
+        "id": "rOOEqpAQraEnz35QvQFM",
+        "generation_id": "gen-vid-1787707697-h4GSXFFzF1PbR35EBnV5",
+        "polling_url": "https://openrouter.ai/api/v1/videos/rOOEqpAQraEnz35QvQFM",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/rOOEqpAQraEnz35QvQFM/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.12,
+          "is_byok": false
+        }
+      },
+      "output": "sprites/environment/star-block-idle-v1/source/clips/facet-sweep.mp4",
+      "sha256": "29e8eeaabe3736769feea2bd17b2cd8c06085022083afcccc98ba2f501689e46"
+    },
+    {
+      "variantId": "core-breath",
+      "status": "completed",
+      "poll": {
+        "id": "0NeOTqewAIY1EIVTLGyY",
+        "generation_id": "gen-vid-1787707751-PuUuDfBCe3Co6ykcPeXZ",
+        "polling_url": "https://openrouter.ai/api/v1/videos/0NeOTqewAIY1EIVTLGyY",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/0NeOTqewAIY1EIVTLGyY/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.12,
+          "is_byok": false
+        }
+      },
+      "output": "sprites/environment/star-block-idle-v1/source/clips/core-breath.mp4",
+      "sha256": "801d1236002fa15c4f91d9985d25fdcae5bcaf0241365e34e901df9bdf557995"
+    },
+    {
+      "variantId": "stardust-orbit",
+      "status": "completed",
+      "poll": {
+        "id": "LXUbxP9yIxHOHmDw4xM3",
+        "generation_id": "gen-vid-1787707797-gyV5utubZ19J90ANVXVx",
+        "polling_url": "https://openrouter.ai/api/v1/videos/LXUbxP9yIxHOHmDw4xM3",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/LXUbxP9yIxHOHmDw4xM3/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.12,
+          "is_byok": false
+        }
+      },
+      "output": "sprites/environment/star-block-idle-v1/source/clips/stardust-orbit.mp4",
+      "sha256": "70e0e68c0262e18d1492507dbfc50388d1738378cdfeecfe46095ebf35f68af4"
+    }
+  ],
+  "apiKeyStored": false
+}

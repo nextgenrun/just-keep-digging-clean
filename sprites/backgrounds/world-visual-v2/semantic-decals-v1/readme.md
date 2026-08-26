@@ -4,12 +4,22 @@ Image-generated physical terrain art for the scenic renderer. These assets are
 visual-only: `WorldModel` remains authoritative for tile type, HP, digging,
 collision, rewards, and saves.
 
-- `ground-damage-piskel-anchor-v2.png` is the active 188 px universal damage
-  atlas. Its 120 transparent frames give ten registered surface-damage families
-  twelve cumulative proportional-HP states each, with every frame anchored to
-  the invariant `94,94` tile pivot.
-- `piskel-ground-damage-v2/` records the production hash, source-review hashes,
-  exact 10x12 slicing order, logical 94 px placement, and both rollback queries.
+- `ground-damage-fracture-expanded-v4.png` and
+  `ground-damage-response-expanded-v4.png` are the active layered damage
+  atlases. They provide 64 authored structural motifs x four cumulative raster
+  anchors, 33 exact tile/resource profiles x four response tiers, twelve
+  logical HP states, and eight coordinate-stable transforms. The production
+  painter mixes shadow, rim, and exact tile-tinted response at the invariant
+  94 px gameplay size, yielding 6,144 structural combinations within a
+  56.6 MB decoded atlas budget.
+- `ground-damage-expanded-v4/` records the ImageGen source sheets, alpha-clean
+  derivative, prompt summaries, exact profile order, hashes, frame order,
+  coverage, decoded-memory budget, and rollback routes.
+- `ground-damage-fracture-v3.png`, `ground-damage-response-v3.png`, and
+  `ground-damage-layered-v3/` remain the complete layered V3 rollback selected
+  by `?groundDamageAtlas=v3`.
+- `ground-damage-piskel-anchor-v2.png` and `piskel-ground-damage-v2/` remain the
+  complete polished V2 rollback selected by `?groundDamageAtlas=v2`.
 - `ground-damage-imagegen-v1.png` and `imagegen-ground-damage-v1/` remain the
   byte-intact V1 atlas/source package selected by
   `?groundDamageAtlas=legacy`.
@@ -65,6 +75,8 @@ python ai-tools/2026-07-28-build-overground-texture-clarity-assets.py
 python ai-tools/2026-07-28-build-wide-embedded-resource-overlays-v6.py
 python ai-tools/2026-07-28-build-star-block-crystal-v2.py
 python ai-tools/2026-07-29-build-ground-damage-imagegen-v1.py
+python ai-tools/2026-08-26-build-layered-ground-damage-v3.py
+python ai-tools/2026-08-26-build-expanded-ground-damage-v4.py
 ```
 
 Runtime rollback is controlled by the query parameters documented in

@@ -4,6 +4,7 @@ import { HUD_LAYOUT } from "../../values/hudLayout.js";
 import { PickaxeHudView } from "./PickaxeHudView.js";
 
 const REQUIRED_KEYS = Object.freeze(Object.values(ASSET_KEYS.ui.approvedHud));
+const clamp01 = value => Math.max(0, Math.min(1, Number(value) || 0));
 
 export function hasApprovedHudSkin(scene) {
   return APPROVED_HUD_SKIN.enabled === true
@@ -29,6 +30,10 @@ export class ApprovedHudSkin {
     this.active = hasApprovedHudSkin(scene);
     this.buffFrames = [];
     this.buffTexts = [];
+    this.torchBurnFrame = null;
+    this.torchActive = false;
+    this.torchIntensity = 1;
+    this.torchBurnAlpha = 0;
     this.pickaxeHudView = null;
     if (!this.active) return;
 
@@ -39,7 +44,7 @@ export class ApprovedHudSkin {
     this._createFrames();
     this._applyLegacyObjectLayout();
     this.pickaxeHudView = new PickaxeHudView(scene, this.scale);
-    this.setTorchState(hud.torchActive);
+    this.setTorchState(hud.torchActive, hud.torchIntensity);
   }
 
   _createFrames() {
@@ -57,6 +62,19 @@ export class ApprovedHudSkin {
       depth,
     );
 
+    const burn = layout.torchBurn;
+    const burnScaleX = layout.playerCore.width / burn.sourceWidth;
+    const burnScaleY = layout.playerCore.height / burn.sourceHeight;
+    this.torchBurnFrame = this._croppedImage(
+      (layout.playerCore.x + burn.sourceCrop.x * burnScaleX) * s,
+      (layout.playerCore.y + burn.sourceCrop.y * burnScaleY) * s,
+      ASSET_KEYS.ui.approvedHud.playerCore,
+      burn.sourceCrop,
+      burn.sourceCrop.width * burnScaleX * s,
+      burn.sourceCrop.height * burnScaleY * s,
+      depth,
+    ).setAlpha(0).setVisible(false);
+
     this.comboFrame = this._image(
       width / 2 - layout.combo.width * s / 2,
       layout.combo.y * s,
@@ -66,16 +84,17 @@ export class ApprovedHudSkin {
       depth,
     ).setVisible(false);
 
-    const worldX = width - (layout.worldState.right + layout.worldState.width) * s;
-    this.worldFrame = this._croppedImage(
-      worldX,
-      layout.worldState.y * s,
-      ASSET_KEYS.ui.approvedHud.worldState,
-      layout.worldState.sourceCrop,
-      layout.worldState.width * s,
-      layout.worldState.height * s,
-      depth,
-    );
+    this.worldFrame = HUD_LAYOUT.showWorldStateHud
+      ? this._croppedImage(
+          width - (layout.worldState.right + layout.worldState.width) * s,
+          layout.worldState.y * s,
+          ASSET_KEYS.ui.approvedHud.worldState,
+          layout.worldState.sourceCrop,
+          layout.worldState.width * s,
+          layout.worldState.height * s,
+          depth,
+        )
+      : null;
 
     for (let index = 0; index < layout.buffs.maxVisible; index += 1) {
       const x = (layout.buffs.x + index * (layout.buffs.width + layout.buffs.gap)) * s;
@@ -112,6 +131,8 @@ export class ApprovedHudSkin {
     hud.torchStatusText?.setVisible(false);
     hud.buffTimerText?.setVisible(false);
     hud.clockPanel?.setVisible(false);
+    hud.clockTimeText?.setVisible(HUD_LAYOUT.showWorldStateHud);
+    hud.clockDayText?.setVisible(HUD_LAYOUT.showWorldStateHud);
 
     hud.statsText?.setPosition(layout.depth.x * s, layout.depth.y * s).setOrigin(0, 0);
     setHudTextStyle(hud.statsText, layout.depth.fontSize * s);
@@ -180,14 +201,29 @@ export class ApprovedHudSkin {
     this.comboFrame?.setVisible(Boolean(visible));
   }
 
-  setTorchState(active) {
+  setTorchState(active, intensity = this.torchIntensity) {
     if (!this.active) return;
-    this.playerFrame?.setTexture(
-      active
-        ? ASSET_KEYS.ui.approvedHud.playerCore
-        : ASSET_KEYS.ui.approvedHud.playerCoreTorchOff
-    );
+    this.torchActive = Boolean(active);
+    this.torchIntensity = clamp01(intensity);
+    this.playerFrame?.setTexture(ASSET_KEYS.ui.approvedHud.playerCoreTorchOff);
+    this.setTorchBurn(this.torchActive ? this.torchIntensity : 0);
     this.hud.torchStatusText?.setVisible(false);
+  }
+
+  setTorchBurn(alpha) {
+    if (!this.active) return;
+    this.torchBurnAlpha = this.torchActive ? clamp01(alpha) : 0;
+    const visible = this.torchActive && this.torchBurnAlpha > 0;
+    this.torchBurnFrame?.setAlpha(this.torchBurnAlpha).setVisible(visible);
+  }
+
+  getTorchBurnSnapshot() {
+    return {
+      active: this.torchActive,
+      intensity: this.torchIntensity,
+      alpha: this.torchBurnAlpha,
+      visible: this.torchBurnFrame?.visible === true,
+    };
   }
 
   setCurrentPickaxe(pickaxeId, options = {}) {
@@ -213,6 +249,7 @@ export class ApprovedHudSkin {
     this.pickaxeHudView?.destroy();
     [
       this.playerFrame,
+      this.torchBurnFrame,
       this.comboFrame,
       this.worldFrame,
       ...this.buffFrames,
@@ -221,6 +258,7 @@ export class ApprovedHudSkin {
       .forEach((object) => object?.destroy());
     this.buffFrames = [];
     this.buffTexts = [];
+    this.torchBurnFrame = null;
     this.pickaxeHudView = null;
     this.scene = null;
     this.hud = null;

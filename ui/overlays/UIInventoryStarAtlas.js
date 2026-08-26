@@ -1,32 +1,45 @@
 import {
   STAR_IDENTITY_LIBRARY_CONFIG,
-} from "../../values/starIdentityLibrary.js";
+} from "../../values/starIdentityLibrary.js?rev=20260826-inventory-codex-v2";
 import {
   getStarIdentitiesForRarity,
   getStarIdentity,
 } from "../../values/starIdentityLibraryMath.js";
 import { getStarRarityTier } from "../../values/starRarityProgressionMath.js";
+import { UI_COLORS } from "../../values/uiColors.js";
 import { UI_FONTS } from "../../values/uiLayout.js";
 import {
   installStarIdentityTextureFrames,
 } from "../../systems/visual/installStarIdentityTextureFrames.js";
 import {
-  addStarAtlasText,
-  fitStarAtlasFoundation,
   renderStarAtlasControls,
-} from "./UIInventoryStarAtlasControls.js";
+} from "./UIInventoryStarAtlasControls.js?rev=20260826-inventory-codex-v3";
+import { addStarAtlasText } from
+  "./UIInventoryStarAtlasPrimitives.js?rev=20260826-inventory-codex-v3";
+import {
+  fitStarAtlasFoundation,
+  starAtlasFontSize,
+  starAtlasPoint,
+  starAtlasSize,
+} from "./UIInventoryStarAtlasLayout.js?rev=20260826-inventory-codex-v2";
+import { addUiStarIdlePreviewMotion } from
+  "./UIStarIdleMotion.js?rev=20260826-star-idle-ui-v2";
 
 function renderIdentityDossier(scene, parent, bounds, identity) {
   const config = STAR_IDENTITY_LIBRARY_CONFIG;
   const copy = config.inventory.copy;
   const layout = config.inventory.layout;
   const tier = getStarRarityTier(identity.rarityIndex);
-  const previewX = bounds.left + bounds.width * layout.previewCenterX;
-  const previewY = bounds.top + bounds.height * layout.previewCenterY;
-  const previewSize = bounds.width * layout.previewImageSizeRatio;
+  const previewPoint = starAtlasPoint(
+    bounds,
+    layout.previewCenterXPx,
+    layout.previewCenterYPx,
+    layout,
+  );
+  const previewSize = starAtlasSize(bounds, layout.previewImageSizePx, layout);
   const previewLight = scene.add.image(
-    previewX,
-    previewY,
+    previewPoint.x,
+    previewPoint.y,
     identity.lightAtlasKey,
     identity.lightFrameName,
   ).setDisplaySize(
@@ -36,23 +49,40 @@ function renderIdentityDossier(scene, parent, bounds, identity) {
   previewLight.setBlendMode?.(globalThis.Phaser?.BlendModes?.ADD);
   parent.add(previewLight);
   const preview = scene.add.image(
-    previewX,
-    previewY,
+    previewPoint.x,
+    previewPoint.y,
     identity.atlasKey,
     identity.frameName,
   ).setDisplaySize(previewSize, previewSize);
   preview.setBlendMode?.(globalThis.Phaser?.BlendModes?.SCREEN);
   parent.add(preview);
+  addUiStarIdlePreviewMotion(scene, parent, {
+    x: previewPoint.x,
+    y: previewPoint.y,
+    size: previewSize,
+    identityIndex: identity.index,
+  });
 
+  const badgePoint = starAtlasPoint(
+    bounds,
+    layout.previewBadgeXPx,
+    layout.previewBadgeYPx,
+    layout,
+  );
   addStarAtlasText(
     scene,
     parent,
-    bounds.left + bounds.width * layout.previewBadgeX,
-    bounds.top + bounds.height * layout.previewBadgeY,
+    badgePoint.x,
+    badgePoint.y,
     `${tier.label}\n${tier.name}`,
     {
       fontFamily: UI_FONTS.display,
-      fontSizePx: layout.previewBadgeFontSizePx,
+      fontSizePx: starAtlasFontSize(
+        bounds,
+        layout.previewBadgeFontSizePx,
+        layout,
+        8,
+      ),
       fontStyle: "bold",
       color: tier.palette.highlight,
       lineSpacing: 2,
@@ -60,62 +90,109 @@ function renderIdentityDossier(scene, parent, bounds, identity) {
       strokeThickness: 3,
     },
   );
+  const namePoint = starAtlasPoint(
+    bounds,
+    layout.nameCenterXPx,
+    layout.nameCenterYPx,
+    layout,
+  );
   addStarAtlasText(
     scene,
     parent,
-    bounds.left + bounds.width * layout.nameCenterX,
-    bounds.top + bounds.height * layout.nameCenterY,
+    namePoint.x,
+    namePoint.y,
     identity.name.toUpperCase(),
     {
       fontFamily: UI_FONTS.display,
-      fontSizePx: layout.nameFontSizePx,
+      fontSizePx: starAtlasFontSize(
+        bounds,
+        layout.nameFontSizePx,
+        layout,
+        17,
+      ),
       fontStyle: "bold",
-      color: identity.primary,
+      color: UI_COLORS.title,
       stroke: "#02060A",
       strokeThickness: 3,
     },
   );
-  addStarAtlasText(
-    scene,
-    parent,
-    bounds.left + bounds.width * layout.nameCenterX,
-    bounds.top + bounds.height * layout.colourCenterY,
-    `${identity.colourName.toUpperCase()}  •  ${copy.rewardTier}: ${tier.name}`,
-    {
-      fontFamily: UI_FONTS.mono,
-      fontSizePx: layout.colourFontSizePx,
-      fontStyle: "bold",
-      color: identity.secondary,
-    },
+  const colourPoint = starAtlasPoint(
+    bounds,
+    layout.nameCenterXPx,
+    layout.colourCenterYPx,
+    layout,
   );
   addStarAtlasText(
     scene,
     parent,
-    bounds.left + bounds.width * layout.nameCenterX,
-    bounds.top + bounds.height * layout.flavourCenterY,
+    colourPoint.x,
+    colourPoint.y,
+    `STAR ${String(identity.index + 1).padStart(3, "0")} / ${config.identities.length}`
+      + `  •  ${identity.colourName.toUpperCase()}`
+      + `  •  ${copy.rewardTier}: ${tier.name}`,
+    {
+      fontFamily: UI_FONTS.mono,
+      fontSizePx: starAtlasFontSize(
+        bounds,
+        layout.colourFontSizePx,
+        layout,
+        8,
+      ),
+      fontStyle: "bold",
+      color: tier.palette.highlight,
+    },
+  );
+  const flavourPoint = starAtlasPoint(
+    bounds,
+    layout.nameCenterXPx,
+    layout.flavourCenterYPx,
+    layout,
+  );
+  addStarAtlasText(
+    scene,
+    parent,
+    flavourPoint.x,
+    flavourPoint.y,
     identity.flavour,
     {
       fontFamily: UI_FONTS.body,
-      fontSizePx: layout.flavourFontSizePx,
+      fontSizePx: starAtlasFontSize(
+        bounds,
+        layout.flavourFontSizePx,
+        layout,
+        11,
+      ),
       fontStyle: "italic",
-      color: tier.palette.text,
-      wordWrapWidth: bounds.width * layout.flavourWidthRatio,
+      color: UI_COLORS.body,
+      wordWrapWidth: starAtlasSize(bounds, layout.flavourWidthPx, layout),
       lineSpacing: 3,
     },
+  );
+  const lightPoint = starAtlasPoint(
+    bounds,
+    layout.nameCenterXPx,
+    layout.lightCenterYPx,
+    layout,
   );
   addStarAtlasText(
     scene,
     parent,
-    bounds.left + bounds.width * layout.nameCenterX,
-    bounds.top + bounds.height * layout.lightCenterY,
+    lightPoint.x,
+    lightPoint.y,
     `${copy.lightStyle}: ${identity.light.style.toUpperCase()}`
       + `  •  ${tier.minDepthTiles > 0
         ? `${copy.depthLocked} ${tier.minDepthTiles}M`
         : copy.surfaceDepth}`,
     {
       fontFamily: UI_FONTS.mono,
-      fontSizePx: layout.lightFontSizePx,
-      color: tier.palette.secondary,
+      fontSizePx: starAtlasFontSize(
+        bounds,
+        layout.lightFontSizePx,
+        layout,
+        8,
+      ),
+      fontStyle: "bold",
+      color: UI_COLORS.muted,
     },
   );
 
@@ -124,24 +201,26 @@ function renderIdentityDossier(scene, parent, bounds, identity) {
     `${copy.material}\n${tier.multiplier}x`,
     `${copy.engine}\n+${tier.engineCharge}`,
   ];
-  stats.forEach((value, index) => addStarAtlasText(
-    scene,
-    parent,
-    bounds.left + bounds.width * layout.statCentersX[index],
-    bounds.top + bounds.height * layout.statCenterY,
-    value,
-    {
+  stats.forEach((value, index) => {
+    const statPoint = starAtlasPoint(
+      bounds,
+      layout.statCentersXPx[index],
+      layout.statCenterYPx,
+      layout,
+    );
+    addStarAtlasText(scene, parent, statPoint.x, statPoint.y, value, {
       fontFamily: UI_FONTS.display,
-      fontSizePx: layout.statFontSizePx,
+      fontSizePx: starAtlasFontSize(
+        bounds,
+        layout.statFontSizePx,
+        layout,
+        9,
+      ),
       fontStyle: "bold",
-      color: index === 0
-        ? identity.primary
-        : index === 1
-          ? tier.palette.highlight
-          : tier.palette.secondary,
+      color: index === 1 ? tier.palette.highlight : UI_COLORS.title,
       lineSpacing: 2,
-    },
-  ));
+    });
+  });
   return preview;
 }
 
@@ -198,36 +277,6 @@ export function renderInventoryStarAtlas(
     shell.content,
     bounds,
     identity,
-  );
-  addStarAtlasText(
-    scene,
-    shell.content,
-    bounds.left + bounds.width * config.inventory.layout.ruleCenterX,
-    bounds.top + bounds.height * config.inventory.layout.ruleCenterY,
-    config.inventory.copy.libraryRule,
-    {
-      fontFamily: UI_FONTS.mono,
-      fontSizePx: config.inventory.layout.ruleFontSizePx,
-      fontStyle: "bold",
-      color: identity.secondary,
-      stroke: "#02060A",
-      strokeThickness: 2,
-    },
-  );
-  addStarAtlasText(
-    scene,
-    shell.content,
-    bounds.left + bounds.width * config.inventory.layout.ruleCenterX,
-    bounds.top + bounds.height * config.inventory.layout.navigationHintCenterY,
-    config.inventory.copy.navigationHint,
-    {
-      fontFamily: UI_FONTS.mono,
-      fontSizePx: config.inventory.layout.navigationHintFontSizePx,
-      fontStyle: "bold",
-      color: identity.secondary,
-      stroke: "#02060A",
-      strokeThickness: 2,
-    },
   );
   return Object.freeze({
     rarityIndex,

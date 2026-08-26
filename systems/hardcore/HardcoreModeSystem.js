@@ -215,7 +215,6 @@ export class HardcoreModeSystem {
   canUseUnstuck(now = Date.now()) {
     return this.getUnstuckCooldownRemaining(now) <= 0;
   }
-
   recordUnstuck(now = Date.now()) {
     this.state = sanitizeHardcoreModeData({
       ...this.state,
@@ -225,7 +224,6 @@ export class HardcoreModeSystem {
     this._events.push({ type: "unstuck-used" });
     return this.getSaveData();
   }
-
   recordTeleport(cost) {
     const paid = Math.max(0, Math.floor(finiteOr(cost, 0)));
     if (!isHardcoreModeArmed(this.state) || paid <= 0) return false;
@@ -237,7 +235,6 @@ export class HardcoreModeSystem {
     this._events.push({ type: "teleport-paid", cost: paid });
     return true;
   }
-
   recordDeath(source = "unknown") {
     const result = consumeHardcoreDeath(this.state);
     if (result.outcome === "casual") return result;
@@ -254,35 +251,33 @@ export class HardcoreModeSystem {
     });
     return result;
   }
-
   getSaveData() {
     return sanitizeHardcoreModeData(this.state);
   }
-
   getSnapshot() {
     const stress = this.state.stress;
+    const maximumStress = this.config.stress.maximum;
     return {
       ...this.getSaveData(),
       isHardcore: isHardcoreMode(this.state),
       armed: isHardcoreModeArmed(this.state),
       stressBand: this._resolveStressBand(stress),
-      stressRatio: stress / this.config.stress.maximum,
+      stressRatio: stress / maximumStress,
+      sanity: maximumStress - stress,
+      sanityRatio: 1 - stress / maximumStress,
       stressGpDrainPerSecond: this.getStressGpDrainPerSecond(stress),
     };
   }
-
   drainEvents() {
     const events = this._events;
     this._events = [];
     return events;
   }
-
   _resolveStressBand(stress) {
     if (stress >= this.config.stress.criticalThreshold) return "critical";
     if (stress >= this.config.stress.warningThreshold) return "warning";
     return "calm";
   }
-
   _emitStressBandChanges(previousStress, nextStress, nowMs = 0) {
     const nextBand = this._resolveStressBand(nextStress);
     if (nextBand === this._lastStressBand) return;

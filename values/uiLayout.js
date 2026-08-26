@@ -239,3 +239,10 @@ export const SHOP_MERCHANT_PROFILES = Object.freeze({
     greeting: "Select an item to inspect its effect, price, and requirements.",
   }),
 });
+
+export const SHOP_SELECTION_BEHAVIOR = Object.freeze({
+  previewLabel: "HOVER PREVIEW",
+  pinnedLabel: "PINNED",
+  mouseHint: "Click row: pin/unpin",
+  statusFontSize: "10px",
+});

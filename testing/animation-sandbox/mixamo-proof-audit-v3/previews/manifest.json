@@ -8,265 +8,309 @@
       "source": "testing/blender-animation-lab-v1/review-drafts/mixamo-library-v1/renders/candidate-runtime/crouch-enter.gif",
       "frames": 18,
       "durationMs": 720,
-      "infiniteReplay": true
+      "infiniteReplay": true,
+      "transparentBackground": true
     },
     "library-crouch-exit.gif": {
       "source": "testing/blender-animation-lab-v1/review-drafts/mixamo-library-v1/renders/candidate-runtime/crouch-exit.gif",
       "frames": 18,
       "durationMs": 720,
-      "infiniteReplay": true
+      "infiniteReplay": true,
+      "transparentBackground": true
     },
     "library-crouch-idle.gif": {
       "source": "testing/blender-animation-lab-v1/review-drafts/mixamo-library-v1/renders/candidate-runtime/crouch-idle.gif",
       "frames": 28,
       "durationMs": 1400,
-      "infiniteReplay": true
+      "infiniteReplay": true,
+      "transparentBackground": true
     },
     "library-flight-loop.gif": {
       "source": "testing/blender-animation-lab-v1/review-drafts/mixamo-library-v1/renders/candidate-runtime/flight-loop.gif",
       "frames": 48,
       "durationMs": 2400,
-      "infiniteReplay": true
+      "infiniteReplay": true,
+      "transparentBackground": true
     },
     "library-hard-landing.gif": {
       "source": "testing/blender-animation-lab-v1/review-drafts/mixamo-library-v1/renders/candidate-runtime/hard-landing.gif",
       "frames": 24,
       "durationMs": 720,
-      "infiniteReplay": true
+      "infiniteReplay": true,
+      "transparentBackground": true
     },
     "library-hurricane-quickslash.gif": {
       "source": "testing/blender-animation-lab-v1/review-drafts/mixamo-library-v1/renders/candidate-runtime/hurricane-quickslash.gif",
       "frames": 28,
       "durationMs": 840,
-      "infiniteReplay": true
+      "infiniteReplay": true,
+      "transparentBackground": true
     },
     "library-idle-fidget.gif": {
       "source": "testing/blender-animation-lab-v1/review-drafts/mixamo-library-v1/renders/candidate-runtime/idle-fidget.gif",
       "frames": 120,
       "durationMs": 6000,
-      "infiniteReplay": true
+      "infiniteReplay": true,
+      "transparentBackground": true
     },
     "library-thunder-strike.gif": {
       "source": "testing/blender-animation-lab-v1/review-drafts/mixamo-library-v1/renders/candidate-runtime/thunder-strike.gif",
       "frames": 30,
       "durationMs": 1200,
-      "infiniteReplay": true
+      "infiniteReplay": true,
+      "transparentBackground": true
     },
     "library-walk-start.gif": {
       "source": "testing/blender-animation-lab-v1/review-drafts/mixamo-library-v1/renders/candidate-runtime/walk-start.gif",
       "frames": 16,
       "durationMs": 480,
-      "infiniteReplay": true
+      "infiniteReplay": true,
+      "transparentBackground": true
     },
     "library-walk-stop.gif": {
       "source": "testing/blender-animation-lab-v1/review-drafts/mixamo-library-v1/renders/candidate-runtime/walk-stop.gif",
       "frames": 16,
       "durationMs": 480,
-      "infiniteReplay": true
+      "infiniteReplay": true,
+      "transparentBackground": true
     },
     "combat-body-low.gif": {
       "source": "testing/blender-animation-lab-v1/review-drafts/mixamo-punch-sequence-sandbox-v1/renders/candidate/body-low.gif",
       "frames": 24,
       "durationMs": 720,
-      "infiniteReplay": true
+      "infiniteReplay": true,
+      "transparentBackground": true
     },
     "combat-boxing-back-cross.gif": {
       "source": "testing/blender-animation-lab-v1/review-drafts/mixamo-punch-sequence-sandbox-v1/renders/candidate/boxing-back-cross.gif",
       "frames": 20,
       "durationMs": 600,
-      "infiniteReplay": true
+      "infiniteReplay": true,
+      "transparentBackground": true
     },
     "combat-boxing-back-uppercut.gif": {
       "source": "testing/blender-animation-lab-v1/review-drafts/mixamo-punch-sequence-sandbox-v1/renders/candidate/boxing-back-uppercut.gif",
       "frames": 22,
       "durationMs": 660,
-      "infiniteReplay": true
+      "infiniteReplay": true,
+      "transparentBackground": true
     },
     "combat-boxing-lead-hook.gif": {
       "source": "testing/blender-animation-lab-v1/review-drafts/mixamo-punch-sequence-sandbox-v1/renders/candidate/boxing-lead-hook.gif",
       "frames": 20,
       "durationMs": 600,
-      "infiniteReplay": true
+      "infiniteReplay": true,
+      "transparentBackground": true
     },
     "combat-boxing-lead-jab.gif": {
       "source": "testing/blender-animation-lab-v1/review-drafts/mixamo-punch-sequence-sandbox-v1/renders/candidate/boxing-lead-jab.gif",
       "frames": 18,
       "durationMs": 540,
-      "infiniteReplay": true
+      "infiniteReplay": true,
+      "transparentBackground": true
     },
     "combat-cross.gif": {
       "source": "testing/blender-animation-lab-v1/review-drafts/mixamo-punch-sequence-sandbox-v1/renders/candidate/cross.gif",
       "frames": 18,
       "durationMs": 540,
-      "infiniteReplay": true
+      "infiniteReplay": true,
+      "transparentBackground": true
     },
     "combat-eight-combo.gif": {
       "source": "testing/blender-animation-lab-v1/review-drafts/mixamo-punch-sequence-sandbox-v1/renders/candidate/eight-combo.gif",
       "frames": 29,
       "durationMs": 870,
-      "infiniteReplay": true
+      "infiniteReplay": true,
+      "transparentBackground": true
     },
     "combat-elbow-single.gif": {
       "source": "testing/blender-animation-lab-v1/review-drafts/mixamo-punch-sequence-sandbox-v1/renders/candidate/elbow-single.gif",
       "frames": 18,
       "durationMs": 540,
-      "infiniteReplay": true
+      "infiniteReplay": true,
+      "transparentBackground": true
     },
     "combat-elbow-uppercut.gif": {
       "source": "testing/blender-animation-lab-v1/review-drafts/mixamo-punch-sequence-sandbox-v1/renders/candidate/elbow-uppercut.gif",
       "frames": 28,
       "durationMs": 840,
-      "infiniteReplay": true
+      "infiniteReplay": true,
+      "transparentBackground": true
     },
     "combat-four-combo.gif": {
       "source": "testing/blender-animation-lab-v1/review-drafts/mixamo-punch-sequence-sandbox-v1/renders/candidate/four-combo.gif",
       "frames": 44,
       "durationMs": 1320,
-      "infiniteReplay": true
+      "infiniteReplay": true,
+      "transparentBackground": true
     },
     "combat-hook.gif": {
       "source": "testing/blender-animation-lab-v1/review-drafts/mixamo-punch-sequence-sandbox-v1/renders/candidate/hook.gif",
       "frames": 22,
       "durationMs": 660,
-      "infiniteReplay": true
+      "infiniteReplay": true,
+      "transparentBackground": true
     },
     "combat-jab-cross.gif": {
       "source": "testing/blender-animation-lab-v1/review-drafts/mixamo-punch-sequence-sandbox-v1/renders/candidate/jab-cross.gif",
       "frames": 30,
       "durationMs": 900,
-      "infiniteReplay": true
+      "infiniteReplay": true,
+      "transparentBackground": true
     },
     "combat-jab-elbow.gif": {
       "source": "testing/blender-animation-lab-v1/review-drafts/mixamo-punch-sequence-sandbox-v1/renders/candidate/jab-elbow.gif",
       "frames": 30,
       "durationMs": 900,
-      "infiniteReplay": true
+      "infiniteReplay": true,
+      "transparentBackground": true
     },
     "combat-jab.gif": {
       "source": "testing/blender-animation-lab-v1/review-drafts/mixamo-punch-sequence-sandbox-v1/renders/candidate/jab.gif",
       "frames": 18,
       "durationMs": 540,
-      "infiniteReplay": true
+      "infiniteReplay": true,
+      "transparentBackground": true
     },
     "combat-kick-front-snap.gif": {
       "source": "testing/blender-animation-lab-v1/review-drafts/mixamo-punch-sequence-sandbox-v1/renders/candidate/kick-front-snap.gif",
       "frames": 20,
       "durationMs": 600,
-      "infiniteReplay": true
+      "infiniteReplay": true,
+      "transparentBackground": true
     },
     "combat-kick-high.gif": {
       "source": "testing/blender-animation-lab-v1/review-drafts/mixamo-punch-sequence-sandbox-v1/renders/candidate/kick-high.gif",
       "frames": 24,
       "durationMs": 720,
-      "infiniteReplay": true
+      "infiniteReplay": true,
+      "transparentBackground": true
     },
     "combat-kick-low.gif": {
       "source": "testing/blender-animation-lab-v1/review-drafts/mixamo-punch-sequence-sandbox-v1/renders/candidate/kick-low.gif",
       "frames": 20,
       "durationMs": 600,
-      "infiniteReplay": true
+      "infiniteReplay": true,
+      "transparentBackground": true
     },
     "combat-kick-roundhouse.gif": {
       "source": "testing/blender-animation-lab-v1/review-drafts/mixamo-punch-sequence-sandbox-v1/renders/candidate/kick-roundhouse.gif",
       "frames": 22,
       "durationMs": 660,
-      "infiniteReplay": true
+      "infiniteReplay": true,
+      "transparentBackground": true
     },
     "combat-kick-side.gif": {
       "source": "testing/blender-animation-lab-v1/review-drafts/mixamo-punch-sequence-sandbox-v1/renders/candidate/kick-side.gif",
       "frames": 22,
       "durationMs": 660,
-      "infiniteReplay": true
+      "infiniteReplay": true,
+      "transparentBackground": true
     },
     "combat-kick-spinning-back.gif": {
       "source": "testing/blender-animation-lab-v1/review-drafts/mixamo-punch-sequence-sandbox-v1/renders/candidate/kick-spinning-back.gif",
       "frames": 26,
       "durationMs": 780,
-      "infiniteReplay": true
+      "infiniteReplay": true,
+      "transparentBackground": true
     },
     "combat-knee-muay-thai.gif": {
       "source": "testing/blender-animation-lab-v1/review-drafts/mixamo-punch-sequence-sandbox-v1/renders/candidate/knee-muay-thai.gif",
       "frames": 24,
       "durationMs": 720,
-      "infiniteReplay": true
+      "infiniteReplay": true,
+      "transparentBackground": true
     },
     "combat-knee-triple-uppercut.gif": {
       "source": "testing/blender-animation-lab-v1/review-drafts/mixamo-punch-sequence-sandbox-v1/renders/candidate/knee-triple-uppercut.gif",
       "frames": 44,
       "durationMs": 1320,
-      "infiniteReplay": true
+      "infiniteReplay": true,
+      "transparentBackground": true
     },
     "combat-leg-sweep.gif": {
       "source": "testing/blender-animation-lab-v1/review-drafts/mixamo-punch-sequence-sandbox-v1/renders/candidate/leg-sweep.gif",
       "frames": 26,
       "durationMs": 780,
-      "infiniteReplay": true
+      "infiniteReplay": true,
+      "transparentBackground": true
     },
     "combat-uppercut.gif": {
       "source": "testing/blender-animation-lab-v1/review-drafts/mixamo-punch-sequence-sandbox-v1/renders/candidate/uppercut.gif",
       "frames": 24,
       "durationMs": 720,
-      "infiniteReplay": true
+      "infiniteReplay": true,
+      "transparentBackground": true
     },
     "locomotion-crouch-walk.gif": {
       "source": "testing/blender-animation-lab-v1/review-drafts/mixamo-locomotion-comparison-v1/renders/candidate-runtime/crouch-walk.gif",
       "frames": 24,
       "durationMs": 960,
-      "infiniteReplay": true
+      "infiniteReplay": true,
+      "transparentBackground": true
     },
     "locomotion-falling-loop.gif": {
       "source": "testing/blender-animation-lab-v1/review-drafts/mixamo-locomotion-comparison-v1/renders/candidate-runtime/falling-loop.gif",
       "frames": 24,
       "durationMs": 960,
-      "infiniteReplay": true
+      "infiniteReplay": true,
+      "transparentBackground": true
     },
     "locomotion-jump-full.gif": {
       "source": "testing/blender-animation-lab-v1/review-drafts/mixamo-locomotion-comparison-v1/renders/candidate-runtime/jump-full.gif",
       "frames": 36,
       "durationMs": 1080,
-      "infiniteReplay": true
+      "infiniteReplay": true,
+      "transparentBackground": true
     },
     "locomotion-run-loop.gif": {
       "source": "testing/blender-animation-lab-v1/review-drafts/mixamo-locomotion-comparison-v1/renders/candidate-runtime/run-loop.gif",
       "frames": 20,
       "durationMs": 600,
-      "infiniteReplay": true
+      "infiniteReplay": true,
+      "transparentBackground": true
     },
     "locomotion-walk-loop.gif": {
       "source": "testing/blender-animation-lab-v1/review-drafts/mixamo-locomotion-comparison-v1/renders/candidate-runtime/walk-loop.gif",
       "frames": 24,
       "durationMs": 960,
-      "infiniteReplay": true
+      "infiniteReplay": true,
+      "transparentBackground": true
     },
     "atlas-slow-run.gif": {
       "source": "testing/blender-animation-lab-v1/review-drafts/mixamo-atlas-v2/renders/candidate-runtime/slow-run.gif",
       "frames": 24,
       "durationMs": 720,
-      "infiniteReplay": true
+      "infiniteReplay": true,
+      "transparentBackground": true
     },
     "atlas-turn-left-90.gif": {
       "source": "testing/blender-animation-lab-v1/review-drafts/mixamo-atlas-v2/renders/candidate-runtime/turn-left-90.gif",
       "frames": 24,
       "durationMs": 720,
-      "infiniteReplay": true
+      "infiniteReplay": true,
+      "transparentBackground": true
     },
     "atlas-turn-right-90.gif": {
       "source": "testing/blender-animation-lab-v1/review-drafts/mixamo-atlas-v2/renders/candidate-runtime/turn-right-90.gif",
       "frames": 24,
       "durationMs": 720,
-      "infiniteReplay": true
+      "infiniteReplay": true,
+      "transparentBackground": true
     },
     "atlas-unarmed-walk.gif": {
       "source": "testing/blender-animation-lab-v1/review-drafts/mixamo-atlas-v2/renders/candidate-runtime/unarmed-walk.gif",
       "frames": 24,
       "durationMs": 720,
-      "infiniteReplay": true
+      "infiniteReplay": true,
+      "transparentBackground": true
     },
     "atlas-walker-walk.gif": {
       "source": "testing/blender-animation-lab-v1/review-drafts/mixamo-atlas-v2/renders/candidate-runtime/walker-walk.gif",
       "frames": 24,
       "durationMs": 720,
-      "infiniteReplay": true
+      "infiniteReplay": true,
+      "transparentBackground": true
     }
   }
 }

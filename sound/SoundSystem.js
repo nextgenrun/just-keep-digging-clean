@@ -26,7 +26,9 @@ export class SoundSystem {
     this.sfxEnabled = true;
     this.lastFootstepTime = 0;
     this.lastUiSelectTime = -Infinity;
+    this.lastXpGatherTime = -Infinity;
     this.activeSeismicWarning = null;
+    this.levelUpCueTimer = null;
 
     this.voiceLineTimer = null;
     this.lastVoiceLineTime = 0;
@@ -166,6 +168,46 @@ export class SoundSystem {
     return this.playFirstAvailableSfx([
       ASSET_KEYS.audio.sfx.uiConfirm,
     ], this.config.uiConfirmVolumeMultiplier, { rate: this.config.uiConfirmRate });
+  }
+
+  playXpGather({ special = false, levelUp = false, segmentIndex = 0 } = {}) {
+    const now = Number(this.scene.time?.now) || 0;
+    if (now - this.lastXpGatherTime < this.config.xpGatherMinIntervalMs) return null;
+    this.lastXpGatherTime = now;
+    const safeSegment = Math.max(
+      0,
+      Math.min(this.config.xpGatherMaxSegmentIndex, Math.floor(Number(segmentIndex) || 0)),
+    );
+    const rate = this.config.xpGatherBaseRate
+      + safeSegment * this.config.xpGatherSegmentRateStep
+      + (levelUp ? this.config.xpGatherLevelRateBoost : 0);
+    const volume = special || levelUp
+      ? this.config.xpGatherSpecialVolumeMultiplier
+      : this.config.xpGatherVolumeMultiplier;
+    return this.playFirstAvailableSfx([ASSET_KEYS.audio.sfx.uiSelect], volume, { rate });
+  }
+
+  playLevelUpReward() {
+    this.levelUpCueTimer?.remove?.();
+    this.levelUpCueTimer = null;
+    const first = this.playFirstAvailableSfx(
+      [ASSET_KEYS.audio.sfx.uiConfirm],
+      this.config.levelUpFirstVolumeMultiplier,
+      { rate: this.config.levelUpFirstRate },
+    );
+    if (!first) return null;
+    this.levelUpCueTimer = this.scene.time.delayedCall(
+      this.config.levelUpSecondDelayMs,
+      () => {
+        this.levelUpCueTimer = null;
+        this.playFirstAvailableSfx(
+          [ASSET_KEYS.audio.sfx.uiConfirm],
+          this.config.levelUpSecondVolumeMultiplier,
+          { rate: this.config.levelUpSecondRate },
+        );
+      },
+    );
+    return first;
   }
 
   playVoiceLine(key) {
@@ -309,10 +351,24 @@ export class SoundSystem {
 
   playHardcoreNearDeath() {
     this.stopSeismicWarning();
-    const sound = this.playFirstAvailableSfx(
-      ["sfx-seismic-warning-1", "sfx-seismic-warning-0"],
+    const sound = this.playApprovedSfxFamily(
+      "hardcoreNearDeath",
       this.config.hardcoreNearDeathVolume,
       { rate: this.config.hardcoreNearDeathRate },
+    );
+    this.activeSeismicWarning = sound;
+    sound?.once?.("complete", () => {
+      if (this.activeSeismicWarning === sound) this.activeSeismicWarning = null;
+    });
+    return sound;
+  }
+
+  playHardcoreStressWarning(critical = false) {
+    this.stopSeismicWarning();
+    const sound = this.playApprovedSfxFamily(
+      "hardcoreNearDeath",
+      this.config.hardcoreNearDeathVolume * (critical ? 0.72 : 0.48),
+      { rate: critical ? 1 : 1.08 },
     );
     this.activeSeismicWarning = sound;
     sound?.once?.("complete", () => {
@@ -327,13 +383,6 @@ export class SoundSystem {
     if (!this._isUsableSound(sound)) return;
     try { sound.stop(); } catch (_) {}
     try { sound.destroy(); } catch (_) {}
-  }
-
-  playRareDiscovery() {
-    return this.playApprovedSfxFamily(
-      "rareDiscovery",
-      this.config.rareDiscoveryVolume,
-    );
   }
 
   setMasterVolume(volume) {
@@ -624,6 +673,8 @@ export class SoundSystem {
 
   destroy() {
     console.log('[SoundSystem] Destroying sound system');
+    this.levelUpCueTimer?.remove?.();
+    this.levelUpCueTimer = null;
     this.stopSeismicWarning();
     this.stopVoiceLineTimer();
     this.voiceLineManager?.destroy();

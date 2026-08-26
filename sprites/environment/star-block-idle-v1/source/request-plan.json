@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "model": "google/veo-3.1-lite",
+  "hardBudgetUsd": 0.75,
+  "estimatedVideoCostUsd": 0.36,
+  "priceAssumptionUsdPerSecond720pNoAudio": 0.03,
+  "durationSeconds": 4,
+  "resolution": "720p",
+  "aspectRatio": "16:9",
+  "generateAudio": false,
+  "reference": "sprites/environment/star-block-idle-v1/source/references/neutral-star-idle-first-last.png",
+  "variants": [
+    {
+      "id": "facet-sweep",
+      "seed": 26082631,
+      "prompt": "A narrow silver-white refracted highlight travels slowly across the inner facets from upper left to lower right, then settles. Two tiny points glint inside the halo.",
+      "fullPrompt": "Locked orthographic 2D game-sprite study on a perfectly pure black background. The exact centered crystal Star remains fixed in position, silhouette, size, palette, orientation, and five-point geometry. Animate only light travelling inside the existing facets and sparse energy already inside its halo. Static camera. Seamless four-second idle loop whose first and last frame match exactly. No zoom, crop, translation, rotation, shape morph, new object, extra star, scenery, floor, UI, text, logo, visible watermark, color shift, explosion, fracture, or camera motion. A narrow silver-white refracted highlight travels slowly across the inner facets from upper left to lower right, then settles. Two tiny points glint inside the halo."
+    },
+    {
+      "id": "core-breath",
+      "seed": 26082632,
+      "prompt": "The white inner core takes one restrained luminous breath while thin internal caustic threads circulate a few degrees and return to their starting positions.",
+      "fullPrompt": "Locked orthographic 2D game-sprite study on a perfectly pure black background. The exact centered crystal Star remains fixed in position, silhouette, size, palette, orientation, and five-point geometry. Animate only light travelling inside the existing facets and sparse energy already inside its halo. Static camera. Seamless four-second idle loop whose first and last frame match exactly. No zoom, crop, translation, rotation, shape morph, new object, extra star, scenery, floor, UI, text, logo, visible watermark, color shift, explosion, fracture, or camera motion. The white inner core takes one restrained luminous breath while thin internal caustic threads circulate a few degrees and return to their starting positions."
+    },
+    {
+      "id": "stardust-orbit",
+      "seed": 26082633,
+      "prompt": "Five sparse white micro-motes drift once around the existing halo while one tiny facet glint crosses the center. The crystal body itself remains completely still.",
+      "fullPrompt": "Locked orthographic 2D game-sprite study on a perfectly pure black background. The exact centered crystal Star remains fixed in position, silhouette, size, palette, orientation, and five-point geometry. Animate only light travelling inside the existing facets and sparse energy already inside its halo. Static camera. Seamless four-second idle loop whose first and last frame match exactly. No zoom, crop, translation, rotation, shape morph, new object, extra star, scenery, floor, UI, text, logo, visible watermark, color shift, explosion, fracture, or camera motion. Five sparse white micro-motes drift once around the existing halo while one tiny facet glint crosses the center. The crystal body itself remains completely still."
+    }
+  ]
+}

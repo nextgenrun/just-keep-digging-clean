@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "reviewOnly": true,
+  "runtimeWired": false,
+  "model": "stable-audio-2.5",
+  "createdAt": "2026-08-25T22:40:58.955037+00:00",
+  "updatedAt": "2026-08-25T22:41:06.949271+00:00",
+  "plannedJobs": 1,
+  "results": {
+    "GX201:onset:01": {
+      "jobKey": "GX201:onset:01",
+      "assetId": "GX201",
+      "assetName": "robot_power_on_clean_01",
+      "assetType": "One Shot",
+      "layer": "onset",
+      "take": 1,
+      "durationSeconds": 2,
+      "seed": 1000241977,
+      "prompt": "Small mining robot powers on, relay click sequence, tiny servo wake movement, clean isolated machine sound effect, no music, no instruments, no voices, no ambience bed. Render only the immediate onset and transient attack. Very short, crisp, no body resonance, debris, reverb, or tail. Production-quality isolated game-audio source layer. Dry and clean. No music, melody, beat, speech, voices, animals, or unrelated background ambience unless explicitly requested. No mastering limiter pumping.",
+      "file": "GX201_robot_power_on_clean_01__onset__take01__UNTESTED.wav",
+      "status": "ready",
+      "generationId": null,
+      "submittedAt": "2026-08-25T22:41:06.945006+00:00",
+      "bytes": 369786,
+      "sha256": "1e04827d044f05a496837ae922b9e49158cd0faeff96d52c56a63f37f37a76d9",
+      "completedAt": "2026-08-25T22:41:06.949271+00:00"
+    }
+  }
+}

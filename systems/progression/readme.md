@@ -30,6 +30,13 @@ Game system — progression.
   nonblockingly. Each milestone applies both small permanent rewards (+3%
   mining and +2% luck), supports multi-level awards, and persists its applied
   milestone count without opening a choice popup.
+- Player levels now use a real ten-to-one cadence. `playerLevelSaveState.js`
+  migrates former 1-999 saves into the 1-99 scale while preserving partial XP;
+  `playerLevelXpMutation.js` applies normal and fractional XP through one
+  validated threshold path; `playerLevelRewardMath.js` keeps ten former stat
+  steps in each earned level and publishes the exact darkness, mining, HP, and
+  GP reward summary. XP and Legend blocks preserve their former value as 10%
+  and 50% progress toward the next meaningful level.
 - `UpgradeSystem.js` persists Seismic Suppression through the existing
   `upgradeLevels` save map and exposes `earthquakesDisabled` only after the
   one-time endgame player-merchant purchase succeeds.
@@ -48,3 +55,7 @@ Game system — progression.
   Tunnel Key and adds 15% Level Two material value per level through level 10.
   Legacy mode hides and ignores the upgrade without deleting its saved level.
   Wallet mutation is normalized to the shared two-decimal currency boundary.
+- The Milestone progression now continues past the former 2,000m endpoint with
+  six Level Two rewards through 4,800m. Three material milestones total +50%
+  yield; the alternating GP milestones bring the complete pillar total to
+  +166 GP without changing the existing 32% speed and 12% crit caps.

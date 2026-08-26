@@ -31,8 +31,10 @@ import {
 import { THUNDER_STRIKE_CHAIN_CONFIG } from "../../values/thunderStrikeChain.js";
 import { WORLD_MAP_CONFIG } from "../../values/worldMapConfig.js";
 import { APPROVED_HUD_SKIN } from "../../values/approvedHudSkin.js";
+import { XP_GATHERING_CONFIG } from "../../values/xpGathering.js";
 import { AUTHORED_BACKGROUND_ASSET_OVERRIDES } from "../../values/authoredBackgroundAssetOverrides.js";
 import { BRAND_CONFIG } from "../../values/branding.js";
+import { CINEMATIC_VIDEO_CONFIG } from "../../values/cinematicVideoConfig.js";
 import { TILED_BACKGROUND_OBJECTS } from "../../values/tiledBackgroundObjects.js";
 import {
   WORLD_BACKGROUND_MASTER_TEST,
@@ -58,7 +60,10 @@ import {
 import { getOldSchoolLampLightPreloadAssets } from
   "../../values/oldSchoolLampLightConfig.js";
 import { getCollectedStarReleasePreloadAssets } from "../../values/starConstellations.js";
-import { getStarIdentityPreloadAssets } from "../../values/starIdentityLibrary.js";
+import { getStarIdentityPreloadAssets } from
+  "../../values/starIdentityLibrary.js?rev=20260826-inventory-codex-v2";
+import { getInventoryCodexPreloadAssets } from
+  "../../values/inventoryCodex.js?rev=20260826-inventory-codex-v2";
 import {
   RUNTIME_ASSET_LOADING,
   RUNTIME_ASSET_PACK_IDS,
@@ -782,11 +787,11 @@ export class BootScene extends Phaser.Scene {
       yoyo: true,
       hold: 700,
       onComplete: () => {
-        console.log('[BootScene] Logo animation complete, transitioning to MainMenuScene');
+        console.log('[BootScene] Logo animation complete, transitioning to opening cinematic');
         if (this.debugText) {
-          this.debugText.setText('BootScene: Transitioning to MainMenu...').setVisible(false);
+          this.debugText.setText('BootScene: Transitioning to opening cinematic...').setVisible(false);
         }
-        this.scene.start("MainMenuScene");
+        this.scene.start(CINEMATIC_VIDEO_CONFIG.scenes.opening);
       },
     });
   }
@@ -1108,6 +1113,9 @@ export class BootScene extends Phaser.Scene {
         this.queueImage(asset.key, asset.path);
       }
     }
+    for (const asset of getInventoryCodexPreloadAssets()) {
+      this.queueImage(asset.key, asset.path);
+    }
     this.load.spritesheet(UI_ICON_ATLAS.key, UI_ICON_ATLAS.path, {
       frameWidth: UI_ICON_ATLAS.frameWidth,
       frameHeight: UI_ICON_ATLAS.frameHeight,
@@ -1191,6 +1199,9 @@ export class BootScene extends Phaser.Scene {
     this.load.image(ASSET_KEYS.ui.lootPickups.bronze, "sprites/UI/loot-pickups/bronze.png");
     this.load.image(ASSET_KEYS.ui.lootPickups.silver, "sprites/UI/loot-pickups/silver.png");
     this.load.image(ASSET_KEYS.ui.lootPickups.gold, "sprites/UI/loot-pickups/gold.png");
+    this.load.image(ASSET_KEYS.ui.xpGathering.routine, XP_GATHERING_CONFIG.assetPaths.routine);
+    this.load.image(ASSET_KEYS.ui.xpGathering.special, XP_GATHERING_CONFIG.assetPaths.special);
+    this.load.image(ASSET_KEYS.ui.xpGathering.levelUp, XP_GATHERING_CONFIG.assetPaths.levelUp);
     queueCapabilityUiAssets(this, ASSET_KEYS, this.gameplayCapabilities);
   }
 

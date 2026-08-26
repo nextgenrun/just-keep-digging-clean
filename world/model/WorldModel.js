@@ -29,11 +29,7 @@ import {
   applySecondWorldArea as applySecondWorldAreaToModel,
   applySecondWorldExclusionBoundary,
 } from "../secondWorld/SecondWorldGenerator.js";
-import { hash01, isInsideEllipse } from "../../values/deterministicMath.js";
-import { STAR_RARITY_PROGRESSION_CONFIG } from "../../values/starRarityProgression.js";
-import { resolveStarRarityIndex } from "../../values/starRarityProgressionMath.js";
-import { STAR_IDENTITY_LIBRARY_CONFIG } from "../../values/starIdentityLibrary.js";
-import { resolveStarIdentityIndex } from "../../values/starIdentityLibraryMath.js";
+import { isInsideEllipse } from "../../values/deterministicMath.js";
 import { applySecondWorldTown as applySecondWorldTownToModel } from "../secondWorld/SecondWorldTown.js";
 import {
   applyCaveFeatures,
@@ -44,6 +40,10 @@ import { finalizeCaveGameplay } from "./CaveGameplayPlanner.js";
 import { supplementAuthoredCaveGaps } from "./CaveGapSupplementGenerator.js";
 import { SeededRandom } from "./SeededRandom.js";
 import { enforceUndergroundBedrockLayout } from "./UndergroundBedrockLayout.js";
+import {
+  applyConfiguredStarSpawns,
+  resolveAuthoredMaterialType,
+} from "./WorldSpawnAuthority.js";
 import { resolveBaseTerrainResourceType } from "./baseTerrainResourceResolver.js";
 import { enforceSurfaceTraversalLayout } from "./surfaceTraversalLayout.js";
 
@@ -213,7 +213,7 @@ export class WorldModel {
 
     this.generateBaseTerrain();
     this.generateCaves();
-    this.generateSkyTiles();
+    this.advancePostTerrainRngCompatibility();
     this.prepareSpawnZone();
     this.applyTiledWorldOverride();
     const caveSupplement = supplementAuthoredCaveGaps(this, TILED_WORLD_OVERRIDE);
@@ -222,7 +222,7 @@ export class WorldModel {
     }
     this.applySecondWorldArea();
     this.applySecondWorldTown();
-    // Authored Tiled terrain remains authoritative. Only explicit compact
+    // Authored Tiled geometry remains authoritative. Only explicit compact
     // rollback mouths are re-applied after the authored import.
     this.reapplyStandaloneCaveMouths();
     this.generateAncientRelicCaches();
@@ -244,6 +244,11 @@ export class WorldModel {
       + `${bedrockLayout.removedLevelOne + bedrockLayout.removedLevelTwo} stray tiles replaced`,
     );
     this.applyGameplayModeBoundaries();
+    const configuredStarTiles = this.generateSkyTiles();
+    console.info(
+      `[WorldModel] Applied ${configuredStarTiles} configured Stars at probability `
+      + `${this.config.skyTileProbability} after final world authority`,
+    );
   }
 
   generateBaseTerrain() {
@@ -260,6 +265,17 @@ export class WorldModel {
         );
 
         this.setTile(tx, ty, type, this.getTileMaxHp(tx, ty, type));
+      }
+    }
+  }
+
+  advancePostTerrainRngCompatibility() {
+    // Star occurrence used the shared RNG before final world authority was
+    // introduced. Preserve those draws so seeded relic/cache placement and
+    // existing save reconstruction do not move as a side effect of this fix.
+    for (let ty = this.topAirRows + 1; ty < this.depthTiles - 1; ty += 1) {
+      for (let tx = 0; tx < this.widthTiles; tx += 1) {
+        if (RESOURCE_TILE_TYPES.has(this.getType(tx, ty))) this.rng.next();
       }
     }
   }
@@ -573,37 +589,7 @@ export class WorldModel {
   }
 
   generateSkyTiles() {
-    const probability = this.config.skyTileProbability || 0;
-    if (probability <= 0) return;
-    for (let ty = this.topAirRows + 1; ty < this.depthTiles - 1; ty += 1) {
-      for (let tx = 0; tx < this.widthTiles; tx += 1) {
-        const idx = this.index(tx, ty);
-        const type = this._types[idx];
-        if (!RESOURCE_TILE_TYPES.has(type) || this.rng.next() >= probability) continue;
-
-        const depthTiles = ty - this.topAirRows;
-        const rarityRoll = hash01(
-          tx,
-          ty,
-          this.config.seed,
-          STAR_RARITY_PROGRESSION_CONFIG.spawn.rarityHashSalt,
-        );
-        const rarityTier = resolveStarRarityIndex(depthTiles, rarityRoll);
-        const identityRoll = hash01(
-          tx,
-          ty,
-          this.config.seed,
-          STAR_IDENTITY_LIBRARY_CONFIG.identityHashSalt,
-        );
-        const identityIndex = resolveStarIdentityIndex(rarityTier, identityRoll);
-
-        this.skyTileOriginalType[idx] = type;
-        this.skyTileRarity[idx] = rarityTier;
-        this.skyTileIdentity[idx] = identityIndex;
-        this._types[idx] = TILE_TYPES.SKY_TILE;
-        this._hp[idx] = this.getTileMaxHp(tx, ty, TILE_TYPES.SKY_TILE);
-      }
-    }
+    return applyConfiguredStarSpawns(this);
   }
 
   prepareSpawnZone() {
@@ -730,28 +716,17 @@ export class WorldModel {
         if (idx < 0 || idx >= this._types.length) continue;
         const tx = idx % this.widthTiles;
         const ty = Math.floor(idx / this.widthTiles);
-        const previousType = this._types[idx];
         this.authoredTileMask[idx] = 1;
-
-        if (tileType === TILE_TYPES.SKY_TILE) {
-          this.skyTileOriginalType[idx] = RESOURCE_TILE_TYPES.has(previousType) ? previousType : TILE_TYPES.DIRT;
-          const identityRoll = hash01(
-            tx,
-            ty,
-            this.config.seed,
-            STAR_IDENTITY_LIBRARY_CONFIG.identityHashSalt,
-          );
-          this.skyTileIdentity[idx] = resolveStarIdentityIndex(
-            this.skyTileRarity[idx],
-            identityRoll,
-          );
-        } else {
-          this.skyTileOriginalType[idx] = 0;
-          this.skyTileRarity[idx] = 0;
-          this.skyTileIdentity[idx] = 0;
-        }
-
-        this.setTile(tx, ty, tileType, tileType === TILE_TYPES.AIR ? 0 : this.getTileMaxHp(tx, ty, tileType));
+        const resolvedType = resolveAuthoredMaterialType(tileType, tx, ty, this.config);
+        this.skyTileOriginalType[idx] = 0;
+        this.skyTileRarity[idx] = 0;
+        this.skyTileIdentity[idx] = 0;
+        this.setTile(
+          tx,
+          ty,
+          resolvedType,
+          resolvedType === TILE_TYPES.AIR ? 0 : this.getTileMaxHp(tx, ty, resolvedType),
+        );
         applied += 1;
       }
     }
@@ -826,9 +801,29 @@ export class WorldModel {
 
     if (type === TILE_TYPES.SKY_TILE) {
       const originalType = this.getSkyTileOriginalType(tileX, tileY);
-      return getTileRenderIndex(originalType, hp, this.getTileMaxHp(tileX, tileY, type), tileX, tileY, depthTiles, this.config.seed, visualHint);
+      return getTileRenderIndex(
+        originalType,
+        hp,
+        this.getTileMaxHp(tileX, tileY, type),
+        tileX,
+        tileY,
+        depthTiles,
+        this.config.seed,
+        visualHint,
+        this.config.resourceEconomyEnabled !== false,
+      );
     }
-    return getTileRenderIndex(type, hp, this.getTileMaxHp(tileX, tileY, type), tileX, tileY, depthTiles, this.config.seed, visualHint);
+    return getTileRenderIndex(
+      type,
+      hp,
+      this.getTileMaxHp(tileX, tileY, type),
+      tileX,
+      tileY,
+      depthTiles,
+      this.config.seed,
+      visualHint,
+      this.config.resourceEconomyEnabled !== false,
+    );
   }
 
   getVisualHint(tileX, tileY, type) {

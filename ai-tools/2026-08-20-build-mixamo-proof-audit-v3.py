@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from PIL import Image, ImageSequence
+from PIL import Image, ImageDraw, ImageSequence
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -20,7 +20,13 @@ SOURCES = {
 
 def rebuild_preview(source: Path, destination: Path):
     with Image.open(source) as image:
-        frames = [frame.convert("RGBA") for frame in ImageSequence.Iterator(image)]
+        frames = []
+        for source_frame in ImageSequence.Iterator(image):
+            frame = source_frame.convert("RGBA")
+            # V4 proof GIFs were composited against pure black. Remove only the
+            # connected corner background; enclosed dark clothing stays intact.
+            ImageDraw.floodfill(frame, (0, 0), (0, 0, 0, 0), thresh=12)
+            frames.append(frame)
         durations = [frame.info.get("duration", image.info.get("duration", 42)) for frame in ImageSequence.Iterator(image)]
     destination.parent.mkdir(parents=True, exist_ok=True)
     frames[0].save(
@@ -36,6 +42,7 @@ def rebuild_preview(source: Path, destination: Path):
         "frames": len(frames),
         "durationMs": sum(durations),
         "infiniteReplay": True,
+        "transparentBackground": True,
     }
 
 

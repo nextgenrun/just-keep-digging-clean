@@ -1,0 +1,64 @@
+{
+  "jobs": {
+    "01-seedance-fast-traveling-gust": {
+      "variant": {
+        "id": "01-seedance-fast-traveling-gust",
+        "modelId": "seedance-fast",
+        "model": "bytedance/seedance-2.0-fast",
+        "profileId": "traveling-gust",
+        "estimatedCostUsd": 0.21384,
+        "prompt": "Use the supplied first frame as the exact immutable game-art reference. This is a wide side-on 2D game background, not a cinematic shot. The camera and crop are locked: no pan, zoom, dolly, tilt, shake, reframing, parallax warp, or lens effect. Preserve every building, mountain, road stone, surface boundary, soil rock, and root in place. Buildings, mountains, road, and the entire underground remain rigid and pixel-stable; no morphing, breathing, sliding, new openings, new shelves, second underground floor, or geometry changes. Do not add people, creatures, vehicles, objects, text, UI, logos, watermarks, audio, weather, or a global exposure change. This is deliberately a visibly moving HALF-CYCLE that will be played forward and backward for a deterministic loop. Begin exactly at the supplied calm frame. Build one natural wind event continuously through the shot, then ease smoothly into a gently held peak pose during the final half-second. Do not return to the start pose and do not make the result near-static. Motion must be readable at normal gameplay scale. A coherent breeze travels from left to right across the complete world. Every visible forest layer participates: foreground pine crowns sway about two percent of their height, midground treetops ripple in sequence, and smaller branches flex while every trunk stays rooted. A soft wave crosses the grass and small surface plants. Existing chimney smoke curls and travels 30 to 60 pixels. Existing hanging lanterns, ropes, and signs swing only two to four degrees. Large cloud masses drift slowly and visibly while retaining shape."
+      },
+      "response": {
+        "id": "qVhHtO7XemHOdF9RRZB3",
+        "polling_url": "https://openrouter.ai/api/v1/videos/qVhHtO7XemHOdF9RRZB3",
+        "status": "pending"
+      }
+    },
+    "02-seedance-fast-forest-breath": {
+      "variant": {
+        "id": "02-seedance-fast-forest-breath",
+        "modelId": "seedance-fast",
+        "model": "bytedance/seedance-2.0-fast",
+        "profileId": "forest-breath",
+        "estimatedCostUsd": 0.21384,
+        "prompt": "Use the supplied first frame as the exact immutable game-art reference. This is a wide side-on 2D game background, not a cinematic shot. The camera and crop are locked: no pan, zoom, dolly, tilt, shake, reframing, parallax warp, or lens effect. Preserve every building, mountain, road stone, surface boundary, soil rock, and root in place. Buildings, mountains, road, and the entire underground remain rigid and pixel-stable; no morphing, breathing, sliding, new openings, new shelves, second underground floor, or geometry changes. Do not add people, creatures, vehicles, objects, text, UI, logos, watermarks, audio, weather, or a global exposure change. This is deliberately a visibly moving HALF-CYCLE that will be played forward and backward for a deterministic loop. Begin exactly at the supplied calm frame. Build one natural wind event continuously through the shot, then ease smoothly into a gently held peak pose during the final half-second. Do not return to the start pose and do not make the result near-static. Motion must be readable at normal gameplay scale. Create one broad living-forest pulse rather than isolated effects. Near pines lean gently first, the dense middle forest follows with varied delayed branch movement, and distant treetops answer last; all tree motion is visible but remains natural and low amplitude. Surface grass bends in matching patches, several existing smoke plumes lengthen and curl, cloud banks advance slowly, and existing warm lamps fluctuate subtly. Keep rigid architecture and terrain perfectly still while the vegetation and air clearly live around them."
+      },
+      "response": {
+        "id": "B3eioUovYvrFZpALyplY",
+        "polling_url": "https://openrouter.ai/api/v1/videos/B3eioUovYvrFZpALyplY",
+        "status": "pending"
+      }
+    },
+    "03-seedance-mini-traveling-gust": {
+      "variant": {
+        "id": "03-seedance-mini-traveling-gust",
+        "modelId": "seedance-mini",
+        "model": "bytedance/seedance-2.0-mini",
+        "profileId": "traveling-gust",
+        "estimatedCostUsd": 0.18144,
+        "prompt": "Use the supplied first frame as the exact immutable game-art reference. This is a wide side-on 2D game background, not a cinematic shot. The camera and crop are locked: no pan, zoom, dolly, tilt, shake, reframing, parallax warp, or lens effect. Preserve every building, mountain, road stone, surface boundary, soil rock, and root in place. Buildings, mountains, road, and the entire underground remain rigid and pixel-stable; no morphing, breathing, sliding, new openings, new shelves, second underground floor, or geometry changes. Do not add people, creatures, vehicles, objects, text, UI, logos, watermarks, audio, weather, or a global exposure change. This is deliberately a visibly moving HALF-CYCLE that will be played forward and backward for a deterministic loop. Begin exactly at the supplied calm frame. Build one natural wind event continuously through the shot, then ease smoothly into a gently held peak pose during the final half-second. Do not return to the start pose and do not make the result near-static. Motion must be readable at normal gameplay scale. A coherent breeze travels from left to right across the complete world. Every visible forest layer participates: foreground pine crowns sway about two percent of their height, midground treetops ripple in sequence, and smaller branches flex while every trunk stays rooted. A soft wave crosses the grass and small surface plants. Existing chimney smoke curls and travels 30 to 60 pixels. Existing hanging lanterns, ropes, and signs swing only two to four degrees. Large cloud masses drift slowly and visibly while retaining shape."
+      },
+      "response": {
+        "id": "cgvTJUxiDCpibRmQgS7O",
+        "polling_url": "https://openrouter.ai/api/v1/videos/cgvTJUxiDCpibRmQgS7O",
+        "status": "pending"
+      }
+    },
+    "04-seedance-mini-forest-breath": {
+      "variant": {
+        "id": "04-seedance-mini-forest-breath",
+        "modelId": "seedance-mini",
+        "model": "bytedance/seedance-2.0-mini",
+        "profileId": "forest-breath",
+        "estimatedCostUsd": 0.18144,
+        "prompt": "Use the supplied first frame as the exact immutable game-art reference. This is a wide side-on 2D game background, not a cinematic shot. The camera and crop are locked: no pan, zoom, dolly, tilt, shake, reframing, parallax warp, or lens effect. Preserve every building, mountain, road stone, surface boundary, soil rock, and root in place. Buildings, mountains, road, and the entire underground remain rigid and pixel-stable; no morphing, breathing, sliding, new openings, new shelves, second underground floor, or geometry changes. Do not add people, creatures, vehicles, objects, text, UI, logos, watermarks, audio, weather, or a global exposure change. This is deliberately a visibly moving HALF-CYCLE that will be played forward and backward for a deterministic loop. Begin exactly at the supplied calm frame. Build one natural wind event continuously through the shot, then ease smoothly into a gently held peak pose during the final half-second. Do not return to the start pose and do not make the result near-static. Motion must be readable at normal gameplay scale. Create one broad living-forest pulse rather than isolated effects. Near pines lean gently first, the dense middle forest follows with varied delayed branch movement, and distant treetops answer last; all tree motion is visible but remains natural and low amplitude. Surface grass bends in matching patches, several existing smoke plumes lengthen and curl, cloud banks advance slowly, and existing warm lamps fluctuate subtly. Keep rigid architecture and terrain perfectly still while the vegetation and air clearly live around them."
+      },
+      "response": {
+        "id": "XWEih3eqyT2BJQg44k37",
+        "polling_url": "https://openrouter.ai/api/v1/videos/XWEih3eqyT2BJQg44k37",
+        "status": "pending"
+      }
+    }
+  }
+}

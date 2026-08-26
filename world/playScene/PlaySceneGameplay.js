@@ -22,13 +22,13 @@ import {
 } from "../../values/ualNativeActionTuning.js";
 import { UalMiningComboSelector } from "../../player/UalMiningComboSelector.js";
 import { resolveMovingDiagonalDigAnimation } from "../../player/UalMovingDiagonalDigSelector.js";
-import { resolveMovingSideDigAnimation } from "../../player/UalMovingSideDigSelector.js";
+import { resolveMovingSideDigAnimation } from "../../player/UalMovingSideDigSelector.js?rev=20260821-moving-complex-dig-v1";
 import {
   normalizeHorizontalDirection,
   resolveAuthoredHorizontalFlipX,
   resolvePlayerTargetDirection,
 } from "../../player/playerDirectionalTargets.js";
-import { resolvePlayerDisplaySizePx } from "../../values/playerAssetProfiles.js";
+import { resolvePlayerDisplaySizePx } from "../../values/playerAssetProfiles.js?rev=20260821-moving-complex-dig-v1";
 import {
   GAMEPLAY_FEATURE_IDS,
   isGameplayFeatureEnabled,
@@ -38,6 +38,8 @@ import {
   resolveComplexDigSelection,
   resolveComplexDigSourceFacesRight,
 } from "./ComplexDigAnimationRuntime.js";
+import { resolveUalCrouchTransitionAnimation } from
+  "../../systems/visual/ualCrouchTransitionSelection.js";
 
 export function setupGameplayMethods(prototype) {
   const formatResourceLabel = (resourceType) => {
@@ -303,7 +305,7 @@ export function setupGameplayMethods(prototype) {
   ) {
     const profile = getP(this);
     if (!profile.isUalNative || !this.isDigAnimating) return false;
-    if (this.ualActionContactTimeline?.contactFired !== true) return false;
+    if (this.ualActionContactTimeline?.allContactsFired !== true) return false;
     const contactAtMs = this._ualActionContactAtMs;
     const recoveryDelayMs = UAL_NATIVE_ACTION_TUNING.cadence.normal.recoveryCancelDelayMs;
     if (!Number.isFinite(contactAtMs) || now - contactAtMs < recoveryDelayMs) return false;
@@ -342,6 +344,7 @@ export function setupGameplayMethods(prototype) {
       const worldY = targetTile.ty * this.config.tileSize + this.config.tileSize / 2;
       this._applyDestroyParticles?.(worldX, worldY, result.typeBeforeDamage ?? result.tileType);
       this.showLootPickupFeedback?.(result, targetTile);
+      this.showXpGatheringFeedback?.(result, targetTile);
     }
   };
 
@@ -353,6 +356,7 @@ export function setupGameplayMethods(prototype) {
 
     const worldX = targetTile.tx * this.config.tileSize + this.config.tileSize / 2;
     const worldY = targetTile.ty * this.config.tileSize + this.config.tileSize / 2;
+    const skyTileRarity = overrides.skyTileRarity ?? reward.skyTileRarity;
     const isSkyTileBonus = overrides.isSkyTileBonus ?? ((reward.skyTileMultiplier ?? 1) > 1);
     this.lootPickupFxSystem.showResourcePickup({
       worldX,
@@ -361,6 +365,8 @@ export function setupGameplayMethods(prototype) {
       amount,
       isLuckyDrop: overrides.isLuckyDrop ?? reward.isLuckyDrop ?? false,
       isSkyTileBonus,
+      isStarResource: overrides.isStarResource
+        ?? (skyTileRarity !== null && skyTileRarity !== undefined),
     });
   };
 
@@ -556,13 +562,13 @@ export function setupGameplayMethods(prototype) {
     this._postActionFacingFlipX = postActionFacingFlipX;
     if (!profile.immediateDigImpactFeedback && mineFeedback?.result) this.queueDigImpactFeedback(mineFeedback);
     this.player.setFlipX(flipX);
-    this.player.play(animKey, true);
     const displaySize = resolvePlayerDisplaySizePx(
       profile,
       this.config.playerDisplaySizePx,
       animKey,
     );
     this.player.setDisplaySize(displaySize, displaySize);
+    this.player.play(animKey, true);
 
     if (profile.isUalNative) {
       this.player.setAngle(0);
@@ -602,6 +608,7 @@ export function setupGameplayMethods(prototype) {
         animationKey: animKey,
         contactFrame: contactSpec.textureFrame,
         contactSequenceIndex: contactSpec.sequenceIndex,
+        contacts: contactSpec.contacts,
         onContact: (event) => {
           const contactNow = this.time?.now || 0;
           this._ualActionContactAtMs = contactNow;
@@ -622,7 +629,9 @@ export function setupGameplayMethods(prototype) {
         this.player.anims.currentFrame,
         this.player,
       );
-      const contactPosition = contactSpec.sequenceIndex ?? contactSpec.textureFrame ?? 0;
+      const finalContactSpec = contactSpec.contacts?.[contactSpec.contacts.length - 1]
+        || contactSpec;
+      const contactPosition = finalContactSpec.sequenceIndex ?? finalContactSpec.textureFrame ?? 0;
       const contactFallbackDelayMs = Math.max(
         250,
         Math.ceil(((contactPosition + 1) / Math.max(1, frameRate) / Math.max(0.1, actionTimeScale)) * 1000) + 250,
@@ -960,6 +969,7 @@ export function setupGameplayMethods(prototype) {
     );
     this.player.setDisplaySize(displaySize, displaySize);
     this.player.play(animationKey, true);
+    this.playerController?._syncSpriteWithPhysics?.();
     this.pickaxeTrailSystem?.stop();
     return true;
   };
@@ -986,6 +996,7 @@ export function setupGameplayMethods(prototype) {
       return;
     }
     const profile = getP(this);
+    const ledgeVisual = this.playerController.getLedgeVisualState?.() || null;
     const motionState = this.playerController.getMotionState();
     const aimLabel = this.playerController.getAimLabel();
     const currentAnimKey = this.player.anims.currentAnim?.key ?? null;
@@ -1001,6 +1012,7 @@ export function setupGameplayMethods(prototype) {
     const poweredFlight = this.playerController.abilities?.isFlying?.() === true;
     if (!poweredFlight) this._ualFlightTravelVisual = false;
     const verticalAim = this.playerController.getVerticalAim?.() || { up: false, down: false };
+    const forcedCrouchVisual = this.playerController.requiresCrouchVisual?.() === true;
     const wallBlocked = isWalkingIntoBlockedSide(this, motionState);
     let combatRecoverUntil = this._combatIdleRecoverUntilMs || 0;
     let combatRecoverActive = combatRecoverUntil > now;
@@ -1022,18 +1034,28 @@ export function setupGameplayMethods(prototype) {
       combatReturnActive = false;
       combatReturnDue = false;
     }
-    const specialIdleVisual = motionState === "idle" && (
+    const specialIdleVisual = forcedCrouchVisual || (motionState === "idle" && (
       verticalAim.down
       || (verticalAim.up && isUpAim(aimLabel))
       || combatRecoverActive
       || combatReturnActive
       || combatReturnDue
-    );
+    ));
     const idleFidgetAllowed = motionState === "idle"
       && !combatRecoverActive
       && !combatReturnActive
       && !combatReturnDue;
-    const motionOverride = this.playerMotionPolish?.resolveOverride?.({
+    const ledgeOverride = ledgeVisual && profile.ledgeAssistEnabled
+      ? {
+        animationKey: ledgeVisual.phase === "climb"
+          ? profile.ledgeClimbAnim
+          : profile.ledgeHangAnim,
+        flipX: ledgeVisual.direction < 0
+          ? profile.ledgeSourceFacesRight === true
+          : profile.ledgeSourceFacesRight !== true,
+      }
+      : null;
+    const motionOverride = ledgeOverride || this.playerMotionPolish?.resolveOverride?.({
       now,
       motionState,
       grounded: this.playerController.isGrounded(),
@@ -1082,8 +1104,6 @@ export function setupGameplayMethods(prototype) {
         currentFrameIndex: this.player.anims.currentFrame?.index ?? 0,
         currentTextureFrame: Number(this.player.anims.currentFrame?.textureFrame),
         facingFlipX: !this.playerController.isFacingRight(),
-        groundMovementActive: isWalkMotionState(motionState)
-          && Math.abs(body?.vx || 0) > 0,
       });
       targetAnim = locomotionSelection.animationKey;
       flipX = locomotionSelection.facingFlipX;
@@ -1126,7 +1146,7 @@ export function setupGameplayMethods(prototype) {
     } else if (motionState === "idle") {
       const useCombatFlip = typeof this._combatIdleFlipX === "boolean"
         && (combatRecoverActive || combatReturnActive || combatReturnDue);
-      targetAnim = this.playerController.isGrounded() && verticalAim.down
+      targetAnim = this.playerController.isGrounded() && (verticalAim.down || forcedCrouchVisual)
         ? (profile.duckAnim || ASSET_KEYS.player.duckAnim)
         : (combatReturnActive || combatReturnDue)
           ? (profile.combatIdleToNormalIdleAnim || ASSET_KEYS.player.combatIdleToNormalIdleAnim || profile.idleAnim || ASSET_KEYS.player.idleAnim)
@@ -1195,18 +1215,25 @@ export function setupGameplayMethods(prototype) {
     const duckAnim = profile.duckAnim || ASSET_KEYS.player.duckAnim;
     const crouchEnterAnim = profile.crouchEnterAnim || null;
     const crouchExitAnim = profile.crouchExitAnim || null;
+    if (!ledgeVisual && forcedCrouchVisual) {
+      targetAnim = duckAnim;
+      isWalking = false;
+      flipX = !this.playerController.isFacingRight();
+    }
     const wantsCrouch = targetAnim === duckAnim;
-    if (wantsCrouch && crouchEnterAnim) {
-      if (currentAnimKey === crouchEnterAnim) {
-        targetAnim = this.player.anims.isPlaying ? crouchEnterAnim : duckAnim;
-      } else if (currentAnimKey !== duckAnim) {
-        targetAnim = crouchEnterAnim;
-      }
-    } else if (!wantsCrouch && crouchExitAnim) {
-      if (currentAnimKey === crouchExitAnim && this.player.anims.isPlaying) {
-        targetAnim = crouchExitAnim;
-      } else if (currentAnimKey === duckAnim || currentAnimKey === crouchEnterAnim) {
-        targetAnim = crouchExitAnim;
+    if (!ledgeVisual) {
+      const crouchTransitionAnim = resolveUalCrouchTransitionAnimation({
+        wantsCrouch,
+        currentAnimationKey: currentAnimKey,
+        isPlaying: this.player.anims.isPlaying === true,
+        crouchIdleAnimationKey: duckAnim,
+        crouchEnterAnimationKey: crouchEnterAnim,
+        crouchExitAnimationKey: crouchExitAnim,
+      });
+      if (crouchTransitionAnim && crouchTransitionAnim !== targetAnim) {
+        targetAnim = crouchTransitionAnim;
+        locomotionSelection = null;
+        this.player.anims.timeScale = 1.0;
       }
     }
     if (targetAnim === duckAnim && profile.duckSourceFacesRight === false) {
@@ -1216,9 +1243,19 @@ export function setupGameplayMethods(prototype) {
       flipX = !flipX;
     }
 
-    targetAnim = this.playerDeferredAnimationAssetController.resolveOrRequest(targetAnim, profile.idleAnim || ASSET_KEYS.player.idleAnim);
+    const requestedTargetAnim = targetAnim;
+    targetAnim = this.playerDeferredAnimationAssetController.resolveOrRequest(
+      requestedTargetAnim,
+      profile.idleAnim || ASSET_KEYS.player.idleAnim,
+    );
+    if (targetAnim !== requestedTargetAnim) {
+      locomotionSelection = null;
+      this.player.anims.timeScale = 1.0;
+    }
     this.player.setFlipX(flipX);
-    if (profile.isUalNative) {
+    if (profile.isUalNative && ledgeVisual) {
+      this.player.setAngle(0);
+    } else if (profile.isUalNative) {
       const body = this.playerController?.physicsBody;
       const horizontalVelocity = this.playerKinematicMotion?.getResolvedVelocityX?.()
         ?? body?.vx
@@ -1241,6 +1278,8 @@ export function setupGameplayMethods(prototype) {
       duckAnim,
       crouchEnterAnim,
       crouchExitAnim,
+      profile.ledgeHangAnim,
+      profile.ledgeClimbAnim,
       profile.fallingAnim || ASSET_KEYS.player.fallingAnim,
       profile.wallPushAnim || ASSET_KEYS.player.wallPushAnim,
       profile.leanAgainstWallAnim || ASSET_KEYS.player.leanAgainstWallAnim,
@@ -1250,24 +1289,31 @@ export function setupGameplayMethods(prototype) {
       && currentAnimKey === targetAnim
       && !this.player.anims.isPlaying
       && oneShotHoldAnims.includes(targetAnim);
-    if (!shouldHoldCompletedOneShot) {
-      const startFrame = Number.isFinite(locomotionSelection?.startFrame)
-        ? locomotionSelection.startFrame
-        : 0;
-      const restartRequested = locomotionSelection?.restart === true
-        || motionOverride?.restart === true;
-      const ignoreIfPlaying = restartRequested ? false : !force;
-      this.player.play(targetAnim, ignoreIfPlaying, startFrame);
-    }
-    if (!motionOverride && targetAnim === (profile.idleAnim || ASSET_KEYS.player.idleAnim) && motionState === "idle") {
-      this.player.anims.timeScale = this.playerMotionPolish?.getIdleTimeScale?.(now) ?? 1.0;
-    }
     const displaySize = resolvePlayerDisplaySizePx(
       profile,
       this.config.playerDisplaySizePx,
       targetAnim,
     );
     this.player.setDisplaySize(displaySize, displaySize);
+    if (!shouldHoldCompletedOneShot) {
+      const startFrame = locomotionSelection?.animationKey === targetAnim
+        && Number.isFinite(locomotionSelection.startFrame)
+        ? locomotionSelection.startFrame
+        : 0;
+      const restartRequested = (
+        locomotionSelection?.animationKey === targetAnim
+        && locomotionSelection.restart === true
+      ) || (
+        motionOverride?.animationKey === targetAnim
+        && motionOverride.restart === true
+      );
+      const ignoreIfPlaying = restartRequested ? false : !force;
+      this.player.play(targetAnim, ignoreIfPlaying, startFrame);
+    }
+    if (!motionOverride && targetAnim === (profile.idleAnim || ASSET_KEYS.player.idleAnim) && motionState === "idle") {
+      this.player.anims.timeScale = this.playerMotionPolish?.getIdleTimeScale?.(now) ?? 1.0;
+    }
+    this.playerController._syncSpriteWithPhysics?.();
     this._lastPlayedAnim = targetAnim;
   };
 

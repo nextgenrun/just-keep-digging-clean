@@ -152,10 +152,10 @@ const levelResult = levels.gainLevel(9);
 assert.equal(levelResult.newLevel, 10);
 assert.equal(levelResult.hasChoice, false);
 assert.deepEqual(levelResult.rewards, []);
-assert.equal(levelResult.automaticReward.count, 2);
+assert.equal(levelResult.automaticReward.count, 18);
 const restoredLevels = new PlayerLevelSystem();
 restoredLevels.fromJSON(levels.toJSON());
-assert.equal(restoredLevels.automaticMilestoneRewards, 2);
+assert.equal(restoredLevels.automaticMilestoneRewards, 18);
 assert.equal(
   restoredLevels.getMiningDamageMultiplier(),
   levels.getMiningDamageMultiplier(),

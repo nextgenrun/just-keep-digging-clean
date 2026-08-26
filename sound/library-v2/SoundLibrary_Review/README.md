@@ -4,7 +4,9 @@ Created by Deploy-SoundReviewLibrary.ps1.
 
 ## Basic workflow
 
-1. Generate a Suno sound from sound-v3-expanded.md.
+1. Generate review candidates from the prompt corpus. For layered Stable Audio
+   batches, use `pipelines/audio/2026-08-26-generate-stable-audio-library.py`;
+   it is dry-run by default and requires an explicit credit ceiling.
 2. Save raw exports into 00_INBOX_RAW_EXPORTS/<batch>.
 3. Rename files using:
    ASSETID__take01__UNTESTED.wav
@@ -13,6 +15,15 @@ Created by Deploy-SoundReviewLibrary.ps1.
 6. Files needing work go to 03_EDITING_QUEUE.
 7. Final game-ready assets go to 05_FINAL_LIBRARY/audio/...
 8. Update 06_ENGINE_IMPORT/manifest_drafts/audio-manifest.draft.json.
+
+Stable Audio output remains raw and `UNTESTED`. Its batch manifest records the
+model, layer, prompt, seed, generation ID, bytes, and SHA-256. Do not promote a
+generated file from the inbox until it has been listened to and explicitly
+rated good.
+
+The ElevenLabs mockup follows the same boundary. Its batch includes a local
+`index.html` sampler, complete reference effects, and isolated layers. Sampler
+ratings remain browser-local and do not promote or wire any file automatically.
 
 ## Review tags
 

@@ -1,0 +1,140 @@
+{
+  "model": "google/veo-3.1-lite",
+  "ttsModel": "mistralai/voxtral-mini-tts-2603",
+  "hardBudgetUsd": 10.0,
+  "estimatedVideoCostUsd": 4.16,
+  "priceAssumptionUsdPerSecond1080pWithAudio": 0.08,
+  "shots": [
+    {
+      "id": "roots-descent",
+      "duration": 6,
+      "aspect": "16:9",
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "seed": 26082601,
+      "source": "visual-approval-previews/underground-biome-motion-mockups-v1/2026-07-26-weathered-roots-root-tide-lantern-hollow.png",
+      "prompt": "Slow descending crane move through immense woven roots. Lanterns sway gently, tiny grit falls, damp recesses breathe with mist, and warm root sap glints in the darkness.",
+      "referenceFrame": "steam-marketing/2026-08-26-cinematic-video-pack-v1/reference-frames/roots-descent-first-frame.png"
+    },
+    {
+      "id": "rift-flight",
+      "duration": 6,
+      "aspect": "16:9",
+      "focus": [
+        0.56,
+        0.5
+      ],
+      "seed": 26082602,
+      "source": "steam-marketing/2026-08-16-static-upload-pack-v1/source-textless-wide-imagegen-v1.png",
+      "prompt": "Slow dolly toward the cavern mouth as the lone miner rises on violet-blue Flight energy. The ancient circular machine glows at left, distant sky islands shift only through parallax, with wind, grit, embers, and a coherent luminous trail.",
+      "referenceFrame": "steam-marketing/2026-08-26-cinematic-video-pack-v1/reference-frames/rift-flight-first-frame.png"
+    },
+    {
+      "id": "star-core-release",
+      "duration": 6,
+      "aspect": "16:9",
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "seed": 26082603,
+      "source": "steam-marketing/2026-08-16-motion-pack-v1/star-block-break-release-gold-loop-v1-poster.png",
+      "prompt": "A rare gold crystal Star Block fractures once and releases its exact luminous floating star core. Mineral shards decelerate, a restrained halo blooms, and the camera makes a subtle push-in. Keep the complete object centered and readable.",
+      "referenceFrame": "steam-marketing/2026-08-26-cinematic-video-pack-v1/reference-frames/star-core-release-first-frame.png"
+    },
+    {
+      "id": "understar-awakening",
+      "duration": 8,
+      "aspect": "16:9",
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "seed": 26082604,
+      "source": "sprites/backgrounds/understar-ending-v1/understar-ending-backdrop-v1.webp",
+      "prompt": "The colossal buried white-gold Understar wakes with one slow pulse. Fine arcs travel across its surface, ruined rings catch the light, violet cave dust lifts, and the camera pulls back to reveal scale. Awe, not explosion or destruction.",
+      "referenceFrame": "steam-marketing/2026-08-26-cinematic-video-pack-v1/reference-frames/understar-awakening-first-frame.png"
+    },
+    {
+      "id": "mossback-stirs",
+      "duration": 8,
+      "aspect": "16:9",
+      "focus": [
+        0.56,
+        0.5
+      ],
+      "seed": 26082605,
+      "source": "sprites/backgrounds/titan-chambers-v3/01-mossback-wanderer-chamber-v3.webp",
+      "prompt": "The exact colossal Mossback Wanderer remains low and harmless. Its bark-and-stone shell rises with one deep breath, one teal eye opens slowly, root-canopy branches flex, lanterns tremble, and fine grit falls during a very slow camera push.",
+      "referenceFrame": "steam-marketing/2026-08-26-cinematic-video-pack-v1/reference-frames/mossback-stirs-first-frame.png"
+    },
+    {
+      "id": "mossback-close",
+      "duration": 6,
+      "aspect": "16:9",
+      "focus": [
+        0.67,
+        0.56
+      ],
+      "seed": 26082606,
+      "source": "sprites/backgrounds/titan-chambers-v3/01-mossback-wanderer-chamber-v3.webp",
+      "prompt": "A low slow camera move crosses one massive forefoot toward Mossback's face. The exact turtle-like head turns only a few degrees, teal fissures brighten with its breath, and the eye focuses calmly on the unseen miner. Monumental wonder, no charge or roar.",
+      "referenceFrame": "steam-marketing/2026-08-26-cinematic-video-pack-v1/reference-frames/mossback-close-first-frame.png"
+    },
+    {
+      "id": "mossback-vertical",
+      "duration": 6,
+      "aspect": "9:16",
+      "focus": [
+        0.66,
+        0.52
+      ],
+      "seed": 26082607,
+      "source": "sprites/backgrounds/titan-chambers-v3/01-mossback-wanderer-chamber-v3.webp",
+      "prompt": "Portrait close reveal of the exact Mossback head, foreleg, shell edge, and root canopy. One teal eye opens, a deep breath moves dust and hanging roots, then the eye settles toward camera. Keep the subject centered in the portrait safe area.",
+      "referenceFrame": "steam-marketing/2026-08-26-cinematic-video-pack-v1/reference-frames/mossback-vertical-first-frame.png"
+    },
+    {
+      "id": "rift-flight-vertical",
+      "duration": 6,
+      "aspect": "9:16",
+      "focus": [
+        0.73,
+        0.5
+      ],
+      "seed": 26082608,
+      "source": "steam-marketing/2026-08-16-static-upload-pack-v1/source-textless-wide-imagegen-v1.png",
+      "prompt": "Portrait tracking shot following the lone miner rising through the cavern opening on violet-blue Flight energy. Mountains and floating islands layer behind the silhouette while dust and the coherent energy trail stream downward. Keep the miner centered in the portrait safe area.",
+      "referenceFrame": "steam-marketing/2026-08-26-cinematic-video-pack-v1/reference-frames/rift-flight-vertical-first-frame.png"
+    }
+  ],
+  "voices": [
+    {
+      "id": "opening",
+      "voice": "gb_oliver_curious",
+      "text": "Below the last light, the mine remembers every path. Dig. Return. Grow stronger. Then descend, where earth, sky, and starlight meet. The Understar is waiting."
+    },
+    {
+      "id": "mossback",
+      "voice": "gb_oliver_curious",
+      "text": "That is not a statue. It is breathing."
+    },
+    {
+      "id": "trailer",
+      "voice": "gb_oliver_confident",
+      "text": "Every descent is a decision. Every return makes you stronger. Master Flight. Find the Titans. Wake the Understar. Wishlist Understar on Steam."
+    },
+    {
+      "id": "short-mossback",
+      "voice": "gb_oliver_curious",
+      "text": "At ninety meters, the roots started breathing. Find all twenty-five Titans. Wishlist Understar on Steam."
+    },
+    {
+      "id": "short-depth",
+      "voice": "gb_oliver_confident",
+      "text": "How deep would you go? Dig. Return. Grow stronger. The Understar is waiting. Wishlist now on Steam."
+    }
+  ]
+}

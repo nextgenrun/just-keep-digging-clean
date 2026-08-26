@@ -12,7 +12,19 @@ export function runtimeAssetExists(scene, asset, type, config) {
   if (type === config.types.audio) {
     return Boolean(scene.cache?.audio?.exists?.(asset.key));
   }
-  return Boolean(scene.textures?.exists?.(asset.key));
+  const textureExists = Boolean(scene.textures?.exists?.(asset.key));
+  if (!textureExists || type !== config.types.spritesheet) return textureExists;
+  const endFrame = Number(asset?.frameConfig?.endFrame);
+  if (!Number.isFinite(endFrame)) return textureExists;
+  const frameName = String(endFrame);
+  const texture = scene.textures?.get?.(asset.key);
+  if (typeof texture?.has === "function") return texture.has(frameName);
+  if (typeof scene.textures?.getFrame !== "function") return textureExists;
+  const frame = scene.textures.getFrame(asset.key, frameName);
+  return Boolean(
+    frame
+    && (String(frame.name) === frameName || frame.texture?.key === asset.key),
+  );
 }
 
 export function removeRuntimeAsset(scene, asset, type, config) {

@@ -10,6 +10,8 @@ import { TutorialSurfaceSafetySystem } from
   "../systems/onboarding/TutorialSurfaceSafetySystem.js";
 import { TutorialPortalGhostGuide } from
   "../systems/onboarding/TutorialPortalGhostGuide.js";
+import { TownSquareTutorialView } from
+  "../systems/onboarding/TownSquareTutorialView.js";
 import {
   TUTORIAL_FREE_TELEPORT_PASSES,
   TOWN_TUTORIAL_CHOICES,
@@ -110,6 +112,7 @@ assert.equal(paymentAttempts, 1);
 
 let destroyed = false;
 const tweenConfigs = [];
+const restartCallbacks = [];
 let firstSolidTy = 66;
 const sourceSprite = {
   texture: { key: "approved-player-sheet" },
@@ -131,6 +134,12 @@ const ghostSprite = {
   setTint() { return this; },
   setBlendMode() { return this; },
   setFlipX() { return this; },
+  setPosition(x, y) {
+    this.x = x;
+    this.y = y;
+    return this;
+  },
+  play() { return this; },
   setDisplaySize(width, height) {
     this.displayWidth = width;
     this.displayHeight = height;
@@ -170,20 +179,39 @@ const ghostScene = {
     },
     killTweensOf() {},
   },
+  time: {
+    delayedCall(_delay, callback) {
+      restartCallbacks.push(callback);
+      return { remove() {} };
+    },
+  },
 };
 const ghostGuide = new TutorialPortalGhostGuide(ghostScene);
 assert.equal(ghostGuide.sync(TOWN_TUTORIAL_STAGES.FLIGHT), true);
 assert.equal(ghostGuide.getHealthSnapshot().textureKey, "approved-player-sheet");
-assert.equal(ghostSprite.x, (12.5 * 94));
+assert.equal(ghostSprite.x, (12.5 - 2.25) * 94);
 assert.equal(ghostSprite.y, 65 * 94, "ghost starts standing on the Town surface");
-assert.equal(tweenConfigs.at(-1).y, 66 * 94);
-assert.equal(tweenConfigs.at(-1).repeat, undefined);
+assert.equal(tweenConfigs.at(-1).x, 12.5 * 94);
+assert.equal(
+  ghostGuide.getHealthSnapshot().demonstration,
+  "approach",
+  "ghost must visibly lead toward the starter shaft",
+);
 assert.equal(ghostGuide.getHealthSnapshot().reachableTy, 65);
 assert.equal(ghostGuide.getHealthSnapshot().blockedByTy, 66);
 
-firstSolidTy = 68;
+ghostSprite.x = tweenConfigs.at(-1).x;
+tweenConfigs.at(-1).onComplete();
+assert.equal(tweenConfigs.at(-1).y, 66 * 94);
 ghostSprite.y = tweenConfigs.at(-1).y;
+tweenConfigs.at(-1).onComplete();
+assert.equal(restartCallbacks.length, 1, "ghost pauses briefly at the obstacle");
+
+firstSolidTy = 68;
 ghostGuide.update(TOWN_TUTORIAL_STAGES.PORTAL);
+restartCallbacks.at(-1)();
+ghostSprite.x = tweenConfigs.at(-1).x;
+tweenConfigs.at(-1).onComplete();
 assert.equal(tweenConfigs.at(-1).y, 68 * 94);
 assert.equal(ghostGuide.getHealthSnapshot().reachableTy, 67);
 assert.equal(ghostGuide.getHealthSnapshot().blockedByTy, 68);
@@ -195,6 +223,82 @@ assert.equal(
 assert.equal(ghostSprite.displayWidth, 84 * 0.82);
 assert.equal(ghostGuide.sync(TOWN_TUTORIAL_STAGES.SELL), false);
 assert.equal(destroyed, true);
+
+const tutorialImages = [];
+function tutorialImage(x, y) {
+  return {
+    x,
+    y,
+    visible: true,
+    displayWidth: 0,
+    displayHeight: 0,
+    setOrigin() { return this; },
+    setDepth() { return this; },
+    setScrollFactor() { return this; },
+    setDisplaySize(width, height) {
+      this.displayWidth = width;
+      this.displayHeight = height;
+      return this;
+    },
+    setPosition(nextX, nextY) {
+      this.x = nextX;
+      this.y = nextY;
+      return this;
+    },
+    setRotation(rotation) {
+      this.rotation = rotation;
+      return this;
+    },
+    setVisible(visible) {
+      this.visible = visible;
+      return this;
+    },
+    destroy() {},
+  };
+}
+const tutorialCamera = {
+  x: 0,
+  y: 0,
+  width: 1000,
+  height: 600,
+  zoom: 1,
+  worldView: { x: 0, y: 0 },
+};
+const tutorialView = new TownSquareTutorialView({
+  cameras: { main: tutorialCamera },
+  add: {
+    image(x, y) {
+      const image = tutorialImage(x, y);
+      tutorialImages.push(image);
+      return image;
+    },
+    text(x, y) {
+      return {
+        x,
+        y,
+        setOrigin() { return this; },
+        setDepth() { return this; },
+        setText() { return this; },
+        setPosition() { return this; },
+        setVisible() { return this; },
+        destroy() {},
+      };
+    },
+  },
+  tweens: { add() {}, killTweensOf() {} },
+});
+tutorialView.pointAt(1500, 300);
+assert.equal(tutorialImages.length, 2, "off-screen target creates a second pointer");
+assert.equal(tutorialImages[1].visible, true);
+assert.equal(tutorialImages[1].x, 946, "pointer remains inside the screen edge");
+tutorialCamera.worldView.x = 1000;
+tutorialView.update();
+assert.equal(
+  tutorialImages[1].visible,
+  false,
+  "edge pointer hides once the real world arrow is fully visible",
+);
+tutorialView.destroy();
 
 let containmentStage = TOWN_TUTORIAL_STAGES.PORTAL;
 let playerTile = { tx: 20, ty: 70 };

@@ -104,23 +104,23 @@ export const RETENTION_CONFIG = Object.freeze({
     copy: Object.freeze({
       move: Object.freeze({
         phase: "1 / 7  •  MOVE",
-        title: "GET COMFORTABLE IN TOWN",
-        body: "{left}/{right} move and aim  •  {interact} talks to people",
+        title: "WALK TO THE GLOWING ARROW",
+        body: "PRESS {left}/{right}  •  STOP ON THE MARKED GROUND",
       }),
       dig: Object.freeze({
         phase: "2 / 7  •  DIG",
-        title: "BREAK THE PRACTICE BLOCK",
-        body: "Follow the marker  •  face the block  •  hold {mine} to dig",
+        title: "DIG THE MARKED BLOCK",
+        body: "FACE THE GLOWING BLOCK  •  HOLD {mine} UNTIL IT BREAKS",
       }),
       flight: Object.freeze({
         phase: "3 / 7  •  FLIGHT",
-        title: "PROVE LOCAL RECOVERY",
-        body: "Hold {fly} until you lift off  •  then descend toward 15m",
+        title: "LIFT OFF ONCE",
+        body: "HOLD {fly} UNTIL YOU LEAVE THE GROUND  •  THEN FOLLOW THE GHOST",
       }),
       portal: Object.freeze({
         phase: "4 / 7  •  RETURN GATE",
-        title: "OPEN A PERMANENT ROUTE HOME",
-        body: "Hold {down} to go down  •  follow the guide to 15m  •  press {interact}",
+        title: "DIG DOWN TO THE RETURN GATE AT 15M",
+        body: "PRESS {down} TO AIM DOWN  •  HOLD {mine} TO DIG  •  PRESS {interact} AT THE GATE",
       }),
       sell: Object.freeze({
         phase: "5 / 7  •  SELL",
@@ -145,12 +145,17 @@ export const RETENTION_CONFIG = Object.freeze({
     }),
     ui: Object.freeze({
       markerHeightPx: 138,
-      markerDepth: 54,
+      // Keep both tutorial arrows above every current UI and cinematic layer.
+      markerDepth: 20000,
       markerPulseScale: 1.045,
       markerPulseMs: 820,
       markerKeyFontSize: "22px",
       markerKeyStrokePx: 5,
       markerKeyOffsetYPx: 46,
+      offscreenMarkerHeightPx: 72,
+      offscreenMarkerMarginPx: 54,
+      offscreenMarkerDepth: 20000,
+      offscreenMarkerRotationOffsetRad: -1.5707963267948966,
       digMarkerOffsetYPx: -8,
       merchantMarkerGapPx: 10,
       merchantMinimumHeightPx: 48,
@@ -255,7 +260,7 @@ export const RETENTION_CONFIG = Object.freeze({
 
   miningFeedback: Object.freeze({
     critPrefix: "CRIT",
-    luckyText: "LUCKY +1",
+    luckyText: "LUCKY ×2",
     luckyColor: "#55ff9a",
     rarityDurationMs: 1800,
     rarity: Object.freeze({
@@ -266,7 +271,10 @@ export const RETENTION_CONFIG = Object.freeze({
   }),
 
   floatingText: Object.freeze({
-    preferenceVersion: 2,
+    // v3 retires stale saves written while REDUCED was the implicit default.
+    // Explicit OFF remains respected; every older enabled preference migrates
+    // to FULL so damage numbers cannot silently disappear at run start.
+    preferenceVersion: 3,
     enabled: true,
     legacyDefaultMode: "reduced",
     defaultMode: "full",

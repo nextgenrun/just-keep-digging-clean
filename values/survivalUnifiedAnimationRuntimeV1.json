@@ -1,0 +1,142 @@
+{
+  "version": "survival-unified-animation-runtime-v1-20260825",
+  "enabledByDefault": true,
+  "rollbackQuery": "unifiedAnimation",
+  "disabledQueryValue": "0",
+  "sourceBlend": "sprites/character/survival-character-blender-v2/blender/survival-character-blender-v2.blend",
+  "runtimeRoot": "sprites/character/survival-character-unified-v1/runtime",
+  "renderRoot": "testing/blender-animation-lab-v1/review-drafts/unified-survival-animation-v1/renders/raw-1024",
+  "reviewRoot": "testing/blender-animation-lab-v1/review-drafts/unified-survival-animation-v1/renders/review",
+  "objects": {
+    "rig": "SurvivalPolishRig",
+    "body": "SurvivalPolishBody",
+    "camera": "SurvivalPolishCamera",
+    "referenceAction": "MINER_idle"
+  },
+  "render": {
+    "sourceSizePx": 1024,
+    "packedSizePx": 256,
+    "movingPackedSizePx": 192,
+    "columns": 16,
+    "movingColumns": 32,
+    "colorDepth": "16",
+    "alphaThreshold": 8,
+    "displaySizePx": 101,
+    "groundedOrigin": [0.5, 0.890625]
+  },
+  "gates": {
+    "minimumRawEdgeMarginPx": 4,
+    "maximumGroundedBaselineRangePx": 36,
+    "maximumSuspiciousGreenPixelsPerFrame": 0,
+    "maximumRetargetResidualWorld": 0.22
+  },
+  "paths": {
+    "ual": "testing/unreal-survival-motion-v2/SourceAssets/ual-exports",
+    "mixamoAccepted": "testing/blender-animation-lab-v1/review-drafts/mixamo-library-v1/source-fbx",
+    "mixamoCombat": "testing/blender-animation-lab-v1/review-drafts/mixamo-punch-sequence-sandbox-v1/source-fbx",
+    "mixamoLedge": "testing/blender-animation-lab-v1/review-drafts/mixamo-ledge-assist-v1/source-fbx"
+  },
+  "retargetConfig": "values/mixamoAcceptedRuntime.json",
+  "moving": {
+    "frameSizePx": 192,
+    "runSheetKey": "survival-ual-player-v1-animation-polish-run-sheet",
+    "runSource": "survival-ual-jog-fwd-loop.fbx",
+    "runFrames": 28,
+    "phaseVariants": [
+      {"id": "jab-phase-01", "runStartFrame": 1},
+      {"id": "cross-phase-15", "runStartFrame": 15},
+      {"id": "jab-phase-05", "runStartFrame": 5},
+      {"id": "cross-phase-19", "runStartFrame": 19},
+      {"id": "jab-phase-09", "runStartFrame": 9, "base": true},
+      {"id": "cross-phase-23", "runStartFrame": 23, "base": true},
+      {"id": "cross-phase-10", "runStartFrame": 10},
+      {"id": "jab-phase-24", "runStartFrame": 24}
+    ],
+    "upperBodyWeights": {
+      "spine_01": 0.55,
+      "spine_02": 0.68,
+      "spine_03": 0.82,
+      "spine_04": 0.92,
+      "spine_05": 1.0,
+      "neck_01": 0.85,
+      "neck_02": 0.85,
+      "head": 0.85,
+      "clavicle_l": 1.0,
+      "upperarm_l": 1.0,
+      "lowerarm_l": 1.0,
+      "hand_l": 1.0,
+      "clavicle_r": 1.0,
+      "upperarm_r": 1.0,
+      "lowerarm_r": 1.0,
+      "hand_r": 1.0
+    },
+    "fingerPrefixes": ["index_", "middle_", "ring_", "pinky_", "thumb_"],
+    "rightLegWeights": {
+      "thigh_r": 0.9,
+      "calf_r": 1.0,
+      "foot_r": 1.0,
+      "ball_r": 1.0
+    }
+  },
+  "sheets": {
+    "survival-blender-v2-idle-sheet": {"mode": "MASTER", "action": "MINER_idle", "frames": 48, "loop": true, "grounding": "PER_FRAME"},
+    "survival-blender-v2-walk-sheet": {"mode": "MASTER", "action": "SRC_walk", "frames": 24, "loop": true, "grounding": "PER_FRAME"},
+    "survival-blender-v2-dig-up-polished-sheet": {"mode": "MASTER", "action": "SRC_dig_up", "frames": 24, "loop": false, "grounding": "PER_FRAME"},
+    "survival-blender-v2-fly-sheet": {"mode": "MIXAMO", "root": "mixamoAccepted", "source": "mixamo-flying-idle-111080901.fbx", "frames": 36, "loop": true, "grounding": "NONE", "reference": "MEAN", "preserveVertical": true},
+
+    "survival-ual-player-v1-airborne-sheet": {"mode": "UAL", "source": "survival-ual-jump-start.fbx", "frames": 41, "loop": false, "grounding": "NONE", "sampleStep": 0.8},
+    "survival-ual-player-v1-falling-sheet": {"mode": "UAL", "source": "survival-ual-jump-loop.fbx", "frames": 75, "loop": true, "grounding": "NONE", "sampleStep": 0.8},
+    "survival-ual-player-v1-punch-jab-sheet": {"mode": "UAL", "source": "survival-ual-punch-jab.fbx", "frames": 27, "loop": false, "grounding": "PER_FRAME", "sampleStep": 0.8},
+    "survival-ual-player-v1-punch-cross-sheet": {"mode": "UAL", "source": "survival-ual-punch-cross.fbx", "frames": 31, "loop": false, "grounding": "PER_FRAME", "sampleStep": 0.8},
+    "survival-ual-player-v1-ground-strike-sheet": {"mode": "UAL", "source": "survival-ual-overhandthrow.fbx", "frames": 41, "loop": false, "grounding": "PER_FRAME", "sampleStep": 0.8},
+    "survival-ual-player-v1-teleport-sheet": {"mode": "UAL", "source": "survival-ual-roll.fbx", "frames": 45, "loop": false, "grounding": "MESH_PER_FRAME", "sampleStep": 0.8},
+    "survival-ual-player-v1-thunder-charge-sheet": {"mode": "UAL", "source": "survival-ual-spell-simple-idle-loop.fbx", "frames": 63, "loop": true, "grounding": "PER_FRAME", "sampleStep": 0.8},
+    "survival-ual-player-v1-hit-react-sheet": {"mode": "UAL", "source": "survival-ual-hit-chest.fbx", "frames": 11, "loop": false, "grounding": "PER_FRAME", "sampleStep": 0.8},
+    "survival-ual-player-v1-death-sheet": {"mode": "UAL", "source": "survival-ual-death01.fbx", "frames": 73, "loop": false, "grounding": "LAND_MESH_AT_END", "sampleStep": 0.8},
+    "survival-ual-player-v1-wall-push-sheet": {"mode": "UAL", "source": "survival-ual-push-loop.fbx", "frames": 80, "loop": true, "grounding": "PER_FRAME", "sampleStep": 0.8},
+
+    "survival-mixamo-v1-flight-loop-sheet": {"mode": "MIXAMO", "root": "mixamoAccepted", "source": "mixamo-flying-idle-111080901.fbx", "frames": 48, "loop": true, "grounding": "NONE", "reference": "MEAN", "preserveVertical": true},
+    "survival-mixamo-v1-walk-start-sheet": {"mode": "MIXAMO", "root": "mixamoAccepted", "source": "mixamo-start-walking-135950901.fbx", "frames": 16, "loop": false, "grounding": "PER_FRAME", "reference": "FIRST", "preserveVertical": false},
+    "survival-mixamo-v1-walk-stop-sheet": {"mode": "MIXAMO", "root": "mixamoAccepted", "source": "mixamo-stop-walking-136220901.fbx", "frames": 16, "loop": false, "grounding": "PER_FRAME", "reference": "LAST", "preserveVertical": false},
+    "survival-mixamo-v1-idle-fidget-sheet": {"mode": "MIXAMO", "root": "mixamoAccepted", "source": "mixamo-unarmed-idle-looking-v1-128650938.fbx", "frames": 120, "loop": false, "grounding": "PER_FRAME", "reference": "MEAN", "preserveVertical": false},
+    "survival-mixamo-v1-crouch-idle-sheet": {"mode": "MIXAMO", "root": "mixamoAccepted", "source": "mixamo-crouch-idle-128670901.fbx", "frames": 28, "loop": true, "grounding": "PER_FRAME", "reference": "MEAN", "preserveVertical": false},
+    "survival-mixamo-v1-crouch-enter-sheet": {"mode": "MIXAMO", "root": "mixamoAccepted", "source": "mixamo-standing-idle-to-crouch-128670929.fbx", "frames": 18, "loop": false, "grounding": "PER_FRAME", "reference": "FIRST", "preserveVertical": false},
+    "survival-mixamo-v1-crouch-exit-sheet": {"mode": "MIXAMO", "root": "mixamoAccepted", "source": "mixamo-crouch-to-standing-idle-128670902.fbx", "frames": 18, "loop": false, "grounding": "PER_FRAME", "reference": "LAST", "preserveVertical": false},
+    "survival-mixamo-v1-hard-landing-sheet": {"mode": "MIXAMO", "root": "mixamoAccepted", "source": "mixamo-jumping-down-higher-level-135970901.fbx", "frames": 24, "loop": false, "grounding": "LAND_AT_END", "reference": "LAST", "preserveVertical": true, "maxVerticalTravelWorld": 0.25, "screenOffsetWorld": -0.2},
+    "survival-mixamo-v1-thunder-ground-sheet": {"mode": "MIXAMO", "root": "mixamoAccepted", "source": "mixamo-standing-2h-magic-ground-128670914.fbx", "frames": 30, "loop": false, "grounding": "PER_FRAME", "reference": "FIRST", "preserveVertical": false},
+    "survival-mixamo-v2-hurricane-quickslash-sheet": {"mode": "MIXAMO", "root": "mixamoAccepted", "source": "mixamo-hurricane-kick.fbx", "frames": 28, "loop": false, "grounding": "PER_FRAME", "reference": "FIRST", "preserveVertical": false, "overlayRightLeg": true},
+
+    "survival-mixamo-v3-complex-dig-cross-sheet": {"mode": "MIXAMO", "root": "mixamoCombat", "source": "mixamo-cross-punch.fbx", "frames": 18, "loop": false, "grounding": "PER_FRAME", "reference": "FIRST", "preserveVertical": false},
+    "survival-mixamo-v3-complex-dig-jab-sheet": {"mode": "MIXAMO", "root": "mixamoCombat", "source": "mixamo-jab-punch.fbx", "frames": 18, "loop": false, "grounding": "PER_FRAME", "reference": "FIRST", "preserveVertical": false},
+    "survival-mixamo-v3-complex-dig-roundhouse-sheet": {"mode": "MIXAMO", "root": "mixamoCombat", "source": "mixamo-kick-roundhouse.fbx", "frames": 22, "loop": false, "grounding": "PER_FRAME", "reference": "FIRST", "preserveVertical": false, "overlayRightLeg": true},
+    "survival-mixamo-v3-complex-dig-jab-elbow-sheet": {"mode": "MIXAMO", "root": "mixamoCombat", "source": "mixamo-jab-elbow.fbx", "frames": 30, "loop": false, "grounding": "PER_FRAME", "reference": "FIRST", "preserveVertical": false},
+    "survival-mixamo-v3-complex-dig-low-kick-sheet": {"mode": "MIXAMO", "root": "mixamoCombat", "source": "mixamo-kick-low.fbx", "frames": 20, "loop": false, "grounding": "PER_FRAME", "reference": "FIRST", "preserveVertical": false, "overlayRightLeg": true},
+    "survival-mixamo-v3-complex-dig-high-kick-sheet": {"mode": "MIXAMO", "root": "mixamoCombat", "source": "mixamo-kick-high.fbx", "frames": 24, "loop": false, "grounding": "PER_FRAME", "reference": "FIRST", "preserveVertical": false, "overlayRightLeg": true},
+    "survival-mixamo-v3-complex-dig-spinning-back-kick-sheet": {"mode": "MIXAMO", "root": "mixamoCombat", "source": "mixamo-kick-spinning-back.fbx", "frames": 26, "loop": false, "grounding": "PER_FRAME", "reference": "FIRST", "preserveVertical": false, "overlayRightLeg": true},
+    "survival-mixamo-v3-complex-dig-elbow-uppercut-sheet": {"mode": "MIXAMO", "root": "mixamoCombat", "source": "mixamo-elbow-uppercut.fbx", "frames": 28, "loop": false, "grounding": "PER_FRAME", "reference": "FIRST", "preserveVertical": false},
+    "survival-mixamo-v3-complex-dig-single-elbow-sheet": {"mode": "MIXAMO", "root": "mixamoCombat", "source": "mixamo-elbow-single.fbx", "frames": 18, "loop": false, "grounding": "PER_FRAME", "reference": "FIRST", "preserveVertical": false},
+    "survival-mixamo-v3-complex-dig-hook-sheet": {"mode": "MIXAMO", "root": "mixamoCombat", "source": "mixamo-hook-punch.fbx", "frames": 22, "loop": false, "grounding": "PER_FRAME", "reference": "FIRST", "preserveVertical": false},
+    "survival-mixamo-v3-complex-dig-uppercut-sheet": {"mode": "MIXAMO", "root": "mixamoCombat", "source": "mixamo-uppercut.fbx", "frames": 24, "loop": false, "grounding": "PER_FRAME", "reference": "FIRST", "preserveVertical": false},
+    "survival-mixamo-v4-ledge-climb-sheet": {"mode": "MIXAMO", "root": "mixamoLedge", "source": "mixamo-braced-hang-to-crouch.fbx", "frames": 35, "loop": false, "grounding": "NONE", "reference": "FIRST", "preserveVertical": false, "origin": [0.59, 0.71]},
+
+    "survival-ual-player-v1-animation-polish-run-sheet": {"mode": "UAL", "source": "survival-ual-jog-fwd-loop.fbx", "frames": 28, "loop": true, "grounding": "PER_FRAME", "sampleStep": 0.8},
+    "survival-ual-player-v1-moving-side-dig-jab-sheet": {"mode": "MOVING_SIMPLE", "action": "jab", "phase": "jab-phase-09", "frames": 22},
+    "survival-ual-player-v1-moving-side-dig-cross-sheet": {"mode": "MOVING_SIMPLE", "action": "cross", "phase": "cross-phase-23", "frames": 22},
+    "survival-ual-player-v1-moving-side-dig-phase-handoff-sheet": {"mode": "MOVING_HANDOFF", "frames": 132},
+    "survival-ual-player-v1-moving-complex-dig-sheet": {"mode": "MOVING_COMPLEX", "frames": 960, "packedSizePx": 192, "columns": 32, "meshGround": true},
+    "survival-ual-player-v1-animation-polish-transitions-sheet": {"mode": "TRANSITIONS", "frames": 133},
+    "survival-ual-player-v1-animation-polish-diagonal-dig-sheet": {"mode": "DIAGONAL", "frames": 120}
+  },
+  "movingActions": {
+    "jab": {"source": "mixamo-jab-punch.fbx", "root": "mixamoCombat", "sourceFrames": 18, "movingFrames": 10, "contactIndices": [9], "overlayRightLeg": false},
+    "cross": {"source": "mixamo-cross-punch.fbx", "root": "mixamoCombat", "sourceFrames": 18, "movingFrames": 10, "contactIndices": [10], "overlayRightLeg": false},
+    "roundhouse": {"source": "mixamo-kick-roundhouse.fbx", "root": "mixamoCombat", "sourceFrames": 22, "movingFrames": 10, "contactIndices": [8], "overlayRightLeg": true},
+    "jabElbow": {"source": "mixamo-jab-elbow.fbx", "root": "mixamoCombat", "sourceFrames": 30, "movingFrames": 20, "contactIndices": [9, 20], "overlayRightLeg": false},
+    "lowKick": {"source": "mixamo-kick-low.fbx", "root": "mixamoCombat", "sourceFrames": 20, "movingFrames": 10, "contactIndices": [8], "overlayRightLeg": true},
+    "highKick": {"source": "mixamo-kick-high.fbx", "root": "mixamoCombat", "sourceFrames": 24, "movingFrames": 10, "contactIndices": [9], "overlayRightLeg": true},
+    "spinningBackKick": {"source": "mixamo-kick-spinning-back.fbx", "root": "mixamoCombat", "sourceFrames": 26, "movingFrames": 10, "contactIndices": [16], "overlayRightLeg": true},
+    "elbowUppercut": {"source": "mixamo-elbow-uppercut.fbx", "root": "mixamoCombat", "sourceFrames": 28, "movingFrames": 20, "contactIndices": [11, 22], "overlayRightLeg": false},
+    "singleElbow": {"source": "mixamo-elbow-single.fbx", "root": "mixamoCombat", "sourceFrames": 18, "movingFrames": 10, "contactIndices": [10], "overlayRightLeg": false},
+    "hook": {"source": "mixamo-hook-punch.fbx", "root": "mixamoCombat", "sourceFrames": 22, "movingFrames": 10, "contactIndices": [11], "overlayRightLeg": false}
+  }
+}

@@ -103,7 +103,7 @@ try {
 
   const polished = await capture(
     page,
-    ROOT_URL,
+    `${ROOT_URL}?groundDamageAtlas=v2`,
     "polished",
     EXPECTED_POLISHED_PATH,
     POLISHED_SCREENSHOT,

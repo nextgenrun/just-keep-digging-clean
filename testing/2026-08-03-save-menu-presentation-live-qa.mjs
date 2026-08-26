@@ -93,13 +93,13 @@ async function main() {
         {
           id: 1, hasData: true, dugTiles: 8432, resources: {},
           updatedAt: Date.now() - 86400000, playerCharacterId: null,
-          level: 12, currentDepth: 486, bestDepth: 540, wallet: 123456,
+          level: 2, currentDepth: 486, bestDepth: 540, wallet: 123456,
           stars: 22, hardcoreModeData: { mode: "casual", armed: false },
         },
         {
           id: 2, hasData: true, dugTiles: 17750, resources: {},
           updatedAt: Date.now() - 3600000, playerCharacterId: null,
-          level: 21, currentDepth: 910, bestDepth: 1032, wallet: 785000,
+          level: 3, currentDepth: 910, bestDepth: 1032, wallet: 785000,
           stars: 61, hardcoreModeData: { mode: "hardcore", armed: true },
         },
         {

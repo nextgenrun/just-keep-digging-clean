@@ -26,6 +26,10 @@ export const TREASURE_CHEST_CONFIG = Object.freeze({
   feedback: Object.freeze({
     moneyColor: "#ffd35a",
     starColor: "#8fe8ff",
+    moneyUnit: "M",
+    starAwardLabel: "+1 STAR",
+    activeLabel: "ACTIVE",
+    separator: "  •  ",
     statusDurationMs: 3600,
     floatingDurationMs: 2400,
     floatingFontSizePx: 22,

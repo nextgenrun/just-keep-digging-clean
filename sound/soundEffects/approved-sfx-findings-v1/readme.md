@@ -6,8 +6,9 @@ Production-owned derivatives of the four candidates explicitly rated `good` in `
 |---|---|---|
 | `seismic-warning-distant-collapse.ogg` | `seismic-warning-source` | Earthquake warning |
 | `seismic-warning-heavy-collapse.ogg` | `seismic-warning-heavy` | Earthquake warning alternate |
-| `rare-discovery-clean-reward.ogg` | `rare-discovery-source` | Ancient Relic or Titan discovery |
-| `rare-discovery-tight-reward.ogg` | `rare-discovery-tight` | Ancient Relic or Titan discovery alternate |
+| `rare-discovery-clean-reward.ogg` | `rare-discovery-source` | Retired after gameplay audition; not loaded or played |
+| `rare-discovery-tight-reward.ogg` | `rare-discovery-tight` | Retired after gameplay audition; not loaded or played |
 
-The assets are encoded as OGG previews for efficient Phaser loading. The rejected mining family and the `maybe` crystal candidate are intentionally excluded. Runtime registration is centralized in `values/audioConfig.js`; preload and playback must remain synchronized through `BootScene` and `SoundSystem`.
-
+The assets are encoded as OGG review previews. Only the seismic family remains
+registered at runtime. The reward candidates remain on disk as audition
+evidence but are intentionally excluded from preload and playback.

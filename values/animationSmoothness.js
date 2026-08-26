@@ -21,10 +21,6 @@ export const ANIMATION_SMOOTHNESS_CONFIG = Object.freeze({
     inactiveWindFadePerReferenceFrame: 0.02,
   }),
 
-  lootPickup: Object.freeze({
-    rotationRadiansPerReferenceFrame: 0.045,
-  }),
-
   skyStar: Object.freeze({
     rotationDegreesPerReferenceFrame: 0.35,
     rotationDegreesPerRarityPerReferenceFrame: 0.12,

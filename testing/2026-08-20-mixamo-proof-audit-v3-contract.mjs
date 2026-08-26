@@ -31,6 +31,7 @@ for (const proof of PROOFS) {
   const entry = manifest.previews[name];
   assert.ok(entry, `missing preview manifest entry: ${name}`);
   assert.equal(entry.infiniteReplay, true, `${name} must be marked infinite`);
+  assert.equal(entry.transparentBackground, true, `${name} must use the shared audit background`);
   const file = resolve(root, "previews", name);
   assert.ok((await stat(file)).size > 1000, `${name} is unexpectedly small`);
   const gif = await readFile(file);

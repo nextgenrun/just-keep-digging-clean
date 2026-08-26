@@ -120,6 +120,8 @@ export class DigSystem {
       tileX: tx,
       tileY: ty,
       seed: this.config?.seed || 0,
+      milestoneYieldMultiplier: this._getDepthMilestoneBonuses()
+        .resourceYieldMultiplier,
       enabled,
     });
   }
@@ -323,7 +325,6 @@ export class DigSystem {
     const audioScene = this.worldRenderer?.scene;
     const soundSystem = audioScene?.soundSystem
       || audioScene?.originScene?.soundSystem;
-    soundSystem?.playRareDiscovery?.();
     this.floatingTextSystem?.tryUnlockEligibleConstellations?.();
     const purpose = this.floatingTextSystem?.getRelicPurposeSummary?.(
       finalRelicCount
@@ -693,6 +694,7 @@ export class DigSystem {
     let gemPowerRestored = 0;
     let gemPowerTierId = null;
     let gemPowerRestoreCapacity = 0;
+    let levelProgressXPGained = 0;
     let levelsGained = 0;
     let comboAdded = 0;
     let comboTotal = 0;
@@ -765,6 +767,7 @@ export class DigSystem {
         gemPowerRestored,
         gemPowerTierId,
         gemPowerRestoreCapacity,
+        levelProgressXPGained,
         levelsGained,
         comboAdded,
         comboTotal,
@@ -783,12 +786,14 @@ export class DigSystem {
 
     let resourceType = null;
     let resourceAmount = 0;
-    let xpGained = 0;
+    let xpGained = levelProgressXPGained;
     let levelUp = false;
     let newLevel = null;
     let hasChoice = false;
     let choiceLevel = null;
     let rewards = null;
+    let automaticReward = null;
+    let rewardSummary = null;
     let isLuckyDrop = false;
     let isSkyTileBonus = false;
     let skyTileMultiplier = 1;
@@ -796,13 +801,14 @@ export class DigSystem {
     let ancientRelics = 0;
     let rarityId = "normal";
     let rarityMultiplier = 1;
+    let skyTileRarity = null;
 
     if (result.destroyed) {
       this.tilesBroken += 1;
 
       if (!result.wasRubble) {
         ancientRelics = this._awardAncientRelics(result.typeBeforeDamage, targetTile.tx, targetTile.ty);
-        let skyTileRarity = 0;
+        skyTileRarity = 0;
         let skyTileIdentity = 0;
         let rewardTileType = result.typeBeforeDamage;
         if (result.typeBeforeDamage === TILE_TYPES.SKY_TILE) {
@@ -834,7 +840,7 @@ export class DigSystem {
           }
 
           if (this._rollLuckyDrop()) {
-            resourceAmount += 1;
+            resourceAmount *= 2;
             isLuckyDrop = true;
           }
           resourceAmount = this._capResourceYield(resourceAmount);
@@ -844,12 +850,15 @@ export class DigSystem {
           if (this.playerLevelSystem) {
             const xpMultiplier = isSkyTileBonus ? 2 : 1;
             const xpResult = this.playerLevelSystem.gainXP(resourceType);
-            xpGained = xpResult.xpGained * xpMultiplier;
+            xpGained += xpResult.xpGained * xpMultiplier;
             levelUp = xpResult.levelUp;
             newLevel = xpResult.newLevel;
             hasChoice = xpResult.hasChoice;
             choiceLevel = xpResult.choiceLevel;
             rewards = xpResult.rewards;
+            levelsGained = xpResult.levelsGained || 0;
+            automaticReward = xpResult.automaticReward || null;
+            rewardSummary = xpResult.rewardSummary || null;
           }
 
           if (isSkyTileBonus && this.floatingTextSystem) {
@@ -877,6 +886,8 @@ export class DigSystem {
       hasChoice = Boolean(forcedLevelResult?.hasChoice);
       choiceLevel = forcedLevelResult?.choiceLevel ?? null;
       rewards = forcedLevelResult?.rewards || [];
+      automaticReward = forcedLevelResult?.automaticReward || null;
+      rewardSummary = forcedLevelResult?.rewardSummary || null;
     }
 
     const miningResult = {
@@ -898,6 +909,8 @@ export class DigSystem {
       hasChoice,
       choiceLevel,
       rewards,
+      automaticReward,
+      rewardSummary,
       isCriticalHit,
       critMultiplier,
       isLuckyDrop,
@@ -919,6 +932,7 @@ export class DigSystem {
       comboAdded,
       comboTotal,
       skyTileMultiplier,
+      skyTileRarity,
       skyTilePassiveBonus,
       ancientRelics,
       rarityId,
@@ -974,6 +988,36 @@ export class DigSystem {
     const levelUps = successfulHits.filter(hit => hit.result?.levelUp);
     const rewards = levelUps.flatMap(hit => Array.isArray(hit.result.rewards) ? hit.result.rewards : []);
     const lastLevelUp = levelUps[levelUps.length - 1]?.result || null;
+    const combinedRewardSummary = lastLevelUp?.rewardSummary
+      ? {
+        ...lastLevelUp.rewardSummary,
+        levelsGained: levelUps.reduce(
+          (total, hit) => total + Math.max(0, Number(hit.result?.levelsGained) || 0),
+          0,
+        ),
+        darknessResistanceGainMeters: levelUps.reduce(
+          (total, hit) => total + Math.max(
+            0,
+            Number(hit.result?.rewardSummary?.darknessResistanceGainMeters) || 0,
+          ),
+          0,
+        ),
+        miningPowerGainPercent: levelUps.reduce(
+          (total, hit) => total + Math.max(
+            0,
+            Number(hit.result?.rewardSummary?.miningPowerGainPercent) || 0,
+          ),
+          0,
+        ),
+        gemPowerMaxGain: levelUps.reduce(
+          (total, hit) => total + Math.max(
+            0,
+            Number(hit.result?.rewardSummary?.gemPowerMaxGain) || 0,
+          ),
+          0,
+        ),
+      }
+      : null;
 
     return {
       success: successfulHits.length > 0,
@@ -982,8 +1026,10 @@ export class DigSystem {
       destroyedCount: successfulHits.filter(hit => hit.result.destroyed).length,
       levelUp: levelUps.length > 0,
       newLevel: lastLevelUp?.newLevel ?? null,
+      levelsGained: combinedRewardSummary?.levelsGained || 0,
       hasChoice: levelUps.some(hit => hit.result.hasChoice),
       rewards,
+      rewardSummary: combinedRewardSummary,
     };
   }
 
@@ -1035,6 +1081,8 @@ export class DigSystem {
       newLevel: null,
       hasChoice: false,
       rewards: [],
+      automaticReward: null,
+      rewardSummary: null,
       levelsGained: 0,
       specialBlockEffect: null,
       specialBlockDestroyed: false,
@@ -1046,6 +1094,7 @@ export class DigSystem {
       comboTotal: 0,
       rarityId: "normal",
       rarityMultiplier: 1,
+      skyTileRarity: null,
     };
 
     this.tilesBroken += 1;
@@ -1067,6 +1116,7 @@ export class DigSystem {
       rewardTileType = this.worldModel.getSkyTileOriginalType(tx, ty);
       resourceType = tileTypeToResource(rewardTileType);
       skyTileRarity = this.worldModel.getSkyTileRarity(tx, ty);
+      result.skyTileRarity = skyTileRarity;
       skyTileIdentity = this.worldModel.getSkyTileIdentity(tx, ty);
       const skyReward = this._getSkyTileRewardMultiplier(skyTileRarity, resourceType);
       skyMultiplier = skyReward.multiplier;
@@ -1079,7 +1129,7 @@ export class DigSystem {
       result.resourceType = resourceType;
       result.resourceAmount = this._getNativeYield(rewardTileType, tx, ty) * skyMultiplier;
       if (this._rollLuckyDrop()) {
-        result.resourceAmount += 1;
+        result.resourceAmount *= 2;
         result.isLuckyDrop = true;
       }
       result.resourceAmount = this._capResourceYield(result.resourceAmount);
@@ -1112,6 +1162,9 @@ export class DigSystem {
       result.hasChoice = xpResult.hasChoice || false;
       result.choiceLevel = xpResult.choiceLevel ?? null;
       result.rewards = xpResult.rewards || [];
+      result.levelsGained = xpResult.levelsGained || 0;
+      result.automaticReward = xpResult.automaticReward || null;
+      result.rewardSummary = xpResult.rewardSummary || null;
     }
 
     const specialResult = this._handleSpecialBlockEffects(
@@ -1125,6 +1178,7 @@ export class DigSystem {
     result.gemPowerRestoreCapacity = specialResult.gemPowerRestoreCapacity;
     result.comboAdded = specialResult.comboAdded;
     result.comboTotal = specialResult.comboTotal;
+    result.xpGained += specialResult.levelProgressXPGained || 0;
     if (specialResult.levelsGained) {
       result.levelUp = true;
       result.newLevel = this.playerLevelSystem ? this.playerLevelSystem.level : null;
@@ -1132,6 +1186,8 @@ export class DigSystem {
       result.hasChoice = Boolean(specialResult.forcedLevelResult?.hasChoice);
       result.choiceLevel = specialResult.forcedLevelResult?.choiceLevel ?? null;
       result.rewards = specialResult.forcedLevelResult?.rewards || [];
+      result.automaticReward = specialResult.forcedLevelResult?.automaticReward || null;
+      result.rewardSummary = specialResult.forcedLevelResult?.rewardSummary || null;
     }
 
     if (addComboPoints && this.comboSystem) {
@@ -1213,6 +1269,7 @@ export class DigSystem {
       gemPowerRestored: 0,
       gemPowerTierId: null,
       gemPowerRestoreCapacity: 0,
+      levelProgressXPGained: 0,
       levelsGained: 0,
       comboAdded: 0,
       comboTotal: 0,
@@ -1227,6 +1284,7 @@ export class DigSystem {
     let gemPowerRestored = 0;
     let gemPowerTierId = null;
     let gemPowerRestoreCapacity = 0;
+    let levelProgressXPGained = 0;
     let levelsGained = 0;
     let comboAdded = 0;
     let comboTotal = 0;
@@ -1281,14 +1339,16 @@ export class DigSystem {
         break;
 
       case TILE_TYPES.XP_BLOCK:
-        if (this.playerLevelSystem && typeof this.playerLevelSystem.gainLevel === 'function') {
-          forcedLevelResult = this.playerLevelSystem.gainLevel(1) || {};
+        if (this.playerLevelSystem && typeof this.playerLevelSystem.gainLevelProgress === 'function') {
+          const effect = getBlockEffect('xpBlock');
+          forcedLevelResult = this.playerLevelSystem.gainLevelProgress(effect?.value) || {};
+          levelProgressXPGained = Math.max(0, Number(forcedLevelResult.xpGained) || 0);
           levelsGained = Number.isFinite(forcedLevelResult.levelsGained)
             ? forcedLevelResult.levelsGained
-            : 1;
-          specialBlockEffect = 'levelUp';
+            : 0;
+          specialBlockEffect = forcedLevelResult.levelUp ? 'levelUp' : 'levelProgress';
         } else {
-          console.warn('[DigSystem] XP_BLOCK effect requires playerLevelSystem with gainLevel method');
+          console.warn('[DigSystem] XP_BLOCK effect requires playerLevelSystem with gainLevelProgress method');
         }
         specialBlockDestroyed = true;
         break;
@@ -1330,14 +1390,18 @@ export class DigSystem {
         break;
 
       case TILE_TYPES.LEGEND_BLOCK:
-        if (this.playerLevelSystem && typeof this.playerLevelSystem.gainLevel === 'function') {
-          forcedLevelResult = this.playerLevelSystem.gainLevel(5) || {};
+        if (this.playerLevelSystem && typeof this.playerLevelSystem.gainLevelProgress === 'function') {
+          const effect = getBlockEffect('legendBlock');
+          forcedLevelResult = this.playerLevelSystem.gainLevelProgress(effect?.value) || {};
+          levelProgressXPGained = Math.max(0, Number(forcedLevelResult.xpGained) || 0);
           levelsGained = Number.isFinite(forcedLevelResult.levelsGained)
             ? forcedLevelResult.levelsGained
-            : 5;
-          specialBlockEffect = 'legendLevelUp';
+            : 0;
+          specialBlockEffect = forcedLevelResult.levelUp
+            ? 'legendLevelUp'
+            : 'legendLevelProgress';
         } else {
-          console.warn('[DigSystem] LEGEND_BLOCK effect requires playerLevelSystem with gainLevel method');
+          console.warn('[DigSystem] LEGEND_BLOCK effect requires playerLevelSystem with gainLevelProgress method');
         }
         specialBlockDestroyed = true;
         // Add gold sparkle particles around the area (visual feedback)
@@ -1373,6 +1437,7 @@ export class DigSystem {
       gemPowerRestored,
       gemPowerTierId,
       gemPowerRestoreCapacity,
+      levelProgressXPGained,
       levelsGained,
       comboAdded,
       comboTotal,

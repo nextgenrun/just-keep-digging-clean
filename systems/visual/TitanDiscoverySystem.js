@@ -18,6 +18,7 @@ import { describeTitanDirection } from "./titanDirection.js";
 import { TitanChamberStream } from "./TitanChamberStream.js?rev=20260729-native-density-v14";
 import { TitanCoverageGlowSystem } from "./TitanCoverageGlowSystem.js";
 import { TitanDiscoveryGuidance } from "./TitanDiscoveryGuidance.js";
+import { TitanDiscoveryCinematicController } from "./TitanDiscoveryCinematicController.js";
 import { TitanEnvironmentEnvelopeStream } from "./TitanEnvironmentEnvelopeStream.js";
 import { TitanSurfaceGallery } from "./TitanSurfaceGallery.js?rev=20260729-native-density-v14";
 import { TitanUnlockController } from "./TitanUnlockController.js";
@@ -37,6 +38,7 @@ export class TitanDiscoverySystem {
     this.zoneViews = [];
     this.surfaceGallery = new TitanSurfaceGallery(scene, worldModel, this.config);
     this.guidance = new TitanDiscoveryGuidance(scene, experienceConfig);
+    this.discoveryCinematic = new TitanDiscoveryCinematicController(scene);
     this.coverGlow = new TitanCoverageGlowSystem(scene, worldModel, this.config);
     const handleStreamChange = () => {
       this.forceProgressSync = true;
@@ -142,6 +144,7 @@ export class TitanDiscoverySystem {
       this.forceProgressSync = false;
       this._publishHealth(true);
     }
+    const discoveredBeforeUnlock = new Set(discovered);
     if (this.unlockController.unlockReady(
       this.zoneViews,
       context.playerTile,
@@ -150,6 +153,9 @@ export class TitanDiscoverySystem {
       discovered
     )) {
       this.forceProgressSync = true;
+      this.discoveryCinematic.showForDiscoveries(
+        [...discovered].filter(titanId => !discoveredBeforeUnlock.has(titanId))
+      );
     }
     for (const view of this.zoneViews) {
       syncTitanDiscoveryEnvironment(view, lighting, this.config);
@@ -293,6 +299,7 @@ export class TitanDiscoverySystem {
     });
     this.transients.clear();
     this.guidance.destroy();
+    this.discoveryCinematic.destroy();
     this.surfaceGallery.destroy();
     this.zoneViews = [];
     this.created = false;

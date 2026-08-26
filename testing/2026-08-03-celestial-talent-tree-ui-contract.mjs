@@ -97,8 +97,8 @@ assert.ok(
     < CELESTIAL_TALENT_TREE_UI_CONFIG.layout.headerYFraction,
   "ESC must stay above the money and Star Point plaques",
 );
-assert.match(CELESTIAL_TALENT_TREE_UI_CONFIG.copy.subtitle, /LEVEL 20.*MASTER UPWARD/);
-assert.match(describeCelestialTalentAvailability({ reason: "level-locked", requiredLevel: 28 }), /28/);
+assert.match(CELESTIAL_TALENT_TREE_UI_CONFIG.copy.subtitle, /LEVEL 3.*MASTER UPWARD/);
+assert.match(describeCelestialTalentAvailability({ reason: "level-locked", requiredLevel: 4 }), /4/);
 assert.match(describeCelestialTalentAvailability({ reason: "insufficient-stars", starsCost: 75, starsBalance: 12 }), /75 Star Points/);
 assert.match(describeCelestialTalentAvailability({ reason: "root-choice-locked" }), /Complete/);
 for (const branch of CELESTIAL_TALENT_PROGRESSION_CONFIG.branches) {

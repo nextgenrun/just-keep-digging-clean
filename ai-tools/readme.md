@@ -1,6 +1,49 @@
 # AI Tools
 
+`2026-08-26-build-real-surface-reference-v1.py` composes a review-only 16:9
+surface-world reference from the current production town beauty, slate surface
+cap, and Level One ground facade without regenerating or rescaling their pixels.
+`2026-08-26-generate-real-surface-seedance-v1.py` submits four first-frame-only
+Seedance half-cycle studies with visible whole-forest and surface motion; their
+final loops are completed deterministically in post instead of trusting model
+endpoint matching.
+`2026-08-26-build-seedance-pingpong-loops-v1.py` converts those half-cycles into
+silent 24 fps H.264 forward/reverse loops and records whole-world, upper-world,
+earth, and final-seam pixel measurements.
+
 All scripts created by LLMs to audit, fix, or edit the codebase.
+
+`2026-08-26-generate-star-block-idle-source.py` validates the live OpenRouter
+Veo Lite capability, submits three sequential silent first/last-locked loops
+under a $0.75 cap, records resumable jobs and exact cost/hashes, and never stores
+the API key. `2026-08-26-build-star-block-idle-v1.py` uses FFmpeg plus Pillow to
+align those clips, remove their static reference body, extract neutral caustic
+motion, close the loop seams, and pack the 72-frame production atlas and review
+previews.
+
+`2026-08-26-generate-surface-living-variants-v1.py` submits the controlled
+five-model by two-motion surface-background matrix. It validates current
+first/last-frame support, enforces a hard budget, records current model metadata,
+polls and downloads all ten candidates, and never stores the OpenRouter key.
+
+`2026-08-26-generate-surface-living-background-v1.py` securely submits one
+budget-capped, silent OpenRouter image-to-video loop for the isolated surface
+mockup. It conditions the same corrected frame at both endpoints, polls and
+downloads the result, records prompt/cost/hash provenance, and never stores the
+API key.
+
+`2026-08-26-generate-understar-cinematic-source.py` securely runs the bounded
+OpenRouter Veo/TTS shot plan and records cost/hash provenance without storing
+the API key. `2026-08-26-edit-understar-cinematic-pack.py` reproducibly assembles
+the runtime opening, first-Mossback reveal, marketing trailer, and two vertical
+shorts with FFmpeg mixing, burned captions, editable subtitles, posters, and
+media verification. Its optional `--plan` lane rebuilds all five as isolated
+narrator-replacement candidates without overwriting the current runtime videos.
+
+`2026-08-21-render-mixamo-ledge-assist.py` retargets the signed-in Mixamo
+`Braced Hang To Crouch` carrier onto the approved Survival V4 rig at 1024 px.
+`2026-08-21-pack-mixamo-ledge-assist.py` applies the shared residual, edge,
+green-pixel and one-downsample gates before runtime promotion.
 
 `2026-08-20-render-mixamo-atlas-v2.py` retargets the strongest missing
 locomotive prospects onto the approved Survival V4 rig at 1024 px.
@@ -177,6 +220,8 @@ control strip or redundant floating reward text. Neither is wired into runtime.
 | `2026-07-30-old-school-lamp-visuals.py` | Render the complete lamp asset-library and measured anchor-drift review boards |
 | `2026-07-30-build-old-school-lamp-light-v1.py` | Package seven built-in ImageGen masters into 112 fixed-anchor runtime frames, editable Piskels, strips, manifests, rollback, and QA |
 | `2026-07-30-build-old-school-lamp-comparison-board.py` | Compose untouched same-world torch and lamp WebGL captures into the final full-view plus close-detail A/B board |
+| `2026-08-26-build-expanded-ground-damage-v4.py` | Alpha-clean and normalize four 4x4 authored source sheets into 64 motifs, derive four optimized cumulative anchors, build four dedicated response tiers for all 33 mapped tile/resource identities, and emit hashes, profile order, decoded-memory budget, prompt provenance, and rollback metadata |
+| `2026-08-26-build-layered-ground-damage-v3.py` | Alpha-clean the authored 4x4 fracture source, derive sixteen x twelve cumulative structural states, build seventeen x four material-response tiers from the approved destruction shards, and emit hashes plus native-94-px review boards |
 | `2026-07-30-build-ground-damage-piskel-polish-v3.py` | Build the review-only three-stage ground-damage package: immutable registered-source Piskels, editable polished-work Piskels, derived runtime-scale projects/atlas, hash links, production guard, and visual QA |
 | `2026-07-30-ground-damage-piskel-polish.py` | Classify temporal components, suppress proven sheet-seam contamination, repair fixed seed cores, paint the vertical-pressure branches, neutralize material color, and merge without stacked rims |
 | `2026-07-30-ground-damage-piskel-package.py` | Serialize, guide-layer, round-trip, hash, and validate linked Piskel work and derived documents |
@@ -330,6 +375,9 @@ Outdated import fixers from the initial restructuring have been archived to `/ar
 | `2026-08-19-render-basic-rig-animation-comparison.py` | Retarget current walk, attack, and run actions onto a manual-rig review candidate with optional rest-pose-aware world rotation deltas; never wires runtime assets |
 | `2026-08-19-render-current-rig-animation-baseline.py` | Render the production 160-bone baseline with the V4 material treatment and a bounds-following review camera |
 | `2026-08-19-compose-basic-rig-animation-comparison.py` | Package matched current/manual-rig PNG sequences into per-family and combined animated GIF review evidence |
+| `2026-08-25-render-survival-unified-animation-runtime-v1.py` | Re-render every active Survival sheet through one V4 body, 160-bone rig, full-glove material, camera, light, secondary-motion and anchoring contract at 1024 px |
+| `2026-08-25-pack-survival-unified-animation-runtime-v1.py` | Reject blank, clipped or green-contaminated raw frames; downsample once; pack 43 lossless WebP sheets; and generate the 960-frame phase-matched moving-combat module |
+| `2026-08-25-build-survival-unified-animation-comparison.py` | Build infinite synchronized old-mixed versus unified V4 locomotion, combat, and flight/landing/crouch animated WebP review reels |
 | `2026-08-19-inspect-mixamo-accepted-retarget.py` | Inspect the accepted Mixamo animation carriers, including Hurricane Kick Quickslash, against the production 160-bone Survival armature without saving or changing either source |
 | `2026-08-19-render-mixamo-accepted-survival.py` | Retarget the accepted Mixamo clips onto the production Survival rig, apply the approved V4 materials/full-glove treatment, stabilize grounding/fingers, and render isolated 1024 px RGBA candidate frames |
 | `2026-08-19-pack-mixamo-accepted-survival.py` | Gate clipping, grounded drift, retarget residuals and green-finger pixels, then downsample accepted 1024 px renders exactly once into 256 px candidate sheets and animated/contact-sheet proofs |
@@ -340,7 +388,7 @@ Outdated import fixers from the initial restructuring have been archived to `/ar
 | `2026-08-19-build-mixamo-combat-overview.py` | Compose the 16 new V4-retargeted combat contact sheets into one family overview for rapid visual review |
 | `2026-08-19-render-mixamo-punch-sequence-sandbox.py` | Reuse the approved Survival V4 retarget/render pipeline for the 16-motion combat expansion without changing production assets |
 | `2026-08-19-pack-mixamo-punch-sequence-sandbox.py` | Gate and pack all 24 combat-sandbox motions at 1024-to-256 px with one downsample, animated GIFs, contact sheets and no runtime writes |
-| `2026-08-20-build-complex-dig-runtime-manifest.mjs` | Verify the 11 approved complex-dig runtime sheets are byte-exact copies of their green-free sandbox candidates and emit the reversible runtime manifest |
+| `2026-08-20-build-complex-dig-runtime-manifest.mjs` | Verify the 11 approved complex-dig source hashes, record the Piskel tone-matched runtime hashes, and emit the reversible multi-contact/Piskel runtime manifest |
 | `2026-08-20-build-mixamo-proof-audit-v3.py` | Re-encode the 44 existing Survival-rig V4 animation proofs as infinite local review GIFs and emit the proof-only V3 preview manifest without runtime writes |
 | `2026-08-19-build-rigify-motion-test.py` | Generate a protected user-edited Rigify Human snapshot, transfer all current production skin groups by exact vertex index, cap weights at four influences, and save a review-only candidate |
 | `2026-08-19-render-rigify-motion-test.py` | Retarget the current walk, punch/attack, and run actions onto the generated Rigify deform rig, compensate the source/candidate view-axis difference, and render matched review sequences without runtime writes |

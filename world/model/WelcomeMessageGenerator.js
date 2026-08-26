@@ -3,6 +3,7 @@
  * Provides context-aware messages for new saves vs returning players
  */
 import { USER_SETTINGS } from "../../systems/UserSettings.js";
+import { resolvePlayerLevelSaveState } from "../../systems/progression/playerLevelSaveState.js";
 import { RESOURCE_KEYS, sanitizeResourceTotals } from "../../values/resourceTypes.js";
 
 export class WelcomeMessageGenerator {
@@ -36,7 +37,8 @@ export class WelcomeMessageGenerator {
     const tilesDug = saveData.dugTiles?.length || 0;
     const resources = sanitizeResourceTotals(saveData.resources || defaultResources);
     const stats = saveData.retentionData?.stats || {};
-    const level = saveData.levelData?.level || 1;
+    const levelState = resolvePlayerLevelSaveState(saveData.levelData || { level: 1 });
+    const level = levelState.ok ? levelState.level : 1;
     const wallet = saveData.upgrades?.money || 0;
     const bestDepth = stats.bestDepth || 0;
     const currentDepth = stats.currentDepth || 0;

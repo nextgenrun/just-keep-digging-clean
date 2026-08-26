@@ -228,7 +228,7 @@ assert.equal(runtimeFixture.rewards.money, 125);
 assert.equal(runtimeFixture.rewards.resources.dirt, 42);
 assert.equal(runtimeFixture.rewards.resources.stone, 28);
 assert.equal(runtimeFixture.rewards.resources.copper, 16);
-assert.equal(runtimeFixture.scene.playerLevelSystem.level, 2);
+assert.equal(runtimeFixture.scene.playerLevelSystem.level, 1);
 assert.equal(
   runtime.view.rewardReveals.length,
   0,
@@ -237,7 +237,7 @@ assert.equal(
 assert.deepEqual(runtimeFixture.rewards.notifications.at(-1), [
   "FIRST ASCENT CACHE — +40 GP capacity, 125 M, and starter resources!"
     + "  •  +40 DIRT  •  +25 STONE  •  +12 COPPER"
-    + "  •  LEVEL 2 GUARANTEED  •  FLIGHT USES GP  •  GP REFILLS WHILE GROUNDED",
+    + "  •  FLIGHT USES GP  •  GP REFILLS WHILE GROUNDED",
   {
     title: "FIRST ASCENT CACHE — REWARD SECURED",
     key: cfg.feedback.cacheNotificationKey,

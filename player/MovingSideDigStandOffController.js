@@ -39,7 +39,15 @@ export class MovingSideDigStandOffController {
       return false;
     }
 
-    const distancePx = Math.max(0, Number(this.config.distancePx) || 0);
+    const baseDistancePx = Math.max(0, Number(this.config.distancePx) || 0);
+    const referenceBodyWidthPx = Number(this.config.referenceBodyWidthPx);
+    const preserveVisualCenterToFace = this.config.preserveVisualCenterToFace === true
+      && referenceBodyWidthPx > 0;
+    const widthCompensationPx = preserveVisualCenterToFace
+      ? Math.max(0, body.w - referenceBodyWidthPx) * 0.5
+      : 0;
+    const minimumDistancePx = Math.max(0, Number(this.config.minimumDistancePx) || 0);
+    const distancePx = Math.max(minimumDistancePx, baseDistancePx - widthCompensationPx);
     const epsilonPx = Math.max(0, Number(this.config.epsilonPx) || 0);
     const directionX = active.directionX;
     const faceX = directionX > 0

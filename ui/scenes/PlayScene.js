@@ -7,7 +7,7 @@ import {
   updatePlayScenePresentationPhase,
   updatePlaySceneWorld,
   updatePlaySceneWorldPhase,
-} from "../../world/PlayScene.js?rev=20260820-complex-dig-v1";
+} from "../../world/PlayScene.js?rev=20260826-world-map-input-v2";
 import { setupUIMethods } from "../../world/playScene/PlaySceneUI.js?rev=20260818-feedback-session-v1";
 import { SceneModeController } from "../../systems/runtime/SceneModeController.js";
 import { SceneLifecycleRegistry } from "../../systems/runtime/SceneLifecycleRegistry.js";
@@ -20,7 +20,8 @@ import {
   SCENE_SUSPENSION_KINDS,
 } from "../../values/sceneRuntime.js";
 import { installUiReviewHarness } from "../../testing/UiReviewHarness.js";
-import { PLAY_SCENE_UI_METHOD_DEPENDENCIES, PLAY_SCENE_UI_PORTS } from "./PlayScenePorts.js";
+import { PLAY_SCENE_UI_METHOD_DEPENDENCIES, PLAY_SCENE_UI_PORTS } from
+  "./PlayScenePorts.js?rev=20260826-inventory-codex-v3";
 
 export class PlayScene extends Phaser.Scene {
   constructor() {

@@ -89,12 +89,15 @@ export const UPGRADES = Object.freeze({
     id: "agility",
     category: UPGRADE_CATEGORIES.PLAYER_STATS,
     name: "Agility Training",
-    description: "Increases sideways-speed (+5 per level, scales to level 99)",
+    description: "Sideways speed +20 px/s per early level; softcaps at +100 and reaches +200 at level 99.",
     baseCost: 3,
-    baseEffect: 5,
+    baseEffect: 20,
     effectType: "walkSpeed",
     merchant: "playerUpgrades",
-    maxLevel: 99
+    maxLevel: 99,
+    softcapLevel: 5,
+    softcapValue: 100,
+    maxValue: 200,
   },
   strength: {
     id: "strength",
@@ -249,7 +252,7 @@ export const UPGRADES = Object.freeze({
       steel: 1.5
     },
     metalTier: 4,
-    requiresLevel: 50,
+    requiresLevel: 6,
     merchant: "gearMerchant"
   },
   adamantPickaxe: {
@@ -273,7 +276,7 @@ export const UPGRADES = Object.freeze({
       mithril: 1.5
     },
     metalTier: 5,
-    requiresLevel: 60,
+    requiresLevel: 7,
     merchant: "gearMerchant"
   },
   runePickaxe: {
@@ -297,7 +300,7 @@ export const UPGRADES = Object.freeze({
       adamant: 1.5
     },
     metalTier: 6,
-    requiresLevel: 75,
+    requiresLevel: 9,
     merchant: "gearMerchant"
   },
   dragonPickaxe: {
@@ -319,7 +322,7 @@ export const UPGRADES = Object.freeze({
       default: 1.0
     },
     metalTier: 7,
-    requiresLevel: 99,
+    requiresLevel: 11,
     merchant: "gearMerchant"
   },
 
@@ -373,24 +376,24 @@ export const UPGRADES = Object.freeze({
     id: "marketInsight",
     category: UPGRADE_CATEGORIES.SPECIAL,
     name: "Market Insight",
-    description: "Get bonus money on all sales (slower progression, requires level 50)",
+    description: "Get bonus money on all sales (slower progression, requires level 6)",
     baseCost: 600,
     baseEffect: 0.05,
     effectType: "marketBonus",
     maxLevel: 10,
-    requiresLevel: 50,
+    requiresLevel: 6,
     merchant: "moneyMonster"
   },
   luckySales: {
     id: "luckySales",
     category: UPGRADE_CATEGORIES.SPECIAL,
     name: "Lucky Sales",
-    description: "Chance for bonus money when selling (slower progression, requires level 60)",
+    description: "Chance for bonus money when selling (slower progression, requires level 7)",
     baseCost: 450,
     baseEffect: 0.5,
     effectType: "luckySales",
     maxLevel: 10,
-    requiresLevel: 60,
+    requiresLevel: 7,
     merchant: "moneyMonster"
   },
  
@@ -419,7 +422,7 @@ export const UPGRADES = Object.freeze({
     goldCost: 250,
     baseEffect: 1,
     effectType: "unlockThunderStrike",
-    requiresLevel: 20,
+    requiresLevel: 3,
     merchant: "boboMerchant",
     oneTimePurchase: true
   },

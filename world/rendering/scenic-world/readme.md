@@ -58,7 +58,7 @@ The runtime owns the surface stage, camera-windowed material mask, generated sem
 
 These layers only read `WorldModel`; the grid still owns digging, tile HP and damage states, resource identity and rewards, collision, cave walls, and save data. Cell invalidation resynchronizes the raster view after gameplay changes instead of replacing the tile, while damage cracks remain independent in `WorldVisualFeedbackLayer`. Non-reward markers such as portals, chests, geodes, and glow crystals keep their existing gameplay cues. Use `?terrainSemantics=0` to compare the former star and reward presentation while keeping the approved 2D resource atlas; only an explicit `?resourceVeins=1` request enables the rejected procedural vein comparison. The landmark layer is anchored in world coordinates and only renders beauty/emissive cards; it cannot mutate the hidden gameplay grid. Scenic mode never creates a Phaser Tilemap, never exposes fallback square tiles, and keeps the compatibility methods used by mining and world systems.
 
-`WorldVisualDamageImagePainter` turns normalized tile HP loss into twelve persistent pre-break states using the polished Piskel V2 atlas by default. Each 188 px source frame is registered on the invariant `94,94` pivot, selected as `state * 10 + variant`, centered on the authoritative tile, displayed at exactly 94x94, and clipped by the same solid-world mask. It never reads tile type, material ID, or texture key and cannot mutate HP, terrain, collision, rewards, or saves. `?groundDamageAtlas=legacy` keeps the image painter and restores the byte-intact ImageGen V1 atlas for a narrow art rollback; `?groundDamage=legacy` restores the former radial Graphics renderer as the emergency code-path rollback. The modular `WorldVisualDamagePainter`, `drawWorldVisualDamageSurfaceWear`, `drawWorldVisualDamageChips`, and `worldVisualDamageMath` remain available through `?groundDamage=modular`.
+`WorldVisualDamageImagePainter` turns normalized tile HP loss into twelve persistent pre-break states using expanded V4 by default. One of 64 coordinate-stable authored fractures is selected once per tile, mapped through four cumulative raster anchors, and safely rotated/reflected through eight right-angle transforms. The painter renders it as a dark MULTIPLY body and restrained SCREEN rim, then mixes the exact one of 33 tile/resource response profiles using the tile tint shared with the destruction FX authority. Per-state scale and opacity make all twelve logical states feel progressive without storing 768 structural frames. Every 188 px source frame remains centered on the invariant 94 px gameplay tile and clipped by the same solid-world mask. Atlas and mix selection are cached per painter; exact tile response indices are mapped once, avoiding repeated URL parsing and linear profile searches during draws. The painter may read tile identity for presentation but cannot mutate HP, terrain, collision, rewards, or saves. `?groundDamageAtlas=v3` restores layered V3, `?groundDamageAtlas=v2` restores polished Piskel V2, `?groundDamageAtlas=legacy` restores byte-intact ImageGen V1, and `?groundDamage=legacy` restores the radial Graphics renderer. The modular `WorldVisualDamagePainter`, `drawWorldVisualDamageSurfaceWear`, `drawWorldVisualDamageChips`, and `worldVisualDamageMath` remain available through `?groundDamage=modular`.
 
 Boot only loads the surface pack. `WorldVisualAssetCache` streams active
 materials, backdrops, terrain, structures, sky cohesion, underground details,
@@ -302,3 +302,12 @@ the requested backdrop motif before choosing an asset. Structural cards use
 normal blending; sparse light/atmosphere cards use restrained additive
 blending. Use `?undergroundBackdropEnhancers=0` to remove this layer only.
 
+## Star Block OpenRouter idle V1
+
+`WorldVisualSemanticStarPresenter` now adds one pooled, black-backed additive
+motion image over each exact identity core. Three 24-frame neutral caustic loops
+are selected by identity and phase-offset by tile; beauty, dedicated light, and
+motion share the same bounded bob/breath transform. `WorldVisualSemanticAssetLayer`
+owns atlas frame installation, pool visibility, emissive depth handoff, and
+cleanup. The steady hard-darkness light and rare beacon pulse remain untouched.
+Use `?starIdle=0` to omit the atlas and recover the prior fixed-position idle.

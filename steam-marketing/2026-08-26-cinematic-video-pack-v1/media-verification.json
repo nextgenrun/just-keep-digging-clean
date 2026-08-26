@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "outputs": [
+    {
+      "path": "sprites/cinematics/understar-cinematics-v1/understar-opening-v1.mp4",
+      "durationSeconds": 25.0,
+      "width": 1920,
+      "height": 1080,
+      "hasAudio": true,
+      "bytes": 58525651,
+      "sha256": "be8047fcd7e396ee2546e1cc173a725e42559d3cea064d2e8ecde024ea544171"
+    },
+    {
+      "path": "sprites/cinematics/understar-cinematics-v1/mossback-discovery-v1.mp4",
+      "durationSeconds": 15.0,
+      "width": 1920,
+      "height": 1080,
+      "hasAudio": true,
+      "bytes": 54978145,
+      "sha256": "1a6d6ae2bca679632727960beb0c0f7bed3964515cf7d7f9b87c21fc368011f7"
+    },
+    {
+      "path": "steam-marketing/2026-08-26-cinematic-video-pack-v1/understar-cinematic-trailer-v1.mp4",
+      "durationSeconds": 30.0,
+      "width": 1920,
+      "height": 1080,
+      "hasAudio": true,
+      "bytes": 71960660,
+      "sha256": "11117ffdcbf32fdf84f269515acc1fd133db004d625efc1789974ae9772a1073"
+    },
+    {
+      "path": "steam-marketing/2026-08-26-cinematic-video-pack-v1/understar-short-01-mossback-v1.mp4",
+      "durationSeconds": 15.0,
+      "width": 1080,
+      "height": 1920,
+      "hasAudio": true,
+      "bytes": 23674872,
+      "sha256": "61804919cf39e62fd536724eb37654507d8e59d6c9102c9762f56dc1e5c2b9d4"
+    },
+    {
+      "path": "steam-marketing/2026-08-26-cinematic-video-pack-v1/understar-short-02-depth-v1.mp4",
+      "durationSeconds": 15.0,
+      "width": 1080,
+      "height": 1920,
+      "hasAudio": true,
+      "bytes": 25271632,
+      "sha256": "a65b95cd2d97b1703fff83d18c4bf26542682317b64f0dacec85b8dd3b1d3639"
+    }
+  ]
+}

@@ -81,6 +81,63 @@ assert.equal(reversedContact.contactSequenceIndex, 3);
 assert.equal(reversedContact.sequenceIndex, 4);
 assert.equal(reversedContact.textureFrame, 6);
 
+// Authored combo clips expose every contact independently and cannot enter
+// cancelable recovery after only their first impact.
+const comboContacts = [];
+timeline.begin({
+  animationKey: "ual-jab-elbow",
+  contacts: [
+    { textureFrame: 9, sequenceIndex: 8 },
+    { textureFrame: 20, sequenceIndex: 19 },
+  ],
+  onContact: (event) => comboContacts.push(event),
+});
+assert.equal(timeline.contactCount, 2);
+sprite.emit("animationupdate", animation("ual-jab-elbow"), frame(9, 10), sprite);
+assert.equal(comboContacts.length, 1);
+assert.equal(comboContacts[0].contactIndex, 0);
+assert.equal(comboContacts[0].contactCount, 2);
+assert.equal(comboContacts[0].isFinalContact, false);
+assert.equal(timeline.contactFired, true);
+assert.equal(timeline.allContactsFired, false);
+sprite.emit("animationupdate", animation("ual-jab-elbow"), frame(21, 22), sprite);
+assert.equal(comboContacts.length, 2);
+assert.equal(comboContacts[1].contactIndex, 1);
+assert.equal(comboContacts[1].isFinalContact, true);
+assert.equal(timeline.contactsFired, 2);
+assert.equal(timeline.allContactsFired, true);
+sprite.emit("animationupdate", animation("ual-jab-elbow"), frame(24, 25), sprite);
+assert.equal(comboContacts.length, 2);
+
+// Completion and watchdog fallbacks flush every remaining authored contact.
+const fallbackComboContacts = [];
+timeline.begin({
+  animationKey: "ual-combo-complete-only",
+  contacts: [
+    { textureFrame: 3, sequenceIndex: 3 },
+    { textureFrame: 7, sequenceIndex: 7 },
+  ],
+  onContact: (event) => fallbackComboContacts.push(event),
+});
+sprite.emit("animationcomplete", animation("ual-combo-complete-only"), frame(8, 9), sprite);
+assert.deepEqual(fallbackComboContacts.map((event) => event.contactIndex), [0, 1]);
+assert.ok(fallbackComboContacts.every((event) => event.trigger === "animationcomplete-fallback"));
+
+const watchdogComboContacts = [];
+const watchdogComboActionId = timeline.begin({
+  animationKey: "ual-combo-stalled-after-first",
+  contacts: [
+    { textureFrame: 2, sequenceIndex: 2 },
+    { textureFrame: 6, sequenceIndex: 6 },
+  ],
+  onContact: (event) => watchdogComboContacts.push(event),
+});
+sprite.emit("animationupdate", animation("ual-combo-stalled-after-first"), frame(2, 3), sprite);
+assert.equal(watchdogComboContacts.length, 1);
+assert.equal(timeline.fireContactFallback(watchdogComboActionId), true);
+assert.deepEqual(watchdogComboContacts.map((event) => event.contactIndex), [0, 1]);
+assert.equal(timeline.fireContactFallback(watchdogComboActionId), false);
+
 // A repeat wrap that skips the tail of the loop must not lose its contact.
 let wrappedContacts = 0;
 timeline.begin({
@@ -142,6 +199,17 @@ assert.throws(() => timeline.begin({ animationKey: "bad-frame", contactFrame: 1.
 assert.throws(
   () => timeline.begin({ animationKey: "bad-sequence", contactFrame: 1, contactSequenceIndex: -1 }),
   /contactSequenceIndex/,
+);
+assert.throws(
+  () => timeline.begin({ animationKey: "empty-contacts", contacts: [] }),
+  /non-empty array/,
+);
+assert.throws(
+  () => timeline.begin({
+    animationKey: "unordered-contacts",
+    contacts: [{ textureFrame: 8 }, { textureFrame: 4 }],
+  }),
+  /strictly increasing/,
 );
 
 timeline.destroy();

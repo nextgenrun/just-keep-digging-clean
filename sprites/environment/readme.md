@@ -6,6 +6,10 @@ Runtime art for world-space environmental actors and effects.
 - `graveborer-wurm-v1/`: Graveborer Wurm parts.
 - `star-block-crystal-v2/`: six active normalized ImageGen crystal cores shared
   exactly by the Star Block tile atlas and its mined release.
+- `star-block-idle-v1/`: three OpenRouter-derived, motion-only neutral caustic
+  loops layered over all 250 exact Star identities, with a compact 72-frame
+  atlas, source/cost provenance, pixel contracts, preview, and `?starIdle=0`
+  rollback.
 - `star-block-destruction-v1/`: retained high-resolution core masters plus the
   six active asymmetric crystalline break blooms.
 - `star-block-pulse-v1/`: six ImageGen-authored, rarity-coloured additive

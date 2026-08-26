@@ -1,4 +1,4 @@
-import { PLAYER_ASSET_PROFILES } from "../values/playerAssetProfiles.js";
+import { PLAYER_ASSET_PROFILES } from "../values/playerAssetProfiles.js?rev=20260825-unified-animation-v1";
 import {
   RUNTIME_ASSET_LOADING,
   RUNTIME_ASSET_RESIDENCY_CLASSES,
@@ -70,12 +70,27 @@ function queueDrillSheet(scene, sheetKey, fileName, frames, drill) {
 }
 
 function hasExpectedSheetFrames(scene, sheetKey, frames) {
+  const texture = sheetKey ? scene.textures?.get?.(sheetKey) : null;
   return Boolean(
     sheetKey
     && frames?.length
     && scene.textures.exists(sheetKey)
-    && frames.every((frame) => scene.textures.getFrame(sheetKey, String(frame))),
+    && frames.every((frame) => {
+      const frameName = String(frame);
+      if (typeof texture?.has === "function") return texture.has(frameName);
+      const record = scene.textures.getFrame?.(sheetKey, frameName);
+      return Boolean(
+        record
+        && (String(record.name) === frameName || record.texture?.key === sheetKey),
+      );
+    }),
   );
+}
+
+function isCorePlayerSheet(profile, entry) {
+  if (entry.deferredIds.length === 0) return true;
+  const preloaded = profile?.preloadDeferredAnimationPackIds || [];
+  return entry.deferredIds.some(packId => preloaded.includes(packId));
 }
 
 function queueProfileSheet(
@@ -92,12 +107,13 @@ function queueProfileSheet(
   if (scene.textures.exists(sheetKey)) scene.textures.remove(sheetKey);
   const path = `${sourceBasePath}/${fileName}?v=${profile.version}`;
   if (!registerPlayerAsset(scene, sheetKey, path, profile, abilityId)) return false;
+  const profileFrameSize = profile.frameSizePxBySheet?.[sheetKey];
   scene.load.spritesheet(
     sheetKey,
     path,
     {
-      frameWidth: profile.frameWidth,
-      frameHeight: profile.frameHeight,
+      frameWidth: profileFrameSize || profile.frameWidth,
+      frameHeight: profileFrameSize || profile.frameHeight,
       endFrame: highestReferencedPlayerFrame(frames),
     },
   );
@@ -173,7 +189,7 @@ export function queueLivingDrillSheets(scene) {
 export function hasPlayerProfileSheets(scene, profile, { upgradeLevels = {} } = {}) {
   if (!profile?.sheetFiles?.length) return false;
   return getUniquePlayerSheetEntries(profile)
-    .filter(entry => entry.deferredIds.length === 0)
+    .filter(entry => isCorePlayerSheet(profile, entry))
     .filter(entry => isPlayerAbilityUnlocked(entry.abilityId, upgradeLevels))
     .every(entry => hasExpectedSheetFrames(scene, entry.key, entry.frames));
 }
@@ -181,7 +197,7 @@ export function hasPlayerProfileSheets(scene, profile, { upgradeLevels = {} } = 
 export function queuePlayerProfileSheets(scene, profile, { upgradeLevels = {} } = {}) {
   if (!profile?.sheetFiles?.length) return false;
   const sheetsQueued = getUniquePlayerSheetEntries(profile)
-    .filter(entry => entry.deferredIds.length === 0)
+    .filter(entry => isCorePlayerSheet(profile, entry))
     .filter(entry => isPlayerAbilityUnlocked(entry.abilityId, upgradeLevels))
     .map(entry => (
       queueProfileSheet(

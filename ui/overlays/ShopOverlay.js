@@ -7,7 +7,11 @@ import {
   roundResourceCurrency,
 } from "../../values/resourcePrices.js";
 import { UI_COLORS } from "../../values/uiColors.js";
-import { UI_FONTS, SHOP_MERCHANT_PROFILES } from "../../values/uiLayout.js";
+import {
+  UI_FONTS,
+  SHOP_MERCHANT_PROFILES,
+  SHOP_SELECTION_BEHAVIOR,
+} from "../../values/uiLayout.js";
 import { UI_RESOURCE_PRESENTATION } from "../../values/uiIcons.js";
 import { USER_SETTINGS } from "../../systems/UserSettings.js";
 import { OPENING_FLIGHT_ARTIFACT_CONFIG } from "../../values/openingFlightArtifact.js";
@@ -71,6 +75,7 @@ export class ShopOverlay {
     this.moneyMonsterMode = "buy";
     this.currentPage = 0;
     this.selectedIndex = 0;
+    this.mouseSelectionPinned = false;
     this.itemsPerPage = 5;
     this.allUpgrades = [];
     this.forgeRecipes = [];
@@ -144,8 +149,11 @@ export class ShopOverlay {
   refreshKeybindHints() {
     const interact = USER_SETTINGS.getKeyLabel("interact");
     this.helpText.setText(
-      "W/S or arrows: select    PgUp/PgDn: pages    " +
-      "A/D or Tab: tabs/pages    " + interact + "/Enter: action    ESC: close"
+      SHOP_SELECTION_BEHAVIOR.mouseHint
+      + "    W/S or arrows: select    PgUp/PgDn: pages    "
+      + "A/D or Tab: tabs/pages    "
+      + interact
+      + "/Enter: action    ESC: close"
     );
   }
 
@@ -193,6 +201,7 @@ export class ShopOverlay {
     this.isVisible = true;
     this.currentPage = 0;
     this.selectedIndex = 0;
+    this.mouseSelectionPinned = false;
     this.moneyMonsterMode = this.scene.townSquareTutorialSystem
       ?.getPreferredMerchantMode?.(merchantId)
       || (isArcForgeMerchant(merchantId) ? "craft" : "buy");
@@ -237,6 +246,7 @@ export class ShopOverlay {
     this.moneyMonsterMode = next;
     this.currentPage = 0;
     this.selectedIndex = 0;
+    this.mouseSelectionPinned = false;
     this.selectedSellButton = 0;
     this.sellAllConfirmUntil = 0;
     this.saleConfirmSignature = "";
@@ -403,6 +413,7 @@ export class ShopOverlay {
     } else {
       this.selectedIndex = 0;
       this.currentPage = 0;
+      this.mouseSelectionPinned = false;
     }
 
     this._renderList(items, leftX, bodyTop, leftWidth, bodyHeight);
@@ -447,6 +458,26 @@ export class ShopOverlay {
     });
   }
 
+  _handleListHover(index) {
+    if (this.mouseSelectionPinned || index === this.selectedIndex) return false;
+    this.selectedIndex = index;
+    this.selectedSellButton = index;
+    this.topButtonSelected = null;
+    this._render();
+    return true;
+  }
+
+  _handleListClick(index) {
+    const releasingPin = this.mouseSelectionPinned && index === this.selectedIndex;
+    this.selectedIndex = index;
+    this.selectedSellButton = index;
+    this.topButtonSelected = null;
+    this.mouseSelectionPinned = !releasingPin;
+    this.soundSystem?.playUiSelect?.();
+    this._render();
+    return this.mouseSelectionPinned;
+  }
+
   _renderList(items, x, y, width, height) {
     const title = this.moneyMonsterMode === "sell"
       ? "RESOURCE STOCK"
@@ -459,6 +490,20 @@ export class ShopOverlay {
       fontStyle: "bold",
       color: UI_COLORS.title,
     });
+    this._text(
+      x + width - 16,
+      y + 14,
+      this.mouseSelectionPinned
+        ? SHOP_SELECTION_BEHAVIOR.pinnedLabel
+        : SHOP_SELECTION_BEHAVIOR.previewLabel,
+      {
+        fontFamily: UI_FONTS.mono,
+        fontSize: SHOP_SELECTION_BEHAVIOR.statusFontSize,
+        fontStyle: "bold",
+        color: this.mouseSelectionPinned ? UI_COLORS.gold : UI_COLORS.dim,
+      },
+      1,
+    );
 
     if (!items.length) {
       this._text(x + width / 2, y + height / 2, "Nothing is available here yet.", {
@@ -563,20 +608,8 @@ export class ShopOverlay {
         visibleChrome: false,
         playSounds: false,
         selected,
-        onFocus: () => {
-          if (index === this.selectedIndex) return;
-          this.selectedIndex = index;
-          this.selectedSellButton = index;
-          this.topButtonSelected = null;
-          this._render();
-        },
-        onClick: () => {
-          this.selectedIndex = index;
-          this.selectedSellButton = index;
-          this.topButtonSelected = null;
-          this.soundSystem?.playUiSelect?.();
-          this._render();
-        },
+        onFocus: () => this._handleListHover(index),
+        onClick: () => this._handleListClick(index),
       });
       rowButton.hit.on("pointerout", () => {
         if (index !== this.selectedIndex) bg.setStrokeStyle(1, UI_COLORS.borderDim);
@@ -945,7 +978,7 @@ export class ShopOverlay {
       });
     }
     if (upgrade.requiresLevel) {
-      const current = this.upgradeSystem?.playerLevelSystem?.getLevel?.() || 0;
+      const current = this.upgradeSystem?.playerLevelSystem?.level || 1;
       lines.push({ text: "Player level  " + current + " / " + upgrade.requiresLevel, met: current >= upgrade.requiresLevel });
     }
     if (upgrade.requiresDepthGateAccepted) {
@@ -1100,6 +1133,7 @@ export class ShopOverlay {
   navigateUp() {
     const items = this._itemsForCurrentMode();
     if (!items.length) return;
+    this.mouseSelectionPinned = false;
     this.selectedIndex = (this.selectedIndex - 1 + items.length) % items.length;
     this._syncPageToSelection(items);
     this.selectedSellButton = this.selectedIndex;
@@ -1110,6 +1144,7 @@ export class ShopOverlay {
   navigateDown() {
     const items = this._itemsForCurrentMode();
     if (!items.length) return;
+    this.mouseSelectionPinned = false;
     this.selectedIndex = (this.selectedIndex + 1) % items.length;
     this._syncPageToSelection(items);
     this.selectedSellButton = this.selectedIndex;
@@ -1139,6 +1174,7 @@ export class ShopOverlay {
   prevPage() {
     const items = this._itemsForCurrentMode();
     const pages = Math.max(1, Math.ceil(items.length / this.itemsPerPage));
+    this.mouseSelectionPinned = false;
     this.currentPage = (this.currentPage - 1 + pages) % pages;
     this.selectedIndex = Math.min(this.currentPage * this.itemsPerPage, Math.max(0, items.length - 1));
     this.soundSystem?.playUiSelect?.();
@@ -1148,6 +1184,7 @@ export class ShopOverlay {
   nextPage() {
     const items = this._itemsForCurrentMode();
     const pages = Math.max(1, Math.ceil(items.length / this.itemsPerPage));
+    this.mouseSelectionPinned = false;
     this.currentPage = (this.currentPage + 1) % pages;
     this.selectedIndex = Math.min(this.currentPage * this.itemsPerPage, Math.max(0, items.length - 1));
     this.soundSystem?.playUiSelect?.();
@@ -1159,6 +1196,7 @@ export class ShopOverlay {
   }
 
   updateSellSelection() {
+    this.mouseSelectionPinned = false;
     this.selectedIndex = this.selectedSellButton;
     this._render();
   }

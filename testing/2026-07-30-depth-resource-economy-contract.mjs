@@ -2,6 +2,10 @@ import assert from "node:assert/strict";
 
 import { GAME_CONFIG } from "../values/gameConfig.js";
 import {
+  GAMEPLAY_PROFILE_IDS,
+  createGameplayCapabilities,
+} from "../values/gameplayCapabilities.js";
+import {
   RESOURCE_ECONOMY_CONFIG,
   getDepthEconomyYieldMultiplier,
   getResourceEconomyConfigHealth,
@@ -9,6 +13,7 @@ import {
 } from "../values/resourceEconomy.js";
 import {
   RESOURCE_RARITIES,
+  getResourceRarityChanceMultiplier,
   getResourceHpMultiplier,
   getResourceRarityIndex,
   getResourceYieldMultiplier,
@@ -43,10 +48,14 @@ assert.equal(
 );
 assert.equal(getResourceEconomyConfigHealth().ready, true);
 assert.equal(getDepthEconomyYieldMultiplier(0, false), 1);
-assert.equal(getDepthEconomyYieldMultiplier(1500, false), 5);
-assert.equal(getDepthEconomyYieldMultiplier(4000, true), 10);
-assert.ok(getDepthEconomyYieldMultiplier(750, false) > 2);
-assert.ok(getDepthEconomyYieldMultiplier(2500, true) > 3.5);
+assert.equal(getDepthEconomyYieldMultiplier(1500, false), 8);
+assert.equal(getDepthEconomyYieldMultiplier(4000, true), 38);
+assert.equal(getDepthEconomyYieldMultiplier(5000, true), 60);
+assert.ok(getDepthEconomyYieldMultiplier(750, false) > 3);
+assert.ok(getDepthEconomyYieldMultiplier(2500, true) > 15);
+assert.equal(getResourceRarityChanceMultiplier(0), 1);
+assert.equal(getResourceRarityChanceMultiplier(2000), 3.5);
+assert.equal(getResourceRarityChanceMultiplier(5000), 5);
 
 function findRarityCoordinate(targetIndex) {
   for (let ty = 65; ty < 2000; ty += 1) {
@@ -112,7 +121,7 @@ assert.equal(
   }),
   12,
 );
-assert.equal(capFinalResourceYield(999999), 7500);
+assert.equal(capFinalResourceYield(999999), 50000);
 assert.equal(capFinalResourceYield(999999, false), 999999);
 
 assert.equal(
@@ -167,9 +176,12 @@ assert.equal(
 const milestoneBonuses = resolveDepthMilestoneEconomyBonuses({
   miningSpeedPct: 999,
   critChancePct: 999,
+  resourceYieldPct: 999,
 });
 assert.equal(milestoneBonuses.miningSpeedReduction, 0.32);
 assert.equal(milestoneBonuses.critChance, 0.12);
+assert.equal(milestoneBonuses.resourceYieldPct, 50);
+assert.equal(milestoneBonuses.resourceYieldMultiplier, 1.5);
 assert.deepEqual(
   resolveDepthMilestoneEconomyBonuses({
     miningSpeedPct: 32,
@@ -180,6 +192,8 @@ assert.deepEqual(
     miningSpeedReduction: 0,
     critChancePct: 0,
     critChance: 0,
+    resourceYieldPct: 0,
+    resourceYieldMultiplier: 1,
   },
 );
 
@@ -297,7 +311,10 @@ function buildEconomySnapshot(enabled) {
     ...GAME_CONFIG,
     resourceEconomyEnabled: enabled,
   });
-  const world = new WorldModel(config);
+  const world = new WorldModel(
+    config,
+    createGameplayCapabilities(GAMEPLAY_PROFILE_IDS.FULL_REVIEW),
+  );
   const dig = new DigSystem(world, null, config);
   return economyBands.map(band => sampleBand(world, dig, band));
 }
@@ -315,16 +332,16 @@ try {
 
 const modernById = Object.fromEntries(modernSnapshot.map(entry => [entry.id, entry]));
 const legacyById = Object.fromEntries(legacySnapshot.map(entry => [entry.id, entry]));
-assert.ok(modernById["l1-bottom"].coinsPer100Hp > modernById["l1-upper"].coinsPer100Hp * 2);
-assert.ok(modernById["l2-bottom"].coinsPer100Hp > modernById["l2-entry"].coinsPer100Hp * 5);
-assert.ok(modernById["l2-bottom"].coinsPer100Hp > legacyById["l2-bottom"].coinsPer100Hp * 6);
+assert.ok(modernById["l1-bottom"].coinsPer100Hp > modernById["l1-upper"].coinsPer100Hp * 8);
+assert.ok(modernById["l2-bottom"].coinsPer100Hp > modernById["l2-entry"].coinsPer100Hp * 8);
+assert.ok(modernById["l2-bottom"].coinsPer100Hp > legacyById["l2-bottom"].coinsPer100Hp * 20);
 assert.ok(
-  modernById["l1-bottom"].coinsPer100Hp
-    >= modernById["l2-entry"].coinsPer100Hp * 0.7,
+  modernById["l2-entry"].coinsPer100Hp
+    >= modernById["l1-bottom"].coinsPer100Hp * 2,
 );
 assert.ok(
-  modernById["l1-bottom"].coinsPer100Hp
-    <= modernById["l2-entry"].coinsPer100Hp * 1.4,
+  modernById["l2-entry"].coinsPer100Hp
+    <= modernById["l1-bottom"].coinsPer100Hp * 3,
 );
 assert.ok(
   (modernById["l2-bottom"].counts.lavaDirt || 0) / modernById["l2-bottom"].tiles

@@ -12,7 +12,8 @@ import { createSettingsPanelContent } from "../overlays/SettingsPanelContent.js"
 import { ShopOverlay } from "../overlays/ShopOverlay.js";
 import { SleepingJackpotModalOverlay } from "../overlays/SleepingJackpotModalOverlay.js";
 import { TitanArchiveView } from "../overlays/TitanArchiveView.js";
-import { UIInventoryPopup } from "../overlays/UIInventoryPopup.js";
+import { UIInventoryPopup } from
+  "../overlays/UIInventoryPopup.js?rev=20260826-inventory-codex-v3";
 import { UnderstarEndingOverlay } from "../overlays/UnderstarEndingOverlay.js";
 import { WorldMapOverlay } from "../overlays/WorldMapOverlay.js";
 import { PlaySceneRecoveryOverlay } from "./PlaySceneRecoveryOverlay.js";

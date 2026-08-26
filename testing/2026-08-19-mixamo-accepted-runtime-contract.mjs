@@ -138,7 +138,12 @@ const start = locomotion.resolve({
   currentAnimationKey: profile.idleAnim,
   isPlaying: true,
 });
-assert.equal(start.animationKey, accepted.animations.walkStart);
+assert.equal(
+  start.animationKey,
+  profile.animationPolishConfig.groundHandoff.start.key,
+  "ground start must use the authored two-frame bridge instead of the generic Mixamo clip",
+);
+assert.notEqual(start.animationKey, accepted.animations.walkStart);
 locomotion.reset({ grounded: true, facingFlipX: false });
 locomotion.resolve({
   grounded: true,
@@ -156,7 +161,12 @@ const stop = locomotion.resolve({
   currentTextureFrame: 5,
   isPlaying: true,
 });
-assert.equal(stop.animationKey, accepted.animations.walkStop);
+assert.equal(
+  stop.animationKey,
+  profile.animationPolishConfig.groundHandoff.stopAnimationKeyByOutgoingJogFrame[5],
+  "ground stop must preserve the outgoing Jog phase",
+);
+assert.notEqual(stop.animationKey, accepted.animations.walkStop);
 
 assert.deepEqual(resolveUalActionContact(profile, profile.thunderStrikeStrikeAnim), {
   textureFrame: accepted.thunderContactSequenceIndex,
@@ -197,7 +207,7 @@ for (const runtimeEntry of [
 ]) {
   assert.match(
     readFileSync(resolve(root, runtimeEntry), "utf8"),
-    /20260820-complex-dig-v1/,
+    /20260821-moving-complex-dig-v1/,
     `${runtimeEntry} can serve a cached pre-acceptance runtime`,
   );
 }

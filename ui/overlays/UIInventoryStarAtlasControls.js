@@ -1,57 +1,22 @@
-import { ASSET_KEYS } from "../../values/assetKeys.js";
-import { STAR_IDENTITY_LIBRARY_CONFIG } from "../../values/starIdentityLibrary.js";
+import { STAR_IDENTITY_LIBRARY_CONFIG } from
+  "../../values/starIdentityLibrary.js?rev=20260826-inventory-codex-v2";
 import { STAR_RARITY_PROGRESSION_CONFIG } from "../../values/starRarityProgression.js";
 import { getStarRarityTier } from "../../values/starRarityProgressionMath.js";
 import { UI_COLORS } from "../../values/uiColors.js";
 import { UI_FONTS } from "../../values/uiLayout.js";
-
-export function addStarAtlasText(
-  scene,
-  parent,
-  x,
-  y,
-  value,
-  style = {},
-) {
-  const text = scene.add.text(x, y, value, {
-    fontFamily: style.fontFamily || UI_FONTS.body,
-    fontSize: `${style.fontSizePx || 12}px`,
-    fontStyle: style.fontStyle,
-    color: style.color || UI_COLORS.body,
-    align: style.align || "center",
-    wordWrap: style.wordWrapWidth
-      ? { width: style.wordWrapWidth, useAdvancedWrap: true }
-      : undefined,
-    lineSpacing: style.lineSpacing,
-    stroke: style.stroke,
-    strokeThickness: style.strokeThickness,
-  }).setOrigin(style.originX ?? 0.5, style.originY ?? 0.5);
-  parent.add(text);
-  return text;
-}
-
-function addHitZone(scene, parent, x, y, width, height, onClick) {
-  const zone = scene.add.zone(x, y, width, height)
-    .setInteractive({ useHandCursor: true });
-  zone.on("pointerdown", onClick);
-  parent.add(zone);
-  return zone;
-}
-
-export function fitStarAtlasFoundation(rect, layout) {
-  let width = Math.min(layout.maximumWidthPx, rect.width);
-  let height = width / layout.aspectRatio;
-  if (height > rect.height) {
-    height = rect.height;
-    width = height * layout.aspectRatio;
-  }
-  return Object.freeze({
-    left: rect.left + (rect.width - width) / 2,
-    top: rect.top + (rect.height - height) / 2,
-    width,
-    height,
-  });
-}
+import {
+  starAtlasFontSize,
+  starAtlasPoint,
+  starAtlasSize,
+} from "./UIInventoryStarAtlasLayout.js?rev=20260826-inventory-codex-v2";
+import {
+  addStarAtlasHitZone,
+  addStarAtlasText,
+} from "./UIInventoryStarAtlasPrimitives.js?rev=20260826-inventory-codex-v3";
+import { renderStarAtlasPageControls } from
+  "./UIInventoryStarAtlasPagination.js?rev=20260826-inventory-codex-v3";
+import { addUiStarIdleSelectorMotion } from
+  "./UIStarIdleMotion.js?rev=20260826-star-idle-ui-v2";
 
 function renderRarityTabs(
   scene,
@@ -64,23 +29,34 @@ function renderRarityTabs(
   STAR_RARITY_PROGRESSION_CONFIG.rarityTiers.forEach((unused, rarityIndex) => {
     const tier = getStarRarityTier(rarityIndex);
     const selected = rarityIndex === selectedRarity;
-    const x = bounds.left + bounds.width * layout.rarityTabCentersX[rarityIndex];
-    const y = bounds.top + bounds.height * layout.rarityTabCenterY;
-    addStarAtlasText(scene, parent, x, y, tier.name, {
+    const point = starAtlasPoint(
+      bounds,
+      layout.rarityTabCentersXPx[rarityIndex],
+      layout.rarityTabCenterYPx,
+      layout,
+    );
+    const count = STAR_IDENTITY_LIBRARY_CONFIG.rarityIdentityCounts[rarityIndex];
+    addStarAtlasText(scene, parent, point.x, point.y, `${tier.name}\n${count} STARS`, {
       fontFamily: UI_FONTS.display,
-      fontSizePx: layout.rarityLabelFontSizePx,
+      fontSizePx: starAtlasFontSize(
+        bounds,
+        layout.rarityLabelFontSizePx,
+        layout,
+        9,
+      ),
       fontStyle: "bold",
       color: selected ? tier.palette.highlight : tier.palette.primary,
+      lineSpacing: -2,
       stroke: tier.palette.shadow,
       strokeThickness: selected ? 3 : 2,
     }).setAlpha(selected ? 1 : 0.72);
-    addHitZone(
+    addStarAtlasHitZone(
       scene,
       parent,
-      x,
-      y,
-      bounds.width * layout.rarityTabHitWidthRatio,
-      bounds.height * layout.rarityTabHitHeightRatio,
+      point.x,
+      point.y,
+      starAtlasSize(bounds, layout.rarityTabHitWidthPx, layout),
+      starAtlasSize(bounds, layout.rarityTabHitHeightPx, layout),
       () => onSelect(rarityIndex),
     );
   });
@@ -96,15 +72,34 @@ function renderIdentitySelectors(
 ) {
   const layout = STAR_IDENTITY_LIBRARY_CONFIG.inventory.layout;
   identities.forEach((identity, index) => {
-    const row = Math.floor(index / layout.selectorCentersX.length);
-    const column = index % layout.selectorCentersX.length;
-    const x = bounds.left + bounds.width * layout.selectorCentersX[column];
-    const y = bounds.top + bounds.height * layout.selectorCentersY[row];
+    const row = Math.floor(index / layout.selectorCentersXPx.length);
+    const column = index % layout.selectorCentersXPx.length;
+    const point = starAtlasPoint(
+      bounds,
+      layout.selectorCentersXPx[column],
+      layout.selectorCentersYPx[row],
+      layout,
+    );
     const selected = identity.index === selectedIdentity;
-    const imageSize = bounds.width * layout.selectorImageSizeRatio;
+    const imageSize = starAtlasSize(bounds, layout.selectorImageSizePx, layout);
+    if (selected) {
+      const tier = getStarRarityTier(identity.rarityIndex);
+      const ring = scene.add.graphics();
+      ring.lineStyle(
+        Math.max(1, starAtlasSize(bounds, layout.selectedRingWidthPx, layout)),
+        Number.parseInt(tier.palette.highlight.replace("#", ""), 16),
+        0.96,
+      );
+      ring.strokeCircle(
+        point.x,
+        point.y,
+        starAtlasSize(bounds, layout.selectedRingSizePx, layout) / 2,
+      );
+      parent.add(ring);
+    }
     const light = scene.add.image(
-      x,
-      y,
+      point.x,
+      point.y,
       identity.lightAtlasKey,
       identity.lightFrameName,
     ).setDisplaySize(
@@ -113,7 +108,12 @@ function renderIdentitySelectors(
     ).setAlpha(layout.selectorLightAlpha);
     light.setBlendMode?.(globalThis.Phaser?.BlendModes?.ADD);
     parent.add(light);
-    const image = scene.add.image(x, y, identity.atlasKey, identity.frameName)
+    const image = scene.add.image(
+      point.x,
+      point.y,
+      identity.atlasKey,
+      identity.frameName,
+    )
       .setDisplaySize(imageSize, imageSize)
       .setAlpha(selected ? layout.selectedAlpha : layout.idleAlpha);
     if (selected) {
@@ -124,110 +124,50 @@ function renderIdentitySelectors(
     }
     image.setBlendMode?.(globalThis.Phaser?.BlendModes?.SCREEN);
     parent.add(image);
+    addUiStarIdleSelectorMotion(scene, parent, {
+      x: point.x,
+      y: point.y,
+      size: imageSize,
+      identityIndex: identity.index,
+      selected,
+    });
     addStarAtlasText(
       scene,
       parent,
-      x,
-      y + bounds.height * layout.selectorLabelOffsetYRatio,
+      point.x,
+      starAtlasPoint(
+        bounds,
+        0,
+        layout.selectorCentersYPx[row] + layout.selectorLabelOffsetYPx,
+        layout,
+      ).y,
       identity.name.toUpperCase(),
       {
         fontFamily: UI_FONTS.display,
-        fontSizePx: layout.selectorLabelFontSizePx,
+        fontSizePx: starAtlasFontSize(
+          bounds,
+          layout.selectorLabelFontSizePx,
+          layout,
+          8,
+        ),
         fontStyle: "bold",
-        color: selected ? identity.secondary : identity.primary,
-        wordWrapWidth: bounds.width * layout.selectorHitSizeRatio,
+        color: selected ? UI_COLORS.gold : UI_COLORS.body,
+        wordWrapWidth: starAtlasSize(bounds, layout.selectorHitSizePx, layout),
         lineSpacing: -2,
         stroke: "#02060A",
         strokeThickness: 2,
       },
     ).setAlpha(selected ? 1 : 0.78);
-    addHitZone(
+    addStarAtlasHitZone(
       scene,
       parent,
-      x,
-      y,
-      bounds.width * layout.selectorHitSizeRatio,
-      bounds.width * layout.selectorHitSizeRatio,
+      point.x,
+      point.y,
+      starAtlasSize(bounds, layout.selectorHitSizePx, layout),
+      starAtlasSize(bounds, layout.selectorHitSizePx, layout),
       () => onSelect(identity.index),
     );
   });
-}
-
-function animatePageArrow(scene, arrow, direction) {
-  if (!scene.tweens?.add) return;
-  scene.tweens.add({
-    targets: arrow,
-    x: arrow.x + direction * 7,
-    duration: 90,
-    yoyo: true,
-    ease: "Sine.Out",
-  });
-}
-
-function renderPageControls(
-  scene,
-  parent,
-  bounds,
-  identities,
-  pageIndex,
-  pageCount,
-  onSelect,
-) {
-  if (pageCount <= 1) return;
-  const config = STAR_IDENTITY_LIBRARY_CONFIG;
-  const layout = config.inventory.layout;
-  const y = bounds.top + bounds.height * layout.pageControlCenterY;
-  const pageSize = layout.selectorsPerPage;
-  const controls = [
-    {
-      asset: ASSET_KEYS.ui.notificationControls.previous,
-      xRatio: layout.pagePreviousCenterX,
-      direction: -1,
-    },
-    {
-      asset: ASSET_KEYS.ui.notificationControls.next,
-      xRatio: layout.pageNextCenterX,
-      direction: 1,
-    },
-  ];
-  controls.forEach(({ asset, xRatio, direction }) => {
-    const x = bounds.left + bounds.width * xRatio;
-    const targetPage = (pageIndex + direction + pageCount) % pageCount;
-    const targetIdentity = identities[targetPage * pageSize];
-    const arrow = scene.add.image(x, y, asset.key)
-      .setDisplaySize(
-        bounds.width * layout.pageArrowSizeRatio,
-        bounds.width * layout.pageArrowSizeRatio,
-      );
-    parent.add(arrow);
-    addHitZone(
-      scene,
-      parent,
-      x,
-      y,
-      bounds.width * layout.pageHitSizeRatio,
-      bounds.width * layout.pageHitSizeRatio,
-      () => {
-        animatePageArrow(scene, arrow, direction);
-        onSelect(targetIdentity.index);
-      },
-    );
-  });
-  addStarAtlasText(
-    scene,
-    parent,
-    bounds.left + bounds.width * layout.pageLabelCenterX,
-    y,
-    `${config.inventory.copy.pageLabel} ${pageIndex + 1} / ${pageCount}`,
-    {
-      fontFamily: UI_FONTS.mono,
-      fontSizePx: layout.pageLabelFontSizePx,
-      fontStyle: "bold",
-      color: UI_COLORS.muted,
-      stroke: "#02060A",
-      strokeThickness: 2,
-    },
-  );
 }
 
 export function renderStarAtlasControls(
@@ -253,7 +193,7 @@ export function renderStarAtlasControls(
     (pageIndex + 1) * pageSize,
   );
   renderRarityTabs(scene, parent, bounds, rarityIndex, onSelectRarity);
-  renderPageControls(
+  renderStarAtlasPageControls(
     scene,
     parent,
     bounds,

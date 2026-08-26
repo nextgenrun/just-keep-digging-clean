@@ -39,6 +39,7 @@ function resolveOutgoingJogFrame({
   const phaseVariants = [
     ...handoff.variants,
     ...(profile?.movingSideQuickslashPhaseVariants || []),
+    ...(profile?.movingComplexDigPhaseVariants || []),
   ];
   if (currentAnimationKey === profile?.walkRunAnim && Number.isFinite(currentTextureFrame)) {
     return modulo(currentTextureFrame, count);
@@ -139,13 +140,17 @@ export function resolveMovingSideDigAnimation({
       targetDirectionX: targetDirection,
     });
   }
+  const movingComplexVariant = !isQuickslash
+    ? profile?.movingComplexDigVariantByBaseAnimationAndPhaseVariantId
+      ?.[animationKey]?.[variantId]
+    : null;
   const phaseAnimationKey = isQuickslash
     ? profile?.movingSideQuickslashAnimationKeyByPhaseVariantId?.[variantId]
-    : variant.animationKey;
+    : (movingComplexVariant?.animationKey || variant.animationKey);
   return Object.freeze({
     animationKey: phaseAnimationKey || replacement,
     outgoingJogFrame,
-    resumeJogFrame: variant.resumeJogFrame,
+    resumeJogFrame: movingComplexVariant?.resumeJogFrame ?? variant.resumeJogFrame,
     phaseVariantId: variant.id,
     movingSideDigActive: true,
     targetDirectionX: targetDirection,

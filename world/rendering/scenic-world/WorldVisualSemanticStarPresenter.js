@@ -24,8 +24,9 @@ export function showWorldVisualSemanticStar(
   phase,
 ) {
   if (!layer.identityFramesReady) refreshSemanticStarIdentityFrames(layer);
+  const rarity = layer.worldModel.getSkyTileRarity?.(tx, ty) || 0;
   const fallbackFrame = resolveWorldVisualSemanticStarFrame(
-    layer.worldModel.getSkyTileRarity?.(tx, ty) || 0,
+    rarity,
     layer.config,
   );
   const identity = getStarIdentity(
@@ -64,6 +65,17 @@ export function showWorldVisualSemanticStar(
     layer.currentEmissiveDepth,
     layer.config.render.emissiveBlendMode,
   );
+  const idleMotion = layer.starIdleEnabled
+    ? layer.config.skyTile.idleMotion
+    : null;
+  const idle = idleMotion
+    ? (layer.starIdlePool[index] || layer._createImage(
+      layer.starIdlePool,
+      idleMotion.atlas.key,
+      layer.currentEmissiveDepth,
+      idleMotion.blendMode,
+    ))
+    : null;
   const x = (tx + 0.5) * size;
   const y = (ty + 0.5) * size;
   const displaySize = size * layer.config.skyTile.scale * (
@@ -86,6 +98,7 @@ export function showWorldVisualSemanticStar(
   beauty.setPosition(x, y)
     .setTexture(beautyAtlas.key, beautyFrame)
     .setDisplaySize(displaySize, displaySize)
+    .setRotation(0)
     .setAlpha(layer.config.skyTile.beautyAlpha * opacityScale)
     .setTint(layer.config.skyTile.beautyReceivesTerrainTint === false
       ? 0xffffff
@@ -97,15 +110,55 @@ export function showWorldVisualSemanticStar(
       : layer.currentEmissiveDepth)
     .setTexture(emissiveAtlas.key, emissiveFrame)
     .setDisplaySize(lightDisplaySize, lightDisplaySize)
+    .setRotation(0)
     .setAlpha(layer.config.skyTile.emissiveAlpha * opacityScale * lightAlphaScale)
+    .setVisible(true);
+  const idleVariant = idleMotion
+    ? (identityReady ? identity.index : fallbackFrame) % idleMotion.atlas.variantCount
+    : 0;
+  const idlePhaseFrame = idleMotion
+    ? Math.floor((phase / (Math.PI * 2)) * idleMotion.atlas.framesPerVariant)
+    : 0;
+  const idleFrame = idleMotion
+    ? idleVariant * idleMotion.atlas.framesPerVariant + idlePhaseFrame
+    : 0;
+  idle?.setPosition(x, y)
+    .setDepth(townFloorOccluded
+      ? layer.config.render.townFloorOccludedEmissiveDepth
+      : layer.currentEmissiveDepth)
+    .setTexture(idleMotion.atlas.key, `${idleMotion.atlas.framePrefix}${idleFrame}`)
+    .setDisplaySize(displaySize * idleMotion.scale, displaySize * idleMotion.scale)
+    .setRotation(0)
+    .setAlpha(idleMotion.alpha * opacityScale)
     .setVisible(true);
   layer.activeStars.push({
     beauty,
     emissive,
+    idle,
     townFloorOccluded,
     identity: visualReady ? identity : null,
     lightAlphaScale,
     phase,
+    idleVariant,
+    idleFrame,
   });
   return true;
+}
+
+export function updateWorldVisualSemanticStars(layer, now) {
+  const motion = layer.starIdleEnabled
+    ? layer.config.skyTile.idleMotion
+    : null;
+  if (!motion) return;
+  for (const star of layer.activeStars) {
+    if (!star.idle) continue;
+    const localFrame = Math.floor(now / motion.framePeriodMs)
+      + Math.floor((star.phase / (Math.PI * 2)) * motion.atlas.framesPerVariant);
+    const frame = star.idleVariant * motion.atlas.framesPerVariant
+      + (localFrame % motion.atlas.framesPerVariant);
+    if (frame !== star.idleFrame) {
+      star.idleFrame = frame;
+      star.idle.setTexture(motion.atlas.key, `${motion.atlas.framePrefix}${frame}`);
+    }
+  }
 }

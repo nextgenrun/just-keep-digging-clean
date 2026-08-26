@@ -27,6 +27,7 @@ export class PlayerBodyLanguageSystem {
     this._wasGrounded = true;
     this._lastVy = 0;
     this._onPostUpdate = null;
+    this._deformationApplied = false;
   }
 
   create() {
@@ -36,6 +37,10 @@ export class PlayerBodyLanguageSystem {
       return;
     }
     const profile = this.scene.playerAssetProfile;
+    if (profile?.proceduralBodyLanguageScaleEnabled === false) {
+      this.enabled = false;
+      return;
+    }
     const polish = profile?.animationPolishConfig || PLAYER_ANIMATION_POLISH;
     this._authoredLandingCompression = profile?.landingCompressionOwner === "authored-animation"
       && isPlayerAnimationFeatureEnabled(
@@ -130,9 +135,17 @@ export class PlayerBodyLanguageSystem {
     // Compose: base display scale × squash × stretch
     const mx = this._squash.x * (2 - this._stretchY); // slight narrowing while stretching
     const my = this._squash.y * this._stretchY;
-    if (Math.abs(mx - 1) < 0.002 && Math.abs(my - 1) < 0.002) return; // neutral — leave game's scale alone
+    if (Math.abs(mx - 1) < 0.002 && Math.abs(my - 1) < 0.002) {
+      if (this._deformationApplied) {
+        const base = this._getBaseScale();
+        this.player.setScale(base.x, base.y);
+        this._deformationApplied = false;
+      }
+      return;
+    }
     const base = this._getBaseScale();
     this.player.setScale(base.x * mx, base.y * my);
+    this._deformationApplied = true;
   }
 
   destroy() {
@@ -142,6 +155,11 @@ export class PlayerBodyLanguageSystem {
     }
     this._activeTween?.stop();
     this._activeTween = null;
+    if (this._deformationApplied && this.player?.active) {
+      const base = this._getBaseScale();
+      this.player.setScale(base.x, base.y);
+    }
+    this._deformationApplied = false;
     this.enabled = false;
   }
 }

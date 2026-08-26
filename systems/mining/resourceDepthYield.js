@@ -22,6 +22,7 @@ export function resolveDepthAdjustedResourceYield({
   tileX = 0,
   tileY = 0,
   seed = 0,
+  milestoneYieldMultiplier = 1,
   enabled = true,
   config = RESOURCE_ECONOMY_CONFIG,
 } = {}) {
@@ -33,7 +34,11 @@ export function resolveDepthAdjustedResourceYield({
     secondWorld,
     config,
   );
-  const raw = Math.min(config.yield.maxFinalTileYield, base * multiplier);
+  const milestoneMultiplier = Math.max(1, Number(milestoneYieldMultiplier) || 1);
+  const raw = Math.min(
+    config.yield.maxFinalTileYield,
+    base * multiplier * milestoneMultiplier,
+  );
   const whole = Math.floor(raw);
   const fraction = raw - whole;
   const rounded = whole + (

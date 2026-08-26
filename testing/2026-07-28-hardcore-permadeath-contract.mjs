@@ -242,8 +242,7 @@ assert.equal(retryModal.ready, null);
 assert.equal(retryRestart, null);
 assert.equal(await retryModal.deathOptions.onRetry(), true);
 assert.match(retryModal.ready.detail, /SAVE INTACT/);
-assert.equal(retryRestart, null, "Retry Save must not restart on the same click");
-assert.equal(retryModal.deathOptions.onRetry(), true);
+assert.ok(retryRestart, "Retry Save must continue on the same successful click");
 assert.equal(retryRestart.hardcoreModeData.freeReviveAvailable, false);
 
 assert.deepEqual(

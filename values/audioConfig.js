@@ -16,13 +16,24 @@ export const AUDIO_CONFIG = Object.freeze({
   seismicWarningVolume: 0.72,
   hardcoreNearDeathVolume: 0.9,
   hardcoreNearDeathRate: 0.88,
-  rareDiscoveryVolume: 0.78,
   uiVolume: 0.6,
   uiSelectVolumeMultiplier: 0.42,
   uiConfirmVolumeMultiplier: 0.58,
   uiSelectRate: 1.08,
   uiConfirmRate: 1.0,
   uiSelectMinIntervalMs: 70,
+  xpGatherVolumeMultiplier: 0.14,
+  xpGatherSpecialVolumeMultiplier: 0.2,
+  xpGatherBaseRate: 1.08,
+  xpGatherSegmentRateStep: 0.018,
+  xpGatherMaxSegmentIndex: 9,
+  xpGatherLevelRateBoost: 0.06,
+  xpGatherMinIntervalMs: 180,
+  levelUpFirstVolumeMultiplier: 0.82,
+  levelUpSecondVolumeMultiplier: 1.0,
+  levelUpFirstRate: 0.92,
+  levelUpSecondRate: 1.18,
+  levelUpSecondDelayMs: 115,
   
   // Intervals
   musicTrackChangeInterval: 180000, // 3 minutes in ms
@@ -48,18 +59,12 @@ export const APPROVED_SFX_FAMILIES = Object.freeze({
       sha256: "F392BA177C12980B8872FB875FEE16893FD87621FF98E8110D5D5A82E5B9CCD2",
     }),
   ]),
-  rareDiscovery: Object.freeze([
+  hardcoreNearDeath: Object.freeze([
     Object.freeze({
-      key: "sfx-rare-discovery-0",
-      file: "rare-discovery-clean-reward.ogg",
-      path: `${APPROVED_SFX_BASE_PATH}rare-discovery-clean-reward.ogg`,
-      sha256: "7E10823163718361C50A0047BDE5E8D8BBC9BEE12DE1DB3DDE472E7452E0F9A8",
-    }),
-    Object.freeze({
-      key: "sfx-rare-discovery-1",
-      file: "rare-discovery-tight-reward.ogg",
-      path: `${APPROVED_SFX_BASE_PATH}rare-discovery-tight-reward.ogg`,
-      sha256: "B02B380A98442B41BE53261224505CC29F7BDDD6B5F893AFDFA9A30D5EC734C4",
+      key: "sfx-hardcore-near-death-0",
+      file: "hardcore-near-death-warning.wav",
+      path: `${APPROVED_SFX_BASE_PATH}hardcore-near-death-warning.wav`,
+      sha256: "7A4EEF03201228A108C8D481D8FFE17F2A97F8D20DF0FFE1ED0A60B4AF88508E",
     }),
   ]),
 });

@@ -14,6 +14,8 @@ export class PlayerPhysicsBody {
     this.h = config.playerBodyHeightPx;
     this.collisionKind = "rect";
     this.collisionRadiusPx = null;
+    this.collisionProfileId = "upright";
+    this.visualAnchorOffsetYPx = 0;
     
     // Velocity
     this.vx = 0;
@@ -95,6 +97,70 @@ export class PlayerPhysicsBody {
    */
   getCenterX() {
     return this.x + this.w / 2;
+  }
+
+  /** Visible bottom-center anchor shared by every rectangular pose profile. */
+  getVisualAnchor() {
+    return {
+      x: this.getCenterX(),
+      y: this.y + this.h + (Number(this.visualAnchorOffsetYPx) || 0),
+    };
+  }
+
+  getCollisionProfileSnapshot() {
+    return {
+      x: this.x,
+      y: this.y,
+      w: this.w,
+      h: this.h,
+      collisionKind: this.collisionKind,
+      collisionRadiusPx: this.collisionRadiusPx,
+      collisionProfileId: this.collisionProfileId,
+      visualAnchorOffsetYPx: this.visualAnchorOffsetYPx,
+    };
+  }
+
+  restoreCollisionProfileSnapshot(snapshot) {
+    if (!snapshot) return false;
+    this.x = snapshot.x;
+    this.y = snapshot.y;
+    this.w = snapshot.w;
+    this.h = snapshot.h;
+    this.collisionKind = snapshot.collisionKind;
+    this.collisionRadiusPx = snapshot.collisionRadiusPx;
+    this.collisionProfileId = snapshot.collisionProfileId;
+    this.visualAnchorOffsetYPx = snapshot.visualAnchorOffsetYPx;
+    return true;
+  }
+
+  forceRectProfile(profileId, profile, { preserveVisualAnchor = true } = {}) {
+    if (!(profile?.widthPx > 0) || !(profile?.heightPx > 0)) return false;
+    const centerX = this.getCenterX();
+    const bottom = this.y + this.h;
+    const visualAnchorY = this.getVisualAnchor().y;
+    this.w = profile.widthPx;
+    this.h = profile.heightPx;
+    this.collisionKind = "rect";
+    this.collisionRadiusPx = null;
+    this.collisionProfileId = profileId;
+    this.visualAnchorOffsetYPx = Number(profile.visualAnchorOffsetYPx) || 0;
+    this.x = centerX - this.w / 2;
+    this.y = (preserveVisualAnchor ? visualAnchorY - this.visualAnchorOffsetYPx : bottom) - this.h;
+    return true;
+  }
+
+  tryRectProfile(profileId, profile, collisionSystem, { allowBottomFallback = false } = {}) {
+    if (this.collisionKind !== "rect") return false;
+    if (this.collisionProfileId === profileId) return true;
+    const snapshot = this.getCollisionProfileSnapshot();
+    const attempts = [true, ...(allowBottomFallback ? [false] : [])];
+    for (const preserveVisualAnchor of attempts) {
+      this.restoreCollisionProfileSnapshot(snapshot);
+      this.forceRectProfile(profileId, profile, { preserveVisualAnchor });
+      if (collisionSystem?.isBodyOverlappingSolid?.(this) !== true) return true;
+    }
+    this.restoreCollisionProfileSnapshot(snapshot);
+    return false;
   }
 
   /**

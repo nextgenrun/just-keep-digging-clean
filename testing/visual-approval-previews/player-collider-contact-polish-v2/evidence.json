@@ -1,0 +1,66 @@
+{
+  "result": "PLAYER_COLLIDER_CONTACT_POLISH_V2_LIVE_QA_OK",
+  "evidence": {
+    "fixedFlightBefore": {
+      "enabled": true,
+      "profileId": "upright",
+      "width": 31,
+      "height": 75,
+      "anchor": {
+        "x": 423,
+        "y": 6110
+      },
+      "screenX": 423,
+      "screenY": 360,
+      "animationKey": "survival-mixamo-v1-flight-loop-anim",
+      "sheetKey": "survival-mixamo-v1-flight-loop-sheet",
+      "textureReady": true
+    },
+    "flightAfter": {
+      "enabled": true,
+      "profileId": "flight",
+      "width": 66,
+      "height": 34,
+      "anchor": {
+        "x": 423,
+        "y": 6110
+      },
+      "screenX": 423,
+      "screenY": 360,
+      "animationKey": "survival-mixamo-v1-flight-loop-anim",
+      "sheetKey": "survival-mixamo-v1-flight-loop-sheet",
+      "textureReady": true
+    },
+    "locomotionAfter": {
+      "enabled": true,
+      "profileId": "locomotion",
+      "width": 48,
+      "height": 75,
+      "anchor": {
+        "x": 423,
+        "y": 6110
+      },
+      "screenX": 423,
+      "screenY": 360,
+      "animationKey": "survival-ual-player-v1-walk-loop-anim",
+      "sheetKey": "survival-blender-v2-walk-sheet",
+      "textureReady": true
+    },
+    "crouchAfter": {
+      "enabled": true,
+      "profileId": "crouch",
+      "width": 44,
+      "height": 57,
+      "anchor": {
+        "x": 423,
+        "y": 6110
+      },
+      "screenX": 423,
+      "screenY": 360,
+      "animationKey": "survival-mixamo-v1-crouch-idle-anim",
+      "sheetKey": "survival-mixamo-v1-crouch-idle-sheet",
+      "textureReady": true
+    }
+  },
+  "issues": []
+}

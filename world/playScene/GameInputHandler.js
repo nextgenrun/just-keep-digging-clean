@@ -3,7 +3,10 @@
  * Centralizes all input action triggers and game-state-specific input logic
  */
 import { GAME_CONFIG } from "../../values/gameConfig.js";
-import { USER_SETTINGS } from "../../systems/UserSettings.js";
+import {
+  USER_SETTINGS,
+  normalizeKeyboardEvent,
+} from "../../systems/UserSettings.js";
 import { hasEscapeClosableUi } from "./hasEscapeClosableUi.js";
 import {
   GAMEPLAY_FEATURE_IDS,
@@ -31,8 +34,11 @@ export class GameInputHandler {
     this._hardEscapeHandledOnDown = false;
     this._hardEscapeKey = inputHandler.getKeys().hardEscape;
     this._onHardEscapeDown = () => this._handleHardEscapeDown();
+    this._mapHandledOnDown = false;
+    this._onMapDown = event => this._handleMapDown(event);
     this._onSceneShutdown = () => this.destroy();
     this._hardEscapeKey?.on?.("down", this._onHardEscapeDown);
+    scene.input?.keyboard?.on?.("keydown", this._onMapDown);
     scene.events?.once?.(Phaser.Scenes.Events.SHUTDOWN, this._onSceneShutdown);
   }
 
@@ -52,6 +58,14 @@ export class GameInputHandler {
     // the frame-level JustDown cannot reopen Pause after another listener runs.
     this._hardEscapeHandledOnDown = true;
     this.scene.closeTopOverlay?.("escape");
+  }
+
+  _handleMapDown(event) {
+    this._mapHandledOnDown = false;
+    if (event?.repeat || normalizeKeyboardEvent(event) !== USER_SETTINGS.getKey("map")) return;
+    if (this.scene._settingsKeyCaptureActive) return;
+    this.scene.toggleWorldMap?.();
+    this._mapHandledOnDown = true;
   }
 
   handleEscapeInput() {
@@ -86,12 +100,14 @@ export class GameInputHandler {
 
   destroy() {
     this._hardEscapeKey?.off?.("down", this._onHardEscapeDown);
+    this.scene?.input?.keyboard?.off?.("keydown", this._onMapDown);
     this.scene?.events?.off?.(
       Phaser.Scenes.Events.SHUTDOWN,
       this._onSceneShutdown,
     );
     this._hardEscapeKey = null;
     this._onHardEscapeDown = null;
+    this._onMapDown = null;
     this._onSceneShutdown = null;
   }
 
@@ -136,6 +152,10 @@ export class GameInputHandler {
     }
 
     if (justDown(keys.map)) {
+      if (this._mapHandledOnDown) {
+        this._mapHandledOnDown = false;
+        return true;
+      }
       this.scene.toggleWorldMap?.();
       return true;
     }

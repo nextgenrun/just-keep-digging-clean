@@ -40,7 +40,7 @@ already hid or destroyed its visible target.
 
 UAL main-world and compact-cave actions share contact-synchronised damage. The default Survivor uses the approved ten-stage complex SIDE chain and Uppercut-only exact UP replacement; UP-SIDE, DOWN-SIDE and DOWN retain their previous actions, while Quickslash and Thunder remain separate one-contact actions. Every complex clip is retimed through the existing visible-action cadence and fires exactly one authoritative tile contact even when its source motion contains multiple strikes. `?complexDig=0`, Ctrl+Alt+9, or the runtime global restores the previous SIDE/UP visuals on the next action. Held mining can replace only post-contact recovery after the authoritative cooldown is ready. Both runtimes route every grounded speed through Jog with immediate input-facing, use resolved body velocity for first-step/reversal cadence, apply frame-rate-independent velocity-aware flight pitch and playback, skip soft landing clips, and allow movement to cancel harder landing recovery after its readable prefix.
 
-UAL locomotion cadence is measured from resolved body displacement, while grounded start/stop activity comes from the post-collision body and facing comes from current input. A blocked body therefore stops producing fake jog cycles. Input intent and facing react on the current frame, while grounded velocity uses the shared 120 ms acceleration, 90 ms release, and 150 ms full-reversal envelope; upgraded or weather-adjusted speed remains stride-matched, and airborne flight timing stays consistent across both world implementations. The production Jog is now Piskel-round-tripped with one uniform 5-source-pixel root correction, a zero-drift bottom row, unchanged 28-frame cadence, and identically transformed rig markers. Its sequence-13/27 plants drive the existing footstep sound plus small material-matched bitmap fragments at the collision-owned floor. Idle and standing actions retain the 109px base presentation; UAL Jog and Piskel moving strikes use a normalized 123px canvas while preserving the same apparent body height. Moving Quickslash reuses the phase-nearest Jog lower body, keeps its original 16-frame/sequence-4 hit timing, and never applies contact-driven sprite translation. Both worlds apply the chosen animation, display size, and origin before beginning rig contact, preventing a one-frame scale or anchor bootstrap mismatch.
+UAL locomotion cadence and grounded start/stop activity are measured from resolved body displacement, while facing comes from current input. A blocked body therefore stops producing fake jog cycles, and releasing input keeps Jog stride-matched through the short physical slowdown before the planted stop begins. Input intent and facing react on the current frame, while grounded velocity uses the shared 120 ms acceleration, 90 ms release, and 150 ms full-reversal envelope; upgraded or weather-adjusted speed remains stride-matched, and airborne flight timing stays consistent across both world implementations. The production Jog is now Piskel-round-tripped with one uniform 5-source-pixel root correction, a zero-drift bottom row, unchanged 28-frame cadence, and identically transformed rig markers. Its sequence-13/27 plants drive the existing footstep sound plus small material-matched bitmap fragments at the collision-owned floor. Idle and standing actions retain the 109px base presentation; UAL Jog and Piskel moving strikes use a normalized 123px canvas while preserving the same apparent body height. Moving Quickslash reuses the phase-nearest Jog lower body, keeps its original 16-frame/sequence-4 hit timing, and never applies contact-driven sprite translation. Both worlds apply the chosen animation, display size, and origin before beginning rig contact, preventing a one-frame scale or anchor bootstrap mismatch.
 Moving SIDE actions also hold the authoritative 31 px body 21 px away from a
 still-solid target face in both runtime worlds. The clamp is symmetric, keeps
 the target adjacent for mining, releases when the tile is destroyed, and does
@@ -287,13 +287,17 @@ cave is discovered.
 
 Main-world `PlaySceneGameplay` and compact-cave `CaveActionAnimationRuntime`
 share `UalMovingSideDigSelector`. Grounded side mining while pressing toward
-the target uses phase-selected 14-frame Jog + Jab/Cross composites, then resumes
-Jog at the exact next lower-body phase. Both paths pass the live texture frame
+the target uses phase-selected Jog + attack composites for both legacy
+Jab/Cross and the approved ten-stage complex SIDE family, then resumes Jog at
+the exact next lower-body phase. Two-hit actions retain both contacts without
+compressing or skipping the run cycle. Both paths pass the live texture frame
 into the shared locomotion selector, which also activates the two-frame planted
 turn pivot without delaying facing or input. Compact-cave playback lives in
 `CaveLocomotionAnimationRuntime` so its restart/start-frame contract matches the
 main world. The existing combo selector, 360 ms minimum action cadence, contact
 callback, damage logic, and all non-side directions remain authoritative.
+Resolved zero velocity deliberately selects the stationary clip; this prevents
+run-in-place when collision has anchored the body at a solid tile face.
 
 The main world and compact caves also share the centralized animation-polish
 contract. Jog first uses the root-centered, baseline-locked Piskel sheet;
@@ -336,3 +340,7 @@ PlayScene passes the resolved depth-economy mode into `UpgradeSystem` and
 connects `MilestoneBoardSystem.getBonuses()` to `DigSystem`. Compact CaveScene
 configs retain their origin depth and record whether the entry came from Level
 Two, while `CaveGameplayController` shares the same Milestone provider.
+
+Meaningful level results stay nonblocking: `PlaySceneUpdate` synchronizes and
+refills the expanded GP cap, forwards the exact reward summary to the approved
+level presentation, plays the two-step confirmation cue, and queues the save.

@@ -16,18 +16,18 @@ export const CELESTIAL_STAR_RARITY_ORDER = Object.freeze([
 ]);
 
 const STAR_POINT_YIELDS = Object.freeze({
-  common: 1,
-  uncommon: 2,
-  rare: 4,
-  epic: 8,
-  mythic: 15,
-  astral: 30,
+  common: 20,
+  uncommon: 50,
+  rare: 100,
+  epic: 250,
+  mythic: 750,
+  astral: 2000,
 });
 
 export const CELESTIAL_TALENT_PROGRESSION_CONFIG = Object.freeze({
   saveVersion: 2,
   access: Object.freeze({
-    requiredPlayerLevel: 20,
+    requiredPlayerLevel: 3,
     initialFreeRootSelections: 1,
     rootSelectionsPerCompletedBranch: 1,
   }),

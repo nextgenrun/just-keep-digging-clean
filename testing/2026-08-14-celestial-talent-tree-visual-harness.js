@@ -8,7 +8,7 @@ import { CELESTIAL_TALENT_TREE_PRELOAD_ASSETS } from
 const params = new URLSearchParams(globalThis.location.search);
 const width = Math.max(960, Math.min(1600, Number(params.get("width")) || 1280));
 const height = Math.max(640, Math.min(1000, Number(params.get("height")) || 720));
-const playerLevel = Math.max(1, Math.min(99, Number(params.get("level")) || 50));
+const playerLevel = Math.max(1, Math.min(99, Number(params.get("level")) || 5));
 
 class CelestialTalentTreeHarnessScene extends Phaser.Scene {
   constructor() {

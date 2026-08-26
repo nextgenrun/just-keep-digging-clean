@@ -51,6 +51,13 @@ export const LIGHT_CONFIG = Object.freeze({
   // Active torch reveal bonus layered over the depth-aware base radius.
   torchBonusRadiusTiles: 2.5,
   torchDrainGpPerSecond: 8,
+  torchIntensity: Object.freeze({
+    levels: Object.freeze([0.2, 0.4, 0.6, 0.8, 1]),
+    defaultLevelIndex: 4,
+    radiusExponent: 0.72,
+    glowExponent: 1,
+    drainExponent: 1,
+  }),
   torchDrainDepthStartTiles: 1000,     // Depth where torch drain starts ramping up
   torchDrainDepthRampEndTiles: 2000,   // Depth where torch drain reaches max ramp scaling
   torchDrainDepthStartMultiplier: 1.875, // 8 GP/s * 1.875 = 15 GP/s at 1000m

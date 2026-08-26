@@ -94,7 +94,7 @@ assert.equal(pacing.isMerchantAvailable("gemPowerMerchant"), true);
 assert.equal(pacing.isMerchantUnlocked("gemPowerMerchant"), false);
 assert.equal(
   pacing.getNextPromiseOverride().promise,
-  "NEXT MASTERY PATH  •  REACH LEVEL 20",
+  "NEXT MASTERY PATH  •  REACH LEVEL 3",
 );
 
 affordableUpgrade = true;
@@ -107,7 +107,7 @@ affordableUpgrade = false;
 snapshot = pacing.refresh({ announce: false });
 assert.equal(
   pacing.getNextPromiseOverride().promise,
-  "NEXT MASTERY PATH  •  REACH LEVEL 20",
+  "NEXT MASTERY PATH  •  REACH LEVEL 3",
 );
 
 stats.expeditionsCompleted = 1;
@@ -130,13 +130,13 @@ assert.equal(pacing.isUpgradeAvailable("mithrilPickaxe"), false);
 assert.equal(pacing.isUpgradeAvailable("heavyPunch"), false);
 assert.equal(
   pacing.getNextPromiseOverride().promise,
-  "NEXT MASTERY PATH  •  REACH LEVEL 20",
+  "NEXT MASTERY PATH  •  REACH LEVEL 3",
 );
 
-scene.playerLevelSystem.level = 19;
+scene.playerLevelSystem.level = 2;
 snapshot = pacing.refresh({ announce: false });
 assert.equal(pacing.isFeatureAvailable("constellations", snapshot), false);
-scene.playerLevelSystem.level = 20;
+scene.playerLevelSystem.level = 3;
 snapshot = pacing.refresh({ announce: false });
 assert.equal(pacing.isFeatureAvailable("constellations", snapshot), true);
 

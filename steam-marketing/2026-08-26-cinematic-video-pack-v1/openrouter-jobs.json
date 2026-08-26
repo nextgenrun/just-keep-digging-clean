@@ -1,0 +1,69 @@
+{
+  "model": "google/veo-3.1-lite",
+  "jobs": [
+    {
+      "shotId": "roots-descent",
+      "response": {
+        "id": "IivhwDhdYob9pd8VV6zL",
+        "polling_url": "https://openrouter.ai/api/v1/videos/IivhwDhdYob9pd8VV6zL",
+        "status": "pending"
+      }
+    },
+    {
+      "shotId": "rift-flight",
+      "response": {
+        "id": "oRnWFIXwpB0S4TPhyJJK",
+        "polling_url": "https://openrouter.ai/api/v1/videos/oRnWFIXwpB0S4TPhyJJK",
+        "status": "pending"
+      }
+    },
+    {
+      "shotId": "star-core-release",
+      "response": {
+        "id": "mGi2rSAuIjWcFFtvclkR",
+        "polling_url": "https://openrouter.ai/api/v1/videos/mGi2rSAuIjWcFFtvclkR",
+        "status": "pending"
+      }
+    },
+    {
+      "shotId": "understar-awakening",
+      "response": {
+        "id": "bPi6omQ3CQTdFpqiGAbL",
+        "polling_url": "https://openrouter.ai/api/v1/videos/bPi6omQ3CQTdFpqiGAbL",
+        "status": "pending"
+      }
+    },
+    {
+      "shotId": "mossback-stirs",
+      "response": {
+        "id": "1E0bND0F9Y6LwkTYyeJM",
+        "polling_url": "https://openrouter.ai/api/v1/videos/1E0bND0F9Y6LwkTYyeJM",
+        "status": "pending"
+      }
+    },
+    {
+      "shotId": "mossback-close",
+      "response": {
+        "id": "dnc8LglCeJpkmqTOrftY",
+        "polling_url": "https://openrouter.ai/api/v1/videos/dnc8LglCeJpkmqTOrftY",
+        "status": "pending"
+      }
+    },
+    {
+      "shotId": "mossback-vertical",
+      "response": {
+        "id": "k1FXCbkDqi6omjsOKcoh",
+        "polling_url": "https://openrouter.ai/api/v1/videos/k1FXCbkDqi6omjsOKcoh",
+        "status": "pending"
+      }
+    },
+    {
+      "shotId": "rift-flight-vertical",
+      "response": {
+        "id": "grfble5ttFc9llyEhjVQ",
+        "polling_url": "https://openrouter.ai/api/v1/videos/grfble5ttFc9llyEhjVQ",
+        "status": "pending"
+      }
+    }
+  ]
+}

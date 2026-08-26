@@ -38,6 +38,16 @@ function resolveLiveContactDirection(scene, targetTile) {
   );
 }
 
+function miningOptionsForAuthoredContact(contactEvent, actionStartedAtMs) {
+  if ((contactEvent?.contactIndex ?? 0) === 0) return { actionStartedAtMs };
+  return {
+    actionStartedAtMs,
+    ignoreCooldown: true,
+    skipAbilityCost: true,
+    skipHeavyPunch: true,
+  };
+}
+
 function refreshMiningTargetVisual(scene) {
   const state = scene.inputHandler.resolveMiningInputState();
   const targetTile = state.targetTile;
@@ -51,7 +61,17 @@ function refreshMiningTargetVisual(scene) {
 function _handleLevelUpResult(scene, result) {
   if (!result?.levelUp) return;
   syncProgressionGemPowerMax(scene);
+  const gemPowerRestored = scene.playerController?.fillGemPower?.() || 0;
   scene.hudSystem?.pulseGemPower?.(true);
+  scene.levelUpRewardPresentation?.show?.({
+    ...result.rewardSummary,
+    level: Math.max(1, Math.floor(
+      result.newLevel || scene.playerLevelSystem?.level || 1,
+    )),
+    levelsGained: result.levelsGained || result.rewardSummary?.levelsGained || 1,
+    gemPowerRestored,
+  });
+  scene.soundSystem?.playLevelUpReward?.();
   scene.queueDugTilesSave?.();
 }
 
@@ -99,7 +119,11 @@ function showMiningRetentionFeedback(scene, result, targetTile, options = {}) {
 function isSystemFeatureAvailable(scene, feature) {
   if (
     feature === "abilities"
-    && scene.upgradeSystem?.isGodModeActive?.() === true
+    && (
+      scene.upgradeSystem?.isGodModeActive?.() === true
+      || scene.playerController?.abilities?.isQuickslashUnlocked?.() === true
+      || scene.playerController?.abilities?.isThunderStrikeUnlocked?.() === true
+    )
   ) {
     return true;
   }
@@ -287,6 +311,7 @@ function handleThunderStrikeResult(scene, strikeResult, now) {
       tileType: result.tileType,
     }, { tx: result.tx, ty: result.ty });
     scene.showLootPickupFeedback?.(reward, { tx: result.tx, ty: result.ty });
+    scene.showXpGatheringFeedback?.(reward, { tx: result.tx, ty: result.ty });
     if (reward.levelUp) _handleLevelUpResult(scene, reward);
     scene.queueDugTilesSave?.();
   });
@@ -453,6 +478,7 @@ function _updateSystems(time, delta, keys, samplePerformancePhases = false) {
   this.systemIntroductionSystem?.update?.();
   this.hudSystem.update(time);
   this.nextPromiseHudSystem?.update(time);
+  this.contextualMechanicTutorialSystem?.update?.(delta);
   handleRetentionEvents(this);
   this.journeySystem?.update?.(time);
   this.uiResourceBar?.setResources(this.digSystem.getResourceTotals());
@@ -619,6 +645,7 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
   this.debrisShieldSystem?.update?.(delta, keys.q, this.earthquakeSystem);
   // Update player controller (physics, movement, flight logic)
   this.playerController.update(delta);
+  const ledgeTraversalActive = this.playerController.isLedgeAssistActive?.() === true;
   // A player can still enter the authored surface shaft by walking into it;
   // rescue that route immediately while the tutorial has not taught Flight.
   this.townSquareTutorialSystem?.enforceSurfaceSafety?.();
@@ -771,7 +798,7 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
   this._wasQuickslashActive = isQuickslashActive;
   
   // Quickslash: one native action owns one GP cost, one contact, and one hit.
-  if (isQuickslashActive && !this._teleportInAnimating) {
+  if (isQuickslashActive && !this._teleportInAnimating && !ledgeTraversalActive) {
     const quickslashDir = abilities.getQuickslashDirection();
     const quickslashAim = quickslashDir > 0 ? "RIGHT" : "LEFT";
     const quickslashTarget = this.inputHandler.resolveAimTargetTileForVector({
@@ -815,7 +842,7 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
             now,
             contactDirection.aimLabel || quickslashAim,
             abilities,
-            { actionStartedAtMs: time },
+            miningOptionsForAuthoredContact(contactEvent, time),
           );
           handleQuickslashMineResult(this, result, quickslashTarget, tileType);
         },
@@ -848,6 +875,7 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
     !this._teleportInAnimating
     && normalMineRequested
     && !isQuickslashActive
+    && !ledgeTraversalActive
     && !tutorialDownwardMineBlocked
   ) {
     if (miningInputState.mouseRequested) {
@@ -864,7 +892,8 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
           targetTile: aimTargetTile,
           tileType: eventTileType,
           actionKind: "normal",
-          onContact: () => {
+          onContact: (contactEvent) => {
+            if ((contactEvent?.contactIndex ?? 0) > 0) return;
             this.randomEventBridge?.handleMineContact?.(aimTargetTile);
           },
         });
@@ -913,7 +942,7 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
                   now,
                   contactDirection.aimLabel || resolvedAim,
                   abilities,
-                  { actionStartedAtMs: time },
+                  miningOptionsForAuthoredContact(contactEvent, time),
                 );
                 handleNormalMineResult(this, result, mineTargetTile, tileType);
               },
@@ -975,8 +1004,11 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
   }
 
   // Thunder Strike: one paid charge, then exact-timing free follow-up slams.
-  const cInput = this.playerController.input.getThunderStrikeInput();
-  if (featureAvailable("abilities")) this.thunderStrikeActionRuntime?.update(
+  const abilitiesAvailable = featureAvailable("abilities");
+  const cInput = abilitiesAvailable
+    && !ledgeTraversalActive
+    && this.playerController.input.getThunderStrikeInput();
+  if (abilitiesAvailable) this.thunderStrikeActionRuntime?.update(
     time,
     cInput,
     (strikeResult, contactTime) => handleThunderStrikeResult(

@@ -1,4 +1,5 @@
 import { HARDCORE_MEMORIAL_CONFIG } from "../../values/hardcoreMemorials.js";
+import { LEVEL_CONFIG } from "../../values/levelConfig.js";
 
 const config = HARDCORE_MEMORIAL_CONFIG;
 
@@ -55,6 +56,21 @@ function sanitizeJourneyEvents(value) {
     .slice(-config.persistence.maximumJourneyEvents);
 }
 
+function sanitizePlayerLevel(value) {
+  const rawLevel = Math.max(
+    1,
+    finiteInt(value?.player?.level, LEVEL_CONFIG.LEGACY_HARDCAP) || 1,
+  );
+  const progressionVersion = Number(value?.player?.progressionVersion);
+  const recordVersion = Number(value?.version);
+  const isLegacy = Number.isFinite(progressionVersion)
+    ? progressionVersion < LEVEL_CONFIG.PROGRESSION_VERSION
+    : Number.isFinite(recordVersion) && recordVersion < config.version;
+  return isLegacy
+    ? LEVEL_CONFIG.getCompressedLevelForLegacyLevel(rawLevel)
+    : Math.min(LEVEL_CONFIG.HARDCAP, rawLevel);
+}
+
 export function sanitizeHardcoreMemorialRecord(value) {
   const diedAt = finiteInt(
     value?.diedAt,
@@ -81,7 +97,8 @@ export function sanitizeHardcoreMemorialRecord(value) {
         value?.player?.characterId,
         config.copy.defaultCharacterId,
       ),
-      level: Math.max(1, finiteInt(value?.player?.level, 100000) || 1),
+      progressionVersion: LEVEL_CONFIG.PROGRESSION_VERSION,
+      level: sanitizePlayerLevel(value),
       gemPowerMax: finiteInt(value?.player?.gemPowerMax, 1000000),
       wallet: finiteInt(value?.player?.wallet, 1000000000000),
       carriedResourceUnits: finiteInt(

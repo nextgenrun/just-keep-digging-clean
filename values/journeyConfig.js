@@ -18,7 +18,7 @@ export const JOURNEY_CONFIG = Object.freeze({
   maxVisibleHistory: 4,
   maxVisibleGoals: 3,
   pollIntervalMs: 250,
-  playerLevelMilestones: Object.freeze([5, 10, 25, 50, 100]),
+  playerLevelMilestones: Object.freeze([2, 3, 4, 6, 11]),
   copy: Object.freeze({
     tabLabel: "JOURNEY",
     buildTitle: "CURRENT BUILD",

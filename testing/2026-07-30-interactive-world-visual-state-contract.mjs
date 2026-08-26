@@ -83,7 +83,7 @@ cacheSystem.update(5000, cachePlayerTile);
 assert.equal(
   cacheImages[0].frame,
   getInteractiveWorldStateFrameName(
-    INTERACTIVE_WORLD_STATES.states.spent.index,
+    INTERACTIVE_WORLD_STATES.states.resolved.index,
   ),
 );
 assert.equal(cacheSystem.getSnapshot().visibleCaches, 1);

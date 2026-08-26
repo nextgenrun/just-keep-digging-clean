@@ -97,9 +97,9 @@ export const INVENTORY_RESOURCE_GUIDE = Object.freeze({
     Object.freeze({ stage: 1, label: "NEAR BREAK" }),
   ]),
   copy: Object.freeze({
-    inventoryTab: "INVENTORY",
-    guideTab: "WORLD GUIDE",
-    guideSubtitle: "Click any material • see its exact production appearance in the world",
+    inventoryTab: "HOLDINGS",
+    guideTab: "RESOURCE CODEX",
+    guideSubtitle: "Browse every material • inspect a clean specimen and your discovery record",
     selectorTitle: "CHOOSE A RESOURCE",
     selectorHint: "Every identity is always visible",
     formationArtLabel: "EXACT IN-GAME ART • 6 WORLD VARIANTS",

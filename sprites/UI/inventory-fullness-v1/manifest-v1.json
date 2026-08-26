@@ -1,0 +1,167 @@
+{
+  "schema": "understar-inventory-fullness/v1",
+  "generatedWith": "OpenAI built-in ImageGen precise-object edits",
+  "sourceReference": "sprites/UI/loot-pickups/inventory-bag-approved-full.png",
+  "runtimeSize": [
+    256,
+    256
+  ],
+  "stateCount": 10,
+  "decodedBytes": 2621440,
+  "assets": [
+    {
+      "state": 1,
+      "path": "inventory-fullness-01.png",
+      "width": 256,
+      "height": 256,
+      "bytes": 56012,
+      "sha256": "2d7abd85efcb895036ea3c4d6d7ac76cfa2ecb3d75696b7d517982a1fa86b6b8",
+      "alphaBounds": [
+        32,
+        27,
+        224,
+        218
+      ],
+      "transparentCorners": true
+    },
+    {
+      "state": 2,
+      "path": "inventory-fullness-02.png",
+      "width": 256,
+      "height": 256,
+      "bytes": 57125,
+      "sha256": "81db35bf46e8f12a6e5034cba8c77436b9aba4f585eb0adf860e6ba245694a93",
+      "alphaBounds": [
+        31,
+        28,
+        224,
+        218
+      ],
+      "transparentCorners": true
+    },
+    {
+      "state": 3,
+      "path": "inventory-fullness-03.png",
+      "width": 256,
+      "height": 256,
+      "bytes": 62173,
+      "sha256": "c9d4a74cdbdf6e44318e39462a87dcdfad98cf3e5bb6f03c3054b072dfc7841d",
+      "alphaBounds": [
+        27,
+        22,
+        229,
+        225
+      ],
+      "transparentCorners": true
+    },
+    {
+      "state": 4,
+      "path": "inventory-fullness-04.png",
+      "width": 256,
+      "height": 256,
+      "bytes": 59585,
+      "sha256": "8591f75b12c5065c6f05099d9df22672243d42167a8330069c6c13070662dd57",
+      "alphaBounds": [
+        31,
+        28,
+        224,
+        218
+      ],
+      "transparentCorners": true
+    },
+    {
+      "state": 5,
+      "path": "inventory-fullness-05.png",
+      "width": 256,
+      "height": 256,
+      "bytes": 57225,
+      "sha256": "158fee64e955cca56c5c419059612c03c7acd2596b23ccd62e1d38794f2320e7",
+      "alphaBounds": [
+        31,
+        10,
+        224,
+        240
+      ],
+      "transparentCorners": true
+    },
+    {
+      "state": 6,
+      "path": "inventory-fullness-06.png",
+      "width": 256,
+      "height": 256,
+      "bytes": 62164,
+      "sha256": "08cb26bc1f9f32ecd78e2a1b849f41f015cb2fdf5066a71fb600ba23e9fe5236",
+      "alphaBounds": [
+        31,
+        26,
+        225,
+        219
+      ],
+      "transparentCorners": true
+    },
+    {
+      "state": 7,
+      "path": "inventory-fullness-07.png",
+      "width": 256,
+      "height": 256,
+      "bytes": 70452,
+      "sha256": "57d38b3c42efff58ffc54446e040549c524e5409fde6de5e0618e3327ee6a745",
+      "alphaBounds": [
+        24,
+        24,
+        231,
+        232
+      ],
+      "transparentCorners": true
+    },
+    {
+      "state": 8,
+      "path": "inventory-fullness-08.png",
+      "width": 256,
+      "height": 256,
+      "bytes": 67240,
+      "sha256": "0777d3f31fb9712368ea27f10ab4535dc957abaf27cc892e561e8971ab2680f0",
+      "alphaBounds": [
+        29,
+        27,
+        226,
+        228
+      ],
+      "transparentCorners": true
+    },
+    {
+      "state": 9,
+      "path": "inventory-fullness-09.png",
+      "width": 256,
+      "height": 256,
+      "bytes": 64466,
+      "sha256": "a31a2533569084653a32d3a2dbdeaf54bee894692bdf8f9efce54ebde4a92dff",
+      "alphaBounds": [
+        31,
+        27,
+        224,
+        221
+      ],
+      "transparentCorners": true
+    },
+    {
+      "state": 10,
+      "path": "inventory-fullness-10.png",
+      "width": 256,
+      "height": 256,
+      "bytes": 70439,
+      "sha256": "444e438b635efcffeeca7958bb489a9241d680697440c38dc6ec0638aa335517",
+      "alphaBounds": [
+        29,
+        27,
+        226,
+        225
+      ],
+      "transparentCorners": true
+    }
+  ],
+  "review": {
+    "path": "inventory-fullness-v1-review.png",
+    "sha256": "610f45b2831c105b5d678794cc45903eb584111534bf6ba026a4343b34fdf12d"
+  }
+}

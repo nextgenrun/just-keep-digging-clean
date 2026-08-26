@@ -6,6 +6,8 @@ import {
   RUNTIME_ASSET_LOADING,
   RUNTIME_ASSET_RESIDENCY_CLASSES,
 } from "../values/runtimeAssetLoading.js";
+import { runtimeAssetExists } from
+  "../world/rendering/RuntimeAssetTextureRegistry.js";
 
 const ABILITY_POLICY = Object.freeze({
   [PLAYER_ABILITY_ASSET_IDS.quickslash]: Object.freeze({
@@ -61,7 +63,12 @@ export class PlayerAbilityAssetController {
   isReady(abilityId) {
     const assets = getPlayerAbilityAssetPack(this.profile, abilityId);
     return assets.length === 0
-      || assets.every(asset => this.scene?.textures?.exists?.(asset.key));
+      || assets.every(asset => runtimeAssetExists(
+        this.scene,
+        asset,
+        asset.type,
+        this.config,
+      ));
   }
 
   ensure(abilityId, { interactive = false } = {}) {

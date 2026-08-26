@@ -14,7 +14,7 @@
 ## Endgame removal
 
 The Player Upgrades merchant now offers **Seismic Suppression** once the player
-has reached level 99 and accepted the 1000 m depth milestone. It costs 75,000 M
+has reached level 11 and accepted the 1000 m depth milestone. It costs 75,000 M
 and is a permanent one-time purchase.
 
 Ownership lives in the existing `UpgradeSystem.upgradeLevels` save payload.
@@ -37,4 +37,3 @@ installed ImageGen helper, and split deterministically by
 - `testing/2026-07-13-earthquake-world-epicenter-smoke.mjs`
 - `testing/2026-07-26-earthquake-feedback-lifecycle-contract.mjs`
 - `testing/2026-07-28-earthquake-polish-and-suppression-contract.mjs`
-

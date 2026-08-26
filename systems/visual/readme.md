@@ -3,6 +3,13 @@
 Game system — visual.
 
 Notable systems:
+- `CinematicVideoPlayer.js` owns reusable streamed-video playback, browser
+  gesture admission, cancellable two-second keyboard hold-to-skip, error
+  completion, music isolation, and gameplay
+  suspension restoration. `CinematicVideoView.js` owns only the fullscreen
+  poster/video/prompt layout plus the approved framed hold-progress indicator.
+  `TitanDiscoveryCinematicController.js` admits the
+  Mossback edit only for the newly accepted first-Titan discovery.
 - `TitanChamberStream.js` sends its camera-near, at-most-two chamber cards
   through the high-priority runtime asset lane and cancels cards that become
   obsolete before activation. Resident cards and archive pins keep their
@@ -14,7 +21,10 @@ Notable systems:
   the remapped Inventory label now sits inside a subtle authored keycap while
   exact responsive alignment, larger invisible hit zones, and routing into the
   existing Inventory and Pause authorities remain unchanged. The quick-control
-  input rail sits above gameplay/actionbar input and below canonical modals
+  input rail sits above gameplay/actionbar input and below canonical modals.
+  Ten authored bag states now select from real carried-unit totals against a
+  presentation-only 100-unit saturation target; inventory storage stays
+  unbounded
 - `CelestialActionBarSystem.js` keeps the five authored shortcut sockets and
   ordering authority active, but unowned abilities render as empty bays instead
   of repeated Bobo seals or dim ghost icons. Owned-but-unavailable abilities
@@ -23,14 +33,32 @@ Notable systems:
   copy aligned clear of its lower trim.
 - `MiningTargetVisualSystem.js` — image-backed four-corner world-space mining target shared by the main world and compact caves; its approved duplicate-art glow stays restrained on hover and tightens/brightens during held mouse digging; `?miningTargetVisuals=0` restores the former rectangle comparison
 - `ApprovedHudSkin.js` — optional approved image-frame presentation layer that preserves HUDSystem runtime data and legacy fallback; its player core switches between matched illustrated torch ON/OFF frames instead of drawing a status dot. The top-right world-state frame now selects one of five ImageGen-authored weather medallions, keeps live copy in two aligned bays, and shares the 14 px top rail with player, combo, and audio chrome.
+- `HardcoreStatusHud.js` — maps the canonical stress snapshot to explicit live
+  sanity copy across stable, uneasy, fraying, fracturing, and straining stages.
+  Its compact card breathes continuously with the live curve, then stays hidden
+  until the critical banner has completely faded so the two surfaces never
+  stack.
+- `HardcorePanicOverlay.js` — eases three restrained copies of the approved
+  transparent edge frame across early peripheral unease, mid-stage breathing,
+  and late reality slip. Independent rise/fall smoothing removes band-boundary
+  snaps while the single critical/near-death banner remains below modal UI and
+  disappears outside active gameplay.
+- `TorchIntensityControl.js` — subtle authored-chip control directly below the
+  player-core torch; its percentage and click/wheel hint drive the five live
+  flame levels without exposing a DOM slider or capturing wheel input elsewhere.
+  The player-core keeps the approved OFF artwork as its base and blends only
+  the authored ON torch crop from the live flame alpha, so 20–100% burn and
+  natural flicker are visible without tinting or procedural replacement art.
 - `PickaxeHudView.js` — permanent owned-pickaxe presentation layered over the
   approved player core; it selects the generated tier overlay, exact label,
   purchase pulse, generic fallback, and `?pickaxeHud=0` rollback without owning
   upgrade state or GP values
 - `FloatingTextSystem.js` — policy-gated world text + constellation UI progress;
-  REDUCED is the uncluttered default and hides routine damage/resource numbers
+  FULL is the visible default. REDUCED hides routine damage/resource numbers
   while keeping critical, special, status, and bonus feedback. Remaining
-  floating labels stay attached to world impacts or collectibles. Mined Star
+  floating labels stay attached to world impacts or collectibles and render
+  above the full-screen weather/darkness stack while remaining below lightning
+  flashes and the authored HUD. Mined Star
   Blocks remain UI-only and
   delegate their transient presentation to `SkyStarReleaseView.js`. The exact
   deterministic one-of-250 identity now travels through progress metadata,
@@ -47,6 +75,10 @@ Notable systems:
 - `PostFxSystem.js` — camera vignette + depth-based color grading (values/postFxConfig.js)
 - `FullWorldMaterialSystem.js` — review-only (`?fullWorldMaterials=1`) whole-frame WebGL material pass. It recovers bounded local detail, adds restrained directional relief to existing composed assets, varies strength by depth, publishes `window.__jkdFullWorldMaterials`, and shuts itself down after sustained low FPS. The production default and original source textures remain unchanged (`values/fullWorldMaterialConfig.js`).
 - `PlayerBodyLanguageSystem.js` — landing squash, fall stretch, dig impact pop (values/gamefeel.js → bodyLanguage)
+- Unified Survival V1 disables the older procedural body-scale layer because
+  the approved sheets own their silhouettes. Legacy profiles retain it and now
+  restore their exact base scale after each deformation
+  (`?presentationContinuity=0`).
 - `PlayerMotionPolishSystem.js` — contextual calm idle fidgets, delayed wall bracing, native hit reactions, and action-safe animation priority (`values/playerMotionPolish.js`)
 - `NPCActivitySystem.js` — v11 Piskel merchant motion direction: four
   chronological quiet frames animate localized eyes, hands, ears, tails,
@@ -138,8 +170,9 @@ Notable systems:
 - `MilestoneBoardSystem.js` / `MilestonePillarModal.js` — Town Square depth
   pillar and journal. The world object uses the approved screenshot-1 Dwarven
   Depth Engine and advances at 0/500/1000/1500/2000 m while preserving
-  nearest-interaction arbitration. The modal keeps eight bounded milestone cards
-  per page, a large next-depth summary rail, and a responsive two-panel journal.
+  nearest-interaction arbitration. The journal contains 27 rewards through
+  4,800m, keeps eight bounded milestone cards per page, and displays GP, speed,
+  crit, and material-yield totals in its responsive summary rail.
   The modal delegates its two views to `MilestonePillarMilestonesView.js` and
   `MilestonePillarJournalView.js`; sizing lives in
   `values/milestonePillarUi.js`.
@@ -153,9 +186,18 @@ Notable systems:
   give blocked movement a planted brace entrance, hold, and phase-aware Jog
   release. These are presentation selectors only; they do not delay input or
   alter collision, mining cadence, or action authority.
+- `ualCrouchTransitionSelection.js` — one Phaser-independent enter/hold/exit
+  crouch selector shared by the main world and compact caves. Playback restart
+  requests are accepted only from the selection that owns the final animation,
+  preventing an overridden one-shot from restarting at frame zero.
 
 `StarPillarSystem` mounts the full-shell V4 Starlight view only at the physical
 pillar. While open it hides the older shell skin to prevent a double frame,
 keeps the authored close control, retains the deferred Starlight asset group,
 and exposes the existing health snapshot to the runtime canary/worker path.
 Closing releases the view and its retained texture consumer.
+
+`LevelUpRewardPresentation.js` reuses the approved HUD notification frame for
+a short nonblocking level reward sequence. It presents the meaningful level,
+permanent darkness resistance, mining power, GP-cap growth, and GP refill, then
+cleans itself up without acquiring modal or gameplay input ownership.

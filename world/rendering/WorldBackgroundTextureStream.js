@@ -82,7 +82,7 @@ export class WorldBackgroundTextureStream {
       batch.forEach(entry => this.pendingTextures.delete(entry.textureKey));
       this.loadBatchActive = false;
       if (this.isDestroyed()) {
-        batch.forEach(entry => this.removeOwnedTexture(entry.textureKey));
+        batch.forEach(entry => this.removeOwnedTexture(entry.textureKey, { force: true }));
         return;
       }
       this.onBatchComplete();
@@ -124,11 +124,38 @@ export class WorldBackgroundTextureStream {
     }
   }
 
-  removeOwnedTexture(textureKey) {
+  hasLiveTextureConsumer(textureKey) {
+    const pending = [...(this.scene.children?.list || [])];
+    const visited = new Set();
+    while (pending.length > 0) {
+      const gameObject = pending.pop();
+      if (!gameObject || visited.has(gameObject)) continue;
+      visited.add(gameObject);
+      if (
+        gameObject.active !== false
+        && gameObject.destroyed !== true
+        && (
+          gameObject.texture?.key === textureKey
+          || gameObject.frame?.texture?.key === textureKey
+        )
+      ) {
+        return true;
+      }
+      if (Array.isArray(gameObject.list)) pending.push(...gameObject.list);
+    }
+    return false;
+  }
+
+  removeOwnedTexture(textureKey, { force = false } = {}) {
     if (!this.ownedTextures.has(textureKey)) return;
+    // Phaser frames keep a live reference to their TextureSource. Removing a
+    // texture while any Image (including one nested in a Container) still owns
+    // such a frame leaves Frame.glTexture null and stops the whole render loop.
+    if (!force && this.hasLiveTextureConsumer(textureKey)) return false;
     if (this.scene.textures.exists(textureKey)) this.scene.textures.remove(textureKey);
     this.ownedTextures.delete(textureKey);
     this.filteredTextures.delete(textureKey);
+    return true;
   }
 
   snapshot() {
@@ -143,7 +170,9 @@ export class WorldBackgroundTextureStream {
     for (const image of this.images.values()) image.destroy();
     this.images.clear();
     for (const textureKey of [...this.ownedTextures]) {
-      if (!this.pendingTextures.has(textureKey)) this.removeOwnedTexture(textureKey);
+      if (!this.pendingTextures.has(textureKey)) {
+        this.removeOwnedTexture(textureKey, { force: true });
+      }
     }
     this.failedTextures.clear();
     this.filteredTextures.clear();

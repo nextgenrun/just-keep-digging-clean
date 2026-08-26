@@ -40,21 +40,21 @@ assert.ok(
   "combo GP restoration must remain restrained",
 );
 
-// Five-level bonuses are automatic and never pause mining for a choice.
-assert.equal(LEVEL_CONFIG.hasChoiceReward(4), false);
-assert.equal(LEVEL_CONFIG.hasChoiceReward(5), true);
+// Every meaningful level carries both former five-level checkpoints without pausing.
+assert.equal(LEVEL_CONFIG.hasChoiceReward(1), false);
+assert.equal(LEVEL_CONFIG.hasChoiceReward(2), true);
 const levels = new PlayerLevelSystem();
 const milestone = levels.gainLevel(4);
 assert.equal(milestone.newLevel, 5);
 assert.equal(milestone.hasChoice, false);
-assert.equal(milestone.automaticReward.count, 1);
+assert.equal(milestone.automaticReward.count, 8);
 const chosenDamage = levels.getMiningDamageMultiplier();
 levels.gainLevel(1);
 assert.ok(levels.getMiningDamageMultiplier() > chosenDamage);
 const restoredLevels = new PlayerLevelSystem();
 restoredLevels.fromJSON(levels.toJSON());
 assert.deepEqual(restoredLevels.choiceSelections, { miningPower: 0, resourceLuck: 0 });
-assert.equal(restoredLevels.automaticMilestoneRewards, 1);
+assert.equal(restoredLevels.automaticMilestoneRewards, 10);
 assert.equal(restoredLevels.getMiningDamageMultiplier(), levels.getMiningDamageMultiplier());
 
 // Persistent records, first-run loop, discoveries, expedition comparison data,
@@ -203,7 +203,12 @@ const rarity = getResourceRarityDescriptor(TILE_TYPES.GOLD, 12, 700, 635241, 133
 assert.ok(["normal", "rich", "packed", "ancient"].includes(rarity.id));
 assert.ok([1, 3, 8, 25].includes(rarity.multiplier));
 const legacyRarity = getResourceRarityDescriptor(TILE_TYPES.GOLD, 12, 700, 635241, 133742, false);
-assert.equal(legacyRarity.id, rarity.id);
+assert.ok(["normal", "rich", "packed", "ancient"].includes(legacyRarity.id));
+assert.ok(
+  ["normal", "rich", "packed", "ancient"].indexOf(rarity.id)
+    > ["normal", "rich", "packed", "ancient"].indexOf(legacyRarity.id),
+  "modern depth economy should improve native rarity while legacy mode stays flat",
+);
 assert.ok([1, 2, 5, 12].includes(legacyRarity.multiplier));
 assert.match(getTeleportPortalLabel(2, 3500), /^L2 .*3500m/);
 assert.ok(ANCIENT_RELIC_CONFIG.levelTwoWorldCaches.count > 0);

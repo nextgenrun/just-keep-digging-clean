@@ -10,6 +10,7 @@ import {
 } from "../values/uiIcons.js";
 import { ASSET_KEYS } from "../values/assetKeys.js";
 import { INVENTORY_RESOURCE_GUIDE } from "../values/inventoryResourceGuide.js";
+import { INVENTORY_CODEX_CONFIG } from "../values/inventoryCodex.js";
 import { UI_MODAL_LAYOUT } from "../values/uiLayout.js";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -76,19 +77,20 @@ assert(
 
 assert.match(
   holdingsSource,
-  /addInventoryWorldTile\(scene, shell\.content/,
-  "inventory resources must use the exact production ground compositor"
+  /addResourceCodexPortrait\(scene, shell\.content/,
+  "inventory resources must use authored Codex portraits"
 );
 assert.match(
   holdingsSource,
-  /installInventoryResourceFrames\(scene\)/,
-  "inventory resources must install the production semantic atlas frames"
+  /installResourceCodexFrames\(scene\)/,
+  "inventory resources must install the authored portrait atlas frames"
 );
-assert.match(
+assert.doesNotMatch(
   holdingsSource,
-  /addInventoryLavaDirtTile\(scene, shell\.content/,
-  "Lava Dirt must render its exact production tile rather than a substitute icon"
+  /addInventoryWorldTile|addInventoryLavaDirtTile|UIInventoryWorldTilePreview/,
+  "I-key resource cards must not paste ores onto legacy gameplay tiles"
 );
+assert.match(INVENTORY_CODEX_CONFIG.assets.portraits.path, /resource-dossier-atlas-v1/);
 assert.doesNotMatch(
   holdingsSource,
   /createIconBadge\(scene,\s*config\.icon,/,

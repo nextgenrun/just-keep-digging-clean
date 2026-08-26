@@ -195,7 +195,7 @@ export class SystemIntroductionSystem {
       }));
     if (snapshot.playerLevel < this.config.thresholds.talentLevel) {
       candidates.push({
-        promise: "NEXT MASTERY PATH  •  REACH LEVEL 20",
+        promise: `NEXT MASTERY PATH  •  REACH LEVEL ${this.config.thresholds.talentLevel}`,
         detail: "THE STAR PILLAR UNLOCKS YOUR FIRST CELESTIAL ABILITY",
       });
     }
@@ -214,7 +214,7 @@ export class SystemIntroductionSystem {
 
   _getPromiseUpgradePriority() {
     const defaultPriority = this.config.promiseUpgradePriority || [];
-    const hardcore = this.scene._hardcoreModeRuntime?.system?.getSnapshot?.();
+    const hardcore = this.scene._hardcoreRuntime?.system?.getSnapshot?.();
     if (hardcore?.armed !== true) return defaultPriority;
     const survival = this.config.hardcoreSurvivalUpgradePriority || [];
     return [...new Set([...survival, ...defaultPriority])];

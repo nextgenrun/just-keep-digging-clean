@@ -51,9 +51,9 @@ assert.equal(config.identities.length, 250);
 assert.equal(config.atlases.length, 6);
 assert.equal(config.lightAtlases.length, 6);
 assert.equal(getStarIdentityPreloadAssets().length, 13);
-assert.equal(config.inventory.layout.selectorCentersX.length, 4);
-assert.equal(config.inventory.layout.selectorCentersY.length, 3);
-assert.match(config.inventory.copy.subtitle, /every rarity can hold many colours/i);
+assert.equal(config.inventory.layout.selectorCentersXPx.length, 4);
+assert.equal(config.inventory.layout.selectorCentersYPx.length, 3);
+assert.match(config.inventory.copy.subtitle, /250 Star identities/i);
 assert.equal(config.inventory.layout.selectorsPerPage, 12);
 assert.equal(config.identities[0].id, "glacier-blue");
 assert.equal(config.identities[49].id, "first-light-prism");
@@ -124,14 +124,20 @@ assert.equal(
 );
 assert.deepEqual(foundation.outputSize, [1536, 800]);
 assert.deepEqual(foundation.transparentCorners, [0, 0, 0, 0]);
+const currentFoundationPath = config.inventory.foundation.path.split("?")[0];
+assert.deepEqual(pngSize(currentFoundationPath), {
+  width: config.inventory.layout.sourceWidthPx,
+  height: config.inventory.layout.sourceHeightPx,
+});
 
 const worldSource = read("world/model/WorldModel.js");
+const spawnAuthoritySource = read("world/model/WorldSpawnAuthority.js");
 assert.match(worldSource, /skyTileIdentity = new Uint8Array/);
-assert.match(worldSource, /identityHashSalt/);
-assert.match(worldSource, /resolveStarIdentityIndex\(rarityTier, identityRoll\)/);
+assert.match(spawnAuthoritySource, /identityHashSalt/);
+assert.match(spawnAuthoritySource, /resolveStarIdentityIndex\(rarityTier, identityRoll\)/);
 assert.match(worldSource, /getSkyTileIdentity\(tileX, tileY\)/);
 assert.doesNotMatch(
-  worldSource.match(/const identityRoll[\s\S]*?const identityIndex/)?.[0] || "",
+  spawnAuthoritySource.match(/const identityRoll[\s\S]*?setTile/)?.[0] || "",
   /rng\.next/,
 );
 
@@ -170,7 +176,7 @@ const inventoryPopupSource = read("ui/overlays/UIInventoryPopup.js");
 assert.match(inventoryPopupSource, /starAtlas\.copy\.tabLabel/);
 assert.match(inventoryPopupSource, /renderInventoryStarAtlas/);
 const inventoryAtlasSource = read("ui/overlays/UIInventoryStarAtlas.js");
-assert.match(inventoryAtlasSource, /star-atlas-foundation-v1|inventory\.foundation/);
+assert.match(inventoryAtlasSource, /inventory\.foundation/);
 assert.match(inventoryAtlasSource, /identity\.flavour/);
 assert.match(inventoryAtlasSource, /tier\.signXp/);
 assert.match(inventoryAtlasSource, /tier\.multiplier/);
@@ -179,10 +185,15 @@ assert.doesNotMatch(inventoryAtlasSource, /add\.graphics|fillRect|strokeRect/);
 const atlasControlsSource = read(
   "ui/overlays/UIInventoryStarAtlasControls.js",
 );
-assert.match(atlasControlsSource, /notificationControls\.previous/);
-assert.match(atlasControlsSource, /notificationControls\.next/);
+assert.doesNotMatch(
+  atlasControlsSource,
+  /notificationControls/,
+  "painted page controls must not receive a second misaligned arrow asset",
+);
+assert.match(atlasControlsSource, /starAtlasPoint/);
+assert.match(atlasControlsSource, /selectedRingSizePx/);
 assert.match(atlasControlsSource, /selectorsPerPage/);
-assert.doesNotMatch(atlasControlsSource, /add\.graphics|fillRect|strokeRect/);
+assert.doesNotMatch(atlasControlsSource, /fillRect|strokeRect/);
 
 const identityAssets = getStarIdentityPreloadAssets();
 const starThresholdGroup = getRuntimeFeatureAssetGroup(

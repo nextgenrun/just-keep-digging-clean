@@ -23,7 +23,7 @@ export const SYSTEM_INTRODUCTION_CONFIG = Object.freeze({
   thresholds: Object.freeze({
     gearDepth: 40,
     portalDepth: 80,
-    talentLevel: 20,
+    talentLevel: 3,
     constellationDepth: 100,
     caveDepth: 140,
     hazardDepth: 220,
@@ -54,7 +54,9 @@ export const SYSTEM_INTRODUCTION_CONFIG = Object.freeze({
     clock: "firstReturn",
     weather: "always",
     journey: "firstReturn",
-    map: "firstReturn",
+    // The map is passive information, so hiding it behind the first-return
+    // milestone only makes the authored HUD button look broken to new players.
+    map: "always",
     milestones: "always",
     comboHud: "firstReturn",
     specialTiles: "portalRun",
@@ -140,8 +142,8 @@ export const SYSTEM_INTRODUCTION_CONFIG = Object.freeze({
       detail: "Reach 80m or discover a portal or chest.",
     }),
     talentRun: Object.freeze({
-      short: "REACH LEVEL 20",
-      detail: "Reach Level 20, then attune an ability at the Star Pillar.",
+      short: "REACH LEVEL 3",
+      detail: "Reach Level 3, then attune an ability at the Star Pillar.",
     }),
     constellationRun: Object.freeze({
       short: "REACH 100m",
@@ -204,7 +206,7 @@ export const SYSTEM_INTRODUCTION_CONFIG = Object.freeze({
     Object.freeze({
       feature: "constellations",
       promise: "DISCOVER: BRING A STAR HOME",
-      detail: "REACH LEVEL 20  •  ATTUNE YOUR FIRST ABILITY AT THE STAR PILLAR",
+      detail: "REACH LEVEL 3  •  ATTUNE YOUR FIRST ABILITY AT THE STAR PILLAR",
     }),
     Object.freeze({
       feature: "caves",

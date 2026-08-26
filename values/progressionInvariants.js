@@ -83,7 +83,17 @@ export function validateSaveSnapshotIntegrity(snapshot) {
   const money = validateMoney(snapshot?.upgrades?.money ?? 0);
   if (!money.ok) issues.push(money.reason);
   if (snapshot?.levelData) {
-    const level = validateLevel(snapshot.levelData.level);
+    const persistedProgressionVersion = Number(snapshot.levelData.progressionVersion);
+    const legacyLevelData = !Number.isFinite(persistedProgressionVersion)
+      || persistedProgressionVersion < LEVEL_CONFIG.PROGRESSION_VERSION;
+    const level = legacyLevelData
+      ? validateBoundedNumber(snapshot.levelData.level, {
+        name: "legacy-level",
+        min: 1,
+        max: LEVEL_CONFIG.LEGACY_HARDCAP,
+        integer: true,
+      })
+      : validateLevel(snapshot.levelData.level);
     if (!level.ok) issues.push(level.reason);
     for (const field of ["currentXP", "totalXP", "automaticMilestoneRewards"]) {
       const checked = validateBoundedNumber(snapshot.levelData[field] ?? 0, {

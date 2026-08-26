@@ -19,6 +19,8 @@ import { CelestialActionBarInputBridge } from
   "../../systems/visual/CelestialActionBarInputBridge.js";
 import { CelestialCurrencyHudSystem } from
   "../../systems/visual/CelestialCurrencyHudSystem.js";
+import { LevelUpRewardPresentation } from
+  "../../systems/visual/LevelUpRewardPresentation.js";
 import {
   activateCelestialActionBarEntry,
   getCelestialActionBarAbilityState,
@@ -72,6 +74,7 @@ export function setupUIMethods(prototype, dependencies) {
     this.uiInventoryPopup = new UIInventoryPopup(this);
     this.shopOverlay = new ShopOverlay(this, this.upgradeSystem, this.soundSystem);
     this.xpProgressBar = new XPProgressBar(this);
+    this.levelUpRewardPresentation = new LevelUpRewardPresentation(this);
     this.celestialCurrencyHudSystem = new CelestialCurrencyHudSystem(this, {
       getMoney: () => this.upgradeSystem?.getMoney?.() || 0,
       getStars: () => (
@@ -121,6 +124,7 @@ export function setupUIMethods(prototype, dependencies) {
     this.uiInventoryPopup?.destroy();
     this.shopOverlay?.destroy();
     this.xpProgressBar?.destroy();
+    this.levelUpRewardPresentation?.destroy();
     this.celestialActionBarInputBridge?.destroy();
     this.celestialActionBarSystem?.destroy();
     this.celestialCurrencyHudSystem?.destroy();
@@ -130,6 +134,7 @@ export function setupUIMethods(prototype, dependencies) {
     this.uiInventoryPopup = null;
     this.shopOverlay = null;
     this.xpProgressBar = null;
+    this.levelUpRewardPresentation = null;
     this.celestialActionBarInputBridge = null;
     this.celestialActionBarSystem = null;
     this.celestialCurrencyHudSystem = null;
@@ -866,7 +871,6 @@ export function setupUIMethods(prototype, dependencies) {
 
   prototype.showWorldMap = function() {
     if (this.worldMapOverlay?.isOpen || this._worldMapFeatureLoading || this.gameState !== "playing") return false;
-    if (this.systemIntroductionSystem && !this.systemIntroductionSystem.isFeatureAvailable("map")) return false;
     const manager = this.runtimeFeatureAssetManager;
     const groupId = RUNTIME_FEATURE_ASSET_GROUP_IDS.worldMap;
     const consumer = RUNTIME_FEATURE_ASSET_CONSUMERS.worldMap;
@@ -1210,7 +1214,6 @@ export function setupUIMethods(prototype, dependencies) {
       this.retentionProgressSystem.seedLegacyProgress({
         dugTileKeys: savedData.dugTiles,
         resources: savedData.resources,
-        level: savedData.levelData?.level,
         relics: savedData.ancientRelicData?.count,
         stars: Object.values(this.floatingTextSystem?.getConstellationCounts?.() || {})
           .reduce((total, value) => total + Math.max(0, Number(value) || 0), 0),
@@ -1287,6 +1290,7 @@ export function setupUIMethods(prototype, dependencies) {
     this.hudSystem?.resize?.();
     this.uiNotifications?.resize?.();
     this.xpProgressBar?.resize?.();
+    this.levelUpRewardPresentation?.resize?.();
     this.celestialActionBarSystem?.resize?.();
     this.celestialCurrencyHudSystem?.resize?.();
     this.uiInventoryPopup?.resize?.();

@@ -162,7 +162,7 @@ levels.gainLevel(4);
 assert.equal(levels.level, 5);
 assert.ok(levels.getCriticalHitChance() >= 0.04);
 assert.ok(levels.getMiningSpeedBonus() <= 0.75);
-assert.ok(levels.getGemPowerMaxBonus(100) > levels.getGemPowerMaxBonus(99));
+assert.ok(levels.getGemPowerMaxBonus(11) > levels.getGemPowerMaxBonus(10));
 const savedLevel = levels.toJSON();
 const restoredLevel = new PlayerLevelSystem();
 restoredLevel.fromJSON(savedLevel);

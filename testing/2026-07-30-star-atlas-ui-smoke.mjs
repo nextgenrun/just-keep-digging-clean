@@ -11,6 +11,11 @@ import {
   resolveStarAtlasIdentityMove,
   resolveStarAtlasPageMove,
 } from "../ui/overlays/UIInventoryStarAtlasKeyboard.js";
+import {
+  fitStarAtlasFoundation,
+  starAtlasPoint,
+  starAtlasSize,
+} from "../ui/overlays/UIInventoryStarAtlasLayout.js";
 
 globalThis.Phaser = { BlendModes: { ADD: 1, SCREEN: 7 } };
 
@@ -26,10 +31,14 @@ function chainable(kind, record) {
       return this;
     },
     setInteractive() { return this; },
+    setDepth(value) { this.depth = value; return this; },
+    setScrollFactor(value) { this.scrollFactor = value; return this; },
     setOrigin() { return this; },
     setAlpha(value) { this.alpha = value; return this; },
     setScale(x, y = x) { this.scaleX = x; this.scaleY = y; return this; },
     setBlendMode(value) { this.blendMode = value; return this; },
+    lineStyle() { return this; },
+    strokeCircle() { return this; },
     setDisplaySize(width, height) {
       this.displayWidth = width;
       this.displayHeight = height;
@@ -86,11 +95,13 @@ const scene = {
       zone.height = height;
       return zone;
     },
+    graphics: () => chainable("graphics", objects),
   },
 };
 const shell = {
   content: {
     children: [],
+    parentContainer: { depth: 3221 },
     add(object) { this.children.push(object); },
   },
 };
@@ -112,8 +123,8 @@ assert.equal(state.pageIndex, 0);
 assert.equal(state.pageCount, 5);
 assert.equal(
   objects.filter(object => object.kind === "image").length,
-  29,
-  "foundation + arrows + paired light/core selectors + paired dossier preview",
+  27,
+  "foundation + paired light/core selectors + paired dossier preview",
 );
 assert.equal(
   objects.filter(object => object.kind === "zone").length,
@@ -124,28 +135,56 @@ assert.ok(
   objects.some(object => object.kind === "text" && /SIGN XP/.test(object.value)),
 );
 assert.ok(
-  objects.some(object => object.kind === "text" && /RARITY IS REWARD/.test(object.value)),
-);
-assert.ok(
   objects.some(object => object.kind === "text" && /PGUP \/ PGDN PAGE/.test(object.value)),
   "the keyboard navigation legend is visible on the authored foundation",
 );
 const layout = STAR_IDENTITY_LIBRARY_CONFIG.inventory.layout;
+for (const testRect of [
+  { left: -450, top: -220, width: 900, height: 440 },
+  { left: -280, top: -135, width: 560, height: 270 },
+]) {
+  const compactBounds = fitStarAtlasFoundation(testRect, layout);
+  assert(compactBounds.left >= testRect.left && compactBounds.top >= testRect.top);
+  assert(compactBounds.left + compactBounds.width <= testRect.left + testRect.width + 1e-9);
+  assert(compactBounds.top + compactBounds.height <= testRect.top + testRect.height + 1e-9);
+  const hitSize = starAtlasSize(compactBounds, layout.selectorHitSizePx, layout);
+  for (const xPx of layout.selectorCentersXPx) {
+    for (const yPx of layout.selectorCentersYPx) {
+      const center = starAtlasPoint(compactBounds, xPx, yPx, layout);
+      assert(center.x - hitSize / 2 >= compactBounds.left);
+      assert(center.x + hitSize / 2 <= compactBounds.left + compactBounds.width);
+      assert(center.y - hitSize / 2 >= compactBounds.top);
+      assert(center.y + hitSize / 2 <= compactBounds.top + compactBounds.height);
+    }
+  }
+}
 const foundation = objects.find(
   object => object.kind === "image"
     && object.key === STAR_IDENTITY_LIBRARY_CONFIG.inventory.foundation.key,
 );
 const commonLabel = objects.find(
-  object => object.kind === "text" && object.value === "COMMON",
+  object => object.kind === "text" && object.value === "COMMON\n60 STARS",
 );
-assert.equal(commonLabel.x, foundation.x + foundation.displayWidth * layout.rarityTabCentersX[0]);
-assert.equal(commonLabel.y, foundation.y + foundation.displayHeight * layout.rarityTabCenterY);
+assert.equal(
+  commonLabel.x,
+  foundation.x
+    + foundation.displayWidth * (layout.rarityTabCentersXPx[0] / layout.sourceWidthPx),
+);
+assert.equal(
+  commonLabel.y,
+  foundation.y
+    + foundation.displayHeight * (layout.rarityTabCenterYPx / layout.sourceHeightPx),
+);
 const firstIdentityZone = objects.find(
   object => object.kind === "zone"
-    && object.x === foundation.x + foundation.displayWidth * layout.selectorCentersX[0]
-    && object.y === foundation.y + foundation.displayHeight * layout.selectorCentersY[0],
+    && object.x === foundation.x
+      + foundation.displayWidth * (layout.selectorCentersXPx[0] / layout.sourceWidthPx)
+    && object.y === foundation.y
+      + foundation.displayHeight * (layout.selectorCentersYPx[0] / layout.sourceHeightPx),
 );
 assert.ok(firstIdentityZone, "the first selector hit zone matches its painted socket");
+assert.equal(firstIdentityZone.depth, 3222);
+assert.equal(firstIdentityZone.scrollFactor, 0);
 assert.ok(
   textureFrames.get(configKey("common")).size === 60,
   "all Common atlas frames were installed",
@@ -154,17 +193,20 @@ assert.ok(
   textureFrames.get(lightConfigKey("common")).size === 60,
   "all Common dedicated light frames were installed",
 );
-const nextArrow = objects.find(
-  object => object.kind === "image" && object.key === "ui-notification-next-v1",
-);
-assert.ok(nextArrow, "authored next-page arrow is visible");
 const nextZone = objects.find(
   object => object.kind === "zone"
-    && object.x === nextArrow.x
-    && object.y === nextArrow.y,
+    && object.x === foundation.x
+      + foundation.displayWidth * (layout.pageNextCenterXPx / layout.sourceWidthPx)
+    && object.y === foundation.y
+      + foundation.displayHeight * (layout.pageControlCenterYPx / layout.sourceHeightPx),
 );
-nextZone.handlers.pointerdown();
+assert.ok(nextZone, "the painted next arrow and its hit zone share one measured anchor");
+let stoppedPointerPhases = 0;
+const stopEvent = { stopPropagation() { stoppedPointerPhases += 1; } };
+nextZone.handlers.pointerdown(null, null, null, stopEvent);
+nextZone.handlers.pointerup(null, null, null, stopEvent);
 assert.equal(selectedIdentityTarget, 50, "page two begins at preserved global index 50");
+assert.equal(stoppedPointerPhases, 2, "Star selectors cannot dismiss the modal backdrop");
 
 assert.equal(resolveStarAtlasIdentityMove(0, 0, 1), 1);
 assert.equal(resolveStarAtlasIdentityMove(0, 0, 4), 4);

@@ -56,6 +56,18 @@ export const HARDCORE_MODE_CONFIG = Object.freeze({
       key: "ui-hardcore-oath-crest-v1",
       path: "sprites/UI/hardcore-mode-v1/hardcore-oath-crest-runtime-v1.webp",
     }),
+    panicWarning: Object.freeze({
+      key: "ui-hardcore-panic-warning-v1",
+      path: "sprites/UI/hardcore-panic-v1/panic-warning-medallion-v1.png",
+    }),
+    panicCritical: Object.freeze({
+      key: "ui-hardcore-panic-critical-v1",
+      path: "sprites/UI/hardcore-panic-v1/panic-critical-medallion-v1.png",
+    }),
+    panicEdgeFrame: Object.freeze({
+      key: "ui-hardcore-panic-edge-frame-v1",
+      path: "sprites/UI/hardcore-panic-v1/high-panic-edge-frame-v1.png",
+    }),
   }),
   ui: Object.freeze({
     depth: 4200,
@@ -79,8 +91,8 @@ export const HARDCORE_MODE_CONFIG = Object.freeze({
       footerPx: 12,
       choiceTitlePx: 20,
       choiceBodyPx: 13,
-      statusTitlePx: 12,
-      statusBodyPx: 11,
+      statusTitlePx: 13,
+      statusBodyPx: 12,
     }),
     modeSelector: Object.freeze({
       title: "CHOOSE SAVE RULES",
@@ -110,16 +122,16 @@ export const HARDCORE_MODE_CONFIG = Object.freeze({
       selectedAlpha: 1,
     }),
     statusHud: Object.freeze({
-      x: 172,
-      y: 153,
-      width: 320,
-      height: 48,
-      crestSize: 42,
+      x: 202,
+      // Sit below the complete three-chip buff lane (y 120..150). Keeping the
+      // status crest out of that lane prevents Hardcore danger feedback from
+      // covering active buff names at the exact moment both matter most.
+      y: 184,
+      width: 380,
+      height: 56,
+      crestSize: 50,
       textOffsetX: 12,
       depth: 3601,
-      warningPulseHz: 2.1,
-      criticalPulseHz: 4.1,
-      pulseScale: 0.025,
     }),
   }),
   stress: Object.freeze({
@@ -136,10 +148,12 @@ export const HARDCORE_MODE_CONFIG = Object.freeze({
     deepPressureStartDepthTiles: 420,
     deepPressureFullDepthTiles: 1800,
     deepPressureStressPerSecondMax: 3.4,
-    stressResistancePerPlayerLevel: 0.005,
+    stressResistancePerPlayerLevel: 0.05,
     stressResistanceMaximum: 0.4,
     litRecoveryPerSecond: 7.2,
-    intactStarLightRadiusTiles: 5,
+    // Match panic relief to the authored ~1.55-tile visible Star halo.
+    // Five tiles created an oversized safe zone that trivialised nearby danger.
+    intactStarLightRadiusTiles: 1.5,
     intactStarRecoveryPerSecond: 10,
     surfaceRecoveryPerSecond: 13,
     warningThreshold: 55,
@@ -414,7 +428,10 @@ export function resolveHardcoreUpkeepGpFloor(data, source) {
 }
 
 export function getHardcoreModePreloadAssets() {
-  return Object.values(HARDCORE_MODE_CONFIG.assets).map(asset => ({
+  return [
+    HARDCORE_MODE_CONFIG.assets.panel,
+    HARDCORE_MODE_CONFIG.assets.crest,
+  ].map(asset => ({
     key: asset.key,
     path: asset.path,
   }));

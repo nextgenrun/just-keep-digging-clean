@@ -24,6 +24,6 @@ export const GEM_POWER_CONFIG = Object.freeze({
   drainReductionMultiplier: 1, // GP/s reduction per level
   
   // Leveling multipliers
-  gpPerLevel: 10, // GP gained per level (up to level 99)
-  gpPerLevelHardcap: 2, // GP gained per level after level 99 (100-999)
+  gpPerLevel: 10, // GP gained per former level, up to the former Level 99 softcap
+  gpPerLevelHardcap: 2, // GP gained per former level across the former 100-999 band
 });

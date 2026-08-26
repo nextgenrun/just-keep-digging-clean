@@ -1,0 +1,2128 @@
+diff --git a/markdown/2026-06-25-next-steps.md b/markdown/2026-06-25-next-steps.md
+deleted file mode 100644
+index 9c778fa..0000000
+--- a/markdown/2026-06-25-next-steps.md
++++ /dev/null
+@@ -1,21 +0,0 @@
+-# Next Steps — Phase 2 Implementation
+-
+-After the clean architecture foundation (Phase 1), the following systems need to be implemented:
+-
+-## Priority Order
+-
+-1. **Copy Phaser.js** into `/libs/` from old codebase
+-2. **TilesheetBuilder.js** — Canvas-based runtime tilesheet composition
+-3. **Full WorldRenderer.paintInitialWorld()** — Render all tiles on screen
+-4. **Player Abilities** — `/player/Abilities.js` (gem power, flight, quickslash, thunderstrike)
+-5. **HUD System** — `/systems/visual/HUDSystem.js`
+-6. **Floating Text System** — `/systems/visual/FloatingTextSystem.js`
+-7. **Save/Load integration** — Connect SaveManager to PlayScene
+-8. **Input handling** — GameInputHandler + PlayerInputHandler
+-9. **Progression stubs** — UpgradeSystem, PlayerLevelSystem
+-10. **Atmosphere stubs** — DayNightCycle, WeatherSystem, LightSystem
+-
+-Each system must:
+-- Import values from `/values/` only
+-- Stay under 200 lines
+-- Have exactly one responsibility
+diff --git a/markdown/2026-06-25-phase3-roadmap.md b/markdown/2026-06-25-phase3-roadmap.md
+deleted file mode 100644
+index 61b7b68..0000000
+--- a/markdown/2026-06-25-phase3-roadmap.md
++++ /dev/null
+@@ -1,80 +0,0 @@
+-# Phase 3 Roadmap — Systems Integration & Gameplay Polish
+-
+-All core files are written. Phase 3 is about connecting everything, adding visual polish, and making the game playable.
+-
+-## Priority Order
+-
+-### 1. World Generation ✅ [DONE]
+-- [x] TerrainGenerator — base biome, dirt/stone layers
+-- [x] CaveGenerator — cave paths and rooms
+-- [x] GeodeGenerator — resource pockets
+-- [x] SeededRandom — deterministic seed-based RNG
+-- [x] WorldGenerator — orchestrates all generators
+-
+-### 2. Rendering ✅ [DONE]
+-- [x] TilesheetBuilder — runtime canvas tilesheet from colored squares
+-- [x] WorldRenderer — tilemap creation + paintInitialWorld + applyTileUpdate
+-
+-**Critical gap:** Tilesheet colors are placeholder. Must replace with actual sprite assets.
+-
+-### 3. Player Systems ✅ [DONE]
+-- [x] Input — WASD + Space + Shift + Z + F key handlers
+-- [x] PhysicsBody — tile-based gravity + collision on typed arrays
+-- [x] Movement — velocity integration + collision response
+-- [x] State — IDLE/WALKING/DIGGING/CLIMBING/GEM_VISION/AIRBORNE
+-- [x] Abilities — gem power, flight, gem vision, quickslash, thunder
+-- [x] PlayerController — thin orchestrator tying it together
+-
+-### 4. Mining Systems ✅ [DONE]
+-- [x] DigSystem — tile damage, resource drops, cooldowns
+-- [x] TileCollision — X/Y tile collision from physics body
+-
+-**Needs:** drop-to-inventory integration, mining animations
+-
+-### 5. Progression Systems ✅ [DONE]
+-- [x] UpgradeSystem — level storage, cost calculation, purchase
+-- [x] PlayerLevelSystem — XP gain, level bonuses, XP table
+-
+-### 6. UI ✅ [DONE]
+-- [x] BootScene — asset loading
+-- [x] MainMenuScene — title screen + ENTER to start
+-- [x] HUDSystem — GP bar, flash status messages
+-
+-**Needs:** resource inventory HUD, escape menu, pause overlay
+-
+-### 7. Next Critical Work
+-
+-**HIGH PRIORITY — Gameplay:**
+-- [/] **Save/Load integration** — SaveManager exists but isn't wired to PlayScene
+-- [ ] **Input handler refactor** — GameInputHandler + PlayerInputHandler for modular key binding
+-- [ ] **Inventory system** — tracking copper/silver/gold/etc. and spending them
+-- [ ] **Combo system** — score multiplier based on chain mining
+-- [ ] **Floating text system** — "+5 Copper!" popups on resource pickup
+-- [ ] **Camera shake + hitstop** — gamefeel from /values/gamefeel.js
+-
+-**MEDIUM PRIORITY — Visual:**
+-- [ ] **Replace placeholder tilesheet** — load actual sprite images instead of colored squares
+-- [ ] **Player sprites** — run/stand/dig animations from spritesheet
+-- [ ] **Particle effects** — dirt particles when mining
+-- [ ] **Background/sky rendering** — parallax background, gradient sky
+-- [ ] **Lighting** — day/night cycle, darkness simulation
+-- [ ] **Zoom bands** — camera zoom based on depth
+-
+-**LOW PRIORITY — Meta:**
+-- [ ] **Pause/escape menu** — settings, upgrade shop (Bobo/Money Monster)
+-- [ ] **Sound system** — audio manager with Web Audio API fallback
+-- [ ] **Mobile support** — touch controls, virtual joystick
+-- [ ] **GitHub Pages deploy** — automation script in /pipelines/
+-- [ ] **Tiled exporter** — /exports/tiled/ for map editor export
+-
+-### File Size Targets
+-
+-| System | Current | Target |
+-|--------|---------|--------|
+-| Abilities.js | ~200 lines | Keep |
+-| DigSystem.js | ~150 lines | Keep |
+-| UpgradeSystem.js | ~150 lines | Keep |
+-| WorldRenderer.js | ~120 lines | Keep |
+-| Setup.js | ~80 lines | Keep |
+-
+-**Rule:** If any file exceeds 300 lines, split it.
+diff --git a/markdown/readme.md b/markdown/readme.md
+index 75db7ff..428ae33 100644
+--- a/markdown/readme.md
++++ b/markdown/readme.md
+@@ -341,8 +341,7 @@ See `markdown/archive-policy.md` for full details.
+ | `2026-07-26-titan-discovery-player-path-correction.md` | Historical 700 m guidance correction; its partial-entry admission is superseded |
+ | `2026-07-28-titan-clues-and-creature-footprint-unlock.md` | Catalog clues, exact directions, 25 sharp underground/surface stances, compact dais, colored cover-tile glow, 50% auto-clear authority, plinth inspection, ESC lore, and trophy/save wiring |
+ | `2026-08-02-titan-underground-grounding-runtime.md` | All-25 bottom anchoring, shared contact/resonance art, ten-biome V7 envelope reuse, short weighted unlock motion, streaming health, and rollback |
+-| `2026-06-25-phase3-roadmap.md` | Current phase roadmap |
+-| `2026-06-25-next-steps.md` | Immediate next steps |
+-</content-file>
+-</write_to_file>
+ | `2026-07-30-starlight-talent-tree-v4-mockup-fidelity.md` | Approved mockup-ratio single-frame Starlight UI, full-shell ESC and Star Pillar integration, large choice/dossier art, responsive Phaser evidence, validation, and rollback |
++| `design-documents/readme.md` | Canonical game-design authority, status language, document map, and change protocol |
++| `design-documents/2026-08-10-runtime-alignment-register.md` | Current implementation alignment and the only active design backlog |
++| `../archive/2026-08-10-superseded-design-document-drafts/INDEX.md` | Archived raw journey draft and obsolete June foundation roadmaps |
+diff --git a/player/PlayerInput.js b/player/PlayerInput.js
+index d77969a..fc7d525 100644
+--- a/player/PlayerInput.js
++++ b/player/PlayerInput.js
+@@ -54,6 +54,11 @@ export class PlayerInput {
+       aimUp: Phaser.Input.Keyboard.KeyCodes.W,
+       aimDown: Phaser.Input.Keyboard.KeyCodes.S,
+       mine: Phaser.Input.Keyboard.KeyCodes.F,
++      fixedMoveLeft: Phaser.Input.Keyboard.KeyCodes.LEFT,
++      fixedMoveRight: Phaser.Input.Keyboard.KeyCodes.RIGHT,
++      fixedMoveUp: Phaser.Input.Keyboard.KeyCodes.UP,
++      fixedMoveDown: Phaser.Input.Keyboard.KeyCodes.DOWN,
++      fixedDig: Phaser.Input.Keyboard.KeyCodes.SPACE,
+       reset: Phaser.Input.Keyboard.KeyCodes.R,
+       shift: Phaser.Input.Keyboard.KeyCodes.SHIFT,
+       z: "Z",
+@@ -73,6 +78,14 @@ export class PlayerInput {
+   setKeys(keys) {
+     this.keys = keys;
+   }
++
++  _isDown(...keys) {
++    return keys.some(key => key?.isDown === true);
++  }
++
++  _justDown(...keys) {
++    return keys.some(key => key && Phaser.Input.Keyboard.JustDown(key));
++  }
+   
+   /**
+    * Get horizontal movement input
+@@ -84,8 +97,8 @@ export class PlayerInput {
+     }
+     
+     return {
+-      left: this.keys.left.isDown || false,
+-      right: this.keys.right.isDown || false
++      left: this._isDown(this.keys.left, this.keys.fixedMoveLeft),
++      right: this._isDown(this.keys.right, this.keys.fixedMoveRight),
+     };
+   }
+   
+@@ -99,8 +112,8 @@ export class PlayerInput {
+     }
+     
+     return {
+-      up: this.keys.aimUp.isDown || false,
+-      down: this.keys.aimDown.isDown || false
++      up: this._isDown(this.keys.aimUp, this.keys.fixedMoveUp),
++      down: this._isDown(this.keys.aimDown, this.keys.fixedMoveDown),
+     };
+   }
+   
+@@ -114,7 +127,7 @@ export class PlayerInput {
+ 
+   consumeSurfaceDropInput() {
+     if (!this.controlsEnabled || this.keys.shift?.isDown) return false;
+-    return Phaser.Input.Keyboard.JustDown(this.keys.aimDown) || false;
++    return this._justDown(this.keys.aimDown, this.keys.fixedMoveDown);
+   }
+ 
+   /**
+@@ -122,11 +135,14 @@ export class PlayerInput {
+    * @returns {boolean}
+    */
+   getMineInput() {
+-    const result = this.controlsEnabled && this.keys.mine.isDown;
++    const result = this.controlsEnabled && this._isDown(
++      this.keys.mine,
++      this.keys.fixedDig,
++    );
+     
+     // Log when F key is pressed
+     if (result && !this._lastMineState) {
+-      console.log('[INPUT] F key pressed - mining triggered');
++      console.log('[INPUT] Dig input pressed - mining triggered');
+     }
+     this._lastMineState = result;
+     
+@@ -211,21 +227,26 @@ export class PlayerInput {
+       return;
+     }
+ 
+-    if (this.keys.aimUp.isDown && this.keys.aimLeft.isDown) {
++    const up = this._isDown(this.keys.aimUp, this.keys.fixedMoveUp);
++    const down = this._isDown(this.keys.aimDown, this.keys.fixedMoveDown);
++    const left = this._isDown(this.keys.left, this.keys.fixedMoveLeft);
++    const right = this._isDown(this.keys.right, this.keys.fixedMoveRight);
++
++    if (up && left) {
+       this.aim = { x: -1, y: -1, label: "UP-LEFT" };
+-    } else if (this.keys.aimUp.isDown && this.keys.aimRight.isDown) {
++    } else if (up && right) {
+       this.aim = { x: 1, y: -1, label: "UP-RIGHT" };
+-    } else if (this.keys.aimDown.isDown && this.keys.aimLeft.isDown) {
++    } else if (down && left) {
+       this.aim = { x: -1, y: 1, label: "DOWN-LEFT" };
+-    } else if (this.keys.aimDown.isDown && this.keys.aimRight.isDown) {
++    } else if (down && right) {
+       this.aim = { x: 1, y: 1, label: "DOWN-RIGHT" };
+-    } else if (this.keys.aimUp.isDown) {
++    } else if (up) {
+       this.aim = { x: 0, y: -1, label: "UP" };
+-    } else if (this.keys.aimDown.isDown) {
++    } else if (down) {
+       this.aim = { x: 0, y: 1, label: "DOWN" };
+-    } else if (this.keys.left.isDown) {
++    } else if (left) {
+       this.aim = { x: -1, y: 0, label: "LEFT" };
+-    } else if (this.keys.right.isDown) {
++    } else if (right) {
+       this.aim = { x: 1, y: 0, label: "RIGHT" };
+     }
+   }
+@@ -256,10 +277,10 @@ export class PlayerInput {
+     }
+ 
+     return (
+-      this.keys.left.isDown ||
+-      this.keys.right.isDown ||
+-      this.keys.aimUp.isDown ||
+-      this.keys.aimDown.isDown
++      this._isDown(this.keys.left, this.keys.fixedMoveLeft) ||
++      this._isDown(this.keys.right, this.keys.fixedMoveRight) ||
++      this._isDown(this.keys.aimUp, this.keys.fixedMoveUp) ||
++      this._isDown(this.keys.aimDown, this.keys.fixedMoveDown)
+     );
+   }
+ }
+diff --git a/readme.md b/readme.md
+index a080108..be90ed1 100644
+--- a/readme.md
++++ b/readme.md
+@@ -180,8 +180,9 @@ This project uses a 3-tier version control system:
+ | `/markdown/tools/readme.md` | AI tools inventory |
+ | `/markdown/archive-policy.md` | Archive rules, naming format, deletion policy |
+ | `/markdown/pathing/readme.md` | Import path resolution |
+-| `/markdown/2026-06-25-next-steps.md` | Immediate next steps |
+-| `/markdown/2026-06-25-phase3-roadmap.md` | Phase 3 roadmap |
++| `/markdown/design-documents/readme.md` | Canonical game-design source of truth and document map |
++| `/markdown/design-documents/2026-08-10-runtime-alignment-register.md` | Current runtime/design alignment and the only active design backlog |
++| `/archive/2026-08-10-superseded-design-document-drafts/INDEX.md` | Archived June roadmaps and raw design provenance |
+ | `/markdown/2026-07-30-fire-light-v3-runtime.md` | Fire-specific carried torch, authored local rays, eye adaptation, rollback, and validation |
+ | `/markdown/2026-07-30-natural-fire-light-v1.md` | Selected one-layer carried flame, legacy-style procedural falloff, live comparison, and rollback |
+ | `/markdown/2026-07-30-star-colour-identity-library.md` | Fifty authored Star colours/lights/flavours, deterministic identity selection, I-key Star Atlas, health checks, and rollback |
+diff --git a/systems/hardcore/HardcoreModeSystem.js b/systems/hardcore/HardcoreModeSystem.js
+index 76a6365..9df3748 100644
+--- a/systems/hardcore/HardcoreModeSystem.js
++++ b/systems/hardcore/HardcoreModeSystem.js
+@@ -2,6 +2,8 @@ import {
+   HARDCORE_MODE_CONFIG,
+   isHardcoreMode,
+   isHardcoreModeArmed,
++  isHardcoreModeExhausted,
++  isOneLifeHardcoreMode,
+   resolveHardcoreTeleportCost,
+   sanitizeHardcoreModeData,
+ } from "../../values/hardcoreMode.js";
+@@ -36,7 +38,11 @@ export class HardcoreModeSystem {
+   }
+ 
+   arm(source = "flight", now = Date.now()) {
+-    if (!isHardcoreMode(this.state) || isHardcoreModeArmed(this.state)) {
++    if (
++      !isHardcoreMode(this.state)
++      || this.state.armed === true
++      || isHardcoreModeExhausted(this.state)
++    ) {
+       return false;
+     }
+     this.state = sanitizeHardcoreModeData({
+@@ -215,6 +221,34 @@ export class HardcoreModeSystem {
+     return true;
+   }
+ 
++  recordDeath(source = "unknown", now = Date.now()) {
++    if (!isHardcoreModeArmed(this.state)) return null;
++
++    const freeRevive = this.state.freeReviveAvailable === true;
++    const livesRemaining = freeRevive
++      ? this.state.livesRemaining
++      : Math.max(0, this.state.livesRemaining - 1);
++    const exhausted = livesRemaining <= 0;
++    this.state = sanitizeHardcoreModeData({
++      ...this.state,
++      livesRemaining,
++      freeReviveAvailable: false,
++      deaths: this.state.deaths + 1,
++      exhausted,
++    });
++    const outcome = Object.freeze({
++      source: String(source || "unknown"),
++      recordedAt: Math.max(0, finiteOr(now, 0)),
++      freeRevive,
++      lifeConsumed: !freeRevive,
++      livesRemaining: this.state.livesRemaining,
++      exhausted: this.state.exhausted,
++      oneLifeHardcore: isOneLifeHardcoreMode(this.state),
++    });
++    this._events.push({ type: "death-recorded", ...outcome });
++    return outcome;
++  }
++
+   getSaveData() {
+     return sanitizeHardcoreModeData(this.state);
+   }
+@@ -224,7 +258,9 @@ export class HardcoreModeSystem {
+     return {
+       ...this.getSaveData(),
+       isHardcore: isHardcoreMode(this.state),
++      isOneLifeHardcore: isOneLifeHardcoreMode(this.state),
+       armed: isHardcoreModeArmed(this.state),
++      exhausted: isHardcoreModeExhausted(this.state),
+       stressBand: this._resolveStressBand(stress),
+       stressRatio: stress / this.config.stress.maximum,
+       stressGpDrainPerSecond: this.getStressGpDrainPerSecond(stress),
+diff --git a/systems/hardcore/readme.md b/systems/hardcore/readme.md
+index 21e1729..28e1805 100644
+--- a/systems/hardcore/readme.md
++++ b/systems/hardcore/readme.md
+@@ -3,19 +3,23 @@
+ `HardcoreModeSystem.js` owns the Phaser-independent Hardcore oath lifecycle,
+ persisted stress/high-water mark, armed play time, paid-teleport/unstuck run
+ counters, darkness/descent/deep-pressure stress calculation, high-stress GP
+-drain, teleport quotes, and last-resort cooldown.
++drain, teleport quotes, last-resort cooldown, and the central fall consequence.
++Standard Hardcore consumes one free revive before its two lives; hidden
++One-Life Hardcore has one life and no free revive. The system persists deaths,
++remaining lives, and exhaustion without deleting the slot.
+ 
+ `hardcoreMemorialRecord.js` sanitizes a final run and builds every stat and
+ bounded Journey-achievement recap page for both the death result and later
+ full-screen grave inspection. `HardcoreMemorialStore.js` persists those records
+-outside save slots. It exposes append/read only, so permadeath, new-save
+-cleanup, and Casual save management cannot remove graves. Phaser, purge, and
++outside save slots. It exposes append/read only, so final-run consequences,
++new-save cleanup, explicit exhausted-slot clearing, and Casual save management cannot
++remove graves. Phaser presentation, safe revival, outcome saving, and
+ scene-transition responsibilities remain in
+ `world/playScene/HardcoreDeathBridge.js`.
+ 
+ The persistent Hardcore HUD is the authoritative routine-status surface.
+ Transient cards are restricted to Hardcore armed once, critical stress, the
+-1-GP permadeath warning, save failures, and actual Wurm or cave-hazard damage.
++1-GP Hardcore-fall warning, save failures, and actual Wurm or cave-hazard damage.
+ Rising-stress notices, paid/failed teleport confirmations, unstuck
+ result/cooldown notices, Casual rescue, Wurm phase/miss notices, and cave-entry
+ warnings do not enter the shared notification queue.
+diff --git a/systems/visual/HUDSystem.js b/systems/visual/HUDSystem.js
+index faf3df1..e694cda 100644
+--- a/systems/visual/HUDSystem.js
++++ b/systems/visual/HUDSystem.js
+@@ -321,6 +321,7 @@ export class HUDSystem {
+     this.approvedSkin = new ApprovedHudSkin(scene, this);
+     this.setCurrentPickaxe(scene.upgradeSystem?.ownedPickaxe, { force: true });
+     this._createLootBagTarget();
++    this._createPauseMenuTarget();
+ 
+     this.refresh();
+     this.statsDirty = false;
+@@ -441,6 +442,66 @@ export class HUDSystem {
+     });
+   }
+ 
++  _createPauseMenuTarget() {
++    if (
++      !this.approvedSkin?.active
++      || !this.scene.textures.exists(ASSET_KEYS.ui.approvedHud.buffChip)
++    ) return;
++
++    const layout = APPROVED_HUD_SKIN.layout.menu;
++    const scale = this.approvedSkin.scale || 1;
++    const vw = this.scene.scale?.width || 1280;
++    const vh = this.scene.scale?.height || 720;
++    const width = layout.width * scale;
++    const height = layout.height * scale;
++    const x = vw - (layout.right + layout.width / 2) * scale;
++    const y = vh - (layout.bottom + layout.height / 2) * scale;
++
++    this.pauseMenuContainer = this.scene.add.container(x, y)
++      .setScrollFactor(0)
++      .setDepth(HUD_LAYOUT.hudOverlayDepth + 4);
++    this.pauseMenuFrame = this.scene.add.image(
++      0,
++      0,
++      ASSET_KEYS.ui.approvedHud.buffChip,
++    ).setDisplaySize(width, height);
++    this.pauseMenuText = this.scene.add.text(0, 0, layout.label, {
++      fontFamily: APPROVED_HUD_SKIN.font.family,
++      fontSize: `${Math.round(12 * scale)}px`,
++      fontStyle: "bold",
++      color: APPROVED_HUD_SKIN.font.color,
++      stroke: APPROVED_HUD_SKIN.font.shadow,
++      strokeThickness: APPROVED_HUD_SKIN.font.strokeThickness,
++    }).setOrigin(0.5);
++    this.pauseMenuHit = this.scene.add.rectangle(0, 0, width, height, 0x000000, 0)
++      .setScrollFactor(0)
++      .setInteractive({ useHandCursor: true });
++    this.pauseMenuContainer.add([
++      this.pauseMenuFrame,
++      this.pauseMenuText,
++      this.pauseMenuHit,
++    ]);
++
++    this.pauseMenuHit.on("pointerover", () => {
++      if (!this._destroyed) this.pauseMenuFrame?.setAlpha?.(0.82);
++    });
++    this.pauseMenuHit.on("pointerout", () => {
++      if (!this._destroyed) this.pauseMenuFrame?.setAlpha?.(1);
++    });
++    this.pauseMenuHit.on("pointerdown", (_pointer, _localX, _localY, event) => {
++      event?.stopPropagation?.();
++      if (this._destroyed) return;
++      this.scene.soundSystem?.playUiConfirm?.();
++      if (this.scene.uiInventoryPopup?.isOpen) {
++        this.scene.uiInventoryPopup.close?.();
++      } else if (this.scene.gameState === "paused") {
++        this.scene.resumeGame?.();
++      } else if (this.scene.gameState === "playing") {
++        this.scene.showPauseMenu?.();
++      }
++    });
++  }
++
+   _createFallbackLootBagGraphic() {
+     const bag = this.scene.add.graphics();
+     bag.fillStyle(0x8a5a2b, 1);
+@@ -922,7 +983,9 @@ export class HUDSystem {
+     this._depthTween?.stop();
+     this._comboPopTween?.stop();
+     this.lootBagHit?.removeAllListeners?.();
++    this.pauseMenuHit?.removeAllListeners?.();
+     this.scene?.tweens?.killTweensOf?.(this.lootBagContainer);
++    this.scene?.tweens?.killTweensOf?.(this.pauseMenuContainer);
+     const objects = [
+       this.hudBg, this.statsText, this.statusBg, this.statusText,
+       this.flyHintText, this.torchIcon, this.torchStatusText, this.buffTimerText,
+@@ -931,10 +994,11 @@ export class HUDSystem {
+       this.clockPanel, this.clockTimeText, this.clockDayText,
+       this.weatherPanel, this.weatherText, this.weatherTempText,
+       this.weatherSeasonText, this.weatherIntensityBar,
+-      this.lootBagContainer,
++      this.lootBagContainer, this.pauseMenuContainer,
+     ];
+     objects.forEach(obj => obj?.destroy());
+     this.lootBagHit = null;
++    this.pauseMenuHit = null;
+     this.approvedSkin?.destroy();
+     this.approvedSkin = null;
+   }
+diff --git a/systems/visual/HardcoreStatusHud.js b/systems/visual/HardcoreStatusHud.js
+index a7d2722..97b8416 100644
+--- a/systems/visual/HardcoreStatusHud.js
++++ b/systems/visual/HardcoreStatusHud.js
+@@ -71,25 +71,39 @@ export class HardcoreStatusHud {
+ 
+     const stress = Math.round(snapshot.stress || 0);
+     const band = snapshot.stressBand || "calm";
+-    const pending = snapshot.armed !== true;
+-    const signature = `${pending}:${stress}:${band}:${Math.floor(gp)}`;
++    const exhausted = snapshot.exhausted === true;
++    const pending = !exhausted && snapshot.armed !== true;
++    const lives = Math.max(0, Math.floor(snapshot.livesRemaining || 0));
++    const oneLife = snapshot.isOneLifeHardcore === true;
++    const signature = `${pending}:${exhausted}:${oneLife}:${lives}:${snapshot.freeReviveAvailable}:${stress}:${band}:${Math.floor(gp)}`;
+     if (signature !== this._lastSignature) {
+       this._lastSignature = signature;
+-      if (pending) {
+-        this.label.setText("HARDCORE OATH PENDING");
++      if (exhausted) {
++        this.label.setText(`${oneLife ? "ONE-LIFE" : "HARDCORE"} RUN EXHAUSTED`);
++        this.detail.setText("SAVE PRESERVED  •  CLEAR SLOT TO BEGIN AGAIN");
++        this.label.setColor("#ff7468");
++        this.detail.setColor("#b9c8d3");
++      } else if (pending) {
++        this.label.setText(`${oneLife ? "ONE-LIFE" : "HARDCORE"} OATH PENDING`);
+         this.detail.setText("ARMS THE MOMENT FLIGHT UNLOCKS");
+         this.label.setColor("#f0c765");
+         this.detail.setColor("#b9c8d3");
+       } else {
+-        this.label.setText(`HARDCORE  •  STRESS ${stress}%`);
++        this.label.setText(
++          `${oneLife ? "ONE-LIFE" : "HARDCORE"}  •  ${lives} ${lives === 1 ? "LIFE" : "LIVES"}  •  STRESS ${stress}%`,
++        );
+         this.detail.setText(
+           gp <= 1
+-            ? "1 GP OR LESS  •  DEATH IS IMMINENT"
++            ? snapshot.freeReviveAvailable
++              ? `FIRST FALL FREE  •  ${lives} LIVES BANKED`
++              : `${lives} ${lives === 1 ? "LIFE" : "LIVES"} REMAIN  •  A FALL IS IMMINENT`
+             : band === "critical"
+               ? `PANIC DRAIN  ${snapshot.stressGpDrainPerSecond.toFixed(1)} GP/S`
+               : band === "warning"
+                 ? "FIND LIGHT  •  SLOW YOUR DESCENT"
+-                : "0 GP DELETES THIS SAVE",
++                : snapshot.freeReviveAvailable
++                  ? `FREE REVIVE READY  •  ${lives} LIVES REMAIN`
++                  : `0 GP USES A LIFE  •  ${lives} REMAIN`,
+         );
+         this.label.setColor(band === "critical" ? "#ff7468" : band === "warning" ? "#f0c765" : "#f4e8c8");
+         this.detail.setColor(gp <= 1 || band === "critical" ? "#ff8b7f" : "#b9c8d3");
+diff --git a/testing/2026-07-26-graveborer-wurm-contract.mjs b/testing/2026-07-26-graveborer-wurm-contract.mjs
+index b4324ea..5eae190 100644
+--- a/testing/2026-07-26-graveborer-wurm-contract.mjs
++++ b/testing/2026-07-26-graveborer-wurm-contract.mjs
+@@ -563,9 +563,13 @@ assert.equal(
+ assert.deepEqual(
+   sanitizeHardcoreModeData({ mode: "casual", armed: true }),
+   {
+-    version: 3,
++    version: 4,
+     mode: "casual",
+     armed: false,
++    livesRemaining: 0,
++    freeReviveAvailable: false,
++    deaths: 0,
++    exhausted: false,
+     stress: 0,
+     peakStress: 0,
+     selectedAt: 0,
+diff --git a/testing/2026-07-28-hardcore-memorial-contract.mjs b/testing/2026-07-28-hardcore-memorial-contract.mjs
+index 9b31d84..d2b2644 100644
+--- a/testing/2026-07-28-hardcore-memorial-contract.mjs
++++ b/testing/2026-07-28-hardcore-memorial-contract.mjs
+@@ -443,8 +443,8 @@ const sourceContracts = [
+   ["world/playScene/HardcoreDeathBridge.js", "captureHardcoreDeathRecord"],
+   ["world/playScene/HardcoreDeathBridge.js", "store.append(record)"],
+   ["world/playScene/HardcoreDeathBridge.js", "buildHardcoreDeathRecapPages"],
+-  ["world/playScene/HardcoreDeathBridge.js", "isNewSave: true"],
+-  ["world/playScene/HardcoreDeathBridge.js", 'createHardcoreModeData("hardcore")'],
++  ["world/playScene/HardcoreDeathBridge.js", "{ persist: outcome.exhausted }"],
++  ["world/playScene/HardcoreDeathBridge.js", "exhaustedPresentation"],
+   ["ui/overlays/HardcoreModalOverlay.js", "new HardcoreDeathRecapView("],
+   ["ui/overlays/HardcoreModalOverlay.js", "showMemorial("],
+   ["ui/overlays/hardcoreRecapAction.js", "deathActionButton"],
+diff --git a/testing/2026-07-28-hardcore-permadeath-contract.mjs b/testing/2026-07-28-hardcore-permadeath-contract.mjs
+index e87e22f..a8b34dd 100644
+--- a/testing/2026-07-28-hardcore-permadeath-contract.mjs
++++ b/testing/2026-07-28-hardcore-permadeath-contract.mjs
+@@ -203,7 +203,7 @@ const saveSucceeded = await store.save(
+   playerState,
+ );
+ assert.equal(saveSucceeded, true);
+-assert.equal(store.loadForDisplay()?.version, 13);
++assert.equal(store.loadForDisplay()?.version, 14);
+ assert.equal(store.loadForDisplay()?.playerStateData.gemPower, 1);
+ assert.equal(store.getBackups().length, 1);
+ const hardcoreTransferPayload = store.loadFromLocalStorage();
+@@ -241,7 +241,7 @@ assert.equal(
+ );
+ const liveHardcoreRestore = store.restoreFromBackup(0);
+ assert.equal(liveHardcoreRestore.success, false);
+-assert.match(liveHardcoreRestore.error, /purge-only/i);
++assert.match(liveHardcoreRestore.error, /oath-locked/i);
+ assert.equal(store.getLatestBackup(), null);
+ const hardcoreImportTarget = new DugTilesSaveStore({ slotId: 4 });
+ assert.equal(
+@@ -262,7 +262,7 @@ const hardcoreImport = await hardcoreImportTarget.importSave({
+   }),
+ });
+ assert.equal(hardcoreImport.success, false);
+-assert.match(hardcoreImport.error, /external rollback files break permadeath/i);
++assert.match(hardcoreImport.error, /external rollback files break the oath/i);
+ 
+ const unauthorizedDeath = store.preparePermanentDeath({
+   mode: "casual",
+@@ -436,7 +436,7 @@ const sourceContracts = [
+   ["ui/scenes/StartMenuScene.js", "this._showNewSaveTutorialChoice("],
+   ["ui/scenes/StartMenuScene.js", "this._confirmKeyAttachTimer = this.time.delayedCall(0"],
+   ["ui/scenes/StartMenuScene.js", '"OATH LOCKED"'],
+-  ["ui/scenes/StartMenuScene.js", "purge-only backups"],
++  ["ui/scenes/StartMenuScene.js", "oath-locked backups"],
+   ["ui/scenes/StartModeSelectionOverlay.js", "this.scene.time.delayedCall(0"],
+   ["ui/scenes/StartTutorialChoiceOverlay.js", "this.scene.time.delayedCall(0"],
+   ["ui/scenes/StartMenuScene.js", "hardcoreModeData: sanitizeHardcoreModeData(hardcoreModeData)"],
+@@ -445,13 +445,13 @@ const sourceContracts = [
+   ["world/playScene/PlaySceneUI.js", "allowExport: !isHardcoreMode"],
+   ["world/playScene/PlaySceneUI.js", "this.playerController?.getPersistenceData?.()"],
+   ["world/playScene/PlaySceneUI.js", "return this.requestHardcoreUnstuck?.()"],
+-  ["world/playScene/HardcoreDeathBridge.js", "preparePermanentDeath"],
++  ["world/playScene/HardcoreDeathBridge.js", "recordDeath"],
+   ["world/playScene/HardcoreDeathBridge.js", "settleWithSceneTimeout"],
+-  ["world/playScene/HardcoreDeathBridge.js", "purgePermanentDeath"],
++  ["world/playScene/HardcoreDeathBridge.js", "persistHardcoreDeathOutcome"],
+   ["world/playScene/HardcoreDeathBridge.js", "persistHardcoreLiveCheckpoint"],
+-  ["world/playScene/HardcoreDeathBridge.js", 'mode: "hardcore"'],
+-  ["world/playScene/HardcoreDeathBridge.js", 'scene.scene.start("WorldLoadScene"'],
+-  ["world/playScene/HardcoreDeathBridge.js", "TOWN_TUTORIAL_CHOICES.NO"],
++  ["world/playScene/HardcoreDeathBridge.js", "exhaustedPresentation"],
++  ["world/playScene/HardcoreDeathBridge.js", 'startSceneAfterDeath(scene, "StartMenuScene")'],
++  ["ui/scenes/StartMenuScene.js", "isHardcoreModeExhausted"],
+   ["ui/overlays/HardcoreDeathRecapView.js", "this.config.copy.retryLabel"],
+   ["ui/overlays/HardcoreDeathRecapView.js", "this.config.copy.menuLabel"],
+   ["world/model/DugTilesSaveStore.js", "saveHardcoreCheckpoint"],
+@@ -468,6 +468,13 @@ for (const [relativePath, expected] of sourceContracts) {
+   assert.ok(source.includes(expected), `${relativePath} must contain ${expected}`);
+ }
+ 
++const deathBridgeSource = readFileSync(
++  resolve(root, "world/playScene/HardcoreDeathBridge.js"),
++  "utf8",
++);
++assert.equal(deathBridgeSource.includes(".preparePermanentDeath("), false);
++assert.equal(deathBridgeSource.includes(".purgePermanentDeath("), false);
++
+ for (const asset of Object.values(HARDCORE_MODE_CONFIG.assets)) {
+   const assetPath = resolve(root, asset.path);
+   assert.equal(existsSync(assetPath), true, `Missing approved Hardcore art: ${asset.path}`);
+diff --git a/testing/2026-07-28-town-tutorial-position-persistence-contract.mjs b/testing/2026-07-28-town-tutorial-position-persistence-contract.mjs
+index 4c66dc2..822ac25 100644
+--- a/testing/2026-07-28-town-tutorial-position-persistence-contract.mjs
++++ b/testing/2026-07-28-town-tutorial-position-persistence-contract.mjs
+@@ -44,7 +44,7 @@ const payload = saveStore.createPayload(
+   null,
+   exactUndergroundState,
+ );
+-assert.equal(payload.version, 13);
++assert.equal(payload.version, 14);
+ assert.deepEqual(payload.playerStateData, exactUndergroundState);
+ assert.deepEqual(
+   saveStore.normalizePayload(payload).playerStateData,
+diff --git a/testing/readme.md b/testing/readme.md
+index 80011f9..9f4372b 100644
+--- a/testing/readme.md
++++ b/testing/readme.md
+@@ -1,5 +1,14 @@
+ # Testing
+ 
++## Design source-of-truth alignment — 2026-08-10
++
++`2026-08-10-design-alignment-contract.mjs` guards tutorial-before-mode routing,
++exact typed-`YES` skip, Hardcore default selection, hidden One-Life creation,
++the standard free-revive-plus-two-life lifecycle, preserved exhaustion, absence
++of active purge calls, fixed arrows/Space aliases, clickable ESC HUD routing,
++the ESC hit target's required screen-fixed camera space, idempotent Hardcore
++recap teardown, and the universal x12/15 m first portal.
++
+ ## First five minutes — 2026-07-30
+ 
+ - `2026-07-30-first-five-onboarding-contract.mjs` locks the default-on and
+@@ -315,15 +324,13 @@ medallion as a visible, hand-cursor, hover/press developer summon control while
+ proving that the same medallion remains non-interactive and hidden when inactive
+ in a production runtime.
+ 
+-`2026-07-28-hardcore-permadeath-contract.mjs` guards explicit new-save mode
+-selection, Flight-delayed arming, Bobo conversion, stress/GP drain, paid
+-teleports, typed 50% unstuck, exact position/fractional-GP persistence, schema
+-v13 death tombstones, backup/remote purge, anti-resurrection writes, central
+-hazard routing, bounded death I/O, late-purge/new-save isolation, external
+-rollback-file rejection, live/other-slot backup rewind rejection, no-backup
+-one-second Hardcore checkpoints, checkpoint cleanup on death, stored
+-armed-Hardcore deletion evidence, cross-slot Casual preservation, fresh
+-Hardcore retry routing, and approved generated UI art.
++`2026-07-28-hardcore-permadeath-contract.mjs` keeps its historical filename and
++legacy purge-safety fixtures, while guarding current schema-v14 mode selection,
++Flight-delayed arming, Bobo conversion, stress/GP drain, paid teleports, typed
++50% unstuck, exact position/fractional-GP persistence, oath-locked rollback
++files/backups, one-second checkpoints, cross-slot Casual preservation, approved
++generated UI art, central fall routing, saved exhaustion, and the absence of
++legacy purge calls from the active death bridge.
+ 
+ `2026-07-28-hardcore-memorial-contract.mjs` guards complete stat and bounded
+ Journey-achievement recap coverage, duration/run-counter formatting,
+@@ -637,9 +644,10 @@ route and reward-reveal views together at 1280x720 for chest grounding, ring
+ scale, and center-message visual QA without depending on full-game boot.
+ 
+ `2026-07-28-town-tutorial-position-persistence-contract.mjs` guards new-save
+-Tutorial Yes/No routing, the real move/dig/Flight/portal/sell/resume progression, completed
+-and skipped reload behavior, exact underground pixel-position/GP persistence,
+-Town Square fallback wiring, and the awaited save-before-main-menu path.
++Tutorial Yes/No routing, the real move/dig/Flight/portal/sell/resume progression,
++completed and skipped reload behavior, exact underground pixel-position/GP
++persistence, Town Square fallback wiring, and the awaited save-before-main-menu
++path.
+ 
+ `2026-07-28-earthquake-dodge-audit.mjs` executes the leading-edge swept
+ rock/body hit boundary and all-GP consequence. It guards current-frame movement
+diff --git a/ui/overlays/HardcoreDeathRecapView.js b/ui/overlays/HardcoreDeathRecapView.js
+index eec0b44..2aad2ba 100644
+--- a/ui/overlays/HardcoreDeathRecapView.js
++++ b/ui/overlays/HardcoreDeathRecapView.js
+@@ -14,6 +14,7 @@ export class HardcoreDeathRecapView {
+     this.onRetry = null;
+     this.onReturn = null;
+     this.onClose = null;
++    this.presentation = null;
+     this.root = null;
+     this.buttons = [];
+     this._create(parent);
+@@ -125,9 +126,11 @@ export class HardcoreDeathRecapView {
+     }).setOrigin(0.5, options.originY ?? 0.5);
+   }
+ 
+-  show({ reason, depth, pages, onRetry, onReturn }) {
++  show({ reason, depth, pages, presentation = null, onRetry, onReturn }) {
+     const layout = this.config.recap;
++    const copy = presentation || {};
+     this.mode = "death";
++    this.presentation = copy;
+     this.pages = Array.isArray(pages) && pages.length > 0
+       ? pages
+       : [{ title: this.config.copy.overviewTitle, body: "" }];
+@@ -139,23 +142,25 @@ export class HardcoreDeathRecapView {
+     this.retryButton
+       .setPosition(-layout.actionOffsetX, layout.actionY)
+       .setVisible(false);
+-    this.retryButton.actionLabel.setText(this.config.copy.retryLabel);
++    this.retryButton.actionLabel.setText(copy.retryLabel || this.config.copy.retryLabel);
+     this.menuButton
+       .setPosition(layout.actionOffsetX, layout.actionY)
+       .setVisible(false);
+-    this.menuButton.actionLabel.setText(this.config.copy.menuLabel);
+-    this.title.setText(this.config.copy.deathTitle);
++    this.menuButton.actionLabel.setText(copy.menuLabel || this.config.copy.menuLabel);
++    this.title.setText(copy.title || this.config.copy.deathTitle);
+     this.subtitle.setText(
+-      `${this.config.copy.deathSubtitlePrefix}  •  `
++      `${copy.subtitlePrefix || this.config.copy.deathSubtitlePrefix}  •  `
+         + `${this.config.copy.depthLabel} ${Math.max(
+           0,
+           Math.floor(depth || 0),
+         )}${this.config.copy.meterUpperSuffix}`,
+     );
+     this.reason.setText(reason || this.config.copy.unknownDeathReason);
+-    this.status.setText(this.config.copy.erasingLabel).setColor(UI_COLORS.gold);
++    this.status
++      .setText(copy.busyStatus || this.config.copy.erasingLabel)
++      .setColor(UI_COLORS.gold);
+     this.detail.setText("");
+-    this.footer.setText(this.config.copy.busyFooter);
++    this.footer.setText(copy.busyFooter || this.config.copy.busyFooter);
+     this.buttons.forEach(button => button.root.setVisible(false));
+     this.root.setVisible(true);
+     this._renderPage();
+@@ -164,6 +169,7 @@ export class HardcoreDeathRecapView {
+   showMemorial({ reason, depth, slotId, pages, onClose }) {
+     const layout = this.config.recap;
+     this.mode = "memorial";
++    this.presentation = null;
+     this.pages = Array.isArray(pages) && pages.length > 0
+       ? pages
+       : [{ title: this.config.copy.overviewTitle, body: "" }];
+@@ -202,9 +208,13 @@ export class HardcoreDeathRecapView {
+   setReady(detail = "") {
+     if (this.mode !== "death") return;
+     this.ready = true;
+-    this.status.setText(this.config.copy.readyLabel).setColor(UI_COLORS.success);
++    this.status
++      .setText(this.presentation?.readyStatus || this.config.copy.readyLabel)
++      .setColor(UI_COLORS.success);
+     this.detail.setText(detail);
+-    this.footer.setText(this.config.copy.readyFooter);
++    this.footer.setText(
++      this.presentation?.readyFooter || this.config.copy.readyFooter,
++    );
+     this.buttons.forEach(button => button.root.setVisible(true));
+   }
+ 
+@@ -265,6 +275,7 @@ export class HardcoreDeathRecapView {
+     this.onRetry = null;
+     this.onReturn = null;
+     this.onClose = null;
++    this.presentation = null;
+   }
+ 
+   destroy() {
+diff --git a/ui/overlays/HardcoreModalOverlay.js b/ui/overlays/HardcoreModalOverlay.js
+index b44ba8a..010f007 100644
+--- a/ui/overlays/HardcoreModalOverlay.js
++++ b/ui/overlays/HardcoreModalOverlay.js
+@@ -156,11 +156,12 @@ export class HardcoreModalOverlay {
+     return true;
+   }
+ 
+-  showDeath({ reason, depth, pages, onRetry, onReturn }) {
++  showDeath({ reason, depth, pages, presentation, onRetry, onReturn }) {
+     this._showRecap("death", true, () => this.deathView.show({
+       reason,
+       depth,
+       pages,
++      presentation,
+       onRetry: () => this._finishRecap(onRetry),
+       onReturn: () => this._finishRecap(onReturn),
+     }));
+diff --git a/ui/overlays/hardcoreRecapAction.js b/ui/overlays/hardcoreRecapAction.js
+index 081f143..6a4c1cb 100644
+--- a/ui/overlays/hardcoreRecapAction.js
++++ b/ui/overlays/hardcoreRecapAction.js
+@@ -66,7 +66,9 @@ export function createHardcoreRecapAction({
+     image,
+     destroy() {
+       image.removeAllListeners?.();
+-      image.disableInteractive?.();
++      // Scene shutdown can detach Phaser Systems before the owning recap view
++      // reaches its own idempotent cleanup.
++      if (image.input && image.scene?.sys) image.disableInteractive?.();
+     },
+   };
+ }
+diff --git a/ui/scenes/StartMenuScene.js b/ui/scenes/StartMenuScene.js
+index c289c7a..2572c35 100644
+--- a/ui/scenes/StartMenuScene.js
++++ b/ui/scenes/StartMenuScene.js
+@@ -24,6 +24,8 @@ import { addMenuBackground, getSelectedMenuBackgroundKey } from "../components/L
+ import {
+   isHardcoreMode,
+   isHardcoreModeArmed,
++  isHardcoreModeExhausted,
++  isOneLifeHardcoreMode,
+   sanitizeHardcoreModeData,
+ } from "../../values/hardcoreMode.js";
+ import { StartModeSelectionOverlay } from "./StartModeSelectionOverlay.js";
+@@ -325,11 +327,17 @@ export class StartMenuScene extends Phaser.Scene {
+ 
+         const modeIsHardcore = isHardcoreMode(slot.hardcoreModeData);
+         const modeIsArmed = isHardcoreModeArmed(slot.hardcoreModeData);
++        const modeIsExhausted = isHardcoreModeExhausted(slot.hardcoreModeData);
++        const modeIsOneLife = isOneLifeHardcoreMode(slot.hardcoreModeData);
+         const modeTxt = this.add.text(
+           cx,
+           cy + SLOT_TEXT_LAYOUT.modeOffsetYPx,
+           modeIsHardcore
+-            ? (modeIsArmed ? 'HARDCORE  •  OATH ARMED' : 'HARDCORE  •  ARMS AT FLIGHT')
++            ? modeIsExhausted
++              ? `${modeIsOneLife ? 'ONE-LIFE' : 'HARDCORE'}  •  RUN EXHAUSTED`
++              : modeIsArmed
++                ? `${modeIsOneLife ? 'ONE-LIFE' : 'HARDCORE'}  •  OATH ARMED`
++                : `${modeIsOneLife ? 'ONE-LIFE' : 'HARDCORE'}  •  ARMS AT FLIGHT`
+             : 'CASUAL',
+           {
+             fontFamily: UI_FONTS.mono,
+@@ -496,7 +504,9 @@ export class StartMenuScene extends Phaser.Scene {
+     // Animate the prompt text
+     const selectedSave = this.saveSlots?.find((slot) => slot.id === slotId);
+     this._startPrompt.setText(
+-      selectedSave?.hasData
++      isHardcoreModeExhausted(selectedSave?.hardcoreModeData)
++        ? 'PRESS  SPACE  TO  CLEAR  EXHAUSTED  RUN'
++        : selectedSave?.hasData
+         ? 'PRESS  SPACE  TO  CONTINUE'
+         : 'PRESS  SPACE  TO  CHOOSE  SAVE  RULES',
+     );
+@@ -618,11 +628,11 @@ export class StartMenuScene extends Phaser.Scene {
+     if (this._isStartingGame || this.selectedSlot === null) return;
+     const selectedSave = this.saveSlots.find((slot) => slot.id === this.selectedSlot);
+     if (!selectedSave?.hasData) {
+-      this._modeSelector?.show({
+-        onChoose: hardcoreModeData => this._showNewSaveTutorialChoice(
+-          hardcoreModeData,
+-        ),
+-      });
++      this._showNewSaveTutorialChoice();
++      return;
++    }
++    if (isHardcoreModeExhausted(selectedSave.hardcoreModeData)) {
++      this._showConfirm(selectedSave.id);
+       return;
+     }
+ 
+@@ -633,16 +643,20 @@ export class StartMenuScene extends Phaser.Scene {
+     );
+   }
+ 
+-  _showNewSaveTutorialChoice(hardcoreModeData) {
++  _showNewSaveTutorialChoice() {
+     this._tutorialSelector?.show({
+-      onChoose: tutorialChoice => this._launchGame(
++      onChoose: tutorialChoice => this._showNewSaveModeChoice(tutorialChoice),
++    });
++  }
++
++  _showNewSaveModeChoice(tutorialChoice) {
++    this._modeSelector?.show({
++      onChoose: hardcoreModeData => this._launchGame(
+         hardcoreModeData,
+         true,
+         tutorialChoice,
+       ),
+-      onCancel: () => this._modeSelector?.show({
+-        onChoose: nextMode => this._showNewSaveTutorialChoice(nextMode),
+-      }),
++      onCancel: () => this._showNewSaveTutorialChoice(),
+     });
+   }
+ 
+@@ -835,7 +849,7 @@ export class StartMenuScene extends Phaser.Scene {
+     }).setOrigin(0.5);
+ 
+     const statsText = this.add.text(px, py - ph / 2 + 100,
+-      `${backups.length} ${currentHardcore ? "purge-only backups" : "backups available"}`
++      `${backups.length} ${currentHardcore ? "oath-locked backups" : "backups available"}`
+         + ` • ${stats.backupStats?.totalSizeBytes ? (stats.backupStats.totalSizeBytes / 1024).toFixed(1) + ' KB' : '0 KB'}`, {
+       fontFamily: UI_FONTS.mono,
+       fontSize: '13px',
+diff --git a/ui/scenes/StartModeSelectionOverlay.js b/ui/scenes/StartModeSelectionOverlay.js
+index 2483e5b..3d67eb2 100644
+--- a/ui/scenes/StartModeSelectionOverlay.js
++++ b/ui/scenes/StartModeSelectionOverlay.js
+@@ -13,7 +13,7 @@ export class StartModeSelectionOverlay {
+     this.config = config;
+     this.root = null;
+     this.choiceObjects = [];
+-    this.selectedMode = config.modes.casual;
++    this.selectedMode = config.modes.hardcore;
+     this.onChoose = null;
+     this.onCancel = null;
+     this._keyboardAttachTimer = null;
+@@ -176,7 +176,7 @@ export class StartModeSelectionOverlay {
+ 
+   show({ onChoose, onCancel } = {}) {
+     if (this.isVisible) return false;
+-    this.selectedMode = this.config.modes.casual;
++    this.selectedMode = this.config.modes.hardcore;
+     this.onChoose = typeof onChoose === "function" ? onChoose : null;
+     this.onCancel = typeof onCancel === "function" ? onCancel : null;
+     this._refreshSelection();
+@@ -228,7 +228,7 @@ export class StartModeSelectionOverlay {
+       this._select(this.config.modes.hardcore);
+       return;
+     }
+-    if (key === "enter" || key === " ") this._commit();
++    if (key === "enter" || key === " ") this._commit(event?.shiftKey === true);
+   }
+ 
+   _select(mode) {
+@@ -249,9 +249,13 @@ export class StartModeSelectionOverlay {
+     }
+   }
+ 
+-  _commit() {
++  _commit(hiddenOneLife = false) {
+     if (!this.isVisible) return;
+-    const choice = createHardcoreModeData(this.selectedMode);
++    const selectedMode = hiddenOneLife
++      && this.selectedMode === this.config.modes.hardcore
++      ? this.config.modes.oneLifeHardcore
++      : this.selectedMode;
++    const choice = createHardcoreModeData(selectedMode);
+     const onChoose = this.onChoose;
+     this.scene.soundSystem?.playUiConfirm?.();
+     this.close(false);
+diff --git a/ui/scenes/StartTutorialChoiceOverlay.js b/ui/scenes/StartTutorialChoiceOverlay.js
+index 0a99570..75c255b 100644
+--- a/ui/scenes/StartTutorialChoiceOverlay.js
++++ b/ui/scenes/StartTutorialChoiceOverlay.js
+@@ -16,6 +16,13 @@ export class StartTutorialChoiceOverlay {
+     this.buttons = new Map();
+     this.onChoose = null;
+     this.onCancel = null;
++    this.confirmingSkip = false;
++    this.typedSkipBuffer = "";
++    this.titleText = null;
++    this.bodyText = null;
++    this.footerText = null;
++    this.skipInstructionText = null;
++    this.skipTypedText = null;
+     this._keyboardAttachTimer = null;
+     this._keyHandler = event => this._handleKey(event);
+     this._create();
+@@ -47,7 +54,7 @@ export class StartTutorialChoiceOverlay {
+     ).setInteractive();
+     const frame = this.scene.add.image(0, 0, frameKey)
+       .setDisplaySize(ui.choicePanelWidthPx, ui.choicePanelHeightPx);
+-    const title = this.scene.add.text(0, ui.choiceTitleYPx, this.config.choice.title, {
++    this.titleText = this.scene.add.text(0, ui.choiceTitleYPx, this.config.choice.title, {
+       fontFamily: UI_FONTS.display,
+       fontSize: ui.choiceTitleFontSize,
+       fontStyle: "bold",
+@@ -56,14 +63,14 @@ export class StartTutorialChoiceOverlay {
+       strokeThickness: 4,
+       align: "center",
+     }).setOrigin(0.5);
+-    const body = this.scene.add.text(0, ui.choiceBodyYPx, this.config.choice.body, {
++    this.bodyText = this.scene.add.text(0, ui.choiceBodyYPx, this.config.choice.body, {
+       fontFamily: UI_FONTS.body,
+       fontSize: ui.choiceBodyFontSize,
+       color: UI_COLORS.body,
+       align: "center",
+       lineSpacing: 4,
+     }).setOrigin(0.5);
+-    const footer = this.scene.add.text(0, ui.choiceFooterYPx, this.config.choice.footer, {
++    this.footerText = this.scene.add.text(0, ui.choiceFooterYPx, this.config.choice.footer, {
+       fontFamily: UI_FONTS.mono,
+       fontSize: ui.choiceFooterFontSize,
+       fontStyle: "bold",
+@@ -71,7 +78,36 @@ export class StartTutorialChoiceOverlay {
+       stroke: "#050913",
+       strokeThickness: 2,
+     }).setOrigin(0.5);
+-    this.root.add([shade, frame, title, body, footer]);
++    this.skipInstructionText = this.scene.add.text(
++      0,
++      ui.choiceSkipPromptYPx,
++      this.config.choice.skipConfirmation.instruction,
++      {
++        fontFamily: UI_FONTS.mono,
++        fontSize: ui.choiceSkipPromptFontSize,
++        fontStyle: "bold",
++        color: UI_COLORS.gold,
++        align: "center",
++      },
++    ).setOrigin(0.5).setVisible(false);
++    this.skipTypedText = this.scene.add.text(0, ui.choiceSkipTypedYPx, "_ _ _", {
++      fontFamily: UI_FONTS.mono,
++      fontSize: ui.choiceSkipTypedFontSize,
++      fontStyle: "bold",
++      color: UI_COLORS.danger,
++      stroke: "#050913",
++      strokeThickness: 3,
++      align: "center",
++    }).setOrigin(0.5).setVisible(false);
++    this.root.add([
++      shade,
++      frame,
++      this.titleText,
++      this.bodyText,
++      this.footerText,
++      this.skipInstructionText,
++      this.skipTypedText,
++    ]);
+ 
+     this._addButton(
+       TOWN_TUTORIAL_CHOICES.YES,
+@@ -110,6 +146,9 @@ export class StartTutorialChoiceOverlay {
+     this.onChoose = typeof onChoose === "function" ? onChoose : null;
+     this.onCancel = typeof onCancel === "function" ? onCancel : null;
+     this.selectedChoice = TOWN_TUTORIAL_CHOICES.YES;
++    this.confirmingSkip = false;
++    this.typedSkipBuffer = "";
++    this._restoreChoiceCopy();
+     this._refresh();
+     this.root.setVisible(true).setAlpha(0);
+     this.scene.tweens.add({
+@@ -147,6 +186,10 @@ export class StartTutorialChoiceOverlay {
+     event?.preventDefault?.();
+     event?.stopPropagation?.();
+     const key = String(event?.key || "").toLowerCase();
++    if (this.confirmingSkip) {
++      this._handleSkipConfirmationKey(key);
++      return;
++    }
+     if (key === "escape") {
+       this.close(true);
+       return;
+@@ -181,12 +224,125 @@ export class StartTutorialChoiceOverlay {
+ 
+   _commit(choice, playSound) {
+     if (!this.isVisible) return;
++    if (this.confirmingSkip) {
++      if (choice === TOWN_TUTORIAL_CHOICES.NO) {
++        this._cancelSkipConfirmation();
++        return;
++      }
++      const expected = this.config.choice.skipConfirmation.confirmationWord;
++      if (this.typedSkipBuffer !== expected) {
++        this.scene.soundSystem?.playUiSelect?.();
++        this.skipTypedText?.setColor(UI_COLORS.danger);
++        return;
++      }
++      this._commitChoice(TOWN_TUTORIAL_CHOICES.NO, playSound);
++      return;
++    }
++    if (choice === TOWN_TUTORIAL_CHOICES.NO) {
++      this._beginSkipConfirmation();
++      return;
++    }
++    this._commitChoice(choice, playSound);
++  }
++
++  _commitChoice(choice, playSound) {
+     const onChoose = this.onChoose;
+     if (playSound) this.scene.soundSystem?.playUiConfirm?.();
+     this.close(false);
+     onChoose?.(choice);
+   }
+ 
++  _beginSkipConfirmation() {
++    const copy = this.config.choice.skipConfirmation;
++    this.confirmingSkip = true;
++    this.typedSkipBuffer = "";
++    this.selectedChoice = TOWN_TUTORIAL_CHOICES.NO;
++    this.titleText?.setText(copy.title);
++    this.bodyText?.setText(copy.body);
++    this.footerText?.setText(copy.footer);
++    this.skipInstructionText?.setVisible(true);
++    this.skipTypedText?.setVisible(true);
++    const confirm = this.buttons.get(TOWN_TUTORIAL_CHOICES.YES);
++    const back = this.buttons.get(TOWN_TUTORIAL_CHOICES.NO);
++    confirm?.text?.setText(copy.confirmLabel);
++    back?.text?.setText(copy.backLabel);
++    confirm?.root?.setY(this.config.ui.choiceSkipButtonYPx);
++    back?.root?.setY(this.config.ui.choiceSkipButtonYPx);
++    this._refreshSkipTyped();
++    this._refresh();
++  }
++
++  _cancelSkipConfirmation() {
++    this.confirmingSkip = false;
++    this.typedSkipBuffer = "";
++    this.selectedChoice = TOWN_TUTORIAL_CHOICES.NO;
++    this._restoreChoiceCopy();
++    this._refresh();
++  }
++
++  _restoreChoiceCopy() {
++    const copy = this.config.choice;
++    this.titleText?.setText(copy.title);
++    this.bodyText?.setText(copy.body);
++    this.footerText?.setText(copy.footer);
++    this.skipInstructionText?.setVisible(false);
++    this.skipTypedText?.setVisible(false);
++    const yes = this.buttons.get(TOWN_TUTORIAL_CHOICES.YES);
++    const no = this.buttons.get(TOWN_TUTORIAL_CHOICES.NO);
++    yes?.text?.setText(copy.yesLabel);
++    no?.text?.setText(copy.noLabel);
++    yes?.root?.setY(this.config.ui.choiceButtonYPx);
++    no?.root?.setY(this.config.ui.choiceButtonYPx);
++  }
++
++  _handleSkipConfirmationKey(key) {
++    if (key === "escape") {
++      this._cancelSkipConfirmation();
++      return;
++    }
++    if (key === "arrowleft") {
++      this._select(TOWN_TUTORIAL_CHOICES.YES);
++      return;
++    }
++    if (key === "arrowright") {
++      this._select(TOWN_TUTORIAL_CHOICES.NO);
++      return;
++    }
++    if (key === "backspace") {
++      this.typedSkipBuffer = this.typedSkipBuffer.slice(0, -1);
++      this._refreshSkipTyped();
++      return;
++    }
++    if (key === "enter" || key === " ") {
++      const expected = this.config.choice.skipConfirmation.confirmationWord;
++      this._commit(
++        this.typedSkipBuffer === expected
++          ? TOWN_TUTORIAL_CHOICES.YES
++          : this.selectedChoice,
++        true,
++      );
++      return;
++    }
++    if (/^[a-z0-9]$/i.test(key)) {
++      const expected = this.config.choice.skipConfirmation.confirmationWord;
++      if (this.typedSkipBuffer.length < expected.length) {
++        this.typedSkipBuffer += key.toUpperCase();
++        this._refreshSkipTyped();
++      }
++    }
++  }
++
++  _refreshSkipTyped() {
++    const expected = this.config.choice.skipConfirmation.confirmationWord;
++    const value = this.typedSkipBuffer.padEnd(expected.length, "_")
++      .split("")
++      .join(" ");
++    this.skipTypedText
++      ?.setText(value)
++      .setColor(this.typedSkipBuffer === expected ? UI_COLORS.success : UI_COLORS.danger);
++    this.scene.soundSystem?.playUiSelect?.();
++  }
++
+   destroy() {
+     this._keyboardAttachTimer?.remove?.(false);
+     this._keyboardAttachTimer = null;
+@@ -194,6 +350,11 @@ export class StartTutorialChoiceOverlay {
+     this.root?.destroy(true);
+     this.root = null;
+     this.buttons.clear();
++    this.titleText = null;
++    this.bodyText = null;
++    this.footerText = null;
++    this.skipInstructionText = null;
++    this.skipTypedText = null;
+     this.scene = null;
+   }
+ }
+diff --git a/ui/scenes/readme.md b/ui/scenes/readme.md
+index 08f1397..d9fca3e 100644
+--- a/ui/scenes/readme.md
++++ b/ui/scenes/readme.md
+@@ -27,18 +27,19 @@ and `?saveMenuArt=0` restores the prior Graphics surfaces without changing
+ save or transition behavior.
+ 
+ Every empty slot now composes two explicit decisions before launch:
+-the illustrated `StartModeSelectionOverlay` Casual/Permadeath Hardcore rules,
+-then `StartTutorialChoiceOverlay` Yes/No. Keyboard listeners attach on the next
+-scene tick so the Space/Enter event that opens one decision cannot silently
+-accept it or skip the next decision. Existing saves bypass both prompts and use
+-their persisted settings and tutorial state. `WorldLoadScene` preserves both
+-new-save choices through loading and retry. The resulting explicit new-save
+-launch skips the later old/remote-save restore probe, preventing a failed
+-remote permadeath deletion from resurrecting the erased run.
++`StartTutorialChoiceOverlay` Yes/No first, then the illustrated
++`StartModeSelectionOverlay` Casual/recommended-Hardcore rules. No opens an
++authored second screen and requires exact typed `YES` before skipping. Shift
++while confirming Hardcore selects hidden One-Life Hardcore. Keyboard listeners
++attach on the next scene tick so Space/Enter cannot silently accept two
++decisions. Existing saves bypass both prompts and use persisted settings and
++tutorial state. `WorldLoadScene` preserves both new-save choices through
++loading and retry.
+ 
+ The save-slot export and rotating-backup controls visibly show `OATH LOCKED`
+-for Hardcore. Backups remain counted for the death purge but cannot be restored
+-to rewind low GP, stress, position, or a committed Wurm warning.
++for Hardcore. Backups remain as durability evidence but cannot be restored to
++rewind low GP, stress, position, lives, or a committed Wurm warning. Exhausted
++slots are preserved and route through the existing explicit clear confirmation.
+ 
+ `BootScene.js` preloads the ten approved Milestone/Star Pillar stage sprites,
+ the constellation Star Heart used inside Star Pillar sockets, and only the Level
+diff --git a/values/approvedHudSkin.js b/values/approvedHudSkin.js
+index 76ae563..b8a9f17 100644
+--- a/values/approvedHudSkin.js
++++ b/values/approvedHudSkin.js
+@@ -59,5 +59,6 @@ export const APPROVED_HUD_SKIN = Object.freeze({
+     audio: Object.freeze({ right: 12, y: 20, width: 52, height: 38, gap: 4 }),
+     xp: Object.freeze({ bottom: 20, width: 504, height: 38, barX: 92, barY: 13, barWidth: 286, barHeight: 12, levelX: 18, xpRight: 18, fontSize: 13 }),
+     inventory: Object.freeze({ right: 10, bottom: 9, width: 109, height: 116 }),
++    menu: Object.freeze({ right: 10, bottom: 137, width: 109, height: 32, label: "ESC  MENU" }),
+   }),
+ });
+diff --git a/values/hardcoreMemorials.js b/values/hardcoreMemorials.js
+index 2d7eb24..c4fca9c 100644
+--- a/values/hardcoreMemorials.js
++++ b/values/hardcoreMemorials.js
+@@ -73,14 +73,14 @@ export const HARDCORE_MEMORIAL_CONFIG = Object.freeze({
+   }),
+   copy: Object.freeze({
+     deathTitle: "THE OATH IS CLAIMED",
+-    deathSubtitlePrefix: "PERMADEATH",
++    deathSubtitlePrefix: "OATH EXHAUSTED",
+     depthLabel: "DEPTH",
+     meterUpperSuffix: "M",
+     overviewTitle: "FINAL RUN RECORD",
+     statsTitle: "MINER STATISTICS",
+     achievementsTitle: "ACHIEVEMENTS EARNED",
+-    erasingLabel: "ERASING HARDCORE RUN...",
+-    readyLabel: "HARDCORE RUN ERASED • MEMORIAL RECORDED",
++    erasingLabel: "SECURING FINAL HARDCORE RECORD...",
++    readyLabel: "HARDCORE OATH EXHAUSTED • MEMORIAL RECORDED",
+     retryLabel: "TRY AGAIN",
+     menuLabel: "BACK TO MENU",
+     memorialTitle: "A FALLEN OATH",
+diff --git a/values/hardcoreMode.js b/values/hardcoreMode.js
+index 43b8d32..f2d5570 100644
+--- a/values/hardcoreMode.js
++++ b/values/hardcoreMode.js
+@@ -1,6 +1,7 @@
+ const MODES = Object.freeze({
+   casual: "casual",
+   hardcore: "hardcore",
++  oneLifeHardcore: "one-life-hardcore",
+ });
+ 
+ const TELEPORT_KIND_MULTIPLIERS = Object.freeze({
+@@ -11,12 +12,16 @@ const TELEPORT_KIND_MULTIPLIERS = Object.freeze({
+ });
+ 
+ export const HARDCORE_MODE_CONFIG = Object.freeze({
+-  version: 3,
++  version: 4,
+   modes: MODES,
+   defaultData: Object.freeze({
+-    version: 3,
++    version: 4,
+     mode: MODES.casual,
+     armed: false,
++    livesRemaining: 0,
++    freeReviveAvailable: false,
++    deaths: 0,
++    exhausted: false,
+     stress: 0,
+     peakStress: 0,
+     selectedAt: 0,
+@@ -27,6 +32,12 @@ export const HARDCORE_MODE_CONFIG = Object.freeze({
+     paidTeleports: 0,
+     teleportMoneySpent: 0,
+   }),
++  lives: Object.freeze({
++    hardcoreLives: 2,
++    hardcoreFreeRevive: true,
++    oneLifeHardcoreLives: 1,
++    maximumRecordedDeaths: 1000000,
++  }),
+   assets: Object.freeze({
+     panel: Object.freeze({
+       key: "ui-hardcore-oath-panel-v1",
+@@ -152,7 +163,7 @@ export const HARDCORE_MODE_CONFIG = Object.freeze({
+     itemId: "__hardcoreOath",
+     category: "SAVE RULES",
+     rowStatus: "IRREVERSIBLE • TYPE YES",
+-    actionLabel: "TYPE YES • ENABLE PERMADEATH",
++    actionLabel: "TYPE YES • ENABLE HARDCORE OATH",
+   }),
+   unstuck: Object.freeze({
+     resourceLossRatio: 0.5,
+@@ -163,8 +174,7 @@ export const HARDCORE_MODE_CONFIG = Object.freeze({
+   death: Object.freeze({
+     zeroGpEpsilon: 0.0001,
+     returnDelayMs: 350,
+-    inFlightSaveWaitMs: 2500,
+-    remotePurgeWaitMs: 5000,
++    outcomeSaveWaitMs: 5000,
+     sourceLabels: Object.freeze({
+       flight: "Flight exhausted the last of your Gem Power",
+       torch: "The torch consumed the last of your Gem Power",
+@@ -189,29 +199,52 @@ export const HARDCORE_MODE_CONFIG = Object.freeze({
+     errorColor: "#ff8b7f",
+     stressWarningText: "Stress is rising • find light and slow your descent",
+     stressCriticalText: "Critical stress • panic is draining Gem Power",
+-    oneGpText: "1 GP • one mistake from permanent death",
+-    armedText: "HARDCORE ARMED • 0 GP NOW ERASES THIS SAVE",
++    oneGpText: "1 GP • one mistake from a Hardcore fall",
++    armedText: "HARDCORE ARMED • FIRST FALL IS FREE",
++    oneLifeArmedText: "ONE-LIFE HARDCORE ARMED • NO REVIVE",
+   }),
+   copy: Object.freeze({
+     casualName: "CASUAL",
+     casualSummary: "Persistent mine. Zero GP disables abilities,\nbut never deletes your save.",
+-    hardcoreName: "PERMADEATH HARDCORE",
+-    hardcoreSummary: "Arms at Flight. Flight and torch stop at 1 GP.\nStress and hazards can take the last.",
++    hardcoreName: "HARDCORE  •  RECOMMENDED",
++    hardcoreSummary: "First fall revives free, then 2 lives.\nRisk pressure arms when Flight unlocks.",
++    oneLifeHardcoreName: "ONE-LIFE HARDCORE",
++    oneLifeHardcoreSummary: "One life. No free revive. The save is preserved\nwhen the run ends.",
+     pendingLabel: "HARDCORE • ARMS AT FLIGHT",
+     armedLabel: "HARDCORE • OATH ARMED",
+     boboOfferName: "The Hardcore Oath",
+-    boboOfferSummary: "Convert this Casual save forever. Bobo fully charges GP, then 0 GP means permadeath.",
++    boboOfferSummary: "Convert this Casual save forever. Bobo fully charges GP and grants the standard free revive plus two lives.",
+     boboConfirmationTitle: "BOBO'S HARDCORE OATH",
+     boboConfirmationBody:
+-      "This cannot be undone.\n\nBobo will fully charge your Gem Power and arm Hardcore immediately. Flight and torch stop at 1 GP, but stress, darkness, cave traps, falling rocks, combat abilities, and the Graveborer Wurm can take the final GP. At 0 GP the save and its local backups are erased.",
++      "This cannot be undone.\n\nBobo will fully charge your Gem Power and arm Hardcore immediately. Your first fall revives free, then two lives remain. Flight and torch stop at 1 GP, but stress, darkness, cave traps, falling rocks, combat abilities, and the Graveborer Wurm can cause a fall. An exhausted run stays in its save slot until you explicitly clear it.",
+     unstuckTitle: "LAST RESORT RETURN",
+     unstuckBody:
+       "Returning to safety destroys 50% of every carried resource stack and starts a 10-minute cooldown.\n\nThis applies in Casual and Hardcore. Your wallet and permanent upgrades are not touched.",
+     typedInstruction: "TYPE  YES  THEN PRESS ENTER",
+-    deathTitle: "THE OATH IS CLAIMED",
+-    erasingLabel: "ERASING SAVE AND BACKUPS...",
+-    erasedLabel: "SAVE DELETED",
++    deathTitle: "THE OATH IS TESTED",
++    erasingLabel: "SECURING HARDCORE CONSEQUENCE...",
++    erasedLabel: "RUN STATE SAVED",
+     deathFooter: "PRESS ENTER OR CLICK TO RETURN TO SAVE SLOTS",
++    revivePresentation: Object.freeze({
++      title: "A HARDCORE FALL",
++      subtitlePrefix: "REVIVE AVAILABLE",
++      busyStatus: "SECURING REVIVE STATE...",
++      busyFooter: "←/→  REVIEW THE FALL WHILE THE REVIVE IS SAVED",
++      readyStatus: "REVIVE READY • SAVE PRESERVED",
++      readyFooter: "ENTER  CONTINUE   •   ESC  SAVE SLOTS   •   ←/→  CHANGE PAGE",
++      retryLabel: "CONTINUE",
++      menuLabel: "SAVE SLOTS",
++    }),
++    exhaustedPresentation: Object.freeze({
++      title: "THE HARDCORE RUN ENDS",
++      subtitlePrefix: "NO LIVES REMAIN",
++      busyStatus: "PRESERVING EXHAUSTED RUN...",
++      busyFooter: "←/→  REVIEW THE RUN WHILE ITS FINAL STATE IS SAVED",
++      readyStatus: "RUN EXHAUSTED • SAVE PRESERVED",
++      readyFooter: "ENTER  SAVE SLOTS   •   ESC  MAIN MENU   •   CLEARING IS ALWAYS EXPLICIT",
++      retryLabel: "SAVE SLOTS",
++      menuLabel: "MAIN MENU",
++    }),
+   }),
+   diagnostics: Object.freeze({
+     globalKey: "__jkdHardcore",
+@@ -227,45 +260,72 @@ function clamp(value, min, max) {
+ }
+ 
+ export function sanitizeHardcoreModeData(data) {
+-  const mode = data?.mode === MODES.hardcore ? MODES.hardcore : MODES.casual;
+-  const stress = mode === MODES.hardcore
++  const mode = data?.mode === MODES.oneLifeHardcore
++    ? MODES.oneLifeHardcore
++    : data?.mode === MODES.hardcore
++      ? MODES.hardcore
++      : MODES.casual;
++  const hardcore = mode !== MODES.casual;
++  const maximumLives = mode === MODES.oneLifeHardcore
++    ? HARDCORE_MODE_CONFIG.lives.oneLifeHardcoreLives
++    : mode === MODES.hardcore
++      ? HARDCORE_MODE_CONFIG.lives.hardcoreLives
++      : 0;
++  const livesRemaining = hardcore
++    ? Math.floor(clamp(finiteOr(data?.livesRemaining, maximumLives), 0, maximumLives))
++    : 0;
++  const exhausted = hardcore
++    && (data?.exhausted === true || livesRemaining <= 0);
++  const stress = hardcore
+     ? clamp(finiteOr(data?.stress, 0), 0, HARDCORE_MODE_CONFIG.stress.maximum)
+     : 0;
+   return {
+     version: HARDCORE_MODE_CONFIG.version,
+     mode,
+-    armed: mode === MODES.hardcore && data?.armed === true,
++    armed: hardcore && data?.armed === true,
++    livesRemaining,
++    freeReviveAvailable: mode === MODES.hardcore
++      && !exhausted
++      && data?.freeReviveAvailable !== false,
++    deaths: hardcore
++      ? Math.floor(clamp(
++        finiteOr(data?.deaths, 0),
++        0,
++        HARDCORE_MODE_CONFIG.lives.maximumRecordedDeaths,
++      ))
++      : 0,
++    exhausted,
+     stress,
+-    peakStress: mode === MODES.hardcore
++    peakStress: hardcore
+       ? clamp(Math.max(stress, finiteOr(data?.peakStress, stress)), 0, HARDCORE_MODE_CONFIG.stress.maximum)
+       : 0,
+     selectedAt: Math.max(0, finiteOr(data?.selectedAt, 0)),
+-    armedAt: mode === MODES.hardcore && data?.armed === true
++    armedAt: hardcore && data?.armed === true
+       ? Math.max(0, finiteOr(data?.armedAt, 0))
+       : 0,
+     lastUnstuckAt: Math.max(0, finiteOr(data?.lastUnstuckAt, 0)),
+-    activePlayMs: mode === MODES.hardcore
++    activePlayMs: hardcore
+       ? clamp(
+         finiteOr(data?.activePlayMs, 0),
+         0,
+         HARDCORE_MODE_CONFIG.runStats.maximumActivePlayMs,
+       )
+       : 0,
+-    unstuckUses: mode === MODES.hardcore
++    unstuckUses: hardcore
+       ? Math.floor(clamp(
+         finiteOr(data?.unstuckUses, 0),
+         0,
+         HARDCORE_MODE_CONFIG.runStats.maximumActionCount,
+       ))
+       : 0,
+-    paidTeleports: mode === MODES.hardcore
++    paidTeleports: hardcore
+       ? Math.floor(clamp(
+         finiteOr(data?.paidTeleports, 0),
+         0,
+         HARDCORE_MODE_CONFIG.runStats.maximumActionCount,
+       ))
+       : 0,
+-    teleportMoneySpent: mode === MODES.hardcore
++    teleportMoneySpent: hardcore
+       ? Math.floor(clamp(
+         finiteOr(data?.teleportMoneySpent, 0),
+         0,
+@@ -277,24 +337,39 @@ export function sanitizeHardcoreModeData(data) {
+ 
+ export function createHardcoreModeData(mode, now = Date.now()) {
+   return sanitizeHardcoreModeData({
+-    mode: mode === MODES.hardcore ? MODES.hardcore : MODES.casual,
++    mode: mode === MODES.oneLifeHardcore
++      ? MODES.oneLifeHardcore
++      : mode === MODES.hardcore
++        ? MODES.hardcore
++        : MODES.casual,
+     armed: false,
+     selectedAt: Math.max(0, finiteOr(now, 0)),
+   });
+ }
+ 
+ export function isHardcoreMode(data) {
+-  return sanitizeHardcoreModeData(data).mode === MODES.hardcore;
++  return sanitizeHardcoreModeData(data).mode !== MODES.casual;
++}
++
++export function isOneLifeHardcoreMode(data) {
++  return sanitizeHardcoreModeData(data).mode === MODES.oneLifeHardcore;
++}
++
++export function isHardcoreModeExhausted(data) {
++  const normalized = sanitizeHardcoreModeData(data);
++  return normalized.mode !== MODES.casual && normalized.exhausted === true;
+ }
+ 
+ export function isHardcoreModeArmed(data) {
+   const normalized = sanitizeHardcoreModeData(data);
+-  return normalized.mode === MODES.hardcore && normalized.armed === true;
++  return normalized.mode !== MODES.casual
++    && normalized.armed === true
++    && normalized.exhausted !== true;
+ }
+ 
+ export function resolveHardcoreUpkeepGpFloor(data, source) {
+   const cfg = HARDCORE_MODE_CONFIG.upkeepProtection;
+-  return data?.mode === MODES.hardcore && data?.armed === true
++  return isHardcoreModeArmed(data)
+     && cfg.sources.includes(source) ? cfg.floorGp : 0;
+ }
+ 
+diff --git a/values/readme.md b/values/readme.md
+index 53340a9..6fa7f6b 100644
+--- a/values/readme.md
++++ b/values/readme.md
+@@ -194,12 +194,15 @@ Single Source of Truth — ALL numeric/string/config values.
+   `?playerLight=legacy` rollback. `shaderConfig.js -> darknessLight` owns the
+   v2 penumbra, falloff, core, warmth, and alpha ceiling.
+ 
+-- `hardcoreMode.js` owns the versioned Casual/Hardcore save discriminator,
+-  post-Flight armed state, typed confirmation copy, stress sources and GP
+-  drain, the armed-Hardcore Flight/Torch one-GP upkeep floor, one-second live
+-  position/GP/stress checkpoint cadence, paid-teleport curve, run counters,
+-  50% unstuck penalty/cooldown, death-source labels, and approved ImageGen UI
+-  paths. `hardcoreMemorials.js` owns the independently persisted grave limits,
++- `hardcoreMode.js` owns the versioned Casual, recommended Hardcore, and hidden
++  One-Life Hardcore discriminator; post-Flight armed state; standard free
++  revive plus two-life model; one-life/no-revive model; death count and
++  exhaustion; typed confirmation copy; stress sources and GP drain; the armed
++  Flight/Torch one-GP upkeep floor; one-second live position/GP/stress
++  checkpoint cadence; paid-teleport curve; run counters; 50% unstuck
++  penalty/cooldown; outcome copy; and approved ImageGen UI paths. Exhausted
++  saves are preserved until explicit clearing. `hardcoreMemorials.js` owns the
++  independently persisted grave limits,
+   near-death ground-search offsets, measured visible-base anchor,
+   player-matched 0.8-tile height, paginated death/inspection recap layout, stat
+   labels, action copy, and approved grave/button paths.
+@@ -307,10 +310,11 @@ Single Source of Truth — ALL numeric/string/config values.
+ - `supermanPoseEditor.json` owns the isolated, upright-idle Superman pose workbook: the approved Survivor v2 source, the frozen review action, five large labelled pose controls, and the review-only output paths. It never changes runtime art, animation, or collision.
+ - `supermanHorizontalIdleReview.json` owns the simplified review-only Superman baseline: the frozen approved idle snapshot, a single 90-degree horizontal flip, and its clean no-controls output paths. It never changes runtime art, animation, or collision.
+ - `retentionConfig.js` owns the production Town Square tutorial choices,
+-  MOVE/DIG/FLIGHT/PORTAL/SELL/RESUME stages, guaranteed return route, Flight
+-  reward, 30-second flying-only bank, copy, markers, and modal/HUD layout.
++  typed `YES` skip confirmation, MOVE/DIG/FLIGHT/PORTAL/SELL/RESUME stages,
++  guaranteed return route, Flight reward, 30-second flying-only bank, copy,
++  markers, and modal/HUD layout.
+ - `playerPersistence.js` validates the exact pixel body coordinates, facing, and
+-  GP snapshot stored in save schema v13.
++  GP snapshot stored in save schema v14.
+ - `openingFlightArtifact.js` retains the rejected legacy and Golden Five
+   configuration only as rollback/reference data. Its production facade is
+   disabled and cannot alter spawn routing.
+diff --git a/values/retentionConfig.js b/values/retentionConfig.js
+index 48577db..413f4d1 100644
+--- a/values/retentionConfig.js
++++ b/values/retentionConfig.js
+@@ -68,6 +68,15 @@ export const RETENTION_CONFIG = Object.freeze({
+       yesLabel: "YES  •  TEACH ME",
+       noLabel: "NO  •  START PLAYING",
+       footer: "A / D OR ARROWS  CHOOSE     ENTER  CONFIRM     ESC  BACK",
++      skipConfirmation: Object.freeze({
++        title: "SKIP THE GUIDED START?",
++        body: "You will enter Town Square without guided objectives.\nFlight and the guaranteed 15 m return gate still remain available.",
++        instruction: "TYPE  YES  TO  SKIP",
++        confirmationWord: "YES",
++        confirmLabel: "CONFIRM SKIP",
++        backLabel: "BACK",
++        footer: "TYPE YES, THEN CONFIRM     ESC  BACK",
++      }),
+     }),
+     copy: Object.freeze({
+       move: Object.freeze({
+@@ -125,9 +134,14 @@ export const RETENTION_CONFIG = Object.freeze({
+       choiceButtonHeightPx: 52,
+       choiceButtonGapPx: 330,
+       choiceFooterYPx: 204,
++      choiceSkipPromptYPx: 8,
++      choiceSkipTypedYPx: 42,
++      choiceSkipButtonYPx: 112,
+       choiceTitleFontSize: "30px",
+       choiceBodyFontSize: "16px",
+       choiceFooterFontSize: "12px",
++      choiceSkipPromptFontSize: "13px",
++      choiceSkipTypedFontSize: "25px",
+       choiceBackdropAlpha: 0.9,
+       choiceEnterDurationMs: 180,
+     }),
+diff --git a/world/model/DugTilesSaveStore.js b/world/model/DugTilesSaveStore.js
+index 04572af..8d223d1 100644
+--- a/world/model/DugTilesSaveStore.js
++++ b/world/model/DugTilesSaveStore.js
+@@ -726,7 +726,7 @@ export class DugTilesSaveStore {
+     if (isHardcoreMode(current?.hardcoreModeData)) {
+       return {
+         success: false,
+-        error: "Hardcore backups are purge-only and cannot rewind the current run",
++        error: "Hardcore backups are oath-locked and cannot rewind the current run",
+       };
+     }
+     const restored = this.backupManager.restoreBackup(this.slotId, backupIndex);
+@@ -781,7 +781,7 @@ export class DugTilesSaveStore {
+       if (isHardcoreMode(saveData.hardcoreModeData)) {
+         return {
+           success: false,
+-          error: "Hardcore saves cannot be imported because external rollback files break permadeath",
++          error: "Hardcore saves cannot be imported because external rollback files break the oath",
+         };
+       }
+       if (this.isDeathTombstoned()) {
+diff --git a/world/playScene/CaveGameplayController.js b/world/playScene/CaveGameplayController.js
+index fc8cee7..e6f95dc 100644
+--- a/world/playScene/CaveGameplayController.js
++++ b/world/playScene/CaveGameplayController.js
+@@ -145,6 +145,7 @@ export class CaveGameplayController {
+     const targetTile = this.inputHandler.resolveStableMineTarget(
+       miningInputState.targetTile,
+       keys.mine?.isDown === true
++        || keys.fixedDig?.isDown === true
+         || miningInputState.mouseHeld
+         || miningInputState.mouseRequested,
+       effectiveAimLabel,
+diff --git a/world/playScene/GraveborerWurmEventBridge.js b/world/playScene/GraveborerWurmEventBridge.js
+index fc37d85..b983ffe 100644
+--- a/world/playScene/GraveborerWurmEventBridge.js
++++ b/world/playScene/GraveborerWurmEventBridge.js
+@@ -91,7 +91,7 @@ function applyWurmHit(scene, runtime, event) {
+       ? GRAVEBORER_WURM_CONFIG.labels.criticalHitPrefix
+       : GRAVEBORER_WURM_CONFIG.labels.hitPrefix;
+   const dangerSuffix = remaining <= 1 && runtime.lastGate?.hardcoreArmed
+-    ? "  •  ONE TOUCH FROM PERMADEATH"
++    ? "  •  ONE TOUCH FROM A HARDCORE FALL"
+     : remaining <= 1
+       ? "  •  CASUAL SAVE REMAINS SAFE"
+       : "";
+diff --git a/world/playScene/HardcoreDeathBridge.js b/world/playScene/HardcoreDeathBridge.js
+index 514f243..20aef7d 100644
+--- a/world/playScene/HardcoreDeathBridge.js
++++ b/world/playScene/HardcoreDeathBridge.js
+@@ -4,11 +4,9 @@ import {
+   sanitizeHardcoreMemorialRecord,
+ } from "../../systems/hardcore/hardcoreMemorialRecord.js";
+ import {
+-  createHardcoreModeData,
+   isHardcoreModeArmed,
+ } from "../../values/hardcoreMode.js";
+ import { HARDCORE_MEMORIAL_CONFIG } from "../../values/hardcoreMemorials.js";
+-import { TOWN_TUTORIAL_CHOICES } from "../../values/retentionConfig.js";
+ 
+ export function getHardcoreDepth(scene, playerTile = null) {
+   const tile = playerTile || scene.playerController?.getPlayerTile?.();
+@@ -59,7 +57,11 @@ function sumCarriedResources(scene) {
+     ), 0);
+ }
+ 
+-export function captureHardcoreDeathRecord(scene, context = {}) {
++export function captureHardcoreDeathRecord(
++  scene,
++  context = {},
++  { persist = true } = {},
++) {
+   const runtime = scene._hardcoreRuntime;
+   const source = String(
+     context.source || HARDCORE_MEMORIAL_CONFIG.copy.unknownDeathSource,
+@@ -107,14 +109,20 @@ export function captureHardcoreDeathRecord(scene, context = {}) {
+     stats: scene.retentionProgressSystem?.getJournalSnapshot?.()?.stats,
+     achievements: scene.journeySystem?.getSaveData?.()?.events,
+   });
+-  const store = scene.hardcoreMemorialStore || new HardcoreMemorialStore();
+-  scene.hardcoreMemorialStore = store;
+-  const appended = store.append(record);
+-  scene.hardcoreMemorialSystem?.addRecord?.(appended.record);
++  let finalRecord = record;
++  let persisted = false;
++  if (persist) {
++    const store = scene.hardcoreMemorialStore || new HardcoreMemorialStore();
++    scene.hardcoreMemorialStore = store;
++    const appended = store.append(record);
++    finalRecord = appended.record;
++    persisted = appended.persisted;
++    scene.hardcoreMemorialSystem?.addRecord?.(finalRecord);
++  }
+   return {
+-    record: appended.record,
+-    persisted: appended.persisted,
+-    pages: buildHardcoreDeathRecapPages(appended.record),
++    record: finalRecord,
++    persisted,
++    pages: buildHardcoreDeathRecapPages(finalRecord),
+   };
+ }
+ 
+@@ -140,18 +148,48 @@ function waitForSceneDelay(scene, delayMs) {
+   });
+ }
+ 
+-function createRetryPayload(scene) {
+-  return {
+-    saveSlot: scene.saveSlot,
+-    worldIdentity: scene.worldIdentity || `save-slot-${scene.saveSlot}`,
+-    playerCharacterId: scene.playerCharacterId,
+-    hardcoreModeData: createHardcoreModeData("hardcore"),
+-    isNewSave: true,
+-    tutorialChoice: TOWN_TUTORIAL_CHOICES.NO,
+-  };
++function prepareRevivedPlayer(scene) {
++  scene.playerController?.fillGemPower?.();
++  scene._resetPlayerToSpawn?.();
++  scene.earthquakeFeedbackUI?.clearEscapeObjective?.();
++  scene.earthquakeHazardOverlay?.clear?.();
++  scene.lightSystem?.forceTorchOff?.();
++}
++
++function leaveDeathFlow(scene) {
++  scene._hardcoreDeathInProgress = false;
++  scene._saveWritesBlocked = false;
++  scene.gameState = "playing";
++  scene.playerController?.setControlsEnabled?.(true);
++  scene.aimBox?.setVisible?.(true);
++}
++
++function startSceneAfterDeath(scene, key) {
++  scene._hardcoreDeathInProgress = false;
++  scene._saveWritesBlocked = false;
++  scene.gameState = "transitioning";
++  scene.scene.start(key);
++}
++
++async function persistHardcoreDeathOutcome(scene, timeoutMs) {
++  scene._saveWritesBlocked = false;
++  scene.queueDugTilesSave?.();
++  const savePromise = typeof scene.flushDugTilesSave === "function"
++    ? scene.flushDugTilesSave({ scheduled: false, force: true })
++    : Promise.resolve(false);
++  return settleWithSceneTimeout(scene, savePromise, timeoutMs, false);
++}
++
++function describeDeathOutcome(outcome) {
++  if (outcome.exhausted) return "NO LIVES REMAIN  •  CLEARING THE SLOT IS YOUR CHOICE";
++  if (outcome.freeRevive) {
++    return `${outcome.livesRemaining} LIVES REMAIN  •  FIRST FALL REVIVED FREE`;
++  }
++  const noun = outcome.livesRemaining === 1 ? "LIFE" : "LIVES";
++  return `${outcome.livesRemaining} ${noun} REMAIN  •  ONE LIFE WAS CONSUMED`;
+ }
+ 
+-export async function beginHardcorePermanentDeath(scene, context = {}) {
++export async function beginHardcoreDeath(scene, context = {}) {
+   const runtime = scene._hardcoreRuntime;
+   if (
+     !runtime
+@@ -172,39 +210,41 @@ export async function beginHardcorePermanentDeath(scene, context = {}) {
+   scene.player?.anims?.stop?.();
+   scene.aimBox?.setVisible?.(false);
+ 
+-  const memorial = captureHardcoreDeathRecord(scene, context);
++  const source = String(context.source || "unknown");
++  const outcome = runtime.system.recordDeath(source);
++  if (!outcome) {
++    scene._hardcoreDeathInProgress = false;
++    scene._saveWritesBlocked = false;
++    return false;
++  }
++  scene.hardcoreModeData = runtime.system.getSaveData();
++  const memorial = captureHardcoreDeathRecord(
++    scene,
++    context,
++    { persist: outcome.exhausted },
++  );
+   const { record } = memorial;
+-  scene.dugTileSaveStore.saveHardcoreCheckpoint(
+-    scene.worldModel.getWorldIdentity(),
++  if (!outcome.exhausted) prepareRevivedPlayer(scene);
++
++  scene.dugTileSaveStore?.saveHardcoreCheckpoint?.(
++    scene.worldModel?.getWorldIdentity?.(),
+     runtime.system.getSaveData(),
+     scene.playerController?.getPersistenceData?.(),
+   );
+-  const authorization = {
+-    mode: "hardcore",
+-    armed: true,
+-    source: record.source,
+-    depth: record.depth,
+-    memorialId: record.id,
+-  };
+-  let prepared = { success: false, backupsDeleted: 0 };
+-  try {
+-    prepared = scene.dugTileSaveStore.preparePermanentDeath(authorization);
+-  } catch (error) {
+-    console.error("[HardcoreDeathBridge] Immediate erase failed:", error);
+-  }
+-  if (!memorial.persisted && prepared.success) {
+-    memorial.persisted = scene.hardcoreMemorialStore
+-      .append(record)
+-      .persisted;
+-  }
+-
+-  const retryPayload = createRetryPayload(scene);
++  const presentation = outcome.exhausted
++    ? runtime.config.copy.exhaustedPresentation
++    : runtime.config.copy.revivePresentation;
+   runtime.modal.showDeath({
+     reason: record.reason,
+     depth: record.depth,
+     pages: memorial.pages,
+-    onRetry: () => scene.scene.start("WorldLoadScene", retryPayload),
+-    onReturn: () => scene.scene.start("StartMenuScene"),
++    presentation,
++    onRetry: outcome.exhausted
++      ? () => startSceneAfterDeath(scene, "StartMenuScene")
++      : () => leaveDeathFlow(scene),
++    onReturn: outcome.exhausted
++      ? () => startSceneAfterDeath(scene, "MainMenuScene")
++      : () => startSceneAfterDeath(scene, "StartMenuScene"),
+   });
+   runtime.lastDeath = {
+     source: record.source,
+@@ -212,54 +252,39 @@ export async function beginHardcorePermanentDeath(scene, context = {}) {
+     memorialId: record.id,
+     memorialPersisted: memorial.persisted,
+     startedAt: record.diedAt,
+-    localPurge: prepared,
++    outcome,
+   };
+   runtime.updateDiagnostics?.();
+ 
+   try {
+-    const inFlightSave = scene._dugTileSavePromise;
+-    if (inFlightSave) {
+-      await settleWithSceneTimeout(
+-        scene,
+-        inFlightSave.catch(() => false),
+-        runtime.config.death.inFlightSaveWaitMs,
+-        false,
+-      );
+-    }
+-    const purgeFallback = {
+-      success: scene.dugTileSaveStore.isDeathTombstoned(),
+-      remoteDeleted: false,
+-      backupsDeleted: prepared.backupsDeleted,
+-      timedOut: true,
+-    };
+-    const purge = await settleWithSceneTimeout(
++    const saved = await persistHardcoreDeathOutcome(
+       scene,
+-      scene.dugTileSaveStore.purgePermanentDeath(
+-        scene.worldModel.getWorldIdentity(),
+-        { ...authorization, backupsDeleted: prepared.backupsDeleted },
+-      ),
+-      runtime.config.death.remotePurgeWaitMs,
+-      purgeFallback,
++      runtime.config.death.outcomeSaveWaitMs,
+     );
+-    runtime.lastDeath.purge = purge;
++    runtime.lastDeath.saved = saved !== false;
++    if (outcome.exhausted) scene._saveWritesBlocked = true;
+     await waitForSceneDelay(scene, runtime.config.death.returnDelayMs);
+-    const copy = HARDCORE_MEMORIAL_CONFIG.copy;
+     runtime.modal.setDeathReady(
+-      `${copy.slotPrefix} ${scene.saveSlot}  •  `
+-        + `${purge.backupsDeleted} ${copy.backupsErasedSuffix}`,
++      saved === false
++        ? "SAVE RETRY NEEDED  •  THE CURRENT SESSION STILL HOLDS THIS STATE"
++        : describeDeathOutcome(outcome),
+     );
+     runtime.updateDiagnostics?.();
+-    return purge.success === true;
++    return saved !== false;
+   } catch (error) {
+-    console.error("[HardcoreDeathBridge] Permadeath purge failed:", error);
+-    const copy = HARDCORE_MEMORIAL_CONFIG.copy;
++    console.error("[HardcoreDeathBridge] Death-state save failed:", error);
++    scene._saveWritesBlocked = outcome.exhausted;
+     runtime.modal.setDeathReady(
+-      `${copy.slotPrefix} ${scene.saveSlot}  •  ${copy.eraseForcedSuffix}`,
++      "SAVE RETRY NEEDED  •  THE CURRENT SESSION STILL HOLDS THIS STATE",
+     );
+     return false;
+   }
+ }
+ 
++// Compatibility export for older integrations and historical contracts. The
++// transaction no longer purges a save; it resolves the configured life model.
++export const beginHardcorePermanentDeath = beginHardcoreDeath;
++
+ export function handleHardcoreGpChanged(scene, event = {}) {
+   const runtime = scene._hardcoreRuntime;
+   if (!runtime) return;
+@@ -289,7 +314,7 @@ export function handleHardcoreGpChanged(scene, event = {}) {
+     persistHardcoreLiveCheckpoint(scene, scene.time?.now || 0, true);
+   }
+   if (current <= runtime.config.death.zeroGpEpsilon) {
+-    void beginHardcorePermanentDeath(scene, {
++    void beginHardcoreDeath(scene, {
+       source: event.source || event.context?.source,
+     });
+   }
+diff --git a/world/playScene/HardcoreModeBridge.js b/world/playScene/HardcoreModeBridge.js
+index d5cf1c1..f10633c 100644
+--- a/world/playScene/HardcoreModeBridge.js
++++ b/world/playScene/HardcoreModeBridge.js
+@@ -5,11 +5,12 @@ import {
+   HARDCORE_MODE_CONFIG,
+   isHardcoreMode,
+   isHardcoreModeArmed,
++  isOneLifeHardcoreMode,
+   resolveHardcoreUpkeepGpFloor,
+   sanitizeHardcoreModeData,
+ } from "../../values/hardcoreMode.js";
+ import {
+-  beginHardcorePermanentDeath,
++  beginHardcoreDeath,
+   getHardcoreDepth as getDepth,
+   handleHardcoreGpChanged,
+   persistHardcoreLiveCheckpoint,
+@@ -65,7 +66,9 @@ function armAfterFlightUnlock(scene, source = "flight") {
+   processSystemEvents(scene);
+   flash(
+     scene,
+-    runtime.config.feedback.armedText,
++    isOneLifeHardcoreMode(runtime.system.state)
++      ? runtime.config.feedback.oneLifeArmedText
++      : runtime.config.feedback.armedText,
+     runtime.config.feedback.armedColor,
+     runtime.config.feedback.armedFlashMs,
+   );
+@@ -187,7 +190,7 @@ function tryPayTeleport(scene, options = {}) {
+ function rescueAtCasualBoundary(scene) {
+   const runtime = scene._hardcoreRuntime;
+   if (runtime && isHardcoreModeArmed(runtime.system.state)) {
+-    return beginHardcorePermanentDeath(scene, { source: "crushDepth" });
++    return beginHardcoreDeath(scene, { source: "crushDepth" });
+   }
+   scene._resetPlayerToSpawn?.();
+   scene.earthquakeFeedbackUI?.clearEscapeObjective?.();
+@@ -250,7 +253,7 @@ export function createHardcoreModeRuntime(scene) {
+     handleHardcoreGpChanged(scene, event)
+   );
+   runtime.bindings.handleHardcoreGpDepleted = context => (
+-    beginHardcorePermanentDeath(scene, context)
++    beginHardcoreDeath(scene, context)
+   );
+   runtime.bindings.armHardcoreAfterFlightUnlock = (source) => armAfterFlightUnlock(scene, source);
+   runtime.bindings.syncHardcoreArmingFromFlight = () => (
+@@ -340,7 +343,7 @@ export function updateHardcoreModeRuntime(scene, time, delta, playerTile = null)
+     snapshot.armed
+     && currentGp <= runtime.config.death.zeroGpEpsilon
+   ) {
+-    void beginHardcorePermanentDeath(scene, { source: "unknown" });
++    void beginHardcoreDeath(scene, { source: "unknown" });
+   }
+   if (
+     snapshot.armed
+diff --git a/world/playScene/MouseDigInputController.js b/world/playScene/MouseDigInputController.js
+index 3986bec..30c27c5 100644
+--- a/world/playScene/MouseDigInputController.js
++++ b/world/playScene/MouseDigInputController.js
+@@ -214,6 +214,10 @@ export class MouseDigInputController {
+       || keys?.aimRight?.isDown
+       || keys?.aimUp?.isDown
+       || keys?.aimDown?.isDown
++      || keys?.fixedMoveLeft?.isDown
++      || keys?.fixedMoveRight?.isDown
++      || keys?.fixedMoveUp?.isDown
++      || keys?.fixedMoveDown?.isDown
+     );
+   }
+ 
+diff --git a/world/playScene/PlaySceneGameplay.js b/world/playScene/PlaySceneGameplay.js
+index 9f8d9e8..3fcb97c 100644
+--- a/world/playScene/PlaySceneGameplay.js
++++ b/world/playScene/PlaySceneGameplay.js
+@@ -177,7 +177,10 @@ export function setupGameplayMethods(prototype) {
+     const cooldown = Number(scene.digSystem?.getEffectiveCooldownMs?.());
+     return Number.isFinite(cooldown) && cooldown > 0 ? cooldown : 750;
+   };
+-  const isLivingDrillMineHeld = (scene) => scene.playerController?.input?.keys?.mine?.isDown === true;
++  const isLivingDrillMineHeld = (scene) => {
++    const keys = scene.playerController?.input?.keys;
++    return keys?.mine?.isDown === true || keys?.fixedDig?.isDown === true;
++  };
+   const drawLivingDrillDamageOverlay = (scene, state, progress) => {
+     if (!state?.targetTile) return;
+     if (!scene._livingDrillOccluder) {
+diff --git a/world/playScene/PlaySceneUpdate.js b/world/playScene/PlaySceneUpdate.js
+index d085b10..32c180a 100644
+--- a/world/playScene/PlaySceneUpdate.js
++++ b/world/playScene/PlaySceneUpdate.js
+@@ -769,6 +769,7 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
+   const effectiveAimLabel = miningInputState.aimLabel
+     || this.playerController.getAimLabel();
+   const mineInputHeld = keys.mine?.isDown === true
++    || keys.fixedDig?.isDown === true
+     || miningInputState.mouseHeld
+     || miningInputState.mouseRequested;
+   const aimTargetTile = this.inputHandler.resolveStableMineTarget(
+diff --git a/world/playScene/PlayerInputHandler.js b/world/playScene/PlayerInputHandler.js
+index 3f0f638..c5baa00 100644
+--- a/world/playScene/PlayerInputHandler.js
++++ b/world/playScene/PlayerInputHandler.js
+@@ -42,10 +42,15 @@ export class PlayerInputHandler {
+     const moveRight = addBoundKey("moveRight");
+     const moveUp = addBoundKey("aimUp");
+     const moveDown = addBoundKey("aimDown");
++    const fixedMoveLeft = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
++    const fixedMoveRight = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
++    const fixedMoveUp = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
++    const fixedMoveDown = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
+ 
+     // Register action keys
+     const fly = addBoundKey("fly");
+     const mine = addBoundKey("dig");
++    const fixedDig = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+     const interact = addBoundKey("interact");
+     const arcCoreVehicle = addBoundKey("arcCoreVehicle");
+     const quickslash = addBoundKey("quickslash");
+@@ -73,6 +78,11 @@ export class PlayerInputHandler {
+       Phaser.Input.Keyboard.KeyCodes.ENTER,
+       Phaser.Input.Keyboard.KeyCodes.V,
+       Phaser.Input.Keyboard.KeyCodes.ESC,
++      Phaser.Input.Keyboard.KeyCodes.LEFT,
++      Phaser.Input.Keyboard.KeyCodes.RIGHT,
++      Phaser.Input.Keyboard.KeyCodes.UP,
++      Phaser.Input.Keyboard.KeyCodes.DOWN,
++      Phaser.Input.Keyboard.KeyCodes.SPACE,
+     ]);
+     scene.input.keyboard.addCapture([...captureKeys]);
+ 
+@@ -83,6 +93,10 @@ export class PlayerInputHandler {
+       moveRight,
+       moveUp,
+       moveDown,
++      fixedMoveLeft,
++      fixedMoveRight,
++      fixedMoveUp,
++      fixedMoveDown,
+       
+       // Aliases for aim (same as movement)
+       aimLeft: moveLeft,
+@@ -93,6 +107,7 @@ export class PlayerInputHandler {
+       // Actions
+       fly,
+       mine,
++      fixedDig,
+       interact,
+       arcCoreVehicle,
+       q: quickslash,
+diff --git a/world/playScene/readme.md b/world/playScene/readme.md
+index 390414c..eb77825 100644
+--- a/world/playScene/readme.md
++++ b/world/playScene/readme.md
+@@ -35,14 +35,16 @@ queue, so an underground body position, facing, and exact GP value are committed
+ before scene shutdown.
+ 
+ The persisted Town Square tutorial is created after save application. Its
+-movement, digging, Money Monster sale, and player-upgrade stages are driven by
+-the production systems, while completed or skipped saves create no guide UI.
++MOVE, DIG, FLIGHT, PORTAL, SELL, and RESUME stages are driven by production
++systems. The x66 Bedrock boundary self-heals while any stage is active; the
++normal-HP x12 Dirt block and guaranteed x12/15 m portal use real world state.
++Completed or skipped saves create no guide UI.
+ 
+ ## Hardcore oath lifecycle
+ 
+ `HardcoreModeBridge.js` adapts Hardcore state, HUD, typed modals, paid
+ teleports, and last-resort unstuck. `HardcoreDeathBridge.js` owns the single
+-permanent-death transaction. A new Hardcore save remains pending until Flight
++fall/outcome transaction. A new Hardcore save remains pending until Flight
+ unlocks; a Casual save may make the same irreversible oath through Bobo only
+ after Flight and a typed `YES`. Casual never dies at zero GP.
+ 
+@@ -53,20 +55,21 @@ excessive depth build stress; high stress drains GP. Flight and torch upkeep
+ are the deliberate exception at the final point: both
+ stop at exactly 1 GP and cannot restart without spendable GP. Stress, combat
+ abilities, rocks, traps, the Wurm, and other hazards can still consume that
+-last point and trigger permadeath.
++last point and trigger a Hardcore fall.
+ The bridge records exact position, fractional GP, and stress every second,
+ with an immediate checkpoint when GP first falls into the one-GP danger band.
+ Teleport costs are quoted and charged before movement. Both modes require a
+ typed `YES` for unstuck, lose half of every carried resource stack, and enter
+ the configured cooldown.
+ 
+-Death captures the exact position, full retention-stat snapshot, every stored
+-Journey achievement, Hardcore run counters, cause, depth, and Wurm encounters
+-before any purge. The image-backed result pages remain reviewable while erase
+-finishes, then offer `TRY AGAIN` or `BACK TO MENU`. Retry creates a fresh
+-Hardcore save in the same slot, skips the completed-player tutorial choice, and
+-still waits for Flight before arming. The memorial record lives outside the
+-slot, so that grave also appears if the player starts Casual in the same slot.
++Every fall captures exact position, retention stats, stored Journey
++achievements, Hardcore counters, cause, depth, and Wurm encounters. Standard
++Hardcore consumes its free revive first, then one of two lives; One-Life has one
++life and no free revive. Nonfinal outcomes restore a safe playable state and
++save it. A final outcome writes the memorial, marks the slot exhausted, and
++preserves it until the player explicitly clears it in the save menu. The active
++bridge never calls legacy purge APIs. The memorial record lives outside the
++slot, so it remains after an explicit clear or a later Casual start.
+ `HardcoreModalStateBridge.js` turns a grave click into the same blocking,
+ large-panel presentation used by the oath/depth-gate family, supplies every
+ saved recap page, and restores controls only after explicit close. The world
+@@ -102,7 +105,7 @@ modules load. The 10x profile accelerates noise admission and cooldown activity
+ for repeated interaction testing; live activity is explicitly one tenth of
+ that rate. Developer summons and previews are save-isolated. Casual previews
+ restore Wurm hit GP, while an armed Hardcore preview keeps lethal damage so
+-permadeath can be tested honestly.
++the configured fall/life consequence can be tested honestly.
+ 
+ Mining cooldown admission uses the action-start timestamp, while damage and
+ feedback remain deferred to the authored visual-contact frame. Contact first

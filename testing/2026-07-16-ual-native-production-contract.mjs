@@ -372,6 +372,7 @@ const recoveryScene = {
   },
   ualActionContactTimeline: {
     contactFired: true,
+    allContactsFired: true,
     cancel() { recoveryCancelled += 1; },
   },
   playerRigContact: {

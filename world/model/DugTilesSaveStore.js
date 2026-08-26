@@ -15,6 +15,8 @@ import {
 import { sanitizePlayerPersistenceData } from "../../values/playerPersistence.js";
 import { LegacyProgressSidecarRepository } from
   "../../systems/save-system/LegacyProgressSidecarRepository.js";
+import { resolvePlayerLevelSaveState } from
+  "../../systems/progression/playerLevelSaveState.js";
 import {
   SAVE_PAYLOAD_VERSION,
   sanitizeMilestoneData,
@@ -750,13 +752,14 @@ export class DugTilesSaveStore {
   getSaveStats() {
     const payload = this.loadFromLocalStorage();
     const backups = this.getBackups();
+    const levelState = resolvePlayerLevelSaveState(payload?.levelData || {});
     return {
       hasSave: payload !== null,
       lastUpdated: payload?.updatedAt || null,
       version: payload?.version || null,
       tilesDug: payload?.dugTiles?.length || 0,
       resources: payload?.resources || null,
-      level: payload?.levelData?.level || 1,
+      level: levelState.ok ? levelState.level : 1,
       bestDepth: payload?.retentionData?.stats?.bestDepth || 0,
       wallet: payload?.upgrades?.money || 0,
       stars: Number(payload?.version || 0) >= 14

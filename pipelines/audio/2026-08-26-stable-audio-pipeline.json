@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "sourceCsv": "sound/library-v2/sound-v4-gx201-gx400.csv",
+  "outputRoot": "sound/library-v2/SoundLibrary_Review/00_INBOX_RAW_EXPORTS",
+  "defaultModel": "stable-audio-3",
+  "defaultTakes": 1,
+  "seedNamespace": "dig-game-stable-audio-v1",
+  "models": {
+    "stable-audio-3": {
+      "endpoint": "https://api.stability.ai/v2beta/audio/stable-audio/text-to-audio",
+      "resultEndpoint": "https://api.stability.ai/v2beta/audio/results/{generationId}",
+      "creditsPerGeneration": 26,
+      "usdPerCredit": 0.01,
+      "steps": 8,
+      "cfgScale": 1,
+      "outputFormat": "wav",
+      "pollSeconds": 10,
+      "timeoutSeconds": 600
+    },
+    "stable-audio-2.5": {
+      "endpoint": "https://api.stability.ai/v2beta/audio/stable-audio-2/text-to-audio",
+      "resultEndpoint": "https://api.stability.ai/v2beta/audio/results/{generationId}",
+      "creditsPerGeneration": 20,
+      "usdPerCredit": 0.01,
+      "steps": 8,
+      "cfgScale": 1,
+      "outputFormat": "wav",
+      "pollSeconds": 10,
+      "timeoutSeconds": 600
+    }
+  },
+  "globalPromptSuffix": "Production-quality isolated game-audio source layer. Dry and clean. No music, melody, beat, speech, voices, animals, or unrelated background ambience unless explicitly requested. No mastering limiter pumping.",
+  "profiles": {
+    "One Shot": {
+      "layers": [
+        {
+          "id": "onset",
+          "durationSeconds": 2,
+          "instruction": "Render only the immediate onset and transient attack. Very short, crisp, no body resonance, debris, reverb, or tail."
+        },
+        {
+          "id": "body",
+          "durationSeconds": 4,
+          "instruction": "Render only the central material body and weight. No sharp attack, loose debris, ambience, or long tail."
+        },
+        {
+          "id": "debris",
+          "durationSeconds": 4,
+          "instruction": "Render only the small secondary texture and debris response. No main impact, music, ambience bed, or long reverb."
+        },
+        {
+          "id": "tail",
+          "durationSeconds": 6,
+          "instruction": "Render only the natural decay and environmental tail after the event. No new attack, dialogue, melody, or repeated impacts."
+        }
+      ]
+    },
+    "Loop": {
+      "layers": [
+        {
+          "id": "low-bed",
+          "durationSeconds": 30,
+          "instruction": "Create a seamless loop containing only the low-frequency environmental bed. Stable level, no accents, melody, voices, or audible loop click."
+        },
+        {
+          "id": "mid-texture",
+          "durationSeconds": 30,
+          "instruction": "Create a seamless loop containing only the mid-frequency material texture. No low drone, sharp accents, melody, voices, or audible loop click."
+        },
+        {
+          "id": "high-detail",
+          "durationSeconds": 30,
+          "instruction": "Create a seamless loop containing only subtle high-frequency environmental detail. Sparse and natural, no body drone, melody, voices, or loop click."
+        },
+        {
+          "id": "accent-events",
+          "durationSeconds": 30,
+          "instruction": "Create a seamless sparse accent layer with isolated irregular events and silence between them. No constant bed, music, voices, rhythm, or loop click."
+        }
+      ]
+    }
+  }
+}

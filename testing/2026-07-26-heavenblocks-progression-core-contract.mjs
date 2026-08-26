@@ -6,6 +6,10 @@ import {
   HEAVENBLOCK_REGION_IDS,
   sanitizeHeavenblocksProgressionData,
 } from '../values/heavenblocksProgressionConfig.js';
+import {
+  GAMEPLAY_PROFILE_IDS,
+  createGameplayCapabilities,
+} from '../values/gameplayCapabilities.js';
 import HeavenblocksProgressionSystem from
   '../systems/progression/HeavenblocksProgressionSystem.js';
 
@@ -21,7 +25,10 @@ assert.equal(config.relicMilestones[0].requiredRelics, 3);
 assert.equal('resources' in config, false);
 assert.equal('skyMaterials' in config, false);
 
-const progression = new HeavenblocksProgressionSystem();
+const gameplayCapabilities = createGameplayCapabilities(
+  GAMEPLAY_PROFILE_IDS.FULL_REVIEW,
+);
+const progression = new HeavenblocksProgressionSystem({ gameplayCapabilities });
 assert.deepEqual(progression.getSaveData(), {
   version: 1,
   metRelicMilestoneIds: [],
@@ -76,7 +83,10 @@ assert.equal(progression.openOmegaVault(allVaults.at(-1)).changed, false);
 const saved = progression.getSaveData();
 assert.equal('resources' in saved, false);
 assert.equal('resourceTotals' in saved, false);
-const restored = new HeavenblocksProgressionSystem({ initialData: saved });
+const restored = new HeavenblocksProgressionSystem({
+  initialData: saved,
+  gameplayCapabilities,
+});
 assert.deepEqual(restored.getSaveData(), saved);
 
 const sanitized = sanitizeHeavenblocksProgressionData({

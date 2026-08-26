@@ -2,9 +2,9 @@
  * CaveGameplayController — runs the normal player, mining, and ability stack in CaveScene.
  */
 import { ASSET_KEYS } from "../../values/assetKeys.js";
-import { resolvePlayerDisplaySizePx } from "../../values/playerAssetProfiles.js";
+import { resolvePlayerDisplaySizePx } from "../../values/playerAssetProfiles.js?rev=20260821-moving-complex-dig-v1";
 import { RESOURCE_COLORS, getResourceDisplayName } from "../../values/resourceTypes.js";
-import { PlayerController } from "../../player/PlayerController.js";
+import { PlayerController } from "../../player/PlayerController.js?rev=20260821-moving-complex-dig-v1";
 import { resolvePlayerTargetDirection } from "../../player/playerDirectionalTargets.js";
 import { DigSystem } from "../../systems/mining/DigSystem.js";
 import { TileCollisionSystem } from "../../systems/mining/TileCollisionSystem.js";
@@ -14,7 +14,7 @@ import { PlayerKinematicMotionSystem } from "../../systems/visual/PlayerKinemati
 import { PlayerRigContactSystem } from "../../systems/visual/PlayerRigContactSystem.js";
 import { FlightFootParticleSystem } from "../../systems/visual/FlightFootParticleSystem.js";
 import { GroundFootstepFxSystem } from "../../systems/visual/GroundFootstepFxSystem.js";
-import { CaveActionAnimationRuntime } from "./CaveActionAnimationRuntime.js";
+import { CaveActionAnimationRuntime } from "./CaveActionAnimationRuntime.js?rev=20260821-moving-complex-dig-v1";
 import { dispatchCaveMineFeedback } from "./caveMineFeedback.js";
 import { PlayerInputHandler } from "./PlayerInputHandler.js";
 
@@ -23,6 +23,16 @@ function copyAbilityState(source, target) {
   target.setProgressionGemPowerMaxBonus?.(source._progressionGemPowerMaxBonus || 0);
   target.setGodMode?.(source._godMode === true);
   target.gemPower = Math.min(target.getGemPowerMax(), Math.max(0, source.gemPower || 0));
+}
+
+function miningOptionsForAuthoredContact(contactEvent, actionStartedAtMs) {
+  if ((contactEvent?.contactIndex ?? 0) === 0) return { actionStartedAtMs };
+  return {
+    actionStartedAtMs,
+    ignoreCooldown: true,
+    skipAbilityCost: true,
+    skipHeavyPunch: true,
+  };
 }
 
 export class CaveGameplayController {
@@ -83,6 +93,10 @@ export class CaveGameplayController {
       origin.comboSystem,
       collisionSystem
     );
+    this.playerController.setTraversalActionLockProvider(() => (
+      this.actionAnimationRuntime.isUalActionLocked
+      || this._actionUntilMs > (this.scene.time?.now || 0)
+    ));
     copyAbilityState(origin.playerController?.abilities, this.playerController.abilities);
     this.scene.digSystem = this.digSystem;
     this.scene.playerController = this.playerController;
@@ -192,6 +206,7 @@ export class CaveGameplayController {
   }
 
   _updateMining(time, playerTile, targetTile, miningInputState, effectiveAimLabel) {
+    if (this.playerController.isLedgeAssistActive()) return;
     const abilities = this.playerController.abilities;
     if (
       this.actionAnimationRuntime.isUalActionLocked
@@ -248,7 +263,7 @@ export class CaveGameplayController {
           contactTime,
           contactDirection.aimLabel,
           abilities,
-          { actionStartedAtMs: time },
+          miningOptionsForAuthoredContact(contactEvent, time),
         );
         if (result.success) this._applyMineResult(result, targetTile);
       }, targetTile, targetDirection);
@@ -319,7 +334,8 @@ export class CaveGameplayController {
   }
 
   _updateThunderStrike(time) {
-    const thunderPressed = this.playerController.input.getThunderStrikeInput();
+    const thunderPressed = !this.playerController.isLedgeAssistActive()
+      && this.playerController.input.getThunderStrikeInput();
     this.actionAnimationRuntime.updateThunderStrike(time, thunderPressed);
   }
 
@@ -366,8 +382,9 @@ export class CaveGameplayController {
   }
 
   _playAnim(key, time, holdMs) {
-    if (key && this.scene.anims.exists(key)) this.scene.player.play(key, true);
     this._applyPlayerDisplaySize(key);
+    if (key && this.scene.anims.exists(key)) this.scene.player.play(key, true);
+    this.playerController?._syncSpriteWithPhysics?.();
     this._actionUntilMs = holdMs === Infinity ? Infinity : time + holdMs;
   }
 

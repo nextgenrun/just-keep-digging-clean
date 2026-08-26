@@ -156,7 +156,8 @@ export class NPCManager {
       // Create "Press E" interact prompt above each NPC (hidden by default)
       const promptText = this.scene.add.text(
         pos.x,
-        pos.y - spriteSize - NPC_ACTIVITY_CONFIG.render.promptGapPx,
+        pos.y - spriteSize + groundContact.visibleTopInsetPx
+          - NPC_ACTIVITY_CONFIG.render.promptGapPx,
         `[${USER_SETTINGS.getKeyLabel("interact")}] ${this._merchantNames[npc.merchantId] || 'Shop'}`, {
           fontFamily: 'Consolas, monospace',
           fontSize: '14px',
@@ -293,6 +294,14 @@ export class NPCManager {
    */
   getNPCSprite(merchantId) {
     return this.npcSprites.get(merchantId);
+  }
+
+  getNPCPromptAnchor(merchantId) {
+    const prompt = this._interactPrompts.find(
+      entry => entry.npc?.merchantId === merchantId,
+    );
+    if (!prompt) return null;
+    return { x: prompt.text.x, y: prompt.baseY };
   }
 
   getActivityHealthSnapshot() {

@@ -39,11 +39,11 @@ bedrock/cave/geode walls, so an old save cannot reopen the unbreakable surface
 foundation.
 
 `WorldModel.skyTileIdentity` is a one-byte visual identity index for Star
-Blocks. Rarity is selected by the existing reward roll first; a second stable
-coordinate hash selects one of the identities belonging to that rarity. This
-does not advance the shared generator RNG, change encounter/reward odds, or
-require a save migration. Generated and authored Star tiles receive the same
-deterministic contract, and non-Star authored cells clear the metadata.
+Blocks. `WorldSpawnAuthority.js` applies the configured occurrence rate only
+after authored geometry, resources, caves, and gameplay boundaries settle.
+Painted Star cells are ordinary deterministic spawn candidates rather than
+guaranteed legacy-density Stars. Rarity and identity use separate coordinate
+hashes, do not advance the shared generator RNG, and require no save migration.
 
 `CaveIdentityPlanner.js` assigns deterministic depth-gated cave identities and
 ceiling/floor feature plans without consuming `WorldModel`'s shared RNG. It
@@ -75,7 +75,10 @@ Town Square platform and one-way collision contact, while ordinary tiles begin
 below a player-safe AIR row and cannot overlap the ground presentation.
 
 `baseTerrainResourceResolver.js` is the authoritative Level One material
-selector. It preserves the exact pre-300m rules, uses progressively richer
-post-300m bands in modern mode, and reproduces the former single deep band
-under `?depthEconomy=legacy`. `WorldModel.getTileMaxHp()` passes the same mode
+selector. It uses four cumulative shallow bands, progressively richer
+post-300m bands in modern mode, and the former single deep band under
+`?depthEconomy=legacy`. `WorldModel.getTileMaxHp()` passes the same mode
 to rarity HP resolution, so generated HP and rewarded yield cannot disagree.
+`WorldSpawnAuthority.js` also runs this selector over ordinary resource cells
+from the upper Tiled map: the map retains its solid/air shapes and landmarks,
+while live ratios remain authoritative for material composition.

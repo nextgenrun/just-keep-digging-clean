@@ -1,11 +1,13 @@
 import { getPlayerDeferredAssetPack } from "./PlayerAssetLoader.js";
-import { createUalNativePlayerAnimations } from "./UalNativePlayerAnimations.js?rev=20260820-complex-dig-v1";
+import { createUalNativePlayerAnimations } from "./UalNativePlayerAnimations.js?rev=20260821-moving-complex-dig-v1";
 import { PLAYER_DEFERRED_ASSET_PACK_IDS } from
   "../values/playerDeferredAssetPacks.js";
 import {
   RUNTIME_ASSET_LOADING,
   RUNTIME_ASSET_RESIDENCY_CLASSES,
 } from "../values/runtimeAssetLoading.js";
+import { runtimeAssetExists } from
+  "../world/rendering/RuntimeAssetTextureRegistry.js";
 
 function now(scene) {
   const sceneNow = Number(scene?.time?.now);
@@ -59,6 +61,7 @@ export class PlayerDeferredAnimationAssetController {
     this.config = config;
     this.coordinator = scene.runtimeAssetLoadCoordinator;
     this.keysByPack = animationKeysByPack(profile);
+    this.pinnedPackIds = new Set(profile?.preloadDeferredAnimationPackIds || []);
     this.states = new Map();
     this.evictions = 0;
     this.destroyed = false;
@@ -77,7 +80,10 @@ export class PlayerDeferredAnimationAssetController {
     if (!animationKey) return false;
     if (this.scene.anims?.exists?.(animationKey)) return true;
     void this.ensureForAnimation(animationKey);
-    return false;
+    // A preloaded sheet can recreate its animation synchronously inside
+    // ensure(). Recheck before selecting a fallback so no one-frame idle pose
+    // is inserted between compatible unified motions.
+    return this.scene.anims?.exists?.(animationKey) === true;
   }
 
   resolveOrRequest(animationKey, fallbackAnimationKey) {
@@ -90,7 +96,12 @@ export class PlayerDeferredAnimationAssetController {
     if (this.destroyed) return Promise.resolve({ ready: false, reason: "destroyed" });
     const assets = getPlayerDeferredAssetPack(this.profile, packId);
     if (assets.length === 0) return Promise.resolve({ ready: true, packId });
-    if (assets.every(asset => this.scene.textures?.exists?.(asset.key))) {
+    if (assets.every(asset => runtimeAssetExists(
+      this.scene,
+      asset,
+      asset.type,
+      this.config,
+    ))) {
       const state = this.states.get(packId) || { status: "ready" };
       state.status = "ready";
       state.lastUsedAtMs = now(this.scene);
@@ -148,6 +159,7 @@ export class PlayerDeferredAnimationAssetController {
     const sampledAtMs = now(this.scene);
     for (const [packId, state] of this.states) {
       if (state.status !== "ready") continue;
+      if (this.pinnedPackIds.has(packId)) continue;
       if (playingKey && this.keysByPack.get(packId)?.includes(playingKey)) {
         state.lastUsedAtMs = sampledAtMs;
         continue;
@@ -196,8 +208,14 @@ export class PlayerDeferredAnimationAssetController {
         packId,
         Object.freeze({
           status: this.states.get(packId)?.status || "idle",
+          pinned: this.pinnedPackIds.has(packId),
           ready: getPlayerDeferredAssetPack(this.profile, packId)
-            .every(asset => this.scene?.textures?.exists?.(asset.key)),
+            .every(asset => runtimeAssetExists(
+              this.scene,
+              asset,
+              asset.type,
+              this.config,
+            )),
         }),
       ])),
     });

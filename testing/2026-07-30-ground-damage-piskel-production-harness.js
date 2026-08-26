@@ -87,7 +87,7 @@ class GroundDamagePiskelProductionScene extends Phaser.Scene {
       defaultMode: resolveWorldVisualDamageMode(),
       expectedDefaultMode: WORLD_VISUAL_DAMAGE_MODES.imagegen,
       materialCount: materialEntries.length,
-      variants: DAMAGE.imagegen.variants,
+      variants: atlas.variants,
       stateCount: DAMAGE.stateCount,
       frameCount: atlas.frameCount,
       frameSizePx: atlas.frameSizePx,

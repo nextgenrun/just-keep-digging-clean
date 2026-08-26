@@ -226,7 +226,7 @@ export const OPENING_FLIGHT_GOLDEN_FIVE_CONFIG = Object.freeze({
     gpCapacityAmount: 40,
     tankUpgradeId: "gemPowerTank",
     tankUpgradeLevel: 1,
-    minimumPlayerLevel: 2,
+    minimumPlayerLevel: 1,
     resources: Object.freeze({
       dirt: 40,
       stone: 25,
@@ -445,7 +445,7 @@ export const OPENING_FLIGHT_GOLDEN_FIVE_CONFIG = Object.freeze({
     rewardRevealTitle: "FIRST ASCENT CACHE — REWARD SECURED",
     rewardRevealPrimary: "+{gpCapacity} GP CAPACITY  •  +{money} M",
     rewardRevealResources: "+{dirt} DIRT  •  +{stone} STONE  •  +{copper} COPPER",
-    rewardRevealFooter: "LEVEL {minimumLevel} GUARANTEED  •  FLIGHT USES GP  •  GP REFILLS WHILE GROUNDED",
+    rewardRevealFooter: "FLIGHT USES GP  •  GP REFILLS WHILE GROUNDED",
     completeTitle: "THE CORE LOOP",
     completeBody: "DIG DEEPER  •  COLLECT POWER  •  FLY HOME",
     levelGuarantee: "LEVEL 2 — mining power increased!",

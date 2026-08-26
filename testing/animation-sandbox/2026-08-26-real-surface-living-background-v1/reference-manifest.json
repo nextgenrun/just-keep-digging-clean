@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "real-surface-world-reference-v1",
+  "generatedAt": "2026-08-26T02:17:00.226773+00:00",
+  "reviewOnly": true,
+  "output": "testing/animation-sandbox/2026-08-26-real-surface-living-background-v1/real-surface-world-reference-v1.png",
+  "dimensions": {
+    "width": 1672,
+    "height": 941
+  },
+  "surfaceY": 534,
+  "visibleEarthPx": 407,
+  "noUndergroundFloor": true,
+  "sources": [
+    {
+      "role": "production surface beauty",
+      "path": "sprites/backgrounds/start-zone-scenic-v1/npc-town-scenic-composite-v2.webp",
+      "sha256": "c38f74e9ca985a475812c052113bc419c7c433dbd78d6a68011858087f07d415",
+      "crop": [
+        0,
+        0,
+        1672,
+        534
+      ]
+    },
+    {
+      "role": "production town surface cap",
+      "path": "sprites/backgrounds/start-zone-scenic-v1/town-square-slate-strip-v3.png",
+      "sha256": "ecd682e87520b3fdac08a3b35e3f6baa50210c127c3e57851eb1276ae46cd3ab",
+      "crop": [
+        0,
+        0,
+        1672,
+        48
+      ]
+    },
+    {
+      "role": "production Level One ground facade",
+      "path": "sprites/backgrounds/world-scenic-regions-v1/level1-ground-facade-01-v2.webp",
+      "sha256": "bce2396a0a0e7599520b64ad9065d89375852e696e10cd078e4b1a7b558379cd",
+      "crop": [
+        0,
+        0,
+        1672,
+        407
+      ]
+    }
+  ],
+  "outputSha256": "1b090cfda3c76dfbc1030bfe86f0ea33f3f0d5d6574a9e30dee634fe6afad783"
+}

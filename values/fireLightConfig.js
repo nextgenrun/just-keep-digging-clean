@@ -55,6 +55,22 @@ export const FIRE_LIGHT_CONFIG = Object.freeze({
     eyeDarkVeil: 902,
     eyeBloom: 903,
   }),
+  heldTorch: Object.freeze({
+    enabled: true,
+    textureKey: "ui-hud-approved-player-core-torch-off",
+    frameName: "fire-light-v3-held-torch",
+    sourceCrop: Object.freeze({ x: 344, y: 8, width: 60, height: 59 }),
+    displayWidthTiles: 0.25,
+    displayHeightTiles: 0.48,
+    originX: 0.76,
+    originY: 0.17,
+    playerDepthOffset: -0.01,
+    fallbackDepth: 4.99,
+    poseRadiansPerFrame: 0.72,
+    poseHorizontalTiles: 0.008,
+    poseVerticalTiles: 0.012,
+    poseRotationRadians: 0.018,
+  }),
   socket: Object.freeze({
     fallback: Object.freeze({
       bodyXRatio: 0.5,

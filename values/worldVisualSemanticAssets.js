@@ -124,6 +124,40 @@ export const WORLD_VISUAL_SEMANTIC_ASSETS = Object.freeze({
     emissiveAlpha: 0.44,
     pulsePeriodMs: 2100,
     pulseAlphaRange: 0.18,
+    idleMotion: Object.freeze({
+      enabled: true,
+      queryParam: "starIdle",
+      queryEnableValues: Object.freeze(["1", "on", "true", "openrouter"]),
+      queryDisableValues: Object.freeze(["0", "off", "false", "legacy"]),
+      artSource: "OpenRouter google/veo-3.1-lite",
+      atlas: Object.freeze({
+        ...asset(
+          "star-block-idle-motion-atlas-v1",
+          "sprites/backgrounds/world-visual-v2/semantic-decals-v1/star-block-idle-motion-atlas-v1.png?v=20260826b"
+        ),
+        columns: 12,
+        frameSizePx: 128,
+        frameCount: 72,
+        framesPerVariant: 24,
+        variantCount: 3,
+        framePrefix: "star-block-idle-motion-",
+      }),
+      framePeriodMs: 166.6667,
+      transformPolicy: "fixed-anchor-frame-content-only",
+      alpha: 0.26,
+      scale: 1.08,
+      blendMode: "ADD",
+      ui: Object.freeze({
+        animationKeyPrefix: "star-block-idle-ui-v2-",
+        selectorAlpha: 0.12,
+        selectedSelectorAlpha: 0.2,
+        selectorScale: 1.06,
+        previewAlpha: 0.24,
+        previewScale: 1.1,
+        phaseFrameStride: 5,
+        repeat: -1,
+      }),
+    }),
   }),
   render: Object.freeze({
     bedrockSeamDepth: 2.268,
@@ -169,6 +203,21 @@ export function resolveWorldVisualSemanticStarFrame(rarity, config = WORLD_VISUA
   return Math.max(0, Math.min(config.skyTile.beautyAtlas.frameCount - 1, Math.floor(Number(rarity) || 0)));
 }
 
+export function resolveWorldVisualSemanticStarIdleEnabled(
+  config = WORLD_VISUAL_SEMANTIC_ASSETS,
+  search = globalThis.location?.search || ""
+) {
+  const feature = config.skyTile?.idleMotion;
+  if (!feature) return false;
+  const value = new URLSearchParams(search)
+    .get(feature.queryParam)
+    ?.trim()
+    .toLowerCase();
+  if (value && feature.queryDisableValues.includes(value)) return false;
+  if (value && feature.queryEnableValues.includes(value)) return true;
+  return feature.enabled;
+}
+
 export function resolveWorldVisualSemanticSpecialFrame(
   tileType,
   depthTiles = 0,
@@ -185,13 +234,20 @@ export function resolveWorldVisualSemanticSpecialFrame(
   return Number.isInteger(frame) ? frame : null;
 }
 
-export function getWorldVisualSemanticPreloadAssets(config = WORLD_VISUAL_SEMANTIC_ASSETS) {
+export function getWorldVisualSemanticPreloadAssets(
+  config = WORLD_VISUAL_SEMANTIC_ASSETS,
+  search = globalThis.location?.search || ""
+) {
+  const starIdleAtlas = resolveWorldVisualSemanticStarIdleEnabled(config, search)
+    ? config.skyTile.idleMotion.atlas
+    : null;
   return [
     config.resources.atlas,
     config.bedrock.seamMaterial,
     config.bedrock.material,
     config.skyTile.beautyAtlas,
     config.skyTile.emissiveAtlas,
+    starIdleAtlas,
     config.specialBlocks.beautyAtlas,
     config.specialBlocks.emissiveAtlas,
   ].filter(Boolean);

@@ -13,7 +13,7 @@ import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { WORLD_GEN_CONFIG } from "../../values/worldGen.js";
 import { CaveWorldModel, makeCaveTileSaveKey } from "../../world/model/CaveWorldModel.js";
 import { WorldRenderer } from "../../world/rendering/WorldRenderer.js";
-import { CaveGameplayController } from "../../world/playScene/CaveGameplayController.js";
+import { CaveGameplayController } from "../../world/playScene/CaveGameplayController.js?rev=20260821-moving-complex-dig-v1";
 import { USER_SETTINGS } from "../../systems/UserSettings.js";
 import { SCENE_BASE_PHASES } from "../../values/sceneRuntime.js";
 import { CameraShakeSystem } from "../../systems/visual/CameraShakeSystem.js";

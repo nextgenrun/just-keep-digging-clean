@@ -19,8 +19,14 @@ const palette = (
 });
 
 const LEGACY_STAR_PROBABILITY = 0.018;
-const SPAWN_REDUCTION_RATIO = 0.80;
-const STAR_PROBABILITY = LEGACY_STAR_PROBABILITY * (1 - SPAWN_REDUCTION_RATIO);
+const PREVIOUS_SPAWN_REDUCTION_RATIO = 0.80;
+const CURRENT_RATE_REDUCTION_RATIO = 0.65;
+const PREVIOUS_STAR_PROBABILITY = LEGACY_STAR_PROBABILITY
+  * (1 - PREVIOUS_SPAWN_REDUCTION_RATIO);
+const STAR_PROBABILITY = PREVIOUS_STAR_PROBABILITY
+  * (1 - CURRENT_RATE_REDUCTION_RATIO);
+const TOTAL_SPAWN_REDUCTION_RATIO = 1
+  - (1 - PREVIOUS_SPAWN_REDUCTION_RATIO) * (1 - CURRENT_RATE_REDUCTION_RATIO);
 
 const RARITY_TIERS = Object.freeze([
   Object.freeze({
@@ -29,6 +35,7 @@ const RARITY_TIERS = Object.freeze([
     encounterCopy: "STAR FOUND",
     label: "★",
     weight: 7200,
+    deepWeightMultiplier: 0.25,
     minDepthTiles: 0,
     signXp: 8,
     multiplier: 2,
@@ -45,6 +52,7 @@ const RARITY_TIERS = Object.freeze([
     encounterCopy: "LUMINOUS STAR",
     label: "★★",
     weight: 2000,
+    deepWeightMultiplier: 0.75,
     minDepthTiles: 0,
     signXp: 18,
     multiplier: 3,
@@ -61,6 +69,7 @@ const RARITY_TIERS = Object.freeze([
     encounterCopy: "WOW! RARE STAR",
     label: "★★★",
     weight: 600,
+    deepWeightMultiplier: 2.5,
     minDepthTiles: 0,
     signXp: 45,
     multiplier: 5,
@@ -77,6 +86,7 @@ const RARITY_TIERS = Object.freeze([
     encounterCopy: "WOW! EPIC STAR",
     label: "✦",
     weight: 160,
+    deepWeightMultiplier: 6,
     minDepthTiles: 300,
     signXp: 120,
     multiplier: 8,
@@ -93,6 +103,7 @@ const RARITY_TIERS = Object.freeze([
     encounterCopy: "WOW! MYTHIC STAR",
     label: "✦✦",
     weight: 35,
+    deepWeightMultiplier: 12,
     minDepthTiles: 900,
     signXp: 360,
     multiplier: 14,
@@ -109,6 +120,7 @@ const RARITY_TIERS = Object.freeze([
     encounterCopy: "WOW! ASTRAL STAR",
     label: "✦✦✦",
     weight: 5,
+    deepWeightMultiplier: 20,
     minDepthTiles: 1600,
     signXp: 1200,
     multiplier: 25,
@@ -151,9 +163,16 @@ export const STAR_RARITY_PROGRESSION_CONFIG = Object.freeze({
   schemaVersion: 2,
   spawn: Object.freeze({
     legacyProbability: LEGACY_STAR_PROBABILITY,
-    reductionRatio: SPAWN_REDUCTION_RATIO,
+    previousProbability: PREVIOUS_STAR_PROBABILITY,
+    previousReductionRatio: PREVIOUS_SPAWN_REDUCTION_RATIO,
+    currentRateReductionRatio: CURRENT_RATE_REDUCTION_RATIO,
+    reductionRatio: TOTAL_SPAWN_REDUCTION_RATIO,
     probability: STAR_PROBABILITY,
+    occurrenceHashSalt: 0x53544152,
     rarityHashSalt: 0x53a9b17,
+  }),
+  rarityDepthBias: Object.freeze({
+    fullStrengthDepthTiles: 2000,
   }),
   rarityTiers: RARITY_TIERS,
   signProgression: Object.freeze({
@@ -168,6 +187,7 @@ export const STAR_RARITY_PROGRESSION_CONFIG = Object.freeze({
   health: Object.freeze({
     expectedTierCount: 6,
     expectedWeightTotal: 10000,
-    expectedSpawnReductionRatio: SPAWN_REDUCTION_RATIO,
+    expectedSpawnReductionRatio: TOTAL_SPAWN_REDUCTION_RATIO,
+    expectedCurrentRateReductionRatio: CURRENT_RATE_REDUCTION_RATIO,
   }),
 });

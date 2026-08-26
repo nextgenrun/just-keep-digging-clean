@@ -53,10 +53,14 @@ assert.doesNotMatch(hudSource, /weatherPanel|weatherText|weatherTemp|weatherSeas
 assert.doesNotMatch(hudLayoutSource, /weatherPanel|weatherTemp|weatherSeason|weatherFont|seasonX|seasonY/);
 assert.doesNotMatch(approvedHudSource, /WEATHER_TEXTURE_KEYS|setWeatherKind|setWeatherVisible|weatherIcon/);
 assert.doesNotMatch(assetKeysSource, /weatherClear|weatherDrizzle|weatherRain|weatherStorm|weatherSnow/);
-assert.doesNotMatch(audioConfigSource, /levelUpReward/);
-assert.doesNotMatch(soundSource, /playLevelUpReward/);
-assert.doesNotMatch(updateSource, /playLevelUpReward/);
+assert.match(audioConfigSource, /levelUpSecondDelayMs/);
+assert.match(soundSource, /playLevelUpReward/);
+assert.match(updateSource, /playLevelUpReward/);
 assert.match(updateSource, /feature === "abilities"[\s\S]{0,120}isGodModeActive/);
+assert.match(updateSource, /feature === "abilities"[\s\S]{0,260}isQuickslashUnlocked/);
+assert.match(updateSource, /feature === "abilities"[\s\S]{0,320}isThunderStrikeUnlocked/);
+assert.match(updateSource, /const abilitiesAvailable = featureAvailable\("abilities"\)/);
+assert.match(updateSource, /const cInput = abilitiesAvailable[\s\S]{0,120}getThunderStrikeInput/);
 
 let godMode = false;
 const progression = new CelestialTalentProgressionSystem({

@@ -31,3 +31,10 @@ size. Each visible action maps to one existing mining contact. The prior clips
 remain loaded as rollback and can be restored immediately with `?complexDig=0`,
 Ctrl+Alt+9, or the runtime global. Hashes and crop/contact provenance live in
 `mixamo-complex-dig-runtime-v1-manifest.json`.
+
+The 2026-08-21 ledge-assist addition uses the exact 35-frame Mixamo `Braced
+Hang To Crouch` retarget: frame 0 is held while hanging and the full authored
+clip plays during the body-authoritative pull-up. Its V4 sheet and promotion
+evidence are recorded in `mixamo-ledge-assist-runtime-v1-manifest.json`.
+`?ledgeAssist=0` omits the sheet and animations and restores the earlier
+jump/Flight traversal without deleting the isolated source or proof assets.

@@ -1,0 +1,284 @@
+{
+  "schemaVersion": 1,
+  "state": "complete",
+  "startedAt": "2026-08-26T01:46:04.392505+00:00",
+  "updatedAt": "2026-08-26T01:51:14.606240+00:00",
+  "hardBudgetUsd": 3.25,
+  "estimatedCostUsd": 2.9025600000000003,
+  "knownCostUsd": 3.45776,
+  "referenceFrame": "testing/animation-sandbox/2026-08-26-surface-living-background-mockup-v1/2026-08-26-surface-two-row-reference-v2.png",
+  "referenceSha256": "f658a0febcc4136637435b651daf8a7d50905e9423496fee3ef4cc0de64e716e",
+  "apiKeyStored": false,
+  "results": [
+    {
+      "variant": {
+        "id": "01-seedance-mini-air",
+        "modelId": "seedance-mini",
+        "model": "bytedance/seedance-2.0-mini",
+        "profileId": "air",
+        "estimatedCostUsd": 0.18144,
+        "prompt": "Fixed side-on background plate for active 2D mining gameplay, not a cinematic shot. Preserve the supplied image exactly: same pixel-space composition, settlement identity, house and mountain geometry, single outdoor surface boundary, and uninterrupted dark earth. There is no underground floor, shelf, ledge, tunnel, seam, or second boundary. The camera is mathematically locked: no pan, tilt, zoom, dolly, crop, reframing, parallax warp, depth-of-field, or lens change. Buildings, mountains, forest, ground line, soil, rocks, and roots never morph, wobble, breathe, slide, or change scale. No scene-wide exposure shift, dramatic fog, weather, particle swarm, new object, character, creature, vehicle, text, UI, logo, watermark, audio, or cut. Motion begins at rest, remains extremely low amplitude, and returns fully to rest at the identical supplied last frame with no visible reset. Atmosphere-only treatment. Move fewer than five tiny localized areas: two hair-thin chimney wisps drifting only a short distance, two warm windows breathing by only a few percent, and one nearly imperceptible distant cloud drift. The entire underground remains completely still."
+      },
+      "status": "completed",
+      "poll": {
+        "id": "QusrSrG1oy5pizTubIZ7",
+        "generation_id": "gen-vid-1787708764-zUhE57LPC0s5ibDFvFdQ",
+        "polling_url": "https://openrouter.ai/api/v1/videos/QusrSrG1oy5pizTubIZ7",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/QusrSrG1oy5pizTubIZ7/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.12222,
+          "is_byok": false
+        }
+      },
+      "output": "testing/animation-sandbox/2026-08-26-surface-living-background-mockup-v1/variants-v1/01-seedance-mini-air.mp4",
+      "bytes": 2051234,
+      "sha256": "9d05240fd9faef9bedcfc82d96aefbd2f6d58383f117494c6de8aec98f9a764f"
+    },
+    {
+      "variant": {
+        "id": "02-seedance-mini-hearth",
+        "modelId": "seedance-mini",
+        "model": "bytedance/seedance-2.0-mini",
+        "profileId": "hearth",
+        "estimatedCostUsd": 0.18144,
+        "prompt": "Fixed side-on background plate for active 2D mining gameplay, not a cinematic shot. Preserve the supplied image exactly: same pixel-space composition, settlement identity, house and mountain geometry, single outdoor surface boundary, and uninterrupted dark earth. There is no underground floor, shelf, ledge, tunnel, seam, or second boundary. The camera is mathematically locked: no pan, tilt, zoom, dolly, crop, reframing, parallax warp, depth-of-field, or lens change. Buildings, mountains, forest, ground line, soil, rocks, and roots never morph, wobble, breathe, slide, or change scale. No scene-wide exposure shift, dramatic fog, weather, particle swarm, new object, character, creature, vehicle, text, UI, logo, watermark, audio, or cut. Motion begins at rest, remains extremely low amplitude, and returns fully to rest at the identical supplied last frame with no visible reset. Restrained inhabited-world treatment. Move at most seven tiny localized areas: two or three thin chimney wisps, three independent lantern breaths of only a few percent, one small grass patch with barely visible sway, and three faint underground mineral glints that slowly appear and disappear without moving. Everything else remains completely still."
+      },
+      "status": "completed",
+      "poll": {
+        "id": "2ii1VeAydprNPzFgoy0M",
+        "generation_id": "gen-vid-1787708782-zJCEE1Jt3rYqVMUtDqkZ",
+        "polling_url": "https://openrouter.ai/api/v1/videos/2ii1VeAydprNPzFgoy0M",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/2ii1VeAydprNPzFgoy0M/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.12222,
+          "is_byok": false
+        }
+      },
+      "output": "testing/animation-sandbox/2026-08-26-surface-living-background-mockup-v1/variants-v1/02-seedance-mini-hearth.mp4",
+      "bytes": 2297824,
+      "sha256": "00194000b882b1c4d35dde1dced0be0cb54c1c6c5589602ebc894f43d0891fab"
+    },
+    {
+      "variant": {
+        "id": "03-seedance-fast-air",
+        "modelId": "seedance-fast",
+        "model": "bytedance/seedance-2.0-fast",
+        "profileId": "air",
+        "estimatedCostUsd": 0.21384,
+        "prompt": "Fixed side-on background plate for active 2D mining gameplay, not a cinematic shot. Preserve the supplied image exactly: same pixel-space composition, settlement identity, house and mountain geometry, single outdoor surface boundary, and uninterrupted dark earth. There is no underground floor, shelf, ledge, tunnel, seam, or second boundary. The camera is mathematically locked: no pan, tilt, zoom, dolly, crop, reframing, parallax warp, depth-of-field, or lens change. Buildings, mountains, forest, ground line, soil, rocks, and roots never morph, wobble, breathe, slide, or change scale. No scene-wide exposure shift, dramatic fog, weather, particle swarm, new object, character, creature, vehicle, text, UI, logo, watermark, audio, or cut. Motion begins at rest, remains extremely low amplitude, and returns fully to rest at the identical supplied last frame with no visible reset. Atmosphere-only treatment. Move fewer than five tiny localized areas: two hair-thin chimney wisps drifting only a short distance, two warm windows breathing by only a few percent, and one nearly imperceptible distant cloud drift. The entire underground remains completely still."
+      },
+      "status": "completed",
+      "poll": {
+        "id": "u4w5ayLza2g2xOmIyyzU",
+        "generation_id": "gen-vid-1787708810-Cebrgw41W8DSkneobodr",
+        "polling_url": "https://openrouter.ai/api/v1/videos/u4w5ayLza2g2xOmIyyzU",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/u4w5ayLza2g2xOmIyyzU/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.36666,
+          "is_byok": false
+        }
+      },
+      "output": "testing/animation-sandbox/2026-08-26-surface-living-background-mockup-v1/variants-v1/03-seedance-fast-air.mp4",
+      "bytes": 1672668,
+      "sha256": "b758890af8a6569df767a452c7d2518de1fb536390b9f6e562c5f50dae8dd1b2"
+    },
+    {
+      "variant": {
+        "id": "04-seedance-fast-hearth",
+        "modelId": "seedance-fast",
+        "model": "bytedance/seedance-2.0-fast",
+        "profileId": "hearth",
+        "estimatedCostUsd": 0.21384,
+        "prompt": "Fixed side-on background plate for active 2D mining gameplay, not a cinematic shot. Preserve the supplied image exactly: same pixel-space composition, settlement identity, house and mountain geometry, single outdoor surface boundary, and uninterrupted dark earth. There is no underground floor, shelf, ledge, tunnel, seam, or second boundary. The camera is mathematically locked: no pan, tilt, zoom, dolly, crop, reframing, parallax warp, depth-of-field, or lens change. Buildings, mountains, forest, ground line, soil, rocks, and roots never morph, wobble, breathe, slide, or change scale. No scene-wide exposure shift, dramatic fog, weather, particle swarm, new object, character, creature, vehicle, text, UI, logo, watermark, audio, or cut. Motion begins at rest, remains extremely low amplitude, and returns fully to rest at the identical supplied last frame with no visible reset. Restrained inhabited-world treatment. Move at most seven tiny localized areas: two or three thin chimney wisps, three independent lantern breaths of only a few percent, one small grass patch with barely visible sway, and three faint underground mineral glints that slowly appear and disappear without moving. Everything else remains completely still."
+      },
+      "status": "completed",
+      "poll": {
+        "id": "8HTSIMuJeni2OwB4LRxY",
+        "generation_id": "gen-vid-1787708835-1fNHd7CNsoYlzUMk7q3J",
+        "polling_url": "https://openrouter.ai/api/v1/videos/8HTSIMuJeni2OwB4LRxY",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/8HTSIMuJeni2OwB4LRxY/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.36666,
+          "is_byok": false
+        }
+      },
+      "output": "testing/animation-sandbox/2026-08-26-surface-living-background-mockup-v1/variants-v1/04-seedance-fast-hearth.mp4",
+      "bytes": 1597193,
+      "sha256": "eab45665514f53768d24601a1d26308fb9fc8f7bec129bbe9a20195a78cfefb1"
+    },
+    {
+      "variant": {
+        "id": "05-kling-standard-air",
+        "modelId": "kling-standard",
+        "model": "kwaivgi/kling-v3.0-std",
+        "profileId": "air",
+        "estimatedCostUsd": 0.336,
+        "prompt": "Fixed side-on background plate for active 2D mining gameplay, not a cinematic shot. Preserve the supplied image exactly: same pixel-space composition, settlement identity, house and mountain geometry, single outdoor surface boundary, and uninterrupted dark earth. There is no underground floor, shelf, ledge, tunnel, seam, or second boundary. The camera is mathematically locked: no pan, tilt, zoom, dolly, crop, reframing, parallax warp, depth-of-field, or lens change. Buildings, mountains, forest, ground line, soil, rocks, and roots never morph, wobble, breathe, slide, or change scale. No scene-wide exposure shift, dramatic fog, weather, particle swarm, new object, character, creature, vehicle, text, UI, logo, watermark, audio, or cut. Motion begins at rest, remains extremely low amplitude, and returns fully to rest at the identical supplied last frame with no visible reset. Atmosphere-only treatment. Move fewer than five tiny localized areas: two hair-thin chimney wisps drifting only a short distance, two warm windows breathing by only a few percent, and one nearly imperceptible distant cloud drift. The entire underground remains completely still."
+      },
+      "status": "completed",
+      "poll": {
+        "id": "NEo2QmCKo25mQSwWll0e",
+        "generation_id": "gen-vid-1787708854-J1WUZwYwtrq3CUReLJyd",
+        "polling_url": "https://openrouter.ai/api/v1/videos/NEo2QmCKo25mQSwWll0e",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/NEo2QmCKo25mQSwWll0e/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.42,
+          "is_byok": false
+        }
+      },
+      "output": "testing/animation-sandbox/2026-08-26-surface-living-background-mockup-v1/variants-v1/05-kling-standard-air.mp4",
+      "bytes": 1395253,
+      "sha256": "2d167b8dc7ca7d6ded8cd8eae3c636865f8a765a125692ed233f6b6bca256205"
+    },
+    {
+      "variant": {
+        "id": "06-kling-standard-hearth",
+        "modelId": "kling-standard",
+        "model": "kwaivgi/kling-v3.0-std",
+        "profileId": "hearth",
+        "estimatedCostUsd": 0.336,
+        "prompt": "Fixed side-on background plate for active 2D mining gameplay, not a cinematic shot. Preserve the supplied image exactly: same pixel-space composition, settlement identity, house and mountain geometry, single outdoor surface boundary, and uninterrupted dark earth. There is no underground floor, shelf, ledge, tunnel, seam, or second boundary. The camera is mathematically locked: no pan, tilt, zoom, dolly, crop, reframing, parallax warp, depth-of-field, or lens change. Buildings, mountains, forest, ground line, soil, rocks, and roots never morph, wobble, breathe, slide, or change scale. No scene-wide exposure shift, dramatic fog, weather, particle swarm, new object, character, creature, vehicle, text, UI, logo, watermark, audio, or cut. Motion begins at rest, remains extremely low amplitude, and returns fully to rest at the identical supplied last frame with no visible reset. Restrained inhabited-world treatment. Move at most seven tiny localized areas: two or three thin chimney wisps, three independent lantern breaths of only a few percent, one small grass patch with barely visible sway, and three faint underground mineral glints that slowly appear and disappear without moving. Everything else remains completely still."
+      },
+      "status": "completed",
+      "poll": {
+        "id": "ShgriqmC1JvQw0HSuaOf",
+        "generation_id": "gen-vid-1787708864-1rkXLw5Q6KvTw7TnwiZ2",
+        "polling_url": "https://openrouter.ai/api/v1/videos/ShgriqmC1JvQw0HSuaOf",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/ShgriqmC1JvQw0HSuaOf/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.42,
+          "is_byok": false
+        }
+      },
+      "output": "testing/animation-sandbox/2026-08-26-surface-living-background-mockup-v1/variants-v1/06-kling-standard-hearth.mp4",
+      "bytes": 1392402,
+      "sha256": "da8ea58dc1c69bb1ca7b5d66d8a31897c92b151339c9db482bbc0a924e7be5f4"
+    },
+    {
+      "variant": {
+        "id": "07-veo-fast-air",
+        "modelId": "veo-fast",
+        "model": "google/veo-3.1-fast",
+        "profileId": "air",
+        "estimatedCostUsd": 0.32,
+        "prompt": "Fixed side-on background plate for active 2D mining gameplay, not a cinematic shot. Preserve the supplied image exactly: same pixel-space composition, settlement identity, house and mountain geometry, single outdoor surface boundary, and uninterrupted dark earth. There is no underground floor, shelf, ledge, tunnel, seam, or second boundary. The camera is mathematically locked: no pan, tilt, zoom, dolly, crop, reframing, parallax warp, depth-of-field, or lens change. Buildings, mountains, forest, ground line, soil, rocks, and roots never morph, wobble, breathe, slide, or change scale. No scene-wide exposure shift, dramatic fog, weather, particle swarm, new object, character, creature, vehicle, text, UI, logo, watermark, audio, or cut. Motion begins at rest, remains extremely low amplitude, and returns fully to rest at the identical supplied last frame with no visible reset. Atmosphere-only treatment. Move fewer than five tiny localized areas: two hair-thin chimney wisps drifting only a short distance, two warm windows breathing by only a few percent, and one nearly imperceptible distant cloud drift. The entire underground remains completely still."
+      },
+      "status": "completed",
+      "poll": {
+        "id": "LxSz6eZDbI82LSJK19cV",
+        "generation_id": "gen-vid-1787708874-AhLBhveDajy0uMsOqeQt",
+        "polling_url": "https://openrouter.ai/api/v1/videos/LxSz6eZDbI82LSJK19cV",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/LxSz6eZDbI82LSJK19cV/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.32,
+          "is_byok": false
+        }
+      },
+      "output": "testing/animation-sandbox/2026-08-26-surface-living-background-mockup-v1/variants-v1/07-veo-fast-air.mp4",
+      "bytes": 537285,
+      "sha256": "21800051ad8896c01bc6c7a8945bdbe10a595507433ff191502c6593df13e8d3"
+    },
+    {
+      "variant": {
+        "id": "08-veo-fast-hearth",
+        "modelId": "veo-fast",
+        "model": "google/veo-3.1-fast",
+        "profileId": "hearth",
+        "estimatedCostUsd": 0.32,
+        "prompt": "Fixed side-on background plate for active 2D mining gameplay, not a cinematic shot. Preserve the supplied image exactly: same pixel-space composition, settlement identity, house and mountain geometry, single outdoor surface boundary, and uninterrupted dark earth. There is no underground floor, shelf, ledge, tunnel, seam, or second boundary. The camera is mathematically locked: no pan, tilt, zoom, dolly, crop, reframing, parallax warp, depth-of-field, or lens change. Buildings, mountains, forest, ground line, soil, rocks, and roots never morph, wobble, breathe, slide, or change scale. No scene-wide exposure shift, dramatic fog, weather, particle swarm, new object, character, creature, vehicle, text, UI, logo, watermark, audio, or cut. Motion begins at rest, remains extremely low amplitude, and returns fully to rest at the identical supplied last frame with no visible reset. Restrained inhabited-world treatment. Move at most seven tiny localized areas: two or three thin chimney wisps, three independent lantern breaths of only a few percent, one small grass patch with barely visible sway, and three faint underground mineral glints that slowly appear and disappear without moving. Everything else remains completely still."
+      },
+      "status": "completed",
+      "poll": {
+        "id": "WkSBuKuXuSTd8uCxdt7r",
+        "generation_id": "gen-vid-1787708877-7H3MDcQTB2pvpCFhskJJ",
+        "polling_url": "https://openrouter.ai/api/v1/videos/WkSBuKuXuSTd8uCxdt7r",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/WkSBuKuXuSTd8uCxdt7r/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.32,
+          "is_byok": false
+        }
+      },
+      "output": "testing/animation-sandbox/2026-08-26-surface-living-background-mockup-v1/variants-v1/08-veo-fast-hearth.mp4",
+      "bytes": 568998,
+      "sha256": "bc5121b41e0856d18f3379970e7915eefc358e2e1dd3992d0fc1380e505c6c24"
+    },
+    {
+      "variant": {
+        "id": "09-wan-air",
+        "modelId": "wan",
+        "model": "alibaba/wan-2.7",
+        "profileId": "air",
+        "estimatedCostUsd": 0.4,
+        "prompt": "Fixed side-on background plate for active 2D mining gameplay, not a cinematic shot. Preserve the supplied image exactly: same pixel-space composition, settlement identity, house and mountain geometry, single outdoor surface boundary, and uninterrupted dark earth. There is no underground floor, shelf, ledge, tunnel, seam, or second boundary. The camera is mathematically locked: no pan, tilt, zoom, dolly, crop, reframing, parallax warp, depth-of-field, or lens change. Buildings, mountains, forest, ground line, soil, rocks, and roots never morph, wobble, breathe, slide, or change scale. No scene-wide exposure shift, dramatic fog, weather, particle swarm, new object, character, creature, vehicle, text, UI, logo, watermark, audio, or cut. Motion begins at rest, remains extremely low amplitude, and returns fully to rest at the identical supplied last frame with no visible reset. Atmosphere-only treatment. Move fewer than five tiny localized areas: two hair-thin chimney wisps drifting only a short distance, two warm windows breathing by only a few percent, and one nearly imperceptible distant cloud drift. The entire underground remains completely still."
+      },
+      "status": "completed",
+      "poll": {
+        "id": "83lZG1x46Mh5LZYWxXch",
+        "generation_id": "gen-vid-1787708881-LhmhfJF7y3uBEFi5ET1S",
+        "polling_url": "https://openrouter.ai/api/v1/videos/83lZG1x46Mh5LZYWxXch",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/83lZG1x46Mh5LZYWxXch/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.5,
+          "is_byok": false
+        }
+      },
+      "output": "testing/animation-sandbox/2026-08-26-surface-living-background-mockup-v1/variants-v1/09-wan-air.mp4",
+      "bytes": 1128934,
+      "sha256": "ff22b09c418b32c6bb518fd0d7cd88e9ab174f27ee270712c18c17dd42b5b2e4"
+    },
+    {
+      "variant": {
+        "id": "10-wan-hearth",
+        "modelId": "wan",
+        "model": "alibaba/wan-2.7",
+        "profileId": "hearth",
+        "estimatedCostUsd": 0.4,
+        "prompt": "Fixed side-on background plate for active 2D mining gameplay, not a cinematic shot. Preserve the supplied image exactly: same pixel-space composition, settlement identity, house and mountain geometry, single outdoor surface boundary, and uninterrupted dark earth. There is no underground floor, shelf, ledge, tunnel, seam, or second boundary. The camera is mathematically locked: no pan, tilt, zoom, dolly, crop, reframing, parallax warp, depth-of-field, or lens change. Buildings, mountains, forest, ground line, soil, rocks, and roots never morph, wobble, breathe, slide, or change scale. No scene-wide exposure shift, dramatic fog, weather, particle swarm, new object, character, creature, vehicle, text, UI, logo, watermark, audio, or cut. Motion begins at rest, remains extremely low amplitude, and returns fully to rest at the identical supplied last frame with no visible reset. Restrained inhabited-world treatment. Move at most seven tiny localized areas: two or three thin chimney wisps, three independent lantern breaths of only a few percent, one small grass patch with barely visible sway, and three faint underground mineral glints that slowly appear and disappear without moving. Everything else remains completely still."
+      },
+      "status": "completed",
+      "poll": {
+        "id": "YX9hwCRcpmZbkNtmqVkH",
+        "generation_id": "gen-vid-1787708890-3XZf6KhLhzG3plc6yH8R",
+        "polling_url": "https://openrouter.ai/api/v1/videos/YX9hwCRcpmZbkNtmqVkH",
+        "status": "completed",
+        "unsigned_urls": [
+          "https://openrouter.ai/api/v1/videos/YX9hwCRcpmZbkNtmqVkH/content?index=0"
+        ],
+        "usage": {
+          "cost": 0.5,
+          "is_byok": false
+        }
+      },
+      "output": "testing/animation-sandbox/2026-08-26-surface-living-background-mockup-v1/variants-v1/10-wan-hearth.mp4",
+      "bytes": 1139428,
+      "sha256": "18485891a8a7b8b161893f23b6a8af98b0bc461366067e4577f5f38bafec2c7a"
+    }
+  ]
+}

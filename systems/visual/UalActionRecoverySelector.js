@@ -3,6 +3,14 @@ import {
   isPlayerAnimationFeatureEnabled,
 } from "../../values/playerAnimationPolish.js";
 
+export function shouldUseLegacyPostActionRecovery(
+  profile,
+  authoredRecoveryStarted = false,
+) {
+  return profile?.preferAuthoredActionRecovery !== true
+    || authoredRecoveryStarted !== true;
+}
+
 export class UalActionRecoverySelector {
   constructor(
     profile,

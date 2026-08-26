@@ -37,7 +37,7 @@ const MEMORIAL_RECORD = Object.freeze({
   reason: "The Graveborer Wurm shattered your final Gem Power",
   depth: 777,
   player: Object.freeze({
-    level: 18,
+    level: 3,
     gemPowerMax: 721,
     carriedResourceUnits: 329,
   }),

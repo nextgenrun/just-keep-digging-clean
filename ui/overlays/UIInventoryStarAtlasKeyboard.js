@@ -1,4 +1,5 @@
-import { STAR_IDENTITY_LIBRARY_CONFIG } from "../../values/starIdentityLibrary.js";
+import { STAR_IDENTITY_LIBRARY_CONFIG } from
+  "../../values/starIdentityLibrary.js?rev=20260826-inventory-codex-v2";
 import { getStarIdentitiesForRarity } from "../../values/starIdentityLibraryMath.js";
 
 function wrapIndex(value, count) {
@@ -59,7 +60,7 @@ export class UIInventoryStarAtlasKeyboard {
 
   _handleKeyDown(event) {
     const state = this.callbacks.getState();
-    if (!state.isOpen) return false;
+    if (!(state.isOpen ?? state.open)) return false;
     const config = STAR_IDENTITY_LIBRARY_CONFIG;
     const navigation = config.inventory.navigation;
     const code = event.code || event.key;
@@ -70,7 +71,7 @@ export class UIInventoryStarAtlasKeyboard {
     }
     if (state.activeTab !== navigation.starAtlasTabIndex) return false;
 
-    const columns = config.inventory.layout.selectorCentersX.length;
+    const columns = config.inventory.layout.selectorCentersXPx.length;
     let identityIndex = state.selectedStarIdentity;
     if (navigation.leftCodes.includes(code)) {
       identityIndex = resolveStarAtlasIdentityMove(

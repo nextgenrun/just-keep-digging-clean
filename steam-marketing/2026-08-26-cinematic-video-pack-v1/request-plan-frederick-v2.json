@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "provider": "ElevenLabs",
+  "purpose": "Replace all five cinematic-pack narration tracks with the selected Frederick Surrey voice",
+  "outputRoot": "steam-marketing/2026-08-26-cinematic-video-pack-v1",
+  "audioDir": "audio",
+  "audioManifestFile": "audio-generation-manifest-frederick-v2.json",
+  "mediaVerificationFile": "media-verification-frederick-v2.json",
+  "reviewOnly": true,
+  "runtimeWired": false,
+  "tts": {
+    "endpointTemplate": "https://api.elevenlabs.io/v1/text-to-speech/{voiceId}",
+    "modelId": "eleven_multilingual_v2",
+    "outputFormat": "mp3_44100_128"
+  },
+  "voice": {
+    "voiceId": "j9jfwdrw7BRfcR43Qohk",
+    "voiceName": "Frederick Surrey - Smooth and Velvety",
+    "settings": {
+      "stability": 0.62,
+      "similarity_boost": 0.85,
+      "style": 0.0,
+      "use_speaker_boost": true,
+      "speed": 1.0
+    }
+  },
+  "narrations": [
+    {
+      "id": "cinematic-opening-frederick-v2",
+      "file": "narration-opening-frederick-v2.mp3",
+      "text": "Below the last light, the mine remembers every path. Dig. Return. Grow stronger. Then descend, where earth, sky, and starlight meet. The Understar is waiting."
+    },
+    {
+      "id": "cinematic-mossback-frederick-v2",
+      "file": "narration-mossback-frederick-v2.mp3",
+      "text": "That is not a statue. It is breathing."
+    },
+    {
+      "id": "cinematic-trailer-frederick-v2",
+      "file": "narration-trailer-frederick-v2.mp3",
+      "text": "Every descent is a decision. Every return makes you stronger. Master Flight. Find the Titans. Wake the Understar. Wishlist Understar on Steam."
+    },
+    {
+      "id": "cinematic-short-mossback-frederick-v2",
+      "file": "narration-short-mossback-frederick-v2.mp3",
+      "text": "At ninety meters, the roots started breathing. Find all twenty-five Titans. Wishlist Understar on Steam."
+    },
+    {
+      "id": "cinematic-short-depth-frederick-v2",
+      "file": "narration-short-depth-frederick-v2.mp3",
+      "text": "How deep would you go? Dig. Return. Grow stronger. The Understar is waiting. Wishlist now on Steam."
+    }
+  ],
+  "renderTargets": [
+    {
+      "editId": "opening",
+      "replacesNarrationFile": "narration-opening.mp3",
+      "narrationFile": "narration-opening-frederick-v2.mp3",
+      "currentOutput": "sprites/cinematics/understar-cinematics-v1/understar-opening-v1.mp4",
+      "candidateOutput": "steam-marketing/2026-08-26-cinematic-video-pack-v1/understar-opening-frederick-v2.mp4"
+    },
+    {
+      "editId": "mossback",
+      "replacesNarrationFile": "narration-mossback.mp3",
+      "narrationFile": "narration-mossback-frederick-v2.mp3",
+      "currentOutput": "sprites/cinematics/understar-cinematics-v1/mossback-discovery-v1.mp4",
+      "candidateOutput": "steam-marketing/2026-08-26-cinematic-video-pack-v1/mossback-discovery-frederick-v2.mp4"
+    },
+    {
+      "editId": "trailer",
+      "replacesNarrationFile": "narration-trailer.mp3",
+      "narrationFile": "narration-trailer-frederick-v2.mp3",
+      "currentOutput": "steam-marketing/2026-08-26-cinematic-video-pack-v1/understar-cinematic-trailer-v1.mp4",
+      "candidateOutput": "steam-marketing/2026-08-26-cinematic-video-pack-v1/understar-cinematic-trailer-frederick-v2.mp4"
+    },
+    {
+      "editId": "short-mossback",
+      "replacesNarrationFile": "narration-short-mossback.mp3",
+      "narrationFile": "narration-short-mossback-frederick-v2.mp3",
+      "currentOutput": "steam-marketing/2026-08-26-cinematic-video-pack-v1/understar-short-01-mossback-v1.mp4",
+      "candidateOutput": "steam-marketing/2026-08-26-cinematic-video-pack-v1/understar-short-01-mossback-frederick-v2.mp4"
+    },
+    {
+      "editId": "short-depth",
+      "replacesNarrationFile": "narration-short-depth.mp3",
+      "narrationFile": "narration-short-depth-frederick-v2.mp3",
+      "currentOutput": "steam-marketing/2026-08-26-cinematic-video-pack-v1/understar-short-02-depth-v1.mp4",
+      "candidateOutput": "steam-marketing/2026-08-26-cinematic-video-pack-v1/understar-short-02-depth-frederick-v2.mp4"
+    }
+  ]
+}

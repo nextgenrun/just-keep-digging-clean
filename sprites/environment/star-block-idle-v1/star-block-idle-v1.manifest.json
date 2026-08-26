@@ -1,0 +1,375 @@
+{
+  "schemaVersion": 1,
+  "generatedBy": "ai-tools/2026-08-26-build-star-block-idle-v1.py",
+  "sourceProvider": "OpenRouter",
+  "sourceModel": "google/veo-3.1-lite",
+  "runtimeAtlas": "sprites/backgrounds/world-visual-v2/semantic-decals-v1/star-block-idle-motion-atlas-v1.png",
+  "runtimeAtlasSha256": "0c9593982ecaee4bea02e189c880275a958d8edb2ff8c01c885a53ce7b410b20",
+  "frameSizePx": 128,
+  "columns": 12,
+  "rows": 6,
+  "frameCount": 72,
+  "framesPerVariant": 24,
+  "variantCount": 3,
+  "fps": 6,
+  "decodedBytes": 4718592,
+  "preview": "sprites/environment/star-block-idle-v1/star-block-idle-motion-preview-v1.gif",
+  "contactSheet": "sprites/environment/star-block-idle-v1/star-block-idle-motion-contact-v1.png",
+  "variants": [
+    {
+      "id": "facet-sweep",
+      "source": "sprites/environment/star-block-idle-v1/source/clips/facet-sweep.mp4",
+      "sourceSha256": "29e8eeaabe3736769feea2bd17b2cd8c06085022083afcccc98ba2f501689e46",
+      "alignmentShiftsPx": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      "sourceBrightnessGainRange": [
+        1.0221,
+        1.0516
+      ],
+      "normalizationCeiling": 205.1262,
+      "meanEnergy": 3.7117,
+      "energyCoefficientOfVariation": 0.0042,
+      "maxFrameEnergyDeviationRatio": 0.0127,
+      "innerEnergyFraction": 0.7741,
+      "coronaEnergyFraction": 0.2259,
+      "maxEnergy": 235,
+      "meanAdjacentDelta": 1.4815,
+      "seamMeanAbsoluteDelta": 0.169,
+      "seamToAdjacentRatio": 0.1141,
+      "uniqueFrameHashes": 24
+    },
+    {
+      "id": "core-breath",
+      "source": "sprites/environment/star-block-idle-v1/source/clips/core-breath.mp4",
+      "sourceSha256": "801d1236002fa15c4f91d9985d25fdcae5bcaf0241365e34e901df9bdf557995",
+      "alignmentShiftsPx": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          6,
+          7
+        ],
+        [
+          6,
+          7
+        ],
+        [
+          5,
+          7
+        ],
+        [
+          3,
+          7
+        ],
+        [
+          1,
+          7
+        ],
+        [
+          0,
+          7
+        ],
+        [
+          -1,
+          7
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      "sourceBrightnessGainRange": [
+        0.9497,
+        1.032
+      ],
+      "normalizationCeiling": 233.1601,
+      "meanEnergy": 3.7116,
+      "energyCoefficientOfVariation": 0.0038,
+      "maxFrameEnergyDeviationRatio": 0.0096,
+      "innerEnergyFraction": 0.7643,
+      "coronaEnergyFraction": 0.2357,
+      "maxEnergy": 235,
+      "meanAdjacentDelta": 1.4009,
+      "seamMeanAbsoluteDelta": 0.2084,
+      "seamToAdjacentRatio": 0.1488,
+      "uniqueFrameHashes": 24
+    },
+    {
+      "id": "stardust-orbit",
+      "source": "sprites/environment/star-block-idle-v1/source/clips/stardust-orbit.mp4",
+      "sourceSha256": "70e0e68c0262e18d1492507dbfc50388d1738378cdfeecfe46095ebf35f68af4",
+      "alignmentShiftsPx": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      "sourceBrightnessGainRange": [
+        0.9263,
+        1.1631
+      ],
+      "normalizationCeiling": 87.1756,
+      "meanEnergy": 3.6345,
+      "energyCoefficientOfVariation": 0.0214,
+      "maxFrameEnergyDeviationRatio": 0.0424,
+      "innerEnergyFraction": 0.3949,
+      "coronaEnergyFraction": 0.6051,
+      "maxEnergy": 235,
+      "meanAdjacentDelta": 1.4651,
+      "seamMeanAbsoluteDelta": 0.1207,
+      "seamToAdjacentRatio": 0.0824,
+      "uniqueFrameHashes": 24
+    }
+  ],
+  "apiKeyStored": false
+}

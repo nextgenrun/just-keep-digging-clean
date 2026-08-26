@@ -1,5 +1,6 @@
 import { WORLD_MAP_CONFIG } from "../../values/worldMapConfig.js";
 import { BrowserStorageRepository } from "../save-system/BrowserStorageRepository.js";
+import { resolveWorldMapPlayerTile } from "./resolveWorldMapPlayerTile.js";
 
 export class WorldMapDiscoverySystem {
   constructor(scene, saveSlot = 1, storageRepository = null) {
@@ -60,11 +61,11 @@ export class WorldMapDiscoverySystem {
   }
 
   updatePlayerDiscovery(force = false) {
-    const player = this.scene?.player || this.scene?.playerController?.sprite;
     const model = this.scene?.worldModel;
-    if (!player || !model) return false;
+    const playerTile = resolveWorldMapPlayerTile(this.scene);
+    if (!playerTile || !model) return false;
 
-    const { tx, ty } = model.worldToTile(player.x, player.y);
+    const { tx, ty } = playerTile;
     const size = WORLD_MAP_CONFIG.discovery.cellSizeTiles;
     const cellX = Math.floor(tx / size);
     const cellY = Math.floor(ty / size);

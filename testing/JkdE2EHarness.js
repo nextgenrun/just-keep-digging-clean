@@ -9,6 +9,7 @@ import { HEAVENBLOCKS_ACCESS_CONFIG } from "../values/heavenblocksAccessConfig.j
 import { HEAVENBLOCKS_VISUAL_CONFIG } from "../values/heavenblocksVisualConfig.js";
 import { resolveWorldVisualLandmarkAnchor } from "../world/rendering/scenic-world/WorldVisualLandmarkLayer.js";
 import { createTitanE2EPreviewController } from "./JkdE2ETitanPreview.js";
+import { createLedgeAssistE2EPreviewController } from "./JkdE2ELedgeAssistPreview.js";
 import { isLocalGameplayProfileHost } from "../values/gameplayCapabilities.js";
 import { SCENE_BASE_PHASES } from "../values/sceneRuntime.js";
 
@@ -548,6 +549,42 @@ function findOpenAdjacentTile(scene, tx, ty) {
   )) || null;
 }
 
+function previewTreasureChest(scene) {
+  const model = scene.worldModel;
+  const opened = scene.specialTileSystem?.openedChestKeys || new Set();
+  const candidates = [];
+  for (const zone of model?.treasureRoomZones || []) {
+    candidates.push({ tx: zone.chestTx, ty: zone.chestTy });
+  }
+  for (const zone of model?.hiddenCaveZones || []) {
+    if (!zone?.hasTreasureRoom) continue;
+    candidates.push({
+      tx: zone.treasureRoomCx || zone.cx,
+      ty: zone.treasureRoomCy || zone.cy,
+    });
+  }
+  const chest = candidates.find((tile) => (
+    Number.isInteger(tile.tx)
+    && Number.isInteger(tile.ty)
+    && model?.getTileType?.(tile.tx, tile.ty) === TILE_TYPES.CHEST
+    && !opened.has(`${tile.tx},${tile.ty}`)
+    && findOpenAdjacentTile(scene, tile.tx, tile.ty)
+  ));
+  if (!chest) {
+    console.warn("[JkdE2EHarness] No unopened treasure chest preview is available");
+    return null;
+  }
+  const playerTile = findOpenAdjacentTile(scene, chest.tx, chest.ty);
+  closeTransientUi(scene);
+  forcePlayerState(scene, { ...playerTile, money: 0 });
+  scene.uiResourceBar?.setMoney?.(scene.upgradeSystem?.getMoney?.() || 0);
+  console.info(
+    `[JkdE2EHarness] Treasure chest preview at ${chest.tx},${chest.ty}; `
+    + `player=${playerTile.tx},${playerTile.ty}; wallet=0; press the real interact key`,
+  );
+  return { chest, playerTile };
+}
+
 function resetTestSave() {
   try {
     const prefixes = [
@@ -591,6 +628,7 @@ export function installJkdE2EHarness(scene) {
     closeUi: () => closeTransientUi(scene),
     forcePlayer: options => forcePlayerState(scene, options),
   });
+  const ledgeAssistPreview = createLedgeAssistE2EPreviewController(scene);
   const previewFirstUnlockedTitanStatue = () => {
     const discoveredIds = scene.retentionProgressSystem
       ?.getDiscoveredTitans?.() || [];
@@ -903,6 +941,12 @@ export function installJkdE2EHarness(scene) {
       previewFirstUnlockedTitanStatue();
       return;
     }
+    if (event.code === "KeyL") {
+      event.preventDefault?.();
+      closeTransientUi(scene);
+      ledgeAssistPreview.advance();
+      return;
+    }
     if (event.code === "KeyS") {
       event.preventDefault?.();
       closeTransientUi(scene);
@@ -946,6 +990,11 @@ export function installJkdE2EHarness(scene) {
       console.info(
         `[JkdE2EHarness] Level 2 teleport preview beside ${anchor.tx},${anchor.ty}`
       );
+      return;
+    }
+    if (event.code === "KeyK") {
+      event.preventDefault?.();
+      previewTreasureChest(scene);
       return;
     }
     if (event.code === "Insert") {
@@ -1020,10 +1069,12 @@ export function installJkdE2EHarness(scene) {
     previewTutorialPortal: () => previewTutorialPortal(scene),
     previewTutorialContainment: () => previewTutorialContainment(scene),
     previewUnderstarEnding: () => previewUnderstarEnding(scene),
+    previewLedgeAssist: () => ledgeAssistPreview.advance(),
+    previewTreasureChest: () => previewTreasureChest(scene),
   };
 
   window.__jkdE2E = harness;
-  console.info("[JkdE2EHarness] Installed in save-safe mode; F1 opens the sparse opaque-ImageGen texture gallery and Shift+F1 shows the intentionally over-dense comparison; F2 cycles cave hazards; F3 enters the selected hazard; F4 cycles one example of each hazard family; F5 previews the ImageGen Star Block release without awarding it; F6/F7/F8 preview star/bedrock/resource semantics; F9 previews the scenic mine entrance; F10 cycles surface benchmark anchors; Ctrl+Alt+F10 cycles modular surface prop clusters; Ctrl+Alt+S previews the Level 1/2 surface drop-through seam; F11 forces clear-weather benchmark lighting; F12 forces the swept-collision snow preview; 9/0 or Ctrl+Alt+Insert/Delete preview the two Sky Islands; 8 cycles Star Pillar stages; Ctrl+Alt+G stages the save-safe first tutorial gate for a real E-key test; Ctrl+Alt+B stages an off-route tutorial surface-drop bypass test; Ctrl+Alt+E previews the Understar ending; Ctrl+Alt+A cycles all nine surface-altar art stages without save writes; Ctrl+Alt+U funds and opens the Titan catalog; Ctrl+Alt+Y advances sealed/partial/one-left/complete Titan cover; Ctrl+Alt+I previews the first unlocked Titan plinth; Ctrl+Alt+PageDown/PageUp preview backgrounds; Ctrl+Alt+T previews a Level 2 teleport; Ctrl+Alt+H cycles the three Heavenblocks; Ctrl+Alt+C/V remain cave-hazard aliases");
+  console.info("[JkdE2EHarness] Installed in save-safe mode; F1 opens the sparse opaque-ImageGen texture gallery and Shift+F1 shows the intentionally over-dense comparison; F2 cycles cave hazards; F3 enters the selected hazard; F4 cycles one example of each hazard family; F5 previews the ImageGen Star Block release without awarding it; F6/F7/F8 preview star/bedrock/resource semantics; F9 previews the scenic mine entrance; F10 cycles surface benchmark anchors; Ctrl+Alt+F10 cycles modular surface prop clusters; Ctrl+Alt+S previews the Level 1/2 surface drop-through seam; F11 forces clear-weather benchmark lighting; F12 forces the swept-collision snow preview; 9/0 or Ctrl+Alt+Insert/Delete preview the two Sky Islands; 8 cycles Star Pillar stages; Ctrl+Alt+G stages the save-safe first tutorial gate for a real E-key test; Ctrl+Alt+B stages an off-route tutorial surface-drop bypass test; Ctrl+Alt+E previews the Understar ending; Ctrl+Alt+A cycles all nine surface-altar art stages without save writes; Ctrl+Alt+U funds and opens the Titan catalog; Ctrl+Alt+Y advances sealed/partial/one-left/complete Titan cover; Ctrl+Alt+I previews the first unlocked Titan plinth; Ctrl+Alt+K stages an unopened treasure chest with a zero wallet; Ctrl+Alt+L stages/cycles Ledge Assist; Ctrl+Alt+PageDown/PageUp preview backgrounds; Ctrl+Alt+T previews a Level 2 teleport; Ctrl+Alt+H cycles the three Heavenblocks; Ctrl+Alt+C/V remain cave-hazard aliases");
   scene.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
     window.removeEventListener("keydown", handleBackgroundPreviewKey);
     if (window.__jkdE2E === harness) {

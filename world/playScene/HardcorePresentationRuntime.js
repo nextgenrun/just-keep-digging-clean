@@ -16,10 +16,11 @@ export async function ensureHardcorePresentationRuntime(scene, runtime) {
     );
     if (!result.ready) return false;
   }
-  if (!runtime.hud?.root) {
+  if (!runtime.hud?.isReady?.()) {
     runtime.hud?.destroy?.();
     runtime.hud = new HardcoreStatusHud(scene, runtime.config);
   }
+  if (!runtime.hud.isReady()) return false;
   scene.hardcoreMemorialStore ||= new HardcoreMemorialStore();
   scene.hardcoreMemorialSystem ||= new HardcoreMemorialWorldSystem(
     scene,

@@ -75,3 +75,22 @@ the lower body while UP-SIDE and DOWN-SIDE actions own the torso. All three
 outputs share the same 256 px canvas and validation gates. Saved WebPs must
 round-trip every RGBA byte with zero hidden color beneath transparency,
 preventing linear-filter color bleed in Phaser.
+
+`2026-08-21-build-complex-dig-piskel-package.py` creates eleven editable
+Piskel documents for the approved Survival V4 SIDE/UP combat family and proves
+that every runtime frame round-trips pixel-exactly. One family-wide,
+highlight-preserving gamma curve matches the brighter Mixamo render to the
+existing idle/walk luminance while preserving V4 hues. The fixed 103 px scale
+matches visible height without per-frame resize or a second downsample, and the
+pipeline gates measured entry/exit residuals to 0.51 game pixels while leaving
+intentional kick/uppercut lift untouched.
+
+`2026-08-21-build-moving-complex-dig-piskel-package.py` extends that approved
+SIDE family onto the existing phase-locked Jog lower body without changing any
+stationary sheet. It emits eight entry phases for each of ten attacks, preserves
+the two native double contacts in uncompressed 44-frame sequences, keeps every
+run-phase step at zero or one, locks the foot baseline to zero drift, and
+removes suspicious green spill before pixel-exact Piskel and lossless WebP
+round trips. The 528-frame atlas is consumed only while resolved motion points
+toward the target; stationary and collision-blocked attacks retain the original
+complex clips.

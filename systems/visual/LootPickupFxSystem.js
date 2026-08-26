@@ -1,8 +1,9 @@
 import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { GAME_CONFIG } from "../../values/gameConfig.js";
 import { HUD_LAYOUT } from "../../values/hudLayout.js";
+import { REWARD_FLIGHT_CHANNELS } from "../../values/rewardFlightMotions.js";
 import { RESOURCE_COLOR_INTS, RESOURCE_ORE_COLOR_INTS } from "../../values/resourceTypes.js";
-import { ANIMATION_SMOOTHNESS_CONFIG } from "../../values/animationSmoothness.js";
+import { RewardFlightMotionSystem } from "./RewardFlightMotionSystem.js";
 
 function isLootVisualsEnabled(scene) {
   const config = scene?.config || GAME_CONFIG;
@@ -13,15 +14,18 @@ function isLootVisualsEnabled(scene) {
 }
 
 export class LootPickupFxSystem {
-  constructor(scene, targetProvider = null) {
+  constructor(scene, targetProvider = null, motionProvider = null) {
     this.scene = scene;
     this.targetProvider = targetProvider;
+    const sharedMotionProvider = motionProvider || scene?.rewardFlightMotionSystem;
+    this.motionProvider = sharedMotionProvider || new RewardFlightMotionSystem();
+    this.ownsMotionProvider = !sharedMotionProvider;
     this.activeSprites = [];
     this.maxActiveSprites = 24;
     this._destroyed = false;
   }
 
-  showResourcePickup({ worldX, worldY, resourceType, amount = 1, isLuckyDrop = false, isSkyTileBonus = false } = {}) {
+  showResourcePickup({ worldX, worldY, resourceType, amount = 1, isLuckyDrop = false, isSkyTileBonus = false, isStarResource = false } = {}) {
     if (this._destroyed || !isLootVisualsEnabled(this.scene)) return;
     if (!resourceType || !Number.isFinite(worldX) || !Number.isFinite(worldY)) return;
 
@@ -32,7 +36,10 @@ export class LootPickupFxSystem {
       if (this.activeSprites.length >= this.maxActiveSprites) {
         this._removeSprite(this.activeSprites[0]);
       }
-      this._spawnPickup(worldX, worldY, resourceType, i, pickupCount, isLuckyDrop, isSkyTileBonus);
+      this._spawnPickup(
+        worldX, worldY, resourceType, amount, i, pickupCount,
+        isLuckyDrop, isSkyTileBonus, isStarResource,
+      );
     }
   }
 
@@ -42,7 +49,7 @@ export class LootPickupFxSystem {
     return Math.min(awardedAmount, cap);
   }
 
-  _spawnPickup(worldX, worldY, resourceType, index, pickupCount, isLuckyDrop, isSkyTileBonus) {
+  _spawnPickup(worldX, worldY, resourceType, amount, index, pickupCount, isLuckyDrop, isSkyTileBonus, isStarResource) {
     const start = this._worldToScreen(worldX, worldY);
     const target = this.targetProvider?.getLootPickupTarget?.(resourceType) || this._fallbackTarget();
     const textureKey = this._getTextureKey(resourceType);
@@ -70,41 +77,55 @@ export class LootPickupFxSystem {
       y: hoverY,
       duration: 95,
       ease: "Back.out",
-      onComplete: () => this._flyToTarget(sprite, target, resourceType, isLuckyDrop, isSkyTileBonus),
+      onComplete: () => this._flyToTarget(
+        sprite,
+        target,
+        resourceType,
+        isLuckyDrop,
+        isSkyTileBonus,
+        { amount, index, pickupCount, isStarResource },
+      ),
     });
   }
 
-  _flyToTarget(sprite, target, resourceType, isLuckyDrop, isSkyTileBonus) {
+  _flyToTarget(sprite, target, resourceType, isLuckyDrop, isSkyTileBonus, details = {}) {
     if (!sprite?.active) return;
 
     const startX = sprite.x;
     const startY = sprite.y;
-    const curveLift = Math.min(120, Math.max(45, Math.abs(target.y - startY) * 0.25 + 35));
-    const controlX = (startX + target.x) / 2 + (Math.random() - 0.5) * 80;
-    const controlY = Math.min(startY, target.y) - curveLift;
-    const duration = 420 + Math.random() * 100;
+    const motionPlan = this.motionProvider.createPlan({
+      channel: REWARD_FLIGHT_CHANNELS.loot,
+      start: { x: startX, y: startY },
+      target,
+      resourceType,
+      amount: details.amount ?? 1,
+      isSkyTileBonus,
+      isStarResource: details.isStarResource,
+      special: isLuckyDrop || isSkyTileBonus,
+      index: details.index ?? 0,
+      count: details.pickupCount ?? 1,
+    });
+    if (!motionPlan) { this._removeSprite(sprite); return; }
+    this.lastMotionProfileId = motionPlan.profileId;
     const startRotation = Number.isFinite(sprite.rotation) ? sprite.rotation : 0;
-    const totalRotationRadians = (
-      ANIMATION_SMOOTHNESS_CONFIG.lootPickup.rotationRadiansPerReferenceFrame
-      * (duration / ANIMATION_SMOOTHNESS_CONFIG.referenceFrameMs)
-    );
     const state = { t: 0 };
+    sprite._rewardFlightState = state;
 
     this.scene.tweens.add({
       targets: state,
       t: 1,
-      duration,
-      ease: "Cubic.easeInOut",
+      duration: motionPlan.durationMs,
+      ease: motionPlan.ease,
       onUpdate: () => {
         if (!sprite.active) return;
         const t = state.t;
-        const inv = 1 - t;
-        sprite.x = inv * inv * startX + 2 * inv * t * controlX + t * t * target.x;
-        sprite.y = inv * inv * startY + 2 * inv * t * controlY + t * t * target.y;
+        const point = motionPlan.sample(t);
+        sprite.x = point.x;
+        sprite.y = point.y;
         sprite.alpha = 1 - Math.max(0, t - 0.82) / 0.18;
         const scale = 1.05 - t * 0.38;
         sprite.setScale(scale);
-        sprite.rotation = startRotation + totalRotationRadians * t;
+        sprite.rotation = startRotation + motionPlan.rotationRadians * t;
       },
       onComplete: () => {
         this._arrivalBurst(target.x, target.y, resourceType, isLuckyDrop, isSkyTileBonus);
@@ -201,6 +222,7 @@ export class LootPickupFxSystem {
 
   _removeSprite(sprite) {
     if (!sprite) return;
+    if (sprite._rewardFlightState) this.scene.tweens.killTweensOf(sprite._rewardFlightState);
     this.scene.tweens.killTweensOf(sprite);
     const idx = this.activeSprites.indexOf(sprite);
     if (idx !== -1) this.activeSprites.splice(idx, 1);
@@ -212,5 +234,6 @@ export class LootPickupFxSystem {
     this._destroyed = true;
     [...this.activeSprites].forEach(sprite => this._removeSprite(sprite));
     this.activeSprites = [];
+    if (this.ownsMotionProvider) this.motionProvider.destroy();
   }
 }

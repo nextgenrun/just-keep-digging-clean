@@ -3,7 +3,10 @@ import { readFileSync } from "node:fs";
 
 import { ASSET_KEYS } from "../values/assetKeys.js";
 import { TOWN_SQUARE_CONFIG } from "../values/townSquareConfig.js";
-import { SHOP_MERCHANT_PROFILES } from "../values/uiLayout.js";
+import {
+  SHOP_MERCHANT_PROFILES,
+  SHOP_SELECTION_BEHAVIOR,
+} from "../values/uiLayout.js";
 import { MilestoneBoardSystem } from "../systems/visual/MilestoneBoardSystem.js";
 import { NPCManager } from "../world/playScene/NPCManager.js";
 import { ShopOverlay } from "../ui/overlays/ShopOverlay.js";
@@ -350,6 +353,7 @@ try {
     moneyMonsterMode: "buy",
     currentPage: 0,
     selectedIndex: 1,
+    mouseSelectionPinned: false,
     selectedSellButton: 1,
     topButtonSelected: "action",
     itemsPerPage: 5,
@@ -402,12 +406,39 @@ try {
     rowHitIndex > rowIconIndex && rowHitIndex > rowNameIndex,
     "the full-row hit target must sit above its icon, name, and status",
   );
-  rowHitTarget.emit("pointerdown");
+  assert.equal(
+    rowChildren.some(child => child.value === SHOP_SELECTION_BEHAVIOR.previewLabel),
+    true,
+    "the shop list must explain that hover is only previewing before a click pins it",
+  );
+  rowHitTarget.emit("pointerover");
   assert.equal(rowOverlay.selectedIndex, 0);
   assert.equal(rowOverlay.selectedSellButton, 0);
   assert.equal(rowOverlay.topButtonSelected, null);
-  assert.equal(rowSelectSounds, 1);
+  assert.equal(rowOverlay.mouseSelectionPinned, false);
   assert.equal(rowRenders, 1);
+  rowHitTarget.emit("pointerdown");
+  assert.equal(rowOverlay.mouseSelectionPinned, true);
+  assert.equal(rowSelectSounds, 1);
+  assert.equal(rowRenders, 2);
+  assert.equal(rowOverlay._handleListHover(1), false);
+  assert.equal(rowOverlay.selectedIndex, 0, "hover cannot replace a pinned shop row");
+  assert.equal(rowOverlay._handleListClick(1), true);
+  assert.equal(rowOverlay.selectedIndex, 1, "an explicit click can move the pin");
+  assert.equal(rowOverlay._handleListClick(1), false);
+  assert.equal(rowOverlay.mouseSelectionPinned, false, "clicking the pinned row releases it");
+  assert.equal(rowOverlay._handleListHover(0), true);
+  assert.equal(rowOverlay.selectedIndex, 0, "hover preview resumes after release");
+
+  rowOverlay.allUpgrades = [{}, {}, {}, {}, {}, {}];
+  rowOverlay.forgeRecipes = [];
+  rowOverlay.sellItems = [];
+  rowOverlay.mouseSelectionPinned = true;
+  rowOverlay.navigateDown();
+  assert.equal(rowOverlay.mouseSelectionPinned, false, "keyboard selection releases the mouse pin");
+  rowOverlay.mouseSelectionPinned = true;
+  rowOverlay.nextPage();
+  assert.equal(rowOverlay.mouseSelectionPinned, false, "page navigation releases the mouse pin");
 
   const shopSource = readFileSync(
     new URL("../ui/overlays/ShopOverlay.js", import.meta.url),

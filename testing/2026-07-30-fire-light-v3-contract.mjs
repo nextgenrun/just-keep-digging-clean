@@ -73,6 +73,7 @@ function makeActor() {
 
 function makeScene(textureAvailable = true) {
   const actors = [];
+  const textureFrames = new Set();
   const addActor = () => {
     const actor = makeActor();
     actors.push(actor);
@@ -80,7 +81,13 @@ function makeScene(textureAvailable = true) {
   };
   return {
     actors,
-    textures: { exists: () => textureAvailable },
+    textures: {
+      exists: () => textureAvailable,
+      get: () => ({
+        has: frame => textureFrames.has(frame),
+        add: frame => textureFrames.add(frame),
+      }),
+    },
     add: { image: addActor, rectangle: addActor },
     cameras: { main: { width: 1280, height: 720 } },
     config: { viewportWidth: 1280, viewportHeight: 720 },
@@ -154,6 +161,21 @@ assert.ok(facingRight.x > 120);
 assert.ok(facingLeft.x < 120);
 assert.equal(facingRight.y, facingLeft.y);
 assert.match(facingRight.source, /^fire-socket:/);
+assert.equal(facingRight.obstructed, false);
+const diggingAnchor = resolveFireLightAnchor({
+  player: { x: 120, y: 280, depth: 5, anims: { currentFrame: { index: 7 } } },
+  playerController: {
+    physicsBody: { x: 100, y: 200, w: 40, h: 80 },
+    isFacingRight: () => true,
+  },
+  playerAssetProfile: { characterId: "survivalUal" },
+  tileSize: 94,
+  config: FIRE_LIGHT_CONFIG,
+  digging: true,
+});
+assert.equal(diggingAnchor.obstructed, true);
+assert.equal(diggingAnchor.animationFrame, 7);
+assert.equal(diggingAnchor.playerDepth, 5);
 
 const tileSize = 94;
 const solidAtX = 4;
@@ -245,9 +267,25 @@ const snapshot = system.getSnapshot();
 assert.equal(snapshot.active, true);
 assert.equal(snapshot.renderer.state, "rekindle");
 assert.equal(snapshot.renderer.visibleLayerCount, 1);
+assert.equal(snapshot.heldTorch.available, true);
+assert.equal(snapshot.heldTorch.visible, true);
 assert.equal(snapshot.rays.visibleRayCount, FIRE_LIGHT_CONFIG.rays.maxSources);
 assert.ok(snapshot.eyeAdaptation.available);
 assert.equal(snapshot.eyeAdaptation.effectScale, 0.24);
+system.renderFrame({
+  time: 1016,
+  deltaMs: 16,
+  torchActive: true,
+  source: { x: 200, y: 300, facingSign: 1, source: "contract", obstructed: true },
+  tileSize,
+  radiusWorld: tileSize * 6,
+  glowStrength: 1,
+  fuelRatio: 0.5,
+  lighting: cave,
+  worldModel: { worldToTile: () => ({ tx: 0, ty: 0 }), inBounds: () => true, isSolid: () => false },
+});
+assert.equal(system.getSnapshot().heldTorch.visible, false);
+assert.equal(system.getSnapshot().renderer.visibleLayerCount, 0);
 system.destroy();
 
 const legacyScene = makeScene(true);
@@ -302,6 +340,7 @@ assert.ok(!fireSource.includes("SkyBeaconPulseRenderer"));
 for (const file of [
   "systems/lighting/FireLightSystem.js",
   "systems/lighting/FireLightRenderer.js",
+  "systems/lighting/HeldTorchRenderer.js",
   "systems/lighting/FireLightRayRenderer.js",
   "systems/lighting/EyeAdaptationSystem.js",
   "systems/lighting/fireLightMath.js",

@@ -1,5 +1,9 @@
 # Depth Resource Economy Rebalance
 
+> Superseded on 2026-08-26 by
+> `2026-08-26-talent-and-depth-progression-rebalance.md`. This file preserves
+> the original rollout measurements and 1x-10x balance for history.
+
 ## Outcome
 
 The production mine now rewards descent with a continuous, strongly rising

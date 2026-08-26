@@ -58,7 +58,7 @@ class OpeningFlightPolishVisualScene extends Phaser.Scene {
       title: config.copy.rewardRevealTitle,
       primary: "+40 GP CAPACITY  •  +125 M",
       resources: "+40 DIRT  •  +25 STONE  •  +12 COPPER",
-      footer: "LEVEL 2 GUARANTEED  •  FLIGHT USES GP  •  GP REFILLS WHILE GROUNDED",
+      footer: "FLIGHT USES GP  •  GP REFILLS WHILE GROUNDED",
     });
   }
 }

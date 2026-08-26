@@ -67,7 +67,10 @@ the shared final reward cap. `DigSystem` uses it for ordinary, Heavy Punch,
 direct/Engine, Star, lucky, and Sign-boosted rewards. No reward path performs
 its own depth math.
 
-`depthEconomyBonuses.js` clamps Milestone Pillar speed and crit totals before
-`DigSystem` consumes them. `getDepthEconomyHealthSnapshot()` fails closed when
-modern mode lacks valid curves, the Level Two boundary, or the Milestone
-provider. Legacy mode deliberately disables these bonuses.
+`depthEconomyBonuses.js` clamps Milestone Pillar speed, crit, and the Level Two
++50% material-yield total before `DigSystem` consumes them. The shared depth
+yield authority applies that permanent multiplier to every mining and ability
+reward path. Lucky Collector doubles the complete bounded material result,
+matching its upgrade copy, instead of adding one unit. The health snapshot
+fails closed when modern mode lacks valid curves, the Level Two boundary, or
+the Milestone provider. Legacy mode deliberately disables these bonuses.

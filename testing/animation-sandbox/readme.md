@@ -2,6 +2,20 @@
 
 Standalone Phaser 3 mini-game for rapid animation & collision testing. Loads player spritesheets and tile textures into a small collidable world — no need to boot the full game.
 
+## Surface living background mockup
+
+`2026-08-26-surface-living-background-mockup-v1/` is an isolated ten-candidate
+AI image-to-video review of the surface plus one continuous two-tile-deep earth
+cross-section. Five models each receive two quiet motion profiles. The chooser
+keeps camera and geology fixed, measures endpoint drift, and uses identical
+endpoint conditioning plus a 700 ms playback overlap to prevent a harsh loop
+reset. It does not modify the production scenic renderer.
+
+`2026-08-26-real-surface-living-background-v1/` replaces that synthetic test
+with four focused Seedance loops built from the actual town beauty, slate cap,
+and Level One facade. Visible wind motion is generated as a half-cycle and then
+made mechanically loopable by appending its exact reverse.
+
 ## Mixamo punch sequence review
 
 `mixamo-punch-sequence-review-v1/` retargets eight clean unarmed Mixamo

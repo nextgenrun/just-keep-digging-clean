@@ -30,6 +30,12 @@ production Survival armature using rest-joint facing alignment, hierarchy-safe
 joint directions, planted-foot correction, a protected natural finger pose,
 and a separate terminal-head delta.
 
+`survivalUnifiedPoses.py` is the 2026-08-25 production helper for the unified
+Survival V4 render. It samples direct Blender/UAL actions, blends Mixamo upper
+body attacks over phase-advancing Jog legs, removes inherited camera-axis root
+travel, locks feet or the evaluated mesh floor as appropriate, and keeps all
+pose work outside the user-authored source `.blend`.
+
 `mixamoSurvivalRetarget.py` transfers accepted Mixamo body motion to the
 production Survival armature using rest-joint facing alignment, hierarchy-safe
 joint directions, planted-foot correction, a protected natural finger pose,

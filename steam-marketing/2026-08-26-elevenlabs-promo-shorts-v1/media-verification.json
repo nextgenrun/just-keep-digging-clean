@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "reviewOnly": true,
+  "runtimeWired": false,
+  "shorts": [
+    {
+      "id": "short-01-how-deep",
+      "output": "steam-marketing/2026-08-26-elevenlabs-promo-shorts-v1/understar-short-01-how-deep-v1.mp4",
+      "bytes": 15216465,
+      "sha256": "85e1f213f2686141d398302d0a3ca8f0c9469c72ac404e818bbf2cca08f5e325",
+      "durationSeconds": 18,
+      "width": 1080,
+      "height": 1920,
+      "fps": 24,
+      "voice": "George - Warm, Captivating Storyteller",
+      "sources": [
+        "steam-marketing/2026-08-26-cinematic-video-pack-v1/source-clips/rift-flight-vertical.mp4",
+        "steam-marketing/2026-08-26-cinematic-video-pack-v1/reference-frames/roots-descent-first-frame.png",
+        "steam-marketing/2026-08-26-cinematic-video-pack-v1/reference-frames/understar-awakening-first-frame.png"
+      ],
+      "poster": "steam-marketing/2026-08-26-elevenlabs-promo-shorts-v1/posters/short-01-how-deep-poster.png"
+    },
+    {
+      "id": "short-02-titans",
+      "output": "steam-marketing/2026-08-26-elevenlabs-promo-shorts-v1/understar-short-02-titans-v1.mp4",
+      "bytes": 21546211,
+      "sha256": "1af17139e26cb3ae1f1473e0acd3b8886941c497dcc7fb968b033442bc0c4fbc",
+      "durationSeconds": 18,
+      "width": 1080,
+      "height": 1920,
+      "fps": 24,
+      "voice": "Brian - Deep, Resonant and Comforting",
+      "sources": [
+        "steam-marketing/2026-08-26-cinematic-video-pack-v1/source-clips/mossback-vertical.mp4",
+        "steam-marketing/2026-08-26-cinematic-video-pack-v1/source-clips/mossback-close.mp4",
+        "steam-marketing/2026-08-26-cinematic-video-pack-v1/reference-frames/mossback-stirs-first-frame.png"
+      ],
+      "poster": "steam-marketing/2026-08-26-elevenlabs-promo-shorts-v1/posters/short-02-titans-poster.png"
+    },
+    {
+      "id": "short-03-grow-stronger",
+      "output": "steam-marketing/2026-08-26-elevenlabs-promo-shorts-v1/understar-short-03-grow-stronger-v1.mp4",
+      "bytes": 1958144,
+      "sha256": "19fa9e2b66759bf622b87f3cda8b1a50d89d65aa28798b5cb38193867fafbc72",
+      "durationSeconds": 18,
+      "width": 1080,
+      "height": 1920,
+      "fps": 24,
+      "voice": "Sarah - Mature, Reassuring, Confident",
+      "sources": [
+        "steam-marketing/2026-08-16-static-upload-pack-v1/review-only-screenshot-02-first-dig-1920x1080.png",
+        "steam-marketing/2026-08-16-static-upload-pack-v1/review-only-screenshot-03-celestial-talents-1920x1080.png",
+        "steam-marketing/2026-08-26-cinematic-video-pack-v1/reference-frames/rift-flight-vertical-first-frame.png"
+      ],
+      "poster": "steam-marketing/2026-08-26-elevenlabs-promo-shorts-v1/posters/short-03-grow-stronger-poster.png"
+    }
+  ]
+}

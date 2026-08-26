@@ -41,11 +41,30 @@ const EXPECTED_CATALOGS = Object.freeze({
     "boboWisdom",
   ]),
 });
+const EXPECTED_PRESENTED_CATALOGS = Object.freeze({
+  ...EXPECTED_CATALOGS,
+  // Level Two is capability-gated in this runtime profile. The definition is
+  // audited above, but its purchase row is intentionally not presented.
+  boboMerchant: Object.freeze(
+    EXPECTED_CATALOGS.boboMerchant.filter(id => id !== "worldTwoTunnelAccess"),
+  ),
+});
 const EXPECTED_FRESH_AVAILABLE = Object.freeze({
   moneyMonster: Object.freeze(["startResourcePrices"]),
   gearMerchant: Object.freeze(["bronzePickaxe"]),
-  boboMerchant: Object.freeze([]),
+  // Survival tools must precede the depth danger they solve.
+  boboMerchant: Object.freeze([
+    "torchDrainEfficiency",
+    "torchRange",
+    "boboCaveEyes",
+  ]),
 });
+
+assert.equal(
+  UPGRADES.worldTwoTunnelAccess?.effectType,
+  "worldTwoTunnelAccess",
+  "the Level-Two tunnel key must remain defined even when that capability is not presented",
+);
 
 function activeCatalogIds(merchantId) {
   return Object.entries(UPGRADES)
@@ -90,8 +109,8 @@ const digSystem = {
   },
 };
 const playerLevelSystem = {
-  level: 100,
-  getLevel: () => 100,
+  level: 99,
+  getLevel: () => 99,
 };
 const upgradeSystem = new UpgradeSystem(digSystem, playerLevelSystem, {
   firstFiveEnabled: true,
@@ -169,7 +188,7 @@ function createCatalog(merchantId) {
 }
 
 const freshCatalogs = {};
-for (const [merchantId, expectedIds] of Object.entries(EXPECTED_CATALOGS)) {
+for (const [merchantId, expectedIds] of Object.entries(EXPECTED_PRESENTED_CATALOGS)) {
   const overlay = createCatalog(merchantId);
   freshCatalogs[merchantId] = overlay;
   assert.deepEqual(
@@ -212,7 +231,7 @@ assert.deepEqual(
 );
 assert.deepEqual(
   freshCatalogs.boboMerchant.allUpgrades.slice(5).map(upgrade => upgrade.id),
-  ["worldTwoTunnelAccess", "mia", "boboWisdom"],
+  ["mia", "boboWisdom"],
 );
 
 const boboPages = freshCatalogs.boboMerchant;
@@ -373,7 +392,7 @@ const progressedGear = createCatalog("gearMerchant");
 const progressedBobo = createCatalog("boboMerchant");
 assert.deepEqual(progressedMoney.allUpgrades.map(upgrade => upgrade.id), EXPECTED_CATALOGS.moneyMonster);
 assert.deepEqual(progressedGear.allUpgrades.map(upgrade => upgrade.id), EXPECTED_CATALOGS.gearMerchant);
-assert.deepEqual(progressedBobo.allUpgrades.map(upgrade => upgrade.id), EXPECTED_CATALOGS.boboMerchant);
+assert.deepEqual(progressedBobo.allUpgrades.map(upgrade => upgrade.id), EXPECTED_PRESENTED_CATALOGS.boboMerchant);
 assert.equal(
   progressedMoney.allUpgrades.find(upgrade => upgrade.id === "startResourcePrices")
     .availability.available,

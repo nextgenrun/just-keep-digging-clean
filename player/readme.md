@@ -25,14 +25,21 @@ attack without enlarging the authored attack skeleton.
 `PlayerMovement.js` resolves grounded horizontal speed through a short
 frame-rate-independent envelope: 120 ms acceleration, 90 ms release, and 150 ms
 for a full left/right reversal. `PlayerJumpMotion.js` derives one fixed Spacebar
-impulse from gravity and the 1.2-tile height contract. `PlayerFlightMotion.js`
+impulse from gravity and the 1.2-tile height contract, then preserves takeoff
+momentum with progressive air steering, gentle release drag, and a stronger
+but non-instant reversal. `?jumpMomentum=0` restores the previous direct
+airborne response. `PlayerFlightMotion.js`
 owns Shift takeoff assist, A/D/W/S acceleration, neutral braking, reversal, and
 post-power coast; Flight no longer overwrites upward velocity each frame.
+`PlayerLedgeAssist.js` detects collision-safe solid lips while descending,
+snaps to a braced hang, drops on S/away input, and moves the authoritative body
+up then over only after validating the final standing space. Space or W starts
+the Mixamo pull-up. `?ledgeAssist=0` restores the previous traversal unchanged.
 `?smoothGroundRun=0` is the isolated grounded-physics rollback.
 
-`UalActionContactTimeline.js` turns Phaser animation updates into one deterministic gameplay contact per visible action and exposes whether that contact has fired. Mining, Quickslash, and Thunder mutate tiles only at authored contact; skipped frames and animation-complete fallback still fire exactly once. Once contact plus the configured recovery delay have passed and `DigSystem` confirms the action-start cooldown is ready, held mining may replace only the visible recovery with the next action without replaying the old contact.
+`UalActionContactTimeline.js` turns Phaser animation updates into one or more deterministic authored gameplay contacts per visible action. Single-hit mining, Quickslash, and Thunder retain one contact; reviewed multi-hit combos expose every ordered impact, including skipped-frame, completion, and wall-clock fallback coverage. Recovery cannot be replaced until the final authored contact plus the configured delay has passed. The first contact owns cooldown/ability cost/Heavy Punch authority, while later contacts hit the same committed tile without duplicating those per-action effects.
 
-`UalMiningComboSelector.js` owns the shared resettable UAL mining chain. The default Survivor advances repeated stationary SIDE hits through Cross, Jab, Roundhouse, Jab-Elbow, Low Kick, High Kick, Spinning Back Kick, Elbow-Uppercut, Single Elbow, and Hook; exact UP uses Uppercut. UP-SIDE, DOWN-SIDE and DOWN retain their prior families. Changing direction, changing enabled family, or pausing beyond the configured combo window returns to stage one in both the main world and compact caves. `?complexDig=0`, Ctrl+Alt+9, or `__DIG_GAME_COMPLEX_DIG_ANIMATIONS__.setEnabled(false)` restores the legacy SIDE/UP selection on the next action.
+`UalMiningComboSelector.js` owns the shared resettable UAL mining chain. The default Survivor advances repeated stationary SIDE hits through Cross, Jab, Roundhouse, Jab-Elbow, Low Kick, High Kick, Spinning Back Kick, Elbow-Uppercut, Single Elbow, and Hook; exact UP uses Uppercut. Jab-Elbow and Elbow-Uppercut retain both reviewed contacts. UP-SIDE, DOWN-SIDE and DOWN retain their prior families. Changing direction, changing enabled family, or pausing beyond the configured combo window returns to stage one in both the main world and compact caves. `?complexDig=0`, Ctrl+Alt+9, or `__DIG_GAME_COMPLEX_DIG_ANIMATIONS__.setEnabled(false)` restores the legacy SIDE/UP selection on the next action.
 
 `PlayerAssetLoader.js` also queues the generated UAL runtime manifest. Game Rig
 v2 consumes its packed-frame hand/foot/pelvis/head markers while preserving the
@@ -44,7 +51,7 @@ same spritesheet and animation loading path.
 body-adjacent contract. It accepts only in-bounds solid cells beside the real
 collider, so click digging cannot reach through the player or mine at range.
 
-The promoted complex SIDE/UP subset stays on the production 160-bone Survival skeleton and V4 material treatment. The prior native Jab/Cross and Blender upward dig remain immediate visual rollback sources; DOWN, diagonals and Thunder retain their existing routing. `PlayerKinematicMotionSystem` exposes signed post-collision velocity for shared locomotion transitions and flight banking. The measured 31x75 body and one-cell contact perimeter are authoritative in both world implementations; projected limb-marker validation is diagnostic evidence and visual alignment only, never a gate on an otherwise valid dig.
+The promoted complex SIDE/UP subset stays on the production 160-bone Survival skeleton and V4 material treatment. Its eleven editable Piskel sources use one shared highlight-preserving tone curve, round-trip the runtime pixels exactly, and keep one fixed 103 px family scale. The measured result matches existing idle/walk median luminance within 0.001, visible height within 0.55 game pixels, and action-to-idle handoff drift within 0.51 game pixels without suppressing intentional kick lift. The prior native Jab/Cross and Blender upward dig remain immediate visual rollback sources; DOWN, diagonals and Thunder retain their existing routing. `PlayerKinematicMotionSystem` exposes signed post-collision velocity for shared locomotion transitions and flight banking. The measured 31x75 body and one-cell contact perimeter are authoritative in both world implementations; projected limb-marker validation is diagnostic evidence and visual alignment only, never a gate on an otherwise valid dig.
 
 `SURVIVAL_UAL_PLAYER_ASSET_PROFILE` is the approved default player visual. It promotes the Blender Survivor v2 idle and idle-talk plus the accepted prone Mixamo flight loop; the prone-v3 Superman sheet remains transition/rollback evidence. Live grounded movement always selects the UAL `Jog_Fwd_Loop` run slot and the compatible UAL-retarget action set. Existing `ualNative` / `legacy` save selections migrate to Survivor, while `?character=ualNative` remains the explicit native-placeholder rollback. The 31x75 collider, contacts, action timing, and fist-only policy remain identical to native UAL.
 
@@ -85,21 +92,29 @@ or the surface art. The protected Level 1/Level 2 divider remains blocking.
 
 `UalMovingSideDigSelector` promotes grounded LEFT/RIGHT mining and Quickslash
 while movement points toward the target. It maps the Survival Jab/Cross combo
-to phase-locked Jog composites even when collision has reduced resolved
-velocity to zero. Standing, diagonal, airborne, and reverse-moving actions keep
-their existing clips. `?movingSideDig=0` is the visual rollback. With phase
-handoff enabled, it selects the nearest of eight Jog phases. Normal strikes use
-22 smoothed upper-body poses over the same 14-frame Jog advance; moving
+and the approved ten-stage complex SIDE family to phase-locked Jog composites
+only while resolved horizontal velocity is nonzero. Collision-stopped,
+standing, diagonal, airborne, and reverse-moving actions keep their stationary
+clips, so a wall cannot create run-in-place skating. `?movingSideDig=0` is the
+visual rollback. With phase handoff enabled, it selects the nearest of eight
+Jog phases. Normal strikes use 22 smoothed upper-body poses over the same
+14-frame Jog advance; the two native double-strike clips use 44 uncompressed
+poses and retain contacts at sequence frames 6 and 28. Moving
 Quickslash retimes those Piskel frames to the original 16-frame action and
 original sequence-4 contact. The moving upper body keeps the stable 109/123
 normalization, and moving contacts are body-locked so marker validation cannot
-translate the sprite away from its running feet. An 18 px physics-body
+translate the sprite away from its running feet. A 21 px physics-body
 stand-off holds only those moving SIDE actions outside a
 still-solid target face, then releases immediately when the target is dug or
 the action ends. It does not enlarge the collider or change the adjacent-tile
 mining reach. All variants return the exact next Jog phase on completion.
 `?phaseHandoff=0` keeps the approved moving-dig sheets but restores base-sheet
 entry and frame-zero resume.
+
+The unified moving Hook `cross-phase-15` playback holds frame 231 for one
+visual tick instead of showing the edge-on frame 232 silhouette. This removes
+the single apparent scale collapse without changing cadence, contact frame 235,
+Jog phase recovery, or the packed source atlas.
 
 `UalMovingDiagonalDigSelector` applies the same lower-body ownership to grounded
 UP-SIDE and DOWN-SIDE mining while moving toward the target. It selects the
@@ -108,3 +123,27 @@ directional action/contact timing, and publishes the exact Jog resume frame.
 Stationary, reverse-moving, airborne, and rollback paths retain their previous
 clips. `?movingDiagonalDig=0` disables only this promotion;
 `?animationPolish=0` disables the complete polish family.
+
+The 2026-08-25 unified Survival runtime keeps the same animation registration
+and gameplay selectors while routing all 43 sheet keys through one V4 render
+package. `PlayerAssetSheetCatalog` and `PlayerAssetLoader` accept a per-sheet
+cell size so the 192 px, 960-frame moving-combat atlas can coexist with the 42
+standard 256 px sheets. Profile identity checks use `characterId`, avoiding
+cache-revision module identity splits. `?unifiedAnimation=0` restores the old
+mixed profile without changing any selector or controller.
+
+Collider V2 keeps that unified render attached to conservative state-dependent
+core envelopes: 31x75 upright, 48x75 locomotion, 44x57 crouch, 40x75 airborne,
+and 66x34 powered flight. `PlayerPhysicsBody` preserves the visible
+bottom-center anchor across shape changes, rejects any expansion into a solid,
+and keeps the crouch pose when overhead clearance is unavailable. Combat limbs
+remain visual-only and the solid-cell WebGL mask clips them at tile faces, so
+wide punches and kicks do not snag or grant extra mining reach. Vehicle mode
+round-trips the active pose metadata. `?colliderV2=0` is the instant rollback.
+
+Transition Cohesion V3 keeps the unified crouch, Flight, and locomotion-polish
+packs resident, follows resolved velocity through Jog slowdown, and applies
+display geometry plus origin resync before the next world or cave render. This
+removes first-use fallback poses and planted-stop skating without changing
+movement speed or action timing. `?transitionCohesion=0` restores on-demand
+loading for those traversal packs.

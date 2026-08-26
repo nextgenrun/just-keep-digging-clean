@@ -1,0 +1,25 @@
+{
+  "version": "moving-complex-dig-piskel-v1-20260821",
+  "generatedAt": "2026-08-21",
+  "sourcePolicy": "approved phase-locked Jog plus moving Jab/Cross upper body",
+  "stationaryComplexAnimationsChanged": false,
+  "sourceGreenPixelsRemoved": 514,
+  "maximumSuspiciousGreenPixelsPerFrame": 0,
+  "piskelRoundTripPixelExact": true,
+  "runtimeWebpRoundTripPixelExact": true,
+  "additionalRescaleApplied": false,
+  "perFrameRecenteringApplied": false,
+  "displaySizePx": 123,
+  "origin": {
+    "x": 0.5,
+    "y": 0.96484375
+  },
+  "frameCount": 528,
+  "animationAliases": 80,
+  "dualContactAliases": 16,
+  "maximumFootBaselineDriftSourcePx": 0,
+  "maximumRunPhaseStep": 1,
+  "medianVisibleLuminance": 47.095,
+  "runtimeSha256": "b68489cc07e2e553930776da9558863917669391a69fcc08dd688f8e731ed843",
+  "piskelSha256": "2b3285b73b18103c6069fc5744f17f9cb0f1e321ca0894a5d0d78592051329c5"
+}

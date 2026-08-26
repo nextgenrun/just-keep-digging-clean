@@ -83,6 +83,11 @@ export class TownSquareTutorialSystem {
       && this.scene.playerController?.abilities?.isFlying?.() === true
       && this.retention.recordTutorialFlight()
     ) {
+      this.scene.hudSystem?.flashStatus?.(
+        "FLIGHT READY  •  TRAINING RESERVE ENDED  •  FLIGHT NOW USES GP",
+        "#7bdcff",
+        2400,
+      );
       this.scene.queueDugTilesSave?.();
     }
     if (state.stage === TOWN_TUTORIAL_STAGES.RESUME) {
@@ -95,6 +100,7 @@ export class TownSquareTutorialSystem {
     this._syncStage(false);
     this._updateFreeFlight(deltaMs);
     this.firstFive.update();
+    this.view.update();
   }
 
   isShowingGuide() {
@@ -295,7 +301,7 @@ export class TownSquareTutorialSystem {
       (site.tx + 0.5) * tileSize,
       site.ty * tileSize + RETENTION_CONFIG.tutorial.ui.digMarkerOffsetYPx,
       this.lastStage === TOWN_TUTORIAL_STAGES.PORTAL
-        ? USER_SETTINGS.getKeyLabel("aimDown")
+        ? `${USER_SETTINGS.getKeyLabel("aimDown")} ↓  •  ${USER_SETTINGS.getKeyLabel("dig")} DIG`
         : "",
     );
   }
@@ -332,6 +338,11 @@ export class TownSquareTutorialSystem {
   }
 
   _pointAtMerchant(merchantId) {
+    const promptAnchor = this.scene.npcManager?.getNPCPromptAnchor?.(merchantId);
+    if (promptAnchor) {
+      this.view.pointAt(promptAnchor.x, promptAnchor.y);
+      return;
+    }
     const sprite = this.scene.npcManager?.getNPCSprite?.(merchantId);
     if (!sprite) {
       this.view.clearMarker();

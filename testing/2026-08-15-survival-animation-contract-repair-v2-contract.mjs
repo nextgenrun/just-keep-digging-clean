@@ -58,6 +58,6 @@ assert.equal(profile.displaySizePxByAnimation[profile.walkRunAnim], 122);
 assert.equal(profile.displaySizePxByAnimation[profile.walkStartAnim], 101);
 assert.equal(profile.displaySizePxByAnimation[profile.walkStopAnim], 101);
 assert.equal(profile.strideTilesPerCycleByAnimation[profile.walkRunAnim], 1.12);
-assert.match(profile.version, /mixamo-accepted-runtime-v1-20260819/);
+assert.match(profile.version, /survival-complex-dig-moving-runtime-v1-20260821/);
 
 console.log("survival animation contract repair v2: pass");

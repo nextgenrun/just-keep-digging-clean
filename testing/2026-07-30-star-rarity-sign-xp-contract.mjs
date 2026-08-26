@@ -10,6 +10,7 @@ import {
 import {
   getSignLevelThresholds,
   getSignProgress,
+  getStarRarityDistribution,
   migrateLegacyStarCountToXp,
   resolveStarRarityIndex,
   validateStarRarityProgressionConfig,
@@ -30,6 +31,12 @@ const health = validateStarRarityProgressionConfig();
 assert.equal(health.ready, true);
 assert.equal(health.thresholdsValid, true);
 assert.equal(health.weightTotal, 10000);
+assert.equal(config.spawn.currentRateReductionRatio, 0.65);
+assert.equal(config.spawn.reductionRatio, 0.93);
+assert.ok(Math.abs(config.spawn.probability - 0.00126) < 1e-12);
+assert.ok(Math.abs(
+  config.spawn.probability / config.spawn.previousProbability - 0.35,
+) < 1e-12);
 assert.equal("popup" in config, false);
 assert.deepEqual(
   tiers.map(tier => tier.id),
@@ -54,6 +61,13 @@ assert.deepEqual(
 
 assert.equal(resolveStarRarityIndex(0, 0), 0);
 assert.ok(resolveStarRarityIndex(1600, 0.999999) >= 4);
+const surfaceDistribution = getStarRarityDistribution(0);
+const deepDistribution = getStarRarityDistribution(2000);
+assert.ok(deepDistribution.find(entry => entry.tier.id === "common").probability
+  < surfaceDistribution.find(entry => entry.tier.id === "common").probability);
+assert.ok(deepDistribution.find(entry => entry.tier.id === "rare").probability
+  > surfaceDistribution.find(entry => entry.tier.id === "rare").probability * 3);
+assert.ok(deepDistribution.some(entry => entry.tier.id === "astral"));
 for (const resourceType of Object.keys(config.signProgression.xpTotals)) {
   const thresholds = getSignLevelThresholds(resourceType);
   assert.equal(thresholds.length, config.signProgression.maxLevel);

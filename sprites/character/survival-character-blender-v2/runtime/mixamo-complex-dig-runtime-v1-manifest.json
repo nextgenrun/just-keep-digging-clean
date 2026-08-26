@@ -1,13 +1,23 @@
 {
-  "version": "complex-dig-animations-v1-20260820",
-  "generatedAt": "2026-08-20",
+  "version": "complex-dig-animations-v2-20260821",
+  "generatedAt": "2026-08-21",
   "runtimeWired": true,
   "enabledByDefault": true,
   "rollbackQuery": "?complexDig=0",
   "runtimeGlobal": "__DIG_GAME_COMPLEX_DIG_ANIMATIONS__",
   "hotkey": "Ctrl+Alt+9",
-  "gameplayAuthority": "Existing dig cooldown, target tile, hitbox and one-contact timeline remain authoritative.",
-  "displaySizePx": 101,
+  "gameplayAuthority": "Existing target tile, collider, first-contact cooldown/cost and action cadence remain authoritative; authored multi-contact clips expose each reviewed hit without duplicating Heavy Punch or ability cost.",
+  "displaySizePx": 103,
+  "visualPolish": {
+    "piskelPackage": "complex-dig-piskel-polish-v2",
+    "editableSourceDirectory": "sprites/character/survival-character-blender-v2/piskel-polish/complex-dig-v2",
+    "renderAuthority": "Survival V4 PBR / 1024 px source / one downsample",
+    "uniformDisplaySizePx": 103,
+    "maximumHandoffDriftPx": 0.51,
+    "colorPolicy": "piskel-family-gamma-match-to-existing-idle-walk-preserve-v4-hues",
+    "scalePolicy": "one-fixed-scale-per-family-no-per-frame-resize",
+    "report": "sprites/character/survival-character-blender-v2/piskel-polish/complex-dig-v2/complex-dig-piskel-polish-v2-report.json"
+  },
   "sideSequence": [
     "cross",
     "jab",
@@ -49,6 +59,12 @@
       "contact": {
         "textureFrame": 10,
         "sequenceIndex": 7,
+        "contacts": [
+          {
+            "textureFrame": 10,
+            "sequenceIndex": 7
+          }
+        ],
         "sourceAction": "mixamo-cross-punch",
         "markerGroup": "hands",
         "visualAlignmentEnabled": false
@@ -57,12 +73,15 @@
         "x": 0.5,
         "y": 0.890625
       },
-      "runtimeBytes": 505524,
-      "sha256": "6bcaf337d16a5962adf54ebf1af40714d0ca3cb6d3ea1c8a5156edad1342323d",
+      "runtimeBytes": 488362,
+      "sha256": "0620768e4002973aa56e358a25df22381b00adf665648a6c570a006136fe7e9a",
+      "sourceSha256": "6bcaf337d16a5962adf54ebf1af40714d0ca3cb6d3ea1c8a5156edad1342323d",
+      "runtimeToneMatchedInPiskel": true,
       "sourceRenderSizePx": 1024,
       "packedFrameSizePx": 256,
       "downsamplePasses": 1,
-      "maximumSuspiciousGreenPixels": 0
+      "maximumSuspiciousGreenPixels": 0,
+      "piskelSource": "sprites/character/survival-character-blender-v2/piskel-polish/complex-dig-v2/cross.piskel"
     },
     "jab": {
       "sourceId": "jab",
@@ -87,6 +106,12 @@
       "contact": {
         "textureFrame": 9,
         "sequenceIndex": 6,
+        "contacts": [
+          {
+            "textureFrame": 9,
+            "sequenceIndex": 6
+          }
+        ],
         "sourceAction": "mixamo-jab-punch",
         "markerGroup": "hands",
         "visualAlignmentEnabled": false
@@ -95,12 +120,15 @@
         "x": 0.5,
         "y": 0.8837890625
       },
-      "runtimeBytes": 492196,
-      "sha256": "959600f8daa42e0ffffb7fb0d3ded844e9e6e36136c57cb566c50f7b162b7774",
+      "runtimeBytes": 475076,
+      "sha256": "7e4f48129d5711a3070dbf4aaf8acc906401455ac7962265ba361c2fa45548f6",
+      "sourceSha256": "959600f8daa42e0ffffb7fb0d3ded844e9e6e36136c57cb566c50f7b162b7774",
+      "runtimeToneMatchedInPiskel": true,
       "sourceRenderSizePx": 1024,
       "packedFrameSizePx": 256,
       "downsamplePasses": 1,
-      "maximumSuspiciousGreenPixels": 0
+      "maximumSuspiciousGreenPixels": 0,
+      "piskelSource": "sprites/character/survival-character-blender-v2/piskel-polish/complex-dig-v2/jab.piskel"
     },
     "roundhouse": {
       "sourceId": "kick-roundhouse",
@@ -131,6 +159,12 @@
       "contact": {
         "textureFrame": 8,
         "sequenceIndex": 6,
+        "contacts": [
+          {
+            "textureFrame": 8,
+            "sequenceIndex": 6
+          }
+        ],
         "sourceAction": "mixamo-mma-roundhouse-kick",
         "markerGroup": "feet",
         "visualAlignmentEnabled": false
@@ -139,12 +173,15 @@
         "x": 0.5,
         "y": 0.8994140625
       },
-      "runtimeBytes": 595820,
-      "sha256": "c7199483111966bbd83daa2522527eb9e0c64cd6633ec3120b39854688ce3479",
+      "runtimeBytes": 575793,
+      "sha256": "08d86ba67886d377b68afe9ab55ca8de71f68a5a832e3d44a96d7eb3024db415",
+      "sourceSha256": "c7199483111966bbd83daa2522527eb9e0c64cd6633ec3120b39854688ce3479",
+      "runtimeToneMatchedInPiskel": true,
       "sourceRenderSizePx": 1024,
       "packedFrameSizePx": 256,
       "downsamplePasses": 1,
-      "maximumSuspiciousGreenPixels": 0
+      "maximumSuspiciousGreenPixels": 0,
+      "piskelSource": "sprites/character/survival-character-blender-v2/piskel-polish/complex-dig-v2/roundhouse.piskel"
     },
     "jabElbow": {
       "sourceId": "jab-elbow",
@@ -186,6 +223,16 @@
       "contact": {
         "textureFrame": 20,
         "sequenceIndex": 19,
+        "contacts": [
+          {
+            "textureFrame": 9,
+            "sequenceIndex": 8
+          },
+          {
+            "textureFrame": 20,
+            "sequenceIndex": 19
+          }
+        ],
         "sourceAction": "mixamo-jab-to-elbow-combo",
         "markerGroup": "hands",
         "visualAlignmentEnabled": false
@@ -194,12 +241,15 @@
         "x": 0.5,
         "y": 0.8896484375
       },
-      "runtimeBytes": 808835,
-      "sha256": "1e9ba15d26e34e6b106f387a59ec07d7e3d1f8ca5b933be700f5fa369e52e14a",
+      "runtimeBytes": 778877,
+      "sha256": "94c797ce95c5431be3bf6be3790c8198c565d923db43b6ff3c421747f5c7efca",
+      "sourceSha256": "1e9ba15d26e34e6b106f387a59ec07d7e3d1f8ca5b933be700f5fa369e52e14a",
+      "runtimeToneMatchedInPiskel": true,
       "sourceRenderSizePx": 1024,
       "packedFrameSizePx": 256,
       "downsamplePasses": 1,
-      "maximumSuspiciousGreenPixels": 0
+      "maximumSuspiciousGreenPixels": 0,
+      "piskelSource": "sprites/character/survival-character-blender-v2/piskel-polish/complex-dig-v2/jab-elbow.piskel"
     },
     "lowKick": {
       "sourceId": "kick-low",
@@ -228,20 +278,29 @@
       "contact": {
         "textureFrame": 8,
         "sequenceIndex": 6,
+        "contacts": [
+          {
+            "textureFrame": 8,
+            "sequenceIndex": 6
+          }
+        ],
         "sourceAction": "mixamo-mma-low-kick",
         "markerGroup": "feet",
         "visualAlignmentEnabled": false
       },
       "origin": {
         "x": 0.5,
-        "y": 0.88671875
+        "y": 0.896484375
       },
-      "runtimeBytes": 548651,
-      "sha256": "d3469a2fc9f33ff3120e0be26b718ee6789b556a35c6fd32eb71c3b7b6a8bf61",
+      "runtimeBytes": 530197,
+      "sha256": "22ec531c6c68eedda987e726eae4898915e5690dede58ea93e4b9058a277101b",
+      "sourceSha256": "d3469a2fc9f33ff3120e0be26b718ee6789b556a35c6fd32eb71c3b7b6a8bf61",
+      "runtimeToneMatchedInPiskel": true,
       "sourceRenderSizePx": 1024,
       "packedFrameSizePx": 256,
       "downsamplePasses": 1,
-      "maximumSuspiciousGreenPixels": 0
+      "maximumSuspiciousGreenPixels": 0,
+      "piskelSource": "sprites/character/survival-character-blender-v2/piskel-polish/complex-dig-v2/low-kick.piskel"
     },
     "highKick": {
       "sourceId": "kick-high",
@@ -274,6 +333,12 @@
       "contact": {
         "textureFrame": 9,
         "sequenceIndex": 7,
+        "contacts": [
+          {
+            "textureFrame": 9,
+            "sequenceIndex": 7
+          }
+        ],
         "sourceAction": "mixamo-mma-high-kick",
         "markerGroup": "feet",
         "visualAlignmentEnabled": false
@@ -282,12 +347,15 @@
         "x": 0.5,
         "y": 0.8935546875
       },
-      "runtimeBytes": 647775,
-      "sha256": "2d8f39ca40604c5045f0ec495c82cf5ab2e2e2e98384ff9d49766bc091dfff93",
+      "runtimeBytes": 624930,
+      "sha256": "34327c46980426474056529b4a3b204c9f9f51280169473a8b5040e827b27e8a",
+      "sourceSha256": "2d8f39ca40604c5045f0ec495c82cf5ab2e2e2e98384ff9d49766bc091dfff93",
+      "runtimeToneMatchedInPiskel": true,
       "sourceRenderSizePx": 1024,
       "packedFrameSizePx": 256,
       "downsamplePasses": 1,
-      "maximumSuspiciousGreenPixels": 0
+      "maximumSuspiciousGreenPixels": 0,
+      "piskelSource": "sprites/character/survival-character-blender-v2/piskel-polish/complex-dig-v2/high-kick.piskel"
     },
     "spinningBackKick": {
       "sourceId": "kick-spinning-back",
@@ -323,6 +391,12 @@
       "contact": {
         "textureFrame": 16,
         "sequenceIndex": 14,
+        "contacts": [
+          {
+            "textureFrame": 16,
+            "sequenceIndex": 14
+          }
+        ],
         "sourceAction": "mixamo-mma-spinning-back-kick",
         "markerGroup": "feet",
         "visualAlignmentEnabled": false
@@ -331,12 +405,15 @@
         "x": 0.5,
         "y": 0.896484375
       },
-      "runtimeBytes": 695689,
-      "sha256": "e33519cdd0e0729c4cb085d17e632579f2e3422c84149ac71f746a9ccb72bfcc",
+      "runtimeBytes": 673451,
+      "sha256": "3c946edbe45aa21f9e9d1a41472af19c389adf5e134ce410409112b38dc34572",
+      "sourceSha256": "e33519cdd0e0729c4cb085d17e632579f2e3422c84149ac71f746a9ccb72bfcc",
+      "runtimeToneMatchedInPiskel": true,
       "sourceRenderSizePx": 1024,
       "packedFrameSizePx": 256,
       "downsamplePasses": 1,
-      "maximumSuspiciousGreenPixels": 0
+      "maximumSuspiciousGreenPixels": 0,
+      "piskelSource": "sprites/character/survival-character-blender-v2/piskel-polish/complex-dig-v2/spinning-back-kick.piskel"
     },
     "elbowUppercut": {
       "sourceId": "elbow-uppercut",
@@ -376,6 +453,16 @@
       "contact": {
         "textureFrame": 22,
         "sequenceIndex": 21,
+        "contacts": [
+          {
+            "textureFrame": 11,
+            "sequenceIndex": 10
+          },
+          {
+            "textureFrame": 22,
+            "sequenceIndex": 21
+          }
+        ],
         "sourceAction": "mixamo-elbow-uppercut-combo",
         "markerGroup": "hands",
         "visualAlignmentEnabled": false
@@ -384,12 +471,15 @@
         "x": 0.5,
         "y": 0.8916015625
       },
-      "runtimeBytes": 743582,
-      "sha256": "f028c60bb028d1de713949169836a96758c03ed632fdb59659d4dd3548ecf955",
+      "runtimeBytes": 716855,
+      "sha256": "ad1c0ffa7c6f5f12994a1b831714e7fdd5a8d1294811a9e1daf71fe3af1609a9",
+      "sourceSha256": "f028c60bb028d1de713949169836a96758c03ed632fdb59659d4dd3548ecf955",
+      "runtimeToneMatchedInPiskel": true,
       "sourceRenderSizePx": 1024,
       "packedFrameSizePx": 256,
       "downsamplePasses": 1,
-      "maximumSuspiciousGreenPixels": 0
+      "maximumSuspiciousGreenPixels": 0,
+      "piskelSource": "sprites/character/survival-character-blender-v2/piskel-polish/complex-dig-v2/elbow-uppercut.piskel"
     },
     "singleElbow": {
       "sourceId": "elbow-single",
@@ -414,20 +504,29 @@
       "contact": {
         "textureFrame": 10,
         "sequenceIndex": 7,
+        "contacts": [
+          {
+            "textureFrame": 10,
+            "sequenceIndex": 7
+          }
+        ],
         "sourceAction": "mixamo-male-elbow-punch",
         "markerGroup": "hands",
         "visualAlignmentEnabled": false
       },
       "origin": {
         "x": 0.5,
-        "y": 0.90234375
+        "y": 0.8974609375
       },
-      "runtimeBytes": 482489,
-      "sha256": "76dcda73bbada2823cf1c85f74c7f67ced0d182ba0bc07827f4d9c2330d45194",
+      "runtimeBytes": 466231,
+      "sha256": "ccc9ea6c27d3c61e14ad15a0dd43040d55a6fc19fe2855f57aacca63529875ff",
+      "sourceSha256": "76dcda73bbada2823cf1c85f74c7f67ced0d182ba0bc07827f4d9c2330d45194",
+      "runtimeToneMatchedInPiskel": true,
       "sourceRenderSizePx": 1024,
       "packedFrameSizePx": 256,
       "downsamplePasses": 1,
-      "maximumSuspiciousGreenPixels": 0
+      "maximumSuspiciousGreenPixels": 0,
+      "piskelSource": "sprites/character/survival-character-blender-v2/piskel-polish/complex-dig-v2/single-elbow.piskel"
     },
     "hook": {
       "sourceId": "hook",
@@ -455,6 +554,12 @@
       "contact": {
         "textureFrame": 11,
         "sequenceIndex": 7,
+        "contacts": [
+          {
+            "textureFrame": 11,
+            "sequenceIndex": 7
+          }
+        ],
         "sourceAction": "mixamo-hook-punch",
         "markerGroup": "hands",
         "visualAlignmentEnabled": false
@@ -463,12 +568,15 @@
         "x": 0.5,
         "y": 0.8896484375
       },
-      "runtimeBytes": 604166,
-      "sha256": "edc6d4ee8ffcd84b0e46ea72a24d0538ae725ad4db98c79288bc3b24001c91ce",
+      "runtimeBytes": 583658,
+      "sha256": "812a3895408dd8195e6d118a82901f99d4887d37b493d53f05084b30ed89e2d2",
+      "sourceSha256": "edc6d4ee8ffcd84b0e46ea72a24d0538ae725ad4db98c79288bc3b24001c91ce",
+      "runtimeToneMatchedInPiskel": true,
       "sourceRenderSizePx": 1024,
       "packedFrameSizePx": 256,
       "downsamplePasses": 1,
-      "maximumSuspiciousGreenPixels": 0
+      "maximumSuspiciousGreenPixels": 0,
+      "piskelSource": "sprites/character/survival-character-blender-v2/piskel-polish/complex-dig-v2/hook.piskel"
     },
     "uppercut": {
       "sourceId": "uppercut",
@@ -499,6 +607,12 @@
       "contact": {
         "textureFrame": 17,
         "sequenceIndex": 14,
+        "contacts": [
+          {
+            "textureFrame": 17,
+            "sequenceIndex": 14
+          }
+        ],
         "sourceAction": "mixamo-uppercut",
         "markerGroup": "hands",
         "visualAlignmentEnabled": false
@@ -507,12 +621,15 @@
         "x": 0.5,
         "y": 0.890625
       },
-      "runtimeBytes": 664935,
-      "sha256": "7682da18687c701bbc2d51cb1750a94cae70e3688536f27431e8a71541ed2059",
+      "runtimeBytes": 642799,
+      "sha256": "14eb63c9de40a3f70a7a7c26bbf9c3599d50101561fabeb6dbba7e1f119ebc34",
+      "sourceSha256": "7682da18687c701bbc2d51cb1750a94cae70e3688536f27431e8a71541ed2059",
+      "runtimeToneMatchedInPiskel": true,
       "sourceRenderSizePx": 1024,
       "packedFrameSizePx": 256,
       "downsamplePasses": 1,
-      "maximumSuspiciousGreenPixels": 0
+      "maximumSuspiciousGreenPixels": 0,
+      "piskelSource": "sprites/character/survival-character-blender-v2/piskel-polish/complex-dig-v2/uppercut.piskel"
     }
   }
 }

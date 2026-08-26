@@ -78,9 +78,6 @@ export const GAME_CONFIG = Object.freeze({
 
   // World Generation
   seed: 133742,
-  dirtRatio: 0.9845,
-  stoneRatio: 0.010,
-  copperRatio: 0.005,
   generationChunkTiles: 32,
 
   // Town anchor (used by NPCs/background/town layout).

@@ -470,7 +470,9 @@ async function exerciseAbilities(driver) {
 }
 
 async function seedFocusedAbilityContinuation(driver) {
-  return driver.page.evaluate(() => {
+  return driver.page.evaluate(async () => {
+    const { LEVEL_CONFIG } = await import("/values/levelConfig.js");
+    const { UPGRADES } = await import("/values/upgradeDefinitions.js");
     const scene = globalThis.__phaserGame.scene.getScene("PlayScene");
     scene.upgradeSystem.setUpgradeLevels({
       ...scene.upgradeSystem.getUpgradeLevels(),
@@ -479,7 +481,8 @@ async function seedFocusedAbilityContinuation(driver) {
       thunderStrikeAbility: 1,
     });
     scene.playerLevelSystem.fromJSON({
-      level: 20,
+      progressionVersion: LEVEL_CONFIG.PROGRESSION_VERSION,
+      level: UPGRADES.thunderStrikeAbility.requiresLevel,
       currentXP: 0,
       totalXP: 0,
       choiceSelections: {},
@@ -533,15 +536,15 @@ export async function runHumanCampaignScenarios(driver) {
       if (
         state.cargoValue >= prePenaltyCargoGoal
         && state.bestDepth >= 500
-        && state.level >= 20
+        && state.level >= 3
       ) break;
     }
     state = await readCampaignState(driver);
     if (state.cargoValue < prePenaltyCargoGoal) {
       throw new Error(`Expedition cargo reached ${state.cargoValue}M; needed ${prePenaltyCargoGoal}M before the safety penalty.`);
     }
-    if (state.level < 20) {
-      throw new Error(`Human campaign reached level ${state.level}; Thunder Strike requires level 20.`);
+    if (state.level < 3) {
+      throw new Error(`Human campaign reached level ${state.level}; Thunder Strike requires level 3.`);
     }
     state = await sellCargo(driver);
     while (nextEarlyUpgrade < EARLY_UPGRADES.length) {

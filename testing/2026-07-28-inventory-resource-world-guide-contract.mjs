@@ -2,246 +2,206 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { ASSET_KEYS } from "../values/assetKeys.js";
-import { INVENTORY_RESOURCE_GUIDE } from "../values/inventoryResourceGuide.js";
+
+import { INVENTORY_CODEX_CONFIG } from "../values/inventoryCodex.js";
+import { INVENTORY_RESOURCE_GUIDE } from
+  "../values/inventoryResourceGuide.js";
 import { UI_RESOURCE_PRESENTATION } from "../values/uiIcons.js";
-import { UI_MODAL_LAYOUT } from "../values/uiLayout.js";
-import { WORLD_VISUAL_SEMANTIC_ASSETS } from "../values/worldVisualSemanticAssets.js";
-import { renderInventoryResourceGuide } from "../ui/overlays/UIInventoryResourceGuide.js";
+import {
+  fitInventoryCodexFoundation,
+  inventoryCodexPoint,
+  inventoryCodexSize,
+} from "../ui/overlays/UIInventoryCodexArt.js";
+import { renderInventoryResourceGuide } from
+  "../ui/overlays/UIInventoryResourceGuide.js";
+import {
+  resolveResourceCodexMove,
+  UIInventoryResourceKeyboard,
+} from "../ui/overlays/UIInventoryResourceKeyboard.js";
+
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const popupSource = fs.readFileSync(
-  path.join(root, "ui/overlays/UIInventoryPopup.js"),
-  "utf8"
-);
-const guideSource = fs.readFileSync(
-  path.join(root, "ui/overlays/UIInventoryResourceGuide.js"),
-  "utf8"
-);
-const tilePreviewSource = fs.readFileSync(
-  path.join(root, "ui/overlays/UIInventoryWorldTilePreview.js"),
-  "utf8"
-);
+const read = relativePath => fs.readFileSync(path.join(root, relativePath), "utf8");
+const pngSize = relativePath => {
+  const bytes = fs.readFileSync(path.join(root, relativePath.split("?")[0]));
+  assert.equal(bytes.toString("ascii", 1, 4), "PNG");
+  return { width: bytes.readUInt32BE(16), height: bytes.readUInt32BE(20) };
+};
+
 const guide = INVENTORY_RESOURCE_GUIDE;
-const semanticResources = WORLD_VISUAL_SEMANTIC_ASSETS.resources;
-const catalogKeys = Object.keys(UI_RESOURCE_PRESENTATION);
+const config = INVENTORY_CODEX_CONFIG;
 assert.deepEqual(
   new Set(guide.resourceKeys),
-  new Set(catalogKeys),
-  "the clickable world guide must cover every collectible shown in inventory"
+  new Set(Object.keys(UI_RESOURCE_PRESENTATION)),
+  "the Resource Codex must cover every collectible shown in Holdings",
 );
-assert.equal(
-  new Set(guide.resourceKeys).size,
-  guide.resourceKeys.length,
-  "the world guide cannot contain duplicate resource identities"
-);
-for (const key of guide.resourceKeys) {
-  assert.match(guide.descriptions[key], /\S/, `${key} needs a visual identity description`);
-}
-assert.deepEqual(
-  new Set(guide.formationKeys),
-  new Set(Object.keys(semanticResources.frameStarts)),
-  "every approved atlas resource, and only an approved atlas resource, must use an overlay"
-);
-assert.equal(
-  semanticResources.atlas.frameCount,
-  guide.formationKeys.length * semanticResources.atlas.variants,
-  "the production atlas must contain six frames for every formation"
-);
-assert.equal(guide.grounds.length, semanticResources.atlas.variants);
-for (const key of guide.formationKeys) {
-  const start = semanticResources.frameStarts[key];
-  assert(Number.isInteger(start), `${key} needs an integer atlas frame start`);
-  assert(
-    start >= 0 && start + semanticResources.atlas.variants <= semanticResources.atlas.frameCount,
-    `${key} atlas frames must stay inside the production atlas`
+assert.equal(new Set(guide.resourceKeys).size, 14);
+for (const [index, key] of guide.resourceKeys.entries()) {
+  assert.match(guide.descriptions[key], /\S/, `${key} needs a dossier description`);
+  assert.equal(
+    config.assets.portraits.frameIndices[key],
+    index,
+    `${key} must keep the authored atlas row-major order`,
   );
 }
-assert.deepEqual(
-  guide.groundTypeIndices,
-  { dirt: 0, darkDirtNormal: 1, darkDirtStrong: 2 },
-  "ground-material previews must use the same soil type indices as WorldRenderer"
+
+const foundationSize = pngSize(config.assets.foundation.path);
+assert.deepEqual(foundationSize, {
+  width: config.layout.sourceWidthPx,
+  height: config.layout.sourceHeightPx,
+});
+assert(
+  Math.abs(
+    foundationSize.width / foundationSize.height - config.layout.aspectRatio,
+  ) < 1e-9,
+  "the display aspect must come from the authored foundation dimensions",
 );
-for (const [key, slots] of Object.entries(guide.groundMaterialSlots)) {
-  assert.equal(slots.length, 6, `${key} needs six exact world-ground variants`);
-  for (const slot of slots) {
-    const textureKey = ASSET_KEYS.tiles.dynamicSoil[slot.group]?.[slot.band]?.[slot.variant];
-    assert.match(textureKey || "", /\S/, `${key} references an invalid runtime ground slot`);
+assert.deepEqual(pngSize(config.assets.portraits.path), {
+  width: config.assets.portraits.widthPx,
+  height: config.assets.portraits.heightPx,
+});
+assert.equal(config.layout.selectorColumnCentersXPx.length, 2);
+assert.equal(config.layout.selectorRowCentersYPx.length, 7);
+for (const x of [
+  ...config.layout.selectorColumnCentersXPx,
+  ...config.layout.selectorPortraitCentersXPx,
+  ...config.layout.statCentersXPx,
+]) {
+  assert(x > 0 && x < config.layout.sourceWidthPx, `source x ${x} stays on art`);
+}
+for (const y of [
+  ...config.layout.selectorRowCentersYPx,
+  config.layout.previewCenterYPx,
+  config.layout.statCenterYPx,
+]) {
+  assert(y > 0 && y < config.layout.sourceHeightPx, `source y ${y} stays on art`);
+}
+
+for (const testRect of [
+  { left: -448, top: -182, width: 896, height: 448 },
+  { left: -300, top: -135, width: 600, height: 270 },
+]) {
+  const bounds = fitInventoryCodexFoundation(testRect, config.layout);
+  assert(bounds.left >= testRect.left && bounds.top >= testRect.top);
+  assert(bounds.left + bounds.width <= testRect.left + testRect.width + 1e-9);
+  assert(bounds.top + bounds.height <= testRect.top + testRect.height + 1e-9);
+  const hit = inventoryCodexSize(
+    bounds,
+    config.layout.selectorHitWidthPx,
+    config.layout.selectorHitHeightPx,
+    config.layout,
+  );
+  for (const xPx of config.layout.selectorColumnCentersXPx) {
+    for (const yPx of config.layout.selectorRowCentersYPx) {
+      const center = inventoryCodexPoint(bounds, xPx, yPx, config.layout);
+      assert(center.x - hit.width / 2 >= bounds.left);
+      assert(center.x + hit.width / 2 <= bounds.left + bounds.width);
+      assert(center.y - hit.height / 2 >= bounds.top);
+      assert(center.y + hit.height / 2 <= bounds.top + bounds.height);
+    }
   }
 }
-assert.deepEqual(
-  guide.lavaDirtStages.map(entry => entry.stage),
-  [5, 4, 3, 2, 1],
-  "Lava Dirt must be presented from intact through near-break"
-);
-const atlasPath = semanticResources.atlas.path.split("?")[0];
-const atlasFile = path.join(root, atlasPath);
-assert(fs.existsSync(atlasFile), "the approved semantic resource atlas must exist");
-const atlasBytes = fs.readFileSync(atlasFile);
-assert.equal(atlasBytes.toString("ascii", 1, 4), "PNG");
-const atlasWidth = atlasBytes.readUInt32BE(16);
-const atlasHeight = atlasBytes.readUInt32BE(20);
-assert.equal(
-  atlasWidth,
-  semanticResources.atlas.columns * semanticResources.atlas.frameSizePx,
-  "atlas width must match its declared frame grid"
-);
-assert.equal(
-  atlasHeight,
-  Math.ceil(semanticResources.atlas.frameCount / semanticResources.atlas.columns)
-    * semanticResources.atlas.frameSizePx,
-  "atlas height must match its declared frame grid"
-);
-const contentHeight = guide.layout.tabBodyGap
-  ? (
-    640
-    - UI_MODAL_LAYOUT.headerHeight
-    - 14
-    - UI_MODAL_LAYOUT.footerHeight
-    - guide.layout.tabBodyGap
-  )
-  : 0;
-const selectorRows = Math.ceil(
-  guide.resourceKeys.length / guide.layout.desktopSelectorColumns
-);
-const selectorItemHeight = (
-  contentHeight
-  - guide.layout.selectorHeaderHeight
-  - guide.layout.panelPadding
-  - guide.layout.selectorGap * (selectorRows - 1)
-) / selectorRows;
-assert(selectorItemHeight >= 44, "all 14 clickable desktop resource selectors must fit clearly");
-assert.match(popupSource, /guide\.copy\.guideTab/);
-assert.match(popupSource, /renderInventoryResourceGuide\(/);
-assert.match(popupSource, /resourceKey\s*=>\s*\{/);
-assert.match(guideSource, /guide\.resourceKeys\.map\(/);
-assert.match(guideSource, /onClick:\s*\(\)\s*=>\s*onSelect\(resourceKey\)/);
-assert.match(guideSource, /addInventoryWorldTile\(/);
-assert.match(guideSource, /addInventoryLavaDirtTile\(/);
-assert.match(tilePreviewSource, /ASSET_KEYS\.tiles\.dynamicSoil/);
-assert.match(tilePreviewSource, /soil\.hardness\.compact/);
-assert.match(tilePreviewSource, /soil\.hardness\.strong/);
-assert.match(tilePreviewSource, /soil\.cracks\[4\]/);
-assert.match(tilePreviewSource, /WORLD_VISUAL_SEMANTIC_ASSETS\.resources\.frameStarts/);
-assert.match(tilePreviewSource, /lavaDirtHp\$\{stage\}/);
+
+const holdingsSource = read("ui/overlays/UIInventoryHoldingsView.js");
+const guideSource = [
+  read("ui/overlays/UIInventoryResourceGuide.js"),
+  read("ui/overlays/UIInventoryResourceCollection.js"),
+  read("ui/overlays/UIInventoryResourceDossier.js"),
+].join("\n");
+assert.match(holdingsSource + guideSource, /addResourceCodexPortrait/);
+assert.match(guideSource, /fitInventoryCodexFoundation/);
+assert.match(guideSource, /selectorColumnCentersXPx/);
+assert.match(guideSource, /selectorPortraitCentersXPx/);
 assert.doesNotMatch(
-  guideSource + tilePreviewSource,
-  /generateTexture|createCanvas|fillText|innerHTML|document\.createElement/,
-  "the guide must use production images, not generated placeholder resource art"
+  holdingsSource + guideSource,
+  /UIInventoryWorldTilePreview|addInventoryWorldTile|addInventoryLavaDirtTile/,
+  "I-key resource surfaces must not reuse gameplay-ground tile composition",
 );
 assert.doesNotMatch(
   guideSource,
-  /hasDiscoveredMaterial|NOT YET MINED|lockedAmount/,
-  "world identities must remain visible before discovery"
+  /generateTexture|createCanvas|fillText|innerHTML|document\.createElement/,
+  "Codex material backgrounds must remain authored bitmap assets",
 );
 
 class StubDisplay {
-  constructor(kind = "display") {
+  constructor(kind) {
     this.kind = kind;
-    this.active = true;
-    this.visible = true;
-    this.events = new Map();
+    this.handlers = {};
   }
-  setOrigin() { return this; }
-  setDepth() { return this; }
-  setScrollFactor() { return this; }
-  setSize(width, height) { this.width = width; this.height = height; return this; }
-  setDisplaySize(width, height) { this.displayWidth = width; this.displayHeight = height; return this; }
+  setOrigin(x = 0.5, y = x) { this.originX = x; this.originY = y; return this; }
+  setDisplaySize(width, height) {
+    this.displayWidth = width;
+    this.displayHeight = height;
+    return this;
+  }
+  setAlpha(alpha) { this.alpha = alpha; return this; }
   setInteractive() { this.interactive = true; return this; }
-  disableInteractive() { this.interactive = false; return this; }
-  setVisible(value) { this.visible = value; return this; }
-  setAlpha(value) { this.alpha = value; return this; }
-  setScale(value) { this.scale = value; return this; }
-  setColor(value) { this.color = value; return this; }
-  setText(value) { this.value = value; return this; }
-  setX(value) { this.x = value; return this; }
-  on(event, callback) { this.events.set(event, callback); return this; }
-  destroy() { this.active = false; return this; }
+  setDepth(depth) { this.depth = depth; return this; }
+  setScrollFactor(value) { this.scrollFactor = value; return this; }
+  on(event, callback) { this.handlers[event] = callback; return this; }
 }
 
 class StubGraphics extends StubDisplay {
-  clear() { return this; }
-  fillStyle() { return this; }
-  fillRoundedRect() { return this; }
+  constructor() { super("graphics"); }
   lineStyle() { return this; }
   strokeRoundedRect() { return this; }
 }
 
-class StubContainer extends StubDisplay {
-  constructor(x = 0, y = 0) {
-    super("container");
-    this.x = x;
-    this.y = y;
+class StubContainer {
+  constructor() {
     this.children = [];
+    this.parentContainer = { depth: 3221 };
   }
-  add(children) {
-    this.children.push(...(Array.isArray(children) ? children : [children]).filter(Boolean));
+  add(value) {
+    this.children.push(...(Array.isArray(value) ? value : [value]).filter(Boolean));
     return this;
   }
-  iterate(callback) { this.children.forEach(callback); return this; }
 }
 
 class StubTexture {
-  constructor(width, height) {
-    this.frames = new Set();
-    this.source = { width, height };
-  }
+  constructor() { this.frames = new Set(); }
   has(name) { return this.frames.has(name); }
   add(name) { this.frames.add(name); return this; }
-  getSourceImage() { return this.source; }
 }
 
-function makeStubScene() {
-  const soil = ASSET_KEYS.tiles.dynamicSoil;
-  const soilTextureKeys = [
-    ...soil.bases.flat(),
-    ...soil.deepBases.flat(),
-    ...soil.cracks,
-    ...Object.values(soil.hardness),
-  ];
-  const textureMap = new Map([
-    [semanticResources.atlas.key, new StubTexture(atlasWidth, atlasHeight)],
-    ...soilTextureKeys.map(key => [key, new StubTexture(94, 94)]),
-    ...[1, 2, 3, 4, 5].map(stage => [
-      ASSET_KEYS.tiles[`lavaDirtHp${stage}`],
-      new StubTexture(94, 94),
-    ]),
+function makeScene() {
+  const textures = new Map([
+    [config.assets.foundation.key, new StubTexture()],
+    [config.assets.portraits.key, new StubTexture()],
   ]);
   const scene = {
-    config: { tileSize: 94 },
-    imageRecords: [],
-    textRecords: [],
+    images: [],
+    texts: [],
+    zones: [],
     textures: {
-      exists: key => textureMap.has(key),
-      get: key => textureMap.get(key),
+      exists: key => textures.has(key),
+      get: key => textures.get(key),
     },
     add: {
-      container: (x, y) => new StubContainer(x, y),
-      graphics: () => new StubGraphics("graphics"),
-      rectangle: () => new StubDisplay("rectangle"),
-      text: (x, y, value) => {
-        const text = new StubDisplay("text");
-        Object.assign(text, { x, y, value });
-        scene.textRecords.push(text);
-        return text;
-      },
+      graphics: () => new StubGraphics(),
       image: (x, y, key, frame = null) => {
-        const image = new StubDisplay("image");
-        Object.assign(image, { x, y, key, frame });
-        scene.imageRecords.push(image);
+        const image = Object.assign(new StubDisplay("image"), { x, y, key, frame });
+        scene.images.push(image);
         return image;
       },
+      text: (x, y, value, style) => {
+        const text = Object.assign(new StubDisplay("text"), { x, y, value, style });
+        scene.texts.push(text);
+        return text;
+      },
+      zone: (x, y, width, height) => {
+        const zone = Object.assign(
+          new StubDisplay("zone"),
+          { x, y, width, height },
+        );
+        scene.zones.push(zone);
+        return zone;
+      },
     },
-    tweens: {
-      killTweensOf() {},
-      add(config) { config.onComplete?.(); },
-    },
-    soundSystem: null,
   };
   return scene;
 }
 
-const smokeScene = makeStubScene();
-const desktopRect = {
+const rect = {
   left: -448,
   top: -182,
   right: 448,
@@ -249,52 +209,66 @@ const desktopRect = {
   width: 896,
   height: 448,
 };
-for (const resourceKey of guide.resourceKeys) {
-  smokeScene.imageRecords.length = 0;
-  smokeScene.textRecords.length = 0;
-  const shell = { content: new StubContainer() };
-  assert.equal(
-    renderInventoryResourceGuide(smokeScene, shell, desktopRect, resourceKey, () => {}),
-    resourceKey,
-    `${resourceKey} must be selectable in the runtime-shaped guide`
-  );
-  assert(
-    smokeScene.textRecords.some(text => text.value === UI_RESOURCE_PRESENTATION[resourceKey].name.toUpperCase()),
-    `${resourceKey} must show its explicit name`
-  );
-  if (guide.formationKeys.includes(resourceKey)) {
-    const start = semanticResources.frameStarts[resourceKey];
-    for (let variant = 0; variant < semanticResources.atlas.variants; variant += 1) {
-      assert(
-        smokeScene.imageRecords.some(image =>
-          image.frame === `${semanticResources.atlas.framePrefix}${start + variant}`
-          && image.displayWidth >= 100
-        ),
-        `${resourceKey} must render production world variant ${variant + 1}`
-      );
-    }
-  }
-}
-
+const scene = makeScene();
+const shell = { content: new StubContainer() };
 let clickedResource = null;
-const clickShell = { content: new StubContainer() };
-renderInventoryResourceGuide(
-  smokeScene,
-  clickShell,
-  desktopRect,
-  "stone",
-  resourceKey => { clickedResource = resourceKey; }
+const items = Object.fromEntries(guide.resourceKeys.map((key, index) => [key, index]));
+assert.equal(
+  renderInventoryResourceGuide(
+    scene,
+    shell,
+    rect,
+    "gold",
+    items,
+    resourceKey => { clickedResource = resourceKey; },
+  ),
+  "gold",
 );
-const goldButton = clickShell.content.children.find(child =>
-  child.kind === "container"
-  && child.children?.some(item => item.kind === "text" && item.value === "GOLD")
+assert.equal(scene.zones.length, 14, "all collection sockets are clickable");
+assert(scene.zones.every(zone => zone.depth === 3222 && zone.scrollFactor === 0));
+assert(scene.texts.some(text => text.value === "GOLD"));
+const foundation = scene.images.find(image => image.key === config.assets.foundation.key);
+const scale = foundation.displayWidth / config.layout.sourceWidthPx;
+const expectedPreviewX = foundation.x + config.layout.previewCenterXPx * scale;
+const expectedPreviewY = foundation.y
+  + foundation.displayHeight * (config.layout.previewCenterYPx / config.layout.sourceHeightPx);
+const goldFrames = scene.images.filter(image => (
+  image.frame === `${config.assets.portraits.framePrefix}gold`
+));
+const goldDossier = goldFrames.sort((a, b) => b.displayWidth - a.displayWidth)[0];
+assert.equal(goldDossier.x, expectedPreviewX);
+assert.equal(goldDossier.y, expectedPreviewY);
+assert.equal(
+  goldDossier.displayWidth,
+  foundation.displayWidth * (config.layout.previewSizePx / config.layout.sourceWidthPx),
+  "the dossier portrait uses the same source-space transform as its socket",
 );
-assert(goldButton, "Gold needs a visible clickable selector");
-const goldHit = goldButton.children.find(item => item.kind === "rectangle");
-assert(goldHit?.events.get("pointerdown"), "Gold selector needs a pointer handler");
-goldHit.events.get("pointerdown")();
-assert.equal(clickedResource, "gold", "clicking Gold must select the Gold world preview");
+const goldIndex = guide.resourceKeys.indexOf("gold");
+let stoppedPointerPhases = 0;
+const stopEvent = { stopPropagation() { stoppedPointerPhases += 1; } };
+scene.zones[goldIndex].handlers.pointerdown(null, null, null, stopEvent);
+scene.zones[goldIndex].handlers.pointerup(null, null, null, stopEvent);
+assert.equal(clickedResource, "gold");
+assert.equal(stoppedPointerPhases, 2, "selector input cannot fall through to backdrop");
 
-console.log(
-  `Inventory resource world guide contract passed (${guide.resourceKeys.length} clickable materials).`
-);
+assert.equal(resolveResourceCodexMove("dirt", 1), "stone");
+assert.equal(resolveResourceCodexMove("dirt", 2), "copper");
+assert.equal(resolveResourceCodexMove("magmaCrystal", 2), "magmaCrystal");
+let keydown = null;
+let selected = "dirt";
+const keyboard = new UIInventoryResourceKeyboard({
+  input: { keyboard: {
+    on: (event, handler) => { assert.equal(event, "keydown"); keydown = handler; },
+    off: () => {},
+  } },
+}, {
+  getState: () => ({ isOpen: true, activeTab: 1, selectedGuideResource: selected }),
+  onSelect: value => { selected = value; },
+});
+keydown({ code: "ArrowDown", preventDefault() {}, stopPropagation() {} });
+assert.equal(selected, "copper");
+keydown({ code: "ArrowRight", preventDefault() {}, stopPropagation() {} });
+assert.equal(selected, "darkDirtNormal");
+keyboard.destroy();
+
+console.log("Inventory Resource Codex contract passed (authored art + aligned input)");

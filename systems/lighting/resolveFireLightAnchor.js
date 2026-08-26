@@ -22,6 +22,7 @@ export function resolveFireLightAnchor({
   playerAssetProfile,
   tileSize,
   config,
+  digging = false,
 }) {
   const socket = profileSocket(config, playerAssetProfile);
   const safeTileSize = Math.max(1, Number(tileSize) || 1);
@@ -44,6 +45,10 @@ export function resolveFireLightAnchor({
         + visualOffsetY
         + socket.verticalOffsetTiles * safeTileSize,
       facingSign,
+      obstructed: digging === true,
+      animationKey: player?.anims?.currentAnim?.key || null,
+      animationFrame: player?.anims?.currentFrame?.index ?? player?.frame?.name ?? 0,
+      playerDepth: Number.isFinite(player?.depth) ? player.depth : null,
       source: `fire-socket:${playerAssetProfile?.characterId || "fallback"}`,
     };
   }
@@ -52,6 +57,10 @@ export function resolveFireLightAnchor({
     x: (Number(player?.x) || 0) + facingSign * socket.facingOffsetTiles * safeTileSize,
     y: (Number(player?.y) || 0) + socket.spriteFallbackYOffsetTiles * safeTileSize,
     facingSign,
+    obstructed: digging === true,
+    animationKey: player?.anims?.currentAnim?.key || null,
+    animationFrame: player?.anims?.currentFrame?.index ?? player?.frame?.name ?? 0,
+    playerDepth: Number.isFinite(player?.depth) ? player.depth : null,
     source: "fire-socket:sprite-fallback",
   };
 }

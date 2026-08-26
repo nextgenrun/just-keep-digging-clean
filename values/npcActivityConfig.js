@@ -26,6 +26,7 @@ const ACTIVITY_POSE_IDS = Object.freeze([
 const MERCHANTS = Object.freeze({
   playerUpgrades: freezeMerchant({
     assetSlug: "player-upgrades",
+    visibleTopYAtReferencePx: 24.5,
     footBottomYAtReferencePx: 485,
     durationsMs: {
       ...sharedDurations,
@@ -39,6 +40,7 @@ const MERCHANTS = Object.freeze({
   }),
   gearMerchant: freezeMerchant({
     assetSlug: "gear-merchant",
+    visibleTopYAtReferencePx: 32,
     footBottomYAtReferencePx: 478.5,
     durationsMs: {
       ...sharedDurations,
@@ -52,6 +54,7 @@ const MERCHANTS = Object.freeze({
   }),
   boboMerchant: freezeMerchant({
     assetSlug: "bobo-merchant",
+    visibleTopYAtReferencePx: 23.5,
     footBottomYAtReferencePx: 481,
     durationsMs: {
       ...sharedDurations,
@@ -66,6 +69,7 @@ const MERCHANTS = Object.freeze({
   }),
   moneyMonster: freezeMerchant({
     assetSlug: "money-monster",
+    visibleTopYAtReferencePx: 33,
     footBottomYAtReferencePx: 465.5,
     durationsMs: {
       ...sharedDurations,
@@ -79,6 +83,7 @@ const MERCHANTS = Object.freeze({
   }),
   gemPowerMerchant: freezeMerchant({
     assetSlug: "gem-power-merchant",
+    visibleTopYAtReferencePx: 41,
     footBottomYAtReferencePx: 471,
     durationsMs: {
       ...sharedDurations,
@@ -93,6 +98,7 @@ const MERCHANTS = Object.freeze({
   }),
   magmaMoneyMonster: freezeMerchant({
     assetSlug: "magma-money-monster",
+    visibleTopYAtReferencePx: 15.9,
     footBottomYAtReferencePx: 458.514,
     durationsMs: {
       ...sharedDurations,
@@ -180,6 +186,7 @@ export function resolveNpcGroundContact(
   const merchant = config.merchants[merchantId];
   const referenceCanvasSizePx = config.render.referenceCanvasSizePx;
   const footBottomYAtReferencePx = merchant?.footBottomYAtReferencePx;
+  const visibleTopYAtReferencePx = merchant?.visibleTopYAtReferencePx;
   const contactSinkPx = merchant?.groundContactSinkPx
     ?? config.render.groundContactSinkPx;
   const calibrated = Number.isFinite(displaySizePx)
@@ -196,16 +203,21 @@ export function resolveNpcGroundContact(
       calibrated: false,
       anchorOffsetPx,
       bottomPaddingPx: Math.max(0, anchorOffsetPx - (contactSinkPx || 0)),
+      visibleTopInsetPx: 0,
       contactSinkPx: Number.isFinite(contactSinkPx) ? contactSinkPx : 0,
     });
   }
   const bottomPaddingPx = displaySizePx
     * (referenceCanvasSizePx - footBottomYAtReferencePx)
     / referenceCanvasSizePx;
+  const visibleTopInsetPx = Number.isFinite(visibleTopYAtReferencePx)
+    ? displaySizePx * visibleTopYAtReferencePx / referenceCanvasSizePx
+    : 0;
   return Object.freeze({
     calibrated: true,
     anchorOffsetPx: bottomPaddingPx + contactSinkPx,
     bottomPaddingPx,
+    visibleTopInsetPx,
     contactSinkPx,
   });
 }

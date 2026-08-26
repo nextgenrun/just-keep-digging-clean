@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Surface Living Background Variants V1</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main class="review-shell">
+    <header class="review-header">
+      <p class="eyebrow">UNDERSTAR · ten-model-motion studies · review only</p>
+      <h1>Choose the least intrusive life</h1>
+      <p class="lede">Five video models, two restrained motion profiles each. One surface boundary and uninterrupted earth remain non-negotiable.</p>
+    </header>
+
+    <section class="world-frame" data-world-frame aria-label="Animated surface background mockup">
+      <img class="still-frame" data-still alt="Moonlit mining town above a continuous shallow soil cross-section">
+      <video class="motion-layer is-active" data-video="0" muted playsinline preload="auto"></video>
+      <video class="motion-layer" data-video="1" muted playsinline preload="auto"></video>
+      <div class="edge-vignette" aria-hidden="true"></div>
+      <div class="active-variant" aria-live="polite">
+        <span data-active-number>01</span>
+        <strong data-active-model>Seedance 2.0 Mini</strong>
+        <span data-active-profile>Air only</span>
+      </div>
+    </section>
+
+    <section class="review-controls" aria-label="Mockup controls">
+      <button type="button" data-action="toggle">Pause motion</button>
+      <button type="button" data-action="restart">Replay soft loop</button>
+      <p class="status" data-status>Loading variant 01…</p>
+    </section>
+
+    <section class="variant-section" aria-labelledby="variant-heading">
+      <div class="variant-heading-row">
+        <div>
+          <p class="eyebrow">Comparison matrix</p>
+          <h2 id="variant-heading">10 variants · one active decoder pair</h2>
+        </div>
+        <p data-profile-copy>Smoke, window warmth, and distant clouds only; underground stays still.</p>
+      </div>
+      <div class="variant-grid" data-variant-list></div>
+    </section>
+
+    <dl class="review-notes">
+      <div><dt>Loop gate</dt><dd>Same first and last frame plus a short overlapping soft handoff.</dd></div>
+      <div><dt>Geometry gate</dt><dd>No camera movement, morphing buildings, terrain wobble, or second underground floor.</dd></div>
+      <div><dt>Review boundary</dt><dd>These remain isolated mockups; selecting one cannot change production.</dd></div>
+    </dl>
+  </main>
+
+  <script type="module" src="./mockup.js"></script>
+</body>
+</html>

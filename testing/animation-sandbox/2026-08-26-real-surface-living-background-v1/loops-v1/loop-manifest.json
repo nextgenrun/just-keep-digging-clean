@@ -1,0 +1,113 @@
+{
+  "schemaVersion": "seedance-pingpong-loops-v1",
+  "generatedAt": "2026-08-26T02:23:43.256022+00:00",
+  "strategy": "24 fps forward plus exact reverse; silent H.264",
+  "referenceSurfaceSampleRow": 102,
+  "apiKeyStored": false,
+  "results": [
+    {
+      "id": "01-seedance-fast-traveling-gust",
+      "raw": "testing/animation-sandbox/2026-08-26-real-surface-living-background-v1/raw-v1/01-seedance-fast-traveling-gust.mp4",
+      "rawSha256": "6a46c64118bb02dc28e16e0357e541c243b9fe6c33e49e96f94b21d7de37d003",
+      "loop": "testing/animation-sandbox/2026-08-26-real-surface-living-background-v1/loops-v1/01-seedance-fast-traveling-gust-pingpong.mp4",
+      "loopSha256": "76ab280a87741291d9552cf75d4016f19d2d98a4c79d86088bfb8a34a0b6535e",
+      "bytes": 5791926,
+      "motion": {
+        "wholeFrame": {
+          "mae": 11.90439236111111,
+          "lumaDelta": 5.66107644444802
+        },
+        "upperWorld": {
+          "mae": 13.786734068627451,
+          "lumaDelta": 5.460798419117404
+        },
+        "earth": {
+          "mae": 9.44286858974359,
+          "lumaDelta": 5.922978477563205
+        }
+      },
+      "loopSeam": {
+        "mae": 0.9668807870370371,
+        "lumaDelta": 0.011043413192201115
+      }
+    },
+    {
+      "id": "02-seedance-fast-forest-breath",
+      "raw": "testing/animation-sandbox/2026-08-26-real-surface-living-background-v1/raw-v1/02-seedance-fast-forest-breath.mp4",
+      "rawSha256": "c068c5228e0eee142b82b7cf232fefcccfdd5e9f721139d591dbd630131e0d68",
+      "loop": "testing/animation-sandbox/2026-08-26-real-surface-living-background-v1/loops-v1/02-seedance-fast-forest-breath-pingpong.mp4",
+      "loopSha256": "f8b93a9d7ace06ae40705f8a5c7e441e5246d4eff38b653a0c8bd406eda5020a",
+      "bytes": 4005183,
+      "motion": {
+        "wholeFrame": {
+          "mae": 6.475665509259259,
+          "lumaDelta": 5.039090069446239
+        },
+        "upperWorld": {
+          "mae": 8.004421977124183,
+          "lumaDelta": 6.034163327205059
+        },
+        "earth": {
+          "mae": 4.476522435897436,
+          "lumaDelta": 3.7378404246786117
+        }
+      },
+      "loopSeam": {
+        "mae": 0.8326388888888889,
+        "lumaDelta": 0.021056583333156596
+      }
+    },
+    {
+      "id": "03-seedance-mini-traveling-gust",
+      "raw": "testing/animation-sandbox/2026-08-26-real-surface-living-background-v1/raw-v1/03-seedance-mini-traveling-gust.mp4",
+      "rawSha256": "b6f134f681cda318d51d0f662ed6c97917d0848e6c3fe984cfed9043043bfa96",
+      "loop": "testing/animation-sandbox/2026-08-26-real-surface-living-background-v1/loops-v1/03-seedance-mini-traveling-gust-pingpong.mp4",
+      "loopSha256": "76e78e5f5c97a86363b0e7e9c66992fc6ae1e1fd3fe6c397a8bcc698c9ed8ef7",
+      "bytes": 3940465,
+      "motion": {
+        "wholeFrame": {
+          "mae": 10.102743055555555,
+          "lumaDelta": 8.479050513892265
+        },
+        "upperWorld": {
+          "mae": 12.761366421568628,
+          "lumaDelta": 10.202026746322518
+        },
+        "earth": {
+          "mae": 6.626081730769231,
+          "lumaDelta": 6.225927748396101
+        }
+      },
+      "loopSeam": {
+        "mae": 0.9122395833333333,
+        "lumaDelta": 0.001692649305211186
+      }
+    },
+    {
+      "id": "04-seedance-mini-forest-breath",
+      "raw": "testing/animation-sandbox/2026-08-26-real-surface-living-background-v1/raw-v1/04-seedance-mini-forest-breath.mp4",
+      "rawSha256": "d5ffca7eac03796272ce12898d17ce78eb4bb255612e7f86e1cdd518c095f0fc",
+      "loop": "testing/animation-sandbox/2026-08-26-real-surface-living-background-v1/loops-v1/04-seedance-mini-forest-breath-pingpong.mp4",
+      "loopSha256": "30a7d00fc062518ede07ad74159af59915aee315d50d7730921c4b7199af047d",
+      "bytes": 4129372,
+      "motion": {
+        "wholeFrame": {
+          "mae": 10.025920138888889,
+          "lumaDelta": 7.76003244097809
+        },
+        "upperWorld": {
+          "mae": 13.543484477124183,
+          "lumaDelta": 11.366666636028679
+        },
+        "earth": {
+          "mae": 5.426028311965812,
+          "lumaDelta": 3.0436646474347513
+        }
+      },
+      "loopSeam": {
+        "mae": 0.8865162037037037,
+        "lumaDelta": 0.1066553958334488
+      }
+    }
+  ]
+}

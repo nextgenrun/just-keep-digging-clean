@@ -76,6 +76,14 @@
 /testing/blender-animation-lab-v1/review-drafts/**/runtime/**/*.png -filter -diff -merge -text
 /testing/blender-animation-lab-v1/review-drafts/**/runtime/**/*.webm -filter -diff -merge -text
 /testing/blender-animation-lab-v1/review-drafts/**/runtime/**/*.webp -filter -diff -merge -text
+
+# These two bounded review packages stay in normal Git so a reproducible
+# checkpoint does not depend on LFS quota. Their captured maximum is 2.84 MiB
+# per file; the repository safety contract still rejects any Git blob >=95 MiB.
+/testing/blender-animation-lab-v1/review-drafts/mixamo-ledge-assist-v1/renders/**/*.gif -filter -diff -merge -text
+/testing/blender-animation-lab-v1/review-drafts/mixamo-ledge-assist-v1/renders/**/*.png -filter -diff -merge -text
+/testing/blender-animation-lab-v1/review-drafts/unified-survival-animation-v1/renders/review/**/*.png -filter -diff -merge -text
+/testing/blender-animation-lab-v1/review-drafts/unified-survival-animation-v1/renders/review/**/*.webp -filter -diff -merge -text
 /testing/unreal-survival-motion-v2/SourceAssets/**/*.jpg filter=lfs diff=lfs merge=lfs -text
 /testing/unreal-survival-motion-v2/SourceAssets/**/*.png filter=lfs diff=lfs merge=lfs -text
 /testing/unreal-survival-motion-v2/SourceAssets/**/*.webp filter=lfs diff=lfs merge=lfs -text

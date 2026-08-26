@@ -14,6 +14,10 @@ export const HUD_LAYOUT = Object.freeze({
   torchLabelX: 15, torchLabelY: 240, torchLabelFontSize: "13px",
   torchIconX: 13, torchIconY: 226, torchIconW: 36, torchIconH: 36, torchLabelTextX: 56,
   torchLabelOnColor: "#ffc06a", torchLabelOffColor: "#888888",
+  torchIntensityX: 56, torchIntensityY: 260,
+  torchIntensityFontSize: "10px", torchIntensityHitW: 116, torchIntensityHitH: 34,
+  torchIntensityLabel: "TORCH POWER", torchIntensityHint: "CLICK OR SCROLL",
+  torchIntensityOnColor: "#ffd18a", torchIntensityOffColor: "#b9c8d3",
   barBgColor: 0x1a1a2e, barBgAlpha: 0.75,
   gpColorHigh: 0xaa88ff, gpColorMid: 0xffaa00, gpColorLow: 0xff4444,
   gpThresholdHigh: 0.5, gpThresholdMid: 0.25,
@@ -28,7 +32,9 @@ export const HUD_LAYOUT = Object.freeze({
   playerDepth: 20,
   fxDepth: 35,
   bgMaskDepth: 50,
-  floatingTextDepth: 55, // Above world elements (fxDepth 35) but below HUD overlay so floating text is visible
+  // Above the darkness stack (901); the +10 bonus tier remains below the
+  // lightning flash (996) and HUD (1000).
+  floatingTextDepth: 985,
   collisionDebugDepth: 9999,
 
   // FloatingTextSystem defaults
@@ -78,6 +84,9 @@ export const HUD_LAYOUT = Object.freeze({
   statusBgColor: 0x000000, statusBgAlpha: 0.60,
 
   // Clock widget (top-right corner)
+  // World time/season is simulation state, not actionable HUD information.
+  // Keep it available to world systems while removing the redundant widget.
+  showWorldStateHud: false,
   clockX: 0, clockY: 16, clockFontSize: "18px",
   clockColor: "#ffd700",
   clockDayFontSize: "14px",

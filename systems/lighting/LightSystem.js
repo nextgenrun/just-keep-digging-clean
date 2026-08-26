@@ -47,6 +47,14 @@ export class LightSystem {
     this.config = config;
     this._playerLightProfileId = resolvePlayerLightProfile(config);
     this._torchActive = false;
+    this._torchIntensityLevels = config.torchIntensity.levels;
+    this._torchIntensityIndex = Math.max(
+      0,
+      Math.min(
+        this._torchIntensityLevels.length - 1,
+        Math.round(config.torchIntensity.defaultLevelIndex),
+      ),
+    );
     this._currentRadiusTiles = null;
     this._currentGlowStrength = 0;
     this._currentFacingOffsetWorld = 0;
@@ -87,7 +95,7 @@ export class LightSystem {
     this._torchFlameGlow = this._createGlowImage(config.torchFlameColor);
 
     this._createDarknessTexture();
-    this.scene.hudSystem?.setTorchState(false, config.torchDrainGpPerSecond);
+    this._syncTorchHud();
 
     this._torchKeyHandler = () => {
       if (this._canUseTorchInput()) this._toggleTorch();
@@ -124,7 +132,7 @@ export class LightSystem {
       && this._hasTorchFuel()
     ) {
       this._torchActive = true;
-      this.scene.hudSystem?.setTorchState(true, torchDrainRate);
+      this._syncTorchHud();
     }
     this._currentTorchDrainGpPerSecond = torchDrainRate;
     this._latestDepth = activeDepth;
@@ -180,6 +188,61 @@ export class LightSystem {
 
   isTorchActive() {
     return this._torchActive;
+  }
+
+  getTorchIntensity() {
+    const levels = this._torchIntensityLevels || this.config?.torchIntensity?.levels;
+    if (!levels?.length) return 1;
+    const defaultIndex = this.config?.torchIntensity?.defaultLevelIndex ?? levels.length - 1;
+    const index = Number.isInteger(this._torchIntensityIndex)
+      ? this._torchIntensityIndex
+      : defaultIndex;
+    return levels[Math.max(0, Math.min(levels.length - 1, index))];
+  }
+
+  getTorchIntensitySnapshot() {
+    const intensity = this.getTorchIntensity();
+    return {
+      intensity,
+      percent: Math.round(intensity * 100),
+      levelIndex: this._torchIntensityIndex,
+      levelCount: this._torchIntensityLevels.length,
+      active: this._torchActive,
+      drainGpPerSecond: this._getTorchDrainPerSecond(this._latestDepth),
+    };
+  }
+
+  setTorchIntensityIndex(levelIndex) {
+    const levels = this._torchIntensityLevels || this.config?.torchIntensity?.levels;
+    if (!levels?.length) return false;
+    this._torchIntensityLevels = levels;
+    const nextIndex = Math.max(
+      0,
+      Math.min(
+        this._torchIntensityLevels.length - 1,
+        Math.round(Number(levelIndex) || 0),
+      ),
+    );
+    if (nextIndex === this._torchIntensityIndex) return false;
+    this._torchIntensityIndex = nextIndex;
+    this._syncTorchHud();
+    return true;
+  }
+
+  adjustTorchIntensity(direction) {
+    if (!this._canUseTorchInput() || !Number.isFinite(direction) || direction === 0) {
+      return false;
+    }
+    return this.setTorchIntensityIndex(
+      this._torchIntensityIndex + (direction > 0 ? 1 : -1),
+    );
+  }
+
+  cycleTorchIntensity() {
+    if (!this._canUseTorchInput()) return false;
+    return this.setTorchIntensityIndex(
+      (this._torchIntensityIndex + 1) % this._torchIntensityLevels.length,
+    );
   }
 
   getShaderSnapshot() {
@@ -246,19 +309,29 @@ export class LightSystem {
       nextKey.on("down", this._torchKeyHandler);
     }
     this._torchKey = nextKey;
-    const torchDrainRate = this._getTorchDrainPerSecond(this._latestDepth);
+    this._syncTorchHud();
+  }
+
+  _syncTorchHud() {
+    const torchDrainRate = this.config?.torchIntensity
+      ? this._getTorchDrainPerSecond(this._latestDepth)
+      : Math.max(0, Number(this._currentTorchDrainGpPerSecond) || 0);
     this._currentTorchDrainGpPerSecond = torchDrainRate;
-    this.scene.hudSystem?.setTorchState(this._torchActive, torchDrainRate);
+    this.scene.hudSystem?.setTorchState(
+      this._torchActive,
+      torchDrainRate,
+      this.getTorchIntensity(),
+    );
   }
 
   forceTorchOff(options = {}) {
     if (options.manual === true) this._manualTorchOff = true;
     if (!this._torchActive) {
-      this.scene.hudSystem?.setTorchState(false, this._currentTorchDrainGpPerSecond);
+      this._syncTorchHud();
       return;
     }
     this._torchActive = false;
-    this.scene.hudSystem?.setTorchState(false, this._currentTorchDrainGpPerSecond);
+    this._syncTorchHud();
   }
 
   _hasTorchFuel() {
@@ -328,7 +401,7 @@ export class LightSystem {
     if (this._torchActive) {
       this._torchActive = false;
       this._manualTorchOff = true;
-      this.scene.hudSystem?.setTorchState(false, this._currentTorchDrainGpPerSecond);
+      this._syncTorchHud();
       return;
     }
     if (!this._hasTorchFuel()) {
@@ -336,7 +409,7 @@ export class LightSystem {
     }
     this._torchActive = true;
     this._manualTorchOff = false;
-    this.scene.hudSystem?.setTorchState(true, this._getTorchDrainPerSecond(this._latestDepth));
+    this._syncTorchHud();
   }
 
   _canUseTorchInput() {
@@ -351,7 +424,9 @@ export class LightSystem {
     const sunlight = this.getSunlightSnapshot(weather);
     const surfaceLightInfluence = this._getSurfaceLightInfluence(depth);
     const undergroundDarknessInfluence = 1 - surfaceLightInfluence;
-    const depthRatio = this._getDepthRatio(depth);
+    const darknessResistanceMeters = this._getLevelDarknessResistanceMeters();
+    const visibilityDepth = Math.max(0, depth - darknessResistanceMeters);
+    const depthRatio = this._getDepthRatio(visibilityDepth);
     const noTorchMinVisibilityRadius = this._getUpgradeEffects().noTorchMinVisibilityRadius || 0;
     const nightAmount = sunlight.nightAmount;
     const sunStrength = this._getSunStrength(sunlight);
@@ -368,9 +443,11 @@ export class LightSystem {
     const lighting = {
       state: this._lightingState,
       depth,
+      visibilityDepth,
+      darknessResistanceMeters,
       torchBonusRadius: this._getTorchBonusRadius(),
       noTorchMinVisibilityRadius: this._torchActive ? 0 : Math.max(0, Number(noTorchMinVisibilityRadius) || 0),
-      torchDarknessMultiplier: this._getTorchDarknessMultiplier(depth),
+      torchDarknessMultiplier: this._getTorchDarknessMultiplier(visibilityDepth),
       torchDrainPerSecond: this._getTorchDrainPerSecond(depth),
       depthRatio,
       nightAmount,
@@ -479,14 +556,16 @@ export class LightSystem {
   }
 
   _computeVisibilityRadius(lighting) {
-    const baseRadius = this._getBaseVisibilityRadius(lighting.depth);
+    const baseRadius = this._getBaseVisibilityRadius(lighting.visibilityDepth ?? lighting.depth);
     const ambientScale = this._randomEventPresentation?.ambientVisibilityScale ?? 1;
     const presentedBaseRadius = Math.max(
       0.05,
       baseRadius * ambientScale,
     );
     const torchBonus = this._torchActive
-      ? this.config.torchBonusRadiusTiles + Number(lighting.torchBonusRadius || 0)
+      ? (
+        this.config.torchBonusRadiusTiles + Number(lighting.torchBonusRadius || 0)
+      ) * this._getTorchIntensityScale("radiusExponent")
       : 0;
     const surface = lighting.surfaceLightInfluence;
     const underground = lighting.undergroundDarknessInfluence;
@@ -508,7 +587,10 @@ export class LightSystem {
   _computeTargetGlow(lighting) {
     if (!this._torchActive) return 0;
     if (this._playerLightProfileId !== "legacy") {
-      return clamp01(lighting.playerLight?.intensity);
+      return clamp01(
+        lighting.playerLight?.intensity
+        * this._getTorchIntensityScale("glowExponent"),
+      );
     }
 
     const surfaceCfg = this.config.surfaceSunlight;
@@ -520,7 +602,9 @@ export class LightSystem {
     );
     const caveGlow = lighting.undergroundDarknessInfluence;
 
-    return clamp01(surfaceGlow + caveGlow);
+    return clamp01(
+      (surfaceGlow + caveGlow) * this._getTorchIntensityScale("glowExponent"),
+    );
   }
 
   _redraw(time, radiusTiles, lighting, deltaMs = 0) {
@@ -649,6 +733,7 @@ export class LightSystem {
       : 1;
     const glowStrength = this._currentGlowStrength * nightBoost * caveBoost;
     let authoredFireOwnsPresentation = false;
+    let authoredFlameAlpha = null;
     if (this._fireLightSystem) {
       const fireSource = resolveFireLightAnchor({
         player,
@@ -656,6 +741,7 @@ export class LightSystem {
         playerAssetProfile: this.scene.playerAssetProfile,
         tileSize: this.scene.config.tileSize,
         config: this._fireLightSystem.config,
+        digging: this.scene.isDigAnimating === true,
       });
       const maximumFuel = Math.max(
         0,
@@ -668,7 +754,7 @@ export class LightSystem {
       const fuelRatio = maximumFuel > 0
         ? clamp01(currentFuel / maximumFuel)
         : this._torchActive ? 1 : 0;
-      this._fireLightSystem.renderFrame({
+      const fireSnapshot = this._fireLightSystem.renderFrame({
         time,
         deltaMs,
         torchActive: this._torchActive,
@@ -680,9 +766,18 @@ export class LightSystem {
         lighting,
         worldModel: this.scene.worldModel,
       });
+      authoredFlameAlpha = Number(fireSnapshot?.renderer?.flameAlpha);
       authoredFireOwnsPresentation = this._fireLightSystem
         .ownsTorchPresentation();
     }
+    const fallbackFlameAlpha = this.getTorchIntensity() * fire.flameAlpha;
+    this.scene.hudSystem?.setTorchBurn?.(
+      this._torchActive
+        ? clamp01(Number.isFinite(authoredFlameAlpha)
+          ? authoredFlameAlpha
+          : fallbackFlameAlpha)
+        : 0,
+    );
 
     const proceduralFireGlow = this._fireLightSystem
       ?.usesProceduralWorldGlow?.() === true;
@@ -1488,9 +1583,12 @@ export class LightSystem {
     return {
       state: "surfaceSunlight",
       depth: 0,
+      visibilityDepth: 0,
+      darknessResistanceMeters: 0,
       depthRatio: 0,
       darknessAlpha: 0,
       torchActive: this._torchActive,
+      torchIntensity: this.getTorchIntensity(),
       torchScreenPosition: {
         x: (cam?.width || this.scene.config?.viewportWidth || 1280) * 0.5,
         y: (cam?.height || this.scene.config?.viewportHeight || 720) * 0.5,
@@ -1527,9 +1625,12 @@ export class LightSystem {
     this._shaderSnapshot = {
       state: lighting.state,
       depth: lighting.depth,
+      visibilityDepth: lighting.visibilityDepth ?? lighting.depth,
+      darknessResistanceMeters: lighting.darknessResistanceMeters || 0,
       depthRatio: lighting.depthRatio,
       darknessAlpha: values.darknessAlpha ?? 0,
       torchActive: this._torchActive,
+      torchIntensity: this.getTorchIntensity(),
       torchScreenPosition: values.torchScreenPosition ?? this._shaderSnapshot.torchScreenPosition,
       torchRadiusPx: values.torchRadiusPx ?? 0,
       torchGlowStrength: values.torchGlowStrength ?? 0,
@@ -1575,9 +1676,26 @@ export class LightSystem {
     return effects && typeof effects === "object" ? effects : {};
   }
 
+  _getLevelDarknessResistanceMeters() {
+    const resistance = this.scene?.playerLevelSystem?.getDarknessResistanceMeters?.();
+    return Number.isFinite(resistance) ? Math.max(0, resistance) : 0;
+  }
+
   _getTorchBonusRadius() {
     const effects = this._getUpgradeEffects();
     return Number.isFinite(effects.torchBonusRadius) ? Math.max(0, effects.torchBonusRadius) : 0;
+  }
+
+  _getTorchIntensityScale(exponentKey) {
+    const exponent = this.config?.torchIntensity?.[exponentKey] ?? 1;
+    return Math.pow(this.getTorchIntensity(), exponent);
+  }
+
+  _scaleTorchDrain(drainGpPerSecond) {
+    return Math.max(
+      0.1,
+      drainGpPerSecond * this._getTorchIntensityScale("drainExponent"),
+    );
   }
 
   _getTorchDrainPerSecond(depth = 0) {
@@ -1601,15 +1719,22 @@ export class LightSystem {
       : startMultiplier;
 
     if (depth < start || !Number.isFinite(start)) {
-      return Math.max(0.1, base - reduction);
+      return this._scaleTorchDrain(Math.max(0.1, base - reduction));
     }
 
     if (rampEnd <= start) {
-      return Math.max(0.1, base * maxMultiplier - reduction);
+      return this._scaleTorchDrain(
+        Math.max(0.1, base * maxMultiplier - reduction),
+      );
     }
 
     const scale = clamp01((depth - start) / (rampEnd - start));
-    return Math.max(0.1, base * Phaser.Math.Linear(startMultiplier, maxMultiplier, scale) - reduction);
+    return this._scaleTorchDrain(
+      Math.max(
+        0.1,
+        base * Phaser.Math.Linear(startMultiplier, maxMultiplier, scale) - reduction,
+      ),
+    );
   }
 
   _getTorchDarknessMultiplier(depth = 0) {

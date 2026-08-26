@@ -2,7 +2,7 @@
  * ScreenFlashSystem — brief full-screen color tint on impactful events.
  *
  * Uses a single reusable screen-space rectangle. Depth 1002 places it
- * above HUD (1001) but it clears in ~120ms so it never obscures the UI.
+ * above HUD (1001) but fades quickly so it never obscures the UI.
  */
 export class ScreenFlashSystem {
   constructor(scene, config) {
@@ -25,6 +25,10 @@ export class ScreenFlashSystem {
 
   flashLucky() {
     this._flash(this.config.luckyColor, this.config.luckyAlpha, this.config.luckyDuration);
+  }
+
+  flashPanic() {
+    this._flash(this.config.panicColor, this.config.panicAlpha, this.config.panicDuration);
   }
 
   _flash(color, alpha, duration) {

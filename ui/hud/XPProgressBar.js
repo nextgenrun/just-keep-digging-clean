@@ -1,19 +1,14 @@
-/**
- * XP Progress Bar UI Component
- * Always visible at the bottom of the screen
- */
-
 import { HUD_LAYOUT } from "../../values/hudLayout.js";
 import { APPROVED_HUD_SKIN } from "../../values/approvedHudSkin.js";
 import { ASSET_KEYS } from "../../values/assetKeys.js";
+import { XP_GATHERING_CONFIG } from "../../values/xpGathering.js";
 import { hasApprovedHudSkin } from "../../systems/visual/ApprovedHudSkin.js";
-
+import { XPGatheringFxSystem } from "../../systems/visual/XPGatheringFxSystem.js";
 export class XPProgressBar {
   constructor(scene) {
     this.scene = scene;
     this.visible = false;
     this.approved = hasApprovedHudSkin(scene);
-
     if (this.approved) {
       this.frame = scene.add.image(0, 0, ASSET_KEYS.ui.approvedHud.xp)
         .setOrigin(0, 0)
@@ -21,9 +16,9 @@ export class XPProgressBar {
         .setDepth(HUD_LAYOUT.hudDepth - 1);
     }
 
-    // Create graphics objects for the bar
     this.barBg = scene.add.graphics();
     this.barFill = scene.add.graphics();
+    this.barPulse = scene.add.graphics();
     this.levelText = scene.add.text(0, 0, "", {
       fontFamily: "Consolas, monospace",
       fontSize: "16px",
@@ -36,12 +31,16 @@ export class XPProgressBar {
       color: "#aaddff"
     });
 
-    // Set depths and fix to camera
     this.barBg.setDepth(HUD_LAYOUT.hudDepth).setScrollFactor(0);
     this.barFill.setDepth(HUD_LAYOUT.hudDepth + 1).setScrollFactor(0);
+    this.barPulse.setDepth(HUD_LAYOUT.hudDepth + 2).setScrollFactor(0);
     this.levelText.setDepth(HUD_LAYOUT.hudDepth + 2).setScrollFactor(0);
     this.xpText.setDepth(HUD_LAYOUT.hudDepth + 2).setScrollFactor(0);
 
+    this._fillPercent = 0; this._xpTweenProxy = { v: 0 };
+    this.gatheringFx = new XPGatheringFxSystem(scene, this);
+    this._sceneGatheringHandler = (...args) => this.gatheringFx.queueReward(...args);
+    scene.showXpGatheringFeedback = this._sceneGatheringHandler;
     this._layout();
   }
 
@@ -65,6 +64,11 @@ export class XPProgressBar {
     this.barHeight = barHeight;
     this.barX = barX;
     this.barY = barY;
+    this.uiScale = scale;
+    this.segmentGap = XP_GATHERING_CONFIG.segments.gapPx * scale;
+    this.segmentWidth = (
+      barWidth - this.segmentGap * (XP_GATHERING_CONFIG.segments.count - 1)
+    ) / XP_GATHERING_CONFIG.segments.count;
 
     if (this.approved) {
       this.frame.setPosition(frameX, frameY).setDisplaySize(frameWidth, frameHeight);
@@ -91,110 +95,203 @@ export class XPProgressBar {
 
   _draw() {
     if (!this.visible) return;
-
-    // Draw background
+    const config = XP_GATHERING_CONFIG.segments;
+    const radius = config.radiusPx * this.uiScale;
+    const borderWidth = (this.approved ? config.borderWidthPx : config.legacyBorderWidthPx)
+      * this.uiScale;
     this.barBg.clear();
-    this.barBg.fillStyle(0x080e13, this.approved ? 0.96 : 0.9);
-    this.barBg.lineStyle(this.approved ? 1 : 2, this.approved ? 0x4c3b24 : 0x5566aa, 1);
-    this.barBg.fillRoundedRect(this.barX, this.barY, this.barWidth, this.barHeight, 4);
-    this.barBg.strokeRoundedRect(this.barX, this.barY, this.barWidth, this.barHeight, 4);
-
-    // Draw fill
+    this.barBg.fillStyle(config.emptyColor, this.approved ? config.emptyAlpha : config.legacyEmptyAlpha);
+    this.barBg.lineStyle(
+      borderWidth,
+      this.approved ? config.borderColor : config.legacyBorderColor,
+      config.borderAlpha,
+    );
+    for (let index = 0; index < config.count; index += 1) {
+      const x = this._segmentX(index);
+      this.barBg.fillRoundedRect(x, this.barY, this.segmentWidth, this.barHeight, radius);
+      this.barBg.strokeRoundedRect(x, this.barY, this.segmentWidth, this.barHeight, radius);
+    }
     this._drawFill();
   }
 
   _drawFill() {
     this.barFill.clear();
-
     const fillPercent = this._fillPercent ?? 0;
     if (fillPercent <= 0) return;
-
-    const fillWidth = Math.max(this.barWidth * fillPercent, 6);
-
-    let color = 0xf2d52b;
+    const config = XP_GATHERING_CONFIG.segments;
+    let color = config.fillColor;
     if (!this.approved) {
-      color = fillPercent < 0.3 ? 0x66ff66 : fillPercent < 0.7 ? 0xffff66 : 0xffaa00;
+      color = fillPercent < config.legacyLowThreshold
+        ? config.legacyLowColor
+        : fillPercent < config.legacyHighThreshold
+          ? config.legacyMidColor
+          : config.legacyHighColor;
     }
-
-    this.barFill.fillStyle(color, 0.85);
-    this.barFill.fillRoundedRect(this.barX, this.barY, fillWidth, this.barHeight, 3);
+    const radius = config.radiusPx * this.uiScale;
+    const minimumFill = config.minimumFillPx * this.uiScale;
+    this.barFill.fillStyle(color, config.fillAlpha);
+    for (let index = 0; index < config.count; index += 1) {
+      const segmentProgress = Math.max(0, Math.min(fillPercent * config.count - index, 1));
+      if (segmentProgress <= 0) continue;
+      const fillWidth = segmentProgress >= 1
+        ? this.segmentWidth
+        : Math.min(this.segmentWidth, Math.max(minimumFill, this.segmentWidth * segmentProgress));
+      this.barFill.fillRoundedRect(
+        this._segmentX(index),
+        this.barY,
+        fillWidth,
+        this.barHeight,
+        radius,
+      );
+    }
   }
 
-  /**
-   * Update the XP bar with current level and XP
-   * @param {number} level - Current level
-   * @param {number} currentXP - Current XP for this level
-   * @param {number} xpRequired - XP required for next level
-   */
+  _segmentX(index) {
+    return this.barX + index * (this.segmentWidth + this.segmentGap);
+  }
+
   update(level, currentXP, xpRequired) {
     if (level === this.level && currentXP === this.currentXP && xpRequired === this.xpRequired) {
       return;
     }
-
+    const previousLevel = this.level;
     this.level = level;
     this.currentXP = currentXP;
     this.xpRequired = xpRequired;
-
-    // Update text
     this.levelText.setText(this.approved ? `LEVEL ${level}` : `Lvl ${level}`);
     this.xpText.setText(`${currentXP.toLocaleString()} / ${xpRequired.toLocaleString()} XP`);
-
-    // Animate fill smoothly
     const newPct = xpRequired > 0 ? Math.min(currentXP / xpRequired, 1.0) : 0;
-    const oldPct = this._fillPercent ?? 0;
-    if (Math.abs(newPct - oldPct) > 0.004) {
-      this.scene.tweens.killTweensOf(this._xpTweenProxy = this._xpTweenProxy || { v: oldPct });
-      this._xpTweenProxy.v = oldPct;
-      this.scene.tweens.add({
-        targets: this._xpTweenProxy,
-        v: newPct,
-        duration: 400,
-        ease: 'Power2.out',
-        onUpdate: () => { this._fillPercent = this._xpTweenProxy.v; this._drawFill(); },
-      });
+    if (!Number.isFinite(previousLevel)) {
+      this._cancelFillMotion();
+      this._setFillPercent(newPct);
+      return;
     }
-    this._fillPercent = newPct;
+    if (level > previousLevel) this._animateLevelAdvance(newPct);
+    else this._animateFillTo(newPct, XP_GATHERING_CONFIG.motion.fillDurationMs);
   }
 
-  /**
-   * Handle resize events
-   */
+  _animateLevelAdvance(remainder) {
+    const motion = XP_GATHERING_CONFIG.motion;
+    this._cancelFillMotion();
+    this._animateFillTo(1, motion.levelCompleteDurationMs, () => {
+      this._fillHoldTimer = this.scene.time.delayedCall(motion.levelResetHoldMs, () => {
+        this._fillHoldTimer = null;
+        this._setFillPercent(0);
+        this._animateFillTo(remainder, motion.levelRemainderDurationMs);
+      });
+    });
+  }
+
+  _animateFillTo(target, duration, onComplete = null) {
+    const motion = XP_GATHERING_CONFIG.motion;
+    const clampedTarget = Math.max(0, Math.min(Number(target) || 0, 1));
+    if (Math.abs(clampedTarget - this._fillPercent) <= motion.changeEpsilon) {
+      this._setFillPercent(clampedTarget);
+      onComplete?.();
+      return;
+    }
+    this.scene.tweens.killTweensOf(this._xpTweenProxy);
+    this._xpTweenProxy.v = this._fillPercent;
+    this._fillTween = this.scene.tweens.add({
+      targets: this._xpTweenProxy,
+      v: clampedTarget,
+      duration,
+      ease: motion.fillEase,
+      onUpdate: () => this._setFillPercent(this._xpTweenProxy.v),
+      onComplete: () => {
+        this._fillTween = null;
+        this._setFillPercent(clampedTarget);
+        onComplete?.();
+      },
+    });
+  }
+
+  _setFillPercent(value) {
+    this._fillPercent = Math.max(0, Math.min(Number(value) || 0, 1));
+    this._drawFill();
+  }
+
+  _cancelFillMotion() {
+    this.scene.tweens.killTweensOf(this._xpTweenProxy);
+    this._fillTween = null;
+    this._fillHoldTimer?.remove?.();
+    this._fillHoldTimer = null;
+  }
+
+  queueGatheringFeedback(entry) {
+    this.gatheringFx.queueGain(entry);
+  }
+
+  getActiveSegmentIndex() {
+    const count = XP_GATHERING_CONFIG.segments.count;
+    return Math.min(count - 1, Math.max(0, Math.ceil(this._fillPercent * count) - 1));
+  }
+
+  getGatheringTarget(variationId = "routine") {
+    const index = variationId === "levelUp"
+      ? XP_GATHERING_CONFIG.segments.count - 1
+      : this.getActiveSegmentIndex();
+    return {
+      x: this._segmentX(index) + this.segmentWidth / 2,
+      y: this.barY + this.barHeight / 2,
+    };
+  }
+
+  pulseGatheringTarget(strength = 0.3, variationId = "routine") {
+    const motion = XP_GATHERING_CONFIG.motion;
+    const index = variationId === "levelUp" ? XP_GATHERING_CONFIG.segments.count - 1 : this.getActiveSegmentIndex();
+    this.scene.tweens.killTweensOf(this.barPulse);
+    this.barPulse.clear();
+    this.barPulse.fillStyle(XP_GATHERING_CONFIG.segments.fillHighlightColor, 1);
+    this.barPulse.fillRoundedRect(
+      this._segmentX(index),
+      this.barY,
+      this.segmentWidth,
+      this.barHeight,
+      XP_GATHERING_CONFIG.segments.radiusPx * this.uiScale,
+    );
+    this.barPulse.setVisible(this.visible).setAlpha(motion.pulseAlpha * strength);
+    this.scene.tweens.add({
+      targets: this.barPulse,
+      alpha: 0,
+      duration: motion.pulseDurationMs,
+      ease: motion.pulseEase,
+    });
+  }
+
   resize() {
     this._layout();
-    this.update(this.level || 1, this.currentXP || 0, this.xpRequired || 100);
   }
 
-  /**
-   * Show the XP bar
-   */
   show() {
     this.visible = true;
     this.barBg.setVisible(true);
     this.barFill.setVisible(true);
+    this.barPulse.setVisible(true);
     this.levelText.setVisible(true);
     this.xpText.setVisible(true);
     this.frame?.setVisible(true);
     this._draw();
   }
 
-  /**
-   * Hide the XP bar
-   */
   hide() {
     this.visible = false;
     this.barBg.setVisible(false);
     this.barFill.setVisible(false);
+    this.barPulse.setVisible(false);
     this.levelText.setVisible(false);
     this.xpText.setVisible(false);
     this.frame?.setVisible(false);
   }
 
-  /**
-   * Clean up
-   */
   destroy() {
+    this._cancelFillMotion();
+    this.scene.tweens.killTweensOf(this.barPulse);
+    if (this.scene.showXpGatheringFeedback === this._sceneGatheringHandler) this.scene.showXpGatheringFeedback = null;
+    this.gatheringFx.destroy();
     this.barBg.destroy();
     this.barFill.destroy();
+    this.barPulse.destroy();
     this.levelText.destroy();
     this.xpText.destroy();
     this.frame?.destroy();

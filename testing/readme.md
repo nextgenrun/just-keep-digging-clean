@@ -1,5 +1,139 @@
 # Testing
 
+- `2026-08-26-expanded-ground-damage-v4-contract.mjs` pins the 64-motif,
+  four-anchor structural atlas, 33 exact tile/resource response profiles,
+  twelve logical states, eight deterministic transforms, three production
+  painter pools, 56.6 MB decoded budget, and isolated V3/V2/V1 rollbacks.
+- `2026-08-26-expanded-ground-damage-v4-art-contract.py` verifies all 388
+  frames are unique, every structural motif grows cumulatively, all corners
+  remain transparent, no chroma leaks, and the 64 final silhouettes remain
+  visually distinct at native 94 px.
+- `2026-08-26-expanded-ground-damage-v4-harness.html` streams eleven profiles
+  per pass through the real production painter. The three WebGL captures are
+  combined under `visual-approval-previews/ground-damage-expanded-v4/` to show
+  all 33 profiles at five representative damage states without eagerly
+  uploading every deep-world material texture.
+
+- `2026-08-26-layered-ground-damage-v3-contract.mjs` pins the 16x12
+  structural atlas and 17x4 material-response atlas, proves every destructible
+  tile has an explicit response family/tint, exercises all three production
+  painter pools, and keeps V2/V1 preload rollback isolation.
+- `2026-08-26-layered-ground-damage-v3-art-contract.py` proves all 192 fracture
+  frames and all 68 response frames are unique within their atlases,
+  cumulative silhouettes grow, families remain visually distinct, corners
+  stay clean, and no chroma survives.
+- `2026-08-26-layered-ground-damage-v3-harness.html` renders the production
+  painter over actual terrain, resource, Star, relic, and special-block art at
+  exact 94 px. `2026-08-26-layered-ground-damage-v3-live-visual.mjs` captures
+  explicit `?groundDamageAtlas=v3` and the synchronized V2 comparison while
+  failing on browser, HTTP, atlas, pool, revision, or geometry errors.
+
+- `2026-08-26-star-block-idle-animation-contract.mjs` guards the three-loop,
+  72-frame OpenRouter idle package, exact $0.36 metered cost, API-key absence,
+  preload rollback, unchanged identity core/light routing, bounded bob/breath,
+  frame advance, emissive-depth ownership, and pool cleanup.
+- `2026-08-26-star-block-idle-art-contract.py` performs pixel QA for all 72
+  neutral frames: unique hashes, black additive edges, no persistent generated
+  replacement core, source hashes, restrained energy, and sub-1 mean seams.
+- `2026-08-26-star-block-idle-visual-harness.html` renders twelve production
+  identity/light pairs across all rarities and three loops; add `?starIdle=0`
+  for the exact legacy comparison.
+
+- `2026-08-26-inventory-fullness-hud-contract.mjs` pins all ten 256x256 RGBA
+  V3 open-bag states, hashes, alpha-ready corners, preload routing, visual
+  thresholds, mixed-resource counting, live HUD texture switching, and
+  sale-to-empty reset. `2026-08-26-inventory-fullness-color-drift-contract.py`
+  proves all ten states retain byte-identical bag pixels outside the cavity and
+  confines every cargo change behind the authored front-rim occlusion curve.
+
+- `2026-08-26-world-spawn-authority-contract.mjs` builds four complete worlds
+  to prove authored Star paint cannot bypass the live spawn rate, zero means
+  zero, the requested 65% cut is realized, upper-map geometry stays fixed, and
+  painted Level One materials respond to the modern depth-resource curve.
+
+- `2026-08-26-world-map-mouse-polish-contract.mjs` proves collision-body player
+  centering, marker parity, cursor-anchored wheel zoom, global drag release,
+  aligned enlarged mouse targets, zoom-limit feedback, and M/Escape routing.
+
+- `2026-08-26-cinematic-video-pack-contract.mjs` hash-checks all five final
+  mixes, dimensions/durations/audio declarations, budget/key-storage
+  provenance, captions and wishlist CTAs; it also guards the Boot-opening-menu
+  route, first-Mossback-only trigger, safe suspension restoration, production
+  preview isolation, two-second hold completion, release cancellation, click
+  bypass prevention, approved progress-frame preload, asset paths, and module
+  budgets.
+
+- `2026-08-26-talent-depth-progression-audit-contract.mjs` enumerates all 33
+  Celestial nodes, equal-cost capstone routes, ten live constellation
+  modifiers, 37 upgrades, 27 depth milestones, the exact 65% live Star-rate
+  cut, depth-weighted Star Points and resource rarity, 8x/60x yield endpoints,
+  +50% milestone yield, and Lucky Collector's real 2x payout.
+
+- `2026-08-26-player-jump-momentum-polish-contract.mjs` guards the exact
+  1.2-tile vertical arc while proving takeoff carry, gentle neutral drag,
+  progressive same-direction air steering, non-instant reversal, frame-rate
+  stability, and the isolated `?jumpMomentum=0` rollback.
+
+- `2026-08-25-player-animation-presentation-continuity-v4-contract.mjs` guards
+  unified authored-scale ownership, exact legacy scale restoration, one modern
+  action-recovery path, shared main/cave crouch enter/hold/exit selection,
+  final-animation restart ownership, and `?presentationContinuity=0` rollback.
+
+- `2026-08-25-player-animation-transition-cohesion-v3-contract.mjs` guards
+  traversal-resident unified crouch, Flight, and landing sheets; synchronous
+  animation recreation without a fallback frame; velocity-owned Jog release;
+  same-frame size/origin application in world and cave; and the
+  `?transitionCohesion=0` rollback.
+
+- `2026-08-25-player-level-scale-audit-contract.mjs` enumerates every active
+  player-level gate on the ten-to-one scale, preserves XP/Legend blocks as 10%
+  and 50% next-level progress, exercises threshold-crossing rewards, migrates
+  welcome and Hardcore memorial displays, and rejects old-scale automated-play
+  fixtures and merchant requirement reads.
+
+- `2026-08-25-meaningful-level-progression-contract.mjs` guards the real
+  ten-to-one XP cadence, 1-99 cap, legacy-save conversion, two former passive
+  checkpoints per earned level, cumulative 20-50m darkness resistance,
+  visibility-depth wiring, approved-art reward presentation, GP refill, and
+  the ascending approved UI confirmation cue.
+
+- `2026-08-25-hardcore-panic-feedback-contract.mjs` guards the generated
+  warning/critical medallions, alpha-clear 16:9 edge frame, managed asset pack,
+  system-owned sanity ratio, five pre-critical copy stages, continuous
+  peripheral/breath/slip intensity, eased rise/fall response, exclusive compact
+  versus fading-banner ownership, near-death copy, pause suppression, resize
+  behavior, and missing-art crest fallback.
+  `2026-08-25-hardcore-panic-visual-harness.html` mounts that production
+  renderer over the approved 1280×720 composition without loading or mutating a
+  save; `?band=calm|warning|critical` selects a preset, while `?stress=96&gp=7`
+  selects an exact sanity/risk state and `?width=960&height=540` exercises the
+  renderer at a compact logical viewport.
+
+- `2026-08-25-contextual-mechanic-tutorial-contract.mjs` guards real-signal
+  darkness, Hardcore, earthquake, and production-Wurm lessons; visible-dwell
+  acknowledgement, save/load persistence, hazard priority, and the disabled
+  generic-notification boundary.
+
+- `2026-08-25-treasure-chest-reward-contract.mjs` proves an authored chest
+  cannot be consumed when its wallet payout is rejected, confirms the exact
+  money/star/Treasure Fury feedback and loaded UI sound, and keeps a streamed
+  opening animation pending until its atlas is ready before settling on the
+  persistent open frame.
+
+- `2026-08-22-debris-shield-runtime-contract.mjs` proves the contextual Q shield only drains GP during a live debris threat, absorbs a falling rock, and retains the frequent 45-90 second debris-event cadence.
+- `2026-08-22-all-upgrades-audit-contract.mjs` audits all 37 upgrade definitions for identity, copy, merchant, costs, effect ownership, and the removal of depth locks from core survival tools.
+- `2026-08-22-hud-quick-controls-hit-area-contract.mjs` prevents the bottom-right Inventory, Menu, and World Map click targets from drifting to one side of their visible controls.
+
+`2026-08-22-world-background-texture-lifetime-contract.mjs` prevents streamed
+background textures from being removed while a live Image or nested Container
+child still references their Phaser frame, guarding the `Frame.glTexture` null
+render freeze seen during early depth transitions.
+
+`2026-08-21-player-ledge-assist-contract.mjs` locks collision-safe descending
+capture, the minimum hang window, Space/W pull-up, S drop and regrab cooldown,
+blocked-lip rejection, Flight exclusion, the 35-frame runtime hash, and the
+`?ledgeAssist=0` rollback that omits all ledge sheet registration.
+
 - `2026-08-20-mixamo-locomotion-comparison-contract.mjs` guards the five new
   V4-retargeted walk/run/crouch-walk/jump/falling review carriers, 1024-to-256
   one-pass packing, zero green pixels, clipping/residual gates, the complete
@@ -9,8 +143,8 @@
 - `2026-08-19-critical-feedback-fixes-contract.mjs` guards the clock-only HUD,
   complete removal of weather UI actors/assets/constants, Thunderstrike on V
   with Shift+V reserved for God Mode, first-use ability-asset buffering, free
-  God Mode Star Pillar talent purchases, and removal of the recent level-up
-  reward sound. The runtime asset coordinator contract additionally proves
+  God Mode Star Pillar talent purchases, and the user-requested meaningful
+  level-up reward cue. The runtime asset coordinator contract additionally proves
   that diffuse/normal pairs bypass bitmap activation and do not settle on the
   diffuse-only file event.
 
@@ -215,18 +349,19 @@ requests.
 - `2026-07-30-ground-damage-piskel-rollback-contract.py` verifies all ten
   hash-linked rollback Piskels, apply/rollback commands, and the production atlas guard.
 - `2026-07-30-ground-damage-piskel-production-contract.mjs` proves the approved
-  review atlas was promoted byte-for-byte, default and rollback preload
-  descriptors share the exact 10x12 slicing contract, placement remains centered
-  at 94x94, Boot queues only the selected atlas, and the radial renderer remains
-  available through `?groundDamage=legacy`.
+  review atlas remains promoted byte-for-byte behind explicit
+  `?groundDamageAtlas=v2`, V2 and V1 share the exact 10x12 slicing contract,
+  placement remains centered at 94x94, Boot queues only the selected rollback
+  atlas, and the radial renderer remains available through
+  `?groundDamage=legacy`.
 - `2026-07-30-ground-damage-piskel-production-harness.html` renders all nine
   materials and all twelve states through the real production resolver and
-  `WorldVisualDamageImagePainter`. Add `?groundDamageAtlas=legacy` to exercise
-  the narrow atlas rollback in the same painter.
+  `WorldVisualDamageImagePainter`. Select `?groundDamageAtlas=v2` for its
+  intended V2 board or `?groundDamageAtlas=legacy` for V1 in the same painter.
 - `2026-07-30-ground-damage-piskel-production-live-visual.mjs` launches the
   browser twice, validates both 120-frame/188 px/94 px runtime snapshots and
   HTTP 200 atlas responses, rejects browser errors, and captures the polished
-  default plus V1 rollback boards under
+  explicit V2 plus V1 rollback boards under
   `visual-approval-previews/ground-damage-piskel-production/`.
 
 `2026-08-03-loading-minigame-archive-contract.mjs` guards the restored regular
@@ -352,10 +487,11 @@ before discovery, while only its quantity remains locked, and the holdings grid
 still fits below the two-tab header.
 
 `2026-07-28-inventory-resource-world-guide-contract.mjs` guards the clickable
-second `I`-menu tab: complete fourteen-material coverage, ten exact six-frame
-ImageGen formations, three authoritative runtime soil types, five Lava Dirt
-dig stages, valid live ground slots, production-atlas geometry, click wiring,
-and the absence of generated placeholder resource art.
+second `I`-menu tab: complete fourteen-material coverage, exact authored
+foundation/specimen-atlas dimensions and frame order, dossier wiring, desktop
+and compact source-space containment, matching mouse/keyboard order, modal
+input depth, backdrop-event containment, and the absence of pasted gameplay
+tile composites or generated placeholder art.
 
 `2026-07-28-overground-texture-clarity-contract.mjs` guards the approved
 ground-embedded 2D resource direction: 60 unique ImageGen frames across all ten
@@ -381,6 +517,18 @@ selector, collider-center anchor plus live sprite displacement, locked light
 center, coherent day/night/rain/storm and weather-insulated cave response,
 matched RGBA HUD frame geometry, generated OFF-state source, removal of the
 approved-skin status dot, and the shader's legacy comparison branch.
+
+`2026-08-22-dynamic-torch-intensity-contract.mjs` guards the five-step
+20–100% flame range, coordinated reveal/glow/GP-drain scaling, approved HUD
+chip, click cycling, hover-only wheel adjustment, event isolation, and live HUD
+state synchronization. It also guards the measured authored torch crop and
+low/full burn alpha layering over the OFF player-core frame.
+
+`2026-08-22-dynamic-torch-intensity-visual-harness.html` mounts the production
+authored HUD at 1280x720 with cave-run torch visibility unlocked. It publishes
+`window.__torchIntensityHarness.snapshot()` so click cycling and hover-wheel
+adjustment can be paired with screenshot proof without mutating a save; the
+same harness now drives the HUD crop with the production flame flicker values.
 
 `2026-07-27-player-light-dynamic-centering-contract.mjs` verifies the
 alpha-audited prone-flight visual center (including horizontal flip), deferred
@@ -935,8 +1083,9 @@ motif-compatible stable selection, deliberate no-overlay cards, full asset
 participation, shared backdrop-card geometry, below-terrain depth, streaming
 lifecycle wiring, rollback, and the visual-only boundary.
 
-`2026-07-30-star-rarity-sign-xp-contract.mjs` guards the exact 80% spawn
-reduction, six weighted/depth-gated tiers, monotonic high-impact rewards,
+`2026-07-30-star-rarity-sign-xp-contract.mjs` guards the exact 65% cut from the
+previous live spawn rate (93% below legacy), six depth-gated and depth-weighted
+tiers, monotonic high-impact rewards,
 five-level capped Sign XP and legacy migration, both Star mining paths, both
 deferred identity preload routes, dedicated Starlight progress art, and absence
 of popup config, preload, settings, policy, and view files.
@@ -959,11 +1108,12 @@ cross-cell source bleed, clipped runtime edges, wrong atlas dimensions, or
 missing expansion pages.
 
 `2026-07-30-star-atlas-ui-smoke.mjs` executes the real third-tab renderer with
-Phaser-like doubles. It requires the 1536x800 foundation, twelve visible
+Phaser-like doubles. It requires the 1738x905 foundation, twelve visible
 selectors, authored previous/next arrows, five Common pages, one large
 preview, all sixty Common frames, and correct page-two identity routing
-without Graphics. It also pins the painted socket alignment and complete
-Tab/grid/page/rarity keyboard navigation path.
+without replacement panel Graphics. It also pins desktop and compact
+source-space containment, painted-socket/hit-zone alignment, modal input depth,
+backdrop-event containment, and the complete Tab/grid/page/rarity keyboard path.
 
 `2026-07-30-star-identity-light-smoke.mjs` executes the real pooled
 `SkySteadyLightRenderer`, proves a newly appended Astral dedicated light frame
@@ -995,10 +1145,11 @@ QA. Titan-only Escape coverage supersedes it.
 `2026-07-30-depth-resource-economy-contract.mjs` verifies the modern and
 legacy query modes, exact depth-curve points, modern/legacy rarity HP and yield,
 deterministic integer rounding, final caps, decimal pricing, Deep Market
-locking, Milestone speed/crit wiring, runtime-canary failure/recovery, and
+locking, Milestone speed/crit/material-yield wiring, runtime-canary
+failure/recovery, and
 health-worker forwarding. It builds both complete authoritative worlds and
 reports real coins per 100 HP for four Level One and five Level Two bands,
-including the continuous world handoff and rising deep income.
+including the deliberate Level Two reward jump and rising deep income.
 
 `2026-07-30-starlight-mockup-fidelity-live-qa.mjs` renders all three production
 Starlight pages in hidden Edge at configurable review sizes. It verifies the
@@ -1017,6 +1168,15 @@ Jog transition bridge.
 Jog hash, 28-frame Piskel round-trip, uniform root transform, zero baseline
 drift, transformed rig markers, sequence-index versus texture-frame footfall
 mapping, production sheet registration, and `?animationPolish=0` rollback.
+
+`2026-08-25-player-collider-contact-polish-v2-contract.mjs` executes all five
+unified Survival pose envelopes, proves anchor continuity, ceiling-safe crouch
+retention, floor-safe flight exit, Arc Core profile round-tripping, scene
+crouch fallback wiring, and the independent `?colliderV2=0` rollback.
+`2026-08-25-player-collider-contact-polish-v2-live-qa.mjs` boots the production
+PlayScene in WebGL, verifies the unified profile is active with no browser
+errors, and records fixed-body flight versus flight, locomotion and crouch V2
+overlays under `visual-approval-previews/player-collider-contact-polish-v2/`.
 
 `2026-08-03-ground-footstep-fx-contract.mjs` executes the grounded contact
 system with Phaser-like doubles. It guards Game Rig planted-foot projection,
@@ -1074,11 +1234,11 @@ medallion is visible and dynamically selected in a real Phaser render.
 The same contract guards that the active random-event ribbon consumes only the
 derived lane between the player and weather panels with exact 16 px gaps.
 
-`2026-08-15-approved-sfx-findings-contract.mjs` pins the four audio candidates
-explicitly rated `good`, their production OGG hashes, two-entry non-repeating
-seismic-warning and rare-discovery families, Boot preload parity, warning-phase
-stop behavior, and the exact Ancient Relic and Titan discovery hooks. Rejected
-mining sounds and the `maybe` crystal candidate remain review-only.
+`2026-08-15-approved-sfx-findings-contract.mjs` pins the two approved seismic
+warning candidates, their production OGG hashes, non-repeating playback, Boot
+preload parity, and warning-phase stop behavior. The reward family and its
+Ancient Relic/Titan hooks are explicitly absent after gameplay audition;
+rejected mining sounds and the `maybe` crystal candidate remain review-only.
 
 `2026-08-15-town-surface-relief-bake-contract.mjs` pins the exact active
 source and derived hashes, unchanged 1801x941 geometry, default-off
@@ -1116,8 +1276,12 @@ native-cadence GIF, and confirms both V4 scales remain production-isolated.
 
 `2026-08-20-complex-dig-animation-runtime-contract.mjs` pins the approved
 ten-stage SIDE and Uppercut-only UP families, byte-exact green-free sheets,
-101 px scale, single-contact authority, current cadence, cave/main-world wiring,
-and the `?complexDig=0` plus Ctrl+Alt+9 legacy rollback paths.
+103 px scale, one- and two-contact authority, current cadence,
+cave/main-world wiring, and the `?complexDig=0` plus Ctrl+Alt+9 legacy rollback
+paths. `2026-08-21-moving-complex-dig-production-contract.mjs` additionally
+pins all 80 complex SIDE/Jog phase aliases, exact dual-hit timing, zero green
+spill, zero foot-baseline drift, chained Jog phase recovery, moving eligibility,
+and 120-frame authoritative anchor stress in both facings.
 `2026-08-15-celestial-talent-tree-polish-browser-check.mjs` opens the production
 Celestial tree harness at wide and compact sizes, proves the three-lock
 pre-level gate, exercises a near-edge mouse target, and captures the rebuilt

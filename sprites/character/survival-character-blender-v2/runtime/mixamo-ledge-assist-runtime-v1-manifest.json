@@ -1,0 +1,27 @@
+{
+  "version": "mixamo-ledge-assist-runtime-v1-20260821",
+  "productionChanged": true,
+  "runtimeWired": true,
+  "rollback": {
+    "query": "ledgeAssist",
+    "disabledValues": ["0", "false", "off"],
+    "effect": "Omits the sheet and animations and restores pre-ledge traversal."
+  },
+  "clip": {
+    "source": "Mixamo Braced Hang To Crouch",
+    "sourceFbx": "testing/blender-animation-lab-v1/review-drafts/mixamo-ledge-assist-v1/source-fbx/mixamo-braced-hang-to-crouch.fbx",
+    "file": "survival-character-mixamo-v4-ledge-climb-sheet.png",
+    "frames": 35,
+    "columns": 16,
+    "rows": 3,
+    "fps": 30,
+    "sourceRenderSizePx": 1024,
+    "packedFrameSizePx": 256,
+    "downsamplePasses": 1,
+    "minimumRawEdgeMarginPx": 64,
+    "maximumSuspiciousGreenPixels": 0,
+    "retargetResidual": 0.14905587267829867,
+    "retargetResidualGate": 0.22,
+    "sheetSha256": "7eee1206897f6024aa84cf864570187123139446f492b969b8d32ed5fe9e4fa8"
+  }
+}

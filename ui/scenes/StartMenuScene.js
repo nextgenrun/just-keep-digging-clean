@@ -20,6 +20,7 @@ import {
 import { createUiIcon } from "../UiIconAtlas.js";
 import { createManualSaveFilePicker } from "../components/manualSaveFilePicker.js";
 import { DugTilesSaveStore } from "../../world/model/DugTilesSaveStore.js?rev=20260727-save-transfer-v1";
+import { resolvePlayerLevelSaveState } from "../../systems/progression/playerLevelSaveState.js";
 import { addMenuBackground, getSelectedMenuBackgroundKey } from "../components/LoadingScreenView.js";
 import {
   getHardcoreModeLabel,
@@ -223,6 +224,7 @@ export class StartMenuScene extends Phaser.Scene {
         const store = new DugTilesSaveStore({ slotId: i });
         const saveData = store.loadForDisplay();
         if (saveData && (saveData.dugTiles?.length > 0 || saveData.resources)) {
+          const displayLevel = resolvePlayerLevelSaveState(saveData.levelData || {});
           slots.push({
             id: i,
             hasData: true,
@@ -230,7 +232,7 @@ export class StartMenuScene extends Phaser.Scene {
             resources: saveData.resources || { dirt: 0, stone: 0, copper: 0 },
             updatedAt: saveData.updatedAt,
             playerCharacterId: saveData.playerCharacterId,
-            level: saveData.levelData?.level || 1,
+            level: displayLevel.ok ? displayLevel.level : 1,
             currentDepth: saveData.retentionData?.stats?.currentDepth || 0,
             bestDepth: saveData.retentionData?.stats?.bestDepth || 0,
             wallet: saveData.upgrades?.money || 0,

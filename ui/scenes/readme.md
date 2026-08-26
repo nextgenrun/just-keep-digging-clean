@@ -2,6 +2,12 @@
 
 UI module — scenes.
 
+`OpeningCinematicScene.js` sits between the Boot logo and main menu, preloads
+only the two lightweight posters, approved hold-progress frame, and video URL
+metadata, waits for a browser gesture so the final mix can play with sound,
+and fails open on skip or media error. The MP4 itself streams on demand rather
+than joining Boot's asset queue.
+
 `PlayScene.js` is the Phaser composition root. It injects concrete modal,
 notification, HUD, inventory, shop, and recovery ports into the world layer;
 world modules no longer import UI implementations. Its read-only legacy

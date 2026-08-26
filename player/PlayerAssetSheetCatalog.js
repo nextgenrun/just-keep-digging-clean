@@ -1,4 +1,4 @@
-import { PLAYER_ASSET_PROFILES } from "../values/playerAssetProfiles.js";
+import { PLAYER_ASSET_PROFILES } from "../values/playerAssetProfiles.js?rev=20260825-unified-animation-v1";
 import { resolvePlayerDeferredAssetPackId } from
   "../values/playerDeferredAssetPacks.js";
 import { RUNTIME_ASSET_LOADING } from "../values/runtimeAssetLoading.js";
@@ -90,6 +90,14 @@ function freezeMergedEntry(entry, profile) {
   const deferredIds = entry.hasCoreConsumer ? [] : [...entry.deferredIds];
   const abilityIds = entry.hasCoreConsumer ? [] : [...entry.abilityIds];
   const frames = Object.freeze([...entry.frames]);
+  const profileFrameSize = profile.frameSizePxBySheet?.[entry.key];
+  const isRobot = profile?.characterId === PLAYER_ASSET_PROFILES.robot.characterId;
+  const frameWidth = isRobot
+    ? 341
+    : (profileFrameSize || profile.frameWidth);
+  const frameHeight = isRobot
+    ? 341
+    : (profileFrameSize || profile.frameHeight);
   return Object.freeze({
     property: entry.property,
     key: entry.key,
@@ -99,8 +107,8 @@ function freezeMergedEntry(entry, profile) {
     deferredId: deferredIds.length === 1 ? deferredIds[0] : null,
     deferredIds: Object.freeze(deferredIds),
     frameConfig: Object.freeze({
-      frameWidth: profile === PLAYER_ASSET_PROFILES.robot ? 341 : profile.frameWidth,
-      frameHeight: profile === PLAYER_ASSET_PROFILES.robot ? 341 : profile.frameHeight,
+      frameWidth,
+      frameHeight,
       endFrame: highestReferencedPlayerFrame(frames),
     }),
     fileName: entry.fileName,
@@ -109,7 +117,7 @@ function freezeMergedEntry(entry, profile) {
 }
 
 export function getUniquePlayerSheetEntries(profile) {
-  const files = profile === PLAYER_ASSET_PROFILES.robot
+  const files = profile?.characterId === PLAYER_ASSET_PROFILES.robot.characterId
     ? ROBOT_SHEETS
     : profile?.sheetFiles || [];
   const byKey = new Map();

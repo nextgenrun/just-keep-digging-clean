@@ -1,5 +1,5 @@
 export const HARDCORE_MEMORIAL_CONFIG = Object.freeze({
-  version: 1,
+  version: 2,
   assets: Object.freeze({
     grave: Object.freeze({
       key: "environment-hardcore-memorial-v1",

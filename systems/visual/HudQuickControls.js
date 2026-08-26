@@ -2,6 +2,7 @@ import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { APPROVED_HUD_SKIN } from "../../values/approvedHudSkin.js";
 import { HUD_QUICK_CONTROLS } from "../../values/hudQuickControls.js";
 import { USER_SETTINGS } from "../UserSettings.js";
+import { resolveInventoryFullnessState } from "./inventoryFullnessState.js";
 
 function textureExists(scene, key) {
   return Boolean(key && scene?.textures?.exists?.(key));
@@ -27,6 +28,8 @@ export class HudQuickControls {
     this.inventoryKeyFrame = null;
     this.inventoryKey = null;
     this.inventoryHit = null;
+    this.inventoryFullnessState = null;
+    this.inventoryFullnessTextureKeys = [];
     this.pauseContainer = null;
     this.pauseFrame = null;
     this.pauseLabel = null;
@@ -41,23 +44,30 @@ export class HudQuickControls {
 
   _create() {
     if (this.config.enabled !== true) return;
-    const inventoryKey = textureExists(
-      this.scene,
-      ASSET_KEYS.ui.approvedHud.inventory,
-    )
-      ? ASSET_KEYS.ui.approvedHud.inventory
-      : textureExists(this.scene, ASSET_KEYS.ui.lootBag)
-        ? ASSET_KEYS.ui.lootBag
-        : null;
+    const fullnessAssetNames = this.config.inventory.fullness?.assetNames || [];
+    this.inventoryFullnessTextureKeys = fullnessAssetNames.map(
+      (name) => ASSET_KEYS.ui.approvedHud[name] || null,
+    );
+    const emptyInventoryKey = this.inventoryFullnessTextureKeys[0] || null;
+    const inventoryKey = textureExists(this.scene, emptyInventoryKey)
+      ? emptyInventoryKey
+      : textureExists(
+        this.scene,
+        ASSET_KEYS.ui.approvedHud.inventory,
+      )
+        ? ASSET_KEYS.ui.approvedHud.inventory
+        : textureExists(this.scene, ASSET_KEYS.ui.lootBag)
+          ? ASSET_KEYS.ui.lootBag
+          : null;
     if (!inventoryKey) return;
 
     this.inventoryContainer = this.scene.add.container(0, 0)
       .setScrollFactor(0)
       .setDepth(this.depth)
-      .setVisible(this.visible)
-      .setSize(1, 1)
+      .setVisible(this.visible);
+    this.inventoryHit = this.scene.add.zone(0, 0, 1, 1)
+      .setOrigin(0.5)
       .setInteractive({ useHandCursor: true });
-    this.inventoryHit = this.inventoryContainer;
     this.inventoryIcon = this.scene.add.image(0, 0, inventoryKey);
     this.inventoryKeyFrame = textureExists(
       this.scene,
@@ -83,6 +93,7 @@ export class HudQuickControls {
       },
     ).setOrigin(0.5);
     this.inventoryContainer.add([
+      this.inventoryHit,
       this.inventoryIcon,
       this.inventoryKeyFrame,
       this.inventoryKey,
@@ -96,15 +107,18 @@ export class HudQuickControls {
       activate: this.onInventory,
       pulseAfter: true,
     });
+    this.setInventoryResources(
+      this.scene.digSystem?.getResourceTotals?.() || {},
+    );
 
     if (textureExists(this.scene, ASSET_KEYS.ui.approvedHud.buffChip)) {
       this.pauseContainer = this.scene.add.container(0, 0)
         .setScrollFactor(0)
         .setDepth(this.depth)
-        .setVisible(this.visible)
-        .setSize(1, 1)
+        .setVisible(this.visible);
+      this.pauseHit = this.scene.add.zone(0, 0, 1, 1)
+        .setOrigin(0.5)
         .setInteractive({ useHandCursor: true });
-      this.pauseHit = this.pauseContainer;
       this.pauseFrame = this.scene.add.image(
         0,
         0,
@@ -119,6 +133,7 @@ export class HudQuickControls {
         strokeThickness: this.config.pause.strokeThickness,
       }).setOrigin(0.5);
       this.pauseContainer.add([
+        this.pauseHit,
         this.pauseFrame,
         this.pauseLabel,
       ]);
@@ -134,10 +149,10 @@ export class HudQuickControls {
       this.mapContainer = this.scene.add.container(0, 0)
         .setScrollFactor(0)
         .setDepth(this.depth)
-        .setVisible(this.visible)
-        .setSize(1, 1)
+        .setVisible(this.visible);
+      this.mapHit = this.scene.add.zone(0, 0, 1, 1)
+        .setOrigin(0.5)
         .setInteractive({ useHandCursor: true });
-      this.mapHit = this.mapContainer;
       this.mapFrame = this.scene.add.image(0, 0, ASSET_KEYS.ui.approvedHud.buffChip);
       this.mapLabel = this.scene.add.text(0, 0, "", {
         fontFamily: APPROVED_HUD_SKIN.font.family,
@@ -147,7 +162,7 @@ export class HudQuickControls {
         stroke: this.config.map.stroke,
         strokeThickness: this.config.map.strokeThickness,
       }).setOrigin(0.5);
-      this.mapContainer.add([this.mapFrame, this.mapLabel]);
+      this.mapContainer.add([this.mapHit, this.mapFrame, this.mapLabel]);
       this._wireControl({
         hit: this.mapHit,
         visual: this.mapFrame,
@@ -220,7 +235,12 @@ export class HudQuickControls {
     const inventoryHitWidth = (inventory.width + inventory.hitPadding * 2) * scale;
     const inventoryHitHeight = (inventory.height + inventory.hitPadding * 2) * scale;
     this.inventoryHit.setSize(inventoryHitWidth, inventoryHitHeight);
-    this.inventoryHit.input?.hitArea?.setTo?.(0, 0, inventoryHitWidth, inventoryHitHeight);
+    this.inventoryHit.input?.hitArea?.setTo?.(
+      0,
+      0,
+      inventoryHitWidth,
+      inventoryHitHeight,
+    );
 
     if (!this.pauseContainer) return;
     const pause = this.config.pause;
@@ -237,7 +257,12 @@ export class HudQuickControls {
     const pauseHitWidth = (pause.width + pause.hitPaddingX * 2) * scale;
     const pauseHitHeight = (pause.height + pause.hitPaddingY * 2) * scale;
     this.pauseHit.setSize(pauseHitWidth, pauseHitHeight);
-    this.pauseHit.input?.hitArea?.setTo?.(0, 0, pauseHitWidth, pauseHitHeight);
+    this.pauseHit.input?.hitArea?.setTo?.(
+      0,
+      0,
+      pauseHitWidth,
+      pauseHitHeight,
+    );
 
     if (!this.mapContainer) return;
     const map = this.config.map;
@@ -253,7 +278,12 @@ export class HudQuickControls {
     const mapHitWidth = (map.width + map.hitPaddingX * 2) * scale;
     const mapHitHeight = (map.height + map.hitPaddingY * 2) * scale;
     this.mapHit.setSize(mapHitWidth, mapHitHeight);
-    this.mapHit.input?.hitArea?.setTo?.(0, 0, mapHitWidth, mapHitHeight);
+    this.mapHit.input?.hitArea?.setTo?.(
+      0,
+      0,
+      mapHitWidth,
+      mapHitHeight,
+    );
   }
 
   setVisible(value) {
@@ -261,6 +291,24 @@ export class HudQuickControls {
     this.inventoryContainer?.setVisible(this.visible);
     this.pauseContainer?.setVisible(this.visible);
     this.mapContainer?.setVisible(this.visible);
+  }
+
+  setInventoryResources(resources = {}) {
+    const fullnessConfig = this.config.inventory.fullness;
+    if (!fullnessConfig) return false;
+
+    const nextState = resolveInventoryFullnessState(resources, fullnessConfig);
+    const textureKey = this.inventoryFullnessTextureKeys[nextState.stateIndex] || null;
+    const changed = this.inventoryFullnessState?.stateIndex !== nextState.stateIndex;
+    this.inventoryFullnessState = nextState;
+
+    if (
+      textureExists(this.scene, textureKey)
+      && this.inventoryIcon?.texture?.key !== textureKey
+    ) {
+      this.inventoryIcon?.setTexture(textureKey);
+    }
+    return changed;
   }
 
   getInventoryTarget() {
@@ -294,6 +342,7 @@ export class HudQuickControls {
       depth: this.inventoryContainer?.depth || 0,
       inventory: {
         keyLabel: this.inventoryKey?.text || "",
+        textureKey: this.inventoryIcon?.texture?.key || null,
         width: this.inventoryIcon?.displayWidth || 0,
         height: this.inventoryIcon?.displayHeight || 0,
         keycapTextureKey: this.inventoryKeyFrame?.texture?.key || null,
@@ -301,6 +350,9 @@ export class HudQuickControls {
         keycapHeight: this.inventoryKeyFrame?.displayHeight || 0,
         hitWidth: this.inventoryHit?.input?.hitArea?.width || 0,
         hitHeight: this.inventoryHit?.input?.hitArea?.height || 0,
+        fullness: this.inventoryFullnessState
+          ? { ...this.inventoryFullnessState }
+          : null,
       },
       pause: {
         active: Boolean(this.pauseContainer),
@@ -337,6 +389,8 @@ export class HudQuickControls {
     this.inventoryKeyFrame = null;
     this.inventoryKey = null;
     this.inventoryHit = null;
+    this.inventoryFullnessState = null;
+    this.inventoryFullnessTextureKeys = [];
     this.pauseHit = null;
     this.mapContainer = null;
     this.mapFrame = null;

@@ -1,0 +1,23 @@
+{
+  "version": "mixamo-ledge-assist-runtime-v1-20260821",
+  "reviewOnly": false,
+  "productionChanged": true,
+  "runtimeWired": true,
+  "baseConfig": "values/mixamoAcceptedRuntime.json",
+  "sourceRoot": "testing/blender-animation-lab-v1/review-drafts/mixamo-ledge-assist-v1/source-fbx",
+  "renderRoot": "testing/blender-animation-lab-v1/review-drafts/mixamo-ledge-assist-v1/renders/raw-1024",
+  "candidateRoot": "testing/blender-animation-lab-v1/review-drafts/mixamo-ledge-assist-v1/renders/candidate-runtime",
+  "clips": {
+    "braced-hang-to-crouch": {
+      "source": "mixamo-braced-hang-to-crouch.fbx",
+      "file": "survival-character-mixamo-v4-ledge-climb-sheet.png",
+      "frames": 35,
+      "fps": 30,
+      "loop": false,
+      "grounding": "NONE",
+      "reference": "FIRST",
+      "preserveVertical": false,
+      "role": "Braced ledge hang and pull-up to crouch"
+    }
+  }
+}

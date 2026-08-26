@@ -56,6 +56,22 @@ export function createUalNativePlayerAnimations(scene, profile) {
   createAnimation(scene, profile.flightExitAnim, profile.flightExitSheet, profile.flightExitFrames, profile.flightExitAnimationFps || profile.airborneAnimationFps, 0);
   createAnimation(
     scene,
+    profile.ledgeHangAnim,
+    profile.ledgeClimbSheet,
+    profile.ledgeHangFrames,
+    profile.ledgeClimbAnimationFps,
+    -1,
+  );
+  createAnimation(
+    scene,
+    profile.ledgeClimbAnim,
+    profile.ledgeClimbSheet,
+    profile.ledgeClimbFrames,
+    profile.ledgeClimbAnimationFps,
+    0,
+  );
+  createAnimation(
+    scene,
     profile.landingAnim,
     profile.landingSheet,
     profile.landingFrames,

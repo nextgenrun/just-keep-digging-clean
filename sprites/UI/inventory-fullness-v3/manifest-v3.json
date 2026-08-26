@@ -1,0 +1,316 @@
+{
+  "schema": "understar-inventory-fullness/v3",
+  "generatedWith": "OpenAI built-in ImageGen open-bag master and ore overlays, cavity-clipped behind a restored front rim",
+  "baseReference": "inventory-fullness-01.png",
+  "baseReferenceSha256": "3d5e8a4c8a9011662830ea025a7d593226bcde686dd7696a61c5592dcb56ceef",
+  "openMasterSource": "sources/inventory-open-master-imagegen.png",
+  "openMasterSourceSha256": "e925793f085d85999df662ce9ccf8ed2e370275738fed98f6860434fc96afc43",
+  "normalizedMaster": "sources/inventory-open-master-normalized.png",
+  "normalizedMasterSha256": "3d5e8a4c8a9011662830ea025a7d593226bcde686dd7696a61c5592dcb56ceef",
+  "runtimeSize": [
+    256,
+    256
+  ],
+  "stateCount": 10,
+  "decodedBytes": 2621440,
+  "invariantRegion": [
+    0,
+    0,
+    256,
+    78
+  ],
+  "invariantRegionPixelSha256": "42ad8645a58fa9277f634069ad77f150182362568a085456c7d645e452f2fde8",
+  "cargoChangeRegion": [
+    44,
+    78,
+    212,
+    148
+  ],
+  "cavityBounds": [
+    47,
+    79,
+    209,
+    151
+  ],
+  "frontOcclusionCurve": [
+    [
+      48,
+      119
+    ],
+    [
+      58,
+      133
+    ],
+    [
+      78,
+      140
+    ],
+    [
+      128,
+      144
+    ],
+    [
+      178,
+      140
+    ],
+    [
+      198,
+      133
+    ],
+    [
+      208,
+      119
+    ]
+  ],
+  "assets": [
+    {
+      "state": 1,
+      "cargoPieceTarget": 0,
+      "path": "inventory-fullness-01.png",
+      "width": 256,
+      "height": 256,
+      "bytes": 69148,
+      "sha256": "3d5e8a4c8a9011662830ea025a7d593226bcde686dd7696a61c5592dcb56ceef",
+      "alphaBounds": [
+        19,
+        16,
+        237,
+        240
+      ],
+      "transparentCorners": true,
+      "lockedBagPixels": true,
+      "embeddedInsideCavity": true,
+      "changeBounds": null,
+      "overlaySourceSha256": null
+    },
+    {
+      "state": 2,
+      "cargoPieceTarget": 1,
+      "path": "inventory-fullness-02.png",
+      "width": 256,
+      "height": 256,
+      "bytes": 69803,
+      "sha256": "1c3e7bca0fe003cabed71f77bd88bb356dd7f1c415988eda9d62020d0a46fa41",
+      "alphaBounds": [
+        19,
+        16,
+        237,
+        240
+      ],
+      "transparentCorners": true,
+      "lockedBagPixels": true,
+      "embeddedInsideCavity": true,
+      "changeBounds": [
+        114,
+        125,
+        142,
+        146
+      ],
+      "overlaySourceSha256": "04ad076fbaa6af85f92a21dd9dc9d8e86f0b1990465d92578ca416d62f82534b"
+    },
+    {
+      "state": 3,
+      "cargoPieceTarget": 2,
+      "path": "inventory-fullness-03.png",
+      "width": 256,
+      "height": 256,
+      "bytes": 69945,
+      "sha256": "90a46e684d677f606a9b687430a1947742cb30671724c715fc493b30895a6e5f",
+      "alphaBounds": [
+        19,
+        16,
+        237,
+        240
+      ],
+      "transparentCorners": true,
+      "lockedBagPixels": true,
+      "embeddedInsideCavity": true,
+      "changeBounds": [
+        106,
+        130,
+        150,
+        146
+      ],
+      "overlaySourceSha256": "a0a66193118c14be30e171fbba1e0a5e9153b23c1d934a00153cbbba40e34720"
+    },
+    {
+      "state": 4,
+      "cargoPieceTarget": 3,
+      "path": "inventory-fullness-04.png",
+      "width": 256,
+      "height": 256,
+      "bytes": 70219,
+      "sha256": "81ac87e768d70cd0406fc94b71f7fe8c151ae3679ecd5782c2064277503fa021",
+      "alphaBounds": [
+        19,
+        16,
+        237,
+        240
+      ],
+      "transparentCorners": true,
+      "lockedBagPixels": true,
+      "embeddedInsideCavity": true,
+      "changeBounds": [
+        99,
+        130,
+        157,
+        146
+      ],
+      "overlaySourceSha256": "4bf00b303d5d52e03b006732e690c11e87f7f6f89f255fabb6442d3e2fb7b77f"
+    },
+    {
+      "state": 5,
+      "cargoPieceTarget": 4,
+      "path": "inventory-fullness-05.png",
+      "width": 256,
+      "height": 256,
+      "bytes": 70352,
+      "sha256": "cc83b282893746bff3099538e3955a489e4aa11cc9943945728118ad710379a0",
+      "alphaBounds": [
+        19,
+        16,
+        237,
+        240
+      ],
+      "transparentCorners": true,
+      "lockedBagPixels": true,
+      "embeddedInsideCavity": true,
+      "changeBounds": [
+        92,
+        126,
+        164,
+        146
+      ],
+      "overlaySourceSha256": "e1cd00ef357b15054a399cfa145dde9b0983084e14b6a09531a313dadde88c0f"
+    },
+    {
+      "state": 6,
+      "cargoPieceTarget": 5,
+      "path": "inventory-fullness-06.png",
+      "width": 256,
+      "height": 256,
+      "bytes": 71417,
+      "sha256": "f3310860e18ec8bd95236e0af9fc3cd8c07cee0f959e14d1e65b88b3284bb506",
+      "alphaBounds": [
+        19,
+        16,
+        237,
+        240
+      ],
+      "transparentCorners": true,
+      "lockedBagPixels": true,
+      "embeddedInsideCavity": true,
+      "changeBounds": [
+        84,
+        125,
+        174,
+        147
+      ],
+      "overlaySourceSha256": "9179228a74525af84e86f25022d21b6836e4e8832da7c36bfe42af11fe24ee5c"
+    },
+    {
+      "state": 7,
+      "cargoPieceTarget": 6,
+      "path": "inventory-fullness-07.png",
+      "width": 256,
+      "height": 256,
+      "bytes": 71469,
+      "sha256": "60f32cd5938d3da66aac55703b801df27d94354bdf12a54643647133e732eb55",
+      "alphaBounds": [
+        19,
+        16,
+        237,
+        240
+      ],
+      "transparentCorners": true,
+      "lockedBagPixels": true,
+      "embeddedInsideCavity": true,
+      "changeBounds": [
+        73,
+        113,
+        182,
+        146
+      ],
+      "overlaySourceSha256": "64cfe3d1f852bf30cdce2eb5754ec8b294bca478f3aebc75bdace459c1d85bb5"
+    },
+    {
+      "state": 8,
+      "cargoPieceTarget": 9,
+      "path": "inventory-fullness-08.png",
+      "width": 256,
+      "height": 256,
+      "bytes": 74285,
+      "sha256": "d0976163c7809839b6bdbbf75202833a0f73c91a33ff944188045d12b83de3ca",
+      "alphaBounds": [
+        19,
+        16,
+        237,
+        240
+      ],
+      "transparentCorners": true,
+      "lockedBagPixels": true,
+      "embeddedInsideCavity": true,
+      "changeBounds": [
+        69,
+        101,
+        187,
+        147
+      ],
+      "overlaySourceSha256": "3fda6fa0efcca8675365b82f77c84ece55611588cb159e3b7f9549447116a06e"
+    },
+    {
+      "state": 9,
+      "cargoPieceTarget": 11,
+      "path": "inventory-fullness-09.png",
+      "width": 256,
+      "height": 256,
+      "bytes": 76037,
+      "sha256": "aaa3551b3bc34c23d97f4ebf9662492c7bf9f5457199af3bea47fa9c5feab9b7",
+      "alphaBounds": [
+        19,
+        16,
+        237,
+        240
+      ],
+      "transparentCorners": true,
+      "lockedBagPixels": true,
+      "embeddedInsideCavity": true,
+      "changeBounds": [
+        65,
+        93,
+        194,
+        146
+      ],
+      "overlaySourceSha256": "b530a9763cfb5dfd46c4d1cde8d736df4a69ebc43bbc7e2a92ccb0faee8d6194"
+    },
+    {
+      "state": 10,
+      "cargoPieceTarget": 16,
+      "path": "inventory-fullness-10.png",
+      "width": 256,
+      "height": 256,
+      "bytes": 78117,
+      "sha256": "9cd4457cc1fa66b753db094633436fe20964634d6c8d4d078732f7f53bd28b15",
+      "alphaBounds": [
+        19,
+        16,
+        237,
+        240
+      ],
+      "transparentCorners": true,
+      "lockedBagPixels": true,
+      "embeddedInsideCavity": true,
+      "changeBounds": [
+        51,
+        84,
+        200,
+        147
+      ],
+      "overlaySourceSha256": "131c7a6b7614c8ddfead4349c5ffe58c40f02b9aaecaaefbad2f1e70d47ae923"
+    }
+  ],
+  "review": {
+    "path": "inventory-fullness-v3-review.png",
+    "sha256": "9d74dd8728a69bfc7fe0171d3a3e5cd7662a3dedd79b8a2bbfd2485a45e4f065"
+  }
+}

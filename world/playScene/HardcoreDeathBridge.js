@@ -212,9 +212,10 @@ export async function beginHardcorePermanentDeath(scene, context = {}) {
   scene.playerController?.abilities?.fillGemPower?.();
   let lifeStateSaved = false;
   let saveInFlight = false;
-  const continueFromDeath = () => {
+  const continueFromDeath = async () => {
     if (!lifeStateSaved) {
-      return persistLifeState();
+      const saved = await persistLifeState();
+      if (!saved) return false;
     }
     if (result.outcome === "exhausted") {
       scene.scene.start("StartMenuScene");
@@ -253,11 +254,19 @@ export async function beginHardcorePermanentDeath(scene, context = {}) {
   async function persistLifeState() {
     if (saveInFlight || lifeStateSaved) return lifeStateSaved;
     saveInFlight = true;
-    runtime.modal.setDeathSaving(presentation);
     try {
-      scene.queueDugTilesSave?.();
+      runtime.modal.setDeathSaving(presentation);
+      scene._hardcoreLifeStateSaveInProgress = true;
+      const saveReason = "hardcore-death-life-state";
+      const saveCoordinator = scene.gameSaveCoordinator;
+      if (saveCoordinator?.requestSnapshot) {
+        saveCoordinator.requestSnapshot(saveReason);
+      } else {
+        scene.queueDugTilesSave?.(saveReason);
+      }
       const saved = await withTimeout(
-        scene.flushDugTilesSave?.({ scheduled: false, force: true }),
+        saveCoordinator?.flush?.({ scheduled: false, force: true, reason: saveReason })
+          ?? scene.flushDugTilesSave?.({ scheduled: false, force: true, reason: saveReason }),
         runtime.config.death.lifeStateSaveTimeoutMs,
       );
       if (saved === false) throw new Error("flush-returned-false");
@@ -277,6 +286,7 @@ export async function beginHardcorePermanentDeath(scene, context = {}) {
       runtime.updateDiagnostics?.();
       return false;
     } finally {
+      scene._hardcoreLifeStateSaveInProgress = false;
       saveInFlight = false;
     }
   }

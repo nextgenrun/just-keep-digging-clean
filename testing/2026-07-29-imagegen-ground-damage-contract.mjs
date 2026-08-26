@@ -4,6 +4,7 @@ import {
   WORLD_VISUAL_DAMAGE,
   WORLD_VISUAL_DAMAGE_MODES,
   getWorldVisualDamagePreloadAssets,
+  resolveWorldVisualDamageAtlas,
   resolveWorldVisualDamageFrame,
   resolveWorldVisualDamageMode,
   resolveWorldVisualDamageStateNumber,
@@ -28,6 +29,7 @@ class ImageStub {
 
   setDepth(...args) { return this.call("setDepth", ...args); }
   setMask(...args) { return this.call("setMask", ...args); }
+  setBlendMode(...args) { return this.call("setBlendMode", ...args); }
   setVisible(value) { this.visible = value; return this.call("setVisible", value); }
   setPosition(...args) { return this.call("setPosition", ...args); }
   setTexture(...args) { return this.call("setTexture", ...args); }
@@ -37,15 +39,17 @@ class ImageStub {
 }
 
 
-const atlas = WORLD_VISUAL_DAMAGE.imagegen.atlas;
+const rollbackSearch = "?groundDamageAtlas=legacy";
+const atlas = resolveWorldVisualDamageAtlas(undefined, rollbackSearch);
 assert.equal(resolveWorldVisualDamageMode(undefined, ""), WORLD_VISUAL_DAMAGE_MODES.imagegen);
 assert.equal(resolveWorldVisualDamageMode(undefined, "?groundDamage=procedural"), WORLD_VISUAL_DAMAGE_MODES.modular);
 assert.equal(resolveWorldVisualDamageMode(undefined, "?groundDamage=legacy"), WORLD_VISUAL_DAMAGE_MODES.legacy);
-assert.equal(WORLD_VISUAL_DAMAGE.imagegen.variants, 10);
+assert.equal(atlas.variants, 10);
+assert.equal(atlas.layered, false);
 assert.equal(WORLD_VISUAL_DAMAGE.stateCount, 12);
 assert.equal(atlas.frameCount, 120);
-assert.equal(atlas.frameCount, WORLD_VISUAL_DAMAGE.imagegen.variants * WORLD_VISUAL_DAMAGE.stateCount);
-assert.deepEqual(getWorldVisualDamagePreloadAssets(), [atlas]);
+assert.equal(atlas.frameCount, atlas.variants * WORLD_VISUAL_DAMAGE.stateCount);
+assert.deepEqual(getWorldVisualDamagePreloadAssets(undefined, rollbackSearch), [atlas]);
 
 const atlasPath = new URL(`../${atlas.path.split("?")[0]}`, import.meta.url);
 const png = fs.readFileSync(atlasPath);
@@ -71,15 +75,15 @@ for (const coverage of Object.values(manifest.coverageByVariantAndState)) {
 }
 assert.equal(new Set(Object.values(manifest.sha256)).size, Object.values(manifest.sha256).length);
 
-const firstVariant = resolveWorldVisualDamageVariant(31, 47);
-assert.equal(firstVariant, resolveWorldVisualDamageVariant(31, 47));
-assert.ok(firstVariant >= 0 && firstVariant < WORLD_VISUAL_DAMAGE.imagegen.variants);
-const firstFrame = resolveWorldVisualDamageFrame(31, 47, 0.001);
-const finalFrame = resolveWorldVisualDamageFrame(31, 47, 1);
-assert.equal(firstFrame % WORLD_VISUAL_DAMAGE.imagegen.variants, firstVariant);
-assert.equal(finalFrame % WORLD_VISUAL_DAMAGE.imagegen.variants, firstVariant);
-assert.equal(finalFrame - firstFrame, 11 * WORLD_VISUAL_DAMAGE.imagegen.variants);
-assert.equal(resolveWorldVisualDamageFrame(31, 47, 0), null);
+const firstVariant = resolveWorldVisualDamageVariant(31, 47, undefined, rollbackSearch);
+assert.equal(firstVariant, resolveWorldVisualDamageVariant(31, 47, undefined, rollbackSearch));
+assert.ok(firstVariant >= 0 && firstVariant < atlas.variants);
+const firstFrame = resolveWorldVisualDamageFrame(31, 47, 0.001, undefined, rollbackSearch);
+const finalFrame = resolveWorldVisualDamageFrame(31, 47, 1, undefined, rollbackSearch);
+assert.equal(firstFrame % atlas.variants, firstVariant);
+assert.equal(finalFrame % atlas.variants, firstVariant);
+assert.equal(finalFrame - firstFrame, 11 * atlas.variants);
+assert.equal(resolveWorldVisualDamageFrame(31, 47, 0, undefined, rollbackSearch), null);
 
 const toughHp = 1_000_000_000;
 assert.equal(resolveWorldVisualDamageStateNumber(1 - (toughHp - 1) / toughHp), 1);
@@ -108,7 +112,13 @@ const scene = {
     },
   },
 };
-const painter = new WorldVisualDamageImagePainter(scene, geometryMask, 2.45);
+const painter = new WorldVisualDamageImagePainter(
+  scene,
+  geometryMask,
+  2.45,
+  WORLD_VISUAL_DAMAGE,
+  rollbackSearch,
+);
 assert.equal(painter.create(), true);
 assert.equal(registeredFrames.size, 120);
 assert.equal(painter.draw(31, 47, 0.001, 94), true);
@@ -121,8 +131,8 @@ const usedFrames = images.map(image => (
   image.calls.find(([method]) => method === "setTexture")?.[2]
 ));
 assert.equal(
-  Number(usedFrames[0].replace(atlas.framePrefix, "")) % WORLD_VISUAL_DAMAGE.imagegen.variants,
-  Number(usedFrames[1].replace(atlas.framePrefix, "")) % WORLD_VISUAL_DAMAGE.imagegen.variants,
+  Number(usedFrames[0].replace(atlas.framePrefix, "")) % atlas.variants,
+  Number(usedFrames[1].replace(atlas.framePrefix, "")) % atlas.variants,
   "the same tile must retain its authored family while HP changes"
 );
 painter.clear();
@@ -169,5 +179,5 @@ painter.destroy();
 assert.ok(images.every(image => image.destroyed));
 
 console.log(
-  "ImageGen ground damage contract passed: 10 families x 12 states, proportional HP, pooled masked sprites, all materials, rollback ready"
+  "ImageGen V1 rollback damage contract passed: 10 families x 12 states, proportional HP, pooled masked sprites, and intact legacy selection"
 );

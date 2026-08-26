@@ -9,5 +9,10 @@ export function getTypedConfirmationPreloadAssets() {
 }
 
 export function getHardcoreModeOnlyPreloadAssets() {
-  return Object.freeze([asAsset(HARDCORE_MODE_CONFIG.assets.crest)]);
+  return Object.freeze([
+    asAsset(HARDCORE_MODE_CONFIG.assets.crest),
+    asAsset(HARDCORE_MODE_CONFIG.assets.panicWarning),
+    asAsset(HARDCORE_MODE_CONFIG.assets.panicCritical),
+    asAsset(HARDCORE_MODE_CONFIG.assets.panicEdgeFrame),
+  ]);
 }

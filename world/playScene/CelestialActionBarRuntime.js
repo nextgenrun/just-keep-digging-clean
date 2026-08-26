@@ -40,7 +40,7 @@ function getEngineState(scene, entryId) {
     available: unlocked && (waywardRedirect || runtimeAvailable),
     unlockCondition: root
       ? "Star Pillar: " + describeCelestialTalentAvailability(root)
-      : "Reach Level 20 and visit the Star Pillar.",
+      : "Reach Level 3 and visit the Star Pillar.",
     unavailableReason: active && !waywardRedirect
       ? "Another Celestial Engine is active."
       : "Celestial Engine runtime is busy.",

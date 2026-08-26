@@ -94,7 +94,7 @@ export class PlayerAbilities {
     return false;
   }
 
-  update(dt, input, isGrounded, facingRight) {
+  update(dt, input, isGrounded, facingRight, { actionLocked = false } = {}) {
     this._refreshConstellationStats();
 
     if (this._godMode) {
@@ -112,7 +112,7 @@ export class PlayerAbilities {
       || this._flying
       || freeFlightActive
       || this.upgradeSystem?.isGemPowerUnlocked?.();
-    const flyHeld = input.getFlyInput();
+    const flyHeld = !actionLocked && input.getFlyInput();
     const flightContext = { source: "flight" };
     const flightDrainRequest = freeFlightActive
       ? 0
@@ -186,7 +186,11 @@ export class PlayerAbilities {
       this._updateGemPower(dt);
     }
 
-    this._updateQuickslash(input, facingRight);
+    if (actionLocked) {
+      this._quickslashActive = false;
+    } else {
+      this._updateQuickslash(input, facingRight);
+    }
 
     if (this.body) this.body.setFlightActive(this._flying);
   }

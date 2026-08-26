@@ -11,6 +11,8 @@ export function resolveDepthMilestoneEconomyBonuses(
       miningSpeedReduction: 0,
       critChancePct: 0,
       critChance: 0,
+      resourceYieldPct: 0,
+      resourceYieldMultiplier: 1,
     });
   }
   const miningSpeedPct = Math.min(
@@ -21,10 +23,16 @@ export function resolveDepthMilestoneEconomyBonuses(
     config.milestones.maxCritChancePct,
     Math.max(0, Number(bonuses?.critChancePct) || 0),
   );
+  const resourceYieldPct = Math.min(
+    config.milestones.maxResourceYieldPct,
+    Math.max(0, Number(bonuses?.resourceYieldPct) || 0),
+  );
   return Object.freeze({
     miningSpeedPct,
     miningSpeedReduction: miningSpeedPct / 100,
     critChancePct,
     critChance: critChancePct / 100,
+    resourceYieldPct,
+    resourceYieldMultiplier: 1 + resourceYieldPct / 100,
   });
 }

@@ -87,6 +87,12 @@ export const RESOURCE_BY_TILE_TYPE = Object.freeze({
 });
 
 export const RESOURCE_TILE_TYPE_VALUES = Object.freeze(Object.keys(RESOURCE_BY_TILE_TYPE).map(Number));
+const SECOND_WORLD_RESOURCE_KEY_SET = new Set(SECOND_WORLD_RESOURCE_KEYS);
+export const LEVEL_ONE_RESOURCE_TILE_TYPE_VALUES = Object.freeze(
+  RESOURCE_TILE_TYPE_VALUES.filter(tileType => (
+    !SECOND_WORLD_RESOURCE_KEY_SET.has(RESOURCE_BY_TILE_TYPE[tileType])
+  )),
+);
 export const MAX_RESOURCE_TOTAL = Number.MAX_SAFE_INTEGER;
 
 export const HARD_RESOURCE_TILE_TYPES = Object.freeze(new Set([

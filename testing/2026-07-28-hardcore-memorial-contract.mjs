@@ -14,6 +14,7 @@ import {
 import { HardcoreDeathRecapView } from "../ui/overlays/HardcoreDeathRecapView.js";
 import { ASSET_KEYS } from "../values/assetKeys.js";
 import { HARDCORE_MEMORIAL_CONFIG } from "../values/hardcoreMemorials.js";
+import { LEVEL_CONFIG } from "../values/levelConfig.js";
 import { SceneModeController } from "../systems/runtime/SceneModeController.js";
 import { SCENE_BASE_PHASES } from "../values/sceneRuntime.js";
 import {
@@ -181,6 +182,7 @@ const achievements = Array.from({ length: 7 }, (_, index) => ({
   source: `contract-${index + 1}`,
 }));
 const rawRecord = {
+  version: HARDCORE_MEMORIAL_CONFIG.version,
   id: "hardcore-2-10000",
   slotId: 2,
   worldIdentity: "save-slot-2",
@@ -196,7 +198,8 @@ const rawRecord = {
   },
   player: {
     characterId: "ual-native",
-    level: 18,
+    progressionVersion: LEVEL_CONFIG.PROGRESSION_VERSION,
+    level: 3,
     gemPowerMax: 721,
     wallet: 456789,
     carriedResourceUnits: 329,
@@ -215,9 +218,18 @@ const rawRecord = {
 
 const record = sanitizeHardcoreMemorialRecord(rawRecord);
 assert.equal(record.depth, 777);
+assert.equal(record.player.level, 3);
+assert.equal(record.player.progressionVersion, LEVEL_CONFIG.PROGRESSION_VERSION);
 assert.equal(record.position.worldX, 1200.5);
 assert.equal(record.achievements.length, achievements.length);
 assert.deepEqual(Object.keys(record.stats), config.statRows.map(row => row.key));
+
+const legacyRecord = sanitizeHardcoreMemorialRecord({
+  ...rawRecord,
+  version: 1,
+  player: { ...rawRecord.player, progressionVersion: 1, level: 50 },
+});
+assert.equal(legacyRecord.player.level, 5);
 
 const pages = buildHardcoreDeathRecapPages(record);
 assert.equal(pages[0].title, config.copy.overviewTitle);

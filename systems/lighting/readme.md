@@ -24,6 +24,16 @@ Torch upkeep consumes GP through the shared player floor provider. In armed
 Hardcore it burns down to exactly one GP, switches off, and becomes manually
 off so passive regeneration cannot make it flicker on every frame. It cannot
 be re-lit until spendable GP exists; Casual retains its zero-GP floor.
+The player can set the carried flame to 20, 40, 60, 80, or 100 percent from
+the authored HUD control. The setting scales only the torch's bonus reveal,
+glow, and GP upkeep together; full intensity preserves the prior result. The
+renderer also publishes its live flame alpha so the approved HUD torch mirrors
+the same low-fuel, weather, intensity, and flicker response.
+
+Player-level darkness resistance shifts only the depth used by the visibility
+radius and deep-darkness multiplier. Actual depth still owns sunlight state,
+weather isolation, torch upkeep, hazards, and milestones, so each level grants
+20-50m of practical reach without turning underground darkness off.
 
 `LightFrameSync` prepares lighting after player movement, then commits the
 darkness mask, world glow, and shader position from Phaser's `followupdate`
@@ -67,6 +77,10 @@ rejected orange-layer comparison only; it is not the default.
 
 The exposed flame remains compact: its configured envelope is `0.46 x 0.62`
 tiles and the final live sample measured about `0.450 x 0.607` during flicker.
+The approved HUD torch artwork now also supplies a cropped carried body. It
+sits behind the player at the existing hand socket, follows facing and the
+current animation frame with restrained pose motion, and disappears with the
+flame while a dig action owns the hands; gameplay reveal remains active.
 
 `resolveFireLightAnchor` supplies the character-aware hand socket, while the
 existing collider/visible-center anchor remains authoritative for the darkness

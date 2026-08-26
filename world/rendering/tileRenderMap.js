@@ -236,12 +236,24 @@ export function getRubbleRenderIndex(type, hp, maxHp) {
     + getDamageStage(hp, maxHp) - 1;
 }
 
-export function getTileRenderIndex(type, hp, maxHp = hp, tx = 0, ty = 0, depthTiles = 0, seed = 0, visualHint = "") {
+export function getTileRenderIndex(
+  type,
+  hp,
+  maxHp = hp,
+  tx = 0,
+  ty = 0,
+  depthTiles = 0,
+  seed = 0,
+  visualHint = "",
+  depthEconomyEnabled = true,
+) {
   if (type === TILE_TYPES.AIR) {
     return -1;
   }
 
-  const soil = getSoilVisualDescriptor(type, tx, ty, depthTiles, seed);
+  const soil = getSoilVisualDescriptor(
+    type, tx, ty, depthTiles, seed, depthEconomyEnabled,
+  );
   if (soil) {
     return 1 + getSoilAtlasOffset(soil, getDamageStage(hp, maxHp));
   }

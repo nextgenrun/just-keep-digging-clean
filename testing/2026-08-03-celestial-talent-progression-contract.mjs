@@ -14,7 +14,7 @@ import {
 const config = CELESTIAL_TALENT_PROGRESSION_CONFIG;
 const branchIds = config.branches.map(branch => branch.id);
 assert.deepEqual(branchIds, ["wayward-star", "hollow-sun", "comet-engine"]);
-assert.equal(config.access.requiredPlayerLevel, 20);
+assert.equal(config.access.requiredPlayerLevel, 3);
 assert.equal(config.access.initialFreeRootSelections, 1);
 assert.equal(config.branches.length, 3);
 
@@ -29,7 +29,7 @@ for (const branch of config.branches) {
   assert.equal(branch.nodes[0].kind, "ability");
   assert.equal(branch.nodes[0].tier, 0);
   assert.equal(branch.nodes[0].starsCost, 0);
-  assert.equal(branch.nodes[0].requiredLevel, 20);
+  assert.equal(branch.nodes[0].requiredLevel, 3);
   branch.nodes.forEach((node, index) => {
     assert.equal(node.branchId, branch.id);
     assert.equal(node.tier, node.row);
@@ -37,7 +37,7 @@ for (const branch of config.branches) {
     if (index > 0) {
       assert.ok(node.prerequisiteIds.length > 0);
       assert.ok(node.starsCost > 0);
-      assert.ok(node.requiredLevel >= 25);
+      assert.ok(node.requiredLevel >= 4);
     }
   });
   for (const nodeId of branch.completionNodeIds) {
@@ -47,13 +47,13 @@ for (const branch of config.branches) {
 
 assert.deepEqual(
   CELESTIAL_STAR_RARITY_ORDER.map(getCelestialStarPointYield),
-  [1, 2, 4, 8, 15, 30],
+  [20, 50, 100, 250, 750, 2000],
 );
-assert.equal(getCelestialStarPointYield(0), 1);
-assert.equal(getCelestialStarPointYield(5), 30);
+assert.equal(getCelestialStarPointYield(0), 20);
+assert.equal(getCelestialStarPointYield(5), 2000);
 assert.equal(getCelestialStarPointYield("unknown"), 0);
 
-let playerLevel = 19;
+let playerLevel = 2;
 const persistedEvents = [];
 const observedEvents = [];
 const progression = new CelestialTalentProgressionSystem({
@@ -67,7 +67,7 @@ assert.equal(progression.getSnapshot().accessUnlocked, false);
 assert.equal(progression.purchaseNode("missing-node").reason, "unknown-node");
 assert.equal(progression.purchaseNode("wayward-star-root").reason, "talents-locked");
 
-playerLevel = 20;
+playerLevel = 3;
 assert.equal(progression.getSnapshot().availableRootSelections, 1);
 assert.equal(progression.purchaseNode("wayward-star-root").ok, true);
 assert.equal(progression.getSnapshot().stars, 0);
@@ -76,10 +76,10 @@ assert.equal(progression.purchaseNode("wayward-star-root").reason, "already-purc
 assert.equal(progression.purchaseNode("hollow-sun-root").reason, "root-choice-locked");
 assert.equal(progression.purchaseNode("wayward-ricochet-matrix").reason, "level-locked");
 
-playerLevel = 40;
+playerLevel = 5;
 assert.equal(progression.purchaseNode("wayward-vector-command").reason, "prerequisite-locked");
 assert.equal(progression.purchaseNode("wayward-ricochet-matrix").reason, "insufficient-stars");
-assert.equal(progression.grantStarsFromRarity("astral", 38), 1140);
+assert.equal(progression.grantStarsFromRarity("common", 57), 1140);
 assert.equal(progression.getSnapshot().stars, 1140);
 
 const wayward = config.branches[0];
@@ -130,7 +130,7 @@ assert.equal("miningDamage" in snapshot, false);
 const saveData = progression.getSaveData();
 assert.equal(saveData.version, config.saveVersion);
 assert.equal(saveData.purchasedNodeIds.length, 33);
-const roundTrip = new CelestialTalentProgressionSystem({ getPlayerLevel: () => 40 });
+const roundTrip = new CelestialTalentProgressionSystem({ getPlayerLevel: () => 5 });
 roundTrip.loadSaveData(saveData);
 assert.deepEqual(roundTrip.getSaveData(), saveData);
 assert.deepEqual(roundTrip.getSnapshot().unlockedAbilityIds, snapshot.unlockedAbilityIds);

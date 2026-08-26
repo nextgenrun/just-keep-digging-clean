@@ -254,6 +254,17 @@ export class RuntimeAssetLoadCoordinator {
       };
       loader.once?.(eventName, record.loaderComplete);
       loader.on?.(this.config.phaserLoader.errorEvent, record.loaderError);
+      // A prior plain-image registration with the same key is not a usable
+      // spritesheet. Replace that incomplete texture before Phaser queues the
+      // framed source; otherwise deferred flight/crouch animations resolve to
+      // the missing-texture frame while the coordinator reports them ready.
+      if (
+        record.type === this.config.types.spritesheet
+        && this.scene.textures?.exists?.(record.asset.key)
+        && !this._assetExists(record.asset, record.type)
+      ) {
+        this.scene.textures.remove?.(record.asset.key);
+      }
       queueRuntimeAsset(loader, record, this.config);
       if (!loader.isLoading?.()) loader.start?.();
     } catch (error) {

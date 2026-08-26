@@ -13,16 +13,15 @@ import { SoundSystem } from "../sound/SoundSystem.js";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const familyNames = Object.keys(APPROVED_SFX_FAMILIES);
-assert.deepEqual(familyNames, ["seismicWarning", "rareDiscovery"]);
+assert.deepEqual(familyNames, ["seismicWarning", "hardcoreNearDeath"]);
 assert.equal(APPROVED_SFX_FAMILIES.seismicWarning.length, 2);
-assert.equal(APPROVED_SFX_FAMILIES.rareDiscovery.length, 2);
+assert.equal(APPROVED_SFX_FAMILIES.hardcoreNearDeath.length, 1);
 assert.ok(AUDIO_CONFIG.seismicWarningVolume > 0 && AUDIO_CONFIG.seismicWarningVolume <= 1);
-assert.ok(AUDIO_CONFIG.rareDiscoveryVolume > 0 && AUDIO_CONFIG.rareDiscoveryVolume <= 1);
 
 const approvedAssets = Object.values(APPROVED_SFX_FAMILIES).flat();
-assert.equal(new Set(approvedAssets.map(asset => asset.key)).size, 4);
+assert.equal(new Set(approvedAssets.map(asset => asset.key)).size, 3);
 for (const asset of approvedAssets) {
-  assert.match(asset.path, /^sound\/soundEffects\/approved-sfx-findings-v1\/.+\.ogg$/);
+  assert.match(asset.path, /^sound\/soundEffects\/approved-sfx-findings-v1\/.+\.(?:ogg|wav)$/);
   assert.ok((await stat(path.join(ROOT, asset.path))).size > 10_000);
   const bytes = await readFile(path.join(ROOT, asset.path));
   assert.equal(createHash("sha256").update(bytes).digest("hex").toUpperCase(), asset.sha256);
@@ -49,7 +48,7 @@ assert.deepEqual(manager.getStats(), {
   tileBreak: 0,
   tileHit: 0,
   seismicWarning: 2,
-  rareDiscovery: 2,
+  hardcoreNearDeath: 1,
 });
 
 class FakeSound {
@@ -104,8 +103,11 @@ assert.equal(firstWarning.stopped, true, "a new warning must stop the old long c
 assert.equal(secondWarning.key, "sfx-seismic-warning-1");
 soundSystem.stopSeismicWarning();
 assert.equal(secondWarning.stopped, true);
-const discovery = soundSystem.playRareDiscovery();
-assert.ok(APPROVED_SFX_FAMILIES.rareDiscovery.some(asset => asset.key === discovery.key));
+const nearDeath = soundSystem.playHardcoreNearDeath();
+assert.equal(nearDeath.key, "sfx-hardcore-near-death-0");
+assert.notEqual(nearDeath.key, secondWarning.key, "Hardcore danger must not reuse earthquake audio");
+const stressWarning = soundSystem.playHardcoreStressWarning(false);
+assert.equal(stressWarning.key, "sfx-hardcore-near-death-0");
 Math.random = originalRandom;
 
 const bootSource = await readFile(path.join(ROOT, "ui/scenes/BootScene.js"), "utf8");
@@ -116,11 +118,11 @@ const titanSource = await readFile(path.join(ROOT, "systems/visual/TitanUnlockCo
 
 assert.ok(bootSource.includes("Object.values(APPROVED_SFX_FAMILIES)"));
 assert.ok(soundSource.includes("playSeismicWarning(proximity = 1)"));
-assert.ok(soundSource.includes("playRareDiscovery()"));
+assert.ok(!soundSource.includes("playRareDiscovery()"));
 assert.ok(soundSource.includes("stopSeismicWarning()"));
 assert.ok(quakeSource.includes("playSeismicWarning?.(warningProximity)"));
 assert.ok(quakeSource.includes("this.scene.soundSystem?.stopSeismicWarning?.()"));
-assert.ok(digSource.includes("soundSystem?.playRareDiscovery?.()"));
-assert.ok(titanSource.includes("this.scene.soundSystem?.playRareDiscovery?.()"));
+assert.ok(!digSource.includes("soundSystem?.playRareDiscovery?.()"));
+assert.ok(!titanSource.includes("this.scene.soundSystem?.playRareDiscovery?.()"));
 
-console.log("approved SFX findings contract: ok (4 rated-good assets; 2 randomized families)");
+console.log("approved SFX findings contract: ok (reward retired; Hardcore cue is distinct from seismic)");

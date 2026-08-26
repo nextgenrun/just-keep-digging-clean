@@ -316,7 +316,11 @@ assert.equal(deferredExpirations, 1);
 assert.equal(deferredState.size, 0);
 assert.equal(deferredRenders.at(-1).id, null);
 
-assert.equal(RETENTION_CONFIG.floatingText.defaultMode, "reduced");
+assert.equal(
+  RETENTION_CONFIG.floatingText.defaultMode,
+  "full",
+  "enabled floating feedback defaults to FULL so damage never silently disappears",
+);
 assert.deepEqual(
   RETENTION_CONFIG.floatingText.modes.reduced.hiddenCategories,
   ["damage", "resource"],
@@ -568,7 +572,10 @@ assert.ok(!uiSource.includes("Game saved!"));
 assert.ok(!uiSource.includes("Run started"));
 assert.ok(!uiSource.includes("Loaded save:"));
 assert.ok(uiSource.includes("Save failed!"));
-assert.ok(!hardcoreSource.includes("stressWarningText"));
+assert.ok(
+  hardcoreSource.includes("stressWarningText"),
+  "Hardcore stress warning must now pair its dedicated cue with a visible danger flash",
+);
 assert.ok(!hardcoreSource.includes("Hardcore teleport paid"));
 assert.ok(!hardcoreSource.includes("Hardcore teleport needs"));
 assert.ok(!hardcoreSource.includes("Last resort available"));

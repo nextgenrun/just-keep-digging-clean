@@ -22,6 +22,23 @@ export const HUD_QUICK_CONTROLS = Object.freeze({
     pressScale: 0.96,
     pulseScale: 1.14,
     strongPulseScale: 1.24,
+    fullness: Object.freeze({
+      // Presentation saturation only; inventory storage remains unbounded.
+      visualCapacityUnits: 100,
+      stateCount: 10,
+      assetNames: Object.freeze([
+        "inventoryFullness01",
+        "inventoryFullness02",
+        "inventoryFullness03",
+        "inventoryFullness04",
+        "inventoryFullness05",
+        "inventoryFullness06",
+        "inventoryFullness07",
+        "inventoryFullness08",
+        "inventoryFullness09",
+        "inventoryFullness10",
+      ]),
+    }),
   }),
   pause: Object.freeze({
     right: 14,

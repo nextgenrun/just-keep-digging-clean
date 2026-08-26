@@ -23,10 +23,10 @@ createUalNativePlayerAnimations({
   },
 }, profile);
 
-assert.equal(registered.size, 81, "the accepted animation registry changed");
+assert.equal(registered.size, 174, "the accepted animation registry changed");
 assert.equal(
   [...registered.values()].reduce((sum, animation) => sum + animation.frames.length, 0),
-  1681,
+  4034,
   "the approved frame order/count changed",
 );
 assert.equal(
@@ -38,13 +38,27 @@ assert.equal(profile.leanAgainstWallSheet, profile.idleSheet);
 assert.equal(profile.sourceClips.run.includes("MINER_run"), false);
 assert.equal(
   profile.displaySizePxByAnimation[profile.quickslashAnim] ?? profile.displaySizePx,
-  109,
+  101,
 );
 assert.equal(profile.displaySizePxByAnimation[profile.idleAnim], 101);
 assert.equal(profile.displaySizePxByAnimation[profile.walkStartAnim], 101);
 assert.equal(profile.displaySizePxByAnimation[profile.walkLoopAnim], 104);
 assert.equal(profile.displaySizePxByAnimation[profile.walkRunAnim], 122);
 assert.equal(profile.displaySizePxByAnimation[profile.walkStopAnim], 101);
+assert.equal(
+  profile.displaySizePxByAnimation[profile.animationPolishConfig.groundHandoff.start.key],
+  119,
+  "the planted start bridge lost its calibrated scale",
+);
+for (const key of new Set(
+  profile.animationPolishConfig.groundHandoff.stopAnimationKeyByOutgoingJogFrame,
+)) {
+  assert.equal(
+    profile.displaySizePxByAnimation[key],
+    123,
+    `${key} lost its phase-matched stop scale`,
+  );
+}
 
 const displaySizes = Object.values(profile.displaySizePxByAnimation);
 assert.ok(Math.min(...displaySizes) >= 101, "character display fell below the reviewed detail floor");
@@ -80,7 +94,7 @@ for (const contact of Object.values(profile.actionContactByAnimation)) {
 console.log(JSON.stringify({
   result: "SURVIVAL_ANIMATION_GLOBAL_POLISH_CONTRACT_OK",
   animations: registered.size,
-  referencedFrames: 1681,
+  referencedFrames: 4034,
   runStrideTiles: runStride,
   runTimeScaleAt200PxPerSec: Number(runScale.toFixed(3)),
   displaySizeRangePx: [Math.min(...displaySizes), Math.max(...displaySizes)],

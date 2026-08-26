@@ -1,6 +1,6 @@
-import { setupScene } from "./playScene/PlaySceneSetup.js?rev=20260820-complex-dig-v1";
-import { setupGameplayMethods } from "./playScene/PlaySceneGameplay.js?rev=20260820-complex-dig-v1";
-import { updateScene } from "./playScene/PlaySceneUpdate.js?rev=20260818-feedback-session-v1";
+import { setupScene } from "./playScene/PlaySceneSetup.js?rev=20260826-world-map-input-v2";
+import { setupGameplayMethods } from "./playScene/PlaySceneGameplay.js?rev=20260821-moving-complex-dig-v1";
+import { updateScene } from "./playScene/PlaySceneUpdate.js?rev=20260821-moving-complex-dig-v1";
 import {
   updatePlaySceneCameraPhase,
   updatePlaySceneLightingPhase,

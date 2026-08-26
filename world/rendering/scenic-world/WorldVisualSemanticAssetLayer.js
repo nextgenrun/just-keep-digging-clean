@@ -5,12 +5,14 @@ import {
   resolveWorldVisualSemanticAssetsEnabled,
   resolveWorldVisualSemanticResourceFrame,
   resolveWorldVisualSemanticSpecialFrame,
+  resolveWorldVisualSemanticStarIdleEnabled,
 } from "../../../values/worldVisualSemanticAssets.js";
 import { WorldVisualBedrockMaterialLayer } from "./WorldVisualBedrockMaterialLayer.js";
 import { resolveTownFloorOcclusionBounds } from "./WorldVisualTownFloorOcclusion.js";
 import {
   refreshSemanticStarIdentityFrames,
   showWorldVisualSemanticStar,
+  updateWorldVisualSemanticStars,
 } from "./WorldVisualSemanticStarPresenter.js";
 import { setTintIfChanged } from "./worldVisualRenderState.js";
 
@@ -27,10 +29,12 @@ export class WorldVisualSemanticAssetLayer {
     this.geometryMask = geometryMask;
     this.config = config;
     this.enabled = resolveWorldVisualSemanticAssetsEnabled(config);
+    this.starIdleEnabled = false;
     this.bedrockLayer = null;
     this.resourcePool = [];
     this.starBeautyPool = [];
     this.starEmissivePool = [];
+    this.starIdlePool = [];
     this.specialBeautyPool = [];
     this.specialEmissivePool = [];
     this.activeStars = [];
@@ -46,9 +50,13 @@ export class WorldVisualSemanticAssetLayer {
 
   create() {
     if (!this.enabled) return false;
+    this.starIdleEnabled = resolveWorldVisualSemanticStarIdleEnabled(this.config);
     this._installFrames(this.config.resources.atlas);
     this._installFrames(this.config.skyTile.beautyAtlas);
     this._installFrames(this.config.skyTile.emissiveAtlas);
+    if (this.starIdleEnabled) {
+      this._installFrames(this.config.skyTile.idleMotion.atlas);
+    }
     refreshSemanticStarIdentityFrames(this);
     this._installFrames(this.config.specialBlocks.beautyAtlas);
     if (this.config.specialBlocks.emissiveAtlas) {
@@ -75,6 +83,7 @@ export class WorldVisualSemanticAssetLayer {
     this.resourcePool.forEach(image => image.setVisible(false));
     this.starBeautyPool.forEach(image => image.setVisible(false));
     this.starEmissivePool.forEach(image => image.setVisible(false));
+    this.starIdlePool.forEach(image => image.setVisible(false));
     this.specialBeautyPool.forEach(image => image.setVisible(false));
     this.specialEmissivePool.forEach(image => image.setVisible(false));
     this.activeStars = [];
@@ -241,31 +250,7 @@ export class WorldVisualSemanticAssetLayer {
 
   update(now) {
     if (!this.enabled) return;
-    for (const star of this.activeStars) {
-      const light = star.identity?.light;
-      const period = light?.pulsePeriodMs
-        || this.config.skyTile.pulsePeriodMs;
-      const range = light?.pulseRange
-        || this.config.skyTile.pulseAlphaRange;
-      const opacityScale = light?.opacityScale || 1;
-      const pulse = Math.sin((now / period) * Math.PI * 2 + star.phase) * 0.5 + 0.5;
-      star.beauty.setAlpha(
-        this.config.skyTile.beautyAlpha
-          * opacityScale
-          * (1 - range * 0.25 + pulse * range * 0.25)
-      );
-      star.emissive.setAlpha(
-        this.config.skyTile.emissiveAlpha
-          * star.lightAlphaScale
-          * opacityScale
-          * (1 - range + pulse * range)
-      );
-      const rotation = Math.sin(
-        now * (light?.rotationSpeedRadiansPerMs || 0) + star.phase
-      ) * (light?.rotationAmplitudeRadians || 0);
-      star.beauty.setRotation(rotation);
-      star.emissive.setRotation(rotation);
-    }
+    updateWorldVisualSemanticStars(this, now);
   }
 
   setLighting(lighting) {
@@ -287,6 +272,9 @@ export class WorldVisualSemanticAssetLayer {
     this.starEmissivePool.forEach((image, index) => (
       image.setDepth(this.activeStars[index]?.townFloorOccluded ? occludedDepth : resolved)
     ));
+    this.starIdlePool.forEach((image, index) => (
+      image.setDepth(this.activeStars[index]?.townFloorOccluded ? occludedDepth : resolved)
+    ));
     this.specialEmissivePool.forEach((image, index) => (
       image.setDepth(this.activeSpecials[index]?.townFloorOccluded ? occludedDepth : resolved)
     ));
@@ -304,12 +292,14 @@ export class WorldVisualSemanticAssetLayer {
     this.resourcePool.forEach(image => image.destroy());
     this.starBeautyPool.forEach(image => image.destroy());
     this.starEmissivePool.forEach(image => image.destroy());
+    this.starIdlePool.forEach(image => image.destroy());
     this.specialBeautyPool.forEach(image => image.destroy());
     this.specialEmissivePool.forEach(image => image.destroy());
     this.bedrockLayer = null;
     this.resourcePool = [];
     this.starBeautyPool = [];
     this.starEmissivePool = [];
+    this.starIdlePool = [];
     this.specialBeautyPool = [];
     this.specialEmissivePool = [];
     this.activeStars = [];

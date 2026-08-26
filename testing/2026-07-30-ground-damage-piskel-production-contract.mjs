@@ -56,6 +56,7 @@ class ImageStub {
 
   setDepth(...args) { return this.call("setDepth", ...args); }
   setMask(...args) { return this.call("setMask", ...args); }
+  setBlendMode(...args) { return this.call("setBlendMode", ...args); }
   setVisible(value) { this.visible = value; return this.call("setVisible", value); }
   setPosition(...args) { return this.call("setPosition", ...args); }
   setTexture(...args) { return this.call("setTexture", ...args); }
@@ -99,18 +100,22 @@ function makeScene(expectedKey) {
 }
 
 const imagegen = WORLD_VISUAL_DAMAGE.imagegen;
-const { polished, legacy } = imagegen.atlases;
-assert.deepEqual(Object.keys(imagegen.atlases).sort(), ["legacy", "polished"]);
-assert.equal(imagegen.defaultAtlas, "polished");
+const { expanded, layered, polished, legacy } = imagegen.atlases;
+assert.deepEqual(
+  Object.keys(imagegen.atlases).sort(),
+  ["expanded", "layered", "legacy", "polished"],
+);
+assert.equal(imagegen.defaultAtlas, "expanded");
 assert.equal(imagegen.atlasQueryParam, "groundDamageAtlas");
 assert.deepEqual(imagegen.legacyAtlasValues, ["legacy", "v1", "old"]);
-assert.equal(imagegen.atlas, polished, "the compatibility atlas alias must be the new default");
+assert.equal(imagegen.atlas, expanded, "the compatibility atlas alias must be the V4 default");
 
 assert.equal(polished.path, POLISHED_PATH);
 assert.equal(legacy.path, LEGACY_PATH);
-assert.equal(resolveWorldVisualDamageAtlas(undefined, ""), polished);
+assert.equal(resolveWorldVisualDamageAtlas(undefined, ""), expanded);
 assert.equal(resolveWorldVisualDamageAtlas(undefined, "?groundDamageAtlas=polished"), polished);
-assert.equal(resolveWorldVisualDamageAtlas(undefined, "?groundDamageAtlas=unknown"), polished);
+assert.equal(resolveWorldVisualDamageAtlas(undefined, "?groundDamageAtlas=v3"), layered);
+assert.equal(resolveWorldVisualDamageAtlas(undefined, "?groundDamageAtlas=unknown"), expanded);
 for (const value of imagegen.legacyAtlasValues) {
   assert.equal(
     resolveWorldVisualDamageAtlas(undefined, `?groundDamageAtlas=${value}`),
@@ -123,7 +128,7 @@ for (const value of imagegen.legacyAtlasValues) {
     "Boot must queue only the selected rollback atlas"
   );
 }
-assert.deepEqual(getWorldVisualDamagePreloadAssets(undefined, ""), [polished]);
+assert.deepEqual(getWorldVisualDamagePreloadAssets(undefined, "?groundDamageAtlas=v2"), [polished]);
 
 for (const field of ["key", "columns", "frameSizePx", "frameCount", "framePrefix"]) {
   assert.equal(
@@ -135,7 +140,7 @@ for (const field of ["key", "columns", "frameSizePx", "frameCount", "framePrefix
 assert.equal(polished.columns, 10);
 assert.equal(polished.frameSizePx, 188);
 assert.equal(polished.frameCount, 120);
-assert.equal(polished.frameCount, imagegen.variants * WORLD_VISUAL_DAMAGE.stateCount);
+assert.equal(polished.frameCount, polished.variants * WORLD_VISUAL_DAMAGE.stateCount);
 assert.equal(polished.framePrefix, "world-visual-v2-ground-damage-");
 assert.ok(!polished.path.startsWith("exports/"), "production must not load review exports");
 
@@ -157,12 +162,13 @@ for (const path of [polishedDiskPath, legacyDiskPath]) {
   );
 }
 
-const variant = resolveWorldVisualDamageVariant(31, 47);
-const firstFrame = resolveWorldVisualDamageFrame(31, 47, 0.001);
-const finalFrame = resolveWorldVisualDamageFrame(31, 47, 1);
-assert.equal(firstFrame % imagegen.variants, variant);
-assert.equal(finalFrame % imagegen.variants, variant);
-assert.equal(finalFrame - firstFrame, 11 * imagegen.variants);
+const rollbackSearch = "?groundDamageAtlas=v2";
+const variant = resolveWorldVisualDamageVariant(31, 47, undefined, rollbackSearch);
+const firstFrame = resolveWorldVisualDamageFrame(31, 47, 0.001, undefined, rollbackSearch);
+const finalFrame = resolveWorldVisualDamageFrame(31, 47, 1, undefined, rollbackSearch);
+assert.equal(firstFrame % polished.variants, variant);
+assert.equal(finalFrame % polished.variants, variant);
+assert.equal(finalFrame - firstFrame, 11 * polished.variants);
 assert.equal(resolveWorldVisualDamageFrame(31, 47, 0), null);
 
 const syntheticPolished = Object.freeze({ ...polished, key: "damage-polished-test" });
@@ -258,7 +264,7 @@ assert.equal(
 assert.ok(fs.existsSync(diskPath("ai-tools/2026-07-30-refresh-ground-damage-piskel-polish.py")));
 
 console.log(
-  "Ground-damage Piskel production contract passed: approved atlas default, "
+  "Ground-damage Piskel V2 rollback contract passed: explicit V2 atlas selection, "
   + "V1 atlas query rollback, unchanged 10x12 frame geometry, centered painter placement, "
   + "Boot preload selection, and radial emergency rollback"
 );

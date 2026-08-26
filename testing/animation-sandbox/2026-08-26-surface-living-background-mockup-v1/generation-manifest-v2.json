@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "startedAt": "2026-08-26T01:29:04.623283+00:00",
+  "completedAt": "2026-08-26T01:30:23.729550+00:00",
+  "model": "google/veo-3.1-lite",
+  "durationSeconds": 4,
+  "resolution": "720p",
+  "aspectRatio": "16:9",
+  "generateAudio": false,
+  "seed": 26082611,
+  "hardBudgetUsd": 0.15,
+  "estimatedCostUsd": 0.12,
+  "knownCostUsd": 0.12,
+  "prompt": "A restrained living-world loop for a side-on 2D mining game background. Preserve the supplied frame's exact settlement identity, composition, building geometry, mountains, single ground line, and uninterrupted two-tile-deep soil cross-section. Never add an underground floor, ledge, shelf, platform, straight seam, tunnel, or second boundary. Keep the camera completely locked: no pan, tilt, zoom, dolly, crop, reframing, lens change, cuts, or parallax warping. Animate only small ambient details: three or four thin chimney wisps drifting slowly, extremely gentle warm lantern breathing, barely perceptible grass tips, very slow distant cloud drift, and a handful of faint mineral or root specks below ground. The soil itself stays stable and readable. No characters, creatures, vehicles, weather event, dramatic fog, large particles, explosions, new objects, text, logo, UI, music, or audio. The first and last frames are identical; motion must ease back into the identical final frame with no snap, brightness jump, object jump, smoke reset, or harsh restart. This is gameplay scenery, not a cinematic.",
+  "referenceFrame": "testing/animation-sandbox/2026-08-26-surface-living-background-mockup-v1/2026-08-26-surface-two-row-reference-v2.png",
+  "referenceSha256": "f658a0febcc4136637435b651daf8a7d50905e9423496fee3ef4cc0de64e716e",
+  "output": "testing/animation-sandbox/2026-08-26-surface-living-background-mockup-v1/2026-08-26-surface-living-loop-v2.mp4",
+  "outputSha256": "013ebf97b93dddf48fa15bd5fd98d9ab4788541fe1ff0d2b4dff7342c0b3464a",
+  "outputBytes": 901179,
+  "apiKeyStored": false,
+  "jobId": "eDIxI44Av9cgb1wXNCm0"
+}

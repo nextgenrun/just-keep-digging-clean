@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "provider": "ElevenLabs",
+  "modelId": "eleven_text_to_sound_v2",
+  "endpoint": "https://api.elevenlabs.io/v1/sound-generation",
+  "outputFormat": "mp3_44100_128",
+  "outputExtension": "mp3",
+  "sourceCsv": "sound/library-v2/sound-v4-gx201-gx400.csv",
+  "outputRoot": "sound/library-v2/SoundLibrary_Review/00_INBOX_RAW_EXPORTS",
+  "defaultBatch": "elevenlabs-sfx-v2-mockup-2026-08-26",
+  "defaultTakes": 1,
+  "estimatedApiCreditsPerSecond": 20,
+  "selectedAssetIds": [
+    "GX261",
+    "GX270",
+    "GX276",
+    "GX201",
+    "GX389",
+    "GX296",
+    "GX371",
+    "GX388"
+  ],
+  "globalPromptSuffix": "Production game SFX. Dry, clean, isolated and mixable. No speech, music, melody, beat, or watermark.",
+  "profiles": {
+    "One Shot": {
+      "promptInfluence": 0.72,
+      "layers": [
+        {
+          "id": "reference-mix",
+          "role": "reference",
+          "durationSeconds": 3,
+          "loop": false,
+          "instruction": "Render the complete polished sound effect as one cohesive one-shot with a clear attack, material body, restrained secondary detail, and short natural decay."
+        },
+        {
+          "id": "transient",
+          "role": "layer",
+          "durationSeconds": 1,
+          "loop": false,
+          "instruction": "Render only the immediate transient attack. Crisp and short. No sustained body, debris sequence, ambience, or reverb tail."
+        },
+        {
+          "id": "body",
+          "role": "layer",
+          "durationSeconds": 1.5,
+          "loop": false,
+          "instruction": "Render only the central weight and material resonance. No sharp initial attack, loose debris, ambience bed, or long decay."
+        },
+        {
+          "id": "detail",
+          "role": "layer",
+          "durationSeconds": 2,
+          "loop": false,
+          "instruction": "Render only small secondary texture, grit, chips, particles, relay movement, or interface detail appropriate to the event. No primary impact or long reverb."
+        },
+        {
+          "id": "tail",
+          "role": "layer",
+          "durationSeconds": 2.5,
+          "loop": false,
+          "instruction": "Render only the natural decay after the event. Begin after the imagined main hit. No new attack, repeated event, constant ambience, or music."
+        }
+      ]
+    },
+    "Loop": {
+      "promptInfluence": 0.62,
+      "layers": [
+        {
+          "id": "reference-mix",
+          "role": "reference",
+          "durationSeconds": 10,
+          "loop": true,
+          "instruction": "Render the complete polished seamless environmental loop, balanced and restrained, with no audible beginning, ending, click, musical rhythm, or dominant event."
+        },
+        {
+          "id": "low-bed",
+          "role": "layer",
+          "durationSeconds": 8,
+          "loop": true,
+          "instruction": "Render a seamless loop containing only the low-frequency environmental pressure bed. Stable level, no accents, melody, voices, or audible seam."
+        },
+        {
+          "id": "motion-texture",
+          "role": "layer",
+          "durationSeconds": 8,
+          "loop": true,
+          "instruction": "Render a seamless loop containing only the mid-frequency physical motion and material texture. No low drone, sharp accents, voices, rhythm, or audible seam."
+        },
+        {
+          "id": "high-detail",
+          "role": "layer",
+          "durationSeconds": 8,
+          "loop": true,
+          "instruction": "Render a seamless loop containing only subtle high-frequency air, grit, particle, or mechanism detail. Sparse, no body drone, music, voices, or audible seam."
+        },
+        {
+          "id": "sparse-accents",
+          "role": "layer",
+          "durationSeconds": 8,
+          "loop": true,
+          "instruction": "Render a seamless sparse accent layer with isolated irregular physical events and silence between them. No constant bed, music, voices, rhythm, or audible seam."
+        }
+      ]
+    }
+  }
+}

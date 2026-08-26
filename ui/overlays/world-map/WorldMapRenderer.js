@@ -1,4 +1,5 @@
 import { WORLD_MAP_CONFIG } from "../../../values/worldMapConfig.js";
+import { resolveWorldMapPlayerTile } from "../../../systems/map/resolveWorldMapPlayerTile.js";
 
 export class WorldMapRenderer {
   constructor(scene, discoverySystem, activityRegistry) {
@@ -23,15 +24,17 @@ export class WorldMapRenderer {
   }
 
   clampView(layout, viewState) {
-    const { model, pixelsPerTile } = this.getMetrics(layout, viewState);
-    const halfVisibleX = layout.width / pixelsPerTile / 2;
-    const halfVisibleY = layout.height / pixelsPerTile / 2;
-    viewState.centerTileX = halfVisibleX >= model.widthTiles / 2
-      ? model.widthTiles / 2
-      : Phaser.Math.Clamp(viewState.centerTileX, halfVisibleX, model.widthTiles - halfVisibleX);
-    viewState.centerTileY = halfVisibleY >= model.depthTiles / 2
-      ? model.depthTiles / 2
-      : Phaser.Math.Clamp(viewState.centerTileY, halfVisibleY, model.depthTiles - halfVisibleY);
+    const { model } = this.getMetrics(layout, viewState);
+    viewState.centerTileX = Phaser.Math.Clamp(
+      Number.isFinite(viewState.centerTileX) ? viewState.centerTileX : model.widthTiles / 2,
+      0,
+      Math.max(0, model.widthTiles - 1),
+    );
+    viewState.centerTileY = Phaser.Math.Clamp(
+      Number.isFinite(viewState.centerTileY) ? viewState.centerTileY : model.depthTiles / 2,
+      0,
+      Math.max(0, model.depthTiles - 1),
+    );
   }
 
   worldToScreen(tileX, tileY, layout, viewState) {
@@ -41,6 +44,23 @@ export class WorldMapRenderer {
       y: metrics.centerY + (tileY - viewState.centerTileY) * metrics.pixelsPerTile,
       pixelsPerTile: metrics.pixelsPerTile,
     };
+  }
+
+  screenToWorld(screenX, screenY, layout, viewState) {
+    const metrics = this.getMetrics(layout, viewState);
+    return {
+      tileX: viewState.centerTileX + (screenX - metrics.centerX) / metrics.pixelsPerTile,
+      tileY: viewState.centerTileY + (screenY - metrics.centerY) / metrics.pixelsPerTile,
+    };
+  }
+
+  zoomAtScreenPoint(layout, viewState, nextZoom, screenX, screenY) {
+    const anchor = this.screenToWorld(screenX, screenY, layout, viewState);
+    viewState.zoom = nextZoom;
+    const metrics = this.getMetrics(layout, viewState);
+    viewState.centerTileX = anchor.tileX - (screenX - metrics.centerX) / metrics.pixelsPerTile;
+    viewState.centerTileY = anchor.tileY - (screenY - metrics.centerY) / metrics.pixelsPerTile;
+    this.clampView(layout, viewState);
   }
 
   render(graphics, layout, viewState) {
@@ -148,10 +168,9 @@ export class WorldMapRenderer {
       graphics.strokeCircle(point.x, point.y, 6);
     });
 
-    const player = this.scene.player || this.scene.playerController?.sprite;
-    if (player) {
-      const tile = model.worldToTile(player.x, player.y);
-      const point = this.worldToScreen(tile.tx, tile.ty, layout, viewState);
+    const playerTile = resolveWorldMapPlayerTile(this.scene);
+    if (playerTile) {
+      const point = this.worldToScreen(playerTile.tx, playerTile.ty, layout, viewState);
       graphics.fillStyle(colors.player, 1);
       graphics.fillTriangle(
         point.x,
@@ -165,10 +184,9 @@ export class WorldMapRenderer {
       graphics.strokeCircle(point.x, point.y, 11);
     }
 
-    const playerTile = player ? model.worldToTile(player.x, player.y) : { ty: model.topAirRows };
     return {
       discoveryRatio: this.discoverySystem.getDiscoveryRatio(),
-      currentDepth: Math.max(0, playerTile.ty - model.topAirRows),
+      currentDepth: Math.max(0, (playerTile?.ty ?? model.topAirRows) - model.topAirRows),
       maxDepth: Math.max(0, model.depthTiles - model.topAirRows),
       widthTiles: model.widthTiles,
       depthTiles: model.depthTiles,

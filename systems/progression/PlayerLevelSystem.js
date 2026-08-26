@@ -1,11 +1,10 @@
 import { LEVEL_CONFIG } from "../../values/levelConfig.js";
 import { GEM_POWER_CONFIG } from "../../values/gemPower.js";
-import {
-  PROGRESSION_LIMITS,
-  validateBoundedNumber,
-  validateLevel,
-} from "../../values/progressionInvariants.js";
+import { validateBoundedNumber, validateLevel } from "../../values/progressionInvariants.js";
 import { reportProgressionInvariantFailure } from "../health/progressionInvariantReporter.js";
+import { calculatePlayerLevelBonuses, createPlayerLevelRewardSummary } from "./playerLevelRewardMath.js";
+import { resolvePlayerLevelSaveState } from "./playerLevelSaveState.js";
+import { resolvePlayerLevelXpMutation } from "./playerLevelXpMutation.js";
 
 export class PlayerLevelSystem {
   constructor() {
@@ -25,6 +24,7 @@ export class PlayerLevelSystem {
       globalMiningSpeed: 0,
       perLevelSpeed: 0,
       hardcapMiningSpeed: 0,
+      darknessResistanceMeters: 0,
     };
     this.comboSystem = null;
     this.campfireSystem = null;
@@ -41,7 +41,6 @@ export class PlayerLevelSystem {
   setTemporaryCriticalDamageBonusProvider(provider) {
     this.temporaryCriticalDamageBonusProvider = typeof provider === "function" ? provider : null;
   }
-
   getBonusesSummary() {
     return {
       level: this.level,
@@ -57,6 +56,7 @@ export class PlayerLevelSystem {
       perLevelSpeed: this.calculatedBonuses.perLevelSpeed,
       hardcapMiningSpeed: this.calculatedBonuses.hardcapMiningSpeed,
       gemPowerMaxBonus: this.getGemPowerMaxBonus(),
+      darknessResistanceMeters: this.getDarknessResistanceMeters(),
     };
   }
 
@@ -85,55 +85,73 @@ export class PlayerLevelSystem {
     return Math.min(speed, this.calculatedBonuses.hardcapMiningSpeed || 0.75);
   }
 
-  getMovementSpeedMultiplier() {
-    return 1.0;
-  }
+  getMovementSpeedMultiplier() { return 1.0; }
 
   getGemPowerMaxBonus(level = this.level) {
     const safeLevel = Math.max(1, Math.floor(Number.isFinite(level) ? level : 1));
+    const legacyLevel = LEVEL_CONFIG.getLegacyEquivalentLevel(safeLevel);
     const gpPerLevel = GEM_POWER_CONFIG.gpPerLevel || 10;
     const gpPerLevelHardcap = GEM_POWER_CONFIG.gpPerLevelHardcap || 2;
-    return safeLevel <= 99
-      ? safeLevel * gpPerLevel
-      : 99 * gpPerLevel + (safeLevel - 99) * gpPerLevelHardcap;
+    return legacyLevel <= LEVEL_CONFIG.LEGACY_SOFTCAP
+      ? legacyLevel * gpPerLevel
+      : LEVEL_CONFIG.LEGACY_SOFTCAP * gpPerLevel
+        + (legacyLevel - LEVEL_CONFIG.LEGACY_SOFTCAP) * gpPerLevelHardcap;
   }
 
+  getDarknessResistanceMeters(level = this.level) { return LEVEL_CONFIG.getDarknessResistanceMeters(level); }
   gainXP(resourceType) {
-    if (this.level >= LEVEL_CONFIG.HARDCAP) {
-      return { xpGained: 0, levelUp: false, newLevel: null, hasChoice: false, rewards: [] };
-    }
     const baseXP = LEVEL_CONFIG.TILE_XP[resourceType] || LEVEL_CONFIG.defaultXP || 1;
     const xpMultiplier = 1 + this.getXpMultiplier();
-    const xpGained = Math.floor(baseXP * xpMultiplier);
-    const nextCurrent = validateBoundedNumber(this.currentXP + xpGained, {
-      name: "current-xp", max: PROGRESSION_LIMITS.xp, integer: true,
+    return this._gainXPAmount(Math.floor(baseXP * xpMultiplier));
+  }
+
+  gainLevelProgress(fraction) {
+    const checked = validateBoundedNumber(fraction, {
+      name: "level-progress-fraction", min: Number.EPSILON, max: 1,
     });
-    const nextTotal = validateBoundedNumber(this.totalXP + xpGained, {
-      name: "total-xp", max: PROGRESSION_LIMITS.xp, integer: true,
+    if (!checked.ok) return this._rejectLevelMutation(checked.reason, fraction);
+    const requiredXP = this.getXPRequiredForNextLevel();
+    return this._gainXPAmount(Math.round(requiredXP * checked.value));
+  }
+
+  _gainXPAmount(xpGained) {
+    if (this.level >= LEVEL_CONFIG.HARDCAP) {
+      return {
+        xpGained: 0, levelUp: false, newLevel: null, levelsGained: 0,
+        hasChoice: false, rewards: [], automaticReward: null, rewardSummary: null,
+      };
+    }
+    const mutation = resolvePlayerLevelXpMutation({
+      level: this.level,
+      currentXP: this.currentXP,
+      totalXP: this.totalXP,
+      xpGained,
     });
-    if (!nextCurrent.ok || !nextTotal.ok) {
-      return this._rejectLevelMutation((!nextCurrent.ok ? nextCurrent : nextTotal).reason, xpGained);
-    }
-    this.currentXP = nextCurrent.value;
-    this.totalXP = nextTotal.value;
-    const required = this.getXPRequiredForNextLevel();
-    let levelUp = false, newLevel = null, automaticReward = null;
-    if (this.currentXP >= required) {
-      this.currentXP -= required;
-      this.level += 1;
-      newLevel = this.level;
-      this._recalculateBonuses();
-      levelUp = true;
-      automaticReward = this._applyAutomaticMilestoneRewards([this.level]);
-    }
+    if (!mutation.ok) return this._rejectLevelMutation(mutation.reason, xpGained);
+    const startLevel = this.level;
+    this.level = mutation.level;
+    this.currentXP = mutation.currentXP;
+    this.totalXP = mutation.totalXP;
+    const earnedLevels = mutation.earnedLevels;
+    const levelUp = earnedLevels.length > 0;
+    const newLevel = levelUp ? this.level : null;
+    const automaticReward = levelUp
+      ? this._applyAutomaticMilestoneRewards(earnedLevels)
+      : null;
+    if (levelUp) this._recalculateBonuses();
+    const rewardSummary = levelUp
+      ? this._createRewardSummary(startLevel, automaticReward)
+      : null;
     return {
       xpGained,
       levelUp,
       newLevel,
+      levelsGained: earnedLevels.length,
       hasChoice: false,
       choiceLevel: null,
       rewards: [],
       automaticReward,
+      rewardSummary,
     };
   }
 
@@ -149,12 +167,12 @@ export class PlayerLevelSystem {
     const gainCount = gain.value;
     const startLevel = this.level;
     this.level += gainCount;
-    const choiceLevels = [];
+    const rewardLevels = [];
     for (let level = startLevel + 1; level <= this.level; level += 1) {
-      if (LEVEL_CONFIG.hasChoiceReward(level)) choiceLevels.push(level);
+      if (LEVEL_CONFIG.hasChoiceReward(level)) rewardLevels.push(level);
     }
+    const automaticReward = this._applyAutomaticMilestoneRewards(rewardLevels);
     this._recalculateBonuses();
-    const automaticReward = this._applyAutomaticMilestoneRewards(choiceLevels);
     return {
       levelUp: true,
       newLevel: this.level,
@@ -164,6 +182,7 @@ export class PlayerLevelSystem {
       choiceLevels: [],
       rewards: [],
       automaticReward,
+      rewardSummary: this._createRewardSummary(startLevel, automaticReward),
     };
   }
 
@@ -173,7 +192,10 @@ export class PlayerLevelSystem {
 
   _applyAutomaticMilestoneRewards(levels) {
     const count = Array.isArray(levels)
-      ? [...new Set(levels)].filter(level => LEVEL_CONFIG.hasChoiceReward(level)).length
+      ? [...new Set(levels)].reduce(
+        (total, level) => total + LEVEL_CONFIG.getAutomaticRewardUnitsForLevel(level),
+        0,
+      )
       : 0;
     if (count <= 0) return null;
     this.automaticMilestoneRewards += count;
@@ -186,38 +208,27 @@ export class PlayerLevelSystem {
     };
   }
 
+  _createRewardSummary(startLevel, automaticReward = null) {
+    return createPlayerLevelRewardSummary({
+      startLevel, endLevel: this.level, automaticReward,
+      getGemPowerMaxBonus: level => this.getGemPowerMaxBonus(level),
+    });
+  }
+
   _recalculateBonuses() {
-    const config = LEVEL_CONFIG;
-    this.calculatedBonuses.level = this.level;
-    const miningChoiceBonus = this.choiceSelections.miningPower
-      * (config.CHOICE_REWARDS.miningPower.damageBonus || 0);
-    const luckChoiceBonus = this.choiceSelections.resourceLuck
-      * (config.CHOICE_REWARDS.resourceLuck.luckBonus || 0);
-    const automaticMiningBonus = this.automaticMilestoneRewards
-      * (config.CHOICE_REWARDS.miningPower.damageBonus || 0);
-    const automaticLuckBonus = this.automaticMilestoneRewards
-      * (config.CHOICE_REWARDS.resourceLuck.luckBonus || 0);
-    this.calculatedBonuses.miningDamageMultiplier = 1
-      + (this.level - 1) * (config.damagePerLevel || 0.05)
-      + miningChoiceBonus
-      + automaticMiningBonus;
-    this.calculatedBonuses.miningFlatDamageBonus = Math.floor((this.level - 1) * (config.flatDamagePerLevel || 0.25));
-    this.calculatedBonuses.miningSpeedBonus = Math.min((this.level - 1) * 0.005, 0.5);
-    this.calculatedBonuses.criticalHitChance = Math.min((this.level - 1) * 0.002, 0.15);
-    this.calculatedBonuses.criticalHitDamage = Math.floor((this.level - 1) * 0.5);
-    this.calculatedBonuses.maxHpBonus = (this.level - 1) * 5;
-    this.calculatedBonuses.xpMultiplier = (this.level - 1) * 0.02;
-    this.calculatedBonuses.resourceLuck = Math.min(
-      (this.level - 1) * 0.002 + luckChoiceBonus + automaticLuckBonus,
-      0.95
+    Object.assign(
+      this.calculatedBonuses,
+      calculatePlayerLevelBonuses(
+        this.level,
+        this.choiceSelections,
+        this.automaticMilestoneRewards,
+      ),
     );
-    this.calculatedBonuses.globalMiningSpeed = Math.min((this.level - 1) * 0.005, 0.5);
-    this.calculatedBonuses.perLevelSpeed = 0;
-    this.calculatedBonuses.hardcapMiningSpeed = 0.75;
   }
 
   toJSON() {
     return {
+      progressionVersion: LEVEL_CONFIG.PROGRESSION_VERSION,
       level: this.level,
       currentXP: this.currentXP,
       totalXP: this.totalXP,
@@ -229,27 +240,21 @@ export class PlayerLevelSystem {
 
   fromJSON(data) {
     if (!data) return false;
-    const level = validateLevel(data.level || 1);
-    const currentXP = validateBoundedNumber(data.currentXP || 0, {
-      name: "current-xp", max: PROGRESSION_LIMITS.xp, integer: true,
-    });
-    const totalXP = validateBoundedNumber(data.totalXP || 0, {
-      name: "total-xp", max: PROGRESSION_LIMITS.xp, integer: true,
-    });
-    if (!level.ok || !currentXP.ok || !totalXP.ok) {
+    const restored = resolvePlayerLevelSaveState(data);
+    if (!restored.ok) {
       this._rejectLevelMutation("invalid-level-save", data.level);
       return false;
     }
-    this.level = level.value;
-    this.currentXP = currentXP.value;
-    this.totalXP = totalXP.value;
-    const automaticRewards = Number(data.automaticMilestoneRewards);
-    this.automaticMilestoneRewards = Number.isFinite(automaticRewards)
-      ? Math.min(Math.floor(this.level / LEVEL_CONFIG.CHOICE_INTERVAL), Math.max(0, Math.floor(automaticRewards)))
-      : 0;
-    if (data.choiceSelections && typeof data.choiceSelections === "object") {
+    this.level = restored.level;
+    this.currentXP = restored.currentXP;
+    this.totalXP = restored.totalXP;
+    this.automaticMilestoneRewards = Math.min(
+      LEVEL_CONFIG.LEGACY_HARDCAP,
+      restored.automaticMilestoneRewards,
+    );
+    if (restored.choiceSelections) {
       for (const key of Object.keys(this.choiceSelections)) {
-        const count = Number(data.choiceSelections[key]);
+        const count = Number(restored.choiceSelections[key]);
         this.choiceSelections[key] = Number.isFinite(count) ? Math.max(0, Math.floor(count)) : 0;
       }
       this._recalculateBonuses();
@@ -259,9 +264,9 @@ export class PlayerLevelSystem {
     // Legacy saves did not persist choices separately. Preserve any positive
     // excess that was still present in their calculated snapshot.
     this._recalculateBonuses();
-    if (data.calculatedBonuses) {
-      const legacyDamage = Number(data.calculatedBonuses.miningDamageMultiplier);
-      const legacyLuck = Number(data.calculatedBonuses.resourceLuck);
+    if (restored.calculatedBonuses) {
+      const legacyDamage = Number(restored.calculatedBonuses.miningDamageMultiplier);
+      const legacyLuck = Number(restored.calculatedBonuses.resourceLuck);
       const damageExcess = Number.isFinite(legacyDamage)
         ? Math.max(0, legacyDamage - this.calculatedBonuses.miningDamageMultiplier)
         : 0;

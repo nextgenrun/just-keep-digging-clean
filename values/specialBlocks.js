@@ -129,8 +129,8 @@ export const SPECIAL_BLOCKS_CONFIG = Object.freeze({
     },
     xpBlock: {
       type: 'instant',
-      effect: 'addLevel',
-      value: 1,                // +1 level
+      effect: 'addLevelProgress',
+      value: 0.1,              // One former level in the ten-to-one scale
     },
     critBlock: {
       type: 'timed',
@@ -151,8 +151,8 @@ export const SPECIAL_BLOCKS_CONFIG = Object.freeze({
     },
     legendBlock: {
       type: 'instant',
-      effect: 'addLevel',
-      value: 5,                // +5 levels
+      effect: 'addLevelProgress',
+      value: 0.5,              // Five former levels in the ten-to-one scale
     },
   },
 

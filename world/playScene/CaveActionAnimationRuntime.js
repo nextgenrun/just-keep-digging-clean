@@ -2,7 +2,7 @@
 import { UalActionContactTimeline } from "../../player/UalActionContactTimeline.js";
 import { UalMiningComboSelector } from "../../player/UalMiningComboSelector.js";
 import { resolveMovingDiagonalDigAnimation } from "../../player/UalMovingDiagonalDigSelector.js";
-import { resolveMovingSideDigAnimation } from "../../player/UalMovingSideDigSelector.js";
+import { resolveMovingSideDigAnimation } from "../../player/UalMovingSideDigSelector.js?rev=20260821-moving-complex-dig-v1";
 import { UalActionRecoverySelector } from "../../systems/visual/UalActionRecoverySelector.js";
 import { UalNativeLocomotionTransitionSelector } from "../../systems/visual/UalNativeLocomotionTransitionSelector.js";
 import { UalWallBraceSelector } from "../../systems/visual/UalWallBraceSelector.js";
@@ -90,7 +90,7 @@ export class CaveActionAnimationRuntime {
       );
   }
   canReplaceMiningRecovery(nowMs, abilities = null) {
-    if (!this._activeMiningActionKind || this.timeline?.contactFired !== true) return false;
+    if (!this._activeMiningActionKind || this.timeline?.allContactsFired !== true) return false;
     const delayMs = UAL_NATIVE_ACTION_TUNING.cadence.normal.recoveryCancelDelayMs;
     if (!Number.isFinite(this._contactAtMs) || nowMs - this._contactAtMs < delayMs) return false;
     const { digSystem } = this.controller;
@@ -258,8 +258,8 @@ export class CaveActionAnimationRuntime {
       ? rigContext.resumeJogFrame
       : null;
     controller._actionUntilMs = Infinity;
+    controller._applyPlayerDisplaySize(key);
     scene.player.play(key, true);
-    controller._applyPlayerDisplaySize();
     scene.player.setAngle?.(0);
     scene.player.anims.timeScale = timeScale;
     controller.playerController?._syncSpriteWithPhysics?.();
@@ -279,6 +279,7 @@ export class CaveActionAnimationRuntime {
       animationKey: key,
       contactFrame: contact.textureFrame,
       contactSequenceIndex: contact.sequenceIndex,
+      contacts: contact.contacts,
       onContact: (event) => {
         this._contactAtMs = scene.time?.now ?? 0;
         onContact?.(event);

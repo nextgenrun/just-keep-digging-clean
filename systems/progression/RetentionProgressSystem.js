@@ -7,6 +7,8 @@ import {
 import { TITAN_DEFINITIONS } from "../../values/titanDiscoveries.js";
 import { TREASURE_CHEST_CONFIG } from "../../values/treasureChestConfig.js";
 import { RESOURCE_PRICES_CONFIG } from "../../values/resourcePrices.js";
+import { isContextualMechanicTutorialId } from
+  "../../values/contextualMechanicTutorials.js";
 import {
   createRetentionExpedition,
   createRetentionObjective,
@@ -173,10 +175,29 @@ export class RetentionProgressSystem {
     return true;
   }
 
+  hasSeenMechanicTutorial(tutorialId) {
+    return isContextualMechanicTutorialId(tutorialId)
+      && this.data.mechanicTutorialsSeen.includes(tutorialId);
+  }
+
+  recordMechanicTutorialSeen(tutorialId) {
+    if (
+      !isContextualMechanicTutorialId(tutorialId)
+      || this.hasSeenMechanicTutorial(tutorialId)
+    ) {
+      return false;
+    }
+    this.data.mechanicTutorialsSeen.push(tutorialId);
+    return true;
+  }
+
+  getSeenMechanicTutorials() {
+    return [...this.data.mechanicTutorialsSeen];
+  }
+
   seedLegacyProgress({
     dugTileKeys = [],
     resources = {},
-    level = 1,
     relics = 0,
     stars = 0,
     portals = [],
@@ -524,6 +545,7 @@ export class RetentionProgressSystem {
       tutorialFreeTeleportPassesConsumed: [
         ...this.data.tutorialFreeTeleportPassesConsumed,
       ],
+      mechanicTutorialsSeen: this.getSeenMechanicTutorials(),
       titanClueTracking: this.getTitanClueTrackingState(),
       objective: this.getObjective(),
       lastExpedition: this.data.lastExpedition ? { ...this.data.lastExpedition } : null,

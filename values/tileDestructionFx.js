@@ -65,6 +65,9 @@ const FAMILY_BY_TILE = Object.freeze({
   [TILE_TYPES.MAGMA_CRYSTAL]: "magma",
   [TILE_TYPES.ANCIENT_RELIC_CACHE]: "relic",
 });
+const RESPONSE_PROFILE_TILE_TYPES = Object.freeze(
+  Object.keys(FAMILY_BY_TILE).map(Number).sort((left, right) => left - right),
+);
 
 const TINT_BY_TILE = Object.freeze({
   [TILE_TYPES.DIRT]: 0xffffff,
@@ -122,6 +125,8 @@ export const TILE_DESTRUCTION_FX_CONFIG = Object.freeze({
   reducedMotionMediaQuery: "(prefers-reduced-motion: reduce)",
   families: FAMILY_ROWS,
   familyByTile: FAMILY_BY_TILE,
+  responseProfileTileTypes: RESPONSE_PROFILE_TILE_TYPES,
+  defaultResponseProfileTileType: TILE_TYPES.STONE,
   tintByTile: TINT_BY_TILE,
   defaultFamily: "hard",
   defaultTint: 0xffffff,
@@ -201,4 +206,16 @@ export function resolveTileDestructionFamily(tileType, config = TILE_DESTRUCTION
 
 export function resolveTileDestructionTint(tileType, config = TILE_DESTRUCTION_FX_CONFIG) {
   return config.tintByTile[tileType] || config.defaultTint;
+}
+
+export function resolveTileDestructionResponseProfile(
+  tileType,
+  config = TILE_DESTRUCTION_FX_CONFIG,
+) {
+  const requested = config.responseProfileTileTypes.indexOf(Number(tileType));
+  if (requested >= 0) return requested;
+  return Math.max(
+    0,
+    config.responseProfileTileTypes.indexOf(config.defaultResponseProfileTileType),
+  );
 }

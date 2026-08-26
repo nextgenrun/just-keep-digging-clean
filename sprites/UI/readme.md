@@ -4,6 +4,15 @@ Runtime bitmap assets used by heads-up displays, overlays, pickup feedback, and
 inventory presentation. Gameplay state and progression remain authoritative in
 their systems; these files are presentation only.
 
+`inventory-fullness-v3/` contains ten transparent ImageGen-authored states for
+the always-visible inventory bag, from empty through packed. Its shared open
+master supplies a dark interior cavity; every ore pile is clipped inside it,
+interior-shaded, and occluded by the restored curved front rim and clasp. This
+removes V2's pasted-on cargo while retaining its no-colour-drift construction.
+The manifest pins runtime/source hashes and the only pixels cargo may change;
+the 100-unit saturation remains visual only. `inventory-fullness-v2/` stays
+available as the direct runtime-art rollback.
+
 `earthquake-feedback-v2/` contains the generated 2x seismic status plate and
 reusable hazard medallion used by the compact earthquake feedback lifecycle.
 
@@ -48,12 +57,16 @@ matching Sign XP fills. The live Star Block popup and Talent Tree crop these
 transparent assets from real progression state; the manifest pins dimensions,
 alpha behavior, source provenance, and hashes.
 
-`star-atlas-v1/` contains the active 1536x800 ImageGen foundation for the third
-`I`-key tab. Its six rarity sockets, twelve selector sockets, large identity
-showcase, lore dossier, and three reward-stat sockets are authored with
-generous breathing room. Phaser overlays only exact Star identity frames,
-dynamic text, invisible hit zones, and bounded motion. The source prompt and
-alpha-normalization boundary live in the package readmes.
+`star-atlas-v2/` contains the active 1738x905 Star Codex foundation for the
+third `I`-key tab. Its six rarity sockets, twelve selector sockets, large
+identity showcase, lore dossier, and three reward-stat sockets are measured in
+source pixels so live art, labels, selection rings, and hit zones scale as one.
+`star-atlas-v1/` remains the untouched visual rollback source.
+
+`resource-codex-v1/` contains the authored 1738x905 Resource Codex foundation
+and the 4x4 specimen atlas for all fourteen materials. It deliberately does not
+reuse pasted gameplay ground tiles; Phaser supplies live names, discovery
+state, quantities, lore, selection borders, and aligned input only.
 
 `starlight-talent-tree-v4/` contains the active mockup-fidelity Starlight
 package. Its new `1672x941` ImageGen foundation supplies one tall antique-gold

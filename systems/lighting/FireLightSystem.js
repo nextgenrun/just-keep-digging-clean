@@ -16,6 +16,7 @@ import {
 import { EyeAdaptationSystem } from "./EyeAdaptationSystem.js";
 import { FireIlluminationRenderer } from "./FireIlluminationRenderer.js";
 import { FireLightRayRenderer } from "./FireLightRayRenderer.js";
+import { HeldTorchRenderer } from "./HeldTorchRenderer.js";
 import { createFireLightRenderer } from "./FireLightRuntimeFactory.js";
 import { clampFireLight01 } from "./fireLightMath.js";
 /**
@@ -53,10 +54,10 @@ export class FireLightSystem {
     this.illuminationRenderer = null;
     this.rayRenderer = null;
     this.eyeAdaptation = null;
+    this.heldTorchRenderer = null;
     this._snapshot = this._createSnapshot();
     this._create();
   }
-
   _create() {
     if (!this.requested) return;
     const rendererResult = createFireLightRenderer(
@@ -67,6 +68,7 @@ export class FireLightSystem {
     );
     this.renderer = rendererResult.renderer;
     if (!this.renderer) return void (this.disabledReason = rendererResult.disabledReason);
+    this.heldTorchRenderer = new HeldTorchRenderer(this.scene, this.config.heldTorch);
     this.illuminationRenderer = new FireIlluminationRenderer(
       this.scene,
       this.illuminationConfig,
@@ -86,7 +88,6 @@ export class FireLightSystem {
     this.disabledReason = null;
     this._snapshot = this._createSnapshot();
   }
-
   renderFrame({
     time,
     deltaMs,
@@ -100,9 +101,9 @@ export class FireLightSystem {
     worldModel,
   }) {
     if (!this.enabled) return this.getSnapshot();
-
     const strength = clampFireLight01(glowStrength);
     const active = Boolean(torchActive && source);
+    const carriedVisible = active && source?.obstructed !== true;
     const expandedLightAvailable = (
       this.illuminationRequested
       && this.illuminationRenderer?.available === true
@@ -123,7 +124,9 @@ export class FireLightSystem {
           ? this.illuminationConfig.integration.baseVolumeAlphaScale : 1,
       flameAlphaScale: this.presentation.flameAlphaScale,
       atmosphereAlphaScale: this.presentation.atmosphereAlphaScale,
+      flameVisible: carriedVisible,
     });
+    this.heldTorchRenderer?.render({ active: carriedVisible, source, tileSize, strength });
     const rendererSnapshot = this.renderer.getSnapshot();
     this.illuminationRenderer?.render({
       time,
@@ -170,15 +173,16 @@ export class FireLightSystem {
       source: source ? { ...source } : null,
       fuelRatio: clampFireLight01(fuelRatio),
       renderer: rendererSnapshot,
+      heldTorch: this.heldTorchRenderer?.getSnapshot?.() || null,
       illumination: this.illuminationRenderer?.getSnapshot?.() || null,
       rays: this.rayRenderer.getSnapshot(),
       eyeAdaptation: this.eyeAdaptation.getSnapshot(),
     };
     return this.getSnapshot();
   }
-
   hideWorldPresentation({ deltaMs = 0, lighting = null } = {}) {
     this.renderer?.hide();
+    this.heldTorchRenderer?.hide();
     this.illuminationRenderer?.hide();
     this.rayRenderer?.hide();
     if (this.enabled && this.eyeAdaptationRequested && lighting) {
@@ -194,24 +198,22 @@ export class FireLightSystem {
       ...this._createSnapshot(),
       active: false,
       renderer: this.renderer?.getSnapshot?.() || null,
+      heldTorch: this.heldTorchRenderer?.getSnapshot?.() || null,
       illumination: this.illuminationRenderer?.getSnapshot?.() || null,
       rays: this.rayRenderer?.getSnapshot?.() || null,
       eyeAdaptation: this.eyeAdaptation?.getSnapshot?.() || null,
     };
   }
-
   ownsTorchPresentation() {
     return this.enabled;
   }
   usesProceduralWorldGlow() {
     return this.enabled && this.presentation.proceduralWorldGlow === true;
   }
-
   getProceduralWorldGlowScale() {
     return this.usesProceduralWorldGlow()
       ? this.presentation.proceduralWorldGlowScale : 1;
   }
-
   getProceduralShaderMix() {
     if (!this.enabled) return 1;
     if (Number.isFinite(this.presentation.proceduralShaderMix)) {
@@ -222,7 +224,6 @@ export class FireLightSystem {
       ? this.illuminationConfig.integration.proceduralShaderMix
       : this.config.shader.authoredPresentationProceduralMix;
   }
-
   getSnapshot() {
     return {
       ...this._snapshot,
@@ -230,6 +231,7 @@ export class FireLightSystem {
       renderer: this._snapshot.renderer
         ? { ...this._snapshot.renderer }
         : null,
+      heldTorch: this._snapshot.heldTorch ? { ...this._snapshot.heldTorch } : null,
       illumination: this._snapshot.illumination
         ? {
           ...this._snapshot.illumination,
@@ -271,22 +273,24 @@ export class FireLightSystem {
       source: null,
       fuelRatio: 0,
       renderer: null,
+      heldTorch: null,
       illumination: null,
       rays: null,
       eyeAdaptation: null,
     };
   }
-
   resize() {
     this.eyeAdaptation?.resize();
   }
 
   destroy() {
     this.renderer?.destroy();
+    this.heldTorchRenderer?.destroy();
     this.illuminationRenderer?.destroy();
     this.rayRenderer?.destroy();
     this.eyeAdaptation?.destroy();
     this.renderer = null;
+    this.heldTorchRenderer = null;
     this.illuminationRenderer = null;
     this.rayRenderer = null;
     this.eyeAdaptation = null;

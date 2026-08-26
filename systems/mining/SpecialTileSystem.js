@@ -286,10 +286,19 @@ export class SpecialTileSystem {
     );
     const hasStar = starRoll < TREASURE_CHEST_CONFIG.star.chance;
 
+    const upgradeSystem = this.scene.upgradeSystem;
+    const moneyBefore = Number(upgradeSystem?.getMoney?.());
+    if (!Number.isFinite(moneyBefore) || typeof upgradeSystem?.addMoney !== "function") {
+      return { success: false, reason: "chest-reward-unavailable" };
+    }
+    const moneyAfter = upgradeSystem.addMoney(money);
+    if (!Number.isFinite(moneyAfter) || moneyAfter <= moneyBefore) {
+      return { success: false, reason: "chest-reward-rejected" };
+    }
+
     this.openedChestKeys.add(key);
     this.worldModel.applyDugTileKeys([key]);
     this.scene.worldRenderer?.applyTileUpdate?.(tile.tx, tile.ty);
-    this.scene.upgradeSystem?.addMoney?.(money);
     const now = this.scene.time?.now || 0;
     this.scene.retentionProgressSystem?.activateChestCritBuff?.(now);
 
@@ -306,12 +315,43 @@ export class SpecialTileSystem {
       );
     }
     this.scene.retentionProgressSystem?.recordChest?.({ money, star: hasStar });
+    const feedback = TREASURE_CHEST_CONFIG.feedback;
+    const rewardParts = [
+      `+${money.toLocaleString()} ${feedback.moneyUnit}`,
+    ];
+    if (hasStar) rewardParts.push(feedback.starAwardLabel);
+    rewardParts.push(
+      `${TREASURE_CHEST_CONFIG.critBuff.name} ${feedback.activeLabel}`,
+    );
+    const rewardMessage = rewardParts.join(feedback.separator);
+    const rewardColor = hasStar ? feedback.starColor : feedback.moneyColor;
+    this.floatingTextSystem?.showFloatingText?.(
+      worldPos.x,
+      worldPos.y,
+      rewardMessage,
+      rewardColor,
+      feedback.floatingDurationMs,
+      feedback.floatingFontSizePx,
+      "status",
+    );
+    this.scene.hudSystem?.flashStatus?.(
+      rewardMessage,
+      rewardColor,
+      feedback.statusDurationMs,
+    );
     this.scene.screenFlashSystem?.flashLucky?.();
-    this.scene.soundSystem?.playSfx?.("reward");
+    this.scene.soundSystem?.playUiConfirm?.();
     this.scene.queueDugTilesSave?.();
     this.promptText.setVisible(false);
     this.promptTile = null;
-    return { success: true, type: "chest", money, star: hasStar, starType };
+    return {
+      success: true,
+      type: "chest",
+      money,
+      walletAfter: moneyAfter,
+      star: hasStar,
+      starType,
+    };
   }
 
   consumeChestForEvent(tile = this.promptTile) {

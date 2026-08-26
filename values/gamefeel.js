@@ -25,6 +25,9 @@ export const GAMEFEEL_CONFIG = Object.freeze({
     luckyColor:   0x44cc88,
     luckyAlpha:   0.024,
     luckyDuration: 70,
+    panicColor:   0xff1f2d,
+    panicAlpha:   0.34,
+    panicDuration: 260,
   },
 
   // ── CAMERA ZOOM PULSE (on crit) ────────────────────────────────────────

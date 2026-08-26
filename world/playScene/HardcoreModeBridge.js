@@ -43,8 +43,9 @@ function flash(scene, text, color, duration) {
 function isNearIntactStarLight(scene, playerTile, radiusTiles) {
   if (!playerTile || !scene.worldModel || !(radiusTiles > 0)) return false;
   const radiusSquared = radiusTiles * radiusTiles;
-  for (let offsetY = -radiusTiles; offsetY <= radiusTiles; offsetY += 1) {
-    for (let offsetX = -radiusTiles; offsetX <= radiusTiles; offsetX += 1) {
+  const scanRadius = Math.ceil(radiusTiles);
+  for (let offsetY = -scanRadius; offsetY <= scanRadius; offsetY += 1) {
+    for (let offsetX = -scanRadius; offsetX <= scanRadius; offsetX += 1) {
       if (offsetX * offsetX + offsetY * offsetY > radiusSquared) continue;
       const tx = playerTile.tx + offsetX;
       const ty = playerTile.ty + offsetY;
@@ -60,7 +61,16 @@ function processSystemEvents(scene) {
   if (!runtime) return;
   for (const event of runtime.system.drainEvents()) {
     if (event.type !== "stress-band") continue;
-    scene.soundSystem?.playSeismicWarning?.(event.band === "critical" ? 1 : 0.55);
+    scene.soundSystem?.playHardcoreStressWarning?.(event.band === "critical");
+    if (event.band === "warning") {
+      flash(
+        scene,
+        runtime.config.feedback.stressWarningText,
+        "#f0c765",
+        runtime.config.feedback.dangerFlashMs,
+      );
+      continue;
+    }
     if (event.band !== "critical") continue;
     flash(
       scene,
@@ -183,6 +193,7 @@ function updateDiagnostics(scene) {
   }
   window[runtime.config.diagnostics.globalKey] = {
     mode: runtime.system.getSnapshot(),
+    presentation: runtime.hud?.getDebugSnapshot?.() || null,
     deathInProgress: scene._hardcoreDeathInProgress === true,
     saveWritesBlocked: scene._saveWritesBlocked === true,
     lastDeath: runtime.lastDeath || null,
@@ -262,7 +273,12 @@ export function createHardcoreModeRuntime(scene) {
   runtime.bindings.handleCasualBoundaryRescue = () => rescueAtCasualBoundary(scene);
   for (const [name, handler] of Object.entries(runtime.bindings)) scene[name] = handler;
 
-  runtime.hud.update(system.getSnapshot(), scene.time?.now || 0, scene.playerController?.getGemPowerExact?.() || 0);
+  runtime.hud.update(
+    system.getSnapshot(),
+    scene.time?.now || 0,
+    scene.playerController?.getGemPowerExact?.() || 0,
+    { gameplayActive: scene.gameState === "playing" },
+  );
   updateDiagnostics(scene);
   return runtime;
 }
@@ -296,7 +312,12 @@ export function updateHardcoreModeRuntime(scene, time, delta, playerTile = null)
   }
   const gp = scene.playerController?.getGemPowerExact?.() || 0;
   if (scene._hardcoreDeathInProgress) {
-    runtime.hud.update(runtime.system.getSnapshot(), time, gp);
+    runtime.hud.update(
+      runtime.system.getSnapshot(),
+      time,
+      gp,
+      { gameplayActive: false },
+    );
     return runtime.system.getSnapshot();
   }
 
@@ -375,7 +396,12 @@ export function updateHardcoreModeRuntime(scene, time, delta, playerTile = null)
     scene.queueDugTilesSave?.();
   }
 
-  runtime.hud.update(snapshot, time, currentGp);
+  runtime.hud.update(
+    snapshot,
+    time,
+    currentGp,
+    { gameplayActive: scene.gameState === "playing" },
+  );
   updateDiagnostics(scene);
   return snapshot;
 }

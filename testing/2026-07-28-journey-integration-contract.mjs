@@ -113,10 +113,10 @@ const journey = new JourneySystem({
 });
 journey.seedCurrentState();
 liveSnapshot = createSnapshot({}, {
-  movementSpeedPxPerSec: 205,
-  permanentMovementSpeedPxPerSec: 205,
-  movementSpeedBonusPxPerSec: 5,
-  movementSpeedBonusPercent: 2.5,
+  movementSpeedPxPerSec: 220,
+  permanentMovementSpeedPxPerSec: 220,
+  movementSpeedBonusPxPerSec: 20,
+  movementSpeedBonusPercent: 10,
 });
 const movementEvent = journey.recordUpgradePurchase({
   upgrade: UPGRADES.agility,
@@ -135,7 +135,7 @@ assert.deepEqual(
   {
     title: "Movement Speed",
     before: 200,
-    after: 205,
+    after: 220,
     unit: "px/s",
   },
 );

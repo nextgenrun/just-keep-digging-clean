@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "provider": "ElevenLabs",
+  "reviewOnly": true,
+  "runtimeWired": false,
+  "createdAt": "2026-08-26T01:41:23.364933+00:00",
+  "results": {
+    "short-01-how-deep-v2:narration": {
+      "jobKey": "short-01-how-deep-v2:narration",
+      "kind": "narration",
+      "file": "short-01-how-deep-narration-v2.mp3",
+      "voiceId": "j9jfwdrw7BRfcR43Qohk",
+      "voiceName": "Frederick Surrey - Smooth and Velvety",
+      "text": "Every descent changes you. You dig a little deeper, discover something stranger, and return stronger than before. But eventually... the Understar starts calling back. Wishlist Understar on Steam.",
+      "status": "error",
+      "lastError": "HTTP 402: {'type': 'payment_required', 'code': 'paid_plan_required', 'message': 'Free users cannot use library voices via the API. Please upgrade your subscription to use this voice.', 'status': 'payment_required', 'request_id': 'be7b43071e9681d86880321ba556ef53'}",
+      "failedAt": "2026-08-26T01:41:24.223492+00:00"
+    },
+    "short-01-how-deep-v2:sfx": {
+      "jobKey": "short-01-how-deep-v2:sfx",
+      "kind": "sfx",
+      "file": "short-01-how-deep-sfx.mp3",
+      "durationSeconds": 18,
+      "prompt": "Cinematic non-musical underground mining promo soundscape: distant pickaxe strike, stone pressure, falling grit, deep air pull, then a restrained luminous energy swell. No voice, speech, melody, beat, or music.",
+      "status": "ready",
+      "bytes": 289271,
+      "sha256": "c3aedede358a56d19c126b4a3edac823279360945d22e6ab67839b0d4d91cb23"
+    },
+    "short-02-titans-v2:narration": {
+      "jobKey": "short-02-titans-v2:narration",
+      "kind": "narration",
+      "file": "short-02-titans-narration-v2.mp3",
+      "voiceId": "j9jfwdrw7BRfcR43Qohk",
+      "voiceName": "Frederick Surrey - Smooth and Velvety",
+      "text": "At first, it looks like another ruin. Then it breathes. Twenty-five Titans are buried beneath the world, and finding one is only the beginning. Wishlist Understar on Steam.",
+      "status": "error",
+      "lastError": "HTTP 402: {'type': 'payment_required', 'code': 'paid_plan_required', 'message': 'Free users cannot use library voices via the API. Please upgrade your subscription to use this voice.', 'status': 'payment_required', 'request_id': '03fd208f199b4735b4275770df1ca9e9'}",
+      "failedAt": "2026-08-26T01:41:24.430994+00:00"
+    }
+  },
+  "updatedAt": "2026-08-26T01:41:24.430994+00:00"
+}

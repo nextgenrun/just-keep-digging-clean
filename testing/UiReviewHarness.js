@@ -1,6 +1,7 @@
 const REVIEW_SURFACES = Object.freeze([
   ["pause", "ESC Menu"],
   ["inventory", "Inventory"],
+  ["map", "Map"],
   ["shop", "Shop"],
   ["campfire", "Campfire"],
   ["milestones", "Milestones"],
@@ -35,16 +36,17 @@ function showReviewNotification(scene) {
 }
 
 function closeReviewSurface(scene) {
-  if (scene._pausePanel) scene.hidePauseMenu?.();
+  if (scene._pausePanel || scene.gameState === "paused") scene.resumeGame?.();
   scene.shopOverlay?.hide?.();
   scene.uiInventoryPopup?.close?.();
+  scene.hideWorldMap?.();
   scene.campfireSystem?._closeBuffSelection?.();
   scene.milestoneBoardSystem?._closeBoardView?.();
   scene.starPillarSystem?.closeConstellationView?.();
-  scene.overlayManager?.hideOverlay?.();
-  scene.gameState = "playing";
-  scene.setShopOpen?.(false);
-  scene.playerController?.setControlsEnabled?.(true);
+  if (scene.gameState === "dialog") {
+    scene.hideOverlay?.();
+    scene.closeGameDialog?.();
+  }
 }
 
 function openReviewSurface(scene, surface) {
@@ -54,6 +56,15 @@ function openReviewSurface(scene, surface) {
       break;
     case "inventory":
       scene.uiInventoryPopup?.open?.();
+      break;
+    case "map":
+      console.info("[UiReviewHarness] Map open " + JSON.stringify({
+        accepted: scene.showWorldMap?.(),
+        gameState: scene.gameState,
+        loading: scene._worldMapFeatureLoading === true,
+        open: scene.worldMapOverlay?.isOpen === true,
+        assets: scene.runtimeFeatureAssetManager?.getSnapshot?.(),
+      }));
       break;
     case "shop":
       scene.shopOverlay?.show?.("moneyMonster");
@@ -68,14 +79,18 @@ function openReviewSurface(scene, surface) {
       scene.starPillarSystem?.openConstellationView?.();
       break;
     case "level":
-      scene.hudSystem?.flashStatus?.(
-        "LEVEL UPS ARE AUTOMATIC AND NONBLOCKING",
-        "#76f4ff",
-        1600,
-      );
+      scene.levelUpRewardPresentation?.show?.({
+        level: 2,
+        levelsGained: 1,
+        darknessResistanceGainMeters: 20,
+        darknessResistanceMeters: 20,
+        miningPowerGainPercent: 56,
+        maxHpGain: 50,
+        gemPowerMaxGain: 100,
+      });
+      scene.soundSystem?.playLevelUpReward?.();
       break;
     case "dialog":
-      scene.gameState = "dialog";
       scene.showGameDialog?.(
         "UI REVIEW DIALOG",
         "This is a production dialog layout check.\n\nText should remain readable, centered, and clear at every supported viewport."

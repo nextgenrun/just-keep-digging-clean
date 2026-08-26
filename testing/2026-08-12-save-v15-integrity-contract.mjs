@@ -109,7 +109,7 @@ assert.equal(levels.fromJSON({ level: Number.POSITIVE_INFINITY }), false);
 assert.equal(levels.level, 1);
 assert.equal(levels.gainLevel(-4).success, false);
 assert.equal(levels.level, 1);
-assert.equal(levels._applyAutomaticMilestoneRewards([5, 5]).count, 1);
+assert.equal(levels._applyAutomaticMilestoneRewards([5, 5]).count, 2);
 
 assert.equal(validateSaveSnapshotIntegrity({
   worldIdentity: world,

@@ -23,6 +23,7 @@ import {
 import { PLAYER_MOTION_POLISH_CONFIG } from "../values/playerMotionPolish.js";
 import { COMPLEX_DIG_ANIMATIONS } from "../values/complexDigAnimations.js";
 import { MIXAMO_ACCEPTED_PLAYER_ANIMATIONS } from "../values/mixamoAcceptedPlayerAnimations.js";
+import { MIXAMO_LEDGE_ASSIST_ANIMATION } from "../values/mixamoLedgeAssistAnimation.js";
 import { SURVIVAL_BLENDER_V2_RUNTIME } from "../values/survivalBlenderV2Runtime.js";
 import { resolveUalActionContact } from "../values/ualNativeActionTuning.js";
 
@@ -73,7 +74,7 @@ assert.equal(survival.isUalNative, true);
 assert.equal(survival.basePath, "sprites/character/survival-ual-player-v1/runtime");
 assert.equal(
   survival.renderPipeline,
-  "survival-blender-v2-piskel-polish-v2-mixamo-complex-dig-v1",
+  "survival-blender-v2-piskel-polish-v2-mixamo-complex-dig-moving-v1",
 );
 assert.equal(survival.visualSkin, blender.visualId);
 assert.equal(survival.weaponPolicy, "none");
@@ -117,17 +118,20 @@ assert.deepEqual(survival.flySourceFrames, blender.frames.fly);
 assert.deepEqual(survival.flightTravelLoopFrames, mixamo.sheets.flight.frames);
 assert.equal(
   survival.sheetFiles.length,
-  ual.sheetFiles.length + survival.animationPolishSheetFiles.length + 10
+  ual.sheetFiles.length + survival.animationPolishSheetFiles.length + 12
     + Object.keys(COMPLEX_DIG_ANIMATIONS.clips).length,
 );
 assert.equal(new Set(survival.requiredSheets).size, survival.requiredSheets.length);
 assert.equal(
   survival.requiredSheets.length,
-  ual.requiredSheets.length + 2 + survival.animationPolishRequiredSheets.length + 10 - 2
+  ual.requiredSheets.length + 2 + survival.animationPolishRequiredSheets.length + 12 - 2
     + Object.keys(COMPLEX_DIG_ANIMATIONS.clips).length,
 );
 assert.ok(survival.requiredSheets.some((key) => key.startsWith("survival-blender-v2-")));
 assert.ok(survival.requiredSheets.some((key) => key.startsWith(prefix)));
+assert.equal(survival.ledgeAssistEnabled, true);
+assert.equal(survival.ledgeClimbSheet, MIXAMO_LEDGE_ASSIST_ANIMATION.sheet.key);
+assert.equal(survival.ledgeClimbFrames.length, 35);
 assert.equal(survival.rigManifestKey, `${prefix}-rig-manifest`);
 assert.equal(runtimeManifest.pipeline, "survival-body-ual-motion-unreal-ik-v1");
 assert.ok(expectedRuntimeActions.every((action) => runtimeManifest.actions[action]), "profile runtime action is missing");

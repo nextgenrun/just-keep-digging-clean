@@ -74,7 +74,7 @@ const metrics = getCelestialActionBarMetrics({
 assert.deepEqual(metrics, { gpCurrent: 72.8, gpMax: 100, miningDamage: 41 });
 
 const legacyScene = {
-  playerLevelSystem: { level: 30 },
+  playerLevelSystem: { level: 4 },
   starHeartProgressionSystem: { syncTalentUnlockedEngines() {} },
 };
 const legacySnapshot = initializeCelestialOverhaulRuntime(legacyScene, {

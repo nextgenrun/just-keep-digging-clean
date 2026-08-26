@@ -354,7 +354,10 @@ const updateSource = await readFile(
 assert.match(townSource, /fly: USER_SETTINGS\.getKeyLabel\("fly"\)/);
 assert.match(townSource, /firstFive\.create\(\)/);
 assert.match(townSource, /getNextPromiseOverride/);
-assert.match(promiseSource, /tutorialPromise \|\| eventPromise/);
+assert.match(
+  promiseSource,
+  /tutorialPromise \|\| mechanicPromise \|\| eventPromise/,
+);
 assert.match(updateSource, /enforceSurfaceSafety/);
 assert.match(updateSource, /tutorialDownwardMineBlocked/);
 assert.ok(TUTORIAL_NARRATION_CONFIG.cues.dig.caption.detail.includes("{mine}"));

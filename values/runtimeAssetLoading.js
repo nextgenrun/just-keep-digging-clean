@@ -193,6 +193,9 @@ export const RUNTIME_ASSET_LOADING = Object.freeze({
         priority: RUNTIME_ASSET_LOAD_PRIORITIES.featureWorldMap,
         residencyClass: RUNTIME_ASSET_RESIDENCY_CLASSES.onDemand,
         releaseWhenUnused: true,
+        // A command UI must never look unresponsive behind memory-pressure
+        // deferral. It is one bounded frame and can still be released on close.
+        bypassPressureGate: true,
       }),
       [RUNTIME_FEATURE_ASSET_GROUP_IDS.hardcoreMode]: Object.freeze({
         owner: RUNTIME_ASSET_LOAD_OWNERS.hardcoreMode,

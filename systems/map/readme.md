@@ -4,6 +4,7 @@ This directory owns map data that is independent from presentation.
 
 - `WorldMapDiscoverySystem.js` stores sparse fog-of-war cells by absolute tile coordinate.
 - `WorldMapActivityRegistry.js` accepts marker providers from current and future gameplay systems.
+- `resolveWorldMapPlayerTile.js` keeps discovery, recentering, and the player marker on the same collision-body tile.
 
 The discovery format does not encode world width or depth. Expanding the world preserves
 existing discoveries. Bump `WORLD_MAP_CONFIG.worldRevision` only when old coordinates are

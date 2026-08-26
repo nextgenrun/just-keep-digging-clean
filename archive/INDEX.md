@@ -2,6 +2,7 @@
 
 | Archived Item | Original Location | Date Archived | Reason |
 |---------------|------------------|---------------|--------|
+| 2026-08-26-stale-worktree-recovery | `.git-safety/celestial-ranked-overhaul` and `.git-safety/design-source-of-truth-2026-08-10` | 2026-08-26 | Preserved unresolved August 10 WIP as patches and untracked files before worktree cleanup; 10,714 apparent accidental preview deletions were excluded |
 | 2026-08-14-survival-animation-global-polish-v1 | Survival profile and kinematic-motion runtime files | 2026-08-14 | Byte-exact rollback for the marker-fitted run cadence and restored lean-wall animation registration |
 | 2026-08-14-survival-quality-runtime-promotion-v1 | Six active survival-character sheets, two manifests, and profile routing; see package index/report | 2026-08-14 | Byte-exact rollback for the approved high-resolution render, deformation, material, eye, and secondary-motion quality promotion |
 | 2026-08-03-loading-mining-minigame | Loading minigame code, authored loader assets, tests, QA captures, and docs; see package manifest | 2026-08-03 | Restored the regular pre-minigame loader; retained this complete scoped package for rollback |

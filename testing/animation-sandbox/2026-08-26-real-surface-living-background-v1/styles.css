@@ -1,0 +1,156 @@
+:root {
+  color-scheme: dark;
+  --bg: #05080d;
+  --panel: #091522;
+  --panel-hi: #10263a;
+  --line: #264764;
+  --copy: #edf6ff;
+  --muted: #91a9bb;
+  --blue: #69bdeb;
+  --warm: #e2a754;
+}
+
+* { box-sizing: border-box; }
+html, body { min-height: 100%; margin: 0; }
+body {
+  background: radial-gradient(circle at 50% 0, #102a42 0, var(--bg) 42rem);
+  color: var(--copy);
+  font-family: Inter, "Segoe UI", system-ui, sans-serif;
+}
+button { font: inherit; }
+
+.review-shell {
+  width: min(1320px, calc(100% - 28px));
+  margin: 0 auto;
+  padding: 28px 0 36px;
+}
+.hero-copy { max-width: 850px; margin-bottom: 18px; }
+.eyebrow {
+  margin: 0 0 7px;
+  color: var(--blue);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+h1, h2 { margin: 0; line-height: 1.05; }
+h1 { font: 700 clamp(30px, 5vw, 58px)/1.02 Georgia, serif; }
+h2 { font-size: 22px; }
+.hero-copy > p:last-child,
+.comparison-head > p {
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.world-stage {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #02060a;
+  box-shadow: 0 22px 70px rgb(0 0 0 / .44);
+}
+.world-stage img,
+.world-stage video {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.world-stage video { z-index: 1; }
+.stage-badges,
+.active-label {
+  position: absolute;
+  z-index: 2;
+  display: flex;
+  gap: 8px;
+}
+.stage-badges { top: 14px; left: 14px; }
+.stage-badges span,
+.active-label {
+  border: 1px solid rgb(105 189 235 / .45);
+  border-radius: 999px;
+  background: rgb(3 12 20 / .82);
+  backdrop-filter: blur(10px);
+}
+.stage-badges span { padding: 7px 10px; font-size: 10px; text-transform: uppercase; letter-spacing: .08em; }
+.active-label { right: 14px; bottom: 14px; align-items: center; padding: 8px 12px; }
+.active-label b { color: var(--warm); }
+.active-label span { color: var(--muted); font-size: 12px; }
+
+.control-row {
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  gap: 10px;
+  align-items: center;
+  padding: 12px 0 18px;
+}
+.control-row button,
+.variant-card {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--panel);
+  color: var(--copy);
+  cursor: pointer;
+}
+.control-row button { padding: 9px 14px; }
+.control-row button:hover,
+.variant-card:hover { border-color: var(--blue); }
+.control-row p { margin: 0; color: var(--muted); font-size: 12px; text-align: right; }
+
+.comparison {
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: rgb(9 21 34 / .94);
+}
+.comparison-head {
+  display: grid;
+  grid-template-columns: 1fr minmax(260px, 520px);
+  gap: 20px;
+  align-items: end;
+  margin-bottom: 14px;
+}
+.comparison-head > p { margin: 0; font-size: 12px; text-align: right; }
+.variant-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 9px; }
+.variant-card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2px 10px;
+  min-height: 70px;
+  padding: 12px;
+  text-align: left;
+}
+.variant-card b { grid-row: span 2; color: var(--blue); font-size: 20px; }
+.variant-card span { font-weight: 700; }
+.variant-card small { color: var(--muted); }
+.variant-card[aria-pressed="true"] {
+  border-color: var(--blue);
+  background: var(--panel-hi);
+  box-shadow: inset 0 0 0 1px rgb(105 189 235 / .2);
+}
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin: 12px 0 0;
+}
+.metrics div { padding: 13px; border: 1px solid #1c354a; border-radius: 10px; background: #07111c; }
+.metrics dt { color: var(--muted); font-size: 11px; }
+.metrics dd { margin: 5px 0 0; font-weight: 700; }
+
+@media (max-width: 800px) {
+  .review-shell { width: min(100% - 18px, 1320px); padding-top: 18px; }
+  .stage-badges { display: none; }
+  .active-label { left: 9px; right: auto; bottom: 9px; }
+  .control-row { grid-template-columns: 1fr 1fr; }
+  .control-row p { grid-column: 1 / -1; text-align: left; }
+  .comparison-head { grid-template-columns: 1fr; }
+  .comparison-head > p { text-align: left; }
+  .variant-grid, .metrics { grid-template-columns: repeat(2, 1fr); }
+}

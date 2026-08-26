@@ -4,13 +4,43 @@
  */
 
 export const LEVEL_CONFIG = Object.freeze({
+  PROGRESSION_VERSION: 2,
+  LEGACY_LEVELS_PER_LEVEL: 10,
+
   // Level caps
-  SOFTCAP: 99,
-  HARDCAP: 999,
+  SOFTCAP: 11,
+  HARDCAP: 99,
+  LEGACY_SOFTCAP: 99,
+  LEGACY_HARDCAP: 999,
 
   // XP formula: XP Required = 100 * level^1.2
   XP_BASE_MULTIPLIER: 25,
   XP_EXPONENT: 1.2,
+
+  // One meaningful level carries the permanent growth of ten former levels.
+  BONUSES: Object.freeze({
+    damagePerLegacyLevel: 0.05,
+    flatDamagePerLegacyLevel: 0.25,
+    miningSpeedPerLegacyLevel: 0.005,
+    miningSpeedCap: 0.5,
+    criticalChancePerLegacyLevel: 0.002,
+    criticalChanceCap: 0.15,
+    criticalDamagePerLegacyLevel: 0.5,
+    maxHpPerLegacyLevel: 5,
+    xpMultiplierPerLegacyLevel: 0.02,
+    resourceLuckPerLegacyLevel: 0.002,
+    resourceLuckCap: 0.95,
+    hardcapMiningSpeed: 0.75,
+  }),
+
+  // Each earned level postpones the same visibility loss by 20-50 metres.
+  // Early gains stay restrained; the exponential curve approaches 50m late.
+  DARKNESS_RESISTANCE: Object.freeze({
+    minimumGainMeters: 20,
+    maximumGainMeters: 50,
+    approachLevels: 23,
+    roundToMeters: 1,
+  }),
 
   // XP values for each tile type
   TILE_XP: {
@@ -30,8 +60,9 @@ export const LEVEL_CONFIG = Object.freeze({
     magmaCrystal: 2800,
   },
 
-  // Every 5 levels: grant both small passive bonuses without interrupting play.
-  CHOICE_INTERVAL: 5,
+  // Each meaningful level crosses two former five-level reward checkpoints.
+  CHOICE_INTERVAL: 1,
+  AUTOMATIC_REWARDS_PER_LEVEL: 2,
   CHOICE_REWARDS: {
     miningPower: {
       name: "Mining Power",
@@ -47,60 +78,55 @@ export const LEVEL_CONFIG = Object.freeze({
     }
   },
 
-  // Every 10 levels: Major milestone rewards
+  // Former ten-level milestones now align with meaningful levels.
   MILESTONE_REWARDS: {
-    10: {
+    2: {
       type: "gemPower",
       amount: 5,
       description: "+5 Gem Power max"
     },
-    20: {
+    3: {
       type: "xpMultiplier",
       amount: 0.10,
       description: "+10% XP multiplier"
     },
-    30: {
+    4: {
       type: "criticalHit",
       chance: 0.05,
       damageMultiplier: 1.5,
       description: "+5% critical hit chance (1.5x damage)"
     },
-    40: {
+    5: {
       type: "criticalDamage",
       amount: 0.15,
       description: "+15% critical hit damage (total 1.65x)"
     },
-    50: {
+    6: {
       type: "softcapMilestone",
       gemPower: 25,
       description: "+25 Gem Power max + Special visual effect"
     },
-    60: {
+    7: {
       type: "xpMultiplier",
       amount: 0.20,
       description: "+20% XP multiplier (total +30%)"
     },
-    70: {
+    8: {
       type: "globalMiningSpeed",
       amount: 0.10,
       description: "+10% global mining speed"
     },
-    75: {
-      type: "gemPower",
-      amount: 50,
-      description: "+50 Gem Power max"
-    },
-    80: {
+    9: {
       type: "globalDamage",
       amount: 0.25,
       description: "+25% global damage"
     },
-    90: {
+    10: {
       type: "globalMiningSpeed",
       amount: 0.15,
       description: "+15% global mining speed (total +25%)"
     },
-    99: {
+    11: {
       type: "softcapReached",
       miningPower: 0.15,
       gemPower: 50,
@@ -108,8 +134,7 @@ export const LEVEL_CONFIG = Object.freeze({
     }
   },
 
-  // Hardcap progression (Levels 100-999)
-  // Rewards decrease exponentially
+  // Legacy bands remain the exact XP source inside each ten-level bundle.
   HARDCAP_TIERS: [
     {
       levelRange: [100, 199],
@@ -167,25 +192,44 @@ export const LEVEL_CONFIG = Object.freeze({
     }
   ],
 
-  // Calculate XP required for a specific level
+  getLegacyEquivalentLevel(level) {
+    const safeLevel = Math.max(1, Math.min(this.HARDCAP, Math.floor(Number(level) || 1)));
+    return 1 + (safeLevel - 1) * this.LEGACY_LEVELS_PER_LEVEL;
+  },
+
+  getCompressedLevelForLegacyLevel(level) {
+    const safeLegacyLevel = Math.max(
+      1,
+      Math.min(this.LEGACY_HARDCAP, Math.floor(Number(level) || 1)),
+    );
+    return Math.min(
+      this.HARDCAP,
+      Math.floor((safeLegacyLevel - 1) / this.LEGACY_LEVELS_PER_LEVEL) + 1,
+    );
+  },
+
+  getXPRequiredForLegacyLevel(level) {
+    if (level <= 1) return 0;
+    const hardcapTier = this.getHardcapTier(level);
+    const baseXP = Math.floor(this.XP_BASE_MULTIPLIER * Math.pow(level, this.XP_EXPONENT));
+    return hardcapTier ? Math.floor(baseXP * hardcapTier.xpMultiplier) : baseXP;
+  },
+
+  // One visible threshold is the sum of ten consecutive former thresholds.
   getXPRequiredForLevel(level) {
     if (level <= 1) return 0;
-    
-    // Check if in hardcap range
-    const hardcapTier = this.getHardcapTier(level);
-    if (hardcapTier) {
-      // Calculate base XP then apply hardcap multiplier
-      const baseXP = Math.floor(this.XP_BASE_MULTIPLIER * Math.pow(level, this.XP_EXPONENT));
-      return Math.floor(baseXP * hardcapTier.xpMultiplier);
+    const previousMeaningfulLevel = Math.max(1, Math.floor(level) - 1);
+    const legacyStart = this.getLegacyEquivalentLevel(previousMeaningfulLevel);
+    let requiredXP = 0;
+    for (let offset = 1; offset <= this.LEGACY_LEVELS_PER_LEVEL; offset += 1) {
+      requiredXP += this.getXPRequiredForLegacyLevel(legacyStart + offset);
     }
-    
-    // Normal softcap calculation
-    return Math.floor(this.XP_BASE_MULTIPLIER * Math.pow(level, this.XP_EXPONENT));
+    return requiredXP;
   },
 
   // Get hardcap tier for a level (if beyond softcap)
   getHardcapTier(level) {
-    if (level <= this.SOFTCAP) return null;
+    if (level <= this.LEGACY_SOFTCAP) return null;
     
     for (const tier of this.HARDCAP_TIERS) {
       const [min, max] = tier.levelRange;
@@ -205,6 +249,29 @@ export const LEVEL_CONFIG = Object.freeze({
     return totalXP;
   },
 
+  getDarknessResistanceGainMeters(level) {
+    if (level <= 1) return 0;
+    const cfg = this.DARKNESS_RESISTANCE;
+    const earnedIndex = Math.max(0, Math.floor(level) - 2);
+    const approach = 1 - Math.exp(-earnedIndex / cfg.approachLevels);
+    const rawGain = cfg.minimumGainMeters
+      + (cfg.maximumGainMeters - cfg.minimumGainMeters) * approach;
+    return Math.round(rawGain / cfg.roundToMeters) * cfg.roundToMeters;
+  },
+
+  getDarknessResistanceMeters(level) {
+    const cappedLevel = Math.max(1, Math.min(this.HARDCAP, Math.floor(Number(level) || 1)));
+    let totalMeters = 0;
+    for (let earnedLevel = 2; earnedLevel <= cappedLevel; earnedLevel += 1) {
+      totalMeters += this.getDarknessResistanceGainMeters(earnedLevel);
+    }
+    return totalMeters;
+  },
+
+  getAutomaticRewardUnitsForLevel(level) {
+    return this.hasChoiceReward(level) ? this.AUTOMATIC_REWARDS_PER_LEVEL : 0;
+  },
+
   // Check if a level has a milestone reward
   hasMilestoneReward(level) {
     return this.MILESTONE_REWARDS[level] !== undefined;
@@ -217,6 +284,6 @@ export const LEVEL_CONFIG = Object.freeze({
 
   // Check if a level has a choice reward
   hasChoiceReward(level) {
-    return level % this.CHOICE_INTERVAL === 0 && level > 0;
+    return level % this.CHOICE_INTERVAL === 0 && level > 1;
   }
 });

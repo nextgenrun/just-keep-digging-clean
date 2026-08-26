@@ -259,6 +259,7 @@ export class CelestialEngineController {
       );
     }
     this.scene.showLootPickupFeedback?.(reward, { tx, ty });
+    this.scene.showXpGatheringFeedback?.(reward, { tx, ty });
     this._handleLevelUp(reward);
     this.scene.queueDugTilesSave?.();
     this._impactFeedback();

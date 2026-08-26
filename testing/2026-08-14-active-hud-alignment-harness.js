@@ -41,7 +41,7 @@ class ActiveHudAlignmentHarnessScene extends Phaser.Scene {
     this.upgradeSystem = { getUpgradeEffects: () => ({}) };
     this.systemIntroductionSystem = {
       getNextPromiseOverride: () => ({
-        promise: "NEXT MASTERY PATH  •  REACH LEVEL 20",
+        promise: "NEXT MASTERY PATH  •  REACH LEVEL 3",
         detail: "THE STAR PILLAR UNLOCKS YOUR FIRST CELESTIAL ABILITY",
       }),
     };

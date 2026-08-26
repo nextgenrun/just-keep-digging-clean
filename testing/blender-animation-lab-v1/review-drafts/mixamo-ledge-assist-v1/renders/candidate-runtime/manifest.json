@@ -1,0 +1,589 @@
+{
+  "version": "mixamo-ledge-assist-runtime-v1-20260821",
+  "productionChanged": false,
+  "runtimeWired": false,
+  "qualityAuthority": "Survival V4 PBR, full-resolution textures, full glove and four-light rig",
+  "clips": {
+    "braced-hang-to-crouch": {
+      "file": "survival-character-mixamo-v4-ledge-climb-sheet.png",
+      "frames": 35,
+      "columns": 16,
+      "rows": 3,
+      "fps": 30,
+      "loop": false,
+      "role": "Braced ledge hang and pull-up to crouch",
+      "source": "mixamo-braced-hang-to-crouch.fbx",
+      "sourceRenderSizePx": 1024,
+      "packedFrameSizePx": 256,
+      "downsamplePasses": 1,
+      "minimumRawEdgeMarginPx": 64,
+      "baselineRangePx": 234,
+      "maximumSuspiciousGreenPixels": 0,
+      "sheetSha256": "7eee1206897f6024aa84cf864570187123139446f492b969b8d32ed5fe9e4fa8",
+      "preview": "braced-hang-to-crouch.gif",
+      "contactSheet": "braced-hang-to-crouch-contact-sheet.png",
+      "frameMetrics": [
+        {
+          "bounds": [
+            356,
+            64,
+            762,
+            663
+          ],
+          "centroid": [
+            549.09,
+            374.856
+          ],
+          "visiblePixels": 108670,
+          "edgeMarginPx": 64,
+          "baselinePx": 662,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            363,
+            67,
+            769,
+            664
+          ],
+          "centroid": [
+            555.763,
+            377.841
+          ],
+          "visiblePixels": 107427,
+          "edgeMarginPx": 67,
+          "baselinePx": 663,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            367,
+            83,
+            776,
+            713
+          ],
+          "centroid": [
+            564.52,
+            393.421
+          ],
+          "visiblePixels": 107041,
+          "edgeMarginPx": 83,
+          "baselinePx": 712,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            368,
+            111,
+            770,
+            769
+          ],
+          "centroid": [
+            562.053,
+            405.826
+          ],
+          "visiblePixels": 102021,
+          "edgeMarginPx": 111,
+          "baselinePx": 768,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            370,
+            145,
+            757,
+            810
+          ],
+          "centroid": [
+            555.018,
+            418.954
+          ],
+          "visiblePixels": 95571,
+          "edgeMarginPx": 145,
+          "baselinePx": 809,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            372,
+            152,
+            746,
+            827
+          ],
+          "centroid": [
+            553.574,
+            431.0
+          ],
+          "visiblePixels": 91981,
+          "edgeMarginPx": 152,
+          "baselinePx": 826,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            375,
+            157,
+            738,
+            830
+          ],
+          "centroid": [
+            555.165,
+            436.14
+          ],
+          "visiblePixels": 90686,
+          "edgeMarginPx": 157,
+          "baselinePx": 829,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            379,
+            160,
+            731,
+            824
+          ],
+          "centroid": [
+            557.506,
+            435.63
+          ],
+          "visiblePixels": 90798,
+          "edgeMarginPx": 160,
+          "baselinePx": 823,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            382,
+            165,
+            722,
+            822
+          ],
+          "centroid": [
+            561.825,
+            440.681
+          ],
+          "visiblePixels": 92222,
+          "edgeMarginPx": 165,
+          "baselinePx": 821,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            387,
+            172,
+            714,
+            832
+          ],
+          "centroid": [
+            567.191,
+            449.684
+          ],
+          "visiblePixels": 95131,
+          "edgeMarginPx": 172,
+          "baselinePx": 831,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            392,
+            181,
+            732,
+            852
+          ],
+          "centroid": [
+            572.054,
+            458.976
+          ],
+          "visiblePixels": 96203,
+          "edgeMarginPx": 172,
+          "baselinePx": 851,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            399,
+            195,
+            754,
+            866
+          ],
+          "centroid": [
+            576.906,
+            467.188
+          ],
+          "visiblePixels": 97180,
+          "edgeMarginPx": 158,
+          "baselinePx": 865,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            408,
+            213,
+            776,
+            874
+          ],
+          "centroid": [
+            582.779,
+            475.515
+          ],
+          "visiblePixels": 99189,
+          "edgeMarginPx": 150,
+          "baselinePx": 873,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            417,
+            232,
+            796,
+            885
+          ],
+          "centroid": [
+            587.455,
+            483.788
+          ],
+          "visiblePixels": 101178,
+          "edgeMarginPx": 139,
+          "baselinePx": 884,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            428,
+            247,
+            810,
+            896
+          ],
+          "centroid": [
+            590.832,
+            493.515
+          ],
+          "visiblePixels": 104593,
+          "edgeMarginPx": 128,
+          "baselinePx": 895,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            438,
+            258,
+            823,
+            896
+          ],
+          "centroid": [
+            596.474,
+            494.093
+          ],
+          "visiblePixels": 104324,
+          "edgeMarginPx": 128,
+          "baselinePx": 895,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            447,
+            262,
+            832,
+            897
+          ],
+          "centroid": [
+            602.375,
+            497.006
+          ],
+          "visiblePixels": 104896,
+          "edgeMarginPx": 127,
+          "baselinePx": 896,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            456,
+            266,
+            839,
+            895
+          ],
+          "centroid": [
+            607.323,
+            501.585
+          ],
+          "visiblePixels": 105864,
+          "edgeMarginPx": 129,
+          "baselinePx": 894,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            463,
+            271,
+            847,
+            885
+          ],
+          "centroid": [
+            611.776,
+            499.461
+          ],
+          "visiblePixels": 103247,
+          "edgeMarginPx": 139,
+          "baselinePx": 884,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            471,
+            276,
+            853,
+            875
+          ],
+          "centroid": [
+            614.224,
+            497.689
+          ],
+          "visiblePixels": 100671,
+          "edgeMarginPx": 149,
+          "baselinePx": 874,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            467,
+            281,
+            858,
+            864
+          ],
+          "centroid": [
+            615.559,
+            497.271
+          ],
+          "visiblePixels": 99305,
+          "edgeMarginPx": 160,
+          "baselinePx": 863,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            465,
+            285,
+            863,
+            850
+          ],
+          "centroid": [
+            617.668,
+            496.217
+          ],
+          "visiblePixels": 98674,
+          "edgeMarginPx": 161,
+          "baselinePx": 849,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            465,
+            290,
+            868,
+            829
+          ],
+          "centroid": [
+            621.869,
+            493.744
+          ],
+          "visiblePixels": 97815,
+          "edgeMarginPx": 156,
+          "baselinePx": 828,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            449,
+            295,
+            872,
+            806
+          ],
+          "centroid": [
+            627.649,
+            491.577
+          ],
+          "visiblePixels": 96715,
+          "edgeMarginPx": 152,
+          "baselinePx": 805,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            434,
+            300,
+            875,
+            781
+          ],
+          "centroid": [
+            631.961,
+            490.283
+          ],
+          "visiblePixels": 95200,
+          "edgeMarginPx": 149,
+          "baselinePx": 780,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            423,
+            305,
+            878,
+            759
+          ],
+          "centroid": [
+            635.127,
+            491.576
+          ],
+          "visiblePixels": 95128,
+          "edgeMarginPx": 146,
+          "baselinePx": 758,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            417,
+            309,
+            881,
+            743
+          ],
+          "centroid": [
+            638.107,
+            494.222
+          ],
+          "visiblePixels": 95880,
+          "edgeMarginPx": 143,
+          "baselinePx": 742,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            416,
+            312,
+            883,
+            740
+          ],
+          "centroid": [
+            639.209,
+            500.017
+          ],
+          "visiblePixels": 98682,
+          "edgeMarginPx": 141,
+          "baselinePx": 739,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            417,
+            314,
+            886,
+            744
+          ],
+          "centroid": [
+            640.27,
+            506.711
+          ],
+          "visiblePixels": 102063,
+          "edgeMarginPx": 138,
+          "baselinePx": 743,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            419,
+            310,
+            886,
+            749
+          ],
+          "centroid": [
+            640.441,
+            508.254
+          ],
+          "visiblePixels": 104819,
+          "edgeMarginPx": 138,
+          "baselinePx": 748,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            421,
+            302,
+            880,
+            756
+          ],
+          "centroid": [
+            638.115,
+            505.338
+          ],
+          "visiblePixels": 106787,
+          "edgeMarginPx": 144,
+          "baselinePx": 755,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            424,
+            292,
+            872,
+            753
+          ],
+          "centroid": [
+            634.349,
+            497.656
+          ],
+          "visiblePixels": 106945,
+          "edgeMarginPx": 152,
+          "baselinePx": 752,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            428,
+            284,
+            860,
+            744
+          ],
+          "centroid": [
+            629.939,
+            487.775
+          ],
+          "visiblePixels": 105318,
+          "edgeMarginPx": 164,
+          "baselinePx": 743,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            432,
+            277,
+            847,
+            735
+          ],
+          "centroid": [
+            625.052,
+            477.669
+          ],
+          "visiblePixels": 103189,
+          "edgeMarginPx": 177,
+          "baselinePx": 734,
+          "suspiciousGreenPixels": 0
+        },
+        {
+          "bounds": [
+            433,
+            272,
+            834,
+            728
+          ],
+          "centroid": [
+            620.215,
+            470.388
+          ],
+          "visiblePixels": 101919,
+          "edgeMarginPx": 190,
+          "baselinePx": 727,
+          "suspiciousGreenPixels": 0
+        }
+      ]
+    }
+  }
+}

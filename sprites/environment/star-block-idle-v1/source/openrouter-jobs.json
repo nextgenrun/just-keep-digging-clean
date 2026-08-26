@@ -1,0 +1,29 @@
+{
+  "model": "google/veo-3.1-lite",
+  "jobs": [
+    {
+      "variantId": "facet-sweep",
+      "response": {
+        "id": "rOOEqpAQraEnz35QvQFM",
+        "polling_url": "https://openrouter.ai/api/v1/videos/rOOEqpAQraEnz35QvQFM",
+        "status": "pending"
+      }
+    },
+    {
+      "variantId": "core-breath",
+      "response": {
+        "id": "0NeOTqewAIY1EIVTLGyY",
+        "polling_url": "https://openrouter.ai/api/v1/videos/0NeOTqewAIY1EIVTLGyY",
+        "status": "pending"
+      }
+    },
+    {
+      "variantId": "stardust-orbit",
+      "response": {
+        "id": "LXUbxP9yIxHOHmDw4xM3",
+        "polling_url": "https://openrouter.ai/api/v1/videos/LXUbxP9yIxHOHmDw4xM3",
+        "status": "pending"
+      }
+    }
+  ]
+}

@@ -1,7 +1,11 @@
 import { createButton, createTabBar } from "../PhaserUiKit.js";
 import { createModalShell } from "../UiModalShell.js";
-import { INVENTORY_RESOURCE_GUIDE } from "../../values/inventoryResourceGuide.js";
-import { STAR_IDENTITY_LIBRARY_CONFIG } from "../../values/starIdentityLibrary.js";
+import { INVENTORY_RESOURCE_GUIDE } from
+  "../../values/inventoryResourceGuide.js?rev=20260826-inventory-codex-v2";
+import { INVENTORY_CODEX_CONFIG } from
+  "../../values/inventoryCodex.js?rev=20260826-inventory-codex-v2";
+import { STAR_IDENTITY_LIBRARY_CONFIG } from
+  "../../values/starIdentityLibrary.js?rev=20260826-inventory-codex-v2";
 import { UI_COLORS } from "../../values/uiColors.js";
 import {
   UI_INVENTORY_COPY,
@@ -9,13 +13,18 @@ import {
   UI_RESOURCE_PRESENTATION,
 } from "../../values/uiIcons.js";
 import { USER_SETTINGS, keyToPhaserKey } from "../../systems/UserSettings.js";
-import { renderInventoryHoldingsView } from "./UIInventoryHoldingsView.js";
-import { renderInventoryResourceGuide } from "./UIInventoryResourceGuide.js";
-import { renderInventoryStarAtlas } from "./UIInventoryStarAtlas.js";
+import { renderInventoryHoldingsView } from
+  "./UIInventoryHoldingsView.js?rev=20260826-inventory-codex-v2";
+import { renderInventoryResourceGuide } from
+  "./UIInventoryResourceGuide.js?rev=20260826-inventory-codex-v3";
+import { renderInventoryStarAtlas } from
+  "./UIInventoryStarAtlas.js?rev=20260826-inventory-codex-v3";
 import { UIInventoryStarAtlasAssetController } from
   "./UIInventoryStarAtlasAssetController.js";
 import { UIInventoryStarAtlasKeyboard } from
-  "./UIInventoryStarAtlasKeyboard.js";
+  "./UIInventoryStarAtlasKeyboard.js?rev=20260826-inventory-codex-v2";
+import { UIInventoryResourceKeyboard } from
+  "./UIInventoryResourceKeyboard.js?rev=20260826-inventory-codex-v2";
 import { INVENTORY_SPECIAL_BLOCKS } from "../../values/inventorySpecialBlocks.js";
 import { renderInventorySpecialBlocks } from "./UIInventorySpecialBlocks.js";
 
@@ -46,6 +55,13 @@ export class UIInventoryPopup {
       },
       onSelectIdentity: identityIndex => {
         this.selectedStarIdentity = identityIndex;
+        this._render();
+      },
+    });
+    this.resourceCodexKeyboard = new UIInventoryResourceKeyboard(scene, {
+      getState: () => this.getHealthSnapshot(),
+      onSelect: resourceKey => {
+        this.selectedGuideResource = resourceKey;
         this._render();
       },
     });
@@ -137,16 +153,20 @@ export class UIInventoryPopup {
       ?.isFeatureAvailable?.("inventoryStarAtlas") ?? true;
     const specialTabIndex = showStarAtlas ? 3 : 2;
     const subtitle = this.activeTab === 1
-      ? guide.copy.guideSubtitle
+      ? INVENTORY_CODEX_CONFIG.copy.subtitle
       : showStarAtlas && this.activeTab === 2
         ? starAtlas.copy.subtitle
         : this.activeTab === specialTabIndex
           ? INVENTORY_SPECIAL_BLOCKS.subtitle
         : UI_INVENTORY_COPY.subtitle;
-    this.shell.setHeader(
-      UI_INVENTORY_COPY.title,
-      subtitle
-    );
+    const title = this.activeTab === 1
+      ? INVENTORY_CODEX_CONFIG.copy.title
+      : showStarAtlas && this.activeTab === 2
+        ? starAtlas.copy.title
+        : this.activeTab === specialTabIndex
+          ? INVENTORY_SPECIAL_BLOCKS.selectorTitle
+          : UI_INVENTORY_COPY.title;
+    this.shell.setHeader(title, subtitle);
     this.tabs = createTabBar(this.scene, {
       x: 0,
       y: fullRect.top + guide.layout.tabTopInset,
@@ -202,6 +222,7 @@ export class UIInventoryPopup {
         this.shell,
         bodyRect,
         this.selectedGuideResource,
+        this.items,
         resourceKey => {
           this.selectedGuideResource = resourceKey;
           this._render();
@@ -304,6 +325,7 @@ export class UIInventoryPopup {
   getHealthSnapshot() {
     return Object.freeze({
       open: this.isOpen,
+      isOpen: this.isOpen,
       activeTab: this.activeTab,
       selectedTab: this.tabs?.getActive?.() ?? null,
       selectedGuideResource: this.selectedGuideResource,
@@ -319,6 +341,7 @@ export class UIInventoryPopup {
     this.inventoryKey?.off("down", this.handleInventoryToggle, this);
     this.escapeKey?.off("down", this.handleInventoryClose, this);
     this.starAtlasKeyboard.destroy();
+    this.resourceCodexKeyboard.destroy();
     this.starAtlasAssets.destroy();
   }
 }

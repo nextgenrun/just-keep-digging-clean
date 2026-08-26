@@ -99,7 +99,9 @@ assert.match(humanCampaignSource, /Quick Slash release/);
 assert.match(humanCampaignSource, /idle action lane before Thunder Strike/);
 assert.match(humanCampaignSource, /Thunder Strike paid impact/);
 assert.match(humanCampaignSource, /human-abilities-focused/);
-assert.match(humanCampaignSource, /state\.level >= 20/);
+assert.match(humanCampaignSource, /state\.level >= 3/);
+assert.match(humanCampaignSource, /state\.level < 3/);
+assert.match(humanCampaignSource, /Thunder Strike requires level 3/);
 const summary = buildSummaryMarkdown({
   status: "warning",
   url: config.url,

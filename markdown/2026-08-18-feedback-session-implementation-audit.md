@@ -12,7 +12,7 @@
 - Corrected Dragon Pickaxe from `360 M` to `360,000 M`, restoring the intended progression after Rune Pickaxe at `75,000 M`.
 - Torch drain, torch range, and Cave Eyes are available at Flight readiness instead of being depth-locked behind the danger they solve.
 - Hardcore Next Unlock prioritizes torch and GP survival upgrades when affordable.
-- Hardcore stress gain now gains 0.5% resistance per player level, capped at 40%.
+- Hardcore stress gain now gains 5% resistance per meaningful player level, capped at 40%.
 - Hardcore teleports cost zero in every route.
 
 ## Player-facing validation

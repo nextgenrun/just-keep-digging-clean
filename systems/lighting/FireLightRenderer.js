@@ -19,10 +19,10 @@ export class FireLightRenderer {
       active: false,
       state: "off",
       flameFrame: 0,
+      flameAlpha: 0,
     };
     this._create(presentation);
   }
-
   _create(presentation) {
     const keys = this.config.assetKeys;
     const policy = resolveFireLightLayerPolicy(this.config, presentation);
@@ -59,7 +59,6 @@ export class FireLightRenderer {
       this.destroy();
     }
   }
-
   _makeImage(key, originX, originY, depth) {
     const image = this.scene.add.image(0, 0, key, 0)
       .setOrigin(originX, originY)
@@ -84,6 +83,7 @@ export class FireLightRenderer {
     volumeAlphaScale = 1,
     flameAlphaScale = 1,
     atmosphereAlphaScale = 1,
+    flameVisible = true,
   }) {
     if (!this.available) return false;
     if (!active || !source) {
@@ -93,7 +93,6 @@ export class FireLightRenderer {
     }
     if (!this._lastActive) this._rekindleStartedAt = time;
     this._lastActive = true;
-
     const safeTileSize = Math.max(1, Number(tileSize) || 1);
     const power = clampFireLight01(strength);
     const fuel = clampFireLight01(fuelRatio);
@@ -187,8 +186,8 @@ export class FireLightRenderer {
         safeTileSize * this.config.flame.displayHeightTiles * scalePulse * lowFuelScale
       )
       .setFlipX(source.facingSign < 0)
-      .setAlpha(clampFireLight01(flameAlpha))
-      .setVisible(true);
+      .setAlpha(flameVisible ? clampFireLight01(flameAlpha) : 0)
+      .setVisible(flameVisible);
 
     const atmosphereAlpha = this.config.atmosphere.alpha
       * clampFireLight01(atmosphereAlphaScale)
@@ -218,12 +217,13 @@ export class FireLightRenderer {
       active: true,
       state,
       flameFrame,
+      flameAlpha: clampFireLight01(flameAlpha),
       volumeFrame,
       atmosphereFrame,
       volumeAlphaScale: clampFireLight01(volumeAlphaScale),
       flameAlphaScale: clampFireLight01(flameAlphaScale),
       atmosphereAlphaScale: clampFireLight01(atmosphereAlphaScale),
-      visibleLayerCount: 1
+      visibleLayerCount: (flameVisible ? 1 : 0)
         + (volumeAlphaScale > 0 ? 1 : 0)
         + (atmosphereAlphaScale > 0 ? 1 : 0),
       source: { x: sourceX, y: sourceY, anchorSource: source.source },
@@ -277,9 +277,9 @@ export class FireLightRenderer {
       ...this._snapshot,
       active: false,
       state: "off",
+      flameAlpha: 0,
     };
   }
-
   getSnapshot() {
     return {
       ...this._snapshot,

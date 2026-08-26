@@ -7,7 +7,7 @@ export const EARTHQUAKE_SUPPRESSION_UPGRADE = Object.freeze({
   merchant: "playerUpgrades",
   uiIcon: "warning",
   goldCost: 75000,
-  requiresLevel: 99,
+  requiresLevel: 11,
   requiresDepthGateAccepted: 1000,
 });
 

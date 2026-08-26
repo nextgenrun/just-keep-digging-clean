@@ -4,6 +4,41 @@ function finiteNonNegative(value) {
   return Number.isFinite(value) ? Math.max(0, value) : 0;
 }
 
+function smoothstep(value) {
+  const progress = Math.max(0, Math.min(1, value));
+  return progress * progress * (3 - 2 * progress);
+}
+
+export function getStarRarityDistribution(
+  depthTiles,
+  config = STAR_RARITY_PROGRESSION_CONFIG,
+) {
+  const depth = finiteNonNegative(depthTiles);
+  const fullStrengthDepth = Math.max(
+    1,
+    Number(config.rarityDepthBias?.fullStrengthDepthTiles) || 1,
+  );
+  const depthProgress = smoothstep(depth / fullStrengthDepth);
+  const eligible = config.rarityTiers
+    .map((tier, index) => {
+      const deepMultiplier = Math.max(0, Number(tier.deepWeightMultiplier) || 0);
+      const effectiveWeight = tier.weight
+        * (1 + (deepMultiplier - 1) * depthProgress);
+      return { tier, index, effectiveWeight };
+    })
+    .filter(({ tier, effectiveWeight }) => (
+      depth >= tier.minDepthTiles && effectiveWeight > 0
+    ));
+  const totalWeight = eligible.reduce(
+    (total, entry) => total + entry.effectiveWeight,
+    0,
+  );
+  return Object.freeze(eligible.map(entry => Object.freeze({
+    ...entry,
+    probability: totalWeight > 0 ? entry.effectiveWeight / totalWeight : 0,
+  })));
+}
+
 export function getStarRarityTier(rarity, config = STAR_RARITY_PROGRESSION_CONFIG) {
   const tiers = config.rarityTiers;
   const index = Math.max(
@@ -18,15 +53,15 @@ export function resolveStarRarityIndex(
   roll,
   config = STAR_RARITY_PROGRESSION_CONFIG,
 ) {
-  const depth = finiteNonNegative(depthTiles);
-  const eligible = config.rarityTiers
-    .map((tier, index) => ({ tier, index }))
-    .filter(({ tier }) => depth >= tier.minDepthTiles);
+  const eligible = getStarRarityDistribution(depthTiles, config);
   if (eligible.length === 0) return 0;
-  const totalWeight = eligible.reduce((total, entry) => total + entry.tier.weight, 0);
+  const totalWeight = eligible.reduce(
+    (total, entry) => total + entry.effectiveWeight,
+    0,
+  );
   let cursor = Math.min(0.999999999, finiteNonNegative(roll)) * totalWeight;
   for (const entry of eligible) {
-    cursor -= entry.tier.weight;
+    cursor -= entry.effectiveWeight;
     if (cursor < 0) return entry.index;
   }
   return eligible[eligible.length - 1].index;
@@ -120,9 +155,16 @@ export function validateStarRarityProgressionConfig(
       config.spawn.reductionRatio - config.health.expectedSpawnReductionRatio,
     ) < Number.EPSILON
     && Math.abs(
-      config.spawn.probability
-        - config.spawn.legacyProbability * (1 - config.spawn.reductionRatio),
+      config.spawn.currentRateReductionRatio
+        - config.health.expectedCurrentRateReductionRatio,
     ) < Number.EPSILON
+    && Math.abs(
+      config.spawn.probability
+        - config.spawn.previousProbability
+          * (1 - config.spawn.currentRateReductionRatio),
+    ) < Number.EPSILON
+    && Number(config.rarityDepthBias?.fullStrengthDepthTiles) > 0
+    && config.rarityTiers.every(tier => Number(tier.deepWeightMultiplier) > 0)
     && thresholdsValid;
   return Object.freeze({
     ready,

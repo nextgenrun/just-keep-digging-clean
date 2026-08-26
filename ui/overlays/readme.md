@@ -15,29 +15,31 @@ UI module — overlays.
   foundation, Pillar-matched square skill frames, and restrained stretchable
   rails so the bitmap cannot contradict the live graph.
 - `UIInventoryPopup.js`, `UIInventoryHoldingsView.js`,
-  `UIInventoryResourceGuide.js`, `UIInventoryWorldTilePreview.js`, and
-  `UIInventoryStarAtlas.js` — the three-tab `I`-key field inventory. `INVENTORY` keeps all fourteen real
-  icon/name pairings visible while discovery gates only quantities.
-  `WORLD GUIDE` keeps all fourteen materials clickable before discovery:
-  the ten approved resources show all six production ImageGen atlas
-  formations over exact live ground frames, Dirt/Dark Dirt/Hard Dirt show six
-  exact runtime soil variants, and Lava Dirt shows its five real dig stages.
-  The preview combines the always-preloaded production ground, hardness, and
-  intact-crack images with the approved semantic atlas, so scenic and legacy
-  renderer modes share the same guide without generated substitute art.
-  `STAR ATLAS` places six rarity tabs, twelve identity selectors per page, two
-  authored page arrows, and one large dossier inside the proportional 1536x800
-  ImageGen foundation. Every selector and the large dossier pair the crisp
-  identity core with its separate authored light-only underlay.
+  `UIInventoryResourceGuide.js`, and `UIInventoryStarAtlas.js` own the `I`-key
+  field inventory. `HOLDINGS` keeps all fourteen named resource icons visible
+  while discovery gates quantities. `RESOURCE CODEX` replaces gameplay-tile
+  composites with one authored foundation and a dedicated fourteen-specimen
+  portrait atlas; its collection, selected border, dossier, copy, and hit zones
+  all use the same measured 1738x905 source-space transform.
+  `STAR CODEX` follows the Titan Codex hierarchy: six rarity filters, twelve
+  identity selectors per page, authored page arrows, a large light preview,
+  lore, and three reward sockets on its own proportional 1738x905 foundation.
+  Every selector and the dossier pair the crisp identity core with its separate
+  authored light-only underlay. `UIStarIdleMotion.js` adds the shared authored
+  caustic atlas as one restrained additive sprite over each visible selector
+  and the dossier preview. Three animation definitions serve all thirteen live
+  sprites, deterministic identity phases prevent synchronized repetition, and
+  `?starIdle=0` restores the exact static Codex.
   `UIInventoryStarAtlasControls.js` pages all 250 identities without shrinking
-  or crowding them and gives page arrows a short sideways click response.
+  or crowding them.
   `UIInventoryStarAtlasKeyboard.js` keeps Tab navigation, grid arrows/WASD,
   Page Up/Page Down, and Q/E rarity changes aligned with those selectors. It
   explains each colour's rarity, flavour, exact light style, first depth, Sign
   XP, material multiplier, and Engine charge. Rarity owns rewards while
   identity owns colour/art/flavour. Phaser supplies exact atlas frames, dynamic
-  copy, invisible hit zones, alpha hierarchy, and bounded motion; it draws no
-  visible replacement panels or buttons.
+  copy, invisible hit zones, alpha hierarchy, and bounded motion. Interactive
+  zones inherit the modal input depth and consume both pointer phases, so a
+  correctly aligned selection cannot fall through and dismiss the backdrop.
 - `SettingsPanelContent.js` — the shared ESC Settings surface. Its `GAMEPLAY`
   tab exposes floating-text policy and session objectives. The retired
   `Star Discovery Popups` toggle no longer exists; legacy saved values are
@@ -72,6 +74,11 @@ UI module — overlays.
 - `StarHeartOverlay.js` — the tall three-choice Star Heart modal with ambient constellation motion, keyboard/mouse selection, owned/equipped/available states, and a timed two-step permanent unlock. Three Hearts let a late-game save own all three Engines while only one remains equipped.
 - `StarHeartEngineCard.js` — image-backed Wayward Star, Hollow Sun, and Comet Engine cards with fixed-screen hit areas plus hover, focus, press, and selection tweens.
 - `ShopOverlay.js` — shared merchant modal. The Molten Money Monster opens on the Arc Forge tab, renders the two canonical crafting recipes, and retains its Sell tab with a timed repeat-confirmation before any uncrafted-core ingredient is sold.
+  List rows use hover as a temporary preview until the player clicks one. A
+  clicked resource, schematic, or gear/upgrade row remains pinned while the
+  pointer crosses other rows; clicking it again releases the pin, while an
+  explicit click elsewhere moves it. Keyboard, page, and merchant-tab
+  navigation release the mouse pin and remain authoritative.
   Every Level-1 merchant always exposes its complete active catalog; staged
   progression changes row availability into approved lock icons and readable
   hover/detail conditions instead of deleting rows or refusing to open. Global

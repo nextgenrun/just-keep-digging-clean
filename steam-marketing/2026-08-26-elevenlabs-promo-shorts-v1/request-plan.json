@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "outputRoot": "steam-marketing/2026-08-26-elevenlabs-promo-shorts-v1",
+  "logo": "steam-marketing/2026-08-16-static-upload-pack-v1/source-runtime-logo-transparent.png",
+  "tts": {
+    "endpointTemplate": "https://api.elevenlabs.io/v1/text-to-speech/{voiceId}",
+    "modelId": "eleven_multilingual_v2",
+    "outputFormat": "mp3_44100_128"
+  },
+  "sfx": {
+    "endpoint": "https://api.elevenlabs.io/v1/sound-generation",
+    "modelId": "eleven_text_to_sound_v2",
+    "outputFormat": "mp3_44100_128",
+    "promptInfluence": 0.68
+  },
+  "shorts": [
+    {
+      "id": "short-01-how-deep",
+      "outputFile": "understar-short-01-how-deep-v1.mp4",
+      "captionFile": "understar-short-01-how-deep-v1.ass",
+      "durationSeconds": 18,
+      "narration": {
+        "voiceId": "JBFqnCBsd6RMkjVDRZzb",
+        "voiceName": "George - Warm, Captivating Storyteller",
+        "text": "How deep would you go, if every return made you stronger? Dig. Discover. Descend. The Understar is waiting. Wishlist Understar on Steam.",
+        "settings": {"stability": 0.55, "similarity_boost": 0.78, "style": 0.24, "use_speaker_boost": true, "speed": 0.95}
+      },
+      "sfxPrompt": "Cinematic non-musical underground mining promo soundscape: distant pickaxe strike, stone pressure, falling grit, deep air pull, then a restrained luminous energy swell. No voice, speech, melody, beat, or music.",
+      "audio": {"narrationFile": "short-01-how-deep-narration.mp3", "sfxFile": "short-01-how-deep-sfx.mp3"},
+      "segments": [
+        {"type": "video", "source": "steam-marketing/2026-08-26-cinematic-video-pack-v1/source-clips/rift-flight-vertical.mp4", "durationSeconds": 6, "focus": [0.5, 0.5]},
+        {"type": "image", "source": "steam-marketing/2026-08-26-cinematic-video-pack-v1/reference-frames/roots-descent-first-frame.png", "durationSeconds": 6, "focus": [0.5, 0.52]},
+        {"type": "cta", "source": "steam-marketing/2026-08-26-cinematic-video-pack-v1/reference-frames/understar-awakening-first-frame.png", "durationSeconds": 6, "focus": [0.5, 0.5]}
+      ],
+      "captions": [
+        {"start": 0.0, "end": 2.8, "style": "Hook", "text": "HOW DEEP\nWOULD YOU GO?"},
+        {"start": 2.8, "end": 6.2, "style": "Caption", "text": "IF EVERY RETURN\nMADE YOU STRONGER?"},
+        {"start": 6.2, "end": 9.0, "style": "Caption", "text": "DIG. DISCOVER."},
+        {"start": 9.0, "end": 11.8, "style": "Caption", "text": "DESCEND."},
+        {"start": 11.8, "end": 14.7, "style": "Caption", "text": "THE UNDERSTAR\nIS WAITING."},
+        {"start": 14.7, "end": 18.0, "style": "CTA", "text": "WISHLIST NOW\nON STEAM"}
+      ]
+    },
+    {
+      "id": "short-02-titans",
+      "outputFile": "understar-short-02-titans-v1.mp4",
+      "captionFile": "understar-short-02-titans-v1.ass",
+      "durationSeconds": 18,
+      "narration": {
+        "voiceId": "nPczCjzI2devNBz1zQrb",
+        "voiceName": "Brian - Deep, Resonant and Comforting",
+        "text": "That is not a statue. It is breathing. Twenty-five Titans sleep below the surface. Find them before the darkness finds you. Wishlist Understar on Steam.",
+        "settings": {"stability": 0.48, "similarity_boost": 0.8, "style": 0.32, "use_speaker_boost": true, "speed": 0.92}
+      },
+      "sfxPrompt": "Cinematic non-musical colossal ancient Titan chamber soundscape: one deep slow breath, roots creaking, heavy stone shifting, dust falling, and low resonant wonder. No roar, creature voice, melody, beat, or music.",
+      "audio": {"narrationFile": "short-02-titans-narration.mp3", "sfxFile": "short-02-titans-sfx.mp3"},
+      "segments": [
+        {"type": "video", "source": "steam-marketing/2026-08-26-cinematic-video-pack-v1/source-clips/mossback-vertical.mp4", "durationSeconds": 6, "focus": [0.5, 0.5]},
+        {"type": "video", "source": "steam-marketing/2026-08-26-cinematic-video-pack-v1/source-clips/mossback-close.mp4", "durationSeconds": 6, "focus": [0.68, 0.52]},
+        {"type": "cta", "source": "steam-marketing/2026-08-26-cinematic-video-pack-v1/reference-frames/mossback-stirs-first-frame.png", "durationSeconds": 6, "focus": [0.66, 0.52]}
+      ],
+      "captions": [
+        {"start": 0.0, "end": 3.2, "style": "Hook", "text": "THAT IS NOT\nA STATUE."},
+        {"start": 3.2, "end": 5.5, "style": "Caption", "text": "IT IS BREATHING."},
+        {"start": 5.5, "end": 9.2, "style": "Caption", "text": "25 TITANS SLEEP\nBELOW THE SURFACE."},
+        {"start": 9.2, "end": 14.5, "style": "Caption", "text": "FIND THEM BEFORE\nTHE DARKNESS FINDS YOU."},
+        {"start": 14.5, "end": 18.0, "style": "CTA", "text": "WISHLIST UNDERSTAR\nON STEAM"}
+      ]
+    },
+    {
+      "id": "short-03-grow-stronger",
+      "outputFile": "understar-short-03-grow-stronger-v1.mp4",
+      "captionFile": "understar-short-03-grow-stronger-v1.ass",
+      "durationSeconds": 18,
+      "narration": {
+        "voiceId": "EXAVITQu4vr4xnSDxMaL",
+        "voiceName": "Sarah - Mature, Reassuring, Confident",
+        "text": "Dig. Return. Grow stronger. Master Flight. Uncover rare Stars. Explore every biome, or risk everything with optional permadeath. Wishlist Understar on Steam.",
+        "settings": {"stability": 0.56, "similarity_boost": 0.78, "style": 0.28, "use_speaker_boost": true, "speed": 1.02}
+      },
+      "sfxPrompt": "Cinematic non-musical game progression soundscape: crisp dirt and stone impacts, crystal fracture, rare star particles, rising flight energy, and a satisfying final pulse. No voice, melody, beat, or music.",
+      "audio": {"narrationFile": "short-03-grow-stronger-narration.mp3", "sfxFile": "short-03-grow-stronger-sfx.mp3"},
+      "segments": [
+        {"type": "image", "source": "steam-marketing/2026-08-16-static-upload-pack-v1/review-only-screenshot-02-first-dig-1920x1080.png", "durationSeconds": 6, "focus": [0.52, 0.48]},
+        {"type": "image", "source": "steam-marketing/2026-08-16-static-upload-pack-v1/review-only-screenshot-03-celestial-talents-1920x1080.png", "durationSeconds": 6, "focus": [0.5, 0.5]},
+        {"type": "cta", "source": "steam-marketing/2026-08-26-cinematic-video-pack-v1/reference-frames/rift-flight-vertical-first-frame.png", "durationSeconds": 6, "focus": [0.5, 0.5]}
+      ],
+      "captions": [
+        {"start": 0.0, "end": 3.0, "style": "Hook", "text": "DIG. RETURN.\nGROW STRONGER."},
+        {"start": 3.0, "end": 5.8, "style": "Caption", "text": "MASTER FLIGHT."},
+        {"start": 5.8, "end": 8.5, "style": "Caption", "text": "UNCOVER RARE STARS."},
+        {"start": 8.5, "end": 11.4, "style": "Caption", "text": "EXPLORE EVERY BIOME."},
+        {"start": 11.4, "end": 14.7, "style": "Caption", "text": "OPTIONAL PERMADEATH.\nYOUR CHOICE."},
+        {"start": 14.7, "end": 18.0, "style": "CTA", "text": "WISHLIST UNDERSTAR\nON STEAM"}
+      ]
+    }
+  ]
+}

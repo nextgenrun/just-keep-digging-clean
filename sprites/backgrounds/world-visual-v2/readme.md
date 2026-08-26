@@ -14,9 +14,12 @@ Production source plates for the scenic-v2 world renderer.
   owning collision.
 - `surface/town-surface-edge-v1.png`: retained deeper natural-edge provenance.
 - `materials/town-dark-earth-v1.png`: continuous terrain material for the surface mine.
-- `semantic-decals-v1/ground-damage-imagegen-v1.png`: universal 120-frame
-  transparent ground-damage atlas with ten coordinate-stable families and
-  twelve cumulative proportional-HP states.
+- `semantic-decals-v1/ground-damage-fracture-expanded-v4.png` and
+  `ground-damage-response-expanded-v4.png`: production layered damage library
+  with 64 authored motifs, four optimized cumulative anchors, 33 exact
+  tile/resource response profiles, twelve logical states, and eight stable
+  transforms. Layered V3, polished V2, and ImageGen V1 remain query-selectable
+  rollbacks.
 - `depth/shallow-cavern-backwall-v1.png`: streamed opaque shallow-cavern plate covering runtime rows 65..159.
 - `depth/foreground-cohesion-v1/`: ten additive alpha-foreground plates, one
   dedicated terrain-masked world placement per biome.

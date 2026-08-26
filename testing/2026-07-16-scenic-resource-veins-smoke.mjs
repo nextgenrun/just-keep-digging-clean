@@ -46,11 +46,13 @@ class ImageStub {
   call(method, ...args) { this.calls.push([method, ...args]); return this; }
   setDepth(...args) { return this.call("setDepth", ...args); }
   setMask(...args) { return this.call("setMask", ...args); }
+  setBlendMode(...args) { return this.call("setBlendMode", ...args); }
   setVisible(value) { this.visible = value; return this.call("setVisible", value); }
   setPosition(...args) { return this.call("setPosition", ...args); }
   setTexture(...args) { return this.call("setTexture", ...args); }
   setDisplaySize(...args) { return this.call("setDisplaySize", ...args); }
   setAlpha(...args) { return this.call("setAlpha", ...args); }
+  setTint(...args) { return this.call("setTint", ...args); }
   destroy() { this.destroyed = true; }
 }
 
@@ -66,6 +68,7 @@ function createHarness(search = "") {
       exists: key => (
         key === WORLD_VISUAL_FEEDBACK.atlas.key
         || key === WORLD_VISUAL_DAMAGE.imagegen.atlas.key
+        || key === WORLD_VISUAL_DAMAGE.imagegen.layered.response.atlas.key
       ),
       get: () => ({
         has: name => frames.has(name),
@@ -133,11 +136,18 @@ assert.equal(
   "generated raster semantics must suppress procedural ore geometry by default"
 );
 assert.equal(embedded.layer.damagePainter.pool.length, 1);
+assert.equal(embedded.layer.damagePainter.rimPool.length, 1);
+assert.equal(embedded.layer.damagePainter.responsePool.length, 1);
 assert.ok(embedded.layer.damagePainter.pool[0].calls.some(([method, key, frame]) => (
   method === "setTexture"
   && key === WORLD_VISUAL_DAMAGE.imagegen.atlas.key
   && String(frame).startsWith(WORLD_VISUAL_DAMAGE.imagegen.atlas.framePrefix)
-)), "ImageGen damage sprites must remain visible above generated mineral art");
+)), "layered damage sprites must remain visible above generated mineral art");
+assert.ok(embedded.layer.damagePainter.responsePool[0].calls.some(([method, key, frame]) => (
+  method === "setTexture"
+  && key === WORLD_VISUAL_DAMAGE.imagegen.layered.response.atlas.key
+  && String(frame).startsWith(WORLD_VISUAL_DAMAGE.imagegen.layered.response.atlas.framePrefix)
+)), "Gold must receive its dedicated material-response frame above generated mineral art");
 
 const proceduralDamage = createHarness("?groundDamage=procedural");
 assert.ok(proceduralDamage.graphics.some(graphic => graphic.calls.some(([method, _width, color]) => (
@@ -187,4 +197,4 @@ embedded.layer.destroy();
 proceduralDamage.layer.destroy();
 proceduralRollback.layer.destroy();
 atlasRollback.layer.destroy();
-console.log("Scenic resource presentation smoke: ImageGen default, damage coexistence, atlas rollback, and explicit procedural comparison passed");
+console.log("Scenic resource presentation smoke: generated semantic default, layered tile-aware damage coexistence, atlas rollback, and explicit procedural comparison passed");

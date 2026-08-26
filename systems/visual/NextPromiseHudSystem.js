@@ -86,10 +86,16 @@ export class NextPromiseHudSystem {
     this._layout();
   }
 
-  _resolveBadge(tutorialPromise, eventPromise, systemPromise, promise) {
+  _resolveBadge(tutorialPromise, eventPromise, systemPromise, promise, priorityPromise) {
     if (tutorialPromise) {
       const step = /^STEP\s+(\d+)/i.exec(promise)?.[1];
       return { kicker: "GUIDE", value: step ? `${step} / 7` : "ROUTE" };
+    }
+    if (priorityPromise?.badgeKicker && priorityPromise?.badgeValue) {
+      return {
+        kicker: priorityPromise.badgeKicker,
+        value: priorityPromise.badgeValue,
+      };
     }
     if (eventPromise) return { kicker: "WORLD", value: "EVENT" };
     if (systemPromise) return { kicker: "NEXT", value: "UNLOCK" };
@@ -132,8 +138,10 @@ export class NextPromiseHudSystem {
     if (hidden) return;
 
     const eventPromise = this.scene.randomEventBridge?.getNextPromiseOverride?.() || null;
+    const mechanicPromise = this.scene.contextualMechanicTutorialSystem
+      ?.getNextPromiseOverride?.() || null;
     const systemPromise = this.scene.systemIntroductionSystem?.getNextPromiseOverride?.() || null;
-    const priorityPromise = tutorialPromise || eventPromise || systemPromise;
+    const priorityPromise = tutorialPromise || mechanicPromise || eventPromise || systemPromise;
     const retention = this.scene.retentionProgressSystem;
     if (!retention && !priorityPromise) {
       this.root.setVisible(false);
@@ -181,6 +189,7 @@ export class NextPromiseHudSystem {
       eventPromise,
       systemPromise,
       promise,
+      priorityPromise,
     );
     const signature = `${badge.kicker}|${badge.value}|${promise}|${detail}`;
     if (signature !== this.lastSignature) {

@@ -29,7 +29,7 @@ try {
   });
 
   await page.goto(
-    "http://localhost:8080/testing/2026-08-14-celestial-talent-tree-visual-harness.html?width=1280&height=720&level=50&node=comet-shockfront&v=20260815-polish",
+    "http://localhost:8080/testing/2026-08-14-celestial-talent-tree-visual-harness.html?width=1280&height=720&level=5&node=comet-shockfront&v=20260815-polish",
     { waitUntil: "networkidle" },
   );
   await page.waitForFunction(() => document.body.dataset.celestialTalentTreeReady === "true");
@@ -51,7 +51,7 @@ try {
 
   await page.setViewportSize({ width: 960, height: 640 });
   await page.goto(
-    "http://localhost:8080/testing/2026-08-14-celestial-talent-tree-visual-harness.html?width=960&height=640&level=50&node=wayward-fracture-bloom&v=20260815-polish",
+    "http://localhost:8080/testing/2026-08-14-celestial-talent-tree-visual-harness.html?width=960&height=640&level=5&node=wayward-fracture-bloom&v=20260815-polish",
     { waitUntil: "networkidle" },
   );
   await page.waitForFunction(() => document.body.dataset.celestialTalentTreeReady === "true");

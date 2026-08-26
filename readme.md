@@ -181,6 +181,7 @@ This project uses a 3-tier version control system:
 | Document | Purpose |
 |----------|---------|
 | `/markdown/readme.md` | Full structure & policies |
+| `/markdown/2026-08-25-player-animation-presentation-continuity-v4.md` | Fixed authored scale, single action recovery, main/cave crouch parity, restart ownership, validation, and rollback |
 | `/markdown/design-documents/readme.md` | Canonical game vision, player journey, controls, systems, saves, world, and runtime alignment register |
 | `/markdown/naming-policy.md` | Naming conventions |
 | `/markdown/organisation-policy.md` | Layered architecture |

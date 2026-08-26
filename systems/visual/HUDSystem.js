@@ -8,6 +8,7 @@ import { HUD_JUICE_CONFIG } from "../../values/hudJuiceConfig.js";
 import { HUD_QUICK_CONTROLS } from "../../values/hudQuickControls.js";
 import { ApprovedHudSkin } from "./ApprovedHudSkin.js";
 import { HudQuickControls } from "./HudQuickControls.js";
+import { TorchIntensityControl } from "./TorchIntensityControl.js";
 
 function setTextIfChanged(textObject, value) {
   if (textObject?.text !== value) textObject?.setText(value);
@@ -74,6 +75,10 @@ export class HUDSystem {
     this.currentPickaxeId = null;
     this.torchActive = false;
     this.torchDrainGpPerSecond = LIGHT_CONFIG.torchDrainGpPerSecond;
+    this.torchIntensity = LIGHT_CONFIG.torchIntensity.levels[
+      LIGHT_CONFIG.torchIntensity.defaultLevelIndex
+    ];
+    this.torchBurnAlpha = 0;
     this._destroyed = false;
     this._systemVisibility = {
       clock: true,
@@ -242,7 +247,8 @@ export class HUDSystem {
       .rectangle(this.clockPanelX, HUD_LAYOUT.clockY, HUD_LAYOUT.clockPanelW, HUD_LAYOUT.clockPanelH, UI_COLORS.bg, 0.62)
       .setOrigin(0, 0)
       .setScrollFactor(0)
-      .setDepth(HUD_LAYOUT.hudDepth - 1);
+      .setDepth(HUD_LAYOUT.hudDepth - 1)
+      .setVisible(HUD_LAYOUT.showWorldStateHud);
     this.clockPanel.setStrokeStyle(1, UI_COLORS.borderDim, 0.78);
 
     this.clockTimeText = scene.add
@@ -252,7 +258,8 @@ export class HUDSystem {
         color: HUD_LAYOUT.clockColor,
       })
       .setScrollFactor(0)
-      .setDepth(HUD_LAYOUT.hudDepth);
+      .setDepth(HUD_LAYOUT.hudDepth)
+      .setVisible(HUD_LAYOUT.showWorldStateHud);
 
     this.clockDayText = scene.add
       .text(this.clockPanelX + 10, HUD_LAYOUT.clockY + 32, "Day 1 — Afternoon", {
@@ -261,9 +268,15 @@ export class HUDSystem {
         color: HUD_LAYOUT.clockDayColor,
       })
       .setScrollFactor(0)
-      .setDepth(HUD_LAYOUT.hudDepth);
+      .setDepth(HUD_LAYOUT.hudDepth)
+      .setVisible(HUD_LAYOUT.showWorldStateHud);
 
     this.approvedSkin = new ApprovedHudSkin(scene, this);
+    this.torchIntensityControl = new TorchIntensityControl(scene, {
+      approvedSkinActive: this.approvedSkin?.active === true,
+      onCycle: () => this.scene.lightSystem?.cycleTorchIntensity?.(),
+      onAdjust: (direction) => this.scene.lightSystem?.adjustTorchIntensity?.(direction),
+    });
     this.setCurrentPickaxe(scene.upgradeSystem?.ownedPickaxe, { force: true });
     this._createQuickControls();
 
@@ -283,7 +296,7 @@ export class HUDSystem {
     this._systemVisibility = { ...this._systemVisibility, ...visibility };
     const approvedSkinActive = this.approvedSkin?.active === true;
     const groups = {
-      clock: [this.clockTimeText, this.clockDayText],
+      clock: HUD_LAYOUT.showWorldStateHud ? [this.clockTimeText, this.clockDayText] : [],
       torch: approvedSkinActive ? [] : [this.torchIcon, this.torchStatusText],
       combo: [this.comboText, this.comboTimerBg, this.comboTimerBar],
       buff: approvedSkinActive ? [] : [this.buffTimerText],
@@ -291,14 +304,21 @@ export class HUDSystem {
     Object.entries(groups).forEach(([key, objects]) => (
       objects.forEach(object => object?.setVisible(this._systemVisibility[key]))
     ));
-    this.clockPanel?.setVisible(!approvedSkinActive && this._systemVisibility.clock);
+    this.clockPanel?.setVisible(
+      HUD_LAYOUT.showWorldStateHud && !approvedSkinActive && this._systemVisibility.clock,
+    );
     if (approvedSkinActive) {
       this.torchIcon?.setVisible(false);
       this.torchStatusText?.setVisible(false);
       this.buffTimerText?.setVisible(false);
     }
-    this.approvedSkin?.worldFrame?.setVisible(this._systemVisibility.clock);
+    this.approvedSkin?.worldFrame?.setVisible(
+      HUD_LAYOUT.showWorldStateHud && this._systemVisibility.clock,
+    );
     this.approvedSkin?.setComboVisible(this._systemVisibility.combo && this.comboVisible);
+    this.torchIntensityControl?.setVisible(
+      approvedSkinActive || this._systemVisibility.torch,
+    );
     if (!this._systemVisibility.buff) this.approvedSkin?.setBuffLines([]);
   }
   _createQuickControls() {
@@ -448,9 +468,14 @@ export class HUDSystem {
     }
   }
 
-  setTorchState(active, drainGpPerSecond = LIGHT_CONFIG.torchDrainGpPerSecond) {
+  setTorchState(
+    active,
+    drainGpPerSecond = LIGHT_CONFIG.torchDrainGpPerSecond,
+    intensity = this.torchIntensity,
+  ) {
     this.torchActive = Boolean(active);
     this.torchDrainGpPerSecond = drainGpPerSecond;
+    this.torchIntensity = Math.max(0, Math.min(1, Number(intensity) || 0));
     const torchKey = USER_SETTINGS.getKeyLabel("torch");
     this.torchStatusText?.setText(
       this.torchActive ? `TORCH [${torchKey}]: ON · ${drainGpPerSecond} GP/s` : `TORCH [${torchKey}]: OFF`
@@ -460,7 +485,35 @@ export class HUDSystem {
     );
     this.torchIcon?.setTexture(this.torchActive ? this.torchTextures.on : this.torchTextures.off);
     this.torchIcon?.setAlpha(this.torchActive ? 1 : 0.82);
-    this.approvedSkin?.setTorchState(this.torchActive);
+    this.approvedSkin?.setTorchState(this.torchActive, this.torchIntensity);
+    this.torchIntensityControl?.setState(
+      this.torchActive,
+      this.torchIntensity,
+      this.torchDrainGpPerSecond,
+    );
+    this.setTorchBurn(this.torchActive ? this.torchIntensity : 0);
+  }
+
+  setTorchBurn(alpha) {
+    this.torchBurnAlpha = this.torchActive
+      ? Math.max(0, Math.min(1, Number(alpha) || 0))
+      : 0;
+    this.approvedSkin?.setTorchBurn(this.torchBurnAlpha);
+    if (this.approvedSkin?.active !== true && this.torchActive) {
+      this.torchIcon?.setAlpha(this.torchBurnAlpha);
+    }
+  }
+
+  getTorchIntensitySnapshot() {
+    const control = this.torchIntensityControl?.getSnapshot?.();
+    const burn = this.approvedSkin?.active === true
+      ? this.approvedSkin.getTorchBurnSnapshot?.()
+      : null;
+    return control ? {
+      ...control,
+      burnAlpha: burn?.alpha ?? this.torchBurnAlpha,
+      burnVisible: burn?.visible ?? this.torchActive,
+    } : null;
   }
 
   setFlightHeight(currentHeight, maxHeight) {
@@ -511,6 +564,9 @@ export class HUDSystem {
   update(timeMs) {
     if (this._destroyed) return;
     this.setCurrentPickaxe(this.scene.upgradeSystem?.ownedPickaxe);
+    this.quickControls?.setInventoryResources?.(
+      this.scene.digSystem?.getResourceTotals?.() || {},
+    );
     if (this.statsDirty && (this.lastRefreshMs === 0 || timeMs - this.lastRefreshMs >= this.refreshIntervalMs)) {
       this.refresh();
       this.lastRefreshMs = timeMs;
@@ -532,6 +588,7 @@ export class HUDSystem {
   }
 
   updateClock() {
+    if (!HUD_LAYOUT.showWorldStateHud) return;
     const dnc = this.scene.dayNightCycle;
 
     if (dnc) {
@@ -740,6 +797,8 @@ export class HUDSystem {
     this._comboPopTween?.stop();
     this.quickControls?.destroy();
     this.quickControls = null;
+    this.torchIntensityControl?.destroy();
+    this.torchIntensityControl = null;
     const objects = [
       this.hudBg, this.statsText, this.statusBg, this.statusText,
       this.flyHintText, this.torchIcon, this.torchStatusText, this.buffTimerText,

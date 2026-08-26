@@ -3,6 +3,8 @@ import {
   TOWN_TUTORIAL_CHOICES,
   TOWN_TUTORIAL_STAGES,
 } from "../../values/retentionConfig.js";
+import { sanitizeContextualMechanicTutorialIds } from
+  "../../values/contextualMechanicTutorials.js";
 import { sanitizeTitanDiscoveryIds } from "../../values/titanDiscoveries.js";
 
 const TUTORIAL_STAGES = RETENTION_CONFIG.tutorial.stages;
@@ -162,6 +164,9 @@ export function sanitizeRetentionProgressData(value) {
       source.tutorialFreeTeleportPassesConsumed,
       RETENTION_CONFIG.tutorial.freeTeleports.passIds.length,
     ).filter(passId => RETENTION_CONFIG.tutorial.freeTeleports.passIds.includes(passId)),
+    mechanicTutorialsSeen: sanitizeContextualMechanicTutorialIds(
+      source.mechanicTutorialsSeen,
+    ),
     titanClueTracking: sanitizeTitanClueTracking(source.titanClueTracking),
     lastExpedition: sanitizeRetentionExpedition(source.lastExpedition),
   };

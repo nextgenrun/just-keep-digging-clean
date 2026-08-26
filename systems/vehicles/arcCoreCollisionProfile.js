@@ -41,6 +41,8 @@ export function captureBodyCollisionProfile(body) {
       && isPositiveNumber(body.collisionRadiusPx)
       ? body.collisionRadiusPx
       : null,
+    profileId: body.collisionProfileId || null,
+    visualAnchorOffsetYPx: Number(body.visualAnchorOffsetYPx) || 0,
   });
 }
 
@@ -53,6 +55,8 @@ export function applyBodyCollisionProfile(body, profile) {
     body.h = profile.diameterPx;
     body.collisionKind = SUPPORTED_KIND;
     body.collisionRadiusPx = profile.radiusPx || profile.diameterPx * 0.5;
+    body.collisionProfileId = "arc-core";
+    body.visualAnchorOffsetYPx = 0;
   } else if (
     profile.kind === "rect"
     && isPositiveNumber(profile.widthPx)
@@ -62,6 +66,8 @@ export function applyBodyCollisionProfile(body, profile) {
     body.h = profile.heightPx;
     body.collisionKind = "rect";
     body.collisionRadiusPx = null;
+    body.collisionProfileId = profile.profileId || "upright";
+    body.visualAnchorOffsetYPx = Number(profile.visualAnchorOffsetYPx) || 0;
   } else {
     return false;
   }

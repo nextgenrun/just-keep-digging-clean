@@ -24,6 +24,12 @@ export const DEPTH_MILESTONES = [
   { depth: 1800, name: 'Eternal Flame',    reward: '+15 GP Max',            gpMaxBonus: 15 },
   { depth: 1900, name: 'The Unstoppable',  reward: '+10% Mining Speed',     miningSpeedPct: 10 },
   { depth: 2000, name: 'The King',         reward: '+20 GP Max',            gpMaxBonus: 20 },
+  { depth: 2500, name: 'Magma Prospector', reward: '+10% Material Yield',   resourceYieldPct: 10 },
+  { depth: 3000, name: 'Core Cartographer', reward: '+20 GP Max',           gpMaxBonus: 20 },
+  { depth: 3500, name: 'Abyss Harvester',  reward: '+15% Material Yield',   resourceYieldPct: 15 },
+  { depth: 4000, name: 'Rift Breaker',      reward: '+30 GP Max',           gpMaxBonus: 30 },
+  { depth: 4500, name: 'Starforged Delver', reward: '+25% Material Yield',  resourceYieldPct: 25 },
+  { depth: 4800, name: 'Understar',         reward: '+50 GP Max',           gpMaxBonus: 50 },
 ];
 
 /**
@@ -37,7 +43,12 @@ export function getMilestoneAtDepth(depth) {
  * Calculate total stat bonuses from all reached milestones
  */
 export function computeMilestoneBonuses(reachedDepths) {
-  const bonuses = { gpMaxBonus: 0, miningSpeedPct: 0, critChancePct: 0 };
+  const bonuses = {
+    gpMaxBonus: 0,
+    miningSpeedPct: 0,
+    critChancePct: 0,
+    resourceYieldPct: 0,
+  };
   if (!reachedDepths) return bonuses;
   for (const depth of reachedDepths) {
     const m = getMilestoneAtDepth(depth);
@@ -45,6 +56,7 @@ export function computeMilestoneBonuses(reachedDepths) {
       bonuses.gpMaxBonus += m.gpMaxBonus || 0;
       bonuses.miningSpeedPct += m.miningSpeedPct || 0;
       bonuses.critChancePct += m.critChancePct || 0;
+      bonuses.resourceYieldPct += m.resourceYieldPct || 0;
     }
   }
   return bonuses;

@@ -108,16 +108,28 @@ export class AnimatedCacheVisualSystem {
         entry,
         consumerId,
         image: null,
-        openedAtMs: newlyOpened ? timeMs : null,
+        openedAtMs: null,
+        pendingOpenAnimation: newlyOpened,
         lastFrameIndex: null,
       };
       this.records.set(key, record);
     } else {
       record.entry = entry;
-      if (newlyOpened) record.openedAtMs = timeMs;
+      if (newlyOpened) {
+        record.openedAtMs = null;
+        record.pendingOpenAnimation = true;
+      } else if (!entry.opened) {
+        record.openedAtMs = null;
+        record.pendingOpenAnimation = false;
+      }
     }
     if (!ready) return;
     if (!record.image) record.image = this._createImage(record);
+    if (entry.opened && record.pendingOpenAnimation) {
+      record.openedAtMs = timeMs;
+      record.pendingOpenAnimation = false;
+      record.lastFrameIndex = null;
+    }
     const frameIndex = this._resolveFrame(record, playerTile, timeMs);
     if (record.lastFrameIndex !== frameIndex) {
       record.image.setFrame(getInteractiveWorldStateFrameName(frameIndex));
@@ -136,7 +148,7 @@ export class AnimatedCacheVisualSystem {
     const y = (record.entry.tileY + 1) * tileSize;
     const displaySize = this.feature.displaySizeTiles * tileSize;
     const initialFrame = record.entry.opened
-      ? this.config.states.spent.index
+      ? this.config.states.resolved.index
       : this.config.states.dormant.index;
     const image = this.scene.add.image(
       x,
@@ -160,7 +172,7 @@ export class AnimatedCacheVisualSystem {
         ? states.proximityReady.index
         : states.dormant.index;
     }
-    if (record.openedAtMs === null) return states.spent.index;
+    if (record.openedAtMs === null) return states.resolved.index;
 
     const elapsedMs = Math.max(0, timeMs - record.openedAtMs);
     const activationDurationMs = states.activation.length
@@ -187,7 +199,7 @@ export class AnimatedCacheVisualSystem {
       return states.resolved.index;
     }
     record.openedAtMs = null;
-    return states.spent.index;
+    return states.resolved.index;
   }
 
   _destroyRecord(record) {
@@ -202,7 +214,9 @@ export class AnimatedCacheVisualSystem {
       visibleCaches: this.records.size,
       openedBaselineCaptured: this.openedBaselineCaptured,
       animatingCaches: [...this.records.values()]
-        .filter(record => record.openedAtMs !== null)
+        .filter(record => (
+          record.pendingOpenAnimation || record.openedAtMs !== null
+        ))
         .length,
     };
   }

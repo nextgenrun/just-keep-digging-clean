@@ -31,8 +31,8 @@ export function calculateEffect(baseEffect, level, softcapLevel = 10, maxEffectM
   return Math.min(softcapEffect + extraEffect, baseEffect * softcapLevel * maxEffectMultiplier);
 }
 
-// Calculate heavy punch effect with custom softcap
-export function calculateHeavyPunchEffect(softcapValue, maxValue, level, softcapLevel = 10, maxLevel = 99) {
+// Resolve an explicit early linear curve followed by bounded late progression.
+export function calculateSoftcappedEffect(softcapValue, maxValue, level, softcapLevel = 10, maxLevel = 99) {
   const safeLevel = Number.isFinite(level) ? Math.max(0, level) : 0;
   const safeSoftcapLevel = Number.isFinite(softcapLevel) ? Math.max(1, softcapLevel) : 10;
   const safeMaxLevel = Number.isFinite(maxLevel) ? Math.max(safeSoftcapLevel, maxLevel) : 99;
@@ -46,6 +46,10 @@ export function calculateHeavyPunchEffect(softcapValue, maxValue, level, softcap
   const postSoftcapLevels = Math.max(1, safeMaxLevel - safeSoftcapLevel);
   const progress = Math.min(1, (safeLevel - safeSoftcapLevel) / postSoftcapLevels);
   return Math.min(maxValue, softcapValue + (maxValue - softcapValue) * progress);
+}
+
+export function calculateHeavyPunchEffect(softcapValue, maxValue, level, softcapLevel = 10, maxLevel = 99) {
+  return calculateSoftcappedEffect(softcapValue, maxValue, level, softcapLevel, maxLevel);
 }
 
 // Get upgrade cost for a specific upgrade at current level
@@ -79,9 +83,14 @@ export function getUpgradeEffect(upgradeId, level) {
     return upgrade.effectValue; // Fixed value for pickaxes
   }
   
-  // FIX: Use custom heavy punch formula with softcap
-  if (upgradeId === 'heavyPunch' && upgrade.softcapLevel && upgrade.softcapValue && upgrade.maxValue) {
-    return calculateHeavyPunchEffect(upgrade.softcapValue, upgrade.maxValue, level, upgrade.softcapLevel, upgrade.maxLevel);
+  if (upgrade.softcapLevel && upgrade.softcapValue && upgrade.maxValue) {
+    return calculateSoftcappedEffect(
+      upgrade.softcapValue,
+      upgrade.maxValue,
+      level,
+      upgrade.softcapLevel,
+      upgrade.maxLevel,
+    );
   }
   
   if (upgrade.maxEffect) {

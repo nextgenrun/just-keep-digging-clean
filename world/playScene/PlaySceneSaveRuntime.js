@@ -4,6 +4,14 @@ import { captureCelestialOverhaulState } from "./CelestialOverhaulRuntime.js";
 import { getGraveborerWurmSaveData } from "./GraveborerWurmBridge.js";
 import { getHardcoreModeSaveData } from "./HardcoreModeBridge.js";
 
+export function isPlaySceneSaveBlocked(scene) {
+  return scene?._saveWritesBlocked === true
+    || (
+      scene?._hardcoreDeathInProgress === true
+      && scene?._hardcoreLifeStateSaveInProgress !== true
+    );
+}
+
 export function capturePlaySceneSaveSnapshot(scene, revisionMetadata) {
   const baseSpecialTileData = scene.specialTileSystem?.getSaveData?.() ?? null;
   return Object.freeze({
@@ -43,7 +51,7 @@ export function createPlaySceneSaveCoordinator(scene) {
   const initialRevision = scene._cachedSaveData?.revisionMetadata?.revision || 0;
   return new GameSaveCoordinator({
     initialRevision,
-    isBlocked: () => scene._saveWritesBlocked || scene._hardcoreDeathInProgress,
+    isBlocked: () => isPlaySceneSaveBlocked(scene),
     capture: metadata => capturePlaySceneSaveSnapshot(scene, metadata),
     validate: validateSaveSnapshotIntegrity,
     write: snapshot => scene.dugTileSaveStore.saveSnapshot(snapshot),

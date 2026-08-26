@@ -6,11 +6,11 @@ import { ASSET_KEYS } from "../../values/assetKeys.js";
 import {
   resolvePlayerDisplaySizePx,
   resolvePlayerVisualOrigin,
-} from "../../values/playerAssetProfiles.js?rev=20260820-complex-dig-v1";
+} from "../../values/playerAssetProfiles.js?rev=20260821-moving-complex-dig-v1";
 import { PlayerAbilityAssetController } from
   "../../player/PlayerAbilityAssetController.js";
 import { PlayerDeferredAnimationAssetController } from
-  "../../player/PlayerDeferredAnimationAssetController.js?rev=20260820-complex-dig-v1";
+  "../../player/PlayerDeferredAnimationAssetController.js?rev=20260821-moving-complex-dig-v1";
 import { UalActionContactTimeline } from "../../player/UalActionContactTimeline.js";
 import { GAME_CONFIG } from "../../values/gameConfig.js";
 import { HUD_LAYOUT } from "../../values/hudLayout.js";
@@ -22,7 +22,7 @@ import { RuntimeAssetLoadCoordinator } from
 import { RuntimeFeatureAssetManager } from
   "../rendering/RuntimeFeatureAssetManager.js";
 import { createPlaySceneSaveCoordinator } from "./PlaySceneSaveRuntime.js";
-import { preparePlayScenePlayerAssets } from "./PlayScenePlayerAssetSetup.js?rev=20260820-complex-dig-v1";
+import { preparePlayScenePlayerAssets } from "./PlayScenePlayerAssetSetup.js?rev=20260821-moving-complex-dig-v1";
 import { RuntimeFeaturePrefetchSystem } from
   "../rendering/RuntimeFeaturePrefetchSystem.js";
 import { WORLD_VISUAL_RUNTIME_MODES } from
@@ -36,7 +36,7 @@ import { StartZoneScenicBackgroundSystem } from "../rendering/StartZoneScenicBac
 import { StartZoneGroundFacadeSystem } from "../rendering/StartZoneGroundFacadeSystem.js";
 import { LevelOneGroundFacadeSystem } from "../rendering/LevelOneGroundFacadeSystem.js";
 import { SecondWorldTownRenderer } from "../secondWorld/SecondWorldTownRenderer.js";
-import { PlayerController } from "../../player/PlayerController.js?rev=20260718-mesh-grounded";
+import { PlayerController } from "../../player/PlayerController.js?rev=20260821-moving-complex-dig-v1";
 import { TileCollisionSystem } from "../../systems/mining/TileCollisionSystem.js";
 import { DigSystem } from "../../systems/mining/DigSystem.js";
 import { reportPlaySceneSetupFailure } from "../../systems/health/RuntimeCanarySystem.js";
@@ -64,7 +64,7 @@ import { CraftingSystem } from "../../systems/crafting/CraftingSystem.js";
 import { StarHeartProgressionSystem } from "../../systems/celestial/StarHeartProgressionSystem.js";
 import { DugTilesSaveStore } from "../model/DugTilesSaveStore.js?rev=20260727-save-transfer-v1";
 import { PlayerInputHandler } from "./PlayerInputHandler.js";
-import { GameInputHandler } from "./GameInputHandler.js";
+import { GameInputHandler } from "./GameInputHandler.js?rev=20260826-world-map-input-v2";
 import { ThunderStrikeActionRuntime } from "./ThunderStrikeActionRuntime.js?rev=20260727-restart-lifecycle-v1";
 import { CelestialEngineController } from "./CelestialEngineController.js";
 import { initializeCelestialOverhaulRuntime } from
@@ -83,6 +83,7 @@ import { ScreenRecordSystem } from "../../systems/visual/ScreenRecordSystem.js";
 import { NextPromiseHudSystem } from "../../systems/visual/NextPromiseHudSystem.js";
 import { MiningIntentPreviewSystem } from "../../systems/visual/MiningIntentPreviewSystem.js";
 import { LootPickupFxSystem } from "../../systems/visual/LootPickupFxSystem.js";
+import { RewardFlightMotionSystem } from "../../systems/visual/RewardFlightMotionSystem.js";
 import { RelicDiscoveryFxSystem } from "../../systems/visual/RelicDiscoveryFxSystem.js";
 import { WeatherSystem } from "../../systems/environment/WeatherSystem.js";
 import { ShaderSystem } from "../../systems/lighting/ShaderSystem.js";
@@ -97,6 +98,8 @@ import { PlayerContactShadowSystem } from "../../systems/visual/PlayerContactSha
 import { PlayerMotionPolishSystem } from "../../systems/visual/PlayerMotionPolishSystem.js";
 import { PlayerKinematicMotionSystem } from "../../systems/visual/PlayerKinematicMotionSystem.js";
 import { UalNativeLocomotionTransitionSelector } from "../../systems/visual/UalNativeLocomotionTransitionSelector.js";
+import { shouldUseLegacyPostActionRecovery } from
+  "../../systems/visual/UalActionRecoverySelector.js";
 import { PlayerRigContactSystem } from "../../systems/visual/PlayerRigContactSystem.js";
 import { PlayerSolidOcclusionSystem } from "../../systems/visual/PlayerSolidOcclusionSystem.js";
 import { AmbientParticleSystem } from "../../systems/environment/AmbientParticleSystem.js";
@@ -128,6 +131,8 @@ import { HeavenblocksAccessSystem } from "../../systems/environment/Heavenblocks
 import { HeavenblocksPresentationSystem } from "../../systems/visual/HeavenblocksPresentationSystem.js";
 import { OpeningFlightArtifactSystem } from "../../systems/onboarding/OpeningFlightArtifactSystem.js";
 import { TownSquareTutorialSystem } from "../../systems/onboarding/TownSquareTutorialSystem.js";
+import { ContextualMechanicTutorialSystem } from
+  "../../systems/onboarding/ContextualMechanicTutorialSystem.js";
 import { FirstSessionPortalSystem } from "../../systems/onboarding/FirstSessionPortalSystem.js";
 import { UnderstarEndingSystem } from "../../systems/demo/UnderstarEndingSystem.js";
 import { isHardcoreMode } from "../../values/hardcoreMode.js";
@@ -468,11 +473,6 @@ async function _setupSceneSafe(data = {}, uiPorts = {}) {
       const settledFlipX = typeof this._postActionFacingFlipX === "boolean"
         ? this._postActionFacingFlipX
         : this._actionFlipX;
-      this._combatIdleFlipX = settledFlipX;
-      const recoverDurationMs = this.playerMotionPolish?.getPostActionRecoverDurationMs?.() ?? 3000;
-      this._combatIdleRecoverUntilMs = now + recoverDurationMs;
-      this._combatIdleReturnActive = false;
-      this._combatIdleReturnPlayed = false;
       if (typeof settledFlipX === "boolean") {
         this.player.setFlipX(settledFlipX);
         this.playerController?.setFacingRight?.(!settledFlipX);
@@ -485,10 +485,27 @@ async function _setupSceneSafe(data = {}, uiPorts = {}) {
       this._ualMovingSideDigResumeJogFrame = null;
       const motionState = this.playerController?.getMotionState?.();
       const movementActive = motionState === "walk-left" || motionState === "walk-right";
+      let authoredRecoveryStarted = false;
       if (Number.isFinite(resumeJogFrame) && movementActive) {
-        this.ualLocomotionTransitionSelector?.requestRunResume(resumeJogFrame);
+        authoredRecoveryStarted = this.ualLocomotionTransitionSelector
+          ?.requestRunResume(resumeJogFrame) === true;
+      }
+      if (!authoredRecoveryStarted) {
+        authoredRecoveryStarted = this.playerMotionPolish
+          ?.beginActionRecovery?.(animation.key, settledFlipX) === true;
+      }
+      if (shouldUseLegacyPostActionRecovery(profile, authoredRecoveryStarted)) {
+        const recoverDurationMs = this.playerMotionPolish
+          ?.getPostActionRecoverDurationMs?.() ?? 3000;
+        this._combatIdleFlipX = settledFlipX;
+        this._combatIdleRecoverUntilMs = now + recoverDurationMs;
+        this._combatIdleReturnActive = false;
+        this._combatIdleReturnPlayed = false;
       } else {
-        this.playerMotionPolish?.beginActionRecovery?.(animation.key, settledFlipX);
+        this._combatIdleFlipX = null;
+        this._combatIdleRecoverUntilMs = 0;
+        this._combatIdleReturnActive = false;
+        this._combatIdleReturnPlayed = true;
       }
       this.updatePlayerVisualState(true);
     } else if (this.playerMotionPolish?.onAnimationComplete?.(animation.key, now)) {
@@ -578,6 +595,9 @@ async function _setupSceneSafe(data = {}, uiPorts = {}) {
   // Create tile-based collision system (replaces Phaser Arcade Physics)
   this.tileCollisionSystem = new TileCollisionSystem(this.worldModel, this.config);
   this.playerController = new PlayerController(this, this.player, this.worldModel, this.config, this.upgradeSystem, this.inputHandler, this.playerLevelSystem, this.comboSystem, this.tileCollisionSystem);
+  this.playerController.setTraversalActionLockProvider(() => (
+    this.isDigAnimating === true || this._teleportInAnimating === true
+  ));
   this.playerAbilityAssetController = new PlayerAbilityAssetController(
     this,
     this.playerAssetProfile,
@@ -589,6 +609,7 @@ async function _setupSceneSafe(data = {}, uiPorts = {}) {
   );
   markSetupPhase("player-runtime");
   this.uiNotifications = uiPorts.createNotificationSystem(this);
+  this.rewardFlightMotionSystem = new RewardFlightMotionSystem();
   this.hudSystem = new HUDSystem(this, this.config.worldWidthTiles - 1, this.config.hudRefreshIntervalMs);
   this.hudSystem.setComboSystem(this.comboSystem);
   this.hudSystem.setSpecialBlockEffectsManager(this.specialBlockEffectsManager);
@@ -619,7 +640,11 @@ async function _setupSceneSafe(data = {}, uiPorts = {}) {
       this.celestialCurrencyHudSystem?.pulseStars?.();
     }
   });
-  this.lootPickupFxSystem = new LootPickupFxSystem(this, this.hudSystem);
+  this.lootPickupFxSystem = new LootPickupFxSystem(
+    this,
+    this.hudSystem,
+    this.rewardFlightMotionSystem,
+  );
   this.relicDiscoveryFxSystem = new RelicDiscoveryFxSystem(this, {
     targetProvider: () => (
       this.player?.getCenter?.({ x: 0, y: 0 }, true)
@@ -848,6 +873,10 @@ async function _setupSceneSafe(data = {}, uiPorts = {}) {
   this.specialTileSystem?.setChestEventHandler?.(this.randomEventBridge);
   this.systemIntroductionSystem = new SystemIntroductionSystem(this, this.retentionProgressSystem);
   this.systemIntroductionSystem.refresh({ announce: false });
+  this.contextualMechanicTutorialSystem = new ContextualMechanicTutorialSystem(
+    this,
+    this.retentionProgressSystem,
+  );
   this.understarEndingSystem = new UnderstarEndingSystem(this, {
     capabilities: this.gameplayCapabilities,
     assetCoordinator: this.runtimeAssetLoadCoordinator,

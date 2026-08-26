@@ -13,36 +13,38 @@ export const RESOURCE_ECONOMY_CONFIG = Object.freeze({
   yieldCurves: Object.freeze({
     levelOne: Object.freeze([
       point(0, 1),
-      point(300, 1.4),
-      point(600, 2),
-      point(1000, 3.1),
-      point(1500, 5),
+      point(300, 1.6),
+      point(600, 2.6),
+      point(1000, 4.5),
+      point(1500, 8),
     ]),
     levelTwo: Object.freeze([
-      point(0, 1),
-      point(500, 1.5),
-      point(1000, 2.2),
-      point(2000, 3.5),
-      point(3000, 5.8),
-      point(4000, 10),
+      point(0, 5),
+      point(500, 6),
+      point(1000, 9),
+      point(2000, 15),
+      point(3000, 24),
+      point(4000, 38),
+      point(5000, 60),
     ]),
   }),
   yield: Object.freeze({
     deterministicRoundSalt: 0x2d7f31,
-    maxDepthMultiplier: 10,
-    maxFinalTileYield: 7500,
+    maxDepthMultiplier: 60,
+    maxFinalTileYield: 50000,
   }),
   milestones: Object.freeze({
     maxMiningSpeedPct: 32,
     maxCritChancePct: 12,
+    maxResourceYieldPct: 50,
   }),
   prices: Object.freeze({
     precisionDigits: 2,
   }),
   health: Object.freeze({
     expectedLevelOnePointCount: 5,
-    expectedLevelTwoPointCount: 6,
-    expectedMaximumMultiplier: 10,
+    expectedLevelTwoPointCount: 7,
+    expectedMaximumMultiplier: 60,
   }),
 });
 

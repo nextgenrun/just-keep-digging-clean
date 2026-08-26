@@ -135,7 +135,7 @@ export class WorldVisualFeedbackLayer {
         const hp = this.worldModel.getTileHp(tx, ty);
         const maxHp = this.worldModel.getTileMaxHp(tx, ty, tileType);
         if (maxHp > 0 && hp > 0 && hp < maxHp && damaged < damageCap) {
-          this._drawDamage(tx, ty, 1 - hp / maxHp, tileSize);
+          this._drawDamage(tx, ty, 1 - hp / maxHp, tileSize, tileType);
           damaged += 1;
         }
       }
@@ -288,8 +288,8 @@ export class WorldVisualFeedbackLayer {
       );
     }
   }
-  _drawDamage(tx, ty, damage, size) {
-    this.damagePainter?.draw(tx, ty, damage, size);
+  _drawDamage(tx, ty, damage, size, tileType) {
+    this.damagePainter?.draw(tx, ty, damage, size, tx, ty, tileType);
   }
   setDepth(depth) {
     this.decals?.setDepth(depth);

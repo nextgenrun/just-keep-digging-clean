@@ -14,8 +14,9 @@
 ## Stars and talents
 
 - Collected sky stars grant spendable Star points by rarity:
-  Common 1, Uncommon 2, Rare 4, Epic 8, Legendary 15, Astral 30.
-- Celestial talents unlock at player Level 20.
+  Common 20, Uncommon 50, Rare 100, Epic 250, Mythic 750, Astral 2,000.
+  Rarity weights increasingly favor valuable tiers through the first 2,000m.
+- Celestial talents unlock at player Level 3.
 - Each Engine branch begins with its root ability at the bottom and fans upward
   into an 11-node, three-path lattice with three alternate capstones.
 - Root abilities are free. Upgrade nodes cost Star Points and have level,
