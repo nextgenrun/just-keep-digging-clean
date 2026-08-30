@@ -16,3 +16,9 @@ the eight phase-selected UP-SIDE/DOWN-SIDE mining variants. Rebuild all three th
 `pipelines/piskel/2026-07-28-build-player-animation-polish-piskel-package.py`;
 the generated review board is
 `contact-sheets/player-animation-polish-runtime-review.png`.
+
+The unified Survival runtime packer consumes those three sources plus
+`moving-side-dig-jab.piskel`, `moving-side-dig-cross.piskel`, and
+`moving-side-dig-phase-handoff.piskel` directly. Their cells must remain
+pixel-exact through that handoff: use one animation-wide scale in the owning
+Piskel build and never compensate with per-frame runtime resizing.

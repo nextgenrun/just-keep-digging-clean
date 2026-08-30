@@ -39,6 +39,7 @@ export function createUalNativePlayerAnimations(scene, profile) {
   // Generated polish animations are registered first so shared public keys
   // (start/stop/landing) resolve to their Piskel-authored atlas definitions.
   createConfiguredAnimations(scene, profile.animationPolishAnimations);
+  createConfiguredAnimations(scene, profile.heldTorchAnimations);
 
   createAnimation(scene, profile.idleAnim, profile.idleSheet, profile.idleFrames, profile.idleAnimationFps, -1);
   createAnimation(scene, profile.walkStartAnim, profile.walkStartSheet, profile.walkStartFrames, profile.walkAnimationFps, 0);
@@ -54,6 +55,14 @@ export function createUalNativePlayerAnimations(scene, profile) {
   createAnimation(scene, profile.flightTravelLoopAnim, profile.flightTravelLoopSheet, profile.flightTravelLoopFrames, profile.flightTravelLoopAnimationFps || profile.flyAnimationFps, -1);
   createAnimation(scene, profile.flightHoverAnim, profile.flightHoverSheet, profile.flightHoverFrames, profile.flightHoverAnimationFps || profile.flyAnimationFps, -1);
   createAnimation(scene, profile.flightExitAnim, profile.flightExitSheet, profile.flightExitFrames, profile.flightExitAnimationFps || profile.airborneAnimationFps, 0);
+  createAnimation(
+    scene,
+    profile.ledgeCatchAnim,
+    profile.ledgeClimbSheet,
+    profile.ledgeCatchFrames,
+    profile.ledgeClimbAnimationFps,
+    0,
+  );
   createAnimation(
     scene,
     profile.ledgeHangAnim,

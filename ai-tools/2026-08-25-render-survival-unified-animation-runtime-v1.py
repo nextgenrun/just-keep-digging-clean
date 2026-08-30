@@ -18,6 +18,7 @@ RETARGET_CONFIG = json.loads((ROOT / CONFIG["retargetConfig"]).read_text(encodin
 sys.path.insert(0, str(ROOT / "pipelines/blender"))
 import mixamoSurvivalRetarget as retarget
 import survivalUnifiedPoses as poses
+import survivalWalkHandoff as walk_handoff
 
 
 def load_module(name, path):
@@ -32,6 +33,15 @@ ACCEPTED = load_module(
     ROOT / "ai-tools/2026-08-19-render-mixamo-accepted-survival.py",
 )
 ACCEPTED.CONFIG = {**RETARGET_CONFIG, **CONFIG, "render": CONFIG["render"]}
+ACTIVE_TARGET_RIG = None
+ACTIVE_SHEET_SPEC = None
+
+
+def reference_action_name(spec=None):
+    active = spec or ACTIVE_SHEET_SPEC or {}
+    if active.get("heldTorchPose"):
+        return CONFIG["heldTorchPose"]["action"]
+    return CONFIG["objects"]["referenceAction"]
 
 
 def argument(name, default=None):
@@ -59,7 +69,35 @@ def set_secondary(secondary, index, count, loop):
         )
 
 
+def apply_held_torch_pose(scene, target_rig, spec, index, count, loop):
+    if not spec.get("heldTorchPose"):
+        return
+    pose_config = CONFIG["heldTorchPose"]
+    action = bpy.data.actions.get(pose_config["action"])
+    if action is None:
+        raise RuntimeError(f"Missing held-torch action: {pose_config['action']}")
+    start, end = (float(value) for value in action.frame_range)
+    denominator = count if loop else max(1, count - 1)
+    source_frame = start + (end - start) * index / denominator
+    base_pose = poses.capture_pose(target_rig)
+    torch_pose = poses.direct_action_pose(scene, target_rig, action, source_frame)
+    selected_bones = set(pose_config["bones"])
+    prefixes = tuple(pose_config["bonePrefixes"])
+    for name, matrix in torch_pose.items():
+        if name in selected_bones or name.startswith(prefixes):
+            base_pose[name] = matrix
+    poses.restore_pose(target_rig, base_pose)
+
+
 def render_frame(scene, sheet_key, index, secondary, count, loop):
+    apply_held_torch_pose(
+        scene,
+        ACTIVE_TARGET_RIG,
+        ACTIVE_SHEET_SPEC or {},
+        index,
+        count,
+        loop,
+    )
     set_secondary(secondary, index, count, loop)
     bpy.context.view_layer.update()
     scene.render.filepath = str(frame_path(sheet_key, index))
@@ -97,7 +135,7 @@ def render_direct(scene, target_rig, secondary, sheet_key, spec, action):
     poses.restore_pose(target_rig, first_pose)
     target_travel = poses.pose_camera_axis_position(target_rig, scene.camera)
     body = bpy.data.objects[CONFIG["objects"]["body"]]
-    neutral_action = bpy.data.actions[CONFIG["objects"]["referenceAction"]]
+    neutral_action = bpy.data.actions[reference_action_name(spec)]
     neutral_pose = poses.direct_action_pose(
         scene, target_rig, neutral_action, float(neutral_action.frame_range[0])
     )
@@ -141,17 +179,46 @@ def render_ual(scene, target_rig, secondary, sheet_key, spec):
         poses.cleanup(imported, actions)
 
 
+def mixamo_retarget_spec(spec):
+    base = RETARGET_CONFIG["retarget"]
+    source_prefix = spec.get("sourceBonePrefix")
+    if not source_prefix:
+        return base
+    default_prefix = base.get("sourceBonePrefix", "mixamorig:")
+
+    def remap(name):
+        if not isinstance(name, str) or not name.startswith(default_prefix):
+            return name
+        return source_prefix + name[len(default_prefix):]
+
+    def remap_sources(value):
+        if isinstance(value, str):
+            return remap(value)
+        if isinstance(value, list):
+            return [remap_sources(item) for item in value]
+        if isinstance(value, dict):
+            return {key: remap_sources(item) for key, item in value.items()}
+        return value
+
+    return {
+        **remap_sources(base),
+        "sourceBonePrefix": source_prefix,
+        "sourceHipBone": remap(base.get("sourceHipBone", "mixamorig:Hips")),
+    }
+
+
 def mixamo_context(scene, target_rig, source_path, spec):
     source_rig, action, imported, actions = poses.import_fbx(source_path)
+    retarget_spec = mixamo_retarget_spec(spec)
     alignment, scale, residual = retarget.rest_alignment(
-        source_rig, target_rig, RETARGET_CONFIG["retarget"]["boneMap"]
+        source_rig, target_rig, retarget_spec["boneMap"]
     )
     samples = ACCEPTED.sample_frames(action, spec)
     positions = ACCEPTED.source_hip_positions(
         scene,
         source_rig,
         samples,
-        RETARGET_CONFIG["retarget"].get("sourceHipBone", "mixamorig:Hips"),
+        retarget_spec.get("sourceHipBone", "mixamorig:Hips"),
     )
     reference = ACCEPTED.reference_hip(spec, positions)
     return source_rig, action, imported, actions, alignment, scale, residual, samples, positions, reference
@@ -161,10 +228,11 @@ def render_mixamo(scene, target_rig, finger_pose, secondary, sheet_key, spec):
     source = ROOT / CONFIG["paths"][spec["root"]] / spec["source"]
     context = mixamo_context(scene, target_rig, source, spec)
     source_rig, action, imported, actions, alignment, scale, residual, samples, positions, reference = context
+    retarget_spec = mixamo_retarget_spec(spec)
     contacts = RETARGET_CONFIG["retarget"]["groundContactBones"]
     target_ground = poses.target_ground_height(target_rig, contacts)
     right = poses.camera_right(scene.camera)
-    neutral_action = bpy.data.actions[CONFIG["objects"]["referenceAction"]]
+    neutral_action = bpy.data.actions[reference_action_name(spec)]
     neutral_pose = poses.direct_action_pose(
         scene, target_rig, neutral_action, float(neutral_action.frame_range[0])
     )
@@ -175,7 +243,7 @@ def render_mixamo(scene, target_rig, finger_pose, secondary, sheet_key, spec):
             offset = ACCEPTED.mapped_hip_offset(spec, alignment, positions[-1], reference, right)
             poses.restore_pose(target_rig, neutral_pose)
             retarget.apply_pose(
-                source_rig, target_rig, RETARGET_CONFIG["retarget"], alignment, scale,
+                source_rig, target_rig, retarget_spec, alignment, scale,
                 finger_pose, offset,
             )
             end_delta = target_ground - poses.contact_height(target_rig, contacts)
@@ -184,7 +252,7 @@ def render_mixamo(scene, target_rig, finger_pose, secondary, sheet_key, spec):
             offset = ACCEPTED.mapped_hip_offset(spec, alignment, positions[index], reference, right)
             poses.restore_pose(target_rig, neutral_pose)
             retarget.apply_pose(
-                source_rig, target_rig, RETARGET_CONFIG["retarget"], alignment, scale,
+                source_rig, target_rig, retarget_spec, alignment, scale,
                 finger_pose, offset,
             )
             ground_pose(target_rig, target_ground, spec["grounding"], contacts, end_delta)
@@ -215,7 +283,7 @@ def render_moving_sequence(
     source_rig, _, imported, actions, alignment, scale, residual, samples, _, _, _ = context
     target_ground = poses.target_ground_height(target_rig, ["foot_l", "ball_l", "foot_r", "ball_r"])
     body = bpy.data.objects[CONFIG["objects"]["body"]]
-    neutral_action = bpy.data.actions[CONFIG["objects"]["referenceAction"]]
+    neutral_action = bpy.data.actions[reference_action_name()]
     neutral_pose = poses.direct_action_pose(
         scene, target_rig, neutral_action, float(neutral_action.frame_range[0])
     )
@@ -401,13 +469,14 @@ def render_transitions(scene, target_rig, secondary, sheet_key, spec):
 
 
 def main():
-    expected = (ROOT / CONFIG["sourceBlend"]).resolve()
-    if Path(bpy.data.filepath).resolve() != expected:
-        raise RuntimeError(f"Open configured source blend first: {expected}")
     selected = argument("sheet")
     if selected and selected not in CONFIG["sheets"]:
         raise ValueError(f"Unknown sheet: {selected}")
     sheets = {selected: CONFIG["sheets"][selected]} if selected else CONFIG["sheets"]
+    selected_spec = CONFIG["sheets"].get(selected, {}) if selected else {}
+    expected = (ROOT / selected_spec.get("sourceBlend", CONFIG["sourceBlend"])).resolve()
+    if Path(bpy.data.filepath).resolve() != expected:
+        raise RuntimeError(f"Open configured source blend first: {expected}")
     resume = selected is None and argument("resume", "1") != "0"
     forced_modes = set(filter(None, argument("forceModes", "").split(",")))
     scene = bpy.context.scene
@@ -417,7 +486,7 @@ def main():
     finger_pose = retarget.capture_reference_fingers(
         scene,
         target_rig,
-        bpy.data.actions[CONFIG["objects"]["referenceAction"]],
+        bpy.data.actions[reference_action_name(selected_spec)],
         RETARGET_CONFIG["retarget"]["fingerPosePrefixes"],
     )
     quality, secondary = ACCEPTED.configure_quality(scene, body)
@@ -425,7 +494,10 @@ def main():
     report = json.loads(report_path.read_text(encoding="utf-8")) if report_path.is_file() else {
         "version": CONFIG["version"], "sourceBlendChanged": False, "quality": quality, "sheets": {},
     }
+    global ACTIVE_TARGET_RIG, ACTIVE_SHEET_SPEC
+    ACTIVE_TARGET_RIG = target_rig
     for sheet_key, spec in sheets.items():
+        ACTIVE_SHEET_SPEC = spec
         if resume and spec["mode"] not in forced_modes and sheet_is_complete(sheet_key, int(spec["frames"])):
             print(f"UNIFIED_SURVIVAL_RESUME_SKIP sheet={sheet_key}", flush=True)
             continue
@@ -434,6 +506,18 @@ def main():
         if mode == "MASTER": result = render_master(scene, target_rig, secondary, sheet_key, spec)
         elif mode == "UAL": result = render_ual(scene, target_rig, secondary, sheet_key, spec)
         elif mode == "MIXAMO": result = render_mixamo(scene, target_rig, finger_pose, secondary, sheet_key, spec)
+        elif mode == "WALK_HANDOFF":
+            result = walk_handoff.render(
+                scene,
+                target_rig,
+                finger_pose,
+                secondary,
+                sheet_key,
+                spec,
+                ROOT / CONFIG["paths"][spec["root"]] / spec["source"],
+                mixamo_retarget_spec(spec),
+                render_frame,
+            )
         elif mode.startswith("MOVING_"): result = render_moving(scene, target_rig, finger_pose, secondary, sheet_key, spec)
         elif mode == "DIAGONAL": result = render_diagonal(scene, target_rig, secondary, sheet_key, spec)
         elif mode == "TRANSITIONS": result = render_transitions(scene, target_rig, secondary, sheet_key, spec)
@@ -441,6 +525,8 @@ def main():
         report["sheets"][sheet_key] = {**result, "frames": int(spec["frames"])}
         report_path.parent.mkdir(parents=True, exist_ok=True)
         report_path.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+    ACTIVE_SHEET_SPEC = None
+    ACTIVE_TARGET_RIG = None
     print(f"SURVIVAL_UNIFIED_RENDER_OK sheets={len(sheets)} report={report_path}")
 
 

@@ -2,6 +2,7 @@ import { USER_SETTINGS } from "../UserSettings.js";
 import {
   CONTEXTUAL_MECHANIC_TUTORIAL_CONFIG,
   CONTEXTUAL_MECHANIC_TUTORIAL_IDS,
+  isContextualMechanicTutorialId,
 } from "../../values/contextualMechanicTutorials.js";
 import { GRAVEBORER_WURM_PHASES } from "../../values/graveborerWurm.js";
 import { LIGHT_CONFIG } from "../../values/lightConfig.js";
@@ -31,9 +32,17 @@ export class ContextualMechanicTutorialSystem {
     this.retention = retention;
     this.config = options.config || CONTEXTUAL_MECHANIC_TUTORIAL_CONFIG;
     this.active = null;
+    this.runtimeTriggers = new Set();
+  }
+
+  notifyEmberDiscovery() {
+    return this._notifyRuntimeTrigger(
+      CONTEXTUAL_MECHANIC_TUTORIAL_IDS.EMBER_CAMPFIRE,
+    );
   }
 
   update(deltaMs = 0) {
+    if (this.scene.emberDiscoveryEventSystem?.active === true) return null;
     if (this.active) {
       this._advanceActive(deltaMs);
       return this.getNextPromiseOverride();
@@ -50,6 +59,7 @@ export class ContextualMechanicTutorialSystem {
   }
 
   getNextPromiseOverride() {
+    if (this.scene.emberDiscoveryEventSystem?.active === true) return null;
     const copy = this.config.entries[this.active?.id];
     if (!copy) return null;
     return {
@@ -64,6 +74,7 @@ export class ContextualMechanicTutorialSystem {
     return {
       activeId: this.active?.id || null,
       visibleMs: this.active?.visibleMs || 0,
+      runtimeTriggers: [...this.runtimeTriggers],
       seen: this.retention?.getSeenMechanicTutorials?.() || [],
       eligible: this.config.priority.filter(id => this._isEligible(id)),
     };
@@ -79,6 +90,7 @@ export class ContextualMechanicTutorialSystem {
 
     const completedId = this.active.id;
     this.active = null;
+    this.runtimeTriggers.delete(completedId);
     if (this.retention?.recordMechanicTutorialSeen?.(completedId)) {
       this.scene.queueDugTilesSave?.("mechanic-tutorial-complete");
     }
@@ -101,7 +113,22 @@ export class ContextualMechanicTutorialSystem {
       || FINISHED_OPENING_STAGES.has(tutorial?.stage);
   }
 
+  _notifyRuntimeTrigger(id) {
+    if (
+      !isContextualMechanicTutorialId(id)
+      || this.retention?.hasSeenMechanicTutorial?.(id)
+      || this.runtimeTriggers.has(id)
+    ) {
+      return false;
+    }
+    this.runtimeTriggers.add(id);
+    return true;
+  }
+
   _isEligible(id) {
+    if (id === CONTEXTUAL_MECHANIC_TUTORIAL_IDS.EMBER_CAMPFIRE) {
+      return this.runtimeTriggers.has(id);
+    }
     if (id === CONTEXTUAL_MECHANIC_TUTORIAL_IDS.GRAVEBORER_WURM) {
       const runtime = this.scene.graveborerWurmRuntime;
       return runtime?.lastGate?.productionActive === true
@@ -129,6 +156,7 @@ export class ContextualMechanicTutorialSystem {
 
   destroy() {
     this.active = null;
+    this.runtimeTriggers.clear();
     this.scene = null;
     this.retention = null;
   }

@@ -1,0 +1,115 @@
+{
+  "schemaVersion": 1,
+  "provider": "ElevenLabs",
+  "reviewOnly": true,
+  "runtimeWired": false,
+  "createdAt": "2026-08-26T13:10:58.372398Z",
+  "updatedAt": "2026-08-26T13:10:58.372398Z",
+  "results": {
+    "cinematic-opening-frederick-v2:narration": {
+      "jobKey": "cinematic-opening-frederick-v2:narration",
+      "kind": "narration",
+      "file": "narration-opening-frederick-v2.mp3",
+      "voiceId": "j9jfwdrw7BRfcR43Qohk",
+      "voiceName": "Frederick Surrey - Smooth and Velvety",
+      "text": "Below the last light, the mine remembers every path. Dig. Return. Grow stronger. Then descend, where earth, sky, and starlight meet. The Understar is waiting.",
+      "settings": {
+        "stability": 0.7,
+        "similarity_boost": 0.86,
+        "style": 0.0,
+        "use_speaker_boost": true,
+        "speed": 0.9
+      },
+      "status": "ready",
+      "source": "elevenlabs-history-export",
+      "bytes": 197206,
+      "sha256": "b4b9e77088161f0993f6c04261f8d8b3f9444a7d07555aae09cb656570a24693",
+      "contentType": "audio/mpeg",
+      "completedAt": "2026-08-26T13:10:56.874508Z"
+    },
+    "cinematic-mossback-frederick-v2:narration": {
+      "jobKey": "cinematic-mossback-frederick-v2:narration",
+      "kind": "narration",
+      "file": "narration-mossback-frederick-v2.mp3",
+      "voiceId": "j9jfwdrw7BRfcR43Qohk",
+      "voiceName": "Frederick Surrey - Smooth and Velvety",
+      "text": "That is not a statue. It is breathing.",
+      "settings": {
+        "stability": 0.7,
+        "similarity_boost": 0.86,
+        "style": 0.0,
+        "use_speaker_boost": true,
+        "speed": 0.9
+      },
+      "status": "ready",
+      "source": "elevenlabs-history-export",
+      "bytes": 59697,
+      "sha256": "6f6ddce0abad0fa531f258597d802d8fade057007a7eebd63001037730c39483",
+      "contentType": "audio/mpeg",
+      "completedAt": "2026-08-26T13:10:57.190025Z"
+    },
+    "cinematic-trailer-frederick-v2:narration": {
+      "jobKey": "cinematic-trailer-frederick-v2:narration",
+      "kind": "narration",
+      "file": "narration-trailer-frederick-v2.mp3",
+      "voiceId": "j9jfwdrw7BRfcR43Qohk",
+      "voiceName": "Frederick Surrey - Smooth and Velvety",
+      "text": "Every descent is a decision. Every return makes you stronger. Master Flight. Find the Titans. Wake the Understar. Wishlist Understar on Steam.",
+      "settings": {
+        "stability": 0.7,
+        "similarity_boost": 0.86,
+        "style": 0.0,
+        "use_speaker_boost": true,
+        "speed": 0.9
+      },
+      "status": "ready",
+      "source": "elevenlabs-history-export",
+      "bytes": 184249,
+      "sha256": "612573d6cfbd5abb8f67abc3d3bf3f20188fe7c99176396457e681a01a4761a0",
+      "contentType": "audio/mpeg",
+      "completedAt": "2026-08-26T13:10:57.561108Z"
+    },
+    "cinematic-short-mossback-frederick-v2:narration": {
+      "jobKey": "cinematic-short-mossback-frederick-v2:narration",
+      "kind": "narration",
+      "file": "narration-short-mossback-frederick-v2.mp3",
+      "voiceId": "j9jfwdrw7BRfcR43Qohk",
+      "voiceName": "Frederick Surrey - Smooth and Velvety",
+      "text": "At ninety meters, the roots started breathing. Find all twenty-five Titans. Wishlist Understar on Steam.",
+      "settings": {
+        "stability": 0.7,
+        "similarity_boost": 0.86,
+        "style": 0.0,
+        "use_speaker_boost": true,
+        "speed": 0.9
+      },
+      "status": "ready",
+      "source": "elevenlabs-history-export",
+      "bytes": 154156,
+      "sha256": "38194025d3355e3d28c6352f530efba53c27ed9115c4402a24514dad5857cfee",
+      "contentType": "audio/mpeg",
+      "completedAt": "2026-08-26T13:10:58.014720Z"
+    },
+    "cinematic-short-depth-frederick-v2:narration": {
+      "jobKey": "cinematic-short-depth-frederick-v2:narration",
+      "kind": "narration",
+      "file": "narration-short-depth-frederick-v2.mp3",
+      "voiceId": "j9jfwdrw7BRfcR43Qohk",
+      "voiceName": "Frederick Surrey - Smooth and Velvety",
+      "text": "How deep would you go? Dig. Return. Grow stronger. The Understar is waiting. Wishlist now on Steam.",
+      "settings": {
+        "stability": 0.7,
+        "similarity_boost": 0.86,
+        "style": 0.0,
+        "use_speaker_boost": true,
+        "speed": 0.9
+      },
+      "status": "ready",
+      "source": "elevenlabs-history-export",
+      "bytes": 151648,
+      "sha256": "410e5d61c258df938d83c50291a9edc54b3cc86f6ae6fc73a56a2d0addeadb7e",
+      "contentType": "audio/mpeg",
+      "completedAt": "2026-08-26T13:10:58.372398Z"
+    }
+  }
+}

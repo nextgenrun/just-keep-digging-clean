@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "reviewOnly": true,
+  "reviewStatus": "rejected",
+  "rejectionReason": "Too simple and short; superseded by the V2 demo library.",
+  "runtimeQueryGate": "eventVoices=1",
+  "generatedAt": "2026-08-29T22:04:36.699961+00:00",
+  "sampleId": "earthquake-warning",
+  "model": "x-ai/grok-voice-tts-1.0",
+  "voice": "rex",
+  "text": "Move! The ceiling is coming down!",
+  "characters": 33,
+  "requests": 1,
+  "userMaximumSpendEur": 5,
+  "localRequestCapUsd": 0.01,
+  "estimatedCostUsd": 0.000495,
+  "contentType": "audio/mpeg",
+  "generationId": "gen-tts-1788041075-BaoNe8rRvayZIJs74LvK",
+  "file": "earthquake-warning-rex.mp3",
+  "bytes": 36480,
+  "sha256": "573B8FA33E057AA3616193BA0B28660A3727A69989E8B2B381729730A6B9FC07",
+  "apiKeyStored": false
+}

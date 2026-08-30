@@ -43,6 +43,7 @@ export class PlayerAbilities {
     this.playerLevelSystem = playerLevelSystem;
     this.comboSystem = comboSystem;
     this._abilityAssetReadiness = null;
+    this._miningDamageProvider = null;
     this.gemPower = 0;
     this._baseGemPowerMax = GEM_POWER_CONFIG.baseMax || 100;
     this._progressionGemPowerMaxBonus = 0;
@@ -87,10 +88,13 @@ export class PlayerAbilities {
     this._gemPowerFloorProvider = typeof provider === "function" ? provider : null;
   }
   setAbilityAssetReadiness(readiness) { this._abilityAssetReadiness = readiness || null; }
+  setMiningDamageProvider(provider) {
+    this._miningDamageProvider = typeof provider === "function" ? provider : null;
+  }
 
-  _abilityAssetsReady(abilityId) {
+  _abilityAssetsReady(abilityId, { interactive = false } = {}) {
     if (!this._abilityAssetReadiness || this._abilityAssetReadiness.isReady(abilityId)) return true;
-    void this._abilityAssetReadiness.ensure(abilityId);
+    void this._abilityAssetReadiness.ensure(abilityId, { interactive });
     return false;
   }
 
@@ -198,7 +202,8 @@ export class PlayerAbilities {
   _updateQuickslash(input, facingRight) {
     const wantsQuickslash = input?.getQuickslashInput?.() === true;
     if (!wantsQuickslash || !PLAYER_ABILITIES_CONFIG.quickslashEnabled
-      || !this._isQuickslashUnlocked() || !this._abilityAssetsReady("quickslash")) {
+      || !this._isQuickslashUnlocked()
+      || !this._abilityAssetsReady("quickslash", { interactive: true })) {
       this._quickslashActive = false;
       return;
     }
@@ -208,18 +213,19 @@ export class PlayerAbilities {
       return;
     }
 
-    if (!this._quickslashActive) {
+    const startedQuickslash = !this._quickslashActive;
+    if (startedQuickslash) {
       this._quickslashDirection = resolveHorizontalInputDirection(
         input?.getHorizontalMovement?.(),
         facingRight,
       );
     }
     this._quickslashActive = true;
-    if (this.body) {
+    if (this.body && startedQuickslash) {
       const dir = this._quickslashDirection;
-      const burstSpeed = Math.max(0, this.getConstellationStats().quickslashBurstSpeed || 0);
+      const burstSpeed = this._getQuickslashMovementBonus();
       if (burstSpeed > 0) {
-        this.body.vx = dir * Math.max(Math.abs(this.body.vx || 0), burstSpeed);
+        this.body.vx = dir * (Math.abs(this.body.vx || 0) + burstSpeed);
       }
     }
   }
@@ -241,6 +247,18 @@ export class PlayerAbilities {
 
   isQuickslashActive() { return this._quickslashActive; }
   getQuickslashDirection() { return this._quickslashDirection || 1; }
+
+  _getQuickslashMovementBonus() {
+    return Math.max(
+      0,
+      PLAYER_ABILITIES_CONFIG.quickslashMovementBonusPxPerSec
+        + (this.getConstellationStats().quickslashBurstSpeed || 0),
+    );
+  }
+
+  getQuickslashMovementBonus() {
+    return this._quickslashActive ? this._getQuickslashMovementBonus() : 0;
+  }
 
   _isQuickslashUnlocked() {
     if (this._godMode) return true;
@@ -282,24 +300,25 @@ export class PlayerAbilities {
   getQuickslashCost() {
     if (this._godMode) return 0;
     const stats = this.getConstellationStats();
-    return Math.max(0, (PLAYER_ABILITIES_CONFIG.quickslashCost || 10) - (stats.quickslashCostReduction || 0));
+    let cost = Math.max(
+      0,
+      (PLAYER_ABILITIES_CONFIG.quickslashCost || 12)
+        - (stats.quickslashCostReduction || 0),
+    );
+    const discountThreshold = Math.max(0, stats.quickslashDiscountAbovePct || 0);
+    if (discountThreshold > 0 && this.getGemPowerPercent() >= discountThreshold * 100) {
+      cost *= PLAYER_ABILITIES_CONFIG.quickslashHighGpCostMultiplier;
+    }
+    return Math.round(cost * 10) / 10;
   }
 
   canPayQuickslashCost() {
     if (this._godMode) return true;
-    const stats = this.getConstellationStats();
-    if ((stats.quickslashFreeAbovePct || 0) > 0 && this.getGemPowerPercent() >= stats.quickslashFreeAbovePct * 100) {
-      return true;
-    }
-    return this.gemPower >= this.getQuickslashCost();
+    return this.gemPower + Number.EPSILON >= this.getQuickslashCost();
   }
 
   spendQuickslashCost() {
     if (this._godMode) return 0;
-    const stats = this.getConstellationStats();
-    if ((stats.quickslashFreeAbovePct || 0) > 0 && this.getGemPowerPercent() >= stats.quickslashFreeAbovePct * 100) {
-      return 0;
-    }
     return this.consumeGemPower(this.getQuickslashCost(), { source: "quickslash" });
   }
 
@@ -386,7 +405,7 @@ export class PlayerAbilities {
     const stats = this.getConstellationStats();
     const strikeRange = Math.max(
       1,
-      (this.upgradeSystem ? this.upgradeSystem.getUpgradeLevel("thunderStrikeAbility") + 5 : 5)
+      PLAYER_ABILITIES_CONFIG.thunderStrikeBaseRangeTiles
         + (stats.thunderstrikeRange || 0)
     );
     const normalDamageMultiplier = Number.isFinite(PLAYER_ABILITIES_CONFIG.thunderStrikeNormalDamageMultiplier)
@@ -460,7 +479,7 @@ export class PlayerAbilities {
     const stats = this.getConstellationStats();
     const range = Math.max(
       1,
-      (this.upgradeSystem ? this.upgradeSystem.getUpgradeLevel("thunderStrikeAbility") + 5 : 5)
+      PLAYER_ABILITIES_CONFIG.thunderStrikeBaseRangeTiles
         + (stats.thunderstrikeRange || 0)
     );
     const entries = [];
@@ -502,6 +521,11 @@ export class PlayerAbilities {
   }
 
   _getNormalMiningDamageForTile(tileType) {
+    const providedDamage = Number(this._miningDamageProvider?.(tileType));
+    if (Number.isFinite(providedDamage) && providedDamage > 0) {
+      return Math.max(1, Math.round(providedDamage));
+    }
+
     const baseDamage = this._getBaseDamageForTile(tileType);
     let damage = baseDamage;
 
@@ -631,7 +655,7 @@ export class PlayerAbilities {
   }
 
   getEffectiveFlightSpeed() {
-    return this._getFlightSpeed();
+    return this._getFlightSpeed() + this.getQuickslashMovementBonus();
   }
 
   _getFlyStartCost() {

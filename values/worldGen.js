@@ -17,6 +17,7 @@ export const WORLD_GEN_CONFIG = Object.freeze({
     band3CopperChance: 0.08,
     band3StoneChance: 0.2,
     band4MaxDepth: 300,
+    goldMinDepth: 700,
     band4GoldChance: 0.0023,
     band4SilverChance: 0.0039,
     band4DarkDirtStrongChance: 0.0279,

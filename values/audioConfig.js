@@ -6,6 +6,8 @@ export const AUDIO_CONFIG = Object.freeze({
   sfxVolume: 0.9,
   voiceVolume: 0.8,
   npcVoiceVolume: 0.7,
+  voiceMusicDuckMultiplier: 0.3,
+  voiceSfxDuckMultiplier: 0.5,
   footstepVolume: 0.14,
   digVolume: 1.0,
   digStepVolumeMultiplier: 0.6,
@@ -41,6 +43,91 @@ export const AUDIO_CONFIG = Object.freeze({
   voiceLineMinInterval: 30000, // 30 seconds minimum
   voiceLineMaxInterval: 200000, // 200 seconds maximum
 });
+
+const EVENT_VOICE_ENABLE_VALUES = Object.freeze(["1", "on", "true"]);
+
+export const EVENT_VOICE_CONFIG = Object.freeze({
+  schemaVersion: 1,
+  enabledByDefault: false,
+  queryParam: "eventVoices",
+  queryEnableValues: EVENT_VOICE_ENABLE_VALUES,
+  queryFamilyParam: "eventVoiceFamily",
+  reviewTriggerKey: "F8",
+  eventIds: Object.freeze({
+    earthquakeWarning: "earthquakeWarning",
+    rareMaterialDiscovery: "rareMaterialDiscovery",
+    deepReturn: "deepReturn",
+    hardcoreDanger: "hardcoreDanger",
+    meaningfulPurchase: "meaningfulPurchase",
+    biomeFirstEntry: "biomeFirstEntry",
+    titanDiscovery: "titanDiscovery",
+    comboRecord: "comboRecord",
+    inventoryCritical: "inventoryCritical",
+    starRelease: "starRelease",
+  }),
+  merchantOpenChance: 0.35,
+  merchantOpenCooldownMs: 45000,
+  maxQueuedLines: 2,
+  queueInterlineDelayMs: 750,
+  narrationQueueTtlMs: 15000,
+  ambientBusyRetryMs: 5000,
+  ambientQuietAfterEventMs: 20000,
+  ambientQuietAfterMerchantMs: 12000,
+  eventGlobalCooldownMs: 12000,
+  sources: Object.freeze({
+    ambient: "ambient-random",
+    merchant: "merchant-open",
+    event: "gameplay-event",
+    narration: "narration",
+  }),
+  priorities: Object.freeze({
+    ambient: 0,
+    merchant: 100,
+    event: 200,
+    narration: 300,
+  }),
+  events: Object.freeze({
+    earthquakeWarning: Object.freeze({
+      libraryId: "earthquakeWarning",
+      cooldownMs: 180000,
+      queueTtlMs: 7000,
+      ambientQuietAfterMs: 20000,
+      priority: 220,
+      oncePerSession: false,
+    }),
+    rareMaterialDiscovery: Object.freeze({ libraryId: "rareMaterialDiscovery", cooldownMs: 0, queueTtlMs: 12000, ambientQuietAfterMs: 15000, priority: 160, oncePerSession: true }),
+    deepReturn: Object.freeze({ libraryId: "deepReturn", cooldownMs: 0, queueTtlMs: 15000, ambientQuietAfterMs: 15000, priority: 140, oncePerSession: false }),
+    hardcoreDanger: Object.freeze({ libraryId: "hardcoreDanger", cooldownMs: 60000, queueTtlMs: 4000, ambientQuietAfterMs: 15000, priority: 240, oncePerSession: false }),
+    meaningfulPurchase: Object.freeze({ libraryId: "meaningfulPurchase", cooldownMs: 90000, queueTtlMs: 0, ambientQuietAfterMs: 12000, priority: 100, oncePerSession: false }),
+    biomeFirstEntry: Object.freeze({ libraryId: "biomeFirstEntry", cooldownMs: 0, queueTtlMs: 15000, ambientQuietAfterMs: 15000, priority: 150, oncePerSession: true }),
+    titanDiscovery: Object.freeze({ libraryId: "titanDiscovery", cooldownMs: 0, queueTtlMs: 30000, ambientQuietAfterMs: 20000, priority: 250, oncePerSession: true }),
+    comboRecord: Object.freeze({ libraryId: "comboRecord", cooldownMs: 0, queueTtlMs: 8000, ambientQuietAfterMs: 8000, priority: 90, oncePerSession: true }),
+    inventoryCritical: Object.freeze({ libraryId: "inventoryCritical", cooldownMs: 60000, queueTtlMs: 5000, ambientQuietAfterMs: 10000, priority: 110, oncePerSession: false }),
+    starRelease: Object.freeze({ libraryId: "starRelease", cooldownMs: 0, queueTtlMs: 12000, ambientQuietAfterMs: 18000, priority: 210, oncePerSession: true }),
+  }),
+});
+
+export function resolveEventVoiceDemoEnabled(
+  config = EVENT_VOICE_CONFIG,
+  search = globalThis.location?.search || "",
+) {
+  const value = new URLSearchParams(search)
+    .get(config.queryParam)
+    ?.trim()
+    .toLowerCase();
+  if (value) return config.queryEnableValues.includes(value);
+  return config.enabledByDefault;
+}
+
+export function resolveEventVoiceReviewFamily(
+  config = EVENT_VOICE_CONFIG,
+  search = globalThis.location?.search || "",
+) {
+  const requested = new URLSearchParams(search).get(config.queryFamilyParam);
+  return requested && config.events[requested]
+    ? requested
+    : config.eventIds.earthquakeWarning;
+}
 
 const APPROVED_SFX_BASE_PATH = "sound/soundEffects/approved-sfx-findings-v1/";
 

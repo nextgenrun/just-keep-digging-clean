@@ -1,0 +1,90 @@
+{
+  "candidateIndex": "sound/library-v2/SoundLibrary_Review/00_INBOX_RAW_EXPORTS/sonniss-gdc2019-recorded-mining-pilot-2026-08-26/2026-08-27-expansion-candidate-index.json",
+  "outputDirectory": "sound/library-v2/SoundLibrary_Review/00_INBOX_RAW_EXPORTS/sonniss-gdc2019-recorded-mining-pilot-2026-08-26",
+  "selectionFile": "2026-08-27-expansion-selection.json",
+  "sourceIndexFile": "source-index-expansion-2026-08-27.json",
+  "maxFileBytes": 125829120,
+  "maxTotalBytes": 943718400,
+  "groups": [
+    {
+      "family": "mechanical-ui-foley",
+      "packages": ["InspectorJ - UI - Mechanical", "3maze - Doors", "Cfry – Hand Tools", "SoundBits - Antiques", "3maze - App FX", "Airborne Sound - Tools"],
+      "excludeTerms": ["sledgehammers"],
+      "maxFiles": 16,
+      "targetAssets": "GX201-GX220, GX291-GX315, GX333-GX335",
+      "listenFor": "Tactile relays, locks, buttons, trays and tool mechanisms with clean edit points."
+    },
+    {
+      "family": "metal-machine-movement",
+      "packages": ["3maze - Electric Motors", "BlueZone - Heavy Metal Impact Sound Effects", "Airborne Sound - Elements Metal", "Sound Spark LLC – Metal Hits, Scrapes and Squeaks", "Sound Ex Machina - Rolling Objects", "SoundMorph - Robotic Lifeforms 2"],
+      "maxFiles": 21,
+      "targetAssets": "GX206-GX240, GX245, GX252-GX257, GX284-GX287, GX335, GX346-GX359",
+      "listenFor": "Physical motor, chassis, rolling and metal-body layers without tonal ringing."
+    },
+    {
+      "family": "air-whoosh-flight",
+      "packages": ["Airborne Sound - Organic Whooshes", "Airborne Sound - Airy Whooshes", "Soundholder - Swipes And Whooshes", "Borys Peter - Blowing winds"],
+      "maxFiles": 11,
+      "targetAssets": "GX221-GX240, GX277-GX278, GX299, GX323, GX364",
+      "listenFor": "Natural air displacement and cloth, tool or grille passes that remain non-musical."
+    },
+    {
+      "family": "surface-footstep-body",
+      "packages": ["Studio 23 - Ultimate Footstep Collection", "Soundopolis - Icy Snow 2 HD", "Red Libraries - Bodyfall"],
+      "includeTerms": ["footstep", "doormat", "bodyfall"],
+      "excludeTerms": ["gravel_loafers_loops"],
+      "maxFiles": 8,
+      "targetAssets": "GX205-GX211, GX231-GX232, GX240-GX243, GX261-GX267",
+      "listenFor": "Distinct contact, weight and surface identity; sequences need isolated step or landing exports."
+    },
+    {
+      "family": "glass-ice-crystal",
+      "packages": ["Airborne Sound - Elements Glass", "Soundopolis - Icy Snow 2 HD", "3maze - FINAL IMPACT", "3maze - IMPACTUS"],
+      "includeTerms": ["glass", "ice", "icicle", "snowball", "shatter"],
+      "excludeTerms": ["ice_impact_debris_heavy_single"],
+      "maxFiles": 8,
+      "targetAssets": "GX247, GX249, GX260, GX274-GX276, GX284, GX320, GX326, GX330, GX366, GX391-GX393",
+      "listenFor": "Distinct brittle bodies and debris; use darker layers to avoid a glass-only identity."
+    },
+    {
+      "family": "wood-mine-support",
+      "packages": ["Soundopolis - Household Doors HD", "Matt Script - Squeaks & Creaks"],
+      "maxFiles": 7,
+      "targetAssets": "GX258, GX321-GX322, GX328, GX365, GX368",
+      "listenFor": "Dry timber stress, hinges, slides and support movement with separable gestures."
+    },
+    {
+      "family": "weather-water-depth",
+      "packages": ["Pole Position - Thunder & Rain", "Sound Spark LLC – Forge Sound Design Toolkit", "Soundholder - Props Box", "Sound Ex Machina - RAIN CITY"],
+      "includeTerms": ["rain", "thunder", "water_pouring", "water spray"],
+      "excludeTerms": ["gentle rain"],
+      "maxFiles": 6,
+      "targetAssets": "GX327, GX356-GX371, GX373-GX380",
+      "listenFor": "Natural weather, water and distant pressure beds with usable isolated moments or loop regions."
+    },
+    {
+      "family": "electrical-energy",
+      "packages": ["Airborne Sound - Electric-Magnetic", "BlueZone - Dark Mesa Industrial Ambiences and SFX", "ktwAudio - Unheard Sounds Electromagnetic Fields", "Soundbox Library - Electromagnetic Fields Collection"],
+      "includeTerms": ["electric", "metal_element", "mobile_phone_locked", "cnc_wood_carving"],
+      "maxFiles": 7,
+      "targetAssets": "GX201-GX203, GX216-GX220, GX221-GX239, GX254-GX256, GX318, GX331-GX333, GX374-GX375",
+      "listenFor": "Physical contacts, arcs and electromagnetic textures that can support energy without generic synth tone."
+    },
+    {
+      "family": "chain-rattle",
+      "packages": ["Articulated Sounds - Ghosts Return", "Rzpost - Ride on Bike"],
+      "includeTerms": ["metal chain", "bicycle,chain"],
+      "maxFiles": 3,
+      "targetAssets": "GX218, GX284, GX307, GX346-GX348, GX359, GX363, GX382",
+      "listenFor": "Short real chain motion, latch weight and restrained rattle with separable gestures."
+    },
+    {
+      "family": "thermal-fire",
+      "packages": ["Rock The Speakerbox - Sorcery", "Sound Spark LLC – Magic Spells, Buffs and Attacks", "Sound Spark LLC – GLITCH FACTORY 1- BOOM, CRACKLE AND SCREAM"],
+      "includeTerms": ["sizzle water", "fire_spell", "boom_crackle"],
+      "maxFiles": 3,
+      "targetAssets": "GX248, GX255, GX327, GX373, GX393, GX399",
+      "listenFor": "Heat, ignition and crackle layers; reject magical or synthetic character that cannot be physically grounded."
+    }
+  ]
+}

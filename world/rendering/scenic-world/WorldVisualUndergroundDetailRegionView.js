@@ -2,6 +2,12 @@ import {
   setAlphaIfChanged,
   setTintIfChanged,
 } from "./worldVisualRenderState.js";
+import { resolveLevelOneBiomeFieldAtTile } from
+  "../../../values/levelOneBiomeField.js";
+import {
+  resolveLevelOneBiomeDetailFrameIndexes,
+  resolveLevelOneBiomeLayerSeed,
+} from "../../../values/levelOneBiomeVisualFamilies.js";
 
 function stableHash(column, row, seed, salt) {
   let mixed = (
@@ -58,14 +64,25 @@ export class WorldVisualUndergroundDetailRegionView {
   }
 
   resolveRequiredAssets(bounds) {
-    return this._resolveRange(bounds) ? this.region.assets : [];
+    if (!this._resolveRange(bounds)) return [];
+    const sources = this.region.biomeFieldRegionsById;
+    if (!sources) return this.region.assets;
+    const assets = new Map();
+    Object.values(sources).forEach(sourceRegion => {
+      sourceRegion.assets.forEach(asset => assets.set(asset.key, asset));
+    });
+    return [...assets.values()];
   }
 
   getActiveAssets() {
-    const assets = [];
-    if (this.textureImages.size > 0) assets.push(this.region.textureAtlas);
-    if (this.propImages.size > 0) assets.push(this.region.propAtlas);
-    return assets;
+    const assets = new Map();
+    for (const collection of [this.textureImages, this.propImages]) {
+      collection.forEach(image => {
+        const asset = image._worldVisualAsset;
+        if (asset) assets.set(asset.key, asset);
+      });
+    }
+    return [...assets.values()];
   }
 
   _resolveRange(bounds) {
@@ -122,36 +139,91 @@ export class WorldVisualUndergroundDetailRegionView {
     const salt = kind === "textures" ? 1709 : 2903;
     for (let row = range.firstRow; row <= range.lastRow; row += 1) {
       for (let column = range.firstColumn; column <= range.lastColumn; column += 1) {
-        const spawnHash = stableHash(column, row, this.region.seedOffset, salt);
+        const fieldSelection = this._resolveBiomeFieldSelection(column, row);
+        const sourceRegion = fieldSelection?.sourceRegion || this.region;
+        const profileOffset = fieldSelection
+          ? resolveLevelOneBiomeLayerSeed(fieldSelection.profile, kind)
+          : 0;
+        const spawnHash = stableHash(
+          column,
+          row,
+          sourceRegion.seedOffset + profileOffset,
+          salt
+        );
         if (unit(spawnHash) > kindConfig.chance) continue;
         const id = `${column}:${row}`;
         needed.add(id);
         if (!collection.has(id)) {
           const atlas = kind === "textures"
-            ? this.region.textureAtlas
-            : this.region.propAtlas;
+            ? sourceRegion.textureAtlas
+            : sourceRegion.propAtlas;
           if (!this.scene.textures.exists(atlas.key)) continue;
-          collection.set(id, this._createImage(kind, column, row, spawnHash));
+          collection.set(
+            id,
+            this._createImage(
+              kind,
+              column,
+              row,
+              spawnHash,
+              sourceRegion,
+              fieldSelection?.profile || null
+            )
+          );
         }
       }
     }
     this._prune(collection, needed);
   }
 
-  _createImage(kind, column, row, spawnHash) {
+  _resolveBiomeFieldSelection(column, row) {
+    const sources = this.region.biomeFieldRegionsById;
+    if (!sources) return null;
+    const placement = this.config.placement;
+    const centerTileX = this.region.leftTile
+      + (column + 0.5) * placement.cellWidthTiles;
+    const centerTileY = this.region.topTile
+      + (row + 0.5) * placement.cellHeightTiles;
+    const profile = resolveLevelOneBiomeFieldAtTile(centerTileX, centerTileY);
+    const sourceRegion = profile ? sources[profile.sourceRegionId] : null;
+    return profile && sourceRegion ? { profile, sourceRegion } : null;
+  }
+
+  _resolveBiomeFieldRegion(column, row) {
+    return this._resolveBiomeFieldSelection(column, row)?.sourceRegion
+      || this.region;
+  }
+
+  _createImage(
+    kind,
+    column,
+    row,
+    spawnHash,
+    sourceRegion = this.region,
+    profile = null
+  ) {
     const { scene, region, config } = this;
     const tileSize = scene.config.tileSize;
     const placement = config.placement;
     const kindConfig = config[kind];
     const atlasConfig = config.atlas;
-    const atlas = kind === "textures" ? region.textureAtlas : region.propAtlas;
-    const frameHash = stableHash(column, row, region.seedOffset, spawnHash + 17);
-    const scaleHash = stableHash(column, row, region.seedOffset, spawnHash + 31);
-    const jitterXHash = stableHash(column, row, region.seedOffset, spawnHash + 47);
-    const jitterYHash = stableHash(column, row, region.seedOffset, spawnHash + 53);
-    const styleHash = stableHash(column, row, region.seedOffset, spawnHash + 61);
-    const depthHash = stableHash(column, row, region.seedOffset, spawnHash + 67);
-    const frame = frameHash % atlasConfig.frameCount;
+    const atlas = kind === "textures"
+      ? sourceRegion.textureAtlas
+      : sourceRegion.propAtlas;
+    const seedOffset = sourceRegion.seedOffset + (profile
+      ? resolveLevelOneBiomeLayerSeed(profile, kind)
+      : 0);
+    const frameHash = stableHash(column, row, seedOffset, spawnHash + 17);
+    const scaleHash = stableHash(column, row, seedOffset, spawnHash + 31);
+    const jitterXHash = stableHash(column, row, seedOffset, spawnHash + 47);
+    const jitterYHash = stableHash(column, row, seedOffset, spawnHash + 53);
+    const styleHash = stableHash(column, row, seedOffset, spawnHash + 61);
+    const depthHash = stableHash(column, row, seedOffset, spawnHash + 67);
+    const familyFrames = profile
+      ? resolveLevelOneBiomeDetailFrameIndexes(profile, kind)
+      : null;
+    const frame = familyFrames?.length
+      ? familyFrames[frameHash % familyFrames.length]
+      : frameHash % atlasConfig.frameCount;
     const frameName = this._ensureAtlasFrame(atlas, frame);
     const isLargeProp = kind === "props"
       && kindConfig.largeFrameIndexes.includes(frame);
@@ -208,6 +280,7 @@ export class WorldVisualUndergroundDetailRegionView {
     image._worldVisualFrameIndex = frame;
     image._worldVisualSourceScale = sourceScale;
     image._worldVisualScaleClass = isLargeProp ? "multi-tile" : "localized";
+    image._worldVisualBiomeProfileId = profile?.id || null;
     return image;
   }
 

@@ -91,7 +91,10 @@ export class CaveActionAnimationRuntime {
   }
   canReplaceMiningRecovery(nowMs, abilities = null) {
     if (!this._activeMiningActionKind || this.timeline?.allContactsFired !== true) return false;
-    const delayMs = UAL_NATIVE_ACTION_TUNING.cadence.normal.recoveryCancelDelayMs;
+    const cadence = this._activeMiningActionKind === "quickslash"
+      ? UAL_NATIVE_ACTION_TUNING.cadence.quickslash
+      : UAL_NATIVE_ACTION_TUNING.cadence.normal;
+    const delayMs = cadence.recoveryCancelDelayMs;
     if (!Number.isFinite(this._contactAtMs) || nowMs - this._contactAtMs < delayMs) return false;
     const { digSystem } = this.controller;
     if (typeof digSystem?.isMineCooldownReady === "function") {
@@ -120,6 +123,7 @@ export class CaveActionAnimationRuntime {
     ) return false;
     let key;
     let sourceFacesRight;
+    let deferredFallbackKey = profile.digDownAnim || ASSET_KEYS.player.digDownAnim;
     if (action === "quickslash") {
       key = profile.quickslashAnim;
       sourceFacesRight = profile.quickslashSourceFacesRight
@@ -151,6 +155,7 @@ export class CaveActionAnimationRuntime {
         sourceFacesRight = profile.digDownSourceFacesRight === true;
       } else if (up) {
         const selection = resolveComplexDigSelection(scene, profile, "up", profile.digUpHitAnims, profile.digUpAnim);
+        deferredFallbackKey = selection.fallback;
         key = select(selection.family, selection.animationKeys, selection.fallback);
         sourceFacesRight = profile.digUpSourceFacesRight === true;
       } else if (down) {
@@ -158,6 +163,7 @@ export class CaveActionAnimationRuntime {
         sourceFacesRight = profile.digDownSourceFacesRight === true;
       } else {
         const selection = resolveComplexDigSelection(scene, profile, "side", profile.digSidewaysHitAnims, profile.digSidewaysAnim);
+        deferredFallbackKey = selection.fallback;
         key = select(selection.family, selection.animationKeys, selection.fallback);
         sourceFacesRight = resolveComplexDigSourceFacesRight(
           profile,
@@ -183,6 +189,7 @@ export class CaveActionAnimationRuntime {
       if (aim.includes("RIGHT")) scene.player.setFlipX(!sourceFacesRight);
     }
     if (profile.isUalNative) {
+      const stationaryKey = key;
       const kind = action === "quickslash" ? "quickslash" : "normal";
       const movingSideDig = resolveMovingSideDigAnimation({
         profile,
@@ -214,11 +221,23 @@ export class CaveActionAnimationRuntime {
         currentTextureFrame: Number(scene.player.anims.currentFrame?.textureFrame),
       });
       key = movingDiagonalDig.animationKey;
+      const requestedActionKey = key;
+      if (!scene.anims.exists(key)) {
+        const availableFallback = scene.anims.exists(stationaryKey)
+          ? stationaryKey
+          : deferredFallbackKey;
+        key = this.controller.originScene?.playerDeferredAnimationAssetController
+          ?.resolveOrRequest?.(key, availableFallback) || availableFallback;
+      }
+      const usingRequestedAction = key === requestedActionKey;
       return this._playUalAction(key, kind, abilities, onContact, {
         targetTile,
         direction,
-        resumeJogFrame: movingDiagonalDig.resumeJogFrame ?? movingSideDig.resumeJogFrame,
-        movingSideDigActive: movingSideDig.movingSideDigActive,
+        resumeJogFrame: usingRequestedAction
+          ? movingDiagonalDig.resumeJogFrame ?? movingSideDig.resumeJogFrame
+          : null,
+        movingSideDigActive: usingRequestedAction
+          && movingSideDig.movingSideDigActive,
         standOffDirectionX: movingSideDig.targetDirectionX,
       });
     }

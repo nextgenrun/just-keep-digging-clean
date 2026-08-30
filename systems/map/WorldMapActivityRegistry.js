@@ -42,10 +42,11 @@ export class WorldMapActivityRegistry {
     }));
   }
 
-  getMarkers(context) {
+  getMarkers(context, options = {}) {
     const markers = [];
     for (const provider of this.providers.values()) {
-      if (!this.isVisible(provider.id)) continue;
+      const providerVisible = this.isVisible(provider.id);
+      if (!providerVisible && options.includeHidden !== true) continue;
       try {
         const supplied = provider.getMarkers(context);
         if (!Array.isArray(supplied)) continue;
@@ -55,6 +56,7 @@ export class WorldMapActivityRegistry {
             ...marker,
             id: marker.id || `${provider.id}-${index}`,
             providerId: provider.id,
+            providerVisible,
             color: marker.color ?? provider.color,
           });
         });

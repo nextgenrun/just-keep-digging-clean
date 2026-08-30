@@ -134,16 +134,16 @@ const RARITY_TIERS = Object.freeze([
 ]);
 
 const SIGN_XP_TOTALS = Object.freeze({
-  dirt: 200,
-  stone: 200,
-  copper: 200,
-  darkDirtNormal: 120,
-  steel: 120,
-  iron: 80,
-  bronze: 80,
-  darkDirtStrong: 80,
-  silver: 80,
-  gold: 40,
+  dirt: 70,
+  stone: 70,
+  copper: 70,
+  darkDirtNormal: 42,
+  steel: 42,
+  iron: 28,
+  bronze: 28,
+  darkDirtStrong: 28,
+  silver: 28,
+  gold: 14,
 });
 
 const LEGACY_STAR_THRESHOLDS = Object.freeze({
@@ -177,7 +177,7 @@ export const STAR_RARITY_PROGRESSION_CONFIG = Object.freeze({
   rarityTiers: RARITY_TIERS,
   signProgression: Object.freeze({
     saveKey: "dig-game-sign-xp-v2",
-    saveVersion: 2,
+    saveVersion: 3,
     maxEncounterCount: 999999,
     maxLevel: 5,
     levelFractions: Object.freeze([0.12, 0.28, 0.48, 0.72, 1]),

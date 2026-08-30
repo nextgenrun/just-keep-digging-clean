@@ -6,8 +6,8 @@ const source = await readFile(
   new URL("../systems/visual/CelestialActionBarInputBridge.js", import.meta.url),
   "utf8",
 );
-assert.equal(CELESTIAL_ACTION_BAR_CONFIG.slotCount, 5);
-assert.match(source, /"ONE", "TWO", "THREE", "FOUR", "FIVE"/);
+assert.equal(CELESTIAL_ACTION_BAR_CONFIG.slotCount, 6);
+assert.match(source, /"ONE", "TWO", "THREE", "FOUR", "FIVE", "SIX"/);
 assert.match(source, /activateSlot\?\.\(index \+ 1, "keyboard"\)/);
 assert.match(source, /JustDown/);
 assert.match(source, /isEnabled/);

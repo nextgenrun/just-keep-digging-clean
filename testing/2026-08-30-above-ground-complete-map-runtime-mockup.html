@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Above-ground complete map runtime review</title>
+    <style>
+      :root { color-scheme: dark; font-family: Inter, Segoe UI, sans-serif; }
+      * { box-sizing: border-box; }
+      html, body, #map { width: 100%; height: 100%; margin: 0; overflow: hidden; }
+      body { display: grid; place-items: center; background: #070a10; }
+      canvas { display: block; max-width: 100vw; max-height: 100vh; width: auto !important; height: auto !important; }
+      .hud { position: fixed; inset: 0; z-index: 2; pointer-events: none; }
+      .card, .rail { border: 1px solid rgba(229,184,92,.3); background: rgba(5,12,20,.86); box-shadow: 0 16px 40px rgba(0,0,0,.35); backdrop-filter: blur(8px); }
+      .card { position: absolute; top: 18px; left: 18px; width: min(410px, calc(100vw - 36px)); padding: 14px 16px; border-radius: 8px; }
+      .eyebrow { color: #e5b85c; font-size: 11px; font-weight: 800; letter-spacing: .14em; }
+      h1 { margin: 5px 0 3px; color: #f5ead2; font: 600 20px/1.15 Georgia, serif; }
+      .chapter { color: #b9d6ee; font-size: 14px; }
+      .stats { margin-top: 9px; color: #91a4b6; font-size: 12px; line-height: 1.45; }
+      .locked { color: #9bd1ad; }
+      .rail { position: absolute; left: 50%; bottom: 18px; transform: translateX(-50%); display: flex; gap: 8px; align-items: center; width: min(920px, calc(100vw - 36px)); padding: 9px; border-radius: 9px; pointer-events: auto; }
+      button, select { min-height: 38px; border: 1px solid rgba(229,184,92,.32); border-radius: 6px; background: #101d2a; color: #ecdfc5; font: inherit; }
+      button { width: 42px; cursor: pointer; font-size: 18px; }
+      select { min-width: 0; padding: 0 10px; }
+      #chapter-select { flex: 1.3; }
+      #band-select { flex: .8; }
+      .hint { flex: 1.1; color: #91a4b6; font-size: 11px; line-height: 1.3; }
+      .loading { position: absolute; inset: 0; display: grid; place-items: center; color: #d8c89f; letter-spacing: .12em; background: #070a10; }
+      .ready .loading, .clean .hud { display: none; }
+      @media (max-width: 720px) { .hint { display: none; } .rail { width: calc(100vw - 20px); bottom: 10px; } .card { top: 10px; left: 10px; } }
+    </style>
+  </head>
+  <body>
+    <div id="map" aria-label="Interactive above-ground complete map"></div>
+    <div class="hud" aria-live="polite">
+      <div class="loading">STREAMING EXISTING WORLD ASSETS</div>
+      <section class="card">
+        <div class="eyebrow">REVIEW-ONLY RUNTIME COMPOSITION</div>
+        <h1>Above-ground complete map</h1>
+        <div class="chapter" id="chapter-label">Loading map…</div>
+        <div class="stats">
+          <span id="asset-counts">Scenic far plate · 20 cohesion skies · 57 V11 terrain chunks · 253 props</span><br>
+          <span class="locked">Town Square video locked to existing town-air</span>
+        </div>
+      </section>
+      <nav class="rail" aria-label="Map navigation">
+        <button id="previous" type="button" aria-label="Previous chapter">‹</button>
+        <select id="chapter-select" aria-label="Chapter"></select>
+        <select id="band-select" aria-label="Vertical map band"></select>
+        <button id="next" type="button" aria-label="Next chapter">›</button>
+        <div class="hint">Drag or WASD to pan · mouse wheel to zoom<br>Q/E chapters · 1–4 sky/surface bands</div>
+      </nav>
+    </div>
+    <script src="../libs/phaser.js"></script>
+    <script type="module" src="./2026-08-30-above-ground-complete-map-runtime-mockup.js?v=complete-map-v1-20"></script>
+  </body>
+</html>

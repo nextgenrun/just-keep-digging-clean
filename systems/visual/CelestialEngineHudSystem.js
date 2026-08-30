@@ -77,6 +77,25 @@ export class CelestialEngineHudSystem {
       this.sync(this.snapshot);
       return;
     }
+    if (snapshot.projectileEnabled) {
+      const lanes = 1 + Math.max(0, snapshot.projectileSideLanes || 0) * 2;
+      this.state.setText(
+        `LANCE ${(snapshot.remainingMs / 1000).toFixed(1)}S  •  ${snapshot.projectileRangeTiles} TILE  •  ${lanes}× ${snapshot.projectileDamageMultiplier} DMG`,
+      );
+      return;
+    }
+    if (snapshot.starCount >= 1) {
+      this.state.setText(
+        `STARS ${snapshot.activeStars}/${snapshot.starCount}  •  TARGETS ${snapshot.impacts}/${snapshot.maxImpacts}`,
+      );
+      return;
+    }
+    if (snapshot.holeCount >= 1) {
+      this.state.setText(
+        `HOLES ${snapshot.activeHoles}/${snapshot.holeCount}  •  TARGETS ${snapshot.impacts}/${snapshot.maxImpacts}`,
+      );
+      return;
+    }
     this.state.setText(
       `ACTIVE  •  ${snapshot.impacts}/${snapshot.maxImpacts} IMPACTS`,
     );

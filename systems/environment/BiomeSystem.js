@@ -8,6 +8,8 @@ import { ANIMATION_SMOOTHNESS_CONFIG } from "../../values/animationSmoothness.js
 import {
   frameRateIndependentResponse,
 } from "../../values/mathUtils.js";
+import { PLAYER_VOICE_CONFIG } from
+  "../../values/playerVoiceCharacterLeoV1.generated.js";
 
 export default class BiomeSystem {
   constructor(scene, config, worldModel) {
@@ -44,6 +46,7 @@ export default class BiomeSystem {
     // Track biome depth for smooth transitions
     this._targetColor = 0x000000;
     this._targetAlpha = 0;
+    this._activeBiomeName = null;
   }
 
   /**
@@ -56,11 +59,13 @@ export default class BiomeSystem {
     // Find the current biome zone
     let targetColor = 0x000000;
     let targetAlpha = 0;
+    let targetBiome = this.biomes[0];
 
     for (const biome of this.biomes) {
       if (depth >= biome.minDepth && depth < biome.maxDepth) {
         targetColor = biome.color;
         targetAlpha = biome.alpha;
+        targetBiome = biome;
         break;
       }
     }
@@ -70,6 +75,24 @@ export default class BiomeSystem {
       const last = this.biomes[this.biomes.length - 1];
       targetColor = last.color;
       targetAlpha = last.alpha;
+      targetBiome = last;
+    }
+
+    const previousBiomeName = this._activeBiomeName;
+    this._activeBiomeName = targetBiome.name;
+    if (
+      previousBiomeName
+      && previousBiomeName !== targetBiome.name
+      && targetBiome.name !== "surface"
+    ) {
+      this.scene.soundSystem?.playPlayerVoiceEvent?.(
+        PLAYER_VOICE_CONFIG.eventIds.biomeFirstEntry,
+        {
+          dedupeKey: targetBiome.name,
+          biome: targetBiome.name,
+          tags: [targetBiome.name, "first"],
+        },
+      );
     }
 
     // Smooth lerp toward target

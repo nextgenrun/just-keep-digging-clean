@@ -35,6 +35,7 @@ import {
 import { validateCooldownMs } from "../../values/progressionInvariants.js";
 import { reportProgressionInvariantFailure } from "../health/progressionInvariantReporter.js";
 import { grantResourceTotal, replaceResourceTotals } from "./ResourceTotalAuthority.js";
+import { resolvePiercingMiningProjectile } from "./PiercingMiningProjectile.js";
 
 const RESOURCE_KEY_SET = new Set(RESOURCE_KEYS);
 
@@ -54,6 +55,8 @@ export class DigSystem {
     this.relicDiscoveryFxSystem = null;
     this.retentionProgressSystem = null;
     this.depthMilestoneBonusProvider = null;
+    this.celestialEmpowerProvider = null;
+    this.celestialProjectileListener = null;
 
     this.lastMineTime = -Infinity;
     this.tilesBroken = 0;
@@ -89,6 +92,23 @@ export class DigSystem {
     this.depthMilestoneBonusProvider = typeof provider === "function"
       ? provider
       : null;
+  }
+
+  setCelestialEmpowerProvider(provider) {
+    this.celestialEmpowerProvider = typeof provider === "function"
+      ? provider
+      : null;
+  }
+
+  setCelestialProjectileListener(listener) {
+    this.celestialProjectileListener = typeof listener === "function"
+      ? listener
+      : null;
+  }
+
+  _getCelestialEmpowerSnapshot() {
+    const snapshot = this.celestialEmpowerProvider?.();
+    return snapshot?.active === true ? snapshot : null;
   }
 
   _isDepthEconomyEnabled() {
@@ -195,6 +215,11 @@ export class DigSystem {
 
   setCampfireSystem(campfireSystem) {
     this.campfireSystem = campfireSystem;
+  }
+
+  _collectCampfireEmberCharge(tileType, tile = null) {
+    if (tileType !== TILE_TYPES.EMBER_ORE) return null;
+    return this.campfireSystem?.collectEmberCharge?.(1, { tile }) || null;
   }
 
   /**
@@ -339,6 +364,8 @@ export class DigSystem {
 
   _getCooldown(playerAbilities = null) {
     let cooldown = this.config.mineCooldownMs;
+    const quickslashActive = playerAbilities?.isQuickslashActive?.() === true;
+    let quickslashSpeedBonus = 0;
     
     if (this.upgradeSystem) {
       cooldown = this.upgradeSystem.getEffectiveMineCooldown(cooldown);
@@ -361,12 +388,12 @@ export class DigSystem {
       }
     }
     
-    if (playerAbilities && playerAbilities.isQuickslashActive && playerAbilities.isQuickslashActive()) {
+    if (quickslashActive) {
       cooldown = cooldown / PLAYER_ABILITIES_CONFIG.quickslashSpeedMultiplier;
       const stats = playerAbilities.getConstellationStats?.() || {};
-      const speedBonus = Math.max(0, stats.quickslashSpeedBonus || 0);
-      if (speedBonus > 0) {
-        cooldown = cooldown / (1 + speedBonus);
+      quickslashSpeedBonus = Math.max(0, stats.quickslashSpeedBonus || 0);
+      if (quickslashSpeedBonus > 0) {
+        cooldown = cooldown / (1 + quickslashSpeedBonus);
       }
     }
 
@@ -377,6 +404,19 @@ export class DigSystem {
         const ramp = Math.min(1, (combo - momentum.minCombo) / Math.max(1, momentum.fullEffectAtCombo - momentum.minCombo));
         cooldown = cooldown * (1 - momentum.maxCooldownReduction * ramp);
       }
+    }
+
+    if (quickslashActive) {
+      const minimumCooldownMs = quickslashSpeedBonus > 0
+        ? PLAYER_ABILITIES_CONFIG.quickslashMasteryMinimumCooldownMs
+        : PLAYER_ABILITIES_CONFIG.quickslashMinimumCooldownMs;
+      cooldown = Math.max(cooldown, minimumCooldownMs);
+    }
+
+    // God Mode is an exact dev benchmark. Keep its requested 80% cooldown
+    // reduction authoritative even while Quickslash or another buff is active.
+    if (this.upgradeSystem?.isGodModeActive?.()) {
+      cooldown = this.upgradeSystem.getEffectiveMineCooldown(this.config.mineCooldownMs);
     }
 
     const validation = validateCooldownMs(cooldown);
@@ -430,6 +470,10 @@ export class DigSystem {
       if (dmgMult > 1.0) {
         damage = damage * dmgMult;
       }
+    }
+
+    if (this.upgradeSystem?.isGodModeActive?.()) {
+      damage = this.upgradeSystem.getEffectiveDigDamageMultiplier(baseDamage);
     }
     
     if (!Number.isFinite(damage)) {
@@ -551,6 +595,7 @@ export class DigSystem {
       this.tilesBroken += 1;
       if (!behindResult.wasRubble) {
         heavyPunchResult.behindAncientRelics = this._awardAncientRelics(behindResult.typeBeforeDamage, bx, by);
+        this._collectCampfireEmberCharge(behindResult.typeBeforeDamage, { tx: bx, ty: by });
         heavyPunchResult.behindResourceType = tileTypeToResource(behindResult.typeBeforeDamage);
         if (heavyPunchResult.behindResourceType) {
           const rarity = this._getNativeRarity(behindResult.typeBeforeDamage, bx, by);
@@ -608,6 +653,22 @@ export class DigSystem {
       };
     }
     if (!options.ignoreCooldown) this.lastMineTime = cooldownTimeMs;
+
+    const empower = this._getCelestialEmpowerSnapshot();
+    if (!options.skipCelestialProjectile && empower?.projectileEnabled === true) {
+      const result = resolvePiercingMiningProjectile({
+        digSystem: this,
+        targetTile,
+        nowMs,
+        aimDirection,
+        playerAbilities,
+        empower,
+      });
+      if (result.celestialProjectile) {
+        this.celestialProjectileListener?.(result.celestialProjectile);
+      }
+      return result;
+    }
 
     if (!targetTile || !this.worldModel.inBounds(targetTile.tx, targetTile.ty)) {
       return {
@@ -724,7 +785,15 @@ export class DigSystem {
 
     if (playerAbilities?.isQuickslashActive?.()) {
       const stats = playerAbilities.getConstellationStats?.() || {};
-      damage += Math.max(0, stats.quickslashFlatDamage || 0);
+      const talentDamageMultiplier = 1 + Math.max(0, stats.quickslashDamageMult || 0);
+      damage = Math.max(
+        1,
+        Math.round(
+          damage
+            * PLAYER_ABILITIES_CONFIG.quickslashDamageMultiplier
+            * talentDamageMultiplier,
+        ),
+      );
     }
     
     if (this.comboSystem && typeof this.comboSystem.getMultiplier === 'function') {
@@ -746,6 +815,11 @@ export class DigSystem {
 
     if (Number.isFinite(options.damageMultiplier) && options.damageMultiplier > 0) {
       damage = Math.max(1, Math.floor(damage * options.damageMultiplier));
+    }
+
+    // Keep the visible and applied mining hit at the advertised 999 damage.
+    if (this.upgradeSystem?.isGodModeActive?.()) {
+      damage = this.upgradeSystem.getEffectiveDigDamageMultiplier(baseDamage);
     }
 
     const result = this.worldModel.damageTile(targetTile.tx, targetTile.ty, damage);
@@ -821,6 +895,8 @@ export class DigSystem {
         } else {
           resourceType = tileTypeToResource(result.typeBeforeDamage);
         }
+
+        this._collectCampfireEmberCharge(rewardTileType, targetTile);
 
         if (resourceType) {
           const rarity = this._getNativeRarity(
@@ -943,6 +1019,42 @@ export class DigSystem {
   }
 
   tryMineArea(targetEntries, nowMs, aimDirection = null, playerAbilities = null) {
+    const empower = this._getCelestialEmpowerSnapshot();
+    if (empower?.projectileEnabled === true) {
+      const requested = Array.isArray(targetEntries) ? targetEntries : [];
+      const projectileTarget = requested.find(entry => entry?.depthIndex === 0)
+        || requested[0]
+        || null;
+      const projectileResult = this.tryMine(
+        projectileTarget,
+        nowMs,
+        aimDirection,
+        playerAbilities,
+      );
+      const hits = projectileResult.celestialProjectile?.hits || [];
+      const successfulHits = hits.filter(hit => hit.result?.success);
+      const levelUps = successfulHits.filter(hit => hit.result.levelUp);
+      const lastLevelUp = levelUps.at(-1)?.result || null;
+      return {
+        success: successfulHits.length > 0,
+        reason: projectileResult.reason || null,
+        hits,
+        destroyedCount: successfulHits.filter(hit => hit.result.destroyed).length,
+        levelUp: levelUps.length > 0,
+        newLevel: lastLevelUp?.newLevel ?? null,
+        levelsGained: levelUps.reduce(
+          (sum, hit) => sum + Math.max(0, Number(hit.result.levelsGained) || 0),
+          0,
+        ),
+        hasChoice: levelUps.some(hit => hit.result.hasChoice),
+        rewards: levelUps.flatMap(
+          hit => Array.isArray(hit.result.rewards) ? hit.result.rewards : [],
+        ),
+        rewardSummary: lastLevelUp?.rewardSummary || null,
+        celestialProjectile: projectileResult.celestialProjectile || null,
+      };
+    }
+
     if (nowMs - this.lastMineTime < this._getCooldown(playerAbilities)) {
       return { success: false, reason: "cooldown", hits: [], destroyedCount: 0 };
     }
@@ -1122,6 +1234,7 @@ export class DigSystem {
       skyMultiplier = skyReward.multiplier;
       skyTilePassiveBonus = skyReward.passiveBonus;
     }
+    this._collectCampfireEmberCharge(rewardTileType, { tx, ty });
     if (resourceType) {
       const rarity = this._getNativeRarity(rewardTileType, tx, ty);
       result.rarityId = rarity.id;
@@ -1190,8 +1303,8 @@ export class DigSystem {
       result.rewardSummary = specialResult.forcedLevelResult?.rewardSummary || null;
     }
 
-    if (addComboPoints && this.comboSystem) {
-      this.comboSystem.addCombo(nowMs);
+    if (addComboPoints && typeof this.comboSystem?.addCombo === "function") {
+      this.comboSystem.addCombo(1, nowMs);
     }
 
     this.retentionProgressSystem?.recordMiningResult?.(result);

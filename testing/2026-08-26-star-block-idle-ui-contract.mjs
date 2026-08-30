@@ -110,6 +110,13 @@ const shell = {
     add(object) { this.children.push(object); },
   },
 };
+const identityCounts = new Array(
+  STAR_IDENTITY_LIBRARY_CONFIG.identities.length,
+).fill(0);
+STAR_IDENTITY_LIBRARY_CONFIG.identities
+  .filter(identity => identity.rarityIndex === 0)
+  .slice(0, 12)
+  .forEach(identity => { identityCounts[identity.index] = 1; });
 
 const state = renderInventoryStarAtlas(
   scene,
@@ -117,6 +124,7 @@ const state = renderInventoryStarAtlas(
   { left: -450, top: -220, width: 900, height: 440 },
   0,
   0,
+  identityCounts,
   () => {},
   () => {},
 );

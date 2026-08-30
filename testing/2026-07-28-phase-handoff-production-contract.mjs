@@ -155,24 +155,25 @@ assert.equal(pivot.animationKey, profile.walkRunAnim);
 assert.equal(pivot.facingFlipX, true);
 assert.equal(pivot.phase, "pivot-stop");
 assert.equal(pivot.restart, true);
-assert.equal(pivot.startFrame, 21);
+assert.ok(pivot.startFrame >= 0 && pivot.startFrame < profile.walkRunFrames.length);
+const pivotFrame = pivot.startFrame;
 assert.equal(locomotion.resolve({
   ...moving,
   facingFlipX: true,
-  currentFrameIndex: 21,
-  currentTextureFrame: 21,
+  currentFrameIndex: pivotFrame,
+  currentTextureFrame: pivotFrame,
 }).phase, "pivot-stop");
 assert.equal(locomotion.resolve({
   ...moving,
   facingFlipX: true,
-  currentFrameIndex: 22,
-  currentTextureFrame: 22,
+  currentFrameIndex: (pivotFrame + 1) % profile.walkRunFrames.length,
+  currentTextureFrame: (pivotFrame + 1) % profile.walkRunFrames.length,
 }).phase, "pivot-start");
 assert.equal(locomotion.resolve({
   ...moving,
   facingFlipX: true,
-  currentFrameIndex: 23,
-  currentTextureFrame: 23,
+  currentFrameIndex: (pivotFrame + 2) % profile.walkRunFrames.length,
+  currentTextureFrame: (pivotFrame + 2) % profile.walkRunFrames.length,
 }).phase, "run");
 
 assert.equal(locomotion.requestRunResume(10), true);

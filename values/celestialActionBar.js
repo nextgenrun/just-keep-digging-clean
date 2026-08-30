@@ -1,12 +1,15 @@
 // ==================== CELESTIAL ACTION BAR ====================
-// Pure five-slot presentation, ordering, interaction, and copy contract.
+// Pure six-slot presentation, ordering, interaction, and copy contract.
 
 export const CELESTIAL_ACTION_BAR_ENTRY_IDS = Object.freeze({
   QUICK_SLASH: "quickslash",
   THUNDER_STRIKE: "thunderStrike",
   WAYWARD_STAR: "wayward-star",
   HOLLOW_SUN: "hollow-sun",
+  STELLAR_RAGE: "comet-engine",
+  // Legacy alias retained for persisted action-bar order.
   COMET_ENGINE: "comet-engine",
+  CAMPFIRE: "campfire",
 });
 
 export const CELESTIAL_ACTION_BAR_DEFAULT_ORDER = Object.freeze([
@@ -15,6 +18,7 @@ export const CELESTIAL_ACTION_BAR_DEFAULT_ORDER = Object.freeze([
   CELESTIAL_ACTION_BAR_ENTRY_IDS.WAYWARD_STAR,
   CELESTIAL_ACTION_BAR_ENTRY_IDS.HOLLOW_SUN,
   CELESTIAL_ACTION_BAR_ENTRY_IDS.COMET_ENGINE,
+  CELESTIAL_ACTION_BAR_ENTRY_IDS.CAMPFIRE,
 ]);
 
 export const CELESTIAL_ACTION_BAR_ASSET_KEYS = Object.freeze({
@@ -85,7 +89,7 @@ const entries = Object.freeze([
     assetRole: "waywardStar",
     accent: 0x65e8ff,
     unlockCondition: "Attune Wayward Star at the Star Pillar.",
-    description: "Release and redirect the ricocheting Celestial Engine.",
+    description: "Release a simultaneous swarm of independently ricocheting stars.",
   }),
   Object.freeze({
     id: CELESTIAL_ACTION_BAR_ENTRY_IDS.HOLLOW_SUN,
@@ -94,37 +98,53 @@ const entries = Object.freeze([
     assetRole: "hollowSun",
     accent: 0xa96dff,
     unlockCondition: "Attune Hollow Sun at the Star Pillar.",
-    description: "Place a gravity Engine that collapses into an implosion.",
+    description: "Place a long-lived gravity field that pulls broken blocks inward.",
   }),
   Object.freeze({
     id: CELESTIAL_ACTION_BAR_ENTRY_IDS.COMET_ENGINE,
-    label: "COMET ENGINE",
-    shortLabel: "COMET",
+    label: "STELLAR LANCE",
+    shortLabel: "LANCE",
     assetRole: "cometEngine",
-    accent: 0xffc85c,
-    unlockCondition: "Attune Comet Engine at the Star Pillar.",
-    description: "Launch the short, protected-tile-safe tunnel Engine.",
+    accent: 0xff6d4a,
+    unlockCondition: "Attune Stellar Lance at the Star Pillar.",
+    description: "For a short time, every dig fires a full-damage projectile through tiles and empty space.",
+  }),
+  Object.freeze({
+    id: CELESTIAL_ACTION_BAR_ENTRY_IDS.CAMPFIRE,
+    label: "CAMPFIRE",
+    shortLabel: "EMBER",
+    assetRole: "campfire",
+    accent: 0xff8f45,
+    unlockCondition: "Available from the beginning of every save.",
+    description: "Consume an Ember Charge to invoke your selected Campfire blessing.",
   }),
 ]);
 
 export const CELESTIAL_ACTION_BAR_CONFIG = Object.freeze({
-  saveVersion: 1,
-  slotCount: 5,
+  saveVersion: 2,
+  slotCount: 6,
   entries,
   layout: Object.freeze({
     referenceWidthPx: 1280,
     referenceHeightPx: 720,
     minimumScale: 0.62,
     maximumScale: 1,
+    preferredRailScaleMultiplier: 0.52,
+    neighborGapPx: 10,
     foundationWidthPx: 420,
     foundationHeightPx: 131.25,
     slotCenterRatios: Object.freeze([0.158, 0.335, 0.5, 0.665, 0.842]),
-    slotSizePx: 62,
+    slotSizePx: 70,
+    detachedSlotGapPx: 8,
+    detachedSlotFrameSizePx: 76,
     slotOffsetYPx: 4,
     iconSizePx: 38,
+    campfireIconWidthPx: 48,
+    campfireIconHeightPx: 28,
     keyOffsetXPx: 0,
     keyOffsetYPx: 49,
-    xpGapPx: 5,
+    quantityOffsetXPx: 22,
+    quantityOffsetYPx: -23,
     viewportMarginPx: 12,
     metricOffsetXPx: 113,
     metricOffsetYPx: -48,
@@ -149,9 +169,11 @@ export const CELESTIAL_ACTION_BAR_CONFIG = Object.freeze({
     activeScale: 1.04,
     activationPulseScale: 1.12,
     activationPulseMs: 150,
-    keyFontSizePx: 12,
+    keyFontSizePx: 18,
+    quantityFontSizePx: 18,
+    quantityTextColor: "#FFD39B",
     lockFontSizePx: 8,
-    metricFontSizePx: 10,
+    metricFontSizePx: 18,
     metricShadowThicknessPx: 2,
     tooltipTitleFontSizePx: 18,
     tooltipBodyFontSizePx: 14,

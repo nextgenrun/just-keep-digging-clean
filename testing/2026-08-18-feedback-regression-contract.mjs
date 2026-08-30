@@ -4,7 +4,6 @@ import { ComboSystem } from "../systems/combo/ComboSystem.js";
 import { HardcoreModeSystem } from "../systems/hardcore/HardcoreModeSystem.js";
 import { RetentionProgressSystem } from "../systems/progression/RetentionProgressSystem.js";
 import { resolveFloatingTextPreference } from "../systems/UserSettings.js";
-import { DEBRIS_SHIELD_CONFIG } from "../values/debrisShield.js";
 import {
   HARDCORE_MODE_CONFIG,
   createHardcoreModeData,
@@ -69,8 +68,6 @@ assert.match(
   /const scanRadius = Math\.ceil\(radiusTiles\)/,
   "fractional Star relief radii must still query integer world tiles",
 );
-assert.ok(DEBRIS_SHIELD_CONFIG.gpDrainPerSecond > 0);
-assert.equal(DEBRIS_SHIELD_CONFIG.fixedKeyLabel, "Q");
 
 const lowLevel = new HardcoreModeSystem(createHardcoreModeData("hardcore", 1));
 lowLevel.arm("test", 2);

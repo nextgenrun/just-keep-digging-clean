@@ -6,12 +6,16 @@ import argparse
 import hashlib
 import json
 import math
+import sys
 from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFont
 
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "tools/piskel-mcp"))
+from piskel_document import read_piskel, save_image  # noqa: E402
+
 CONFIG = json.loads((ROOT / "values/survivalUnifiedAnimationRuntimeV1.json").read_text(encoding="utf-8"))
 RUNTIME = ROOT / CONFIG["runtimeRoot"]
 REVIEW = ROOT / CONFIG["reviewRoot"]
@@ -40,10 +44,10 @@ def metrics(image):
     bounds = mask.getbbox()
     if bounds is None:
         raise RuntimeError("Blank rendered frame")
-    red, green, blue, source_alpha = rgba.split()
+    pixels = zip(*(channel.get_flattened_data() for channel in rgba.split()))
     suspicious_green = sum(
-        1 for r, g, b, a in zip(red.getdata(), green.getdata(), blue.getdata(), source_alpha.getdata())
-        if a > threshold and g > 80 and g > r * 1.35 and g > b * 1.2
+        1 for r, g, b, a in pixels
+        if a > 192 and g > 140 and g - r > 60 and g - b > 60
     )
     margin = min(bounds[0], bounds[1], image.width - bounds[2], image.height - bounds[3])
     return {
@@ -56,27 +60,44 @@ def metrics(image):
 
 def pack_sheet(sheet_key, spec):
     count = int(spec["frames"])
-    source_root = ROOT / CONFIG["renderRoot"] / sheet_key
-    paths = [source_root / f"frame-{index:04d}.png" for index in range(count)]
-    missing = [str(path) for path in paths if not path.is_file()]
-    if missing:
-        raise FileNotFoundError(f"{sheet_key}: missing {len(missing)} frames; first={missing[:3]}")
-    source_size = int(CONFIG["render"]["sourceSizePx"])
     packed_size = int(spec.get("packedSizePx", CONFIG["render"]["packedSizePx"]))
+    piskel_source = spec.get("piskelSource")
+    piskel_frames = None
+    if piskel_source:
+        piskel_frames, width, height, _ = read_piskel(ROOT / piskel_source)
+        if len(piskel_frames) != count or (width, height) != (packed_size, packed_size):
+            raise RuntimeError(
+                f"{sheet_key}: Piskel is {len(piskel_frames)}x{width}x{height}, "
+                f"expected {count}x{packed_size}x{packed_size}"
+            )
+        source_size = packed_size
+        paths = [None] * count
+    else:
+        source_size = int(CONFIG["render"]["sourceSizePx"])
+        source_root = ROOT / CONFIG["renderRoot"] / sheet_key
+        paths = [source_root / f"frame-{index:04d}.png" for index in range(count)]
+        missing = [str(path) for path in paths if not path.is_file()]
+        if missing:
+            raise FileNotFoundError(f"{sheet_key}: missing {len(missing)} frames; first={missing[:3]}")
     columns = min(int(spec.get("columns", CONFIG["render"]["columns"])), count)
     rows = math.ceil(count / columns)
     sheet = Image.new("RGBA", (columns * packed_size, rows * packed_size), (0, 0, 0, 0))
     raw_metrics = []
     preview = []
     for index, path in enumerate(paths):
-        with Image.open(path) as source:
+        source = piskel_frames[index] if piskel_frames else Image.open(path)
+        try:
             if source.size != (source_size, source_size):
-                raise RuntimeError(f"{path}: expected {source_size}px, got {source.size}")
-            try:
-                raw_metrics.append(metrics(source))
-            except RuntimeError as error:
-                raise RuntimeError(f"{sheet_key} frame {index}: {error}") from error
-            frame = source.convert("RGBA").resize((packed_size, packed_size), Image.Resampling.LANCZOS)
+                raise RuntimeError(f"expected {source_size}px, got {source.size}")
+            raw_metrics.append(metrics(source))
+            frame = source.convert("RGBA")
+            if not piskel_frames:
+                frame = frame.resize((packed_size, packed_size), Image.Resampling.LANCZOS)
+        except RuntimeError as error:
+            raise RuntimeError(f"{sheet_key} frame {index}: {error}") from error
+        finally:
+            if not piskel_frames:
+                source.close()
         sheet.alpha_composite(frame, ((index % columns) * packed_size, (index // columns) * packed_size))
         if index in {0, count // 4, count // 2, (count * 3) // 4, count - 1}:
             preview.append((index, frame))
@@ -95,7 +116,7 @@ def pack_sheet(sheet_key, spec):
         raise RuntimeError(f"{sheet_key}: suspicious green pixels {maximum_green}")
     output = RUNTIME / runtime_filename(sheet_key)
     output.parent.mkdir(parents=True, exist_ok=True)
-    sheet.save(output, format="WEBP", lossless=True, method=6)
+    save_image(output, sheet)
     build_contact_sheet(sheet_key, preview, packed_size)
     baselines = [item["baselinePx"] for item in raw_metrics]
     return {
@@ -105,11 +126,12 @@ def pack_sheet(sheet_key, spec):
         "columns": columns,
         "rows": rows,
         "sourceRenderSizePx": source_size,
-        "downsamplePasses": 1,
+        "downsamplePasses": 0 if piskel_source else 1,
         "minimumRawEdgeMarginPx": minimum_margin,
         "baselineRangePx": max(baselines) - min(baselines),
         "maximumSuspiciousGreenPixels": maximum_green,
         "sha256": sha256(output),
+        **({"sourceAuthority": "piskel", "sourcePiskel": piskel_source} if piskel_source else {}),
     }
 
 
@@ -255,6 +277,10 @@ def main():
         "sourceRenderSizePx": CONFIG["render"]["sourceSizePx"],
         "qualityAuthority": "one Survival V4 mesh, rig, material, light, camera and anchor contract",
         "sheets": {},
+    }
+    manifest["sheets"] = {
+        key: value for key, value in manifest["sheets"].items()
+        if key in CONFIG["sheets"]
     }
     RUNTIME.mkdir(parents=True, exist_ok=True)
     for sheet_key, spec in selected.items():

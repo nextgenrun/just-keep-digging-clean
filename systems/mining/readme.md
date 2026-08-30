@@ -23,6 +23,16 @@ critical, luck, combo, XP, resource, special-block, player-level, and upgrade
 calculation paths. Heavy Punch benefits the second depth row without creating a
 fifth target.
 
+`DigSystem` also accepts the active Celestial snapshot and projectile listener
+from `CelestialEngineController`. Player-facing Stellar Lance replaces the old
+Rage multiplier: during its bounded window, one mining action resolves one to
+three ranged lanes through `PiercingMiningProjectile.js`. Air and Geode Walls
+can be crossed; ordinary protected tiles stop a lane. Every pierced diggable
+tile runs the normal reward/damage transaction with a fresh full hit, so an
+overkilled front tile never consumes damage intended for later tiles and no
+destroyed tile can pay twice. Ordinary mining, Quick Slash, Thunder Strike,
+damage previews, and cooldowns are no longer globally inflated by this power.
+
 Both ordinary and Heavy Punch/behind-tile Star destruction capture the
 authoritative `WorldModel` rarity and identity before the tile is cleared.
 They pass both values through the exact reward detail, so the UI-only release,

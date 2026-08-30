@@ -44,6 +44,9 @@ after authored geometry, resources, caves, and gameplay boundaries settle.
 Painted Star cells are ordinary deterministic spawn candidates rather than
 guaranteed legacy-density Stars. Rarity and identity use separate coordinate
 hashes, do not advance the shared generator RNG, and require no save migration.
+After hashed assignment, duplicate identities provide a bounded deterministic
+repair pool so every authored identity in a sufficiently populated rarity tier
+appears at least once without changing Star count, rarity, or reward yield.
 
 `CaveIdentityPlanner.js` assigns deterministic depth-gated cave identities and
 ceiling/floor feature plans without consuming `WorldModel`'s shared RNG. It
@@ -57,9 +60,16 @@ a travel lane, while authored solid cells remain as natural cave pillars.
 
 `CaveGameplayPlanner.js` finalizes two deterministic, renderer-independent cave
 indexes after all world authority has settled. `CaveResourceSeamPlanner.js`
-embeds genuine mineable resource tiles only in un-authored exposed shell cells;
+embeds genuine mineable resource tiles only in un-authored exposed shell cells
+and applies the same per-cell Gold depth gate as ordinary terrain;
 `CaveHazardPlanner.js` finds traversable challenge spans with safe checkpoints
 on both sides. Touching cave shells use one authoritative seam owner.
+
+`RareEmberFindPlanner.js` runs after ordinary seam selection and replaces one
+accessible seam per broad depth band with Ember Ore. The current seed exposes
+three Level One finds and eight across the 5,000 m Level Two route; Level One
+selection is constrained left of the sealed Level Two divider, so demo-profile
+Embers cannot be generated behind an inaccessible boundary.
 
 `UndergroundBedrockLayout.js` is the final world-authority guard for the
 Level 1/Level 2 split. It rebuilds the configured one-tile divider from the map
@@ -77,7 +87,8 @@ below a player-safe AIR row and cannot overlap the ground presentation.
 `baseTerrainResourceResolver.js` is the authoritative Level One material
 selector. It uses four cumulative shallow bands, progressively richer
 post-300m bands in modern mode, and the former single deep band under
-`?depthEconomy=legacy`. `WorldModel.getTileMaxHp()` passes the same mode
+`?depthEconomy=legacy`. Both modes enforce the configured 700 m Gold gate, so
+rare Gold rolls cannot leak into the shallow mine. `WorldModel.getTileMaxHp()` passes the same mode
 to rarity HP resolution, so generated HP and rewarded yield cannot disagree.
 `WorldSpawnAuthority.js` also runs this selector over ordinary resource cells
 from the upper Tiled map: the map retains its solid/air shapes and landmarks,

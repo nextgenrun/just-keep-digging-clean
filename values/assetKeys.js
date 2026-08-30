@@ -138,18 +138,6 @@ export const ASSET_KEYS = Object.freeze({
     thunderStrikeChainFrame: "ui-thunderstrike-chain-frame-v1",
     thunderStrikeTargetGate: "ui-thunderstrike-target-gate-v2",
     thunderStrikeNeedle: "ui-thunderstrike-needle-v2",
-    thunderStrikeIndicator: Object.freeze({
-      milestoneDormant: "ui-thunderstrike-milestone-dormant-v3",
-      milestoneChallenge: "ui-thunderstrike-milestone-challenge-v3",
-      milestoneCompleted: "ui-thunderstrike-milestone-completed-v3",
-      milestoneCheck: "ui-thunderstrike-milestone-check-v3",
-      promptPlate: "ui-thunderstrike-prompt-plate-v3",
-      stagePlate: "ui-thunderstrike-stage-plate-v3",
-      badgePlate: "ui-thunderstrike-badge-plate-v3",
-      glyphI: "ui-thunderstrike-glyph-i-v3",
-      glyphV: "ui-thunderstrike-glyph-v-v3",
-      glyphX: "ui-thunderstrike-glyph-x-v3",
-    }),
     approvedHud: {
       playerCore: "ui-hud-approved-player-core",
       playerCoreTorchOff: "ui-hud-approved-player-core-torch-off",
@@ -197,6 +185,7 @@ export const ASSET_KEYS = Object.freeze({
       panicEdgeFrame: "ui-hardcore-panic-edge-frame-v1",
     },
     worldMapFrame: "ui-world-map-frame-foundation-v1",
+    worldMapSymbols: "ui-world-map-symbol-atlas-v1",
     resources: {
       dirt: "ui-resource-dirt",
       stone: "ui-resource-stone",
@@ -763,6 +752,10 @@ export const ASSET_KEYS = Object.freeze({
         "environment-star-pillar-stage-5-v1",
       ]),
     },
+    worldroot: Object.freeze({
+      living: "environment-worldroot-living-v1",
+      consumed: "environment-worldroot-consumed-v1",
+    }),
     graveborerWurm: {
       head: "graveborer-wurm-head-v1",
       body: "graveborer-wurm-body-v1",
@@ -838,6 +831,32 @@ export const ASSET_KEYS = Object.freeze({
       uiSelect: "sfx-ui-select",
       uiConfirm: "sfx-ui-confirm",
     },
+    weatherAmbience: Object.freeze({
+      rainOpen: Object.freeze({
+        key: "weather-rain-open-v1",
+        path: "sound/soundEffects/weather-ambience-v1/rain-open-soft-v1.wav",
+      }),
+      rainRoof: Object.freeze({
+        key: "weather-rain-roof-v1",
+        path: "sound/soundEffects/weather-ambience-v1/rain-roof-medium-v1.wav",
+      }),
+      rainShelter: Object.freeze({
+        key: "weather-rain-shelter-v1",
+        path: "sound/soundEffects/weather-ambience-v1/rain-shelter-heavy-v1.wav",
+      }),
+      stormOpen: Object.freeze({
+        key: "weather-storm-open-v1",
+        path: "sound/soundEffects/weather-ambience-v1/storm-distant-v1.wav",
+      }),
+      windOpen: Object.freeze({
+        key: "weather-wind-open-v1",
+        path: "sound/soundEffects/weather-ambience-v1/wind-open-v1.wav",
+      }),
+      windStrong: Object.freeze({
+        key: "weather-wind-strong-v1",
+        path: "sound/soundEffects/weather-ambience-v1/wind-strong-v1.wav",
+      }),
+    }),
     voiceLines: {
       line1: "voice-line-1",
       line2: "voice-line-2",

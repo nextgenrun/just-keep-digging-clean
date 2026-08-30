@@ -105,6 +105,15 @@ const shell = {
     add(object) { this.children.push(object); },
   },
 };
+const commonIdentities = STAR_IDENTITY_LIBRARY_CONFIG.identities.filter(
+  identity => identity.rarityIndex === 0,
+);
+const identityCounts = new Array(
+  STAR_IDENTITY_LIBRARY_CONFIG.identities.length,
+).fill(0);
+commonIdentities.slice(0, 24).forEach((identity, index) => {
+  identityCounts[identity.index] = index === 0 ? 3 : 1;
+});
 let selectedIdentityTarget = null;
 const state = renderInventoryStarAtlas(
   scene,
@@ -112,6 +121,7 @@ const state = renderInventoryStarAtlas(
   { left: -450, top: -220, width: 900, height: 440 },
   0,
   0,
+  identityCounts,
   () => {},
   identityIndex => { selectedIdentityTarget = identityIndex; },
 );
@@ -120,7 +130,9 @@ assert.equal(state.rarityIndex, 0);
 assert.equal(state.identityIndex, 0);
 assert.ok(state.preview);
 assert.equal(state.pageIndex, 0);
-assert.equal(state.pageCount, 5);
+assert.equal(state.pageCount, 2);
+assert.equal(state.foundCount, 24);
+assert.equal(state.collectedCount, 26);
 assert.equal(
   objects.filter(object => object.kind === "image").length,
   27,
@@ -135,8 +147,19 @@ assert.ok(
   objects.some(object => object.kind === "text" && /SIGN XP/.test(object.value)),
 );
 assert.ok(
-  objects.some(object => object.kind === "text" && /PGUP \/ PGDN PAGE/.test(object.value)),
-  "the keyboard navigation legend is visible on the authored foundation",
+  objects.some(object => object.kind === "text" && /COLLECTED/.test(object.value)),
+  "collected identity state is explicit in both selectors and the dossier",
+);
+const hiddenIdentity = commonIdentities[24];
+assert.ok(
+  objects.every(object => object.kind !== "image"
+    || (object.frame !== hiddenIdentity.frameName
+      && object.frame !== hiddenIdentity.lightFrameName)),
+  "an unknown Star has no core, light, label, motion, or hit target",
+);
+assert.ok(
+  objects.some(object => object.kind === "text" && /ARROWS.*Q \/ E/.test(object.value)),
+  "the compact keyboard legend is visible on the authored foundation",
 );
 const layout = STAR_IDENTITY_LIBRARY_CONFIG.inventory.layout;
 for (const testRect of [
@@ -163,7 +186,7 @@ const foundation = objects.find(
     && object.key === STAR_IDENTITY_LIBRARY_CONFIG.inventory.foundation.key,
 );
 const commonLabel = objects.find(
-  object => object.kind === "text" && object.value === "COMMON\n60 STARS",
+  object => object.kind === "text" && object.value === "COMMON\n24 / 60 FOUND",
 );
 assert.equal(
   commonLabel.x,
@@ -205,13 +228,20 @@ let stoppedPointerPhases = 0;
 const stopEvent = { stopPropagation() { stoppedPointerPhases += 1; } };
 nextZone.handlers.pointerdown(null, null, null, stopEvent);
 nextZone.handlers.pointerup(null, null, null, stopEvent);
-assert.equal(selectedIdentityTarget, 50, "page two begins at preserved global index 50");
+assert.equal(
+  selectedIdentityTarget,
+  commonIdentities[12].index,
+  "page two begins with the thirteenth collected Common identity",
+);
 assert.equal(stoppedPointerPhases, 2, "Star selectors cannot dismiss the modal backdrop");
 
-assert.equal(resolveStarAtlasIdentityMove(0, 0, 1), 1);
-assert.equal(resolveStarAtlasIdentityMove(0, 0, 4), 4);
-assert.equal(resolveStarAtlasPageMove(0, 0, 1), 50);
-assert.equal(resolveStarAtlasPageMove(0, 50, -1), 0);
+assert.equal(resolveStarAtlasIdentityMove(0, 0, 1, identityCounts), commonIdentities[1].index);
+assert.equal(resolveStarAtlasIdentityMove(0, 0, 4, identityCounts), commonIdentities[4].index);
+assert.equal(resolveStarAtlasPageMove(0, 0, 1, identityCounts), commonIdentities[12].index);
+assert.equal(
+  resolveStarAtlasPageMove(0, commonIdentities[12].index, -1, identityCounts),
+  commonIdentities[0].index,
+);
 
 let keydownHandler = null;
 let keyboardDetached = false;
@@ -235,6 +265,7 @@ const keyboardState = {
   activeTab: STAR_IDENTITY_LIBRARY_CONFIG.inventory.navigation.starAtlasTabIndex,
   selectedStarRarity: 0,
   selectedStarIdentity: 0,
+  starIdentityCounts: identityCounts,
 };
 let cycledTabs = 0;
 let selectedRarity = null;
@@ -254,9 +285,9 @@ const keyboardEvent = code => ({
 keydownHandler(keyboardEvent("ArrowRight"));
 assert.equal(keyboardState.selectedStarIdentity, 1);
 keydownHandler(keyboardEvent("ArrowDown"));
-assert.equal(keyboardState.selectedStarIdentity, 5);
+assert.equal(keyboardState.selectedStarIdentity, commonIdentities[5].index);
 keydownHandler(keyboardEvent("PageDown"));
-assert.equal(keyboardState.selectedStarIdentity, 55);
+assert.equal(keyboardState.selectedStarIdentity, commonIdentities[17].index);
 keydownHandler(keyboardEvent("KeyE"));
 assert.equal(selectedRarity, 1);
 keydownHandler(keyboardEvent("Tab"));

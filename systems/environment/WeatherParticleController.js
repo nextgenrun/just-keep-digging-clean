@@ -37,13 +37,19 @@ export class WeatherParticleController {
 
   update(time, delta, state) {
     const dt = Math.min(Math.max(delta || 0, 0), 100) / 1000;
-    const surfaceRain = this._isRainKind(state.kind)
-      ? clamp01(state.intensity * state.depth.surfaceAmount * state.occlusion.openSkyAmount)
-      : 0;
+    const rainAmount = clamp01(state.rainAmount ?? (
+      this._isRainKind(state.kind) ? state.intensity : 0
+    ));
+    const snowAmount = clamp01(state.snowAmount ?? (
+      state.kind === "snow" ? state.intensity : 0
+    ));
+    const surfaceRain = clamp01(
+      rainAmount * state.depth.surfaceAmount * state.occlusion.openSkyAmount,
+    );
     const caveRain = clamp01(state.depth.undergroundSignal);
-    const coveredRain = this._isRainKind(state.kind)
-      ? clamp01(state.intensity * state.depth.surfaceAmount * state.occlusion.coveredAmount)
-      : 0;
+    const coveredRain = clamp01(
+      rainAmount * state.depth.surfaceAmount * state.occlusion.coveredAmount,
+    );
     const gustAmount = clamp01(Math.abs(state.gust) / Math.max(1, this.weatherConfig.gusts.stormMax));
 
     if (this.visualAssets) {
@@ -55,7 +61,7 @@ export class WeatherParticleController {
     this._emitMist(Math.max(caveRain, surfaceRain * 0.32 + gustAmount * surfaceRain * 0.18), dt, state.occlusion.landingSamples);
     this._emitPreStormDust(dt, state, gustAmount);
     this._emitWetSurfaceRipples(dt, state);
-    this._emitPostRainSteam(dt, state);
+    this._emitPostRainSteam(dt, state, rainAmount, snowAmount);
   }
 
   resize() {}
@@ -192,11 +198,12 @@ export class WeatherParticleController {
     }
   }
 
-  _emitPostRainSteam(dt, state) {
+  _emitPostRainSteam(dt, state, rainAmount, snowAmount) {
     const cfg = this.weatherConfig.rain.steam;
     const wetness = state.world?.worldWetnessAmount || 0;
-    const rainActive = this._isRainKind(state.kind) && state.intensity > 0.12;
-    if (!this._steamEmitter || rainActive || state.kind === "snow" || wetness < cfg.minWetness) return;
+    const rainActive = rainAmount > 0.12;
+    const snowActive = snowAmount > 0.05;
+    if (!this._steamEmitter || rainActive || snowActive || wetness < cfg.minWetness) return;
     this._accumulators.steam += cfg.ratePerSecond * wetness * state.depth.surfaceAmount * dt;
     const count = Math.min(cfg.maxBurst, Math.floor(this._accumulators.steam));
     if (count <= 0) return;

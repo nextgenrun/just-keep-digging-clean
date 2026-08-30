@@ -55,6 +55,8 @@ assert.equal(config.inventory.layout.selectorCentersXPx.length, 4);
 assert.equal(config.inventory.layout.selectorCentersYPx.length, 3);
 assert.match(config.inventory.copy.subtitle, /250 Star identities/i);
 assert.equal(config.inventory.layout.selectorsPerPage, 12);
+assert.match(config.inventory.foundation.path, /star-atlas-v3\/star-codex-foundation-v3\.png/);
+assert.equal(config.inventory.appearance.focus, "#79D7EE");
 assert.equal(config.identities[0].id, "glacier-blue");
 assert.equal(config.identities[49].id, "first-light-prism");
 assert.equal(config.identities[50].id, "whispered-crimson-halo");
@@ -176,12 +178,16 @@ const inventoryPopupSource = read("ui/overlays/UIInventoryPopup.js");
 assert.match(inventoryPopupSource, /starAtlas\.copy\.tabLabel/);
 assert.match(inventoryPopupSource, /renderInventoryStarAtlas/);
 const inventoryAtlasSource = read("ui/overlays/UIInventoryStarAtlas.js");
+const inventoryDossierSource = read(
+  "ui/overlays/UIInventoryStarAtlasDossier.js",
+);
 assert.match(inventoryAtlasSource, /inventory\.foundation/);
-assert.match(inventoryAtlasSource, /identity\.flavour/);
-assert.match(inventoryAtlasSource, /tier\.signXp/);
-assert.match(inventoryAtlasSource, /tier\.multiplier/);
-assert.match(inventoryAtlasSource, /tier\.engineCharge/);
+assert.match(inventoryDossierSource, /identity\.flavour/);
+assert.match(inventoryDossierSource, /tier\.signXp/);
+assert.match(inventoryDossierSource, /tier\.multiplier/);
+assert.match(inventoryDossierSource, /tier\.engineCharge/);
 assert.doesNotMatch(inventoryAtlasSource, /add\.graphics|fillRect|strokeRect/);
+assert.doesNotMatch(inventoryDossierSource, /add\.graphics|fillRect|strokeRect/);
 const atlasControlsSource = read(
   "ui/overlays/UIInventoryStarAtlasControls.js",
 );

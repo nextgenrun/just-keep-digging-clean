@@ -1,8 +1,8 @@
-// Owns fixed 1-5 actionbar hotkeys while activation remains in the actionbar/controller.
+// Owns fixed 1-6 actionbar hotkeys while activation remains in the actionbar/controller.
 
 import { CELESTIAL_ACTION_BAR_CONFIG } from "../../values/celestialActionBar.js";
 
-const HOTKEY_NAMES = Object.freeze(["ONE", "TWO", "THREE", "FOUR", "FIVE"]);
+const HOTKEY_NAMES = Object.freeze(["ONE", "TWO", "THREE", "FOUR", "FIVE", "SIX"]);
 
 export class CelestialActionBarInputBridge {
   constructor(scene, actionBar, { isEnabled = null } = {}) {

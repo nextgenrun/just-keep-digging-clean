@@ -54,6 +54,7 @@ const makeImage = () => ({
   setDepth() { return this; },
   setTexture(key, frame) { this.textureKey = key; this.frameName = frame; return this; },
   setDisplaySize() { return this; },
+  setRotation(value) { this.rotation = value; return this; },
   setAlpha() { return this; },
   setTint() { return this; },
   setVisible() { return this; },
@@ -114,7 +115,9 @@ assert.match(atlas, /identity\.lightAtlasKey/);
 assert.match(atlas, /identity\.lightFrameName/);
 assert.match(controls, /identity\.lightAtlasKey/);
 assert.match(controls, /identity\.lightFrameName/);
-assert.doesNotMatch(`${atlas}\n${controls}`, /add\.graphics|setTint/);
+assert.doesNotMatch(`${atlas}\n${controls}`, /setTint/);
+assert.equal((controls.match(/scene\.add\.graphics/g) || []).length, 1);
+assert.match(controls, /ring\.strokeCircle/);
 
 console.log(
   "star identity dedicated light contract: PASS "

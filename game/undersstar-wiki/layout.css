@@ -1,0 +1,58 @@
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  min-height: var(--header-height);
+  border-bottom: 1px solid var(--line);
+  background: rgba(3, 10, 15, .88);
+  backdrop-filter: blur(18px);
+}
+
+.header-inner {
+  display: flex;
+  width: min(1500px, 100% - 32px);
+  min-height: var(--header-height);
+  margin: 0 auto;
+  align-items: center;
+  gap: 1rem;
+}
+
+.brand { display: flex; min-width: 0; align-items: center; gap: .75rem; color: var(--ink); text-decoration: none; }
+.brand img { width: 132px; height: auto; }
+.brand span { padding-left: .75rem; border-left: 1px solid var(--line); color: var(--muted); font-size: .78rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+
+.header-actions { display: flex; margin-left: auto; align-items: center; gap: .65rem; }
+.header-search { position: relative; width: min(30vw, 330px); }
+.header-search input { width: 100%; min-height: 48px; padding: .7rem 4.5rem .7rem 2.5rem; border: 1px solid var(--line); border-radius: 12px; color: var(--ink); background: rgba(12, 36, 48, .78); }
+.header-search::before { position: absolute; top: 50%; left: .9rem; content: "⌕"; color: var(--cyan); transform: translateY(-52%); }
+.search-hint { position: absolute; top: 50%; right: .7rem; color: var(--dim); font-size: .72rem; transform: translateY(-50%); }
+
+.hero { position: relative; min-height: min(720px, calc(100vh - var(--header-height))); overflow: hidden; border-bottom: 1px solid var(--line); isolation: isolate; }
+.hero-media { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; object-position: center; }
+.hero::before { position: absolute; inset: 0; z-index: -1; content: ""; background: linear-gradient(90deg, rgba(2, 7, 11, .95) 5%, rgba(2, 9, 14, .74) 48%, rgba(3, 9, 13, .22)), linear-gradient(0deg, #061018 0%, transparent 44%); }
+.hero-inner { display: grid; width: min(1500px, 100% - 40px); min-height: inherit; margin: 0 auto; padding: clamp(2.75rem, 5vw, 5rem) 0; align-content: center; }
+.hero-copy { max-width: 730px; }
+.hero-logo { width: min(420px, 76vw); height: auto; margin: 0 0 1.25rem clamp(.25rem, .6vw, .55rem); filter: drop-shadow(0 12px 25px rgba(0, 0, 0, .72)); }
+.hero h1 { max-width: 880px; margin-bottom: .85rem; font-size: clamp(2.15rem, 4vw, 3.6rem); text-wrap: balance; text-shadow: 0 8px 28px rgba(0, 0, 0, .72); }
+.eyebrow { color: var(--gold); font-size: .78rem; font-weight: 900; letter-spacing: .18em; text-transform: uppercase; }
+.hero-lead { max-width: 650px; color: #d6e8ef; font-size: clamp(1.05rem, 2vw, 1.3rem); }
+.hero-actions { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 1.5rem; }
+.hero-facts { display: flex; flex-wrap: wrap; gap: .7rem; margin-top: 2rem; padding: 0; list-style: none; }
+.hero-facts li { padding: .5rem .75rem; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); background: rgba(6, 22, 30, .7); font-size: .82rem; }
+
+.wiki-shell { display: grid; grid-template-columns: 270px minmax(0, 900px) minmax(190px, 1fr); width: min(1500px, 100% - 40px); margin: 0 auto; gap: clamp(1.5rem, 3vw, 3.5rem); }
+.wiki-nav { position: sticky; top: calc(var(--header-height) + 1.4rem); height: calc(100vh - var(--header-height) - 2.8rem); padding: 1.2rem 1rem 1.2rem 0; overflow-y: auto; border-right: 1px solid var(--line); }
+.wiki-nav h2 { color: var(--dim); font-family: inherit; font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; }
+.wiki-nav ul { margin: 0; padding: 0; list-style: none; }
+.wiki-nav li + li { margin: .1rem 0 0; }
+.wiki-nav a { display: block; padding: .48rem .65rem; border-radius: 8px; color: var(--muted); font-size: .9rem; text-decoration: none; }
+.wiki-nav a:hover, .wiki-nav a[aria-current="true"] { color: var(--ink); background: var(--cyan-soft); }
+
+.wiki-main { min-width: 0; padding: 4rem 0 8rem; }
+.wiki-section { padding: 1rem 0 4rem; scroll-margin-top: calc(var(--header-height) + 1.2rem); }
+.wiki-section + .wiki-section { border-top: 1px solid var(--line); }
+.section-intro { max-width: 760px; color: var(--muted); font-size: 1.06rem; }
+.right-rail { position: sticky; top: calc(var(--header-height) + 1.5rem); height: max-content; margin-top: 5rem; }
+
+.site-footer { padding: 2rem 20px 4rem; border-top: 1px solid var(--line); color: var(--dim); text-align: center; }
+.site-footer a { color: var(--muted); }

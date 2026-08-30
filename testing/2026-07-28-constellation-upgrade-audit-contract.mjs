@@ -22,16 +22,16 @@ import { TILE_TYPES } from "../values/tileTypes.js";
 import { UPGRADES } from "../values/upgradeDefinitions.js";
 
 const expectedModifiers = Object.freeze({
-  dirt: ["quickslashFlatDamage", 5],
+  dirt: ["quickslashDamageMult", 0.20],
   stone: ["thunderstrikeRange", 2],
-  copper: ["quickslashCostReduction", 2],
-  darkDirtNormal: ["thunderstrikeDamageMult", 0.25],
-  steel: ["quickslashBurstSpeed", 300],
-  iron: ["thunderstrikeFalloffReduction", 0.20],
-  bronze: ["quickslashFreeAbovePct", 0.5],
+  copper: ["quickslashCostReduction", 3],
+  darkDirtNormal: ["thunderstrikeDamageMult", 0.15],
+  steel: ["quickslashBurstSpeed", 160],
+  iron: ["thunderstrikeFalloffReduction", 0.08],
+  bronze: ["quickslashDiscountAbovePct", 0.75],
   darkDirtStrong: ["thunderstrikeDamageMult", 0.10],
   silver: ["quickslashSpeedBonus", 0.20],
-  gold: ["thunderstrikeCostReduction", 30],
+  gold: ["thunderstrikeCostReduction", 50],
 });
 
 assert.deepEqual(Object.keys(CONSTELLATION_BUFFS).sort(), Object.keys(expectedModifiers).sort());
@@ -182,16 +182,55 @@ function quickslashMineDamage(resourceType = null) {
     { ignoreCooldown: true, skipAbilityCost: true, skipHeavyPunch: true },
   ).damage;
 }
-assert.equal(quickslashMineDamage("dirt"), quickslashMineDamage() + 5);
+function normalMineDamage() {
+  const env = createAbilities();
+  const dig = new DigSystem(
+    env.world,
+    { scene: {}, applyTileUpdate() {} },
+    { ...MINING_CONFIG, tileSize: 16, topAirRows: 0, seed: 1 },
+    env.upgrades,
+  );
+  return dig.tryMine(
+    { tx: 1, ty: 1 },
+    1000,
+    "RIGHT",
+    env.abilities,
+    { ignoreCooldown: true, skipAbilityCost: true, skipHeavyPunch: true },
+  ).damage;
+}
+assert.equal(
+  quickslashMineDamage(),
+  normalMineDamage() * PLAYER_ABILITIES_CONFIG.quickslashDamageMultiplier,
+);
+assert.equal(quickslashMineDamage("dirt"), Math.round(quickslashMineDamage() * 1.2));
 
 const copper = createAbilities(["copper"], "quickslashAbility");
-assert.equal(copper.abilities.getQuickslashCost(), PLAYER_ABILITIES_CONFIG.quickslashCost - 2);
+assert.equal(copper.abilities.getQuickslashCost(), PLAYER_ABILITIES_CONFIG.quickslashCost - 3);
+const baseQuickslash = createAbilities([], "quickslashAbility");
+baseQuickslash.abilities.update(0.016, quickInput, true, true);
+assert.equal(baseQuickslash.body.vx, PLAYER_ABILITIES_CONFIG.quickslashMovementBonusPxPerSec);
 const steel = createAbilities(["steel"], "quickslashAbility");
 steel.abilities.update(0.016, quickInput, true, true);
-assert.equal(steel.body.vx, 300);
+assert.equal(
+  steel.body.vx,
+  PLAYER_ABILITIES_CONFIG.quickslashMovementBonusPxPerSec + 160,
+);
+const movingSteel = createAbilities(["steel"], "quickslashAbility");
+movingSteel.body.vx = 200;
+movingSteel.abilities.update(0.016, quickInput, true, true);
+assert.equal(
+  movingSteel.body.vx,
+  200 + PLAYER_ABILITIES_CONFIG.quickslashMovementBonusPxPerSec + 160,
+);
+movingSteel.abilities.update(0.016, quickInput, true, true);
+assert.equal(
+  movingSteel.body.vx,
+  200 + PLAYER_ABILITIES_CONFIG.quickslashMovementBonusPxPerSec + 160,
+  "Blade Rush must add one bounded burst per press",
+);
 const bronze = createAbilities(["bronze"], "quickslashAbility");
-bronze.abilities.gemPower = bronze.abilities.getGemPowerMax() * 0.5;
-assert.equal(bronze.abilities.spendQuickslashCost(), 0);
+bronze.abilities.gemPower = bronze.abilities.getGemPowerMax() * 0.75;
+assert.equal(bronze.abilities.spendQuickslashCost(), 6);
 const cooldownProbe = new DigSystem(
   createWorld(),
   {},
@@ -205,8 +244,21 @@ const baseQuickCooldown = cooldownProbe._getCooldown(quickActive(getDefaultAbili
 const silverQuickCooldown = cooldownProbe._getCooldown(
   quickActive(computeAbilityStats(["silver"])),
 );
-assert.equal(baseQuickCooldown, MINING_CONFIG.mineCooldownMs / 4);
+assert.equal(baseQuickCooldown, MINING_CONFIG.mineCooldownMs / 2.5);
 assert.equal(silverQuickCooldown, baseQuickCooldown / 1.2);
+const cappedCooldownProbe = new DigSystem(
+  createWorld(),
+  {},
+  { ...MINING_CONFIG, mineCooldownMs: 300 },
+);
+assert.equal(
+  cappedCooldownProbe._getCooldown(quickActive(getDefaultAbilityStats())),
+  PLAYER_ABILITIES_CONFIG.quickslashMinimumCooldownMs,
+);
+assert.equal(
+  cappedCooldownProbe._getCooldown(quickActive(computeAbilityStats(["silver"]))),
+  PLAYER_ABILITIES_CONFIG.quickslashMasteryMinimumCooldownMs,
+);
 
 const yieldProbe = new DigSystem(
   createWorld(),
@@ -239,7 +291,7 @@ const stone = castThunder("stone");
 assert.equal(new Set(stone.world.hits.map(hit => hit.ty)).size, 8);
 assert.equal(new Set(baseThunder.world.hits.map(hit => hit.ty)).size, 6);
 const caveEcho = castThunder("darkDirtNormal");
-assert.equal(caveEcho.world.hits[0].damage, Math.round(baseThunder.world.hits[0].damage * 1.25));
+assert.equal(caveEcho.world.hits[0].damage, Math.round(baseThunder.world.hits[0].damage * 1.15));
 const hammer = castThunder("iron");
 assert.ok(baseThunder.world.hits[1].damage < baseThunder.world.hits[0].damage);
 assert.equal(hammer.world.hits[1].damage, hammer.world.hits[0].damage);
@@ -255,8 +307,8 @@ const protectedCitadel = castThunder("darkDirtStrong", {
 });
 assert.equal(protectedCitadel.world.hits.some(hit => hit.tx === 0), false);
 const crown = castThunder("gold");
-assert.equal(baseThunder.cost, PLAYER_ABILITIES_CONFIG.thunderStrikeCost * 3);
-assert.equal(crown.cost, baseThunder.cost - 30);
+assert.equal(baseThunder.cost, PLAYER_ABILITIES_CONFIG.thunderStrikeCost * 2.5);
+assert.equal(crown.cost, baseThunder.cost - 50);
 
 const [actionbarRuntimeSource, pillarSource, treeSource, setupSource] = await Promise.all([
   readFile(new URL("../world/playScene/CelestialActionBarRuntime.js", import.meta.url), "utf8"),

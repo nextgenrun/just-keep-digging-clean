@@ -1,5 +1,5 @@
 import { STAR_IDENTITY_LIBRARY_CONFIG } from
-  "../../values/starIdentityLibrary.js?rev=20260826-inventory-codex-v2";
+  "../../values/starIdentityLibrary.js?rev=20260830-star-codex-v3";
 
 export function fitStarAtlasFoundation(
   rect,

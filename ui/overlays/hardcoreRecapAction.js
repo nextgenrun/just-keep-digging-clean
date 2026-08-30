@@ -61,12 +61,18 @@ export function createHardcoreRecapAction({
   });
   image.on("pointerup", activate);
 
+  let destroyed = false;
   return {
     root,
     image,
     destroy() {
+      if (destroyed) return;
+      destroyed = true;
       image.removeAllListeners?.();
-      image.disableInteractive?.();
+      // Scene shutdown may destroy display-list children before the lifecycle
+      // registry disposes the owning recap view. Phaser's implementation reads
+      // image.scene.sys, so only disable input while that scene still exists.
+      if (image.scene?.sys) image.disableInteractive?.();
     },
   };
 }

@@ -13,16 +13,18 @@ export const PLAYER_ABILITIES_CONFIG = Object.freeze({
 
   // Quickslash ability
   quickslashEnabled: true,
-  quickslashCost: 10,
-  quickslashSpeedMultiplier: 4,
-  quickslashCooldownMs: 50,
+  quickslashCost: 12,
+  quickslashDamageMultiplier: 3,
+  quickslashMovementBonusPxPerSec: 240,
+  quickslashSpeedMultiplier: 2.5,
+  quickslashMinimumCooldownMs: 180,
+  quickslashMasteryMinimumCooldownMs: 150,
+  quickslashHighGpCostMultiplier: 0.5,
 
   // Thunder Strike ability
   thunderStrikeEnabled: true,
   thunderStrikeCost: 100,
-  thunderStrikeMaxTiles: 10,
+  thunderStrikeBaseRangeTiles: 6,
   thunderStrikeNormalDamageMultiplier: 1.5,
-  thunderStrikeBaseDamage: 50,
-  thunderStrikeBaseDamageMultiplier: 3,
-  thunderStrikeDamageFalloff: 0.10,
+  thunderStrikeDamageFalloff: 0.08,
 });

@@ -56,3 +56,9 @@ archive/sprites/character-old-versions/
 
 # Third-party tool checkout; reinstall from its own upstream repository.
 tools/video-audio-mcp/
+
+# Third-party Sonniss source bundles stay local. Commit only reviewed/derived
+# game-ready audio, manifests, and reproducible import tooling.
+sound/library-v2/SoundLibrary_Review/00_INBOX_RAW_EXPORTS/sonniss-gdc2019-recorded-mining-pilot-2026-08-26/source-recordings/
+sound/library-v2/SoundLibrary_Review/00_INBOX_RAW_EXPORTS/sonniss-gdc2026-recorded-pilot-2026-08-26/raw/
+sound/library-v2/SoundLibrary_Review/00_INBOX_RAW_EXPORTS/sonniss-gdc2026-recorded-pilot-2026-08-26/source-recordings/

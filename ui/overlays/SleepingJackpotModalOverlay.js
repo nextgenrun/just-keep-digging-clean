@@ -24,6 +24,17 @@ function escrowLines(resources) {
   return rows.join("\n");
 }
 
+function resultBodyLines(body) {
+  const lines = String(body || "").split("\n");
+  if (lines.length <= 7 || lines.some(line => !line.trim())) return lines.join("\n");
+  const midpoint = Math.ceil(lines.length / 2);
+  return Array.from({ length: midpoint }, (_, index) => {
+    const left = lines[index] || "";
+    const right = lines[index + midpoint] || "";
+    return right ? `${left.padEnd(46, "\u00a0")}${right}` : left;
+  }).join("\n");
+}
+
 export class SleepingJackpotModalOverlay {
   constructor(scene, config = RANDOM_WORLD_EVENT_CONFIG) {
     this.scene = scene;
@@ -64,10 +75,10 @@ export class SleepingJackpotModalOverlay {
 
     this.leftTitle = this._text(-layout.cardCenterX, layout.cardTitleY, "GAMBLE NOW", 22, UI_COLORS.gold, UI_FONTS.display);
     this.rightTitle = this._text(layout.cardCenterX, layout.cardTitleY, "LET IT MATURE", 22, UI_COLORS.gold, UI_FONTS.display);
-    this.leftBody = this._text(-layout.cardCenterX, layout.cardBodyY, "", 15, UI_COLORS.body, UI_FONTS.mono, 390);
-    this.rightBody = this._text(layout.cardCenterX, layout.cardBodyY, "", 13, UI_COLORS.body, UI_FONTS.mono, 405);
-    this.leftBody.setOrigin(0.5, 0).setLineSpacing(7);
-    this.rightBody.setOrigin(0.5, 0).setLineSpacing(4);
+    this.leftBody = this._text(-layout.cardCenterX, layout.cardBodyY, "", 15, UI_COLORS.body, UI_FONTS.mono, layout.leftBodyWrapWidth);
+    this.rightBody = this._text(layout.cardCenterX, layout.cardBodyY, "", 13, UI_COLORS.body, UI_FONTS.mono, layout.rightBodyWrapWidth);
+    this.leftBody.setOrigin(0.5, 0).setLineSpacing(layout.leftBodyLineSpacing);
+    this.rightBody.setOrigin(0.5, 0).setLineSpacing(layout.rightBodyLineSpacing);
     this.leftFocus = this._text(-layout.cardCenterX, layout.cardFocusY, "", 17, "#78f5ff", UI_FONTS.mono);
     this.rightFocus = this._text(layout.cardCenterX, layout.cardFocusY, "", 17, "#78f5ff", UI_FONTS.mono);
     this.leftFocusIcon = createUiIcon(this.scene, "check", {
@@ -85,12 +96,12 @@ export class SleepingJackpotModalOverlay {
     this.instruction = this._text(0, layout.inputY - 16, "", 14, UI_COLORS.gold, UI_FONTS.mono);
     this.typed = this._text(0, layout.inputY + 18, "", 22, "#ff8f9d", UI_FONTS.mono);
     this.typed.setFontStyle("bold");
-    this.footer = this._text(0, layout.footerY, "A/D OR ←/→ SELECT  •  ESC CANCEL", 11, UI_COLORS.hint, UI_FONTS.mono);
+    this.footer = this._text(0, layout.footerY, "A/D OR ←/→ SELECT  •  ESC CANCEL", 11, UI_COLORS.dim, UI_FONTS.mono);
 
     this.resultTitle = this._text(0, layout.resultTitleY, "", 30, UI_COLORS.gold, UI_FONTS.display);
     this.resultBody = this._text(0, layout.resultBodyY, "", 16, UI_COLORS.body, UI_FONTS.mono, 820);
     this.resultBody.setOrigin(0.5, 0).setLineSpacing(8);
-    this.resultFooter = this._text(0, layout.resultFooterY, "ENTER OR ESC  •  CLOSE", 12, UI_COLORS.hint, UI_FONTS.mono);
+    this.resultFooter = this._text(0, layout.resultFooterY, "ENTER OR ESC  •  CLOSE", 12, UI_COLORS.dim, UI_FONTS.mono);
 
     this.leftHit = this.scene.add.zone(
       -layout.cardCenterX,
@@ -176,7 +187,7 @@ export class SleepingJackpotModalOverlay {
     this.subtitle.setText("FATE COMMITTED  •  RELOAD CANNOT REROLL IT");
     this.resultTitle.setText(title || "JACKPOT RESULT");
     this.resultTitle.setColor(kind === "danger" ? UI_COLORS.danger : UI_COLORS.gold);
-    this.resultBody.setText(body || "");
+    this.resultBody.setText(resultBodyLines(body));
     this._showModeObjects(false);
     if (!this.isVisible) this._open();
   }

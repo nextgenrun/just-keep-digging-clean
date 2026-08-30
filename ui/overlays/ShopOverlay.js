@@ -32,6 +32,8 @@ import {
 import { createIconBadge, createModalShell } from "../UiModalShell.js";
 import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { HARDCORE_MODE_CONFIG } from "../../values/hardcoreMode.js";
+import { PLAYER_VOICE_CONFIG } from
+  "../../values/playerVoiceCharacterLeoV1.generated.js";
 
 const LIST_ROW_HEIGHT = 62;
 const ARC_FORGE_MERCHANT_ID = "magmaMoneyMonster";
@@ -1288,6 +1290,7 @@ export class ShopOverlay {
     const tutorialPreview = this.scene.townSquareTutorialSystem
       ?.getUpgradePreview?.(upgradeId) || null;
     const beforeLevel = this.upgradeSystem?.getUpgradeLevel?.(upgradeId) || 0;
+    const walletBefore = this.upgradeSystem?.getMoney?.() || 0;
     const beforeJourneySnapshot = this.scene.journeySystem?.captureSnapshot?.();
     const result = this.upgradeSystem?.purchaseUpgrade?.(upgradeId);
     if (!upgrade || !result) {
@@ -1335,6 +1338,20 @@ export class ShopOverlay {
       afterLevel: result.level,
     });
     this.scene.queueDugTilesSave?.();
+
+    const spendRatio = result.cost / Math.max(1, walletBefore);
+    if (spendRatio >= PLAYER_VOICE_CONFIG.meaningfulPurchaseRatio) {
+      this.soundSystem?.playPlayerVoiceEvent?.(
+        PLAYER_VOICE_CONFIG.eventIds.meaningfulPurchase,
+        {
+          upgradeId,
+          cost: result.cost,
+          walletBefore,
+          spendRatio,
+          tags: [upgradeId],
+        },
+      );
+    }
 
     if (upgradeId === "boboWisdom") {
       this.hide();

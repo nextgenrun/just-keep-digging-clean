@@ -5,8 +5,14 @@ import { DigSystem } from "../systems/mining/DigSystem.js";
 import { AncientRelicSystem } from "../systems/progression/AncientRelicSystem.js";
 import { RelicDiscoveryFxSystem } from "../systems/visual/RelicDiscoveryFxSystem.js";
 import { ASSET_KEYS } from "../values/assetKeys.js";
+import {
+  GAMEPLAY_PROFILE_IDS,
+  createGameplayCapabilities,
+} from "../values/gameplayCapabilities.js";
 import { RELIC_DISCOVERY_FX_CONFIG } from "../values/relicDiscoveryFxConfig.js";
 import { TILE_TYPES } from "../values/tileTypes.js";
+import { queueCapabilityUiAssets } from
+  "../ui/scenes/BootCapabilityAssetPreloader.js";
 
 function createDisplayObject(type, values = {}) {
   return {
@@ -367,9 +373,28 @@ assert.deepEqual(discoveryCalls, [{
 assert.equal(
   discoveryCalls[0].iconAsset,
   "heavenblocks-ancient-relic-token-v1",
-  "award hook must use the preloaded Heavenblocks relic token",
+  "award hook must use the preloaded shared relic token",
 );
 assert.match(awardHarness.hudStatuses[0][0], /3 ready/);
+
+const demoUiAssets = [];
+queueCapabilityUiAssets({
+  load: {
+    image(key, path) {
+      demoUiAssets.push({ key, path });
+    },
+  },
+}, ASSET_KEYS, createGameplayCapabilities(GAMEPLAY_PROFILE_IDS.DEMO));
+assert.deepEqual(demoUiAssets, [
+  {
+    key: ASSET_KEYS.ui.heavenblocks.ancientRelicToken,
+    path: "sprites/UI/heavenblocks-v1/ancient-relic-token-v1.png",
+  },
+  {
+    key: ASSET_KEYS.ui.heavenblocks.ancientRelicIcon,
+    path: "sprites/UI/heavenblocks-v1/ancient-relic-icon-v1.png",
+  },
+], "demo Boot must queue Relic art even while Heavenblocks gameplay is gated");
 
 const throwingHarness = createAwardHarness(3, {
   playDiscovery() {

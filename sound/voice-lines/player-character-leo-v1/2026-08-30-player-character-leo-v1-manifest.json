@@ -1,0 +1,1788 @@
+{
+  "schemaVersion": 1,
+  "reviewStatus": "approved-voice-candidate",
+  "generatedAt": "2026-08-30T00:49:54.155125+00:00",
+  "model": "x-ai/grok-voice-tts-1.0",
+  "voice": "leo",
+  "sourceCatalog": "values/playerVoiceCharacterLeoV1.json",
+  "sourceCatalogSha256": "F3B42340912C1FA8204238B497B62BF2CFF5CD5A307FC0C24D2828527CFFC395",
+  "plannedRequests": 96,
+  "completedRequests": 96,
+  "completed": true,
+  "charactersAuthored": 9346,
+  "providerCharactersGenerated": 9239,
+  "estimatedProviderCostUsd": 0.138585,
+  "localBatchCapUsd": 1,
+  "userMaximumSpendEur": 5,
+  "apiKeyStored": false,
+  "thisRun": {
+    "attempted": 95,
+    "generated": 95,
+    "reusedExisting": 0,
+    "reusedApproved": 1,
+    "failed": 0
+  },
+  "clips": [
+    {
+      "id": "first-descent-01",
+      "family": "firstDescent",
+      "variant": 1,
+      "tags": [
+        "first"
+      ],
+      "delivery": "quiet commitment",
+      "file": "first-descent-leo-v01.mp3",
+      "text": "There goes the last clean breath of Town air. All right, mountain. Let's see what you've been keeping.",
+      "characters": 102,
+      "sourceSha256": "5489D74ED752E72BF1A015A313796B615EE85F12F5BBEB7BB951A4948A22F9FA",
+      "bytes": 102144,
+      "sha256": "12FF6DE06AE87E6E936B820D9820194299B33868BA490BE4367CD38544E8D257",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050825-xugdosUuT1OHONrrGBBY"
+    },
+    {
+      "id": "first-descent-02",
+      "family": "firstDescent",
+      "variant": 2,
+      "tags": [
+        "first"
+      ],
+      "delivery": "contained nerves",
+      "file": "first-descent-leo-v02.mp3",
+      "text": "The light changes this far down. It stops following you and starts waiting to see if you'll turn back.",
+      "characters": 102,
+      "sourceSha256": "6A4313DB29A8C5107D2100115DB49AAD8A632B39F8BFF6AC723BD43848B0B696",
+      "bytes": 107136,
+      "sha256": "C472888968D57CA67C4FE992E4AA8DF8589A0B87D761BD8503EB5D1E6AA49743",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050827-9kbgoFXqNkAuUa7jX4SQ"
+    },
+    {
+      "id": "first-descent-03",
+      "family": "firstDescent",
+      "variant": 3,
+      "tags": [
+        "first"
+      ],
+      "delivery": "dry resolve",
+      "file": "first-descent-leo-v03.mp3",
+      "text": "So this is where the easy part ends. Good. I was starting to distrust how friendly the entrance looked.",
+      "characters": 103,
+      "sourceSha256": "7E822A1444165E5E44748FB81D133EDA44F48315F5C4EBED62563135411BE486",
+      "bytes": 107136,
+      "sha256": "3119D7EF8458FC74773C33ECA4C2DF72F8B963A63D96BBD8B2361F1C69DF479F",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050829-uXe6niaep2ND08scmPXS"
+    },
+    {
+      "id": "first-descent-04",
+      "family": "firstDescent",
+      "variant": 4,
+      "tags": [
+        "first"
+      ],
+      "delivery": "soft observation",
+      "file": "first-descent-leo-v04.mp3",
+      "text": "Town is still above me, but it already sounds like a memory. Pick steady, feet steady. That's enough.",
+      "characters": 101,
+      "sourceSha256": "A5710B7897111A5F21362293809E6D647A933A29FBEB8EBE4BE3FEEAA03F467A",
+      "bytes": 109440,
+      "sha256": "C4CDF1AA85236CDCD6B7353FD22949DF253943D3899BF22C789C95AA5069226E",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050831-wEf9b9XtajrevnHubnuJ"
+    },
+    {
+      "id": "first-descent-05",
+      "family": "firstDescent",
+      "variant": 5,
+      "tags": [
+        "first"
+      ],
+      "delivery": "uneasy curiosity",
+      "file": "first-descent-leo-v05.mp3",
+      "text": "The walls are colder than they should be. Not empty, though. Nothing this quiet is ever truly empty.",
+      "characters": 100,
+      "sourceSha256": "F8364D95B3F71502F2EE68EEB6992AA14AAB826CF45D2A6CA2F8384A8715459D",
+      "bytes": 109440,
+      "sha256": "7FDDA5F4508648CED633460828CC5693D7633D636DF618BAD74A482CF1F87E29",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050832-xjv9VQOJhrio9HiOSktn"
+    },
+    {
+      "id": "first-descent-06",
+      "family": "firstDescent",
+      "variant": 6,
+      "tags": [
+        "first"
+      ],
+      "delivery": "grounded courage",
+      "file": "first-descent-leo-v06.mp3",
+      "text": "One step under the safe line, and every sound belongs to the cave. Mine too, now. Keep moving.",
+      "characters": 94,
+      "sourceSha256": "878A603A7FA5E6DB36B305855B4B23F8CD4A8317B7414ABD7D23C4461AB6FBAF",
+      "bytes": 124800,
+      "sha256": "15440A86E87D51219F9C16BD14EC97F456EE83466552EEFFA431623CA79F1341",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050834-2N1taoIWu9cIaDvLykKQ"
+    },
+    {
+      "id": "dig-momentum-01",
+      "family": "digMomentum",
+      "variant": 1,
+      "tags": [
+        "first",
+        "steady"
+      ],
+      "delivery": "focused satisfaction",
+      "file": "dig-momentum-leo-v01.mp3",
+      "text": "There it is. The pick, the stone, the next breath\u2014all landing where they should.",
+      "characters": 80,
+      "sourceSha256": "21654E8225A6C3539750B0F9FB5A08BFEBFAEE5A35A76F86AA95D24E422C8515",
+      "bytes": 92928,
+      "sha256": "BA40182C48891A4ED66C82BE21141B5732DC118E19DDAE1F3EC18C2B373B5B49",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050836-oLIOsJ2nIvCkJSBTxFNj"
+    },
+    {
+      "id": "dig-momentum-02",
+      "family": "digMomentum",
+      "variant": 2,
+      "tags": [
+        "repeat",
+        "steady"
+      ],
+      "delivery": "measured momentum",
+      "file": "dig-momentum-leo-v02.mp3",
+      "text": "Don't rush it. The wall is giving way because the rhythm is clean, not because I'm hitting harder.",
+      "characters": 98,
+      "sourceSha256": "DFC1DE26953CE75E98DC2DB8FC306F3C90C091EBD7B7C8E2A45F8AB188A44C90",
+      "bytes": 107136,
+      "sha256": "B535487784BC9A8F934FF9B0E130A35139B04411F7610DFDC88C730E2D450172",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050838-gMd6sXeMV2DmbVlIv2Ba"
+    },
+    {
+      "id": "dig-momentum-03",
+      "family": "digMomentum",
+      "variant": 3,
+      "tags": [
+        "repeat",
+        "fast"
+      ],
+      "delivery": "rising confidence",
+      "file": "dig-momentum-leo-v03.mp3",
+      "text": "Every strike is finding the last one's weakness. Keep the line moving before the stone catches up.",
+      "characters": 98,
+      "sourceSha256": "D22A6AE85393D9A1B963F70DBC6C8F32B9BC90C7A2EA60C19C571632EB34BCB8",
+      "bytes": 102144,
+      "sha256": "8A97E577674AD243E9BFC694FFE57ABA7B4EEA64580187C43C24F0080A70EE18",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050840-moqNS3zJefDyxofRh06k"
+    },
+    {
+      "id": "dig-momentum-04",
+      "family": "digMomentum",
+      "variant": 4,
+      "tags": [
+        "repeat",
+        "fast"
+      ],
+      "delivery": "breathless control",
+      "file": "dig-momentum-leo-v04.mp3",
+      "text": "Hands are moving faster than the doubt now. That's usually when the good tunnels open.",
+      "characters": 86,
+      "sourceSha256": "59802612134608D52B806BFF6D6F9AC22155145EF531E90CC6F033D0C8FD612A",
+      "bytes": 81408,
+      "sha256": "CD231CF4B0718F068C323BC0657C02354D221D1E043E9C8E680582381CA8C1AE",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050842-f5SrJroKh6loqWA2qWyF"
+    },
+    {
+      "id": "dig-momentum-05",
+      "family": "digMomentum",
+      "variant": 5,
+      "tags": [
+        "repeat",
+        "long"
+      ],
+      "delivery": "tired pride",
+      "file": "dig-momentum-leo-v05.mp3",
+      "text": "I've been swinging long enough to forget the first wall. The mountain hasn't forgotten me, though.",
+      "characters": 98,
+      "sourceSha256": "B3A176D5C9C05885467E32C0F8C04FF4C8C8CD4CDC3106E03B02E3F3174A12C2",
+      "bytes": 90240,
+      "sha256": "CB4713680A46A2ECCDCD256BA5BD7A70F0A70523899BF99C19D858B8CF11AC2D",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050843-hy1PmQ8t43sOC3lnjcw2"
+    },
+    {
+      "id": "dig-momentum-06",
+      "family": "digMomentum",
+      "variant": 6,
+      "tags": [
+        "repeat",
+        "long"
+      ],
+      "delivery": "dry amusement",
+      "file": "dig-momentum-leo-v06.mp3",
+      "text": "At this pace, either the tunnel ends first or my shoulders file a formal complaint.",
+      "characters": 83,
+      "sourceSha256": "F69D1C342BBFDF80E85AC86B0DF523234E06CB12896D4DD75555FF785D5B4111",
+      "bytes": 91776,
+      "sha256": "CB069BC3D401CD113ABA67416358484B7BD04ECD2D41E818F3B6EA9E603CE2D7",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050845-xLc0p4T5ZIuRKQmeQIU0"
+    },
+    {
+      "id": "rare-material-01",
+      "family": "rareMaterialDiscovery",
+      "variant": 1,
+      "tags": [
+        "first",
+        "valuable"
+      ],
+      "delivery": "hushed wonder",
+      "file": "rare-material-leo-v01.mp3",
+      "text": "Wait. That colour isn't from the lantern. Easy now\u2014I want the whole seam to come out breathing.",
+      "characters": 95,
+      "sourceSha256": "F736E48B2ABBBD3B54148D7BF5F0FCAE79E417E1D13E59D01E03471C5FAD3034",
+      "bytes": 109440,
+      "sha256": "AB04889C3F638A8770CEB659C7920CC086774B19BCFA9C3B5416F961DDD92763",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050847-G5tbwzc1IwahVNJBqFiu"
+    },
+    {
+      "id": "rare-material-02",
+      "family": "rareMaterialDiscovery",
+      "variant": 2,
+      "tags": [
+        "first",
+        "strange"
+      ],
+      "delivery": "careful curiosity",
+      "file": "rare-material-leo-v02.mp3",
+      "text": "I've seen stone pretend to be valuable before. This isn't pretending. I can feel it through the handle.",
+      "characters": 103,
+      "sourceSha256": "27E113B73417E7055E853F41F0DFFF688934BF68220132FEE23994CABD69EEBE",
+      "bytes": 108288,
+      "sha256": "8132AEDB2590E7080E40D56896306B2C051C6C83275035FBC73C201077489CA9",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050848-uNYBYEIpeFYBhqwnY4Dq"
+    },
+    {
+      "id": "rare-material-03",
+      "family": "rareMaterialDiscovery",
+      "variant": 3,
+      "tags": [
+        "repeat",
+        "valuable"
+      ],
+      "delivery": "earned recognition",
+      "file": "rare-material-leo-v03.mp3",
+      "text": "There you are. Same quiet shine, same stubborn grip on the rock. I remember how to free you.",
+      "characters": 92,
+      "sourceSha256": "ECEC3D8EA4F23539BD13D1935A32659227B4EE16E11B5E4D0BB9909883034D49",
+      "bytes": 115968,
+      "sha256": "3E1A3D490DAFE29BD48C44E50236E147447A73A1CEE20C3C3871E10CBC197BBD",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050850-RiZcJO0Ek7rXGxyoynCZ"
+    },
+    {
+      "id": "rare-material-04",
+      "family": "rareMaterialDiscovery",
+      "variant": 4,
+      "tags": [
+        "repeat",
+        "deep"
+      ],
+      "delivery": "low respect",
+      "file": "rare-material-leo-v04.mp3",
+      "text": "The deeper ones always look untouched, like the mountain believed distance would be enough to protect them.",
+      "characters": 107,
+      "sourceSha256": "5B6DD13ADBA934E7D660E34796042BE095C0D1F00EB322CD9B20B44B484EAFC1",
+      "bytes": 108288,
+      "sha256": "1B602A14C68D5CD88C7F330E65B12A08953ED964123ACBF5BAA3BD4706E15AF1",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050852-FLJJzMxDYOaqPT39NSjS"
+    },
+    {
+      "id": "rare-material-05",
+      "family": "rareMaterialDiscovery",
+      "variant": 5,
+      "tags": [
+        "first",
+        "bright"
+      ],
+      "delivery": "restrained excitement",
+      "file": "rare-material-leo-v05.mp3",
+      "text": "That vein is holding its own light. For once, I don't mind the dark showing me where to look.",
+      "characters": 93,
+      "sourceSha256": "B7A16E2D976EF0E70A7DA9D9ADB8F95A28CFD45C00B4BCF24F90159127F104BB",
+      "bytes": 94080,
+      "sha256": "ED680F5A0408A9FEC6EF5AC75B667E6075D02A5DD101EDAEEB269FCF2522A7F1",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050854-sUiBhY5LOui5KrTgU4xb"
+    },
+    {
+      "id": "rare-material-06",
+      "family": "rareMaterialDiscovery",
+      "variant": 6,
+      "tags": [
+        "repeat",
+        "strange"
+      ],
+      "delivery": "uneasy fascination",
+      "file": "rare-material-leo-v06.mp3",
+      "text": "Another piece that doesn't belong with the rock around it. Makes me wonder who decided where it did belong.",
+      "characters": 107,
+      "sourceSha256": "1B1ED74095AFBB2DA5DC01287E4257DA512976F74AD59EBA3195D13993925038",
+      "bytes": 100608,
+      "sha256": "EADB9313262BA9481D5E2FFCAC867B600639BB438B1153D6A67552A93619DD10",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050855-foTIdvI0Zdc5A3cVQ4XJ"
+    },
+    {
+      "id": "star-release-01",
+      "family": "starRelease",
+      "variant": 1,
+      "tags": [
+        "first",
+        "new"
+      ],
+      "delivery": "soft astonishment",
+      "file": "star-release-leo-v01.mp3",
+      "text": "Easy, little Star. You've been buried longer than I've been alive. Take a moment before you meet the sky.",
+      "characters": 105,
+      "sourceSha256": "021AC6679B6ACB56CFC8FD5B3BE0164E341352570DC1881464B92F892526FF6B",
+      "bytes": 101760,
+      "sha256": "DEE834B3F748EF0D659D42D2DF41A70FFE16FF937E525E9F39DCDDFC4E7B81FE",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050857-lem3CJu8uX8ZvtGMeJwp"
+    },
+    {
+      "id": "star-release-02",
+      "family": "starRelease",
+      "variant": 2,
+      "tags": [
+        "repeat"
+      ],
+      "delivery": "warm recognition",
+      "file": "star-release-leo-v02.mp3",
+      "text": "There you are. Stone can hold the light for an age, but it never teaches the light to stop wanting out.",
+      "characters": 103,
+      "sourceSha256": "BDBBA92525DA545E5D039281D29AF94C5348F506DA15FA66D791393E7C619F84",
+      "bytes": 105600,
+      "sha256": "75871E9CE4428699CD89934744768AAE12A945E9871A572FA9E3313C40B1C4AD",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050859-JTttc1czSTTot1H5qEay"
+    },
+    {
+      "id": "star-release-03",
+      "family": "starRelease",
+      "variant": 3,
+      "tags": [
+        "rare",
+        "bright"
+      ],
+      "delivery": "reverent awe",
+      "file": "star-release-leo-v03.mp3",
+      "text": "That one changed the whole room when it opened its eyes. I think even the shadows stepped back.",
+      "characters": 95,
+      "sourceSha256": "6393D3E5213BEC648425EF4138BD501EBDE3404842FDE97ADDF1B7B4A77CCE45",
+      "bytes": 91776,
+      "sha256": "5873332D4689484424AB5184AE6E58F968D3F31A9832D746EF28FD9E0313C8E4",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050861-bvnvN4a7ZfMew12Eehol"
+    },
+    {
+      "id": "star-release-04",
+      "family": "starRelease",
+      "variant": 4,
+      "tags": [
+        "repeat",
+        "deep"
+      ],
+      "delivery": "protective tenderness",
+      "file": "star-release-leo-v04.mp3",
+      "text": "You waited all the way down here and still remembered how to shine. Come on. I'll carry the first part.",
+      "characters": 103,
+      "sourceSha256": "1FFF6960F5DF808DCC786EE1037D7758C04E408FB7BBCBFD738906475CF7B3B4",
+      "bytes": 107136,
+      "sha256": "E1F2BE02A78C29724B53202DF3E464A9158A6D33CA7743A32FD7FEFF3EFA1C5E",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050862-pavF1t50m000KiKzoVY0"
+    },
+    {
+      "id": "star-release-05",
+      "family": "starRelease",
+      "variant": 5,
+      "tags": [
+        "strange"
+      ],
+      "delivery": "quiet uncertainty",
+      "file": "star-release-leo-v05.mp3",
+      "text": "The light bends differently around this one. Beautiful, yes\u2014but beauty and safety stopped being relatives down here.",
+      "characters": 116,
+      "sourceSha256": "3A2E347E7407E67761079175DCF80EE33AC0387A9B11515FFEC653C3ED585CC1",
+      "bytes": 130176,
+      "sha256": "3E123B39874DCD74FF738820024607E24266820DC0C8F9E8C9B7D85A003EFC15",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050864-8PWNHl9ZjsWhTsDJaI4Q"
+    },
+    {
+      "id": "star-release-06",
+      "family": "starRelease",
+      "variant": 6,
+      "tags": [
+        "repeat"
+      ],
+      "delivery": "gentle humor",
+      "file": "star-release-leo-v06.mp3",
+      "text": "Another passenger for the walk home. At least Stars travel light, even when they make the whole pack glow.",
+      "characters": 106,
+      "sourceSha256": "BAE91157B417D4696E7AAA753F358FB0ACDF9B41007D5A33AA427096CFC0AD88",
+      "bytes": 105600,
+      "sha256": "5A433C6DB1D63F161C0FB01A76EAF3518C405DA0BA04EF6C9EAA6746457A19E1",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050866-kcr3hvOxhb4jmBeRoOzc"
+    },
+    {
+      "id": "titan-discovery-01",
+      "family": "titanDiscovery",
+      "variant": 1,
+      "tags": [
+        "first"
+      ],
+      "delivery": "slow monumental awe",
+      "file": "titan-discovery-leo-v01.mp3",
+      "reuseFrom": "sound/voice-lines/event-driven-grok-v2/audio/titan-discovery-leo-v01.mp3",
+      "text": "That is no statue. The stone is breathing around it, as though the entire chamber is trying not to wake it.",
+      "characters": 107,
+      "sourceSha256": "F8FF3D22DE67873077AE9F7D52751A13594FFAE5813486A01927FB0B6A92EE2A",
+      "bytes": 120960,
+      "sha256": "AEF68E9486CA7C65EADD8D7C73105CAC4C1ED169DCD9BC9C0441810EA2E79F83",
+      "contentType": "audio/mpeg",
+      "generationSource": "approved-local-reuse",
+      "generationId": null
+    },
+    {
+      "id": "titan-discovery-02",
+      "family": "titanDiscovery",
+      "variant": 2,
+      "tags": [
+        "first"
+      ],
+      "delivery": "intimate disbelief",
+      "file": "titan-discovery-leo-v02.mp3",
+      "text": "I thought the old miners made them larger with every telling. They were trying to make the truth fit inside a story.",
+      "characters": 116,
+      "sourceSha256": "C717CF31166AE7C8038DB5341EB67FE8C1944309A287C71F77F3BB3DC0DC7A61",
+      "bytes": 114816,
+      "sha256": "4898E1DF48574625C1D6E15D5F67D1016A8DD8D3C7E03BD398890382EF6A9CE1",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050868-Yh9sVOBN5nKtiCbg3l7f"
+    },
+    {
+      "id": "titan-discovery-03",
+      "family": "titanDiscovery",
+      "variant": 3,
+      "tags": [
+        "repeat"
+      ],
+      "delivery": "wary recognition",
+      "file": "titan-discovery-leo-v03.mp3",
+      "text": "Another one. Different face, same silence pressing against my ribs. The mountain remembers its guardians.",
+      "characters": 105,
+      "sourceSha256": "344043C7D5D3554EA241C69141C54F79146B7070E74E05F581EA760517FF8BF7",
+      "bytes": 120960,
+      "sha256": "1AA1D36A008A0811420DE2C4547DD8CC193FB5C2D1971E065D204984C4D889C9",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050870-2tMLsvUUL6Uf1uwK1mh2"
+    },
+    {
+      "id": "titan-discovery-04",
+      "family": "titanDiscovery",
+      "variant": 4,
+      "tags": [
+        "repeat",
+        "deep"
+      ],
+      "delivery": "reverent fear",
+      "file": "titan-discovery-leo-v04.mp3",
+      "text": "Look at the floor around its feet. Those aren't cracks from age. It moved once, and the chamber learned the shape of it.",
+      "characters": 120,
+      "sourceSha256": "BD61A9B622F2BA628CCC5151F5CAF87260AAA1DC5348968FC6245791E9F6E6A0",
+      "bytes": 130176,
+      "sha256": "78BB452F31858CEFE6452F12CB1160F229B3750A056E139CCC6BB224357FB400",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050872-bLrRvcHOFvpUSnUf965O"
+    },
+    {
+      "id": "titan-discovery-05",
+      "family": "titanDiscovery",
+      "variant": 5,
+      "tags": [
+        "strange"
+      ],
+      "delivery": "measured unease",
+      "file": "titan-discovery-leo-v05.mp3",
+      "text": "Its eyes are closed, but I don't feel unobserved. Let's show some respect and keep our tools quiet.",
+      "characters": 99,
+      "sourceSha256": "0F334D24703B733FC4EBDC8D0D8502FB95C2A6D750F4492BE6BDBB5EAA514B1D",
+      "bytes": 114816,
+      "sha256": "32EC4F394A62954F85911E848EC6D365E1391DC573FC2C4E783CFEE03EFF8225",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050874-QID8HdM6wlxFdpNE5Z1G"
+    },
+    {
+      "id": "titan-discovery-06",
+      "family": "titanDiscovery",
+      "variant": 6,
+      "tags": [
+        "repeat"
+      ],
+      "delivery": "solemn connection",
+      "file": "titan-discovery-leo-v06.mp3",
+      "text": "Every Titan makes the tunnels feel less abandoned. Not safer. Just less empty than I wanted to believe.",
+      "characters": 103,
+      "sourceSha256": "6993B42CF3349656BBA2ECCBE5273B2A8A0AA844416F7AD165B51616F5B54289",
+      "bytes": 115968,
+      "sha256": "A6A93197AA8F5EF14100277E68AE5B01872D4551C7C9C4056625D07AC34CFC88",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050876-7Rt27gR7DTl0sozRBgOz"
+    },
+    {
+      "id": "biome-entry-01",
+      "family": "biomeFirstEntry",
+      "variant": 1,
+      "tags": [
+        "first",
+        "blueCavern"
+      ],
+      "delivery": "awed caution",
+      "file": "biome-entry-leo-v01.mp3",
+      "text": "The cavern is turning blue ahead. Keep the lantern steady; every reflection is hiding another passage.",
+      "characters": 102,
+      "sourceSha256": "05C7286F54CE29CC83E25E3F46E3FD704D01E43B6796931FDF446853198EEC8B",
+      "bytes": 119808,
+      "sha256": "9D68C4F5EA536AC0E2FF00C79F9977032217736E4C908A3A9CFD356DEF3E5946",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050878-TwLnD896tQcsIceskHaz"
+    },
+    {
+      "id": "biome-entry-02",
+      "family": "biomeFirstEntry",
+      "variant": 2,
+      "tags": [
+        "first",
+        "amberDepths"
+      ],
+      "delivery": "alert fascination",
+      "file": "biome-entry-leo-v02.mp3",
+      "text": "Feel that warmth in the wall? The Amber Depths aren't sleeping. They're listening through the stone.",
+      "characters": 100,
+      "sourceSha256": "4B991D3CC3DDC060229E6CB22B8ED9BE13C91C7DAD5E46CC29B380F75047FC12",
+      "bytes": 108288,
+      "sha256": "B4896941423A42E6D5807E29A39455B2F8D9DC5E5FDFB55D0EC20ADE75453176",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050880-YqPNhL5Z0M8tv4rU5tv7"
+    },
+    {
+      "id": "biome-entry-03",
+      "family": "biomeFirstEntry",
+      "variant": 3,
+      "tags": [
+        "first",
+        "crystalVoid"
+      ],
+      "delivery": "hushed uncertainty",
+      "file": "biome-entry-leo-v03.mp3",
+      "text": "The echoes disappear here instead of coming back. I don't know what the crystals do with them.",
+      "characters": 94,
+      "sourceSha256": "C05FC08E3E12BF762F8C6EA4E223AF6138DB6C5CE77BD8F1A4CF7E65372C42CE",
+      "bytes": 91776,
+      "sha256": "53425B8AE079C2CB381297CC67906B610BC1F0282346EE78D604AF1D5BC45316",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050881-wIq0QYcnuc7DrhCyipwl"
+    },
+    {
+      "id": "biome-entry-04",
+      "family": "biomeFirstEntry",
+      "variant": 4,
+      "tags": [
+        "first",
+        "silverVein"
+      ],
+      "delivery": "solemn arrival",
+      "file": "biome-entry-leo-v04.mp3",
+      "text": "Silver in the rock, silver in the dust, silver on my gloves. We've crossed into the old workings.",
+      "characters": 97,
+      "sourceSha256": "60BA71FEB925392ED547081CE9A6AEBB9AE6EA617F001934B6683DE8B29EDFE6",
+      "bytes": 103296,
+      "sha256": "A15A68E414268FD6873B7D7CCFB18BEFE9CAEF9277105BE9CC44A3B115DAC544",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050883-YFUj81QSPgS28XQqz9j0"
+    },
+    {
+      "id": "biome-entry-05",
+      "family": "biomeFirstEntry",
+      "variant": 5,
+      "tags": [
+        "first",
+        "theCore"
+      ],
+      "delivery": "contained alarm",
+      "file": "biome-entry-leo-v05.mp3",
+      "text": "The stone is warm enough to breathe against us. This is the Core. From here on, the mountain gets a vote.",
+      "characters": 105,
+      "sourceSha256": "D42A02AC027E8BA77E359C8FEC28977684763458690885BB940ED0B095DBE65C",
+      "bytes": 123648,
+      "sha256": "C272011A7881BE04AAECAC13E18EF35822437D82C49CBB989091207CFC4B224C",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050885-ayJOZxHSp9ZESbtCmJ8k"
+    },
+    {
+      "id": "biome-entry-06",
+      "family": "biomeFirstEntry",
+      "variant": 6,
+      "tags": [
+        "repeat"
+      ],
+      "delivery": "seasoned recognition",
+      "file": "biome-entry-leo-v06.mp3",
+      "text": "I know this change in the air. New ground, old rules: watch the ceiling, trust the pick, leave a road home.",
+      "characters": 107,
+      "sourceSha256": "948331FDF80CA48C7CB5692DAEDE1373F3C335D9F08ADD5F7F18C49EBCA9C82A",
+      "bytes": 127488,
+      "sha256": "F263E77BAF18FCD9F782142F584474D72D03C0B0AC0527EC0F15E1AC3A86663A",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050887-NJ54mkDVj1IQYfg7vDIY"
+    },
+    {
+      "id": "depth-milestone-01",
+      "family": "depthMilestone",
+      "variant": 1,
+      "tags": [
+        "first",
+        "shallow"
+      ],
+      "delivery": "quiet pride",
+      "file": "depth-milestone-leo-v01.mp3",
+      "text": "That's farther than the last marker. Doesn't look like much from here, but Town would feel the difference.",
+      "characters": 106,
+      "sourceSha256": "98DBE097B8877EA284F12A94B019AB7C8C4EC5452DEE22758312605F5DE67D27",
+      "bytes": 95616,
+      "sha256": "E6733AA0AD98C0EE27FB83C315885F0EDFE6F84C2F3B8089BA480CC7445069F8",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050888-rbJHJarB2gLOXzpKOYed"
+    },
+    {
+      "id": "depth-milestone-02",
+      "family": "depthMilestone",
+      "variant": 2,
+      "tags": [
+        "repeat",
+        "shallow"
+      ],
+      "delivery": "grounded progress",
+      "file": "depth-milestone-leo-v02.mp3",
+      "text": "Another marker behind us. I like progress better when it leaves a tunnel I can walk back through.",
+      "characters": 97,
+      "sourceSha256": "2549E3A1A5479D26032263799D51444E2B2D24F1B2000338EBB6BA24476FA94C",
+      "bytes": 94080,
+      "sha256": "B44E8209642A45CC376A687EBCA65B0ED0AE7590C2AE17735ADAFFA665017BFD",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050890-SqpRT695Q6InD3nNbagR"
+    },
+    {
+      "id": "depth-milestone-03",
+      "family": "depthMilestone",
+      "variant": 3,
+      "tags": [
+        "deep"
+      ],
+      "delivery": "tired awe",
+      "file": "depth-milestone-leo-v03.mp3",
+      "text": "We're deep enough that the surface feels borrowed from somebody else's life. Still, the air reaches us.",
+      "characters": 103,
+      "sourceSha256": "E28BFED5B4D931327DB9BF8FEE4CD40DEB9E692DE77B6BB7B1612D11C431C782",
+      "bytes": 110976,
+      "sha256": "3E067E234E534500BDDBA44DE7455D6E221F6A5CA763F456A1A900BB2019D08F",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050891-kqTLC6VDlPr4pJYSdsBU"
+    },
+    {
+      "id": "depth-milestone-04",
+      "family": "depthMilestone",
+      "variant": 4,
+      "tags": [
+        "deep"
+      ],
+      "delivery": "stubborn resolve",
+      "file": "depth-milestone-leo-v04.mp3",
+      "text": "The number on the marker keeps growing. So does the road home. I intend to use both.",
+      "characters": 84,
+      "sourceSha256": "348A51193C9799851354E4A5E11AC71B0F3177B6C7A9C8184959B591F32EB639",
+      "bytes": 97920,
+      "sha256": "36928AE3BB5B86EBB7B90853FCA25726A07EA404E2E7DA663358A2F597E7F79D",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050893-4ilx3kZKUalobGBZl0N3"
+    },
+    {
+      "id": "depth-milestone-05",
+      "family": "depthMilestone",
+      "variant": 5,
+      "tags": [
+        "repeat"
+      ],
+      "delivery": "dry fatigue",
+      "file": "depth-milestone-leo-v05.mp3",
+      "text": "A respectable depth, according to the sign. My knees have submitted a less flattering report.",
+      "characters": 93,
+      "sourceSha256": "ACAA6C169B2700B7B3C6D697AD61886D12693679267111D579D29173BD972A43",
+      "bytes": 99456,
+      "sha256": "17957C1281195CA3F7D90192AB5F5F04F5ADF3CD56AA761D829B95064619851D",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050895-jFHfvfn2nw97tzGLsEul"
+    },
+    {
+      "id": "depth-milestone-06",
+      "family": "depthMilestone",
+      "variant": 6,
+      "tags": [
+        "deep"
+      ],
+      "delivery": "reflective calm",
+      "file": "depth-milestone-leo-v06.mp3",
+      "text": "Every hundred metres, the dark becomes a little more honest about how far it goes.",
+      "characters": 82,
+      "sourceSha256": "578B328E7D835D2206F2A5E677D96D3AA9F4D55F857C9081441841F40D234A30",
+      "bytes": 89088,
+      "sha256": "7B51F7BE6417810DAB720CE0707EF20244720E1C2387E3E83D7077288B5D81E7",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050896-0hVjR6eraRlZyHOklwmN"
+    },
+    {
+      "id": "depth-record-01",
+      "family": "depthRecord",
+      "variant": 1,
+      "tags": [
+        "first"
+      ],
+      "delivery": "contained pride",
+      "file": "depth-record-leo-v01.mp3",
+      "text": "That's new ground beneath my boots. The old deepest point is somewhere above us now.",
+      "characters": 84,
+      "sourceSha256": "7D0C9B30A4EC3CF39537BE246FC052348583A8831B9B9E848F2F7BD22F442C6B",
+      "bytes": 95616,
+      "sha256": "CC0362DB03471C86F63B7417E264387A4BAC40F8E5E8C742D59E4A0911D49B9F",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050898-4rnnxfE3cohGUvuLB9zK"
+    },
+    {
+      "id": "depth-record-02",
+      "family": "depthRecord",
+      "variant": 2,
+      "tags": [
+        "repeat"
+      ],
+      "delivery": "quiet confidence",
+      "file": "depth-record-leo-v02.mp3",
+      "text": "Past the old mark again. Funny how yesterday's limit looks like part of the road once you're below it.",
+      "characters": 102,
+      "sourceSha256": "DF56D9EA2850669975763A43AD12EC5B377A74BE61EAC97E3097A9B98C05F4CF",
+      "bytes": 105600,
+      "sha256": "364C6D7165FEE7A1B9A513C227310CB3AEF40855409FDD721F3E43915470C1E5",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050899-U2tLAN5yNtwA604ySJJ4"
+    },
+    {
+      "id": "depth-record-03",
+      "family": "depthRecord",
+      "variant": 3,
+      "tags": [
+        "deep"
+      ],
+      "delivery": "awed restraint",
+      "file": "depth-record-leo-v03.mp3",
+      "text": "No map of mine reaches this far. From here on, every safe step is a piece of the next one.",
+      "characters": 90,
+      "sourceSha256": "009BF218B9C57DB4B96E757A5D64231A8664223801A6EB171069BA5332867C45",
+      "bytes": 114816,
+      "sha256": "FB5293826ADFB40006AE6AD77483594BD8EEABB68FB72381F32B9E453FC8B2E4",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050901-5scT0RIYS3lEGAaANc0X"
+    },
+    {
+      "id": "depth-record-04",
+      "family": "depthRecord",
+      "variant": 4,
+      "tags": [
+        "repeat"
+      ],
+      "delivery": "dry determination",
+      "file": "depth-record-leo-v04.mp3",
+      "text": "A personal best. I'd celebrate louder, but the ceiling has been taking an unhealthy interest in us.",
+      "characters": 99,
+      "sourceSha256": "A55D182EF3231416AB682AC978B4A05D425A9EE742DC8F9AEDD05627572F4451",
+      "bytes": 97920,
+      "sha256": "FA2050475CA09FCDF8C1CE8305F2F04FF7CD016862121C33C83A89D2B73EB4F3",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050903-XcKHRW0z8YlgmTElz1Pw"
+    },
+    {
+      "id": "depth-record-05",
+      "family": "depthRecord",
+      "variant": 5,
+      "tags": [
+        "deep"
+      ],
+      "delivery": "vulnerable wonder",
+      "file": "depth-record-leo-v05.mp3",
+      "text": "I've never stood this far beneath the sky. I can still picture it, which feels important.",
+      "characters": 89,
+      "sourceSha256": "3CEDC97966B8F06EE2B40C45DE5628A332E21B94E5C40604AA45760C6C69ED6B",
+      "bytes": 99456,
+      "sha256": "E4F146E1332222645777FF5660B7C78F9D17FEFF3045750D0C3C786ADED1A2EA",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050904-CyoPjMdD3HWcnFNE5q39"
+    },
+    {
+      "id": "depth-record-06",
+      "family": "depthRecord",
+      "variant": 6,
+      "tags": [
+        "repeat"
+      ],
+      "delivery": "earned resolve",
+      "file": "depth-record-leo-v06.mp3",
+      "text": "The mountain moved the line again, and I followed. Not forever. Just farther than before.",
+      "characters": 89,
+      "sourceSha256": "599F3D910DC57493696657C7E7EF391063FE427E0AFC2F5515D840CAD2E750F5",
+      "bytes": 104448,
+      "sha256": "6B88DDD9DC4BCB0773238222B99674B737D03235D9EF1DB04F0EF932E3BDC430",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050906-hnEOpjOQq2EhDg6UbaU0"
+    },
+    {
+      "id": "earthquake-warning-01",
+      "family": "earthquakeWarning",
+      "variant": 1,
+      "tags": [
+        "first",
+        "fall-zone"
+      ],
+      "delivery": "urgent control",
+      "file": "earthquake-warning-leo-v01.mp3",
+      "text": "That tremor was the warning. Get clear of the loose ceiling and move when the dust moves.",
+      "characters": 89,
+      "sourceSha256": "843366C1AF15541FE32E1AE8765385DC5214ACE4314060CC57E4603314E4087C",
+      "bytes": 89088,
+      "sha256": "332C25FB6FAEE02301E703D063D260216DAE452FDBB209C2FC21708BF6E4E705",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050908-McLoqHH0JuSYioUvubQI"
+    },
+    {
+      "id": "earthquake-warning-02",
+      "family": "earthquakeWarning",
+      "variant": 2,
+      "tags": [
+        "repeat",
+        "fall-zone"
+      ],
+      "delivery": "focused alarm",
+      "file": "earthquake-warning-leo-v02.mp3",
+      "text": "Here it comes again. Leave the ore, watch the marked ground, and keep a clean path behind you.",
+      "characters": 94,
+      "sourceSha256": "0857C81C406AA105C25B9D35A582A74A6BC3608053BC95D73C8D5ABB0CC1868E",
+      "bytes": 95616,
+      "sha256": "8DE7221391491C2AA9235B1CA0AB6063A4E1B782841EB7DCA7DDD28915FF7FE2",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050910-VfAshJmqxKm6AFuADZu9"
+    },
+    {
+      "id": "earthquake-warning-03",
+      "family": "earthquakeWarning",
+      "variant": 3,
+      "tags": [
+        "deep"
+      ],
+      "delivery": "low alarm",
+      "file": "earthquake-warning-leo-v03.mp3",
+      "text": "Hear that crack travelling above us? The deep rock is passing the danger from chamber to chamber.",
+      "characters": 97,
+      "sourceSha256": "19416B05066AD3795EE7C4913D065E44F91F1690A99EB1CDACEC6C91412D00C0",
+      "bytes": 96768,
+      "sha256": "07478D0014D13A1FB459859FB01E36BAF4DA08AE1D2A0C601FE4EE49B993E7D0",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050911-zRXf5BbGonbgRHM32QHg"
+    },
+    {
+      "id": "earthquake-warning-04",
+      "family": "earthquakeWarning",
+      "variant": 4,
+      "tags": [
+        "repeat"
+      ],
+      "delivery": "precise warning",
+      "file": "earthquake-warning-leo-v04.mp3",
+      "text": "The floor is rolling left. Don't fight it\u2014step with it, then clear the fracture before it answers back.",
+      "characters": 103,
+      "sourceSha256": "E7CFFBD1F37DCBE94B8805ED0E8A1A280DDC58BDA24496B2D7ADCCE177594CC3",
+      "bytes": 115968,
+      "sha256": "2BE8256CD0DC0B5920BE3C04F0542190E83B311DDBCE135AB6EFD1CB180FEF2A",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050913-9fYPmbeMiHacUmKTTaPY"
+    },
+    {
+      "id": "earthquake-warning-05",
+      "family": "earthquakeWarning",
+      "variant": 5,
+      "tags": [
+        "first"
+      ],
+      "delivery": "strained urgency",
+      "file": "earthquake-warning-leo-v05.mp3",
+      "text": "The mountain just took a breath. We do not want to be under it when it lets go.",
+      "characters": 79,
+      "sourceSha256": "E8F7F79AC2B2D814680D973390DA900DA8FCC9EA4486D3719EF5706FEC5F68AA",
+      "bytes": 87936,
+      "sha256": "C21061B96CC352AD58D6C5499B5947A3AA4261E757873D28F17EAD861D8AF729",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050915-il6r6NZuxKmfuzUhF55C"
+    },
+    {
+      "id": "earthquake-warning-06",
+      "family": "earthquakeWarning",
+      "variant": 6,
+      "tags": [
+        "repeat",
+        "deep"
+      ],
+      "delivery": "seasoned urgency",
+      "file": "earthquake-warning-leo-v06.mp3",
+      "text": "I know this sound now, and I hate that I know it. Open ground, quickly. The stones are choosing where to fall.",
+      "characters": 110,
+      "sourceSha256": "B772F2285D50316EADDBD73EF2A15FB842779535BA12C505566480711D91AD18",
+      "bytes": 130176,
+      "sha256": "C0AE4434486DA5F29CD4095CD8EDFEF9F1DDD27FC469F9F0DC1A7C3A886F44FA",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050916-AK3VxU1mtRtm4CIrCVyz"
+    },
+    {
+      "id": "earthquake-aftermath-01",
+      "family": "earthquakeAftermath",
+      "variant": 1,
+      "tags": [
+        "first"
+      ],
+      "delivery": "shaken relief",
+      "file": "earthquake-aftermath-leo-v01.mp3",
+      "text": "Still standing. Give the dust a moment to settle before we trust any ceiling it reveals.",
+      "characters": 88,
+      "sourceSha256": "51F2D8A28363B993B27FC925C2A2FD52FADF96510D5E1B218681C624DE35FE4A",
+      "bytes": 92928,
+      "sha256": "9BAA13417F62FA3149320B57D958D0384394C935312205A01B1D4D0C1D337C76",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050918-cXGfiF9X2LHEg415p3iA"
+    },
+    {
+      "id": "earthquake-aftermath-02",
+      "family": "earthquakeAftermath",
+      "variant": 2,
+      "tags": [
+        "repeat"
+      ],
+      "delivery": "tired familiarity",
+      "file": "earthquake-aftermath-leo-v02.mp3",
+      "text": "The silence after a quake is always too polite. Like the mountain expects thanks for stopping.",
+      "characters": 94,
+      "sourceSha256": "58A8820262E4EB32FE4C182C747C7EA5E8E803D87BC493CB7973FA6748B5D097",
+      "bytes": 109440,
+      "sha256": "FE373A9E72490BAA808812E99A234660D6C07FD8D04A37E006973A3089CD0C2D",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050920-3GEsXEVmj25nAELPW6Lj"
+    },
+    {
+      "id": "earthquake-aftermath-03",
+      "family": "earthquakeAftermath",
+      "variant": 3,
+      "tags": [
+        "opened"
+      ],
+      "delivery": "wary discovery",
+      "file": "earthquake-aftermath-leo-v03.mp3",
+      "text": "That collapse opened a passage. Useful doesn't mean friendly, but I won't pretend I'm not curious.",
+      "characters": 98,
+      "sourceSha256": "FF43D382868A2291BC13E99B207AFF337D3F22796370886B1A0D60126CD070B3",
+      "bytes": 104448,
+      "sha256": "01DD0B92703D1284AC5257CD3B829985CCAD6D68F7F8D3EE0B137917C9247203",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050922-wAP0q1rZPdoachWvJSM2"
+    },
+    {
+      "id": "earthquake-aftermath-04",
+      "family": "earthquakeAftermath",
+      "variant": 4,
+      "tags": [
+        "close"
+      ],
+      "delivery": "unsteady honesty",
+      "file": "earthquake-aftermath-leo-v04.mp3",
+      "text": "That one came close enough to shake the confidence out of my hands. They'll settle. They always do.",
+      "characters": 99,
+      "sourceSha256": "CBEFDA6A5A1EF1FA73BB94EB2FB107E172E46897F025731D8F1594C8B34DCE89",
+      "bytes": 96768,
+      "sha256": "40557B22753C5B1A69E528B95D1B447C3F9603179A1A7A2E653A27285BBB88DD",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050923-vPn9jmVA5uzG9s1Eh6Rs"
+    },
+    {
+      "id": "earthquake-aftermath-05",
+      "family": "earthquakeAftermath",
+      "variant": 5,
+      "tags": [
+        "repeat"
+      ],
+      "delivery": "dry relief",
+      "file": "earthquake-aftermath-leo-v05.mp3",
+      "text": "Nothing broken that wasn't already stone. I'll call that a successful disagreement with the mountain.",
+      "characters": 101,
+      "sourceSha256": "C44A94B1B99A522631FE792B04B681F859338EA3A17348E8DFE6C0A07A3DCAF9",
+      "bytes": 101760,
+      "sha256": "42B0828AF572C899811E2C0F199E435869E4C01B1DD11233FD49A1B0E59A0BB6",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050925-iWRjd2NHLm8kLjv9q9B5"
+    },
+    {
+      "id": "earthquake-aftermath-06",
+      "family": "earthquakeAftermath",
+      "variant": 6,
+      "tags": [
+        "deep"
+      ],
+      "delivery": "somber respect",
+      "file": "earthquake-aftermath-leo-v06.mp3",
+      "text": "Down here, a quake doesn't sound loud. It sounds enormous, which is somehow worse.",
+      "characters": 82,
+      "sourceSha256": "4F579CD3CF868F2043DA547B0133D7067EC399D2A5E44404AEE7EAEC87C38B6C",
+      "bytes": 104448,
+      "sha256": "B0AC7895434B2B6FA2342E193619CECB1A3DEF7E4B2244114ACC53D8289ED1E4",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050927-cOEfpKJARYynEt2GqgLn"
+    },
+    {
+      "id": "hardcore-danger-01",
+      "family": "hardcoreDanger",
+      "variant": 1,
+      "tags": [
+        "first",
+        "darkness"
+      ],
+      "delivery": "controlled panic",
+      "file": "hardcore-danger-leo-v01.mp3",
+      "text": "The dark is getting inside the rhythm of my breathing. Light first, distance second. Pride can wait.",
+      "characters": 100,
+      "sourceSha256": "B920D280C497BDCED0F1CD8993CD1CFA4DB750C3B6023BC1B298FD6BA33A584E",
+      "bytes": 126336,
+      "sha256": "B102680C2682AA75FA972191CDB711930361CAC000C5D3132061C26B3F2A7F38",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050929-pGKsNwyXftPDdNlM34si"
+    },
+    {
+      "id": "hardcore-danger-02",
+      "family": "hardcoreDanger",
+      "variant": 2,
+      "tags": [
+        "repeat",
+        "darkness"
+      ],
+      "delivery": "strained focus",
+      "file": "hardcore-danger-leo-v02.mp3",
+      "text": "Not this feeling again. Find the lantern's edge and stay inside it until my hands remember they're mine.",
+      "characters": 104,
+      "sourceSha256": "F594DEAC9D8628FFB2E8C43A594C9F8FF2F49A995658D71D739E0D139824EE2B",
+      "bytes": 112128,
+      "sha256": "D63BD6B7006EEC70791E4FEF237CEF8410CF854E8FC2CAB37A62EAA9260AA9FE",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050931-tRAnERPMZObxk5l9I1R5"
+    },
+    {
+      "id": "hardcore-danger-03",
+      "family": "hardcoreDanger",
+      "variant": 3,
+      "tags": [
+        "rapid-descent"
+      ],
+      "delivery": "urgent restraint",
+      "file": "hardcore-danger-leo-v03.mp3",
+      "text": "Too fast. The floor is arriving before I can read it. Slow the descent or the cave will choose the landing.",
+      "characters": 107,
+      "sourceSha256": "653AE283AD7A3BA6611674088D3BC9F1DCD8F030B26B7B8FCBE166B2689E4029",
+      "bytes": 123648,
+      "sha256": "A0B4324F7C2A1401CE7A6F485E3F4D7A29B375919DAA8EB0566E4B61FFF3133A",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050933-OfmXGV0nLeNtgU7jyWZk"
+    },
+    {
+      "id": "hardcore-danger-04",
+      "family": "hardcoreDanger",
+      "variant": 4,
+      "tags": [
+        "deep-pressure"
+      ],
+      "delivery": "low distress",
+      "file": "hardcore-danger-leo-v04.mp3",
+      "text": "Pressure's climbing behind my eyes. No heroics now. A living miner can come back for stubborn ore.",
+      "characters": 98,
+      "sourceSha256": "86E3163C8AA580F712465D0A607FD2C80F7793966C025982FD5ED75A675365CE",
+      "bytes": 108288,
+      "sha256": "384C69603D48E356453AADC3E61824B7881F7048AC52223C5CC959FFC90AA247",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050935-NeBo7hKmdxDhF2Bka4uO"
+    },
+    {
+      "id": "hardcore-danger-05",
+      "family": "hardcoreDanger",
+      "variant": 5,
+      "tags": [
+        "repeat"
+      ],
+      "delivery": "cold emergency focus",
+      "file": "hardcore-danger-leo-v05.mp3",
+      "text": "One clear decision at a time: light the route, leave the wall, keep moving toward air.",
+      "characters": 86,
+      "sourceSha256": "EB2A70B93C67DF52109114C1E87986C64AC8DC078A820A03C3C361D812E2E77F",
+      "bytes": 105600,
+      "sha256": "DB1836407FCB7F0232C7DB815D3492190A9716FA60CF1E7992C216701F254176",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050937-3tWrw6FeBgDvw83e5Ts5"
+    },
+    {
+      "id": "hardcore-danger-06",
+      "family": "hardcoreDanger",
+      "variant": 6,
+      "tags": [
+        "deep"
+      ],
+      "delivery": "vulnerable resolve",
+      "file": "hardcore-danger-leo-v06.mp3",
+      "text": "I'm afraid. Good. Fear still knows where the exit is. Let it point, then make the feet follow.",
+      "characters": 94,
+      "sourceSha256": "DD20B270C77A61173355871E97225E7E9FBB4D22424A90827216113BDF8FCD2C",
+      "bytes": 126336,
+      "sha256": "B77B72D66CA2FC5AF34A28D28A2CB493E5CE21EE88536285A02ADC87E38FA1D4",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050938-vm8Y5CSm9kqTwv7Gsnrb"
+    },
+    {
+      "id": "hardcore-recovery-01",
+      "family": "hardcoreRecovery",
+      "variant": 1,
+      "tags": [
+        "first"
+      ],
+      "delivery": "unsteady relief",
+      "file": "hardcore-recovery-leo-v01.mp3",
+      "text": "There. My breathing belongs to me again. Let's not spend it all at once.",
+      "characters": 72,
+      "sourceSha256": "1C1DBDAEFAB2D9F6567D5D5AA676E20EE119A1409BDACF4BC49A4385A860D13E",
+      "bytes": 85248,
+      "sha256": "E797B22218AB34BC621422B6F24F0D372A762FA0DFA8DD711CB7B7EE64E27E2C",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050940-Dv70JQDYSSzCv3D7akuz"
+    },
+    {
+      "id": "hardcore-recovery-02",
+      "family": "hardcoreRecovery",
+      "variant": 2,
+      "tags": [
+        "repeat"
+      ],
+      "delivery": "quiet recovery",
+      "file": "hardcore-recovery-leo-v02.mp3",
+      "text": "The pressure's easing. I can feel the shape of the room instead of only the way out.",
+      "characters": 84,
+      "sourceSha256": "444F17F64932096EC4581D84795F062BD7D784B6CC0322AB21C0B8EA1346AD93",
+      "bytes": 82560,
+      "sha256": "B6E6D92B513D823868B16DAF6F9D85F97A4BD1EDA55390BDD8B8C00E1A26D0BE",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050942-v847RjkCrSXJbgArWyFK"
+    },
+    {
+      "id": "hardcore-recovery-03",
+      "family": "hardcoreRecovery",
+      "variant": 3,
+      "tags": [
+        "torch-light"
+      ],
+      "delivery": "grateful calm",
+      "file": "hardcore-recovery-leo-v03.mp3",
+      "text": "Funny what a little honest light can do. The same walls, the same depth, and suddenly I fit inside myself again.",
+      "characters": 112,
+      "sourceSha256": "3A67D9D2EDDCF4ABEFBC1B72A7C88E9C731268D2A4050A376004EBA2574623F0",
+      "bytes": 134016,
+      "sha256": "048E2610AB8D94029CD0EDBF5EA56B105B8131A1D0F1EF3A8995489B2DC46EC6",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050944-zRwfAbMn2DznkmhFnc8B"
+    },
+    {
+      "id": "hardcore-recovery-04",
+      "family": "hardcoreRecovery",
+      "variant": 4,
+      "tags": [
+        "star-light"
+      ],
+      "delivery": "soft gratitude",
+      "file": "hardcore-recovery-leo-v04.mp3",
+      "text": "That Star's light reaches somewhere the lantern can't. The shaking stopped before I noticed.",
+      "characters": 92,
+      "sourceSha256": "0118904329D39954FA3B2A476AB001A4A435EE3CC3D3948D93298C960B17D2EC",
+      "bytes": 109440,
+      "sha256": "81B9E5FF5007E9167B9DDCC1545CB508E4FDC1D039CCBA41F02EEE02E25A3705",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050946-irE7KjlbIdtGPQgdxLCF"
+    },
+    {
+      "id": "hardcore-recovery-05",
+      "family": "hardcoreRecovery",
+      "variant": 5,
+      "tags": [
+        "repeat"
+      ],
+      "delivery": "dry relief",
+      "file": "hardcore-recovery-leo-v05.mp3",
+      "text": "Crisis postponed. I'd call that rest, but my shoulders are laughing at the idea.",
+      "characters": 80,
+      "sourceSha256": "0391124E642CD98602BDACD51F954691907AE919B1B3C259727EDFFE0250EE2E",
+      "bytes": 89088,
+      "sha256": "44AB09F24FC10C4B985519AB4D629400EA5C6582385081DA7017EDA41057D5B7",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050947-bhQKWZorLFSpwaV7FM5V"
+    },
+    {
+      "id": "hardcore-recovery-06",
+      "family": "hardcoreRecovery",
+      "variant": 6,
+      "tags": [
+        "deep"
+      ],
+      "delivery": "renewed resolve",
+      "file": "hardcore-recovery-leo-v06.mp3",
+      "text": "The deep still feels heavy. It just doesn't feel heavier than me right now.",
+      "characters": 75,
+      "sourceSha256": "E534C8CB4D4862DE140E7FF974F3DB4C2EA6C931BEB34C4C77FDEF9860141882",
+      "bytes": 86784,
+      "sha256": "370ED7C7D8DA5DA328AD4A296CA98BB0EB571B303E8A242BCE68D0FBE5B9CB69",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050949-LJ8SF9iFyaWZw1Lnj6ND"
+    },
+    {
+      "id": "inventory-critical-01",
+      "family": "inventoryCritical",
+      "variant": 1,
+      "tags": [
+        "first"
+      ],
+      "delivery": "practical concern",
+      "file": "inventory-critical-leo-v01.mp3",
+      "text": "The pack's nearly closed. One careful choice now, or the next good find stays where we found it.",
+      "characters": 96,
+      "sourceSha256": "4E0016F5DF66BA3EC820789D6DD2140A57604AD4D5DCFEB1EEE3037C183CE807",
+      "bytes": 101760,
+      "sha256": "18A40A2C4A36DC2C8752F00B5E85C5E7734590B74B9691BBA98DC9FF411D901E",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050951-kZSkDyFL2R72OrnLXoau"
+    },
+    {
+      "id": "inventory-critical-02",
+      "family": "inventoryCritical",
+      "variant": 2,
+      "tags": [
+        "repeat"
+      ],
+      "delivery": "dry pressure release",
+      "file": "inventory-critical-leo-v02.mp3",
+      "text": "If I add another crystal, this bag becomes part of the architecture. We need a merchant.",
+      "characters": 88,
+      "sourceSha256": "990718CE18960F3F28B28CDE0CE43B13B0A97D42354A1AAD1E1FBB6CB80A6EE1",
+      "bytes": 95616,
+      "sha256": "DF84BB307849B36CF061E8ECDC1D499682FD5F93A51C3108E9A10BB7B7ED3BD9",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050953-RayAqUNkZGoRfrmlwBjk"
+    },
+    {
+      "id": "inventory-critical-03",
+      "family": "inventoryCritical",
+      "variant": 3,
+      "tags": [
+        "valuable"
+      ],
+      "delivery": "measured greed control",
+      "file": "inventory-critical-leo-v03.mp3",
+      "text": "Plenty worth carrying, not much room left to carry it. Greed gets heavier before the pack does.",
+      "characters": 95,
+      "sourceSha256": "D59B3A4D819169CB64298FF46BEB50ED8E9B578694504CA4AB1CDD3BF6A586A5",
+      "bytes": 103296,
+      "sha256": "7B50EC19EFFCBACBFC6E67DD2C4C22A2FB9F0A1192E98DAD81953FEB39187B34",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050955-LgOL1Gw6CW6f6ojaQRM3"
+    },
+    {
+      "id": "inventory-critical-04",
+      "family": "inventoryCritical",
+      "variant": 4,
+      "tags": [
+        "deep"
+      ],
+      "delivery": "logistical fatigue",
+      "file": "inventory-critical-leo-v04.mp3",
+      "text": "Long road home, full pack, deeper tunnel ahead. The sensible answer is obvious. I resent it already.",
+      "characters": 100,
+      "sourceSha256": "5B390718D9C10F48EBCA1467F5409142338FF1E1515BAC833378BD6BBBC655E8",
+      "bytes": 131328,
+      "sha256": "9C996359240020FA8701CE8ABD93F6B6B2EBF7CE1C6BE69B4AF29EB1932A797C",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050956-21xKuLtBna7HmwBszTvu"
+    },
+    {
+      "id": "inventory-critical-05",
+      "family": "inventoryCritical",
+      "variant": 5,
+      "tags": [
+        "repeat"
+      ],
+      "delivery": "firm warning",
+      "file": "inventory-critical-leo-v05.mp3",
+      "text": "No more maybes. Keep what matters, leave what doesn't, and remember the route back to the rest.",
+      "characters": 95,
+      "sourceSha256": "5ACEB1D4D407B70C06407171E33C3F6B8171A61CB08035C51ECC620D9C2B38EA",
+      "bytes": 98304,
+      "sha256": "0AE633D17049A23A0E64A5D186F8F474301090E4D44D59EDFC7661CE6D3DC511",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050958-F5gZoRhfXHOztfEwmIdw"
+    },
+    {
+      "id": "inventory-critical-06",
+      "family": "inventoryCritical",
+      "variant": 6,
+      "tags": [
+        "first"
+      ],
+      "delivery": "quiet assessment",
+      "file": "inventory-critical-leo-v06.mp3",
+      "text": "The straps are telling the truth before I do: we're carrying enough to make the return worthwhile.",
+      "characters": 98,
+      "sourceSha256": "63651AE724D79A74D05CA77794D3AC94B859E6D2B66F5BDE16E51D325EF795CC",
+      "bytes": 96768,
+      "sha256": "FE6519B701A28E9C671DF668AA60496103FCCD5CDF0F74DD500916E5CB72175B",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050960-TciRgNvZZ9YJ5aNFaWkn"
+    },
+    {
+      "id": "deep-return-01",
+      "family": "deepReturn",
+      "variant": 1,
+      "tags": [
+        "first",
+        "deep"
+      ],
+      "delivery": "tired relief",
+      "file": "deep-return-leo-v01.mp3",
+      "text": "Fresh air. I almost forgot it had a taste. We came back lighter on supplies and heavier with stories.",
+      "characters": 101,
+      "sourceSha256": "1F4C921E4279A2C107DB4FB67965F9FA13BB03F02FC0AB93B3194141F70A0DC4",
+      "bytes": 110976,
+      "sha256": "A40213BB47EAA95D475997BFE0DA99552E4AF04F7561A772B6EE6B240AF7A57D",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050962-qK7LU35x3VfrqnpfQunb"
+    },
+    {
+      "id": "deep-return-02",
+      "family": "deepReturn",
+      "variant": 2,
+      "tags": [
+        "repeat",
+        "deep"
+      ],
+      "delivery": "quiet homecoming",
+      "file": "deep-return-leo-v02.mp3",
+      "text": "Town lights again. They look smaller every time I leave and brighter every time I make it back.",
+      "characters": 95,
+      "sourceSha256": "2200034F12B0AE83979CD66542E91815D801B066E5D819707EA5C06E350DE489",
+      "bytes": 96768,
+      "sha256": "4DEADC5E334763576DE17528F48E3F8046166A10AC5CC031F271CBD909D804A0",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050964-YNdYT4RHWWpy7ToD7zp4"
+    },
+    {
+      "id": "deep-return-03",
+      "family": "deepReturn",
+      "variant": 3,
+      "tags": [
+        "stars"
+      ],
+      "delivery": "protective pride",
+      "file": "deep-return-leo-v03.mp3",
+      "text": "We brought the Stars home. The rest of the haul can wait; light like that deserves the first welcome.",
+      "characters": 101,
+      "sourceSha256": "41C5814DB9087091833634D55024EE15055816FD63DCC296DCEA30721CCCCD9C",
+      "bytes": 105600,
+      "sha256": "E336601A19859758AA42425F3E2F5E5F67A26D7883A15558667AE74805CE537A",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050965-Cy5jKjSZfgeedZX6IlmN"
+    },
+    {
+      "id": "deep-return-04",
+      "family": "deepReturn",
+      "variant": 4,
+      "tags": [
+        "close"
+      ],
+      "delivery": "shaken honesty",
+      "file": "deep-return-leo-v04.mp3",
+      "text": "Made it back. Don't ask how close the last tunnel came. I haven't decided which version I can admit to.",
+      "characters": 103,
+      "sourceSha256": "73941466B14DADF18471F4D89D91A28AE65390CEBD447FC988AE8A0B393E8085",
+      "bytes": 104448,
+      "sha256": "89C4539546B7A3BC5700FFF2B6746D2032B8D2EC0BB17B4DD4DA7042E2CEFB79",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050967-wVhukQM2iNILW8eJ1ogc"
+    },
+    {
+      "id": "deep-return-05",
+      "family": "deepReturn",
+      "variant": 5,
+      "tags": [
+        "valuable"
+      ],
+      "delivery": "earned satisfaction",
+      "file": "deep-return-leo-v05.mp3",
+      "text": "Good weight in the pack and ground under the boots that remembers sunlight. That's a proper return.",
+      "characters": 99,
+      "sourceSha256": "6E14089FCF603CF3CA71FB55D8C107D78A1201B1C52CF0F571E2DFC05343281D",
+      "bytes": 99456,
+      "sha256": "D8A885F48B69A161FCF9C24660EF6514A8C039A5EA20EA89E0A387C6087758A5",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050969-WrK4A2votlguf05WcNVg"
+    },
+    {
+      "id": "deep-return-06",
+      "family": "deepReturn",
+      "variant": 6,
+      "tags": [
+        "repeat"
+      ],
+      "delivery": "warm exhaustion",
+      "file": "deep-return-leo-v06.mp3",
+      "text": "Same Town, same gate, different miner coming through it. The deep always keeps a small piece of the one who entered.",
+      "characters": 116,
+      "sourceSha256": "CE7309C43C46D6A06C274CE6A2CBF1F6A0CD9FCDDBAD073C5F24F0B2F5EDCA60",
+      "bytes": 124800,
+      "sha256": "3B4FEFE7A8FD7810216AE90509AC3912A50986962D8FF38E5470AD08955D83C0",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050971-hPjr64dTJigNgWsGgurO"
+    },
+    {
+      "id": "meaningful-purchase-01",
+      "family": "meaningfulPurchase",
+      "variant": 1,
+      "tags": [
+        "first",
+        "tool"
+      ],
+      "delivery": "considered satisfaction",
+      "file": "meaningful-purchase-leo-v01.mp3",
+      "text": "That's not decoration. That's a promise to the next wall, and I intend to make it keep the promise.",
+      "characters": 99,
+      "sourceSha256": "9F79AAAF5C16496C8914E25C4149E1084E510AF967F5A56CA20CF23BA1750C43",
+      "bytes": 100608,
+      "sha256": "3E4B5FEC4614260F0B0AC844E3F2EB823B7584AF1F10FAAF02A10C66491F3673",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050972-7Sp6LxPUCUGSm5cUrDfE"
+    },
+    {
+      "id": "meaningful-purchase-02",
+      "family": "meaningfulPurchase",
+      "variant": 2,
+      "tags": [
+        "repeat",
+        "tool"
+      ],
+      "delivery": "quiet approval",
+      "file": "meaningful-purchase-leo-v02.mp3",
+      "text": "Good steel costs because bad steel waits until you're deep enough to trust it. This was the right choice.",
+      "characters": 105,
+      "sourceSha256": "9ABE3BEE6F64A8E1E187FBDA68D64CADC31CAF765B8557024D8DBCEA55B8C584",
+      "bytes": 114816,
+      "sha256": "67C82EFAAA7ECA91831EABFA70B02CE9E4A75314BA6ECE5BD785CD2F46F060E9",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050974-sOsp2aowMrmupRQIVDov"
+    },
+    {
+      "id": "meaningful-purchase-03",
+      "family": "meaningfulPurchase",
+      "variant": 3,
+      "tags": [
+        "flight"
+      ],
+      "delivery": "hopeful caution",
+      "file": "meaningful-purchase-leo-v03.mp3",
+      "text": "More reach in the sky and another way home from below. Strange how the same power can promise both.",
+      "characters": 99,
+      "sourceSha256": "8ADB1311F2A56B948E5AD8DD2FCFA43984493AACA24B4A5FC031AD0A46A8F957",
+      "bytes": 107136,
+      "sha256": "7A8555098F449F3D467A1339ECF617BE4D916B8292376005A6E398EFB3646FCE",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050976-fyvdZKlcqEzxqNVSfy99"
+    },
+    {
+      "id": "meaningful-purchase-04",
+      "family": "meaningfulPurchase",
+      "variant": 4,
+      "tags": [
+        "power"
+      ],
+      "delivery": "measured confidence",
+      "file": "meaningful-purchase-leo-v04.mp3",
+      "text": "I can feel the Gem Power settle differently already. Stronger, yes. That means the mistakes get stronger too.",
+      "characters": 109,
+      "sourceSha256": "205A68851D3FA858993F8D625364626E162BD9C02A1C9803BC14251E5F6E82D6",
+      "bytes": 123648,
+      "sha256": "603D5E50893692A756CC548BED7FFBF93741C761481748FBAF8939118A3295D6",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050978-LcLsRbbuS7jleAj5ksKY"
+    },
+    {
+      "id": "meaningful-purchase-05",
+      "family": "meaningfulPurchase",
+      "variant": 5,
+      "tags": [
+        "repeat"
+      ],
+      "delivery": "dry reflection",
+      "file": "meaningful-purchase-leo-v05.mp3",
+      "text": "There goes most of the wallet. If the next expedition goes well, I'll call it foresight instead of impulse.",
+      "characters": 107,
+      "sourceSha256": "DE14B70D88695D4EF65CAFCFDA30FB54DD98C2665BD484B6CBFE284DA75A9182",
+      "bytes": 104448,
+      "sha256": "A6AD737723F2086C251011D567B9D0C1E4941BDB73E925E26FE7C60CD807510A",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050980-WhZTb9dZro9tvtH3xWLA"
+    },
+    {
+      "id": "meaningful-purchase-06",
+      "family": "meaningfulPurchase",
+      "variant": 6,
+      "tags": [
+        "deep"
+      ],
+      "delivery": "resolved anticipation",
+      "file": "meaningful-purchase-leo-v06.mp3",
+      "text": "This opens ground I couldn't survive yesterday. Give me a minute to respect that before I go looking for it.",
+      "characters": 108,
+      "sourceSha256": "C9E79DC36BDE3AC4A57861482875DCF212199B3E92DD37AB96A31702EF842489",
+      "bytes": 112128,
+      "sha256": "4AA06D24CBE23A91750E2653DE6F25950B2DD50CA964208D83F9E1B4998A6D67",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050982-cf7yfYvPSejWQj6kPG0W"
+    },
+    {
+      "id": "campfire-rest-01",
+      "family": "campfireRest",
+      "variant": 1,
+      "tags": [
+        "first"
+      ],
+      "delivery": "soft relief",
+      "file": "campfire-rest-leo-v01.mp3",
+      "text": "Real warmth, not heat leaking through stone. I'd forgotten the difference.",
+      "characters": 74,
+      "sourceSha256": "73EFC3C7A73951E1A68F36DCF50C13F9BC8B57CFAABAA310AB862DA9AF2D271E",
+      "bytes": 84096,
+      "sha256": "CE9FD841A4EBED97C3D0F5EE14E796B132F90074CFE47C93AF9519BF33A2176F",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050983-Jx99XjyXAQ9Y3Ko0UqgD"
+    },
+    {
+      "id": "campfire-rest-02",
+      "family": "campfireRest",
+      "variant": 2,
+      "tags": [
+        "repeat"
+      ],
+      "delivery": "weary comfort",
+      "file": "campfire-rest-leo-v02.mp3",
+      "text": "Same fire, different dust on the boots. It never asks how deep I went before it lets me sit.",
+      "characters": 92,
+      "sourceSha256": "6C539043C73EC62E7F650AFCBE21E5480FC5BD4CA9FE12827658CF67EB54C715",
+      "bytes": 103296,
+      "sha256": "AB93F5C4007164E0F71C22886D2DC7E2659B2E330FB740228C812E61354E8A23",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050985-KCCsoROHFHIvZanudV6P"
+    },
+    {
+      "id": "campfire-rest-03",
+      "family": "campfireRest",
+      "variant": 3,
+      "tags": [
+        "deep"
+      ],
+      "delivery": "reflective fatigue",
+      "file": "campfire-rest-leo-v03.mp3",
+      "text": "The deep is still humming in my bones. Give the flames a moment; they know how to answer.",
+      "characters": 89,
+      "sourceSha256": "C49FD899DEDBEA2C0E2892DE9B0E461EBA2F167E28410B6887866CF2B2251A68",
+      "bytes": 103296,
+      "sha256": "BC8B0C3D34E08406BB83A49CF083AA7BE16BF7C9F2E3D7257B8779891F8299EE",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050987-8efPHppTxQLgBERz9Rxz"
+    },
+    {
+      "id": "campfire-rest-04",
+      "family": "campfireRest",
+      "variant": 4,
+      "tags": [
+        "close"
+      ],
+      "delivery": "grateful honesty",
+      "file": "campfire-rest-leo-v04.mp3",
+      "text": "I came back with less courage than I left with. That's all right. Courage grows back near a fire.",
+      "characters": 97,
+      "sourceSha256": "BE7BF4C2C21A6EB832394060AEAB2F523548A867A8239DEE5331D1E19EE6192A",
+      "bytes": 104448,
+      "sha256": "D606A5ED423CBEEBB6BEA3CB2A682D510C10D30771DC0BD1548B16B318A1EA69",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050989-F1Dci9iHWQn5TM3a7Lcf"
+    },
+    {
+      "id": "campfire-rest-05",
+      "family": "campfireRest",
+      "variant": 5,
+      "tags": [
+        "repeat"
+      ],
+      "delivery": "dry warmth",
+      "file": "campfire-rest-leo-v05.mp3",
+      "text": "Five minutes here and I'll be ready to make questionable decisions underground again.",
+      "characters": 85,
+      "sourceSha256": "1D061C2284483F9EBDEE018A0256C7DC9F61DEBB161E557D5BC57A1E320E47DC",
+      "bytes": 77568,
+      "sha256": "DF5F6E78DD8220B13EAC9F93CD61F3D191E0226FF273E75506833EC2C8A63183",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050990-7NsLvc5WsTg7Tg1Nh2Mx"
+    },
+    {
+      "id": "campfire-rest-06",
+      "family": "campfireRest",
+      "variant": 6,
+      "tags": [
+        "stars"
+      ],
+      "delivery": "quiet companionship",
+      "file": "campfire-rest-leo-v06.mp3",
+      "text": "Firelight and Starlight don't look alike, but they make the same promise: you don't have to sit in the dark alone.",
+      "characters": 114,
+      "sourceSha256": "4DBD2D8031646BD8E3703CF44ADE7702A3ED99D16A9883FC62D55CAF1FB60A55",
+      "bytes": 127872,
+      "sha256": "7D8092D3B14208F0FDC495F25D3FC48C949C5E9F6B405E75AB4AD66E3F8FD8AE",
+      "contentType": "audio/mpeg",
+      "generationSource": "openrouter",
+      "generationId": "gen-tts-1788050992-jm4JxZw65J6ZB3ZMHDKc"
+    }
+  ]
+}

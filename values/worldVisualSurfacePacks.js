@@ -1,4 +1,82 @@
 const asset = (key, path) => Object.freeze({ key, path });
+const videoAsset = (key, path, dimensions) => Object.freeze({
+  key,
+  path,
+  type: "video",
+  dimensions,
+});
+const LIVING_BACKGROUND_DIMENSIONS = Object.freeze({ width: 1800, height: 534 });
+const LIVING_BACKGROUND_ROOT = (
+  "sprites/backgrounds/start-zone-scenic-v1/living-background-v1"
+);
+const LIVING_BACKGROUND_V2_ROOT = (
+  "sprites/backgrounds/start-zone-scenic-v1/living-background-v2"
+);
+const livingBackgroundVariant = (
+  id,
+  filename,
+  aliases,
+  root = LIVING_BACKGROUND_ROOT,
+  revision = "v1",
+) => Object.freeze({
+  id,
+  aliases: Object.freeze(aliases),
+  asset: videoAsset(
+    `world-visual-surface-motion-${id}-${revision}`,
+    `${root}/${filename}`,
+    LIVING_BACKGROUND_DIMENSIONS,
+  ),
+});
+
+const TOWN_LIVING_BACKGROUND_V1 = Object.freeze({
+  enabled: true,
+  queryParam: "surfaceMotion",
+  defaultVariantId: "town-air",
+  disableValues: Object.freeze(["0", "off", "false", "static", "none"]),
+  loop: true,
+  depthOffset: 0.005,
+  pauseBelowAlpha: 0.01,
+  expectedSource: LIVING_BACKGROUND_DIMENSIONS,
+  groundIncluded: false,
+  variants: Object.freeze([
+    livingBackgroundVariant(
+      "soft-canopy",
+      "surface-soft-canopy-v1.mp4",
+      ["1", "canopy", "soft-canopy"],
+    ),
+    livingBackgroundVariant(
+      "town-air",
+      "surface-town-air-v1.mp4",
+      ["2", "mini", "town-air", "default"],
+    ),
+    livingBackgroundVariant(
+      "layered-night",
+      "surface-layered-night-v1.mp4",
+      ["3", "layered", "layered-night"],
+    ),
+    livingBackgroundVariant(
+      "natural-canopy",
+      "surface-natural-canopy-v2.mp4",
+      ["4", "natural", "async", "natural-canopy-v2"],
+      LIVING_BACKGROUND_V2_ROOT,
+      "v2",
+    ),
+    livingBackgroundVariant(
+      "depth-breeze",
+      "surface-depth-breeze-v2.mp4",
+      ["5", "depth", "depth-breeze-v2"],
+      LIVING_BACKGROUND_V2_ROOT,
+      "v2",
+    ),
+    livingBackgroundVariant(
+      "quiet-stars",
+      "surface-quiet-stars-v2.mp4",
+      ["6", "stars", "quiet", "quiet-stars-v2"],
+      LIVING_BACKGROUND_V2_ROOT,
+      "v2",
+    ),
+  ]),
+});
 
 const TOWN_BENCHMARK_V1 = Object.freeze({
   id: "town-benchmark-v1",
@@ -71,6 +149,7 @@ const TOWN_BENCHMARK_V1 = Object.freeze({
     wetGroundAlpha: 0.075,
     wetGroundTint: 0x82a9cf,
   }),
+  motion: TOWN_LIVING_BACKGROUND_V1,
 });
 
 const TOWN_BENCHMARK_RELIEF_V1 = Object.freeze({
@@ -84,6 +163,7 @@ const TOWN_BENCHMARK_RELIEF_V1 = Object.freeze({
     ),
     frameName: "world-visual-surface-pack-town-benchmark-relief-v1-upper",
   }),
+  motion: null,
 });
 
 export const WORLD_VISUAL_SURFACE_PACKS = Object.freeze({
@@ -125,5 +205,32 @@ export function resolveWorldVisualSurfacePack(
 
 export function getWorldVisualSurfacePackPreloadAssets(config, search) {
   const pack = resolveWorldVisualSurfacePack(config, search);
-  return pack ? [pack.beauty.asset, pack.floor.asset, pack.ground.asset] : [];
+  if (!pack) return [];
+  const motion = resolveWorldVisualSurfaceMotion(pack, search);
+  return [
+    pack.beauty.asset,
+    pack.floor.asset,
+    pack.ground.asset,
+    ...(motion ? [motion.asset] : []),
+  ];
+}
+
+export function resolveWorldVisualSurfaceMotion(
+  pack,
+  search = globalThis.location?.search || "",
+) {
+  const config = pack?.motion;
+  if (!config?.enabled || !Array.isArray(config.variants)) return null;
+  const requested = new URLSearchParams(search)
+    .get(config.queryParam)?.trim().toLowerCase();
+  if (requested && config.disableValues.includes(requested)) return null;
+  const selected = requested
+    ? config.variants.find(variant => (
+      variant.id === requested || variant.aliases.includes(requested)
+    ))
+    : null;
+  return selected
+    || config.variants.find(variant => variant.id === config.defaultVariantId)
+    || config.variants[0]
+    || null;
 }

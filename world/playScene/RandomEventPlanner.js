@@ -145,8 +145,6 @@ export function buildRandomEventPlans(scene, playerTile, director) {
   plans[RANDOM_EVENT_TYPES.CRYSTAL_CHOIR] = choirPlan && !director.hasCompletedChoir(choirPlan.choirId)
     ? choirPlan : null;
   plans[RANDOM_EVENT_TYPES.BLACKOUT_BLOOM] = planBlackoutBloom(scene, reachable, playerTile, serial);
-  const targetResource = director.selectRushTarget(scene.digSystem?.getResourceTotals?.() || {});
-  plans[RANDOM_EVENT_TYPES.MONEY_MONSTER_RUSH] = targetResource ? { targetResource } : null;
   return { plans, depth };
 }
 

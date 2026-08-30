@@ -1,0 +1,52 @@
+{
+  "jobs": {
+    "01-mini-soft-canopy-cycle": {
+      "variant": {
+        "id": "01-mini-soft-canopy-cycle",
+        "label": "Soft canopy cycle",
+        "seed": 26082601,
+        "direction": "Let the tree canopy carry the motion. Near pine crowns complete one gentle sway cycle with displacement no greater than 0.7 percent of tree height; middle forest moves about 0.5 percent and distant treetops about 0.3 percent with small phase offsets. Existing chimney smoke curls inside a 10 pixel envelope, existing hanging lanterns and ropes swing less than one degree, and cloud edges softly reshape in place without traveling across the frame.",
+        "model": "bytedance/seedance-2.0-mini",
+        "estimatedCostUsd": 0.61,
+        "prompt": "Use the supplied image as both the exact first frame and exact final frame. This is a fixed side-on 2D game background plate, never a cinematic camera shot. The camera, crop, image plane, horizon, mountains, buildings, rooflines, doors, road stones, and every rigid landmark must stay registered to the same pixels for all 15 seconds: zero pan, lateral slide, zoom, dolly, shake, reframing, global parallax, lens effect, morphing, or exposure sweep. The horizontal ground boundary begins at pixel Y 498 in this 1680 by 720 guide. Everything at Y 498 and below is context-only ground and must remain perfectly frozen; it will be discarded from the final animated asset. Only the town, forest, sky, and air above that boundary may animate. Do not add or remove any object, person, creature, bird, particle, weather, text, UI, logo, watermark, or audio. Create one true periodic ambient cycle across the full duration. Frame 1 and the final frame are the same neutral pose, and the motion phase passes through the loop boundary smoothly without stopping, reversing, rewinding, crossfading the whole image, or resetting. Every visible forest depth participates subtly while every trunk and building stays rooted. Let the tree canopy carry the motion. Near pine crowns complete one gentle sway cycle with displacement no greater than 0.7 percent of tree height; middle forest moves about 0.5 percent and distant treetops about 0.3 percent with small phase offsets. Existing chimney smoke curls inside a 10 pixel envelope, existing hanging lanterns and ropes swing less than one degree, and cloud edges softly reshape in place without traveling across the frame."
+      },
+      "response": {
+        "id": "x84qvEVEwPBkXa6QcTXD",
+        "polling_url": "https://openrouter.ai/api/v1/videos/x84qvEVEwPBkXa6QcTXD",
+        "status": "pending"
+      }
+    },
+    "02-mini-town-air-cycle": {
+      "variant": {
+        "id": "02-mini-town-air-cycle",
+        "label": "Town air cycle",
+        "seed": 26082602,
+        "direction": "Keep tree sway especially calm, between 0.35 and 0.55 percent of tree height, but ensure near, middle, and distant forest layers all breathe. Existing chimney smoke performs a slow curl-and-return cycle within 16 pixels. Existing warm windows and lanterns fluctuate locally by no more than two percent brightness; existing hanging hardware moves less than one degree. Keep the moon, stars, buildings, road, and overall illumination fixed.",
+        "model": "bytedance/seedance-2.0-mini",
+        "estimatedCostUsd": 0.61,
+        "prompt": "Use the supplied image as both the exact first frame and exact final frame. This is a fixed side-on 2D game background plate, never a cinematic camera shot. The camera, crop, image plane, horizon, mountains, buildings, rooflines, doors, road stones, and every rigid landmark must stay registered to the same pixels for all 15 seconds: zero pan, lateral slide, zoom, dolly, shake, reframing, global parallax, lens effect, morphing, or exposure sweep. The horizontal ground boundary begins at pixel Y 498 in this 1680 by 720 guide. Everything at Y 498 and below is context-only ground and must remain perfectly frozen; it will be discarded from the final animated asset. Only the town, forest, sky, and air above that boundary may animate. Do not add or remove any object, person, creature, bird, particle, weather, text, UI, logo, watermark, or audio. Create one true periodic ambient cycle across the full duration. Frame 1 and the final frame are the same neutral pose, and the motion phase passes through the loop boundary smoothly without stopping, reversing, rewinding, crossfading the whole image, or resetting. Every visible forest depth participates subtly while every trunk and building stays rooted. Keep tree sway especially calm, between 0.35 and 0.55 percent of tree height, but ensure near, middle, and distant forest layers all breathe. Existing chimney smoke performs a slow curl-and-return cycle within 16 pixels. Existing warm windows and lanterns fluctuate locally by no more than two percent brightness; existing hanging hardware moves less than one degree. Keep the moon, stars, buildings, road, and overall illumination fixed."
+      },
+      "response": {
+        "id": "uJfFmidoCVz9xNS8nvZV",
+        "polling_url": "https://openrouter.ai/api/v1/videos/uJfFmidoCVz9xNS8nvZV",
+        "status": "pending"
+      }
+    },
+    "03-mini-layered-night-cycle": {
+      "variant": {
+        "id": "03-mini-layered-night-cycle",
+        "label": "Layered night cycle",
+        "seed": 26082603,
+        "direction": "Balance several almost-imperceptible cycles: tree crowns sway 0.45 to 0.65 percent around fixed roots, existing cloud contours billow internally by only a few pixels without net travel, the existing haze behind the treeline changes opacity by about two percent, and existing smoke and lantern light gently pulse. These motions use slightly different phases but all complete a closed 15 second cycle. No layer may slide sideways as a whole.",
+        "model": "bytedance/seedance-2.0-mini",
+        "estimatedCostUsd": 0.61,
+        "prompt": "Use the supplied image as both the exact first frame and exact final frame. This is a fixed side-on 2D game background plate, never a cinematic camera shot. The camera, crop, image plane, horizon, mountains, buildings, rooflines, doors, road stones, and every rigid landmark must stay registered to the same pixels for all 15 seconds: zero pan, lateral slide, zoom, dolly, shake, reframing, global parallax, lens effect, morphing, or exposure sweep. The horizontal ground boundary begins at pixel Y 498 in this 1680 by 720 guide. Everything at Y 498 and below is context-only ground and must remain perfectly frozen; it will be discarded from the final animated asset. Only the town, forest, sky, and air above that boundary may animate. Do not add or remove any object, person, creature, bird, particle, weather, text, UI, logo, watermark, or audio. Create one true periodic ambient cycle across the full duration. Frame 1 and the final frame are the same neutral pose, and the motion phase passes through the loop boundary smoothly without stopping, reversing, rewinding, crossfading the whole image, or resetting. Every visible forest depth participates subtly while every trunk and building stays rooted. Balance several almost-imperceptible cycles: tree crowns sway 0.45 to 0.65 percent around fixed roots, existing cloud contours billow internally by only a few pixels without net travel, the existing haze behind the treeline changes opacity by about two percent, and existing smoke and lantern light gently pulse. These motions use slightly different phases but all complete a closed 15 second cycle. No layer may slide sideways as a whole."
+      },
+      "response": {
+        "id": "iKnO0q6SkVhGCk5S6L7I",
+        "polling_url": "https://openrouter.ai/api/v1/videos/iKnO0q6SkVhGCk5S6L7I",
+        "status": "pending"
+      }
+    }
+  }
+}

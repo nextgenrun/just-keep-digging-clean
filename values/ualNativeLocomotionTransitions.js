@@ -18,9 +18,9 @@ export const UAL_NATIVE_LOCOMOTION_PHASES = Object.freeze({
 
 export const UAL_NATIVE_LOCOMOTION_TRANSITION_CONFIG = Object.freeze({
   ground: Object.freeze({
-    // The production run slot is the approved UAL Jog_Fwd_Loop. Grounded
-    // movement always uses that gait; the walk thresholds remain available to
-    // the isolated tuning lab and as a velocity fallback for non-runtime users.
+    // The production run slot preserves the existing animation key but now
+    // carries the approved Mixamo Standard Walk. Every grounded speed uses that
+    // gait so speed thresholds cannot switch mesh occupancy mid-stride.
     gaitAnimationRole: "run",
     moveEnterSpeedPxPerSec: 24,
     moveExitSpeedPxPerSec: 10,

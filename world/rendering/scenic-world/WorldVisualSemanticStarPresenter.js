@@ -149,16 +149,40 @@ export function updateWorldVisualSemanticStars(layer, now) {
   const motion = layer.starIdleEnabled
     ? layer.config.skyTile.idleMotion
     : null;
-  if (!motion) return;
   for (const star of layer.activeStars) {
-    if (!star.idle) continue;
-    const localFrame = Math.floor(now / motion.framePeriodMs)
-      + Math.floor((star.phase / (Math.PI * 2)) * motion.atlas.framesPerVariant);
-    const frame = star.idleVariant * motion.atlas.framesPerVariant
-      + (localFrame % motion.atlas.framesPerVariant);
-    if (frame !== star.idleFrame) {
-      star.idleFrame = frame;
-      star.idle.setTexture(motion.atlas.key, `${motion.atlas.framePrefix}${frame}`);
+    const light = star.identity?.light;
+    const period = light?.pulsePeriodMs
+      || layer.config.skyTile.pulsePeriodMs;
+    const range = light?.pulseRange
+      || layer.config.skyTile.pulseAlphaRange;
+    const opacityScale = light?.opacityScale || 1;
+    const pulse = Math.sin((now / period) * Math.PI * 2 + star.phase) * 0.5 + 0.5;
+    star.beauty.setAlpha(
+      layer.config.skyTile.beautyAlpha
+        * opacityScale
+        * (1 - range * 0.25 + pulse * range * 0.25),
+    );
+    star.emissive.setAlpha(
+      layer.config.skyTile.emissiveAlpha
+        * star.lightAlphaScale
+        * opacityScale
+        * (1 - range + pulse * range),
+    );
+    const rotation = Math.sin(
+      now * (light?.rotationSpeedRadiansPerMs || 0) + star.phase,
+    ) * (light?.rotationAmplitudeRadians || 0);
+    star.beauty.setRotation(rotation);
+    star.emissive.setRotation(rotation);
+
+    if (motion && star.idle) {
+      const localFrame = Math.floor(now / motion.framePeriodMs)
+        + Math.floor((star.phase / (Math.PI * 2)) * motion.atlas.framesPerVariant);
+      const frame = star.idleVariant * motion.atlas.framesPerVariant
+        + (localFrame % motion.atlas.framesPerVariant);
+      if (frame !== star.idleFrame) {
+        star.idleFrame = frame;
+        star.idle.setTexture(motion.atlas.key, `${motion.atlas.framePrefix}${frame}`);
+      }
     }
   }
 }

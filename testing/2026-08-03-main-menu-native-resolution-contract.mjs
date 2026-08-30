@@ -67,7 +67,7 @@ const gameConfigSource = fs.readFileSync(
   new URL("../values/gameConfig.js", import.meta.url),
   "utf8",
 );
-assert.match(gameConfigSource, /defaultDensityPreset:\s*"ultra"/);
+assert.match(gameConfigSource, /defaultDensityPreset:\s*"high"/);
 assert.match(gameConfigSource, /high:\s*1\.5/);
 assert.match(gameConfigSource, /ultra:\s*2/);
 

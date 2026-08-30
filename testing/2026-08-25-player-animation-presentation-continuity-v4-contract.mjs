@@ -140,10 +140,10 @@ const setupRuntime = readFileSync(
 );
 for (const source of [mainRuntime, caveRuntime]) {
   assert.match(source, /resolveUalCrouchTransitionAnimation/);
-  assert.match(source, /\.animationKey === (?:targetAnim|key)/);
+  assert.match(source, /\.animationKey === (?:targetAnim|key|baseTargetAnim|baseKey)/);
 }
 assert.match(mainRuntime, /requestedTargetAnim/);
-assert.match(mainRuntime, /startFrame = locomotionSelection\?\.animationKey === targetAnim/);
+assert.match(mainRuntime, /startFrame = locomotionSelection\?\.animationKey === baseTargetAnim/);
 assert.match(caveRuntime, /selectionOwnsKey/);
 assert.match(setupRuntime, /authoredRecoveryStarted/);
 assert.match(setupRuntime, /shouldUseLegacyPostActionRecovery/);

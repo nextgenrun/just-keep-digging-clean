@@ -8,6 +8,8 @@ import {
   getSaveMenuAssetEntries,
   resolveSaveMenuArtEnabled,
 } from "../values/saveMenuPresentation.js";
+import { releaseSaveMenuArt } from
+  "../ui/components/SaveMenuPresentationView.js";
 
 function sha256(buffer) {
   return crypto.createHash("sha256").update(buffer).digest("hex");
@@ -61,6 +63,20 @@ assert.ok(modeLayout.selectedY < modeLayout.innerSafeBottomY);
 assert.ok(HARDCORE_MODE_CONFIG.ui.font.choiceBodyPx >= 12);
 
 const configuredAssets = new Map(getSaveMenuAssetEntries());
+const residentMenuTextures = new Set(configuredAssets.keys());
+const removedMenuTextures = [];
+const releasedMenuTextureCount = releaseSaveMenuArt({
+  textures: {
+    exists: key => residentMenuTextures.has(key),
+    remove: key => {
+      removedMenuTextures.push(key);
+      residentMenuTextures.delete(key);
+    },
+  },
+});
+assert.equal(releasedMenuTextureCount, configuredAssets.size);
+assert.deepEqual(new Set(removedMenuTextures), new Set(configuredAssets.keys()));
+assert.equal(residentMenuTextures.size, 0);
 const expected = {
   slotIdle: SAVE_MENU_PRESENTATION.slot.idleKey,
   slotSelected: SAVE_MENU_PRESENTATION.slot.selectedKey,
@@ -96,6 +112,10 @@ const modeOverlaySource = fs.readFileSync(
   new URL("../ui/scenes/StartModeSelectionOverlay.js", import.meta.url),
   "utf8",
 );
+const worldLoadSource = fs.readFileSync(
+  new URL("../ui/scenes/WorldLoadScene.js", import.meta.url),
+  "utf8",
+);
 
 assert.match(sceneSource, /resolveSaveMenuArtEnabled\(\)/);
 assert.match(sceneSource, /preloadSaveMenuArt\(this\)/);
@@ -117,6 +137,7 @@ for (const key of ["ONE", "TWO", "THREE", "SPACE", "DELETE", "B", "E", "I", "ESC
   assert.match(sceneSource, new RegExp(`keydown-${key}`), `${key} keyboard path must remain`);
 }
 assert.match(sceneSource, /this\.scene\.start\("WorldLoadScene"/);
+assert.match(worldLoadSource, /releaseSaveMenuArt\(this\)/);
 assert.match(
   sceneSource,
   /if \(this\.selectedSlot === slot\.id\)[\s\S]{0,140}this\._startGame\(\)/,

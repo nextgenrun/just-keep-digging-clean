@@ -7,7 +7,7 @@ import {
   resolveLedgeSearchDirections,
 } from "./playerLedgeAssistGeometry.js";
 
-const PHASE = Object.freeze({ hang: "hang", climb: "climb" });
+const PHASE = Object.freeze({ catch: "catch", hang: "hang", climb: "climb" });
 const RESULT = Object.freeze({ active: "active", completed: "completed", released: "released" });
 const clamp01 = value => Math.max(0, Math.min(1, value));
 const smooth = value => value * value * (3 - 2 * value);
@@ -26,6 +26,7 @@ export class PlayerLedgeAssist {
     this.phaseElapsedMs = 0;
     this.pendingClimb = false;
     this.regrabCooldownMs = 0;
+    this.catchOffset = null;
   }
 
   isActive() { return this.phase !== null; }
@@ -60,9 +61,13 @@ export class PlayerLedgeAssist {
     });
     if (!ledge) return false;
     this.ledge = ledge;
-    this.phase = PHASE.hang;
+    this.phase = PHASE.catch;
     this.phaseElapsedMs = 0;
     this.pendingClimb = false;
+    this.catchOffset = Object.freeze({
+      x: this.body.x - ledge.hangX,
+      y: this.body.y - ledge.hangY,
+    });
     this.body.setPosition(ledge.hangX, ledge.hangY);
     this.body.resetVelocity();
     this.body.onGround = false;
@@ -82,21 +87,38 @@ export class PlayerLedgeAssist {
     this.phaseElapsedMs += Math.max(0, deltaMs || 0);
     this.body.resetVelocity();
     this.body.onGround = false;
+    if (this.phase === PHASE.catch) return this._updateCatch(input);
     if (this.phase === PHASE.hang) return this._updateHang(input);
     return this._updateClimb(deltaMs);
   }
 
-  _updateHang(input) {
+  _captureGripInput(input) {
     const horizontal = input?.getHorizontalMovement?.() || {};
     const vertical = input?.getVerticalAim?.() || {};
     const movingAway = this.ledge.direction > 0 ? horizontal.left : horizontal.right;
     if (vertical.down || movingAway) {
       this.drop();
-      return RESULT.released;
+      return false;
     }
     this.pendingClimb = this.pendingClimb
       || input?.consumeJumpInput?.() === true
       || input?.isUp?.() === true;
+    return true;
+  }
+
+  _updateCatch(input) {
+    if (!this._captureGripInput(input)) return RESULT.released;
+    if (this.phaseElapsedMs < this.config.catch.durationMs) return RESULT.active;
+    this.phase = PHASE.hang;
+    return this._beginClimbWhenReady();
+  }
+
+  _updateHang(input) {
+    if (!this._captureGripInput(input)) return RESULT.released;
+    return this._beginClimbWhenReady();
+  }
+
+  _beginClimbWhenReady() {
     if (
       this.pendingClimb
       && this.phaseElapsedMs >= this.config.hang.minimumDurationMs
@@ -155,11 +177,25 @@ export class PlayerLedgeAssist {
     this.ledge = null;
     this.phaseElapsedMs = 0;
     this.pendingClimb = false;
+    this.catchOffset = null;
   }
 
   getVisualState() {
     if (!this.isActive()) return null;
-    return Object.freeze({ phase: this.phase, direction: this.ledge.direction });
+    const catchProgress = this.phase === PHASE.catch
+      ? smooth(clamp01(this.phaseElapsedMs / this.config.catch.durationMs))
+      : 1;
+    const offset = this.catchOffset && catchProgress < 1
+      ? Object.freeze({
+        x: lerp(this.catchOffset.x, 0, catchProgress),
+        y: lerp(this.catchOffset.y, 0, catchProgress),
+      })
+      : Object.freeze({ x: 0, y: 0 });
+    return Object.freeze({
+      phase: this.phase,
+      direction: this.ledge.direction,
+      offset,
+    });
   }
 
   getSnapshot() {

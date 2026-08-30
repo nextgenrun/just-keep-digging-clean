@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>UNDERSTAR · The Miner LEO Voice Library</title>
+  <link rel="stylesheet" href="review.css">
+</head>
+<body>
+  <header class="hero">
+    <p class="eyebrow">REVIEW CONSOLE · PLAYER CHARACTER · LEO</p>
+    <h1>A voice shaped by <span>what the player does</span></h1>
+    <p class="lede">Sixteen gameplay event families, one consistent character,
+      and a single non-interrupting channel designed to make The Miner feel remembered.</p>
+    <div class="metrics" aria-label="Library metrics">
+      <div><strong id="planned-count">—</strong><span>authored clips</span></div>
+      <div><strong id="ready-count">—</strong><span>playable now</span></div>
+      <div><strong id="family-count">—</strong><span>event families</span></div>
+      <div><strong id="cost-value">—</strong><span>provider estimate</span></div>
+    </div>
+  </header>
+
+  <main>
+    <section class="character-grid" aria-labelledby="character-title">
+      <div>
+        <p class="section-kicker">Character bible</p>
+        <h2 id="character-title">The Miner notices before he speaks.</h2>
+        <p id="character-delivery" class="muted"></p>
+      </div>
+      <ul id="character-traits" class="trait-list"></ul>
+      <ul id="writing-rules" class="rule-list"></ul>
+    </section>
+
+    <section class="anchor-card" aria-labelledby="anchor-title">
+      <div>
+        <p class="section-kicker">Selected anchor · Titan discovery · LEO · variant 1</p>
+        <h2 id="anchor-title">“That is no statue.”</h2>
+        <blockquote id="anchor-copy"></blockquote>
+      </div>
+      <button id="play-anchor" type="button">Play selected take</button>
+    </section>
+
+    <section class="control-deck" aria-label="Library controls">
+      <label>Event family
+        <select id="family-filter"><option value="all">All 16 families</option></select>
+      </label>
+      <label>Runtime mode
+        <select id="mode-filter">
+          <option value="standard">Standard sparse mode</option>
+          <option value="stress10x">Dev stress10x</option>
+        </select>
+      </label>
+      <label class="search-field">Search writing, delivery, or tag
+        <input id="search-filter" type="search" placeholder="Titan, dry, deep, recovery…">
+      </label>
+      <div class="deck-actions">
+        <button id="play-filtered" type="button">Play filtered sequence</button>
+        <button id="stop-playback" type="button" class="secondary">Stop</button>
+        <button id="simulate-admission" type="button" class="secondary">Simulate 10 triggers</button>
+      </div>
+    </section>
+
+    <section class="now-playing" aria-live="polite">
+      <span id="play-pulse" class="pulse"></span>
+      <div>
+        <small>ONE SHARED CHANNEL</small>
+        <strong id="now-playing-title">Nothing playing</strong>
+        <p id="now-playing-copy">No review audio is active.</p>
+      </div>
+      <audio id="library-player" preload="none"></audio>
+    </section>
+
+    <section class="policy-grid" aria-labelledby="policy-title">
+      <div>
+        <p class="section-kicker">Admission contract</p>
+        <h2 id="policy-title">Frequent events do not become frequent speech.</h2>
+      </div>
+      <div id="policy-card" class="policy-card"></div>
+      <ol id="simulation-log" class="simulation-log" aria-live="polite">
+        <li>Select a family and simulate its chance, cooldown, and dedupe policy.</li>
+      </ol>
+    </section>
+
+    <section class="library-section" aria-labelledby="library-title">
+      <div class="section-heading">
+        <div>
+          <p class="section-kicker">Complete authored library</p>
+          <h2 id="library-title">96 relational moments</h2>
+        </div>
+        <p id="filter-summary" class="muted">Loading catalog…</p>
+      </div>
+      <div id="clip-grid" class="clip-grid"></div>
+    </section>
+  </main>
+
+  <template id="clip-template">
+    <article class="clip-card">
+      <div class="clip-topline"><span class="family-badge"></span><span class="ready-badge"></span></div>
+      <h3></h3>
+      <p class="transcript"></p>
+      <dl>
+        <div><dt>Delivery</dt><dd class="delivery"></dd></div>
+        <div><dt>Context</dt><dd class="tags"></dd></div>
+      </dl>
+      <button type="button" class="play-clip">Play LEO line</button>
+    </article>
+  </template>
+
+  <script type="module" src="review.js"></script>
+</body>
+</html>

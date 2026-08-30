@@ -1,3 +1,9 @@
+import {
+  LEVEL_ONE_BIOME_FIELD,
+  doesLevelOneBiomeFieldAffectRegion,
+  resolveLevelOneBiomeFieldEnabled,
+} from "./levelOneBiomeField.js";
+
 const DISABLED_QUERY_VALUES = Object.freeze(["0", "false", "off", "disabled", "legacy"]);
 const V3_ASSET_ROOT = (
   "sprites/backgrounds/world-visual-v2/depth/biome-ground-structures-v3"
@@ -268,14 +274,30 @@ export function resolveWorldVisualGroundStructureRuntimeRegions(
   const blendEnabled = resolveWorldVisualGroundStructureBlendEnabled(config, search);
   const seamBlendEnabled = blendEnabled
     && resolveWorldVisualGroundStructureSeamBlendEnabled(config, search);
-  return config.regions.filter(entry => (
-    entry.bottomTileExclusive > topTile
-    && entry.topTile < bottomTileExclusive
-  )).map(entry => resolveRegion(
+  const resolvedRegions = config.regions.map(entry => resolveRegion(
     entry,
     blendEnabled,
     seamBlendEnabled,
     config
+  ));
+  const fieldEnabled = resolveLevelOneBiomeFieldEnabled(
+    LEVEL_ONE_BIOME_FIELD,
+    search
+  );
+  const fieldRegionsById = fieldEnabled
+    ? Object.freeze(Object.fromEntries(
+      resolvedRegions
+        .filter(entry => LEVEL_ONE_BIOME_FIELD.sourceRegionIds.includes(entry.id))
+        .map(entry => [entry.id, entry])
+    ))
+    : null;
+  return resolvedRegions.filter(entry => (
+    entry.bottomTileExclusive > topTile
+    && entry.topTile < bottomTileExclusive
+  )).map(entry => (
+    fieldRegionsById && doesLevelOneBiomeFieldAffectRegion(entry)
+      ? Object.freeze({ ...entry, biomeFieldRegionsById: fieldRegionsById })
+      : entry
   ));
 }
 

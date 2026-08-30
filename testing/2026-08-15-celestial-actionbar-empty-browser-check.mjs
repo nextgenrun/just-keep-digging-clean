@@ -22,15 +22,26 @@ try {
   await page.waitForFunction(() => document.body.dataset.celestialActionBarReady === "true");
   const snapshot = await page.evaluate(() => globalThis.__celestialActionBarReview.snapshot());
   assert.equal(snapshot.health.ready, true);
-  assert.equal(snapshot.health.slotCount, 5);
+  assert.equal(snapshot.health.slotCount, 6);
   assert.equal(snapshot.health.lockedCount, 5);
-  assert.equal(snapshot.visibleIconCount, 0);
+  assert.equal(snapshot.visibleIconCount, 1);
   assert.equal(snapshot.lockObjectCount, 0);
+  assert.equal(snapshot.campfire.iconVisible, true);
+  assert.equal(snapshot.campfire.quantityVisible, true);
+  assert.equal(snapshot.campfire.quantity, "1");
+  assert.equal(snapshot.campfire.iconWidth, 48);
+  assert.equal(snapshot.campfire.iconHeight, 28);
+  assert.ok(snapshot.layout.scale < 0.52);
+  assert.ok(snapshot.layout.xpGap >= 9.99, "actionbar must clear the XP frame");
+  assert.ok(snapshot.layout.inventoryGap >= 9.99, "actionbar must clear inventory input");
   await page.screenshot({
-    path: new URL("celestial-actionbar-empty-slots.png", artifactDir).pathname.slice(1),
-    clip: { x: 400, y: 500, width: 480, height: 190 },
+    path: new URL("celestial-actionbar-campfire-slot-six.png", artifactDir).pathname.slice(1),
+    clip: { x: 350, y: 500, width: 930, height: 220 },
   });
-  await page.mouse.move(709, 598);
+  await page.mouse.move(
+    snapshot.layout.campfireCenter.x,
+    snapshot.layout.campfireCenter.y,
+  );
   await page.waitForTimeout(100);
   const hovered = await page.evaluate(() => globalThis.__celestialActionBarReview.snapshot());
   assert.equal(hovered.tooltip.visible, true);
@@ -39,15 +50,17 @@ try {
   assert.ok(Math.abs(hovered.tooltip.height - 132) < 0.01);
   assert.equal(hovered.tooltip.titleFontSize, "18px");
   assert.equal(hovered.tooltip.bodyFontSize, "14px");
+  assert.match(hovered.tooltip.bodyText, /Town or Campfire restores at least 1 use/i);
+  assert.match(hovered.tooltip.bodyText, /Find Ember Ore underground.*2 uses/i);
   assert.ok(
     hovered.tooltip.bodyBottom <= hovered.tooltip.height / 2 - 14,
     "tooltip body copy must clear the lower authored trim",
   );
   await page.screenshot({
-    path: new URL("celestial-actionbar-tooltip-hollow-sun.png", artifactDir).pathname.slice(1),
-    clip: { x: 410, y: 370, width: 540, height: 320 },
+    path: new URL("celestial-actionbar-tooltip-campfire-refill.png", artifactDir).pathname.slice(1),
+    clip: { x: 500, y: 390, width: 780, height: 330 },
   });
-  console.log("PASS Celestial action bar: empty sockets and readable aligned Star Pillar tooltip");
+  console.log("PASS Celestial action bar: Campfire charge, refill hover copy, and readable Star Pillar tooltip");
 } finally {
   await browser.close();
 }

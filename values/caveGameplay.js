@@ -2,6 +2,7 @@ export const CAVE_GAMEPLAY_CONFIG = Object.freeze({
   salts: Object.freeze({
     seamCandidate: 0x19a7c2d1,
     seamType: 0x2cb4e803,
+    rareEmber: 0x34d81a6f,
     hazardChance: 0x3d91f5a7,
     hazardKind: 0x4e07b9c5,
     hazardPosition: 0x5f2ac781,
@@ -62,14 +63,12 @@ export const CAVE_GAMEPLAY_CONFIG = Object.freeze({
           Object.freeze({ tileTypeKey: "STEEL", weight: 3 }),
           Object.freeze({ tileTypeKey: "SILVER", weight: 2 }),
           Object.freeze({ tileTypeKey: "GOLD", weight: 2 }),
-          Object.freeze({ tileTypeKey: "EMBER_ORE", weight: 1 }),
         ]),
       }),
       Object.freeze({
         maxDepthExclusive: Number.POSITIVE_INFINITY,
         entries: Object.freeze([
           Object.freeze({ tileTypeKey: "OBSIDIAN", weight: 5 }),
-          Object.freeze({ tileTypeKey: "EMBER_ORE", weight: 5 }),
           Object.freeze({ tileTypeKey: "MAGMA_CRYSTAL", weight: 2 }),
           Object.freeze({ tileTypeKey: "GOLD", weight: 1 }),
         ]),
@@ -81,8 +80,30 @@ export const CAVE_GAMEPLAY_CONFIG = Object.freeze({
       "prism-nursery": Object.freeze(["SILVER", "GOLD", "MAGMA_CRYSTAL"]),
       "storm-scar": Object.freeze(["IRON", "STEEL", "SILVER"]),
       "gilded-burrow": Object.freeze(["GOLD", "SILVER"]),
-      "ember-fault": Object.freeze(["EMBER_ORE", "OBSIDIAN", "MAGMA_CRYSTAL"]),
+      "ember-fault": Object.freeze(["OBSIDIAN", "MAGMA_CRYSTAL"]),
     }),
+  }),
+
+  rareEmberFinds: Object.freeze({
+    enabled: true,
+    source: "rare-ember-find",
+    tileTypeKey: "EMBER_ORE",
+    ranges: Object.freeze([
+      Object.freeze({
+        id: "level-one",
+        caveSource: "level-one",
+        minDepth: 300,
+        maxDepthExclusive: 2000,
+        bandSize: 600,
+      }),
+      Object.freeze({
+        id: "level-two",
+        caveSource: "second-world",
+        minDepth: 150,
+        maxDepthExclusive: 5000,
+        bandSize: 650,
+      }),
+    ]),
   }),
 
   hazards: Object.freeze({

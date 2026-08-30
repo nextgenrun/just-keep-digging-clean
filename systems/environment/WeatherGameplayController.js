@@ -10,7 +10,10 @@ export class WeatherGameplayController {
     const cfg = this.weatherConfig.gameplay;
     const visibilityCfg = this.weatherConfig.visibility;
     const wetSurface = state.world.playerWeatherState.onWetSurface ? state.world.playerWeatherState.wetness : 0;
-    const surfaceStorm = state.kind === "storm" ? state.intensity * state.depth.surfaceAmount : 0;
+    const stormAmount = state.stormAmount ?? (
+      state.kind === "storm" ? state.intensity : 0
+    );
+    const surfaceStorm = stormAmount * state.depth.surfaceAmount;
     const shelterRelief = 1 - state.world.playerShelterAmount;
 
     const movementWetnessPenalty = cfg.enabled

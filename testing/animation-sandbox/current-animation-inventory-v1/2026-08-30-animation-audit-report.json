@@ -1,0 +1,4965 @@
+{
+  "generatedAt": "2026-08-30T00:46:39.165Z",
+  "scope": "active Survival/UAL player runtime",
+  "summary": {
+    "animations": 212,
+    "registeredSheets": 50,
+    "manifestSheets": 54,
+    "sourceFrames": 3082,
+    "actionRecoveryRoutes": 114,
+    "sheetIntegrityIssues": 0,
+    "visualReviewFlags": 15
+  },
+  "sheetIssues": [],
+  "animationMetrics": [
+    {
+      "key": "survival-blender-v2-idle-breath-fidget-anim",
+      "sheet": "survival-blender-v2-idle-sheet",
+      "frames": 40,
+      "frameRate": 18,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 74.0,
+      "visibleHeightRangePx": 0,
+      "baselineRangePx": 0,
+      "centerXRangePx": 0.0,
+      "worstConsecutiveSeam": 0.0143,
+      "medianConsecutiveSeam": 0.0054,
+      "worstConsecutivePair": [
+        27,
+        28
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-blender-v2-idle-settle-fidget-anim",
+      "sheet": "survival-blender-v2-idle-sheet",
+      "frames": 20,
+      "frameRate": 18,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 74.0,
+      "visibleHeightRangePx": 0,
+      "baselineRangePx": 0,
+      "centerXRangePx": 0.0,
+      "worstConsecutiveSeam": 0.0143,
+      "medianConsecutiveSeam": 0.0054,
+      "worstConsecutivePair": [
+        7,
+        8
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-held-torch-v1-airborne-anim",
+      "sheet": "survival-held-torch-v1-airborne-sheet",
+      "frames": 41,
+      "frameRate": 16,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 70,
+      "visibleHeightRangePx": 24,
+      "baselineRangePx": 21,
+      "centerXRangePx": 8.0,
+      "worstConsecutiveSeam": 0.4514,
+      "medianConsecutiveSeam": 0.0448,
+      "worstConsecutivePair": [
+        0,
+        1
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-held-torch-v1-crouch-anim",
+      "sheet": "survival-held-torch-v1-crouch-sheet",
+      "frames": 28,
+      "frameRate": 24,
+      "repeat": -1,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 58.0,
+      "visibleHeightRangePx": 3,
+      "baselineRangePx": 0,
+      "centerXRangePx": 0.5,
+      "worstConsecutiveSeam": 0.0264,
+      "medianConsecutiveSeam": 0.0165,
+      "worstConsecutivePair": [
+        3,
+        4
+      ],
+      "loopSeam": 0.0087,
+      "loopToMedianRatio": 0.528
+    },
+    {
+      "key": "survival-held-torch-v1-crouchEnter-anim",
+      "sheet": "survival-held-torch-v1-crouchEnter-sheet",
+      "frames": 18,
+      "frameRate": 24,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 65.5,
+      "visibleHeightRangePx": 16,
+      "baselineRangePx": 0,
+      "centerXRangePx": 7.0,
+      "worstConsecutiveSeam": 0.1778,
+      "medianConsecutiveSeam": 0.1086,
+      "worstConsecutivePair": [
+        5,
+        6
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-held-torch-v1-crouchExit-anim",
+      "sheet": "survival-held-torch-v1-crouchExit-sheet",
+      "frames": 18,
+      "frameRate": 24,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 69.0,
+      "visibleHeightRangePx": 17,
+      "baselineRangePx": 1,
+      "centerXRangePx": 5.5,
+      "worstConsecutiveSeam": 0.1978,
+      "medianConsecutiveSeam": 0.0941,
+      "worstConsecutivePair": [
+        8,
+        9
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-held-torch-v1-falling-anim",
+      "sheet": "survival-held-torch-v1-falling-sheet",
+      "frames": 75,
+      "frameRate": 16,
+      "repeat": -1,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 74,
+      "visibleHeightRangePx": 3,
+      "baselineRangePx": 3,
+      "centerXRangePx": 1.0,
+      "worstConsecutiveSeam": 0.0111,
+      "medianConsecutiveSeam": 0.0051,
+      "worstConsecutivePair": [
+        26,
+        27
+      ],
+      "loopSeam": 0.0068,
+      "loopToMedianRatio": 1.334
+    },
+    {
+      "key": "survival-held-torch-v1-flight-anim",
+      "sheet": "survival-held-torch-v1-flight-sheet",
+      "frames": 48,
+      "frameRate": 24,
+      "repeat": -1,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 36.0,
+      "visibleHeightRangePx": 2,
+      "baselineRangePx": 6,
+      "centerXRangePx": 0.5,
+      "worstConsecutiveSeam": 0.0422,
+      "medianConsecutiveSeam": 0.0255,
+      "worstConsecutivePair": [
+        24,
+        25
+      ],
+      "loopSeam": 0.6543,
+      "loopToMedianRatio": 25.7
+    },
+    {
+      "key": "survival-held-torch-v1-flightEnter-anim",
+      "sheet": "survival-held-torch-v1-flight-sheet",
+      "frames": 17,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 36,
+      "visibleHeightRangePx": 2,
+      "baselineRangePx": 2,
+      "centerXRangePx": 0.0,
+      "worstConsecutiveSeam": 0.0302,
+      "medianConsecutiveSeam": 0.0203,
+      "worstConsecutivePair": [
+        13,
+        14
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-held-torch-v1-flightExit-anim",
+      "sheet": "survival-held-torch-v1-flight-sheet",
+      "frames": 9,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 36,
+      "visibleHeightRangePx": 1,
+      "baselineRangePx": 1,
+      "centerXRangePx": 0.0,
+      "worstConsecutiveSeam": 0.0236,
+      "medianConsecutiveSeam": 0.0203,
+      "worstConsecutivePair": [
+        3,
+        4
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-held-torch-v1-flightTravelEnter-anim",
+      "sheet": "survival-held-torch-v1-flight-sheet",
+      "frames": 14,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 36.0,
+      "visibleHeightRangePx": 1,
+      "baselineRangePx": 1,
+      "centerXRangePx": 0.0,
+      "worstConsecutiveSeam": 0.0236,
+      "medianConsecutiveSeam": 0.0197,
+      "worstConsecutivePair": [
+        3,
+        4
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-held-torch-v1-hardLanding-anim",
+      "sheet": "survival-held-torch-v1-hardLanding-sheet",
+      "frames": 24,
+      "frameRate": 24,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 74.0,
+      "visibleHeightRangePx": 16,
+      "baselineRangePx": 11,
+      "centerXRangePx": 5.0,
+      "worstConsecutiveSeam": 0.594,
+      "medianConsecutiveSeam": 0.2023,
+      "worstConsecutivePair": [
+        10,
+        11
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-held-torch-v1-idle-anim",
+      "sheet": "survival-held-torch-v1-idle-sheet",
+      "frames": 48,
+      "frameRate": 12,
+      "repeat": -1,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 77.0,
+      "visibleHeightRangePx": 0,
+      "baselineRangePx": 0,
+      "centerXRangePx": 0.0,
+      "worstConsecutiveSeam": 0.0026,
+      "medianConsecutiveSeam": 0.0,
+      "worstConsecutivePair": [
+        1,
+        2
+      ],
+      "loopSeam": 0.0017,
+      "loopToMedianRatio": 17.406
+    },
+    {
+      "key": "survival-held-torch-v1-legacyWalkLoop-anim",
+      "sheet": "survival-held-torch-v1-walkLoop-sheet",
+      "frames": 24,
+      "frameRate": 24,
+      "repeat": -1,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 75.5,
+      "visibleHeightRangePx": 3,
+      "baselineRangePx": 2,
+      "centerXRangePx": 6.5,
+      "worstConsecutiveSeam": 0.2209,
+      "medianConsecutiveSeam": 0.1636,
+      "worstConsecutivePair": [
+        9,
+        10
+      ],
+      "loopSeam": 0.1393,
+      "loopToMedianRatio": 0.851
+    },
+    {
+      "key": "survival-held-torch-v1-walkLoop-anim",
+      "sheet": "survival-held-torch-v1-walkLoop-sheet",
+      "frames": 24,
+      "frameRate": 24,
+      "repeat": -1,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 75.5,
+      "visibleHeightRangePx": 3,
+      "baselineRangePx": 2,
+      "centerXRangePx": 6.5,
+      "worstConsecutiveSeam": 0.2209,
+      "medianConsecutiveSeam": 0.1636,
+      "worstConsecutivePair": [
+        9,
+        10
+      ],
+      "loopSeam": 0.1393,
+      "loopToMedianRatio": 0.851
+    },
+    {
+      "key": "survival-held-torch-v1-walkStart-anim",
+      "sheet": "survival-held-torch-v1-walkStart-sheet",
+      "frames": 16,
+      "frameRate": 24,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 76.0,
+      "visibleHeightRangePx": 2,
+      "baselineRangePx": 2,
+      "centerXRangePx": 6.0,
+      "worstConsecutiveSeam": 0.4386,
+      "medianConsecutiveSeam": 0.2664,
+      "worstConsecutivePair": [
+        14,
+        15
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-held-torch-v1-walkStop-anim",
+      "sheet": "survival-held-torch-v1-walkStop-sheet",
+      "frames": 16,
+      "frameRate": 24,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 76.0,
+      "visibleHeightRangePx": 3,
+      "baselineRangePx": 1,
+      "centerXRangePx": 4.5,
+      "worstConsecutiveSeam": 0.3103,
+      "medianConsecutiveSeam": 0.2011,
+      "worstConsecutivePair": [
+        2,
+        3
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-held-torch-v1-walkStopPhase02-anim",
+      "sheet": "survival-held-torch-v1-walkStop-sheet",
+      "frames": 16,
+      "frameRate": 24,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 76.0,
+      "visibleHeightRangePx": 3,
+      "baselineRangePx": 1,
+      "centerXRangePx": 4.5,
+      "worstConsecutiveSeam": 0.3103,
+      "medianConsecutiveSeam": 0.2011,
+      "worstConsecutivePair": [
+        2,
+        3
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-held-torch-v1-walkStopPhase04-anim",
+      "sheet": "survival-held-torch-v1-walkStop-sheet",
+      "frames": 16,
+      "frameRate": 24,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 76.0,
+      "visibleHeightRangePx": 3,
+      "baselineRangePx": 1,
+      "centerXRangePx": 4.5,
+      "worstConsecutiveSeam": 0.3103,
+      "medianConsecutiveSeam": 0.2011,
+      "worstConsecutivePair": [
+        2,
+        3
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-held-torch-v1-walkStopPhase06-anim",
+      "sheet": "survival-held-torch-v1-walkStop-sheet",
+      "frames": 16,
+      "frameRate": 24,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 76.0,
+      "visibleHeightRangePx": 3,
+      "baselineRangePx": 1,
+      "centerXRangePx": 4.5,
+      "worstConsecutiveSeam": 0.3103,
+      "medianConsecutiveSeam": 0.2011,
+      "worstConsecutivePair": [
+        2,
+        3
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-held-torch-v1-walkStopPhase08-anim",
+      "sheet": "survival-held-torch-v1-walkStop-sheet",
+      "frames": 16,
+      "frameRate": 24,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 76.0,
+      "visibleHeightRangePx": 3,
+      "baselineRangePx": 1,
+      "centerXRangePx": 4.5,
+      "worstConsecutiveSeam": 0.3103,
+      "medianConsecutiveSeam": 0.2011,
+      "worstConsecutivePair": [
+        2,
+        3
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-held-torch-v1-walkStopPhase10-anim",
+      "sheet": "survival-held-torch-v1-walkStop-sheet",
+      "frames": 16,
+      "frameRate": 24,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 76.0,
+      "visibleHeightRangePx": 3,
+      "baselineRangePx": 1,
+      "centerXRangePx": 4.5,
+      "worstConsecutiveSeam": 0.3103,
+      "medianConsecutiveSeam": 0.2011,
+      "worstConsecutivePair": [
+        2,
+        3
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-held-torch-v1-walkStopPhase12-anim",
+      "sheet": "survival-held-torch-v1-walkStop-sheet",
+      "frames": 16,
+      "frameRate": 24,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 76.0,
+      "visibleHeightRangePx": 3,
+      "baselineRangePx": 1,
+      "centerXRangePx": 4.5,
+      "worstConsecutiveSeam": 0.3103,
+      "medianConsecutiveSeam": 0.2011,
+      "worstConsecutivePair": [
+        2,
+        3
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-held-torch-v1-walkStopPhase14-anim",
+      "sheet": "survival-held-torch-v1-walkStop-sheet",
+      "frames": 16,
+      "frameRate": 24,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 76.0,
+      "visibleHeightRangePx": 3,
+      "baselineRangePx": 1,
+      "centerXRangePx": 4.5,
+      "worstConsecutiveSeam": 0.3103,
+      "medianConsecutiveSeam": 0.2011,
+      "worstConsecutivePair": [
+        2,
+        3
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-held-torch-v1-walkStopPhase16-anim",
+      "sheet": "survival-held-torch-v1-walkStop-sheet",
+      "frames": 16,
+      "frameRate": 24,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 76.0,
+      "visibleHeightRangePx": 3,
+      "baselineRangePx": 1,
+      "centerXRangePx": 4.5,
+      "worstConsecutiveSeam": 0.3103,
+      "medianConsecutiveSeam": 0.2011,
+      "worstConsecutivePair": [
+        2,
+        3
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-held-torch-v1-walkStopPhase18-anim",
+      "sheet": "survival-held-torch-v1-walkStop-sheet",
+      "frames": 16,
+      "frameRate": 24,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 76.0,
+      "visibleHeightRangePx": 3,
+      "baselineRangePx": 1,
+      "centerXRangePx": 4.5,
+      "worstConsecutiveSeam": 0.3103,
+      "medianConsecutiveSeam": 0.2011,
+      "worstConsecutivePair": [
+        2,
+        3
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-held-torch-v1-walkStopPhase20-anim",
+      "sheet": "survival-held-torch-v1-walkStop-sheet",
+      "frames": 16,
+      "frameRate": 24,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 76.0,
+      "visibleHeightRangePx": 3,
+      "baselineRangePx": 1,
+      "centerXRangePx": 4.5,
+      "worstConsecutiveSeam": 0.3103,
+      "medianConsecutiveSeam": 0.2011,
+      "worstConsecutivePair": [
+        2,
+        3
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-held-torch-v1-walkStopPhase22-anim",
+      "sheet": "survival-held-torch-v1-walkStop-sheet",
+      "frames": 16,
+      "frameRate": 24,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 76.0,
+      "visibleHeightRangePx": 3,
+      "baselineRangePx": 1,
+      "centerXRangePx": 4.5,
+      "worstConsecutiveSeam": 0.3103,
+      "medianConsecutiveSeam": 0.2011,
+      "worstConsecutivePair": [
+        2,
+        3
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-mixamo-v1-crouch-enter-anim",
+      "sheet": "survival-mixamo-v1-crouch-enter-sheet",
+      "frames": 18,
+      "frameRate": 24,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 65.5,
+      "visibleHeightRangePx": 16,
+      "baselineRangePx": 0,
+      "centerXRangePx": 7.0,
+      "worstConsecutiveSeam": 0.1626,
+      "medianConsecutiveSeam": 0.1159,
+      "worstConsecutivePair": [
+        5,
+        6
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-mixamo-v1-crouch-exit-anim",
+      "sheet": "survival-mixamo-v1-crouch-exit-sheet",
+      "frames": 18,
+      "frameRate": 24,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 69.0,
+      "visibleHeightRangePx": 17,
+      "baselineRangePx": 1,
+      "centerXRangePx": 5.5,
+      "worstConsecutiveSeam": 0.189,
+      "medianConsecutiveSeam": 0.0901,
+      "worstConsecutivePair": [
+        7,
+        8
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-mixamo-v1-crouch-idle-anim",
+      "sheet": "survival-mixamo-v1-crouch-idle-sheet",
+      "frames": 28,
+      "frameRate": 20,
+      "repeat": -1,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 58.0,
+      "visibleHeightRangePx": 3,
+      "baselineRangePx": 0,
+      "centerXRangePx": 0.5,
+      "worstConsecutiveSeam": 0.0258,
+      "medianConsecutiveSeam": 0.0164,
+      "worstConsecutivePair": [
+        4,
+        5
+      ],
+      "loopSeam": 0.0091,
+      "loopToMedianRatio": 0.554
+    },
+    {
+      "key": "survival-mixamo-v1-flight-loop-anim",
+      "sheet": "survival-mixamo-v1-flight-loop-sheet",
+      "frames": 48,
+      "frameRate": 18,
+      "repeat": -1,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 25.0,
+      "visibleHeightRangePx": 1,
+      "baselineRangePx": 7,
+      "centerXRangePx": 0.5,
+      "worstConsecutiveSeam": 0.0412,
+      "medianConsecutiveSeam": 0.0227,
+      "worstConsecutivePair": [
+        27,
+        28
+      ],
+      "loopSeam": 0.6566,
+      "loopToMedianRatio": 28.862
+    },
+    {
+      "key": "survival-mixamo-v1-hard-landing-anim",
+      "sheet": "survival-mixamo-v1-hard-landing-sheet",
+      "frames": 14,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 75.0,
+      "visibleHeightRangePx": 16,
+      "baselineRangePx": 8,
+      "centerXRangePx": 4.0,
+      "worstConsecutiveSeam": 0.5904,
+      "medianConsecutiveSeam": 0.1384,
+      "worstConsecutivePair": [
+        0,
+        1
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-mixamo-v1-idle-looking-fidget-anim",
+      "sheet": "survival-mixamo-v1-idle-fidget-sheet",
+      "frames": 120,
+      "frameRate": 18,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 76.0,
+      "visibleHeightRangePx": 2,
+      "baselineRangePx": 0,
+      "centerXRangePx": 3.0,
+      "worstConsecutiveSeam": 0.0767,
+      "medianConsecutiveSeam": 0.0364,
+      "worstConsecutivePair": [
+        32,
+        33
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-mixamo-v1-thunder-ground-anim",
+      "sheet": "survival-mixamo-v1-thunder-ground-sheet",
+      "frames": 30,
+      "frameRate": 24,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 73.0,
+      "visibleHeightRangePx": 34,
+      "baselineRangePx": 3,
+      "centerXRangePx": 16.5,
+      "worstConsecutiveSeam": 0.5468,
+      "medianConsecutiveSeam": 0.285,
+      "worstConsecutivePair": [
+        11,
+        12
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-mixamo-v1-walk-start-anim",
+      "sheet": "survival-mixamo-v2-walk-handoff-sheet",
+      "frames": 7,
+      "frameRate": 24,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 75,
+      "visibleHeightRangePx": 1,
+      "baselineRangePx": 2,
+      "centerXRangePx": 5.0,
+      "worstConsecutiveSeam": 0.2609,
+      "medianConsecutiveSeam": 0.1435,
+      "worstConsecutivePair": [
+        3,
+        4
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-mixamo-v1-walk-stop-anim",
+      "sheet": "survival-mixamo-v2-walk-handoff-sheet",
+      "frames": 5,
+      "frameRate": 24,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 75,
+      "visibleHeightRangePx": 3,
+      "baselineRangePx": 0,
+      "centerXRangePx": 2.5,
+      "worstConsecutiveSeam": 0.1632,
+      "medianConsecutiveSeam": 0.1316,
+      "worstConsecutivePair": [
+        0,
+        1
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-mixamo-v1-walk-stop-phase-02-anim",
+      "sheet": "survival-mixamo-v2-walk-handoff-sheet",
+      "frames": 5,
+      "frameRate": 24,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 75,
+      "visibleHeightRangePx": 2,
+      "baselineRangePx": 0,
+      "centerXRangePx": 4.0,
+      "worstConsecutiveSeam": 0.1846,
+      "medianConsecutiveSeam": 0.1394,
+      "worstConsecutivePair": [
+        2,
+        3
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-mixamo-v1-walk-stop-phase-04-anim",
+      "sheet": "survival-mixamo-v2-walk-handoff-sheet",
+      "frames": 5,
+      "frameRate": 24,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 75,
+      "visibleHeightRangePx": 2,
+      "baselineRangePx": 1,
+      "centerXRangePx": 6.0,
+      "worstConsecutiveSeam": 0.2757,
+      "medianConsecutiveSeam": 0.1805,
+      "worstConsecutivePair": [
+        1,
+        2
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-mixamo-v1-walk-stop-phase-06-anim",
+      "sheet": "survival-mixamo-v2-walk-handoff-sheet",
+      "frames": 5,
+      "frameRate": 24,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 76,
+      "visibleHeightRangePx": 4,
+      "baselineRangePx": 3,
+      "centerXRangePx": 4.0,
+      "worstConsecutiveSeam": 0.3083,
+      "medianConsecutiveSeam": 0.2227,
+      "worstConsecutivePair": [
+        1,
+        2
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-mixamo-v1-walk-stop-phase-08-anim",
+      "sheet": "survival-mixamo-v2-walk-handoff-sheet",
+      "frames": 5,
+      "frameRate": 24,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 76,
+      "visibleHeightRangePx": 3,
+      "baselineRangePx": 2,
+      "centerXRangePx": 2.5,
+      "worstConsecutiveSeam": 0.2987,
+      "medianConsecutiveSeam": 0.1722,
+      "worstConsecutivePair": [
+        0,
+        1
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-mixamo-v1-walk-stop-phase-10-anim",
+      "sheet": "survival-mixamo-v2-walk-handoff-sheet",
+      "frames": 5,
+      "frameRate": 24,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 76,
+      "visibleHeightRangePx": 3,
+      "baselineRangePx": 1,
+      "centerXRangePx": 0.5,
+      "worstConsecutiveSeam": 0.184,
+      "medianConsecutiveSeam": 0.1184,
+      "worstConsecutivePair": [
+        0,
+        1
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-mixamo-v1-walk-stop-phase-12-anim",
+      "sheet": "survival-mixamo-v2-walk-handoff-sheet",
+      "frames": 5,
+      "frameRate": 24,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 75,
+      "visibleHeightRangePx": 2,
+      "baselineRangePx": 0,
+      "centerXRangePx": 2.5,
+      "worstConsecutiveSeam": 0.1562,
+      "medianConsecutiveSeam": 0.1451,
+      "worstConsecutivePair": [
+        3,
+        4
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-mixamo-v1-walk-stop-phase-14-anim",
+      "sheet": "survival-mixamo-v2-walk-handoff-sheet",
+      "frames": 5,
+      "frameRate": 24,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 75,
+      "visibleHeightRangePx": 1,
+      "baselineRangePx": 0,
+      "centerXRangePx": 6.5,
+      "worstConsecutiveSeam": 0.2867,
+      "medianConsecutiveSeam": 0.2187,
+      "worstConsecutivePair": [
+        1,
+        2
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-mixamo-v1-walk-stop-phase-16-anim",
+      "sheet": "survival-mixamo-v2-walk-handoff-sheet",
+      "frames": 5,
+      "frameRate": 24,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 75,
+      "visibleHeightRangePx": 2,
+      "baselineRangePx": 0,
+      "centerXRangePx": 8.5,
+      "worstConsecutiveSeam": 0.3895,
+      "medianConsecutiveSeam": 0.2338,
+      "worstConsecutivePair": [
+        1,
+        2
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-mixamo-v1-walk-stop-phase-18-anim",
+      "sheet": "survival-mixamo-v2-walk-handoff-sheet",
+      "frames": 5,
+      "frameRate": 24,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 75,
+      "visibleHeightRangePx": 3,
+      "baselineRangePx": 2,
+      "centerXRangePx": 4.5,
+      "worstConsecutiveSeam": 0.418,
+      "medianConsecutiveSeam": 0.2473,
+      "worstConsecutivePair": [
+        1,
+        2
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-mixamo-v1-walk-stop-phase-20-anim",
+      "sheet": "survival-mixamo-v2-walk-handoff-sheet",
+      "frames": 5,
+      "frameRate": 24,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 75,
+      "visibleHeightRangePx": 3,
+      "baselineRangePx": 1,
+      "centerXRangePx": 1.5,
+      "worstConsecutiveSeam": 0.3484,
+      "medianConsecutiveSeam": 0.2253,
+      "worstConsecutivePair": [
+        0,
+        1
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-mixamo-v1-walk-stop-phase-22-anim",
+      "sheet": "survival-mixamo-v2-walk-handoff-sheet",
+      "frames": 5,
+      "frameRate": 24,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 76,
+      "visibleHeightRangePx": 2,
+      "baselineRangePx": 0,
+      "centerXRangePx": 1.5,
+      "worstConsecutiveSeam": 0.2717,
+      "medianConsecutiveSeam": 0.1159,
+      "worstConsecutivePair": [
+        0,
+        1
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-mixamo-v2-hurricane-quickslash-anim",
+      "sheet": "survival-mixamo-v2-hurricane-quickslash-sheet",
+      "frames": 28,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 59.5,
+      "visibleHeightRangePx": 3,
+      "baselineRangePx": 3,
+      "centerXRangePx": 31.0,
+      "worstConsecutiveSeam": 0.4635,
+      "medianConsecutiveSeam": 0.3972,
+      "worstConsecutivePair": [
+        8,
+        9
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-mixamo-v3-complex-dig-cross-anim",
+      "sheet": "survival-mixamo-v3-complex-dig-cross-sheet",
+      "frames": 12,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 103,
+      "visibleHeightMedianPx": 73.0,
+      "visibleHeightRangePx": 2,
+      "baselineRangePx": 2,
+      "centerXRangePx": 9.5,
+      "worstConsecutiveSeam": 0.3198,
+      "medianConsecutiveSeam": 0.202,
+      "worstConsecutivePair": [
+        4,
+        5
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-mixamo-v3-complex-dig-elbow-uppercut-anim",
+      "sheet": "survival-mixamo-v3-complex-dig-elbow-uppercut-sheet",
+      "frames": 26,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 103,
+      "visibleHeightMedianPx": 74.5,
+      "visibleHeightRangePx": 6,
+      "baselineRangePx": 3,
+      "centerXRangePx": 5.0,
+      "worstConsecutiveSeam": 0.3079,
+      "medianConsecutiveSeam": 0.1631,
+      "worstConsecutivePair": [
+        11,
+        12
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-mixamo-v3-complex-dig-high-kick-anim",
+      "sheet": "survival-mixamo-v3-complex-dig-high-kick-sheet",
+      "frames": 19,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 103,
+      "visibleHeightMedianPx": 75,
+      "visibleHeightRangePx": 10,
+      "baselineRangePx": 2,
+      "centerXRangePx": 17.5,
+      "worstConsecutiveSeam": 0.4727,
+      "medianConsecutiveSeam": 0.329,
+      "worstConsecutivePair": [
+        2,
+        3
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-mixamo-v3-complex-dig-hook-anim",
+      "sheet": "survival-mixamo-v3-complex-dig-hook-sheet",
+      "frames": 14,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 103,
+      "visibleHeightMedianPx": 73.5,
+      "visibleHeightRangePx": 6,
+      "baselineRangePx": 2,
+      "centerXRangePx": 11.0,
+      "worstConsecutiveSeam": 0.3524,
+      "medianConsecutiveSeam": 0.1547,
+      "worstConsecutivePair": [
+        4,
+        5
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-mixamo-v3-complex-dig-jab-anim",
+      "sheet": "survival-mixamo-v3-complex-dig-jab-sheet",
+      "frames": 11,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 103,
+      "visibleHeightMedianPx": 70,
+      "visibleHeightRangePx": 5,
+      "baselineRangePx": 1,
+      "centerXRangePx": 8.0,
+      "worstConsecutiveSeam": 0.1371,
+      "medianConsecutiveSeam": 0.108,
+      "worstConsecutivePair": [
+        0,
+        1
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-mixamo-v3-complex-dig-jab-elbow-anim",
+      "sheet": "survival-mixamo-v3-complex-dig-jab-elbow-sheet",
+      "frames": 28,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 103,
+      "visibleHeightMedianPx": 74.0,
+      "visibleHeightRangePx": 4,
+      "baselineRangePx": 1,
+      "centerXRangePx": 10.5,
+      "worstConsecutiveSeam": 0.3178,
+      "medianConsecutiveSeam": 0.1336,
+      "worstConsecutivePair": [
+        15,
+        16
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-mixamo-v3-complex-dig-low-kick-anim",
+      "sheet": "survival-mixamo-v3-complex-dig-low-kick-sheet",
+      "frames": 15,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 103,
+      "visibleHeightMedianPx": 74,
+      "visibleHeightRangePx": 12,
+      "baselineRangePx": 3,
+      "centerXRangePx": 14.5,
+      "worstConsecutiveSeam": 0.3966,
+      "medianConsecutiveSeam": 0.3093,
+      "worstConsecutivePair": [
+        4,
+        5
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-mixamo-v3-complex-dig-roundhouse-anim",
+      "sheet": "survival-mixamo-v3-complex-dig-roundhouse-sheet",
+      "frames": 17,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 103,
+      "visibleHeightMedianPx": 73,
+      "visibleHeightRangePx": 18,
+      "baselineRangePx": 3,
+      "centerXRangePx": 21.0,
+      "worstConsecutiveSeam": 0.5515,
+      "medianConsecutiveSeam": 0.3641,
+      "worstConsecutivePair": [
+        3,
+        4
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-mixamo-v3-complex-dig-single-elbow-anim",
+      "sheet": "survival-mixamo-v3-complex-dig-single-elbow-sheet",
+      "frames": 11,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 103,
+      "visibleHeightMedianPx": 75,
+      "visibleHeightRangePx": 1,
+      "baselineRangePx": 1,
+      "centerXRangePx": 2.5,
+      "worstConsecutiveSeam": 0.2213,
+      "medianConsecutiveSeam": 0.0925,
+      "worstConsecutivePair": [
+        0,
+        1
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-mixamo-v3-complex-dig-spinning-back-kick-anim",
+      "sheet": "survival-mixamo-v3-complex-dig-spinning-back-kick-sheet",
+      "frames": 22,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 103,
+      "visibleHeightMedianPx": 73.0,
+      "visibleHeightRangePx": 18,
+      "baselineRangePx": 3,
+      "centerXRangePx": 14.5,
+      "worstConsecutiveSeam": 0.593,
+      "medianConsecutiveSeam": 0.3241,
+      "worstConsecutivePair": [
+        5,
+        6
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-mixamo-v3-complex-dig-uppercut-anim",
+      "sheet": "survival-mixamo-v3-complex-dig-uppercut-sheet",
+      "frames": 17,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 103,
+      "visibleHeightMedianPx": 76,
+      "visibleHeightRangePx": 9,
+      "baselineRangePx": 0,
+      "centerXRangePx": 10.0,
+      "worstConsecutiveSeam": 0.3528,
+      "medianConsecutiveSeam": 0.1954,
+      "worstConsecutivePair": [
+        5,
+        6
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-mixamo-v4-ledge-catch-anim",
+      "sheet": "survival-mixamo-v4-ledge-climb-sheet",
+      "frames": 6,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 64.5,
+      "visibleHeightRangePx": 7,
+      "baselineRangePx": 16,
+      "centerXRangePx": 1.5,
+      "worstConsecutiveSeam": 0.2219,
+      "medianConsecutiveSeam": 0.2047,
+      "worstConsecutivePair": [
+        1,
+        2
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-mixamo-v4-ledge-climb-anim",
+      "sheet": "survival-mixamo-v4-ledge-climb-sheet",
+      "frames": 35,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 60,
+      "visibleHeightRangePx": 25,
+      "baselineRangePx": 23,
+      "centerXRangePx": 11.0,
+      "worstConsecutiveSeam": 0.2219,
+      "medianConsecutiveSeam": 0.1414,
+      "worstConsecutivePair": [
+        3,
+        4
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-mixamo-v4-ledge-hang-anim",
+      "sheet": "survival-mixamo-v4-ledge-climb-sheet",
+      "frames": 1,
+      "frameRate": 30,
+      "repeat": -1,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 60,
+      "visibleHeightRangePx": 0,
+      "baselineRangePx": 0,
+      "centerXRangePx": 0.0,
+      "worstConsecutiveSeam": 0.0,
+      "medianConsecutiveSeam": 0.0,
+      "worstConsecutivePair": [
+        0,
+        0
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-airborne-anim",
+      "sheet": "survival-ual-player-v1-airborne-sheet",
+      "frames": 41,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 70,
+      "visibleHeightRangePx": 24,
+      "baselineRangePx": 21,
+      "centerXRangePx": 8.0,
+      "worstConsecutiveSeam": 0.4809,
+      "medianConsecutiveSeam": 0.0468,
+      "worstConsecutivePair": [
+        0,
+        1
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-attack-down-ground-strike-anim",
+      "sheet": "survival-ual-player-v1-ground-strike-sheet",
+      "frames": 37,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 58,
+      "visibleHeightRangePx": 22,
+      "baselineRangePx": 2,
+      "centerXRangePx": 8.0,
+      "worstConsecutiveSeam": 0.4318,
+      "medianConsecutiveSeam": 0.1334,
+      "worstConsecutivePair": [
+        6,
+        7
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-cross-idle-settle-anim",
+      "sheet": "survival-ual-player-v1-animation-polish-transitions-sheet",
+      "frames": 2,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 123,
+      "visibleHeightMedianPx": 74.5,
+      "visibleHeightRangePx": 1,
+      "baselineRangePx": 1,
+      "centerXRangePx": 0.5,
+      "worstConsecutiveSeam": 0.2503,
+      "medianConsecutiveSeam": 0.2503,
+      "worstConsecutivePair": [
+        0,
+        1
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-death-anim",
+      "sheet": "survival-ual-player-v1-death-sheet",
+      "frames": 73,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 38,
+      "visibleHeightRangePx": 48,
+      "baselineRangePx": 13,
+      "centerXRangePx": 11.5,
+      "worstConsecutiveSeam": 0.3681,
+      "medianConsecutiveSeam": 0.0546,
+      "worstConsecutivePair": [
+        29,
+        30
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-dig-down-ground-strike-anim",
+      "sheet": "survival-ual-player-v1-ground-strike-sheet",
+      "frames": 37,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 58,
+      "visibleHeightRangePx": 22,
+      "baselineRangePx": 2,
+      "centerXRangePx": 8.0,
+      "worstConsecutiveSeam": 0.4318,
+      "medianConsecutiveSeam": 0.1334,
+      "worstConsecutivePair": [
+        6,
+        7
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-dig-down-idle-settle-anim",
+      "sheet": "survival-ual-player-v1-animation-polish-transitions-sheet",
+      "frames": 2,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 123,
+      "visibleHeightMedianPx": 75.0,
+      "visibleHeightRangePx": 2,
+      "baselineRangePx": 1,
+      "centerXRangePx": 0.0,
+      "worstConsecutiveSeam": 0.1587,
+      "medianConsecutiveSeam": 0.1587,
+      "worstConsecutivePair": [
+        0,
+        1
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-dig-side-cross-anim",
+      "sheet": "survival-ual-player-v1-punch-cross-sheet",
+      "frames": 31,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 71,
+      "visibleHeightRangePx": 0,
+      "baselineRangePx": 0,
+      "centerXRangePx": 8.0,
+      "worstConsecutiveSeam": 0.1638,
+      "medianConsecutiveSeam": 0.0277,
+      "worstConsecutivePair": [
+        5,
+        6
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-dig-up-cross-anim",
+      "sheet": "survival-ual-player-v1-animation-polish-transitions-sheet",
+      "frames": 24,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 123,
+      "visibleHeightMedianPx": 75.0,
+      "visibleHeightRangePx": 6,
+      "baselineRangePx": 1,
+      "centerXRangePx": 12.5,
+      "worstConsecutiveSeam": 0.5623,
+      "medianConsecutiveSeam": 0.1686,
+      "worstConsecutivePair": [
+        7,
+        8
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-dig-up-idle-settle-anim",
+      "sheet": "survival-ual-player-v1-animation-polish-transitions-sheet",
+      "frames": 2,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 123,
+      "visibleHeightMedianPx": 75.0,
+      "visibleHeightRangePx": 2,
+      "baselineRangePx": 1,
+      "centerXRangePx": 0.5,
+      "worstConsecutiveSeam": 0.2544,
+      "medianConsecutiveSeam": 0.2544,
+      "worstConsecutivePair": [
+        0,
+        1
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-dig-up-jab-anim",
+      "sheet": "survival-ual-player-v1-animation-polish-transitions-sheet",
+      "frames": 24,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 123,
+      "visibleHeightMedianPx": 75.0,
+      "visibleHeightRangePx": 6,
+      "baselineRangePx": 1,
+      "centerXRangePx": 12.5,
+      "worstConsecutiveSeam": 0.5623,
+      "medianConsecutiveSeam": 0.1686,
+      "worstConsecutivePair": [
+        7,
+        8
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-dig-up-look-anim",
+      "sheet": "survival-ual-player-v1-thunder-charge-sheet",
+      "frames": 63,
+      "frameRate": 30,
+      "repeat": -1,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 73,
+      "visibleHeightRangePx": 0,
+      "baselineRangePx": 0,
+      "centerXRangePx": 0.5,
+      "worstConsecutiveSeam": 0.0094,
+      "medianConsecutiveSeam": 0.0043,
+      "worstConsecutivePair": [
+        9,
+        10
+      ],
+      "loopSeam": 0.0029,
+      "loopToMedianRatio": 0.668
+    },
+    {
+      "key": "survival-ual-player-v1-dig-up-side-cross-anim",
+      "sheet": "survival-ual-player-v1-animation-polish-transitions-sheet",
+      "frames": 24,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 123,
+      "visibleHeightMedianPx": 75.0,
+      "visibleHeightRangePx": 6,
+      "baselineRangePx": 1,
+      "centerXRangePx": 12.5,
+      "worstConsecutiveSeam": 0.5623,
+      "medianConsecutiveSeam": 0.1686,
+      "worstConsecutivePair": [
+        7,
+        8
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-dig-up-side-jab-anim",
+      "sheet": "survival-ual-player-v1-animation-polish-transitions-sheet",
+      "frames": 24,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 123,
+      "visibleHeightMedianPx": 75.0,
+      "visibleHeightRangePx": 6,
+      "baselineRangePx": 1,
+      "centerXRangePx": 12.5,
+      "worstConsecutiveSeam": 0.5623,
+      "medianConsecutiveSeam": 0.1686,
+      "worstConsecutivePair": [
+        7,
+        8
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-falling-anim",
+      "sheet": "survival-ual-player-v1-falling-sheet",
+      "frames": 75,
+      "frameRate": 30,
+      "repeat": -1,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 74,
+      "visibleHeightRangePx": 3,
+      "baselineRangePx": 3,
+      "centerXRangePx": 1.0,
+      "worstConsecutiveSeam": 0.0098,
+      "medianConsecutiveSeam": 0.0049,
+      "worstConsecutivePair": [
+        18,
+        19
+      ],
+      "loopSeam": 0.0059,
+      "loopToMedianRatio": 1.201
+    },
+    {
+      "key": "survival-ual-player-v1-flight-enter-anim",
+      "sheet": "survival-blender-v2-fly-sheet",
+      "frames": 36,
+      "frameRate": 16,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 25.0,
+      "visibleHeightRangePx": 1,
+      "baselineRangePx": 7,
+      "centerXRangePx": 0.5,
+      "worstConsecutiveSeam": 0.0549,
+      "medianConsecutiveSeam": 0.0298,
+      "worstConsecutivePair": [
+        20,
+        21
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-flight-exit-anim",
+      "sheet": "survival-blender-v2-fly-sheet",
+      "frames": 36,
+      "frameRate": 16,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 25.0,
+      "visibleHeightRangePx": 1,
+      "baselineRangePx": 7,
+      "centerXRangePx": 0.5,
+      "worstConsecutiveSeam": 0.0549,
+      "medianConsecutiveSeam": 0.0298,
+      "worstConsecutivePair": [
+        20,
+        21
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-flight-travel-enter-anim",
+      "sheet": "survival-blender-v2-fly-sheet",
+      "frames": 36,
+      "frameRate": 16,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 25.0,
+      "visibleHeightRangePx": 1,
+      "baselineRangePx": 7,
+      "centerXRangePx": 0.5,
+      "worstConsecutiveSeam": 0.0549,
+      "medianConsecutiveSeam": 0.0298,
+      "worstConsecutivePair": [
+        20,
+        21
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-hard-landing-continuity-anim",
+      "sheet": "survival-ual-player-v1-animation-polish-transitions-sheet",
+      "frames": 14,
+      "frameRate": 40,
+      "repeat": 0,
+      "displaySizePx": 123,
+      "visibleHeightMedianPx": 62.5,
+      "visibleHeightRangePx": 26,
+      "baselineRangePx": 1,
+      "centerXRangePx": 6.0,
+      "worstConsecutiveSeam": 0.4556,
+      "medianConsecutiveSeam": 0.183,
+      "worstConsecutivePair": [
+        1,
+        2
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-hit-react-anim",
+      "sheet": "survival-ual-player-v1-hit-react-sheet",
+      "frames": 11,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 74,
+      "visibleHeightRangePx": 1,
+      "baselineRangePx": 0,
+      "centerXRangePx": 1.0,
+      "worstConsecutiveSeam": 0.0849,
+      "medianConsecutiveSeam": 0.0548,
+      "worstConsecutivePair": [
+        5,
+        6
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-idle-anim",
+      "sheet": "survival-blender-v2-idle-sheet",
+      "frames": 48,
+      "frameRate": 12,
+      "repeat": -1,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 74.0,
+      "visibleHeightRangePx": 0,
+      "baselineRangePx": 0,
+      "centerXRangePx": 0.0,
+      "worstConsecutiveSeam": 0.0143,
+      "medianConsecutiveSeam": 0.0054,
+      "worstConsecutivePair": [
+        35,
+        36
+      ],
+      "loopSeam": 0.0,
+      "loopToMedianRatio": 0.0
+    },
+    {
+      "key": "survival-ual-player-v1-jab-idle-settle-anim",
+      "sheet": "survival-ual-player-v1-animation-polish-transitions-sheet",
+      "frames": 2,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 123,
+      "visibleHeightMedianPx": 74.5,
+      "visibleHeightRangePx": 1,
+      "baselineRangePx": 1,
+      "centerXRangePx": 0.5,
+      "worstConsecutiveSeam": 0.2514,
+      "medianConsecutiveSeam": 0.2514,
+      "worstConsecutivePair": [
+        0,
+        1
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-jog-idle-start-bridge-anim",
+      "sheet": "survival-ual-player-v1-animation-polish-transitions-sheet",
+      "frames": 2,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 119,
+      "visibleHeightMedianPx": 74.0,
+      "visibleHeightRangePx": 0,
+      "baselineRangePx": 0,
+      "centerXRangePx": 0.0,
+      "worstConsecutiveSeam": 0.1867,
+      "medianConsecutiveSeam": 0.1867,
+      "worstConsecutivePair": [
+        0,
+        1
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-jog-idle-stop-phase-00-anim",
+      "sheet": "survival-ual-player-v1-animation-polish-transitions-sheet",
+      "frames": 2,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 123,
+      "visibleHeightMedianPx": 75.5,
+      "visibleHeightRangePx": 3,
+      "baselineRangePx": 0,
+      "centerXRangePx": 0.5,
+      "worstConsecutiveSeam": 0.4744,
+      "medianConsecutiveSeam": 0.4744,
+      "worstConsecutivePair": [
+        0,
+        1
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-jog-idle-stop-phase-02-anim",
+      "sheet": "survival-ual-player-v1-animation-polish-transitions-sheet",
+      "frames": 2,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 123,
+      "visibleHeightMedianPx": 74.5,
+      "visibleHeightRangePx": 1,
+      "baselineRangePx": 0,
+      "centerXRangePx": 1.5,
+      "worstConsecutiveSeam": 0.3968,
+      "medianConsecutiveSeam": 0.3968,
+      "worstConsecutivePair": [
+        0,
+        1
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-jog-idle-stop-phase-04-anim",
+      "sheet": "survival-ual-player-v1-animation-polish-transitions-sheet",
+      "frames": 2,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 123,
+      "visibleHeightMedianPx": 75.0,
+      "visibleHeightRangePx": 2,
+      "baselineRangePx": 0,
+      "centerXRangePx": 3.5,
+      "worstConsecutiveSeam": 0.3158,
+      "medianConsecutiveSeam": 0.3158,
+      "worstConsecutivePair": [
+        0,
+        1
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-jog-idle-stop-phase-06-anim",
+      "sheet": "survival-ual-player-v1-animation-polish-transitions-sheet",
+      "frames": 2,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 123,
+      "visibleHeightMedianPx": 75.5,
+      "visibleHeightRangePx": 3,
+      "baselineRangePx": 0,
+      "centerXRangePx": 1.0,
+      "worstConsecutiveSeam": 0.4475,
+      "medianConsecutiveSeam": 0.4475,
+      "worstConsecutivePair": [
+        0,
+        1
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-jog-idle-stop-phase-08-anim",
+      "sheet": "survival-ual-player-v1-animation-polish-transitions-sheet",
+      "frames": 2,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 123,
+      "visibleHeightMedianPx": 75.0,
+      "visibleHeightRangePx": 2,
+      "baselineRangePx": 0,
+      "centerXRangePx": 0.0,
+      "worstConsecutiveSeam": 0.4806,
+      "medianConsecutiveSeam": 0.4806,
+      "worstConsecutivePair": [
+        0,
+        1
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-jog-idle-stop-phase-10-anim",
+      "sheet": "survival-ual-player-v1-animation-polish-transitions-sheet",
+      "frames": 2,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 123,
+      "visibleHeightMedianPx": 75.0,
+      "visibleHeightRangePx": 2,
+      "baselineRangePx": 0,
+      "centerXRangePx": 0.0,
+      "worstConsecutiveSeam": 0.5025,
+      "medianConsecutiveSeam": 0.5025,
+      "worstConsecutivePair": [
+        0,
+        1
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-jog-idle-stop-phase-12-anim",
+      "sheet": "survival-ual-player-v1-animation-polish-transitions-sheet",
+      "frames": 2,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 123,
+      "visibleHeightMedianPx": 74.0,
+      "visibleHeightRangePx": 0,
+      "baselineRangePx": 0,
+      "centerXRangePx": 0.0,
+      "worstConsecutiveSeam": 0.4984,
+      "medianConsecutiveSeam": 0.4984,
+      "worstConsecutivePair": [
+        0,
+        1
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-jog-idle-stop-phase-14-anim",
+      "sheet": "survival-ual-player-v1-animation-polish-transitions-sheet",
+      "frames": 2,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 123,
+      "visibleHeightMedianPx": 76.0,
+      "visibleHeightRangePx": 4,
+      "baselineRangePx": 0,
+      "centerXRangePx": 0.5,
+      "worstConsecutiveSeam": 0.4949,
+      "medianConsecutiveSeam": 0.4949,
+      "worstConsecutivePair": [
+        0,
+        1
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-jog-idle-stop-phase-16-anim",
+      "sheet": "survival-ual-player-v1-animation-polish-transitions-sheet",
+      "frames": 2,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 123,
+      "visibleHeightMedianPx": 74.0,
+      "visibleHeightRangePx": 0,
+      "baselineRangePx": 0,
+      "centerXRangePx": 3.0,
+      "worstConsecutiveSeam": 0.4048,
+      "medianConsecutiveSeam": 0.4048,
+      "worstConsecutivePair": [
+        0,
+        1
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-jog-idle-stop-phase-18-anim",
+      "sheet": "survival-ual-player-v1-animation-polish-transitions-sheet",
+      "frames": 2,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 123,
+      "visibleHeightMedianPx": 75.5,
+      "visibleHeightRangePx": 3,
+      "baselineRangePx": 0,
+      "centerXRangePx": 3.5,
+      "worstConsecutiveSeam": 0.3016,
+      "medianConsecutiveSeam": 0.3016,
+      "worstConsecutivePair": [
+        0,
+        1
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-jog-idle-stop-phase-20-anim",
+      "sheet": "survival-ual-player-v1-animation-polish-transitions-sheet",
+      "frames": 2,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 123,
+      "visibleHeightMedianPx": 75.0,
+      "visibleHeightRangePx": 2,
+      "baselineRangePx": 0,
+      "centerXRangePx": 2.0,
+      "worstConsecutiveSeam": 0.4309,
+      "medianConsecutiveSeam": 0.4309,
+      "worstConsecutivePair": [
+        0,
+        1
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-jog-idle-stop-phase-22-anim",
+      "sheet": "survival-ual-player-v1-animation-polish-transitions-sheet",
+      "frames": 2,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 123,
+      "visibleHeightMedianPx": 76.0,
+      "visibleHeightRangePx": 4,
+      "baselineRangePx": 0,
+      "centerXRangePx": 0.5,
+      "worstConsecutiveSeam": 0.4693,
+      "medianConsecutiveSeam": 0.4693,
+      "worstConsecutivePair": [
+        0,
+        1
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-jog-idle-stop-phase-24-anim",
+      "sheet": "survival-ual-player-v1-animation-polish-transitions-sheet",
+      "frames": 2,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 123,
+      "visibleHeightMedianPx": 75.5,
+      "visibleHeightRangePx": 3,
+      "baselineRangePx": 0,
+      "centerXRangePx": 0.0,
+      "worstConsecutiveSeam": 0.4794,
+      "medianConsecutiveSeam": 0.4794,
+      "worstConsecutivePair": [
+        0,
+        1
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-jog-idle-stop-phase-26-anim",
+      "sheet": "survival-ual-player-v1-animation-polish-transitions-sheet",
+      "frames": 2,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 123,
+      "visibleHeightMedianPx": 74.5,
+      "visibleHeightRangePx": 1,
+      "baselineRangePx": 0,
+      "centerXRangePx": 0.0,
+      "worstConsecutiveSeam": 0.4782,
+      "medianConsecutiveSeam": 0.4782,
+      "worstConsecutivePair": [
+        0,
+        1
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-lean-wall-anim",
+      "sheet": "survival-blender-v2-idle-sheet",
+      "frames": 48,
+      "frameRate": 30,
+      "repeat": -1,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 74.0,
+      "visibleHeightRangePx": 0,
+      "baselineRangePx": 0,
+      "centerXRangePx": 0.0,
+      "worstConsecutiveSeam": 0.0143,
+      "medianConsecutiveSeam": 0.0054,
+      "worstConsecutivePair": [
+        35,
+        36
+      ],
+      "loopSeam": 0.0,
+      "loopToMedianRatio": 0.0
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-cross-cross-phase-10-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 10,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 65.0,
+      "visibleHeightRangePx": 5,
+      "baselineRangePx": 0,
+      "centerXRangePx": 5.5,
+      "worstConsecutiveSeam": 0.4819,
+      "medianConsecutiveSeam": 0.286,
+      "worstConsecutivePair": [
+        5,
+        6
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-cross-cross-phase-15-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 10,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 67.0,
+      "visibleHeightRangePx": 3,
+      "baselineRangePx": 1,
+      "centerXRangePx": 7.5,
+      "worstConsecutiveSeam": 0.4141,
+      "medianConsecutiveSeam": 0.3108,
+      "worstConsecutivePair": [
+        0,
+        1
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-cross-cross-phase-19-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 10,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 66.0,
+      "visibleHeightRangePx": 3,
+      "baselineRangePx": 2,
+      "centerXRangePx": 6.0,
+      "worstConsecutiveSeam": 0.3265,
+      "medianConsecutiveSeam": 0.2236,
+      "worstConsecutivePair": [
+        0,
+        1
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-cross-cross-phase-23-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 10,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 66.0,
+      "visibleHeightRangePx": 3,
+      "baselineRangePx": 2,
+      "centerXRangePx": 6.0,
+      "worstConsecutiveSeam": 0.3948,
+      "medianConsecutiveSeam": 0.2713,
+      "worstConsecutivePair": [
+        6,
+        7
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-cross-jab-phase-01-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 10,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 66.0,
+      "visibleHeightRangePx": 3,
+      "baselineRangePx": 0,
+      "centerXRangePx": 6.0,
+      "worstConsecutiveSeam": 0.4726,
+      "medianConsecutiveSeam": 0.3295,
+      "worstConsecutivePair": [
+        3,
+        4
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-cross-jab-phase-05-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 10,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 67.0,
+      "visibleHeightRangePx": 3,
+      "baselineRangePx": 0,
+      "centerXRangePx": 4.5,
+      "worstConsecutiveSeam": 0.3346,
+      "medianConsecutiveSeam": 0.206,
+      "worstConsecutivePair": [
+        5,
+        6
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-cross-jab-phase-09-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 10,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 65.0,
+      "visibleHeightRangePx": 5,
+      "baselineRangePx": 0,
+      "centerXRangePx": 4.0,
+      "worstConsecutiveSeam": 0.4469,
+      "medianConsecutiveSeam": 0.2781,
+      "worstConsecutivePair": [
+        5,
+        6
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-cross-jab-phase-24-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 10,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 66.0,
+      "visibleHeightRangePx": 3,
+      "baselineRangePx": 2,
+      "centerXRangePx": 6.0,
+      "worstConsecutiveSeam": 0.4751,
+      "medianConsecutiveSeam": 0.2952,
+      "worstConsecutivePair": [
+        5,
+        6
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-elbowUppercut-cross-phase-10-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 20,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 66.0,
+      "visibleHeightRangePx": 4,
+      "baselineRangePx": 2,
+      "centerXRangePx": 8.0,
+      "worstConsecutiveSeam": 0.4285,
+      "medianConsecutiveSeam": 0.2436,
+      "worstConsecutivePair": [
+        5,
+        6
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-elbowUppercut-cross-phase-15-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 20,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 66.0,
+      "visibleHeightRangePx": 4,
+      "baselineRangePx": 2,
+      "centerXRangePx": 6.0,
+      "worstConsecutiveSeam": 0.4082,
+      "medianConsecutiveSeam": 0.2853,
+      "worstConsecutivePair": [
+        17,
+        18
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-elbowUppercut-cross-phase-19-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 20,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 66.5,
+      "visibleHeightRangePx": 3,
+      "baselineRangePx": 2,
+      "centerXRangePx": 6.5,
+      "worstConsecutiveSeam": 0.3837,
+      "medianConsecutiveSeam": 0.2368,
+      "worstConsecutivePair": [
+        13,
+        14
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-elbowUppercut-cross-phase-23-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 20,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 67.0,
+      "visibleHeightRangePx": 3,
+      "baselineRangePx": 2,
+      "centerXRangePx": 5.5,
+      "worstConsecutiveSeam": 0.4371,
+      "medianConsecutiveSeam": 0.234,
+      "worstConsecutivePair": [
+        6,
+        7
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-elbowUppercut-jab-phase-01-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 20,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 66.0,
+      "visibleHeightRangePx": 4,
+      "baselineRangePx": 1,
+      "centerXRangePx": 6.5,
+      "worstConsecutiveSeam": 0.3993,
+      "medianConsecutiveSeam": 0.2913,
+      "worstConsecutivePair": [
+        14,
+        15
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-elbowUppercut-jab-phase-05-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 20,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 67.0,
+      "visibleHeightRangePx": 4,
+      "baselineRangePx": 1,
+      "centerXRangePx": 6.0,
+      "worstConsecutiveSeam": 0.4111,
+      "medianConsecutiveSeam": 0.2438,
+      "worstConsecutivePair": [
+        9,
+        10
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-elbowUppercut-jab-phase-09-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 20,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 66.0,
+      "visibleHeightRangePx": 5,
+      "baselineRangePx": 2,
+      "centerXRangePx": 5.5,
+      "worstConsecutiveSeam": 0.4543,
+      "medianConsecutiveSeam": 0.2254,
+      "worstConsecutivePair": [
+        6,
+        7
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-elbowUppercut-jab-phase-24-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 20,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 66.0,
+      "visibleHeightRangePx": 3,
+      "baselineRangePx": 2,
+      "centerXRangePx": 6.5,
+      "worstConsecutiveSeam": 0.4449,
+      "medianConsecutiveSeam": 0.2399,
+      "worstConsecutivePair": [
+        8,
+        9
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-highKick-cross-phase-10-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 10,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 66.0,
+      "visibleHeightRangePx": 14,
+      "baselineRangePx": 1,
+      "centerXRangePx": 7.5,
+      "worstConsecutiveSeam": 0.5223,
+      "medianConsecutiveSeam": 0.4268,
+      "worstConsecutivePair": [
+        5,
+        6
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-highKick-cross-phase-15-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 10,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 65.5,
+      "visibleHeightRangePx": 11,
+      "baselineRangePx": 1,
+      "centerXRangePx": 11.5,
+      "worstConsecutiveSeam": 0.5003,
+      "medianConsecutiveSeam": 0.4096,
+      "worstConsecutivePair": [
+        1,
+        2
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-highKick-cross-phase-19-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 10,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 66.0,
+      "visibleHeightRangePx": 11,
+      "baselineRangePx": 2,
+      "centerXRangePx": 10.0,
+      "worstConsecutiveSeam": 0.5213,
+      "medianConsecutiveSeam": 0.3254,
+      "worstConsecutivePair": [
+        1,
+        2
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-highKick-cross-phase-23-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 10,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 67.0,
+      "visibleHeightRangePx": 7,
+      "baselineRangePx": 2,
+      "centerXRangePx": 10.5,
+      "worstConsecutiveSeam": 0.4624,
+      "medianConsecutiveSeam": 0.3541,
+      "worstConsecutivePair": [
+        1,
+        2
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-highKick-jab-phase-01-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 10,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 66.0,
+      "visibleHeightRangePx": 9,
+      "baselineRangePx": 1,
+      "centerXRangePx": 14.0,
+      "worstConsecutiveSeam": 0.5592,
+      "medianConsecutiveSeam": 0.4199,
+      "worstConsecutivePair": [
+        7,
+        8
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-highKick-jab-phase-05-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 10,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 67.0,
+      "visibleHeightRangePx": 7,
+      "baselineRangePx": 1,
+      "centerXRangePx": 9.0,
+      "worstConsecutiveSeam": 0.4964,
+      "medianConsecutiveSeam": 0.3896,
+      "worstConsecutivePair": [
+        6,
+        7
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-highKick-jab-phase-09-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 10,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 66.0,
+      "visibleHeightRangePx": 13,
+      "baselineRangePx": 1,
+      "centerXRangePx": 9.0,
+      "worstConsecutiveSeam": 0.54,
+      "medianConsecutiveSeam": 0.4135,
+      "worstConsecutivePair": [
+        5,
+        6
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-highKick-jab-phase-24-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 10,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 67.0,
+      "visibleHeightRangePx": 7,
+      "baselineRangePx": 2,
+      "centerXRangePx": 12.0,
+      "worstConsecutiveSeam": 0.4201,
+      "medianConsecutiveSeam": 0.3826,
+      "worstConsecutivePair": [
+        8,
+        9
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-hook-cross-phase-10-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 10,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 65.5,
+      "visibleHeightRangePx": 5,
+      "baselineRangePx": 0,
+      "centerXRangePx": 5.0,
+      "worstConsecutiveSeam": 0.4269,
+      "medianConsecutiveSeam": 0.2893,
+      "worstConsecutivePair": [
+        5,
+        6
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-hook-cross-phase-15-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 10,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 67.0,
+      "visibleHeightRangePx": 4,
+      "baselineRangePx": 1,
+      "centerXRangePx": 5.0,
+      "worstConsecutiveSeam": 0.4542,
+      "medianConsecutiveSeam": 0.3014,
+      "worstConsecutivePair": [
+        2,
+        3
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-hook-cross-phase-19-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 10,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 66.0,
+      "visibleHeightRangePx": 3,
+      "baselineRangePx": 2,
+      "centerXRangePx": 4.0,
+      "worstConsecutiveSeam": 0.328,
+      "medianConsecutiveSeam": 0.2408,
+      "worstConsecutivePair": [
+        1,
+        2
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-hook-cross-phase-23-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 10,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 66.5,
+      "visibleHeightRangePx": 3,
+      "baselineRangePx": 2,
+      "centerXRangePx": 4.5,
+      "worstConsecutiveSeam": 0.4062,
+      "medianConsecutiveSeam": 0.2738,
+      "worstConsecutivePair": [
+        6,
+        7
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-hook-jab-phase-01-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 10,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 66.0,
+      "visibleHeightRangePx": 4,
+      "baselineRangePx": 0,
+      "centerXRangePx": 3.5,
+      "worstConsecutiveSeam": 0.4722,
+      "medianConsecutiveSeam": 0.3242,
+      "worstConsecutivePair": [
+        3,
+        4
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-hook-jab-phase-05-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 10,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 67.0,
+      "visibleHeightRangePx": 3,
+      "baselineRangePx": 0,
+      "centerXRangePx": 2.0,
+      "worstConsecutiveSeam": 0.3151,
+      "medianConsecutiveSeam": 0.2441,
+      "worstConsecutivePair": [
+        0,
+        1
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-hook-jab-phase-09-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 10,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 65.5,
+      "visibleHeightRangePx": 4,
+      "baselineRangePx": 0,
+      "centerXRangePx": 4.0,
+      "worstConsecutiveSeam": 0.4424,
+      "medianConsecutiveSeam": 0.2807,
+      "worstConsecutivePair": [
+        6,
+        7
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-hook-jab-phase-24-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 10,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 66.0,
+      "visibleHeightRangePx": 3,
+      "baselineRangePx": 2,
+      "centerXRangePx": 5.0,
+      "worstConsecutiveSeam": 0.4149,
+      "medianConsecutiveSeam": 0.2956,
+      "worstConsecutivePair": [
+        5,
+        6
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-jab-cross-phase-10-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 10,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 65.5,
+      "visibleHeightRangePx": 4,
+      "baselineRangePx": 0,
+      "centerXRangePx": 6.0,
+      "worstConsecutiveSeam": 0.4223,
+      "medianConsecutiveSeam": 0.2941,
+      "worstConsecutivePair": [
+        5,
+        6
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-jab-cross-phase-15-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 10,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 66.5,
+      "visibleHeightRangePx": 4,
+      "baselineRangePx": 1,
+      "centerXRangePx": 6.0,
+      "worstConsecutiveSeam": 0.4231,
+      "medianConsecutiveSeam": 0.2871,
+      "worstConsecutivePair": [
+        0,
+        1
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-jab-cross-phase-19-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 10,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 66.0,
+      "visibleHeightRangePx": 3,
+      "baselineRangePx": 2,
+      "centerXRangePx": 2.0,
+      "worstConsecutiveSeam": 0.3269,
+      "medianConsecutiveSeam": 0.2306,
+      "worstConsecutivePair": [
+        1,
+        2
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-jab-cross-phase-23-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 10,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 66.0,
+      "visibleHeightRangePx": 2,
+      "baselineRangePx": 2,
+      "centerXRangePx": 6.5,
+      "worstConsecutiveSeam": 0.3918,
+      "medianConsecutiveSeam": 0.2374,
+      "worstConsecutivePair": [
+        6,
+        7
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-jab-jab-phase-01-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 10,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 66.0,
+      "visibleHeightRangePx": 3,
+      "baselineRangePx": 0,
+      "centerXRangePx": 5.5,
+      "worstConsecutiveSeam": 0.3778,
+      "medianConsecutiveSeam": 0.2904,
+      "worstConsecutivePair": [
+        3,
+        4
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-jab-jab-phase-05-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 10,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 67.0,
+      "visibleHeightRangePx": 2,
+      "baselineRangePx": 0,
+      "centerXRangePx": 1.5,
+      "worstConsecutiveSeam": 0.3163,
+      "medianConsecutiveSeam": 0.199,
+      "worstConsecutivePair": [
+        0,
+        1
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-jab-jab-phase-09-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 10,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 65.5,
+      "visibleHeightRangePx": 4,
+      "baselineRangePx": 0,
+      "centerXRangePx": 4.0,
+      "worstConsecutiveSeam": 0.4152,
+      "medianConsecutiveSeam": 0.2925,
+      "worstConsecutivePair": [
+        6,
+        7
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-jab-jab-phase-24-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 10,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 66.0,
+      "visibleHeightRangePx": 2,
+      "baselineRangePx": 2,
+      "centerXRangePx": 6.0,
+      "worstConsecutiveSeam": 0.4131,
+      "medianConsecutiveSeam": 0.2935,
+      "worstConsecutivePair": [
+        8,
+        9
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-jabElbow-cross-phase-10-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 20,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 65.0,
+      "visibleHeightRangePx": 4,
+      "baselineRangePx": 2,
+      "centerXRangePx": 8.0,
+      "worstConsecutiveSeam": 0.4347,
+      "medianConsecutiveSeam": 0.2333,
+      "worstConsecutivePair": [
+        5,
+        6
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-jabElbow-cross-phase-15-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 20,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 65.0,
+      "visibleHeightRangePx": 4,
+      "baselineRangePx": 2,
+      "centerXRangePx": 7.0,
+      "worstConsecutiveSeam": 0.412,
+      "medianConsecutiveSeam": 0.2892,
+      "worstConsecutivePair": [
+        17,
+        18
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-jabElbow-cross-phase-19-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 20,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 65.0,
+      "visibleHeightRangePx": 4,
+      "baselineRangePx": 2,
+      "centerXRangePx": 7.0,
+      "worstConsecutiveSeam": 0.4097,
+      "medianConsecutiveSeam": 0.2267,
+      "worstConsecutivePair": [
+        13,
+        14
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-jabElbow-cross-phase-23-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 20,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 65.0,
+      "visibleHeightRangePx": 4,
+      "baselineRangePx": 2,
+      "centerXRangePx": 5.0,
+      "worstConsecutiveSeam": 0.413,
+      "medianConsecutiveSeam": 0.2342,
+      "worstConsecutivePair": [
+        6,
+        7
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-jabElbow-jab-phase-01-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 20,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 65.0,
+      "visibleHeightRangePx": 4,
+      "baselineRangePx": 1,
+      "centerXRangePx": 7.0,
+      "worstConsecutiveSeam": 0.3974,
+      "medianConsecutiveSeam": 0.2971,
+      "worstConsecutivePair": [
+        14,
+        15
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-jabElbow-jab-phase-05-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 20,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 65.0,
+      "visibleHeightRangePx": 5,
+      "baselineRangePx": 1,
+      "centerXRangePx": 7.0,
+      "worstConsecutiveSeam": 0.4141,
+      "medianConsecutiveSeam": 0.2494,
+      "worstConsecutivePair": [
+        10,
+        11
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-jabElbow-jab-phase-09-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 20,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 65.0,
+      "visibleHeightRangePx": 5,
+      "baselineRangePx": 2,
+      "centerXRangePx": 5.5,
+      "worstConsecutiveSeam": 0.4359,
+      "medianConsecutiveSeam": 0.2307,
+      "worstConsecutivePair": [
+        6,
+        7
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-jabElbow-jab-phase-24-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 20,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 65.0,
+      "visibleHeightRangePx": 4,
+      "baselineRangePx": 2,
+      "centerXRangePx": 6.5,
+      "worstConsecutiveSeam": 0.4118,
+      "medianConsecutiveSeam": 0.2414,
+      "worstConsecutivePair": [
+        5,
+        6
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-lowKick-cross-phase-10-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 10,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 66.0,
+      "visibleHeightRangePx": 14,
+      "baselineRangePx": 1,
+      "centerXRangePx": 10.5,
+      "worstConsecutiveSeam": 0.686,
+      "medianConsecutiveSeam": 0.3971,
+      "worstConsecutivePair": [
+        2,
+        3
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-lowKick-cross-phase-15-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 10,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 67.0,
+      "visibleHeightRangePx": 10,
+      "baselineRangePx": 1,
+      "centerXRangePx": 8.5,
+      "worstConsecutiveSeam": 0.6467,
+      "medianConsecutiveSeam": 0.4162,
+      "worstConsecutivePair": [
+        2,
+        3
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-lowKick-cross-phase-19-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 10,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 66.0,
+      "visibleHeightRangePx": 10,
+      "baselineRangePx": 2,
+      "centerXRangePx": 8.5,
+      "worstConsecutiveSeam": 0.5843,
+      "medianConsecutiveSeam": 0.3405,
+      "worstConsecutivePair": [
+        3,
+        4
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-lowKick-cross-phase-23-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 10,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 66.5,
+      "visibleHeightRangePx": 6,
+      "baselineRangePx": 2,
+      "centerXRangePx": 8.0,
+      "worstConsecutiveSeam": 0.5129,
+      "medianConsecutiveSeam": 0.3322,
+      "worstConsecutivePair": [
+        4,
+        5
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-lowKick-jab-phase-01-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 10,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 66.0,
+      "visibleHeightRangePx": 7,
+      "baselineRangePx": 1,
+      "centerXRangePx": 6.0,
+      "worstConsecutiveSeam": 0.5066,
+      "medianConsecutiveSeam": 0.3791,
+      "worstConsecutivePair": [
+        7,
+        8
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-lowKick-jab-phase-05-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 10,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 67.0,
+      "visibleHeightRangePx": 9,
+      "baselineRangePx": 1,
+      "centerXRangePx": 4.0,
+      "worstConsecutiveSeam": 0.6197,
+      "medianConsecutiveSeam": 0.3531,
+      "worstConsecutivePair": [
+        1,
+        2
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-lowKick-jab-phase-09-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 10,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 66.0,
+      "visibleHeightRangePx": 12,
+      "baselineRangePx": 1,
+      "centerXRangePx": 8.5,
+      "worstConsecutiveSeam": 0.6826,
+      "medianConsecutiveSeam": 0.4025,
+      "worstConsecutivePair": [
+        1,
+        2
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-lowKick-jab-phase-24-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 10,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 67.0,
+      "visibleHeightRangePx": 6,
+      "baselineRangePx": 2,
+      "centerXRangePx": 8.0,
+      "worstConsecutiveSeam": 0.482,
+      "medianConsecutiveSeam": 0.337,
+      "worstConsecutivePair": [
+        4,
+        5
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-roundhouse-cross-phase-10-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 10,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 65.5,
+      "visibleHeightRangePx": 20,
+      "baselineRangePx": 1,
+      "centerXRangePx": 10.0,
+      "worstConsecutiveSeam": 0.686,
+      "medianConsecutiveSeam": 0.4997,
+      "worstConsecutivePair": [
+        2,
+        3
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-roundhouse-cross-phase-15-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 10,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 66.0,
+      "visibleHeightRangePx": 19,
+      "baselineRangePx": 1,
+      "centerXRangePx": 10.0,
+      "worstConsecutiveSeam": 0.6225,
+      "medianConsecutiveSeam": 0.5029,
+      "worstConsecutivePair": [
+        6,
+        7
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-roundhouse-cross-phase-19-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 10,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 66.0,
+      "visibleHeightRangePx": 17,
+      "baselineRangePx": 3,
+      "centerXRangePx": 11.0,
+      "worstConsecutiveSeam": 0.6762,
+      "medianConsecutiveSeam": 0.3532,
+      "worstConsecutivePair": [
+        7,
+        8
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-roundhouse-cross-phase-23-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 10,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 66.5,
+      "visibleHeightRangePx": 12,
+      "baselineRangePx": 2,
+      "centerXRangePx": 8.5,
+      "worstConsecutiveSeam": 0.6458,
+      "medianConsecutiveSeam": 0.4003,
+      "worstConsecutivePair": [
+        6,
+        7
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-roundhouse-jab-phase-01-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 10,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 66.0,
+      "visibleHeightRangePx": 11,
+      "baselineRangePx": 1,
+      "centerXRangePx": 6.5,
+      "worstConsecutiveSeam": 0.5283,
+      "medianConsecutiveSeam": 0.4584,
+      "worstConsecutivePair": [
+        3,
+        4
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-roundhouse-jab-phase-05-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 10,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 67.0,
+      "visibleHeightRangePx": 11,
+      "baselineRangePx": 0,
+      "centerXRangePx": 8.0,
+      "worstConsecutiveSeam": 0.6582,
+      "medianConsecutiveSeam": 0.4246,
+      "worstConsecutivePair": [
+        1,
+        2
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-roundhouse-jab-phase-09-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 10,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 65.5,
+      "visibleHeightRangePx": 19,
+      "baselineRangePx": 0,
+      "centerXRangePx": 8.0,
+      "worstConsecutiveSeam": 0.6672,
+      "medianConsecutiveSeam": 0.4838,
+      "worstConsecutivePair": [
+        1,
+        2
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-roundhouse-jab-phase-24-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 10,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 67.5,
+      "visibleHeightRangePx": 12,
+      "baselineRangePx": 2,
+      "centerXRangePx": 8.5,
+      "worstConsecutiveSeam": 0.5974,
+      "medianConsecutiveSeam": 0.4105,
+      "worstConsecutivePair": [
+        6,
+        7
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-singleElbow-cross-phase-10-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 10,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 65.0,
+      "visibleHeightRangePx": 4,
+      "baselineRangePx": 0,
+      "centerXRangePx": 6.5,
+      "worstConsecutiveSeam": 0.4121,
+      "medianConsecutiveSeam": 0.2953,
+      "worstConsecutivePair": [
+        5,
+        6
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-singleElbow-cross-phase-15-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 10,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 65.0,
+      "visibleHeightRangePx": 4,
+      "baselineRangePx": 1,
+      "centerXRangePx": 8.5,
+      "worstConsecutiveSeam": 0.4249,
+      "medianConsecutiveSeam": 0.2729,
+      "worstConsecutivePair": [
+        0,
+        1
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-singleElbow-cross-phase-19-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 10,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 66.0,
+      "visibleHeightRangePx": 3,
+      "baselineRangePx": 2,
+      "centerXRangePx": 3.0,
+      "worstConsecutiveSeam": 0.3106,
+      "medianConsecutiveSeam": 0.2267,
+      "worstConsecutivePair": [
+        0,
+        1
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-singleElbow-cross-phase-23-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 10,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 65.0,
+      "visibleHeightRangePx": 3,
+      "baselineRangePx": 2,
+      "centerXRangePx": 5.0,
+      "worstConsecutiveSeam": 0.4304,
+      "medianConsecutiveSeam": 0.2719,
+      "worstConsecutivePair": [
+        6,
+        7
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-singleElbow-jab-phase-01-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 10,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 65.5,
+      "visibleHeightRangePx": 2,
+      "baselineRangePx": 0,
+      "centerXRangePx": 7.0,
+      "worstConsecutiveSeam": 0.3776,
+      "medianConsecutiveSeam": 0.2826,
+      "worstConsecutivePair": [
+        3,
+        4
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-singleElbow-jab-phase-05-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 10,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 66.0,
+      "visibleHeightRangePx": 4,
+      "baselineRangePx": 0,
+      "centerXRangePx": 1.5,
+      "worstConsecutiveSeam": 0.2969,
+      "medianConsecutiveSeam": 0.2437,
+      "worstConsecutivePair": [
+        0,
+        1
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-singleElbow-jab-phase-09-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 10,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 64.0,
+      "visibleHeightRangePx": 3,
+      "baselineRangePx": 0,
+      "centerXRangePx": 5.0,
+      "worstConsecutiveSeam": 0.448,
+      "medianConsecutiveSeam": 0.2832,
+      "worstConsecutivePair": [
+        6,
+        7
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-singleElbow-jab-phase-24-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 10,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 65.0,
+      "visibleHeightRangePx": 4,
+      "baselineRangePx": 2,
+      "centerXRangePx": 6.0,
+      "worstConsecutiveSeam": 0.4076,
+      "medianConsecutiveSeam": 0.2939,
+      "worstConsecutivePair": [
+        5,
+        6
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-spinningBackKick-cross-phase-10-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 10,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 67.5,
+      "visibleHeightRangePx": 17,
+      "baselineRangePx": 0,
+      "centerXRangePx": 9.0,
+      "worstConsecutiveSeam": 0.7188,
+      "medianConsecutiveSeam": 0.5076,
+      "worstConsecutivePair": [
+        3,
+        4
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-spinningBackKick-cross-phase-15-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 10,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 69.0,
+      "visibleHeightRangePx": 17,
+      "baselineRangePx": 1,
+      "centerXRangePx": 15.0,
+      "worstConsecutiveSeam": 0.6455,
+      "medianConsecutiveSeam": 0.5263,
+      "worstConsecutivePair": [
+        3,
+        4
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-spinningBackKick-cross-phase-19-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 10,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 68.0,
+      "visibleHeightRangePx": 16,
+      "baselineRangePx": 2,
+      "centerXRangePx": 14.5,
+      "worstConsecutiveSeam": 0.5662,
+      "medianConsecutiveSeam": 0.5025,
+      "worstConsecutivePair": [
+        7,
+        8
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-spinningBackKick-cross-phase-23-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 10,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 69.0,
+      "visibleHeightRangePx": 11,
+      "baselineRangePx": 2,
+      "centerXRangePx": 14.0,
+      "worstConsecutiveSeam": 0.575,
+      "medianConsecutiveSeam": 0.453,
+      "worstConsecutivePair": [
+        3,
+        4
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-spinningBackKick-jab-phase-01-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 10,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 67.5,
+      "visibleHeightRangePx": 10,
+      "baselineRangePx": 1,
+      "centerXRangePx": 13.0,
+      "worstConsecutiveSeam": 0.6228,
+      "medianConsecutiveSeam": 0.5037,
+      "worstConsecutivePair": [
+        3,
+        4
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-spinningBackKick-jab-phase-05-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 10,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 68.5,
+      "visibleHeightRangePx": 9,
+      "baselineRangePx": 0,
+      "centerXRangePx": 10.5,
+      "worstConsecutiveSeam": 0.6443,
+      "medianConsecutiveSeam": 0.4976,
+      "worstConsecutivePair": [
+        1,
+        2
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-spinningBackKick-jab-phase-09-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 10,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 66.5,
+      "visibleHeightRangePx": 16,
+      "baselineRangePx": 0,
+      "centerXRangePx": 9.0,
+      "worstConsecutiveSeam": 0.6953,
+      "medianConsecutiveSeam": 0.5079,
+      "worstConsecutivePair": [
+        3,
+        4
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-complex-dig-spinningBackKick-jab-phase-24-anim",
+      "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+      "frames": 10,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 69.0,
+      "visibleHeightRangePx": 12,
+      "baselineRangePx": 2,
+      "centerXRangePx": 13.5,
+      "worstConsecutiveSeam": 0.5749,
+      "medianConsecutiveSeam": 0.4814,
+      "worstConsecutivePair": [
+        3,
+        4
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-diagonal-down-phase-01-anim",
+      "sheet": "survival-ual-player-v1-animation-polish-diagonal-dig-sheet",
+      "frames": 15,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 123,
+      "visibleHeightMedianPx": 74,
+      "visibleHeightRangePx": 18,
+      "baselineRangePx": 1,
+      "centerXRangePx": 12.0,
+      "worstConsecutiveSeam": 0.569,
+      "medianConsecutiveSeam": 0.3639,
+      "worstConsecutivePair": [
+        4,
+        5
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-diagonal-down-phase-08-anim",
+      "sheet": "survival-ual-player-v1-animation-polish-diagonal-dig-sheet",
+      "frames": 15,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 123,
+      "visibleHeightMedianPx": 74,
+      "visibleHeightRangePx": 18,
+      "baselineRangePx": 1,
+      "centerXRangePx": 12.0,
+      "worstConsecutiveSeam": 0.5282,
+      "medianConsecutiveSeam": 0.3424,
+      "worstConsecutivePair": [
+        6,
+        7
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-diagonal-down-phase-15-anim",
+      "sheet": "survival-ual-player-v1-animation-polish-diagonal-dig-sheet",
+      "frames": 15,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 123,
+      "visibleHeightMedianPx": 74,
+      "visibleHeightRangePx": 18,
+      "baselineRangePx": 1,
+      "centerXRangePx": 14.5,
+      "worstConsecutiveSeam": 0.5676,
+      "medianConsecutiveSeam": 0.3287,
+      "worstConsecutivePair": [
+        4,
+        5
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-diagonal-down-phase-22-anim",
+      "sheet": "survival-ual-player-v1-animation-polish-diagonal-dig-sheet",
+      "frames": 15,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 123,
+      "visibleHeightMedianPx": 74,
+      "visibleHeightRangePx": 18,
+      "baselineRangePx": 1,
+      "centerXRangePx": 7.5,
+      "worstConsecutiveSeam": 0.5096,
+      "medianConsecutiveSeam": 0.3627,
+      "worstConsecutivePair": [
+        4,
+        5
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-diagonal-up-phase-01-anim",
+      "sheet": "survival-ual-player-v1-animation-polish-diagonal-dig-sheet",
+      "frames": 15,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 123,
+      "visibleHeightMedianPx": 74,
+      "visibleHeightRangePx": 7,
+      "baselineRangePx": 1,
+      "centerXRangePx": 5.0,
+      "worstConsecutiveSeam": 0.4597,
+      "medianConsecutiveSeam": 0.3243,
+      "worstConsecutivePair": [
+        4,
+        5
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-diagonal-up-phase-08-anim",
+      "sheet": "survival-ual-player-v1-animation-polish-diagonal-dig-sheet",
+      "frames": 15,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 123,
+      "visibleHeightMedianPx": 74,
+      "visibleHeightRangePx": 7,
+      "baselineRangePx": 1,
+      "centerXRangePx": 8.0,
+      "worstConsecutiveSeam": 0.446,
+      "medianConsecutiveSeam": 0.2914,
+      "worstConsecutivePair": [
+        7,
+        8
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-diagonal-up-phase-15-anim",
+      "sheet": "survival-ual-player-v1-animation-polish-diagonal-dig-sheet",
+      "frames": 15,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 123,
+      "visibleHeightMedianPx": 74,
+      "visibleHeightRangePx": 6,
+      "baselineRangePx": 1,
+      "centerXRangePx": 5.5,
+      "worstConsecutiveSeam": 0.4651,
+      "medianConsecutiveSeam": 0.2835,
+      "worstConsecutivePair": [
+        4,
+        5
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-diagonal-up-phase-22-anim",
+      "sheet": "survival-ual-player-v1-animation-polish-diagonal-dig-sheet",
+      "frames": 15,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 123,
+      "visibleHeightMedianPx": 74,
+      "visibleHeightRangePx": 7,
+      "baselineRangePx": 1,
+      "centerXRangePx": 2.5,
+      "worstConsecutiveSeam": 0.4309,
+      "medianConsecutiveSeam": 0.2973,
+      "worstConsecutivePair": [
+        7,
+        8
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-side-dig-cross-anim",
+      "sheet": "survival-ual-player-v1-moving-side-dig-cross-sheet",
+      "frames": 22,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 123,
+      "visibleHeightMedianPx": 76.0,
+      "visibleHeightRangePx": 6,
+      "baselineRangePx": 1,
+      "centerXRangePx": 9.5,
+      "worstConsecutiveSeam": 0.4085,
+      "medianConsecutiveSeam": 0.16,
+      "worstConsecutivePair": [
+        14,
+        15
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-side-dig-cross-phase-10-anim",
+      "sheet": "survival-ual-player-v1-moving-side-dig-phase-handoff-sheet",
+      "frames": 22,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 123,
+      "visibleHeightMedianPx": 75.0,
+      "visibleHeightRangePx": 4,
+      "baselineRangePx": 0,
+      "centerXRangePx": 10.0,
+      "worstConsecutiveSeam": 0.4543,
+      "medianConsecutiveSeam": 0.1776,
+      "worstConsecutivePair": [
+        14,
+        15
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-side-dig-cross-phase-15-anim",
+      "sheet": "survival-ual-player-v1-moving-side-dig-phase-handoff-sheet",
+      "frames": 22,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 123,
+      "visibleHeightMedianPx": 74.0,
+      "visibleHeightRangePx": 9,
+      "baselineRangePx": 1,
+      "centerXRangePx": 6.5,
+      "worstConsecutiveSeam": 0.4395,
+      "medianConsecutiveSeam": 0.1589,
+      "worstConsecutivePair": [
+        7,
+        8
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-side-dig-cross-phase-19-anim",
+      "sheet": "survival-ual-player-v1-moving-side-dig-phase-handoff-sheet",
+      "frames": 22,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 123,
+      "visibleHeightMedianPx": 75.0,
+      "visibleHeightRangePx": 10,
+      "baselineRangePx": 1,
+      "centerXRangePx": 5.0,
+      "worstConsecutiveSeam": 0.3681,
+      "medianConsecutiveSeam": 0.1749,
+      "worstConsecutivePair": [
+        14,
+        15
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-side-dig-jab-anim",
+      "sheet": "survival-ual-player-v1-moving-side-dig-jab-sheet",
+      "frames": 22,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 123,
+      "visibleHeightMedianPx": 75.0,
+      "visibleHeightRangePx": 7,
+      "baselineRangePx": 0,
+      "centerXRangePx": 10.0,
+      "worstConsecutiveSeam": 0.4029,
+      "medianConsecutiveSeam": 0.1989,
+      "worstConsecutivePair": [
+        5,
+        6
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-side-dig-jab-phase-01-anim",
+      "sheet": "survival-ual-player-v1-moving-side-dig-phase-handoff-sheet",
+      "frames": 22,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 123,
+      "visibleHeightMedianPx": 73.5,
+      "visibleHeightRangePx": 9,
+      "baselineRangePx": 1,
+      "centerXRangePx": 9.0,
+      "worstConsecutiveSeam": 0.4454,
+      "medianConsecutiveSeam": 0.1711,
+      "worstConsecutivePair": [
+        5,
+        6
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-side-dig-jab-phase-05-anim",
+      "sheet": "survival-ual-player-v1-moving-side-dig-phase-handoff-sheet",
+      "frames": 22,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 123,
+      "visibleHeightMedianPx": 74.0,
+      "visibleHeightRangePx": 11,
+      "baselineRangePx": 1,
+      "centerXRangePx": 4.5,
+      "worstConsecutiveSeam": 0.4241,
+      "medianConsecutiveSeam": 0.1981,
+      "worstConsecutivePair": [
+        14,
+        15
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-side-dig-jab-phase-24-anim",
+      "sheet": "survival-ual-player-v1-moving-side-dig-phase-handoff-sheet",
+      "frames": 22,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 123,
+      "visibleHeightMedianPx": 75.0,
+      "visibleHeightRangePx": 2,
+      "baselineRangePx": 1,
+      "centerXRangePx": 9.0,
+      "worstConsecutiveSeam": 0.4484,
+      "medianConsecutiveSeam": 0.1597,
+      "worstConsecutivePair": [
+        14,
+        15
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-side-quickslash-anim",
+      "sheet": "survival-ual-player-v1-moving-side-dig-jab-sheet",
+      "frames": 16,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 123,
+      "visibleHeightMedianPx": 74.5,
+      "visibleHeightRangePx": 7,
+      "baselineRangePx": 0,
+      "centerXRangePx": 10.0,
+      "worstConsecutiveSeam": 0.4029,
+      "medianConsecutiveSeam": 0.2651,
+      "worstConsecutivePair": [
+        3,
+        4
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-side-quickslash-cross-phase-10-anim",
+      "sheet": "survival-ual-player-v1-moving-side-dig-phase-handoff-sheet",
+      "frames": 16,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 123,
+      "visibleHeightMedianPx": 75.0,
+      "visibleHeightRangePx": 4,
+      "baselineRangePx": 0,
+      "centerXRangePx": 10.0,
+      "worstConsecutiveSeam": 0.552,
+      "medianConsecutiveSeam": 0.2386,
+      "worstConsecutivePair": [
+        11,
+        12
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-side-quickslash-cross-phase-15-anim",
+      "sheet": "survival-ual-player-v1-moving-side-dig-phase-handoff-sheet",
+      "frames": 16,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 123,
+      "visibleHeightMedianPx": 74.0,
+      "visibleHeightRangePx": 9,
+      "baselineRangePx": 1,
+      "centerXRangePx": 6.5,
+      "worstConsecutiveSeam": 0.4395,
+      "medianConsecutiveSeam": 0.2461,
+      "worstConsecutivePair": [
+        5,
+        6
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-side-quickslash-cross-phase-19-anim",
+      "sheet": "survival-ual-player-v1-moving-side-dig-phase-handoff-sheet",
+      "frames": 16,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 123,
+      "visibleHeightMedianPx": 73.0,
+      "visibleHeightRangePx": 10,
+      "baselineRangePx": 0,
+      "centerXRangePx": 5.0,
+      "worstConsecutiveSeam": 0.3871,
+      "medianConsecutiveSeam": 0.2335,
+      "worstConsecutivePair": [
+        11,
+        12
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-side-quickslash-cross-phase-23-anim",
+      "sheet": "survival-ual-player-v1-moving-side-dig-cross-sheet",
+      "frames": 16,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 123,
+      "visibleHeightMedianPx": 75.5,
+      "visibleHeightRangePx": 6,
+      "baselineRangePx": 1,
+      "centerXRangePx": 9.5,
+      "worstConsecutiveSeam": 0.4052,
+      "medianConsecutiveSeam": 0.213,
+      "worstConsecutivePair": [
+        11,
+        12
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-side-quickslash-jab-phase-01-anim",
+      "sheet": "survival-ual-player-v1-moving-side-dig-phase-handoff-sheet",
+      "frames": 16,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 123,
+      "visibleHeightMedianPx": 73.5,
+      "visibleHeightRangePx": 9,
+      "baselineRangePx": 1,
+      "centerXRangePx": 9.0,
+      "worstConsecutiveSeam": 0.4454,
+      "medianConsecutiveSeam": 0.2448,
+      "worstConsecutivePair": [
+        3,
+        4
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-side-quickslash-jab-phase-05-anim",
+      "sheet": "survival-ual-player-v1-moving-side-dig-phase-handoff-sheet",
+      "frames": 16,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 123,
+      "visibleHeightMedianPx": 72.0,
+      "visibleHeightRangePx": 11,
+      "baselineRangePx": 1,
+      "centerXRangePx": 4.5,
+      "worstConsecutiveSeam": 0.4923,
+      "medianConsecutiveSeam": 0.2564,
+      "worstConsecutivePair": [
+        11,
+        12
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-moving-side-quickslash-jab-phase-24-anim",
+      "sheet": "survival-ual-player-v1-moving-side-dig-phase-handoff-sheet",
+      "frames": 16,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 123,
+      "visibleHeightMedianPx": 75.0,
+      "visibleHeightRangePx": 2,
+      "baselineRangePx": 1,
+      "centerXRangePx": 8.5,
+      "worstConsecutiveSeam": 0.5919,
+      "medianConsecutiveSeam": 0.2407,
+      "worstConsecutivePair": [
+        11,
+        12
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-roll-anim",
+      "sheet": "survival-ual-player-v1-teleport-sheet",
+      "frames": 45,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 55,
+      "visibleHeightRangePx": 39,
+      "baselineRangePx": 2,
+      "centerXRangePx": 19.5,
+      "worstConsecutiveSeam": 0.6163,
+      "medianConsecutiveSeam": 0.2948,
+      "worstConsecutivePair": [
+        9,
+        10
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-run-anim",
+      "sheet": "survival-mixamo-v1-walk-loop-sheet",
+      "frames": 24,
+      "frameRate": 24,
+      "repeat": -1,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 76.0,
+      "visibleHeightRangePx": 3,
+      "baselineRangePx": 2,
+      "centerXRangePx": 8.5,
+      "worstConsecutiveSeam": 0.2469,
+      "medianConsecutiveSeam": 0.1837,
+      "worstConsecutivePair": [
+        1,
+        2
+      ],
+      "loopSeam": 0.1655,
+      "loopToMedianRatio": 0.901
+    },
+    {
+      "key": "survival-ual-player-v1-soft-landing-continuity-anim",
+      "sheet": "survival-ual-player-v1-animation-polish-transitions-sheet",
+      "frames": 5,
+      "frameRate": 40,
+      "repeat": 0,
+      "displaySizePx": 123,
+      "visibleHeightMedianPx": 62,
+      "visibleHeightRangePx": 26,
+      "baselineRangePx": 1,
+      "centerXRangePx": 5.5,
+      "worstConsecutiveSeam": 0.5641,
+      "medianConsecutiveSeam": 0.4871,
+      "worstConsecutivePair": [
+        0,
+        1
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-spell-charge-anim",
+      "sheet": "survival-ual-player-v1-thunder-charge-sheet",
+      "frames": 30,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 73.0,
+      "visibleHeightRangePx": 0,
+      "baselineRangePx": 0,
+      "centerXRangePx": 0.5,
+      "worstConsecutiveSeam": 0.0094,
+      "medianConsecutiveSeam": 0.0044,
+      "worstConsecutivePair": [
+        9,
+        10
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-walk-loop-anim",
+      "sheet": "survival-blender-v2-walk-sheet",
+      "frames": 24,
+      "frameRate": 30,
+      "repeat": -1,
+      "displaySizePx": 104,
+      "visibleHeightMedianPx": 74.0,
+      "visibleHeightRangePx": 4,
+      "baselineRangePx": 4,
+      "centerXRangePx": 8.0,
+      "worstConsecutiveSeam": 0.4511,
+      "medianConsecutiveSeam": 0.3375,
+      "worstConsecutivePair": [
+        7,
+        8
+      ],
+      "loopSeam": 0.3855,
+      "loopToMedianRatio": 1.142
+    },
+    {
+      "key": "survival-ual-player-v1-wall-brace-enter-anim",
+      "sheet": "survival-ual-player-v1-animation-polish-transitions-sheet",
+      "frames": 3,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 123,
+      "visibleHeightMedianPx": 74,
+      "visibleHeightRangePx": 0,
+      "baselineRangePx": 0,
+      "centerXRangePx": 0.5,
+      "worstConsecutiveSeam": 0.1442,
+      "medianConsecutiveSeam": 0.0833,
+      "worstConsecutivePair": [
+        1,
+        2
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-wall-brace-exit-anim",
+      "sheet": "survival-ual-player-v1-animation-polish-transitions-sheet",
+      "frames": 3,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 123,
+      "visibleHeightMedianPx": 75,
+      "visibleHeightRangePx": 1,
+      "baselineRangePx": 1,
+      "centerXRangePx": 11.0,
+      "worstConsecutiveSeam": 0.3321,
+      "medianConsecutiveSeam": 0.182,
+      "worstConsecutivePair": [
+        1,
+        2
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    },
+    {
+      "key": "survival-ual-player-v1-wall-brace-loop-anim",
+      "sheet": "survival-ual-player-v1-animation-polish-transitions-sheet",
+      "frames": 16,
+      "frameRate": 30,
+      "repeat": -1,
+      "displaySizePx": 123,
+      "visibleHeightMedianPx": 75.0,
+      "visibleHeightRangePx": 1,
+      "baselineRangePx": 1,
+      "centerXRangePx": 5.5,
+      "worstConsecutiveSeam": 0.3567,
+      "medianConsecutiveSeam": 0.1372,
+      "worstConsecutivePair": [
+        12,
+        13
+      ],
+      "loopSeam": 0.1401,
+      "loopToMedianRatio": 1.021
+    }
+  ],
+  "actionRecoveryMetrics": [
+    {
+      "source": "survival-ual-player-v1-punch-jab-anim",
+      "target": "survival-ual-player-v1-jab-idle-settle-anim",
+      "missing": true
+    },
+    {
+      "source": "survival-ual-player-v1-dig-side-cross-anim",
+      "target": "survival-ual-player-v1-cross-idle-settle-anim",
+      "seam": 0.4831
+    },
+    {
+      "source": "survival-ual-player-v1-dig-up-jab-anim",
+      "target": "survival-ual-player-v1-dig-up-idle-settle-anim",
+      "seam": 0.0886
+    },
+    {
+      "source": "survival-ual-player-v1-dig-up-cross-anim",
+      "target": "survival-ual-player-v1-dig-up-idle-settle-anim",
+      "seam": 0.0886
+    },
+    {
+      "source": "survival-ual-player-v1-dig-up-side-jab-anim",
+      "target": "survival-ual-player-v1-dig-up-idle-settle-anim",
+      "seam": 0.0886
+    },
+    {
+      "source": "survival-ual-player-v1-dig-up-side-cross-anim",
+      "target": "survival-ual-player-v1-dig-up-idle-settle-anim",
+      "seam": 0.0886
+    },
+    {
+      "source": "survival-ual-player-v1-dig-down-ground-strike-anim",
+      "target": "survival-ual-player-v1-dig-down-idle-settle-anim",
+      "seam": 0.4497
+    },
+    {
+      "source": "survival-ual-player-v1-moving-side-dig-jab-phase-01-anim",
+      "target": "survival-ual-player-v1-jab-idle-settle-anim",
+      "seam": 0.6272
+    },
+    {
+      "source": "survival-ual-player-v1-moving-side-dig-cross-phase-15-anim",
+      "target": "survival-ual-player-v1-cross-idle-settle-anim",
+      "seam": 0.5695
+    },
+    {
+      "source": "survival-ual-player-v1-moving-side-dig-jab-phase-05-anim",
+      "target": "survival-ual-player-v1-jab-idle-settle-anim",
+      "seam": 0.3777
+    },
+    {
+      "source": "survival-ual-player-v1-moving-side-dig-cross-phase-19-anim",
+      "target": "survival-ual-player-v1-cross-idle-settle-anim",
+      "seam": 0.3779
+    },
+    {
+      "source": "survival-ual-player-v1-moving-side-dig-jab-anim",
+      "target": "survival-ual-player-v1-jab-idle-settle-anim",
+      "seam": 0.6209
+    },
+    {
+      "source": "survival-ual-player-v1-moving-side-dig-cross-anim",
+      "target": "survival-ual-player-v1-cross-idle-settle-anim",
+      "seam": 0.6459
+    },
+    {
+      "source": "survival-ual-player-v1-moving-side-dig-cross-phase-10-anim",
+      "target": "survival-ual-player-v1-cross-idle-settle-anim",
+      "seam": 0.6267
+    },
+    {
+      "source": "survival-ual-player-v1-moving-side-dig-jab-phase-24-anim",
+      "target": "survival-ual-player-v1-jab-idle-settle-anim",
+      "seam": 0.6518
+    },
+    {
+      "source": "survival-ual-player-v1-moving-diagonal-up-phase-01-anim",
+      "target": "survival-ual-player-v1-dig-up-idle-settle-anim",
+      "seam": 0.5443
+    },
+    {
+      "source": "survival-ual-player-v1-moving-diagonal-up-phase-08-anim",
+      "target": "survival-ual-player-v1-dig-up-idle-settle-anim",
+      "seam": 0.5845
+    },
+    {
+      "source": "survival-ual-player-v1-moving-diagonal-up-phase-15-anim",
+      "target": "survival-ual-player-v1-dig-up-idle-settle-anim",
+      "seam": 0.5507
+    },
+    {
+      "source": "survival-ual-player-v1-moving-diagonal-up-phase-22-anim",
+      "target": "survival-ual-player-v1-dig-up-idle-settle-anim",
+      "seam": 0.585
+    },
+    {
+      "source": "survival-ual-player-v1-moving-diagonal-down-phase-01-anim",
+      "target": "survival-ual-player-v1-dig-down-idle-settle-anim",
+      "seam": 0.5973
+    },
+    {
+      "source": "survival-ual-player-v1-moving-diagonal-down-phase-08-anim",
+      "target": "survival-ual-player-v1-dig-down-idle-settle-anim",
+      "seam": 0.6296
+    },
+    {
+      "source": "survival-ual-player-v1-moving-diagonal-down-phase-15-anim",
+      "target": "survival-ual-player-v1-dig-down-idle-settle-anim",
+      "seam": 0.594
+    },
+    {
+      "source": "survival-ual-player-v1-moving-diagonal-down-phase-22-anim",
+      "target": "survival-ual-player-v1-dig-down-idle-settle-anim",
+      "seam": 0.6417
+    },
+    {
+      "source": "survival-mixamo-v3-complex-dig-cross-anim",
+      "target": "survival-ual-player-v1-cross-idle-settle-anim",
+      "seam": 0.6406
+    },
+    {
+      "source": "survival-mixamo-v3-complex-dig-jab-anim",
+      "target": "survival-ual-player-v1-jab-idle-settle-anim",
+      "seam": 0.6041
+    },
+    {
+      "source": "survival-mixamo-v3-complex-dig-roundhouse-anim",
+      "target": "survival-ual-player-v1-cross-idle-settle-anim",
+      "seam": 0.6515
+    },
+    {
+      "source": "survival-mixamo-v3-complex-dig-jab-elbow-anim",
+      "target": "survival-ual-player-v1-jab-idle-settle-anim",
+      "seam": 0.6551
+    },
+    {
+      "source": "survival-mixamo-v3-complex-dig-low-kick-anim",
+      "target": "survival-ual-player-v1-jab-idle-settle-anim",
+      "seam": 0.6247
+    },
+    {
+      "source": "survival-mixamo-v3-complex-dig-high-kick-anim",
+      "target": "survival-ual-player-v1-cross-idle-settle-anim",
+      "seam": 0.6502
+    },
+    {
+      "source": "survival-mixamo-v3-complex-dig-spinning-back-kick-anim",
+      "target": "survival-ual-player-v1-cross-idle-settle-anim",
+      "seam": 0.6536
+    },
+    {
+      "source": "survival-mixamo-v3-complex-dig-elbow-uppercut-anim",
+      "target": "survival-ual-player-v1-dig-up-idle-settle-anim",
+      "seam": 0.6453
+    },
+    {
+      "source": "survival-mixamo-v3-complex-dig-single-elbow-anim",
+      "target": "survival-ual-player-v1-jab-idle-settle-anim",
+      "seam": 0.6295
+    },
+    {
+      "source": "survival-mixamo-v3-complex-dig-hook-anim",
+      "target": "survival-ual-player-v1-cross-idle-settle-anim",
+      "seam": 0.6548
+    },
+    {
+      "source": "survival-mixamo-v3-complex-dig-uppercut-anim",
+      "target": "survival-ual-player-v1-dig-up-idle-settle-anim",
+      "seam": 0.6378
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-jab-jab-phase-01-anim",
+      "target": "survival-ual-player-v1-jab-idle-settle-anim",
+      "seam": 0.7185
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-jab-cross-phase-15-anim",
+      "target": "survival-ual-player-v1-jab-idle-settle-anim",
+      "seam": 0.6783
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-jab-jab-phase-05-anim",
+      "target": "survival-ual-player-v1-jab-idle-settle-anim",
+      "seam": 0.6999
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-jab-cross-phase-19-anim",
+      "target": "survival-ual-player-v1-jab-idle-settle-anim",
+      "seam": 0.64
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-jab-jab-phase-09-anim",
+      "target": "survival-ual-player-v1-jab-idle-settle-anim",
+      "seam": 0.5303
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-jab-cross-phase-23-anim",
+      "target": "survival-ual-player-v1-jab-idle-settle-anim",
+      "seam": 0.5379
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-jab-cross-phase-10-anim",
+      "target": "survival-ual-player-v1-jab-idle-settle-anim",
+      "seam": 0.577
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-jab-jab-phase-24-anim",
+      "target": "survival-ual-player-v1-jab-idle-settle-anim",
+      "seam": 0.6286
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-cross-jab-phase-01-anim",
+      "target": "survival-ual-player-v1-cross-idle-settle-anim",
+      "seam": 0.7183
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-cross-cross-phase-15-anim",
+      "target": "survival-ual-player-v1-cross-idle-settle-anim",
+      "seam": 0.6773
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-cross-jab-phase-05-anim",
+      "target": "survival-ual-player-v1-cross-idle-settle-anim",
+      "seam": 0.699
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-cross-cross-phase-19-anim",
+      "target": "survival-ual-player-v1-cross-idle-settle-anim",
+      "seam": 0.6389
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-cross-jab-phase-09-anim",
+      "target": "survival-ual-player-v1-cross-idle-settle-anim",
+      "seam": 0.5306
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-cross-cross-phase-23-anim",
+      "target": "survival-ual-player-v1-cross-idle-settle-anim",
+      "seam": 0.5374
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-cross-cross-phase-10-anim",
+      "target": "survival-ual-player-v1-cross-idle-settle-anim",
+      "seam": 0.5773
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-cross-jab-phase-24-anim",
+      "target": "survival-ual-player-v1-cross-idle-settle-anim",
+      "seam": 0.6289
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-roundhouse-jab-phase-01-anim",
+      "target": "survival-ual-player-v1-cross-idle-settle-anim",
+      "seam": 0.7183
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-roundhouse-cross-phase-15-anim",
+      "target": "survival-ual-player-v1-cross-idle-settle-anim",
+      "seam": 0.6773
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-roundhouse-jab-phase-05-anim",
+      "target": "survival-ual-player-v1-cross-idle-settle-anim",
+      "seam": 0.699
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-roundhouse-cross-phase-19-anim",
+      "target": "survival-ual-player-v1-cross-idle-settle-anim",
+      "seam": 0.6389
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-roundhouse-jab-phase-09-anim",
+      "target": "survival-ual-player-v1-cross-idle-settle-anim",
+      "seam": 0.5306
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-roundhouse-cross-phase-23-anim",
+      "target": "survival-ual-player-v1-cross-idle-settle-anim",
+      "seam": 0.5374
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-roundhouse-cross-phase-10-anim",
+      "target": "survival-ual-player-v1-cross-idle-settle-anim",
+      "seam": 0.5773
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-roundhouse-jab-phase-24-anim",
+      "target": "survival-ual-player-v1-cross-idle-settle-anim",
+      "seam": 0.6289
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-jabElbow-jab-phase-01-anim",
+      "target": "survival-ual-player-v1-jab-idle-settle-anim",
+      "seam": 0.6293
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-jabElbow-cross-phase-15-anim",
+      "target": "survival-ual-player-v1-jab-idle-settle-anim",
+      "seam": 0.6934
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-jabElbow-jab-phase-05-anim",
+      "target": "survival-ual-player-v1-jab-idle-settle-anim",
+      "seam": 0.6783
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-jabElbow-cross-phase-19-anim",
+      "target": "survival-ual-player-v1-jab-idle-settle-anim",
+      "seam": 0.7185
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-jabElbow-jab-phase-09-anim",
+      "target": "survival-ual-player-v1-jab-idle-settle-anim",
+      "seam": 0.6406
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-jabElbow-cross-phase-23-anim",
+      "target": "survival-ual-player-v1-jab-idle-settle-anim",
+      "seam": 0.6999
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-jabElbow-cross-phase-10-anim",
+      "target": "survival-ual-player-v1-jab-idle-settle-anim",
+      "seam": 0.6483
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-jabElbow-jab-phase-24-anim",
+      "target": "survival-ual-player-v1-jab-idle-settle-anim",
+      "seam": 0.6827
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-lowKick-jab-phase-01-anim",
+      "target": "survival-ual-player-v1-jab-idle-settle-anim",
+      "seam": 0.7185
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-lowKick-cross-phase-15-anim",
+      "target": "survival-ual-player-v1-jab-idle-settle-anim",
+      "seam": 0.6783
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-lowKick-jab-phase-05-anim",
+      "target": "survival-ual-player-v1-jab-idle-settle-anim",
+      "seam": 0.6999
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-lowKick-cross-phase-19-anim",
+      "target": "survival-ual-player-v1-jab-idle-settle-anim",
+      "seam": 0.64
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-lowKick-jab-phase-09-anim",
+      "target": "survival-ual-player-v1-jab-idle-settle-anim",
+      "seam": 0.5303
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-lowKick-cross-phase-23-anim",
+      "target": "survival-ual-player-v1-jab-idle-settle-anim",
+      "seam": 0.5379
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-lowKick-cross-phase-10-anim",
+      "target": "survival-ual-player-v1-jab-idle-settle-anim",
+      "seam": 0.577
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-lowKick-jab-phase-24-anim",
+      "target": "survival-ual-player-v1-jab-idle-settle-anim",
+      "seam": 0.6286
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-highKick-jab-phase-01-anim",
+      "target": "survival-ual-player-v1-cross-idle-settle-anim",
+      "seam": 0.7183
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-highKick-cross-phase-15-anim",
+      "target": "survival-ual-player-v1-cross-idle-settle-anim",
+      "seam": 0.6773
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-highKick-jab-phase-05-anim",
+      "target": "survival-ual-player-v1-cross-idle-settle-anim",
+      "seam": 0.699
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-highKick-cross-phase-19-anim",
+      "target": "survival-ual-player-v1-cross-idle-settle-anim",
+      "seam": 0.6389
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-highKick-jab-phase-09-anim",
+      "target": "survival-ual-player-v1-cross-idle-settle-anim",
+      "seam": 0.5306
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-highKick-cross-phase-23-anim",
+      "target": "survival-ual-player-v1-cross-idle-settle-anim",
+      "seam": 0.5374
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-highKick-cross-phase-10-anim",
+      "target": "survival-ual-player-v1-cross-idle-settle-anim",
+      "seam": 0.5773
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-highKick-jab-phase-24-anim",
+      "target": "survival-ual-player-v1-cross-idle-settle-anim",
+      "seam": 0.6289
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-spinningBackKick-jab-phase-01-anim",
+      "target": "survival-ual-player-v1-cross-idle-settle-anim",
+      "seam": 0.7183
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-spinningBackKick-cross-phase-15-anim",
+      "target": "survival-ual-player-v1-cross-idle-settle-anim",
+      "seam": 0.6773
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-spinningBackKick-jab-phase-05-anim",
+      "target": "survival-ual-player-v1-cross-idle-settle-anim",
+      "seam": 0.699
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-spinningBackKick-cross-phase-19-anim",
+      "target": "survival-ual-player-v1-cross-idle-settle-anim",
+      "seam": 0.6389
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-spinningBackKick-jab-phase-09-anim",
+      "target": "survival-ual-player-v1-cross-idle-settle-anim",
+      "seam": 0.5306
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-spinningBackKick-cross-phase-23-anim",
+      "target": "survival-ual-player-v1-cross-idle-settle-anim",
+      "seam": 0.5374
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-spinningBackKick-cross-phase-10-anim",
+      "target": "survival-ual-player-v1-cross-idle-settle-anim",
+      "seam": 0.5768
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-spinningBackKick-jab-phase-24-anim",
+      "target": "survival-ual-player-v1-cross-idle-settle-anim",
+      "seam": 0.6289
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-elbowUppercut-jab-phase-01-anim",
+      "target": "survival-ual-player-v1-dig-up-idle-settle-anim",
+      "seam": 0.6433
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-elbowUppercut-cross-phase-15-anim",
+      "target": "survival-ual-player-v1-dig-up-idle-settle-anim",
+      "seam": 0.6876
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-elbowUppercut-jab-phase-05-anim",
+      "target": "survival-ual-player-v1-dig-up-idle-settle-anim",
+      "seam": 0.6625
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-elbowUppercut-cross-phase-19-anim",
+      "target": "survival-ual-player-v1-dig-up-idle-settle-anim",
+      "seam": 0.7047
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-elbowUppercut-jab-phase-09-anim",
+      "target": "survival-ual-player-v1-dig-up-idle-settle-anim",
+      "seam": 0.6273
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-elbowUppercut-cross-phase-23-anim",
+      "target": "survival-ual-player-v1-dig-up-idle-settle-anim",
+      "seam": 0.6766
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-elbowUppercut-cross-phase-10-anim",
+      "target": "survival-ual-player-v1-dig-up-idle-settle-anim",
+      "seam": 0.6468
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-elbowUppercut-jab-phase-24-anim",
+      "target": "survival-ual-player-v1-dig-up-idle-settle-anim",
+      "seam": 0.6751
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-singleElbow-jab-phase-01-anim",
+      "target": "survival-ual-player-v1-jab-idle-settle-anim",
+      "seam": 0.7185
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-singleElbow-cross-phase-15-anim",
+      "target": "survival-ual-player-v1-jab-idle-settle-anim",
+      "seam": 0.6783
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-singleElbow-jab-phase-05-anim",
+      "target": "survival-ual-player-v1-jab-idle-settle-anim",
+      "seam": 0.6999
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-singleElbow-cross-phase-19-anim",
+      "target": "survival-ual-player-v1-jab-idle-settle-anim",
+      "seam": 0.6406
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-singleElbow-jab-phase-09-anim",
+      "target": "survival-ual-player-v1-jab-idle-settle-anim",
+      "seam": 0.5303
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-singleElbow-cross-phase-23-anim",
+      "target": "survival-ual-player-v1-jab-idle-settle-anim",
+      "seam": 0.5379
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-singleElbow-cross-phase-10-anim",
+      "target": "survival-ual-player-v1-jab-idle-settle-anim",
+      "seam": 0.5765
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-singleElbow-jab-phase-24-anim",
+      "target": "survival-ual-player-v1-jab-idle-settle-anim",
+      "seam": 0.6286
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-hook-jab-phase-01-anim",
+      "target": "survival-ual-player-v1-cross-idle-settle-anim",
+      "seam": 0.7183
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-hook-cross-phase-15-anim",
+      "target": "survival-ual-player-v1-cross-idle-settle-anim",
+      "seam": 0.6773
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-hook-jab-phase-05-anim",
+      "target": "survival-ual-player-v1-cross-idle-settle-anim",
+      "seam": 0.699
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-hook-cross-phase-19-anim",
+      "target": "survival-ual-player-v1-cross-idle-settle-anim",
+      "seam": 0.6396
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-hook-jab-phase-09-anim",
+      "target": "survival-ual-player-v1-cross-idle-settle-anim",
+      "seam": 0.5306
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-hook-cross-phase-23-anim",
+      "target": "survival-ual-player-v1-cross-idle-settle-anim",
+      "seam": 0.5374
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-hook-cross-phase-10-anim",
+      "target": "survival-ual-player-v1-cross-idle-settle-anim",
+      "seam": 0.5768
+    },
+    {
+      "source": "survival-ual-player-v1-moving-complex-dig-hook-jab-phase-24-anim",
+      "target": "survival-ual-player-v1-cross-idle-settle-anim",
+      "seam": 0.6289
+    }
+  ],
+  "candidateFlags": [
+    {
+      "severity": "review",
+      "category": "loop seam",
+      "key": "survival-mixamo-v1-flight-loop-anim",
+      "sheet": "survival-mixamo-v1-flight-loop-sheet",
+      "frames": 48,
+      "frameRate": 18,
+      "repeat": -1,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 25.0,
+      "visibleHeightRangePx": 1,
+      "baselineRangePx": 7,
+      "centerXRangePx": 0.5,
+      "worstConsecutiveSeam": 0.0412,
+      "medianConsecutiveSeam": 0.0227,
+      "worstConsecutivePair": [
+        27,
+        28
+      ],
+      "loopSeam": 0.6566,
+      "loopToMedianRatio": 28.862
+    },
+    {
+      "severity": "review",
+      "category": "loop seam",
+      "key": "survival-held-torch-v1-flight-anim",
+      "sheet": "survival-held-torch-v1-flight-sheet",
+      "frames": 48,
+      "frameRate": 24,
+      "repeat": -1,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 36.0,
+      "visibleHeightRangePx": 2,
+      "baselineRangePx": 6,
+      "centerXRangePx": 0.5,
+      "worstConsecutiveSeam": 0.0422,
+      "medianConsecutiveSeam": 0.0255,
+      "worstConsecutivePair": [
+        24,
+        25
+      ],
+      "loopSeam": 0.6543,
+      "loopToMedianRatio": 25.7
+    },
+    {
+      "severity": "review",
+      "category": "action recovery seam",
+      "source": "survival-ual-player-v1-moving-complex-dig-jab-jab-phase-01-anim",
+      "target": "survival-ual-player-v1-jab-idle-settle-anim",
+      "seam": 0.7185
+    },
+    {
+      "severity": "review",
+      "category": "action recovery seam",
+      "source": "survival-ual-player-v1-moving-complex-dig-jabElbow-cross-phase-19-anim",
+      "target": "survival-ual-player-v1-jab-idle-settle-anim",
+      "seam": 0.7185
+    },
+    {
+      "severity": "review",
+      "category": "action recovery seam",
+      "source": "survival-ual-player-v1-moving-complex-dig-lowKick-jab-phase-01-anim",
+      "target": "survival-ual-player-v1-jab-idle-settle-anim",
+      "seam": 0.7185
+    },
+    {
+      "severity": "review",
+      "category": "action recovery seam",
+      "source": "survival-ual-player-v1-moving-complex-dig-singleElbow-jab-phase-01-anim",
+      "target": "survival-ual-player-v1-jab-idle-settle-anim",
+      "seam": 0.7185
+    },
+    {
+      "severity": "review",
+      "category": "action recovery seam",
+      "source": "survival-ual-player-v1-moving-complex-dig-cross-jab-phase-01-anim",
+      "target": "survival-ual-player-v1-cross-idle-settle-anim",
+      "seam": 0.7183
+    },
+    {
+      "severity": "review",
+      "category": "action recovery seam",
+      "source": "survival-ual-player-v1-moving-complex-dig-roundhouse-jab-phase-01-anim",
+      "target": "survival-ual-player-v1-cross-idle-settle-anim",
+      "seam": 0.7183
+    },
+    {
+      "severity": "review",
+      "category": "action recovery seam",
+      "source": "survival-ual-player-v1-moving-complex-dig-highKick-jab-phase-01-anim",
+      "target": "survival-ual-player-v1-cross-idle-settle-anim",
+      "seam": 0.7183
+    },
+    {
+      "severity": "review",
+      "category": "action recovery seam",
+      "source": "survival-ual-player-v1-moving-complex-dig-spinningBackKick-jab-phase-01-anim",
+      "target": "survival-ual-player-v1-cross-idle-settle-anim",
+      "seam": 0.7183
+    },
+    {
+      "severity": "review",
+      "category": "action recovery seam",
+      "source": "survival-ual-player-v1-moving-complex-dig-hook-jab-phase-01-anim",
+      "target": "survival-ual-player-v1-cross-idle-settle-anim",
+      "seam": 0.7183
+    },
+    {
+      "severity": "review",
+      "category": "action recovery seam",
+      "source": "survival-ual-player-v1-moving-complex-dig-elbowUppercut-cross-phase-19-anim",
+      "target": "survival-ual-player-v1-dig-up-idle-settle-anim",
+      "seam": 0.7047
+    },
+    {
+      "severity": "review",
+      "category": "action recovery seam",
+      "source": "survival-ual-player-v1-moving-complex-dig-jab-jab-phase-05-anim",
+      "target": "survival-ual-player-v1-jab-idle-settle-anim",
+      "seam": 0.6999
+    },
+    {
+      "severity": "review",
+      "category": "action recovery seam",
+      "source": "survival-ual-player-v1-moving-complex-dig-jabElbow-cross-phase-23-anim",
+      "target": "survival-ual-player-v1-jab-idle-settle-anim",
+      "seam": 0.6999
+    },
+    {
+      "severity": "wiring",
+      "category": "missing recovery registration",
+      "source": "survival-ual-player-v1-punch-jab-anim",
+      "target": "survival-ual-player-v1-jab-idle-settle-anim",
+      "missing": true
+    }
+  ]
+}

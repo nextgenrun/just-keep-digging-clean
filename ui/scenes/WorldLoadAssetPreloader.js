@@ -65,7 +65,7 @@ export function queueWorldLoadFeatureAssets(
     priority: RUNTIME_ASSET_LOADING.priorities.playerCore,
     residencyClass: RUNTIME_ASSET_RESIDENCY_CLASSES.core,
     packId: "ui:typed-confirmation",
-    consumers: ["depth-warning", "hardcore-modal"],
+    consumers: ["depth-warning", "hardcore-modal", "star-consumption"],
     managed: false,
   });
   const modeAssets = isHardcoreMode(hardcoreModeData)

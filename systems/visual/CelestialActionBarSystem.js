@@ -1,10 +1,12 @@
-// Orchestrates the production five-slot Celestial actionbar view and callbacks.
-
-import { APPROVED_HUD_SKIN } from "../../values/approvedHudSkin.js";
+// Orchestrates the production six-slot actionbar view and callbacks.
 import {
   CELESTIAL_ACTION_BAR_CONFIG,
   sanitizeCelestialActionBarOrder,
 } from "../../values/celestialActionBar.js";
+import {
+  CelestialActionBarFoundationView,
+  resolveCelestialActionBarPlacement,
+} from "./CelestialActionBarFoundationView.js";
 import { CelestialActionBarMetricsView } from "./CelestialActionBarMetricsView.js";
 import { CelestialActionBarSlotView } from "./CelestialActionBarSlotView.js";
 import { CelestialActionBarTooltipView } from "./CelestialActionBarTooltipView.js";
@@ -63,18 +65,22 @@ export class CelestialActionBarSystem {
     return true;
   }
 
-  _build() {
-    const layout = this.config.layout;
-    const presentation = this.config.presentation;
-    this.foundation = this.scene.add.image(
-      0,
-      0,
-      this.assetHealth.chrome.foundation,
-    ).setOrigin(0.5)
-      .setScrollFactor(0)
-      .setDepth(presentation.depth - 1)
-      .setAlpha(presentation.foundationAlpha);
+  refreshEntryIcons() {
+    if (this.destroyed || !this.mounted) return false;
+    const assetHealth = inspectCelestialActionBarAssets(this.scene, this.config.entries);
+    if (assetHealth.missingTextures.length > 0) return false;
+    this.assetHealth = assetHealth;
+    this.config.entries.forEach(entry => {
+      this.slotsById.get(entry.id)?.setIcon?.(assetHealth.icons[entry.id]);
+    });
+    return true;
+  }
 
+  _build() {
+    this.foundationView = new CelestialActionBarFoundationView(
+      this.scene,
+      this.assetHealth,
+    );
     for (const entry of this.config.entries) {
       const slot = new CelestialActionBarSlotView(
         this.scene,
@@ -112,16 +118,21 @@ export class CelestialActionBarSystem {
       unlocked,
       available: unlocked && source?.available !== false,
       active: source?.active === true,
+      quantity: Number.isFinite(source?.quantity)
+        ? Math.max(0, Math.floor(source.quantity))
+        : null,
+      description: source?.description || entry.description,
       unlockCondition: source?.unlockCondition || entry.unlockCondition,
       unavailableReason: source?.unavailableReason || this.config.copy.unavailable,
     });
   }
 
-  sync() {
+  sync(pulseEntryId = null) {
     if (!this.mounted && !this.refreshAssets()) return this.getHealthSnapshot();
     for (const entry of this.config.entries) {
       this.slotsById.get(entry.id)?.setState(this._resolveState(entry));
     }
+    this.slotsById.get(pulseEntryId)?.pulse?.();
     this.metrics?.sync();
     if (this.tooltipVisible && this.hoveredSlot) this._showTooltip(this.hoveredSlot);
     return this.getHealthSnapshot();
@@ -208,7 +219,7 @@ export class CelestialActionBarSystem {
       ? `${this.config.copy.lockedPrefix}${state.unlockCondition}`
       : !state.available
         ? state.unavailableReason
-        : `${slot.entry.description} ${this.config.copy.readyHint}`;
+        : `${state.description} ${this.config.copy.readyHint}`;
     this.hoveredSlot = slot;
     this.tooltipVisible = true;
     this.tooltip.show(slot, `${slot.slotNumber}  ${slot.entry.label}`, body);
@@ -226,42 +237,32 @@ export class CelestialActionBarSystem {
     const layout = this.config.layout;
     const width = this.scene.scale?.width || layout.referenceWidthPx;
     const height = this.scene.scale?.height || layout.referenceHeightPx;
-    this.uiScale = Math.max(layout.minimumScale, Math.min(
-      layout.maximumScale,
-      width / layout.referenceWidthPx,
-      height / layout.referenceHeightPx,
-    ));
-    const xp = APPROVED_HUD_SKIN.layout.xp;
-    const xpTop = height - (xp.bottom + xp.height) * this.uiScale;
-    this.centerX = width / 2;
-    this.centerY = xpTop - (layout.xpGapPx + layout.foundationHeightPx / 2) * this.uiScale;
-    this.foundation.setPosition(this.centerX, this.centerY).setDisplaySize(
-      layout.foundationWidthPx * this.uiScale,
-      layout.foundationHeightPx * this.uiScale,
-    );
+    this.placement = resolveCelestialActionBarPlacement(width, height);
+    this.uiScale = this.placement.scale;
+    this.centerX = this.placement.centerX;
+    this.centerY = this.placement.centerY;
+    this.foundationView.resize(this.centerX, this.centerY, this.uiScale);
     this.metrics?.resize(this.centerX, this.centerY, this.uiScale);
     this._layoutSlots();
-    this.tooltip?.resize(width, this.centerY, this.uiScale);
+    this.tooltip?.resize(
+      width, this.centerY, this.uiScale, this.placement.bounds.left,
+    );
     return true;
   }
 
   _layoutSlots() {
     if (!this.mounted) return;
-    const layout = this.config.layout;
-    const foundationWidth = layout.foundationWidthPx * this.uiScale;
-    const foundationLeft = this.centerX - foundationWidth / 2;
-    const slotY = this.centerY + layout.slotOffsetYPx * this.uiScale;
     this.order.forEach((entryId, index) => {
       const slot = this.slotsById.get(entryId);
-      const ratio = layout.slotCenterRatios[index];
+      const position = this.foundationView.getSlotPosition(index);
       slot?.setSlotNumber(index + 1);
-      slot?.setBasePosition(foundationLeft + foundationWidth * ratio, slotY, this.uiScale);
+      slot?.setBasePosition(position.x, position.y, this.uiScale);
     });
   }
 
   setVisible(visible) {
     this.visible = visible === true;
-    this.foundation?.setVisible(this.visible);
+    this.foundationView?.setVisible(this.visible);
     for (const slot of this.slotsById.values()) slot.setVisible(this.visible);
     this.metrics?.setVisible(this.visible);
     this.tooltip?.setParentVisible(this.visible);
@@ -290,7 +291,7 @@ export class CelestialActionBarSystem {
     this._hideTooltip();
     for (const slot of this.slotsById.values()) slot.destroy();
     this.slotsById.clear();
-    this.foundation?.destroy();
+    this.foundationView?.destroy();
     this.metrics?.destroy();
     this.tooltip?.destroy();
     this.mounted = false;

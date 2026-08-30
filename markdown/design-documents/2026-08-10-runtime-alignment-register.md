@@ -26,7 +26,7 @@ until browser evidence passes.
 | ALIGN-014 | Level Two 5,000 m route is part of final game | Code/assets/values exist; `demoMode` disables level, upgrades, keys, bounds | GATED | Tunnel → economy → portals → return → save → browser E2E |
 | ALIGN-015 | Arc Core/Omega are final-game vehicle progression | Systems, art, recipes, 2x2/8x8 contracts exist; demo flag disables admission | GATED | Enable only with Level Two; ownership/craft/board/mine/reload E2E |
 | ALIGN-016 | Heavenblocks forms a reachable three-region Zenith chain | Access/progression/presentation/crafting modules and art exist | PARTIAL | Resolve demo-bound reachability and Arc-vault dependency; browser E2E |
-| ALIGN-017 | Ten constellations lead to one permanent Celestial Engine | Star Heart save/charge/effect contracts and runtime wiring | SHIPPED | Natural-progression pacing audit |
+| ALIGN-017 | Star talents unlock the bounded Wayward swarm, Hollow Sun black-hole cluster, and Stellar Lance projectile buff | Talent/Star Heart save, GP, effect, mining, protected-tile, and runtime contracts | SHIPPED | Natural-progression pacing audit |
 | ALIGN-018 | Routine information never spams modal UI | Retention duration/dedupe values and one next-promise HUD exist | PARTIAL | First-two-hour notification density capture |
 | ALIGN-019 | Production UI uses authored bitmap art | New setup and HUD controls use approved HUD assets | PARTIAL | Existing primitive save cards/confirm panels and other legacy surfaces need audited conversion |
 | ALIGN-020 | Exhaustion never silently deletes a save | Death reducer marks exhausted; menu return preserves slot/backups | PARTIAL | Save readback and explicit clear/export browser test |

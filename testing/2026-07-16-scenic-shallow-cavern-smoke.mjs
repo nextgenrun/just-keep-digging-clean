@@ -21,7 +21,9 @@ import { WorldVisualMaterialField } from "../world/rendering/scenic-world/WorldV
 
 const LEGACY_QUERY = "?biomeBackdropVariants=0";
 const EXPANSION_ROLLBACK_QUERY = "?biomeBackdropExpansion=0";
-const V3_SMOKE_QUERY = "?biomeBackdropExpansionV5=0&scenicDemandStreaming=0";
+const V3_SMOKE_QUERY = (
+  "?biomeBackdropExpansionV5=0&scenicDemandStreaming=0&levelOneBiomeField=0"
+);
 const regionAssets = (region, search = V3_SMOKE_QUERY) => (
   resolveWorldVisualDepthBackdropRegionAssets(region, WORLD_VISUAL_DEPTH_BACKDROPS, search)
 );

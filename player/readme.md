@@ -31,10 +31,12 @@ but non-instant reversal. `?jumpMomentum=0` restores the previous direct
 airborne response. `PlayerFlightMotion.js`
 owns Shift takeoff assist, A/D/W/S acceleration, neutral braking, reversal, and
 post-power coast; Flight no longer overwrites upward velocity each frame.
-`PlayerLedgeAssist.js` detects collision-safe solid lips while descending,
-snaps to a braced hang, drops on S/away input, and moves the authoritative body
-up then over only after validating the final standing space. Space or W starts
-the Mixamo pull-up. `?ledgeAssist=0` restores the previous traversal unchanged.
+`PlayerLedgeAssist.js` detects collision-safe solid lips while descending. The
+authoritative body snaps to the safe hang point immediately while the visible
+survivor eases from the airborne position through a six-frame reach/tuck/grip
+catch. S/away drops; Space or W queues the Mixamo pull-up after the grip settles.
+The deferred ledge sheet warms on descent so first contact does not flash idle.
+`?ledgeAssist=0` restores the previous traversal unchanged.
 `?smoothGroundRun=0` is the isolated grounded-physics rollback.
 
 `UalActionContactTimeline.js` turns Phaser animation updates into one or more deterministic authored gameplay contacts per visible action. Single-hit mining, Quickslash, and Thunder retain one contact; reviewed multi-hit combos expose every ordered impact, including skipped-frame, completion, and wall-clock fallback coverage. Recovery cannot be replaced until the final authored contact plus the configured delay has passed. The first contact owns cooldown/ability cost/Heavy Punch authority, while later contacts hit the same committed tile without duplicating those per-action effects.
@@ -49,20 +51,46 @@ same spritesheet and animation loading path.
 
 `mouseMiningTarget.js` projects a pointer world position onto that same
 body-adjacent contract. It accepts only in-bounds solid cells beside the real
-collider, so click digging cannot reach through the player or mine at range.
+collider during ordinary mining. While Stellar Lance is active, a distant
+pointer instead selects the closest in-bounds body-edge cell on the dominant
+cardinal axis, allowing the authoritative projectile to dig through air and
+tiles without turning normal mouse mining into a ranged action.
 
 The promoted complex SIDE/UP subset stays on the production 160-bone Survival skeleton and V4 material treatment. Its eleven editable Piskel sources use one shared highlight-preserving tone curve, round-trip the runtime pixels exactly, and keep one fixed 103 px family scale. The measured result matches existing idle/walk median luminance within 0.001, visible height within 0.55 game pixels, and action-to-idle handoff drift within 0.51 game pixels without suppressing intentional kick lift. The prior native Jab/Cross and Blender upward dig remain immediate visual rollback sources; DOWN, diagonals and Thunder retain their existing routing. `PlayerKinematicMotionSystem` exposes signed post-collision velocity for shared locomotion transitions and flight banking. The measured 31x75 body and one-cell contact perimeter are authoritative in both world implementations; projected limb-marker validation is diagnostic evidence and visual alignment only, never a gate on an otherwise valid dig.
 
 `SURVIVAL_UAL_PLAYER_ASSET_PROFILE` is the approved default player visual. It promotes the Blender Survivor v2 idle and idle-talk plus the accepted prone Mixamo flight loop; the prone-v3 Superman sheet remains transition/rollback evidence. Live grounded movement always selects the UAL `Jog_Fwd_Loop` run slot and the compatible UAL-retarget action set. Existing `ualNative` / `legacy` save selections migrate to Survivor, while `?character=ualNative` remains the explicit native-placeholder rollback. The 31x75 collider, contacts, action timing, and fist-only policy remain identical to native UAL.
 
-`PlayerAbilities.js` owns Thunderstrike economy and damage authority. Slam I
-consumes the single 3x upfront GP cost; Slams II-X cost zero and are rejected
+`PlayerAbilities.js` owns Thunderstrike economy and chain scaling, while its
+injected mining-damage provider obtains the normal-hit baseline from the active
+world's `DigSystem`. This keeps progression damage, previews, and Thunder on
+one authority in both worlds; in `PlayScene` that authority also includes
+Stellar Lance projectile transactions. Slam I
+consumes the single 2.5x upfront GP cost; Slams II-X cost zero and are rejected
 unless the timing runtime explicitly arms the next sequential stage. All ten
 slams stay in one vertical lane beginning at the first tile below the player's
-body, use the configured base damage curve, and compound another +20%
-combo-local damage for each successful continuation. Any early, late, or
-expired follow-up ends the chain immediately. Citadel Storm adds +10%
+body, use the configured base damage curve, and add a bounded +8% combo-local
+damage for each successful continuation. Any early, late, or expired follow-up
+ends the chain immediately. Citadel Storm adds +10%
 Thunderstrike damage without widening the damage footprint.
+
+Quick Slash uses the same authority for its dynamic GP price: 12 GP base,
+minus three from Copper, then half price while Bronze's 75% current-GP
+threshold is met. It never becomes free. `DigSystem` applies its 2.5x cadence,
+180ms floor, and a baseline hit worth 3x the current normal mining hit. Dirt
+raises that complete result by 20% to 3.6x; Silver adds 20% cadence with a 150ms
+mastery floor. Every slash adds a 240px/s opening impulse on top of current
+horizontal speed and preserves the same +240px/s movement bonus while Q remains
+held. Steel stacks another +160px/s onto both, for a +400px/s mastered movement
+lead. The opening impulse does not stack again until Q is released and a new
+slash begins.
+
+Held Quick Slash is composable with powered Flight and action-bar powers. Its
+full universal-plus-Steel movement bonus raises powered Flight speed as well as
+ground movement, while Flight keeps its own drain and Quick Slash keeps its
+per-contact GP price. Celestial Engines continue running independently; Stellar
+Lance turns a Quick Slash contact into the configured piercing projectile. A
+Thunder Strike chain temporarily owns the single authored player-action visual,
+then held Q resumes Quick Slash without being released.
 
 `PlayerAbilities.js` also owns the injected GP-consumption floor. Normal play
 has a zero floor. Armed Hardcore injects a one-GP floor only for Flight and
@@ -146,4 +174,10 @@ packs resident, follows resolved velocity through Jog slowdown, and applies
 display geometry plus origin resync before the next world or cave render. This
 removes first-use fallback poses and planted-stop skating without changing
 movement speed or action timing. `?transitionCohesion=0` restores on-demand
-loading for those traversal packs.
+loading for those traversal packs. `PlayerDeferredAnimationAssetController`
+keeps the rare ledge climb plus the largest complex and moving-complex mining
+atlases out of the idle baseline. Main-world and cave selectors request those
+packs at first use and retain a valid core mining fallback while decoding
+completes. Complex mining remains warm for 60 seconds after use, preventing
+five-second stop/start mining loops from repeatedly decoding large atlases;
+automatic idle and torch traversal sheets remain resident.

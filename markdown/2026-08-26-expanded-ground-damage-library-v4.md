@@ -1,11 +1,14 @@
 # Expanded Ground Damage Library V4
 
-Date: 2026-08-26  
-Status: production-wired locally
+Date: 2026-08-26
+Status: rejected on 2026-08-27; retained for local comparison only
+
+Decision: the tile/resource-specific response direction is rejected. Universal
+V2 is restored as the production default, so V4 is not normally preloaded.
 
 ## Outcome
 
-Persistent tile damage now defaults to an expanded, tile-aware V4 mixer:
+V4 introduced an expanded, tile-aware mixer:
 
 - 64 authored structural motifs across impact, compression, radial fracture,
   shear, split, brittle, lattice, plate, splinter, and delamination families.

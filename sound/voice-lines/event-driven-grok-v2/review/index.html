@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>UNDERSTAR Event Voice Library V2</title>
+  <link rel="stylesheet" href="review.css">
+</head>
+<body>
+  <header class="hero">
+    <div class="eyebrow">REVIEW ONLY · NOT PRODUCTION</div>
+    <h1>Event Voice Library <span>V2</span></h1>
+    <p class="lede">Five Grok voices, ten gameplay-event families, longer contextual writing, and one non-overlapping audition channel.</p>
+    <div class="metrics" aria-label="Library status">
+      <div><strong id="planned-count">—</strong><span>planned clips</span></div>
+      <div><strong id="ready-count">—</strong><span>generated</span></div>
+      <div><strong id="family-count">—</strong><span>families</span></div>
+      <div><strong id="cost-value">—</strong><span>estimated USD</span></div>
+    </div>
+  </header>
+
+  <main>
+    <section class="control-deck" aria-label="Audition controls">
+      <label>Event family
+        <select id="family-filter"><option value="all">All families</option></select>
+      </label>
+      <label>Voice
+        <select id="voice-filter"><option value="all">All voices</option></select>
+      </label>
+      <label class="search-field">Search transcript or speaker
+        <input id="search-filter" type="search" placeholder="earthquake, merchant, narrator…">
+      </label>
+      <div class="deck-actions">
+        <button id="play-filtered" type="button">Play filtered sequence</button>
+        <button id="stop-playback" type="button" class="secondary">Stop</button>
+        <button id="simulate-admission" type="button" class="secondary">Simulate 5 rapid triggers</button>
+      </div>
+    </section>
+
+    <section class="now-playing" aria-live="polite">
+      <div class="pulse" id="play-pulse"></div>
+      <div>
+        <span>One-channel audition</span>
+        <strong id="now-playing-title">Nothing playing</strong>
+        <p id="now-playing-copy">Selecting a new clip deliberately stops the review player. Runtime event requests queue or drop instead of interrupting.</p>
+      </div>
+      <audio id="library-player" preload="none"></audio>
+    </section>
+
+    <section class="policy-grid" aria-labelledby="policy-title">
+      <div>
+        <span class="section-kicker">Admission contract</span>
+        <h2 id="policy-title">Why these lines do not spam</h2>
+      </div>
+      <div id="policy-card" class="policy-card"></div>
+      <ol id="simulation-log" class="simulation-log" aria-live="polite">
+        <li>Choose one event family, then run the rapid-trigger simulation.</li>
+      </ol>
+    </section>
+
+    <section class="library-section" aria-labelledby="library-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-kicker">Candidate recordings</span>
+          <h2 id="library-title">Audition library</h2>
+        </div>
+        <p id="filter-summary">Loading catalog…</p>
+      </div>
+      <div id="clip-grid" class="clip-grid"></div>
+    </section>
+  </main>
+
+  <template id="clip-template">
+    <article class="clip-card">
+      <div class="clip-topline"><span class="family-badge"></span><span class="ready-badge"></span></div>
+      <h3></h3>
+      <p class="transcript"></p>
+      <dl>
+        <div><dt>Voice</dt><dd class="voice"></dd></div>
+        <div><dt>Speaker</dt><dd class="speaker"></dd></div>
+        <div><dt>Delivery</dt><dd class="delivery"></dd></div>
+      </dl>
+      <button type="button" class="play-clip">Play candidate</button>
+    </article>
+  </template>
+
+  <script type="module" src="review.js"></script>
+</body>
+</html>

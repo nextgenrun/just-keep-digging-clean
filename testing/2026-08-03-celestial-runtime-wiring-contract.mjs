@@ -13,7 +13,10 @@ import { CelestialEngineController } from
 import { resolveInteractionPriorities } from
   "../world/playScene/interactionPriority.js";
 import { HollowSunEngine } from "../systems/celestial/HollowSunEngine.js";
+import { StarHeartProgressionSystem } from
+  "../systems/celestial/StarHeartProgressionSystem.js";
 import { StarPillarSystem } from "../systems/visual/StarPillarSystem.js";
+import { CELESTIAL_ENGINE_CONFIG } from "../values/celestialEngines.js";
 
 const queued = [];
 const quickScene = {
@@ -52,6 +55,43 @@ const godModeEngineState = getCelestialActionBarAbilityState({
 }, "comet-engine");
 assert.equal(godModeEngineState.unlocked, true);
 assert.equal(godModeEngineState.available, true);
+assert.match(godModeEngineState.description, /Costs 0 GP/);
+let engineGp = 40;
+const gpEngineScene = {
+  upgradeSystem: { godModeActive: false },
+  playerController: {
+    abilities: {
+      getGemPowerExact: () => engineGp,
+      getSpendableGemPower: () => engineGp,
+      canSpendGemPower: cost => engineGp >= cost,
+    },
+  },
+  celestialTalentProgressionSystem: {
+    getSnapshot: () => ({
+      branches: [{ id: "wayward-star", nodes: [{ id: "wayward-star-root" }] }],
+      unlockedAbilityIds: ["wayward-star"],
+    }),
+  },
+  celestialEngineController: {
+    isEngineActive: () => false,
+    isActivationAvailable: () => true,
+  },
+  starHeartProgressionSystem: {
+    getSnapshot: () => ({ godMode: false, charged: false, charge: 0 }),
+  },
+};
+const lowGpEngineState = getCelestialActionBarAbilityState(gpEngineScene, "wayward-star");
+assert.equal(CELESTIAL_ENGINE_CONFIG.activation.gpCost, 100);
+assert.equal(lowGpEngineState.available, false);
+assert.match(lowGpEngineState.unavailableReason, /100 GP/);
+assert.match(lowGpEngineState.unavailableReason, /Spendable GP: 40/);
+assert.doesNotMatch(lowGpEngineState.unavailableReason, /Celestial Charge/);
+engineGp = 100;
+assert.equal(
+  getCelestialActionBarAbilityState(gpEngineScene, "wayward-star").available,
+  true,
+  "a zero-charge Celestial power must be available when its GP cost is affordable",
+);
 activateCelestialActionBarEntry(quickScene, "quickslash");
 activateCelestialActionBarEntry(quickScene, "thunderStrike");
 assert.deepEqual(queued, ["quick", "thunder"]);
@@ -106,7 +146,9 @@ const captured = captureCelestialOverhaulState({
 assert.equal(captured.talents.stars, 68);
 assert.equal(captured.actionbar.order[0], "thunderStrike");
 
-let legacyChargeConsumed = false;
+let activationRecorded = 0;
+let activationOptions = null;
+let controllerGp = 99;
 const controller = Object.assign(Object.create(CelestialEngineController.prototype), {
   scene: {
     time: { now: 500 },
@@ -114,17 +156,38 @@ const controller = Object.assign(Object.create(CelestialEngineController.prototy
     soundSystem: null,
     screenFlashSystem: null,
     shakeSystem: null,
+    playerController: {
+      abilities: {
+        getGemPowerExact: () => controllerGp,
+        canSpendGemPower: cost => controllerGp >= cost,
+        consumeGemPower: cost => {
+          const spent = Math.min(controllerGp, cost);
+          controllerGp -= spent;
+          return spent;
+        },
+        restoreGemPower: amount => {
+          controllerGp += amount;
+          return amount;
+        },
+      },
+    },
   },
   progression: {
     getSnapshot: () => ({
       selectedEngine: "wayward-star",
-      charged: false,
       unlocked: true,
     }),
-    consumeActivation: () => {
-      legacyChargeConsumed = true;
-      return { ok: false };
+    isGodModeActive: () => false,
+    consumeActivation: (_nowMs, options) => {
+      activationRecorded += 1;
+      activationOptions = options;
+      return {
+        ok: true,
+        engineId: "wayward-star",
+        activationId: "star-heart:wayward-star:500:1",
+      };
     },
+    refundActivation: () => true,
   },
   talentProgression: {
     getSnapshot: () => ({
@@ -132,7 +195,6 @@ const controller = Object.assign(Object.create(CelestialEngineController.prototy
       unlockedEffectIds: [],
     }),
   },
-  _talentActivationSequence: 0,
   _getDirection: () => ({ x: 1, y: 0 }),
   _createEffect: () => ({ active: true }),
   activeEffect: null,
@@ -141,9 +203,63 @@ const controller = Object.assign(Object.create(CelestialEngineController.prototy
   hud: null,
 });
 const activation = controller.tryActivate(500);
-assert.equal(activation.ok, true);
-assert.equal(legacyChargeConsumed, false);
-assert.match(activation.activationId, /^talent:wayward-star:/);
+assert.equal(activation.ok, false);
+assert.equal(activation.reason, "insufficient-gp");
+assert.equal(activationRecorded, 0);
+assert.equal(controllerGp, 99);
+controllerGp = 100;
+const gpActivation = controller.tryActivate(500);
+assert.equal(gpActivation.ok, true);
+assert.equal(gpActivation.gpSpent, 100);
+assert.equal(controllerGp, 0);
+assert.equal(activationRecorded, 1);
+assert.deepEqual(activationOptions, { spendCharge: false });
+assert.match(gpActivation.activationId, /^star-heart:wayward-star:/);
+
+let progressionRefunds = 0;
+controller.activeEffect = null;
+controller.activeBudget = null;
+controller.activeDefinition = null;
+controllerGp = 100;
+controller.progression.refundActivation = () => {
+  progressionRefunds += 1;
+  return true;
+};
+controller._createEffect = () => {
+  throw new Error("contract activation failure");
+};
+const originalConsoleError = console.error;
+console.error = () => {};
+let failedGpActivation;
+try {
+  failedGpActivation = controller.tryActivate(501);
+} finally {
+  console.error = originalConsoleError;
+}
+assert.equal(failedGpActivation.ok, false);
+assert.equal(failedGpActivation.reason, "activation-failed");
+assert.equal(controllerGp, 100);
+assert.equal(progressionRefunds, 1);
+
+const gpProgression = new StarHeartProgressionSystem();
+gpProgression.loadSaveData({
+  heartsEarned: 1,
+  heartsSpent: 1,
+  selectedEngine: "wayward-star",
+  unlockedEngines: ["wayward-star"],
+  charge: 0,
+  activationsUsed: 0,
+  constellationCount: 10,
+}, 10);
+const recordedActivation = gpProgression.consumeActivation(600, { spendCharge: false });
+assert.equal(recordedActivation.ok, true);
+assert.equal(recordedActivation.spentCharge, false);
+assert.equal(gpProgression.getSnapshot().charge, 0);
+assert.equal(gpProgression.getSnapshot().activationsUsed, 1);
+assert.equal(gpProgression.refundActivation(recordedActivation.activationId), true);
+assert.equal(gpProgression.getSnapshot().charge, 0);
+assert.equal(gpProgression.getSnapshot().activationsUsed, 0);
+gpProgression.destroy();
 
 const masteryHits = [];
 const hollow = Object.assign(Object.create(HollowSunEngine.prototype), {
@@ -157,6 +273,7 @@ const hollow = Object.assign(Object.create(HollowSunEngine.prototype), {
   probeTile: () => ({ diggable: true }),
   budget: { activationId: "talent:hollow-sun:1" },
   masteryImpacts: 0,
+  masteryTargetKeys: new Set(),
   onImpact: (tx, ty, hitId) => masteryHits.push({ tx, ty, hitId }),
 });
 hollow._applyMasteryImplosion(900);
@@ -223,5 +340,5 @@ assert.doesNotMatch(setupSource, /STAR HEART FORGED|constellation mastered/);
 assert.doesNotMatch(groupSource, /getStarlightAssets/);
 
 console.log(
-  "PASS celestial runtime: GP authority, queued abilities, talent Engines, bounded mastery, save caller, pillar priority",
+  "PASS celestial runtime: GP-funded actionbar powers, queued abilities, bounded mastery, save caller, pillar priority",
 );

@@ -5,7 +5,6 @@ export const KEYBIND_STORAGE_VERSION = 6;
 
 export const GAMEPLAY_DEV_INPUT = Object.freeze({
   godModeKey: "V",
-  godModeRequiresShift: true,
 });
 
 export const GAMEPLAY_INPUT_TIMING = Object.freeze({

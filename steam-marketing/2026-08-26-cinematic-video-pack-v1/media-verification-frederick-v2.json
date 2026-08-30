@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "outputs": [
+    {
+      "path": "steam-marketing/2026-08-26-cinematic-video-pack-v1/understar-opening-frederick-v2.mp4",
+      "durationSeconds": 25.0,
+      "width": 1920,
+      "height": 1080,
+      "hasAudio": true,
+      "bytes": 58520563,
+      "sha256": "ad2b826e668da8b73a3ab7fc37301bca573b870c31f0be54d020931c961601b8"
+    },
+    {
+      "path": "steam-marketing/2026-08-26-cinematic-video-pack-v1/mossback-discovery-frederick-v2.mp4",
+      "durationSeconds": 15.0,
+      "width": 1920,
+      "height": 1080,
+      "hasAudio": true,
+      "bytes": 54977237,
+      "sha256": "e8ee3a41287f7abf3f6615265ce06d20f0e4da06aaad2d58a63c221aa3a7152e"
+    },
+    {
+      "path": "steam-marketing/2026-08-26-cinematic-video-pack-v1/understar-cinematic-trailer-frederick-v2.mp4",
+      "durationSeconds": 30.0,
+      "width": 1920,
+      "height": 1080,
+      "hasAudio": true,
+      "bytes": 71960300,
+      "sha256": "580a994bb3cf87e1044bf24720fc4f9b46e5b7c2d766f1ccb1ec78883d1c062a"
+    },
+    {
+      "path": "steam-marketing/2026-08-26-cinematic-video-pack-v1/understar-short-01-mossback-frederick-v2.mp4",
+      "durationSeconds": 15.0,
+      "width": 1080,
+      "height": 1920,
+      "hasAudio": true,
+      "bytes": 23697144,
+      "sha256": "de0cadc2af89a055367d3aba93c4f3e0da6a6e4d77c20319e278a9d560d405d5"
+    },
+    {
+      "path": "steam-marketing/2026-08-26-cinematic-video-pack-v1/understar-short-02-depth-frederick-v2.mp4",
+      "durationSeconds": 15.0,
+      "width": 1080,
+      "height": 1920,
+      "hasAudio": true,
+      "bytes": 25339680,
+      "sha256": "29a75f8408bbe9a05994dd2960d43bc52b24c25f9dd73bf78ae39bd0917ec1c2"
+    }
+  ]
+}

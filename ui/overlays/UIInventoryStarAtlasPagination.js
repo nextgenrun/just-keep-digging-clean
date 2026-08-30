@@ -1,16 +1,15 @@
 import { STAR_IDENTITY_LIBRARY_CONFIG } from
-  "../../values/starIdentityLibrary.js?rev=20260826-inventory-codex-v2";
-import { UI_COLORS } from "../../values/uiColors.js";
+  "../../values/starIdentityLibrary.js?rev=20260830-star-codex-v3";
 import { UI_FONTS } from "../../values/uiLayout.js";
 import {
   starAtlasFontSize,
   starAtlasPoint,
   starAtlasSize,
-} from "./UIInventoryStarAtlasLayout.js?rev=20260826-inventory-codex-v2";
+} from "./UIInventoryStarAtlasLayout.js?rev=20260830-star-codex-v3";
 import {
   addStarAtlasHitZone,
   addStarAtlasText,
-} from "./UIInventoryStarAtlasPrimitives.js?rev=20260826-inventory-codex-v3";
+} from "./UIInventoryStarAtlasPrimitives.js?rev=20260830-star-codex-v3";
 
 export function renderStarAtlasPageControls(
   scene,
@@ -19,10 +18,12 @@ export function renderStarAtlasPageControls(
   identities,
   pageIndex,
   pageCount,
+  totalIdentityCount,
   onSelect,
 ) {
   const config = STAR_IDENTITY_LIBRARY_CONFIG;
   const layout = config.inventory.layout;
+  const appearance = config.inventory.appearance;
   const pageSize = layout.selectorsPerPage;
   const controls = [
     { xPx: layout.pagePreviousCenterXPx, direction: -1 },
@@ -59,7 +60,10 @@ export function renderStarAtlasPageControls(
     parent,
     labelPoint.x,
     labelPoint.y,
-    `${config.inventory.copy.pageLabel} ${pageIndex + 1} / ${pageCount}`,
+    `${identities.length} / ${totalIdentityCount} ${config.inventory.copy.found}`
+      + (pageCount > 1
+        ? `  •  ${config.inventory.copy.pageLabel} ${pageIndex + 1} / ${pageCount}`
+        : ""),
     {
       fontFamily: UI_FONTS.mono,
       fontSizePx: starAtlasFontSize(
@@ -69,8 +73,8 @@ export function renderStarAtlasPageControls(
         9,
       ),
       fontStyle: "bold",
-      color: UI_COLORS.title,
-      stroke: "#02060A",
+      color: appearance.title,
+      stroke: appearance.shadow,
       strokeThickness: 2,
     },
   );
@@ -85,7 +89,9 @@ export function renderStarAtlasPageControls(
     parent,
     hintPoint.x,
     hintPoint.y,
-    config.inventory.copy.navigationHint,
+    identities.length > 0
+      ? config.inventory.copy.navigationHint
+      : config.inventory.copy.emptyNavigationHint,
     {
       fontFamily: UI_FONTS.mono,
       fontSizePx: starAtlasFontSize(
@@ -95,7 +101,7 @@ export function renderStarAtlasPageControls(
         7,
       ),
       fontStyle: "bold",
-      color: UI_COLORS.muted,
+      color: appearance.muted,
     },
   );
 }

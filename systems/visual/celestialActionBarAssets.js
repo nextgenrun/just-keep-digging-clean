@@ -1,11 +1,13 @@
 // Resolves actionbar-owned eager aliases and approved shared engine textures.
 
 import { ASSET_KEYS } from "../../values/assetKeys.js";
+import { CAMPFIRE_CONFIG } from "../../values/campfireConfig.js";
 import { CELESTIAL_ACTION_BAR_ASSET_KEYS } from "../../values/celestialActionBar.js";
 import { CELESTIAL_TALENT_TREE_UI_CONFIG } from "../../values/celestialTalentTreeUi.js";
 
 const chrome = Object.freeze({
   foundation: CELESTIAL_ACTION_BAR_ASSET_KEYS.foundation,
+  detachedSlot: CELESTIAL_TALENT_TREE_UI_CONFIG.assets.nodeFrame.key,
   tooltip: CELESTIAL_TALENT_TREE_UI_CONFIG.assets.tooltip.key,
 });
 
@@ -33,11 +35,28 @@ function hasTexture(scene, key) {
   return Boolean(key && scene?.textures?.exists?.(key));
 }
 
+function resolveCampfireIcon(scene) {
+  const currentIndex = Math.max(
+    0,
+    Math.min(
+      CAMPFIRE_CONFIG.spriteKeys.length - 1,
+      Math.floor(Number(scene?.campfireSystem?.getCampfireLevel?.()) || 1) - 1,
+    ),
+  );
+  const currentKey = CAMPFIRE_CONFIG.spriteKeys[currentIndex];
+  if (hasTexture(scene, currentKey)) {
+    return Object.freeze({ key: currentKey, fallback: false });
+  }
+  const fallbackKey = CAMPFIRE_CONFIG.spriteKeys.find(key => hasTexture(scene, key));
+  return fallbackKey ? Object.freeze({ key: fallbackKey, fallback: true }) : null;
+}
+
 export function getCelestialActionBarChrome() {
   return chrome;
 }
 
 export function resolveCelestialActionBarIcon(scene, assetRole) {
+  if (assetRole === "campfire") return resolveCampfireIcon(scene);
   const candidates = iconCandidates[assetRole] || [];
   const candidateIndex = candidates.findIndex(candidate => hasTexture(scene, candidate.key));
   if (candidateIndex < 0) return null;
@@ -49,7 +68,7 @@ export function resolveCelestialActionBarIcon(scene, assetRole) {
 
 export function inspectCelestialActionBarAssets(scene, entries) {
   const missingTextures = [];
-  const requiredChrome = [chrome.foundation, chrome.tooltip];
+  const requiredChrome = [chrome.foundation, chrome.detachedSlot, chrome.tooltip];
   for (const key of new Set(requiredChrome)) {
     if (!hasTexture(scene, key)) missingTextures.push(key);
   }

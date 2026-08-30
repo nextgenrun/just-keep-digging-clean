@@ -57,3 +57,143 @@ environment.
 & $python pipelines/audio/2026-08-26-generate-elevenlabs-sfx-mockup.py `
   --execute --max-generations 40 --max-credit-units 2880
 ```
+
+## ElevenLabs prompt contrast V3
+
+The V3 contrast lab is the follow-up when the layered mockup sounds too
+synthetic or too similar. It reuses the same eight sound families for a fair
+A/B comparison, but generates only complete candidates with hand-authored,
+material-specific prompts. It does not attempt to make an imagined transient,
+body, detail, and tail independently.
+
+- The original six one-shot families receive three physical-source directions,
+  and the two ambience families receive two sparse loop directions.
+- Twenty-six additional families receive two deliberately contrasting prompts,
+  covering robot movement, Flight, special tiles, core mining, UI, rewards,
+  discovery, deep danger, torch response, void, and Star material.
+- One-shots use `0.36`–`0.42` prompt influence and loops use `0.32`, leaving
+  more room for variation than the original `0.72` / `0.62` mockup.
+- Each prompt bans the likely family-specific failure sounds instead of sharing
+  one generic suffix across the entire library.
+- The review page compares every new candidate with its previous reference mix,
+  stores ratings per candidate, and exports the decisions as JSON.
+
+Preparing the page is free and makes no network requests:
+
+```powershell
+& $python -B pipelines/audio/2026-08-26-generate-elevenlabs-prompt-contrast-v3.py --prepare
+```
+
+A small dirt-versus-stone first pass is six requests, 8.4 seconds, and uses a
+conservative 336-unit ceiling:
+
+```powershell
+& $python -B pipelines/audio/2026-08-26-generate-elevenlabs-prompt-contrast-v3.py `
+  --ids GX261,GX270 --batch elevenlabs-prompt-contrast-v3-dirt-stone-2026-08-26 `
+  --execute --max-generations 6 --max-credit-units 336
+```
+
+The complete expanded plan is 74 requests and 117.8 seconds. The conservative
+fixed-duration estimate is 4,712 credit units. Current cost assumptions follow the official
+[ElevenLabs Sound Effects documentation](https://elevenlabs.io/docs/overview/capabilities/sound-effects);
+actual account billing and returned cost headers remain authoritative.
+
+The completed batch returned 74 ready files and zero failures. It contains
+1,951,749 bytes of MP3 audio with 74 unique SHA-256 hashes; the API response
+headers reported 1,178 total cost units. All files remain `UNTESTED` until the
+expanded listening review is complete.
+
+## ElevenLabs material-stem V4 anti-glass gate
+
+V4 keeps the ElevenLabs API but treats it as a raw-source generator. Eight
+representative events are split into 24 physical stems, with short positive-only
+prompts and prompt-influence takes at `0.2`, `0.3`, and `0.4`. The natural cave
+loop uses two takes per stem. A prompt linter rejects negation and the recurring
+V3 trigger vocabulary before any request is sent.
+
+`elevenLabsAudioQc.py` decodes every result through FFmpeg and auto-quarantines
+category-specific excessive brightness, high-band energy, narrow ringing,
+stationary hum, clipping risk, and cross-family near-duplicate spectra. The
+review page hides quarantined rows by default. Automated passing means only that
+a stem is eligible for listening; it is never runtime approval.
+
+```powershell
+# Free dry run and review-page preparation.
+& $python -B pipelines/audio/2026-08-26-generate-elevenlabs-material-stems-v4.py
+
+# Local QC-only rerun; this makes no API requests.
+& $python -B pipelines/audio/2026-08-26-generate-elevenlabs-material-stems-v4.py --recheck
+
+# Masked key entry with plan-derived request and credit ceilings.
+& pipelines/audio/2026-08-26-run-elevenlabs-material-stems-v4.ps1 `
+  -PythonExecutable $python
+```
+
+The completed pilot returned 69 unique files and zero API failures. Response
+headers reported 774 cost units. The strict gate quarantined 38 results and left
+31 for listening. Those survivors have median spectral centroid 596 Hz and
+median energy above 4 kHz of 1.4%, compared with 4,162 Hz and 40.1% across V3.
+
+Human listening review rejected the entire V4 batch: the candidates still read
+as robotic, metallic, high-pitched, glass-like, and too similar across intended
+materials. The automated gate therefore did not predict perceptual usefulness.
+ElevenLabs is retired as a production Foley source for this library. The files
+remain review-only failure evidence; zero are runtime-eligible or runtime-wired.
+
+## Recorded-source replacement: Sonniss GameAudioGDC
+
+The replacement pilot uses professionally recorded library audio rather than a
+different generative model. `sonnissRemoteZipSearch.py` reads remote ZIP directory
+tables through byte ranges, locates exact material recordings, and extracts only
+selected entries. This avoids downloading the complete 200+ GB community archive.
+
+The first focused 2019 mining pilot contained 31 candidates: 27 direct source
+recordings and 4 explicitly labelled designed-library samples. Human listening
+approved all 31 as useful sources on 2026-08-27. That verdict does not make a
+whole recording game-ready or runtime-eligible.
+
+`2026-08-27-expand-sonniss-recorded-library.py` adds a bounded 87-candidate
+contrast batch from the same archive, bringing the page to 118 sources. It adds
+mechanisms/UI, machine metal, air/Flight, surface contacts, ice/glass,
+wood/doors, weather/water, electrical, chain, and thermal/fire coverage. The
+expansion contains 68 direct recordings and 19 clearly labelled designed
+library samples. Human listening approved all 118 sources on 2026-08-27.
+
+```powershell
+# Search archive filenames without downloading the archive payloads.
+& $python -B pipelines/audio/sonnissRemoteZipSearch.py --year 2019
+
+# Rebuild the transparent previews, manifest, and review page.
+& $python -B pipelines/audio/2026-08-26-build-sonniss-mining-review.py
+
+# Inspect the exact bounded expansion without downloading payloads.
+& $python -B pipelines/audio/2026-08-27-expand-sonniss-recorded-library.py
+
+# Extract the selected files using byte ranges and CRC verification.
+& $python -B pipelines/audio/2026-08-27-expand-sonniss-recorded-library.py --extract
+```
+
+The GameAudioGDC license permits commercial game use and modification without
+attribution, while prohibiting AI/ML use. These files are source candidates only;
+human approval, editing, and in-game mix validation remain required before any
+runtime promotion. The manifest separately records source approval and
+`implementationHandling`. Long files, loops, sequences, and likely multi-event
+recordings are marked `slice_required`; they must receive explicit edit points
+and an isolated derivative before they can be considered for gameplay.
+
+## Sonniss in-game sound-stage mockup V1
+
+`2026-08-27-build-sonniss-ingame-mockup.py` turns 38 approved sources
+into 55 timed event placements across mining, robot/Flight, UI/reward, and deep
+cave danger scenarios. `audioWavMixer.py` performs deterministic PCM decoding,
+48 kHz conversion, explicit slicing, peak normalization, gain, stereo pan,
+anti-click fades, and final ceiling attenuation. It applies no pitch shifting,
+EQ, synthesis, or AI processing.
+
+```powershell
+& $python -B pipelines/audio/2026-08-27-build-sonniss-ingame-mockup.py
+```
+
+The output includes four separate WAV mixes, one continuous sequence, every
+derived slice, exact timing/provenance in `manifest.json`, and a local review
+page. It remains review-only and is not imported by the game.

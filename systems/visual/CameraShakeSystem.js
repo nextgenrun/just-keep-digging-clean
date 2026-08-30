@@ -1,16 +1,9 @@
 /**
  * CameraShakeSystem
  * ─────────────────
- * A unified camera-shake dispatcher that gives every event a distinct feel.
- *
- * Replaces scattered Phaser camera shake calls
- * so that:
- *   - Mining hits, earthquakes, thunder, combo milestones, and one-shot
- *     events each have a unique shake "signature" (duration, intensity,
- *     frequency, decay, optional color flash).
- *   - Players can tell them apart at a glance, not get a generic blur.
- *   - We can later add directional shake (earthquake = vertical, thunder =
- *     horizontal) without rewriting every callsite.
+ * Unified signature dispatcher for mining, earthquakes, thunder, combos, and
+ * one-shot impacts. Each event owns its duration, intensity, frequency, decay,
+ * priority, and optional companion flash.
  *
  * The shake is implemented via `camera.setFollowOffset(x, y)` which offsets
  * the follow target (Phaser 3.60+). The actual offset is recomputed each
@@ -32,6 +25,8 @@ import {
   CAMERA_SHAKE_SIGNATURES,
   CAMERA_SHAKE_EVENT_GROUPS,
 } from "../../values/cameraShake.js";
+import { GAMEFEEL_CONFIG } from "../../values/gamefeel.js";
+import { resolveCameraShakeOffset } from "./cameraShakeMath.js";
 
 export class CameraShakeSystem {
   /**
@@ -52,6 +47,7 @@ export class CameraShakeSystem {
       ? this._options.getDisplaySettings
       : null;
     this._defaultGroups = CAMERA_SHAKE_DEFAULT_ENABLED_BY_GROUP;
+    this._runtimeConfig = GAMEFEEL_CONFIG.shake;
 
     // Fallback detection: Phaser 3.60+ has camera.setFollowOffset
     this._hasFollowOffset = typeof scene.cameras.main.setFollowOffset === "function";
@@ -100,6 +96,16 @@ export class CameraShakeSystem {
     return displaySettings.cameraShakeFlashEnabled !== false;
   }
 
+  _isFrameRateSafe() {
+    const minFps = Number(this._runtimeConfig?.minFps);
+    const actualFps = Number(this.scene.game?.loop?.actualFps);
+    return !Number.isFinite(minFps)
+      || minFps <= 0
+      || !Number.isFinite(actualFps)
+      || actualFps <= 0
+      || actualFps >= minFps;
+  }
+
   /**
    * Trigger a shake by signature name.
    * @param {string} signatureName  e.g. 'mining.crit', 'earthquake.major'
@@ -123,42 +129,62 @@ export class CameraShakeSystem {
     if (!this._getMasterEnabled(displaySettings)) {
       return false;
     }
+    if (!this._isFrameRateSafe()) return false;
 
     const group = this._resolveEventGroup(signatureName);
     if (!this._getGroupEnabled(displaySettings, group)) {
       return false;
     }
 
+    const safeIntensityScale = Number.isFinite(intensityScale) ? intensityScale : 1;
+    const safeDurationScale = Number.isFinite(options.durationScale) ? options.durationScale : 1;
+    const safeMasterScale = this._getIntensityMultiplier(displaySettings);
+    const duration = Math.max(
+      this._runtimeConfig.minimumDurationMs,
+      sig.duration * Math.max(this._runtimeConfig.minimumDurationScale, safeDurationScale),
+    );
+    const intensity = Math.max(
+      0,
+      sig.intensity * safeMasterScale * Math.max(0, safeIntensityScale),
+    );
+    if (!Number.isFinite(intensity) || intensity <= 0) {
+      return false;
+    }
+
+    const now = this.scene.time?.now ?? globalThis.performance?.now?.() ?? Date.now();
     const nextPriority = sig.priority ?? 0;
     const activePriority = this._active?.priority ?? -Infinity;
+    const duplicateElapsedMs = now - (this._active?.startTime ?? -Infinity);
+    if (
+      this._active
+      && !options.force
+      && this._active.name === signatureName
+      && duplicateElapsedMs >= 0
+      && duplicateElapsedMs <= this._runtimeConfig.duplicateMergeWindowMs
+      && duplicateElapsedMs < this._active.duration
+    ) {
+      this._active.duration = Math.max(this._active.duration, duration);
+      this._active.intensity = Math.max(this._active.intensity, intensity);
+      return true;
+    }
     if (this._active && !options.force && activePriority > nextPriority) {
       return false;
     }
 
-    // Stop any in-flight Phaser shake so it doesn't fight our offset
+    // Stop any in-flight Phaser shake so it doesn't fight our offset.
     const cam = this.scene.cameras?.main;
     if (cam && cam.shakeEffect?.isRunning) {
       try { cam.shakeEffect.stop(); } catch (_) { /* ignore */ }
     }
 
-    const safeIntensityScale = Number.isFinite(intensityScale) ? intensityScale : 1;
-    const safeDurationScale = Number.isFinite(options.durationScale) ? options.durationScale : 1;
-    const safeGroupScale = this._getGroupEnabled(displaySettings, group) ? 1 : 0;
-    const safeMasterScale = this._getIntensityMultiplier(displaySettings);
-    const duration = Math.max(20, sig.duration * Math.max(0.2, safeDurationScale));
-    const intensity = Math.max(0, sig.intensity * safeGroupScale * safeMasterScale * Math.max(0, safeIntensityScale));
-    if (!Number.isFinite(intensity) || intensity <= 0) {
-      return false;
-    }
-
     this._active = {
       name: signatureName,
       group,
-      startTime: this.scene.time?.now ?? performance.now(),
+      startTime: now,
       duration,
       intensity,
-      freqX: sig.freqX ?? 0.05,
-      freqY: sig.freqY ?? 0.06,
+      freqX: sig.freqX ?? this._runtimeConfig.defaultFrequencyXHz,
+      freqY: sig.freqY ?? this._runtimeConfig.defaultFrequencyYHz,
       decay: sig.decay ?? "exp",
       priority: nextPriority,
     };
@@ -202,6 +228,10 @@ export class CameraShakeSystem {
       this.stop();
       return;
     }
+    if (!this._isFrameRateSafe()) {
+      this.stop();
+      return;
+    }
     if (!this._getGroupEnabled(displaySettings, this._active.group)) {
       this.stop();
       return;
@@ -211,7 +241,7 @@ export class CameraShakeSystem {
     if (!cam) return;
 
     const shake = this._active;
-    const elapsedMs = time - shake.startTime;
+    const elapsedMs = Math.max(0, time - shake.startTime);
     const t = elapsedMs / shake.duration;
 
     if (t >= 1) {
@@ -223,27 +253,12 @@ export class CameraShakeSystem {
       return;
     }
 
-    // Decay factor
-    let factor;
-    if (shake.decay === "linear") {
-      factor = 1 - t;
-    } else if (shake.decay === "none") {
-      factor = 1;
-    } else {
-      // 'exp' (default) — fast initial decay, gentle tail
-      factor = Math.exp(-t * 3.2);
-    }
-
-    // Multi-frequency organic motion: sin + low-freq cos for each axis
-    const omegaX = shake.freqX * Math.PI * 2;
-    const omegaY = shake.freqY * Math.PI * 2;
-    const amp = shake.intensity * factor;
-
-    // Use a small per-axis phase offset so motion isn't perfectly symmetric
-    const offsetX = Math.sin(time * omegaX) * amp
-                  + Math.sin(time * omegaX * 0.43 + 1.7) * amp * 0.3;
-    const offsetY = Math.cos(time * omegaY) * amp
-                  + Math.cos(time * omegaY * 0.37 + 0.9) * amp * 0.3;
+    const { offsetX, offsetY } = resolveCameraShakeOffset(
+      shake,
+      elapsedMs,
+      t,
+      this._runtimeConfig,
+    );
 
     if (this._hasFollowOffset) {
       try { cam.setFollowOffset(offsetX, offsetY); } catch (_) { /* fallback below */ }
@@ -276,6 +291,8 @@ export class CameraShakeSystem {
       signature: this._active ? this._active.name : null,
       group: this._active ? this._active.group : null,
       priority: this._active ? this._active.priority : null,
+      intensity: this._active ? this._active.intensity : 0,
+      durationMs: this._active ? this._active.duration : 0,
       hasFollowOffset: this._hasFollowOffset,
     };
   }

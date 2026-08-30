@@ -8,9 +8,6 @@ const deepFreeze = (value) => {
 export const MOVING_COMPLEX_DIG_ANIMATION_UNIFIED_V1 = deepFreeze({
   "version": "survival-unified-animation-runtime-v1-20260825",
   "enabledByDefault": true,
-  "visualFrameReplacements": {
-    "232": 231
-  },
   "basePath": "sprites/character/survival-character-unified-v1/runtime",
   "sheet": {
     "key": "survival-ual-player-v1-moving-complex-dig-sheet",
@@ -983,6 +980,9 @@ export const MOVING_COMPLEX_DIG_ANIMATION_UNIFIED_V1 = deepFreeze({
   "origin": {
     "x": 0.5,
     "y": 0.890625
+  },
+  "visualFrameReplacements": {
+    "232": 231
   },
   "phaseVariants": [
     {

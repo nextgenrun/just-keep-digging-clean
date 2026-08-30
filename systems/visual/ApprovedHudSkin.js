@@ -2,6 +2,7 @@ import { APPROVED_HUD_SKIN } from "../../values/approvedHudSkin.js";
 import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { HUD_LAYOUT } from "../../values/hudLayout.js";
 import { PickaxeHudView } from "./PickaxeHudView.js";
+import { ApprovedHudBuffView } from "./ApprovedHudBuffView.js";
 
 const REQUIRED_KEYS = Object.freeze(Object.values(ASSET_KEYS.ui.approvedHud));
 const clamp01 = value => Math.max(0, Math.min(1, Number(value) || 0));
@@ -28,6 +29,7 @@ export class ApprovedHudSkin {
     this.scene = scene;
     this.hud = hud;
     this.active = hasApprovedHudSkin(scene);
+    this.buffView = null;
     this.buffFrames = [];
     this.buffTexts = [];
     this.torchBurnFrame = null;
@@ -42,6 +44,9 @@ export class ApprovedHudSkin {
       (scene.scale?.height || 720) / APPROVED_HUD_SKIN.referenceViewport.height,
     );
     this._createFrames();
+    this.buffView = new ApprovedHudBuffView(scene, this.scale);
+    this.buffFrames = this.buffView.frames;
+    this.buffTexts = this.buffView.texts;
     this._applyLegacyObjectLayout();
     this.pickaxeHudView = new PickaxeHudView(scene, this.scale);
     this.setTorchState(hud.torchActive, hud.torchIntensity);
@@ -96,26 +101,6 @@ export class ApprovedHudSkin {
         )
       : null;
 
-    for (let index = 0; index < layout.buffs.maxVisible; index += 1) {
-      const x = (layout.buffs.x + index * (layout.buffs.width + layout.buffs.gap)) * s;
-      const frame = this._image(
-        x,
-        layout.buffs.y * s,
-        ASSET_KEYS.ui.approvedHud.buffChip,
-        layout.buffs.width * s,
-        layout.buffs.height * s,
-        depth,
-      ).setVisible(false);
-      const text = this.scene.add.text(
-        x + layout.buffs.width * s / 2,
-        (layout.buffs.y + layout.buffs.height / 2) * s,
-        "",
-        { align: "center" },
-      ).setOrigin(0.5).setScrollFactor(0).setDepth(HUD_LAYOUT.hudOverlayDepth).setVisible(false);
-      setHudTextStyle(text, layout.buffs.fontSize * s, APPROVED_HUD_SKIN.font.cyan);
-      this.buffFrames.push(frame);
-      this.buffTexts.push(text);
-    }
   }
 
   _applyLegacyObjectLayout() {
@@ -189,11 +174,18 @@ export class ApprovedHudSkin {
   }
 
   setBuffLines(lines) {
+    this.setBuffEntries(lines.map(text => ({ text })));
+  }
+
+  setBuffEntries(entries) {
     if (!this.active) return;
-    this.buffFrames.forEach((frame, index) => {
-      const line = lines[index] || "";
-      frame.setVisible(Boolean(line));
-      this.buffTexts[index].setText(line).setVisible(Boolean(line));
+    this.buffView?.setEntries(entries);
+  }
+
+  getBuffSnapshot() {
+    return this.buffView?.getSnapshot() || Object.freeze({
+      visibleEntries: 0,
+      tooltipVisible: false,
     });
   }
 
@@ -247,15 +239,15 @@ export class ApprovedHudSkin {
 
   destroy() {
     this.pickaxeHudView?.destroy();
+    this.buffView?.destroy();
     [
       this.playerFrame,
       this.torchBurnFrame,
       this.comboFrame,
       this.worldFrame,
-      ...this.buffFrames,
-      ...this.buffTexts,
     ]
       .forEach((object) => object?.destroy());
+    this.buffView = null;
     this.buffFrames = [];
     this.buffTexts = [];
     this.torchBurnFrame = null;

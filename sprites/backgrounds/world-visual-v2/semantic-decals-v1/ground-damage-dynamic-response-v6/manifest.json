@@ -1,0 +1,449 @@
+{
+  "version": 6,
+  "date": "2026-08-26",
+  "production": true,
+  "generator": "ai-tools/2026-08-26-build-dynamic-ground-damage-v6.py",
+  "imageGeneration": {
+    "mode": "OpenAI built-in image generation",
+    "promptSet": {
+      "stoneFragments": "Create exactly twenty distinct small broken Stone fragments, chips, thin slate flakes, and angular mineral splinters in a clean 5x4 contact sheet. Match the dark blue-charcoal UNDERSTAR stone reference with muted cobalt grain, restrained mineral edges, genuine transparent gutters, and no bright white faces, cracks, filled ground patches, or rubble piles.",
+      "stoneAlphaCorrection": "Remove only the pale checkerboard and replace it with genuine alpha. Preserve all twenty fragments, their dark stone colors, scale, spacing, orientation, clean edges, and exact 5x4 layout."
+    },
+    "referenceAssets": [
+      "sprites/backgrounds/world-visual-v2/depth/underground-foreground-textures-v6/blue-caverns-foreground-textures-atlas-v6.webp"
+    ]
+  },
+  "sources": {
+    "stoneFragmentsAlpha": {
+      "path": "sprites/backgrounds/world-visual-v2/semantic-decals-v1/ground-damage-dynamic-response-v6/sources/2026-08-26-stone-response-fragments-alpha-v6.png",
+      "sha256": "bf96c7b8617e257b84b73d32f0f49f31b3b5e7b0b0652dcb4b558ba0c17e2dfb",
+      "width": 1536,
+      "height": 1024,
+      "mode": "RGBA",
+      "decodedBytes": 6291456
+    },
+    "alignedV5Response": {
+      "path": "sprites/backgrounds/world-visual-v2/semantic-decals-v1/ground-damage-response-aligned-v5.png",
+      "sha256": "d39f41b636329b74c19de7f25f842dcab989fe8d9546808f596e6387317ee6a0",
+      "width": 3008,
+      "height": 2444,
+      "mode": "RGBA",
+      "decodedBytes": 29406208
+    }
+  },
+  "atlases": {
+    "fracture": {
+      "path": "sprites/backgrounds/world-visual-v2/semantic-decals-v1/ground-damage-fracture-aligned-v5.png",
+      "sha256": "7c348216321c02358537f330690b5fd56ce0b4b6932b638965e5b9b6dd059ece",
+      "width": 3008,
+      "height": 3384,
+      "mode": "RGBA",
+      "decodedBytes": 40716288,
+      "reusedFrom": "aligned-v5",
+      "frameSizePx": 188,
+      "columns": 16,
+      "variants": 24,
+      "rasterTiers": 12,
+      "frameCount": 288
+    },
+    "response": {
+      "path": "sprites/backgrounds/world-visual-v2/semantic-decals-v1/ground-damage-response-dynamic-v6.png",
+      "sha256": "409eb913fb48089cd964e4162dc0fc5793ed89c338b6ada2db9ecb60bf724cff",
+      "width": 3384,
+      "height": 2632,
+      "mode": "RGBA",
+      "decodedBytes": 35626752,
+      "frameSizePx": 188,
+      "columns": 18,
+      "profiles": 33,
+      "tiers": 6,
+      "frameCount": 252
+    }
+  },
+  "contracts": {
+    "logicalTilePx": 94,
+    "fixedDisplayScale": 1.0,
+    "displayOrigin": [
+      0.5,
+      0.5
+    ],
+    "responseFrameOrder": "profile-major: frameOffset + tier * variantCount + variant",
+    "responseTierByState": [
+      0,
+      0,
+      1,
+      1,
+      2,
+      2,
+      3,
+      3,
+      4,
+      4,
+      5,
+      5
+    ],
+    "responseVariantSalt": 2909,
+    "stoneResponseVariants": 10,
+    "stoneTransformCount": 8,
+    "effectiveStoneResponseCombinations": 80,
+    "nonStoneFramesPreservedFromV5": 192,
+    "responseProfiles": [
+      {
+        "tileType": 1,
+        "tileName": "DIRT",
+        "family": "dirt",
+        "familyRow": 0,
+        "frameOffset": 0,
+        "variantCount": 1
+      },
+      {
+        "tileType": 2,
+        "tileName": "STONE",
+        "family": "hard",
+        "familyRow": 2,
+        "frameOffset": 6,
+        "variantCount": 10
+      },
+      {
+        "tileType": 3,
+        "tileName": "COPPER",
+        "family": "copper",
+        "familyRow": 3,
+        "frameOffset": 66,
+        "variantCount": 1
+      },
+      {
+        "tileType": 4,
+        "tileName": "BEDROCK",
+        "family": "hard",
+        "familyRow": 2,
+        "frameOffset": 72,
+        "variantCount": 1
+      },
+      {
+        "tileType": 5,
+        "tileName": "DARK_DIRT_NORMAL",
+        "family": "damp",
+        "familyRow": 1,
+        "frameOffset": 78,
+        "variantCount": 1
+      },
+      {
+        "tileType": 6,
+        "tileName": "DARK_DIRT_STRONG",
+        "family": "damp",
+        "familyRow": 1,
+        "frameOffset": 84,
+        "variantCount": 1
+      },
+      {
+        "tileType": 7,
+        "tileName": "BRONZE",
+        "family": "bronze",
+        "familyRow": 4,
+        "frameOffset": 90,
+        "variantCount": 1
+      },
+      {
+        "tileType": 8,
+        "tileName": "STEEL",
+        "family": "steel",
+        "familyRow": 6,
+        "frameOffset": 96,
+        "variantCount": 1
+      },
+      {
+        "tileType": 9,
+        "tileName": "IRON",
+        "family": "iron",
+        "familyRow": 5,
+        "frameOffset": 102,
+        "variantCount": 1
+      },
+      {
+        "tileType": 10,
+        "tileName": "SILVER",
+        "family": "silver",
+        "familyRow": 7,
+        "frameOffset": 108,
+        "variantCount": 1
+      },
+      {
+        "tileType": 11,
+        "tileName": "GOLD",
+        "family": "gold",
+        "familyRow": 8,
+        "frameOffset": 114,
+        "variantCount": 1
+      },
+      {
+        "tileType": 12,
+        "tileName": "TELEPORT_TILE",
+        "family": "special",
+        "familyRow": 16,
+        "frameOffset": 120,
+        "variantCount": 1
+      },
+      {
+        "tileType": 13,
+        "tileName": "GAMBLE_TILE",
+        "family": "special",
+        "familyRow": 16,
+        "frameOffset": 126,
+        "variantCount": 1
+      },
+      {
+        "tileType": 14,
+        "tileName": "FLOOR_TOWN_1",
+        "family": "hard",
+        "familyRow": 2,
+        "frameOffset": 132,
+        "variantCount": 1
+      },
+      {
+        "tileType": 15,
+        "tileName": "FLOOR_TOWN_2",
+        "family": "hard",
+        "familyRow": 2,
+        "frameOffset": 138,
+        "variantCount": 1
+      },
+      {
+        "tileType": 16,
+        "tileName": "SKY_TILE",
+        "family": "crystal",
+        "familyRow": 13,
+        "frameOffset": 144,
+        "variantCount": 1
+      },
+      {
+        "tileType": 17,
+        "tileName": "GEM_POWER_BLOCK",
+        "family": "special",
+        "familyRow": 16,
+        "frameOffset": 150,
+        "variantCount": 1
+      },
+      {
+        "tileType": 18,
+        "tileName": "SPEED_BLOCK",
+        "family": "special",
+        "familyRow": 16,
+        "frameOffset": 156,
+        "variantCount": 1
+      },
+      {
+        "tileType": 19,
+        "tileName": "XP_BLOCK",
+        "family": "special",
+        "familyRow": 16,
+        "frameOffset": 162,
+        "variantCount": 1
+      },
+      {
+        "tileType": 20,
+        "tileName": "CRIT_BLOCK",
+        "family": "special",
+        "familyRow": 16,
+        "frameOffset": 168,
+        "variantCount": 1
+      },
+      {
+        "tileType": 21,
+        "tileName": "BERSERK_BLOCK",
+        "family": "special",
+        "familyRow": 16,
+        "frameOffset": 174,
+        "variantCount": 1
+      },
+      {
+        "tileType": 22,
+        "tileName": "COMBO_BLOCK",
+        "family": "special",
+        "familyRow": 16,
+        "frameOffset": 180,
+        "variantCount": 1
+      },
+      {
+        "tileType": 23,
+        "tileName": "LEGEND_BLOCK",
+        "family": "special",
+        "familyRow": 16,
+        "frameOffset": 186,
+        "variantCount": 1
+      },
+      {
+        "tileType": 24,
+        "tileName": "CAVE_WALL",
+        "family": "hard",
+        "familyRow": 2,
+        "frameOffset": 192,
+        "variantCount": 1
+      },
+      {
+        "tileType": 27,
+        "tileName": "GEODE_INTERIOR",
+        "family": "geode",
+        "familyRow": 14,
+        "frameOffset": 198,
+        "variantCount": 1
+      },
+      {
+        "tileType": 28,
+        "tileName": "GEODE_WALL",
+        "family": "geode",
+        "familyRow": 14,
+        "frameOffset": 204,
+        "variantCount": 1
+      },
+      {
+        "tileType": 29,
+        "tileName": "CHEST",
+        "family": "relic",
+        "familyRow": 15,
+        "frameOffset": 210,
+        "variantCount": 1
+      },
+      {
+        "tileType": 30,
+        "tileName": "GLOW_CRYSTAL",
+        "family": "crystal",
+        "familyRow": 13,
+        "frameOffset": 216,
+        "variantCount": 1
+      },
+      {
+        "tileType": 31,
+        "tileName": "LAVA_DIRT",
+        "family": "lava",
+        "familyRow": 9,
+        "frameOffset": 222,
+        "variantCount": 1
+      },
+      {
+        "tileType": 32,
+        "tileName": "OBSIDIAN",
+        "family": "obsidian",
+        "familyRow": 10,
+        "frameOffset": 228,
+        "variantCount": 1
+      },
+      {
+        "tileType": 33,
+        "tileName": "EMBER_ORE",
+        "family": "ember",
+        "familyRow": 11,
+        "frameOffset": 234,
+        "variantCount": 1
+      },
+      {
+        "tileType": 34,
+        "tileName": "MAGMA_CRYSTAL",
+        "family": "magma",
+        "familyRow": 12,
+        "frameOffset": 240,
+        "variantCount": 1
+      },
+      {
+        "tileType": 35,
+        "tileName": "ANCIENT_RELIC_CACHE",
+        "family": "relic",
+        "familyRow": 15,
+        "frameOffset": 246,
+        "variantCount": 1
+      }
+    ],
+    "stoneCoverage": {
+      "stone-variant-01": [
+        0.003678,
+        0.011232,
+        0.022182,
+        0.030302,
+        0.037404,
+        0.045184
+      ],
+      "stone-variant-02": [
+        0.004527,
+        0.008233,
+        0.014797,
+        0.020909,
+        0.027388,
+        0.043685
+      ],
+      "stone-variant-03": [
+        0.002631,
+        0.009252,
+        0.017627,
+        0.027529,
+        0.040516,
+        0.050192
+      ],
+      "stone-variant-04": [
+        0.005517,
+        0.009846,
+        0.015165,
+        0.019919,
+        0.032141,
+        0.043232
+      ],
+      "stone-variant-05": [
+        0.002009,
+        0.01044,
+        0.016014,
+        0.024842,
+        0.034773,
+        0.046344
+      ],
+      "stone-variant-06": [
+        0.003933,
+        0.009054,
+        0.015873,
+        0.022437,
+        0.032566,
+        0.041025
+      ],
+      "stone-variant-07": [
+        0.004697,
+        0.011006,
+        0.015278,
+        0.025068,
+        0.031717,
+        0.041987
+      ],
+      "stone-variant-08": [
+        0.004697,
+        0.00911,
+        0.014033,
+        0.020711,
+        0.033301,
+        0.045779
+      ],
+      "stone-variant-09": [
+        0.003254,
+        0.007017,
+        0.017146,
+        0.02586,
+        0.030727,
+        0.042185
+      ],
+      "stone-variant-10": [
+        0.005942,
+        0.013694,
+        0.019692,
+        0.024898,
+        0.033839,
+        0.045948
+      ]
+    },
+    "decodedBytes": 76343040,
+    "decodedBudgetBytes": 79691776
+  },
+  "rollback": {
+    "v5Query": "?groundDamageAtlas=v5",
+    "v4Query": "?groundDamageAtlas=v4",
+    "v3Query": "?groundDamageAtlas=v3",
+    "v2Query": "?groundDamageAtlas=v2",
+    "v1Query": "?groundDamageAtlas=legacy",
+    "rendererQuery": "?groundDamage=legacy"
+  }
+}

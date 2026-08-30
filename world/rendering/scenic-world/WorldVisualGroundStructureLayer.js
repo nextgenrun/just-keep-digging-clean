@@ -8,11 +8,22 @@ import {
 import {
   WORLD_VISUAL_RUNTIME,
   resolveScenicDemandAssetStreamingEnabled,
-} from "../../../values/worldVisualRuntime.js?rev=20260729-native-density-v14";
+} from "../../../values/worldVisualRuntime.js?rev=20260826-surface-motion-v2";
 import { RUNTIME_ASSET_LOADING } from "../../../values/runtimeAssetLoading.js";
 import { WorldVisualAssetCache } from "./WorldVisualAssetCache.js";
 import { WorldVisualGroundStructureRegionView } from
   "./WorldVisualGroundStructureRegionView.js?rev=20260729-native-density-v14";
+
+function regionAssets(region) {
+  const sourceRegions = region.biomeFieldRegionsById
+    ? Object.values(region.biomeFieldRegionsById)
+    : [region];
+  const assets = new Map();
+  sourceRegions.forEach(sourceRegion => {
+    sourceRegion.assets.forEach(asset => assets.set(asset.key, asset));
+  });
+  return [...assets.values()];
+}
 
 export class WorldVisualGroundStructureLayer {
   constructor(
@@ -73,7 +84,7 @@ export class WorldVisualGroundStructureLayer {
           bounds,
           this.demandStreamingConfig.neighborSegments
         )
-        : region.assets;
+        : regionAssets(region);
       for (const asset of requiredAssets) activeAssets.set(asset.key, asset);
       if (this._isRegionReady(region, requiredAssets)) {
         this._syncRegion(region, bounds, lighting, force);
@@ -89,7 +100,7 @@ export class WorldVisualGroundStructureLayer {
     return regions.length > 0;
   }
 
-  _isRegionReady(region, assets = region.assets) {
+  _isRegionReady(region, assets = regionAssets(region)) {
     if (this.demandStreamingEnabled) {
       return assets.every(asset => this.scene.textures.exists(asset.key));
     }
@@ -117,7 +128,7 @@ export class WorldVisualGroundStructureLayer {
     return view;
   }
 
-  _requestRegionAssets(region, assets = region.assets) {
+  _requestRegionAssets(region, assets = regionAssets(region)) {
     for (const asset of assets) {
       if (this.scene.textures.exists(asset.key) || this.pendingAssetKeys.has(asset.key)) {
         continue;

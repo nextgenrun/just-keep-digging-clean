@@ -98,19 +98,31 @@ assert.deepEqual(
   [
     RANDOM_EVENT_TYPES.CRYSTAL_CHOIR,
     RANDOM_EVENT_TYPES.BLACKOUT_BLOOM,
-    RANDOM_EVENT_TYPES.MONEY_MONSTER_RUSH,
   ],
-  "only the three retained ambient random events are schedulable",
+  "only Choir and Blackout remain schedulable",
 );
 const flagsOff = resolveRandomEventFlags("?randomEvents=0&blackoutBloom=1");
 assert.equal(flagsOff.master, false);
 assert.equal(flagsOff.blackoutBloom, false, "parent rollback wins over child flag");
-const flagsSelective = resolveRandomEventFlags("?crystalChoir=0&moneyMonsterRush=0");
+const flagsSelective = resolveRandomEventFlags("?crystalChoir=0&moneyMonsterRush=1");
 assert.equal("lumenBloom" in flagsSelective, false, "retired event flag is absent");
 assert.equal(flagsSelective.crystalChoir, false);
-assert.equal(flagsSelective.moneyMonsterRush, false);
+assert.equal(flagsSelective.moneyMonsterRush, false, "Rush Order cannot be re-enabled by query string");
 const retiredForce = resolveRandomEventFlags("?randomEventDebug=1&randomEvent=lumenBloom");
 assert.equal(retiredForce.forcedType, null, "retired event cannot be forced through the query string");
+
+const modalLayout = RANDOM_WORLD_EVENT_CONFIG.visuals.modal;
+assert.equal(
+  modalLayout.cardCenterX + modalLayout.cardWidth / 2,
+  417,
+  "choice hit areas end on the painted card wells",
+);
+assert.equal(modalLayout.rightBodyLineSpacing, 1,
+  "the complete maturity inventory clears the selected-choice row");
+assert.ok(
+  modalLayout.inputY + 18 + 15 <= 255,
+  "typed confirmation remains inside the authored lower input bay",
+);
 
 const director = new RandomEventDirector(seed, flagsSelective);
 director.recordRecentResource("gold");
@@ -123,22 +135,13 @@ assert.equal(
   "dirt",
   "a carried Level One resource is eligible without recent history",
 );
-const rush = director.start(RANDOM_EVENT_TYPES.MONEY_MONSTER_RUSH, {
+const beforeRetiredRushStart = director.getSaveData();
+assert.equal(director.start(RANDOM_EVENT_TYPES.MONEY_MONSTER_RUSH, {
   targetResource: "gold",
   startedDepth: 80,
-});
-assert.equal(rush.remainingMs, RANDOM_WORLD_EVENT_CONFIG.moneyMonsterRush.durationMs);
-director.tick(15000, { pauseTimer: true });
-assert.equal(rush.remainingMs, 90000, "blocking/shop pause cannot consume Rush time");
-director.tick(15000);
-assert.equal(rush.remainingMs, 75000, "active-play delta decrements Rush exactly");
-director.addRushBonus(321);
-assert.equal(director.getSnapshot().active.bonusMoney, 321);
-
-const savedMidRush = director.getSaveData();
-const restoredDirector = new RandomEventDirector(seed, flagsSelective);
-restoredDirector.loadSaveData(savedMidRush);
-assert.deepEqual(restoredDirector.getSaveData(), savedMidRush, "mid-event state roundtrips exactly");
+}), null, "Rush Order is retired and cannot start directly");
+assert.deepEqual(director.getSaveData(), beforeRetiredRushStart,
+  "rejected Rush Order cannot mutate scheduler state");
 
 const choirId = "cave-a";
 const choirAnchors = [10, 12, 14, 16, 18].map(tx => ({ tx, ty: 20 }));
@@ -167,15 +170,24 @@ assert.equal(interruptedChoirDirector.hasCompletedChoir("interrupted-cave"), fal
 
 const corrupt = sanitizeRandomEventData({
   cooldownMs: -1,
+  recentTypes: [
+    RANDOM_EVENT_TYPES.CRYSTAL_CHOIR,
+    RANDOM_EVENT_TYPES.MONEY_MONSTER_RUSH,
+    RANDOM_EVENT_TYPES.BLACKOUT_BLOOM,
+  ],
   recentResources: ["magmaCrystal", "gold", "gold"],
   active: {
     type: RANDOM_EVENT_TYPES.MONEY_MONSTER_RUSH,
-    remainingMs: Infinity,
-    targetResource: "magmaCrystal",
+    remainingMs: 45000,
+    targetResource: "gold",
   },
 }, seed);
-assert.deepEqual(corrupt.recentResources, ["gold"], "Level Two Rush targets are removed");
-assert.equal(corrupt.active, null, "an invalid or Level Two Rush is discarded");
+assert.deepEqual(corrupt.recentResources, ["gold"], "invalid Level Two resource history is removed");
+assert.deepEqual(corrupt.recentTypes, [
+  RANDOM_EVENT_TYPES.CRYSTAL_CHOIR,
+  RANDOM_EVENT_TYPES.BLACKOUT_BLOOM,
+], "Rush Order is removed from saved scheduler history");
+assert.equal(corrupt.active, null, "a saved Rush Order is discarded as retired");
 assert.equal(corrupt.cooldownMs, RANDOM_WORLD_EVENT_CONFIG.scheduler.retryCooldownMs);
 
 const retiredType = "lumenBloom";
@@ -258,9 +270,9 @@ pausedBridge.director = {
   state: {
     active: {
       id: "pause-test",
-      type: RANDOM_EVENT_TYPES.MONEY_MONSTER_RUSH,
+      type: RANDOM_EVENT_TYPES.BLACKOUT_BLOOM,
       targetResource: "gold",
-      remainingMs: 90000,
+      remainingMs: 26000,
       suspended: false,
     },
   },
@@ -380,12 +392,18 @@ assert.match(files.setup, /setTileDamageGuard/);
 assert.match(files.update, /pauseTimer:\s*hasEscapeClosableUi\(this\)/);
 assert.match(files.update, /milestoneBoardSystem && !this\._randomEventModalVisible/);
 assert.match(files.planner, /hasCompletedChoir/);
+assert.doesNotMatch(files.planner, /MONEY_MONSTER_RUSH/,
+  "retired Rush Order has no runtime plan");
 assert.match(files.jackpot,
   /const snapshot = this\.transaction\.capture\(\);[\s\S]{0,120}setResourceTotals\(createZeroResourceTotals\(\)\)/);
 assert.match(files.world, /reason: "event-protected"/);
 assert.match(files.special, /restoreChestForEvent/);
 assert.match(files.cinematic, /s\._randomEventModalVisible/);
 assert.match(files.modal, /uiNotifications\?\.setPaused\?\.\(false\)/);
+assert.match(files.modal, /resultBodyLines\(body\)/,
+  "long maturity outcomes use the bounded two-column result formatter");
+assert.doesNotMatch(files.modal, /UI_COLORS\.hint/,
+  "popup footer copy must use an existing palette color");
 
 function assertTransparentPng(path) {
   const png = readFileSync(path);

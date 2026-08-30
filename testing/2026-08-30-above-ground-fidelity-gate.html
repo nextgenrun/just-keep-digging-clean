@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Observatory generated-background fidelity gate</title>
+    <style>
+      :root { color-scheme: dark; font-family: Inter, Segoe UI, sans-serif; }
+      * { box-sizing: border-box; }
+      html, body, #map { width: 100%; height: 100%; margin: 0; overflow: hidden; }
+      body { display: grid; place-items: center; background: #05080d; }
+      canvas { display: block; max-width: 100vw; max-height: 100vh; width: auto !important; height: auto !important; }
+      .hud { position: fixed; inset: 0; z-index: 2; pointer-events: none; }
+      .label { position: absolute; top: 14px; left: 14px; padding: 10px 12px; border: 1px solid rgba(130,196,224,.28); border-radius: 7px; background: rgba(3,9,16,.82); box-shadow: 0 12px 32px rgba(0,0,0,.34); }
+      .eyebrow { color: #8ed4ee; font-size: 10px; font-weight: 800; letter-spacing: .14em; }
+      h1 { margin: 4px 0 2px; color: #f3ead6; font: 600 18px/1.2 Georgia, serif; }
+      .status { color: #a7bdca; font-size: 11px; line-height: 1.45; }
+      .status strong { color: #9fd7b0; font-weight: 700; }
+      .rail { position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%); display: flex; gap: 7px; align-items: center; width: min(930px, calc(100vw - 28px)); padding: 7px; border: 1px solid rgba(130,196,224,.28); border-radius: 8px; background: rgba(3,9,16,.88); box-shadow: 0 16px 38px rgba(0,0,0,.4); pointer-events: auto; }
+      button, select, a { min-height: 38px; border: 1px solid rgba(142,212,238,.3); border-radius: 6px; background: #0d1b28; color: #e9e0cf; font: inherit; }
+      button { padding: 0 12px; cursor: pointer; }
+      button[aria-pressed="true"] { background: #1d5369; border-color: #8ed4ee; }
+      select { flex: 1; min-width: 130px; padding: 0 9px; }
+      a { display: inline-grid; place-items: center; padding: 0 12px; text-decoration: none; font-size: 12px; }
+      .hint { margin-left: auto; color: #8195a4; font-size: 10px; white-space: nowrap; }
+      .loading { position: absolute; inset: 0; display: grid; place-items: center; color: #b8d8e8; letter-spacing: .13em; background: #05080d; }
+      .ready .loading { display: none; }
+      @media (max-width: 720px) {
+        .hint, #old-map-link { display: none; }
+        .rail { width: calc(100vw - 16px); bottom: 8px; flex-wrap: wrap; }
+        .label { top: 8px; left: 8px; }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map" aria-label="Observatory generated-background runtime fidelity comparison"></div>
+    <div class="hud" aria-live="polite">
+      <div class="loading">LOADING UNCHANGED GENERATED PLATE</div>
+      <section class="label">
+        <div class="eyebrow" id="mode-label">REAL RUNTIME COMPOSITE</div>
+        <h1>Observatory fidelity gate</h1>
+        <div class="status">
+          <strong id="runtime-status">Loading one background owner…</strong><br>
+          <span id="runtime-detail">No card tiling, duplicate moons, or floating decoration</span>
+        </div>
+      </section>
+      <nav class="rail" aria-label="Fidelity comparison controls">
+        <button id="source-view" type="button" aria-pressed="false">Unchanged source</button>
+        <button id="runtime-view" type="button" aria-pressed="true">Runtime composite</button>
+        <select id="weather-select" aria-label="Weather"></select>
+        <button id="motion-toggle" type="button">Pause motion</button>
+        <a id="old-map-link" href="./2026-08-30-above-ground-complete-map-runtime-mockup.html?chapter=observatory&amp;band=surface&amp;rev=20">Old map</a>
+        <span class="hint">Drag or A/D to inspect · R swaps source/runtime</span>
+      </nav>
+    </div>
+    <script src="../libs/phaser.js"></script>
+    <script type="module" src="./2026-08-30-above-ground-fidelity-gate.js?v=fidelity-gate-v1"></script>
+  </body>
+</html>

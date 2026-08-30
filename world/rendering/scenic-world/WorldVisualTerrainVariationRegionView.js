@@ -9,6 +9,12 @@ import { WorldVisualTerrainCohesionView } from
   "./WorldVisualTerrainCohesionView.js";
 import { resolveWorldVisualSemanticSequenceIndex } from
   "./worldVisualSemanticSequence.js?rev=20260729-native-density-v14";
+import { resolveLevelOneBiomeFieldAtTile } from
+  "../../../values/levelOneBiomeField.js";
+import {
+  resolveLevelOneBiomeFamilyAssets,
+  resolveLevelOneBiomeLayerSeed,
+} from "../../../values/levelOneBiomeVisualFamilies.js";
 
 function sourceSize(scene, key) {
   const texture = scene.textures.get(key);
@@ -95,13 +101,15 @@ export class WorldVisualTerrainVariationRegionView {
     region,
     config,
     terrainMask,
-    cohesionEnabled = false
+    cohesionEnabled = false,
+    search = globalThis.location?.search || ""
   ) {
     this.scene = scene;
     this.worldModel = worldModel;
     this.region = region;
     this.config = config;
     this.terrainMask = terrainMask;
+    this.search = search;
     this.plateImages = new Map();
     this.capImages = new Map();
     this.cohesionView = new WorldVisualTerrainCohesionView(
@@ -146,7 +154,12 @@ export class WorldVisualTerrainVariationRegionView {
   ) {
     const range = this._resolvePlateRange(bounds, neighborSegments);
     if (!range) return [];
-    const capAtlases = this.region.capAtlases || [this.region.capAtlas];
+    const capSourceRegions = this.region.biomeFieldRegionsById
+      ? Object.values(this.region.biomeFieldRegionsById)
+      : [this.region];
+    const capAtlases = capSourceRegions.flatMap(sourceRegion => (
+      sourceRegion.capAtlases || [sourceRegion.capAtlas]
+    ));
     const assets = new Map(capAtlases.map(asset => [asset.key, asset]));
     for (let row = range.rows.first; row <= range.rows.last; row += 1) {
       for (let column = range.columns.first; column <= range.columns.last; column += 1) {
@@ -175,14 +188,63 @@ export class WorldVisualTerrainVariationRegionView {
   }
 
   _resolvePlateAsset(column, row) {
+    const fieldSelection = this._resolveBiomeFieldSelection(column, row);
+    const sourceRegion = fieldSelection?.sourceRegion || this.region;
+    const plates = fieldSelection?.plates || sourceRegion.plates;
     const assetIndex = resolveWorldVisualSemanticSequenceIndex(
       column,
       row,
-      this.region.seedOffset,
-      this.region.plates.length,
+      sourceRegion.seedOffset + (fieldSelection
+        ? resolveLevelOneBiomeLayerSeed(
+          fieldSelection.profile,
+          "terrain",
+          undefined,
+          this.search
+        )
+        : 0),
+      plates.length,
       { profileId: "terrain" }
     );
-    return this.region.plates[assetIndex];
+    return plates[assetIndex];
+  }
+
+  _resolveBiomeFieldSelection(column, row) {
+    const sources = this.region.biomeFieldRegionsById;
+    if (!sources) return null;
+    const tileSize = this.scene.config.tileSize;
+    const segment = this.region.segment || this.config.segment;
+    const regionSpan = resolvePlateRegionSpan(this.region, this.config, tileSize);
+    const centerTileX = this.region.leftTile
+      + (column * segment.strideXPx + segment.logicalWidthPx * 0.5) / tileSize;
+    const centerTileY = regionSpan.topTile
+      + (row * segment.strideYPx + segment.logicalHeightPx * 0.5) / tileSize;
+    const profile = resolveLevelOneBiomeFieldAtTile(centerTileX, centerTileY);
+    const sourceRegion = profile ? sources[profile.sourceRegionId] : null;
+    const plates = sourceRegion
+      ? resolveLevelOneBiomeFamilyAssets(
+        profile,
+        "terrain",
+        sourceRegion.plates,
+        undefined,
+        this.search
+      )
+      : null;
+    return profile && sourceRegion && plates?.length
+      ? { profile, sourceRegion, plates }
+      : null;
+  }
+
+  _resolveBiomeFieldSelectionAtTile(tx, ty) {
+    const sources = this.region.biomeFieldRegionsById;
+    if (!sources) return null;
+    const profile = resolveLevelOneBiomeFieldAtTile(tx, ty);
+    const sourceRegion = profile ? sources[profile.sourceRegionId] : null;
+    return profile && sourceRegion ? { profile, sourceRegion } : null;
+  }
+
+  _resolveBiomeFieldRegionAtTile(tx, ty) {
+    return this._resolveBiomeFieldSelectionAtTile(tx, ty)?.sourceRegion
+      || this.region;
   }
 
   _resolvePlateRange(
@@ -327,15 +389,23 @@ export class WorldVisualTerrainVariationRegionView {
     const { scene, region, config } = this;
     const tileSize = scene.config.tileSize;
     const caps = config.caps;
-    const capAtlases = region.capAtlases || [region.capAtlas];
+    const fieldSelection = this._resolveBiomeFieldSelectionAtTile(tx, ty);
+    const sourceRegion = fieldSelection?.sourceRegion || region;
+    const profileOffset = fieldSelection?.profile.assetOffset || 0;
+    const capAtlases = sourceRegion.capAtlases || [sourceRegion.capAtlas];
     const atlasIndex = stableFrame(
       tx + 41,
       ty + 67,
-      region.seedOffset + 109,
+      sourceRegion.seedOffset + profileOffset + 109,
       capAtlases.length
     );
     const selectedAtlas = capAtlases[atlasIndex];
-    const frame = stableFrame(tx, ty, region.seedOffset, caps.frameCount);
+    const frame = stableFrame(
+      tx,
+      ty,
+      sourceRegion.seedOffset + profileOffset,
+      caps.frameCount
+    );
     const cropX = (frame % caps.columns) * caps.frameWidthPx;
     const cropY = Math.floor(frame / caps.columns) * caps.frameHeightPx;
     const image = scene.add.image(

@@ -26,8 +26,8 @@ the nearest directory `readme.md`; exact tunables remain in `/values/`.
 | Day, weather, light | environment, lighting, shader systems | SHIPPED | One coherent surface clock/weather/light state; depth-safe response |
 | Map and discovery | map discovery/activity registry and overlay | SHIPPED | Persist explored cells and request markers from owning gameplay systems |
 | Milestones | depth values, board, cinematic, retention state | SHIPPED through 2,000 m | Turn depth progress into permanent GP/speed/crit rewards and authored beats |
-| Stars and constellations | FloatingText/Star Pillar/progression systems | SHIPPED | Collect sky stars, unlock ten constellations, feed Star Heart progress |
-| Celestial Engines | Star Heart progression/controller/effects | SHIPPED | One permanent normal-play attunement with bounded charge and impacts |
+| Stars and constellations | FloatingText/Star Pillar/progression systems | SHIPPED | Collect sky stars, master ten Signs, and buy three 11-node Engine branches |
+| Celestial powers | Talent/Star Heart progression, controller, effects | SHIPPED | Wayward's one-to-five-star swarm, Hollow Sun's two-to-five black-hole cluster, and Stellar Lance's ranged piercing mining buff cost 100 GP and keep bounded activations |
 | Ancient Relics and Titans | relic, retention, discovery FX, journal/archive | SHIPPED structurally | Persistent collection and gates without duplicate reward authority |
 | Heavenblocks | access, progression, presentation, crafting | PARTIAL | Three sky regions, parts, vaults, and Zenith chain; reachability needs QA |
 | Level Two | separated world values/rendering/tunnel/economy | GATED | Distinct 5,000 m continuation and resource ecology |

@@ -22,6 +22,22 @@ const damageStage = (
 
 const DAMAGE_STATE_COUNT = 12;
 const DAMAGE_TIER_BY_STATE = Object.freeze([0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3]);
+const ALIGNED_RESPONSE_TIER_BY_STATE = Object.freeze([
+  0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5,
+]);
+const DYNAMIC_RESPONSE_PROFILE_OFFSETS = Object.freeze([
+  0, 6, 66, 72, 78, 84, 90, 96, 102, 108, 114,
+  120, 126, 132, 138, 144, 150, 156, 162, 168, 174,
+  180, 186, 192, 198, 204, 210, 216, 222, 228, 234,
+  240, 246,
+]);
+const DYNAMIC_RESPONSE_VARIANTS_BY_PROFILE = Object.freeze([
+  1, 10, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+  1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+  1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+  1, 1,
+]);
+const STONE_RESPONSE_PROFILE_INDEX = 1;
 const DAMAGE_TRANSFORMS = Object.freeze([
   Object.freeze({ index: 0, angle: 0, flipX: false, flipY: false }),
   Object.freeze({ index: 1, angle: 90, flipX: false, flipY: false }),
@@ -34,12 +50,12 @@ const DAMAGE_TRANSFORMS = Object.freeze([
 ]);
 
 const damageAtlas = (path, variants, revision, options = {}) => Object.freeze({
-  key: "world-visual-v2-ground-damage-imagegen-v1",
+  key: options.key || "world-visual-v2-ground-damage-imagegen-v1",
   path,
   columns: options.columns || variants,
-  frameSizePx: 188,
+  frameSizePx: options.frameSizePx || 188,
   frameCount: (options.rasterTiers || DAMAGE_STATE_COUNT) * variants,
-  framePrefix: "world-visual-v2-ground-damage-",
+  framePrefix: options.framePrefix || "world-visual-v2-ground-damage-",
   variants,
   rasterTiers: options.rasterTiers || DAMAGE_STATE_COUNT,
   tierByState: options.tierByState || null,
@@ -50,6 +66,34 @@ const damageAtlas = (path, variants, revision, options = {}) => Object.freeze({
   layered: Boolean(options.mixProfile),
 });
 
+const ALIGNED_DAMAGE_ATLAS = damageAtlas(
+  "sprites/backgrounds/world-visual-v2/semantic-decals-v1/ground-damage-fracture-aligned-v5.png?v=20260826a",
+  24,
+  "aligned-v5",
+  Object.freeze({
+    key: "world-visual-v2-ground-damage-aligned-v5",
+    framePrefix: "world-visual-v2-ground-damage-aligned-",
+    columns: 16,
+    rasterTiers: 12,
+    transformCount: 8,
+    mixProfile: "alignedV5",
+    decodedBytes: 40716288,
+  })
+);
+const DYNAMIC_DAMAGE_ATLAS = damageAtlas(
+  "sprites/backgrounds/world-visual-v2/semantic-decals-v1/ground-damage-fracture-aligned-v5.png?v=20260826a",
+  24,
+  "dynamic-response-v6",
+  Object.freeze({
+    key: "world-visual-v2-ground-damage-dynamic-v6",
+    framePrefix: "world-visual-v2-ground-damage-dynamic-",
+    columns: 16,
+    rasterTiers: 12,
+    transformCount: 8,
+    mixProfile: "dynamicV6",
+    decodedBytes: 40716288,
+  })
+);
 const EXPANDED_DAMAGE_ATLAS = damageAtlas(
   "sprites/backgrounds/world-visual-v2/semantic-decals-v1/ground-damage-fracture-expanded-v4.png?v=20260826a",
   64,
@@ -72,7 +116,8 @@ const LAYERED_DAMAGE_ATLAS = damageAtlas(
 const POLISHED_DAMAGE_ATLAS = damageAtlas(
   "sprites/backgrounds/world-visual-v2/semantic-decals-v1/ground-damage-piskel-anchor-v2.png?v=20260730a",
   10,
-  "polished-v2"
+  "polished-v2",
+  Object.freeze({ decodedBytes: 16965120 })
 );
 const LEGACY_IMAGEGEN_DAMAGE_ATLAS = damageAtlas(
   "sprites/backgrounds/world-visual-v2/semantic-decals-v1/ground-damage-imagegen-v1.png?v=20260729a",
@@ -96,16 +141,39 @@ const EXPANDED_RESPONSE_ATLAS = Object.freeze({
   framePrefix: "world-visual-v2-ground-damage-response-",
   decodedBytes: 20358144,
 });
+const ALIGNED_RESPONSE_ATLAS = Object.freeze({
+  key: "world-visual-v2-ground-damage-response-aligned-v5",
+  path: "sprites/backgrounds/world-visual-v2/semantic-decals-v1/ground-damage-response-aligned-v5.png?v=20260826a",
+  columns: 16,
+  frameSizePx: 188,
+  frameCount: 198,
+  framePrefix: "world-visual-v2-ground-damage-response-aligned-",
+  decodedBytes: 29406208,
+});
+const DYNAMIC_RESPONSE_ATLAS = Object.freeze({
+  key: "world-visual-v2-ground-damage-response-dynamic-v6",
+  path: "sprites/backgrounds/world-visual-v2/semantic-decals-v1/ground-damage-response-dynamic-v6.png?v=20260826a",
+  columns: 18,
+  frameSizePx: 188,
+  frameCount: 252,
+  framePrefix: "world-visual-v2-ground-damage-response-dynamic-",
+  decodedBytes: 35626752,
+});
 
-const fractureLayers = (response, presentation = null) => Object.freeze({
+const fractureLayers = (
+  response,
+  presentation = null,
+  layerStyle = Object.freeze({})
+) => Object.freeze({
   fractureShadow: Object.freeze({
-    alpha: 0.96,
+    alpha: layerStyle.shadowAlpha ?? 0.96,
     blendMode: "MULTIPLY",
     depthOffset: 0.004,
   }),
   fractureRim: Object.freeze({
-    alpha: 0.46,
-    tint: 0xf0e5d8,
+    alpha: layerStyle.rimAlpha ?? 0.46,
+    tint: layerStyle.rimTint ?? 0xf0e5d8,
+    tintFill: Boolean(layerStyle.rimTintFill),
     blendMode: "SCREEN",
     depthOffset: 0.005,
   }),
@@ -136,6 +204,75 @@ const EXPANDED_DAMAGE_MIX = fractureLayers(
     ]),
   })
 );
+const ALIGNED_DAMAGE_MIX = fractureLayers(
+  Object.freeze({
+    atlas: ALIGNED_RESPONSE_ATLAS,
+    mode: "tile",
+    profileCount: 33,
+    tiers: 6,
+    tierByState: ALIGNED_RESPONSE_TIER_BY_STATE,
+    scale: 1,
+    alpha: 0.94,
+    blendMode: "NORMAL",
+    depthOffset: 0.006,
+  }),
+  Object.freeze({
+    scaleByState: Object.freeze([
+      1, 1, 1, 1, 1, 1,
+      1, 1, 1, 1, 1, 1,
+    ]),
+    alphaByState: Object.freeze([
+      0.72, 0.76, 0.80, 0.84, 0.87, 0.90,
+      0.92, 0.94, 0.96, 0.975, 0.99, 1,
+    ]),
+  }),
+  Object.freeze({
+    shadowAlpha: 1,
+    rimAlpha: 0.52,
+    rimTint: 0xd8e4ee,
+    rimTintFill: true,
+  })
+);
+const DYNAMIC_DAMAGE_MIX = fractureLayers(
+  Object.freeze({
+    atlas: DYNAMIC_RESPONSE_ATLAS,
+    mode: "tile",
+    frameLayout: "profile-major-variants",
+    profileCount: 33,
+    profileFrameOffsets: DYNAMIC_RESPONSE_PROFILE_OFFSETS,
+    variantCountByProfile: DYNAMIC_RESPONSE_VARIANTS_BY_PROFILE,
+    variantSalt: 2909,
+    profileOverrides: Object.freeze({
+      [STONE_RESPONSE_PROFILE_INDEX]: Object.freeze({
+        alpha: 0.88,
+        tint: 0xc1d7e9,
+        blendMode: "SCREEN",
+      }),
+    }),
+    tiers: 6,
+    tierByState: ALIGNED_RESPONSE_TIER_BY_STATE,
+    scale: 1,
+    alpha: 0.94,
+    blendMode: "NORMAL",
+    depthOffset: 0.006,
+  }),
+  Object.freeze({
+    scaleByState: Object.freeze([
+      1, 1, 1, 1, 1, 1,
+      1, 1, 1, 1, 1, 1,
+    ]),
+    alphaByState: Object.freeze([
+      0.72, 0.76, 0.80, 0.84, 0.87, 0.90,
+      0.92, 0.94, 0.96, 0.975, 0.99, 1,
+    ]),
+  }),
+  Object.freeze({
+    shadowAlpha: 1,
+    rimAlpha: 0.52,
+    rimTint: 0xd8e4ee,
+    rimTintFill: true,
+  })
+);
 const LAYERED_DAMAGE_MIX = fractureLayers(Object.freeze({
   atlas: MATERIAL_RESPONSE_ATLAS,
   mode: "family",
@@ -157,37 +294,46 @@ export const WORLD_VISUAL_DAMAGE_MODES = Object.freeze({
 export const WORLD_VISUAL_DAMAGE = Object.freeze({
   defaultMode: WORLD_VISUAL_DAMAGE_MODES.imagegen,
   queryParam: "groundDamage",
-  imagegenValues: Object.freeze(["imagegen", "art", "atlas", "new", "v4", "v3"]),
+  imagegenValues: Object.freeze(["imagegen", "art", "atlas", "new", "v6", "v5", "v4", "v3"]),
   modularValues: Object.freeze(["modular", "layers", "procedural", "v2"]),
   legacyValues: Object.freeze(["legacy", "old", "radial", "v1"]),
   stateCount: DAMAGE_STATE_COUNT,
   imagegen: Object.freeze({
     atlasQueryParam: "groundDamageAtlas",
-    defaultAtlas: "expanded",
-    expandedAtlasValues: Object.freeze(["expanded", "dynamic", "mix", "v4"]),
+    defaultAtlas: "polished",
+    dynamicAtlasValues: Object.freeze(["dynamic", "responsive", "v6"]),
+    alignedAtlasValues: Object.freeze(["aligned", "registered", "v5"]),
+    expandedAtlasValues: Object.freeze(["expanded", "mix", "v4"]),
     layeredAtlasValues: Object.freeze(["layered", "layered-v3", "v3"]),
     polishedAtlasValues: Object.freeze(["polished", "piskel", "v2"]),
     legacyAtlasValues: Object.freeze(["legacy", "v1", "old"]),
     atlases: Object.freeze({
+      dynamic: DYNAMIC_DAMAGE_ATLAS,
+      aligned: ALIGNED_DAMAGE_ATLAS,
       expanded: EXPANDED_DAMAGE_ATLAS,
       layered: LAYERED_DAMAGE_ATLAS,
       polished: POLISHED_DAMAGE_ATLAS,
       legacy: LEGACY_IMAGEGEN_DAMAGE_ATLAS,
     }),
-    atlas: EXPANDED_DAMAGE_ATLAS,
-    variants: 64,
+    atlas: POLISHED_DAMAGE_ATLAS,
+    variants: 10,
     scale: 1,
     alpha: 0.94,
     depthOffset: 0.004,
     variantSalt: 977,
     transformSalt: 1879,
     transforms: DAMAGE_TRANSFORMS,
-    decodedBytes: 56550400,
-    effectiveStructuralCombinations: 6144,
+    decodedBytes: 16965120,
+    decodedBudgetBytes: 17825792,
+    effectiveStructuralCombinations: 120,
     mixProfiles: Object.freeze({
+      dynamicV6: DYNAMIC_DAMAGE_MIX,
+      alignedV5: ALIGNED_DAMAGE_MIX,
       expandedV4: EXPANDED_DAMAGE_MIX,
       layeredV3: LAYERED_DAMAGE_MIX,
     }),
+    dynamic: DYNAMIC_DAMAGE_MIX,
+    aligned: ALIGNED_DAMAGE_MIX,
     expanded: EXPANDED_DAMAGE_MIX,
     layered: LAYERED_DAMAGE_MIX,
   }),
@@ -391,6 +537,12 @@ export function resolveWorldVisualDamageAtlas(
   if (value && imagegen.layeredAtlasValues.includes(value)) {
     return imagegen.atlases.layered;
   }
+  if (value && imagegen.dynamicAtlasValues.includes(value)) {
+    return imagegen.atlases.dynamic;
+  }
+  if (value && imagegen.alignedAtlasValues.includes(value)) {
+    return imagegen.atlases.aligned;
+  }
   if (value && imagegen.expandedAtlasValues.includes(value)) {
     return imagegen.atlases.expanded;
   }
@@ -517,6 +669,62 @@ export function resolveWorldVisualDamageResponseTier(
     : resolvedMixProfile;
   const response = mixProfile?.response;
   return response?.tierByState?.[stateNumber - 1] ?? null;
+}
+
+export function resolveWorldVisualDamageResponseVariant(
+  tx,
+  ty,
+  profileIndex,
+  config = WORLD_VISUAL_DAMAGE,
+  search = globalThis.location?.search || "",
+  resolvedMixProfile = undefined
+) {
+  const mixProfile = resolvedMixProfile === undefined
+    ? resolveWorldVisualDamageMixProfile(config, search)
+    : resolvedMixProfile;
+  const response = mixProfile?.response;
+  const variantCount = response?.variantCountByProfile?.[profileIndex] ?? 1;
+  if (variantCount <= 1) return 0;
+  return hashWorldVisualDamageCoordinate(
+    tx,
+    ty,
+    response.variantSalt,
+    config,
+  ) % variantCount;
+}
+
+export function resolveWorldVisualDamageResponseFrame(
+  tx,
+  ty,
+  tier,
+  profileIndex,
+  config = WORLD_VISUAL_DAMAGE,
+  search = globalThis.location?.search || "",
+  resolvedMixProfile = undefined
+) {
+  const mixProfile = resolvedMixProfile === undefined
+    ? resolveWorldVisualDamageMixProfile(config, search)
+    : resolvedMixProfile;
+  const response = mixProfile?.response;
+  if (!response || !Number.isInteger(tier) || !Number.isInteger(profileIndex)) return null;
+  if (response.frameLayout === "profile-major-variants") {
+    const frameOffset = response.profileFrameOffsets?.[profileIndex];
+    const variantCount = response.variantCountByProfile?.[profileIndex];
+    if (!Number.isInteger(frameOffset) || !Number.isInteger(variantCount)) return null;
+    const variant = resolveWorldVisualDamageResponseVariant(
+      tx,
+      ty,
+      profileIndex,
+      config,
+      search,
+      mixProfile,
+    );
+    return frameOffset + tier * variantCount + variant;
+  }
+  const profileCount = response.mode === "tile"
+    ? response.profileCount
+    : response.familyCount;
+  return tier * profileCount + profileIndex;
 }
 
 export function getWorldVisualDamagePreloadAssets(

@@ -15,12 +15,15 @@ export class WeatherWorldState {
   update(delta, state) {
     const dt = Math.min(Math.max(delta || 0, 0), 100) / 1000;
     const wetCfg = this.weatherConfig.worldWetness;
-    const rain = state.isRainKind ? state.intensity * state.depth.surfaceAmount : 0;
+    const rainAmount = clamp01(state.rainAmount ?? (
+      state.isRainKind ? state.intensity : 0
+    ));
+    const rain = rainAmount * state.depth.surfaceAmount;
     const wetTarget = clamp01(rain * state.occlusion.openSkyAmount);
     const wetRate = wetTarget > this.worldWetnessAmount ? wetCfg.fillRatePerSecond : wetCfg.dryRatePerSecond;
     this.worldWetnessAmount = lerp(this.worldWetnessAmount, wetTarget, 1 - Math.exp(-wetRate * dt));
 
-    this._updateColumns(dt, state);
+    this._updateColumns(dt, state, rainAmount);
     this._updatePlayerState(state);
     return this.getSnapshot();
   }
@@ -52,12 +55,12 @@ export class WeatherWorldState {
     };
   }
 
-  _updateColumns(dt, state) {
+  _updateColumns(dt, state, rainAmount) {
     const cfg = this.weatherConfig.worldWetness;
     state.occlusion.landingSamples.forEach((sample) => {
       const tx = Math.floor(sample.worldX / (this.config.tileSize || 94));
       const current = this._wetColumns.get(tx) || 0;
-      const next = Math.min(1, current + state.intensity * cfg.columnFillPerSecond * dt);
+      const next = Math.min(1, current + rainAmount * cfg.columnFillPerSecond * dt);
       this._wetColumns.set(tx, next);
     });
     for (const [tx, value] of this._wetColumns.entries()) {

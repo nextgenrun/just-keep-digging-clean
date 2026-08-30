@@ -1,4 +1,4 @@
-// Real-game hidden-Edge QA for the default Ultra renderer and authored menu art.
+// Real-game hidden-Edge QA for the default High renderer and authored menu art.
 import fs from "node:fs";
 import path from "node:path";
 import { createRequire } from "node:module";
@@ -64,16 +64,16 @@ async function main() {
     }, null, { timeout: 600_000 });
     await page.waitForTimeout(1_000);
 
-    const idleScreenshot = path.join(outputDir, "main-menu-default-ultra.png");
+    const idleScreenshot = path.join(outputDir, "main-menu-default-high.png");
     await page.screenshot({ path: idleScreenshot, timeout: 120_000 });
     await page.mouse.move(640, 396);
     await page.waitForTimeout(250);
-    const hoverScreenshot = path.join(outputDir, "main-menu-hover-ultra.png");
+    const hoverScreenshot = path.join(outputDir, "main-menu-hover-high.png");
     await page.screenshot({ path: hoverScreenshot, timeout: 120_000 });
 
     await page.mouse.down();
     await page.waitForTimeout(35);
-    const pressedScreenshot = path.join(outputDir, "main-menu-pressed-ultra.png");
+    const pressedScreenshot = path.join(outputDir, "main-menu-pressed-high.png");
     await page.screenshot({ path: pressedScreenshot, timeout: 120_000 });
     const pressedButton = await page.evaluate(() => {
       const scene = window.__phaserGame.scene.getScene("MainMenuScene");
@@ -125,9 +125,9 @@ async function main() {
       };
     });
 
-    if (runtime.renderDensity?.preset !== "ultra") failures.push("default-density-not-ultra");
-    if (runtime.renderDensity?.density !== 2) failures.push("default-density-not-2x");
-    if (runtime.canvas.width !== 2560 || runtime.canvas.height !== 1440) {
+    if (runtime.renderDensity?.preset !== "high") failures.push("default-density-not-high");
+    if (runtime.renderDensity?.density !== 1.5) failures.push("default-density-not-1.5x");
+    if (runtime.canvas.width !== 1920 || runtime.canvas.height !== 1080) {
       failures.push(`unexpected-backing:${runtime.canvas.width}x${runtime.canvas.height}`);
     }
     if (runtime.textures.some((texture) => texture.width !== 2150 || texture.height !== 430)) {

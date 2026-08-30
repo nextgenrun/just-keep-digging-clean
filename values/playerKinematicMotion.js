@@ -20,9 +20,9 @@ export const PLAYER_KINEMATIC_MOTION_CONFIG = Object.freeze({
       maxTimeScale: 2.8,
     }),
     run: Object.freeze({
-      // Option C temporarily powers both walk and run. Matching the physical
-      // gait prevents a cadence drop at the run threshold until run gets its
-      // own reviewed source clip.
+      // The preserved run animation key carries Mixamo Standard Walk in the
+      // Survival profile. Its reviewed stride prevents feet sliding while the
+      // gameplay speed remains unchanged.
       strideTilesPerCycle: 1.55,
       minTimeScale: 0.75,
       maxTimeScale: 2.8,

@@ -96,7 +96,19 @@ function getGroupAssets(groupId) {
     return getTitanArchivePreloadAssets();
   }
   if (groupId === RUNTIME_FEATURE_ASSET_GROUP_IDS.worldMap) {
-    return [{ key: ASSET_KEYS.ui.worldMapFrame, path: WORLD_MAP_CONFIG.assetPath }];
+    return [
+      { key: ASSET_KEYS.ui.worldMapFrame, path: WORLD_MAP_CONFIG.assetPath },
+      {
+        key: ASSET_KEYS.ui.worldMapSymbols,
+        path: WORLD_MAP_CONFIG.symbolAtlas.path,
+        type: RUNTIME_ASSET_LOADING.types.spritesheet,
+        frameConfig: {
+          frameWidth: WORLD_MAP_CONFIG.symbolAtlas.frameWidth,
+          frameHeight: WORLD_MAP_CONFIG.symbolAtlas.frameHeight,
+          endFrame: WORLD_MAP_CONFIG.symbolAtlas.endFrame,
+        },
+      },
+    ];
   }
   if (groupId === RUNTIME_FEATURE_ASSET_GROUP_IDS.hardcoreMode) {
     return [

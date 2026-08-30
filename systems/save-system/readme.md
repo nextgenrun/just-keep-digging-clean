@@ -17,6 +17,11 @@ keys are retained for rollback and are no longer written.
 records. Gameplay systems must not write `localStorage` directly. Save-slot and
 settings repositories remain the only approved storage writers.
 
+`StarConsumptionAcknowledgementStore.js` uses that boundary for the per-slot,
+one-time `DESTROY` tutorial acknowledgement. It records understanding only;
+Star damage, rewards, and Starless Scars remain authoritative gameplay/save
+state elsewhere.
+
 `DugTilesSaveCodec.js` keeps payload normalization separate from transport, and
 `SaveBackupManager.js` preserves the last committed primary snapshots for
 recovery.

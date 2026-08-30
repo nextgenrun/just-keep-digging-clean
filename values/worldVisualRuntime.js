@@ -2,7 +2,7 @@ import {
   WORLD_VISUAL_SURFACE_PACKS,
   getWorldVisualSurfacePackPreloadAssets,
   resolveWorldVisualSurfacePack,
-} from "./worldVisualSurfacePacks.js?rev=20260729-native-density-v14";
+} from "./worldVisualSurfacePacks.js?rev=20260826-surface-motion-v2";
 
 const SURFACE_GROUND_VARIATION_ROOT = (
   "sprites/backgrounds/world-visual-v2/surface/surface-ground-variation-v5"

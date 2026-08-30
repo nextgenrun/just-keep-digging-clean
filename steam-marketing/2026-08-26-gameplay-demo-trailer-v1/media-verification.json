@@ -1,0 +1,342 @@
+{
+  "schemaVersion": 1,
+  "createdAt": "2026-08-26T14:04:05.854293+00:00",
+  "reviewOnly": true,
+  "published": false,
+  "starMotionContract": "tile anchored; content-only frame animation; no float, bob, transform, or whole-object pulse",
+  "voice": {
+    "provider": "ElevenLabs",
+    "voice": "Frederick Surrey - Smooth and Velvety",
+    "modelSettings": {
+      "stability": 0.7,
+      "similarityBoost": 0.86,
+      "style": 0,
+      "speed": 0.9
+    }
+  },
+  "generatedVisualUse": {
+    "file": "steam-marketing/2026-08-26-gameplay-demo-trailer-v1/openrouter-gameplay-keyart-landscape-v2.png",
+    "use": "static final trailer key-art card only",
+    "disclosureBurnedIn": "GAMEPLAY-DERIVED KEY ART",
+    "shortUsesGeneratedVisuals": false
+  },
+  "sources": [
+    {
+      "file": "systems/screenrecord/screenrecord-20260820-015748-656106-screenrecord-broad-2026-08-19T22-57-48-181Z.webm",
+      "selected": [
+        [
+          0,
+          15
+        ]
+      ]
+    },
+    {
+      "file": "systems/screenrecord/screenrecord-20260803-195757-048080-screenrecord-short-2026-08-03T16-57-56-273Z.webm",
+      "selected": [
+        [
+          16.5,
+          20
+        ],
+        [
+          17,
+          23
+        ],
+        [
+          44,
+          50
+        ],
+        [
+          52,
+          58
+        ],
+        [
+          68,
+          74
+        ]
+      ]
+    },
+    {
+      "file": "systems/screenrecord/screenrecord-20260803-195514-401018-screenrecord-short-2026-08-03T16-55-13-688Z.webm",
+      "selected": [
+        [
+          20,
+          24
+        ],
+        [
+          20,
+          26
+        ],
+        [
+          33,
+          39
+        ]
+      ]
+    }
+  ],
+  "excluded": {
+    "reason": "black frames",
+    "recordingPrefix": "screenrecord-20260731"
+  },
+  "outputs": [
+    {
+      "file": "steam-marketing/2026-08-26-gameplay-demo-trailer-v1/understar-gameplay-demo-trailer-v1.mp4",
+      "bytes": 32284448,
+      "sha256": "28cc3bf781d0a02e0963390ea92678869819e9115cee2c3ac7fec0921dc0a892",
+      "durationSeconds": 30.0,
+      "streams": [
+        {
+          "index": 0,
+          "codec_name": "h264",
+          "codec_long_name": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+          "profile": "High",
+          "codec_type": "video",
+          "codec_tag_string": "avc1",
+          "codec_tag": "0x31637661",
+          "mime_codec_string": "avc1.640032",
+          "width": 1920,
+          "height": 1080,
+          "coded_width": 1920,
+          "coded_height": 1080,
+          "has_b_frames": 2,
+          "sample_aspect_ratio": "1:1",
+          "display_aspect_ratio": "16:9",
+          "pix_fmt": "yuv420p",
+          "level": 50,
+          "color_range": "tv",
+          "color_space": "bt709",
+          "color_transfer": "bt709",
+          "color_primaries": "bt709",
+          "chroma_location": "left",
+          "field_order": "progressive",
+          "is_avc": "true",
+          "nal_length_size": "4",
+          "id": "0x1",
+          "r_frame_rate": "30/1",
+          "avg_frame_rate": "30/1",
+          "time_base": "1/15360",
+          "start_pts": 0,
+          "start_time": "0.000000",
+          "duration_ts": 460288,
+          "duration": "29.966667",
+          "bit_rate": "8413895",
+          "bits_per_raw_sample": "8",
+          "nb_frames": "899",
+          "extradata_size": 51,
+          "disposition": {
+            "default": 1,
+            "dub": 0,
+            "original": 0,
+            "comment": 0,
+            "lyrics": 0,
+            "karaoke": 0,
+            "forced": 0,
+            "hearing_impaired": 0,
+            "visual_impaired": 0,
+            "clean_effects": 0,
+            "attached_pic": 0,
+            "timed_thumbnails": 0,
+            "non_diegetic": 0,
+            "captions": 0,
+            "descriptions": 0,
+            "metadata": 0,
+            "dependent": 0,
+            "still_image": 0,
+            "multilayer": 0
+          },
+          "tags": {
+            "language": "und",
+            "handler_name": "VideoHandler",
+            "encoder": "Lavc62.28.102 libx264"
+          }
+        },
+        {
+          "index": 1,
+          "codec_name": "aac",
+          "codec_long_name": "AAC (Advanced Audio Coding)",
+          "profile": "LC",
+          "codec_type": "audio",
+          "codec_tag_string": "mp4a",
+          "codec_tag": "0x6134706d",
+          "mime_codec_string": "mp4a.40.2",
+          "sample_fmt": "fltp",
+          "sample_rate": "48000",
+          "channels": 2,
+          "channel_layout": "stereo",
+          "bits_per_sample": 0,
+          "initial_padding": 0,
+          "id": "0x2",
+          "r_frame_rate": "0/0",
+          "avg_frame_rate": "0/0",
+          "time_base": "1/48000",
+          "start_pts": 0,
+          "start_time": "0.000000",
+          "duration_ts": 1440000,
+          "duration": "30.000000",
+          "bit_rate": "195723",
+          "nb_frames": "1408",
+          "extradata_size": 5,
+          "disposition": {
+            "default": 1,
+            "dub": 0,
+            "original": 0,
+            "comment": 0,
+            "lyrics": 0,
+            "karaoke": 0,
+            "forced": 0,
+            "hearing_impaired": 0,
+            "visual_impaired": 0,
+            "clean_effects": 0,
+            "attached_pic": 0,
+            "timed_thumbnails": 0,
+            "non_diegetic": 0,
+            "captions": 0,
+            "descriptions": 0,
+            "metadata": 0,
+            "dependent": 0,
+            "still_image": 0,
+            "multilayer": 0
+          },
+          "tags": {
+            "language": "und",
+            "handler_name": "SoundHandler"
+          }
+        }
+      ],
+      "fullDecodePassed": true
+    },
+    {
+      "file": "steam-marketing/2026-08-26-gameplay-demo-trailer-v1/understar-gameplay-short-01-v1.mp4",
+      "bytes": 12946625,
+      "sha256": "2e7b5ae1b565d37d1ce2609e391ccb213ed65d8ef402d475854552b5e7638ca5",
+      "durationSeconds": 15.0,
+      "streams": [
+        {
+          "index": 0,
+          "codec_name": "h264",
+          "codec_long_name": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+          "profile": "High",
+          "codec_type": "video",
+          "codec_tag_string": "avc1",
+          "codec_tag": "0x31637661",
+          "mime_codec_string": "avc1.640032",
+          "width": 1080,
+          "height": 1920,
+          "coded_width": 1080,
+          "coded_height": 1920,
+          "has_b_frames": 2,
+          "sample_aspect_ratio": "1:1",
+          "display_aspect_ratio": "9:16",
+          "pix_fmt": "yuv420p",
+          "level": 50,
+          "color_range": "tv",
+          "color_space": "bt709",
+          "color_transfer": "bt709",
+          "color_primaries": "bt709",
+          "chroma_location": "left",
+          "field_order": "progressive",
+          "is_avc": "true",
+          "nal_length_size": "4",
+          "id": "0x1",
+          "r_frame_rate": "30/1",
+          "avg_frame_rate": "30/1",
+          "time_base": "1/15360",
+          "start_pts": 0,
+          "start_time": "0.000000",
+          "duration_ts": 230400,
+          "duration": "15.000000",
+          "bit_rate": "6700183",
+          "bits_per_raw_sample": "8",
+          "nb_frames": "450",
+          "extradata_size": 51,
+          "disposition": {
+            "default": 1,
+            "dub": 0,
+            "original": 0,
+            "comment": 0,
+            "lyrics": 0,
+            "karaoke": 0,
+            "forced": 0,
+            "hearing_impaired": 0,
+            "visual_impaired": 0,
+            "clean_effects": 0,
+            "attached_pic": 0,
+            "timed_thumbnails": 0,
+            "non_diegetic": 0,
+            "captions": 0,
+            "descriptions": 0,
+            "metadata": 0,
+            "dependent": 0,
+            "still_image": 0,
+            "multilayer": 0
+          },
+          "tags": {
+            "language": "und",
+            "handler_name": "VideoHandler",
+            "encoder": "Lavc62.28.102 libx264"
+          }
+        },
+        {
+          "index": 1,
+          "codec_name": "aac",
+          "codec_long_name": "AAC (Advanced Audio Coding)",
+          "profile": "LC",
+          "codec_type": "audio",
+          "codec_tag_string": "mp4a",
+          "codec_tag": "0x6134706d",
+          "mime_codec_string": "mp4a.40.2",
+          "sample_fmt": "fltp",
+          "sample_rate": "48000",
+          "channels": 2,
+          "channel_layout": "stereo",
+          "bits_per_sample": 0,
+          "initial_padding": 0,
+          "id": "0x2",
+          "r_frame_rate": "0/0",
+          "avg_frame_rate": "0/0",
+          "time_base": "1/48000",
+          "start_pts": 0,
+          "start_time": "0.000000",
+          "duration_ts": 720000,
+          "duration": "15.000000",
+          "bit_rate": "194995",
+          "nb_frames": "705",
+          "extradata_size": 5,
+          "disposition": {
+            "default": 1,
+            "dub": 0,
+            "original": 0,
+            "comment": 0,
+            "lyrics": 0,
+            "karaoke": 0,
+            "forced": 0,
+            "hearing_impaired": 0,
+            "visual_impaired": 0,
+            "clean_effects": 0,
+            "attached_pic": 0,
+            "timed_thumbnails": 0,
+            "non_diegetic": 0,
+            "captions": 0,
+            "descriptions": 0,
+            "metadata": 0,
+            "dependent": 0,
+            "still_image": 0,
+            "multilayer": 0
+          },
+          "tags": {
+            "language": "und",
+            "handler_name": "SoundHandler"
+          }
+        }
+      ],
+      "fullDecodePassed": true
+    }
+  ],
+  "subtitleSidecars": [
+    "steam-marketing/2026-08-26-gameplay-demo-trailer-v1/understar-gameplay-demo-trailer-v1.srt",
+    "steam-marketing/2026-08-26-gameplay-demo-trailer-v1/understar-gameplay-demo-trailer-v1.vtt",
+    "steam-marketing/2026-08-26-gameplay-demo-trailer-v1/understar-gameplay-demo-trailer-v1.ass",
+    "steam-marketing/2026-08-26-gameplay-demo-trailer-v1/understar-gameplay-short-01-v1.srt",
+    "steam-marketing/2026-08-26-gameplay-demo-trailer-v1/understar-gameplay-short-01-v1.vtt",
+    "steam-marketing/2026-08-26-gameplay-demo-trailer-v1/understar-gameplay-short-01-v1.ass"
+  ]
+}

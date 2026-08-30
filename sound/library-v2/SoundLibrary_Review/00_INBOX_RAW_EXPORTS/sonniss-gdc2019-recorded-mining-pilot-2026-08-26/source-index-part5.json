@@ -1,0 +1,87 @@
+{
+  "year": "2019",
+  "terms": [
+    "coins_in_sack",
+    "coins_drop_carpet",
+    "coin_slide_carpet",
+    "coins_bottlecaps_drop",
+    "mine shaft wood metal stress",
+    "bodyfall_dirt",
+    "beam wood ceiling drop",
+    "wood break small"
+  ],
+  "archives": [
+    {
+      "part": 5,
+      "url": "https://ftpmirror.your.org/pub/misc/sonniss2019/Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8.zip",
+      "entryCount": 202,
+      "matchCount": 8,
+      "matches": [
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Shapeforms - The Mint – Coins and Money/Coins_In_Sack_Held_By_Drawstring_06.wav",
+          "compression": 8,
+          "crc32": 2635530080,
+          "compressedBytes": 219912,
+          "uncompressedBytes": 273472,
+          "localHeaderOffset": 1076960781
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Shapeforms - The Mint – Coins and Money/Coins_Drop_Carpet_06.wav",
+          "compression": 8,
+          "crc32": 3104472485,
+          "compressedBytes": 168433,
+          "uncompressedBytes": 189912,
+          "localHeaderOffset": 1077180857
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Shapeforms - The Mint – Coins and Money/Coin_Slide_Carpet.wav",
+          "compression": 8,
+          "crc32": 3446046798,
+          "compressedBytes": 111929,
+          "uncompressedBytes": 123674,
+          "localHeaderOffset": 1077349439
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Shapeforms - The Mint – Coins and Money/Coins_Bottlecaps_Drop.wav",
+          "compression": 8,
+          "crc32": 3366820587,
+          "compressedBytes": 215266,
+          "uncompressedBytes": 250436,
+          "localHeaderOffset": 1077461514
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Rock The Speakerbox - Broken/BROKEN - CK - BEAM Wood Ceiling Drop On Concrete.wav",
+          "compression": 8,
+          "crc32": 97463551,
+          "compressedBytes": 5695807,
+          "uncompressedBytes": 8272262,
+          "localHeaderOffset": 1222228897
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Rock The Speakerbox - Broken/BROKEN - DESIGNED - MINE SHAFT Wood Metal Stress Very Long 06.wav",
+          "compression": 8,
+          "crc32": 776595429,
+          "compressedBytes": 13478257,
+          "uncompressedBytes": 14944590,
+          "localHeaderOffset": 1249143878
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Rock The Speakerbox - Broken/BROKEN - DESIGNED - WOOD Break Small.wav",
+          "compression": 8,
+          "crc32": 3687204420,
+          "compressedBytes": 9215806,
+          "uncompressedBytes": 12359474,
+          "localHeaderOffset": 1262622312
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Red Libraries - Bodyfall/RL_bodyfall_Dirt_M4_Close_Stereo_Hard_Impact_10.wav",
+          "compression": 8,
+          "crc32": 889079608,
+          "compressedBytes": 537067,
+          "uncompressedBytes": 698288,
+          "localHeaderOffset": 1273006717
+        }
+      ]
+    }
+  ]
+}

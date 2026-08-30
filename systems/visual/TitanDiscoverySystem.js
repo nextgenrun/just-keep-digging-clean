@@ -23,6 +23,8 @@ import { TitanEnvironmentEnvelopeStream } from "./TitanEnvironmentEnvelopeStream
 import { TitanSurfaceGallery } from "./TitanSurfaceGallery.js?rev=20260729-native-density-v14";
 import { TitanUnlockController } from "./TitanUnlockController.js";
 import { publishTitanDiscoveryHealth } from "./titanDiscoveryHealth.js";
+import { PLAYER_VOICE_CONFIG } from
+  "../../values/playerVoiceCharacterLeoV1.generated.js";
 export class TitanDiscoverySystem {
   constructor(
     scene,
@@ -153,9 +155,15 @@ export class TitanDiscoverySystem {
       discovered
     )) {
       this.forceProgressSync = true;
-      this.discoveryCinematic.showForDiscoveries(
-        [...discovered].filter(titanId => !discoveredBeforeUnlock.has(titanId))
-      );
+      const newDiscoveries = [...discovered]
+        .filter(titanId => !discoveredBeforeUnlock.has(titanId));
+      this.discoveryCinematic.showForDiscoveries(newDiscoveries);
+      newDiscoveries.forEach(titanId => {
+        this.scene.soundSystem?.playPlayerVoiceEvent?.(
+          PLAYER_VOICE_CONFIG.eventIds.titanDiscovery,
+          { dedupeKey: titanId, identity: titanId, tags: ["first"] },
+        );
+      });
     }
     for (const view of this.zoneViews) {
       syncTitanDiscoveryEnvironment(view, lighting, this.config);

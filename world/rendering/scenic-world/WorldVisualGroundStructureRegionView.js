@@ -4,6 +4,12 @@ import {
 } from "./worldVisualRenderState.js";
 import { resolveWorldVisualSemanticSequenceIndex } from
   "./worldVisualSemanticSequence.js?rev=20260729-native-density-v14";
+import { resolveLevelOneBiomeFieldAtTile } from
+  "../../../values/levelOneBiomeField.js";
+import {
+  resolveLevelOneBiomeFamilyAssets,
+  resolveLevelOneBiomeLayerSeed,
+} from "../../../values/levelOneBiomeVisualFamilies.js";
 
 function resolveGeometry(segment, blendEnabled) {
   const widthPx = Math.max(1, Number(segment.logicalWidthPx) || 1);
@@ -210,14 +216,45 @@ export class WorldVisualGroundStructureRegionView {
   }
 
   _resolveSegmentAsset(column, row) {
+    const fieldSelection = this._resolveBiomeFieldSelection(column, row);
+    const sourceRegion = fieldSelection?.sourceRegion || this.region;
+    const assets = fieldSelection?.assets || sourceRegion.assets;
     const assetIndex = resolveWorldVisualSemanticSequenceIndex(
       column,
       row,
-      this.region.seedOffset,
-      this.region.assets.length,
+      sourceRegion.seedOffset + (fieldSelection
+        ? resolveLevelOneBiomeLayerSeed(fieldSelection.profile, "groundStructure")
+        : 0),
+      assets.length,
       { profileId: "groundStructure" }
     );
-    return this.region.assets[assetIndex];
+    return assets[assetIndex];
+  }
+
+  _resolveBiomeFieldSelection(column, row) {
+    const sources = this.region.biomeFieldRegionsById;
+    if (!sources) return null;
+    const tileSize = this.scene.config.tileSize;
+    const geometry = resolveGeometry(
+      this.region.segment || this.config.segment,
+      this.region.blendEnabled
+    );
+    const centerTileX = this.region.leftTile
+      + (column * geometry.strideXPx + geometry.widthPx * 0.5) / tileSize;
+    const centerTileY = this.region.topTile
+      + (row * geometry.strideYPx + geometry.heightPx * 0.5) / tileSize;
+    const profile = resolveLevelOneBiomeFieldAtTile(centerTileX, centerTileY);
+    const sourceRegion = profile ? sources[profile.sourceRegionId] : null;
+    const assets = sourceRegion
+      ? resolveLevelOneBiomeFamilyAssets(
+        profile,
+        "groundStructure",
+        sourceRegion.assets
+      )
+      : null;
+    return profile && sourceRegion && assets?.length
+      ? { profile, sourceRegion, assets }
+      : null;
   }
 
   _createSegment(column, row) {

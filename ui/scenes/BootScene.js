@@ -16,7 +16,6 @@ import {
 } from "../../values/campfireConfig.js";
 import { CELESTIAL_ACTION_BAR_EAGER_ASSETS } from "../../values/celestialActionBar.js";
 import { CELESTIAL_ENGINE_CORE_ASSETS } from "../../values/celestialEngines.js";
-import { DEBRIS_SHIELD_PRELOAD_ASSETS } from "../../values/debrisShield.js";
 import { CELESTIAL_CURRENCY_HUD_PRELOAD_ASSETS } from
   "../../values/celestialCurrencyHud.js";
 import { CELESTIAL_TALENT_TREE_PRELOAD_ASSETS } from
@@ -45,7 +44,7 @@ import { LEVEL_ONE_GROUND_FACADE } from "../../values/levelOneGroundFacade.js";
 import {
   getWorldVisualPreloadAssets,
   isScenicWorldVisualRuntime,
-} from "../../values/worldVisualRuntime.js?rev=20260729-native-density-v14";
+} from "../../values/worldVisualRuntime.js?rev=20260826-surface-motion-v2";
 import { getWorldVisualStartupMaterialAssets } from "../../values/worldVisualMaterials.js";
 import { getWorldVisualDepthBackdropPreloadAssets } from
   "../../values/worldVisualDepthBackdrops.js?rev=20260729-native-density-v14";
@@ -90,6 +89,7 @@ import { TELEPORT_PORTAL_CONFIG } from "../../values/teleportPortalConfig.js";
 import { GRAVEBORER_WURM_CONFIG } from "../../values/graveborerWurm.js";
 import { RANDOM_EVENT_PRELOAD_ASSETS } from "../../values/randomWorldEvents.js";
 import { PILLAR_VISUAL_CONFIG } from "../../values/pillarVisuals.js";
+import { WORLDROOT_CONFIG } from "../../values/worldroot.js";
 import { getEarthquakeFeedbackPreloadAssets } from "../../values/earthquakeFeedback.js";
 import { getTileDestructionFxPreloadAssets } from "../../values/tileDestructionFx.js";
 import { getMiningTargetFeedbackPreloadAssets } from "../../values/miningTargetFeedback.js";
@@ -244,6 +244,7 @@ export class BootScene extends Phaser.Scene {
     this.debugText = null;
     this.loadingUi = null;
     this._queuedImagePaths = new Map();
+    this._queuedVideoKeys = new Set();
     this._deferFeatureAssets = resolveRuntimeFeatureAssetDeferralEnabled();
     this._queuedAudioKeys = new Set();
     this._isPreloading = false;
@@ -322,6 +323,23 @@ export class BootScene extends Phaser.Scene {
     });
   }
 
+  queueVideo(key, path, metadata = {}) {
+    if (this.cache.video.exists(key) || this._queuedVideoKeys.has(key)) return;
+    const asset = { key, path, type: RUNTIME_ASSET_LOADING.types.video };
+    if (this.runtimeAssetCatalog && !this.runtimeAssetCatalog.registerQueuedAsset(
+      asset,
+      {
+        priority: RUNTIME_ASSET_LOADING.priorities.bootCore,
+        residencyClass: RUNTIME_ASSET_RESIDENCY_CLASSES.boot,
+        managed: false,
+        consumers: ["boot", "surface-motion"],
+        ...metadata,
+      },
+    )) return;
+    this._queuedVideoKeys.add(key);
+    this.load.video(key, path, true);
+  }
+
   queueAudio(key, path, { preload = true } = {}) {
     if (!key || !path) return;
     ASSET_KEYS.audio.runtime.paths[key] = path;
@@ -340,6 +358,7 @@ export class BootScene extends Phaser.Scene {
       this.load.reset();
     }
     this._queuedAudioKeys.clear();
+    this._queuedVideoKeys.clear();
 
     const totalMessages = LOADING_MESSAGES.length;
     const initialLabel = `Loading game assets... (${attempt})`;
@@ -567,9 +586,15 @@ export class BootScene extends Phaser.Scene {
       ...getSurfacePropPreloadAssets(ASSET_KEYS, surfacePropLevels),
       ...getCapabilitySurfaceHeroAssets(this.gameplayCapabilities),
     ];
-    for (const asset of assets) this.queueImage(asset.key, asset.path);
+    for (const asset of assets) {
+      if (asset.type === RUNTIME_ASSET_LOADING.types.video) {
+        this.queueVideo(asset.key, asset.path, { dimensions: asset.dimensions });
+      } else {
+        this.queueImage(asset.key, asset.path);
+      }
+    }
     console.info(
-      `[BootScene] Queued ${assets.length} scenic-v2 startup textures; depth materials stream on demand and legacy Tiled visuals were skipped`
+      `[BootScene] Queued ${assets.length} scenic-v2 startup assets; depth materials stream on demand and legacy Tiled visuals were skipped`
     );
   }
 
@@ -631,6 +656,9 @@ export class BootScene extends Phaser.Scene {
     });
     keys.starStages.forEach((key, index) => {
       this.queueImage(key, `${base}${PILLAR_VISUAL_CONFIG.star.filenames[index]}`);
+    });
+    Object.values(WORLDROOT_CONFIG.assets).forEach(asset => {
+      this.queueImage(asset.key, asset.path);
     });
     for (const [role, path] of Object.entries(CELESTIAL_ENGINE_CORE_ASSETS)) {
       this.queueImage(ASSET_KEYS.celestialEngines[role], path);
@@ -1030,6 +1058,13 @@ export class BootScene extends Phaser.Scene {
           ASSET_KEYS.tiles.lavaDirtHp5],
         "sprites/tiles/second-world/lava-dirt",
       );
+      // Ember is a Campfire rare find in Level One as well as Level Two.
+      loadOpaqueImageGenResource(
+        [ASSET_KEYS.tiles.emberOreHp1, ASSET_KEYS.tiles.emberOreHp2,
+          ASSET_KEYS.tiles.emberOreHp3, ASSET_KEYS.tiles.emberOreHp4,
+          ASSET_KEYS.tiles.emberOreHp5],
+        "ember-ore",
+      );
     }
 
     this.load.image(
@@ -1104,7 +1139,6 @@ export class BootScene extends Phaser.Scene {
     for (const asset of [
       ...CELESTIAL_ACTION_BAR_EAGER_ASSETS,
       ...CELESTIAL_CURRENCY_HUD_PRELOAD_ASSETS,
-      ...DEBRIS_SHIELD_PRELOAD_ASSETS,
     ]) {
       this.queueImage(asset.key, asset.path);
     }
@@ -1128,6 +1162,15 @@ export class BootScene extends Phaser.Scene {
     }
     if (!this._deferFeatureAssets) {
       this.queueImage(ASSET_KEYS.ui.worldMapFrame, WORLD_MAP_CONFIG.assetPath);
+      this.load.spritesheet(
+        ASSET_KEYS.ui.worldMapSymbols,
+        WORLD_MAP_CONFIG.symbolAtlas.path,
+        {
+          frameWidth: WORLD_MAP_CONFIG.symbolAtlas.frameWidth,
+          frameHeight: WORLD_MAP_CONFIG.symbolAtlas.frameHeight,
+          endFrame: WORLD_MAP_CONFIG.symbolAtlas.endFrame,
+        },
+      );
     }
     this.load.image(ASSET_KEYS.ui.resources.dirt, "sprites/UI/dirt/dirt-icon.webp");
     this.load.image(ASSET_KEYS.ui.resources.stone, "sprites/UI/stone/stone-icon.webp");
@@ -1155,11 +1198,6 @@ export class BootScene extends Phaser.Scene {
       ASSET_KEYS.ui.thunderStrikeNeedle,
       THUNDER_STRIKE_CHAIN_CONFIG.timingBar.needleAssetPath,
     );
-    Object.entries(
-      THUNDER_STRIKE_CHAIN_CONFIG.timingBar.indicatorArt.assetPaths,
-    ).forEach(([name, path]) => {
-      this.queueImage(ASSET_KEYS.ui.thunderStrikeIndicator[name], path);
-    });
     // ESC navigation is synchronous: keep all 25 archive portraits resident.
     // Capability filtering still owns the separate in-world Titan assets.
     const titanArchiveAssets = getTitanArchivePreloadAssets();
@@ -1470,6 +1508,9 @@ export class BootScene extends Phaser.Scene {
     Object.values(APPROVED_SFX_FAMILIES)
       .flat()
       .forEach(asset => this.queueAudio(asset.key, asset.path));
+
+    Object.values(ASSET_KEYS.audio.weatherAmbience)
+      .forEach(asset => this.queueAudio(asset.key, asset.path, { preload: false }));
   }
 
   loadVoiceLineLibraries({ streaming = false } = {}) {

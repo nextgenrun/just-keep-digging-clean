@@ -7,6 +7,9 @@ import {
   resolvePlayerLedgeAssistEnabled,
 } from "../values/playerTraversal.js";
 import { PlayerLedgeAssist } from "../player/PlayerLedgeAssist.js";
+import { PlayerDeferredAnimationAssetController } from
+  "../player/PlayerDeferredAnimationAssetController.js";
+import { createUalNativePlayerAnimations } from "../player/UalNativePlayerAnimations.js";
 
 const TILE_SIZE = 94;
 
@@ -83,15 +86,27 @@ assert.equal(assist.tryGrab({
   facingRight: true,
   actionLocked: false,
 }), true, "descending player should catch the reachable right ledge");
-assert.equal(assist.getSnapshot().phase, "hang");
+assert.equal(assist.getSnapshot().phase, "catch");
 assert.deepEqual(assist.getSnapshot().support, { tx: 5, ty: 5 });
 assert.equal(body.vx, 0);
 assert.equal(body.vy, 0);
+const initialCatchOffset = assist.getVisualState().offset;
+const initialCatchDistance = Math.hypot(initialCatchOffset.x, initialCatchOffset.y);
+assert.ok(
+  initialCatchDistance > 0,
+  "catch should retain the pre-grab visual position",
+);
 
 assist.updateActive(50, createInput({ jump: true }), { flightActive: false });
-assert.equal(assist.getSnapshot().phase, "hang", "minimum hang window should be respected");
-assist.updateActive(70, createInput(), { flightActive: false });
-assert.equal(assist.getSnapshot().phase, "climb", "queued Space should start pull-up");
+assert.equal(assist.getSnapshot().phase, "catch", "catch animation should finish before pull-up");
+const easedCatchOffset = assist.getVisualState().offset;
+assert.ok(Math.hypot(easedCatchOffset.x, easedCatchOffset.y) < initialCatchDistance);
+assist.updateActive(
+  PLAYER_TRAVERSAL_CONFIG.ledgeAssist.catch.durationMs - 50,
+  createInput(),
+  { flightActive: false },
+);
+assert.equal(assist.getSnapshot().phase, "climb", "queued Space should start after grip settle");
 for (let elapsed = 0; elapsed < PLAYER_TRAVERSAL_CONFIG.ledgeAssist.climb.durationMs + 60; elapsed += 16.67) {
   assist.updateActive(16.67, createInput(), { flightActive: false });
 }
@@ -137,7 +152,56 @@ globalThis.location = { search: "" };
 const enabledProfile = (await import("../values/survivalUalPlayerAssetProfile.js?ledge-contract-enabled")).SURVIVAL_UAL_PLAYER_ASSET_PROFILE;
 assert.equal(enabledProfile.ledgeAssistEnabled, true);
 assert.equal(enabledProfile.requiredSheets.includes(MIXAMO_LEDGE_ASSIST_ANIMATION.sheet.key), true);
+assert.deepEqual(enabledProfile.ledgeCatchFrames, [5, 4, 3, 2, 1, 0]);
+assert.equal(enabledProfile.ledgeCatchAnim, MIXAMO_LEDGE_ASSIST_ANIMATION.animations.catch);
 assert.equal(enabledProfile.ledgeClimbFrames.length, 35);
+assert.equal(
+  PLAYER_TRAVERSAL_CONFIG.ledgeAssist.catch.durationMs,
+  MIXAMO_LEDGE_ASSIST_ANIMATION.sheet.catchFrames.length
+    / MIXAMO_LEDGE_ASSIST_ANIMATION.sheet.frameRate * 1000,
+);
+
+const createdAnimations = [];
+createUalNativePlayerAnimations({
+  anims: {
+    exists: () => false,
+    create: (animation) => createdAnimations.push(animation),
+  },
+  textures: {
+    exists: () => true,
+    get: () => ({ setFilter() {} }),
+  },
+}, enabledProfile);
+const catchAnimation = createdAnimations.find(
+  (animation) => animation.key === enabledProfile.ledgeCatchAnim,
+);
+assert.deepEqual(catchAnimation.frames.map(({ frame }) => frame), [5, 4, 3, 2, 1, 0]);
+assert.equal(catchAnimation.repeat, 0);
+
+const deferredController = new PlayerDeferredAnimationAssetController({}, enabledProfile);
+assert.deepEqual(
+  deferredController.keysByPack.get("ledge-climb")?.filter((key) => [
+    enabledProfile.ledgeCatchAnim,
+    enabledProfile.ledgeHangAnim,
+    enabledProfile.ledgeClimbAnim,
+  ].includes(key)),
+  [
+    enabledProfile.ledgeCatchAnim,
+    enabledProfile.ledgeHangAnim,
+    enabledProfile.ledgeClimbAnim,
+  ],
+);
+
+const [mainWorldSource, caveSource, controllerSource] = await Promise.all([
+  readFile(new URL("../world/playScene/PlaySceneGameplay.js", import.meta.url), "utf8"),
+  readFile(new URL("../world/playScene/CaveLocomotionAnimationRuntime.js", import.meta.url), "utf8"),
+  readFile(new URL("../player/PlayerController.js", import.meta.url), "utf8"),
+]);
+assert.match(mainWorldSource, /ledgeVisual\.phase === "catch"/);
+assert.match(caveSource, /ledgeVisual\.phase === "catch"/);
+assert.match(mainWorldSource, /ensureForAnimation\?\.\(profile\.ledgeCatchAnim\)/);
+assert.match(caveSource, /ensureForAnimation\?\.\(profile\.ledgeCatchAnim\)/);
+assert.match(controllerSource, /const ledgeOffset = this\.ledgeAssist/);
 
 const sheet = await readFile(new URL(
   "../sprites/character/survival-character-blender-v2/runtime/survival-character-mixamo-v4-ledge-climb-sheet.png",

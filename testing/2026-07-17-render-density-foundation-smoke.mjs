@@ -11,10 +11,10 @@ import {
 const viewport = Object.freeze({ viewportWidth: 1280, viewportHeight: 720 });
 
 const defaultProfile = resolveRenderDensityProfile("", viewport);
-assert.equal(defaultProfile.preset, "ultra");
-assert.equal(defaultProfile.density, 2);
-assert.equal(defaultProfile.backingWidth, 2560);
-assert.equal(defaultProfile.backingHeight, 1440);
+assert.equal(defaultProfile.preset, "high");
+assert.equal(defaultProfile.density, 1.5);
+assert.equal(defaultProfile.backingWidth, 1920);
+assert.equal(defaultProfile.backingHeight, 1080);
 assert.equal(defaultProfile.rendererMode, "webgl");
 
 const high = resolveRenderDensityProfile("?renderQuality=high", viewport);

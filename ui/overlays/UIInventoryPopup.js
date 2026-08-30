@@ -5,7 +5,7 @@ import { INVENTORY_RESOURCE_GUIDE } from
 import { INVENTORY_CODEX_CONFIG } from
   "../../values/inventoryCodex.js?rev=20260826-inventory-codex-v2";
 import { STAR_IDENTITY_LIBRARY_CONFIG } from
-  "../../values/starIdentityLibrary.js?rev=20260826-inventory-codex-v2";
+  "../../values/starIdentityLibrary.js?rev=20260830-star-codex-v3";
 import { UI_COLORS } from "../../values/uiColors.js";
 import {
   UI_INVENTORY_COPY,
@@ -18,11 +18,11 @@ import { renderInventoryHoldingsView } from
 import { renderInventoryResourceGuide } from
   "./UIInventoryResourceGuide.js?rev=20260826-inventory-codex-v3";
 import { renderInventoryStarAtlas } from
-  "./UIInventoryStarAtlas.js?rev=20260826-inventory-codex-v3";
+  "./UIInventoryStarAtlas.js?rev=20260830-star-codex-v3";
 import { UIInventoryStarAtlasAssetController } from
   "./UIInventoryStarAtlasAssetController.js";
 import { UIInventoryStarAtlasKeyboard } from
-  "./UIInventoryStarAtlasKeyboard.js?rev=20260826-inventory-codex-v2";
+  "./UIInventoryStarAtlasKeyboard.js?rev=20260830-star-codex-v3";
 import { UIInventoryResourceKeyboard } from
   "./UIInventoryResourceKeyboard.js?rev=20260826-inventory-codex-v2";
 import { INVENTORY_SPECIAL_BLOCKS } from "../../values/inventorySpecialBlocks.js";
@@ -44,7 +44,7 @@ export class UIInventoryPopup {
     this.activeTab = 0;
     this.selectedGuideResource = INVENTORY_RESOURCE_GUIDE.resourceKeys[0];
     this.selectedStarRarity = 0;
-    this.selectedStarIdentity = 0;
+    this.selectedStarIdentity = -1;
     this.selectedSpecialBlock = INVENTORY_SPECIAL_BLOCKS.entries[0].id;
     this.starAtlasAssets = new UIInventoryStarAtlasAssetController(scene);
     this.starAtlasKeyboard = new UIInventoryStarAtlasKeyboard(scene, {
@@ -149,13 +149,21 @@ export class UIInventoryPopup {
     const fullRect = this.shell.getContentRect();
     const guide = INVENTORY_RESOURCE_GUIDE;
     const starAtlas = STAR_IDENTITY_LIBRARY_CONFIG.inventory;
+    const starIdentityCounts = this._getStarIdentityCounts();
+    const starFoundCount = starIdentityCounts.filter(count => count > 0).length;
+    const starCollectedCount = starIdentityCounts.reduce(
+      (total, count) => total + Math.max(0, Number(count) || 0),
+      0,
+    );
     const showStarAtlas = this.scene.systemIntroductionSystem
       ?.isFeatureAvailable?.("inventoryStarAtlas") ?? true;
     const specialTabIndex = showStarAtlas ? 3 : 2;
     const subtitle = this.activeTab === 1
       ? INVENTORY_CODEX_CONFIG.copy.subtitle
       : showStarAtlas && this.activeTab === 2
-        ? starAtlas.copy.subtitle
+        ? `${starFoundCount} / ${STAR_IDENTITY_LIBRARY_CONFIG.identities.length}`
+          + ` ${starAtlas.copy.found}  •  ${starCollectedCount}`
+          + ` ${starAtlas.copy.collected}  •  ${starAtlas.copy.hiddenHint}`
         : this.activeTab === specialTabIndex
           ? INVENTORY_SPECIAL_BLOCKS.subtitle
         : UI_INVENTORY_COPY.subtitle;
@@ -188,7 +196,7 @@ export class UIInventoryPopup {
       onChange: index => {
         if (showStarAtlas && index === 2) {
           // Keep the visible tab state truthful until its on-demand art is
-          // actually ready. The successful render below selects STAR ATLAS.
+          // actually ready. The successful render below selects STAR CODEX.
           this.tabs?.setActive?.(this.activeTab, true);
           void this._activateStarAtlasRarity(this.selectedStarRarity);
           return;
@@ -235,6 +243,7 @@ export class UIInventoryPopup {
         bodyRect,
         this.selectedStarRarity,
         this.selectedStarIdentity,
+        this._getStarIdentityCounts(),
         rarityIndex => {
           void this._activateStarAtlasRarity(rarityIndex);
         },
@@ -295,8 +304,10 @@ export class UIInventoryPopup {
     }
     this.activeTab = 2;
     this.selectedStarRarity = rarityIndex;
+    const identityCounts = this._getStarIdentityCounts();
     this.selectedStarIdentity = STAR_IDENTITY_LIBRARY_CONFIG.identities
-      .find(identity => identity.rarityIndex === rarityIndex)?.index || 0;
+      .find(identity => identity.rarityIndex === rarityIndex
+        && (identityCounts[identity.index] || 0) > 0)?.index ?? -1;
     this._render();
     return true;
   }
@@ -331,8 +342,13 @@ export class UIInventoryPopup {
       selectedGuideResource: this.selectedGuideResource,
       selectedStarRarity: this.selectedStarRarity,
       selectedStarIdentity: this.selectedStarIdentity,
+      starIdentityCounts: this._getStarIdentityCounts(),
       selectedSpecialBlock: this.selectedSpecialBlock,
     });
+  }
+
+  _getStarIdentityCounts() {
+    return this.scene?.floatingTextSystem?.getStarIdentityCounts?.() || [];
   }
 
   destroy() {

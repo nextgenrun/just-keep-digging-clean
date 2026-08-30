@@ -24,6 +24,12 @@ import {
   isGameplayFeatureEnabled,
 } from "../../values/gameplayDevFlags.js";
 import { TILE_TYPES } from "../../values/tileTypes.js";
+import {
+  destroyStarSanctuaryRuntime,
+  updateStarSanctuaryRuntime,
+} from "./StarSanctuaryBridge.js";
+import { PLAYER_VOICE_CONFIG } from
+  "../../values/playerVoiceCharacterLeoV1.generated.js";
 
 function isFlightUnlocked(scene) {
   return scene.upgradeSystem?.isGemPowerUnlocked?.() === true;
@@ -62,6 +68,17 @@ function processSystemEvents(scene) {
   for (const event of runtime.system.drainEvents()) {
     if (event.type !== "stress-band") continue;
     scene.soundSystem?.playHardcoreStressWarning?.(event.band === "critical");
+    if (event.band === "critical") {
+      scene.soundSystem?.playPlayerVoiceEvent?.(
+        PLAYER_VOICE_CONFIG.eventIds.hardcoreDanger,
+        { stress: event.stress, tags: ["darkness"] },
+      );
+    } else if (event.band === "calm" && event.previousBand !== "calm") {
+      scene.soundSystem?.playPlayerVoiceEvent?.(
+        PLAYER_VOICE_CONFIG.eventIds.hardcoreRecovery,
+        { stress: event.stress, tags: ["repeat"] },
+      );
+    }
     if (event.band === "warning") {
       flash(
         scene,
@@ -301,6 +318,12 @@ export function getHardcoreModeSaveData(scene) {
 }
 
 export function updateHardcoreModeRuntime(scene, time, delta, playerTile = null) {
+  const sanctuarySnapshot = updateStarSanctuaryRuntime(
+    scene,
+    time,
+    delta,
+    playerTile,
+  );
   const runtime = scene._hardcoreRuntime;
   if (!runtime) return null;
   if (
@@ -324,18 +347,26 @@ export function updateHardcoreModeRuntime(scene, time, delta, playerTile = null)
   const light = scene.lightSystem?.getShaderSnapshot?.() || {};
   const body = scene.playerController?.physicsBody;
   const starLightRadius = runtime.config.stress.intactStarLightRadiusTiles;
-  const nearIntactStarLight = isNearIntactStarLight(
-    scene,
-    playerTile,
-    starLightRadius,
-  );
+  const sanctuaryEnabled = sanctuarySnapshot?.enabled === true;
+  const nearIntactStarLight = sanctuaryEnabled
+    ? sanctuarySnapshot.nearIntactStar === true
+    : isNearIntactStarLight(scene, playerTile, starLightRadius);
   const snapshot = runtime.system.update(delta, {
     gameplayActive: scene.gameState === "playing",
     nowMs: time,
     depth: getDepth(scene, playerTile),
     darknessAlpha: light.darknessAlpha,
     torchActive: light.torchActive,
+    torchIntensity: light.torchIntensity,
     nearIntactStarLight,
+    intactStarRecoveryScale: sanctuaryEnabled
+      ? sanctuarySnapshot.activeRefuge?.stressRecoveryScale || 1
+      : 1,
+    insideConsumedStarScar: sanctuaryEnabled
+      && sanctuarySnapshot.insideConsumedStarScar === true,
+    consumedStarStressMultiplier: sanctuaryEnabled
+      ? sanctuarySnapshot.consumedStarStressMultiplier
+      : 1,
     playerLevel: scene.playerLevelSystem?.level || 1,
     descentTilesPerSecond: body && scene.config.tileSize > 0
       ? Math.max(0, body.vy / scene.config.tileSize)
@@ -408,16 +439,20 @@ export function updateHardcoreModeRuntime(scene, time, delta, playerTile = null)
 
 export function destroyHardcoreModeRuntime(scene) {
   const runtime = scene._hardcoreRuntime;
+  destroyStarSanctuaryRuntime(scene);
   if (!runtime) return;
+  // Clear scene authority before presentation disposal. A Phaser child may
+  // already be gone during Scene shutdown; even if its cleanup reports an
+  // error, the next create pass must never reuse the destroyed modal runtime.
+  scene._hardcoreRuntime = null;
   for (const [name, handler] of Object.entries(runtime.bindings)) {
     if (scene[name] === handler) scene[name] = undefined;
   }
-  runtime.hud?.destroy();
-  runtime.modal?.destroy();
   scene.playerController?.setGemPowerFloorProvider?.(null);
   runtime.gpFloorProvider = null;
   if (typeof window !== "undefined") {
     delete window[runtime.config.diagnostics.globalKey];
   }
-  scene._hardcoreRuntime = null;
+  runtime.hud?.destroy();
+  runtime.modal?.destroy();
 }

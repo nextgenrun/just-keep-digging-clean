@@ -6,6 +6,7 @@ import {
   resolveHardcoreTeleportCost,
   sanitizeHardcoreModeData,
 } from "../../values/hardcoreMode.js";
+import { LIGHT_CONFIG } from "../../values/lightConfig.js";
 
 const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
 const finiteOr = (value, fallback = 0) => Number.isFinite(value) ? value : fallback;
@@ -74,6 +75,18 @@ export class HardcoreModeSystem {
     return true;
   }
 
+  clearStress(source = "celestial-empower") {
+    const cleared = Math.max(0, finiteOr(this.state.stress, 0));
+    if (cleared <= 0) return 0;
+    this.state = sanitizeHardcoreModeData({
+      ...this.state,
+      stress: 0,
+    });
+    this._lastStressBand = "calm";
+    this._events.push({ type: "stress-cleared", source, amount: cleared });
+    return cleared;
+  }
+
   update(deltaMs, context = {}) {
     if (!isHardcoreModeArmed(this.state) || context.gameplayActive !== true) {
       return this.getSnapshot();
@@ -92,7 +105,36 @@ export class HardcoreModeSystem {
     const depth = Math.max(0, finiteOr(context.depth, 0));
     const darknessAlpha = clamp(finiteOr(context.darknessAlpha, 0), 0, 1);
     const torchActive = context.torchActive === true;
+    const torchCfg = LIGHT_CONFIG.torchIntensity;
+    const maximumTorchIntensity = torchCfg.maximumPercent / 100;
+    const overdriveStartIntensity = torchCfg.overdrive.startPercent / 100;
+    const torchIntensity = torchActive
+      ? clamp(
+        finiteOr(context.torchIntensity, stressCfg.torchIntensityFallback),
+        0,
+        maximumTorchIntensity,
+      )
+      : 0;
+    const overdriveRatio = clamp(
+      (torchIntensity - overdriveStartIntensity)
+        / Math.max(0.01, maximumTorchIntensity - overdriveStartIntensity),
+      0,
+      1,
+    );
+    const normalTorchRatio = clamp(
+      torchIntensity / Math.max(0.01, overdriveStartIntensity),
+      0,
+      1,
+    );
     const nearIntactStarLight = context.nearIntactStarLight === true;
+    const intactStarRecoveryScale = nearIntactStarLight
+      ? Math.max(0, finiteOr(context.intactStarRecoveryScale, 1))
+      : 1;
+    const insideConsumedStarScar = context.insideConsumedStarScar === true
+      && !nearIntactStarLight;
+    const consumedStarStressMultiplier = insideConsumedStarScar
+      ? Math.max(1, finiteOr(context.consumedStarStressMultiplier, 1))
+      : 1;
     const playerLevel = Math.max(1, Math.floor(finiteOr(context.playerLevel, 1)));
     const stressResistance = clamp(
       (playerLevel - 1) * stressCfg.stressResistancePerPlayerLevel,
@@ -100,25 +142,33 @@ export class HardcoreModeSystem {
       stressCfg.stressResistanceMaximum,
     );
     const descentSpeed = Math.max(0, finiteOr(context.descentTilesPerSecond, 0));
-    const darknessActive = depth >= stressCfg.minimumDepthTiles
-      && !torchActive
+    const darknessEligible = depth >= stressCfg.minimumDepthTiles
       && !nearIntactStarLight
       && darknessAlpha >= stressCfg.darknessAlphaThreshold;
+    const torchDarknessExposure = darknessEligible
+      ? Math.pow(1 - normalTorchRatio, stressCfg.torchDarknessExposureExponent)
+      : 0;
+    const darknessActive = torchDarknessExposure > Number.EPSILON;
 
     let stressGainPerSecond = 0;
     const sources = [];
-    if (darknessActive) {
+    const stressSuppressed = context.stressSuppressed === true;
+    if (darknessActive && !stressSuppressed) {
       const depthBonus = Math.min(
         stressCfg.darknessDepthBonusMax,
         Math.max(0, depth - stressCfg.minimumDepthTiles)
           / 100
           * stressCfg.darknessDepthBonusPer100Tiles,
       );
-      stressGainPerSecond += stressCfg.darknessStressPerSecond + depthBonus;
+      const darknessStressPerSecond = (
+        stressCfg.darknessStressPerSecond + depthBonus
+      ) * torchDarknessExposure * consumedStarStressMultiplier;
+      stressGainPerSecond += darknessStressPerSecond;
       sources.push("darkness");
+      if (insideConsumedStarScar) sources.push("starless-scar");
     }
 
-    if (descentSpeed > stressCfg.rapidDescentThresholdTilesPerSecond) {
+    if (!stressSuppressed && descentSpeed > stressCfg.rapidDescentThresholdTilesPerSecond) {
       const range = Math.max(
         0.01,
         stressCfg.rapidDescentFullRateTilesPerSecond
@@ -133,7 +183,7 @@ export class HardcoreModeSystem {
       sources.push("rapid-descent");
     }
 
-    if (depth > stressCfg.deepPressureStartDepthTiles) {
+    if (!stressSuppressed && depth > stressCfg.deepPressureStartDepthTiles) {
       const range = Math.max(
         1,
         stressCfg.deepPressureFullDepthTiles - stressCfg.deepPressureStartDepthTiles,
@@ -149,20 +199,37 @@ export class HardcoreModeSystem {
 
     stressGainPerSecond *= 1 - stressResistance;
 
+    let stressRecoveryPerSecond = 0;
+    if (nearIntactStarLight) {
+      stressRecoveryPerSecond = stressCfg.intactStarRecoveryPerSecond
+        * intactStarRecoveryScale;
+      sources.push("intact-star-light");
+    } else if (depth < stressCfg.minimumDepthTiles) {
+      stressRecoveryPerSecond = stressCfg.surfaceRecoveryPerSecond;
+    } else if (torchActive) {
+      const normalRecoveryScale = Math.pow(
+        normalTorchRatio,
+        stressCfg.torchRecoveryExponent,
+      );
+      const recoveryScale = overdriveRatio > 0
+        ? 1 + (
+          stressCfg.torchOverdriveRecoveryMaximumMultiplier - 1
+        ) * Math.pow(overdriveRatio, stressCfg.torchOverdriveRecoveryExponent)
+        : normalRecoveryScale;
+      stressRecoveryPerSecond = stressCfg.litRecoveryPerSecond
+        * recoveryScale;
+      if (stressRecoveryPerSecond > 0) sources.push("torch-light");
+    } else if (stressGainPerSecond <= 0) {
+      stressRecoveryPerSecond = stressCfg.litRecoveryPerSecond;
+    }
+
     const previousStress = this.state.stress;
     let nextStress = previousStress;
-    if (nearIntactStarLight) {
-      nextStress += (
-        stressGainPerSecond - stressCfg.intactStarRecoveryPerSecond
-      ) * dt;
-      sources.push("intact-star-light");
-    } else if (stressGainPerSecond > 0) {
-      nextStress += stressGainPerSecond * dt;
+    if (stressSuppressed) {
+      nextStress = 0;
+      sources.push("stellar-rage");
     } else {
-      const recovery = depth < stressCfg.minimumDepthTiles
-        ? stressCfg.surfaceRecoveryPerSecond
-        : stressCfg.litRecoveryPerSecond;
-      nextStress -= recovery * dt;
+      nextStress += (stressGainPerSecond - stressRecoveryPerSecond) * dt;
     }
     nextStress = clamp(nextStress, 0, stressCfg.maximum);
 
@@ -178,11 +245,22 @@ export class HardcoreModeSystem {
     return {
       ...this.getSnapshot(),
       darknessActive,
+      torchActive,
+      torchIntensity,
+      torchOverdriveActive: overdriveRatio > 0,
+      torchOverdriveRatio: overdriveRatio,
+      torchDarknessExposure,
       nearIntactStarLight,
+      intactStarRecoveryScale,
+      insideConsumedStarScar,
+      consumedStarStressMultiplier,
       descentTilesPerSecond: descentSpeed,
       playerLevel,
       stressResistance,
+      stressSuppressed,
       stressGainPerSecond,
+      stressRecoveryPerSecond,
+      stressChangePerSecond: stressGainPerSecond - stressRecoveryPerSecond,
       stressSources: sources,
       stressGpDrainPerSecond: drainRate,
       requestedStressGpDrain: drainRate * dt,
@@ -281,6 +359,7 @@ export class HardcoreModeSystem {
   _emitStressBandChanges(previousStress, nextStress, nowMs = 0) {
     const nextBand = this._resolveStressBand(nextStress);
     if (nextBand === this._lastStressBand) return;
+    const previousBand = this._lastStressBand;
     const now = Math.max(0, finiteOr(nowMs, 0));
     const elapsed = now - this._lastThresholdNoticeAt;
     const rising = nextStress > previousStress;
@@ -291,7 +370,19 @@ export class HardcoreModeSystem {
         || elapsed >= this.config.stress.thresholdNoticeCooldownMs)
     ) {
       this._lastThresholdNoticeAt = now;
-      this._events.push({ type: "stress-band", band: nextBand, stress: nextStress });
+      this._events.push({
+        type: "stress-band",
+        band: nextBand,
+        previousBand,
+        stress: nextStress,
+      });
+    } else if (nextBand === "calm" && previousBand !== "calm") {
+      this._events.push({
+        type: "stress-band",
+        band: nextBand,
+        previousBand,
+        stress: nextStress,
+      });
     }
     this._lastStressBand = nextBand;
   }

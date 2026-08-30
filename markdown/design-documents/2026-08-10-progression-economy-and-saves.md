@@ -111,9 +111,9 @@ presentation over recorded progress, never a second reward transaction.
 - Ancient Relics are persistent bounded counts and progression thresholds; Arc
   crafting treats them as requirements, not consumed cargo.
 - Titan discoveries sanitize to known unique IDs in canonical order.
-- Sky stars feed constellation counts and Star Heart charge.
-- Ten constellations unlock one permanent normal-play Celestial Engine
-  attunement.
+- Sky stars feed Sign XP, spendable Star Points, and Star Heart charge.
+- The first Celestial Engine root opens at Level 3. Completing a branch
+  capstone opens another root until all three charge-limited Engines are owned.
 - Heavenblocks regions, components, vaults, and Zenith state persist with
   dependency repair during sanitization.
 

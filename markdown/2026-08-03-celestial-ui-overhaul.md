@@ -3,7 +3,7 @@
 ## Player-facing contract
 
 - The bottom-center actionbar contains Quick Slash, Thunder Strike, Wayward
-  Star, Hollow Sun, and Comet Engine.
+  Star, Hollow Sun, and Stellar Rage.
 - Slots activate with mouse click or keys 1 through 5.
 - Slots can be dragged to swap positions. The order is saved per save slot.
 - Locked slots remain visible and show their real unlock condition on hover.
@@ -23,8 +23,15 @@
   prerequisite, and branch-completion gates.
 - Completing any capstone in one Engine branch permits selecting the next root ability. All
   three Engines can eventually be owned.
-- Talent-owned Engines do not use the retired hidden Star Heart charge gate.
-  Their existing one-active-Engine and bounded-impact protections remain.
+- Talent-owned Engines use the visible Star Heart charge bank: 100 charge per
+  cast, 200 maximum, and 100 initial charge on first root selection. Their
+  one-active-Engine and bounded-impact protections remain.
+- Wayward talents grow one activation from one to five simultaneous independent
+  stars. Hollow Sun is a long-lived wide gravity field that pulls destroyed
+  block fragments into its core. Stellar Rage replaces the former Comet tunnel:
+  it clears Stress and briefly empowers mining damage and attack speed.
+- Existing saves retain the stable `comet-engine` branch and `comet-*` node IDs
+  internally, but no Comet name or tunnel behavior remains player-facing.
 
 ## Star Pillar access
 

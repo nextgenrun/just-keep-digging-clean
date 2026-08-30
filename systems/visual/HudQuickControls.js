@@ -2,6 +2,7 @@ import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { APPROVED_HUD_SKIN } from "../../values/approvedHudSkin.js";
 import { HUD_QUICK_CONTROLS } from "../../values/hudQuickControls.js";
 import { USER_SETTINGS } from "../UserSettings.js";
+import { HudWikiShortcut } from "./HudWikiShortcut.js";
 import { resolveInventoryFullnessState } from "./inventoryFullnessState.js";
 
 function textureExists(scene, key) {
@@ -38,6 +39,7 @@ export class HudQuickControls {
     this.mapFrame = null;
     this.mapLabel = null;
     this.mapHit = null;
+    this.wikiShortcut = null;
     this._destroyed = false;
     this._create();
   }
@@ -171,6 +173,16 @@ export class HudQuickControls {
         pressScale: this.config.map.pressScale,
         activate: this.onMap,
       });
+
+      this.wikiShortcut = new HudWikiShortcut(this.scene, {
+        depth: this.depth,
+        visible: this.visible,
+        anchorProvider: () => ({
+          x: this.mapContainer?.x,
+          y: this.mapContainer?.y,
+          height: this.mapFrame?.displayHeight,
+        }),
+      });
     }
 
     this.resize();
@@ -284,6 +296,7 @@ export class HudQuickControls {
       mapHitWidth,
       mapHitHeight,
     );
+    this.wikiShortcut?.resize({ width: viewportWidth, height: viewportHeight });
   }
 
   setVisible(value) {
@@ -291,6 +304,7 @@ export class HudQuickControls {
     this.inventoryContainer?.setVisible(this.visible);
     this.pauseContainer?.setVisible(this.visible);
     this.mapContainer?.setVisible(this.visible);
+    this.wikiShortcut?.setVisible(this.visible);
   }
 
   setInventoryResources(resources = {}) {
@@ -368,6 +382,7 @@ export class HudQuickControls {
         hitWidth: this.mapHit?.input?.hitArea?.width || 0,
         hitHeight: this.mapHit?.input?.hitArea?.height || 0,
       },
+      wiki: this.wikiShortcut?.getHealthSnapshot() || { active: false },
     };
   }
 
@@ -377,6 +392,7 @@ export class HudQuickControls {
     this.inventoryHit?.removeAllListeners?.();
     this.pauseHit?.removeAllListeners?.();
     this.mapHit?.removeAllListeners?.();
+    this.wikiShortcut?.destroy();
     this.scene?.tweens?.killTweensOf?.(this.inventoryContainer);
     this.scene?.tweens?.killTweensOf?.(this.pauseContainer);
     this.scene?.tweens?.killTweensOf?.(this.mapContainer);
@@ -396,6 +412,7 @@ export class HudQuickControls {
     this.mapFrame = null;
     this.mapLabel = null;
     this.mapHit = null;
+    this.wikiShortcut = null;
     this.scene = null;
   }
 }

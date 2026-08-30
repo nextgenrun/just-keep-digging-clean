@@ -1,10 +1,10 @@
 import {
   WORLD_VISUAL_RUNTIME_MODES,
   resolveWorldVisualRuntimeMode,
-} from "../../values/worldVisualRuntime.js?rev=20260729-native-density-v14";
+} from "../../values/worldVisualRuntime.js?rev=20260826-surface-motion-v2";
 import { WorldRenderer } from "./WorldRenderer.js";
 import { WorldVisualRuntime } from
-  "./scenic-world/WorldVisualRuntime.js?rev=20260815-normal-map-lighting-v1";
+  "./scenic-world/WorldVisualRuntime.js?rev=20260826-surface-motion-v2";
 
 export function createWorldRenderer(scene, worldModel, gameConfig, search = globalThis.location?.search || "") {
   const mode = resolveWorldVisualRuntimeMode(undefined, search);

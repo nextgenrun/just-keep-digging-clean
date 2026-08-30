@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>UNDERSTAR · Runtime SFX A/B sandbox</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body data-audio-state="locked" data-loaded-count="0" data-last-event="none" data-runtime-wiring="none" data-source-lane="candidate">
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">REVIEW-ONLY · RUNTIME-AUDITED · NO SAVE OR PRODUCTION WIRING</p>
+      <h1>Runtime SFX A/B sandbox</h1>
+      <p class="lede">Compare the files and pitch rules used by the actual game with physical Sonniss candidates, at the same gameplay moments. The runtime character is the Survivor; there is no robot sound route.</p>
+    </div>
+    <div class="status-cluster" aria-live="polite">
+      <span id="audio-status">Audio locked</span>
+      <span id="load-status">0/0 clips</span>
+    </div>
+  </header>
+
+  <main>
+    <section class="lane-panel" aria-labelledby="lane-title">
+      <div>
+        <p class="section-kicker">SOURCE LANE</p>
+        <h2 id="lane-title">Hear the difference with identical event timing</h2>
+        <p id="lane-summary" class="lane-summary"></p>
+      </div>
+      <div class="lane-options">
+        <label class="lane-card candidate-lane"><input type="radio" name="source-lane" value="candidate" checked><span><strong>Sonniss candidate</strong><small>Recorded pitch · material-specific sources · proposed Flight slot</small></span></label>
+        <label class="lane-card current-lane"><input type="radio" name="source-lane" value="current"><span><strong>Current runtime</strong><small>Live files · live pitch rates · silent Flight/landing</small></span></label>
+      </div>
+    </section>
+
+    <section class="stage-panel" aria-labelledby="stage-title">
+      <div class="panel-heading">
+        <div><p class="section-kicker">INTERACTIVE CAVE</p><h2 id="stage-title">Move, fly, and mine with real call timing</h2></div>
+        <div class="last-event"><span>Last event</span><strong id="last-event">None</strong></div>
+      </div>
+      <div class="canvas-shell">
+        <canvas id="simulation" width="960" height="540" aria-label="Interactive survivor mining simulation"></canvas>
+        <div class="key-strip" aria-hidden="true">
+          <span><kbd>A</kbd><kbd>D</kbd> Move / 900 ms steps</span>
+          <span><kbd>Space</kbd> Jump</span>
+          <span><kbd>Shift</kbd> Flight</span>
+          <span><kbd>W</kbd><kbd>S</kbd> Height</span>
+          <span><kbd>E</kbd> Dig</span>
+        </div>
+      </div>
+      <div class="material-row" aria-label="Live material-rate tests">
+        <button class="material is-active" data-material="dirt"><span>01</span>Dirt · live 1.06× / 1.08×</button>
+        <button class="material" data-material="stone"><span>02</span>Stone · live .95× / .94×</button>
+        <button class="material" data-material="gold"><span>03</span>Gold · live 1.08× / 1.16×</button>
+      </div>
+    </section>
+
+    <aside class="control-panel" aria-label="Runtime event tests and layer controls">
+      <section>
+        <p class="section-kicker">ONE-CLICK EVENT TESTS</p>
+        <h2>Actual runtime routes</h2>
+        <div class="action-grid">
+          <button class="action action-primary" data-action="mining-demo"><span>MINING</span>Dirt → stone → gold<small>Hit and same-frame break layers</small></button>
+          <button class="action" data-action="footstep-demo"><span>MOVE</span>Footstep cadence<small>Three live files / two candidates</small></button>
+          <button class="action" data-action="flight-demo"><span>FLIGHT</span>Silent-slot test<small>Live: silent · candidate: restrained air</small></button>
+          <button class="action" data-action="ui-flow"><span>UI + XP</span>Progression flow<small>Select · confirm · XP · level-up</small></button>
+          <button class="action" data-action="seismic"><span>HAZARD</span>Earthquake warning<small>Approved live warning vs layered candidate</small></button>
+          <button class="action" data-action="hardcore"><span>HARDCORE</span>Critical pressure<small>Live warning vs physical pressure</small></button>
+          <button class="action" data-action="blocked"><span>BLOCKED</span>Invalid tile hit<small>Live route loads another file named dig-1</small></button>
+        </div>
+      </section>
+
+      <section class="mixer">
+        <div class="mixer-title">
+          <div><p class="section-kicker">AUDITION MIXER</p><h2>Layer isolation</h2></div>
+          <label class="switch"><input id="ambience-toggle" type="checkbox"><span></span>Candidate cave bed</label>
+        </div>
+        <div class="channels">
+          <label>Master <input type="range" min="0" max="100" value="100" data-bus="master"><output data-level-for="master">100%</output></label>
+          <label>Footsteps + Flight <input type="range" min="0" max="100" value="100" data-bus="movement"><output data-level-for="movement">100%</output></label>
+          <label>Mining <input type="range" min="0" max="100" value="100" data-bus="mining"><output data-level-for="mining">100%</output></label>
+          <label>UI + progression <input type="range" min="0" max="100" value="88" data-bus="ui"><output data-level-for="ui">88%</output></label>
+          <label>Hazards <input type="range" min="0" max="100" value="82" data-bus="hazard"><output data-level-for="hazard">82%</output></label>
+          <label>Candidate ambience <input type="range" min="0" max="100" value="68" data-bus="ambience"><output data-level-for="ambience">68%</output></label>
+        </div>
+        <button class="stop" data-action="stop">Stop all test sounds</button>
+      </section>
+    </aside>
+
+    <section class="audit-panel">
+      <div>
+        <p class="section-kicker">LIVE RUNTIME FINDINGS</p>
+        <h2>What the game actually plays today</h2>
+        <ul class="finding-list">
+          <li><strong>Mining pool: 2 × 104.5 ms</strong><span>Every non-Star strike cycles two extremely short dig clips.</span></li>
+          <li class="finding-risk"><strong>Break: 104.5 ms broken plate</strong><span>The sole tile-break asset is named “Broken plate 7”, which can read as brittle glass.</span></li>
+          <li><strong>Blocked hit is another “dig-1”</strong><span>It is a separate file, but its name and role still overlap the normal strike family.</span></li>
+          <li class="finding-risk"><strong>Material pitch reaches 1.16×</strong><span>Gold break raises the same plate source; dirt, precious, and Sky profiles also pitch upward.</span></li>
+          <li><strong>Flight and landing: silent</strong><span>No dedicated SoundSystem callsite exists for jump, Flight motion, or landing.</span></li>
+          <li><strong>Two-second UI files overlap</strong><span>XP and level-up repitch the same select/confirm files; level-up starts two instances only 115 ms apart.</span></li>
+        </ul>
+      </div>
+      <div class="log-wrap">
+        <p class="section-kicker">EVENT TELEMETRY</p>
+        <ol id="event-log" class="event-log" aria-live="polite"></ol>
+      </div>
+    </section>
+  </main>
+
+  <div id="start-overlay" class="start-overlay">
+    <div class="start-card">
+      <span class="waveform" aria-hidden="true">▂▅▇▃▆▂▇▅▂</span>
+      <p class="section-kicker">A/B AUDIO PERMISSION</p>
+      <h2>Load current runtime + candidate sounds</h2>
+      <p>The default lane is the recorded Sonniss candidate. Switch to Current runtime at any time for direct comparison.</p>
+      <button id="start-audio">Start audio comparison</button>
+      <small>Review-only. No saves, credentials, or production asset registration.</small>
+    </div>
+  </div>
+
+  <script type="module" src="./audioSandboxApp.js"></script>
+</body>
+</html>

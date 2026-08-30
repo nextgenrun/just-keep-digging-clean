@@ -36,19 +36,27 @@ class CelestialTalentTreeHarnessScene extends Phaser.Scene {
     const inspectNodeId = params.get("node");
     if (inspectNodeId) this.view.selectNode(inspectNodeId, true);
 
-    const snapshot = () => ({
-      ready: true,
-      viewport: { width: this.scale.width, height: this.scale.height },
-      health: this.view.getHealthSnapshot(),
-      root: {
-        x: this.view.root.x,
-        y: this.view.root.y,
-        scale: this.view.root.scaleX,
-      },
-      selectedNodeId: this.view.nodes[this.view.selectedIndex]?.node?.id || null,
-      visibleLockCount: this.view.nodes.filter(node => node.lock.visible).length,
-      productionView: this.view.constructor.name,
-    });
+    const snapshot = () => {
+      const talents = this.progression.getSnapshot();
+      return {
+        ready: true,
+        viewport: { width: this.scale.width, height: this.scale.height },
+        health: this.view.getHealthSnapshot(),
+        root: {
+          x: this.view.root.x,
+          y: this.view.root.y,
+          scale: this.view.root.scaleX,
+        },
+        selectedNodeId: this.view.nodes[this.view.selectedIndex]?.node?.id || null,
+        visibleLockCount: this.view.nodes.filter(node => node.lock.visible).length,
+        productionView: this.view.constructor.name,
+        talents: {
+          stars: talents.stars,
+          spentStars: talents.spentStars,
+          purchasedNodeIds: [...talents.purchasedNodeIds],
+        },
+      };
+    };
     const nodeCenter = nodeId => {
       const node = this.view.nodesById.get(nodeId);
       if (!node) return null;
@@ -60,9 +68,14 @@ class CelestialTalentTreeHarnessScene extends Phaser.Scene {
         hitHeight: this.view.config.layout.nodeHitHeightPx * matrix.scaleY,
       };
     };
+    const publishSnapshot = () => {
+      document.body.dataset.celestialTalentTreeSnapshot = JSON.stringify(snapshot());
+    };
+    this.reviewUnsubscribe = this.progression.subscribe(publishSnapshot);
+    this.events.once("shutdown", () => this.reviewUnsubscribe?.());
     globalThis.__celestialTalentTreeReview = Object.freeze({ snapshot, nodeCenter });
     document.body.dataset.celestialTalentTreeReady = "true";
-    document.body.dataset.celestialTalentTreeSnapshot = JSON.stringify(snapshot());
+    publishSnapshot();
   }
 }
 

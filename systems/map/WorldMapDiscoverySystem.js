@@ -7,6 +7,7 @@ export class WorldMapDiscoverySystem {
     this.scene = scene;
     this.saveSlot = Number.isInteger(saveSlot) && saveSlot > 0 ? saveSlot : 1;
     this.cells = new Set();
+    this.revision = 0;
     this.lastPlayerCellKey = "";
     this.persistTimer = null;
     this.storageRepository = storageRepository ?? new BrowserStorageRepository();
@@ -34,8 +35,10 @@ export class WorldMapDiscoverySystem {
       }
       const limit = WORLD_MAP_CONFIG.discovery.maxPersistedCells;
       saved.cells.slice(0, limit).forEach(key => this.cells.add(String(key)));
+      this.revision = this.cells.size;
     } catch (_) {
       this.cells.clear();
+      this.revision = 0;
     }
   }
 
@@ -107,6 +110,7 @@ export class WorldMapDiscoverySystem {
         const key = this._cellKey(cellX, cellY);
         if (!this.cells.has(key)) {
           this.cells.add(key);
+          this.revision += 1;
           changed = true;
         }
       }
@@ -133,6 +137,10 @@ export class WorldMapDiscoverySystem {
       const [cellX, cellY] = key.split(",").map(Number);
       return { cellX, cellY };
     });
+  }
+
+  getRevision() {
+    return this.revision;
   }
 
   getDiscoveryRatio() {

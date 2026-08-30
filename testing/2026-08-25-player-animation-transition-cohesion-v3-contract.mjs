@@ -10,7 +10,16 @@ import { PlayerDeferredAnimationAssetController } from
   "../player/PlayerDeferredAnimationAssetController.js";
 import { UalNativeLocomotionTransitionSelector } from
   "../systems/visual/UalNativeLocomotionTransitionSelector.js";
+import { CaveActionAnimationRuntime } from
+  "../world/playScene/CaveActionAnimationRuntime.js";
+import { updateCaveLocomotionVisual } from
+  "../world/playScene/CaveLocomotionAnimationRuntime.js";
 import { PLAYER_COLLISION_POLISH_V2 } from "../values/playerCollision.js";
+import {
+  PLAYER_DEFERRED_ASSET_PACK_IDS,
+  resolvePlayerDeferredAssetPackReleaseDelayMs,
+} from
+  "../values/playerDeferredAssetPacks.js";
 import { SURVIVAL_UAL_PLAYER_ASSET_PROFILE } from
   "../values/survivalUalPlayerAssetProfile.js";
 import {
@@ -30,7 +39,7 @@ assert.equal(
 );
 
 const pinnedAssets = pinnedIds.flatMap(id => getPlayerDeferredAssetPack(profile, id));
-assert.equal(new Set(pinnedAssets.map(asset => asset.key)).size, 8);
+assert.equal(new Set(pinnedAssets.map(asset => asset.key)).size, 13);
 const queued = [];
 const loaderScene = {
   textures: {
@@ -53,6 +62,125 @@ for (const asset of pinnedAssets) {
 const deathAssets = getPlayerDeferredAssetPack(profile, "death");
 assert.ok(deathAssets.length > 0);
 for (const asset of deathAssets) assert.equal(queuedKeys.has(asset.key), false);
+
+const optionalPackExpectations = new Map([
+  [PLAYER_DEFERRED_ASSET_PACK_IDS.ledgeClimb, 1],
+  [PLAYER_DEFERRED_ASSET_PACK_IDS.movingComplexMining, 1],
+  [PLAYER_DEFERRED_ASSET_PACK_IDS.complexSideMining, 10],
+  [PLAYER_DEFERRED_ASSET_PACK_IDS.complexUpMining, 1],
+]);
+for (const [packId, expectedCount] of optionalPackExpectations) {
+  const assets = getPlayerDeferredAssetPack(profile, packId);
+  assert.equal(assets.length, expectedCount, `${packId} pack size`);
+  for (const asset of assets) {
+    assert.equal(queuedKeys.has(asset.key), false, `${asset.key} must be on demand`);
+  }
+}
+
+const mappingController = new PlayerDeferredAnimationAssetController(
+  { runtimeAssetLoadCoordinator: null },
+  profile,
+);
+assert.ok(mappingController.keysByPack
+  .get(PLAYER_DEFERRED_ASSET_PACK_IDS.movingComplexMining)
+  .includes(profile.digAnimationVariants.find(
+    spec => spec.sheet === profile.movingComplexDigSheet,
+  ).key));
+
+const caveFallbackRequests = [];
+const caveFallbackAnimationKey = profile.digSidewaysAnim;
+const cavePlayer = {
+  anims: {
+    currentAnim: { key: profile.idleAnim },
+    currentFrame: { index: 0, textureFrame: 0 },
+    isPlaying: false,
+    timeScale: 1,
+  },
+  setAngle: () => {},
+  setFlipX: () => {},
+  play(key) {
+    this.lastPlayedKey = key;
+    this.anims.currentAnim = { key };
+    this.anims.isPlaying = true;
+  },
+};
+const caveController = {
+  scene: {
+    playerAssetProfile: profile,
+    player: cavePlayer,
+    anims: {
+      exists: key => key === caveFallbackAnimationKey,
+      get: key => key === caveFallbackAnimationKey
+        ? { frames: [{}], frameRate: 30 }
+        : null,
+    },
+    playerRigContact: { beginAction: () => {}, endAction: () => {} },
+    time: { now: 100 },
+  },
+  originScene: {
+    playerDeferredAnimationAssetController: {
+      resolveOrRequest(requested, fallback) {
+        caveFallbackRequests.push({ requested, fallback });
+        return fallback;
+      },
+    },
+  },
+  playerController: {
+    physicsBody: { vx: 0, vy: 0 },
+    getMotionState: () => "idle",
+    isFacingRight: () => true,
+    isGrounded: () => true,
+    _syncSpriteWithPhysics: () => {},
+  },
+  digSystem: { getEffectiveCooldownMs: () => 200 },
+  _actionUntilMs: 0,
+  _applyPlayerDisplaySize: () => {},
+};
+const caveActionRuntime = new CaveActionAnimationRuntime(caveController);
+caveActionRuntime.timeline = { isActive: false, begin: () => 1 };
+assert.equal(
+  caveActionRuntime.playMiningAnimation(
+    "normal",
+    "RIGHT",
+    100,
+    null,
+    () => {},
+    { tx: 1, ty: 1 },
+  ),
+  true,
+);
+assert.equal(caveFallbackRequests.length, 1);
+assert.equal(caveFallbackRequests[0].fallback, caveFallbackAnimationKey);
+assert.equal(cavePlayer.lastPlayedKey, caveFallbackAnimationKey);
+
+const locomotionFallbackRequests = [];
+caveController._actionUntilMs = 0;
+caveController.scene.lightSystem = { isTorchActive: () => true };
+caveController.scene.anims.exists = key => key === profile.idleAnim;
+caveController.scene.anims.get = () => ({ frames: [{}], frameRate: 12 });
+caveController.scene.player.anims.currentAnim = { key: profile.idleAnim };
+caveController.scene.player.anims.isPlaying = true;
+caveController.scene.playerController = caveController.playerController;
+caveController.playerController.abilities = { isFlying: () => false };
+caveController.playerController.requiresCrouchVisual = () => false;
+caveController.playerController.getLedgeVisualState = () => null;
+caveController.originScene.playerDeferredAnimationAssetController = {
+  resolveOrRequest(requested, fallback) {
+    locomotionFallbackRequests.push({ requested, fallback });
+    return fallback;
+  },
+};
+updateCaveLocomotionVisual({
+  controller: caveController,
+  thunderStrikeRuntime: { isAnimating: false },
+  timeline: null,
+  actionRecovery: null,
+  wallBrace: null,
+  locomotion: null,
+  flightTravel: false,
+}, 100, 16.67);
+assert.equal(locomotionFallbackRequests.length, 1);
+assert.equal(locomotionFallbackRequests[0].fallback, profile.idleAnim);
 
 let animationReady = false;
 const synchronousController = Object.create(
@@ -85,6 +213,26 @@ assert.equal(evictionCount, 0);
 residencyController.pinnedPackIds.clear();
 residencyController.update();
 assert.equal(evictionCount, 1);
+
+const complexReleaseDelayMs = resolvePlayerDeferredAssetPackReleaseDelayMs(
+  PLAYER_DEFERRED_ASSET_PACK_IDS.movingComplexMining,
+  5000,
+);
+assert.equal(complexReleaseDelayMs, 60_000);
+residencyController.scene.time.now = complexReleaseDelayMs - 1;
+residencyController.states = new Map([[
+  PLAYER_DEFERRED_ASSET_PACK_IDS.movingComplexMining,
+  { status: "ready", lastUsedAtMs: 0 },
+]]);
+residencyController.keysByPack = new Map([[
+  PLAYER_DEFERRED_ASSET_PACK_IDS.movingComplexMining,
+  ["moving-complex-dig"],
+]]);
+residencyController.update();
+assert.equal(evictionCount, 1, "complex mining remains warm during an active session");
+residencyController.scene.time.now = complexReleaseDelayMs;
+residencyController.update();
+assert.equal(evictionCount, 2);
 
 const locomotion = new UalNativeLocomotionTransitionSelector(profile);
 const snapshot = {
@@ -131,6 +279,7 @@ const decodedBytes = residentEntries.reduce((total, entry) => (
     * entry.frameConfig.frameHeight
     * 4
 ), 0);
+assert.ok(decodedBytes <= 352 * 1024 * 1024, "idle player residency stays below 352 MiB");
 
 console.log("PLAYER_ANIMATION_TRANSITION_COHESION_V3_CONTRACT_OK", {
   residentTraversalSheets: pinnedAssets.length,

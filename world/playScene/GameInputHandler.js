@@ -124,10 +124,13 @@ export class GameInputHandler {
 
     if (
       GAME_CONFIG.debugMode
-      && (!GAMEPLAY_DEV_INPUT.godModeRequiresShift || keys.shift?.isDown)
+      && isGameplayFeatureEnabled(
+        GAMEPLAY_FEATURE_IDS.GOD_MODE,
+        this.scene.gameplayCapabilities,
+      )
       && justDown(keys.devCheat)
     ) {
-      console.log('[DEVCHEAT] Shift+V pressed! Game state:', this.scene.gameState);
+      console.log(`[GOD MODE] ${GAMEPLAY_DEV_INPUT.godModeKey} pressed. Game state:`, this.scene.gameState);
       this.scene.activateDevCheat();
       return true;
     }

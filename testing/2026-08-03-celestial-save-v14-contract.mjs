@@ -52,6 +52,7 @@ assert.deepEqual(
   ["wayward-star-root"],
 );
 assert.equal(payload.celestialOverhaulData.actionbar.order[0], "comet-engine");
+assert.equal(payload.celestialOverhaulData.actionbar.order.at(-1), "campfire");
 assert.equal(payload.celestialOverhaulData.legacyRarityMigrationVersion, 1);
 
 const roundTrip = store.normalizePayload(payload);

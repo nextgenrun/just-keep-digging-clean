@@ -7,6 +7,10 @@ import {
 } from "../../values/ualNativeActionTuning.js";
 import { resolveUalCrouchTransitionAnimation } from
   "../../systems/visual/ualCrouchTransitionSelection.js";
+import {
+  resolveHeldTorchAnimationKey,
+  resolveHeldTorchBaseAnimationKey,
+} from "../../systems/visual/heldTorchAnimationSelection.js";
 
 export function updateCaveLocomotionVisual(runtime, time, deltaMs) {
   const controller = runtime.controller;
@@ -21,14 +25,30 @@ export function updateCaveLocomotionVisual(runtime, time, deltaMs) {
   const body = controller.playerController.physicsBody;
   const grounded = controller.playerController.isGrounded();
   const forcedCrouchVisual = controller.playerController.requiresCrouchVisual?.() === true;
+  const currentRuntimeAnimationKey = scene.player.anims.currentAnim?.key ?? null;
+  const currentAnimationKey = resolveHeldTorchBaseAnimationKey(
+    profile,
+    currentRuntimeAnimationKey,
+  );
   let flightTravel = false;
   let key;
   let selection = null;
   const ledgeVisual = controller.playerController.getLedgeVisualState?.() || null;
+  if (
+    profile.ledgeAssistEnabled
+    && !ledgeVisual
+    && !grounded
+    && Number(body?.vy) > 0
+  ) {
+    void controller.originScene?.playerDeferredAnimationAssetController
+      ?.ensureForAnimation?.(profile.ledgeCatchAnim);
+  }
   const ledgeOverride = ledgeVisual && profile.ledgeAssistEnabled
     ? {
       animationKey: ledgeVisual.phase === "climb"
         ? profile.ledgeClimbAnim
+        : ledgeVisual.phase === "catch"
+          ? profile.ledgeCatchAnim
         : profile.ledgeHangAnim,
       flipX: ledgeVisual.direction < 0
         ? profile.ledgeSourceFacesRight === true
@@ -37,7 +57,7 @@ export function updateCaveLocomotionVisual(runtime, time, deltaMs) {
     : null;
   const recoveryOverride = runtime.actionRecovery?.resolve({
     moving: walking || !grounded,
-    currentAnimationKey: scene.player.anims.currentAnim?.key ?? null,
+    currentAnimationKey,
     isPlaying: scene.player.anims.isPlaying === true,
   }) || null;
   const wallBlocked = walking && grounded && Math.abs(body?.vx || 0) < 1;
@@ -46,7 +66,7 @@ export function updateCaveLocomotionVisual(runtime, time, deltaMs) {
     blocked: wallBlocked,
     movingAway: walking && !wallBlocked,
     flipX: motion === "walk-left",
-    currentAnimationKey: scene.player.anims.currentAnim?.key ?? null,
+    currentAnimationKey,
     isPlaying: scene.player.anims.isPlaying === true,
   }) || null;
   const wallRunResumeFrame = runtime.wallBrace?.consumeRunResumeFrame?.();
@@ -71,7 +91,7 @@ export function updateCaveLocomotionVisual(runtime, time, deltaMs) {
       verticalVelocity: Math.abs(bodyVelocityY) > Math.abs(resolvedVelocityY)
         ? bodyVelocityY
         : resolvedVelocityY,
-      currentAnimationKey: scene.player.anims.currentAnim?.key ?? null,
+      currentAnimationKey,
       isPlaying: scene.player.anims.isPlaying === true,
       currentFrameIndex: scene.player.anims.currentFrame?.index ?? 0,
       currentTextureFrame: Number(scene.player.anims.currentFrame?.textureFrame),
@@ -94,7 +114,7 @@ export function updateCaveLocomotionVisual(runtime, time, deltaMs) {
   if (!ledgeVisual) {
     const crouchTransitionKey = resolveUalCrouchTransitionAnimation({
       wantsCrouch: forcedCrouchVisual,
-      currentAnimationKey: scene.player.anims.currentAnim?.key ?? null,
+      currentAnimationKey,
       isPlaying: scene.player.anims.isPlaying === true,
       crouchIdleAnimationKey: profile.duckAnim,
       crouchEnterAnimationKey: profile.crouchEnterAnim,
@@ -107,11 +127,31 @@ export function updateCaveLocomotionVisual(runtime, time, deltaMs) {
       runtime.flightTravel = false;
     }
   }
-  const selectionOwnsKey = selection?.animationKey === key;
-  const shouldRestart = selectionOwnsKey
+  const baseKey = key;
+  key = resolveHeldTorchAnimationKey(
+    profile,
+    baseKey,
+    scene.lightSystem?.isTorchActive?.() === true,
+  );
+  const requestedKey = key;
+  if (key && !scene.anims.exists(key)) {
+    key = controller.originScene?.playerDeferredAnimationAssetController
+      ?.resolveOrRequest?.(
+        key,
+        profile.idleAnim || ASSET_KEYS.player.idleAnim,
+      ) || (profile.idleAnim || ASSET_KEYS.player.idleAnim);
+  }
+  if (key !== requestedKey) {
+    selection = null;
+    flightTravel = false;
+    runtime.flightTravel = false;
+  }
+  const selectionOwnsKey = selection?.animationKey === baseKey;
+  const shouldRestart = key === requestedKey
+    && selectionOwnsKey
     && selection.restart === true;
   if (key && scene.anims.exists(key)
-    && (scene.player.anims.currentAnim?.key !== key || shouldRestart)) {
+    && (currentRuntimeAnimationKey !== key || shouldRestart)) {
     const startFrame = selectionOwnsKey && Number.isFinite(selection?.startFrame)
       ? selection.startFrame
       : 0;
@@ -119,9 +159,11 @@ export function updateCaveLocomotionVisual(runtime, time, deltaMs) {
     scene.player.play(key, !shouldRestart, startFrame);
     controller.playerController?._syncSpriteWithPhysics?.();
   }
-  const kinematicScale = profile.isUalNative && (profile.walkAnims || []).includes(key)
+  const kinematicScale = key === requestedKey
+    && profile.isUalNative
+    && (profile.walkAnims || []).includes(baseKey)
     ? scene.playerKinematicMotion?.resolveLocomotionTimeScale?.(
-      key,
+      baseKey,
       scene.anims.get(key),
       Math.abs(body?.vx || 0),
     )

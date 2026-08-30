@@ -24,11 +24,14 @@ Torch upkeep consumes GP through the shared player floor provider. In armed
 Hardcore it burns down to exactly one GP, switches off, and becomes manually
 off so passive regeneration cannot make it flicker on every frame. It cannot
 be re-lit until spendable GP exists; Casual retains its zero-GP floor.
-The player can set the carried flame to 20, 40, 60, 80, or 100 percent from
-the authored HUD control. The setting scales only the torch's bonus reveal,
-glow, and GP upkeep together; full intensity preserves the prior result. The
-renderer also publishes its live flame alpha so the approved HUD torch mirrors
-the same low-fuel, weather, intensity, and flicker response.
+The player can set the carried flame from 1% through 200%. Clicking the
+authored HUD control advances by 10%, while scrolling
+anywhere over active gameplay adjusts by 1%. From 101% onward, overdrive
+expands reveal rapidly and raises GP upkeep nonlinearly; 200% reaches 3.25x
+the normal torch bonus radius and 16x upkeep. The 100% setting preserves the
+prior full-light result.
+The renderer also publishes its live flame alpha so the approved HUD torch
+mirrors the same low-fuel, weather, intensity, and flicker response.
 
 Player-level darkness resistance shifts only the depth used by the visibility
 radius and deep-darkness multiplier. Actual depth still owns sunlight state,

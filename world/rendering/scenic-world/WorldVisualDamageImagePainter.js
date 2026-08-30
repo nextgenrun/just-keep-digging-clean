@@ -4,6 +4,7 @@ import {
   resolveWorldVisualDamageFrame,
   resolveWorldVisualDamageMixProfile,
   resolveWorldVisualDamagePresentation,
+  resolveWorldVisualDamageResponseFrame,
   resolveWorldVisualDamageResponseTier,
   resolveWorldVisualDamageTransform,
 } from "../../../values/worldVisualDamage.js";
@@ -61,7 +62,7 @@ export class WorldVisualDamageImagePainter {
     if (this.responseAtlas) {
       this._installFrames(
         this.responseAtlas,
-        this.layered.response.tiers * this._responseProfileCount(),
+        this.responseAtlas.frameCount,
       );
     }
     return true;
@@ -111,9 +112,17 @@ export class WorldVisualDamageImagePainter {
         rim, atlas, frameIndex, tx, ty, size, this.layered.fractureRim,
         presentation, transform,
       );
-      rim.setTint?.(this.layered.fractureRim.tint);
+      if (
+        this.layered.fractureRim.tintFill
+        && typeof rim.setTintFill === "function"
+      ) {
+        rim.setTintFill(this.layered.fractureRim.tint);
+      } else {
+        rim.setTint?.(this.layered.fractureRim.tint);
+      }
       this._showMaterialResponse(
         tx, ty, damage, size, tileType, presentation, transform,
+        variationTx, variationTy,
       );
     }
     this.activeCount += 1;
@@ -132,7 +141,17 @@ export class WorldVisualDamageImagePainter {
     this._applyTransform(image, transform);
   }
 
-  _showMaterialResponse(tx, ty, damage, size, tileType, presentation, transform) {
+  _showMaterialResponse(
+    tx,
+    ty,
+    damage,
+    size,
+    tileType,
+    presentation,
+    transform,
+    variationTx,
+    variationTy,
+  ) {
     const response = this.layered.response;
     const tier = resolveWorldVisualDamageResponseTier(
       damage,
@@ -147,7 +166,17 @@ export class WorldVisualDamageImagePainter {
         resolveTileDestructionFamily(tileType, TILE_DESTRUCTION_FX_CONFIG)
       ];
     if (!Number.isInteger(tier) || !Number.isInteger(profileIndex)) return false;
-    const frameIndex = tier * this._responseProfileCount() + profileIndex;
+    const frameIndex = resolveWorldVisualDamageResponseFrame(
+      variationTx,
+      variationTy,
+      tier,
+      profileIndex,
+      this.config,
+      this.search,
+      this.mixProfile,
+    );
+    if (!Number.isInteger(frameIndex)) return false;
+    const profileOverride = response.profileOverrides?.[profileIndex] || null;
     const image = this.responsePool[this.activeCount]
       || this._createImage(this.responsePool, response.atlas, response);
     image.setPosition((tx + 0.5) * size, (ty + 0.5) * size)
@@ -156,16 +185,15 @@ export class WorldVisualDamageImagePainter {
         size * response.scale * presentation.scale,
         size * response.scale * presentation.scale,
       )
-      .setAlpha(response.alpha * presentation.alpha)
-      .setTint?.(resolveTileDestructionTint(tileType, TILE_DESTRUCTION_FX_CONFIG));
+      .setAlpha((profileOverride?.alpha ?? response.alpha) * presentation.alpha)
+      .setBlendMode(resolveBlendMode(profileOverride?.blendMode || response.blendMode))
+      .setTint?.(
+        profileOverride?.tint
+          ?? resolveTileDestructionTint(tileType, TILE_DESTRUCTION_FX_CONFIG),
+      );
     image.setVisible(true);
     this._applyTransform(image, transform);
     return true;
-  }
-
-  _responseProfileCount() {
-    const response = this.layered.response;
-    return response.mode === "tile" ? response.profileCount : response.familyCount;
   }
 
   _applyTransform(image, transform) {

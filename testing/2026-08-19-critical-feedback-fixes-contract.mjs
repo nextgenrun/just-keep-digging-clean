@@ -17,7 +17,6 @@ assert.equal(KEYBIND_STORAGE_VERSION, 6);
 assert.equal(createDefaultKeybinds().thunderStrike, "V");
 assert.deepEqual(GAMEPLAY_DEV_INPUT, {
   godModeKey: "V",
-  godModeRequiresShift: true,
 });
 
 const [inputSource, actionSource, userSettingsSource, loadCoordinatorSource, registrySource, backdropStageSource] =
@@ -29,7 +28,8 @@ const [inputSource, actionSource, userSettingsSource, loadCoordinatorSource, reg
     readSource("../world/rendering/RuntimeAssetTextureRegistry.js"),
     readSource("../world/rendering/scenic-world/WorldVisualDepthBackdropStage.js"),
   ]);
-assert.match(inputSource, /godModeRequiresShift[\s\S]{0,100}keys\.shift\?\.isDown/);
+assert.doesNotMatch(inputSource, /godModeRequiresShift|keys\.shift\?\.isDown/);
+assert.match(inputSource, /justDown\(keys\.devCheat\)/);
 assert.match(actionSource, /_waitForAbilityAssets\(abilities, nowMs\)/);
 assert.match(actionSource, /inputBufferedUntilMs = Number\.POSITIVE_INFINITY/);
 assert.match(actionSource, /controller\.ensure\?\.\([\s\S]{0,80}"thunderStrike"[\s\S]{0,80}interactive:\s*true/);

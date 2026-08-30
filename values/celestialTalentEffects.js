@@ -5,75 +5,87 @@ import { CELESTIAL_ENGINE_CONFIG } from "./celestialEngines.js";
 export const CELESTIAL_TALENT_EFFECT_CONFIG = Object.freeze({
   wayward: Object.freeze({
     extraBounces: 2,
-    extraRedirects: 1,
+    ricochetMatrixExtraImpacts: 2,
+    extraStars: 1,
     extraImpacts: 6,
-    speedBonusTilesPerSecond: 0.8,
-    lifetimeBonusMs: 1000,
+    speedBonusTilesPerSecond: 1,
+    lifetimeBonusMs: 1500,
     novaLensRadiusTiles: 1,
-    fractureExtraImpacts: 4,
+    novaLensExtraImpacts: 3,
+    fractureSupernovaImpacts: 5,
     perihelionExtraBounces: 2,
-    perihelionExtraRedirects: 1,
-    whiteDwarfExtraImpacts: 6,
+    perihelionExtraStars: 1,
+    perihelionExtraImpacts: 4,
+    whiteDwarfSupernovaImpacts: 6,
     whiteDwarfRadiusTiles: 1,
-    masteryExtraImpacts: 4,
+    whiteDwarfExtraStars: 1,
+    masteryExtraImpacts: 3,
     masteryRadiusTiles: 1,
+    masterySupernovaImpacts: 3,
+    masteryExtraStars: 1,
     caps: Object.freeze({
-      lifetimeMs: 15000,
+      lifetimeMs: 10000,
       speedTilesPerSecond: 10,
-      maxBounces: 16,
-      maxRedirects: 6,
-      maxImpacts: 48,
-      supernovaRadiusTiles: 6,
+      maxBounces: 12,
+      simultaneousStars: 5,
+      maxImpacts: 29,
+      supernovaRadiusTiles: 5,
+      supernovaMaxImpacts: 24,
     }),
   }),
   hollow: Object.freeze({
-    placementBonusTiles: 1,
+    placementBonusTiles: 2,
+    spacingBonusTiles: 0.35,
     pulseRadiusTiles: 1,
     tidalRadiusTiles: 1,
-    extraPulseAtMs: 3400,
-    extraPulseRadiusTiles: 5,
-    extraImpacts: 8,
-    reservoirExtraImpacts: 6,
-    pulseTempoScale: 0.78,
-    chronosphereTempoScale: 0.82,
-    chronosphereExtraImpacts: 4,
-    abyssalExtraImpacts: 4,
-    abyssalImplosionImpacts: 4,
-    abyssalImplosionRadiusTiles: 1,
-    masteryExtraImpacts: 6,
-    masteryImplosionRadiusTiles: 2,
+    echoExtraHoles: 1,
+    impactCapacityPerPulse: 2,
+    reservoirPulseAtMs: 6800,
+    reservoirPulseRadiusTiles: 7,
+    reservoirPulseImpactCap: 9,
+    reservoirLifetimeBonusMs: 1500,
+    abyssalExtraHoles: 1,
+    abyssalImplosionImpacts: 8,
+    abyssalImplosionRadiusTiles: 3,
+    collapseTempoScale: 0.82,
+    collapseSpawnDelayScale: 0.72,
+    singularityExtraHoles: 1,
+    singularityImplosionImpacts: 12,
+    singularityImplosionRadiusTiles: 4,
+    chronospherePulseAtMs: 8200,
+    chronospherePulseRadiusTiles: 8,
+    chronospherePulseImpactCap: 10,
+    chronosphereLifetimeBonusMs: 2500,
+    chronosphereCapacityPerPulse: 1,
     caps: Object.freeze({
-      placementTiles: 4,
-      pulseRadiusTiles: 7,
-      pulseCount: 4,
-      maxImpacts: 48,
-      lifetimeMs: 5200,
-      implosionMaxImpacts: 8,
-      implosionRadiusTiles: 3,
+      placementTiles: 5,
+      simultaneousHoles: 5,
+      clusterSpacingTiles: 3,
+      pulseRadiusTiles: 10,
+      pulseCount: 6,
+      pulseImpactCap: 15,
+      maxImpacts: 90,
+      lifetimeMs: 11000,
+      implosionMaxImpacts: 12,
+      implosionRadiusTiles: 4,
     }),
   }),
-  comet: Object.freeze({
-    extraTravelTiles: 4,
-    riderSpeedBonusPxPerSecond: 90,
-    extraImpacts: 6,
-    ignitionSpeedTilesPerSecond: 1,
-    fractureExtraImpacts: 3,
-    longburnLifetimeMs: 300,
-    wideWakeEveryTiles: 2,
-    aphelionTravelTiles: 3,
-    aphelionSpeedTilesPerSecond: 1,
-    aphelionExtraImpacts: 3,
-    shockfrontTravelTiles: 1,
-    shockfrontExtraImpacts: 5,
-    masterySpeedTilesPerSecond: 2,
-    masterySideBurstEveryTiles: 2,
-    masteryLifetimeBonusMs: 250,
+  rage: Object.freeze({
+    furyCoreDamageBonus: 0.25,
+    rendingRangeBonusTiles: 2,
+    unburdenedDurationMs: 1500,
+    burningResolveDamageBonus: 0.25,
+    bloodrushRangeBonusTiles: 2,
+    lastingFuryDurationMs: 1500,
+    worldbreakerDamageBonus: 0.5,
+    overclockRangeBonusTiles: 2,
+    limitBreakSideLanes: 1,
+    undyingDurationMs: 2000,
     caps: Object.freeze({
-      lifetimeMs: 2600,
-      maxTravelTiles: 20,
-      maxImpacts: 36,
-      speedTilesPerSecond: 13,
-      rideSpeedPxPerSecond: 600,
+      lifetimeMs: 11000,
+      projectileRangeTiles: 12,
+      projectileDamageMultiplier: 2,
+      projectileSideLanes: 1,
     }),
   }),
 });
@@ -86,29 +98,43 @@ function clamp(value, minimum, maximum) {
   return Math.max(minimum, Math.min(maximum, value));
 }
 
+function roundHundredth(value) {
+  return Math.round(value * 100) / 100;
+}
+
 function resolveWayward(base, owned) {
   const cfg = CELESTIAL_TALENT_EFFECT_CONFIG.wayward;
   const next = { ...base };
-  if (owned.has("wayward-extra-bounces")) next.maxBounces += cfg.extraBounces;
-  if (owned.has("wayward-extra-redirect")) next.maxRedirects += cfg.extraRedirects;
+  if (owned.has("wayward-extra-bounces")) {
+    next.maxBounces += cfg.extraBounces;
+    next.maxImpacts += cfg.ricochetMatrixExtraImpacts;
+  }
+  if (owned.has("wayward-extra-star")) next.simultaneousStars += cfg.extraStars;
   if (owned.has("wayward-impact-capacity")) next.maxImpacts += cfg.extraImpacts;
   if (owned.has("wayward-speed")) next.speedTilesPerSecond += cfg.speedBonusTilesPerSecond;
   if (owned.has("wayward-lifetime")) next.lifetimeMs += cfg.lifetimeBonusMs;
   if (owned.has("wayward-supernova-radius")) {
     next.supernovaRadiusTiles += cfg.novaLensRadiusTiles;
+    next.supernovaMaxImpacts += cfg.novaLensExtraImpacts;
   }
-  if (owned.has("wayward-fracture-capacity")) next.maxImpacts += cfg.fractureExtraImpacts;
+  if (owned.has("wayward-fracture-capacity")) {
+    next.supernovaMaxImpacts += cfg.fractureSupernovaImpacts;
+  }
   if (owned.has("wayward-perihelion-mastery")) {
     next.maxBounces += cfg.perihelionExtraBounces;
-    next.maxRedirects += cfg.perihelionExtraRedirects;
+    next.simultaneousStars += cfg.perihelionExtraStars;
+    next.maxImpacts += cfg.perihelionExtraImpacts;
   }
   if (owned.has("wayward-white-dwarf-mastery")) {
-    next.maxImpacts += cfg.whiteDwarfExtraImpacts;
+    next.supernovaMaxImpacts += cfg.whiteDwarfSupernovaImpacts;
     next.supernovaRadiusTiles += cfg.whiteDwarfRadiusTiles;
+    next.simultaneousStars += cfg.whiteDwarfExtraStars;
   }
   if (owned.has("wayward-supernova-mastery")) {
     next.maxImpacts += cfg.masteryExtraImpacts;
     next.supernovaRadiusTiles += cfg.masteryRadiusTiles;
+    next.supernovaMaxImpacts += cfg.masterySupernovaImpacts;
+    next.simultaneousStars += cfg.masteryExtraStars;
   }
   const caps = cfg.caps;
   next.lifetimeMs = clamp(next.lifetimeMs, base.lifetimeMs, caps.lifetimeMs);
@@ -116,10 +142,19 @@ function resolveWayward(base, owned) {
     next.speedTilesPerSecond, base.speedTilesPerSecond, caps.speedTilesPerSecond,
   );
   next.maxBounces = clamp(next.maxBounces, base.maxBounces, caps.maxBounces);
-  next.maxRedirects = clamp(next.maxRedirects, base.maxRedirects, caps.maxRedirects);
+  next.simultaneousStars = clamp(
+    next.simultaneousStars,
+    base.simultaneousStars,
+    caps.simultaneousStars,
+  );
   next.maxImpacts = clamp(next.maxImpacts, base.maxImpacts, caps.maxImpacts);
   next.supernovaRadiusTiles = clamp(
     next.supernovaRadiusTiles, base.supernovaRadiusTiles, caps.supernovaRadiusTiles,
+  );
+  next.supernovaMaxImpacts = clamp(
+    next.supernovaMaxImpacts,
+    base.supernovaMaxImpacts,
+    caps.supernovaMaxImpacts,
   );
   return Object.freeze(next);
 }
@@ -129,14 +164,30 @@ function resolveHollow(base, owned) {
   const next = { ...base };
   let pulseTimes = [...base.pulseTimesMs];
   let pulseRadii = [...base.pulseRadiiTiles];
+  let pulseImpactCaps = [...base.pulseImpactCaps];
+  let lifetimeBonusMs = 0;
   let tempoScale = 1;
   let implosionMaxImpacts = Number(base.implosionMaxImpacts) || 0;
   let implosionRadiusTiles = Number(base.implosionRadiusTiles) || 0;
 
-  if (owned.has("hollow-placement-range")) next.placementTiles += cfg.placementBonusTiles;
+  if (owned.has("hollow-placement-range")) {
+    next.placementTiles += cfg.placementBonusTiles;
+    next.clusterSpacingTiles += cfg.spacingBonusTiles;
+  }
   if (owned.has("hollow-extra-pulse") && pulseTimes.length < cfg.caps.pulseCount) {
-    pulseTimes.push(cfg.extraPulseAtMs);
-    pulseRadii.push(cfg.extraPulseRadiusTiles);
+    next.simultaneousHoles += cfg.echoExtraHoles;
+  }
+  if (owned.has("hollow-reservoir-capacity") && pulseTimes.length < cfg.caps.pulseCount) {
+    pulseTimes.push(cfg.reservoirPulseAtMs);
+    pulseRadii.push(cfg.reservoirPulseRadiusTiles);
+    pulseImpactCaps.push(cfg.reservoirPulseImpactCap);
+    lifetimeBonusMs += cfg.reservoirLifetimeBonusMs;
+  }
+  if (owned.has("hollow-chronosphere-mastery") && pulseTimes.length < cfg.caps.pulseCount) {
+    pulseTimes.push(cfg.chronospherePulseAtMs);
+    pulseRadii.push(cfg.chronospherePulseRadiusTiles);
+    pulseImpactCaps.push(cfg.chronospherePulseImpactCap);
+    lifetimeBonusMs += cfg.chronosphereLifetimeBonusMs;
   }
   if (owned.has("hollow-pulse-radius")) {
     pulseRadii = pulseRadii.map(radius => radius + cfg.pulseRadiusTiles);
@@ -144,24 +195,33 @@ function resolveHollow(base, owned) {
   if (owned.has("hollow-tidal-radius")) {
     pulseRadii = pulseRadii.map(radius => radius + cfg.tidalRadiusTiles);
   }
-  if (owned.has("hollow-impact-capacity")) next.maxImpacts += cfg.extraImpacts;
-  if (owned.has("hollow-reservoir-capacity")) next.maxImpacts += cfg.reservoirExtraImpacts;
-  if (owned.has("hollow-pulse-tempo")) tempoScale *= cfg.pulseTempoScale;
+  if (owned.has("hollow-impact-capacity")) {
+    pulseImpactCaps = pulseImpactCaps.map(value => value + cfg.impactCapacityPerPulse);
+  }
   if (owned.has("hollow-abyssal-mastery")) {
-    next.maxImpacts += cfg.abyssalExtraImpacts;
+    next.simultaneousHoles += cfg.abyssalExtraHoles;
     implosionMaxImpacts = Math.max(implosionMaxImpacts, cfg.abyssalImplosionImpacts);
     implosionRadiusTiles = Math.max(
       implosionRadiusTiles, cfg.abyssalImplosionRadiusTiles,
     );
   }
+  if (owned.has("hollow-collapse-pulse")) {
+    tempoScale *= cfg.collapseTempoScale;
+    next.clusterSpawnDelayMs *= cfg.collapseSpawnDelayScale;
+  }
   if (owned.has("hollow-chronosphere-mastery")) {
-    tempoScale *= cfg.chronosphereTempoScale;
-    next.maxImpacts += cfg.chronosphereExtraImpacts;
+    pulseImpactCaps = pulseImpactCaps.map(
+      value => value + cfg.chronosphereCapacityPerPulse,
+    );
   }
   if (owned.has("hollow-implosion-mastery")) {
-    implosionMaxImpacts = Math.max(implosionMaxImpacts, cfg.masteryExtraImpacts);
+    next.simultaneousHoles += cfg.singularityExtraHoles;
+    implosionMaxImpacts = Math.max(
+      implosionMaxImpacts,
+      cfg.singularityImplosionImpacts,
+    );
     implosionRadiusTiles = Math.max(
-      implosionRadiusTiles, cfg.masteryImplosionRadiusTiles,
+      implosionRadiusTiles, cfg.singularityImplosionRadiusTiles,
     );
   }
 
@@ -169,8 +229,26 @@ function resolveHollow(base, owned) {
   pulseRadii = pulseRadii.map(radius => clamp(
     radius, 0, cfg.caps.pulseRadiusTiles,
   ));
+  pulseImpactCaps = pulseImpactCaps.map(value => clamp(
+    value, 1, cfg.caps.pulseImpactCap,
+  ));
   next.placementTiles = clamp(next.placementTiles, base.placementTiles, cfg.caps.placementTiles);
-  next.maxImpacts = clamp(next.maxImpacts, base.maxImpacts, cfg.caps.maxImpacts);
+  next.simultaneousHoles = clamp(
+    next.simultaneousHoles,
+    base.simultaneousHoles,
+    cfg.caps.simultaneousHoles,
+  );
+  next.clusterSpacingTiles = clamp(
+    roundHundredth(next.clusterSpacingTiles),
+    base.clusterSpacingTiles,
+    cfg.caps.clusterSpacingTiles,
+  );
+  next.clusterSpawnDelayMs = Math.max(0, Math.round(next.clusterSpawnDelayMs));
+  next.maxImpacts = clamp(
+    pulseImpactCaps.reduce((sum, value) => sum + value, 0),
+    base.maxImpacts,
+    cfg.caps.maxImpacts,
+  );
   next.implosionMaxImpacts = clamp(
     implosionMaxImpacts, 0, cfg.caps.implosionMaxImpacts,
   );
@@ -179,54 +257,53 @@ function resolveHollow(base, owned) {
   );
   next.pulseTimesMs = Object.freeze(pulseTimes);
   next.pulseRadiiTiles = Object.freeze(pulseRadii);
+  next.pulseImpactCaps = Object.freeze(pulseImpactCaps);
   next.lifetimeMs = clamp(Math.max(
     pulseTimes.at(-1) + CELESTIAL_ENGINE_CONFIG.fx.finishDelayMs,
-    Math.round(base.lifetimeMs * tempoScale),
-  ), CELESTIAL_ENGINE_CONFIG.fx.finishDelayMs, cfg.caps.lifetimeMs);
+    base.lifetimeMs + lifetimeBonusMs,
+  ), base.lifetimeMs, cfg.caps.lifetimeMs);
   return Object.freeze(next);
 }
 
-function resolveComet(base, owned) {
-  const cfg = CELESTIAL_TALENT_EFFECT_CONFIG.comet;
+function resolveRage(base, owned) {
+  const cfg = CELESTIAL_TALENT_EFFECT_CONFIG.rage;
   const next = { ...base };
-  if (owned.has("comet-travel-capacity")) next.maxTravelTiles += cfg.extraTravelTiles;
-  if (owned.has("comet-ride-control")) {
-    next.rideSpeedPxPerSecond += cfg.riderSpeedBonusPxPerSecond;
+  if (owned.has("rage-damage-i")) {
+    next.projectileDamageMultiplier += cfg.furyCoreDamageBonus;
   }
-  if (owned.has("comet-impact-capacity")) next.maxImpacts += cfg.extraImpacts;
-  if (owned.has("comet-ignition-speed")) {
-    next.speedTilesPerSecond += cfg.ignitionSpeedTilesPerSecond;
+  if (owned.has("rage-speed-i")) next.projectileRangeTiles += cfg.rendingRangeBonusTiles;
+  if (owned.has("rage-duration-i")) next.lifetimeMs += cfg.unburdenedDurationMs;
+  if (owned.has("rage-damage-ii")) {
+    next.projectileDamageMultiplier += cfg.burningResolveDamageBonus;
   }
-  if (owned.has("comet-fracture-capacity")) next.maxImpacts += cfg.fractureExtraImpacts;
-  if (owned.has("comet-longburn-lifetime")) next.lifetimeMs += cfg.longburnLifetimeMs;
-  if (owned.has("comet-wide-wake-pattern")) {
-    next.sideBurstEveryTiles = Math.min(next.sideBurstEveryTiles, cfg.wideWakeEveryTiles);
+  if (owned.has("rage-speed-ii")) next.projectileRangeTiles += cfg.bloodrushRangeBonusTiles;
+  if (owned.has("rage-duration-ii")) next.lifetimeMs += cfg.lastingFuryDurationMs;
+  if (owned.has("rage-damage-capstone")) {
+    next.projectileDamageMultiplier += cfg.worldbreakerDamageBonus;
   }
-  if (owned.has("comet-aphelion-mastery")) {
-    next.maxTravelTiles += cfg.aphelionTravelTiles;
-    next.speedTilesPerSecond += cfg.aphelionSpeedTilesPerSecond;
-    next.maxImpacts += cfg.aphelionExtraImpacts;
+  if (owned.has("rage-speed-bridge")) {
+    next.projectileRangeTiles += cfg.overclockRangeBonusTiles;
   }
-  if (owned.has("comet-shockfront-mastery")) {
-    next.maxTravelTiles += cfg.shockfrontTravelTiles;
-    next.maxImpacts += cfg.shockfrontExtraImpacts;
+  if (owned.has("rage-limit-break")) {
+    next.projectileSideLanes += cfg.limitBreakSideLanes;
   }
-  if (owned.has("comet-drive-mastery")) {
-    next.speedTilesPerSecond += cfg.masterySpeedTilesPerSecond;
-    next.sideBurstEveryTiles = Math.min(
-      next.sideBurstEveryTiles, cfg.masterySideBurstEveryTiles,
-    );
-    next.lifetimeMs += cfg.masteryLifetimeBonusMs;
-  }
+  if (owned.has("rage-duration-capstone")) next.lifetimeMs += cfg.undyingDurationMs;
   const caps = cfg.caps;
   next.lifetimeMs = clamp(next.lifetimeMs, base.lifetimeMs, caps.lifetimeMs);
-  next.maxTravelTiles = clamp(next.maxTravelTiles, base.maxTravelTiles, caps.maxTravelTiles);
-  next.maxImpacts = clamp(next.maxImpacts, base.maxImpacts, caps.maxImpacts);
-  next.speedTilesPerSecond = clamp(
-    next.speedTilesPerSecond, base.speedTilesPerSecond, caps.speedTilesPerSecond,
+  next.projectileRangeTiles = clamp(
+    next.projectileRangeTiles,
+    base.projectileRangeTiles,
+    caps.projectileRangeTiles,
   );
-  next.rideSpeedPxPerSecond = clamp(
-    next.rideSpeedPxPerSecond, base.rideSpeedPxPerSecond, caps.rideSpeedPxPerSecond,
+  next.projectileDamageMultiplier = clamp(
+    roundHundredth(next.projectileDamageMultiplier),
+    base.projectileDamageMultiplier,
+    caps.projectileDamageMultiplier,
+  );
+  next.projectileSideLanes = clamp(
+    next.projectileSideLanes,
+    base.projectileSideLanes,
+    caps.projectileSideLanes,
   );
   return Object.freeze(next);
 }
@@ -237,6 +314,6 @@ export function resolveCelestialTalentEngineDefinition(engineId, effectIds = [])
   const owned = effectSet(effectIds);
   if (engineId === "wayward-star") return resolveWayward(base, owned);
   if (engineId === "hollow-sun") return resolveHollow(base, owned);
-  if (engineId === "comet-engine") return resolveComet(base, owned);
+  if (engineId === "comet-engine") return resolveRage(base, owned);
   return Object.freeze({ ...base });
 }

@@ -39,8 +39,11 @@ class StarBlockIdleVisualHarnessScene extends Phaser.Scene {
     this.maskGraphics = null;
     this.reviewIdentities = selectReviewIdentities();
     this.worldEntries = new Map();
-    this.uiReview = new URLSearchParams(globalThis.location?.search || "")
-      .get("view") === "ui";
+    const query = new URLSearchParams(globalThis.location?.search || "");
+    this.uiReview = query.get("view") === "ui";
+    this.uiCollectionMode = query.get("collection") === "empty"
+      ? "empty"
+      : "partial";
   }
 
   preload() {
@@ -62,6 +65,7 @@ class StarBlockIdleVisualHarnessScene extends Phaser.Scene {
       this._createStarCodexReview();
       document.body.dataset.starIdleHarnessReady = "true";
       document.body.dataset.starIdleMode = "anchored-energy-ui-v2";
+      document.body.dataset.starCollectionMode = this.uiCollectionMode;
       document.body.dataset.visibleStars = `${this.uiMotionSprites.length}`;
       return;
     }
@@ -92,12 +96,21 @@ class StarBlockIdleVisualHarnessScene extends Phaser.Scene {
   _createStarCodexReview() {
     installStarIdentityTextureFrames(this);
     const content = this.add.container(WIDTH / 2, HEIGHT / 2 + 22).setDepth(100);
+    const identityCounts = new Array(
+      STAR_IDENTITY_LIBRARY_CONFIG.identities.length,
+    ).fill(0);
+    if (this.uiCollectionMode !== "empty") {
+      getStarIdentitiesForRarity(0).slice(0, 5).forEach((identity, index) => {
+        identityCounts[identity.index] = index % 2 === 0 ? 1 : index + 1;
+      });
+    }
     renderInventoryStarAtlas(
       this,
       { content },
       { left: -570, top: -260, width: 1140, height: 520 },
       0,
       0,
+      identityCounts,
       () => {},
       () => {},
     );
@@ -111,7 +124,10 @@ class StarBlockIdleVisualHarnessScene extends Phaser.Scene {
       rotation: sprite.rotation,
       alpha: sprite.alpha,
     }));
-    this.add.text(WIDTH / 2, 694, "REAL STAR CODEX RENDERER • FIXED-ANCHOR MOTION ON ALL 12 SELECTORS + DOSSIER", {
+    const reviewLabel = this.uiCollectionMode === "empty"
+      ? "EMPTY COLLECTION • NO UNKNOWN ART OR LORE REVEALED"
+      : "COLLECTED IDENTITIES ONLY • UNKNOWN SOCKETS EMPTY • FIXED-ANCHOR MOTION";
+    this.add.text(WIDTH / 2, 694, reviewLabel, {
       color: "#79bad8",
       fontFamily: "Consolas, monospace",
       fontSize: "12px",
@@ -133,7 +149,7 @@ class StarBlockIdleVisualHarnessScene extends Phaser.Scene {
     const mode = resolveWorldVisualSemanticStarIdleEnabled()
       ? "OPENROUTER MOTION ON"
       : "LEGACY ROLLBACK";
-    const title = this.uiReview ? "STAR CODEX UI V2" : "STAR BLOCK IDLE V2";
+    const title = this.uiReview ? "STAR CODEX UI V3" : "STAR BLOCK IDLE V2";
     this.add.text(42, 26, `${title}  •  ${mode}`, {
       color: "#eaf8ff",
       fontFamily: "Consolas, monospace",

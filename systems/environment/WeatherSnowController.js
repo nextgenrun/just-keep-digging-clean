@@ -29,9 +29,10 @@ export class WeatherSnowController {
     }
 
     const dt = Math.min(Math.max(delta || 0, 0), 100) / 1000;
-    const amount = state.kind === "snow"
-      ? clamp01(state.intensity * state.depth.surfaceAmount * state.occlusion.openSkyAmount)
-      : 0;
+    const snowAmount = state.snowAmount ?? (state.kind === "snow" ? state.intensity : 0);
+    const amount = clamp01(
+      snowAmount * state.depth.surfaceAmount * state.occlusion.openSkyAmount,
+    );
     this._spawn(amount, dt, state);
     this._updateFlakes(time, dt, state);
   }

@@ -16,17 +16,19 @@ import { setupGameplayMethods } from "../world/playScene/PlaySceneGameplay.js";
 import { ThunderStrikeActionRuntime } from "../world/playScene/ThunderStrikeActionRuntime.js";
 import { ThunderStrikeChainState } from "../world/playScene/ThunderStrikeChainState.js";
 
-assert.equal(THUNDER_STRIKE_CHAIN_CONFIG.upfrontCostMultiplier, 3);
+assert.equal(THUNDER_STRIKE_CHAIN_CONFIG.upfrontCostMultiplier, 2.5);
 assert.equal(THUNDER_STRIKE_CHAIN_CONFIG.followUpCost, 0);
 assert.equal(THUNDER_STRIKE_CHAIN_CONFIG.initialImpact.chargeTimeMs, 180);
 assert.equal(THUNDER_STRIKE_CHAIN_CONFIG.stages.length, 10);
 assert.deepEqual(
   THUNDER_STRIKE_CHAIN_CONFIG.stages.map((stage) => stage.damageMultiplier),
-  [1, 3, 10, 12, 15, 20, 28, 40, 60, 100],
+  [1, 1.4, 1.9, 2.5, 3.2, 4, 5, 6.2, 7.6, 9.5],
 );
+assert.equal(THUNDER_STRIKE_CHAIN_CONFIG.timingBar.milestones, undefined);
+assert.equal(THUNDER_STRIKE_CHAIN_CONFIG.timingBar.indicatorArt, undefined);
 assert.deepEqual(
-  THUNDER_STRIKE_CHAIN_CONFIG.timingBar.milestones.map(({ stageIndex }) => stageIndex),
-  [0, 4, 9],
+  THUNDER_STRIKE_CHAIN_CONFIG.timingBar.frameCrop,
+  { x: 142, y: 575, width: 1764, height: 100, centerOffsetY: 43.5 },
 );
 const openingPressToContactMs = THUNDER_STRIKE_CHAIN_CONFIG.initialImpact.chargeTimeMs
   + (
@@ -37,33 +39,27 @@ assert.ok(
   openingPressToContactMs < 500,
   `opening impact should land promptly, received ${openingPressToContactMs} ms`,
 );
-assert.equal(THUNDER_STRIKE_CHAIN_CONFIG.damage.successBuffPerTimingHit, 0.2);
+assert.equal(THUNDER_STRIKE_CHAIN_CONFIG.damage.successBuffPerTimingHit, 0.08);
 assert.deepEqual(
   [0, 1, 4, 9].map(resolveThunderStrikeSuccessDamageMultiplier),
-  [1, 1.2, 1.8, 2.8],
+  [1, 1.08, 1.32, 1.72],
 );
 const timingWindows = THUNDER_STRIKE_CHAIN_CONFIG.stages
   .slice(1).map((entry) => entry.timing.windowMs);
-assert.deepEqual(timingWindows, [280, 230, 190, 150, 90, 62, 42, 28, 16]);
-assert.ok(timingWindows.slice(0, 4).every((windowMs) => windowMs >= 150));
-assert.ok(
-  timingWindows[4] < timingWindows[3] * 0.65,
-  "Slam VI must begin the drastic post-V difficulty ramp",
-);
-for (let index = 4; index < timingWindows.length; index += 1) {
+assert.deepEqual(timingWindows, [280, 250, 220, 190, 165, 140, 120, 100, 80]);
+assert.ok(timingWindows.slice(0, 5).every((windowMs) => windowMs >= 165));
+for (let index = 1; index < timingWindows.length; index += 1) {
   assert.ok(timingWindows[index] < timingWindows[index - 1]);
 }
-assert.ok(timingWindows.at(-1) <= 16, "Slam X should remain nearly impossible");
+assert.equal(timingWindows.at(-1), 80, "Slam X should be demanding but readable");
 assert.equal(THUNDER_STRIKE_CHAIN_PHASES.SETBACK, undefined);
 assert.equal(THUNDER_STRIKE_CHAIN_CONFIG.recovery, undefined);
 assert.ok(
   THUNDER_STRIKE_CHAIN_CONFIG.timingBar.depth > 3600,
   "the timing bar must render above transient notification toasts",
 );
-assert.equal(
-  Object.keys(THUNDER_STRIKE_CHAIN_CONFIG.timingBar.indicatorArt.assetPaths).length,
-  10,
-);
+assert.equal(THUNDER_STRIKE_CHAIN_CONFIG.feedback.cancelHintText, "ESC CANCEL");
+assert.equal(THUNDER_STRIKE_CHAIN_CONFIG.timingBar.visibleHeight, 60);
 
 // The pure chain accepts exact hits, ends on the first miss, and cannot skip
 // from Slam I directly to the final tenth strike.
@@ -199,20 +195,20 @@ assert.equal(
     _getNormalMiningDamageForTile: () => 100,
   });
 
-  assert.equal(abilities.getThunderStrikeCost(), 300);
-  abilities.getConstellationStats = () => ({ thunderstrikeCostReduction: 30 });
-  assert.equal(abilities.getThunderStrikeCost(), 270, "flat constellation cost reduction stays flat");
+  assert.equal(abilities.getThunderStrikeCost(), 250);
+  abilities.getConstellationStats = () => ({ thunderstrikeCostReduction: 50 });
+  assert.equal(abilities.getThunderStrikeCost(), 200, "flat constellation cost reduction stays flat");
   abilities.getConstellationStats = () => ({});
   const first = abilities.executeThunderStrike(0);
   assert.equal(first.success, true);
   assert.equal(first.chainDamageMultiplier, 1);
   assert.equal(first.chainEffectiveDamageMultiplier, 1);
-  assert.equal(abilities.gemPower, 700);
+  assert.equal(abilities.gemPower, 750);
 
   const unauthorized = abilities.executeThunderStrike(9);
   assert.equal(unauthorized.success, false);
   assert.equal(unauthorized.reason, "follow-up-not-armed");
-  assert.equal(abilities.gemPower, 700);
+  assert.equal(abilities.gemPower, 750);
 
   for (let stageIndex = 1; stageIndex < 10; stageIndex += 1) {
     assert.equal(abilities.armThunderStrikeFollowUp(stageIndex, stageIndex), true);
@@ -225,10 +221,10 @@ assert.equal(
       resolveThunderStrikeEffectiveDamageMultiplier(stage.damageMultiplier, stageIndex),
     );
   }
-  assert.equal(abilities.gemPower, 700);
+  assert.equal(abilities.gemPower, 750);
   assert.deepEqual(
     damages.map((hit) => hit.damage),
-    [150, 540, 2100, 2880, 4050, 6000, 9240, 14400, 23400, 42000],
+    [150, 227, 331, 465, 634, 840, 1110, 1451, 1870, 2451],
   );
   assert.equal(
     new Set(damages.map((hit) => hit.tx)).size,
@@ -269,20 +265,26 @@ assert.equal(
     baseDamage: 100,
     normalDamageMultiplier: 1.5,
     bonusDamageMultiplier: 1,
-    stageDamageMultiplier: 100,
-    successDamageMultiplier: 2.8,
+    stageDamageMultiplier: 9.5,
+    successDamageMultiplier: 1.72,
   }),
-  42000,
-  "nine successful timings add a cumulative 180% combo-local damage buff",
+  2451,
+  "nine successful timings add a bounded 72% combo-local damage buff",
 );
 
 const wideScale = resolveThunderStrikeTimingBarScale(1672, 940);
 const standardScale = resolveThunderStrikeTimingBarScale(1280, 720);
 const compactScale = resolveThunderStrikeTimingBarScale(960, 540);
-assert.equal(wideScale, 1);
-assert.ok(standardScale > 0.9 && standardScale <= 1);
+const mobileScale = resolveThunderStrikeTimingBarScale(390, 844);
+assert.equal(wideScale, 0.78);
+assert.equal(standardScale, 0.78);
 assert.ok(compactScale >= THUNDER_STRIKE_CHAIN_CONFIG.timingBar.minimumScale);
 assert.ok(compactScale < standardScale);
+assert.equal(mobileScale, THUNDER_STRIKE_CHAIN_CONFIG.timingBar.minimumScale);
+assert.ok(
+  THUNDER_STRIKE_CHAIN_CONFIG.timingBar.visibleHeight * standardScale <= 55,
+  "the desktop timing interaction must stay below a 55 px visible height",
+);
 
 const setupSource = readFileSync(
   new URL("../world/playScene/PlaySceneSetup.js", import.meta.url),
@@ -362,22 +364,6 @@ const needleAsset = readFileSync(
     import.meta.url,
   ),
 );
-const indicatorAssetNames = [
-  "thunderstrike-milestone-dormant-v3.webp",
-  "thunderstrike-milestone-challenge-v3.webp",
-  "thunderstrike-milestone-completed-v3.webp",
-  "thunderstrike-milestone-check-v3.webp",
-  "thunderstrike-prompt-plate-v3.webp",
-  "thunderstrike-stage-plate-v3.webp",
-  "thunderstrike-badge-plate-v3.webp",
-  "thunderstrike-glyph-i-v3.webp",
-  "thunderstrike-glyph-v-v3.webp",
-  "thunderstrike-glyph-x-v3.webp",
-];
-const indicatorAssets = indicatorAssetNames.map((name) => readFileSync(
-  new URL(`../sprites/UI/thunderstrike-chain-v3/${name}`, import.meta.url),
-));
-
 assert.match(setupSource, /new ThunderStrikeActionRuntime\(this\)/);
 assert.match(setupSource, /this\._isShuttingDown = false/);
 assert.match(lifecycleSource, /SHUTDOWN/);
@@ -423,20 +409,20 @@ assert.match(
   /id:\s*["']thunderStrike["'][\s\S]{0,120}defaultKey:\s*["']V["']/,
 );
 assert.match(timingBarSource, /getPresentedTimingSnapshot/);
-assert.match(timingBarViewSource, /getKeyLabel\("thunderStrike"\)/);
+assert.match(timingBarSource, /THUNDER_STRIKE_CHAIN_PHASES\.TIMING/);
 assert.match(timingBarViewSource, /windowStartProgress/);
 assert.match(timingBarViewSource, /thunderStrikeChainFrame/);
 assert.match(timingBarViewSource, /thunderStrikeTargetGate/);
 assert.match(timingBarViewSource, /thunderStrikeNeedle/);
-assert.match(timingBarViewSource, /thunderStrikeIndicator/);
-assert.match(timingBarViewSource, /milestoneChallenge/);
-assert.match(timingBarViewSource, /promptPlate/);
-assert.match(timingBarViewSource, /ui\.milestones/);
-assert.doesNotMatch(timingBarViewSource, /add\.graphics|fillCircle|strokeCircle|lineBetween/);
+assert.match(timingBarViewSource, /setCrop/);
+assert.doesNotMatch(
+  timingBarViewSource,
+  /add\.text|thunderStrikeIndicator|milestone|prompt|badge|USER_SETTINGS|add\.graphics/,
+);
 assert.match(bootSource, /THUNDER_STRIKE_CHAIN_CONFIG\.timingBar\.assetPath/);
 assert.match(bootSource, /THUNDER_STRIKE_CHAIN_CONFIG\.timingBar\.targetAssetPath/);
 assert.match(bootSource, /THUNDER_STRIKE_CHAIN_CONFIG\.timingBar\.needleAssetPath/);
-assert.match(bootSource, /timingBar\.indicatorArt\.assetPaths/);
+assert.doesNotMatch(bootSource, /timingBar\.indicatorArt\.assetPaths/);
 assert.match(visualHarnessSource, /new ThunderStrikeTimingBarSystem\(this\)/);
 assert.match(visualHarnessSource, /keydown-SPACE/);
 assert.match(visualHarnessSource, /keydown-\$\{key\}/);
@@ -446,6 +432,7 @@ assert.match(visualHarnessSource, /THUNDER_STRIKE_CHAIN_CONFIG\.stages\.length -
 assert.match(visualHarnessSource, /successfulContinuations/);
 assert.match(visualHarnessSource, /showFailure/);
 assert.doesNotMatch(visualHarnessSource, /showSetback|setbacksRemaining|SETBACK/);
+assert.doesNotMatch(visualHarnessSource, /thunderStrikeIndicator|indicatorArt/);
 assert.match(
   visualHarnessHtml,
   /2026-07-26-thunderstrike-chain-visual-harness\.js/,
@@ -456,9 +443,6 @@ assert.match(impactSource, /chainEffectiveDamageMultiplier/);
 assert.equal(frameAsset.subarray(0, 4).toString("ascii"), "RIFF");
 assert.equal(targetGateAsset.subarray(0, 4).toString("ascii"), "RIFF");
 assert.equal(needleAsset.subarray(0, 4).toString("ascii"), "RIFF");
-for (const indicatorAsset of indicatorAssets) {
-  assert.equal(indicatorAsset.subarray(0, 4).toString("ascii"), "RIFF");
-}
 
 {
   const gameplayPrototype = {};

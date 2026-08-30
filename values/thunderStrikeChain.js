@@ -9,7 +9,7 @@ export const THUNDER_STRIKE_CHAIN_PHASES = Object.freeze({
 });
 
 const STAGE_LABELS = Object.freeze(["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"]);
-const STAGE_DAMAGE = Object.freeze([1, 3, 10, 12, 15, 20, 28, 40, 60, 100]);
+const STAGE_DAMAGE = Object.freeze([1, 1.4, 1.9, 2.5, 3.2, 4, 5, 6.2, 7.6, 9.5]);
 const STAGE_ACCENTS = Object.freeze([
   0x7fdcff, 0xb58cff, 0xffd36b, 0xffbf6b, 0xffa85c,
   0xff8f73, 0xff79a8, 0xe58cff, 0xc9a7ff, 0xfff0b0,
@@ -18,14 +18,14 @@ const STAGE_VISUAL_STEPS = Object.freeze([0, 2, 5, 6, 7, 8, 9, 10, 11, 12]);
 const STAGE_TIMING = Object.freeze([
   null,
   { durationMs: 1100, targetProgress: 0.56, windowMs: 280 },
-  { durationMs: 1000, targetProgress: 0.69, windowMs: 230 },
-  { durationMs: 940, targetProgress: 0.61, windowMs: 190 },
-  { durationMs: 880, targetProgress: 0.76, windowMs: 150 },
-  { durationMs: 760, targetProgress: 0.58, windowMs: 90 },
-  { durationMs: 680, targetProgress: 0.82, windowMs: 62 },
-  { durationMs: 600, targetProgress: 0.67, windowMs: 42 },
-  { durationMs: 530, targetProgress: 0.88, windowMs: 28 },
-  { durationMs: 470, targetProgress: 0.73, windowMs: 16 },
+  { durationMs: 1040, targetProgress: 0.69, windowMs: 250 },
+  { durationMs: 980, targetProgress: 0.61, windowMs: 220 },
+  { durationMs: 920, targetProgress: 0.76, windowMs: 190 },
+  { durationMs: 860, targetProgress: 0.58, windowMs: 165 },
+  { durationMs: 800, targetProgress: 0.82, windowMs: 140 },
+  { durationMs: 740, targetProgress: 0.67, windowMs: 120 },
+  { durationMs: 680, targetProgress: 0.88, windowMs: 100 },
+  { durationMs: 620, targetProgress: 0.73, windowMs: 80 },
 ].map((timing) => timing ? Object.freeze(timing) : null));
 
 const stage = (index) => {
@@ -57,7 +57,7 @@ const stage = (index) => {
 const THUNDER_STRIKE_STAGES = Object.freeze(STAGE_LABELS.map((_, index) => stage(index)));
 
 export const THUNDER_STRIKE_CHAIN_CONFIG = Object.freeze({
-  upfrontCostMultiplier: 3,
+  upfrontCostMultiplier: 2.5,
   followUpCost: 0,
   initialImpact: Object.freeze({
     chargeTimeMs: 180,
@@ -73,7 +73,7 @@ export const THUNDER_STRIKE_CHAIN_CONFIG = Object.freeze({
     finalHitText: "TEN-STRIKE STORM PERFECT",
     followUpsFreeText: "FOLLOW-UP SLAMS FREE",
     timingHintText: "PRESS {key} INSIDE THE FLASH",
-    cancelHintText: "MOVE / ESC CANCEL",
+    cancelHintText: "ESC CANCEL",
     insufficientGpLingerMs: 900,
     successLingerMs: 260,
     cancelLingerMs: 360,
@@ -82,88 +82,38 @@ export const THUNDER_STRIKE_CHAIN_CONFIG = Object.freeze({
   }),
   damage: Object.freeze({
     minimumFalloffMultiplier: 0.2,
-    successBuffPerTimingHit: 0.2,
+    successBuffPerTimingHit: 0.08,
   }),
   timingBar: Object.freeze({
     assetPath: "sprites/UI/thunderstrike-chain-v1/thunderstrike-chain-frame-v1.webp",
     targetAssetPath: "sprites/UI/thunderstrike-chain-v2/thunderstrike-target-gate-v2.webp",
     needleAssetPath: "sprites/UI/thunderstrike-chain-v2/thunderstrike-needle-v2.webp",
-    indicatorArt: Object.freeze({
-      assetPaths: Object.freeze({
-        milestoneDormant: "sprites/UI/thunderstrike-chain-v3/thunderstrike-milestone-dormant-v3.webp",
-        milestoneChallenge: "sprites/UI/thunderstrike-chain-v3/thunderstrike-milestone-challenge-v3.webp",
-        milestoneCompleted: "sprites/UI/thunderstrike-chain-v3/thunderstrike-milestone-completed-v3.webp",
-        milestoneCheck: "sprites/UI/thunderstrike-chain-v3/thunderstrike-milestone-check-v3.webp",
-        promptPlate: "sprites/UI/thunderstrike-chain-v3/thunderstrike-prompt-plate-v3.webp",
-        stagePlate: "sprites/UI/thunderstrike-chain-v3/thunderstrike-stage-plate-v3.webp",
-        badgePlate: "sprites/UI/thunderstrike-chain-v3/thunderstrike-badge-plate-v3.webp",
-        glyphI: "sprites/UI/thunderstrike-chain-v3/thunderstrike-glyph-i-v3.webp",
-        glyphV: "sprites/UI/thunderstrike-chain-v3/thunderstrike-glyph-v-v3.webp",
-        glyphX: "sprites/UI/thunderstrike-chain-v3/thunderstrike-glyph-x-v3.webp",
-      }),
-      milestoneSize: 96,
-      checkWidth: 42,
-      checkHeight: 39,
-      checkOffsetX: 32,
-      checkOffsetY: 29,
-      glyphSizes: Object.freeze([
-        Object.freeze({ width: 28, height: 54 }),
-        Object.freeze({ width: 51, height: 54 }),
-        Object.freeze({ width: 48, height: 54 }),
-      ]),
-      titlePlate: Object.freeze({ width: 410, height: 42, alpha: 0.88 }),
-      milestoneValuePlate: Object.freeze({ width: 132, height: 25, alpha: 0.82 }),
-      promptPlate: Object.freeze({ width: 620, height: 44, alpha: 0.92 }),
-      slamPlate: Object.freeze({ width: 220, height: 38, alpha: 0.9 }),
-      badgePlate: Object.freeze({ width: 230, height: 31, alpha: 0.9 }),
-      dormantAlpha: 0.72,
-    }),
     assetWidth: 790,
     assetHeight: 395,
-    visibleTop: 54,
-    visibleHeight: 277,
-    top: 18,
+    frameCrop: Object.freeze({
+      x: 142,
+      y: 575,
+      width: 1764,
+      height: 100,
+      centerOffsetY: 43.5,
+    }),
+    visibleWidth: 680,
+    visibleHeight: 60,
+    top: 14,
     depth: 3700,
-    maximumScale: 1,
-    minimumScale: 0.52,
-    viewportWidthFraction: 0.6,
-    viewportHeightFraction: 0.39,
-    horizontalMargin: 24,
-    titleY: 69,
-    stageCentersX: Object.freeze([-185, 0, 185]),
-    milestones: Object.freeze([
-      Object.freeze({ stageIndex: 0, label: "I", suffix: "PAID" }),
-      Object.freeze({ stageIndex: 4, label: "V", suffix: "CHAIN" }),
-      Object.freeze({ stageIndex: 9, label: "X", suffix: "MYTHIC" }),
-    ]),
-    stageCenterY: 142,
-    stageValueY: 181,
+    maximumScale: 0.78,
+    minimumScale: 0.36,
+    viewportWidthFraction: 0.52,
+    viewportHeightFraction: 0.16,
+    horizontalMargin: 18,
     trackX: -300,
-    trackY: 230,
     trackWidth: 600,
-    trackHeight: 22,
     targetArtHeight: 42,
     targetArtAlpha: 0.98,
     needleArtWidth: 10,
     needleArtHeight: 60,
-    promptY: 269,
-    slamY: 295,
-    badgeY: 321,
-    titleColor: "#f7e2b2",
     mutedColor: "#91a0bd",
-    freeColor: "#7fffd4",
     dangerColor: "#ff607c",
-    titleFont: "Georgia, serif",
-    bodyFont: "Consolas, monospace",
-    titleFontSize: "25px",
-    bodyFontSize: "15px",
-    promptFontSize: "16px",
-    slamFontSize: "19px",
-    badgeFontSize: "14px",
-    overlay: Object.freeze({
-      titleStrokeThickness: 5,
-      bodyStrokeThickness: 4,
-    }),
   }),
   impactFx: Object.freeze({
     depth: 44,
@@ -236,8 +186,8 @@ export function resolveThunderStrikeTimingBarScale(viewportWidth, viewportHeight
   const ui = THUNDER_STRIKE_CHAIN_CONFIG.timingBar;
   const width = Math.max(1, Number(viewportWidth) || 1);
   const height = Math.max(1, Number(viewportHeight) || 1);
-  const availableWidthScale = (width - ui.horizontalMargin * 2) / ui.assetWidth;
-  const preferredWidthScale = (width * ui.viewportWidthFraction) / ui.assetWidth;
+  const availableWidthScale = (width - ui.horizontalMargin * 2) / ui.visibleWidth;
+  const preferredWidthScale = (width * ui.viewportWidthFraction) / ui.visibleWidth;
   const visibleHeightScale = (height * ui.viewportHeightFraction) / ui.visibleHeight;
   return Math.max(
     ui.minimumScale,

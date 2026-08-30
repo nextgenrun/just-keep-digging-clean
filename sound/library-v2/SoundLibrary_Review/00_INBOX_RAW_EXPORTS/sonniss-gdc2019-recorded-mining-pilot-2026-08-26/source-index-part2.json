@@ -1,0 +1,114 @@
+{
+  "year": "2019",
+  "terms": [
+    "rocks falling from the sky",
+    "brick_bricks_shuffle_impact",
+    "impact_wood_debris",
+    "wood_breaking_cracking",
+    "impact_gritty_grit_sandy_dirt",
+    "mining on mars",
+    "small beach_rolling stones",
+    "destruction_wooden",
+    "dropping_woodpanel",
+    "dropping_woodpile",
+    "woodenfence_thud"
+  ],
+  "archives": [
+    {
+      "part": 2,
+      "url": "https://ftpmirror.your.org/pub/misc/sonniss2019/Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8.zip",
+      "entryCount": 347,
+      "matchCount": 11,
+      "matches": [
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Olivier Girardot - Natural Disasters/Rocks Falling from the Sky.wav",
+          "compression": 8,
+          "crc32": 368503797,
+          "compressedBytes": 2851147,
+          "uncompressedBytes": 2974212,
+          "localHeaderOffset": 2043725
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Matt Script - You Me & Debris/Brick_bricks_shuffle_impact_several_many_moving_laying_cement_hit_fall_10.wav",
+          "compression": 8,
+          "crc32": 2514271948,
+          "compressedBytes": 792185,
+          "uncompressedBytes": 954020,
+          "localHeaderOffset": 45219628
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Matt Script - You Me & Debris/impact_wood_debris_fall_hit_02.wav",
+          "compression": 8,
+          "crc32": 2248277391,
+          "compressedBytes": 579128,
+          "uncompressedBytes": 659972,
+          "localHeaderOffset": 46012003
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Matt Script - You Me & Debris/wood_breaking_cracking_snapping_breaking_peeling_bones_break_snap_crack_13.wav",
+          "compression": 8,
+          "crc32": 2245479721,
+          "compressedBytes": 664571,
+          "uncompressedBytes": 768704,
+          "localHeaderOffset": 46591278
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Matt Script - You Me & Debris/impact_gritty_grit_sandy_dirt_dig_shovel_shingle_roof_02.wav",
+          "compression": 8,
+          "crc32": 3413489803,
+          "compressedBytes": 974450,
+          "uncompressedBytes": 1105850,
+          "localHeaderOffset": 47256040
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Leslie Reid - STRANGE WORLDS PART 1/mining on mars .wav",
+          "compression": 8,
+          "crc32": 861557067,
+          "compressedBytes": 19148274,
+          "uncompressedBytes": 20322010,
+          "localHeaderOffset": 853722020
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Ivo Vicic - Calm sea/01 Small beach_rolling stones 1.wav",
+          "compression": 8,
+          "crc32": 4044358261,
+          "compressedBytes": 49844769,
+          "uncompressedBytes": 55295286,
+          "localHeaderOffset": 2075264273
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/InspectorJ - Wooden Fence Destruction/Destruction_Wooden_2.wav",
+          "compression": 8,
+          "crc32": 4040673558,
+          "compressedBytes": 359701,
+          "uncompressedBytes": 440192,
+          "localHeaderOffset": 2214364809
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/InspectorJ - Wooden Fence Destruction/Dropping_WoodPanel_Multi_6.wav",
+          "compression": 8,
+          "crc32": 3996816764,
+          "compressedBytes": 281342,
+          "uncompressedBytes": 359444,
+          "localHeaderOffset": 2214724655
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/InspectorJ - Wooden Fence Destruction/Dropping_WoodPile_79.wav",
+          "compression": 8,
+          "crc32": 3484505962,
+          "compressedBytes": 245902,
+          "uncompressedBytes": 312364,
+          "localHeaderOffset": 2215006148
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/InspectorJ - Wooden Fence Destruction/WoodenFence_Thud_Multi_1.wav",
+          "compression": 8,
+          "crc32": 3458649990,
+          "compressedBytes": 805861,
+          "uncompressedBytes": 919746,
+          "localHeaderOffset": 2215252195
+        }
+      ]
+    }
+  ]
+}

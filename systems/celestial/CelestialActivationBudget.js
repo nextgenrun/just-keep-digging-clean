@@ -88,6 +88,17 @@ export function enumerateDiscTiles(center, radiusTiles) {
   return tiles.sort((a, b) => a.distanceSq - b.distanceSq || a.ty - b.ty || a.tx - b.tx);
 }
 
+export function enumerateExpandingPulseTiles(center, radiusTiles, previousRadiusTiles = 0) {
+  const previousRadius = Math.max(0, Math.floor(Number(previousRadiusTiles) || 0));
+  const previousRadiusSq = previousRadius * previousRadius;
+  return enumerateDiscTiles(center, radiusTiles).sort((a, b) => {
+    const aInNewBand = a.distanceSq > previousRadiusSq;
+    const bInNewBand = b.distanceSq > previousRadiusSq;
+    if (aInNewBand !== bInNewBand) return aInNewBand ? -1 : 1;
+    return b.distanceSq - a.distanceSq || a.ty - b.ty || a.tx - b.tx;
+  });
+}
+
 export function getPerpendicularDirections(direction) {
   return [
     { x: -direction.y, y: direction.x },

@@ -1,5 +1,11 @@
 # Starlight Talent Tree Runtime
 
+> Gameplay amendment: the final 2026-08-26 rebalance replaces Wayward
+> redirection with a one-to-five-star swarm, expands Hollow Sun, and replaces
+> Comet player-facing with Stellar Rage. See
+> `2026-08-26-talent-and-depth-progression-rebalance.md`; legacy names and
+> numbers below are historical implementation context only.
+
 > Presentation amendment: the 2026-07-29 V3 polish replaces the active V2
 > layout with a native ultra-wide, three-card carousel treatment while
 > retaining every progression and safety rule in this document. See

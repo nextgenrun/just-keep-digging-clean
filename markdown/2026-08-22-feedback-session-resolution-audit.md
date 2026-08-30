@@ -19,7 +19,7 @@ where the current authored presentation was audited and retained.
 | A17-09 | Start UI passed authored art, hierarchy, focus, save-vault, and responsive live review; it was retained rather than replaced with provisional UI. | browser review |
 | A17-10 | Stationary and moving side digs use planted/phase-matched assets with zero measured foot-baseline drift in the moving sheet. | moving-complex-dig and global polish contracts |
 | A17-11 | Warning and critical stress now pair visible status language with a dedicated non-seismic cue. | approved SFX and notification contracts |
-| A17-12 | Frequent 45–90 second debris events use a contextual hold-Q shield, 6 GP/s drain, absorb confirmation, and lethal/cave-in authority. | debris shield and earthquake dodge contracts |
+| A17-12 | Retired 2026-08-27: the standalone 45–90 second debris cadence and contextual hold-Q shield intercepted Quickslash. Held Q is Quickslash-only again; established earthquake cave-ins and falling rocks remain. | debris-shield retirement and earthquake dodge contracts |
 | A17-13 | Floating-feedback preference schema v3 migrates stale enabled saves to FULL while preserving an explicit OFF choice. | feedback and notification contracts |
 | A17-14 | Merchant/tutorial prompts use measured visible-pixel tops instead of transparent canvas bounds. | NPC activity contract and live review |
 | A17-15 | The mismatched recent reward cue is retired; level-up uses restrained UI confirm plus readable status, while danger has its own cue. | approved SFX contract |

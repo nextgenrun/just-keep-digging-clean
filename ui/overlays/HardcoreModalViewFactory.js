@@ -58,7 +58,7 @@ export function createHardcoreModalView(scene, config) {
   const footer = scene.add.text(0, ui.footerY, "", {
     fontFamily: UI_FONTS.mono,
     fontSize: `${ui.font.footerPx}px`,
-    color: UI_COLORS.hint,
+    color: UI_COLORS.dim,
     align: "center",
   }).setOrigin(0.5);
   const confirmationRoot = scene.add.container(0, 0);

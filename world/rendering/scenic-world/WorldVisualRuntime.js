@@ -1,5 +1,5 @@
 import { WORLD_VISUAL_RUNTIME } from
-  "../../../values/worldVisualRuntime.js?rev=20260729-native-density-v14";
+  "../../../values/worldVisualRuntime.js?rev=20260826-surface-motion-v2";
 import { ASSET_KEYS } from "../../../values/assetKeys.js";
 import { TILE_TYPES } from "../../../values/tileTypes.js";
 import { PERFORMANCE_TELEMETRY_CONFIG } from "../../../values/performanceTelemetryConfig.js";
@@ -29,7 +29,7 @@ import { WorldVisualGroundStructureLayer } from
 import { WorldVisualUndergroundDetailLayer } from
   "./WorldVisualUndergroundDetailLayer.js?rev=20260729-native-density-v14";
 import { WorldVisualSurfaceStage } from
-  "./WorldVisualSurfaceStage.js?rev=20260730-surface-transition-v1";
+  "./WorldVisualSurfaceStage.js?rev=20260826-surface-motion-v2";
 import { WorldVisualSurfaceAtmosphereLayer } from "./WorldVisualSurfaceAtmosphereLayer.js";
 import { createWorldVisualSurfaceHeroOwner } from
   "./WorldVisualSurfaceHeroRuntime.js";

@@ -10,6 +10,16 @@ import { COMPLEX_DIG_ANIMATIONS } from "./complexDigAnimations.js";
 import { MIXAMO_LEDGE_ASSIST_ANIMATION } from "./mixamoLedgeAssistAnimation.js";
 import { resolvePlayerLedgeAssistEnabled } from "./playerTraversal.js";
 import { SURVIVAL_COMPLEX_DIG_PROFILE } from "./survivalComplexDigProfile.js";
+import {
+  SURVIVAL_MIXAMO_WALK_RUNTIME,
+  buildSurvivalMixamoWalkHandoffAnimations,
+  buildSurvivalMixamoWalkGroundHandoff,
+  resolveSurvivalMixamoWalkEnabled,
+} from "./survivalMixamoWalkRuntime.js";
+import {
+  SURVIVAL_HELD_TORCH_RUNTIME,
+  resolveSurvivalHeldTorchRuntimeEnabled,
+} from "./survivalHeldTorchRuntime.js";
 import { buildSurvivalUalAnimationPolishProfile } from "./survivalUalAnimationPolishProfile.js";
 import { buildSurvivalUalMovingSideDigProfile } from "./survivalUalMovingSideDigProfile.js";
 import { UAL_NATIVE_PLAYER_ASSET_PROFILE } from "./ualNativePlayerAssetProfile.js";
@@ -52,6 +62,15 @@ const blenderV2 = SURVIVAL_BLENDER_V2_RUNTIME;
 const mixamo = MIXAMO_ACCEPTED_PLAYER_ANIMATIONS;
 const mixamoSheets = mixamo.sheets;
 const mixamoAnimations = mixamo.animations;
+const mixamoWalk = SURVIVAL_MIXAMO_WALK_RUNTIME;
+const mixamoWalkEnabled = resolveSurvivalMixamoWalkEnabled();
+const mixamoWalkHandoff = buildSurvivalMixamoWalkHandoffAnimations(
+  mixamoAnimations.walkStart,
+  mixamoAnimations.walkStop,
+);
+const heldTorch = SURVIVAL_HELD_TORCH_RUNTIME;
+const heldTorchEnabled = unifiedAnimationEnabled
+  && resolveSurvivalHeldTorchRuntimeEnabled();
 const complexDig = SURVIVAL_COMPLEX_DIG_PROFILE;
 const ledgeAssist = MIXAMO_LEDGE_ASSIST_ANIMATION;
 const ledgeAssistEnabled = resolvePlayerLedgeAssistEnabled();
@@ -75,6 +94,82 @@ const movingComplexDigVariants = Object.freeze(movingComplexAliases.map((alias) 
 const movingComplexContactByAnimation = Object.freeze(Object.fromEntries(
   movingComplexAliases.map((alias) => [alias.animationKey, alias.contact]),
 ));
+
+function heldTorchBinding(baseAnimationKey, variant, suffix = variant.id, overrides = {}) {
+  return Object.freeze({
+    baseAnimationKey,
+    key: suffix === variant.id
+      ? variant.animationKey
+      : `survival-held-torch-v1-${suffix}-anim`,
+    sheet: variant.sheetKey,
+    frames: overrides.frames || variant.frames,
+    frameRate: overrides.frameRate || variant.frameRate,
+    repeat: overrides.repeat ?? variant.repeat,
+  });
+}
+
+const heldTorchBindingCandidates = heldTorchEnabled ? [
+  heldTorchBinding(remappedProfile.idleAnim, heldTorch.variants.idle),
+  heldTorchBinding(remappedProfile.walkAnim, heldTorch.variants.walkLoop, "walk"),
+  heldTorchBinding(mixamoAnimations.walkStart, heldTorch.variants.walkStart),
+  heldTorchBinding(remappedProfile.walkLoopAnim, heldTorch.variants.walkLoop, "legacyWalkLoop"),
+  heldTorchBinding(remappedProfile.walkRunAnim, heldTorch.variants.walkLoop),
+  heldTorchBinding(mixamoAnimations.walkStop, heldTorch.variants.walkStop),
+  ...mixamoWalkHandoff.stopVariants.slice(1).map((variant) => heldTorchBinding(
+    variant.key,
+    heldTorch.variants.walkStop,
+    `walkStopPhase${String(variant.runFrame).padStart(2, "0")}`,
+  )),
+  heldTorchBinding(remappedProfile.airborneAnim, heldTorch.variants.airborne),
+  heldTorchBinding(remappedProfile.fallingAnim, heldTorch.variants.falling),
+  heldTorchBinding(mixamoAnimations.flight, heldTorch.variants.flight),
+  heldTorchBinding(remappedProfile.flightEnterAnim, heldTorch.variants.flight, "flightEnter", {
+    frames: heldTorch.variants.flight.frames.slice(0, remappedProfile.flightEnterFrames.length),
+    frameRate: remappedProfile.flightEnterAnimationFps,
+    repeat: 0,
+  }),
+  heldTorchBinding(remappedProfile.flightTravelEnterAnim, heldTorch.variants.flight, "flightTravelEnter", {
+    frames: heldTorch.variants.flight.frames.slice(0, remappedProfile.flightTravelEnterFrames.length),
+    frameRate: remappedProfile.flightTravelEnterAnimationFps,
+    repeat: 0,
+  }),
+  heldTorchBinding(remappedProfile.flightExitAnim, heldTorch.variants.flight, "flightExit", {
+    frames: heldTorch.variants.flight.frames.slice(0, remappedProfile.flightExitFrames.length),
+    frameRate: remappedProfile.flightExitAnimationFps,
+    repeat: 0,
+  }),
+  heldTorchBinding(mixamoAnimations.hardLanding, heldTorch.variants.hardLanding),
+  heldTorchBinding(mixamoAnimations.crouchEnter, heldTorch.variants.crouchEnter),
+  heldTorchBinding(mixamoAnimations.crouch, heldTorch.variants.crouch),
+  heldTorchBinding(mixamoAnimations.crouchExit, heldTorch.variants.crouchExit),
+] : [];
+const heldTorchBindingByBase = new Map();
+heldTorchBindingCandidates.forEach((binding) => {
+  if (binding.baseAnimationKey) heldTorchBindingByBase.set(binding.baseAnimationKey, binding);
+});
+const heldTorchAnimations = Object.freeze(Array.from(heldTorchBindingByBase.values()));
+const heldTorchAnimationByBaseAnimation = Object.freeze(Object.fromEntries(
+  heldTorchAnimations.map((binding) => [binding.baseAnimationKey, binding.key]),
+));
+const heldTorchBaseAnimationByVariant = Object.freeze(Object.fromEntries(
+  heldTorchAnimations.map((binding) => [binding.key, binding.baseAnimationKey]),
+));
+const heldTorchProfileProperties = Object.freeze(Object.fromEntries(
+  heldTorchEnabled
+    ? Object.values(heldTorch.variants).flatMap((variant) => [
+      [variant.sheetProperty, variant.sheetKey],
+      [variant.framesProperty, variant.frames],
+    ])
+    : [],
+));
+const heldTorchSheetFiles = Object.freeze(heldTorchEnabled
+  ? Object.values(heldTorch.variants).map((variant) => Object.freeze([
+    variant.sheetProperty,
+    variant.fileName,
+    variant.framesProperty,
+    heldTorch.runtimeRoot,
+  ]))
+  : []);
 const movingComplexDigAnimationMap = Object.freeze({
   ...movingSideDig.animationMap,
   ...movingComplexDig.defaultAnimationKeyByBaseAnimation,
@@ -85,10 +180,20 @@ const animationPolish = buildSurvivalUalAnimationPolishProfile({
   polish: PLAYER_ANIMATION_POLISH,
   retainedLegacyAnimationKeys: [remappedProfile.digDownAnim],
 });
-// Keep the phase-authored two-frame Piskel bridges as the runtime handoff.
-// Replacing every outgoing Jog phase with one generic Mixamo stop made the
-// apparent body scale and planted foot jump according to the interrupted frame.
-const acceptedAnimationPolishConfig = animationPolish.animationPolishConfig;
+// Blender derives both sides of the handoff from the exact Standard Walk
+// action. Stops select the next even gait phase, then settle to the idle pose.
+// Disabling Standard Walk restores the phase-authored Piskel handoff config.
+const acceptedAnimationPolishConfig = mixamoWalkEnabled
+  ? Object.freeze({
+    ...animationPolish.animationPolishConfig,
+    groundHandoff: buildSurvivalMixamoWalkGroundHandoff(
+      animationPolish.animationPolishConfig.groundHandoff,
+      mixamoAnimations.walkStart,
+      mixamoAnimations.walkStop,
+      mixamoWalkHandoff,
+    ),
+  })
+  : animationPolish.animationPolishConfig;
 const complexDigActionRecovery = Object.freeze({
   [COMPLEX_DIG_ANIMATIONS.clips.cross.animationKey]: PLAYER_ANIMATION_POLISH.actionRecovery.families.cross.key,
   [COMPLEX_DIG_ANIMATIONS.clips.jab.animationKey]: PLAYER_ANIMATION_POLISH.actionRecovery.families.jab.key,
@@ -182,9 +287,22 @@ const sheetFiles = Object.freeze([
     movingComplexDig.basePath,
   ]),
   ...animationPolish.animationPolishSheetFiles,
+  ...(mixamoWalkEnabled ? [Object.freeze([
+    "walkRunSheet",
+    mixamoWalk.sheet.fileName,
+    "walkRunFrames",
+    mixamo.basePath,
+  ])] : []),
   ...Object.freeze([
-    ["walkStartSheet", mixamoSheets.walkStart.fileName, "walkStartFrames", mixamo.basePath],
-    ["walkStopSheet", mixamoSheets.walkStop.fileName, "walkStopFrames", mixamo.basePath],
+    ...(mixamoWalkEnabled ? [[
+      "walkHandoffSheet",
+      mixamoWalkHandoff.sheet.fileName,
+      "walkHandoffFrames",
+      mixamoWalkHandoff.sheet.basePath,
+    ]] : [
+      ["walkStartSheet", mixamoSheets.walkStart.fileName, "walkStartFrames", mixamo.basePath],
+      ["walkStopSheet", mixamoSheets.walkStop.fileName, "walkStopFrames", mixamo.basePath],
+    ]),
     ["mixamoIdleFidgetSheet", mixamoSheets.idleFidget.fileName, "mixamoIdleFidgetFrames", mixamo.basePath],
     ["duckSheet", mixamoSheets.crouch.fileName, "duckFrames", mixamo.basePath],
     ["crouchEnterSheet", mixamoSheets.crouchEnter.fileName, "crouchEnterFrames", mixamo.basePath],
@@ -194,6 +312,7 @@ const sheetFiles = Object.freeze([
     ["thunderStrikeStrikeSheet", mixamoSheets.thunderStrike.fileName, "thunderStrikeStrikeFrames", mixamo.basePath],
     ["quickslashSheet", mixamoSheets.quickslash.fileName, "quickslashFrames", mixamo.basePath],
   ].map(Object.freeze)),
+  ...heldTorchSheetFiles,
   ...complexDig.sheetFiles,
   ...(ledgeAssistEnabled ? [Object.freeze([
     "ledgeClimbSheet",
@@ -222,7 +341,15 @@ const requiredSheets = Object.freeze(Array.from(new Set(
     movingSideDig.handoff.atlas.sheetKey,
     movingComplexDig.sheet.key,
     ...animationPolish.animationPolishRequiredSheets,
-    ...Object.values(mixamoSheets).map((sheetSpec) => sheetSpec.key),
+    ...(mixamoWalkEnabled
+      ? [mixamoWalk.sheet.key, mixamoWalkHandoff.sheet.key]
+      : []),
+    ...Object.entries(mixamoSheets)
+      .filter(([id]) => !mixamoWalkEnabled || (id !== "walkStart" && id !== "walkStop"))
+      .map(([, sheetSpec]) => sheetSpec.key),
+    ...(heldTorchEnabled
+      ? Object.values(heldTorch.variants).map((variant) => variant.sheetKey)
+      : []),
     ...complexDig.requiredSheets,
     ...(ledgeAssistEnabled ? [ledgeAssist.sheet.key] : []),
   ],
@@ -235,7 +362,9 @@ const blenderCoreDisplaySizeByAnimation = Object.freeze({
   [remappedProfile.walkStartAnim]: groundedVisual.walk.displaySizePx,
   [remappedProfile.walkLoopAnim]: groundedVisual.walk.displaySizePx,
   [remappedProfile.walkStopAnim]: groundedVisual.walk.displaySizePx,
-  [remappedProfile.walkRunAnim]: groundedVisual.run.displaySizePx,
+  [remappedProfile.walkRunAnim]: mixamoWalkEnabled
+    ? mixamoWalk.sheet.displaySizePx
+    : groundedVisual.run.displaySizePx,
   ...Object.fromEntries(digUpAnimationKeys.map((key) => [key, digUpSheet.displaySizePx])),
   ...Object.fromEntries(movingSideDig.phaseVariants.map((variant) => [
     variant.animationKey,
@@ -260,8 +389,17 @@ const blenderCoreDisplaySizeByAnimation = Object.freeze({
     key,
     mixamoSheets.walkStart.displaySizePx,
   ])),
+  ...Object.fromEntries(mixamoWalkHandoff.animationKeys.map((key) => [
+    key,
+    mixamoWalkHandoff.sheet.displaySizePx,
+  ])),
+  ...Object.fromEntries(heldTorchAnimations.map((binding) => [
+    binding.key,
+    heldTorch.variants.idle.displaySizePx,
+  ])),
   ...complexDig.displaySizeByAnimation,
   ...(ledgeAssistEnabled ? {
+    [ledgeAssist.animations.catch]: ledgeAssist.sheet.displaySizePx,
     [ledgeAssist.animations.hang]: ledgeAssist.sheet.displaySizePx,
     [ledgeAssist.animations.climb]: ledgeAssist.sheet.displaySizePx,
   } : {}),
@@ -290,6 +428,7 @@ const blenderCoreOriginBySheet = Object.freeze({
     sheetSpec.key,
     sheetSpec.origin,
   ])),
+  [mixamoWalkHandoff.sheet.key]: mixamoWalkHandoff.sheet.origin,
   ...complexDig.originBySheet,
   ...(ledgeAssistEnabled ? {
     [ledgeAssist.sheet.key]: ledgeAssist.sheet.origin,
@@ -299,12 +438,13 @@ const blenderCoreOriginBySheet = Object.freeze({
 const survivalUalMixedPlayerAssetProfile = Object.freeze({
   ...remappedProfile,
   ...complexDig.profileProperties,
+  ...heldTorchProfileProperties,
   characterId: PLAYER_CHARACTER_IDS.survivalUal,
   renderPipeline: "survival-blender-v2-piskel-polish-v2-mixamo-complex-dig-moving-v1",
   basePath: "sprites/character/survival-ual-player-v1/runtime",
   version: "survival-complex-dig-moving-runtime-v1-20260821",
   visualSkin: blenderV2.visualId,
-  coreAnimationPolicy: "Phase-authored Piskel ground handoffs, accepted Mixamo abilities and user-approved complex SIDE/UP mining on the Survival V4 render; authored combo clips retain every reviewed contact and the family keeps an instant legacy rollback",
+  coreAnimationPolicy: "Approved Mixamo Standard Walk with Blender-authored same-action start and phase-matched stops, calibrated animation-wide stature, accepted Mixamo abilities and user-approved complex SIDE/UP mining on the Survival V4 render",
   walkStartAnim: mixamoAnimations.walkStart,
   walkStopAnim: mixamoAnimations.walkStop,
   landingAnim: mixamoAnimations.hardLanding,
@@ -313,12 +453,19 @@ const survivalUalMixedPlayerAssetProfile = Object.freeze({
   idleSheet: blenderV2.sheets.idle.key,
   idleTalkSheet: blenderV2.sheets.idle.key,
   walkSheet: blenderV2.sheets.walk.key,
-  walkStartSheet: mixamoSheets.walkStart.key,
+  walkHandoffSheet: mixamoWalkHandoff.sheet.key,
+  walkStartSheet: mixamoWalkEnabled
+    ? mixamoWalkHandoff.sheet.key
+    : mixamoSheets.walkStart.key,
   walkLoopSheet: blenderV2.sheets.walk.key,
-  walkRunSheet: animationPolish.runPolishEnabled
+  walkRunSheet: mixamoWalkEnabled
+    ? mixamoWalk.sheet.key
+    : animationPolish.runPolishEnabled
     ? animationPolish.animationPolishRunSheet
     : remappedProfile.walkRunSheet,
-  walkStopSheet: mixamoSheets.walkStop.key,
+  walkStopSheet: mixamoWalkEnabled
+    ? mixamoWalkHandoff.sheet.key
+    : mixamoSheets.walkStop.key,
   legacyFlightTransitionSheet: blenderV2.sheets.fly.key,
   flySheet: mixamoSheets.flight.key,
   flightEnterSheet: blenderV2.sheets.fly.key,
@@ -343,6 +490,10 @@ const survivalUalMixedPlayerAssetProfile = Object.freeze({
   ledgeAssistEnabled,
   ledgeClimbSheet: ledgeAssistEnabled ? ledgeAssist.sheet.key : null,
   ...animationPolish,
+  animationPolishAnimations: Object.freeze([
+    ...animationPolish.animationPolishAnimations,
+    ...(mixamoWalkEnabled ? mixamoWalkHandoff.animations : []),
+  ]),
   actionRecoveryAnimationByCompletedAnimation: Object.freeze({
     ...animationPolish.actionRecoveryAnimationByCompletedAnimation,
     ...complexDigActionRecovery,
@@ -363,12 +514,22 @@ const survivalUalMixedPlayerAssetProfile = Object.freeze({
   idleFrames: blenderV2.frames.idle,
   idleTalkFrames: blenderV2.frames.idle,
   walkFrames: blenderV2.frames.walk,
-  walkStartFrames: mixamoSheets.walkStart.frames,
+  walkHandoffFrames: mixamoWalkHandoff.sheet.frames,
+  walkStartFrames: mixamoWalkEnabled
+    ? mixamoWalkHandoff.start.frames
+    : mixamoSheets.walkStart.frames,
   walkLoopFrames: blenderV2.frames.walk,
-  walkRunFrames: animationPolish.runPolishEnabled
+  walkRunFrames: mixamoWalkEnabled
+    ? mixamoWalk.sheet.frames
+    : animationPolish.runPolishEnabled
     ? animationPolish.animationPolishRunFrames
     : remappedProfile.walkRunFrames,
-  walkStopFrames: mixamoSheets.walkStop.frames,
+  walkStopFrames: mixamoWalkEnabled
+    ? mixamoWalkHandoff.stopVariants[0].frames
+    : mixamoSheets.walkStop.frames,
+  walkRunAnimationFps: mixamoWalkEnabled
+    ? mixamoWalk.sheet.frameRate
+    : remappedProfile.walkRunAnimationFps,
   legacyFlightTransitionFrames: blenderV2.frames.fly,
   flyFrames: mixamoSheets.flight.frames,
   flySourceFrames: blenderV2.frames.fly,
@@ -393,6 +554,7 @@ const survivalUalMixedPlayerAssetProfile = Object.freeze({
   movingSideDigCrossFrames: MOVING_SIDE_DIG_ANIMATION.actions.cross.frames,
   movingSideDigPhaseHandoffFrames: movingSideDig.handoff.atlas.frames,
   movingComplexDigFrames: movingComplexDig.sheet.frames,
+  ledgeCatchFrames: ledgeAssistEnabled ? ledgeAssist.sheet.catchFrames : Object.freeze([]),
   ledgeHangFrames: ledgeAssistEnabled ? ledgeAssist.sheet.hangFrames : Object.freeze([]),
   ledgeClimbFrames: ledgeAssistEnabled ? ledgeAssist.sheet.climbFrames : Object.freeze([]),
   idleAnimationFps: 12,
@@ -422,6 +584,7 @@ const survivalUalMixedPlayerAssetProfile = Object.freeze({
   flightHoverAnim: mixamoAnimations.flight,
   thunderStrikeStrikeAnim: mixamoAnimations.thunderStrike,
   quickslashAnim: mixamoAnimations.quickslash,
+  ledgeCatchAnim: ledgeAssistEnabled ? ledgeAssist.animations.catch : null,
   ledgeHangAnim: ledgeAssistEnabled ? ledgeAssist.animations.hang : null,
   ledgeClimbAnim: ledgeAssistEnabled ? ledgeAssist.animations.climb : null,
   leanAgainstWallFrames: blenderV2.frames.idle,
@@ -435,7 +598,9 @@ const survivalUalMixedPlayerAssetProfile = Object.freeze({
     idle: "Blender MINER_idle",
     idleTalk: "Blender MINER_idle",
     walk: "Blender MINER_walk",
-    run: animationPolish.runPolishEnabled
+    run: mixamoWalkEnabled
+      ? "Mixamo Standard Walk retargeted to the approved Survival V4 rig"
+      : animationPolish.runPolishEnabled
       ? "UAL Jog_Fwd_Loop + Piskel root-center/baseline polish"
       : "UAL Jog_Fwd_Loop",
     uppercut: "Blender MINER_dig_up + manifest-driven Piskel body-anchor polish",
@@ -451,10 +616,20 @@ const survivalUalMixedPlayerAssetProfile = Object.freeze({
     hardLanding: "Mixamo Jumping Down From Higher Level impact and recovery",
     crouch: "Mixamo Crouch Idle with matched authored entry and exit",
     thunderStrike: "Mixamo Standing 2H Magic Area Attack 01 retargeted without weapon",
-    ...(ledgeAssistEnabled ? { ledgeClimb: ledgeAssist.sourceClip } : {}),
+    ...(ledgeAssistEnabled ? {
+      ledgeCatch: `${ledgeAssist.sourceClip} reversed grip settle`,
+      ledgeClimb: ledgeAssist.sourceClip,
+    } : {}),
+    ...(heldTorchEnabled ? { heldTorch: "Blender modeled torch bone-parented to weapon_r" } : {}),
   }),
   requiredSheets,
   sheetFiles,
+  frameSizePxBySheet: Object.freeze({
+    ...(remappedProfile.frameSizePxBySheet || {}),
+    ...(mixamoWalkEnabled ? {
+      [mixamoWalkHandoff.sheet.key]: mixamoWalkHandoff.sheet.frameSizePx,
+    } : {}),
+  }),
   walkAnims: Object.freeze([
     mixamoAnimations.walkStart,
     remappedProfile.walkLoopAnim,
@@ -466,15 +641,26 @@ const survivalUalMixedPlayerAssetProfile = Object.freeze({
     remappedProfile.walkLoopAnim,
     remappedProfile.walkRunAnim,
   ]),
+  footstepFrameIndices: Object.freeze({
+    ...(remappedProfile.footstepFrameIndices || {}),
+    ...(mixamoWalkEnabled ? {
+      [remappedProfile.walkRunAnim]: mixamoWalk.footstepFrameIndices,
+    } : {}),
+  }),
   locomotionTransitionAnims: Object.freeze(Array.from(new Set([
     ...remappedProfile.locomotionTransitionAnims,
     ...animationPolish.customAnimationKeys,
+    ...(mixamoWalkEnabled ? mixamoWalkHandoff.animationKeys : []),
     mixamoAnimations.walkStart,
     mixamoAnimations.walkStop,
     mixamoAnimations.hardLanding,
     mixamoAnimations.crouchEnter,
     mixamoAnimations.crouchExit,
-    ...(ledgeAssistEnabled ? [ledgeAssist.animations.hang, ledgeAssist.animations.climb] : []),
+    ...(ledgeAssistEnabled ? [
+      ledgeAssist.animations.catch,
+      ledgeAssist.animations.hang,
+      ledgeAssist.animations.climb,
+    ] : []),
   ]))),
   digAnimationVariants: Object.freeze([
     ...remappedProfile.digAnimationVariants.filter((variant) => !digUpAnimationKeys.includes(variant.key)),
@@ -560,13 +746,22 @@ const survivalUalMixedPlayerAssetProfile = Object.freeze({
       repeat: 0,
     }),
   ]),
+  heldTorchRuntime: heldTorchEnabled
+    ? Object.freeze({ ...heldTorch, enabled: true })
+    : null,
+  heldTorchAnimations,
+  heldTorchAnimationByBaseAnimation,
+  heldTorchBaseAnimationByVariant,
   displaySizePxByAnimation: Object.freeze({
     ...remappedProfile.displaySizePxByAnimation,
     ...blenderCoreDisplaySizeByAnimation,
   }),
   strideTilesPerCycleByAnimation: Object.freeze({
-    [remappedProfile.walkRunAnim]: SURVIVAL_RUN_STRIDE_TILES_PER_CYCLE,
+    [remappedProfile.walkRunAnim]: mixamoWalkEnabled
+      ? mixamoWalk.strideTilesPerCycle
+      : SURVIVAL_RUN_STRIDE_TILES_PER_CYCLE,
   }),
+  mixamoWalkRuntime: mixamoWalkEnabled ? mixamoWalk : null,
   visualOriginBySheet: Object.freeze({
     ...(remappedProfile.visualOriginBySheet || {}),
     ...blenderCoreOriginBySheet,

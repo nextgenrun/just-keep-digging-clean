@@ -1,20 +1,19 @@
 import { STAR_IDENTITY_LIBRARY_CONFIG } from
-  "../../values/starIdentityLibrary.js?rev=20260826-inventory-codex-v2";
+  "../../values/starIdentityLibrary.js?rev=20260830-star-codex-v3";
 import { STAR_RARITY_PROGRESSION_CONFIG } from "../../values/starRarityProgression.js";
 import { getStarRarityTier } from "../../values/starRarityProgressionMath.js";
-import { UI_COLORS } from "../../values/uiColors.js";
 import { UI_FONTS } from "../../values/uiLayout.js";
 import {
   starAtlasFontSize,
   starAtlasPoint,
   starAtlasSize,
-} from "./UIInventoryStarAtlasLayout.js?rev=20260826-inventory-codex-v2";
+} from "./UIInventoryStarAtlasLayout.js?rev=20260830-star-codex-v3";
 import {
   addStarAtlasHitZone,
   addStarAtlasText,
-} from "./UIInventoryStarAtlasPrimitives.js?rev=20260826-inventory-codex-v3";
+} from "./UIInventoryStarAtlasPrimitives.js?rev=20260830-star-codex-v3";
 import { renderStarAtlasPageControls } from
-  "./UIInventoryStarAtlasPagination.js?rev=20260826-inventory-codex-v3";
+  "./UIInventoryStarAtlasPagination.js?rev=20260830-star-codex-v3";
 import { addUiStarIdleSelectorMotion } from
   "./UIStarIdleMotion.js?rev=20260826-star-idle-ui-v2";
 
@@ -23,9 +22,13 @@ function renderRarityTabs(
   parent,
   bounds,
   selectedRarity,
+  identityCounts,
   onSelect,
 ) {
-  const layout = STAR_IDENTITY_LIBRARY_CONFIG.inventory.layout;
+  const config = STAR_IDENTITY_LIBRARY_CONFIG;
+  const layout = config.inventory.layout;
+  const copy = config.inventory.copy;
+  const appearance = config.inventory.appearance;
   STAR_RARITY_PROGRESSION_CONFIG.rarityTiers.forEach((unused, rarityIndex) => {
     const tier = getStarRarityTier(rarityIndex);
     const selected = rarityIndex === selectedRarity;
@@ -35,21 +38,32 @@ function renderRarityTabs(
       layout.rarityTabCenterYPx,
       layout,
     );
-    const count = STAR_IDENTITY_LIBRARY_CONFIG.rarityIdentityCounts[rarityIndex];
-    addStarAtlasText(scene, parent, point.x, point.y, `${tier.name}\n${count} STARS`, {
-      fontFamily: UI_FONTS.display,
-      fontSizePx: starAtlasFontSize(
-        bounds,
-        layout.rarityLabelFontSizePx,
-        layout,
-        9,
-      ),
-      fontStyle: "bold",
-      color: selected ? tier.palette.highlight : tier.palette.primary,
-      lineSpacing: -2,
-      stroke: tier.palette.shadow,
-      strokeThickness: selected ? 3 : 2,
-    }).setAlpha(selected ? 1 : 0.72);
+    const count = config.rarityIdentityCounts[rarityIndex];
+    const found = config.identities.filter(
+      identity => identity.rarityIndex === rarityIndex
+        && (identityCounts[identity.index] || 0) > 0,
+    ).length;
+    addStarAtlasText(
+      scene,
+      parent,
+      point.x,
+      point.y,
+      `${tier.name.toUpperCase()}\n${found} / ${count} ${copy.found}`,
+      {
+        fontFamily: UI_FONTS.body,
+        fontSizePx: starAtlasFontSize(
+          bounds,
+          layout.rarityLabelFontSizePx,
+          layout,
+          9,
+        ),
+        fontStyle: "bold",
+        color: selected ? appearance.title : tier.palette.primary,
+        lineSpacing: -2,
+        stroke: appearance.shadow,
+        strokeThickness: selected ? 3 : 2,
+      },
+    ).setAlpha(selected ? 1 : layout.rarityIdleAlpha);
     addStarAtlasHitZone(
       scene,
       parent,
@@ -68,9 +82,13 @@ function renderIdentitySelectors(
   bounds,
   identities,
   selectedIdentity,
+  identityCounts,
   onSelect,
 ) {
-  const layout = STAR_IDENTITY_LIBRARY_CONFIG.inventory.layout;
+  const config = STAR_IDENTITY_LIBRARY_CONFIG;
+  const layout = config.inventory.layout;
+  const copy = config.inventory.copy;
+  const appearance = config.inventory.appearance;
   identities.forEach((identity, index) => {
     const row = Math.floor(index / layout.selectorCentersXPx.length);
     const column = index % layout.selectorCentersXPx.length;
@@ -83,12 +101,11 @@ function renderIdentitySelectors(
     const selected = identity.index === selectedIdentity;
     const imageSize = starAtlasSize(bounds, layout.selectorImageSizePx, layout);
     if (selected) {
-      const tier = getStarRarityTier(identity.rarityIndex);
       const ring = scene.add.graphics();
       ring.lineStyle(
         Math.max(1, starAtlasSize(bounds, layout.selectedRingWidthPx, layout)),
-        Number.parseInt(tier.palette.highlight.replace("#", ""), 16),
-        0.96,
+        appearance.focusNumber,
+        appearance.focusAlpha,
       );
       ring.strokeCircle(
         point.x,
@@ -141,7 +158,10 @@ function renderIdentitySelectors(
         layout.selectorCentersYPx[row] + layout.selectorLabelOffsetYPx,
         layout,
       ).y,
-      identity.name.toUpperCase(),
+      `${identity.name.toUpperCase()}\n${copy.collected}`
+        + ((identityCounts[identity.index] || 0) > 1
+          ? ` ×${identityCounts[identity.index]}`
+          : ""),
       {
         fontFamily: UI_FONTS.display,
         fontSizePx: starAtlasFontSize(
@@ -151,13 +171,13 @@ function renderIdentitySelectors(
           8,
         ),
         fontStyle: "bold",
-        color: selected ? UI_COLORS.gold : UI_COLORS.body,
+        color: selected ? appearance.focus : appearance.body,
         wordWrapWidth: starAtlasSize(bounds, layout.selectorHitSizePx, layout),
         lineSpacing: -2,
-        stroke: "#02060A",
+        stroke: appearance.shadow,
         strokeThickness: 2,
       },
-    ).setAlpha(selected ? 1 : 0.78);
+    ).setAlpha(selected ? 1 : layout.selectorLabelIdleAlpha);
     addStarAtlasHitZone(
       scene,
       parent,
@@ -177,29 +197,41 @@ export function renderStarAtlasControls(
   rarityIndex,
   identities,
   selectedIdentity,
+  identityCounts,
   onSelectRarity,
   onSelectIdentity,
 ) {
   const layout = STAR_IDENTITY_LIBRARY_CONFIG.inventory.layout;
   const pageSize = layout.selectorsPerPage;
+  const collectedIdentities = identities.filter(
+    identity => (identityCounts[identity.index] || 0) > 0,
+  );
   const selectedPosition = Math.max(
     0,
-    identities.findIndex(identity => identity.index === selectedIdentity),
+    collectedIdentities.findIndex(identity => identity.index === selectedIdentity),
   );
   const pageIndex = Math.floor(selectedPosition / pageSize);
-  const pageCount = Math.ceil(identities.length / pageSize);
-  const visible = identities.slice(
+  const pageCount = Math.max(1, Math.ceil(collectedIdentities.length / pageSize));
+  const visible = collectedIdentities.slice(
     pageIndex * pageSize,
     (pageIndex + 1) * pageSize,
   );
-  renderRarityTabs(scene, parent, bounds, rarityIndex, onSelectRarity);
+  renderRarityTabs(
+    scene,
+    parent,
+    bounds,
+    rarityIndex,
+    identityCounts,
+    onSelectRarity,
+  );
   renderStarAtlasPageControls(
     scene,
     parent,
     bounds,
-    identities,
+    collectedIdentities,
     pageIndex,
     pageCount,
+    identities.length,
     onSelectIdentity,
   );
   renderIdentitySelectors(
@@ -208,6 +240,7 @@ export function renderStarAtlasControls(
     bounds,
     visible,
     selectedIdentity,
+    identityCounts,
     onSelectIdentity,
   );
   return Object.freeze({ pageIndex, pageCount, visibleIdentityCount: visible.length });

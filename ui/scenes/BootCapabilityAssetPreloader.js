@@ -88,11 +88,23 @@ export function queueLevelTwoResourceTileAssets(
 }
 
 export function queueCapabilityUiAssets(scene, assetKeys, capabilities) {
+  const heavenblocksBase = "sprites/UI/heavenblocks-v1";
+  const sharedRelicFiles = {
+    ancientRelicToken: "ancient-relic-token-v1.png",
+    ancientRelicIcon: "ancient-relic-icon-v1.png",
+  };
+  for (const [id, file] of Object.entries(sharedRelicFiles)) {
+    scene.load.image(assetKeys.ui.heavenblocks[id], `${heavenblocksBase}/${file}`);
+  }
+
+  const emberPath = "sprites/UI/second-world/ember-ore-icon.webp";
+  scene.load.image(assetKeys.ui.resources.emberOre, emberPath);
+  scene.load.image(assetKeys.ui.lootPickups.emberOre, emberPath);
+
   if (capabilities?.isEnabled?.(GAMEPLAY_FEATURE_IDS.LEVEL_TWO)) {
     const resourcePaths = {
       lavaDirt: "sprites/UI/second-world/lava-dirt-icon.webp",
       obsidian: "sprites/UI/second-world/obsidian-icon.webp",
-      emberOre: "sprites/UI/second-world/ember-ore-icon.webp",
       magmaCrystal: "sprites/UI/second-world/magma-crystal-icon.webp",
     };
     for (const [id, path] of Object.entries(resourcePaths)) {
@@ -101,15 +113,12 @@ export function queueCapabilityUiAssets(scene, assetKeys, capabilities) {
     }
   }
   if (!capabilities?.isEnabled?.(GAMEPLAY_FEATURE_IDS.HEAVENBLOCKS)) return;
-  const base = "sprites/UI/heavenblocks-v1";
   const files = {
-    ancientRelicToken: "ancient-relic-token-v1.png",
-    ancientRelicIcon: "ancient-relic-icon-v1.png",
     aetherTurbine: "aether-turbine-v1.png",
     haloRegulator: "halo-regulator-v1.png",
     eclipseCrucible: "eclipse-crucible-v1.png",
   };
   for (const [id, file] of Object.entries(files)) {
-    scene.load.image(assetKeys.ui.heavenblocks[id], `${base}/${file}`);
+    scene.load.image(assetKeys.ui.heavenblocks[id], `${heavenblocksBase}/${file}`);
   }
 }

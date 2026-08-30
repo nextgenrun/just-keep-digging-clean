@@ -264,7 +264,7 @@ export class NPCManager {
       const opened = shopOverlay.show(nearestNPC.merchantId);
       if (opened !== true) return false;
       this.activitySystem.settleMerchant(nearestNPC.merchantId);
-      // Play NPC voice line before showing shop
+      // The shared voice director applies the 35% roll, cooldown, and busy drop.
       if (this.scene.soundSystem) {
         this.scene.soundSystem.playNPCVoiceLine(nearestNPC.merchantId);
       }

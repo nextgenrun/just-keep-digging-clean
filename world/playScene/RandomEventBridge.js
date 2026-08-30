@@ -113,7 +113,6 @@ export class RandomEventBridge {
   _featureEnabled(type) {
     if (type === RANDOM_EVENT_TYPES.CRYSTAL_CHOIR) return this.flags.crystalChoir;
     if (type === RANDOM_EVENT_TYPES.BLACKOUT_BLOOM) return this.flags.blackoutBloom;
-    if (type === RANDOM_EVENT_TYPES.MONEY_MONSTER_RUSH) return this.flags.moneyMonsterRush;
     return false;
   }
 
@@ -271,7 +270,7 @@ export class RandomEventBridge {
     window.__jkdRandomEvents = {
       snapshot: () => this.getSnapshot(),
       force: type => {
-        if (!Object.values(RANDOM_EVENT_TYPES).includes(type)) return false;
+        if (!this._featureEnabled(type)) return false;
         if (this.director.state.active) this._finishActive({ interrupted: true });
         this.director.state.cooldownMs = 0;
         this._forcedType = type;

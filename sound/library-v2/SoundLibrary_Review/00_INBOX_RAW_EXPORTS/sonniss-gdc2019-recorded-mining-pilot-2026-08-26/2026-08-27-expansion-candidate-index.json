@@ -1,0 +1,3608 @@
+{
+  "year": "2019",
+  "terms": [
+    "servo",
+    "relay",
+    "switch",
+    "button",
+    "latch",
+    "lock",
+    "mechanism",
+    "mechanical",
+    "motor",
+    "gear",
+    "machine",
+    "pneumatic",
+    "hydraulic",
+    "whoosh",
+    "wind",
+    "hiss",
+    "vent",
+    "turbine",
+    "metal",
+    "impact",
+    "clank",
+    "scrape",
+    "slide",
+    "door",
+    "chain",
+    "water",
+    "drip",
+    "fire",
+    "flame",
+    "ember",
+    "crackle",
+    "ice",
+    "glass",
+    "crystal",
+    "gem",
+    "coin",
+    "wood",
+    "rock",
+    "stone",
+    "dirt",
+    "earth",
+    "soil",
+    "mud",
+    "sand",
+    "gravel",
+    "debris",
+    "rumble",
+    "collapse",
+    "pressure",
+    "footstep",
+    "spring",
+    "electric",
+    "battery",
+    "tool",
+    "hammer",
+    "pickaxe",
+    "shovel"
+  ],
+  "archives": [
+    {
+      "part": 1,
+      "url": "https://ftpmirror.your.org/pub/misc/sonniss2019/Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8.zip",
+      "entryCount": 344,
+      "matchCount": 122,
+      "matches": [
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Borys Peter - Blowing winds/wind blowing mike v1.wav",
+          "compression": 8,
+          "crc32": 4146453856,
+          "compressedBytes": 11278874,
+          "uncompressedBytes": 11829842,
+          "localHeaderOffset": 122004814
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Borys Peter - Blowing winds/wind winter open space v2.wav",
+          "compression": 8,
+          "crc32": 311371057,
+          "compressedBytes": 43605909,
+          "uncompressedBytes": 47328086,
+          "localHeaderOffset": 133283823
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/BlueZone -Ultimate Trailer Sound Effects/Bluezone_BC0253_impact_11.wav",
+          "compression": 8,
+          "crc32": 2291677800,
+          "compressedBytes": 2770653,
+          "uncompressedBytes": 2888260,
+          "localHeaderOffset": 210851118
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/BlueZone - Wood Sound Effects/Bluezone_BC0254_wood_creaking_tree_005.wav",
+          "compression": 8,
+          "crc32": 705586205,
+          "compressedBytes": 1270401,
+          "uncompressedBytes": 1911520,
+          "localHeaderOffset": 217352152
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/BlueZone - Wood Sound Effects/Bluezone_BC0254_wood_crushing_branches_001_001.wav",
+          "compression": 8,
+          "crc32": 2826589625,
+          "compressedBytes": 404141,
+          "uncompressedBytes": 474208,
+          "localHeaderOffset": 218622708
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/BlueZone - Wood Sound Effects/Bluezone_BC0254_wood_falling_log_002_006.wav",
+          "compression": 8,
+          "crc32": 924512171,
+          "compressedBytes": 164919,
+          "uncompressedBytes": 198376,
+          "localHeaderOffset": 219027012
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/BlueZone - Wood Sound Effects/Bluezone_BC0254_wood_handling_003.wav",
+          "compression": 8,
+          "crc32": 1513830098,
+          "compressedBytes": 1020222,
+          "uncompressedBytes": 1217908,
+          "localHeaderOffset": 219192088
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/BlueZone - Spectral Density Cinematic Samples/Bluezone_BC0245_103_whoosh_hit_metal.wav",
+          "compression": 8,
+          "crc32": 2835135025,
+          "compressedBytes": 1446909,
+          "uncompressedBytes": 1516768,
+          "localHeaderOffset": 220212589
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/BlueZone - Heavy Metal Impact Sound Effects/Bluezone_BC0251_heavy_metal_impact_factory_door_vibrating_02_03.wav",
+          "compression": 8,
+          "crc32": 621359663,
+          "compressedBytes": 2736393,
+          "uncompressedBytes": 2880232,
+          "localHeaderOffset": 354878942
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/BlueZone - Heavy Metal Impact Sound Effects/Bluezone_BC0251_heavy_metal_impact_large_tank_01_03.wav",
+          "compression": 8,
+          "crc32": 1941682185,
+          "compressedBytes": 2608275,
+          "uncompressedBytes": 2880028,
+          "localHeaderOffset": 357615529
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/BlueZone - Heavy Metal Impact Sound Effects/Bluezone_BC0251_heavy_metal_impact_steel_barrel_01.wav",
+          "compression": 8,
+          "crc32": 193995382,
+          "compressedBytes": 1369499,
+          "uncompressedBytes": 1440082,
+          "localHeaderOffset": 360223986
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/BlueZone - Heavy Metal Impact Sound Effects/Bluezone_BC0251_heavy_metal_impact_metal_plate_medium.wav",
+          "compression": 8,
+          "crc32": 2246897858,
+          "compressedBytes": 1387334,
+          "uncompressedBytes": 1512232,
+          "localHeaderOffset": 361593666
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/BlueZone - District 10 Mothership Sound Effects/Bluezone_BC0244_debris_011.wav",
+          "compression": 8,
+          "crc32": 3889106948,
+          "compressedBytes": 2826492,
+          "uncompressedBytes": 3003892,
+          "localHeaderOffset": 362981315
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/BlueZone - Dark Mesa Industrial Ambiences and SFX/Bluezone_BC0239_metal_element_008.wav",
+          "compression": 8,
+          "crc32": 1826677102,
+          "compressedBytes": 613436,
+          "uncompressedBytes": 733426,
+          "localHeaderOffset": 372003625
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/BlueZone - Dark Mesa Industrial Ambiences and SFX/Bluezone_BC0239_electric_crackling_001.wav",
+          "compression": 8,
+          "crc32": 633894587,
+          "compressedBytes": 7550724,
+          "uncompressedBytes": 7940140,
+          "localHeaderOffset": 372617231
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/BlueZone - Dark Cinematic Soundscapes and Sound Effects/Bluezone_BC0248_098_whoosh_hit.wav",
+          "compression": 8,
+          "crc32": 394088817,
+          "compressedBytes": 1944430,
+          "uncompressedBytes": 2002768,
+          "localHeaderOffset": 399864421
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/BlueZone - Cinematic Dark Sound Effects/Bluezone_BC0250_impact_metal_01.wav",
+          "compression": 8,
+          "crc32": 3683720978,
+          "compressedBytes": 1866382,
+          "uncompressedBytes": 1946950,
+          "localHeaderOffset": 441666034
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/BlueZone - Alien Planet Ambiences and Sound Effects/Bluezone_BC0247_008_ambience_wind.wav",
+          "compression": 8,
+          "crc32": 1895031927,
+          "compressedBytes": 17916484,
+          "uncompressedBytes": 18401740,
+          "localHeaderOffset": 527561239
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/BlueZone - Alien Planet Ambiences and Sound Effects/Bluezone_BC0247_094_organic_texture_water.wav",
+          "compression": 8,
+          "crc32": 1869311845,
+          "compressedBytes": 3604234,
+          "uncompressedBytes": 3779638,
+          "localHeaderOffset": 547353845
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Baxter Audio - IMPACT/03 Hit Big Drum.wav",
+          "compression": 8,
+          "crc32": 2624538813,
+          "compressedBytes": 1822192,
+          "uncompressedBytes": 2115842,
+          "localHeaderOffset": 581842191
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Baxter Audio - IMPACT/10 Hit Deep Thud.wav",
+          "compression": 8,
+          "crc32": 2774035311,
+          "compressedBytes": 1895932,
+          "uncompressedBytes": 2385116,
+          "localHeaderOffset": 583664507
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/AudioDesire - Voice Pack One - Emma/VO_001_Female_Choking_Strangled_03.wav",
+          "compression": 8,
+          "crc32": 3197292852,
+          "compressedBytes": 1883142,
+          "uncompressedBytes": 2102832,
+          "localHeaderOffset": 623644106
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/AudioDesire - Voice Pack One - Emma/VO_001_Female_Laugh_03.wav",
+          "compression": 8,
+          "crc32": 2784899959,
+          "compressedBytes": 996890,
+          "uncompressedBytes": 1068374,
+          "localHeaderOffset": 625527405
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/AudioDesire - Voice Pack One - Emma/VO_001_Female_Pain_20.wav",
+          "compression": 8,
+          "crc32": 2932947647,
+          "compressedBytes": 720887,
+          "uncompressedBytes": 749524,
+          "localHeaderOffset": 626524440
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/AudioDesire - Voice Pack One - Emma/VO_001_Female_Scream_High_03.wav",
+          "compression": 8,
+          "crc32": 2409998298,
+          "compressedBytes": 1541152,
+          "uncompressedBytes": 1582740,
+          "localHeaderOffset": 627245471
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Articulated Sounds - Special Double Bass Fx/INSTRU STRING Double Bass, Bowed, Harmonic, Low, Slide, Whale Call 01.wav",
+          "compression": 8,
+          "crc32": 3299729659,
+          "compressedBytes": 1108799,
+          "uncompressedBytes": 1203210,
+          "localHeaderOffset": 628786901
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Articulated Sounds - Special Double Bass Fx/INSTRU STRING Double Bass, Screech, Scrape, Harsh, Short 08.wav",
+          "compression": 8,
+          "crc32": 1022684544,
+          "compressedBytes": 1050750,
+          "uncompressedBytes": 1105794,
+          "localHeaderOffset": 629895900
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Articulated Sounds - Special Double Bass Fx/INSTRU STRING Double Bass, Hit, Bow Impact, Muted String, Bounce 01.wav",
+          "compression": 8,
+          "crc32": 2046472076,
+          "compressedBytes": 900524,
+          "uncompressedBytes": 998258,
+          "localHeaderOffset": 630946840
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Articulated Sounds - Special Double Bass Fx/INSTRU STRING Double Bass, Bowed, Slide Down, High Pitch 02.wav",
+          "compression": 8,
+          "crc32": 333581306,
+          "compressedBytes": 953286,
+          "uncompressedBytes": 1039722,
+          "localHeaderOffset": 631847562
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Articulated Sounds - Magic Elements vol.1/MAGIC AIR Large Whoosh, Swirl, Wind Gust, Foliage 01.wav",
+          "compression": 8,
+          "crc32": 2129957801,
+          "compressedBytes": 1728354,
+          "uncompressedBytes": 1917612,
+          "localHeaderOffset": 632801163
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Articulated Sounds - Magic Elements vol.1/MAGIC ICE Whoosh, Ice Bloc, Debris 01.wav",
+          "compression": 8,
+          "crc32": 3008958493,
+          "compressedBytes": 1649401,
+          "uncompressedBytes": 1955796,
+          "localHeaderOffset": 637723969
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Articulated Sounds - Magic Elements vol.1/GROUND IMPACT Large, Falling Rocks, Various 04.wav",
+          "compression": 8,
+          "crc32": 2264984878,
+          "compressedBytes": 3298989,
+          "uncompressedBytes": 3656682,
+          "localHeaderOffset": 639373536
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Articulated Sounds - Ghosts Return/ATMO EERIE Cave, Water Drips, Emptyness, Howling Interior Wind, Oppressive, LOOP.wav",
+          "compression": 8,
+          "crc32": 3890409072,
+          "compressedBytes": 44912758,
+          "uncompressedBytes": 48970856,
+          "localHeaderOffset": 642672818
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Articulated Sounds - Ghosts Return/DOOR KNOCK Bathroom A, Wood, Heavy, Fist, Medium 01, From INSIDE.wav",
+          "compression": 8,
+          "crc32": 1736685022,
+          "compressedBytes": 1927030,
+          "uncompressedBytes": 2111968,
+          "localHeaderOffset": 687585778
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Articulated Sounds - Ghosts Return/METAL CHAIN Old Barn, Manipulation, Clinking 04.wav",
+          "compression": 8,
+          "crc32": 1038846131,
+          "compressedBytes": 992679,
+          "uncompressedBytes": 1195962,
+          "localHeaderOffset": 690498959
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Articulated Sounds - 100 Fans, HVAC, & Mechanical Drones/FAN Air Conditioner, Hard Metal Grinding Noise, Hum, Buzz, LOOP.wav",
+          "compression": 8,
+          "crc32": 2464978848,
+          "compressedBytes": 37664237,
+          "uncompressedBytes": 38670168,
+          "localHeaderOffset": 694635705
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Articulated Sounds - 100 Fans, HVAC, & Mechanical Drones/FAN Watery Messy Bubbling HVAC Noise, LOOP.wav",
+          "compression": 8,
+          "crc32": 1378117872,
+          "compressedBytes": 34227075,
+          "uncompressedBytes": 34933134,
+          "localHeaderOffset": 732300149
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Articulated Sounds - 100 Fans, HVAC, & Mechanical Drones/FAN Outdoor AC Unit, Constant Blow Drone Noise, LOOP.wav",
+          "compression": 8,
+          "crc32": 3294236563,
+          "compressedBytes": 30551925,
+          "uncompressedBytes": 31579354,
+          "localHeaderOffset": 766527410
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Articulated Sounds - 100 Fans, HVAC, & Mechanical Drones/FAN Electronic Computer, Low Rumble, Fast Tumbling, LOOP.wav",
+          "compression": 8,
+          "crc32": 1583525928,
+          "compressedBytes": 49192479,
+          "uncompressedBytes": 50127962,
+          "localHeaderOffset": 797079531
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Apple Hill Studios - Military Radio Voices/Military Radio Voice A (HHG) All Clear 2.wav",
+          "compression": 8,
+          "crc32": 290467818,
+          "compressedBytes": 356045,
+          "uncompressedBytes": 420796,
+          "localHeaderOffset": 846272336
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Apple Hill Studios - Military Radio Voices/Military Radio Voice A (HHG) Troops In Contact Message.wav",
+          "compression": 8,
+          "crc32": 3996786453,
+          "compressedBytes": 7262239,
+          "uncompressedBytes": 9140586,
+          "localHeaderOffset": 846628551
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Apple Hill Studios - Military Radio Voices/Military Radio Voice A (IP) Put That Gun Down Now.wav",
+          "compression": 8,
+          "crc32": 567911991,
+          "compressedBytes": 974456,
+          "uncompressedBytes": 1097352,
+          "localHeaderOffset": 853890974
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Apple Hill Studios - Military Radio Voices/Military Radio Voice D (HI-3) Forty Mike Mike Request.wav",
+          "compression": 8,
+          "crc32": 2876511874,
+          "compressedBytes": 2342143,
+          "uncompressedBytes": 2595122,
+          "localHeaderOffset": 854865609
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Ambisound - Ethereal Breaths/Ethereal Breaths - Long Rvb Whooshes.wav",
+          "compression": 8,
+          "crc32": 271402217,
+          "compressedBytes": 9366414,
+          "uncompressedBytes": 24509678,
+          "localHeaderOffset": 918253612
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Ambisound - Domestic Drones/DD Watery Dreams.wav",
+          "compression": 8,
+          "crc32": 128774329,
+          "compressedBytes": 118996164,
+          "uncompressedBytes": 141085242,
+          "localHeaderOffset": 938122623
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Ambisound - Ambisonic Bishopstone Beach/Seawash, In Waves, Heavy, Stoney, Binaural.wav",
+          "compression": 8,
+          "crc32": 4248071702,
+          "compressedBytes": 58445531,
+          "uncompressedBytes": 61893294,
+          "localHeaderOffset": 1306793863
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Ambisound - Ambisonic Bishopstone Beach/Seawash, 1m, Heavy, Stoney, B Format.wav",
+          "compression": 8,
+          "crc32": 3829875357,
+          "compressedBytes": 151158038,
+          "uncompressedBytes": 172594628,
+          "localHeaderOffset": 1365239563
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Airborne Sound - Victory Vegas Motorcycle/Motorcycle,Victory Vegas,2004,96 Cubic Inch,1507 CC,Up,30 kph,By,Off,2.wav",
+          "compression": 8,
+          "crc32": 3525395506,
+          "compressedBytes": 6183064,
+          "uncompressedBytes": 7258106,
+          "localHeaderOffset": 1516397889
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Airborne Sound - Victory Vegas Motorcycle/Motorcycle,Victory Vegas,2004,96 Cubic Inch,1507 CC,Onboard,Start,Drive,Fast Speed,Punch It.wav",
+          "compression": 8,
+          "crc32": 4231788980,
+          "compressedBytes": 18120318,
+          "uncompressedBytes": 19507574,
+          "localHeaderOffset": 1522581152
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Airborne Sound - Victory Vegas Motorcycle/Motorcycle,Victory Vegas,2004,96 Cubic Inch,1507 CC,Start,Idle,Off.wav",
+          "compression": 8,
+          "crc32": 3253755648,
+          "compressedBytes": 19041392,
+          "uncompressedBytes": 20453880,
+          "localHeaderOffset": 1540701690
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Airborne Sound - Vehicles Transit Trains/Subway,New York,6 Line,Up,Stop,Chime,Door Open.wav",
+          "compression": 8,
+          "crc32": 2103427063,
+          "compressedBytes": 10376576,
+          "uncompressedBytes": 11018792,
+          "localHeaderOffset": 1609901356
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Airborne Sound - Vehicles Transit Trains/Train,Rapid Transit,Toronto,ICTS,Chime,Door Close,Away,Shudder,Loose,Hasty.wav",
+          "compression": 8,
+          "crc32": 3930778962,
+          "compressedBytes": 17909991,
+          "uncompressedBytes": 19158384,
+          "localHeaderOffset": 1620278106
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Airborne Sound - Vehicles Passenger Trains 1/Train,Passenger,Diesel Electric,General Electric,Genesis,P42DC,903,Idle,Chuffs,Bell,Away.wav",
+          "compression": 8,
+          "crc32": 4169252417,
+          "compressedBytes": 49210290,
+          "uncompressedBytes": 53730230,
+          "localHeaderOffset": 1686181600
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Airborne Sound - Vehicles Passenger Trains 1/Train,Locomotive,Diesel-Electric,MPI,MP40PH-3C,Distant,Idle,Whine.wav",
+          "compression": 8,
+          "crc32": 475239571,
+          "compressedBytes": 41145599,
+          "uncompressedBytes": 43352564,
+          "localHeaderOffset": 1735392110
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Airborne Sound - Vehicles Freight Trains 1/Train,Freight,Bridge,By,Away - very close perspective, crystal clear.wav",
+          "compression": 8,
+          "crc32": 3493245736,
+          "compressedBytes": 29160117,
+          "uncompressedBytes": 32149260,
+          "localHeaderOffset": 1776538032
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Airborne Sound - Vehicles Freight Trains 1/Train,Freight,Diesel-Electric,GE,AC4400CW,5821,Locomotive,3 Cars,By,Slow,Bell,D50.wav",
+          "compression": 8,
+          "crc32": 4269097473,
+          "compressedBytes": 36398756,
+          "uncompressedBytes": 40954022,
+          "localHeaderOffset": 1902028440
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Airborne Sound - Vehicles Car Sound Effects 1 Elements/BMW,323i,2007,Dirt,Away,Peel Out,Fish Tail,Hard Accel Away.wav",
+          "compression": 8,
+          "crc32": 3248268283,
+          "compressedBytes": 5537832,
+          "uncompressedBytes": 6585484,
+          "localHeaderOffset": 1938427545
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Airborne Sound - Vehicles Boats 1 Ferry/Boat,Ferry,C Class,7 Ton,12000 hp,Bow,Ext POV,Cars Exit over Metal Grate - a few faint voices.wav",
+          "compression": 8,
+          "crc32": 1384752161,
+          "compressedBytes": 61636594,
+          "uncompressedBytes": 68794576,
+          "localHeaderOffset": 1970640320
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Airborne Sound - Vehicles Boats 1 Ferry/Boat,Ferry,V Class,9 Ton,8500 hp,Washroom,Vent Rattle,Pipe Hiss.wav",
+          "compression": 8,
+          "crc32": 3598081212,
+          "compressedBytes": 24389980,
+          "uncompressedBytes": 25160982,
+          "localHeaderOffset": 2041642868
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Airborne Sound - Transmission - Interference/Accent,Noise,Transmission,Soft,Whine,Crackle,Complex,1.wav",
+          "compression": 8,
+          "crc32": 2131520568,
+          "compressedBytes": 1131511,
+          "uncompressedBytes": 1276338,
+          "localHeaderOffset": 2160569695
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Airborne Sound - Tools/Air Compressor,Omega,5 hp,20 Gallon,Twin Cylinder,Air Release,x2.wav",
+          "compression": 8,
+          "crc32": 74512911,
+          "compressedBytes": 3003830,
+          "uncompressedBytes": 3590228,
+          "localHeaderOffset": 2170232631
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Airborne Sound - Tools/Saw,Circular,Porter-Cable,315,7 1 4 inch blade,16 tooth,On,Cut,Plywood,Off.wav",
+          "compression": 8,
+          "crc32": 1045406885,
+          "compressedBytes": 11340999,
+          "uncompressedBytes": 12480506,
+          "localHeaderOffset": 2173236635
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Airborne Sound - Tools/Work,Hammer,Wall,Concrete Block,Sledgehammers,Pair,Hit,Debris,Patient - very faint background construction.wav",
+          "compression": 8,
+          "crc32": 946385304,
+          "compressedBytes": 43572949,
+          "uncompressedBytes": 51899954,
+          "localHeaderOffset": 2184577818
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Airborne Sound - Race Cars/Race,Pro Mazda,Qualifying,Straight,Singles,Steady,Spread Out,Backfire.wav",
+          "compression": 8,
+          "crc32": 2350445028,
+          "compressedBytes": 30245299,
+          "uncompressedBytes": 35943014,
+          "localHeaderOffset": 2249317741
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Airborne Sound - Power Accents/Whoosh,Sound Design,Blast,Energy,Crispy,Very Slow,Crackling Approach.wav",
+          "compression": 8,
+          "crc32": 2860271498,
+          "compressedBytes": 2767559,
+          "uncompressedBytes": 3295028,
+          "localHeaderOffset": 2279563337
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Airborne Sound - Power Accents/Whoosh,Sound Design,Whip By,Airy,Thick,Release to Choppy,Very Slow.wav",
+          "compression": 8,
+          "crc32": 59652548,
+          "compressedBytes": 4782235,
+          "uncompressedBytes": 5687624,
+          "localHeaderOffset": 2282331082
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Airborne Sound - Power Accents/Whoosh,Sound Design,Blast,Tonal,Dissonant,Medium.wav",
+          "compression": 8,
+          "crc32": 3950044769,
+          "compressedBytes": 3849513,
+          "uncompressedBytes": 4197992,
+          "localHeaderOffset": 2287113501
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Airborne Sound - Organic Whooshes/Whoosh,Organic,Fabric,Glove,Airy,Breathy,Punchy.wav",
+          "compression": 8,
+          "crc32": 1290809981,
+          "compressedBytes": 454943,
+          "uncompressedBytes": 542600,
+          "localHeaderOffset": 2290963297
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Airborne Sound - Organic Whooshes/Whoosh,Organic,Fabric,Strap,Zip,High,Stagger,Pushy.wav",
+          "compression": 8,
+          "crc32": 3137627666,
+          "compressedBytes": 580897,
+          "uncompressedBytes": 748698,
+          "localHeaderOffset": 2291418408
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Airborne Sound - Organic Whooshes/Whoosh,Organic,Styrofoam,Plank,Airy,Smooth,Texture,1.wav",
+          "compression": 8,
+          "crc32": 3279544754,
+          "compressedBytes": 640794,
+          "uncompressedBytes": 789990,
+          "localHeaderOffset": 2291999476
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Airborne Sound - Motorsports 1/Race Car,CTCC,Straight,By,Medium Slow,Growl.wav",
+          "compression": 8,
+          "crc32": 2831651809,
+          "compressedBytes": 3356980,
+          "uncompressedBytes": 3933670,
+          "localHeaderOffset": 2292640557
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Airborne Sound - Motorsports 1/Race Car,USF2000,Turn 3,By,Decelerate,Fast,Choppy,Irregular.wav",
+          "compression": 8,
+          "crc32": 435637066,
+          "compressedBytes": 3125289,
+          "uncompressedBytes": 3819208,
+          "localHeaderOffset": 2295997698
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Airborne Sound - Motorsports 1/Race,F1,Formula 1,Grand Prix,Practice,Turn 8,By,Decelerate to Accelerate,Swells,Steady,Fast,Growl.wav",
+          "compression": 8,
+          "crc32": 3799478332,
+          "compressedBytes": 19560474,
+          "uncompressedBytes": 21656086,
+          "localHeaderOffset": 2299123164
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Airborne Sound - Manic Glitches/Glitch,Chatter,Metallic,Thin,4 Tone,Even.wav",
+          "compression": 8,
+          "crc32": 2867767999,
+          "compressedBytes": 4263062,
+          "uncompressedBytes": 4858898,
+          "localHeaderOffset": 2319694454
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Airborne Sound - Fairgrounds/Game,Fair,CNE,Shooting Gallery,Air Gun,Plate Break,Voices - some faint background machinery, background fair ambience.wav",
+          "compression": 8,
+          "crc32": 296854605,
+          "compressedBytes": 57879356,
+          "uncompressedBytes": 64256200,
+          "localHeaderOffset": 2392473471
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Airborne Sound - Fairgrounds/Fair Ride,The Rainbow,Start,Swirl,Decelerate,Stop,Some Voices.wav",
+          "compression": 8,
+          "crc32": 808906431,
+          "compressedBytes": 63696598,
+          "uncompressedBytes": 68767656,
+          "localHeaderOffset": 2450353060
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Airborne Sound - Elements Metal/Metal,Rebar,Drop,Concrete,Low Height,3,Medium Distant.wav",
+          "compression": 8,
+          "crc32": 681388587,
+          "compressedBytes": 851199,
+          "uncompressedBytes": 1011204,
+          "localHeaderOffset": 2514049950
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Airborne Sound - Elements Metal/Metal,Crash,Concrete,Sheet Metal,20 Gauge,Slow,Complex.wav",
+          "compression": 8,
+          "crc32": 394552614,
+          "compressedBytes": 872317,
+          "uncompressedBytes": 1058280,
+          "localHeaderOffset": 2514901321
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Airborne Sound - Elements Metal/Metal,Hits,Pipe,Mixed,Fast,Irregular.wav",
+          "compression": 8,
+          "crc32": 1882751867,
+          "compressedBytes": 549919,
+          "uncompressedBytes": 671518,
+          "localHeaderOffset": 2515773811
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Airborne Sound - Elements Glass/Glass,Pint Glass,Break,Debris,Rock,Medium Distant.wav",
+          "compression": 8,
+          "crc32": 2213308535,
+          "compressedBytes": 1283385,
+          "uncompressedBytes": 1738434,
+          "localHeaderOffset": 2516324000
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Airborne Sound - Elements Glass/Glass,Crush,Debris,Compress,Constant,Heavy,Violent,Uneasy,Neumann.wav",
+          "compression": 8,
+          "crc32": 2012532238,
+          "compressedBytes": 4292569,
+          "uncompressedBytes": 5425020,
+          "localHeaderOffset": 2517607553
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Airborne Sound - Elements Glass/Glass,Plate Glass,Thick,Break,Topple,Schoeps.wav",
+          "compression": 8,
+          "crc32": 2830469238,
+          "compressedBytes": 530996,
+          "uncompressedBytes": 717398,
+          "localHeaderOffset": 2521900306
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Airborne Sound - Electric-Magnetic/Accent,Sound Design,Electric,Buzz,Resonant,Frayed Buzz,Insistent,Medium Fast.wav",
+          "compression": 8,
+          "crc32": 1343168780,
+          "compressedBytes": 1160684,
+          "uncompressedBytes": 1179250,
+          "localHeaderOffset": 2522431583
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Airborne Sound - Electric-Magnetic/Accent,Sound Design,Electric,Arc,Buzz,Resonant,Fizzle,Surges,Long.wav",
+          "compression": 8,
+          "crc32": 249824928,
+          "compressedBytes": 2713614,
+          "uncompressedBytes": 2844830,
+          "localHeaderOffset": 2523592465
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Airborne Sound - Electric-Magnetic/Tone,Sound Design,Electric,Spark,Gritty,Thin,Crackle,Dense,Steady.wav",
+          "compression": 8,
+          "crc32": 2682441131,
+          "compressedBytes": 7910236,
+          "uncompressedBytes": 9034254,
+          "localHeaderOffset": 2526306266
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Airborne Sound - Eclectic Whooshes 3/Whoosh,Sound Design,Cartoon,Thin,Very High,Tight,2.wav",
+          "compression": 8,
+          "crc32": 715424754,
+          "compressedBytes": 555051,
+          "uncompressedBytes": 598370,
+          "localHeaderOffset": 2534216809
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Airborne Sound - Eclectic Whooshes 3/Whoosh,Sound Design,Cartoon,Whir,2.wav",
+          "compression": 8,
+          "crc32": 1989388460,
+          "compressedBytes": 608634,
+          "uncompressedBytes": 664962,
+          "localHeaderOffset": 2534772034
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Airborne Sound - Eclectic Whooshes 3/Whoosh,Sound Design,Watery,Strong,Fast,Abrupt.wav",
+          "compression": 8,
+          "crc32": 2735766153,
+          "compressedBytes": 1340546,
+          "uncompressedBytes": 1615430,
+          "localHeaderOffset": 2535380826
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Airborne Sound - Eclectic Whooshes 2/Whoosh,Sound Design,Airy,Hollow,Thick,Waver,Medium.wav",
+          "compression": 8,
+          "crc32": 3705993988,
+          "compressedBytes": 4006262,
+          "uncompressedBytes": 4591674,
+          "localHeaderOffset": 2536721661
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Airborne Sound - Eclectic Whooshes 2/Whoosh,Sound Design,Chatter,Buzz,Tight,High,Fast,Decelerate.wav",
+          "compression": 8,
+          "crc32": 1644878652,
+          "compressedBytes": 1344051,
+          "uncompressedBytes": 1583664,
+          "localHeaderOffset": 2540728097
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Airborne Sound - Eclectic Whooshes 2/Whoosh,Sound Design,Swirl,Airy,Diffuse,Medium Slow,2.wav",
+          "compression": 8,
+          "crc32": 607151168,
+          "compressedBytes": 5707641,
+          "uncompressedBytes": 6770730,
+          "localHeaderOffset": 2542072331
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Airborne Sound - Crisis Accents/Impact,Sound Design,Hit,Chime,Resonant Hit,Chime Accent,Tinkle,Fast.wav",
+          "compression": 8,
+          "crc32": 2346638687,
+          "compressedBytes": 3525979,
+          "uncompressedBytes": 3954054,
+          "localHeaderOffset": 2547780263
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Airborne Sound - Crisis Accents/Impact,Sound Design,Tone to Hit,Metallic,Tonal Accent Up,Metallic,Very Fast,Deep Hit,Metallic Accent,Forceful.wav",
+          "compression": 8,
+          "crc32": 142407767,
+          "compressedBytes": 2793773,
+          "uncompressedBytes": 3301518,
+          "localHeaderOffset": 2551306428
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Airborne Sound - Crisis Accents/Impact,Sound Design,Whoosh to Hit,Glitch,Whoosh Up,Rumble,Long,Resonant Hit,Glitch Accent,Two Tone,Unnerving.wav",
+          "compression": 8,
+          "crc32": 4271891626,
+          "compressedBytes": 6020140,
+          "uncompressedBytes": 7334038,
+          "localHeaderOffset": 2554100429
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Airborne Sound - Airy Whooshes/Whoosh,Sound Design,Airy,Full,Forceful,Soft.wav",
+          "compression": 8,
+          "crc32": 821870421,
+          "compressedBytes": 550397,
+          "uncompressedBytes": 707980,
+          "localHeaderOffset": 2609552322
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Airborne Sound - Airy Whooshes/Whoosh,Sound Design,Airy,Full,Soft,Shudder,Very Slow,Aftershock.wav",
+          "compression": 8,
+          "crc32": 2612154945,
+          "compressedBytes": 2528351,
+          "uncompressedBytes": 3023162,
+          "localHeaderOffset": 2610102880
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Airborne Sound - Airy Whooshes/Whoosh,Sound Design,Airy,Full,Soft,Buffet,Medium.wav",
+          "compression": 8,
+          "crc32": 3977143079,
+          "compressedBytes": 1719099,
+          "uncompressedBytes": 2000684,
+          "localHeaderOffset": 2612631412
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/344 Audio - Low Frequency Elements/Alien Spaceship Filtered, Rumble.wav",
+          "compression": 8,
+          "crc32": 1861233320,
+          "compressedBytes": 99789495,
+          "uncompressedBytes": 104230894,
+          "localHeaderOffset": 2614350795
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/344 Audio - Data Processing/Electromagnetic Device, Moving File Data, Glitch, Click, Squeal.wav",
+          "compression": 8,
+          "crc32": 123441758,
+          "compressedBytes": 1573482,
+          "uncompressedBytes": 2891898,
+          "localHeaderOffset": 2740877227
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/344 Audio - Alien Atmospheres/Huge Planet, Rumble, Empty, Large, Space, Sci-Fi, Planet, Ambience, Exterior.wav",
+          "compression": 8,
+          "crc32": 3979957015,
+          "compressedBytes": 100112611,
+          "uncompressedBytes": 104230894,
+          "localHeaderOffset": 2841485500
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/3maze - Sci-Fi FX/machine_004.wav",
+          "compression": 8,
+          "crc32": 3697758406,
+          "compressedBytes": 2457309,
+          "uncompressedBytes": 2678734,
+          "localHeaderOffset": 3052086503
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/3maze - Kitchenware/juice_machine_running_base_001.wav",
+          "compression": 8,
+          "crc32": 188289119,
+          "compressedBytes": 10117116,
+          "uncompressedBytes": 20089234,
+          "localHeaderOffset": 3054544031
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/3maze - Kitchenware/drinks_glasses_touching_003.wav",
+          "compression": 8,
+          "crc32": 471624980,
+          "compressedBytes": 171465,
+          "uncompressedBytes": 410990,
+          "localHeaderOffset": 3070994878
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/3maze - IMPACTUS/shatter_ice_001.wav",
+          "compression": 8,
+          "crc32": 743550310,
+          "compressedBytes": 632901,
+          "uncompressedBytes": 793612,
+          "localHeaderOffset": 3266095798
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/3maze - IMPACTUS/mixed_impact_013.wav",
+          "compression": 8,
+          "crc32": 1157075702,
+          "compressedBytes": 915921,
+          "uncompressedBytes": 1554306,
+          "localHeaderOffset": 3266728818
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/3maze - IMPACTUS/key_hit_single_bulbul_011.wav",
+          "compression": 8,
+          "crc32": 1501991717,
+          "compressedBytes": 643479,
+          "uncompressedBytes": 1489562,
+          "localHeaderOffset": 3267644859
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/3maze - IMPACTUS/digi_hit_008.wav",
+          "compression": 8,
+          "crc32": 641401051,
+          "compressedBytes": 570457,
+          "uncompressedBytes": 1164494,
+          "localHeaderOffset": 3268288467
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/3maze - FINAL IMPACT/toon_hit_022.wav",
+          "compression": 8,
+          "crc32": 1739328023,
+          "compressedBytes": 503509,
+          "uncompressedBytes": 798362,
+          "localHeaderOffset": 3268859144
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/3maze - FINAL IMPACT/glass_bottle_smash_005.wav",
+          "compression": 8,
+          "crc32": 70924651,
+          "compressedBytes": 483517,
+          "uncompressedBytes": 1554270,
+          "localHeaderOffset": 3269362773
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/3maze - FINAL IMPACT/layered_material_hit_035.wav",
+          "compression": 8,
+          "crc32": 1337065279,
+          "compressedBytes": 420299,
+          "uncompressedBytes": 746676,
+          "localHeaderOffset": 3269846420
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/3maze - FINAL IMPACT/metal_hit_004.wav",
+          "compression": 8,
+          "crc32": 4073096714,
+          "compressedBytes": 307594,
+          "uncompressedBytes": 766826,
+          "localHeaderOffset": 3270266851
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/3maze - Electric Motors/motor_long_006.wav",
+          "compression": 8,
+          "crc32": 1233984408,
+          "compressedBytes": 1875197,
+          "uncompressedBytes": 2745250,
+          "localHeaderOffset": 3561369564
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/3maze - Electric Motors/rotator_motor_012.wav",
+          "compression": 8,
+          "crc32": 2615672437,
+          "compressedBytes": 1547367,
+          "uncompressedBytes": 1688094,
+          "localHeaderOffset": 3563244886
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/3maze - Electric Motors/rotator_motor_005.wav",
+          "compression": 8,
+          "crc32": 577157811,
+          "compressedBytes": 757479,
+          "uncompressedBytes": 1310994,
+          "localHeaderOffset": 3564792381
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/3maze - Electric Motors/motor_med_011.wav",
+          "compression": 8,
+          "crc32": 2740123721,
+          "compressedBytes": 1408471,
+          "uncompressedBytes": 2357646,
+          "localHeaderOffset": 3565549988
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/3maze - DRONEA/rumble_f_001.wav",
+          "compression": 8,
+          "crc32": 3855857540,
+          "compressedBytes": 67382954,
+          "uncompressedBytes": 69181382,
+          "localHeaderOffset": 3738742018
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/3maze - Doors/small_fridge_open_001.wav",
+          "compression": 8,
+          "crc32": 2098426853,
+          "compressedBytes": 811947,
+          "uncompressedBytes": 978954,
+          "localHeaderOffset": 3806125183
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/3maze - Doors/microwave_door_open_001.wav",
+          "compression": 8,
+          "crc32": 1170761231,
+          "compressedBytes": 331490,
+          "uncompressedBytes": 357766,
+          "localHeaderOffset": 3806937252
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/3maze - Doors/door_lock_007.wav",
+          "compression": 8,
+          "crc32": 528228833,
+          "compressedBytes": 308272,
+          "uncompressedBytes": 371564,
+          "localHeaderOffset": 3807268866
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/3maze - Doors/door_big_close_001.wav",
+          "compression": 8,
+          "crc32": 2359387993,
+          "compressedBytes": 294328,
+          "uncompressedBytes": 766822,
+          "localHeaderOffset": 3807577252
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/3maze - App FX/button_002.wav",
+          "compression": 8,
+          "crc32": 1631680298,
+          "compressedBytes": 40605,
+          "uncompressedBytes": 765806,
+          "localHeaderOffset": 3811254112
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/License.pdf",
+          "compression": 8,
+          "crc32": 3254305408,
+          "compressedBytes": 93364,
+          "uncompressedBytes": 95184,
+          "localHeaderOffset": 3817576000
+        }
+      ]
+    },
+    {
+      "part": 2,
+      "url": "https://ftpmirror.your.org/pub/misc/sonniss2019/Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8.zip",
+      "entryCount": 347,
+      "matchCount": 111,
+      "matches": [
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Olivier Girardot - Natural Disasters/Guns & Explosions Album - Bullet Impacts - Multiple 1.wav",
+          "compression": 8,
+          "crc32": 1060976099,
+          "compressedBytes": 2043345,
+          "uncompressedBytes": 2568466,
+          "localHeaderOffset": 203
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Olivier Girardot - Natural Disasters/Rocks Falling from the Sky.wav",
+          "compression": 8,
+          "crc32": 368503797,
+          "compressedBytes": 2851147,
+          "uncompressedBytes": 2974212,
+          "localHeaderOffset": 2043725
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Olivier Girardot - Natural Disasters/Desert Soundscape - Wind - Loop.wav",
+          "compression": 8,
+          "crc32": 2226644073,
+          "compressedBytes": 40324338,
+          "uncompressedBytes": 41502536,
+          "localHeaderOffset": 4895022
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Matt Script - You Me & Debris/Brick_bricks_shuffle_impact_several_many_moving_laying_cement_hit_fall_10.wav",
+          "compression": 8,
+          "crc32": 2514271948,
+          "compressedBytes": 792185,
+          "uncompressedBytes": 954020,
+          "localHeaderOffset": 45219628
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Matt Script - You Me & Debris/impact_wood_debris_fall_hit_02.wav",
+          "compression": 8,
+          "crc32": 2248277391,
+          "compressedBytes": 579128,
+          "uncompressedBytes": 659972,
+          "localHeaderOffset": 46012003
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Matt Script - You Me & Debris/wood_breaking_cracking_snapping_breaking_peeling_bones_break_snap_crack_13.wav",
+          "compression": 8,
+          "crc32": 2245479721,
+          "compressedBytes": 664571,
+          "uncompressedBytes": 768704,
+          "localHeaderOffset": 46591278
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Matt Script - You Me & Debris/impact_gritty_grit_sandy_dirt_dig_shovel_shingle_roof_02.wav",
+          "compression": 8,
+          "crc32": 3413489803,
+          "compressedBytes": 974450,
+          "uncompressedBytes": 1105850,
+          "localHeaderOffset": 47256040
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Matt Script - Squeaks & Creaks/Grinding_old_spring_breaking_alien_break_door_hinge_hits_impact_metal_creak_creaking_coil_eerie_back and forth_03.wav",
+          "compression": 8,
+          "crc32": 3220460491,
+          "compressedBytes": 2395141,
+          "uncompressedBytes": 2577252,
+          "localHeaderOffset": 76043213
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Matt Script - Squeaks & Creaks/Grinding_plastic_bending_tension_squeaking_creaking_under_pressure_11.wav",
+          "compression": 8,
+          "crc32": 3904930812,
+          "compressedBytes": 1303120,
+          "uncompressedBytes": 1562406,
+          "localHeaderOffset": 78438585
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Matt Script - Squeaks & Creaks/Old wood floor_creak_creaking_slow_back and forth_04.wav",
+          "compression": 8,
+          "crc32": 3744992898,
+          "compressedBytes": 2256868,
+          "uncompressedBytes": 2692760,
+          "localHeaderOffset": 79741892
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Matt Script - Snowboarding/Chairlift_lift_walla_machine_in operation_ski_snowboard_moving.wav",
+          "compression": 8,
+          "crc32": 192819089,
+          "compressedBytes": 19272407,
+          "uncompressedBytes": 20019214,
+          "localHeaderOffset": 83206615
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Matt Script - Snowboarding/Snowboarding_snowboard_downhill_turning_carving_snow_ice_crunch_stop_jump_land_landing_jumps_01.wav",
+          "compression": 8,
+          "crc32": 4268275120,
+          "compressedBytes": 49051391,
+          "uncompressedBytes": 54064188,
+          "localHeaderOffset": 102479198
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Matt Script - Downhill Skiing/Skiing_ski_downhill_turning_carving_snow_ice_crunch_stop_01.wav",
+          "compression": 8,
+          "crc32": 1501938651,
+          "compressedBytes": 6936510,
+          "uncompressedBytes": 7629182,
+          "localHeaderOffset": 153503737
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Matt Script - Downhill Skiing/Skiing_ski_downhill_turning_carving_snow_ice_crunch_stop_06.wav",
+          "compression": 8,
+          "crc32": 2748193309,
+          "compressedBytes": 13165802,
+          "uncompressedBytes": 14468678,
+          "localHeaderOffset": 163388682
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Matt Script - Destroyed Piano/Piano_Destroyed_demolished_broken_Wurlitzer_Upright_Impact_string_note_hit_ringing out_pieces_falling_18.wav",
+          "compression": 8,
+          "crc32": 1700156470,
+          "compressedBytes": 599107,
+          "uncompressedBytes": 689518,
+          "localHeaderOffset": 176554773
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Matt Script - Destroyed Piano/Piano_Destroyed_demolished_broken_Wurlitzer_Upright_Impact_string_note_hit_ringing out_buzzing_string_03.wav",
+          "compression": 8,
+          "crc32": 654596874,
+          "compressedBytes": 739458,
+          "uncompressedBytes": 822700,
+          "localHeaderOffset": 177154101
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Matt Script - Destroyed Piano/Piano_Destroyed_demolished_broken_Wurlitzer_Upright_hammers_debris_impact_crash_smash_sledge_hammer_03.wav",
+          "compression": 8,
+          "crc32": 520616209,
+          "compressedBytes": 983815,
+          "uncompressedBytes": 1171772,
+          "localHeaderOffset": 177893780
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Matt Script - Destroyed Piano/Piano_Destroyed_demolished_broken_Wurlitzer_Upright_Impact_string_note_hit_ringing out_buzzing_string_01.wav",
+          "compression": 8,
+          "crc32": 2594510402,
+          "compressedBytes": 1011455,
+          "uncompressedBytes": 1152292,
+          "localHeaderOffset": 178877814
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Matt Script - Billiards/Billiards_Pool_Sports_sport_Ball_fall_pocket_plastic_hit_impact_02.wav",
+          "compression": 8,
+          "crc32": 1166505466,
+          "compressedBytes": 371494,
+          "uncompressedBytes": 432136,
+          "localHeaderOffset": 179889597
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Matt Script - Airplanes & Airports - Walla & Ambience/Aircraft_inflight_walla_Airplane_commercial_cabin_during flight_ambience_talking_lughing_chatter_female_voices_chair_squeak_engine_propeller_accelerate_change_captain speaking.wav",
+          "compression": 8,
+          "crc32": 2245381930,
+          "compressedBytes": 65109047,
+          "uncompressedBytes": 65877152,
+          "localHeaderOffset": 365625650
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Matt Script - 2017 TRIUMPH STREET TWIN 900 CC MOTORCYCLE/2017_Triumph_Street Twin_motorcycle_drive away_left to right_gear shift.wav",
+          "compression": 8,
+          "crc32": 3359113049,
+          "compressedBytes": 8988874,
+          "uncompressedBytes": 9488154,
+          "localHeaderOffset": 430735153
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Matt Script - 2017 TRIUMPH STREET TWIN 900 CC MOTORCYCLE/2017_Triumph_Street Twin_motorcycle_idle_big rev_behind perspective.wav",
+          "compression": 8,
+          "crc32": 3650235941,
+          "compressedBytes": 7008899,
+          "uncompressedBytes": 7147526,
+          "localHeaderOffset": 439724242
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Matt Script - 2017 TRIUMPH STREET TWIN 900 CC MOTORCYCLE/2017_Triumph_Street Twin_Motorcycle_start_ignition_idle_revs_left side perspective_shut off.wav",
+          "compression": 8,
+          "crc32": 3217192845,
+          "compressedBytes": 18744204,
+          "uncompressedBytes": 19282132,
+          "localHeaderOffset": 446733352
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/MatiasMacSD - Mutation/Guitar Pick_Metallic_Drop-02.wav",
+          "compression": 8,
+          "crc32": 1430833483,
+          "compressedBytes": 493082,
+          "uncompressedBytes": 561724,
+          "localHeaderOffset": 542863543
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/MatiasMacSD - Affix/Impact element_Big_Hit-02.wav",
+          "compression": 8,
+          "crc32": 821753811,
+          "compressedBytes": 15247809,
+          "uncompressedBytes": 18761776,
+          "localHeaderOffset": 701726228
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/MatiasMacSD - Affix/Impact element_Tension-02.wav",
+          "compression": 8,
+          "crc32": 4236718194,
+          "compressedBytes": 21128181,
+          "uncompressedBytes": 23731888,
+          "localHeaderOffset": 716974169
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Leslie Reid - STRANGE WORLDS PART 2/rumble and echo 4.wav",
+          "compression": 8,
+          "crc32": 1153795074,
+          "compressedBytes": 18380163,
+          "uncompressedBytes": 19647784,
+          "localHeaderOffset": 771621850
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/L.A. Sounds - Transition Movement Pack 002/Whoosh Vacuum Movement Medium.wav",
+          "compression": 8,
+          "crc32": 3947336970,
+          "compressedBytes": 735549,
+          "uncompressedBytes": 842248,
+          "localHeaderOffset": 974949677
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/L.A. Sounds - Transition Movement Pack 002/Power Whoosh Large 05.wav",
+          "compression": 8,
+          "crc32": 308373617,
+          "compressedBytes": 1562716,
+          "uncompressedBytes": 1791368,
+          "localHeaderOffset": 975685385
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/L.A. Sounds - Transition Movement Pack 002/Sword Ring Scrape Gleam 02.wav",
+          "compression": 8,
+          "crc32": 3190525697,
+          "compressedBytes": 2399627,
+          "uncompressedBytes": 2639844,
+          "localHeaderOffset": 977248252
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/ktwAudio - Unheard Sounds Electromagnetic Fields/77_Mobile_Phone_Locked_Screen_On.wav",
+          "compression": 8,
+          "crc32": 3654951320,
+          "compressedBytes": 4209902,
+          "uncompressedBytes": 4752994,
+          "localHeaderOffset": 1104703389
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/ktwAudio - Unheard Sounds Electromagnetic Fields/21_Ford_Focus_In_Motion_Windscreen_Wipers.wav",
+          "compression": 8,
+          "crc32": 1243346018,
+          "compressedBytes": 6899118,
+          "uncompressedBytes": 7174734,
+          "localHeaderOffset": 1108913459
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Ivo Vicic - Winter textures vol.1/07 Blizzard_Snow melting_wind_MS stereo.wav",
+          "compression": 8,
+          "crc32": 4060065400,
+          "compressedBytes": 95502037,
+          "uncompressedBytes": 102078122,
+          "localHeaderOffset": 1115812871
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Ivo Vicic - Winter textures vol.1/58 Wind in pines_mid field_MS stereo.wav",
+          "compression": 8,
+          "crc32": 1007756183,
+          "compressedBytes": 83141605,
+          "uncompressedBytes": 87771784,
+          "localHeaderOffset": 1211315068
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Ivo Vicic - Winter textures vol.1/91 Wind_winter grass_2_MS stereo.wav",
+          "compression": 8,
+          "crc32": 4131361471,
+          "compressedBytes": 71435423,
+          "uncompressedBytes": 80997896,
+          "localHeaderOffset": 1294456830
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Ivo Vicic - Winter textures vol.1/43 Ice on stream_wind_4_MS stereo.wav",
+          "compression": 8,
+          "crc32": 2673524731,
+          "compressedBytes": 12549043,
+          "uncompressedBytes": 15060938,
+          "localHeaderOffset": 1365892406
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Ivo Vicic - Structure borne sound - metal resonances and textures/03 Overhead power line in wind.wav",
+          "compression": 8,
+          "crc32": 2088013010,
+          "compressedBytes": 100989523,
+          "uncompressedBytes": 109968804,
+          "localHeaderOffset": 1378441752
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Ivo Vicic - Structure borne sound - metal resonances and textures/11 Overhead power line in wind.wav",
+          "compression": 8,
+          "crc32": 4214732065,
+          "compressedBytes": 143859826,
+          "uncompressedBytes": 153738158,
+          "localHeaderOffset": 1479431458
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Ivo Vicic - Structure borne sound - metal resonances and textures/08 Overhead power line in wind.wav",
+          "compression": 8,
+          "crc32": 1066508544,
+          "compressedBytes": 45908016,
+          "uncompressedBytes": 49914878,
+          "localHeaderOffset": 1623291467
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Ivo Vicic - Natural ambiences vol.1/38 Wind in grass_Velebit mountain.WAV",
+          "compression": 8,
+          "crc32": 3472900944,
+          "compressedBytes": 79354632,
+          "uncompressedBytes": 87503990,
+          "localHeaderOffset": 1783812272
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Ivo Vicic - Calm sea/01 Small beach_rolling stones 1.wav",
+          "compression": 8,
+          "crc32": 4044358261,
+          "compressedBytes": 49844769,
+          "uncompressedBytes": 55295286,
+          "localHeaderOffset": 2075264273
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/InspectorJ - Wooden Fence Destruction/Destruction_Wooden_2.wav",
+          "compression": 8,
+          "crc32": 4040673558,
+          "compressedBytes": 359701,
+          "uncompressedBytes": 440192,
+          "localHeaderOffset": 2214364809
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/InspectorJ - Wooden Fence Destruction/Dropping_WoodPanel_Multi_6.wav",
+          "compression": 8,
+          "crc32": 3996816764,
+          "compressedBytes": 281342,
+          "uncompressedBytes": 359444,
+          "localHeaderOffset": 2214724655
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/InspectorJ - Wooden Fence Destruction/Dropping_WoodPile_79.wav",
+          "compression": 8,
+          "crc32": 3484505962,
+          "compressedBytes": 245902,
+          "uncompressedBytes": 312364,
+          "localHeaderOffset": 2215006148
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/InspectorJ - Wooden Fence Destruction/WoodenFence_Thud_Multi_1.wav",
+          "compression": 8,
+          "crc32": 3458649990,
+          "compressedBytes": 805861,
+          "uncompressedBytes": 919746,
+          "localHeaderOffset": 2215252195
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/InspectorJ - UI - Mechanical/UI_Mechanical_Confirm_04_FX.wav",
+          "compression": 8,
+          "crc32": 2559632186,
+          "compressedBytes": 1484061,
+          "uncompressedBytes": 1667204,
+          "localHeaderOffset": 2216058317
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/InspectorJ - UI - Mechanical/UI_Mechanical_Error_11_FX_01.wav",
+          "compression": 8,
+          "crc32": 2467736998,
+          "compressedBytes": 1348361,
+          "uncompressedBytes": 1559230,
+          "localHeaderOffset": 2217542521
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/InspectorJ - UI - Mechanical/UI_Mechanical_Move_40.wav",
+          "compression": 8,
+          "crc32": 2379445758,
+          "compressedBytes": 123993,
+          "uncompressedBytes": 154192,
+          "localHeaderOffset": 2218891026
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/InspectorJ - UI - Mechanical/UI_Mechanical_Turning-On_03_Raw.wav",
+          "compression": 8,
+          "crc32": 1083245701,
+          "compressedBytes": 765274,
+          "uncompressedBytes": 790982,
+          "localHeaderOffset": 2219015156
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/InspectorJ - Piano Mallet Strikes and FX/Piano_MalletStrike_Metal_Damped_G_Full.wav",
+          "compression": 8,
+          "crc32": 1323747962,
+          "compressedBytes": 766115,
+          "uncompressedBytes": 978624,
+          "localHeaderOffset": 2269000890
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/InspectorJ - Piano Mallet Strikes and FX/Piano_MetalMallet_Gliss_Mid_Asc_Leg_Damp_14.wav",
+          "compression": 8,
+          "crc32": 1582788144,
+          "compressedBytes": 1196690,
+          "uncompressedBytes": 1629226,
+          "localHeaderOffset": 2269767171
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/InspectorJ - Piano Mallet Strikes and FX/Piano_MetalMallet_Scrape_FullString_Damp_Long_18.wav",
+          "compression": 8,
+          "crc32": 262032793,
+          "compressedBytes": 1585253,
+          "uncompressedBytes": 1873916,
+          "localHeaderOffset": 2270964032
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/InspectorJ - Piano Mallet Strikes and FX/Piano_MetalMallet_Gliss_VeryHigh_Desc_Leg_6.wav",
+          "compression": 8,
+          "crc32": 620921203,
+          "compressedBytes": 1853200,
+          "uncompressedBytes": 2291648,
+          "localHeaderOffset": 2272549461
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/InspectorJ - Hidden Voices- Flexatone/Flexatone_Quiver_09.wav",
+          "compression": 8,
+          "crc32": 2577848762,
+          "compressedBytes": 1912097,
+          "uncompressedBytes": 2411160,
+          "localHeaderOffset": 2274402953
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/InspectorJ - Hidden Voices- Flexatone/Flexatone_VoiceA_Laugh_Long_08.wav",
+          "compression": 8,
+          "crc32": 453877727,
+          "compressedBytes": 1203444,
+          "uncompressedBytes": 1356474,
+          "localHeaderOffset": 2276315194
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/InspectorJ - Hidden Voices- Flexatone/Flexatone_VoiceA_Really_16.wav",
+          "compression": 8,
+          "crc32": 387507935,
+          "compressedBytes": 416565,
+          "uncompressedBytes": 451196,
+          "localHeaderOffset": 2277518793
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/InspectorJ - Hidden Voices- Flexatone/Flexatone_VoiceD_Talk_20.wav",
+          "compression": 8,
+          "crc32": 3143192415,
+          "compressedBytes": 660271,
+          "uncompressedBytes": 754488,
+          "localHeaderOffset": 2277935509
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/InspectorJ - Hidden Voices- Bodyboard/BB_CreatureVoiceC_Dry_088.wav",
+          "compression": 8,
+          "crc32": 3020801682,
+          "compressedBytes": 604137,
+          "uncompressedBytes": 748954,
+          "localHeaderOffset": 2278596050
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/InspectorJ - Hidden Voices- Bodyboard/BB_CreatureVoiceG_Dry_281.wav",
+          "compression": 8,
+          "crc32": 249794762,
+          "compressedBytes": 545849,
+          "uncompressedBytes": 635598,
+          "localHeaderOffset": 2279200337
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/InspectorJ - Hidden Voices- Bodyboard/BB_Laugh_22.wav",
+          "compression": 8,
+          "crc32": 2637656143,
+          "compressedBytes": 874002,
+          "uncompressedBytes": 953198,
+          "localHeaderOffset": 2279746336
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/InspectorJ - Hidden Voices- Bodyboard/BB_Scrape_19.wav",
+          "compression": 8,
+          "crc32": 1292987919,
+          "compressedBytes": 379390,
+          "uncompressedBytes": 439954,
+          "localHeaderOffset": 2280620474
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/InspectorJ - Ambience - Banaue Rice Terraces/Amb_BRT_Morning_B04_River_LOOP.wav",
+          "compression": 8,
+          "crc32": 2421540995,
+          "compressedBytes": 32271165,
+          "uncompressedBytes": 34561136,
+          "localHeaderOffset": 2281000129
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/InspectorJ - Ambience - Banaue Rice Terraces/Amb_BRT_Batad_A02_Village_LOOP.wav",
+          "compression": 8,
+          "crc32": 3221132575,
+          "compressedBytes": 31036414,
+          "uncompressedBytes": 34561274,
+          "localHeaderOffset": 2313271456
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/InspectorJ - Ambience - Banaue Rice Terraces/Amb_BRT_Mid-Day_C11_Animals_LOOP.wav",
+          "compression": 8,
+          "crc32": 4093855406,
+          "compressedBytes": 29750561,
+          "uncompressedBytes": 34561132,
+          "localHeaderOffset": 2344308032
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/InspectorJ - Ambience - Banaue Rice Terraces/Amb_BRT_Night_E01_Clean_LOOP.wav",
+          "compression": 8,
+          "crc32": 2457178771,
+          "compressedBytes": 32576124,
+          "uncompressedBytes": 34561086,
+          "localHeaderOffset": 2374058757
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/InspectorJ - 44.1 General Library/Woodchipper_Close_01.wav",
+          "compression": 8,
+          "crc32": 3619212185,
+          "compressedBytes": 6207863,
+          "uncompressedBytes": 6497226,
+          "localHeaderOffset": 2439751476
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Impact Soundworks - Super FX 8 and 16-bit Video Game SFX/Combat_Triple_Combo_Hit.wav",
+          "compression": 8,
+          "crc32": 2915277849,
+          "compressedBytes": 117295,
+          "uncompressedBytes": 249044,
+          "localHeaderOffset": 2446344034
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Impact Soundworks - Super FX 8 and 16-bit Video Game SFX/Magic_Teleport.wav",
+          "compression": 8,
+          "crc32": 2019903007,
+          "compressedBytes": 214160,
+          "uncompressedBytes": 422034,
+          "localHeaderOffset": 2446461496
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Impact Soundworks - Super FX 8 and 16-bit Video Game SFX/UI_Level_Up.wav",
+          "compression": 8,
+          "crc32": 3763529035,
+          "compressedBytes": 465023,
+          "uncompressedBytes": 645696,
+          "localHeaderOffset": 2446675814
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Impact Soundworks - Super FX 8 and 16-bit Video Game SFX/Misc_Glass_Crystal_Shatter.wav",
+          "compression": 8,
+          "crc32": 964632189,
+          "compressedBytes": 235127,
+          "uncompressedBytes": 359742,
+          "localHeaderOffset": 2447140992
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Glitchedtones - Zombie/Zombie Subject B Hiss (1).wav",
+          "compression": 8,
+          "crc32": 2388760702,
+          "compressedBytes": 452509,
+          "uncompressedBytes": 468242,
+          "localHeaderOffset": 2448679393
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Glitchedtones - Scene Switch- Transitions & Textures/Transition Synth Filter Drone.wav",
+          "compression": 8,
+          "crc32": 2790993976,
+          "compressedBytes": 4258187,
+          "uncompressedBytes": 4609148,
+          "localHeaderOffset": 2449132173
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Glitchedtones - Scene Switch- Transitions & Textures/Transition Synth Delay 03.wav",
+          "compression": 8,
+          "crc32": 1165702143,
+          "compressedBytes": 1862727,
+          "uncompressedBytes": 2304946,
+          "localHeaderOffset": 2453390529
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Glitchedtones - Scene Switch- Transitions & Textures/Transition Alien Sonar 03.wav",
+          "compression": 8,
+          "crc32": 1935004190,
+          "compressedBytes": 2035610,
+          "uncompressedBytes": 2304964,
+          "localHeaderOffset": 2455253421
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Gage Freeman - Alien Voices/Deep Alien Robot - Long 2.wav",
+          "compression": 8,
+          "crc32": 1774367523,
+          "compressedBytes": 1690301,
+          "uncompressedBytes": 1862636,
+          "localHeaderOffset": 2548233934
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Gage Freeman - Alien Voices/Female Alien Robot - Long 3.wav",
+          "compression": 8,
+          "crc32": 3558698892,
+          "compressedBytes": 997735,
+          "uncompressedBytes": 1190380,
+          "localHeaderOffset": 2549924375
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Gage Freeman - Alien Voices/Alien Beast Deep - Medium 5.wav",
+          "compression": 8,
+          "crc32": 1821086294,
+          "compressedBytes": 2799768,
+          "uncompressedBytes": 2981792,
+          "localHeaderOffset": 2550922252
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Gage Freeman - Alien Voices/Alien Beast Small - Short 7.wav",
+          "compression": 8,
+          "crc32": 4067938259,
+          "compressedBytes": 742084,
+          "uncompressedBytes": 925544,
+          "localHeaderOffset": 2553722162
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Federico Soler Fernández - Effective Trailer Whooshes/Action B.wav",
+          "compression": 8,
+          "crc32": 1999796015,
+          "compressedBytes": 2476663,
+          "uncompressedBytes": 3457144,
+          "localHeaderOffset": 2570203470
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Federico Soler Fernández - Effective Trailer Whooshes/Justice B.wav",
+          "compression": 8,
+          "crc32": 325944176,
+          "compressedBytes": 2248783,
+          "uncompressedBytes": 3457146,
+          "localHeaderOffset": 2572680411
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Federico Soler Fernández - Effective Trailer Whooshes/Titan D.wav",
+          "compression": 8,
+          "crc32": 2113805167,
+          "compressedBytes": 2047336,
+          "uncompressedBytes": 3457148,
+          "localHeaderOffset": 2574929474
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Federico Soler Fernández - Effective Trailer Whooshes/Warlock D.wav",
+          "compression": 8,
+          "crc32": 1301455743,
+          "compressedBytes": 2262845,
+          "uncompressedBytes": 3457144,
+          "localHeaderOffset": 2576977086
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Federico Soler Fernández - Effective Trailer Hits & Impacts/Smash B.wav",
+          "compression": 8,
+          "crc32": 621451515,
+          "compressedBytes": 2015268,
+          "uncompressedBytes": 3313172,
+          "localHeaderOffset": 2579240477
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Federico Soler Fernández - Effective Trailer Hits & Impacts/Angry E.wav",
+          "compression": 8,
+          "crc32": 3613711380,
+          "compressedBytes": 2042660,
+          "uncompressedBytes": 2881172,
+          "localHeaderOffset": 2581256033
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Federico Soler Fernández - Effective Trailer Hits & Impacts/Dramatic E.wav",
+          "compression": 8,
+          "crc32": 2681775734,
+          "compressedBytes": 2185866,
+          "uncompressedBytes": 2881172,
+          "localHeaderOffset": 2583298981
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Federico Soler Fernández - Effective Trailer Hits & Impacts/Ruin B.wav",
+          "compression": 8,
+          "crc32": 1422856260,
+          "compressedBytes": 2240426,
+          "uncompressedBytes": 3313172,
+          "localHeaderOffset": 2585485141
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Federico Soler Fernández - Effective Trailer Clocks/Clock 023.wav",
+          "compression": 8,
+          "crc32": 121652466,
+          "compressedBytes": 4310068,
+          "uncompressedBytes": 4608406,
+          "localHeaderOffset": 2587726103
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Federico Soler Fernández - Effective Trailer Clocks/Clock 097.wav",
+          "compression": 8,
+          "crc32": 336581038,
+          "compressedBytes": 3849412,
+          "uncompressedBytes": 4608404,
+          "localHeaderOffset": 2592036447
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Federico Soler Fernández - Effective Trailer Clocks/Clock 070.wav",
+          "compression": 8,
+          "crc32": 1349626426,
+          "compressedBytes": 3891284,
+          "uncompressedBytes": 4608402,
+          "localHeaderOffset": 2595886135
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Federico Soler Fernández - Effective Trailer Clocks/Clock 025.wav",
+          "compression": 8,
+          "crc32": 3668476298,
+          "compressedBytes": 4114743,
+          "uncompressedBytes": 4608402,
+          "localHeaderOffset": 2599777695
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/fascinatedsound - Video Game SFX Mega Pack/Coin02.wav",
+          "compression": 8,
+          "crc32": 1177353335,
+          "compressedBytes": 71873,
+          "uncompressedBytes": 138552,
+          "localHeaderOffset": 2621549881
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Eiravaein Works - WakeyWakey/WakeyWakey,coffee,grinder,manual,ceramic,glass,silicone,attachjar,screwon,alt.wav",
+          "compression": 8,
+          "crc32": 3283995925,
+          "compressedBytes": 578278,
+          "uncompressedBytes": 725670,
+          "localHeaderOffset": 2621995236
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Eiravaein Works - Unfathomed/Unfathomed,hydrophone,submerged,largeplastic,water,foam,gurgling,gentle.wav",
+          "compression": 8,
+          "crc32": 3004294226,
+          "compressedBytes": 1508936,
+          "uncompressedBytes": 1696672,
+          "localHeaderOffset": 2640876873
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Eiravaein Works - Unfathomed/Unfathomed,hydrophone,submerged,smallglass,effervescenttabs,carbonateddrink,pouring,filling,gurgling,fizz,alt.wav",
+          "compression": 8,
+          "crc32": 3822983836,
+          "compressedBytes": 4511570,
+          "uncompressedBytes": 4893688,
+          "localHeaderOffset": 2642385996
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Eiravaein Works - Nocked/Nocked,archery,crossbow1,composite,string,functions,bolt,slideintorest,set,drag,nock,remove,clatter,alt.wav",
+          "compression": 8,
+          "crc32": 3911879078,
+          "compressedBytes": 588437,
+          "uncompressedBytes": 907874,
+          "localHeaderOffset": 2646897899
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Eiravaein Works - Helina/Helinä,windbell,Japanese,porcelain,clapper,paperwindcatcher,cottonrope,gust,strong,shorttail,MidSide.wav",
+          "compression": 8,
+          "crc32": 3056041281,
+          "compressedBytes": 3862208,
+          "uncompressedBytes": 5220012,
+          "localHeaderOffset": 2654029163
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Eiravaein Works - Helina/Helinä,windchimes,aluminum,pipes,woodclapper,aluminumwindcatcher,metalchain,twine,release,gentle,lingering,MidSide,alt.wav",
+          "compression": 8,
+          "crc32": 1403622914,
+          "compressedBytes": 15407957,
+          "uncompressedBytes": 20704228,
+          "localHeaderOffset": 2657891775
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Eiravaein Works - Helina/Helinä,windchimes,Pacific,obsidian,beads,kelppods,noclapper,nowindcatcher,twine,release,gentle,shorttail,MidSide.wav",
+          "compression": 8,
+          "crc32": 3981220030,
+          "compressedBytes": 4765939,
+          "uncompressedBytes": 6479134,
+          "localHeaderOffset": 2673300172
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Eiravaein Works - Helina/Helinä,windchimes,mixed,paper,aluminum,tuned,glassclappermini,windcatcher,cottonrope,release,gentle,lingering,MidSide.wav",
+          "compression": 8,
+          "crc32": 500813273,
+          "compressedBytes": 5825863,
+          "uncompressedBytes": 7566132,
+          "localHeaderOffset": 2678066539
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/dmt3p - Forest Orchestra/Windy storm with trees rustling and bird croaking.wav",
+          "compression": 8,
+          "crc32": 132518784,
+          "compressedBytes": 51757525,
+          "uncompressedBytes": 64847324,
+          "localHeaderOffset": 2734545918
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Coll Anderson - The Battle Crowd Collection Add on/EFX INT Kicking Wood Door Rattle 01.wav",
+          "compression": 8,
+          "crc32": 31890841,
+          "compressedBytes": 18043563,
+          "uncompressedBytes": 22473396,
+          "localHeaderOffset": 2804533432
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Coll Anderson - The Battle Crowd Collection Add on/EFX SD FS In Debris With Glass On Wood 06 C.wav",
+          "compression": 8,
+          "crc32": 2138595915,
+          "compressedBytes": 66980682,
+          "uncompressedBytes": 84291114,
+          "localHeaderOffset": 2822577168
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Coll Anderson - House Library Add Ons/EFX INT China Glass Rattle 18.wav",
+          "compression": 8,
+          "crc32": 4055347492,
+          "compressedBytes": 3528857,
+          "uncompressedBytes": 4503096,
+          "localHeaderOffset": 2933455664
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Coll Anderson - House Library Add Ons/EFX INT Door Bang Wood Swing Broken 01 A.wav",
+          "compression": 8,
+          "crc32": 2202950361,
+          "compressedBytes": 7500624,
+          "uncompressedBytes": 9827234,
+          "localHeaderOffset": 2937981124
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Charlie Atanasyan - Ethiopia/ETH Volcano medium activity magma erupting continuously degassing and rock falling.wav",
+          "compression": 8,
+          "crc32": 3800720715,
+          "compressedBytes": 57680068,
+          "uncompressedBytes": 63655870,
+          "localHeaderOffset": 2978437292
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Charlie Atanasyan - Ethiopia/ETH City street large traffic rumble group of student singing clapping from a roof top.wav",
+          "compression": 8,
+          "crc32": 611155653,
+          "compressedBytes": 147006767,
+          "uncompressedBytes": 165669116,
+          "localHeaderOffset": 3036117558
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Charlie Atanasyan - Ethiopia/ETH Market large outdoor voices walla birds and activity.wav",
+          "compression": 8,
+          "crc32": 3883104472,
+          "compressedBytes": 142726062,
+          "uncompressedBytes": 161105154,
+          "localHeaderOffset": 3183124527
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Cfry – Hand Tools/wire brush 1.wav",
+          "compression": 8,
+          "crc32": 1097849827,
+          "compressedBytes": 173541,
+          "uncompressedBytes": 357232,
+          "localHeaderOffset": 3375614122
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Cfry – Hand Tools/socket wrench 5.wav",
+          "compression": 8,
+          "crc32": 535910354,
+          "compressedBytes": 224177,
+          "uncompressedBytes": 471468,
+          "localHeaderOffset": 3375787782
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/Cfry – Hand Tools/toolbox shuffling 3.wav",
+          "compression": 8,
+          "crc32": 1597371114,
+          "compressedBytes": 372357,
+          "uncompressedBytes": 733972,
+          "localHeaderOffset": 3376012081
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 2of8/License.pdf",
+          "compression": 8,
+          "crc32": 3254305408,
+          "compressedBytes": 93364,
+          "uncompressedBytes": 95184,
+          "localHeaderOffset": 3378034448
+        }
+      ]
+    },
+    {
+      "part": 3,
+      "url": "https://ftpmirror.your.org/pub/misc/sonniss2019/Sonniss.com - GDC 2019 - Game Audio Bundle Part 3of8.zip",
+      "entryCount": 145,
+      "matchCount": 24,
+      "matches": [
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 3of8/Pole Position - Boeing B-17G 1945/Boeing_B17_t25_Var_SFX_Bomb_Bay_Doors_Close_Interior_Nose_Left_DPA4061.wav",
+          "compression": 8,
+          "crc32": 2384310969,
+          "compressedBytes": 3270878,
+          "uncompressedBytes": 3555892,
+          "localHeaderOffset": 390927076
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 3of8/Pole Position - Black Hawk UH-60M/black_hawk_t16_ext_idle_turbine_rotors_off_left_Co100k.wav",
+          "compression": 8,
+          "crc32": 933078137,
+          "compressedBytes": 44314323,
+          "uncompressedBytes": 48514124,
+          "localHeaderOffset": 398611509
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 3of8/Pole Position - Aston Martin DB9 2017/Aston_Martin_DB9_t4_Ext_By_Gearshifts_M10.wav",
+          "compression": 8,
+          "crc32": 1524085979,
+          "compressedBytes": 22156284,
+          "uncompressedBytes": 87990628,
+          "localHeaderOffset": 666384129
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 3of8/Pole Position - AMC Javelin 1968/amc_javelin_t10_ext_bys_gearshifts_CSS5.wav",
+          "compression": 8,
+          "crc32": 3983572283,
+          "compressedBytes": 39259308,
+          "uncompressedBytes": 79745502,
+          "localHeaderOffset": 777332174
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 3of8/Pole Position - AMC Javelin 1968/amc_javelin_t16_var_sfx_ext_door_open_crispy_XY_RSM191.wav",
+          "compression": 8,
+          "crc32": 1852276011,
+          "compressedBytes": 741072,
+          "uncompressedBytes": 824808,
+          "localHeaderOffset": 847780259
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 3of8/Pole Position - Agusta A109/agusta_a109_t14_ext_idle_turbine_rotors_alternative_tones_left_distant_LS5.wav",
+          "compression": 8,
+          "crc32": 443401909,
+          "compressedBytes": 60615351,
+          "uncompressedBytes": 69535204,
+          "localHeaderOffset": 886221779
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 3of8/PMSFX - SynthAssault/PM_SA_CINEMATIC_IMPACT_101.wav",
+          "compression": 8,
+          "crc32": 2848599016,
+          "compressedBytes": 2569663,
+          "uncompressedBytes": 2902176,
+          "localHeaderOffset": 1048132827
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 3of8/PMSFX - STEPS Dirt & Gravel/PM_SDNG_Stereo_Walk_Seamless_Loop_1.wav",
+          "compression": 8,
+          "crc32": 2682095548,
+          "compressedBytes": 6531455,
+          "uncompressedBytes": 7871436,
+          "localHeaderOffset": 1058094309
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 3of8/PMSFX - STEPS Dirt & Gravel/PM_SDNG_Single_Step_Footstep_46.wav",
+          "compression": 8,
+          "crc32": 2797107659,
+          "compressedBytes": 504462,
+          "uncompressedBytes": 570642,
+          "localHeaderOffset": 1064625914
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 3of8/PMSFX - STEPS Dirt & Gravel/PM_SDNG_Single_Step_Footstep_19.wav",
+          "compression": 8,
+          "crc32": 4089426868,
+          "compressedBytes": 467874,
+          "uncompressedBytes": 519762,
+          "localHeaderOffset": 1065130522
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 3of8/PMSFX - MEDITERRANIA/PM_MDT_Sea_between_rocks_cavity_cracks_calm_4.wav",
+          "compression": 8,
+          "crc32": 800375331,
+          "compressedBytes": 90458455,
+          "uncompressedBytes": 108521850,
+          "localHeaderOffset": 1120935059
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 3of8/PMSFX - MEDITERRANIA/PM_MDT_Sea_mid_waves_splashing_rocks_close_to_drain_1.wav",
+          "compression": 8,
+          "crc32": 3024359575,
+          "compressedBytes": 135519146,
+          "uncompressedBytes": 151145922,
+          "localHeaderOffset": 1211393667
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 3of8/PMSFX - Industrial Terror/Metal_Ringout_MKH8060_14.wav",
+          "compression": 8,
+          "crc32": 3113097803,
+          "compressedBytes": 160320,
+          "uncompressedBytes": 211676,
+          "localHeaderOffset": 1376919024
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 3of8/PMSFX - Industrial Terror/Metal_Ringout_DPA4060_10.wav",
+          "compression": 8,
+          "crc32": 2646908784,
+          "compressedBytes": 575092,
+          "uncompressedBytes": 787642,
+          "localHeaderOffset": 1377079481
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 3of8/PMSFX - HAUNTED DOORS/PM_HD_Designed_01 Doors, Old, Wooden, Scary, Horror, Open, Creeking.wav",
+          "compression": 8,
+          "crc32": 196066748,
+          "compressedBytes": 1813211,
+          "uncompressedBytes": 1968894,
+          "localHeaderOffset": 1377654815
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 3of8/PMSFX - HAUNTED DOORS/PM_HD_Designed_45 Doors, Old, Wooden, Scary, Horror, Close, Impact, Trailer,.wav",
+          "compression": 8,
+          "crc32": 3917402624,
+          "compressedBytes": 4869814,
+          "uncompressedBytes": 5387516,
+          "localHeaderOffset": 1379468202
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 3of8/PMSFX - HAUNTED DOORS/PM_HD_Source_39 Door, Close, Long Creak, Creaking.wav",
+          "compression": 8,
+          "crc32": 3392694882,
+          "compressedBytes": 3268734,
+          "uncompressedBytes": 3783560,
+          "localHeaderOffset": 1384338201
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 3of8/PMSFX - HAUNTED DOORS/PM_HD_Source_99 Door, Knob, Twist, Turn.wav",
+          "compression": 8,
+          "crc32": 2931488598,
+          "compressedBytes": 1001082,
+          "uncompressedBytes": 1144774,
+          "localHeaderOffset": 1387607093
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 3of8/PMSFX - Foundation Series SCI-FI/PM_FSSF_DOOR_MID_9.wav",
+          "compression": 8,
+          "crc32": 267071435,
+          "compressedBytes": 665695,
+          "uncompressedBytes": 704434,
+          "localHeaderOffset": 1409811645
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 3of8/PMSFX - Forgotten Neons/PM_FN_Events_LvlUps_PowerUps_25.wav",
+          "compression": 8,
+          "crc32": 78762536,
+          "compressedBytes": 2508004,
+          "uncompressedBytes": 2891394,
+          "localHeaderOffset": 1415622574
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 3of8/PMSFX - EMPTY CITY RAIN/PM_ECR_6 Rain, City, Medium, Drippy, Distant Rumble, AC Hum.wav",
+          "compression": 8,
+          "crc32": 1295068562,
+          "compressedBytes": 22841840,
+          "uncompressedBytes": 25648102,
+          "localHeaderOffset": 1419828073
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 3of8/PMSFX - COSTAL SPAIN/PM_COSTAL_SPAIN_11 Marina, Docks, Floating Pier, Deck, Waves, Wind, Sail Flap, Flags, Creaks, Gr.wav",
+          "compression": 8,
+          "crc32": 1446130465,
+          "compressedBytes": 60473007,
+          "uncompressedBytes": 71557602,
+          "localHeaderOffset": 1452193676
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 3of8/PMSFX - COSTAL SPAIN/PM_COSTAL_SPAIN_18 Walla, People, Restaurants, Wind, City Presence, Traffic, Plates, Cutlery, Ol.wav",
+          "compression": 8,
+          "crc32": 120670732,
+          "compressedBytes": 80621830,
+          "uncompressedBytes": 91453406,
+          "localHeaderOffset": 1512666887
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 3of8/License.pdf",
+          "compression": 8,
+          "crc32": 3254305408,
+          "compressedBytes": 93364,
+          "uncompressedBytes": 95184,
+          "localHeaderOffset": 3728689946
+        }
+      ]
+    },
+    {
+      "part": 4,
+      "url": "https://ftpmirror.your.org/pub/misc/sonniss2019/Sonniss.com - GDC 2019 - Game Audio Bundle Part 4of8.zip",
+      "entryCount": 119,
+      "matchCount": 25,
+      "matches": [
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 4of8/Pole Position - SKOT OT-64 1968/SKOT_t9_Onbrd_Start_Drive_Gearshifts_Change_Direction_Interior_Passenger_Compartment_Mix.wav",
+          "compression": 8,
+          "crc32": 3777882476,
+          "compressedBytes": 150356372,
+          "uncompressedBytes": 158368896,
+          "localHeaderOffset": 198
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 4of8/Pole Position - SKOT OT-64 1968/SKOT_t23_Var_SFX_Tail_Door_Close_MKH8060.wav",
+          "compression": 8,
+          "crc32": 3434146884,
+          "compressedBytes": 1795172,
+          "uncompressedBytes": 2100318,
+          "localHeaderOffset": 156348167
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 4of8/Pole Position - Pontiac GTO 1967/pontiac_gto_t12_ext_away_bys_gearshifts_stop_XY_RSM191.wav",
+          "compression": 8,
+          "crc32": 2791196522,
+          "compressedBytes": 78290245,
+          "uncompressedBytes": 176190996,
+          "localHeaderOffset": 188772415
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 4of8/Pole Position - Pontiac GTO 1967/pontiac_gto_t25_var_sfx_onbrd_door_close_hard_interior_AMBEO_2.wav",
+          "compression": 8,
+          "crc32": 3986386466,
+          "compressedBytes": 648381,
+          "uncompressedBytes": 665064,
+          "localHeaderOffset": 386441139
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 4of8/Pole Position - Piaggio Vespa GS 150 1955/Vespa_150GS_t13_Var_SFX_Gearshift_Driver_Left_DPA4061.wav",
+          "compression": 8,
+          "crc32": 3139476721,
+          "compressedBytes": 3598717,
+          "uncompressedBytes": 4847708,
+          "localHeaderOffset": 786043887
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 4of8/Pole Position - Peugeot P4/peugeot_p4_t26_var_sfx_latch_MKH8040.wav",
+          "compression": 8,
+          "crc32": 1045460157,
+          "compressedBytes": 1662909,
+          "uncompressedBytes": 1798490,
+          "localHeaderOffset": 834034270
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 4of8/Pole Position - Opel Blitz 3600 1939/opel_blitz_t18_var_sfx_door_close_interior_AMBEO_4.wav",
+          "compression": 8,
+          "crc32": 2166913301,
+          "compressedBytes": 968663,
+          "uncompressedBytes": 1024594,
+          "localHeaderOffset": 1225802073
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 4of8/Pole Position - Narrowboat Gardner 4LW 1960/narrowboat_t18_onbrd_idle_steady_water_right_hydrophone.wav",
+          "compression": 8,
+          "crc32": 1167562867,
+          "compressedBytes": 19400679,
+          "uncompressedBytes": 20840650,
+          "localHeaderOffset": 1360048518
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 4of8/Pole Position - Mercedes AMG GT R 2018/mercedes_amg_gtr_t54_var_sfx_onbrd_window_close_interior_AMBEO_1.wav",
+          "compression": 8,
+          "crc32": 3627065467,
+          "compressedBytes": 749039,
+          "uncompressedBytes": 802384,
+          "localHeaderOffset": 1455335344
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 4of8/Pole Position - Mazda RX-7 1990/Mazda_RX7_t12_Var_SFX_Door_Close_Interior_DPA4021.wav",
+          "compression": 8,
+          "crc32": 870340794,
+          "compressedBytes": 1265030,
+          "uncompressedBytes": 1350288,
+          "localHeaderOffset": 1525679796
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 4of8/Pole Position - MAN Lion’s Coach 2015/man_lions_coach_t14_onbrd_drive_gearshifts_engine_VP88.wav",
+          "compression": 8,
+          "crc32": 2184371523,
+          "compressedBytes": 106345667,
+          "uncompressedBytes": 114878716,
+          "localHeaderOffset": 1600174520
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 4of8/Pole Position - MAN Lion’s Coach 2015/man_lions_coach_t29_var_sfx_window_open_and_close_MS_RSM191.wav",
+          "compression": 8,
+          "crc32": 1206725197,
+          "compressedBytes": 15247269,
+          "uncompressedBytes": 17745082,
+          "localHeaderOffset": 1706520368
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 4of8/Pole Position - Lamborghini Huracan 2014/lamborghini_huracan_t10_ext_bys_gearshifts_left_turn_point_XY_MKH8040.wav",
+          "compression": 8,
+          "crc32": 1838660257,
+          "compressedBytes": 41059454,
+          "uncompressedBytes": 98578690,
+          "localHeaderOffset": 1721767947
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 4of8/Pole Position - Lamborghini Huracan 2014/lamborghini_huracan_t17_var_sfx_onbrd_door_close_key_rattle_engine_left_MKH8020.wav",
+          "compression": 8,
+          "crc32": 1935128425,
+          "compressedBytes": 566678,
+          "uncompressedBytes": 627780,
+          "localHeaderOffset": 1762827598
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 4of8/Pole Position - Jeep SRT8 2014/Jeep_SRT8_t11_Onbrd_Start_Drive_Gearshifts_Exhaust_Center_DPA4062.wav",
+          "compression": 8,
+          "crc32": 650539617,
+          "compressedBytes": 34825461,
+          "uncompressedBytes": 39459014,
+          "localHeaderOffset": 2023682665
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 4of8/Pole Position - GAZ-69 1965/gaz_69_t21_onbrd_idle_steady_engine_gearbox_DPA4061.wav",
+          "compression": 8,
+          "crc32": 2958494313,
+          "compressedBytes": 24636160,
+          "uncompressedBytes": 28038416,
+          "localHeaderOffset": 2070352204
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 4of8/Pole Position - FSO Polonez 1500 Police Car 1984/polonez_1500_t30_var_sfx_wiper_switch_2_interior_pov_XY_RSM191.wav",
+          "compression": 8,
+          "crc32": 1428553936,
+          "compressedBytes": 6119269,
+          "uncompressedBytes": 8034230,
+          "localHeaderOffset": 2130846728
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 4of8/Pole Position - FSO Polonez 1500 Police Car 1984/polonez_1500_t10_onbrd_start_medium_drive_siren_stop_reverse_stop_drive_stop_off_mix_interior.wav",
+          "compression": 8,
+          "crc32": 58087801,
+          "compressedBytes": 93051629,
+          "uncompressedBytes": 100682030,
+          "localHeaderOffset": 2136966195
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 4of8/Pole Position - FSO Polonez 1500 Police Car 1984/polonez_1500_t17_onbrd_start_idle_steady_blips_off_engine_right_PZM.wav",
+          "compression": 8,
+          "crc32": 945166363,
+          "compressedBytes": 16158741,
+          "uncompressedBytes": 19428280,
+          "localHeaderOffset": 2230018053
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 4of8/Pole Position - Ford Probe 1995/Ford_Probe_t12_Var_SFX_Doors_Various_Interior_AMBEO_2.wav",
+          "compression": 8,
+          "crc32": 3924030307,
+          "compressedBytes": 3898689,
+          "uncompressedBytes": 6207152,
+          "localHeaderOffset": 2246177112
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 4of8/Pole Position - Ferrari F40 LM 1991/Ferrari_F40_LM_t20_Var_SFX_Door_Open_Interior_DPA4021.wav",
+          "compression": 8,
+          "crc32": 4108295854,
+          "compressedBytes": 666833,
+          "uncompressedBytes": 772014,
+          "localHeaderOffset": 2417945622
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 4of8/Pole Position - Dodge Challenger Hellcat 2015/Dodge_Challenger_Hellcat_t12_Var_SFX_Doors_Various_Interior_MKH8040.wav",
+          "compression": 8,
+          "crc32": 1420710088,
+          "compressedBytes": 2020715,
+          "uncompressedBytes": 3963716,
+          "localHeaderOffset": 2491532821
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 4of8/Pole Position - Dodge A100 1965/Dodge_A100_t14_Var_SFX_Door_Open_Classic_Interior_Mix.wav",
+          "compression": 8,
+          "crc32": 3004954927,
+          "compressedBytes": 1110454,
+          "uncompressedBytes": 1212406,
+          "localHeaderOffset": 2606375916
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 4of8/Pole Position - Case Puma CVX 2001/Case_Puma_180_t4_Onbrd_Drive_Gearshifts_Stop_Off_Interior_Mix.wav",
+          "compression": 8,
+          "crc32": 659083632,
+          "compressedBytes": 139961984,
+          "uncompressedBytes": 150436176,
+          "localHeaderOffset": 3213577325
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 4of8/License.pdf",
+          "compression": 8,
+          "crc32": 3254305408,
+          "compressedBytes": 93364,
+          "uncompressedBytes": 95184,
+          "localHeaderOffset": 3353568295
+        }
+      ]
+    },
+    {
+      "part": 5,
+      "url": "https://ftpmirror.your.org/pub/misc/sonniss2019/Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8.zip",
+      "entryCount": 202,
+      "matchCount": 75,
+      "matches": [
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/SoundBits - Tiny Transitions 2/Scrape_Cloth_10.wav",
+          "compression": 8,
+          "crc32": 1184476588,
+          "compressedBytes": 309210,
+          "uncompressedBytes": 348498,
+          "localHeaderOffset": 212744
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/SoundBits - Antiques/Tobacco-Cutting-Machine_Antique_Crank_17.wav",
+          "compression": 8,
+          "crc32": 3249545373,
+          "compressedBytes": 1015686,
+          "uncompressedBytes": 1208230,
+          "localHeaderOffset": 81006175
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Sound Spark LLC – Metal Hits, Scrapes and Squeaks/Metal_Sheets_Sledgehammer_Hit_02.wav",
+          "compression": 8,
+          "crc32": 663148071,
+          "compressedBytes": 387118,
+          "uncompressedBytes": 485410,
+          "localHeaderOffset": 230454687
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Sound Spark LLC – Metal Hits, Scrapes and Squeaks/Metal_Dry_Ice_Spoon_14.wav",
+          "compression": 8,
+          "crc32": 3999454873,
+          "compressedBytes": 5249920,
+          "uncompressedBytes": 5747824,
+          "localHeaderOffset": 230841976
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Sound Spark LLC – Metal Hits, Scrapes and Squeaks/Metal_Large_Sheet_Oscillating_19.wav",
+          "compression": 8,
+          "crc32": 4086289712,
+          "compressedBytes": 2240407,
+          "uncompressedBytes": 2516278,
+          "localHeaderOffset": 236092057
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Sound Spark LLC – Metal Hits, Scrapes and Squeaks/Metal_Barrel_Bolt_Lock_Loose_Handling_03.wav",
+          "compression": 8,
+          "crc32": 4241542278,
+          "compressedBytes": 960808,
+          "uncompressedBytes": 1112912,
+          "localHeaderOffset": 238332635
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Sound Spark LLC – Magic Spells, Buffs and Attacks/Ice_Spell_Ice_Spell_Buff_Positive_02.wav",
+          "compression": 8,
+          "crc32": 285486870,
+          "compressedBytes": 900098,
+          "uncompressedBytes": 1094664,
+          "localHeaderOffset": 240578507
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Sound Spark LLC – Magic Spells, Buffs and Attacks/Fire_Spell_Dragon_Trap_03.wav",
+          "compression": 8,
+          "crc32": 1781157203,
+          "compressedBytes": 1581466,
+          "uncompressedBytes": 1875178,
+          "localHeaderOffset": 242938115
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Sound Spark LLC – GLITCH FACTORY 1- BOOM, CRACKLE AND SCREAM/Glitch_Factory_01_Decimated_01.wav",
+          "compression": 8,
+          "crc32": 849987892,
+          "compressedBytes": 1087794,
+          "uncompressedBytes": 1155660,
+          "localHeaderOffset": 391330048
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Sound Spark LLC – GLITCH FACTORY 1- BOOM, CRACKLE AND SCREAM/Glitch_Factory_01_Boom_Crackle_04.wav",
+          "compression": 8,
+          "crc32": 1551116523,
+          "compressedBytes": 1191945,
+          "uncompressedBytes": 1536500,
+          "localHeaderOffset": 392418022
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Sound Spark LLC – GLITCH FACTORY 1- BOOM, CRACKLE AND SCREAM/Glitch_Factory_01_Morphing_Version2_13.wav",
+          "compression": 8,
+          "crc32": 2784281082,
+          "compressedBytes": 2423822,
+          "uncompressedBytes": 2748800,
+          "localHeaderOffset": 393610150
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Sound Spark LLC – GLITCH FACTORY 1- BOOM, CRACKLE AND SCREAM/Glitch_Factory_01_Screamers_10.wav",
+          "compression": 8,
+          "crc32": 268860626,
+          "compressedBytes": 5673285,
+          "uncompressedBytes": 6424586,
+          "localHeaderOffset": 396034160
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Sound Spark LLC – Forge Sound Design Toolkit/Water_Pouring_02.wav",
+          "compression": 8,
+          "crc32": 4015582519,
+          "compressedBytes": 1195346,
+          "uncompressedBytes": 1519242,
+          "localHeaderOffset": 401707755
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Sound Spark LLC – Forge Sound Design Toolkit/Heart_Beat_02.wav",
+          "compression": 8,
+          "crc32": 29432469,
+          "compressedBytes": 3145817,
+          "uncompressedBytes": 3656024,
+          "localHeaderOffset": 402903251
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Sound Spark LLC – Forge Sound Design Toolkit/Sci-FI_Movement_02.wav",
+          "compression": 8,
+          "crc32": 3499699746,
+          "compressedBytes": 742385,
+          "uncompressedBytes": 854730,
+          "localHeaderOffset": 406049215
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Sound Spark LLC – Forge Sound Design Toolkit/Device_Computation_Glitches_03.wav",
+          "compression": 8,
+          "crc32": 517321136,
+          "compressedBytes": 1120261,
+          "uncompressedBytes": 1410660,
+          "localHeaderOffset": 406791752
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Sound Spark LLC – FOREST AMBIENCE 1 CENTRAL FLORIDA/Flatwoods_Pinecastle_Nature_Forest_Whispering_Pines_02.wav",
+          "compression": 8,
+          "crc32": 200631163,
+          "compressedBytes": 46372856,
+          "uncompressedBytes": 56521872,
+          "localHeaderOffset": 407912314
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Sound Spark LLC – FOREST AMBIENCE 1 CENTRAL FLORIDA/Upland_Hardwoods_Green_Mountain_Nature_Forest_Cicadas_Isolated_02.wav",
+          "compression": 8,
+          "crc32": 1631249566,
+          "compressedBytes": 28023258,
+          "uncompressedBytes": 31106980,
+          "localHeaderOffset": 490633922
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Sound Spark LLC – Ambisonic Airplane Cessna 172/Airplane_Small_Propeller_Cessna172_Taxi_Window_Open_A-FORMAT.wav",
+          "compression": 8,
+          "crc32": 2358687798,
+          "compressedBytes": 16098797,
+          "uncompressedBytes": 17751026,
+          "localHeaderOffset": 572424192
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Sound Ex Machina - Vintage Telephones/Antique Wooden Phone (1930) - USA Standard Ringing 01.wav",
+          "compression": 8,
+          "crc32": 1899550888,
+          "compressedBytes": 5038648,
+          "uncompressedBytes": 7226220,
+          "localHeaderOffset": 763469978
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Sound Ex Machina - SCRATCHES/Scratching knife on metallic jagged surface 02.wav",
+          "compression": 8,
+          "crc32": 1993565594,
+          "compressedBytes": 1393132,
+          "uncompressedBytes": 1470554,
+          "localHeaderOffset": 786849714
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Sound Ex Machina - SCRATCHES/Scratching knife on wooden table.wav",
+          "compression": 8,
+          "crc32": 4197073086,
+          "compressedBytes": 1005425,
+          "uncompressedBytes": 1139052,
+          "localHeaderOffset": 789007499
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Sound Ex Machina - Rolling Objects/Battery rolling from right to left on wooden surface.wav",
+          "compression": 8,
+          "crc32": 1686957910,
+          "compressedBytes": 2257872,
+          "uncompressedBytes": 2573764,
+          "localHeaderOffset": 790013190
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Sound Ex Machina - Rolling Objects/Metallic ball rolling on concrete 02.wav",
+          "compression": 8,
+          "crc32": 1559012481,
+          "compressedBytes": 3520412,
+          "uncompressedBytes": 3893228,
+          "localHeaderOffset": 794901445
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Sound Ex Machina - Rolling Objects/Wooden cart rolling on concrete 04.wav",
+          "compression": 8,
+          "crc32": 2928236521,
+          "compressedBytes": 1487468,
+          "uncompressedBytes": 1636422,
+          "localHeaderOffset": 798422015
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Sound Ex Machina - RAIN CITY/Gentle rain, water runs off a pebble street, recorded through an air duct, background thunder at 1.46, loop.wav",
+          "compression": 8,
+          "crc32": 1086714885,
+          "compressedBytes": 76149529,
+          "uncompressedBytes": 82651670,
+          "localHeaderOffset": 799909751
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Sound Ex Machina - RAIN CITY/Heavy rain drops on a car window, steady, recorded indoors, loop.wav",
+          "compression": 8,
+          "crc32": 1131247603,
+          "compressedBytes": 28811678,
+          "uncompressedBytes": 50971102,
+          "localHeaderOffset": 876059503
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Sound Ex Machina - RAIN CITY/Soft rain, water flowing down from the roof and splashes on cement, city ambience, loop.wav",
+          "compression": 8,
+          "crc32": 3958236839,
+          "compressedBytes": 63834415,
+          "uncompressedBytes": 71995450,
+          "localHeaderOffset": 904871361
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Sound Ex Machina - Endless Drones/Illusion&Mystery - Magical Water.wav",
+          "compression": 8,
+          "crc32": 2712813693,
+          "compressedBytes": 30671948,
+          "uncompressedBytes": 31041474,
+          "localHeaderOffset": 1018770709
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Shapeforms - The Mint – Coins and Money/Coins_In_Sack_Held_By_Drawstring_06.wav",
+          "compression": 8,
+          "crc32": 2635530080,
+          "compressedBytes": 219912,
+          "uncompressedBytes": 273472,
+          "localHeaderOffset": 1076960781
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Shapeforms - The Mint – Coins and Money/Coins_Drop_Carpet_06.wav",
+          "compression": 8,
+          "crc32": 3104472485,
+          "compressedBytes": 168433,
+          "uncompressedBytes": 189912,
+          "localHeaderOffset": 1077180857
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Shapeforms - The Mint – Coins and Money/Coin_Slide_Carpet.wav",
+          "compression": 8,
+          "crc32": 3446046798,
+          "compressedBytes": 111929,
+          "uncompressedBytes": 123674,
+          "localHeaderOffset": 1077349439
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Shapeforms - The Mint – Coins and Money/Coins_Bottlecaps_Drop.wav",
+          "compression": 8,
+          "crc32": 3366820587,
+          "compressedBytes": 215266,
+          "uncompressedBytes": 250436,
+          "localHeaderOffset": 1077461514
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Rzpost - Ride on Bike/Bicycle,Approach,Gravel,Fast,Speed,Super,Skid_V4.wav",
+          "compression": 8,
+          "crc32": 1047652804,
+          "compressedBytes": 1692777,
+          "uncompressedBytes": 1909866,
+          "localHeaderOffset": 1077677035
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Rzpost - Ride on Bike/Bicycle,Chain,Close,Prespective,Clean_V3.wav",
+          "compression": 8,
+          "crc32": 3330739533,
+          "compressedBytes": 7144796,
+          "uncompressedBytes": 7905052,
+          "localHeaderOffset": 1079369969
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Rzpost - Ride on Bike/Bicycle,Wheel,Perspective,Gravel,Uphill,Slow,Speed,Skid_V2.wav",
+          "compression": 8,
+          "crc32": 3444602557,
+          "compressedBytes": 3915486,
+          "uncompressedBytes": 4361512,
+          "localHeaderOffset": 1086514914
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Rzpost - Ride on Bike/Bicycle,Chain,Perspective,Gravel,Fast,Speed,Skid_V2.wav",
+          "compression": 8,
+          "crc32": 1208846080,
+          "compressedBytes": 5047074,
+          "uncompressedBytes": 5447664,
+          "localHeaderOffset": 1090430567
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Rock The Speakerbox - Sorcery/SORCERY - CK - EFFECT Reverse Explosion 02.wav",
+          "compression": 8,
+          "crc32": 3636507222,
+          "compressedBytes": 30509925,
+          "uncompressedBytes": 39177422,
+          "localHeaderOffset": 1095477914
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Rock The Speakerbox - Sorcery/SORCERY - CK - SIZZLE Water On Pan Medium 02.wav",
+          "compression": 8,
+          "crc32": 2432753062,
+          "compressedBytes": 16376343,
+          "uncompressedBytes": 18798356,
+          "localHeaderOffset": 1125987998
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Rock The Speakerbox - Sorcery/SORCERY - DESIGNED - MAGIC ELECTRIC Cast Large.wav",
+          "compression": 8,
+          "crc32": 173124991,
+          "compressedBytes": 12202099,
+          "uncompressedBytes": 14531498,
+          "localHeaderOffset": 1142364502
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Rock The Speakerbox - Sorcery/SORCERY - DESIGNED - MAGIC BLACK Summon Necromancer.wav",
+          "compression": 8,
+          "crc32": 2485994548,
+          "compressedBytes": 6504050,
+          "uncompressedBytes": 6691550,
+          "localHeaderOffset": 1154566764
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Rock The Speakerbox - Melee/MELEE - DESIGNED - BASEBALL BAT Aluminum Hit Head.wav",
+          "compression": 8,
+          "crc32": 733194100,
+          "compressedBytes": 3655758,
+          "uncompressedBytes": 6950508,
+          "localHeaderOffset": 1161071093
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Rock The Speakerbox - Melee/MELEE - DESIGNED - HEADBUTT Crack.wav",
+          "compression": 8,
+          "crc32": 2492726763,
+          "compressedBytes": 2458146,
+          "uncompressedBytes": 4510440,
+          "localHeaderOffset": 1164727015
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Rock The Speakerbox - Melee/MELEE - CK - FLOG Leather Hit Smack 01.wav",
+          "compression": 8,
+          "crc32": 717729185,
+          "compressedBytes": 1935773,
+          "uncompressedBytes": 8968402,
+          "localHeaderOffset": 1167185309
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Rock The Speakerbox - Melee/MELEE - CK - ROPE WHOOSH Fast Light 01.wav",
+          "compression": 8,
+          "crc32": 1927651813,
+          "compressedBytes": 2318584,
+          "uncompressedBytes": 5631030,
+          "localHeaderOffset": 1169121235
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Rock The Speakerbox - Hero/HERO - CK - ARMOR Leather Walk.wav",
+          "compression": 8,
+          "crc32": 4258175071,
+          "compressedBytes": 5661689,
+          "uncompressedBytes": 6507814,
+          "localHeaderOffset": 1171440082
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Rock The Speakerbox - Hero/HERO - CK - CROWD Fight 02.wav",
+          "compression": 8,
+          "crc32": 2294295710,
+          "compressedBytes": 28315541,
+          "uncompressedBytes": 30576732,
+          "localHeaderOffset": 1177101915
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Rock The Speakerbox - Hero/HERO - DESIGNED - SWORD Unsheathe.wav",
+          "compression": 8,
+          "crc32": 3150118990,
+          "compressedBytes": 5692154,
+          "uncompressedBytes": 8131220,
+          "localHeaderOffset": 1205417596
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Rock The Speakerbox - Hero/HERO - DESIGNED - TOMB Slide Open.wav",
+          "compression": 8,
+          "crc32": 449287770,
+          "compressedBytes": 11118741,
+          "uncompressedBytes": 15533354,
+          "localHeaderOffset": 1211109897
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Rock The Speakerbox - Broken/BROKEN - CK - BEAM Wood Ceiling Drop On Concrete.wav",
+          "compression": 8,
+          "crc32": 97463551,
+          "compressedBytes": 5695807,
+          "uncompressedBytes": 8272262,
+          "localHeaderOffset": 1222228897
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Rock The Speakerbox - Broken/BROKEN - CK - EXPLOSION Boomy Crack.wav",
+          "compression": 8,
+          "crc32": 2466837652,
+          "compressedBytes": 21218859,
+          "uncompressedBytes": 25668964,
+          "localHeaderOffset": 1227924868
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Rock The Speakerbox - Broken/BROKEN - DESIGNED - MINE SHAFT Wood Metal Stress Very Long 06.wav",
+          "compression": 8,
+          "crc32": 776595429,
+          "compressedBytes": 13478257,
+          "uncompressedBytes": 14944590,
+          "localHeaderOffset": 1249143878
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Rock The Speakerbox - Broken/BROKEN - DESIGNED - WOOD Break Small.wav",
+          "compression": 8,
+          "crc32": 3687204420,
+          "compressedBytes": 9215806,
+          "uncompressedBytes": 12359474,
+          "localHeaderOffset": 1262622312
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Red Libraries - Bodyfall/RL_bodyfall_Concrete_Generic_Feet_Mid_Mono_Med_Impact_02.wav",
+          "compression": 8,
+          "crc32": 2040134382,
+          "compressedBytes": 283881,
+          "uncompressedBytes": 351508,
+          "localHeaderOffset": 1271838378
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Red Libraries - Bodyfall/RL_bodyfall_Metal_Grid_M3_Close_Stereo_Hard_Impact_07.wav",
+          "compression": 8,
+          "crc32": 3371066920,
+          "compressedBytes": 647898,
+          "uncompressedBytes": 875512,
+          "localHeaderOffset": 1272122427
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Red Libraries - Bodyfall/RL_bodyfall_Wood_Rustic_M2_Distant_Mono_Soft_Impact_07.wav",
+          "compression": 8,
+          "crc32": 2398866431,
+          "compressedBytes": 236061,
+          "uncompressedBytes": 316374,
+          "localHeaderOffset": 1272770490
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Red Libraries - Bodyfall/RL_bodyfall_Dirt_M4_Close_Stereo_Hard_Impact_10.wav",
+          "compression": 8,
+          "crc32": 889079608,
+          "compressedBytes": 537067,
+          "uncompressedBytes": 698288,
+          "localHeaderOffset": 1273006717
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Prismo Sound - Japan Train and Platform/JTP BULLET Onboard Stop Doors Depart 01.wav",
+          "compression": 8,
+          "crc32": 3840713027,
+          "compressedBytes": 193489713,
+          "uncompressedBytes": 204798360,
+          "localHeaderOffset": 1758716875
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Prismo Sound - Background Morocco/MOROCCO BONUS Wood Door 6.wav",
+          "compression": 8,
+          "crc32": 2525776147,
+          "compressedBytes": 5756505,
+          "uncompressedBytes": 6934480,
+          "localHeaderOffset": 2109777859
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Pole Position - Yamaha RS Venture 2006/yamaha_rs_venture_t7_ext_fast_bys_ORTF_CMC6.wav",
+          "compression": 8,
+          "crc32": 2026739357,
+          "compressedBytes": 20609078,
+          "uncompressedBytes": 38683442,
+          "localHeaderOffset": 2153862532
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Pole Position - Yamaha RS Venture 2006/yamaha_rs_venture_t1_onbrd_start_slow_drive_stop_off_LS5.wav",
+          "compression": 8,
+          "crc32": 2117323825,
+          "compressedBytes": 89827760,
+          "uncompressedBytes": 91955966,
+          "localHeaderOffset": 2174471779
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Pole Position - Yamaha RS Venture 2006/yamaha_rs_venture_t16_onbrd_start_blips_bogie_RE50.wav",
+          "compression": 8,
+          "crc32": 734787760,
+          "compressedBytes": 6884320,
+          "uncompressedBytes": 7442400,
+          "localHeaderOffset": 2264299721
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Pole Position - Volvo FM10 2003/Volvo_FM10_t5_Onbrd_Drive_Ramps_Gravel_Road_Stop_Off_Engine_Left_PZM.wav",
+          "compression": 8,
+          "crc32": 565686342,
+          "compressedBytes": 42331573,
+          "uncompressedBytes": 45764244,
+          "localHeaderOffset": 2271184332
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Pole Position - Volvo FM10 2003/Volvo_FM10_t14_Var_SFX_Gear_Stick_Sequence_XY_RSM191.wav",
+          "compression": 8,
+          "crc32": 1446392698,
+          "compressedBytes": 5650168,
+          "uncompressedBytes": 9336704,
+          "localHeaderOffset": 2396193350
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Pole Position - Volkswagen Kübelwagen 1943/Kubelwagen_t12_Ext_Bys_Gearshifts_H6.wav",
+          "compression": 8,
+          "crc32": 461323140,
+          "compressedBytes": 33082147,
+          "uncompressedBytes": 112208566,
+          "localHeaderOffset": 2692774637
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Pole Position - Ural Dnepr M-72 1944/Dnepr_M72_t11_Onbrd_Drive_Gearshifts_Stop_Off_Engine_Mix.wav",
+          "compression": 8,
+          "crc32": 1646085998,
+          "compressedBytes": 60722463,
+          "uncompressedBytes": 63042616,
+          "localHeaderOffset": 2732047447
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Pole Position - Toyota C-HR Turbo 2017/Toyota_CHR_Turbo_t18_Var_SFX_Window_Close_Interior_DPA4021.wav",
+          "compression": 8,
+          "crc32": 84820596,
+          "compressedBytes": 1712735,
+          "uncompressedBytes": 1963820,
+          "localHeaderOffset": 3066058396
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Pole Position - Tiger II/tiger_ii_t12_onbrd_start_drive_gearshifts_stop_off_engine_RE20.wav",
+          "compression": 8,
+          "crc32": 164368316,
+          "compressedBytes": 15783854,
+          "uncompressedBytes": 17001288,
+          "localHeaderOffset": 3117298369
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Pole Position - Thunder & Rain/rain_medium_steady_some_drops_on_metal_h4n.wav",
+          "compression": 8,
+          "crc32": 846098133,
+          "compressedBytes": 47467586,
+          "uncompressedBytes": 56935826,
+          "localHeaderOffset": 3135155998
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Pole Position - Thunder & Rain/thunderstorm_summer_morning_distant_rumble_sparse_approaching_2.wav",
+          "compression": 8,
+          "crc32": 80256835,
+          "compressedBytes": 27844107,
+          "uncompressedBytes": 33099150,
+          "localHeaderOffset": 3182623744
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Pole Position - Supermarine Spitfire Mk IX 1943/spitfire_mk_ix_t12_onbrd_idle_blips_engine_a_DPA4062.wav",
+          "compression": 8,
+          "crc32": 556950004,
+          "compressedBytes": 18487637,
+          "uncompressedBytes": 20102698,
+          "localHeaderOffset": 3241946582
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Pole Position - Supermarine Spitfire Mk IX 1943/spitfire_mk_ix_t4_ext_take_off_by_right_position_CSS5.wav",
+          "compression": 8,
+          "crc32": 1215636418,
+          "compressedBytes": 24789827,
+          "uncompressedBytes": 28196436,
+          "localHeaderOffset": 3260434406
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Pole Position - Supermarine Spitfire Mk IX 1943/spitfire_mk_ix_t20_var_sfx_air_release_brakes_CSS5.wav",
+          "compression": 8,
+          "crc32": 2512701803,
+          "compressedBytes": 6972785,
+          "uncompressedBytes": 7869490,
+          "localHeaderOffset": 3285224421
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/Pole Position - SKP m42 APC 1942/m42_t42_var_sfx_back_door_open_light_exhaust_DPA4062.wav",
+          "compression": 8,
+          "crc32": 4171611406,
+          "compressedBytes": 751199,
+          "uncompressedBytes": 896826,
+          "localHeaderOffset": 3442898769
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 5of8/License.pdf",
+          "compression": 8,
+          "crc32": 3254305408,
+          "compressedBytes": 93364,
+          "uncompressedBytes": 95184,
+          "localHeaderOffset": 3558288739
+        }
+      ]
+    },
+    {
+      "part": 6,
+      "url": "https://ftpmirror.your.org/pub/misc/sonniss2019/Sonniss.com - GDC 2019 - Game Audio Bundle Part 6of8.zip",
+      "entryCount": 197,
+      "matchCount": 42,
+      "matches": [
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 6of8/UberDuo - The Bathroom Audio Playset/Razor, Electric, Norelco, Trimmer, On, Trim Beard, Off.wav",
+          "compression": 8,
+          "crc32": 1718907441,
+          "compressedBytes": 21942478,
+          "uncompressedBytes": 26737144,
+          "localHeaderOffset": 1392314
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 6of8/Tone Glow Libraries - Steam Trains/Steam Train Arrival, Whistle, Pass by, Brakes, Squeal, Doors, Some Voices.wav",
+          "compression": 8,
+          "crc32": 798109986,
+          "compressedBytes": 30472522,
+          "uncompressedBytes": 34529140,
+          "localHeaderOffset": 100574472
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 6of8/Tone Glow Libraries - Steam Trains/Steam Train Pass by, Chuffing, Rail Clatter, Birds, Voices, Slow, Medium Distant.wav",
+          "compression": 8,
+          "crc32": 674162400,
+          "compressedBytes": 47984208,
+          "uncompressedBytes": 57682948,
+          "localHeaderOffset": 155550441
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 6of8/Tone Glow Libraries - Inland Port/Port, Ambience, Distant, Container Terminal, Trucks, Cranes, Alarms, Metallic Booms, 1000 ft.wav",
+          "compression": 8,
+          "crc32": 298016159,
+          "compressedBytes": 148387042,
+          "uncompressedBytes": 173454502,
+          "localHeaderOffset": 203534968
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 6of8/The Sound Pack Tree - Trains/232300 - Fast Freightliner Wagon Clanks.wav",
+          "compression": 8,
+          "crc32": 2210202281,
+          "compressedBytes": 37124203,
+          "uncompressedBytes": 39631030,
+          "localHeaderOffset": 1007489567
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 6of8/The Chris Alan - Analog Synthesized UI & SFX/Analog Synthesized UI - Button Click Tone 1.wav",
+          "compression": 8,
+          "crc32": 2012563955,
+          "compressedBytes": 49425,
+          "uncompressedBytes": 55996,
+          "localHeaderOffset": 1326008011
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 6of8/The Chris Alan - Analog Synthesized UI & SFX/Analog Synthesized UI - Lock On Engage.wav",
+          "compression": 8,
+          "crc32": 2348602715,
+          "compressedBytes": 245526,
+          "uncompressedBytes": 265368,
+          "localHeaderOffset": 1326208371
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 6of8/Studio 23 - Ultimate Footstep Collection/S23_SFX_Footsteps_Metal_Boots_Loop_Jogging.wav",
+          "compression": 8,
+          "crc32": 2072138187,
+          "compressedBytes": 4120832,
+          "uncompressedBytes": 10143848,
+          "localHeaderOffset": 1339058606
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 6of8/Studio 23 - Ultimate Footstep Collection/S23_SFX_Footsteps_Snow_Singles_Sequence.wav",
+          "compression": 8,
+          "crc32": 4209151956,
+          "compressedBytes": 6473304,
+          "uncompressedBytes": 8054210,
+          "localHeaderOffset": 1343179608
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 6of8/Studio 23 - Ultimate Footstep Collection/S23_SFX_Footsteps_Gravel_Loafers_Loops_Walk_Normal.wav",
+          "compression": 8,
+          "crc32": 2900492876,
+          "compressedBytes": 4713297,
+          "uncompressedBytes": 9066764,
+          "localHeaderOffset": 1349653079
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 6of8/Studio 23 - Ultimate Footstep Collection/S23_SFX_Footsteps_Extras_Doormat_Scrapes_01.wav",
+          "compression": 8,
+          "crc32": 211702606,
+          "compressedBytes": 1971708,
+          "uncompressedBytes": 3124216,
+          "localHeaderOffset": 1354366554
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 6of8/Spectravelers - Summer Mountains/Summer_Mountains_Ambience_Altitude_Sheep_Herd_Bells_Distants_Marmots_Wind.wav",
+          "compression": 8,
+          "crc32": 2720158197,
+          "compressedBytes": 150909626,
+          "uncompressedBytes": 172383894,
+          "localHeaderOffset": 1380557969
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 6of8/Spectravelers - Submersion/Underwater_Designed_Ambience_Abyss.wav",
+          "compression": 8,
+          "crc32": 1492806540,
+          "compressedBytes": 74363327,
+          "uncompressedBytes": 78048914,
+          "localHeaderOffset": 1687637511
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 6of8/Spectravelers - Submersion/Underwater_Designed_Acid_Soak_Hard_03.wav",
+          "compression": 8,
+          "crc32": 2611263551,
+          "compressedBytes": 9566762,
+          "uncompressedBytes": 10274836,
+          "localHeaderOffset": 1762000986
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 6of8/Spectravelers - Submersion/Underwater_Designed_Lava_Move_Huge_Medium_Speed.wav",
+          "compression": 8,
+          "crc32": 604925342,
+          "compressedBytes": 41004489,
+          "uncompressedBytes": 58309970,
+          "localHeaderOffset": 1771567899
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 6of8/Spectravelers - Submersion/Underwater_Designed_Whoosh_Propeller_Long_01.wav",
+          "compression": 8,
+          "crc32": 2297289994,
+          "compressedBytes": 41590828,
+          "uncompressedBytes": 48526674,
+          "localHeaderOffset": 1812572549
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 6of8/Soundreorganized - Everything So Far - Collection/Water_Stream_Small_Calm_Close.WAV",
+          "compression": 8,
+          "crc32": 560425358,
+          "compressedBytes": 99520278,
+          "uncompressedBytes": 107633446,
+          "localHeaderOffset": 2086946258
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 6of8/Soundreorganized - Everything So Far - Collection/Snooring_Man_Close_Voice_Sleep_Human.WAV",
+          "compression": 8,
+          "crc32": 2571148071,
+          "compressedBytes": 15779699,
+          "uncompressedBytes": 18315202,
+          "localHeaderOffset": 2186466702
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 6of8/Soundreorganized - Everything So Far - Collection/DryingRack_Metal_Impact_Hit_Rumble_Bell_Leaf-W.wav",
+          "compression": 8,
+          "crc32": 3686888831,
+          "compressedBytes": 45585765,
+          "uncompressedBytes": 52805200,
+          "localHeaderOffset": 2202246574
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 6of8/Soundreorganized - Everything So Far - Collection/Kitchen_Room_Tone_Clock_Freezer_AmbiX.wav",
+          "compression": 8,
+          "crc32": 3163380933,
+          "compressedBytes": 190456510,
+          "uncompressedBytes": 231217302,
+          "localHeaderOffset": 2247832522
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 6of8/Soundopolis - Icy Snow 2 HD/Footsteps_Icy_Normal_Single_Fienup_006_SIS2.wav",
+          "compression": 8,
+          "crc32": 2328613291,
+          "compressedBytes": 467588,
+          "uncompressedBytes": 593790,
+          "localHeaderOffset": 2438289317
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 6of8/Soundopolis - Icy Snow 2 HD/Ice_Impact_Debris_Heavy_Single_Fienup_015_SIS2.wav",
+          "compression": 8,
+          "crc32": 2208045198,
+          "compressedBytes": 658204,
+          "uncompressedBytes": 815024,
+          "localHeaderOffset": 2438757063
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 6of8/Soundopolis - Icy Snow 2 HD/Snowball_Impact_Snow_Single_Fienup_004_SIS2.wav",
+          "compression": 8,
+          "crc32": 218128910,
+          "compressedBytes": 77156,
+          "uncompressedBytes": 90380,
+          "localHeaderOffset": 2439415428
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 6of8/Soundopolis - Icy Snow 2 HD/Icicle_Sliding on Ice_Fienup_001_SIS2.wav",
+          "compression": 8,
+          "crc32": 3558322118,
+          "compressedBytes": 2935863,
+          "uncompressedBytes": 4374030,
+          "localHeaderOffset": 2439492742
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 6of8/Soundopolis - Household Doors HD/Nightstand_Modern_Drawers_Wood_Close_x6_Fienup_001.wav",
+          "compression": 8,
+          "crc32": 2353976288,
+          "compressedBytes": 5129903,
+          "uncompressedBytes": 9397188,
+          "localHeaderOffset": 2442428873
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 6of8/Soundopolis - Household Doors HD/Nightstand_Old_Drawers_Wood_Open_x11_Fienup_001.wav",
+          "compression": 8,
+          "crc32": 1608303019,
+          "compressedBytes": 11207122,
+          "uncompressedBytes": 20286000,
+          "localHeaderOffset": 2447558946
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 6of8/Soundopolis - Household Doors HD/Door Hinge 02_Creaky_x3_Fienup_001.wav",
+          "compression": 8,
+          "crc32": 3215465368,
+          "compressedBytes": 10512736,
+          "uncompressedBytes": 13397412,
+          "localHeaderOffset": 2458766235
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 6of8/Soundopolis - Household Doors HD/China Cabinet_Door_Wood with Glass_Close_x5_Fienup_001.wav",
+          "compression": 8,
+          "crc32": 277398511,
+          "compressedBytes": 4502554,
+          "uncompressedBytes": 8423272,
+          "localHeaderOffset": 2469279125
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 6of8/SoundMorph - Robotic Lifeforms 2/Robotic Lifeforms 2 - Transforms - Synth Whoosher Mutation 07.wav",
+          "compression": 8,
+          "crc32": 2455536409,
+          "compressedBytes": 3063217,
+          "uncompressedBytes": 3246572,
+          "localHeaderOffset": 2473781969
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 6of8/SoundMorph - Robotic Lifeforms 2/Robotic Lifeforms 2 - Servos - Variable Nano Machine 12.wav",
+          "compression": 8,
+          "crc32": 796751717,
+          "compressedBytes": 1007930,
+          "uncompressedBytes": 1149004,
+          "localHeaderOffset": 2478262760
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 6of8/SoundMorph - Robotic Lifeforms 2/Robotic Lifeforms 2 - Impacts Source - Metal Tool Drawer Punch 03.wav",
+          "compression": 8,
+          "crc32": 3155795045,
+          "compressedBytes": 888020,
+          "uncompressedBytes": 2162184,
+          "localHeaderOffset": 2479270865
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 6of8/Soundholder - Swipes And Whooshes/swipes and whooshes metal grille slow and long swings stereo ORTF 8040.wav",
+          "compression": 8,
+          "crc32": 1829843924,
+          "compressedBytes": 5988018,
+          "uncompressedBytes": 8513266,
+          "localHeaderOffset": 2585315020
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 6of8/Soundholder - Swipes And Whooshes/swipes and whooshes tshirt fast and short swings stereo ORTF 8040.wav",
+          "compression": 8,
+          "crc32": 2275994621,
+          "compressedBytes": 7572757,
+          "uncompressedBytes": 9256004,
+          "localHeaderOffset": 2591303229
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 6of8/Soundholder - Swipes And Whooshes/swipes and whooshes broom long stick slow and long swings stereo ORTF 8040.wav",
+          "compression": 8,
+          "crc32": 516243241,
+          "compressedBytes": 8190090,
+          "uncompressedBytes": 14261104,
+          "localHeaderOffset": 2598876172
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 6of8/Soundholder - Props Box/props water spray mono 8040.wav",
+          "compression": 8,
+          "crc32": 2013017979,
+          "compressedBytes": 9909025,
+          "uncompressedBytes": 11942466,
+          "localHeaderOffset": 2612565883
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 6of8/Soundholder - Props Box/props stones small multiple dropped on the concrete floor mono 8040.wav",
+          "compression": 8,
+          "crc32": 3295695585,
+          "compressedBytes": 2915202,
+          "uncompressedBytes": 4516730,
+          "localHeaderOffset": 2622475046
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 6of8/Soundholder - Italy - Sicilian Ambients/ambient Italy Sicily Erice wind on the top of the mountain birds and small chats stereo M10.wav",
+          "compression": 8,
+          "crc32": 3954043192,
+          "compressedBytes": 88297416,
+          "uncompressedBytes": 102087318,
+          "localHeaderOffset": 2631080252
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 6of8/Soundholder - Harbours Of Norway/ambient Norway Nyksund shore waves hitting rocks close perspective stereo ORTF 8040.wav",
+          "compression": 8,
+          "crc32": 1719355356,
+          "compressedBytes": 38858384,
+          "uncompressedBytes": 42779222,
+          "localHeaderOffset": 2786053417
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 6of8/Soundholder - EMF/EMF xbox 360 hiss and ejecting cd.wav",
+          "compression": 8,
+          "crc32": 3522596290,
+          "compressedBytes": 28434253,
+          "uncompressedBytes": 32293936,
+          "localHeaderOffset": 2933784818
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 6of8/Soundholder - Arvor 215 Boat/boat Arvor 215 engine neutral gear than turn off mono 4061 mix1.wav",
+          "compression": 8,
+          "crc32": 2190375004,
+          "compressedBytes": 13591464,
+          "uncompressedBytes": 14242772,
+          "localHeaderOffset": 3168241531
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 6of8/Soundbox Library - Electromagnetic Fields Collection/EMF_121_Cnc_Wood_Carving_Machine.wav",
+          "compression": 8,
+          "crc32": 3532899488,
+          "compressedBytes": 23694581,
+          "uncompressedBytes": 24570284,
+          "localHeaderOffset": 3587845061
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 6of8/License.pdf",
+          "compression": 8,
+          "crc32": 3254305408,
+          "compressedBytes": 93364,
+          "uncompressedBytes": 95184,
+          "localHeaderOffset": 3767546653
+        }
+      ]
+    },
+    {
+      "part": 7,
+      "url": "https://ftpmirror.your.org/pub/misc/sonniss2019/Sonniss.com - GDC 2019 - Game Audio Bundle Part 7of8.zip",
+      "entryCount": 93,
+      "matchCount": 26,
+      "matches": [
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 7of8/2496SoundEffects - Ambisonic City/City Birds In Park, Voices, Distant Traffic  _B (wxyz) .wav",
+          "compression": 8,
+          "crc32": 2995546240,
+          "compressedBytes": 147723384,
+          "uncompressedBytes": 165312736,
+          "localHeaderOffset": 238432679
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 7of8/2496SoundEffects - Ambisonic City/City Wind, Leaves, Distant Traffic  _Stereo (LR) .wav",
+          "compression": 8,
+          "crc32": 3500689529,
+          "compressedBytes": 70940332,
+          "uncompressedBytes": 78998572,
+          "localHeaderOffset": 386156239
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 7of8/2496SoundEffects - Ambisonic Crowds/Crowd Exterior Large Size, City Voices, Footsteps, Distant Traffic Stereo .wav",
+          "compression": 8,
+          "crc32": 852699989,
+          "compressedBytes": 76935458,
+          "uncompressedBytes": 84975142,
+          "localHeaderOffset": 457096860
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 7of8/2496SoundEffects - Ambisonic Crowds/Crowd Exterior Large Size, Restaurant, Voices, Footsteps, Distant Intercom  5.1 (LCRLsRsLf).wav",
+          "compression": 8,
+          "crc32": 799516802,
+          "compressedBytes": 215993549,
+          "uncompressedBytes": 233295432,
+          "localHeaderOffset": 534032515
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 7of8/2496SoundEffects - Ambisonic Crowds/Crowd Interior Small Size, Arcade, Air Hockey, Video Games, Voices 2 B (Wxyz).wav",
+          "compression": 8,
+          "crc32": 977614337,
+          "compressedBytes": 120023461,
+          "uncompressedBytes": 133647330,
+          "localHeaderOffset": 750026278
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 7of8/2496SoundEffects - Coastal Ambience and Beaches/Ocean Waves Surf On Rocks Close.wav",
+          "compression": 8,
+          "crc32": 368759244,
+          "compressedBytes": 94182189,
+          "uncompressedBytes": 96489010,
+          "localHeaderOffset": 1074448387
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 7of8/2496SoundEffects - Coastal Ambience and Beaches/Roller Coaster Voices Cheers.wav",
+          "compression": 8,
+          "crc32": 3871200733,
+          "compressedBytes": 44506967,
+          "uncompressedBytes": 45562306,
+          "localHeaderOffset": 1168630742
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 7of8/2496SoundEffects - Developer Toolkit Pack 1/App Button Beep Friendly.wav",
+          "compression": 8,
+          "crc32": 1633929053,
+          "compressedBytes": 8581113,
+          "uncompressedBytes": 10685288,
+          "localHeaderOffset": 1213137999
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 7of8/2496SoundEffects - Developer Toolkit Pack 1/App Button Clicks Shing Sound Effect.wav",
+          "compression": 8,
+          "crc32": 1044696177,
+          "compressedBytes": 2633004,
+          "uncompressedBytes": 5597924,
+          "localHeaderOffset": 1221719267
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 7of8/2496SoundEffects - Developer Toolkit Pack 1/App Button Radio Bloops.wav",
+          "compression": 8,
+          "crc32": 4258209633,
+          "compressedBytes": 7785025,
+          "uncompressedBytes": 10006554,
+          "localHeaderOffset": 1224352438
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 7of8/2496SoundEffects - Hollywood Cameras/Camera Shutter Click Design Double Trouble 5.1 (LCRLsRsLf).wav",
+          "compression": 8,
+          "crc32": 978724155,
+          "compressedBytes": 1141298,
+          "uncompressedBytes": 2171092,
+          "localHeaderOffset": 1232137737
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 7of8/2496SoundEffects - Hollywood Cameras/Camera Shutter Click Design Rise And Quick Stereo.wav",
+          "compression": 8,
+          "crc32": 109170630,
+          "compressedBytes": 643152,
+          "uncompressedBytes": 880204,
+          "localHeaderOffset": 1233279217
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 7of8/2496SoundEffects - Hollywood Cameras/Camera Shutter Click Design Simple Beep And Shutter Click 5.1 (LCRLsRsLf).wav",
+          "compression": 8,
+          "crc32": 1785086055,
+          "compressedBytes": 820570,
+          "uncompressedBytes": 1301600,
+          "localHeaderOffset": 1233922542
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 7of8/2496SoundEffects - Rain in the City/Rain On Concrete In Alley Splattering Dripping .wav",
+          "compression": 8,
+          "crc32": 3737820896,
+          "compressedBytes": 33866649,
+          "uncompressedBytes": 39954922,
+          "localHeaderOffset": 1336875901
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 7of8/2496SoundEffects - Rain in the City/Rain On Concrete Water Dripping In Alley.wav",
+          "compression": 8,
+          "crc32": 564528516,
+          "compressedBytes": 52570580,
+          "uncompressedBytes": 61498062,
+          "localHeaderOffset": 1370742720
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 7of8/2496SoundEffects - Rain in the City/Water Dripping On Plastic Distant Traffic.wav",
+          "compression": 8,
+          "crc32": 349703025,
+          "compressedBytes": 59629390,
+          "uncompressedBytes": 85296524,
+          "localHeaderOffset": 1423313463
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 7of8/2496SoundEffects - Room Tones and Quiet Places Pack 1/Train Station Hallway Escalator, Elevator Bell, Footsteps.wav",
+          "compression": 8,
+          "crc32": 2120224141,
+          "compressedBytes": 92902029,
+          "uncompressedBytes": 105390532,
+          "localHeaderOffset": 1696999732
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 7of8/2496SoundEffects - Super Heroes Sound Design/The Captain's Shield Metal Hit 5.wav",
+          "compression": 8,
+          "crc32": 1278085402,
+          "compressedBytes": 516905,
+          "uncompressedBytes": 693154,
+          "localHeaderOffset": 1842184238
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 7of8/2496SoundEffects - Surround a Room 5.1- Stereo Room Tones/Room Tone Wall Heater Furnace, Pinging, Hiss _Stereo.wav",
+          "compression": 8,
+          "crc32": 425973036,
+          "compressedBytes": 30907556,
+          "uncompressedBytes": 34962312,
+          "localHeaderOffset": 2032420664
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 7of8/2496SoundEffects - Surround In a Crowd 5.1/Crowd Interior Hall Museum Footsteps, Children, Reverberant _5.1_LCRLsRsLf.wav",
+          "compression": 8,
+          "crc32": 730820049,
+          "compressedBytes": 97096549,
+          "uncompressedBytes": 110962252,
+          "localHeaderOffset": 2475497581
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 7of8/2496SoundEffects - Surround In the City 5.1/Auto Interior On Busy Freeway Driving Fast Windows Open, Car Bys Fast -5.1 LCRLsRsLf.wav",
+          "compression": 8,
+          "crc32": 182472090,
+          "compressedBytes": 106982969,
+          "uncompressedBytes": 121317664,
+          "localHeaderOffset": 2698264971
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 7of8/West Wolf - Pedestrian Streets/PS_49_City_Pedestrian Street_Evening_Mid-Busy_People_Voices_Hum_Big_Bulgaria.wav",
+          "compression": 8,
+          "crc32": 2434944934,
+          "compressedBytes": 78143236,
+          "uncompressedBytes": 86697984,
+          "localHeaderOffset": 3093706675
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 7of8/West Wolf - Construction Ambiences/CA_06_Construction Site_Street_Hydraulic Jackhammer_Middle Distance_2.wav",
+          "compression": 8,
+          "crc32": 4242120242,
+          "compressedBytes": 113910690,
+          "uncompressedBytes": 123271788,
+          "localHeaderOffset": 3251707874
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 7of8/West Wolf - Seaside Nature And Waves/SNW_06_Nature_Forest_Birds_Wind_Early Morning_Spring_Distant Sea_Mediterranean_Grece.wav",
+          "compression": 8,
+          "crc32": 382730194,
+          "compressedBytes": 72683276,
+          "uncompressedBytes": 84014154,
+          "localHeaderOffset": 3543294596
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 7of8/West Wolf - Seaside Nature And Waves/SNW_14_Nature_Forest_Birds_Insects_Morning_Spring_Early Summer_South Black Sea_Bulgaria.wav",
+          "compression": 8,
+          "crc32": 4094065606,
+          "compressedBytes": 56732796,
+          "uncompressedBytes": 61131084,
+          "localHeaderOffset": 3640974685
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 7of8/License.pdf",
+          "compression": 8,
+          "crc32": 3254305408,
+          "compressedBytes": 93364,
+          "uncompressedBytes": 95184,
+          "localHeaderOffset": 3796399300
+        }
+      ]
+    },
+    {
+      "part": 8,
+      "url": "https://ftpmirror.your.org/pub/misc/sonniss2019/Sonniss.com - GDC 2019 - Game Audio Bundle Part 8of8.zip",
+      "entryCount": 28,
+      "matchCount": 10,
+      "matches": [
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 8of8/2496SoundEffects - Whoosh Pack 1/Whoosh Electronic Short Beep.wav",
+          "compression": 8,
+          "crc32": 1259158818,
+          "compressedBytes": 167724,
+          "uncompressedBytes": 425338,
+          "localHeaderOffset": 63451047
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 8of8/2496SoundEffects - Whoosh Pack 1/Whoosh Experimental Thunder Roll Off.wav",
+          "compression": 8,
+          "crc32": 786657469,
+          "compressedBytes": 706648,
+          "uncompressedBytes": 1239860,
+          "localHeaderOffset": 63618919
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 8of8/2496SoundEffects - Whoosh Pack 1/Whoosh Horror Screams Metallic Rattle By.wav",
+          "compression": 8,
+          "crc32": 2826911350,
+          "compressedBytes": 320499,
+          "uncompressedBytes": 623760,
+          "localHeaderOffset": 64325723
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 8of8/2496SoundEffects - Tech Toys Electronics Pack 1/Alarm Clock Electric Beeping.wav",
+          "compression": 8,
+          "crc32": 1442960489,
+          "compressedBytes": 7173863,
+          "uncompressedBytes": 7968766,
+          "localHeaderOffset": 64646513
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 8of8/2496SoundEffects - Surround The Rain 5.1- Stereo/Rain On Auto, Interior Parked, Window Closed 2_5.1 LCRLsRsLFE.wav",
+          "compression": 8,
+          "crc32": 3464205190,
+          "compressedBytes": 73080988,
+          "uncompressedBytes": 79470414,
+          "localHeaderOffset": 78540259
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 8of8/2496SoundEffects - Surround The Rain 5.1- Stereo/Rain On Concrete, Drips On Metal_5.1 LCRLsRsLFE.wav",
+          "compression": 8,
+          "crc32": 2823949448,
+          "compressedBytes": 95790871,
+          "uncompressedBytes": 104680554,
+          "localHeaderOffset": 183726839
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 8of8/2496SoundEffects - Surround In the Park 5.1 - Stereo/Park Residential, Birds, Children Playing, Wind_5.1_LCRLsRsLf.wav",
+          "compression": 8,
+          "crc32": 3131287617,
+          "compressedBytes": 131937044,
+          "uncompressedBytes": 144429330,
+          "localHeaderOffset": 279518029
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 8of8/2496SoundEffects - Surround In the Park 5.1 - Stereo/Park Residential, Birds, Light Voices, Distant Tennis Court_5.1_LCRLsRsLf.wav",
+          "compression": 8,
+          "crc32": 272186501,
+          "compressedBytes": 126012906,
+          "uncompressedBytes": 135264402,
+          "localHeaderOffset": 411455274
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 8of8/2496SoundEffects - Surround In the Park 5.1 - Stereo/Park Residential, Birds, Wind, Crows _STEREO.wav",
+          "compression": 8,
+          "crc32": 418367028,
+          "compressedBytes": 48758848,
+          "uncompressedBytes": 52226638,
+          "localHeaderOffset": 537468393
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 8of8/License.pdf",
+          "compression": 8,
+          "crc32": 3254305408,
+          "compressedBytes": 93364,
+          "uncompressedBytes": 95184,
+          "localHeaderOffset": 839347831
+        }
+      ]
+    }
+  ]
+}

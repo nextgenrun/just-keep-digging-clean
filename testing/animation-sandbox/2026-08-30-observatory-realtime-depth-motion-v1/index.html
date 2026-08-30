@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Observatory — segmented atmosphere runtime</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main>
+    <header>
+      <div>
+        <p class="eyebrow">Review-only technical vertical slice</p>
+        <h1>Observatory · decomposed living atmosphere</h1>
+        <p class="lede">Clean sky under-plate, five original-pixel cloud strata, static architecture, and independently animated building lights.</p>
+      </div>
+      <div class="status" id="status" data-state="loading">Loading compiled pack…</div>
+    </header>
+
+    <section class="workspace">
+      <div class="stage-shell">
+        <div id="game" aria-label="Phaser-rendered Observatory background simulation"></div>
+        <div class="split-labels" id="splitLabels"><span>Untouched source</span><span>Real-time render</span></div>
+        <div class="truth-chip">PHASER 3.90 · TRUE LAYER PACK V2</div>
+      </div>
+
+      <aside>
+        <section class="panel">
+          <h2>Inspect</h2>
+          <div class="button-grid" role="group" aria-label="View mode">
+            <button data-view="source">Source</button>
+            <button data-view="runtime">Runtime</button>
+            <button class="active" data-view="split">Split</button>
+            <button data-view="layers">Segments</button>
+            <button data-view="lights">Light IDs</button>
+          </div>
+        </section>
+
+        <section class="panel controls">
+          <h2>Simulation</h2>
+          <button class="pause" id="pause">Pause motion</button>
+          <label>Atmospheric motion <output id="motionValue">100%</output>
+            <input id="motion" type="range" min="0" max="140" value="100">
+          </label>
+          <label>Independent lights <output id="lightValue">100%</output>
+            <input id="lights" type="range" min="0" max="160" value="100">
+          </label>
+        </section>
+
+        <section class="panel telemetry" aria-live="polite">
+          <h2>Rendered proof</h2>
+          <dl>
+            <div><dt>Pipeline</dt><dd id="pipeline">pending</dd></div>
+            <div><dt>Cycle phase</dt><dd id="phase">0.000</dd></div>
+            <div><dt>FPS</dt><dd id="fps">—</dd></div>
+            <div><dt>Cloud strata</dt><dd id="layerCount">—</dd></div>
+            <div><dt>Light groups</dt><dd id="lightCount">—</dd></div>
+            <div><dt>Source</dt><dd>sky13 · 1672×941</dd></div>
+            <div><dt>Town video</dt><dd id="townGuard">hash check pending</dd></div>
+          </dl>
+        </section>
+
+        <p class="boundary">This page is isolated under <code>testing/</code>. It does not modify saves, maps, scene routing, or the Town Square video.</p>
+      </aside>
+    </section>
+  </main>
+  <script src="../../../libs/phaser.js"></script>
+  <script type="module" src="./main.js"></script>
+</body>
+</html>

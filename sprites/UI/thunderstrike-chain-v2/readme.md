@@ -1,10 +1,10 @@
 # Thunderstrike Timing Components v2
 
-Production transparent timing components for the ten-slam Thunderstrike panel.
+Production transparent timing components for the minimal ten-slam rail.
 They replace the former procedural yellow target, white needle, and related
-placeholder treatment while retaining the approved v1 obsidian-and-bronze
-backing frame. The v3 indicator package separately replaces the remaining
-milestone, check, glyph, and copy-backplate primitives.
+placeholder treatment while retaining a cropped strip of the approved v1
+obsidian-and-bronze backing frame. The former v3 milestone/copy package is no
+longer preloaded or rendered.
 
 - `thunderstrike-target-gate-v2.webp` is the runtime bronze, cyan, and gold
   lightning target gate. Phaser stretches its visible width to the exact
@@ -14,7 +14,7 @@ milestone, check, glyph, and copy-backplate primitives.
 - `2026-07-28-imagegen-thunderstrike-target-source.png` and
   `2026-07-28-imagegen-thunderstrike-needle-source.png` are the retained
   full-resolution sources.
-- Missing target or needle art disables the timing panel instead of falling
+- Missing target or needle art disables the timing rail instead of falling
   back to a cheap procedural substitute.
 
 Both sources were created with the built-in image-generation workflow using

@@ -1,5 +1,6 @@
 import { DEPTH_MILESTONES } from "./depthMilestones.js";
 import { STAR_CONSTELLATION_CONFIG } from "./starConstellations.js";
+import { STAR_IDENTITY_LIBRARY_CONFIG } from "./starIdentityLibrary.js";
 import { STAR_RARITY_PROGRESSION_CONFIG } from "./starRarityProgression.js";
 
 export const SAVE_PAYLOAD_VERSION = 15;
@@ -10,6 +11,7 @@ const STAR_RESOURCE_TYPES = Object.freeze(Object.keys(STAR_CONSTELLATION_CONFIG.
 const STAR_RESOURCE_SET = new Set(STAR_RESOURCE_TYPES);
 const MAX_STAR_COUNT = STAR_RARITY_PROGRESSION_CONFIG.signProgression.maxEncounterCount;
 const MAX_RARITY_SLOTS = 64;
+const MAX_STAR_IDENTITY_SLOTS = STAR_IDENTITY_LIBRARY_CONFIG.identities.length;
 
 function boundedInteger(value, min, max, fallback = 0) {
   return Number.isFinite(value) && Number.isInteger(value)
@@ -60,6 +62,10 @@ export function sanitizeStarCollectionData(value) {
     ? value.rarityCounts.slice(0, MAX_RARITY_SLOTS)
       .map(count => boundedInteger(count, 0, MAX_STAR_COUNT, 0))
     : [];
+  const identityCounts = Array.isArray(value?.identityCounts)
+    ? value.identityCounts.slice(0, MAX_STAR_IDENTITY_SLOTS)
+      .map(count => boundedInteger(count, 0, MAX_STAR_COUNT, 0))
+    : [];
   const unlockedConstellations = Array.isArray(value?.unlockedConstellations)
     ? [...new Set(value.unlockedConstellations
       .filter(resourceType => STAR_RESOURCE_SET.has(resourceType)))]
@@ -71,6 +77,7 @@ export function sanitizeStarCollectionData(value) {
       STAR_RARITY_PROGRESSION_CONFIG.signProgression.xpTotals,
     )),
     rarityCounts: Object.freeze(rarityCounts),
+    identityCounts: Object.freeze(identityCounts),
     unlockedConstellations: Object.freeze(unlockedConstellations),
   });
 }

@@ -5,6 +5,8 @@ Game system — environment.
 Notable systems:
 - `DayNightCycle.js` — authoritative world clock, one smooth sun/moon orbit, surface-only celestial rendering, and tint cycles
 - `WeatherSystem.js` — authoritative weather phase orchestration, including winter/temperature-gated snow and frame-rate-independent cloud/fog/sun attenuation snapshots
+- `WeatherPrecipitationEnvelope.js` — shared frame-rate-independent rain, snow, and storm rise/fall signals so rendering, impacts, wetness, audio, and lighting do not cut at a director phase boundary
+- `WeatherRecordedAmbienceController.js` — lazy-loads the six approved Sonniss weather derivatives and selects one contextual rain bed plus one restrained wind bed, with long gain crossfades and procedural fallback while loading
 - `WeatherImpactRainController.js` / `WeatherSnowController.js` — pooled ImageGen rain and snow in world coordinates; center/edge swept rays let particles traverse real AIR shafts but stop at the first authoritative tile or authored cover without tunnelling
 - `WeatherWorldCollision.js` / `weatherWorldRaycast.js` — exact world-grid and authored-cover segment collision shared by rain and snow, independent of camera/UI coordinates
 - `WeatherSystem.getSnapshot()` exposes `approvedParticleVisualsReady` and the active particle texture key so admin/runtime health checks can distinguish approved artwork from rollback fallback
@@ -15,7 +17,24 @@ Notable systems:
   `systems/lighting/FireLightRayRenderer.js` hand-sockets and solid-tile-clamps
   its local authored gobos beneath the darkness mask.
 - `AmbientParticleSystem.js` — underground dust motes + falling debris (values/ambientParticleConfig.js)
-- `CampfireSystem.js` — campfire buffs plus save-slot-aware texture residency.
+- `StarSanctuarySystem.js` / `StarConsumptionGuard.js` /
+  `starSanctuaryProfile.js` — turn each intact Star
+  into a deterministic Wellspring, Reservoir, or Haven mini-base. Standing
+  nearly still restores GP only to that site's reserve; the system also owns
+  the first-use typed `DESTROY` gate plus release-cancellable hold admission,
+  and derives permanent scars from existing saved dug-Star source records
+  without owning Star rewards, Stress, lighting, or save transport.
+- `CampfireSystem.js` — campfire buffs, saved Ember Charges, slot-six
+  consumption, and save-slot-aware texture residency. Every save starts with
+  one use. Returning to the Town surface or interacting with the Campfire
+  restores the reserve to at least one use; the first mined Ember Ore block
+  permanently raises that refill to two, while every mined Ember still adds one
+  immediate use through `DigSystem`.
+  Every successful rare Ember collection also starts the short, skippable
+  `EmberDiscoveryEventSystem` reward beat. Its approved frame and Ember icon
+  name the gained charge, state that Ember fuels Campfire blessings, and show
+  the first-find refill upgrade before the one-time Next Promise guide takes
+  over.
   It adopts the current tier queued by `WorldLoadScene`, keeps that exact visual
   until an upgraded tier is fully ready, then releases the previous
   manager-owned texture without changing upgrade or persistence semantics.
@@ -47,6 +66,11 @@ Notable systems:
   response, and immediate cancellation when the permanent Seismic Suppression
   player upgrade is owned. Event completion records intensity, distance, and
   opened passages silently; it does not reopen a cleared-status card
+  The default LEO player-character runtime may request a contextual warning at
+  the player-aware boundary; the shared voice director can queue it but can
+  never interrupt active narration, player, or merchant speech. Biome entry is
+  emitted only on a real underground biome transition, and a campfire-rest line
+  is eligible only after the player deliberately ignites a blessing.
 - `earthquakeFallZoneMath.js` — Phaser-independent collapse-width expansion,
   per-column landing validation, and swept rock/body AABB math
 - `CaveHazardSystem.js` — cave-only timed gates, Flight-over spike runs, and

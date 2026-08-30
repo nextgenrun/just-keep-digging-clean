@@ -4,22 +4,27 @@ Image-generated physical terrain art for the scenic renderer. These assets are
 visual-only: `WorldModel` remains authoritative for tile type, HP, digging,
 collision, rewards, and saves.
 
-- `ground-damage-fracture-expanded-v4.png` and
-  `ground-damage-response-expanded-v4.png` are the active layered damage
-  atlases. They provide 64 authored structural motifs x four cumulative raster
-  anchors, 33 exact tile/resource profiles x four response tiers, twelve
-  logical HP states, and eight coordinate-stable transforms. The production
-  painter mixes shadow, rim, and exact tile-tinted response at the invariant
-  94 px gameplay size, yielding 6,144 structural combinations within a
-  56.6 MB decoded atlas budget.
-- `ground-damage-expanded-v4/` records the ImageGen source sheets, alpha-clean
-  derivative, prompt summaries, exact profile order, hashes, frame order,
-  coverage, decoded-memory budget, and rollback routes.
+- `ground-damage-piskel-anchor-v2.png` and `piskel-ground-damage-v2/` are the
+  active universal damage package. Ten coordinate-stable motifs x twelve
+  cumulative states produce 120 resource-independent frames in one 16.2 MiB
+  decoded atlas. The normal painter creates no material tint/response layer.
+- The resource-specific V3, V4, V5, and V6 damage packages are rejected as the
+  production direction. Their files remain as local comparison/history assets,
+  but normal startup does not preload them.
+- `ground-damage-dynamic-response-v6/` records the built-in ImageGen Stone
+  fragments, alpha extraction, prompt summaries, Blue Caverns reference,
+  profile-major offsets, hashes, coverage, and decoded-memory budget for the
+  rejected V6 comparison.
+- `ground-damage-response-aligned-v5.png` and
+  `ground-damage-aligned-v5/` remain the complete fixed-registration V5
+  rejected response comparison selected by `?groundDamageAtlas=v5`.
+- `ground-damage-fracture-expanded-v4.png`,
+  `ground-damage-response-expanded-v4.png`, and
+  `ground-damage-expanded-v4/` remain the complete expanded V4 comparison
+  selected only for local comparison by `?groundDamageAtlas=v4`.
 - `ground-damage-fracture-v3.png`, `ground-damage-response-v3.png`, and
-  `ground-damage-layered-v3/` remain the complete layered V3 rollback selected
-  by `?groundDamageAtlas=v3`.
-- `ground-damage-piskel-anchor-v2.png` and `piskel-ground-damage-v2/` remain the
-  complete polished V2 rollback selected by `?groundDamageAtlas=v2`.
+  `ground-damage-layered-v3/` remain the complete layered V3 comparison selected
+  only for local comparison by `?groundDamageAtlas=v3`.
 - `ground-damage-imagegen-v1.png` and `imagegen-ground-damage-v1/` remain the
   byte-intact V1 atlas/source package selected by
   `?groundDamageAtlas=legacy`.
@@ -77,6 +82,8 @@ python ai-tools/2026-07-28-build-star-block-crystal-v2.py
 python ai-tools/2026-07-29-build-ground-damage-imagegen-v1.py
 python ai-tools/2026-08-26-build-layered-ground-damage-v3.py
 python ai-tools/2026-08-26-build-expanded-ground-damage-v4.py
+python ai-tools/2026-08-26-build-aligned-ground-damage-v5.py
+python ai-tools/2026-08-26-build-dynamic-ground-damage-v6.py
 ```
 
 Runtime rollback is controlled by the query parameters documented in

@@ -1,0 +1,183 @@
+{
+  "schemaVersion": "surface-background-cyclic-loops-v3",
+  "generatedAt": "2026-08-26T12:59:56.658021+00:00",
+  "strategy": "3s forward-moving tail-to-head overlap, then 1.5x temporal stretch; no reverse, no ping-pong, no duplicated cycle",
+  "sourceDurationSeconds": 15.041667,
+  "closureOverlapSeconds": 3,
+  "durationSeconds": 18,
+  "fps": 24,
+  "animatedCrop": [
+    0,
+    0,
+    1470,
+    436
+  ],
+  "groundIncluded": false,
+  "cameraLockGatePx": 1.5,
+  "apiKeyStored": false,
+  "contactSheet": "testing/animation-sandbox/2026-08-26-surface-background-loops-v2/loops-v3/motion-contact-sheet.png",
+  "results": [
+    {
+      "id": "01-mini-soft-canopy-cycle",
+      "source": "testing/animation-sandbox/2026-08-26-surface-background-loops-v2/raw-v2/01-mini-soft-canopy-cycle.mp4",
+      "sourceSha256": "0956bcb096875d2231086f2b74f5a89259c2237ae4dee44cde312d9f9b97f8c9",
+      "sourceMaxMeasuredDriftPx": 0.0,
+      "output": "testing/animation-sandbox/2026-08-26-surface-background-loops-v2/loops-v3/01-mini-soft-canopy-cycle-18s-seamless.mp4",
+      "outputSha256": "7fb5efef3634e2c19ca0408a4206818f612ef2775500506bfefe98041e7cabce",
+      "bytes": 4745482,
+      "dimensions": [
+        1470,
+        436
+      ],
+      "groundIncluded": false,
+      "renderedFrameCount": 432,
+      "durationSeconds": 18.0,
+      "sceneAnchorShifts": [
+        {
+          "time": 0.0,
+          "dx": 0.0,
+          "dy": 0.0,
+          "magnitude": 0.0
+        },
+        {
+          "time": 4.5,
+          "dx": 0.0,
+          "dy": 0.0,
+          "magnitude": 0.0
+        },
+        {
+          "time": 9.0,
+          "dx": 0.0,
+          "dy": 0.0,
+          "magnitude": 0.0
+        },
+        {
+          "time": 13.5,
+          "dx": 0.0,
+          "dy": 0.0,
+          "magnitude": 0.0
+        },
+        {
+          "time": 17.958,
+          "dx": 0.0,
+          "dy": 0.0,
+          "magnitude": 0.0
+        }
+      ],
+      "maxSceneAnchorShiftPx": 0.0,
+      "loopSeamMae": 0.9804403481822836,
+      "medianFrameStepMae": 0.2913018433179724,
+      "p95FrameStepMae": 0.489692140296979,
+      "maxFrameStepMae": 1.2755440348182283,
+      "peakMotionFromStartMae": 4.656041986687148
+    },
+    {
+      "id": "02-mini-town-air-cycle",
+      "source": "testing/animation-sandbox/2026-08-26-surface-background-loops-v2/raw-v2/02-mini-town-air-cycle.mp4",
+      "sourceSha256": "de952b80186de02a3fd1e3f3009836e99015ce2c423f2dbccc378a4f76d7b0ce",
+      "sourceMaxMeasuredDriftPx": 0.0,
+      "output": "testing/animation-sandbox/2026-08-26-surface-background-loops-v2/loops-v3/02-mini-town-air-cycle-18s-seamless.mp4",
+      "outputSha256": "a76e8918f8b7976f1b511bb2e2fe2a587d58b4519949cd1386cdff123416b569",
+      "bytes": 4816250,
+      "dimensions": [
+        1470,
+        436
+      ],
+      "groundIncluded": false,
+      "renderedFrameCount": 432,
+      "durationSeconds": 18.0,
+      "sceneAnchorShifts": [
+        {
+          "time": 0.0,
+          "dx": 0.0,
+          "dy": 0.0,
+          "magnitude": 0.0
+        },
+        {
+          "time": 4.5,
+          "dx": 0.0,
+          "dy": 0.0,
+          "magnitude": 0.0
+        },
+        {
+          "time": 9.0,
+          "dx": 0.0,
+          "dy": 0.0,
+          "magnitude": 0.0
+        },
+        {
+          "time": 13.5,
+          "dx": 0.0,
+          "dy": 0.0,
+          "magnitude": 0.0
+        },
+        {
+          "time": 17.958,
+          "dx": 0.0,
+          "dy": 0.0,
+          "magnitude": 0.0
+        }
+      ],
+      "maxSceneAnchorShiftPx": 0.0,
+      "loopSeamMae": 0.9909434203789043,
+      "medianFrameStepMae": 0.29187147977470557,
+      "p95FrameStepMae": 0.5326452892985152,
+      "maxFrameStepMae": 1.328437019969278,
+      "peakMotionFromStartMae": 5.11415770609319
+    },
+    {
+      "id": "03-mini-layered-night-cycle",
+      "source": "testing/animation-sandbox/2026-08-26-surface-background-loops-v2/raw-v2/03-mini-layered-night-cycle.mp4",
+      "sourceSha256": "ff33cec3e178bddf1232ea9f6827e8d1ccfbd4196eabc6708b10cae9a5be3f6c",
+      "sourceMaxMeasuredDriftPx": 0.0,
+      "output": "testing/animation-sandbox/2026-08-26-surface-background-loops-v2/loops-v3/03-mini-layered-night-cycle-18s-seamless.mp4",
+      "outputSha256": "2e91e4f4c67d66f666ad1975c492e287147e80503cdd5620940e4ed65d52a448",
+      "bytes": 4575981,
+      "dimensions": [
+        1470,
+        436
+      ],
+      "groundIncluded": false,
+      "renderedFrameCount": 432,
+      "durationSeconds": 18.0,
+      "sceneAnchorShifts": [
+        {
+          "time": 0.0,
+          "dx": 0.0,
+          "dy": 0.0,
+          "magnitude": 0.0
+        },
+        {
+          "time": 4.5,
+          "dx": 0.0,
+          "dy": 0.0,
+          "magnitude": 0.0
+        },
+        {
+          "time": 9.0,
+          "dx": 0.0,
+          "dy": 0.0,
+          "magnitude": 0.0
+        },
+        {
+          "time": 13.5,
+          "dx": 0.0,
+          "dy": 0.0,
+          "magnitude": 0.0
+        },
+        {
+          "time": 17.958,
+          "dx": 0.0,
+          "dy": 0.0,
+          "magnitude": 0.0
+        }
+      ],
+      "maxSceneAnchorShiftPx": 0.0,
+      "loopSeamMae": 1.0495455709165387,
+      "medianFrameStepMae": 0.40476190476190477,
+      "p95FrameStepMae": 0.616113031233999,
+      "maxFrameStepMae": 1.265168970814132,
+      "peakMotionFromStartMae": 7.194700460829493
+    }
+  ]
+}

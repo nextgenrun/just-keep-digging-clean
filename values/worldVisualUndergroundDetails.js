@@ -1,3 +1,11 @@
+import {
+  LEVEL_ONE_BIOME_FIELD,
+  doesLevelOneBiomeFieldAffectRegion,
+  resolveLevelOneBiomeFieldEnabled,
+} from "./levelOneBiomeField.js";
+import { getLevelOneBiomeDepthVariantAssets } from
+  "./levelOneBiomeDepthVariants.js";
+
 const DISABLED_QUERY_VALUES = Object.freeze([
   "0", "false", "off", "disabled", "legacy",
 ]);
@@ -146,12 +154,28 @@ export function resolveWorldVisualUndergroundDetailRegions(
 ) {
   const kinds = resolveWorldVisualUndergroundDetailKinds(config, search);
   if ((!kinds.textures && !kinds.props) || bottomTileExclusive <= topTile) return [];
-  return config.regions
+  const resolvedRegions = config.regions.map(entry => resolveRegion(entry, kinds));
+  const fieldEnabled = resolveLevelOneBiomeFieldEnabled(
+    LEVEL_ONE_BIOME_FIELD,
+    search
+  );
+  const fieldRegionsById = fieldEnabled
+    ? Object.freeze(Object.fromEntries(
+      resolvedRegions
+        .filter(entry => LEVEL_ONE_BIOME_FIELD.sourceRegionIds.includes(entry.id))
+        .map(entry => [entry.id, entry])
+    ))
+    : null;
+  return resolvedRegions
     .filter(entry => (
       entry.bottomTileExclusive > topTile
       && entry.topTile < bottomTileExclusive
     ))
-    .map(entry => resolveRegion(entry, kinds));
+    .map(entry => (
+      fieldRegionsById && doesLevelOneBiomeFieldAffectRegion(entry)
+        ? Object.freeze({ ...entry, biomeFieldRegionsById: fieldRegionsById })
+        : entry
+    ));
 }
 
 export function getWorldVisualUndergroundDetailAssets(
@@ -159,8 +183,11 @@ export function getWorldVisualUndergroundDetailAssets(
   search = globalThis.location?.search || ""
 ) {
   const kinds = resolveWorldVisualUndergroundDetailKinds(config, search);
-  return config.regions.flatMap(entry => [
-    ...(kinds.textures ? [entry.textureAtlas] : []),
-    ...(kinds.props ? [entry.propAtlas] : []),
-  ]);
+  return [
+    ...config.regions.flatMap(entry => [
+      ...(kinds.textures ? [entry.textureAtlas] : []),
+      ...(kinds.props ? [entry.propAtlas] : []),
+    ]),
+    ...getLevelOneBiomeDepthVariantAssets(),
+  ];
 }

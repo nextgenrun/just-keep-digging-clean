@@ -9,6 +9,7 @@ import { resolvePlayerTargetDirection } from "../../player/playerDirectionalTarg
 import { DigSystem } from "../../systems/mining/DigSystem.js";
 import { TileCollisionSystem } from "../../systems/mining/TileCollisionSystem.js";
 import { FloatingTextSystem } from "../../systems/visual/FloatingTextSystem.js";
+import { showMiningDamageFeedback } from "../../systems/visual/miningDamageFeedback.js";
 import { PlayerSolidOcclusionSystem } from "../../systems/visual/PlayerSolidOcclusionSystem.js";
 import { PlayerKinematicMotionSystem } from "../../systems/visual/PlayerKinematicMotionSystem.js";
 import { PlayerRigContactSystem } from "../../systems/visual/PlayerRigContactSystem.js";
@@ -98,6 +99,9 @@ export class CaveGameplayController {
       || this._actionUntilMs > (this.scene.time?.now || 0)
     ));
     copyAbilityState(origin.playerController?.abilities, this.playerController.abilities);
+    this.playerController.abilities.setMiningDamageProvider(
+      tileType => this.digSystem.getDamagePreview(tileType),
+    );
     this.scene.digSystem = this.digSystem;
     this.scene.playerController = this.playerController;
     this.playerKinematicMotion = new PlayerKinematicMotionSystem(
@@ -282,7 +286,7 @@ export class CaveGameplayController {
     const worldX = targetTile.tx * tileSize + tileSize / 2;
     const worldY = targetTile.ty * tileSize + tileSize / 2;
 
-    if (result.frontDamageApplied !== false) this.floatingTextSystem.showDamage(worldX, worldY, result.damage);
+    showMiningDamageFeedback(this.floatingTextSystem, worldX, worldY, result);
     if (result.heavyPunchHit && result.heavyPunchTile) {
       const heavyX = result.heavyPunchTile.tx * tileSize + tileSize / 2;
       const heavyY = result.heavyPunchTile.ty * tileSize + tileSize / 2;

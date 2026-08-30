@@ -14,6 +14,35 @@ import { resolveBaseTerrainResourceType } from "./baseTerrainResourceResolver.js
 const LEVEL_ONE_RESOURCE_TYPES = new Set(LEVEL_ONE_RESOURCE_TILE_TYPE_VALUES);
 const RESOURCE_TYPES = new Set(RESOURCE_TILE_TYPE_VALUES);
 
+function repairMissingStarIdentityCoverage(
+  worldModel,
+  identityCounts,
+  donorsByRarity,
+) {
+  const donorCursors = new Uint16Array(donorsByRarity.length);
+  let repaired = 0;
+  for (const identity of STAR_IDENTITY_LIBRARY_CONFIG.identities) {
+    if (identityCounts[identity.index] > 0) continue;
+    const donors = donorsByRarity[identity.rarityIndex] || [];
+    let donor = null;
+    while (donorCursors[identity.rarityIndex] < donors.length) {
+      const candidate = donors[donorCursors[identity.rarityIndex]];
+      donorCursors[identity.rarityIndex] += 1;
+      if (identityCounts[candidate.identityIndex] > 1) {
+        donor = candidate;
+        break;
+      }
+    }
+    if (!donor) continue;
+
+    identityCounts[donor.identityIndex] -= 1;
+    identityCounts[identity.index] = 1;
+    worldModel.skyTileIdentity[donor.worldIndex] = identity.index;
+    repaired += 1;
+  }
+  return repaired;
+}
+
 /**
  * Tiled owns solid/air geometry and special landmarks, while live values own
  * the ordinary material placed in authored solid cells.
@@ -52,6 +81,11 @@ export function applyConfiguredStarSpawns(
   const protectedSeams = new Set(
     (worldModel.caveResourceSeams || []).map(seam => `${seam.tx},${seam.ty}`),
   );
+  const identityCounts = new Uint32Array(
+    STAR_IDENTITY_LIBRARY_CONFIG.identities.length,
+  );
+  const donorsByRarity = STAR_IDENTITY_LIBRARY_CONFIG.rarityIdentityCounts
+    .map(() => []);
   let applied = 0;
   for (let ty = worldModel.topAirRows + 1; ty < worldModel.depthTiles - 1; ty += 1) {
     for (let tx = 0; tx < worldModel.widthTiles; tx += 1) {
@@ -81,10 +115,20 @@ export function applyConfiguredStarSpawns(
         worldModel.config.seed,
         STAR_IDENTITY_LIBRARY_CONFIG.identityHashSalt,
       );
+      const identityIndex = resolveStarIdentityIndex(rarityTier, identityRoll);
 
       worldModel.skyTileOriginalType[index] = type;
       worldModel.skyTileRarity[index] = rarityTier;
-      worldModel.skyTileIdentity[index] = resolveStarIdentityIndex(rarityTier, identityRoll);
+      worldModel.skyTileIdentity[index] = identityIndex;
+      identityCounts[identityIndex] += 1;
+      const donors = donorsByRarity[rarityTier];
+      if (
+        identityCounts[identityIndex] > 1
+        && donors.length
+          < STAR_IDENTITY_LIBRARY_CONFIG.rarityIdentityCounts[rarityTier]
+      ) {
+        donors.push({ worldIndex: index, identityIndex });
+      }
       worldModel.setTile(
         tx,
         ty,
@@ -94,5 +138,6 @@ export function applyConfiguredStarSpawns(
       applied += 1;
     }
   }
+  repairMissingStarIdentityCoverage(worldModel, identityCounts, donorsByRarity);
   return applied;
 }

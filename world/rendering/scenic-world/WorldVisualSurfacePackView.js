@@ -1,4 +1,5 @@
 import { UAL_NATIVE_PLAYER_ASSET_PROFILE } from "../../../values/ualNativePlayerAssetProfile.js";
+import { WorldVisualSurfaceMotionView } from "./WorldVisualSurfaceMotionView.js";
 import { WorldVisualTownFloorView } from "./WorldVisualTownFloorView.js";
 import {
   clearTintIfChanged,
@@ -126,9 +127,10 @@ export function resolveSurfacePackBeautyGeometry(
 }
 
 export class WorldVisualSurfacePackView {
-  constructor(scene, pack) {
+  constructor(scene, pack, motionVariant = null) {
     this.scene = scene;
     this.pack = pack;
+    this.motionVariant = motionVariant;
     this.beauty = null;
     this.beautyLightning = null;
     this.ground = null;
@@ -144,6 +146,7 @@ export class WorldVisualSurfacePackView {
     this.groundLightningPasses = [];
     this.beautyTopWorldY = null;
     this.beautyGeometry = null;
+    this.motionView = null;
     this.townFloorView = null;
   }
 
@@ -242,6 +245,24 @@ export class WorldVisualSurfacePackView {
     this.beautyLightningPasses.forEach(image => image.setAlpha(0));
     this.beautyLightning = this.beautyLightningPasses[0];
     this.beautyLightning.name = `world-visual-surface-pack-${this.pack.id}-lightning`;
+    if (this.motionVariant && this.pack.motion) {
+      this.motionView = new WorldVisualSurfaceMotionView(
+        this.scene,
+        this.pack.motion,
+        this.motionVariant,
+        {
+          x,
+          y,
+          width,
+          height,
+          depth: cfg.depth + this.pack.motion.depthOffset,
+          maskKey: `world-visual-surface-motion-${this.pack.id}-feather`,
+          topFadeFraction: Math.min(1, featherWorldHeight / height),
+          rightFadeFraction: Math.min(1, fadeWorldWidth / width),
+        },
+      );
+      this.motionView.create();
+    }
     console.info(
       `[WorldVisualSurfacePackView] ${this.pack.id} active at `
       + `${sourcePixelsPerWorldPixel.toFixed(3)} source px/world px across `
@@ -341,9 +362,13 @@ export class WorldVisualSurfacePackView {
     // turn it into a quality daylight plate, and would only discard source
     // range. Global day/night and weather systems own the scene grade; this
     // pack owns aligned wetness and lightning response only.
+    const motionActive = this.motionView?.update(beautyVisibility) === true;
     this.beautyPasses.forEach(image => {
       clearTintIfChanged(image);
-      setAlphaIfChanged(image, image._surfacePackBaseAlpha * beautyVisibility);
+      setAlphaIfChanged(
+        image,
+        image._surfacePackBaseAlpha * (motionActive ? 0 : beautyVisibility),
+      );
     });
     this.beautyLightningPasses.forEach(image => {
       setAlphaIfChanged(
@@ -373,6 +398,7 @@ export class WorldVisualSurfacePackView {
   }
 
   destroy() {
+    this.motionView?.destroy();
     this.townFloorView?.destroy();
     const groundImages = [
       ...this.groundPasses,
@@ -404,6 +430,12 @@ export class WorldVisualSurfacePackView {
     this.groundLightningPasses = [];
     this.beautyTopWorldY = null;
     this.beautyGeometry = null;
+    this.motionVariant = null;
+    this.motionView = null;
     this.townFloorView = null;
+  }
+
+  getMotionSnapshot() {
+    return this.motionView?.getSnapshot?.() || null;
   }
 }

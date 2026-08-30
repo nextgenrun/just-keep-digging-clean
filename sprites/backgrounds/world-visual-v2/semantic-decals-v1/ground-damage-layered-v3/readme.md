@@ -1,8 +1,9 @@
 # Layered ground damage V3
 
-Production provenance for the persistent pre-break damage library promoted on
-2026-08-26. The runtime atlases live one directory above so Boot can keep its
-existing semantic-decal path.
+Rejected comparison provenance for the persistent pre-break damage library
+promoted on 2026-08-26. Universal V2 replaced this resource-specific direction
+as the production default on 2026-08-27. The V3 atlases are not normally
+preloaded; `?groundDamageAtlas=v3` is retained only for local comparison.
 
 - `fracture-library-alpha-v3.png` is the alpha-clean 4x4 authored fracture
   source. The builder converts its sixteen silhouettes into twelve cumulative
@@ -12,7 +13,7 @@ existing semantic-decal path.
 - `sources/` retains the generated chroma source used by the deterministic
   alpha extraction.
 
-The production mixer combines one structural family with one of seventeen
+The rejected V3 mixer combines one structural family with one of seventeen
 material-response families. Exact tile/resource identity then supplies the
 response tint through `values/tileDestructionFx.js`; the same authority is used
 by the destruction burst, so persistent damage and final breakage agree.

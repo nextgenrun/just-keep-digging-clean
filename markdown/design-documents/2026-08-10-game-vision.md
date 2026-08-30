@@ -110,8 +110,9 @@ hazard, or return decisions.
   bounded hazards.
 - Surface and sky destinations that are functional places, not decorative
   menu rooms.
-- Star/constellation collection leading to one permanent Celestial Engine
-  attunement.
+- Star collection feeding a three-branch Celestial talent tree, ten Sign
+  masteries, and three GP-powered abilities: the Wayward swarm, Hollow Sun
+  black-hole cluster, and Stellar Lance piercing mining volley.
 - Ancient Relics and Heavenblocks progression leading through three sky regions,
   component attunement, Arc/Omega vaults, and the Zenith Keystone.
 - Casual, Hardcore, and hidden One-Life Hardcore sharing one honest world and

@@ -37,6 +37,18 @@ assert.ok(Math.abs(config.spawn.probability - 0.00126) < 1e-12);
 assert.ok(Math.abs(
   config.spawn.probability / config.spawn.previousProbability - 0.35,
 ) < 1e-12);
+assert.deepEqual(config.signProgression.xpTotals, {
+  dirt: 70,
+  stone: 70,
+  copper: 70,
+  darkDirtNormal: 42,
+  steel: 42,
+  iron: 28,
+  bronze: 28,
+  darkDirtStrong: 28,
+  silver: 28,
+  gold: 14,
+});
 assert.equal("popup" in config, false);
 assert.deepEqual(
   tiers.map(tier => tier.id),

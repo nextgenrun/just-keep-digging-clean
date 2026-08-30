@@ -14,6 +14,7 @@ import {
 import { sanitizeHardcoreModeData } from "../../values/hardcoreMode.js";
 import { queueWorldLoadFeatureAssets } from "./WorldLoadAssetPreloader.js";
 import { DugTilesSaveStore } from "../../world/model/DugTilesSaveStore.js";
+import { releaseSaveMenuArt } from "../components/SaveMenuPresentationView.js";
 
 /**
  * Load robot spritesheets into Phaser's texture manager so they exist
@@ -29,6 +30,7 @@ export class WorldLoadScene extends Phaser.Scene {
 
   async create(data = {}) {
     this.ensureMenuAudioScene();
+    releaseSaveMenuArt(this);
 
     const saveSlot = Number(data.saveSlot) || 1;
     const worldIdentity = data.worldIdentity || `save-slot-${saveSlot}`;

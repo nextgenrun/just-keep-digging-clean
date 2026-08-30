@@ -7,6 +7,7 @@ import { SoundLibraryManager } from "./SoundLibraryManager.js";
 import { VoiceLineManager } from "./VoiceLineManager.js";
 import { RuntimeAudioAssetManager } from "./RuntimeAudioAssetManager.js";
 import { MusicStreamController } from "./MusicStreamController.js";
+import { EventVoiceLineDirector } from "./EventVoiceLineDirector.js";
 export class SoundSystem {
   constructor(scene) {
     this.scene = scene;
@@ -52,6 +53,7 @@ export class SoundSystem {
     this.voiceLineManager = new VoiceLineManager(scene, this);
     this.runtimeAudioAssetManager = new RuntimeAudioAssetManager(scene);
     this.musicStreamController = new MusicStreamController(this, this.runtimeAudioAssetManager);
+    this.eventVoiceLineDirector = new EventVoiceLineDirector(scene, this);
   }
 
   init() {
@@ -73,9 +75,11 @@ export class SoundSystem {
     if (this.musicEnabled && !this.currentTrack) {
       this.startBackgroundMusic();
     }
-    if (scheduleVoiceLines) {
-      console.log('[SoundSystem] Audio started after user gesture - scheduling voice lines');
+    if (scheduleVoiceLines && this.eventVoiceLineDirector.shouldScheduleLegacyAmbient()) {
+      console.log('[SoundSystem] Audio started after user gesture - scheduling legacy player voice lines');
       this.scheduleNextVoiceLine();
+    } else if (scheduleVoiceLines) {
+      console.log('[SoundSystem] Legacy random player voice lines are disabled; gameplay events own player speech');
     } else {
       console.log('[SoundSystem] Audio started after user gesture - voice lines disabled for this scene');
     }
@@ -234,11 +238,12 @@ export class SoundSystem {
     }
   }
 
-  loadVoiceLineAsset(entry, onReady) {
+  loadVoiceLineAsset(entry, onReady, onError = null) {
     return this.runtimeAudioAssetManager.ensure(entry, {
       onReady,
       onError: (asset, error) => {
         console.warn(`[SoundSystem] Voice line load failed: ${asset?.key || entry?.key}`, error);
+        onError?.(asset, error);
       },
     });
   }
@@ -272,14 +277,20 @@ export class SoundSystem {
     return Phaser.Math.Between(this.minVoiceLineInterval, this.maxVoiceLineInterval);
   }
 
-  scheduleNextVoiceLine() {
+  scheduleNextVoiceLine(delayOverrideMs = null) {
+    if (!this.eventVoiceLineDirector.shouldScheduleLegacyAmbient()) {
+      this.stopVoiceLineTimer();
+      return null;
+    }
     if (this.voiceLineTimer) { this.voiceLineTimer.remove(); this.voiceLineTimer = null; }
-    const interval = this.getRandomVoiceLineInterval();
+    const interval = delayOverrideMs ?? this.getRandomVoiceLineInterval();
     const timestamp = new Date().toISOString();
     console.log(`[${timestamp}] [SoundSystem] Next voice line scheduled in ${interval}ms`);
     this.voiceLineTimer = this.scene.time.delayedCall(interval, () => {
       this.playRandomVoiceLine();
-      this.scheduleNextVoiceLine();
+      this.scheduleNextVoiceLine(
+        this.eventVoiceLineDirector.getAmbientRetryDelayMs(),
+      );
     });
   }
 
@@ -656,12 +667,34 @@ export class SoundSystem {
 
   playNPCVoiceLine(npcName) {
     if (!this.sfxEnabled || !this.audioInitialized) return null;
-    return this.voiceLineManager.playNPCVoiceLine(npcName);
+    return this.eventVoiceLineDirector.requestMerchantOpen(npcName);
   }
 
   playRandomPlayerVoiceLine() {
     if (!this.sfxEnabled || !this.audioInitialized) return null;
-    return this.voiceLineManager.playRandomPlayerVoiceLine();
+    return this.eventVoiceLineDirector.requestAmbient();
+  }
+
+  playEventVoiceLine(eventId, context = {}) {
+    return this.playPlayerVoiceEvent(eventId, context);
+  }
+
+  playPlayerVoiceEvent(eventId, context = {}) {
+    if (!this.sfxEnabled || !this.audioInitialized) return null;
+    return this.eventVoiceLineDirector.requestEvent(eventId, context);
+  }
+
+  getPlayerVoiceSnapshot() {
+    return this.eventVoiceLineDirector.getSnapshot();
+  }
+
+  playNarrationVoiceLine(entry, cueId = entry?.key) {
+    if (!this.sfxEnabled || !this.audioInitialized) return null;
+    return this.eventVoiceLineDirector.requestNarration(entry, cueId);
+  }
+
+  onVoiceLineIdle(result = {}) {
+    this.eventVoiceLineDirector?.onChannelIdle(result);
   }
 
   printStats() {
@@ -677,6 +710,7 @@ export class SoundSystem {
     this.levelUpCueTimer = null;
     this.stopSeismicWarning();
     this.stopVoiceLineTimer();
+    this.eventVoiceLineDirector?.destroy();
     this.voiceLineManager?.destroy();
     this.musicStreamController?.destroy();
     this.runtimeAudioAssetManager?.destroy();

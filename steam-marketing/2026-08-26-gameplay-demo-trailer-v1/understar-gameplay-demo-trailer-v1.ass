@@ -1,0 +1,33 @@
+[Script Info]
+ScriptType: v4.00+
+PlayResX: 1920
+PlayResY: 1080
+WrapStyle: 0
+ScaledBorderAndShadow: yes
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Caption,Barlow Semi Condensed,52,&H00FFFFFF,&H00FFFFFF,&H00000000,&HA0000000,-1,0,0,0,100,100,0,0,3,12,0,2,140,140,86,1
+Style: Cue,Barlow Semi Condensed,42,&H00E8E8E8,&H00E8E8E8,&H00000000,&H98000000,0,-1,0,0,100,100,0,0,3,10,0,2,160,160,154,1
+Style: Eyebrow,Barlow Semi Condensed,30,&H00D8FCFF,&H00D8FCFF,&H90000000,&H00000000,-1,0,0,0,100,100,3,0,1,3,0,8,100,100,54,1
+Style: Feature,Barlow Semi Condensed,58,&H00FFFFFF,&H00FFFFFF,&H00000000,&H70000000,-1,0,0,0,100,100,1,0,3,14,0,8,110,110,88,1
+Style: CTA,Barlow Semi Condensed,54,&H00FFFFFF,&H00FFFFFF,&H00000000,&HA0000000,-1,0,0,0,100,100,2,0,3,14,0,2,100,100,120,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.55,0:00:02.13,Caption,,0,0,0,,Every descent is a decision.
+Dialogue: 0,0:00:02.61,0:00:04.24,Caption,,0,0,0,,Every return makes you stronger.
+Dialogue: 0,0:00:04.80,0:00:05.64,Caption,,0,0,0,,Master Flight.
+Dialogue: 0,0:00:05.99,0:00:07.06,Caption,,0,0,0,,Find the Titans.
+Dialogue: 0,0:00:07.44,0:00:08.49,Caption,,0,0,0,,Wake the Understar.
+Dialogue: 0,0:00:08.88,0:00:10.77,Caption,,0,0,0,,Wishlist Understar on Steam.
+Dialogue: 0,0:00:11.80,0:00:13.05,Cue,,0,0,0,,[Mining impact]
+Dialogue: 0,0:00:21.15,0:00:22.55,Cue,,0,0,0,,[Star chime]
+Dialogue: 0,0:00:27.15,0:00:29.55,Cue,,0,0,0,,[Music resolves]
+Dialogue: 0,0:00:00.25,0:00:02.45,Eyebrow,,0,0,0,,CAPTURED GAMEPLAY
+Dialogue: 0,0:00:11.20,0:00:14.65,Feature,,0,0,0,,MINE  •  MASTER FLIGHT  •  FIND STARS
+Dialogue: 0,0:00:15.15,0:00:17.20,Eyebrow,,0,0,0,,REAL PORTRAIT CAPTURES
+Dialogue: 0,0:00:17.15,0:00:20.80,Feature,,0,0,0,,ANCHORED STARS\NLIVING INTERNAL ANIMATION
+Dialogue: 0,0:00:22.30,0:00:26.30,Feature,,0,0,0,,DIG. RETURN. GROW STRONGER.
+Dialogue: 0,0:00:27.05,0:00:29.90,Eyebrow,,0,0,0,,GAMEPLAY-DERIVED KEY ART
+Dialogue: 0,0:00:27.15,0:00:29.90,CTA,,0,0,0,,WISHLIST ON STEAM

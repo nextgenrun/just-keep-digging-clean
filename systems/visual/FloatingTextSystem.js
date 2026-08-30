@@ -25,6 +25,7 @@ import {
 } from "../../values/starIdentityLibraryMath.js";
 import { installStarIdentityTextureFrames } from "./installStarIdentityTextureFrames.js";
 import { sanitizeStarCollectionData } from "../../values/savePayloadV15.js";
+import { TILE_TYPES } from "../../values/tileTypes.js";
 
 // ─── Constellation system ─────────────────────────────────────────────────────
 const CONSTELLATION_THRESHOLDS = STAR_CONSTELLATION_CONFIG.thresholds;
@@ -48,6 +49,9 @@ export class FloatingTextSystem {
     this._constellationCounts = {};
     this._constellationXp = {};
     this._starRarityCounts = new Array(SKY_RARITY_FALLBACKS.length).fill(0);
+    this._starIdentityCounts = new Array(
+      STAR_IDENTITY_LIBRARY_CONFIG.identities.length,
+    ).fill(0);
     this._unlockedConstellations = [];
     this._constellationsLoaded = false;
     this._activeSkyStarReleaseViews = new Set();
@@ -113,11 +117,17 @@ export class FloatingTextSystem {
     return [...(this._starRarityCounts || [])];
   }
 
+  /** Return exact collected counts for the player-visible Star Codex. */
+  getStarIdentityCounts() {
+    return [...(this._starIdentityCounts || [])];
+  }
+
   getSaveData() {
     return sanitizeStarCollectionData({
       constellationCounts: this._constellationCounts,
       signXp: this._constellationXp,
       rarityCounts: this._starRarityCounts,
+      identityCounts: this._starIdentityCounts,
       unlockedConstellations: this._unlockedConstellations,
     });
   }
@@ -131,8 +141,53 @@ export class FloatingTextSystem {
     while (this._starRarityCounts.length < SKY_RARITY_FALLBACKS.length) {
       this._starRarityCounts.push(0);
     }
+    this._starIdentityCounts = [...normalized.identityCounts];
+    while (
+      this._starIdentityCounts.length
+      < STAR_IDENTITY_LIBRARY_CONFIG.identities.length
+    ) {
+      this._starIdentityCounts.push(0);
+    }
     this._unlockedConstellations = [...normalized.unlockedConstellations];
     return this.getSaveData();
+  }
+
+  /** Recover exact identities from deterministic Star cells in older saves. */
+  recoverStarIdentityCountsFromWorld(worldModel) {
+    const sources = worldModel?.dugTileSource?.values?.();
+    if (!sources || typeof worldModel?.getSkyTileIdentity !== "function") {
+      return Object.freeze({ changed: false, recovered: 0, discovered: 0 });
+    }
+    const recoveredCounts = new Array(
+      STAR_IDENTITY_LIBRARY_CONFIG.identities.length,
+    ).fill(0);
+    let recovered = 0;
+    for (const source of sources) {
+      if (
+        source?.type !== TILE_TYPES.SKY_TILE
+        || !Number.isInteger(source.tx)
+        || !Number.isInteger(source.ty)
+      ) continue;
+      const identityIndex = worldModel.getSkyTileIdentity(source.tx, source.ty);
+      if (
+        !Number.isInteger(identityIndex)
+        || identityIndex < 0
+        || identityIndex >= recoveredCounts.length
+      ) continue;
+      recoveredCounts[identityIndex] += 1;
+      recovered += 1;
+    }
+    let changed = false;
+    recoveredCounts.forEach((count, identityIndex) => {
+      if (count <= (this._starIdentityCounts[identityIndex] || 0)) return;
+      this._starIdentityCounts[identityIndex] = count;
+      changed = true;
+    });
+    return Object.freeze({
+      changed,
+      recovered,
+      discovered: this._starIdentityCounts.filter(count => count > 0).length,
+    });
   }
 
   /** Ensure saved star progress is available to the constellation UI. */
@@ -1070,6 +1125,7 @@ export class FloatingTextSystem {
       ? requestedIdentity
       : rarityIdentities[0];
     const rarityEncounterCount = this._recordStarRarity(tier.index);
+    const identityEncounterCount = this._recordStarIdentity(identity.index);
     if (!resourceType || !CONSTELLATION_DEFS[resourceType]) return null;
 
     if (!this._constellationCounts) this._constellationCounts = {};
@@ -1107,6 +1163,8 @@ export class FloatingTextSystem {
       rarity: tier.index,
       rarityId: tier.id,
       rarityEncounterCount,
+      identityEncounterCount,
+      identityNewlyDiscovered: identityEncounterCount === 1,
       identityIndex: identity.index,
       identityId: identity.id,
       identityName: identity.name,
@@ -1142,6 +1200,20 @@ export class FloatingTextSystem {
     }
     this._starRarityCounts[safeRarity] = (this._starRarityCounts[safeRarity] || 0) + 1;
     return this._starRarityCounts[safeRarity];
+  }
+
+  _recordStarIdentity(identityIndex = 0) {
+    const safeIndex = Math.max(
+      0,
+      Math.min(
+        STAR_IDENTITY_LIBRARY_CONFIG.identities.length - 1,
+        Math.floor(Number(identityIndex) || 0),
+      ),
+    );
+    this._starIdentityCounts[safeIndex] = (
+      this._starIdentityCounts[safeIndex] || 0
+    ) + 1;
+    return this._starIdentityCounts[safeIndex];
   }
 
   /** Persist an unlock and notify the UI without creating world-space stars. */

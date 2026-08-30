@@ -1,0 +1,113 @@
+// Review-only merge plan for the complete above-ground composition.
+// Spatial slices are proposed integration units; runtime source data remains authoritative.
+
+const freezeList = values => Object.freeze(values.map(value => Object.freeze(value)));
+
+export const WORLD_VISUAL_ABOVE_GROUND_PIECEMEAL_MERGE_PLAN = Object.freeze({
+  reviewOnly: true,
+  productionChanged: false,
+  version: "above-ground-piecemeal-merge-plan-v1-2026-08-30",
+  worldSpan: Object.freeze({ leftTile: 0, rightTileExclusive: 280 }),
+  bufferSpan: Object.freeze({ leftTile: -40, rightTileExclusive: 308 }),
+  placementOwnership: "center-tile-selects-spatial-slice",
+  backgroundFoundation: freezeList([
+    {
+      id: "sky-cohesion-foundation",
+      label: "Sky cohesion foundation and ordered cards",
+      mergeRule: "land before spatial slices; preserve authored altitude order",
+    },
+    {
+      id: "surface-scenic-foundation",
+      label: "Moonlit far plate, surface edge, and ground variation",
+      mergeRule: "land before spatial slices; retain production streaming formulas",
+    },
+    {
+      id: "v11-terrain-foundation",
+      label: "Active V11 terrain cards",
+      mergeRule: "retain runtime offsets; exclude obsolete sky-r cards from rendering",
+    },
+  ]),
+  townVideo: Object.freeze({
+    policy: "locked-byte-for-byte-and-excluded-from-visual-merge",
+    path: "sprites/backgrounds/start-zone-scenic-v1/living-background-v1/surface-town-air-v1.mp4",
+    sha256: "1650f7a88e2445ef9ab1be954680e4a8d5ffb51b2ccd8e7def5bec19726132d6",
+  }),
+  slices: freezeList([
+    {
+      order: 1,
+      id: "town-lock",
+      label: "Town Square lock",
+      leftTile: 0,
+      rightTileExclusive: 23.05,
+      intent: "Verification-only handoff; keep the approved Town plate, floor, ground, and video unchanged.",
+      gate: "Town video hash, 1800x534 geometry, playback, and interaction clear-zone pass.",
+      townLocked: true,
+    },
+    {
+      order: 2,
+      id: "titan-promenade",
+      label: "Titan promenade",
+      leftTile: 23.05,
+      rightTileExclusive: 60,
+      intent: "Merge Titan Walk gaps around the existing gallery and plinth clear-zones.",
+      gate: "No prop intersects a Titan plinth, prompt, portal, or walking line.",
+    },
+    {
+      order: 3,
+      id: "level1-skywell",
+      label: "Level 1 + Skywell",
+      leftTile: 60,
+      rightTileExclusive: 100,
+      intent: "Merge Level 1 surface dressing with its cyan sky-island and lower-sky handoff.",
+      gate: "Ground portal and sky arrival stay clear; sky cards cover the camera without seams.",
+    },
+    {
+      order: 4,
+      id: "gates-threshold",
+      label: "Gates + threshold",
+      leftTile: 100,
+      rightTileExclusive: 151.5,
+      intent: "Merge the central gate, bridge threshold, and atmosphere transition as one dependency slice.",
+      gate: "Gate, tunnel, and bridge protected zones remain unobstructed at runtime scale.",
+    },
+    {
+      order: 5,
+      id: "arrival-starwell",
+      label: "Arrival to Starwell",
+      leftTile: 151.5,
+      rightTileExclusive: 200,
+      intent: "Merge Arrival Forge, Caravan Rest, and Starwell prop clusters with their hero anchors.",
+      gate: "All library props render; the Level 2 portal frame preserves live portal access.",
+    },
+    {
+      order: 6,
+      id: "timber-observatory",
+      label: "Timberwright + Observatory",
+      leftTile: 200,
+      rightTileExclusive: 243,
+      intent: "Merge Timberwright Yard and Observatory Ridge, including the Heavenblocks flight lane.",
+      gate: "Low-profile flight lane stays readable and the telescope silhouette remains isolated.",
+    },
+    {
+      order: 7,
+      id: "frontier-far-east",
+      label: "Frontier + Far East",
+      leftTile: 243,
+      rightTileExclusive: 280,
+      intent: "Merge Frontier Survey, Three Kings, and expedition overlook to the authored east boundary.",
+      gate: "Far-east camera framing, final prop bounds, and eastern background coverage pass.",
+    },
+  ]),
+  mergeOrder: Object.freeze([
+    "inventory-contract",
+    "background-foundation",
+    "town-lock",
+    "titan-promenade",
+    "level1-skywell",
+    "gates-threshold",
+    "arrival-starwell",
+    "timber-observatory",
+    "frontier-far-east",
+    "whole-map-runtime-canary",
+  ]),
+});

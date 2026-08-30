@@ -29,6 +29,20 @@ Production source plates for the scenic-v2 world renderer.
 - `depth/underground-foreground-textures-v6/` and
   `depth/underground-overlay-props-v6/`: twenty streamed biome atlases exposing
   400 localized terrain-masked ImageGen details.
+- `depth/level1-biome-boundaries-v1/`: six transparent ImageGen transition
+  cutouts cover every material-family join that actually occurs in the
+  irregular Level 1 X0-131, 0-2000 m visual-biome field, including the generated
+  Amber/Silver, Silver/Magma, and Amber/Magma deep joins. Level 2 is unchanged.
+- `depth/level1-biome-signatures-v1/`: twenty unique native-resolution RGBA
+  foreground formations, one seed-anchored identity for each Level One visual
+  source family. They are terrain-masked, demand-streamed, and visual-only.
+- `depth/level1-biome-generated-roles-v2/`: sixty independent background,
+  ground, and foreground WebPs that combine with the twenty V1 signatures to
+  form the retained twenty-family/eighty-role library.
+- `depth/level1-biome-generated-roles-v3/`: 120 independent RGBA WebPs for the
+  thirty added families, with unique background, signature, ground, and
+  foreground compositions for each identity. The complete current generated
+  role library contains 200 assets across fifty families.
 - `sources/`: retained chroma-key generations used to produce the alpha assets.
 
 These are layered runtime sources, not flattened HTML mockups. Geometry, digging, damage, and resource authority remain in `WorldModel`.

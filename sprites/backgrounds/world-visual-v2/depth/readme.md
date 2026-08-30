@@ -49,6 +49,46 @@ is used before repetition.
 material islands and 200 decorative props. They are localized, deterministic,
 terrain-masked, streamed per biome, and non-authoritative.
 
+`level1-biome-boundaries-v1/` and `level1-biome-boundaries-v2/` provide three
+transparent, terrain-masked formations for each of seven resolved
+material-family joins in the shared 0-2000 m Level 1 geology field. World X and
+depth select the same fifty curved territories used by backdrops, terrain,
+structures, details, and the M map inside Level 1 X0-131 only. The current 481
+placements exercise nineteen of the twenty-one cutouts; the sole
+Cobalt/Silver contact has one placement and therefore cannot show its two
+alternatives without increasing density.
+
+`level1-biome-signatures-v1/`, `level1-biome-generated-roles-v2/`, and
+`level1-biome-generated-roles-v3/` provide four independently generated base
+roles for each of fifty named profiles. `level1-biome-scenic-alternates-v1/`,
+`level1-biome-identity-kits-v1/`, and
+`level1-biome-rare-landmarks-v1/` add fifty scenic substitutions, 120 crop-safe
+identity pieces, and twelve rare landmarks. They replace art inside the same
+400 irregular world-space role slots rather than adding objects. Fifteen
+background assignments make deliberate acid, prism, chrome, ultraviolet,
+rose-gold, and oil-slick hard swaps while retaining the side-view geology and
+edge finish of their parent materials. `?levelOneSourceFamilies=0` restores the
+former five shared selectors and removes the complete generated role layer.
+
+`level1-biome-ground-materials-v1/` and
+`level1-biome-ground-materials-v2/` close the continuous-ground gap. The first
+adds sixty full-coverage plates for the thirty expanded identities; the second
+adds one tertiary plate to every family. Together with the thirty-six retained
+Level One concepts, the active true-ground library contains 146 independent
+materials. Generated `ground` roles remain transparent terrain-edge landmarks;
+these plates are the actual ground fill.
+
+Across Level 1's first 2000 m, the active production inventory is 639 media
+files representing 1109 selectable visual pieces after atlas frames are
+counted: five materials, 75 backdrops, 50 backdrop enhancers, 146 terrain
+plates, 200 exposed-top cuts, five cohesion plates, 25 ground structures, 200
+localized foreground/prop frames, 21 transition cutouts, 200 base generated
+family roles, 50 scenic substitutions, 120 identity crops, and twelve rare
+landmarks. The depth-diversity pass adds exactly 156 independent source/media
+assets and 246 effective selections.
+Demand streaming
+keeps this complete library from residing in memory at once.
+
 `foreground-cohesion-v1/` adds one approved alpha-feathered 1536x1024 painting
 to each biome through a dedicated world-anchored image view. The five V4 plates
 remain stored and selected unchanged. Each cohesion image is streamed only near
@@ -88,8 +128,8 @@ runtime assets.
 - `?undergroundDetailLibrary=0` removes all 400 additive localized details.
 - `?undergroundForegroundTextures=0` removes only the 200 texture frames.
 - `?undergroundOverlayProps=0` removes only the 200 decorative prop frames.
-- `?undergroundTerrainVariation=0` removes only the 50 terrain plates and 200
-  painted exposed-top frames.
+- `?undergroundTerrainVariation=0` removes the retained terrain plates, 110
+  family ground plates, and 200 painted exposed-top frames.
 - `?undergroundForegroundCohesion=0` removes only the ten world-anchored
   cohesion paintings while leaving every material pool enabled.
 - `?undergroundTerrainExpansionV5=0` removes only the forty V5 terrain plates
@@ -132,4 +172,3 @@ selector matches overlay families to the requested backdrop motif and can
 intentionally return no overlay. Existing opaque backdrops and normalized blend
 masks remain authoritative. Use `?undergroundBackdropEnhancers=0` to disable
 only this additive library.
-

@@ -1,0 +1,1661 @@
+{
+  "version": 1,
+  "date": "2026-08-29",
+  "generationMode": "built-in ImageGen, one independent call per distinct asset",
+  "dimensions": [
+    1536,
+    1024
+  ],
+  "variants": [
+    "primary",
+    "secondary"
+  ],
+  "counts": {
+    "addedFamilies": 30,
+    "variantsPerFamily": 2,
+    "newImageGenSources": 60,
+    "newRuntimeGroundAssets": 60,
+    "retainedLevelOneGroundConcepts": 36,
+    "totalLevelOneGroundConcepts": 96,
+    "totalGeneratedVisualLibrary": 260
+  },
+  "stridePx": [
+    1152,
+    768
+  ],
+  "alphaContract": "left/top incoming feather; right/bottom coverage retained",
+  "runtimeContract": "visual-only solid-tile-masked family terrain plates; demand-streamed; no tile, HP, collision, resource, drop, map-topology, or save authority",
+  "rollback": "?levelOneSourceFamilies=0",
+  "specification": "visual-approval-previews/level-one-biome-ground-materials-v1/2026-08-29-level-one-biome-ground-material-specs-v1.json",
+  "promptManifest": "visual-approval-previews/level-one-biome-ground-materials-v1/2026-08-29-level-one-biome-ground-material-prompts-v1.md",
+  "contactSheet": "visual-approval-previews/level-one-biome-ground-materials-v1/2026-08-29-level-one-biome-ground-material-contact-v1.jpg",
+  "regionContactSheets": {
+    "level1-amber": "visual-approval-previews/level-one-biome-ground-materials-v1/2026-08-29-level1-amber-ground-material-contact-v1.jpg",
+    "level1-blue": "visual-approval-previews/level-one-biome-ground-materials-v1/2026-08-29-level1-blue-ground-material-contact-v1.jpg",
+    "level1-magma": "visual-approval-previews/level-one-biome-ground-materials-v1/2026-08-29-level1-magma-ground-material-contact-v1.jpg",
+    "level1-silver": "visual-approval-previews/level-one-biome-ground-materials-v1/2026-08-29-level1-silver-ground-material-contact-v1.jpg",
+    "surface-entry": "visual-approval-previews/level-one-biome-ground-materials-v1/2026-08-29-surface-entry-ground-material-contact-v1.jpg"
+  },
+  "entries": [
+    {
+      "familyId": "thornwake-hollows",
+      "parentRegionId": "surface-entry",
+      "variantId": "primary",
+      "source": "visual-approval-previews/level-one-biome-ground-materials-v1/sources/2026-08-29-thornwake-hollows-ground-material-primary-source-v1.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/level1-biome-ground-materials-v1/thornwake-hollows-ground-material-primary-v1.webp",
+      "width": 1536,
+      "height": 1024,
+      "incomingFadePx": [
+        320,
+        128
+      ],
+      "promptSha256": "c932f32cb4217cd91c72db9a862478c33be1438654dd42a5f4623c241adba2a9",
+      "sourceSha256": "2b8f842b80d8c4d1da8e4fc67648da591aa77ee091ee8c120d8b84851220057c",
+      "runtimeSha256": "b60bf89126080297de696a767d6e2acdc18036acab2ab4e107e9cb8cb5368d4a",
+      "runtimeBytes": 689236,
+      "runtimeAlphaMin": 0,
+      "runtimeAlphaMax": 255,
+      "sourceOpaqueCoverage": 1.0,
+      "sourceOpaqueEdgeCoverage": 1.0,
+      "sourceRgbStd": 29.6222,
+      "sourceMeanRgb": [
+        37.98,
+        35.89,
+        38.66
+      ]
+    },
+    {
+      "familyId": "thornwake-hollows",
+      "parentRegionId": "surface-entry",
+      "variantId": "secondary",
+      "source": "visual-approval-previews/level-one-biome-ground-materials-v1/sources/2026-08-29-thornwake-hollows-ground-material-secondary-source-v1.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/level1-biome-ground-materials-v1/thornwake-hollows-ground-material-secondary-v1.webp",
+      "width": 1536,
+      "height": 1024,
+      "incomingFadePx": [
+        320,
+        128
+      ],
+      "promptSha256": "9fdab620582e153434a04bcc4c6180078631e61b0e40efcfb81ec4c40a966a23",
+      "sourceSha256": "8c8fde3a44b66ab95e0d2ca600d134c7073e963e7b094d0e68cd36f30b0abdd4",
+      "runtimeSha256": "2e08772318666b6f3b3601ace98769f1faa8c55948ac596c9a9b5a7ab3369245",
+      "runtimeBytes": 757992,
+      "runtimeAlphaMin": 0,
+      "runtimeAlphaMax": 255,
+      "sourceOpaqueCoverage": 1.0,
+      "sourceOpaqueEdgeCoverage": 1.0,
+      "sourceRgbStd": 35.3986,
+      "sourceMeanRgb": [
+        39.56,
+        38.07,
+        39.52
+      ]
+    },
+    {
+      "familyId": "peat-lantern-fen",
+      "parentRegionId": "surface-entry",
+      "variantId": "primary",
+      "source": "visual-approval-previews/level-one-biome-ground-materials-v1/sources/2026-08-29-peat-lantern-fen-ground-material-primary-source-v1.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/level1-biome-ground-materials-v1/peat-lantern-fen-ground-material-primary-v1.webp",
+      "width": 1536,
+      "height": 1024,
+      "incomingFadePx": [
+        320,
+        128
+      ],
+      "promptSha256": "43abbab8b187363b8bd154c018bf9aac772c57f10470a20cf6679d977dbb42d2",
+      "sourceSha256": "959ea125df167845006691d99c9d4e5d759395d92f3a14be774182f1e59f969e",
+      "runtimeSha256": "1318a97efb263f354eda7b22d2e232a144bc1aecad04f664b9e875c2d0a2a507",
+      "runtimeBytes": 654168,
+      "runtimeAlphaMin": 0,
+      "runtimeAlphaMax": 255,
+      "sourceOpaqueCoverage": 1.0,
+      "sourceOpaqueEdgeCoverage": 1.0,
+      "sourceRgbStd": 22.7288,
+      "sourceMeanRgb": [
+        30.86,
+        25.92,
+        16.16
+      ]
+    },
+    {
+      "familyId": "peat-lantern-fen",
+      "parentRegionId": "surface-entry",
+      "variantId": "secondary",
+      "source": "visual-approval-previews/level-one-biome-ground-materials-v1/sources/2026-08-29-peat-lantern-fen-ground-material-secondary-source-v1.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/level1-biome-ground-materials-v1/peat-lantern-fen-ground-material-secondary-v1.webp",
+      "width": 1536,
+      "height": 1024,
+      "incomingFadePx": [
+        320,
+        128
+      ],
+      "promptSha256": "312deaab333e9b3a4bb5f6cd31d5d4af24f100d222d331f9ee8f990a6f7a9dba",
+      "sourceSha256": "7291e97a12f64f37501509f76f6d3d5e8e121ee442eeb20a09b9babb908961be",
+      "runtimeSha256": "32235edbe40be4be6779d1cfdea0495ab93cdf32dd8f39f11b84963ff7530a8e",
+      "runtimeBytes": 689380,
+      "runtimeAlphaMin": 0,
+      "runtimeAlphaMax": 255,
+      "sourceOpaqueCoverage": 1.0,
+      "sourceOpaqueEdgeCoverage": 1.0,
+      "sourceRgbStd": 25.6978,
+      "sourceMeanRgb": [
+        38.5,
+        36.72,
+        27.87
+      ]
+    },
+    {
+      "familyId": "rootbell-ossuary",
+      "parentRegionId": "surface-entry",
+      "variantId": "primary",
+      "source": "visual-approval-previews/level-one-biome-ground-materials-v1/sources/2026-08-29-rootbell-ossuary-ground-material-primary-source-v1.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/level1-biome-ground-materials-v1/rootbell-ossuary-ground-material-primary-v1.webp",
+      "width": 1536,
+      "height": 1024,
+      "incomingFadePx": [
+        320,
+        128
+      ],
+      "promptSha256": "fcae8cfd441621f70ca62f3b06ea578edc4a6e74c99702cd138550dbf8b52239",
+      "sourceSha256": "1e5782494fe20188c1da14b5881ef56cd9f8635bdc209538e64c7accb49d4ad7",
+      "runtimeSha256": "be439eeeb96a8d6770575a730a70c9f0cbb08f8ac98c2df1c13dbfa0e46c296b",
+      "runtimeBytes": 887894,
+      "runtimeAlphaMin": 0,
+      "runtimeAlphaMax": 255,
+      "sourceOpaqueCoverage": 1.0,
+      "sourceOpaqueEdgeCoverage": 1.0,
+      "sourceRgbStd": 42.5847,
+      "sourceMeanRgb": [
+        76.63,
+        61.0,
+        39.12
+      ]
+    },
+    {
+      "familyId": "rootbell-ossuary",
+      "parentRegionId": "surface-entry",
+      "variantId": "secondary",
+      "source": "visual-approval-previews/level-one-biome-ground-materials-v1/sources/2026-08-29-rootbell-ossuary-ground-material-secondary-source-v1.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/level1-biome-ground-materials-v1/rootbell-ossuary-ground-material-secondary-v1.webp",
+      "width": 1536,
+      "height": 1024,
+      "incomingFadePx": [
+        320,
+        128
+      ],
+      "promptSha256": "02a56a40f8c31cd438c270c53e32b5c04d8872eda6c116e60531dd81919bce4a",
+      "sourceSha256": "9db49c9f1ecf09e6ca81271e1154a75ae108331af4090d177ada399714d38025",
+      "runtimeSha256": "1188726f6cd9d88a8a242c45119e6acd1f3d504443252f08b7a27758e3e6b51a",
+      "runtimeBytes": 803978,
+      "runtimeAlphaMin": 0,
+      "runtimeAlphaMax": 255,
+      "sourceOpaqueCoverage": 1.0,
+      "sourceOpaqueEdgeCoverage": 1.0,
+      "sourceRgbStd": 40.3492,
+      "sourceMeanRgb": [
+        64.16,
+        50.72,
+        33.82
+      ]
+    },
+    {
+      "familyId": "siltwood-warrens",
+      "parentRegionId": "surface-entry",
+      "variantId": "primary",
+      "source": "visual-approval-previews/level-one-biome-ground-materials-v1/sources/2026-08-29-siltwood-warrens-ground-material-primary-source-v1.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/level1-biome-ground-materials-v1/siltwood-warrens-ground-material-primary-v1.webp",
+      "width": 1536,
+      "height": 1024,
+      "incomingFadePx": [
+        320,
+        128
+      ],
+      "promptSha256": "25dbab6d2274aecdb60ea4ff5c59853aaf38785edbf1cd3e5fd85a3b548c0952",
+      "sourceSha256": "93bd507170203bb3e3779967040b363a66ba6696462909943d8849e68e5b5aa7",
+      "runtimeSha256": "a05d514e2188848034dc72cb529ba787962c9070487ffe06f0a3a06326e2d57e",
+      "runtimeBytes": 764552,
+      "runtimeAlphaMin": 0,
+      "runtimeAlphaMax": 255,
+      "sourceOpaqueCoverage": 1.0,
+      "sourceOpaqueEdgeCoverage": 1.0,
+      "sourceRgbStd": 34.2544,
+      "sourceMeanRgb": [
+        64.58,
+        66.43,
+        69.54
+      ]
+    },
+    {
+      "familyId": "siltwood-warrens",
+      "parentRegionId": "surface-entry",
+      "variantId": "secondary",
+      "source": "visual-approval-previews/level-one-biome-ground-materials-v1/sources/2026-08-29-siltwood-warrens-ground-material-secondary-source-v1.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/level1-biome-ground-materials-v1/siltwood-warrens-ground-material-secondary-v1.webp",
+      "width": 1536,
+      "height": 1024,
+      "incomingFadePx": [
+        320,
+        128
+      ],
+      "promptSha256": "086b8515ce6a3f2c8b7ced7dac2b47a06d1c695e0f6bf3f77fd27cabef6be953",
+      "sourceSha256": "8a13aa00a64052c6a2defa987656768a97c2b58d165a236cf830301678e9d7a5",
+      "runtimeSha256": "16427bce59a697630e3edfe42fa58b0c06f238af19e3b1beb33bee861f05cb8c",
+      "runtimeBytes": 764640,
+      "runtimeAlphaMin": 0,
+      "runtimeAlphaMax": 255,
+      "sourceOpaqueCoverage": 1.0,
+      "sourceOpaqueEdgeCoverage": 1.0,
+      "sourceRgbStd": 29.4081,
+      "sourceMeanRgb": [
+        47.99,
+        53.71,
+        59.61
+      ]
+    },
+    {
+      "familyId": "mossglass-reservoir",
+      "parentRegionId": "surface-entry",
+      "variantId": "primary",
+      "source": "visual-approval-previews/level-one-biome-ground-materials-v1/sources/2026-08-29-mossglass-reservoir-ground-material-primary-source-v1.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/level1-biome-ground-materials-v1/mossglass-reservoir-ground-material-primary-v1.webp",
+      "width": 1536,
+      "height": 1024,
+      "incomingFadePx": [
+        320,
+        128
+      ],
+      "promptSha256": "10816b794b2eb54e507ff382e0a5f5ba243c994401f5c461843a5fffb6e3fec4",
+      "sourceSha256": "e3ac2579cd13c4c6eb1910569157f798eef7947cd501edb0fcc001fe7baaddc2",
+      "runtimeSha256": "47cb7932d4366b1b2784af1918c01319f5f456cc9728ede0c78a933de309341d",
+      "runtimeBytes": 807652,
+      "runtimeAlphaMin": 0,
+      "runtimeAlphaMax": 255,
+      "sourceOpaqueCoverage": 1.0,
+      "sourceOpaqueEdgeCoverage": 1.0,
+      "sourceRgbStd": 38.2595,
+      "sourceMeanRgb": [
+        47.1,
+        57.79,
+        33.98
+      ]
+    },
+    {
+      "familyId": "mossglass-reservoir",
+      "parentRegionId": "surface-entry",
+      "variantId": "secondary",
+      "source": "visual-approval-previews/level-one-biome-ground-materials-v1/sources/2026-08-29-mossglass-reservoir-ground-material-secondary-source-v1.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/level1-biome-ground-materials-v1/mossglass-reservoir-ground-material-secondary-v1.webp",
+      "width": 1536,
+      "height": 1024,
+      "incomingFadePx": [
+        320,
+        128
+      ],
+      "promptSha256": "4ebf28ebd0c3a57ed719d7a0a42e3487bf1db7e512c45aff9fab5ff1d282cf38",
+      "sourceSha256": "f18249a75162e5e5708c6e353991817726e3963772d235d71e9808cfd2750def",
+      "runtimeSha256": "de443be4e70f55015bbbf2efab96fb1e4a39544ca442bfdf60a5f21e93bb6580",
+      "runtimeBytes": 741446,
+      "runtimeAlphaMin": 0,
+      "runtimeAlphaMax": 255,
+      "sourceOpaqueCoverage": 1.0,
+      "sourceOpaqueEdgeCoverage": 1.0,
+      "sourceRgbStd": 29.6184,
+      "sourceMeanRgb": [
+        38.93,
+        48.01,
+        27.65
+      ]
+    },
+    {
+      "familyId": "ironbark-sink",
+      "parentRegionId": "surface-entry",
+      "variantId": "primary",
+      "source": "visual-approval-previews/level-one-biome-ground-materials-v1/sources/2026-08-29-ironbark-sink-ground-material-primary-source-v1.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/level1-biome-ground-materials-v1/ironbark-sink-ground-material-primary-v1.webp",
+      "width": 1536,
+      "height": 1024,
+      "incomingFadePx": [
+        320,
+        128
+      ],
+      "promptSha256": "086398511e67f78527c19f0689fb6668ffbeacfd0cb24a952480c270f51065f9",
+      "sourceSha256": "c0a9debd32a6eb67c8c5bae121cee4c3c0ed4636bb5fa778cfdb23531648cefe",
+      "runtimeSha256": "899bb42be4db61a4f67a4154ece1211f7a586cd7574c4a55d83baa8e7b81cbfb",
+      "runtimeBytes": 837464,
+      "runtimeAlphaMin": 0,
+      "runtimeAlphaMax": 255,
+      "sourceOpaqueCoverage": 1.0,
+      "sourceOpaqueEdgeCoverage": 1.0,
+      "sourceRgbStd": 34.7388,
+      "sourceMeanRgb": [
+        43.13,
+        35.03,
+        28.84
+      ]
+    },
+    {
+      "familyId": "ironbark-sink",
+      "parentRegionId": "surface-entry",
+      "variantId": "secondary",
+      "source": "visual-approval-previews/level-one-biome-ground-materials-v1/sources/2026-08-29-ironbark-sink-ground-material-secondary-source-v1.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/level1-biome-ground-materials-v1/ironbark-sink-ground-material-secondary-v1.webp",
+      "width": 1536,
+      "height": 1024,
+      "incomingFadePx": [
+        320,
+        128
+      ],
+      "promptSha256": "ddca99a33ec707fd432046dce408103baff363ace2128cae5d124ad235a6de8b",
+      "sourceSha256": "2838b5d92e3520c32eecfc7597e16f13fb6491a38747d8122d6aa968b3afca79",
+      "runtimeSha256": "e3bada97c8618c1d3e7fed4cdda9998b1ea6107b482441cef81887be7cfb9124",
+      "runtimeBytes": 730948,
+      "runtimeAlphaMin": 0,
+      "runtimeAlphaMax": 255,
+      "sourceOpaqueCoverage": 1.0,
+      "sourceOpaqueEdgeCoverage": 1.0,
+      "sourceRgbStd": 26.4775,
+      "sourceMeanRgb": [
+        43.5,
+        38.51,
+        35.27
+      ]
+    },
+    {
+      "familyId": "azure-bell-caves",
+      "parentRegionId": "level1-blue",
+      "variantId": "primary",
+      "source": "visual-approval-previews/level-one-biome-ground-materials-v1/sources/2026-08-29-azure-bell-caves-ground-material-primary-source-v1.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/level1-biome-ground-materials-v1/azure-bell-caves-ground-material-primary-v1.webp",
+      "width": 1536,
+      "height": 1024,
+      "incomingFadePx": [
+        320,
+        128
+      ],
+      "promptSha256": "d4f28a88eaa04b055ce7fda58f7d692c8cb003f8cda9fbe65cadfde671096a65",
+      "sourceSha256": "dfb87e570bcbca2147a254c3d478ac51ee0a7f3def128123df6fc2ff10420008",
+      "runtimeSha256": "d67c4dd7b0a88f2126c186a3fd048fdd17934b1981460d9756e22327410aa00f",
+      "runtimeBytes": 855238,
+      "runtimeAlphaMin": 0,
+      "runtimeAlphaMax": 255,
+      "sourceOpaqueCoverage": 1.0,
+      "sourceOpaqueEdgeCoverage": 1.0,
+      "sourceRgbStd": 42.9724,
+      "sourceMeanRgb": [
+        36.37,
+        64.38,
+        85.38
+      ]
+    },
+    {
+      "familyId": "azure-bell-caves",
+      "parentRegionId": "level1-blue",
+      "variantId": "secondary",
+      "source": "visual-approval-previews/level-one-biome-ground-materials-v1/sources/2026-08-29-azure-bell-caves-ground-material-secondary-source-v1.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/level1-biome-ground-materials-v1/azure-bell-caves-ground-material-secondary-v1.webp",
+      "width": 1536,
+      "height": 1024,
+      "incomingFadePx": [
+        320,
+        128
+      ],
+      "promptSha256": "c967f398a88b5202c36769987ee749fa1677c58e3f431f3ae810bab2cee1dd12",
+      "sourceSha256": "8d007b4db31b050a3f6cdbe8fc0b81f295f314a9d7a050d884ca070407b871ab",
+      "runtimeSha256": "067614f5508ff61671c32855e57f8cfa92a2e477ed5d16b505ebfc037f0a6460",
+      "runtimeBytes": 894272,
+      "runtimeAlphaMin": 0,
+      "runtimeAlphaMax": 255,
+      "sourceOpaqueCoverage": 1.0,
+      "sourceOpaqueEdgeCoverage": 1.0,
+      "sourceRgbStd": 43.3175,
+      "sourceMeanRgb": [
+        35.25,
+        58.3,
+        79.61
+      ]
+    },
+    {
+      "familyId": "stormglass-conduits",
+      "parentRegionId": "level1-blue",
+      "variantId": "primary",
+      "source": "visual-approval-previews/level-one-biome-ground-materials-v1/sources/2026-08-29-stormglass-conduits-ground-material-primary-source-v1.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/level1-biome-ground-materials-v1/stormglass-conduits-ground-material-primary-v1.webp",
+      "width": 1536,
+      "height": 1024,
+      "incomingFadePx": [
+        320,
+        128
+      ],
+      "promptSha256": "b55650dd5d8a9a14e928a40c15c0bcc9457a37c14921e144d79398720d148dbe",
+      "sourceSha256": "5c044d4e6b0cc55278e325aa97b6e4a3d2bd03a10e4705cd9c2d17b46c849faa",
+      "runtimeSha256": "9890f1447e56d3c154780e1f81c1ca36c02d4d9eddfca3457733b9badb016541",
+      "runtimeBytes": 769740,
+      "runtimeAlphaMin": 0,
+      "runtimeAlphaMax": 255,
+      "sourceOpaqueCoverage": 1.0,
+      "sourceOpaqueEdgeCoverage": 1.0,
+      "sourceRgbStd": 30.8277,
+      "sourceMeanRgb": [
+        35.35,
+        40.51,
+        54.17
+      ]
+    },
+    {
+      "familyId": "stormglass-conduits",
+      "parentRegionId": "level1-blue",
+      "variantId": "secondary",
+      "source": "visual-approval-previews/level-one-biome-ground-materials-v1/sources/2026-08-29-stormglass-conduits-ground-material-secondary-source-v1.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/level1-biome-ground-materials-v1/stormglass-conduits-ground-material-secondary-v1.webp",
+      "width": 1536,
+      "height": 1024,
+      "incomingFadePx": [
+        320,
+        128
+      ],
+      "promptSha256": "7058c3bc9e37526354f35bb827ce4e4a0ed4736b012098b90ca40ec5d70c0466",
+      "sourceSha256": "c940058bc1772ff48e47808e3861f1e68b58244933543cfd13fd3f018c02b117",
+      "runtimeSha256": "0492644448228c382f13650555c42f8f1dba86778b4e56265bffe0fed5a0a277",
+      "runtimeBytes": 849858,
+      "runtimeAlphaMin": 0,
+      "runtimeAlphaMax": 255,
+      "sourceOpaqueCoverage": 1.0,
+      "sourceOpaqueEdgeCoverage": 1.0,
+      "sourceRgbStd": 39.1485,
+      "sourceMeanRgb": [
+        36.85,
+        47.34,
+        65.51
+      ]
+    },
+    {
+      "familyId": "frozen-choir",
+      "parentRegionId": "level1-blue",
+      "variantId": "primary",
+      "source": "visual-approval-previews/level-one-biome-ground-materials-v1/sources/2026-08-29-frozen-choir-ground-material-primary-source-v1.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/level1-biome-ground-materials-v1/frozen-choir-ground-material-primary-v1.webp",
+      "width": 1536,
+      "height": 1024,
+      "incomingFadePx": [
+        320,
+        128
+      ],
+      "promptSha256": "815498c5a48de490e9bf8a7f0f060718aec9d019a05cf5d8d88bab8e1bea4e28",
+      "sourceSha256": "e65894d7bdc1cb9d71d11d9297592e52ed9cdbf60239c704b949945b475621df",
+      "runtimeSha256": "70478ddfd1f3cac9c29ee8af927d74be88fd180590bac7e07ac9b3d512ffc94a",
+      "runtimeBytes": 859946,
+      "runtimeAlphaMin": 0,
+      "runtimeAlphaMax": 255,
+      "sourceOpaqueCoverage": 1.0,
+      "sourceOpaqueEdgeCoverage": 1.0,
+      "sourceRgbStd": 51.9528,
+      "sourceMeanRgb": [
+        61.64,
+        80.07,
+        103.47
+      ]
+    },
+    {
+      "familyId": "frozen-choir",
+      "parentRegionId": "level1-blue",
+      "variantId": "secondary",
+      "source": "visual-approval-previews/level-one-biome-ground-materials-v1/sources/2026-08-29-frozen-choir-ground-material-secondary-source-v1.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/level1-biome-ground-materials-v1/frozen-choir-ground-material-secondary-v1.webp",
+      "width": 1536,
+      "height": 1024,
+      "incomingFadePx": [
+        320,
+        128
+      ],
+      "promptSha256": "8f490d3abd11a0f84d98c1531a6b49212ff94069a2b51ba643e41b360f3b7f43",
+      "sourceSha256": "5f02b2a7efc0a635e88e3dc079aa06495a09af2796b36ad8593c3924ef6c7884",
+      "runtimeSha256": "7d53d711b2599cf96a618e1d49d93d9a1803091d1f0d957340ae4585f0e6d19a",
+      "runtimeBytes": 733946,
+      "runtimeAlphaMin": 0,
+      "runtimeAlphaMax": 255,
+      "sourceOpaqueCoverage": 1.0,
+      "sourceOpaqueEdgeCoverage": 1.0,
+      "sourceRgbStd": 48.5871,
+      "sourceMeanRgb": [
+        40.79,
+        65.08,
+        100.09
+      ]
+    },
+    {
+      "familyId": "tideclock-chasm",
+      "parentRegionId": "level1-blue",
+      "variantId": "primary",
+      "source": "visual-approval-previews/level-one-biome-ground-materials-v1/sources/2026-08-29-tideclock-chasm-ground-material-primary-source-v1.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/level1-biome-ground-materials-v1/tideclock-chasm-ground-material-primary-v1.webp",
+      "width": 1536,
+      "height": 1024,
+      "incomingFadePx": [
+        320,
+        128
+      ],
+      "promptSha256": "ec9910abccaf6b53684784fbb9a5c1cd64f4460262b5662da440355b75a55900",
+      "sourceSha256": "8d501fef3b9c47f7d30f1d7b868dc28caa1f13797cb699c76a7ef0f157958143",
+      "runtimeSha256": "bb557a811d57986a3919caff5e0e6914fba6fa68be216711c49340f1606d95eb",
+      "runtimeBytes": 833180,
+      "runtimeAlphaMin": 0,
+      "runtimeAlphaMax": 255,
+      "sourceOpaqueCoverage": 1.0,
+      "sourceOpaqueEdgeCoverage": 1.0,
+      "sourceRgbStd": 31.1309,
+      "sourceMeanRgb": [
+        39.67,
+        47.02,
+        53.36
+      ]
+    },
+    {
+      "familyId": "tideclock-chasm",
+      "parentRegionId": "level1-blue",
+      "variantId": "secondary",
+      "source": "visual-approval-previews/level-one-biome-ground-materials-v1/sources/2026-08-29-tideclock-chasm-ground-material-secondary-source-v1.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/level1-biome-ground-materials-v1/tideclock-chasm-ground-material-secondary-v1.webp",
+      "width": 1536,
+      "height": 1024,
+      "incomingFadePx": [
+        320,
+        128
+      ],
+      "promptSha256": "7b2f73925aec09e3059d10e242d55d27e2af0b9f219d031cb4ca10ffee71bd39",
+      "sourceSha256": "5ec86a61e1bbe91c4eb4b7dfe167033db839d64b8aa95524ff0bd2bd1078674e",
+      "runtimeSha256": "920473c50a8ea7a11970b480b117e7486f574907a7ece075eb02cc6857a31756",
+      "runtimeBytes": 796782,
+      "runtimeAlphaMin": 0,
+      "runtimeAlphaMax": 255,
+      "sourceOpaqueCoverage": 1.0,
+      "sourceOpaqueEdgeCoverage": 1.0,
+      "sourceRgbStd": 30.0113,
+      "sourceMeanRgb": [
+        44.39,
+        52.4,
+        56.21
+      ]
+    },
+    {
+      "familyId": "prism-kelp-vault",
+      "parentRegionId": "level1-blue",
+      "variantId": "primary",
+      "source": "visual-approval-previews/level-one-biome-ground-materials-v1/sources/2026-08-29-prism-kelp-vault-ground-material-primary-source-v1.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/level1-biome-ground-materials-v1/prism-kelp-vault-ground-material-primary-v1.webp",
+      "width": 1536,
+      "height": 1024,
+      "incomingFadePx": [
+        320,
+        128
+      ],
+      "promptSha256": "db61521ed0c0428279322bfa9db2c6982dd89c52f39bba8407659e937c7fb6ad",
+      "sourceSha256": "e3839f3f2f6b4a70e8e107b66c3030b427f10462882a91c17f13b89c7e9306c7",
+      "runtimeSha256": "80972266325fe0fb40dc411667508eb96bf40508a107b936057eb513c5b1c74a",
+      "runtimeBytes": 813162,
+      "runtimeAlphaMin": 0,
+      "runtimeAlphaMax": 255,
+      "sourceOpaqueCoverage": 1.0,
+      "sourceOpaqueEdgeCoverage": 1.0,
+      "sourceRgbStd": 38.3135,
+      "sourceMeanRgb": [
+        38.52,
+        71.01,
+        68.87
+      ]
+    },
+    {
+      "familyId": "prism-kelp-vault",
+      "parentRegionId": "level1-blue",
+      "variantId": "secondary",
+      "source": "visual-approval-previews/level-one-biome-ground-materials-v1/sources/2026-08-29-prism-kelp-vault-ground-material-secondary-source-v1.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/level1-biome-ground-materials-v1/prism-kelp-vault-ground-material-secondary-v1.webp",
+      "width": 1536,
+      "height": 1024,
+      "incomingFadePx": [
+        320,
+        128
+      ],
+      "promptSha256": "ef3baa76c47ed086559c2871a5d518a9db9a8b801c3cc832f6bc909087758f67",
+      "sourceSha256": "76ec1cdd0a32bbaf8397d762499c196056dbd8cbb6e7de662b2d88d57cec8fa4",
+      "runtimeSha256": "c988136cb2eca95ca626bfc58735bb7a502932339d49023046898098a5032706",
+      "runtimeBytes": 823570,
+      "runtimeAlphaMin": 0,
+      "runtimeAlphaMax": 255,
+      "sourceOpaqueCoverage": 1.0,
+      "sourceOpaqueEdgeCoverage": 1.0,
+      "sourceRgbStd": 36.0059,
+      "sourceMeanRgb": [
+        40.85,
+        58.93,
+        61.6
+      ]
+    },
+    {
+      "familyId": "blue-salt-basilica",
+      "parentRegionId": "level1-blue",
+      "variantId": "primary",
+      "source": "visual-approval-previews/level-one-biome-ground-materials-v1/sources/2026-08-29-blue-salt-basilica-ground-material-primary-source-v1.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/level1-biome-ground-materials-v1/blue-salt-basilica-ground-material-primary-v1.webp",
+      "width": 1536,
+      "height": 1024,
+      "incomingFadePx": [
+        320,
+        128
+      ],
+      "promptSha256": "580a731e4ef630d3df06992ee23818a310fc7580f4518e5d173c3f9f8da945be",
+      "sourceSha256": "2b5a059884e6a03e8ab5274954f96e34609ee9e04d83c8b77b280c6956d988c8",
+      "runtimeSha256": "707996aa5b3320ca5dd2327737e335ebb5269da4b2744852437bd77135e69927",
+      "runtimeBytes": 796342,
+      "runtimeAlphaMin": 0,
+      "runtimeAlphaMax": 255,
+      "sourceOpaqueCoverage": 1.0,
+      "sourceOpaqueEdgeCoverage": 1.0,
+      "sourceRgbStd": 45.1803,
+      "sourceMeanRgb": [
+        60.09,
+        63.47,
+        98.45
+      ]
+    },
+    {
+      "familyId": "blue-salt-basilica",
+      "parentRegionId": "level1-blue",
+      "variantId": "secondary",
+      "source": "visual-approval-previews/level-one-biome-ground-materials-v1/sources/2026-08-29-blue-salt-basilica-ground-material-secondary-source-v1.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/level1-biome-ground-materials-v1/blue-salt-basilica-ground-material-secondary-v1.webp",
+      "width": 1536,
+      "height": 1024,
+      "incomingFadePx": [
+        320,
+        128
+      ],
+      "promptSha256": "33783ca8aba4e62b3bff4445b41c1e75ca034c78a1ba100761eab1b764bb652e",
+      "sourceSha256": "a794093e64ad3ddf2fe99574698a6fc3c6720bcec907b3d90f8c577ac1d2fa94",
+      "runtimeSha256": "81045867bc4b7af1bb88e018419db6264a0cbf0da2fffb689bfe5e24b21e94d8",
+      "runtimeBytes": 895942,
+      "runtimeAlphaMin": 0,
+      "runtimeAlphaMax": 255,
+      "sourceOpaqueCoverage": 1.0,
+      "sourceOpaqueEdgeCoverage": 1.0,
+      "sourceRgbStd": 45.5392,
+      "sourceMeanRgb": [
+        64.8,
+        73.61,
+        108.23
+      ]
+    },
+    {
+      "familyId": "saffron-boneworks",
+      "parentRegionId": "level1-amber",
+      "variantId": "primary",
+      "source": "visual-approval-previews/level-one-biome-ground-materials-v1/sources/2026-08-29-saffron-boneworks-ground-material-primary-source-v1.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/level1-biome-ground-materials-v1/saffron-boneworks-ground-material-primary-v1.webp",
+      "width": 1536,
+      "height": 1024,
+      "incomingFadePx": [
+        320,
+        128
+      ],
+      "promptSha256": "d0ccdef1f00d9264f110e327f5ed56e57a9c894d66a67d95b6ce5df8251af8be",
+      "sourceSha256": "0af094fcbf2021ec2ae3d52631d3069e6518bf6fc705a04f92b28db46ca4fec3",
+      "runtimeSha256": "3779c72f9c5c6ca8931af785680bb3839d20bf4db94b2ace72b7c6df1a6e52f6",
+      "runtimeBytes": 886722,
+      "runtimeAlphaMin": 0,
+      "runtimeAlphaMax": 255,
+      "sourceOpaqueCoverage": 1.0,
+      "sourceOpaqueEdgeCoverage": 1.0,
+      "sourceRgbStd": 50.9032,
+      "sourceMeanRgb": [
+        92.86,
+        58.76,
+        21.41
+      ]
+    },
+    {
+      "familyId": "saffron-boneworks",
+      "parentRegionId": "level1-amber",
+      "variantId": "secondary",
+      "source": "visual-approval-previews/level-one-biome-ground-materials-v1/sources/2026-08-29-saffron-boneworks-ground-material-secondary-source-v1.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/level1-biome-ground-materials-v1/saffron-boneworks-ground-material-secondary-v1.webp",
+      "width": 1536,
+      "height": 1024,
+      "incomingFadePx": [
+        320,
+        128
+      ],
+      "promptSha256": "8398def8ca625e780633f7beb81a3c05b79562979d17cf67d9aa2928f5c3c82b",
+      "sourceSha256": "465772847be066d4dca225d640da72dc27c9bf843dcd2f7f5fe184b818ffff0e",
+      "runtimeSha256": "6420c9d71d09b0e74a4dc97dff4eb9180a816dbdd54f71c3212fd5d9b0892368",
+      "runtimeBytes": 879418,
+      "runtimeAlphaMin": 0,
+      "runtimeAlphaMax": 255,
+      "sourceOpaqueCoverage": 1.0,
+      "sourceOpaqueEdgeCoverage": 1.0,
+      "sourceRgbStd": 50.6298,
+      "sourceMeanRgb": [
+        104.88,
+        74.12,
+        33.58
+      ]
+    },
+    {
+      "familyId": "citrine-hivefault",
+      "parentRegionId": "level1-amber",
+      "variantId": "primary",
+      "source": "visual-approval-previews/level-one-biome-ground-materials-v1/sources/2026-08-29-citrine-hivefault-ground-material-primary-source-v1.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/level1-biome-ground-materials-v1/citrine-hivefault-ground-material-primary-v1.webp",
+      "width": 1536,
+      "height": 1024,
+      "incomingFadePx": [
+        320,
+        128
+      ],
+      "promptSha256": "47382fcb0591fb5732239f3b687215dcd72017ec62c24c59740c10e0c157f0ba",
+      "sourceSha256": "421bb9e2acfad4a7c32af909281313bbd416739efca4f5249993a13eabce96e6",
+      "runtimeSha256": "ea53a05d0ca4aa7f1cceadb1bfe7840ae95686164465852bda3161d4788505bd",
+      "runtimeBytes": 934926,
+      "runtimeAlphaMin": 0,
+      "runtimeAlphaMax": 255,
+      "sourceOpaqueCoverage": 1.0,
+      "sourceOpaqueEdgeCoverage": 1.0,
+      "sourceRgbStd": 47.1371,
+      "sourceMeanRgb": [
+        80.67,
+        52.54,
+        16.84
+      ]
+    },
+    {
+      "familyId": "citrine-hivefault",
+      "parentRegionId": "level1-amber",
+      "variantId": "secondary",
+      "source": "visual-approval-previews/level-one-biome-ground-materials-v1/sources/2026-08-29-citrine-hivefault-ground-material-secondary-source-v1.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/level1-biome-ground-materials-v1/citrine-hivefault-ground-material-secondary-v1.webp",
+      "width": 1536,
+      "height": 1024,
+      "incomingFadePx": [
+        320,
+        128
+      ],
+      "promptSha256": "d96d896f4bcffa67eb80ed5355d98cf1ce2d4675a54c46059e915526c7751b46",
+      "sourceSha256": "52afc6ec442c72fcc60c37edf29ada16193de6d16856200f29f90d508f305ead",
+      "runtimeSha256": "8465c926e2411a5e658ffdd776a55e45212d1351db4c64bb8206c2ccaea315f3",
+      "runtimeBytes": 834360,
+      "runtimeAlphaMin": 0,
+      "runtimeAlphaMax": 255,
+      "sourceOpaqueCoverage": 1.0,
+      "sourceOpaqueEdgeCoverage": 1.0,
+      "sourceRgbStd": 48.6585,
+      "sourceMeanRgb": [
+        98.58,
+        64.08,
+        24.25
+      ]
+    },
+    {
+      "familyId": "gilded-root-reliquary",
+      "parentRegionId": "level1-amber",
+      "variantId": "primary",
+      "source": "visual-approval-previews/level-one-biome-ground-materials-v1/sources/2026-08-29-gilded-root-reliquary-ground-material-primary-source-v1.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/level1-biome-ground-materials-v1/gilded-root-reliquary-ground-material-primary-v1.webp",
+      "width": 1536,
+      "height": 1024,
+      "incomingFadePx": [
+        320,
+        128
+      ],
+      "promptSha256": "4178bb557bc132e64483cae842b61ec08efac05e7984b017244a0503e692af35",
+      "sourceSha256": "20c45bf33b1f4acbc49f48908ee80dba81169a45698b88add6522868a62ff531",
+      "runtimeSha256": "80941b27a4066c09d5872884a6f87fa704cf5b40716b1e0ef6332f73af07f847",
+      "runtimeBytes": 818360,
+      "runtimeAlphaMin": 0,
+      "runtimeAlphaMax": 255,
+      "sourceOpaqueCoverage": 1.0,
+      "sourceOpaqueEdgeCoverage": 1.0,
+      "sourceRgbStd": 38.5792,
+      "sourceMeanRgb": [
+        51.08,
+        36.86,
+        20.17
+      ]
+    },
+    {
+      "familyId": "gilded-root-reliquary",
+      "parentRegionId": "level1-amber",
+      "variantId": "secondary",
+      "source": "visual-approval-previews/level-one-biome-ground-materials-v1/sources/2026-08-29-gilded-root-reliquary-ground-material-secondary-source-v1.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/level1-biome-ground-materials-v1/gilded-root-reliquary-ground-material-secondary-v1.webp",
+      "width": 1536,
+      "height": 1024,
+      "incomingFadePx": [
+        320,
+        128
+      ],
+      "promptSha256": "11146595f765b6a06a7e0a36645d3919a32fc7f199bfd7c43453861c57dc0bd6",
+      "sourceSha256": "47a17ecf0aeeaf9615c368b0b6df0e95a182a83e0f0e84e7765d79216aecbf7f",
+      "runtimeSha256": "d9ee8cfc74bac4b53db232a55191388d3492a60397d5a9f952c14f3ea78ee4fa",
+      "runtimeBytes": 796204,
+      "runtimeAlphaMin": 0,
+      "runtimeAlphaMax": 255,
+      "sourceOpaqueCoverage": 1.0,
+      "sourceOpaqueEdgeCoverage": 1.0,
+      "sourceRgbStd": 36.5699,
+      "sourceMeanRgb": [
+        47.26,
+        33.57,
+        18.59
+      ]
+    },
+    {
+      "familyId": "ochre-spiral-quarry",
+      "parentRegionId": "level1-amber",
+      "variantId": "primary",
+      "source": "visual-approval-previews/level-one-biome-ground-materials-v1/sources/2026-08-29-ochre-spiral-quarry-ground-material-primary-source-v1.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/level1-biome-ground-materials-v1/ochre-spiral-quarry-ground-material-primary-v1.webp",
+      "width": 1536,
+      "height": 1024,
+      "incomingFadePx": [
+        320,
+        128
+      ],
+      "promptSha256": "ec26f27fcc4491281f568aeca46b4f8cc9b256367e93690d897194068d416a87",
+      "sourceSha256": "1b3a601ef9038a4bbfd1fd255980d172eddf44f6d813254a9d8e5dc5a884ee27",
+      "runtimeSha256": "2a08271ef18a5c51511043393ff8657eb0a75bc0ce9163f5085562f0410eb6aa",
+      "runtimeBytes": 896054,
+      "runtimeAlphaMin": 0,
+      "runtimeAlphaMax": 255,
+      "sourceOpaqueCoverage": 1.0,
+      "sourceOpaqueEdgeCoverage": 1.0,
+      "sourceRgbStd": 50.9893,
+      "sourceMeanRgb": [
+        121.86,
+        76.18,
+        30.91
+      ]
+    },
+    {
+      "familyId": "ochre-spiral-quarry",
+      "parentRegionId": "level1-amber",
+      "variantId": "secondary",
+      "source": "visual-approval-previews/level-one-biome-ground-materials-v1/sources/2026-08-29-ochre-spiral-quarry-ground-material-secondary-source-v1.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/level1-biome-ground-materials-v1/ochre-spiral-quarry-ground-material-secondary-v1.webp",
+      "width": 1536,
+      "height": 1024,
+      "incomingFadePx": [
+        320,
+        128
+      ],
+      "promptSha256": "c6a2cc470ee751b966afd389d3951ad588b5c2883524fe84f6ab491b276b6829",
+      "sourceSha256": "e7f3461839d26758e83eac054e2d813a47647c1ae9489ec0135546b3acc781ac",
+      "runtimeSha256": "576b1b6d5168b7e82f941312bd21b4e5696022272df90eec854e1db6a0ab6dcb",
+      "runtimeBytes": 844874,
+      "runtimeAlphaMin": 0,
+      "runtimeAlphaMax": 255,
+      "sourceOpaqueCoverage": 1.0,
+      "sourceOpaqueEdgeCoverage": 1.0,
+      "sourceRgbStd": 48.7626,
+      "sourceMeanRgb": [
+        120.13,
+        74.36,
+        30.92
+      ]
+    },
+    {
+      "familyId": "sunwax-catacombs",
+      "parentRegionId": "level1-amber",
+      "variantId": "primary",
+      "source": "visual-approval-previews/level-one-biome-ground-materials-v1/sources/2026-08-29-sunwax-catacombs-ground-material-primary-source-v1.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/level1-biome-ground-materials-v1/sunwax-catacombs-ground-material-primary-v1.webp",
+      "width": 1536,
+      "height": 1024,
+      "incomingFadePx": [
+        320,
+        128
+      ],
+      "promptSha256": "5a4141926a155a918c36c27c4c9d220e508872605dfc5a7a227bb598b90654cc",
+      "sourceSha256": "9fec9beb7f9e2af8d5e8f0dd05cd1102e35c4aa5d98e191fcfa07a048fefbaae",
+      "runtimeSha256": "2238b1a081e579b4379c84f75fcb49338ab8aff549391056bb2140cfa55d8ea3",
+      "runtimeBytes": 826824,
+      "runtimeAlphaMin": 0,
+      "runtimeAlphaMax": 255,
+      "sourceOpaqueCoverage": 1.0,
+      "sourceOpaqueEdgeCoverage": 1.0,
+      "sourceRgbStd": 46.7954,
+      "sourceMeanRgb": [
+        90.93,
+        51.39,
+        22.95
+      ]
+    },
+    {
+      "familyId": "sunwax-catacombs",
+      "parentRegionId": "level1-amber",
+      "variantId": "secondary",
+      "source": "visual-approval-previews/level-one-biome-ground-materials-v1/sources/2026-08-29-sunwax-catacombs-ground-material-secondary-source-v1.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/level1-biome-ground-materials-v1/sunwax-catacombs-ground-material-secondary-v1.webp",
+      "width": 1536,
+      "height": 1024,
+      "incomingFadePx": [
+        320,
+        128
+      ],
+      "promptSha256": "dd678aecd5bd4fd96ddf3b9ae7a194cfb10b9c70b8526e6d1d928f34d0328d03",
+      "sourceSha256": "8cd9eb9176e79a6b413a794954a55bb82c75537ae6f33f0bad206caed4aac382",
+      "runtimeSha256": "4c93975e6df1c708b6f7f85c924f36d634e99e3b842416878017c37b62ee8b5e",
+      "runtimeBytes": 789164,
+      "runtimeAlphaMin": 0,
+      "runtimeAlphaMax": 255,
+      "sourceOpaqueCoverage": 1.0,
+      "sourceOpaqueEdgeCoverage": 1.0,
+      "sourceRgbStd": 43.2131,
+      "sourceMeanRgb": [
+        81.89,
+        44.19,
+        12.99
+      ]
+    },
+    {
+      "familyId": "bronze-pollen-rift",
+      "parentRegionId": "level1-amber",
+      "variantId": "primary",
+      "source": "visual-approval-previews/level-one-biome-ground-materials-v1/sources/2026-08-29-bronze-pollen-rift-ground-material-primary-source-v1.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/level1-biome-ground-materials-v1/bronze-pollen-rift-ground-material-primary-v1.webp",
+      "width": 1536,
+      "height": 1024,
+      "incomingFadePx": [
+        320,
+        128
+      ],
+      "promptSha256": "c905081e7c832f4d148409cb47ff1cbbe0d94fe7f8eb9077a56e327af0b987b7",
+      "sourceSha256": "8bd9031962371c2bd38eeb3105165b07f6994f29168f697d753504d13b291639",
+      "runtimeSha256": "a897c1b24cca32d34de38dcd3071328b5e7ac9db6de8ab33993ca5b74018dc87",
+      "runtimeBytes": 828722,
+      "runtimeAlphaMin": 0,
+      "runtimeAlphaMax": 255,
+      "sourceOpaqueCoverage": 1.0,
+      "sourceOpaqueEdgeCoverage": 1.0,
+      "sourceRgbStd": 37.1246,
+      "sourceMeanRgb": [
+        67.17,
+        52.66,
+        28.21
+      ]
+    },
+    {
+      "familyId": "bronze-pollen-rift",
+      "parentRegionId": "level1-amber",
+      "variantId": "secondary",
+      "source": "visual-approval-previews/level-one-biome-ground-materials-v1/sources/2026-08-29-bronze-pollen-rift-ground-material-secondary-source-v1.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/level1-biome-ground-materials-v1/bronze-pollen-rift-ground-material-secondary-v1.webp",
+      "width": 1536,
+      "height": 1024,
+      "incomingFadePx": [
+        320,
+        128
+      ],
+      "promptSha256": "724434ea4aae3b6a2ae019d1b8c4da8171d61f904de340572089797e855b11e8",
+      "sourceSha256": "8d86945008ae5461566f68ad8c941cbfbcffad958bd0a36d3d67ff6045443d33",
+      "runtimeSha256": "f00f54b8938869d69b47c8c9f2f12ebf5429e83cdbc977519130cb9c67e80eaf",
+      "runtimeBytes": 919280,
+      "runtimeAlphaMin": 0,
+      "runtimeAlphaMax": 255,
+      "sourceOpaqueCoverage": 1.0,
+      "sourceOpaqueEdgeCoverage": 1.0,
+      "sourceRgbStd": 38.7041,
+      "sourceMeanRgb": [
+        77.45,
+        59.25,
+        35.11
+      ]
+    },
+    {
+      "familyId": "argent-choir",
+      "parentRegionId": "level1-silver",
+      "variantId": "primary",
+      "source": "visual-approval-previews/level-one-biome-ground-materials-v1/sources/2026-08-29-argent-choir-ground-material-primary-source-v1.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/level1-biome-ground-materials-v1/argent-choir-ground-material-primary-v1.webp",
+      "width": 1536,
+      "height": 1024,
+      "incomingFadePx": [
+        320,
+        128
+      ],
+      "promptSha256": "366683bd7f2745da208da318c0512ef1ff3ae96b35459e4696ebe1f919bab1e5",
+      "sourceSha256": "96e71cdc6df6e211b789daf047bca699bb93c6e21d1bfb279345b31ed52db300",
+      "runtimeSha256": "bafa20cd4c19fa52b20cee6f4a22afc3bca6fa1ebf166fa62a644061aebebbe9",
+      "runtimeBytes": 790290,
+      "runtimeAlphaMin": 0,
+      "runtimeAlphaMax": 255,
+      "sourceOpaqueCoverage": 1.0,
+      "sourceOpaqueEdgeCoverage": 1.0,
+      "sourceRgbStd": 39.1711,
+      "sourceMeanRgb": [
+        61.79,
+        61.94,
+        65.55
+      ]
+    },
+    {
+      "familyId": "argent-choir",
+      "parentRegionId": "level1-silver",
+      "variantId": "secondary",
+      "source": "visual-approval-previews/level-one-biome-ground-materials-v1/sources/2026-08-29-argent-choir-ground-material-secondary-source-v1.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/level1-biome-ground-materials-v1/argent-choir-ground-material-secondary-v1.webp",
+      "width": 1536,
+      "height": 1024,
+      "incomingFadePx": [
+        320,
+        128
+      ],
+      "promptSha256": "1b7f439df2727bdaee3827bcd95229a169773a334fa7b7587c6c42e9bdc0781d",
+      "sourceSha256": "051562f20d3cc94b63dad5b3e9aa20df429efb1a7e3585911ba35dda52991b27",
+      "runtimeSha256": "bc6eb8725a63559bac6fa9e91e56614e43bf533154e82ab1cda9f59ace8c0a5b",
+      "runtimeBytes": 738368,
+      "runtimeAlphaMin": 0,
+      "runtimeAlphaMax": 255,
+      "sourceOpaqueCoverage": 1.0,
+      "sourceOpaqueEdgeCoverage": 1.0,
+      "sourceRgbStd": 41.2493,
+      "sourceMeanRgb": [
+        53.78,
+        55.87,
+        58.71
+      ]
+    },
+    {
+      "familyId": "quicksilver-loom",
+      "parentRegionId": "level1-silver",
+      "variantId": "primary",
+      "source": "visual-approval-previews/level-one-biome-ground-materials-v1/sources/2026-08-29-quicksilver-loom-ground-material-primary-source-v1.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/level1-biome-ground-materials-v1/quicksilver-loom-ground-material-primary-v1.webp",
+      "width": 1536,
+      "height": 1024,
+      "incomingFadePx": [
+        320,
+        128
+      ],
+      "promptSha256": "9dd48add2d99fe660383e25ec70f80b43b5aba8b2303f889fd2de194411f85c7",
+      "sourceSha256": "9bf1561a50338eaa1a3c655e21852e3bed253e9c9f37bc4756f1798249294be6",
+      "runtimeSha256": "24a849e0748d8c779d2d12aa81985ae2ad2421aa2af7df58a72b06a7b6662ef3",
+      "runtimeBytes": 838020,
+      "runtimeAlphaMin": 0,
+      "runtimeAlphaMax": 255,
+      "sourceOpaqueCoverage": 1.0,
+      "sourceOpaqueEdgeCoverage": 1.0,
+      "sourceRgbStd": 49.2945,
+      "sourceMeanRgb": [
+        49.93,
+        53.15,
+        54.94
+      ]
+    },
+    {
+      "familyId": "quicksilver-loom",
+      "parentRegionId": "level1-silver",
+      "variantId": "secondary",
+      "source": "visual-approval-previews/level-one-biome-ground-materials-v1/sources/2026-08-29-quicksilver-loom-ground-material-secondary-source-v1.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/level1-biome-ground-materials-v1/quicksilver-loom-ground-material-secondary-v1.webp",
+      "width": 1536,
+      "height": 1024,
+      "incomingFadePx": [
+        320,
+        128
+      ],
+      "promptSha256": "6d45117f88a6abb6039e306f23c942812f611f50e601ad458f07de16d27d9bef",
+      "sourceSha256": "8a59c65068f693ae9fb5ad07528c1e47e455a66b0cebaaa4b27f3534c0a0e406",
+      "runtimeSha256": "d77987ff89ecb6c0e679ae44145e52504d9fcaf77ec78dc77f8f08a9a0b28fb4",
+      "runtimeBytes": 910816,
+      "runtimeAlphaMin": 0,
+      "runtimeAlphaMax": 255,
+      "sourceOpaqueCoverage": 1.0,
+      "sourceOpaqueEdgeCoverage": 1.0,
+      "sourceRgbStd": 54.9837,
+      "sourceMeanRgb": [
+        51.99,
+        59.6,
+        63.92
+      ]
+    },
+    {
+      "familyId": "moonwire-ravine",
+      "parentRegionId": "level1-silver",
+      "variantId": "primary",
+      "source": "visual-approval-previews/level-one-biome-ground-materials-v1/sources/2026-08-29-moonwire-ravine-ground-material-primary-source-v1.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/level1-biome-ground-materials-v1/moonwire-ravine-ground-material-primary-v1.webp",
+      "width": 1536,
+      "height": 1024,
+      "incomingFadePx": [
+        320,
+        128
+      ],
+      "promptSha256": "3c8ee2696d67324ad7f06de396e292a638886865c855947ca96fe6608121b856",
+      "sourceSha256": "25697157e23976173a99ae37a4a2a72bca46ba02af03ff38dc5b4588f1062089",
+      "runtimeSha256": "5416b5cbbc5b4b93981352c7a3f1ec86107a8ac1386b43d06c7ca606a28eea96",
+      "runtimeBytes": 798082,
+      "runtimeAlphaMin": 0,
+      "runtimeAlphaMax": 255,
+      "sourceOpaqueCoverage": 1.0,
+      "sourceOpaqueEdgeCoverage": 1.0,
+      "sourceRgbStd": 34.8662,
+      "sourceMeanRgb": [
+        45.22,
+        48.49,
+        52.7
+      ]
+    },
+    {
+      "familyId": "moonwire-ravine",
+      "parentRegionId": "level1-silver",
+      "variantId": "secondary",
+      "source": "visual-approval-previews/level-one-biome-ground-materials-v1/sources/2026-08-29-moonwire-ravine-ground-material-secondary-source-v1.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/level1-biome-ground-materials-v1/moonwire-ravine-ground-material-secondary-v1.webp",
+      "width": 1536,
+      "height": 1024,
+      "incomingFadePx": [
+        320,
+        128
+      ],
+      "promptSha256": "2533d6a114e72da81b7121d359ff5739f925e81d63932484d2208117fe288034",
+      "sourceSha256": "18c78eca545f2897c760b43aa9232262389d0f2002452fe43265ad1c096587d8",
+      "runtimeSha256": "0eded49140fd60b948910eb33812d34f42b8dc6ffa38f00b8aad83b89a7977d2",
+      "runtimeBytes": 774374,
+      "runtimeAlphaMin": 0,
+      "runtimeAlphaMax": 255,
+      "sourceOpaqueCoverage": 1.0,
+      "sourceOpaqueEdgeCoverage": 1.0,
+      "sourceRgbStd": 31.6804,
+      "sourceMeanRgb": [
+        39.58,
+        42.57,
+        43.95
+      ]
+    },
+    {
+      "familyId": "pale-magnet-basilica",
+      "parentRegionId": "level1-silver",
+      "variantId": "primary",
+      "source": "visual-approval-previews/level-one-biome-ground-materials-v1/sources/2026-08-29-pale-magnet-basilica-ground-material-primary-source-v1.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/level1-biome-ground-materials-v1/pale-magnet-basilica-ground-material-primary-v1.webp",
+      "width": 1536,
+      "height": 1024,
+      "incomingFadePx": [
+        320,
+        128
+      ],
+      "promptSha256": "74101e07433c76016cc17df3f3519e30a651a48bc97c1fce1347fc1b1b3d0aa5",
+      "sourceSha256": "dc3be49c36ad228f927b285177d7efb9e086fbd4b409a2557d767022b703c2c4",
+      "runtimeSha256": "b0fc554837038e100ac532fc49fee8c90370e789668c69731350a9bbfbfc4583",
+      "runtimeBytes": 812950,
+      "runtimeAlphaMin": 0,
+      "runtimeAlphaMax": 255,
+      "sourceOpaqueCoverage": 1.0,
+      "sourceOpaqueEdgeCoverage": 1.0,
+      "sourceRgbStd": 46.5277,
+      "sourceMeanRgb": [
+        75.56,
+        74.13,
+        78.45
+      ]
+    },
+    {
+      "familyId": "pale-magnet-basilica",
+      "parentRegionId": "level1-silver",
+      "variantId": "secondary",
+      "source": "visual-approval-previews/level-one-biome-ground-materials-v1/sources/2026-08-29-pale-magnet-basilica-ground-material-secondary-source-v1.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/level1-biome-ground-materials-v1/pale-magnet-basilica-ground-material-secondary-v1.webp",
+      "width": 1536,
+      "height": 1024,
+      "incomingFadePx": [
+        320,
+        128
+      ],
+      "promptSha256": "0e1d947a52d47e0e6c5fa7af1208d67e03449042d77f3983f90d1cf0d513fbbd",
+      "sourceSha256": "77bc3b0d2e1cb13fe1a0cd1d5702bf392419a2a4435638bc97be86d4d9500b7d",
+      "runtimeSha256": "222ff5856a27ab73c186b08e52162255293fe3b13d9f0059613cb4f2f8405829",
+      "runtimeBytes": 940096,
+      "runtimeAlphaMin": 0,
+      "runtimeAlphaMax": 255,
+      "sourceOpaqueCoverage": 1.0,
+      "sourceOpaqueEdgeCoverage": 1.0,
+      "sourceRgbStd": 50.5243,
+      "sourceMeanRgb": [
+        77.85,
+        74.28,
+        82.46
+      ]
+    },
+    {
+      "familyId": "glasssteel-sepulcher",
+      "parentRegionId": "level1-silver",
+      "variantId": "primary",
+      "source": "visual-approval-previews/level-one-biome-ground-materials-v1/sources/2026-08-29-glasssteel-sepulcher-ground-material-primary-source-v1.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/level1-biome-ground-materials-v1/glasssteel-sepulcher-ground-material-primary-v1.webp",
+      "width": 1536,
+      "height": 1024,
+      "incomingFadePx": [
+        320,
+        128
+      ],
+      "promptSha256": "aa5ed324a2c405ccb0bc0c55cba68053774bd48f209ddf6229696d0337bb757a",
+      "sourceSha256": "862d3f5151c0c22c1bc5f70c5f27fd9d9c091ff9447ee56741c8ca1816a1a9ce",
+      "runtimeSha256": "f383d129f274ec9fed90c77772551f17c593a467d712efa2717b88de9b93d0ea",
+      "runtimeBytes": 862370,
+      "runtimeAlphaMin": 0,
+      "runtimeAlphaMax": 255,
+      "sourceOpaqueCoverage": 1.0,
+      "sourceOpaqueEdgeCoverage": 1.0,
+      "sourceRgbStd": 41.3796,
+      "sourceMeanRgb": [
+        48.73,
+        54.03,
+        58.87
+      ]
+    },
+    {
+      "familyId": "glasssteel-sepulcher",
+      "parentRegionId": "level1-silver",
+      "variantId": "secondary",
+      "source": "visual-approval-previews/level-one-biome-ground-materials-v1/sources/2026-08-29-glasssteel-sepulcher-ground-material-secondary-source-v1.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/level1-biome-ground-materials-v1/glasssteel-sepulcher-ground-material-secondary-v1.webp",
+      "width": 1536,
+      "height": 1024,
+      "incomingFadePx": [
+        320,
+        128
+      ],
+      "promptSha256": "8279afb855c9a71235482b31fad24e8bdeeb1083a0025e82d969935ab3a303b5",
+      "sourceSha256": "aea5eb333091b0e5dba4c21acf76e44ddb68fba2a970bc8ef7377fa05e293e34",
+      "runtimeSha256": "8b0b8664d4dd74395cf9ad93564914ac59c3a10492134ebc869ea197c4918366",
+      "runtimeBytes": 687160,
+      "runtimeAlphaMin": 0,
+      "runtimeAlphaMax": 255,
+      "sourceOpaqueCoverage": 1.0,
+      "sourceOpaqueEdgeCoverage": 1.0,
+      "sourceRgbStd": 30.3176,
+      "sourceMeanRgb": [
+        55.33,
+        59.08,
+        61.03
+      ]
+    },
+    {
+      "familyId": "starless-reflectory",
+      "parentRegionId": "level1-silver",
+      "variantId": "primary",
+      "source": "visual-approval-previews/level-one-biome-ground-materials-v1/sources/2026-08-29-starless-reflectory-ground-material-primary-source-v1.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/level1-biome-ground-materials-v1/starless-reflectory-ground-material-primary-v1.webp",
+      "width": 1536,
+      "height": 1024,
+      "incomingFadePx": [
+        320,
+        128
+      ],
+      "promptSha256": "e59562bb51b339c9bb3c4d2f9843127b012cb2a8b1a4ac30410c9209e16dace4",
+      "sourceSha256": "bbca4bda6e666889f00ba0d4b5bfe1b69bfdff8ad996c8a7244c7c2bd1184bd7",
+      "runtimeSha256": "8add3435fd3f7020570156128d52cce32b12446138970fbc58512e93fa7be83e",
+      "runtimeBytes": 639668,
+      "runtimeAlphaMin": 0,
+      "runtimeAlphaMax": 255,
+      "sourceOpaqueCoverage": 1.0,
+      "sourceOpaqueEdgeCoverage": 1.0,
+      "sourceRgbStd": 39.8106,
+      "sourceMeanRgb": [
+        37.98,
+        38.62,
+        39.46
+      ]
+    },
+    {
+      "familyId": "starless-reflectory",
+      "parentRegionId": "level1-silver",
+      "variantId": "secondary",
+      "source": "visual-approval-previews/level-one-biome-ground-materials-v1/sources/2026-08-29-starless-reflectory-ground-material-secondary-source-v1.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/level1-biome-ground-materials-v1/starless-reflectory-ground-material-secondary-v1.webp",
+      "width": 1536,
+      "height": 1024,
+      "incomingFadePx": [
+        320,
+        128
+      ],
+      "promptSha256": "ef950146d62086e57a3f11c8d8658fdc0a5524e6f82a60d670d9bd893124c550",
+      "sourceSha256": "50489d75369aae0d97d96d663b8b38730eff85ec134d259eeb97d22a84cf183f",
+      "runtimeSha256": "07a78b6d1b3d5797936a3a2f5134e5ec6676f40218eb7fae7e102e8b3dba3d11",
+      "runtimeBytes": 694740,
+      "runtimeAlphaMin": 0,
+      "runtimeAlphaMax": 255,
+      "sourceOpaqueCoverage": 1.0,
+      "sourceOpaqueEdgeCoverage": 1.0,
+      "sourceRgbStd": 39.5511,
+      "sourceMeanRgb": [
+        43.55,
+        42.95,
+        42.96
+      ]
+    },
+    {
+      "familyId": "cinder-organ",
+      "parentRegionId": "level1-magma",
+      "variantId": "primary",
+      "source": "visual-approval-previews/level-one-biome-ground-materials-v1/sources/2026-08-29-cinder-organ-ground-material-primary-source-v1.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/level1-biome-ground-materials-v1/cinder-organ-ground-material-primary-v1.webp",
+      "width": 1536,
+      "height": 1024,
+      "incomingFadePx": [
+        320,
+        128
+      ],
+      "promptSha256": "b6da7e8c563696bd1b24ff1f4ac1c98bd8cafd00dcf0438c171bebb29671f2b3",
+      "sourceSha256": "e6cc2e78d0249c839b135ffd00f959643a6eb31091bd33afce5e73e9a90e5453",
+      "runtimeSha256": "26057bf3a43a0a6f47459cbbc1a2dea40aa63132eae019c54c1bf761a6a4d937",
+      "runtimeBytes": 729734,
+      "runtimeAlphaMin": 0,
+      "runtimeAlphaMax": 255,
+      "sourceOpaqueCoverage": 1.0,
+      "sourceOpaqueEdgeCoverage": 1.0,
+      "sourceRgbStd": 28.1249,
+      "sourceMeanRgb": [
+        31.45,
+        25.08,
+        23.62
+      ]
+    },
+    {
+      "familyId": "cinder-organ",
+      "parentRegionId": "level1-magma",
+      "variantId": "secondary",
+      "source": "visual-approval-previews/level-one-biome-ground-materials-v1/sources/2026-08-29-cinder-organ-ground-material-secondary-source-v1.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/level1-biome-ground-materials-v1/cinder-organ-ground-material-secondary-v1.webp",
+      "width": 1536,
+      "height": 1024,
+      "incomingFadePx": [
+        320,
+        128
+      ],
+      "promptSha256": "76d78028fdfa9b0a5bd4959a1baf34d74dc7f46be03b8094b4d249e9881673ac",
+      "sourceSha256": "ed7c2338f3105eff5cd62e5bd7149afa5e5e554849ad304cb41f22dfa9e276ae",
+      "runtimeSha256": "3a6fc8c308d3b6ef1fc755e6d8e8f315ddfcb7a79db8fce4a3ce858b05cb0c19",
+      "runtimeBytes": 631952,
+      "runtimeAlphaMin": 0,
+      "runtimeAlphaMax": 255,
+      "sourceOpaqueCoverage": 1.0,
+      "sourceOpaqueEdgeCoverage": 1.0,
+      "sourceRgbStd": 29.6626,
+      "sourceMeanRgb": [
+        32.77,
+        29.43,
+        26.3
+      ]
+    },
+    {
+      "familyId": "slagheart-foundry",
+      "parentRegionId": "level1-magma",
+      "variantId": "primary",
+      "source": "visual-approval-previews/level-one-biome-ground-materials-v1/sources/2026-08-29-slagheart-foundry-ground-material-primary-source-v1.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/level1-biome-ground-materials-v1/slagheart-foundry-ground-material-primary-v1.webp",
+      "width": 1536,
+      "height": 1024,
+      "incomingFadePx": [
+        320,
+        128
+      ],
+      "promptSha256": "2dbb3a3bb72230f335570a056593f2167d973ebad1a13f78814bb0a59fd77b92",
+      "sourceSha256": "ed88ce0d9a6c75112651697d42ee72d121d59b6cfa3963003887759752911c7b",
+      "runtimeSha256": "917c44174af0c29d4b1fc568476db213af43340477f203920333097cc506e26a",
+      "runtimeBytes": 890616,
+      "runtimeAlphaMin": 0,
+      "runtimeAlphaMax": 255,
+      "sourceOpaqueCoverage": 1.0,
+      "sourceOpaqueEdgeCoverage": 1.0,
+      "sourceRgbStd": 37.8498,
+      "sourceMeanRgb": [
+        49.71,
+        36.42,
+        32.44
+      ]
+    },
+    {
+      "familyId": "slagheart-foundry",
+      "parentRegionId": "level1-magma",
+      "variantId": "secondary",
+      "source": "visual-approval-previews/level-one-biome-ground-materials-v1/sources/2026-08-29-slagheart-foundry-ground-material-secondary-source-v1.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/level1-biome-ground-materials-v1/slagheart-foundry-ground-material-secondary-v1.webp",
+      "width": 1536,
+      "height": 1024,
+      "incomingFadePx": [
+        320,
+        128
+      ],
+      "promptSha256": "d5926d922a141ad64c9d3fb2a9c4fcbfc2cd62c3f358dda117c6465ab6ae53c8",
+      "sourceSha256": "77f13872a24a807f76203974c5cbd8e94dcae271323ff135eaac0fb6d8044784",
+      "runtimeSha256": "5ecdc15efba46aa152502128e0e3c364d0847665e328b02b78e970ea9c100b6d",
+      "runtimeBytes": 868722,
+      "runtimeAlphaMin": 0,
+      "runtimeAlphaMax": 255,
+      "sourceOpaqueCoverage": 1.0,
+      "sourceOpaqueEdgeCoverage": 1.0,
+      "sourceRgbStd": 33.1981,
+      "sourceMeanRgb": [
+        46.34,
+        34.42,
+        29.98
+      ]
+    },
+    {
+      "familyId": "ashen-crown-rift",
+      "parentRegionId": "level1-magma",
+      "variantId": "primary",
+      "source": "visual-approval-previews/level-one-biome-ground-materials-v1/sources/2026-08-29-ashen-crown-rift-ground-material-primary-source-v1.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/level1-biome-ground-materials-v1/ashen-crown-rift-ground-material-primary-v1.webp",
+      "width": 1536,
+      "height": 1024,
+      "incomingFadePx": [
+        320,
+        128
+      ],
+      "promptSha256": "27efa6140d1865ee4d1db4ced28291de23eef0c328ae33780a32fe85976ba588",
+      "sourceSha256": "8d23358b928de72b2c05cb04f81b4dae4fad308219c061f6325278b4f696e3e7",
+      "runtimeSha256": "e29cbdc6c5f07e3d3c39dfa62c2dd8c45e28d6765a1cbf7526e8b614323d50b7",
+      "runtimeBytes": 773408,
+      "runtimeAlphaMin": 0,
+      "runtimeAlphaMax": 255,
+      "sourceOpaqueCoverage": 1.0,
+      "sourceOpaqueEdgeCoverage": 1.0,
+      "sourceRgbStd": 32.6897,
+      "sourceMeanRgb": [
+        48.77,
+        41.95,
+        44.94
+      ]
+    },
+    {
+      "familyId": "ashen-crown-rift",
+      "parentRegionId": "level1-magma",
+      "variantId": "secondary",
+      "source": "visual-approval-previews/level-one-biome-ground-materials-v1/sources/2026-08-29-ashen-crown-rift-ground-material-secondary-source-v1.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/level1-biome-ground-materials-v1/ashen-crown-rift-ground-material-secondary-v1.webp",
+      "width": 1536,
+      "height": 1024,
+      "incomingFadePx": [
+        320,
+        128
+      ],
+      "promptSha256": "0288d07ea7587d4181306359991de17d1a7b18d769ac5f88c912fcb55e1c0a72",
+      "sourceSha256": "9ffb4dedc0dc1454952bd8017a5d7fcfe664992f16026e5c7a732706716c06a8",
+      "runtimeSha256": "afe9a3affa9b48ed5dbeea7f43e7ef5508350a07b239c3db654a5580d864ce6e",
+      "runtimeBytes": 776236,
+      "runtimeAlphaMin": 0,
+      "runtimeAlphaMax": 255,
+      "sourceOpaqueCoverage": 1.0,
+      "sourceOpaqueEdgeCoverage": 1.0,
+      "sourceRgbStd": 30.0702,
+      "sourceMeanRgb": [
+        50.91,
+        48.77,
+        58.21
+      ]
+    },
+    {
+      "familyId": "molten-chain-garden",
+      "parentRegionId": "level1-magma",
+      "variantId": "primary",
+      "source": "visual-approval-previews/level-one-biome-ground-materials-v1/sources/2026-08-29-molten-chain-garden-ground-material-primary-source-v1.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/level1-biome-ground-materials-v1/molten-chain-garden-ground-material-primary-v1.webp",
+      "width": 1536,
+      "height": 1024,
+      "incomingFadePx": [
+        320,
+        128
+      ],
+      "promptSha256": "758040ab8b529e09c4cade62354b829db0c84f7cf7b35e62b56e1f0f4531ef7a",
+      "sourceSha256": "6f636a299eb75964b6835e2a847e8f4200eaa182a1441447818651a8754d4a80",
+      "runtimeSha256": "8e829df5eb81123871fdf936f2dd8bf6b2fea2790e96b2c6c153a71eaa41bba0",
+      "runtimeBytes": 737816,
+      "runtimeAlphaMin": 0,
+      "runtimeAlphaMax": 255,
+      "sourceOpaqueCoverage": 1.0,
+      "sourceOpaqueEdgeCoverage": 1.0,
+      "sourceRgbStd": 31.1405,
+      "sourceMeanRgb": [
+        39.94,
+        30.92,
+        25.46
+      ]
+    },
+    {
+      "familyId": "molten-chain-garden",
+      "parentRegionId": "level1-magma",
+      "variantId": "secondary",
+      "source": "visual-approval-previews/level-one-biome-ground-materials-v1/sources/2026-08-29-molten-chain-garden-ground-material-secondary-source-v1.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/level1-biome-ground-materials-v1/molten-chain-garden-ground-material-secondary-v1.webp",
+      "width": 1536,
+      "height": 1024,
+      "incomingFadePx": [
+        320,
+        128
+      ],
+      "promptSha256": "fa09846044bee8da8e3352e2880ffe55d8e6e06723261250f466219c1b0897df",
+      "sourceSha256": "fee330d7862887e1edae223c86a730a31668a13d15fda3de1eda8e48798367ac",
+      "runtimeSha256": "1d9e8fd722dad37c8f95028ca36a2eee2c20674b6e7dd21168bf2cd5c2d57727",
+      "runtimeBytes": 804820,
+      "runtimeAlphaMin": 0,
+      "runtimeAlphaMax": 255,
+      "sourceOpaqueCoverage": 1.0,
+      "sourceOpaqueEdgeCoverage": 1.0,
+      "sourceRgbStd": 39.0643,
+      "sourceMeanRgb": [
+        46.38,
+        35.03,
+        30.63
+      ]
+    },
+    {
+      "familyId": "pyreclast-cathedral",
+      "parentRegionId": "level1-magma",
+      "variantId": "primary",
+      "source": "visual-approval-previews/level-one-biome-ground-materials-v1/sources/2026-08-29-pyreclast-cathedral-ground-material-primary-source-v1.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/level1-biome-ground-materials-v1/pyreclast-cathedral-ground-material-primary-v1.webp",
+      "width": 1536,
+      "height": 1024,
+      "incomingFadePx": [
+        320,
+        128
+      ],
+      "promptSha256": "c2dcee2bb4e7f06c728a7d6399c272ea10e72c20b8ce820dc357a40bd2225661",
+      "sourceSha256": "5e76766300c9ff4f576a17f88803ca03c7ff0dd39f61139ca3e0dac28660dc15",
+      "runtimeSha256": "52cdd70c728a2bb11321c4070231b88635c4cbe3e29cb467044aae40258dce96",
+      "runtimeBytes": 884248,
+      "runtimeAlphaMin": 0,
+      "runtimeAlphaMax": 255,
+      "sourceOpaqueCoverage": 1.0,
+      "sourceOpaqueEdgeCoverage": 1.0,
+      "sourceRgbStd": 36.2883,
+      "sourceMeanRgb": [
+        46.57,
+        36.88,
+        32.86
+      ]
+    },
+    {
+      "familyId": "pyreclast-cathedral",
+      "parentRegionId": "level1-magma",
+      "variantId": "secondary",
+      "source": "visual-approval-previews/level-one-biome-ground-materials-v1/sources/2026-08-29-pyreclast-cathedral-ground-material-secondary-source-v1.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/level1-biome-ground-materials-v1/pyreclast-cathedral-ground-material-secondary-v1.webp",
+      "width": 1536,
+      "height": 1024,
+      "incomingFadePx": [
+        320,
+        128
+      ],
+      "promptSha256": "2faedf2cb16dbf4ba560a90135c3d9e9236deea5fcfb689b2196b981128bca14",
+      "sourceSha256": "7f17ec304ded922df641a1e68edcc1092ddc00fe53ec0b8d5dd4cc80a5ac87de",
+      "runtimeSha256": "ef90388fab58bb3937e88a68869b7602f858ba8a7206fc7578d4a701b5616bac",
+      "runtimeBytes": 783494,
+      "runtimeAlphaMin": 0,
+      "runtimeAlphaMax": 255,
+      "sourceOpaqueCoverage": 1.0,
+      "sourceOpaqueEdgeCoverage": 1.0,
+      "sourceRgbStd": 30.9197,
+      "sourceMeanRgb": [
+        52.09,
+        40.3,
+        35.46
+      ]
+    },
+    {
+      "familyId": "blackglass-crucible",
+      "parentRegionId": "level1-magma",
+      "variantId": "primary",
+      "source": "visual-approval-previews/level-one-biome-ground-materials-v1/sources/2026-08-29-blackglass-crucible-ground-material-primary-source-v1.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/level1-biome-ground-materials-v1/blackglass-crucible-ground-material-primary-v1.webp",
+      "width": 1536,
+      "height": 1024,
+      "incomingFadePx": [
+        320,
+        128
+      ],
+      "promptSha256": "875f09675b05ed600ed29b491ee7030ce8a5ee96aacf9b1d47d531d22ab5d808",
+      "sourceSha256": "b846d4bd49bb4e4620b4e836c96fce174fb1bebcb75ed063a5aff7e8b0dbd38e",
+      "runtimeSha256": "2a97113299d602cbf5556c0b1a032e6282d20636d687dadc392185ddc53db341",
+      "runtimeBytes": 695848,
+      "runtimeAlphaMin": 0,
+      "runtimeAlphaMax": 255,
+      "sourceOpaqueCoverage": 1.0,
+      "sourceOpaqueEdgeCoverage": 1.0,
+      "sourceRgbStd": 30.0183,
+      "sourceMeanRgb": [
+        29.84,
+        28.61,
+        33.22
+      ]
+    },
+    {
+      "familyId": "blackglass-crucible",
+      "parentRegionId": "level1-magma",
+      "variantId": "secondary",
+      "source": "visual-approval-previews/level-one-biome-ground-materials-v1/sources/2026-08-29-blackglass-crucible-ground-material-secondary-source-v1.png",
+      "runtime": "sprites/backgrounds/world-visual-v2/depth/level1-biome-ground-materials-v1/blackglass-crucible-ground-material-secondary-v1.webp",
+      "width": 1536,
+      "height": 1024,
+      "incomingFadePx": [
+        320,
+        128
+      ],
+      "promptSha256": "8d09ef51ab5a6e3225d37e0699be409f29308fb239a6ffaa6f92fb3aedb1a21e",
+      "sourceSha256": "074647ca5c1f6152a80c6cb056bdb2744638d8c81dae86738dfb5dc74b0c6004",
+      "runtimeSha256": "4366086b256c6277347b7b87faabedaddf129b5f7bcf225b3f91df6c64a88796",
+      "runtimeBytes": 724946,
+      "runtimeAlphaMin": 0,
+      "runtimeAlphaMax": 255,
+      "sourceOpaqueCoverage": 1.0,
+      "sourceOpaqueEdgeCoverage": 1.0,
+      "sourceRgbStd": 34.51,
+      "sourceMeanRgb": [
+        39.16,
+        35.03,
+        43.35
+      ]
+    }
+  ]
+}

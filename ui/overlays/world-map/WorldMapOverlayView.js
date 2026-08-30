@@ -1,6 +1,8 @@
 import { ASSET_KEYS } from "../../../values/assetKeys.js";
 import { WORLD_MAP_CONFIG } from "../../../values/worldMapConfig.js";
+import { WorldMapAnnotationView } from "./WorldMapAnnotationView.js";
 import { WorldMapTextButton } from "./WorldMapTextButton.js";
+import { formatWorldMapStatus } from "./formatWorldMapStatus.js";
 
 /** Builds and updates the authored world-map frame, labels, and mouse controls. */
 export class WorldMapOverlayView {
@@ -12,6 +14,7 @@ export class WorldMapOverlayView {
     this.staticButtons = [];
     this.activitySignature = "";
     this.root = null;
+    this.annotationView = null;
   }
 
   _rectFromRatio(rect) {
@@ -54,9 +57,10 @@ export class WorldMapOverlayView {
     const shade = this.scene.add.rectangle(width / 2, height / 2, width, height, colors.shade, 0.82)
       .setScrollFactor(0).setInteractive();
     this.mapGraphics = this.scene.add.graphics().setScrollFactor(0);
+    this.annotationView = new WorldMapAnnotationView(this.scene);
     this.frame = this.scene.add.image(width / 2, height / 2, ASSET_KEYS.ui.worldMapFrame)
       .setDisplaySize(width, height).setScrollFactor(0);
-    this.root.add([shade, this.mapGraphics, this.frame]);
+    this.root.add([shade, this.mapGraphics, this.annotationView.root, this.frame]);
     this._buildMask();
     this._buildViewportInput();
 
@@ -89,6 +93,7 @@ export class WorldMapOverlayView {
     );
     this.mapMask = this.maskShape.createGeometryMask();
     this.mapGraphics.setMask(this.mapMask);
+    this.annotationView.setMask(this.mapMask);
   }
 
   _buildViewportInput() {
@@ -107,19 +112,29 @@ export class WorldMapOverlayView {
 
   _buildStatusPanels(width, height) {
     const { colors, copy, layout } = WORLD_MAP_CONFIG;
-    this.discoveryText = this._addText(0.874 * width, 0.145 * height, "", {
+    this.discoveryText = this._addText(layout.discoveryX * width, layout.discoveryY * height, "", {
       fontSize: `${Math.max(15, Math.round(height * 0.025))}px`,
       fontStyle: "bold", color: colors.title,
     });
-    this._addText(0.874 * width, 0.285 * height, copy.activityLayers, {
+    this._addText(layout.activityTitleX * width, layout.activityTitleY * height, copy.activityLayers, {
       fontSize: `${Math.max(13, Math.round(height * 0.02))}px`,
       fontStyle: "bold", color: colors.title,
     });
-    this.worldStatusText = this._addText(0.874 * width, 0.655 * height, "", {
+    this.worldStatusText = this._addText(layout.statusX * width, layout.statusY * height, "", {
       fontFamily: "Consolas, monospace",
       fontSize: `${Math.max(11, Math.round(height * 0.017))}px`,
-      color: colors.body, lineSpacing: 7,
-    });
+      color: colors.body, lineSpacing: 5,
+    }, [0.5, 0]);
+    this.regionIcon = this.scene.add.image(
+      layout.statusBiomeIconX * width,
+      layout.statusBiomeIconY * height,
+      ASSET_KEYS.ui.worldMapSymbols,
+      WORLD_MAP_CONFIG.symbolAtlas.frames.biome,
+    ).setDisplaySize(
+      WORLD_MAP_CONFIG.annotations.iconSizesPx.status,
+      WORLD_MAP_CONFIG.annotations.iconSizesPx.status,
+    ).setScrollFactor(0).setVisible(false);
+    this.root.add(this.regionIcon);
     this.depthTexts = [];
     const depthPanel = this._rectFromRatio(layout.depthPanel);
     for (let index = 0; index < 5; index += 1) {
@@ -174,33 +189,50 @@ export class WorldMapOverlayView {
     });
   }
 
-  _renderActivityRows() {
+  _renderActivityRows(stats) {
     const { width, height } = this.scene.scale;
-    const { colors, copy, input } = WORLD_MAP_CONFIG;
+    const { annotations, colors, copy, input, layout, symbolAtlas } = WORLD_MAP_CONFIG;
     const providers = this.activityRegistry.getProviders();
-    const signature = providers.map(({ id, visible, label }) => `${id}:${visible}:${label || ""}`).join("|") || "empty";
+    const counts = stats.markerCounts || {};
+    const signature = providers
+      .map(({ id, visible, label }) => `${id}:${visible}:${label || ""}:${counts[id] || 0}`)
+      .join("|") || "empty";
     if (signature === this.activitySignature) return;
     this.activitySignature = signature;
     this.dynamicObjects.forEach(object => object?.destroy?.());
     this.dynamicObjects.length = 0;
-    const startY = 0.325 * height;
+    const startY = layout.activityStartY * height;
     if (!providers.length) {
-      this.dynamicObjects.push(this._addText(0.874 * width, startY, `${copy.noActivityLayers}\n${copy.noActivityHint}`, {
+      this.dynamicObjects.push(this._addText(layout.activityCenterX * width, startY, `${copy.noActivityLayers}\n${copy.noActivityHint}`, {
         fontFamily: "Consolas, monospace",
         fontSize: `${Math.max(10, Math.round(height * 0.014))}px`,
         color: colors.hint, lineSpacing: 6,
       }));
       return;
     }
-    providers.slice(0, 7).forEach((provider, index) => {
-      const y = startY + index * Math.max(25, height * 0.038);
+    providers.slice(0, layout.activityMaxRows).forEach((provider, index) => {
+      const y = startY + index * Math.max(
+        layout.activityRowMinimumGapPx,
+        height * layout.activityRowGapRatio,
+      );
       const baseColor = provider.visible ? colors.active : colors.inactive;
-      const row = this._addText(0.79 * width, y,
-        `${provider.visible ? "[ON]" : "[OFF]"} ${provider.label || provider.id.toUpperCase()}`,
+      const icon = this.scene.add.image(
+        layout.activityIconX * width,
+        y,
+        ASSET_KEYS.ui.worldMapSymbols,
+        Number.isInteger(provider.iconFrame) ? provider.iconFrame : symbolAtlas.frames.landmark,
+      ).setDisplaySize(annotations.iconSizesPx.activity, annotations.iconSizesPx.activity)
+        .setAlpha(provider.visible ? 1 : input.disabledAlpha)
+        .setScrollFactor(0);
+      this.root.add(icon);
+      this.dynamicObjects.push(icon);
+      const state = provider.visible ? copy.layerOn : copy.layerOff;
+      const row = this._addText(layout.activityTextX * width, y,
+        `${provider.label || provider.id.toUpperCase()}  ${counts[provider.id] || 0}  ${state}`,
         { fontFamily: "Consolas, monospace", fontSize: `${Math.max(10, Math.round(height * 0.015))}px`, color: baseColor, align: "left" },
         [0, 0.5]);
       this.dynamicObjects.push(new WorldMapTextButton(this.scene, this.root, row, {
-        x: 0.874 * width, y,
+        x: layout.activityCenterX * width, y,
         width: input.activityHitWidthRatio * width,
         height: Math.max(input.activityHitHeightPx, height * 0.038),
         baseColor,
@@ -215,18 +247,21 @@ export class WorldMapOverlayView {
 
   render(stats, viewState) {
     const { copy, view } = WORLD_MAP_CONFIG;
+    this.annotationView.render({
+      markers: stats.markerAnnotations,
+      biomeLabels: stats.biomeLabels,
+      player: stats.playerAnnotation,
+    });
     this.discoveryText.setText(`${copy.discovered}\n${Math.round(stats.discoveryRatio * 100)}%`);
-    this.worldStatusText.setText(`${copy.worldStatus}\n\n`
-      + `${stats.widthTiles} x ${stats.depthTiles} TILES\n`
-      + `DEPTH ${stats.currentDepth}m / ${stats.maxDepth}m\n`
-      + `ZOOM ${viewState.zoom.toFixed(2)}x\nACTIVE MARKERS ${stats.markerCount}`);
+    this.worldStatusText.setText(formatWorldMapStatus(stats, viewState));
+    this.regionIcon.setVisible(stats.biomeFieldActive);
     this.zoomValueText.setText(`${viewState.zoom.toFixed(0)}x`);
     this.zoomInButton.setEnabled(viewState.zoom < view.maxZoom);
     this.zoomOutButton.setEnabled(viewState.zoom > view.minZoom);
     this.depthTexts.forEach((text, index) => {
       text.setText(`${Math.round(stats.maxDepth * (index / 4))}m`);
     });
-    this._renderActivityRows();
+    this._renderActivityRows(stats);
   }
 
   setVisible(visible) {
@@ -239,11 +274,13 @@ export class WorldMapOverlayView {
     this.dynamicObjects.length = 0;
     this.staticButtons.length = 0;
     this.activitySignature = "";
+    this.annotationView?.destroy?.();
     this.mapGraphics?.clearMask?.(true);
     this.mapMask?.destroy?.();
     this.maskShape?.destroy?.();
     this.root?.destroy?.(true);
     this.root = null;
     this.inputZone = null;
+    this.annotationView = null;
   }
 }

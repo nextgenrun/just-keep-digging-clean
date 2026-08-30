@@ -39,7 +39,16 @@ const scene = {
     isActivationAvailable: () => true,
   },
   upgradeSystem: { godModeActive: false },
-  starHeartProgressionSystem: { getSnapshot: () => ({ godMode: false }) },
+  playerController: {
+    abilities: {
+      getGemPowerExact: () => 100,
+      getSpendableGemPower: () => 100,
+      canSpendGemPower: cost => cost <= 100,
+    },
+  },
+  starHeartProgressionSystem: {
+    getSnapshot: () => ({ godMode: false, charged: false, charge: 0 }),
+  },
 };
 const actionBarState = getCelestialActionBarAbilityState(scene, rootNode.abilityId);
 assert.equal(actionBarState.unlocked, true);

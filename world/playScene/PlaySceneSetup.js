@@ -3,6 +3,8 @@
  * Handles scene initialization, world setup, and system creation
  */
 import { ASSET_KEYS } from "../../values/assetKeys.js";
+import { PLAYER_VOICE_CONFIG } from
+  "../../values/playerVoiceCharacterLeoV1.generated.js";
 import {
   resolvePlayerDisplaySizePx,
   resolvePlayerVisualOrigin,
@@ -16,7 +18,7 @@ import { GAME_CONFIG } from "../../values/gameConfig.js";
 import { HUD_LAYOUT } from "../../values/hudLayout.js";
 import { WorldModel } from "../WorldModel.js";
 import { createWorldRenderer } from
-  "../rendering/WorldRenderFactory.js?rev=20260729-native-density-v14";
+  "../rendering/WorldRenderFactory.js?rev=20260826-surface-motion-v2";
 import { RuntimeAssetLoadCoordinator } from
   "../rendering/RuntimeAssetLoadCoordinator.js";
 import { RuntimeFeatureAssetManager } from
@@ -26,7 +28,7 @@ import { preparePlayScenePlayerAssets } from "./PlayScenePlayerAssetSetup.js?rev
 import { RuntimeFeaturePrefetchSystem } from
   "../rendering/RuntimeFeaturePrefetchSystem.js";
 import { WORLD_VISUAL_RUNTIME_MODES } from
-  "../../values/worldVisualRuntime.js?rev=20260729-native-density-v14";
+  "../../values/worldVisualRuntime.js?rev=20260826-surface-motion-v2";
 import { WorldBackgroundMasterSystem } from "../rendering/WorldBackgroundMasterSystem.js";
 import { WorldBackgroundAmbientMotionSystem } from "../rendering/WorldBackgroundAmbientMotionSystem.js";
 import { LevelOneLivingBackdropSystem } from "../rendering/LevelOneLivingBackdropSystem.js";
@@ -51,6 +53,10 @@ import { MemoryReliquaryWorldSystem } from
   "../../systems/visual/MemoryReliquaryWorldSystem.js";
 import { WorldMapDiscoverySystem } from "../../systems/map/WorldMapDiscoverySystem.js";
 import { WorldMapActivityRegistry } from "../../systems/map/WorldMapActivityRegistry.js";
+import { WorldMapStarTerritorySystem } from
+  "../../systems/map/WorldMapStarTerritorySystem.js";
+import { registerWorldMapCoreActivities } from
+  "../../systems/map/registerWorldMapCoreActivities.js";
 import { UpgradeSystem } from "../../systems/progression/UpgradeSystem.js";
 import { PlayerLevelSystem } from "../../systems/progression/PlayerLevelSystem.js";
 import { AncientRelicSystem } from "../../systems/progression/AncientRelicSystem.js";
@@ -85,6 +91,8 @@ import { MiningIntentPreviewSystem } from "../../systems/visual/MiningIntentPrev
 import { LootPickupFxSystem } from "../../systems/visual/LootPickupFxSystem.js";
 import { RewardFlightMotionSystem } from "../../systems/visual/RewardFlightMotionSystem.js";
 import { RelicDiscoveryFxSystem } from "../../systems/visual/RelicDiscoveryFxSystem.js";
+import { EmberDiscoveryEventSystem } from
+  "../../systems/visual/EmberDiscoveryEventSystem.js";
 import { WeatherSystem } from "../../systems/environment/WeatherSystem.js";
 import { ShaderSystem } from "../../systems/lighting/ShaderSystem.js";
 import { LightFrameSync } from "../../systems/lighting/LightFrameSync.js";
@@ -118,7 +126,6 @@ import BiomeSystem from "../../systems/environment/BiomeSystem.js";
 import { CampfireSystem } from "../../systems/environment/CampfireSystem.js";
 import { CaveHazardSystem } from "../../systems/environment/CaveHazardSystem.js";
 import { EarthquakeSystem } from "../../systems/environment/EarthquakeSystem.js";
-import { DebrisShieldSystem } from "../../systems/visual/DebrisShieldSystem.js";
 import { EarthquakeFeedbackUI } from "../../systems/visual/EarthquakeFeedbackUI.js";
 import { EarthquakeHazardOverlay } from "../../systems/visual/EarthquakeHazardOverlay.js";
 import { EarthquakeTileFeedbackSystem } from "../../systems/visual/EarthquakeTileFeedbackSystem.js";
@@ -149,9 +156,14 @@ import {
 import {
   createHardcoreModeRuntime,
 } from "./HardcoreModeBridge.js";
+import {
+  createStarSanctuaryRuntime,
+  shouldProtectStarDamage,
+} from "./StarSanctuaryBridge.js";
 import { ensureHardcorePresentationRuntime } from
   "./HardcorePresentationRuntime.js";
 import { RandomEventBridge } from "./RandomEventBridge.js";
+import { ShadowMinerRuntime } from "./ShadowMinerRuntime.js";
 import { installPlaySceneLifecycle } from "./PlaySceneLifecycle.js";
 import { installComplexDigAnimationRuntime } from "./ComplexDigAnimationRuntime.js";
 import { SURFACE_TUNNEL_DOOR_CONFIG } from "../../values/surfaceTunnelDoorConfig.js";
@@ -595,6 +607,9 @@ async function _setupSceneSafe(data = {}, uiPorts = {}) {
   // Create tile-based collision system (replaces Phaser Arcade Physics)
   this.tileCollisionSystem = new TileCollisionSystem(this.worldModel, this.config);
   this.playerController = new PlayerController(this, this.player, this.worldModel, this.config, this.upgradeSystem, this.inputHandler, this.playerLevelSystem, this.comboSystem, this.tileCollisionSystem);
+  this.playerController.abilities.setMiningDamageProvider(
+    tileType => this.digSystem.getDamagePreview(tileType),
+  );
   this.playerController.setTraversalActionLockProvider(() => (
     this.isDigAnimating === true || this._teleportInAnimating === true
   ));
@@ -619,7 +634,9 @@ async function _setupSceneSafe(data = {}, uiPorts = {}) {
     this._cachedSaveData?.starCollectionData,
   );
   this.worldMapDiscoverySystem = new WorldMapDiscoverySystem(this, this.saveSlot);
+  this.worldMapStarTerritorySystem = new WorldMapStarTerritorySystem(this.worldModel);
   this.worldMapActivityRegistry = new WorldMapActivityRegistry();
+  registerWorldMapCoreActivities(this.worldMapActivityRegistry);
   this.worldMapDiscoverySystem.updatePlayerDiscovery(true);
   this.digSystem.setFloatingTextSystem(this.floatingTextSystem);
   this.starHeartProgressionSystem = new StarHeartProgressionSystem({
@@ -639,6 +656,18 @@ async function _setupSceneSafe(data = {}, uiPorts = {}) {
       this.celestialCurrencyHudSystem?.update?.(true);
       this.celestialCurrencyHudSystem?.pulseStars?.();
     }
+    this.soundSystem?.playPlayerVoiceEvent?.(
+      PLAYER_VOICE_CONFIG.eventIds.starRelease,
+      {
+        dedupeKey: detail.identityId,
+        identity: detail.identityId,
+        rarity: detail.rarityId,
+        tags: [
+          detail.identityNewlyDiscovered ? "new" : "repeat",
+          detail.rarityId,
+        ],
+      },
+    );
   });
   this.lootPickupFxSystem = new LootPickupFxSystem(
     this,
@@ -654,6 +683,7 @@ async function _setupSceneSafe(data = {}, uiPorts = {}) {
     ),
   });
   this.digSystem.setRelicDiscoveryFxSystem?.(this.relicDiscoveryFxSystem);
+  this.emberDiscoveryEventSystem = new EmberDiscoveryEventSystem(this);
   this.comboSystem.setMilestoneReachedCallback((milestone) => {
     const reward = COMBO_CONFIG.milestoneRewards?.[milestone];
     const restored = this.playerController?.abilities?.restoreGemPower?.(reward?.gpRestore || 0) || 0;
@@ -661,6 +691,10 @@ async function _setupSceneSafe(data = {}, uiPorts = {}) {
     if (this.shakeSystem) {
       this.shakeSystem.shake(comboShakeSignatureFor(milestone));
     }
+    this.soundSystem?.playPlayerVoiceEvent?.(
+      PLAYER_VOICE_CONFIG.eventIds.digMomentum,
+      { milestone, tags: ["steady"] },
+    );
   });
   this.milestoneBoardSystem = new MilestoneBoardSystem(
     this,
@@ -826,6 +860,7 @@ async function _setupSceneSafe(data = {}, uiPorts = {}) {
   this.soundSystem.printStats();
 
   this.createSceneUI();
+  createStarSanctuaryRuntime(this);
   const hardcoreRuntime = createHardcoreModeRuntime(this);
   if (
     isHardcoreMode(this.hardcoreModeData)
@@ -852,7 +887,6 @@ async function _setupSceneSafe(data = {}, uiPorts = {}) {
   this.overlayManager.createOverlay();
 
   this.earthquakeSystem = new EarthquakeSystem(this);
-  this.debrisShieldSystem = new DebrisShieldSystem(this);
   this.earthquakeFeedbackUI = new EarthquakeFeedbackUI(this, this.earthquakeSystem);
   this.earthquakeHazardOverlay = new EarthquakeHazardOverlay(this, this.earthquakeSystem);
   this.earthquakeTileFeedbackSystem = new EarthquakeTileFeedbackSystem(this);
@@ -867,6 +901,7 @@ async function _setupSceneSafe(data = {}, uiPorts = {}) {
   this.arcCoreVehicleSystem.create();
   createGraveborerWurmRuntime(this);
   this.randomEventBridge = new RandomEventBridge(this);
+  this.shadowMinerSystem = new ShadowMinerRuntime(this);
   this.worldModel.setTileDamageGuard?.(({ tileX, tileY }) => (
     this.randomEventBridge?.shouldProtectMineTarget?.({ tx: tileX, ty: tileY }) === true
   ));

@@ -1,22 +1,48 @@
-# Talent and Depth Progression Rebalance
+# Complete Star Talent and Depth Progression Rebalance
 
 ## Outcome
 
-The complete permanent-progression stack was audited, including all 33
-Celestial talents, ten constellation talents, 37 merchant upgrades, player
-levels, Stars and Sign XP, resource rarity/yield, depth milestones, Ancient
-Relics, Journey gates, and late-game crafting routes.
+The permanent-progression stack was audited end to end, including all 33
+Celestial talents, ten constellation talents, both Bobo abilities, Stars and
+Sign XP, merchant upgrades, player levels, resource rarity/yield, depth
+milestones, Ancient Relics, Journey gates, and late-game crafting routes.
 
-Every Celestial and constellation talent has a live runtime consumer. The main
-problem was not dead talents: it was acquisition pacing. Stars were common but
-worth almost nothing, deeper Stars barely improved, native resource rarity was
-flat with depth, Level Two opened below the Level One end-state in income
-efficiency, and the Milestone Pillar stopped at 2,000m.
+The runtime pass found interactions that a definition-only audit missed:
+Hollow Sun's shared cap could consume later pulses, Wayward's final radius
+could be starved by ricochet impacts, Bronze enabled an infinite free Quick
+Slash loop, and Thunder Strike peaked near 567x before tile falloff. The final
+Celestial pass also responds to playtest feedback: Wayward now grows into a
+five-star simultaneous swarm, Hollow Sun is a multi-core gravity cluster, and
+the former Comet/Rage slot is fully replaced player-facing by Stellar Lance.
+Each advertised component has its own measurable budget and every power
+ceiling remains explicit.
 
-The rebalance makes individual Stars much rarer and much more meaningful,
-makes rare outcomes increasingly likely with depth, creates a steep continuous
-material economy, extends explicit permanent milestones to 4,800m, and repairs
-Lucky Collector so its promised double-resource reward is real.
+The earlier acquisition work remains: individual Stars are rarer and more
+meaningful, rare outcomes improve with depth, the material economy rises
+continuously, and permanent milestones extend to 4,800m.
+
+## Ability baselines and shared activation economy
+
+- Celestial Engine roots unlock at Level 3 through the talent tree. A completed
+  capstone opens another free root.
+- A newly selected root starts with 100 Celestial Charge. Each activation costs
+  100, and the 200-charge bank holds at most two casts. Sky Stars recharge it;
+  God Mode remains free.
+- Wayward Star starts as one physical star with 8 ricochets, 14 route targets,
+  a separate 7-target supernova, 8 tiles/s, and 8 seconds. Re-press redirection
+  is retired; talents add simultaneous independent stars instead.
+- Hollow Sun starts as two staggered black holes. Each core has four pulses at
+  0.9/2.4/3.9/5.4 seconds, 2/3/4/5-tile radii, 6/7/8/9 target budgets, and a
+  four-target implosion. The 68-target base cluster pulls destroyed-block
+  fragments into the individual cores.
+- Stellar Lance replaces Comet Engine and Rage. For 6 seconds, every mining
+  action fires a six-tile projectile that crosses air and applies one fresh
+  full-damage hit to every pierced diggable tile.
+- Quick Slash costs 12 GP, deals 3x the current normal mining hit, adds +240px/s
+  movement, runs at 2.5x mining cadence, and has a 180ms cadence floor. Silver
+  lowers the authored action/cadence floor to 150ms.
+- Thunder Strike costs 250 GP for the opening slam, reaches 6 rows, deals 1.5x
+  normal mining damage before chain scaling, and loses 8% per deeper row.
 
 ## Complete Celestial talent audit
 
@@ -29,82 +55,112 @@ costs 3,375 points.
 
 | Talent | Live effect | Audit result |
 |---|---|---|
-| Wayward Star | Unlocks the ricochet Engine | Live root and action-bar authority |
-| Stellar Bearings | +0.8 tiles/s | Clear mobility gain; bounded at 10 tiles/s |
-| Ricochet Matrix | +2 bounces | Directly extends route coverage |
-| Nova Lens | +1-tile detonation radius | Distinct end-of-cast area gain |
-| Echo Orbit | +1,000ms lifetime | Supports the longer Momentum route |
-| Vector Command | +1 redirect | Adds player control rather than raw damage |
-| Fracture Bloom | +4 impact targets | Small area-capacity step |
-| Perihelion Loop | +2 bounces and +1 redirect | Coherent Momentum capstone |
-| Impact Lattice | +6 impact targets | Required bridge into the central capstone |
-| Supernova Core | +4 impacts and +1 radius | Balanced hybrid capstone |
-| White Dwarf Shell | +6 impacts and +1 radius | Highest direct area capstone |
+| Wayward Star | Unlocks the charge-powered ricochet Engine | Live root and action-bar authority |
+| Stellar Bearings | +1 tile/s | Clear mobility gain; bounded at 10 tiles/s |
+| Ricochet Matrix | +2 bounces and +2 route targets | Every added bounce has capacity to matter |
+| Nova Lens | +1 radius and +3 supernova targets | Distinct end-of-cast area gain |
+| Echo Orbit | +1,500ms lifetime | Supports the longer Momentum route |
+| Twin Orbit | +1 simultaneous star | Replaces active redirection with permanent swarm growth |
+| Fracture Bloom | +5 supernova targets | Supernova capacity no longer competes with ricochets |
+| Perihelion Loop | +1 star, +2 bounces, +4 route targets | Complete Momentum capstone |
+| Impact Lattice | +6 route targets | Required bridge into the central capstone |
+| Supernova Core | +1 star, +3 route targets, +3 supernova targets, +1 radius | Balanced hybrid capstone |
+| White Dwarf Shell | +1 star, +6 supernova targets, +1 radius | Highest direct area capstone |
 
-At full mastery, Wayward moves from 10 to 14 bounces, 18 to 38 impacts, three
-to five redirects, a two- to five-tile supernova, 7.2 to 8 tiles/s, and 12 to
-13 seconds. No node is dead and no final value exceeds its safety cap.
+At full mastery, one activation launches five independent Wayward Stars at
+once. Each has 12 bounces, 29 route targets, a 24-target five-tile supernova,
+9 tiles/s, and 9.5 seconds. That is 53 target attempts per star and a hard
+activation ceiling of 265; the stars own separate motion and impact budgets.
 
 ### Hollow Sun
 
 | Talent | Live effect | Audit result |
 |---|---|---|
-| Hollow Sun | Unlocks the gravity Engine | Live root and action-bar authority |
-| Orbit Anchor | +1 placement tile | Useful safety and targeting option |
-| Gravity Well | +1 tile to every pulse | Applies to the added pulse too |
-| Echo Seed | Adds a fourth pulse | Strong, mechanically distinct node |
-| Tidal Lens | Another +1 tile to every pulse | Area-focused continuation |
-| Event Horizon | +8 impact targets | Largest ordinary capacity node |
-| Dark Reservoir | +6 impact targets | Time-path capacity support |
-| Abyssal Field | +4 impacts and a four-target implosion | Field capstone adds a new finish |
-| Collapse Cycle | Pulses occur 22% sooner | Required bridge into Singularity Core |
-| Singularity Core | Six-target, two-tile implosion | Focused collapse capstone |
-| Chronosphere | Pulses occur 18% sooner and +4 impacts | Fastest time-path capstone |
+| Hollow Sun | Deploy 2 black holes with four pulses and an implosion each | Multiple cores are present at the root |
+| Orbit Anchor | +2 placement tiles and +0.35 cluster spacing | Extends placement from 3 to 5 tiles |
+| Gravity Well | +1 tile to every pulse | Applies to both added pulses too |
+| Echo Seed | +1 simultaneous black hole | Immediate cluster-size upgrade |
+| Tidal Lens | Another +1 tile to every pulse | Continues field coverage |
+| Event Horizon | +2 targets to every pulse on every core | Capacity scales with pulse and core count |
+| Dark Reservoir | Fifth pulse and +1.5s | Adds both output and field time |
+| Abyssal Field | +1 core and eight-target, three-tile implosions | Field capstone adds another full black hole |
+| Collapse Cycle | Pulses 18% faster and core stagger 28% faster | Required bridge into Singularity Core |
+| Singularity Core | +1 core and 12-target, four-tile implosions | Focused collapse capstone reaches five holes |
+| Chronosphere | Sixth pulse, +2.5s, and +1 target per pulse | Longest time-path capstone |
 
-At full mastery, Hollow Sun reaches four pulses with 4/5/6/7-tile radii, 46
-impact capacity, a six-target two-tile implosion, three-tile placement, and a
-2.686-second resolved lifetime. Its two tempo talents stack multiplicatively;
-the final seven-tile pulse reaches, but does not exceed, the configured cap.
+At full mastery, Hollow Sun contains five staggered cores for an 11-second
+field. Every core pulses at 0.738/1.968/3.198/4.428/5.576/6.724 seconds with
+4/5/6/7/9/10-tile radii and 9/10/11/12/12/13-target budgets, then performs a
+12-target four-tile implosion. Each core is capped at 79 attempts and the whole
+activation is capped at 395. The expanding-wave order prioritizes each newly
+reached outer band, while cluster-level target deduplication prevents overlap
+from paying twice.
 
-### Comet Engine
+### Stellar Lance
 
 | Talent | Live effect | Audit result |
 |---|---|---|
-| Comet Engine | Unlocks the tunnel Engine | Live root and action-bar authority |
-| Ignition Coil | +1 tile/s | Immediate travel-speed gain |
-| Bore Drive | +4 travel tiles | Strong route-length identity |
-| Fracture Nose | +3 impact targets | Small Shock-path capacity step |
-| Longburn Reservoir | +300ms lifetime | Supports longer routes without changing damage |
-| Rider Plating | +90px/s launch speed | Player traversal/control reward |
-| Wide Wake | Side bursts every two tiles | Distinct width/coverage choice |
-| Aphelion Drive | +3 tiles, +1 tile/s, +3 impacts | Complete Velocity capstone |
-| Impact Wake | +6 impact targets | Required central bridge |
-| Zenith Drive | +2 tiles/s, two-tile side bursts, +250ms | Fast hybrid Bore capstone |
-| Shockfront | +1 travel tile and +5 impacts | Direct Shock capstone |
+| Stellar Lance | Six-tile, full-damage projectile buff for 6s | Live root and action-bar authority |
+| Lance Core | Projectile damage rises from 100% to 125% | Immediate power gain |
+| Longshot Chamber | +2 range | Extends every lane to eight tiles |
+| Sustained Orbit | +1.5s | First duration route upgrade |
+| Piercing Charge | Projectile damage rises to 150% | Continues the Power route |
+| Deep Flight | +2 range | Extends every lane to ten tiles |
+| Star Reservoir | +1.5s | Extends the duration route to 9s |
+| Worldpiercer | Projectile damage rises to 200% | Complete Power capstone |
+| Far Horizon | +2 range | Required central bridge reaches 12 tiles |
+| Trident Break | Add two parallel side lanes | Three full projectiles per mining action |
+| Endless Volley | +2s | Complete duration capstone reaches 11s |
 
-At full mastery, Comet grows from 10 to 18 travel tiles, 12 to 29 impacts,
-8.5 to 12.5 tiles/s, 1.8 to 2.35 seconds, side bursts every two tiles, and 430
-to 520px/s rider launch. It remains the lowest raw-impact Engine because its
-reward includes protected tunnelling and player movement.
+At full mastery, Stellar Lance lasts 11 seconds and every mining action fires
+three parallel 12-tile projectiles at 200% of a normal mining hit. Each tile is
+a fresh authoritative transaction: overkill on one tile never reduces later
+hits, air and Geode Walls can be crossed, protected structures stop a lane, and
+rewards remain single-award. It does not alter Stress, global mining cadence,
+ordinary mining previews, Quick Slash, or Thunder Strike. The stable internal
+`comet-engine` branch and `comet-*` node IDs are retained only so existing
+saves migrate without losing purchased talents; all player-facing Comet
+behavior and copy are retired.
+
+The ability-polish follow-up keeps Thunder's normal-hit baseline on the same
+`DigSystem` mining authority while Stellar Lance is isolated to explicit dig
+projectiles, preventing accidental ability-wide multiplier drift. It preserves free
+mouse follow-ups after Thunder's paid opening slam, prevents Steel's opening
+impulse from stacking while preserving its intended held-Q movement bonus,
+reports complete Wayward/Hollow target budgets in the HUD, and makes all three
+Celestial visual lifecycles failure-safe.
 
 ## Constellation talent audit
 
 | Sign | Ability | Permanent effect | Status |
 |---|---|---|---|
-| Dirt | Quick Slash | +5 flat tile damage | Live |
+| Dirt | Quick Slash | +20% damage | Live |
 | Stone | Thunder Strike | +2 rows | Live |
-| Copper | Quick Slash | -2 GP cost | Live |
-| Dark Dirt | Thunder Strike | +25% damage | Live |
-| Steel | Quick Slash | +300 burst speed | Live |
-| Iron | Thunder Strike | Removes row falloff | Live |
-| Bronze | Quick Slash | Free above 50% GP | Live |
+| Copper | Quick Slash | -3 GP cost | Live |
+| Dark Dirt | Thunder Strike | +15% damage | Live |
+| Steel | Quick Slash | +160 burst speed | Live |
+| Iron | Thunder Strike | Removes the exact 8% row falloff | Live |
+| Bronze | Quick Slash | 50% cost reduction at 75%+ current GP | Live |
 | Hard Dark Dirt | Thunder Strike | +10% damage | Live |
 | Silver | Quick Slash | +20% mining cadence | Live |
-| Gold | Thunder Strike | -30 opening GP cost | Live |
+| Gold | Thunder Strike | -50 opening GP cost | Live |
 
-Each Sign changes exactly one explicit stat. Mastery can be banked before the
-matching Bobo ability is bought, and God Mode still activates all ten without
-mutating save ownership.
+Each Sign changes exactly one explicit stat. At full Quick Slash mastery the
+base cost is 9 GP, temporarily 4.5 GP above the Bronze threshold; spending the
+discounted cast drops GP, so it cannot self-sustain for free. Its 3x base hit
+becomes 3.6x with Dirt. Its base cadence becomes 3x with Silver and retains a
+live 150ms mastery floor. Every slash has +240px/s opening and held movement;
+Steel adds another +160px/s once when the slash begins and while Q stays held.
+While Q remains held, Steel also preserves the intended +160px/s movement
+bonus; releasing Q removes it, and the opening impulse cannot stack per frame.
+At full Thunder mastery the opening cost is 200 GP,
+range is 8 rows, row falloff is zero, and damage bonus is +25%.
+
+Thunder's ten stage multipliers are now 1/1.4/1.9/2.5/3.2/4/5/6.2/7.6/9.5.
+Each successful timing adds 8%, reaching a 1.72x chain-local bonus after nine
+hits. The final 80ms window stays demanding without becoming a 16ms lottery.
+A fully buffed perfect final slam is about 30.64x normal mining damage before
+tile-specific HP, rather than the former roughly 567x ceiling.
 
 ## Star frequency, rarity, and talent currency
 
@@ -130,6 +186,12 @@ Star Points now map directly to useful talent prices:
 | Epic | 8 | 250 | One side capstone |
 | Mythic | 15 | 750 | Two complete capstone routes |
 | Astral | 30 | 2,000 | Exceptional multi-branch jackpot |
+
+Sign XP totals are reduced to the same 35% multiplier as the surviving Star
+spawn rate, preserving intended mastery time after the 65% frequency cut:
+Dirt/Stone/Copper require 70 XP; Dark Dirt/Steel require 42; Iron/Bronze/Hard
+Dark Dirt/Silver require 28; Gold requires 14. Existing earned XP is clamped
+against the new totals and never discarded.
 
 Average points per Star rise from 31.02 at the surface to 161.78 at 2,000m,
 a 5.22x depth reward. A deterministic expectation model for a two-tile-wide
@@ -223,10 +285,27 @@ Primary contracts:
 
 ```powershell
 & 'C:\Users\Mila\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\bin\node.exe' testing\2026-08-26-talent-depth-progression-audit-contract.mjs
+& 'C:\Users\Mila\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\bin\node.exe' testing\2026-08-26-star-talent-full-rebalance-contract.mjs
+& 'C:\Users\Mila\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\bin\node.exe' testing\2026-08-26-ability-interactions-contract.mjs
+& 'C:\Users\Mila\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\bin\node.exe' testing\2026-08-26-all-abilities-polish-contract.mjs
 & 'C:\Users\Mila\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\bin\node.exe' testing\2026-07-30-depth-resource-economy-contract.mjs
 & 'C:\Users\Mila\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\bin\node.exe' testing\2026-07-30-star-rarity-sign-xp-contract.mjs
 & 'C:\Users\Mila\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\bin\node.exe' testing\2026-08-03-celestial-talent-progression-contract.mjs
 & 'C:\Users\Mila\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\bin\node.exe' testing\2026-08-03-celestial-talent-effects-contract.mjs
+& 'C:\Users\Mila\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\bin\node.exe' testing\2026-08-03-celestial-runtime-wiring-contract.mjs
 & 'C:\Users\Mila\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\bin\node.exe' testing\2026-07-28-constellation-upgrade-audit-contract.mjs
+& 'C:\Users\Mila\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\bin\node.exe' testing\2026-07-26-thunderstrike-three-slam-contract.mjs
 & 'C:\Users\Mila\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\bin\node.exe' testing\2026-08-22-all-upgrades-audit-contract.mjs
 ```
+
+Production-Phaser review surfaces:
+
+- `testing/2026-08-26-celestial-abilities-visual-harness.html?ability=wayward`
+- `testing/2026-08-26-celestial-abilities-visual-harness.html?ability=hollow`
+- `testing/2026-08-26-celestial-abilities-visual-harness.html?ability=rage`
+- `testing/2026-07-26-thunderstrike-chain-visual-harness.html`
+- `testing/2026-08-14-celestial-talent-tree-visual-harness.html`
+
+The Celestial review surface publishes the live Engine snapshot, missing
+textures, pull-fragment counts, completion payload, and callback counts through
+`document.body.dataset.celestialAbilitiesSnapshot` for browser verification.

@@ -16,6 +16,16 @@ export function preloadSaveMenuArt(scene) {
   }
 }
 
+export function releaseSaveMenuArt(scene) {
+  let released = 0;
+  for (const [key] of getSaveMenuAssetEntries()) {
+    if (!scene.textures.exists(key)) continue;
+    scene.textures.remove(key);
+    released += 1;
+  }
+  return released;
+}
+
 export function createSaveSlotChrome(scene, { x, y, width, height }) {
   const art = SAVE_MENU_PRESENTATION.slot;
   if (!texturesExist(scene, [art.idleKey, art.selectedKey])) return null;

@@ -4,17 +4,12 @@ import {
 } from "../../values/thunderStrikeChain.js";
 import { ThunderStrikeTimingBarView } from "./ThunderStrikeTimingBarView.js";
 
+/** Keeps Thunderstrike presentation limited to its live timing interaction. */
 export class ThunderStrikeTimingBarSystem {
   constructor(scene, config = THUNDER_STRIKE_CHAIN_CONFIG) {
     this.scene = scene;
     this.config = config;
     this.view = new ThunderStrikeTimingBarView(scene, config);
-    this.feedbackUntilMs = 0;
-    this.feedbackText = "";
-    this.feedbackColor = config.timingBar.titleColor;
-    this.feedbackSlamText = "";
-    this.feedbackBadgeText = "";
-    this.lastSnapshot = null;
   }
 
   get hasPresentation() {
@@ -25,69 +20,31 @@ export class ThunderStrikeTimingBarSystem {
     return this.view.getPresentedTimingSnapshot(stageIndex);
   }
 
-  showFeedback(
-    text,
-    color,
-    nowMs,
-    durationMs,
-    snapshot = this.lastSnapshot,
-    presentation = {},
-  ) {
-    this.feedbackText = text;
-    this.feedbackColor = color;
-    this.feedbackSlamText = presentation.slamText || "";
-    this.feedbackBadgeText = presentation.badgeText || "";
-    this.feedbackUntilMs = nowMs + durationMs;
-    this.lastSnapshot = snapshot;
-    this.update(snapshot, nowMs);
+  showFeedback() {
+    this.view.setVisible(false);
   }
 
-  showInsufficientGp(currentGp, requiredGp, nowMs, snapshot = this.lastSnapshot) {
+  showInsufficientGp(currentGp, requiredGp) {
     const current = Math.floor(Math.max(0, Number(currentGp) || 0));
     const required = Math.ceil(Math.max(0, Number(requiredGp) || 0));
-    this.showFeedback(
+    this.scene?.hudSystem?.flashStatus?.(
       `${this.config.feedback.insufficientGpText} ${current}/${required}`,
       this.config.timingBar.dangerColor,
-      nowMs,
       this.config.feedback.insufficientGpLingerMs,
-      snapshot,
-      {
-        slamText: this.config.feedback.insufficientGpSlamText,
-        badgeText: this.config.feedback.insufficientGpBadgeText,
-      },
     );
+    this.view.setVisible(false);
   }
 
   clearFeedback() {
-    this.feedbackUntilMs = 0;
-    this.feedbackText = "";
-    this.feedbackSlamText = "";
-    this.feedbackBadgeText = "";
+    this.view.setVisible(false);
   }
 
-  update(snapshot, nowMs = 0) {
-    const chainActive = snapshot?.phase
-      && snapshot.phase !== THUNDER_STRIKE_CHAIN_PHASES.IDLE;
-    const timing = snapshot?.phase === THUNDER_STRIKE_CHAIN_PHASES.TIMING;
-    const feedbackActive = !timing && nowMs < this.feedbackUntilMs;
-    if (!chainActive && !feedbackActive) {
+  update(snapshot) {
+    if (snapshot?.phase !== THUNDER_STRIKE_CHAIN_PHASES.TIMING) {
       this.view.setVisible(false);
       return;
     }
-    if (snapshot) this.lastSnapshot = snapshot;
-    const renderSnapshot = snapshot || this.lastSnapshot;
-    if (!renderSnapshot) return;
-    this.view.render({
-      ...renderSnapshot,
-      initialCastFree: this.scene?.playerController?.abilities
-        ?.getThunderStrikeCost?.() === 0,
-    }, {
-      timing,
-      feedbackText: feedbackActive ? this.feedbackText : "",
-      feedbackColor: feedbackActive ? this.feedbackColor : null,
-      feedbackSlamText: feedbackActive ? this.feedbackSlamText : "",
-      feedbackBadgeText: feedbackActive ? this.feedbackBadgeText : "",
-    });
+    this.view.render(snapshot);
   }
 
   destroy() {

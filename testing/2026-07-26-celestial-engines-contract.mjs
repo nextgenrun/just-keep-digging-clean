@@ -28,7 +28,7 @@ assert.equal(changes.at(-1), "heart-earned");
 
 const attuned = progression.chooseEngine(CELESTIAL_ENGINE_IDS.WAYWARD_STAR);
 assert.equal(attuned.ok, true);
-assert.equal(progression.getSnapshot().charge, CELESTIAL_ENGINE_CONFIG.charge.capacity);
+assert.equal(progression.getSnapshot().charge, CELESTIAL_ENGINE_CONFIG.charge.initialOnAttune);
 assert.deepEqual(progression.getSnapshot().unlockedEngines, [
   CELESTIAL_ENGINE_IDS.WAYWARD_STAR,
 ]);
@@ -47,6 +47,11 @@ assert.equal(
 );
 for (let index = 0; index < 20; index += 1) progression.recordCollectedSkyStar(5);
 assert.equal(progression.getSnapshot().charge, CELESTIAL_ENGINE_CONFIG.charge.capacity);
+assert.equal(progression.consumeActivation(1100).ok, true);
+assert.equal(progression.getSnapshot().charge, CELESTIAL_ENGINE_CONFIG.charge.activationCost);
+assert.equal(progression.getSnapshot().charged, true);
+assert.equal(progression.consumeActivation(1101).ok, true);
+assert.equal(progression.getSnapshot().charge, 0);
 
 const masteryProgression = new StarHeartProgressionSystem();
 masteryProgression.loadSaveData({

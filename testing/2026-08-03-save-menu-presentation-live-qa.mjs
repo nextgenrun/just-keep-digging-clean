@@ -155,12 +155,12 @@ async function main() {
     });
 
     const screenshots = {
-      slots: path.join(outputDir, "save-menu-slots-ultra.png"),
-      confirm: path.join(outputDir, "save-menu-clear-confirm-ultra.png"),
-      backup: path.join(outputDir, "save-menu-backups-ultra.png"),
-      import: path.join(outputDir, "save-menu-import-ultra.png"),
-      mode: path.join(outputDir, "save-menu-mode-choice-ultra.png"),
-      tutorial: path.join(outputDir, "save-menu-tutorial-choice-ultra.png"),
+      slots: path.join(outputDir, "save-menu-slots-high.png"),
+      confirm: path.join(outputDir, "save-menu-clear-confirm-high.png"),
+      backup: path.join(outputDir, "save-menu-backups-high.png"),
+      import: path.join(outputDir, "save-menu-import-high.png"),
+      mode: path.join(outputDir, "save-menu-mode-choice-high.png"),
+      tutorial: path.join(outputDir, "save-menu-tutorial-choice-high.png"),
       rollback: path.join(outputDir, "save-menu-graphics-rollback.png"),
     };
     await page.screenshot({ path: screenshots.slots, timeout: 120_000 });
@@ -312,10 +312,10 @@ async function main() {
 
     if (keyboardSelectedSlot !== 2) failures.push(`keyboard-selection:${keyboardSelectedSlot}`);
     if (pointerSelectedSlot !== 1) failures.push(`pointer-selection:${pointerSelectedSlot}`);
-    if (runtime.renderDensity?.preset !== "ultra" || runtime.renderDensity?.density !== 2) {
-      failures.push("ultra-render-density-drift");
+    if (runtime.renderDensity?.preset !== "high" || runtime.renderDensity?.density !== 1.5) {
+      failures.push("high-render-density-drift");
     }
-    if (runtime.canvas.width !== 2560 || runtime.canvas.height !== 1440) {
+    if (runtime.canvas.width !== 1920 || runtime.canvas.height !== 1080) {
       failures.push(`unexpected-backing:${runtime.canvas.width}x${runtime.canvas.height}`);
     }
     if (!runtime.authoredSaveMenuArt || runtime.cardGeometry.some(card => !card.authored)) {

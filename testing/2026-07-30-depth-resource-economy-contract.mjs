@@ -26,6 +26,7 @@ import {
 import { TILE_TYPES } from "../values/tileTypes.js";
 import { tileTypeToResource } from "../values/resourceTypes.js";
 import { RUNTIME_CANARY_CONFIG } from "../values/runtimeCanaryConfig.js";
+import { WORLD_GEN_CONFIG } from "../values/worldGen.js";
 import { UpgradeSystem } from "../systems/progression/UpgradeSystem.js";
 import { DigSystem } from "../systems/mining/DigSystem.js";
 import { evaluateRuntimeCanaries } from "../systems/health/runtimeCanaryChecks.js";
@@ -36,6 +37,7 @@ import {
 } from "../systems/mining/resourceDepthYield.js";
 import { resolveDepthMilestoneEconomyBonuses } from "../systems/mining/depthEconomyBonuses.js";
 import { WorldModel } from "../world/model/WorldModel.js";
+import { resolveBaseTerrainResourceType } from "../world/model/baseTerrainResourceResolver.js";
 
 assert.equal(resolveDepthEconomyEnabled(), true);
 assert.equal(
@@ -56,6 +58,40 @@ assert.ok(getDepthEconomyYieldMultiplier(2500, true) > 15);
 assert.equal(getResourceRarityChanceMultiplier(0), 1);
 assert.equal(getResourceRarityChanceMultiplier(2000), 3.5);
 assert.equal(getResourceRarityChanceMultiplier(5000), 5);
+
+assert.equal(WORLD_GEN_CONFIG.terrain.goldMinDepth, 700);
+for (const depthEconomyEnabled of [true, false]) {
+  assert.notEqual(
+    resolveBaseTerrainResourceType(
+      140,
+      0,
+      WORLD_GEN_CONFIG.terrain,
+      depthEconomyEnabled,
+    ),
+    TILE_TYPES.GOLD,
+    "Gold must not generate at 140m",
+  );
+  assert.notEqual(
+    resolveBaseTerrainResourceType(
+      699,
+      0,
+      WORLD_GEN_CONFIG.terrain,
+      depthEconomyEnabled,
+    ),
+    TILE_TYPES.GOLD,
+    "Gold must remain gated above the Gilded Fault",
+  );
+  assert.equal(
+    resolveBaseTerrainResourceType(
+      700,
+      0,
+      WORLD_GEN_CONFIG.terrain,
+      depthEconomyEnabled,
+    ),
+    TILE_TYPES.GOLD,
+    "Gold must unlock at the 700m Gilded Fault boundary",
+  );
+}
 
 function findRarityCoordinate(targetIndex) {
   for (let ty = 65; ty < 2000; ty += 1) {
@@ -306,6 +342,20 @@ function sampleBand(world, dig, band) {
   };
 }
 
+function assertNoShallowLevelOneGold(world) {
+  const minDepth = WORLD_GEN_CONFIG.terrain.goldMinDepth;
+  for (let depth = 1; depth < minDepth; depth += 1) {
+    const ty = world.topAirRows + depth;
+    for (let tx = 0; tx < world.config.levelTwoLeftTile; tx += 1) {
+      assert.notEqual(
+        world.getTileType(tx, ty),
+        TILE_TYPES.GOLD,
+        `full world must not contain Level One Gold at ${depth}m (${tx},${ty})`,
+      );
+    }
+  }
+}
+
 function buildEconomySnapshot(enabled) {
   const config = Object.freeze({
     ...GAME_CONFIG,
@@ -315,6 +365,7 @@ function buildEconomySnapshot(enabled) {
     config,
     createGameplayCapabilities(GAMEPLAY_PROFILE_IDS.FULL_REVIEW),
   );
+  assertNoShallowLevelOneGold(world);
   const dig = new DigSystem(world, null, config);
   return economyBands.map(band => sampleBand(world, dig, band));
 }

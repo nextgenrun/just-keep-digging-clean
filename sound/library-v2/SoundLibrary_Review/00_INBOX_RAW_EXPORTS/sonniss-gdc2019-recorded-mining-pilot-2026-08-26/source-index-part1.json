@@ -1,0 +1,80 @@
+{
+  "year": "2019",
+  "terms": [
+    "ground impact large",
+    "work",
+    "hammer",
+    "wall",
+    "concrete block",
+    "wood_crushing_branches",
+    "wood_falling_log",
+    "wood_handling",
+    "atmo eerie cave"
+  ],
+  "archives": [
+    {
+      "part": 1,
+      "url": "https://ftpmirror.your.org/pub/misc/sonniss2019/Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8.zip",
+      "entryCount": 344,
+      "matchCount": 7,
+      "matches": [
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Borg Sound - Bag Foley/Bag Foley_Wallet_Leather_Grab.wav",
+          "compression": 8,
+          "crc32": 3845277522,
+          "compressedBytes": 1062610,
+          "uncompressedBytes": 2041064,
+          "localHeaderOffset": 187867566
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/BlueZone - Wood Sound Effects/Bluezone_BC0254_wood_crushing_branches_001_001.wav",
+          "compression": 8,
+          "crc32": 2826589625,
+          "compressedBytes": 404141,
+          "uncompressedBytes": 474208,
+          "localHeaderOffset": 218622708
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/BlueZone - Wood Sound Effects/Bluezone_BC0254_wood_falling_log_002_006.wav",
+          "compression": 8,
+          "crc32": 924512171,
+          "compressedBytes": 164919,
+          "uncompressedBytes": 198376,
+          "localHeaderOffset": 219027012
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/BlueZone - Wood Sound Effects/Bluezone_BC0254_wood_handling_003.wav",
+          "compression": 8,
+          "crc32": 1513830098,
+          "compressedBytes": 1020222,
+          "uncompressedBytes": 1217908,
+          "localHeaderOffset": 219192088
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Articulated Sounds - Magic Elements vol.1/GROUND IMPACT Large, Falling Rocks, Various 04.wav",
+          "compression": 8,
+          "crc32": 2264984878,
+          "compressedBytes": 3298989,
+          "uncompressedBytes": 3656682,
+          "localHeaderOffset": 639373536
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Articulated Sounds - Ghosts Return/ATMO EERIE Cave, Water Drips, Emptyness, Howling Interior Wind, Oppressive, LOOP.wav",
+          "compression": 8,
+          "crc32": 3890409072,
+          "compressedBytes": 44912758,
+          "uncompressedBytes": 48970856,
+          "localHeaderOffset": 642672818
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 1of8/Airborne Sound - Tools/Work,Hammer,Wall,Concrete Block,Sledgehammers,Pair,Hit,Debris,Patient - very faint background construction.wav",
+          "compression": 8,
+          "crc32": 946385304,
+          "compressedBytes": 43572949,
+          "uncompressedBytes": 51899954,
+          "localHeaderOffset": 2184577818
+        }
+      ]
+    }
+  ]
+}

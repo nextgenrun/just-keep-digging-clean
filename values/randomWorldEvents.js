@@ -17,7 +17,6 @@ export const RANDOM_EVENT_TYPES = Object.freeze({
 export const RANDOM_EVENT_TYPE_ORDER = Object.freeze([
   RANDOM_EVENT_TYPES.CRYSTAL_CHOIR,
   RANDOM_EVENT_TYPES.BLACKOUT_BLOOM,
-  RANDOM_EVENT_TYPES.MONEY_MONSTER_RUSH,
 ]);
 
 export const RANDOM_EVENT_PRELOAD_ASSETS = Object.freeze([
@@ -122,15 +121,19 @@ export const RANDOM_WORLD_EVENT_CONFIG = Object.freeze({
       maxViewportHeightRatio: 0.92,
       titleY: -250,
       subtitleY: -214,
-      cardCenterX: 276,
-      cardY: -38,
-      cardWidth: 430,
-      cardHeight: 315,
+      cardCenterX: 222,
+      cardY: -12,
+      cardWidth: 390,
+      cardHeight: 372,
       cardTitleY: -160,
       cardBodyY: -115,
-      cardFocusY: 150,
-      cardFocusIconInsetX: 145,
-      inputY: 246,
+      leftBodyWrapWidth: 360,
+      rightBodyWrapWidth: 372,
+      leftBodyLineSpacing: 7,
+      rightBodyLineSpacing: 1,
+      cardFocusY: 158,
+      cardFocusIconInsetX: 160,
+      inputY: 222,
       footerY: 292,
       resultTitleY: -135,
       resultBodyY: -75,
@@ -167,7 +170,7 @@ export function resolveRandomEventFlags(search = globalThis.location?.search || 
     master,
     crystalChoir: master && enabledParam(params, query.crystalChoir),
     blackoutBloom: master && enabledParam(params, query.blackoutBloom),
-    moneyMonsterRush: master && enabledParam(params, query.moneyMonsterRush),
+    moneyMonsterRush: false,
     debug: devCheatsEnabled
       && (params.get(query.debug) === "1" || params.get("jkd_e2e") === "1"),
     forcedType: devCheatsEnabled && RANDOM_EVENT_TYPE_ORDER.includes(requestedType)

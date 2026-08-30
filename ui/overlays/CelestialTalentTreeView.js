@@ -186,10 +186,10 @@ export class CelestialTalentTreeView {
         Math.abs(point.x) <= layout.nodeHitWidthPx / 2
         && Math.abs(point.y) <= layout.nodeHitHeightPx / 2
       ) {
-        const confirmed = this.tooltip?.visible === true
-          && this.tooltip.nodeId === view.node.id;
+        // Touch has no prior hover state, so a lit node must purchase on this
+        // same reliable scene-level pointer event. Locked nodes stay inspect-only.
         this.selectNode(view.node.id, true);
-        if (confirmed) this.purchaseNode(view.node.id);
+        if (view.snapshot?.available === true) this.purchaseNode(view.node.id);
         return true;
       }
     }

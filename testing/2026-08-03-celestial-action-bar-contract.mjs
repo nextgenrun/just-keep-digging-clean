@@ -6,6 +6,7 @@ import { fileURLToPath } from "node:url";
 import { CelestialActionBarSystem } from "../systems/visual/CelestialActionBarSystem.js";
 import { APPROVED_HUD_SKIN } from "../values/approvedHudSkin.js";
 import { ASSET_KEYS } from "../values/assetKeys.js";
+import { CAMPFIRE_CONFIG } from "../values/campfireConfig.js";
 import {
   CELESTIAL_ACTION_BAR_ASSET_KEYS,
   CELESTIAL_ACTION_BAR_CONFIG,
@@ -41,6 +42,7 @@ class FakeObject {
   setScale(x, y = x) { this.scaleX = x; this.scaleY = y; return this; }
   setTint(value) { this.tint = value; return this; }
   clearTint() { this.tint = null; return this; }
+  setTexture(key, frame = null) { this.key = key; this.frame = frame; return this; }
   setText(value) { this.text = String(value); return this; }
   add(children) { this.children.push(...(Array.isArray(children) ? children : [children])); return this; }
   on(eventName, handler) {
@@ -87,6 +89,8 @@ function productionTextures() {
   return new Set([
     ...CELESTIAL_ACTION_BAR_EAGER_ASSETS.map(asset => asset.key),
     CELESTIAL_TALENT_TREE_UI_CONFIG.assets.tooltip.key,
+    CELESTIAL_TALENT_TREE_UI_CONFIG.assets.nodeFrame.key,
+    CAMPFIRE_CONFIG.spriteKeys[0],
     ASSET_KEYS.celestialEngines.waywardStar,
     ASSET_KEYS.celestialEngines.hollowSun,
     ASSET_KEYS.celestialEngines.cometEngine,
@@ -111,12 +115,13 @@ function dragTo(system, sourceIndex, targetIndex) {
     "wayward-star",
     "hollow-sun",
     "comet-engine",
+    "campfire",
   ];
   assert.deepEqual(CELESTIAL_ACTION_BAR_DEFAULT_ORDER, expectedIds);
   assert.deepEqual(CELESTIAL_ACTION_BAR_CONFIG.entries.map(entry => entry.id), expectedIds);
   assert.deepEqual(
     sanitizeCelestialActionBarOrder(["hollow-sun", "bad", "hollow-sun"]),
-    ["hollow-sun", "quickslash", "thunderStrike", "wayward-star", "comet-engine"],
+    ["hollow-sun", "quickslash", "thunderStrike", "wayward-star", "comet-engine", "campfire"],
   );
   assert.equal(isCelestialActionBarOrderValid(expectedIds), true);
   assert.equal(isCelestialActionBarOrderValid([...expectedIds].reverse()), true);
@@ -144,6 +149,7 @@ function dragTo(system, sourceIndex, targetIndex) {
     "systems/visual/celestialActionBarAssets.js",
     "systems/visual/celestialActionBarHealth.js",
     "systems/visual/CelestialActionBarMetricsView.js",
+    "systems/visual/CelestialActionBarFoundationView.js",
     "systems/visual/CelestialActionBarSlotView.js",
     "systems/visual/CelestialActionBarTooltipView.js",
     "systems/visual/CelestialActionBarSystem.js",
@@ -172,7 +178,7 @@ function dragTo(system, sourceIndex, targetIndex) {
   const activations = [];
   const blocked = [];
   const initialOrder = [
-    "hollow-sun", "quickslash", "thunderStrike", "wayward-star", "comet-engine",
+    "hollow-sun", "quickslash", "thunderStrike", "wayward-star", "comet-engine", "campfire",
   ];
   const system = new CelestialActionBarSystem(scene, {
     loadoutProvider: {
@@ -181,7 +187,12 @@ function dragTo(system, sourceIndex, targetIndex) {
     },
     getAbilityState: entryId => entryId === "quickslash"
       ? { unlocked: false, unlockCondition: "Reach Bobo and buy Quick Slash." }
-      : { unlocked: true, available: true, active: entryId === "hollow-sun" },
+      : {
+        unlocked: true,
+        available: true,
+        active: entryId === "hollow-sun",
+        quantity: entryId === "campfire" ? 1 : null,
+      },
     getMetrics: () => ({ gpCurrent: 72.8, gpMax: 100, miningDamage: 42 }),
     onActivate: (entryId, context) => { activations.push({ entryId, context }); },
     onBlockedActivate: (entryId, context) => { blocked.push({ entryId, context }); },
@@ -189,30 +200,57 @@ function dragTo(system, sourceIndex, targetIndex) {
   });
 
   const health = system.getHealthSnapshot();
+  const layout = CELESTIAL_ACTION_BAR_CONFIG.layout;
   assert.equal(health.ready, true);
-  assert.equal(health.slotCount, 5);
-  assert.equal(health.draggableSlotCount, 5);
+  assert.equal(health.slotCount, 6);
+  assert.equal(health.draggableSlotCount, 6);
   assert.deepEqual(health.fallbackEntryIds, []);
-  assert.equal(system.foundation.key, CELESTIAL_ACTION_BAR_ASSET_KEYS.foundation);
-  assert.equal(system.foundation.displayWidth, 420);
-  assert.equal(system.foundation.displayHeight, 131.25);
+  assert.equal(system.foundationView.foundation.key, CELESTIAL_ACTION_BAR_ASSET_KEYS.foundation);
+  assert.equal(
+    system.foundationView.foundation.displayWidth,
+    layout.foundationWidthPx * system.uiScale,
+  );
+  assert.equal(
+    system.foundationView.foundation.displayHeight,
+    layout.foundationHeightPx * system.uiScale,
+  );
+  assert.equal(system.foundationView.detachedSlot.key, CELESTIAL_TALENT_TREE_UI_CONFIG.assets.nodeFrame.key);
+  assert.equal(
+    system.foundationView.detachedSlot.displayWidth,
+    layout.detachedSlotFrameSizePx * system.uiScale,
+  );
+  assert.ok(system.uiScale < 0.52, "the rail-fit bar must be downsized at 1280x720");
+  assert.ok(system.centerX > scene.scale.width / 2, "the bar belongs right of the XP rail");
+  assert.ok(
+    system.placement.bounds.left - system.placement.neighbors.xpRight
+      >= system.placement.neighbors.neighborGap - 0.001,
+    "the actionbar must clear the XP rail",
+  );
+  assert.ok(
+    system.placement.neighbors.inventoryHitLeft - system.placement.bounds.right
+      >= system.placement.neighbors.neighborGap - 0.001,
+    "the actionbar must clear the inventory hit area",
+  );
   assert.equal(health.metrics.ready, true);
   assert.equal(system.metrics.gpText.text, "GP 72/100");
   assert.equal(system.metrics.damageText.text, "MINE DMG 42");
   assert.equal(health.metrics.miningDamage, 42);
 
-  const layout = CELESTIAL_ACTION_BAR_CONFIG.layout;
   initialOrder.forEach((entryId, index) => {
     const slot = system.slotsById.get(entryId);
-    const expectedX = 640 - layout.foundationWidthPx / 2
-      + layout.foundationWidthPx * layout.slotCenterRatios[index];
-    assert.equal(slot.basePosition.x, expectedX);
-    assert.equal(slot.basePosition.y, system.centerY + layout.slotOffsetYPx);
+    const expected = system.foundationView.getSlotPosition(index);
+    assert.equal(slot.basePosition.x, expected.x);
+    assert.equal(slot.basePosition.y, expected.y);
     assert.equal(slot.keyText.text, String(index + 1));
     assert.equal(slot.keyText.x, layout.keyOffsetXPx);
     assert.equal(slot.keyText.y, layout.keyOffsetYPx);
     assert.equal("socket" in slot, false);
   });
+  const campfireSlot = system.slotsById.get("campfire");
+  assert.equal(campfireSlot.quantityText.text, "1");
+  assert.equal(campfireSlot.quantityText.visible, true);
+  assert.equal(campfireSlot.icon.displayWidth, layout.campfireIconWidthPx);
+  assert.equal(campfireSlot.icon.displayHeight, layout.campfireIconHeightPx);
 
   const lockedSlot = system.slotsById.get("quickslash");
   assert.equal(lockedSlot.icon.visible, false, "unowned abilities must leave empty sockets");
@@ -220,6 +258,12 @@ function dragTo(system, sourceIndex, targetIndex) {
   lockedSlot.root.emit("pointerover", { x: lockedSlot.basePosition.x, y: lockedSlot.basePosition.y });
   assert.equal(system.getHealthSnapshot().tooltipVisible, true);
   assert.match(system.tooltip.body.text, /Reach Bobo and buy Quick Slash/);
+  const tooltipScale = Math.max(system.uiScale, layout.tooltipMinimumScreenScale);
+  assert.ok(
+    system.tooltip.root.x + layout.tooltipWidthPx * tooltipScale / 2
+      <= system.placement.bounds.left - layout.tooltipGapPx * system.uiScale + 0.001,
+    "the hover card must clear the actionbar and right-side quick controls",
+  );
   lockedSlot.root.emit("pointerdown", {});
   lockedSlot.root.emit("pointerup", {});
   assert.equal(activations.length, 0);
@@ -234,7 +278,7 @@ function dragTo(system, sourceIndex, targetIndex) {
   const activationCount = activations.length;
   dragTo(system, 0, 2);
   assert.deepEqual(system.getLoadout(), [
-    "thunderStrike", "quickslash", "hollow-sun", "wayward-star", "comet-engine",
+    "thunderStrike", "quickslash", "hollow-sun", "wayward-star", "comet-engine", "campfire",
   ]);
   assert.equal(activations.length, activationCount, "drag release must not activate a slot");
   assert.equal(persisted.length, 1);
@@ -249,9 +293,13 @@ function dragTo(system, sourceIndex, targetIndex) {
   scene.scale.height = 600;
   system.resize();
   const xp = APPROVED_HUD_SKIN.layout.xp;
-  const xpTop = scene.scale.height - (xp.bottom + xp.height) * system.uiScale;
-  const foundationBottom = system.centerY + layout.foundationHeightPx * system.uiScale / 2;
-  assert.ok(foundationBottom <= xpTop - layout.xpGapPx * system.uiScale + 0.001);
+  const hudScale = Math.min(
+    scene.scale.width / APPROVED_HUD_SKIN.referenceViewport.width,
+    scene.scale.height / APPROVED_HUD_SKIN.referenceViewport.height,
+  );
+  assert.ok(system.placement.bounds.left > system.placement.neighbors.xpRight);
+  assert.ok(system.placement.bounds.right < system.placement.neighbors.inventoryHitLeft);
+  assert.equal(system.placement.bounds.bottom, scene.scale.height - xp.bottom * hudScale);
 
   system.destroy();
   system.destroy();

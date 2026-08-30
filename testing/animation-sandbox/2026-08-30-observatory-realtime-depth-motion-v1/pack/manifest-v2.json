@@ -1,0 +1,46 @@
+{
+  "status": "review-only",
+  "version": 2,
+  "source": {
+    "path": "sprites/backgrounds/world-visual-v2/far/sky-cohesion-v1/2026-07-28-sky-13-level2-lower-iron-forge-haze-v1.webp",
+    "sha256": "a1d6bf7b7f945bf1baf4f9c846c9ba7d9c44231d5804fcaa945c581e5c45e029",
+    "width": 1672,
+    "height": 941
+  },
+  "townSquareGuard": {
+    "path": "sprites/backgrounds/start-zone-scenic-v1/living-background-v1/surface-town-air-v1.mp4",
+    "sha256": "1650f7a88e2445ef9ab1be954680e4a8d5ffb51b2ccd8e7def5bec19726132d6",
+    "modified": false
+  },
+  "decomposition": {
+    "cloudLayerCount": 5,
+    "lightClusterCount": 30,
+    "architectureSeparated": true,
+    "lightsSeparated": true
+  },
+  "reconstruction": {
+    "meanAbsoluteRgb": 0.003274,
+    "pixelsOver12": 0.001122
+  },
+  "generatedInputs": {
+    "clean-sky-underplate-v2.png": "eaad3030f7469d9d8fd22fb10e4720bdbfc8e1c62bd7ae4c48455135f5e6a2ce",
+    "architecture-mask-carrier-v2.png": "f06a1a09036b57edb4b7f38d8d2daa3c65ff4fc180cdca133766170c2da12e91",
+    "upper-cloud-mask-carrier-v2.png": "ac246b12f02fbffdbf6ea1a5be0e4730fc7df2e886c60fdf68b4dfb7149d0fa4",
+    "lower-cloud-mask-carrier-v2.png": "7cfde9254281eea81630a3d9a466a294aa3c3ecd877c8d83a75514125d1d65a8"
+  },
+  "assets": {
+    "architecture-diffuse-v2.png": "cfc7f7aa620f7db2e86b444322cf12ddc0920ddefd81c242e6788908f387bb22",
+    "architecture-emissive-v2.png": "58299cd667fede2dbb7510cff20a454d072ac5104a13c64dfb00ed3b876af666",
+    "architecture-light-id-v2.png": "b031373c2bc6f503d4e2c96bd6d5d9ed99276c8bcc17f51ffc396ba44ca8f3eb",
+    "architecture-light-mask-v2.png": "e4c10cc4674e11ba1f19fc86430f2f59b9fb508457e4022e5532c36f7c13b315",
+    "clean-sky-underplate-v2.png": "eaad3030f7469d9d8fd22fb10e4720bdbfc8e1c62bd7ae4c48455135f5e6a2ce",
+    "cloud-sea-far-v2.png": "b2a4efa860baf1a25ed8901f06f9a1c94c47ce0dc81ad102ace478b1d5e97305",
+    "cloud-sea-near-v2.png": "efbdd0485f006c0ea4982637469b4713c180886eddff3821ab9e5d2c172fc43f",
+    "horizon-mist-v2.png": "768b1c81032a7c004b0bb2ca458ad2120fc5d556f23bd603f32d3cd6b4a467f0",
+    "reconstruction-v2.png": "eef3fbf719e82cee6f34eb7790326aa96cf3a76c2d067870bcd08cd329be2642",
+    "segmentation-review-v2.png": "6b582f2703b90da842db2c72d53e21110319f8052c3f74d70111e2794a017684",
+    "static-sky-v2.png": "c88cc23023688d5c623ea209229a19fe41c89931e6ddfd0e744add9215b53b1f",
+    "upper-crown-v2.png": "dd8c082ef65a61541b90ecd073fc2c6afb2ae12113ddc3382d14ba8bb7cbddd0",
+    "upper-wisps-v2.png": "e7f9910c54c5ee56b55c5c9937b2914bd6f02999e5654ddb570fb63c67ad9697"
+  }
+}

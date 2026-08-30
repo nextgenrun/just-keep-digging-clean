@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "corrections": {
+    "identity:blue-salt-basilica": {
+      "reason": "first source crossed the required transparent atlas gutter",
+      "rejectedSource": "visual-approval-previews/level-one-biome-depth-diversity-v1/sources/identity-kits/rejected/2026-08-30-blue-salt-basilica-identity-kit-cross-gutter-rejected-v1.png",
+      "appendPrompt": "Correction required for the final atlas: enforce a completely empty transparent cross gutter at least 96 pixels wide centered on x=768 and y=512. No painted pixel, shadow, glow, fragment, dust, or object may enter that vertical or horizontal cross. Keep every object at least 48 pixels inside its own quadrant boundary. The four objects must remain visibly separate and independently crop-safe."
+    },
+    "identity:starless-reflectory": {
+      "reason": "first source crossed the required transparent atlas gutter",
+      "rejectedSource": "visual-approval-previews/level-one-biome-depth-diversity-v1/sources/identity-kits/rejected/2026-08-30-starless-reflectory-identity-kit-cross-gutter-rejected-v1.png",
+      "appendPrompt": "Correction required for the final atlas: enforce a completely empty transparent cross gutter at least 96 pixels wide centered on x=768 and y=512. No painted pixel, shadow, glow, fragment, dust, or object may enter that vertical or horizontal cross. Keep every object at least 48 pixels inside its own quadrant boundary. The four objects must remain visibly separate and independently crop-safe."
+    }
+  }
+}

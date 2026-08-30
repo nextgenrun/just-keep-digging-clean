@@ -8,6 +8,7 @@ import { WeatherImpactRainController } from "./WeatherImpactRainController.js";
 import { WeatherLightningController } from "./WeatherLightningController.js";
 import { WeatherOcclusionSampler } from "./WeatherOcclusionSampler.js";
 import { WeatherParticleController } from "./WeatherParticleController.js";
+import { WeatherPrecipitationEnvelope } from "./WeatherPrecipitationEnvelope.js";
 import { WeatherSnowController } from "./WeatherSnowController.js";
 import { WeatherWorldState } from "./WeatherWorldState.js";
 import { resolveSkylineWeatherVfxEnabled } from "./SkylineWeatherVfxSystem.js";
@@ -60,6 +61,11 @@ export class WeatherSystem {
 
     this._createTintOverlay();
     this._applyDirectorPatch(this.director.start(this.scene.time.now || 0, true), true);
+    this.precipitationEnvelope = new WeatherPrecipitationEnvelope(
+      weatherConfig,
+      this.kind,
+      this.intensity,
+    );
     this._lightingSnapshot = this._getLightingTarget();
     this._lightingColorChannels = this._colorChannels(this._lightingSnapshot.sunTint);
   }
@@ -77,6 +83,7 @@ export class WeatherSystem {
     this.intensity = lerp(this.intensity, this.targetIntensity, transitionT);
     this.wind = lerp(this.wind, this.targetWind, windT);
     this.gust = lerp(this.gust, this.targetGust, gustT);
+    const precipitation = this.precipitationEnvelope.update(this.kind, this.intensity, dt);
     this._updateLightingSnapshot(dt);
 
     const depth = this._getDepthFactors();
@@ -88,19 +95,20 @@ export class WeatherSystem {
     const world = this.worldState.update(dt, {
       kind: this.kind,
       intensity: this.intensity,
+      rainAmount: precipitation.rainAmount,
       depth,
       occlusion,
-      isRainKind: this._isRainKind(),
     });
     this.surfaceWetness = world.worldWetnessAmount;
     const gameplay = this.gameplayController.update({
       kind: this.kind,
       intensity: this.intensity,
+      stormAmount: precipitation.stormAmount,
       depth,
       world,
     });
 
-    this._updateTintOverlay(depth, dt);
+    this._updateTintOverlay(depth, precipitation);
     this.lightningController.update(time, dt, {
       kind: this.kind,
       intensity: this.intensity,
@@ -111,6 +119,7 @@ export class WeatherSystem {
     this.impactRainController.update(time, dt, {
       kind: this.kind,
       intensity: this.intensity,
+      ...precipitation,
       wind: this.wind,
       gust: this.gust,
       depth,
@@ -120,6 +129,7 @@ export class WeatherSystem {
     this.snowController.update(time, dt, {
       kind: this.kind,
       intensity: this.intensity,
+      ...precipitation,
       wind: this.wind,
       gust: this.gust,
       depth,
@@ -132,6 +142,7 @@ export class WeatherSystem {
     this.particleController.update(time, dt, {
       kind: this.kind,
       intensity: this.intensity,
+      ...precipitation,
       wind: this.wind,
       gust: this.gust,
       depth,
@@ -145,14 +156,15 @@ export class WeatherSystem {
     });
     this.audioController.update({
       kind: this.kind,
-      isRainKind: this._isRainKind(),
       intensity: this.intensity,
+      ...precipitation,
       wind: this.wind,
       gust: this.gust,
       depth,
       occlusion,
       world,
       director,
+      delta: dt,
     });
   }
 
@@ -170,7 +182,7 @@ export class WeatherSystem {
     return this.lightningController.getLightningFlashAmount();
   }
 
-  forceWeather(kind, intensity = 1, durationMs = 20000) {
+  forceWeather(kind, intensity = 1, durationMs = 20000, smoothTransition = false) {
     if (!this.weatherConfig.phases[kind]) {
       console.warn(`[WeatherSystem] Unknown weather kind: ${kind}`);
       return;
@@ -180,6 +192,9 @@ export class WeatherSystem {
     this.kind = kind;
     this.targetIntensity = clamp01(intensity);
     this._applyDirectorPatch(this.director.force(kind, intensity, durationMs, now), false);
+    if (!smoothTransition) {
+      this.precipitationEnvelope.snap(this.kind, this.intensity);
+    }
     this.lightningController.schedule(now, true, this.kind);
   }
 
@@ -204,8 +219,7 @@ export class WeatherSystem {
     const director = this.director.getSnapshot();
     const world = this.worldState.getSnapshot();
     const gameplay = this.gameplayController.getSnapshot();
-    const rainAmount = this._isRainKind() ? clamp01(this.intensity) : 0;
-    const snowAmount = this.kind === "snow" ? clamp01(this.intensity) : 0;
+    const { rainAmount, snowAmount, stormAmount } = this.precipitationEnvelope.getSnapshot();
     return {
       kind: this.kind,
       intensity: this.intensity,
@@ -232,8 +246,9 @@ export class WeatherSystem {
       precipitationAmount: Math.max(rainAmount, snowAmount),
       approvedParticleVisualsReady: Boolean(this.particleVisualAssets),
       particleTextureKey: this.particleVisualAssets?.textureKey ?? null,
-      isStorming: this.kind === "storm" && this.intensity > 0.55,
-      isSnowing: this.kind === "snow" && this.intensity > 0.05,
+      audio: this.audioController?.getSnapshot?.() ?? null,
+      isStorming: stormAmount > 0.55,
+      isSnowing: snowAmount > 0.05,
     };
   }
 
@@ -248,9 +263,7 @@ export class WeatherSystem {
     const world = this.worldState.getSnapshot();
     const gameplay = this.gameplayController.getSnapshot();
     const lightningFlashAmount = this.getLightningFlashAmount();
-    const rainAmount = this._isRainKind() ? clamp01(this.intensity) : 0;
-    const snowAmount = this.kind === "snow" ? clamp01(this.intensity) : 0;
-    const stormAmount = this.kind === "storm" ? clamp01(this.intensity) : 0;
+    const { rainAmount, snowAmount, stormAmount } = this.precipitationEnvelope.getSnapshot();
     const sunlight = this._lightingSnapshot || this._getLightingTarget();
 
     return {
@@ -344,18 +357,23 @@ export class WeatherSystem {
     const surfaceAmount = clamp01(1 - depthTiles / cfg.surfaceFadeTiles);
     const undergroundAmount = clamp01(depthTiles / cfg.undergroundFullTiles);
     const deepFade = 1 - clamp01((depthTiles - cfg.deepFadeStartTiles) / Math.max(1, cfg.deepFadeEndTiles - cfg.deepFadeStartTiles));
-    const stormFloor = this.kind === "storm" ? cfg.stormMinimumSignal : 0;
-    const rainSignal = this._isRainKind() ? this.intensity : 0;
-    const undergroundSignal = Math.max(stormFloor, rainSignal * undergroundAmount) * deepFade;
+    const { rainAmount, stormAmount } = this.precipitationEnvelope.getSnapshot();
+    const stormFloor = cfg.stormMinimumSignal * stormAmount;
+    const undergroundSignal = Math.max(stormFloor, rainAmount * undergroundAmount) * deepFade;
     return { depthTiles, surfaceAmount, undergroundAmount, deepFade, undergroundSignal: clamp01(undergroundSignal) };
   }
 
-  _updateTintOverlay(depth) {
+  _updateTintOverlay(depth, precipitation = null) {
+    const signals = precipitation || this.precipitationEnvelope?.getSnapshot?.() || {
+      rainAmount: this._isRainKind() ? this.intensity : 0,
+      snowAmount: this.kind === "snow" ? this.intensity : 0,
+      stormAmount: this.kind === "storm" ? this.intensity : 0,
+    };
     const nightAmount = this.scene.dayNightCycle?.getNightAmount?.() ?? (this.scene.dayNightCycle?.isNightTime?.() ? 1 : 0);
     const lighting = this.weatherConfig.lighting;
-    const surfaceWeather = (this._isRainKind() ? this.intensity : 0) * depth.surfaceAmount;
-    const stormAmount = this.kind === "storm" ? this.intensity : 0;
-    const snowAmount = this.kind === "snow" ? this.intensity : 0;
+    const surfaceWeather = signals.rainAmount * depth.surfaceAmount;
+    const stormAmount = signals.stormAmount;
+    const snowAmount = signals.snowAmount;
     const visibilityPenalty = this.gameplayController.getSnapshot().visibilityPenalty || 0;
     const isScenic = String(this.scene.worldVisualRuntimeMode || "").startsWith("scenic");
     const nightAlpha = isScenic
@@ -377,7 +395,7 @@ export class WeatherSystem {
           ? lighting.snowTint
           : nightAmount > 0.45
             ? lighting.nightTint
-            : this.intensity > 0.2
+            : signals.rainAmount > 0.2
               ? lighting.rainTint
               : lighting.clearTint;
     this._tintOverlay.setVisible(tintAlpha > 0.005);

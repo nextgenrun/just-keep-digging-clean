@@ -1,4 +1,5 @@
 import { createWorldBackgroundImage } from "./createWorldBackgroundImage.js";
+import { hasLiveTextureConsumer } from "./hasLiveTextureConsumer.js";
 
 export class WorldBackgroundTextureStream {
   constructor(scene, config, visibility, {
@@ -125,25 +126,7 @@ export class WorldBackgroundTextureStream {
   }
 
   hasLiveTextureConsumer(textureKey) {
-    const pending = [...(this.scene.children?.list || [])];
-    const visited = new Set();
-    while (pending.length > 0) {
-      const gameObject = pending.pop();
-      if (!gameObject || visited.has(gameObject)) continue;
-      visited.add(gameObject);
-      if (
-        gameObject.active !== false
-        && gameObject.destroyed !== true
-        && (
-          gameObject.texture?.key === textureKey
-          || gameObject.frame?.texture?.key === textureKey
-        )
-      ) {
-        return true;
-      }
-      if (Array.isArray(gameObject.list)) pending.push(...gameObject.list);
-    }
-    return false;
+    return hasLiveTextureConsumer(this.scene, textureKey);
   }
 
   removeOwnedTexture(textureKey, { force = false } = {}) {

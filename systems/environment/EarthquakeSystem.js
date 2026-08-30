@@ -19,6 +19,7 @@ import {
   EARTHQUAKE_CONFIG,
   EARTHQUAKE_SUPPRESSION_UPGRADE,
 } from "../../values/earthquakes.js";
+import { PLAYER_VOICE_CONFIG } from "../../values/playerVoiceCharacterLeoV1.generated.js";
 import {
   expandFallZoneCandidate,
   resolveFallZoneGeometry,
@@ -46,7 +47,6 @@ export class EarthquakeSystem {
     this.stateRemaining = 0;
     this.stateTotalMs = 0;
     this.nextEventMs = 0;
-    this.nextDebrisEventMs = 0;
     this.mutationTimer = 0;
     this.caveIns = [];
     this.fallingRocks = [];
@@ -67,7 +67,6 @@ export class EarthquakeSystem {
     this.stressFx = scene.add.graphics().setDepth(18);
     this._stressTimer = 0;
     this._scheduleNext();
-    this._scheduleNextDebrisEvent();
     this.syncSuppression();
     this._installDebugApi();
     this._log("initialized", this.getStatus());
@@ -103,8 +102,6 @@ export class EarthquakeSystem {
 
     if (this.state === "idle") {
       if (this.chainPending || this.caveIns.length > 0 || this.fallingRocks.length > 0) return;
-      this.nextDebrisEventMs -= dt;
-      if (this.nextDebrisEventMs <= 0 && this.triggerDebrisEvent()) return;
       this.nextEventMs -= dt;
       if (this.nextEventMs <= 0) this.start();
       return;
@@ -164,6 +161,16 @@ export class EarthquakeSystem {
       ? this.scene.soundSystem?.playSeismicWarning?.(warningProximity)
       : null;
     if (!warningSound) this._playTone("rumble");
+    if (warningProximity > 0) {
+      this.scene.soundSystem?.playPlayerVoiceEvent?.(
+        PLAYER_VOICE_CONFIG.eventIds.earthquakeWarning,
+        {
+          intensity: this.intensity,
+          proximity: warningProximity,
+          tags: [this.intensity],
+        },
+      );
+    }
 
     this._log("warning started", {
       intensity: this.intensity,
@@ -177,26 +184,6 @@ export class EarthquakeSystem {
   setPaused(paused) {
     this.paused = Boolean(paused);
     this._log(this.paused ? "paused" : "resumed");
-  }
-
-  triggerDebrisEvent() {
-    const cfg = this.config.debrisEvents;
-    if (cfg?.enabled !== true || this._getDepth() < cfg.minimumDepthTiles) {
-      this._scheduleNextDebrisEvent();
-      return false;
-    }
-    this.epicenter = this._selectWorldEpicenter();
-    this.intensity = cfg.intensity;
-    const candidate = this._findCeilingCandidates(1)[0];
-    if (!candidate) {
-      this._scheduleNextDebrisEvent();
-      return false;
-    }
-    this._queueCaveInGroup(candidate, false);
-    this.scene.soundSystem?.playSeismicWarning?.(0.72);
-    this._scheduleNextDebrisEvent();
-    this._log("debris event queued", candidate);
-    return true;
   }
 
   syncSuppression() {
@@ -788,10 +775,6 @@ export class EarthquakeSystem {
       if (!rock.hit && body && this.impactCooldown <= 0 && this._rockCrossesBody(rock, body)) {
         rock.hit = true;
         this.impactCooldown = this.config.impactCooldownMs;
-        if (this.scene.debrisShieldSystem?.absorbFallingRock?.(rock)) {
-          this._log("player blocked falling rock", { rockId: rock.id });
-          continue;
-        }
         const drained = this.scene.playerController.drainAllGemPower({
           source: "fallingRock",
           hazard: true,
@@ -1076,11 +1059,6 @@ export class EarthquakeSystem {
       * worldCooldown
       * depthCooldown
       / multiplier;
-  }
-
-  _scheduleNextDebrisEvent() {
-    const interval = this.config.debrisEvents?.intervalMs || [45000, 90000];
-    this.nextDebrisEventMs = rand(...interval);
   }
 
   _rollIntensity(depth) {

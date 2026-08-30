@@ -79,10 +79,10 @@ assert.equal(abilities._getGemPowerDrain(), 0);
 
 const stats = abilities.getConstellationStats();
 assert.equal(Object.keys(CONSTELLATION_BUFFS).length, 10);
-assert.ok(stats.quickslashFlatDamage > 0);
+assert.ok(stats.quickslashDamageMult > 0);
 assert.ok(stats.quickslashBurstSpeed > 0);
 assert.ok(stats.thunderstrikeRange > 0);
-assert.equal(stats.thunderstrikeDamageMult, 0.35);
+assert.equal(stats.thunderstrikeDamageMult, 0.25);
 assert.equal(stats.thunderstrikeRecoveryBonus, undefined);
 assert.equal(stats.thunderstrikeBedrockBreach, undefined);
 
@@ -198,6 +198,7 @@ gameplayPrototype.activateDevCheat.call({
   upgradeSystem: {
     addMoney(value) { devState.money += value; },
     getMoney: () => devState.money,
+    isGodModeActive() { return devState.upgradeGodMode; },
     setGodMode(value) { devState.upgradeGodMode = value; },
     grantUpgrade: () => ({ success: true }),
   },
@@ -227,22 +228,15 @@ const [
   setupSource,
   overlaySource,
   overlayPresentationSource,
-  timingSystemSource,
-  timingViewSource,
 ] = await Promise.all([
   readFile(new URL("../world/playScene/PlayerInputHandler.js", import.meta.url), "utf8"),
   readFile(new URL("../world/playScene/PlaySceneSetup.js", import.meta.url), "utf8"),
   readFile(new URL("../ui/overlays/StarHeartOverlay.js", import.meta.url), "utf8"),
   readFile(new URL("../ui/overlays/starHeartOverlayPresentation.js", import.meta.url), "utf8"),
-  readFile(new URL("../systems/visual/ThunderStrikeTimingBarSystem.js", import.meta.url), "utf8"),
-  readFile(new URL("../systems/visual/ThunderStrikeTimingBarView.js", import.meta.url), "utf8"),
 ]);
 assert.doesNotMatch(inputSource, /addBoundKey\("gemDash"\)/);
 assert.match(setupSource, /isGodModeActive:\s*\(\)\s*=>\s*this\.upgradeSystem/);
 assert.match(overlaySource, /refreshStarHeartSelection/);
 assert.match(overlayPresentationSource, /godModeConfirm/);
-assert.match(timingSystemSource, /getThunderStrikeCost\?\.\(\)\s*===\s*0/);
-assert.match(timingViewSource, /const castFree = milestone\.stageIndex > 0 \|\| initialCastFree/);
-assert.match(timingViewSource, /castFree\s*\?\s*"FREE"\s*:\s*"PAID"/);
 
 console.log("godmode abilities contract: flight, quickslash, thunderstrike, torch, and all Celestial Engines are free and save-safe");

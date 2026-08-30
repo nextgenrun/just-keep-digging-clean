@@ -1,3 +1,9 @@
+import {
+  LEVEL_ONE_BIOME_FIELD,
+  doesLevelOneBiomeFieldAffectRegion,
+  resolveLevelOneBiomeFieldEnabled,
+} from "./levelOneBiomeField.js";
+
 const DISABLED_QUERY_VALUES = Object.freeze(["0", "false", "off", "disabled", "legacy"]);
 const BIOME_ROOT = "sprites/backgrounds/world-visual-v2/depth/biome-variation-v2";
 const BIOME_EXPANSION_ROOT = "sprites/backgrounds/world-visual-v2/depth/biome-expansion-v3";
@@ -583,10 +589,35 @@ export function resolveWorldVisualDepthBackdropRegions(
 ) {
   if (!resolveWorldVisualDepthBackdropsEnabled(config, search)) return [];
   if (bottomTileExclusive <= topTile) return [];
+  const fieldEnabled = resolveLevelOneBiomeFieldEnabled(
+    LEVEL_ONE_BIOME_FIELD,
+    search
+  );
+  const fieldBackwallsByRegionId = fieldEnabled
+    ? Object.freeze(Object.fromEntries(
+      LEVEL_ONE_BIOME_FIELD.sourceRegionIds.map(regionId => {
+        const sourceRegion = config.regions.find(entry => entry.id === regionId);
+        return [
+          regionId,
+          sourceRegion
+            ? resolveWorldVisualDepthBackdropRegionAssets(sourceRegion, config, search)
+            : [],
+        ];
+      })
+    ))
+    : null;
   return config.regions.filter(entry => (
     entry.bottomTileExclusive > topTile
     && entry.topTile < bottomTileExclusive
     && resolveWorldVisualDepthBackdropRegionAssets(entry, config, search).length > 0
+  )).map(entry => (
+    fieldBackwallsByRegionId
+    && doesLevelOneBiomeFieldAffectRegion(entry)
+      ? Object.freeze({
+        ...entry,
+        biomeFieldBackwallsByRegionId: fieldBackwallsByRegionId,
+      })
+      : entry
   ));
 }
 

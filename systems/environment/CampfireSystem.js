@@ -31,13 +31,20 @@
 import { UI_COLORS } from "../../values/uiColors.js";
 import { UI_FONTS } from "../../values/uiLayout.js";
 import {
+  CAMPFIRE_BLESSINGS,
   CAMPFIRE_CONFIG,
+  CAMPFIRE_CONSUMABLE_CONFIG,
   CAMPFIRE_TIERS,
+  describeCampfireRefill,
+  getCampfireBlessingPresentation,
   sanitizeCampfireData,
 } from "../../values/campfireConfig.js";
 import { getCampfireFeatureAssetGroupId } from "../../values/runtimeAssetLoading.js";
+import { CELESTIAL_ACTION_BAR_ENTRY_IDS } from "../../values/celestialActionBar.js";
 import { USER_SETTINGS, keyToPhaserKey } from "../UserSettings.js";
 import { executeCampfireUpgrade } from "./CampfireUpgradeTransaction.js";
+import { PLAYER_VOICE_CONFIG } from
+  "../../values/playerVoiceCharacterLeoV1.generated.js";
 
 // ── Main Menu Theme Palette (matches ShopOverlay / MainMenuScene) ──────────
 const COL = {
@@ -79,10 +86,16 @@ export class CampfireSystem {
     // Buff state
     this._activeBuff = null;
 
+    const initialState = sanitizeCampfireData(initialData);
+
     // Buff selection UI state
     this._isSelecting = false;
     this._selectionObjects = [];
-    this._selectedIndex = 0;
+    this._buffs = CAMPFIRE_BLESSINGS;
+    this._selectedIndex = Math.max(
+      0,
+      this._buffs.findIndex(buff => buff.type === initialState.selectedBuffType),
+    );
     this._selectionOverlay = null;
     this._justOpenedFrame = false;
     this._lastNavDir = null;
@@ -109,17 +122,14 @@ export class CampfireSystem {
     this._prevEnter = false; // prev-frame for Enter (manual JustDown)
 
     // Upgrade tier
-    this._campfireLevel = sanitizeCampfireData(initialData).level;
+    this._campfireLevel = initialState.level;
+    this._emberCharges = initialState.charges;
+    this._emberRefillCapacity = initialState.refillCapacity;
+    this._townVisitActive = null;
     this._campfireRequestedGroupId = null;
     this._campfireResidentGroupId = null;
     this._destroyed = false;
 
-    // Available buff definitions (use getter to apply tier scaling)
-    this._buffs = [
-      { type: 'warmth',      name: 'Warmth',      color: '#FF6633', desc: '+Mining Speed', miningSpeedBonus: true },
-      { type: 'inspiration', name: 'Inspiration',  color: '#66AAFF', desc: '+XP Gain',      xpBonus: true },
-      { type: 'focus',       name: 'Focus',       color: '#DD66FF', desc: '+Crit Chance',   critBonus: true },
-    ];
   }
 
   // ── Public API ──────────────────────────────────────────────────────────
@@ -210,6 +220,7 @@ export class CampfireSystem {
    */
   update(playerTile, unusedKeys, delta) {
     if (!playerTile) return;
+    this._trackTownVisit(playerTile);
 
     // Proximity
     const campTileX = Math.floor(this._campX / this.config.tileSize);
@@ -313,15 +324,215 @@ export class CampfireSystem {
     return this._campfireLevel;
   }
 
+  getEmberCharges() {
+    return this._emberCharges;
+  }
+
+  getEmberRefillCapacity() {
+    return this._emberRefillCapacity;
+  }
+
+  getSelectedBuff() {
+    return this._buffs[this._selectedIndex] || this._buffs[0];
+  }
+
+  getActionBarState() {
+    const selected = this.getSelectedBuff();
+    const charges = this.getEmberCharges();
+    const durationSeconds = Math.round(this._getTierConfig().durationMs / 1000);
+    const refillDescription = describeCampfireRefill(this._emberRefillCapacity);
+    return Object.freeze({
+      unlocked: true,
+      available: charges > 0,
+      active: this.getActiveBuff() !== null,
+      quantity: charges,
+      unlockCondition: CAMPFIRE_CONSUMABLE_CONFIG.copy.findHint,
+      unavailableReason: `${CAMPFIRE_CONSUMABLE_CONFIG.copy.empty} `
+        + `${CAMPFIRE_CONSUMABLE_CONFIG.copy.oreHint} ${refillDescription}`,
+      description: `${selected.name} lasts ${durationSeconds}s and costs 1 Ember Charge. `
+        + `${CAMPFIRE_CONSUMABLE_CONFIG.copy.oreHint} ${refillDescription}`,
+    });
+  }
+
+  collectEmberCharge(
+    count = CAMPFIRE_CONSUMABLE_CONFIG.chargesPerEmberOre,
+    context = {},
+  ) {
+    const requested = Math.max(0, Math.floor(Number(count) || 0));
+    if (requested <= 0) {
+      return Object.freeze({
+        ok: false,
+        reason: "invalid-count",
+        gained: 0,
+        charges: this._emberCharges,
+        refillCapacity: this._emberRefillCapacity,
+      });
+    }
+    const refill = CAMPFIRE_CONSUMABLE_CONFIG.refill;
+    const nextRefillCapacity = Math.min(
+      refill.maximumCharges,
+      this._emberRefillCapacity + refill.emberDiscoveryIncrease,
+    );
+    const refillUpgraded = nextRefillCapacity > this._emberRefillCapacity;
+    const next = Math.min(
+      CAMPFIRE_CONSUMABLE_CONFIG.maximumCharges,
+      this._emberCharges + requested,
+    );
+    const gained = next - this._emberCharges;
+    if (gained <= 0 && !refillUpgraded) {
+      return Object.freeze({
+        ok: false,
+        reason: "charge-cap",
+        gained: 0,
+        charges: this._emberCharges,
+        refillCapacity: this._emberRefillCapacity,
+      });
+    }
+
+    this._emberRefillCapacity = nextRefillCapacity;
+    this._emberCharges = next;
+    const feedbackText = refillUpgraded
+      ? `${CAMPFIRE_CONSUMABLE_CONFIG.copy.firstDiscovery}  •  TOWN REFILL ${this._emberRefillCapacity}`
+      : `${CAMPFIRE_CONSUMABLE_CONFIG.copy.collected}  •  CAMPFIRE ${this._emberCharges}`;
+    this.scene.hudSystem?.flashStatus?.(
+      feedbackText,
+      refillUpgraded
+        ? CAMPFIRE_CONSUMABLE_CONFIG.feedback.upgradedColor
+        : CAMPFIRE_CONSUMABLE_CONFIG.feedback.collectedColor,
+      CAMPFIRE_CONSUMABLE_CONFIG.feedback.durationMs,
+    );
+    this.scene.queueDugTilesSave?.(CAMPFIRE_CONSUMABLE_CONFIG.saveReasons.collected);
+    this.scene.celestialActionBarSystem?.sync?.(
+      CELESTIAL_ACTION_BAR_ENTRY_IDS.CAMPFIRE,
+    );
+    this.scene.contextualMechanicTutorialSystem?.notifyEmberDiscovery?.();
+    const result = Object.freeze({
+      ok: true,
+      reason: null,
+      gained,
+      charges: this._emberCharges,
+      refillUpgraded,
+      refillCapacity: this._emberRefillCapacity,
+    });
+    this.scene.emberDiscoveryEventSystem?.play?.({
+      ...result,
+      tile: context.tile || null,
+    });
+    return result;
+  }
+
+  restoreEmberCharges(
+    source = CAMPFIRE_CONSUMABLE_CONFIG.refill.sources.interaction,
+  ) {
+    const next = Math.max(this._emberCharges, this._emberRefillCapacity);
+    const gained = next - this._emberCharges;
+    if (gained <= 0) {
+      return Object.freeze({
+        ok: true,
+        reason: "already-refilled",
+        source,
+        gained: 0,
+        charges: this._emberCharges,
+        refillCapacity: this._emberRefillCapacity,
+      });
+    }
+
+    this._emberCharges = next;
+    const useLabel = this._emberCharges === 1 ? "USE" : "USES";
+    this.scene.hudSystem?.flashStatus?.(
+      `${CAMPFIRE_CONSUMABLE_CONFIG.copy.refilled}  •  ${this._emberCharges} ${useLabel}`,
+      CAMPFIRE_CONSUMABLE_CONFIG.feedback.refilledColor,
+      CAMPFIRE_CONSUMABLE_CONFIG.feedback.durationMs,
+    );
+    this.scene.queueDugTilesSave?.(CAMPFIRE_CONSUMABLE_CONFIG.saveReasons.refilled);
+    this.scene.celestialActionBarSystem?.sync?.();
+    return Object.freeze({
+      ok: true,
+      reason: null,
+      source,
+      gained,
+      charges: this._emberCharges,
+      refillCapacity: this._emberRefillCapacity,
+    });
+  }
+
+  _trackTownVisit(playerTile) {
+    const surfacePlayerRow = Number(this.config?.topAirRows) - 1;
+    const tileY = Number(playerTile?.ty);
+    if (!Number.isFinite(surfacePlayerRow) || !Number.isFinite(tileY)) return false;
+    const inTown = Math.abs(tileY - surfacePlayerRow)
+      <= CAMPFIRE_CONSUMABLE_CONFIG.refill.townRowRadiusTiles;
+    const enteredTown = inTown && this._townVisitActive !== true;
+    this._townVisitActive = inTown;
+    if (!enteredTown) return false;
+    return this.restoreEmberCharges(
+      CAMPFIRE_CONSUMABLE_CONFIG.refill.sources.townReturn,
+    ).gained > 0;
+  }
+
+  consumeSelectedBuff(source = "actionbar") {
+    const selected = this.getSelectedBuff();
+    if (!selected || this._emberCharges <= 0) {
+      return Object.freeze({
+        ok: false,
+        reason: "no-ember-charges",
+        message: `${CAMPFIRE_CONSUMABLE_CONFIG.copy.empty} `
+          + `${CAMPFIRE_CONSUMABLE_CONFIG.copy.oreHint} `
+          + describeCampfireRefill(this._emberRefillCapacity),
+        charges: this._emberCharges,
+      });
+    }
+
+    this._emberCharges -= 1;
+    this._applyBuff(selected);
+    this.scene.soundSystem?.playUiConfirm?.();
+    this.scene.hudSystem?.flashStatus?.(
+      `${selected.name.toUpperCase()} IGNITED  •  ${this._emberCharges} USES LEFT`,
+      CAMPFIRE_CONSUMABLE_CONFIG.feedback.activatedColor,
+      CAMPFIRE_CONSUMABLE_CONFIG.feedback.durationMs,
+    );
+    this.scene.queueDugTilesSave?.(CAMPFIRE_CONSUMABLE_CONFIG.saveReasons.consumed);
+    this.scene.celestialActionBarSystem?.sync?.();
+    if (source === "campfire-menu") {
+      this.scene.soundSystem?.playPlayerVoiceEvent?.(
+        PLAYER_VOICE_CONFIG.eventIds.campfireRest,
+        {
+          buffType: selected.type,
+          chargesRemaining: this._emberCharges,
+          tags: [selected.type],
+        },
+      );
+    }
+    return Object.freeze({
+      ok: true,
+      reason: null,
+      source,
+      buffType: selected.type,
+      charges: this._emberCharges,
+    });
+  }
+
   getSaveData() {
-    return sanitizeCampfireData({ level: this._campfireLevel });
+    return sanitizeCampfireData({
+      level: this._campfireLevel,
+      charges: this._emberCharges,
+      refillCapacity: this._emberRefillCapacity,
+      selectedBuffType: this.getSelectedBuff()?.type,
+    });
   }
 
   loadSaveData(data) {
     if (!data || typeof data !== "object") return this.getSaveData();
     const normalized = sanitizeCampfireData(data);
     this._campfireLevel = normalized.level;
+    this._emberCharges = normalized.charges;
+    this._emberRefillCapacity = normalized.refillCapacity;
+    this._selectedIndex = Math.max(
+      0,
+      this._buffs.findIndex(buff => buff.type === normalized.selectedBuffType),
+    );
     void this._ensureCampfireTierTexture(this._campfireLevel);
+    this.scene.celestialActionBarSystem?.sync?.();
     return this.getSaveData();
   }
 
@@ -369,6 +580,7 @@ export class CampfireSystem {
 
     if (!manager?.enabled) {
       this._updateCampfireSprite();
+      this.scene.celestialActionBarSystem?.refreshEntryIcons?.();
       return Promise.resolve(
         this.scene.textures?.exists?.(this._getCampfireSpriteKey()) === true,
       );
@@ -394,6 +606,7 @@ export class CampfireSystem {
       const previousGroupId = this._campfireResidentGroupId;
       this._campfireResidentGroupId = groupId;
       this._updateCampfireSprite();
+      this.scene.celestialActionBarSystem?.refreshEntryIcons?.();
       if (previousGroupId && previousGroupId !== groupId) {
         manager.releaseGroup(previousGroupId, consumer);
       }
@@ -481,6 +694,7 @@ export class CampfireSystem {
 
   _openBuffSelection(options = {}) {
     if (this._isSelecting) return;
+    this.restoreEmberCharges(CAMPFIRE_CONSUMABLE_CONFIG.refill.sources.interaction);
     this._isSelecting = true;
     this._justOpenedFrame = true;
     if (!options.preserveSelection) this._selectedIndex = 0;
@@ -497,6 +711,7 @@ export class CampfireSystem {
     const shell = this.ui.createModalShell(this.scene, {
       title: "CAMPFIRE RITUAL",
       subtitle: "Tier " + this._campfireLevel + "  |  " + durationSeconds + " seconds  |  "
+        + CAMPFIRE_CONSUMABLE_CONFIG.copy.chargeLabel + " " + this._emberCharges + "  |  "
         + USER_SETTINGS.getKeyLabel(actions.previousBlessing) + "/" + USER_SETTINGS.getKeyLabel(actions.nextBlessing)
         + " select  |  " + USER_SETTINGS.getKeyLabel(actions.interact) + " activate",
       icon: "torch",
@@ -512,7 +727,7 @@ export class CampfireSystem {
     const rightX = rect.left + leftWidth + gap;
     const rightWidth = rect.width - leftWidth - gap;
     const selected = this._buffs[this._selectedIndex] || this._buffs[0];
-    const iconKeys = ["torch", "journal", "focus"];
+    const iconKeys = this._buffs.map(buff => buff.icon);
 
     const leftPanel = this.scene.add.rectangle(
       rect.left + leftWidth / 2,
@@ -579,11 +794,8 @@ export class CampfireSystem {
         fontStyle: "bold",
         color: isSelected ? UI_COLORS.title : UI_COLORS.body,
       });
-      const summary = index === 0
-        ? "+" + Math.round(values.miningSpeedBonus * 100) + "% mining speed"
-        : index === 1
-          ? "+" + Math.round(values.xpBonus * 100) + "% XP gain"
-          : "+" + Math.round(values.critBonus * 100) + "% critical chance";
+      const summary = "+" + Math.round(values[buff.stat] * 100) + "% "
+        + buff.statLabel.toLowerCase();
       const effect = this.scene.add.text(rect.left + 74, rowY + 42, summary, {
         fontFamily: UI_FONTS.mono,
         fontSize: "11px",
@@ -612,7 +824,8 @@ export class CampfireSystem {
       color: UI_COLORS.gold,
     });
     const detailBody = this.scene.add.text(rightX + 22, rect.top + 132,
-      "A focused campfire blessing. The effect starts immediately and remains visible in the HUD until it expires.", {
+      `${CAMPFIRE_CONSUMABLE_CONFIG.copy.consumeDetail} `
+        + describeCampfireRefill(this._emberRefillCapacity), {
         fontFamily: UI_FONTS.body,
         fontSize: "14px",
         color: UI_COLORS.body,
@@ -633,11 +846,7 @@ export class CampfireSystem {
     ).setStrokeStyle(1, UI_COLORS.borderDim);
     content.add(stat);
     const effectValue = this.scene.add.text(rightX + 34, statTop + 21,
-      selected.type === "warmth"
-        ? "+" + Math.round(values.miningSpeedBonus * 100) + "% MINING SPEED"
-        : selected.type === "inspiration"
-          ? "+" + Math.round(values.xpBonus * 100) + "% XP GAIN"
-          : "+" + Math.round(values.critBonus * 100) + "% CRITICAL CHANCE", {
+      "+" + Math.round(values[selected.stat] * 100) + "% " + selected.statLabel, {
         fontFamily: UI_FONTS.display,
         fontSize: "18px",
         fontStyle: "bold",
@@ -673,17 +882,19 @@ export class CampfireSystem {
       });
     }
 
-      this.ui.createButton(this.scene, {
+    this.ui.createButton(this.scene, {
       x: rightX + rightWidth / 2,
       y: rect.bottom - 34,
       width: rightWidth - 36,
       height: 48,
-      label: "ACTIVATE " + selected.name.toUpperCase(),
+      label: "IGNITE " + selected.name.toUpperCase() + "  -  1 EMBER CHARGE",
       hint: USER_SETTINGS.getKeyLabel("interact"),
       icon: iconKeys[this._selectedIndex],
       accent: UI_COLORS.borderSel,
       parent: content,
       fontSize: "13px",
+      enabled: this._emberCharges > 0,
+      disabledReason: CAMPFIRE_CONSUMABLE_CONFIG.copy.empty.toUpperCase(),
       onClick: () => this._confirmBuffSelection(this._selectedIndex),
     });
 
@@ -736,18 +947,25 @@ export class CampfireSystem {
     if (!buffDef) return;
 
     this._selectedIndex = index;
-    this.scene.soundSystem?.playUiConfirm?.();
-    this._applyBuff(buffDef);
-    this._closeBuffSelection();
+    const result = this.consumeSelectedBuff("campfire-menu");
+    if (result.ok) this._closeBuffSelection();
   }
 
   _applyBuff(buffDef) {
     const tier = this._getTierConfig();
+    const presentation = getCampfireBlessingPresentation(
+      buffDef.type,
+      this._campfireLevel,
+    );
 
     this._activeBuff = {
       type: buffDef.type,
       name: buffDef.name,
       color: buffDef.color,
+      icon: presentation.icon,
+      statLabel: presentation.statLabel,
+      bonusPercent: presentation.bonusPercent,
+      effectText: presentation.effectText,
       durationMs: tier.durationMs,
       remainingMs: tier.durationMs,
     };

@@ -1,4 +1,5 @@
 import { clamp01, lerp } from "../../values/mathUtils.js";
+import { WeatherRecordedAmbienceController } from "./WeatherRecordedAmbienceController.js";
 
 export class WeatherAudioController {
   constructor(scene, weatherConfig) {
@@ -6,15 +7,18 @@ export class WeatherAudioController {
     this.weatherConfig = weatherConfig;
     this._rainNoise = null;
     this._windNoise = null;
+    this.recordedAmbience = new WeatherRecordedAmbienceController(scene, weatherConfig);
+    this._recordedSnapshot = this.recordedAmbience.getSnapshot();
   }
 
   update(state) {
     const soundSystem = this.scene.soundSystem;
     const canPlay = soundSystem?.audioInitialized && soundSystem?.sfxEnabled && this.scene.sound?.context;
+    this._recordedSnapshot = this.recordedAmbience.update(state);
     if (!canPlay) {
       this._setRainNoiseVolume(0);
       this._setWindNoiseVolume(0);
-      return;
+      return this.getSnapshot();
     }
 
     const cfg = this.weatherConfig.audio;
@@ -23,7 +27,9 @@ export class WeatherAudioController {
         ? state.kind === "drizzle" || state.kind === "rain" || state.kind === "storm"
         : true
     );
-    const rainIntensity = isRainKind ? state.intensity : 0;
+    const rainIntensity = clamp01(
+      state.rainAmount ?? (isRainKind ? state.intensity : 0),
+    );
     const openRain = state.depth.surfaceAmount * state.occlusion.openSkyAmount;
     const roofRain = state.depth.surfaceAmount * state.occlusion.coveredAmount;
     const underground = state.depth.undergroundSignal;
@@ -42,17 +48,30 @@ export class WeatherAudioController {
       const openVolume = rainIntensity * openRain * cfg.rainVolume;
       const roofVolume = rainIntensity * roofRain * cfg.roofRainVolume;
       const caveVolume = underground * cfg.caveDripVolume;
-      this._setRainNoiseVolume((openVolume + roofVolume + caveVolume) * (soundSystem?.sfxVolume ?? 1));
+      const recordedFallback = this._recordedSnapshot.rainManaged
+        ? 1 - this._recordedSnapshot.rainCoverage
+        : 1;
+      this._setRainNoiseVolume(
+        (openVolume + roofVolume + caveVolume)
+        * recordedFallback
+        * (soundSystem?.sfxVolume ?? 1),
+      );
       this._setRainLowpass(lerp(cfg.coverLowpassHz, cfg.openLowpassHz, state.occlusion.openSkyAmount));
     }
 
     if (windAmount < 0.04) {
       this._setWindNoiseVolume(0);
-      return;
+      return this.getSnapshot();
     }
 
     this._ensureWindNoise();
-    this._setWindNoiseVolume(windAmount * cfg.windVolume * (soundSystem?.sfxVolume ?? 1));
+    const recordedFallback = this._recordedSnapshot.windManaged
+      ? 1 - this._recordedSnapshot.windCoverage
+      : 1;
+    this._setWindNoiseVolume(
+      windAmount * cfg.windVolume * recordedFallback * (soundSystem?.sfxVolume ?? 1),
+    );
+    return this.getSnapshot();
   }
 
   playThunder(depth, strength = 1) {
@@ -80,7 +99,14 @@ export class WeatherAudioController {
     lowpass.type = "lowpass";
     lowpass.frequency.value = lerp(cfg.thunderOpenLowpassHz, cfg.thunderCaveLowpassHz, depth.undergroundAmount);
     lowpass.Q.value = 1.2;
-    gain.gain.value = cfg.thunderVolume * (soundSystem.sfxVolume ?? 1) * muffle * clamp01(strength);
+    const recordedDuck = 1
+      - this._recordedSnapshot.stormCoverage
+        * this.recordedAmbience.config.proceduralThunderDuck;
+    gain.gain.value = cfg.thunderVolume
+      * (soundSystem.sfxVolume ?? 1)
+      * muffle
+      * clamp01(strength)
+      * recordedDuck;
 
     source.buffer = buffer;
     source.connect(lowpass);
@@ -99,8 +125,17 @@ export class WeatherAudioController {
   }
 
   destroy() {
+    this.recordedAmbience.destroy();
     this._stopRainNoise();
     this._stopWindNoise();
+  }
+
+  getSnapshot() {
+    return {
+      ...this._recordedSnapshot,
+      proceduralRainActive: Boolean(this._rainNoise),
+      proceduralWindActive: Boolean(this._windNoise),
+    };
   }
 
   _ensureRainNoise() {

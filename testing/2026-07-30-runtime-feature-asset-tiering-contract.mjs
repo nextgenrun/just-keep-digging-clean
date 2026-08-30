@@ -62,7 +62,7 @@ assert.equal(
   getRuntimeFeatureAssetGroup(RUNTIME_FEATURE_ASSET_GROUP_IDS.titanArchive).assets.length,
   TITAN_DISCOVERY_CONFIG.definitions.length,
 );
-assert.equal(getRuntimeFeatureAssetGroup(RUNTIME_FEATURE_ASSET_GROUP_IDS.worldMap).assets.length, 1);
+assert.equal(getRuntimeFeatureAssetGroup(RUNTIME_FEATURE_ASSET_GROUP_IDS.worldMap).assets.length, 2);
 assert.equal(getRuntimeFeatureAssetGroup(getCampfireFeatureAssetGroupId(4)).assets.length, 1);
 for (let rarity = 0; rarity < 6; rarity += 1) {
   const rarityGroup = getRuntimeFeatureAssetGroup(
@@ -72,10 +72,14 @@ for (let rarity = 0; rarity < 6; rarity += 1) {
     rarityGroup.assets.map(asset => asset.key),
     getStarIdentityRarityAssets(rarity).map(asset => asset.key),
   );
+  const releaseGroup = getRuntimeFeatureAssetGroup(
+    getStarReleaseFeatureAssetGroupId(rarity),
+  );
+  assert.equal(releaseGroup.assets.length, 3);
   assert.equal(
-    getRuntimeFeatureAssetGroup(getStarReleaseFeatureAssetGroupId(rarity))
-      .assets.length,
-    3,
+    releaseGroup.bypassPressureGate,
+    true,
+    "player-triggered Star releases must not time out behind memory pressure",
   );
 }
 const installedFrames = new Set();
@@ -173,17 +177,25 @@ function createManagerHarness(initialKeys = []) {
 }
 
 const managedHarness = createManagerHarness();
+const worldMapAssets = getRuntimeFeatureAssetGroup(
+  RUNTIME_FEATURE_ASSET_GROUP_IDS.worldMap,
+).assets;
 const worldMapPromise = managedHarness.manager.ensureGroup(
   RUNTIME_FEATURE_ASSET_GROUP_IDS.worldMap,
   { consumer: "test-map" },
 );
-assert.equal(managedHarness.requests.length, 1);
-managedHarness.textures.keys.add(managedHarness.requests[0].asset.key);
-managedHarness.requests[0].options.onReady();
+assert.equal(managedHarness.requests.length, worldMapAssets.length);
+for (const request of managedHarness.requests) {
+  managedHarness.textures.keys.add(request.asset.key);
+  request.options.onReady();
+}
 assert.equal((await worldMapPromise).ready, true);
 managedHarness.manager.releaseGroup(RUNTIME_FEATURE_ASSET_GROUP_IDS.worldMap, "test-map");
 managedHarness.timers.shift()();
-assert.deepEqual(managedHarness.textures.removed, [managedHarness.requests[0].asset.key]);
+assert.deepEqual(
+  managedHarness.textures.removed,
+  managedHarness.requests.map(request => request.asset.key),
+);
 managedHarness.manager.destroy();
 assert.equal(
   managedHarness.manager.isReady(RUNTIME_FEATURE_ASSET_GROUP_IDS.worldMap),
@@ -191,8 +203,7 @@ assert.equal(
   "destroyed managers must remain safe for late health-canary reads",
 );
 
-const worldMapKey = getRuntimeFeatureAssetGroup(RUNTIME_FEATURE_ASSET_GROUP_IDS.worldMap).assets[0].key;
-const externalHarness = createManagerHarness([worldMapKey]);
+const externalHarness = createManagerHarness(worldMapAssets.map(asset => asset.key));
 assert.equal((await externalHarness.manager.ensureGroup(
   RUNTIME_FEATURE_ASSET_GROUP_IDS.worldMap,
   { consumer: "external-map" },

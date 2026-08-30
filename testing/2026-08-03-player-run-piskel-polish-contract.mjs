@@ -10,6 +10,8 @@ import {
   PLAYER_ANIMATION_POLISH as polish,
 } from "../values/playerAnimationPolish.js";
 import { SURVIVAL_UAL_PLAYER_ASSET_PROFILE as profile } from "../values/survivalUalPlayerAssetProfile.js";
+import { SURVIVAL_MIXAMO_WALK_RUNTIME as mixamoWalk } from
+  "../values/survivalMixamoWalkRuntime.js";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const readJson = (path) => JSON.parse(readFileSync(resolve(root, path), "utf8"));
@@ -39,12 +41,14 @@ assert.equal(polish.version, "survival-player-animation-polish-v3-20260803");
 assert.equal(polish.sheets.run.frameCount, 28);
 assert.deepEqual(polish.sheets.run.frames, Array.from({ length: 28 }, (_, index) => index));
 assert.equal(profile.runPolishEnabled, true);
-assert.equal(profile.walkRunSheet, polish.sheets.run.sheetKey);
-assert.deepEqual(profile.walkRunFrames, polish.sheets.run.frames);
+assert.equal(profile.animationPolishRunSheet, polish.sheets.run.sheetKey);
+assert.deepEqual(profile.animationPolishRunFrames, polish.sheets.run.frames);
+assert.equal(profile.walkRunSheet, mixamoWalk.sheet.key);
+assert.deepEqual(profile.walkRunFrames, mixamoWalk.sheet.frames);
 assert.equal(profile.footstepRigAction, polish.runPolish.manifestAction);
 assert.deepEqual(
   profile.footstepFrameIndices[profile.walkRunAnim],
-  polish.runPolish.contactSequenceIndices,
+  mixamoWalk.footstepFrameIndices,
 );
 assert.equal(isPlayerAnimationFeatureEnabled(polish.runPolish, ""), true);
 assert.equal(isPlayerAnimationFeatureEnabled(polish.runPolish, "?animationPolish=0"), false);
@@ -106,8 +110,8 @@ createUalNativePlayerAnimations({
   textures: { exists: () => true },
 }, profile);
 const runAnimation = registered.get(profile.walkRunAnim);
-assert.equal(runAnimation.frames.length, 28);
-assert.equal(runAnimation.frames.every(({ key }) => key === polish.sheets.run.sheetKey), true);
+assert.equal(runAnimation.frames.length, mixamoWalk.sheet.frames.length);
+assert.equal(runAnimation.frames.every(({ key }) => key === mixamoWalk.sheet.key), true);
 
 const packageSource = readFileSync(
   resolve(root, "pipelines/piskel/player_animation_polish_package.py"),

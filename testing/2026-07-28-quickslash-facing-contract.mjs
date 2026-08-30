@@ -115,6 +115,7 @@ function makeMainWorldActionHarness(sourceFacesRight) {
       isFacingRight: () => true,
     },
     anims: {
+      exists: () => true,
       get: () => ({ frames: [{}], frameRate: 30 }),
     },
     digSystem: {

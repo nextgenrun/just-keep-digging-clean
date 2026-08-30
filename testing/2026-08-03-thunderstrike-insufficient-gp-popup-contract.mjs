@@ -1,7 +1,6 @@
 import assert from "node:assert/strict";
 
 import { ThunderStrikeTimingBarSystem } from "../systems/visual/ThunderStrikeTimingBarSystem.js";
-import { ThunderStrikeTimingBarView } from "../systems/visual/ThunderStrikeTimingBarView.js";
 import {
   THUNDER_STRIKE_CHAIN_CONFIG,
   THUNDER_STRIKE_CHAIN_PHASES,
@@ -107,21 +106,25 @@ function createRuntime(abilities) {
 }
 
 {
+  const statusCalls = [];
   const scene = {
-    playerController: {
-      abilities: {
-        getThunderStrikeCost: () => 300,
+    hudSystem: {
+      flashStatus(...args) {
+        statusCalls.push(args);
       },
     },
   };
   const timingBar = new ThunderStrikeTimingBarSystem(scene);
   const renders = [];
+  const visibility = [];
   timingBar.view = {
     root: {},
     render(...args) {
       renders.push(args);
     },
-    setVisible() {},
+    setVisible(value) {
+      visibility.push(value);
+    },
     destroy() {},
   };
   const snapshot = {
@@ -134,55 +137,36 @@ function createRuntime(abilities) {
 
   timingBar.showInsufficientGp(87.9, 300, 1000, snapshot);
 
-  assert.equal(timingBar.feedbackText, "NOT ENOUGH GP 87/300");
-  assert.equal(
-    timingBar.feedbackUntilMs,
-    1000 + THUNDER_STRIKE_CHAIN_CONFIG.feedback.insufficientGpLingerMs,
-  );
-  assert.equal(renders.length, 1);
-  assert.equal(
-    renders[0][1].feedbackColor,
+  assert.deepEqual(statusCalls, [[
+    "NOT ENOUGH GP 87/300",
     THUNDER_STRIKE_CHAIN_CONFIG.timingBar.dangerColor,
-  );
-  assert.equal(renders[0][1].feedbackSlamText, "CAST BLOCKED");
-  assert.equal(renders[0][1].feedbackBadgeText, "CHARGE REQUIRED");
+    THUNDER_STRIKE_CHAIN_CONFIG.feedback.insufficientGpLingerMs,
+  ]]);
+  assert.equal(renders.length, 0, "rejected casts must not open the timing UI");
+  assert.deepEqual(visibility, [false]);
 }
 
 {
-  const textSpy = () => ({
-    color: "",
-    text: "",
-    setColor(value) {
-      this.color = value;
-      return this;
-    },
-    setText(value) {
-      this.text = value;
-      return this;
-    },
+  const renders = [];
+  const visibility = [];
+  const timingBar = new ThunderStrikeTimingBarSystem({});
+  timingBar.view = {
+    root: {},
+    render(snapshot) { renders.push(snapshot); },
+    setVisible(value) { visibility.push(value); },
+    destroy() {},
+  };
+  timingBar.update({ phase: THUNDER_STRIKE_CHAIN_PHASES.CHARGE });
+  timingBar.update({ phase: THUNDER_STRIKE_CHAIN_PHASES.STRIKE });
+  timingBar.update({
+    phase: THUNDER_STRIKE_CHAIN_PHASES.TIMING,
+    challengeStageIndex: 1,
+    progress: 0.5,
+    windowStartProgress: 0.4,
+    windowEndProgress: 0.6,
   });
-  const view = Object.create(ThunderStrikeTimingBarView.prototype);
-  view.config = THUNDER_STRIKE_CHAIN_CONFIG;
-  view.slamLabel = textSpy();
-  view.prompt = textSpy();
-  view.badge = textSpy();
-  view._drawCopy(
-    {
-      phase: THUNDER_STRIKE_CHAIN_PHASES.IDLE,
-      currentStageIndex: 0,
-      completedStageIndex: -1,
-      challengeStageIndex: null,
-      successfulContinuations: 0,
-    },
-    false,
-    "NOT ENOUGH GP 87/300",
-    THUNDER_STRIKE_CHAIN_CONFIG.timingBar.dangerColor,
-    "CAST BLOCKED",
-    "CHARGE REQUIRED",
-  );
-  assert.equal(view.slamLabel.text, "CAST BLOCKED");
-  assert.equal(view.prompt.text, "NOT ENOUGH GP 87/300");
-  assert.equal(view.badge.text, "CHARGE REQUIRED");
+  assert.deepEqual(visibility, [false, false]);
+  assert.equal(renders.length, 1, "only the live timing phase may show the bar");
 }
 
-console.log("Thunder Strike insufficient-GP popup contract: OK");
+console.log("Thunder Strike minimal timing feedback contract: OK");

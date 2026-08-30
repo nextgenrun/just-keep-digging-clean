@@ -4,8 +4,10 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
+import { GAME_CONFIG } from "../values/gameConfig.js";
 import { getStarIdentity } from "../values/starIdentityLibraryMath.js";
 import { STAR_IDENTITY_LIBRARY_CONFIG } from "../values/starIdentityLibrary.js";
+import { TILE_TYPES } from "../values/tileTypes.js";
 import {
   getWorldVisualSemanticPreloadAssets,
   resolveWorldVisualSemanticStarIdleEnabled,
@@ -14,6 +16,7 @@ import {
 import {
   WorldVisualSemanticAssetLayer,
 } from "../world/rendering/scenic-world/WorldVisualSemanticAssetLayer.js";
+import { WorldModel } from "../world/model/WorldModel.js";
 
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -126,6 +129,14 @@ function makeImage(key) {
   return image;
 }
 
+const imageGeometry = image => [image.x, image.y, image.width, image.height];
+const imagePresentation = image => [
+  ...imageGeometry(image), image.rotation, image.alpha,
+];
+const identityGeometry = star => [
+  ...imageGeometry(star.beauty), ...imageGeometry(star.emissive),
+];
+
 const identity = getStarIdentity(17);
 const scene = {
   config: { tileSize: 94, topAirRows: 0 },
@@ -154,30 +165,116 @@ assert.equal(idle.key, motion.atlas.key);
 assert.equal(idle.blendMode, motion.blendMode);
 assert.equal(Object.hasOwn(idle, "tint"), false);
 const initialFrame = idle.frame;
-const fixedPresentation = images.map(image => ({
-  x: image.x,
-  y: image.y,
-  width: image.width,
-  height: image.height,
-  rotation: image.rotation,
-  alpha: image.alpha,
-}));
+const fixedGeometry = images.map(imageGeometry);
+const initialIdentityMotion = {
+  beautyAlpha: beauty.alpha,
+  emissiveAlpha: emissive.alpha,
+  rotation: beauty.rotation,
+};
+const fixedIdlePresentation = { rotation: idle.rotation, alpha: idle.alpha };
 layer.update(730);
 assert.notEqual(idle.frame, initialFrame);
-assert.deepEqual(images.map(image => ({
-  x: image.x,
-  y: image.y,
-  width: image.width,
-  height: image.height,
-  rotation: image.rotation,
-  alpha: image.alpha,
-})), fixedPresentation, "frame content may move; Star transforms and alpha may not");
+assert.deepEqual(
+  images.map(imageGeometry),
+  fixedGeometry,
+  "all Star layers must remain anchored at their authored size",
+);
+assert.notEqual(beauty.alpha, initialIdentityMotion.beautyAlpha);
+assert.notEqual(emissive.alpha, initialIdentityMotion.emissiveAlpha);
+assert.notEqual(beauty.rotation, initialIdentityMotion.rotation);
+assert.equal(beauty.rotation, emissive.rotation);
+assert.deepEqual(
+  { rotation: idle.rotation, alpha: idle.alpha },
+  fixedIdlePresentation,
+  "the video-derived overlay must retain fixed transform and alpha",
+);
 layer.setEmissiveDepth(901);
 assert.equal(emissive.depth, 901);
 assert.equal(idle.depth, 901);
 layer.destroy();
 assert.ok(images.every(image => image.destroyed));
 assert.equal(layer.starIdlePool.length, 0);
+
+images.length = 0;
+const originalLog = console.log;
+const originalInfo = console.info;
+let fullWorld;
+try {
+  console.log = () => {};
+  console.info = () => {};
+  fullWorld = new WorldModel(GAME_CONFIG);
+} finally {
+  console.log = originalLog;
+  console.info = originalInfo;
+}
+const fullScene = {
+  ...scene,
+  config: {
+    tileSize: fullWorld.tileSize,
+    topAirRows: fullWorld.topAirRows,
+  },
+};
+const fullLayer = new WorldVisualSemanticAssetLayer(
+  fullScene,
+  fullWorld,
+  { id: "solid-mask" },
+  WORLD_VISUAL_SEMANTIC_ASSETS,
+);
+fullLayer.starIdleEnabled = true;
+fullLayer.identityFramesReady = true;
+fullLayer.townFloorOcclusion = null;
+const activeIdentityIndexes = new Set();
+let fullWorldStarCount = 0;
+for (let ty = 0; ty < fullWorld.depthTiles; ty += 1) {
+  for (let tx = 0; tx < fullWorld.widthTiles; tx += 1) {
+    if (fullWorld.getTileType(tx, ty) !== TILE_TYPES.SKY_TILE) continue;
+    assert.equal(
+      fullLayer._showStar(
+        fullWorldStarCount,
+        tx,
+        ty,
+        fullWorld.tileSize,
+        { terrainTint: 0xffffff },
+      ),
+      true,
+    );
+    activeIdentityIndexes.add(fullWorld.getSkyTileIdentity(tx, ty));
+    fullWorldStarCount += 1;
+  }
+}
+assert.equal(fullLayer.activeStars.length, fullWorldStarCount);
+assert.equal(fullLayer.starIdlePool.length, fullWorldStarCount);
+assert.equal(activeIdentityIndexes.size, STAR_IDENTITY_LIBRARY_CONFIG.identities.length);
+const fullInitialFrames = fullLayer.starIdlePool.map(image => image.frame);
+const fullFixedOverlayPresentation = fullLayer.starIdlePool.map(imagePresentation);
+const fullInitialIdentityMotion = fullLayer.activeStars.map(star => ({
+  beautyAlpha: star.beauty.alpha,
+  emissiveAlpha: star.emissive.alpha,
+  rotation: star.beauty.rotation,
+}));
+const fullFixedIdentityGeometry = fullLayer.activeStars.map(identityGeometry);
+fullLayer.update(800);
+assert.ok(fullLayer.starIdlePool.every(
+  (image, index) => image.frame !== fullInitialFrames[index],
+));
+assert.ok(fullLayer.activeStars.every((star, index) => (
+  star.beauty.alpha !== fullInitialIdentityMotion[index].beautyAlpha
+    && star.emissive.alpha !== fullInitialIdentityMotion[index].emissiveAlpha
+    && star.beauty.rotation !== fullInitialIdentityMotion[index].rotation
+    && star.beauty.rotation === star.emissive.rotation
+    && Math.abs(star.beauty.rotation)
+      <= star.identity.light.rotationAmplitudeRadians
+)));
+assert.deepEqual(
+  fullLayer.activeStars.map(identityGeometry),
+  fullFixedIdentityGeometry,
+);
+assert.deepEqual(
+  fullLayer.starIdlePool.map(imagePresentation),
+  fullFixedOverlayPresentation,
+);
+fullLayer.destroy();
+assert.ok(images.every(image => image.destroyed));
 
 const presenterSource = read(
   "world/rendering/scenic-world/WorldVisualSemanticStarPresenter.js",
@@ -189,9 +286,15 @@ assert.doesNotMatch(presenterSource, /star\.idle[\s\S]{0,180}setTint/);
 const updateSource = presenterSource.slice(
   presenterSource.indexOf("export function updateWorldVisualSemanticStars"),
 );
-assert.doesNotMatch(updateSource, /setPosition|setDisplaySize|setRotation|setAlpha/);
+assert.match(updateSource, /light\?\.pulsePeriodMs/);
+assert.match(updateSource, /star\.beauty\.setAlpha/);
+assert.match(updateSource, /star\.emissive\.setAlpha/);
+assert.match(updateSource, /star\.beauty\.setRotation/);
+assert.match(updateSource, /star\.emissive\.setRotation/);
+assert.doesNotMatch(updateSource, /setPosition|setDisplaySize/);
 
 console.log(
-  "Star Block idle animation contract passed: 72 OpenRouter-derived frames, "
-  + "three anchored energy loops, exact identity cores, fixed transforms, and rollback",
+  `Star Block idle animation contract passed: all ${fullWorldStarCount} current Stars, `
+  + "250 ImageGen pulse/rotation signatures, 72 OpenRouter-derived frames, "
+  + "three anchored energy loops, and rollback",
 );

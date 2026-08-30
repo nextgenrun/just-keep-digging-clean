@@ -72,7 +72,7 @@ UI module — overlays.
   placement, dynamic text, invisible hit targets, and bounded tweens; it does
   not draw visible tree chrome.
 - `StarHeartOverlay.js` — the tall three-choice Star Heart modal with ambient constellation motion, keyboard/mouse selection, owned/equipped/available states, and a timed two-step permanent unlock. Three Hearts let a late-game save own all three Engines while only one remains equipped.
-- `StarHeartEngineCard.js` — image-backed Wayward Star, Hollow Sun, and Comet Engine cards with fixed-screen hit areas plus hover, focus, press, and selection tweens.
+- `StarHeartEngineCard.js` — image-backed Wayward Star, Hollow Sun, and Stellar Lance cards with fixed-screen hit areas plus hover, focus, press, and selection tweens. Stellar Lance reuses the approved former comet core as its aura and projectile; the old tunnel and Rage multiplier are absent.
 - `ShopOverlay.js` — shared merchant modal. The Molten Money Monster opens on the Arc Forge tab, renders the two canonical crafting recipes, and retains its Sell tab with a timed repeat-confirmation before any uncrafted-core ingredient is sold.
   List rows use hover as a temporary preview until the player clicks one. A
   clicked resource, schematic, or gear/upgrade row remains pinned while the
@@ -90,7 +90,9 @@ UI module — overlays.
   through the live Hardcore bridge; there is no one-click conversion.
 - `HardcoreModalOverlay.js` — the approved ImageGen-framed typed confirmation
   surface shared by Bobo conversion, Unstuck, and the 100m/300m/1000m depth
-  gates. Bobo and Unstuck retain `TYPE YES`; the depth gates require the
+  gates. The first attempted Star Refuge sacrifice also uses this surface and
+  requires `DESTROY`; accepting only teaches the rule and never damages the
+  Star. Bobo and Unstuck retain `TYPE YES`; the depth gates require the
   gate-specific phrases `100M`, `300M`, and `RISK`. Its
   `HardcoreDeathRecapView.js` death state uses
   generated action plates for `TRY AGAIN` and `BACK TO MENU`, paginates the full
@@ -135,3 +137,8 @@ UI module — overlays.
   only real state on authored sockets. The selected object may own one
   restrained ambient loop; arrows use bounded horizontal hover travel and no
   object follows the pointer.
+
+`ShopOverlay` may request a player-character reaction only after a successful
+upgrade spends at least 20% of the pre-purchase wallet. The event busy-drops,
+has a 90-second cooldown, and remains separate from the merchant shop-open roll,
+which is 35% with its own cooldown.

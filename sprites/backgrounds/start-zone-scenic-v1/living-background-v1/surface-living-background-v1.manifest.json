@@ -1,0 +1,55 @@
+{
+  "schemaVersion": "surface-living-background-runtime-v1",
+  "generatedAt": "2026-08-26T13:17:10.679686+00:00",
+  "sourceManifest": "testing/animation-sandbox/2026-08-26-surface-background-loops-v2/loops-v3/loop-manifest.json",
+  "playback": "forward-only seamless cycle",
+  "staticFallback": "sprites/backgrounds/start-zone-scenic-v1/npc-town-scenic-composite-v2.webp",
+  "groundIncluded": false,
+  "results": [
+    {
+      "id": "01-mini-soft-canopy-cycle",
+      "source": "testing/animation-sandbox/2026-08-26-surface-background-loops-v2/loops-v3/01-mini-soft-canopy-cycle-18s-seamless.mp4",
+      "sourceSha256": "7fb5efef3634e2c19ca0408a4206818f612ef2775500506bfefe98041e7cabce",
+      "output": "sprites/backgrounds/start-zone-scenic-v1/living-background-v1/surface-soft-canopy-v1.mp4",
+      "outputSha256": "594c77cc92238e1f7e6b47a5ba325509da2090ef02e5faf282183b4608dbb068",
+      "bytes": 6525182,
+      "groundIncluded": false,
+      "audioIncluded": false,
+      "width": 1800,
+      "height": 534,
+      "fps": 24,
+      "frames": 432,
+      "durationSeconds": 18.0
+    },
+    {
+      "id": "02-mini-town-air-cycle",
+      "source": "testing/animation-sandbox/2026-08-26-surface-background-loops-v2/loops-v3/02-mini-town-air-cycle-18s-seamless.mp4",
+      "sourceSha256": "a76e8918f8b7976f1b511bb2e2fe2a587d58b4519949cd1386cdff123416b569",
+      "output": "sprites/backgrounds/start-zone-scenic-v1/living-background-v1/surface-town-air-v1.mp4",
+      "outputSha256": "1650f7a88e2445ef9ab1be954680e4a8d5ffb51b2ccd8e7def5bec19726132d6",
+      "bytes": 6700516,
+      "groundIncluded": false,
+      "audioIncluded": false,
+      "width": 1800,
+      "height": 534,
+      "fps": 24,
+      "frames": 432,
+      "durationSeconds": 18.0
+    },
+    {
+      "id": "03-mini-layered-night-cycle",
+      "source": "testing/animation-sandbox/2026-08-26-surface-background-loops-v2/loops-v3/03-mini-layered-night-cycle-18s-seamless.mp4",
+      "sourceSha256": "2e91e4f4c67d66f666ad1975c492e287147e80503cdd5620940e4ed65d52a448",
+      "output": "sprites/backgrounds/start-zone-scenic-v1/living-background-v1/surface-layered-night-v1.mp4",
+      "outputSha256": "2e31f0b54786369041389ef98b1278e5660498cdd83ad00681cedaa0d995fdff",
+      "bytes": 6133429,
+      "groundIncluded": false,
+      "audioIncluded": false,
+      "width": 1800,
+      "height": 534,
+      "fps": 24,
+      "frames": 432,
+      "durationSeconds": 18.0
+    }
+  ]
+}

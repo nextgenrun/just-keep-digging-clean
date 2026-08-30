@@ -23,6 +23,9 @@ export const PLAYER_TRAVERSAL_CONFIG = Object.freeze({
       velocityDirectionThresholdTilesPerSecond: 0.12,
       wallGapTiles: 0.015,
     }),
+    catch: Object.freeze({
+      durationMs: 200,
+    }),
     hang: Object.freeze({
       minimumDurationMs: 110,
       dropVelocityTilesPerSecond: 1.6,

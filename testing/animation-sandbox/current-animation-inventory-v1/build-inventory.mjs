@@ -9,10 +9,12 @@ const toUrl = (relativePath) => `${pathToFileURL(path.join(repoRoot, relativePat
 const profilesModule = await import(toUrl("values/playerAssetProfiles.js"));
 const charactersModule = await import(toUrl("values/playerCharacters.js"));
 const assetKeysModule = await import(toUrl("values/assetKeys.js"));
+const animationModule = await import(toUrl("player/UalNativePlayerAnimations.js"));
 
 const { PLAYER_ASSET_PROFILES } = profilesModule;
 const { DEFAULT_PLAYER_CHARACTER_ID } = charactersModule;
 const { ASSET_KEYS } = assetKeysModule;
+const { createUalNativePlayerAnimations } = animationModule;
 
 const REGISTRATIONS = [
   ["idle", "idleAnimationFps", -1], ["walkStart", "walkAnimationFps", 0],
@@ -66,8 +68,12 @@ function profileSheetPaths(profile) {
 function addEntry(entries, seen, profile, profileLabel, status, spec, sheetPaths) {
   if (!spec.key || seen.has(spec.key)) return;
   seen.add(spec.key);
-  const frameWidth = Number(spec.frameWidth || profile.frameWidth || (profile.characterId === "robot" ? 341 : 256));
-  const frameHeight = Number(spec.frameHeight || profile.frameHeight || (profile.characterId === "robot" ? 341 : 256));
+  const sheetFrameSize = Number(profile.frameSizePxBySheet?.[spec.sheet]);
+  const frameWidth = Number(spec.frameWidth || sheetFrameSize || profile.frameWidth || (profile.characterId === "robot" ? 341 : 256));
+  const frameHeight = Number(spec.frameHeight || sheetFrameSize || profile.frameHeight || (profile.characterId === "robot" ? 341 : 256));
+  const origin = profile.visualOriginByAnimation?.[spec.key]
+    || profile.visualOriginBySheet?.[spec.sheet]
+    || { x: profile.visualOriginX, y: profile.visualOriginY };
   entries.push({
     key: spec.key,
     profile: profileLabel,
@@ -81,9 +87,43 @@ function addEntry(entries, seen, profile, profileLabel, status, spec, sheetPaths
     repeat: spec.repeat ?? 0,
     sheet: spec.sheet || "",
     assetPath: sheetPaths.get(spec.sheet) || "",
+    displaySizePx: Number(profile.displaySizePxByAnimation?.[spec.key] || profile.displaySizePx || frameHeight),
+    originX: Number.isFinite(origin?.x) ? origin.x : 0.5,
+    originY: Number.isFinite(origin?.y) ? origin.y : 1,
     sourceClip: spec.sourceClip || "",
     sourceFile: spec.sourceFile || "player/UalNativePlayerAnimations.js",
   });
+}
+
+function collectRegisteredProfileAnimations(profile, profileLabel, status) {
+  const entries = [];
+  const seen = new Set();
+  const sheetPaths = profileSheetPaths(profile);
+  const registered = [];
+  const registeredKeys = new Set();
+  const availableSheets = new Set(profile.requiredSheets || []);
+  const scene = {
+    anims: {
+      exists: (key) => registeredKeys.has(key),
+      create: (definition) => {
+        registeredKeys.add(definition.key);
+        registered.push(definition);
+      },
+    },
+    textures: {
+      exists: (key) => availableSheets.has(key),
+      get: () => ({ setFilter: () => {} }),
+    },
+  };
+  createUalNativePlayerAnimations(scene, profile);
+  registered.forEach((definition) => addEntry(entries, seen, profile, profileLabel, status, {
+    key: definition.key,
+    sheet: definition.frames[0]?.key,
+    frames: definition.frames.map((frame) => frame.frame),
+    frameRate: definition.frameRate,
+    repeat: definition.repeat,
+  }, sheetPaths));
+  return entries;
 }
 
 function collectProfileAnimations(profile, profileLabel, status) {
@@ -144,8 +184,12 @@ function collectProfileAnimations(profile, profileLabel, status) {
 
 const profileLabels = { survivalUal: "Survival / UAL (default)", ualNative: "UAL Native", robot: "Robot", drillHead: "Living Drill" };
 const runtimeAnimations = Object.entries(PLAYER_ASSET_PROFILES).flatMap(([id, profile]) => (
-  collectProfileAnimations(profile, profileLabels[id] || id, id === DEFAULT_PLAYER_CHARACTER_ID ? "current-default" : "alternate-profile")
+  id === "survivalUal"
+    ? collectRegisteredProfileAnimations(profile, profileLabels[id] || id, "current-default")
+    : collectProfileAnimations(profile, profileLabels[id] || id, "alternate-profile")
 ));
+
+const defaultProfile = PLAYER_ASSET_PROFILES[DEFAULT_PLAYER_CHARACTER_ID];
 
 const globalAnimations = [
   {
@@ -168,7 +212,7 @@ const globalAnimations = [
   },
 ].filter((entry) => entry.key);
 
-const SKIP_DIRS = new Set([".git", "node_modules", "Saved", "Intermediate", "DerivedDataCache", "Binaries", "_ssh-git", ".cache"]);
+const SKIP_DIRS = new Set([".git", ".canary-dist", "node_modules", "Saved", "Intermediate", "DerivedDataCache", "Binaries", "_ssh-git", ".cache"]);
 const MEDIA_EXTS = new Set([".png", ".webp", ".gif", ".jpg", ".jpeg", ".fbx", ".glb", ".gltf", ".blend", ".piskel", ".aseprite"]);
 const ANIM_HINT = /(animation|anim|character|player|npc|merchant|monster|robot|miner|survival|idle|walk|run|jump|fall|dig|fly|climb|attack|punch|kick|strike|death|duck|crouch|wall|teleport|landing|hover|roll|hit|combat|motion|pose|rig)/i;
 
@@ -238,6 +282,25 @@ const inventory = {
   generatedAt: new Date().toISOString(),
   defaultCharacterId: DEFAULT_PLAYER_CHARACTER_ID,
   defaultProfileLabel: profileLabels[DEFAULT_PLAYER_CHARACTER_ID],
+  transitionRoutes: Object.entries(defaultProfile.actionRecoveryAnimationByCompletedAnimation || {}),
+  defaultAnimationKeys: {
+    idle: defaultProfile.idleAnim,
+    walkStart: defaultProfile.walkStartAnim,
+    walkLoop: defaultProfile.walkLoopAnim,
+    walkStop: defaultProfile.walkStopAnim,
+    airborne: defaultProfile.airborneAnim,
+    falling: defaultProfile.fallingAnim,
+    landing: defaultProfile.landingAnim,
+    flightEnter: defaultProfile.flightEnterAnim,
+    flightTravelEnter: defaultProfile.flightTravelEnterAnim,
+    flightTravelLoop: defaultProfile.flightTravelLoopAnim,
+    flightHover: defaultProfile.flightHoverAnim,
+    flightExit: defaultProfile.flightExitAnim,
+    crouchEnter: defaultProfile.crouchEnterAnim,
+    crouch: defaultProfile.duckAnim,
+    crouchExit: defaultProfile.crouchExitAnim,
+    death: defaultProfile.deathAnim,
+  },
   runtimeAnimations: allRuntime,
   projectAssetSets,
   sourceSites,

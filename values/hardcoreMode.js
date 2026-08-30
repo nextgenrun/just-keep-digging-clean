@@ -151,6 +151,13 @@ export const HARDCORE_MODE_CONFIG = Object.freeze({
     stressResistancePerPlayerLevel: 0.05,
     stressResistanceMaximum: 0.4,
     litRecoveryPerSecond: 7.2,
+    // Torch power is a continuous sanity shield: dim flames still expose the
+    // player to darkness, while overdrive trades immense GP drain for recovery.
+    torchIntensityFallback: 1,
+    torchDarknessExposureExponent: 0.8,
+    torchRecoveryExponent: 1.15,
+    torchOverdriveRecoveryMaximumMultiplier: 5,
+    torchOverdriveRecoveryExponent: 1.35,
     // Match panic relief to the authored ~1.55-tile visible Star halo.
     // Five tiles created an oversized safe zone that trivialised nearby danger.
     intactStarLightRadiusTiles: 1.5,
@@ -172,7 +179,7 @@ export const HARDCORE_MODE_CONFIG = Object.freeze({
     lowGpImmediateThreshold: 1,
   }),
   upkeepProtection: Object.freeze({
-    floorGp: 1, sources: Object.freeze(["flight", "torch", "debrisShield"]),
+    floorGp: 1, sources: Object.freeze(["flight", "torch"]),
   }),
   runStats: Object.freeze({
     maximumActivePlayMs: 315360000000,

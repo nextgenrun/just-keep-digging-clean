@@ -36,7 +36,9 @@ export const GAME_CONFIG = Object.freeze({
     // capture surface; preserving the drawing buffer keeps that readback
     // visible after the browser presents a frame.
     preserveDrawingBuffer: DEBUG_MODE,
-    defaultDensityPreset: "ultra",
+    // High keeps a sharp 1920x1080 backing canvas while avoiding Ultra's
+    // additional 44% pixel-fill cost. Ultra remains an explicit query opt-in.
+    defaultDensityPreset: "high",
     densityPresets: Object.freeze({
       legacy: 1,
       balanced: 1,

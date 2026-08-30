@@ -72,6 +72,13 @@ function uniformValues(source, value) {
   ));
 }
 
+function calibratedAnimationSizes(profile) {
+  return Object.freeze({
+    ...uniformValues(profile.displaySizePxByAnimation, DISPLAY_SIZE_PX),
+    ...(profile.displaySizePxByAnimation || {}),
+  });
+}
+
 export function applySurvivalUnifiedAnimationRuntimeV1(profile, enabled = true) {
   if (!enabled) return profile;
 
@@ -80,9 +87,10 @@ export function applySurvivalUnifiedAnimationRuntimeV1(profile, enabled = true) 
   const frameSizePxBySheet = Object.freeze(Object.fromEntries(
     profile.requiredSheets.map((sheetKey) => [
       sheetKey,
-      sheetKey === profile.movingComplexDigSheet
-        ? MOVING_COMPLEX_FRAME_SIZE_PX
-        : FRAME_SIZE_PX,
+      profile.frameSizePxBySheet?.[sheetKey]
+        || (sheetKey === profile.movingComplexDigSheet
+          ? MOVING_COMPLEX_FRAME_SIZE_PX
+          : FRAME_SIZE_PX),
     ]),
   ));
   const visualOriginBySheet = Object.freeze(Object.fromEntries(
@@ -116,12 +124,12 @@ export function applySurvivalUnifiedAnimationRuntimeV1(profile, enabled = true) 
     renderPipeline: "survival-unified-animation-runtime-v1",
     version: VERSION,
     basePath: RUNTIME_ROOT,
-    coreAnimationPolicy: "One Survival V4 mesh, rig, material, light, camera, scale and grounded-origin contract across every runtime animation; gameplay keys and contacts are preserved",
+    coreAnimationPolicy: "One Survival V4 mesh, rig, material, light and camera contract; one fixed scale per animation family keeps visible stature continuous without per-frame pulsing",
     frameWidth: FRAME_SIZE_PX,
     frameHeight: FRAME_SIZE_PX,
     frameSizePxBySheet,
     displaySizePx: DISPLAY_SIZE_PX,
-    displaySizePxByAnimation: uniformValues(profile.displaySizePxByAnimation, DISPLAY_SIZE_PX),
+    displaySizePxByAnimation: calibratedAnimationSizes(profile),
     visualOriginX: GROUNDED_ORIGIN.x,
     visualOriginY: GROUNDED_ORIGIN.y,
     visualOriginBySheet,

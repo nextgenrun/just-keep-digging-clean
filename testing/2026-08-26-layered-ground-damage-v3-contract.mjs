@@ -92,11 +92,11 @@ function makeScene(assets) {
 }
 
 const imagegen = WORLD_VISUAL_DAMAGE.imagegen;
-const { expanded, layered, polished, legacy } = imagegen.atlases;
+const { dynamic, layered, polished, legacy } = imagegen.atlases;
 const response = imagegen.layered.response;
-assert.equal(imagegen.defaultAtlas, "expanded");
-assert.equal(imagegen.atlas, expanded);
-assert.equal(resolveWorldVisualDamageAtlas(undefined, ""), expanded);
+assert.equal(imagegen.defaultAtlas, "polished");
+assert.equal(imagegen.atlas, polished);
+assert.equal(resolveWorldVisualDamageAtlas(undefined, ""), polished);
 for (const value of imagegen.layeredAtlasValues) {
   assert.equal(resolveWorldVisualDamageAtlas(undefined, `?groundDamageAtlas=${value}`), layered);
 }

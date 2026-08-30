@@ -89,10 +89,18 @@ assert.equal(
   STAR_IDENTITY_LIBRARY_CONFIG.visual.worldLightAlphaScale,
 );
 
+const initialBeautyAlpha = beauty.alpha;
+const initialEmissiveAlpha = emissive.alpha;
+const initialRotation = beauty.rotation;
 layer.update(12345);
 assert.ok(emissive.alpha > 0);
 assert.ok(Number.isFinite(emissive.alpha));
+assert.notEqual(beauty.alpha, initialBeautyAlpha);
+assert.notEqual(emissive.alpha, initialEmissiveAlpha);
+assert.notEqual(beauty.rotation, initialRotation);
+assert.equal(beauty.rotation, emissive.rotation);
+assert.ok(Math.abs(beauty.rotation) <= identity.light.rotationAmplitudeRadians);
 console.log(
   "star identity semantic layer smoke: PASS "
-  + "(crisp beauty + larger dedicated emissive frame)",
+  + "(crisp ImageGen beauty + dedicated light + per-identity motion)",
 );

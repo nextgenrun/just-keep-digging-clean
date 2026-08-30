@@ -3,14 +3,17 @@ import {
   getWorldVisualPreloadAssets,
   resolveWorldVisualSurfaceEdgeEnabled,
   resolveWorldVisualSurfaceGroundVariationEnabled,
-} from "../../../values/worldVisualRuntime.js?rev=20260729-native-density-v14";
+} from "../../../values/worldVisualRuntime.js?rev=20260826-surface-motion-v2";
 import {
   WORLD_VISUAL_DEPTH_BACKDROPS,
   resolveWorldVisualDepthBackdropBlendMask,
 } from "../../../values/worldVisualDepthBackdrops.js?rev=20260729-native-density-v14";
-import { resolveWorldVisualSurfacePack } from "../../../values/worldVisualSurfacePacks.js?rev=20260730-surface-transition-v1";
+import {
+  resolveWorldVisualSurfaceMotion,
+  resolveWorldVisualSurfacePack,
+} from "../../../values/worldVisualSurfacePacks.js?rev=20260826-surface-motion-v2";
 import { V11_SKY_ISLAND_LAYOUT } from "../../../values/v11SkyIslandLayout.js";
-import { WorldVisualSurfacePackView } from "./WorldVisualSurfacePackView.js?rev=20260729-native-density-v14";
+import { WorldVisualSurfacePackView } from "./WorldVisualSurfacePackView.js?rev=20260826-surface-motion-v2";
 import {
   createWorldVisualBlendMask,
   resolveWorldVisualBlendBits,
@@ -39,6 +42,7 @@ export class WorldVisualSurfaceStage {
   create() {
     const required = getWorldVisualPreloadAssets(this.config);
     for (const asset of required) {
+      if (asset.type === "video") continue;
       if (!this.scene.textures.exists(asset.key)) {
         throw new Error(`[WorldVisualSurfaceStage] Required texture was not preloaded: ${asset.key}`);
       }
@@ -46,7 +50,8 @@ export class WorldVisualSurfaceStage {
     this._createFarSegments();
     const pack = resolveWorldVisualSurfacePack(this.config.surfacePacks);
     if (pack) {
-      this.surfacePack = new WorldVisualSurfacePackView(this.scene, pack);
+      const motion = resolveWorldVisualSurfaceMotion(pack);
+      this.surfacePack = new WorldVisualSurfacePackView(this.scene, pack, motion);
       this.surfacePack.create();
     } else {
       this._createTown();

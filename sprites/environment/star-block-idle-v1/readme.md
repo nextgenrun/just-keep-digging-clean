@@ -11,10 +11,11 @@ recoloring or replacing either one.
 - Three 24-frame loops at 6 fps: facet current, inner fire, and elemental corona.
 - 128 px cells in twelve columns; decoded cost is 4.5 MiB.
 - Every Star selects one loop deterministically and offsets its frame phase by
-  world position. Core, light, and overlay remain at a fixed position, fixed
-  size, fixed rotation, and fixed alpha; only authored frame content advances.
-- Phaser may place and additively composite the authored atlas, then frame-step
-  it. Runtime tinting, transform animation, whole-object pulsing, and procedural
+  world position. The overlay remains at fixed position, size, rotation, and
+  alpha while only its authored frame content advances. The underlying ImageGen
+  core/light pair keeps its existing bounded per-identity pulse and rotation.
+- Phaser may apply that authored identity motion, additively composite this
+  atlas, and frame-step it. Runtime tinting, position/size drift, and procedural
   replacement art are forbidden.
 
 ## Source and cost
@@ -45,10 +46,11 @@ contact sheet are review outputs, not runtime textures.
 
 `values/worldVisualSemanticAssets.js` owns atlas geometry, cadence, fixed
 opacity/scale, and the `starIdle` switch. `WorldVisualSemanticStarPresenter.js`
-layers the motion over every exact identity frame but updates only its atlas
-frame. The same fixed-anchor loops are wired into Star Codex selectors and the
-dossier preview. Reveal radius, rarity, HP, rewards, mining, release FX,
-darkness persistence, and saves are unchanged.
+layers the motion over every exact identity frame, restores each ImageGen
+core/light motion signature, and updates the overlay atlas frame independently.
+The same fixed-anchor loops are wired into Star Codex selectors and the dossier
+preview. Reveal radius, rarity, HP, rewards, mining, release FX, darkness
+persistence, and saves are unchanged.
 
 Use `?starIdle=0` or `?starIdle=legacy` to omit this atlas from both world and
 Star Codex UI.

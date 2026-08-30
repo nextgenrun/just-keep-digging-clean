@@ -1,6 +1,6 @@
 # Current Animation Inventory v1
 
-Read-only inventory sandbox for the active Dig Game animation registry and every animation-related asset set found in the checkout.
+Read-only inventory sandbox for the active Dig Game animation registry and every animation-related asset set found in the checkout. The 2026-08-30 rebuild exposes 212 animations in the current Survival/UAL default and 283 runtime keys across all registered profiles.
 
 The generated `inventory-data.js` separates the promoted Survival/UAL default, alternate runtime profiles, globally registered NPC animations, production animation assets, testing/review material, and archived experiments. It does not change runtime configuration or promote any asset.
 
@@ -13,8 +13,17 @@ The ground-strike body-follow panel retains five Blender drafts as synchronized 
 Rebuild from the project root:
 
 ```powershell
-node testing/animation-sandbox/current-animation-inventory-v1/build-inventory.mjs
+node testing/animation-sandbox/current-animation-inventory-v1/2026-08-30-build-current-runtime-inventory.mjs
 ```
+
+The full audit verifies all 54 packed player sheets and 3,082 source frames, then measures every current animation and registered recovery route. The transition pass separately models the actual continuous-flight, held-torch, ledge, landing-cancel, and action-recovery wiring:
+
+```powershell
+python testing/2026-08-30-full-player-animation-reaudit.py
+python testing/2026-08-30-animation-transition-evidence.py
+```
+
+Review `2026-08-30-animation-priority-transition-flags.gif` first, then the core, held-torch/ledge, recovery, loop, and scale boards. Silhouette scores are candidate flags for visual verification, not automatic quality verdicts. These tools do not change production animation registration.
 
 Serve the repository over HTTP and open:
 

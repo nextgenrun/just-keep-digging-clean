@@ -9,7 +9,7 @@ import { LIVING_DRILL_CONFIG } from "../../values/livingDrillConfig.js";
 import { getMaterialFeedback, getMineShakeSignature, GLINT_CONFIG } from "../../values/materialFeedback.js";
 import { ARC_CORE_UPGRADE_ID, OMEGA_ARC_CORE_UPGRADE_ID } from "../../values/arcCoreConfig.js";
 import { PLAYER_MOTION_POLISH_CONFIG } from "../../values/playerMotionPolish.js";
-import { CELESTIAL_ENGINE_CONFIG } from "../../values/celestialEngines.js";
+import { GOD_MODE_CONFIG } from "../../values/godMode.js";
 import { GAME_CONFIG } from "../../values/gameConfig.js";
 import {
   UAL_NATIVE_ACTION_TUNING,
@@ -40,6 +40,10 @@ import {
 } from "./ComplexDigAnimationRuntime.js";
 import { resolveUalCrouchTransitionAnimation } from
   "../../systems/visual/ualCrouchTransitionSelection.js";
+import {
+  resolveHeldTorchAnimationKey,
+  resolveHeldTorchBaseAnimationKey,
+} from "../../systems/visual/heldTorchAnimationSelection.js";
 
 export function setupGameplayMethods(prototype) {
   const formatResourceLabel = (resourceType) => {
@@ -307,7 +311,10 @@ export function setupGameplayMethods(prototype) {
     if (!profile.isUalNative || !this.isDigAnimating) return false;
     if (this.ualActionContactTimeline?.allContactsFired !== true) return false;
     const contactAtMs = this._ualActionContactAtMs;
-    const recoveryDelayMs = UAL_NATIVE_ACTION_TUNING.cadence.normal.recoveryCancelDelayMs;
+    const cadence = abilities?.isQuickslashActive?.() === true
+      ? UAL_NATIVE_ACTION_TUNING.cadence.quickslash
+      : UAL_NATIVE_ACTION_TUNING.cadence.normal;
+    const recoveryDelayMs = cadence.recoveryCancelDelayMs;
     if (!Number.isFinite(contactAtMs) || now - contactAtMs < recoveryDelayMs) return false;
     if (typeof this.digSystem?.isMineCooldownReady === "function") {
       return this.digSystem.isMineCooldownReady(now, abilities);
@@ -429,6 +436,7 @@ export function setupGameplayMethods(prototype) {
     )) return false;
 
     let animKey = profile.digDownAnim || ASSET_KEYS.player.digDownAnim;
+    let deferredFallbackAnimKey = animKey;
     let flipX = false;
     let postActionFacingFlipX = !this.playerController.isFacingRight();
     const actionKind = mineFeedback?.actionKind === "quickslash" ? "quickslash" : "normal";
@@ -465,16 +473,19 @@ export function setupGameplayMethods(prototype) {
       postActionFacingFlipX = false;
     } else if (aim === "LEFT" || aim === "DOWN-LEFT") {
       const selection = resolveComplexDigSelection(this, profile, "side", profile.digSidewaysHitAnims || ASSET_KEYS.player.digSidewaysHitAnims, profile.digSidewaysAnim || ASSET_KEYS.player.digSidewaysAnim);
+      deferredFallbackAnimKey = selection.fallback;
       animKey = selectComboAnim(this, selection.family, aim, selection.animationKeys, selection.fallback, mineFeedback?.targetTile);
       flipX = flipXForSidewaysDigDirectionX(this, -1, animKey);
       postActionFacingFlipX = true;
     } else if (aim === "RIGHT" || aim === "DOWN-RIGHT") {
       const selection = resolveComplexDigSelection(this, profile, "side", profile.digSidewaysHitAnims || ASSET_KEYS.player.digSidewaysHitAnims, profile.digSidewaysAnim || ASSET_KEYS.player.digSidewaysAnim);
+      deferredFallbackAnimKey = selection.fallback;
       animKey = selectComboAnim(this, selection.family, aim, selection.animationKeys, selection.fallback, mineFeedback?.targetTile);
       flipX = flipXForSidewaysDigDirectionX(this, 1, animKey);
       postActionFacingFlipX = false;
     } else if (aim === "UP") {
       const selection = resolveComplexDigSelection(this, profile, "up", profile.digUpHitAnims || ASSET_KEYS.player.digUpHitAnims, profile.digUpAnim || ASSET_KEYS.player.digUpAnim);
+      deferredFallbackAnimKey = selection.fallback;
       animKey = selectComboAnim(this, selection.family, aim, selection.animationKeys, selection.fallback, mineFeedback?.targetTile);
       flipX = postActionFacingFlipX;
     } else if (aim === "DOWN") {
@@ -519,10 +530,13 @@ export function setupGameplayMethods(prototype) {
     });
     animKey = movingDiagonalDig.animationKey;
     if (!this.anims.exists(animKey)) {
+      const availableFallback = this.anims.exists(stationaryAnimKey)
+        ? stationaryAnimKey
+        : deferredFallbackAnimKey;
       animKey = this.playerDeferredAnimationAssetController?.resolveOrRequest?.(
         animKey,
-        stationaryAnimKey,
-      ) || stationaryAnimKey;
+        availableFallback,
+      ) || availableFallback;
     }
     if (!this.anims.exists(animKey)) {
       const safeFallback = profile.digDownAnim || ASSET_KEYS.player.digDownAnim;
@@ -904,35 +918,37 @@ export function setupGameplayMethods(prototype) {
         this.gameplayCapabilities,
       )
     ) return false;
-    console.log('[DEVCHEAT] ========================================');
-    console.log('[DEVCHEAT] activateDevCheat() called!');
-    this.digSystem.setResourceTotals({
-      dirt: 5000,
-      stone: 5000,
-      copper: 5000,
-      bronze: 5000,
-      silver: 5000,
-      gold: 5000,
-      lavaDirt: 5000,
-      obsidian: 5000,
-      emberOre: 5000,
-      magmaCrystal: 5000,
-    });
-    this.upgradeSystem.addMoney(50000);
-    this.upgradeSystem.setGodMode(true);
-    this.upgradeSystem.grantUpgrade("worldTwoTunnelAccess");
-    this.upgradeSystem.grantUpgrade(ARC_CORE_UPGRADE_ID);
-    this.upgradeSystem.grantUpgrade(OMEGA_ARC_CORE_UPGRADE_ID);
-    if (this.playerController && this.playerController.abilities) { this.playerController.abilities.setGodMode(true); }
+    const requestedActive = this.upgradeSystem?.isGodModeActive?.() !== true;
+    this.upgradeSystem?.setGodMode?.(requestedActive);
+    const active = this.upgradeSystem?.isGodModeActive?.() === true;
+    this.playerController?.abilities?.setGodMode?.(active);
+
+    if (active) {
+      this.digSystem?.setResourceTotals?.({
+        ...GOD_MODE_CONFIG.activationGrant.resourceTotals,
+      });
+      this.upgradeSystem?.addMoney?.(GOD_MODE_CONFIG.activationGrant.money);
+      this.upgradeSystem?.grantUpgrade?.("worldTwoTunnelAccess");
+      this.upgradeSystem?.grantUpgrade?.(ARC_CORE_UPGRADE_ID);
+      this.upgradeSystem?.grantUpgrade?.(OMEGA_ARC_CORE_UPGRADE_ID);
+    }
+
     this.starHeartProgressionSystem?.refreshGodMode?.();
-    this.surfaceTunnelDoorSystem?.syncFromUpgrade?.(true);
+    this.celestialActionBarSystem?.sync?.();
+    this.surfaceTunnelDoorSystem?.syncFromUpgrade?.(active);
     this.arcCoreVehicleSystem?.syncOwnership?.();
-    this.uiResourceBar?.setResources(this.digSystem.getResourceTotals());
-    this.uiResourceBar?.setMoney(this.upgradeSystem.getMoney());
-    this.uiInventoryPopup?.setResources(this.digSystem.getResourceTotals());
-    this.uiInventoryPopup?.setMoney(this.upgradeSystem.getMoney());
-    this.hudSystem.flashStatus(CELESTIAL_ENGINE_CONFIG.copy.godModeActivated, "#ff00ff", 2400);
-    console.log('[DEVCHEAT] ========================================');
+    this.uiResourceBar?.setResources?.(this.digSystem?.getResourceTotals?.());
+    this.uiResourceBar?.setMoney?.(this.upgradeSystem?.getMoney?.());
+    this.uiInventoryPopup?.setResources?.(this.digSystem?.getResourceTotals?.());
+    this.uiInventoryPopup?.setMoney?.(this.upgradeSystem?.getMoney?.());
+    this.hudSystem?.flashStatus?.(
+      active
+        ? GOD_MODE_CONFIG.presentation.enabledText
+        : GOD_MODE_CONFIG.presentation.disabledText,
+      GOD_MODE_CONFIG.presentation.color,
+      GOD_MODE_CONFIG.presentation.durationMs,
+    );
+    console.log(`[GOD MODE] ${active ? "enabled" : "disabled"}`);
     return true;
   };
   prototype.playTeleportInAnimation = function() {
@@ -998,8 +1014,19 @@ export function setupGameplayMethods(prototype) {
     const profile = getP(this);
     const ledgeVisual = this.playerController.getLedgeVisualState?.() || null;
     const motionState = this.playerController.getMotionState();
+    const traversalBody = this.playerController?.physicsBody;
+    if (
+      profile.ledgeAssistEnabled
+      && !ledgeVisual
+      && motionState === "airborne"
+      && Number(traversalBody?.vy) > 0
+    ) {
+      void this.playerDeferredAnimationAssetController
+        ?.ensureForAnimation?.(profile.ledgeCatchAnim);
+    }
     const aimLabel = this.playerController.getAimLabel();
-    const currentAnimKey = this.player.anims.currentAnim?.key ?? null;
+    const currentRuntimeAnimKey = this.player.anims.currentAnim?.key ?? null;
+    const currentAnimKey = resolveHeldTorchBaseAnimationKey(profile, currentRuntimeAnimKey);
     const currentWalkAnim = (profile.walkAnims || ASSET_KEYS.player.walkAnims).includes(currentAnimKey);
     const currentMovingWalkAnim = (profile.walkMovingAnims || ASSET_KEYS.player.walkMovingAnims).includes(currentAnimKey);
     const currentWalkStopAnim = currentAnimKey === (profile.walkStopAnim || ASSET_KEYS.player.walkStopAnim);
@@ -1049,6 +1076,8 @@ export function setupGameplayMethods(prototype) {
       ? {
         animationKey: ledgeVisual.phase === "climb"
           ? profile.ledgeClimbAnim
+          : ledgeVisual.phase === "catch"
+            ? profile.ledgeCatchAnim
           : profile.ledgeHangAnim,
         flipX: ledgeVisual.direction < 0
           ? profile.ledgeSourceFacesRight === true
@@ -1243,6 +1272,12 @@ export function setupGameplayMethods(prototype) {
       flipX = !flipX;
     }
 
+    const baseTargetAnim = targetAnim;
+    targetAnim = resolveHeldTorchAnimationKey(
+      profile,
+      baseTargetAnim,
+      this.lightSystem?.isTorchActive?.() === true,
+    );
     const requestedTargetAnim = targetAnim;
     targetAnim = this.playerDeferredAnimationAssetController.resolveOrRequest(
       requestedTargetAnim,
@@ -1278,6 +1313,7 @@ export function setupGameplayMethods(prototype) {
       duckAnim,
       crouchEnterAnim,
       crouchExitAnim,
+      profile.ledgeCatchAnim,
       profile.ledgeHangAnim,
       profile.ledgeClimbAnim,
       profile.fallingAnim || ASSET_KEYS.player.fallingAnim,
@@ -1286,9 +1322,9 @@ export function setupGameplayMethods(prototype) {
       ...(this.playerMotionPolish?.oneShotAnimationKeys || []),
     ];
     const shouldHoldCompletedOneShot = !force
-      && currentAnimKey === targetAnim
+      && currentRuntimeAnimKey === targetAnim
       && !this.player.anims.isPlaying
-      && oneShotHoldAnims.includes(targetAnim);
+      && oneShotHoldAnims.includes(baseTargetAnim);
     const displaySize = resolvePlayerDisplaySizePx(
       profile,
       this.config.playerDisplaySizePx,
@@ -1296,21 +1332,21 @@ export function setupGameplayMethods(prototype) {
     );
     this.player.setDisplaySize(displaySize, displaySize);
     if (!shouldHoldCompletedOneShot) {
-      const startFrame = locomotionSelection?.animationKey === targetAnim
+      const startFrame = locomotionSelection?.animationKey === baseTargetAnim
         && Number.isFinite(locomotionSelection.startFrame)
         ? locomotionSelection.startFrame
         : 0;
       const restartRequested = (
-        locomotionSelection?.animationKey === targetAnim
+        locomotionSelection?.animationKey === baseTargetAnim
         && locomotionSelection.restart === true
       ) || (
-        motionOverride?.animationKey === targetAnim
+        motionOverride?.animationKey === baseTargetAnim
         && motionOverride.restart === true
       );
       const ignoreIfPlaying = restartRequested ? false : !force;
       this.player.play(targetAnim, ignoreIfPlaying, startFrame);
     }
-    if (!motionOverride && targetAnim === (profile.idleAnim || ASSET_KEYS.player.idleAnim) && motionState === "idle") {
+    if (!motionOverride && baseTargetAnim === (profile.idleAnim || ASSET_KEYS.player.idleAnim) && motionState === "idle") {
       this.player.anims.timeScale = this.playerMotionPolish?.getIdleTimeScale?.(now) ?? 1.0;
     }
     this.playerController._syncSpriteWithPhysics?.();

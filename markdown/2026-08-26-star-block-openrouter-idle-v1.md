@@ -2,9 +2,10 @@
 
 ## Outcome
 
-Mineable Stars now have a more legible idle: their exact 250 identity cores
-float and breathe subtly while one of three authored caustic loops travels
-through the existing art. This is presentation-only. Star spawn rarity,
+Mineable Stars now have a more legible idle: their exact 250 ImageGen identity
+core/light pairs retain their unique bounded pulse/rotation signatures while
+one of three authored caustic loops travels through the existing art. This is
+presentation-only. Star spawn rarity,
 identity assignment, HP, rewards, Sign XP, release animation, light radius,
 darkness persistence, beacon pulses, saves, and destruction remain unchanged.
 
@@ -37,10 +38,10 @@ light. No runtime tint or Phaser geometry is introduced.
 ## Runtime wiring
 
 - `values/worldVisualSemanticAssets.js` owns the atlas, 166.6667 ms frame step,
-  0.30 additive alpha, 1.08 overlay scale, 0.012-tile bob, 1.6% breath, and
-  `?starIdle=0` rollback.
+  fixed additive alpha, 1.08 overlay scale, and `?starIdle=0` rollback.
 - `WorldVisualSemanticStarPresenter.js` selects `identity.index % 3`, offsets
-  phase deterministically, and moves beauty/light/motion together.
+  phase deterministically, applies the existing per-identity ImageGen
+  core/light pulse and rotation, and frame-steps the fixed overlay.
 - `WorldVisualSemanticAssetLayer.js` owns preload frame installation, pooling,
   emissive depth handoff, hiding, and destruction for the third Star image.
 - Town-floor occlusion follows the existing emissive depth branch. The steady
@@ -59,8 +60,9 @@ lifecycle, while `?starIdle=0` omits the UI sprites and keeps the Codex static.
 ## Verification
 
 - `testing/2026-08-26-star-block-idle-animation-contract.mjs` validates cost,
-  key absence, atlas/config geometry, preload rollback, identity preservation,
-  frame advance, bounded transform, additive routing, depth, and cleanup.
+  key absence, atlas/config geometry, preload rollback, all 1,759 current Stars,
+  all 250 ImageGen motion signatures, overlay frame advance, anchored geometry,
+  additive routing, depth, and cleanup.
 - `testing/2026-08-26-star-block-idle-art-contract.py` validates all 72 unique
   pixels, neutral channels, black borders, no persistent generated core, source
   hashes, and sub-1 mean loop seams.
@@ -69,9 +71,8 @@ lifecycle, while `?starIdle=0` omits the UI sprites and keeps the Codex static.
   authored-only additive presentation, identity preservation, and shared
   rollback.
 - The live WebGL harness rendered twelve identities across all six rarities and
-  three motion loops at 1280x720. Frame, position, and scale advanced with no
-  browser warnings. `?starIdle=0` held the same sample at exactly 94 px and
-  235 px while omitting the motion pass.
+  three motion loops at 1280x720. `?starIdle=0` omits the video-derived overlay
+  while retaining the original ImageGen identity motion.
 - The real 1280x720 Inventory > Star Codex route advanced both the selector-grid
   and dossier crops across a 700 ms sample. The adjacent static dossier text
   crop remained byte-identical. Keyboard selection from Glacier Blue to Cloud

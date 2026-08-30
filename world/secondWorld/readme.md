@@ -25,9 +25,10 @@ they are not renderer-only landmarks. Configured cardinal access offsets
 guarantee an adjacent open cell, and cave-identity features may not repaint that
 cell after the anchor is restored.
 
-Modern Level Two composition interpolates independent Magma Crystal, Ember Ore,
-Obsidian, and Gold chances from entrance to bottom, then uses the existing base
-mix as fallback. Node weights likewise move from the original Obsidian-heavy
-entrance toward Ember/Magma-heavy deep nodes. This fixes the former overlapping
-Gold threshold and reduces bottom Lava Dirt dominance. Legacy mode executes the
-old comparisons and static node weights exactly.
+Modern Level Two composition interpolates independent Magma Crystal, Obsidian,
+and Gold chances from entrance to bottom, then uses the existing base mix as
+fallback. Ember is deliberately absent from ordinary terrain and node rolls;
+`RareEmberFindPlanner` places only one exposed cave-seam find per broad depth
+band. This fixes the former overlapping Gold threshold, reduces bottom Lava
+Dirt dominance, and makes every Ember a special Campfire reward. Legacy mode
+retains the old comparison path for its explicit rollback profile.

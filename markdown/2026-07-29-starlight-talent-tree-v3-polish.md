@@ -1,5 +1,11 @@
 # Starlight Talent Tree V3 Polish
 
+> Gameplay amendment: this document remains the presentation history, but the
+> current abilities and scaling are defined by
+> `2026-08-26-talent-and-depth-progression-rebalance.md`. Wayward is now a
+> one-to-five-star swarm, Hollow Sun is the sustained gravity field, and
+> Stellar Rage replaces Comet player-facing.
+
 ## Outcome
 
 The shared ESC `TALENTS` page and physical Star Pillar now use a native

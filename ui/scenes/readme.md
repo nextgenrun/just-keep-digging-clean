@@ -26,7 +26,9 @@ the retained deferred-feature loading chrome before starting its full queue.
 loading the selected character, current/next Campfire art, and the selected
 Hardcore mode package. Boot adopts every texture into the runtime catalog;
 WorldLoad extends that same catalog without changing or resizing authored
-sources. The retired loading
+sources. Once the save flow hands off, WorldLoad releases the nine menu-only
+save-card/modal textures; `StartMenuScene` preloads them again on the next menu
+visit. The retired loading
 minigame package is preserved under `archive/2026-08-03-loading-mining-minigame/`.
 
 `CaveScene.js` preloads one authored 3:1 interior for the selected cave identity.
@@ -81,6 +83,10 @@ projects and review exports are never queued.
 The FX preload also queues the single generated mining-target corner overlay
 from `values/miningTargetFeedback.js`; the explicit rectangle rollback skips
 that texture.
+
+Thunderstrike Boot preload is limited to the approved v1 rail frame and v2
+target/needle. The retired v3 milestone, glyph, and copy-backplate package stays
+on disk for history but no longer joins production texture residency.
 
 When NPC activities are enabled, `BootScene.js` also preloads the 48 transparent
 v10 Piskel-normalized planted-idle cutouts declared by

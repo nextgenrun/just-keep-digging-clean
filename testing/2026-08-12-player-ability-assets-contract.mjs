@@ -145,6 +145,50 @@ for (const request of requests) {
 assert.equal((await interactivelyPromoted).ready, true);
 interactiveController.destroy();
 
+textures.clear();
+requests.length = 0;
+overBudget = true;
+scene.upgradeSystem.isQuickslashUnlocked = () => true;
+const heldQuickslashController = new PlayerAbilityAssetController(scene, robot, {
+  ...RUNTIME_ASSET_LOADING,
+});
+const heldQuickslashAbilities = new PlayerAbilities(
+  { scene: { time: { now: 0 } } },
+  null,
+  { tileSize: 94 },
+  { isQuickslashUnlocked: () => true },
+);
+heldQuickslashAbilities.gemPower = 100;
+heldQuickslashAbilities.setAbilityAssetReadiness(heldQuickslashController);
+const heldQuickslashInput = {
+  getFlyInput: () => false,
+  getQuickslashInput: () => true,
+  getHorizontalMovement: () => ({ left: false, right: false }),
+};
+heldQuickslashAbilities.update(0.016, heldQuickslashInput, true, true);
+assert.equal(
+  requests.length,
+  1,
+  "held Q must promote Quickslash art even while passive loads are over budget",
+);
+assert.equal(heldQuickslashAbilities.isQuickslashActive(), false);
+const heldQuickslashReady = heldQuickslashController.ensure(
+  PLAYER_ABILITY_ASSET_IDS.quickslash,
+  { interactive: true },
+);
+for (const request of requests) {
+  textures.add(request.asset.key);
+  request.options.onReady();
+}
+assert.equal((await heldQuickslashReady).ready, true);
+heldQuickslashAbilities.update(0.016, heldQuickslashInput, true, true);
+assert.equal(
+  heldQuickslashAbilities.isQuickslashActive(),
+  true,
+  "held Q must activate as soon as the promoted Quickslash art is resident",
+);
+heldQuickslashController.destroy();
+
 let ensureCalls = 0;
 const abilities = new PlayerAbilities(
   { scene: { time: { now: 0 } } },

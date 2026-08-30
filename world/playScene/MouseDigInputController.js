@@ -175,6 +175,7 @@ export class MouseDigInputController {
       tileSize,
       worldPoint: targetCenter,
       worldModel: this.scene.worldModel,
+      allowRangedDirection: this._isStellarLanceActive(),
     });
     if (!refreshed || !this.pendingPress) {
       this.committedTarget = null;
@@ -205,7 +206,14 @@ export class MouseDigInputController {
       tileSize: this.scene.config?.tileSize,
       worldPoint,
       worldModel: this.scene.worldModel,
+      allowRangedDirection: this._isStellarLanceActive(),
     });
+  }
+
+  _isStellarLanceActive() {
+    return this.scene.celestialEngineController
+      ?.getEmpowerSnapshot?.(this._nowMs())
+      ?.projectileEnabled === true;
   }
 
   _isKeyboardAimActive(keys) {

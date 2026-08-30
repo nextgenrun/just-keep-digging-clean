@@ -55,13 +55,16 @@ export class RuntimeAudioAssetManager {
 
   prefetchVoiceLine(library, selectedEntry) {
     if (!this.streamingEnabled || this.destroyed || !Array.isArray(library)) return null;
-    const candidates = library.filter(entry => (
-      entry?.key !== selectedEntry?.key
-      && !this._exists(entry?.key)
-      && !this.pendingKeys.has(entry?.key)
+    const selectedIndex = library.findIndex(entry => entry?.key === selectedEntry?.key);
+    const orderedLibrary = selectedIndex < 0
+      ? library
+      : [...library.slice(selectedIndex + 1), ...library.slice(0, selectedIndex)];
+    const entry = orderedLibrary.find(candidate => (
+      candidate?.key !== selectedEntry?.key
+      && !this._exists(candidate?.key)
+      && !this.pendingKeys.has(candidate?.key)
     ));
-    if (candidates.length === 0) return null;
-    const entry = candidates[Math.floor(Math.random() * candidates.length)];
+    if (!entry) return null;
     return this.ensure(entry, {
       owner: RUNTIME_ASSET_LOADING.owners.audioVoice,
       priority: RUNTIME_ASSET_LOADING.priorities.audioPrefetch,

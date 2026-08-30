@@ -1183,6 +1183,7 @@ export function setupUIMethods(prototype, dependencies) {
     this.digSystem.setResourceTotals(savedData.resources);
     this.uiResourceBar?.setResources(this.digSystem.getResourceTotals());
     this.floatingTextSystem?.loadSaveData?.(savedData.starCollectionData);
+    this.floatingTextSystem?.recoverStarIdentityCountsFromWorld?.(this.worldModel);
     this.milestoneBoardSystem?.loadSaveData?.(savedData.milestoneData);
     this.caveEntryController?.applySaveData(savedData.caveSceneData);
     this.ancientRelicSystem?.loadSaveData(savedData.ancientRelicData);

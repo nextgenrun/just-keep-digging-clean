@@ -1,7 +1,9 @@
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 
 import { USER_SETTINGS } from "../systems/UserSettings.js";
 import { FloatingTextSystem } from "../systems/visual/FloatingTextSystem.js";
+import { showMiningDamageFeedback } from "../systems/visual/miningDamageFeedback.js";
 import { HUD_LAYOUT } from "../values/hudLayout.js";
 import { LIGHT_CONFIG } from "../values/lightConfig.js";
 import { SHADER_CONFIG } from "../values/shaderConfig.js";
@@ -82,6 +84,42 @@ assert.deepEqual(
   textObjects.slice(-2).map(text => text.depth),
   [HUD_LAYOUT.floatingTextDepth, HUD_LAYOUT.floatingTextDepth],
   "specialized damage styles must use the same visible world-feedback layer",
+);
+
+scene.time.now += 1000;
+const beforeCriticalRoute = textObjects.length;
+assert.equal(
+  showMiningDamageFeedback(floating, 100, 200, {
+    damage: 30,
+    isCriticalHit: true,
+    critMultiplier: 1.5,
+  }),
+  "critical",
+);
+assert.equal(
+  textObjects.length,
+  beforeCriticalRoute + 1,
+  "one critical mining hit must create exactly one floating number",
+);
+assert.equal(textObjects.at(-1).value.trim(), "30");
+
+const playSceneUpdateSource = readFileSync(
+  new URL("../world/playScene/PlaySceneUpdate.js", import.meta.url),
+  "utf8",
+);
+const caveGameplaySource = readFileSync(
+  new URL("../world/playScene/CaveGameplayController.js", import.meta.url),
+  "utf8",
+);
+assert.doesNotMatch(
+  playSceneUpdateSource,
+  /floatingTextSystem\.show(?:Damage|CriticalHit)\(/,
+  "main-world mining must route normal and critical numbers through one selector",
+);
+assert.doesNotMatch(
+  caveGameplaySource,
+  /floatingTextSystem\.show(?:Damage|CriticalHit)\(/,
+  "compact-cave mining must route normal and critical numbers through one selector",
 );
 
 const darknessCeiling = Math.max(

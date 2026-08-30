@@ -52,11 +52,23 @@ export const LIGHT_CONFIG = Object.freeze({
   torchBonusRadiusTiles: 2.5,
   torchDrainGpPerSecond: 8,
   torchIntensity: Object.freeze({
-    levels: Object.freeze([0.2, 0.4, 0.6, 0.8, 1]),
-    defaultLevelIndex: 4,
+    minimumPercent: 1,
+    maximumPercent: 200,
+    defaultPercent: 100,
+    clickStepPercent: 10,
+    scrollStepPercent: 1,
     radiusExponent: 0.72,
     glowExponent: 1,
     drainExponent: 1,
+    overdrive: Object.freeze({
+      startPercent: 100,
+      radiusMaximumMultiplier: 3.25,
+      radiusExponent: 1.2,
+      glowMaximumMultiplier: 1.5,
+      glowExponent: 1.15,
+      drainMaximumMultiplier: 16,
+      drainExponent: 2,
+    }),
   }),
   torchDrainDepthStartTiles: 1000,     // Depth where torch drain starts ramping up
   torchDrainDepthRampEndTiles: 2000,   // Depth where torch drain reaches max ramp scaling

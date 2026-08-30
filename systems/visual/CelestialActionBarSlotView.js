@@ -39,16 +39,30 @@ export class CelestialActionBarSlotView {
       .setSize(layout.slotSizePx, layout.slotSizePx)
       .setInteractive({ useHandCursor: true });
     this.icon = scene.add.image(0, 0, icon.key, icon.frame)
-      .setDisplaySize(layout.iconSizePx, layout.iconSizePx);
+      .setDisplaySize(
+        entry.assetRole === "campfire" ? layout.campfireIconWidthPx : layout.iconSizePx,
+        entry.assetRole === "campfire" ? layout.campfireIconHeightPx : layout.iconSizePx,
+      );
     this.keyText = scene.add.text(
       layout.keyOffsetXPx,
       layout.keyOffsetYPx,
       "",
       textStyle(UI_FONTS.mono, presentation.keyFontSizePx, presentation.textColor),
     ).setOrigin(0.5);
+    this.quantityText = scene.add.text(
+      layout.quantityOffsetXPx,
+      layout.quantityOffsetYPx,
+      "",
+      textStyle(
+        UI_FONTS.mono,
+        presentation.quantityFontSizePx,
+        presentation.quantityTextColor,
+      ),
+    ).setOrigin(0.5).setVisible(false);
     this.root.add([
       this.icon,
       this.keyText,
+      this.quantityText,
     ]);
 
     scene.input.setDraggable(this.root, true);
@@ -96,6 +110,12 @@ export class CelestialActionBarSlotView {
     this.keyText.setText(String(slotNumber));
   }
 
+  setIcon(descriptor) {
+    if (!descriptor?.key || !this.icon) return false;
+    this.icon.setTexture(descriptor.key, descriptor.frame);
+    return true;
+  }
+
   setBasePosition(x, y, uiScale) {
     this.basePosition = { x, y };
     this.uiScale = uiScale;
@@ -123,8 +143,14 @@ export class CelestialActionBarSlotView {
     const presentation = this.config.presentation;
     const locked = state.unlocked !== true;
     const available = !locked && state.available !== false;
+    const quantity = Number.isFinite(state.quantity)
+      ? Math.max(0, Math.floor(state.quantity))
+      : null;
 
     this.icon.setVisible(!locked).clearTint();
+    this.quantityText
+      .setText(quantity === null ? "" : String(quantity))
+      .setVisible(!locked && quantity !== null);
     if (locked) {
       // An unowned ability is an empty socket. The hover target and shortcut
       // label stay available, but repeated lock seals and ghost icons do not.

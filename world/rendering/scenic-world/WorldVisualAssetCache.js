@@ -4,6 +4,7 @@ import {
 } from "../../../values/worldVisualRuntime.js";
 import { RUNTIME_ASSET_LOADING } from "../../../values/runtimeAssetLoading.js";
 import { RuntimeTextureReleaseQueue } from "../RuntimeTextureReleaseQueue.js";
+import { hasLiveTextureConsumer } from "../hasLiveTextureConsumer.js";
 
 export class WorldVisualAssetCache {
   constructor(scene, {
@@ -180,8 +181,17 @@ export class WorldVisualAssetCache {
     return this._releaseNow(key, asset);
   }
 
-  _releaseNow(key, asset = this.assetsByKey.get(key)) {
-    if (!key || this.retainKeys.has(key) || !this._exists(asset, key)) return false;
+  _releaseNow(key, asset = this.assetsByKey.get(key), { force = false } = {}) {
+    if (
+      !key
+      || this.retainKeys.has(key)
+      || !this.loadedByCache.has(key)
+      || !this._exists(asset, key)
+    ) return false;
+    // Phaser Images retain their Frame/TextureSource until destruction. If a
+    // streamed texture is removed first, Frame.glTexture becomes null and the
+    // renderer stops on the next draw. Videos retain the matching cache key.
+    if (!force && hasLiveTextureConsumer(this.scene, key)) return false;
     if (asset?.type === "video") {
       this.scene.cache.video.remove(key);
     } else {
@@ -266,7 +276,9 @@ export class WorldVisualAssetCache {
     this.activeKeys.clear();
     this.textureReleases?.destroy();
     this.textureReleases = null;
-    for (const key of [...this.loadedByCache]) this._releaseNow(key);
+    for (const key of [...this.loadedByCache]) {
+      this._releaseNow(key, this.assetsByKey.get(key), { force: true });
+    }
     this.loadedByCache.clear();
     this.assetsByKey.clear();
   }

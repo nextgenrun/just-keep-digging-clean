@@ -126,9 +126,14 @@ portal, economy, and browser proof.
 
 Sky tiles occur throughout supported depths with rarity gates: Ancient after
 500 m, Cosmic after 1,000 m, and Void after 1,600 m. Collected stars feed ten
-constellations. Completing all ten permits one permanent Star Heart attunement
-from three Celestial Engines. Each engine has finite charge, activation cost,
-impact/time caps, protected-tile rules, and one-active-instance ownership.
+Sign masteries, spendable Star Points, and shared Star Heart charge. The first
+Engine root opens at Level 3; branch capstones unlock later roots until all
+three can be owned. Wayward grows from one to five simultaneous independent
+stars, Hollow Sun grows from two to five independently pulsing black holes, and
+Stellar Lance turns mining actions into ranged full-damage piercing projectiles.
+Each power costs 100 GP, retains the shared 200-charge bank only for old-save
+compatibility, and has explicit time/effect caps, protected-tile rules, and
+one-active-activation ownership.
 
 Status: **SHIPPED** in active modules; the complete natural-time collection
 journey remains part of the two-hour/long-game pacing audit.

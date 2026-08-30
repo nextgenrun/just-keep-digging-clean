@@ -1,6 +1,9 @@
 import { getPlayerDeferredAssetPack } from "./PlayerAssetLoader.js";
 import { createUalNativePlayerAnimations } from "./UalNativePlayerAnimations.js?rev=20260821-moving-complex-dig-v1";
-import { PLAYER_DEFERRED_ASSET_PACK_IDS } from
+import {
+  PLAYER_DEFERRED_ASSET_PACK_IDS,
+  resolvePlayerDeferredAssetPackReleaseDelayMs,
+} from
   "../values/playerDeferredAssetPacks.js";
 import {
   RUNTIME_ASSET_LOADING,
@@ -17,13 +20,18 @@ function now(scene) {
 }
 
 function animationKeysByPack(profile) {
-  const result = new Map(Object.values(PLAYER_DEFERRED_ASSET_PACK_IDS)
+  const packIds = Object.values(PLAYER_DEFERRED_ASSET_PACK_IDS);
+  const result = new Map(packIds
     .map(packId => [packId, new Set()]));
+  const packIdBySheet = new Map();
+  for (const packId of packIds) {
+    for (const asset of getPlayerDeferredAssetPack(profile, packId)) {
+      packIdBySheet.set(asset.key, packId);
+    }
+  }
   const add = (key, sheet) => {
     if (!key || !sheet) return;
-    const packId = Object.values(PLAYER_DEFERRED_ASSET_PACK_IDS)
-      .find(id => getPlayerDeferredAssetPack(profile, id)
-        .some(asset => asset.key === sheet));
+    const packId = packIdBySheet.get(sheet);
     if (packId) result.get(packId)?.add(key);
   };
   [
@@ -44,13 +52,22 @@ function animationKeysByPack(profile) {
     .forEach(key => result.get(id)?.add(key)));
   const specs = [
     ...(profile.animationPolishAnimations || []),
+    ...(profile.heldTorchAnimations || []),
     ...(profile.digAnimationVariants || []),
     ...(profile.idleFidgets || []),
   ];
-  for (const spec of specs) add(spec.key || spec.animationKey, spec.sheet);
+  for (const spec of specs) {
+    add(
+      spec.key || spec.animationKey,
+      spec.sheet || profile?.[spec.profileSheetKey],
+    );
+  }
   add(profile.landingAnim, profile.landingSheet);
   add(profile.softLandingAnim, profile.landingSheet);
   add(profile.wallPushAnim, profile.wallPushSheet);
+  [profile.ledgeCatchAnim, profile.ledgeHangAnim, profile.ledgeClimbAnim]
+    .filter(Boolean)
+    .forEach(key => add(key, profile.ledgeClimbSheet));
   return new Map([...result].map(([id, keys]) => [id, [...keys]]));
 }
 
@@ -164,10 +181,11 @@ export class PlayerDeferredAnimationAssetController {
         state.lastUsedAtMs = sampledAtMs;
         continue;
       }
-      if (
-        sampledAtMs - Number(state.lastUsedAtMs || 0)
-        < this.config.featureResidency.releaseDelayMs
-      ) continue;
+      const releaseDelayMs = resolvePlayerDeferredAssetPackReleaseDelayMs(
+        packId,
+        this.config.featureResidency.releaseDelayMs,
+      );
+      if (sampledAtMs - Number(state.lastUsedAtMs || 0) < releaseDelayMs) continue;
       this._evict(packId, state, sampledAtMs);
     }
   }

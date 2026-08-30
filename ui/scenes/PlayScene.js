@@ -7,7 +7,7 @@ import {
   updatePlayScenePresentationPhase,
   updatePlaySceneWorld,
   updatePlaySceneWorldPhase,
-} from "../../world/PlayScene.js?rev=20260826-world-map-input-v2";
+} from "../../world/PlayScene.js?rev=20260826-surface-motion-v2";
 import { setupUIMethods } from "../../world/playScene/PlaySceneUI.js?rev=20260818-feedback-session-v1";
 import { SceneModeController } from "../../systems/runtime/SceneModeController.js";
 import { SceneLifecycleRegistry } from "../../systems/runtime/SceneLifecycleRegistry.js";

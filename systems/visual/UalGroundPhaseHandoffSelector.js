@@ -25,6 +25,9 @@ export class UalGroundPhaseHandoffSelector {
     this.runAnimationKey = profile?.walkRunAnim || null;
     this.idleAnimationKey = profile?.idleAnim || null;
     this.config = config;
+    this.locomotionFrameCount = profile?.walkRunFrames?.length
+      || config?.runFrameCount
+      || 1;
     this.phaseEnabled = Boolean(
       this.runAnimationKey
       && config?.enabledByDefault === true
@@ -50,7 +53,7 @@ export class UalGroundPhaseHandoffSelector {
   }
 
   requestRunResume(frame) {
-    const resolved = normalizedFrame(frame, this.config?.runFrameCount || 1);
+    const resolved = normalizedFrame(frame, this.locomotionFrameCount);
     if (!this.phaseEnabled || resolved === null) return false;
     this._pendingResumeFrame = resolved;
     return true;
@@ -85,7 +88,7 @@ export class UalGroundPhaseHandoffSelector {
     }
     if (!this.phaseEnabled) return null;
 
-    const count = this.config.runFrameCount;
+    const count = this.locomotionFrameCount;
     const currentFrame = normalizedFrame(currentTextureFrame, count);
     const facingChanged = typeof previousFacingFlipX === "boolean"
       && typeof nextFacingFlipX === "boolean"
@@ -132,8 +135,15 @@ export class UalGroundPhaseHandoffSelector {
   }
 
   _beginPivot(outgoingFrame) {
-    const pivotFrame = this.config.pivot.frameByOutgoingJogFrame[outgoingFrame];
-    this._pivotStartFrame = normalizedFrame(pivotFrame, this.config.runFrameCount);
+    const phaseCount = this.config.runFrameCount || this.locomotionFrameCount;
+    const phaseFrame = Math.floor(outgoingFrame * phaseCount / this.locomotionFrameCount);
+    const pivotFrame = this.config.pivot.frameByOutgoingJogFrame[phaseFrame];
+    const locomotionPivot = Math.floor(
+      (Number.isFinite(pivotFrame) ? pivotFrame : phaseFrame)
+      * this.locomotionFrameCount
+      / phaseCount,
+    );
+    this._pivotStartFrame = normalizedFrame(locomotionPivot, this.locomotionFrameCount);
     if (this._pivotStartFrame === null) return null;
     return {
       phase: PHASE.PIVOT_STOP,
@@ -179,7 +189,7 @@ export class UalGroundPhaseHandoffSelector {
           animationKey: transition.animationKey,
           phase: transition.kind === "start" ? PHASE.WALK_START : PHASE.WALK_STOP,
           restart: !transition.observedPlaying,
-          startFrame: null,
+          startFrame: transition.startFrame,
           loop: false,
         };
       }
@@ -191,35 +201,45 @@ export class UalGroundPhaseHandoffSelector {
         || currentAnimationKey === this.runAnimationKey
         || wasMoving
       ) return null;
-      return this._beginBridge("start", this.bridge.start.key);
+      return this._beginBridge(
+        "start",
+        this.bridge.start.key,
+        this.bridge.start.startFrame,
+      );
     }
-    const count = this.bridge.runFrameCount;
+    const count = this.locomotionFrameCount;
     const outgoing = normalizedFrame(currentTextureFrame, count);
     if (
       currentAnimationKey === this.runAnimationKey
       && outgoing !== null
       && (wasMoving || isPlaying === true)
     ) {
+      const handoffFrame = Math.floor(outgoing * this.bridge.runFrameCount / count);
       return this._beginBridge(
         "stop",
-        this.bridge.stopAnimationKeyByOutgoingJogFrame[outgoing],
+        this.bridge.stopAnimationKeyByOutgoingJogFrame[handoffFrame],
+        this.bridge.stopStartFrameByOutgoingJogFrame?.[handoffFrame],
       );
     }
     return null;
   }
 
-  _beginBridge(kind, animationKey) {
+  _beginBridge(kind, animationKey, startFrame = null) {
     if (!animationKey) return null;
+    const resolvedStartFrame = Number.isFinite(startFrame)
+      ? Math.max(0, Math.floor(startFrame))
+      : null;
     this._bridgeTransition = {
       kind,
       animationKey,
+      startFrame: resolvedStartFrame,
       observedPlaying: false,
     };
     return {
       animationKey,
       phase: kind === "start" ? PHASE.WALK_START : PHASE.WALK_STOP,
       restart: true,
-      startFrame: null,
+      startFrame: resolvedStartFrame,
       loop: false,
     };
   }

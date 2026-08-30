@@ -1,5 +1,66 @@
 # AI Tools
 
+`2026-08-30-build-observatory-depth-motion-pack.py` compiles the existing
+Observatory `sky13` plate into a review-only Depth Anything V2 Small depth map,
+SegFormer ADE20K sky/architecture masks, GPU motion-domain map, mask review, and
+hash provenance. Model packages and weights stay in a disposable external cache;
+the tool never changes the Town Square video or production runtime.
+
+`2026-08-30-audit-unified-animation-scale.py` measures every production
+Survival runtime frame with its manifest-owned cell size, flags abrupt
+silhouette-scale candidates, and renders neighboring-frame review evidence.
+It is read-only with respect to runtime and editable animation sources.
+
+`2026-08-30-prepare-level-one-biome-depth-diversity-v1.py` validates the exact
+156-source Level One depth-diversity inventory and writes the reproducible
+built-in ImageGen job and prompt manifests for fifty tertiary ground plates,
+thirty four-piece identity kits, fifty scenic alternatives, fourteen boundary
+alternatives, and twelve rare landmarks.
+
+`2026-08-30-build-level-one-biome-ground-materials-v2.py` validates and
+promotes the fifty tertiary full-coverage terrain sources with the existing
+incoming-edge seam contract. `2026-08-30-build-level-one-biome-depth-variants-v1.py`
+validates and promotes the thirty crop-safe identity atlases, fifty scenic
+alternatives, fourteen transition alternatives, and twelve rare landmarks,
+then writes hash provenance and category plus hard-swap contact sheets.
+
+`2026-08-29-build-level-one-biome-ground-materials-v1.py` validates sixty
+independent full-coverage ImageGen terrain sources for the thirty added Level
+One families. It requires native `1536x1024` dimensions, opaque source edges,
+meaningful RGB variance, unique hashes, and writes complementary incoming-edge
+WebPs, a provenance manifest, one master sheet, and five regional sheets.
+
+`2026-08-29-build-level-one-biome-families-v3.py` validates and promotes the
+120 independent built-in ImageGen sources added by the fifty-family Level One
+expansion. It preserves native `1536x1024` RGBA composition, applies only a
+28-pixel outer alpha safety falloff, requires unique source/runtime hashes, and
+emits optimized WebPs, a master contact sheet, five parent-region sheets, and a
+complete provenance manifest.
+
+`2026-08-29-build-level-one-biome-source-families-v1.py` validates the twenty
+distinct built-in ImageGen Level One signature sources, applies only a
+28-pixel outer alpha safety falloff, writes native `1536x1024` RGBA WebPs,
+checks alpha coverage and unique hashes, and emits the production manifest plus
+checkerboard contact sheet for the 5-to-20 source-family expansion.
+
+`2026-08-28-build-level-one-deep-biome-boundaries-v1.py` promotes the
+Amber/Silver, Cobalt/Silver, Silver/Magma, and Amber/Magma transition sources.
+It preserves native alpha where supplied, removes only the isolated legacy
+chroma correction otherwise, feathers outer edges, and writes four lossless
+runtime WebPs without changing their generated geology.
+
+`2026-08-26-build-background-only-seedance-reference-v2.py` derives the exact
+upper beauty crop plus separate static floor/ground context from current runtime
+owners. `2026-08-26-generate-background-only-seedance-v2.py` submits three
+15-second, camera-locked Seedance Mini ambient profiles with a hard budget and
+never stores the supplied key. `2026-08-26-build-background-only-seedance-loops-v2.py`
+records the rejected direct endpoint seams. The accepted review post-process,
+`2026-08-26-build-background-only-cyclic-loops-v3.py`, excludes the ground and
+builds slow 18-second forward-only cyclic closures with drift and wrap gates.
+`2026-08-26-promote-surface-background-loops-v1.py` hash-checks those three
+closed sources, scales them to the runtime beauty geometry, preserves all 432
+forward frames, strips audio, and writes the production media manifest.
+
 `2026-08-26-build-real-surface-reference-v1.py` composes a review-only 16:9
 surface-world reference from the current production town beauty, slate surface
 cap, and Level One ground facade without regenerating or rescaling their pixels.
@@ -360,6 +421,10 @@ control strip or redundant floating reward text. Neither is wired into runtime.
 
 | `2026-07-29-build-underground-backdrop-enhancers-v7.py` | Soft-matte, despill, frame-feather, preserve native 1536x1024 resolution, write 100 alpha WebPs, hash every source/runtime file, and build checkerboard plus correct-biome context proof sheets |
 
+| `2026-08-26-build-asynchronous-surface-loops-v2.py` | Pre-compose the three accepted Seedance surface loops into three 18-second, one-decoder experiments with independently retimed feathered canopy zones, anchored structures, exact-cycle star pulses, hashes, and motion-correlation QA |
+| `2026-08-26-build-survival-held-torch-blender-v1.py` | Build the isolated Mixamo/Survival held-torch candidate, bake the actual right arm through IK, parent modeled torch geometry to `weapon_r`, and render full-body, grip, three-quarter, and soft-burn proof frames without changing production |
+| `2026-08-26-pack-survival-held-torch-preview-v1.py` | Pack the 24 rendered soft-burn proof frames into a looping local GIF and add its deterministic review metadata to the build report |
+
 ## Archive
 Outdated import fixers from the initial restructuring have been archived to `/archive/2026-06-25-import-fixer-batch/`.
 
@@ -370,6 +435,15 @@ Outdated import fixers from the initial restructuring have been archived to `/ar
 | `2026-08-14-openrouter-audio-lab.py` | Original review-only speech/audio capability batch retained with its raw results and ratings |
 | `2026-08-14-openrouter-sfx-first-lab-v2.py` | Build the corrected SFX-first comparison: guarded GPT Audio probes, four-by-three prompt matrix, reversible local SFX masters, corrected Gemini PCM wrapping, and focused voice challengers |
 | `2026-08-14-launch-openrouter-sfx-first-lab-v2.cmd` | Prompt securely for an OpenRouter key, run V2, clear the process key, and open the playable dashboard |
+| `2026-08-30-generate-event-voice-sample.py` | Generate exactly one 33-character Grok Voice TTS bark under a USD 0.01 local cap and write hash/cost provenance without storing the key |
+| `2026-08-30-launch-event-voice-sample.ps1` | Collect the temporary key through a masked prompt, clear it after generation, and play the resulting sample |
+| `2026-08-30-generate-event-voice-library-v2.py` | Validate and resumably generate the 45-clip, five-voice Grok event audition library under a USD 0.25 local ceiling |
+| `2026-08-30-launch-event-voice-library-v2.cmd` | Open the user-facing CMD entrypoint for the masked, process-local replacement OpenRouter key prompt |
+| `2026-08-30-launch-event-voice-library-v2.ps1` | Validate the batch, mask the key, clear it after use, and preserve completed clips when a request fails |
+| `2026-08-30-build-player-leo-runtime-catalog.py` | Build the frozen runtime JS projection from the canonical 96-line LEO source catalog |
+| `2026-08-30-generate-player-leo-library.py` | Validate, cap, resume, hash, and generate the 16-family LEO player library while preserving the selected Titan take |
+| `2026-08-30-launch-player-leo-library.cmd` | Open the visible masked key prompt for the capped LEO batch |
+| `2026-08-30-launch-player-leo-library.ps1` | Validate before key entry, keep the key process-local, run the batch, then zero and clear the key |
 | `2026-08-15-build-survival-animation-contract-repair-review.py` | Render the rejected quality-v1 and restored motion-authority sheets at fixed source-cell scale as an animated drift, clipping, collider, and facing review |
 | `2026-08-19-build-basic-rig-soft-correction.py` | Preserve a user-authored manual rig snapshot, add only review hierarchy/naming/distance weights, and render non-destructive deformation stress evidence |
 | `2026-08-19-render-basic-rig-animation-comparison.py` | Retarget current walk, attack, and run actions onto a manual-rig review candidate with optional rest-pose-aware world rotation deltas; never wires runtime assets |

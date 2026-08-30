@@ -45,6 +45,7 @@ export class HardcoreModalOverlay {
     subtitle = "IRREVERSIBLE CONFIRMATION",
     body,
     footer = "ESC  CANCEL",
+    footerColor = UI_COLORS.dim,
     confirmationWord = this.config.unstuck.confirmationWord,
     typedInstruction = this.config.copy.typedInstruction,
     onConfirm,
@@ -70,7 +71,7 @@ export class HardcoreModalOverlay {
     this.typed
       .setText(this.confirmationWord.replace(/./g, "_").split("").join(" "))
       .setColor(UI_COLORS.danger);
-    this.footer.setText(footer);
+    this.footer.setText(footer).setColor(footerColor);
     this.root.setVisible(true).setAlpha(0);
     this.scene.tweens.add({
       targets: this.root,
@@ -236,6 +237,7 @@ export class HardcoreModalOverlay {
     this.deathView?.hide();
     this.confirmationRoot.setVisible(true);
     this.instruction.setColor(UI_COLORS.gold);
+    this.footer.setColor(UI_COLORS.dim);
     this.mode = null;
     this.buffer = "";
     this.confirmationWord = this.config.unstuck.confirmationWord;

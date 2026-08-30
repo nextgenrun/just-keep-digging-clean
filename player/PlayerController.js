@@ -13,6 +13,7 @@ import { PLAYER_STATS_CONFIG } from '../values/playerStats.js';
 import { PLAYER_ABILITIES_CONFIG } from '../values/playerAbilities.js';
 import { PLAYER_MOTION_POLISH_CONFIG } from '../values/playerMotionPolish.js';
 import { PLAYER_KINEMATIC_MOTION_CONFIG } from '../values/playerKinematicMotion.js';
+import { GOD_MODE_CONFIG } from '../values/godMode.js';
 import {
   PLAYER_COLLISION_CONFIG,
   PLAYER_COLLISION_POLISH_V2,
@@ -125,15 +126,22 @@ import { createResolvedMovementSnapshot } from '../systems/progression/ResolvedP
   _resolveMovementStats(includeTemporary = true) {
     const effects = this.upgradeSystem?.getUpgradeEffects?.() || {};
     const levelMultiplier = this.playerLevelSystem?.getMovementSpeedMultiplier?.() ?? 1;
-    const actionBonus = includeTemporary && this.abilities?.isQuickslashActive?.()
-      ? this.abilities.getConstellationStats?.().quickslashBurstSpeed || 0
+    const quickslashActive = this.abilities?.isQuickslashActive?.() === true;
+    const actionBonus = includeTemporary && quickslashActive
+      ? this.abilities.getQuickslashMovementBonus?.()
+        ?? (
+          PLAYER_ABILITIES_CONFIG.quickslashMovementBonusPxPerSec
+            + (this.abilities.getConstellationStats?.().quickslashBurstSpeed || 0)
+        )
       : 0;
     return createResolvedMovementSnapshot({
       baseSpeed: this.config.walkSpeedPxPerSec,
       flatBonus: effects.walkSpeed || 0,
       multiplier: levelMultiplier,
       actionBonus,
-      override: this.upgradeSystem?.isGodModeActive?.() ? 2000 : null,
+      override: this.upgradeSystem?.isGodModeActive?.()
+        ? GOD_MODE_CONFIG.movementSpeedPxPerSec
+        : null,
     });
   }
 
@@ -393,6 +401,14 @@ import { createResolvedMovementSnapshot } from '../systems/progression/ResolvedP
       this.sprite.y = this.physicsBody.y + this.physicsBody.h / 2;
     } else {
       this.sprite.y = visualAnchor.y + groundedVisualYOffset;
+    }
+
+    // Ledge collision snaps immediately for authority; the rendered survivor
+    // eases from the pre-catch position into the authored grip pose.
+    const ledgeOffset = this.ledgeAssist?.getVisualState?.()?.offset;
+    if (ledgeOffset) {
+      this.sprite.x += ledgeOffset.x || 0;
+      this.sprite.y += ledgeOffset.y || 0;
     }
 
     const visualOffset = this.sprite.getData?.("visualOffset");

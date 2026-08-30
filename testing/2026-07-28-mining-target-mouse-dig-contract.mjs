@@ -79,6 +79,24 @@ assert.equal(
   null,
   "pointer targeting must ignore adjacent air",
 );
+assert.deepEqual(
+  resolveMouseMiningTarget({
+    body,
+    tileSize: TILE_SIZE,
+    worldPoint: centerOf(15, 10),
+    worldModel,
+    allowRangedDirection: true,
+  }),
+  {
+    tx: 11,
+    ty: 10,
+    aimLabel: "RIGHT",
+    variant: "SIDE",
+    x: 1,
+    y: 0,
+  },
+  "Stellar Lance must turn a distant pointer into a cardinal ray from the body edge",
+);
 assert.equal(isPrimaryMousePointer({ button: 0 }, 0), true);
 assert.equal(isPrimaryMousePointer({ button: 2 }, 0), false);
 
@@ -160,6 +178,9 @@ const scene = {
     physicsBody: body,
     input: { controlsEnabled: true },
   },
+  celestialEngineController: {
+    getEmpowerSnapshot: () => ({ projectileEnabled: false }),
+  },
   cameras: {
     main: {
       getWorldPoint: (x, y) => ({ x, y }),
@@ -226,6 +247,26 @@ state = controller.resolveState(keyboardTarget, "LEFT", {
   aimLeft: { isDown: true },
 });
 assert.equal(state.source, "keyboard", "held directional input must retake aim ownership");
+
+activePointer.x = centerOf(15, 10).x;
+activePointer.y = centerOf(15, 10).y;
+activePointer.worldX = activePointer.x;
+activePointer.worldY = activePointer.y;
+scene.celestialEngineController.getEmpowerSnapshot = () => ({ projectileEnabled: true });
+listeners.get("pointermove")(activePointer, []);
+state = controller.resolveState(keyboardTarget, "LEFT", noKeysHeld);
+assert.equal(state.source, "mouse");
+assert.deepEqual(
+  state.targetTile,
+  { tx: 11, ty: 10 },
+  "active Stellar Lance must support mouse-directed ranged digging through air",
+);
+scene.celestialEngineController.getEmpowerSnapshot = () => ({ projectileEnabled: false });
+activePointer.x = centerOf(11, 9).x;
+activePointer.y = centerOf(11, 9).y;
+activePointer.worldX = activePointer.x;
+activePointer.worldY = activePointer.y;
+listeners.get("pointermove")(activePointer, []);
 
 scene.time.now = 200;
 activePointer.isDown = true;

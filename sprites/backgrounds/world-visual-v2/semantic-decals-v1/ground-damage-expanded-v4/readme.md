@@ -1,6 +1,7 @@
 # Expanded ground damage V4
 
-Production package for the optimized expanded damage library. V4 combines the
+Rejected comparison package for the optimized expanded damage library. V4
+combines the
 sixteen retained V3 structural motifs with three new sixteen-motif ImageGen
 sheets: compression/impact, directional shear/split, and brittle/delamination.
 
@@ -23,6 +24,6 @@ Runtime atlases:
 - `../ground-damage-response-expanded-v4.png`: 132 frames, 3008 x 1692,
   tier-major order (`tier * 33 + exact profile`).
 
-The default route is V4. Use `?groundDamageAtlas=v3`,
-`?groundDamageAtlas=v2`, or `?groundDamageAtlas=legacy` for progressively older
-atlas pipelines; `?groundDamage=legacy` restores the radial renderer.
+Universal V2 replaced this resource-specific direction as the production
+default on 2026-08-27. V4 is not normally preloaded;
+`?groundDamageAtlas=v4` is retained only for local comparison and audit.

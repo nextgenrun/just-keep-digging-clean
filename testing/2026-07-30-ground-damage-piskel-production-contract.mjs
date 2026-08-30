@@ -100,22 +100,26 @@ function makeScene(expectedKey) {
 }
 
 const imagegen = WORLD_VISUAL_DAMAGE.imagegen;
-const { expanded, layered, polished, legacy } = imagegen.atlases;
+const { dynamic, aligned, expanded, layered, polished, legacy } = imagegen.atlases;
 assert.deepEqual(
   Object.keys(imagegen.atlases).sort(),
-  ["expanded", "layered", "legacy", "polished"],
+  ["aligned", "dynamic", "expanded", "layered", "legacy", "polished"],
 );
-assert.equal(imagegen.defaultAtlas, "expanded");
+assert.equal(imagegen.defaultAtlas, "polished");
 assert.equal(imagegen.atlasQueryParam, "groundDamageAtlas");
 assert.deepEqual(imagegen.legacyAtlasValues, ["legacy", "v1", "old"]);
-assert.equal(imagegen.atlas, expanded, "the compatibility atlas alias must be the V4 default");
+assert.equal(imagegen.atlas, polished, "the compatibility atlas alias must be the universal V2 default");
+assert.equal(polished.mixProfile, null, "the production default must not bind damage to a resource profile");
+assert.equal(imagegen.decodedBytes, 16965120);
+assert.equal(imagegen.decodedBudgetBytes, 17825792);
+assert.deepEqual(getWorldVisualDamagePreloadAssets(), [polished]);
 
 assert.equal(polished.path, POLISHED_PATH);
 assert.equal(legacy.path, LEGACY_PATH);
-assert.equal(resolveWorldVisualDamageAtlas(undefined, ""), expanded);
+assert.equal(resolveWorldVisualDamageAtlas(undefined, ""), polished);
 assert.equal(resolveWorldVisualDamageAtlas(undefined, "?groundDamageAtlas=polished"), polished);
 assert.equal(resolveWorldVisualDamageAtlas(undefined, "?groundDamageAtlas=v3"), layered);
-assert.equal(resolveWorldVisualDamageAtlas(undefined, "?groundDamageAtlas=unknown"), expanded);
+assert.equal(resolveWorldVisualDamageAtlas(undefined, "?groundDamageAtlas=unknown"), polished);
 for (const value of imagegen.legacyAtlasValues) {
   assert.equal(
     resolveWorldVisualDamageAtlas(undefined, `?groundDamageAtlas=${value}`),
@@ -185,6 +189,27 @@ const syntheticConfig = Object.freeze({
   }),
 });
 const geometryMask = { id: "terrain-mask" };
+const defaultFixture = makeScene(syntheticPolished.key);
+const defaultPainter = new WorldVisualDamageImagePainter(
+  defaultFixture.scene,
+  geometryMask,
+  2.45,
+  syntheticConfig,
+);
+assert.equal(defaultPainter.create(), true);
+assert.equal(defaultPainter.draw(7, 9, 0.58, 94, 31, 47, 2), true);
+defaultPainter.clear();
+assert.equal(defaultPainter.draw(7, 9, 0.58, 94, 31, 47, 11), true);
+assert.equal(defaultFixture.images.length, 1, "resource types must share the universal V2 painter");
+assert.equal(defaultPainter.rimPool.length, 0);
+assert.equal(defaultPainter.responsePool.length, 0);
+const universalTextureCalls = defaultFixture.images[0].calls.filter(
+  ([method]) => method === "setTexture",
+);
+assert.equal(universalTextureCalls.length, 2);
+assert.deepEqual(universalTextureCalls[0], universalTextureCalls[1]);
+defaultPainter.destroy();
+
 const legacyFixture = makeScene(syntheticLegacy.key);
 const painter = new WorldVisualDamageImagePainter(
   legacyFixture.scene,
@@ -243,7 +268,10 @@ assert.equal(
 const bootSource = fs.readFileSync(diskPath("ui/scenes/BootScene.js"), "utf8");
 assert.match(bootSource, /import\s*\{\s*getWorldVisualDamagePreloadAssets\s*\}/);
 assert.match(bootSource, /\.\.\.getWorldVisualDamagePreloadAssets\(\)/);
-assert.match(bootSource, /for\s*\(const asset of assets\)\s*this\.queueImage\(asset\.key,\s*asset\.path\)/);
+assert.match(
+  bootSource,
+  /for\s*\(const asset of assets\)[\s\S]*?else\s*\{\s*this\.queueImage\(asset\.key,\s*asset\.path\)/,
+);
 
 const feedbackSource = fs.readFileSync(
   diskPath("world/rendering/scenic-world/WorldVisualFeedbackLayer.js"),
@@ -264,7 +292,7 @@ assert.equal(
 assert.ok(fs.existsSync(diskPath("ai-tools/2026-07-30-refresh-ground-damage-piskel-polish.py")));
 
 console.log(
-  "Ground-damage Piskel V2 rollback contract passed: explicit V2 atlas selection, "
-  + "V1 atlas query rollback, unchanged 10x12 frame geometry, centered painter placement, "
-  + "Boot preload selection, and radial emergency rollback"
+  "Ground-damage universal V2 production contract passed: default single-atlas preload, "
+  + "no resource response mix, unchanged 10x12 frame geometry, centered painter placement, "
+  + "V1 atlas query rollback, and radial emergency rollback"
 );

@@ -1,5 +1,18 @@
 import { WORLD_MAP_CONFIG } from "../../../values/worldMapConfig.js";
+import {
+  LEVEL_ONE_BIOME_FIELD,
+  resolveLevelOneBiomeFieldAtTile,
+  resolveLevelOneBiomeFieldEnabled,
+} from "../../../values/levelOneBiomeField.js";
 import { resolveWorldMapPlayerTile } from "../../../systems/map/resolveWorldMapPlayerTile.js";
+import {
+  resolveWorldMapBiomeLabels,
+  resolveWorldMapMarkerAnnotations,
+} from "./resolveWorldMapAnnotations.js";
+import { drawWorldMapDepthGrid } from "./drawWorldMapDepthGrid.js";
+import { drawWorldMapStarNavigation } from "./drawWorldMapStarNavigation.js";
+import { renderWorldMapDiscoveredTerrain } from
+  "./renderWorldMapDiscoveredTerrain.js";
 
 export class WorldMapRenderer {
   constructor(scene, discoverySystem, activityRegistry) {
@@ -66,55 +79,53 @@ export class WorldMapRenderer {
   render(graphics, layout, viewState) {
     const config = WORLD_MAP_CONFIG;
     const colors = config.colors;
+    const drawing = config.drawing;
     const model = this.scene.worldModel;
+    const biomeFieldEnabled = resolveLevelOneBiomeFieldEnabled();
+    const playerTile = resolveWorldMapPlayerTile(this.scene);
+    const territorySnapshot = this.scene.worldMapStarTerritorySystem?.resolveMap?.(
+      this.discoverySystem,
+      playerTile,
+    ) || null;
     this.clampView(layout, viewState);
     graphics.clear();
 
     graphics.fillStyle(colors.fog, 1);
     graphics.fillRect(layout.x, layout.y, layout.width, layout.height);
-    graphics.lineStyle(1, colors.fogHatch, 0.38);
+    graphics.lineStyle(drawing.fogHatchWidthPx, colors.fogHatch, drawing.fogHatchAlpha);
     const hatchGap = config.view.fogHatchGapPx;
     const hatchLength = config.view.fogHatchLengthPx;
     for (let x = layout.x - layout.height; x < layout.x + layout.width; x += hatchGap) {
       graphics.lineBetween(x, layout.y + layout.height, x + layout.height + hatchLength, layout.y);
     }
 
-    const cellSize = config.discovery.cellSizeTiles;
-    const bandColors = colors.depthBands;
-    for (const { cellX, cellY } of this.discoverySystem.getDiscoveredCells()) {
-      const tileX = cellX * cellSize;
-      const tileY = cellY * cellSize;
-      if (
-        tileX >= model.widthTiles
-        || tileY >= model.depthTiles
-        || tileX + cellSize <= 0
-        || tileY + cellSize <= 0
-      ) {
-        continue;
-      }
-      const point = this.worldToScreen(tileX, tileY, layout, viewState);
-      const sizePx = Math.max(1.5, cellSize * point.pixelsPerTile + 0.75);
-      if (
-        point.x + sizePx < layout.x
-        || point.y + sizePx < layout.y
-        || point.x > layout.x + layout.width
-        || point.y > layout.y + layout.height
-      ) {
-        continue;
-      }
-      const depthRatio = tileY / Math.max(1, model.depthTiles);
-      const bandIndex = Math.min(bandColors.length - 1, Math.floor(depthRatio * bandColors.length));
-      graphics.fillStyle(bandColors[bandIndex], 0.92);
-      graphics.fillRect(point.x, point.y, sizePx, sizePx);
-      if (point.pixelsPerTile * cellSize >= 5) {
-        graphics.lineStyle(1, colors.discoveredOutline, 0.24);
-        graphics.strokeRect(point.x, point.y, sizePx, sizePx);
-      }
-    }
+    const discoveredBiomeIds = renderWorldMapDiscoveredTerrain({
+      graphics,
+      layout,
+      model,
+      discoverySystem: this.discoverySystem,
+      worldToScreen: (tileX, tileY, targetLayout) => (
+        this.worldToScreen(tileX, tileY, targetLayout, viewState)
+      ),
+      biomeFieldEnabled,
+      territorySnapshot,
+      config,
+    });
+
+    const worldOrigin = this.worldToScreen(0, 0, layout, viewState);
+    drawWorldMapDepthGrid({
+      graphics,
+      layout,
+      viewState,
+      model,
+      worldOrigin,
+      worldToScreen: this.worldToScreen.bind(this),
+      config,
+    });
 
     const dugKeys = Array.from(model.dugTiles?.keys?.() || []);
     const step = Math.max(1, Math.ceil(dugKeys.length / config.view.maxDugTilesPerDraw));
-    graphics.fillStyle(colors.tunnel, 0.9);
+    graphics.fillStyle(colors.tunnel, drawing.tunnelAlpha);
     for (let index = 0; index < dugKeys.length; index += step) {
       const [tileX, tileY] = String(dugKeys[index]).split(",").map(Number);
       if (!this.discoverySystem.isTileDiscovered(tileX, tileY)) continue;
@@ -131,57 +142,93 @@ export class WorldMapRenderer {
       graphics.fillRect(point.x, point.y, sizePx, sizePx);
     }
 
-    const worldOrigin = this.worldToScreen(0, 0, layout, viewState);
-    graphics.lineStyle(2, colors.discoveredOutline, 0.55);
+    graphics.lineStyle(
+      drawing.worldOutlineWidthPx,
+      colors.discoveredOutline,
+      drawing.worldOutlineAlpha,
+    );
     graphics.strokeRect(
       worldOrigin.x,
       worldOrigin.y,
       model.widthTiles * worldOrigin.pixelsPerTile,
       model.depthTiles * worldOrigin.pixelsPerTile
     );
+    drawWorldMapStarNavigation({
+      graphics,
+      layout,
+      playerTile,
+      currentTerritory: territorySnapshot?.currentTerritory,
+      worldToScreen: (tileX, tileY, targetLayout) => (
+        this.worldToScreen(tileX, tileY, targetLayout, viewState)
+      ),
+      config,
+    });
 
     const markers = this.activityRegistry.getMarkers({
       scene: this.scene,
       discoverySystem: this.discoverySystem,
       worldModel: model,
+    }, { includeHidden: true });
+    const knownMarkers = markers.filter(marker => (
+      marker.alwaysVisible === true
+      || this.discoverySystem.isWorldPositionDiscovered(marker.worldX, marker.worldY)
+    ));
+    const markerCounts = knownMarkers.reduce((counts, marker) => {
+      counts[marker.providerId] = (counts[marker.providerId] || 0) + 1;
+      return counts;
+    }, {});
+    const markerAnnotations = resolveWorldMapMarkerAnnotations({
+      markers: markers.filter(marker => marker.providerVisible !== false),
+      model,
+      discoverySystem: this.discoverySystem,
+      layout,
+      viewState,
+      worldToScreen: this.worldToScreen.bind(this),
+      config,
     });
-    markers.forEach(marker => {
-      if (
-        marker.alwaysVisible !== true
-        && !this.discoverySystem.isWorldPositionDiscovered(marker.worldX, marker.worldY)
-      ) {
-        return;
-      }
-      const tile = model.worldToTile(marker.worldX, marker.worldY);
-      const point = this.worldToScreen(tile.tx, tile.ty, layout, viewState);
-      if (
-        point.x < layout.x
-        || point.y < layout.y
-        || point.x > layout.x + layout.width
-        || point.y > layout.y + layout.height
-      ) {
-        return;
-      }
-      graphics.fillStyle(marker.color ?? colors.marker, 0.95);
-      graphics.fillCircle(point.x, point.y, 5);
-      graphics.lineStyle(2, 0x081018, 0.9);
-      graphics.strokeCircle(point.x, point.y, 6);
+    const biomeLabels = resolveWorldMapBiomeLabels({
+      discoverySystem: this.discoverySystem,
+      layout,
+      viewState,
+      worldToScreen: this.worldToScreen.bind(this),
+      enabled: biomeFieldEnabled,
+      avoidPoints: markerAnnotations
+        .filter(marker => marker.showLabel)
+        .map(marker => ({
+          x: marker.x,
+          y: marker.y + config.annotations.markerLabelOffsetYPx,
+        })),
+      config,
     });
 
-    const playerTile = resolveWorldMapPlayerTile(this.scene);
+    const currentBiome = playerTile && biomeFieldEnabled
+      ? resolveLevelOneBiomeFieldAtTile(
+        playerTile.tx,
+        playerTile.ty,
+        LEVEL_ONE_BIOME_FIELD
+      )
+      : null;
+    let playerAnnotation = null;
     if (playerTile) {
       const point = this.worldToScreen(playerTile.tx, playerTile.ty, layout, viewState);
-      graphics.fillStyle(colors.player, 1);
-      graphics.fillTriangle(
-        point.x,
-        point.y - 9,
-        point.x - 7,
-        point.y + 7,
-        point.x + 7,
-        point.y + 7
-      );
-      graphics.lineStyle(2, 0xffffff, 0.85);
-      graphics.strokeCircle(point.x, point.y, 11);
+      if (
+        point.x >= layout.x
+        && point.y >= layout.y
+        && point.x <= layout.x + layout.width
+        && point.y <= layout.y + layout.height
+      ) {
+        playerAnnotation = {
+          key: "player",
+          x: point.x,
+          y: point.y,
+          label: config.copy.player,
+          color: colors.player,
+          iconFrame: config.symbolAtlas.frames.player,
+          iconSizePx: config.annotations.iconSizesPx.player,
+          showLabel: point.pixelsPerTile >= config.annotations.markerLabelMinimumPixelsPerTile,
+          priority: config.annotations.markerPriorities.player,
+        };
+      }
     }
 
     return {
@@ -190,7 +237,19 @@ export class WorldMapRenderer {
       maxDepth: Math.max(0, model.depthTiles - model.topAirRows),
       widthTiles: model.widthTiles,
       depthTiles: model.depthTiles,
-      markerCount: markers.length,
+      markerCount: knownMarkers.length,
+      markerCounts,
+      markerAnnotations,
+      biomeLabels,
+      playerAnnotation,
+      currentBiome: currentBiome?.label || "",
+      biomeFieldActive: Boolean(currentBiome),
+      discoveredBiomeCount: discoveredBiomeIds.size,
+      totalBiomeCount: biomeFieldEnabled ? LEVEL_ONE_BIOME_FIELD.profiles.length : 0,
+      currentStarTerritory: territorySnapshot?.currentTerritory || null,
+      knownStarTerritoryCount: territorySnapshot?.knownSites?.length || 0,
+      knownIntactStarCount: territorySnapshot?.knownIntactCount || 0,
+      knownConsumedStarCount: territorySnapshot?.knownConsumedCount || 0,
     };
   }
 }

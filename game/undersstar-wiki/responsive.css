@@ -1,0 +1,43 @@
+@media (max-width: 1180px) {
+  .wiki-shell { grid-template-columns: 240px minmax(0, 1fr); }
+  .right-rail { display: none; }
+}
+
+@media (max-width: 820px) {
+  :root { --header-height: 64px; }
+  .header-inner { width: min(100% - 20px, 1500px); }
+  .brand img { width: 110px; }
+  .brand span { display: none; }
+  .header-search { width: min(46vw, 320px); }
+  .header-search input { padding-right: .8rem; }
+  .search-hint { display: none; }
+  .nav-toggle { display: inline-grid; place-items: center; }
+  .wiki-shell { display: block; width: min(100% - 28px, 900px); }
+  .wiki-nav { position: fixed; top: var(--header-height); right: 0; bottom: 0; left: 0; z-index: 45; height: auto; padding: 1.2rem; overflow-y: auto; border: 0; background: rgba(3, 11, 16, .98); transform: translateX(-105%); transition: transform .2s ease; }
+  body.nav-open .wiki-nav { transform: translateX(0); }
+  .wiki-nav a { min-height: 44px; padding: .7rem .8rem; }
+  .wiki-main { padding-top: 2rem; }
+  .hero { min-height: 650px; }
+  .hero-inner { width: min(100% - 28px, 1500px); }
+  .steam-panel { grid-template-columns: 1fr; }
+  .steam-panel-actions { border-top: 1px solid rgba(102, 192, 244, .22); border-left: 0; }
+}
+
+@media (max-width: 620px) {
+  .header-actions .button { display: none; }
+  .header-search { flex: 1; width: auto; }
+  .hero::before { background: linear-gradient(0deg, #061018 0%, rgba(2, 8, 12, .72) 58%, rgba(2, 7, 11, .58)); }
+  .hero-media { object-position: 64% center; }
+  .hero-actions { display: grid; }
+  .hero-actions .button { width: 100%; }
+  .hero-facts { display: grid; grid-template-columns: 1fr 1fr; }
+  .card-grid, .control-grid { grid-template-columns: 1fr; }
+  .depth-track { grid-template-columns: 1fr 1fr; }
+  th, td { padding: .65rem; }
+}
+
+@media (max-width: 400px) {
+  .brand img { width: 92px; }
+  .header-inner { gap: .45rem; }
+  .hero-facts, .depth-track { grid-template-columns: 1fr; }
+}

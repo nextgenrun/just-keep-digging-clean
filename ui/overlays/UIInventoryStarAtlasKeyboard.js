@@ -1,17 +1,25 @@
 import { STAR_IDENTITY_LIBRARY_CONFIG } from
-  "../../values/starIdentityLibrary.js?rev=20260826-inventory-codex-v2";
+  "../../values/starIdentityLibrary.js?rev=20260830-star-codex-v3";
 import { getStarIdentitiesForRarity } from "../../values/starIdentityLibraryMath.js";
 
 function wrapIndex(value, count) {
   return ((value % count) + count) % count;
 }
 
+function getNavigableIdentities(rarityIndex, identityCounts) {
+  const identities = getStarIdentitiesForRarity(rarityIndex);
+  if (!Array.isArray(identityCounts)) return identities;
+  return identities.filter(identity => (identityCounts[identity.index] || 0) > 0);
+}
+
 export function resolveStarAtlasIdentityMove(
   rarityIndex,
   selectedIdentity,
   delta,
+  identityCounts = null,
 ) {
-  const identities = getStarIdentitiesForRarity(rarityIndex);
+  const identities = getNavigableIdentities(rarityIndex, identityCounts);
+  if (identities.length === 0) return selectedIdentity;
   const current = Math.max(
     0,
     identities.findIndex(identity => identity.index === selectedIdentity),
@@ -24,9 +32,11 @@ export function resolveStarAtlasPageMove(
   rarityIndex,
   selectedIdentity,
   direction,
+  identityCounts = null,
 ) {
   const config = STAR_IDENTITY_LIBRARY_CONFIG;
-  const identities = getStarIdentitiesForRarity(rarityIndex);
+  const identities = getNavigableIdentities(rarityIndex, identityCounts);
+  if (identities.length === 0) return selectedIdentity;
   const pageSize = config.inventory.layout.selectorsPerPage;
   const pageCount = Math.max(1, Math.ceil(identities.length / pageSize));
   const current = Math.max(
@@ -78,36 +88,42 @@ export class UIInventoryStarAtlasKeyboard {
         state.selectedStarRarity,
         state.selectedStarIdentity,
         -1,
+        state.starIdentityCounts,
       );
     } else if (navigation.rightCodes.includes(code)) {
       identityIndex = resolveStarAtlasIdentityMove(
         state.selectedStarRarity,
         state.selectedStarIdentity,
         1,
+        state.starIdentityCounts,
       );
     } else if (navigation.upCodes.includes(code)) {
       identityIndex = resolveStarAtlasIdentityMove(
         state.selectedStarRarity,
         state.selectedStarIdentity,
         -columns,
+        state.starIdentityCounts,
       );
     } else if (navigation.downCodes.includes(code)) {
       identityIndex = resolveStarAtlasIdentityMove(
         state.selectedStarRarity,
         state.selectedStarIdentity,
         columns,
+        state.starIdentityCounts,
       );
     } else if (navigation.previousPageCodes.includes(code)) {
       identityIndex = resolveStarAtlasPageMove(
         state.selectedStarRarity,
         state.selectedStarIdentity,
         -1,
+        state.starIdentityCounts,
       );
     } else if (navigation.nextPageCodes.includes(code)) {
       identityIndex = resolveStarAtlasPageMove(
         state.selectedStarRarity,
         state.selectedStarIdentity,
         1,
+        state.starIdentityCounts,
       );
     } else if (
       navigation.previousRarityCodes.includes(code)

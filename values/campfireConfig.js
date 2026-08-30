@@ -1,4 +1,4 @@
-// Campfire upgrade tiers and temporary blessing values.
+// Campfire upgrade tiers, consumable charges, and temporary blessing values.
 export const CAMPFIRE_TIERS = Object.freeze([
   Object.freeze({ level: 1, label: "Tier I", cost: 0, durationMs: 60000, miningSpeedBonus: 0.05, xpBonus: 0.10, critBonus: 0.02, desc: "Basic warmth (60s)" }),
   Object.freeze({ level: 2, label: "Tier II", cost: 5, durationMs: 75000, miningSpeedBonus: 0.08, xpBonus: 0.15, critBonus: 0.03, desc: "Cozy fire (75s)" }),
@@ -12,10 +12,142 @@ export const CAMPFIRE_TIERS = Object.freeze([
   Object.freeze({ level: 10, label: "Tier X", cost: 300, durationMs: 360000, miningSpeedBonus: 0.35, xpBonus: 0.90, critBonus: 0.20, desc: "Eternal flame (360s)" }),
 ]);
 
+export const CAMPFIRE_BLESSINGS = Object.freeze([
+  Object.freeze({
+    type: "warmth",
+    name: "Warmth",
+    color: "#FF6633",
+    desc: "+Mining Speed",
+    icon: "torch",
+    stat: "miningSpeedBonus",
+    statLabel: "MINING SPEED",
+  }),
+  Object.freeze({
+    type: "inspiration",
+    name: "Inspiration",
+    color: "#66AAFF",
+    desc: "+XP Gain",
+    icon: "stats",
+    stat: "xpBonus",
+    statLabel: "XP GAIN",
+  }),
+  Object.freeze({
+    type: "focus",
+    name: "Focus",
+    color: "#DD66FF",
+    desc: "+Crit Chance",
+    icon: "critical",
+    stat: "critBonus",
+    statLabel: "CRITICAL CHANCE",
+  }),
+]);
+
+const CAMPFIRE_REFILL_BASE_CHARGES = 1;
+const CAMPFIRE_REFILL_MAXIMUM_CHARGES = 2;
+
+export const CAMPFIRE_CONSUMABLE_CONFIG = Object.freeze({
+  version: 2,
+  startingCharges: CAMPFIRE_REFILL_BASE_CHARGES,
+  maximumCharges: 999,
+  chargesPerEmberOre: 1,
+  defaultBlessingType: CAMPFIRE_BLESSINGS[0].type,
+  refill: Object.freeze({
+    baseCharges: CAMPFIRE_REFILL_BASE_CHARGES,
+    emberDiscoveryIncrease: 1,
+    maximumCharges: CAMPFIRE_REFILL_MAXIMUM_CHARGES,
+    townRowRadiusTiles: 2,
+    sources: Object.freeze({
+      interaction: "campfire-interaction",
+      townReturn: "town-return",
+    }),
+  }),
+  saveReasons: Object.freeze({
+    collected: "campfire-ember-collected",
+    consumed: "campfire-charge-consumed",
+    refilled: "campfire-charge-refilled",
+  }),
+  copy: Object.freeze({
+    chargeLabel: "EMBER CHARGES",
+    empty: "No Ember Charges.",
+    findHint: "Mine Ember Ore underground, return to Town, or interact with the Campfire to restore Ember Charges.",
+    oreHint: "Mine Ember Ore underground to add Campfire charges.",
+    firstDiscovery: "EMBER FUELS THE CAMPFIRE",
+    collected: "EMBER CHARGE ADDED",
+    refilled: "EMBER CHARGES RESTORED",
+    refillUpgraded: "EMBER REFILL UPGRADED",
+    refillLead: "Town or Campfire restores at least",
+    refillUpgradeLead: "Find Ember Ore underground to upgrade this refill to",
+    refillComplete: "Ember refill upgrade found.",
+    consumeDetail: "Consumes one Ember Charge. The blessing starts immediately and remains visible in the HUD until it expires.",
+  }),
+  feedback: Object.freeze({
+    collectedColor: "#FF9A52",
+    refilledColor: "#FFD39B",
+    upgradedColor: "#FFB05E",
+    activatedColor: "#FFD39B",
+    durationMs: 1700,
+  }),
+});
+
+export function describeCampfireRefill(refillCapacity) {
+  const refill = CAMPFIRE_CONSUMABLE_CONFIG.refill;
+  const capacity = Math.max(
+    refill.baseCharges,
+    Math.min(refill.maximumCharges, Math.floor(Number(refillCapacity) || 0)),
+  );
+  const useLabel = capacity === 1 ? "use" : "uses";
+  const base = `${CAMPFIRE_CONSUMABLE_CONFIG.copy.refillLead} ${capacity} ${useLabel}.`;
+  if (capacity >= refill.maximumCharges) {
+    return `${base} ${CAMPFIRE_CONSUMABLE_CONFIG.copy.refillComplete}`;
+  }
+  return `${base} ${CAMPFIRE_CONSUMABLE_CONFIG.copy.refillUpgradeLead} `
+    + `${refill.maximumCharges} uses.`;
+}
+
+export function getCampfireBlessingPresentation(type, level = 1) {
+  const blessing = CAMPFIRE_BLESSINGS.find(entry => entry.type === type)
+    || CAMPFIRE_BLESSINGS[0];
+  const tierIndex = Math.max(0, Math.min(
+    CAMPFIRE_TIERS.length - 1,
+    Math.floor(Number(level) || 1) - 1,
+  ));
+  const tier = CAMPFIRE_TIERS[tierIndex];
+  const bonusPercent = Math.round((Number(tier[blessing.stat]) || 0) * 100);
+  return Object.freeze({
+    ...blessing,
+    bonusPercent,
+    effectText: `+${bonusPercent}% ${blessing.statLabel.toLowerCase()}`,
+  });
+}
+
+const CAMPFIRE_BLESSING_TYPES = new Set(
+  CAMPFIRE_BLESSINGS.map(blessing => blessing.type),
+);
+
 export function sanitizeCampfireData(value) {
   const level = Number.isFinite(value?.level) ? Math.floor(value.level) : 1;
+  const charges = Number.isFinite(value?.charges)
+    ? Math.floor(value.charges)
+    : CAMPFIRE_CONSUMABLE_CONFIG.startingCharges;
+  const refill = CAMPFIRE_CONSUMABLE_CONFIG.refill;
+  const inferredRefillCapacity = charges > refill.baseCharges
+    ? refill.maximumCharges
+    : refill.baseCharges;
+  const refillCapacity = Number.isFinite(value?.refillCapacity)
+    ? Math.floor(value.refillCapacity)
+    : inferredRefillCapacity;
+  const selectedBuffType = CAMPFIRE_BLESSING_TYPES.has(value?.selectedBuffType)
+    ? value.selectedBuffType
+    : CAMPFIRE_CONSUMABLE_CONFIG.defaultBlessingType;
   return {
+    version: CAMPFIRE_CONSUMABLE_CONFIG.version,
     level: Math.max(1, Math.min(CAMPFIRE_TIERS.length, level)),
+    charges: Math.max(0, Math.min(CAMPFIRE_CONSUMABLE_CONFIG.maximumCharges, charges)),
+    refillCapacity: Math.max(
+      refill.baseCharges,
+      Math.min(refill.maximumCharges, refillCapacity),
+    ),
+    selectedBuffType,
   };
 }
 

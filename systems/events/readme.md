@@ -12,8 +12,10 @@ restores wallet, inventory, event state, Journey, retention, and chest ownership
 when the authoritative save returns false or throws.
 
 Authoritative tuning, player copy, feature flags, and asset descriptors live in
-`values/randomWorldEvents.js`. Only one of the three ambient events may be active
-at a time. Completed Crystal Choir chambers are permanent; Sleeping Jackpot is
+`values/randomWorldEvents.js`. Only one of the two active ambient events may be
+active at a time. Money Monster Rush Order is retired from the schedulable type
+order; its old save records are sanitized through the existing retired-event
+migration. Completed Crystal Choir chambers are permanent; Sleeping Jackpot is
 persisted separately so it can mature without suppressing ambient events.
 
 Save schema V2 rejects unknown or retired active records, removes those types

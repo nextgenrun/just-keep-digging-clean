@@ -1,0 +1,38 @@
+{
+  "schemaVersion": "surface-background-seedance-generation-v2",
+  "state": "complete",
+  "startedAt": "2026-08-26T12:54:26.157776+00:00",
+  "updatedAt": "2026-08-26T12:54:26.551684+00:00",
+  "estimatedCostUsd": 0.61,
+  "knownCostUsd": 0.0,
+  "startFrame": "testing/animation-sandbox/2026-08-26-surface-background-loops-v2/seedance-loop-anchor-v2.png",
+  "startFrameSha256": "fd2f6f45d9e1bd43598760be9170f9a635941820de9b18b7e107e8432535b189",
+  "endFrame": "testing/animation-sandbox/2026-08-26-surface-background-loops-v2/seedance-loop-end-anchor-v2.png",
+  "endFrameSha256": "c249e0758d9324cab82b5f77ad529d4aaec2b2eec691b8cf39f113746661ea01",
+  "model": "bytedance/seedance-2.0-mini",
+  "durationSeconds": 15,
+  "aspectRatio": "21:9",
+  "animatedCrop": [
+    0,
+    0,
+    1680,
+    498
+  ],
+  "loopStrategy": "separate anchors with pixel-identical animated regions; true cycle; no ping-pong",
+  "apiKeyStored": false,
+  "results": [
+    {
+      "variant": {
+        "id": "01-mini-soft-canopy-cycle",
+        "label": "Soft canopy cycle",
+        "seed": 26082601,
+        "direction": "Let the tree canopy carry the motion. Near pine crowns complete one gentle sway cycle with displacement no greater than 0.7 percent of tree height; middle forest moves about 0.5 percent and distant treetops about 0.3 percent with small phase offsets. Existing chimney smoke curls inside a 10 pixel envelope, existing hanging lanterns and ropes swing less than one degree, and cloud edges softly reshape in place without traveling across the frame.",
+        "model": "bytedance/seedance-2.0-mini",
+        "estimatedCostUsd": 0.61,
+        "prompt": "Use the separately supplied first-frame and final-frame anchors exactly. Their animated upper regions are pixel-identical: begin at that neutral pose and arrive at precisely the same upper-region pixels on the final frame. The tiny difference is only in discarded ground. This is a fixed side-on 2D game background plate, never a cinematic camera shot. The camera, crop, image plane, horizon, mountains, buildings, rooflines, doors, road stones, and every rigid landmark must stay registered to the same pixels for all 15 seconds: zero pan, lateral slide, zoom, dolly, shake, reframing, global parallax, lens effect, morphing, or exposure sweep. The horizontal ground boundary begins at pixel Y 498 in this 1680 by 720 guide. Everything at Y 498 and below is context-only ground and must remain perfectly frozen; it will be discarded from the final animated asset. Only the town, forest, sky, and air above that boundary may animate. Do not add or remove any object, person, creature, bird, particle, weather, text, UI, logo, watermark, or audio. Create one true periodic ambient cycle across the full duration. The final upper region must return every tree, smoke curl, light, cloud edge, and haze value exactly to its opening phase. Motion must pass through the loop boundary smoothly without stopping, reversing, rewinding, crossfading the whole image, or resetting. Every visible forest depth participates subtly while every trunk and building stays rooted. Let the tree canopy carry the motion. Near pine crowns complete one gentle sway cycle with displacement no greater than 0.7 percent of tree height; middle forest moves about 0.5 percent and distant treetops about 0.3 percent with small phase offsets. Existing chimney smoke curls inside a 10 pixel envelope, existing hanging lanterns and ropes swing less than one degree, and cloud edges softly reshape in place without traveling across the frame."
+      },
+      "status": "failed",
+      "error": "HTTP 403: {\"error\":{\"message\":\"Key limit exceeded (total limit). Manage it using https://openrouter.ai/workspaces/default/keys/f3ec64e8cfc2c52a7f57401ec6d0fca39f1d9a80ca5988034821ea0926175957\",\"code\":403}}"
+    }
+  ]
+}

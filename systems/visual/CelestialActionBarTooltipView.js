@@ -53,18 +53,23 @@ export class CelestialActionBarTooltipView {
     this.root.setVisible(false);
   }
 
-  resize(viewportWidth, barCenterY, uiScale) {
+  resize(viewportWidth, barCenterY, uiScale, barLeft = this.barLeft) {
     this.viewportWidth = viewportWidth;
     this.barCenterY = barCenterY;
     this.uiScale = uiScale;
+    this.barLeft = barLeft;
     if (!this.slot || !Number.isFinite(viewportWidth)) return;
     const layout = this.config.layout;
     const tooltipScale = Math.max(uiScale, layout.tooltipMinimumScreenScale);
     const halfWidth = layout.tooltipWidthPx * tooltipScale / 2;
     const margin = layout.viewportMarginPx * tooltipScale;
+    const rightOfTooltip = Number.isFinite(barLeft)
+      ? barLeft - layout.tooltipGapPx * uiScale - halfWidth
+      : this.slot.basePosition.x;
     const x = Math.max(margin + halfWidth, Math.min(
       viewportWidth - margin - halfWidth,
       this.slot.basePosition.x,
+      rightOfTooltip,
     ));
     const y = barCenterY - (
       layout.foundationHeightPx / 2

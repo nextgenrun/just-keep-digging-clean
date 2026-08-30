@@ -58,6 +58,12 @@ GPU activation is spread across post-render idle windows. See
 `?runtimeAssetBitmap=0` for the serialized Phaser fallback or
 `?runtimeAssetQueue=0` for the complete legacy rollback.
 
+The Town Square upper beauty now uses one game-time 18-second living background
+loop, defaulting to `town-air`; the separate slate floor and terrain remain
+static gameplay-owned layers. Use `?surfaceMotion=1`, `2`, or `3` to compare the
+three loops, or `?surfaceMotion=0` for the static fallback. See
+`/markdown/2026-08-26-surface-living-background-runtime-v1.md`.
+
 The same runtime lane keeps all 296 audio entries available while Boot queues
 only a 21-file working set; use `?runtimeAudioQueue=0` to restore the old eager
 audio preload for comparison.

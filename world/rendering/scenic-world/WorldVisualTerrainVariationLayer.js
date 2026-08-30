@@ -9,18 +9,32 @@ import {
 import {
   WORLD_VISUAL_RUNTIME,
   resolveScenicDemandAssetStreamingEnabled,
-} from "../../../values/worldVisualRuntime.js?rev=20260729-native-density-v14";
+} from "../../../values/worldVisualRuntime.js?rev=20260826-surface-motion-v2";
 import { RUNTIME_ASSET_LOADING } from "../../../values/runtimeAssetLoading.js";
+import { getLevelOneBiomeGroundMaterialAssets } from
+  "../../../values/levelOneBiomeVisualFamilies.js";
 import { WorldVisualAssetCache } from "./WorldVisualAssetCache.js";
 import { WorldVisualTerrainVariationRegionView } from
   "./WorldVisualTerrainVariationRegionView.js?rev=20260729-native-density-v14";
 
-function regionAssets(region, includeCohesion = false) {
-  return [
-    ...region.plates,
-    ...(region.capAtlases || [region.capAtlas]),
-    ...(includeCohesion && region.cohesionPlate ? [region.cohesionPlate] : []),
-  ];
+function regionAssets(region, includeCohesion = false, search = "") {
+  const sourceRegions = region.biomeFieldRegionsById
+    ? Object.values(region.biomeFieldRegionsById)
+    : [region];
+  const assets = new Map();
+  sourceRegions.forEach(sourceRegion => {
+    sourceRegion.plates.forEach(asset => assets.set(asset.key, asset));
+    (sourceRegion.capAtlases || [sourceRegion.capAtlas])
+      .forEach(asset => assets.set(asset.key, asset));
+  });
+  if (includeCohesion && region.cohesionPlate) {
+    assets.set(region.cohesionPlate.key, region.cohesionPlate);
+  }
+  if (region.biomeFieldRegionsById) {
+    getLevelOneBiomeGroundMaterialAssets(undefined, search)
+      .forEach(asset => assets.set(asset.key, asset));
+  }
+  return [...assets.values()];
 }
 
 export class WorldVisualTerrainVariationLayer {
@@ -81,7 +95,7 @@ export class WorldVisualTerrainVariationLayer {
     const activeAssets = new Map();
     for (const region of regions) {
       const view = this._getOrCreateRegionView(region);
-      const allAssets = regionAssets(region, this.cohesionEnabled);
+      const allAssets = regionAssets(region, this.cohesionEnabled, this.search);
       const requiredAssets = this.demandStreamingEnabled
         ? view.resolveRequiredAssets(
           bounds,
@@ -116,7 +130,7 @@ export class WorldVisualTerrainVariationLayer {
 
   _isRegionReady(
     region,
-    assets = regionAssets(region, this.cohesionEnabled)
+    assets = regionAssets(region, this.cohesionEnabled, this.search)
   ) {
     const blockingAssets = assets.filter(
       asset => asset.key !== region.cohesionPlate?.key
@@ -144,7 +158,8 @@ export class WorldVisualTerrainVariationLayer {
       region,
       this.config,
       this.terrainMask,
-      this.cohesionEnabled
+      this.cohesionEnabled,
+      this.search
     );
     this.regionViews.set(region.id, view);
     return view;
@@ -152,7 +167,7 @@ export class WorldVisualTerrainVariationLayer {
 
   _requestRegionAssets(
     region,
-    assets = regionAssets(region, this.cohesionEnabled)
+    assets = regionAssets(region, this.cohesionEnabled, this.search)
   ) {
     for (const asset of assets) {
       if (this.scene.textures.exists(asset.key) || this.pendingAssetKeys.has(asset.key)) {

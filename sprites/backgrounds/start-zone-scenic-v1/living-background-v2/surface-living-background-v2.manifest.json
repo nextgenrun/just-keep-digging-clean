@@ -1,0 +1,157 @@
+{
+  "id": "surface-living-background-layers-v2",
+  "generated": "2026-08-26",
+  "strategy": "forward-only 18 second loops; four feathered canopy zones use independent monotonic time curves; structures are anchored; star pulses close exactly",
+  "runtimeDecoderCount": 1,
+  "groundIncluded": false,
+  "audioIncluded": false,
+  "sourceHashes": {
+    "soft": "594c77cc92238e1f7e6b47a5ba325509da2090ef02e5faf282183b4608dbb068",
+    "town": "1650f7a88e2445ef9ab1be954680e4a8d5ffb51b2ccd8e7def5bec19726132d6",
+    "night": "2e31f0b54786369041389ef98b1278e5660498cdd83ad00681cedaa0d995fdff"
+  },
+  "baselineTownAirMetrics": {
+    "meanCanopyMotionCorrelation": 0.9556,
+    "maxCanopyMotionCorrelation": 0.9804,
+    "meanUpperFrameStepMae": 0.2948,
+    "maxUpperFrameStepMae": 1.3285,
+    "loopSeamMae": 1.2113,
+    "loopSeamToMedianStepRatio": 4.8032,
+    "lowerStructureMeanStepMae": 0.3758,
+    "peakMotionFromStartMae": 5.6275
+  },
+  "results": [
+    {
+      "id": "natural-canopy",
+      "output": "sprites/backgrounds/start-zone-scenic-v1/living-background-v2/surface-natural-canopy-v2.mp4",
+      "sha256": "28c21fd4084389a3e45c5b3eaf86f2bb6c06187f996c0feb347c9acd9e92d9f3",
+      "bytes": 3660866,
+      "width": 1800,
+      "height": 534,
+      "fps": 24,
+      "frames": 432,
+      "durationSeconds": 18,
+      "groundIncluded": false,
+      "audioIncluded": false,
+      "sources": [
+        "town",
+        "town",
+        "town",
+        "town"
+      ],
+      "amplitudesFrames": [
+        24,
+        39,
+        31,
+        46
+      ],
+      "phasesRadians": [
+        0.35,
+        2.1,
+        4.25,
+        5.35
+      ],
+      "zoneStrength": 0.88,
+      "structureLock": 0.94,
+      "starCount": 10,
+      "metrics": {
+        "meanCanopyMotionCorrelation": 0.5744,
+        "maxCanopyMotionCorrelation": 0.7171,
+        "meanUpperFrameStepMae": 0.1732,
+        "maxUpperFrameStepMae": 0.9858,
+        "loopSeamMae": 0.9724,
+        "loopSeamToMedianStepRatio": 6.1419,
+        "lowerStructureMeanStepMae": 0.0784,
+        "peakMotionFromStartMae": 4.3301
+      }
+    },
+    {
+      "id": "depth-breeze",
+      "output": "sprites/backgrounds/start-zone-scenic-v1/living-background-v2/surface-depth-breeze-v2.mp4",
+      "sha256": "bab7e2ff57b70b7d1dff9b0a0c6237d8a01115ee07f10ba0bee4abfd9f85926f",
+      "bytes": 3511432,
+      "width": 1800,
+      "height": 534,
+      "fps": 24,
+      "frames": 432,
+      "durationSeconds": 18,
+      "groundIncluded": false,
+      "audioIncluded": false,
+      "sources": [
+        "soft",
+        "town",
+        "night",
+        "soft"
+      ],
+      "amplitudesFrames": [
+        26,
+        44,
+        52,
+        33
+      ],
+      "phasesRadians": [
+        3.45,
+        0.9,
+        4.8,
+        2.25
+      ],
+      "zoneStrength": 0.74,
+      "structureLock": 0.96,
+      "starCount": 9,
+      "metrics": {
+        "meanCanopyMotionCorrelation": 0.6994,
+        "maxCanopyMotionCorrelation": 0.763,
+        "meanUpperFrameStepMae": 0.171,
+        "maxUpperFrameStepMae": 1.0258,
+        "loopSeamMae": 0.9229,
+        "loopSeamToMedianStepRatio": 5.8283,
+        "lowerStructureMeanStepMae": 0.055,
+        "peakMotionFromStartMae": 3.7673
+      }
+    },
+    {
+      "id": "quiet-stars",
+      "output": "sprites/backgrounds/start-zone-scenic-v1/living-background-v2/surface-quiet-stars-v2.mp4",
+      "sha256": "525bec64a33893e3808dbbfe5fe6288f55d3d453b7b07d5099a73952c23e8d65",
+      "bytes": 3671668,
+      "width": 1800,
+      "height": 534,
+      "fps": 24,
+      "frames": 432,
+      "durationSeconds": 18,
+      "groundIncluded": false,
+      "audioIncluded": false,
+      "sources": [
+        "town",
+        "town",
+        "town",
+        "town"
+      ],
+      "amplitudesFrames": [
+        17,
+        31,
+        23,
+        38
+      ],
+      "phasesRadians": [
+        1.15,
+        4.05,
+        2.45,
+        5.65
+      ],
+      "zoneStrength": 0.82,
+      "structureLock": 0.97,
+      "starCount": 14,
+      "metrics": {
+        "meanCanopyMotionCorrelation": 0.6073,
+        "maxCanopyMotionCorrelation": 0.7155,
+        "meanUpperFrameStepMae": 0.1732,
+        "maxUpperFrameStepMae": 0.9864,
+        "loopSeamMae": 0.9752,
+        "loopSeamToMedianStepRatio": 6.1717,
+        "lowerStructureMeanStepMae": 0.0693,
+        "peakMotionFromStartMae": 4.5431
+      }
+    }
+  ]
+}

@@ -1,0 +1,682 @@
+{
+  "version": 5,
+  "date": "2026-08-26",
+  "production": true,
+  "generator": "ai-tools/2026-08-26-build-aligned-ground-damage-v5.py",
+  "imageGeneration": {
+    "mode": "OpenAI built-in image generation",
+    "promptSet": {
+      "groundAligned": "Create exactly sixteen distinct crack-only damage decals in a 4x4 grid, matching the dark earthy and blue-mineral UNDERSTAR ground references. Use fixed centered anchors, transparent gutters, charcoal fissure cores, narrow pale mineral lips, and no filled ground patches or damage badges.",
+      "groundAlphaCorrection": "Remove only the generated checkerboard and replace it with genuine alpha; preserve the crack linework, placement, scale, and grid.",
+      "crystalAligned": "Create exactly twelve crack-only crystalline, obsidian, and magma damage decals in a 4x3 grid, matching the UNDERSTAR blackglass and magma ground references. Use fixed centered anchors and genuine transparent gutters; no filled tiles, round badges, rubble piles, or opaque backing."
+    },
+    "referenceAssets": [
+      "sprites/backgrounds/world-visual-v2/depth/underground-foreground-textures-v6/weathered-roots-foreground-textures-atlas-v6.webp",
+      "sprites/backgrounds/world-visual-v2/depth/underground-foreground-textures-v6/blue-caverns-foreground-textures-atlas-v6.webp",
+      "sprites/backgrounds/world-visual-v2/depth/underground-foreground-textures-v6/blackglass-abyss-foreground-textures-atlas-v6.webp",
+      "sprites/backgrounds/world-visual-v2/depth/underground-foreground-textures-v6/core-magma-foreground-textures-atlas-v6.webp"
+    ]
+  },
+  "sources": {
+    "groundAlignedAlpha": {
+      "path": "sprites/backgrounds/world-visual-v2/semantic-decals-v1/ground-damage-aligned-v5/sources/2026-08-26-ground-damage-ground-aligned-alpha-v5.png",
+      "sha256": "766323e12610f332c6d3d06df5513346cc2058c046a2e1a8d7bcfe18495c346a",
+      "width": 1536,
+      "height": 1024,
+      "mode": "RGBA",
+      "decodedBytes": 6291456
+    },
+    "crystalAlignedAlpha": {
+      "path": "sprites/backgrounds/world-visual-v2/semantic-decals-v1/ground-damage-aligned-v5/sources/2026-08-26-ground-damage-crystal-aligned-alpha-v5.png",
+      "sha256": "d1e46f1cc06d315e98a45bdc1dbb32aef7603b5d79540766cd16746b40c594b6",
+      "width": 1536,
+      "height": 1024,
+      "mode": "RGBA",
+      "decodedBytes": 6291456
+    },
+    "materialResponses": {
+      "path": "sprites/fx/tile-destruction-fx-v3/tile-break-shards-v3.png",
+      "sha256": "7b4d5fb3c4ca70fbcf3bab8eeb0aff80f4b5c88b22f72c1188e374fc38aa9593",
+      "width": 400,
+      "height": 1360,
+      "mode": "RGBA",
+      "decodedBytes": 2176000
+    }
+  },
+  "atlases": {
+    "fracture": {
+      "path": "sprites/backgrounds/world-visual-v2/semantic-decals-v1/ground-damage-fracture-aligned-v5.png",
+      "sha256": "7c348216321c02358537f330690b5fd56ce0b4b6932b638965e5b9b6dd059ece",
+      "width": 3008,
+      "height": 3384,
+      "mode": "RGBA",
+      "decodedBytes": 40716288,
+      "frameSizePx": 188,
+      "columns": 16,
+      "variants": 24,
+      "rasterTiers": 12,
+      "logicalStates": 12,
+      "frameCount": 288
+    },
+    "response": {
+      "path": "sprites/backgrounds/world-visual-v2/semantic-decals-v1/ground-damage-response-aligned-v5.png",
+      "sha256": "d39f41b636329b74c19de7f25f842dcab989fe8d9546808f596e6387317ee6a0",
+      "width": 3008,
+      "height": 2444,
+      "mode": "RGBA",
+      "decodedBytes": 29406208,
+      "frameSizePx": 188,
+      "columns": 16,
+      "profiles": 33,
+      "tiers": 6,
+      "frameCount": 198
+    }
+  },
+  "contracts": {
+    "logicalTilePx": 94,
+    "fixedDisplayScale": 1.0,
+    "displayOrigin": [
+      0.5,
+      0.5
+    ],
+    "frameCenterPx": [
+      94.0,
+      94.0
+    ],
+    "contentBoxPx": 160,
+    "nativeSafeInsetPx": 7.0,
+    "stateScaleByState": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "fractureTierByState": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ],
+    "responseTierByState": [
+      0,
+      0,
+      1,
+      1,
+      2,
+      2,
+      3,
+      3,
+      4,
+      4,
+      5,
+      5
+    ],
+    "transformCount": 8,
+    "effectiveStructuralCombinations": 2304,
+    "fractureFrameOrder": "tier-major: tierIndex * 24 + variantIndex",
+    "responseFrameOrder": "tier-major: tierIndex * 33 + profileIndex",
+    "responseProfiles": [
+      {
+        "tileType": 1,
+        "tileName": "DIRT",
+        "family": "dirt",
+        "familyRow": 0
+      },
+      {
+        "tileType": 2,
+        "tileName": "STONE",
+        "family": "hard",
+        "familyRow": 2
+      },
+      {
+        "tileType": 3,
+        "tileName": "COPPER",
+        "family": "copper",
+        "familyRow": 3
+      },
+      {
+        "tileType": 4,
+        "tileName": "BEDROCK",
+        "family": "hard",
+        "familyRow": 2
+      },
+      {
+        "tileType": 5,
+        "tileName": "DARK_DIRT_NORMAL",
+        "family": "damp",
+        "familyRow": 1
+      },
+      {
+        "tileType": 6,
+        "tileName": "DARK_DIRT_STRONG",
+        "family": "damp",
+        "familyRow": 1
+      },
+      {
+        "tileType": 7,
+        "tileName": "BRONZE",
+        "family": "bronze",
+        "familyRow": 4
+      },
+      {
+        "tileType": 8,
+        "tileName": "STEEL",
+        "family": "steel",
+        "familyRow": 6
+      },
+      {
+        "tileType": 9,
+        "tileName": "IRON",
+        "family": "iron",
+        "familyRow": 5
+      },
+      {
+        "tileType": 10,
+        "tileName": "SILVER",
+        "family": "silver",
+        "familyRow": 7
+      },
+      {
+        "tileType": 11,
+        "tileName": "GOLD",
+        "family": "gold",
+        "familyRow": 8
+      },
+      {
+        "tileType": 12,
+        "tileName": "TELEPORT_TILE",
+        "family": "special",
+        "familyRow": 16
+      },
+      {
+        "tileType": 13,
+        "tileName": "GAMBLE_TILE",
+        "family": "special",
+        "familyRow": 16
+      },
+      {
+        "tileType": 14,
+        "tileName": "FLOOR_TOWN_1",
+        "family": "hard",
+        "familyRow": 2
+      },
+      {
+        "tileType": 15,
+        "tileName": "FLOOR_TOWN_2",
+        "family": "hard",
+        "familyRow": 2
+      },
+      {
+        "tileType": 16,
+        "tileName": "SKY_TILE",
+        "family": "crystal",
+        "familyRow": 13
+      },
+      {
+        "tileType": 17,
+        "tileName": "GEM_POWER_BLOCK",
+        "family": "special",
+        "familyRow": 16
+      },
+      {
+        "tileType": 18,
+        "tileName": "SPEED_BLOCK",
+        "family": "special",
+        "familyRow": 16
+      },
+      {
+        "tileType": 19,
+        "tileName": "XP_BLOCK",
+        "family": "special",
+        "familyRow": 16
+      },
+      {
+        "tileType": 20,
+        "tileName": "CRIT_BLOCK",
+        "family": "special",
+        "familyRow": 16
+      },
+      {
+        "tileType": 21,
+        "tileName": "BERSERK_BLOCK",
+        "family": "special",
+        "familyRow": 16
+      },
+      {
+        "tileType": 22,
+        "tileName": "COMBO_BLOCK",
+        "family": "special",
+        "familyRow": 16
+      },
+      {
+        "tileType": 23,
+        "tileName": "LEGEND_BLOCK",
+        "family": "special",
+        "familyRow": 16
+      },
+      {
+        "tileType": 24,
+        "tileName": "CAVE_WALL",
+        "family": "hard",
+        "familyRow": 2
+      },
+      {
+        "tileType": 27,
+        "tileName": "GEODE_INTERIOR",
+        "family": "geode",
+        "familyRow": 14
+      },
+      {
+        "tileType": 28,
+        "tileName": "GEODE_WALL",
+        "family": "geode",
+        "familyRow": 14
+      },
+      {
+        "tileType": 29,
+        "tileName": "CHEST",
+        "family": "relic",
+        "familyRow": 15
+      },
+      {
+        "tileType": 30,
+        "tileName": "GLOW_CRYSTAL",
+        "family": "crystal",
+        "familyRow": 13
+      },
+      {
+        "tileType": 31,
+        "tileName": "LAVA_DIRT",
+        "family": "lava",
+        "familyRow": 9
+      },
+      {
+        "tileType": 32,
+        "tileName": "OBSIDIAN",
+        "family": "obsidian",
+        "familyRow": 10
+      },
+      {
+        "tileType": 33,
+        "tileName": "EMBER_ORE",
+        "family": "ember",
+        "familyRow": 11
+      },
+      {
+        "tileType": 34,
+        "tileName": "MAGMA_CRYSTAL",
+        "family": "magma",
+        "familyRow": 12
+      },
+      {
+        "tileType": 35,
+        "tileName": "ANCIENT_RELIC_CACHE",
+        "family": "relic",
+        "familyRow": 15
+      }
+    ],
+    "coverage": {
+      "variant-01": [
+        0.00215,
+        0.004187,
+        0.006253,
+        0.008714,
+        0.011431,
+        0.014939,
+        0.018872,
+        0.021984,
+        0.025577,
+        0.02951,
+        0.032735,
+        0.03548
+      ],
+      "variant-02": [
+        0.002405,
+        0.004385,
+        0.007102,
+        0.010016,
+        0.012873,
+        0.016608,
+        0.020654,
+        0.024134,
+        0.027529,
+        0.032,
+        0.035706,
+        0.038649
+      ],
+      "variant-03": [
+        0.002122,
+        0.003282,
+        0.005715,
+        0.008035,
+        0.010157,
+        0.013128,
+        0.016099,
+        0.018843,
+        0.021758,
+        0.024955,
+        0.027416,
+        0.030019
+      ],
+      "variant-04": [
+        0.002377,
+        0.004414,
+        0.00679,
+        0.009874,
+        0.012789,
+        0.016325,
+        0.020428,
+        0.023512,
+        0.027331,
+        0.031406,
+        0.034886,
+        0.037828
+      ],
+      "variant-05": [
+        0.001726,
+        0.002829,
+        0.004668,
+        0.006762,
+        0.009337,
+        0.011657,
+        0.01392,
+        0.016523,
+        0.019296,
+        0.022606,
+        0.025323,
+        0.026794
+      ],
+      "variant-06": [
+        0.002405,
+        0.004074,
+        0.006677,
+        0.009309,
+        0.011855,
+        0.01525,
+        0.019041,
+        0.023144,
+        0.026369,
+        0.030783,
+        0.033697,
+        0.037064
+      ],
+      "variant-07": [
+        0.002348,
+        0.004442,
+        0.007187,
+        0.00962,
+        0.013213,
+        0.016693,
+        0.019834,
+        0.023512,
+        0.02702,
+        0.031208,
+        0.033924,
+        0.037376
+      ],
+      "variant-08": [
+        0.001981,
+        0.003367,
+        0.005687,
+        0.007866,
+        0.009761,
+        0.012392,
+        0.015986,
+        0.018928,
+        0.021644,
+        0.025521,
+        0.027841,
+        0.030557
+      ],
+      "variant-09": [
+        0.001811,
+        0.003084,
+        0.005178,
+        0.007356,
+        0.009988,
+        0.012421,
+        0.015873,
+        0.018985,
+        0.021277,
+        0.024361,
+        0.02685,
+        0.029482
+      ],
+      "variant-10": [
+        0.001782,
+        0.002943,
+        0.005319,
+        0.006988,
+        0.009082,
+        0.011827,
+        0.014854,
+        0.017287,
+        0.019749,
+        0.023059,
+        0.02586,
+        0.027897
+      ],
+      "variant-11": [
+        0.002631,
+        0.00464,
+        0.007102,
+        0.009507,
+        0.012477,
+        0.015901,
+        0.020682,
+        0.023597,
+        0.027105,
+        0.031717,
+        0.035225,
+        0.038083
+      ],
+      "variant-12": [
+        0.002037,
+        0.003537,
+        0.0058,
+        0.00795,
+        0.01027,
+        0.013411,
+        0.016523,
+        0.019551,
+        0.02221,
+        0.026115,
+        0.029284,
+        0.031208
+      ],
+      "variant-13": [
+        0.003622,
+        0.006451,
+        0.010327,
+        0.014939,
+        0.01907,
+        0.024474,
+        0.030104,
+        0.035395,
+        0.040742,
+        0.046684,
+        0.051268,
+        0.055964
+      ],
+      "variant-14": [
+        0.003197,
+        0.005687,
+        0.009365,
+        0.013637,
+        0.017004,
+        0.021927,
+        0.027218,
+        0.032226,
+        0.03664,
+        0.041733,
+        0.046118,
+        0.050306
+      ],
+      "variant-15": [
+        0.004301,
+        0.007894,
+        0.011204,
+        0.01641,
+        0.021163,
+        0.026822,
+        0.03316,
+        0.039073,
+        0.044194,
+        0.050617,
+        0.055936,
+        0.061057
+      ],
+      "variant-16": [
+        0.004584,
+        0.007752,
+        0.012421,
+        0.01774,
+        0.022974,
+        0.029425,
+        0.036159,
+        0.041874,
+        0.047901,
+        0.055031,
+        0.060916,
+        0.066376
+      ],
+      "variant-17": [
+        0.003112,
+        0.005659,
+        0.009478,
+        0.012845,
+        0.017089,
+        0.022323,
+        0.026935,
+        0.032,
+        0.036244,
+        0.041931,
+        0.04592,
+        0.050334
+      ],
+      "variant-18": [
+        0.002744,
+        0.004951,
+        0.007809,
+        0.010893,
+        0.014147,
+        0.018164,
+        0.022804,
+        0.026426,
+        0.03033,
+        0.03514,
+        0.038705,
+        0.042242
+      ],
+      "variant-19": [
+        0.003989,
+        0.007102,
+        0.011148,
+        0.015788,
+        0.020428,
+        0.025945,
+        0.032537,
+        0.037574,
+        0.04261,
+        0.049032,
+        0.054238,
+        0.05919
+      ],
+      "variant-20": [
+        0.003141,
+        0.005744,
+        0.00846,
+        0.012138,
+        0.015335,
+        0.01972,
+        0.024078,
+        0.028152,
+        0.03217,
+        0.037234,
+        0.041252,
+        0.045015
+      ],
+      "variant-21": [
+        0.003876,
+        0.006083,
+        0.009705,
+        0.014656,
+        0.01791,
+        0.022635,
+        0.02736,
+        0.032481,
+        0.037772,
+        0.042581,
+        0.046854,
+        0.051268
+      ],
+      "variant-22": [
+        0.004103,
+        0.006196,
+        0.010214,
+        0.014316,
+        0.017825,
+        0.022918,
+        0.02852,
+        0.032651,
+        0.037206,
+        0.042921,
+        0.047589,
+        0.051947
+      ],
+      "variant-23": [
+        0.003593,
+        0.006338,
+        0.010384,
+        0.014543,
+        0.018249,
+        0.023908,
+        0.029425,
+        0.034405,
+        0.039328,
+        0.045071,
+        0.049655,
+        0.054069
+      ],
+      "variant-24": [
+        0.003141,
+        0.005687,
+        0.009224,
+        0.013213,
+        0.016467,
+        0.020739,
+        0.025973,
+        0.030472,
+        0.034546,
+        0.040459,
+        0.044505,
+        0.048551
+      ]
+    },
+    "decodedBytes": 70122496,
+    "decodedBudgetBytes": 75497472
+  },
+  "rollback": {
+    "v4Query": "?groundDamageAtlas=v4",
+    "v3Query": "?groundDamageAtlas=v3",
+    "v2Query": "?groundDamageAtlas=v2",
+    "v1Query": "?groundDamageAtlas=legacy",
+    "rendererQuery": "?groundDamage=legacy"
+  }
+}

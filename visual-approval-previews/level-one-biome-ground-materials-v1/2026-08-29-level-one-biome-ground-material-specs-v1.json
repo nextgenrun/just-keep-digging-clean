@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "date": "2026-08-29",
+  "generationMode": "built-in ImageGen, one independent call per distinct asset",
+  "familySpecification": "visual-approval-previews/level-one-biome-families-v3/2026-08-29-level-one-biome-50-family-expansion-specs-v3.json",
+  "outputDimensions": [1536, 1024],
+  "variants": {
+    "primary": "Build the biome's primary close-range earth identity from dense interlocking strata, embedded fragments, braided veins, and broad diagonal material flow. Mix fine, medium, and large features without a repeated grid.",
+    "secondary": "Build a clearly different secondary deposit from broken plates, fault breccia, swept sediment fans, cross-cut veins, and a contrasting feature orientation and scale. It must remain recognizably the same biome but not resemble the primary layout."
+  },
+  "sharedPrompt": {
+    "useCase": "stylized-concept",
+    "assetType": "production full-coverage underground terrain material plate for UNDERSTAR gameplay",
+    "style": "painterly high-detail premium dark-fantasy game ground material, realistic rock, soil, root, mineral, glass, bone, resin, or metal texture as appropriate; readable at gameplay zoom",
+    "composition": "straight-on orthographic macro material surface, full-bleed edge-to-edge 1536x1024 landscape canvas, continuous visual density, no focal landmark and no empty area",
+    "lighting": "even restrained raking light across the complete surface, dark but readable values, no center spotlight, no vignette, no horizon, and no baked rectangular frame",
+    "constraints": "opaque material at all four edges and all four corners; no transparency or alpha cutout; no isolated formation; no cavern room, platform, architecture, arch, building, character, creature, ore node, resource, collectible, treasure, UI, icon, text, lettering, logo, watermark, border, contact sheet, or multiple variants in one image"
+  },
+  "counts": {
+    "addedFamilies": 30,
+    "variantsPerFamily": 2,
+    "newImageGenSources": 60,
+    "retainedLevelOneGroundConcepts": 36,
+    "totalLevelOneGroundConcepts": 96
+  }
+}

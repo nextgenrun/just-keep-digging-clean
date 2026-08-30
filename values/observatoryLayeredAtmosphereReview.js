@@ -1,0 +1,28 @@
+export const OBSERVATORY_LAYERED_ATMOSPHERE_REVIEW = Object.freeze({
+  sceneKey: "ObservatoryLayeredAtmosphereReview",
+  cloudPipelineKey: "ObservatoryCloudFlowPipeline",
+  lightPipelineKey: "ObservatoryEmissivePipeline",
+  viewport: Object.freeze({ width: 1280, height: 720 }),
+  sourceSize: Object.freeze({ width: 1672, height: 941 }),
+  loopSeconds: 32,
+  source: Object.freeze({
+    key: "observatory-source",
+    path: "../../../sprites/backgrounds/world-visual-v2/far/sky-cohesion-v1/2026-07-28-sky-13-level2-lower-iron-forge-haze-v1.webp",
+  }),
+  staticSky: Object.freeze({ key: "observatory-static-sky", path: "./pack/static-sky-v2.png" }),
+  architecture: Object.freeze({ key: "observatory-architecture", path: "./pack/architecture-diffuse-v2.png" }),
+  emissive: Object.freeze({ key: "observatory-emissive", path: "./pack/architecture-emissive-v2.png" }),
+  lightIds: Object.freeze({ key: "observatory-light-ids", path: "./pack/architecture-light-id-v2.png" }),
+  segmentationReview: Object.freeze({ key: "observatory-segments", path: "./pack/segmentation-review-v2.png" }),
+  cloudLayers: Object.freeze([
+    Object.freeze({ key: "upper-wisps", path: "./pack/upper-wisps-v2.png", amplitudeUv: 0.0022, frequencyX: 5.0, frequencyY: 7.0, verticalRatio: 0.48, cycles: 2.0, phaseOffset: 0.13 }),
+    Object.freeze({ key: "upper-crown", path: "./pack/upper-crown-v2.png", amplitudeUv: 0.0031, frequencyX: 3.4, frequencyY: 5.2, verticalRatio: 0.42, cycles: 1.0, phaseOffset: 0.41 }),
+    Object.freeze({ key: "horizon-mist", path: "./pack/horizon-mist-v2.png", amplitudeUv: 0.0017, frequencyX: 7.0, frequencyY: 2.8, verticalRatio: 0.22, cycles: 2.0, phaseOffset: 0.68 }),
+    Object.freeze({ key: "cloud-sea-far", path: "./pack/cloud-sea-far-v2.png", amplitudeUv: 0.0037, frequencyX: 5.3, frequencyY: 3.2, verticalRatio: 0.34, cycles: 1.0, phaseOffset: 0.84 }),
+    Object.freeze({ key: "cloud-sea-near", path: "./pack/cloud-sea-near-v2.png", amplitudeUv: 0.0053, frequencyX: 4.1, frequencyY: 2.6, verticalRatio: 0.28, cycles: 1.0, phaseOffset: 0.27 }),
+  ]),
+  defaults: Object.freeze({ motionStrength: 1.0, lightStrength: 1.0, paused: false, view: "split" }),
+  limits: Object.freeze({ motionStrength: 1.4, lightStrength: 1.6 }),
+  lightMotion: Object.freeze({ baseIntensity: 0.72, pulseRange: 0.32, flutterRange: 0.10, bloomGain: 1.18 }),
+  viewModes: Object.freeze(["source", "runtime", "split", "layers", "lights"]),
+});

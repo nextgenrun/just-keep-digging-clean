@@ -1,0 +1,41 @@
+{
+  "year": "2019",
+  "terms": [
+    "steps dirt & gravel",
+    "single_step_footstep"
+  ],
+  "archives": [
+    {
+      "part": 3,
+      "url": "https://ftpmirror.your.org/pub/misc/sonniss2019/Sonniss.com - GDC 2019 - Game Audio Bundle Part 3of8.zip",
+      "entryCount": 145,
+      "matchCount": 3,
+      "matches": [
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 3of8/PMSFX - STEPS Dirt & Gravel/PM_SDNG_Stereo_Walk_Seamless_Loop_1.wav",
+          "compression": 8,
+          "crc32": 2682095548,
+          "compressedBytes": 6531455,
+          "uncompressedBytes": 7871436,
+          "localHeaderOffset": 1058094309
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 3of8/PMSFX - STEPS Dirt & Gravel/PM_SDNG_Single_Step_Footstep_46.wav",
+          "compression": 8,
+          "crc32": 2797107659,
+          "compressedBytes": 504462,
+          "uncompressedBytes": 570642,
+          "localHeaderOffset": 1064625914
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 3of8/PMSFX - STEPS Dirt & Gravel/PM_SDNG_Single_Step_Footstep_19.wav",
+          "compression": 8,
+          "crc32": 4089426868,
+          "compressedBytes": 467874,
+          "uncompressedBytes": 519762,
+          "localHeaderOffset": 1065130522
+        }
+      ]
+    }
+  ]
+}

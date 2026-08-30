@@ -149,9 +149,11 @@ relic records, and build a strong Flight/mining/ability loadout.
 
 ### Celestial mastery
 
-Unlock all ten constellations, forge one Star Heart, and permanently attune one
-of three bounded Celestial Engines. The choice is permanent in normal play;
-debug God Mode may switch without mutating the save.
+Spend Star Points through three 11-node Engine branches. The first root opens
+at Level 3 and each completed capstone opens another root, so all three bounded
+Engines can eventually be owned. Sky Stars recharge the shared two-cast Star
+Heart bank; debug God Mode remains free without mutating the save. The ten Sign
+masteries separately improve Quick Slash and Thunder Strike.
 
 ### Level Two and Arc Core
 

@@ -1,4 +1,11 @@
 import { TILE_TYPES } from "./tileTypes.js";
+import {
+  LEVEL_ONE_BIOME_FIELD,
+  doesLevelOneBiomeFieldAffectRegion,
+  resolveLevelOneBiomeFieldEnabled,
+} from "./levelOneBiomeField.js";
+import { getLevelOneBiomeGroundMaterialAssets } from
+  "./levelOneBiomeVisualFamilies.js";
 
 const DISABLED_QUERY_VALUES = Object.freeze([
   "0", "false", "off", "disabled", "legacy",
@@ -407,16 +414,32 @@ export function resolveWorldVisualTerrainVariationRegions(
   if (bottomTileExclusive <= topTile) return [];
   const includeV5 = resolveWorldVisualTerrainExpansionV5Enabled(config, search);
   const seamBlendEnabled = resolveWorldVisualTerrainSeamBlendEnabled(config, search);
-  return config.regions
+  const resolvedRegions = config.regions.map(entry => resolveRegionPlates(
+    entry,
+    includeV5,
+    seamBlendEnabled,
+    config
+  ));
+  const fieldEnabled = resolveLevelOneBiomeFieldEnabled(
+    LEVEL_ONE_BIOME_FIELD,
+    search
+  );
+  const fieldRegionsById = fieldEnabled
+    ? Object.freeze(Object.fromEntries(
+      resolvedRegions
+        .filter(entry => LEVEL_ONE_BIOME_FIELD.sourceRegionIds.includes(entry.id))
+        .map(entry => [entry.id, entry])
+    ))
+    : null;
+  return resolvedRegions
     .filter(entry => (
       entry.bottomTileExclusive > topTile
       && entry.topTile < bottomTileExclusive
     ))
-    .map(entry => resolveRegionPlates(
-      entry,
-      includeV5,
-      seamBlendEnabled,
-      config
+    .map(entry => (
+      fieldRegionsById && doesLevelOneBiomeFieldAffectRegion(entry)
+        ? Object.freeze({ ...entry, biomeFieldRegionsById: fieldRegionsById })
+        : entry
     ));
 }
 
@@ -454,7 +477,7 @@ export function getWorldVisualTerrainVariationRuntimeAssets(
   const includeV5 = resolveWorldVisualTerrainExpansionV5Enabled(config, search);
   const includeCohesion = resolveWorldVisualTerrainCohesionEnabled(config, search);
   const seamBlendEnabled = resolveWorldVisualTerrainSeamBlendEnabled(config, search);
-  return config.regions.flatMap(entry => [
+  const terrainAssets = config.regions.flatMap(entry => [
     ...(seamBlendEnabled ? entry.seamBasePlatesV6 : entry.basePlates),
     ...(includeV5
       ? (seamBlendEnabled ? entry.seamV5PlatesV6 : entry.v5Plates)
@@ -465,6 +488,10 @@ export function getWorldVisualTerrainVariationRuntimeAssets(
     entry.capAtlas,
     ...(includeV5 ? [entry.v5CapAtlas] : []),
   ]);
+  return [
+    ...terrainAssets,
+    ...getLevelOneBiomeGroundMaterialAssets(undefined, search),
+  ];
 }
 
 export function resolveWorldVisualTerrainCohesionPlacement(

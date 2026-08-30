@@ -1,0 +1,54 @@
+{
+  "status": "review-only",
+  "source": {
+    "path": "sprites/backgrounds/world-visual-v2/far/sky-cohesion-v1/2026-07-28-sky-13-level2-lower-iron-forge-haze-v1.webp",
+    "sha256": "a1d6bf7b7f945bf1baf4f9c846c9ba7d9c44231d5804fcaa945c581e5c45e029",
+    "width": 1672,
+    "height": 941
+  },
+  "townSquareGuard": {
+    "path": "sprites/backgrounds/start-zone-scenic-v1/living-background-v1/surface-town-air-v1.mp4",
+    "sha256": "1650f7a88e2445ef9ab1be954680e4a8d5ffb51b2ccd8e7def5bec19726132d6",
+    "modified": false
+  },
+  "depthModel": {
+    "name": "Depth Anything V2 Small",
+    "repositoryCommit": "a561b849ebae10a6f5ef49e26c83cbbcd36c71bf",
+    "checkpointSha256": "715fade13be8f229f8a70cc02066f656f2423a59effd0579197bbf57860e1378",
+    "inputSize": 518
+  },
+  "segmentationModel": {
+    "name": "nvidia/segformer-b0-finetuned-ade-512-512",
+    "commit": "489d5cd81a0b59fab9b7ea758d3548ebe99677da",
+    "usedLabels": {
+      "0": "wall",
+      "1": "building",
+      "2": "sky",
+      "25": "house",
+      "48": "skyscraper",
+      "61": "bridge",
+      "84": "tower"
+    }
+  },
+  "coverage": {
+    "upperCloud": 0.03658,
+    "lowerCloud": 0.109,
+    "rigidArchitecture": 0.14158
+  },
+  "authoring": {
+    "path": "values/observatoryRealtimeDepthMotionAuthoring.json",
+    "sha256": "9033883cf65b36ba3a8e4e6d6d36353b594540dbd8291327430099a0f204c073",
+    "rigidPolygonCount": 8
+  },
+  "assets": {
+    "depth-v2-small.png": "698f409f7bb0ef21571c3b65083d0ffa4ff850d39e052f30230f2bc2398bf7bd",
+    "lower-cloud-mask.png": "73e3b79fff4c2f724d8fb2e2614f97ef926bab9605878dc77425485282d7792c",
+    "mask-review.png": "c1025fcc6f5077d7ea357922e0980bb5b5e76280413c5a8f4388a65b6eb196cb",
+    "motion-domain-map.png": "a362037fde35ad057fb52b305426fed1a84076fb5a8533d269a2ebba373dad32",
+    "rigid-architecture-mask.png": "760f6766acea5d06b14fd1623e185629a4fb3ac315591736d166935a32326c92",
+    "semantic-class-map.png": "cd444b4d075d8bc247008f88eeb87628123324854363bac8294644aac5d87b51",
+    "semantic-rigid-probability.png": "7c2b8a16baec7cbd7a2da3e1342293106a8e4505138f37101f157813e49c7061",
+    "semantic-sky-probability.png": "a8a396008d52cdb11912f45b5c43281dc334b52776f9818567a76136c3b97113",
+    "upper-cloud-mask.png": "ea05d20c43f95dd301b8ed1def1679bfd9e92eda5e85e3c6dc9a26cb6becc100"
+  }
+}

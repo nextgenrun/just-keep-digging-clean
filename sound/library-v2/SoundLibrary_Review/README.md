@@ -25,6 +25,11 @@ The ElevenLabs mockup follows the same boundary. Its batch includes a local
 `index.html` sampler, complete reference effects, and isolated layers. Sampler
 ratings remain browser-local and do not promote or wire any file automatically.
 
+The follow-up `elevenlabs-prompt-contrast-v3-2026-08-26` batch compares the old
+reference mixes with complete, material-specific candidates. Its review page
+rates each candidate separately and can export those ratings as JSON so the
+good results can guide a smaller winner-only layering pass.
+
 ## Review tags
 
 UNTESTED

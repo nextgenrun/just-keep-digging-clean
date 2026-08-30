@@ -43,11 +43,11 @@ export class TutorialNarrationController {
     this.playedCueIds.add(cue.id);
     this.currentCueId = cueId;
     if (!this.config.recordingsReady || !cue.path) return true;
-    this.scene?.soundSystem?.voiceLineManager?.playExactVoiceLine?.({
+    this.scene?.soundSystem?.playNarrationVoiceLine?.({
       key: cue.assetKey,
       path: cue.path,
       file: cue.path.split("/").pop(),
-    });
+    }, cueId);
     return true;
   }
 

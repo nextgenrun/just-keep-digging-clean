@@ -13,6 +13,12 @@ import {
   "./worldVisualBlendMaskFrame.js?rev=20260729-native-density-v14";
 import { resolveWorldVisualSemanticSequenceIndex } from
   "./worldVisualSemanticSequence.js?rev=20260729-native-density-v14";
+import { resolveLevelOneBiomeFieldAtTile } from
+  "../../../values/levelOneBiomeField.js";
+import {
+  resolveLevelOneBiomeFamilyAssets,
+  resolveLevelOneBiomeLayerSeed,
+} from "../../../values/levelOneBiomeVisualFamilies.js";
 
 function sourceSize(scene, asset, videoConfig) {
   if (asset.type === "video") {
@@ -247,11 +253,13 @@ export class WorldVisualDepthBackdropRegionView {
   }
 
   _resolveSegmentAsset(column, row) {
-    const handoffs = this.backwalls.filter(asset => (
+    const fieldSelection = this._resolveBiomeFieldSelection(column, row);
+    const backwalls = fieldSelection?.backwalls || this.backwalls;
+    const handoffs = backwalls.filter(asset => (
       asset.path?.includes("-handoff-")
     ));
-    const body = this.backwalls.filter(asset => !handoffs.includes(asset));
-    if (handoffs.length > 0) {
+    const body = backwalls.filter(asset => !handoffs.includes(asset));
+    if (!fieldSelection && handoffs.length > 0) {
       const tileSize = this.scene.config.tileSize;
       const geometry = resolveSegmentGeometry(this.config.segment, tileSize);
       const regionSpan = resolveRegionSpan(this.region, this.config, tileSize);
@@ -269,10 +277,34 @@ export class WorldVisualDepthBackdropRegionView {
     return ordered[resolveWorldVisualSemanticSequenceIndex(
       column,
       row,
-      0,
+      fieldSelection
+        ? resolveLevelOneBiomeLayerSeed(fieldSelection.profile, "backdrop")
+        : 0,
       ordered.length,
       { profileId: "backdrop" }
     )];
+  }
+
+  _resolveBiomeFieldSelection(column, row) {
+    const pools = this.region.biomeFieldBackwallsByRegionId;
+    if (!pools) return null;
+    const tileSize = this.scene.config.tileSize;
+    const geometry = resolveSegmentGeometry(this.config.segment, tileSize);
+    const regionSpan = resolveRegionSpan(this.region, this.config, tileSize);
+    const centerTileX = this.region.leftTile
+      + (column * geometry.strideXPx + geometry.widthPx * 0.5) / tileSize;
+    const centerTileY = regionSpan.topTile
+      + (row * geometry.strideYPx + geometry.heightPx * 0.5) / tileSize;
+    const profile = resolveLevelOneBiomeFieldAtTile(centerTileX, centerTileY);
+    const parentBackwalls = profile ? pools[profile.sourceRegionId] : null;
+    const backwalls = parentBackwalls
+      ? resolveLevelOneBiomeFamilyAssets(
+        profile,
+        "backdrop",
+        parentBackwalls
+      )
+      : null;
+    return profile && backwalls?.length ? { profile, backwalls } : null;
   }
 
   _resolveRenderableSegmentAsset(requestedAsset) {

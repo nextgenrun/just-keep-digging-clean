@@ -9,7 +9,10 @@ import {
   createResolvedMovementSnapshot,
   resolveMovementSpeed,
 } from "../systems/progression/ResolvedPlayerStats.js";
-import { CAMPFIRE_CONFIG } from "../values/campfireConfig.js";
+import {
+  CAMPFIRE_CONFIG,
+  sanitizeCampfireData,
+} from "../values/campfireConfig.js";
 import { JOURNEY_CONFIG } from "../values/journeyConfig.js";
 import {
   createGameplayCapabilities,
@@ -248,7 +251,7 @@ const importResult = await store.importSave({
   }),
 });
 assert.equal(importResult.success, true);
-assert.deepEqual(importResult.saveData.campfireData, { level: 4 });
+assert.deepEqual(importResult.saveData.campfireData, sanitizeCampfireData({ level: 4 }));
 assert.equal(importResult.saveData.journeyData.events.length, 1);
 assert.deepEqual(store.loadForDisplay().dugTiles, ["9,9"]);
 assert.deepEqual(store.getBackups()[0].data.dugTiles, ["1,1"]);

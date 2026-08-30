@@ -10,22 +10,26 @@ import { HEAVENBLOCKS_VISUAL_CONFIG } from "../values/heavenblocksVisualConfig.j
 import { resolveWorldVisualLandmarkAnchor } from "../world/rendering/scenic-world/WorldVisualLandmarkLayer.js";
 import { createTitanE2EPreviewController } from "./JkdE2ETitanPreview.js";
 import { createLedgeAssistE2EPreviewController } from "./JkdE2ELedgeAssistPreview.js";
+import { createShadowMinerE2EPreviewController } from "./JkdE2EShadowMinerPreview.js";
 import { isLocalGameplayProfileHost } from "../values/gameplayCapabilities.js";
 import { SCENE_BASE_PHASES } from "../values/sceneRuntime.js";
+import { WEATHER_CONFIG } from "../values/weatherConfig.js";
 
 const BACKGROUND_PREVIEW_DEPTHS = Object.freeze([
-  100, 350, 700, 1100, 1450, 1800, 2500, 3500, 4500, 4990,
+  30, 100, 350, 700, 1100, 1450, 1800, 2500, 3500, 4500, 4990,
 ]);
 const BACKGROUND_PREVIEW_RANGES = Object.freeze({
   level1: Object.freeze({ minX: 1, maxX: 112 }),
   level2: Object.freeze({ minX: 113, maxX: 278 }),
 });
+const BACKGROUND_PREVIEW_SEARCH_RADIUS_TILES = 24;
 const SURFACE_BENCHMARK_PREVIEW_TILES = Object.freeze([4, 12, 14, 33, 63]);
 const SURFACE_PROP_PREVIEW_TILES = Object.freeze([
   40, 63, 89, 109,
   155, 169, 182, 195, 209, 231, 251, 271,
 ]);
 const STAR_PILLAR_PREVIEW_COUNTS = Object.freeze([0, 1, 3, 5, 7, 10]);
+const WEATHER_PREVIEW_SAMPLE_MS = Object.freeze([500, 2500, 6000]);
 const TEXTURE_AUDIT_RESOURCE_TYPES = Object.freeze([
   TILE_TYPES.STONE,
   TILE_TYPES.COPPER,
@@ -207,6 +211,10 @@ function getState(scene) {
     materialLightingEnabled: Boolean(scene.shaderSystem?.materialResponseEnabled),
     shader: scene.shaderSystem?.getDebugSnapshot?.() || null,
     caveHazards: scene.caveHazardSystem?.getSnapshot?.() || null,
+    weather: {
+      ...(scene.weatherSystem?.getSnapshot?.() || {}),
+      activeRainDrops: scene.weatherSystem?.impactRainController?.drops?.length || 0,
+    },
     depthGateOpen: Boolean(scene.depthGateSystem?.isOpen?.()),
     depthGateThreshold: scene.depthGateSystem?.activeGate?.threshold || null,
     dialogVisible: Boolean(scene.overlayManager?.shell?.root?.visible),
@@ -492,7 +500,17 @@ function findBackgroundPreviewTile(scene, level, depth) {
   const range = BACKGROUND_PREVIEW_RANGES[level];
   const targetY = GAME_CONFIG.topAirRows + depth;
   let best = null;
-  for (let y = Math.max(GAME_CONFIG.topAirRows, targetY - 48); y <= Math.min(GAME_CONFIG.worldDepthTiles - 3, targetY + 48); y++) {
+  for (
+    let y = Math.max(
+      GAME_CONFIG.topAirRows + 1,
+      targetY - BACKGROUND_PREVIEW_SEARCH_RADIUS_TILES,
+    );
+    y <= Math.min(
+      GAME_CONFIG.worldDepthTiles - 3,
+      targetY + BACKGROUND_PREVIEW_SEARCH_RADIUS_TILES,
+    );
+    y++
+  ) {
     for (let x = range.minX; x <= range.maxX; x++) {
       if (scene.worldModel?.isSolid?.(x, y) || !scene.worldModel?.isSolid?.(x, y + 1)) continue;
       let nearbyAir = 0;
@@ -624,11 +642,26 @@ export function installJkdE2EHarness(scene) {
   let caveHazardPreviewIndex = -1;
   let caveHazardKindPreviewIndex = -1;
   let currentCaveHazard = null;
+  const reportWeatherPreview = label => {
+    const weather = scene.weatherSystem;
+    const snapshot = weather?.getSnapshot?.() || {};
+    console.info(
+      `[JkdE2EHarness] Weather preview ${label}: `
+      + `kind=${snapshot.kind || "none"} `
+      + `intensity=${Number(snapshot.intensity || 0).toFixed(3)} `
+      + `rain=${Number(snapshot.rainAmount || 0).toFixed(3)} `
+      + `drops=${weather?.impactRainController?.drops?.length || 0}`,
+    );
+  };
   const titanPreview = createTitanE2EPreviewController(scene, {
     closeUi: () => closeTransientUi(scene),
     forcePlayer: options => forcePlayerState(scene, options),
   });
   const ledgeAssistPreview = createLedgeAssistE2EPreviewController(scene);
+  const shadowMinerPreview = createShadowMinerE2EPreviewController(scene, {
+    closeUi: () => closeTransientUi(scene),
+    forcePlayer: options => forcePlayerState(scene, options),
+  });
   const previewFirstUnlockedTitanStatue = () => {
     const discoveredIds = scene.retentionProgressSystem
       ?.getDiscoveredTitans?.() || [];
@@ -753,6 +786,11 @@ export function installJkdE2EHarness(scene) {
     console.info(`[JkdE2EHarness] Entered cave hazard ${currentCaveHazard.id} for failure validation`);
   };
   const handleBackgroundPreviewKey = event => {
+    if (event.ctrlKey && event.altKey && event.code === "KeyM") {
+      event.preventDefault?.();
+      shadowMinerPreview.activate();
+      return;
+    }
     if (event.code === "F1") {
       event.preventDefault?.();
       buildTextureAuditGallery(scene, event.shiftKey ? "dense" : "sparse");
@@ -814,14 +852,46 @@ export function installJkdE2EHarness(scene) {
     }
     if (event.code === "F11") {
       event.preventDefault?.();
-      scene.weatherSystem?.forceWeather?.("clear", 0, 10 * 60 * 1000);
-      console.info("[JkdE2EHarness] F11 clear-weather visual benchmark preview");
+      scene.weatherSystem?.forceWeather?.(
+        "clear",
+        0,
+        10 * 60 * 1000,
+        event.shiftKey,
+      );
+      console.info(
+        event.shiftKey
+          ? "[JkdE2EHarness] Shift+F11 smooth rain-release preview"
+          : "[JkdE2EHarness] F11 clear-weather visual benchmark preview",
+      );
+      if (event.shiftKey) {
+        WEATHER_PREVIEW_SAMPLE_MS.forEach(delay => {
+          scene.time?.delayedCall?.(delay, () => reportWeatherPreview(`release-${delay}ms`));
+        });
+      }
       return;
     }
     if (event.code === "F12") {
       event.preventDefault?.();
-      scene.weatherSystem?.forceWeather?.("snow", 1, 10 * 60 * 1000);
-      console.info("[JkdE2EHarness] F12 swept-collision snow preview");
+      const kind = event.shiftKey ? "rain" : "snow";
+      const intensity = event.shiftKey
+        ? WEATHER_CONFIG.phases.rain.intensity[1]
+        : WEATHER_CONFIG.phases.snow.intensity[1];
+      scene.weatherSystem?.forceWeather?.(
+        kind,
+        intensity,
+        10 * 60 * 1000,
+        event.shiftKey,
+      );
+      console.info(
+        event.shiftKey
+          ? "[JkdE2EHarness] Shift+F12 smooth rain-entry preview"
+          : "[JkdE2EHarness] F12 swept-collision snow preview",
+      );
+      if (event.shiftKey) {
+        WEATHER_PREVIEW_SAMPLE_MS.forEach(delay => {
+          scene.time?.delayedCall?.(delay, () => reportWeatherPreview(`entry-${delay}ms`));
+        });
+      }
       return;
     }
     if (event.code === "F10") {
@@ -878,6 +948,11 @@ export function installJkdE2EHarness(scene) {
     if (event.code === "F4") {
       event.preventDefault?.();
       previewCaveHazardKind();
+      return;
+    }
+    if (event.code === "Digit7") {
+      event.preventDefault?.();
+      shadowMinerPreview.activate();
       return;
     }
     if (event.code === "Digit9" || event.code === "Digit0") {
@@ -1043,6 +1118,9 @@ export function installJkdE2EHarness(scene) {
     backgroundPreviewIndex = (backgroundPreviewIndex + 1) % BACKGROUND_PREVIEW_DEPTHS.length;
     const depth = BACKGROUND_PREVIEW_DEPTHS[backgroundPreviewIndex];
     const previewTile = findBackgroundPreviewTile(scene, level, depth);
+    for (const threshold of [100, 300, 1000]) {
+      scene.depthGateSystem?.accepted?.add?.(threshold);
+    }
     forcePlayerState(scene, {
       tx: previewTile.tx,
       ty: previewTile.ty,
@@ -1071,10 +1149,11 @@ export function installJkdE2EHarness(scene) {
     previewUnderstarEnding: () => previewUnderstarEnding(scene),
     previewLedgeAssist: () => ledgeAssistPreview.advance(),
     previewTreasureChest: () => previewTreasureChest(scene),
+    previewShadowMiner: () => shadowMinerPreview.activate(),
   };
 
   window.__jkdE2E = harness;
-  console.info("[JkdE2EHarness] Installed in save-safe mode; F1 opens the sparse opaque-ImageGen texture gallery and Shift+F1 shows the intentionally over-dense comparison; F2 cycles cave hazards; F3 enters the selected hazard; F4 cycles one example of each hazard family; F5 previews the ImageGen Star Block release without awarding it; F6/F7/F8 preview star/bedrock/resource semantics; F9 previews the scenic mine entrance; F10 cycles surface benchmark anchors; Ctrl+Alt+F10 cycles modular surface prop clusters; Ctrl+Alt+S previews the Level 1/2 surface drop-through seam; F11 forces clear-weather benchmark lighting; F12 forces the swept-collision snow preview; 9/0 or Ctrl+Alt+Insert/Delete preview the two Sky Islands; 8 cycles Star Pillar stages; Ctrl+Alt+G stages the save-safe first tutorial gate for a real E-key test; Ctrl+Alt+B stages an off-route tutorial surface-drop bypass test; Ctrl+Alt+E previews the Understar ending; Ctrl+Alt+A cycles all nine surface-altar art stages without save writes; Ctrl+Alt+U funds and opens the Titan catalog; Ctrl+Alt+Y advances sealed/partial/one-left/complete Titan cover; Ctrl+Alt+I previews the first unlocked Titan plinth; Ctrl+Alt+K stages an unopened treasure chest with a zero wallet; Ctrl+Alt+L stages/cycles Ledge Assist; Ctrl+Alt+PageDown/PageUp preview backgrounds; Ctrl+Alt+T previews a Level 2 teleport; Ctrl+Alt+H cycles the three Heavenblocks; Ctrl+Alt+C/V remain cave-hazard aliases");
+  console.info("[JkdE2EHarness] Installed in save-safe mode; F1 opens the sparse opaque-ImageGen texture gallery and Shift+F1 shows the intentionally over-dense comparison; F2 cycles cave hazards; F3 enters the selected hazard; F4 cycles one example of each hazard family; F5 previews the ImageGen Star Block release without awarding it; F6/F7/F8 preview star/bedrock/resource semantics; F9 previews the scenic mine entrance; F10 cycles surface benchmark anchors; Ctrl+Alt+F10 cycles modular surface prop clusters; Ctrl+Alt+S previews the Level 1/2 surface drop-through seam; F11 forces clear-weather benchmark lighting and Shift+F11 previews smooth rain release; F12 forces the swept-collision snow preview and Shift+F12 previews smooth rain entry; 7 or Ctrl+Alt+M previews Shadow Miner; 9/0 or Ctrl+Alt+Insert/Delete preview the two Sky Islands; 8 cycles Star Pillar stages; Ctrl+Alt+G stages the save-safe first tutorial gate for a real E-key test; Ctrl+Alt+B stages an off-route tutorial surface-drop bypass test; Ctrl+Alt+E previews the Understar ending; Ctrl+Alt+A cycles all nine surface-altar art stages without save writes; Ctrl+Alt+U funds and opens the Titan catalog; Ctrl+Alt+Y advances sealed/partial/one-left/complete Titan cover; Ctrl+Alt+I previews the first unlocked Titan plinth; Ctrl+Alt+K stages an unopened treasure chest with a zero wallet; Ctrl+Alt+L stages/cycles Ledge Assist; Ctrl+Alt+PageDown/PageUp preview backgrounds; Ctrl+Alt+T previews a Level 2 teleport; Ctrl+Alt+H cycles the three Heavenblocks; Ctrl+Alt+C/V remain cave-hazard aliases");
   scene.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
     window.removeEventListener("keydown", handleBackgroundPreviewKey);
     if (window.__jkdE2E === harness) {

@@ -11,10 +11,17 @@ export class WaywardStarEngine {
     this.vx = this.direction.x * this.definition.speedTilesPerSecond * this.tileSize;
     this.vy = this.direction.y * this.definition.speedTilesPerSecond * this.tileSize;
     this.lastTrailAt = -Infinity;
-    this.lastRedirectAt = -Infinity;
+    this.supernovaImpacts = 0;
+    this.supernovaTargetKeys = new Set();
     this.active = true;
     this.finishing = false;
-    this._createVisual();
+    try {
+      this._createVisual();
+    } catch (error) {
+      this.active = false;
+      this._destroyVisual();
+      throw error;
+    }
   }
 
   _createVisual() {
@@ -84,19 +91,6 @@ export class WaywardStarEngine {
     }
   }
 
-  redirect(direction, nowMs) {
-    if (!this.active || this.finishing) return false;
-    if (nowMs - this.lastRedirectAt < this.definition.redirectCooldownMs) return false;
-    if (!this.budget.tryRedirect()) return false;
-    this.lastRedirectAt = nowMs;
-    const speed = this.definition.speedTilesPerSecond * this.tileSize;
-    this.vx = direction.x * speed;
-    this.vy = direction.y * speed;
-    this.onRedirect?.(this.x, this.y, this.budget.redirects);
-    this._spawnImpactRing(0xffd36b);
-    return true;
-  }
-
   _impactTargets(targets, nowMs) {
     const seen = new Set();
     for (const tile of targets) {
@@ -114,13 +108,25 @@ export class WaywardStarEngine {
     if (this.finishing || !this.active) return;
     this.finishing = true;
     const center = this.toTile(this.x, this.y);
+    const maxSupernovaImpacts = Math.max(
+      0,
+      Math.floor(Number(this.definition.supernovaMaxImpacts) || 0),
+    );
     for (const tile of enumerateDiscTiles(center, this.definition.supernovaRadiusTiles)) {
+      if (this.supernovaImpacts >= maxSupernovaImpacts) break;
       if (!this.probeTile(tile.tx, tile.ty).diggable) continue;
-      const hitId = this.budget.tryImpact(tile.tx, tile.ty);
-      if (!hitId) continue;
+      this.supernovaImpacts += 1;
+      this.supernovaTargetKeys.add(`${tile.tx},${tile.ty}`);
+      const hitId = [
+        this.budget.activationId,
+        "supernova",
+        this.supernovaImpacts,
+        tile.tx + "," + tile.ty,
+      ].join(":");
       this.onImpact?.(tile.tx, tile.ty, hitId, nowMs);
     }
     this._spawnImpactRing(0xffffff, 4.8);
+    this.scene.tweens?.killTweensOf?.(this.glow);
     this.scene.tweens.add({
       targets: this.glow,
       alpha: 0,
@@ -169,14 +175,46 @@ export class WaywardStarEngine {
   _finish(reason) {
     if (!this.active) return;
     this.active = false;
+    this.onComplete?.(reason, {
+      ...this.getSnapshot(this.scene.time?.now || 0),
+    });
+    this._destroyVisual();
+  }
+
+  getSnapshot(nowMs) {
+    const route = this.budget.getSnapshot(nowMs);
+    const maxSupernovaImpacts = Math.max(
+      0,
+      Math.floor(Number(this.definition.supernovaMaxImpacts) || 0),
+    );
+    const uniqueTargets = new Set([
+      ...this.budget._targetKeys,
+      ...this.supernovaTargetKeys,
+    ]).size;
+    return {
+      ...route,
+      active: this.active,
+      finishing: this.finishing,
+      remainingMs: Math.max(0, route.lifetimeMs - route.ageMs),
+      routeImpacts: route.impacts,
+      maxRouteImpacts: route.maxImpacts,
+      supernovaImpacts: this.supernovaImpacts,
+      maxSupernovaImpacts,
+      impacts: route.impacts + this.supernovaImpacts,
+      maxImpacts: route.maxImpacts + maxSupernovaImpacts,
+      uniqueTargets,
+    };
+  }
+
+  _destroyVisual() {
+    this.scene.tweens?.killTweensOf?.(this.sprite);
+    this.scene.tweens?.killTweensOf?.(this.glow);
     this.sprite?.destroy();
     this.glow?.destroy();
-    this.onComplete?.(reason, this.budget.getSnapshot(this.scene.time?.now || 0));
   }
 
   destroy() {
     this.active = false;
-    this.sprite?.destroy();
-    this.glow?.destroy();
+    this._destroyVisual();
   }
 }

@@ -70,8 +70,10 @@ Casual save may take the same oath through Bobo only after Flight and typed
 Once armed, every exact GP change flows through the central death boundary.
 Abilities, stress, falling rocks, cave traps, crush boundary, and Wurm hits can
 therefore resolve through one lives reducer. Darkness, rapid descent, and
-excessive depth build stress; high stress drains GP. Flight and torch upkeep
-are the deliberate exception at the final point: both
+excessive depth build stress; the bridge passes the stable torch intensity so
+brighter burn levels reduce darkness stress and recover sanity more strongly.
+High stress drains GP. Flight and torch upkeep are the deliberate exception at
+the final point: both
 stop at exactly 1 GP and cannot restart without spendable GP. Stress, combat
 abilities, rocks, traps, the Wurm, and other hazards can still consume that
 last point and trigger a revive or life loss.
@@ -93,6 +95,23 @@ large-panel presentation used by the oath/depth-gate family, supplies every
 saved recap page, and restores controls only after explicit close. The world
 visual grounds an airborne death record on authoritative terrain and rechecks
 that support if the current run digs beneath it.
+
+## Star Refuge sacrifice safety
+
+`StarSanctuaryBridge.js` composes the Star guard with the existing random-event
+tile guard. The first attempted Star sacrifice suspends gameplay and opens the
+shared approved typed modal; only exact `DESTROY` acknowledges the permanent
+loss, and closing or pressing Escape leaves the Star untouched. Afterwards,
+every Star still requires a fresh continuous mining hold. The bridge feeds the
+current held input and target into the environment guard, so release or target
+change resets progress, while the visual layer shows the exact scar radius and
+an approved framed percentage meter before normal `DigSystem` damage resumes.
+
+`PlaySceneSetup` also creates the lazy `WorldMapStarTerritorySystem`. Opening M
+derives one nearest-Star owner for every discovered underground map cell, shows
+the current route, and exposes unidentified signals without naming undiscovered
+Stars. A consumed Star remains the permanent severed owner of its territory;
+the map cannot reassign that damage or mutate discovery, rewards, or saves.
 
 ## Hardcore Graveborer Wurm
 
@@ -207,9 +226,10 @@ motion pass. Use `?worldFacade=0` for the deep static-material rollback and
 
 ## Star Heart runtime
 
-`PlaySceneSetup` restores `StarHeartProgressionSystem`, connects constellation
-mastery and newly collected sky stars, creates the choice overlay and
-`CelestialEngineController`, and includes the result in the current save schema.
+`PlaySceneSetup` restores `StarHeartProgressionSystem`, syncs talent-owned
+Engine roots, preserves the legacy charge fields for save compatibility,
+creates the choice overlay and `CelestialEngineController`, and includes the
+result in the current save schema.
 The physical Star Pillar owns `StarlightTalentTreeView`, split into large Quick
 Slash, Thunder Strike, and Celestial Engine pages. Left/Right changes the large
 choice on the active page and Up/Down changes pages. Collecting the first star
@@ -217,15 +237,25 @@ for a material section opens the Pillar view on that focused branch page and
 node once per save slot; later stars in that section never interrupt play. The
 ESC menu has no Talents page and exposes the Titan Archive as its progression
 collection view.
-`PlaySceneUpdate` advances one active Engine at a time. The controller consumes
-the bound `X` action, enforces every configured activation cap, routes tile
-damage through `DigSystem.applyCelestialDamage`, updates the fixed HUD and
-runtime canary snapshot, and supports the independent `?starHearts=0` rollback.
-The debug `V` God Mode refreshes this same progression object: all three Engines
-become freely switchable at the pillar and charge-free, while the permanent
+`PlaySceneUpdate` advances one active Celestial power at a time. The action bar
+routes each power to the controller, which atomically spends 100 GP, records the
+Heart milestone activation without consuming Celestial Charge, enforces every
+configured activation cap, and routes
+Wayward and Hollow tile damage through `DigSystem.applyCelestialDamage`, feeds
+Stellar Lance's bounded projectile snapshot and visual listener into normal dig
+actions, updates the fixed HUD and runtime-canary snapshot, and supports the
+independent `?starHearts=0` rollback. One Wayward activation may contain one to
+five independent stars; this is still one GP-paid active power, and re-press
+redirection is retired. Hollow Sun deploys two to five independently pulsing
+black holes and pulls destroyed-block fragments inward without relocating
+intact grid cells. Stellar Lance crosses air and diggable tiles, applies a
+fresh full mining transaction to every hit, and does not alter Stress or global
+damage/cadence.
+The debug `V` God Mode refreshes this same progression object: all three powers
+become freely switchable at the pillar and GP-free, while the permanent
 ownership save remains untouched and each activation keeps its normal caps.
 Normal saves earn three permanent Hearts at ten mastered constellations and 20
-and 50 completed Engine activations, so every Engine can eventually be owned
+and 50 completed power activations, so every power can eventually be owned
 while only one is equipped at a time.
 
 ## Thunderstrike chain
@@ -235,10 +265,15 @@ the main mine and compact caves. They keep the player action-locked from the
 paid charge through every earned continuation, execute each slam on the
 authored UAL contact, accept follow-up input only while the timing bar is live,
 and disperse the chain immediately on an early, late, or expired press. There
-are no timing-miss retries or level setbacks. Horizontal movement or Escape
-cancels immediately, restores control, and prevents any pending pre-contact
-slam from dealing damage. Only the initial cast uses the normal bounded
-ability-input buffer; follow-up presses are exact and unbuffered.
+are no timing-miss retries or level setbacks. Held horizontal input cannot
+cancel a committed strike; Escape is the explicit cancel and prevents any
+pending pre-contact slam from dealing damage. Only the initial cast uses the
+normal bounded ability-input buffer; follow-up presses are exact and
+unbuffered. While the chain runtime is active, the action-bar entry remains
+active and available even after Slam I has spent GP, so mouse input has the
+same free continuation access as the keyboard. The Thunderstrike overlay is
+limited to the authored timing rail, target window, and moving needle during
+the exact continuation phase; charge, impact, and outcome phases add no panel.
 
 ## Heavenblocks progression
 
@@ -276,6 +311,25 @@ onboarding remains in the persistent marker and Next Promise after resume.
 changing unlocked trophies or archive lore;
 `?titans=0` hides the archive and disables/de-queues all Titan presentation
 without deleting saved ids.
+
+## Shadow Miner runtime
+
+`ShadowMinerRuntime` owns a rare underground stress echo. It records a short
+rolling history of the selected player's real position, texture frame,
+animation key, facing, origin, and authored display size. An encounter replays
+that trail as a solid-purple silhouette: without protection its playback runs
+faster than real time and closes on the player; an active torch or nearby intact
+Star reverses the same valid trail so it visibly flees. Catch-up produces a
+brief stare before the echo dissolves. It never collides, damages terrain,
+grants rewards, queues saves, or writes stress.
+
+Casual and calm Hardcore play use the rare ambient profile. Canonical Hardcore
+warning and critical stress progressively raise chance, shorten starting delay,
+accelerate approach, and strengthen visibility. `values/shadowMiner.js` owns
+these constants. `?shadowMiner=0` is the rollback. Local testing can use
+`?shadowMiner10x=1` for exactly 10x faster admission timers or
+`?shadowMiner=review` for deterministic frequency. With `?jkd_e2e=1`, key `7`
+stages a save-safe walk/dig replay and then lights the torch to prove fleeing.
 
 ## Integrated cave gameplay
 
@@ -344,3 +398,10 @@ Two, while `CaveGameplayController` shares the same Milestone provider.
 Meaningful level results stay nonblocking: `PlaySceneUpdate` synchronizes and
 refills the expanded GP cap, forwards the exact reward summary to the approved
 level presentation, plays the two-step confirmation cue, and queues the save.
+
+Player-character speech is routed from existing state authority rather than a
+new polling narrative system. `PlayerVoiceRetentionBridge` maps discovery,
+record, earthquake-recap, and expedition-summary events; `PlayerVoiceInventoryBridge`
+emits only the rising edge into the final HUD fullness band. Setup and update
+also route confirmed Star release, combo, and depth-milestone transitions into
+the shared LEO director.

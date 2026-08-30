@@ -46,11 +46,6 @@ class ThunderStrikeChainReviewScene extends Phaser.Scene {
       ASSET_KEYS.ui.thunderStrikeNeedle,
       `../${THUNDER_STRIKE_CHAIN_CONFIG.timingBar.needleAssetPath}`,
     );
-    Object.entries(
-      THUNDER_STRIKE_CHAIN_CONFIG.timingBar.indicatorArt.assetPaths,
-    ).forEach(([name, path]) => {
-      this.load.image(ASSET_KEYS.ui.thunderStrikeIndicator[name], `../${path}`);
-    });
   }
 
   create() {
@@ -91,6 +86,11 @@ class ThunderStrikeChainReviewScene extends Phaser.Scene {
         stageNumber: this.stageIndex + 1,
         progress: this.progress,
         scale: this.timingBar.view.root?.scaleX || 0,
+        childCount: this.timingBar.view.root?.list?.length || 0,
+        visibleWidth: THUNDER_STRIKE_CHAIN_CONFIG.timingBar.visibleWidth
+          * (this.timingBar.view.root?.scaleX || 0),
+        visibleHeight: THUNDER_STRIKE_CHAIN_CONFIG.timingBar.visibleHeight
+          * (this.timingBar.view.root?.scaleY || 0),
         key: USER_SETTINGS.getKeyLabel("thunderStrike"),
       }),
     };
@@ -138,11 +138,15 @@ class ThunderStrikeChainReviewScene extends Phaser.Scene {
   }
 }
 
+const query = new URLSearchParams(globalThis.location?.search || "");
+const reviewWidth = Math.max(320, Number(query.get("width")) || 1280);
+const reviewHeight = Math.max(320, Number(query.get("height")) || 720);
+
 new Phaser.Game({
   type: Phaser.AUTO,
   parent: "review-root",
-  width: 1280,
-  height: 720,
+  width: reviewWidth,
+  height: reviewHeight,
   backgroundColor: "#03060b",
   transparent: false,
   render: {

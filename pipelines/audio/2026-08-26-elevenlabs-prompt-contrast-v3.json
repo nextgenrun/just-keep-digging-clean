@@ -1,0 +1,963 @@
+{
+  "schemaVersion": 1,
+  "provider": "ElevenLabs",
+  "modelId": "eleven_text_to_sound_v2",
+  "endpoint": "https://api.elevenlabs.io/v1/sound-generation",
+  "outputFormat": "mp3_44100_128",
+  "outputExtension": "mp3",
+  "outputRoot": "sound/library-v2/SoundLibrary_Review/00_INBOX_RAW_EXPORTS",
+  "defaultBatch": "elevenlabs-prompt-contrast-v3-2026-08-26",
+  "estimatedApiCreditsPerSecond": 40,
+  "costBasisUrl": "https://elevenlabs.io/docs/overview/capabilities/sound-effects",
+  "reviewStorageKey": "elevenlabs-prompt-contrast-v3",
+  "assets": [
+    {
+      "id": "GX261",
+      "name": "dig_soft_dirt_hit_satisfying_01",
+      "type": "One Shot",
+      "baselineFile": "elevenlabs-sfx-v2-mockup-2026-08-26/GX261_dig_soft_dirt_hit_satisfying_01__reference-mix__take01__UNTESTED.mp3",
+      "baselineVerdict": "REJECT",
+      "objective": "A soft-dirt mining hit that reads as earth immediately and survives rapid repetition.",
+      "listeningFor": "Earthy compression, a compact tool contact, brief loose grains, and no cinematic tail.",
+      "rejectIf": "It resembles stone, a generic boom, a whoosh, or an electronic impact.",
+      "variants": [
+        {
+          "id": "literal-loam",
+          "title": "Literal damp loam Foley",
+          "durationSeconds": 1.2,
+          "loop": false,
+          "promptInfluence": 0.4,
+          "prompt": "One isolated close-miked Foley recording: a blunt iron pick point punches into soft, slightly damp loam. Compact earthy thud, soil compression, then a tiny handful of loose grains. Start immediately and end cleanly. Natural tool and earth only; no rock crack, metal ring, whoosh, sub boom, synth, reverb, rhythm, or voice."
+        },
+        {
+          "id": "dry-clay",
+          "title": "Packed dry clay",
+          "durationSeconds": 1.2,
+          "loop": false,
+          "promptInfluence": 0.4,
+          "prompt": "One pickaxe tooth strikes packed dry clay at arm's length. Short woody handle knock, papery crust snap, tight granular crumble, then silence. Dry, tactile and medium-light. No boulder impact, explosion, cinematic boom, metal clang, swoosh, electronic tone, music, or voice."
+        },
+        {
+          "id": "repeat-safe",
+          "title": "Compact repeat-safe dirt hit",
+          "durationSeconds": 1.2,
+          "loop": false,
+          "promptInfluence": 0.4,
+          "prompt": "Compact repeat-safe mining hit: a small steel pick bites dense brown earth, rounded low-mid thunk plus a very brief sand spray. Forward, tactile, no tail and no room sound. It must read as soil rather than stone. No giant impact, bass drop, robot servo, laser, whoosh, music, or voice."
+        }
+      ]
+    },
+    {
+      "id": "GX270",
+      "name": "dig_stone_break_chunky_01",
+      "type": "One Shot",
+      "baselineFile": "elevenlabs-sfx-v2-mockup-2026-08-26/GX270_dig_stone_break_chunky_01__reference-mix__take01__UNTESTED.mp3",
+      "baselineVerdict": "GOOD",
+      "objective": "A chunky stone-block break with a different acoustic identity from dirt and crystal.",
+      "listeningFor": "A dry mineral fracture, two or three weighty chunks, and a short angular chip scatter.",
+      "rejectIf": "It becomes a cave-in, glass shatter, dirt burst, metal hit, or trailer boom.",
+      "variants": [
+        {
+          "id": "granite-shear",
+          "title": "Granite shear",
+          "durationSeconds": 1.6,
+          "loop": false,
+          "promptInfluence": 0.4,
+          "prompt": "A palm-sized granite block splits once under a mining pick: hard dry fracture, two dense chunks knock together, three or four angular chips scatter and stop. Close Foley recording, immediate attack and short decay. Natural granite only; no dirt burst, glass, metal clang, explosion, rolling boulders, sub boom, whoosh, music, or voice."
+        },
+        {
+          "id": "slate-layers",
+          "title": "Layered slate break",
+          "durationSeconds": 1.6,
+          "loop": false,
+          "promptInfluence": 0.4,
+          "prompt": "One compact slate block breaks along its layers. A flat sharp stone crack, several thin slabs clack against each other, then one brief grit fall. Dry studio Foley, modest weight, no cavern echo. No glass sparkle, sand pile, metallic ring, cinematic hit, rumble bed, synth, music, or voice."
+        },
+        {
+          "id": "repeat-safe",
+          "title": "Compact repeat-safe stone break",
+          "durationSeconds": 1.6,
+          "loop": false,
+          "promptInfluence": 0.4,
+          "prompt": "Short satisfying stone-block break for frequent gameplay: one decisive mineral snap, two chunky rock impacts and a tight pebble scatter, all finished quickly. Dense and physical, not oversized. No pickaxe clang, dirt thump, crystal chime, whoosh, trailer boom, long reverb, music, or voice."
+        }
+      ]
+    },
+    {
+      "id": "GX276",
+      "name": "dig_crystal_break_sparkle_01",
+      "type": "One Shot",
+      "baselineFile": "elevenlabs-sfx-v2-mockup-2026-08-26/GX276_dig_crystal_break_sparkle_01__reference-mix__take01__UNTESTED.mp3",
+      "baselineVerdict": "REJECT",
+      "objective": "A rewarding crystal break that stays physical and avoids the usual magical chime.",
+      "listeningFor": "Irregular brittle mineral detail over a small stone core, with no melody.",
+      "rejectIf": "It sounds like a bell, glass window, sparkle preset, laser, or musical reward cue.",
+      "variants": [
+        {
+          "id": "quartz-fracture",
+          "title": "Natural quartz fracture",
+          "durationSeconds": 1.5,
+          "loop": false,
+          "promptInfluence": 0.4,
+          "prompt": "A fist-sized quartz cluster fractures once on stone: crisp mineral snap, irregular brittle shard clicks, tiny pieces skitter briefly. Cold and glass-like but heavier than household glass; close dry Foley. No magical chime, bell tone, sparkle synth, whoosh, explosion, long ringing chord, music, or voice."
+        },
+        {
+          "id": "geode-open",
+          "title": "Geode shell opening",
+          "durationSeconds": 1.5,
+          "loop": false,
+          "promptInfluence": 0.4,
+          "prompt": "A small geode shell cracks open and releases short hard crystal ticks. Begin with a dull stone split, then a handful of uneven mineral fragments; finish quickly. Natural acoustic recording. No sweet glass shatter, glitter sound, tonal arpeggio, laser, sub boom, music, or voice."
+        },
+        {
+          "id": "star-mineral",
+          "title": "Heightened star mineral",
+          "durationSeconds": 1.5,
+          "loop": false,
+          "promptInfluence": 0.4,
+          "prompt": "Stylized yet physical star-mineral break: one bright brittle crack with a low stone core and a sparse spray of dry crystalline flecks. Compact, rewarding, repeat-safe, never musical. No bell, celesta, harp, synth shimmer, magic whoosh, giant crash, reverb wash, melody, or voice."
+        }
+      ]
+    },
+    {
+      "id": "GX201",
+      "name": "robot_power_on_clean_01",
+      "type": "One Shot",
+      "baselineFile": "elevenlabs-sfx-v2-mockup-2026-08-26/GX201_robot_power_on_clean_01__reference-mix__take01__UNTESTED.mp3",
+      "baselineVerdict": "REJECT",
+      "objective": "A handmade mining automaton startup with physical hardware instead of generic sci-fi audio.",
+      "listeningFor": "Asymmetrical relays, ratchets, contacts, or casing ticks that imply a repaired machine.",
+      "rejectIf": "It uses startup beeps, a smooth servo sweep, synth riser, laser, or continuous motor hum.",
+      "variants": [
+        {
+          "id": "relay-bakelite",
+          "title": "Worn relay and bakelite",
+          "durationSeconds": 1.7,
+          "loop": false,
+          "promptInfluence": 0.4,
+          "prompt": "A small hand-built mining automaton wakes: one sprung toggle snaps, two uneven electromechanical relay clicks, a tiny geared joint settles. Close, tactile, slightly worn metal and bakelite; no motor hum after the last click. No futuristic beeps, AI chirps, servo whine, laser, power-up swell, music, or voice."
+        },
+        {
+          "id": "clockwork-wake",
+          "title": "Workshop clockwork wake",
+          "durationSeconds": 1.7,
+          "loop": false,
+          "promptInfluence": 0.4,
+          "prompt": "One compact clockwork miner starts from rest: key tension releases, a short ratchet turns, a metal pawl locks, casing ticks once. Mechanical and imperfect, like a repaired workshop tool, not a robot cliche. No electronic bleep, transformer buzz, synth rise, pneumatic whoosh, engine loop, music, or voice."
+        },
+        {
+          "id": "field-hardware",
+          "title": "Rugged battery hardware",
+          "durationSeconds": 1.7,
+          "loop": false,
+          "promptInfluence": 0.4,
+          "prompt": "A rugged field robot receives power: battery contact snaps, a dry capacitor pop, one restrained internal mechanism twitch, then silence. Short real hardware Foley with asymmetry and no polished sci-fi sheen. No startup melody, digital chirp, servo sweep, electric zap tail, hum, music, or voice."
+        }
+      ]
+    },
+    {
+      "id": "GX389",
+      "name": "void_gate_pulse_01",
+      "type": "One Shot",
+      "baselineFile": "elevenlabs-sfx-v2-mockup-2026-08-26/GX389_void_gate_pulse_01__reference-mix__take01__UNTESTED.mp3",
+      "baselineVerdict": "REJECT",
+      "objective": "An uncanny void pulse made from air, stone, and gravity rather than a synthetic sci-fi preset.",
+      "listeningFor": "A single inward event, granular stone behavior, restrained pressure, and a fast natural decay.",
+      "rejectIf": "It becomes a laser, digital pulse, reverse cymbal, explosion, braam, or magical sparkle.",
+      "variants": [
+        {
+          "id": "inward-dust",
+          "title": "Inward dust pressure",
+          "durationSeconds": 2.2,
+          "loop": false,
+          "promptInfluence": 0.4,
+          "prompt": "One strange inward pressure pulse inside a cracked stone arch: loose dust and grit are sucked sharply toward the center, the stone gives one low stress knock, particles fall back. Short physical air-and-stone event, dry and unsettling. No outward explosion, sci-fi laser, synth sweep, bass drop, choir, music, or voice."
+        },
+        {
+          "id": "stone-membrane",
+          "title": "Stone membrane flex",
+          "durationSeconds": 2.2,
+          "loop": false,
+          "promptInfluence": 0.4,
+          "prompt": "A void gate flexes once like a vast taut membrane behind stone: brief air-pressure dip, granular rock vibration, one soft low thump, then immediate decay. Organic acoustic sound design, restrained. No digital pulse, electrical buzz, whoosh riser, trailer braam, echo wash, music, or voice."
+        },
+        {
+          "id": "gravity-pebbles",
+          "title": "Gravity and pebbles",
+          "durationSeconds": 2.2,
+          "loop": false,
+          "promptInfluence": 0.4,
+          "prompt": "A compact gravity anomaly passes through a stone doorway: air folds inward, pebbles lift with dry ticks, then one heavy mineral settling knock. One focused event, not a sequence. No laser, robot hum, magic sparkle, reverse cymbal, explosion, melody, music, or voice."
+        }
+      ]
+    },
+    {
+      "id": "GX296",
+      "name": "ui_confirm_positive_02",
+      "type": "One Shot",
+      "baselineFile": "elevenlabs-sfx-v2-mockup-2026-08-26/GX296_ui_confirm_positive_02__reference-mix__take01__UNTESTED.mp3",
+      "baselineVerdict": "REJECT",
+      "objective": "A warm, readable UI confirmation built from tactile materials instead of an electronic blip.",
+      "listeningFor": "Two tiny physical actions, a friendly contour, immediate silence, and clarity at low volume.",
+      "rejectIf": "It resembles an arcade beep, coin, bell, cash register, servo, or magical chime.",
+      "variants": [
+        {
+          "id": "slate-latch",
+          "title": "Slate tile and brass latch",
+          "durationSeconds": 0.8,
+          "loop": false,
+          "promptInfluence": 0.4,
+          "prompt": "One tactile positive interface confirmation made only from a tiny slate tile seating into a brass latch: dry mineral tick followed by a soft mechanical catch. Warm, compact, readable at low volume, under half a second. No electronic beep, coin, bell, sparkle, synth, melody, reverb, or voice."
+        },
+        {
+          "id": "mineral-socket",
+          "title": "Mineral bead and wooden socket",
+          "durationSeconds": 0.8,
+          "loop": false,
+          "promptInfluence": 0.4,
+          "prompt": "A small polished mineral bead drops into a wooden socket and locks with one muted click. Two-part positive UI cue, intimate and understated, no tail. Natural Foley with a bright but non-tonal top. No digital bleep, cash register, chime, magic shimmer, robot servo, music, or voice."
+        },
+        {
+          "id": "leather-detent",
+          "title": "Leather tab and brass detent",
+          "durationSeconds": 0.8,
+          "loop": false,
+          "promptInfluence": 0.4,
+          "prompt": "Short handcrafted UI confirm: a firm leather tab press plus a tiny brass detent click, centered and dry, with immediate silence. Friendly and satisfying without sounding technological or musical. No electronic tone, arcade blip, bell, coin, whoosh, reverb, music, or voice."
+        }
+      ]
+    },
+    {
+      "id": "GX371",
+      "name": "darkness_edge_creep_loop",
+      "type": "Loop",
+      "baselineFile": "elevenlabs-sfx-v2-mockup-2026-08-26/GX371_darkness_edge_creep_loop__reference-mix__take01__UNTESTED.mp3",
+      "baselineVerdict": "REJECT",
+      "objective": "A nearly silent cave-edge bed that feels physical and tense without becoming a horror drone.",
+      "listeningFor": "Sparse natural air or grit, lots of negative space, low level, and a clean seam.",
+      "rejectIf": "It contains a tonal drone, breathing, whispering, creatures, heartbeat, wind howl, or a featured event.",
+      "variants": [
+        {
+          "id": "dust-draft",
+          "title": "Narrow dust draft",
+          "durationSeconds": 5,
+          "loop": true,
+          "promptInfluence": 0.32,
+          "prompt": "Seamless five-second close cave-air loop: a faint irregular draft slides through a narrow crack and moves a few dry dust grains. Nearly silent, natural, no featured event and no tonal center. Stone air and grit only; no wind howl, breath, whisper, creature, heartbeat, drone, hum, music, or voice."
+        },
+        {
+          "id": "limestone-pressure",
+          "title": "Limestone pressure",
+          "durationSeconds": 5,
+          "loop": true,
+          "promptInfluence": 0.32,
+          "prompt": "Seamless five-second underground edge texture: subtle limestone pressure with rare tiny grit shifts, low level and uneven, as if darkness hides a tight rock passage. Physical room tone, no dramatic event. No synthetic drone, bass note, wind tunnel, whisper, animal, pulse, rhythm, music, or voice."
+        }
+      ]
+    },
+    {
+      "id": "GX388",
+      "name": "void_gate_idle_loop",
+      "type": "Loop",
+      "baselineFile": "elevenlabs-sfx-v2-mockup-2026-08-26/GX388_void_gate_idle_loop__reference-mix__take01__UNTESTED.mp3",
+      "baselineVerdict": "UNRATED",
+      "objective": "A distinctive void-gate idle that remains quiet, non-tonal, and clearly different from darkness ambience.",
+      "listeningFor": "Orbiting granular motion or restrained gate strain with asymmetry and empty space.",
+      "rejectIf": "It sounds like a sci-fi engine, robot buzz, tonal bass drone, choir, wind howl, or rhythmic pulse.",
+      "variants": [
+        {
+          "id": "orbiting-grit",
+          "title": "Orbiting grit",
+          "durationSeconds": 5,
+          "loop": true,
+          "promptInfluence": 0.32,
+          "prompt": "Seamless five-second loop around a cracked stone gate: sparse grains circle softly across rough rock while air pressure wavers very slowly. Quiet physical texture with much empty space and no obvious start. No electronic hum, synth drone, laser, tonal resonance, heartbeat, rhythm, music, or voice."
+        },
+        {
+          "id": "gate-strain",
+          "title": "Gate strain and pebble ticks",
+          "durationSeconds": 5,
+          "loop": true,
+          "promptInfluence": 0.32,
+          "prompt": "Seamless five-second void-gate room tone built from faint stone strain, a soft non-tonal pressure flutter and rare pebble ticks. Restrained, asymmetrical, background-level, no dominant event or seam. No sci-fi engine, robot buzz, bass note, choir, wind howl, melody, music, or voice."
+        }
+      ]
+    },
+    {
+      "id": "GX205",
+      "name": "robot_step_dirt_light_02",
+      "type": "One Shot",
+      "objective": "A small robot footstep whose dirt contact matters more than its machinery.",
+      "listeningFor": "A light metal foot softened by soil compression and a tiny irregular grit crunch.",
+      "rejectIf": "It becomes a servo, full-body robot movement, heavy stomp, beep, or generic impact.",
+      "variants": [
+        {
+          "id": "tin-foot-loam",
+          "title": "Tin foot into loam",
+          "durationSeconds": 0.9,
+          "loop": false,
+          "promptInfluence": 0.38,
+          "prompt": "One small riveted tin foot steps onto dry loam at walking weight. A thin plate tap is softened by soil compression, followed by two or three grains crunching. Close dry Foley, short and light. No servo, robot beep, heavy stomp, stone crack, bass hit, whoosh, music, or voice."
+        },
+        {
+          "id": "rubber-pad-dirt",
+          "title": "Rubber-edged iron pad",
+          "durationSeconds": 0.9,
+          "loop": false,
+          "promptInfluence": 0.38,
+          "prompt": "A palm-sized iron robot foot with a worn rubber edge presses into dusty dirt, making one muted metal knock and a compact gritty scuff. Natural close Foley with immediate silence. No motor, hydraulic hiss, electronic chirp, giant footstep, stone, reverb, music, or voice."
+        }
+      ]
+    },
+    {
+      "id": "GX211",
+      "name": "robot_land_heavy_02",
+      "type": "One Shot",
+      "objective": "A heavy robot landing that has weight without turning into a cinematic explosion.",
+      "listeningFor": "Two compact foot contacts, dense stone response, and one restrained chassis settle.",
+      "rejectIf": "It is a single sub boom, transformer crash, long metal rattle, or rubble collapse.",
+      "variants": [
+        {
+          "id": "two-foot-slab",
+          "title": "Two feet on stone slab",
+          "durationSeconds": 1.5,
+          "loop": false,
+          "promptInfluence": 0.4,
+          "prompt": "A waist-high mining robot lands on a thick stone slab: two close iron foot contacts almost together, a dense mineral knock, then one short chassis plate settle. Heavy but compact studio Foley. No explosion, sub drop, giant mech, debris avalanche, servo howl, music, or voice."
+        },
+        {
+          "id": "chassis-settle",
+          "title": "Iron landing with chassis settle",
+          "durationSeconds": 1.5,
+          "loop": false,
+          "promptInfluence": 0.4,
+          "prompt": "One rugged iron automaton drops a short distance onto rock. The feet make a blunt double clack, weight transfers into a low stone thud, and one loose casing washer ticks. Dry and finite. No cinematic boom, car crash, prolonged rattle, hydraulic release, synth, music, or voice."
+        }
+      ]
+    },
+    {
+      "id": "GX216",
+      "name": "robot_battery_insert_01",
+      "type": "One Shot",
+      "objective": "A satisfying battery insertion made from real contacts and a rugged mechanical lock.",
+      "listeningFor": "A cell sliding home, one contact snap, and a firm latch with no electronic flourish.",
+      "rejectIf": "It includes a power-up melody, zap, servo sweep, scanner chirp, or plastic toy sound.",
+      "variants": [
+        {
+          "id": "bakelite-cell",
+          "title": "Bakelite field cell",
+          "durationSeconds": 1,
+          "loop": false,
+          "promptInfluence": 0.4,
+          "prompt": "A chunky bakelite battery cell slides into a worn metal field device, copper contacts scrape once, then a sprung latch closes with a dense click. Close workshop Foley, no powered sound afterward. No electronic chime, electrical arc, servo, sci-fi swell, music, or voice."
+        },
+        {
+          "id": "brass-contact",
+          "title": "Brass contact and steel catch",
+          "durationSeconds": 1,
+          "loop": false,
+          "promptInfluence": 0.4,
+          "prompt": "One heavy battery cartridge seats into an iron robot: short wooden-shell slide, two brass contacts touch, a steel catch snaps shut. Tactile, rugged and under one second. No startup beep, spark burst, laser, motor spin, reverb tail, music, or voice."
+        }
+      ]
+    },
+    {
+      "id": "GX225",
+      "name": "hoverboard_boost_start_01",
+      "type": "One Shot",
+      "objective": "A mining-board boost start driven by pressure and hardware rather than a synthetic riser.",
+      "listeningFor": "A fast mechanical release, focused air displacement, and a brief plate vibration.",
+      "rejectIf": "It resembles a rocket, jet engine, laser, long whoosh, EDM riser, or car acceleration.",
+      "variants": [
+        {
+          "id": "air-bearing-release",
+          "title": "Air-bearing release",
+          "durationSeconds": 1.4,
+          "loop": false,
+          "promptInfluence": 0.38,
+          "prompt": "A compact mining board boost engages: a mechanical valve snaps, one tight cushion of compressed air pushes backward, and the thin lift plate vibrates briefly. Fast physical launch, close and dry. No rocket, jet turbine, laser, synth riser, long whoosh, music, or voice."
+        },
+        {
+          "id": "flywheel-kick",
+          "title": "Flywheel kick and air shove",
+          "durationSeconds": 1.4,
+          "loop": false,
+          "promptInfluence": 0.38,
+          "prompt": "A rugged hover platform starts a short boost with one flywheel kick, a tense metal bracket snap and a compact low air shove. The event peaks instantly and ends cleanly. No spacecraft engine, electric sweep, car rev, explosion, tonal rise, music, or voice."
+        }
+      ]
+    },
+    {
+      "id": "GX231",
+      "name": "hoverboard_land_dirt_01",
+      "type": "One Shot",
+      "objective": "A low hoverboard touchdown that clearly combines a plate with soft dirt.",
+      "listeningFor": "A broad light plate contact, a small dust puff, and stabilizer hardware settling.",
+      "rejectIf": "It sounds like a car crash, robot stomp, giant slab, explosion, or prolonged skid.",
+      "variants": [
+        {
+          "id": "plate-touchdown",
+          "title": "Plate touchdown",
+          "durationSeconds": 1.4,
+          "loop": false,
+          "promptInfluence": 0.4,
+          "prompt": "A narrow iron hoverboard settles from a few centimeters onto dry earth. Broad muted plate thump, shallow soil compression, a soft dust puff, then two tiny stabilizer catches click off. Close Foley. No crash, heavy stomp, engine, power-down sweep, music, or voice."
+        },
+        {
+          "id": "skid-settle",
+          "title": "Short dirt skid and settle",
+          "durationSeconds": 1.4,
+          "loop": false,
+          "promptInfluence": 0.4,
+          "prompt": "A small mining board touches dirt while moving slowly: brief flat metal contact, hand-width grit skid, compact soil bump, one loose bracket tick. Light vehicle Foley, quickly finished. No motorcycle, car tire, collision boom, long scrape, synth, music, or voice."
+        }
+      ]
+    },
+    {
+      "id": "GX243",
+      "name": "tile_gravel_break_01",
+      "type": "One Shot",
+      "objective": "A gravel tile collapse that remains loose and granular, unlike dirt or solid stone.",
+      "listeningFor": "Many small independent stones, a shallow collapse, and very little low-frequency weight.",
+      "rejectIf": "It becomes one rock crack, a sand pour, giant rubble, glass, or a cinematic impact.",
+      "variants": [
+        {
+          "id": "pea-gravel",
+          "title": "Pea gravel pocket",
+          "durationSeconds": 1.5,
+          "loop": false,
+          "promptInfluence": 0.4,
+          "prompt": "A compact pocket of pea gravel loses support and collapses once: dozens of thumbnail stones clatter over each other, a little dry dirt gives way, then everything stops. Close natural Foley, light and granular. No solid boulder crack, glass, sand waterfall, boom, music, or voice."
+        },
+        {
+          "id": "sharp-chert",
+          "title": "Angular chert gravel",
+          "durationSeconds": 1.5,
+          "loop": false,
+          "promptInfluence": 0.4,
+          "prompt": "One mineable block of angular chert gravel breaks loose. Sharp small stones click and tumble in a short dense cluster with a dry soil crumble underneath. Uneven natural timing, no large slab or heavy tail. No glass shatter, explosion, metal, synth, music, or voice."
+        }
+      ]
+    },
+    {
+      "id": "GX245",
+      "name": "tile_ore_dense_hit_01",
+      "type": "One Shot",
+      "objective": "A dense ore-node hit where buried metal is heard through surrounding rock.",
+      "listeningFor": "A hard mineral attack, muted metallic core, and two or three stone chips.",
+      "rejectIf": "It is a clean anvil clang, ringing sword hit, coin, hollow pipe, or generic stone hit.",
+      "variants": [
+        {
+          "id": "iron-vein",
+          "title": "Iron vein in granite",
+          "durationSeconds": 1.3,
+          "loop": false,
+          "promptInfluence": 0.42,
+          "prompt": "One steel pick strikes an iron-rich vein buried inside granite. Hard dry rock attack, a muted dense metal core with almost no ring, then three stone chips. Close mining Foley. No anvil, sword clang, bell, hollow pipe, giant impact, music, or voice."
+        },
+        {
+          "id": "copper-sulfide",
+          "title": "Copper sulfide in dark rock",
+          "durationSeconds": 1.3,
+          "loop": false,
+          "promptInfluence": 0.42,
+          "prompt": "A mining pick bites a compact copper-sulfide seam in dark stone: brittle host-rock snap, short dull metallic knock, fine mineral grit. Weighty but not ringing, one isolated hit. No coin clink, pan clang, crystal chime, sub boom, reverb, music, or voice."
+        }
+      ]
+    },
+    {
+      "id": "GX248",
+      "name": "tile_magma_crust_crack_01",
+      "type": "One Shot",
+      "objective": "A dry heated crust fracture with believable thermal detail and no fireball cliché.",
+      "listeningFor": "Brittle hot rock, one short pressure hiss, and a few cooling mineral ticks.",
+      "rejectIf": "It becomes an explosion, roaring fire, lava river, steam blast, or magical spell.",
+      "variants": [
+        {
+          "id": "basalt-heat",
+          "title": "Heated basalt crust",
+          "durationSeconds": 1.5,
+          "loop": false,
+          "promptInfluence": 0.4,
+          "prompt": "A thin heated basalt crust splits once under pressure: dry sharp rock fracture, brief gas hiss from the seam, two tiny cooling ticks. Close geological Foley, compact and restrained. No explosion, roaring flame, lava splash, steam blast, synth, music, or voice."
+        },
+        {
+          "id": "slag-shell",
+          "title": "Porous slag shell",
+          "durationSeconds": 1.5,
+          "loop": false,
+          "promptInfluence": 0.4,
+          "prompt": "One porous black slag shell cracks and caves inward. Brittle charcoal-like stone snap, a few hot granules fall, and trapped air escapes with a tiny dry hiss. No fireball, furnace roar, glass shatter, boiling lava, cinematic boom, music, or voice."
+        }
+      ]
+    },
+    {
+      "id": "GX250",
+      "name": "tile_slime_pop_01",
+      "type": "One Shot",
+      "objective": "A tactile slime-tile release that feels thick and physical rather than cartoony.",
+      "listeningFor": "Viscous tension, one compact membrane release, and a tiny wet settle.",
+      "rejectIf": "It resembles a comedy bubble, balloon, mouth noise, creature, or exaggerated splat.",
+      "variants": [
+        {
+          "id": "thick-gel",
+          "title": "Thick mineral gel",
+          "durationSeconds": 1,
+          "loop": false,
+          "promptInfluence": 0.38,
+          "prompt": "A fist-sized pocket of thick mineral gel releases under pressure: sticky membrane pull, one low wet pop, a tiny viscous fold settling. Close Foley, dense rather than bubbly. No comedy boing, balloon, mouth sound, creature vocal, giant splat, music, or voice."
+        },
+        {
+          "id": "mud-bladder",
+          "title": "Mud bladder collapse",
+          "durationSeconds": 1,
+          "loop": false,
+          "promptInfluence": 0.38,
+          "prompt": "A small elastic mud bladder embedded in rock collapses once: rubbery wet tension gives way to a restrained slap and two thick droplets. Earthy and unpleasant but not comic. No bubble bath, frog, bodily sound, cartoon pop, reverb, music, or voice."
+        }
+      ]
+    },
+    {
+      "id": "GX257",
+      "name": "tile_pressure_plate_click_01",
+      "type": "One Shot",
+      "objective": "A stone pressure plate with readable mass and a hidden mechanical lock.",
+      "listeningFor": "Stone-on-stone travel, dusty resistance, and one compact latch engagement.",
+      "rejectIf": "It becomes a door, giant slab grind, modern button, electronic beep, or trap explosion.",
+      "variants": [
+        {
+          "id": "stone-plunger",
+          "title": "Stone plunger and iron latch",
+          "durationSeconds": 1.2,
+          "loop": false,
+          "promptInfluence": 0.42,
+          "prompt": "A square stone pressure plate sinks one centimeter into a dusty floor: short granite scrape, compressed grit, then a hidden iron latch engages with one muted click. Close puzzle Foley. No huge door movement, modern switch, electronic beep, trap burst, music, or voice."
+        },
+        {
+          "id": "sandstone-latch",
+          "title": "Sandstone plate and wooden catch",
+          "durationSeconds": 1.2,
+          "loop": false,
+          "promptInfluence": 0.42,
+          "prompt": "One worn sandstone floor plate depresses under weight, shedding a little dust before an old wooden catch knocks into place. Compact, ancient and mechanical. No long stone grind, treasure-door opening, metal clang, synth, magic cue, music, or voice."
+        }
+      ]
+    },
+    {
+      "id": "GX263",
+      "name": "dig_soft_dirt_break_clean_01",
+      "type": "One Shot",
+      "objective": "A full soft-dirt block break, distinct from the smaller dirt-hit sound.",
+      "listeningFor": "A crust giving way, several soft soil chunks, and a brief granular settle.",
+      "rejectIf": "It resembles stone rubble, a heavy explosion, footsteps, shovel digging, or a sand pour.",
+      "variants": [
+        {
+          "id": "loam-collapse",
+          "title": "Loam block collapse",
+          "durationSeconds": 1.5,
+          "loop": false,
+          "promptInfluence": 0.4,
+          "prompt": "A cubic block of dry loam loses its last support and breaks apart: thin surface crust tears, four or five soft earth chunks fold down, loose grains settle briefly. Close natural Foley, modest weight. No rock rubble, explosion, shovel, footsteps, endless sand, music, or voice."
+        },
+        {
+          "id": "clay-chunks",
+          "title": "Packed clay chunks",
+          "durationSeconds": 1.5,
+          "loop": false,
+          "promptInfluence": 0.4,
+          "prompt": "One packed clay mining block splits and drops into dense hand-sized soil chunks. Papery dry crack, two rounded earthy thuds, short grit finish. Tactile and finite. No stone fracture, wooden crate, demolition boom, long crumble, water, music, or voice."
+        }
+      ]
+    },
+    {
+      "id": "GX268",
+      "name": "dig_stone_hit_crisp_01",
+      "type": "One Shot",
+      "objective": "A crisp repeatable pickaxe hit on solid stone, before the block breaks.",
+      "listeningFor": "Steel tooth contact, dense stone body, and only a few dry chips.",
+      "rejectIf": "It rings like an anvil, breaks the whole block, becomes a sword hit, or has a long tail.",
+      "variants": [
+        {
+          "id": "granite-pick",
+          "title": "Steel pick on granite",
+          "durationSeconds": 1.1,
+          "loop": false,
+          "promptInfluence": 0.42,
+          "prompt": "One steel pick tooth strikes solid granite without breaking it. Immediate hard mineral contact, dense short stone body, three sharp chips, then silence. Close dry mining Foley for repetition. No anvil ring, sword clash, block collapse, cave echo, bass boom, music, or voice."
+        },
+        {
+          "id": "slate-pick",
+          "title": "Steel pick on slate",
+          "durationSeconds": 1.1,
+          "loop": false,
+          "promptInfluence": 0.42,
+          "prompt": "A pointed mining pick lands once on layered slate. Flat brittle contact, short steel tick absorbed by rock, one thin flake snaps away. Crisp, medium-light and close. No bell-like ring, glass, full slab break, metal weapon clash, reverb, music, or voice."
+        }
+      ]
+    },
+    {
+      "id": "GX271",
+      "name": "dig_ore_hit_weighty_01",
+      "type": "One Shot",
+      "objective": "A weighty ore-vein mining hit with more body than the special-tile ore test.",
+      "listeningFor": "Rock fracture wrapped around a dense, short, non-ringing metallic center.",
+      "rejectIf": "It resembles a bell, pan, sword, coin, hollow pipe, or clean industrial hammer hit.",
+      "variants": [
+        {
+          "id": "iron-in-granite",
+          "title": "Broad iron vein in granite",
+          "durationSeconds": 1.3,
+          "loop": false,
+          "promptInfluence": 0.42,
+          "prompt": "A heavy mining pick strikes a broad iron vein fused into granite. The steel contact drives a dull metal mass beneath a dry rock fracture, followed by two chips. Strong and compact, almost no ring. No anvil, sword, bell, pipe, coin, music, or voice."
+        },
+        {
+          "id": "copper-in-shale",
+          "title": "Copper ore in shale",
+          "durationSeconds": 1.3,
+          "loop": false,
+          "promptInfluence": 0.42,
+          "prompt": "One pickaxe impact bites copper ore threaded through brittle shale: layered stone snaps around a warm muted metallic knock, then fine fragments fall. Close, weighty mining Foley. No bright clang, cash coin, glass, full collapse, cinematic hit, music, or voice."
+        }
+      ]
+    },
+    {
+      "id": "GX273",
+      "name": "dig_ore_break_rewarding_01",
+      "type": "One Shot",
+      "objective": "An ore block breaking free with a physical reward contour and no UI chime.",
+      "listeningFor": "Host rock release followed by one dense ore chunk landing and small mineral debris.",
+      "rejectIf": "It becomes coins, treasure sparkle, anvil clang, cave-in, or a musical reward sting.",
+      "variants": [
+        {
+          "id": "ore-chunk-drop",
+          "title": "Ore chunk drops free",
+          "durationSeconds": 1.7,
+          "loop": false,
+          "promptInfluence": 0.4,
+          "prompt": "An iron-rich ore block breaks free from host rock: compact stone split, one dense irregular metal-mineral chunk drops a short distance, two pebbles follow. Rewarding through weight, not pitch. No coins, anvil ring, treasure chime, giant collapse, music, or voice."
+        },
+        {
+          "id": "vein-tear",
+          "title": "Metallic vein tears from rock",
+          "durationSeconds": 1.7,
+          "loop": false,
+          "promptInfluence": 0.4,
+          "prompt": "A thick ore seam tears out of fractured stone. Dry mineral crack opens first, dense metal-bearing rock scrapes loose, then lands with a short heavy clack and grit. Natural mining Foley. No sword clang, coin spill, sparkle, explosion, melody, music, or voice."
+        }
+      ]
+    },
+    {
+      "id": "GX277",
+      "name": "dig_swing_fast_01",
+      "type": "One Shot",
+      "objective": "A short pickaxe swing that conveys tool mass without a generic cinematic whoosh.",
+      "listeningFor": "Wooden handle movement, a small steel-head air cut, and immediate silence before impact.",
+      "rejectIf": "It resembles a sword, whip, jet pass, magic swipe, long wind gust, or impact.",
+      "variants": [
+        {
+          "id": "wood-handle-pass",
+          "title": "Wood handle air pass",
+          "durationSeconds": 0.8,
+          "loop": false,
+          "promptInfluence": 0.36,
+          "prompt": "One fast waist-height pickaxe swing with no impact: mostly the wooden handle displacing close air, plus a brief narrow cut from the steel head. Human-scale tool weight, dry and under half a second. No sword swish, whip crack, jet, magic, wind bed, music, or voice."
+        },
+        {
+          "id": "steel-head-pass",
+          "title": "Weighted steel head pass",
+          "durationSeconds": 0.8,
+          "loop": false,
+          "promptInfluence": 0.36,
+          "prompt": "A compact iron pick head passes close to the microphone once, pulling a short uneven pocket of air while its wooden shaft creaks faintly. Ends before contact. No impact, blade slash, cinematic whoosh, projectile, engine, spell, music, or voice."
+        }
+      ]
+    },
+    {
+      "id": "GX280",
+      "name": "dig_miss_stone_01",
+      "type": "One Shot",
+      "objective": "A readable glancing miss on stone, lighter and less rewarding than a mining hit.",
+      "listeningFor": "Sideways steel contact, a short scrape, and one tiny chip with little body.",
+      "rejectIf": "It becomes a successful hit, sword scrape, long sharpening sound, or loud spark effect.",
+      "variants": [
+        {
+          "id": "glancing-chip",
+          "title": "Glancing pick and chip",
+          "durationSeconds": 1,
+          "loop": false,
+          "promptInfluence": 0.42,
+          "prompt": "A pickaxe tooth glances sideways off hard stone instead of biting. Thin steel scrape, one dry mineral chip, immediate stop; weak and unsatisfying by design. Close Foley. No full impact, sword fight, grinding wheel, spark shower, long ring, music, or voice."
+        },
+        {
+          "id": "flat-scrape",
+          "title": "Flat pick cheek scrape",
+          "durationSeconds": 1,
+          "loop": false,
+          "promptInfluence": 0.42,
+          "prompt": "The flat cheek of a mining pick skims a rough granite face once: brief gritty metal-on-rock rasp and a tiny pebble tick, no solid strike. Short negative feedback. No blade sharpening, saw, successful crack, explosion, reverb, music, or voice."
+        }
+      ]
+    },
+    {
+      "id": "GX295",
+      "name": "ui_click_mechanical_02",
+      "type": "One Shot",
+      "objective": "A tiny mechanical UI click with a handmade material identity.",
+      "listeningFor": "One tactile press and one contact response, clear at low level with no tone.",
+      "rejectIf": "It resembles a mouse click, keyboard, arcade beep, coin, bell, or robot servo.",
+      "variants": [
+        {
+          "id": "wood-brass-button",
+          "title": "Wood and brass button",
+          "durationSeconds": 0.7,
+          "loop": false,
+          "promptInfluence": 0.42,
+          "prompt": "A thumbnail-sized wooden button depresses into a brass collar and touches one spring contact. Soft wood tap followed by a tiny dry metal tick, centered and immediately silent. No computer mouse, keyboard, electronic beep, coin, bell, servo, music, or voice."
+        },
+        {
+          "id": "stone-toggle",
+          "title": "Miniature stone toggle",
+          "durationSeconds": 0.7,
+          "loop": false,
+          "promptInfluence": 0.42,
+          "prompt": "One miniature slate toggle shifts across a shallow notch and seats with a muted bronze detent. Very small tactile interface Foley, no tail. No modern plastic click, digital blip, typewriter, cash register, chime, music, or voice."
+        }
+      ]
+    },
+    {
+      "id": "GX298",
+      "name": "ui_error_blocked_02",
+      "type": "One Shot",
+      "objective": "A clear blocked-action cue using physical resistance instead of a warning beep.",
+      "listeningFor": "An attempted motion stopped by a firm latch, compact and slightly unpleasant.",
+      "rejectIf": "It uses an electronic buzz, alarm, descending tone, comedy thunk, or angry robot sound.",
+      "variants": [
+        {
+          "id": "locked-drawer",
+          "title": "Locked drawer stop",
+          "durationSeconds": 0.9,
+          "loop": false,
+          "promptInfluence": 0.42,
+          "prompt": "A small wooden equipment drawer is pushed once but stopped by a locked iron latch: short wood movement, firm dry metal knock, no opening. Compact blocked-action cue. No buzzer, error tone, alarm, comedy bonk, reverb, music, or voice."
+        },
+        {
+          "id": "stone-stop",
+          "title": "Stone control hits its stop",
+          "durationSeconds": 0.9,
+          "loop": false,
+          "promptInfluence": 0.42,
+          "prompt": "A palm-sized stone control tries to slide but immediately meets a bronze stop: gritty quarter-inch movement and one hard muted refusal click. Dry UI Foley. No electronic buzz, descending beep, door slam, cartoon thunk, music, or voice."
+        }
+      ]
+    },
+    {
+      "id": "GX306",
+      "name": "reward_claim_big_01",
+      "type": "One Shot",
+      "objective": "A substantial reward claim communicated through valuable physical materials, not a musical flourish.",
+      "listeningFor": "A short ordered cascade of dense minerals followed by one satisfying lock.",
+      "rejectIf": "It becomes coins, slot machine, treasure fanfare, sparkle chord, or uncontrolled debris.",
+      "variants": [
+        {
+          "id": "mineral-cascade",
+          "title": "Valuable mineral cascade",
+          "durationSeconds": 1.6,
+          "loop": false,
+          "promptInfluence": 0.4,
+          "prompt": "Three valuable mineral pieces drop in quick order into a padded stone tray: dense crystal-rock clacks of different sizes, then a brass keeper snaps closed. Compact physical reward, no tonal pattern. No coins, slot machine, fanfare, sparkle chord, music, or voice."
+        },
+        {
+          "id": "toolbox-reward",
+          "title": "Rugged reward case",
+          "durationSeconds": 1.6,
+          "loop": false,
+          "promptInfluence": 0.4,
+          "prompt": "A rugged mining reward case receives one heavy ore chunk and two polished stones, then its mechanical clasp locks. Short varied material clacks, warm and satisfying without melody. No money spill, cash register, jackpot bells, explosion, music, or voice."
+        }
+      ]
+    },
+    {
+      "id": "GX319",
+      "name": "discovery_rare_ore_01",
+      "type": "One Shot",
+      "objective": "A rare-ore discovery cue rooted in geological reveal rather than an electronic notification.",
+      "listeningFor": "Rock skin opening, a valuable dense mineral response, and restrained particle detail.",
+      "rejectIf": "It becomes a scanner beep, magic sparkle, treasure chime, coin, or full mining break.",
+      "variants": [
+        {
+          "id": "dense-vein-reveal",
+          "title": "Dense vein revealed",
+          "durationSeconds": 1.5,
+          "loop": false,
+          "promptInfluence": 0.4,
+          "prompt": "A thin skin of rock flakes away and reveals a dense rare-metal vein beneath. Dry stone peel, one rich muted mineral knock, a few bright but non-tonal grains. Discovery through material contrast. No scanner beep, magic sparkle, coin, treasure chime, music, or voice."
+        },
+        {
+          "id": "ore-resonance",
+          "title": "Rare ore pressure response",
+          "durationSeconds": 1.5,
+          "loop": false,
+          "promptInfluence": 0.4,
+          "prompt": "A newly exposed rare ore pocket answers the surrounding rock with one compact pressure tick: host stone cracks, dense metallic mineral vibrates briefly without a pitch, dust falls. No electronic detection pulse, bell, crystal melody, jackpot cue, music, or voice."
+        }
+      ]
+    },
+    {
+      "id": "GX356",
+      "name": "depth_far_impact_massive_02",
+      "type": "One Shot",
+      "objective": "A massive event far below, conveyed through bedrock filtering rather than foreground loudness.",
+      "listeningFor": "A distant low stone arrival, delayed fine debris, broad depth, and restrained peak level.",
+      "rejectIf": "It resembles thunder, explosion, cinematic braam, nearby cave-in, monster roar, or music.",
+      "variants": [
+        {
+          "id": "through-bedrock",
+          "title": "Impact through bedrock",
+          "durationSeconds": 3.2,
+          "loop": false,
+          "promptInfluence": 0.36,
+          "prompt": "A huge rock mass strikes far below the listener, heard only through hundreds of meters of bedrock: muffled broad stone arrival, a weak secondary tremor, then distant fine debris. Quietly massive, no sharp foreground attack. No thunder, explosion, braam, monster, music, or voice."
+        },
+        {
+          "id": "shaft-distance",
+          "title": "Deep shaft impact",
+          "durationSeconds": 3.2,
+          "loop": false,
+          "promptInfluence": 0.36,
+          "prompt": "From the bottom of a very deep mine shaft comes one remote boulder impact: softened low mineral thud travels upward, sparse gravel arrives later, long distance but short event. Physical cave acoustics. No bomb, thunderclap, trailer hit, creature, rhythmic echo, music, or voice."
+        }
+      ]
+    },
+    {
+      "id": "GX373",
+      "name": "darkness_torch_reacts_01",
+      "type": "One Shot",
+      "objective": "A torch physically reacting to nearby darkness without becoming a horror or magic cue.",
+      "listeningFor": "A brief flame disturbance, one ember response, and a slight inward air movement.",
+      "rejectIf": "It contains whispering, breathing, creature noise, magical shimmer, jump-scare hit, or wind howl.",
+      "variants": [
+        {
+          "id": "flame-inhale",
+          "title": "Flame pulled inward",
+          "durationSeconds": 1.2,
+          "loop": false,
+          "promptInfluence": 0.38,
+          "prompt": "A small oil torch flame is pulled sideways and inward for one instant by a pressure change: cloth-wick flutter, quick flame hush, one ember crack, then recovery. Close natural fire Foley. No breath, whisper, creature, magic sparkle, horror sting, wind howl, music, or voice."
+        },
+        {
+          "id": "ember-flick",
+          "title": "Ember flick and air pinch",
+          "durationSeconds": 1.2,
+          "loop": false,
+          "promptInfluence": 0.38,
+          "prompt": "A carried torch reacts to a narrow cold-air pinch: flame briefly folds smaller, two dry embers flick from the wick, leather grip creaks once. Physical danger cue, subtle and close. No supernatural whisper, heartbeat, animal, whoosh riser, musical sting, or voice."
+        }
+      ]
+    },
+    {
+      "id": "GX376",
+      "name": "watching_close_pebble_01",
+      "type": "One Shot",
+      "objective": "A tiny nearby pebble movement that creates tension through scale and placement alone.",
+      "listeningFor": "One identifiable pebble, two short contacts, close dry space, and silence around it.",
+      "rejectIf": "It becomes footsteps, a creature, rockfall, echo effect, jump scare, or generic ambience.",
+      "variants": [
+        {
+          "id": "single-flint",
+          "title": "Single flint behind player",
+          "durationSeconds": 1.2,
+          "loop": false,
+          "promptInfluence": 0.42,
+          "prompt": "In a silent stone tunnel, one fingernail-sized flint pebble shifts just behind the listener: tiny scrape, one sharp contact, a softer second touch, then silence. Extremely close dry Foley. No footsteps, creature, rockfall, dramatic echo, heartbeat, music, or voice."
+        },
+        {
+          "id": "loose-chip",
+          "title": "Loose wall chip drops",
+          "durationSeconds": 1.2,
+          "loop": false,
+          "promptInfluence": 0.42,
+          "prompt": "A single loose stone chip detaches from a nearby dark wall, taps a ledge once and lands in dust. Tiny, precise and unsettling only because everything else is silent. No creature movement, step, rubble fall, reverb swell, horror hit, music, or voice."
+        }
+      ]
+    },
+    {
+      "id": "GX391",
+      "name": "star_fragment_form_01",
+      "type": "One Shot",
+      "objective": "A Star fragment physically assembling from mineral matter without a magical musical cliché.",
+      "listeningFor": "Granular pieces drawing together, increasing density, and one final solid mineral seat.",
+      "rejectIf": "It becomes a sparkle sweep, fairy chime, laser, choir, explosion, or melodic crystal sequence.",
+      "variants": [
+        {
+          "id": "mineral-coalesce",
+          "title": "Mineral grains coalesce",
+          "durationSeconds": 1.6,
+          "loop": false,
+          "promptInfluence": 0.38,
+          "prompt": "A Star fragment forms inside a rock pocket as dry mineral grains pull inward across stone, collide in a tightening irregular cluster, then seat into one dense crystal-rock click. Physical and non-tonal. No fairy sparkle, chime, laser, choir, melody, music, or voice."
+        },
+        {
+          "id": "hot-grain",
+          "title": "Hot starstone grains",
+          "durationSeconds": 1.6,
+          "loop": false,
+          "promptInfluence": 0.38,
+          "prompt": "A handful of warm starstone grains gathers into a solid fragment: faint dry particle skitter, two tiny heat ticks, compact mineral compression at the finish. Restrained geological sound design. No magic shimmer, bell, plasma blast, synth rise, music, or voice."
+        }
+      ]
+    },
+    {
+      "id": "GX392",
+      "name": "star_ore_break_01",
+      "type": "One Shot",
+      "objective": "A Star-ore break that is denser and stranger than quartz but still physically mineable.",
+      "listeningFor": "A heavy stone core, dry crystalline edges, and unusual particles without musical pitch.",
+      "rejectIf": "It resembles ordinary glass, magic sparkle, sci-fi laser, explosion, bell cluster, or reward music.",
+      "variants": [
+        {
+          "id": "dense-starstone",
+          "title": "Dense starstone fracture",
+          "durationSeconds": 1.6,
+          "loop": false,
+          "promptInfluence": 0.4,
+          "prompt": "A dense star-ore block fractures under a mining strike: unusually heavy stone snap at the center, dry crystalline edges split outward, sparse hot grains land. Strange material but fully physical. No glass window, magic sparkle, laser, bells, explosion, music, or voice."
+        },
+        {
+          "id": "porous-starstone",
+          "title": "Porous starstone shell",
+          "durationSeconds": 1.6,
+          "loop": false,
+          "promptInfluence": 0.4,
+          "prompt": "One porous starstone node breaks into dark mineral shells. Compact rocky crack, several light but hard fragments, faint non-tonal particle hiss that stops quickly. Geological science-fantasy Foley. No crystal melody, glitter sweep, plasma zap, choir, music, or voice."
+        }
+      ]
+    },
+    {
+      "id": "GX397",
+      "name": "galaxy_core_reveal_01",
+      "type": "One Shot",
+      "objective": "A galaxy-core reveal expressed through gravity acting on stone and particles, not a trailer cue.",
+      "listeningFor": "One restrained pressure inversion, granular orbit change, and a decisive physical settle.",
+      "rejectIf": "It becomes a braam, choir, synth swell, laser, black-hole roar, explosion, or musical reveal.",
+      "variants": [
+        {
+          "id": "gravity-stone",
+          "title": "Gravity shifts through stone",
+          "durationSeconds": 1.8,
+          "loop": false,
+          "promptInfluence": 0.38,
+          "prompt": "A hidden galaxy core is exposed inside ancient stone: nearby grit abruptly changes direction, one low non-tonal pressure fold passes through the slab, particles settle into a tight ring. Compact physical reveal. No braam, choir, synth swell, laser, explosion, music, or voice."
+        },
+        {
+          "id": "particle-aperture",
+          "title": "Mineral aperture opening",
+          "durationSeconds": 1.8,
+          "loop": false,
+          "promptInfluence": 0.38,
+          "prompt": "A circular mineral aperture uncovers a dense gravitational core: stone segments shift a few millimeters, dry grains orbit once, a soft inward pressure knock ends the event. Restrained and non-musical. No portal whoosh, black-hole roar, cinematic hit, melody, music, or voice."
+        }
+      ]
+    }
+  ]
+}

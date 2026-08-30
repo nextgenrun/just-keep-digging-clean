@@ -132,7 +132,7 @@ assert.match(sources[0], /getCelestialTalentNodePosition/);
 assert.match(sources[0], /expectedNodeCount/);
 assert.match(sources[0], /STAR POINTS/);
 assert.match(sources[0], /CelestialTalentTooltipView/);
-assert.match(sources[0], /tooltip\.nodeId/);
+assert.match(sources[0], /view\.snapshot\?\.available === true/);
 assert.doesNotMatch(sources[0], /nodes\.length === 15|columnXFractions|nodeYFractions/);
 assert.match(sources[1], /pointerover/);
 assert.match(sources[1], /nodeSizeByKindPx/);

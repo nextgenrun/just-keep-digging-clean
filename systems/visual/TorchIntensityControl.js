@@ -1,8 +1,14 @@
 import { APPROVED_HUD_SKIN } from "../../values/approvedHudSkin.js";
-import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { HUD_LAYOUT } from "../../values/hudLayout.js";
+import { LIGHT_CONFIG } from "../../values/lightConfig.js";
 
-const clamp01 = (value) => Math.max(0, Math.min(1, Number(value) || 0));
+const clampTorchIntensity = (value) => Math.max(
+  0,
+  Math.min(
+    LIGHT_CONFIG.torchIntensity.maximumPercent / 100,
+    Number(value) || 0,
+  ),
+);
 
 export class TorchIntensityControl {
   constructor(scene, options = {}) {
@@ -13,10 +19,11 @@ export class TorchIntensityControl {
     this.visible = true;
     this.active = false;
     this.intensity = 1;
+    this.overdriveActive = false;
     this.drainGpPerSecond = 0;
-    this.frame = null;
     this.text = null;
     this.hit = null;
+    this._wheelHandler = null;
     this._create();
     this.setState(false, 1, 0);
   }
@@ -29,40 +36,36 @@ export class TorchIntensityControl {
     );
     const layout = this.approvedSkinActive
       ? {
-        x: approved.x * scale,
-        y: approved.y * scale,
-        width: approved.width * scale,
-        height: approved.height * scale,
+        x: approved.hitX * scale,
+        y: approved.hitY * scale,
+        width: approved.hitWidth * scale,
+        height: approved.hitHeight * scale,
+        textX: approved.textX * scale,
+        textY: approved.textY * scale,
         fontSize: `${approved.fontSize * scale}px`,
-        lineSpacing: approved.lineSpacing * scale,
+        lineSpacing: 0,
+        restAlpha: approved.restAlpha,
+        hoverAlpha: approved.hoverAlpha,
       }
       : {
         x: HUD_LAYOUT.torchIntensityX,
         y: HUD_LAYOUT.torchIntensityY,
         width: HUD_LAYOUT.torchIntensityHitW,
         height: HUD_LAYOUT.torchIntensityHitH,
+        textX: HUD_LAYOUT.torchIntensityX,
+        textY: HUD_LAYOUT.torchIntensityY,
         fontSize: HUD_LAYOUT.torchIntensityFontSize,
         lineSpacing: -2,
+        restAlpha: 1,
+        hoverAlpha: 1,
       };
 
-    if (this.approvedSkinActive) {
-      this.frame = this.scene.add.image(
-        layout.x,
-        layout.y,
-        ASSET_KEYS.ui.approvedHud.buffChip,
-      )
-        .setOrigin(0, 0)
-        .setDisplaySize(layout.width, layout.height)
-        .setScrollFactor(0)
-        .setDepth(HUD_LAYOUT.hudDepth - 1);
-    }
-
     this.text = this.scene.add.text(
-      this.approvedSkinActive ? layout.x + layout.width / 2 : layout.x,
-      this.approvedSkinActive ? layout.y + layout.height / 2 : layout.y,
+      layout.textX,
+      layout.textY,
       "",
       {
-        align: "center",
+        align: this.approvedSkinActive ? "right" : "left",
         fontFamily: this.approvedSkinActive
           ? APPROVED_HUD_SKIN.font.family
           : "Consolas, monospace",
@@ -76,7 +79,8 @@ export class TorchIntensityControl {
         lineSpacing: layout.lineSpacing,
       },
     )
-      .setOrigin(this.approvedSkinActive ? 0.5 : 0, this.approvedSkinActive ? 0.5 : 0)
+      .setOrigin(this.approvedSkinActive ? 1 : 0, 0)
+      .setAlpha(layout.restAlpha)
       .setScrollFactor(0)
       .setDepth(HUD_LAYOUT.hudOverlayDepth);
 
@@ -93,33 +97,42 @@ export class TorchIntensityControl {
       event?.stopPropagation?.();
       this.onCycle?.();
     });
-    this.hit.on("wheel", (_pointer, _deltaX, deltaY, _deltaZ, event) => {
-      event?.stopPropagation?.();
-      if (deltaY !== 0) this.onAdjust?.(deltaY < 0 ? 1 : -1);
-    });
-    this.hit.on("pointerover", () => this.frame?.setAlpha(1));
-    this.hit.on("pointerout", () => this.frame?.setAlpha(0.96));
-    this.frame?.setAlpha(0.96);
+    this._wheelHandler = (pointer, _gameObjects, _deltaX, deltaY) => {
+      if (!this.visible || deltaY === 0) return;
+      pointer?.event?.preventDefault?.();
+      pointer?.event?.stopPropagation?.();
+      this.onAdjust?.(deltaY < 0 ? 1 : -1);
+    };
+    this.scene.input?.on?.("wheel", this._wheelHandler);
+    this.hit.on("pointerover", () => this.text?.setAlpha(layout.hoverAlpha));
+    this.hit.on("pointerout", () => this.text?.setAlpha(layout.restAlpha));
   }
 
   setState(active, intensity, drainGpPerSecond) {
     this.active = Boolean(active);
-    this.intensity = clamp01(intensity);
+    this.intensity = clampTorchIntensity(intensity);
     this.drainGpPerSecond = Math.max(0, Number(drainGpPerSecond) || 0);
     const percent = Math.round(this.intensity * 100);
+    this.overdriveActive = percent > LIGHT_CONFIG.torchIntensity.overdrive.startPercent;
+    const label = this.overdriveActive
+      ? HUD_LAYOUT.torchIntensityOverdriveLabel
+      : HUD_LAYOUT.torchIntensityLabel;
     this.text?.setText(
-      `${HUD_LAYOUT.torchIntensityLabel} ${percent}%\n${HUD_LAYOUT.torchIntensityHint}`,
+      this.approvedSkinActive
+        ? `${percent}%`
+        : `${label} ${percent}%\n${HUD_LAYOUT.torchIntensityHint}`,
     );
     this.text?.setColor(
       this.active
-        ? HUD_LAYOUT.torchIntensityOnColor
+        ? this.overdriveActive
+          ? HUD_LAYOUT.torchIntensityOverdriveColor
+          : HUD_LAYOUT.torchIntensityOnColor
         : HUD_LAYOUT.torchIntensityOffColor,
     );
   }
 
   setVisible(visible) {
     this.visible = Boolean(visible);
-    this.frame?.setVisible(this.visible);
     this.text?.setVisible(this.visible);
     this.hit?.setVisible(this.visible);
     if (this.hit?.input) this.hit.input.enabled = this.visible;
@@ -130,20 +143,23 @@ export class TorchIntensityControl {
       active: this.active,
       intensity: this.intensity,
       percent: Math.round(this.intensity * 100),
+      overdriveActive: this.overdriveActive,
       drainGpPerSecond: this.drainGpPerSecond,
       approvedSkinActive: this.approvedSkinActive,
+      integratedIntoPlayerCore: this.approvedSkinActive,
+      displayText: this.text?.text || "",
       visible: this.visible,
     };
   }
 
   destroy() {
+    this.scene?.input?.off?.("wheel", this._wheelHandler);
     this.hit?.removeAllListeners();
     this.hit?.destroy();
     this.text?.destroy();
-    this.frame?.destroy();
     this.hit = null;
     this.text = null;
-    this.frame = null;
+    this._wheelHandler = null;
     this.scene = null;
   }
 }

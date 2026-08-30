@@ -103,6 +103,7 @@ export class WorldModel {
     this.glowCrystalZones = [];
     this.caveLightZones = [];
     this.caveResourceSeams = [];
+    this.rareEmberFinds = [];
     this.caveHazardZones = [];
     this.rng = new SeededRandom(config.seed || 133742);
     this.tileDamageGuard = null;
@@ -208,6 +209,7 @@ export class WorldModel {
     this.glowCrystalZones = [];
     this.caveLightZones = [];
     this.caveResourceSeams = [];
+    this.rareEmberFinds = [];
     this.caveHazardZones = [];
     this.rng = new SeededRandom(this.config.seed || 133742);
 

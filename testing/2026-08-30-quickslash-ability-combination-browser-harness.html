@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quickslash Ability Combination Harness</title>
+  <style>
+    html, body { min-height: 100%; margin: 0; }
+    body {
+      display: grid;
+      place-items: center;
+      background: radial-gradient(circle at 50% 0%, #183245, #070b10 70%);
+      color: #d9f4ff;
+      font: 18px/1.45 Consolas, monospace;
+    }
+    main {
+      width: min(760px, calc(100vw - 48px));
+      padding: 32px;
+      border: 1px solid #4f8297;
+      background: #101b25f2;
+      box-shadow: 0 18px 72px #000b;
+    }
+    h1 { margin-top: 0; color: #f1d98a; }
+    kbd { padding: 3px 9px; border: 1px solid #9dc9d8; border-radius: 4px; }
+    pre { white-space: pre-wrap; color: #b9deea; }
+    [data-result="pass"] { color: #7ff0a6; }
+  </style>
+</head>
+<body tabindex="0">
+  <main>
+    <h1>Quickslash ability combinations</h1>
+    <p>Press <kbd>Shift</kbd> + <kbd>Q</kbd>. This runs production PlayerInput, PlayerAbilities, and action-bar availability.</p>
+    <p id="result">Waiting for simultaneous Flight + Quickslash input…</p>
+    <pre id="status"></pre>
+  </main>
+  <script type="module" src="./2026-08-30-quickslash-ability-combination-browser-harness.js"></script>
+</body>
+</html>

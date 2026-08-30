@@ -1,6 +1,8 @@
+import { VoiceLineVolumeDucker } from "./VoiceLineVolumeDucker.js";
+
 /**
  * VoiceLineManager
- * Manages player and NPC voice lines with random selection
+ * Manages random player lines and ordered, non-repeating NPC voice cycles
  * Supports multiple NPC categories with separate voice line pools
  */
 
@@ -26,13 +28,13 @@ export class VoiceLineManager {
     
     // Track last played to prevent repeats
     this.lastPlayed = {
-      playerRandom: null,
-      playerSpecial: null,
-      moneyMonster: null,
-      gearUpgrades: null,
-      playerUpgrades: null,
-      gemPowerMerchant: null,
-      boboMerchant: null
+      'player-random': null,
+      'player-special': null,
+      'npc-moneyMonster': null,
+      'npc-gearUpgrades': null,
+      'npc-playerUpgrades': null,
+      'npc-gemPowerMerchant': null,
+      'npc-boboMerchant': null
     };
     
     // Current voice line playing
@@ -40,12 +42,8 @@ export class VoiceLineManager {
     this.currentVoiceLineKey = null;
     this.pendingVoiceLineKey = null;
     this.pendingVoiceLineHandle = null;
-    
-    // Original volumes before ducking
-    this.originalVolumes = {
-      music: null,
-      sfx: null
-    };
+    this.volumeDucker = new VoiceLineVolumeDucker(soundSystem);
+    this.destroyed = false;
   }
 
   /**
@@ -117,6 +115,7 @@ export class VoiceLineManager {
    * @param {string} subCategory - Subcategory name
    */
   playVoiceLine(category, subCategory) {
+    if (this.isBusy()) return null;
     const library = this.libraries[category][subCategory];
     if (!library || library.length === 0) {
       console.warn(`[VoiceLineManager] Library ${category}/${subCategory} is empty`);
@@ -124,19 +123,19 @@ export class VoiceLineManager {
     }
     const trackKey = `${category}-${subCategory}`;
     const lastPlayedKey = this.lastPlayed[trackKey];
-    const loaded = library.filter(entry => this.scene.cache.audio.exists(entry.key));
-    const candidates = loaded.length > 0 ? loaded : library;
     let selectedVoiceLine;
-    let attempts = 0;
-    do {
-      selectedVoiceLine = candidates[Math.floor(Math.random() * candidates.length)];
-      attempts += 1;
-      if (selectedVoiceLine.key !== lastPlayedKey || attempts >= 10 || candidates.length === 1) {
-        break;
-      }
-    } while (true);
-    this.lastPlayed[trackKey] = selectedVoiceLine.key;
-
+    if (category === 'npc') {
+      const lastPlayedIndex = library.findIndex(entry => entry.key === lastPlayedKey);
+      selectedVoiceLine = library[(lastPlayedIndex + 1) % library.length];
+    } else {
+      const loaded = library.filter(entry => this.scene.cache.audio.exists(entry.key));
+      const candidates = loaded.length > 0 ? loaded : library;
+      let attempts = 0;
+      do {
+        selectedVoiceLine = candidates[Math.floor(Math.random() * candidates.length)];
+        attempts += 1;
+      } while (selectedVoiceLine.key === lastPlayedKey && attempts < 10 && candidates.length > 1);
+    }
     if (!this.scene.cache.audio.exists(selectedVoiceLine.key)) {
       this.pendingVoiceLineHandle?.cancel?.();
       this.pendingVoiceLineKey = selectedVoiceLine.key;
@@ -148,6 +147,7 @@ export class VoiceLineManager {
           this.pendingVoiceLineKey = null;
           this._playSelectedVoiceLine(category, subCategory, selectedVoiceLine, library);
         },
+        (_asset, error) => this._handlePendingLoadError(selectedVoiceLine.key, error),
       );
       return null;
     }
@@ -158,8 +158,9 @@ export class VoiceLineManager {
    * Play one deterministic authored cue through the same streaming and ducking
    * path as NPC voice lines.
    */
-  playExactVoiceLine(entry) {
+  playExactVoiceLine(entry, callbacks = {}) {
     if (!entry?.key || !entry?.path) return null;
+    if (this.isBusy()) return null;
     const selectedVoiceLine = {
       key: String(entry.key),
       path: String(entry.path),
@@ -180,8 +181,10 @@ export class VoiceLineManager {
             "named",
             selectedVoiceLine,
             library,
+            callbacks,
           );
         },
+        (_asset, error) => this._handlePendingLoadError(selectedVoiceLine.key, error),
       );
       return null;
     }
@@ -190,71 +193,56 @@ export class VoiceLineManager {
       "named",
       selectedVoiceLine,
       library,
+      callbacks,
     );
   }
 
-  _playSelectedVoiceLine(category, subCategory, selectedVoiceLine, library) {
-    if (!this.scene.cache.audio.exists(selectedVoiceLine.key)) return null;
+  _playSelectedVoiceLine(category, subCategory, selectedVoiceLine, library, callbacks = {}) {
+    if (this.destroyed || !this.scene.cache.audio.exists(selectedVoiceLine.key)) return null;
     this.pendingVoiceLineHandle?.cancel?.();
     this.pendingVoiceLineHandle = null;
     this.pendingVoiceLineKey = null;
-    if (this.currentVoiceLine) {
-      const oldVoiceLine = this.currentVoiceLine;
-      this.currentVoiceLine = null;
-      this.currentVoiceLineKey = null;
-      try { oldVoiceLine.stop(); } catch (_) {}
-      try { oldVoiceLine.destroy(); } catch (_) {}
-      this.restoreVolumes();
-    }
-    this.duckVolumes();
+    if (this.currentVoiceLine) return null;
+    this.volumeDucker.duck();
     console.log(`[VoiceLineManager] Playing ${category}/${subCategory}: ${selectedVoiceLine.file}`);
     const sound = this.scene.sound.add(selectedVoiceLine.key, {
       volume: this.soundSystem.voiceVolume * this.soundSystem.masterVolume,
       loop: false
     });
     sound.play();
+    this.lastPlayed[`${category}-${subCategory}`] = selectedVoiceLine.key;
     this.currentVoiceLine = sound;
     this.currentVoiceLineKey = selectedVoiceLine.key;
     this.soundSystem.noteVoiceLineUse(selectedVoiceLine.key);
+    try { callbacks.onStarted?.(sound, selectedVoiceLine); } catch (error) {
+      console.warn("[VoiceLineManager] Voice start callback failed", error);
+    }
     sound.once('complete', () => {
       if (this.currentVoiceLine !== sound) return;
       this.currentVoiceLine = null;
       this.currentVoiceLineKey = null;
-      this.restoreVolumes();
+      this.volumeDucker.restore();
       try { sound.destroy(); } catch (_) {}
       this.soundSystem.prefetchVoiceLine(library, selectedVoiceLine);
+      this.soundSystem.onVoiceLineIdle?.({
+        played: true,
+        key: selectedVoiceLine.key,
+        category,
+        subCategory,
+      });
     });
     return sound;
   }
 
-  /**
-   * Lower music and SFX volumes when voice line plays
-   */
-  duckVolumes() {
-    // Store original volumes
-    this.originalVolumes.music = this.soundSystem.musicVolume;
-    this.originalVolumes.sfx = this.soundSystem.sfxVolume;
-
-    // Duck volumes (music to 30%, SFX to 50%)
-    this.soundSystem.setMusicVolume(this.originalVolumes.music * 0.3);
-    this.soundSystem.setSfxVolume(this.originalVolumes.sfx * 0.5);
-
-    console.log('[VoiceLineManager] Volumes ducked');
+  isBusy() {
+    return Boolean(this.currentVoiceLine || this.pendingVoiceLineKey);
   }
 
-  /**
-   * Restore volumes after voice line finishes
-   */
-  restoreVolumes() {
-    if (this.originalVolumes.music !== null && this.originalVolumes.sfx !== null) {
-      this.soundSystem.setMusicVolume(this.originalVolumes.music);
-      this.soundSystem.setSfxVolume(this.originalVolumes.sfx);
-      
-      this.originalVolumes.music = null;
-      this.originalVolumes.sfx = null;
-      
-      console.log('[VoiceLineManager] Volumes restored');
-    }
+  _handlePendingLoadError(key, error) {
+    if (this.pendingVoiceLineKey !== key) return;
+    this.pendingVoiceLineHandle = null;
+    this.pendingVoiceLineKey = null;
+    this.soundSystem.onVoiceLineIdle?.({ played: false, key, error });
   }
 
   /**
@@ -267,7 +255,7 @@ export class VoiceLineManager {
       this.currentVoiceLineKey = null;
       oldVoiceLine.stop();
       oldVoiceLine.destroy();
-      this.restoreVolumes();
+      this.volumeDucker.restore();
     }
   }
 
@@ -275,6 +263,7 @@ export class VoiceLineManager {
    * Clean up all voice line resources
    */
   destroy() {
+    this.destroyed = true;
     this.pendingVoiceLineHandle?.cancel?.();
     this.pendingVoiceLineHandle = null;
     this.pendingVoiceLineKey = null;

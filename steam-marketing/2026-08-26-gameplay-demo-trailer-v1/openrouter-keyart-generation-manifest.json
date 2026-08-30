@@ -1,0 +1,171 @@
+{
+  "schemaVersion": 1,
+  "provider": "OpenRouter",
+  "endpoint": "/api/v1/images",
+  "model": "google/gemini-3.1-flash-image",
+  "createdAt": "2026-08-26T13:50:53.365181+00:00",
+  "updatedAt": "2026-08-26T13:53:10.992776+00:00",
+  "reviewOnly": true,
+  "generatedMarketingArtNotGameplay": true,
+  "hardBudgetUsd": 0.5,
+  "knownCostUsd": 0.408314,
+  "apiKeyStored": false,
+  "results": [
+    {
+      "id": "landscape",
+      "output": "steam-marketing/2026-08-26-gameplay-demo-trailer-v1/openrouter-gameplay-keyart-landscape-v1.png",
+      "sha256": "80f8ef991c41f459d3f774f23b86bf0832af7525f647c9f6fc448064a9921092",
+      "bytes": 6225574,
+      "references": [
+        {
+          "path": "steam-marketing/2026-08-26-gameplay-demo-trailer-v1/reference-gameplay-landscape-star-action.png",
+          "sha256": "1fda5d2460988756aac9a690b3b102c27b8fc1c725bd5d9c52e12da265767a31"
+        },
+        {
+          "path": "steam-marketing/2026-08-26-gameplay-demo-trailer-v1/reference-style-star-core-breath.png",
+          "sha256": "3c63137dbc8db97f2e043d9ef81191eec9bf70b9dc38066bba7ac1d07d13f9d6"
+        }
+      ],
+      "prompt": "Use case: stylized-concept\nAsset type: landscape trailer title and CTA background; clearly marketing key art derived from gameplay, never a replacement gameplay shot\nPrimary request: turn Image 1 into restrained, premium UNDERSTAR key art while preserving its side-view mine, exact miner identity, carved geometry, cyan Star placement, material language, and camera. Remove only the HUD chrome and extend existing cave texture naturally into those areas. Integrate the Star's localized refracted inner-fire language from Image 2 without replacing or enlarging the Star.\nInput images: Image 1 is the authoritative actual-gameplay edit target; Image 2 is a supporting approved Star-motion style reference only.\nStyle/medium: cohesive painterly 2.5D game art matching Image 1; tactile dark geology; not photography and not generic fantasy concept art.\nComposition/framing: retain the exact 16:9 composition and miner-to-Star relationship; leave calm readable space for later editor-added title copy.\nLighting/mood: restrained cyan-white Star light, subtle dust and depth, readable miner silhouette, mysterious rather than explosive.\nConstraints: preserve the game art identity and core geometry; no new characters, creatures, props, UI, text, logo, watermark, camera change, photorealism, or stock-photo look.\nAvoid: redesign, giant star, whole-frame glow, lens flare, neon saturation, cinematic black bars, fake interface.",
+      "usage": {
+        "prompt_tokens": 2540,
+        "completion_tokens": 1680,
+        "total_tokens": 4220,
+        "cost": 0.10207,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.10207,
+          "upstream_inference_prompt_cost": 0.00127,
+          "upstream_inference_completions_cost": 0.1008
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 1680
+        }
+      }
+    },
+    {
+      "id": "vertical",
+      "output": "steam-marketing/2026-08-26-gameplay-demo-trailer-v1/openrouter-gameplay-keyart-vertical-v1.png",
+      "sha256": "525c6d433f62515d5da02b4c1947d5ab582437f634a8c8d7260e7da1148892ad",
+      "bytes": 5522649,
+      "references": [
+        {
+          "path": "steam-marketing/2026-08-26-gameplay-demo-trailer-v1/reference-gameplay-vertical-flight.png",
+          "sha256": "f5d1a04e89bafb4deaacb99aab7e2dd55d6fd70eff19b5797786ef9f1b5bb9cf"
+        },
+        {
+          "path": "steam-marketing/2026-08-26-gameplay-demo-trailer-v1/reference-style-star-stardust-orbit.png",
+          "sha256": "cefcf95172a602aff9778f7e0bbd55ff47cf99476ad06a1bdc609952b9c74f34"
+        }
+      ],
+      "prompt": "Use case: stylized-concept\nAsset type: vertical Short CTA background; clearly marketing key art derived from gameplay, never a replacement gameplay shot\nPrimary request: polish Image 1 without changing its portrait mine shaft, miner action, green Star location, ore silhouettes, carved route, or camera. Blend the clean restrained orbital stardust language of Image 2 into the existing green Star only, keeping the exact Star colour and scale.\nInput images: Image 1 is the authoritative actual-gameplay edit target; Image 2 is a supporting approved Star-motion style reference only.\nStyle/medium: cohesive painterly 2.5D game art matching Image 1; tactile cave detail; not photography and not generic fantasy concept art.\nComposition/framing: retain the exact 9:16 composition; keep the miner and Star inside the central mobile safe area; preserve darker breathing room for later captions.\nLighting/mood: subtle green-white localized Star light, fine dust, readable action silhouette, discovery and momentum.\nConstraints: preserve the game art identity and geometry; no new characters, creatures, props, UI, text, logo, watermark, camera change, photorealism, or stock-photo look.\nAvoid: redesign, giant star, whole-frame pulse, lens flare, neon saturation, cinematic black bars, fake interface.",
+      "usage": {
+        "prompt_tokens": 2516,
+        "completion_tokens": 1680,
+        "total_tokens": 4196,
+        "cost": 0.102058,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.102058,
+          "upstream_inference_prompt_cost": 0.001258,
+          "upstream_inference_completions_cost": 0.1008
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 1680
+        }
+      }
+    },
+    {
+      "id": "openrouter-gameplay-keyart-landscape-v2",
+      "output": "steam-marketing/2026-08-26-gameplay-demo-trailer-v1/openrouter-gameplay-keyart-landscape-v2.png",
+      "sha256": "8c69d6eb1fd88e9c9f433b983e39371795bd3f3795b20c5f8a43a3dbb68262aa",
+      "bytes": 6382948,
+      "references": [
+        {
+          "path": "steam-marketing/2026-08-26-gameplay-demo-trailer-v1/reference-gameplay-landscape-star-action.png",
+          "sha256": "1fda5d2460988756aac9a690b3b102c27b8fc1c725bd5d9c52e12da265767a31"
+        },
+        {
+          "path": "steam-marketing/2026-08-26-gameplay-demo-trailer-v1/reference-style-star-core-breath.png",
+          "sha256": "3c63137dbc8db97f2e043d9ef81191eec9bf70b9dc38066bba7ac1d07d13f9d6"
+        }
+      ],
+      "prompt": "Use case: stylized-concept\nAsset type: landscape trailer title and CTA background; clearly marketing key art derived from gameplay, never a replacement gameplay shot\nPrimary request: turn Image 1 into restrained, premium UNDERSTAR key art while preserving its side-view mine, exact miner identity, carved geometry, ore silhouettes, cyan Star placement and exact on-screen size, material language, and camera. Remove only the HUD chrome and extend existing cave texture naturally into those areas. Add only subtle internal facet illumination inside the existing Star footprint, informed by Image 2; do not add an outer ring or any new object.\nInput images: Image 1 is the authoritative actual-gameplay edit target; Image 2 is a supporting approved Star-motion style reference only.\nStyle/medium: cohesive painterly 2.5D game art matching Image 1; tactile dark geology; not photography and not generic fantasy concept art.\nComposition/framing: retain the exact 16:9 composition and miner-to-Star relationship; leave calm readable space for later editor-added title copy.\nLighting/mood: restrained cyan-white Star light, subtle dust and depth, readable miner silhouette, mysterious rather than explosive.\nConstraints: preserve the game art identity, exact ore shapes, and core geometry; the one existing Star must remain tile-anchored at the exact original position and scale; no new characters, creatures, props, stars, charms, hanging ornaments, wires, UI, text, logo, watermark, camera change, photorealism, or stock-photo look.\nAvoid: orbiting satellites, outer aura rings, floating, bobbing, pulsing, redesign, giant star, whole-frame glow, lens flare, neon saturation, cinematic black bars, fake interface.",
+      "usage": {
+        "prompt_tokens": 2602,
+        "completion_tokens": 1680,
+        "total_tokens": 4282,
+        "cost": 0.102101,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.102101,
+          "upstream_inference_prompt_cost": 0.001301,
+          "upstream_inference_completions_cost": 0.1008
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 1680
+        }
+      }
+    },
+    {
+      "id": "openrouter-gameplay-keyart-vertical-v2",
+      "output": "steam-marketing/2026-08-26-gameplay-demo-trailer-v1/openrouter-gameplay-keyart-vertical-v2.png",
+      "sha256": "af7bbebfbd3792b5dc9b1f88d77dd0ac75fc605e56cf7cb6249f9a909dd7e4cf",
+      "bytes": 5650035,
+      "references": [
+        {
+          "path": "steam-marketing/2026-08-26-gameplay-demo-trailer-v1/reference-gameplay-vertical-flight.png",
+          "sha256": "f5d1a04e89bafb4deaacb99aab7e2dd55d6fd70eff19b5797786ef9f1b5bb9cf"
+        },
+        {
+          "path": "steam-marketing/2026-08-26-gameplay-demo-trailer-v1/reference-style-star-stardust-orbit.png",
+          "sha256": "cefcf95172a602aff9778f7e0bbd55ff47cf99476ad06a1bdc609952b9c74f34"
+        }
+      ],
+      "prompt": "Use case: stylized-concept\nAsset type: vertical Short CTA background; clearly marketing key art derived from gameplay, never a replacement gameplay shot\nPrimary request: polish Image 1 without changing its portrait mine shaft, miner action, green Star location and exact on-screen size, original ore silhouettes, carved route, or camera. Add only subtle internal facet/stardust animation cues inside the existing green Star footprint, informed by Image 2; do not add an outer ring or redraw nearby ore.\nInput images: Image 1 is the authoritative actual-gameplay edit target; Image 2 is a supporting approved Star-motion style reference only.\nStyle/medium: cohesive painterly 2.5D game art matching Image 1; tactile cave detail; not photography and not generic fantasy concept art.\nComposition/framing: retain the exact 9:16 composition; keep the miner and Star inside the central mobile safe area; preserve darker breathing room for later captions.\nLighting/mood: subtle green-white localized Star light, fine dust, readable action silhouette, discovery and momentum.\nConstraints: preserve the game art identity, exact ore shapes, and geometry; the one existing Star must remain tile-anchored at the exact original position and scale; no new characters, creatures, props, stars, UI, text, logo, watermark, camera change, photorealism, or stock-photo look.\nAvoid: orbiting satellites, outer aura rings, floating, bobbing, pulsing, ore redesign, giant star, whole-frame glow, lens flare, neon saturation, cinematic black bars, fake interface.",
+      "usage": {
+        "prompt_tokens": 2570,
+        "completion_tokens": 1680,
+        "total_tokens": 4250,
+        "cost": 0.102085,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.102085,
+          "upstream_inference_prompt_cost": 0.001285,
+          "upstream_inference_completions_cost": 0.1008
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 1680
+        }
+      }
+    }
+  ]
+}

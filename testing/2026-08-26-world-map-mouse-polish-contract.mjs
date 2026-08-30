@@ -133,15 +133,14 @@ renderer.zoomAtScreenPoint(layout, zoomView, 12, wheelAnchor.x, wheelAnchor.y);
 const tileAfterZoom = renderer.screenToWorld(wheelAnchor.x, wheelAnchor.y, layout, zoomView);
 assert.ok(Math.abs(tileBeforeZoom.tileX - tileAfterZoom.tileX) < 1e-9);
 assert.ok(Math.abs(tileBeforeZoom.tileY - tileAfterZoom.tileY) < 1e-9);
-const triangles = [];
 const graphics = {
   clear() {}, fillStyle() {}, fillRect() {}, lineStyle() {}, lineBetween() {},
   strokeRect() {}, fillCircle() {}, strokeCircle() {},
-  fillTriangle: (...points) => triangles.push(points),
 };
 const stats = renderer.render(graphics, layout, centeredView);
-assert.equal(triangles[0][0], layout.x + layout.width / 2);
-assert.equal(triangles[0][1], layout.y + layout.height / 2 - 9);
+assert.equal(stats.playerAnnotation.x, layout.x + layout.width / 2);
+assert.equal(stats.playerAnnotation.y, layout.y + layout.height / 2);
+assert.equal(stats.playerAnnotation.iconFrame, WORLD_MAP_CONFIG.symbolAtlas.frames.player);
 assert.equal(stats.currentDepth, 1);
 const input = new FakeEmitter();
 input.keyboard = new FakeEmitter();

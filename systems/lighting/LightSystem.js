@@ -47,13 +47,8 @@ export class LightSystem {
     this.config = config;
     this._playerLightProfileId = resolvePlayerLightProfile(config);
     this._torchActive = false;
-    this._torchIntensityLevels = config.torchIntensity.levels;
-    this._torchIntensityIndex = Math.max(
-      0,
-      Math.min(
-        this._torchIntensityLevels.length - 1,
-        Math.round(config.torchIntensity.defaultLevelIndex),
-      ),
+    this._torchIntensityPercent = this._clampTorchIntensityPercent(
+      config.torchIntensity.defaultPercent,
     );
     this._currentRadiusTiles = null;
     this._currentGlowStrength = 0;
@@ -191,40 +186,33 @@ export class LightSystem {
   }
 
   getTorchIntensity() {
-    const levels = this._torchIntensityLevels || this.config?.torchIntensity?.levels;
-    if (!levels?.length) return 1;
-    const defaultIndex = this.config?.torchIntensity?.defaultLevelIndex ?? levels.length - 1;
-    const index = Number.isInteger(this._torchIntensityIndex)
-      ? this._torchIntensityIndex
-      : defaultIndex;
-    return levels[Math.max(0, Math.min(levels.length - 1, index))];
+    return this._clampTorchIntensityPercent(this._torchIntensityPercent) / 100;
   }
 
   getTorchIntensitySnapshot() {
+    const cfg = this.config.torchIntensity;
     const intensity = this.getTorchIntensity();
+    const percent = Math.round(intensity * 100);
+    const overdriveStartPercent = cfg.overdrive.startPercent;
     return {
       intensity,
-      percent: Math.round(intensity * 100),
-      levelIndex: this._torchIntensityIndex,
-      levelCount: this._torchIntensityLevels.length,
+      percent,
+      minimumPercent: cfg.minimumPercent,
+      maximumPercent: cfg.maximumPercent,
+      overdriveActive: percent > overdriveStartPercent,
+      overdriveRatio: clamp01(
+        (percent - overdriveStartPercent)
+          / Math.max(1, cfg.maximumPercent - overdriveStartPercent),
+      ),
       active: this._torchActive,
       drainGpPerSecond: this._getTorchDrainPerSecond(this._latestDepth),
     };
   }
 
-  setTorchIntensityIndex(levelIndex) {
-    const levels = this._torchIntensityLevels || this.config?.torchIntensity?.levels;
-    if (!levels?.length) return false;
-    this._torchIntensityLevels = levels;
-    const nextIndex = Math.max(
-      0,
-      Math.min(
-        this._torchIntensityLevels.length - 1,
-        Math.round(Number(levelIndex) || 0),
-      ),
-    );
-    if (nextIndex === this._torchIntensityIndex) return false;
-    this._torchIntensityIndex = nextIndex;
+  setTorchIntensityPercent(percent) {
+    const nextPercent = this._clampTorchIntensityPercent(percent);
+    if (nextPercent === this._torchIntensityPercent) return false;
+    this._torchIntensityPercent = nextPercent;
     this._syncTorchHud();
     return true;
   }
@@ -233,16 +221,24 @@ export class LightSystem {
     if (!this._canUseTorchInput() || !Number.isFinite(direction) || direction === 0) {
       return false;
     }
-    return this.setTorchIntensityIndex(
-      this._torchIntensityIndex + (direction > 0 ? 1 : -1),
+    const step = Math.max(
+      1,
+      Math.round(this.config.torchIntensity.scrollStepPercent),
+    );
+    return this.setTorchIntensityPercent(
+      this.getTorchIntensitySnapshot().percent + (direction > 0 ? step : -step),
     );
   }
 
   cycleTorchIntensity() {
     if (!this._canUseTorchInput()) return false;
-    return this.setTorchIntensityIndex(
-      (this._torchIntensityIndex + 1) % this._torchIntensityLevels.length,
-    );
+    const cfg = this.config.torchIntensity;
+    const step = Math.max(1, Math.round(cfg.clickStepPercent));
+    const currentPercent = this.getTorchIntensitySnapshot().percent;
+    const nextPercent = currentPercent >= cfg.maximumPercent
+      ? cfg.minimumPercent
+      : Math.min(cfg.maximumPercent, currentPercent + step);
+    return this.setTorchIntensityPercent(nextPercent);
   }
 
   getShaderSnapshot() {
@@ -565,7 +561,7 @@ export class LightSystem {
     const torchBonus = this._torchActive
       ? (
         this.config.torchBonusRadiusTiles + Number(lighting.torchBonusRadius || 0)
-      ) * this._getTorchIntensityScale("radiusExponent")
+      ) * this._getTorchIntensityScale("radius")
       : 0;
     const surface = lighting.surfaceLightInfluence;
     const underground = lighting.undergroundDarknessInfluence;
@@ -589,7 +585,7 @@ export class LightSystem {
     if (this._playerLightProfileId !== "legacy") {
       return clamp01(
         lighting.playerLight?.intensity
-        * this._getTorchIntensityScale("glowExponent"),
+        * this._getTorchIntensityScale("glow"),
       );
     }
 
@@ -603,7 +599,7 @@ export class LightSystem {
     const caveGlow = lighting.undergroundDarknessInfluence;
 
     return clamp01(
-      (surfaceGlow + caveGlow) * this._getTorchIntensityScale("glowExponent"),
+      (surfaceGlow + caveGlow) * this._getTorchIntensityScale("glow"),
     );
   }
 
@@ -1686,15 +1682,46 @@ export class LightSystem {
     return Number.isFinite(effects.torchBonusRadius) ? Math.max(0, effects.torchBonusRadius) : 0;
   }
 
-  _getTorchIntensityScale(exponentKey) {
-    const exponent = this.config?.torchIntensity?.[exponentKey] ?? 1;
-    return Math.pow(this.getTorchIntensity(), exponent);
+  _clampTorchIntensityPercent(percent) {
+    const cfg = this.config?.torchIntensity || {};
+    const minimum = Math.max(1, Math.round(Number(cfg.minimumPercent) || 1));
+    const maximum = Math.max(minimum, Math.round(Number(cfg.maximumPercent) || 100));
+    const fallback = Number.isFinite(Number(cfg.defaultPercent))
+      ? Number(cfg.defaultPercent)
+      : 100;
+    const value = Number.isFinite(Number(percent)) ? Number(percent) : fallback;
+    return Math.max(minimum, Math.min(maximum, Math.round(value)));
+  }
+
+  _getTorchIntensityScale(channel) {
+    const cfg = this.config.torchIntensity;
+    const overdrive = cfg.overdrive;
+    const intensity = this.getTorchIntensity();
+    const normalExponent = Number(cfg[`${channel}Exponent`]) || 1;
+    const overdriveStart = overdrive.startPercent / 100;
+    const normalScale = Math.pow(Math.min(intensity, overdriveStart), normalExponent);
+    if (intensity <= overdriveStart) return normalScale;
+
+    const maximumIntensity = cfg.maximumPercent / 100;
+    const overdriveRatio = clamp01(
+      (intensity - overdriveStart) / Math.max(0.01, maximumIntensity - overdriveStart),
+    );
+    const maximumMultiplier = Math.max(
+      normalScale,
+      Number(overdrive[`${channel}MaximumMultiplier`]) || normalScale,
+    );
+    const overdriveExponent = Number(overdrive[`${channel}Exponent`]) || 1;
+    return Phaser.Math.Linear(
+      normalScale,
+      maximumMultiplier,
+      Math.pow(overdriveRatio, overdriveExponent),
+    );
   }
 
   _scaleTorchDrain(drainGpPerSecond) {
     return Math.max(
       0.1,
-      drainGpPerSecond * this._getTorchIntensityScale("drainExponent"),
+      drainGpPerSecond * this._getTorchIntensityScale("drain"),
     );
   }
 

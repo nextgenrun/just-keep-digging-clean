@@ -1,7 +1,12 @@
 import assert from "node:assert/strict";
 
+import {
+  CELESTIAL_TALENT_PROGRESSION_CONFIG,
+  getCelestialStarPointYield,
+} from "../values/celestialTalentProgression.js";
 import { GAME_CONFIG } from "../values/gameConfig.js";
 import { RESOURCE_TILE_TYPE_VALUES } from "../values/resourceTypes.js";
+import { STAR_IDENTITY_LIBRARY_CONFIG } from "../values/starIdentityLibrary.js";
 import { STAR_RARITY_PROGRESSION_CONFIG } from "../values/starRarityProgression.js";
 import { TILED_WORLD_OVERRIDE } from "../values/tiledWorldOverrideData.js";
 import { TILE_TYPES } from "../values/tileTypes.js";
@@ -33,6 +38,32 @@ function countStars(world, maxTileY = world.depthTiles) {
     }
   }
   return count;
+}
+
+function summarizeStarPopulation(world) {
+  const identityCounts = Array(
+    STAR_IDENTITY_LIBRARY_CONFIG.identities.length,
+  ).fill(0);
+  const rarityCounts = Array(
+    STAR_RARITY_PROGRESSION_CONFIG.rarityTiers.length,
+  ).fill(0);
+  let count = 0;
+  let talentPoints = 0;
+  for (let ty = 0; ty < world.depthTiles; ty += 1) {
+    for (let tx = 0; tx < world.widthTiles; tx += 1) {
+      if (world.getTileType(tx, ty) !== TILE_TYPES.SKY_TILE) continue;
+      const rarity = world.getSkyTileRarity(tx, ty);
+      const identityIndex = world.getSkyTileIdentity(tx, ty);
+      const identity = STAR_IDENTITY_LIBRARY_CONFIG.identities[identityIndex];
+      assert.ok(identity, `Star at ${tx},${ty} must resolve a valid identity`);
+      assert.equal(identity.rarityIndex, rarity);
+      identityCounts[identityIndex] += 1;
+      rarityCounts[rarity] += 1;
+      talentPoints += getCelestialStarPointYield(rarity);
+      count += 1;
+    }
+  }
+  return { count, identityCounts, rarityCounts, talentPoints };
 }
 
 function sampleLevelOneBand(world, minDepth, maxDepth) {
@@ -90,6 +121,21 @@ assert.ok(currentStars > 0);
 assert.ok(currentStars < previousStars);
 assert.ok(realizedRateRatio > 0.32 && realizedRateRatio < 0.38);
 
+const currentPopulation = summarizeStarPopulation(currentRate);
+const fullTalentCost = CELESTIAL_TALENT_PROGRESSION_CONFIG.branches
+  .flatMap(branch => branch.nodes)
+  .reduce((sum, node) => sum + node.starsCost, 0);
+assert.equal(currentPopulation.count, currentStars);
+assert.equal(
+  currentPopulation.identityCounts.filter(count => count > 0).length,
+  STAR_IDENTITY_LIBRARY_CONFIG.identities.length,
+  "the deterministic world must expose every authored Star identity",
+);
+assert.ok(
+  currentPopulation.talentPoints >= fullTalentCost,
+  "the complete current world must fund every Celestial talent",
+);
+
 const fixedAuthoredStars = TILED_WORLD_OVERRIDE.stats[`tileType:${TILE_TYPES.SKY_TILE}`];
 const upperWorldStars = countStars(currentRate, TILED_WORLD_OVERRIDE.height);
 assert.equal(fixedAuthoredStars, 3525);
@@ -121,6 +167,11 @@ console.log(JSON.stringify({
     completeWorld: currentStars,
     previousRate: previousStars,
     realizedRateRatio,
+    activeIdentities: currentPopulation.identityCounts.filter(count => count > 0).length,
+    rarityCounts: currentPopulation.rarityCounts,
+    talentPoints: currentPopulation.talentPoints,
+    fullTalentCost,
+    talentPointSurplus: currentPopulation.talentPoints - fullTalentCost,
   },
   deepAuthoredResources: {
     modern: modernDeep,

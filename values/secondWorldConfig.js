@@ -55,19 +55,16 @@ export const SECOND_WORLD_CONFIG = Object.freeze({
     baseTiles: Object.freeze([
       Object.freeze({ type: TILE_TYPES.LAVA_DIRT, weight: 64 }),
       Object.freeze({ type: TILE_TYPES.OBSIDIAN, weight: 20 }),
-      Object.freeze({ type: TILE_TYPES.EMBER_ORE, weight: 9 }),
       Object.freeze({ type: TILE_TYPES.MAGMA_CRYSTAL, weight: 3 }),
       Object.freeze({ type: TILE_TYPES.GOLD, weight: 4 }),
     ]),
     nodeTiles: Object.freeze([
       Object.freeze({ type: TILE_TYPES.OBSIDIAN, weight: 44 }),
-      Object.freeze({ type: TILE_TYPES.EMBER_ORE, weight: 32 }),
       Object.freeze({ type: TILE_TYPES.MAGMA_CRYSTAL, weight: 14 }),
       Object.freeze({ type: TILE_TYPES.GOLD, weight: 10 }),
     ]),
     nodeTilesDeep: Object.freeze([
       Object.freeze({ type: TILE_TYPES.OBSIDIAN, weight: 20 }),
-      Object.freeze({ type: TILE_TYPES.EMBER_ORE, weight: 35 }),
       Object.freeze({ type: TILE_TYPES.MAGMA_CRYSTAL, weight: 35 }),
       Object.freeze({ type: TILE_TYPES.GOLD, weight: 10 }),
     ]),
@@ -76,11 +73,6 @@ export const SECOND_WORLD_CONFIG = Object.freeze({
         type: TILE_TYPES.MAGMA_CRYSTAL,
         topChance: 0.018,
         bottomChance: 0.14,
-      }),
-      Object.freeze({
-        type: TILE_TYPES.EMBER_ORE,
-        topChance: 0.062,
-        bottomChance: 0.20,
       }),
       Object.freeze({
         type: TILE_TYPES.OBSIDIAN,

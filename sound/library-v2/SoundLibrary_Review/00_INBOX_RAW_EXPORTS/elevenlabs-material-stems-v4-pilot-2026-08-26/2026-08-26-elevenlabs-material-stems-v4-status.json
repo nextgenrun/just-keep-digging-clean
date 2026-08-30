@@ -1,0 +1,10 @@
+{
+  "state": "completed_rejected",
+  "total": 69,
+  "ready": 69,
+  "quarantined": 38,
+  "failed": 0,
+  "humanReviewVerdict": "REJECT_ALL",
+  "runtimeEligible": 0,
+  "updatedAt": "2026-08-26T17:36:35.516704+00:00"
+}

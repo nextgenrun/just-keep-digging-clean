@@ -199,7 +199,6 @@ export class PlayerInput {
     if (!this.controlsEnabled) {
       return false;
     }
-    if (this.scene?.debrisShieldSystem?.isInputCaptured?.()) return false;
     return queued || this.keys.q.isDown || false;
   }
   

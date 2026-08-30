@@ -8,7 +8,8 @@ import {
 const empty = sanitizeCelestialOverhaulData(null);
 assert.equal(empty.version, 1);
 assert.equal(empty.talents.stars, 0);
-assert.equal(empty.actionbar.order.length, 5);
+assert.equal(empty.actionbar.order.length, 6);
+assert.equal(empty.actionbar.version, 2);
 assert.equal(empty.legacyRarityMigrationVersion, 0);
 
 const migrated = sanitizeCelestialOverhaulData({
@@ -23,7 +24,8 @@ assert.equal(migrated.talents.stars, 82);
 assert.deepEqual(migrated.talents.purchasedNodeIds, ["hollow-sun-root"]);
 assert.equal(migrated.actionbar.order[0], "comet-engine");
 assert.equal(migrated.actionbar.order[1], "quickslash");
-assert.equal(migrated.actionbar.order.length, 5);
+assert.equal(migrated.actionbar.order.length, 6);
+assert.equal(migrated.actionbar.order.at(-1), "campfire");
 assert.equal(
   migrated.legacyRarityMigrationVersion,
   CELESTIAL_OVERHAUL_SAVE_CONFIG.legacyRarityMigrationVersion,

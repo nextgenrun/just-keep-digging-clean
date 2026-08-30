@@ -36,10 +36,10 @@ export const CONSTELLATION_BUFFS = Object.freeze({
   dirt: defineBuff(
     "quickslash",
     "Swift Shovel",
-    "Every Quick Slash hit deals +5 flat tile damage.",
-    "quickslashFlatDamage",
+    "Every Quick Slash hit deals 20% more tile damage.",
+    "quickslashDamageMult",
     "add",
-    5,
+    0.20,
   ),
   stone: defineBuff(
     "thunderstrike",
@@ -52,42 +52,42 @@ export const CONSTELLATION_BUFFS = Object.freeze({
   copper: defineBuff(
     "quickslash",
     "Anvil Efficiency",
-    "Quick Slash costs 8 GP instead of 10 GP.",
+    "Quick Slash costs 9 GP instead of 12 GP.",
     "quickslashCostReduction",
     "add",
-    2,
+    3,
   ),
   darkDirtNormal: defineBuff(
     "thunderstrike",
     "Cave Echo",
-    "Every Thunder Strike slam deals 25% more tile damage.",
+    "Every Thunder Strike slam deals 15% more tile damage.",
     "thunderstrikeDamageMult",
     "add",
-    0.25,
+    0.15,
   ),
   steel: defineBuff(
     "quickslash",
     "Blade Rush",
-    "Quick Slash gains +300 burst movement speed.",
+    "Quick Slash gains +160 burst movement speed.",
     "quickslashBurstSpeed",
     "add",
-    300,
+    160,
   ),
   iron: defineBuff(
     "thunderstrike",
     "Hammer Force",
-    "Removes Thunder Strike's 10% damage loss per deeper row.",
+    "Removes Thunder Strike's 8% damage loss per deeper row.",
     "thunderstrikeFalloffReduction",
     "add",
-    0.20,
+    0.08,
   ),
   bronze: defineBuff(
     "quickslash",
     "Shielded Slash",
-    "Quick Slash costs 0 GP while current GP is 50% or higher.",
-    "quickslashFreeAbovePct",
+    "Quick Slash costs 50% less while current GP is 75% or higher.",
+    "quickslashDiscountAbovePct",
     "set",
-    0.5,
+    0.75,
   ),
   darkDirtStrong: defineBuff(
     "thunderstrike",
@@ -100,7 +100,7 @@ export const CONSTELLATION_BUFFS = Object.freeze({
   silver: defineBuff(
     "quickslash",
     "Crescent Flash",
-    "Quick Slash mining cadence improves by 20% (4.0x to 4.8x base).",
+    "Quick Slash cadence improves by 20% (2.5x to 3.0x) and its floor drops to 150 ms.",
     "quickslashSpeedBonus",
     "add",
     0.20,
@@ -108,10 +108,10 @@ export const CONSTELLATION_BUFFS = Object.freeze({
   gold: defineBuff(
     "thunderstrike",
     "Crown Overload",
-    "Opening cast costs 270 GP instead of 300; chained slams stay free.",
+    "Opening cast costs 200 GP instead of 250; chained slams stay free.",
     "thunderstrikeCostReduction",
     "add",
-    30,
+    50,
   ),
 });
 
@@ -122,10 +122,10 @@ export const CONSTELLATION_BUFFS = Object.freeze({
 export function getDefaultAbilityStats() {
   return {
     // Quickslash
-    quickslashFlatDamage: 0,
+    quickslashDamageMult: 0,
     quickslashCostReduction: 0,
     quickslashBurstSpeed: 0,
-    quickslashFreeAbovePct: 0,
+    quickslashDiscountAbovePct: 0,
     quickslashSpeedBonus: 0,
     // Thunderstrike
     thunderstrikeRange: 0,

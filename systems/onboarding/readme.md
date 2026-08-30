@@ -39,9 +39,10 @@ encounters.
   expressed through locked catalog rows with explicit unlock copy and an
   authoritative purchase gate. The Level-2 Arc Forge and later non-shop systems
   retain their progression gates.
-- `ContextualMechanicTutorialSystem.js` adds four post-route, one-time lessons
-  for real darkness, armed Hardcore, an aware earthquake warning, and the first
-  production Graveborer breach. Each lesson temporarily owns the approved Next
+- `ContextualMechanicTutorialSystem.js` adds five post-route, one-time lessons
+  for the first Ember Ore/Campfire link, real darkness, armed Hardcore, an aware
+  earthquake warning, and the first production Graveborer breach. Each lesson
+  temporarily owns the approved Next
   Promise strip, counts only visible dwell time, then persists its acknowledgement
   through retention save data; no modal or generic notification is opened.
 - `TownSquareTutorialDigSite.js` authors the normal-HP Dirt seam at x12 inside

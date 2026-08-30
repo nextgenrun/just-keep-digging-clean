@@ -4,23 +4,32 @@ import { resolve } from "node:path";
 
 import { APPROVED_HUD_SKIN } from "../values/approvedHudSkin.js";
 import { ASSET_KEYS } from "../values/assetKeys.js";
+import {
+  createHardcoreModeData,
+  HARDCORE_MODE_CONFIG,
+} from "../values/hardcoreMode.js";
 import { LIGHT_CONFIG } from "../values/lightConfig.js";
 
 globalThis.Phaser = {
   Math: {
+    Clamp: (value, minimum, maximum) => Math.max(minimum, Math.min(maximum, value)),
     Linear: (start, end, amount) => start + (end - start) * amount,
   },
 };
 
 const { LightSystem } = await import("../systems/lighting/LightSystem.js");
+const { HardcoreModeSystem } = await import("../systems/hardcore/HardcoreModeSystem.js");
+const { PlayerLevelSystem } = await import("../systems/progression/PlayerLevelSystem.js");
+const { UpgradeSystem } = await import("../systems/progression/UpgradeSystem.js");
 const { ApprovedHudSkin } = await import("../systems/visual/ApprovedHudSkin.js");
 const root = resolve(import.meta.dirname, "..");
 const hudStates = [];
+const playerLevelSystem = new PlayerLevelSystem();
+const upgradeSystem = new UpgradeSystem(null, playerLevelSystem);
 const light = Object.create(LightSystem.prototype);
 light.config = LIGHT_CONFIG;
 light._playerLightProfileId = "v2";
-light._torchIntensityLevels = LIGHT_CONFIG.torchIntensity.levels;
-light._torchIntensityIndex = LIGHT_CONFIG.torchIntensity.defaultLevelIndex;
+light._torchIntensityPercent = LIGHT_CONFIG.torchIntensity.defaultPercent;
 light._torchActive = true;
 light._latestDepth = 1000;
 light._currentTorchDrainGpPerSecond = LIGHT_CONFIG.torchDrainGpPerSecond;
@@ -29,10 +38,8 @@ light.scene = {
   hudSystem: {
     setTorchState: (...state) => hudStates.push(state),
   },
-  upgradeSystem: {
-    godModeActive: false,
-    getUpgradeEffects: () => ({}),
-  },
+  upgradeSystem,
+  playerLevelSystem,
   shopOverlay: { isVisible: false },
   _pillarViewActive: false,
   campfireSystem: { isSelecting: () => false },
@@ -49,35 +56,176 @@ const lighting = {
   weather: { stormAmount: 0, undergroundSignal: 0 },
 };
 
-assert.deepEqual(LIGHT_CONFIG.torchIntensity.levels, [0.2, 0.4, 0.6, 0.8, 1]);
+assert.equal(LIGHT_CONFIG.torchIntensity.minimumPercent, 1);
+assert.equal(LIGHT_CONFIG.torchIntensity.maximumPercent, 200);
+assert.equal(LIGHT_CONFIG.torchIntensity.clickStepPercent, 10);
+assert.equal(LIGHT_CONFIG.torchIntensity.scrollStepPercent, 1);
 assert.equal(light.getTorchIntensity(), 1);
 const brightRadius = light._computeVisibilityRadius(lighting);
 const brightGlow = light._computeTargetGlow(lighting);
 const brightDrain = light._getTorchDrainPerSecond(1000);
 
-assert.equal(light.setTorchIntensityIndex(0), true);
-assert.equal(light.getTorchIntensity(), 0.2);
+assert.equal(light.setTorchIntensityPercent(1), true);
+assert.equal(light.getTorchIntensity(), 0.01);
 const lowRadius = light._computeVisibilityRadius(lighting);
 const lowGlow = light._computeTargetGlow(lighting);
 const lowDrain = light._getTorchDrainPerSecond(1000);
 assert.ok(lowRadius < brightRadius, "low flame must reveal less terrain");
-assert.ok(lowRadius > LIGHT_CONFIG.minVisibilityRadiusTiles, "low flame remains useful");
+assert.ok(lowRadius >= LIGHT_CONFIG.minVisibilityRadiusTiles, "low flame keeps the visibility floor");
 assert.ok(lowGlow < brightGlow, "low flame must be visibly dimmer");
 assert.ok(lowDrain < brightDrain, "low flame must consume less GP");
-assert.ok(Math.abs(lowGlow - 0.2) < 0.000001);
-assert.ok(Math.abs(lowDrain - brightDrain * 0.2) < 0.000001);
-assert.deepEqual(hudStates.at(-1), [true, lowDrain, 0.2]);
+assert.ok(Math.abs(lowGlow - 0.01) < 0.000001);
+assert.ok(Math.abs(lowDrain - brightDrain * 0.01) < 0.000001);
+assert.deepEqual(hudStates.at(-1), [true, lowDrain, 0.01]);
 
 assert.equal(light.adjustTorchIntensity(1), true);
-assert.equal(light.getTorchIntensitySnapshot().percent, 40);
+assert.equal(light.getTorchIntensitySnapshot().percent, 2);
 assert.equal(light.adjustTorchIntensity(-1), true);
-assert.equal(light.adjustTorchIntensity(-1), false, "wheel adjustment must clamp at 20%");
+assert.equal(light.adjustTorchIntensity(-1), false, "wheel adjustment must clamp at 1%");
 assert.equal(light.cycleTorchIntensity(), true);
-assert.equal(light.getTorchIntensitySnapshot().percent, 40);
+assert.equal(light.getTorchIntensitySnapshot().percent, 11);
+assert.equal(light.setTorchIntensityPercent(95), true);
+assert.equal(light.cycleTorchIntensity(), true);
+assert.equal(light.getTorchIntensitySnapshot().percent, 105);
+assert.equal(light.cycleTorchIntensity(), true);
+assert.equal(light.getTorchIntensitySnapshot().percent, 115);
 
-light.setTorchIntensityIndex(LIGHT_CONFIG.torchIntensity.levels.length - 1);
+light.setTorchIntensityPercent(200);
+const overdriveRadius = light._computeVisibilityRadius(lighting);
+const overdriveDrain = light._getTorchDrainPerSecond(1000);
+assert.ok(overdriveRadius > brightRadius * 2, "200% must provide immense reveal reach");
+assert.equal(
+  light._getTorchIntensityScale("radius"),
+  LIGHT_CONFIG.torchIntensity.overdrive.radiusMaximumMultiplier,
+);
+assert.equal(
+  overdriveDrain,
+  brightDrain * LIGHT_CONFIG.torchIntensity.overdrive.drainMaximumMultiplier,
+);
+assert.equal(
+  light._getTorchDrainPerSecond(0),
+  LIGHT_CONFIG.torchDrainGpPerSecond
+    * LIGHT_CONFIG.torchIntensity.overdrive.drainMaximumMultiplier,
+);
+assert.equal(
+  light._getTorchDrainPerSecond(2000),
+  LIGHT_CONFIG.torchDrainGpPerSecond
+    * LIGHT_CONFIG.torchDrainDepthMaxMultiplier
+    * LIGHT_CONFIG.torchIntensity.overdrive.drainMaximumMultiplier,
+);
+assert.equal(light.getTorchIntensitySnapshot().overdriveActive, true);
 assert.equal(light.cycleTorchIntensity(), true);
-assert.equal(light.getTorchIntensitySnapshot().percent, 20, "click cycle must wrap");
+assert.equal(light.getTorchIntensitySnapshot().percent, 1, "click cycle must wrap");
+
+upgradeSystem.setUpgradeLevels({ torchDrainEfficiency: 10, torchRange: 10 });
+const torchUpgradeEffects = upgradeSystem.getUpgradeEffects();
+assert.equal(torchUpgradeEffects.torchDrainReduction, 5);
+assert.equal(torchUpgradeEffects.torchBonusRadius, 1.2);
+light.setTorchIntensityPercent(100);
+const upgradedLighting = {
+  ...lighting,
+  torchBonusRadius: light._getTorchBonusRadius(),
+};
+const upgradedBrightRadius = light._computeVisibilityRadius(upgradedLighting);
+const upgradedBrightDrain = light._getTorchDrainPerSecond(1000);
+assert.ok(Math.abs(upgradedBrightRadius - brightRadius - 1.2) < 0.000001);
+assert.equal(brightDrain - upgradedBrightDrain, 5);
+light.setTorchIntensityPercent(200);
+const upgradedOverdriveRadius = light._computeVisibilityRadius(upgradedLighting);
+const upgradedOverdriveDrain = light._getTorchDrainPerSecond(1000);
+assert.ok(Math.abs(
+  upgradedOverdriveRadius - overdriveRadius
+    - 1.2 * LIGHT_CONFIG.torchIntensity.overdrive.radiusMaximumMultiplier,
+) < 0.000001);
+assert.equal(
+  overdriveDrain - upgradedOverdriveDrain,
+  5 * LIGHT_CONFIG.torchIntensity.overdrive.drainMaximumMultiplier,
+);
+
+playerLevelSystem.level = 2;
+const levelTwoLighting = light._resolveLightingState(1000);
+assert.equal(levelTwoLighting.darknessResistanceMeters, 20);
+assert.equal(levelTwoLighting.visibilityDepth, 980);
+assert.equal(levelTwoLighting.torchBonusRadius, torchUpgradeEffects.torchBonusRadius);
+assert.equal(levelTwoLighting.torchDrainPerSecond, upgradedOverdriveDrain);
+assert.ok(light._computeVisibilityRadius(levelTwoLighting) > light._computeVisibilityRadius({
+  ...levelTwoLighting,
+  visibilityDepth: levelTwoLighting.depth,
+}));
+
+const sanityIntensities = [0.01, 0.5, 1, 1.5, 2];
+const sanityByTorchLevel = sanityIntensities.map(torchIntensity => {
+  const system = new HardcoreModeSystem({
+    ...createHardcoreModeData("hardcore", 1),
+    armed: true,
+    armedAt: 2,
+    stress: 50,
+    peakStress: 50,
+  });
+  return system.update(100, {
+    gameplayActive: true,
+    depth: 100,
+    darknessAlpha: 1,
+    torchActive: true,
+    torchIntensity,
+    nearIntactStarLight: false,
+    playerLevel: 1,
+    descentTilesPerSecond: 0,
+  });
+});
+for (let index = 1; index < sanityByTorchLevel.length; index += 1) {
+  assert.ok(
+    sanityByTorchLevel[index].stress < sanityByTorchLevel[index - 1].stress,
+    "every brighter torch level must produce less stress",
+  );
+}
+assert.ok(sanityByTorchLevel[0].stress > 50, "1% torch must increase deep-dark stress");
+assert.ok(sanityByTorchLevel[2].stress < 50, "100% torch must recover stress");
+assert.ok(
+  sanityByTorchLevel.at(-1).stress < sanityByTorchLevel[2].stress,
+  "200% overdrive must recover panic faster than 100%",
+);
+assert.equal(
+  sanityByTorchLevel.at(-1).stressRecoveryPerSecond,
+  sanityByTorchLevel[2].stressRecoveryPerSecond
+    * HARDCORE_MODE_CONFIG.stress.torchOverdriveRecoveryMaximumMultiplier,
+);
+assert.ok(
+  sanityByTorchLevel[0].torchDarknessExposure
+    > sanityByTorchLevel.at(-1).torchDarknessExposure,
+  "brighter flames must block more darkness exposure",
+);
+assert.ok(sanityByTorchLevel.at(-1).stressSources.includes("torch-light"));
+
+const overdriveByPlayerLevel = [1, 9].map(playerLevel => {
+  const system = new HardcoreModeSystem({
+    ...createHardcoreModeData("hardcore", 1),
+    armed: true,
+    armedAt: 2,
+    stress: 50,
+    peakStress: 50,
+  });
+  return system.update(100, {
+    gameplayActive: true,
+    depth: 1800,
+    darknessAlpha: 1,
+    torchActive: true,
+    torchIntensity: 2,
+    nearIntactStarLight: false,
+    playerLevel,
+    descentTilesPerSecond: 0,
+  });
+});
+assert.equal(overdriveByPlayerLevel[1].stressResistance, 0.4);
+assert.ok(Math.abs(
+  overdriveByPlayerLevel[1].stressGainPerSecond
+    - overdriveByPlayerLevel[0].stressGainPerSecond * 0.6,
+) < 0.000001);
+assert.equal(
+  overdriveByPlayerLevel[1].stressRecoveryPerSecond,
+  overdriveByPlayerLevel[0].stressRecoveryPerSecond,
+);
+assert.ok(overdriveByPlayerLevel[1].stress < overdriveByPlayerLevel[0].stress);
 
 const burnFrame = {
   alpha: 0,
@@ -120,10 +268,26 @@ const hudSource = readFileSync(resolve(root, "systems/visual/HUDSystem.js"), "ut
 const skinSource = readFileSync(resolve(root, "systems/visual/ApprovedHudSkin.js"), "utf8");
 const lightSource = readFileSync(resolve(root, "systems/lighting/LightSystem.js"), "utf8");
 const fireSource = readFileSync(resolve(root, "systems/lighting/FireLightRenderer.js"), "utf8");
+const bridgeSource = readFileSync(
+  resolve(root, "world/playScene/HardcoreModeBridge.js"),
+  "utf8",
+);
 assert.ok(controlSource.includes('.on("pointerdown"'));
-assert.ok(controlSource.includes('.on("wheel"'));
+assert.ok(controlSource.includes('this.scene.input?.on?.("wheel"'));
+assert.ok(controlSource.includes('this.scene?.input?.off?.("wheel"'));
+assert.ok(!controlSource.includes('this.hit.on("wheel"'));
 assert.ok(controlSource.includes("event?.stopPropagation?.()"));
-assert.ok(controlSource.includes("ASSET_KEYS.ui.approvedHud.buffChip"));
+const playerCoreLayout = APPROVED_HUD_SKIN.layout.playerCore;
+const torchControlLayout = APPROVED_HUD_SKIN.layout.torchIntensity;
+assert.equal(APPROVED_HUD_SKIN.layout.buffs.y, 91);
+assert.ok(torchControlLayout.hitX >= playerCoreLayout.x);
+assert.ok(torchControlLayout.hitX + torchControlLayout.hitWidth <= playerCoreLayout.x + playerCoreLayout.width);
+assert.ok(torchControlLayout.hitY + torchControlLayout.hitHeight <= playerCoreLayout.y + playerCoreLayout.height);
+assert.ok(torchControlLayout.textX < torchControlLayout.hitX);
+assert.ok(!controlSource.includes("scene.add.image("));
+assert.ok(controlSource.includes("integratedIntoPlayerCore"));
+assert.ok(controlSource.includes("HUD_LAYOUT.torchIntensityOverdriveLabel"));
+assert.ok(controlSource.includes("HUD_LAYOUT.torchIntensityOverdriveColor"));
 assert.ok(hudSource.includes("cycleTorchIntensity"));
 assert.ok(hudSource.includes("adjustTorchIntensity"));
 assert.ok(hudSource.includes("approvedSkinActive || this._systemVisibility.torch"));
@@ -131,5 +295,7 @@ assert.ok(hudSource.includes("setTorchBurn"));
 assert.ok(skinSource.includes("torchBurnFrame"));
 assert.ok(lightSource.includes("hudSystem?.setTorchBurn?.("));
 assert.ok(fireSource.includes("flameAlpha: clampFireLight01(flameAlpha)"));
+assert.ok(bridgeSource.includes("torchIntensity: light.torchIntensity"));
+assert.ok(bridgeSource.includes("playerLevel: scene.playerLevelSystem?.level || 1"));
 
-console.log("dynamic torch intensity contract passed: five levels, radius/glow/drain scaling, click, wheel, and authored HUD burn sync");
+console.log("dynamic torch intensity contract passed: 1-200%, upgrades, levels, overdrive light/drain/panic scaling, and authored HUD sync");

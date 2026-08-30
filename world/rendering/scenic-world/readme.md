@@ -16,6 +16,22 @@ per world pixel.
 
 The crop's authored sky edge uses a local 0.75-tile alpha feather into the continuous far-sky stage. During high flight, the complete beauty lane now stays opaque through the upper 42% of the viewport, then crossfades across half a viewport before clearing near the lower screen edge. Together these remove the duplicate-sky fold and the former abrupt image swap without stretching, repeating, or camera-following the approved image; the town, door line, and terrain-masked ground remain fully opaque during normal play.
 
+`WorldVisualSurfaceMotionView` now overlays that upper beauty with one selected
+18-second Seedance Mini loop in real gameplay. `town-air` is the default;
+`?surfaceMotion=1`, `2`, or `3` selects `soft-canopy`, `town-air`, or
+`layered-night`, and `?surfaceMotion=0` restores the static plate. The video is
+forward-only, camera-locked, silent, and masked through the same top reveal plus
+the 129 px right-side world handoff. It never includes or covers the separate
+slate floor or earth. The static beauty stays underneath until decode succeeds
+and automatically remains visible on cache, codec, playback, or size failure.
+
+Three V2 review selectors run through the same single-video view:
+`?surfaceMotion=natural`, `?surfaceMotion=depth`, and
+`?surfaceMotion=stars`. Their final H.264 files pre-compose four feathered
+canopy zones with different monotonic time curves, strongly anchor the lower
+town/trunks, and add only stationary independently timed star pulses. They do
+not create extra runtime video decoders or gain floor/gameplay ownership.
+
 The same native-density far plate is repeated once more at the fixed v11 Sky
 Island baseline. This second world-space band does not follow the camera and
 cannot overlap the surface camera, but prevents both authored island platforms
@@ -58,9 +74,10 @@ The runtime owns the surface stage, camera-windowed material mask, generated sem
 
 These layers only read `WorldModel`; the grid still owns digging, tile HP and damage states, resource identity and rewards, collision, cave walls, and save data. Cell invalidation resynchronizes the raster view after gameplay changes instead of replacing the tile, while damage cracks remain independent in `WorldVisualFeedbackLayer`. Non-reward markers such as portals, chests, geodes, and glow crystals keep their existing gameplay cues. Use `?terrainSemantics=0` to compare the former star and reward presentation while keeping the approved 2D resource atlas; only an explicit `?resourceVeins=1` request enables the rejected procedural vein comparison. The landmark layer is anchored in world coordinates and only renders beauty/emissive cards; it cannot mutate the hidden gameplay grid. Scenic mode never creates a Phaser Tilemap, never exposes fallback square tiles, and keeps the compatibility methods used by mining and world systems.
 
-`WorldVisualDamageImagePainter` turns normalized tile HP loss into twelve persistent pre-break states using expanded V4 by default. One of 64 coordinate-stable authored fractures is selected once per tile, mapped through four cumulative raster anchors, and safely rotated/reflected through eight right-angle transforms. The painter renders it as a dark MULTIPLY body and restrained SCREEN rim, then mixes the exact one of 33 tile/resource response profiles using the tile tint shared with the destruction FX authority. Per-state scale and opacity make all twelve logical states feel progressive without storing 768 structural frames. Every 188 px source frame remains centered on the invariant 94 px gameplay tile and clipped by the same solid-world mask. Atlas and mix selection are cached per painter; exact tile response indices are mapped once, avoiding repeated URL parsing and linear profile searches during draws. The painter may read tile identity for presentation but cannot mutate HP, terrain, collision, rewards, or saves. `?groundDamageAtlas=v3` restores layered V3, `?groundDamageAtlas=v2` restores polished Piskel V2, `?groundDamageAtlas=legacy` restores byte-intact ImageGen V1, and `?groundDamage=legacy` restores the radial Graphics renderer. The modular `WorldVisualDamagePainter`, `drawWorldVisualDamageSurfaceWear`, `drawWorldVisualDamageChips`, and `worldVisualDamageMath` remain available through `?groundDamage=modular`.
+`WorldVisualDamageImagePainter` turns normalized tile HP loss into twelve persistent pre-break states using polished universal V2 by default. One of ten coordinate-stable authored motifs is selected once per tile and progresses through twelve cumulative raster states. The default path draws one NORMAL image, ignores tile/resource identity, remains centered on the invariant 94 px gameplay tile, and stays clipped by the solid-world mask. It creates no material tint, rim, or resource-response layer and preloads no response atlas. The rejected V3-V6 packages remain available only through explicit local comparison queries. `?groundDamageAtlas=legacy` restores byte-intact ImageGen V1, `?groundDamage=legacy` restores the radial Graphics renderer, and the modular damage painter remains available through `?groundDamage=modular`.
 
-Boot only loads the surface pack. `WorldVisualAssetCache` streams active
+Boot loads the static surface pack plus only the selected living-background
+video. `WorldVisualAssetCache` streams active
 materials, backdrops, terrain, structures, sky cohesion, underground details,
 and enhancers when the camera demands them, then releases owned non-surface
 textures after their final consumer leaves. Their requests share the global
@@ -116,6 +133,29 @@ card. Successive depth areas advance through the complete approved library.
 `?naturalDepthAreas=0` restores the exact former one-step-per-card sequence;
 neither path constructs or loads the legacy Tiled world.
 
+Level 1 X0-131 and rows 65-2064 additionally share `levelOneBiomeField.js`: a
+deterministic 2D field of fifty named 0-2000 m territories whose one hundred
+warped sites respond to both world X and depth. Measured vertical travel has an
+83 m median and 130 m maximum interior run. Backdrops, terrain plates/caps,
+ground structures, and both underground-detail families retain five parent
+material pools for stable joins. `levelOneBiomeVisualFamilies.js` partitions
+those pools into fifty source families and gives every family independent
+background, signature, ground, and foreground routing.
+
+`levelOneBiomeDepthVariants.js` deterministically substitutes fifty scenic
+alternatives, all 120 crops from thirty identity atlases, and twelve rare
+landmarks inside the existing 400 generated-role placements. Fifteen selected
+backgrounds are deliberate hard swaps with blunt fantasy palettes while their
+edges and geology remain compatible with the parent material. The boundary
+view routes three cutouts for each of seven material joins across the unchanged
+481 placements; nineteen variants appear in the current field, with the two
+remaining alternatives belonging to a join that occurs only once. Everything
+is terrain-masked and demand-streamed. The M map uses the identical profile IDs
+and distinctive colors. No layer changes tiles, collision, rewards, density,
+or saves. `?levelOneBiomeField=0` restores horizontal source selection;
+`?levelOneSourceFamilies=0` restores the five shared pools and removes the
+generated family-role presentation. Level 2 is untouched.
+
 The rejected V2 optical-flow WebMs are not registered, loaded, or played. Their
 source paintings remain review evidence, but the warped/choppy files cannot
 enter a production biome pool. The previous Graphics-based signature,
@@ -159,8 +199,10 @@ of streaming order, eliminating the former double-fade fold valleys.
 320x256 frame now preserves its aspect ratio and renders at or below native
 size. Foreground textures vary from 0.82-1.0 source scale, localized props from
 0.50-0.82, and the fifty guaranteed multi-tile identities from 0.86-1.0. All
-400 frames and their deterministic biome routing remain active; the former
-3x-5x enlargement ranges are not used.
+400 frames remain active. Inside Level One, the four profiles of each parent
+material receive disjoint five-frame texture and five-frame prop subsets, so
+all twenty frames are used without repeating one profile's foreground kit in
+another. The former 3x-5x enlargement ranges are not used.
 The detail region view keeps placement deterministic and world-anchored, clips
 everything with the existing solid-terrain mask, and draws below caps,
 resources, damage, and emissive feedback. It never writes `WorldModel`.
@@ -306,8 +348,10 @@ blending. Use `?undergroundBackdropEnhancers=0` to remove this layer only.
 
 `WorldVisualSemanticStarPresenter` now adds one pooled, black-backed additive
 motion image over each exact identity core. Three 24-frame neutral caustic loops
-are selected by identity and phase-offset by tile; beauty, dedicated light, and
-motion share the same bounded bob/breath transform. `WorldVisualSemanticAssetLayer`
-owns atlas frame installation, pool visibility, emissive depth handoff, and
-cleanup. The steady hard-darkness light and rare beacon pulse remain untouched.
-Use `?starIdle=0` to omit the atlas and recover the prior fixed-position idle.
+are selected by identity and phase-offset by tile. The 250 ImageGen core/light
+pairs keep their original per-identity alpha pulse and bounded rotation while
+the overlay remains position/size/alpha anchored and advances only authored
+frames. `WorldVisualSemanticAssetLayer` owns atlas frame installation, pool
+visibility, emissive depth handoff, and cleanup. The steady hard-darkness light
+and rare beacon pulse remain untouched. Use `?starIdle=0` to omit only the
+video-derived atlas while retaining ImageGen identity motion.

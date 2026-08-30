@@ -1,0 +1,143 @@
+{
+  "schemaVersion": 1,
+  "provider": "ElevenLabs",
+  "modelId": "eleven_text_to_sound_v2",
+  "endpoint": "https://api.elevenlabs.io/v1/sound-generation",
+  "outputFormat": "mp3_44100_128",
+  "outputExtension": "mp3",
+  "outputRoot": "sound/library-v2/SoundLibrary_Review/00_INBOX_RAW_EXPORTS",
+  "defaultBatch": "elevenlabs-material-stems-v4-pilot-2026-08-26",
+  "estimatedApiCreditsPerSecond": 40,
+  "reviewStorageKey": "elevenlabs-material-stems-v4-pilot",
+  "reviewTitle": "ElevenLabs material-stem V4 gate",
+  "reviewLabel": "REVIEW-ONLY · UNTESTED · V4",
+  "reviewHeading": "Material-stem anti-glass gate",
+  "reviewIntro": "Audition isolated positive-prompt stems. Automated quarantine catches excessive brightness, ringing, hum, clipping, and near-duplicate spectra before human review.",
+  "reviewNotice": "Nothing is runtime-wired. EXCELLENT means a clean source stem, not an approved finished game sound.",
+  "reviewExportFile": "elevenlabs-material-stems-v4-review.json",
+  "ratingOptions": ["UNRATED", "EXCELLENT", "USABLE", "REJECT"],
+  "crossFamilySimilarityMax": 0.975,
+  "promptLint": {
+    "maxCharacters": 220,
+    "forbiddenTerms": [
+      "no", "not", "without", "avoid", "glass", "glassy", "coin", "bell",
+      "chime", "synth", "laser", "hum", "robot", "servo", "sparkle",
+      "metallic", "music", "voice", "whoosh"
+    ]
+  },
+  "takeProfiles": [
+    {"id": "loose", "title": "Loose interpretation", "promptInfluence": 0.2},
+    {"id": "balanced", "title": "Balanced interpretation", "promptInfluence": 0.3},
+    {"id": "literal", "title": "Literal interpretation", "promptInfluence": 0.4}
+  ],
+  "qcProfiles": {
+    "physical-low": {"centroidMaxHz": 3000, "high4kMax": 0.30, "peakProminenceMaxDb": 38, "humScoreMax": 0.22},
+    "physical-mid": {"centroidMaxHz": 4500, "high4kMax": 0.50, "peakProminenceMaxDb": 40, "humScoreMax": 0.22},
+    "natural-detail": {"centroidMaxHz": 6000, "high4kMax": 0.60, "peakProminenceMaxDb": 42, "humScoreMax": 0.18},
+    "mechanical": {"centroidMaxHz": 5500, "high4kMax": 0.60, "peakProminenceMaxDb": 42, "humScoreMax": 0.22},
+    "air-pressure": {"centroidMaxHz": 5000, "high4kMax": 0.55, "peakProminenceMaxDb": 32, "humScoreMax": 0.18},
+    "tactile-ui": {"centroidMaxHz": 7000, "high4kMax": 0.75, "peakProminenceMaxDb": 38, "humScoreMax": 0.18},
+    "natural-loop": {"centroidMaxHz": 5000, "high4kMax": 0.55, "peakProminenceMaxDb": 30, "humScoreMax": 0.14},
+    "fire": {"centroidMaxHz": 6500, "high4kMax": 0.70, "peakProminenceMaxDb": 38, "humScoreMax": 0.18}
+  },
+  "assets": [
+    {
+      "id": "GX261", "name": "dig_soft_dirt_hit_satisfying_01", "type": "One Shot",
+      "baselineFile": "elevenlabs-sfx-v2-mockup-2026-08-26/GX261_dig_soft_dirt_hit_satisfying_01__reference-mix__take01__UNTESTED.mp3",
+      "baselineVerdict": "REJECT",
+      "objective": "Build one dirt hit from three acoustically separate sources.",
+      "listeningFor": "Soft earth weight, damped contact, loose soil detail.",
+      "rejectIf": "Bright ringing, brittle shards, synthetic tone, or a sustained tail.",
+      "stems": [
+        {"id": "earth-body", "title": "Damp loam body", "durationSeconds": 0.7, "qcProfile": "physical-low", "prompt": "Close Foley stem of compact damp loam compressing beneath a blunt weight. Soft low thud, dense earth body, brief settling."},
+        {"id": "tool-contact", "title": "Damped pick contact", "durationSeconds": 0.5, "qcProfile": "physical-low", "prompt": "Close Foley stem of a cloth-damped forged-iron pick contacting packed earth. Short rounded low-mid knock with immediate decay."},
+        {"id": "soil-debris", "title": "Loose soil debris", "durationSeconds": 0.8, "qcProfile": "natural-detail", "prompt": "A small handful of soil crumbs and fine grains falls ten centimeters onto packed loam. Sparse irregular earth texture, close field recording."}
+      ]
+    },
+    {
+      "id": "GX270", "name": "dig_stone_break_chunky_01", "type": "One Shot",
+      "baselineFile": "elevenlabs-sfx-v2-mockup-2026-08-26/GX270_dig_stone_break_chunky_01__reference-mix__take01__UNTESTED.mp3",
+      "baselineVerdict": "GOOD",
+      "objective": "Build a chunky stone break without brittle household-material timbre.",
+      "listeningFor": "Dense fracture, irregular rock bodies, sparse angular debris.",
+      "rejectIf": "Thin ringing, polished chinks, synthetic resonance, or excessive brightness.",
+      "stems": [
+        {"id": "fracture-body", "title": "Granite fault fracture", "durationSeconds": 0.7, "qcProfile": "physical-mid", "prompt": "Close Foley stem of a palm-sized granite block splitting along one fault. Dense low-mid fracture with a short physical decay."},
+        {"id": "chunk-impacts", "title": "Granite chunk impacts", "durationSeconds": 0.8, "qcProfile": "physical-mid", "prompt": "Two fist-sized granite chunks knock together once at close range. Heavy irregular rock body, compact natural resonance."},
+        {"id": "chip-debris", "title": "Angular stone chips", "durationSeconds": 0.8, "qcProfile": "natural-detail", "prompt": "Four angular stone chips scatter a short distance across rough rock and stop. Sparse uneven debris, close field recording."}
+      ]
+    },
+    {
+      "id": "GX205", "name": "robot_step_dirt_light_02", "type": "One Shot",
+      "objective": "Construct a small machine step from damped hardware and real soil.",
+      "listeningFor": "Small weight, cushioned plate contact, readable dirt compression.",
+      "rejectIf": "Sci-fi whine, sharp alloy ring, large stomp, or polished impact preset.",
+      "stems": [
+        {"id": "foot-contact", "title": "Cushioned iron foot", "durationSeconds": 0.6, "qcProfile": "mechanical", "prompt": "A palm-sized cast-iron foot plate cushioned with worn leather taps compacted soil. Damped low-mid contact, close Foley stem."},
+        {"id": "soil-body", "title": "Soil compression", "durationSeconds": 0.7, "qcProfile": "physical-low", "prompt": "Compacted dry earth compresses under a small heavy object. Rounded soil thud followed by a brief grit crunch."},
+        {"id": "casing-settle", "title": "Loose casing settle", "durationSeconds": 0.5, "qcProfile": "mechanical", "prompt": "A loose riveted casing shifts once after a light landing. Short damped hardware knock with one irregular washer tick."}
+      ]
+    },
+    {
+      "id": "GX225", "name": "hoverboard_boost_start_01", "type": "One Shot",
+      "objective": "Construct a physical boost start without a generic electronic sweep.",
+      "listeningFor": "Fast air shove, dense mechanism kick, damped plate response.",
+      "rejectIf": "Tonal rise, turbine cliché, ringing sheet, or glossy science-fiction preset.",
+      "stems": [
+        {"id": "air-shove", "title": "Compressed air shove", "durationSeconds": 0.7, "qcProfile": "air-pressure", "prompt": "A compact leather air bladder releases one tight pulse backward. Fast physical shove with a short broad decay."},
+        {"id": "flywheel-kick", "title": "Weighted flywheel kick", "durationSeconds": 0.5, "qcProfile": "mechanical", "prompt": "A small weighted flywheel engages once inside a rugged field machine. Dense low-mid rotational kick, immediate mechanical stop."},
+        {"id": "plate-flex", "title": "Damped lift plate", "durationSeconds": 0.7, "qcProfile": "mechanical", "prompt": "A thin iron lift plate flexes once under sudden pressure. Damped plate body with a brief rough vibration."}
+      ]
+    },
+    {
+      "id": "GX296", "name": "ui_confirm_positive_02", "type": "One Shot",
+      "baselineFile": "elevenlabs-sfx-v2-mockup-2026-08-26/GX296_ui_confirm_positive_02__reference-mix__take01__UNTESTED.mp3",
+      "baselineVerdict": "REJECT",
+      "objective": "Create a warm tactile confirmation from miniature physical contacts.",
+      "listeningFor": "Readable attack, warm body, quick finish, friendly asymmetry.",
+      "rejectIf": "Cash-register character, pitched ping, brittle shard, or digital sheen.",
+      "stems": [
+        {"id": "slate-seat", "title": "Slate tile seat", "durationSeconds": 0.5, "qcProfile": "tactile-ui", "prompt": "A thumbnail slate tile seats into a shallow wooden socket. Small dry mineral contact with a warm low-mid body."},
+        {"id": "leather-detent", "title": "Leather-covered detent", "durationSeconds": 0.5, "qcProfile": "tactile-ui", "prompt": "A compact leather-covered brass detent closes once. Soft tactile catch with a restrained mechanical edge."},
+        {"id": "wood-spring", "title": "Wooden spring button", "durationSeconds": 0.5, "qcProfile": "tactile-ui", "prompt": "A tiny wooden button presses a short spring and settles. Friendly tactile confirmation with two unequal contacts."}
+      ]
+    },
+    {
+      "id": "GX371", "name": "darkness_edge_creep_loop", "type": "Loop",
+      "baselineFile": "elevenlabs-sfx-v2-mockup-2026-08-26/GX371_darkness_edge_creep_loop__reference-mix__take01__UNTESTED.mp3",
+      "baselineVerdict": "REJECT", "takeProfileIds": ["loose", "balanced"],
+      "objective": "Build a sparse natural cave-edge loop from independent air, dust, and room stems.",
+      "listeningFor": "Irregular quiet space, real rock air, sparse particles, seamless repetition.",
+      "rejectIf": "Steady tone, pulse, heartbeat pattern, machine bed, or dramatic wind.",
+      "stems": [
+        {"id": "crack-air", "title": "Limestone crack air", "durationSeconds": 6, "qcProfile": "natural-loop", "prompt": "Seamless six-second field-recording loop of faint air moving through a narrow limestone crack. Slow irregular pressure with ample quiet space."},
+        {"id": "dust-motion", "title": "Sparse dust motion", "durationSeconds": 6, "qcProfile": "natural-loop", "prompt": "Seamless six-second close texture of sparse dust grains sliding across rough cave stone. Quiet uneven movement with long gaps."},
+        {"id": "rock-room", "title": "Rock-shaped room tone", "durationSeconds": 6, "qcProfile": "natural-loop", "prompt": "Seamless six-second underground room tone shaped by dense rock and a distant natural draft. Subtle low-mid air pressure, calm and irregular."}
+      ]
+    },
+    {
+      "id": "GX389", "name": "void_gate_pulse_01", "type": "One Shot",
+      "baselineFile": "elevenlabs-sfx-v2-mockup-2026-08-26/GX389_void_gate_pulse_01__reference-mix__take01__UNTESTED.mp3",
+      "baselineVerdict": "REJECT",
+      "objective": "Build a strange inward pulse from physical pressure, grit, and stone.",
+      "listeningFor": "Inward motion, restrained weight, dry particles, quick decay.",
+      "rejectIf": "Electronic sweep, tonal drone, bright portal preset, or cinematic boom.",
+      "stems": [
+        {"id": "pressure-fold", "title": "Inward pressure fold", "durationSeconds": 0.8, "qcProfile": "air-pressure", "prompt": "A short inward air-pressure fold inside a cracked stone arch. Compact suction pulse with a soft low-mid body and fast decay."},
+        {"id": "lifting-grit", "title": "Directional lifting grit", "durationSeconds": 0.7, "qcProfile": "natural-detail", "prompt": "Loose grit lifts toward one point across rough stone, then falls back. Sparse directional grains, close physical texture."},
+        {"id": "slab-flex", "title": "Stone slab flex", "durationSeconds": 0.8, "qcProfile": "physical-low", "prompt": "A thick stone slab flexes inward by a few millimeters and settles. Dense mineral stress knock with restrained weight."}
+      ]
+    },
+    {
+      "id": "GX373", "name": "darkness_torch_reacts_01", "type": "One Shot",
+      "objective": "Build a subtle torch warning from natural flame, ember, and grip stems.",
+      "listeningFor": "Brief flame movement, tiny ember detail, quiet tactile warning.",
+      "rejectIf": "Horror sting, pitched effect, breath-like vocalization, or synthetic sweep.",
+      "stems": [
+        {"id": "flame-hush", "title": "Flame pressure hush", "durationSeconds": 0.7, "qcProfile": "fire", "prompt": "A small oil flame folds sideways for an instant under a narrow air-pressure change. Brief flame hush and soft recovery."},
+        {"id": "ember-release", "title": "Dry ember release", "durationSeconds": 0.7, "qcProfile": "fire", "prompt": "Two dry embers release from a cloth wick and land nearby. Tiny irregular fire contacts with a natural short decay."},
+        {"id": "grip-creak", "title": "Leather grip warning", "durationSeconds": 0.6, "qcProfile": "physical-low", "prompt": "A worn leather torch grip creaks once under a tightening hand. Quiet close tactile warning with a low-mid body."}
+      ]
+    }
+  ]
+}

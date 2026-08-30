@@ -1,0 +1,33 @@
+export const SURFACE_BACKGROUND_VARIANTS = Object.freeze([
+  Object.freeze({
+    id: "01",
+    name: "Soft canopy",
+    note: "Trees lead; smoke, rope, and cloud edges stay secondary.",
+    src: "./loops-v3/01-mini-soft-canopy-cycle-18s-seamless.mp4",
+    duration: 18,
+    driftPx: 0,
+    seamMae: 0.98,
+    motionMae: 4.66,
+  }),
+  Object.freeze({
+    id: "02",
+    name: "Town air",
+    note: "Calmest trees, with chimney smoke and local lamplight life.",
+    recommended: true,
+    src: "./loops-v3/02-mini-town-air-cycle-18s-seamless.mp4",
+    duration: 18,
+    driftPx: 0,
+    seamMae: 0.99,
+    motionMae: 5.11,
+  }),
+  Object.freeze({
+    id: "03",
+    name: "Layered night",
+    note: "More atmosphere across canopy, haze, smoke, and existing lights.",
+    src: "./loops-v3/03-mini-layered-night-cycle-18s-seamless.mp4",
+    duration: 18,
+    driftPx: 0,
+    seamMae: 1.05,
+    motionMae: 7.19,
+  }),
+]);

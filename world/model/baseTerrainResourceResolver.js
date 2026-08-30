@@ -39,6 +39,13 @@ function resolveLegacyTerrainType(depth, roll, terrain) {
   return TILE_TYPES.DIRT;
 }
 
+function enforceResourceDepthGates(depth, tileType, terrain) {
+  if (tileType === TILE_TYPES.GOLD && depth < terrain.goldMinDepth) {
+    return TILE_TYPES.DIRT;
+  }
+  return tileType;
+}
+
 export function resolveBaseTerrainResourceType(
   depth,
   roll,
@@ -46,13 +53,18 @@ export function resolveBaseTerrainResourceType(
   depthEconomyEnabled = true,
 ) {
   if (!depthEconomyEnabled || depth < terrain.band4MaxDepth) {
-    return resolveLegacyTerrainType(depth, roll, terrain);
+    return enforceResourceDepthGates(
+      depth,
+      resolveLegacyTerrainType(depth, roll, terrain),
+      terrain,
+    );
   }
   const band = terrain.depthEconomyBands?.find(entry => (
     depth >= entry.minDepth
     && (entry.maxDepth === null || depth <= entry.maxDepth)
   ));
-  if (!band) return resolveLegacyTerrainType(depth, roll, terrain);
-  return band.thresholds.find(entry => roll < entry.chance)?.type
-    || TILE_TYPES.DIRT;
+  const tileType = band
+    ? band.thresholds.find(entry => roll < entry.chance)?.type || TILE_TYPES.DIRT
+    : resolveLegacyTerrainType(depth, roll, terrain);
+  return enforceResourceDepthGates(depth, tileType, terrain);
 }

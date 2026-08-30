@@ -2,6 +2,44 @@
 
 Review-only visual assets live here before runtime wiring. Each subfolder must identify its source art, intended review scope, and whether anything is game-loaded.
 
+## Level One family ground materials V1 — 2026-08-29
+
+- `level-one-biome-ground-materials-v1/` contains sixty exact prompts,
+  untouched full-coverage ImageGen sources, source/runtime hashes, opacity and
+  variance measurements, a master sheet, and five regional contact sheets.
+- Two independent terrain fills belong to each of the thirty added identities.
+  They raise Level One from 36 to 96 true ground concepts and, beside the 200
+  transparent scenic roles, bring the generated family visual library to 260.
+- `reviewOnly: false`; `productionChanged: true`. Derived WebPs are
+  terrain-masked, demand-streamed, visual-only, and removed with
+  `?levelOneSourceFamilies=0`.
+
+## Level One fifty-family expansion V3 — 2026-08-29
+
+- `level-one-biome-families-v3/` contains the thirty-family art-direction spec,
+  exact 120-prompt record, untouched built-in ImageGen RGBA sources, alpha/hash
+  manifest, master contact sheet, and five parent-region contact sheets.
+- Four independent sources belong to each new identity: background, signature,
+  terrain-edge ground landmark, and foreground. The complete current field has
+  fifty families and 200 generated role assets across Level One's first 2000 m.
+- `reviewOnly: false`; `productionChanged: true`. Phaser loads only the derived
+  V3 WebPs, terrain-masks and demand-streams them, and removes the complete
+  family-role library with `?levelOneSourceFamilies=0`.
+
+## Level One biome source families V1 — 2026-08-29
+
+- `level-one-biome-source-families-v1/` retains twenty untouched built-in
+  ImageGen RGBA signature sources, the normalized prompt record, alpha/hash
+  manifest, and complete checkerboard contact sheet.
+- Each signature belongs to one named 0-2000 m profile and is placed at that
+  profile's irregular X/depth field seed. The matching values file partitions
+  every retained parent backdrop, terrain, structure, texture frame, and prop
+  frame into twenty disjoint source families.
+- `reviewOnly: false`; `productionChanged: true`. Phaser loads only the derived
+  WebPs under `level1-biome-signatures-v1/`; all signatures are terrain-masked,
+  non-colliding, demand-streamed, and reversible with
+  `?levelOneSourceFamilies=0`.
+
 ## Fire Light Piskel polish V1 — 2026-07-30
 
 - `fire-light-piskel-polish-v1/01-before-after-anchor-grid.png` shows all ten

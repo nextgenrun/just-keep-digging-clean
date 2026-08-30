@@ -1,10 +1,10 @@
 # Thunderstrike Indicator Art v3
 
-Production ImageGen component library for every visible state layer in the
-Thunderstrike timing minigame. It removes the remaining procedural milestone
-rings, drawn checkmarks, bare status copy, and system-font Roman numerals.
+Retired ImageGen component library for the former expanded Thunderstrike panel.
+The runtime now presents only the interactive rail, target gate, and needle;
+none of these v3 milestone, glyph, or copy-backplate assets is preloaded.
 
-Runtime assets:
+Retained historical assets:
 
 - three milestone rings: dormant, gold challenge, and cyan completed;
 - one lightning completion seal;

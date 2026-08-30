@@ -1,11 +1,11 @@
 import { GAME_CONFIG } from "./values/gameConfig.js";
-import { BootScene } from "./ui/scenes/BootScene.js?rev=20260826-inventory-codex-v2";
+import { BootScene } from "./ui/scenes/BootScene.js?rev=20260826-surface-motion-v2";
 import { MenuAudioScene } from "./ui/scenes/MenuAudioScene.js";
 import { MainMenuScene } from "./ui/scenes/MainMenuScene.js";
 import { OpeningCinematicScene } from "./ui/scenes/OpeningCinematicScene.js";
 import { StartMenuScene } from "./ui/scenes/StartMenuScene.js?rev=20260727-save-transfer-v1";
 import { WorldLoadScene } from "./ui/scenes/WorldLoadScene.js?rev=20260718";
-import { PlayScene } from "./ui/scenes/PlayScene.js?rev=20260826-world-map-input-v2";
+import { PlayScene } from "./ui/scenes/PlayScene.js?rev=20260826-surface-motion-v2";
 import { CaveScene } from "./ui/scenes/CaveScene.js?rev=20260821-moving-complex-dig-v1";
 import {
   finalizeRenderDensityFoundation,

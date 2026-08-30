@@ -29,9 +29,18 @@ export class WeatherImpactRainController {
     const dtMs = Math.min(Math.max(delta || 0, 0), 100);
     const dt = dtMs / 1000;
     const amount = this._getSurfaceRainAmount(state);
-    this._spawnLayer("foreground", amount, dt, state);
-    this._spawnLayer("midground", amount * 0.72, dt, state);
-    this._spawnLayer("sheet", amount * (state.kind === "storm" ? 0.62 : 0.2), dt, state);
+    const layers = this.weatherConfig.rain.layers;
+    const stormAmount = clamp01(state.stormAmount ?? (
+      state.kind === "storm" ? state.intensity : 0
+    ));
+    const sheetScale = lerp(
+      layers.sheet.calmAmountScale,
+      layers.sheet.stormAmountScale,
+      stormAmount,
+    );
+    this._spawnLayer("foreground", amount * layers.foreground.amountScale, dt, state);
+    this._spawnLayer("midground", amount * layers.midground.amountScale, dt, state);
+    this._spawnLayer("sheet", amount * sheetScale, dt, state);
     this._updateDrops(dt, state);
     this._drawDrops(state.lightningFlashAmount || 0);
   }
@@ -87,7 +96,7 @@ export class WeatherImpactRainController {
         previousY: startY,
         speedX,
         speedY,
-        alpha: layer.alpha * amount,
+        alpha: layer.alpha * amount * this._randomRange(layer.alphaVariance),
         layer: name,
         impactWorldY: sample.impactWorldY,
         impactSource: sample.impactSource || sample.source || "air",
@@ -219,7 +228,8 @@ export class WeatherImpactRainController {
 
   _getSurfaceRainAmount(state) {
     const isRain = state.kind === "drizzle" || state.kind === "rain" || state.kind === "storm";
-    return isRain ? clamp01(state.intensity * state.depth.surfaceAmount * state.occlusion.openSkyAmount) : 0;
+    const rainAmount = state.rainAmount ?? (isRain ? state.intensity : 0);
+    return clamp01(rainAmount * state.depth.surfaceAmount * state.occlusion.openSkyAmount);
   }
 
   _pick(items) {

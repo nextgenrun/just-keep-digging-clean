@@ -1,5 +1,8 @@
 import { CELESTIAL_ENGINE_CONFIG } from "../../values/celestialEngines.js";
-import { getPerpendicularDirections } from "./CelestialActivationBudget.js";
+import {
+  enumerateDiscTiles,
+  getPerpendicularDirections,
+} from "./CelestialActivationBudget.js";
 
 export class CometEngine {
   constructor(options) {
@@ -9,6 +12,7 @@ export class CometEngine {
     this.startTile = this.toTile(this.startX, this.startY);
     this.lastProcessedStep = 0;
     this.lastTrailAt = -Infinity;
+    this.terminalBurstImpacts = 0;
     this.active = true;
     this.finishing = false;
     this._createVisual();
@@ -61,7 +65,7 @@ export class CometEngine {
       || this.budget.isExpired(nowMs)
       || this.budget.isImpactCapReached()
     ) {
-      this._finishWithBurst("travel-cap");
+      this._finishWithBurst("travel-cap", nowMs);
     }
   }
 
@@ -71,7 +75,11 @@ export class CometEngine {
     const probe = this.probeTile(tx, ty);
     if (!probe.inBounds || (probe.solid && !probe.diggable)) {
       this.onBlocked?.(tx, ty, probe);
-      this._finishWithBurst("protected-tile");
+      const previousStep = Math.max(0, step - 1);
+      this._finishWithBurst("protected-tile", nowMs, {
+        tx: this.startTile.tx + this.direction.x * previousStep,
+        ty: this.startTile.ty + this.direction.y * previousStep,
+      });
       return false;
     }
 
@@ -82,7 +90,7 @@ export class CometEngine {
       }
     }
     if (this.budget.isImpactCapReached()) {
-      this._finishWithBurst("impact-cap");
+      this._finishWithBurst("impact-cap", nowMs, { tx, ty });
       return false;
     }
     return true;
@@ -110,9 +118,16 @@ export class CometEngine {
     });
   }
 
-  _finishWithBurst(reason) {
+  _finishWithBurst(reason, nowMs, terminalTile = null) {
     if (this.finishing || !this.active) return;
     this.finishing = true;
+    if (terminalTile) {
+      const x = this.startX + (terminalTile.tx - this.startTile.tx) * this.tileSize;
+      const y = this.startY + (terminalTile.ty - this.startTile.ty) * this.tileSize;
+      if (typeof this.sprite.setPosition === "function") this.sprite.setPosition(x, y);
+      else Object.assign(this.sprite, { x, y });
+    }
+    this._applyTerminalBurst(nowMs, terminalTile);
     const burst = this.scene.add.circle(
       this.sprite.x,
       this.sprite.y,
@@ -142,11 +157,36 @@ export class CometEngine {
     });
   }
 
+  _applyTerminalBurst(nowMs, terminalTile = null) {
+    const radius = Math.max(0, Math.floor(Number(this.definition.terminalBurstRadiusTiles) || 0));
+    const maxImpacts = Math.max(
+      0,
+      Math.floor(Number(this.definition.terminalBurstMaxImpacts) || 0),
+    );
+    if (radius <= 0 || maxImpacts <= 0) return;
+    const center = terminalTile || this.toTile(this.sprite.x, this.sprite.y);
+    for (const tile of enumerateDiscTiles(center, radius)) {
+      if (this.terminalBurstImpacts >= maxImpacts) break;
+      if (!this.probeTile(tile.tx, tile.ty).diggable) continue;
+      this.terminalBurstImpacts += 1;
+      const hitId = [
+        this.budget.activationId,
+        "terminal-burst",
+        this.terminalBurstImpacts,
+        tile.tx + "," + tile.ty,
+      ].join(":");
+      this.onImpact?.(tile.tx, tile.ty, hitId, nowMs);
+    }
+  }
+
   _finish(reason) {
     if (!this.active) return;
     this.active = false;
     this.sprite?.destroy();
-    this.onComplete?.(reason, this.budget.getSnapshot(this.scene.time?.now || 0));
+    this.onComplete?.(reason, {
+      ...this.budget.getSnapshot(this.scene.time?.now || 0),
+      terminalBurstImpacts: this.terminalBurstImpacts,
+    });
   }
 
   destroy() {

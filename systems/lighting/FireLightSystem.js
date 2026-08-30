@@ -1,24 +1,13 @@
-import {
-  FIRE_ILLUMINATION_CONFIG,
-  resolveFireIlluminationEnabled,
-} from "../../values/fireIlluminationConfig.js";
-import {
-  FIRE_LIGHT_CONFIG,
-  resolveEyeAdaptationEnabled,
-  resolveFireLightEnabled,
-  resolveFireRaysEnabled,
-  resolveReducedFireFlicker,
-} from "../../values/fireLightConfig.js";
-import {
-  FIRE_LIGHT_PRESENTATION_CONFIG,
-  resolveFireLightPresentation,
-} from "../../values/fireLightPresentation.js?rev=20260815-shallow-material-v1";
+import { FIRE_ILLUMINATION_CONFIG, resolveFireIlluminationEnabled } from "../../values/fireIlluminationConfig.js";
+import { FIRE_LIGHT_CONFIG, resolveEyeAdaptationEnabled, resolveFireLightEnabled, resolveFireRaysEnabled, resolveReducedFireFlicker } from "../../values/fireLightConfig.js";
+import { FIRE_LIGHT_PRESENTATION_CONFIG, resolveFireLightPresentation } from "../../values/fireLightPresentation.js?rev=20260815-shallow-material-v1";
 import { EyeAdaptationSystem } from "./EyeAdaptationSystem.js";
 import { FireIlluminationRenderer } from "./FireIlluminationRenderer.js";
 import { FireLightRayRenderer } from "./FireLightRayRenderer.js";
 import { HeldTorchRenderer } from "./HeldTorchRenderer.js";
 import { createFireLightRenderer } from "./FireLightRuntimeFactory.js";
 import { clampFireLight01 } from "./fireLightMath.js";
+import { resolveHeldTorchPresentation } from "../visual/heldTorchAnimationSelection.js";
 /**
  * Carried-fire presentation only.
  * Gameplay reveal/darkness remains owned by LightSystem; surface celestial
@@ -104,6 +93,12 @@ export class FireLightSystem {
     const strength = clampFireLight01(glowStrength);
     const active = Boolean(torchActive && source);
     const carriedVisible = active && source?.obstructed !== true;
+    const playerAnimationKey = this.scene.player?.anims?.currentAnim?.key || null;
+    const heldTorch = resolveHeldTorchPresentation(
+      this.scene.playerAssetProfile,
+      playerAnimationKey,
+      carriedVisible,
+    );
     const expandedLightAvailable = (
       this.illuminationRequested
       && this.illuminationRenderer?.available === true
@@ -124,9 +119,14 @@ export class FireLightSystem {
           ? this.illuminationConfig.integration.baseVolumeAlphaScale : 1,
       flameAlphaScale: this.presentation.flameAlphaScale,
       atmosphereAlphaScale: this.presentation.atmosphereAlphaScale,
-      flameVisible: carriedVisible,
+      flameVisible: heldTorch.legacyVisible,
     });
-    this.heldTorchRenderer?.render({ active: carriedVisible, source, tileSize, strength });
+    this.heldTorchRenderer?.render({
+      active: heldTorch.legacyVisible,
+      source,
+      tileSize,
+      strength,
+    });
     const rendererSnapshot = this.renderer.getSnapshot();
     this.illuminationRenderer?.render({
       time,
@@ -173,7 +173,7 @@ export class FireLightSystem {
       source: source ? { ...source } : null,
       fuelRatio: clampFireLight01(fuelRatio),
       renderer: rendererSnapshot,
-      heldTorch: this.heldTorchRenderer?.getSnapshot?.() || null,
+      heldTorch: heldTorch.snapshot || this.heldTorchRenderer?.getSnapshot?.() || null,
       illumination: this.illuminationRenderer?.getSnapshot?.() || null,
       rays: this.rayRenderer.getSnapshot(),
       eyeAdaptation: this.eyeAdaptation.getSnapshot(),

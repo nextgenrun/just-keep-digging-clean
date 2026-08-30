@@ -91,13 +91,14 @@ function makeScene(assets) {
 }
 
 const imagegen = WORLD_VISUAL_DAMAGE.imagegen;
-const { expanded, layered, polished, legacy } = imagegen.atlases;
+const { dynamic, expanded, layered, polished, legacy } = imagegen.atlases;
 const expandedMix = imagegen.mixProfiles.expandedV4;
 const response = expandedMix.response;
+const v4Search = "?groundDamageAtlas=v4";
 
-assert.equal(imagegen.defaultAtlas, "expanded");
-assert.equal(imagegen.atlas, expanded);
-assert.equal(resolveWorldVisualDamageAtlas(undefined, ""), expanded);
+assert.equal(imagegen.defaultAtlas, "polished");
+assert.equal(imagegen.atlas, polished);
+assert.equal(resolveWorldVisualDamageAtlas(undefined, ""), polished);
 for (const value of imagegen.expandedAtlasValues) {
   assert.equal(resolveWorldVisualDamageAtlas(undefined, `?groundDamageAtlas=${value}`), expanded);
 }
@@ -106,7 +107,7 @@ for (const value of imagegen.layeredAtlasValues) {
 }
 assert.equal(resolveWorldVisualDamageAtlas(undefined, "?groundDamageAtlas=v2"), polished);
 assert.equal(resolveWorldVisualDamageAtlas(undefined, "?groundDamageAtlas=legacy"), legacy);
-assert.equal(resolveWorldVisualDamageMixProfile(), expandedMix);
+assert.equal(resolveWorldVisualDamageMixProfile(undefined, v4Search), expandedMix);
 assert.equal(
   resolveWorldVisualDamageMixProfile(undefined, "?groundDamageAtlas=v3"),
   imagegen.mixProfiles.layeredV3,
@@ -122,9 +123,9 @@ assert.equal(response.profileCount, 33);
 assert.equal(response.tiers, 4);
 assert.equal(response.atlas.columns, 16);
 assert.equal(response.atlas.frameCount, 132);
-assert.equal(imagegen.decodedBytes, 56550400);
-assert.equal(imagegen.effectiveStructuralCombinations, 6144);
-assert.deepEqual(getWorldVisualDamagePreloadAssets(), [expanded, response.atlas]);
+assert.equal(expanded.decodedBytes + response.atlas.decodedBytes, 56550400);
+assert.equal(expanded.variants * WORLD_VISUAL_DAMAGE.stateCount * expanded.transformCount, 6144);
+assert.deepEqual(getWorldVisualDamagePreloadAssets(undefined, v4Search), [expanded, response.atlas]);
 assert.deepEqual(
   getWorldVisualDamagePreloadAssets(undefined, "?groundDamageAtlas=v3"),
   [layered, imagegen.layered.response.atlas],
@@ -151,15 +152,17 @@ assert.equal(
 );
 
 assert.deepEqual(
-  WORLD_VISUAL_DAMAGE.stages.map(stage => resolveWorldVisualDamageResponseTier(stage.minDamage)),
+  WORLD_VISUAL_DAMAGE.stages.map(stage => (
+    resolveWorldVisualDamageResponseTier(stage.minDamage, undefined, v4Search)
+  )),
   [0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3],
 );
-const variant = resolveWorldVisualDamageVariant(31, 47);
+const variant = resolveWorldVisualDamageVariant(31, 47, undefined, v4Search);
 assert.ok(variant >= 0 && variant < 64);
-assert.equal(resolveWorldVisualDamageFrame(31, 47, 0.001), variant);
-assert.equal(resolveWorldVisualDamageFrame(31, 47, 0.16), variant);
-assert.equal(resolveWorldVisualDamageFrame(31, 47, 0.24), 64 + variant);
-assert.equal(resolveWorldVisualDamageFrame(31, 47, 1), 192 + variant);
+assert.equal(resolveWorldVisualDamageFrame(31, 47, 0.001, undefined, v4Search), variant);
+assert.equal(resolveWorldVisualDamageFrame(31, 47, 0.16, undefined, v4Search), variant);
+assert.equal(resolveWorldVisualDamageFrame(31, 47, 0.24, undefined, v4Search), 64 + variant);
+assert.equal(resolveWorldVisualDamageFrame(31, 47, 1, undefined, v4Search), 192 + variant);
 assert.equal(
   resolveWorldVisualDamageFrame(31, 47, 1, undefined, "?groundDamageAtlas=v3"),
   11 * 16 + resolveWorldVisualDamageVariant(31, 47, undefined, "?groundDamageAtlas=v3"),
@@ -168,7 +171,7 @@ assert.equal(
 const transforms = new Map();
 for (let tx = -12; tx <= 12; tx += 1) {
   for (let ty = -12; ty <= 12; ty += 1) {
-    const transform = resolveWorldVisualDamageTransform(tx, ty);
+    const transform = resolveWorldVisualDamageTransform(tx, ty, undefined, v4Search);
     assert.ok([0, 90, 180, 270].includes(transform.angle));
     transforms.set(transform.index, transform);
   }
@@ -178,15 +181,21 @@ assert.equal(
   resolveWorldVisualDamageTransform(7, 9, undefined, "?groundDamageAtlas=v3").index,
   0,
 );
-assert.ok(resolveWorldVisualDamagePresentation(0.001).alpha < 1);
+assert.ok(resolveWorldVisualDamagePresentation(0.001, undefined, v4Search).alpha < 1);
 assert.deepEqual(
-  resolveWorldVisualDamagePresentation(1),
+  resolveWorldVisualDamagePresentation(1, undefined, v4Search),
   { stateNumber: 12, scale: 1, alpha: 1 },
 );
 
 const mask = { id: "terrain-mask" };
 const fixture = makeScene([expanded, response.atlas]);
-const painter = new WorldVisualDamageImagePainter(fixture.scene, mask, 2.45);
+const painter = new WorldVisualDamageImagePainter(
+  fixture.scene,
+  mask,
+  2.45,
+  WORLD_VISUAL_DAMAGE,
+  v4Search,
+);
 assert.equal(painter.create(), true);
 assert.equal(fixture.textures.get(expanded.key).frames.length, 256);
 assert.equal(fixture.textures.get(response.atlas.key).frames.length, 132);
@@ -208,7 +217,7 @@ assert.deepEqual(
   painter.responsePool[0].calls.find(([method]) => method === "setTint"),
   ["setTint", TILE_DESTRUCTION_FX_CONFIG.tintByTile[TILE_TYPES.GOLD]],
 );
-const expectedTransform = resolveWorldVisualDamageTransform(31, 47);
+const expectedTransform = resolveWorldVisualDamageTransform(31, 47, undefined, v4Search);
 assert.deepEqual(
   painter.pool[0].calls.find(([method]) => method === "setAngle"),
   ["setAngle", expectedTransform.angle],

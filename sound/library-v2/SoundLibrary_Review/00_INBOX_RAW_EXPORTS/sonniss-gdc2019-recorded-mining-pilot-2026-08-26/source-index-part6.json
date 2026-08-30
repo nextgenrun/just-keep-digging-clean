@@ -1,0 +1,42 @@
+{
+  "year": "2019",
+  "terms": [
+    "footsteps_gravel",
+    "ice_impact_debris",
+    "props stones small multiple dropped"
+  ],
+  "archives": [
+    {
+      "part": 6,
+      "url": "https://ftpmirror.your.org/pub/misc/sonniss2019/Sonniss.com - GDC 2019 - Game Audio Bundle Part 6of8.zip",
+      "entryCount": 197,
+      "matchCount": 3,
+      "matches": [
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 6of8/Studio 23 - Ultimate Footstep Collection/S23_SFX_Footsteps_Gravel_Loafers_Loops_Walk_Normal.wav",
+          "compression": 8,
+          "crc32": 2900492876,
+          "compressedBytes": 4713297,
+          "uncompressedBytes": 9066764,
+          "localHeaderOffset": 1349653079
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 6of8/Soundopolis - Icy Snow 2 HD/Ice_Impact_Debris_Heavy_Single_Fienup_015_SIS2.wav",
+          "compression": 8,
+          "crc32": 2208045198,
+          "compressedBytes": 658204,
+          "uncompressedBytes": 815024,
+          "localHeaderOffset": 2438757063
+        },
+        {
+          "filename": "Sonniss.com - GDC 2019 - Game Audio Bundle Part 6of8/Soundholder - Props Box/props stones small multiple dropped on the concrete floor mono 8040.wav",
+          "compression": 8,
+          "crc32": 3295695585,
+          "compressedBytes": 2915202,
+          "uncompressedBytes": 4516730,
+          "localHeaderOffset": 2622475046
+        }
+      ]
+    }
+  ]
+}

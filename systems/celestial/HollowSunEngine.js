@@ -1,5 +1,13 @@
 import { CELESTIAL_ENGINE_CONFIG } from "../../values/celestialEngines.js";
-import { enumerateDiscTiles } from "./CelestialActivationBudget.js";
+import {
+  TILE_DESTRUCTION_FX_CONFIG,
+  resolveTileDestructionFamily,
+  resolveTileDestructionTint,
+} from "../../values/tileDestructionFx.js";
+import {
+  enumerateDiscTiles,
+  enumerateExpandingPulseTiles,
+} from "./CelestialActivationBudget.js";
 
 export class HollowSunEngine {
   constructor(options) {
@@ -9,19 +17,32 @@ export class HollowSunEngine {
     this.active = true;
     this.finishing = false;
     this.nextPulseIndex = 0;
+    this.pulseImpacts = [];
     this.masteryImpacts = 0;
-    this._createVisual();
+    this.masteryTargetKeys = new Set();
+    this.pulledFragments = new Set();
+    this.pulledFragmentCount = 0;
+    try {
+      this._createVisual();
+    } catch (error) {
+      this.active = false;
+      this._destroyVisual();
+      throw error;
+    }
   }
 
   _createVisual() {
     const depth = CELESTIAL_ENGINE_CONFIG.fx.worldDepth;
+    const visualDelayMs = Math.max(0, Number(this.visualDelayMs) || 0);
     this.core = this.scene.add.circle(
       this.x,
       this.y,
       this.definition.coreRadiusPx,
       0x000000,
       1,
-    ).setDepth(depth - 1);
+    ).setDepth(depth - 1)
+      .setScale(0.2)
+      .setAlpha(0);
     this.sprite = this.scene.add.image(this.x, this.y, this.assetKey)
       .setDisplaySize(this.definition.displaySizePx, this.definition.displaySizePx)
       .setBlendMode(Phaser.BlendModes.ADD)
@@ -40,6 +61,15 @@ export class HollowSunEngine {
       scaleX: this.spriteBaseScaleX,
       scaleY: this.spriteBaseScaleY,
       alpha: { from: 0, to: 1 },
+      delay: visualDelayMs,
+      duration: CELESTIAL_ENGINE_CONFIG.fx.launchPulseMs,
+      ease: "Back.out",
+    });
+    this.scene.tweens.add({
+      targets: this.core,
+      scale: 1,
+      alpha: { from: 0, to: 1 },
+      delay: visualDelayMs,
       duration: CELESTIAL_ENGINE_CONFIG.fx.launchPulseMs,
       ease: "Back.out",
     });
@@ -47,6 +77,7 @@ export class HollowSunEngine {
       targets: this.orbit,
       scale: 1,
       alpha: { from: 0, to: 1 },
+      delay: visualDelayMs,
       duration: CELESTIAL_ENGINE_CONFIG.fx.launchPulseMs,
       ease: "Back.out",
       onComplete: () => {
@@ -75,7 +106,7 @@ export class HollowSunEngine {
       this.nextPulseIndex += 1;
     }
 
-    const dt = Math.max(0, Number(deltaMs) || 0) / 1000;
+    const dt = Math.min(0.05, Math.max(0, Number(deltaMs) || 0) / 1000);
     this.sprite.angle += CELESTIAL_ENGINE_CONFIG.fx.hollowRotationDegPerSecond * dt;
     this.core.setScale(1 + Math.sin(age / CELESTIAL_ENGINE_CONFIG.fx.hollowCorePulseMs) * 0.05);
 
@@ -86,8 +117,15 @@ export class HollowSunEngine {
 
   _pulse(index, nowMs) {
     const radius = this.definition.pulseRadiiTiles[index];
+    const previousRadius = index > 0 ? this.definition.pulseRadiiTiles[index - 1] : 0;
+    const pulseImpactCap = Math.max(
+      0,
+      Math.floor(Number(this.definition.pulseImpactCaps?.[index]) || 0),
+    );
+    let pulseImpacts = 0;
     const center = this.toTile(this.x, this.y);
-    for (const tile of enumerateDiscTiles(center, radius)) {
+    for (const tile of enumerateExpandingPulseTiles(center, radius, previousRadius)) {
+      if (pulseImpacts >= pulseImpactCap) break;
       const probe = this.probeTile(tile.tx, tile.ty);
       if (!probe.diggable) continue;
       const hitId = this.budget.tryImpact(tile.tx, tile.ty);
@@ -95,8 +133,11 @@ export class HollowSunEngine {
         if (this.budget.isImpactCapReached()) break;
         continue;
       }
+      pulseImpacts += 1;
       this.onImpact?.(tile.tx, tile.ty, hitId, nowMs);
+      this._spawnPulledFragment(tile, probe, index, pulseImpacts - 1);
     }
+    this.pulseImpacts[index] = pulseImpacts;
     this._spawnGravityRing(radius, index);
     this.onPulse?.(this.x, this.y, index + 1);
   }
@@ -118,10 +159,73 @@ export class HollowSunEngine {
     });
   }
 
+  _spawnPulledFragment(tile, probe, pulseIndex, fragmentIndex) {
+    const fx = CELESTIAL_ENGINE_CONFIG.fx.hollowPull;
+    if (
+      fragmentIndex >= fx.maxShardsPerPulse
+      || !this.scene?.textures?.exists?.(TILE_DESTRUCTION_FX_CONFIG.assets.shards.key)
+    ) return;
+    const family = resolveTileDestructionFamily(probe.type);
+    const tint = resolveTileDestructionTint(probe.type);
+    const shardCount = TILE_DESTRUCTION_FX_CONFIG.shards.count;
+    const frameNumber = (pulseIndex + fragmentIndex) % shardCount + 1;
+    const frame = `${family}-s${String(frameNumber).padStart(2, "0")}`;
+    const worldX = tile.tx * this.tileSize + this.tileSize / 2;
+    const worldY = tile.ty * this.tileSize + this.tileSize / 2;
+    const shard = this.scene.add.image(
+      worldX,
+      worldY,
+      TILE_DESTRUCTION_FX_CONFIG.assets.shards.key,
+      frame,
+    ).setDisplaySize(
+      this.tileSize * fx.displaySizeTiles,
+      this.tileSize * fx.displaySizeTiles,
+    ).setTint(tint)
+      .setAlpha(fx.startAlpha)
+      .setDepth(CELESTIAL_ENGINE_CONFIG.fx.worldDepth + fx.depthOffset);
+    const distanceTiles = Math.hypot(worldX - this.x, worldY - this.y) / this.tileSize;
+    const duration = Math.min(
+      fx.maximumDurationMs,
+      fx.minimumDurationMs + distanceTiles * fx.durationPerTileMs,
+    );
+    const baseScaleX = shard.scaleX;
+    const baseScaleY = shard.scaleY;
+    this.pulledFragments.add(shard);
+    this.pulledFragmentCount += 1;
+    this.scene.tweens.add({
+      targets: shard,
+      x: this.x,
+      y: this.y,
+      rotation: shard.rotation + fx.rotationRadians,
+      scaleX: baseScaleX * fx.endScale,
+      scaleY: baseScaleY * fx.endScale,
+      alpha: 0,
+      duration,
+      ease: "Power3.in",
+      onComplete: () => this._releasePulledFragment(shard),
+    });
+  }
+
+  _releasePulledFragment(shard) {
+    this.pulledFragments?.delete?.(shard);
+    shard?.destroy?.();
+  }
+
+  _clearPulledFragments() {
+    for (const shard of this.pulledFragments || []) {
+      this.scene.tweens?.killTweensOf?.(shard);
+      shard.destroy?.();
+    }
+    this.pulledFragments?.clear?.();
+  }
+
   _implode(nowMs) {
     if (this.finishing || !this.active) return;
     this.finishing = true;
     this._applyMasteryImplosion(nowMs);
+    this.scene.tweens?.killTweensOf?.(this.sprite);
+    this.scene.tweens?.killTweensOf?.(this.orbit);
+    this.scene.tweens?.killTweensOf?.(this.core);
     const flash = this.scene.add.circle(this.x, this.y, this.tileSize * 0.5, 0xffffff, 0.8)
       .setBlendMode(Phaser.BlendModes.ADD)
       .setDepth(CELESTIAL_ENGINE_CONFIG.fx.worldDepth + 1);
@@ -159,6 +263,7 @@ export class HollowSunEngine {
       if (this.masteryImpacts >= maxImpacts) break;
       if (!this.probeTile(tile.tx, tile.ty).diggable) continue;
       this.masteryImpacts += 1;
+      this.masteryTargetKeys.add(`${tile.tx},${tile.ty}`);
       const hitId = [
         this.budget.activationId,
         "implosion",
@@ -172,16 +277,52 @@ export class HollowSunEngine {
   _finish(reason) {
     if (!this.active) return;
     this.active = false;
+    const health = this.getSnapshot(this.scene.time?.now || 0);
+    this._destroyVisual();
+    this._clearPulledFragments();
+    this.onComplete?.(reason, health);
+  }
+
+  getSnapshot(nowMs) {
+    const pulse = this.budget.getSnapshot(nowMs);
+    const maxImplosionImpacts = Math.max(
+      0,
+      Math.floor(Number(this.definition.implosionMaxImpacts) || 0),
+    );
+    const uniqueTargets = new Set([
+      ...this.budget._targetKeys,
+      ...this.masteryTargetKeys,
+    ]).size;
+    return {
+      ...pulse,
+      active: this.active,
+      finishing: this.finishing,
+      remainingMs: Math.max(0, pulse.lifetimeMs - pulse.ageMs),
+      pulseImpacts: [...this.pulseImpacts],
+      completedPulses: this.nextPulseIndex,
+      totalPulses: this.definition.pulseTimesMs.length,
+      maxPulseImpacts: pulse.maxImpacts,
+      implosionImpacts: this.masteryImpacts,
+      maxImplosionImpacts,
+      impacts: pulse.impacts + this.masteryImpacts,
+      maxImpacts: pulse.maxImpacts + maxImplosionImpacts,
+      uniqueTargets,
+      pulledFragments: this.pulledFragmentCount,
+    };
+  }
+
+  _destroyVisual() {
+    this.scene.tweens?.killTweensOf?.(this.sprite);
+    this.scene.tweens?.killTweensOf?.(this.orbit);
+    this.scene.tweens?.killTweensOf?.(this.core);
     this.sprite?.destroy();
     this.orbit?.destroy();
     this.core?.destroy();
-    this.onComplete?.(reason, this.budget.getSnapshot(this.scene.time?.now || 0));
   }
 
   destroy() {
     this.active = false;
-    this.sprite?.destroy();
-    this.orbit?.destroy();
-    this.core?.destroy();
+    this._destroyVisual();
+    this._clearPulledFragments();
   }
 }

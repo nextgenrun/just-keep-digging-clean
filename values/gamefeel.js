@@ -4,10 +4,22 @@
 export const GAMEFEEL_CONFIG = Object.freeze({
 
   // ── SCREENSHAKE ────────────────────────────────────────────────────────
-  shake: {
-    // Individual shake signatures live in gamefeel/cameraShake.js.
-    minFps: 40,   // skip shake below this FPS to avoid jitter
-  },
+  shake: Object.freeze({
+    // Individual event signatures live in values/cameraShake.js.
+    minFps: 40,
+    minimumDurationMs: 20,
+    minimumDurationScale: 0.2,
+    duplicateMergeWindowMs: 34,
+    defaultFrequencyXHz: 5,
+    defaultFrequencyYHz: 6,
+    exponentialDecayRate: 2.2,
+    exponentialEndTaperPower: 1,
+    secondaryWaveAmplitudeRatio: 0.22,
+    secondaryWaveFrequencyRatioX: 0.43,
+    secondaryWaveFrequencyRatioY: 0.37,
+    secondaryWavePhaseX: 1.7,
+    secondaryWavePhaseY: 0.9,
+  }),
 
   // ── HITSTOP ────────────────────────────────────────────────────────────
   hitstop: {

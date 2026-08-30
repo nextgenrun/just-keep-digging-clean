@@ -3,6 +3,7 @@ import {
   WORLD_VISUAL_DAMAGE_MODES,
   getWorldVisualDamagePreloadAssets,
   resolveWorldVisualDamageAtlas,
+  resolveWorldVisualDamageMixProfile,
   resolveWorldVisualDamageMode,
   resolveWorldVisualDamageVariant,
 } from "../values/worldVisualDamage.js";
@@ -26,10 +27,12 @@ class GroundDamagePiskelProductionScene extends Phaser.Scene {
   constructor() {
     super("GroundDamagePiskelProductionScene");
     this.damagePainter = null;
+    this.damageAssets = [];
   }
 
   preload() {
-    for (const asset of getWorldVisualDamagePreloadAssets()) {
+    this.damageAssets = getWorldVisualDamagePreloadAssets();
+    for (const asset of this.damageAssets) {
       this.load.image(asset.key, `../${asset.path}`);
     }
     for (const asset of Object.values(WORLD_VISUAL_MATERIALS)) {
@@ -39,8 +42,11 @@ class GroundDamagePiskelProductionScene extends Phaser.Scene {
 
   create() {
     const atlas = resolveWorldVisualDamageAtlas();
+    const mixProfile = resolveWorldVisualDamageMixProfile();
     const legacyAtlas = atlas === DAMAGE.imagegen.atlases.legacy;
-    const atlasLabel = legacyAtlas ? "LEGACY V1 ATLAS ROLLBACK" : "POLISHED PISKEL V2";
+    const atlasLabel = legacyAtlas
+      ? "LEGACY V1 ATLAS ROLLBACK"
+      : "POLISHED UNIVERSAL PISKEL V2";
     this.cameras.main.setBackgroundColor(REVIEW.backgroundColor);
     this.damagePainter = new WorldVisualDamageImagePainter(
       this,
@@ -92,7 +98,11 @@ class GroundDamagePiskelProductionScene extends Phaser.Scene {
       frameCount: atlas.frameCount,
       frameSizePx: atlas.frameSizePx,
       logicalTilePx: REVIEW.tileSize,
+      preloadAssetCount: this.damageAssets.length,
       pooledImageCount: this.damagePainter.pool.length,
+      responsePoolCount: this.damagePainter.responsePool.length,
+      resourceBound: Boolean(mixProfile),
+      renderer: this.game.renderer.type === Phaser.WEBGL ? "webgl" : "canvas",
       placementContract: "WorldVisualDamageImagePainter.draw",
     });
     document.body.dataset.groundDamagePiskelProductionReady = "true";
@@ -100,6 +110,10 @@ class GroundDamagePiskelProductionScene extends Phaser.Scene {
     document.body.dataset.selectedAtlasPath = atlas.path;
     document.body.dataset.defaultMode = resolveWorldVisualDamageMode();
     document.body.dataset.frameCount = `${atlas.frameCount}`;
+    document.body.dataset.preloadAssetCount = `${this.damageAssets.length}`;
+    document.body.dataset.responsePoolCount = `${this.damagePainter.responsePool.length}`;
+    document.body.dataset.resourceBound = `${Boolean(mixProfile)}`;
+    document.body.dataset.renderer = this.game.renderer.type === Phaser.WEBGL ? "webgl" : "canvas";
   }
 
   _drawHeader(atlasLabel) {

@@ -1,6 +1,7 @@
 // Canonical save envelope for Stars, Celestial talents, and actionbar ordering.
 
 import {
+  CELESTIAL_ACTION_BAR_CONFIG,
   sanitizeCelestialActionBarOrder,
 } from "./celestialActionBar.js";
 import {
@@ -38,7 +39,7 @@ export function sanitizeCelestialOverhaulData(value) {
     version: CELESTIAL_OVERHAUL_SAVE_CONFIG.version,
     talents: sanitizeCelestialTalentProgressionData(talentSource),
     actionbar: {
-      version: 1,
+      version: CELESTIAL_ACTION_BAR_CONFIG.saveVersion,
       order: sanitizeCelestialActionBarOrder(requestedOrder),
     },
     legacyRarityMigrationVersion: migrationVersion,

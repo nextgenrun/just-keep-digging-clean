@@ -57,11 +57,13 @@ matching Sign XP fills. The live Star Block popup and Talent Tree crop these
 transparent assets from real progression state; the manifest pins dimensions,
 alpha behavior, source provenance, and hashes.
 
-`star-atlas-v2/` contains the active 1738x905 Star Codex foundation for the
-third `I`-key tab. Its six rarity sockets, twelve selector sockets, large
-identity showcase, lore dossier, and three reward-stat sockets are measured in
-source pixels so live art, labels, selection rings, and hit zones scale as one.
-`star-atlas-v1/` remains the untouched visual rollback source.
+`star-atlas-v3/` contains the active 1738x905 Star Codex foundation for the
+third `I`-key tab. It preserves the six rarity sockets, twelve selector
+sockets, large identity showcase, lore dossier, and three reward-stat sockets
+while replacing V2's dense celestial filigree with matte charcoal surfaces,
+single graphite borders, and restrained cyan focus cues. Live art, labels,
+selection rings, and hit zones still share the measured source-space anchors.
+`star-atlas-v2/` remains the direct visual rollback source.
 
 `resource-codex-v1/` contains the authored 1738x905 Resource Codex foundation
 and the 4x4 specimen atlas for all fourteen materials. It deliberately does not

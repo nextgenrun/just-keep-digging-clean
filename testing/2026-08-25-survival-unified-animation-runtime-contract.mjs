@@ -45,14 +45,18 @@ assert.ok([
   ...Object.values(profile.actionContactByAnimation || {}),
   ...Object.values(profile.quickslashActionContactByAnimation || {}),
 ].every((contact) => contact.visualAlignmentEnabled === false));
-assert.equal(new Set(Object.values(profile.displaySizePxByAnimation)).size, 1);
-assert.deepEqual([...new Set(Object.values(profile.displaySizePxByAnimation))], [101]);
+assert.equal(profile.displaySizePxByAnimation[profile.idleAnim], 101);
+assert.equal(profile.displaySizePxByAnimation[profile.walkRunAnim], 101);
+assert.ok(
+  new Set(Object.values(profile.displaySizePxByAnimation)).size > 1,
+  "animation-wide stature calibration was flattened back to one cell size",
+);
 
 const configuredSheets = Object.keys(config.sheets);
-assert.equal(configuredSheets.length, 43);
-assert.equal(profile.requiredSheets.length, 43);
+assert.equal(configuredSheets.length, 54);
+assert.equal(profile.requiredSheets.length, 54);
 assert.deepEqual(new Set(profile.requiredSheets), new Set(configuredSheets));
-assert.equal(Object.keys(manifest.sheets).length, 43);
+assert.equal(Object.keys(manifest.sheets).length, 54);
 assert.deepEqual(new Set(Object.keys(manifest.sheets)), new Set(configuredSheets));
 
 const sheetKeysFromFiles = new Set();
@@ -65,7 +69,7 @@ for (const entry of profile.sheetFiles) {
 }
 assert.deepEqual(sheetKeysFromFiles, new Set(configuredSheets));
 const catalogEntries = getUniquePlayerSheetEntries(profile);
-assert.equal(catalogEntries.length, 43);
+assert.equal(catalogEntries.length, 54);
 assert.ok(catalogEntries.every((entry) => entry.path.includes(`/${runtime.runtimeRoot.split("/").slice(-2).join("/")}/`)));
 const movingCatalogEntry = catalogEntries.find((entry) => entry.key === profile.movingComplexDigSheet);
 assert.deepEqual(movingCatalogEntry.frameConfig, {
@@ -76,16 +80,21 @@ assert.deepEqual(movingCatalogEntry.frameConfig, {
 
 for (const sheetKey of configuredSheets) {
   const sheet = manifest.sheets[sheetKey];
+  const piskelSource = config.sheets[sheetKey].piskelSource;
   const output = resolve(root, runtime.runtimeRoot, sheet.file);
   assert.ok(existsSync(output), `${sheetKey} runtime sheet is absent`);
   assert.equal(sheet.sha256, sha256(output), `${sheetKey} hash drifted`);
-  assert.equal(sheet.sourceRenderSizePx, 1024);
-  assert.equal(sheet.downsamplePasses, 1);
+  assert.equal(sheet.sourceRenderSizePx, piskelSource ? 256 : 1024);
+  assert.equal(sheet.downsamplePasses, piskelSource ? 0 : 1);
+  assert.equal(sheet.sourceAuthority, piskelSource ? "piskel" : undefined);
+  assert.equal(sheet.sourcePiskel, piskelSource);
   assert.ok(sheet.minimumRawEdgeMarginPx >= 4, `${sheetKey} clips its source cell`);
   assert.equal(sheet.maximumSuspiciousGreenPixels, 0, `${sheetKey} has green contamination`);
   assert.equal(
     profile.frameSizePxBySheet[sheetKey],
-    sheetKey === profile.movingComplexDigSheet ? 192 : 256,
+    sheetKey === profile.movingComplexDigSheet || sheetKey === profile.walkHandoffSheet
+      ? 192
+      : 256,
   );
   if (sheetKey !== profile.ledgeClimbSheet) {
     assert.deepEqual(profile.visualOriginBySheet[sheetKey], runtime.groundedOrigin);

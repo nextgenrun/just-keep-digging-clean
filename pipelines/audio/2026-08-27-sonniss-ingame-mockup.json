@@ -1,0 +1,96 @@
+{
+  "sourceManifest": "sound/library-v2/SoundLibrary_Review/00_INBOX_RAW_EXPORTS/sonniss-gdc2019-recorded-mining-pilot-2026-08-26/manifest.json",
+  "outputDirectory": "sound/library-v2/SoundLibrary_Review/00_INBOX_RAW_EXPORTS/sonniss-ingame-sfx-mockup-v1-2026-08-27",
+  "sampleRate": 48000,
+  "outputCeilingDb": -1.0,
+  "fullSequenceGapSeconds": 0.75,
+  "scenarios": [
+    {
+      "id": "mining-material-loop",
+      "title": "Mining: dirt to stone to crystal",
+      "description": "A short mining run with low cave space, distinct material contacts, break debris, and restrained reward feedback.",
+      "duration": 15.0,
+      "events": [
+        {"key": "cave-bed", "at": 0.0, "sourceId": "SONNISS19-MINE-02", "sourceStart": 20.0, "sourceDuration": 15.0, "gainDb": -18.0, "peakDb": -6.0, "pan": 0.0, "fadeMs": 180, "role": "ambience", "target": "GX371", "label": "low cave bed"},
+        {"key": "dirt-swing-a", "at": 1.0, "sourceId": "SONNISS19-SRC-110", "sourceStart": 0.0, "sourceDuration": 0.46, "gainDb": -7.0, "pan": -0.2, "role": "action", "target": "GX277", "label": "light tool swing"},
+        {"key": "dirt-hit-a", "at": 1.12, "sourceId": "SONNISS19-MINE-20", "sourceStart": 0.0, "sourceDuration": 1.35, "gainDb": -5.0, "pan": -0.1, "role": "impact", "target": "GX261", "label": "dry dirt contact"},
+        {"key": "dirt-swing-b", "at": 2.3, "sourceId": "SONNISS19-SRC-111", "sourceStart": 0.0, "sourceDuration": 0.81, "gainDb": -8.0, "pan": 0.18, "role": "action", "target": "GX277", "label": "strap-weight swing"},
+        {"key": "dirt-hit-b", "at": 2.44, "sourceId": "SONNISS19-MINE-23", "sourceStart": 0.0, "sourceDuration": 0.82, "gainDb": -6.0, "pan": 0.1, "role": "impact", "target": "GX262", "label": "compact grit contact"},
+        {"key": "dirt-swing-c", "at": 3.5, "sourceId": "SONNISS19-SRC-110", "sourceStart": 0.0, "sourceDuration": 0.46, "gainDb": -8.0, "pan": -0.12, "role": "action", "target": "GX278", "label": "tool recovery pass"},
+        {"key": "dirt-break", "at": 3.64, "sourceId": "SONNISS19-MINE-24", "sourceStart": 0.0, "sourceDuration": 0.98, "gainDb": -4.0, "pan": 0.0, "role": "break", "target": "GX263", "label": "dirt block break"},
+        {"key": "stone-swing", "at": 5.0, "sourceId": "SONNISS19-SRC-111", "sourceStart": 0.0, "sourceDuration": 0.81, "gainDb": -8.0, "pan": 0.1, "role": "action", "target": "GX278", "label": "heavy swing"},
+        {"key": "stone-body", "at": 5.14, "sourceId": "SONNISS19-SRC-080", "sourceStart": 0.0, "sourceDuration": 1.08, "gainDb": -3.0, "pan": 0.0, "role": "impact", "target": "GX268", "label": "stone body"},
+        {"key": "tool-contact", "at": 5.15, "sourceId": "SONNISS19-SRC-070", "sourceStart": 0.12, "sourceDuration": 1.2, "gainDb": -11.0, "pan": 0.08, "role": "detail", "target": "GX268", "label": "metal tool contact"},
+        {"key": "stone-break", "at": 7.5, "sourceId": "SONNISS19-MINE-18", "sourceStart": 1.2, "sourceDuration": 1.8, "gainDb": -4.0, "pan": -0.05, "role": "break", "target": "GX270", "label": "single rock-break window"},
+        {"key": "resource-pop", "at": 8.62, "sourceId": "SONNISS19-MINE-13", "sourceStart": 0.0, "sourceDuration": 0.62, "gainDb": -7.0, "pan": 0.2, "role": "reward", "target": "GX290", "label": "resource drop"},
+        {"key": "crystal-hit", "at": 10.0, "sourceId": "SONNISS19-MINE-19", "sourceStart": 0.0, "sourceDuration": 1.34, "gainDb": -6.0, "pan": -0.15, "role": "impact", "target": "GX274", "label": "crystal contact"},
+        {"key": "crystal-break", "at": 10.72, "sourceId": "SONNISS19-SRC-092", "sourceStart": 0.0, "sourceDuration": 1.3, "gainDb": -7.0, "pan": 0.15, "role": "break", "target": "GX276", "label": "ice-like mineral break"},
+        {"key": "discovery-confirm", "at": 10.9, "sourceId": "SONNISS19-SRC-105", "sourceStart": 0.15, "sourceDuration": 2.2, "gainDb": -13.0, "pan": 0.0, "role": "ui", "target": "GX319", "label": "rare discovery confirmation"},
+        {"key": "far-rocks", "at": 12.2, "sourceId": "SONNISS19-MINE-28", "sourceStart": 3.1, "sourceDuration": 2.8, "gainDb": -12.0, "pan": 0.25, "role": "depth", "target": "GX356", "label": "distant rock-fall window"}
+      ]
+    },
+    {
+      "id": "robot-flight-movement",
+      "title": "Robot movement and momentum Flight",
+      "description": "Physical boot, dirt traversal, mining-arm motion, air release, sustained motor body, directional passes, boost texture, and a weighted landing.",
+      "duration": 13.0,
+      "events": [
+        {"key": "power-on", "at": 0.0, "sourceId": "SONNISS19-SRC-108", "sourceStart": 0.0, "sourceDuration": 1.32, "gainDb": -5.0, "pan": 0.0, "role": "robot", "target": "GX201", "label": "mechanical power-on"},
+        {"key": "servo-wake", "at": 0.45, "sourceId": "SONNISS19-SRC-086", "sourceStart": 0.0, "sourceDuration": 2.2, "gainDb": -10.0, "pan": 0.08, "role": "robot", "target": "GX202", "label": "compact motor wake"},
+        {"key": "step-left", "at": 2.2, "sourceId": "SONNISS19-MINE-23", "sourceStart": 0.0, "sourceDuration": 0.82, "gainDb": -7.0, "pan": -0.22, "role": "movement", "target": "GX205", "label": "left dirt step"},
+        {"key": "step-right", "at": 2.82, "sourceId": "SONNISS19-MINE-24", "sourceStart": 0.0, "sourceDuration": 0.98, "gainDb": -7.0, "pan": 0.22, "role": "movement", "target": "GX205", "label": "right dirt step"},
+        {"key": "step-third", "at": 3.5, "sourceId": "SONNISS19-MINE-23", "sourceStart": 0.0, "sourceDuration": 0.82, "gainDb": -8.0, "pan": -0.1, "role": "movement", "target": "GX205", "label": "third dirt step"},
+        {"key": "arm-extend", "at": 4.1, "sourceId": "SONNISS19-SRC-102", "sourceStart": 0.0, "sourceDuration": 1.9, "gainDb": -9.0, "pan": 0.0, "role": "robot", "target": "GX212", "label": "mechanical arm movement"},
+        {"key": "lift-release", "at": 5.0, "sourceId": "SONNISS19-SRC-036", "sourceStart": 1.25, "sourceDuration": 1.45, "gainDb": -8.0, "pan": 0.0, "role": "flight", "target": "GX234", "label": "single air-release window"},
+        {"key": "flight-body", "at": 5.15, "sourceId": "SONNISS19-SRC-073", "sourceStart": 0.0, "sourceDuration": 4.7, "gainDb": -15.0, "pan": 0.0, "fadeMs": 80, "role": "flight", "target": "GX235", "label": "low motor body"},
+        {"key": "flight-pass-a", "at": 5.3, "sourceId": "SONNISS19-SRC-100", "sourceStart": 1.25, "sourceDuration": 0.75, "gainDb": -9.0, "pan": -0.45, "role": "flight", "target": "GX237", "label": "left-to-centre air pass"},
+        {"key": "flight-pass-b", "at": 6.65, "sourceId": "SONNISS19-SRC-100", "sourceStart": 2.05, "sourceDuration": 0.8, "gainDb": -9.0, "pan": 0.4, "role": "flight", "target": "GX237", "label": "right steering pass"},
+        {"key": "flight-pass-c", "at": 8.0, "sourceId": "SONNISS19-SRC-100", "sourceStart": 3.05, "sourceDuration": 0.8, "gainDb": -8.0, "pan": -0.15, "role": "flight", "target": "GX225", "label": "boost air pass"},
+        {"key": "boost-energy", "at": 6.0, "sourceId": "SONNISS19-SRC-034", "sourceStart": 0.2, "sourceDuration": 3.3, "gainDb": -20.0, "pan": 0.0, "fadeMs": 50, "role": "energy", "target": "GX226", "label": "low electrical boost texture"},
+        {"key": "landing-body", "at": 10.25, "sourceId": "SONNISS19-SRC-081", "sourceStart": 0.0, "sourceDuration": 1.4, "gainDb": -3.0, "pan": 0.0, "role": "landing", "target": "GX211", "label": "metal-grid landing body"},
+        {"key": "landing-debris", "at": 10.3, "sourceId": "SONNISS19-MINE-18", "sourceStart": 0.05, "sourceDuration": 1.25, "gainDb": -10.0, "pan": 0.12, "role": "landing", "target": "GX211", "label": "small landing debris"},
+        {"key": "flight-confirm", "at": 11.3, "sourceId": "SONNISS19-SRC-105", "sourceStart": 0.15, "sourceDuration": 1.65, "gainDb": -14.0, "pan": 0.0, "role": "ui", "target": "GX227", "label": "landing state confirmation"}
+      ]
+    },
+    {
+      "id": "ui-reward-flow",
+      "title": "UI, shop, reward, and save flow",
+      "description": "A tactile interface pass built from drawers, locks, restrained coins, toolbox movement, and approved mechanical confirmations.",
+      "duration": 12.0,
+      "events": [
+        {"key": "menu-open", "at": 0.0, "sourceId": "SONNISS19-SRC-093", "sourceStart": 0.0, "sourceDuration": 1.6, "gainDb": -7.0, "pan": 0.0, "role": "ui", "target": "GX293", "label": "panel opening"},
+        {"key": "hover", "at": 1.2, "sourceId": "SONNISS19-SRC-107", "sourceStart": 0.0, "sourceDuration": 0.25, "gainDb": -12.0, "pan": -0.12, "role": "ui", "target": "GX294", "label": "soft hover movement"},
+        {"key": "click", "at": 1.8, "sourceId": "SONNISS19-SRC-050", "sourceStart": 0.0, "sourceDuration": 0.6, "gainDb": -8.0, "pan": 0.12, "role": "ui", "target": "GX295", "label": "mechanical click"},
+        {"key": "confirm", "at": 2.25, "sourceId": "SONNISS19-SRC-105", "sourceStart": 0.15, "sourceDuration": 2.1, "gainDb": -12.0, "pan": 0.0, "role": "ui", "target": "GX296", "label": "positive confirmation"},
+        {"key": "purchase-coin", "at": 4.0, "sourceId": "SONNISS19-MINE-11", "sourceStart": 0.0, "sourceDuration": 0.4, "gainDb": -6.0, "pan": -0.15, "role": "reward", "target": "GX308", "label": "small purchase coin"},
+        {"key": "purchase-lock", "at": 4.2, "sourceId": "SONNISS19-SRC-050", "sourceStart": 0.0, "sourceDuration": 0.6, "gainDb": -9.0, "pan": 0.15, "role": "ui", "target": "GX308", "label": "purchase mechanism"},
+        {"key": "blocked", "at": 5.35, "sourceId": "SONNISS19-SRC-106", "sourceStart": 0.0, "sourceDuration": 2.35, "gainDb": -10.0, "pan": 0.0, "role": "ui", "target": "GX298", "label": "blocked action"},
+        {"key": "reward-item", "at": 7.25, "sourceId": "SONNISS19-SRC-104", "sourceStart": 1.5, "sourceDuration": 1.15, "gainDb": -10.0, "pan": -0.1, "role": "reward", "target": "GX306", "label": "single toolbox reward window"},
+        {"key": "reward-coins-a", "at": 7.35, "sourceId": "SONNISS19-MINE-12", "sourceStart": 0.0, "sourceDuration": 0.82, "gainDb": -7.0, "pan": 0.15, "role": "reward", "target": "GX306", "label": "coin cluster"},
+        {"key": "reward-coins-b", "at": 7.58, "sourceId": "SONNISS19-MINE-13", "sourceStart": 0.0, "sourceDuration": 0.62, "gainDb": -8.0, "pan": -0.2, "role": "reward", "target": "GX312", "label": "badge-sized coin drop"},
+        {"key": "achievement-confirm", "at": 8.0, "sourceId": "SONNISS19-SRC-105", "sourceStart": 0.15, "sourceDuration": 2.1, "gainDb": -13.0, "pan": 0.0, "role": "ui", "target": "GX312", "label": "achievement confirmation"},
+        {"key": "save-card", "at": 10.1, "sourceId": "SONNISS19-MINE-14", "sourceStart": 0.0, "sourceDuration": 0.45, "gainDb": -8.0, "pan": -0.1, "role": "ui", "target": "GX313", "label": "soft save-card movement"},
+        {"key": "save-lock", "at": 10.34, "sourceId": "SONNISS19-SRC-050", "sourceStart": 0.0, "sourceDuration": 0.6, "gainDb": -9.0, "pan": 0.1, "role": "ui", "target": "GX313", "label": "save lock"}
+      ]
+    },
+    {
+      "id": "deep-cave-danger",
+      "title": "Deep cave danger and torch pressure",
+      "description": "A restrained underground bed with wind, water, chain, timber strain, staged distant impacts, thunder-like mass, torch heat, and electrical pressure.",
+      "duration": 20.0,
+      "events": [
+        {"key": "deep-cave-bed", "at": 0.0, "sourceId": "SONNISS19-MINE-02", "sourceStart": 30.0, "sourceDuration": 20.0, "gainDb": -18.0, "peakDb": -6.0, "pan": 0.0, "fadeMs": 220, "role": "ambience", "target": "GX371", "label": "deep cave bed"},
+        {"key": "tunnel-wind", "at": 0.0, "sourceId": "SONNISS19-SRC-116", "sourceStart": 8.0, "sourceDuration": 18.0, "gainDb": -22.0, "peakDb": -6.0, "pan": 0.15, "fadeMs": 250, "role": "ambience", "target": "GX380", "label": "tunnel air"},
+        {"key": "water-seep", "at": 1.5, "sourceId": "SONNISS19-SRC-109", "sourceStart": 0.3, "sourceDuration": 4.2, "gainDb": -18.0, "pan": -0.35, "fadeMs": 60, "role": "environment", "target": "GX361", "label": "water seep"},
+        {"key": "chain-warning", "at": 5.0, "sourceId": "SONNISS19-SRC-063", "sourceStart": 0.0, "sourceDuration": 1.75, "gainDb": -9.0, "pan": 0.38, "role": "danger", "target": "GX363", "label": "single chain gesture"},
+        {"key": "support-creak", "at": 7.0, "sourceId": "SONNISS19-SRC-077", "sourceStart": 0.35, "sourceDuration": 1.35, "gainDb": -8.0, "pan": -0.28, "role": "danger", "target": "GX368", "label": "single timber-creak window"},
+        {"key": "far-collapse", "at": 9.0, "sourceId": "SONNISS19-MINE-28", "sourceStart": 3.1, "sourceDuration": 3.0, "gainDb": -12.0, "pan": 0.2, "role": "depth", "target": "GX357", "label": "distant rock-fall window"},
+        {"key": "deep-impact", "at": 12.0, "sourceId": "SONNISS19-MINE-32", "sourceStart": 44.5, "sourceDuration": 3.0, "gainDb": -8.0, "pan": -0.08, "role": "depth", "target": "GX356", "label": "single sledgehammer passage"},
+        {"key": "pressure-rumble", "at": 11.5, "sourceId": "SONNISS19-SRC-101", "sourceStart": 41.0, "sourceDuration": 5.0, "gainDb": -19.0, "peakDb": -5.0, "pan": 0.0, "fadeMs": 120, "role": "depth", "target": "GX362", "label": "distant thunder-like mass"},
+        {"key": "torch-react", "at": 15.0, "sourceId": "SONNISS19-SRC-097", "sourceStart": 0.3, "sourceDuration": 3.6, "gainDb": -15.0, "pan": -0.12, "fadeMs": 50, "role": "torch", "target": "GX373", "label": "heat reaction window"},
+        {"key": "dark-energy", "at": 15.5, "sourceId": "SONNISS19-SRC-040", "sourceStart": 7.0, "sourceDuration": 4.0, "gainDb": -22.0, "peakDb": -5.0, "pan": 0.22, "fadeMs": 90, "role": "danger", "target": "GX372", "label": "low electrical pressure"},
+        {"key": "air-stop", "at": 18.45, "sourceId": "SONNISS19-SRC-111", "sourceStart": 0.0, "sourceDuration": 0.81, "gainDb": -7.0, "pan": 0.0, "role": "danger", "target": "GX380", "label": "air-stop accent"}
+      ]
+    }
+  ]
+}

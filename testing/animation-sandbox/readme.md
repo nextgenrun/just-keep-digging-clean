@@ -16,6 +16,12 @@ with four focused Seedance loops built from the actual town beauty, slate cap,
 and Level One facade. Visible wind motion is generated as a half-cycle and then
 made mechanically loopable by appending its exact reverse.
 
+`2026-08-26-surface-background-loops-v2/` is the corrected background-only
+review. It stacks three camera-locked, approximately 18-second Seedance Mini
+cycles over a separate static production floor/ground image. The final loops
+move forward continuously, exclude the ground crop, and use a deterministic
+tail-to-head closure instead of reverse playback.
+
 ## Mixamo punch sequence review
 
 `mixamo-punch-sequence-review-v1/` retargets eight clean unarmed Mixamo

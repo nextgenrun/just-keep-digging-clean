@@ -183,6 +183,10 @@ def font(size: int) -> ImageFont.FreeTypeFont:
 
 def render_card(kind: str, size: tuple[int, int]) -> Path:
     output = FRAMES / f"{kind}-{size[0]}x{size[1]}-card.png"
+    if output.is_file():
+        with Image.open(output) as existing:
+            if existing.size == size:
+                return output
     with Image.open(KEY_ART) as source:
         image = ImageOps.fit(source.convert("RGB"), size, Image.Resampling.LANCZOS, centering=(0.57, 0.50))
     image = ImageEnhance.Brightness(image.filter(ImageFilter.GaussianBlur(4))).enhance(0.26).convert("RGBA")
@@ -239,10 +243,10 @@ def write_captions(edit_id: str, edit: dict) -> tuple[Path, Path]:
 def build(edit_id: str, edit: dict, temp: Path, narration: Path, output: Path) -> Path:
     segments = []
     for index, (kind, name, seconds) in enumerate(edit["segments"]):
-        output = temp / f"{edit_id}-{index:02d}.mp4"
-        if kind == "card": normalize_card(name, output, seconds, edit["size"])
-        else: normalize((CLIPS if kind == "clip" else BIOMES) / name, output, seconds, edit["size"])
-        segments.append(output)
+        segment_output = temp / f"{edit_id}-{index:02d}.mp4"
+        if kind == "card": normalize_card(name, segment_output, seconds, edit["size"])
+        else: normalize((CLIPS if kind == "clip" else BIOMES) / name, segment_output, seconds, edit["size"])
+        segments.append(segment_output)
     concat = temp / f"{edit_id}-concat.txt"
     concat.write_text("\n".join(f"file '{path.as_posix()}'" for path in segments), encoding="utf-8")
     joined = temp / f"{edit_id}-joined.mp4"

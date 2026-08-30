@@ -1,0 +1,29 @@
+{
+  "status": "review-only-runtime-verified",
+  "browser": "Codex in-app browser",
+  "renderer": "Phaser 3.90 WebGL",
+  "defaultMotionPercent": 140,
+  "observations": {
+    "fps": 60.0,
+    "consoleWarningsOrErrors": 0,
+    "townVideoGuard": "1650f7a88e2445ef9ab1be954680e4a8d5ffb51b2ccd8e7def5bec19726132d6"
+  },
+  "temporalMotionAt2400Ms": {
+    "rigidTowerEnvelopes": { "meanAbsoluteRgbDifference": 0.163, "changedPixelsOver3Percent": 0.60 },
+    "nonRigidBackground": { "meanAbsoluteRgbDifference": 0.629, "changedPixelsOver3Percent": 4.53 }
+  },
+  "pauseFreezeAt2400Ms": {
+    "phaseBefore": 0.965,
+    "phaseAfter": 0.965,
+    "screenshotsByteIdentical": true
+  },
+  "periodicBoundary": {
+    "phaseZero": 0.0,
+    "phaseOne": 1.0,
+    "stagePixelsCompared": 475123,
+    "meanAbsoluteRgbDifference": 0.0,
+    "changedPixelsPercent": 0.0,
+    "maximumRgbDifference": 0.0
+  },
+  "acceptanceBoundary": "This verifies the one-plate technical slice, not parity with image-to-video quality and not readiness for the complete above-ground map."
+}

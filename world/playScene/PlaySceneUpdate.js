@@ -13,16 +13,22 @@ import {
   recordPerformanceSpan,
   shouldSamplePerformancePhases,
 } from "../../systems/health/performanceTelemetryBridge.js";
+import { showMiningDamageFeedback } from "../../systems/visual/miningDamageFeedback.js";
 import { resolvePlayerTargetDirection } from "../../player/playerDirectionalTargets.js";
 import {
   recordGraveborerWurmMiningNoise,
   updateGraveborerWurmRuntime,
 } from "./GraveborerWurmBridge.js";
 import { updateHardcoreModeRuntime } from "./HardcoreModeBridge.js";
+import { updateStarSanctuaryRuntime } from "./StarSanctuaryBridge.js";
 import { hasEscapeClosableUi } from "./hasEscapeClosableUi.js";
 import { resolveInteractionPriorities } from "./interactionPriority.js";
 import { isRequiredTownTutorialDigTarget } from
   "../../systems/onboarding/TownSquareTutorialDigSite.js";
+import { routeRetentionVoiceEvent } from "./PlayerVoiceRetentionBridge.js";
+import { updatePlayerVoiceInventoryState } from "./PlayerVoiceInventoryBridge.js";
+import { PLAYER_VOICE_CONFIG } from
+  "../../values/playerVoiceCharacterLeoV1.generated.js";
 
 function syncProgressionGemPowerMax(scene) {
   const levelBonus = scene.playerLevelSystem?.getGemPowerMaxBonus?.() ?? 0;
@@ -82,10 +88,6 @@ function showMiningRetentionFeedback(scene, result, targetTile, options = {}) {
   const feedback = RETENTION_CONFIG.miningFeedback;
 
   if (result.isCriticalHit) {
-    const multiplier = Number.isFinite(result.critMultiplier)
-      ? result.critMultiplier
-      : scene.playerLevelSystem?.getCriticalHitDamageMultiplier?.() || 1;
-    scene.floatingTextSystem.showCriticalHit(worldX, worldY, result.damage || 0, multiplier);
     scene.screenFlashSystem?.flashCrit?.();
   }
 
@@ -150,6 +152,7 @@ function handleRetentionEvents(scene) {
   const retention = scene.retentionProgressSystem;
   if (!retention) return;
   retention.drainEvents().forEach(event => {
+    routeRetentionVoiceEvent(scene, event);
     switch (event.type) {
       case RETENTION_EVENT_TYPES.DISCOVERY:
       case RETENTION_EVENT_TYPES.PERSONAL_BEST:
@@ -175,6 +178,29 @@ function handleRetentionEvents(scene) {
 
 function handleQuickslashMineResult(scene, result, targetTile, tileType) {
   if (!result || result.reason === "cooldown" || !targetTile) return;
+  if (result.celestialProjectile) {
+    const hits = result.celestialProjectile.hits || [];
+    if (hits.length === 0) {
+      const fallbackTile = result.celestialProjectile.blockedTiles?.[0]
+        || result.celestialProjectile.targetTile
+        || targetTile;
+      handleQuickslashMineResult(
+        scene,
+        { ...result, celestialProjectile: null },
+        fallbackTile,
+        scene.worldModel.getTileType(fallbackTile.tx, fallbackTile.ty),
+      );
+      return;
+    }
+    hits.forEach(hit => handleQuickslashMineResult(
+      scene,
+      hit.result,
+      { tx: hit.tx, ty: hit.ty },
+      hit.tileType,
+    ));
+    refreshMiningTargetVisual(scene);
+    return;
+  }
   scene.queueDigImpactFeedback?.({ result, targetTile, tileType });
   scene.flushPendingDigImpactFeedback?.();
   if (!result.success) return;
@@ -209,16 +235,39 @@ function handleQuickslashMineResult(scene, result, targetTile, tileType) {
       isLuckyDrop: result.behindIsLuckyDrop,
     });
   }
-  if (scene.floatingTextSystem && result.frontDamageApplied !== false) {
-    const worldX = targetTile.tx * scene.config.tileSize + scene.config.tileSize / 2;
-    const worldY = targetTile.ty * scene.config.tileSize + scene.config.tileSize / 2;
-    scene.floatingTextSystem.showDamage(worldX, worldY, result.damage);
-  }
+  const worldX = targetTile.tx * scene.config.tileSize + scene.config.tileSize / 2;
+  const worldY = targetTile.ty * scene.config.tileSize + scene.config.tileSize / 2;
+  showMiningDamageFeedback(scene.floatingTextSystem, worldX, worldY, result);
   if (result.levelUp) _handleLevelUpResult(scene, result);
 }
 
 function handleNormalMineResult(scene, result, targetTile, tileType, { flushContactFeedback = true } = {}) {
   if (!result || result.reason === "cooldown" || !targetTile) return;
+  if (result.celestialProjectile) {
+    const hits = result.celestialProjectile.hits || [];
+    if (hits.length === 0) {
+      const fallbackTile = result.celestialProjectile.blockedTiles?.[0]
+        || result.celestialProjectile.targetTile
+        || targetTile;
+      handleNormalMineResult(
+        scene,
+        { ...result, celestialProjectile: null },
+        fallbackTile,
+        scene.worldModel.getTileType(fallbackTile.tx, fallbackTile.ty),
+        { flushContactFeedback },
+      );
+      return;
+    }
+    hits.forEach((hit, index) => handleNormalMineResult(
+      scene,
+      hit.result,
+      { tx: hit.tx, ty: hit.ty },
+      hit.tileType,
+      { flushContactFeedback: flushContactFeedback && index === 0 },
+    ));
+    refreshMiningTargetVisual(scene);
+    return;
+  }
   if (flushContactFeedback) {
     scene.queueDigImpactFeedback?.({ result, targetTile, tileType });
     scene.flushPendingDigImpactFeedback?.();
@@ -230,11 +279,9 @@ function handleNormalMineResult(scene, result, targetTile, tileType, { flushCont
       recordGraveborerWurmMiningNoise(scene, "heavyPunch", result.heavyPunchTile || targetTile);
     }
     showMiningRetentionFeedback(scene, result, targetTile);
-    if (scene.floatingTextSystem && result.frontDamageApplied !== false) {
-      const worldX = targetTile.tx * scene.config.tileSize + scene.config.tileSize / 2;
-      const worldY = targetTile.ty * scene.config.tileSize + scene.config.tileSize / 2;
-      scene.floatingTextSystem.showDamage(worldX, worldY, result.damage);
-    }
+    const worldX = targetTile.tx * scene.config.tileSize + scene.config.tileSize / 2;
+    const worldY = targetTile.ty * scene.config.tileSize + scene.config.tileSize / 2;
+    showMiningDamageFeedback(scene.floatingTextSystem, worldX, worldY, result);
     if (result.heavyPunchHit && result.heavyPunchTile && scene.floatingTextSystem) {
       const worldX = result.heavyPunchTile.tx * scene.config.tileSize + scene.config.tileSize / 2;
       const worldY = result.heavyPunchTile.ty * scene.config.tileSize + scene.config.tileSize / 2;
@@ -350,18 +397,13 @@ function handleArcCoreMine(scene, aimTargetTile, time, abilities, aimDirectionOv
 
     const worldX = hit.tx * scene.config.tileSize + scene.config.tileSize / 2;
     const worldY = hit.ty * scene.config.tileSize + scene.config.tileSize / 2;
-    if (scene.floatingTextSystem && result.frontDamageApplied !== false) {
-      scene.floatingTextSystem.showDamage(worldX, worldY, result.damage);
-    }
+    showMiningDamageFeedback(scene.floatingTextSystem, worldX, worldY, result);
     if (result.destroyed) {
       shouldSave = true;
       if (result.resourceType && scene.floatingTextSystem) {
         const label = getResourceDisplayName(result.resourceType);
         const color = RESOURCE_COLORS[result.resourceType] || "#FFB347";
         scene.floatingTextSystem.showResource(worldX, worldY, label, color, result.resourceAmount);
-      }
-      if (result.isCriticalHit && scene.floatingTextSystem) {
-        scene.floatingTextSystem.showCriticalHit(worldX, worldY, result.damage, 1.5);
       }
       if (result.isLuckyDrop && scene.floatingTextSystem) {
         scene.floatingTextSystem.showResourceLuckBonus(worldX, worldY, result.resourceType || "Resource", "#00ff00", 1);
@@ -642,7 +684,6 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
   if (featureAvailable("campfire") && this.campfireSystem && this.campfireSystem.isSelecting()) return;
 
   this.celestialActionBarInputBridge?.update?.();
-  this.debrisShieldSystem?.update?.(delta, keys.q, this.earthquakeSystem);
   // Update player controller (physics, movement, flight logic)
   this.playerController.update(delta);
   const ledgeTraversalActive = this.playerController.isLedgeAssistActive?.() === true;
@@ -669,7 +710,12 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
   playerTile = this.playerController.getPlayerTile();
   this._framePlayerTile = playerTile;
   this.hardcoreMemorialSystem?.update?.();
-  updateHardcoreModeRuntime(this, time, delta, playerTile);
+  const shadowMinerStressSnapshot = updateHardcoreModeRuntime(
+    this,
+    time,
+    delta,
+    playerTile,
+  );
   if (this.gameState !== "playing") return;
   updateGraveborerWurmRuntime(this, time, delta, playerTile);
   if (this.gameState !== "playing") return;
@@ -678,6 +724,10 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
       pauseTimer: hasEscapeClosableUi(this),
     });
   }
+  this.shadowMinerSystem?.update?.(time, delta, playerTile, {
+    stressSnapshot: shadowMinerStressSnapshot,
+    starSnapshot: this.starSanctuarySnapshot,
+  });
   this.npcManager?.updateActivities?.(time, delta, playerTile);
   const arcCoreConsumedInteraction = featureAvailable("arcCore") && this.arcCoreVehicleSystem?.update(playerTile, keys) === true;
 
@@ -792,13 +842,35 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
   const abilities = this.playerController.abilities;
   const isQuickslashActive = abilities && abilities.isQuickslashActive && abilities.isQuickslashActive();
   const arcCoreActive = this.arcCoreVehicleSystem?.isActive?.() === true;
+  // Ability inputs get first claim on the shared authored-action slot. This
+  // lets a queued Thunder Strike begin as soon as the current Quickslash
+  // recovery finishes instead of held Q immediately taking the slot.
+  const abilitiesAvailable = featureAvailable("abilities");
+  const thunderInput = abilitiesAvailable
+    && !ledgeTraversalActive
+    && this.playerController.input.getThunderStrikeInput();
+  if (abilitiesAvailable) this.thunderStrikeActionRuntime?.update(
+    time,
+    thunderInput,
+    (strikeResult, contactTime) => handleThunderStrikeResult(
+      this,
+      strikeResult,
+      contactTime,
+    ),
+  );
   
   // Track previous quickslash state to detect when Q is released
   const wasQuickslashActive = this._wasQuickslashActive || false;
   this._wasQuickslashActive = isQuickslashActive;
   
   // Quickslash: one native action owns one GP cost, one contact, and one hit.
-  if (isQuickslashActive && !this._teleportInAnimating && !ledgeTraversalActive) {
+  const thunderStrikeOwnsPlayerAction = this.thunderStrikeActionRuntime?.isAnimating === true;
+  if (
+    isQuickslashActive
+    && !thunderStrikeOwnsPlayerAction
+    && !this._teleportInAnimating
+    && !ledgeTraversalActive
+  ) {
     const quickslashDir = abilities.getQuickslashDirection();
     const quickslashAim = quickslashDir > 0 ? "RIGHT" : "LEFT";
     const quickslashTarget = this.inputHandler.resolveAimTargetTileForVector({
@@ -1003,21 +1075,6 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
     }
   }
 
-  // Thunder Strike: one paid charge, then exact-timing free follow-up slams.
-  const abilitiesAvailable = featureAvailable("abilities");
-  const cInput = abilitiesAvailable
-    && !ledgeTraversalActive
-    && this.playerController.input.getThunderStrikeInput();
-  if (abilitiesAvailable) this.thunderStrikeActionRuntime?.update(
-    time,
-    cInput,
-    (strikeResult, contactTime) => handleThunderStrikeResult(
-      this,
-      strikeResult,
-      contactTime,
-    ),
-  );
-
   // Visual state
   this.updateLivingDrillEngagementTimeout?.(time);
   if (!this.isDigAnimating) {
@@ -1025,7 +1082,7 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
   }
   this.flightFootParticleSystem?.update(
     delta,
-    !this.isDigAnimating && this.playerController?.abilities?.isFlying?.() === true,
+    this.playerController?.abilities?.isFlying?.() === true,
   );
 
   // Safety check: if playerTile is undefined (player about to die), skip depth calculation
@@ -1053,11 +1110,21 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
       if (this.soundSystem) {
         this.soundSystem.playSfx('reward');
       }
-      this.shakeSystem?.shake("misc.depthMilestone");
       // Trigger cinematic for curated depths (100, 300, 500, 750, 1000, 1500, 2000)
-      if (!this.understarEndingSystem?.isFinaleDepth?.(depth)) {
-        this.depthMilestoneCinematic?.trigger?.(depth, milestone);
-      }
+      const cinematicTriggered = !this.understarEndingSystem?.isFinaleDepth?.(depth)
+        && this.depthMilestoneCinematic?.trigger?.(depth, milestone) === true;
+      // The cinematic owns its impact shake. Non-cinematic milestones keep
+      // the same direct fallback without dispatching a duplicate impulse.
+      if (!cinematicTriggered) this.shakeSystem?.shake("misc.depthMilestone");
+      this.soundSystem?.playPlayerVoiceEvent?.(
+        PLAYER_VOICE_CONFIG.eventIds.depthMilestone,
+        {
+          depth,
+          milestoneId: milestone.id || depth,
+          dedupeKey: `depth:${depth}`,
+          tags: [depth >= 300 ? "deep" : "shallow"],
+        },
+      );
       // Exact permanent totals live in the Milestone board and ESC > Journey.
       // Curated depths already receive the centered cinematic; never enqueue
       // an additional normal notification card.
@@ -1094,7 +1161,9 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
   }
 
   // UI updates
-  this.uiInventoryPopup?.setResources(this.digSystem.getResourceTotals());
+  const inventoryResources = this.digSystem.getResourceTotals();
+  this.uiInventoryPopup?.setResources(inventoryResources);
+  updatePlayerVoiceInventoryState(this, inventoryResources);
   this.uiInventoryPopup?.setMoney(this.upgradeSystem.getMoney());
   this.drawStatusBars(gemPowerPct,
     this.playerController.getGemPowerRaw(),

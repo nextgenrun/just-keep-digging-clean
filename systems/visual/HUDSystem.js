@@ -75,9 +75,7 @@ export class HUDSystem {
     this.currentPickaxeId = null;
     this.torchActive = false;
     this.torchDrainGpPerSecond = LIGHT_CONFIG.torchDrainGpPerSecond;
-    this.torchIntensity = LIGHT_CONFIG.torchIntensity.levels[
-      LIGHT_CONFIG.torchIntensity.defaultLevelIndex
-    ];
+    this.torchIntensity = LIGHT_CONFIG.torchIntensity.defaultPercent / 100;
     this.torchBurnAlpha = 0;
     this._destroyed = false;
     this._systemVisibility = {
@@ -475,7 +473,13 @@ export class HUDSystem {
   ) {
     this.torchActive = Boolean(active);
     this.torchDrainGpPerSecond = drainGpPerSecond;
-    this.torchIntensity = Math.max(0, Math.min(1, Number(intensity) || 0));
+    this.torchIntensity = Math.max(
+      0,
+      Math.min(
+        LIGHT_CONFIG.torchIntensity.maximumPercent / 100,
+        Number(intensity) || 0,
+      ),
+    );
     const torchKey = USER_SETTINGS.getKeyLabel("torch");
     this.torchStatusText?.setText(
       this.torchActive ? `TORCH [${torchKey}]: ON · ${drainGpPerSecond} GP/s` : `TORCH [${torchKey}]: OFF`
@@ -680,12 +684,11 @@ export class HUDSystem {
   updateBuffTimers() {
     if (!this._systemVisibility.buff) {
       this.buffTimerText?.setVisible(false);
-      this.approvedSkin?.setBuffLines([]);
+      this.approvedSkin?.setBuffEntries([]);
       return;
     }
     const labels = HUD_LAYOUT.buffTimerLabels;
-    const colors = HUD_LAYOUT.buffTimerColors;
-    const lines = [];
+    const entries = [];
 
     if (this.specialBlockEffectsManager) {
       const effects = this.specialBlockEffectsManager.effects;
@@ -693,18 +696,39 @@ export class HUDSystem {
       if (effects.miningSpeedBoost.active) {
         const secs = this.specialBlockEffectsManager.getRemainingTime('miningSpeedBoost');
         const pct = Math.round((effects.miningSpeedBoost.multiplier - 1) * 100);
-        lines.push(`${labels.miningSpeedBoost} +${pct}% ${secs}s`);
+        entries.push({
+          text: `SPEED +${pct}% ${secs}s`,
+          icon: "speed",
+          tooltip: {
+            title: labels.miningSpeedBoost,
+            body: `Mining speed is increased by ${pct}%. ${secs}s remaining.`,
+          },
+        });
       }
 
       if (effects.damageBoost.active) {
         const secs = this.specialBlockEffectsManager.getRemainingTime('damageBoost');
         const pct = Math.round((effects.damageBoost.multiplier - 1) * 100);
-        lines.push(`${labels.damageBoost} +${pct}% ${secs}s`);
+        entries.push({
+          text: `POWER +${pct}% ${secs}s`,
+          icon: "strength",
+          tooltip: {
+            title: labels.damageBoost,
+            body: `Mining damage is increased by ${pct}%. ${secs}s remaining.`,
+          },
+        });
       }
 
       if (effects.guaranteedCrit.active) {
         const secs = this.specialBlockEffectsManager.getRemainingTime('guaranteedCrit');
-        lines.push(`${labels.guaranteedCrit} ${secs}s`);
+        entries.push({
+          text: `CRIT ${secs}s`,
+          icon: "critical",
+          tooltip: {
+            title: labels.guaranteedCrit,
+            body: `Every mining hit is a guaranteed critical strike. ${secs}s remaining.`,
+          },
+        });
       }
     }
 
@@ -713,21 +737,30 @@ export class HUDSystem {
       const buff = campfire.getActiveBuff();
       if (buff) {
         const remaining = Math.ceil(buff.remainingMs / 1000);
-        lines.push(`HEARTH  ${buff.name} ${remaining}s`);
+        entries.unshift({
+          text: `${buff.name.toUpperCase()} ${remaining}s`,
+          icon: buff.icon || "torch",
+          tooltip: {
+            title: `CAMPFIRE — ${buff.name.toUpperCase()}`,
+            color: buff.color,
+            body: `${buff.effectText || buff.statLabel || "Campfire blessing"}. `
+              + `${remaining}s remaining.`,
+          },
+        });
       }
     }
 
-    if (lines.length > 0) {
+    if (entries.length > 0) {
       if (this.approvedSkin?.active) {
-        this.approvedSkin.setBuffLines(lines);
+        this.approvedSkin.setBuffEntries(entries);
         this.buffTimerText.setVisible(false);
       } else {
-        setTextIfChanged(this.buffTimerText, lines.join('\n'));
+        setTextIfChanged(this.buffTimerText, entries.map(entry => entry.text).join('\n'));
         this.buffTimerText.setVisible(true);
       }
     } else {
       this.buffTimerText.setVisible(false);
-      this.approvedSkin?.setBuffLines([]);
+      this.approvedSkin?.setBuffEntries([]);
     }
   }
 

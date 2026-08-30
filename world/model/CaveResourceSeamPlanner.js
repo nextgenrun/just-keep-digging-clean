@@ -2,6 +2,7 @@ import { CAVE_GAMEPLAY_CONFIG } from "../../values/caveGameplay.js";
 import { hash01, hashUint } from "../../values/deterministicMath.js";
 import { RESOURCE_TILE_TYPE_VALUES } from "../../values/resourceTypes.js";
 import { TILE_TYPES } from "../../values/tileTypes.js";
+import { WORLD_GEN_CONFIG } from "../../values/worldGen.js";
 
 const RESOURCE_TYPES = new Set(RESOURCE_TILE_TYPE_VALUES);
 
@@ -53,10 +54,16 @@ function getDepthPool(depth, config) {
 function pickResourceType(zone, blockIndex, depth, config, salts) {
   const pool = getDepthPool(depth, config);
   const biases = new Set(config.archetypeBiases[zone.archetypeId] || []);
-  const weighted = pool.entries.map(entry => ({
-    ...entry,
-    weight: entry.weight * (biases.has(entry.tileTypeKey) ? config.archetypeBiasWeight : 1),
-  }));
+  const weighted = pool.entries
+    .filter(entry => (
+      TILE_TYPES[entry.tileTypeKey] !== TILE_TYPES.GOLD
+      || depth >= WORLD_GEN_CONFIG.terrain.goldMinDepth
+    ))
+    .map(entry => ({
+      ...entry,
+      weight: entry.weight * (biases.has(entry.tileTypeKey) ? config.archetypeBiasWeight : 1),
+    }));
+  if (!weighted.length) return TILE_TYPES.DIRT;
   const total = weighted.reduce((sum, entry) => sum + entry.weight, 0);
   let cursor = hash01(zone.visualSeed, blockIndex, zone.cy, salts.seamType) * total;
   for (const entry of weighted) {
@@ -130,8 +137,8 @@ export function applyCaveResourceSeams(
     config,
     gameplayConfig.salts,
   );
-  const depth = Math.max(0, zone.cy - worldModel.topAirRows);
   selected.forEach((candidate, blockIndex) => {
+    const depth = Math.max(0, candidate.ty - worldModel.topAirRows);
     const tileType = pickResourceType(
       zone,
       blockIndex,

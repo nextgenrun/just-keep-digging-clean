@@ -116,9 +116,11 @@ for (const contact of [
 }
 
 const allDetailAssets = getWorldVisualUndergroundDetailAssets();
-assert.equal(allDetailAssets.length, 20);
-assert.equal(new Set(allDetailAssets.map(asset => asset.key)).size, 20);
-assert.ok(allDetailAssets.every(asset => asset.path.includes("-v6/")));
+const v6DetailAssets = allDetailAssets.filter(asset => asset.path.includes("-v6/"));
+assert.equal(v6DetailAssets.length, 20);
+assert.equal(new Set(v6DetailAssets.map(asset => asset.key)).size, 20);
+assert.ok(v6DetailAssets.every(asset => asset.path.includes("-v6/")));
+assert.equal(allDetailAssets.length, 112, "release registry includes 92 depth variants");
 assert.deepEqual(
   resolveWorldVisualUndergroundDetailKinds(undefined, ""),
   { textures: true, props: true }

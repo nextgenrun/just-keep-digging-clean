@@ -15,9 +15,10 @@ export const UAL_NATIVE_ACTION_TUNING = Object.freeze({
       recoveryCancelDelayMs: 100,
     }),
     quickslash: Object.freeze({
-      minDurationMs: 220,
+      minDurationMs: 150,
       minTimeScale: 1,
-      maxTimeScale: 2.4,
+      maxTimeScale: 4,
+      recoveryCancelDelayMs: 60,
     }),
   }),
 

@@ -1,6 +1,7 @@
 import { CAVE_GAMEPLAY_CONFIG } from "../../values/caveGameplay.js";
 import { planCaveHazards } from "./CaveHazardPlanner.js";
 import { applyCaveResourceSeams } from "./CaveResourceSeamPlanner.js";
+import { applyRareEmberFinds } from "./RareEmberFindPlanner.js";
 
 export function finalizeCaveGameplay(worldModel, gameplayConfig = CAVE_GAMEPLAY_CONFIG) {
   worldModel.caveHazardZones = [];
@@ -8,6 +9,7 @@ export function finalizeCaveGameplay(worldModel, gameplayConfig = CAVE_GAMEPLAY_
     applyCaveResourceSeams(worldModel, zone, gameplayConfig);
     worldModel.caveHazardZones.push(...planCaveHazards(worldModel, zone, gameplayConfig));
   }
+  applyRareEmberFinds(worldModel, gameplayConfig);
   const seamByCell = new Map();
   for (const zone of worldModel.caveZones || []) {
     for (const seam of zone.resourceSeams || []) {

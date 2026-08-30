@@ -5,6 +5,7 @@ import { resolveFirstFiveMinutesEnabled } from "../../values/firstFiveMinutes.js
 import { resolveDepthEconomyEnabled } from "../../values/resourceEconomy.js";
 import { roundResourceCurrency } from "../../values/resourcePrices.js";
 import { validateMoney } from "../../values/progressionInvariants.js";
+import { GOD_MODE_CONFIG } from "../../values/godMode.js";
 import { reportProgressionInvariantFailure } from "../health/progressionInvariantReporter.js";
 import { resolveMovementSpeed } from "./ResolvedPlayerStats.js";
 import {
@@ -447,7 +448,7 @@ export class UpgradeSystem {
     return resolveMovementSpeed({
       baseSpeed,
       flatBonus: effects.walkSpeed,
-      override: this.godModeActive ? 2000 : null,
+      override: this.godModeActive ? GOD_MODE_CONFIG.movementSpeedPxPerSec : null,
     });
   }
 
@@ -468,7 +469,7 @@ export class UpgradeSystem {
   }
 
   getEffectiveDigDamageMultiplier(baseDamage) {
-    if (this.godModeActive) return 99999;
+    if (this.godModeActive) return GOD_MODE_CONFIG.miningDamage;
     const effects = this.getUpgradeEffects();
     const additiveDamage = effects.digDamageAdditive;
     const pickaxeMultiplier = 1 + effects.pickaxeDamage;
@@ -476,7 +477,9 @@ export class UpgradeSystem {
   }
 
   getEffectiveMineCooldown(baseCooldown) {
-    if (this.godModeActive) return baseCooldown * 0.25; // 75% attack speed
+    if (this.godModeActive) {
+      return baseCooldown * (1 - GOD_MODE_CONFIG.mineCooldownReduction);
+    }
     const effects = this.getUpgradeEffects();
     const reduction = Math.min(effects.mineCooldownReduction, 0.30); // Max 30% reduction
     return baseCooldown * (1 - reduction);

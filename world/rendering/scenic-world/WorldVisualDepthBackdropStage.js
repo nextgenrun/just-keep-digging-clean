@@ -16,7 +16,7 @@ import { WORLD_VISUAL_DEPTH_CAMERA_MOTION } from
 import {
   WORLD_VISUAL_RUNTIME,
   resolveScenicDemandAssetStreamingEnabled,
-} from "../../../values/worldVisualRuntime.js?rev=20260729-native-density-v14";
+} from "../../../values/worldVisualRuntime.js?rev=20260826-surface-motion-v2";
 import { RUNTIME_ASSET_LOADING } from "../../../values/runtimeAssetLoading.js";
 import { WorldVisualAssetCache } from "./WorldVisualAssetCache.js";
 import { WorldVisualDepthBackdropRegionView } from
@@ -145,7 +145,7 @@ export class WorldVisualDepthBackdropStage {
           bounds,
           this.demandStreamingConfig.neighborSegments
         )
-        : backwalls;
+        : this._getRegionLoadAssets(region, backwalls);
       for (const asset of requiredAssets) activeAssets.set(asset.key, asset);
       // Always render visible cards. Each card uses the preloaded surface
       // backdrop until its requested biome texture is ready, then replaces
@@ -163,6 +163,16 @@ export class WorldVisualDepthBackdropStage {
 
   _getRegionAssets(region) {
     return resolveWorldVisualDepthBackdropRegionAssets(region, this.config, this.search);
+  }
+
+  _getRegionLoadAssets(region, backwalls) {
+    const pools = region.biomeFieldBackwallsByRegionId;
+    if (!pools) return backwalls;
+    const assets = new Map(backwalls.map(asset => [asset.key, asset]));
+    Object.values(pools).forEach(pool => {
+      pool.forEach(asset => assets.set(asset.key, asset));
+    });
+    return [...assets.values()];
   }
 
   _isRegionReady(region, backwalls = this._getRegionAssets(region)) {

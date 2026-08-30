@@ -1,9 +1,14 @@
 # Layered ground damage library V3
 
+Status: rejected on 2026-08-27; retained for local comparison only
+
+Decision: the material/resource response layer is rejected. Universal V2 is
+restored as the production default, so V3 is not normally preloaded.
+
 ## Outcome
 
-Persistent damage now resolves as a deterministic three-layer mix instead of
-one universal scratch overlay:
+V3 introduced a deterministic three-layer mix instead of one universal scratch
+overlay:
 
 1. A dark structural fracture pass uses MULTIPLY so the terrain remains
    present inside the damaged tile.

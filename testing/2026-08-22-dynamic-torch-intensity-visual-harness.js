@@ -1,4 +1,5 @@
 import { HUDSystem } from "../systems/visual/HUDSystem.js";
+import { LightSystem } from "../systems/lighting/LightSystem.js";
 import { APPROVED_HUD_SKIN } from "../values/approvedHudSkin.js";
 import { ASSET_KEYS } from "../values/assetKeys.js";
 import { FIRE_LIGHT_CONFIG } from "../values/fireLightConfig.js";
@@ -17,7 +18,11 @@ class DynamicTorchIntensityVisualHarnessScene extends Phaser.Scene {
 
   create() {
     this.cameras.main.setBackgroundColor(0x05090d);
-    this.upgradeSystem = { ownedPickaxe: null };
+    this.upgradeSystem = {
+      ownedPickaxe: null,
+      godModeActive: false,
+      getUpgradeEffects: () => ({}),
+    };
     this.gameState = "playing";
     this.shopOverlay = { isVisible: false };
     this._pillarViewActive = false;
@@ -31,42 +36,20 @@ class DynamicTorchIntensityVisualHarnessScene extends Phaser.Scene {
       buff: true,
     });
 
-    this.levels = LIGHT_CONFIG.torchIntensity.levels;
-    this.levelIndex = LIGHT_CONFIG.torchIntensity.defaultLevelIndex;
-    const sync = () => {
-      const intensity = this.levels[this.levelIndex];
-      this.hudSystem.setTorchState(
-        true,
-        LIGHT_CONFIG.torchDrainGpPerSecond * intensity,
-        intensity,
-      );
-    };
-    this.lightSystem = {
-      cycleTorchIntensity: () => {
-        this.levelIndex = (this.levelIndex + 1) % this.levels.length;
-        sync();
-        return true;
-      },
-      adjustTorchIntensity: direction => {
-        const nextIndex = Math.max(
-          0,
-          Math.min(
-            this.levels.length - 1,
-            this.levelIndex + (direction > 0 ? 1 : -1),
-          ),
-        );
-        if (nextIndex === this.levelIndex) return false;
-        this.levelIndex = nextIndex;
-        sync();
-        return true;
-      },
-    };
-    sync();
+    this.lightSystem = Object.assign(Object.create(LightSystem.prototype), {
+      scene: this,
+      config: LIGHT_CONFIG,
+      _torchActive: true,
+      _torchIntensityPercent: LIGHT_CONFIG.torchIntensity.defaultPercent,
+      _latestDepth: 0,
+      _currentTorchDrainGpPerSecond: LIGHT_CONFIG.torchDrainGpPerSecond,
+    });
+    this.lightSystem._syncTorchHud();
 
     window.__torchIntensityHarness = {
       snapshot: () => ({
         ...this.hudSystem.getTorchIntensitySnapshot(),
-        levelIndex: this.levelIndex,
+        light: this.lightSystem.getTorchIntensitySnapshot(),
       }),
     };
   }
@@ -81,7 +64,7 @@ class DynamicTorchIntensityVisualHarnessScene extends Phaser.Scene {
       + secondary * flicker.verticalFlutterRatio;
     this.hudSystem?.setTorchBurn(
       FIRE_LIGHT_CONFIG.flame.alpha
-        * this.levels[this.levelIndex]
+        * this.lightSystem.getTorchIntensity()
         * (1 + pulse * flicker.alphaAmount),
     );
   }

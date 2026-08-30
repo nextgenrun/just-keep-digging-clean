@@ -1,0 +1,322 @@
+{
+  "version": 3,
+  "date": "2026-08-29",
+  "generationMode": "built-in ImageGen, one independent call per distinct asset",
+  "outputDimensions": [1536, 1024],
+  "roles": {
+    "background": "Create a broad, laterally spread, lower-contrast shallow-relief silhouette with two or three overlapping depth shelves, atmospheric edge light, irregular internal gaps, and tapered broken ends. Occupy roughly 45-65% of the canvas while leaving genuine transparent passages and outer margins.",
+    "signature": "Create one unmistakable hero formation that communicates this biome at a glance: a large asymmetric landmark silhouette, strong central negative-space aperture, broken secondary forms, restrained internal light, and distinctive material construction. Occupy roughly 38-58% of the canvas without becoming a complete cavern scene.",
+    "ground": "Create a dense broken terrain-edge wedge with a low heavy mass, one climbing side spur, torn holes, mergeable fractured edges, and grounded material strata. Occupy roughly 40-60% of the canvas while preserving transparent space above and around the formation.",
+    "foreground": "Create one compact, crisp, deeply shadowed decorative cluster with a narrow vertical or diagonal silhouette, long irregular tips, small overlapping fragments, and generous negative space. Occupy roughly 20-38% of the canvas and keep every outer edge transparent."
+  },
+  "sharedPrompt": {
+    "useCase": "stylized-concept",
+    "assetType": "production transparent 2D side-view underground biome layer for UNDERSTAR gameplay",
+    "style": "painterly high-detail premium dark-fantasy game environment art, coherent with realistic rock, mineral, root, masonry, and metal textures; readable at gameplay zoom",
+    "composition": "single isolated formation on a genuinely transparent RGBA canvas, side-view orthographic presentation, exact 1536x1024 landscape output",
+    "lighting": "dark restrained values, controlled local rim light and small material glints, no bright wash and no baked rectangular backdrop",
+    "constraints": "genuine alpha transparency on all four outer edges; no full cavern scene; no continuous floor or playable platform; no rectangular card edge; no characters or creatures; no ore nodes, resources, collectibles, treasure, UI, icons, text, lettering, logos, watermark, checkerboard, green screen, border, contact sheet, or multiple variants"
+  },
+  "families": [
+    {
+      "id": "thornwake-hollows",
+      "label": "Thornwake Hollows",
+      "parentRegionId": "surface-entry",
+      "mapColor": "0x5a4736",
+      "assetOffset": 2,
+      "seedBase": 4019,
+      "inheritsRetainedFrom": "weathered-rootways",
+      "artDirection": "hooked blackthorn roots fossilized into rain-dark charcoal shale, pale stripped bark, snapped rusted braces, hollow thorn loops, thin violet fungal pinlights, and sharp recurved silhouettes"
+    },
+    {
+      "id": "peat-lantern-fen",
+      "label": "Peat Lantern Fen",
+      "parentRegionId": "surface-entry",
+      "mapColor": "0x596044",
+      "assetOffset": 5,
+      "seedBase": 4177,
+      "inheritsRetainedFrom": "fungal-rainwells",
+      "artDirection": "compressed peat terraces, drowned reed fossils, porous black loam, translucent marsh-gas lantern nodules, sagging root nets, muted olive moss, and tiny yellow-green lights"
+    },
+    {
+      "id": "rootbell-ossuary",
+      "label": "Rootbell Ossuary",
+      "parentRegionId": "surface-entry",
+      "mapColor": "0x6d5b47",
+      "assetOffset": 8,
+      "seedBase": 4337,
+      "inheritsRetainedFrom": "sunken-orchard",
+      "artDirection": "bell-shaped fossil root chambers, ivory calcified root ribs, dark clay sockets, corroded bronze clapper forms, hanging root cords, empty vaulted mouths, and muted amber dust"
+    },
+    {
+      "id": "siltwood-warrens",
+      "label": "Siltwood Warrens",
+      "parentRegionId": "surface-entry",
+      "mapColor": "0x4d574f",
+      "assetOffset": 11,
+      "seedBase": 4493,
+      "inheritsRetainedFrom": "timber-cisterns",
+      "artDirection": "interlocked driftwood ribs buried in layered blue-gray silt, narrow burrow apertures, water-marked timber, collapsed wicker supports, smooth mud shelves, and cool damp highlights"
+    },
+    {
+      "id": "mossglass-reservoir",
+      "label": "Mossglass Reservoir",
+      "parentRegionId": "surface-entry",
+      "mapColor": "0x46705f",
+      "assetOffset": 14,
+      "seedBase": 4657,
+      "inheritsRetainedFrom": "fungal-rainwells",
+      "artDirection": "translucent moss-coated silica membranes stretched across dark cistern arches, bottle-green mineral glass, trapped droplets, cracked reservoir lips, root valves, and soft emerald internal shimmer"
+    },
+    {
+      "id": "ironbark-sink",
+      "label": "Ironbark Sink",
+      "parentRegionId": "surface-entry",
+      "mapColor": "0x714434",
+      "assetOffset": 4,
+      "seedBase": 4813,
+      "inheritsRetainedFrom": "weathered-rootways",
+      "artDirection": "iron-mineralized bark plates, a collapsed trunk spiral, rust flakes, black sap channels, dense charcoal loam, split woody fins, and sparse ember-brown oxidation along jagged edges"
+    },
+    {
+      "id": "azure-bell-caves",
+      "label": "Azure Bell Caves",
+      "parentRegionId": "level1-blue",
+      "mapColor": "0x2d6680",
+      "assetOffset": 1,
+      "seedBase": 5003,
+      "inheritsRetainedFrom": "sapphire-grotto",
+      "artDirection": "hollow azure calcite bells grown from cobalt shale, fluted mineral skirts, dark circular mouths, delicate stone clappers, cyan drip lines, and pale-blue crystalline rims"
+    },
+    {
+      "id": "stormglass-conduits",
+      "label": "Stormglass Conduits",
+      "parentRegionId": "level1-blue",
+      "mapColor": "0x3a5578",
+      "assetOffset": 6,
+      "seedBase": 5167,
+      "inheritsRetainedFrom": "cobalt-aquifer",
+      "artDirection": "branching cobalt fulgurite glass fused through dark shale, interrupted lightning-shaped conduits, smoky transparent tubes, splintered junctions, and restrained electric-blue charge veins"
+    },
+    {
+      "id": "frozen-choir",
+      "label": "Frozen Choir",
+      "parentRegionId": "level1-blue",
+      "mapColor": "0x567c96",
+      "assetOffset": 10,
+      "seedBase": 5323,
+      "inheritsRetainedFrom": "glacial-waterveil",
+      "artDirection": "ranks of translucent ice-organ pipes, blue-white calcite throats, broken harmonic arches, frozen breath haze embedded inside the material, dark cobalt anchors, and alternating tall and short fins"
+    },
+    {
+      "id": "tideclock-chasm",
+      "label": "Tideclock Chasm",
+      "parentRegionId": "level1-blue",
+      "mapColor": "0x265778",
+      "assetOffset": 13,
+      "seedBase": 5483,
+      "inheritsRetainedFrom": "drowned-observatory",
+      "artDirection": "tarnished tide-clock gears half mineralized into cobalt masonry, crescent water gauges, broken pendulum channels, dark circular voids, cyan caustic traces, and offset mechanical arcs"
+    },
+    {
+      "id": "prism-kelp-vault",
+      "label": "Prism Kelp Vault",
+      "parentRegionId": "level1-blue",
+      "mapColor": "0x326e78",
+      "assetOffset": 3,
+      "seedBase": 5647,
+      "inheritsRetainedFrom": "glacial-waterveil",
+      "artDirection": "tall mineral fronds resembling crystalline kelp, prismatic blue-green calcite blades, dark stone holdfasts, curved translucent stems, open fan-shaped gaps, and restrained rainbow edge refraction"
+    },
+    {
+      "id": "blue-salt-basilica",
+      "label": "Blue Salt Basilica",
+      "parentRegionId": "level1-blue",
+      "mapColor": "0x425f8f",
+      "assetOffset": 7,
+      "seedBase": 5801,
+      "inheritsRetainedFrom": "cobalt-aquifer",
+      "artDirection": "indigo halite buttresses, eroded salt arches, chalky blue columns, scalloped brine niches, dark shale foundations, powdery crystal edges, and cool lavender reflected light"
+    },
+    {
+      "id": "saffron-boneworks",
+      "label": "Saffron Boneworks",
+      "parentRegionId": "level1-amber",
+      "mapColor": "0x9a6330",
+      "assetOffset": 0,
+      "seedBase": 6007,
+      "inheritsRetainedFrom": "fossil-sun-vault",
+      "artDirection": "saffron-stained fossil ribs arranged like broken machinery, ochre limestone joints, calcified spokes, empty marrow apertures, resin pins, dark umber sockets, and dusty golden edge light"
+    },
+    {
+      "id": "citrine-hivefault",
+      "label": "Citrine Hivefault",
+      "parentRegionId": "level1-amber",
+      "mapColor": "0xb57a31",
+      "assetOffset": 5,
+      "seedBase": 6163,
+      "inheritsRetainedFrom": "honeyglass-pocket",
+      "artDirection": "fractured citrine honeycomb split by a diagonal geological fault, crushed hexagonal cells, dark ochre breccia, translucent amber chambers, sheared resin curtains, and sharp golden stress lines"
+    },
+    {
+      "id": "gilded-root-reliquary",
+      "label": "Gilded Root Reliquary",
+      "parentRegionId": "level1-amber",
+      "mapColor": "0x8c5a37",
+      "assetOffset": 9,
+      "seedBase": 6323,
+      "inheritsRetainedFrom": "resin-archive",
+      "artDirection": "ancient roots lacquered in dark amber resin, small gilded clamps, reliquary-like stone niches without text, suspended seed husks, braided root halos, and deep shadowed cavities"
+    },
+    {
+      "id": "ochre-spiral-quarry",
+      "label": "Ochre Spiral Quarry",
+      "parentRegionId": "level1-amber",
+      "mapColor": "0x7b562f",
+      "assetOffset": 12,
+      "seedBase": 6481,
+      "inheritsRetainedFrom": "amber-silt-fault",
+      "artDirection": "concentric ochre quarry cuts, incomplete spiral terraces, chisel-fractured sandstone, dark extraction slots, abandoned stone wedges, powdery saffron dust, and asymmetric corkscrew geometry"
+    },
+    {
+      "id": "sunwax-catacombs",
+      "label": "Sunwax Catacombs",
+      "parentRegionId": "level1-amber",
+      "mapColor": "0xa36a43",
+      "assetOffset": 2,
+      "seedBase": 6647,
+      "inheritsRetainedFrom": "honeyglass-pocket",
+      "artDirection": "warm sunwax mineral drips over dark catacomb arches, sealed round niches, melted amber curtains, burnt-orange limestone, hollow passages, and low honey-colored internal glow"
+    },
+    {
+      "id": "bronze-pollen-rift",
+      "label": "Bronze Pollen Rift",
+      "parentRegionId": "level1-amber",
+      "mapColor": "0x9b4d2d",
+      "assetOffset": 6,
+      "seedBase": 6803,
+      "inheritsRetainedFrom": "resin-archive",
+      "artDirection": "a torn bronze-colored sediment rift filled with fossil pollen spheres, oxidized mineral pods, thin resin bridges, dark clay teeth, drifting-looking clustered grains frozen into stone, and copper-green accents"
+    },
+    {
+      "id": "argent-choir",
+      "label": "Argent Choir",
+      "parentRegionId": "level1-silver",
+      "mapColor": "0x7d8992",
+      "assetOffset": 1,
+      "seedBase": 7001,
+      "inheritsRetainedFrom": "lunar-mint-galleries",
+      "artDirection": "silver carbonate pipes grouped like a ruined choir, crescent resonator cavities, dark moonstone plinth fragments, chained tuning ribs, soft cold reflections, and staggered vertical silhouettes"
+    },
+    {
+      "id": "quicksilver-loom",
+      "label": "Quicksilver Loom",
+      "parentRegionId": "level1-silver",
+      "mapColor": "0x91a0aa",
+      "assetOffset": 4,
+      "seedBase": 7159,
+      "inheritsRetainedFrom": "mercury-fold",
+      "artDirection": "folded quicksilver threads woven through black schist frames, broken loom bars, liquid-metal beads, sweeping silver ribbons, rectangular gaps disrupted by torn stone, and cool cyan reflections"
+    },
+    {
+      "id": "moonwire-ravine",
+      "label": "Moonwire Ravine",
+      "parentRegionId": "level1-silver",
+      "mapColor": "0x687b91",
+      "assetOffset": 8,
+      "seedBase": 7321,
+      "inheritsRetainedFrom": "mirrorstone-convergence",
+      "artDirection": "taut moon-metal wires spanning broken slate ravine fragments, crescent anchor hooks, pale tension arcs, snapped filament bundles, narrow diagonal voids, and sparse icy-blue sparks"
+    },
+    {
+      "id": "pale-magnet-basilica",
+      "label": "Pale Magnet Basilica",
+      "parentRegionId": "level1-silver",
+      "mapColor": "0x9496a4",
+      "assetOffset": 11,
+      "seedBase": 7487,
+      "inheritsRetainedFrom": "magnetic-needle-reef",
+      "artDirection": "pale magnetite arches bending toward an off-center void, iron-silver needle columns, floating directional shards, white mineral dust, lavender magnetic glints, and warped basilica-like ribs"
+    },
+    {
+      "id": "glasssteel-sepulcher",
+      "label": "Glasssteel Sepulcher",
+      "parentRegionId": "level1-silver",
+      "mapColor": "0x778892",
+      "assetOffset": 14,
+      "seedBase": 7649,
+      "inheritsRetainedFrom": "mirrorstone-convergence",
+      "artDirection": "smoky glasssteel slabs forming incomplete sepulcher frames, razor-thin reflective edges, dark silver masonry, sealed faceted cavities, shattered lintels, and restrained blue-white highlights"
+    },
+    {
+      "id": "starless-reflectory",
+      "label": "Starless Reflectory",
+      "parentRegionId": "level1-silver",
+      "mapColor": "0x5f6578",
+      "assetOffset": 3,
+      "seedBase": 7807,
+      "inheritsRetainedFrom": "mercury-fold",
+      "artDirection": "black mirrorstone dishes aimed into empty darkness, broken reflector petals, mercury-backed arcs, matte moonstone supports, almost colorless highlights, and deep starless circular apertures"
+    },
+    {
+      "id": "cinder-organ",
+      "label": "Cinder Organ",
+      "parentRegionId": "level1-magma",
+      "mapColor": "0x77342a",
+      "assetOffset": 0,
+      "seedBase": 8009,
+      "inheritsRetainedFrom": "basalt-emberworks",
+      "artDirection": "soot-black basalt organ pipes with cinder-filled mouths, interrupted ember channels, warped iron collars, ash-crusted ribs, alternating vertical heights, and restrained red-orange breath light"
+    },
+    {
+      "id": "slagheart-foundry",
+      "label": "Slagheart Foundry",
+      "parentRegionId": "level1-magma",
+      "mapColor": "0x8d3b26",
+      "assetOffset": 5,
+      "seedBase": 8167,
+      "inheritsRetainedFrom": "shattered-furnace",
+      "artDirection": "a broken heart-shaped foundry crucible embedded in clinker, heavy iron ribs, cooling slag shelves, cracked refractory brick, branching furnace veins, and a dim molten core aperture"
+    },
+    {
+      "id": "ashen-crown-rift",
+      "label": "Ashen Crown Rift",
+      "parentRegionId": "level1-magma",
+      "mapColor": "0x6c2f31",
+      "assetOffset": 9,
+      "seedBase": 8329,
+      "inheritsRetainedFrom": "obsidian-caldera",
+      "artDirection": "jagged crown-like obsidian teeth split by an ash-filled rift, collapsed blackglass points, violet-gray soot, sparse lava seams, hanging clinker fragments, and a wide broken central notch"
+    },
+    {
+      "id": "molten-chain-garden",
+      "label": "Molten Chain Garden",
+      "parentRegionId": "level1-magma",
+      "mapColor": "0xa2482b",
+      "assetOffset": 12,
+      "seedBase": 8491,
+      "inheritsRetainedFrom": "lavawheel-necropolis",
+      "artDirection": "looping ancient chains mineralized into basalt trellises, molten links, ember-vine curls, scorched stone buds, hanging arcs, dark open pockets, and restrained orange-red heat"
+    },
+    {
+      "id": "pyreclast-cathedral",
+      "label": "Pyreclast Cathedral",
+      "parentRegionId": "level1-magma",
+      "mapColor": "0x87412d",
+      "assetOffset": 2,
+      "seedBase": 8647,
+      "inheritsRetainedFrom": "shattered-furnace",
+      "artDirection": "compressed pyroclastic stone arranged into ruined pointed arches, welded volcanic bombs, ash-black buttresses, glowing mortar fractures, torn rose-window-like voids, and heavy asymmetrical spires"
+    },
+    {
+      "id": "blackglass-crucible",
+      "label": "Blackglass Crucible",
+      "parentRegionId": "level1-magma",
+      "mapColor": "0x4b3035",
+      "assetOffset": 7,
+      "seedBase": 8803,
+      "inheritsRetainedFrom": "obsidian-caldera",
+      "artDirection": "a shattered blackglass crucible with an empty bowl core, translucent smoky obsidian lips, basalt clamps, cooling purple-red fractures, sharp spilled shards, and almost-black reflective planes"
+    }
+  ]
+}

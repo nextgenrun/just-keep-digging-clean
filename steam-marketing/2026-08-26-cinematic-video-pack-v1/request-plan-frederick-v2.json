@@ -17,11 +17,11 @@
     "voiceId": "j9jfwdrw7BRfcR43Qohk",
     "voiceName": "Frederick Surrey - Smooth and Velvety",
     "settings": {
-      "stability": 0.62,
-      "similarity_boost": 0.85,
+      "stability": 0.7,
+      "similarity_boost": 0.86,
       "style": 0.0,
       "use_speaker_boost": true,
-      "speed": 1.0
+      "speed": 0.9
     }
   },
   "narrations": [
