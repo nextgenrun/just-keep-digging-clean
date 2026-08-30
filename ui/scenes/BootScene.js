@@ -110,6 +110,11 @@ import {
 
 const SKY_PORTAL_CANONICAL_PATH = TELEPORT_PORTAL_CONFIG.canonicalAssetPath;
 const SKY_PORTAL_FILENAME = TELEPORT_PORTAL_CONFIG.gateFilename;
+const FALLBACK_MUSIC_PLAYLIST = Object.freeze([
+  "j-k-d-amb-1.ogg",
+  "j-k-d-amb-2.ogg",
+  "j-k-d-amb-3.ogg",
+]);
 
 function makeAuthoredBackgroundBaseKey(path) {
   const keyName = getRuntimeAuthoredAssetFilename(path) || String(path);
@@ -249,6 +254,10 @@ export class BootScene extends Phaser.Scene {
     this._queuedAudioKeys = new Set();
     this._isPreloading = false;
     this._bootAttempt = 0;
+    this._playlistFiles = null;
+    this._bootMusicSeedIndex = -1;
+    this._menuFirstLoadComplete = false;
+    this._hydratedMenuSoundSystem = null;
   }
 
   preload() {
@@ -282,6 +291,15 @@ export class BootScene extends Phaser.Scene {
       padding: { x: 10, y: 5 }
       }).setDepth(9999).setVisible(false);
 
+      this.ensureLoadingUi(
+        "Loading music and boot menu...",
+        "Preparing the first screen before the full game load.",
+      );
+      const menuAudioReady = await this.startMenuFirstPreload();
+      if (menuAudioReady) {
+        this.ensureMenuAudioScene();
+        this.scene.get("MenuAudioScene")?.startMenuAudio();
+      }
       await this.startFullPreload();
     } catch (error) {
       this.handleBootFailure(error);
@@ -348,6 +366,78 @@ export class BootScene extends Phaser.Scene {
     this.load.audio(key, path);
   }
 
+  ensureLoadingUi(label, detail, progress = 0) {
+    if (!this.loadingUi) {
+      this.loadingUi = createMenuLoadingScreen(this, {
+        title: BRAND_CONFIG.name,
+        subtitle: "A L P H A",
+        label,
+        detail,
+        preferLogo: true,
+        progress,
+        backgroundKey: getSelectedMenuBackgroundKey(),
+        backgroundAlpha: 0.24,
+        overlayAlpha: 0.34,
+      });
+      return;
+    }
+
+    this.loadingUi.setLabel(label);
+    this.loadingUi.setDetail(detail);
+    this.loadingUi.setProgress(progress);
+    this.loadingUi.clearFailure?.();
+  }
+
+  async startMenuFirstPreload() {
+    if (this._menuFirstLoadComplete) return true;
+
+    if (typeof this.load.reset === "function") {
+      this.load.reset();
+    }
+    this._queuedAudioKeys.clear();
+
+    await this.preloadMenuAudio();
+    const seedKey = ASSET_KEYS.audio.music.bootSeedKey;
+    if (!seedKey || this.cache.audio.exists(seedKey)) {
+      this._menuFirstLoadComplete = Boolean(seedKey);
+      return this._menuFirstLoadComplete;
+    }
+
+    return new Promise((resolve) => {
+      let seedFailed = false;
+      const cleanup = () => {
+        this.load.off("progress", onProgress);
+        this.load.off("loaderror", onLoadError);
+        this.load.off("complete", onComplete);
+      };
+      const onProgress = (value) => {
+        this.loadingUi?.setProgress(value * 0.1);
+      };
+      const onLoadError = (file) => {
+        if (file?.key !== seedKey) return;
+        seedFailed = true;
+        console.warn("[BootScene] Priority menu music unavailable; full preload will retry:", seedKey);
+      };
+      const onComplete = () => {
+        cleanup();
+        this._menuFirstLoadComplete = !seedFailed && this.cache.audio.exists(seedKey);
+        resolve(this._menuFirstLoadComplete);
+      };
+
+      this.load.on("progress", onProgress);
+      this.load.on("loaderror", onLoadError);
+      this.load.on("complete", onComplete);
+
+      try {
+        this.load.start();
+      } catch (error) {
+        cleanup();
+        console.warn("[BootScene] Priority menu preload could not start; continuing with full preload:", error);
+        resolve(false);
+      }
+    });
+  }
+
   async startFullPreload() {
     if (this._isPreloading) return;
     this._isPreloading = true;
@@ -360,32 +450,18 @@ export class BootScene extends Phaser.Scene {
     this._queuedAudioKeys.clear();
     this._queuedVideoKeys.clear();
 
-    const totalMessages = LOADING_MESSAGES.length;
     const initialLabel = `Loading game assets... (${attempt})`;
-    if (!this.loadingUi) {
-      const startIndex = Math.floor(Math.random() * totalMessages);
-      const initial = LOADING_MESSAGES[startIndex];
-      this.loadingUi = createMenuLoadingScreen(this, {
-        title: BRAND_CONFIG.name,
-        subtitle: "A L P H A",
-        label: initial.label,
-        detail: initial.detail,
-        preferLogo: true,
-        progress: 0,
-        backgroundKey: getSelectedMenuBackgroundKey(),
-        backgroundAlpha: 0.24,
-        overlayAlpha: 0.34,
-      });
-    } else {
-      this.loadingUi.setLabel(initialLabel);
-      this.loadingUi.setDetail("Preparing assets...");
-      this.loadingUi.setProgress(0);
-      this.loadingUi.clearFailure?.();
-    }
+    const menuProgress = this._menuFirstLoadComplete ? 0.1 : 0;
+    this.ensureLoadingUi(
+      initialLabel,
+      "Preparing remaining game assets...",
+      menuProgress,
+    );
     this.loadingUi?.setRetryHandler(() => {
       this.startFullPreload();
     });
 
+    const totalMessages = LOADING_MESSAGES.length;
     let msgPool = Array.from({ length: totalMessages }, (_, i) => i);
     for (let i = msgPool.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -413,7 +489,7 @@ export class BootScene extends Phaser.Scene {
     });
 
     const onProgress = (value) => {
-      this.loadingUi?.setProgress(value);
+      this.loadingUi?.setProgress(menuProgress + (value * (1 - menuProgress)));
     };
     const onLoadError = (file) => {
       const target = file?.key || file?.src || file?.url || file || "unknown asset";
@@ -752,6 +828,7 @@ export class BootScene extends Phaser.Scene {
       this.createAnimations();
       console.log('[BootScene] Menu and NPC animations created successfully');
       this.ensureMenuAudioScene();
+      this.hydrateMenuAudioLibraries();
       this.scene.get("MenuAudioScene")?.startMenuAudio();
       this.showBootSplash();
     } catch (error) {
@@ -764,6 +841,18 @@ export class BootScene extends Phaser.Scene {
       this.scene.launch("MenuAudioScene");
     }
     this.scene.get("MenuAudioScene")?.attachTo?.(this);
+  }
+
+  hydrateMenuAudioLibraries() {
+    const soundSystem = this.scene.get("MenuAudioScene")?.soundSystem;
+    if (!soundSystem || this._hydratedMenuSoundSystem === soundSystem) return;
+
+    for (const library of Object.values(soundSystem.soundLibraryManager?.libraries || {})) {
+      if (Array.isArray(library)) library.length = 0;
+    }
+    soundSystem.loadSoundLibraries();
+    soundSystem.loadVoiceLineLibraries();
+    this._hydratedMenuSoundSystem = soundSystem;
   }
 
   showBootSplash() {
@@ -1426,25 +1515,65 @@ export class BootScene extends Phaser.Scene {
     // ── Robot animations are created on-demand in PlaySceneSetup ──────────
   }
 
+  async getPlaylistFiles() {
+    if (Array.isArray(this._playlistFiles)) return this._playlistFiles;
+
+    try {
+      const response = await fetch("sound/playlists/playlist.json");
+      const files = await response.json();
+      if (!Array.isArray(files) || files.length === 0) {
+        throw new Error("playlist.json did not contain any tracks");
+      }
+      this._playlistFiles = files;
+    } catch (error) {
+      console.warn("[BootScene] playlist.json unavailable, using fallback tracks", error);
+      this._playlistFiles = [...FALLBACK_MUSIC_PLAYLIST];
+    }
+
+    return this._playlistFiles;
+  }
+
+  async preloadMenuAudio() {
+    const runtimeAudioStreaming = resolveRuntimeAudioStreamingEnabled();
+    ASSET_KEYS.audio.runtime.paths = {};
+    ASSET_KEYS.audio.runtime.streamingEnabled = runtimeAudioStreaming;
+    ASSET_KEYS.audio.runtime.bootQueuedKeys = [];
+    const playlistFiles = await this.getPlaylistFiles();
+    const seedIndex = playlistFiles.length > 0
+      ? (runtimeAudioStreaming ? Math.floor(Math.random() * playlistFiles.length) : 0)
+      : -1;
+
+    this._bootMusicSeedIndex = seedIndex;
+    const playlistKeys = playlistFiles.map((file, index) => {
+      const key = `music-track-${index + 1}`;
+      this.queueAudio(key, `sound/playlists/${file}`, {
+        preload: index === seedIndex,
+      });
+      return key;
+    });
+    ASSET_KEYS.audio.music.playlist = playlistKeys;
+    ASSET_KEYS.audio.music.bootSeedKey = playlistKeys[seedIndex] || "";
+    ASSET_KEYS.audio.runtime.bootQueuedKeys = [...this._queuedAudioKeys];
+  }
+
   async preloadAudio() {
     const runtimeAudioStreaming = resolveRuntimeAudioStreamingEnabled();
     ASSET_KEYS.audio.runtime.paths = {};
     ASSET_KEYS.audio.runtime.streamingEnabled = runtimeAudioStreaming;
     ASSET_KEYS.audio.runtime.bootQueuedKeys = [];
-    let playlistFiles = [];
-    try {
-      const resp = await fetch('sound/playlists/playlist.json');
-      playlistFiles = await resp.json();
-    } catch (e) {
-      console.warn('[BootScene] playlist.json not found, using fallback tracks');
-      playlistFiles = ['j-k-d-amb-1.ogg', 'j-k-d-amb-2.ogg', 'j-k-d-amb-3.ogg'];
-    }
+    const playlistFiles = await this.getPlaylistFiles();
 
     const bootMusicIndexes = new Set();
     if (playlistFiles.length > 0) {
-      const seedIndex = runtimeAudioStreaming
-        ? Math.floor(Math.random() * playlistFiles.length)
-        : 0;
+      const retainedSeedIndex = Number.isInteger(this._bootMusicSeedIndex)
+        && this._bootMusicSeedIndex >= 0
+        && this._bootMusicSeedIndex < playlistFiles.length
+        ? this._bootMusicSeedIndex
+        : -1;
+      const seedIndex = retainedSeedIndex >= 0
+        ? retainedSeedIndex
+        : (runtimeAudioStreaming ? Math.floor(Math.random() * playlistFiles.length) : 0);
+      this._bootMusicSeedIndex = seedIndex;
       const count = runtimeAudioStreaming
         ? Math.min(AUDIO_RUNTIME_LOADING.bootMusicTracks, playlistFiles.length)
         : playlistFiles.length;

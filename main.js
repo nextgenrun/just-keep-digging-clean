@@ -1,6 +1,6 @@
 import { GAME_CONFIG } from "./values/gameConfig.js";
-import { BootScene } from "./ui/scenes/BootScene.js?rev=20260826-surface-motion-v2";
-import { MenuAudioScene } from "./ui/scenes/MenuAudioScene.js";
+import { BootScene } from "./ui/scenes/BootScene.js?rev=20260830-menu-first-v1";
+import { MenuAudioScene } from "./ui/scenes/MenuAudioScene.js?rev=20260830-menu-first-v1";
 import { MainMenuScene } from "./ui/scenes/MainMenuScene.js";
 import { OpeningCinematicScene } from "./ui/scenes/OpeningCinematicScene.js";
 import { StartMenuScene } from "./ui/scenes/StartMenuScene.js?rev=20260727-save-transfer-v1";

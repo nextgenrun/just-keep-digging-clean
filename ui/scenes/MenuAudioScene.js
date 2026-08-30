@@ -13,6 +13,7 @@ export class MenuAudioScene extends Phaser.Scene {
     super("MenuAudioScene");
     this.soundSystem = null;
     this._gestureHandler = null;
+    this._startRequested = false;
   }
 
   create() {
@@ -23,6 +24,7 @@ export class MenuAudioScene extends Phaser.Scene {
     this.soundSystem.loadVoiceLineLibraries();
     this._bindUserGesture();
     this.attachToMenuScenes();
+    if (this._startRequested) this.startMenuAudio();
 
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
       this._removeUserGesture();
@@ -45,6 +47,11 @@ export class MenuAudioScene extends Phaser.Scene {
   }
 
   startMenuAudio() {
+    if (!this.soundSystem) {
+      this._startRequested = true;
+      return;
+    }
+    this._startRequested = false;
     this.soundSystem?.startAudioAfterUserGesture({ voiceLines: false });
     this._removeUserGesture();
   }
