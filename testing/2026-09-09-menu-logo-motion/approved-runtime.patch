@@ -1,0 +1,243 @@
+--- before/ui/components/BrandLogoView.js
++++ approved/ui/components/BrandLogoView.js
+@@ -3,16 +3,32 @@
+ import { isMenuMotionAllowed } from "./MenuBackgroundView.js";
+ 
+ const CFG = BRAND_CONFIG.animation;
++const VISIBILITY = BRAND_CONFIG.visibility;
++
++// Shade the sky, not the authored letters. Owned by the surrounding screen fade.
++export function addBrandLogoShade(scene) {
++  const shade = scene.add.graphics().setName(VISIBILITY.shadeName);
++  const layout = () => {
++    shade.clear();
++    const color = VISIBILITY.shadeColor;
++    shade.fillGradientStyle(color, color, color, color,
++      VISIBILITY.shadeAlpha, VISIBILITY.shadeAlpha, 0, 0);
++    shade.fillRect(0, 0, scene.scale.width, VISIBILITY.shadeHeight);
++  };
++  layout();
++  scene.scale.on("resize", layout);
++  shade.once("destroy", () => scene.scale.off("resize", layout));
++  return shade;
++}
+ 
+ // Same intrinsic dimensions as the poster, so existing scene layout/fades still apply.
+ export function addBrandLogo(scene, x, y, options = {}) {
+   const presentation = options.loading ? { ...CFG, ...BRAND_CONFIG.loading } : CFG;
+   const poster = scene.add.image(0, 0, MENU_ASSET_KEYS.logo).setName(CFG.posterName);
+-  if (options.loading) poster.postFX?.addColorMatrix()?.brightness(presentation.brightness);
+   const root = scene.add.container(x, y, [poster])
+     .setSize(poster.width, poster.height).setName(CFG.viewName);
+   const backingConfig = BRAND_CONFIG.backing;
+-  if (scene.textures.exists(backingConfig.key)) {
++  if (backingConfig.alpha > 0 && scene.textures.exists(backingConfig.key)) {
+     const texture = scene.textures.get(backingConfig.key);
+     const crop = backingConfig.crop;
+     if (!texture.has(backingConfig.frame)) texture.add(backingConfig.frame, 0, crop.x, crop.y, crop.width, crop.height);
+@@ -20,13 +36,25 @@
+       .setDisplaySize(poster.width, poster.height).setAlpha(backingConfig.alpha).setName(backingConfig.name);
+     root.addAt(backing, 0);
+   }
++  const shadowUnit = poster.width / VISIBILITY.referenceWidth;
++  const shadows = VISIBILITY.shadowOffsets.map(([dx, dy]) => scene.add.image(
++    dx * shadowUnit, dy * shadowUnit, MENU_ASSET_KEYS.logo,
++  ).setDisplaySize(poster.width, poster.height).setTint(VISIBILITY.shadowTint)
++    .setAlpha(VISIBILITY.shadowAlpha));
++  root.addAt(shadows, 0);
++  let shadowTexture = MENU_ASSET_KEYS.logo;
++  const syncShadows = key => {
++    if (key === shadowTexture) return;
++    shadowTexture = key;
++    shadows.forEach(shadow => shadow.setTexture(key).setDisplaySize(poster.width, poster.height));
++  };
+   root.setData("state", "poster");
+   const motionQuery = globalThis.matchMedia?.(CFG.reducedMotionQuery);
+   const allowed = () => options.motion !== false && CFG.enabled && isMenuMotionAllowed()
+     && new URLSearchParams(globalThis.location?.search || "").get(CFG.query) !== "0";
+   if (!allowed()) return root;
+ 
+-  // Keep the sharp letter faces fixed; the H.264 layer adds only moving colored light.
++  // Full approved alpha motion replaces the poster. Contours share this decoder texture.
+   const video = scene.add.video(0, 0).setName(CFG.videoName).setAlpha(0)
+     .setBlendMode(CFG.blendMode ?? "NORMAL");
+   root.add(video);
+@@ -43,12 +71,14 @@
+     failed = true;
+     clearTimeout(timer);
+     poster.setVisible(true);
++    syncShadows(MENU_ASSET_KEYS.logo);
+     video.setAlpha(0).setPaused(true);
+     root.setData("state", "poster");
+   };
+   const sync = () => {
+     if (disposed || failed || !ready) return;
+     const reduced = !allowed();
++    syncShadows(reduced ? MENU_ASSET_KEYS.logo : video.videoTexture.key);
+     poster.setVisible(reduced || Boolean(CFG.keepPoster));
+     video.setAlpha(reduced ? 0 : (presentation.opacity ?? 1));
+     video.setPaused(reduced || suspended || Boolean(globalThis.document?.hidden));
+--- before/ui/components/LoadingScreenView.js
++++ approved/ui/components/LoadingScreenView.js
+@@ -1,4 +1,4 @@
+-import { addBrandLogo } from "./BrandLogoView.js";
++import { addBrandLogo, addBrandLogoShade } from "./BrandLogoView.js";
+ import { MENU_ASSET_KEYS } from "../../values/menuAssetKeys.js";
+ import { BRAND_CONFIG } from "../../values/branding.js";
+ import { UI_COLORS } from "../../values/uiColors.js";
+@@ -55,7 +55,7 @@
+   const bg = scene.add.rectangle(W / 2, H / 2, W, H, UI_COLORS.bg);
+   objects.push(bg);
+   addMenuBackground(scene, {
+-    objects, width: W, height: H, motion: false,
++    objects, width: W, height: H, motion: options.motion,
+     key: options.backgroundKey,
+     videoPath: options.backgroundVideoPath,
+     loopOverlapMs: options.backgroundLoopOverlapMs,
+@@ -68,6 +68,7 @@
+   vignette.fillStyle(UI_COLORS.overlay, options.overlayAlpha ?? CFG.overlayAlpha);
+   vignette.fillRect(0, 0, W, H);
+   objects.push(vignette);
++  objects.push(addBrandLogoShade(scene));
+   addLogoOrTitle(scene, objects, W, options);
+ 
+   const panel = createMenuLoadingPanel(scene, options);
+--- before/ui/components/MenuBackgroundView.js
++++ approved/ui/components/MenuBackgroundView.js
+@@ -31,7 +31,7 @@
+ }
+ 
+ // One container owns the poster and selected clip. Legacy exports can opt into
+-// a primed second copy; closed 60 fps exports use one native-looping decoder.
++// a primed second copy; closed exports use one native-looping decoder.
+ export function addMenuBackground(scene, options = {}) {
+   const preferredKey = options.key ?? getSelectedMenuBackgroundKey();
+   const art = MENU_BACKGROUND_ASSETS.find(item => item.key === preferredKey && scene.textures.exists(item.key))
+--- before/ui/scenes/BootScene.js
++++ approved/ui/scenes/BootScene.js
+@@ -300,7 +300,7 @@
+ 
+     const menuBackground = getSelectedMenuBackgroundAsset();
+     this.queueImage(ASSET_KEYS.branding.logo, BRAND_CONFIG.logoAssetPath);
+-    this.queueImage(BRAND_CONFIG.backing.key, BRAND_CONFIG.backing.path);
++    if (BRAND_CONFIG.backing.alpha > 0) this.queueImage(BRAND_CONFIG.backing.key, BRAND_CONFIG.backing.path);
+     this.queueImage(menuBackground.key, menuBackground.path);
+     for (const asset of getPauseFeatureLoadingPreloadAssets()) {
+       this.queueImage(asset.key, asset.path);
+@@ -599,7 +599,7 @@
+ 
+   preloadBranding() {
+     this.queueImage(ASSET_KEYS.branding.logo, BRAND_CONFIG.logoAssetPath);
+-    this.queueImage(BRAND_CONFIG.backing.key, BRAND_CONFIG.backing.path);
++    if (BRAND_CONFIG.backing.alpha > 0) this.queueImage(BRAND_CONFIG.backing.key, BRAND_CONFIG.backing.path);
+   }
+ 
+   preloadBackgrounds() {
+--- before/ui/scenes/LaunchScene.js
++++ approved/ui/scenes/LaunchScene.js
+@@ -12,7 +12,7 @@
+     installStartupImageVariants(this);
+     const background = getSelectedMenuBackgroundAsset();
+     this.load.image(MENU_ASSET_KEYS.logo, BRAND_CONFIG.logoAssetPath);
+-    this.load.image(BRAND_CONFIG.backing.key, BRAND_CONFIG.backing.path);
++    if (BRAND_CONFIG.backing.alpha > 0) this.load.image(BRAND_CONFIG.backing.key, BRAND_CONFIG.backing.path);
+     this.load.image(background.key, background.path);
+   }
+ 
+--- before/ui/scenes/MainMenuScene.js
++++ approved/ui/scenes/MainMenuScene.js
+@@ -1,4 +1,4 @@
+-import { addBrandLogo } from "../components/BrandLogoView.js";
++import { addBrandLogo, addBrandLogoShade } from "../components/BrandLogoView.js";
+ import { RELEASE_PRESENTATION } from "../../values/releasePresentation.js";
+ import { MENU_ATMOSPHERE } from "../../values/menuAtmosphere.js";
+ import { addSessionPrivacyNotice } from "../telemetry/sessionPrivacyNotice.js";
+@@ -84,8 +84,9 @@
+     vignette.fillRect(0, 0, W, H);
+ 
+     // ── Logo ────────────────────────────────────────────────────────────────
+-    const logo = addBrandLogo(this, W / 2, 150);
+-    const logoScale = Math.min(560 / logo.width, 185 / logo.height);
++    this._fadeInObjs.push(addBrandLogoShade(this).setAlpha(0));
++    const logo = addBrandLogo(this, W / 2, BRAND_CONFIG.layout.y);
++    const logoScale = Math.min(BRAND_CONFIG.layout.width / logo.width, BRAND_CONFIG.layout.height / logo.height);
+     logo.setScale(logoScale).setAlpha(0);
+     this._fadeInObjs.push(logo);
+ 
+--- before/values/branding.js
++++ approved/values/branding.js
+@@ -1,11 +1,8 @@
+ export const BRAND_CONFIG = Object.freeze({
+   name: "UNDERSTAR",
+-  logoAssetPath: "sprites/branding/understar-world-within-v4/understar-world-logo-readable.webp",
++  logoAssetPath: "sprites/branding/understar-world-within-v4/understar-world-logo-runtime.webp",
+   loading: Object.freeze({
+-    brightness: 1.45,
+-    path: "sprites/runtime-startup-v1/understar-logo-light.mp4",
+     readyTimeoutMs: 120000,
+-    opacity: 0.65,
+   }),
+   backing: Object.freeze({
+     key: "brand-logo-backing",
+@@ -13,15 +10,27 @@
+     frame: "tight-stone",
+     crop: Object.freeze({ x: 0, y: 0, width: 1810, height: 470 }),
+     name: "brand-logo-backing",
+-    alpha: 1,
++    alpha: 0,
+   }),
++  visibility: Object.freeze({
++    treatment: "quiet-sky",
++    shadeName: "brand-logo-shade",
++    shadeColor: 0x000000,
++    shadeAlpha: 0.6,
++    shadeHeight: 350,
++    referenceWidth: 740,
++    shadowAlpha: 0.78,
++    shadowTint: 0x000000,
++    shadowOffsets: Object.freeze([[-2, 0], [2, 0], [0, -2], [0, 2], [0, 5]].map(Object.freeze)),
++  }),
++  layout: Object.freeze({ y: 152, width: 740, height: 220 }),
+   animation: Object.freeze({
+     "enabled": true,
+     "playbackRate": 1,
+-    "keepPoster": true,
+-    "blendMode": "ADD",
+-    "opacity": 0.55,
+-    "path": "sprites/branding/understar-world-within-v4/understar-logo-light-60.mp4",
++    "keepPoster": false,
++    "blendMode": "NORMAL",
++    "opacity": 1,
++    "path": "sprites/branding/understar-motion-v6/understar-logo-loop.webm",
+     "viewName": "brand-logo-view",
+     "posterName": "brand-logo-poster",
+     "videoName": "brand-logo-video",
+--- before/values/menuAtmosphere.js
++++ approved/values/menuAtmosphere.js
+@@ -1,5 +1,6 @@
+ // Shared presentation values for the six existing boot/menu scenery paintings.
+ export const MENU_ATMOSPHERE_VERSIONS = Object.freeze({
++  v6: Object.freeze({ bufferedLoops: false, loopOverlapMs: 400, videoBase: "sprites/backgrounds/menu-atmosphere-v6/", alpha: 1, videoMix: 1, replacePoster: true, loadingOverlayAlpha: 0, menuOverlayAlpha: 0 }),
+   v5: Object.freeze({ bufferedLoops: false, loopOverlapMs: 400, videoBase: "sprites/backgrounds/menu-atmosphere-v5/", alpha: 1, videoMix: 1, replacePoster: true, loadingOverlayAlpha: 0, menuOverlayAlpha: 0 }),
+   v4: Object.freeze({ bufferedLoops: true, loopOverlapMs: 1800, videoBase: "sprites/backgrounds/menu-atmosphere-v4/", alpha: 1, videoMix: 1, replacePoster: true, loadingOverlayAlpha: 0, menuOverlayAlpha: 0 }),
+   v1: Object.freeze({ bufferedLoops: true, loopOverlapMs: 1800, videoBase: "sprites/backgrounds/menu-atmosphere-v1/", alpha: 0.44, videoMix: 0.64, replacePoster: false, loadingOverlayAlpha: 0.34, menuOverlayAlpha: 0.30 }),
+@@ -9,7 +10,7 @@
+ 
+ export const MENU_ATMOSPHERE = Object.freeze({
+   imageBase: "exports/pallet-v10/dig_game_full_non_tile_runtime_assets_v10_08_07_2026/sprites/backgrounds/background-database/",
+-  ...MENU_ATMOSPHERE_VERSIONS.v5,
++  ...MENU_ATMOSPHERE_VERSIONS.v6,
+   revealMs: 1800,
+   loopHeadroomMs: 150,
+   resizeDebounceMs: 100,
+--- before/values/menuLoadingPresentation.js
++++ approved/values/menuLoadingPresentation.js
+@@ -1,7 +1,7 @@
+ // Foreground-only loading UI; scenery and branding remain owned by Phaser.
+ export const MENU_LOADING_PRESENTATION = Object.freeze({
+   logo: Object.freeze({ y: 152, width: 740, height: 220 }),
+-  overlayAlpha: 0.48,
++  overlayAlpha: 0,
+   width: 420,
+   bottom: 68,
+   editionTop: 286,

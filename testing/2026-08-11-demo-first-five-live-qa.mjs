@@ -197,8 +197,8 @@ try {
   assert.equal(initial.tutorial.choice, "yes");
   assert.equal(initial.tutorial.stage, "move");
   assert.equal(initial.hardcore.mode, "hardcore");
-  assert.equal(initial.hardcore.livesRemaining, 2);
-  assert.equal(initial.hardcore.freeReviveAvailable, true);
+  assert.equal(initial.hardcore.livesRemaining, 1);
+  assert.equal(initial.hardcore.freeReviveAvailable, false);
   assert.equal(initial.barrier.active, true);
   assert.equal(initial.starterSite.aboveType, 0);
   assert.equal(initial.starterSite.groundType, 1);

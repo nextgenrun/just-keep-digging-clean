@@ -76,14 +76,13 @@ earns trust quickly.
 ## Primary game mode and alternatives
 
 - **Hardcore is the intended primary experience.** Risk events are active once
-  their progression gates are met. The player has two lives; the first death is
-  a free revive and does not consume either life.
+  their progression gates are met. The player has exactly one life, no revives,
+  and the first death ends the run while preserving the exhausted save.
 - **Casual is the complete low-pressure experience.** It keeps progression,
   hazards that are not explicitly Hardcore-only, exploration, and rewards, but
   never consumes lives and never activates the Hardcore Wurm.
-- **One-Life Hardcore is hidden.** It has one life, no free revive, and the same
-  readable risk rules as Hardcore. Hidden means discoverable, not undocumented
-  or technically inaccessible.
+- **Legacy One-Life Hardcore is a compatibility alias.** It follows the same
+  one-life, no-revive rules as Hardcore and grants no alternate life pool.
 
 All modes use the same economy and authored world. Mode may change failure and
 hazard pressure; it must not secretly reduce basic content value.
@@ -121,7 +120,8 @@ hazard, or return decisions.
 ## Explicit exclusions
 
 - No mandatory tutorial.
-- No jump button added as a substitute for Flight or climbing design.
+- No variable-height jump or jump-only hazard counterplay. The fixed 1.2-tile
+  jump complements momentum-based Flight, walking, digging, and cover.
 - No automatic save deletion on a death or exhausted run.
 - No routine lore or status modal that interrupts mining.
 - No gameplay mutation from visual-only background, lighting, shader, or FX

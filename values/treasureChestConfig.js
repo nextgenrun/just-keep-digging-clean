@@ -17,18 +17,11 @@ export const TREASURE_CHEST_CONFIG = Object.freeze({
     chance: 0.22,
     rarity: 0,
   }),
-  critBuff: Object.freeze({
-    durationMs: 20000,
-    criticalDamageMultiplierBonus: 2,
-    name: "TREASURE FURY",
-    color: "#ff5d73",
-  }),
   feedback: Object.freeze({
     moneyColor: "#ffd35a",
     starColor: "#8fe8ff",
     moneyUnit: "M",
     starAwardLabel: "+1 STAR",
-    activeLabel: "ACTIVE",
     separator: "  •  ",
     statusDurationMs: 3600,
     floatingDurationMs: 2400,

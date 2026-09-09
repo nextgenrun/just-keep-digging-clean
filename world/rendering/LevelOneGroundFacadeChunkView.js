@@ -12,13 +12,22 @@ function cellKey(tx, ty) {
 }
 
 export class LevelOneGroundFacadeChunkView {
-  constructor(scene, worldModel, config, chunk, chunkIndex, textureKey) {
+  constructor(
+    scene,
+    worldModel,
+    config,
+    chunk,
+    chunkIndex,
+    textureKey,
+    resourceDepletionProvider = null,
+  ) {
     this.scene = scene;
     this.worldModel = worldModel;
     this.config = config;
     this.chunk = chunk;
     this.chunkIndex = chunkIndex;
     this.textureKey = textureKey;
+    this.resourceDepletionProvider = resourceDepletionProvider;
     this.cells = [];
     this.cellByKey = new Map();
   }
@@ -92,7 +101,16 @@ export class LevelOneGroundFacadeChunkView {
     const maxHp = this.worldModel.getTileMaxHp(cell.tx, cell.ty, type);
     const damageStage = getDamageStage(hp, maxHp);
     const resourceKey = RESOURCE_BY_TILE_TYPE[type];
-    const marker = resolveScenicFacadeMarker(
+    const resourceDepleted = Boolean(
+      resourceKey
+      && this.resourceDepletionProvider?.({
+        tileX: cell.tx,
+        tileY: cell.ty,
+        tileType: type,
+        resourceKey,
+      }) === true
+    );
+    const marker = resourceDepleted ? null : resolveScenicFacadeMarker(
       this.config,
       type,
       resourceKey,
@@ -102,9 +120,21 @@ export class LevelOneGroundFacadeChunkView {
         ?? this.scene.config.topAirRows
         ?? 0
     );
-    cell.base.setAlpha(this.config.damage.baseAlphaByStage[damageStage] ?? 1);
+    cell.base.setAlpha(resourceDepleted
+      ? 1
+      : (this.config.damage.baseAlphaByStage[damageStage] ?? 1));
     this._syncRecognition(cell, type, marker, damageStage);
-    this._syncCrack(cell, hp, maxHp, damageStage);
+    this._syncCrack(
+      cell,
+      resourceDepleted ? maxHp : hp,
+      maxHp,
+      resourceDepleted ? 5 : damageStage,
+    );
+  }
+
+  setResourceDepletionProvider(provider) {
+    this.resourceDepletionProvider = typeof provider === "function" ? provider : null;
+    this.cells.forEach(cell => this._refreshCell(cell));
   }
 
   _syncRecognition(cell, type, marker, damageStage) {

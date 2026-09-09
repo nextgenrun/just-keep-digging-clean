@@ -15,6 +15,7 @@ import { sanitizeJourneySaveData } from "../../systems/progression/JourneyLedger
 import { sanitizeUnderstarEndingData } from "../../values/understarEnding.js";
 import {
   SAVE_PAYLOAD_VERSION,
+  SAVE_PAYLOAD_V15_VERSION,
   sanitizeMilestoneData,
   sanitizeSaveRevisionMetadata,
   sanitizeStarCollectionData,
@@ -164,7 +165,7 @@ export function normalizeDugTilesSavePayload(payload) {
   return {
     version,
     updatedAt: typeof payload.updatedAt === "string" ? payload.updatedAt : null,
-    revisionMetadata: version >= SAVE_PAYLOAD_VERSION
+    revisionMetadata: version >= SAVE_PAYLOAD_V15_VERSION
       ? sanitizeSaveRevisionMetadata(payload.revisionMetadata)
       : null,
     world: normalizeWorld(world),
@@ -189,8 +190,8 @@ export function normalizeDugTilesSavePayload(payload) {
     campfireData: payload.campfireData ? sanitizeCampfireData(payload.campfireData) : null,
     journeyData: payload.journeyData ? sanitizeJourneySaveData(payload.journeyData) : null,
     celestialOverhaulData: sanitizeCelestialOverhaulData(payload.celestialOverhaulData),
-    milestoneData: version >= SAVE_PAYLOAD_VERSION ? sanitizeMilestoneData(payload.milestoneData) : null,
-    starCollectionData: version >= SAVE_PAYLOAD_VERSION
+    milestoneData: version >= SAVE_PAYLOAD_V15_VERSION ? sanitizeMilestoneData(payload.milestoneData) : null,
+    starCollectionData: version >= SAVE_PAYLOAD_V15_VERSION
       ? sanitizeStarCollectionData(payload.starCollectionData) : null,
     understarEndingData: sanitizeUnderstarEndingData(payload.understarEndingData),
     playerCharacterId: typeof payload.playerCharacterId === "string" ? payload.playerCharacterId : null,

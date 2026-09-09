@@ -1,0 +1,48 @@
+{
+  "model": "black-forest-labs/flux-video-upscale",
+  "factor": 1.5,
+  "creativity": 0,
+  "jobs": [
+    {
+      "index": 1,
+      "scene": "aurora",
+      "source": "raw-v3-01.mp4",
+      "sourceSha256": "c35843d4a889cd6718bdebf84adcf7cf4176341e3ee91610f16bcb42b6e2d357",
+      "status": "submission_failed",
+      "submittedAt": "2026-09-07T01:27:03.922308+00:00",
+      "httpStatus": 400,
+      "error": "{\"error\":{\"message\":\"Invalid reference URL: input_references[0].video_url.url: Only HTTPS URLs are allowed\",\"code\":400}}"
+    }
+  ],
+  "modelCapabilities": {
+    "id": "black-forest-labs/flux-video-upscale",
+    "canonical_slug": "black-forest-labs/flux-video-upscale-20260819",
+    "hugging_face_id": null,
+    "name": "Black Forest Labs: FLUX Video Upscale",
+    "created": 1787173919,
+    "description": "FLUX Video Upscale is a video upscaling model from Black Forest Labs. It enlarges a single source video by 1.5\u00d7 to 3\u00d7 while preserving its duration, with an optional prompt...",
+    "supported_resolutions": null,
+    "supported_aspect_ratios": null,
+    "supported_sizes": null,
+    "supported_durations": null,
+    "supported_frame_images": null,
+    "upscale_factor": {
+      "min": 1.5,
+      "max": 3
+    },
+    "creativity": [
+      0,
+      1
+    ],
+    "generate_audio": false,
+    "seed": false,
+    "pricing_skus": {
+      "cents_per_megapixel_second_precise": "7.5",
+      "cents_per_megapixel_second_creative": "10.5"
+    },
+    "allowed_passthrough_parameters": [
+      "safety_tolerance"
+    ]
+  },
+  "estimatedBatchUsd": 9.331199999999999
+}

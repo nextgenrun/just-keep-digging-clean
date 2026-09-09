@@ -1,5 +1,5 @@
 import { STAR_IDENTITY_LIBRARY_CONFIG } from
-  "../../values/starIdentityLibrary.js?rev=20260830-star-codex-v3";
+  "../../values/starIdentityLibrary.js?rev=20260906-baked-celestial-v2";
 import { STAR_RARITY_PROGRESSION_CONFIG } from "../../values/starRarityProgression.js";
 import { getStarRarityTier } from "../../values/starRarityProgressionMath.js";
 import { UI_FONTS } from "../../values/uiLayout.js";
@@ -7,15 +7,16 @@ import {
   starAtlasFontSize,
   starAtlasPoint,
   starAtlasSize,
-} from "./UIInventoryStarAtlasLayout.js?rev=20260830-star-codex-v3";
+} from "./UIInventoryStarAtlasLayout.js?rev=20260906-baked-celestial-v2";
 import {
   addStarAtlasHitZone,
   addStarAtlasText,
-} from "./UIInventoryStarAtlasPrimitives.js?rev=20260830-star-codex-v3";
+} from "./UIInventoryStarAtlasPrimitives.js?rev=20260906-baked-celestial-v2";
 import { renderStarAtlasPageControls } from
-  "./UIInventoryStarAtlasPagination.js?rev=20260830-star-codex-v3";
-import { addUiStarIdleSelectorMotion } from
-  "./UIStarIdleMotion.js?rev=20260826-star-idle-ui-v2";
+  "./UIInventoryStarAtlasPagination.js?rev=20260906-baked-celestial-v2";
+import { BAKED_STAR_ATLASES } from "../../values/bakedCelestialUi.js";
+import { prepareArt, fitBakedUiImage, fitLiveUiText } from "../../systems/visual/bakedUiArt.js";
+import { animateBakedStar } from "./UIBakedStarMotion.js";
 
 function renderRarityTabs(
   scene,
@@ -47,8 +48,10 @@ function renderRarityTabs(
       scene,
       parent,
       point.x,
-      point.y,
-      `${tier.name.toUpperCase()}\n${found} / ${count} ${copy.found}`,
+      config.inventory.bakedCopy
+        ? starAtlasPoint(bounds, 0, layout.rarityCountCenterYPx, layout).y : point.y,
+      config.inventory.bakedCopy ? `${found} / ${count}`
+        : `${tier.name.toUpperCase()}\n${found} / ${count} ${copy.found}`,
       {
         fontFamily: UI_FONTS.body,
         fontSizePx: starAtlasFontSize(
@@ -114,41 +117,16 @@ function renderIdentitySelectors(
       );
       parent.add(ring);
     }
-    const light = scene.add.image(
-      point.x,
-      point.y,
-      identity.lightAtlasKey,
-      identity.lightFrameName,
-    ).setDisplaySize(
-      imageSize * layout.selectorLightScale,
-      imageSize * layout.selectorLightScale,
-    ).setAlpha(layout.selectorLightAlpha);
-    light.setBlendMode?.(globalThis.Phaser?.BlendModes?.ADD);
-    parent.add(light);
-    const image = scene.add.image(
-      point.x,
-      point.y,
-      identity.atlasKey,
-      identity.frameName,
-    )
-      .setDisplaySize(imageSize, imageSize)
+    const art = prepareArt(scene, BAKED_STAR_ATLASES[identity.rarityIndex].frames[identity.frame]);
+    const image = scene.add.image(point.x, point.y, art.key, art.frame)
       .setAlpha(selected ? layout.selectedAlpha : layout.idleAlpha);
-    if (selected) {
-      image.setScale(
-        image.scaleX * layout.selectedScale,
-        image.scaleY * layout.selectedScale,
-      );
-    }
-    image.setBlendMode?.(globalThis.Phaser?.BlendModes?.SCREEN);
+    const density = scene.game.canvas.width / scene.scale.width;
+    fitBakedUiImage(image, Math.min(imageSize, image.width / density),
+      Math.min(imageSize, image.height / density));
+    image.setData("bakedStarIdentity", identity.index);
     parent.add(image);
-    addUiStarIdleSelectorMotion(scene, parent, {
-      x: point.x,
-      y: point.y,
-      size: imageSize,
-      identityIndex: identity.index,
-      selected,
-    });
-    addStarAtlasText(
+    animateBakedStar(scene, image, identity.index);
+    const name = addStarAtlasText(
       scene,
       parent,
       point.x,
@@ -158,9 +136,9 @@ function renderIdentitySelectors(
         layout.selectorCentersYPx[row] + layout.selectorLabelOffsetYPx,
         layout,
       ).y,
-      `${identity.name.toUpperCase()}\n${copy.collected}`
+      identity.name.toUpperCase()
         + ((identityCounts[identity.index] || 0) > 1
-          ? ` ×${identityCounts[identity.index]}`
+          ? `\n×${identityCounts[identity.index]}`
           : ""),
       {
         fontFamily: UI_FONTS.display,
@@ -178,6 +156,8 @@ function renderIdentitySelectors(
         strokeThickness: 2,
       },
     ).setAlpha(selected ? 1 : layout.selectorLabelIdleAlpha);
+    fitLiveUiText(name, starAtlasSize(bounds, layout.selectorHitSizePx, layout),
+      starAtlasSize(bounds, layout.selectorLabelOffsetYPx / 2, layout));
     addStarAtlasHitZone(
       scene,
       parent,

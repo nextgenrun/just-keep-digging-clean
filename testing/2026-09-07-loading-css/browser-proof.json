@@ -1,0 +1,43 @@
+{
+  "checks": {
+    "zeroPercent": 0,
+    "completedPercent": 100,
+    "readyLabel": true,
+    "keyboardRetry": true,
+    "afterDestroyPanels": 0,
+    "afterRecreatePanels": 1,
+    "pauseInert": true,
+    "resumeInert": false,
+    "parentFadeFollowedOpacity": true,
+    "afterParentFadePanels": 0,
+    "afterViewFadePanels": 0,
+    "worldLoadObservedPercent": 30,
+    "afterWorldLoadPanels": 0,
+    "gameConsoleErrors": []
+  },
+  "smallGeometry": {
+    "canvas": {
+      "height": 513.5625,
+      "width": 913,
+      "x": 17,
+      "y": 279.390625
+    },
+    "overflow": false,
+    "panel": {
+      "height": 137.57415771484375,
+      "width": 485.03125,
+      "x": 230.984375,
+      "y": 509.0671997070313
+    },
+    "root": {
+      "height": 513.5625,
+      "width": 913,
+      "x": 17,
+      "y": 279.390625
+    },
+    "viewport": {
+      "height": 600,
+      "width": 960
+    }
+  }
+}

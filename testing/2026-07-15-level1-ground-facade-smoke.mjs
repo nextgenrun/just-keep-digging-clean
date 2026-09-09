@@ -87,7 +87,7 @@ const loadHistory = [];
 const tileTypes = new Map([
   ["2,65", TILE_TYPES.FLOOR_TOWN_1],
   ["3,66", TILE_TYPES.COPPER],
-  ["4,66", TILE_TYPES.CRIT_BLOCK],
+  ["4,66", TILE_TYPES.BERSERK_BLOCK],
   ["5,66", TILE_TYPES.AIR],
   ["7,66", TILE_TYPES.BEDROCK],
   ["8,66", TILE_TYPES.STONE],
@@ -147,9 +147,9 @@ assert.equal(walkableFloor.base.displayWidth, 94, "facade must end exactly at du
 
 const copper = system.cellByKey.get("3,66");
 assert.match(copper.recognition.frameName, /level1-ground-recognition-[0-5]$/);
-const crit = system.cellByKey.get("4,66");
-assert.equal(crit.recognition.frameName, "level1-ground-recognition-69");
-assert.notEqual(crit.recognition.textureKey, ASSET_KEYS.tiles.critBlock);
+const berserk = system.cellByKey.get("4,66");
+assert.equal(berserk.recognition.frameName, "level1-ground-recognition-70");
+assert.notEqual(berserk.recognition.textureKey, ASSET_KEYS.tiles.berserkBlock);
 assert.equal(system.cellByKey.get("5,66").base.visible, false);
 
 const damaged = system.cellByKey.get("6,66");

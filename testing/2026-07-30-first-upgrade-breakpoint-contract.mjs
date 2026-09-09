@@ -10,6 +10,7 @@ import {
   LEGACY_FIRST_FIVE_STARTER_UPGRADE_ID,
   UPGRADES,
 } from "../values/upgradeDefinitions.js";
+import { getUpgradeCost } from "../values/upgradeFormulas.js";
 import {
   RETENTION_CONFIG,
   TOWN_TUTORIAL_CHOICES,
@@ -43,7 +44,7 @@ assert.equal(
 );
 
 const optionalUpgrade = new UpgradeSystem(null, null, { firstFiveEnabled: true });
-optionalUpgrade.addMoney(UPGRADES.agility.baseCost);
+optionalUpgrade.addMoney(getUpgradeCost("agility", 0));
 assert.equal(optionalUpgrade.purchaseUpgrade("agility").success, true);
 assert.equal(optionalUpgrade.getUpgradeLevel("agility"), 1);
 

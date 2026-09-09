@@ -1,119 +1,25 @@
-import { ASSET_KEYS } from "../../values/assetKeys.js";
+import { addBrandLogo, addBrandLogoShade } from "./BrandLogoView.js";
+import { MENU_ASSET_KEYS } from "../../values/menuAssetKeys.js";
 import { BRAND_CONFIG } from "../../values/branding.js";
 import { UI_COLORS } from "../../values/uiColors.js";
 import { UI_FONTS } from "../../values/uiLayout.js";
 
-const MENU_BACKGROUND_BASE_PATH = "exports/pallet-v10/dig_game_full_non_tile_runtime_assets_v10_08_07_2026/sprites/backgrounds/background-database/";
+import { MENU_ATMOSPHERE } from "../../values/menuAtmosphere.js";
+import { addMenuBackground } from "./MenuBackgroundView.js";
+export {
+  MENU_BACKGROUND_ASSETS, MENU_BACKGROUND_KEYS, addMenuBackground,
+  getSelectedMenuBackgroundKey, setSelectedMenuBackgroundKey, getSelectedMenuBackgroundAsset,
+} from "./MenuBackgroundView.js";
 
-export const MENU_BACKGROUND_ASSETS = Object.freeze([
-  {
-    key: ASSET_KEYS.background.dbImage1,
-    path: `${MENU_BACKGROUND_BASE_PATH}ChatGPT Image Jun 29, 2026, 07_32_45 PM.png`,
-  },
-  {
-    key: ASSET_KEYS.background.dbImage2,
-    path: `${MENU_BACKGROUND_BASE_PATH}ChatGPT Image Jun 29, 2026, 07_32_49 PM.png`,
-  },
-  {
-    key: ASSET_KEYS.background.dbImage3,
-    path: `${MENU_BACKGROUND_BASE_PATH}ChatGPT Image Jun 29, 2026, 07_32_52 PM.png`,
-  },
-  {
-    key: ASSET_KEYS.background.dbImage4,
-    path: `${MENU_BACKGROUND_BASE_PATH}ChatGPT Image Jun 29, 2026, 07_32_58 PM.png`,
-  },
-  {
-    key: ASSET_KEYS.background.dbImage5,
-    path: `${MENU_BACKGROUND_BASE_PATH}ChatGPT Image Jun 29, 2026, 07_33_03 PM.png`,
-  },
-  {
-    key: ASSET_KEYS.background.dbImage6,
-    path: `${MENU_BACKGROUND_BASE_PATH}ChatGPT Image Jun 29, 2026, 07_40_41 PM (1).png`,
-  },
-]);
+import { MENU_LOADING_PRESENTATION as CFG } from "../../values/menuLoadingPresentation.js";
+import { createMenuLoadingPanel } from "./MenuLoadingPanel.js";
 
-export const MENU_BACKGROUND_KEYS = Object.freeze(MENU_BACKGROUND_ASSETS.map((asset) => asset.key));
-
-let selectedMenuBackgroundKey = null;
-
-const COL = Object.freeze({
-  bg: UI_COLORS.bg,
-  overlay: UI_COLORS.overlay,
-  panel: UI_COLORS.cardBase,
-  panelHi: 0xffffff,
-  borderDim: UI_COLORS.borderDim,
-  borderBright: UI_COLORS.borderSel,
-  gold: UI_COLORS.gold,
-  fill: UI_COLORS.gold,
-  title: UI_COLORS.title,
-  shadow: UI_COLORS.dim,
-  dim: "#8899aa",
-  hint: "#4a5a6a",
-  pct: UI_COLORS.gold,
-});
-
-export function getSelectedMenuBackgroundKey() {
-  if (!selectedMenuBackgroundKey) {
-    selectedMenuBackgroundKey = MENU_BACKGROUND_KEYS[Math.floor(Math.random() * MENU_BACKGROUND_KEYS.length)];
-  }
-  return selectedMenuBackgroundKey;
-}
-
-export function setSelectedMenuBackgroundKey(key) {
-  if (MENU_BACKGROUND_KEYS.includes(key)) selectedMenuBackgroundKey = key;
-  return getSelectedMenuBackgroundKey();
-}
-
-export function getSelectedMenuBackgroundAsset() {
-  const key = getSelectedMenuBackgroundKey();
-  return MENU_BACKGROUND_ASSETS.find((asset) => asset.key === key) ?? MENU_BACKGROUND_ASSETS[0];
-}
-
-export function addMenuBackground(scene, options = {}) {
-  const W = options.width ?? scene.scale?.width ?? scene.cameras.main.width;
-  const H = options.height ?? scene.scale?.height ?? scene.cameras.main.height;
-  const preferredKey = options.key ?? getSelectedMenuBackgroundKey();
-  const availableKey = scene.textures.exists(preferredKey)
-    ? preferredKey
-    : MENU_BACKGROUND_KEYS.find((key) => scene.textures.exists(key));
-
-  if (!availableKey) return null;
-
-  const img = scene.add.image(W / 2, H / 2, availableKey);
-  img.setScale(Math.max(W / img.width, H / img.height)).setAlpha(options.alpha ?? 0.24);
-  options.objects?.push?.(img);
-  return img;
-}
-
-function addCornerFrame(g, W, H) {
-  const inset = 44;
-  const short = 80;
-  const long = 160;
-
-  g.lineStyle(1, COL.borderDim, 0.72);
-  g.strokeRect(inset, inset, W - inset * 2, H - inset * 2);
-
-  g.lineStyle(2, COL.borderBright, 0.8);
-  g.lineBetween(inset, inset, inset + long, inset);
-  g.lineBetween(inset, inset, inset, inset + short);
-  g.lineBetween(W - inset, inset, W - inset - long, inset);
-  g.lineBetween(W - inset, inset, W - inset, inset + short);
-  g.lineBetween(inset, H - inset, inset + long, H - inset);
-  g.lineBetween(inset, H - inset, inset, H - inset - short);
-  g.lineBetween(W - inset, H - inset, W - inset - long, H - inset);
-  g.lineBetween(W - inset, H - inset, W - inset, H - inset - short);
-
-  g.lineStyle(1, COL.gold, 0.55);
-  g.lineBetween(inset + 12, inset + 12, inset + 92, inset + 12);
-  g.lineBetween(W - inset - 12, inset + 12, W - inset - 92, inset + 12);
-  g.lineBetween(inset + 12, H - inset - 12, inset + 92, H - inset - 12);
-  g.lineBetween(W - inset - 12, H - inset - 12, W - inset - 92, H - inset - 12);
-}
+const COL = { shadow: UI_COLORS.dim, title: UI_COLORS.title };
 
 function addLogoOrTitle(scene, objects, W, options) {
-  if (options.preferLogo && scene.textures.exists(ASSET_KEYS.branding.logo)) {
-    const logo = scene.add.image(W / 2, 138, ASSET_KEYS.branding.logo);
-    const scale = Math.min(520 / logo.width, 160 / logo.height);
+  if (options.preferLogo && scene.textures.exists(MENU_ASSET_KEYS.logo)) {
+    const logo = addBrandLogo(scene, W / 2, CFG.logo.y, { loading: true });
+    const scale = Math.min(CFG.logo.width / logo.width, CFG.logo.height / logo.height);
     logo.setScale(scale);
     objects.push(logo);
     return;
@@ -137,285 +43,95 @@ function addLogoOrTitle(scene, objects, W, options) {
   objects.push(titleShadow, titleText);
 }
 
-function createLoadingParticles(scene, W, H, objects) {
-  // Small floating spark particles above/below the loading bar
-  const particleCount = 8;
-  const particles = [];
-  for (let i = 0; i < particleCount; i++) {
-    const x = 120 + Math.random() * (W - 240);
-    const y = 340 + Math.random() * 120;
-    const size = 1.5 + Math.random() * 2.5;
-    const alpha = 0.15 + Math.random() * 0.25;
-    const dot = scene.add.circle(x, y, size, 0xffd700, alpha);
-    objects.push(dot);
-    particles.push({ dot, baseY: y, speed: 0.15 + Math.random() * 0.25, offset: Math.random() * Math.PI * 2 });
-  }
-
-  // Add a slow floating tween to each particle
-  const particleTween = scene.tweens.addCounter({
-    from: 0,
-    to: Math.PI * 2,
-    duration: 3000 + Math.random() * 2000,
-    repeat: -1,
-    onUpdate: (tween) => {
-      const progress = tween.getValue();
-      particles.forEach((p, idx) => {
-        const phase = progress + p.offset;
-        p.dot.y = p.baseY + Math.sin(phase * 0.7) * 8;
-        p.dot.alpha = 0.12 + Math.sin(phase * 0.5) * 0.15 + 0.15;
-      });
-    },
-  });
-
-  return particleTween;
-}
-
 export function createMenuLoadingScreen(scene, options = {}) {
   const W = scene.scale?.width ?? scene.cameras.main.width;
   const H = scene.scale?.height ?? scene.cameras.main.height;
   const objects = [];
-  const tweens = [];
   let retryHandler = typeof options.onRetry === "function" ? options.onRetry : null;
   let inFailureState = false;
+  let progress = 0;
+  let destroyed = false;
 
-  const bg = scene.add.rectangle(W / 2, H / 2, W, H, COL.bg);
+  const bg = scene.add.rectangle(W / 2, H / 2, W, H, UI_COLORS.bg);
   objects.push(bg);
-
   addMenuBackground(scene, {
-    objects,
-    width: W,
-    height: H,
+    objects, width: W, height: H, motion: options.motion,
     key: options.backgroundKey,
-    alpha: options.backgroundAlpha ?? 0.24,
+    videoPath: options.backgroundVideoPath,
+    loopOverlapMs: options.backgroundLoopOverlapMs,
+    bufferedLoops: options.backgroundBufferedLoops,
+    videoMix: options.backgroundVideoMix,
+    replacePoster: options.backgroundReplacePoster,
+    alpha: options.backgroundAlpha ?? MENU_ATMOSPHERE.alpha,
   });
-
   const vignette = scene.add.graphics();
-  vignette.fillStyle(COL.overlay, options.overlayAlpha ?? 0.34);
+  vignette.fillStyle(UI_COLORS.overlay, options.overlayAlpha ?? CFG.overlayAlpha);
   vignette.fillRect(0, 0, W, H);
   objects.push(vignette);
-
-  const frame = scene.add.graphics();
-  addCornerFrame(frame, W, H);
-  objects.push(frame);
-
+  objects.push(addBrandLogoShade(scene));
   addLogoOrTitle(scene, objects, W, options);
 
-  const subtitle = scene.add.text(W / 2, options.preferLogo ? 258 : 268, options.subtitle ?? "A L P H A", {
-    fontFamily: UI_FONTS.mono,
-    fontSize: "18px",
-    color: "#c9a227",
-    letterSpacing: 5,
-  }).setOrigin(0.5);
-  objects.push(subtitle);
-
-  const sep1 = scene.add.graphics();
-  sep1.lineStyle(1, COL.borderBright, 0.75);
-  sep1.lineBetween(220, 300, W - 220, 300);
-  objects.push(sep1);
-
-  const barW = options.barWidth ?? 600;
-  const barH = options.barHeight ?? 20;
-  const barX = W / 2 - barW / 2;
-  const barY = options.barY ?? 405;
-
-  const panel = scene.add.graphics();
-  panel.lineStyle(1, COL.borderDim, 0.95);
-  panel.fillStyle(COL.panel, 0.94);
-  panel.fillRoundedRect(W / 2 - 360, barY - 72, 720, 138, 8);
-  panel.strokeRoundedRect(W / 2 - 360, barY - 72, 720, 138, 8);
-  panel.fillStyle(COL.panelHi, 0.035);
-  panel.fillRoundedRect(W / 2 - 356, barY - 68, 712, 50, 7);
-  objects.push(panel);
-
-  const labelText = scene.add.text(W / 2, barY - 36, options.label ?? "Loading...", {
-    fontFamily: UI_FONTS.mono,
-    fontSize: "16px",
-    color: "#c8dae8",
-  }).setOrigin(0.5);
-  objects.push(labelText);
-
-  const barBg = scene.add.graphics();
-  barBg.fillStyle(UI_COLORS.cardBase, 1);
-  barBg.fillRoundedRect(barX - 2, barY - 2, barW + 4, barH + 4, 5);
-  barBg.lineStyle(1, COL.borderBright, 0.75);
-  barBg.strokeRoundedRect(barX - 2, barY - 2, barW + 4, barH + 4, 5);
-  objects.push(barBg);
-
-  const barGlow = scene.add.graphics();
-  objects.push(barGlow);
-
-  const barFill = scene.add.graphics();
-  objects.push(barFill);
-
-  // Pulsing glow on the progress bar
-  const glowTween = scene.tweens.addCounter({
-    from: 0.3,
-    to: 0.7,
-    duration: 1200,
-    yoyo: true,
-    repeat: -1,
-    ease: "Sine.easeInOut",
-    onUpdate: (tween) => {
-      const alpha = tween.getValue();
-      barGlow.clear();
-      barGlow.fillStyle(COL.fill, alpha * 0.25);
-      barGlow.fillRoundedRect(barX - 4, barY - 4, barW + 8, barH + 8, 7);
-    },
-  });
-  tweens.push(glowTween);
-
-  const pctText = scene.add.text(W / 2, barY + barH + 18, "0%", {
-    fontFamily: UI_FONTS.mono,
-    fontSize: "15px",
-    color: COL.pct,
-  }).setOrigin(0.5);
-  objects.push(pctText);
-
-  const detailText = scene.add.text(W / 2, barY + 76, options.detail ?? "", {
-    fontFamily: UI_FONTS.mono,
-    fontSize: "14px",
-    color: "#7a9ab4",
-  }).setOrigin(0.5);
-  objects.push(detailText);
-
-  const failureText = scene.add.text(W / 2, barY + 118, "", {
-    fontFamily: UI_FONTS.mono,
-    fontSize: "14px",
-    color: "#ff8f72",
-    align: "center",
-  }).setOrigin(0.5);
-  failureText.setAlpha(0);
-  objects.push(failureText);
-
-  const retryButton = scene.add.rectangle(W / 2, barY + 156, 150, 36, 0xe07030, 0.98);
-  const retryButtonText = scene.add.text(W / 2, barY + 156, "RETRY", {
-    fontFamily: UI_FONTS.mono,
-    fontSize: "14px",
-    fontStyle: "bold",
-    color: "#ffffff",
-  }).setOrigin(0.5);
-  const retryHintText = scene.add.text(W / 2, barY + 182, "Press RETRY only when loading has stopped due to an error.", {
-    fontFamily: UI_FONTS.mono,
-    fontSize: "11px",
-    color: "#5a6f80",
-  }).setOrigin(0.5);
-  retryButton.setInteractive({ useHandCursor: true });
-  retryButton.setAlpha(0);
-  retryButtonText.setAlpha(0);
-  retryHintText.setAlpha(0);
-  objects.push(retryButton, retryButtonText, retryHintText);
-
-  const updateRetryUi = () => {
-    const isInteractive = inFailureState && Boolean(retryHandler);
-    retryButton.setAlpha(isInteractive ? 1 : 0);
-    retryButtonText.setAlpha(isInteractive ? 1 : 0);
-    retryHintText.setAlpha(isInteractive ? 1 : 0);
+  const panel = createMenuLoadingPanel(scene, options);
+  // A normal scene object lets portal containers own the foreground fade too.
+  objects.push(panel.anchor);
+  const setProgress = (value) => {
+    progress = Phaser.Math.Clamp(Number(value) || 0, 0, 1);
+    panel.setProgress(progress);
   };
-  const setRetryHandler = (handler) => {
-    retryHandler = typeof handler === "function" ? handler : null;
-    updateRetryUi();
-  };
-
-  const showFailure = (message = "Loading failed.") => {
-    inFailureState = true;
-    labelText.setText("Loading failed");
-    detailText.setText("Please fix the issue and retry loading.");
-    failureText.setText(String(message));
-    failureText.setAlpha(1);
-    failureText.setColor("#ff8f72");
-    scene.tweens.killTweensOf(failureText);
-    updateRetryUi();
-    scene.tweens.add({
-      targets: failureText,
-      alpha: { from: 1, to: 0.9 },
-      yoyo: true,
-      repeat: -1,
-      duration: 220,
-    });
-  };
-
-  const clearFailure = () => {
-    inFailureState = false;
-    failureText.setAlpha(0);
-    failureText.setText("");
-    retryButtonText.setText("RETRY");
-    scene.tweens.killTweensOf(failureText);
-    updateRetryUi();
-  };
-
-  retryButton.on("pointerdown", () => {
-    if (!inFailureState || !retryHandler) return;
-    const nextLabel = "Retrying...";
-    retryButtonText.setText(nextLabel);
-    retryHintText.setText("Restarting preload...");
+  const retry = () => {
+    if (destroyed || !inFailureState || !retryHandler) return;
     const handler = retryHandler;
     retryHandler = null;
     updateRetryUi();
     handler();
-  });
-
-  const sep2 = scene.add.graphics();
-  sep2.lineStyle(1, COL.borderDim, 0.65);
-  sep2.lineBetween(80, H - 82, W - 80, H - 82);
-  objects.push(sep2);
-
-  // Floating spark particles
-  const particleTween = createLoadingParticles(scene, W, H, objects);
-  tweens.push(particleTween);
-
-  // Subtle pulsing overlay rectangle behind the bar area for extra depth
-  const barAreaGlow = scene.add.graphics();
-  barAreaGlow.fillStyle(UI_COLORS.cardSel, 0.15);
-  barAreaGlow.fillRoundedRect(barX - 20, barY - 60, barW + 40, barH + 100, 12);
-  objects.unshift(barAreaGlow); // behind everything else
-
-  const setProgress = (value) => {
-    const clamped = Phaser.Math.Clamp(value || 0, 0, 1);
-    const fillWidth = Math.max(2, barW * clamped);
-
-    // Fill bar
-    barFill.clear();
-    barFill.fillStyle(COL.fill, 1);
-    barFill.fillRoundedRect(barX, barY, fillWidth, barH, 4);
-
-    // Bright leading edge highlight
-    barFill.fillStyle(0xf0dfc2, 0.6);
-    barFill.fillRoundedRect(barX + fillWidth - 4, barY + 2, Math.min(4, fillWidth), barH - 4, 2);
-
-    pctText.setText(`${Math.floor(clamped * 100)}%`);
   };
-
+  const updateRetryUi = () => panel.setRetryHandler(retry, inFailureState && Boolean(retryHandler));
+  const setRetryHandler = handler => {
+    retryHandler = typeof handler === "function" ? handler : null;
+    updateRetryUi();
+  };
+  const showFailure = (message = CFG.copy.failure) => {
+    inFailureState = true;
+    panel.labelText.setText(CFG.copy.failureTitle);
+    panel.detailText.setText(CFG.copy.failureDetail);
+    panel.setFailure(message);
+    updateRetryUi();
+  };
+  const clearFailure = () => {
+    inFailureState = false;
+    panel.clearFailure();
+    panel.setProgress(progress);
+    updateRetryUi();
+  };
+  const destroy = () => {
+    if (destroyed) return;
+    destroyed = true;
+    scene.events.off("shutdown", destroy);
+    panel.destroy();
+    objects.forEach(object => object?.destroy());
+  };
+  scene.events.once("shutdown", destroy);
+  updateRetryUi();
   setProgress(options.progress ?? 0);
 
   return {
     objects,
-    labelText,
-    detailText,
-    pctText,
+    labelText: panel.labelText,
+    detailText: panel.detailText,
+    pctText: panel.pctText,
     setProgress,
-    setLabel: (text) => labelText.setText(text),
-    setDetail: (text) => detailText.setText(text),
+    setLabel: text => panel.labelText.setText(text),
+    setDetail: text => panel.detailText.setText(text),
     setFailure: showFailure,
     clearFailure,
     setRetryHandler,
-    fadeOut(duration = 300, onComplete) {
-      // Stop all tweens
-      tweens.forEach((t) => t?.stop?.());
+    fadeOut(duration = CFG.fadeMs, onComplete) {
+      if (destroyed) return;
       scene.tweens.add({
-        targets: objects,
-        alpha: 0,
-        duration,
-        ease: "Power1.in",
-        onComplete: () => {
-          objects.forEach((object) => object?.destroy());
-          onComplete?.();
-        },
+        targets: objects, alpha: 0, duration, ease: "Power1.in",
+        onComplete: () => { destroy(); onComplete?.(); },
       });
     },
-    destroy() {
-      tweens.forEach((t) => t?.stop?.());
-      objects.forEach((object) => object?.destroy());
-    },
+    destroy,
   };
 }
-

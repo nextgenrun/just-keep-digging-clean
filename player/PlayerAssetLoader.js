@@ -17,7 +17,7 @@ function registerPlayerAsset(scene, key, path, profile, abilityId = null, deferr
   const catalog = scene.registry?.get?.("runtimeAssetCatalog");
   if (!catalog) return true;
   const ability = PLAYER_ABILITY_ASSET_PACKS[abilityId];
-  return Boolean(catalog.registerQueuedAsset({ key, path }, {
+  return Boolean(catalog.registerQueuedAsset({ key, path, type: profile?.sheetType || RUNTIME_ASSET_LOADING.types.spritesheet }, {
     owner: ability?.owner || (deferredId
       ? RUNTIME_ASSET_LOADING.owners.playerMode
       : RUNTIME_ASSET_LOADING.owners.playerCore),
@@ -107,6 +107,10 @@ function queueProfileSheet(
   if (scene.textures.exists(sheetKey)) scene.textures.remove(sheetKey);
   const path = `${sourceBasePath}/${fileName}?v=${profile.version}`;
   if (!registerPlayerAsset(scene, sheetKey, path, profile, abilityId)) return false;
+  if (profile.sheetType === RUNTIME_ASSET_LOADING.types.multiatlas) {
+    scene.load.multiatlas(sheetKey, path, `${sourceBasePath}/`);
+    return true;
+  }
   const profileFrameSize = profile.frameSizePxBySheet?.[sheetKey];
   scene.load.spritesheet(
     sheetKey,
@@ -146,7 +150,9 @@ export function getPlayerAbilityAssetPack(profile, abilityId) {
     .map(entry => Object.freeze({
       key: entry.key,
       path: entry.path,
-      type: RUNTIME_ASSET_LOADING.types.spritesheet,
+      type: entry.type,
+      atlasPath: entry.atlasPath,
+      requiredFrames: entry.frames,
       frameConfig: entry.frameConfig,
     })));
 }
@@ -156,7 +162,9 @@ export function getPlayerDeferredAssetPack(profile, deferredId) {
     .filter(entry => entry.deferredIds.includes(deferredId))
     .map(entry => Object.freeze({
       key: entry.key, path: entry.path,
-      type: RUNTIME_ASSET_LOADING.types.spritesheet,
+      type: entry.type,
+      atlasPath: entry.atlasPath,
+      requiredFrames: entry.frames,
       frameConfig: entry.frameConfig,
     })));
 }

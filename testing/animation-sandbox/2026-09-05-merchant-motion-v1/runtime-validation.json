@@ -1,0 +1,141 @@
+{
+  "review": "actual game through canonical serve.py",
+  "merchants": [
+    {
+      "id": "playerUpgrades",
+      "actor": {
+        "actionTime": -1,
+        "frameCount": 2209,
+        "frameName": "playerUpgrades",
+        "merchantId": "playerUpgrades",
+        "ready": true,
+        "textureKey": "merchant-motion:atlas",
+        "timeMs": 73626.25000000167,
+        "visible": true
+      },
+      "fps": 60,
+      "shop": "playerUpgrades",
+      "groundViolations": 0,
+      "anchorViolations": 0,
+      "atlasCount": 1
+    },
+    {
+      "id": "gearMerchant",
+      "actor": {
+        "actionTime": -1,
+        "frameCount": 2299,
+        "frameName": "gearMerchant",
+        "merchantId": "gearMerchant",
+        "ready": true,
+        "textureKey": "merchant-motion:atlas",
+        "timeMs": 76629.31000000167,
+        "visible": true
+      },
+      "fps": 59,
+      "shop": "gearMerchant",
+      "groundViolations": 0,
+      "anchorViolations": 0,
+      "atlasCount": 1
+    },
+    {
+      "id": "boboMerchant",
+      "actor": {
+        "actionTime": 1.9353200000000037,
+        "frameCount": 2299,
+        "frameName": "boboMerchant",
+        "merchantId": "boboMerchant",
+        "ready": true,
+        "textureKey": "merchant-motion:atlas",
+        "timeMs": 79632.43000000174,
+        "visible": true
+      },
+      "fps": 60,
+      "shop": "boboMerchant",
+      "groundViolations": 0,
+      "anchorViolations": 0,
+      "atlasCount": 1
+    },
+    {
+      "id": "moneyMonster",
+      "actor": {
+        "actionTime": -1,
+        "frameCount": 176,
+        "frameName": "moneyMonster",
+        "merchantId": "moneyMonster",
+        "ready": true,
+        "textureKey": "merchant-motion:atlas",
+        "timeMs": 82585.47000000179,
+        "visible": true
+      },
+      "fps": 59,
+      "shop": "moneyMonster",
+      "groundViolations": 0,
+      "anchorViolations": 0,
+      "atlasCount": 1
+    },
+    {
+      "id": "gemPowerMerchant",
+      "actor": {
+        "actionTime": -1,
+        "frameCount": 2568,
+        "frameName": "gemPowerMerchant",
+        "merchantId": "gemPowerMerchant",
+        "ready": true,
+        "textureKey": "merchant-motion:atlas",
+        "timeMs": 85538.54000000187,
+        "visible": true
+      },
+      "fps": 60,
+      "shop": "gemPowerMerchant",
+      "groundViolations": 0,
+      "anchorViolations": 0,
+      "atlasCount": 1
+    },
+    {
+      "id": "magmaMoneyMonster",
+      "actor": {
+        "actionTime": -1,
+        "frameCount": 718,
+        "frameName": "magmaMoneyMonster",
+        "merchantId": "magmaMoneyMonster",
+        "ready": true,
+        "textureKey": "merchant-motion:atlas",
+        "timeMs": 178434.79999999717,
+        "visible": true
+      },
+      "fps": 59,
+      "shop": "magmaMoneyMonster",
+      "groundViolations": 0,
+      "anchorViolations": 0,
+      "atlasCount": 1
+    }
+  ],
+  "pauseStable": true,
+  "resumeVerified": true,
+  "cleanup": {
+    "fps": 60,
+    "phase": "menus",
+    "previousSystemDestroyed": true,
+    "remainingMotionTextures": 0,
+    "saveBlocked": false,
+    "shop": null
+  },
+  "legacyFallback": {
+    "anchorViolations": 0,
+    "fps": 58,
+    "groundViolations": 0,
+    "motion": {
+      "actorCount": 0,
+      "actors": [],
+      "destroyed": false,
+      "enabled": false,
+      "reducedMotion": false
+    },
+    "phase": "playing",
+    "previousSystemDestroyed": false,
+    "remainingMotionTextures": 0,
+    "saveBlocked": true,
+    "shop": "playerUpgrades"
+  },
+  "console": []
+}

@@ -1,4 +1,5 @@
 import { LEVEL_CONFIG } from "../../values/levelConfig.js";
+import { getEarnedCelestialTalentPoints } from "../../values/celestialTalentProgression.js";
 
 export function calculatePlayerLevelBonuses(
   level,
@@ -9,12 +10,8 @@ export function calculatePlayerLevelBonuses(
   const legacySteps = (level - 1) * LEVEL_CONFIG.LEGACY_LEVELS_PER_LEVEL;
   const miningChoiceBonus = choiceSelections.miningPower
     * LEVEL_CONFIG.CHOICE_REWARDS.miningPower.damageBonus;
-  const luckChoiceBonus = choiceSelections.resourceLuck
-    * LEVEL_CONFIG.CHOICE_REWARDS.resourceLuck.luckBonus;
   const automaticMiningBonus = automaticMilestoneRewards
     * LEVEL_CONFIG.CHOICE_REWARDS.miningPower.damageBonus;
-  const automaticLuckBonus = automaticMilestoneRewards
-    * LEVEL_CONFIG.CHOICE_REWARDS.resourceLuck.luckBonus;
 
   return {
     level,
@@ -29,28 +26,15 @@ export function calculatePlayerLevelBonuses(
       legacySteps * bonuses.miningSpeedPerLegacyLevel,
       bonuses.miningSpeedCap,
     ),
-    criticalHitChance: Math.min(
-      legacySteps * bonuses.criticalChancePerLegacyLevel,
-      bonuses.criticalChanceCap,
-    ),
-    criticalHitDamage: Math.floor(
-      legacySteps * bonuses.criticalDamagePerLegacyLevel,
-    ),
     maxHpBonus: legacySteps * bonuses.maxHpPerLegacyLevel,
     xpMultiplier: legacySteps * bonuses.xpMultiplierPerLegacyLevel,
-    resourceLuck: Math.min(
-      legacySteps * bonuses.resourceLuckPerLegacyLevel
-        + luckChoiceBonus
-        + automaticLuckBonus,
-      bonuses.resourceLuckCap,
-    ),
     globalMiningSpeed: Math.min(
       legacySteps * bonuses.miningSpeedPerLegacyLevel,
       bonuses.miningSpeedCap,
     ),
     perLevelSpeed: 0,
     hardcapMiningSpeed: bonuses.hardcapMiningSpeed,
-    darknessResistanceMeters: LEVEL_CONFIG.getDarknessResistanceMeters(level),
+    panicResistanceMeters: LEVEL_CONFIG.getPanicResistanceMeters(level),
   };
 }
 
@@ -62,16 +46,17 @@ export function createPlayerLevelRewardSummary({
 }) {
   const levelsGained = Math.max(0, endLevel - startLevel);
   const legacySteps = levelsGained * LEVEL_CONFIG.LEGACY_LEVELS_PER_LEVEL;
-  const darknessBefore = LEVEL_CONFIG.getDarknessResistanceMeters(startLevel);
-  const darknessAfter = LEVEL_CONFIG.getDarknessResistanceMeters(endLevel);
+  const panicBefore = LEVEL_CONFIG.getPanicResistanceMeters(startLevel);
+  const panicAfter = LEVEL_CONFIG.getPanicResistanceMeters(endLevel);
   const miningPowerGain = legacySteps * LEVEL_CONFIG.BONUSES.damagePerLegacyLevel
     + (automaticReward?.miningPower || 0);
 
   return {
     level: endLevel,
     levelsGained,
-    darknessResistanceGainMeters: darknessAfter - darknessBefore,
-    darknessResistanceMeters: darknessAfter,
+    talentPointsGain: getEarnedCelestialTalentPoints(endLevel) - getEarnedCelestialTalentPoints(startLevel),
+    panicResistanceGainMeters: panicAfter - panicBefore,
+    panicResistanceMeters: panicAfter,
     miningPowerGainPercent: Math.round(miningPowerGain * 100),
     maxHpGain: legacySteps * LEVEL_CONFIG.BONUSES.maxHpPerLegacyLevel,
     gemPowerMaxGain: getGemPowerMaxBonus(endLevel) - getGemPowerMaxBonus(startLevel),

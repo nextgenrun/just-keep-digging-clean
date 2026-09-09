@@ -1,0 +1,184 @@
+{
+  "passed": true,
+  "totalChecks": 8,
+  "checks": [
+    "All landing speeds use short contacts from the actual ground material",
+    "All six existing foot-contact variants have short faded playback windows",
+    "Fast landing replaces the previous destruction source and lowers solo output",
+    "Real motion observation emits one contact after a descent and stays silent after braking",
+    "Landing then walking cannot stack another contact within the ground cooldown",
+    "Walking then landing preserves the existing contact without cutting it off",
+    "Muted, suspended, uninitialized and airborne states cannot play a landing",
+    "Cold material contacts never insert rubble, another material or delayed playback"
+  ],
+  "samples": [
+    {
+      "material": "hard",
+      "speed": 220,
+      "key": "footsteps-2",
+      "durationMs": 110,
+      "sourceGainMultiplier": 0.24444444444444444,
+      "outputGain": 0.025631100000000004,
+      "estimatedSoloPeakDb": -52.721835294505965
+    },
+    {
+      "material": "hard",
+      "speed": 400,
+      "key": "footsteps-2",
+      "durationMs": 110,
+      "sourceGainMultiplier": 0.4444444444444445,
+      "outputGain": 0.046602000000000005,
+      "estimatedSoloPeakDb": -47.52908908439083
+    },
+    {
+      "material": "hard",
+      "speed": 599,
+      "key": "footsteps-2",
+      "durationMs": 110,
+      "sourceGainMultiplier": 0.6655555555555557,
+      "outputGain": 0.06978649500000002,
+      "estimatedSoloPeakDb": -44.02175246316386
+    },
+    {
+      "material": "hard",
+      "speed": 600,
+      "key": "footsteps-2",
+      "durationMs": 110,
+      "sourceGainMultiplier": 0.6666666666666667,
+      "outputGain": 0.06990300000000002,
+      "estimatedSoloPeakDb": -44.007263903277206
+    },
+    {
+      "material": "hard",
+      "speed": 601,
+      "key": "footsteps-2",
+      "durationMs": 110,
+      "sourceGainMultiplier": 0.6677777777777778,
+      "outputGain": 0.07001950500000001,
+      "estimatedSoloPeakDb": -43.99279947089529
+    },
+    {
+      "material": "hard",
+      "speed": 720,
+      "key": "footsteps-2",
+      "durationMs": 110,
+      "sourceGainMultiplier": 0.8,
+      "outputGain": 0.08388360000000002,
+      "estimatedSoloPeakDb": -42.42363898232472
+    },
+    {
+      "material": "hard",
+      "speed": 1500,
+      "key": "footsteps-2",
+      "durationMs": 110,
+      "sourceGainMultiplier": 0.8,
+      "outputGain": 0.08388360000000002,
+      "estimatedSoloPeakDb": -42.42363898232472
+    },
+    {
+      "material": "dirt",
+      "speed": 220,
+      "key": "fs-approved-270419",
+      "durationMs": 120,
+      "sourceGainMultiplier": 0.24444444444444446,
+      "outputGain": 0.006136570727147369,
+      "estimatedSoloPeakDb": -48.747363813460005
+    },
+    {
+      "material": "dirt",
+      "speed": 400,
+      "key": "fs-approved-270419",
+      "durationMs": 120,
+      "sourceGainMultiplier": 0.4444444444444445,
+      "outputGain": 0.011157401322086126,
+      "estimatedSoloPeakDb": -43.55461760334488
+    },
+    {
+      "material": "dirt",
+      "speed": 599,
+      "key": "fs-approved-270419",
+      "durationMs": 120,
+      "sourceGainMultiplier": 0.6655555555555557,
+      "outputGain": 0.016708208479823978,
+      "estimatedSoloPeakDb": -40.0472809821179
+    },
+    {
+      "material": "dirt",
+      "speed": 600,
+      "key": "fs-approved-270419",
+      "durationMs": 120,
+      "sourceGainMultiplier": 0.6666666666666667,
+      "outputGain": 0.01673610198312919,
+      "estimatedSoloPeakDb": -40.03279242223126
+    },
+    {
+      "material": "dirt",
+      "speed": 601,
+      "key": "fs-approved-270419",
+      "durationMs": 120,
+      "sourceGainMultiplier": 0.6677777777777778,
+      "outputGain": 0.016763995486434403,
+      "estimatedSoloPeakDb": -40.01832798984934
+    },
+    {
+      "material": "dirt",
+      "speed": 720,
+      "key": "fs-approved-270419",
+      "durationMs": 120,
+      "sourceGainMultiplier": 0.8,
+      "outputGain": 0.020083322379755027,
+      "estimatedSoloPeakDb": -38.44916750127876
+    },
+    {
+      "material": "dirt",
+      "speed": 1500,
+      "key": "fs-approved-270419",
+      "durationMs": 120,
+      "sourceGainMultiplier": 0.8,
+      "outputGain": 0.020083322379755027,
+      "estimatedSoloPeakDb": -38.44916750127876
+    }
+  ],
+  "comparisons": [
+    {
+      "material": "hard",
+      "before": {
+        "key": "approved-review-libLandingDebris",
+        "durationMs": 1245.02,
+        "sourceGainMultiplier": 0.6,
+        "outputGain": 0.0972,
+        "estimatedSoloPeakDb": -23.2780123859842
+      },
+      "after": {
+        "key": "footsteps-2",
+        "durationMs": 110,
+        "sourceGainMultiplier": 0.8,
+        "outputGain": 0.08388360000000002,
+        "estimatedSoloPeakDb": -42.42363898232472
+      },
+      "changeDb": -19.145626596340517
+    },
+    {
+      "material": "dirt",
+      "before": {
+        "key": "approved-review-libDirtBreak",
+        "durationMs": 320,
+        "sourceGainMultiplier": 0.6,
+        "outputGain": 0.13122,
+        "estimatedSoloPeakDb": -20.5346547002542
+      },
+      "after": {
+        "key": "fs-approved-270419",
+        "durationMs": 120,
+        "sourceGainMultiplier": 0.8,
+        "outputGain": 0.020083322379755027,
+        "estimatedSoloPeakDb": -38.44916750127876
+      },
+      "changeDb": -17.914512801024557
+    }
+  ],
+  "peakEstimate": "Stored channel-preserving PCM measurements times actual solo mixer gain; not a loudness or listening judgment.",
+  "nativeBrowserVerified": false,
+  "manualPlaythrough": false,
+  "listeningApproved": false
+}

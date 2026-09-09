@@ -11,6 +11,13 @@ import {
   surfacePlatformCoversBody,
 } from "./surfaceDropCollision.js";
 import {
+  findCrossedOneWayPlatform,
+  findStandingOneWayPlatform,
+  normalizeOneWayPlatforms,
+  refreshOneWayPlatformDropState,
+  resolveOneWayPlatformDropIds,
+} from "./oneWayPlatformCollision.js?rev=20260831-moving-drop-v1";
+import {
   circleAxisReach,
   circleIntersectsRect,
   distanceToInterval,
@@ -33,6 +40,15 @@ export class TileCollisionSystem {
     this.groundProbePx = collisionConfig.groundProbePx;
     this.maxStepPx = this.tileSize * collisionConfig.maxStepTiles;
     this.surfaceDropThroughEnabled = resolveSurfaceDropThroughEnabled(collisionConfig);
+    this.oneWayPlatformProvider = null;
+  }
+
+  setOneWayPlatformProvider(provider) {
+    this.oneWayPlatformProvider = typeof provider === "function" ? provider : null;
+  }
+
+  _getOneWayPlatforms() {
+    return normalizeOneWayPlatforms(this.oneWayPlatformProvider?.() || []);
   }
 
   _bodyTileBounds(entity, offsetX = 0, offsetY = 0) {
@@ -88,10 +104,26 @@ export class TileCollisionSystem {
     return this.getOverlappingSolidTiles(entity).length > 0;
   }
 
+  _captureCollisionSafeState(entity) {
+    if (this.collisionConfig.rollbackFailedOverlaps !== true) return false;
+    return entity?.captureCollisionSafeState?.() === true;
+  }
+
+  _restoreCollisionSafeState(entity) {
+    if (this.collisionConfig.rollbackFailedOverlaps !== true) return false;
+    return entity?.restoreCollisionSafeState?.() === true;
+  }
+
   resolveBodyOverlap(entity) {
     const overlaps = this.getOverlappingSolidTiles(entity);
-    if (overlaps.length === 0) return true;
-    if (this.collisionConfig.recoverOverlaps !== true) return false;
+    if (overlaps.length === 0) {
+      this._captureCollisionSafeState(entity);
+      return true;
+    }
+    if (this.collisionConfig.recoverOverlaps !== true) {
+      this._restoreCollisionSafeState(entity);
+      return false;
+    }
 
     const originalX = entity.x;
     const originalY = entity.y;
@@ -121,11 +153,13 @@ export class TileCollisionSystem {
         entity.vy = 0;
         entity.onGround = candidate.amount < 0;
       }
+      this._captureCollisionSafeState(entity);
       return true;
     }
 
     entity.x = originalX;
     entity.y = originalY;
+    this._restoreCollisionSafeState(entity);
     return false;
   }
 
@@ -193,8 +227,33 @@ export class TileCollisionSystem {
     return true;
   }
 
+  tryBeginOneWayPlatformDropThrough(entity) {
+    if (!entity) return false;
+    const drop = this.collisionConfig.surfaceDropThrough;
+    const platforms = this._getOneWayPlatforms();
+    const platform = findStandingOneWayPlatform(
+      platforms,
+      entity,
+      this.skinPx,
+      drop.contactTolerancePx,
+    );
+    if (!platform) return false;
+    entity.oneWayPlatformDropId = platform.id;
+    entity.oneWayPlatformDropIds = resolveOneWayPlatformDropIds(platforms, platform);
+    entity.onGround = false;
+    entity.vy = Math.max(
+      entity.vy,
+      drop.minimumDownVelocityTilesPerSecond * this.tileSize,
+    );
+    return true;
+  }
+
   cancelSurfaceDropThrough(entity) {
     entity?.clearSurfaceDropThrough?.();
+  }
+
+  cancelOneWayPlatformDropThrough(entity) {
+    entity?.clearOneWayPlatformDropThrough?.();
   }
 
   /**
@@ -203,7 +262,7 @@ export class TileCollisionSystem {
    * @param {number} amount - Amount to move (can be positive or negative)
    */
   moveAndCollideX(entity, amount) {
-    return this._moveInSteps(amount, (step) => {
+    const collided = this._moveInSteps(amount, (step) => {
       entity.x += step;
       const bounds = this._bodyTileBounds(entity);
       const leadingColumn = step > 0 ? bounds.right : bounds.left;
@@ -246,6 +305,14 @@ export class TileCollisionSystem {
       }
       return false;
     });
+    if (entity?.oneWayPlatformDropId) {
+      refreshOneWayPlatformDropState(
+        this._getOneWayPlatforms(),
+        entity,
+        this.collisionConfig.surfaceDropThrough.releaseMarginPx,
+      );
+    }
+    return collided;
   }
 
   /**
@@ -255,12 +322,28 @@ export class TileCollisionSystem {
    */
   moveAndCollideY(entity, amount) {
     entity.onGround = false;
-    return this._moveInSteps(amount, (step) => {
+    const oneWayPlatforms = this._getOneWayPlatforms();
+    const releaseMarginPx = this.collisionConfig.surfaceDropThrough.releaseMarginPx;
+    refreshOneWayPlatformDropState(oneWayPlatforms, entity, releaseMarginPx);
+    const collided = this._moveInSteps(amount, (step) => {
       refreshSurfaceDropState(
         entity,
         this.tileSize,
-        this.collisionConfig.surfaceDropThrough.releaseMarginPx,
+        releaseMarginPx,
       );
+      const oneWayLanding = findCrossedOneWayPlatform(
+        oneWayPlatforms,
+        entity,
+        step,
+        this.skinPx,
+        this.collisionConfig.surfaceDropThrough.contactTolerancePx,
+      );
+      if (oneWayLanding) {
+        entity.y = oneWayLanding.y - entity.h;
+        entity.vy = 0;
+        entity.onGround = true;
+        return true;
+      }
       const surfaceRow = this.config.topAirRows;
       if (this.surfaceDropThroughEnabled
         && Number.isInteger(surfaceRow)
@@ -323,6 +406,8 @@ export class TileCollisionSystem {
       }
       return false;
     });
+    refreshOneWayPlatformDropState(oneWayPlatforms, entity, releaseMarginPx);
+    return collided;
   }
 
   /**
@@ -331,6 +416,13 @@ export class TileCollisionSystem {
    * @returns {boolean} True if entity is on solid ground
    */
   isOnGround(entity) {
+    const oneWayStanding = findStandingOneWayPlatform(
+      this._getOneWayPlatforms(),
+      entity,
+      this.skinPx,
+      this.collisionConfig.surfaceDropThrough.contactTolerancePx,
+    );
+    if (oneWayStanding) return true;
     const surfaceRow = this.config.topAirRows;
     if (this.surfaceDropThroughEnabled
       && Number.isInteger(surfaceRow)

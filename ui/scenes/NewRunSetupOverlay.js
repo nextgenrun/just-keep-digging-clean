@@ -1,3 +1,5 @@
+import { BAKED_UI_ART } from "../../values/bakedUiArt.js";
+import { getBakedUiArt } from "../../systems/visual/bakedUiArt.js";
 import { ASSET_KEYS } from "../../values/assetKeys.js";
 import {
   HARDCORE_MODE_CONFIG,
@@ -10,16 +12,15 @@ import {
 } from "../../values/retentionConfig.js";
 import { UI_COLORS } from "../../values/uiColors.js";
 import { UI_FONTS } from "../../values/uiLayout.js";
-import {
-  createSaveChoiceChrome,
-  createSaveMenuButton,
-} from "../components/SaveMenuPresentationView.js";
+import { createUiIcon } from "../UiIconAtlas.js";
 import { NewRunSetupInputController } from "./NewRunSetupInputController.js";
+import { NEW_RUN_COPY } from "../../values/playerFacingCopy.js";
 
 export class NewRunSetupOverlay {
   constructor(scene, config = NEW_RUN_SETUP_CONFIG) {
     this.scene = scene;
     this.config = config;
+    this.copy = NEW_RUN_COPY;
     this.root = null;
     this.cards = new Map();
     this.mode = HARDCORE_MODE_CONFIG.modes.hardcore;
@@ -39,20 +40,26 @@ export class NewRunSetupOverlay {
 
   _create() {
     const cfg = this.config;
-    const copy = cfg.copy;
+    const copy = this.copy;
     const width = this.scene.scale.width;
     const height = this.scene.scale.height;
-    const panelKey = ASSET_KEYS.ui.hardcore.oathPanel;
-    if (!this.scene.textures.exists(panelKey)) {
-      throw new Error("[NewRunSetupOverlay] Approved panel art is missing.");
+    this.bakedCopy = Boolean(getBakedUiArt(this.scene, "expedition")
+      && getBakedUiArt(this.scene, "expeditionOneLife"));
+    const panelKey = this.bakedCopy ? BAKED_UI_ART.assets.expedition.key : ASSET_KEYS.ui.newRunSetup.foundation;
+    const selectionKey = ASSET_KEYS.ui.newRunSetup.selection;
+    if (
+      !this.scene.textures.exists(panelKey)
+      || !this.scene.textures.exists(selectionKey)
+    ) {
+      throw new Error("[NewRunSetupOverlay] Regenerated expedition art is missing.");
     }
     this.root = this.scene.add.container(width / 2, height / 2)
       .setDepth(cfg.depth)
       .setVisible(false);
     const inputShield = this.scene.add.zone(0, 0, width, height).setInteractive();
-    const panel = this.scene.add.image(0, 0, panelKey)
+    this.panel = this.scene.add.image(0, 0, panelKey, "__BASE")
       .setDisplaySize(cfg.panel.width, cfg.panel.height);
-    const title = this.scene.add.text(0, cfg.title.y, copy.title, {
+    const title = this.bakedCopy ? null : this.scene.add.text(0, cfg.title.y, copy.title, {
       fontFamily: UI_FONTS.display,
       fontSize: `${cfg.title.fontSize}px`,
       fontStyle: "bold",
@@ -60,18 +67,24 @@ export class NewRunSetupOverlay {
       stroke: "#050913",
       strokeThickness: 4,
     }).setOrigin(0.5);
-    const subtitle = this.scene.add.text(0, cfg.subtitle.y, copy.subtitle, {
+    const subtitle = this.bakedCopy ? null : this.scene.add.text(0, cfg.subtitle.y, copy.subtitle, {
       fontFamily: UI_FONTS.mono,
       fontSize: `${cfg.subtitle.fontSize}px`,
+      fontStyle: "bold",
       color: UI_COLORS.body,
+      stroke: "#050913",
+      strokeThickness: 2,
     }).setOrigin(0.5);
-    this.root.add([inputShield, panel, title, subtitle]);
-    Object.values(cfg.sectionLabels).forEach(section => {
-      this.root.add(this.scene.add.text(section.x, section.y, section.text, {
+    this.root.add([inputShield, this.panel, title, subtitle].filter(Boolean));
+    if (!this.bakedCopy) Object.entries(cfg.sectionLabels).forEach(([sectionId, section]) => {
+      const sectionText = copy[`${sectionId}Section`] || section.text;
+      this.root.add(this.scene.add.text(section.x, section.y, sectionText, {
         fontFamily: UI_FONTS.mono,
         fontSize: "11px",
         fontStyle: "bold",
         color: UI_COLORS.gold,
+        stroke: "#050913",
+        strokeThickness: 2,
       }).setOrigin(0.5));
     });
 
@@ -79,9 +92,7 @@ export class NewRunSetupOverlay {
     this._addCard("casual", {
       x: -cards.xOffset,
       y: cards.modeY,
-      iconKey: ASSET_KEYS.ui.approvedHud.playerCore,
-      iconWidth: cards.casualIconWidth,
-      iconHeight: cards.casualIconHeight,
+      iconName: cards.casualIconName,
       title: copy.casualTitle,
       body: copy.casualBody,
       activate: () => this._setMode(HARDCORE_MODE_CONFIG.modes.casual),
@@ -89,7 +100,7 @@ export class NewRunSetupOverlay {
     this._addCard("hardcore", {
       x: cards.xOffset,
       y: cards.modeY,
-      iconKey: ASSET_KEYS.ui.hardcore.oathCrest,
+      iconName: cards.hardcoreIconName,
       title: copy.hardcoreTitle,
       body: copy.hardcoreBody,
       activate: () => this._setMode(HARDCORE_MODE_CONFIG.modes.hardcore),
@@ -97,7 +108,7 @@ export class NewRunSetupOverlay {
     this._addCard("guided", {
       x: -cards.xOffset,
       y: cards.tutorialY,
-      iconKey: ASSET_KEYS.onboarding.openingFlightV2.shaftMarker,
+      iconName: cards.guidedIconName,
       title: copy.guidedTitle,
       body: copy.guidedBody,
       activate: () => this._setTutorial(TOWN_TUTORIAL_CHOICES.YES),
@@ -105,58 +116,66 @@ export class NewRunSetupOverlay {
     this._addCard("skip", {
       x: cards.xOffset,
       y: cards.tutorialY,
-      iconKey: ASSET_KEYS.ui.approvedHud.inventory,
+      iconName: cards.skipIconName,
       title: copy.skipTitle,
       body: copy.skipBody,
       activate: () => this._setTutorial(TOWN_TUTORIAL_CHOICES.NO),
     });
 
-    this.status = this.scene.add.text(0, cfg.status.y, "", {
+    this.status = this.scene.add.text(0, this.bakedCopy ? BAKED_UI_ART.expedition.statusY : cfg.status.y, "", {
       fontFamily: UI_FONTS.mono,
       fontSize: `${cfg.status.fontSize}px`,
       fontStyle: "bold",
       color: UI_COLORS.success,
     }).setOrigin(0.5);
-    this.startButton = createSaveMenuButton(this.scene, {
-      x: 0,
-      y: cfg.start.y,
-      width: cfg.start.width,
-      height: cfg.start.height,
-      label: copy.startLabel,
-      accent: UI_COLORS.borderSel,
-      parent: this.root,
-      depth: cfg.depth + 2,
-      useAuthoredArt: true,
-      autoIcon: false,
-      onClick: () => this._confirm(),
-    });
-    const footer = this.scene.add.text(0, cfg.footer.y, copy.footer, {
+    this.startButton = this._createEmbeddedStartControl(copy.startLabel);
+    const footerStyle = {
       fontFamily: UI_FONTS.mono,
       fontSize: `${cfg.footer.fontSize}px`,
       fontStyle: "bold",
       color: UI_COLORS.body,
       stroke: "#02060a",
       strokeThickness: 2,
-    }).setOrigin(0.5);
-    this.root.add([this.status, footer]);
+    };
+    const footerLeft = this.bakedCopy ? null : this.scene.add.text(
+      cfg.footer.leftX,
+      cfg.footer.y,
+      copy.footerLeft,
+      footerStyle,
+    ).setOrigin(0.5);
+    const footerRight = this.bakedCopy ? null : this.scene.add.text(
+      cfg.footer.rightX,
+      cfg.footer.y,
+      copy.footerRight,
+      footerStyle,
+    ).setOrigin(0.5);
+    this.root.add([this.status, footerLeft, footerRight].filter(Boolean));
   }
 
   _addCard(id, options) {
     const layout = this.config.cards;
     const root = this.scene.add.container(options.x, options.y);
-    const chrome = createSaveChoiceChrome(this.scene, {
-      width: layout.width,
-      height: layout.height,
+    const bakedCard = this.bakedCopy ? this._createBakedCard(id, options) : null;
+    const selection = this.scene.add.image(
+      0,
+      0,
+      ASSET_KEYS.ui.newRunSetup.selection,
+    ).setDisplaySize(layout.width, layout.height).setAlpha(0);
+    const chrome = Object.freeze({
+      root: selection,
+      setSelected: isSelected => bakedCard
+        ? bakedCard.setTint(isSelected ? BAKED_UI_ART.expedition.selectedTint : BAKED_UI_ART.expedition.idleTint)
+        : selection.setAlpha(isSelected ? 1 : 0),
     });
-    if (!chrome) throw new Error("[NewRunSetupOverlay] Approved choice art is missing.");
     const hit = this.scene.add.zone(0, 0, layout.width, layout.height)
       .setInteractive({ useHandCursor: true });
-    const icon = this.scene.add.image(layout.iconX, layout.iconY, options.iconKey)
-      .setDisplaySize(
-        options.iconWidth || layout.iconSize,
-        options.iconHeight || layout.iconSize,
-      );
-    const title = this.scene.add.text(layout.titleX, layout.titleY, options.title, {
+    const icon = createUiIcon(this.scene, options.iconName, {
+      x: layout.iconX,
+      y: layout.iconY,
+      size: layout.iconSize,
+    });
+    if (!icon) throw new Error("[NewRunSetupOverlay] Approved card icon is missing.");
+    const title = this.bakedCopy ? null : this.scene.add.text(layout.titleX, layout.titleY, options.title, {
       fontFamily: UI_FONTS.display,
       fontSize: `${layout.titleFontSize}px`,
       fontStyle: "bold",
@@ -165,7 +184,7 @@ export class NewRunSetupOverlay {
       strokeThickness: 3,
       align: "center",
     }).setOrigin(0.5);
-    const body = this.scene.add.text(layout.bodyX, layout.bodyY, options.body, {
+    const body = this.bakedCopy ? null : this.scene.add.text(layout.bodyX, layout.bodyY, options.body, {
       fontFamily: UI_FONTS.body,
       fontSize: `${layout.bodyFontSize}px`,
       color: UI_COLORS.body,
@@ -173,10 +192,10 @@ export class NewRunSetupOverlay {
       lineSpacing: 3,
       wordWrap: { width: layout.bodyWidth, useAdvancedWrap: true },
     }).setOrigin(0.5, 0);
-    const selected = this.scene.add.text(
+    const selected = this.bakedCopy ? null : this.scene.add.text(
       layout.titleX,
       layout.selectedY,
-      this.config.copy.selected,
+      this.copy.selected,
       {
         fontFamily: UI_FONTS.mono,
         fontSize: `${layout.selectedFontSize}px`,
@@ -184,15 +203,59 @@ export class NewRunSetupOverlay {
         color: UI_COLORS.success,
       },
     ).setOrigin(0.5);
-    root.add([chrome.root, icon, title, body, selected, hit]);
+    root.add([bakedCard, icon, selection, title, body, selected, hit].filter(Boolean));
     this.root.add(root);
-    hit.on("pointerover", () => root.setAlpha(1));
+    hit.on("pointerover", () => { root.setAlpha(1); bakedCard?.clearTint(); });
     hit.on("pointerout", () => this._refresh());
     hit.on("pointerdown", () => {
       options.activate();
       this.scene.soundSystem?.playUiSelect?.();
     });
-    this.cards.set(id, { root, chrome, title, body, selected });
+    this.cards.set(id, { root, chrome, icon, title, body, selected, bakedCard });
+  }
+
+  _createBakedCard(id, options) {
+    const { cards, panel } = this.config;
+    const frame = `baked-card-${id}`;
+    for (const asset of [BAKED_UI_ART.assets.expedition, BAKED_UI_ART.assets.expeditionOneLife]) {
+      const texture = this.scene.textures.get(asset.key);
+      if (texture.has(frame)) continue;
+      const source = texture.getSourceImage();
+      texture.add(frame, 0,
+        Math.round((options.x - cards.width / 2 + panel.width / 2) / panel.width * source.width),
+        Math.round((options.y - cards.height / 2 + panel.height / 2) / panel.height * source.height),
+        Math.round(cards.width / panel.width * source.width),
+        Math.round(cards.height / panel.height * source.height));
+    }
+    return this.scene.add.image(0, 0, BAKED_UI_ART.assets.expedition.key, frame)
+      .setDisplaySize(cards.width, cards.height);
+  }
+
+  _createEmbeddedStartControl(labelText) {
+    const layout = this.config.start;
+    const root = this.scene.add.container(0, this.bakedCopy ? BAKED_UI_ART.expedition.startY : layout.y);
+    const label = this.bakedCopy ? null : this.scene.add.text(0, 0, labelText, {
+      fontFamily: UI_FONTS.display,
+      fontSize: `${layout.fontSize}px`,
+      fontStyle: "bold",
+      color: UI_COLORS.title,
+      stroke: "#050913",
+      strokeThickness: 3,
+    }).setOrigin(0.5);
+    const hit = this.scene.add.zone(0, 0, layout.width, this.bakedCopy ? BAKED_UI_ART.expedition.startHeight : layout.height)
+      .setInteractive({ useHandCursor: true });
+    root.add([label, hit].filter(Boolean));
+    this.root.add(root);
+    hit.on("pointerover", () => {
+      label?.setColor(UI_COLORS.success);
+      root.setScale(1.02);
+    });
+    hit.on("pointerout", () => {
+      label?.setColor(UI_COLORS.title);
+      root.setScale(1);
+    });
+    hit.on("pointerdown", () => this._confirm());
+    return Object.freeze({ root, label, hit });
   }
 
   show({ onChoose, onCancel } = {}) {
@@ -245,7 +308,7 @@ export class NewRunSetupOverlay {
   _confirm() {
     if (
       this.tutorialChoice === TOWN_TUTORIAL_CHOICES.NO
-      && this.skipConfirmation !== this.config.copy.skipConfirmation
+      && this.skipConfirmation !== this.copy.skipConfirmation
     ) {
       this._refresh();
       return false;
@@ -265,11 +328,14 @@ export class NewRunSetupOverlay {
     const layout = this.config.cards;
     const oneLife = this.mode === HARDCORE_MODE_CONFIG.modes.oneLifeHardcore;
     const hardcoreCard = this.cards.get("hardcore");
-    hardcoreCard.title.setText(
-      oneLife ? this.config.copy.oneLifeTitle : this.config.copy.hardcoreTitle,
+    if (this.bakedCopy) this.panel.setTexture(oneLife
+      ? BAKED_UI_ART.assets.expeditionOneLife.key : BAKED_UI_ART.assets.expedition.key, "__BASE")
+      .setDisplaySize(this.config.panel.width, this.config.panel.height);
+    hardcoreCard.title?.setText(
+      oneLife ? this.copy.oneLifeTitle : this.copy.hardcoreTitle,
     );
-    hardcoreCard.body.setText(
-      oneLife ? this.config.copy.oneLifeBody : this.config.copy.hardcoreBody,
+    hardcoreCard.body?.setText(
+      oneLife ? this.copy.oneLifeBody : this.copy.hardcoreBody,
     );
     const selectedIds = new Set([
       this.mode === HARDCORE_MODE_CONFIG.modes.casual ? "casual" : "hardcore",
@@ -277,15 +343,18 @@ export class NewRunSetupOverlay {
     ]);
     for (const [id, card] of this.cards) {
       const selected = selectedIds.has(id);
+      card.bakedCard?.setTexture(oneLife ? BAKED_UI_ART.assets.expeditionOneLife.key
+        : BAKED_UI_ART.assets.expedition.key, `baked-card-${id}`)
+        .setDisplaySize(layout.width, layout.height);
       card.chrome.setSelected(selected);
-      card.selected.setVisible(selected);
+      card.selected?.setVisible(selected);
       card.root.setAlpha(selected ? layout.selectedAlpha : layout.idleAlpha);
     }
     if (this.tutorialChoice === TOWN_TUTORIAL_CHOICES.YES) {
-      this.status.setColor(UI_COLORS.success).setText(this.config.copy.guidedStatus);
+      this.status.setColor(UI_COLORS.success).setText(this.copy.guidedStatus);
     } else {
       this.status.setColor(UI_COLORS.danger).setText(
-        this.config.copy.skipStatus.replace(
+        this.copy.skipStatus.replace(
           "{value}",
           this.skipConfirmation || "_",
         ),
@@ -298,6 +367,9 @@ export class NewRunSetupOverlay {
     this.inputController = null;
     this.root?.destroy(true);
     this.root = null;
+    this.panel = null;
+    this.startButton = null;
+    this.status = null;
     this.cards.clear();
     this.scene = null;
   }

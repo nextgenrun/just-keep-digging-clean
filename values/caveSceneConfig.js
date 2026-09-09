@@ -139,7 +139,7 @@ export const CAVE_SCENE_CONFIG = Object.freeze({
     }),
     "prism-nursery": Object.freeze({
       presetKey: "caveViolet",
-      signatureTileTypeKey: "CRIT_BLOCK",
+      signatureTileTypeKey: "XP_BLOCK",
       resourceBias: Object.freeze(["silver", "gold", "magmaCrystal"]),
     }),
     "storm-scar": Object.freeze({

@@ -1,0 +1,10 @@
+{
+  "date": "2026-09-06",
+  "tool": "image_gen.imagegen",
+  "purpose": "Level 1 rain streaks and contact splashes",
+  "prompt": "Production game VFX sprite atlas on TRUE TRANSPARENT RGBA background, landscape 2048x1024, exactly 4 columns by 2 rows of equal square cells, 8 completely separated sprites with large transparent gutters. Premium natural silver rain for a dark alpine woodland 2D game. TOP ROW: four distinct perfectly VERTICAL rain streak sprites, each centered in its cell, falling DOWN, slender bright neutral white-silver core 8 to 18 pixels wide, long elegant soft motion tail about 330 pixels high, small brighter rounded drop at BOTTOM, progressively lighter fine, medium, strong and softly defocused near-camera rain. Straight vertical, no diagonal slant, no arrows, no blue or green outline, not a glass needle. Clearly visible milky silver tapered optical motion blur with soft transparent edges. BOTTOM ROW: a four-frame progression of ONE SMALL RAINDROP IMPACT on a horizontal ground surface: frame 1 little low crown; frame 2 graceful silver droplet fan rising; frame 3 separated tiny droplets spreading outwards; frame 4 a subtle thin flattening ellipse ripple. All impact frames have EXACT SAME baseline at 75 percent of the cell height and centered at 50 percent cell width, equal realistic scale, fine spray and soft tiny highlights, no filled puddle disc, no teal glass or cartoon icons. Sprite content stays comfortably inside each cell; completely transparent space around everything. No scene, no background color, no ground painting, no text, no grid lines, no checkerboard drawing. Neutral white/silver with very subtle blue-grey shaded water only. Usable real game particles with readable bright cores and naturally fading silhouettes.",
+  "source": "C:/Users/Mila/.codex/generated_images/01a072c3-6b8d-76c1-8064-6398be841847/exec-6759b140-e5ff-488d-aeb4-542d7c1703b5.png",
+  "project": "weather-v4.png",
+  "sha256": "4474acd313071ea3d6c37c3b61ea1a335400048219454080d8fe74028778b7fc",
+  "note": "Copied unchanged. Generated layout differs from requested grid; measured frame rectangles are defined in values/layeredWeatherVisuals.js."
+}

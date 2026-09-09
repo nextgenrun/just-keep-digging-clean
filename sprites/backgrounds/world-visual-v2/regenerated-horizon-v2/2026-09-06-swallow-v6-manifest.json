@@ -1,0 +1,78 @@
+{
+  "path": "sprites\\backgrounds\\world-visual-v2\\regenerated-horizon-v2\\swallow-flight-v6.png",
+  "mode": "RGBA",
+  "size": [
+    1536,
+    1024
+  ],
+  "sha256": "04dded941dba5600d2aae526259e94bb7c784d30e52012b35d014d76a7d9b738",
+  "alphaZeroFraction": 0.8298091888427734,
+  "frames": [
+    {
+      "frame": 0,
+      "edgeMaxAlpha": 0,
+      "edgeMeanAlpha": 0.0,
+      "opaqueBounds": [
+        45,
+        15,
+        477,
+        406
+      ]
+    },
+    {
+      "frame": 1,
+      "edgeMaxAlpha": 1,
+      "edgeMeanAlpha": 0.0030517578125,
+      "opaqueBounds": [
+        48,
+        97,
+        467,
+        410
+      ]
+    },
+    {
+      "frame": 2,
+      "edgeMaxAlpha": 1,
+      "edgeMeanAlpha": 0.00244140625,
+      "opaqueBounds": [
+        54,
+        262,
+        474,
+        460
+      ]
+    },
+    {
+      "frame": 3,
+      "edgeMaxAlpha": 1,
+      "edgeMeanAlpha": 0.0001220703125,
+      "opaqueBounds": [
+        47,
+        226,
+        476,
+        483
+      ]
+    },
+    {
+      "frame": 4,
+      "edgeMaxAlpha": 1,
+      "edgeMeanAlpha": 0.003662109375,
+      "opaqueBounds": [
+        50,
+        61,
+        467,
+        370
+      ]
+    },
+    {
+      "frame": 5,
+      "edgeMaxAlpha": 1,
+      "edgeMeanAlpha": 0.00390625,
+      "opaqueBounds": [
+        46,
+        14,
+        470,
+        362
+      ]
+    }
+  ]
+}

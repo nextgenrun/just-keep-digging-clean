@@ -1,3 +1,6 @@
+import { advanceSleepWeather, captureSleepWeather, restoreSleepWeather } from './sleepWeatherSimulation.js';
+import { LayeredWeatherAtlas, resolveLayeredWeatherConfig } from "./LayeredWeatherAtlas.js";
+import { WeatherCloudFront } from "./WeatherCloudFront.js";
 import { WEATHER_CONFIG } from "../../values/weatherConfig.js";
 import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { SKYLINE_WEATHER_VFX } from "../../values/skylineWeatherVfx.js";
@@ -17,6 +20,8 @@ import { clamp01, lerp } from "../../values/mathUtils.js";
 
 export class WeatherSystem {
   constructor(scene, config = {}, weatherConfig = WEATHER_CONFIG) {
+    weatherConfig = resolveLayeredWeatherConfig(weatherConfig);
+    this.cloudFront = weatherConfig.cloudFront ? new WeatherCloudFront(weatherConfig.cloudFront) : null;
     this.scene = scene;
     this.config = config;
     this.weatherConfig = weatherConfig;
@@ -33,12 +38,15 @@ export class WeatherSystem {
     this._lightingColorChannels = null;
 
     this._destroyed = false;
+    this._simulationTime = this.scene.time.now || 0;
 
     this.director = new WeatherDirector(scene, weatherConfig);
     this.occlusionSampler = new WeatherOcclusionSampler(scene, config, weatherConfig);
     this.worldState = new WeatherWorldState(scene, config, weatherConfig);
     this.gameplayController = new WeatherGameplayController(weatherConfig);
-    this.particleVisualAssets = this._resolveParticleVisualAssets();
+    const particleAssets = this._resolveParticleVisualAssets();
+    this.layeredParticleAtlas = this.cloudFront ? new LayeredWeatherAtlas(scene, particleAssets) : null;
+    this.particleVisualAssets = this.layeredParticleAtlas?.visualAssets || particleAssets;
     this.impactRainController = new WeatherImpactRainController(
       scene,
       config,
@@ -70,12 +78,19 @@ export class WeatherSystem {
     this._lightingColorChannels = this._colorChannels(this._lightingSnapshot.sunTint);
   }
 
-  update(time, delta) {
+  advanceForSleep(delta, clock) { advanceSleepWeather(this, delta, clock); }
+  toJSON() { return captureSleepWeather(this); }
+  fromJSON(data) { return restoreSleepWeather(this, data); }
+
+  update(time, delta, options = {}) {
     if (!this.weatherConfig.enabled || this._destroyed) return;
 
     const dt = Math.min(Math.max(delta || 0, 0), 100);
-    const directorPatch = this.director.update(time);
-    this._applyDirectorPatch(directorPatch, false);
+    if (!options.simulated) {
+      this._simulationTime += dt;
+      this.cloudFront?.update(dt);
+      this._applyDirectorPatch(this.director.update(this._simulationTime), false);
+    }
 
     const transitionT = 1 - Math.exp(-(this.weatherConfig.transitionRatePerSecond || 0.4) * dt / 1000);
     const windT = 1 - Math.exp(-(this.weatherConfig.windRatePerSecond || 0.3) * dt / 1000);
@@ -188,7 +203,7 @@ export class WeatherSystem {
       return;
     }
 
-    const now = this.scene.time.now || 0;
+    const now = this._simulationTime;
     this.kind = kind;
     this.targetIntensity = clamp01(intensity);
     this._applyDirectorPatch(this.director.force(kind, intensity, durationMs, now), false);
@@ -196,6 +211,10 @@ export class WeatherSystem {
       this.precipitationEnvelope.snap(this.kind, this.intensity);
     }
     this.lightningController.schedule(now, true, this.kind);
+  }
+
+  resumeWeather() {
+    this._applyDirectorPatch(this.director.resume(this._simulationTime), false);
   }
 
   getPlayerWeatherState() {
@@ -268,6 +287,7 @@ export class WeatherSystem {
 
     return {
       kind: this.kind,
+      cloudFront: this.cloudFront?.snapshot() || null,
       intensity: clamp01(this.intensity),
       targetIntensity: clamp01(this.targetIntensity),
       wind: this.wind,
@@ -306,6 +326,7 @@ export class WeatherSystem {
     this.impactRainController.destroy();
     this.snowController.destroy();
     this.particleController.destroy();
+    this.layeredParticleAtlas?.destroy();
     this.lightningController.destroy();
     this.audioController.destroy();
     this._tintOverlay?.destroy();
@@ -444,7 +465,7 @@ export class WeatherSystem {
       const values = profile?.[key] || fallback;
       return lerp(values[0], values[1], amount);
     };
-    return {
+    const target = {
       cloudCoverAmount: sample("cloudCoverAmount", [0, 0]),
       sunTransmittance: sample("sunTransmittance", [1, 1]),
       fogAmount: sample("fogAmount", [0, 0]),
@@ -455,6 +476,7 @@ export class WeatherSystem {
       ),
       sunExposure: sample("sunExposure", [1, 1]),
     };
+    return this.cloudFront ? this.cloudFront.apply(target,this.kind,this.director.getSnapshot()) : target;
   }
 
   _lerpColor(from, to, amount) {

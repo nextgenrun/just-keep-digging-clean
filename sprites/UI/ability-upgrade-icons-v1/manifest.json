@@ -1,0 +1,65 @@
+{
+  "quickslash": {
+    "source": "quickslash-source-v1.png",
+    "runtime": "quickslash-v1.png",
+    "sha256": "eb55436459b41c57a94b2063e24ade41d8d901ccc6d9d6cf701b21afd403ea05",
+    "sourceSha256": "65d57e6320dfbe0f399364a67c7cbc20ecb495400d52d44329fa1a5f80bf19cf",
+    "size": [
+      256,
+      256
+    ],
+    "sourceBounds": [
+      79,
+      196,
+      1184,
+      1060
+    ],
+    "alphaExtrema": [
+      0,
+      255
+    ],
+    "greenSpillPixels": 0
+  },
+  "thunder-strike": {
+    "source": "thunder-strike-source-v1.png",
+    "runtime": "thunder-strike-v1.png",
+    "sha256": "a8246a973749e18fd279242d0f04fbb2d4522c773a4c805bfb758aa65b26da1a",
+    "sourceSha256": "4799330cdb6942abb951103b81c12bf97bcadbb478f43fbbd4ca52bc4a3303d2",
+    "size": [
+      256,
+      256
+    ],
+    "sourceBounds": [
+      209,
+      109,
+      1048,
+      1171
+    ],
+    "alphaExtrema": [
+      0,
+      255
+    ],
+    "greenSpillPixels": 0
+  },
+  "flight": {
+    "source": "flight-source-v1.png",
+    "runtime": "flight-v1.png",
+    "sha256": "77ece4a9be6cf884f09f0b388d569f090b0124f511de325de1ad6f0e193d0b1c",
+    "sourceSha256": "a8ca1d445e4c7ed3b36642e580df0d8aec36fa1e182e5133719140ec7194feae",
+    "size": [
+      256,
+      256
+    ],
+    "sourceBounds": [
+      40,
+      70,
+      1230,
+      1168
+    ],
+    "alphaExtrema": [
+      0,
+      255
+    ],
+    "greenSpillPixels": 0
+  }
+}

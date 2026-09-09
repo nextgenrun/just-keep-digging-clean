@@ -2,6 +2,15 @@
 
 Runtime art for world-space environmental actors and effects.
 
+- `worldroot-sanctuary-v3/`: active tall, ground-only Worldroot. A neutral trunk
+  and one shared green/leafless branch pair form five independent runtime
+  regions. Includes untouched ImageGen masters, exact prompts and processed
+  alpha/hash manifest. No Stars, Campfires or interaction points are baked in.
+- `worldroot-sanctuary-v2/`: retained runtime vine/fern/leaf details and exact
+  game-atlas Star cutouts, composed separately from the growing V3 trunk.
+- `worldroot-sanctuary-v1/`: retained original compact tree and five coloured
+  living/killed foliage pairs; not loaded by the default V3 presentation.
+
 - `approved-pillars-v1/`: approved Milestone and Star Pillar progression sprites.
 - `graveborer-wurm-v1/`: Graveborer Wurm parts.
 - `star-block-crystal-v2/`: six active normalized ImageGen crystal cores shared
@@ -14,6 +23,33 @@ Runtime art for world-space environmental actors and effects.
   six active asymmetric crystalline break blooms.
 - `star-block-pulse-v1/`: six ImageGen-authored, rarity-coloured additive
   sprites for the rare long-range Star Block beacon.
+- `starless-scar-v2/`: one authored transparent blackglass/ash material tiled
+  and clipped to the large nearest-Star territory mask; gameplay ownership and
+  radius remain code-authoritative.
+- `starless-scar-v3/`: an opaque walkable-ground plate, transparent dead-Star
+  center, and true-alpha frontier sibling set layered with the retained V2
+  material. The outer frontier follows the live radial hold/break mask while
+  complete nearest-Star territory remains code-authoritative.
+- `starless-scar-biomes-v1/`: twenty demand-streamed corrupted-ground palettes
+  aligned to the normal Level One retained families, each with authored ground,
+  dead center, spreading frontier, and four overlay-prop frames. Solid terrain
+  owns walkable art while full territory owns darkness and Star-color accents.
+- `starless-scar-v3/`: an opaque walkable-ground plate, transparent dead-Star
+  center, and true-alpha frontier sibling set layered with the retained V2
+  material. The outer frontier follows the live radial hold/break mask while
+  complete nearest-Star territory remains code-authoritative.
+- `worldroot-v3/`: active 1536 x 1024 living/consumed Worldroot pair with a
+  compact grounded hearth, elevated Titan-safe canopy, giant Crown Star, and
+  authored contact-grid proof for thirteen traversable branch tops. It remains
+  the `?worldrootArt=v3` visual rollback.
+- `worldroot-modular-v4/`: explicit V4 rollback six-country native-pixel Worldroot with
+  matched living/consumed pairs, twelve Gate A traversal contacts, hash
+  manifest, and a rebuildable chroma-source pipeline.
+- `worldroot-gate-b-v1/`: accepted native-density Rootways/Cobalt visual
+  baseline fitted to Gate A; review-query-only and never stretched.
+- `worldroot-gate-c-v1/`: candidate Amber Fault/Mirrorstone country bodies
+  with biome monuments embedded into the branches; incoming tendons remain
+  whitebox until the country styles are accepted.
 - `star-identities-v1/`: six transparent ImageGen atlases containing fifty
   named colour identities with distinct crystal/light art. Exact frames are
   shared by world Stars, darkness light, mined releases, discovery popups, and

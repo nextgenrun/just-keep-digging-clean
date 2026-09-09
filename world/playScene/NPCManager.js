@@ -2,8 +2,11 @@
  * Manages NPC creation and interaction for PlayScene
  * Handles merchant placement and player interaction
  */
-import { USER_SETTINGS } from "../../systems/UserSettings.js";
+import { SurfaceMiaCompanion } from "./SurfaceMiaCompanion.js";
+import { MerchantPromptView } from "../../systems/visual/MerchantPromptView.js";
 import { NPCActivitySystem } from "../../systems/visual/NPCActivitySystem.js";
+import { MerchantShopEntrance } from "../../systems/visual/MerchantShopEntrance.js";
+import { MerchantMotionSystem } from "../../systems/visual/MerchantMotionSystem.js";
 import { ARC_CORE_CONFIG } from "../../values/arcCoreConfig.js";
 import {
   NPC_ACTIVITY_CONFIG,
@@ -20,10 +23,14 @@ export class NPCManager {
     this.scene = scene;
     this.ASSET_KEYS = ASSET_KEYS;
     this.npcDefs = this._getNPCDefs();
+    this.mia = new SurfaceMiaCompanion(scene, this);
     this.npcSprites = new Map(); // Store NPC sprite references
     this.decorationSystem = decorationSystem; // Reference to decoration system for debug mode
     this._interactPrompts = []; // Array of "Press E" floating text objects
     this.activitySystem = new NPCActivitySystem(scene, ASSET_KEYS);
+    this.motionSystem = new MerchantMotionSystem(scene);
+    this.activityTimeMs = 0;
+    this.shopEntrance = new MerchantShopEntrance(this);
     
     // Merchant display names for the prompt
     this._merchantNames = {
@@ -82,7 +89,7 @@ export class NPCManager {
     }
     for (const prompt of this._interactPrompts) {
       if (!this._isMerchantAvailable(prompt.npc?.merchantId)) {
-        prompt.text?.setVisible(false);
+        prompt.view.update(false);
       }
     }
   }
@@ -132,48 +139,39 @@ export class NPCManager {
         y: groundSurfaceY + groundContact.anchorOffsetPx,
       };
       // Generated single merchant sprites share one town scale so monsters feel creepy, not gigantic.
-      const sprite = hasIdleVideo
+      const motion = hasFallbackTexture ? this.motionSystem.create(npc) : null;
+      const useIdleVideo = hasIdleVideo && !motion;
+      const sprite = useIdleVideo
         ? this.scene.add.video(pos.x, pos.y, npc.videoKey)
-        : this.scene.add.sprite(pos.x, pos.y, npc.assetKey);
+        : this.scene.add.sprite(pos.x, pos.y, motion?.textureKey || npc.assetKey, motion?.frameName);
       sprite.setOrigin(0.5, 1);
       sprite.setDepth(NPC_ACTIVITY_CONFIG.render.depth);
       sprite.setDisplaySize(spriteSize, spriteSize);
-      if (hasIdleVideo) {
+      if (useIdleVideo) {
         sprite.once('created', () => sprite.setDisplaySize(spriteSize, spriteSize));
         sprite.play(true);
       }
       
       // Store NPC sprite reference
       this.npcSprites.set(npc.merchantId, sprite);
+      this.motionSystem.attach(npc.merchantId, sprite);
       this.activitySystem.registerNPC(npc, sprite, {
         ...pos,
         displaySize: spriteSize,
+        motion: motion?.playback,
         depth: NPC_ACTIVITY_CONFIG.render.depth,
         groundSurfaceY,
         groundContact,
       });
 
-      // Create "Press E" interact prompt above each NPC (hidden by default)
-      const promptText = this.scene.add.text(
-        pos.x,
-        pos.y - spriteSize + groundContact.visibleTopInsetPx
-          - NPC_ACTIVITY_CONFIG.render.promptGapPx,
-        `[${USER_SETTINGS.getKeyLabel("interact")}] ${this._merchantNames[npc.merchantId] || 'Shop'}`, {
-          fontFamily: 'Consolas, monospace',
-          fontSize: '14px',
-          color: '#AACCFF',
-          stroke: '#000022',
-          strokeThickness: 4,
-          shadow: { offsetX: 0, offsetY: 0, color: '#4488FF', blur: 8, fill: true },
-        }
-      ).setOrigin(0.5, 1).setDepth(20).setVisible(false);
+      const baseY = pos.y - spriteSize + groundContact.visibleTopInsetPx
+        - NPC_ACTIVITY_CONFIG.render.promptGapPx;
+      const view = new MerchantPromptView(this.scene, npc.merchantId,
+        this._merchantNames[npc.merchantId], pos.x, baseY);
       this._interactPrompts.push({
-        npc: npc,
-        text: promptText,
-        spriteHeight: spriteSize,
-        baseY: promptText.y,
+        npc, view, text: view.root, worldX: pos.x, spriteHeight: spriteSize, baseY,
       });
-      
+
       // Register NPC with decoration system for debug mode
       if (this.decorationSystem) {
         this.decorationSystem.registerNPC(npc, sprite);
@@ -186,58 +184,41 @@ export class NPCManager {
    * Called from PlaySceneUpdate each frame
    */
   updateInteractPrompts(playerTile, competingDistance = Number.POSITIVE_INFINITY) {
-    if (!playerTile || !this._interactPrompts) return;
-
+    if (!this._interactPrompts) return;
+    competingDistance = Math.min(competingDistance,
+      this.scene.townRestSystem?.getInteractionDistance?.() ?? Infinity);
+    // Match the same nearest merchant and tie order used when E opens a shop.
+    let nearest = null;
+    let nearestDistance = TOWN_SQUARE_CONFIG.merchantInteractionRangeTiles + 1;
     for (const prompt of this._interactPrompts) {
-      const dist = Math.abs(playerTile.tx - prompt.npc.tx) + Math.abs(playerTile.ty - prompt.npc.ty);
-      const merchantId = prompt.npc.merchantId;
-      const rushPrompt = this.scene.randomEventBridge?.getMerchantPrompt?.(merchantId);
-      if (!this._isMerchantAvailable(merchantId)) {
-        prompt.text.setVisible(false);
-        continue;
+      if (!playerTile || !this._isMerchantAvailable(prompt.npc.merchantId)) continue;
+      const distance = Math.abs(playerTile.tx - prompt.npc.tx)
+        + Math.abs(playerTile.ty - prompt.npc.ty);
+      if (distance < nearestDistance && distance <= competingDistance) {
+        nearest = prompt;
+        nearestDistance = distance;
       }
-      const label = rushPrompt
-        ? `[${USER_SETTINGS.getKeyLabel("interact")}] ${rushPrompt}`
-        : `[${USER_SETTINGS.getKeyLabel("interact")}] ${this._merchantNames[merchantId] || "Shop"}`;
-      if (prompt.text.text !== label) prompt.text.setText(label);
-
-      const inRange = dist <= TOWN_SQUARE_CONFIG.merchantInteractionRangeTiles
-        && dist <= competingDistance;
-      
-      if (inRange && !prompt.text.visible) {
-        this.scene.tweens.killTweensOf?.(prompt.text);
-        prompt.text.setY(prompt.baseY);
-        prompt.text.setVisible(true);
-        // Fade in with a subtle bounce
-        prompt.text.setAlpha(0);
-        this.scene.tweens.add({
-          targets: prompt.text,
-          alpha: 1,
-          y: prompt.text.y + 8,
-          duration: 200,
-          ease: 'Power2.out',
-          yoyo: true,
-          hold: 100,
-          onComplete: () => {
-            prompt.text.setY(prompt.baseY);
-            prompt.text.setAlpha(1);
-          }
-        });
-      } else if (!inRange && prompt.text.visible) {
-        this.scene.tweens.killTweensOf?.(prompt.text);
-        prompt.text.setY(prompt.baseY);
-        prompt.text.setVisible(false);
-      }
+    }
+    for (const prompt of this._interactPrompts) {
+      prompt.view.update(prompt === nearest,
+        this.scene.randomEventBridge?.getMerchantPrompt?.(prompt.npc.merchantId));
     }
   }
 
-  updateActivities(time, delta, playerTile) {
-    this.activitySystem.update(time, delta, playerTile);
+  updateActivities(_time, delta, playerTile) {
+    if (globalThis.document?.hidden) return;
+    const step = Math.min(Math.max(delta || 0, 0), NPC_ACTIVITY_CONFIG.performance.maxDeltaMs);
+    this.activityTimeMs += step;
+    this.activitySystem.update(this.activityTimeMs, step, playerTile);
+    this.motionSystem.update(step);
+    this.shopEntrance?.update(step);
+    this.mia.update(playerTile);
   }
 
   refreshInteractPromptLabels() {
     for (const prompt of this._interactPrompts) {
-      prompt.text?.setText(`[${USER_SETTINGS.getKeyLabel("interact")}] ${this._merchantNames[prompt.npc.merchantId] || 'Shop'}`);
+      prompt.view.update(prompt.view.inRange,
+        this.scene.randomEventBridge?.getMerchantPrompt?.(prompt.npc.merchantId));
     }
   }
 
@@ -258,12 +239,18 @@ export class NPCManager {
       }
     }
 
-    if (nearestNPC && this.scene.interactKey && Phaser.Input.Keyboard.JustDown(this.scene.interactKey)) {
+    const interactPressed = nearestNPC && (
+      typeof this.scene.inputHandler?.consumeSpecialTileInteractInput === "function"
+        ? this.scene.inputHandler.consumeSpecialTileInteractInput()
+        : this.scene.interactKey && Phaser.Input.Keyboard.JustDown(this.scene.interactKey)
+    );
+    if (interactPressed) {
       const shopOverlay = this.scene.shopOverlay;
       if (typeof shopOverlay?.show !== "function" || shopOverlay.isOperational?.() !== true) return false;
+      if (this.shopEntrance) return this.shopEntrance.request(nearestNPC);
       const opened = shopOverlay.show(nearestNPC.merchantId);
       if (opened !== true) return false;
-      this.activitySystem.settleMerchant(nearestNPC.merchantId);
+      this.activitySystem.settleMerchant(nearestNPC.merchantId, this.activityTimeMs);
       // The shared voice director applies the 35% roll, cooldown, and busy drop.
       if (this.scene.soundSystem) {
         this.scene.soundSystem.playNPCVoiceLine(nearestNPC.merchantId);
@@ -301,11 +288,11 @@ export class NPCManager {
       entry => entry.npc?.merchantId === merchantId,
     );
     if (!prompt) return null;
-    return { x: prompt.text.x, y: prompt.baseY };
+    return { x: prompt.worldX, y: prompt.baseY };
   }
 
   getActivityHealthSnapshot() {
-    return this.activitySystem.getHealthSnapshot();
+    return { ...this.activitySystem.getHealthSnapshot(), motion: this.motionSystem?.getHealthSnapshot(), shopEntrance: this.shopEntrance?.getSnapshot() };
   }
 
   getInteractionHealthSnapshot() {
@@ -357,14 +344,17 @@ export class NPCManager {
   }
 
   destroy() {
+    this.mia.destroy();
+    this.shopEntrance?.destroy();
     this.activitySystem.destroy();
+    this.motionSystem.destroy();
     for (const sprite of this.npcSprites.values()) {
       sprite.stop?.();
       sprite.destroy?.();
     }
     this.npcSprites.clear();
     for (const prompt of this._interactPrompts) {
-      prompt.text?.destroy?.();
+      prompt.view.destroy();
     }
     this._interactPrompts = [];
   }

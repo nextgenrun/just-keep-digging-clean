@@ -1,6 +1,11 @@
 import { getStarIdentity } from "../../values/starIdentityLibraryMath.js";
+import {
+  LEVEL_ONE_BIOME_FIELD,
+  resolveLevelOneBiomeFieldAtTile,
+} from "../../values/levelOneBiomeField.js";
 import { TILE_TYPES } from "../../values/tileTypes.js";
 import { WORLD_MAP_CONFIG } from "../../values/worldMapConfig.js";
+import { WORLD_MAP_COPY } from "../../values/playerFacingCopy.js";
 
 const STAR_STATE = Object.freeze({
   INTACT: "intact",
@@ -40,6 +45,7 @@ export class WorldMapStarTerritorySystem {
     if (this.siteByKey.has(key)) return;
     const identityIndex = this.worldModel?.getSkyTileIdentity?.(tx, ty) ?? 0;
     const identity = getStarIdentity(identityIndex);
+    const biome = resolveLevelOneBiomeFieldAtTile(tx, ty, LEVEL_ONE_BIOME_FIELD);
     const site = {
       id: `star-${tx}-${ty}`,
       key,
@@ -50,6 +56,9 @@ export class WorldMapStarTerritorySystem {
       identityName: identity.name,
       color: colorNumber(identity.primary, this.config.colors.marker),
       rarityIndex: this.worldModel?.getSkyTileRarity?.(tx, ty) ?? 0,
+      biomeId: biome?.id || "",
+      biomeName: biome?.label || "",
+      biomeColor: biome?.mapColor ?? null,
       state: STAR_STATE.INTACT,
     };
     this.siteByKey.set(key, site);
@@ -103,6 +112,21 @@ export class WorldMapStarTerritorySystem {
     if (changed) {
       this.stateRevision += 1;
     }
+  }
+
+  getStateSummary() {
+    this._ensureIndexed();
+    this._refreshStates();
+    const totalCount = this.sites.length;
+    const intactCount = this.sites.filter(
+      site => site.state === STAR_STATE.INTACT,
+    ).length;
+    return {
+      totalCount,
+      intactCount,
+      consumedCount: totalCount - intactCount,
+      allConsumed: totalCount > 0 && intactCount === 0,
+    };
   }
 
   _visitBucketRing(bucketX, bucketY, ring, visit) {
@@ -260,16 +284,17 @@ export class WorldMapStarTerritorySystem {
       const discovered = discoverySystem?.isTileDiscovered?.(site.tx, site.ty) === true;
       const consumed = site.state === STAR_STATE.CONSUMED;
       const current = site.key === currentKey;
+      const refugeDetail = consumed
+        ? WORLD_MAP_COPY.starRefugeLost
+        : (discovered ? WORLD_MAP_COPY.starRefugeDetail : WORLD_MAP_COPY.starSignalDetail);
       return {
         id: site.id,
         tileX: site.tx,
         tileY: site.ty,
         label: consumed
-          ? `${discovered ? site.identityName : config.copy.unidentifiedStar} ${config.copy.starScarSuffix}`
-          : (discovered ? site.identityName : config.copy.unidentifiedStar),
-        detail: consumed
-          ? config.copy.starRefugeLost
-          : (discovered ? config.copy.starRefugeDetail : config.copy.starSignalDetail),
+          ? `${discovered ? site.identityName : WORLD_MAP_COPY.unidentifiedStar} ${WORLD_MAP_COPY.starScarSuffix}`
+          : (discovered ? site.identityName : WORLD_MAP_COPY.unidentifiedStar),
+        detail: refugeDetail,
         iconFrame: config.symbolAtlas.frames.star,
         iconSizeKey: "star",
         priority: current

@@ -1,6 +1,6 @@
-import { setupScene } from "./playScene/PlaySceneSetup.js?rev=20260826-surface-motion-v2";
-import { setupGameplayMethods } from "./playScene/PlaySceneGameplay.js?rev=20260821-moving-complex-dig-v1";
-import { updateScene } from "./playScene/PlaySceneUpdate.js?rev=20260821-moving-complex-dig-v1";
+import { setupScene } from "./playScene/PlaySceneSetup.js?rev=20260901-worldroot-v4-clean-matte-v2";
+import { setupGameplayMethods } from "./playScene/PlaySceneGameplay.js?rev=20260831-stable-animation-moving-drop-v1";
+import { updateScene } from "./playScene/PlaySceneUpdate.js?rev=20260830-worldroot-v11";
 import {
   updatePlaySceneCameraPhase,
   updatePlaySceneLightingPhase,

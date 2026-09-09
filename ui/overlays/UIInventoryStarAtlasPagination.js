@@ -1,15 +1,17 @@
 import { STAR_IDENTITY_LIBRARY_CONFIG } from
-  "../../values/starIdentityLibrary.js?rev=20260830-star-codex-v3";
+  "../../values/starIdentityLibrary.js?rev=20260906-baked-celestial-v2";
 import { UI_FONTS } from "../../values/uiLayout.js";
+import { BAKED_STAR_LAYOUT } from "../../values/bakedCelestialUi.js";
+import { fitLiveUiText } from "../../systems/visual/bakedUiArt.js";
 import {
   starAtlasFontSize,
   starAtlasPoint,
   starAtlasSize,
-} from "./UIInventoryStarAtlasLayout.js?rev=20260830-star-codex-v3";
+} from "./UIInventoryStarAtlasLayout.js?rev=20260906-baked-celestial-v2";
 import {
   addStarAtlasHitZone,
   addStarAtlasText,
-} from "./UIInventoryStarAtlasPrimitives.js?rev=20260830-star-codex-v3";
+} from "./UIInventoryStarAtlasPrimitives.js?rev=20260906-baked-celestial-v2";
 
 export function renderStarAtlasPageControls(
   scene,
@@ -49,6 +51,23 @@ export function renderStarAtlasPageControls(
       () => onSelect(targetIdentity.index),
     );
   });
+  if (config.inventory.bakedCopy) {
+    const g = BAKED_STAR_LAYOUT;
+    for (const [xPx, value] of [
+      [g.foundX, `${identities.length} / ${totalIdentityCount}`],
+      [g.pageX, `${pageIndex + 1} / ${Math.max(1, pageCount)}`],
+    ]) {
+      const point = starAtlasPoint(bounds, xPx, g.pageY, layout);
+      const text = addStarAtlasText(scene, parent, point.x, point.y, value, {
+        fontFamily: UI_FONTS.mono,
+        fontSizePx: starAtlasFontSize(bounds, layout.pageLabelFontSizePx, layout, 9),
+        fontStyle: "bold", color: appearance.title,
+        stroke: appearance.shadow, strokeThickness: 2,
+      });
+      fitLiveUiText(text, starAtlasSize(bounds, g.pageValueWidth, layout));
+    }
+    return;
+  }
   const labelPoint = starAtlasPoint(
     bounds,
     layout.pageLabelCenterXPx,

@@ -1,0 +1,213 @@
+{
+  "schemaVersion": 1,
+  "created": "2026-09-07",
+  "title": "Leo — charm, nerves and a questionable past",
+  "reviewOnly": true,
+  "runtimeWired": false,
+  "reviewStatus": "awaiting-emotion-audition",
+  "approvedVoice": "leo",
+  "voice": "leo",
+  "model": "x-ai/grok-voice-tts-1.0",
+  "responseFormat": "mp3",
+  "outputRoot": "sound/voice-lines/player-leo-emotion-review-v1",
+  "originalCatalog": "values/playerVoiceMysteryReviewV1.json",
+  "originalManifest": "sound/voice-lines/player-mystery-review-v1/2026-09-07-audition-manifest.json",
+  "originalReviewUrl": "/sound/voice-lines/player-mystery-review-v1/review/",
+  "userDirection": "Leo is the selected voice. The existing restrained recordings are acceptable as part of his range. Add emotional variety, charm, gentle warmth, dark humour and some adult edge. Relevance and intelligibility remain mandatory.",
+  "synthesisDirection": "Audition supported speech tags for actual vocal performance: warmth, reluctant affection, surprise, urgency, relief and restrained laughter. No voice substitution or pitch processing. Emotional acting is specific to the scene; he does not laugh, whisper or swear on every event.",
+  "supportedInlineTags": [
+    "pause",
+    "chuckle",
+    "inhale",
+    "exhale",
+    "sigh"
+  ],
+  "supportedWrappingTags": [
+    "soft",
+    "loud",
+    "emphasis",
+    "laugh-speak",
+    "build-intensity"
+  ],
+  "documentation": "https://docs.x.ai/developers/model-capabilities/audio/text-to-speech#speech-tags",
+  "generation": {
+    "maxRequests": 12,
+    "maxCharacters": 1600,
+    "minWords": 3,
+    "maxWords": 7,
+    "pricePerMillionCharactersUSD": 15,
+    "estimatedSpendLimitUSD": 0.25
+  },
+  "performanceMix": {
+    "principle": "Keep the original restrained takes in the pool. Add emotional readings only when they match the actual situation.",
+    "rules": [
+      "Discovery: recognition, affection, or uneasy familiarity.",
+      "Immediate danger: short, alert and intelligible.",
+      "After real danger: relief or an occasional gallows joke.",
+      "Adult language is occasional character colour; never a random trigger.",
+      "A laugh or breath belongs to the performance of one moment; it is not a recurring sound effect.",
+      "The original rarity, freshness, no-overlap and anti-repeat rules still apply."
+    ]
+  },
+  "clips": [
+    {
+      "id": "B1E",
+      "originalId": "B1",
+      "group": "B",
+      "kind": "same-words",
+      "text": "I remember that light.",
+      "ttsInput": "<soft>I remember that light.</soft>",
+      "emotion": "Unexpected tenderness",
+      "delivery": "Warm recognition, as if he missed something he thought was gone.",
+      "edge": "None",
+      "intent": "Hear a feeling behind the memory without adding exposition."
+    },
+    {
+      "id": "C1E",
+      "originalId": "C1",
+      "group": "C",
+      "kind": "same-words",
+      "text": "I know that face.",
+      "ttsInput": "<soft>I know that face.</soft> [sigh]",
+      "emotion": "A memory that hurts",
+      "delivery": "Quiet recognition followed by a small weary sigh.",
+      "edge": "Uneasy",
+      "intent": "The familiarity costs him something; this is not a neutral announcement."
+    },
+    {
+      "id": "D1E",
+      "originalId": "D1",
+      "group": "D",
+      "kind": "same-words",
+      "text": "Loose rocks. Keep moving.",
+      "ttsInput": "<loud>Loose rocks!</loud> <emphasis>Keep moving.</emphasis>",
+      "emotion": "Immediate alarm",
+      "delivery": "A quick raised warning, then a firm instruction.",
+      "edge": "None",
+      "intent": "Feel the threat in his delivery while keeping the hazard explicit."
+    },
+    {
+      "id": "E2E",
+      "originalId": "E2",
+      "group": "E",
+      "kind": "same-words",
+      "text": "Not my first burial.",
+      "ttsInput": "[exhale] <laugh-speak>Not my first burial.</laugh-speak>",
+      "emotion": "Rattled gallows humour",
+      "delivery": "Release a breath, then a small disbelieving smile through the words.",
+      "edge": "Dark",
+      "intent": "An attempt to laugh off real fear; the implication remains disturbing."
+    },
+    {
+      "id": "A3",
+      "group": "A",
+      "kind": "new-line",
+      "text": "Gold. There goes my conscience.",
+      "ttsInput": "Gold. <laugh-speak>There goes my conscience.</laugh-speak>",
+      "emotion": "Crooked amusement",
+      "delivery": "A pleased discovery followed by a knowingly bad decision.",
+      "edge": "Dry adult humour",
+      "intent": "Give him a little wicked charm without a long joke."
+    },
+    {
+      "id": "A4",
+      "group": "A",
+      "kind": "new-line",
+      "text": "Gold. I've killed for less.",
+      "ttsInput": "Gold. <soft>I've killed for less.</soft>",
+      "emotion": "An unwelcome confession",
+      "delivery": "The second sentence slips out more quietly, almost to himself.",
+      "edge": "Past violence",
+      "intent": "A stronger alternative hint at his history; not established canon."
+    },
+    {
+      "id": "B3",
+      "group": "B",
+      "kind": "new-line",
+      "text": "Miss me, you little bastard?",
+      "ttsInput": "<laugh-speak>Miss me, you little bastard?</laugh-speak>",
+      "emotion": "Rough affection",
+      "delivery": "Address the collected Star like an old friend he can tease.",
+      "edge": "Mild swearing",
+      "intent": "A surprising bit of warmth that also raises a question about his past."
+    },
+    {
+      "id": "C3",
+      "group": "C",
+      "kind": "new-line",
+      "text": "You still owe me a drink.",
+      "ttsInput": "<soft>You still owe me a drink.</soft> [chuckle]",
+      "emotion": "Fond, impossible familiarity",
+      "delivery": "A warm aside to the revealed Titan, with a short private chuckle.",
+      "edge": "Adult familiarity",
+      "intent": "Who knows an ancient Titan well enough to say this?"
+    },
+    {
+      "id": "C4",
+      "group": "C",
+      "kind": "new-line",
+      "text": "Ah, shit. You again.",
+      "ttsInput": "[inhale] Ah, shit. <emphasis>You again.</emphasis>",
+      "emotion": "Recognition he did not want",
+      "delivery": "A caught breath, then irritated disbelief.",
+      "edge": "Mild swearing",
+      "intent": "A sharper alternative to fond familiarity; select one relationship direction per Titan."
+    },
+    {
+      "id": "E3",
+      "group": "E",
+      "kind": "new-line",
+      "text": "Fuck me. Still breathing.",
+      "ttsInput": "[exhale] Fuck me. <soft>Still breathing.</soft>",
+      "emotion": "Unfiltered relief",
+      "delivery": "Air comes back first. The relief lands in the last two words.",
+      "edge": "Stronger swearing",
+      "intent": "Human vulnerability after a real close call, not random profanity."
+    },
+    {
+      "id": "E4",
+      "group": "E",
+      "kind": "new-line",
+      "text": "I've had gentler lovers.",
+      "ttsInput": "<laugh-speak>I've had gentler lovers.</laugh-speak>",
+      "emotion": "A bruised, crooked grin",
+      "delivery": "A brief rueful smile after the quake has actually threatened him.",
+      "edge": "Mild innuendo",
+      "intent": "An adult joke tied to the rough experience, with no explicit sexual detail."
+    },
+    {
+      "id": "F3",
+      "group": "F",
+      "kind": "new-line",
+      "text": "Still alive. Sorry to disappoint.",
+      "ttsInput": "Still alive. <laugh-speak>Sorry to disappoint.</laugh-speak>",
+      "emotion": "Weary defiance",
+      "delivery": "Tired satisfaction, followed by a dry little smile.",
+      "edge": "Dark humour",
+      "intent": "A self-directed joke on a qualifying return; it does not claim an NPC reaction.",
+      "conditionOverride": "Player returned to Town after reaching at least 300 metres on this trip, is now above ground, and no shop or NPC conversation is open.",
+      "excludeOverride": "Never for a short surface loop, shop entry, underground teleport, or a menu."
+    }
+  ],
+  "audio": {
+    "sampleRate": 48000,
+    "channels": 1,
+    "targetLufs": -16,
+    "truePeakDb": -2,
+    "loudnessRange": 5,
+    "highpassHz": 80,
+    "trimThresholdDb": -54,
+    "leadPadSeconds": 0.1,
+    "tailPadSeconds": 0.18,
+    "maxDurationSeconds": 4,
+    "montageGapSeconds": 0.9,
+    "limiter": {
+      "attackMs": 5,
+      "releaseMs": 60,
+      "oversampleRate": 192000,
+      "passes": 3,
+      "lufsTolerance": 0.8
+    },
+    "bitrate": "128k"
+  }
+}

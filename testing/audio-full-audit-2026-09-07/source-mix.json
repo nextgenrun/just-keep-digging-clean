@@ -1,0 +1,3233 @@
+{
+  "config": {
+    "musicTargetLufs": -18,
+    "voiceTargetLufs": -20,
+    "musicMaxBoostDb": 0,
+    "voiceMaxBoostDb": 2,
+    "truePeakCeilingDb": -3,
+    "voiceSilenceThresholdSeconds": 0.5,
+    "voiceLeadingPadSeconds": 0.12,
+    "voiceTrailingPadSeconds": 0.18,
+    "voiceFadeInSeconds": 0.003,
+    "voiceFadeOutSeconds": 0.012,
+    "starDcHighpassHz": 20,
+    "starDcFilterQ": -3.0102999566398116,
+    "starFilteredPeak": 1.17,
+    "starSoundKey": "sfx-star-destruction-0"
+  },
+  "items": [
+    {
+      "path": "sound/playlists/Amb song-1.ogg",
+      "sourceSha256": "b22824ae498c0d1e154d89153473384975e27fda68f24ab1062968a22584e89d",
+      "kind": "music",
+      "beforeLufs": -14.3,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -7.5,
+      "gain": 0.65313
+    },
+    {
+      "path": "sound/playlists/Amb song-10.ogg",
+      "sourceSha256": "626b717589f62fe208ff5e390f0b72b21e90b1de0098f3e319003db1eb984262",
+      "kind": "music",
+      "beforeLufs": -15.2,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -6,
+      "gain": 0.724435
+    },
+    {
+      "path": "sound/playlists/Amb song-12.ogg",
+      "sourceSha256": "cbe2b80039b978a90506206cae442fa46289c75222142e24a2275fe2a8e1ba1e",
+      "kind": "music",
+      "beforeLufs": -16.6,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -4.7,
+      "gain": 0.851138
+    },
+    {
+      "path": "sound/playlists/Amb song-13.ogg",
+      "sourceSha256": "6007343e994bfa36db5fc25d83bedf70e779cd7364bef3d511c17ad8c8039d4b",
+      "kind": "music",
+      "beforeLufs": -14.8,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -4.7,
+      "gain": 0.69183
+    },
+    {
+      "path": "sound/playlists/Amb song-14.ogg",
+      "sourceSha256": "3a0a976a6b4fcd887f80c1ec46b576777232ab6492b02864ac3dab841f686a30",
+      "kind": "music",
+      "beforeLufs": -18.3,
+      "afterLufs": -18.3,
+      "afterTruePeakDbTP": -4.7,
+      "gain": 1
+    },
+    {
+      "path": "sound/playlists/Amb song-15.ogg",
+      "sourceSha256": "bdba202e923adb328243c12193f0c311ffadfd814218fdab9088f7874ee007a9",
+      "kind": "music",
+      "beforeLufs": -15.3,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -4.7,
+      "gain": 0.732824
+    },
+    {
+      "path": "sound/playlists/Amb song-16.ogg",
+      "sourceSha256": "023e5a5126ecaa2ea28d30a1d2323d5f29c3e94f7f928960bd7db6cefb8a6c68",
+      "kind": "music",
+      "beforeLufs": -15.7,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -5.3,
+      "gain": 0.767361
+    },
+    {
+      "path": "sound/playlists/Amb song-17.ogg",
+      "sourceSha256": "2f2a63bc6c8ae5a6c7777c90dcc75304aba92f887e3f701c8f5d9997c5109053",
+      "kind": "music",
+      "beforeLufs": -15.2,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -5.3,
+      "gain": 0.724435
+    },
+    {
+      "path": "sound/playlists/Amb song-2.ogg",
+      "sourceSha256": "e743b4c2f56108d7d256c2ead675f5822f25a26439ef24b3b2efb791842a324d",
+      "kind": "music",
+      "beforeLufs": -17.9,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -3.7,
+      "gain": 0.988553
+    },
+    {
+      "path": "sound/playlists/Amb song-24.ogg",
+      "sourceSha256": "ff9b444325b873c46431f7c74489f07ad6ba7b476f14fddfb4e1a4044aad5e59",
+      "kind": "music",
+      "beforeLufs": -14,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -6.4,
+      "gain": 0.630957
+    },
+    {
+      "path": "sound/playlists/Amb song-25.ogg",
+      "sourceSha256": "38e71a0a292f8c9a602ade8a5c0613b4b734a5028dbbc6b3d303dadc79717ed8",
+      "kind": "music",
+      "beforeLufs": -15.3,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -5.1,
+      "gain": 0.732824
+    },
+    {
+      "path": "sound/playlists/Amb song-27.ogg",
+      "sourceSha256": "8ac33bdb871695cfb2753a861095c5a923ff0e0208a9ac08f970426787d78820",
+      "kind": "music",
+      "beforeLufs": -15.7,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -5.4,
+      "gain": 0.767361
+    },
+    {
+      "path": "sound/playlists/Amb song-3.ogg",
+      "sourceSha256": "c0ddd88bd7047b9a32dec477264b2b5fce9af2b700ace76e4bfc16449c10bfb7",
+      "kind": "music",
+      "beforeLufs": -14.5,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -7,
+      "gain": 0.668343
+    },
+    {
+      "path": "sound/playlists/Amb song-30.ogg",
+      "sourceSha256": "33018a0339c847bfb318add912d0044f734789027d8fe8edd6bbcee71dee81ae",
+      "kind": "music",
+      "beforeLufs": -14,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -6.2,
+      "gain": 0.630957
+    },
+    {
+      "path": "sound/playlists/Amb song-33.ogg",
+      "sourceSha256": "630adf013448c430807fce4f4fab6de99fe59574e4ab137b444f271c6a9dc177",
+      "kind": "music",
+      "beforeLufs": -13.8,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -6.2,
+      "gain": 0.616595
+    },
+    {
+      "path": "sound/playlists/Amb song-4.ogg",
+      "sourceSha256": "bba59f1307197f186a40ce10363623b47594f7c1762acd97a3bfd2620e90e752",
+      "kind": "music",
+      "beforeLufs": -17.7,
+      "afterLufs": -18.3,
+      "afterTruePeakDbTP": -3,
+      "gain": 0.933254
+    },
+    {
+      "path": "sound/playlists/Amb song-5.ogg",
+      "sourceSha256": "31fdf9f5f1c2f113ca4c4653d399ce594a8d6d89c8c5866723fc8bbfde3bb238",
+      "kind": "music",
+      "beforeLufs": -16.1,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -4.2,
+      "gain": 0.803526
+    },
+    {
+      "path": "sound/playlists/Amb song-6.ogg",
+      "sourceSha256": "964e5fe482823e563f739598a4ef66e91f6346892c30f37ac06c291813f32ce9",
+      "kind": "music",
+      "beforeLufs": -16.4,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -4.8,
+      "gain": 0.831763
+    },
+    {
+      "path": "sound/playlists/Amb song-7.ogg",
+      "sourceSha256": "de259cd73218a9c0de16c09d10be49e441194bfaa01ce81644cfe57721a22c0e",
+      "kind": "music",
+      "beforeLufs": -15.1,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -6.2,
+      "gain": 0.716143
+    },
+    {
+      "path": "sound/playlists/Amb song-8.ogg",
+      "sourceSha256": "9eddf3673ad4f2742b33b934a8533642747fcf1785ebf8e43fce6dda624940bc",
+      "kind": "music",
+      "beforeLufs": -14.6,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -5.2,
+      "gain": 0.676082
+    },
+    {
+      "path": "sound/playlists/Amb song-9.ogg",
+      "sourceSha256": "1f6864e9dc907ccf9b12529ed73b87aeaf6223bcca258727b572665416222325",
+      "kind": "music",
+      "beforeLufs": -13.4,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -6.8,
+      "gain": 0.588843
+    },
+    {
+      "path": "sound/playlists/j-k-d-amb-1.ogg",
+      "sourceSha256": "559ddbf57af444da03b09cc8a7b8f5baa6449738af6abefbedb9d79bbc628f18",
+      "kind": "music",
+      "beforeLufs": -15.9,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -5.2,
+      "gain": 0.785235
+    },
+    {
+      "path": "sound/playlists/j-k-d-amb-2.ogg",
+      "sourceSha256": "99855a651a94b84824bfb427c125496c73ded79402019c7869e7d0ac971743c3",
+      "kind": "music",
+      "beforeLufs": -15.1,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -5.4,
+      "gain": 0.716143
+    },
+    {
+      "path": "sound/playlists/j-k-d-amb-3.ogg",
+      "sourceSha256": "049d45299357bd53397e0e8d9403b03f68c8f196740d9d4915e556e46402e429",
+      "kind": "music",
+      "beforeLufs": -15.3,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -5.2,
+      "gain": 0.732824
+    },
+    {
+      "path": "sound/playlists/j-k-d-amb-5.ogg",
+      "sourceSha256": "d486962c8f46bd1198bbdc2577af1be49ce4ad0f11784c0428847200dfd889d9",
+      "kind": "music",
+      "beforeLufs": -15.7,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -5.1,
+      "gain": 0.767361
+    },
+    {
+      "path": "sound/playlists/j-k-d-amb-background-2.ogg",
+      "sourceSha256": "bf581e320c9aa3e6eef70c324eab67f0d7ff9d33b78f39933702816ccb0432b1",
+      "kind": "music",
+      "beforeLufs": -14.1,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -6.1,
+      "gain": 0.638263
+    },
+    {
+      "path": "sound/playlists/j-k-d-amb-background-5.ogg",
+      "sourceSha256": "095f3f345d6d6f19c44d99a0a67ca1028be6e69625568f8581c87bc273a9dc98",
+      "kind": "music",
+      "beforeLufs": -15.1,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -6.1,
+      "gain": 0.716143
+    },
+    {
+      "path": "sound/playlists/tor-music-boss-breakthrough-final-opening-heroic-impact-i04-b03-c01-v01.mp3",
+      "sourceSha256": "e34093b8f629611916cd3f06fd24c84629a6dd952d3c63ade34ab22863771d7a",
+      "kind": "music",
+      "beforeLufs": -13.5,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -7.1,
+      "gain": 0.595662
+    },
+    {
+      "path": "sound/playlists/tor-music-boss-breakthrough-final-opening-heroic-impact-i04-b03-c02-v01.mp3",
+      "sourceSha256": "c8ecf1ca68b221aea648b857ce7221c712f6958cf637446354e88b1579c78b22",
+      "kind": "music",
+      "beforeLufs": -12.1,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -7.4,
+      "gain": 0.50699
+    },
+    {
+      "path": "sound/playlists/tor-music-boss-frost-warden-combat-boss-i04-b01-c01-v01.mp3",
+      "sourceSha256": "c9574f1e5ced7e419428ca495d9d81e38a056ae93da8641d600b0b90e8e4137c",
+      "kind": "music",
+      "beforeLufs": -13.8,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -6.5,
+      "gain": 0.616595
+    },
+    {
+      "path": "sound/playlists/tor-music-boss-frost-warden-combat-boss-i04-b01-c02-v01.mp3",
+      "sourceSha256": "6dda12baebbb5e841b022508dac7c4ef6a43867526b4c4894c6d93bec3883c12",
+      "kind": "music",
+      "beforeLufs": -14.2,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -4.3,
+      "gain": 0.645654
+    },
+    {
+      "path": "sound/playlists/tor-music-boss-phase-escalation-new-mechanic-shock-i04-b03-c01-v01.mp3",
+      "sourceSha256": "3300b1b008995b7110170ed862e429f44f6b01638c56ac5533692c01f5b15c5f",
+      "kind": "music",
+      "beforeLufs": -11.7,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -7.3,
+      "gain": 0.484172
+    },
+    {
+      "path": "sound/playlists/tor-music-boss-phase-escalation-new-mechanic-shock-i04-b03-c02-v01.mp3",
+      "sourceSha256": "322f6a53977d7333d9f6385039d4f54284fc4289beade52f766804f73d73fb1d",
+      "kind": "music",
+      "beforeLufs": -12.3,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -7.3,
+      "gain": 0.5188
+    },
+    {
+      "path": "sound/playlists/tor-music-boss-ten-floor-milestone-final-phase-legendary-i04-b03-c01-v01.mp3",
+      "sourceSha256": "c0c8ead0c14eb17d695eb580e73e12ba4e5b59307d004a8f37d8577a9b706bbf",
+      "kind": "music",
+      "beforeLufs": -12.6,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -7.2,
+      "gain": 0.537031
+    },
+    {
+      "path": "sound/playlists/tor-music-boss-unseen-proximity-stalking-predator-horror-i04-b03-c01-v01.mp3",
+      "sourceSha256": "4dee53cac2afb867351f87c165ca2dcf6f5454e5af274dd424f355141e485126",
+      "kind": "music",
+      "beforeLufs": -12.9,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -5.5,
+      "gain": 0.555904
+    },
+    {
+      "path": "sound/playlists/tor-music-boss-unseen-proximity-stalking-predator-horror-i04-b03-c02-v01.mp3",
+      "sourceSha256": "284821b47633f3599146ce59c19b09aa8e30a4286449fec03e4344d7df642580",
+      "kind": "music",
+      "beforeLufs": -11.9,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -6.3,
+      "gain": 0.49545
+    },
+    {
+      "path": "sound/playlists/tor-music-choice-karma-immediate-reward-dark-temptation-i03-b03-c01-v01.mp3",
+      "sourceSha256": "14420c7332a884b937c710b7165b258f99baeb569a8699586525d50cd54cccaa",
+      "kind": "music",
+      "beforeLufs": -12,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -6.6,
+      "gain": 0.501187
+    },
+    {
+      "path": "sound/playlists/tor-music-choice-karma-immediate-reward-dark-temptation-i03-b03-c02-v01.mp3",
+      "sourceSha256": "add5de64914e8bd593f0149d6fb6c8c47c8d89167f5d1bee6f74d59416ec4f74",
+      "kind": "music",
+      "beforeLufs": -12.8,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -6.6,
+      "gain": 0.54954
+    },
+    {
+      "path": "sound/playlists/tor-music-choice-rest-time-sacrificed-uneasy-recovery-i02-b03-c01-v01.mp3",
+      "sourceSha256": "f87d9016a4fac3742c133b329a111a3a328104374b4b482d5f7ad8505e20a1e4",
+      "kind": "music",
+      "beforeLufs": -13.6,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -5.5,
+      "gain": 0.602559
+    },
+    {
+      "path": "sound/playlists/tor-music-combat-elite-sudden-appearance-high-impact-i04-b03-c01-v01.mp3",
+      "sourceSha256": "bfdd816bf70b8c5061448f8d869af71855979c13a4e9a105d27fa34758afba05",
+      "kind": "music",
+      "beforeLufs": -13.5,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -6.8,
+      "gain": 0.595662
+    },
+    {
+      "path": "sound/playlists/tor-music-combat-elite-sudden-appearance-high-impact-i04-b03-c02-v01.mp3",
+      "sourceSha256": "1f1a8661d3b3d2437d012c45b127785e43e769d34769c15aab7d2f4ad15ae217",
+      "kind": "music",
+      "beforeLufs": -12.7,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -7.2,
+      "gain": 0.54325
+    },
+    {
+      "path": "sound/playlists/tor-music-combat-surrounded-enemy-wave-desperate-i04-b03-c01-v01.mp3",
+      "sourceSha256": "c4902b6e78dc22bbb8460b61c422ed0917ec8cbb6ddefa4c1e8b202a24c76dfe",
+      "kind": "music",
+      "beforeLufs": -14,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -7.1,
+      "gain": 0.630957
+    },
+    {
+      "path": "sound/playlists/tor-music-combat-surrounded-enemy-wave-desperate-i04-b03-c02-v01.mp3",
+      "sourceSha256": "dbeb59f12e39ee55755957285c5f98351d475862761998feb839326026eeeab4",
+      "kind": "music",
+      "beforeLufs": -12.5,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -7.1,
+      "gain": 0.530884
+    },
+    {
+      "path": "sound/playlists/tor-music-death-final-life-run-ended-catastrophic-loss-i04-b03-c01-v01.mp3",
+      "sourceSha256": "dbefcd5c889e4123620e82805716cb29b234ee132536b51f691d6f1cac8cd30d",
+      "kind": "music",
+      "beforeLufs": -11.2,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -7,
+      "gain": 0.457088
+    },
+    {
+      "path": "sound/playlists/tor-music-death-final-life-run-ended-catastrophic-loss-i04-b03-c02-v01.mp3",
+      "sourceSha256": "48006fb2201ca86b780f682dfd4e799a602a8fe889762dbdf5228acff933f603",
+      "kind": "music",
+      "beforeLufs": -11.2,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -7.6,
+      "gain": 0.457088
+    },
+    {
+      "path": "sound/playlists/tor-music-death-graveyard-respawn-life-lost-heavy-loss-i03-b03-c01-v01.mp3",
+      "sourceSha256": "f6b3b0a7f65cf6ecaf3ce12578b14ab83535be301c5067f5c6ca17d68e370348",
+      "kind": "music",
+      "beforeLufs": -12.9,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -7,
+      "gain": 0.555904
+    },
+    {
+      "path": "sound/playlists/tor-music-death-graveyard-respawn-life-lost-heavy-loss-i03-b03-c02-v01.mp3",
+      "sourceSha256": "d55e8316ec7457d9e150f4af786b65be53de34dee841abac185968b21b6251d5",
+      "kind": "music",
+      "beforeLufs": -12.9,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -5.5,
+      "gain": 0.555904
+    },
+    {
+      "path": "sound/playlists/tor-music-discovery-enemy-knowledge-truth-revealed-wonder-i02-b03-c01-v01.mp3",
+      "sourceSha256": "06f6568544e9997cba60fd72689a139619eaa5fa9defc695af1476c27d630d87",
+      "kind": "music",
+      "beforeLufs": -12.5,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -5.9,
+      "gain": 0.530884
+    },
+    {
+      "path": "sound/playlists/tor-music-discovery-enemy-knowledge-truth-revealed-wonder-i02-b03-c02-v01.mp3",
+      "sourceSha256": "375c3331a8bdf82c1757344a0a9b4ee0a26656ad7c198f8e1fd0c28806bce87f",
+      "kind": "music",
+      "beforeLufs": -14.2,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -3.8,
+      "gain": 0.645654
+    },
+    {
+      "path": "sound/playlists/tor-music-discovery-unique-material-rare-find-awe-i02-b03-c01-v01.mp3",
+      "sourceSha256": "f7a7d5eeb8480ff9bcffdc6d9e2e248047ed1201d7ca5cfee83fac826b5e115d",
+      "kind": "music",
+      "beforeLufs": -12.7,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -6.2,
+      "gain": 0.54325
+    },
+    {
+      "path": "sound/playlists/tor-music-discovery-unique-material-rare-find-awe-i02-b03-c02-v01.mp3",
+      "sourceSha256": "4cf7bf5cd4600c9fe9ee2e4c1516f3eba687b8286678ee782f24c2896222ae3a",
+      "kind": "music",
+      "beforeLufs": -13.1,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -6,
+      "gain": 0.568852
+    },
+    {
+      "path": "sound/playlists/tor-music-global-attrition-supplies-decaying-tragic-pressure-i02-b03-c01-v01.mp3",
+      "sourceSha256": "c9e6e1448e96ab0faa83f390deb5c9f0412356b9b0fc74545a261403fbe6e5cb",
+      "kind": "music",
+      "beforeLufs": -12.9,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -5.7,
+      "gain": 0.555904
+    },
+    {
+      "path": "sound/playlists/tor-music-global-attrition-supplies-decaying-tragic-pressure-i02-b03-c02-v01.mp3",
+      "sourceSha256": "7a41acf531156bf5805b2ac8c311b8b36cf79497339c8d68a2d91c174351ed45",
+      "kind": "music",
+      "beforeLufs": -12.5,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -5.9,
+      "gain": 0.530884
+    },
+    {
+      "path": "sound/playlists/tor-music-global-attrition-supplies-decaying-tragic-pressure-i02-b03-c03-v01.mp3",
+      "sourceSha256": "08ed9357de2f1039be44cff6c0c44a417369653e910a9b1bb13dd378bdb7e62c",
+      "kind": "music",
+      "beforeLufs": -14.1,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -5.7,
+      "gain": 0.638263
+    },
+    {
+      "path": "sound/playlists/tor-music-global-attrition-supplies-decaying-tragic-pressure-i02-b03-c04-v01.mp3",
+      "sourceSha256": "eabf7fc8b81bd8a8d138093bcec7ffda19c9d603571caac1eff4d9929fa2a0f5",
+      "kind": "music",
+      "beforeLufs": -12.1,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -6.8,
+      "gain": 0.50699
+    },
+    {
+      "path": "sound/playlists/tor-music-global-beginner-pocket-danger-near-transition-i02-b02-c01-v01.mp3",
+      "sourceSha256": "5406c661883a08821f08ace101c71995a5e939f609ed226fb686d4a9885f18dd",
+      "kind": "music",
+      "beforeLufs": -14.1,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -5.6,
+      "gain": 0.638263
+    },
+    {
+      "path": "sound/playlists/tor-music-global-beginner-pocket-danger-near-transition-i02-b02-c02-v01.mp3",
+      "sourceSha256": "02a271efd644987a853d1244317b6b5a7381fe34148e7ee12e073f13a1f012da",
+      "kind": "music",
+      "beforeLufs": -12.2,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -6.3,
+      "gain": 0.512861
+    },
+    {
+      "path": "sound/playlists/tor-music-global-world-clock-late-run-crushing-pressure-i03-b03-c01-v01.mp3",
+      "sourceSha256": "728eac6c79054b99cc8949eea655b97727495128d24aefb28fccd418f740a497",
+      "kind": "music",
+      "beforeLufs": -12.9,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -5.6,
+      "gain": 0.555904
+    },
+    {
+      "path": "sound/playlists/tor-music-global-world-clock-late-run-crushing-pressure-i03-b03-c02-v01.mp3",
+      "sourceSha256": "835d2316229e0e5de60d1fc57eeea6c30afc4d46d2de7747094c752f4f0fca10",
+      "kind": "music",
+      "beforeLufs": -12.4,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -5.5,
+      "gain": 0.524807
+    },
+    {
+      "path": "sound/playlists/tor-music-legacy-fallen-hero-run-remembered-tragic-i02-b03-c01-v01.mp3",
+      "sourceSha256": "d60cb2e72ed5b71d332c2139aa79bc69306258c08e4c29b41b69072a98f781d1",
+      "kind": "music",
+      "beforeLufs": -11.9,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -6.2,
+      "gain": 0.49545
+    },
+    {
+      "path": "sound/playlists/tor-music-legacy-fallen-hero-run-remembered-tragic-i02-b03-c02-v01.mp3",
+      "sourceSha256": "66886b56a0b513550bb1bb36b665e6d764d8731b4302a1ffc151938d1c9aa715",
+      "kind": "music",
+      "beforeLufs": -13.2,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -5.7,
+      "gain": 0.575439
+    },
+    {
+      "path": "sound/playlists/tor-music-moment-ironvale-dawn-fully-prepared-heroic-i01-b03-c01-v01.mp3",
+      "sourceSha256": "2e9c72b66806333e17d65ef1802ab42bdd8fb3ce666b8b9409a375d7595822cc",
+      "kind": "music",
+      "beforeLufs": -14.1,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -6.9,
+      "gain": 0.638263
+    },
+    {
+      "path": "sound/playlists/tor-music-moment-ironvale-dawn-fully-prepared-heroic-i01-b03-c02-v01.mp3",
+      "sourceSha256": "7abe6da8c9f2232579212ea1d5e5a1f13ac00ac767fd61cc63078cefc8569c85",
+      "kind": "music",
+      "beforeLufs": -11.3,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -7.2,
+      "gain": 0.462381
+    },
+    {
+      "path": "sound/playlists/tor-music-moment-ironvale-return-alive-heroic-recovery-i02-b03-c01-v01.mp3",
+      "sourceSha256": "d981d0c448c6271a944e6eca9a30d0e8da024dcecd071c2ee9927a62a7c69eae",
+      "kind": "music",
+      "beforeLufs": -11.1,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -7.9,
+      "gain": 0.451855
+    },
+    {
+      "path": "sound/playlists/tor-music-moment-ironvale-return-alive-heroic-recovery-i02-b03-c02-v01.mp3",
+      "sourceSha256": "4da60646aaa547dd341f0f56e30ecd39cc414b13c745fd6659f9621c43186e2c",
+      "kind": "music",
+      "beforeLufs": -12.6,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -6.2,
+      "gain": 0.537031
+    },
+    {
+      "path": "sound/playlists/tor-music-moment-ironvale-road-first-departure-heroic-i02-b03-c01-v01.mp3",
+      "sourceSha256": "7df38a6caa5d0906c695d13e86126d5c9413da8330e04a5172781b94b8750343",
+      "kind": "music",
+      "beforeLufs": -13.5,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -6.9,
+      "gain": 0.595662
+    },
+    {
+      "path": "sound/playlists/tor-music-moment-ironvale-road-first-departure-heroic-i02-b03-c02-v01.mp3",
+      "sourceSha256": "034347ce6b94ac3037411cf72687451b242938296044328de3c4653ffe0c054a",
+      "kind": "music",
+      "beforeLufs": -12.4,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -6.5,
+      "gain": 0.524807
+    },
+    {
+      "path": "sound/playlists/tor-music-player-critical-health-one-hit-left-near-death-i04-b03-c01-v01.mp3",
+      "sourceSha256": "69e42905169d4b1d7a01f0494aa4aeb2c62eacd78d2e47957fd7ff4bc375f947",
+      "kind": "music",
+      "beforeLufs": -12.7,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -6.2,
+      "gain": 0.54325
+    },
+    {
+      "path": "sound/playlists/tor-music-player-critical-health-one-hit-left-near-death-i04-b03-c02-v01.mp3",
+      "sourceSha256": "258c90deca29b02d99f283d925bf25fab5b089cf25f7493133b57c93d15e27b7",
+      "kind": "music",
+      "beforeLufs": -11.1,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -6.6,
+      "gain": 0.451855
+    },
+    {
+      "path": "sound/playlists/tor-music-player-last-tonic-final-chance-desperate-i04-b03-c01-v01.mp3",
+      "sourceSha256": "909e78232fd9fe5bc1c8ea31e6639798af56bfa1cd84da9737e847ab17a5d884",
+      "kind": "music",
+      "beforeLufs": -12,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -6.7,
+      "gain": 0.501187
+    },
+    {
+      "path": "sound/playlists/tor-music-player-last-tonic-final-chance-desperate-i04-b03-c02-v01.mp3",
+      "sourceSha256": "ff674ff0842a67a2ef2a6259f2e6ba6c836ae32917ec5a16fc1605340a10be06",
+      "kind": "music",
+      "beforeLufs": -12,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -7.2,
+      "gain": 0.501187
+    },
+    {
+      "path": "sound/playlists/tor-music-player-mana-empty-power-exhausted-desperate-i03-b03-c01-v01.mp3",
+      "sourceSha256": "29fd5d513433fb08846ce3e1886c44b8f6aab41078c57ff231639a186fe2b995",
+      "kind": "music",
+      "beforeLufs": -12.9,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -6.9,
+      "gain": 0.555904
+    },
+    {
+      "path": "sound/playlists/tor-music-player-mana-empty-power-exhausted-desperate-i03-b03-c02-v01.mp3",
+      "sourceSha256": "97439f265dcf47bf44c81c59b90e0fbe56c156eef28a0a2c23e26b571e68495d",
+      "kind": "music",
+      "beforeLufs": -11.8,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -6.5,
+      "gain": 0.489778
+    },
+    {
+      "path": "sound/playlists/tor-music-player-stamina-empty-trapped-panic-i04-b03-c01-v01.mp3",
+      "sourceSha256": "08ef27763e98086624131207fbed5c51ac4439d30309686ce865a07859051088",
+      "kind": "music",
+      "beforeLufs": -12.7,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -6.6,
+      "gain": 0.54325
+    },
+    {
+      "path": "sound/playlists/tor-music-player-stamina-empty-trapped-panic-i04-b03-c02-v01.mp3",
+      "sourceSha256": "4e3ce43b628dc5c4595eaf2f21ce5baa0ee387907cfda08651be65a5530ca7e1",
+      "kind": "music",
+      "beforeLufs": -12.7,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -6.4,
+      "gain": 0.54325
+    },
+    {
+      "path": "sound/playlists/tor-music-practice-courtyard-training-base-i01-b02-c01-v01.mp3",
+      "sourceSha256": "2731e773fa9724c458af1f9dbffdbaa9091bacf8f27254ae8b9156b6dbeb4720",
+      "kind": "music",
+      "beforeLufs": -15.9,
+      "afterLufs": -18.9,
+      "afterTruePeakDbTP": -3,
+      "gain": 0.707945
+    },
+    {
+      "path": "sound/playlists/tor-music-run-build-complete-power-realized-heroic-i02-b03-c01-v01.mp3",
+      "sourceSha256": "e699668d3ee7c30923d8523ba55f1cc382d28e83b2ca78f444728b786e699af7",
+      "kind": "music",
+      "beforeLufs": -13.3,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -7.1,
+      "gain": 0.582103
+    },
+    {
+      "path": "sound/playlists/tor-music-run-build-complete-power-realized-heroic-i02-b03-c02-v01.mp3",
+      "sourceSha256": "31b77391edb9ac362e38a432a2744eda37142fc191114a14984ceebf932994b0",
+      "kind": "music",
+      "beforeLufs": -13.7,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -7.3,
+      "gain": 0.609536
+    },
+    {
+      "path": "sound/playlists/tor-music-run-impossible-escape-one-hit-survived-dramatic-i04-b03-c01-v01.mp3",
+      "sourceSha256": "5a0e432eca213f8bb0150a81160a22681f294e6b9f8b0b935a64fe2a7f493e7d",
+      "kind": "music",
+      "beforeLufs": -14.5,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -7.1,
+      "gain": 0.668343
+    },
+    {
+      "path": "sound/playlists/tor-music-run-impossible-escape-one-hit-survived-dramatic-i04-b03-c02-v01.mp3",
+      "sourceSha256": "fdc92ae4be13d2d1efd8174b05cf1450dccc6899dd43f078380397e23d06a6a8",
+      "kind": "music",
+      "beforeLufs": -12.7,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -7.4,
+      "gain": 0.54325
+    },
+    {
+      "path": "sound/playlists/tor-music-run-last-life-resolve-tragic-heroic-i04-b03-c01-v01.mp3",
+      "sourceSha256": "c6a719e0f4a534543a69ed3f203a4d60a3d56ace0ce99c0bbe75bed60b287ce6",
+      "kind": "music",
+      "beforeLufs": -12.2,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -7.2,
+      "gain": 0.512861
+    },
+    {
+      "path": "sound/playlists/tor-music-run-last-life-resolve-tragic-heroic-i04-b03-c02-v01.mp3",
+      "sourceSha256": "075af4596ade659645db922ece54101720d2218f13cc3f4a9d00cc38246a4cc1",
+      "kind": "music",
+      "beforeLufs": -14.2,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -3.8,
+      "gain": 0.645654
+    },
+    {
+      "path": "sound/playlists/tor-music-run-rare-loot-unsafe-return-greed-tension-i03-b03-c01-v01.mp3",
+      "sourceSha256": "049667c5da03b2843793c51025ed7e29af713a46399f30a5d8f9e34ae8727d5f",
+      "kind": "music",
+      "beforeLufs": -11.9,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -7.4,
+      "gain": 0.49545
+    },
+    {
+      "path": "sound/playlists/tor-music-run-rare-loot-unsafe-return-greed-tension-i03-b03-c02-v01.mp3",
+      "sourceSha256": "4fd0f9bcd1bd75cc27e6226767da85763b699941184b4e3b6c93f16d18f7e56f",
+      "kind": "music",
+      "beforeLufs": -12.6,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -6.6,
+      "gain": 0.537031
+    },
+    {
+      "path": "sound/playlists/tor-music-run-wounded-retreat-pursued-tragic-tension-i04-b03-c01-v01.mp3",
+      "sourceSha256": "8ebda305b38830e4a2c5fe1bbdeec9e42b9aa08b50a839bf77ad74bacdbe8d6e",
+      "kind": "music",
+      "beforeLufs": -13.6,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -6,
+      "gain": 0.602559
+    },
+    {
+      "path": "sound/playlists/tor-music-run-wounded-retreat-pursued-tragic-tension-i04-b03-c02-v01.mp3",
+      "sourceSha256": "e21c40705b895c30043e52ea744e6c0343024498dfc90f449ecda4330f2f6358",
+      "kind": "music",
+      "beforeLufs": -12.1,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -7.4,
+      "gain": 0.50699
+    },
+    {
+      "path": "sound/playlists/tor-music-run-wounded-retreat-pursued-tragic-tension-i04-b03-c03-v01.mp3",
+      "sourceSha256": "329965897de853600fc520463537e6a50265705349dd71681a0d8cb5d1907727",
+      "kind": "music",
+      "beforeLufs": -12.3,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -6.9,
+      "gain": 0.5188
+    },
+    {
+      "path": "sound/playlists/tor-music-run-wounded-retreat-pursued-tragic-tension-i04-b03-c04-v01.mp3",
+      "sourceSha256": "6e8758e0b087f9ddb78c9eb559d09000053f2e9cdb6e242f7d4d5fb3e8c9b678",
+      "kind": "music",
+      "beforeLufs": -12,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -7.2,
+      "gain": 0.501187
+    },
+    {
+      "path": "sound/playlists/tor-music-title-active-run-base-i00-b02-c01-v01.mp3",
+      "sourceSha256": "cd91a6b30a3a9a504dc4ca0a583cb96344993ed9489d5d56b513e758bd62e727",
+      "kind": "music",
+      "beforeLufs": -12.2,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -7.1,
+      "gain": 0.512861
+    },
+    {
+      "path": "sound/playlists/tor-music-title-returning-player-run-recalled-dramatic-memory-i02-b03-c01-v01.mp3",
+      "sourceSha256": "169b74480e4d7078071fe18e488f22442691e9a4dfd04aea3900f2eaa81eb853",
+      "kind": "music",
+      "beforeLufs": -13.1,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -6.7,
+      "gain": 0.568852
+    },
+    {
+      "path": "sound/playlists/tor-music-tower-black-tower-architecture-breathing-horror-i04-b03-c01-v01.mp3",
+      "sourceSha256": "7457bb81fa503b54de62cd70013ee0c5d2c9f030d5cd190e09573aef65cc763c",
+      "kind": "music",
+      "beforeLufs": -13.9,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -5.9,
+      "gain": 0.623734
+    },
+    {
+      "path": "sound/playlists/tor-music-tower-black-tower-architecture-breathing-horror-i04-b03-c02-v01.mp3",
+      "sourceSha256": "85f05999b5663ac750f0b75568b3c48fdb0ba1dad46058d694e325f5fc5c4be5",
+      "kind": "music",
+      "beforeLufs": -12.1,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -6.7,
+      "gain": 0.50699
+    },
+    {
+      "path": "sound/playlists/tor-music-tower-checkpoint-milestone-unlocked-epic-i03-b03-c01-v01.mp3",
+      "sourceSha256": "1d3b18bee8de7bb94c32a3b403f569e8f4864671a2726a3ee4c257d30ba13fb3",
+      "kind": "music",
+      "beforeLufs": -11.7,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -7.3,
+      "gain": 0.484172
+    },
+    {
+      "path": "sound/playlists/tor-music-tower-checkpoint-milestone-unlocked-epic-i03-b03-c02-v01.mp3",
+      "sourceSha256": "a76d924fba9f6b2da01f302593a4eca3e67a148034da930e2172b991c775959f",
+      "kind": "music",
+      "beforeLufs": -12.7,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -6.9,
+      "gain": 0.54325
+    },
+    {
+      "path": "sound/playlists/tor-music-tower-final-ascent-floor-ninety-one-epic-i04-b03-c01-v01.mp3",
+      "sourceSha256": "233eab502cabac35cf2cc6e7585c10852ca68bb5cb378a17aa4ec976e54b9391",
+      "kind": "music",
+      "beforeLufs": -13.6,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -6,
+      "gain": 0.602559
+    },
+    {
+      "path": "sound/playlists/tor-music-tower-final-ascent-floor-ninety-one-epic-i04-b03-c02-v01.mp3",
+      "sourceSha256": "63471445b4f6a74f3050289686d6f4ca414fd20bdda812623f9de226ae08d1d6",
+      "kind": "music",
+      "beforeLufs": -13.6,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -5.2,
+      "gain": 0.602559
+    },
+    {
+      "path": "sound/playlists/tor-music-tower-floor-clear-push-or-leave-decision-i03-b03-c01-v01.mp3",
+      "sourceSha256": "de8fedb8140afb5b9a7b01de6a08a7142a88d262dc5fb96957f64b8fb9c678bf",
+      "kind": "music",
+      "beforeLufs": -12.7,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -6.7,
+      "gain": 0.54325
+    },
+    {
+      "path": "sound/playlists/tor-music-tower-floor-clear-push-or-leave-decision-i03-b03-c02-v01.mp3",
+      "sourceSha256": "d96e29a56a0c07baa3e270cf4b8c64d599ee476d34a8904c46b0360fceaf3595",
+      "kind": "music",
+      "beforeLufs": -11.8,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -6.4,
+      "gain": 0.489778
+    },
+    {
+      "path": "sound/playlists/tor-music-tower-gate-entry-cost-resources-committed-tension-i03-b03-c01-v01.mp3",
+      "sourceSha256": "59a5af375cdc0bb5ca44b9baba78c39f9e68fa98124344c464438bf4a418286a",
+      "kind": "music",
+      "beforeLufs": -12.9,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -6.5,
+      "gain": 0.555904
+    },
+    {
+      "path": "sound/playlists/tor-music-tower-gate-entry-cost-resources-committed-tension-i03-b03-c02-v01.mp3",
+      "sourceSha256": "1d00d395d37dace1b6e63c11e2ece59a87e36c5a7543e71fcef08f4295160af6",
+      "kind": "music",
+      "beforeLufs": -12,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -6.4,
+      "gain": 0.501187
+    },
+    {
+      "path": "sound/playlists/tor-music-tower-gate-entry-full-commitment-epic-dread-i03-b03-c01-v01.mp3",
+      "sourceSha256": "f9d9d6e955155e5211a7111410354728a0fb2c0c080d76d2d69af4b42d3a34a8",
+      "kind": "music",
+      "beforeLufs": -12.2,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -7.2,
+      "gain": 0.512861
+    },
+    {
+      "path": "sound/playlists/tor-music-tower-gate-entry-full-commitment-epic-dread-i03-b03-c02-v01.mp3",
+      "sourceSha256": "249c1e410b4cd08874da89b1e8f7283602a2fbe8f2cc71faab0c5aacbda1c93c",
+      "kind": "music",
+      "beforeLufs": -10.9,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -7.6,
+      "gain": 0.44157
+    },
+    {
+      "path": "sound/playlists/tor-music-tower-leave-decision-survival-chosen-bittersweet-i02-b03-c01-v01.mp3",
+      "sourceSha256": "afc4cc3cf5bd5aa8b6ab242d18082e245af0d8dd7cb0519f0923adbeec7573a7",
+      "kind": "music",
+      "beforeLufs": -12.4,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -6.4,
+      "gain": 0.524807
+    },
+    {
+      "path": "sound/playlists/tor-music-tower-next-floor-door-opening-tension-i03-b03-c01-v01.mp3",
+      "sourceSha256": "ae9495cd63344cead2236b2a6341639c0041a471b10b78dcfb5997960ec2fcd9",
+      "kind": "music",
+      "beforeLufs": -12.4,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -7.3,
+      "gain": 0.524807
+    },
+    {
+      "path": "sound/playlists/tor-music-tower-next-floor-door-opening-tension-i03-b03-c02-v01.mp3",
+      "sourceSha256": "cebd0d4fba91af2e0c717fea230520d15412da0cfed5a9327a6d48fc18b6e0c0",
+      "kind": "music",
+      "beforeLufs": -12.5,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -7.3,
+      "gain": 0.530884
+    },
+    {
+      "path": "sound/playlists/tor-music-tower-repeated-push-greed-spiral-dark-momentum-i04-b03-c01-v01.mp3",
+      "sourceSha256": "a323c93cb38fe92d9a38d7c270fea6a623a258acff2a2cc5f3f190ea4b5dce48",
+      "kind": "music",
+      "beforeLufs": -12,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -6.4,
+      "gain": 0.501187
+    },
+    {
+      "path": "sound/playlists/tor-music-tower-repeated-push-greed-spiral-dark-momentum-i04-b03-c02-v01.mp3",
+      "sourceSha256": "d8883ffe8212cd1905298834b86c9d9ee6bea3bddaaeb36886741abf6d50ff85",
+      "kind": "music",
+      "beforeLufs": -12.6,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -6.4,
+      "gain": 0.537031
+    },
+    {
+      "path": "sound/playlists/tor-music-victory-floor-one-hundred-tower-conquered-final-epic-i04-b03-c01-v01.mp3",
+      "sourceSha256": "f83cfc832929ff75a8679fc46f45766a600e194202b4fdbc84a5a07b550baea3",
+      "kind": "music",
+      "beforeLufs": -12.5,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -6.8,
+      "gain": 0.530884
+    },
+    {
+      "path": "sound/playlists/tor-music-world-alchemy-marsh-wrong-reflection-spectral-horror-i04-b03-c01-v01.mp3",
+      "sourceSha256": "cd9da9e2a90209f9486889f0ef451c06b148a44b9d3d1263fc5010b36ae42cf3",
+      "kind": "music",
+      "beforeLufs": -12.9,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -5.6,
+      "gain": 0.555904
+    },
+    {
+      "path": "sound/playlists/tor-music-world-alchemy-marsh-wrong-reflection-spectral-horror-i04-b03-c02-v01.mp3",
+      "sourceSha256": "262bc0543e500aa9e103083b170ce01a0e5e12b24ec8e8596f30ee0c70279900",
+      "kind": "music",
+      "beforeLufs": -13.3,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -5.5,
+      "gain": 0.582103
+    },
+    {
+      "path": "sound/playlists/tor-music-world-ashen-quarry-deep-machinery-industrial-horror-i04-b03-c01-v01.mp3",
+      "sourceSha256": "519c25defa0fb74d3783fc754977fbe70a975554af75a10d3aefb253365adb1e",
+      "kind": "music",
+      "beforeLufs": -13.3,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -7.3,
+      "gain": 0.582103
+    },
+    {
+      "path": "sound/playlists/tor-music-world-ashen-quarry-deep-machinery-industrial-horror-i04-b03-c02-v01.mp3",
+      "sourceSha256": "e92454cd323bd0cde3072292dd9f28c285571c98c357b10754f2184d26dd96b4",
+      "kind": "music",
+      "beforeLufs": -13.6,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -6.5,
+      "gain": 0.602559
+    },
+    {
+      "path": "sound/playlists/tor-music-world-beginner-pocket-boundary-crossed-heroic-danger-i02-b03-c01-v01.mp3",
+      "sourceSha256": "84e2dd71be3ce2066573da2ff1a056e4f1235d4cbbbf0103a6aaac644fba7d85",
+      "kind": "music",
+      "beforeLufs": -12.1,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -7.3,
+      "gain": 0.50699
+    },
+    {
+      "path": "sound/playlists/tor-music-world-beginner-pocket-boundary-crossed-heroic-danger-i02-b03-c02-v01.mp3",
+      "sourceSha256": "0bb50c9972146da2b6c0e47579c4a950e8b06fe640ae179c448094fa1cb77583",
+      "kind": "music",
+      "beforeLufs": -12.7,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -6.7,
+      "gain": 0.54325
+    },
+    {
+      "path": "sound/playlists/tor-music-world-frostlands-white-death-glacial-horror-i04-b03-c01-v01.mp3",
+      "sourceSha256": "1122fb566647d39f44edbeef7687048108fcbca39ec975aee65a206d41c43827",
+      "kind": "music",
+      "beforeLufs": -13.6,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -6,
+      "gain": 0.602559
+    },
+    {
+      "path": "sound/playlists/tor-music-world-frostlands-white-death-glacial-horror-i04-b03-c02-v01.mp3",
+      "sourceSha256": "a587749f256db94ac8392c2f4fa41feb3f48c9241c80fa44aafd9b2359fd42bd",
+      "kind": "music",
+      "beforeLufs": -12.5,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -6.1,
+      "gain": 0.530884
+    },
+    {
+      "path": "sound/playlists/tor-music-world-greywood-danger-tension-i02-b02-c01-v01.mp3",
+      "sourceSha256": "839003d81c86fb786b7a70912238d312d5b85916ef0f242824b4ba975f207160",
+      "kind": "music",
+      "beforeLufs": -11.9,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -6.2,
+      "gain": 0.49545
+    },
+    {
+      "path": "sound/playlists/tor-music-world-greywood-danger-tension-i02-b02-c02-v01.mp3",
+      "sourceSha256": "1ef19c312cfd34064df889919ad9e8e6bdc23d31b66a0657c8b39adb38b4d43d",
+      "kind": "music",
+      "beforeLufs": -13.5,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -5.2,
+      "gain": 0.595662
+    },
+    {
+      "path": "sound/playlists/tor-music-world-greywood-nightmare-hunt-horror-chase-i04-b03-c01-v01.mp3",
+      "sourceSha256": "1901492eee6e34ba746bfc7a6528b1ae4543cd84da52aca3ff20f9db51207dc2",
+      "kind": "music",
+      "beforeLufs": -14,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -4.1,
+      "gain": 0.630957
+    },
+    {
+      "path": "sound/playlists/tor-music-world-greywood-nightmare-hunt-horror-chase-i04-b03-c02-v01.mp3",
+      "sourceSha256": "e7291a2128beb6770afa2863ba79deecc78462f53f812536fd6cddb1e5e84051",
+      "kind": "music",
+      "beforeLufs": -15.6,
+      "afterLufs": -18.9,
+      "afterTruePeakDbTP": -3,
+      "gain": 0.683911
+    },
+    {
+      "path": "sound/playlists/tor-music-world-ironvale-boundary-safety-in-sight-desperate-hope-i03-b03-c01-v01.mp3",
+      "sourceSha256": "1abeb76c76474d3a7f5a75515f5a6ef1ff853ba68f6110bb0d0b42c89fde12c1",
+      "kind": "music",
+      "beforeLufs": -13,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -6.5,
+      "gain": 0.562341
+    },
+    {
+      "path": "sound/playlists/tor-music-world-ironvale-boundary-safety-in-sight-desperate-hope-i03-b03-c02-v01.mp3",
+      "sourceSha256": "705eff7ad0813dc757db602fef9a823376d3f8c9f2cc27865d9715b61b7cb153",
+      "kind": "music",
+      "beforeLufs": -11.6,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -7.1,
+      "gain": 0.47863
+    },
+    {
+      "path": "sound/playlists/tor-music-world-ironvale-milestone-celebration-i01-b02-c01-v01.mp3",
+      "sourceSha256": "be63759e50f48bba7dbbf0d22816b215e2c943837e70f4cfff279e0d9d145184",
+      "kind": "music",
+      "beforeLufs": -12.6,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -6.6,
+      "gain": 0.537031
+    },
+    {
+      "path": "sound/playlists/tor-music-world-ironvale-safe-dawn-base-i00-b02-c01-v01.mp3",
+      "sourceSha256": "7edeeb5d7c83cd774ab883db4579a4545521f4faac9246bff8165bd7570e9279",
+      "kind": "music",
+      "beforeLufs": -13,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -5.4,
+      "gain": 0.562341
+    },
+    {
+      "path": "sound/playlists/tor-music-world-ironvale-safe-dawn-base-i00-b02-c02-v01.mp3",
+      "sourceSha256": "0546a5ff795eef24da8c92c4752bf8119c7d9f827e66fc178c7a5e8ad4e87074",
+      "kind": "music",
+      "beforeLufs": -14.3,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -4.4,
+      "gain": 0.65313
+    },
+    {
+      "path": "sound/playlists/tor-music-world-ironvale-safe-day-base-i00-b02-c01-v01.mp3",
+      "sourceSha256": "d18acda89d4c355d67bffe45520e24c45f5279e1b27d457dcc7b3ca007f52f0c",
+      "kind": "music",
+      "beforeLufs": -14.5,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -3.7,
+      "gain": 0.668343
+    },
+    {
+      "path": "sound/playlists/tor-music-world-ironvale-safe-day-base-i00-b02-c02-v01.mp3",
+      "sourceSha256": "aa3a298ad19ccd262026ea3783a1b061e28a3ea320c5727d1a7e41184bb93b99",
+      "kind": "music",
+      "beforeLufs": -14.8,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -3.3,
+      "gain": 0.69183
+    },
+    {
+      "path": "sound/playlists/tor-music-world-ironvale-safe-evening-return-i00-b02-c01-v01.mp3",
+      "sourceSha256": "3341d9bf898e4a73cf3553d62cd2d3eb8134b3f67c795c859406fdc475554267",
+      "kind": "music",
+      "beforeLufs": -13.3,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -5.2,
+      "gain": 0.582103
+    },
+    {
+      "path": "sound/playlists/tor-music-world-ironvale-safe-evening-return-i00-b02-c02-v01.mp3",
+      "sourceSha256": "8126b114e312904d0f78bd20723309b7faecceb058f6b443d853191ca2cb9a92",
+      "kind": "music",
+      "beforeLufs": -12.3,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -5.6,
+      "gain": 0.5188
+    },
+    {
+      "path": "sound/playlists/tor-music-world-ironvale-safe-hearth-recovery-i00-b02-c01-v01.mp3",
+      "sourceSha256": "a12ab93be3e0b291df39e33a0f0a04c5f04f79509818af17eff547ae22fde973",
+      "kind": "music",
+      "beforeLufs": -12.8,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -5.5,
+      "gain": 0.54954
+    },
+    {
+      "path": "sound/playlists/tor-music-world-ironvale-safe-hearth-recovery-i00-b02-c02-v01.mp3",
+      "sourceSha256": "79f502cca040df28eb57a5789237f2a6421c701d20d157c8d0e4814a4f558da6",
+      "kind": "music",
+      "beforeLufs": -14.4,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -4,
+      "gain": 0.660693
+    },
+    {
+      "path": "sound/playlists/tor-music-world-ironvale-safe-night-base-i01-b02-c01-v01.mp3",
+      "sourceSha256": "67d6b618d76d63b46da79eec140583d96d0e9a2eded3c9e77e660df8a7cbfe25",
+      "kind": "music",
+      "beforeLufs": -13.8,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -5,
+      "gain": 0.616595
+    },
+    {
+      "path": "sound/playlists/tor-music-world-ironvale-safe-night-base-i01-b02-c02-v01.mp3",
+      "sourceSha256": "cb0636b24a5c37966aed5b3a7294f3240b6cc742cc65d49c5a3fb0a1e11d250b",
+      "kind": "music",
+      "beforeLufs": -13,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -5.8,
+      "gain": 0.562341
+    },
+    {
+      "path": "sound/playlists/tor-music-world-ironvale-safe-preparation-pulse-i01-b02-c01-v01.mp3",
+      "sourceSha256": "aca0cf00645badeb96e48b0f5ad681e91f61344ce215d9e433138719891131f7",
+      "kind": "music",
+      "beforeLufs": -14.5,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -5.7,
+      "gain": 0.668343
+    },
+    {
+      "path": "sound/playlists/tor-music-world-ironvale-safe-preparation-pulse-i01-b02-c02-v01.mp3",
+      "sourceSha256": "45bac987a10421e8953b6ac250d332e8202093133447a1212c99c59de0f2c41a",
+      "kind": "music",
+      "beforeLufs": -13.4,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -5.8,
+      "gain": 0.588843
+    },
+    {
+      "path": "sound/playlists/tor-music-world-ironvale-wounded-return-recovery-i01-b02-c01-v01.mp3",
+      "sourceSha256": "18095dac9621a803eb282586e311d77045a251b7904a5b27e18a674ce82e4634",
+      "kind": "music",
+      "beforeLufs": -14.1,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -4.7,
+      "gain": 0.638263
+    },
+    {
+      "path": "sound/playlists/tor-music-world-ironvale-wounded-return-recovery-i01-b02-c02-v01.mp3",
+      "sourceSha256": "df03844d734cb12cf4d83a549b566fa2de671921a7a735ec2630ca2e905f45ef",
+      "kind": "music",
+      "beforeLufs": -13,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -6.3,
+      "gain": 0.562341
+    },
+    {
+      "path": "sound/playlists/tor-music-world-jungle-ruins-ancient-awakening-ritual-horror-i04-b03-c01-v01.mp3",
+      "sourceSha256": "426b8bce997883d49339d659847d3e0b36e609f36bc0ecc8ca226e8f1dfbdef8",
+      "kind": "music",
+      "beforeLufs": -11.7,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -7.3,
+      "gain": 0.484172
+    },
+    {
+      "path": "sound/playlists/tor-music-world-jungle-ruins-ancient-awakening-ritual-horror-i04-b03-c02-v01.mp3",
+      "sourceSha256": "3cc00c6c22e8f0360abdd5492c0ef429c9f405be636657a1fdaeb49d87c2039d",
+      "kind": "music",
+      "beforeLufs": -11.6,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -6.9,
+      "gain": 0.47863
+    },
+    {
+      "path": "sound/playlists/tor-music-world-memory-previous-run-ghost-echo-psychological-horror-i03-b03-c01-v01.mp3",
+      "sourceSha256": "e9da90345922ef3b42d5e4386802bf9f64f440d207a5eb60e9fa8a0cb2c7a9d3",
+      "kind": "music",
+      "beforeLufs": -12.5,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -6.1,
+      "gain": 0.530884
+    },
+    {
+      "path": "sound/playlists/tor-music-world-memory-previous-run-ghost-echo-psychological-horror-i03-b03-c02-v01.mp3",
+      "sourceSha256": "f74f86f0825a645c208bd41c68f6d7e439173c075f78318b34e22a89f3db1d90",
+      "kind": "music",
+      "beforeLufs": -13.3,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -4.6,
+      "gain": 0.582103
+    },
+    {
+      "path": "sound/playlists/tor-music-world-storm-coast-impossible-crossing-severe-danger-i04-b03-c01-v01.mp3",
+      "sourceSha256": "f9fbebca4c368621086cb0b54225e92b8e7fc4b14a06bc850152f4379b595146",
+      "kind": "music",
+      "beforeLufs": -12.4,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -7.3,
+      "gain": 0.524807
+    },
+    {
+      "path": "sound/playlists/tor-music-world-storm-coast-impossible-crossing-severe-danger-i04-b03-c02-v01.mp3",
+      "sourceSha256": "d3e5c9e8f7cc4447f3013e24489d88f27a880d08aa0ddb54a7e0af491c48c1c3",
+      "kind": "music",
+      "beforeLufs": -12.8,
+      "afterLufs": -18,
+      "afterTruePeakDbTP": -7.2,
+      "gain": 0.54954
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/bobo-voice-lines/Bobo2(1).ogg",
+      "sourceSha256": "3cfd9ee0599804b68deaaaa92f07229d016b033a7a40d8c2b9094daf0b4794ad",
+      "kind": "voice",
+      "beforeLufs": -16,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -8,
+      "gain": 0.630957
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/bobo-voice-lines/Bobo2(2).ogg",
+      "sourceSha256": "054bcf41f2a9aab70488089a9ba8a11e161b8206b78baa49cd8c8d9542cdca4f",
+      "kind": "voice",
+      "beforeLufs": -20.5,
+      "afterLufs": -20.4,
+      "afterTruePeakDbTP": -3,
+      "gain": 1.011579
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/bobo-voice-lines/Bobo2(3).ogg",
+      "sourceSha256": "ebd710380a6ca8a88dd1a628be8a28f782631b34d6c7d4d73ce7f92a402f82b9",
+      "kind": "voice",
+      "beforeLufs": -23.2,
+      "afterLufs": -22.5,
+      "afterTruePeakDbTP": -3,
+      "gain": 1.083926
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/bobo-voice-lines/Bobo2(4).ogg",
+      "sourceSha256": "08cddb274cc83224bab544f78b793b91b5055df3cf03ae8f0f1c06271ae16e90",
+      "kind": "voice",
+      "beforeLufs": -16.2,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -7.5,
+      "gain": 0.645654
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/bobo-voice-lines/Bobo2(5).ogg",
+      "sourceSha256": "ff8bccb31d55003d170adf235ade8ef5170e17ed08a83a01ab7171fab575a20c",
+      "kind": "voice",
+      "beforeLufs": -21.1,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -4.8,
+      "gain": 1.13501
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/bobo-voice-lines/Bobo2.ogg",
+      "sourceSha256": "20e89e0ffe25fed52fa32bf846e3d427a85d37f5a8a63458c3b9259181270516",
+      "kind": "voice",
+      "beforeLufs": -15.4,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -6.4,
+      "gain": 0.588843
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/gear-upgrade-npc-voicelines/gear-upgrades.ogg",
+      "sourceSha256": "5ac285b3161a6d917ed2da46e0fbfe49af7dbd4c58026ed39e410fe9895f1726",
+      "kind": "voice",
+      "beforeLufs": -16.2,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -8.1,
+      "gain": 0.645654
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/gear-upgrade-npc-voicelines/gear-upgrades2(1).ogg",
+      "sourceSha256": "6bfc6982710d50e03bc9c9b3d96fd2f2b90c0a9f767a6ff5117bf96de87434f5",
+      "kind": "voice",
+      "beforeLufs": -17.2,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -6.8,
+      "gain": 0.724435
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/gear-upgrade-npc-voicelines/gear-upgrades2.ogg",
+      "sourceSha256": "2129522a63ae8fbdb09f4cc0f7bce10a421a4fbbc9b1a5b76873357f852e99bd",
+      "kind": "voice",
+      "beforeLufs": -15.1,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -7.3,
+      "gain": 0.568852
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/gear-upgrade-npc-voicelines/gear-upgrades3(1).ogg",
+      "sourceSha256": "2eab81ae5f2deb9cc9cfc46c32db220f3c9073cb954fb2fc02bd8663e4207687",
+      "kind": "voice",
+      "beforeLufs": -14.2,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -8.2,
+      "gain": 0.512861
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/gear-upgrade-npc-voicelines/gear-upgrades3(2).ogg",
+      "sourceSha256": "a511a80dcc3b60610b254c0b92fcbb4022a6e4c66d61c0f547d7efd5757710a0",
+      "kind": "voice",
+      "beforeLufs": -14.9,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -7.2,
+      "gain": 0.555904
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/gear-upgrade-npc-voicelines/gear-upgrades3.ogg",
+      "sourceSha256": "440e114508d122db9ba0c3463d1bc87a1e597e375a2d0d77cf83c9963d849a71",
+      "kind": "voice",
+      "beforeLufs": -12.8,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -9.9,
+      "gain": 0.436515
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/gem-merchant-voice-lines/update-2/A A A A A A(1).wav",
+      "sourceSha256": "176721176219d83a8c0a9ce9a82dad914b9b0a1e1310a5f0a44177ca0922071c",
+      "kind": "voice",
+      "beforeLufs": -14.7,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -8.9,
+      "gain": 0.54325
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/gem-merchant-voice-lines/update-2/A A A A A A.wav",
+      "sourceSha256": "93908de40bb0112c5d2d92133e1da001b47a4962bef0453013a952001b900a33",
+      "kind": "voice",
+      "beforeLufs": -16.8,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -7.2,
+      "gain": 0.69183
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/gem-merchant-voice-lines/update-2/Beyond 1000 Meter Lies the(1).wav",
+      "sourceSha256": "6488d5263a51981aa6d3658fb009f517fc64aa24ef53f4d2ca394d87b92a5aec",
+      "kind": "voice",
+      "beforeLufs": -15.4,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -8.7,
+      "gain": 0.588843
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/gem-merchant-voice-lines/update-2/Beyond 1000 Meter Lies the.wav",
+      "sourceSha256": "fcfe5a0c1702bdecab9c3c444786a25b87193001240eea38ccc36dbddba3461a",
+      "kind": "voice",
+      "beforeLufs": -15.1,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -9.4,
+      "gain": 0.568852
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/gem-merchant-voice-lines/update-2/Creepy Creep(1).wav",
+      "sourceSha256": "087c60b75052f875a108c473bd70a885775514988aad06ebefd8ed8b54fa6750",
+      "kind": "voice",
+      "beforeLufs": -15,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -8.9,
+      "gain": 0.562341
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/gem-merchant-voice-lines/update-2/Creepy Creep.wav",
+      "sourceSha256": "e83d1cadf0ed734c616efd54ee5da02b7e31745b4624bd220ae313c1fea97092",
+      "kind": "voice",
+      "beforeLufs": -16.6,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -7.6,
+      "gain": 0.676082,
+      "window": {
+        "start": 0,
+        "duration": 17.701,
+        "fadeIn": 0.003,
+        "fadeOut": 0.012
+      }
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/gem-merchant-voice-lines/update-2/Dark_ Darkness_ Demon_(1).wav",
+      "sourceSha256": "c919c560255c053609f65ad1a97a3ecba0f4d8034b559722aeb16ee4a39cb810",
+      "kind": "voice",
+      "beforeLufs": -15.7,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -9.1,
+      "gain": 0.609536
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/gem-merchant-voice-lines/update-2/Dark_ Darkness_ Demon_.wav",
+      "sourceSha256": "5cdd9219122c67be8ec111409eee12714b4258b9670f843e4bb09084ab657cd2",
+      "kind": "voice",
+      "beforeLufs": -15.8,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -9.5,
+      "gain": 0.616595
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/gem-merchant-voice-lines/update-2/Dig Deeper(1).wav",
+      "sourceSha256": "64cbe3180b10e195bff2466ea4c481fb24e0dfe4d98fafa811c497bcb30ea824",
+      "kind": "voice",
+      "beforeLufs": -15.4,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -7.8,
+      "gain": 0.588843
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/gem-merchant-voice-lines/update-2/Dig Deeper.wav",
+      "sourceSha256": "35ee4f785ebc15ed6d0fe1da68539e2a0367500422017018e9dcd7dab5ebf355",
+      "kind": "voice",
+      "beforeLufs": -13.5,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -9,
+      "gain": 0.473151
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/gem-merchant-voice-lines/update-2/Dont Dig Too Deep(1).wav",
+      "sourceSha256": "8baeee419fd51a4d92a241fea3cadaac5e95ea101eec34eb45e9eaf81fa7ca38",
+      "kind": "voice",
+      "beforeLufs": -15.2,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -8.2,
+      "gain": 0.575439
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/gem-merchant-voice-lines/update-2/Dont Dig Too Deep.wav",
+      "sourceSha256": "514585761c62ca8f5116b93b3b74da10a0d3aa6dce524614cf2edeb4517e0205",
+      "kind": "voice",
+      "beforeLufs": -15.4,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -9.4,
+      "gain": 0.588843
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/gem-merchant-voice-lines/update-2/Evil Laugh(1).wav",
+      "sourceSha256": "7ef6d69862a3bbd6ba1915e64bbe36dd003a2feeccd4d9471046c82bf792d5c0",
+      "kind": "voice",
+      "beforeLufs": -15.6,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -8.3,
+      "gain": 0.602559
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/gem-merchant-voice-lines/update-2/Evil Laugh.wav",
+      "sourceSha256": "3ed57febae493e6acde398d9623523a399798a32866ca0cc1cd8fcc4b5f9565d",
+      "kind": "voice",
+      "beforeLufs": -14.7,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -8.6,
+      "gain": 0.54325
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/gem-merchant-voice-lines/update-2/Glad too see you!(1).wav",
+      "sourceSha256": "057d1dad08bc1614cb64f3fb119449ee3d39117c7b33d60dbbca559f9a33fa49",
+      "kind": "voice",
+      "beforeLufs": -16.8,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -8.2,
+      "gain": 0.69183
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/gem-merchant-voice-lines/update-2/Glad too see you!(2).wav",
+      "sourceSha256": "041c66272ef08a076030e2359cdf4a4d7c7c535362cee4594dad60099ad6fc38",
+      "kind": "voice",
+      "beforeLufs": -15,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -8.9,
+      "gain": 0.562341
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/gem-merchant-voice-lines/update-2/Glad too see you!.wav",
+      "sourceSha256": "773db49ffca0c9d74afa4f566d2758a4f6ffd023d0abc51240e3ef9634c6ea2e",
+      "kind": "voice",
+      "beforeLufs": -13.5,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -10.7,
+      "gain": 0.473151
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/gem-merchant-voice-lines/update-2/I Got the Power for You!(1).wav",
+      "sourceSha256": "a6c2bb6ee08e89d226fad0584244f18f5e3edae4455c01c941de1e0c14efefc8",
+      "kind": "voice",
+      "beforeLufs": -16.4,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -9.6,
+      "gain": 0.660693
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/gem-merchant-voice-lines/update-2/I Got the Power for You!.wav",
+      "sourceSha256": "eec482954bc9a96fe829f9fe953b6ac3af0f999a9c7a0c05e681c344874adf91",
+      "kind": "voice",
+      "beforeLufs": -14.5,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -10.3,
+      "gain": 0.530884
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/gem-merchant-voice-lines/update-2/I Wish This Stupid Dwarf Would(1).wav",
+      "sourceSha256": "20b2bf36fa1a8c16e0f41d89628ac2ac8609201bcb770cba4b24eaaa6e605149",
+      "kind": "voice",
+      "beforeLufs": -13.4,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -9.1,
+      "gain": 0.467735
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/gem-merchant-voice-lines/update-2/I Wish This Stupid Dwarf Would.wav",
+      "sourceSha256": "ca2f145e63a05567f4b3adde656c845022f8466bc5a23e715b9394ae08da576a",
+      "kind": "voice",
+      "beforeLufs": -13.7,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -9,
+      "gain": 0.484172
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/gem-merchant-voice-lines/update-2/I am the nightmare.wav",
+      "sourceSha256": "4ac1f3c6eeda73909eee33a75739018b20f8d8fc3b5150fd7df8a9760d75c96e",
+      "kind": "voice",
+      "beforeLufs": -13.8,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -9.2,
+      "gain": 0.489778
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/gem-merchant-voice-lines/update-2/I was born too glow AND(1).wav",
+      "sourceSha256": "d5a8dac07a5525f37514217ff246d391f08916fb40e683dbce2a1c4742dbc24e",
+      "kind": "voice",
+      "beforeLufs": -15.3,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -8.4,
+      "gain": 0.582103
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/gem-merchant-voice-lines/update-2/I was born too glow AND.wav",
+      "sourceSha256": "7b651c6024f28a5596887728a42f4d87cc0a3b5e276fe0dce6235018e730d3bd",
+      "kind": "voice",
+      "beforeLufs": -14.9,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -8.9,
+      "gain": 0.555904,
+      "window": {
+        "start": 0,
+        "duration": 16.19,
+        "fadeIn": 0.003,
+        "fadeOut": 0.012
+      }
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/gem-merchant-voice-lines/update-2/I wish I was mortal(1).wav",
+      "sourceSha256": "cdc33bf0639f9cf8eb209c2c63e4af25c6fc3a48d077260917df6da596326edc",
+      "kind": "voice",
+      "beforeLufs": -12.4,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -12,
+      "gain": 0.416869,
+      "window": {
+        "start": 0.826,
+        "duration": 13.894,
+        "fadeIn": 0.003,
+        "fadeOut": 0.012
+      }
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/gem-merchant-voice-lines/update-2/I wish I was mortal.wav",
+      "sourceSha256": "472091a48ca1b901ce6d8b401752dac3ec3fc7a5fc5eb8841dc46755e9ac86b6",
+      "kind": "voice",
+      "beforeLufs": -14.8,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -8.6,
+      "gain": 0.54954
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/gem-merchant-voice-lines/update-2/My Existence is Agony(1).wav",
+      "sourceSha256": "77d0876df953ee6ac8f0ac66c16ca0a45cb7052f4771f46b0a768db7746d3ac1",
+      "kind": "voice",
+      "beforeLufs": -14.9,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -7.9,
+      "gain": 0.555904,
+      "window": {
+        "start": 0.514,
+        "duration": 28.286,
+        "fadeIn": 0.003,
+        "fadeOut": 0.012
+      }
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/gem-merchant-voice-lines/update-2/My Existence is Agony.wav",
+      "sourceSha256": "f4455f0911ac4015b42b6cbefbc174a719095631edfd97fa6c288d1f0914f5b4",
+      "kind": "voice",
+      "beforeLufs": -15.5,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -8.1,
+      "gain": 0.595662
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/gem-merchant-voice-lines/update-2/Oke, Yes Oke(1).wav",
+      "sourceSha256": "9bae6f0085df3109372a576c3979ee6c1fbda91f441859406d240bf384f58d24",
+      "kind": "voice",
+      "beforeLufs": -16.9,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -8.2,
+      "gain": 0.699841
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/gem-merchant-voice-lines/update-2/Oke, Yes Oke.wav",
+      "sourceSha256": "61cb4bb899f9678f1ee4b1fc04daa285f07f5e9035c300cfcc769b8f805cd337",
+      "kind": "voice",
+      "beforeLufs": -15,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -9.2,
+      "gain": 0.562341
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/gem-merchant-voice-lines/update-2/That God Dam Happy Dwarf.wav",
+      "sourceSha256": "0be8be1dcbb89975fd2563372e9acdabaa5c4eec398aa5571c26719b8830921e",
+      "kind": "voice",
+      "beforeLufs": -13.8,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -10.5,
+      "gain": 0.489778
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/gem-merchant-voice-lines/update-2/The 300 Meter Mark(1).wav",
+      "sourceSha256": "18f4d27a2df9b031bb19bb8d4c89f7a19c4b783df0a5a28f3c025a349fc7260e",
+      "kind": "voice",
+      "beforeLufs": -16.2,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -9.1,
+      "gain": 0.645654,
+      "window": {
+        "start": 0.39,
+        "duration": 16.13,
+        "fadeIn": 0.003,
+        "fadeOut": 0.012
+      }
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/gem-merchant-voice-lines/update-2/The 300 Meter Mark.wav",
+      "sourceSha256": "7d69d7af2da79818883d94bb80b98f08915e856828ef70c126fba630f4bb909f",
+      "kind": "voice",
+      "beforeLufs": -15.5,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -9.6,
+      "gain": 0.595662
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/gem-merchant-voice-lines/update-2/The Caves They Rumble Under My(1).wav",
+      "sourceSha256": "6fc1395bd544e4151f2d973d810782c5998c656eb556864e1b2177c91a5602c8",
+      "kind": "voice",
+      "beforeLufs": -15.8,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -8.6,
+      "gain": 0.616595
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/gem-merchant-voice-lines/update-2/The Caves They Rumble Under My.wav",
+      "sourceSha256": "c34f0efc00eb6585e7cd8c9fade28038b9ea42e7ec0eadb58935019050061181",
+      "kind": "voice",
+      "beforeLufs": -14.7,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -8.9,
+      "gain": 0.54325
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/gem-merchant-voice-lines/update-2/The Gem Burns(1).wav",
+      "sourceSha256": "c249eab08491e6dda21940de8fd03675f23a10d54dca5faee5ea325ed4520e55",
+      "kind": "voice",
+      "beforeLufs": -15.8,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -9.5,
+      "gain": 0.616595
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/gem-merchant-voice-lines/update-2/The Gem Burns.wav",
+      "sourceSha256": "0fc0f962b067e77b24946f486221943e4572e1f31062042b1c18eb4de20d7819",
+      "kind": "voice",
+      "beforeLufs": -14,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -10,
+      "gain": 0.501187
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/gem-merchant-voice-lines/update-2/The Gem(1).wav",
+      "sourceSha256": "caaf3290fd74a15052efcfdc637ad903f08b4e7913140fe4adf30d5badecc644",
+      "kind": "voice",
+      "beforeLufs": -15.2,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -8.1,
+      "gain": 0.575439,
+      "window": {
+        "start": 0.543,
+        "duration": 28.634,
+        "fadeIn": 0.003,
+        "fadeOut": 0.012
+      }
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/gem-merchant-voice-lines/update-2/The Gem(2).wav",
+      "sourceSha256": "caaf3290fd74a15052efcfdc637ad903f08b4e7913140fe4adf30d5badecc644",
+      "kind": "voice",
+      "beforeLufs": -15.2,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -8.1,
+      "gain": 0.575439,
+      "window": {
+        "start": 0.543,
+        "duration": 28.634,
+        "fadeIn": 0.003,
+        "fadeOut": 0.012
+      }
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/gem-merchant-voice-lines/update-2/The Gem, It Holds Great Power!(1).wav",
+      "sourceSha256": "ef66592d6f9ed3ebe3f088b11f94fa0a4499384685eaeb620684b465624f22df",
+      "kind": "voice",
+      "beforeLufs": -16.8,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -7.9,
+      "gain": 0.69183
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/gem-merchant-voice-lines/update-2/The Gem, It Holds Great Power!.wav",
+      "sourceSha256": "d7fbc30a4603b5e3e4cb78047193ea258821a9d7754f85b484e1c7cb67d07e0a",
+      "kind": "voice",
+      "beforeLufs": -13.9,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -10.2,
+      "gain": 0.49545
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/gem-merchant-voice-lines/update-2/The Gem.wav",
+      "sourceSha256": "3a287295a9c95ce6887894fe773d2bd2459c83557c67e214865f56d35de68785",
+      "kind": "voice",
+      "beforeLufs": -14.4,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -9,
+      "gain": 0.524807
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/gem-merchant-voice-lines/update-2/The Truth Is Sometimes Upside(1).wav",
+      "sourceSha256": "5dc233456104e468e291dc9a6ecf7dd14241c94142b16a5dc363ecd929529384",
+      "kind": "voice",
+      "beforeLufs": -16.5,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -6.9,
+      "gain": 0.668343
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/gem-merchant-voice-lines/update-2/The Truth Is Sometimes Upside.wav",
+      "sourceSha256": "92097c1123fd4e49a3599ecbcdd194e4e036f3dac2254f83550647b1abfe8c0b",
+      "kind": "voice",
+      "beforeLufs": -14,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -9.8,
+      "gain": 0.501187
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/gem-merchant-voice-lines/update-2/They Say I'm a Monster(1).wav",
+      "sourceSha256": "dd4a6e278defa3cfd245dc4f1ea87a4bd5ee433cb079766a3c2fb134ce88783c",
+      "kind": "voice",
+      "beforeLufs": -12.7,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -10.1,
+      "gain": 0.431519,
+      "window": {
+        "start": 0.522,
+        "duration": 20.838,
+        "fadeIn": 0.003,
+        "fadeOut": 0.012
+      }
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/gem-merchant-voice-lines/update-2/They Say I'm a Monster.wav",
+      "sourceSha256": "868ded9602bc212c3db57d298f71c0b22d34b32bfa2cb671ba9f220b0c5b4903",
+      "kind": "voice",
+      "beforeLufs": -16.6,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -7.8,
+      "gain": 0.676082
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/gem-merchant-voice-lines/update-2/This Gem It Hurts Me.wav",
+      "sourceSha256": "29d52cc93ddad2b7a23643013d20e31392680bb171d4a91fa064560706086b9f",
+      "kind": "voice",
+      "beforeLufs": -18.5,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -4.8,
+      "gain": 0.841395
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/gem-merchant-voice-lines/update-2/To the Core(1).wav",
+      "sourceSha256": "afab72654af4c4fa3d7c7bd7f734c0fee86c73067592d72fef43d974e0da11f0",
+      "kind": "voice",
+      "beforeLufs": -16.5,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -8.6,
+      "gain": 0.668343
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/gem-merchant-voice-lines/update-2/To the Core.wav",
+      "sourceSha256": "de9cdf90fd37ed50e2fab85d6e5397cbd69ef2f26e8b0d3299a21a438e63b1ad",
+      "kind": "voice",
+      "beforeLufs": -15.6,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -7.5,
+      "gain": 0.602559
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/gem-merchant-voice-lines/update-2/U want the power(1).wav",
+      "sourceSha256": "24a6158b0fc79ca77e386f1de9d2ea33d58fe4894e38ff5aaccb370f0a3118c4",
+      "kind": "voice",
+      "beforeLufs": -13.9,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -9.9,
+      "gain": 0.49545
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/gem-merchant-voice-lines/update-2/U want the power.wav",
+      "sourceSha256": "d33a3aa73d5e27d41920e2a5d7014ec93e06be3851aeec77de0fdd4d73f86c1d",
+      "kind": "voice",
+      "beforeLufs": -18.6,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -7,
+      "gain": 0.851138
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/gem-merchant-voice-lines/update-2/Where Are Your Shoes_(1).wav",
+      "sourceSha256": "7f8c7d12d014495786d6ba18ee84ca648e6e2b813e7747ac0719a5922ea108e9",
+      "kind": "voice",
+      "beforeLufs": -14.9,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -8,
+      "gain": 0.555904
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/gem-merchant-voice-lines/update-2/Where Are Your Shoes_.wav",
+      "sourceSha256": "461e6b7f262dc7c26ad2de826fa6b88eec56fa5040f2f45c9585211f3fcebcac",
+      "kind": "voice",
+      "beforeLufs": -16.8,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -8.6,
+      "gain": 0.69183,
+      "window": {
+        "start": 0,
+        "duration": 8.455,
+        "fadeIn": 0.003,
+        "fadeOut": 0.012
+      }
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/player-upgrade-npc-voicelines/player-upgrades(1).ogg",
+      "sourceSha256": "ff1125f5b62d66f1290061847b82e96e06afc1ce6bcb4cf1ade9251406cbabf5",
+      "kind": "voice",
+      "beforeLufs": -17.2,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -5.2,
+      "gain": 0.724435
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/player-upgrade-npc-voicelines/player-upgrades(2).ogg",
+      "sourceSha256": "58db625812fef14ec713c8affaab45935520c71cb9a164a663c3a7345d888f62",
+      "kind": "voice",
+      "beforeLufs": -19.1,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -4.7,
+      "gain": 0.901571
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/player-upgrade-npc-voicelines/player-upgrades.ogg",
+      "sourceSha256": "fd86bde954f8191f6cdb9dffccc93b5ae7fbf83e78840d61f4108a08cba03d6b",
+      "kind": "voice",
+      "beforeLufs": -14.6,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -7.7,
+      "gain": 0.537031
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/player-upgrade-npc-voicelines/update-2/Big One Coming for You(1).wav",
+      "sourceSha256": "be1f7e9c0b943fdd0f688e4931a24973e0c23ea364be21760dea69e1420b2f9c",
+      "kind": "voice",
+      "beforeLufs": -16.1,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -8,
+      "gain": 0.638263
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/player-upgrade-npc-voicelines/update-2/Big One Coming for You.wav",
+      "sourceSha256": "2d214eb11bf15dc04584a2b0a01ccfc8ebb7d7d1a612ebd8c69820ddc6b9dc17",
+      "kind": "voice",
+      "beforeLufs": -15.1,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -8.4,
+      "gain": 0.568852
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/player-upgrade-npc-voicelines/update-2/Big Upgrade(1).wav",
+      "sourceSha256": "5af22a1d894025f82fc34d0a4e7fd1ea583a63e0c78834ace5ab82f9f280f6b3",
+      "kind": "voice",
+      "beforeLufs": -16.3,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -7.6,
+      "gain": 0.65313,
+      "window": {
+        "start": 0,
+        "duration": 17.324,
+        "fadeIn": 0.003,
+        "fadeOut": 0.012
+      }
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/player-upgrade-npc-voicelines/update-2/Big Upgrade.wav",
+      "sourceSha256": "530b728c47a1085285364ac41a2b3faaeb9080a8ed1ed802cdc4b4b18ee9bfc9",
+      "kind": "voice",
+      "beforeLufs": -18.1,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -5.3,
+      "gain": 0.803526
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/player-upgrade-npc-voicelines/update-2/Dead in the Dark(1).wav",
+      "sourceSha256": "dbacf4d950d4e5b7995c381767761d1003871cde07380a59e05cdd02c9d7287a",
+      "kind": "voice",
+      "beforeLufs": -15.7,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -7.6,
+      "gain": 0.609536
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/player-upgrade-npc-voicelines/update-2/Dead in the Dark.wav",
+      "sourceSha256": "05961ca93be15564b8d9d82c412f3b518dcce3f54a74558b27d3eb741f23f8b3",
+      "kind": "voice",
+      "beforeLufs": -15.4,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -8,
+      "gain": 0.588843
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/player-upgrade-npc-voicelines/update-2/Dont Press N Key.wav",
+      "sourceSha256": "9c671c27a5ead04c6517a9245ca41bb5bdfa120a247c26caeab066d317d26370",
+      "kind": "voice",
+      "beforeLufs": -15.1,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -8.7,
+      "gain": 0.568852
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/player-upgrade-npc-voicelines/update-2/Dont You Dare.wav",
+      "sourceSha256": "a8d6f5ef714847877c0f8fb2970cf869609c99d2fe687721a55df31b59f9a7ad",
+      "kind": "voice",
+      "beforeLufs": -16.3,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -7.8,
+      "gain": 0.65313
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/player-upgrade-npc-voicelines/update-2/Dwarf Uplifted(1).wav",
+      "sourceSha256": "1f38cb8bebe9efb2937a06b6a6fa958a69bde2163bf9e291ae18e12198190ac4",
+      "kind": "voice",
+      "beforeLufs": -16.4,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -8.6,
+      "gain": 0.660693
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/player-upgrade-npc-voicelines/update-2/Dwarf Uplifted.wav",
+      "sourceSha256": "bff0a317cabbcec96eaf1705c07c0b0815c6d7ebceddd721f1bc0ffed4ef26d0",
+      "kind": "voice",
+      "beforeLufs": -16.8,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -7.7,
+      "gain": 0.69183,
+      "window": {
+        "start": 0,
+        "duration": 2.936,
+        "fadeIn": 0.003,
+        "fadeOut": 0.012
+      }
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/player-upgrade-npc-voicelines/update-2/Dwarf Villager(1).wav",
+      "sourceSha256": "bb0d500259319930bb56735342a7a06c3ffc15a5dc06b340ba7e8889f58eed04",
+      "kind": "voice",
+      "beforeLufs": -16.8,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -7.3,
+      "gain": 0.69183
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/player-upgrade-npc-voicelines/update-2/Dwarf Villager.wav",
+      "sourceSha256": "79efbcb8fa9323d026cbeb05a8d259dd29a4322799c48b16f57cea4e95eff7ee",
+      "kind": "voice",
+      "beforeLufs": -15.3,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -7.3,
+      "gain": 0.582103
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/player-upgrade-npc-voicelines/update-2/Got That Heavy Punch.wav",
+      "sourceSha256": "e003e127f8cbc8c488ff6a4a578da0dbcb757588d4a06618d3054c21e1f7cf8b",
+      "kind": "voice",
+      "beforeLufs": -15,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -7.5,
+      "gain": 0.562341
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/player-upgrade-npc-voicelines/update-2/Hey(1).wav",
+      "sourceSha256": "866266964d8df035996da1d43e9a33d77837daf0b1b1678d1a3af74a1b3cbac5",
+      "kind": "voice",
+      "beforeLufs": -15.7,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -7.3,
+      "gain": 0.609536
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/player-upgrade-npc-voicelines/update-2/Hey.wav",
+      "sourceSha256": "4ccd9ac307b6399f86da45859dd70d71c881a6010b37cf7686e9edb4364696a9",
+      "kind": "voice",
+      "beforeLufs": -15.1,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -7.3,
+      "gain": 0.568852
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/player-upgrade-npc-voicelines/update-2/I Got Many Yooo.wav",
+      "sourceSha256": "f33286833f89e1481d195f122080451bd4ac953a410d0b5cdb8ebfe440c73d9a",
+      "kind": "voice",
+      "beforeLufs": -14.9,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -7.8,
+      "gain": 0.555904
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/player-upgrade-npc-voicelines/update-2/I Got Nightmares Every Day.wav",
+      "sourceSha256": "9b9ce051c6c5308514ce9c02b5241653d003b750a6921065a57bfa88280ea336",
+      "kind": "voice",
+      "beforeLufs": -16.5,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -7.5,
+      "gain": 0.668343
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/player-upgrade-npc-voicelines/update-2/I Like Big(1).wav",
+      "sourceSha256": "bbb46f9c2ece9728450d91352ee816b3750b1f8c232f45fcbd6a1a17803db4c9",
+      "kind": "voice",
+      "beforeLufs": -15.6,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -8.5,
+      "gain": 0.602559
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/player-upgrade-npc-voicelines/update-2/I Like Big.wav",
+      "sourceSha256": "5da95e350c3073d4a908b05d2883125024672dfeda6336fc0a63c22893ccf730",
+      "kind": "voice",
+      "beforeLufs": -16.5,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -8,
+      "gain": 0.668343
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/player-upgrade-npc-voicelines/update-2/I Like Guys(1).wav",
+      "sourceSha256": "f7a75fa507737a39292e6e5189210b12eb14bfcc295a4eabf3f37789bbba61fb",
+      "kind": "voice",
+      "beforeLufs": -14.1,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -9,
+      "gain": 0.50699
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/player-upgrade-npc-voicelines/update-2/I Like Guys.wav",
+      "sourceSha256": "400f7329789c1c8e0d56a73083014543fc348df964cc9582ff2e7795d8e78503",
+      "kind": "voice",
+      "beforeLufs": -14.8,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -8.4,
+      "gain": 0.54954
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/player-upgrade-npc-voicelines/update-2/I Will Haunt You(1).wav",
+      "sourceSha256": "0532a9d05c053c27fb98e91398cc1f4ec7a03955cda52da2a309987de47d2145",
+      "kind": "voice",
+      "beforeLufs": -16.9,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -7.1,
+      "gain": 0.699841
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/player-upgrade-npc-voicelines/update-2/I Will Haunt You(2).wav",
+      "sourceSha256": "7bc613c6c614aed73bd80dbd9d3c2b8881192848dd877e44c5bbaf81aac73c51",
+      "kind": "voice",
+      "beforeLufs": -16.5,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -7.2,
+      "gain": 0.668343
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/player-upgrade-npc-voicelines/update-2/I Will Haunt You.wav",
+      "sourceSha256": "f86a0ffc8794725f2b9e549aea39631f21317c2aa79adea9dc2afaaf5100d445",
+      "kind": "voice",
+      "beforeLufs": -16.7,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -7.3,
+      "gain": 0.683911
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/player-upgrade-npc-voicelines/update-2/Nightmare in my brain.wav",
+      "sourceSha256": "b1a95d919f60a4ed8c8bf5a9c2dfa76e72f93764f9323cb1c992f8bea70ed005",
+      "kind": "voice",
+      "beforeLufs": -16.1,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -7.8,
+      "gain": 0.638263
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/player-upgrade-npc-voicelines/update-2/They Ask Me Why I'm Happy(1).wav",
+      "sourceSha256": "1a0251776e2af4729e65f89c5c602c26b0208f33817a97110d2e789f91d652a8",
+      "kind": "voice",
+      "beforeLufs": -15.1,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -7.9,
+      "gain": 0.568852
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/player-upgrade-npc-voicelines/update-2/They Ask Me Why I'm Happy.wav",
+      "sourceSha256": "656655e9565f9a72ca86bd37c26dfbddd516df4399171d046aba4e4db0ee07e8",
+      "kind": "voice",
+      "beforeLufs": -15.2,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -8.5,
+      "gain": 0.575439
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/player-upgrade-npc-voicelines/update-2/We make a big hit.wav",
+      "sourceSha256": "900b66637bf561706729304d95dc221f84de27fa9ad2e1bcf3938e2a15a02c86",
+      "kind": "voice",
+      "beforeLufs": -16.4,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -8.3,
+      "gain": 0.660693
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/player-upgrade-npc-voicelines/update-2/Why am I happy_(1).wav",
+      "sourceSha256": "72b9966a4744e7e814f055aa92f0bf0cbf9af88f336d79594b6b612b06c16f1d",
+      "kind": "voice",
+      "beforeLufs": -16.3,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -7.1,
+      "gain": 0.65313
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/player-upgrade-npc-voicelines/update-2/Why am I happy_.wav",
+      "sourceSha256": "2036c9d3e14dbd258eb2b30e1518e87760129591094cb4be9e913b5d8a3831e9",
+      "kind": "voice",
+      "beforeLufs": -16,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -7,
+      "gain": 0.630957,
+      "window": {
+        "start": 0,
+        "duration": 8.065,
+        "fadeIn": 0.003,
+        "fadeOut": 0.012
+      }
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/player-upgrade-npc-voicelines/update-2/Yes yes yo yes yo(1).wav",
+      "sourceSha256": "293d66a2a115d4ad3989a7c32b8de8aa3db5a1288c056e05b15dcb057dc8330f",
+      "kind": "voice",
+      "beforeLufs": -16.2,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -7.3,
+      "gain": 0.645654
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/player-upgrade-npc-voicelines/update-2/Yes yes yo yes yo.wav",
+      "sourceSha256": "22d2cddf484e895663ede0580880d5f05f1afe190cb02bb75dd4d6cf9f6994bc",
+      "kind": "voice",
+      "beforeLufs": -15.4,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -7.7,
+      "gain": 0.588843
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/player-upgrade-npc-voicelines/update-2/got poop in my glasses dont make any pas.wav",
+      "sourceSha256": "34ff149d3bc7e020548639c4311f6d615763314dae4f6918e88a1cef393dcae8",
+      "kind": "voice",
+      "beforeLufs": -17.2,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -7.3,
+      "gain": 0.724435
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/voice-lines-money-monster/c1coj-ox77x.ogg",
+      "sourceSha256": "841a63a83bcdc215cf13ca758aec08dc4862e1d27b1b3fce559eabccc5fe6ede",
+      "kind": "voice",
+      "beforeLufs": -14,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -9.3,
+      "gain": 0.501187
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/voice-lines-money-monster/jmukr-6e0r4.ogg",
+      "sourceSha256": "cbac8f81831a3a4c3b6035dae500bec5a7f43cbbd74718ce735b8ac539d88d78",
+      "kind": "voice",
+      "beforeLufs": -19.2,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -3.8,
+      "gain": 0.91201
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/voice-lines-money-monster/money-monster-voice(1).ogg",
+      "sourceSha256": "b44fccb0a0f0e0240b740f39a676fe9d799186e2d6b48b368dde3e2148bb3538",
+      "kind": "voice",
+      "beforeLufs": -18.3,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -4.3,
+      "gain": 0.822242
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/voice-lines-money-monster/money-monster-voice(2).ogg",
+      "sourceSha256": "147c0e6a3b2a5c9a121bb9672c1e34e4d4c75f2b30d372ce828a6eb141c347a1",
+      "kind": "voice",
+      "beforeLufs": -16.6,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -7,
+      "gain": 0.676082
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/voice-lines-money-monster/money-monster-voice(3).ogg",
+      "sourceSha256": "8784d2a0ce1df17face671d189dbc3cab186bfd01beef9dff1695b288de9a11b",
+      "kind": "voice",
+      "beforeLufs": -14.2,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -9.8,
+      "gain": 0.512861
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/voice-lines-money-monster/money-monster-voice(4).ogg",
+      "sourceSha256": "bea7ef1471a6047d5ac70407833f305743e490eef0eb6e91ec8691a59a5773b8",
+      "kind": "voice",
+      "beforeLufs": -17.8,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -6.3,
+      "gain": 0.776247
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/voice-lines-money-monster/money-monster-voice(5).ogg",
+      "sourceSha256": "0a98ee08cd0d9d811a369bc6d7707b55ab7e2cf0e23d91e9ff28b741453157db",
+      "kind": "voice",
+      "beforeLufs": -18.6,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -5.8,
+      "gain": 0.851138
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/voice-lines-money-monster/money-monster-voice.ogg",
+      "sourceSha256": "fb2e43a4545c4639eb0a3d14cd83d4a52bb782e04ddeddc1d675b38f8705ff78",
+      "kind": "voice",
+      "beforeLufs": -16.8,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -5.5,
+      "gain": 0.69183
+    },
+    {
+      "path": "sound/voice-lines/npc-voicelines/voice-lines-money-monster/sjm2f-q0axa.ogg",
+      "sourceSha256": "0190fd64b444ee3f1d8d6a8889c35da4590ae51fb5876da2d8ebe08142c2eac5",
+      "kind": "voice",
+      "beforeLufs": -19.7,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -3.4,
+      "gain": 0.96605
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/biome-entry-leo-v01.mp3",
+      "sourceSha256": "9d68c4f5ea536ac0e2ff00c79f9977032217736e4c908a3a9cfd356def3e5946",
+      "kind": "voice",
+      "beforeLufs": -23.1,
+      "afterLufs": -21.1,
+      "afterTruePeakDbTP": -3.9,
+      "gain": 1.258925
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/biome-entry-leo-v02.mp3",
+      "sourceSha256": "b4896941423a42e6d5807e29a39455b2f8d9dc5e5fdfb55d0ec20ade75453176",
+      "kind": "voice",
+      "beforeLufs": -23.1,
+      "afterLufs": -21.1,
+      "afterTruePeakDbTP": -3.5,
+      "gain": 1.258925
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/biome-entry-leo-v03.mp3",
+      "sourceSha256": "53425b8ae079c2cb381297cc67906b610bc1f0282346ee78d604af1d5bc45316",
+      "kind": "voice",
+      "beforeLufs": -22.5,
+      "afterLufs": -20.5,
+      "afterTruePeakDbTP": -4.2,
+      "gain": 1.258925
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/biome-entry-leo-v04.mp3",
+      "sourceSha256": "a15a68e414268fd6873b7d7ccfb18befe9caef9277105be9cc44a3b115dac544",
+      "kind": "voice",
+      "beforeLufs": -22.4,
+      "afterLufs": -20.4,
+      "afterTruePeakDbTP": -3.4,
+      "gain": 1.258925
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/biome-entry-leo-v05.mp3",
+      "sourceSha256": "c272011a7881be04aaecac13e18ef35822437d82c49cbb989091207cfc4b224c",
+      "kind": "voice",
+      "beforeLufs": -22.7,
+      "afterLufs": -22.1,
+      "afterTruePeakDbTP": -3,
+      "gain": 1.071519
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/biome-entry-leo-v06.mp3",
+      "sourceSha256": "f263e77baf18fcd9f782142f584474d72d03c0b0ac0527ec0f15e1ac3a86663a",
+      "kind": "voice",
+      "beforeLufs": -21.7,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -3.2,
+      "gain": 1.216186
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/campfire-rest-leo-v01.mp3",
+      "sourceSha256": "ce9fd841a4ebed97c3d0f5ee14e796b132f90074cfe47c93af9519bf33a2176f",
+      "kind": "voice",
+      "beforeLufs": -23.3,
+      "afterLufs": -21.3,
+      "afterTruePeakDbTP": -3.9,
+      "gain": 1.258925
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/campfire-rest-leo-v02.mp3",
+      "sourceSha256": "ab93f5c4007164e0f71c22886d2dc7e2659b2e330fb740228c812e61354e8a23",
+      "kind": "voice",
+      "beforeLufs": -23,
+      "afterLufs": -21,
+      "afterTruePeakDbTP": -3.2,
+      "gain": 1.258925
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/campfire-rest-leo-v03.mp3",
+      "sourceSha256": "bc8b0c3d34e08406bb83a49cf083aa7be16bf7c9f2e3d7257b8779891f8299ee",
+      "kind": "voice",
+      "beforeLufs": -22.9,
+      "afterLufs": -21.5,
+      "afterTruePeakDbTP": -3,
+      "gain": 1.174897
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/campfire-rest-leo-v04.mp3",
+      "sourceSha256": "d606a5ed423cbeebb6bea3cb2a682d510c10d30771dc0bd1548b16b318a1ea69",
+      "kind": "voice",
+      "beforeLufs": -22.8,
+      "afterLufs": -20.8,
+      "afterTruePeakDbTP": -3,
+      "gain": 1.258925
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/campfire-rest-leo-v05.mp3",
+      "sourceSha256": "df5f6e78dd8220b13eac9f93cd61f3d191e0226ff273e75506833ec2c8a63183",
+      "kind": "voice",
+      "beforeLufs": -23.4,
+      "afterLufs": -21.4,
+      "afterTruePeakDbTP": -3.5,
+      "gain": 1.258925
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/campfire-rest-leo-v06.mp3",
+      "sourceSha256": "7d8092d3b14208f0fdc495f25d3fc48c949c5e9f6b405e75ab4ad66e3f8fd8ae",
+      "kind": "voice",
+      "beforeLufs": -22.1,
+      "afterLufs": -20.4,
+      "afterTruePeakDbTP": -3,
+      "gain": 1.216186
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/deep-return-leo-v01.mp3",
+      "sourceSha256": "a40213bb47eaa95d475997bfe0da99552e4af04f7561a772b6ee6b240af7a57d",
+      "kind": "voice",
+      "beforeLufs": -23.8,
+      "afterLufs": -21.8,
+      "afterTruePeakDbTP": -3,
+      "gain": 1.258925
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/deep-return-leo-v02.mp3",
+      "sourceSha256": "4deadc5e334763576de17528f48e3f8046166a10ac5cc031f271cbd909d804a0",
+      "kind": "voice",
+      "beforeLufs": -21.7,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -3.2,
+      "gain": 1.216186
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/deep-return-leo-v03.mp3",
+      "sourceSha256": "e336601a19859758aa42425f3e2f5e5f67a26d7883a15558667ae74805ce537a",
+      "kind": "voice",
+      "beforeLufs": -23.7,
+      "afterLufs": -21.7,
+      "afterTruePeakDbTP": -3.1,
+      "gain": 1.258925
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/deep-return-leo-v04.mp3",
+      "sourceSha256": "89c4539546b7a3bc5700fff2b6746d2032b8d2ec0bb17b4dd4da7042e2cefb79",
+      "kind": "voice",
+      "beforeLufs": -22.2,
+      "afterLufs": -20.2,
+      "afterTruePeakDbTP": -3,
+      "gain": 1.258925
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/deep-return-leo-v05.mp3",
+      "sourceSha256": "d8a885f48b69a161fcf9c24660ef6514a8c039a5ea20ea89e0a387c6087758a5",
+      "kind": "voice",
+      "beforeLufs": -23.9,
+      "afterLufs": -21.9,
+      "afterTruePeakDbTP": -3,
+      "gain": 1.258925
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/deep-return-leo-v06.mp3",
+      "sourceSha256": "3b4fefe7a8fd7810216ae90509ac3912a50986962d8ff38e5470ad08955d83c0",
+      "kind": "voice",
+      "beforeLufs": -22.8,
+      "afterLufs": -20.9,
+      "afterTruePeakDbTP": -3,
+      "gain": 1.244514
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/depth-milestone-leo-v01.mp3",
+      "sourceSha256": "e6733aa0ad98c0ee27fb83c315885f0edfe6f84c2f3b8089ba480cc7445069f8",
+      "kind": "voice",
+      "beforeLufs": -24,
+      "afterLufs": -22,
+      "afterTruePeakDbTP": -3.5,
+      "gain": 1.258925
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/depth-milestone-leo-v02.mp3",
+      "sourceSha256": "b44e8209642a45cc376a687ebca65b0ed0ae7590c2ae17735adaffa665017bfd",
+      "kind": "voice",
+      "beforeLufs": -23.3,
+      "afterLufs": -21.3,
+      "afterTruePeakDbTP": -3.3,
+      "gain": 1.258925
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/depth-milestone-leo-v03.mp3",
+      "sourceSha256": "3e067e234e534500bddba44de7455d6e221f6a5ca763f456a1a900bb2019d08f",
+      "kind": "voice",
+      "beforeLufs": -23.1,
+      "afterLufs": -21.1,
+      "afterTruePeakDbTP": -3.2,
+      "gain": 1.258925
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/depth-milestone-leo-v04.mp3",
+      "sourceSha256": "36928ae3bb5b86ebb7b90853fca25726a07ea404e2e7da663358a2f597e7f79d",
+      "kind": "voice",
+      "beforeLufs": -21.1,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -3.8,
+      "gain": 1.13501
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/depth-milestone-leo-v05.mp3",
+      "sourceSha256": "17957c1281195ca3f7d90192ab5f5f04f5adf3cd56aa761d829b95064619851d",
+      "kind": "voice",
+      "beforeLufs": -22.1,
+      "afterLufs": -20.3,
+      "afterTruePeakDbTP": -3,
+      "gain": 1.230268
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/depth-milestone-leo-v06.mp3",
+      "sourceSha256": "7b51f7be6417810dab720ce0707ef20244720e1c2387e3e83d7077288b5d81e7",
+      "kind": "voice",
+      "beforeLufs": -24.1,
+      "afterLufs": -22.1,
+      "afterTruePeakDbTP": -4,
+      "gain": 1.258925
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/depth-record-leo-v01.mp3",
+      "sourceSha256": "cc0362db03471c86f63b7417e264387a4bac40f8e5e8c742d59e4a0911d49b9f",
+      "kind": "voice",
+      "beforeLufs": -22.1,
+      "afterLufs": -20.1,
+      "afterTruePeakDbTP": -3.6,
+      "gain": 1.258925
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/depth-record-leo-v02.mp3",
+      "sourceSha256": "364c6d7165fee7a1b9a513c227310cb3aef40855409fdd721f3e43915470c1e5",
+      "kind": "voice",
+      "beforeLufs": -22.4,
+      "afterLufs": -20.4,
+      "afterTruePeakDbTP": -3.7,
+      "gain": 1.258925
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/depth-record-leo-v03.mp3",
+      "sourceSha256": "fb5293826adfb40006ae6ad77483594bd8eeabb68fb72381f32b9e453fc8b2e4",
+      "kind": "voice",
+      "beforeLufs": -23.1,
+      "afterLufs": -21.1,
+      "afterTruePeakDbTP": -3.3,
+      "gain": 1.258925
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/depth-record-leo-v04.mp3",
+      "sourceSha256": "fa2050475ca09fcdf8c1ce8305f2f04ff7cd016862121c33c83a89d2b73eb4f3",
+      "kind": "voice",
+      "beforeLufs": -23.7,
+      "afterLufs": -21.7,
+      "afterTruePeakDbTP": -3.1,
+      "gain": 1.258925
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/depth-record-leo-v05.mp3",
+      "sourceSha256": "e4f146e1332222645777ff5660b7c78f9d17feff3045750d0c3c786aded1a2ea",
+      "kind": "voice",
+      "beforeLufs": -22.6,
+      "afterLufs": -20.8,
+      "afterTruePeakDbTP": -3,
+      "gain": 1.230268
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/depth-record-leo-v06.mp3",
+      "sourceSha256": "6b88ddd9dc4bcb0773238222b99674b737d03235d9ef1db04f0ef932e3bdc430",
+      "kind": "voice",
+      "beforeLufs": -20.7,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -3.6,
+      "gain": 1.083926
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/dig-momentum-leo-v01.mp3",
+      "sourceSha256": "ba40182c48891a4ed66c82be21141b5732dc118e19ddae1f3ec18c2b373b5b49",
+      "kind": "voice",
+      "beforeLufs": -22.4,
+      "afterLufs": -20.4,
+      "afterTruePeakDbTP": -3.3,
+      "gain": 1.258925
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/dig-momentum-leo-v02.mp3",
+      "sourceSha256": "b535487784bc9a8f934ff9b0e130a35139b04411f7610dfdc88c730e2d450172",
+      "kind": "voice",
+      "beforeLufs": -23.5,
+      "afterLufs": -21.5,
+      "afterTruePeakDbTP": -3.4,
+      "gain": 1.258925
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/dig-momentum-leo-v03.mp3",
+      "sourceSha256": "8a97e577674ad243e9bfc694ffe57aba7b4eea64580187c43c24f0080a70ee18",
+      "kind": "voice",
+      "beforeLufs": -22.2,
+      "afterLufs": -20.8,
+      "afterTruePeakDbTP": -3,
+      "gain": 1.174897
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/dig-momentum-leo-v04.mp3",
+      "sourceSha256": "cd231cf4b0718f068c323bc0657c02354d221d1e043e9c8e680582381ca8c1ae",
+      "kind": "voice",
+      "beforeLufs": -21.6,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -3.6,
+      "gain": 1.202264
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/dig-momentum-leo-v05.mp3",
+      "sourceSha256": "cb4713680a46a2eccdcd256ba5bd7a70f0a70523899bf99c19d858b8cf11ac2d",
+      "kind": "voice",
+      "beforeLufs": -21.5,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -4.1,
+      "gain": 1.188502
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/dig-momentum-leo-v06.mp3",
+      "sourceSha256": "cb069bc3d401cd113aba67416358484b7bd04ecd2d41e818f3b6ea9e603ce2d7",
+      "kind": "voice",
+      "beforeLufs": -23.8,
+      "afterLufs": -21.8,
+      "afterTruePeakDbTP": -3.1,
+      "gain": 1.258925
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/earthquake-aftermath-leo-v01.mp3",
+      "sourceSha256": "9baa13417f62fa3149320b57d958d0384394c935312205a01b1d4d0c1d337c76",
+      "kind": "voice",
+      "beforeLufs": -23.8,
+      "afterLufs": -22,
+      "afterTruePeakDbTP": -3,
+      "gain": 1.230268
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/earthquake-aftermath-leo-v02.mp3",
+      "sourceSha256": "fe373a9e72490baa808812e99a234660d6c07fd8d04a37e006973a3089cd0c2d",
+      "kind": "voice",
+      "beforeLufs": -22.2,
+      "afterLufs": -20.8,
+      "afterTruePeakDbTP": -3,
+      "gain": 1.174897
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/earthquake-aftermath-leo-v03.mp3",
+      "sourceSha256": "01dd0b92703d1284ac5257cd3b829985ccad6d68f7f8d3ee0b137917c9247203",
+      "kind": "voice",
+      "beforeLufs": -22.4,
+      "afterLufs": -20.9,
+      "afterTruePeakDbTP": -3,
+      "gain": 1.188502
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/earthquake-aftermath-leo-v04.mp3",
+      "sourceSha256": "40557b22753c5b1a69e528b95d1b447c3f9603179a1a7a2e653a27285bbb88dd",
+      "kind": "voice",
+      "beforeLufs": -22.8,
+      "afterLufs": -21.7,
+      "afterTruePeakDbTP": -3,
+      "gain": 1.13501
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/earthquake-aftermath-leo-v05.mp3",
+      "sourceSha256": "42b0828af572c899811e2c0f199e435869e4c01b1dd11233fd49a1b0e59a0bb6",
+      "kind": "voice",
+      "beforeLufs": -22.3,
+      "afterLufs": -20.5,
+      "afterTruePeakDbTP": -3,
+      "gain": 1.230268
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/earthquake-aftermath-leo-v06.mp3",
+      "sourceSha256": "b0ac7895434b2b6fa2342e193619cecb1a3def7e4b2244114acc53d8289ed1e4",
+      "kind": "voice",
+      "beforeLufs": -21.4,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -3.2,
+      "gain": 1.174897
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/earthquake-warning-leo-v01.mp3",
+      "sourceSha256": "332c25fb6faee02301e703d063d260216dae452fdbb209c2fc21708bf6e4e705",
+      "kind": "voice",
+      "beforeLufs": -22,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -3.2,
+      "gain": 1.258925
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/earthquake-warning-leo-v02.mp3",
+      "sourceSha256": "8de7221391491c2aa9235b1ca0ab6063a4e1b782841eb7dca7ddd28915ff7fe2",
+      "kind": "voice",
+      "beforeLufs": -23.4,
+      "afterLufs": -21.4,
+      "afterTruePeakDbTP": -3,
+      "gain": 1.258925
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/earthquake-warning-leo-v03.mp3",
+      "sourceSha256": "07478d0014d13a1fb459859fb01e36baf4da08ae1d2a0c601fe4ee49b993e7d0",
+      "kind": "voice",
+      "beforeLufs": -25,
+      "afterLufs": -23,
+      "afterTruePeakDbTP": -3,
+      "gain": 1.258925
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/earthquake-warning-leo-v04.mp3",
+      "sourceSha256": "2be8256cd0dc0b5920be3c04f0542190e83b311ddbce135ab6efd1cb180fef2a",
+      "kind": "voice",
+      "beforeLufs": -23.8,
+      "afterLufs": -21.8,
+      "afterTruePeakDbTP": -3.7,
+      "gain": 1.258925
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/earthquake-warning-leo-v05.mp3",
+      "sourceSha256": "c21061b96cc352ad58d6c5499b5947a3aa4261e757873d28f17ead861d8af729",
+      "kind": "voice",
+      "beforeLufs": -21.5,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -3.4,
+      "gain": 1.188502
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/earthquake-warning-leo-v06.mp3",
+      "sourceSha256": "c0ae4434486da5f29cd4095cd8edfef9f1ddd27fc469f9f0dc1a7c3a886f44fa",
+      "kind": "voice",
+      "beforeLufs": -22.1,
+      "afterLufs": -20.5,
+      "afterTruePeakDbTP": -3,
+      "gain": 1.202264
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/first-descent-leo-v01.mp3",
+      "sourceSha256": "12ff6de06ae87e6e936b820d9820194299b33868ba490be4367cd38544e8d257",
+      "kind": "voice",
+      "beforeLufs": -23.4,
+      "afterLufs": -22.1,
+      "afterTruePeakDbTP": -3,
+      "gain": 1.161448
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/first-descent-leo-v02.mp3",
+      "sourceSha256": "c472888968d57ca67c4fe992e4aa8df8589a0b87d761bd8503eb5d1e6aa49743",
+      "kind": "voice",
+      "beforeLufs": -22.9,
+      "afterLufs": -20.9,
+      "afterTruePeakDbTP": -3.2,
+      "gain": 1.258925
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/first-descent-leo-v03.mp3",
+      "sourceSha256": "3119d7ef8458fc74773c33eca4c2df72f8b963a63d96bbd8b2361f1c69df479f",
+      "kind": "voice",
+      "beforeLufs": -23.5,
+      "afterLufs": -21.5,
+      "afterTruePeakDbTP": -3.7,
+      "gain": 1.258925
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/first-descent-leo-v04.mp3",
+      "sourceSha256": "c4cdf1aa85236cdcd6b7353fd22949df253943d3899bf22c789c95aa5069226e",
+      "kind": "voice",
+      "beforeLufs": -22.3,
+      "afterLufs": -20.3,
+      "afterTruePeakDbTP": -3.7,
+      "gain": 1.258925
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/first-descent-leo-v05.mp3",
+      "sourceSha256": "7fdda5f4508648ced633460828cc5693d7633d636df618bad74a482cf1f87e29",
+      "kind": "voice",
+      "beforeLufs": -21.8,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -3.5,
+      "gain": 1.230268
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/first-descent-leo-v06.mp3",
+      "sourceSha256": "15440a86e87d51219f9c16bd14ec97f456ee83466552eeffa431623ca79f1341",
+      "kind": "voice",
+      "beforeLufs": -23.3,
+      "afterLufs": -21.3,
+      "afterTruePeakDbTP": -4,
+      "gain": 1.258925
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/hardcore-danger-leo-v01.mp3",
+      "sourceSha256": "b102680c2682aa75fa972191cdb711930361cac000c5d3132061c26b3f2a7f38",
+      "kind": "voice",
+      "beforeLufs": -23.8,
+      "afterLufs": -23.6,
+      "afterTruePeakDbTP": -3,
+      "gain": 1.023292
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/hardcore-danger-leo-v02.mp3",
+      "sourceSha256": "d63bd6b7006eec70791e4fef237cef8410cf854e8fc2cab37a62eaa9260aa9fe",
+      "kind": "voice",
+      "beforeLufs": -22.9,
+      "afterLufs": -20.9,
+      "afterTruePeakDbTP": -3.6,
+      "gain": 1.258925
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/hardcore-danger-leo-v03.mp3",
+      "sourceSha256": "a0b4324f7c2a1401ce7a6f485e3f4d7a29b375919daa8eb0566e4b61fff3133a",
+      "kind": "voice",
+      "beforeLufs": -22.5,
+      "afterLufs": -20.5,
+      "afterTruePeakDbTP": -3.5,
+      "gain": 1.258925
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/hardcore-danger-leo-v04.mp3",
+      "sourceSha256": "384c69603d48e356453aadc3e61824b7881f7048ac52223c5cc959ffc90aa247",
+      "kind": "voice",
+      "beforeLufs": -20.8,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -4.2,
+      "gain": 1.096478
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/hardcore-danger-leo-v05.mp3",
+      "sourceSha256": "db1836407fcb7f0232c7db815d3492190a9716fa60cf1e7992c216701f254176",
+      "kind": "voice",
+      "beforeLufs": -21.9,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -3.2,
+      "gain": 1.244514
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/hardcore-danger-leo-v06.mp3",
+      "sourceSha256": "b77b72d66ca2fc5af34a28d28a2cb493e5ce21ee88536285a02adc87e38fa1d4",
+      "kind": "voice",
+      "beforeLufs": -23.8,
+      "afterLufs": -21.8,
+      "afterTruePeakDbTP": -3.7,
+      "gain": 1.258925
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/hardcore-recovery-leo-v01.mp3",
+      "sourceSha256": "e797b22218ab34bc621422b6f24f0d372a762fa0dfa8dd711cb7b7ee64e27e2c",
+      "kind": "voice",
+      "beforeLufs": -21.5,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -4,
+      "gain": 1.188502
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/hardcore-recovery-leo-v02.mp3",
+      "sourceSha256": "b6e6d92b513d823868b16daf6f9d85f97a4bd1eda55390bdd8b8c00e1a26d0be",
+      "kind": "voice",
+      "beforeLufs": -21.8,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -4,
+      "gain": 1.230268
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/hardcore-recovery-leo-v03.mp3",
+      "sourceSha256": "048e2610ab8d94029cd0edbf5ea56b105b8131a1d0f1ef3a8995489b2dc46ec6",
+      "kind": "voice",
+      "beforeLufs": -23.8,
+      "afterLufs": -21.8,
+      "afterTruePeakDbTP": -3,
+      "gain": 1.258925
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/hardcore-recovery-leo-v04.mp3",
+      "sourceSha256": "81b9e5ff5007e9167b9ddcc1545cb508e4fdc1d039ccba41f02eee02e25a3705",
+      "kind": "voice",
+      "beforeLufs": -22.5,
+      "afterLufs": -21.9,
+      "afterTruePeakDbTP": -3,
+      "gain": 1.071519
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/hardcore-recovery-leo-v05.mp3",
+      "sourceSha256": "44ab09f24fc10c4b985519ab4d629400ea5c6582385081da7017eda41057d5b7",
+      "kind": "voice",
+      "beforeLufs": -23.1,
+      "afterLufs": -21.5,
+      "afterTruePeakDbTP": -3,
+      "gain": 1.202264
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/hardcore-recovery-leo-v06.mp3",
+      "sourceSha256": "370ed7c7d8da5da328ad4a296ca98bb0eb571b303e8a242bce68d0fbe5b9cb69",
+      "kind": "voice",
+      "beforeLufs": -24.3,
+      "afterLufs": -22.3,
+      "afterTruePeakDbTP": -4,
+      "gain": 1.258925
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/inventory-critical-leo-v01.mp3",
+      "sourceSha256": "18a40a2c4a36dc2c8752f00b5e85c5e7734590b74b9691bba98dc9ff411d901e",
+      "kind": "voice",
+      "beforeLufs": -23.2,
+      "afterLufs": -21.2,
+      "afterTruePeakDbTP": -3.7,
+      "gain": 1.258925
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/inventory-critical-leo-v02.mp3",
+      "sourceSha256": "df84bb307849b36cf061e8ecdc1d499682fd5f93a51c3108e9a10bb7b7ed3bd9",
+      "kind": "voice",
+      "beforeLufs": -21.7,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -3.9,
+      "gain": 1.216186
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/inventory-critical-leo-v03.mp3",
+      "sourceSha256": "7b50ec19effcbacbfc6e67dd2c4c22a2fb9f0a1192e98dad81953feb39187b34",
+      "kind": "voice",
+      "beforeLufs": -23.5,
+      "afterLufs": -21.5,
+      "afterTruePeakDbTP": -3,
+      "gain": 1.258925
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/inventory-critical-leo-v04.mp3",
+      "sourceSha256": "9c996359240020fa8701ce8abd93f6b6b2ebf7ce1c6be69b4af29eb1932a797c",
+      "kind": "voice",
+      "beforeLufs": -21.8,
+      "afterLufs": -20.1,
+      "afterTruePeakDbTP": -3,
+      "gain": 1.216186
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/inventory-critical-leo-v05.mp3",
+      "sourceSha256": "0ae633d17049a23a0e64a5d186f8f474301090e4d44d59edfc7661ce6d3dc511",
+      "kind": "voice",
+      "beforeLufs": -21.4,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -4,
+      "gain": 1.174897
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/inventory-critical-leo-v06.mp3",
+      "sourceSha256": "fe6519b701a28e9c671df668aa60496103fccd5cdf0f74dd500916e5cb72175b",
+      "kind": "voice",
+      "beforeLufs": -24,
+      "afterLufs": -22,
+      "afterTruePeakDbTP": -3,
+      "gain": 1.258925
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/meaningful-purchase-leo-v01.mp3",
+      "sourceSha256": "3e4b5fec4614260f0b0ac844e3f2eb823b7584af1f10faaf02a10c66491f3673",
+      "kind": "voice",
+      "beforeLufs": -22.5,
+      "afterLufs": -20.8,
+      "afterTruePeakDbTP": -3,
+      "gain": 1.216186
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/meaningful-purchase-leo-v02.mp3",
+      "sourceSha256": "67c82efaaa7eca91831eabfa70b02ce9e4a75314ba6ece5bd785cd2f46f060e9",
+      "kind": "voice",
+      "beforeLufs": -24.9,
+      "afterLufs": -22.9,
+      "afterTruePeakDbTP": -3.7,
+      "gain": 1.258925
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/meaningful-purchase-leo-v03.mp3",
+      "sourceSha256": "7a8555098f449f3d467a1339ecf617be4d916b8292376005a6e398efb3646fce",
+      "kind": "voice",
+      "beforeLufs": -22.6,
+      "afterLufs": -21.2,
+      "afterTruePeakDbTP": -3,
+      "gain": 1.174897
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/meaningful-purchase-leo-v04.mp3",
+      "sourceSha256": "603d5e50893692a756cc548bed7ffbf93741c761481748fbaf8939118a3295d6",
+      "kind": "voice",
+      "beforeLufs": -23.3,
+      "afterLufs": -21.4,
+      "afterTruePeakDbTP": -3,
+      "gain": 1.244514
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/meaningful-purchase-leo-v05.mp3",
+      "sourceSha256": "a6ad737723f2086c251011d567b9d0c1e4941bdb73e925e26fe7c60cd807510a",
+      "kind": "voice",
+      "beforeLufs": -21.4,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -3.7,
+      "gain": 1.174897
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/meaningful-purchase-leo-v06.mp3",
+      "sourceSha256": "4aa06d24cbe23a91750e2653de6f25950b2dd50ca964208d83f9e1b4998a6d67",
+      "kind": "voice",
+      "beforeLufs": -22.7,
+      "afterLufs": -20.7,
+      "afterTruePeakDbTP": -3.3,
+      "gain": 1.258925
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/rare-material-leo-v01.mp3",
+      "sourceSha256": "ab04889c3f638a8770ceb659c7920cc086774b19bcfa9c3b5416f961ddd92763",
+      "kind": "voice",
+      "beforeLufs": -22.7,
+      "afterLufs": -21.1,
+      "afterTruePeakDbTP": -3,
+      "gain": 1.202264
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/rare-material-leo-v02.mp3",
+      "sourceSha256": "8132aedb2590e7080e40d56896306b2c051c6c83275035fbc73c201077489ca9",
+      "kind": "voice",
+      "beforeLufs": -23.7,
+      "afterLufs": -21.7,
+      "afterTruePeakDbTP": -3.6,
+      "gain": 1.258925
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/rare-material-leo-v03.mp3",
+      "sourceSha256": "3e1a3d490dafe29bd48c44e50236e147447a73a1cee20c3c3871e10cbc197bbd",
+      "kind": "voice",
+      "beforeLufs": -22.1,
+      "afterLufs": -20.4,
+      "afterTruePeakDbTP": -3,
+      "gain": 1.216186
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/rare-material-leo-v04.mp3",
+      "sourceSha256": "1b602a14c68d5cd88c7f330e65b12a08953ed964123acbf5baa3bd4706e15af1",
+      "kind": "voice",
+      "beforeLufs": -22.8,
+      "afterLufs": -20.8,
+      "afterTruePeakDbTP": -4.2,
+      "gain": 1.258925
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/rare-material-leo-v05.mp3",
+      "sourceSha256": "ed680f5a0408a9fec6ef5ac75b667e6075d02a5dd101edaeeb269fcf2522a7f1",
+      "kind": "voice",
+      "beforeLufs": -22.5,
+      "afterLufs": -20.5,
+      "afterTruePeakDbTP": -3.1,
+      "gain": 1.258925
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/rare-material-leo-v06.mp3",
+      "sourceSha256": "eadb9313262ba9481d5e2ffcac867b600639bb438b1153d6a67552a93619dd10",
+      "kind": "voice",
+      "beforeLufs": -22.2,
+      "afterLufs": -20.2,
+      "afterTruePeakDbTP": -3.1,
+      "gain": 1.258925
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/star-release-leo-v01.mp3",
+      "sourceSha256": "dee834b3f748ef0d659d42d2df41a70ffe16ff937e525e9f39dcddfc4e7b81fe",
+      "kind": "voice",
+      "beforeLufs": -21,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -4.4,
+      "gain": 1.122018
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/star-release-leo-v02.mp3",
+      "sourceSha256": "75871e9ce4428699cd89934744768aae12a945e9871a572fa9e3313c40b1c4ad",
+      "kind": "voice",
+      "beforeLufs": -23,
+      "afterLufs": -21.2,
+      "afterTruePeakDbTP": -3,
+      "gain": 1.230268
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/star-release-leo-v03.mp3",
+      "sourceSha256": "5873332d4689484424ab5184ae6e58f968d3f31a9832d746ef28fd9e0313c8e4",
+      "kind": "voice",
+      "beforeLufs": -22.4,
+      "afterLufs": -21.9,
+      "afterTruePeakDbTP": -3,
+      "gain": 1.059253
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/star-release-leo-v04.mp3",
+      "sourceSha256": "e1f2be02a78c29724b53202df3e464a9158a6d33ca7743a32fd7feff3efa1c5e",
+      "kind": "voice",
+      "beforeLufs": -21.5,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -3.9,
+      "gain": 1.188502
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/star-release-leo-v05.mp3",
+      "sourceSha256": "3e123b39874dcd74ff738820024607e24266820dc0c8f9e8c9b7d85a003efc15",
+      "kind": "voice",
+      "beforeLufs": -23.9,
+      "afterLufs": -21.9,
+      "afterTruePeakDbTP": -3.8,
+      "gain": 1.258925
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/star-release-leo-v06.mp3",
+      "sourceSha256": "5a433c6db1d63f161c0fb01a76eaf3518c405da0ba04ef6c9eaa6746457a19e1",
+      "kind": "voice",
+      "beforeLufs": -22.4,
+      "afterLufs": -20.4,
+      "afterTruePeakDbTP": -3.6,
+      "gain": 1.258925
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/titan-discovery-leo-v01.mp3",
+      "sourceSha256": "aef68e9486ca7c65eadd8d7c73105cac4c1ed169dcd9bc9c0441810ea2e79f83",
+      "kind": "voice",
+      "beforeLufs": -22.7,
+      "afterLufs": -20.7,
+      "afterTruePeakDbTP": -3.8,
+      "gain": 1.258925
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/titan-discovery-leo-v02.mp3",
+      "sourceSha256": "4898e1df48574625c1d6e15d5f67d1016a8dd8d3c7e03bd398890382ef6a9ce1",
+      "kind": "voice",
+      "beforeLufs": -21.1,
+      "afterLufs": -20,
+      "afterTruePeakDbTP": -4.4,
+      "gain": 1.13501
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/titan-discovery-leo-v03.mp3",
+      "sourceSha256": "1aa1d36a008a0811420de2c4547dd8cc193fb5c2d1971e065d204984c4d889c9",
+      "kind": "voice",
+      "beforeLufs": -22.9,
+      "afterLufs": -20.9,
+      "afterTruePeakDbTP": -3.3,
+      "gain": 1.258925
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/titan-discovery-leo-v04.mp3",
+      "sourceSha256": "78bb452f31858cefe6452f12cb1160f229b3750a056e139ccc6bb224357fb400",
+      "kind": "voice",
+      "beforeLufs": -22.2,
+      "afterLufs": -20.2,
+      "afterTruePeakDbTP": -3.8,
+      "gain": 1.258925
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/titan-discovery-leo-v05.mp3",
+      "sourceSha256": "32ec4f394a62954f85911e848ec6d365e1391dc573fc2c4e783cfee03eff8225",
+      "kind": "voice",
+      "beforeLufs": -22.8,
+      "afterLufs": -20.8,
+      "afterTruePeakDbTP": -4,
+      "gain": 1.258925
+    },
+    {
+      "path": "sound/voice-lines/player-character-leo-v1/audio/titan-discovery-leo-v06.mp3",
+      "sourceSha256": "a6a93197aa8f5ef14100277e68ae5b01872d4551c7c9c4056625d07ac34cfc88",
+      "kind": "voice",
+      "beforeLufs": -22.8,
+      "afterLufs": -21.5,
+      "afterTruePeakDbTP": -3,
+      "gain": 1.161448
+    }
+  ]
+}

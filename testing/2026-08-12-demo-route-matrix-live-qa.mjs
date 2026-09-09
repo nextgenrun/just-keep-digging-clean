@@ -141,7 +141,7 @@ try {
     assert.equal(snapshot.tutorial.choice, route.tutorialChoice);
     assert.equal(snapshot.tutorial.stage, route.stage);
     assert.equal(snapshot.barrier?.active, route.tutorialChoice === "yes");
-    assert.equal(snapshot.lives, route.mode === "hardcore" ? 2 : null);
+    assert.equal(snapshot.lives, route.mode === "hardcore" ? 1 : null);
     assert.equal(snapshot.demoMode, true);
     assert.notEqual(snapshot.gameState, "safe-paused");
     assert.deepEqual(snapshot.errors, []);

@@ -7,6 +7,11 @@ import { RUNTIME_ASSET_LOADING } from "../../values/runtimeAssetLoading.js";
 import { V11SkyPropSystem } from "./V11SkyPropSystem.js";
 import { isGameplayLevelEnabled } from "../../values/gameplayDevFlags.js";
 import { GAMEPLAY_FEATURE_IDS } from "../../values/gameplayCapabilities.js";
+import {
+  resolveLayeredSkyReviewEnabled,
+} from "../../values/worldVisualLayeredSkyReview.js";
+import { REGENERATED_HEAVENBLOCK_VISUALS } from "../../values/regeneratedHeavenblockVisuals.js";
+import { addRegeneratedHeavenblockImages } from "./RegeneratedHeavenblockVisuals.js";
 
 export class V11SkyIslandVisualSystem {
   constructor(
@@ -17,6 +22,7 @@ export class V11SkyIslandVisualSystem {
     this.scene = scene;
     this.layout = layout;
     this.heavenblocksConfig = heavenblocksConfig;
+    this.layeredSkyReview = resolveLayeredSkyReviewEnabled();
     this.sprites = [];
     this.groundPortalSprites = new Map();
     this.heavenblockSprites = new Map();
@@ -90,9 +96,16 @@ export class V11SkyIslandVisualSystem {
     this.loadHeavenblocksWhenIdle();
   }
 
+  getHeavenblockLayers(region) {
+    // Both old paintings are decorative; real platform cells remain in WorldModel.
+    return this.layeredSkyReview ? [] : region.layers;
+  }
+
   loadHeavenblocksWhenIdle() {
     if (this.destroyed) return;
-    const assets = this.heavenblocksConfig.regions.flatMap((region) => region.layers);
+    const assets = this.layeredSkyReview
+      ? [REGENERATED_HEAVENBLOCK_VISUALS.asset]
+      : this.heavenblocksConfig.regions.flatMap(region => region.layers);
     const missingAssets = assets.filter((asset) => !this.scene.textures.exists(asset.key));
 
     if (missingAssets.length === 0) {
@@ -171,11 +184,15 @@ export class V11SkyIslandVisualSystem {
   addHeavenblockImages() {
     if (this.heavenblocksCreated || this.destroyed) return;
     this.heavenblocksCreated = true;
+    if (this.layeredSkyReview) {
+      addRegeneratedHeavenblockImages(this);
+      return;
+    }
     const tileSize = this.scene.config.tileSize;
 
     for (const region of this.heavenblocksConfig.regions) {
       const regionSprites = [];
-      for (const layer of region.layers) {
+      for (const layer of this.getHeavenblockLayers(region)) {
         if (!this.scene.textures.exists(layer.key)) {
           console.warn(`[V11SkyIslandVisualSystem] Missing Heavenblock texture: ${layer.key}`);
           continue;

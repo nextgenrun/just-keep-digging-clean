@@ -4,7 +4,6 @@ import { SoundLibraryManager } from "../sound/SoundLibraryManager.js";
 import { SoundSystem } from "../sound/SoundSystem.js";
 import { VoiceLineManager } from "../sound/VoiceLineManager.js";
 import { ComboSystem } from "../systems/combo/ComboSystem.js";
-import { HitstopSystem } from "../systems/combo/HitstopSystem.js";
 import { SpecialBlockEffectsManager } from "../systems/mining/SpecialBlockEffectsManager.js";
 import { AncientRelicSystem } from "../systems/progression/AncientRelicSystem.js";
 import { PlayerLevelSystem } from "../systems/progression/PlayerLevelSystem.js";
@@ -137,19 +136,6 @@ assert.deepEqual(combo.toJSON(), {
   comboCount: 0, currentMultiplier: COMBO_CONFIG.maxMultiplier, lastComboTime: 4,
 });
 
-// Hitstop replaces re-entrant timers and always restores tween time on cleanup.
-const hitstop = new HitstopSystem(audioScene, {
-  critDurationMs: 40, luckyDurationMs: 70, slowTimeScale: 0.05, resumeTimeScale: 1,
-});
-hitstop.triggerCrit();
-const critTimer = audioScene.timers.at(-1);
-assert.equal(audioScene.tweens.timeScale, 0.05);
-hitstop.triggerLucky();
-assert.equal(critTimer.removed, true);
-audioScene.timers.at(-1).callback();
-assert.equal(audioScene.tweens.timeScale, 1);
-hitstop.destroy();
-
 // Progression state survives save/load and composes campfire bonuses without exceeding caps.
 const relics = new AncientRelicSystem(-5);
 assert.equal(relics.getCount(), 0);
@@ -157,10 +143,9 @@ assert.equal(relics.add(3), 3);
 relics.loadSaveData({ count: -1 });
 assert.deepEqual(relics.getSaveData(), { count: 0 });
 const levels = new PlayerLevelSystem();
-levels.setCampfireSystem({ getCritBonus: () => 0.04, getXpBonus: () => 0.2, getMiningSpeedBonus: () => 0.1 });
+levels.setCampfireSystem({ getXpBonus: () => 0.2, getMiningSpeedBonus: () => 0.1 });
 levels.gainLevel(4);
 assert.equal(levels.level, 5);
-assert.ok(levels.getCriticalHitChance() >= 0.04);
 assert.ok(levels.getMiningSpeedBonus() <= 0.75);
 assert.ok(levels.getGemPowerMaxBonus(11) > levels.getGemPowerMaxBonus(10));
 const savedLevel = levels.toJSON();

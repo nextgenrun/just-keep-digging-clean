@@ -1,6 +1,7 @@
 # Dig Game canonical design source
 
-Last reconciled with the active runtime: 2026-08-10
+Last full reconciliation with the active runtime: 2026-08-10
+Locomotion contract reconciled with the current rules: 2026-09-04
 
 This directory is the product source of truth for the intended final game. It
 defines what the player should experience, which current systems support that
@@ -74,10 +75,12 @@ alignment register.
   first teleport tile at exactly 15 m.
 - Guided runs remain contained in town until the player has unlocked Flight and
   completed the protected first ascent. Skip runs are never contained.
-- There is no jump action. Vertical traversal is taught through digging,
-  falling, climbing where supported, and Flight.
-- Casual never consumes lives. Hardcore has two lives plus one free first
-  revive. Hidden One-Life Hardcore has one life and no free revive.
+- Space performs one fixed, non-variable jump exactly 1.2 tiles high. Digging
+  uses its separate action. Flight remains momentum-based: Shift powers it,
+  A/D steer, and W/S build upward or downward momentum through acceleration
+  and braking. Hazards allow walking, digging, cover, jumping, and Flight.
+- Casual never consumes lives. Hardcore has exactly one life and no revives.
+  The legacy hidden One-Life Hardcore identifier follows the same rules.
 - Routine information must not interrupt play with modal popups. One current
   action and one next promise are the default teaching density.
 - Production-facing visual UI uses approved or generated bitmap assets with

@@ -1,0 +1,51 @@
+{
+  "tests": [
+    {
+      "test": "testing/2026-09-05-most-seen-wiring-contract.mjs",
+      "exitCode": 0,
+      "output": "PASS gameplay presentation: HP damage/destruction/retarget, modal hiding, text fit, viewport bounds, merchant priority, rebind, cleanup, scenic focus\n"
+    },
+    {
+      "test": "testing/2026-08-22-hud-quick-controls-hit-area-contract.mjs",
+      "exitCode": 0,
+      "output": "HUD quick-control hit-area contract passed: Inventory, Menu, and Map use Phaser-local clickable bounds.\n"
+    },
+    {
+      "test": "testing/2026-08-03-celestial-action-bar-contract.mjs",
+      "exitCode": 0,
+      "output": "PASS celestial actionbar: eager authored shell, empty unowned slots, activation, drag-save rollback, resize, teardown\n"
+    },
+    {
+      "test": "testing/2026-07-28-mining-target-mouse-dig-contract.mjs",
+      "exitCode": 0,
+      "output": "Mining target visuals and mouse digging contract: PASS\n"
+    },
+    {
+      "test": "testing/2026-08-12-npc-shop-interaction-contract.mjs",
+      "exitCode": 0,
+      "output": "NPC_SHOP_INTERACTION_CONTRACT_OK\n"
+    }
+  ],
+  "syntaxChecked": [
+    "systems/visual/CelestialActionBarMetricsView.js",
+    "systems/visual/CelestialActionBarSlotView.js",
+    "systems/visual/CelestialActionBarSystem.js",
+    "systems/visual/HudQuickControls.js",
+    "systems/visual/HudWikiShortcut.js",
+    "systems/visual/MerchantPromptView.js",
+    "systems/visual/MiningTargetVisualSystem.js",
+    "systems/visual/NextPromiseHudSystem.js",
+    "systems/visual/TargetTileHudView.js",
+    "values/approvedHudSkin.js",
+    "values/gameWiki.js",
+    "values/gameplayPresentation.js",
+    "values/hardcoreMode.js",
+    "values/hudQuickControls.js",
+    "values/retentionConfig.js",
+    "world/playScene/NPCManager.js",
+    "world/rendering/scenic-world/WorldVisualBackdropEnhancerLayer.js",
+    "world/rendering/scenic-world/WorldVisualGroundStructureRegionView.js",
+    "world/rendering/scenic-world/WorldVisualTerrainCohesionView.js",
+    "world/rendering/scenic-world/WorldVisualUndergroundDetailRegionView.js"
+  ]
+}

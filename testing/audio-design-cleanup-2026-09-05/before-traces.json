@@ -1,0 +1,5652 @@
+{
+  "mode": "before",
+  "scenarios": [
+    {
+      "id": "walk",
+      "title": "Walking on dirt",
+      "seconds": 8,
+      "events": [
+        {
+          "key": "fs-approved-166511",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-166511.ogg",
+          "title": "dirt/gravel footstep 1",
+          "at": 340,
+          "end": 680,
+          "gain": 0.08736235204054948,
+          "rate": 1,
+          "duration": 0.37733333333333335,
+          "gains": [],
+          "naturalEnd": 717.3333333333334
+        },
+        {
+          "key": "fs-approved-223154",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-223154.ogg",
+          "title": "dirt/gravel footstep 3",
+          "at": 680,
+          "end": 1020,
+          "gain": 0.08519700304271575,
+          "rate": 1,
+          "duration": 0.37733333333333335,
+          "gains": [],
+          "naturalEnd": 1057.3333333333335
+        },
+        {
+          "key": "fs-approved-166510",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-166510.ogg",
+          "title": "dirt/gravel footstep 2",
+          "at": 1020,
+          "end": 1360,
+          "gain": 0.08598532120594493,
+          "rate": 1,
+          "duration": 0.37733333333333335,
+          "gains": [],
+          "naturalEnd": 1397.3333333333335
+        },
+        {
+          "key": "fs-approved-223153",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-223153.ogg",
+          "title": "dirt/gravel footstep 4",
+          "at": 1360,
+          "end": 1700,
+          "gain": 0.08554099900829784,
+          "rate": 1,
+          "duration": 0.37733333333333335,
+          "gains": [],
+          "naturalEnd": 1737.3333333333335
+        },
+        {
+          "key": "fs-approved-166511",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-166511.ogg",
+          "title": "dirt/gravel footstep 1",
+          "at": 1700,
+          "end": 2040,
+          "gain": 0.08736235204054948,
+          "rate": 1,
+          "duration": 0.37733333333333335,
+          "gains": [],
+          "naturalEnd": 2077.3333333333335
+        },
+        {
+          "key": "fs-approved-223154",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-223154.ogg",
+          "title": "dirt/gravel footstep 3",
+          "at": 2040,
+          "end": 2380,
+          "gain": 0.08519700304271575,
+          "rate": 1,
+          "duration": 0.37733333333333335,
+          "gains": [],
+          "naturalEnd": 2417.3333333333335
+        },
+        {
+          "key": "fs-approved-166510",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-166510.ogg",
+          "title": "dirt/gravel footstep 2",
+          "at": 2380,
+          "end": 2720,
+          "gain": 0.08598532120594493,
+          "rate": 1,
+          "duration": 0.37733333333333335,
+          "gains": [],
+          "naturalEnd": 2757.3333333333335
+        },
+        {
+          "key": "fs-approved-223153",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-223153.ogg",
+          "title": "dirt/gravel footstep 4",
+          "at": 2720,
+          "end": 3060,
+          "gain": 0.08554099900829784,
+          "rate": 1,
+          "duration": 0.37733333333333335,
+          "gains": [],
+          "naturalEnd": 3097.3333333333335
+        },
+        {
+          "key": "fs-approved-166511",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-166511.ogg",
+          "title": "dirt/gravel footstep 1",
+          "at": 3060,
+          "end": 3400,
+          "gain": 0.08736235204054948,
+          "rate": 1,
+          "duration": 0.37733333333333335,
+          "gains": [],
+          "naturalEnd": 3437.3333333333335
+        },
+        {
+          "key": "fs-approved-223154",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-223154.ogg",
+          "title": "dirt/gravel footstep 3",
+          "at": 3400,
+          "end": 3740,
+          "gain": 0.08519700304271575,
+          "rate": 1,
+          "duration": 0.37733333333333335,
+          "gains": [],
+          "naturalEnd": 3777.3333333333335
+        },
+        {
+          "key": "fs-approved-166510",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-166510.ogg",
+          "title": "dirt/gravel footstep 2",
+          "at": 3740,
+          "end": 4080,
+          "gain": 0.08598532120594493,
+          "rate": 1,
+          "duration": 0.37733333333333335,
+          "gains": [],
+          "naturalEnd": 4117.333333333333
+        },
+        {
+          "key": "fs-approved-223153",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-223153.ogg",
+          "title": "dirt/gravel footstep 4",
+          "at": 4080,
+          "end": 4420,
+          "gain": 0.08554099900829784,
+          "rate": 1,
+          "duration": 0.37733333333333335,
+          "gains": [],
+          "naturalEnd": 4457.333333333333
+        },
+        {
+          "key": "fs-approved-166511",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-166511.ogg",
+          "title": "dirt/gravel footstep 1",
+          "at": 4420,
+          "end": 4760,
+          "gain": 0.08736235204054948,
+          "rate": 1,
+          "duration": 0.37733333333333335,
+          "gains": [],
+          "naturalEnd": 4797.333333333333
+        },
+        {
+          "key": "fs-approved-223154",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-223154.ogg",
+          "title": "dirt/gravel footstep 3",
+          "at": 4760,
+          "end": 5100,
+          "gain": 0.08519700304271575,
+          "rate": 1,
+          "duration": 0.37733333333333335,
+          "gains": [],
+          "naturalEnd": 5137.333333333333
+        },
+        {
+          "key": "fs-approved-166510",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-166510.ogg",
+          "title": "dirt/gravel footstep 2",
+          "at": 5100,
+          "end": 5440,
+          "gain": 0.08598532120594493,
+          "rate": 1,
+          "duration": 0.37733333333333335,
+          "gains": [],
+          "naturalEnd": 5477.333333333333
+        },
+        {
+          "key": "fs-approved-223153",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-223153.ogg",
+          "title": "dirt/gravel footstep 4",
+          "at": 5440,
+          "end": 5817.333333333333,
+          "gain": 0.08554099900829784,
+          "rate": 1,
+          "duration": 0.37733333333333335,
+          "gains": [],
+          "naturalEnd": 5817.333333333333
+        }
+      ]
+    },
+    {
+      "id": "hard-walk",
+      "title": "Walking on hard ground",
+      "seconds": 8,
+      "events": [
+        {
+          "key": "footsteps-1",
+          "path": "sound/soundEffects/costume-sounds/footsteps/footstep-3.ogg",
+          "title": "footsteps-1",
+          "at": 340,
+          "end": 467.7291666666667,
+          "gain": 0.11340000000000003,
+          "rate": 1,
+          "duration": 0.12772916666666667,
+          "gains": [],
+          "naturalEnd": 467.7291666666667
+        },
+        {
+          "key": "footsteps-2",
+          "path": "sound/soundEffects/costume-sounds/footsteps/footstep-4.ogg",
+          "title": "footsteps-2",
+          "at": 680,
+          "end": 886.0833333333334,
+          "gain": 0.11340000000000003,
+          "rate": 1,
+          "duration": 0.20608333333333334,
+          "gains": [],
+          "naturalEnd": 886.0833333333334
+        },
+        {
+          "key": "footsteps-0",
+          "path": "sound/soundEffects/costume-sounds/footsteps/footstep-1.ogg",
+          "title": "footsteps-0",
+          "at": 1020,
+          "end": 1565.6875,
+          "gain": 0.11340000000000003,
+          "rate": 1,
+          "duration": 0.5456875,
+          "gains": [
+            {
+              "at": 1360,
+              "gain": 0.11340000000000003
+            },
+            {
+              "at": 1487.7291666666667,
+              "gain": 0.11340000000000003
+            }
+          ],
+          "naturalEnd": 1565.6875
+        },
+        {
+          "key": "footsteps-1",
+          "path": "sound/soundEffects/costume-sounds/footsteps/footstep-3.ogg",
+          "title": "footsteps-1",
+          "at": 1360,
+          "end": 1487.7291666666667,
+          "gain": 0.11340000000000003,
+          "rate": 1,
+          "duration": 0.12772916666666667,
+          "gains": [],
+          "naturalEnd": 1487.7291666666667
+        },
+        {
+          "key": "footsteps-0",
+          "path": "sound/soundEffects/costume-sounds/footsteps/footstep-1.ogg",
+          "title": "footsteps-0",
+          "at": 1700,
+          "end": 2245.6875,
+          "gain": 0.11340000000000003,
+          "rate": 1,
+          "duration": 0.5456875,
+          "gains": [
+            {
+              "at": 2040,
+              "gain": 0.11340000000000003
+            }
+          ],
+          "naturalEnd": 2245.6875
+        },
+        {
+          "key": "footsteps-2",
+          "path": "sound/soundEffects/costume-sounds/footsteps/footstep-4.ogg",
+          "title": "footsteps-2",
+          "at": 2040,
+          "end": 2246.0833333333335,
+          "gain": 0.11340000000000003,
+          "rate": 1,
+          "duration": 0.20608333333333334,
+          "gains": [
+            {
+              "at": 2245.6875,
+              "gain": 0.11340000000000003
+            }
+          ],
+          "naturalEnd": 2246.0833333333335
+        },
+        {
+          "key": "footsteps-0",
+          "path": "sound/soundEffects/costume-sounds/footsteps/footstep-1.ogg",
+          "title": "footsteps-0",
+          "at": 2380,
+          "end": 2925.6875,
+          "gain": 0.11340000000000003,
+          "rate": 1,
+          "duration": 0.5456875,
+          "gains": [
+            {
+              "at": 2720,
+              "gain": 0.11340000000000003
+            }
+          ],
+          "naturalEnd": 2925.6875
+        },
+        {
+          "key": "footsteps-2",
+          "path": "sound/soundEffects/costume-sounds/footsteps/footstep-4.ogg",
+          "title": "footsteps-2",
+          "at": 2720,
+          "end": 2926.0833333333335,
+          "gain": 0.11340000000000003,
+          "rate": 1,
+          "duration": 0.20608333333333334,
+          "gains": [
+            {
+              "at": 2925.6875,
+              "gain": 0.11340000000000003
+            }
+          ],
+          "naturalEnd": 2926.0833333333335
+        },
+        {
+          "key": "footsteps-1",
+          "path": "sound/soundEffects/costume-sounds/footsteps/footstep-3.ogg",
+          "title": "footsteps-1",
+          "at": 3060,
+          "end": 3187.7291666666665,
+          "gain": 0.11340000000000003,
+          "rate": 1,
+          "duration": 0.12772916666666667,
+          "gains": [],
+          "naturalEnd": 3187.7291666666665
+        },
+        {
+          "key": "footsteps-0",
+          "path": "sound/soundEffects/costume-sounds/footsteps/footstep-1.ogg",
+          "title": "footsteps-0",
+          "at": 3400,
+          "end": 3945.6875,
+          "gain": 0.11340000000000003,
+          "rate": 1,
+          "duration": 0.5456875,
+          "gains": [
+            {
+              "at": 3740,
+              "gain": 0.11340000000000003
+            },
+            {
+              "at": 3867.7291666666665,
+              "gain": 0.11340000000000003
+            }
+          ],
+          "naturalEnd": 3945.6875
+        },
+        {
+          "key": "footsteps-1",
+          "path": "sound/soundEffects/costume-sounds/footsteps/footstep-3.ogg",
+          "title": "footsteps-1",
+          "at": 3740,
+          "end": 3867.7291666666665,
+          "gain": 0.11340000000000003,
+          "rate": 1,
+          "duration": 0.12772916666666667,
+          "gains": [],
+          "naturalEnd": 3867.7291666666665
+        },
+        {
+          "key": "footsteps-2",
+          "path": "sound/soundEffects/costume-sounds/footsteps/footstep-4.ogg",
+          "title": "footsteps-2",
+          "at": 4080,
+          "end": 4286.083333333333,
+          "gain": 0.11340000000000003,
+          "rate": 1,
+          "duration": 0.20608333333333334,
+          "gains": [],
+          "naturalEnd": 4286.083333333333
+        },
+        {
+          "key": "footsteps-1",
+          "path": "sound/soundEffects/costume-sounds/footsteps/footstep-3.ogg",
+          "title": "footsteps-1",
+          "at": 4420,
+          "end": 4547.729166666667,
+          "gain": 0.11340000000000003,
+          "rate": 1,
+          "duration": 0.12772916666666667,
+          "gains": [],
+          "naturalEnd": 4547.729166666667
+        },
+        {
+          "key": "footsteps-0",
+          "path": "sound/soundEffects/costume-sounds/footsteps/footstep-1.ogg",
+          "title": "footsteps-0",
+          "at": 4760,
+          "end": 5305.6875,
+          "gain": 0.11340000000000003,
+          "rate": 1,
+          "duration": 0.5456875,
+          "gains": [
+            {
+              "at": 5100,
+              "gain": 0.11340000000000003
+            }
+          ],
+          "naturalEnd": 5305.6875
+        },
+        {
+          "key": "footsteps-2",
+          "path": "sound/soundEffects/costume-sounds/footsteps/footstep-4.ogg",
+          "title": "footsteps-2",
+          "at": 5100,
+          "end": 5306.083333333333,
+          "gain": 0.11340000000000003,
+          "rate": 1,
+          "duration": 0.20608333333333334,
+          "gains": [
+            {
+              "at": 5305.6875,
+              "gain": 0.11340000000000003
+            }
+          ],
+          "naturalEnd": 5306.083333333333
+        },
+        {
+          "key": "footsteps-1",
+          "path": "sound/soundEffects/costume-sounds/footsteps/footstep-3.ogg",
+          "title": "footsteps-1",
+          "at": 5440,
+          "end": 5567.729166666667,
+          "gain": 0.11340000000000003,
+          "rate": 1,
+          "duration": 0.12772916666666667,
+          "gains": [],
+          "naturalEnd": 5567.729166666667
+        }
+      ]
+    },
+    {
+      "id": "earth",
+      "title": "Digging and breaking earth",
+      "seconds": 8,
+      "events": [
+        {
+          "key": "approved-review-libDirtSwingA",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libDirtSwingA.ogg",
+          "title": "libDirtSwingA",
+          "at": 420,
+          "end": 877.3333333333333,
+          "gain": 0.06885000000000001,
+          "rate": 1,
+          "duration": 0.4573333333333333,
+          "gains": [
+            {
+              "at": 510,
+              "gain": 0.06885000000000001
+            }
+          ],
+          "naturalEnd": 877.3333333333333
+        },
+        {
+          "key": "fs-approved-213005",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-213005.ogg",
+          "title": "Shovel.wav",
+          "at": 510,
+          "end": 1020,
+          "gain": 0.21124977769036415,
+          "rate": 1.06,
+          "duration": 0.8473333333333334,
+          "gains": [
+            {
+              "at": 877.3333333333333,
+              "gain": 0.21124977769036415
+            },
+            {
+              "at": 930,
+              "gain": 0.21124977769036415
+            }
+          ],
+          "naturalEnd": 1309.3710691823899
+        },
+        {
+          "key": "approved-review-libDirtSwingA",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libDirtSwingA.ogg",
+          "title": "libDirtSwingA",
+          "at": 930,
+          "end": 1387.3333333333333,
+          "gain": 0.06885000000000001,
+          "rate": 1,
+          "duration": 0.4573333333333333,
+          "gains": [
+            {
+              "at": 1020,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 1020,
+              "gain": 0.06885000000000001
+            }
+          ],
+          "naturalEnd": 1387.3333333333333
+        },
+        {
+          "key": "fs-approved-540264",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-540264.ogg",
+          "title": "dig.wav",
+          "at": 1020,
+          "end": 1530,
+          "gain": 0.21505337397266566,
+          "rate": 1.06,
+          "duration": 0.8473333333333334,
+          "gains": [
+            {
+              "at": 1387.3333333333333,
+              "gain": 0.21505337397266566
+            },
+            {
+              "at": 1440,
+              "gain": 0.21505337397266566
+            }
+          ],
+          "naturalEnd": 1819.3710691823899
+        },
+        {
+          "key": "approved-review-libDirtSwingA",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libDirtSwingA.ogg",
+          "title": "libDirtSwingA",
+          "at": 1440,
+          "end": 1897.3333333333333,
+          "gain": 0.06885000000000001,
+          "rate": 1,
+          "duration": 0.4573333333333333,
+          "gains": [
+            {
+              "at": 1530,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 1530,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 1530,
+              "gain": 0.06885000000000001
+            }
+          ],
+          "naturalEnd": 1897.3333333333333
+        },
+        {
+          "key": "fs-approved-213005",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-213005.ogg",
+          "title": "Shovel.wav",
+          "at": 1530,
+          "end": 2040,
+          "gain": 0.21124977769036415,
+          "rate": 1.06,
+          "duration": 0.8473333333333334,
+          "gains": [
+            {
+              "at": 1530,
+              "gain": 0.21124977769036415
+            },
+            {
+              "at": 1897.3333333333333,
+              "gain": 0.21124977769036415
+            },
+            {
+              "at": 1950,
+              "gain": 0.21124977769036415
+            }
+          ],
+          "naturalEnd": 2329.37106918239
+        },
+        {
+          "key": "approved-review-libDirtBreak",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libDirtBreak.ogg",
+          "title": "libDirtBreak",
+          "at": 1530,
+          "end": 2430.250771604938,
+          "gain": 0.19683000000000003,
+          "rate": 1.08,
+          "duration": 0.9722708333333333,
+          "gains": [
+            {
+              "at": 1897.3333333333333,
+              "gain": 0.19683000000000003
+            },
+            {
+              "at": 1950,
+              "gain": 0.19683000000000003
+            },
+            {
+              "at": 2040,
+              "gain": 0.19683000000000003
+            },
+            {
+              "at": 2040,
+              "gain": 0.19683000000000003
+            },
+            {
+              "at": 2407.3333333333335,
+              "gain": 0.19683000000000003
+            }
+          ],
+          "naturalEnd": 2430.250771604938
+        },
+        {
+          "key": "approved-review-libDirtSwingA",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libDirtSwingA.ogg",
+          "title": "libDirtSwingA",
+          "at": 1950,
+          "end": 2407.3333333333335,
+          "gain": 0.06885000000000001,
+          "rate": 1,
+          "duration": 0.4573333333333333,
+          "gains": [
+            {
+              "at": 2040,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 2040,
+              "gain": 0.06885000000000001
+            }
+          ],
+          "naturalEnd": 2407.3333333333335
+        },
+        {
+          "key": "fs-approved-540264",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-540264.ogg",
+          "title": "dig.wav",
+          "at": 2040,
+          "end": 2550,
+          "gain": 0.21505337397266566,
+          "rate": 1.06,
+          "duration": 0.8473333333333334,
+          "gains": [
+            {
+              "at": 2407.3333333333335,
+              "gain": 0.21505337397266566
+            },
+            {
+              "at": 2430.250771604938,
+              "gain": 0.21505337397266566
+            },
+            {
+              "at": 2460,
+              "gain": 0.21505337397266566
+            }
+          ],
+          "naturalEnd": 2839.37106918239
+        },
+        {
+          "key": "approved-review-libDirtSwingA",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libDirtSwingA.ogg",
+          "title": "libDirtSwingA",
+          "at": 2460,
+          "end": 2917.3333333333335,
+          "gain": 0.06885000000000001,
+          "rate": 1,
+          "duration": 0.4573333333333333,
+          "gains": [
+            {
+              "at": 2550,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 2550,
+              "gain": 0.06885000000000001
+            }
+          ],
+          "naturalEnd": 2917.3333333333335
+        },
+        {
+          "key": "fs-approved-213005",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-213005.ogg",
+          "title": "Shovel.wav",
+          "at": 2550,
+          "end": 3060,
+          "gain": 0.21124977769036415,
+          "rate": 1.06,
+          "duration": 0.8473333333333334,
+          "gains": [
+            {
+              "at": 2917.3333333333335,
+              "gain": 0.21124977769036415
+            },
+            {
+              "at": 2970,
+              "gain": 0.21124977769036415
+            }
+          ],
+          "naturalEnd": 3349.37106918239
+        },
+        {
+          "key": "approved-review-libDirtSwingA",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libDirtSwingA.ogg",
+          "title": "libDirtSwingA",
+          "at": 2970,
+          "end": 3427.3333333333335,
+          "gain": 0.06885000000000001,
+          "rate": 1,
+          "duration": 0.4573333333333333,
+          "gains": [
+            {
+              "at": 3060,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 3060,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 3060,
+              "gain": 0.06885000000000001
+            }
+          ],
+          "naturalEnd": 3427.3333333333335
+        },
+        {
+          "key": "fs-approved-540264",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-540264.ogg",
+          "title": "dig.wav",
+          "at": 3060,
+          "end": 3570,
+          "gain": 0.21505337397266566,
+          "rate": 1.06,
+          "duration": 0.8473333333333334,
+          "gains": [
+            {
+              "at": 3060,
+              "gain": 0.21505337397266566
+            },
+            {
+              "at": 3427.3333333333335,
+              "gain": 0.21505337397266566
+            },
+            {
+              "at": 3480,
+              "gain": 0.21505337397266566
+            }
+          ],
+          "naturalEnd": 3859.37106918239
+        },
+        {
+          "key": "approved-review-libDirtBreak",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libDirtBreak.ogg",
+          "title": "libDirtBreak",
+          "at": 3060,
+          "end": 3960.250771604938,
+          "gain": 0.19683000000000003,
+          "rate": 1.08,
+          "duration": 0.9722708333333333,
+          "gains": [
+            {
+              "at": 3427.3333333333335,
+              "gain": 0.19683000000000003
+            },
+            {
+              "at": 3480,
+              "gain": 0.19683000000000003
+            },
+            {
+              "at": 3570,
+              "gain": 0.19683000000000003
+            },
+            {
+              "at": 3570,
+              "gain": 0.19683000000000003
+            },
+            {
+              "at": 3937.3333333333335,
+              "gain": 0.19683000000000003
+            }
+          ],
+          "naturalEnd": 3960.250771604938
+        },
+        {
+          "key": "approved-review-libDirtSwingA",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libDirtSwingA.ogg",
+          "title": "libDirtSwingA",
+          "at": 3480,
+          "end": 3937.3333333333335,
+          "gain": 0.06885000000000001,
+          "rate": 1,
+          "duration": 0.4573333333333333,
+          "gains": [
+            {
+              "at": 3570,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 3570,
+              "gain": 0.06885000000000001
+            }
+          ],
+          "naturalEnd": 3937.3333333333335
+        },
+        {
+          "key": "fs-approved-213005",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-213005.ogg",
+          "title": "Shovel.wav",
+          "at": 3570,
+          "end": 4080,
+          "gain": 0.21124977769036415,
+          "rate": 1.06,
+          "duration": 0.8473333333333334,
+          "gains": [
+            {
+              "at": 3937.3333333333335,
+              "gain": 0.21124977769036415
+            },
+            {
+              "at": 3960.250771604938,
+              "gain": 0.21124977769036415
+            },
+            {
+              "at": 3990,
+              "gain": 0.21124977769036415
+            }
+          ],
+          "naturalEnd": 4369.37106918239
+        },
+        {
+          "key": "approved-review-libDirtSwingA",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libDirtSwingA.ogg",
+          "title": "libDirtSwingA",
+          "at": 3990,
+          "end": 4447.333333333333,
+          "gain": 0.06885000000000001,
+          "rate": 1,
+          "duration": 0.4573333333333333,
+          "gains": [
+            {
+              "at": 4080,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 4080,
+              "gain": 0.06885000000000001
+            }
+          ],
+          "naturalEnd": 4447.333333333333
+        },
+        {
+          "key": "fs-approved-540264",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-540264.ogg",
+          "title": "dig.wav",
+          "at": 4080,
+          "end": 4590,
+          "gain": 0.21505337397266566,
+          "rate": 1.06,
+          "duration": 0.8473333333333334,
+          "gains": [
+            {
+              "at": 4447.333333333333,
+              "gain": 0.21505337397266566
+            },
+            {
+              "at": 4500,
+              "gain": 0.21505337397266566
+            }
+          ],
+          "naturalEnd": 4879.37106918239
+        },
+        {
+          "key": "approved-review-libDirtSwingA",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libDirtSwingA.ogg",
+          "title": "libDirtSwingA",
+          "at": 4500,
+          "end": 4957.333333333333,
+          "gain": 0.06885000000000001,
+          "rate": 1,
+          "duration": 0.4573333333333333,
+          "gains": [
+            {
+              "at": 4590,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 4590,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 4590,
+              "gain": 0.06885000000000001
+            }
+          ],
+          "naturalEnd": 4957.333333333333
+        },
+        {
+          "key": "fs-approved-213005",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-213005.ogg",
+          "title": "Shovel.wav",
+          "at": 4590,
+          "end": 5100,
+          "gain": 0.21124977769036415,
+          "rate": 1.06,
+          "duration": 0.8473333333333334,
+          "gains": [
+            {
+              "at": 4590,
+              "gain": 0.21124977769036415
+            },
+            {
+              "at": 4957.333333333333,
+              "gain": 0.21124977769036415
+            },
+            {
+              "at": 5010,
+              "gain": 0.21124977769036415
+            }
+          ],
+          "naturalEnd": 5389.37106918239
+        },
+        {
+          "key": "approved-review-libDirtBreak",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libDirtBreak.ogg",
+          "title": "libDirtBreak",
+          "at": 4590,
+          "end": 5490.250771604939,
+          "gain": 0.19683000000000003,
+          "rate": 1.08,
+          "duration": 0.9722708333333333,
+          "gains": [
+            {
+              "at": 4957.333333333333,
+              "gain": 0.19683000000000003
+            },
+            {
+              "at": 5010,
+              "gain": 0.19683000000000003
+            },
+            {
+              "at": 5100,
+              "gain": 0.19683000000000003
+            },
+            {
+              "at": 5100,
+              "gain": 0.19683000000000003
+            },
+            {
+              "at": 5467.333333333333,
+              "gain": 0.19683000000000003
+            }
+          ],
+          "naturalEnd": 5490.250771604939
+        },
+        {
+          "key": "approved-review-libDirtSwingA",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libDirtSwingA.ogg",
+          "title": "libDirtSwingA",
+          "at": 5010,
+          "end": 5467.333333333333,
+          "gain": 0.06885000000000001,
+          "rate": 1,
+          "duration": 0.4573333333333333,
+          "gains": [
+            {
+              "at": 5100,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 5100,
+              "gain": 0.06885000000000001
+            }
+          ],
+          "naturalEnd": 5467.333333333333
+        },
+        {
+          "key": "fs-approved-540264",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-540264.ogg",
+          "title": "dig.wav",
+          "at": 5100,
+          "end": 5610,
+          "gain": 0.21505337397266566,
+          "rate": 1.06,
+          "duration": 0.8473333333333334,
+          "gains": [
+            {
+              "at": 5467.333333333333,
+              "gain": 0.21505337397266566
+            },
+            {
+              "at": 5490.250771604939,
+              "gain": 0.21505337397266566
+            },
+            {
+              "at": 5520,
+              "gain": 0.21505337397266566
+            }
+          ],
+          "naturalEnd": 5899.37106918239
+        },
+        {
+          "key": "approved-review-libDirtSwingA",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libDirtSwingA.ogg",
+          "title": "libDirtSwingA",
+          "at": 5520,
+          "end": 5977.333333333333,
+          "gain": 0.06885000000000001,
+          "rate": 1,
+          "duration": 0.4573333333333333,
+          "gains": [
+            {
+              "at": 5610,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 5610,
+              "gain": 0.06885000000000001
+            }
+          ],
+          "naturalEnd": 5977.333333333333
+        },
+        {
+          "key": "fs-approved-213005",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-213005.ogg",
+          "title": "Shovel.wav",
+          "at": 5610,
+          "end": 6120,
+          "gain": 0.21124977769036415,
+          "rate": 1.06,
+          "duration": 0.8473333333333334,
+          "gains": [
+            {
+              "at": 5977.333333333333,
+              "gain": 0.21124977769036415
+            },
+            {
+              "at": 6030,
+              "gain": 0.21124977769036415
+            }
+          ],
+          "naturalEnd": 6409.37106918239
+        },
+        {
+          "key": "approved-review-libDirtSwingA",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libDirtSwingA.ogg",
+          "title": "libDirtSwingA",
+          "at": 6030,
+          "end": 6487.333333333333,
+          "gain": 0.06885000000000001,
+          "rate": 1,
+          "duration": 0.4573333333333333,
+          "gains": [
+            {
+              "at": 6120,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 6120,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 6120,
+              "gain": 0.06885000000000001
+            }
+          ],
+          "naturalEnd": 6487.333333333333
+        },
+        {
+          "key": "fs-approved-540264",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-540264.ogg",
+          "title": "dig.wav",
+          "at": 6120,
+          "end": 6919.37106918239,
+          "gain": 0.21505337397266566,
+          "rate": 1.06,
+          "duration": 0.8473333333333334,
+          "gains": [
+            {
+              "at": 6120,
+              "gain": 0.21505337397266566
+            },
+            {
+              "at": 6487.333333333333,
+              "gain": 0.21505337397266566
+            }
+          ],
+          "naturalEnd": 6919.37106918239
+        },
+        {
+          "key": "approved-review-libDirtBreak",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libDirtBreak.ogg",
+          "title": "libDirtBreak",
+          "at": 6120,
+          "end": 7020.250771604939,
+          "gain": 0.19683000000000003,
+          "rate": 1.08,
+          "duration": 0.9722708333333333,
+          "gains": [
+            {
+              "at": 6487.333333333333,
+              "gain": 0.19683000000000003
+            },
+            {
+              "at": 6919.37106918239,
+              "gain": 0.19683000000000003
+            }
+          ],
+          "naturalEnd": 7020.250771604939
+        }
+      ]
+    },
+    {
+      "id": "stone",
+      "title": "Digging and breaking stone",
+      "seconds": 8,
+      "events": [
+        {
+          "key": "approved-review-libDirtSwingA",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libDirtSwingA.ogg",
+          "title": "libDirtSwingA",
+          "at": 420,
+          "end": 877.3333333333333,
+          "gain": 0.06885000000000001,
+          "rate": 1,
+          "duration": 0.4573333333333333,
+          "gains": [
+            {
+              "at": 510,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 510,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 672.5,
+              "gain": 0.06885000000000001
+            }
+          ],
+          "naturalEnd": 877.3333333333333
+        },
+        {
+          "key": "fs-approved-760565",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-760565.ogg",
+          "title": "Pickaxe1",
+          "at": 510,
+          "end": 672.5,
+          "gain": 0.16256049556194996,
+          "rate": 0.95,
+          "duration": 0.154375,
+          "gains": [
+            {
+              "at": 510,
+              "gain": 0.16256049556194996
+            }
+          ],
+          "naturalEnd": 672.5
+        },
+        {
+          "key": "approved-review-libToolContact",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libToolContact.ogg",
+          "title": "libToolContact",
+          "at": 510,
+          "end": 1020,
+          "gain": 0.12960000000000002,
+          "rate": 0.95,
+          "duration": 1.2,
+          "gains": [
+            {
+              "at": 672.5,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 877.3333333333333,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 930,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 1020,
+              "gain": 0.12960000000000002
+            }
+          ],
+          "naturalEnd": 1773.157894736842
+        },
+        {
+          "key": "approved-review-libDirtSwingA",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libDirtSwingA.ogg",
+          "title": "libDirtSwingA",
+          "at": 930,
+          "end": 1387.3333333333333,
+          "gain": 0.06885000000000001,
+          "rate": 1,
+          "duration": 0.4573333333333333,
+          "gains": [
+            {
+              "at": 1020,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 1020,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 1020,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 1178.5745614035088,
+              "gain": 0.06885000000000001
+            }
+          ],
+          "naturalEnd": 1387.3333333333333
+        },
+        {
+          "key": "fs-approved-760566",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-760566.ogg",
+          "title": "Pickaxe2",
+          "at": 1020,
+          "end": 1178.5745614035088,
+          "gain": 0.16151580063261883,
+          "rate": 0.95,
+          "duration": 0.15064583333333334,
+          "gains": [
+            {
+              "at": 1020,
+              "gain": 0.16151580063261883
+            },
+            {
+              "at": 1020,
+              "gain": 0.16151580063261883
+            }
+          ],
+          "naturalEnd": 1178.5745614035088
+        },
+        {
+          "key": "approved-review-libToolContact",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libToolContact.ogg",
+          "title": "libToolContact",
+          "at": 1020,
+          "end": 1530,
+          "gain": 0.12960000000000002,
+          "rate": 0.95,
+          "duration": 1.2,
+          "gains": [
+            {
+              "at": 1178.5745614035088,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 1387.3333333333333,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 1440,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 1530,
+              "gain": 0.12960000000000002
+            }
+          ],
+          "naturalEnd": 2283.157894736842
+        },
+        {
+          "key": "approved-review-libDirtSwingA",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libDirtSwingA.ogg",
+          "title": "libDirtSwingA",
+          "at": 1440,
+          "end": 1897.3333333333333,
+          "gain": 0.06885000000000001,
+          "rate": 1,
+          "duration": 0.4573333333333333,
+          "gains": [
+            {
+              "at": 1530,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 1530,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 1530,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 1530,
+              "gain": 0.06696065507652942
+            },
+            {
+              "at": 1693.6842105263158,
+              "gain": 0.06885000000000001
+            }
+          ],
+          "naturalEnd": 1897.3333333333333
+        },
+        {
+          "key": "fs-approved-760567",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-760567.ogg",
+          "title": "Pickaxe3",
+          "at": 1530,
+          "end": 1693.6842105263158,
+          "gain": 0.16289772330067898,
+          "rate": 0.95,
+          "duration": 0.1555,
+          "gains": [
+            {
+              "at": 1530,
+              "gain": 0.16289772330067898
+            },
+            {
+              "at": 1530,
+              "gain": 0.16289772330067898
+            },
+            {
+              "at": 1530,
+              "gain": 0.15842757099039495
+            }
+          ],
+          "naturalEnd": 1693.6842105263158
+        },
+        {
+          "key": "approved-review-libToolContact",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libToolContact.ogg",
+          "title": "libToolContact",
+          "at": 1530,
+          "end": 2040,
+          "gain": 0.12960000000000002,
+          "rate": 0.95,
+          "duration": 1.2,
+          "gains": [
+            {
+              "at": 1530,
+              "gain": 0.12604358602640833
+            },
+            {
+              "at": 1693.6842105263158,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 1897.3333333333333,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 1950,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 2040,
+              "gain": 0.11872396713257188
+            }
+          ],
+          "naturalEnd": 2793.157894736842
+        },
+        {
+          "key": "approved-review-libStoneBreak",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libStoneBreak.ogg",
+          "title": "libStoneBreak",
+          "at": 1530,
+          "end": 3060,
+          "gain": 0.25208717205281667,
+          "rate": 0.94,
+          "duration": 1.8,
+          "gains": [
+            {
+              "at": 1693.6842105263158,
+              "gain": 0.25920000000000004
+            },
+            {
+              "at": 1897.3333333333333,
+              "gain": 0.25920000000000004
+            },
+            {
+              "at": 1950,
+              "gain": 0.25920000000000004
+            },
+            {
+              "at": 2040,
+              "gain": 0.23744793426514377
+            },
+            {
+              "at": 2040,
+              "gain": 0.25920000000000004
+            },
+            {
+              "at": 2040,
+              "gain": 0.23744793426514377
+            },
+            {
+              "at": 2407.3333333333335,
+              "gain": 0.25920000000000004
+            },
+            {
+              "at": 2460,
+              "gain": 0.23744793426514377
+            },
+            {
+              "at": 2550,
+              "gain": 0.25920000000000004
+            },
+            {
+              "at": 2550,
+              "gain": 0.24629601389675854
+            },
+            {
+              "at": 2550,
+              "gain": 0.25920000000000004
+            },
+            {
+              "at": 2550,
+              "gain": 0.24629601389675854
+            },
+            {
+              "at": 2712.5,
+              "gain": 0.25920000000000004
+            },
+            {
+              "at": 2917.3333333333335,
+              "gain": 0.25920000000000004
+            },
+            {
+              "at": 2970,
+              "gain": 0.25920000000000004
+            },
+            {
+              "at": 3060,
+              "gain": 0.24022078824524362
+            },
+            {
+              "at": 3060,
+              "gain": 0.25920000000000004
+            },
+            {
+              "at": 3060,
+              "gain": 0.24022078824524362
+            }
+          ],
+          "naturalEnd": 3444.8936170212764
+        },
+        {
+          "key": "approved-review-libDirtSwingA",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libDirtSwingA.ogg",
+          "title": "libDirtSwingA",
+          "at": 1950,
+          "end": 2407.3333333333335,
+          "gain": 0.06885000000000001,
+          "rate": 1,
+          "duration": 0.4573333333333333,
+          "gains": [
+            {
+              "at": 2040,
+              "gain": 0.0630721075391788
+            },
+            {
+              "at": 2040,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 2040,
+              "gain": 0.0630721075391788
+            }
+          ],
+          "naturalEnd": 2407.3333333333335
+        },
+        {
+          "key": "fs-approved-815336",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-815336.ogg",
+          "title": "superhero_earth_impact_hit_07062025",
+          "at": 2040,
+          "end": 2550,
+          "gain": 0.14762109180056532,
+          "rate": 0.95,
+          "duration": 0.5973333333333334,
+          "gains": [
+            {
+              "at": 2040,
+              "gain": 0.1611443245995146
+            },
+            {
+              "at": 2040,
+              "gain": 0.14762109180056532
+            },
+            {
+              "at": 2407.3333333333335,
+              "gain": 0.1611443245995146
+            },
+            {
+              "at": 2460,
+              "gain": 0.14762109180056532
+            }
+          ],
+          "naturalEnd": 2668.7719298245615
+        },
+        {
+          "key": "approved-review-libToolContact",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libToolContact.ogg",
+          "title": "libToolContact",
+          "at": 2040,
+          "end": 2550,
+          "gain": 0.11872396713257188,
+          "rate": 0.95,
+          "duration": 1.2,
+          "gains": [
+            {
+              "at": 2407.3333333333335,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 2460,
+              "gain": 0.11872396713257188
+            },
+            {
+              "at": 2550,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 2550,
+              "gain": 0.12314800694837927
+            }
+          ],
+          "naturalEnd": 3303.157894736842
+        },
+        {
+          "key": "approved-review-libDirtSwingA",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libDirtSwingA.ogg",
+          "title": "libDirtSwingA",
+          "at": 2460,
+          "end": 2917.3333333333335,
+          "gain": 0.0630721075391788,
+          "rate": 1,
+          "duration": 0.4573333333333333,
+          "gains": [
+            {
+              "at": 2550,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 2550,
+              "gain": 0.06542237869132649
+            },
+            {
+              "at": 2550,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 2550,
+              "gain": 0.06542237869132649
+            },
+            {
+              "at": 2712.5,
+              "gain": 0.06885000000000001
+            }
+          ],
+          "naturalEnd": 2917.3333333333335
+        },
+        {
+          "key": "fs-approved-760565",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-760565.ogg",
+          "title": "Pickaxe1",
+          "at": 2550,
+          "end": 2712.5,
+          "gain": 0.15446760059409714,
+          "rate": 0.95,
+          "duration": 0.154375,
+          "gains": [
+            {
+              "at": 2550,
+              "gain": 0.16256049556194996
+            },
+            {
+              "at": 2550,
+              "gain": 0.15446760059409714
+            }
+          ],
+          "naturalEnd": 2712.5
+        },
+        {
+          "key": "approved-review-libToolContact",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libToolContact.ogg",
+          "title": "libToolContact",
+          "at": 2550,
+          "end": 3060,
+          "gain": 0.12314800694837927,
+          "rate": 0.95,
+          "duration": 1.2,
+          "gains": [
+            {
+              "at": 2712.5,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 2917.3333333333335,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 2970,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 3060,
+              "gain": 0.12011039412262181
+            }
+          ],
+          "naturalEnd": 3813.157894736842
+        },
+        {
+          "key": "approved-review-libDirtSwingA",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libDirtSwingA.ogg",
+          "title": "libDirtSwingA",
+          "at": 2970,
+          "end": 3427.3333333333335,
+          "gain": 0.06885000000000001,
+          "rate": 1,
+          "duration": 0.4573333333333333,
+          "gains": [
+            {
+              "at": 3060,
+              "gain": 0.06380864687764284
+            },
+            {
+              "at": 3060,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 3060,
+              "gain": 0.06380864687764284
+            },
+            {
+              "at": 3060,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 3060,
+              "gain": 0.06380864687764284
+            },
+            {
+              "at": 3218.5745614035086,
+              "gain": 0.06885000000000001
+            }
+          ],
+          "naturalEnd": 3427.3333333333335
+        },
+        {
+          "key": "fs-approved-760566",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-760566.ogg",
+          "title": "Pickaxe2",
+          "at": 3060,
+          "end": 3218.5745614035086,
+          "gain": 0.1496892474615328,
+          "rate": 0.95,
+          "duration": 0.15064583333333334,
+          "gains": [
+            {
+              "at": 3060,
+              "gain": 0.16151580063261883
+            },
+            {
+              "at": 3060,
+              "gain": 0.1496892474615328
+            },
+            {
+              "at": 3060,
+              "gain": 0.16151580063261883
+            },
+            {
+              "at": 3060,
+              "gain": 0.14968924746153284
+            }
+          ],
+          "naturalEnd": 3218.5745614035086
+        },
+        {
+          "key": "approved-review-libToolContact",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libToolContact.ogg",
+          "title": "libToolContact",
+          "at": 3060,
+          "end": 3570,
+          "gain": 0.12011039412262181,
+          "rate": 0.95,
+          "duration": 1.2,
+          "gains": [
+            {
+              "at": 3060,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 3060,
+              "gain": 0.12011039412262181
+            },
+            {
+              "at": 3218.5745614035086,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 3427.3333333333335,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 3480,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 3570,
+              "gain": 0.12604358602640833
+            }
+          ],
+          "naturalEnd": 4323.157894736842
+        },
+        {
+          "key": "approved-review-libStoneBreak",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libStoneBreak.ogg",
+          "title": "libStoneBreak",
+          "at": 3060,
+          "end": 4590,
+          "gain": 0.24022078824524362,
+          "rate": 0.94,
+          "duration": 1.8,
+          "gains": [
+            {
+              "at": 3218.5745614035086,
+              "gain": 0.25920000000000004
+            },
+            {
+              "at": 3427.3333333333335,
+              "gain": 0.25920000000000004
+            },
+            {
+              "at": 3480,
+              "gain": 0.25920000000000004
+            },
+            {
+              "at": 3570,
+              "gain": 0.25208717205281667
+            },
+            {
+              "at": 3570,
+              "gain": 0.25920000000000004
+            },
+            {
+              "at": 3570,
+              "gain": 0.25208717205281667
+            },
+            {
+              "at": 3733.684210526316,
+              "gain": 0.25920000000000004
+            },
+            {
+              "at": 3937.3333333333335,
+              "gain": 0.25920000000000004
+            },
+            {
+              "at": 3990,
+              "gain": 0.25920000000000004
+            },
+            {
+              "at": 4080,
+              "gain": 0.23744793426514377
+            },
+            {
+              "at": 4080,
+              "gain": 0.25920000000000004
+            },
+            {
+              "at": 4080,
+              "gain": 0.23744793426514377
+            },
+            {
+              "at": 4447.333333333333,
+              "gain": 0.25920000000000004
+            },
+            {
+              "at": 4500,
+              "gain": 0.23744793426514377
+            },
+            {
+              "at": 4590,
+              "gain": 0.25920000000000004
+            },
+            {
+              "at": 4590,
+              "gain": 0.24629601389675854
+            },
+            {
+              "at": 4590,
+              "gain": 0.25920000000000004
+            },
+            {
+              "at": 4590,
+              "gain": 0.24629601389675854
+            }
+          ],
+          "naturalEnd": 4974.893617021276
+        },
+        {
+          "key": "approved-review-libDirtSwingA",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libDirtSwingA.ogg",
+          "title": "libDirtSwingA",
+          "at": 3480,
+          "end": 3937.3333333333335,
+          "gain": 0.06885000000000001,
+          "rate": 1,
+          "duration": 0.4573333333333333,
+          "gains": [
+            {
+              "at": 3570,
+              "gain": 0.06696065507652942
+            },
+            {
+              "at": 3570,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 3570,
+              "gain": 0.06696065507652942
+            },
+            {
+              "at": 3733.684210526316,
+              "gain": 0.06885000000000001
+            }
+          ],
+          "naturalEnd": 3937.3333333333335
+        },
+        {
+          "key": "fs-approved-760567",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-760567.ogg",
+          "title": "Pickaxe3",
+          "at": 3570,
+          "end": 3733.684210526316,
+          "gain": 0.15842757099039495,
+          "rate": 0.95,
+          "duration": 0.1555,
+          "gains": [
+            {
+              "at": 3570,
+              "gain": 0.16289772330067898
+            },
+            {
+              "at": 3570,
+              "gain": 0.15842757099039495
+            }
+          ],
+          "naturalEnd": 3733.684210526316
+        },
+        {
+          "key": "approved-review-libToolContact",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libToolContact.ogg",
+          "title": "libToolContact",
+          "at": 3570,
+          "end": 4080,
+          "gain": 0.12604358602640833,
+          "rate": 0.95,
+          "duration": 1.2,
+          "gains": [
+            {
+              "at": 3733.684210526316,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 3937.3333333333335,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 3990,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 4080,
+              "gain": 0.11872396713257188
+            }
+          ],
+          "naturalEnd": 4833.157894736842
+        },
+        {
+          "key": "approved-review-libDirtSwingA",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libDirtSwingA.ogg",
+          "title": "libDirtSwingA",
+          "at": 3990,
+          "end": 4447.333333333333,
+          "gain": 0.06885000000000001,
+          "rate": 1,
+          "duration": 0.4573333333333333,
+          "gains": [
+            {
+              "at": 4080,
+              "gain": 0.0630721075391788
+            },
+            {
+              "at": 4080,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 4080,
+              "gain": 0.0630721075391788
+            }
+          ],
+          "naturalEnd": 4447.333333333333
+        },
+        {
+          "key": "fs-approved-815336",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-815336.ogg",
+          "title": "superhero_earth_impact_hit_07062025",
+          "at": 4080,
+          "end": 4590,
+          "gain": 0.14762109180056532,
+          "rate": 0.95,
+          "duration": 0.5973333333333334,
+          "gains": [
+            {
+              "at": 4080,
+              "gain": 0.1611443245995146
+            },
+            {
+              "at": 4080,
+              "gain": 0.14762109180056532
+            },
+            {
+              "at": 4447.333333333333,
+              "gain": 0.1611443245995146
+            },
+            {
+              "at": 4500,
+              "gain": 0.14762109180056532
+            }
+          ],
+          "naturalEnd": 4708.771929824561
+        },
+        {
+          "key": "approved-review-libToolContact",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libToolContact.ogg",
+          "title": "libToolContact",
+          "at": 4080,
+          "end": 4590,
+          "gain": 0.11872396713257188,
+          "rate": 0.95,
+          "duration": 1.2,
+          "gains": [
+            {
+              "at": 4447.333333333333,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 4500,
+              "gain": 0.11872396713257188
+            },
+            {
+              "at": 4590,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 4590,
+              "gain": 0.12314800694837927
+            }
+          ],
+          "naturalEnd": 5343.157894736842
+        },
+        {
+          "key": "approved-review-libDirtSwingA",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libDirtSwingA.ogg",
+          "title": "libDirtSwingA",
+          "at": 4500,
+          "end": 4957.333333333333,
+          "gain": 0.0630721075391788,
+          "rate": 1,
+          "duration": 0.4573333333333333,
+          "gains": [
+            {
+              "at": 4590,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 4590,
+              "gain": 0.06542237869132649
+            },
+            {
+              "at": 4590,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 4590,
+              "gain": 0.06542237869132649
+            },
+            {
+              "at": 4590,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 4590,
+              "gain": 0.0654223786913265
+            },
+            {
+              "at": 4752.5,
+              "gain": 0.06885000000000001
+            }
+          ],
+          "naturalEnd": 4957.333333333333
+        },
+        {
+          "key": "fs-approved-760565",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-760565.ogg",
+          "title": "Pickaxe1",
+          "at": 4590,
+          "end": 4752.5,
+          "gain": 0.15446760059409714,
+          "rate": 0.95,
+          "duration": 0.154375,
+          "gains": [
+            {
+              "at": 4590,
+              "gain": 0.16256049556194996
+            },
+            {
+              "at": 4590,
+              "gain": 0.15446760059409714
+            },
+            {
+              "at": 4590,
+              "gain": 0.16256049556194996
+            },
+            {
+              "at": 4590,
+              "gain": 0.15446760059409717
+            }
+          ],
+          "naturalEnd": 4752.5
+        },
+        {
+          "key": "approved-review-libToolContact",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libToolContact.ogg",
+          "title": "libToolContact",
+          "at": 4590,
+          "end": 5100,
+          "gain": 0.12314800694837927,
+          "rate": 0.95,
+          "duration": 1.2,
+          "gains": [
+            {
+              "at": 4590,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 4590,
+              "gain": 0.12314800694837927
+            },
+            {
+              "at": 4752.5,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 4957.333333333333,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 5010,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 5100,
+              "gain": 0.12011039412262181
+            }
+          ],
+          "naturalEnd": 5853.157894736842
+        },
+        {
+          "key": "approved-review-libStoneBreak",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libStoneBreak.ogg",
+          "title": "libStoneBreak",
+          "at": 4590,
+          "end": 6120,
+          "gain": 0.24629601389675854,
+          "rate": 0.94,
+          "duration": 1.8,
+          "gains": [
+            {
+              "at": 4752.5,
+              "gain": 0.25920000000000004
+            },
+            {
+              "at": 4957.333333333333,
+              "gain": 0.25920000000000004
+            },
+            {
+              "at": 5010,
+              "gain": 0.25920000000000004
+            },
+            {
+              "at": 5100,
+              "gain": 0.24022078824524362
+            },
+            {
+              "at": 5100,
+              "gain": 0.25920000000000004
+            },
+            {
+              "at": 5100,
+              "gain": 0.24022078824524362
+            },
+            {
+              "at": 5258.574561403509,
+              "gain": 0.25920000000000004
+            },
+            {
+              "at": 5467.333333333333,
+              "gain": 0.25920000000000004
+            },
+            {
+              "at": 5520,
+              "gain": 0.25920000000000004
+            },
+            {
+              "at": 5610,
+              "gain": 0.25208717205281667
+            },
+            {
+              "at": 5610,
+              "gain": 0.25920000000000004
+            },
+            {
+              "at": 5610,
+              "gain": 0.25208717205281667
+            },
+            {
+              "at": 5773.684210526316,
+              "gain": 0.25920000000000004
+            },
+            {
+              "at": 5977.333333333333,
+              "gain": 0.25920000000000004
+            },
+            {
+              "at": 6030,
+              "gain": 0.25920000000000004
+            },
+            {
+              "at": 6120,
+              "gain": 0.23744793426514377
+            },
+            {
+              "at": 6120,
+              "gain": 0.25920000000000004
+            },
+            {
+              "at": 6120,
+              "gain": 0.23744793426514377
+            }
+          ],
+          "naturalEnd": 6504.893617021276
+        },
+        {
+          "key": "approved-review-libDirtSwingA",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libDirtSwingA.ogg",
+          "title": "libDirtSwingA",
+          "at": 5010,
+          "end": 5467.333333333333,
+          "gain": 0.06885000000000001,
+          "rate": 1,
+          "duration": 0.4573333333333333,
+          "gains": [
+            {
+              "at": 5100,
+              "gain": 0.06380864687764284
+            },
+            {
+              "at": 5100,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 5100,
+              "gain": 0.06380864687764284
+            },
+            {
+              "at": 5258.574561403509,
+              "gain": 0.06885000000000001
+            }
+          ],
+          "naturalEnd": 5467.333333333333
+        },
+        {
+          "key": "fs-approved-760566",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-760566.ogg",
+          "title": "Pickaxe2",
+          "at": 5100,
+          "end": 5258.574561403509,
+          "gain": 0.1496892474615328,
+          "rate": 0.95,
+          "duration": 0.15064583333333334,
+          "gains": [
+            {
+              "at": 5100,
+              "gain": 0.16151580063261883
+            },
+            {
+              "at": 5100,
+              "gain": 0.1496892474615328
+            }
+          ],
+          "naturalEnd": 5258.574561403509
+        },
+        {
+          "key": "approved-review-libToolContact",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libToolContact.ogg",
+          "title": "libToolContact",
+          "at": 5100,
+          "end": 5610,
+          "gain": 0.12011039412262181,
+          "rate": 0.95,
+          "duration": 1.2,
+          "gains": [
+            {
+              "at": 5258.574561403509,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 5467.333333333333,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 5520,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 5610,
+              "gain": 0.12604358602640833
+            }
+          ],
+          "naturalEnd": 6363.157894736842
+        },
+        {
+          "key": "approved-review-libDirtSwingA",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libDirtSwingA.ogg",
+          "title": "libDirtSwingA",
+          "at": 5520,
+          "end": 5977.333333333333,
+          "gain": 0.06885000000000001,
+          "rate": 1,
+          "duration": 0.4573333333333333,
+          "gains": [
+            {
+              "at": 5610,
+              "gain": 0.06696065507652942
+            },
+            {
+              "at": 5610,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 5610,
+              "gain": 0.06696065507652942
+            },
+            {
+              "at": 5773.684210526316,
+              "gain": 0.06885000000000001
+            }
+          ],
+          "naturalEnd": 5977.333333333333
+        },
+        {
+          "key": "fs-approved-760567",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-760567.ogg",
+          "title": "Pickaxe3",
+          "at": 5610,
+          "end": 5773.684210526316,
+          "gain": 0.15842757099039495,
+          "rate": 0.95,
+          "duration": 0.1555,
+          "gains": [
+            {
+              "at": 5610,
+              "gain": 0.16289772330067898
+            },
+            {
+              "at": 5610,
+              "gain": 0.15842757099039495
+            }
+          ],
+          "naturalEnd": 5773.684210526316
+        },
+        {
+          "key": "approved-review-libToolContact",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libToolContact.ogg",
+          "title": "libToolContact",
+          "at": 5610,
+          "end": 6120,
+          "gain": 0.12604358602640833,
+          "rate": 0.95,
+          "duration": 1.2,
+          "gains": [
+            {
+              "at": 5773.684210526316,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 5977.333333333333,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 6030,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 6120,
+              "gain": 0.11872396713257188
+            }
+          ],
+          "naturalEnd": 6873.157894736842
+        },
+        {
+          "key": "approved-review-libDirtSwingA",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libDirtSwingA.ogg",
+          "title": "libDirtSwingA",
+          "at": 6030,
+          "end": 6487.333333333333,
+          "gain": 0.06885000000000001,
+          "rate": 1,
+          "duration": 0.4573333333333333,
+          "gains": [
+            {
+              "at": 6120,
+              "gain": 0.0630721075391788
+            },
+            {
+              "at": 6120,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 6120,
+              "gain": 0.0630721075391788
+            },
+            {
+              "at": 6120,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 6120,
+              "gain": 0.06307210753917881
+            }
+          ],
+          "naturalEnd": 6487.333333333333
+        },
+        {
+          "key": "fs-approved-815336",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-815336.ogg",
+          "title": "superhero_earth_impact_hit_07062025",
+          "at": 6120,
+          "end": 6748.771929824561,
+          "gain": 0.14762109180056532,
+          "rate": 0.95,
+          "duration": 0.5973333333333334,
+          "gains": [
+            {
+              "at": 6120,
+              "gain": 0.1611443245995146
+            },
+            {
+              "at": 6120,
+              "gain": 0.14762109180056532
+            },
+            {
+              "at": 6120,
+              "gain": 0.1611443245995146
+            },
+            {
+              "at": 6120,
+              "gain": 0.14762109180056535
+            },
+            {
+              "at": 6487.333333333333,
+              "gain": 0.1611443245995146
+            }
+          ],
+          "naturalEnd": 6748.771929824561
+        },
+        {
+          "key": "approved-review-libToolContact",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libToolContact.ogg",
+          "title": "libToolContact",
+          "at": 6120,
+          "end": 7383.157894736842,
+          "gain": 0.11872396713257188,
+          "rate": 0.95,
+          "duration": 1.2,
+          "gains": [
+            {
+              "at": 6120,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 6120,
+              "gain": 0.11872396713257191
+            },
+            {
+              "at": 6487.333333333333,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 6748.771929824561,
+              "gain": 0.12960000000000002
+            }
+          ],
+          "naturalEnd": 7383.157894736842
+        },
+        {
+          "key": "approved-review-libStoneBreak",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libStoneBreak.ogg",
+          "title": "libStoneBreak",
+          "at": 6120,
+          "end": 8000,
+          "gain": 0.23744793426514382,
+          "rate": 0.94,
+          "duration": 1.8,
+          "gains": [
+            {
+              "at": 6487.333333333333,
+              "gain": 0.25920000000000004
+            },
+            {
+              "at": 6748.771929824561,
+              "gain": 0.25920000000000004
+            },
+            {
+              "at": 7383.157894736842,
+              "gain": 0.25920000000000004
+            }
+          ],
+          "naturalEnd": 8034.893617021276
+        }
+      ]
+    },
+    {
+      "id": "metal",
+      "title": "Digging and breaking copper",
+      "seconds": 8,
+      "events": [
+        {
+          "key": "approved-review-libDirtSwingA",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libDirtSwingA.ogg",
+          "title": "libDirtSwingA",
+          "at": 420,
+          "end": 877.3333333333333,
+          "gain": 0.06885000000000001,
+          "rate": 1,
+          "duration": 0.4573333333333333,
+          "gains": [
+            {
+              "at": 510,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 510,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 677.7989130434783,
+              "gain": 0.06885000000000001
+            }
+          ],
+          "naturalEnd": 877.3333333333333
+        },
+        {
+          "key": "fs-approved-760565",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-760565.ogg",
+          "title": "Pickaxe1",
+          "at": 510,
+          "end": 677.7989130434783,
+          "gain": 0.16256049556194996,
+          "rate": 0.92,
+          "duration": 0.154375,
+          "gains": [
+            {
+              "at": 510,
+              "gain": 0.16256049556194996
+            }
+          ],
+          "naturalEnd": 677.7989130434783
+        },
+        {
+          "key": "fs-approved-334420",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-334420.ogg",
+          "title": "MetalHit1_boom.wav",
+          "at": 510,
+          "end": 1020,
+          "gain": 0.19845000000000004,
+          "rate": 0.92,
+          "duration": 0.752,
+          "gains": [
+            {
+              "at": 677.7989130434783,
+              "gain": 0.19845000000000004
+            },
+            {
+              "at": 877.3333333333333,
+              "gain": 0.19845000000000004
+            },
+            {
+              "at": 930,
+              "gain": 0.19845000000000004
+            },
+            {
+              "at": 1020,
+              "gain": 0.19845000000000004
+            }
+          ],
+          "naturalEnd": 1327.391304347826
+        },
+        {
+          "key": "approved-review-libDirtSwingA",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libDirtSwingA.ogg",
+          "title": "libDirtSwingA",
+          "at": 930,
+          "end": 1387.3333333333333,
+          "gain": 0.06885000000000001,
+          "rate": 1,
+          "duration": 0.4573333333333333,
+          "gains": [
+            {
+              "at": 1020,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 1020,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 1020,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 1183.7454710144928,
+              "gain": 0.06885000000000001
+            }
+          ],
+          "naturalEnd": 1387.3333333333333
+        },
+        {
+          "key": "fs-approved-760566",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-760566.ogg",
+          "title": "Pickaxe2",
+          "at": 1020,
+          "end": 1183.7454710144928,
+          "gain": 0.16151580063261883,
+          "rate": 0.92,
+          "duration": 0.15064583333333334,
+          "gains": [
+            {
+              "at": 1020,
+              "gain": 0.16151580063261883
+            },
+            {
+              "at": 1020,
+              "gain": 0.16151580063261883
+            }
+          ],
+          "naturalEnd": 1183.7454710144928
+        },
+        {
+          "key": "fs-approved-334419",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-334419.ogg",
+          "title": "MetalHit2_boom.wav",
+          "at": 1020,
+          "end": 1530,
+          "gain": 0.11614835266138585,
+          "rate": 0.92,
+          "duration": 0.7473333333333333,
+          "gains": [
+            {
+              "at": 1183.7454710144928,
+              "gain": 0.11614835266138585
+            },
+            {
+              "at": 1387.3333333333333,
+              "gain": 0.11614835266138585
+            },
+            {
+              "at": 1440,
+              "gain": 0.11614835266138585
+            },
+            {
+              "at": 1530,
+              "gain": 0.11614835266138585
+            }
+          ],
+          "naturalEnd": 1832.31884057971
+        },
+        {
+          "key": "approved-review-libDirtSwingA",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libDirtSwingA.ogg",
+          "title": "libDirtSwingA",
+          "at": 1440,
+          "end": 1897.3333333333333,
+          "gain": 0.06885000000000001,
+          "rate": 1,
+          "duration": 0.4573333333333333,
+          "gains": [
+            {
+              "at": 1530,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 1530,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 1530,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 1530,
+              "gain": 0.057189392315436356
+            },
+            {
+              "at": 1699.0217391304348,
+              "gain": 0.06529169915817748
+            }
+          ],
+          "naturalEnd": 1897.3333333333333
+        },
+        {
+          "key": "fs-approved-760567",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-760567.ogg",
+          "title": "Pickaxe3",
+          "at": 1530,
+          "end": 1699.0217391304348,
+          "gain": 0.16289772330067898,
+          "rate": 0.92,
+          "duration": 0.1555,
+          "gains": [
+            {
+              "at": 1530,
+              "gain": 0.16289772330067898
+            },
+            {
+              "at": 1530,
+              "gain": 0.16289772330067898
+            },
+            {
+              "at": 1530,
+              "gain": 0.13530895868023135
+            }
+          ],
+          "naturalEnd": 1699.0217391304348
+        },
+        {
+          "key": "fs-approved-334420",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-334420.ogg",
+          "title": "MetalHit1_boom.wav",
+          "at": 1530,
+          "end": 2040,
+          "gain": 0.19845000000000004,
+          "rate": 0.92,
+          "duration": 0.752,
+          "gains": [
+            {
+              "at": 1530,
+              "gain": 0.16484001314449304
+            },
+            {
+              "at": 1699.0217391304348,
+              "gain": 0.18819372110298216
+            },
+            {
+              "at": 1897.3333333333333,
+              "gain": 0.19845000000000004
+            },
+            {
+              "at": 1950,
+              "gain": 0.18819372110298216
+            },
+            {
+              "at": 2040,
+              "gain": 0.15659441570326865
+            }
+          ],
+          "naturalEnd": 2347.391304347826
+        },
+        {
+          "key": "approved-review-libStoneBreak",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libStoneBreak.ogg",
+          "title": "libStoneBreak",
+          "at": 1530,
+          "end": 3060,
+          "gain": 0.23683136582392472,
+          "rate": 0.9,
+          "duration": 1.8,
+          "gains": [
+            {
+              "at": 1699.0217391304348,
+              "gain": 0.2703844482785703
+            },
+            {
+              "at": 1897.3333333333333,
+              "gain": 0.28512000000000004
+            },
+            {
+              "at": 1950,
+              "gain": 0.2703844482785703
+            },
+            {
+              "at": 2040,
+              "gain": 0.2249846299083697
+            },
+            {
+              "at": 2040,
+              "gain": 0.28512000000000004
+            },
+            {
+              "at": 2040,
+              "gain": 0.28512000000000004
+            },
+            {
+              "at": 2407.3333333333335,
+              "gain": 0.28512000000000004
+            },
+            {
+              "at": 2460,
+              "gain": 0.28512000000000004
+            },
+            {
+              "at": 2550,
+              "gain": 0.28512000000000004
+            },
+            {
+              "at": 2550,
+              "gain": 0.28512000000000004
+            },
+            {
+              "at": 2550,
+              "gain": 0.28512000000000004
+            },
+            {
+              "at": 2550,
+              "gain": 0.23216898195392677
+            },
+            {
+              "at": 2717.798913043478,
+              "gain": 0.2703844482785703
+            },
+            {
+              "at": 2917.3333333333335,
+              "gain": 0.28512000000000004
+            },
+            {
+              "at": 2970,
+              "gain": 0.2703844482785703
+            },
+            {
+              "at": 3060,
+              "gain": 0.22724406952504583
+            },
+            {
+              "at": 3060,
+              "gain": 0.28512000000000004
+            },
+            {
+              "at": 3060,
+              "gain": 0.28512000000000004
+            }
+          ],
+          "naturalEnd": 3530
+        },
+        {
+          "key": "approved-review-libDirtSwingA",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libDirtSwingA.ogg",
+          "title": "libDirtSwingA",
+          "at": 1950,
+          "end": 2407.3333333333335,
+          "gain": 0.06529169915817748,
+          "rate": 1,
+          "duration": 0.4573333333333333,
+          "gains": [
+            {
+              "at": 2040,
+              "gain": 0.05432867483582791
+            },
+            {
+              "at": 2040,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 2040,
+              "gain": 0.06885000000000001
+            }
+          ],
+          "naturalEnd": 2407.3333333333335
+        },
+        {
+          "key": "fs-approved-815336",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-815336.ogg",
+          "title": "superhero_earth_impact_hit_07062025",
+          "at": 2040,
+          "end": 2550,
+          "gain": 0.1271569733159932,
+          "rate": 0.92,
+          "duration": 0.5973333333333334,
+          "gains": [
+            {
+              "at": 2040,
+              "gain": 0.1611443245995146
+            },
+            {
+              "at": 2040,
+              "gain": 0.1611443245995146
+            },
+            {
+              "at": 2407.3333333333335,
+              "gain": 0.1611443245995146
+            },
+            {
+              "at": 2460,
+              "gain": 0.1611443245995146
+            }
+          ],
+          "naturalEnd": 2689.2753623188405
+        },
+        {
+          "key": "fs-approved-334419",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-334419.ogg",
+          "title": "MetalHit2_boom.wav",
+          "at": 2040,
+          "end": 2550,
+          "gain": 0.11614835266138585,
+          "rate": 0.92,
+          "duration": 0.7473333333333333,
+          "gains": [
+            {
+              "at": 2407.3333333333335,
+              "gain": 0.11614835266138585
+            },
+            {
+              "at": 2460,
+              "gain": 0.11614835266138585
+            },
+            {
+              "at": 2550,
+              "gain": 0.11614835266138585
+            },
+            {
+              "at": 2550,
+              "gain": 0.11614835266138585
+            }
+          ],
+          "naturalEnd": 2852.31884057971
+        },
+        {
+          "key": "approved-review-libDirtSwingA",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libDirtSwingA.ogg",
+          "title": "libDirtSwingA",
+          "at": 2460,
+          "end": 2917.3333333333335,
+          "gain": 0.06885000000000001,
+          "rate": 1,
+          "duration": 0.4573333333333333,
+          "gains": [
+            {
+              "at": 2550,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 2550,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 2550,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 2550,
+              "gain": 0.05606353257410164
+            },
+            {
+              "at": 2717.798913043478,
+              "gain": 0.06529169915817748
+            }
+          ],
+          "naturalEnd": 2917.3333333333335
+        },
+        {
+          "key": "fs-approved-760565",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-760565.ogg",
+          "title": "Pickaxe1",
+          "at": 2550,
+          "end": 2717.798913043478,
+          "gain": 0.16256049556194996,
+          "rate": 0.92,
+          "duration": 0.154375,
+          "gains": [
+            {
+              "at": 2550,
+              "gain": 0.16256049556194996
+            },
+            {
+              "at": 2550,
+              "gain": 0.13237059750471294
+            }
+          ],
+          "naturalEnd": 2717.798913043478
+        },
+        {
+          "key": "fs-approved-334420",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-334420.ogg",
+          "title": "MetalHit1_boom.wav",
+          "at": 2550,
+          "end": 3060,
+          "gain": 0.16159488800770472,
+          "rate": 0.92,
+          "duration": 0.752,
+          "gains": [
+            {
+              "at": 2717.798913043478,
+              "gain": 0.18819372110298216
+            },
+            {
+              "at": 2917.3333333333335,
+              "gain": 0.19845000000000004
+            },
+            {
+              "at": 2970,
+              "gain": 0.18819372110298216
+            },
+            {
+              "at": 3060,
+              "gain": 0.15816703702737567
+            }
+          ],
+          "naturalEnd": 3367.391304347826
+        },
+        {
+          "key": "approved-review-libDirtSwingA",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libDirtSwingA.ogg",
+          "title": "libDirtSwingA",
+          "at": 2970,
+          "end": 3427.3333333333335,
+          "gain": 0.06529169915817748,
+          "rate": 1,
+          "duration": 0.4573333333333333,
+          "gains": [
+            {
+              "at": 3060,
+              "gain": 0.05487427815235481
+            },
+            {
+              "at": 3060,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 3060,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 3060,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 3060,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 3223.745471014493,
+              "gain": 0.06885000000000001
+            }
+          ],
+          "naturalEnd": 3427.3333333333335
+        },
+        {
+          "key": "fs-approved-760566",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-760566.ogg",
+          "title": "Pickaxe2",
+          "at": 3060,
+          "end": 3223.745471014493,
+          "gain": 0.12873003587385054,
+          "rate": 0.92,
+          "duration": 0.15064583333333334,
+          "gains": [
+            {
+              "at": 3060,
+              "gain": 0.16151580063261883
+            },
+            {
+              "at": 3060,
+              "gain": 0.16151580063261883
+            },
+            {
+              "at": 3060,
+              "gain": 0.16151580063261883
+            },
+            {
+              "at": 3060,
+              "gain": 0.16151580063261883
+            }
+          ],
+          "naturalEnd": 3223.745471014493
+        },
+        {
+          "key": "fs-approved-334419",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-334419.ogg",
+          "title": "MetalHit2_boom.wav",
+          "at": 3060,
+          "end": 3570,
+          "gain": 0.11614835266138585,
+          "rate": 0.92,
+          "duration": 0.7473333333333333,
+          "gains": [
+            {
+              "at": 3060,
+              "gain": 0.11614835266138585
+            },
+            {
+              "at": 3060,
+              "gain": 0.11614835266138585
+            },
+            {
+              "at": 3223.745471014493,
+              "gain": 0.11614835266138585
+            },
+            {
+              "at": 3427.3333333333335,
+              "gain": 0.11614835266138585
+            },
+            {
+              "at": 3480,
+              "gain": 0.11614835266138585
+            },
+            {
+              "at": 3570,
+              "gain": 0.11614835266138585
+            }
+          ],
+          "naturalEnd": 3872.31884057971
+        },
+        {
+          "key": "approved-review-libStoneBreak",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libStoneBreak.ogg",
+          "title": "libStoneBreak",
+          "at": 3060,
+          "end": 4590,
+          "gain": 0.28512000000000004,
+          "rate": 0.9,
+          "duration": 1.8,
+          "gains": [
+            {
+              "at": 3223.745471014493,
+              "gain": 0.28512000000000004
+            },
+            {
+              "at": 3427.3333333333335,
+              "gain": 0.28512000000000004
+            },
+            {
+              "at": 3480,
+              "gain": 0.28512000000000004
+            },
+            {
+              "at": 3570,
+              "gain": 0.28512000000000004
+            },
+            {
+              "at": 3570,
+              "gain": 0.28512000000000004
+            },
+            {
+              "at": 3570,
+              "gain": 0.23683136582392467
+            },
+            {
+              "at": 3739.021739130435,
+              "gain": 0.2703844482785703
+            },
+            {
+              "at": 3937.3333333333335,
+              "gain": 0.28512000000000004
+            },
+            {
+              "at": 3990,
+              "gain": 0.2703844482785703
+            },
+            {
+              "at": 4080,
+              "gain": 0.2249846299083697
+            },
+            {
+              "at": 4080,
+              "gain": 0.28512000000000004
+            },
+            {
+              "at": 4080,
+              "gain": 0.28512000000000004
+            },
+            {
+              "at": 4447.333333333333,
+              "gain": 0.28512000000000004
+            },
+            {
+              "at": 4500,
+              "gain": 0.28512000000000004
+            },
+            {
+              "at": 4590,
+              "gain": 0.28512000000000004
+            },
+            {
+              "at": 4590,
+              "gain": 0.28512000000000004
+            },
+            {
+              "at": 4590,
+              "gain": 0.28512000000000004
+            },
+            {
+              "at": 4590,
+              "gain": 0.23216898195392677
+            }
+          ],
+          "naturalEnd": 5060
+        },
+        {
+          "key": "approved-review-libDirtSwingA",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libDirtSwingA.ogg",
+          "title": "libDirtSwingA",
+          "at": 3480,
+          "end": 3937.3333333333335,
+          "gain": 0.06885000000000001,
+          "rate": 1,
+          "duration": 0.4573333333333333,
+          "gains": [
+            {
+              "at": 3570,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 3570,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 3570,
+              "gain": 0.05718939231543634
+            },
+            {
+              "at": 3739.021739130435,
+              "gain": 0.06529169915817748
+            }
+          ],
+          "naturalEnd": 3937.3333333333335
+        },
+        {
+          "key": "fs-approved-760567",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-760567.ogg",
+          "title": "Pickaxe3",
+          "at": 3570,
+          "end": 3739.021739130435,
+          "gain": 0.16289772330067898,
+          "rate": 0.92,
+          "duration": 0.1555,
+          "gains": [
+            {
+              "at": 3570,
+              "gain": 0.16289772330067898
+            },
+            {
+              "at": 3570,
+              "gain": 0.13530895868023132
+            }
+          ],
+          "naturalEnd": 3739.021739130435
+        },
+        {
+          "key": "fs-approved-334420",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-334420.ogg",
+          "title": "MetalHit1_boom.wav",
+          "at": 3570,
+          "end": 4080,
+          "gain": 0.164840013144493,
+          "rate": 0.92,
+          "duration": 0.752,
+          "gains": [
+            {
+              "at": 3739.021739130435,
+              "gain": 0.18819372110298216
+            },
+            {
+              "at": 3937.3333333333335,
+              "gain": 0.19845000000000004
+            },
+            {
+              "at": 3990,
+              "gain": 0.18819372110298216
+            },
+            {
+              "at": 4080,
+              "gain": 0.15659441570326865
+            }
+          ],
+          "naturalEnd": 4387.391304347826
+        },
+        {
+          "key": "approved-review-libDirtSwingA",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libDirtSwingA.ogg",
+          "title": "libDirtSwingA",
+          "at": 3990,
+          "end": 4447.333333333333,
+          "gain": 0.06529169915817748,
+          "rate": 1,
+          "duration": 0.4573333333333333,
+          "gains": [
+            {
+              "at": 4080,
+              "gain": 0.05432867483582791
+            },
+            {
+              "at": 4080,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 4080,
+              "gain": 0.06885000000000001
+            }
+          ],
+          "naturalEnd": 4447.333333333333
+        },
+        {
+          "key": "fs-approved-815336",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-815336.ogg",
+          "title": "superhero_earth_impact_hit_07062025",
+          "at": 4080,
+          "end": 4590,
+          "gain": 0.1271569733159932,
+          "rate": 0.92,
+          "duration": 0.5973333333333334,
+          "gains": [
+            {
+              "at": 4080,
+              "gain": 0.1611443245995146
+            },
+            {
+              "at": 4080,
+              "gain": 0.1611443245995146
+            },
+            {
+              "at": 4447.333333333333,
+              "gain": 0.1611443245995146
+            },
+            {
+              "at": 4500,
+              "gain": 0.1611443245995146
+            }
+          ],
+          "naturalEnd": 4729.275362318841
+        },
+        {
+          "key": "fs-approved-334419",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-334419.ogg",
+          "title": "MetalHit2_boom.wav",
+          "at": 4080,
+          "end": 4590,
+          "gain": 0.11614835266138585,
+          "rate": 0.92,
+          "duration": 0.7473333333333333,
+          "gains": [
+            {
+              "at": 4447.333333333333,
+              "gain": 0.11614835266138585
+            },
+            {
+              "at": 4500,
+              "gain": 0.11614835266138585
+            },
+            {
+              "at": 4590,
+              "gain": 0.11614835266138585
+            },
+            {
+              "at": 4590,
+              "gain": 0.11614835266138585
+            }
+          ],
+          "naturalEnd": 4892.31884057971
+        },
+        {
+          "key": "approved-review-libDirtSwingA",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libDirtSwingA.ogg",
+          "title": "libDirtSwingA",
+          "at": 4500,
+          "end": 4957.333333333333,
+          "gain": 0.06885000000000001,
+          "rate": 1,
+          "duration": 0.4573333333333333,
+          "gains": [
+            {
+              "at": 4590,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 4590,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 4590,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 4590,
+              "gain": 0.05606353257410164
+            },
+            {
+              "at": 4590,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 4590,
+              "gain": 0.05606353257410165
+            },
+            {
+              "at": 4757.798913043478,
+              "gain": 0.06529169915817748
+            }
+          ],
+          "naturalEnd": 4957.333333333333
+        },
+        {
+          "key": "fs-approved-760565",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-760565.ogg",
+          "title": "Pickaxe1",
+          "at": 4590,
+          "end": 4757.798913043478,
+          "gain": 0.16256049556194996,
+          "rate": 0.92,
+          "duration": 0.154375,
+          "gains": [
+            {
+              "at": 4590,
+              "gain": 0.16256049556194996
+            },
+            {
+              "at": 4590,
+              "gain": 0.13237059750471294
+            },
+            {
+              "at": 4590,
+              "gain": 0.16256049556194996
+            },
+            {
+              "at": 4590,
+              "gain": 0.13237059750471297
+            }
+          ],
+          "naturalEnd": 4757.798913043478
+        },
+        {
+          "key": "fs-approved-334420",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-334420.ogg",
+          "title": "MetalHit1_boom.wav",
+          "at": 4590,
+          "end": 5100,
+          "gain": 0.16159488800770472,
+          "rate": 0.92,
+          "duration": 0.752,
+          "gains": [
+            {
+              "at": 4590,
+              "gain": 0.19845000000000004
+            },
+            {
+              "at": 4590,
+              "gain": 0.16159488800770472
+            },
+            {
+              "at": 4757.798913043478,
+              "gain": 0.18819372110298216
+            },
+            {
+              "at": 4957.333333333333,
+              "gain": 0.19845000000000004
+            },
+            {
+              "at": 5010,
+              "gain": 0.18819372110298216
+            },
+            {
+              "at": 5100,
+              "gain": 0.15816703702737567
+            }
+          ],
+          "naturalEnd": 5407.391304347826
+        },
+        {
+          "key": "approved-review-libStoneBreak",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libStoneBreak.ogg",
+          "title": "libStoneBreak",
+          "at": 4590,
+          "end": 6120,
+          "gain": 0.23216898195392677,
+          "rate": 0.9,
+          "duration": 1.8,
+          "gains": [
+            {
+              "at": 4757.798913043478,
+              "gain": 0.2703844482785703
+            },
+            {
+              "at": 4957.333333333333,
+              "gain": 0.28512000000000004
+            },
+            {
+              "at": 5010,
+              "gain": 0.2703844482785703
+            },
+            {
+              "at": 5100,
+              "gain": 0.22724406952504583
+            },
+            {
+              "at": 5100,
+              "gain": 0.28512000000000004
+            },
+            {
+              "at": 5100,
+              "gain": 0.28512000000000004
+            },
+            {
+              "at": 5263.745471014493,
+              "gain": 0.28512000000000004
+            },
+            {
+              "at": 5467.333333333333,
+              "gain": 0.28512000000000004
+            },
+            {
+              "at": 5520,
+              "gain": 0.28512000000000004
+            },
+            {
+              "at": 5610,
+              "gain": 0.28512000000000004
+            },
+            {
+              "at": 5610,
+              "gain": 0.28512000000000004
+            },
+            {
+              "at": 5610,
+              "gain": 0.23683136582392467
+            },
+            {
+              "at": 5779.021739130435,
+              "gain": 0.2703844482785703
+            },
+            {
+              "at": 5977.333333333333,
+              "gain": 0.28512000000000004
+            },
+            {
+              "at": 6030,
+              "gain": 0.2703844482785703
+            },
+            {
+              "at": 6120,
+              "gain": 0.2249846299083697
+            },
+            {
+              "at": 6120,
+              "gain": 0.28512000000000004
+            },
+            {
+              "at": 6120,
+              "gain": 0.28512000000000004
+            }
+          ],
+          "naturalEnd": 6590
+        },
+        {
+          "key": "approved-review-libDirtSwingA",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libDirtSwingA.ogg",
+          "title": "libDirtSwingA",
+          "at": 5010,
+          "end": 5467.333333333333,
+          "gain": 0.06529169915817748,
+          "rate": 1,
+          "duration": 0.4573333333333333,
+          "gains": [
+            {
+              "at": 5100,
+              "gain": 0.05487427815235481
+            },
+            {
+              "at": 5100,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 5100,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 5263.745471014493,
+              "gain": 0.06885000000000001
+            }
+          ],
+          "naturalEnd": 5467.333333333333
+        },
+        {
+          "key": "fs-approved-760566",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-760566.ogg",
+          "title": "Pickaxe2",
+          "at": 5100,
+          "end": 5263.745471014493,
+          "gain": 0.12873003587385054,
+          "rate": 0.92,
+          "duration": 0.15064583333333334,
+          "gains": [
+            {
+              "at": 5100,
+              "gain": 0.16151580063261883
+            },
+            {
+              "at": 5100,
+              "gain": 0.16151580063261883
+            }
+          ],
+          "naturalEnd": 5263.745471014493
+        },
+        {
+          "key": "fs-approved-334419",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-334419.ogg",
+          "title": "MetalHit2_boom.wav",
+          "at": 5100,
+          "end": 5610,
+          "gain": 0.11614835266138585,
+          "rate": 0.92,
+          "duration": 0.7473333333333333,
+          "gains": [
+            {
+              "at": 5263.745471014493,
+              "gain": 0.11614835266138585
+            },
+            {
+              "at": 5467.333333333333,
+              "gain": 0.11614835266138585
+            },
+            {
+              "at": 5520,
+              "gain": 0.11614835266138585
+            },
+            {
+              "at": 5610,
+              "gain": 0.11614835266138585
+            }
+          ],
+          "naturalEnd": 5912.31884057971
+        },
+        {
+          "key": "approved-review-libDirtSwingA",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libDirtSwingA.ogg",
+          "title": "libDirtSwingA",
+          "at": 5520,
+          "end": 5977.333333333333,
+          "gain": 0.06885000000000001,
+          "rate": 1,
+          "duration": 0.4573333333333333,
+          "gains": [
+            {
+              "at": 5610,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 5610,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 5610,
+              "gain": 0.05718939231543634
+            },
+            {
+              "at": 5779.021739130435,
+              "gain": 0.06529169915817748
+            }
+          ],
+          "naturalEnd": 5977.333333333333
+        },
+        {
+          "key": "fs-approved-760567",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-760567.ogg",
+          "title": "Pickaxe3",
+          "at": 5610,
+          "end": 5779.021739130435,
+          "gain": 0.16289772330067898,
+          "rate": 0.92,
+          "duration": 0.1555,
+          "gains": [
+            {
+              "at": 5610,
+              "gain": 0.16289772330067898
+            },
+            {
+              "at": 5610,
+              "gain": 0.13530895868023132
+            }
+          ],
+          "naturalEnd": 5779.021739130435
+        },
+        {
+          "key": "fs-approved-334420",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-334420.ogg",
+          "title": "MetalHit1_boom.wav",
+          "at": 5610,
+          "end": 6120,
+          "gain": 0.164840013144493,
+          "rate": 0.92,
+          "duration": 0.752,
+          "gains": [
+            {
+              "at": 5779.021739130435,
+              "gain": 0.18819372110298216
+            },
+            {
+              "at": 5977.333333333333,
+              "gain": 0.19845000000000004
+            },
+            {
+              "at": 6030,
+              "gain": 0.18819372110298216
+            },
+            {
+              "at": 6120,
+              "gain": 0.15659441570326865
+            }
+          ],
+          "naturalEnd": 6427.391304347826
+        },
+        {
+          "key": "approved-review-libDirtSwingA",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libDirtSwingA.ogg",
+          "title": "libDirtSwingA",
+          "at": 6030,
+          "end": 6487.333333333333,
+          "gain": 0.06529169915817748,
+          "rate": 1,
+          "duration": 0.4573333333333333,
+          "gains": [
+            {
+              "at": 6120,
+              "gain": 0.05432867483582791
+            },
+            {
+              "at": 6120,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 6120,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 6120,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 6120,
+              "gain": 0.06885000000000001
+            }
+          ],
+          "naturalEnd": 6487.333333333333
+        },
+        {
+          "key": "fs-approved-815336",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-815336.ogg",
+          "title": "superhero_earth_impact_hit_07062025",
+          "at": 6120,
+          "end": 6769.275362318841,
+          "gain": 0.1271569733159932,
+          "rate": 0.92,
+          "duration": 0.5973333333333334,
+          "gains": [
+            {
+              "at": 6120,
+              "gain": 0.1611443245995146
+            },
+            {
+              "at": 6120,
+              "gain": 0.1611443245995146
+            },
+            {
+              "at": 6120,
+              "gain": 0.1611443245995146
+            },
+            {
+              "at": 6120,
+              "gain": 0.1611443245995146
+            },
+            {
+              "at": 6487.333333333333,
+              "gain": 0.1611443245995146
+            }
+          ],
+          "naturalEnd": 6769.275362318841
+        },
+        {
+          "key": "fs-approved-334419",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-334419.ogg",
+          "title": "MetalHit2_boom.wav",
+          "at": 6120,
+          "end": 6932.31884057971,
+          "gain": 0.11614835266138585,
+          "rate": 0.92,
+          "duration": 0.7473333333333333,
+          "gains": [
+            {
+              "at": 6120,
+              "gain": 0.11614835266138585
+            },
+            {
+              "at": 6120,
+              "gain": 0.11614835266138585
+            },
+            {
+              "at": 6487.333333333333,
+              "gain": 0.11614835266138585
+            },
+            {
+              "at": 6769.275362318841,
+              "gain": 0.11614835266138585
+            }
+          ],
+          "naturalEnd": 6932.31884057971
+        },
+        {
+          "key": "approved-review-libStoneBreak",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libStoneBreak.ogg",
+          "title": "libStoneBreak",
+          "at": 6120,
+          "end": 8000,
+          "gain": 0.28512000000000004,
+          "rate": 0.9,
+          "duration": 1.8,
+          "gains": [
+            {
+              "at": 6487.333333333333,
+              "gain": 0.28512000000000004
+            },
+            {
+              "at": 6769.275362318841,
+              "gain": 0.28512000000000004
+            },
+            {
+              "at": 6932.31884057971,
+              "gain": 0.28512000000000004
+            }
+          ],
+          "naturalEnd": 8120
+        }
+      ]
+    },
+    {
+      "id": "crystal",
+      "title": "Breaking crystal",
+      "seconds": 8,
+      "events": [
+        {
+          "key": "approved-review-libDirtSwingA",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libDirtSwingA.ogg",
+          "title": "libDirtSwingA",
+          "at": 420,
+          "end": 877.3333333333333,
+          "gain": 0.06885000000000001,
+          "rate": 1,
+          "duration": 0.4573333333333333,
+          "gains": [
+            {
+              "at": 510,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 510,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 510,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 664.375,
+              "gain": 0.06885000000000001
+            }
+          ],
+          "naturalEnd": 877.3333333333333
+        },
+        {
+          "key": "fs-approved-760565",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-760565.ogg",
+          "title": "Pickaxe1",
+          "at": 510,
+          "end": 664.375,
+          "gain": 0.16256049556194996,
+          "rate": 1,
+          "duration": 0.154375,
+          "gains": [
+            {
+              "at": 510,
+              "gain": 0.16256049556194996
+            },
+            {
+              "at": 510,
+              "gain": 0.16256049556194996
+            }
+          ],
+          "naturalEnd": 664.375
+        },
+        {
+          "key": "approved-review-libToolContact",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libToolContact.ogg",
+          "title": "libToolContact",
+          "at": 510,
+          "end": 1020,
+          "gain": 0.12960000000000002,
+          "rate": 1,
+          "duration": 1.2,
+          "gains": [
+            {
+              "at": 510,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 664.375,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 877.3333333333333,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 930,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 1020,
+              "gain": 0.12960000000000002
+            }
+          ],
+          "naturalEnd": 1710
+        },
+        {
+          "key": "fs-approved-119452",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-119452.ogg",
+          "title": "Ice Cube Tray Crack.wav",
+          "at": 510,
+          "end": 1020,
+          "gain": 0.15123023249746495,
+          "rate": 1,
+          "duration": 1.1,
+          "gains": [
+            {
+              "at": 664.375,
+              "gain": 0.15123023249746495
+            },
+            {
+              "at": 877.3333333333333,
+              "gain": 0.15123023249746495
+            },
+            {
+              "at": 930,
+              "gain": 0.15123023249746495
+            },
+            {
+              "at": 1020,
+              "gain": 0.15123023249746495
+            },
+            {
+              "at": 1020,
+              "gain": 0.15123023249746495
+            },
+            {
+              "at": 1020,
+              "gain": 0.15123023249746495
+            }
+          ],
+          "naturalEnd": 1610
+        },
+        {
+          "key": "approved-review-libDirtSwingA",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libDirtSwingA.ogg",
+          "title": "libDirtSwingA",
+          "at": 930,
+          "end": 1387.3333333333333,
+          "gain": 0.06885000000000001,
+          "rate": 1,
+          "duration": 0.4573333333333333,
+          "gains": [
+            {
+              "at": 1020,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 1020,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 1020,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 1020,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 1020,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 1170.6458333333333,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 1249.125,
+              "gain": 0.06885000000000001
+            }
+          ],
+          "naturalEnd": 1387.3333333333333
+        },
+        {
+          "key": "fs-approved-760566",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-760566.ogg",
+          "title": "Pickaxe2",
+          "at": 1020,
+          "end": 1170.6458333333333,
+          "gain": 0.16151580063261883,
+          "rate": 1,
+          "duration": 0.15064583333333334,
+          "gains": [
+            {
+              "at": 1020,
+              "gain": 0.16151580063261883
+            },
+            {
+              "at": 1020,
+              "gain": 0.16151580063261883
+            },
+            {
+              "at": 1020,
+              "gain": 0.16151580063261883
+            },
+            {
+              "at": 1020,
+              "gain": 0.16151580063261883
+            }
+          ],
+          "naturalEnd": 1170.6458333333333
+        },
+        {
+          "key": "approved-review-libToolContact",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libToolContact.ogg",
+          "title": "libToolContact",
+          "at": 1020,
+          "end": 1530,
+          "gain": 0.12960000000000002,
+          "rate": 1,
+          "duration": 1.2,
+          "gains": [
+            {
+              "at": 1020,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 1020,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 1170.6458333333333,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 1249.125,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 1387.3333333333333,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 1440,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 1530,
+              "gain": 0.12960000000000002
+            }
+          ],
+          "naturalEnd": 2220
+        },
+        {
+          "key": "fs-approved-536921",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-536921.ogg",
+          "title": "Ice Crack Low",
+          "at": 1020,
+          "end": 1249.125,
+          "gain": 0.152243451003234,
+          "rate": 1,
+          "duration": 0.229125,
+          "gains": [
+            {
+              "at": 1170.6458333333333,
+              "gain": 0.152243451003234
+            }
+          ],
+          "naturalEnd": 1249.125
+        },
+        {
+          "key": "approved-review-libDirtSwingA",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libDirtSwingA.ogg",
+          "title": "libDirtSwingA",
+          "at": 1440,
+          "end": 1897.3333333333333,
+          "gain": 0.06885000000000001,
+          "rate": 1,
+          "duration": 0.4573333333333333,
+          "gains": [
+            {
+              "at": 1530,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 1530,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 1530,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 1530,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 1685.5,
+              "gain": 0.06885000000000001
+            }
+          ],
+          "naturalEnd": 1897.3333333333333
+        },
+        {
+          "key": "fs-approved-760567",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-760567.ogg",
+          "title": "Pickaxe3",
+          "at": 1530,
+          "end": 1685.5,
+          "gain": 0.16289772330067898,
+          "rate": 1,
+          "duration": 0.1555,
+          "gains": [
+            {
+              "at": 1530,
+              "gain": 0.16289772330067898
+            },
+            {
+              "at": 1530,
+              "gain": 0.16289772330067898
+            },
+            {
+              "at": 1530,
+              "gain": 0.16289772330067898
+            }
+          ],
+          "naturalEnd": 1685.5
+        },
+        {
+          "key": "approved-review-libToolContact",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libToolContact.ogg",
+          "title": "libToolContact",
+          "at": 1530,
+          "end": 2040,
+          "gain": 0.12960000000000002,
+          "rate": 1,
+          "duration": 1.2,
+          "gains": [
+            {
+              "at": 1530,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 1685.5,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 1897.3333333333333,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 1950,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 2040,
+              "gain": 0.12960000000000002
+            }
+          ],
+          "naturalEnd": 2730
+        },
+        {
+          "key": "fs-approved-808016",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-808016.ogg",
+          "title": "COMTran_Walkie Talkie Beep With Noise.Dispatch Signal.Artificial x3_EM",
+          "at": 1530,
+          "end": 2040,
+          "gain": 0.15768436002761468,
+          "rate": 1,
+          "duration": 1.1,
+          "gains": [
+            {
+              "at": 1685.5,
+              "gain": 0.15768436002761468
+            },
+            {
+              "at": 1897.3333333333333,
+              "gain": 0.15768436002761468
+            },
+            {
+              "at": 1950,
+              "gain": 0.15768436002761468
+            },
+            {
+              "at": 2040,
+              "gain": 0.15768436002761468
+            },
+            {
+              "at": 2040,
+              "gain": 0.15768436002761468
+            },
+            {
+              "at": 2040,
+              "gain": 0.15768436002761468
+            }
+          ],
+          "naturalEnd": 2630
+        },
+        {
+          "key": "approved-review-libDirtSwingA",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libDirtSwingA.ogg",
+          "title": "libDirtSwingA",
+          "at": 1950,
+          "end": 2407.3333333333335,
+          "gain": 0.06885000000000001,
+          "rate": 1,
+          "duration": 0.4573333333333333,
+          "gains": [
+            {
+              "at": 2040,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 2040,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 2040,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 2040,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 2040,
+              "gain": 0.06885000000000001
+            }
+          ],
+          "naturalEnd": 2407.3333333333335
+        },
+        {
+          "key": "fs-approved-815336",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-815336.ogg",
+          "title": "superhero_earth_impact_hit_07062025",
+          "at": 2040,
+          "end": 2550,
+          "gain": 0.1611443245995146,
+          "rate": 1,
+          "duration": 0.5973333333333334,
+          "gains": [
+            {
+              "at": 2040,
+              "gain": 0.1611443245995146
+            },
+            {
+              "at": 2040,
+              "gain": 0.1611443245995146
+            },
+            {
+              "at": 2040,
+              "gain": 0.1611443245995146
+            },
+            {
+              "at": 2040,
+              "gain": 0.1611443245995146
+            },
+            {
+              "at": 2407.3333333333335,
+              "gain": 0.1611443245995146
+            },
+            {
+              "at": 2460,
+              "gain": 0.1611443245995146
+            }
+          ],
+          "naturalEnd": 2637.3333333333335
+        },
+        {
+          "key": "approved-review-libToolContact",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libToolContact.ogg",
+          "title": "libToolContact",
+          "at": 2040,
+          "end": 2550,
+          "gain": 0.12960000000000002,
+          "rate": 1,
+          "duration": 1.2,
+          "gains": [
+            {
+              "at": 2040,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 2040,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 2407.3333333333335,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 2460,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 2550,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 2550,
+              "gain": 0.12960000000000002
+            }
+          ],
+          "naturalEnd": 3240
+        },
+        {
+          "key": "fs-approved-767348",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-767348.ogg",
+          "title": "Crispy Impact Remix Body Ice Hard Hitting",
+          "at": 2040,
+          "end": 2550,
+          "gain": 0.15414825751023675,
+          "rate": 1,
+          "duration": 1.1,
+          "gains": [
+            {
+              "at": 2407.3333333333335,
+              "gain": 0.15414825751023675
+            },
+            {
+              "at": 2460,
+              "gain": 0.15414825751023675
+            },
+            {
+              "at": 2550,
+              "gain": 0.15414825751023675
+            },
+            {
+              "at": 2550,
+              "gain": 0.15414825751023675
+            },
+            {
+              "at": 2550,
+              "gain": 0.15414825751023675
+            },
+            {
+              "at": 2550,
+              "gain": 0.15414825751023675
+            }
+          ],
+          "naturalEnd": 3140
+        },
+        {
+          "key": "approved-review-libDirtSwingA",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libDirtSwingA.ogg",
+          "title": "libDirtSwingA",
+          "at": 2460,
+          "end": 2917.3333333333335,
+          "gain": 0.06885000000000001,
+          "rate": 1,
+          "duration": 0.4573333333333333,
+          "gains": [
+            {
+              "at": 2550,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 2550,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 2550,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 2550,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 2550,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 2550,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 2704.375,
+              "gain": 0.06885000000000001
+            }
+          ],
+          "naturalEnd": 2917.3333333333335
+        },
+        {
+          "key": "fs-approved-760565",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-760565.ogg",
+          "title": "Pickaxe1",
+          "at": 2550,
+          "end": 2704.375,
+          "gain": 0.16256049556194996,
+          "rate": 1,
+          "duration": 0.154375,
+          "gains": [
+            {
+              "at": 2550,
+              "gain": 0.16256049556194996
+            },
+            {
+              "at": 2550,
+              "gain": 0.16256049556194996
+            },
+            {
+              "at": 2550,
+              "gain": 0.16256049556194996
+            },
+            {
+              "at": 2550,
+              "gain": 0.16256049556194996
+            }
+          ],
+          "naturalEnd": 2704.375
+        },
+        {
+          "key": "approved-review-libToolContact",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libToolContact.ogg",
+          "title": "libToolContact",
+          "at": 2550,
+          "end": 3060,
+          "gain": 0.12960000000000002,
+          "rate": 1,
+          "duration": 1.2,
+          "gains": [
+            {
+              "at": 2550,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 2550,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 2704.375,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 2917.3333333333335,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 2970,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 3060,
+              "gain": 0.12960000000000002
+            }
+          ],
+          "naturalEnd": 3750
+        },
+        {
+          "key": "fs-approved-685253",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-685253.ogg",
+          "title": "Freeze sound effect FX",
+          "at": 2550,
+          "end": 3060,
+          "gain": 0.15284055985198175,
+          "rate": 1,
+          "duration": 1.1,
+          "gains": [
+            {
+              "at": 2704.375,
+              "gain": 0.15284055985198175
+            },
+            {
+              "at": 2917.3333333333335,
+              "gain": 0.15284055985198175
+            },
+            {
+              "at": 2970,
+              "gain": 0.15284055985198175
+            },
+            {
+              "at": 3060,
+              "gain": 0.15284055985198175
+            },
+            {
+              "at": 3060,
+              "gain": 0.15284055985198175
+            },
+            {
+              "at": 3060,
+              "gain": 0.15284055985198175
+            }
+          ],
+          "naturalEnd": 3650
+        },
+        {
+          "key": "approved-review-libDirtSwingA",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libDirtSwingA.ogg",
+          "title": "libDirtSwingA",
+          "at": 2970,
+          "end": 3427.3333333333335,
+          "gain": 0.06885000000000001,
+          "rate": 1,
+          "duration": 0.4573333333333333,
+          "gains": [
+            {
+              "at": 3060,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 3060,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 3060,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 3060,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 3060,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 3210.6458333333335,
+              "gain": 0.06885000000000001
+            }
+          ],
+          "naturalEnd": 3427.3333333333335
+        },
+        {
+          "key": "fs-approved-760566",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-760566.ogg",
+          "title": "Pickaxe2",
+          "at": 3060,
+          "end": 3210.6458333333335,
+          "gain": 0.16151580063261883,
+          "rate": 1,
+          "duration": 0.15064583333333334,
+          "gains": [
+            {
+              "at": 3060,
+              "gain": 0.16151580063261883
+            },
+            {
+              "at": 3060,
+              "gain": 0.16151580063261883
+            },
+            {
+              "at": 3060,
+              "gain": 0.16151580063261883
+            },
+            {
+              "at": 3060,
+              "gain": 0.16151580063261883
+            }
+          ],
+          "naturalEnd": 3210.6458333333335
+        },
+        {
+          "key": "approved-review-libToolContact",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libToolContact.ogg",
+          "title": "libToolContact",
+          "at": 3060,
+          "end": 3570,
+          "gain": 0.12960000000000002,
+          "rate": 1,
+          "duration": 1.2,
+          "gains": [
+            {
+              "at": 3060,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 3060,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 3210.6458333333335,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 3427.3333333333335,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 3480,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 3570,
+              "gain": 0.12960000000000002
+            }
+          ],
+          "naturalEnd": 4260
+        },
+        {
+          "key": "fs-approved-119452",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-119452.ogg",
+          "title": "Ice Cube Tray Crack.wav",
+          "at": 3060,
+          "end": 3570,
+          "gain": 0.15123023249746495,
+          "rate": 1,
+          "duration": 1.1,
+          "gains": [
+            {
+              "at": 3210.6458333333335,
+              "gain": 0.15123023249746495
+            },
+            {
+              "at": 3427.3333333333335,
+              "gain": 0.15123023249746495
+            },
+            {
+              "at": 3480,
+              "gain": 0.15123023249746495
+            },
+            {
+              "at": 3570,
+              "gain": 0.15123023249746495
+            },
+            {
+              "at": 3570,
+              "gain": 0.15123023249746495
+            },
+            {
+              "at": 3570,
+              "gain": 0.15123023249746495
+            }
+          ],
+          "naturalEnd": 4160
+        },
+        {
+          "key": "approved-review-libDirtSwingA",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libDirtSwingA.ogg",
+          "title": "libDirtSwingA",
+          "at": 3480,
+          "end": 3937.3333333333335,
+          "gain": 0.06885000000000001,
+          "rate": 1,
+          "duration": 0.4573333333333333,
+          "gains": [
+            {
+              "at": 3570,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 3570,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 3570,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 3570,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 3570,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 3725.5,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 3799.125,
+              "gain": 0.06885000000000001
+            }
+          ],
+          "naturalEnd": 3937.3333333333335
+        },
+        {
+          "key": "fs-approved-760567",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-760567.ogg",
+          "title": "Pickaxe3",
+          "at": 3570,
+          "end": 3725.5,
+          "gain": 0.16289772330067898,
+          "rate": 1,
+          "duration": 0.1555,
+          "gains": [
+            {
+              "at": 3570,
+              "gain": 0.16289772330067898
+            },
+            {
+              "at": 3570,
+              "gain": 0.16289772330067898
+            },
+            {
+              "at": 3570,
+              "gain": 0.16289772330067898
+            },
+            {
+              "at": 3570,
+              "gain": 0.16289772330067898
+            }
+          ],
+          "naturalEnd": 3725.5
+        },
+        {
+          "key": "approved-review-libToolContact",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libToolContact.ogg",
+          "title": "libToolContact",
+          "at": 3570,
+          "end": 4080,
+          "gain": 0.12960000000000002,
+          "rate": 1,
+          "duration": 1.2,
+          "gains": [
+            {
+              "at": 3570,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 3570,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 3725.5,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 3799.125,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 3937.3333333333335,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 3990,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 4080,
+              "gain": 0.12960000000000002
+            }
+          ],
+          "naturalEnd": 4770
+        },
+        {
+          "key": "fs-approved-536921",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-536921.ogg",
+          "title": "Ice Crack Low",
+          "at": 3570,
+          "end": 3799.125,
+          "gain": 0.152243451003234,
+          "rate": 1,
+          "duration": 0.229125,
+          "gains": [
+            {
+              "at": 3725.5,
+              "gain": 0.152243451003234
+            }
+          ],
+          "naturalEnd": 3799.125
+        },
+        {
+          "key": "approved-review-libDirtSwingA",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libDirtSwingA.ogg",
+          "title": "libDirtSwingA",
+          "at": 3990,
+          "end": 4447.333333333333,
+          "gain": 0.06885000000000001,
+          "rate": 1,
+          "duration": 0.4573333333333333,
+          "gains": [
+            {
+              "at": 4080,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 4080,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 4080,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 4080,
+              "gain": 0.06885000000000001
+            }
+          ],
+          "naturalEnd": 4447.333333333333
+        },
+        {
+          "key": "fs-approved-815336",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-815336.ogg",
+          "title": "superhero_earth_impact_hit_07062025",
+          "at": 4080,
+          "end": 4590,
+          "gain": 0.1611443245995146,
+          "rate": 1,
+          "duration": 0.5973333333333334,
+          "gains": [
+            {
+              "at": 4080,
+              "gain": 0.1611443245995146
+            },
+            {
+              "at": 4080,
+              "gain": 0.1611443245995146
+            },
+            {
+              "at": 4080,
+              "gain": 0.1611443245995146
+            },
+            {
+              "at": 4447.333333333333,
+              "gain": 0.1611443245995146
+            },
+            {
+              "at": 4500,
+              "gain": 0.1611443245995146
+            }
+          ],
+          "naturalEnd": 4677.333333333333
+        },
+        {
+          "key": "approved-review-libToolContact",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libToolContact.ogg",
+          "title": "libToolContact",
+          "at": 4080,
+          "end": 4590,
+          "gain": 0.12960000000000002,
+          "rate": 1,
+          "duration": 1.2,
+          "gains": [
+            {
+              "at": 4080,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 4447.333333333333,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 4500,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 4590,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 4590,
+              "gain": 0.12960000000000002
+            }
+          ],
+          "naturalEnd": 5280
+        },
+        {
+          "key": "fs-approved-808016",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-808016.ogg",
+          "title": "COMTran_Walkie Talkie Beep With Noise.Dispatch Signal.Artificial x3_EM",
+          "at": 4080,
+          "end": 4590,
+          "gain": 0.15768436002761468,
+          "rate": 1,
+          "duration": 1.1,
+          "gains": [
+            {
+              "at": 4447.333333333333,
+              "gain": 0.15768436002761468
+            },
+            {
+              "at": 4500,
+              "gain": 0.15768436002761468
+            },
+            {
+              "at": 4590,
+              "gain": 0.15768436002761468
+            },
+            {
+              "at": 4590,
+              "gain": 0.15768436002761468
+            },
+            {
+              "at": 4590,
+              "gain": 0.15768436002761468
+            },
+            {
+              "at": 4590,
+              "gain": 0.15768436002761468
+            }
+          ],
+          "naturalEnd": 5180
+        },
+        {
+          "key": "approved-review-libDirtSwingA",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libDirtSwingA.ogg",
+          "title": "libDirtSwingA",
+          "at": 4500,
+          "end": 4957.333333333333,
+          "gain": 0.06885000000000001,
+          "rate": 1,
+          "duration": 0.4573333333333333,
+          "gains": [
+            {
+              "at": 4590,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 4590,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 4590,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 4590,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 4590,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 4590,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 4744.375,
+              "gain": 0.06885000000000001
+            }
+          ],
+          "naturalEnd": 4957.333333333333
+        },
+        {
+          "key": "fs-approved-760565",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-760565.ogg",
+          "title": "Pickaxe1",
+          "at": 4590,
+          "end": 4744.375,
+          "gain": 0.16256049556194996,
+          "rate": 1,
+          "duration": 0.154375,
+          "gains": [
+            {
+              "at": 4590,
+              "gain": 0.16256049556194996
+            },
+            {
+              "at": 4590,
+              "gain": 0.16256049556194996
+            },
+            {
+              "at": 4590,
+              "gain": 0.16256049556194996
+            },
+            {
+              "at": 4590,
+              "gain": 0.16256049556194996
+            }
+          ],
+          "naturalEnd": 4744.375
+        },
+        {
+          "key": "approved-review-libToolContact",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libToolContact.ogg",
+          "title": "libToolContact",
+          "at": 4590,
+          "end": 5100,
+          "gain": 0.12960000000000002,
+          "rate": 1,
+          "duration": 1.2,
+          "gains": [
+            {
+              "at": 4590,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 4590,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 4744.375,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 4957.333333333333,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 5010,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 5100,
+              "gain": 0.12960000000000002
+            }
+          ],
+          "naturalEnd": 5790
+        },
+        {
+          "key": "fs-approved-767348",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-767348.ogg",
+          "title": "Crispy Impact Remix Body Ice Hard Hitting",
+          "at": 4590,
+          "end": 5100,
+          "gain": 0.15414825751023675,
+          "rate": 1,
+          "duration": 1.1,
+          "gains": [
+            {
+              "at": 4744.375,
+              "gain": 0.15414825751023675
+            },
+            {
+              "at": 4957.333333333333,
+              "gain": 0.15414825751023675
+            },
+            {
+              "at": 5010,
+              "gain": 0.15414825751023675
+            },
+            {
+              "at": 5100,
+              "gain": 0.15414825751023675
+            },
+            {
+              "at": 5100,
+              "gain": 0.15414825751023675
+            },
+            {
+              "at": 5100,
+              "gain": 0.15414825751023675
+            }
+          ],
+          "naturalEnd": 5690
+        },
+        {
+          "key": "approved-review-libDirtSwingA",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libDirtSwingA.ogg",
+          "title": "libDirtSwingA",
+          "at": 5010,
+          "end": 5467.333333333333,
+          "gain": 0.06885000000000001,
+          "rate": 1,
+          "duration": 0.4573333333333333,
+          "gains": [
+            {
+              "at": 5100,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 5100,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 5100,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 5100,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 5100,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 5250.645833333333,
+              "gain": 0.06885000000000001
+            }
+          ],
+          "naturalEnd": 5467.333333333333
+        },
+        {
+          "key": "fs-approved-760566",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-760566.ogg",
+          "title": "Pickaxe2",
+          "at": 5100,
+          "end": 5250.645833333333,
+          "gain": 0.16151580063261883,
+          "rate": 1,
+          "duration": 0.15064583333333334,
+          "gains": [
+            {
+              "at": 5100,
+              "gain": 0.16151580063261883
+            },
+            {
+              "at": 5100,
+              "gain": 0.16151580063261883
+            },
+            {
+              "at": 5100,
+              "gain": 0.16151580063261883
+            },
+            {
+              "at": 5100,
+              "gain": 0.16151580063261883
+            }
+          ],
+          "naturalEnd": 5250.645833333333
+        },
+        {
+          "key": "approved-review-libToolContact",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libToolContact.ogg",
+          "title": "libToolContact",
+          "at": 5100,
+          "end": 5610,
+          "gain": 0.12960000000000002,
+          "rate": 1,
+          "duration": 1.2,
+          "gains": [
+            {
+              "at": 5100,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 5100,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 5250.645833333333,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 5467.333333333333,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 5520,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 5610,
+              "gain": 0.12960000000000002
+            }
+          ],
+          "naturalEnd": 6300
+        },
+        {
+          "key": "fs-approved-685253",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-685253.ogg",
+          "title": "Freeze sound effect FX",
+          "at": 5100,
+          "end": 5610,
+          "gain": 0.15284055985198175,
+          "rate": 1,
+          "duration": 1.1,
+          "gains": [
+            {
+              "at": 5250.645833333333,
+              "gain": 0.15284055985198175
+            },
+            {
+              "at": 5467.333333333333,
+              "gain": 0.15284055985198175
+            },
+            {
+              "at": 5520,
+              "gain": 0.15284055985198175
+            },
+            {
+              "at": 5610,
+              "gain": 0.15284055985198175
+            },
+            {
+              "at": 5610,
+              "gain": 0.15284055985198175
+            },
+            {
+              "at": 5610,
+              "gain": 0.15284055985198175
+            }
+          ],
+          "naturalEnd": 6200
+        },
+        {
+          "key": "approved-review-libDirtSwingA",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libDirtSwingA.ogg",
+          "title": "libDirtSwingA",
+          "at": 5520,
+          "end": 5977.333333333333,
+          "gain": 0.06885000000000001,
+          "rate": 1,
+          "duration": 0.4573333333333333,
+          "gains": [
+            {
+              "at": 5610,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 5610,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 5610,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 5610,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 5610,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 5765.5,
+              "gain": 0.06885000000000001
+            }
+          ],
+          "naturalEnd": 5977.333333333333
+        },
+        {
+          "key": "fs-approved-760567",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-760567.ogg",
+          "title": "Pickaxe3",
+          "at": 5610,
+          "end": 5765.5,
+          "gain": 0.16289772330067898,
+          "rate": 1,
+          "duration": 0.1555,
+          "gains": [
+            {
+              "at": 5610,
+              "gain": 0.16289772330067898
+            },
+            {
+              "at": 5610,
+              "gain": 0.16289772330067898
+            },
+            {
+              "at": 5610,
+              "gain": 0.16289772330067898
+            },
+            {
+              "at": 5610,
+              "gain": 0.16289772330067898
+            }
+          ],
+          "naturalEnd": 5765.5
+        },
+        {
+          "key": "approved-review-libToolContact",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libToolContact.ogg",
+          "title": "libToolContact",
+          "at": 5610,
+          "end": 6120,
+          "gain": 0.12960000000000002,
+          "rate": 1,
+          "duration": 1.2,
+          "gains": [
+            {
+              "at": 5610,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 5610,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 5765.5,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 5977.333333333333,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 6030,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 6120,
+              "gain": 0.12960000000000002
+            }
+          ],
+          "naturalEnd": 6810
+        },
+        {
+          "key": "fs-approved-119452",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-119452.ogg",
+          "title": "Ice Cube Tray Crack.wav",
+          "at": 5610,
+          "end": 6120,
+          "gain": 0.15123023249746495,
+          "rate": 1,
+          "duration": 1.1,
+          "gains": [
+            {
+              "at": 5765.5,
+              "gain": 0.15123023249746495
+            },
+            {
+              "at": 5977.333333333333,
+              "gain": 0.15123023249746495
+            },
+            {
+              "at": 6030,
+              "gain": 0.15123023249746495
+            },
+            {
+              "at": 6120,
+              "gain": 0.15123023249746495
+            },
+            {
+              "at": 6120,
+              "gain": 0.15123023249746495
+            },
+            {
+              "at": 6120,
+              "gain": 0.15123023249746495
+            }
+          ],
+          "naturalEnd": 6710
+        },
+        {
+          "key": "approved-review-libDirtSwingA",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libDirtSwingA.ogg",
+          "title": "libDirtSwingA",
+          "at": 6030,
+          "end": 6487.333333333333,
+          "gain": 0.06885000000000001,
+          "rate": 1,
+          "duration": 0.4573333333333333,
+          "gains": [
+            {
+              "at": 6120,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 6120,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 6120,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 6120,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 6120,
+              "gain": 0.06885000000000001
+            },
+            {
+              "at": 6349.125,
+              "gain": 0.06885000000000001
+            }
+          ],
+          "naturalEnd": 6487.333333333333
+        },
+        {
+          "key": "fs-approved-815336",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-815336.ogg",
+          "title": "superhero_earth_impact_hit_07062025",
+          "at": 6120,
+          "end": 6717.333333333333,
+          "gain": 0.1611443245995146,
+          "rate": 1,
+          "duration": 0.5973333333333334,
+          "gains": [
+            {
+              "at": 6120,
+              "gain": 0.1611443245995146
+            },
+            {
+              "at": 6120,
+              "gain": 0.1611443245995146
+            },
+            {
+              "at": 6120,
+              "gain": 0.1611443245995146
+            },
+            {
+              "at": 6120,
+              "gain": 0.1611443245995146
+            },
+            {
+              "at": 6349.125,
+              "gain": 0.1611443245995146
+            },
+            {
+              "at": 6487.333333333333,
+              "gain": 0.1611443245995146
+            }
+          ],
+          "naturalEnd": 6717.333333333333
+        },
+        {
+          "key": "approved-review-libToolContact",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libToolContact.ogg",
+          "title": "libToolContact",
+          "at": 6120,
+          "end": 7320,
+          "gain": 0.12960000000000002,
+          "rate": 1,
+          "duration": 1.2,
+          "gains": [
+            {
+              "at": 6120,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 6120,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 6349.125,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 6487.333333333333,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 6717.333333333333,
+              "gain": 0.12960000000000002
+            }
+          ],
+          "naturalEnd": 7320
+        },
+        {
+          "key": "fs-approved-536921",
+          "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-536921.ogg",
+          "title": "Ice Crack Low",
+          "at": 6120,
+          "end": 6349.125,
+          "gain": 0.152243451003234,
+          "rate": 1,
+          "duration": 0.229125,
+          "gains": [],
+          "naturalEnd": 6349.125
+        }
+      ]
+    },
+    {
+      "id": "cave",
+      "title": "The same stone contacts in a cave",
+      "seconds": 8,
+      "events": [
+        {
+          "key": "approved-review-libToolContact",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libToolContact.ogg",
+          "title": "libToolContact",
+          "at": 510,
+          "end": 1020,
+          "gain": 0.12960000000000002,
+          "rate": 0.95,
+          "duration": 1.2,
+          "gains": [],
+          "naturalEnd": 1773.157894736842
+        },
+        {
+          "key": "approved-review-libToolContact",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libToolContact.ogg",
+          "title": "libToolContact",
+          "at": 1020,
+          "end": 2040,
+          "gain": 0.12960000000000002,
+          "rate": 0.95,
+          "duration": 1.2,
+          "gains": [
+            {
+              "at": 1530,
+              "gain": 0.12960000000000002
+            }
+          ],
+          "naturalEnd": 2283.157894736842
+        },
+        {
+          "key": "approved-review-libStoneBreak",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libStoneBreak.ogg",
+          "title": "libStoneBreak",
+          "at": 1530,
+          "end": 3060,
+          "gain": 0.25920000000000004,
+          "rate": 0.94,
+          "duration": 1.8,
+          "gains": [
+            {
+              "at": 2040,
+              "gain": 0.25920000000000004
+            },
+            {
+              "at": 2040,
+              "gain": 0.25920000000000004
+            },
+            {
+              "at": 2550,
+              "gain": 0.25920000000000004
+            },
+            {
+              "at": 2550,
+              "gain": 0.25920000000000004
+            }
+          ],
+          "naturalEnd": 3444.8936170212764
+        },
+        {
+          "key": "approved-review-libToolContact",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libToolContact.ogg",
+          "title": "libToolContact",
+          "at": 2040,
+          "end": 2550,
+          "gain": 0.12960000000000002,
+          "rate": 0.95,
+          "duration": 1.2,
+          "gains": [],
+          "naturalEnd": 3303.157894736842
+        },
+        {
+          "key": "approved-review-libToolContact",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libToolContact.ogg",
+          "title": "libToolContact",
+          "at": 2550,
+          "end": 3570,
+          "gain": 0.12960000000000002,
+          "rate": 0.95,
+          "duration": 1.2,
+          "gains": [
+            {
+              "at": 3060,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 3060,
+              "gain": 0.12960000000000002
+            }
+          ],
+          "naturalEnd": 3813.157894736842
+        },
+        {
+          "key": "approved-review-libStoneBreak",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libStoneBreak.ogg",
+          "title": "libStoneBreak",
+          "at": 3060,
+          "end": 4590,
+          "gain": 0.25920000000000004,
+          "rate": 0.94,
+          "duration": 1.8,
+          "gains": [
+            {
+              "at": 3570,
+              "gain": 0.25920000000000004
+            },
+            {
+              "at": 3570,
+              "gain": 0.25920000000000004
+            },
+            {
+              "at": 4080,
+              "gain": 0.25920000000000004
+            },
+            {
+              "at": 4080,
+              "gain": 0.25920000000000004
+            }
+          ],
+          "naturalEnd": 4974.893617021276
+        },
+        {
+          "key": "approved-review-libToolContact",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libToolContact.ogg",
+          "title": "libToolContact",
+          "at": 3570,
+          "end": 4080,
+          "gain": 0.12960000000000002,
+          "rate": 0.95,
+          "duration": 1.2,
+          "gains": [],
+          "naturalEnd": 4833.157894736842
+        },
+        {
+          "key": "approved-review-libToolContact",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libToolContact.ogg",
+          "title": "libToolContact",
+          "at": 4080,
+          "end": 5100,
+          "gain": 0.12960000000000002,
+          "rate": 0.95,
+          "duration": 1.2,
+          "gains": [
+            {
+              "at": 4590,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 4590,
+              "gain": 0.12960000000000002
+            }
+          ],
+          "naturalEnd": 5343.157894736842
+        },
+        {
+          "key": "approved-review-libStoneBreak",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libStoneBreak.ogg",
+          "title": "libStoneBreak",
+          "at": 4590,
+          "end": 6120,
+          "gain": 0.25920000000000004,
+          "rate": 0.94,
+          "duration": 1.8,
+          "gains": [
+            {
+              "at": 5100,
+              "gain": 0.25920000000000004
+            },
+            {
+              "at": 5100,
+              "gain": 0.25920000000000004
+            },
+            {
+              "at": 5610,
+              "gain": 0.25920000000000004
+            },
+            {
+              "at": 5610,
+              "gain": 0.25920000000000004
+            }
+          ],
+          "naturalEnd": 6504.893617021276
+        },
+        {
+          "key": "approved-review-libToolContact",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libToolContact.ogg",
+          "title": "libToolContact",
+          "at": 5100,
+          "end": 5610,
+          "gain": 0.12960000000000002,
+          "rate": 0.95,
+          "duration": 1.2,
+          "gains": [],
+          "naturalEnd": 6363.157894736842
+        },
+        {
+          "key": "approved-review-libToolContact",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libToolContact.ogg",
+          "title": "libToolContact",
+          "at": 5610,
+          "end": 6873.157894736842,
+          "gain": 0.12960000000000002,
+          "rate": 0.95,
+          "duration": 1.2,
+          "gains": [
+            {
+              "at": 6120,
+              "gain": 0.12960000000000002
+            },
+            {
+              "at": 6120,
+              "gain": 0.12960000000000002
+            }
+          ],
+          "naturalEnd": 6873.157894736842
+        },
+        {
+          "key": "approved-review-libStoneBreak",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libStoneBreak.ogg",
+          "title": "libStoneBreak",
+          "at": 6120,
+          "end": 8000,
+          "gain": 0.25920000000000004,
+          "rate": 0.94,
+          "duration": 1.8,
+          "gains": [
+            {
+              "at": 6873.157894736842,
+              "gain": 0.25920000000000004
+            }
+          ],
+          "naturalEnd": 8034.893617021276
+        }
+      ]
+    },
+    {
+      "id": "landing",
+      "title": "Braked descent, normal landing, hard landing",
+      "seconds": 8,
+      "events": [
+        {
+          "key": "approved-review-libLandingDebris",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libLandingDebris.ogg",
+          "title": "libLandingDebris",
+          "at": 1400,
+          "end": 2645.020833333333,
+          "gain": 0.15750000000000003,
+          "rate": 1,
+          "duration": 1.2450208333333332,
+          "gains": [],
+          "naturalEnd": 2645.020833333333
+        },
+        {
+          "key": "approved-review-libLandingDebris",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libLandingDebris.ogg",
+          "title": "libLandingDebris",
+          "at": 2720,
+          "end": 3965.020833333333,
+          "gain": 0.15750000000000003,
+          "rate": 1,
+          "duration": 1.2450208333333332,
+          "gains": [],
+          "naturalEnd": 3965.020833333333
+        },
+        {
+          "key": "approved-review-libLandingDebris",
+          "path": "sound/soundEffects/approved-review-2026-09-03/libLandingDebris.ogg",
+          "title": "libLandingDebris",
+          "at": 4040,
+          "end": 5285.020833333333,
+          "gain": 0.15750000000000003,
+          "rate": 1,
+          "duration": 1.2450208333333332,
+          "gains": [],
+          "naturalEnd": 5285.020833333333
+        }
+      ]
+    }
+  ]
+}

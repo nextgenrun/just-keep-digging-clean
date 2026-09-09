@@ -1,5 +1,5 @@
 import { STAR_IDENTITY_LIBRARY_CONFIG } from
-  "../../values/starIdentityLibrary.js?rev=20260830-star-codex-v3";
+  "../../values/starIdentityLibrary.js?rev=20260906-baked-celestial-v2";
 import { getStarIdentitiesForRarity } from "../../values/starIdentityLibraryMath.js";
 
 function wrapIndex(value, count) {
@@ -79,7 +79,7 @@ export class UIInventoryStarAtlasKeyboard {
       this.callbacks.onCycleTab(event.shiftKey ? -1 : 1);
       return true;
     }
-    if (state.activeTab !== navigation.starAtlasTabIndex) return false;
+    if (state.starAtlasAvailable === false || state.activeTab !== navigation.starAtlasTabIndex) return false;
 
     const columns = config.inventory.layout.selectorCentersXPx.length;
     let identityIndex = state.selectedStarIdentity;

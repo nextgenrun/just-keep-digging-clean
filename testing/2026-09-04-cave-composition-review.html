@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Understar cave composition review</title>
+  <style>
+    :root { color-scheme: dark; font-family: system-ui, sans-serif; background: #080d14; color: #e0e6ec; }
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    header { padding: 12px 18px; border-bottom: 1px solid #293744; }
+    h1 { margin: 0; font-size: 19px; }
+    #subtitle, #status, #hint, [data-detail], [data-telemetry] { font-size: 12px; color: #a8b9c8; }
+    #status { margin-top: 8px; }
+    nav, .controls { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+    button { background: #172430; color: inherit; border: 1px solid #385268; border-radius: 4px; padding: 6px 10px; cursor: pointer; }
+    button[aria-pressed="true"] { border-color: #e7bd72; }
+    button:disabled { opacity: .4; cursor: wait; }
+    main { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 10px; }
+    section { min-width: 0; border: 1px solid #293744; }
+    .label { padding: 8px 10px; }
+    h2 { font-size: 14px; margin: 0 0 3px; }
+    iframe { display: block; width: 100%; aspect-ratio: 16 / 9; border: 0; background: #000; }
+    main[data-view="natural"], main[data-view="legacy"] { grid-template-columns: 1fr; }
+    main[data-view="natural"] [data-id="legacy"], main[data-view="legacy"] [data-id="natural"] { display: none; }
+    footer { padding: 0 14px 14px; }
+    pre { font-size: 11px; white-space: pre-wrap; }
+    @media (max-width: 850px) { main { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <header>
+    <h1 id="title">Cave composition</h1>
+    <div id="subtitle"></div>
+    <nav aria-label="Comparison view">
+      <button data-view="both" aria-pressed="true">Side by side</button>
+      <button data-view="natural" aria-pressed="false">Before at full width</button>
+      <button data-view="legacy" aria-pressed="false">Updated at full width</button>
+    </nav>
+    <div class="controls" aria-label="Synchronized gameplay">
+      <button data-action="depth" data-value="surface" disabled>Surface</button>
+      <button data-action="depth" data-value="entry" disabled>18 m</button>
+      <button data-action="depth" data-value="shallow" disabled>140 m</button>
+      <button data-action="depth" data-value="deep" disabled>700 m</button>
+      <button data-action="depth" data-value="abyss" disabled>1000 m</button>
+      <button data-action="fuel" data-value="full" disabled>Full GP</button>
+      <button data-action="fuel" data-value="low" disabled>Low GP</button>
+      <button data-action="weather" data-value="clear" disabled>Clear</button>
+      <button data-action="weather" data-value="storm" disabled>Storm</button>
+      <button data-action="day" data-value="day" disabled>Day</button>
+      <button data-action="day" data-value="night" disabled>Night</button>
+      <button data-action="torch" disabled>Torch on/off</button>
+      <button data-action="resync" disabled>Resync</button>
+      <button data-review-input="left" disabled>Walk left</button>
+      <button data-review-input="right" disabled>Walk right</button>
+      <button data-review-input="mine" disabled>Mine down</button>
+    </div>
+    <div id="status" role="status"></div>
+  </header>
+  <main id="comparison" data-view="both">
+    <section data-id="natural">
+      <div class="label"><h2 data-label>Before</h2><div data-detail></div><div data-telemetry></div></div>
+      <iframe id="natural-frame" title="Before cave gameplay"></iframe>
+    </section>
+    <section data-id="legacy">
+      <div class="label"><h2 data-label>Updated</h2><div data-detail></div><div data-telemetry></div></div>
+      <iframe id="legacy-frame" title="Updated cave gameplay"></iframe>
+    </section>
+  </main>
+  <footer><div id="hint"></div><details><summary>Runtime checks</summary><pre id="checks">Loading</pre></details></footer>
+  <script type="module" src="./2026-09-04-cave-composition-review.js"></script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+[
+  "sound/SoundSystem.js",
+  "sound/ReviewedSfxController.js",
+  "sound/coreSfxWindow.js",
+  "values/coreSfxWindows.js",
+  "systems/visual/LootPickupFxSystem.js",
+  "systems/visual/LootPickupFlightView.js",
+  "systems/visual/XPGatheringFlightView.js",
+  "testing/audio-runtime-reaudit-2026-09-04/review.js",
+  "testing/audio-runtime-reaudit-2026-09-04/catalog.json",
+  "testing/audio-destruction-pickup-2026-09-05/index.html",
+  "testing/audio-destruction-pickup-2026-09-05/browser-check.js",
+  "testing/audio-destruction-pickup-2026-09-05/renders/libDirtBreak.wav",
+  "testing/audio-destruction-pickup-2026-09-05/renders/libStoneBreak.wav",
+  "testing/audio-destruction-pickup-2026-09-05/renders/libResourcePop.wav",
+  "testing/audio-destruction-pickup-2026-09-05/renders/freesound-536921.wav",
+  "testing/audio-destruction-pickup-2026-09-05/renders/freesound-703115.wav"
+]

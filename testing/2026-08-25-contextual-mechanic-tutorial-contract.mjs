@@ -110,7 +110,7 @@ const darkness = new ContextualMechanicTutorialSystem(
   { config: TEST_CONFIG },
 );
 assert.equal(darkness.update().badgeValue, "DARKNESS");
-assert.match(darkness.getNextPromiseOverride().promise, /TOGGLES YOUR TORCH/);
+assert.match(darkness.getNextPromiseOverride().promise, /TURN YOUR TORCH ON OR OFF/);
 darkness.update(500);
 assert.equal(
   darknessRetention.hasSeenMechanicTutorial(IDS.DARKNESS),
@@ -143,7 +143,7 @@ const hardcore = new ContextualMechanicTutorialSystem(
   { config: TEST_CONFIG },
 );
 assert.equal(hardcore.update().badgeValue, "HARDCORE");
-assert.match(hardcore.getNextPromiseOverride().detail, /KEEP 1 GP/);
+assert.match(hardcore.getNextPromiseOverride().detail, /1 GP STAYS RESERVED/);
 
 const earthquakeScene = createScene({
   earthquakeSystem: {
@@ -159,7 +159,7 @@ const earthquake = new ContextualMechanicTutorialSystem(
   { config: TEST_CONFIG },
 );
 assert.equal(earthquake.update().badgeValue, "QUAKE");
-assert.match(earthquake.getNextPromiseOverride().detail, /RETURNED RUBBLE/);
+assert.match(earthquake.getNextPromiseOverride().detail, /DIG THROUGH THE RUBBLE AFTERWARD/);
 
 const wurmScene = createScene({
   earthquakeSystem: {

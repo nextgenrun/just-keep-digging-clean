@@ -1,0 +1,11 @@
+{
+  "package": "sprites/branding/understar-world-within-v4",
+  "source": "source-e-clear-chroma.png",
+  "width": 4096,
+  "height": 1216,
+  "runtimeWidth": 2048,
+  "samples": 8,
+  "renderThreads": 8,
+  "planeWidth": 10,
+  "cameraWidth": 10.46
+}

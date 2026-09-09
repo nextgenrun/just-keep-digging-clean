@@ -1,6 +1,7 @@
 // Renders and owns interaction for one image-backed Celestial actionbar slot.
 
 import { CELESTIAL_ACTION_BAR_CONFIG } from "../../values/celestialActionBar.js";
+import { fitBakedUiImage } from "./bakedUiArt.js";
 import { UI_FONTS } from "../../values/uiLayout.js";
 
 function textStyle(fontFamily, fontSizePx, color) {
@@ -38,11 +39,11 @@ export class CelestialActionBarSlotView {
       .setDepth(presentation.depth)
       .setSize(layout.slotSizePx, layout.slotSizePx)
       .setInteractive({ useHandCursor: true });
-    this.icon = scene.add.image(0, 0, icon.key, icon.frame)
-      .setDisplaySize(
-        entry.assetRole === "campfire" ? layout.campfireIconWidthPx : layout.iconSizePx,
-        entry.assetRole === "campfire" ? layout.campfireIconHeightPx : layout.iconSizePx,
-      );
+    this.icon = scene.add.image(0, 0, icon.key, icon.frame);
+    const iconSize = icon.bakedFace ? layout.bakedIconSizePx : layout.iconSizePx;
+    fitBakedUiImage(this.icon,
+      entry.assetRole === "campfire" ? layout.campfireIconWidthPx : iconSize,
+      entry.assetRole === "campfire" ? layout.campfireIconHeightPx : iconSize);
     this.keyText = scene.add.text(
       layout.keyOffsetXPx,
       layout.keyOffsetYPx,
@@ -188,6 +189,7 @@ export class CelestialActionBarSlotView {
   }
 
   containsScreenPoint(x, y) {
+    if (!this.root.visible) return false;
     const radius = this.config.interaction.dropRadiusPx * this.uiScale;
     return Math.abs(x - this.basePosition.x) <= radius
       && Math.abs(y - this.basePosition.y) <= radius;

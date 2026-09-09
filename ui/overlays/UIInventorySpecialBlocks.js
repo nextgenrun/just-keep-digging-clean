@@ -1,17 +1,21 @@
 import { createButton } from "../PhaserUiKit.js";
-import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { INVENTORY_SPECIAL_BLOCKS } from "../../values/inventorySpecialBlocks.js";
+import { TILE_TYPES } from "../../values/tileTypes.js";
 import { UI_COLORS } from "../../values/uiColors.js";
-import { UI_FONTS } from "../../values/uiLayout.js";
+import { UI_FONTS, UI_CONTROL_GEOMETRY } from "../../values/uiLayout.js";
+import { RewardPickupVisualResolver } from
+  "../../systems/visual/RewardPickupVisualResolver.js";
+import { getRememberedSpecialPickupVisual } from
+  "../../systems/visual/RewardPickupContinuityState.js";
 
-const SPECIAL_BLOCK_TEXTURE_KEYS = Object.freeze({
-  GEM_POWER_BLOCK: ASSET_KEYS.tiles.gemPowerBlock,
-  SPEED_BLOCK: ASSET_KEYS.tiles.speedBlock,
-  XP_BLOCK: ASSET_KEYS.tiles.xpBlock,
-  CRIT_BLOCK: ASSET_KEYS.tiles.critBlock,
-  BERSERK_BLOCK: ASSET_KEYS.tiles.berserkBlock,
-  COMBO_BLOCK: ASSET_KEYS.tiles.comboBlock,
-  LEGEND_BLOCK: ASSET_KEYS.tiles.legendBlock,
+const SPECIAL_BLOCK_TILE_TYPES = Object.freeze({
+  GEM_POWER_BLOCK: TILE_TYPES.GEM_POWER_BLOCK,
+  SPEED_BLOCK: TILE_TYPES.SPEED_BLOCK,
+  XP_BLOCK: TILE_TYPES.XP_BLOCK,
+  BERSERK_BLOCK: TILE_TYPES.BERSERK_BLOCK,
+  COMBO_BLOCK: TILE_TYPES.COMBO_BLOCK,
+  LEGEND_BLOCK: TILE_TYPES.LEGEND_BLOCK,
+  ABILITY_BLOCK: TILE_TYPES.ABILITY_BLOCK,
 });
 
 function addText(scene, parent, x, y, text, style = {}) {
@@ -37,11 +41,18 @@ function addPanel(scene, parent, rect, selected = false) {
 }
 
 function addProductionTile(scene, parent, entry, x, y, size) {
-  const textureKey = SPECIAL_BLOCK_TEXTURE_KEYS[entry.renderKey];
-  if (!textureKey || !scene.textures.exists(textureKey)) {
+  const tileType = SPECIAL_BLOCK_TILE_TYPES[entry.renderKey];
+  const descriptor = getRememberedSpecialPickupVisual(scene, tileType)
+    || new RewardPickupVisualResolver(scene).resolveSpecialPickup({ tileType });
+  if (!descriptor) {
     throw new Error(`[UIInventorySpecialBlocks] Missing production tile ${entry.renderKey}`);
   }
-  const image = scene.add.image(x, y, textureKey)
+  const image = scene.add.image(
+    x,
+    y,
+    descriptor.textureKey,
+    descriptor.textureFrame ?? descriptor.frameName ?? undefined,
+  )
     .setDisplaySize(size, size);
   parent.add(image);
   return image;
@@ -62,12 +73,13 @@ function renderSelectors(scene, parent, rect, selectedId, onSelect) {
     rect.bottom - listTop - layout.panelPaddingPx
     - layout.selectorGapPx * (config.entries.length - 1)
   ) / config.entries.length;
+  const buttonWidth = rect.width - layout.panelPaddingPx * 2;
   config.entries.forEach((entry, index) => {
     const y = listTop + index * (itemHeight + layout.selectorGapPx) + itemHeight / 2;
     const button = createButton(scene, {
       x: rect.left + rect.width / 2,
       y,
-      width: rect.width - layout.panelPaddingPx * 2,
+      width: buttonWidth,
       height: itemHeight,
       label: entry.name.toUpperCase(),
       labelColor: entry.color,
@@ -80,8 +92,9 @@ function renderSelectors(scene, parent, rect, selectedId, onSelect) {
       onClick: () => onSelect(entry.id),
     });
     const tileSize = Math.min(34, itemHeight - 7);
-    addProductionTile(scene, button.root, entry, -rect.width / 2 + 33, 0, tileSize);
-    button.text.setX(-rect.width / 2 + 58).setOrigin(0, 0.5);
+    const iconLeft = -buttonWidth / 2 + layout.panelPaddingPx;
+    addProductionTile(scene, button.root, entry, iconLeft + tileSize / 2, 0, tileSize);
+    button.text.setX(iconLeft + tileSize + UI_CONTROL_GEOMETRY.buttonContent.iconGap).setOrigin(0, 0.5);
   });
 }
 
@@ -119,7 +132,7 @@ function renderDetail(scene, parent, rect, entry, compact) {
     wordWrap: { width: textWidth },
     lineSpacing: 4,
   });
-  addText(scene, parent, textLeft, rect.top + (compact ? 174 : 206), "USE NOTE", {
+  addText(scene, parent, textLeft, rect.top + (compact ? 174 : 206), INVENTORY_SPECIAL_BLOCKS.useTitle, {
     fontFamily: UI_FONTS.mono,
     fontSize: "9px",
     fontStyle: "bold",

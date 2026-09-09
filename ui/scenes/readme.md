@@ -26,7 +26,7 @@ the retained deferred-feature loading chrome before starting its full queue.
 loading the selected character, current/next Campfire art, and the selected
 Hardcore mode package. Boot adopts every texture into the runtime catalog;
 WorldLoad extends that same catalog without changing or resizing authored
-sources. Once the save flow hands off, WorldLoad releases the nine menu-only
+sources. Once the save flow hands off, WorldLoad releases the eleven menu-only
 save-card/modal textures; `StartMenuScene` preloads them again on the next menu
 visit. The retired loading
 minigame package is preserved under `archive/2026-08-03-loading-mining-minigame/`.
@@ -59,9 +59,10 @@ new-save choices through loading and retry. The resulting explicit new-save
 launch skips the later old/remote-save restore probe, preventing a failed
 remote permadeath deletion from resurrecting the erased run.
 
-The save-slot export and rotating-backup controls visibly show `OATH LOCKED`
-for Hardcore. Backups remain counted for the death purge but cannot be restored
-to rewind low GP, stress, position, or a committed Wurm warning.
+Portable save-slot export/import remains available for Hardcore. Only the
+rotating in-browser backup restore controls show `OATH LOCKED`; those backups
+remain counted for the death purge but cannot rewind low GP, stress, position,
+or a committed Wurm warning.
 
 `BootScene.js` preloads the ten approved Milestone/Star Pillar stage sprites,
 the constellation Star Heart used inside Star Pillar sockets, and only the Level
@@ -117,3 +118,5 @@ absent from the production demo queue while remaining available in full-review.
 Review panoramas,
 chroma sources, alpha masters, scale sheets, and retained Level 2 v1 tone
 sources are never loaded at runtime.
+
+`LaunchScene.js` paints the approved loading artwork before importing the game scene graph through `RuntimeScenes.js`. It remains visible during Boot mini-preload; Boot removes it after its own loading UI is ready. An import failure exposes a real reload/retry action.

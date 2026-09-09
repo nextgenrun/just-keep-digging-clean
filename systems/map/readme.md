@@ -6,7 +6,8 @@ This directory owns map data that is independent from presentation.
 - `WorldMapActivityRegistry.js` accepts marker providers from current and future gameplay systems.
 - `WorldMapStarTerritorySystem.js` assigns every discovered underground cell
   to its nearest original Star coordinate. It keeps consumed Stars as severed
-  owners so permanent damage cannot disappear through territory reassignment.
+  owners so permanent damage cannot disappear through territory reassignment,
+  and exposes the total/intact/consumed state used by the last-Star preview.
 - `registerWorldMapCoreActivities.js` registers discovery-safe landmarks,
   activated portals, and discovered/tracked/resonating Titan zones.
 - `resolveWorldMapPlayerTile.js` keeps discovery, recentering, and the player marker on the same collision-body tile.

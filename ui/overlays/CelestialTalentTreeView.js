@@ -1,195 +1,68 @@
-// Full authored three-Engine talent tree shared by ESC and the physical Star Pillar.
-
+// Tree selection and one focused twelve-node tree share the existing progression owner.
 import {
-  CELESTIAL_TALENT_TREE_PRELOAD_ASSETS,
-  CELESTIAL_TALENT_TREE_UI_CONFIG,
-  describeCelestialTalentAvailability,
-  getCelestialTalentNodeIconKey,
-  getCelestialTalentNodePosition,
+  CELESTIAL_TALENT_TREE_PRELOAD_ASSETS, CELESTIAL_TALENT_TREE_UI_CONFIG,
 } from "../../values/celestialTalentTreeUi.js";
-import { UI_FONTS } from "../../values/uiLayout.js";
-import { CelestialTalentTreeConnectorLayer } from "./CelestialTalentTreeConnectorLayer.js";
-import { CelestialTalentTreeNodeView } from "./CelestialTalentTreeNodeView.js";
-import { CelestialTalentTooltipView } from "./CelestialTalentTooltipView.js";
+import {
+  CELESTIAL_FOCUS_LAYOUT as G, CELESTIAL_FOCUS_BRANCH_ASSETS, celestialFocusPoint,
+} from "../../values/celestialTalentFocusUi.js";
+import { fitLiveUiText } from "../../systems/visual/bakedUiArt.js";
+import { buildCelestialTalentFocusView } from "./buildCelestialTalentFocusView.js";
 
-function justDown(key) {
-  return Boolean(key && Phaser.Input.Keyboard.JustDown(key));
-}
+const justDown = key => Boolean(key && Phaser.Input.Keyboard.JustDown(key));
 
 export class CelestialTalentTreeView {
   constructor(scene, options = {}) {
     this.scene = scene;
     this.progression = options.progression;
-    this.getMoney = options.getMoney || (() => 0);
     this.onClose = options.onClose || null;
     this.onNodePurchased = options.onNodePurchased || null;
+    this.onControlsChanged = options.onControlsChanged || null;
     this.config = CELESTIAL_TALENT_TREE_UI_CONFIG;
     this.nodes = [];
     this.nodesById = new Map();
-    this.expectedNodeCount = 0;
     this.selectedIndex = 0;
+    this.selectedBranchIndex = 0;
+    this.activeBranchId = null;
     this.visible = false;
     this.destroyed = false;
-    this._build();
-    this._pointerDownHandler = pointer => this._handlePointerDown(pointer);
-    this.scene.input?.on?.("pointerdown", this._pointerDownHandler);
+    this.branches = this.progression?.getSnapshot?.()?.branches || [];
+    this.expectedNodeCount = this.branches.reduce((count, branch) => count + branch.nodes.length, 0);
+    buildCelestialTalentFocusView(this);
+    this.pointerHandler = pointer => this._handlePointerDown(pointer);
+    this.scene.input?.on?.("pointerdown", this.pointerHandler);
     this.unsubscribe = this.progression?.subscribe?.(() => this.refresh());
-    this._resizeHandler = () => this.resize();
-    this.scene.scale?.on?.("resize", this._resizeHandler);
+    this.resizeHandler = () => this.resize();
+    this.scene.scale?.on?.("resize", this.resizeHandler);
     this.resize();
   }
 
-  _build() {
-    const { assets, layout, presentation, copy } = this.config;
-    this.root = this.scene.add.container(0, 0)
-      .setScrollFactor(0)
-      .setDepth(presentation.depth)
-      .setVisible(false);
-    this.foundation = this.scene.add.image(0, 0, assets.foundation.key)
-      .setDisplaySize(layout.referenceWidthPx, layout.referenceHeightPx);
-    this.root.add(this.foundation);
-    this.title = this._text(0, this._y(layout.titleYFraction), copy.title,
-      presentation.titleFontSizePx, presentation.titleColor);
-    this.subtitle = this._text(0, this._y(layout.subtitleYFraction), copy.subtitle,
-      presentation.subtitleFontSizePx, presentation.bodyColor);
-    this.levelText = this._text(this._x(layout.levelXFraction), this._y(layout.headerYFraction), "",
-      presentation.headerFontSizePx, presentation.titleColor);
-    this.moneyText = this._text(this._x(layout.moneyXFraction), this._y(layout.headerYFraction), "",
-      presentation.headerFontSizePx, presentation.titleColor);
-    this.starsText = this._text(this._x(layout.starsXFraction), this._y(layout.headerYFraction), "",
-      presentation.headerFontSizePx, presentation.readyColor);
-    this.closeText = this._text(this._x(layout.closeXFraction), this._y(layout.closeYFraction), copy.close,
-      presentation.closeFontSizePx, presentation.titleColor).setInteractive({ useHandCursor: true });
-    this.closeText.disableInteractive();
-    // A real authored-image display object is intentional here. Phaser Zones
-    // nested in the scaled immersive tree did not receive browser pointer
-    // events consistently, even though the Input Manager registered them.
-    this.closeHit = this.scene.add.image(
-      this._x(layout.closeXFraction),
-      this._y(layout.closeYFraction),
-      assets.nodeHalo.key,
-    )
-      .setDisplaySize(layout.closeHitWidthPx, layout.closeHitHeightPx)
-      .setAlpha(0.001)
-      .setInteractive({ useHandCursor: true });
-    this.root.add([
-      this.title,
-      this.subtitle,
-      this.levelText,
-      this.moneyText,
-      this.starsText,
-      this.closeText,
-      this.closeHit,
-    ]);
-
-    const branches = this.progression?.getSnapshot?.()?.branches || [];
-    this.expectedNodeCount = branches.reduce((total, branch) => total + branch.nodes.length, 0);
-    branches.forEach((branch, branchIndex) => {
-      const accent = presentation.branchAccents[branchIndex];
-      const header = this._text(
-        this._x(layout.branchCenterXFractions[branchIndex]),
-        this._y(layout.branchTitleYFraction),
-        branch.name,
-        presentation.branchFontSizePx,
-        `#${accent.toString(16).padStart(6, "0")}`,
-      );
-      this.root.add(header);
-    });
-    this.connectorLayer = new CelestialTalentTreeConnectorLayer(
-      this.scene,
-      this.root,
-      branches,
-    );
-    branches.forEach((branch, branchIndex) => {
-      const accent = presentation.branchAccents[branchIndex];
-      branch.nodes.forEach(node => {
-        const position = getCelestialTalentNodePosition(branchIndex, node);
-        const view = new CelestialTalentTreeNodeView(
-          this.scene,
-          node,
-          getCelestialTalentNodeIconKey(node.id),
-          accent,
-          {
-            onHover: current => this.selectNode(current.node.id, true),
-            onOut: () => this.tooltip?.hide(),
-            onActivate: current => this.purchaseNode(current.node.id),
-          },
-        );
-        view.branchIndex = branchIndex;
-        view.tier = node.tier;
-        view.row = node.row;
-        view.lane = node.lane;
-        view.setPosition(
-          this._x(position.xFraction),
-          this._y(position.yFraction),
-        );
-        this.nodes.push(view);
-        this.nodesById.set(node.id, view);
-        this.root.add(view.root);
-      });
-    });
-
-    this.detailTitle = this._text(
-      this._x(layout.detailTitleXFraction), this._y(layout.detailTitleYFraction), "",
-      presentation.detailTitleFontSizePx, presentation.titleColor,
-    );
-    this.detailBody = this._text(
-      this._x(layout.detailBodyXFraction), this._y(layout.detailBodyYFraction), copy.inspect,
-      presentation.detailBodyFontSizePx, presentation.bodyColor,
-    ).setWordWrapWidth(layout.detailBodyWidthPx).setOrigin(0.5);
-    this.detailStatus = this._text(
-      this._x(layout.detailStatusXFraction), this._y(layout.detailStatusYFraction), "",
-      presentation.detailStatusFontSizePx, presentation.readyColor,
-    );
-    this.root.add([this.detailTitle, this.detailBody, this.detailStatus]);
-    this.tooltip = new CelestialTalentTooltipView(this.scene, this.root);
-  }
-
-  _x(fraction) {
-    return (fraction - 0.5) * this.config.layout.referenceWidthPx;
-  }
-
-  _y(fraction) {
-    return (fraction - 0.5) * this.config.layout.referenceHeightPx;
-  }
-
-  _text(x, y, value, size, color) {
-    const p = this.config.presentation;
-    return this.scene.add.text(x, y, value, {
-      fontFamily: UI_FONTS.display,
-      fontSize: `${size}px`,
-      fontStyle: "bold",
-      color,
-      stroke: p.shadowColor,
-      strokeThickness: p.shadowThicknessPx,
-      align: "center",
-    }).setOrigin(0.5);
+  get visibleNodes() {
+    return this.activeBranchId ? this.nodes.filter(view => view.node.branchId === this.activeBranchId) : [];
   }
 
   _handlePointerDown(pointer) {
     if (!this.isOpen() || !pointer) return false;
-    const { layout } = this.config;
-    const closePoint = this.root.getWorldTransformMatrix().applyInverse(pointer.x, pointer.y);
-    const closeX = this._x(layout.closeXFraction);
-    const closeY = this._y(layout.closeYFraction);
-    if (
-      Math.abs(closePoint.x - closeX) <= layout.closeHitWidthPx / 2
-      && Math.abs(closePoint.y - closeY) <= layout.closeHitHeightPx / 2
-    ) {
+    const point = this.root.getWorldTransformMatrix().applyInverse(pointer.x, pointer.y);
+    const close = celestialFocusPoint(G.closeX, this.activeBranchId ? G.closeY : G.selectorCloseY);
+    if (Math.abs(point.x - close.x) <= G.closeWidth / 2 && Math.abs(point.y - close.y) <= G.closeHeight / 2) {
       this.onClose?.();
       return true;
     }
-
-    for (const view of this.nodes) {
-      const point = view.root.getWorldTransformMatrix().applyInverse(pointer.x, pointer.y);
-      if (
-        Math.abs(point.x) <= layout.nodeHitWidthPx / 2
-        && Math.abs(point.y) <= layout.nodeHitHeightPx / 2
-      ) {
-        // Touch has no prior hover state, so a lit node must purchase on this
-        // same reliable scene-level pointer event. Locked nodes stay inspect-only.
-        this.selectNode(view.node.id, true);
-        if (view.snapshot?.available === true) this.purchaseNode(view.node.id);
+    if (!this.activeBranchId) {
+      const index = this.selector.hitTest(point);
+      if (index >= 0) return this.selectTree(this.branches[index].id);
+      return false;
+    }
+    const back = celestialFocusPoint(G.backX, G.backY);
+    if (Math.abs(point.x - back.x) <= G.backWidth / 2 && Math.abs(point.y - back.y) <= G.backHeight / 2) {
+      return this.backToSelection();
+    }
+    if (this.detail.hitTest(point)) { this.activateSelected(); return true; }
+    for (const view of this.visibleNodes) {
+      if (Math.abs(point.x - view.root.x) <= G.nodeHitWidth / 2
+        && Math.abs(point.y - view.root.y) <= G.nodeHitHeight / 2) {
+        this.selectNode(view.node.id);
+        this._syncControls();
         return true;
       }
     }
@@ -200,18 +73,55 @@ export class CelestialTalentTreeView {
     if (this.destroyed) return false;
     this.visible = true;
     this.root.setVisible(true);
-    this.refresh();
+    this.feedback.warmAudio();
+    this.backToSelection();
     return true;
   }
 
   close() {
     this.visible = false;
-    this.tooltip?.hide();
-    this.root?.setVisible(false);
+    this.feedback.stop();
+    this.root.setVisible(false);
   }
 
-  isOpen() {
-    return this.visible && !this.destroyed;
+  isOpen() { return this.visible && !this.destroyed; }
+
+  selectTree(branchId) {
+    const branch = this.branches.find(item => item.id === branchId);
+    if (!branch) return false;
+    this.feedback.stop();
+    this.activeBranchId = branch.id;
+    this.selectedBranchIndex = this.branches.indexOf(branch);
+    this.foundation.setTexture(CELESTIAL_FOCUS_BRANCH_ASSETS[branch.id].key);
+    this.selector.setVisible(false);
+    this.focusRoot.setVisible(true);
+    this.nodes.forEach(view => view.setBranchVisible(view.node.branchId === branchId));
+    this.connectorLayer.setBranch(branchId);
+    const remembered = this.lastSelections?.[branchId] || branch.rootNodeId;
+    this.selectedIndex = Math.max(0, this.nodes.findIndex(view => view.node.id === remembered));
+    this.refresh();
+    this._syncControls();
+    return true;
+  }
+
+  backToSelection() {
+    this.feedback.stop();
+    this.activeBranchId = null;
+    this.focusRoot.setVisible(false);
+    this.connectorLayer.setBranch(null);
+    this.nodes.forEach(view => view.setBranchVisible(false));
+    this.selector.setVisible(true);
+    this.selector.setFocused(this.selectedBranchIndex);
+    this.refresh();
+    this._syncControls();
+    return true;
+  }
+
+  focusBranch(index) {
+    if (this.activeBranchId || index === this.selectedBranchIndex) return;
+    this.selectedBranchIndex = index;
+    this.selector.setFocused(index);
+    this._syncControls();
   }
 
   refresh() {
@@ -219,82 +129,82 @@ export class CelestialTalentTreeView {
     const snapshot = this.progression?.getSnapshot?.();
     if (!snapshot) return;
     this.snapshot = snapshot;
-    this.levelText.setText(`LEVEL ${snapshot.playerLevel}`);
-    this.moneyText.setText(`M ${Math.max(0, Number(this.getMoney?.()) || 0).toLocaleString("en-US")}`);
-    this.starsText.setText(`STAR POINTS ${snapshot.stars.toLocaleString("en-US")}`);
-    for (const branch of snapshot.branches) {
-      for (const node of branch.nodes) {
-        const index = this.nodes.findIndex(view => view.node.id === node.id);
-        this.nodesById.get(node.id)?.setState(node, index === this.selectedIndex);
-      }
+    [this.levelText, this.talentPointsText, this.starsText].forEach((text, index) => {
+      text.setText([snapshot.playerLevel, snapshot.talentPoints, snapshot.stars.toLocaleString("en-US")][index]);
+      fitLiveUiText(text, G.headerWidth, G.headerHeight);
+    });
+    for (const branch of snapshot.branches) for (const node of branch.nodes) {
+      this.nodesById.get(node.id)?.setState(node, this.nodes[this.selectedIndex]?.node.id === node.id);
     }
-    this.connectorLayer?.refresh(this.nodesById);
-    this._refreshDetail();
+    if (this.activeBranchId) {
+      const view = this.nodes[this.selectedIndex];
+      this.connectorLayer.refresh(this.nodesById, view?.node.id);
+      this.detail.show(view, view?.snapshot);
+    }
   }
 
-  selectNode(nodeId, showPopup = false) {
-    const nextIndex = this.nodes.findIndex(view => view.node.id === nodeId);
-    if (nextIndex < 0) return false;
-    this.selectedIndex = nextIndex;
+  selectNode(nodeId) {
+    const view = this.nodesById.get(nodeId);
+    if (!view) return false;
+    if (view.node.branchId !== this.activeBranchId) this.selectTree(view.node.branchId);
+    this.selectedIndex = this.nodes.indexOf(view);
+    this.lastSelections = { ...this.lastSelections, [view.node.branchId]: nodeId };
     this.refresh();
-    if (showPopup) {
-      const view = this.nodes[nextIndex];
-      this.tooltip?.show(view, view.snapshot);
-    }
     return true;
   }
 
   purchaseNode(nodeId = this.nodes[this.selectedIndex]?.node.id) {
-    if (!nodeId) return { ok: false, reason: "missing-node" };
-    const result = this.progression?.purchaseNode?.(nodeId)
+    const view = this.nodesById.get(nodeId);
+    if (!view || view.node.branchId !== this.activeBranchId) return { ok: false, reason: "hidden-node" };
+    const availability = this.progression?.getNodeAvailability?.(nodeId);
+    if (!availability?.available) return { ok: false, reason: availability?.reason || "unavailable" };
+    const action = availability.action;
+    const result = (action === "upgrade"
+      ? this.progression.upgradeNode(nodeId) : this.progression.purchaseNode(nodeId))
       || { ok: false, reason: "missing-progression" };
     this.refresh();
-    if (result.ok) this.onNodePurchased?.(result);
+    if (result.ok) {
+      this.feedback.play(view, action);
+      this.onNodePurchased?.(result);
+    }
     return result;
   }
 
   activateSelected() {
-    return this.purchaseNode();
+    return this.activeBranchId ? this.purchaseNode()
+      : this.selectTree(this.branches[this.selectedBranchIndex]?.id);
   }
 
   moveSelection(dx, dy) {
+    if (!this.activeBranchId) {
+      const direction = Math.sign(dx || dy);
+      this.selectedBranchIndex = (this.selectedBranchIndex + direction + this.branches.length) % this.branches.length;
+      this.selector.setFocused(this.selectedBranchIndex);
+      return this.selectedBranchIndex;
+    }
     const current = this.nodes[this.selectedIndex];
-    if (!current) return this.selectedIndex;
-    const directionX = Math.sign(dx || 0);
-    const directionY = Math.sign(dy || 0);
-    const candidates = this.nodes
-      .map((view, index) => ({
-        index,
-        deltaX: view.root.x - current.root.x,
-        deltaY: view.root.y - current.root.y,
-      }))
-      .filter(candidate => candidate.index !== this.selectedIndex)
-      .filter(candidate => directionX !== 0
-        ? Math.sign(candidate.deltaX) === directionX
-        : Math.sign(candidate.deltaY) === directionY)
+    const directionX = Math.sign(dx || 0), directionY = Math.sign(dy || 0);
+    const candidates = this.visibleNodes.filter(view => view !== current).map(view => ({
+      view, deltaX: view.root.x - current.root.x, deltaY: view.root.y - current.root.y,
+    })).filter(item => directionX ? Math.sign(item.deltaX) === directionX : Math.sign(item.deltaY) === directionY)
       .sort((left, right) => {
-        const score = candidate => directionX !== 0
-          ? Math.abs(candidate.deltaX) + Math.abs(candidate.deltaY) * 2
-          : Math.abs(candidate.deltaY) + Math.abs(candidate.deltaX) * 2;
+        const score = item => directionX
+          ? Math.abs(item.deltaX) + Math.abs(item.deltaY) * 2
+          : Math.abs(item.deltaY) + Math.abs(item.deltaX) * 2;
         return score(left) - score(right);
       });
-    const next = candidates[0]?.index ?? -1;
-    if (next >= 0) {
-      this.selectNode(this.nodes[next].node.id, true);
-    }
-    return this.selectedIndex;
+    if (candidates[0]) this.selectNode(candidates[0].view.node.id);
+    return this.selectedControlIndex;
   }
 
   handleInput(keys) {
     if (!this.isOpen()) return false;
-    if (justDown(keys?.escape) || justDown(keys?.interact)) {
-      this.onClose?.();
+    if (justDown(keys?.escape)) {
+      if (this.activeBranchId) this.backToSelection(); else this.onClose?.();
       return true;
     }
-    if (justDown(keys?.enter)) {
-      this.activateSelected();
-      return true;
-    }
+    if (justDown(keys?.interact)) { this.onClose?.(); return true; }
+    if (justDown(keys?.enter)) { this.activateSelected(); return true; }
     if (justDown(keys?.moveLeft) || justDown(keys?.aimLeft)) return this.moveSelection(-1, 0) >= 0;
     if (justDown(keys?.moveRight) || justDown(keys?.aimRight)) return this.moveSelection(1, 0) >= 0;
     if (justDown(keys?.moveUp) || justDown(keys?.aimUp)) return this.moveSelection(0, -1) >= 0;
@@ -302,88 +212,71 @@ export class CelestialTalentTreeView {
     return false;
   }
 
-  _refreshDetail() {
-    const view = this.nodes[this.selectedIndex];
-    const node = view?.snapshot;
-    if (!view || !node) return;
-    this.detailTitle.setText(view.node.name.toUpperCase());
-    this.detailBody.setText(view.node.description);
-    this.detailStatus.setText(describeCelestialTalentAvailability(node));
-    this.tooltip?.refresh(node);
-  }
-
   resize() {
     if (this.destroyed) return;
-    const { layout } = this.config;
-    const width = this.scene.scale?.width || layout.referenceWidthPx;
-    const height = this.scene.scale?.height || layout.referenceHeightPx;
-    const inset = layout.viewportInsetPx * 2;
-    const scale = Math.max(layout.minimumScale, Math.min(
-      (width - inset) / layout.referenceWidthPx,
-      (height - inset) / layout.referenceHeightPx,
-    ));
-    this.root.setPosition(width / 2, height / 2).setScale(scale);
-    this.tooltip?.setViewportScale(scale);
-    const compact = scale < layout.compactStatusScaleThreshold;
-    this.nodes.forEach(node => node.setCompactStatus(compact));
+    const width = this.scene.scale?.width || G.width, height = this.scene.scale?.height || G.height;
+    const scale = Math.min((width - G.viewportInset * 2) / G.width, (height - G.viewportInset * 2) / G.height);
+    this.root.setPosition(width / 2, height / 2).setScale(Math.max(0, scale));
+    this.nodes.forEach(view => view.setViewportScale(scale));
+    if (this.activeBranchId) this.detail.setViewportScale(scale);
   }
 
   getControls() {
-    return this.nodes.map((view, index) => ({
-      activate: () => this.purchaseNode(view.node.id),
-      isEnabled: () => true,
-      setFocused: focused => {
-        if (focused) this.selectControl(index, true);
-      },
+    if (!this.activeBranchId) return this.selector.cards.map((card, index) => ({
+      root: card.image, activate: () => this.selectTree(card.branchId), isEnabled: () => !this.activeBranchId,
+      setFocused: focused => { if (focused) this.selectControl(index); },
+    }));
+    return this.visibleNodes.map((view, index) => ({
+      root: view.root, activate: () => this.purchaseNode(view.node.id),
+      isEnabled: () => view.root.visible,
+      setFocused: focused => { if (focused) this.selectControl(index); },
     }));
   }
 
-  selectControl(index, showPopup = false) {
-    const nextIndex = Math.max(0, Math.min(
-      this.nodes.length - 1,
-      Number(index) || 0,
-    ));
-    if (!this.nodes[nextIndex]) return false;
-    return this.selectNode(this.nodes[nextIndex].node.id, showPopup);
+  selectControl(index) {
+    if (!this.activeBranchId) {
+      this.selectedBranchIndex = Math.max(0, Math.min(this.branches.length - 1, index || 0));
+      this.selector.setFocused(this.selectedBranchIndex);
+      return true;
+    }
+    const view = this.visibleNodes[Math.max(0, Math.min(this.visibleNodes.length - 1, index || 0))];
+    return view ? this.selectNode(view.node.id) : false;
   }
 
   get selectedControlIndex() {
-    return this.selectedIndex;
+    return this.activeBranchId ? this.visibleNodes.indexOf(this.nodes[this.selectedIndex]) : this.selectedBranchIndex;
   }
 
+  _syncControls() { this.onControlsChanged?.(this.getControls(), this.selectedControlIndex); }
+
   getHealthSnapshot() {
-    const missingTextureKeys = CELESTIAL_TALENT_TREE_PRELOAD_ASSETS
-      .map(asset => asset.key)
+    const missingTextureKeys = CELESTIAL_TALENT_TREE_PRELOAD_ASSETS.map(asset => asset.key)
       .filter(key => this.scene.textures?.exists?.(key) !== true);
-    return Object.freeze({
-      ready: !this.destroyed && this.expectedNodeCount > 0
-        && this.nodes.length === this.expectedNodeCount
-        && missingTextureKeys.length === 0,
-      visible: this.visible,
-      nodeCount: this.nodes.length,
-      connectorCount: this.connectorLayer?.count || 0,
-      selectedIndex: this.selectedIndex,
-      tooltipVisible: this.tooltip?.visible === true,
-      tooltipNodeId: this.tooltip?.nodeId || null,
-      missingTextureKeys,
-    });
+    return {
+      ready: !this.destroyed && this.nodes.length === this.expectedNodeCount && !missingTextureKeys.length,
+      visible: this.visible, nodeCount: this.nodes.length, visibleNodeCount: this.visibleNodes.length,
+      mode: this.activeBranchId ? "tree" : "selector", activeBranchId: this.activeBranchId,
+      selectedIndex: this.selectedIndex, selectedNodeId: this.activeBranchId ? this.nodes[this.selectedIndex]?.node.id : null,
+      bakedNodeFaces: this.nodes.filter(view => view.icon.getData("bakedTalentNode") === view.node.id).length,
+      connectorCount: this.connectorLayer.count,
+      connectorStates: this.connectorLayer.getStateSnapshot(), tooltipVisible: false,
+      detailNodeId: this.activeBranchId ? this.detail.nodeId : null,
+      feedback: this.feedback.getSnapshot(), missingTextureKeys,
+    };
   }
 
   destroy() {
     if (this.destroyed) return;
     this.destroyed = true;
     this.unsubscribe?.();
-    this.scene.input?.off?.("pointerdown", this._pointerDownHandler);
-    this.scene.scale?.off?.("resize", this._resizeHandler);
-    for (const node of this.nodes) node.destroy();
+    this.scene.input?.off?.("pointerdown", this.pointerHandler);
+    this.scene.scale?.off?.("resize", this.resizeHandler);
+    this.feedback.destroy();
+    this.nodes.forEach(view => view.destroy());
     this.nodes = [];
     this.nodesById.clear();
-    this.connectorLayer?.destroy();
-    this.connectorLayer = null;
-    this.tooltip?.destroy();
-    this.tooltip = null;
-    this.root?.destroy(true);
-    this.onClose = null;
-    this.onNodePurchased = null;
+    this.connectorLayer.destroy();
+    this.root.destroy(true);
+    this.onClose = this.onNodePurchased = this.onControlsChanged = null;
   }
 }

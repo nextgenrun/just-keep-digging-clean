@@ -135,14 +135,23 @@ export class HardcoreModeSystem {
     const consumedStarStressMultiplier = insideConsumedStarScar
       ? Math.max(1, finiteOr(context.consumedStarStressMultiplier, 1))
       : 1;
-    const playerLevel = Math.max(1, Math.floor(finiteOr(context.playerLevel, 1)));
-    const stressResistance = clamp(
-      (playerLevel - 1) * stressCfg.stressResistancePerPlayerLevel,
+    const panicResistanceMeters = Math.max(
       0,
-      stressCfg.stressResistanceMaximum,
+      finiteOr(context.panicResistanceMeters, 0),
     );
+    const panicStartDepth = stressCfg.panicStartDepthTiles
+      + panicResistanceMeters;
+    const effectivePanicDepth = Math.max(0, depth - panicResistanceMeters);
     const descentSpeed = Math.max(0, finiteOr(context.descentTilesPerSecond, 0));
-    const darknessEligible = depth >= stressCfg.minimumDepthTiles
+    const caveEyesPanicReduction = !torchActive
+      ? clamp(finiteOr(context.caveEyesPanicReduction, 0), 0, 0.80)
+      : 0;
+    const gpDrainMultiplier = clamp(
+      finiteOr(context.gpDrainMultiplier, 1),
+      0.20,
+      1,
+    );
+    const darknessEligible = effectivePanicDepth >= stressCfg.panicStartDepthTiles
       && !nearIntactStarLight
       && darknessAlpha >= stressCfg.darknessAlphaThreshold;
     const torchDarknessExposure = darknessEligible
@@ -156,7 +165,7 @@ export class HardcoreModeSystem {
     if (darknessActive && !stressSuppressed) {
       const depthBonus = Math.min(
         stressCfg.darknessDepthBonusMax,
-        Math.max(0, depth - stressCfg.minimumDepthTiles)
+        Math.max(0, effectivePanicDepth - stressCfg.panicStartDepthTiles)
           / 100
           * stressCfg.darknessDepthBonusPer100Tiles,
       );
@@ -183,13 +192,16 @@ export class HardcoreModeSystem {
       sources.push("rapid-descent");
     }
 
-    if (!stressSuppressed && depth > stressCfg.deepPressureStartDepthTiles) {
+    if (
+      !stressSuppressed
+      && effectivePanicDepth > stressCfg.deepPressureStartDepthTiles
+    ) {
       const range = Math.max(
         1,
         stressCfg.deepPressureFullDepthTiles - stressCfg.deepPressureStartDepthTiles,
       );
       const ratio = clamp(
-        (depth - stressCfg.deepPressureStartDepthTiles) / range,
+        (effectivePanicDepth - stressCfg.deepPressureStartDepthTiles) / range,
         0,
         1,
       );
@@ -197,14 +209,14 @@ export class HardcoreModeSystem {
       if (ratio > 0.05) sources.push("deep-pressure");
     }
 
-    stressGainPerSecond *= 1 - stressResistance;
+    stressGainPerSecond *= 1 - caveEyesPanicReduction;
 
     let stressRecoveryPerSecond = 0;
     if (nearIntactStarLight) {
       stressRecoveryPerSecond = stressCfg.intactStarRecoveryPerSecond
         * intactStarRecoveryScale;
       sources.push("intact-star-light");
-    } else if (depth < stressCfg.minimumDepthTiles) {
+    } else if (depth < panicStartDepth) {
       stressRecoveryPerSecond = stressCfg.surfaceRecoveryPerSecond;
     } else if (torchActive) {
       const normalRecoveryScale = Math.pow(
@@ -241,7 +253,9 @@ export class HardcoreModeSystem {
     });
     this._emitStressBandChanges(previousStress, nextStress, context.nowMs);
 
-    const drainRate = this.getStressGpDrainPerSecond(nextStress);
+    const drainRate = this.getStressGpDrainPerSecond(nextStress)
+      * (1 - caveEyesPanicReduction)
+      * gpDrainMultiplier;
     return {
       ...this.getSnapshot(),
       darknessActive,
@@ -255,8 +269,11 @@ export class HardcoreModeSystem {
       insideConsumedStarScar,
       consumedStarStressMultiplier,
       descentTilesPerSecond: descentSpeed,
-      playerLevel,
-      stressResistance,
+      panicStartDepth,
+      panicResistanceMeters,
+      effectivePanicDepth,
+      caveEyesPanicReduction,
+      gpDrainMultiplier,
       stressSuppressed,
       stressGainPerSecond,
       stressRecoveryPerSecond,

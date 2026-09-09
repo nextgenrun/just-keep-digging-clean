@@ -1,14 +1,20 @@
+import { addBrandLogo, addBrandLogoShade } from "../components/BrandLogoView.js";
+import { RELEASE_PRESENTATION } from "../../values/releasePresentation.js";
+import { MENU_ATMOSPHERE } from "../../values/menuAtmosphere.js";
+import { addSessionPrivacyNotice } from "../telemetry/sessionPrivacyNotice.js";
+import { getBakedUiLabel, fitBakedUiImage } from "../../systems/visual/bakedUiArt.js";
 import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { BRAND_CONFIG } from "../../values/branding.js";
 import { UI_COLORS } from "../../values/uiColors.js";
-import { UI_FONTS } from "../../values/uiLayout.js";
+import { UI_FONTS, SETTINGS_PANEL_LAYOUT } from "../../values/uiLayout.js";
 import {
   MAIN_MENU_PRESENTATION,
   resolveMainMenuArtEnabled,
 } from "../../values/mainMenuPresentation.js";
 import { createButton } from "../PhaserUiKit.js";
 import { createSettingsPanelContent } from "../overlays/SettingsPanelContent.js";
-import { addMenuBackground, getSelectedMenuBackgroundKey } from "../components/LoadingScreenView.js";
+import { MAIN_MENU_COPY } from "../../values/playerFacingCopy.js";
+import { addMenuBackground, getSelectedMenuBackgroundKey } from "../components/MenuBackgroundView.js";
 
 const COL = {
   bg:        UI_COLORS.bg,
@@ -25,6 +31,7 @@ const COL = {
 };
 
 const BUTTON_ART = MAIN_MENU_PRESENTATION.button;
+const CURSOR_ART = MAIN_MENU_PRESENTATION.cursor;
 const BTN_W      = BUTTON_ART.widthPx;
 const BTN_H      = BUTTON_ART.heightPx;
 const BTN_GAP    = 14;
@@ -55,6 +62,7 @@ export class MainMenuScene extends Phaser.Scene {
   }
 
   create() {
+    this._menuActivating = false;
     this.ensureMenuAudioScene();
 
     const W = this.scale.width;
@@ -67,39 +75,22 @@ export class MainMenuScene extends Phaser.Scene {
       width: W,
       height: H,
       key: getSelectedMenuBackgroundKey(),
-      alpha: 0.26,
+      // The shared background owns the scenery presentation.
     });
 
-    // Vignette overlay
+    // Versioned scenery overlay
     const vignette = this.add.graphics();
-    vignette.fillStyle(0x000000, 0.30);
+    vignette.fillStyle(0x000000, MENU_ATMOSPHERE.menuOverlayAlpha);
     vignette.fillRect(0, 0, W, H);
 
     // ── Logo ────────────────────────────────────────────────────────────────
-    const logo = this.add.image(W / 2, 150, ASSET_KEYS.branding.logo);
-    const logoScale = Math.min(560 / logo.width, 185 / logo.height);
+    this._fadeInObjs.push(addBrandLogoShade(this).setAlpha(0));
+    const logo = addBrandLogo(this, W / 2, BRAND_CONFIG.layout.y);
+    const logoScale = Math.min(BRAND_CONFIG.layout.width / logo.width, BRAND_CONFIG.layout.height / logo.height);
     logo.setScale(logoScale).setAlpha(0);
     this._fadeInObjs.push(logo);
 
-    // Float animation — starts after fade-in completes
-    this.tweens.add({
-      targets:  logo,
-      y:        logo.y - 6,
-      yoyo:     true,
-      repeat:   -1,
-      duration: 2200,
-      ease:     'Sine.easeInOut',
-      delay:    320,
-    });
-
-    // ── Separator + tagline ─────────────────────────────────────────────────
-    const sep1 = this.add.graphics();
-    sep1.lineStyle(1, UI_COLORS.borderSel, 0.72);
-    sep1.lineBetween(220, 238, W - 220, 238);
-    sep1.setAlpha(0);
-    this._fadeInObjs.push(sep1);
-
-    const tagline = this.add.text(W / 2, 266, 'dig deep.  grow stronger.  keep going.', {
+    const tagline = this.add.text(W / 2, 266, MAIN_MENU_COPY.tagline, {
       fontFamily: UI_FONTS.mono,
       fontSize:   '14px',
       color:      COL.hint,
@@ -109,9 +100,9 @@ export class MainMenuScene extends Phaser.Scene {
 
     // ── Buttons ─────────────────────────────────────────────────────────────
     const BUTTONS = [
-      { label: 'PLAY',     action: () => this.scene.start('StartMenuScene') },
-      { label: 'SETTINGS', action: () => this._showSettings() },
-      { label: 'CREDITS',  action: () => this._showCredits() },
+      { label: MAIN_MENU_COPY.play,     action: () => this.scene.start('StartMenuScene') },
+      { label: MAIN_MENU_COPY.settings, action: () => this._showSettings() },
+      { label: MAIN_MENU_COPY.credits,  action: () => this._showCredits() },
     ];
 
     this._btnRefs = BUTTONS.map((btn, i) => {
@@ -119,9 +110,13 @@ export class MainMenuScene extends Phaser.Scene {
       return this._buildButton(BTN_X, y, btn.label, btn.action);
     });
 
-    // Keyboard cursor — thin accent bar on the left of buttons
+    // Keyboard cursor — inset inside the selected button edge.
     this._cursor = this.add.rectangle(
-      BTN_X - BTN_W / 2 - 8, BTN_FIRST_Y, 3, Math.round(BTN_H * 0.65), UI_COLORS.gold
+      BTN_X - BTN_W / 2 + CURSOR_ART.insetXPx,
+      BTN_FIRST_Y,
+      CURSOR_ART.widthPx,
+      CURSOR_ART.heightPx,
+      UI_COLORS.gold,
     );
     this._cursor.setAlpha(0);
     this._fadeInObjs.push(this._cursor);
@@ -133,20 +128,26 @@ export class MainMenuScene extends Phaser.Scene {
     sep2.setAlpha(0);
     this._fadeInObjs.push(sep2);
 
-    const hintBar = this.add.text(W / 2, H - 54, 'WASD / ↑↓: move     ENTER / SPACE: confirm     ESC / BACKSPACE: return', {
+    const hintBar = this.add.text(W / 2, H - 54, MAIN_MENU_COPY.navigationHint, {
       fontFamily: UI_FONTS.mono,
       fontSize:   '13px',
       color:      COL.hint,
     }).setOrigin(0.5).setAlpha(0);
     this._fadeInObjs.push(hintBar);
 
-    this.add.text(W - 14, H - 10, 'v0.1-alpha', {
+    const releaseFooter = RELEASE_PRESENTATION.footer;
+    this.add.text(W - releaseFooter.insetX, H - releaseFooter.insetY, RELEASE_PRESENTATION.label, {
       fontFamily: UI_FONTS.mono,
-      fontSize:   '11px',
-      color:      COL.version,
-    }).setOrigin(1, 1);
+      fontSize: releaseFooter.fontSize,
+      fontStyle: releaseFooter.fontStyle,
+      color: releaseFooter.color,
+      stroke: releaseFooter.stroke,
+      strokeThickness: releaseFooter.strokeThickness,
+      shadow: { ...releaseFooter.shadow },
+    }).setOrigin(1, 1).setName(releaseFooter.name);
 
     // ── Fade everything in ───────────────────────────────────────────────────
+    addSessionPrivacyNotice(this);
     this._fadeInObjs.forEach(obj => {
       this.tweens.add({ targets: obj, alpha: 1, duration: 280, ease: 'Power1.out', delay: 80 });
     });
@@ -168,7 +169,13 @@ export class MainMenuScene extends Phaser.Scene {
 
   // ─── Button builder ──────────────────────────────────────────────────────
 
-  _buildButtonLayers(x, y) {
+  _buildButtonLayers(x, y, label) {
+    const art = getBakedUiLabel(this, label);
+    if (art) {
+      const bg = fitBakedUiImage(this.add.image(x, y, art.key, art.frame), BTN_W, BTN_H).setAlpha(0);
+      const hoverLayer = fitBakedUiImage(this.add.image(x, y, art.key, art.frame), BTN_W, BTN_H).setAlpha(0).setTint(0xffe5a8);
+      return { bg, hoverLayer, baked: true };
+    }
     const button = MAIN_MENU_PRESENTATION.button;
     if (this._useAuthoredMenuArt
       && this.textures.exists(button.idleKey)
@@ -196,19 +203,19 @@ export class MainMenuScene extends Phaser.Scene {
   }
 
   _buildButton(x, y, label, action) {
-    const { bg, hoverLayer } = this._buildButtonLayers(x, y);
+    const { bg, hoverLayer, baked } = this._buildButtonLayers(x, y, label);
     this._fadeInObjs.push(bg);
     this._fadeInObjs.push(hoverLayer);
 
     // Label
-    const text = this.add.text(x, y, label, {
+    const text = baked ? null : this.add.text(x, y, label, {
       fontFamily:    UI_FONTS.mono,
       fontSize:      '16px',
       fontStyle:     'bold',
       color:         COL.white,
       letterSpacing: 3,
     }).setOrigin(0.5).setAlpha(0);
-    this._fadeInObjs.push(text);
+    if (text) this._fadeInObjs.push(text);
 
     // Invisible hit zone
     const hit = this.add.rectangle(x, y, BTN_W, BTN_H, 0x000000, 0)
@@ -217,15 +224,22 @@ export class MainMenuScene extends Phaser.Scene {
     this._fadeInObjs.push(hit);
 
     hit.on('pointerover', () => {
+      if (this._overlay || this._menuActivating) return;
+      const index = this._btnRefs.findIndex(button => button.hit === hit);
+      if (index >= 0) { this._menuIndex = index; this._updateKeyboardHighlight(); }
       this.soundSystem?.playUiSelect?.();
       this.tweens.killTweensOf(hoverLayer);
       this.tweens.add({ targets: hoverLayer, alpha: 0.55, duration: 90, ease: 'Power1.out' });
     });
     hit.on('pointerout', () => {
       this.tweens.killTweensOf(hoverLayer);
-      this.tweens.add({ targets: hoverLayer, alpha: 0, duration: 90, ease: 'Power1.out' });
+      const selected = this._btnRefs[this._menuIndex]?.hit === hit;
+      this.tweens.add({ targets: hoverLayer, alpha: selected ? 0.38 : 0, duration: 90, ease: 'Power1.out' });
     });
-    hit.on('pointerdown', () => {
+    hit.on('pointerdown', (pointer, _x, _y, event) => {
+      event?.stopPropagation?.();
+      if (pointer?.button > 0 || this._overlay || this._menuActivating) return;
+      this._menuActivating = true;
       this.tweens.killTweensOf(hoverLayer);
       this.tweens.add({
         targets:  hoverLayer,
@@ -234,6 +248,8 @@ export class MainMenuScene extends Phaser.Scene {
         ease:     'Power2.in',
         yoyo:     true,
         onComplete: () => {
+          this._menuActivating = false;
+          if (this._overlay || !hit.active) return;
           this.soundSystem?.playUiConfirm?.();
           action();
         },
@@ -247,6 +263,8 @@ export class MainMenuScene extends Phaser.Scene {
 
   _updateKeyboardHighlight() {
     const targetY = BTN_FIRST_Y + this._menuIndex * (BTN_H + BTN_GAP);
+    const buttonWidth = this._btnRefs[this._menuIndex]?.bg?.displayWidth || BTN_W;
+    this._cursor.x = BTN_X - buttonWidth / 2 + CURSOR_ART.insetXPx;
     this.tweens.killTweensOf(this._cursor);
     this.tweens.add({
       targets:  this._cursor,
@@ -269,6 +287,7 @@ export class MainMenuScene extends Phaser.Scene {
   // ─── Input ───────────────────────────────────────────────────────────────
 
   _setupInput() {
+    this.input.keyboard.addCapture("TAB");
     const N = this._btnRefs.length;
     this.input.keyboard.on('keydown-DOWN', () => {
       if (this._overlay) return;
@@ -282,16 +301,23 @@ export class MainMenuScene extends Phaser.Scene {
       this.soundSystem?.playUiSelect?.();
       this._updateKeyboardHighlight();
     });
-    this.input.keyboard.on('keydown-ENTER', () => {
-      if (this._overlay) return;
+    this.input.keyboard.on('keydown-ENTER', event => {
+      if (this._overlay || event?.repeat) return;
       this._btnRefs[this._menuIndex]?.hit.emit('pointerdown');
     });
-    this.input.keyboard.on('keydown-SPACE', () => {
-      if (this._overlay) return;
+    this.input.keyboard.on('keydown-SPACE', event => {
+      if (this._overlay || event?.repeat) return;
       this._btnRefs[this._menuIndex]?.hit.emit('pointerdown');
     });
     this.input.keyboard.on('keydown-ESC', () => {
       if (this._overlay) this._closeOverlay();
+    });
+    this.input.keyboard.on('keydown-W', () => this.input.keyboard.emit('keydown-UP'));
+    this.input.keyboard.on('keydown-S', () => this.input.keyboard.emit('keydown-DOWN'));
+    this.input.keyboard.on('keydown-TAB', event => {
+      if (this._overlay) return;
+      event?.preventDefault?.();
+      this.input.keyboard.emit(event?.shiftKey ? 'keydown-UP' : 'keydown-DOWN');
     });
   }
 
@@ -304,7 +330,10 @@ export class MainMenuScene extends Phaser.Scene {
     const PH = options.height || 360;
     const cx = W / 2, cy = H / 2;
 
-    const shade = this.add.rectangle(cx, cy, W, H, 0x000000, 0).setDepth(100);
+    const shade = this.add.rectangle(cx, cy, W, H, 0x000000, 0).setDepth(100).setInteractive();
+    const blockPointer = (_pointer, _x, _y, event) => event?.stopPropagation?.();
+    shade.on('pointerdown', blockPointer);
+    shade.on('pointerup', blockPointer);
 
     const panel = this.add.graphics().setDepth(101).setAlpha(0);
     panel.lineStyle(2, UI_COLORS.borderSel, 1);
@@ -324,7 +353,7 @@ export class MainMenuScene extends Phaser.Scene {
     sep.lineStyle(1, COL.borderDim, 0.8);
     sep.lineBetween(cx - PW / 2 + 30, cy - PH / 2 + 62, cx + PW / 2 - 30, cy - PH / 2 + 62);
 
-    const closeHint = this.add.text(cx, cy + PH / 2 - 24, 'ESC — close', {
+    const closeHint = this.add.text(cx, cy + PH / 2 - 24, MAIN_MENU_COPY.closeHint, {
       fontFamily: UI_FONTS.mono,
       fontSize:   '13px',
       color:      COL.hint,
@@ -385,13 +414,14 @@ export class MainMenuScene extends Phaser.Scene {
     const panelWidth = Math.min(W - 120, 860);
     const panelHeight = Math.min(H - 120, 640);
     const settingsWidth = Math.min(panelWidth - 120, 760);
-    const settingsHeight = Math.min(panelHeight - 190, 430);
+    const menuLayout = SETTINGS_PANEL_LAYOUT.mainMenu;
+    const settingsHeight = Math.min(panelHeight - menuLayout.contentHeightReserve, menuLayout.maxContentHeight);
     const compact = settingsWidth < 700;
-    const base = this._createOverlayBase('SETTINGS', { width: panelWidth, height: panelHeight });
+    const base = this._createOverlayBase(MAIN_MENU_COPY.settings, { width: panelWidth, height: panelHeight });
     const { cx, cy } = base;
     const settingsContent = createSettingsPanelContent(this, {
       x: cx,
-      y: cy + 42,
+      y: cy + menuLayout.contentOffsetY,
       width: settingsWidth,
       height: settingsHeight,
       depth: 103,
@@ -414,7 +444,10 @@ export class MainMenuScene extends Phaser.Scene {
 
   _showCredits() {
     if (this._overlay) return;
-    const base = this._createOverlayBase('CREDITS');
+    const base = this._createOverlayBase(
+      MAIN_MENU_COPY.credits,
+      MAIN_MENU_COPY.creditsLayout,
+    );
     const { cx, cy, PH } = base;
 
     const body = this.add.text(cx, cy - PH / 2 + 88, [
@@ -425,17 +458,26 @@ export class MainMenuScene extends Phaser.Scene {
       '',
       'Built with Phaser 3',
       '',
-      'v0.1-alpha',
+      RELEASE_PRESENTATION.label,
+      '',
+      ...MAIN_MENU_COPY.audioCredits,
     ].join('\n'), {
       fontFamily:  UI_FONTS.mono,
-      fontSize:    '15px',
+      fontSize:    '13px',
       color:       COL.body,
-      lineSpacing: 8,
+      lineSpacing: 5,
       align:       'center',
+      wordWrap:    { width: MAIN_MENU_COPY.creditsLayout.width - 80 },
     }).setOrigin(0.5, 0).setDepth(102).setAlpha(0);
 
-    this.tweens.add({ targets: body, alpha: 1, duration: 200, delay: 50, ease: 'Power1.out' });
+    const credit = MAIN_MENU_COPY.fullAudioCredits;
+    const sourceLink = this.add.text(cx, cy + PH / 2 - credit.bottomOffset, credit.label, {
+      fontFamily: UI_FONTS.mono, fontSize: credit.fontSize, color: COL.body,
+    }).setOrigin(0.5).setDepth(102).setAlpha(0).setInteractive({ useHandCursor: true });
+    sourceLink.on("pointerup", () => window.open(new URL(credit.path, window.location.href).href,
+      "_blank", "noopener,noreferrer"));
+    this.tweens.add({ targets: [body, sourceLink], alpha: 1, duration: 200, delay: 50, ease: 'Power1.out' });
 
-    this._overlay = { objs: [base.shade, base.panel, base.titleText, base.sep, base.closeHint, base.closeBtn.root, body] };
+    this._overlay = { objs: [base.shade, base.panel, base.titleText, base.sep, base.closeHint, base.closeBtn.root, body, sourceLink] };
   }
 }

@@ -98,8 +98,10 @@ const controllerSource = fs.readFileSync(
 );
 assert.match(bootSource, /ASSET_KEYS\.audio\.weatherAmbience/);
 assert.match(bootSource, /preload: false/);
-assert.match(controllerSource, /runtimeAudioAssetManager/);
-assert.match(controllerSource, /loop: true/);
+assert.match(controllerSource, /new AudioLayerBus/);
+const busSource = fs.readFileSync(path.join(root, "sound/AudioLayerBus.js"), "utf8");
+assert.match(busSource, /runtimeAudioAssetManager/);
+assert.match(busSource, /loop: layer.loop !== false/);
 
 console.log(
   "Recorded weather ambience contract passed: six seamless lazy assets, one contextual rain role, and hysteretic wind selection",

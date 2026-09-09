@@ -1,0 +1,18 @@
+{
+  "title": "Understar — Implemented gameplay visuals",
+  "overflow": false,
+  "images": [
+    {
+      "src": "wired-mining-1080.png",
+      "loaded": true,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "src": "wired-surface-1080.png",
+      "loaded": true,
+      "width": 1920,
+      "height": 1080
+    }
+  ]
+}

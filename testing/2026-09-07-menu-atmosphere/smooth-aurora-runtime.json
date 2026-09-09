@@ -1,0 +1,114 @@
+{
+  "audioTracks": 0,
+  "blendSamples": [
+    1,
+    1,
+    1
+  ],
+  "bufferedEnd": 30.516667,
+  "cadence": {
+    "frameGapMax": 33.5,
+    "frameGapP95": 16.8,
+    "wraps": []
+  },
+  "decoded": true,
+  "duration": 30.516667,
+  "effectiveVideoOpacity": 1,
+  "failedMedia": false,
+  "handoffs": [
+    {
+      "fadeSeconds": 0.3924240000000005,
+      "incomingTime": 0.39972,
+      "outgoingDuration": 30.516667,
+      "outgoingTime": 30.374107,
+      "sceneKey": "bg-db-f1frtjf1frtjf1fr"
+    },
+    {
+      "fadeSeconds": 0.38707100000000094,
+      "incomingTime": 0.400729,
+      "outgoingDuration": 30.516667,
+      "outgoingTime": 30.380839,
+      "sceneKey": "bg-db-f1frtjf1frtjf1fr"
+    },
+    {
+      "fadeSeconds": 0.3834850000000024,
+      "incomingTime": 0.383955,
+      "outgoingDuration": 30.516667,
+      "outgoingTime": 30.367238,
+      "sceneKey": "bg-db-f1frtjf1frtjf1fr"
+    }
+  ],
+  "logo": {
+    "backing": true,
+    "posterVisible": true,
+    "state": "playing"
+  },
+  "loopCount": 3,
+  "mediaFallbacks": [],
+  "mode": "motion",
+  "muted": true,
+  "nativeLoopCount": 0,
+  "nativeLoops": [],
+  "ownedShutdownListeners": 16,
+  "playing": true,
+  "posterOpacity": 0,
+  "renderFps": 60,
+  "roots": 1,
+  "scenery": "Aurora sanctuary",
+  "seekableEnd": 30.516667,
+  "textureCount": 15,
+  "textureKeys": [
+    "__NORMAL",
+    "__DEFAULT",
+    "__MISSING",
+    "__WHITE",
+    "brand-logo",
+    "brand-logo-backing",
+    "bg-db-f1frtjf1frtjf1fr",
+    "bg-db-g6ozmlg6ozmlg6oz",
+    "bg-db-rimx2primx2primx",
+    "bg-db-kjwykkjwykkjwykk",
+    "bg-db-i30bfci30bfci30b",
+    "bg-db-wocn9hwocn9hwocn",
+    "b68b9eb6-3b06-4d50-9c41-0984ba7dda37",
+    "a03552cb-2672-4132-aedf-c0d74f84e3fb",
+    "d539b824-84fa-4b53-9df6-41ff00fbbd0d"
+  ],
+  "time": 19.437,
+  "videoCount": 2,
+  "videoOpacity": 1,
+  "videoQuality": [
+    {
+      "dropped": 132,
+      "role": "menu-atmosphere-buffer",
+      "total": 3661
+    },
+    {
+      "dropped": 44,
+      "role": "menu-atmosphere-video",
+      "total": 3003
+    }
+  ],
+  "videoSources": [
+    "sprites/backgrounds/menu-atmosphere-v5/aurora.mp4",
+    "sprites/backgrounds/menu-atmosphere-v5/aurora.mp4"
+  ],
+  "videoStates": [
+    {
+      "alpha": 0,
+      "frameReady": true,
+      "paused": true,
+      "role": "menu-atmosphere-buffer",
+      "time": 0
+    },
+    {
+      "alpha": 1,
+      "frameReady": true,
+      "paused": false,
+      "role": "menu-atmosphere-video",
+      "time": 19.437473
+    }
+  ],
+  "view": true,
+  "viewState": "Tip: Default F mines the aimed tile"
+}

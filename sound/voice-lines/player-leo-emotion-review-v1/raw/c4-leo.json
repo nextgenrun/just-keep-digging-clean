@@ -1,0 +1,10 @@
+{
+  "id": "C4",
+  "voice": "leo",
+  "text": "Ah, shit. You again.",
+  "ttsInput": "[inhale] Ah, shit. <emphasis>You again.</emphasis>",
+  "requestSha256": "162ebbe3c8dc917e5230b9abc45a407de4b79392689c362591d2427b5834db6d",
+  "contentType": "audio/mpeg",
+  "generationId": "gen-tts-1788745508-SgwjU89xVMwAKQeizK7q",
+  "rawSha256": "9fbbc2ec51bd7a690a5f89bc75f19544e72efb8ea334a8e8745cf197e308c9fb"
+}

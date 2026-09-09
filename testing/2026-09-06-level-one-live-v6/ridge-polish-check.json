@@ -1,0 +1,1034 @@
+{
+  "entry": "/?jkd_e2e=1&cinematics=0",
+  "errors": [],
+  "warnings": [],
+  "views": [
+    {
+      "label": "ridge-polish-day-19",
+      "query": "?jkd_e2e=1&cinematics=0",
+      "profile": "demo",
+      "levelTwo": false,
+      "renderer": {
+        "reviewOnly": false,
+        "release": "level-one-living-v6",
+        "generation": "regenerated-horizon-v2",
+        "ready": true,
+        "paused": false,
+        "skyCards": 16,
+        "landscapeCards": 9,
+        "cloudSprites": 19,
+        "pooledCloudSprites": 50,
+        "layers": [
+          {
+            "id": "cloud-deck",
+            "parallaxX": 0.1,
+            "speed": 7
+          },
+          {
+            "id": "weather-ceiling",
+            "parallaxX": 0.22,
+            "speed": 10
+          },
+          {
+            "id": "distant-cumulus",
+            "parallaxX": 0.14,
+            "speed": 9
+          },
+          {
+            "id": "high-cirrus",
+            "parallaxX": 0.18,
+            "speed": 11
+          },
+          {
+            "id": "silver-cloud",
+            "parallaxX": 0.36,
+            "speed": 19
+          }
+        ],
+        "traveledSeconds": 5.818700000000023,
+        "windDistance": 4.598514451558452,
+        "wind": 0.811787399728836,
+        "ambientEvents": {
+          "enabled": true,
+          "reducedMotion": false,
+          "kind": null,
+          "active": 0,
+          "visible": 0,
+          "eventsStarted": 0,
+          "nextAt": 21.20990083599463
+        },
+        "floatingDetails": {
+          "active": 14,
+          "visible": 7,
+          "pooled": 0
+        },
+        "celestial": {
+          "sun": {
+            "x": 4750.759999999998,
+            "y": 5685.12,
+            "alpha": 0.9022129515509628,
+            "width": 260,
+            "depth": -10.3,
+            "scrollFactor": 1,
+            "texture": "layered-celestial:sun"
+          },
+          "moon": {
+            "x": 13752.2,
+            "y": 6993.6,
+            "alpha": 0,
+            "width": 220,
+            "depth": -10.3,
+            "scrollFactor": 1,
+            "texture": "layered-celestial:moon"
+          }
+        },
+        "environment": {
+          "phase": "afternoon",
+          "time": 0.4,
+          "night": 0,
+          "cover": 0.15441558427450192,
+          "fog": 0,
+          "rain": 0,
+          "storm": 0,
+          "stars": 0,
+          "skyTop": 5337231,
+          "skyHorizon": 11712180,
+          "terrainTint": 15396334,
+          "cloudTint": 15592161,
+          "cloudThickness": 0.9067792202431073,
+          "cloudOpacity": 0.4238285712423425,
+          "mistOpacity": 0.85,
+          "wind": 12.61195360059898,
+          "gust": 0.000019883159562387204
+        },
+        "landmarks": [],
+        "blendedHeavenblocks": 0,
+        "backgroundAssets": [
+          "regenerated-horizon-v2-sky",
+          "regenerated-horizon-v2-ridge-west",
+          "regenerated-horizon-v2-ridge-central",
+          "regenerated-horizon-v2-ridge-east",
+          "regenerated-horizon-v2-forest",
+          "regenerated-horizon-v2-clouds",
+          "regenerated-horizon-v2-cumulus",
+          "regenerated-horizon-v2-cloud-banks",
+          "regenerated-horizon-v2-celestial",
+          "regenerated-horizon-v2-weather"
+        ]
+      },
+      "legacyFar": 0,
+      "oldClouds": 0,
+      "body": {
+        "x": 1817.5,
+        "y": 6035
+      },
+      "fps": 52.93640767619945,
+      "event": []
+    },
+    {
+      "label": "ridge-polish-day-47",
+      "query": "?jkd_e2e=1&cinematics=0",
+      "profile": "demo",
+      "levelTwo": false,
+      "renderer": {
+        "reviewOnly": false,
+        "release": "level-one-living-v6",
+        "generation": "regenerated-horizon-v2",
+        "ready": true,
+        "paused": false,
+        "skyCards": 16,
+        "landscapeCards": 10,
+        "cloudSprites": 20,
+        "pooledCloudSprites": 49,
+        "layers": [
+          {
+            "id": "cloud-deck",
+            "parallaxX": 0.1,
+            "speed": 7
+          },
+          {
+            "id": "weather-ceiling",
+            "parallaxX": 0.22,
+            "speed": 10
+          },
+          {
+            "id": "distant-cumulus",
+            "parallaxX": 0.14,
+            "speed": 9
+          },
+          {
+            "id": "high-cirrus",
+            "parallaxX": 0.18,
+            "speed": 11
+          },
+          {
+            "id": "silver-cloud",
+            "parallaxX": 0.36,
+            "speed": 19
+          }
+        ],
+        "traveledSeconds": 6.665800000000012,
+        "windDistance": 5.281820399880566,
+        "wind": 0.8035701154658055,
+        "ambientEvents": {
+          "enabled": true,
+          "reducedMotion": false,
+          "kind": null,
+          "active": 0,
+          "visible": 0,
+          "eventsStarted": 0,
+          "nextAt": 21.20990083599463
+        },
+        "floatingDetails": {
+          "active": 22,
+          "visible": 11,
+          "pooled": 8
+        },
+        "celestial": {
+          "sun": {
+            "x": 4750.759999999998,
+            "y": 5685.12,
+            "alpha": 0.8727789460677834,
+            "width": 260,
+            "depth": -10.3,
+            "scrollFactor": 1,
+            "texture": "layered-celestial:sun"
+          },
+          "moon": {
+            "x": 13752.2,
+            "y": 6993.6,
+            "alpha": 0,
+            "width": 220,
+            "depth": -10.3,
+            "scrollFactor": 1,
+            "texture": "layered-celestial:moon"
+          }
+        },
+        "environment": {
+          "phase": "afternoon",
+          "time": 0.4,
+          "night": 0,
+          "cover": 0.16688690936795567,
+          "fog": 0,
+          "rain": 0,
+          "storm": 0,
+          "stars": 0,
+          "skyTop": 5336974,
+          "skyHorizon": 11712180,
+          "terrainTint": 15396078,
+          "cloudTint": 15591905,
+          "cloudThickness": 0.9541702555982314,
+          "cloudOpacity": 0.4402907203657015,
+          "mistOpacity": 0.85,
+          "wind": 13.580470615541516,
+          "gust": 0.00009385206827409055
+        },
+        "landmarks": [],
+        "blendedHeavenblocks": 0,
+        "backgroundAssets": [
+          "regenerated-horizon-v2-sky",
+          "regenerated-horizon-v2-ridge-west",
+          "regenerated-horizon-v2-ridge-central",
+          "regenerated-horizon-v2-ridge-east",
+          "regenerated-horizon-v2-forest",
+          "regenerated-horizon-v2-clouds",
+          "regenerated-horizon-v2-cumulus",
+          "regenerated-horizon-v2-cloud-banks",
+          "regenerated-horizon-v2-celestial",
+          "regenerated-horizon-v2-weather"
+        ]
+      },
+      "legacyFar": 0,
+      "oldClouds": 0,
+      "body": {
+        "x": 4449.5,
+        "y": 6035
+      },
+      "fps": 14.186081118473112,
+      "event": []
+    },
+    {
+      "label": "ridge-polish-day-63",
+      "query": "?jkd_e2e=1&cinematics=0",
+      "profile": "demo",
+      "levelTwo": false,
+      "renderer": {
+        "reviewOnly": false,
+        "release": "level-one-living-v6",
+        "generation": "regenerated-horizon-v2",
+        "ready": true,
+        "paused": false,
+        "skyCards": 12,
+        "landscapeCards": 10,
+        "cloudSprites": 17,
+        "pooledCloudSprites": 52,
+        "layers": [
+          {
+            "id": "cloud-deck",
+            "parallaxX": 0.1,
+            "speed": 7
+          },
+          {
+            "id": "weather-ceiling",
+            "parallaxX": 0.22,
+            "speed": 10
+          },
+          {
+            "id": "distant-cumulus",
+            "parallaxX": 0.14,
+            "speed": 9
+          },
+          {
+            "id": "high-cirrus",
+            "parallaxX": 0.18,
+            "speed": 11
+          },
+          {
+            "id": "silver-cloud",
+            "parallaxX": 0.36,
+            "speed": 19
+          }
+        ],
+        "traveledSeconds": 7.5766000000000195,
+        "windDistance": 6.01495494084736,
+        "wind": 0.8081315328674954,
+        "ambientEvents": {
+          "enabled": true,
+          "reducedMotion": false,
+          "kind": null,
+          "active": 0,
+          "visible": 0,
+          "eventsStarted": 0,
+          "nextAt": 21.20990083599463
+        },
+        "floatingDetails": {
+          "active": 20,
+          "visible": 10,
+          "pooled": 18
+        },
+        "celestial": {
+          "sun": {
+            "x": 4750.759999999998,
+            "y": 5685.12,
+            "alpha": 0.867615390754038,
+            "width": 260,
+            "depth": -10.3,
+            "scrollFactor": 1,
+            "texture": "layered-celestial:sun"
+          },
+          "moon": {
+            "x": 13752.2,
+            "y": 6993.6,
+            "alpha": 0,
+            "width": 220,
+            "depth": -10.3,
+            "scrollFactor": 1,
+            "texture": "layered-celestial:moon"
+          }
+        },
+        "environment": {
+          "phase": "afternoon",
+          "time": 0.4,
+          "night": 0,
+          "cover": 0.184046850378467,
+          "fog": 0,
+          "rain": 0,
+          "storm": 0,
+          "stars": 0,
+          "skyTop": 5336974,
+          "skyHorizon": 11646387,
+          "terrainTint": 15330540,
+          "cloudTint": 15460576,
+          "cloudThickness": 1.0193780314381746,
+          "cloudOpacity": 0.46294184249957643,
+          "mistOpacity": 0.85,
+          "wind": 16.328746353721044,
+          "gust": 0.0001394906095199456
+        },
+        "landmarks": [],
+        "blendedHeavenblocks": 0,
+        "backgroundAssets": [
+          "regenerated-horizon-v2-sky",
+          "regenerated-horizon-v2-ridge-west",
+          "regenerated-horizon-v2-ridge-central",
+          "regenerated-horizon-v2-ridge-east",
+          "regenerated-horizon-v2-forest",
+          "regenerated-horizon-v2-clouds",
+          "regenerated-horizon-v2-cumulus",
+          "regenerated-horizon-v2-cloud-banks",
+          "regenerated-horizon-v2-celestial",
+          "regenerated-horizon-v2-weather"
+        ]
+      },
+      "legacyFar": 0,
+      "oldClouds": 0,
+      "body": {
+        "x": 5953.5,
+        "y": 6035
+      },
+      "fps": 14.389560838854834,
+      "event": []
+    },
+    {
+      "label": "ridge-polish-day-79",
+      "query": "?jkd_e2e=1&cinematics=0",
+      "profile": "demo",
+      "levelTwo": false,
+      "renderer": {
+        "reviewOnly": false,
+        "release": "level-one-living-v6",
+        "generation": "regenerated-horizon-v2",
+        "ready": true,
+        "paused": false,
+        "skyCards": 12,
+        "landscapeCards": 9,
+        "cloudSprites": 17,
+        "pooledCloudSprites": 52,
+        "layers": [
+          {
+            "id": "cloud-deck",
+            "parallaxX": 0.1,
+            "speed": 7
+          },
+          {
+            "id": "weather-ceiling",
+            "parallaxX": 0.22,
+            "speed": 10
+          },
+          {
+            "id": "distant-cumulus",
+            "parallaxX": 0.14,
+            "speed": 9
+          },
+          {
+            "id": "high-cirrus",
+            "parallaxX": 0.18,
+            "speed": 11
+          },
+          {
+            "id": "silver-cloud",
+            "parallaxX": 0.36,
+            "speed": 19
+          }
+        ],
+        "traveledSeconds": 8.593400000000011,
+        "windDistance": 6.839666247755508,
+        "wind": 0.8106698442073178,
+        "ambientEvents": {
+          "enabled": true,
+          "reducedMotion": false,
+          "kind": null,
+          "active": 0,
+          "visible": 0,
+          "eventsStarted": 0,
+          "nextAt": 21.20990083599463
+        },
+        "floatingDetails": {
+          "active": 21,
+          "visible": 11,
+          "pooled": 18
+        },
+        "celestial": {
+          "sun": {
+            "x": 4750.759999999998,
+            "y": 5685.12,
+            "alpha": 0.8609658949351753,
+            "width": 260,
+            "depth": -10.3,
+            "scrollFactor": 1,
+            "texture": "layered-celestial:sun"
+          },
+          "moon": {
+            "x": 13752.2,
+            "y": 6993.6,
+            "alpha": 0,
+            "width": 220,
+            "depth": -10.3,
+            "scrollFactor": 1,
+            "texture": "layered-celestial:moon"
+          }
+        },
+        "environment": {
+          "phase": "afternoon",
+          "time": 0.4,
+          "night": 0,
+          "cover": 0.2032352845213833,
+          "fog": 0,
+          "rain": 0,
+          "storm": 0,
+          "stars": 0,
+          "skyTop": 5271181,
+          "skyHorizon": 11646387,
+          "terrainTint": 15264748,
+          "cloudTint": 15394783,
+          "cloudThickness": 1.0922940811812565,
+          "cloudOpacity": 0.48827057556822595,
+          "mistOpacity": 0.85,
+          "wind": 12.89486566833871,
+          "gust": 0.0014088440140383159
+        },
+        "landmarks": [],
+        "blendedHeavenblocks": 0,
+        "backgroundAssets": [
+          "regenerated-horizon-v2-sky",
+          "regenerated-horizon-v2-ridge-west",
+          "regenerated-horizon-v2-ridge-central",
+          "regenerated-horizon-v2-ridge-east",
+          "regenerated-horizon-v2-forest",
+          "regenerated-horizon-v2-clouds",
+          "regenerated-horizon-v2-cumulus",
+          "regenerated-horizon-v2-cloud-banks",
+          "regenerated-horizon-v2-celestial",
+          "regenerated-horizon-v2-weather"
+        ]
+      },
+      "legacyFar": 0,
+      "oldClouds": 0,
+      "body": {
+        "x": 7457.5,
+        "y": 6035
+      },
+      "fps": 19.531627971855844,
+      "event": []
+    },
+    {
+      "label": "ridge-polish-day-95",
+      "query": "?jkd_e2e=1&cinematics=0",
+      "profile": "demo",
+      "levelTwo": false,
+      "renderer": {
+        "reviewOnly": false,
+        "release": "level-one-living-v6",
+        "generation": "regenerated-horizon-v2",
+        "ready": true,
+        "paused": false,
+        "skyCards": 12,
+        "landscapeCards": 10,
+        "cloudSprites": 19,
+        "pooledCloudSprites": 50,
+        "layers": [
+          {
+            "id": "cloud-deck",
+            "parallaxX": 0.1,
+            "speed": 7
+          },
+          {
+            "id": "weather-ceiling",
+            "parallaxX": 0.22,
+            "speed": 10
+          },
+          {
+            "id": "distant-cumulus",
+            "parallaxX": 0.14,
+            "speed": 9
+          },
+          {
+            "id": "high-cirrus",
+            "parallaxX": 0.18,
+            "speed": 11
+          },
+          {
+            "id": "silver-cloud",
+            "parallaxX": 0.36,
+            "speed": 19
+          }
+        ],
+        "traveledSeconds": 9.263500000000004,
+        "windDistance": 7.380534573705102,
+        "wind": 0.8030783741567274,
+        "ambientEvents": {
+          "enabled": true,
+          "reducedMotion": false,
+          "kind": null,
+          "active": 0,
+          "visible": 0,
+          "eventsStarted": 0,
+          "nextAt": 21.20990083599463
+        },
+        "floatingDetails": {
+          "active": 21,
+          "visible": 11,
+          "pooled": 19
+        },
+        "celestial": {
+          "sun": {
+            "x": 4750.759999999998,
+            "y": 5685.12,
+            "alpha": 0.8538355398280724,
+            "width": 260,
+            "depth": -10.3,
+            "scrollFactor": 1,
+            "texture": "layered-celestial:sun"
+          },
+          "moon": {
+            "x": 13752.2,
+            "y": 6993.6,
+            "alpha": 0,
+            "width": 220,
+            "depth": -10.3,
+            "scrollFactor": 1,
+            "texture": "layered-celestial:moon"
+          }
+        },
+        "environment": {
+          "phase": "afternoon",
+          "time": 0.4,
+          "night": 0,
+          "cover": 0.2211173623431893,
+          "fog": 0,
+          "rain": 0,
+          "storm": 0,
+          "stars": 0,
+          "skyTop": 5271180,
+          "skyHorizon": 11580595,
+          "terrainTint": 15264492,
+          "cloudTint": 15328991,
+          "cloudThickness": 1.1602459769041193,
+          "cloudOpacity": 0.5118749182930099,
+          "mistOpacity": 0.85,
+          "wind": 10.567250430139001,
+          "gust": 0.001918961426909138
+        },
+        "landmarks": [],
+        "blendedHeavenblocks": 0,
+        "backgroundAssets": [
+          "regenerated-horizon-v2-sky",
+          "regenerated-horizon-v2-ridge-west",
+          "regenerated-horizon-v2-ridge-central",
+          "regenerated-horizon-v2-ridge-east",
+          "regenerated-horizon-v2-forest",
+          "regenerated-horizon-v2-clouds",
+          "regenerated-horizon-v2-cumulus",
+          "regenerated-horizon-v2-cloud-banks",
+          "regenerated-horizon-v2-celestial",
+          "regenerated-horizon-v2-weather"
+        ]
+      },
+      "legacyFar": 0,
+      "oldClouds": 0,
+      "body": {
+        "x": 8961.5,
+        "y": 6035
+      },
+      "fps": 26.648720978891884,
+      "event": []
+    },
+    {
+      "label": "ridge-polish-day-111",
+      "query": "?jkd_e2e=1&cinematics=0",
+      "profile": "demo",
+      "levelTwo": false,
+      "renderer": {
+        "reviewOnly": false,
+        "release": "level-one-living-v6",
+        "generation": "regenerated-horizon-v2",
+        "ready": true,
+        "paused": false,
+        "skyCards": 12,
+        "landscapeCards": 9,
+        "cloudSprites": 20,
+        "pooledCloudSprites": 49,
+        "layers": [
+          {
+            "id": "cloud-deck",
+            "parallaxX": 0.1,
+            "speed": 7
+          },
+          {
+            "id": "weather-ceiling",
+            "parallaxX": 0.22,
+            "speed": 10
+          },
+          {
+            "id": "distant-cumulus",
+            "parallaxX": 0.14,
+            "speed": 9
+          },
+          {
+            "id": "high-cirrus",
+            "parallaxX": 0.18,
+            "speed": 11
+          },
+          {
+            "id": "silver-cloud",
+            "parallaxX": 0.36,
+            "speed": 19
+          }
+        ],
+        "traveledSeconds": 10.0736,
+        "windDistance": 8.025447482986857,
+        "wind": 0.7890038389567515,
+        "ambientEvents": {
+          "enabled": true,
+          "reducedMotion": false,
+          "kind": null,
+          "active": 0,
+          "visible": 0,
+          "eventsStarted": 0,
+          "nextAt": 21.20990083599463
+        },
+        "floatingDetails": {
+          "active": 22,
+          "visible": 10,
+          "pooled": 18
+        },
+        "celestial": {
+          "sun": {
+            "x": 4750.759999999998,
+            "y": 5685.12,
+            "alpha": 0.846564949059833,
+            "width": 260,
+            "depth": -10.3,
+            "scrollFactor": 1,
+            "texture": "layered-celestial:sun"
+          },
+          "moon": {
+            "x": 13752.2,
+            "y": 6993.6,
+            "alpha": 0,
+            "width": 220,
+            "depth": -10.3,
+            "scrollFactor": 1,
+            "texture": "layered-celestial:moon"
+          }
+        },
+        "environment": {
+          "phase": "afternoon",
+          "time": 0.4,
+          "night": 0,
+          "cover": 0.2403998922090059,
+          "fog": 0,
+          "rain": 0,
+          "storm": 0,
+          "stars": 0,
+          "skyTop": 5205387,
+          "skyHorizon": 11515058,
+          "terrainTint": 15198955,
+          "cloudTint": 15263198,
+          "cloudThickness": 1.2335195903942224,
+          "cloudOpacity": 0.5373278577158878,
+          "mistOpacity": 0.85,
+          "wind": 8.707662735620254,
+          "gust": 0.0007145753427172335
+        },
+        "landmarks": [],
+        "blendedHeavenblocks": 0,
+        "backgroundAssets": [
+          "regenerated-horizon-v2-sky",
+          "regenerated-horizon-v2-ridge-west",
+          "regenerated-horizon-v2-ridge-central",
+          "regenerated-horizon-v2-ridge-east",
+          "regenerated-horizon-v2-forest",
+          "regenerated-horizon-v2-clouds",
+          "regenerated-horizon-v2-cumulus",
+          "regenerated-horizon-v2-cloud-banks",
+          "regenerated-horizon-v2-celestial",
+          "regenerated-horizon-v2-weather"
+        ]
+      },
+      "legacyFar": 0,
+      "oldClouds": 0,
+      "body": {
+        "x": 10465.5,
+        "y": 6035
+      },
+      "fps": 26.648720978891884,
+      "event": []
+    },
+    {
+      "label": "ridge-polish-day-126",
+      "query": "?jkd_e2e=1&cinematics=0",
+      "profile": "demo",
+      "levelTwo": false,
+      "renderer": {
+        "reviewOnly": false,
+        "release": "level-one-living-v6",
+        "generation": "regenerated-horizon-v2",
+        "ready": true,
+        "paused": false,
+        "skyCards": 12,
+        "landscapeCards": 10,
+        "cloudSprites": 17,
+        "pooledCloudSprites": 52,
+        "layers": [
+          {
+            "id": "cloud-deck",
+            "parallaxX": 0.1,
+            "speed": 7
+          },
+          {
+            "id": "weather-ceiling",
+            "parallaxX": 0.22,
+            "speed": 10
+          },
+          {
+            "id": "distant-cumulus",
+            "parallaxX": 0.14,
+            "speed": 9
+          },
+          {
+            "id": "high-cirrus",
+            "parallaxX": 0.18,
+            "speed": 11
+          },
+          {
+            "id": "silver-cloud",
+            "parallaxX": 0.36,
+            "speed": 19
+          }
+        ],
+        "traveledSeconds": 10.869800000000001,
+        "windDistance": 8.647537784432528,
+        "wind": 0.7740664044963976,
+        "ambientEvents": {
+          "enabled": true,
+          "reducedMotion": false,
+          "kind": null,
+          "active": 0,
+          "visible": 0,
+          "eventsStarted": 0,
+          "nextAt": 21.20990083599463
+        },
+        "floatingDetails": {
+          "active": 16,
+          "visible": 8,
+          "pooled": 24
+        },
+        "celestial": {
+          "sun": {
+            "x": 4750.759999999998,
+            "y": 5685.12,
+            "alpha": 0.8389057637802747,
+            "width": 260,
+            "depth": -10.3,
+            "scrollFactor": 1,
+            "texture": "layered-celestial:sun"
+          },
+          "moon": {
+            "x": 13752.2,
+            "y": 6993.6,
+            "alpha": 0,
+            "width": 220,
+            "depth": -10.3,
+            "scrollFactor": 1,
+            "texture": "layered-celestial:moon"
+          }
+        },
+        "environment": {
+          "phase": "afternoon",
+          "time": 0.4,
+          "night": 0,
+          "cover": 0.26015619234600235,
+          "fog": 0,
+          "rain": 0,
+          "storm": 0,
+          "stars": 0,
+          "skyTop": 5205131,
+          "skyHorizon": 11514802,
+          "terrainTint": 15132907,
+          "cloudTint": 15131869,
+          "cloudThickness": 1.308593530914809,
+          "cloudOpacity": 0.5634061738967231,
+          "mistOpacity": 0.85,
+          "wind": 7.297163101752721,
+          "gust": 0.0030793055070937776
+        },
+        "landmarks": [],
+        "blendedHeavenblocks": 0,
+        "backgroundAssets": [
+          "regenerated-horizon-v2-sky",
+          "regenerated-horizon-v2-ridge-west",
+          "regenerated-horizon-v2-ridge-central",
+          "regenerated-horizon-v2-ridge-east",
+          "regenerated-horizon-v2-forest",
+          "regenerated-horizon-v2-clouds",
+          "regenerated-horizon-v2-cumulus",
+          "regenerated-horizon-v2-cloud-banks",
+          "regenerated-horizon-v2-celestial",
+          "regenerated-horizon-v2-weather"
+        ]
+      },
+      "legacyFar": 0,
+      "oldClouds": 0,
+      "body": {
+        "x": 11875.5,
+        "y": 6035
+      },
+      "fps": 32.98654073416891,
+      "event": []
+    }
+  ],
+  "eastObjects": [
+    {
+      "name": "regenerated-landscape:distant-ridges:1",
+      "key": "regenerated-landscape-section:distant-ridges:1",
+      "depth": -9.8,
+      "x": -1216.88,
+      "y": 28,
+      "w": 1248,
+      "h": 630
+    },
+    {
+      "name": "regenerated-landscape:distant-ridges:2",
+      "key": "regenerated-landscape-section:distant-ridges:2",
+      "depth": -9.8,
+      "x": 31.11999999999989,
+      "y": 28,
+      "w": 1248,
+      "h": 630
+    },
+    {
+      "name": "regenerated-landscape:distant-ridges:3",
+      "key": "regenerated-landscape-section:distant-ridges:0",
+      "depth": -9.8,
+      "x": 1279.12,
+      "y": 28,
+      "w": 1248,
+      "h": 630
+    },
+    {
+      "name": "regenerated-landscape:valley:3",
+      "key": "regenerated-landscape-section:valley:0",
+      "depth": -8.9,
+      "x": -249.76000000000022,
+      "y": 10,
+      "w": 1560,
+      "h": 750
+    },
+    {
+      "name": "regenerated-landscape:valley:4",
+      "key": "regenerated-landscape-section:valley:1",
+      "depth": -8.9,
+      "x": 1310.2399999999998,
+      "y": 10,
+      "w": 1560,
+      "h": 750
+    },
+    {
+      "name": "regenerated-landscape:forest-rear:5",
+      "key": "regenerated-landscape-section:forest-rear:1",
+      "depth": -7.6,
+      "x": -348.3199999999997,
+      "y": 171,
+      "w": 1230,
+      "h": 522
+    },
+    {
+      "name": "regenerated-landscape:forest-rear:6",
+      "key": "regenerated-landscape-section:forest-rear:2",
+      "depth": -7.6,
+      "x": 881.6800000000003,
+      "y": 171,
+      "w": 1230,
+      "h": 522
+    },
+    {
+      "name": "world-visual-depth-surface-entry-10-0",
+      "key": "world-visual-biome-concept-weathered-roots-root-tide-lantern-hollow",
+      "depth": -6.399900000000001,
+      "x": -1316,
+      "y": 420,
+      "w": 1536,
+      "h": 1024
+    },
+    {
+      "name": "world-visual-depth-surface-entry-11-0",
+      "key": "world-visual-biome-expansion-v5-weathered-roots-shale-root-escarpment",
+      "depth": -6.39989,
+      "x": -308,
+      "y": 420,
+      "w": 1536,
+      "h": 1024
+    },
+    {
+      "name": "world-visual-depth-surface-entry-12-0",
+      "key": "world-visual-biome-weathered-roots-collapsed-cistern",
+      "depth": -6.3998800000000005,
+      "x": 700,
+      "y": 420,
+      "w": 1536,
+      "h": 1024
+    },
+    {
+      "name": "world-visual-backdrop-enhancer-surface-entry-12-0",
+      "key": "world-visual-backdrop-enhancer-v7-weathered-roots-amber-seed-orbit",
+      "depth": -6.39388,
+      "x": 892,
+      "y": 548,
+      "w": 1152,
+      "h": 768
+    },
+    {
+      "name": "regenerated-landscape:forest:8",
+      "key": "regenerated-landscape-section:forest:0",
+      "depth": -6.2,
+      "x": -35.04000000000087,
+      "y": 195,
+      "w": 1060,
+      "h": 443
+    },
+    {
+      "name": "regenerated-landscape:forest:9",
+      "key": "regenerated-landscape-section:forest:1",
+      "depth": -6.2,
+      "x": 1024.9599999999991,
+      "y": 195,
+      "w": 1060,
+      "h": 443
+    },
+    {
+      "name": "layered-floating:0:65",
+      "key": "layered-canopy-leaf",
+      "depth": -4.4,
+      "x": 868.5948481941141,
+      "y": 450.7888604515392,
+      "w": 7.227482168837014,
+      "h": 11.879134627217354
+    },
+    {
+      "name": "layered-floating:0:64",
+      "key": "layered-canopy-leaf",
+      "depth": -4.4,
+      "x": 714.0704776062285,
+      "y": 428.226757663836,
+      "w": 10.452634570432565,
+      "h": 12.598786773621214
+    },
+    {
+      "name": "layered-floating:0:63",
+      "key": "layered-canopy-leaf",
+      "depth": -4.4,
+      "x": 567.9644930870036,
+      "y": 368.1595016722413,
+      "w": 11.690279866032142,
+      "h": 11.021978116468745
+    },
+    {
+      "name": "world-visual-material-backdrop-surface-earth-8:0",
+      "key": "world-visual-v2-material-town-earth",
+      "depth": -3.5,
+      "x": -1172,
+      "y": 548,
+      "w": 1254,
+      "h": 1254
+    },
+    {
+      "name": "world-visual-material-backdrop-surface-earth-9:0",
+      "key": "world-visual-v2-material-town-earth",
+      "depth": -3.5,
+      "x": 82,
+      "y": 548,
+      "w": 1254,
+      "h": 1254
+    },
+    {
+      "name": "world-visual-material-backdrop-surface-earth-10:0",
+      "key": "world-visual-v2-material-town-earth",
+      "depth": -3.5,
+      "x": 1336,
+      "y": 548,
+      "w": 1254,
+      "h": 1254
+    }
+  ]
+}

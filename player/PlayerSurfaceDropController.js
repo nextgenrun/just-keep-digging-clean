@@ -18,6 +18,9 @@ export class PlayerSurfaceDropController {
 
   update() {
     if (!this.input?.consumeSurfaceDropInput?.()) return false;
+    if (this.collisionSystem?.tryBeginOneWayPlatformDropThrough?.(
+      this.physicsBody,
+    ) === true) return true;
     if (this.canDrop && this.canDrop() !== true) {
       this.onBlocked?.();
       return false;
@@ -30,5 +33,6 @@ export class PlayerSurfaceDropController {
 
   reset() {
     this.collisionSystem?.cancelSurfaceDropThrough?.(this.physicsBody);
+    this.collisionSystem?.cancelOneWayPlatformDropThrough?.(this.physicsBody);
   }
 }

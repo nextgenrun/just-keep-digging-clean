@@ -1,0 +1,65 @@
+{
+  "scenery": "Aurora sanctuary",
+  "mode": "motion",
+  "view": false,
+  "roots": 0,
+  "decoded": false,
+  "playing": false,
+  "time": 0,
+  "duration": 0,
+  "bufferedEnd": 0,
+  "seekableEnd": 0,
+  "cadence": {
+    "wraps": [
+      {
+        "gapMs": 33.3,
+        "from": 29.866667,
+        "to": 0
+      }
+    ],
+    "frameGapP95": 33.5,
+    "frameGapMax": 50
+  },
+  "loopCount": 0,
+  "nativeLoopCount": 1,
+  "nativeLoops": [
+    {
+      "time": 0.000516,
+      "blending": false
+    }
+  ],
+  "handoffs": [],
+  "blendSamples": [],
+  "renderFps": 59.1,
+  "videoQuality": [],
+  "logo": {
+    "backing": false
+  },
+  "videoStates": [],
+  "videoCount": 0,
+  "videoSources": [],
+  "effectiveVideoOpacity": 0,
+  "posterOpacity": 0,
+  "muted": true,
+  "audioTracks": 0,
+  "viewState": "closed",
+  "videoOpacity": 0,
+  "failedMedia": false,
+  "mediaFallbacks": [],
+  "textureCount": 12,
+  "textureKeys": [
+    "__NORMAL",
+    "__DEFAULT",
+    "__MISSING",
+    "__WHITE",
+    "brand-logo",
+    "brand-logo-backing",
+    "bg-db-f1frtjf1frtjf1fr",
+    "bg-db-g6ozmlg6ozmlg6oz",
+    "bg-db-rimx2primx2primx",
+    "bg-db-kjwykkjwykkjwykk",
+    "bg-db-i30bfci30bfci30b",
+    "bg-db-wocn9hwocn9hwocn"
+  ],
+  "ownedShutdownListeners": 12
+}

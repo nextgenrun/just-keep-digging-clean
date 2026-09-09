@@ -1,3 +1,4 @@
+import { chooseMerchantActivity } from './merchantActivityMotion.js';
 import {
   NPC_ACTIVITY_CONFIG,
   resolveNpcActivitiesEnabled,
@@ -7,6 +8,7 @@ import {
   finishNpcActor,
   restoreNpcBase,
   startNpcPose,
+  startNpcShopIntro,
   updateNpcActorVisual,
 } from "./npcActivityVisuals.js";
 import {
@@ -80,11 +82,11 @@ export class NPCActivitySystem {
     const merchant = this.config.merchants[npc.merchantId];
     const keys = npc.activityKeys
       || this.assetKeys.npcs.merchantActivities?.[npc.merchantId];
-    if (!merchant || !keys) {
+    if (!merchant || (!keys && !presentation.motion)) {
       this._recordMissing(npc.merchantId, ["configuration"]);
       return null;
     }
-    const missing = this.config.activityIds.filter(poseId => (
+    const missing = presentation.motion ? [] : this.config.activityIds.filter(poseId => (
       !keys[poseId] || !this.scene.textures.exists(keys[poseId])
     ));
     if (missing.length > 0) {
@@ -128,7 +130,7 @@ export class NPCActivitySystem {
         actor.playerNear
         && !actor.reactedDuringVisit
         && time >= actor.reactionReadyAt
-        && actor.state === "quiet"
+        && actor.state === "quiet" && !actor.motion?.isSettling
         && activeCount < this.config.schedule.maxSimultaneousActivities
       ) {
         this._startActivity(actor, "player", time);
@@ -140,7 +142,7 @@ export class NPCActivitySystem {
     }
     const dueActors = this.actors
       .filter(actor => (
-        actor.state === "quiet"
+        actor.state === "quiet" && !actor.motion?.isSettling
         && !actor.playerNear
         && time >= actor.nextEventAt
       ))
@@ -158,6 +160,15 @@ export class NPCActivitySystem {
     this._publishHealth(time);
   }
 
+  beginShopIntro(merchantId, time = this.scene.time?.now || 0) {
+    const actor = this.actorById.get(merchantId);
+    if (!actor || !startNpcShopIntro(actor)) return false;
+    for (const other of this.actors) {
+      if (other !== actor && other.state !== "quiet") finishNpcActor(other, time, this.config, this.random);
+    }
+    return true;
+  }
+
   settleMerchant(merchantId, time = this.scene.time?.now || 0) {
     const actor = this.actorById.get(merchantId);
     if (!actor) return false;
@@ -172,7 +183,7 @@ export class NPCActivitySystem {
 
   getHealthSnapshot() {
     const expected = this.config.health.expectedActorCount
-      - (isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.LEVEL_TWO) ? 0 : 1);
+      - (isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.LEVEL_TWO, this.scene.gameplayCapabilities) ? 0 : 1);
     const anchorViolationCount = this.actors.filter(actor => (
       visualAnchorError(actor) > this.config.health.anchorTolerancePx
     )).length;
@@ -235,24 +246,14 @@ export class NPCActivitySystem {
   }
 
   _startScheduledActivity(actor, time) {
-    const weights = this.config.schedule.weights;
-    const total = this.config.ambientActivityIds.reduce(
-      (sum, activityId) => sum + weights[activityId],
-      0,
-    );
-    const choice = this.random() * total;
-    let cumulative = 0;
-    for (const activityId of this.config.ambientActivityIds) {
-      cumulative += weights[activityId];
-      if (choice <= cumulative) {
-        return this._startActivity(actor, activityId, time);
-      }
-    }
-    return this._startActivity(actor, this.config.ambientActivityIds[0], time);
+    return this._startActivity(actor, chooseMerchantActivity(
+      this.config.ambientActivityIds, this.config.schedule.weights, actor.lastAmbientActivity, this.random,
+    ), time);
   }
 
   _startActivity(actor, activityId, time) {
     startNpcPose(actor, activityId, time);
+    if (activityId !== "player") actor.lastAmbientActivity = activityId;
     const quietGap = this.config.schedule.townQuietGapMinMs
       + this.random() * (
         this.config.schedule.townQuietGapMaxMs
@@ -263,7 +264,7 @@ export class NPCActivitySystem {
   }
 
   _activeCount() {
-    return this.actors.filter(actor => actor.state !== "quiet").length;
+    return this.actors.filter(actor => actor.state !== "quiet" || actor.motion?.isSettling).length;
   }
 
   _recordMissing(merchantId, activityIds) {

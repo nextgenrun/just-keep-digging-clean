@@ -3,6 +3,8 @@ import {
   resolveMiningTargetVisualsEnabled,
 } from "../../values/miningTargetFeedback.js";
 
+import { TargetTileHudView } from "./TargetTileHudView.js";
+
 export class MiningTargetVisualSystem {
   constructor(scene, config = MINING_TARGET_FEEDBACK_CONFIG) {
     this.scene = scene;
@@ -18,6 +20,7 @@ export class MiningTargetVisualSystem {
     this._diagnostics = null;
 
     this._create();
+    this.targetHud = new TargetTileHudView(scene);
     this._publishDiagnostics();
   }
 
@@ -66,6 +69,7 @@ export class MiningTargetVisualSystem {
     timeMs = this.scene.time?.now || 0,
   ) {
     if (!this.root) return;
+    this.targetHud.setTarget(targetTile, shouldShow);
     if (!shouldShow || !targetTile) {
       this.lastTargetKey = "";
       this.interactionMode = "hidden";
@@ -132,6 +136,7 @@ export class MiningTargetVisualSystem {
 
   setVisible(visible) {
     this.root?.setVisible(Boolean(visible));
+    if (!visible) this.targetHud.setTarget(null, false);
   }
 
   snapshot() {
@@ -158,6 +163,7 @@ export class MiningTargetVisualSystem {
     if (globalThis.window?.[key] === this._diagnostics) {
       delete globalThis.window[key];
     }
+    this.targetHud?.destroy();
     this.root?.destroy(true);
     this.root = null;
     this.image = null;

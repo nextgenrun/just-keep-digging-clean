@@ -17,6 +17,27 @@ function squaredDistance(a, b) {
   return deltaX * deltaX + deltaY * deltaY;
 }
 
+export function resolveWorldMapLabelPlacement(
+  point,
+  layout,
+  config = WORLD_MAP_CONFIG,
+) {
+  const presentation = config.annotations;
+  const halfWidth = presentation.markerLabelMaximumWidthPx * 0.5;
+  const inset = presentation.markerLabelViewportInsetPx;
+  const flipAbove = point.y > (
+    layout.y + layout.height - presentation.markerLabelFlipInsetPx
+  );
+  return {
+    labelX: Math.max(
+      layout.x + inset + halfWidth,
+      Math.min(layout.x + layout.width - inset - halfWidth, point.x),
+    ),
+    labelY: point.y + presentation.markerLabelOffsetYPx * (flipAbove ? -1 : 1),
+    labelOriginY: flipAbove ? 1 : 0,
+  };
+}
+
 function markerIsKnown(marker, discoverySystem) {
   return marker.alwaysVisible === true
     || discoverySystem.isWorldPositionDiscovered(marker.worldX, marker.worldY);
@@ -43,6 +64,7 @@ export function resolveWorldMapMarkerAnnotations({
       key: `marker:${marker.providerId}:${marker.id}`,
       x: point.x,
       y: point.y,
+      ...resolveWorldMapLabelPlacement(point, layout, config),
       pixelsPerTile: point.pixelsPerTile,
       iconFrame: Number.isInteger(marker.iconFrame)
         ? marker.iconFrame

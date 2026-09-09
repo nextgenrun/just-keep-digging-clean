@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>UNDERSTAR — Mystery voice audition</title>
+<link rel="stylesheet" href="review.css">
+<script src="audition-data.js" defer></script>
+<script src="review.js" defer></script>
+</head>
+<body>
+<p data-leo-library-300-link style="margin:18px 24px;color:#dfc687;font:600 14px system-ui"><a style="color:inherit" href="../../player-library-300-review-v1/review/#library">Continue to the 300-line yes/no library audit</a></p>
+<div class="page">
+<header>
+  <div class="eyebrow"><span class="brand">UNDERSTAR</span><span>VOICE AUDITION / 01</span><span>07 SEPT 2026</span></div>
+  <div class="hero">
+    <div><p class="kicker">CHARACTER DIRECTION</p><h1>A past he won’t explain.</h1>
+    <p class="intro">Practical. Dry. Occasionally unsettling.<br>He reacts to what just happened—and sometimes lets a little too much slip.</p></div>
+    <aside class="review-notice"><span class="pill">FOR YOUR REVIEW</span><p>Real recordings.<br>Proposed conditions.</p><small>Nothing here is active in the game.</small></aside>
+  </div>
+  <div class="stats" id="stats"></div>
+<p class="listen-note"><a style="color:var(--accent)" href="../../player-leo-emotion-review-v1/review/index.html">Leo emotion audition: more warmth, nerves and character</a> · Original restrained takes remain available here.</p>
+</header>
+<section class="listening" aria-label="Listening controls">
+  <div class="listen-heading"><div><p class="kicker">START LISTENING</p><h2>Hear the character, then choose the lines.</h2></div><button id="stop" class="quiet">Stop audio</button></div>
+  <div class="listen-actions"><button id="play-all" class="primary">Play all 12 · Leo</button><button id="compare">Compare Leo / Rex · 4 pairs</button><span>Comparison order: B1, C1, D1, E2. Leo first, then Rex.</span></div>
+  <audio id="montage" controls preload="metadata" aria-label="Audition playlist"></audio>
+  <p id="now-playing" role="status">Ready. Each line below can also be played separately.</p>
+  <p class="listen-note">The playlist compresses the audition for comparison. In play, these remarks would be sparse, with long stretches of silence.</p>
+</section>
+<div class="review-toolbar">
+  <nav aria-label="Jump to scenario"><a href="#scenario-A">Gold</a><a href="#scenario-B">Star</a><a href="#scenario-C">Titan</a><a href="#scenario-D">Danger</a><a href="#scenario-E">Survived</a><a href="#scenario-F">Town</a></nav>
+  <span id="decision-count" aria-live="polite">0 / 12 reviewed</span>
+</div>
+<main id="scenarios"></main>
+<section class="policy" aria-labelledby="policy-title">
+  <p class="kicker">WHEN HE STAYS QUIET</p><h2 id="policy-title">Relevance comes before randomness.</h2>
+  <ul id="rules"></ul>
+  <p class="recommended"><strong>Suggested blend:</strong> start with B1, C1 and D1. Use A1 or E1 for dry humour. Save E2 for a rare, genuinely close escape. Treat the stronger hints as alternatives, rather than playing every clue.</p>
+</section>
+<section class="decisions" aria-labelledby="decisions-title">
+  <p class="kicker">YOUR VERDICT</p><h2 id="decisions-title">Keep the words, change the voice—or reject both.</h2>
+  <p>Accept or reject each script together with its proposed condition. These choices are a review, not permission to put them in the game.</p>
+  <label for="voice-choice">Preferred voice after listening</label>
+  <select id="voice-choice"><option value="undecided">Not chosen</option><option value="leo">Leo</option><option value="rex">Rex</option><option value="neither">Neither — try another delivery</option></select>
+  <label for="overall-notes">Overall direction / changes</label>
+  <textarea id="overall-notes" rows="3" placeholder="For example: less supernatural, drier delivery, more subtle hints…"></textarea>
+  <div class="reply-actions"><button id="prepare-reply" class="primary">Prepare my reply</button><button id="copy-reply" class="quiet" hidden>Copy reply</button><span id="copy-state" role="status"></span></div>
+  <label for="reply" id="reply-label" hidden>Paste this back into the conversation</label>
+  <textarea id="reply" rows="8" readonly hidden></textarea>
+  <p class="footnote" id="save-state">Your selections stay in this browser. Nothing is sent automatically.</p>
+</section>
+<footer>UNDERSTAR / PLAYER VOICE DESIGN REVIEW <span id="audio-summary"></span></footer>
+</div>
+</body>
+</html>

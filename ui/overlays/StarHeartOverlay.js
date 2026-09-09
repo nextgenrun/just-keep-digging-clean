@@ -249,7 +249,7 @@ export class StarHeartOverlay {
     this.confirmArmedAtMs = 0;
     this.confirmEngineId = null;
     this.scene.soundSystem?.playUiConfirm?.();
-    this.scene.screenFlashSystem?.flashLucky?.();
+    this.scene.screenFlashSystem?.flashReward?.();
     this.scene.shakeSystem?.shake(CELESTIAL_ENGINE_CONFIG.fx.hitShakeSignature);
     this.scene.hudSystem?.flashStatus?.(
       `${CELESTIAL_ENGINE_CONFIG.engines[engineId].shortName} ${

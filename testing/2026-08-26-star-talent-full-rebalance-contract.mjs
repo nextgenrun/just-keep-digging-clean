@@ -15,6 +15,7 @@ import { WaywardStarSwarmEngine } from
   "../systems/celestial/WaywardStarSwarmEngine.js";
 import { DigSystem } from "../systems/mining/DigSystem.js";
 import { CELESTIAL_ENGINE_CONFIG } from "../values/celestialEngines.js";
+import { MINING_CONFIG } from "../values/miningConfig.js";
 import { CELESTIAL_TALENT_PROGRESSION_CONFIG } from
   "../values/celestialTalentProgression.js";
 import { resolveCelestialTalentEngineDefinition } from
@@ -44,11 +45,10 @@ const fullWayward = resolveCelestialTalentEngineDefinition(
 assert.equal(fullWayward.maxImpacts, 29);
 assert.equal(fullWayward.supernovaMaxImpacts, 24);
 assert.equal(fullWayward.simultaneousStars, 5);
-assert.equal(
+const fullWaywardCapacity =
   (fullWayward.maxImpacts + fullWayward.supernovaMaxImpacts)
-    * fullWayward.simultaneousStars,
-  265,
-);
+  * fullWayward.simultaneousStars;
+assert.equal(fullWaywardCapacity, 265);
 globalThis.Phaser = { BlendModes: { ADD: "ADD" } };
 const displayObject = () => ({
   x: 0,
@@ -140,12 +140,34 @@ const fullHollow = resolveCelestialTalentEngineDefinition(
 );
 assert.deepEqual(fullHollow.pulseTimesMs, [738, 1968, 3198, 4428, 5576, 6724]);
 assert.deepEqual(fullHollow.pulseRadiiTiles, [4, 5, 6, 7, 9, 10]);
-assert.deepEqual(fullHollow.pulseImpactCaps, [9, 10, 11, 12, 12, 13]);
-assert.equal(fullHollow.maxImpacts, 67);
+assert.deepEqual(fullHollow.pulseImpactCaps, [10, 11, 12, 13, 16, 18]);
+assert.equal(fullHollow.maxImpacts, 80);
 assert.equal(fullHollow.lifetimeMs, 11000);
-assert.equal(fullHollow.simultaneousHoles, 5);
-assert.equal(fullHollow.implosionMaxImpacts, 12);
+assert.equal(fullHollow.simultaneousHoles, 4);
+assert.equal(fullHollow.implosionMaxImpacts, 30);
 assert.equal(fullHollow.implosionRadiusTiles, 4);
+const baseWaywardCapacity = CELESTIAL_ENGINE_CONFIG.engines["wayward-star"].maxImpacts
+  + CELESTIAL_ENGINE_CONFIG.engines["wayward-star"].supernovaMaxImpacts;
+const baseHollowCapacity = (
+  CELESTIAL_ENGINE_CONFIG.engines["hollow-sun"].maxImpacts
+  + CELESTIAL_ENGINE_CONFIG.engines["hollow-sun"].implosionMaxImpacts
+) * CELESTIAL_ENGINE_CONFIG.engines["hollow-sun"].simultaneousHoles;
+const fullHollowCapacity = (
+  fullHollow.maxImpacts + fullHollow.implosionMaxImpacts
+) * fullHollow.simultaneousHoles;
+assert.equal(baseWaywardCapacity, 21);
+assert.equal(baseHollowCapacity, 84);
+assert.equal(fullHollowCapacity, 440);
+assert.ok(
+  baseHollowCapacity >= baseWaywardCapacity * 3.5
+    && baseHollowCapacity <= baseWaywardCapacity * 4.5,
+  "Hollow Sun root keeps its area-control identity without runaway output",
+);
+assert.ok(
+  fullHollowCapacity >= fullWaywardCapacity * 1.5
+    && fullHollowCapacity <= fullWaywardCapacity * 1.8,
+  "full Hollow Sun stays stronger than Wayward Star without dominating it",
+);
 const hollowBudget = new CelestialActivationBudget(
   "hollow-sun",
   "rebalance:hollow",
@@ -208,10 +230,42 @@ const fullRage = resolveCelestialTalentEngineDefinition(
   allBranchEffects("comet-engine"),
 );
 assert.equal(fullRage.name, "STELLAR LANCE");
-assert.equal(fullRage.lifetimeMs, 11000);
-assert.equal(fullRage.projectileRangeTiles, 12);
-assert.equal(fullRage.projectileDamageMultiplier, 2);
+assert.equal(fullRage.lifetimeMs, 12500);
+assert.equal(fullRage.projectileRangeTiles, 8);
+assert.equal(fullRage.projectileInfiniteRange, false);
+assert.equal(fullRage.projectileDamageMultiplier, 1.5);
 assert.equal(fullRage.projectileSideLanes, 1);
+assert.equal(fullRage.projectileDisplayWidthPx, 210);
+assert.equal(fullRage.projectileDisplayHeightPx, 118);
+assert.equal(fullRage.projectileSpawnOffsetTiles, 0.75);
+assert.deepEqual(
+  fullRage.projectileStates.map(state => [
+    state.id,
+    state.minimumDistanceTiles,
+    state.damageMultiplier,
+  ]),
+  [
+    ["violet-edge", 1, 1],
+    ["amethyst-surge", 3, 1],
+    ["voidpiercer", 5, 1],
+  ],
+);
+for (const color of ["blue", "purple", "red"]) {
+  const wave = await readFile(new URL(
+    `../sprites/celestial-engines/stellar-lance-wave-${color}-v1.png`,
+    import.meta.url,
+  ));
+  assert.equal(wave.readUInt32BE(16), 1672);
+  assert.equal(wave.readUInt32BE(20), 941);
+  assert.equal(wave[25], 6, `${color} Lance wave must retain RGBA transparency`);
+}
+const lanceImpact = await readFile(new URL(
+  "../sprites/celestial-engines/stellar-lance-impact-purple-v1.png",
+  import.meta.url,
+));
+assert.equal(lanceImpact.readUInt32BE(16), 1254);
+assert.equal(lanceImpact.readUInt32BE(20), 1254);
+assert.equal(lanceImpact[25], 6, "Lance impact must retain RGBA transparency");
 assert.equal("damageMultiplier" in fullRage, false);
 assert.equal("attackSpeedMultiplier" in fullRage, false);
 const rageEngine = new StellarRageEngine({
@@ -245,9 +299,22 @@ const rageSnapshot = Object.assign(Object.create(StellarRageEngine.prototype), {
     startedAtMs: 1000,
   },
 }).getBuffSnapshot(3500);
-assert.equal(rageSnapshot.remainingMs, 8500);
-assert.equal(rageSnapshot.projectileRangeTiles, 12);
-assert.equal(rageSnapshot.projectileDamageMultiplier, 2);
+assert.equal(rageSnapshot.remainingMs, 10000);
+assert.equal(rageSnapshot.projectileRangeTiles, 8);
+assert.equal(rageSnapshot.projectileInfiniteRange, false);
+assert.equal(rageSnapshot.projectileDamageMultiplier, 1.5);
+assert.equal(rageSnapshot.projectileMaximumDamageMultiplier, 1.5);
+
+const stellarFirstHitBudget = definition => (
+  Math.ceil(definition.lifetimeMs / MINING_CONFIG.mineCooldownMs)
+  * (definition.projectileSideLanes * 2 + 1)
+  * definition.projectileDamageMultiplier
+);
+const baseRage = CELESTIAL_ENGINE_CONFIG.engines["comet-engine"];
+assert.equal(stellarFirstHitBudget(baseRage), 5.25);
+assert.equal(stellarFirstHitBudget(fullRage), 40.5);
+assert.ok(stellarFirstHitBudget(baseRage) <= baseWaywardCapacity);
+assert.ok(stellarFirstHitBudget(fullRage) <= fullWaywardCapacity);
 
 const empowerDig = new DigSystem(null, null, {
   mineCooldownMs: 800,

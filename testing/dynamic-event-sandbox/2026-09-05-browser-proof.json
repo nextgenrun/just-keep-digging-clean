@@ -1,0 +1,304 @@
+{
+  "testedAt": "2026-09-05",
+  "url": "http://127.0.0.1:8098/testing/dynamic-event-sandbox/index.html",
+  "scope": "Real encounter controllers and views in an isolated Phaser scene; test body and terrain.",
+  "sequence": {
+    "reviewOnly": true,
+    "saveStorageUsed": false,
+    "ready": true,
+    "elapsedMs": 656125,
+    "paused": true,
+    "runtimeError": null,
+    "controls": {
+      "depth": 300,
+      "intensity": "medium",
+      "speed": 10,
+      "hardcore": true,
+      "flight": true,
+      "hazards": true,
+      "suppressed": false,
+      "torch": false,
+      "patrol": true,
+      "mining": false,
+      "natural": false,
+      "audio": true
+    },
+    "storage": {
+      "reads": 0,
+      "writes": 0,
+      "removals": 0,
+      "persistentReads": 0,
+      "persistentWrites": 0
+    },
+    "sequence": {
+      "index": 6,
+      "waiting": false,
+      "nextAt": 117550,
+      "deadline": 207550,
+      "completed": true,
+      "failed": false
+    },
+    "metrics": {
+      "hits": 3,
+      "destroyed": 77,
+      "quakesCompleted": 2,
+      "saveRequestsIntercepted": 62,
+      "audioCues": 21
+    },
+    "retired": [
+      {
+        "type": "moneyMonsterRush",
+        "blocked": true
+      },
+      {
+        "type": "blackoutBloom",
+        "blocked": true
+      },
+      {
+        "type": "lumenBloom",
+        "blocked": true
+      }
+    ],
+    "loadErrors": [],
+    "gates": {
+      "wurm": [
+        "Cooldown 90.0s",
+        "Noise 0.0 / 18"
+      ],
+      "quake": [
+        "Next check 359.3s"
+      ],
+      "shadow": [
+        "Next check 45.0s"
+      ],
+      "activation": {
+        "active": true,
+        "productionActive": true,
+        "hardcoreArmed": true,
+        "flightUnlocked": true,
+        "depth": 300,
+        "depthEligible": true,
+        "devOverride": false,
+        "devForceActive": false
+      }
+    },
+    "shadow": {
+      "id": "shadow-miner-dynamic-echo-v5",
+      "ready": true,
+      "reviewMode": false,
+      "dev10x": false,
+      "rateMultiplier": 1,
+      "nextCheckAtMs": 719125,
+      "state": "dormant",
+      "active": false,
+      "encounterBand": null,
+      "depthProfile": null,
+      "lastDepthProfile": {
+        "id": "lower",
+        "minimumDepthMeters": 300,
+        "visualIntensityMultiplier": 1,
+        "approachRateMultiplier": 1,
+        "observeDurationMultiplier": 1,
+        "fleeRateMultiplier": 1,
+        "audioRateMultiplier": 1,
+        "lightResistanceMultiplier": 1
+      },
+      "behavior": null,
+      "lastBehavior": {
+        "id": "mimic",
+        "depthBandId": "lower",
+        "depthMeters": 300,
+        "lightResistanceMultiplier": 1,
+        "targetDistanceTiles": 4.464193070889451,
+        "replayDelayMs": 6479,
+        "approachPlaybackRate": 1.708954124536249,
+        "approachHoldMs": 224,
+        "nearPlayerDistanceTiles": 3.0945758348098025,
+        "observeMs": 858,
+        "maximumEncounterMs": 7767,
+        "fleePlaybackRate": 2.5553232596218582,
+        "fleeDurationMs": 1056,
+        "visualIntensity": 0.7740666607944294,
+        "audioRateMultiplier": 0.9878411286673509,
+        "preferActionPose": true,
+        "performObserveDig": true
+      },
+      "approachPlaybackRate": null,
+      "playbackDelayMs": null,
+      "observeAction": {
+        "active": false
+      },
+      "distanceToPlayerTiles": null,
+      "repelledBy": null,
+      "lastRepelledBy": null,
+      "lightInteraction": {
+        "active": false,
+        "source": null,
+        "pressure": 0,
+        "exposureProgress": 0,
+        "response": null
+      },
+      "lastEntryVisible": true,
+      "lastEntryDistanceTiles": 5.005000000000003,
+      "awarenessCue": {
+        "direction": "left",
+        "flashAlpha": 0.3,
+        "message": "◀  SHADOW MINER NEARBY",
+        "labelCreated": true,
+        "atMs": 71200
+      },
+      "lastSpawnAttempt": {
+        "time": 71200,
+        "forced": true,
+        "spawned": true,
+        "reason": null
+      },
+      "spawnCount": 2,
+      "approachCount": 2,
+      "observeCount": 2,
+      "fleeCount": 0,
+      "completedCount": 2,
+      "replayWindow": {
+        "samples": 138,
+        "travelTiles": 4.795,
+        "actionSamples": 0,
+        "selectedStartOffsetMs": 44,
+        "selectedStartAction": false
+      },
+      "history": {
+        "samples": 181,
+        "oldestAtMs": 665100,
+        "newestAtMs": 674100
+      },
+      "view": {
+        "visible": false,
+        "textureKey": null,
+        "frameName": null,
+        "animationKey": null,
+        "displayWidth": 0,
+        "displayHeight": 0,
+        "alpha": 0,
+        "renderMode": "solid-purple-silhouette",
+        "visualIntensity": 1,
+        "fleeing": false,
+        "observing": false,
+        "flipX": false,
+        "recoilActive": false,
+        "lightReacting": false,
+        "lightPressure": 0,
+        "lightSource": null,
+        "lightExposureProgress": 0,
+        "residue": {
+          "activeSprites": 0,
+          "maximumSprites": 3,
+          "lastStampAtMs": null
+        },
+        "phantomDig": {
+          "activeBlock": false,
+          "actionLatched": false,
+          "target": null,
+          "targetSource": null,
+          "stageIndex": null,
+          "textureKey": null,
+          "crackTextureKey": null,
+          "renderIndex": null,
+          "breakCount": 0,
+          "lastStartFailure": null,
+          "lastAttemptTileType": null,
+          "blockArtAvailable": null,
+          "blockArtSource": null,
+          "activeFxSprites": 0,
+          "authority": "visual-only"
+        },
+        "worldX": 0,
+        "worldY": 0
+      }
+    },
+    "wurm": {
+      "enabled": true,
+      "devTest10x": false,
+      "activityMultiplier": 1,
+      "active": true,
+      "phase": "cooldown",
+      "noise": 0,
+      "noiseRatio": 0,
+      "cooldownMs": 90000,
+      "warningRemainingMs": 0,
+      "progress": 0,
+      "encounterCount": 2,
+      "encounterDepthTiles": 0,
+      "passIndex": 0,
+      "passCount": 0,
+      "huntHitCount": 0,
+      "difficulty": {
+        "depthTiles": 120,
+        "depthRatio": 0,
+        "threatPercent": 25,
+        "passIndex": 1,
+        "passCount": 2,
+        "warningMs": 3600,
+        "travelMs": 1900,
+        "headDamageRatio": 0.96,
+        "bodyDamageRatio": 0.78,
+        "minimumHeadDamageGp": 60,
+        "minimumBodyDamageGp": 45
+      },
+      "targetTile": null,
+      "hitCount": 0,
+      "hitConsumed": false
+    },
+    "earthquake": {
+      "state": "idle",
+      "intensity": null,
+      "epicenter": null,
+      "epicenterDepth": null,
+      "playerDistanceTiles": null,
+      "playerAware": false,
+      "stateRemaining": 0,
+      "stateTotalMs": 0,
+      "depth": 300,
+      "nextEventMs": 359340,
+      "nextEventSchedule": "repeat",
+      "caveIns": 0,
+      "fallingRocks": 0,
+      "chainPending": false,
+      "chainRemainingMs": 0,
+      "rubbleQueue": 0,
+      "rubbleTiles": 34,
+      "suppressed": false,
+      "warningTextActive": false,
+      "debug": false
+    },
+    "trace": "   0.00s  Fresh chamber · production encounter timing · no save storage\n   0.03s  shadow: dormant\n   0.03s  wurm: dormant\n   0.03s  earthquake: idle\n   3.67s  Six-encounter sequence requested\n   3.70s  shadow review trigger: STARTED\n   3.73s  shadow: spawning\n   4.25s  shadow: approaching\n   6.15s  shadow: observing\n   7.22s  shadow: vanishing\n   7.65s  shadow: dormant\n   9.45s  wurm review trigger: STARTED\n   9.47s  wurm: warning\n  12.93s  wurm: burrowing\n  15.70s  wurm: warning\n  19.02s  wurm: burrowing\n  21.68s  wurm: cooldown\n  23.48s  earthquake review trigger: STARTED\n  23.50s  earthquake: warning\n  29.02s  earthquake: earthquake\n  38.27s  earthquake: aftermath\n  49.13s  earthquake: idle\n  53.20s  shadow review trigger: STARTED\n  53.23s  shadow: spawning\n  53.85s  shadow: approaching\n  55.50s  shadow: observing\n  56.38s  shadow: vanishing\n  56.80s  shadow: dormant\n  58.60s  wurm review trigger: STARTED\n  58.63s  wurm: warning\n  62.08s  wurm: burrowing\n  64.85s  wurm: warning\n  68.17s  wurm: burrowing\n  70.83s  wurm: cooldown\n  72.63s  earthquake review trigger: STARTED\n  72.65s  earthquake: warning\n  77.13s  earthquake: earthquake\n  85.20s  earthquake: aftermath\n  95.47s  earthquake: idle\n  97.75s  SEQUENCE COMPLETE: all six encounters finished"
+  },
+  "additionalBrowserChecks": {
+    "torchRepulsion": {
+      "fleeCount": 1,
+      "lastRepelledBy": "torch",
+      "observedSpawnToFleeMs": 200
+    },
+    "naturalBlockers": {
+      "simulatedMs": 1702075,
+      "hardcoreArmed": false,
+      "flightUnlocked": false,
+      "hazardIntroductionUnlocked": false,
+      "autoMiningNoise": true,
+      "wurmStarts": 0,
+      "quakeState": "idle",
+      "persistentReads": 0,
+      "persistentWrites": 0
+    }
+  },
+  "knownBaselineAuditFailures": [
+    {
+      "file": "testing/2026-07-28-earthquake-polish-and-suppression-contract.mjs",
+      "line": 58,
+      "reason": "Fixture expects removed requiresLevel config"
+    },
+    {
+      "file": "testing/2026-07-28-earthquake-dodge-audit.mjs",
+      "line": 215,
+      "reason": "Fixture stubs obsolete occupancy helper"
+    }
+  ]
+}

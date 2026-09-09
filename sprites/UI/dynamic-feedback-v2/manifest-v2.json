@@ -1,0 +1,92 @@
+{
+  "schema": "dynamic-ui-shells-v2@1",
+  "generatedOn": "2026-08-31",
+  "presentationOnly": true,
+  "noBakedText": true,
+  "noBakedRuntimeIcons": true,
+  "assets": {
+    "newExpeditionFoundation": {
+      "path": "sprites/UI/expedition-setup-v2/new-expedition-foundation-v2.png",
+      "width": 1536,
+      "height": 1024,
+      "mode": "RGB",
+      "sha256": "e49247e595a6d10fa68277ce61bd311aed332cb9fdfb6b751caaa7e57ce19bad"
+    },
+    "newExpeditionSelection": {
+      "path": "sprites/UI/expedition-setup-v2/new-expedition-selection-v2.png",
+      "width": 1194,
+      "height": 498,
+      "mode": "RGBA",
+      "alphaBounds": [
+        3,
+        3,
+        1191,
+        498
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sha256": "8c51de239651eb0e56cd5caa2e3f81c0d496aa36b90478017aaba4de55fef642"
+    },
+    "hardcoreStatusShell": {
+      "path": "sprites/UI/dynamic-feedback-v2/hardcore-status-shell-v2.png",
+      "width": 1344,
+      "height": 224,
+      "mode": "RGBA",
+      "alphaBounds": [
+        1,
+        1,
+        1343,
+        223
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sha256": "875e0af466f14fd808bbfece6626be09cc4394e7307ce9ee47f18b3dcbb37026"
+    },
+    "levelUpShell": {
+      "path": "sprites/UI/dynamic-feedback-v2/level-up-shell-v2.png",
+      "width": 1240,
+      "height": 264,
+      "mode": "RGBA",
+      "alphaBounds": [
+        0,
+        8,
+        1238,
+        259
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sha256": "a1fcd353f3b1cd8d4ec98732d6e28de0f2ca32c9d92272bf16e40e043489bb5b"
+    },
+    "hardcoreCrest": {
+      "path": "sprites/UI/dynamic-feedback-v2/hardcore-oath-crest-alpha-v2.png",
+      "width": 512,
+      "height": 512,
+      "mode": "RGBA",
+      "alphaBounds": [
+        28,
+        100,
+        484,
+        410
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sha256": "5c86ce2bd324988d1e980059ed3f4a766752fa4b83084196c4c812f28cf68300"
+    }
+  }
+}

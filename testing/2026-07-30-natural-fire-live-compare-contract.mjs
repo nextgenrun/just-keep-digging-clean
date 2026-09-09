@@ -90,7 +90,7 @@ assert.match(sharedController, /runtime\.setDepth/);
 
 for (const needle of [
   "for (const entry of frameEntries) await launch(entry)",
-  "game.scene.start(\"WorldLoadScene\"",
+  "menu.scene.start(\"WorldLoadScene\"",
   "worldIdentity: CONFIG.world.identity",
   "findDepthTarget",
   "depthProfile:",

@@ -1,15 +1,15 @@
 // Campfire upgrade tiers, consumable charges, and temporary blessing values.
 export const CAMPFIRE_TIERS = Object.freeze([
-  Object.freeze({ level: 1, label: "Tier I", cost: 0, durationMs: 60000, miningSpeedBonus: 0.05, xpBonus: 0.10, critBonus: 0.02, desc: "Basic warmth (60s)" }),
-  Object.freeze({ level: 2, label: "Tier II", cost: 5, durationMs: 75000, miningSpeedBonus: 0.08, xpBonus: 0.15, critBonus: 0.03, desc: "Cozy fire (75s)" }),
-  Object.freeze({ level: 3, label: "Tier III", cost: 10, durationMs: 90000, miningSpeedBonus: 0.10, xpBonus: 0.20, critBonus: 0.05, desc: "Warm glow (90s)" }),
-  Object.freeze({ level: 4, label: "Tier IV", cost: 20, durationMs: 120000, miningSpeedBonus: 0.12, xpBonus: 0.25, critBonus: 0.06, desc: "Steady flame (120s)" }),
-  Object.freeze({ level: 5, label: "Tier V", cost: 50, durationMs: 150000, miningSpeedBonus: 0.15, xpBonus: 0.30, critBonus: 0.08, desc: "Bright blaze (150s)" }),
-  Object.freeze({ level: 6, label: "Tier VI", cost: 75, durationMs: 180000, miningSpeedBonus: 0.18, xpBonus: 0.40, critBonus: 0.10, desc: "Roaring fire (180s)" }),
-  Object.freeze({ level: 7, label: "Tier VII", cost: 100, durationMs: 210000, miningSpeedBonus: 0.20, xpBonus: 0.50, critBonus: 0.12, desc: "Intense heat (210s)" }),
-  Object.freeze({ level: 8, label: "Tier VIII", cost: 150, durationMs: 240000, miningSpeedBonus: 0.25, xpBonus: 0.60, critBonus: 0.15, desc: "Inferno (240s)" }),
-  Object.freeze({ level: 9, label: "Tier IX", cost: 200, durationMs: 270000, miningSpeedBonus: 0.30, xpBonus: 0.75, critBonus: 0.18, desc: "Volcanic (270s)" }),
-  Object.freeze({ level: 10, label: "Tier X", cost: 300, durationMs: 360000, miningSpeedBonus: 0.35, xpBonus: 0.90, critBonus: 0.20, desc: "Eternal flame (360s)" }),
+  Object.freeze({ level: 1, label: "Tier I", cost: 0, durationMs: 60000, miningSpeedBonus: 0.05, xpBonus: 0.10, desc: "Basic warmth (60s)" }),
+  Object.freeze({ level: 2, label: "Tier II", cost: 250, durationMs: 75000, miningSpeedBonus: 0.08, xpBonus: 0.15, desc: "Cozy fire (75s)" }),
+  Object.freeze({ level: 3, label: "Tier III", cost: 750, durationMs: 90000, miningSpeedBonus: 0.10, xpBonus: 0.20, desc: "Warm glow (90s)" }),
+  Object.freeze({ level: 4, label: "Tier IV", cost: 2500, durationMs: 120000, miningSpeedBonus: 0.12, xpBonus: 0.25, desc: "Steady flame (120s)" }),
+  Object.freeze({ level: 5, label: "Tier V", cost: 8000, durationMs: 150000, miningSpeedBonus: 0.15, xpBonus: 0.30, desc: "Bright blaze (150s)" }),
+  Object.freeze({ level: 6, label: "Tier VI", cost: 25000, durationMs: 180000, miningSpeedBonus: 0.18, xpBonus: 0.40, desc: "Roaring fire (180s)" }),
+  Object.freeze({ level: 7, label: "Tier VII", cost: 75000, durationMs: 210000, miningSpeedBonus: 0.20, xpBonus: 0.50, desc: "Intense heat (210s)" }),
+  Object.freeze({ level: 8, label: "Tier VIII", cost: 200000, durationMs: 240000, miningSpeedBonus: 0.25, xpBonus: 0.60, desc: "Inferno (240s)" }),
+  Object.freeze({ level: 9, label: "Tier IX", cost: 500000, durationMs: 270000, miningSpeedBonus: 0.30, xpBonus: 0.75, desc: "Volcanic (270s)" }),
+  Object.freeze({ level: 10, label: "Tier X", cost: 1250000, durationMs: 360000, miningSpeedBonus: 0.35, xpBonus: 0.90, desc: "Eternal flame (360s)" }),
 ]);
 
 export const CAMPFIRE_BLESSINGS = Object.freeze([
@@ -30,15 +30,6 @@ export const CAMPFIRE_BLESSINGS = Object.freeze([
     icon: "stats",
     stat: "xpBonus",
     statLabel: "XP GAIN",
-  }),
-  Object.freeze({
-    type: "focus",
-    name: "Focus",
-    color: "#DD66FF",
-    desc: "+Crit Chance",
-    icon: "critical",
-    stat: "critBonus",
-    statLabel: "CRITICAL CHANCE",
   }),
 ]);
 
@@ -68,17 +59,17 @@ export const CAMPFIRE_CONSUMABLE_CONFIG = Object.freeze({
   }),
   copy: Object.freeze({
     chargeLabel: "EMBER CHARGES",
-    empty: "No Ember Charges.",
-    findHint: "Mine Ember Ore underground, return to Town, or interact with the Campfire to restore Ember Charges.",
-    oreHint: "Mine Ember Ore underground to add Campfire charges.",
-    firstDiscovery: "EMBER FUELS THE CAMPFIRE",
+    empty: "No Ember Charges left.",
+    findHint: "Mine Ember Ore or sleep in the town bed to refill your Ember pouch.",
+    oreHint: "Mine Ember Ore underground to add a charge. Look for rare glowing seams in deep cave walls.",
+    firstDiscovery: "EMBER ORE POWERS THE CAMPFIRE",
     collected: "EMBER CHARGE ADDED",
     refilled: "EMBER CHARGES RESTORED",
-    refillUpgraded: "EMBER REFILL UPGRADED",
-    refillLead: "Town or Campfire restores at least",
-    refillUpgradeLead: "Find Ember Ore underground to upgrade this refill to",
-    refillComplete: "Ember refill upgrade found.",
-    consumeDetail: "Consumes one Ember Charge. The blessing starts immediately and remains visible in the HUD until it expires.",
+    refillUpgraded: "CAMPFIRE REFILL INCREASED",
+    refillLead: "Sleeping in the town bed restores at least",
+    refillUpgradeLead: "Find Ember Ore underground in rare cave-wall seams to upgrade this refill to",
+    refillComplete: "You found the Campfire refill upgrade.",
+    consumeDetail: "Uses one Ember Charge. The blessing starts now and stays on the HUD until it ends.",
   }),
   feedback: Object.freeze({
     collectedColor: "#FF9A52",
@@ -148,19 +139,24 @@ export function sanitizeCampfireData(value) {
       Math.min(refill.maximumCharges, refillCapacity),
     ),
     selectedBuffType,
+    ...(value?.hasRested === true ? { hasRested: true } : {}),
+    ...(CAMPFIRE_BLESSING_TYPES.has(value?.activeBuff?.type) && Number.isFinite(value?.activeBuff?.remainingMs)
+      && value.activeBuff.remainingMs > 0 ? { activeBuff: { type: value.activeBuff.type,
+        remainingMs: Math.min(CAMPFIRE_TIERS[Math.max(0, Math.min(CAMPFIRE_TIERS.length - 1, level - 1))].durationMs,
+          value.activeBuff.remainingMs) } } : {}),
   };
 }
 
 export const CAMPFIRE_CONFIG = Object.freeze({
-  // Six tiles beyond the last surface merchant: part of town, but not crowded
-  // into the merchant line.
-  surfaceTileX: 23,
+  // Four tiles beyond the last merchant, inside the grounded Worldroot hearth
+  // and before the Titan promenade begins.
+  surfaceTileX: 21,
   inputActions: Object.freeze({
     interact: "interact",
     previousBlessing: "aimUp",
     nextBlessing: "aimDown",
   }),
-  spriteBasePath: "sprites/npc/campfire/generated",
+  spriteBasePath: "sprites/npc/campfire/worldroot-v2/runtime",
   persistence: Object.freeze({
     slotKeyPrefix: "jkd-campfire-level-slot-",
     legacyKey: "jkd-campfire-level",
@@ -169,13 +165,16 @@ export const CAMPFIRE_CONFIG = Object.freeze({
     consumerId: "campfire-current",
   }),
   spriteKeys: Object.freeze([
-    "campfire-tier-01", "campfire-tier-02", "campfire-tier-03", "campfire-tier-04", "campfire-tier-05",
-    "campfire-tier-06", "campfire-tier-07", "campfire-tier-08", "campfire-tier-09", "campfire-tier-10",
+    "campfire-worldroot-v2-tier-01", "campfire-worldroot-v2-tier-02",
+    "campfire-worldroot-v2-tier-03", "campfire-worldroot-v2-tier-04",
+    "campfire-worldroot-v2-tier-05", "campfire-worldroot-v2-tier-06",
+    "campfire-worldroot-v2-tier-07", "campfire-worldroot-v2-tier-08",
+    "campfire-worldroot-v2-tier-09", "campfire-worldroot-v2-tier-10",
   ]),
   groundOverlapPx: 1,
   heightByLevelTiles: Object.freeze([
-    1.06, 1.10, 1.14, 1.18, 1.22,
-    1.26, 1.30, 1.34, 1.38, 1.42,
+    0.45, 0.57, 0.70, 0.84, 0.99,
+    1.15, 1.31, 1.47, 1.64, 1.82,
   ]),
   expirationFeedback: Object.freeze({
     warningMs: 10000,

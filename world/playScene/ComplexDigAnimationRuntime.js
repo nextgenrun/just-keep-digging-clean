@@ -42,14 +42,35 @@ export function resolveComplexDigSelection(
     && Array.isArray(complexKeys)
     && complexKeys.length > 0
   ) {
+    const complexFallback = family === "side"
+      ? profile?.complexDigSideFallbackAnimationKey || complexKeys[0] || fallback
+      : fallback;
     return {
       family: `complex-${family}`,
       animationKeys: complexKeys,
-      fallback,
+      fallback: complexFallback,
+      prewarmAnimationKey: family === "side"
+        ? profile?.complexDigSidePrewarmAnimationKey || null
+        : null,
+      prewarmAnimationKeys: family === "side"
+        ? profile?.complexDigSidePrewarmAnimationKeys || []
+        : [],
       complex: true,
     };
   }
   return { family, animationKeys, fallback, complex: false };
+}
+
+export function prewarmComplexDigSelection(scene, selection) {
+  if (!selection?.complex) return false;
+  const animationKeys = new Set([
+    selection.prewarmAnimationKey,
+    ...(selection.prewarmAnimationKeys || []),
+  ].filter(Boolean));
+  for (const key of animationKeys) {
+    void ownerScene(scene)?.playerDeferredAnimationAssetController?.ensureForAnimation?.(key);
+  }
+  return animationKeys.size > 0;
 }
 
 export function installComplexDigAnimationRuntime(scene) {

@@ -29,7 +29,6 @@ const playerLevelGates = Object.values(UPGRADES)
 assert.deepEqual(playerLevelGates, [
   ["adamantPickaxe", 7],
   ["dragonPickaxe", 11],
-  ["luckySales", 7],
   ["marketInsight", 6],
   ["mithrilPickaxe", 6],
   ["runePickaxe", 9],
@@ -46,7 +45,8 @@ assert.deepEqual(
 );
 assert.deepEqual(JOURNEY_CONFIG.playerLevelMilestones, [2, 3, 4, 6, 11]);
 assert.equal(OPENING_FLIGHT_GOLDEN_FIVE_CONFIG.cache.minimumPlayerLevel, 1);
-assert.equal(HARDCORE_MODE_CONFIG.stress.stressResistancePerPlayerLevel, 0.05);
+assert.equal(HARDCORE_MODE_CONFIG.stress.panicStartDepthTiles, 22);
+assert.equal(LEVEL_CONFIG.getPanicResistanceMeters(2), 20);
 
 const xpEffect = SPECIAL_BLOCKS_CONFIG.effects.xpBlock;
 const legendEffect = SPECIAL_BLOCKS_CONFIG.effects.legendBlock;
@@ -72,7 +72,7 @@ const crossingResult = crossing.gainLevelProgress(xpEffect.value);
 assert.equal(crossingResult.levelUp, true);
 assert.equal(crossingResult.newLevel, 2);
 assert.equal(crossingResult.levelsGained, 1);
-assert.equal(crossingResult.rewardSummary.darknessResistanceGainMeters, 20);
+assert.equal(crossingResult.rewardSummary.panicResistanceGainMeters, 20);
 
 const inventoryEffects = Object.fromEntries(
   INVENTORY_SPECIAL_BLOCKS.entries.map(entry => [entry.id, entry.effect]),

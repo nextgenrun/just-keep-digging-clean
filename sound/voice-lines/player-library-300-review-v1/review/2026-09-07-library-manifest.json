@@ -1,0 +1,23 @@
+{
+  "reviewOnly": true,
+  "runtimeWired": false,
+  "counts": {
+    "total": 300,
+    "event": 276,
+    "random": 24,
+    "withExistingAudio": 20,
+    "newUnrecorded": 280
+  },
+  "sourceHash": "678a3d6c30870ae87d2288f57268a41097996455d3ec410bcd549f364eb0b99b",
+  "scriptStatus": "ready-for-yes-no-audit",
+  "recordingStatus": "accepted-references-only",
+  "sourceFiles": [
+    "values/player-voice-library-300-review-v1/groups.json",
+    "values/player-voice-library-300-review-v1/lines-001-075.json",
+    "values/player-voice-library-300-review-v1/lines-076-150.json",
+    "values/player-voice-library-300-review-v1/lines-151-225.json",
+    "values/player-voice-library-300-review-v1/lines-226-300.json",
+    "values/player-voice-library-300-review-v1/persona.json",
+    "values/player-voice-library-300-review-v1/policy.json"
+  ]
+}

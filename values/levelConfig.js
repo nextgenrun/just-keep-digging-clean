@@ -23,19 +23,15 @@ export const LEVEL_CONFIG = Object.freeze({
     flatDamagePerLegacyLevel: 0.25,
     miningSpeedPerLegacyLevel: 0.005,
     miningSpeedCap: 0.5,
-    criticalChancePerLegacyLevel: 0.002,
-    criticalChanceCap: 0.15,
-    criticalDamagePerLegacyLevel: 0.5,
     maxHpPerLegacyLevel: 5,
     xpMultiplierPerLegacyLevel: 0.02,
-    resourceLuckPerLegacyLevel: 0.002,
-    resourceLuckCap: 0.95,
     hardcapMiningSpeed: 0.75,
   }),
 
-  // Each earned level postpones the same visibility loss by 20-50 metres.
-  // Early gains stay restrained; the exponential curve approaches 50m late.
-  DARKNESS_RESISTANCE: Object.freeze({
+  // Each earned level postpones depth-driven panic by 20-50 metres without
+  // changing underground visibility. Early gains stay restrained; the
+  // exponential curve approaches 50m late.
+  PANIC_RESISTANCE: Object.freeze({
     minimumGainMeters: 20,
     maximumGainMeters: 50,
     approachLevels: 23,
@@ -69,12 +65,6 @@ export const LEVEL_CONFIG = Object.freeze({
       icon: "pickaxe",
       description: "+3% damage to all tiles",
       damageBonus: 0.03
-    },
-    resourceLuck: {
-      name: "Resource Luck",
-      icon: "luck",
-      description: "+2% chance for bonus resources",
-      luckBonus: 0.02
     }
   },
 
@@ -89,17 +79,6 @@ export const LEVEL_CONFIG = Object.freeze({
       type: "xpMultiplier",
       amount: 0.10,
       description: "+10% XP multiplier"
-    },
-    4: {
-      type: "criticalHit",
-      chance: 0.05,
-      damageMultiplier: 1.5,
-      description: "+5% critical hit chance (1.5x damage)"
-    },
-    5: {
-      type: "criticalDamage",
-      amount: 0.15,
-      description: "+15% critical hit damage (total 1.65x)"
     },
     6: {
       type: "softcapMilestone",
@@ -249,9 +228,9 @@ export const LEVEL_CONFIG = Object.freeze({
     return totalXP;
   },
 
-  getDarknessResistanceGainMeters(level) {
+  getPanicResistanceGainMeters(level) {
     if (level <= 1) return 0;
-    const cfg = this.DARKNESS_RESISTANCE;
+    const cfg = this.PANIC_RESISTANCE;
     const earnedIndex = Math.max(0, Math.floor(level) - 2);
     const approach = 1 - Math.exp(-earnedIndex / cfg.approachLevels);
     const rawGain = cfg.minimumGainMeters
@@ -259,11 +238,11 @@ export const LEVEL_CONFIG = Object.freeze({
     return Math.round(rawGain / cfg.roundToMeters) * cfg.roundToMeters;
   },
 
-  getDarknessResistanceMeters(level) {
+  getPanicResistanceMeters(level) {
     const cappedLevel = Math.max(1, Math.min(this.HARDCAP, Math.floor(Number(level) || 1)));
     let totalMeters = 0;
     for (let earnedLevel = 2; earnedLevel <= cappedLevel; earnedLevel += 1) {
-      totalMeters += this.getDarknessResistanceGainMeters(earnedLevel);
+      totalMeters += this.getPanicResistanceGainMeters(earnedLevel);
     }
     return totalMeters;
   },

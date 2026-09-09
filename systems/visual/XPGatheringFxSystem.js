@@ -2,7 +2,8 @@ import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { HUD_LAYOUT } from "../../values/hudLayout.js";
 import { REWARD_FLIGHT_CHANNELS } from "../../values/rewardFlightMotions.js";
 import { XP_GATHERING_CONFIG } from "../../values/xpGathering.js";
-import { isNearXpViewport, isXpGatheringEnabled, resolveXpGatheringVariation, resolveXpRewardEntry, resolveXpSourceColor, worldToScreen } from "./XPGatheringFxMath.js";
+import { isNearXpViewport, isXpGatheringEnabled, resolveXpGatheringIconId, resolveXpGatheringVariation, resolveXpRewardEntry, resolveXpSourceColor, worldToScreen } from "./XPGatheringFxMath.js";
+import { XPGatheringFlightView } from "./XPGatheringFlightView.js";
 import { RewardFlightMotionSystem } from "./RewardFlightMotionSystem.js";
 export class XPGatheringFxSystem {
   constructor(scene, targetProvider, motionProvider = null) {
@@ -12,7 +13,12 @@ export class XPGatheringFxSystem {
     this.motionProvider = sharedMotionProvider || new RewardFlightMotionSystem();
     this.ownsMotionProvider = !sharedMotionProvider;
     this.pending = []; this.activeSprites = []; this.activeLabels = [];
+    this.iconSequence = 0; this.recentIconIds = [];
     this.flushTimer = null; this.destroyed = false;
+    this.flightView = new XPGatheringFlightView(scene, {
+      addImage: (...args) => this._addImage(...args),
+      removeSprite: sprite => this._removeSprite(sprite),
+    });
   }
   queueGain(entry = {}) {
     const xpGained = Math.max(0, Number(entry.xpGained) || 0);
@@ -43,7 +49,17 @@ export class XPGatheringFxSystem {
     }), { x: 0, y: 0 });
     const sourceColors = [...new Set(entries.map(entry => resolveXpSourceColor(this.scene, entry)))];
     const xpGained = entries.reduce((sum, entry) => sum + entry.xpGained, 0);
-    this._spawnSourceFlecks(origin, sourceColors, profile.particleCount);
+    const iconIds = this._selectIconIds(variationId, entries, profile.pickupCount);
+    this.lastVariationId = variationId;
+    this.lastIconIds = [...iconIds];
+    const target = this.targetProvider?.getGatheringTarget?.(variationId)
+      || this._fallbackTarget();
+    this._spawnSourceFlecks(
+      origin,
+      sourceColors,
+      profile.particleCount,
+      ASSET_KEYS.ui.xpGathering[iconIds[0]],
+    );
     for (let index = 0; index < profile.pickupCount; index += 1) {
       this._spawnPickup({
         origin,
@@ -53,16 +69,38 @@ export class XPGatheringFxSystem {
         profile,
         index,
         xpGained,
+        iconId: iconIds[index],
+        target,
       });
     }
   }
-  _spawnPickup({ origin, sourceColor, rewardEntry, variationId, profile, index, xpGained }) {
+  _selectIconIds(variationId, entries, count) {
+    const selected = [];
+    for (let index = 0; index < count; index += 1) {
+      const iconId = resolveXpGatheringIconId(
+        variationId,
+        entries,
+        index,
+        this.iconSequence,
+        this.recentIconIds,
+      );
+      this.iconSequence += 1;
+      this.recentIconIds.push(iconId);
+      if (this.recentIconIds.length > XP_GATHERING_CONFIG.iconSelection.recentWindow) {
+        this.recentIconIds.shift();
+      }
+      selected.push(iconId);
+    }
+    return selected;
+  }
+  _spawnPickup({ origin, sourceColor, rewardEntry, variationId, profile, index, xpGained, iconId, target }) {
     const pickup = XP_GATHERING_CONFIG.pickup;
-    const iconKey = ASSET_KEYS.ui.xpGathering[profile.icon];
+    const iconKey = ASSET_KEYS.ui.xpGathering[iconId];
     const offsetX = pickup.spawnOffsetsPx[index % pickup.spawnOffsetsPx.length];
     const sprite = this._addImage(origin.x + offsetX, origin.y, iconKey, true);
     if (!sprite) return;
-    const displaySize = pickup.displaySizePx * profile.sizeMultiplier;
+    const opticalScale = XP_GATHERING_CONFIG.iconScaleById[iconId] || 1;
+    const displaySize = pickup.displaySizePx * profile.sizeMultiplier * opticalScale;
     sprite.setDisplaySize(displaySize, displaySize);
     const baseScaleX = sprite.scaleX;
     const baseScaleY = sprite.scaleY;
@@ -90,15 +128,14 @@ export class XPGatheringFxSystem {
         xpGained,
         baseScaleX,
         baseScaleY,
+        target,
       }),
     });
   }
   _flyToBar(details) {
     const { sprite, profile, index, pickupCount } = details;
     if (!sprite?.active) return;
-    const pickup = XP_GATHERING_CONFIG.pickup;
-    const target = this.targetProvider?.getGatheringTarget?.(details.variationId)
-      || this._fallbackTarget();
+    const target = details.target;
     const startX = sprite.x;
     const startY = sprite.y;
     const rewardEntry = details.rewardEntry || {};
@@ -109,47 +146,23 @@ export class XPGatheringFxSystem {
       resourceType: rewardEntry.resourceType,
       skyTileRarity: rewardEntry.skyTileRarity,
       xpGained: details.xpGained,
-      special: details.variationId === "special",
+      special: profile.soundSpecial,
       levelUp: details.variationId === "levelUp",
       index,
       count: pickupCount,
     });
     if (!motionPlan) { this._removeSprite(sprite); return; }
     this.lastMotionProfileId = motionPlan.profileId;
-    const startRotation = sprite.rotation;
-    const state = { t: 0, trailEmitted: false };
-    sprite._xpTravelState = state;
-    this.scene.tweens.add({
-      targets: state,
-      t: 1,
-      duration: motionPlan.durationMs,
-      ease: motionPlan.ease,
-      onUpdate: () => {
-        if (!sprite.active) return;
-        const t = state.t;
-        const point = motionPlan.sample(t);
-        sprite.x = point.x;
-        sprite.y = point.y;
-        const fade = Math.max(0, t - pickup.travelFadeStartRatio) / (1 - pickup.travelFadeStartRatio);
-        sprite.alpha = profile.alpha * (1 - fade);
-        const sizeRatio = 1 - t * pickup.travelScaleLossRatio;
-        sprite.setScale(details.baseScaleX * sizeRatio, details.baseScaleY * sizeRatio);
-        sprite.rotation = startRotation + motionPlan.rotationRadians * t;
-        if (!state.trailEmitted && t >= pickup.trailEmitRatio) {
-          state.trailEmitted = true;
-          this._spawnTrailFleck(sprite.x, sprite.y, details.sourceColor);
-        }
-      },
-      onComplete: () => {
-        const isFinalPickup = index === pickupCount - 1;
-        if (isFinalPickup) this._arrive(target, details);
-        this._removeSprite(sprite);
-      },
+    this.flightView.animate({
+      ...details,
+      target,
+      motionPlan,
+      isFinalPickup: index === pickupCount - 1,
+      onFinalArrival: arrivalTarget => this._arrive(arrivalTarget, details),
     });
   }
 
-  _spawnSourceFlecks(origin, colors, count) {
-    const key = ASSET_KEYS.ui.xpGathering.routine;
+  _spawnSourceFlecks(origin, colors, count, key) {
     const particles = XP_GATHERING_CONFIG.pickup.particles;
     for (let index = 0; index < count; index += 1) {
       const angle = particles.sourceAngleStartRadians + index * particles.sourceAngleStepRadians;
@@ -170,47 +183,17 @@ export class XPGatheringFxSystem {
     }
   }
 
-  _spawnTrailFleck(x, y, color) {
-    const particles = XP_GATHERING_CONFIG.pickup.particles;
-    const fleck = this._addImage(x, y, ASSET_KEYS.ui.xpGathering.routine, false);
-    if (!fleck) return;
-    fleck.setDisplaySize(particles.trailDisplaySizePx, particles.trailDisplaySizePx)
-      .setTintFill(color).setAlpha(particles.trailAlpha);
-    this.scene.tweens.add({
-      targets: fleck,
-      y: y + particles.trailFallPx,
-      alpha: 0,
-      duration: particles.trailDurationMs,
-      ease: particles.trailEase,
-      onComplete: () => this._removeSprite(fleck),
-    });
-  }
-
   _arrive(target, details) {
-    const pickup = XP_GATHERING_CONFIG.pickup;
-    const echo = this._addImage(target.x, target.y, details.sprite.texture.key, false);
-    if (echo) {
-      echo
-        .setDisplaySize(pickup.arrivalSizePx, pickup.arrivalSizePx)
-        .setAlpha(details.profile.alpha * pickup.arrivalEchoAlphaMultiplier);
-      const scaleX = echo.scaleX;
-      const scaleY = echo.scaleY;
-      this.scene.tweens.add({
-        targets: echo,
-        alpha: 0,
-        scaleX: scaleX * pickup.arrivalEchoScale,
-        scaleY: scaleY * pickup.arrivalEchoScale,
-        duration: pickup.arrivalEchoDurationMs,
-        ease: pickup.arrivalEchoEase,
-        onComplete: () => this._removeSprite(echo),
-      });
-    }
-    this.targetProvider?.pulseGatheringTarget?.(details.profile.pulseStrength, details.variationId);
+    this.targetProvider?.pulseGatheringTarget?.(
+      details.profile.pulseStrength,
+      details.variationId,
+      target.segmentIndex,
+    );
     if (details.profile.showLabel) this._showGainLabel(target, details.xpGained);
     this.scene.soundSystem?.playXpGather?.({
-      special: details.variationId === "special",
+      special: details.profile.soundSpecial,
       levelUp: details.variationId === "levelUp",
-      segmentIndex: this.targetProvider?.getActiveSegmentIndex?.() || 0,
+      segmentIndex: target.segmentIndex || 0,
     });
   }
 
@@ -267,7 +250,11 @@ export class XPGatheringFxSystem {
   }
 
   _fallbackTarget() {
-    return { x: (this.scene.scale?.width || 1280) / 2, y: (this.scene.scale?.height || 720) - 34 };
+    return {
+      x: (this.scene.scale?.width || 1280) / 2,
+      y: (this.scene.scale?.height || 720) - 34,
+      segmentIndex: 0,
+    };
   }
   _removeSprite(sprite) {
     if (!sprite) return;

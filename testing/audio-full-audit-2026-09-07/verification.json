@@ -1,0 +1,18 @@
+{
+  "generatedAt": "2026-09-07T05:13:36.804Z",
+  "sourceFiles": 795,
+  "decodeFailures": 0,
+  "checks": {
+    "lifecycle": 10,
+    "mastering": 7,
+    "native": 22
+  },
+  "focusedPassed": true,
+  "existingContractsPassed": 11,
+  "broaderContractLimits": [
+    "Older September 4 catalog snapshot drift",
+    "Contextual music static deathRevive hook assertion",
+    "Absent historical cinematic marketing MP4"
+  ],
+  "listeningAcceptance": "Not claimed; matched A/B page and remaining Signal balance finding supplied"
+}

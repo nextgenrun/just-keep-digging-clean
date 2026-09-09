@@ -1,0 +1,10 @@
+{
+  "id": "E2",
+  "voice": "rex",
+  "text": "Not my first burial.",
+  "model": "x-ai/grok-voice-tts-1.0",
+  "requestSha256": "868cc320759141639332b591172e0bdef6a8ca2cf04dd3009e8258b66c55044d",
+  "contentType": "audio/mpeg",
+  "generationId": "gen-tts-1788736871-uUh8bIBAtvuRQBku9GvK",
+  "rawSha256": "ba336f9d73b3a71dcf0cde62755db31eff2eefe48598f56c1d98ccf9ab7939b9"
+}

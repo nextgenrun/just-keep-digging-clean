@@ -1,0 +1,238 @@
+{
+  "schemaVersion": "seedance-player-effects-inputs-v1",
+  "reviewOnly": true,
+  "productionChanged": false,
+  "plate": {
+    "width": 1280,
+    "height": 720,
+    "floorY": 652
+  },
+  "sources": [
+    {
+      "path": "visual-approval-previews/2026-08-15-survival-motion-locked-mesh-quality-v2/raw-2048/walk/frame-000.png",
+      "sha256": "2bc89babce26db20e057427d6a6910d409c00b9a2cd5951654e0f4ab95f88c21"
+    },
+    {
+      "path": "visual-approval-previews/2026-08-15-survival-motion-locked-mesh-quality-v2/raw-2048/walk/frame-023.png",
+      "sha256": "8eae1becd0681988fbf2ceb9411b7b49d174ff486de6ba9b7be7b922fbf5917d"
+    },
+    {
+      "path": "sprites/character/survival-character-unified-v1/runtime/2026-08-25-survival-blender-v2-walk-sheet.webp",
+      "sha256": "163498a28ddcf7be230c0ed368026b085e4b7d69f96ac79dd4a0c94f5d0fecb0"
+    },
+    {
+      "path": "sprites/character/survival-character-unified-v1/runtime/2026-08-25-survival-ual-player-v1-moving-side-dig-cross-sheet.webp",
+      "sha256": "96472ecce2c1bdb7b10af8bdd4cac3e64c35c4832d8a0ac70709bc1059421f41"
+    },
+    {
+      "path": "sprites/UI/loot-pickups/dirt.png",
+      "sha256": "2c9866e165a7c48ef0fb0ce05c5841fb22af16b879f23dbc41eca1afe5f70e47"
+    },
+    {
+      "path": "sprites/UI/loot-pickups/stone.png",
+      "sha256": "7fefd4c302a6eccd0311d714d7b3ada310d4117816bc380a32b63bf30be5639c"
+    },
+    {
+      "path": "sprites/UI/loot-pickups/copper.png",
+      "sha256": "d15b297281769fdb6daf770c3ef75d7d97fc42a1e556acc6c959da292593e7d9"
+    },
+    {
+      "path": "sprites/UI/loot-pickups/iron.png",
+      "sha256": "abed02a71855adcf477039325b65d5589fd7377792df252572865f0344baa50b"
+    },
+    {
+      "path": "sprites/UI/loot-pickups/gold.png",
+      "sha256": "94d5c2efe974234265de09c40b46e646bfde9a433a1f616c6adfe29dd9dbecf7"
+    },
+    {
+      "path": "sprites/backgrounds/world-visual-v2/semantic-decals-v1/imagegen-overlay-v3/masters/alpha/magma-crystal.png",
+      "sha256": "87868e227b643c7a2722a1676092cbd98a3015a79b7f10c69ad373993e93dd26"
+    },
+    {
+      "path": "sprites/backgrounds/world-visual-v2/semantic-decals-v1/imagegen-overlay-v3/masters/alpha/ember-ore.png",
+      "sha256": "b6d3a4b85c1431ea3a69fce0f8bdc16cddcef1f5bfbdcf81198cfeae98a08367"
+    },
+    {
+      "path": "sprites/fx/tile-destruction-fx-v3/tile-break-core-v3.png",
+      "sha256": "fd53516ab204a24f9ae65ee51660ab80a34d60f2d7966e802bbaa351ceef2b87"
+    },
+    {
+      "path": "sprites/UI/xp-gathering-v2/xp-mote-core-v2.png",
+      "sha256": "1e6d4d25578dd97a1b0ed958383b0f60de5691a08c60c7ecd83b547aa51a61dd"
+    },
+    {
+      "path": "sprites/UI/xp-gathering-v2/xp-cluster-orbit-v2.png",
+      "sha256": "70cbc5bb1d6140d5364b13f968c0a227d359f40a5e0be426e5dc781ceb8aa3e2"
+    },
+    {
+      "path": "sprites/UI/xp-gathering-v2/xp-sigil-rune-v2.png",
+      "sha256": "8a843d9bb806178a01bee16c85504aba8793c086cc184418bda066a50814d454"
+    },
+    {
+      "path": "sprites/UI/xp-gathering-v2/xp-crest-core-v2.png",
+      "sha256": "34e586f47f4db8adc81d16bbe104aba84fb2e345cc39076f9821d335627a69f7"
+    },
+    {
+      "path": "sprites/UI/xp-gathering-v2/xp-crest-crown-v2.png",
+      "sha256": "fde6fd7bad695e72679d3909115963a672688ec5e8b844cad84a80e571f539dd"
+    },
+    {
+      "path": "sprites/celestial-engines/wayward-star-core-v1.png",
+      "sha256": "8a1372d34a41c2510dd3dc81939306e7b5364a9f5b7a7fe80b11c53b86f56c04"
+    },
+    {
+      "path": "sprites/celestial-engines/hollow-sun-core-v1.png",
+      "sha256": "9bb31a97351524dc9af43ef6dad84665af28ec7adac991adf04117c136b93b54"
+    },
+    {
+      "path": "sprites/celestial-engines/star-heart-core-v1.png",
+      "sha256": "cc4ca451756842ccfe73876638fbf795323e6d75e45056ffd1ae854ab8670576"
+    },
+    {
+      "path": "sprites/celestial-engines/stellar-lance-wave-purple-v1.png",
+      "sha256": "5a4f218f323d676e39a55389dbd85e7c6f0b156b1627e4cb4651f8f087f37add"
+    },
+    {
+      "path": "sprites/celestial-engines/stellar-lance-impact-purple-v1.png",
+      "sha256": "55db136f1fc4d809c1e5004b8b5fa5ff2627ec7fce2adc1d89a8a150dd27748e"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/references/walk-loop-first.png",
+      "sha256": "9d8c393d5ff65b024e5f08f32c4201ddf6a094c5b4b70ce7e8654906c763d18e"
+    },
+    {
+      "path": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/references/walk-loop-last.png",
+      "sha256": "d4f9f0ec2af00368442f9fbc4ee909b0bb4a6e6ffb76786af3bf0c53e7530bd5"
+    },
+    {
+      "path": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/references/walk-loop-storyboard.png",
+      "sha256": "f751724b35a8d487af6984643fbde233949c3ff10a19404d18196163b00f9f00"
+    },
+    {
+      "path": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/references/side-dig-first.png",
+      "sha256": "45a4fe958c28ef54f2e900a3586b1a9e8657d299e9ce27c203fa2fd5aed5332d"
+    },
+    {
+      "path": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/references/side-dig-last.png",
+      "sha256": "8d0292fa40f3f5bdd090720cafe918e6f7d83395007b760f6a03a8bdf9cd43a3"
+    },
+    {
+      "path": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/references/side-dig-storyboard.png",
+      "sha256": "4ee72d300ef658dd6a074017eec34a75e950a0472f6469137f3aeda7c8ae9341"
+    },
+    {
+      "path": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/references/soil-impact-first.png",
+      "sha256": "6dc0ca84ce5e82c943e54eb3b1f1912a1fd42e64c833ae138d3c72dd6f9742ec"
+    },
+    {
+      "path": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/references/soil-impact-last.png",
+      "sha256": "6dc0ca84ce5e82c943e54eb3b1f1912a1fd42e64c833ae138d3c72dd6f9742ec"
+    },
+    {
+      "path": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/references/fx-clean-first.png",
+      "sha256": "b904f7b454f83c1a1304031467b1d12a62aa859ccc811d1a84b1c261efa59985"
+    },
+    {
+      "path": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/references/fx-clean-last.png",
+      "sha256": "b904f7b454f83c1a1304031467b1d12a62aa859ccc811d1a84b1c261efa59985"
+    },
+    {
+      "path": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/references/style-material-icons.png",
+      "sha256": "f4b836f7a58dd3f3eda857703aa83e23bd45bdde1f61d52e27fb68cca438c990"
+    },
+    {
+      "path": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/references/style-stone-contact.png",
+      "sha256": "d2e875d4471386c4d2835bb9d8567202195b046c9d93871edf33f6a2abe6005b"
+    },
+    {
+      "path": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/references/style-metal-contact.png",
+      "sha256": "7e3246b16e0fac5c24d90a8c53ef6edadb72960e5074c360ded6f06ae7fa372f"
+    },
+    {
+      "path": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/references/style-crystal-contact.png",
+      "sha256": "f0a9ced48386e0953cc36bf7e3f4b29c3dd9974e57cbb494c0de358c5e14a7f5"
+    },
+    {
+      "path": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/references/style-magma-contact.png",
+      "sha256": "a099e53f39bf31a659aaf091677b179db09f6a7a62ab459b8f174fae5449d6cd"
+    },
+    {
+      "path": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/references/style-break-dirt.png",
+      "sha256": "3df7cacb06946d071ac020aabff06a664b745b9c6b2f763e34813770328b6d20"
+    },
+    {
+      "path": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/references/style-break-stone.png",
+      "sha256": "60ee35f023dc63544eea0f140f1274a908a9dbf7ff025e6ba1772597c719856c"
+    },
+    {
+      "path": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/references/style-break-crystal.png",
+      "sha256": "cae4cb4bbf0c735c01dd4aad42c49017df80582e31c70dd0de83e94c2a0263e4"
+    },
+    {
+      "path": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/references/style-xp-gathering.png",
+      "sha256": "332b20f3592cbbb70c5ab9a9e77e0987b4ef1e192ba5568a6dbc7d7842c1b47d"
+    },
+    {
+      "path": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/references/style-wayward-star.png",
+      "sha256": "574f8e38ed164e9de72ca20a42bd063e0e50d49ba1e6b3182298f6d85cbaa2d6"
+    },
+    {
+      "path": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/references/style-hollow-sun.png",
+      "sha256": "babc46c4b97add1f4388a5bab6eb3c3bef34f2924d467b1ebf15703bbf269a09"
+    },
+    {
+      "path": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/references/style-stellar-lance.png",
+      "sha256": "7f90a486b0b1dc63faee8dc7ec5c99eb420db35c50c73c4562116a49e9030db9"
+    },
+    {
+      "path": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/references/style-star-heart.png",
+      "sha256": "685a76d26f229df23cf22a3aa58c9eb9ba0efc02679b3b29dc2a29c8e7239fd7"
+    }
+  ],
+  "motionAuthority": {
+    "walk": {
+      "frames": [
+        0,
+        6,
+        12,
+        18,
+        23
+      ],
+      "loopBoundary": [
+        23,
+        0
+      ]
+    },
+    "sideDig": {
+      "frames": [
+        0,
+        3,
+        6,
+        12,
+        21
+      ],
+      "contactFrame": 6
+    },
+    "soilImpact": {
+      "firstEqualsLast": true
+    },
+    "effectPlate": {
+      "firstEqualsLast": true,
+      "rgb": [
+        0,
+        0,
+        0
+      ]
+    }
+  },
+  "constraints": [
+    "fixed camera and crop",
+    "fixed feet or tile anchor",
+    "forward-only motion",
+    "no ping-pong or reversed frames",
+    "no optical-flow interpolation",
+    "no identity, costume, equipment, or silhouette replacement"
+  ]
+}

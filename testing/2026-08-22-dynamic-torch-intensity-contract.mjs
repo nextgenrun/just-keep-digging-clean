@@ -142,16 +142,19 @@ assert.equal(
   5 * LIGHT_CONFIG.torchIntensity.overdrive.drainMaximumMultiplier,
 );
 
+const levelOneLighting = light._resolveLightingState(1000);
 playerLevelSystem.level = 2;
 const levelTwoLighting = light._resolveLightingState(1000);
-assert.equal(levelTwoLighting.darknessResistanceMeters, 20);
-assert.equal(levelTwoLighting.visibilityDepth, 980);
+assert.equal(playerLevelSystem.getPanicResistanceMeters(), 20);
+assert.equal("darknessResistanceMeters" in levelTwoLighting, false);
+assert.equal(levelTwoLighting.visibilityDepth, 1000);
 assert.equal(levelTwoLighting.torchBonusRadius, torchUpgradeEffects.torchBonusRadius);
 assert.equal(levelTwoLighting.torchDrainPerSecond, upgradedOverdriveDrain);
-assert.ok(light._computeVisibilityRadius(levelTwoLighting) > light._computeVisibilityRadius({
-  ...levelTwoLighting,
-  visibilityDepth: levelTwoLighting.depth,
-}));
+assert.equal(
+  light._computeVisibilityRadius(levelTwoLighting),
+  light._computeVisibilityRadius(levelOneLighting),
+  "leveling must leave visual darkness unchanged",
+);
 
 const sanityIntensities = [0.01, 0.5, 1, 1.5, 2];
 const sanityByTorchLevel = sanityIntensities.map(torchIntensity => {
@@ -197,7 +200,7 @@ assert.ok(
 );
 assert.ok(sanityByTorchLevel.at(-1).stressSources.includes("torch-light"));
 
-const overdriveByPlayerLevel = [1, 9].map(playerLevel => {
+const overdriveByPanicResistance = [0, 20].map(panicResistanceMeters => {
   const system = new HardcoreModeSystem({
     ...createHardcoreModeData("hardcore", 1),
     armed: true,
@@ -212,20 +215,25 @@ const overdriveByPlayerLevel = [1, 9].map(playerLevel => {
     torchActive: true,
     torchIntensity: 2,
     nearIntactStarLight: false,
-    playerLevel,
+    panicResistanceMeters,
     descentTilesPerSecond: 0,
   });
 });
-assert.equal(overdriveByPlayerLevel[1].stressResistance, 0.4);
-assert.ok(Math.abs(
-  overdriveByPlayerLevel[1].stressGainPerSecond
-    - overdriveByPlayerLevel[0].stressGainPerSecond * 0.6,
-) < 0.000001);
-assert.equal(
-  overdriveByPlayerLevel[1].stressRecoveryPerSecond,
-  overdriveByPlayerLevel[0].stressRecoveryPerSecond,
+assert.equal(overdriveByPanicResistance[0].panicStartDepth, 22);
+assert.equal(overdriveByPanicResistance[1].panicStartDepth, 42);
+assert.equal(overdriveByPanicResistance[1].effectivePanicDepth, 1780);
+assert.ok(
+  overdriveByPanicResistance[1].stressGainPerSecond
+    < overdriveByPanicResistance[0].stressGainPerSecond,
 );
-assert.ok(overdriveByPlayerLevel[1].stress < overdriveByPlayerLevel[0].stress);
+assert.equal(
+  overdriveByPanicResistance[1].stressRecoveryPerSecond,
+  overdriveByPanicResistance[0].stressRecoveryPerSecond,
+);
+assert.ok(
+  overdriveByPanicResistance[1].stress
+    < overdriveByPanicResistance[0].stress,
+);
 
 const burnFrame = {
   alpha: 0,
@@ -234,7 +242,7 @@ const burnFrame = {
   setVisible(value) { this.visible = value; return this; },
 };
 const playerFrame = {
-  textureKey: null,
+  textureKey: ASSET_KEYS.ui.approvedHud.playerCoreShell,
   setTexture(value) { this.textureKey = value; return this; },
 };
 const skin = Object.assign(Object.create(ApprovedHudSkin.prototype), {
@@ -247,7 +255,7 @@ const skin = Object.assign(Object.create(ApprovedHudSkin.prototype), {
   torchBurnAlpha: 0,
 });
 skin.setTorchState(true, 0.2);
-assert.equal(playerFrame.textureKey, ASSET_KEYS.ui.approvedHud.playerCoreTorchOff);
+assert.equal(playerFrame.textureKey, ASSET_KEYS.ui.approvedHud.playerCoreShell);
 assert.equal(burnFrame.visible, true);
 assert.equal(burnFrame.alpha, 0.2);
 skin.setTorchBurn(0.17);
@@ -255,10 +263,8 @@ assert.equal(skin.getTorchBurnSnapshot().alpha, 0.17);
 skin.setTorchState(false, 1);
 assert.equal(burnFrame.visible, false);
 assert.equal(burnFrame.alpha, 0);
-assert.deepEqual(
-  APPROVED_HUD_SKIN.layout.torchBurn.sourceCrop,
-  { x: 347, y: 13, width: 59, height: 73 },
-);
+assert.equal(APPROVED_HUD_SKIN.layout.torchArtwork.icon, "torch");
+assert.ok(APPROVED_HUD_SKIN.layout.torchArtwork.size > 0);
 
 const controlSource = readFileSync(
   resolve(root, "systems/visual/TorchIntensityControl.js"),
@@ -279,13 +285,15 @@ assert.ok(!controlSource.includes('this.hit.on("wheel"'));
 assert.ok(controlSource.includes("event?.stopPropagation?.()"));
 const playerCoreLayout = APPROVED_HUD_SKIN.layout.playerCore;
 const torchControlLayout = APPROVED_HUD_SKIN.layout.torchIntensity;
-assert.equal(APPROVED_HUD_SKIN.layout.buffs.y, 91);
+assert.ok(APPROVED_HUD_SKIN.layout.buffs.y >= playerCoreLayout.y + playerCoreLayout.height);
 assert.ok(torchControlLayout.hitX >= playerCoreLayout.x);
 assert.ok(torchControlLayout.hitX + torchControlLayout.hitWidth <= playerCoreLayout.x + playerCoreLayout.width);
 assert.ok(torchControlLayout.hitY + torchControlLayout.hitHeight <= playerCoreLayout.y + playerCoreLayout.height);
-assert.ok(torchControlLayout.textX < torchControlLayout.hitX);
+assert.ok(torchControlLayout.textX >= torchControlLayout.hitX);
+assert.ok(torchControlLayout.textX <= torchControlLayout.hitX + torchControlLayout.hitWidth);
 assert.ok(!controlSource.includes("scene.add.image("));
 assert.ok(controlSource.includes("integratedIntoPlayerCore"));
+assert.ok(controlSource.includes("this.status?.setText(this.active"));
 assert.ok(controlSource.includes("HUD_LAYOUT.torchIntensityOverdriveLabel"));
 assert.ok(controlSource.includes("HUD_LAYOUT.torchIntensityOverdriveColor"));
 assert.ok(hudSource.includes("cycleTorchIntensity"));
@@ -296,6 +304,6 @@ assert.ok(skinSource.includes("torchBurnFrame"));
 assert.ok(lightSource.includes("hudSystem?.setTorchBurn?.("));
 assert.ok(fireSource.includes("flameAlpha: clampFireLight01(flameAlpha)"));
 assert.ok(bridgeSource.includes("torchIntensity: light.torchIntensity"));
-assert.ok(bridgeSource.includes("playerLevel: scene.playerLevelSystem?.level || 1"));
+assert.ok(bridgeSource.includes("scene.playerLevelSystem?.getPanicResistanceMeters?.() || 0"));
 
-console.log("dynamic torch intensity contract passed: 1-200%, upgrades, levels, overdrive light/drain/panic scaling, and authored HUD sync");
+console.log("dynamic torch intensity contract passed: 1-200%, upgrades, fixed darkness, level panic resistance, overdrive, and authored HUD sync");

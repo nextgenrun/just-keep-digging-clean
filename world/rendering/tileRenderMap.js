@@ -136,7 +136,6 @@ const STATIC_SOURCE_KEYS = Object.freeze([
   ASSET_KEYS.tiles.speedBlock,
   ASSET_KEYS.tiles.xpBlock,
   ASSET_KEYS.tiles.sellBlock,
-  ASSET_KEYS.tiles.critBlock,
   ASSET_KEYS.tiles.berserkBlock,
   ASSET_KEYS.tiles.comboBlock,
   ASSET_KEYS.tiles.legendBlock,
@@ -146,6 +145,8 @@ const STATIC_SOURCE_KEYS = Object.freeze([
   ASSET_KEYS.tiles.gemPowerBlockTiers.gp500,
   ASSET_KEYS.tiles.gemPowerBlockTiers.gp1000,
   ASSET_KEYS.tiles.gemPowerBlockTiers.gp1700,
+  // Append-only: preserve every existing static render index.
+  ASSET_KEYS.tiles.abilityBlock,
 ]);
 
 export const TILESET_SOURCE_KEYS = Object.freeze([
@@ -177,17 +178,17 @@ export const TILE_RENDER_INDEX = Object.freeze({
   SPEED_BLOCK: STATIC_INDEX_START + 14,
   XP_BLOCK: STATIC_INDEX_START + 15,
   SELL_BLOCK: STATIC_INDEX_START + 16,
-  CRIT_BLOCK: STATIC_INDEX_START + 17,
-  BERSERK_BLOCK: STATIC_INDEX_START + 18,
-  COMBO_BLOCK: STATIC_INDEX_START + 19,
-  LEGEND_BLOCK: STATIC_INDEX_START + 20,
+  BERSERK_BLOCK: STATIC_INDEX_START + 17,
+  COMBO_BLOCK: STATIC_INDEX_START + 18,
+  LEGEND_BLOCK: STATIC_INDEX_START + 19,
   GLOW_CRYSTAL: -1,
-  GEODE_INTERIOR: STATIC_INDEX_START + 21,
-  ANCIENT_RELIC_CACHE: STATIC_INDEX_START + 22,
-  GEM_POWER_BLOCK_250: STATIC_INDEX_START + 23,
-  GEM_POWER_BLOCK_500: STATIC_INDEX_START + 24,
-  GEM_POWER_BLOCK_1000: STATIC_INDEX_START + 25,
-  GEM_POWER_BLOCK_1700: STATIC_INDEX_START + 26,
+  GEODE_INTERIOR: STATIC_INDEX_START + 20,
+  ANCIENT_RELIC_CACHE: STATIC_INDEX_START + 21,
+  GEM_POWER_BLOCK_250: STATIC_INDEX_START + 22,
+  GEM_POWER_BLOCK_500: STATIC_INDEX_START + 23,
+  GEM_POWER_BLOCK_1000: STATIC_INDEX_START + 24,
+  GEM_POWER_BLOCK_1700: STATIC_INDEX_START + 25,
+  ABILITY_BLOCK: STATIC_INDEX_START + 26,
 });
 
 function visualHash(tx, ty, seed, salt = 0) {
@@ -234,6 +235,84 @@ export function getRubbleRenderIndex(type, hp, maxHp) {
   return RUBBLE_INDEX_START
     + typeIndex * RUBBLE_DAMAGE_STAGE_COUNT
     + getDamageStage(hp, maxHp) - 1;
+}
+
+/** Resolves the same ordered source layers used to compose one gameplay tile. */
+export function getTileTextureLayerKeys(
+  type,
+  hp,
+  maxHp = hp,
+  tx = 0,
+  ty = 0,
+  depthTiles = 0,
+  seed = 0,
+  visualHint = "",
+  depthEconomyEnabled = true,
+) {
+  if (type === TILE_TYPES.AIR) return [];
+
+  const stage = getDamageStage(hp, maxHp);
+  const soil = getSoilVisualDescriptor(
+    type, tx, ty, depthTiles, seed, depthEconomyEnabled,
+  );
+  if (soil) {
+    const soilKeys = ASSET_KEYS.tiles.dynamicSoil;
+    const baseKey = soil.deep
+      ? soilKeys.deepBases?.[soil.band]?.[soil.variant]
+      : soilKeys.bases?.[soil.band]?.[soil.variant];
+    const hardnessKey = soil.typeIndex === 1
+      ? soilKeys.hardness.compact
+      : (soil.typeIndex === 2 ? soilKeys.hardness.strong : null);
+    return [baseKey, hardnessKey, soilKeys.cracks[stage - 1]].filter(Boolean);
+  }
+
+  if (type === TILE_TYPES.BEDROCK) {
+    return [visualHint === "skyIslandTop"
+      ? ASSET_KEYS.tiles.skyIslandTop
+      : ASSET_KEYS.tiles.bedrock];
+  }
+  if (type === TILE_TYPES.CAVE_WALL) {
+    if (visualHint === "caveCeiling") {
+      return [visualHash(tx, ty, seed, 641) % 5 === 0
+        ? ASSET_KEYS.tiles.caveCeilingChains
+        : ASSET_KEYS.tiles.caveCeiling];
+    }
+    return [visualHint === "caveEdge"
+      ? ASSET_KEYS.tiles.caveEdge
+      : ASSET_KEYS.tiles.caveWall];
+  }
+  if (type === TILE_TYPES.GEODE_WALL) return [ASSET_KEYS.tiles.treasureStone];
+
+  const damageStages = DAMAGE_STAGE_KEYS_BY_TYPE[type];
+  if (damageStages) return [damageStages[stage - 1]];
+
+  if (type === TILE_TYPES.TELEPORT_TILE) return [ASSET_KEYS.tiles.teleportTile];
+  if (type === TILE_TYPES.GAMBLE_TILE) return [ASSET_KEYS.tiles.gambleTile];
+  if (type === TILE_TYPES.FLOOR_TOWN_1) return [ASSET_KEYS.tiles.floorTown1];
+  if (type === TILE_TYPES.FLOOR_TOWN_2) return [ASSET_KEYS.tiles.floorTown2];
+  if (type === TILE_TYPES.SKY_TILE) return [ASSET_KEYS.tiles.bedrock];
+  if (type === TILE_TYPES.GEM_POWER_BLOCK) {
+    const tierId = getGemPowerBlockTier(depthTiles).id;
+    return [ASSET_KEYS.tiles.gemPowerBlockTiers[tierId]
+      || ASSET_KEYS.tiles.gemPowerBlock];
+  }
+  if (type === TILE_TYPES.SPEED_BLOCK) return [ASSET_KEYS.tiles.speedBlock];
+  if (type === TILE_TYPES.XP_BLOCK) return [ASSET_KEYS.tiles.xpBlock];
+  if (type === TILE_TYPES.SELL_BLOCK) return [ASSET_KEYS.tiles.sellBlock];
+  if (type === TILE_TYPES.BERSERK_BLOCK) return [ASSET_KEYS.tiles.berserkBlock];
+  if (type === TILE_TYPES.COMBO_BLOCK) return [ASSET_KEYS.tiles.comboBlock];
+  if (type === TILE_TYPES.LEGEND_BLOCK) return [ASSET_KEYS.tiles.legendBlock];
+  if (type === TILE_TYPES.ABILITY_BLOCK) return [ASSET_KEYS.tiles.abilityBlock];
+  if (type === TILE_TYPES.CHEST) {
+    return [visualHash(tx, ty, seed, 947) % 7 === 0
+      ? ASSET_KEYS.tiles.chestRare
+      : ASSET_KEYS.tiles.chestNormal];
+  }
+  if (type === TILE_TYPES.ANCIENT_RELIC_CACHE) {
+    return [ASSET_KEYS.tiles.ancientRelicCache];
+  }
+  if (type === TILE_TYPES.GEODE_INTERIOR) return [ASSET_KEYS.tiles.geodeInterior];
+  return [];
 }
 
 export function getTileRenderIndex(
@@ -325,10 +404,6 @@ export function getTileRenderIndex(
     return TILE_RENDER_INDEX.SELL_BLOCK;
   }
 
-  if (type === TILE_TYPES.CRIT_BLOCK) {
-    return TILE_RENDER_INDEX.CRIT_BLOCK;
-  }
-
   if (type === TILE_TYPES.BERSERK_BLOCK) {
     return TILE_RENDER_INDEX.BERSERK_BLOCK;
   }
@@ -339,6 +414,10 @@ export function getTileRenderIndex(
 
   if (type === TILE_TYPES.LEGEND_BLOCK) {
     return TILE_RENDER_INDEX.LEGEND_BLOCK;
+  }
+
+  if (type === TILE_TYPES.ABILITY_BLOCK) {
+    return TILE_RENDER_INDEX.ABILITY_BLOCK;
   }
 
   if (type === TILE_TYPES.CHEST) {

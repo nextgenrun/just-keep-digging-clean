@@ -1,0 +1,127 @@
+{
+  "version": 4,
+  "contract": "native-pixel-modules-no-runtime-stretch",
+  "generatedAt": "2026-08-31T21:47:14.388Z",
+  "modules": [
+    {
+      "id": "rootways-sanctuary",
+      "width": 980,
+      "height": 648,
+      "runtimeScale": 1,
+      "sourceCrop": {
+        "left": 15,
+        "top": 15,
+        "width": 1493,
+        "height": 987
+      },
+      "source": "source/rootways-sanctuary-living-chroma.png",
+      "living": "living/rootways-sanctuary-living.png",
+      "consumed": "consumed/rootways-sanctuary-consumed.png",
+      "hashes": {
+        "source": "f84d6e07342b2beef0f1dac1a1f2f320743bdd584d57cc22975d8e6e52b93fe3",
+        "living": "c67aec5d8b9db9a1c7a3c50955988d0a674390a07e44ff44d9f65bf0da3ab099",
+        "consumed": "ed01258ef428c997b64087b861a6dedeb1c8dbedde4ee399c1aec95ed6e5edf3"
+      }
+    },
+    {
+      "id": "cobalt-aquifer",
+      "width": 1320,
+      "height": 655,
+      "runtimeScale": 1,
+      "sourceCrop": {
+        "left": 38,
+        "top": 169,
+        "width": 1459,
+        "height": 724
+      },
+      "source": "source/cobalt-aquifer-living-chroma.png",
+      "living": "living/cobalt-aquifer-living.png",
+      "consumed": "consumed/cobalt-aquifer-consumed.png",
+      "hashes": {
+        "source": "8e06221ddb6fb894aca7bc9cd5c436fe3a928401d31a8d70063a73cc5d3f821f",
+        "living": "8c3525b416dda61b0f20ec9bc40296bcbfdfcf6e0f6be2315566909eb9115af7",
+        "consumed": "b1436db48d84bdecdc662860028e75639f4780f7fe8aebf2ae3fd190d314c9fa"
+      }
+    },
+    {
+      "id": "amber-fault",
+      "width": 1320,
+      "height": 825,
+      "runtimeScale": 1,
+      "sourceCrop": {
+        "left": 38,
+        "top": 55,
+        "width": 1461,
+        "height": 913
+      },
+      "source": "source/amber-fault-living-chroma.png",
+      "living": "living/amber-fault-living.png",
+      "consumed": "consumed/amber-fault-consumed.png",
+      "hashes": {
+        "source": "445920194cdd943dfa907459756c396f95fb772e93d3ff9b24c6b9f704f0ad44",
+        "living": "fae111bfd6443805dad1c16626a1101f69df98a1762c20344ce8acaa96985e02",
+        "consumed": "9325fd80932feef9ad2eb3baca3e23621c5b8e5bb768588256afed3f0425a1c5"
+      }
+    },
+    {
+      "id": "mirrorstone-spine",
+      "width": 1320,
+      "height": 748,
+      "runtimeScale": 1,
+      "sourceCrop": {
+        "left": 26,
+        "top": 94,
+        "width": 1478,
+        "height": 837
+      },
+      "source": "source/mirrorstone-spine-living-chroma.png",
+      "living": "living/mirrorstone-spine-living.png",
+      "consumed": "consumed/mirrorstone-spine-consumed.png",
+      "hashes": {
+        "source": "4bc8571b593491a72c8def674f0835f31822f1fbfa7a5f3a3e0688f2881605e5",
+        "living": "4ccbc4ca0917f31b3f57656764c060274d46ea679d4b931b6cc80f728d473c41",
+        "consumed": "31b12b84474ccab471eefc38abe7f4fa081d68746ca6d850f2d3219fb2a847c6"
+      }
+    },
+    {
+      "id": "starfire-rift",
+      "width": 1320,
+      "height": 851,
+      "runtimeScale": 1,
+      "sourceCrop": {
+        "left": 10,
+        "top": 7,
+        "width": 1491,
+        "height": 961
+      },
+      "source": "source/starfire-rift-living-chroma.png",
+      "living": "living/starfire-rift-living.png",
+      "consumed": "consumed/starfire-rift-consumed.png",
+      "hashes": {
+        "source": "f95d0981f2121c763b539386d1a7225c7c2668733486a6af9ad68f350ac73a91",
+        "living": "7cd7dfd590e199a348bb26750cbcbb44ed9f2d872a078872d5552c900fb22f88",
+        "consumed": "03399302cd14f9154d4fe5f8346161b947cec7f053478415839d22aa6f6a54ba"
+      }
+    },
+    {
+      "id": "crown-nexus",
+      "width": 1421,
+      "height": 979,
+      "runtimeScale": 1,
+      "sourceCrop": {
+        "left": 19,
+        "top": 9,
+        "width": 1421,
+        "height": 979
+      },
+      "source": "source/crown-nexus-living-chroma.png",
+      "living": "living/crown-nexus-living.png",
+      "consumed": "consumed/crown-nexus-consumed.png",
+      "hashes": {
+        "source": "b1c07b75ca3c4a0c16a3d61f4652798b2e9261cb694fa2aafe23c23979bd4dfe",
+        "living": "4a767d1e0f47808e3a126dfdcce57ff822a3dccd3da5151f6b43b90bb6068aae",
+        "consumed": "681524eb77c2afad9bda140a521cfe364fa4eac814630020736d552fa7c1e33d"
+      }
+    }
+  ]
+}

@@ -65,7 +65,7 @@ function renderSummary(system, parent, rect, compact) {
       parent,
       rect.right - inset,
       rect.bottom - inset,
-      `+${bonuses.gpMaxBonus} GP  •  +${bonuses.miningSpeedPct}% SPEED  •  +${bonuses.critChancePct}% CRIT  •  +${bonuses.resourceYieldPct}% YIELD`,
+      `+${bonuses.gpMaxBonus} GP  •  +${bonuses.miningSpeedPct}% SPEED  •  +${bonuses.resourceYieldPct}% YIELD`,
       { fontSize: fonts.detail, color: UI_COLORS.info },
       [1, 1],
     );
@@ -125,7 +125,6 @@ function renderSummary(system, parent, rect, compact) {
   const totals = [
     `+${bonuses.gpMaxBonus} GP MAX`,
     `+${bonuses.miningSpeedPct}% MINING SPEED`,
-    `+${bonuses.critChancePct}% CRIT CHANCE`,
     `+${bonuses.resourceYieldPct}% MATERIAL YIELD`,
   ];
   totals.forEach((text, index) => {

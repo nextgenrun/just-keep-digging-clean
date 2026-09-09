@@ -33,10 +33,9 @@ prior full-light result.
 The renderer also publishes its live flame alpha so the approved HUD torch
 mirrors the same low-fuel, weather, intensity, and flicker response.
 
-Player-level darkness resistance shifts only the depth used by the visibility
-radius and deep-darkness multiplier. Actual depth still owns sunlight state,
-weather isolation, torch upkeep, hazards, and milestones, so each level grants
-20-50m of practical reach without turning underground darkness off.
+Player level never changes visual darkness, reveal radius, or the deep-darkness
+multiplier. The same depth therefore looks equally dark at every level; level
+progression instead shifts the separate Hardcore panic line deeper.
 
 `LightFrameSync` prepares lighting after player movement, then commits the
 darkness mask, world glow, and shader position from Phaser's `followupdate`
@@ -145,3 +144,5 @@ tile, camera, GP, weather, day/night, darkness, and controls. It now starts at
 1000 m and can jump to 140, 700, 1000, or 1800 m. The settled deep run measured
 identical reach on both sides: 3.412 tiles near 700 m, 3.021 near 1000 m, and
 2.973 near 1800 m, all against darkness alpha 1.
+
+Offscreen `ShaderSystem` layers preserve the active framebuffer after their Phaser shader draw. This keeps foreground, actors, atmosphere, and HUD in the same camera post-effect target during session awakening blur; regular rendering keeps its default target.

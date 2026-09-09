@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Observatory — independently authored living layers</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main>
+    <header>
+      <div>
+        <p class="eyebrow">Review-only · clean-source rebuild</p>
+        <h1>Observatory · independently authored runtime</h1>
+        <p class="lede">The original is comparison only. Runtime uses a clean sky, independent star and light behavior IDs, sharp cloud streams, fourteen buoyant island sprites, calendar/weather-driven island arrivals, and existing-character loops inside selected buildings.</p>
+      </div>
+      <div class="status" id="status" data-state="loading">Loading authored pack…</div>
+    </header>
+
+    <section class="workspace">
+      <div class="stage-shell">
+        <div id="game" aria-label="Phaser-rendered Observatory modular background simulation"></div>
+        <div class="split-labels" id="splitLabels"><span>Untouched reference</span><span>New authored runtime</span></div>
+        <div class="truth-chip">PHASER 3.90 · LONG RESET ENVELOPES V16 · 0 REFERENCE PIXELS</div>
+      </div>
+
+      <aside>
+        <section class="panel">
+          <h2>Inspect</h2>
+          <div class="button-grid" role="group" aria-label="View mode">
+            <button data-view="source">Reference</button>
+            <button data-view="runtime">Runtime</button>
+            <button class="active" data-view="split">Split</button>
+            <button data-view="layers">Source layers</button>
+            <button data-view="lights">Light IDs</button>
+          </div>
+        </section>
+
+        <section class="panel controls">
+          <h2>Simulation</h2>
+          <button class="pause" id="pause">Pause simulation</button>
+          <label>Cloud stream motion <output id="motionValue">100%</output>
+            <input id="motion" type="range" min="0" max="125" value="100">
+          </label>
+          <label>Island buoyancy <output id="islandValue">100%</output>
+            <input id="islands" type="range" min="0" max="125" value="100">
+          </label>
+          <label>Individual lights <output id="lightValue">108%</output>
+            <input id="lights" type="range" min="0" max="135" value="108">
+          </label>
+          <label>Star activity <output id="starValue">90%</output>
+            <input id="stars" type="range" min="0" max="100" value="90">
+          </label>
+          <label>Persistent world day <output id="dayValue">Day 12</output>
+            <input id="worldDay" type="range" min="1" max="168" value="12">
+          </label>
+          <label>World time <output id="timeValue">22:00</output>
+            <input id="worldTime" type="range" min="0" max="23.75" step="0.25" value="22">
+          </label>
+          <label>Weather state
+            <select id="weather">
+              <option value="clear">Clear</option>
+              <option value="drizzle">Drizzle</option>
+              <option value="rain">Rain</option>
+              <option value="storm">Storm</option>
+              <option value="snow">Snow</option>
+            </select>
+          </label>
+        </section>
+
+        <section class="panel telemetry" aria-live="polite">
+          <h2>Rendered proof</h2>
+          <dl>
+            <div><dt>Pipeline</dt><dd id="pipeline">pending</dd></div>
+            <div><dt>Cycle phase</dt><dd id="phase">0.000</dd></div>
+            <div><dt>FPS</dt><dd id="fps">—</dd></div>
+            <div><dt>Cloud strata</dt><dd id="layerCount">—</dd></div>
+            <div><dt>Organic cloud wisps</dt><dd id="regionCount">—</dd></div>
+            <div><dt>Island modules</dt><dd id="architectureCount">—</dd></div>
+            <div><dt>Long-cycle islands</dt><dd id="lifecycleCount">—</dd></div>
+            <div><dt>Motion systems</dt><dd id="motionSystemCount">—</dd></div>
+            <div><dt>Window lights</dt><dd id="lightCount">—</dd></div>
+            <div><dt>Interior figures</dt><dd id="humanCount">—</dd></div>
+            <div><dt>World calendar</dt><dd id="calendar">—</dd></div>
+            <div><dt>Reference reuse</dt><dd id="sourceReuse">guard pending</dd></div>
+            <div><dt>Town video</dt><dd id="townGuard">hash pending</dd></div>
+          </dl>
+        </section>
+
+        <p class="boundary">Isolated under <code>testing/</code>. It changes no production scene, save, map, background, or Town Square video.</p>
+      </aside>
+    </section>
+  </main>
+  <script src="../../../libs/phaser.js"></script>
+  <script type="module" src="./main.js"></script>
+</body>
+</html>

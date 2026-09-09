@@ -1,0 +1,995 @@
+{
+  "version": 1,
+  "date": "2026-08-31",
+  "generationMode": "built-in ImageGen",
+  "counts": {
+    "palettes": 20,
+    "runtimeAssets": 80,
+    "overlayPropFrames": 80
+  },
+  "promptManifest": "sprites/environment/starless-scar-biomes-v1/imagegen-prompts-v1.md",
+  "contactSheet": "sprites/environment/starless-scar-biomes-v1/starless-scar-biome-library-contact-v1.jpg",
+  "runtimeContract": "visual only; demand streamed; solid-cell masked",
+  "entries": [
+    {
+      "id": "weathered-rootways",
+      "parentRegionId": "surface-entry",
+      "source": "sprites/environment/starless-scar-biomes-v1/source/weathered-rootways-source-v1.png",
+      "sourceSha256": "4569845966b2ed42f235414bdd73e36987f94383284d5a06b878987219d858d4",
+      "alphaMode": "native-rgba",
+      "assets": {
+        "ground": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/weathered-rootways-ground-v1.webp",
+          "sha256": "1da881b5d925f0bf7bde47986ea48cf3f50ae814f9cfbe804fde34ae4d62c075",
+          "bytes": 123068,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 1.0
+        },
+        "center": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/weathered-rootways-center-v1.webp",
+          "sha256": "2fa2c75ae68dbe38fdb8cc1ad1b97adc7f517b2cc7bd8fa4572a38f3592e62b1",
+          "bytes": 132612,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 0.518822
+        },
+        "frontier": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/weathered-rootways-frontier-v1.webp",
+          "sha256": "3b35619896419dfe6118f587bd354e04584df0657b6c0c4c52091b3dbf3a02ec",
+          "bytes": 96696,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 0.418499
+        },
+        "props": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/weathered-rootways-props-v1.webp",
+          "sha256": "663c8569459d9f8ca2815b62dd8583e7a0bc8ca9bea56e6de956f64d65ac05c4",
+          "bytes": 131298,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 0.401661
+        }
+      }
+    },
+    {
+      "id": "fungal-rainwells",
+      "parentRegionId": "surface-entry",
+      "source": "sprites/environment/starless-scar-biomes-v1/source/fungal-rainwells-source-v1.png",
+      "sourceSha256": "ec866f171513c606fff0c5f150215bdb4a233149f2d93817edbf762e82e6749d",
+      "alphaMode": "global-light-checker-cleanup",
+      "assets": {
+        "ground": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/fungal-rainwells-ground-v1.webp",
+          "sha256": "5c906783a2563d5ae9aeaa2bfe261f9976a79ddeb1232ae1776fe1c8e80f1cbf",
+          "bytes": 124218,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 1.0
+        },
+        "center": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/fungal-rainwells-center-v1.webp",
+          "sha256": "af19f78e0f1da604fd69c8b8fec1b727c0e52846bb39c4435c962e1f748897d0",
+          "bytes": 111882,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 0.544067
+        },
+        "frontier": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/fungal-rainwells-frontier-v1.webp",
+          "sha256": "a13cfffe5b3906f72a0bddf217d7e552cb3a266037097a5fa0a3d5f24fa126bc",
+          "bytes": 91036,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 0.51656
+        },
+        "props": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/fungal-rainwells-props-v1.webp",
+          "sha256": "3a77aaf07e6d9990b4a9a9e74cdbd445edf2a31e3f2b3adba1b772ad2143b3e7",
+          "bytes": 103244,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 0.42421
+        }
+      }
+    },
+    {
+      "id": "sunken-orchard",
+      "parentRegionId": "surface-entry",
+      "source": "sprites/environment/starless-scar-biomes-v1/source/sunken-orchard-source-v1.png",
+      "sourceSha256": "9372a48c1bf8d5bbbed17beb7c446b1e5e1f0a114b808d67d1d62b2860197327",
+      "alphaMode": "native-rgba",
+      "assets": {
+        "ground": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/sunken-orchard-ground-v1.webp",
+          "sha256": "43d01cc0b4043c8852b770a059cf69cccbb083fef97f08eebf2b02ae4be9b080",
+          "bytes": 133138,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 1.0
+        },
+        "center": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/sunken-orchard-center-v1.webp",
+          "sha256": "e23a5d51d0dccf847a061249e855ae1b3e1f1e0d1243d128c8028ab4053a15db",
+          "bytes": 133044,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 0.503048
+        },
+        "frontier": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/sunken-orchard-frontier-v1.webp",
+          "sha256": "6f9c47bf5ff28510961279f7152db4da5dd675cb36bbe5ba3b40288052a2a2d7",
+          "bytes": 122984,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 0.53796
+        },
+        "props": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/sunken-orchard-props-v1.webp",
+          "sha256": "2e0bac60a61ac9ecf2a88c6cbbbf7e16fc6475d93ea55e9b849abd29a47b685a",
+          "bytes": 118416,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 0.35313
+        }
+      }
+    },
+    {
+      "id": "timber-cisterns",
+      "parentRegionId": "surface-entry",
+      "source": "sprites/environment/starless-scar-biomes-v1/source/timber-cisterns-source-v1.png",
+      "sourceSha256": "346aaf1c19ef50b70a10fc5cec332e2088f8559ed773496f5c94b15475c84b98",
+      "alphaMode": "native-rgba",
+      "assets": {
+        "ground": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/timber-cisterns-ground-v1.webp",
+          "sha256": "1ae785a8f12714cabcd7d7fa091f4ac5604604e080d6a67ed3fbf20669d9e177",
+          "bytes": 128100,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 1.0
+        },
+        "center": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/timber-cisterns-center-v1.webp",
+          "sha256": "2b7e51b1d0f63ce5dba9460a3f87f0274b825078c5c008837a7bb3f8492908f2",
+          "bytes": 143842,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 0.550175
+        },
+        "frontier": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/timber-cisterns-frontier-v1.webp",
+          "sha256": "399fd9525cebafc270bc780de694c6682d7d53e9631dc07e6aba04cc3225e36d",
+          "bytes": 104216,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 0.452435
+        },
+        "props": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/timber-cisterns-props-v1.webp",
+          "sha256": "5e35eb79fe32ba0f86e5662bce677b27cd6c998ab3e8e1e0d755cd88840552ff",
+          "bytes": 120432,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 0.394413
+        }
+      }
+    },
+    {
+      "id": "cobalt-aquifer",
+      "parentRegionId": "level1-blue",
+      "source": "sprites/environment/starless-scar-biomes-v1/source/cobalt-aquifer-source-v1.png",
+      "sourceSha256": "3d600783e5f2e05d222d5fa57481ef39374a5f6f0c5aa279e52755e81da093d2",
+      "alphaMode": "native-rgba",
+      "assets": {
+        "ground": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/cobalt-aquifer-ground-v1.webp",
+          "sha256": "02203af03973255c22bef0f60a88e756106563fe3d78308c1752fb6a47dc8a1a",
+          "bytes": 136866,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 1.0
+        },
+        "center": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/cobalt-aquifer-center-v1.webp",
+          "sha256": "56d575b724c46679b06ef3564bbde89ff95c3562e743b637ac044a5572d6675b",
+          "bytes": 139410,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 0.524311
+        },
+        "frontier": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/cobalt-aquifer-frontier-v1.webp",
+          "sha256": "0deeabe19e62ea6f12e4685a8f2115dbd854c1998fa4e73f7da06d04f5558284",
+          "bytes": 123058,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 0.530781
+        },
+        "props": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/cobalt-aquifer-props-v1.webp",
+          "sha256": "fb605caa1dda0cea264b84744f3b82d89a31f27e9eeae96b544daedbd5973587",
+          "bytes": 127468,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 0.382988
+        }
+      }
+    },
+    {
+      "id": "sapphire-grotto",
+      "parentRegionId": "level1-blue",
+      "source": "sprites/environment/starless-scar-biomes-v1/source/sapphire-grotto-source-v1.png",
+      "sourceSha256": "2f1a8ceee7babe47c1b95ae72582a8361aaf3317cc3057bd5a851c6e8b8b75b8",
+      "alphaMode": "native-rgba",
+      "assets": {
+        "ground": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/sapphire-grotto-ground-v1.webp",
+          "sha256": "494f4123c140155fbaad00678985a98e8bb201dde4b2da7396300722093c3e63",
+          "bytes": 131318,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 1.0
+        },
+        "center": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/sapphire-grotto-center-v1.webp",
+          "sha256": "50be546f53b28aafabee08775f52f1135cba1f3da1a8246fb10444e5999a1990",
+          "bytes": 132568,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 0.464233
+        },
+        "frontier": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/sapphire-grotto-frontier-v1.webp",
+          "sha256": "ef1b37bde94f1e50e9f791326def8c9d721f1e7e5e5c03e67d5357f670994a33",
+          "bytes": 136984,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 0.603027
+        },
+        "props": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/sapphire-grotto-props-v1.webp",
+          "sha256": "6764b2b2405a3985de9582b0d3267a46c4a1e14f7ded00fe5809282bf08d3d57",
+          "bytes": 121534,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 0.371281
+        }
+      }
+    },
+    {
+      "id": "glacial-waterveil",
+      "parentRegionId": "level1-blue",
+      "source": "sprites/environment/starless-scar-biomes-v1/source/glacial-waterveil-source-v1.png",
+      "sourceSha256": "688a49ebf3c14dfb7ad145b5b50e2a3aae9e654780a82bab6556eda6018cb0a6",
+      "alphaMode": "native-rgba",
+      "assets": {
+        "ground": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/glacial-waterveil-ground-v1.webp",
+          "sha256": "294b806a202148531a3d9bc00703b47efea34733bdd5be678df2e57ac74681db",
+          "bytes": 140794,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 1.0
+        },
+        "center": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/glacial-waterveil-center-v1.webp",
+          "sha256": "213906d8ba398988c3e76cbc95431b97edb7b93be9c756fa1c5e0e0e84981d89",
+          "bytes": 151206,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 0.539032
+        },
+        "frontier": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/glacial-waterveil-frontier-v1.webp",
+          "sha256": "9b376337731055c9f953bfa6e117d5eb6a5d007bc6f55eb02ff54746af7b9c1f",
+          "bytes": 102122,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 0.400761
+        },
+        "props": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/glacial-waterveil-props-v1.webp",
+          "sha256": "b97df22d857eaf4d28162b4a09ace02a16b209c588f0d1a70c713dad5faa4cca",
+          "bytes": 135834,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 0.415516
+        }
+      }
+    },
+    {
+      "id": "drowned-observatory",
+      "parentRegionId": "level1-blue",
+      "source": "sprites/environment/starless-scar-biomes-v1/source/drowned-observatory-source-v1.png",
+      "sourceSha256": "2d836c73392d818014967495193720c5f97cfafd6a1c3d4f6e288ebb5474bb43",
+      "alphaMode": "native-rgba",
+      "assets": {
+        "ground": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/drowned-observatory-ground-v1.webp",
+          "sha256": "0f948569ad89e77778ee3ce5a4db820236f558433d45a3883658895e16a78dec",
+          "bytes": 121840,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 1.0
+        },
+        "center": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/drowned-observatory-center-v1.webp",
+          "sha256": "a4db1b920a202c0293244dc9bff4f0db42713a6777834a117e6f5681c471d705",
+          "bytes": 140272,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 0.585556
+        },
+        "frontier": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/drowned-observatory-frontier-v1.webp",
+          "sha256": "99a5adf9232213e44a19defd7d0976154a9bd2de0a6cf2bc091022301f4bae2e",
+          "bytes": 104260,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 0.548981
+        },
+        "props": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/drowned-observatory-props-v1.webp",
+          "sha256": "936075c00a12c63595c34ec31c95cdac2936ac3fb100f9a6f902b20cc81b2605",
+          "bytes": 131274,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 0.463047
+        }
+      }
+    },
+    {
+      "id": "amber-silt-fault",
+      "parentRegionId": "level1-amber",
+      "source": "sprites/environment/starless-scar-biomes-v1/source/amber-silt-fault-source-v1.png",
+      "sourceSha256": "3ad56ed5a8172026f6c74cd648498a423caa97e110e1be42922930772a658517",
+      "alphaMode": "native-rgba",
+      "assets": {
+        "ground": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/amber-silt-fault-ground-v1.webp",
+          "sha256": "c96ce2e1fb7fa91f42a831eeb7808c59f1baca80448aaecef99b0822951508e2",
+          "bytes": 131368,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 1.0
+        },
+        "center": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/amber-silt-fault-center-v1.webp",
+          "sha256": "9a1d7e1ff096fc9f1a99ef29aa9dc23d9febd441fceedadb6ef7468e8f08c883",
+          "bytes": 146042,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 0.519215
+        },
+        "frontier": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/amber-silt-fault-frontier-v1.webp",
+          "sha256": "a919e7f1f7ada4609372a7eb126cb1964bb3d6ada6f3fb0edd08e45f49c56179",
+          "bytes": 128698,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 0.507786
+        },
+        "props": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/amber-silt-fault-props-v1.webp",
+          "sha256": "cbbd7cfc4814e56272643b2b700f86404f159139c1496fe7e7a4fdd94d21a38e",
+          "bytes": 147770,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 0.431389
+        }
+      }
+    },
+    {
+      "id": "honeyglass-pocket",
+      "parentRegionId": "level1-amber",
+      "source": "sprites/environment/starless-scar-biomes-v1/source/honeyglass-pocket-source-v1.png",
+      "sourceSha256": "14bf0e909d47356e43fce3c0ba6e3695b3bc70cb33feebb430f2816178436062",
+      "alphaMode": "native-rgba",
+      "assets": {
+        "ground": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/honeyglass-pocket-ground-v1.webp",
+          "sha256": "d149686471a4d25e9e5a68b0d6ae3d3f5040c97e4c1715153c0d436fc7cfa213",
+          "bytes": 140384,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 1.0
+        },
+        "center": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/honeyglass-pocket-center-v1.webp",
+          "sha256": "36ab8f2a5ab74a5f3f5beb19144b5680e2675ffea96db177320c51eccde0ffcd",
+          "bytes": 154926,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 0.556721
+        },
+        "frontier": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/honeyglass-pocket-frontier-v1.webp",
+          "sha256": "78169536bab0304416ca1bbfdbd751dfe732acf07f96e634c0233354d69a900a",
+          "bytes": 106248,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 0.45784
+        },
+        "props": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/honeyglass-pocket-props-v1.webp",
+          "sha256": "282fa66eb0a4317f2c781d517ac36e7d66ecf867415ff3bd44d2d8cabf4a68b5",
+          "bytes": 122204,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 0.399342
+        }
+      }
+    },
+    {
+      "id": "resin-archive",
+      "parentRegionId": "level1-amber",
+      "source": "sprites/environment/starless-scar-biomes-v1/source/resin-archive-source-v1.png",
+      "sourceSha256": "2a6deadd75de11e89fa03178792e5fa26eb755961c7ecd261bb29fbde18fe3e0",
+      "alphaMode": "native-rgba",
+      "assets": {
+        "ground": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/resin-archive-ground-v1.webp",
+          "sha256": "a8b2954b986034b6df1ac05a7bffe10da4b2d74a44f70e4fc13110989b550cfb",
+          "bytes": 133616,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 1.0
+        },
+        "center": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/resin-archive-center-v1.webp",
+          "sha256": "71d3a0f2b736f84f49ecad53aba4bb16208b0de454b6817a1ac11cdef40ed962",
+          "bytes": 143668,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 0.594345
+        },
+        "frontier": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/resin-archive-frontier-v1.webp",
+          "sha256": "6e0b984c5eb7f709cbe32eba8d807509290dba04c7f06f217a44627f05b8b03a",
+          "bytes": 101950,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 0.380978
+        },
+        "props": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/resin-archive-props-v1.webp",
+          "sha256": "950d9a11ec5d81794c2090b201fc69419446f8ad9bc06f6a83273eae15d93fb6",
+          "bytes": 141758,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 0.464443
+        }
+      }
+    },
+    {
+      "id": "fossil-sun-vault",
+      "parentRegionId": "level1-amber",
+      "source": "sprites/environment/starless-scar-biomes-v1/source/fossil-sun-vault-source-v1.png",
+      "sourceSha256": "ec6e5451ba551cbaac6e561477fb22c98bead342927e1233b5fee82e87b58b96",
+      "alphaMode": "native-rgba",
+      "assets": {
+        "ground": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/fossil-sun-vault-ground-v1.webp",
+          "sha256": "0fad7fc67c7cda6e11ab9c0c7ad6c40d467ad72eed53eecef8f4206612b3d2c6",
+          "bytes": 132076,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 1.0
+        },
+        "center": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/fossil-sun-vault-center-v1.webp",
+          "sha256": "00d0353b4b4dbe4a7d9bd1a2dd86a7826b5221d621a026fa336c594b4f932f1b",
+          "bytes": 156828,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 0.589668
+        },
+        "frontier": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/fossil-sun-vault-frontier-v1.webp",
+          "sha256": "cbfc6ed6fecb7e5f9b856033099214f16f3b79dea310ee12bcc36d1cbece69f9",
+          "bytes": 126734,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 0.549778
+        },
+        "props": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/fossil-sun-vault-props-v1.webp",
+          "sha256": "6ac6d555d47d77b92fde2c4d919480b6064613fe87fee163336fb8bf67bf6c34",
+          "bytes": 141726,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 0.43298
+        }
+      }
+    },
+    {
+      "id": "mercury-fold",
+      "parentRegionId": "level1-silver",
+      "source": "sprites/environment/starless-scar-biomes-v1/source/mercury-fold-source-v1.png",
+      "sourceSha256": "2c102263ff2a1a848d1494bcec10df1fd903f6c4db5c2d5572a6e06ec4b1a4d2",
+      "alphaMode": "native-rgba",
+      "assets": {
+        "ground": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/mercury-fold-ground-v1.webp",
+          "sha256": "086c40d7f14edafbc05fb553a80b7492ec9dd38b81afd6ab9ae2cb6ce1e69787",
+          "bytes": 124918,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 1.0
+        },
+        "center": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/mercury-fold-center-v1.webp",
+          "sha256": "74659c18d166d9ba9e977bfffdecb003e4c9148273be6fa58b777ff901e5a2ea",
+          "bytes": 135962,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 0.549599
+        },
+        "frontier": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/mercury-fold-frontier-v1.webp",
+          "sha256": "24fdf694140ed7a8f82ad34dc4ec7eb554158972b8ea4dd251e78b217b97cbf6",
+          "bytes": 114334,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 0.470409
+        },
+        "props": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/mercury-fold-props-v1.webp",
+          "sha256": "dec863d002d09447d634dfeb21afa6bde5750a23609b67fc9485a75d7e0a1767",
+          "bytes": 128458,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 0.382915
+        }
+      }
+    },
+    {
+      "id": "magnetic-needle-reef",
+      "parentRegionId": "level1-silver",
+      "source": "sprites/environment/starless-scar-biomes-v1/source/magnetic-needle-reef-source-v1.png",
+      "sourceSha256": "a2d14b68ca62c3c55b1637e5e203d56116b60eb90c2042074d094410bbf30ae2",
+      "alphaMode": "native-rgba",
+      "assets": {
+        "ground": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/magnetic-needle-reef-ground-v1.webp",
+          "sha256": "e69a925bb25f14546a7ac515fe9564344502be01a443b4a0e71d2fe2ced269b3",
+          "bytes": 150078,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 1.0
+        },
+        "center": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/magnetic-needle-reef-center-v1.webp",
+          "sha256": "efd8bbeed9450f2c4682d6b471fee7b1e8b3117af026d0e356ff78ced038bdb1",
+          "bytes": 160078,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 0.535252
+        },
+        "frontier": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/magnetic-needle-reef-frontier-v1.webp",
+          "sha256": "aa27486907df9ee55ba0526cf47bc542e306acd1b52e49ae56ac6031b23cb34c",
+          "bytes": 114550,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 0.495037
+        },
+        "props": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/magnetic-needle-reef-props-v1.webp",
+          "sha256": "d29df2d77d1c7b5f06d09e5906f5a45625d80536aa89cf3c56d537b534d9f5fb",
+          "bytes": 166944,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 0.440983
+        }
+      }
+    },
+    {
+      "id": "lunar-mint-galleries",
+      "parentRegionId": "level1-silver",
+      "source": "sprites/environment/starless-scar-biomes-v1/source/lunar-mint-galleries-source-v1.png",
+      "sourceSha256": "81a387c2febd9dff460fa3b0302031d3f1cb5cde42aef6961e3d6ed21b7d7c4b",
+      "alphaMode": "native-rgba",
+      "assets": {
+        "ground": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/lunar-mint-galleries-ground-v1.webp",
+          "sha256": "8c520d62d6082aa400b5c1f4e3d1621229f23576914c8f07169359f86ac8a1ad",
+          "bytes": 147638,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 1.0
+        },
+        "center": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/lunar-mint-galleries-center-v1.webp",
+          "sha256": "cde85d52ff7b8509fd9742e6b786c89464f0eda35d7016107cf98a3f53e692fb",
+          "bytes": 188716,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 0.586899
+        },
+        "frontier": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/lunar-mint-galleries-frontier-v1.webp",
+          "sha256": "7ea79564d6bffe12751c982683b15c1853155e34b186a51b014c99d8a7e2dcfa",
+          "bytes": 134062,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 0.505589
+        },
+        "props": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/lunar-mint-galleries-props-v1.webp",
+          "sha256": "c041e2ced98a413dc55803c77f42dab4f0f92afa9eacb441b537eb99b65550e8",
+          "bytes": 159892,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 0.445843
+        }
+      }
+    },
+    {
+      "id": "mirrorstone-convergence",
+      "parentRegionId": "level1-silver",
+      "source": "sprites/environment/starless-scar-biomes-v1/source/mirrorstone-convergence-source-v1.png",
+      "sourceSha256": "6dfe2988101f4335d5dd7fd0bbeb7d2e5cd1735dffed75e10d4aa698aa95eee3",
+      "alphaMode": "native-rgba",
+      "assets": {
+        "ground": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/mirrorstone-convergence-ground-v1.webp",
+          "sha256": "4344f127b7523f52ac5b9c372e41168d03ae918f6ea777d502d1e7e99d730bef",
+          "bytes": 123908,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 1.0
+        },
+        "center": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/mirrorstone-convergence-center-v1.webp",
+          "sha256": "15c03d3654e74196bd3a4e623b29155b4f4c60744002843bee697d246981ab0a",
+          "bytes": 125110,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 0.498219
+        },
+        "frontier": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/mirrorstone-convergence-frontier-v1.webp",
+          "sha256": "ff452f204905bfbb1b1a505cf03aee341cbc295d55c71ba49fd977555bb0f6aa",
+          "bytes": 101590,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 0.401112
+        },
+        "props": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/mirrorstone-convergence-props-v1.webp",
+          "sha256": "059e353e2ce857f0d171363102204f307f11088673d495dd0d061436960cc77e",
+          "bytes": 138618,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 0.371197
+        }
+      }
+    },
+    {
+      "id": "basalt-emberworks",
+      "parentRegionId": "level1-magma",
+      "source": "sprites/environment/starless-scar-biomes-v1/source/basalt-emberworks-source-v1.png",
+      "sourceSha256": "cb725fcf2b1dbff05ddc4904b978c6f542a45b55e9c0b96908a70cdbbb583cf3",
+      "alphaMode": "global-light-checker-cleanup",
+      "assets": {
+        "ground": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/basalt-emberworks-ground-v1.webp",
+          "sha256": "aaa9031af015e8982cb42cccf61578835873bd2c1c8d50df6a1532380f2814dd",
+          "bytes": 106912,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 1.0
+        },
+        "center": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/basalt-emberworks-center-v1.webp",
+          "sha256": "a53148428651ca0d951b8f9fb0f4dc9b987f0aed3288e8bd82e6f4a247344349",
+          "bytes": 105442,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 0.54533
+        },
+        "frontier": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/basalt-emberworks-frontier-v1.webp",
+          "sha256": "8e8c0139c2fdd9502f80d42aa82c508d8a706b53828abc1ad9ba3fa5550ebae1",
+          "bytes": 84624,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 0.524998
+        },
+        "props": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/basalt-emberworks-props-v1.webp",
+          "sha256": "41d6008a88ab5f0333a2895c07ae1a70216bc2e8a785d6d824412ca1dc4ef0d6",
+          "bytes": 94228,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 0.404602
+        }
+      }
+    },
+    {
+      "id": "obsidian-caldera",
+      "parentRegionId": "level1-magma",
+      "source": "sprites/environment/starless-scar-biomes-v1/source/obsidian-caldera-source-v1.png",
+      "sourceSha256": "7b4a56dab727f84b2adb6156f5fc8dea3e6977509c7cb38a006561d1ae66bfe7",
+      "alphaMode": "native-rgba",
+      "assets": {
+        "ground": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/obsidian-caldera-ground-v1.webp",
+          "sha256": "f65a46e544324ba2576b820abeed1c05e17b3ddd554b8b118e5a9d3598acb83f",
+          "bytes": 107738,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 1.0
+        },
+        "center": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/obsidian-caldera-center-v1.webp",
+          "sha256": "7651fe1d9fac63e9020b80803a9ca12281b9f4d84e4aa9592500b606198642b8",
+          "bytes": 135220,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 0.5639
+        },
+        "frontier": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/obsidian-caldera-frontier-v1.webp",
+          "sha256": "29124c79c8a5e7ff8abdecef18bfd3ba8c46b30576fcb6e2dd4789d53261506f",
+          "bytes": 113262,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 0.551689
+        },
+        "props": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/obsidian-caldera-props-v1.webp",
+          "sha256": "3af3beb5f7e150d208afd45c62c44cfa36183d63045de3b263dc7c261ef99800",
+          "bytes": 120928,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 0.404568
+        }
+      }
+    },
+    {
+      "id": "lavawheel-necropolis",
+      "parentRegionId": "level1-magma",
+      "source": "sprites/environment/starless-scar-biomes-v1/source/lavawheel-necropolis-source-v1.png",
+      "sourceSha256": "f2c22168dc8ba3b31e887665fb2e419e2c79208ab98f621eb10ac7674e1ad396",
+      "alphaMode": "native-rgba",
+      "assets": {
+        "ground": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/lavawheel-necropolis-ground-v1.webp",
+          "sha256": "30bd829c7b9ee1bea3afc755275e4a4eeecd58e8591089bdedb8f63d0dee9ce0",
+          "bytes": 145498,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 1.0
+        },
+        "center": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/lavawheel-necropolis-center-v1.webp",
+          "sha256": "7b3921a748c511316c05441c5e2aa1842a37c20dd62df3a473504b6982b784d1",
+          "bytes": 141828,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 0.492847
+        },
+        "frontier": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/lavawheel-necropolis-frontier-v1.webp",
+          "sha256": "b1ced2f4a5410580bd80dc86c2aba44b5cfc5e575fd2a6270085fb37cd9e6a89",
+          "bytes": 131006,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 0.447598
+        },
+        "props": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/lavawheel-necropolis-props-v1.webp",
+          "sha256": "7d2194f876dda636ea81b00c31f1059c7af292dec641fc897e3a32bc5bfbee55",
+          "bytes": 138508,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 0.44241
+        }
+      }
+    },
+    {
+      "id": "shattered-furnace",
+      "parentRegionId": "level1-magma",
+      "source": "sprites/environment/starless-scar-biomes-v1/source/shattered-furnace-source-v1.png",
+      "sourceSha256": "6a12e66a77f649874883577a9aab4f7ecaa15f82897f2df8392da1b6bbad252a",
+      "alphaMode": "native-rgba",
+      "assets": {
+        "ground": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/shattered-furnace-ground-v1.webp",
+          "sha256": "2fbb7f529ae0d9a8aa61917557061f18a7ecb7910e3d91f9e92e7aa90264590a",
+          "bytes": 132838,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 1.0
+        },
+        "center": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/shattered-furnace-center-v1.webp",
+          "sha256": "bec98aee21179c2fd824120051616f14d48fa8b5614bdea3e24db91507e19d2e",
+          "bytes": 147512,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 0.590778
+        },
+        "frontier": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/shattered-furnace-frontier-v1.webp",
+          "sha256": "7c8b019d4dcb983354afaf38e1fdc4d37d94e44175bcf0e1f7a53f0cecea9bbc",
+          "bytes": 130068,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 0.455368
+        },
+        "props": {
+          "path": "sprites/environment/starless-scar-biomes-v1/runtime/shattered-furnace-props-v1.webp",
+          "sha256": "22d424ca09f9c961ec5639811bd35d066cf5e125ac0a440f810337c3c61ed776",
+          "bytes": 133098,
+          "size": [
+            512,
+            512
+          ],
+          "alphaCoverage": 0.450974
+        }
+      }
+    }
+  ]
+}

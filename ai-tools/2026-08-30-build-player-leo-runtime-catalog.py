@@ -30,7 +30,10 @@ def build_config(source: dict) -> dict:
         "characterId": source["character"]["id"],
         "voice": source["voice"],
         **runtime,
-        "eventIds": {family["id"]: family["id"] for family in families},
+        "eventIds": {
+            **{event_id: event_id for event_id in source.get("silentEventIds", [])},
+            **{family["id"]: family["id"] for family in families},
+        },
         "events": {family["id"]: family for family in families},
     }
 
@@ -55,7 +58,7 @@ def build_module(source: dict, digest: str) -> str:
         "    ...clip,",
         "    voice: \"leo\",",
         "    speaker: \"player\",",
-        "    key: `player-voice-leo-v1-${clip.id}`,",
+        "    key: `" + source.get("assetKeyPrefix", "player-voice-leo-v1") + "-${clip.id}`,",
         "    path: `${PLAYER_VOICE_BASE_PATH}${clip.file}`,",
         "  });",
         "}",
@@ -72,7 +75,7 @@ def build_module(source: dict, digest: str) -> str:
         for clip in clips:
             runtime_clip = {
                 key: clip[key]
-                for key in ("id", "family", "variant", "tags", "delivery", "file")
+                for key in ("id", "family", "variant", "tags", "delivery", "file", "text")
             }
             lines.append(f"    {compact(runtime_clip)},")
         lines.append("  ),")

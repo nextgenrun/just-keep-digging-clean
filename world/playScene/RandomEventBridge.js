@@ -19,6 +19,8 @@ import { buildRandomEventPlans } from "./RandomEventPlanner.js";
 import { RandomEventActiveRuntime } from "./RandomEventActiveRuntime.js";
 import { SleepingJackpotBridge } from "./SleepingJackpotBridge.js";
 
+import { SignalEventBridge } from "./SignalEventBridge.js";
+
 const cfg = RANDOM_WORLD_EVENT_CONFIG;
 const seconds = ms => Math.max(0, Math.ceil((Number(ms) || 0) / 1000));
 const clock = ms => {
@@ -34,6 +36,7 @@ export class RandomEventBridge {
     this.view = new RandomEventWorldView(scene);
     this.activeRuntime = new RandomEventActiveRuntime(scene, this.director, this.view);
     this.jackpot = new SleepingJackpotBridge(scene, this.director, this.flags);
+    this.signal = new SignalEventBridge(scene, this.director);
     this._lastResources = scene.digSystem?.getResourceTotals?.() || {};
     this._forcedType = null;
     this._installDebugApi();
@@ -53,12 +56,13 @@ export class RandomEventBridge {
     this.jackpot.reconcileAfterLoad();
     const active = this.director.state.active;
     if (active?.type === RANDOM_EVENT_TYPES.CRYSTAL_CHOIR) this._replayChoir(active);
+    if (active?.type === RANDOM_EVENT_TYPES.SIGNAL) this.signal.start(active);
     this._lastResources = this.scene.digSystem?.getResourceTotals?.() || {};
     return this.getSaveData();
   }
 
   getSaveData() { return this.director.getSaveData(); }
-  getSnapshot() { return { flags: { ...this.flags }, ...this.director.getSnapshot() }; }
+  getSnapshot() { return { flags: { ...this.flags }, pendingType: this._forcedType, ...this.director.getSnapshot() }; }
 
   update(time, delta, playerTile, { pauseTimer: blockedByUi = false } = {}) {
     if (!this.flags.master || !playerTile) {
@@ -77,6 +81,10 @@ export class RandomEventBridge {
       }
       const tick = this.director.tick(delta, { pauseTimer: blockedByUi });
       if (tick.expired && this.director.state.active) this._expireActive();
+      if (active.type === RANDOM_EVENT_TYPES.SIGNAL) {
+        this.signal.update(time, delta, playerTile, blockedByUi);
+        return;
+      }
       this._updateActive(time, playerTile);
       this._syncPresentation(time, playerTile);
       return;
@@ -89,10 +97,9 @@ export class RandomEventBridge {
     const eligible = Object.entries(plans)
       .filter(([type, plan]) => plan && this._featureEnabled(type))
       .map(([type]) => type);
-    const type = this._forcedType && eligible.includes(this._forcedType)
-      ? this._forcedType
+    const type = this._forcedType
+      ? (eligible.includes(this._forcedType) ? this._forcedType : null)
       : this.director.chooseNextType(eligible);
-    this._forcedType = null;
     if (!type) {
       this.director.setRetryCooldown();
       return;
@@ -104,6 +111,7 @@ export class RandomEventBridge {
     }
     const started = this.director.start(type, payload);
     if (started) {
+      this._forcedType = null;
       this._announceStart(started);
       this.scene.queueDugTilesSave?.();
       this._syncPresentation(time, playerTile);
@@ -112,7 +120,7 @@ export class RandomEventBridge {
 
   _featureEnabled(type) {
     if (type === RANDOM_EVENT_TYPES.CRYSTAL_CHOIR) return this.flags.crystalChoir;
-    if (type === RANDOM_EVENT_TYPES.BLACKOUT_BLOOM) return this.flags.blackoutBloom;
+    if (type === RANDOM_EVENT_TYPES.SIGNAL) return this.flags.signal;
     return false;
   }
 
@@ -122,12 +130,13 @@ export class RandomEventBridge {
   handleMineContact(tile) { return this.activeRuntime.handleMineContact(tile); }
   _cancelChoirReplay() { return this.activeRuntime.cancelChoirReplay(); }
   _replayChoir(active) { return this.activeRuntime.replayChoir(active); }
-  getInteractionDistance(playerTile) { return this.activeRuntime.getInteractionDistance(playerTile); }
-  handleInteract() { return this.activeRuntime.handleInteract(); }
-  _expireActive() { return this.activeRuntime.expire(); }
-  _finishActive(options = {}) { return this.activeRuntime.finish(options); }
+  getInteractionDistance(playerTile) { return this.signal.active ? this.signal.getInteractionDistance(playerTile) : this.activeRuntime.getInteractionDistance(playerTile); }
+  handleInteract() { return this.signal.active ? this.signal.handleInteract() : this.activeRuntime.handleInteract(); }
+  _expireActive() { return this.signal.active ? this.signal.finish() : this.activeRuntime.expire(); }
+  _finishActive(options = {}) { return this.signal.active ? this.signal.finish(options.interrupted) : this.activeRuntime.finish(options); }
 
   _announceStart(active) {
+    if (active.type === RANDOM_EVENT_TYPES.SIGNAL) { this.signal.start(active); return; }
     if (active.type === RANDOM_EVENT_TYPES.CRYSTAL_CHOIR) {
       this.scene.uiNotifications?.info?.(cfg.copy.choirRibbon, { key: "choir-start", priority: 4 });
       this._replayChoir(active);
@@ -142,6 +151,7 @@ export class RandomEventBridge {
   }
 
   _syncPresentation(time, playerTile) {
+    if (this.signal.active) return;
     const active = this.director.state.active;
     return this.activeRuntime.syncPresentation(time, playerTile, active ? this._communication(active) : null);
   }
@@ -169,6 +179,8 @@ export class RandomEventBridge {
   }
 
   _isMajorHazardSafe(now) {
+    const shadow = this.scene.shadowMinerSystem?.state;
+    if (shadow && shadow !== "dormant") return false;
     const quake = this.scene.earthquakeSystem?.getStatus?.();
     if (quake && (quake.state !== "idle" || quake.caveIns || quake.fallingRocks || quake.chainPending || quake.rubbleQueue)) return false;
     const wurmPhase = this.scene.graveborerWurmSystem?.phase;
@@ -252,7 +264,7 @@ export class RandomEventBridge {
     const jackpot = this.jackpot.getNextPromiseOverride();
     if (jackpot) return jackpot;
     const active = this.director.state.active;
-    if (!active) return null;
+    if (!active || active.type === RANDOM_EVENT_TYPES.SIGNAL) return null;
     const communication = this._communication(active);
     return { promise: communication.title, detail: communication.detail };
   }
@@ -261,9 +273,9 @@ export class RandomEventBridge {
   getChestPrompt(tile) { return this.jackpot.getChestPrompt(tile); }
   handleChestInteract(tile) { return this.jackpot.handleChestInteract(tile); }
 
-  _clearPresentation() { return this.activeRuntime.clearPresentation(); }
+  _clearPresentation() { this.signal?.suspend(); return this.activeRuntime.clearPresentation(); }
 
-  resize() { this.view.resize(); this.jackpot.resize(); }
+  resize() { this.view.resize(); this.jackpot.resize(); this.signal?.view.resize(); this.signal?.cinema.resize(); }
 
   _installDebugApi() {
     if (!this.flags.debug || typeof window === "undefined") return;
@@ -283,6 +295,7 @@ export class RandomEventBridge {
 
   destroy() {
     if (typeof window !== "undefined" && window.__jkdRandomEvents?.snapshot) delete window.__jkdRandomEvents;
+    this.signal?.destroy();
     this.activeRuntime?.destroy();
     this.jackpot?.destroy();
     this.view?.destroy();

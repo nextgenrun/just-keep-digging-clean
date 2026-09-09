@@ -1,4 +1,7 @@
+import { TOWN_REST } from '../../values/townRest.js';
 import { createMenuLoadingScreen } from "../components/LoadingScreenView.js";
+import { queueSessionAwakeningAssets } from "../components/SessionAwakeningView.js";
+import { withAwakeningPlayerAssets } from "../../values/sessionAwakening.js";
 import {
   PLAYER_CHARACTER_IDS,
   normalizePlayerCharacterId,
@@ -15,6 +18,7 @@ import { sanitizeHardcoreModeData } from "../../values/hardcoreMode.js";
 import { queueWorldLoadFeatureAssets } from "./WorldLoadAssetPreloader.js";
 import { DugTilesSaveStore } from "../../world/model/DugTilesSaveStore.js";
 import { releaseSaveMenuArt } from "../components/SaveMenuPresentationView.js";
+import { WORLD_LOAD_COPY } from "../../values/playerFacingCopy.js";
 
 /**
  * Load robot spritesheets into Phaser's texture manager so they exist
@@ -36,7 +40,7 @@ export class WorldLoadScene extends Phaser.Scene {
     const worldIdentity = data.worldIdentity || `save-slot-${saveSlot}`;
     const queryCharacterId = resolvePlayerCharacterIdFromSearch(globalThis.window?.location?.search || "");
     const playerCharacterId = normalizePlayerCharacterId(queryCharacterId ?? data.playerCharacterId);
-    const playerAssetProfile = getPlayerAssetProfile(playerCharacterId);
+    const playerAssetProfile = withAwakeningPlayerAssets(getPlayerAssetProfile(playerCharacterId));
     const isNewSave = data.isNewSave === true;
     const primarySave = isNewSave
       ? null
@@ -51,13 +55,11 @@ export class WorldLoadScene extends Phaser.Scene {
 
     this._startedPlayScene = false;
     this.loadingUi = createMenuLoadingScreen(this, {
-      subtitle: `SAVE SLOT ${saveSlot}`,
-      label: `Loading save slot ${saveSlot}...`,
-      detail: "Preparing world...",
+      subtitle: WORLD_LOAD_COPY.slotSubtitle.replace("{slot}", saveSlot),
+      label: WORLD_LOAD_COPY.loadingSlot.replace("{slot}", saveSlot),
+      detail: WORLD_LOAD_COPY.preparingWorld,
       preferLogo: true,
       progress: 0.08,
-      backgroundAlpha: 0.24,
-      overlayAlpha: 0.34,
     });
 
     // ── Preload selected character spritesheets when needed ──────────────
@@ -81,12 +83,15 @@ export class WorldLoadScene extends Phaser.Scene {
       campfireData: primarySave?.campfireData,
       hardcoreModeData,
     });
-    const loadNeeded = characterLoadNeeded || featureLoad.queued;
+    const restAssets = TOWN_REST.enabled ? TOWN_REST.assets.filter(asset => !this.textures.exists(asset.key)) : [];
+    for (const asset of restAssets) this.load.image(asset.key, asset.path);
+    const awakeningLoadNeeded = queueSessionAwakeningAssets(this);
+    const loadNeeded = characterLoadNeeded || featureLoad.queued || restAssets.length > 0 || awakeningLoadNeeded;
 
     if (loadNeeded) {
-      this.loadingUi?.setLabel("Loading game assets...");
+      this.loadingUi?.setLabel(WORLD_LOAD_COPY.loadingAssets);
       this.loadingUi?.setDetail(
-        characterLoadNeeded ? "Preparing character and nearby assets..." : "Preparing nearby world assets...",
+        characterLoadNeeded ? WORLD_LOAD_COPY.preparingCharacter : WORLD_LOAD_COPY.preparingNearbyWorld,
       );
       this.loadingUi?.setProgress(0.3);
       const loadComplete = awaitLoadComplete(this, { forceNextLoad: true });
@@ -107,11 +112,11 @@ export class WorldLoadScene extends Phaser.Scene {
         this.loadingUi?.setProgress(value);
 
         if (value > 0.78) {
-          this.loadingUi?.setLabel("Entering the mine...");
-          this.loadingUi?.setDetail("Almost ready...");
+          this.loadingUi?.setLabel(WORLD_LOAD_COPY.enteringMine);
+          this.loadingUi?.setDetail(WORLD_LOAD_COPY.almostReady);
         } else if (value > 0.42) {
-          this.loadingUi?.setLabel("Building world...");
-          this.loadingUi?.setDetail("Restoring save state...");
+          this.loadingUi?.setLabel(WORLD_LOAD_COPY.buildingWorld);
+          this.loadingUi?.setDetail(WORLD_LOAD_COPY.restoringSave);
         }
       },
       onComplete: () => {
@@ -145,7 +150,7 @@ export class WorldLoadScene extends Phaser.Scene {
     if (this._startedPlayScene) return;
     this._startedPlayScene = true;
     this.loadingUi?.setProgress(1);
-    this.loadingUi?.setLabel("Entering the mine...");
+    this.loadingUi?.setLabel(WORLD_LOAD_COPY.enteringMine);
 
     // Clean up immediately so UX doesn't hang if scene switch fails
     this.loadingUi?.fadeOut(200);
@@ -182,14 +187,17 @@ export class WorldLoadScene extends Phaser.Scene {
     }
     const W = this.scale.width, H = this.scale.height;
     this.add.rectangle(W / 2, H / 2, W, H, 0x000000);
-    this.add.text(W / 2, H / 2 - 60, "⚠ Could not start game", {
+    this.add.text(W / 2, H / 2 - 72, WORLD_LOAD_COPY.failureTitle, {
       fontFamily: "Consolas, monospace", fontSize: "22px", color: "#ff4444",
     }).setOrigin(0.5);
-    this.add.text(W / 2, H / 2 - 20, `Error: ${err?.message || err}`, {
+    this.add.text(W / 2, H / 2 - 30, WORLD_LOAD_COPY.failureBody, {
+      fontFamily: "Consolas, monospace", fontSize: "14px", color: "#dddddd",
+    }).setOrigin(0.5);
+    this.add.text(W / 2, H / 2 + 2, `${WORLD_LOAD_COPY.failureDetailPrefix}: ${err?.message || err}`, {
       fontFamily: "Consolas, monospace", fontSize: "14px", color: "#aaaaaa",
       wordWrap: { width: W - 80 },
     }).setOrigin(0.5);
-    const retryBtn = this.add.text(W / 2, H / 2 + 60, "[ Retry ]", {
+    const retryBtn = this.add.text(W / 2, H / 2 + 60, WORLD_LOAD_COPY.retry, {
       fontFamily: "Consolas, monospace", fontSize: "18px", color: "#88ccff",
       backgroundColor: "#1a2a3a",
       padding: { x: 20, y: 10 },

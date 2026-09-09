@@ -17,8 +17,8 @@ export const SYSTEM_INTRODUCTION_CONFIG = Object.freeze({
       "moneyMonster",
     ]),
     keepLockedUpgradesVisible: true,
-    guidedLockShort: "GUIDED STEP",
-    guidedLockDetail: "Complete the current guided shop step first.",
+    guidedLockShort: "FINISH TUTORIAL STEP",
+    guidedLockDetail: "Finish the current shop tutorial step first.",
   }),
   thresholds: Object.freeze({
     gearDepth: 40,
@@ -37,8 +37,8 @@ export const SYSTEM_INTRODUCTION_CONFIG = Object.freeze({
     "bronzePickaxe", "ironPickaxe", "steelPickaxe", "mithrilPickaxe",
     "adamantPickaxe", "runePickaxe", "dragonPickaxe",
     "gemPowerTank", "gemPowerEfficiency", "torchDrainEfficiency", "torchRange",
-    "strength", "quickReflexes", "agility", "luckyCollector", "critChance",
-    "gemPowerRegeneration", "gemFlySpeed", "marketInsight", "luckySales",
+    "strength", "quickReflexes", "agility",
+    "gemPowerRegeneration", "gemFlySpeed", "marketInsight",
   ]),
   hardcoreSurvivalUpgradePriority: Object.freeze([
     "torchDrainEfficiency", "torchRange", "boboCaveEyes",
@@ -50,8 +50,8 @@ export const SYSTEM_INTRODUCTION_CONFIG = Object.freeze({
     gemPower: "flightReady",
     gemPowerMerchant: "firstReturn",
     gearMerchant: "gearRun",
-    campfire: "firstReturn",
-    clock: "firstReturn",
+    campfire: "hearthKnown",
+    clock: "hearthKnown",
     weather: "always",
     journey: "firstReturn",
     // The map is passive information, so hiding it behind the first-return
@@ -67,8 +67,8 @@ export const SYSTEM_INTRODUCTION_CONFIG = Object.freeze({
     relics: "relicRun",
     heavenblocks: "relicRun",
     titans: "titanRun",
-    abilities: "abilityRun",
-    boboMerchant: "abilityRun",
+    abilities: "firstReturn",
+    boboMerchant: "flightReady",
     randomEvents: "abilityRun",
     arcCore: "lateRun",
     magmaMoneyMonster: "lateRun",
@@ -87,8 +87,6 @@ export const SYSTEM_INTRODUCTION_CONFIG = Object.freeze({
     agility: "core",
     strength: "core",
     quickReflexes: "firstReturn",
-    critChance: "gearRun",
-    luckyCollector: "gearRun",
     heavyPunch: "relicRun",
     seismicSuppression: "hazardRun",
     bronzePickaxe: "core",
@@ -107,7 +105,6 @@ export const SYSTEM_INTRODUCTION_CONFIG = Object.freeze({
     nextResourcePrices: "firstReturn",
     deepResourcePrices: "lateRun",
     marketInsight: "caveRun",
-    luckySales: "caveRun",
     quickslashAbility: "relicRun",
     thunderStrikeAbility: "relicRun",
     torchDrainEfficiency: "flightReady",
@@ -119,7 +116,7 @@ export const SYSTEM_INTRODUCTION_CONFIG = Object.freeze({
   unlockCopy: Object.freeze({
     core: Object.freeze({
       short: "AVAILABLE NOW",
-      detail: "Available from the start.",
+      detail: "Ready from the start.",
     }),
     flightReady: Object.freeze({
       short: "UNLOCK FLIGHT",
@@ -127,15 +124,15 @@ export const SYSTEM_INTRODUCTION_CONFIG = Object.freeze({
     }),
     firstReturn: Object.freeze({
       short: "RETURN ONCE",
-      detail: "Complete one mining expedition and return to town.",
+      detail: "Return to town after your first mining trip.",
     }),
     gemPowerMerchant: Object.freeze({
       short: "RETURN ONCE",
-      detail: "Complete one mining expedition and return to town.",
+      detail: "Return to town after your first mining trip.",
     }),
     gearMerchant: Object.freeze({
       short: "REACH 40m",
-      detail: "Complete one expedition and reach a best depth of 40m.",
+      detail: "Reach 40m on any mining trip.",
     }),
     portalRun: Object.freeze({
       short: "REACH 80m",
@@ -143,7 +140,7 @@ export const SYSTEM_INTRODUCTION_CONFIG = Object.freeze({
     }),
     talentRun: Object.freeze({
       short: "REACH LEVEL 3",
-      detail: "Reach Level 3, then attune an ability at the Star Pillar.",
+      detail: "Reach Level 3, then spend your first Talent Point at the Star Pillar.",
     }),
     constellationRun: Object.freeze({
       short: "REACH 100m",
@@ -167,36 +164,36 @@ export const SYSTEM_INTRODUCTION_CONFIG = Object.freeze({
     }),
     abilityRun: Object.freeze({
       short: "REACH 500m",
-      detail: "Reach 500m before purchasing advanced abilities.",
+      detail: "Reach 500m to meet new encounters.",
     }),
     boboMerchant: Object.freeze({
-      short: "REACH 500m",
-      detail: "Reach 500m before purchasing Bobo's advanced upgrades.",
+      short: "UNLOCK FLIGHT",
+      detail: "Unlock Flight to start preparing for the darkness.",
     }),
     lateRun: Object.freeze({
       short: "REACH 1000m",
-      detail: "Reach 1000m before purchasing endgame upgrades.",
+      detail: "Reach 1000m to unlock the deepest upgrades.",
     }),
     magmaMoneyMonster: Object.freeze({
       short: "REACH 1000m",
-      detail: "Reach 1000m before using the Level Two forge.",
+      detail: "Reach 1000m to use the Level Two forge.",
     }),
   }),
   promiseOrder: Object.freeze([
     Object.freeze({
       feature: "firstReturn",
-      promise: "NEXT: RETURN WITH CARGO",
-      detail: "REACH 10m  •  COME BACK UP  •  SELL WHAT YOU CARRIED",
+      promise: "NEXT: BRING ORE BACK TO TOWN",
+      detail: "REACH 10m  •  RETURN TO TOWN  •  SELL WHAT YOU MINED",
     }),
     Object.freeze({
       feature: "gemPowerMerchant",
-      promise: "NEW PATH: LEARN GEM POWER",
-      detail: "VISIT THE GEM MERCHANT  •  FLIGHT IS YOUR SAFETY TOOL",
+      promise: "NEXT: VISIT THE GEM POWER WORKSHOP",
+      detail: "IMPROVE YOUR GP  •  FLIGHT IS YOUR SAFEST WAY BACK",
     }),
     Object.freeze({
       feature: "gearMerchant",
       promise: "NEXT RUN: REACH 40m",
-      detail: "ONE SYSTEM AT A TIME  •  GEAR OPENS AFTER THIS DEPTH",
+      detail: "REACH 40m TO UNLOCK THE GEAR FORGE",
     }),
     Object.freeze({
       feature: "specialTiles",
@@ -205,18 +202,18 @@ export const SYSTEM_INTRODUCTION_CONFIG = Object.freeze({
     }),
     Object.freeze({
       feature: "constellations",
-      promise: "DISCOVER: BRING A STAR HOME",
-      detail: "REACH LEVEL 3  •  ATTUNE YOUR FIRST ABILITY AT THE STAR PILLAR",
+      promise: "NEW TALENTS: REACH LEVEL 3",
+      detail: "TALENT POINTS UNLOCK NODES  •  STAR POINTS UPGRADE THEIR RANKS",
     }),
     Object.freeze({
       feature: "caves",
       promise: "NEXT FRONTIER: REACH 140m",
-      detail: "CAVES APPEAR AFTER THE CORE LOOP IS FAMILIAR",
+      detail: "REACH 140m TO UNCOVER CAVE ENTRANCES",
     }),
     Object.freeze({
       feature: "hazards",
       promise: "PREPARE: REACH 220m",
-      detail: "HAZARDS WILL WARN YOU BEFORE THEY BECOME ACTIVE",
+      detail: "WATCH THE GROUND FOR WARNING MARKERS",
     }),
     Object.freeze({
       feature: "relics",
@@ -229,9 +226,9 @@ export const SYSTEM_INTRODUCTION_CONFIG = Object.freeze({
       detail: "THE ARCHIVE OPENS AFTER 350m",
     }),
     Object.freeze({
-      feature: "abilities",
-      promise: "MASTER: REACH 500m",
-      detail: "ADVANCED ABILITIES APPEAR AFTER THE SURVIVAL LOOP IS CLEAR",
+      feature: "randomEvents",
+      promise: "EXPLORE: REACH 500m",
+      detail: "NEW ENCOUNTERS OPEN BELOW 500m",
     }),
   ]),
 });

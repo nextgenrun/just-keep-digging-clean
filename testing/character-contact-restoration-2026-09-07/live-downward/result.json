@@ -1,0 +1,83 @@
+{
+  "baseline": false,
+  "errors": [],
+  "cases": [
+    {
+      "name": "main-down",
+      "contacts": [
+        {
+          "t": 15964,
+          "key": "survival-ual-player-v1-dig-down-ground-strike-anim",
+          "frame": 18,
+          "visibleFrame": 18,
+          "authored": true,
+          "index": 0
+        },
+        {
+          "t": 17632.5,
+          "key": "survival-mixamo-v3-downward-dig-body-low-anim",
+          "frame": 12,
+          "visibleFrame": 12,
+          "authored": true,
+          "index": 0
+        },
+        {
+          "t": 18983.8,
+          "key": "survival-ual-player-v1-dig-down-ground-strike-anim",
+          "frame": 18,
+          "visibleFrame": 18,
+          "authored": true,
+          "index": 0
+        },
+        {
+          "t": 20635.6,
+          "key": "survival-mixamo-v3-downward-dig-body-low-anim",
+          "frame": 12,
+          "visibleFrame": 12,
+          "authored": true,
+          "index": 0
+        },
+        {
+          "t": 21987,
+          "key": "survival-ual-player-v1-dig-down-ground-strike-anim",
+          "frame": 18,
+          "visibleFrame": 18,
+          "authored": true,
+          "index": 0
+        }
+      ],
+      "crouchFrames": 0,
+      "holdFrames": 184,
+      "transitions": [
+        {
+          "t": 15964,
+          "key": "survival-ual-player-v1-dig-down-ground-strike-anim"
+        },
+        {
+          "t": 17182,
+          "key": "survival-mixamo-v3-downward-dig-body-low-anim"
+        },
+        {
+          "t": 18683.5,
+          "key": "survival-ual-player-v1-dig-down-ground-strike-anim"
+        },
+        {
+          "t": 20185,
+          "key": "survival-mixamo-v3-downward-dig-body-low-anim"
+        },
+        {
+          "t": 21686.6,
+          "key": "survival-ual-player-v1-dig-down-ground-strike-anim"
+        }
+      ],
+      "afterMining": {
+        "key": "survival-mixamo-v1-crouch-idle-anim",
+        "playing": true
+      },
+      "stopped": {
+        "key": "survival-mixamo-v1-crouch-exit-anim",
+        "crouch": false
+      }
+    }
+  ]
+}

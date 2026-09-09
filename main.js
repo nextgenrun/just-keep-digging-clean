@@ -1,19 +1,12 @@
+import { LaunchScene } from "./ui/scenes/LaunchScene.js";
+import { sessionLogging } from "./session-logging.js";
 import { GAME_CONFIG } from "./values/gameConfig.js";
-import { BootScene } from "./ui/scenes/BootScene.js?rev=20260830-menu-first-v1";
-import { MenuAudioScene } from "./ui/scenes/MenuAudioScene.js?rev=20260830-menu-first-v1";
-import { MainMenuScene } from "./ui/scenes/MainMenuScene.js";
-import { OpeningCinematicScene } from "./ui/scenes/OpeningCinematicScene.js";
-import { StartMenuScene } from "./ui/scenes/StartMenuScene.js?rev=20260727-save-transfer-v1";
-import { WorldLoadScene } from "./ui/scenes/WorldLoadScene.js?rev=20260718";
-import { PlayScene } from "./ui/scenes/PlayScene.js?rev=20260826-surface-motion-v2";
-import { CaveScene } from "./ui/scenes/CaveScene.js?rev=20260821-moving-complex-dig-v1";
 import {
   finalizeRenderDensityFoundation,
   installRenderDensityFoundation,
   resolveRenderDensityProfile,
 } from "./systems/visual/RenderDensitySystem.js";
 import { installRuntimeCanarySystem } from "./systems/health/RuntimeCanarySystem.js";
-import { installAdminHealthPanel } from "./ui/admin/AdminHealthPanel.js";
 import { USER_SETTINGS, normalizeKeyboardEvent } from "./systems/UserSettings.js";
 import {
   RUNTIME_ASSET_LOADING,
@@ -76,6 +69,8 @@ const phaserConfig = {
   ...(runtimeAssetQueueEnabled ? {
     loader: {
       maxParallelDownloads: RUNTIME_ASSET_LOADING.phaserLoader.maxParallelDownloads,
+      maxRetries: RUNTIME_ASSET_LOADING.phaserLoader.maxRetries,
+      timeout: RUNTIME_ASSET_LOADING.phaserLoader.timeoutMs,
     },
   } : {}),
   physics: {
@@ -93,22 +88,20 @@ const phaserConfig = {
   callbacks: {
     preBoot: game => {
       game.registry.set("gameplayCapabilities", gameplayCapabilities);
+      game.registry.set("runtimeCanarySystem", runtimeCanarySystem);
       installRenderDensityFoundation(game, renderDensityProfile);
     },
     postBoot: game => {
       finalizeRenderDensityFoundation(game, renderDensityProfile);
       runtimeCanarySystem.attachGame(game);
+      sessionLogging?.attachGame(game);
     },
   },
-  scene: [BootScene, OpeningCinematicScene, MenuAudioScene, MainMenuScene, StartMenuScene, WorldLoadScene, PlayScene, CaveScene],
+  scene: [LaunchScene],
 };
 
-installAdminHealthPanel(runtimeCanarySystem, {
-  globalRef: window,
-  documentRef: document,
-});
-
-await waitForUiFonts(document);
+// The logo can render while font readiness settles.
+void waitForUiFonts(document);
 
 try {
   window.__phaserGame = new Phaser.Game(phaserConfig);

@@ -11,13 +11,14 @@ import { UI_ICON_FRAMES } from "../values/uiIcons.js";
 assert.equal(CELESTIAL_CURRENCY_HUD_PRELOAD_ASSETS.length, 2);
 assert.equal(
   CELESTIAL_CURRENCY_HUD_PRELOAD_ASSETS[0].path,
-  "sprites/UI/celestial-overhaul-v1/celestial-currency-hud-v1.png",
+  "sprites/UI/baked-copy-v1/currency-integrated-v2.png",
 );
 assert.equal(
   CELESTIAL_CURRENCY_HUD_PRELOAD_ASSETS[1].path,
   "sprites/UI/starlight-talent-tree-v4/star-heart-ui-v2.png",
 );
 assert.equal(CELESTIAL_CURRENCY_HUD_CONFIG.assets.moneyIcon.frame, UI_ICON_FRAMES.sell);
+assert.equal(CELESTIAL_CURRENCY_HUD_CONFIG.assets.foundation.bakedIcons, true);
 assert.equal(
   CELESTIAL_CURRENCY_HUD_CONFIG.assets.starsIcon.key,
   CELESTIAL_CURRENCY_HUD_PRELOAD_ASSETS[1].key,

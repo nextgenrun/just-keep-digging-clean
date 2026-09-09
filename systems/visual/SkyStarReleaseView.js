@@ -24,9 +24,10 @@ export class SkyStarReleaseView {
     this._images = new Set();
     this._disposed = false;
     this._onComplete = null;
+    this._onVisible = null;
   }
 
-  play({ entry, startWorldX, startWorldY, onComplete }) {
+  play({ entry, startWorldX, startWorldY, onComplete, onVisible = null }) {
     if (!entry?.graphic?.active || this._disposed) return false;
 
     const fx = this.releaseFx;
@@ -57,6 +58,7 @@ export class SkyStarReleaseView {
     const swayCycles = randomBetween(fx.swayCyclesMin, fx.swayCyclesMax);
 
     this._onComplete = onComplete;
+    this._onVisible = typeof onVisible === "function" ? onVisible : null;
     this._images.add(star);
     this._playSourceFracture(fractureAsset, rarity, startWorldX, startWorldY);
     this._playSourcePulse(pulseAsset, rarity, startWorldX, startWorldY);
@@ -276,8 +278,16 @@ export class SkyStarReleaseView {
           ease: "Sine.in",
           onComplete: () => this._complete(),
         });
+        this._notifyVisible(star);
       },
     });
+  }
+
+  _notifyVisible(star) {
+    const onVisible = this._onVisible;
+    this._onVisible = null;
+    if (!onVisible || !star?.active) return;
+    onVisible(Object.freeze({ worldX: star.x, worldY: star.y }));
   }
 
   _createImage(x, y, textureKey, depth, displaySize, alpha, blendMode, textureFrame = null) {
@@ -303,18 +313,20 @@ export class SkyStarReleaseView {
 
   _complete() {
     if (this._disposed) return;
-    const onComplete = this._onComplete;
     this.destroy();
-    onComplete?.();
   }
 
   destroy() {
     if (this._disposed) return;
+    const onComplete = this._onComplete;
+    this._onComplete = null;
     this._disposed = true;
+    this._onVisible = null;
     for (const image of this._images) {
       this.scene.tweens.killTweensOf(image);
       if (image?.active !== false) image?.destroy();
     }
     this._images.clear();
+    onComplete?.();
   }
 }

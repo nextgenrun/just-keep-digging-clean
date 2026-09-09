@@ -5,7 +5,9 @@ import {
   HARDCORE_PANIC_PRESENTATION,
   resolveHardcorePanicView,
 } from "../../values/hardcorePanicPresentation.js";
+import { HardcorePanicBoundaryView } from "./HardcorePanicBoundaryView.js";
 import { HardcorePanicOverlay } from "./HardcorePanicOverlay.js";
+import { hasUiInputPriority } from "../UiInputPriorityRegistry.js";
 
 const TAU = Math.PI * 2;
 const clamp01 = value => Math.max(0, Math.min(1, Number(value) || 0));
@@ -22,6 +24,7 @@ export class HardcoreStatusHud {
     this.crest = null;
     this.label = null;
     this.detail = null;
+    this.panicBoundary = null;
     this.panicOverlay = null;
     this._lastSignature = "";
     this._lastIconKey = "";
@@ -29,11 +32,12 @@ export class HardcoreStatusHud {
     this._panicFlashActive = false;
     this._statusSuppressedForOverlay = false;
     this._create();
+    this.panicBoundary = new HardcorePanicBoundaryView(scene, config);
     this.panicOverlay = new HardcorePanicOverlay(scene, config, this.presentation);
   }
 
   _create() {
-    const frameKey = ASSET_KEYS.ui.approvedHud.notification;
+    const frameKey = ASSET_KEYS.ui.approvedHud.hardcoreStatusShell;
     const crestKey = ASSET_KEYS.ui.hardcore.oathCrest;
     if (!this.scene.textures.exists(frameKey) || !this.scene.textures.exists(crestKey)) return;
     const layout = this.layout;
@@ -78,15 +82,22 @@ export class HardcoreStatusHud {
   }
 
   isReady() {
-    return Boolean(this.root && this.panicOverlay?.isReady());
+    return Boolean(
+      this.root
+      && this.panicBoundary?.isReady()
+      && this.panicOverlay?.isReady()
+    );
   }
 
   update(snapshot, timeMs = 0, gp = 0, options = {}) {
     const view = resolveHardcorePanicView(snapshot, gp, {
       nearDeathGpThreshold: this.config.stress.nearDeathGpThreshold,
       lastBreathGpThreshold: this.config.checkpoint.lowGpImmediateThreshold,
+      panicStartDepth: this.config.stress.panicStartDepthTiles,
     });
-    const gameplayActive = options.gameplayActive !== false;
+    const gameplayActive = options.gameplayActive !== false
+      && !hasUiInputPriority(this.scene);
+    this.panicBoundary?.update(snapshot, timeMs, gameplayActive);
     const overlayState = this.panicOverlay?.update(view, timeMs, gameplayActive) || {};
     const overlayOwnsSignal = overlayState.bannerOwnsSignal === true;
     const highPanicEntered = view.overlayVisible === true
@@ -98,7 +109,7 @@ export class HardcoreStatusHud {
     this._panicFlashActive = highPanicEntered;
     this._lastView = view;
     this._statusSuppressedForOverlay = overlayOwnsSignal;
-    this._updateStatus(view, timeMs, overlayOwnsSignal);
+    this._updateStatus(view, timeMs, overlayOwnsSignal || !gameplayActive);
   }
 
   _updateStatus(view, timeMs, suppressed) {
@@ -156,6 +167,7 @@ export class HardcoreStatusHud {
   }
 
   getDebugSnapshot() {
+    const boundary = this.panicBoundary?.getDebugSnapshot?.() || {};
     const overlay = this.panicOverlay?.getDebugSnapshot?.() || {};
     return {
       ready: this.isReady(),
@@ -169,18 +181,21 @@ export class HardcoreStatusHud {
       statusIconKey: this._lastIconKey || null,
       title: this.label?.text || "",
       detail: this.detail?.text || "",
+      ...boundary,
       ...overlay,
     };
   }
 
   destroy() {
     this.root?.destroy(true);
+    this.panicBoundary?.destroy();
     this.panicOverlay?.destroy();
     this.root = null;
     this.frame = null;
     this.crest = null;
     this.label = null;
     this.detail = null;
+    this.panicBoundary = null;
     this.panicOverlay = null;
     this.scene = null;
   }

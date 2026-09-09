@@ -43,7 +43,7 @@ export class NewRunSetupInputController {
     if (
       letter
       && owner.tutorialChoice === TOWN_TUTORIAL_CHOICES.NO
-      && owner.skipConfirmation.length < owner.config.copy.skipConfirmation.length
+      && owner.skipConfirmation.length < owner.copy.skipConfirmation.length
     ) {
       owner.skipConfirmation += letter;
       owner._refresh();
@@ -88,7 +88,7 @@ export class NewRunSetupInputController {
 
   _advanceHiddenSequence(letter) {
     const owner = this.owner;
-    const target = owner.config.copy.hiddenSequence;
+    const target = owner.copy.hiddenSequence;
     const candidate = `${owner.hiddenSequence}${letter}`;
     owner.hiddenSequence = target.startsWith(candidate)
       ? candidate

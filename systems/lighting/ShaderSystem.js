@@ -228,6 +228,17 @@ export class ShaderSystem {
       .setScrollFactor(0)
       .setVisible(false);
     shader.setRenderToTexture(textureKey);
+    // Phaser's offscreen Shader flush returns to the default framebuffer.
+    // Preserve an active camera post-effect target so later scenery, actors,
+    // and HUD still join the same complete frame.
+    const renderShader = shader.renderWebGL;
+    shader.renderWebGL = function (renderer, ...args) {
+      const target = renderer.currentFramebuffer;
+      try { return renderShader.call(this, renderer, ...args); }
+      finally {
+        if (renderer.currentFramebuffer !== target) renderer.setFramebuffer(target);
+      }
+    };
 
     const image = this.scene.add.image(width / 2, height / 2, textureKey)
       .setOrigin(0.5)

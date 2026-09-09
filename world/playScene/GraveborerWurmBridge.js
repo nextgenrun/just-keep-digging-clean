@@ -62,7 +62,8 @@ export function resolveGraveborerWurmActivation(
   const productionActive = hardcoreArmed
     && (!config.activation.requiresFlightUnlock || flightUnlocked)
     && (depth >= config.activation.minDepthTiles || encounterCommitted);
-  const devOverride = isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.DEV_CHEATS)
+  const devOverride = (isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.DEV_CHEATS)
+      || scene.dynamicEventRuntime?.devEnabled === true)
     && (system.devTest10x === true || devForceActive === true);
   return {
     active: devOverride || productionActive,
@@ -76,9 +77,9 @@ export function resolveGraveborerWurmActivation(
   };
 }
 
-export function forceGraveborerWurmEncounter(scene) {
+export function forceGraveborerWurmEncounter(scene, selection = {}) {
   const runtime = scene.graveborerWurmRuntime;
-  if (!runtime?.devToolsEnabled) return false;
+  if (!runtime || (!runtime.devToolsEnabled && !scene.dynamicEventRuntime?.devEnabled)) return false;
   const controls = GRAVEBORER_WURM_CONFIG.devControls;
   if (!runtime.system.enabled) {
     scene.uiNotifications?.warning?.(
@@ -89,7 +90,7 @@ export function forceGraveborerWurmEncounter(scene) {
   }
   runtime.forcedDevEncounter = true;
   runtime.devSaveIsolation = true;
-  runtime.system.forceEncounter(scene.playerController?.getPlayerTile?.());
+  runtime.system.forceEncounter(scene.playerController?.getPlayerTile?.(), selection);
   scene.uiNotifications?.warning?.(
     GRAVEBORER_WURM_CONFIG.labels.devSummoned,
     { key: controls.summonNoticeKey, durationMs: controls.noticeDurationMs },
@@ -241,7 +242,9 @@ export function updateGraveborerWurmRuntime(scene, time, delta, playerTile) {
   });
   handleGraveborerWurmEvents(scene, runtime);
   runtime.visual.update(runtime.system.getRenderState(time), time);
-  runtime.hud.update(snapshot, time);
+  runtime.hud.update(snapshot, time, {
+    noticeVisible: scene.dynamicEventRuntime?.awareness?.cards.get("wurm")?.root.visible === true,
+  });
   return snapshot;
 }
 

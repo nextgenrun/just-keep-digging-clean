@@ -1,0 +1,89 @@
+{
+  "scenery": "Aurora sanctuary",
+  "mode": "motion",
+  "view": true,
+  "roots": 1,
+  "decoded": true,
+  "playing": true,
+  "time": 26.594,
+  "duration": 29.9,
+  "bufferedEnd": 29.9,
+  "seekableEnd": 29.9,
+  "cadence": {
+    "wraps": [
+      {
+        "gapMs": 33.3,
+        "from": 29.866667,
+        "to": 0
+      }
+    ],
+    "frameGapP95": 33.5,
+    "frameGapMax": 50
+  },
+  "loopCount": 0,
+  "nativeLoopCount": 1,
+  "nativeLoops": [
+    {
+      "time": 0.000516,
+      "blending": false
+    }
+  ],
+  "handoffs": [],
+  "blendSamples": [],
+  "renderFps": 60,
+  "videoQuality": [
+    {
+      "role": "menu-atmosphere-video",
+      "total": 1698,
+      "dropped": 0
+    }
+  ],
+  "logo": {
+    "state": "playing",
+    "backing": false,
+    "posterVisible": false,
+    "videoAlpha": 1,
+    "blendMode": 0,
+    "playbackRate": 1,
+    "source": "sprites/branding/understar-motion-v6/understar-logo-loop.webm"
+  },
+  "videoStates": [
+    {
+      "role": "menu-atmosphere-video",
+      "alpha": 1,
+      "frameReady": true,
+      "paused": false,
+      "time": 26.594221
+    }
+  ],
+  "videoCount": 1,
+  "videoSources": [
+    "sprites/backgrounds/menu-atmosphere-v6/aurora.mp4"
+  ],
+  "effectiveVideoOpacity": 1,
+  "posterOpacity": 0,
+  "muted": true,
+  "audioTracks": 0,
+  "viewState": "Tip: Default F mines the aimed tile",
+  "videoOpacity": 1,
+  "failedMedia": false,
+  "mediaFallbacks": [],
+  "textureCount": 14,
+  "textureKeys": [
+    "__NORMAL",
+    "__DEFAULT",
+    "__MISSING",
+    "__WHITE",
+    "brand-logo",
+    "brand-logo-backing",
+    "bg-db-f1frtjf1frtjf1fr",
+    "bg-db-g6ozmlg6ozmlg6oz",
+    "bg-db-rimx2primx2primx",
+    "bg-db-kjwykkjwykkjwykk",
+    "bg-db-i30bfci30bfci30b",
+    "bg-db-wocn9hwocn9hwocn",
+    "6704748a-c316-4367-bfea-ca53ad9ab791",
+    "fd0515db-0fc7-4878-8ec1-3beda21c0460"
+  ],
+  "ownedShutdownListeners": 16
+}

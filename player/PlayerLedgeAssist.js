@@ -68,7 +68,11 @@ export class PlayerLedgeAssist {
       x: this.body.x - ledge.hangX,
       y: this.body.y - ledge.hangY,
     });
-    this.body.setPosition(ledge.hangX, ledge.hangY);
+    if (this.body.setPosition(ledge.hangX, ledge.hangY) === false) {
+      this.cancel();
+      this.body.resetVelocity();
+      return false;
+    }
     this.body.resetVelocity();
     this.body.onGround = false;
     return true;
@@ -137,12 +141,21 @@ export class PlayerLedgeAssist {
     const liftEnd = this.config.climb.liftEndProgress;
     const liftProgress = smooth(clamp01(progress / liftEnd));
     const overProgress = smooth(clamp01((progress - liftEnd) / (1 - liftEnd)));
-    this.body.setPosition(
+    const placed = this.body.setPosition(
       lerp(this.ledge.hangX, this.ledge.standX, overProgress),
       lerp(this.ledge.hangY, this.ledge.standY, liftProgress),
     );
+    if (placed === false) {
+      this.cancel();
+      this.body.resetVelocity();
+      return RESULT.released;
+    }
     if (progress < 1) return RESULT.active;
-    this.body.setPosition(this.ledge.standX, this.ledge.standY);
+    if (this.body.setPosition(this.ledge.standX, this.ledge.standY) === false) {
+      this.cancel();
+      this.body.resetVelocity();
+      return RESULT.released;
+    }
     this.body.resetVelocity();
     this.body.onGround = true;
     this.cancel();

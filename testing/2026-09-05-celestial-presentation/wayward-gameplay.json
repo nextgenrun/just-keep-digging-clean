@@ -1,0 +1,43 @@
+{
+  "celestial": {
+    "activation": {
+      "activationId": "god:wayward-star:947109:1",
+      "active": true,
+      "activeStars": 1,
+      "ageMs": 450.5,
+      "bounces": 0,
+      "completedStars": 0,
+      "engineId": "wayward-star",
+      "impacts": 0,
+      "lifetimeMs": 8000,
+      "maxBounces": 8,
+      "maxImpacts": 14,
+      "maxRedirects": 0,
+      "maxRouteImpacts": 14,
+      "maxSupernovaImpacts": 0,
+      "redirects": 0,
+      "remainingMs": 7549.5,
+      "routeImpacts": 0,
+      "starCount": 1,
+      "supernovaImpacts": 0,
+      "uniqueRouteTargets": 0,
+      "uniqueTargets": 0
+    },
+    "activeCount": 1,
+    "empower": null,
+    "enabled": true,
+    "lastCompletion": null,
+    "passives": {
+      "activeCount": 0,
+      "hollow": null,
+      "lance": null,
+      "wayward": null
+    }
+  },
+  "errors": [],
+  "gameReady": true,
+  "saveWritesBlocked": true,
+  "scenes": [
+    "PlayScene"
+  ]
+}

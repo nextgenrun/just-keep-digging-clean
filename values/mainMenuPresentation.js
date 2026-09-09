@@ -14,6 +14,11 @@ export const MAIN_MENU_PRESENTATION = Object.freeze({
     widthPx: 260,
     heightPx: 52,
   }),
+  cursor: Object.freeze({
+    insetXPx: 3,
+    widthPx: 3,
+    heightPx: 34,
+  }),
 });
 
 export function resolveMainMenuArtEnabled(search = globalThis.location?.search || "") {

@@ -1,0 +1,23 @@
+export const BRAND_CONFIG = Object.freeze({
+  name: "UNDERSTAR",
+  logoAssetPath: "sprites/branding/understar-world-within-v4/understar-world-logo-runtime.webp",
+  backing: Object.freeze({
+    key: "brand-logo-backing",
+    path: "sprites/branding/understar-world-within-v4/understar-logo-stone.png",
+    frame: "tight-stone",
+    crop: Object.freeze({ x: 0, y: 0, width: 1810, height: 470 }),
+    name: "brand-logo-backing",
+    alpha: 1,
+  }),
+  animation: Object.freeze({
+    "enabled": true,
+    "playbackRate": 0.67,
+    "path": "sprites/branding/understar-world-within-v4/understar-logo-loop-alpha-v2.webm",
+    "viewName": "brand-logo-view",
+    "posterName": "brand-logo-poster",
+    "videoName": "brand-logo-video",
+    "query": "logoMotion",
+    "reducedMotionQuery": "(prefers-reduced-motion: reduce)",
+    "readyTimeoutMs": 15000
+  }),
+});

@@ -1,0 +1,7 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Level 1 weather V4 audit</title>
+<style>body{margin:20px;background:#0d1722;color:#d5e3ef;font:15px system-ui}button,a{padding:10px;margin:5px;color:inherit;background:#253d4b;border:1px solid #658396}iframe{width:1470px;height:1060px;border:0}#captures{display:grid;grid-template-columns:repeat(2,minmax(300px,1fr));gap:14px}figure{margin:0}img,video{width:100%}pre{white-space:pre-wrap}</style></head><body>
+<h1>Level 1 weather V4 — actual runtime audit</h1><p>Local review fixture. Saves disabled. The buttons below run and capture the real game scene.</p>
+<button id="run">Run weather and route audit</button><button id="front">Observe one cloud front</button><button id="record">Record weather motion</button><p role="status" id="state">Preparing review</p>
+<a id="report" download="verification.json" hidden>Download verification</a><a id="movie" download="level-one-weather-v4.webm" hidden>Download motion recording</a><pre id="summary"></pre>
+<iframe id="review" title="Real Level 1 review" src="../?revision=weather-v4-audit"></iframe><div id="captures"></div><div id="movies"></div>
+<script type="module" src="./audit.js"></script></body></html>

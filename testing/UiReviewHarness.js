@@ -80,10 +80,11 @@ function openReviewSurface(scene, surface) {
       break;
     case "level":
       scene.levelUpRewardPresentation?.show?.({
-        level: 2,
+        level: 3,
         levelsGained: 1,
-        darknessResistanceGainMeters: 20,
-        darknessResistanceMeters: 20,
+        talentPointsGain: 1,
+        panicResistanceGainMeters: 20,
+        panicResistanceMeters: 20,
         miningPowerGainPercent: 56,
         maxHpGain: 50,
         gemPowerMaxGain: 100,

@@ -12,7 +12,7 @@ export function createHardcoreModalView(scene, config) {
     .setScrollFactor(0).setDepth(ui.depth).setVisible(false);
   const shade = scene.add.rectangle(
     0, 0, scene.scale.width, scene.scale.height, 0x020104, 0.86,
-  ).setInteractive();
+  ).setScrollFactor(0).setInteractive();
   const panel = scene.add.image(0, 0, panelKey)
     .setDisplaySize(ui.panelWidth, ui.panelHeight);
   const title = scene.add.text(0, ui.titleY, "", {
@@ -36,7 +36,7 @@ export function createHardcoreModalView(scene, config) {
     fontSize: `${ui.font.bodyPx}px`,
     color: UI_COLORS.body,
     align: "center",
-    lineSpacing: 8,
+    lineSpacing: ui.bodyLineSpacingPx,
     wordWrap: { width: ui.bodyWidth, useAdvancedWrap: true },
   }).setOrigin(0.5, 0);
   const instruction = scene.add.text(0, ui.typedPromptY, "", {

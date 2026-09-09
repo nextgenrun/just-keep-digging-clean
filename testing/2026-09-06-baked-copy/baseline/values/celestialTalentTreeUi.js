@@ -1,0 +1,320 @@
+// Authored full-screen multi-path talent layout, art routing, and hover copy.
+
+import { CELESTIAL_TALENT_NODES_BY_ID } from "./celestialTalentProgression.js";
+import { CELESTIAL_TALENT_RANK_BONUSES } from "./celestialTalentRanks.js";
+
+const foundation = Object.freeze({
+  key: "ui-celestial-talent-foundation-v2",
+  path: "sprites/UI/celestial-overhaul-v2/celestial-talent-foundation-v2.png",
+});
+const connector = Object.freeze({
+  key: "ui-celestial-talent-connector-v2",
+  path: "sprites/UI/celestial-overhaul-v2/talent-connector-v2.png",
+});
+const nodeFrame = Object.freeze({
+  key: "ui-celestial-talent-node-frame-v2",
+  path: "sprites/UI/celestial-overhaul-v2/talent-node-frame-v2.png",
+});
+const nodeHalo = Object.freeze({
+  key: "ui-celestial-talent-node-halo-v1",
+  path: "sprites/UI/starlight-talent-tree-v4/node-selection-halo-v2.png",
+});
+const tooltip = Object.freeze({
+  key: "ui-celestial-talent-tooltip-v2",
+  path: "sprites/UI/celestial-overhaul-v2/talent-tooltip-v2.png",
+});
+const lock = Object.freeze({
+  key: "ui-celestial-talent-lock-v1",
+  path: "sprites/UI/starlight-talent-tree-v4/bobo-lock-seal-v2.png",
+});
+
+const talentIconBasePath = "sprites/UI/celestial-overhaul-v1/";
+const standardTalentNodeIconIds = Object.freeze([
+  "wayward-star-root",
+  "wayward-stellar-bearings",
+  "wayward-ricochet-matrix",
+  "wayward-nova-lens",
+  "wayward-echo-orbit",
+  "wayward-vector-command",
+  "wayward-fracture-bloom",
+  "wayward-perihelion-loop",
+  "wayward-impact-lattice",
+  "wayward-supernova-core",
+  "wayward-white-dwarf-shell",
+  "hollow-sun-root",
+  "hollow-orbit-anchor",
+  "hollow-gravity-well",
+  "hollow-echo-seed",
+  "hollow-tidal-lens",
+  "hollow-event-horizon",
+  "hollow-dark-reservoir",
+  "hollow-abyssal-field",
+  "hollow-collapse-cycle",
+  "hollow-singularity-core",
+  "hollow-chronosphere",
+  "comet-engine-root",
+  "comet-ignition-coil",
+  "comet-bore-drive",
+  "comet-fracture-nose",
+  "comet-longburn-reservoir",
+  "comet-rider-plating",
+  "comet-wide-wake",
+  "comet-aphelion-drive",
+  "comet-impact-wake",
+  "comet-zenith-drive",
+  "comet-shockfront",
+]);
+
+const talentNodeIconDefinitions = Object.freeze([
+  ...standardTalentNodeIconIds.map(nodeId => Object.freeze({
+    nodeId,
+    key: `ui-celestial-talent-icon-${nodeId}-v1`,
+    path: `${talentIconBasePath}talent-icon-${nodeId}-v1.png`,
+  })),
+  Object.freeze({
+    nodeId: "wayward-homebound-apex",
+    key: "ui-celestial-talent-icon-wayward-homebound-apex-v1",
+    path: "sprites/celestial-engines/wayward-star-core-v1.png",
+  }),
+  Object.freeze({
+    nodeId: "hollow-eternal-eclipse",
+    key: "ui-celestial-talent-icon-hollow-eternal-eclipse-v1",
+    path: "sprites/celestial-engines/hollow-sun-core-v1.png",
+  }),
+  Object.freeze({
+    nodeId: "comet-echo-arsenal",
+    key: "ui-celestial-talent-icon-comet-echo-arsenal-v1",
+    path: "sprites/celestial-engines/stellar-lance-wave-purple-v1.png",
+  }),
+]);
+
+export const CELESTIAL_TALENT_NODE_ICON_ASSETS = Object.freeze(
+  talentNodeIconDefinitions.map(({ key, path }) => Object.freeze({ key, path })),
+);
+
+export const CELESTIAL_TALENT_TREE_PRELOAD_ASSETS = Object.freeze([
+  foundation,
+  connector,
+  nodeFrame,
+  nodeHalo,
+  tooltip,
+  lock,
+  ...CELESTIAL_TALENT_NODE_ICON_ASSETS,
+]);
+
+const nodeIconKeys = Object.freeze(Object.fromEntries(
+  talentNodeIconDefinitions.map(({ nodeId, key }) => [nodeId, key]),
+));
+
+export const CELESTIAL_TALENT_TREE_UI_CONFIG = Object.freeze({
+  assets: Object.freeze({
+    foundation,
+    connector,
+    nodeFrame,
+    nodeHalo,
+    tooltip,
+    lock,
+    connectorKeysByBranch: Object.freeze({
+      "wayward-star": connector.key,
+      "hollow-sun": connector.key,
+      "comet-engine": connector.key,
+    }),
+    nodeIconKeys,
+  }),
+  layout: Object.freeze({
+    referenceWidthPx: 1672,
+    referenceHeightPx: 941,
+    minimumScale: 0.56,
+    viewportInsetPx: 8,
+    // Runtime graph centers; the V2 foundation intentionally bakes no sockets.
+    branchCenterXFractions: Object.freeze([0.194, 0.5, 0.804]),
+    // Bottom root, two upgrade tiers, capstones, then one mastery apex.
+    // Keeping the root above the dossier prevents panel collision.
+    rowYFractions: Object.freeze([0.71, 0.59, 0.49, 0.35, 0.235]),
+    bridgeRowYFraction: 0.42,
+    laneStepXFraction: 0.062,
+    nodeSizeByKindPx: Object.freeze({ ability: 88, upgrade: 62, capstone: 72, apex: 80 }),
+    nodeFrameScale: 1.14,
+    nodeIconScale: 0.72,
+    // Keep a small gap between adjacent lanes while retaining a useful mouse
+    // target after the full tree is scaled into compact viewports.
+    nodeHitWidthPx: 96,
+    nodeHitHeightPx: 84,
+    lockWidthPx: 24,
+    lockHeightPx: 34,
+    haloWidthScale: 0.82,
+    haloHeightScale: 1.18,
+    nodeStatusOffsetYPx: 39,
+    connectorThicknessPx: 11,
+    titleYFraction: 0.058,
+    subtitleYFraction: 0.112,
+    branchTitleYFraction: 0.155,
+    levelXFraction: 0.091,
+    talentPointsXFraction: 0.859,
+    starsXFraction: 0.94,
+    headerYFraction: 0.071,
+    closeXFraction: 0.982,
+    closeYFraction: 0.018,
+    closeHitWidthPx: 96,
+    closeHitHeightPx: 48,
+    detailTitleXFraction: 0.205,
+    detailTitleYFraction: 0.886,
+    detailBodyXFraction: 0.51,
+    detailBodyYFraction: 0.886,
+    detailStatusXFraction: 0.82,
+    detailStatusYFraction: 0.886,
+    detailBodyWidthPx: 620,
+    detailTitleWidthPx: 300,
+    detailStatusWidthPx: 280,
+    tooltipWidthPx: 460,
+    tooltipHeightPx: 190,
+    tooltipGapPx: 20,
+    tooltipViewportMarginPx: 22,
+    tooltipTitleOffsetYPx: -54,
+    tooltipMetaOffsetYPx: -32,
+    tooltipBodyOffsetYPx: 5,
+    tooltipStatusOffsetYPx: 60,
+    tooltipBodyWidthPx: 400,
+    tooltipMinimumScreenScale: 0.7,
+    nodeStatusMinimumScreenScale: 0.7,
+    detailMinimumScreenScale: 0.66,
+    compactStatusScaleThreshold: 0.7,
+  }),
+  presentation: Object.freeze({
+    depth: 4200,
+    titleFontSizePx: 42,
+    subtitleFontSizePx: 17,
+    headerFontSizePx: 17,
+    currencyFontSizePx: 14,
+    closeFontSizePx: 15,
+    branchFontSizePx: 25,
+    nodeStatusFontSizePx: 12,
+    detailTitleFontSizePx: 20,
+    detailBodyFontSizePx: 16,
+    detailStatusFontSizePx: 14,
+    tooltipTitleFontSizePx: 20,
+    tooltipMetaFontSizePx: 13,
+    tooltipBodyFontSizePx: 15,
+    tooltipStatusFontSizePx: 14,
+    titleColor: "#E8C984",
+    bodyColor: "#D7DFE6",
+    dimColor: "#8797A5",
+    readyColor: "#DFF8FF",
+    ownedColor: "#F2D67F",
+    lockedColor: "#A9B3BC",
+    shadowColor: "#010408",
+    shadowThicknessPx: 3,
+    lockedAlpha: 0.58,
+    waitingAlpha: 0.82,
+    availableAlpha: 1,
+    purchasedAlpha: 1,
+    waitingColor: "#B9DDEB",
+    lockedTint: 0x8c9ba8,
+    selectedScale: 1.09,
+    haloAlpha: 0.84,
+    availableHaloAlpha: 0.18,
+    waitingHaloAlpha: 0.1,
+    purchasedHaloAlpha: 0.34,
+    connectorLockedAlpha: 0.1,
+    connectorReadyAlpha: 0.68,
+    connectorOwnedAlpha: 0.88,
+    connectorSelectedAlpha: 1,
+    connectorThicknessScaleByState: Object.freeze({ locked: 0.72, ready: 1.05, owned: 1.16, selected: 1.48 }),
+    branchAccents: Object.freeze([0xe0a843, 0xa96dff, 0xff6d4a]),
+  }),
+  copy: Object.freeze({
+    title: "CELESTIAL TALENTS",
+    subtitle: "TALENT POINTS UNLOCK NODES  •  STAR POINTS UPGRADE THEIR RANKS",
+    close: "ESC",
+    owned: "OWNED",
+    free: "FREE",
+    waiting: "NEXT LEVEL",
+    rootLocked: "FINISH PATH",
+    inspect: "Unlock a node with 1 Talent Point. Spend Star Points to make it stronger.",
+    talentsLocked: "Reach Player Level 3.",
+    rootChoiceLocked: "Reach a top node in your current branch to open another starting ability.",
+    prerequisiteLocked: "Unlock an earlier node on this path first.",
+    unknownLocked: "This talent is locked.",
+    available: "Click or tap to unlock.",
+    rootChoice: "STARTING ABILITY",
+    upgradeChoice: "UPGRADE CHOICE",
+    bridgeChoice: "BRIDGE UPGRADE",
+    capstoneChoice: "CAPSTONE CHOICE",
+    apexChoice: "PERMANENT MASTERY",
+    levelLabel: "LEVEL",
+    starPointLabel: "SP",
+    starPointsTitle: "STAR POINTS",
+    talentPointsTitle: "TALENT POINTS",
+    rankLabel: "RANK",
+    maxLabel: "MAX",
+    talentPointLabel: "TP",
+    maxRank: "Fully upgraded.",
+  }),
+});
+
+export function getCelestialTalentChoiceLabel(node) {
+  const copy = CELESTIAL_TALENT_TREE_UI_CONFIG.copy;
+  if (node?.displayRole === "bridge") return copy.bridgeChoice;
+  if (node?.kind === "ability") return copy.rootChoice;
+  if (node?.kind === "capstone") return copy.capstoneChoice;
+  if (node?.kind === "apex") return copy.apexChoice;
+  return copy.upgradeChoice;
+}
+
+export function getCelestialTalentNodeIconKey(nodeId) {
+  return nodeIconKeys[nodeId] || nodeIconKeys["wayward-star-root"];
+}
+
+export function getCelestialTalentNodePosition(branchIndex, node) {
+  const layout = CELESTIAL_TALENT_TREE_UI_CONFIG.layout;
+  return Object.freeze({
+    xFraction: layout.branchCenterXFractions[branchIndex]
+      + node.lane * layout.laneStepXFraction,
+    yFraction: node.displayRole === "bridge"
+      ? layout.bridgeRowYFraction
+      : layout.rowYFractions[node.row],
+  });
+}
+
+export function describeCelestialTalentAvailability(nodeSnapshot) {
+  const copy = CELESTIAL_TALENT_TREE_UI_CONFIG.copy;
+  if (!nodeSnapshot) return copy.unknownLocked;
+  if (nodeSnapshot.reason === "max-rank") return copy.maxRank;
+  if (nodeSnapshot.available) {
+    if (nodeSnapshot.godMode) return `Click to ${nodeSnapshot.action}. Free in God Mode.`;
+    return nodeSnapshot.action === "upgrade"
+      ? `Click to upgrade • ${nodeSnapshot.starsCost} Star Points.`
+      : `Click to unlock • ${nodeSnapshot.talentPointsCost} Talent Point.`;
+  }
+  if (nodeSnapshot.reason === "talents-locked") return copy.talentsLocked;
+  if (nodeSnapshot.reason === "level-locked") {
+    return `Reach Player Level ${nodeSnapshot.requiredLevel}.`;
+  }
+  if (nodeSnapshot.reason === "root-choice-locked") return copy.rootChoiceLocked;
+  if (nodeSnapshot.reason === "prerequisite-locked") {
+    const names = (nodeSnapshot.missingPrerequisiteIds || [])
+      .map(id => CELESTIAL_TALENT_NODES_BY_ID[id]?.name)
+      .filter(Boolean);
+    if (nodeSnapshot.prerequisiteMode === "any") {
+      return `Unlock any one of: ${names.join(", ")}.`;
+    }
+    return names.length > 0
+      ? `Unlock first: ${names.join(", ")}.`
+      : copy.prerequisiteLocked;
+  }
+  if (nodeSnapshot.reason === "insufficient-stars") {
+    return `Need ${nodeSnapshot.starsCost} Star Points • You have ${nodeSnapshot.starsBalance}.`;
+  }
+  if (nodeSnapshot.reason === "insufficient-talent-points") {
+    return "Need 1 Talent Point. Earn one each level, starting at Level 3.";
+  }
+  return copy.unknownLocked;
+}
+
+export function describeCelestialTalentRank(nodeSnapshot) {
+  if (!nodeSnapshot?.purchased) return nodeSnapshot?.description || "";
+  const bonus = CELESTIAL_TALENT_RANK_BONUSES[nodeSnapshot.id]?.description || "";
+  return nodeSnapshot.rank >= nodeSnapshot.maxRank
+    ? `Star upgrades: ${bonus}`
+    : `Next rank: ${bonus}`;
+}

@@ -1,0 +1,2253 @@
+UNDERSTAR — approved Freesound audio, 2026-09-03
+
+Source recordings by the creators below, licensed as listed.
+Changes: HQ-preview derivation, onset/tail edits, level matching, loop seam treatment,
+and mono downmix for positional Star sources. Original recordings were not downloaded.
+
+heartbeat single — .name (Freesound 418788)
+https://freesound.org/people/.name/sounds/418788/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Futuristic Heartbeat 120 bpm.wav — _MC5_ (Freesound 524935)
+https://freesound.org/people/_MC5_/sounds/524935/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Tool Sharpener Grinder: high-pitched whirring of the motor, followed by a steady grind as the blade makes contact, with occasional sparks and a rhythmic, metallic rasp. — ABloemarts242029 (Freesound 765160)
+https://freesound.org/people/ABloemarts242029/sounds/765160/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Shovel.wav — abstraktgeneriert (Freesound 213005)
+https://freesound.org/people/abstraktgeneriert/sounds/213005/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Pickaxe #2.wav — abstraktgeneriert (Freesound 233630)
+https://freesound.org/people/abstraktgeneriert/sounds/233630/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+4.wav — adcbicycle (Freesound 13837)
+https://freesound.org/people/adcbicycle/sounds/13837/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Deep_Ice_Cracking — Akkaittou (Freesound 819719)
+https://freesound.org/people/Akkaittou/sounds/819719/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Deep_Ice_Cracking2 — Akkaittou (Freesound 819720)
+https://freesound.org/people/Akkaittou/sounds/819720/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Deep_Ice_Cracking3 — Akkaittou (Freesound 819721)
+https://freesound.org/people/Akkaittou/sounds/819721/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Deep_Ice_Cracking4 — Akkaittou (Freesound 819722)
+https://freesound.org/people/Akkaittou/sounds/819722/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Ice Fields Moving Rumbling — AlBundyX (Freesound 549014)
+https://freesound.org/people/AlBundyX/sounds/549014/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+rumble_space_low_pass_people_talking.wav — alexkandrell (Freesound 316096)
+https://freesound.org/people/alexkandrell/sounds/316096/
+CC-BY-3.0: http://creativecommons.org/licenses/by/3.0/
+
+Clinking Coins 2 — AleXZavesa (Freesound 853707)
+https://freesound.org/people/AleXZavesa/sounds/853707/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+crackle sound Effect.wav — AndreAngelo (Freesound 246207)
+https://freesound.org/people/AndreAngelo/sounds/246207/
+CC-BY-3.0: http://creativecommons.org/licenses/by/3.0/
+
+button click — AndrewEathan (Freesound 538727)
+https://freesound.org/people/AndrewEathan/sounds/538727/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+static speaker crackling — AndrewEathan (Freesound 542686)
+https://freesound.org/people/AndrewEathan/sounds/542686/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+metal bowl - hit - with wooden spoon 01.wav — Anthousai (Freesound 405665)
+https://freesound.org/people/Anthousai/sounds/405665/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+hit - metallic - basketball hoop pipe 01.wav — Anthousai (Freesound 406490)
+https://freesound.org/people/Anthousai/sounds/406490/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+hit - metallic - lawn chair 01.wav — Anthousai (Freesound 406491)
+https://freesound.org/people/Anthousai/sounds/406491/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+hit - metallic - garbage can 01.wav — Anthousai (Freesound 406492)
+https://freesound.org/people/Anthousai/sounds/406492/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+hit - metallic - cage 01.wav — Anthousai (Freesound 406494)
+https://freesound.org/people/Anthousai/sounds/406494/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+hit - metallic - lid of candle 04.wav — Anthousai (Freesound 406522)
+https://freesound.org/people/Anthousai/sounds/406522/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+hit - metallic - lid of candle 03.wav — Anthousai (Freesound 406523)
+https://freesound.org/people/Anthousai/sounds/406523/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+hit - metallic - lid of candle 02.wav — Anthousai (Freesound 406524)
+https://freesound.org/people/Anthousai/sounds/406524/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+hit - metallic - lid of candle 01.wav — Anthousai (Freesound 406525)
+https://freesound.org/people/Anthousai/sounds/406525/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+hit - metallic - trailer - back of metal trailer 01.wav — Anthousai (Freesound 406528)
+https://freesound.org/people/Anthousai/sounds/406528/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+hit - metallic - metal pipe 01.wav — Anthousai (Freesound 406556)
+https://freesound.org/people/Anthousai/sounds/406556/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+hit - metallic - metal gate.wav — Anthousai (Freesound 406557)
+https://freesound.org/people/Anthousai/sounds/406557/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+hit - metallic - watering can - flicking a metal watering can 01.wav — Anthousai (Freesound 406558)
+https://freesound.org/people/Anthousai/sounds/406558/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+hit - metallic - trailer - metal fender 02.wav — Anthousai (Freesound 406559)
+https://freesound.org/people/Anthousai/sounds/406559/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+hit - metallic - trailer - metal fender 01.wav — Anthousai (Freesound 406560)
+https://freesound.org/people/Anthousai/sounds/406560/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+hit - metallic - natural gas tank 02.wav — Anthousai (Freesound 406561)
+https://freesound.org/people/Anthousai/sounds/406561/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Freeze sound effect FX — antonsoederberg (Freesound 685253)
+https://freesound.org/people/antonsoederberg/sounds/685253/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Electrical_Distortion_Bass_Effect (BR_PL_Bass_05_maysun) — aotustudios (Freesound 817233)
+https://freesound.org/people/aotustudios/sounds/817233/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+superhero_earth_impact_hit_07062025 — Artninja (Freesound 815336)
+https://freesound.org/people/Artninja/sounds/815336/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+custom_ben_10_ultimate_alien_force_mana_burst_or_activation_sounds_v3_FINAL_09012025 — Artninja (Freesound 825284)
+https://freesound.org/people/Artninja/sounds/825284/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Heartbeat  Loop — ayamahambho (Freesound 195312)
+https://freesound.org/people/ayamahambho/sounds/195312/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Heartbeat looper.wav — b-train (Freesound 410378)
+https://freesound.org/people/b-train/sounds/410378/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Nuclear reactor — Bachsambora (Freesound 749979)
+https://freesound.org/people/Bachsambora/sounds/749979/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Bullet-scifi — Bachsambora (Freesound 752035)
+https://freesound.org/people/Bachsambora/sounds/752035/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Button_Click2 — BaggoNotes (Freesound 721503)
+https://freesound.org/people/BaggoNotes/sounds/721503/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+metal_hit_2.wav — BBoz87 (Freesound 671097)
+https://freesound.org/people/BBoz87/sounds/671097/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+creak 3 - 003.wav — beerbelly38 (Freesound 362342)
+https://freesound.org/people/beerbelly38/sounds/362342/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+creak 2 - 002.wav — beerbelly38 (Freesound 362343)
+https://freesound.org/people/beerbelly38/sounds/362343/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+creak 1.wav — beerbelly38 (Freesound 362344)
+https://freesound.org/people/beerbelly38/sounds/362344/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Heartbeat Mono 100 BPM.wav — Benboncan (Freesound 63027)
+https://freesound.org/people/Benboncan/sounds/63027/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Heartbeat Mono 80 BPM.wav — Benboncan (Freesound 63028)
+https://freesound.org/people/Benboncan/sounds/63028/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Footsteps_Dirt_Single_05.wav — BenDrain (Freesound 487862)
+https://freesound.org/people/BenDrain/sounds/487862/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Footsteps_Dirt_Single_06.wav — BenDrain (Freesound 487863)
+https://freesound.org/people/BenDrain/sounds/487863/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Footsteps_Dirt_Single_07.wav — BenDrain (Freesound 487864)
+https://freesound.org/people/BenDrain/sounds/487864/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Footsteps_Dirt_Single_04.wav — BenDrain (Freesound 487869)
+https://freesound.org/people/BenDrain/sounds/487869/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Metal Hit — BenjaminNelan (Freesound 410364)
+https://freesound.org/people/BenjaminNelan/sounds/410364/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Rock destroy — Bertsz (Freesound 524312)
+https://freesound.org/people/Bertsz/sounds/524312/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+imp_01.wav — blaukreuz (Freesound 52143)
+https://freesound.org/people/blaukreuz/sounds/52143/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+imp_02.wav — blaukreuz (Freesound 52144)
+https://freesound.org/people/blaukreuz/sounds/52144/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+imp_11.wav — blaukreuz (Freesound 52145)
+https://freesound.org/people/blaukreuz/sounds/52145/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+imp_12.wav — blaukreuz (Freesound 52146)
+https://freesound.org/people/blaukreuz/sounds/52146/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+imp_13.wav — blaukreuz (Freesound 52147)
+https://freesound.org/people/blaukreuz/sounds/52147/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+ski_01.wav — blaukreuz (Freesound 52148)
+https://freesound.org/people/blaukreuz/sounds/52148/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+ski_02.wav — blaukreuz (Freesound 52149)
+https://freesound.org/people/blaukreuz/sounds/52149/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+ski_03.wav — blaukreuz (Freesound 52150)
+https://freesound.org/people/blaukreuz/sounds/52150/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+ski_04.wav — blaukreuz (Freesound 52151)
+https://freesound.org/people/blaukreuz/sounds/52151/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Distant_Rumbling_Thunder_In_Rain_01 — BlondPanda (Freesound 778362)
+https://freesound.org/people/BlondPanda/sounds/778362/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+FX - Crackle — bolkmar (Freesound 459612)
+https://freesound.org/people/bolkmar/sounds/459612/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Wet Click — Breviceps (Freesound 448080)
+https://freesound.org/people/Breviceps/sounds/448080/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+button 1.wav — bubaproducer (Freesound 107127)
+https://freesound.org/people/bubaproducer/sounds/107127/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+button 10.wav — bubaproducer (Freesound 107128)
+https://freesound.org/people/bubaproducer/sounds/107128/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+button 11.wav — bubaproducer (Freesound 107129)
+https://freesound.org/people/bubaproducer/sounds/107129/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+button 12.wav — bubaproducer (Freesound 107130)
+https://freesound.org/people/bubaproducer/sounds/107130/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+button 15.wav — bubaproducer (Freesound 107133)
+https://freesound.org/people/bubaproducer/sounds/107133/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+button 18.wav — bubaproducer (Freesound 107136)
+https://freesound.org/people/bubaproducer/sounds/107136/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+button 19.wav — bubaproducer (Freesound 107137)
+https://freesound.org/people/bubaproducer/sounds/107137/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+button 2.wav — bubaproducer (Freesound 107138)
+https://freesound.org/people/bubaproducer/sounds/107138/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+button 22.wav — bubaproducer (Freesound 107141)
+https://freesound.org/people/bubaproducer/sounds/107141/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+button 24.wav — bubaproducer (Freesound 107143)
+https://freesound.org/people/bubaproducer/sounds/107143/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+button 27.wav — bubaproducer (Freesound 107146)
+https://freesound.org/people/bubaproducer/sounds/107146/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+button 28.wav — bubaproducer (Freesound 107147)
+https://freesound.org/people/bubaproducer/sounds/107147/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+button 3.wav — bubaproducer (Freesound 107149)
+https://freesound.org/people/bubaproducer/sounds/107149/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+button 30.wav — bubaproducer (Freesound 107150)
+https://freesound.org/people/bubaproducer/sounds/107150/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+button 4.wav — bubaproducer (Freesound 107151)
+https://freesound.org/people/bubaproducer/sounds/107151/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+button 5.wav — bubaproducer (Freesound 107152)
+https://freesound.org/people/bubaproducer/sounds/107152/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Stone hit — CamoMano (Freesound 431019)
+https://freesound.org/people/CamoMano/sounds/431019/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+RoomNoiseRumbly.wav — ceich93 (Freesound 266410)
+https://freesound.org/people/ceich93/sounds/266410/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Ice Break_1.mp3 — CGEffex (Freesound 89771)
+https://freesound.org/people/CGEffex/sounds/89771/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+25_Metal_chocando.wav — ChristianAnd (Freesound 468837)
+https://freesound.org/people/ChristianAnd/sounds/468837/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Videogame Menu BUTTON CLICK — Christopherderp (Freesound 342200)
+https://freesound.org/people/Christopherderp/sounds/342200/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Ice Cubes Poured Into Drink — Clearwavsound (Freesound 527322)
+https://freesound.org/people/Clearwavsound/sounds/527322/
+CC-BY-3.0: http://creativecommons.org/licenses/by/3.0/
+
+Ice Clink in Empty Glass — Clearwavsound (Freesound 527324)
+https://freesound.org/people/Clearwavsound/sounds/527324/
+CC-BY-3.0: http://creativecommons.org/licenses/by/3.0/
+
+Ice Poured Into Drink — Clearwavsound (Freesound 527325)
+https://freesound.org/people/Clearwavsound/sounds/527325/
+CC-BY-3.0: http://creativecommons.org/licenses/by/3.0/
+
+Static Voice — colorsCrimsonTears (Freesound 585798)
+https://freesound.org/people/colorsCrimsonTears/sounds/585798/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+om-mani-padme_hum.wav — CosmicD (Freesound 33507)
+https://freesound.org/people/CosmicD/sounds/33507/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+S38-31 Human heartbeat.wav — craigsmith (Freesound 675719)
+https://freesound.org/people/craigsmith/sounds/675719/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+S24-30 Human heartbeat; fast.wav — craigsmith (Freesound 675720)
+https://freesound.org/people/craigsmith/sounds/675720/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Glitchy Vinyl.mp3 — crunchymaniac (Freesound 685560)
+https://freesound.org/people/crunchymaniac/sounds/685560/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Low-fi static rumble — CuddleNucks (Freesound 261246)
+https://freesound.org/people/CuddleNucks/sounds/261246/
+CC-BY-3.0: http://creativecommons.org/licenses/by/3.0/
+
+Low-fi rumble — CuddleNucks (Freesound 261253)
+https://freesound.org/people/CuddleNucks/sounds/261253/
+CC-BY-3.0: http://creativecommons.org/licenses/by/3.0/
+
+minor_crash_06_branch_breaking — daveincamas (Freesound 793540)
+https://freesound.org/people/daveincamas/sounds/793540/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Machine_hum_low.mp3 — Defaultv (Freesound 534345)
+https://freesound.org/people/Defaultv/sounds/534345/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Heartbeat_2.wav — deleted_user_2104797 (Freesound 164644)
+https://freesound.org/people/deleted_user_2104797/sounds/164644/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+failing lightbulb.wav — deleted_user_228014 (Freesound 420651)
+https://freesound.org/people/deleted_user_228014/sounds/420651/
+CC-BY-3.0: http://creativecommons.org/licenses/by/3.0/
+
+Hard Glass Impact — deleted_user_3656686 (Freesound 418194)
+https://freesound.org/people/deleted_user_3656686/sounds/418194/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Mellow Chillhop Electric Piano — denderabeats (Freesound 864837)
+https://freesound.org/people/denderabeats/sounds/864837/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+tree_creak_02.wav — Department64 (Freesound 95260)
+https://freesound.org/people/Department64/sounds/95260/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Crispy Impact Remix Body Ice Hard Hitting — DeqstersLab (Freesound 767348)
+https://freesound.org/people/DeqstersLab/sounds/767348/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+THUN-Samsung Galaxy Smartphone, CU_Cracks, Rumbles_Nicholas Judy_TDC — designerschoice (Freesound 811479)
+https://freesound.org/people/designerschoice/sounds/811479/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+THUN-Samsung Galaxy Smartphone, CU_Distant Rumble, Amongst BG Crickets_Nicholas Judy_TDC — designerschoice (Freesound 811480)
+https://freesound.org/people/designerschoice/sounds/811480/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+MUSCPerc-Blue Snowball Microphone, CU_Thunder Tube, Crash, Rumbles_Nicholas Judy_TDC — designerschoice (Freesound 815884)
+https://freesound.org/people/designerschoice/sounds/815884/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+MUSCPerc-Blue Snowball Microphone, CU_Thunder Tube, Rumble, Long_Nicholas Judy_TDC — designerschoice (Freesound 815891)
+https://freesound.org/people/designerschoice/sounds/815891/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+MUSCPerc-Blue Snowball Microphone, CU_Thunder Tube, Rumble_Nicholas Judy_TDC — designerschoice (Freesound 815892)
+https://freesound.org/people/designerschoice/sounds/815892/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Futuristic Power Generator — DeVern (Freesound 585615)
+https://freesound.org/people/DeVern/sounds/585615/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Cyber Rumble  8.wav — DiscordantScraps (Freesound 636344)
+https://freesound.org/people/DiscordantScraps/sounds/636344/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Cyber Rumble 6.wav — DiscordantScraps (Freesound 636347)
+https://freesound.org/people/DiscordantScraps/sounds/636347/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Cyber Rumble 1.wav — DiscordantScraps (Freesound 636348)
+https://freesound.org/people/DiscordantScraps/sounds/636348/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Heartbeat thumping.wav — Doctor_Jekyll (Freesound 254062)
+https://freesound.org/people/Doctor_Jekyll/sounds/254062/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Sci-fi button click — dotY21 (Freesound 322228)
+https://freesound.org/people/dotY21/sounds/322228/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Coins29.wav — doudar41 (Freesound 573350)
+https://freesound.org/people/doudar41/sounds/573350/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Coins23.wav — doudar41 (Freesound 573352)
+https://freesound.org/people/doudar41/sounds/573352/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Coins24.wav — doudar41 (Freesound 573353)
+https://freesound.org/people/doudar41/sounds/573353/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Coins21.wav — doudar41 (Freesound 573354)
+https://freesound.org/people/doudar41/sounds/573354/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Coins13.wav — doudar41 (Freesound 573361)
+https://freesound.org/people/doudar41/sounds/573361/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Coins32.wav — doudar41 (Freesound 573370)
+https://freesound.org/people/doudar41/sounds/573370/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Coins31.wav — doudar41 (Freesound 573371)
+https://freesound.org/people/doudar41/sounds/573371/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Coins33.wav — doudar41 (Freesound 573373)
+https://freesound.org/people/doudar41/sounds/573373/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Monster Long Rumble 1.wav — ecfike (Freesound 132868)
+https://freesound.org/people/ecfike/sounds/132868/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Monster Long Rumble 2.wav — ecfike (Freesound 132869)
+https://freesound.org/people/ecfike/sounds/132869/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Monster Long Rumble 3.wav — ecfike (Freesound 132870)
+https://freesound.org/people/ecfike/sounds/132870/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Monster Low Rumble 1.wav — ecfike (Freesound 132872)
+https://freesound.org/people/ecfike/sounds/132872/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Ice Crack 4.wav — ecfike (Freesound 177210)
+https://freesound.org/people/ecfike/sounds/177210/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Ice Crack 3.wav — ecfike (Freesound 177211)
+https://freesound.org/people/ecfike/sounds/177211/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Ice Crack 2.wav — ecfike (Freesound 177212)
+https://freesound.org/people/ecfike/sounds/177212/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Ice Crack 1.wav — ecfike (Freesound 177213)
+https://freesound.org/people/ecfike/sounds/177213/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Ice Crack 8.wav — ecfike (Freesound 177214)
+https://freesound.org/people/ecfike/sounds/177214/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Ice Crack 7.wav — ecfike (Freesound 177215)
+https://freesound.org/people/ecfike/sounds/177215/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Ice Crack 6.wav — ecfike (Freesound 177216)
+https://freesound.org/people/ecfike/sounds/177216/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Ice Crack 5.wav — ecfike (Freesound 177217)
+https://freesound.org/people/ecfike/sounds/177217/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Ice Crack 9.wav — ecfike (Freesound 177219)
+https://freesound.org/people/ecfike/sounds/177219/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Ice Crack 9.wav — ecfike (Freesound 177223)
+https://freesound.org/people/ecfike/sounds/177223/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+03_D#_death_metal_guitar_hit.wav — EloielBonNoi (Freesound 556914)
+https://freesound.org/people/EloielBonNoi/sounds/556914/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+02_D_death_metal_guitar_hit.wav — EloielBonNoi (Freesound 556915)
+https://freesound.org/people/EloielBonNoi/sounds/556915/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+01_C#_death_metal_guitar_hit.wav — EloielBonNoi (Freesound 556916)
+https://freesound.org/people/EloielBonNoi/sounds/556916/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+00_C_death_metal_guitar_hit.wav — EloielBonNoi (Freesound 556917)
+https://freesound.org/people/EloielBonNoi/sounds/556917/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+04_E._death_metal_guitar_hit.wav — EloielBonNoi (Freesound 556918)
+https://freesound.org/people/EloielBonNoi/sounds/556918/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+12_C_death_metal_guitar_hit.wav — EloielBonNoi (Freesound 556920)
+https://freesound.org/people/EloielBonNoi/sounds/556920/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+13_C#_death_metal_guitar_hit.wav — EloielBonNoi (Freesound 556922)
+https://freesound.org/people/EloielBonNoi/sounds/556922/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+08_G#_death_metal_guitar_hit.wav — EloielBonNoi (Freesound 556923)
+https://freesound.org/people/EloielBonNoi/sounds/556923/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+07_G_death_metal_guitar_hit.wav — EloielBonNoi (Freesound 556924)
+https://freesound.org/people/EloielBonNoi/sounds/556924/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+06_F#_death_metal_guitar_hit.wav — EloielBonNoi (Freesound 556925)
+https://freesound.org/people/EloielBonNoi/sounds/556925/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+05_F_death_metal_guitar_hit.wav — EloielBonNoi (Freesound 556926)
+https://freesound.org/people/EloielBonNoi/sounds/556926/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+10_Bb_death_metal_guitar_hit.wav — EloielBonNoi (Freesound 556927)
+https://freesound.org/people/EloielBonNoi/sounds/556927/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Ice Crack Low — EminYILDIRIM (Freesound 536921)
+https://freesound.org/people/EminYILDIRIM/sounds/536921/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Short Increasing Rumble — epicdude959 (Freesound 431390)
+https://freesound.org/people/epicdude959/sounds/431390/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+deep bass rumble 2.wav — ERH (Freesound 34186)
+https://freesound.org/people/ERH/sounds/34186/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Digging in wet course sand (1) — f3bbbo (Freesound 651292)
+https://freesound.org/people/f3bbbo/sounds/651292/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Digging in wet course sand (2) — f3bbbo (Freesound 651293)
+https://freesound.org/people/f3bbbo/sounds/651293/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Creak Wood Floor 11 — f4kf4ce (Freesound 261351)
+https://freesound.org/people/f4kf4ce/sounds/261351/
+CC-BY-3.0: http://creativecommons.org/licenses/by/3.0/
+
+Creak Wood Floor 10 — f4kf4ce (Freesound 261352)
+https://freesound.org/people/f4kf4ce/sounds/261352/
+CC-BY-3.0: http://creativecommons.org/licenses/by/3.0/
+
+Creak Wood Floor 01 — f4kf4ce (Freesound 261353)
+https://freesound.org/people/f4kf4ce/sounds/261353/
+CC-BY-3.0: http://creativecommons.org/licenses/by/3.0/
+
+Creak Wood Floor 15 — f4kf4ce (Freesound 261355)
+https://freesound.org/people/f4kf4ce/sounds/261355/
+CC-BY-3.0: http://creativecommons.org/licenses/by/3.0/
+
+Creak Wood Floor 14 — f4kf4ce (Freesound 261356)
+https://freesound.org/people/f4kf4ce/sounds/261356/
+CC-BY-3.0: http://creativecommons.org/licenses/by/3.0/
+
+Creak Wood Floor 13 — f4kf4ce (Freesound 261357)
+https://freesound.org/people/f4kf4ce/sounds/261357/
+CC-BY-3.0: http://creativecommons.org/licenses/by/3.0/
+
+Creak Wood Floor 04 — f4kf4ce (Freesound 261358)
+https://freesound.org/people/f4kf4ce/sounds/261358/
+CC-BY-3.0: http://creativecommons.org/licenses/by/3.0/
+
+Creak Wood Floor 03 — f4kf4ce (Freesound 261359)
+https://freesound.org/people/f4kf4ce/sounds/261359/
+CC-BY-3.0: http://creativecommons.org/licenses/by/3.0/
+
+Creak Wood Floor 08 — f4kf4ce (Freesound 261360)
+https://freesound.org/people/f4kf4ce/sounds/261360/
+CC-BY-3.0: http://creativecommons.org/licenses/by/3.0/
+
+Creak Wood Floor 07 — f4kf4ce (Freesound 261361)
+https://freesound.org/people/f4kf4ce/sounds/261361/
+CC-BY-3.0: http://creativecommons.org/licenses/by/3.0/
+
+Creak Wood Floor 06 — f4kf4ce (Freesound 261362)
+https://freesound.org/people/f4kf4ce/sounds/261362/
+CC-BY-3.0: http://creativecommons.org/licenses/by/3.0/
+
+Creak Wood Floor 05 — f4kf4ce (Freesound 261363)
+https://freesound.org/people/f4kf4ce/sounds/261363/
+CC-BY-3.0: http://creativecommons.org/licenses/by/3.0/
+
+Creak Wood Floor 09 — f4kf4ce (Freesound 261364)
+https://freesound.org/people/f4kf4ce/sounds/261364/
+CC-BY-3.0: http://creativecommons.org/licenses/by/3.0/
+
+Creak Wood Floor Single 02 — f4kf4ce (Freesound 261367)
+https://freesound.org/people/f4kf4ce/sounds/261367/
+CC-BY-3.0: http://creativecommons.org/licenses/by/3.0/
+
+Creak Wood Floor Single 01 — f4kf4ce (Freesound 261368)
+https://freesound.org/people/f4kf4ce/sounds/261368/
+CC-BY-3.0: http://creativecommons.org/licenses/by/3.0/
+
+Creak Wood Floor Single 08 — f4kf4ce (Freesound 261369)
+https://freesound.org/people/f4kf4ce/sounds/261369/
+CC-BY-3.0: http://creativecommons.org/licenses/by/3.0/
+
+Creak Wood Floor Single 07 — f4kf4ce (Freesound 261370)
+https://freesound.org/people/f4kf4ce/sounds/261370/
+CC-BY-3.0: http://creativecommons.org/licenses/by/3.0/
+
+Creak Wood Floor Single 05 — f4kf4ce (Freesound 261372)
+https://freesound.org/people/f4kf4ce/sounds/261372/
+CC-BY-3.0: http://creativecommons.org/licenses/by/3.0/
+
+energy hum.wav — firestorm185 (Freesound 423221)
+https://freesound.org/people/firestorm185/sounds/423221/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Freezer — fokshtein (Freesound 249192)
+https://freesound.org/people/fokshtein/sounds/249192/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+crush1.wav — franzzle (Freesound 703115)
+https://freesound.org/people/franzzle/sounds/703115/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+heartbeats.wav — fuzzpapi (Freesound 147338)
+https://freesound.org/people/fuzzpapi/sounds/147338/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+magnets crackling together — gecop (Freesound 522116)
+https://freesound.org/people/gecop/sounds/522116/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+creak cabinet door.wav — Geenburg (Freesound 539183)
+https://freesound.org/people/Geenburg/sounds/539183/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Weird Creepy Poping Sounds — gerainsan (Freesound 382776)
+https://freesound.org/people/gerainsan/sounds/382776/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Metal water bottle -  hit with pencil — giddster (Freesound 514388)
+https://freesound.org/people/giddster/sounds/514388/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Metal water bottle -  hit with pencil 3 — giddster (Freesound 514389)
+https://freesound.org/people/giddster/sounds/514389/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Metal water bottle -  hit with pencil 2 — giddster (Freesound 514390)
+https://freesound.org/people/giddster/sounds/514390/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Metal water bottle - hit with drum brushes.wav — giddster (Freesound 514391)
+https://freesound.org/people/giddster/sounds/514391/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Metal water bottle - hit with drum brushes 5 — giddster (Freesound 514392)
+https://freesound.org/people/giddster/sounds/514392/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Metal water bottle - hit with drum brushes 4 — giddster (Freesound 514393)
+https://freesound.org/people/giddster/sounds/514393/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Metal water bottle - hit with drumsticks 5 — giddster (Freesound 514409)
+https://freesound.org/people/giddster/sounds/514409/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Metal water bottle - hit with lid — giddster (Freesound 514411)
+https://freesound.org/people/giddster/sounds/514411/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Metal water bottle - hit with knuckle — giddster (Freesound 514412)
+https://freesound.org/people/giddster/sounds/514412/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Metal water bottle - hit with finger — giddster (Freesound 514413)
+https://freesound.org/people/giddster/sounds/514413/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Metal water bottle - hit with drumsticks — giddster (Freesound 514414)
+https://freesound.org/people/giddster/sounds/514414/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Creaking Wood 12.wav — Greg_Surr (Freesound 590147)
+https://freesound.org/people/Greg_Surr/sounds/590147/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Creaking Wood 11.wav — Greg_Surr (Freesound 590148)
+https://freesound.org/people/Greg_Surr/sounds/590148/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Creaking Wood 10.wav — Greg_Surr (Freesound 590149)
+https://freesound.org/people/Greg_Surr/sounds/590149/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Creaking Wood 1.wav — Greg_Surr (Freesound 590150)
+https://freesound.org/people/Greg_Surr/sounds/590150/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Creaking Wood 4.wav — Greg_Surr (Freesound 590151)
+https://freesound.org/people/Greg_Surr/sounds/590151/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Creaking Wood 3.wav — Greg_Surr (Freesound 590152)
+https://freesound.org/people/Greg_Surr/sounds/590152/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Creaking Wood 2.wav — Greg_Surr (Freesound 590153)
+https://freesound.org/people/Greg_Surr/sounds/590153/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Creaking Wood 13.wav — Greg_Surr (Freesound 590154)
+https://freesound.org/people/Greg_Surr/sounds/590154/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Creaking Wood 6.wav — Greg_Surr (Freesound 590155)
+https://freesound.org/people/Greg_Surr/sounds/590155/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Creaking Wood 5.wav — Greg_Surr (Freesound 590156)
+https://freesound.org/people/Greg_Surr/sounds/590156/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Creaking Wood 9.wav — Greg_Surr (Freesound 590157)
+https://freesound.org/people/Greg_Surr/sounds/590157/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Creaking Wood 8.wav — Greg_Surr (Freesound 590158)
+https://freesound.org/people/Greg_Surr/sounds/590158/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Creaking Wood 7.wav — Greg_Surr (Freesound 590159)
+https://freesound.org/people/Greg_Surr/sounds/590159/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Creaking in Room 12.wav — Greg_Surr (Freesound 590160)
+https://freesound.org/people/Greg_Surr/sounds/590160/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Creaking in Room 11.wav — Greg_Surr (Freesound 590161)
+https://freesound.org/people/Greg_Surr/sounds/590161/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Creaking in Room 10.wav — Greg_Surr (Freesound 590162)
+https://freesound.org/people/Greg_Surr/sounds/590162/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Creaking in Room 1.wav — Greg_Surr (Freesound 590163)
+https://freesound.org/people/Greg_Surr/sounds/590163/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Creaking in Room 5.wav — Greg_Surr (Freesound 590164)
+https://freesound.org/people/Greg_Surr/sounds/590164/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Creaking in Room 4.wav — Greg_Surr (Freesound 590165)
+https://freesound.org/people/Greg_Surr/sounds/590165/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Creaking in Room 3.wav — Greg_Surr (Freesound 590166)
+https://freesound.org/people/Greg_Surr/sounds/590166/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Creaking in Room 13.wav — Greg_Surr (Freesound 590167)
+https://freesound.org/people/Greg_Surr/sounds/590167/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Creaking in Room 7.wav — Greg_Surr (Freesound 590168)
+https://freesound.org/people/Greg_Surr/sounds/590168/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Creaking in Room 6.wav — Greg_Surr (Freesound 590169)
+https://freesound.org/people/Greg_Surr/sounds/590169/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Creaking in Room 9.wav — Greg_Surr (Freesound 590170)
+https://freesound.org/people/Greg_Surr/sounds/590170/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Creaking in Room 8.wav — Greg_Surr (Freesound 590171)
+https://freesound.org/people/Greg_Surr/sounds/590171/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Abstract Musical / Melodic Cracking Texture.wav — GregorQuendel (Freesound 611427)
+https://freesound.org/people/GregorQuendel/sounds/611427/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Quasi-Poppy Event count2.wav — hello_flowers (Freesound 30774)
+https://freesound.org/people/hello_flowers/sounds/30774/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Drums_4ontheFloor KickDrum(170BPM) 02.wav — Hewn.Marrow (Freesound 666042)
+https://freesound.org/people/Hewn.Marrow/sounds/666042/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Ice break — humanoide9000 (Freesound 329744)
+https://freesound.org/people/humanoide9000/sounds/329744/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+creak 1 — HyperFoley (Freesound 791997)
+https://freesound.org/people/HyperFoley/sounds/791997/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+creak 2 — HyperFoley (Freesound 791998)
+https://freesound.org/people/HyperFoley/sounds/791998/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Electricity crackling with hight pitch — ihitokage (Freesound 238596)
+https://freesound.org/people/ihitokage/sounds/238596/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Light Electricity crackling  — ihitokage (Freesound 238597)
+https://freesound.org/people/ihitokage/sounds/238597/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Low Electricity crackling  — ihitokage (Freesound 238598)
+https://freesound.org/people/ihitokage/sounds/238598/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+UIGlitch__InterferanceGlitch03_InMotionAudio_FREESampleSunday.wav — InMotionAudio (Freesound 691021)
+https://freesound.org/people/InMotionAudio/sounds/691021/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+ICEBrk_Break04_InMotionAudio_FREESampleSunday — InMotionAudio (Freesound 719973)
+https://freesound.org/people/InMotionAudio/sounds/719973/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Clean Deep Heartbeat.wav — insaind (Freesound 595050)
+https://freesound.org/people/insaind/sounds/595050/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Strings Rumble.wav — InSintesi (Freesound 364222)
+https://freesound.org/people/InSintesi/sounds/364222/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Heartbeat, Regular, Single, 01-01, LOOP.wav — InspectorJ (Freesound 485076)
+https://freesound.org/people/InspectorJ/sounds/485076/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Button Bleep 01 — Jaoreir (Freesound 533568)
+https://freesound.org/people/Jaoreir/sounds/533568/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Ice 10 - Reverse — JarredGibb (Freesound 263904)
+https://freesound.org/people/JarredGibb/sounds/263904/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Ice 1 — JarredGibb (Freesound 263905)
+https://freesound.org/people/JarredGibb/sounds/263905/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Ice 1 - Slow — JarredGibb (Freesound 263906)
+https://freesound.org/people/JarredGibb/sounds/263906/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Ice 1 - Reverse — JarredGibb (Freesound 263907)
+https://freesound.org/people/JarredGibb/sounds/263907/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Ice 2 - Slow — JarredGibb (Freesound 263908)
+https://freesound.org/people/JarredGibb/sounds/263908/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Ice 2 - Reverse — JarredGibb (Freesound 263909)
+https://freesound.org/people/JarredGibb/sounds/263909/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Ice 10 — JarredGibb (Freesound 263910)
+https://freesound.org/people/JarredGibb/sounds/263910/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Ice 2 — JarredGibb (Freesound 263913)
+https://freesound.org/people/JarredGibb/sounds/263913/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Ice 9 - Slow — JarredGibb (Freesound 263914)
+https://freesound.org/people/JarredGibb/sounds/263914/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Ice 9 — JarredGibb (Freesound 263915)
+https://freesound.org/people/JarredGibb/sounds/263915/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Ice 7 — JarredGibb (Freesound 263917)
+https://freesound.org/people/JarredGibb/sounds/263917/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Ice 6 — JarredGibb (Freesound 263918)
+https://freesound.org/people/JarredGibb/sounds/263918/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Ice 7 - Reverse — JarredGibb (Freesound 263919)
+https://freesound.org/people/JarredGibb/sounds/263919/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Ice 8 — JarredGibb (Freesound 263920)
+https://freesound.org/people/JarredGibb/sounds/263920/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Ice 9 - Reverse — JarredGibb (Freesound 263921)
+https://freesound.org/people/JarredGibb/sounds/263921/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Ice 8 - Reverse — JarredGibb (Freesound 263922)
+https://freesound.org/people/JarredGibb/sounds/263922/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Ice 8 - Slow — JarredGibb (Freesound 263923)
+https://freesound.org/people/JarredGibb/sounds/263923/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Ice 4 - Reverse — JarredGibb (Freesound 263924)
+https://freesound.org/people/JarredGibb/sounds/263924/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Ice 4  - Slow — JarredGibb (Freesound 263925)
+https://freesound.org/people/JarredGibb/sounds/263925/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Ice 3 — JarredGibb (Freesound 263926)
+https://freesound.org/people/JarredGibb/sounds/263926/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Ice 3 - Reverse — JarredGibb (Freesound 263927)
+https://freesound.org/people/JarredGibb/sounds/263927/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Ice 5 — JarredGibb (Freesound 263928)
+https://freesound.org/people/JarredGibb/sounds/263928/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Ice 5 - Reverse — JarredGibb (Freesound 263929)
+https://freesound.org/people/JarredGibb/sounds/263929/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Ice 4 — JarredGibb (Freesound 263931)
+https://freesound.org/people/JarredGibb/sounds/263931/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Ice 6 - Reverse — JarredGibb (Freesound 263933)
+https://freesound.org/people/JarredGibb/sounds/263933/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Ice Cube Tray.aif — JasonElrod (Freesound 85453)
+https://freesound.org/people/JasonElrod/sounds/85453/
+CC-BY-3.0: http://creativecommons.org/licenses/by/3.0/
+
+Heartbeat.wav — Jeffreys2 (Freesound 333483)
+https://freesound.org/people/Jeffreys2/sounds/333483/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+SFX2 - rocking chair creak.wav — JK129645 (Freesound 547466)
+https://freesound.org/people/JK129645/sounds/547466/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Heartbeat — JonasTisell (Freesound 670465)
+https://freesound.org/people/JonasTisell/sounds/670465/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Metal bar swipe and hit — jorickhoofd (Freesound 160008)
+https://freesound.org/people/jorickhoofd/sounds/160008/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Metal Resonant hits 1 — jorickhoofd (Freesound 160019)
+https://freesound.org/people/jorickhoofd/sounds/160019/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Metal short hit dampened — jorickhoofd (Freesound 160020)
+https://freesound.org/people/jorickhoofd/sounds/160020/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Metal short hit small bar  — jorickhoofd (Freesound 160022)
+https://freesound.org/people/jorickhoofd/sounds/160022/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Metal hit short soft resonant — jorickhoofd (Freesound 160024)
+https://freesound.org/people/jorickhoofd/sounds/160024/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Metal hit short resonant — jorickhoofd (Freesound 160025)
+https://freesound.org/people/jorickhoofd/sounds/160025/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Metal hit low big container medium — jorickhoofd (Freesound 160027)
+https://freesound.org/people/jorickhoofd/sounds/160027/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Metal container 3 soft — jorickhoofd (Freesound 160032)
+https://freesound.org/people/jorickhoofd/sounds/160032/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Metal container 3 normal — jorickhoofd (Freesound 160034)
+https://freesound.org/people/jorickhoofd/sounds/160034/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Metal hit container 3 soft low — jorickhoofd (Freesound 160042)
+https://freesound.org/people/jorickhoofd/sounds/160042/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Metal hit with wooden block resonance — jorickhoofd (Freesound 160043)
+https://freesound.org/people/jorickhoofd/sounds/160043/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Metal ringy hit short — jorickhoofd (Freesound 160044)
+https://freesound.org/people/jorickhoofd/sounds/160044/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Metal hit with metal bar resonance — jorickhoofd (Freesound 160045)
+https://freesound.org/people/jorickhoofd/sounds/160045/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Metal hit with metal bar resonance 2 — jorickhoofd (Freesound 160046)
+https://freesound.org/people/jorickhoofd/sounds/160046/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Metal container hit normal velocity — jorickhoofd (Freesound 160055)
+https://freesound.org/people/jorickhoofd/sounds/160055/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Metal container hit normal velocity — jorickhoofd (Freesound 160056)
+https://freesound.org/people/jorickhoofd/sounds/160056/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Metal container hit soft — jorickhoofd (Freesound 160058)
+https://freesound.org/people/jorickhoofd/sounds/160058/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Metal hit container normal velocity  — jorickhoofd (Freesound 160073)
+https://freesound.org/people/jorickhoofd/sounds/160073/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Metal container hit medium — jorickhoofd (Freesound 160074)
+https://freesound.org/people/jorickhoofd/sounds/160074/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Metal container hit not too loud — jorickhoofd (Freesound 160075)
+https://freesound.org/people/jorickhoofd/sounds/160075/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Metal container hit soft resonant — jorickhoofd (Freesound 160078)
+https://freesound.org/people/jorickhoofd/sounds/160078/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Tube hit with metal object normal — jorickhoofd (Freesound 160079)
+https://freesound.org/people/jorickhoofd/sounds/160079/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Metal hit with small bar — jorickhoofd (Freesound 160081)
+https://freesound.org/people/jorickhoofd/sounds/160081/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Metal hit short — jorickhoofd (Freesound 160088)
+https://freesound.org/people/jorickhoofd/sounds/160088/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Metal hitting lid of container short — jorickhoofd (Freesound 160089)
+https://freesound.org/people/jorickhoofd/sounds/160089/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Metal cover hit Loudest — jorickhoofd (Freesound 160120)
+https://freesound.org/people/jorickhoofd/sounds/160120/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Metal cover hit medium — jorickhoofd (Freesound 160121)
+https://freesound.org/people/jorickhoofd/sounds/160121/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Metal cover hit Loud — jorickhoofd (Freesound 160122)
+https://freesound.org/people/jorickhoofd/sounds/160122/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Metal cover hit softly — jorickhoofd (Freesound 160123)
+https://freesound.org/people/jorickhoofd/sounds/160123/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Metal cover hit very soft — jorickhoofd (Freesound 160124)
+https://freesound.org/people/jorickhoofd/sounds/160124/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Dry impact hit metal plate  — jorickhoofd (Freesound 176669)
+https://freesound.org/people/jorickhoofd/sounds/176669/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Muffled metal hit — jorickhoofd (Freesound 176673)
+https://freesound.org/people/jorickhoofd/sounds/176673/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Hitting metal object with metal — jorickhoofd (Freesound 176674)
+https://freesound.org/people/jorickhoofd/sounds/176674/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Scrappy hit metal — jorickhoofd (Freesound 176675)
+https://freesound.org/people/jorickhoofd/sounds/176675/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Whoosh in — jriches1 (Freesound 817958)
+https://freesound.org/people/jriches1/sounds/817958/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Whoosh away — jriches1 (Freesound 817959)
+https://freesound.org/people/jriches1/sounds/817959/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Vinyl Crackle.wav — JSilverSound (Freesound 532159)
+https://freesound.org/people/JSilverSound/sounds/532159/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+whoosh.dark.hissy.wav — junggle (Freesound 73262)
+https://freesound.org/people/junggle/sounds/73262/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+whoosh.soft.wav — junggle (Freesound 73263)
+https://freesound.org/people/junggle/sounds/73263/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Crack 1.wav — JustinBW (Freesound 70108)
+https://freesound.org/people/JustinBW/sounds/70108/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Crack 2.wav — JustinBW (Freesound 70109)
+https://freesound.org/people/JustinBW/sounds/70109/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Crack 3.wav — JustinBW (Freesound 70110)
+https://freesound.org/people/JustinBW/sounds/70110/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Crack and Stress.wav — JustinBW (Freesound 70112)
+https://freesound.org/people/JustinBW/sounds/70112/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+KB_Heartbeat.wav — KaBlazik_Samples (Freesound 588575)
+https://freesound.org/people/KaBlazik_Samples/sounds/588575/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Chipping Large Ice Block 2.wav — kev_durr (Freesound 426204)
+https://freesound.org/people/kev_durr/sounds/426204/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Chipping large Ice Block 1.wav — kev_durr (Freesound 426205)
+https://freesound.org/people/kev_durr/sounds/426205/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+creak2.ogg — Kneeling (Freesound 642950)
+https://freesound.org/people/Kneeling/sounds/642950/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+creak1.ogg — Kneeling (Freesound 642951)
+https://freesound.org/people/Kneeling/sounds/642951/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+door wood interior residential open close bolt squeak creak.wav — kyles (Freesound 452598)
+https://freesound.org/people/kyles/sounds/452598/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+door wood kick open rattle creak.wav — kyles (Freesound 452600)
+https://freesound.org/people/kyles/sounds/452600/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+bass rumble metro subway tunnel2.flac — kyles (Freesound 453406)
+https://freesound.org/people/kyles/sounds/453406/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+door wood interior residential angry knocks +open creak.flac — kyles (Freesound 637487)
+https://freesound.org/people/kyles/sounds/637487/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Rumble.wav — LG (Freesound 76262)
+https://freesound.org/people/LG/sounds/76262/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Step On Dirt — LilMati (Freesound 370367)
+https://freesound.org/people/LilMati/sounds/370367/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Footstep_Dirt_03.wav — LittleRobotSoundFactory (Freesound 270412)
+https://freesound.org/people/LittleRobotSoundFactory/sounds/270412/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Footstep_Dirt_02.wav — LittleRobotSoundFactory (Freesound 270413)
+https://freesound.org/people/LittleRobotSoundFactory/sounds/270413/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Footstep_Dirt_01.wav — LittleRobotSoundFactory (Freesound 270414)
+https://freesound.org/people/LittleRobotSoundFactory/sounds/270414/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Footstep_Dirt_00.wav — LittleRobotSoundFactory (Freesound 270415)
+https://freesound.org/people/LittleRobotSoundFactory/sounds/270415/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Footstep_Dirt_07.wav — LittleRobotSoundFactory (Freesound 270416)
+https://freesound.org/people/LittleRobotSoundFactory/sounds/270416/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Footstep_Dirt_06.wav — LittleRobotSoundFactory (Freesound 270417)
+https://freesound.org/people/LittleRobotSoundFactory/sounds/270417/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Footstep_Dirt_05.wav — LittleRobotSoundFactory (Freesound 270418)
+https://freesound.org/people/LittleRobotSoundFactory/sounds/270418/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Footstep_Dirt_04.wav — LittleRobotSoundFactory (Freesound 270419)
+https://freesound.org/people/LittleRobotSoundFactory/sounds/270419/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Footstep_Dirt_09.wav — LittleRobotSoundFactory (Freesound 270420)
+https://freesound.org/people/LittleRobotSoundFactory/sounds/270420/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Footstep_Dirt_08.wav — LittleRobotSoundFactory (Freesound 270421)
+https://freesound.org/people/LittleRobotSoundFactory/sounds/270421/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Coins_Few_03.wav — LittleRobotSoundFactory (Freesound 276168)
+https://freesound.org/people/LittleRobotSoundFactory/sounds/276168/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Coins_Several_08.wav — LittleRobotSoundFactory (Freesound 276186)
+https://freesound.org/people/LittleRobotSoundFactory/sounds/276186/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Coins_Several_09.wav — LittleRobotSoundFactory (Freesound 276187)
+https://freesound.org/people/LittleRobotSoundFactory/sounds/276187/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Coins_Single_26.wav — LittleRobotSoundFactory (Freesound 276219)
+https://freesound.org/people/LittleRobotSoundFactory/sounds/276219/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Click_Heavy_00.wav — LittleRobotSoundFactory (Freesound 288908)
+https://freesound.org/people/LittleRobotSoundFactory/sounds/288908/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Click_Soft_01.wav — LittleRobotSoundFactory (Freesound 288911)
+https://freesound.org/people/LittleRobotSoundFactory/sounds/288911/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Ice Cube Tray Crack.wav — lmbubec (Freesound 119452)
+https://freesound.org/people/lmbubec/sounds/119452/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Concrete Break Denoised — loganzsound (Freesound 843338)
+https://freesound.org/people/loganzsound/sounds/843338/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Freeze — lori.mortimer (Freesound 723875)
+https://freesound.org/people/lori.mortimer/sounds/723875/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+heartbeat-120bpm.wav — loudernoises (Freesound 332806)
+https://freesound.org/people/loudernoises/sounds/332806/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+heartbeat-120bpm-limited.wav — loudernoises (Freesound 332807)
+https://freesound.org/people/loudernoises/sounds/332807/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+heartbeat-100bpm.wav — loudernoises (Freesound 332808)
+https://freesound.org/people/loudernoises/sounds/332808/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+heartbeat-150bpm-limited.wav — loudernoises (Freesound 332811)
+https://freesound.org/people/loudernoises/sounds/332811/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+heartbeat-140bpm-limited.wav — loudernoises (Freesound 332813)
+https://freesound.org/people/loudernoises/sounds/332813/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+heartbeat-20bpm.wav — loudernoises (Freesound 332814)
+https://freesound.org/people/loudernoises/sounds/332814/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+heartbeat-20bpm-limited.wav — loudernoises (Freesound 332815)
+https://freesound.org/people/loudernoises/sounds/332815/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+heartbeat-40bpm.wav — loudernoises (Freesound 332816)
+https://freesound.org/people/loudernoises/sounds/332816/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+heartbeat-40bpm-limited.wav — loudernoises (Freesound 332817)
+https://freesound.org/people/loudernoises/sounds/332817/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+heartbeat-60bpm-limited.wav — loudernoises (Freesound 332818)
+https://freesound.org/people/loudernoises/sounds/332818/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+luffy_earth1.wav — luffy (Freesound 17289)
+https://freesound.org/people/luffy/sounds/17289/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Footsteps_Sneakers_Underbrush_Walk03.wav — marb7e (Freesound 620335)
+https://freesound.org/people/marb7e/sounds/620335/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Footsteps_Sneakers_Underbrush_Walk02.wav — marb7e (Freesound 620336)
+https://freesound.org/people/marb7e/sounds/620336/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Footsteps_Sneakers_Underbrush_Walk01.wav — marb7e (Freesound 620337)
+https://freesound.org/people/marb7e/sounds/620337/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Footsteps_Sneakers_Underbrush_Walk06.wav — marb7e (Freesound 620338)
+https://freesound.org/people/marb7e/sounds/620338/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Footsteps_Sneakers_Underbrush_Walk05.wav — marb7e (Freesound 620339)
+https://freesound.org/people/marb7e/sounds/620339/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Footsteps_Sneakers_Underbrush_Walk04.wav — marb7e (Freesound 620340)
+https://freesound.org/people/marb7e/sounds/620340/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+IcePick_StoneHit01.wav — marb7e (Freesound 674384)
+https://freesound.org/people/marb7e/sounds/674384/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+IcePick_StoneHit02.wav — marb7e (Freesound 674385)
+https://freesound.org/people/marb7e/sounds/674385/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+IcePick_StoneHit03.wav — marb7e (Freesound 674386)
+https://freesound.org/people/marb7e/sounds/674386/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+IcePick_StonePenetrate02.wav — marb7e (Freesound 674388)
+https://freesound.org/people/marb7e/sounds/674388/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+IcePick_StonePenetration03.wav — marb7e (Freesound 674389)
+https://freesound.org/people/marb7e/sounds/674389/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+MetalHit2_boom.wav — Markozz (Freesound 334419)
+https://freesound.org/people/Markozz/sounds/334419/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+MetalHit1_boom.wav — Markozz (Freesound 334420)
+https://freesound.org/people/Markozz/sounds/334420/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Planetary Rumble.aif — mattpavone (Freesound 75364)
+https://freesound.org/people/mattpavone/sounds/75364/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Robot Rumbling — michalwa2003 (Freesound 346109)
+https://freesound.org/people/michalwa2003/sounds/346109/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Heavy Heartbeat — MickBoere (Freesound 276578)
+https://freesound.org/people/MickBoere/sounds/276578/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+short deep humming.mp3 — Mikes-MultiMedia (Freesound 349704)
+https://freesound.org/people/Mikes-MultiMedia/sounds/349704/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Magic Spell Channeling Texture — mikiko850 (Freesound 849380)
+https://freesound.org/people/mikiko850/sounds/849380/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Channeling Magic Texture — mikiko850 (Freesound 849806)
+https://freesound.org/people/mikiko850/sounds/849806/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+User Interface Magic Chimes — mikiko850 (Freesound 849807)
+https://freesound.org/people/mikiko850/sounds/849807/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+HEARTBEAT001 — mitchelk (Freesound 136723)
+https://freesound.org/people/mitchelk/sounds/136723/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Heartbeat.wav — morganpurkis (Freesound 384662)
+https://freesound.org/people/morganpurkis/sounds/384662/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+heartbeat sub kick - louder — music_is_wiggly_air (Freesound 784655)
+https://freesound.org/people/music_is_wiggly_air/sounds/784655/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+heartbeat sub kick - mid — music_is_wiggly_air (Freesound 784656)
+https://freesound.org/people/music_is_wiggly_air/sounds/784656/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+heartbeat sub kick - soft — music_is_wiggly_air (Freesound 784657)
+https://freesound.org/people/music_is_wiggly_air/sounds/784657/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Motor starting up slowly — Mxsmanic (Freesound 139663)
+https://freesound.org/people/Mxsmanic/sounds/139663/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+med-metal-hit-01.wav — newagesoup (Freesound 337833)
+https://freesound.org/people/newagesoup/sounds/337833/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+small-metal-hit-05.wav — newagesoup (Freesound 337845)
+https://freesound.org/people/newagesoup/sounds/337845/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+metal-hinges-rumble.wav — newagesoup (Freesound 337850)
+https://freesound.org/people/newagesoup/sounds/337850/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+small-metal-hit-01.wav — newagesoup (Freesound 337854)
+https://freesound.org/people/newagesoup/sounds/337854/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+small-metal-hit-14.wav — newagesoup (Freesound 337867)
+https://freesound.org/people/newagesoup/sounds/337867/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+small-metal-hit-07.wav — newagesoup (Freesound 337868)
+https://freesound.org/people/newagesoup/sounds/337868/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+small-metal-hit-06.wav — newagesoup (Freesound 337869)
+https://freesound.org/people/newagesoup/sounds/337869/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+small-metal-hit-09.wav — newagesoup (Freesound 337870)
+https://freesound.org/people/newagesoup/sounds/337870/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+small-metal-hit-08.wav — newagesoup (Freesound 337871)
+https://freesound.org/people/newagesoup/sounds/337871/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+small-metal-hit-10.wav — newagesoup (Freesound 337873)
+https://freesound.org/people/newagesoup/sounds/337873/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+HEARTBEAT-FAST.wav — newagesoup (Freesound 347326)
+https://freesound.org/people/newagesoup/sounds/347326/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+DSGNMisc_Dead Wax.Weird Texture 1_EM — newlocknew (Freesound 791981)
+https://freesound.org/people/newlocknew/sounds/791981/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+COMTran_Walkie Talkie Beep With Noise.Dispatch Signal.Artificial x3_EM — newlocknew (Freesound 808016)
+https://freesound.org/people/newlocknew/sounds/808016/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Creaking01.wav — nickyg11p (Freesound 390799)
+https://freesound.org/people/nickyg11p/sounds/390799/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Pickaxe1 — NoisyRedFox (Freesound 760565)
+https://freesound.org/people/NoisyRedFox/sounds/760565/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Pickaxe2 — NoisyRedFox (Freesound 760566)
+https://freesound.org/people/NoisyRedFox/sounds/760566/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Pickaxe3 — NoisyRedFox (Freesound 760567)
+https://freesound.org/people/NoisyRedFox/sounds/760567/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Steps-Dirt_2a.OGG — nuFF3 (Freesound 477390)
+https://freesound.org/people/nuFF3/sounds/477390/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Steps-Dirt_1b.OGG — nuFF3 (Freesound 477391)
+https://freesound.org/people/nuFF3/sounds/477391/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Steps-Dirt_1a.OGG — nuFF3 (Freesound 477392)
+https://freesound.org/people/nuFF3/sounds/477392/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Steps-Dirt-Falling_1a.OGG — nuFF3 (Freesound 477393)
+https://freesound.org/people/nuFF3/sounds/477393/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Steps-Dirt_3b.OGG — nuFF3 (Freesound 477394)
+https://freesound.org/people/nuFF3/sounds/477394/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Steps-Dirt_3a.OGG — nuFF3 (Freesound 477395)
+https://freesound.org/people/nuFF3/sounds/477395/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Steps-Dirt_2b.OGG — nuFF3 (Freesound 477396)
+https://freesound.org/people/nuFF3/sounds/477396/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Metal Cylinder 84x163 Hit 1 — odarmonix (Freesound 854926)
+https://freesound.org/people/odarmonix/sounds/854926/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Metal Cylinder 84x163 Hit 2 — odarmonix (Freesound 854927)
+https://freesound.org/people/odarmonix/sounds/854927/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Metal Cylinder 84x163 Hit 4 — odarmonix (Freesound 854929)
+https://freesound.org/people/odarmonix/sounds/854929/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+User Interface Clicks and Buttons 1.wav — original_sound (Freesound 493551)
+https://freesound.org/people/original_sound/sounds/493551/
+CC-BY-3.0: http://creativecommons.org/licenses/by/3.0/
+
+Heartbeat Steady — Poyekhali (Freesound 254365)
+https://freesound.org/people/Poyekhali/sounds/254365/
+CC-BY-3.0: http://creativecommons.org/licenses/by/3.0/
+
+Swosh swoosh whoosh air sound, free, high quality — qubodup (Freesound 60026)
+https://freesound.org/people/qubodup/sounds/60026/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Swosh / Whoosh / Air Cut — qubodup (Freesound 60030)
+https://freesound.org/people/qubodup/sounds/60030/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+evil space ship warp core hum loop — qubodup (Freesound 861430)
+https://freesound.org/people/qubodup/sounds/861430/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+explorer star cruiser engine room background hum loop — qubodup (Freesound 861431)
+https://freesound.org/people/qubodup/sounds/861431/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Crackly White Noise — Raining-0n-Satrn (Freesound 644432)
+https://freesound.org/people/Raining-0n-Satrn/sounds/644432/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Loop_SimulatedHeartbeat_Normal.wav — RavenWolfProds (Freesound 547434)
+https://freesound.org/people/RavenWolfProds/sounds/547434/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+heartbeat.wav — Reitanna (Freesound 323714)
+https://freesound.org/people/Reitanna/sounds/323714/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Heartbeat With Mechanical Aortic Valve — Rishu_ARC (Freesound 851904)
+https://freesound.org/people/Rishu_ARC/sounds/851904/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Ice Breaking; Slow.wav — Rslebs (Freesound 661830)
+https://freesound.org/people/Rslebs/sounds/661830/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Wood Creak Single V2 — Rudmer_Rotteveel (Freesound 502504)
+https://freesound.org/people/Rudmer_Rotteveel/sounds/502504/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Wood Creak Single V1 — Rudmer_Rotteveel (Freesound 502505)
+https://freesound.org/people/Rudmer_Rotteveel/sounds/502505/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Creaking Wood 4 Steps — Rudmer_Rotteveel (Freesound 502507)
+https://freesound.org/people/Rudmer_Rotteveel/sounds/502507/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Wood Creak Single V3 — Rudmer_Rotteveel (Freesound 502511)
+https://freesound.org/people/Rudmer_Rotteveel/sounds/502511/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Wood Creak Single V4 — Rudmer_Rotteveel (Freesound 506659)
+https://freesound.org/people/Rudmer_Rotteveel/sounds/506659/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Wood Creak Single V5 — Rudmer_Rotteveel (Freesound 506660)
+https://freesound.org/people/Rudmer_Rotteveel/sounds/506660/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Wood Creak Single V6 — Rudmer_Rotteveel (Freesound 506661)
+https://freesound.org/people/Rudmer_Rotteveel/sounds/506661/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Wood Creak Single V7 — Rudmer_Rotteveel (Freesound 506662)
+https://freesound.org/people/Rudmer_Rotteveel/sounds/506662/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Wood Creak Single V8 — Rudmer_Rotteveel (Freesound 506663)
+https://freesound.org/people/Rudmer_Rotteveel/sounds/506663/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Wood Creak Single V9 — Rudmer_Rotteveel (Freesound 506664)
+https://freesound.org/people/Rudmer_Rotteveel/sounds/506664/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Wood Creak Single V10 — Rudmer_Rotteveel (Freesound 506665)
+https://freesound.org/people/Rudmer_Rotteveel/sounds/506665/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+tossed coin 5.wav — rundog (Freesound 623077)
+https://freesound.org/people/rundog/sounds/623077/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+stun.wav — RunnerPack (Freesound 87040)
+https://freesound.org/people/RunnerPack/sounds/87040/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Metallic Pipe Hits on Concrete in Basement.aif — RutgerMuller (Freesound 104373)
+https://freesound.org/people/RutgerMuller/sounds/104373/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Large Industrial Machine Starting up and running — ryks88 (Freesound 709257)
+https://freesound.org/people/ryks88/sounds/709257/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Dizzy Distance SciFi — Sabacky (Freesound 766085)
+https://freesound.org/people/Sabacky/sounds/766085/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+SciFi Hyper Crystal — Sabacky (Freesound 767162)
+https://freesound.org/people/Sabacky/sounds/767162/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Cat (minette) heartbeat Processed — Sadiquecat (Freesound 855883)
+https://freesound.org/people/Sadiquecat/sounds/855883/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+wood creaks — seth-m (Freesound 269722)
+https://freesound.org/people/seth-m/sounds/269722/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Button Clicking 1 — Sheyvan (Freesound 475188)
+https://freesound.org/people/Sheyvan/sounds/475188/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Lightsaber Hum and Swings 1 — Sheyvan (Freesound 703383)
+https://freesound.org/people/Sheyvan/sounds/703383/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+House_Creak_1.wav — SholeColtis (Freesound 683415)
+https://freesound.org/people/SholeColtis/sounds/683415/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+House_Creak_2.wav — SholeColtis (Freesound 683416)
+https://freesound.org/people/SholeColtis/sounds/683416/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+2022-02-06 wood creak 4.wav — sit_walk (Freesound 618082)
+https://freesound.org/people/sit_walk/sounds/618082/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+2022-02-06 wood creak 3.wav — sit_walk (Freesound 618083)
+https://freesound.org/people/sit_walk/sounds/618083/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+2022-02-06 wood creak 2.wav — sit_walk (Freesound 618084)
+https://freesound.org/people/sit_walk/sounds/618084/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+2022-02-06 wood creak 1.wav — sit_walk (Freesound 618085)
+https://freesound.org/people/sit_walk/sounds/618085/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+CREAKING DOOR 04 — SkyernAklea (Freesound 436534)
+https://freesound.org/people/SkyernAklea/sounds/436534/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+CREAKING DOOR 03 — SkyernAklea (Freesound 436535)
+https://freesound.org/people/SkyernAklea/sounds/436535/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+CREAKING DOOR 02 — SkyernAklea (Freesound 436536)
+https://freesound.org/people/SkyernAklea/sounds/436536/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+CREAKING DOOR 01 — SkyernAklea (Freesound 436537)
+https://freesound.org/people/SkyernAklea/sounds/436537/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+CREAKING DOOR 05 — SkyernAklea (Freesound 436539)
+https://freesound.org/people/SkyernAklea/sounds/436539/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+HYPERS — Smokeyeyebeats (Freesound 726121)
+https://freesound.org/people/Smokeyeyebeats/sounds/726121/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+ILLUSTRATION BORD — Smokeyeyebeats (Freesound 726122)
+https://freesound.org/people/Smokeyeyebeats/sounds/726122/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+INDEPENDENT SOLDIERS — Smokeyeyebeats (Freesound 726123)
+https://freesound.org/people/Smokeyeyebeats/sounds/726123/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+JUMPING CASTLE — Smokeyeyebeats (Freesound 726126)
+https://freesound.org/people/Smokeyeyebeats/sounds/726126/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+JUMPING MUNO — Smokeyeyebeats (Freesound 726128)
+https://freesound.org/people/Smokeyeyebeats/sounds/726128/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+LORDS WITH THEIR SUBMISSIONS — Smokeyeyebeats (Freesound 726131)
+https://freesound.org/people/Smokeyeyebeats/sounds/726131/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+MODIFY ELEMENTS — Smokeyeyebeats (Freesound 726136)
+https://freesound.org/people/Smokeyeyebeats/sounds/726136/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+MY CHAMBER IS GUARANTED — Smokeyeyebeats (Freesound 726140)
+https://freesound.org/people/Smokeyeyebeats/sounds/726140/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+MY TRAVEL OF GOLD — Smokeyeyebeats (Freesound 726143)
+https://freesound.org/people/Smokeyeyebeats/sounds/726143/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+NATAL TAGGED — Smokeyeyebeats (Freesound 726145)
+https://freesound.org/people/Smokeyeyebeats/sounds/726145/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+OPEN VESSEL — Smokeyeyebeats (Freesound 726148)
+https://freesound.org/people/Smokeyeyebeats/sounds/726148/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+PERSONIC THRILL — Smokeyeyebeats (Freesound 726149)
+https://freesound.org/people/Smokeyeyebeats/sounds/726149/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+PIORITIES OF AIRLIGHT — Smokeyeyebeats (Freesound 726150)
+https://freesound.org/people/Smokeyeyebeats/sounds/726150/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+POISONIC SEASON — Smokeyeyebeats (Freesound 726154)
+https://freesound.org/people/Smokeyeyebeats/sounds/726154/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+POWER BILLS — Smokeyeyebeats (Freesound 726156)
+https://freesound.org/people/Smokeyeyebeats/sounds/726156/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+RUMBLING STORMS — Smokeyeyebeats (Freesound 726160)
+https://freesound.org/people/Smokeyeyebeats/sounds/726160/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+SEEKING MY ESCAPE — Smokeyeyebeats (Freesound 726163)
+https://freesound.org/people/Smokeyeyebeats/sounds/726163/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+SELF CONFINDMENT — Smokeyeyebeats (Freesound 726164)
+https://freesound.org/people/Smokeyeyebeats/sounds/726164/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+SIMILARITIES — Smokeyeyebeats (Freesound 726166)
+https://freesound.org/people/Smokeyeyebeats/sounds/726166/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+SNIPERS PRAY — Smokeyeyebeats (Freesound 726167)
+https://freesound.org/people/Smokeyeyebeats/sounds/726167/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+SOVIET DRILLS — Smokeyeyebeats (Freesound 726169)
+https://freesound.org/people/Smokeyeyebeats/sounds/726169/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+SPREADING WORDS — Smokeyeyebeats (Freesound 726181)
+https://freesound.org/people/Smokeyeyebeats/sounds/726181/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+STARRING AT THE WALL — Smokeyeyebeats (Freesound 726183)
+https://freesound.org/people/Smokeyeyebeats/sounds/726183/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+TERRORIST DRUNK VISION — Smokeyeyebeats (Freesound 726219)
+https://freesound.org/people/Smokeyeyebeats/sounds/726219/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+TESTICLES — Smokeyeyebeats (Freesound 726220)
+https://freesound.org/people/Smokeyeyebeats/sounds/726220/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+THE SMILE OF A JOKER — Smokeyeyebeats (Freesound 726222)
+https://freesound.org/people/Smokeyeyebeats/sounds/726222/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+TIGERS DONT SLEEP — Smokeyeyebeats (Freesound 726223)
+https://freesound.org/people/Smokeyeyebeats/sounds/726223/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+TRADING CENTRES — Smokeyeyebeats (Freesound 726224)
+https://freesound.org/people/Smokeyeyebeats/sounds/726224/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+UNPAID ROLEX — Smokeyeyebeats (Freesound 726225)
+https://freesound.org/people/Smokeyeyebeats/sounds/726225/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+VIBRANT BIRDS — Smokeyeyebeats (Freesound 726227)
+https://freesound.org/people/Smokeyeyebeats/sounds/726227/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+riot scene — Smokeyeyebeats (Freesound 726230)
+https://freesound.org/people/Smokeyeyebeats/sounds/726230/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Singing bowl from Nepal - Key A — sonocrea (Freesound 848194)
+https://freesound.org/people/sonocrea/sounds/848194/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+singing_bowl_C — sonocrea (Freesound 848195)
+https://freesound.org/people/sonocrea/sounds/848195/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+_singing_bowl_F — sonocrea (Freesound 848196)
+https://freesound.org/people/sonocrea/sounds/848196/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Door - Heartbeat 2 — Soughtaftersounds (Freesound 145420)
+https://freesound.org/people/Soughtaftersounds/sounds/145420/
+CC-BY-3.0: http://creativecommons.org/licenses/by/3.0/
+
+Creaking Wooden Floor [3] — SoundDesignForYou (Freesound 646687)
+https://freesound.org/people/SoundDesignForYou/sounds/646687/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Creaking Wooden Floor [2] — SoundDesignForYou (Freesound 646688)
+https://freesound.org/people/SoundDesignForYou/sounds/646688/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Creaking Wooden Floor [10] — SoundDesignForYou (Freesound 646689)
+https://freesound.org/people/SoundDesignForYou/sounds/646689/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Creaking Wooden Floor [1] — SoundDesignForYou (Freesound 646690)
+https://freesound.org/people/SoundDesignForYou/sounds/646690/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Creaking Wooden Floor [7] — SoundDesignForYou (Freesound 646691)
+https://freesound.org/people/SoundDesignForYou/sounds/646691/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Creaking Wooden Floor [9] — SoundDesignForYou (Freesound 646695)
+https://freesound.org/people/SoundDesignForYou/sounds/646695/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Creaking Wooden Floor [8] — SoundDesignForYou (Freesound 646696)
+https://freesound.org/people/SoundDesignForYou/sounds/646696/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Yukon Energy diesel back-up generators — SoundsLikeYukon (Freesound 720416)
+https://freesound.org/people/SoundsLikeYukon/sounds/720416/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Tension buildup with heartbeat — SpaceLife (Freesound 545938)
+https://freesound.org/people/SpaceLife/sounds/545938/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Granular Reversed.wav — staticpony1 (Freesound 249609)
+https://freesound.org/people/staticpony1/sounds/249609/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Wood Floor Creak — sthran (Freesound 572645)
+https://freesound.org/people/sthran/sounds/572645/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+cracking.mp3 — sunflora (Freesound 665085)
+https://freesound.org/people/sunflora/sounds/665085/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Heartbeating sync'ed with dirtymetal pulsation for horrific effect — sunsetforth (Freesound 791908)
+https://freesound.org/people/sunsetforth/sounds/791908/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+The Crack of Plastic — syenasweta (Freesound 686836)
+https://freesound.org/people/syenasweta/sounds/686836/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Low_freq_rumble.wav — tec_studio (Freesound 353973)
+https://freesound.org/people/tec_studio/sounds/353973/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Low Rumble.wav — tec_studio (Freesound 386556)
+https://freesound.org/people/tec_studio/sounds/386556/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Metallic pickaxe 1/4 — TechspiredMinds (Freesound 728756)
+https://freesound.org/people/TechspiredMinds/sounds/728756/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Metallic pickaxe 2/4 — TechspiredMinds (Freesound 728757)
+https://freesound.org/people/TechspiredMinds/sounds/728757/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Metallic pickaxe 3/4 — TechspiredMinds (Freesound 728758)
+https://freesound.org/people/TechspiredMinds/sounds/728758/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Metallic pickaxe 4/4 — TechspiredMinds (Freesound 728759)
+https://freesound.org/people/TechspiredMinds/sounds/728759/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Coin7 — The-Sacha-Rush (Freesound 336934)
+https://freesound.org/people/The-Sacha-Rush/sounds/336934/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Ratites - Emu; Rumble — TheKingOfGeeks360 (Freesound 842354)
+https://freesound.org/people/TheKingOfGeeks360/sounds/842354/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+clobs.wav — tim.kahn (Freesound 233698)
+https://freesound.org/people/tim.kahn/sounds/233698/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Wind energy plant inside atmo — TimoSchmied (Freesound 530974)
+https://freesound.org/people/TimoSchmied/sounds/530974/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Wood Creak.wav — TimPryor (Freesound 188606)
+https://freesound.org/people/TimPryor/sounds/188606/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Heartbeat — TobiasLudwig (Freesound 387072)
+https://freesound.org/people/TobiasLudwig/sounds/387072/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Open-Suitcase-2.wav — toefur (Freesound 280237)
+https://freesound.org/people/toefur/sounds/280237/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+welding a piece of metal with sparks flying all over the place.aif — Tomlija (Freesound 103333)
+https://freesound.org/people/Tomlija/sounds/103333/
+CC-BY-3.0: http://creativecommons.org/licenses/by/3.0/
+
+Heartbeat, male 42yrs old (2012).wav — TRP (Freesound 616836)
+https://freesound.org/people/TRP/sounds/616836/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+rock hitting icy lake — ultraaxvii (Freesound 591152)
+https://freesound.org/people/ultraaxvii/sounds/591152/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+CaveRumble1 — UniMusuotankarep (Freesound 462936)
+https://freesound.org/people/UniMusuotankarep/sounds/462936/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+GELIS_Hugo_2013_2014_son2.wav — univ_lyon3 (Freesound 201919)
+https://freesound.org/people/univ_lyon3/sounds/201919/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+RIGAUD_Matthieu_2015_2016_Heartbeat.wav — univ_lyon3 (Freesound 324456)
+https://freesound.org/people/univ_lyon3/sounds/324456/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+PANTIGNY_JeanLoup_2017_2018_heartbeatBreath.wav — univ_lyon3 (Freesound 410390)
+https://freesound.org/people/univ_lyon3/sounds/410390/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+CHAMINADE_Charlotte_2019_2020_Heartbeat.wav — univ_lyon3 (Freesound 485786)
+https://freesound.org/people/univ_lyon3/sounds/485786/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+MASSARDIER_Elodie_2020_2021_Heartbeat.wav — univ_lyon3 (Freesound 540905)
+https://freesound.org/people/univ_lyon3/sounds/540905/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+26.07.26- Ghostly Vocal Pad + heartbeat — Valerie-Vivegnis (Freesound 865357)
+https://freesound.org/people/Valerie-Vivegnis/sounds/865357/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Fireworks / Distant rumbling — VanEngelen (Freesound 784652)
+https://freesound.org/people/VanEngelen/sounds/784652/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Whoosh 03 — velcronator (Freesound 733890)
+https://freesound.org/people/velcronator/sounds/733890/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+VS Button Click 01.mp3 — Vilkas_Sound (Freesound 707038)
+https://freesound.org/people/Vilkas_Sound/sounds/707038/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+VS Button Click 02.mp3 — Vilkas_Sound (Freesound 707039)
+https://freesound.org/people/Vilkas_Sound/sounds/707039/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+VS Button Click 03.mp3 — Vilkas_Sound (Freesound 707040)
+https://freesound.org/people/Vilkas_Sound/sounds/707040/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+VS Button Click 04.mp3 — Vilkas_Sound (Freesound 707041)
+https://freesound.org/people/Vilkas_Sound/sounds/707041/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+VS Button Click 05.mp3 — Vilkas_Sound (Freesound 707042)
+https://freesound.org/people/Vilkas_Sound/sounds/707042/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+RUMBLE HARD KICK — vinodibiza (Freesound 737848)
+https://freesound.org/people/vinodibiza/sounds/737848/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+RUMBLE KICK HARD LOOP A# — vinodibiza (Freesound 737849)
+https://freesound.org/people/vinodibiza/sounds/737849/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+WoodDoor_Creak_01 — Wavewire (Freesound 813650)
+https://freesound.org/people/Wavewire/sounds/813650/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+EnergyField — Wavewire (Freesound 835898)
+https://freesound.org/people/Wavewire/sounds/835898/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Rumble11.19.2.aif — Woodingp (Freesound 116644)
+https://freesound.org/people/Woodingp/sounds/116644/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Ice_Bending_01.flac — wwstudioswastaken (Freesound 621138)
+https://freesound.org/people/wwstudioswastaken/sounds/621138/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Opening Frozen Garbage Bin — XanTheRock (Freesound 720087)
+https://freesound.org/people/XanTheRock/sounds/720087/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Whoosh stereo light (transition) — xkeril (Freesound 701104)
+https://freesound.org/people/xkeril/sounds/701104/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+dirt/gravel footstep 2 — Yoyodaman234 (Freesound 166510)
+https://freesound.org/people/Yoyodaman234/sounds/166510/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+dirt/gravel footstep 1 — Yoyodaman234 (Freesound 166511)
+https://freesound.org/people/Yoyodaman234/sounds/166511/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+dirt/gravel footstep 4 — Yoyodaman234 (Freesound 223153)
+https://freesound.org/people/Yoyodaman234/sounds/223153/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+dirt/gravel footstep 3 — Yoyodaman234 (Freesound 223154)
+https://freesound.org/people/Yoyodaman234/sounds/223154/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+metalworking.rumble.flac — Zabuhailo (Freesound 166466)
+https://freesound.org/people/Zabuhailo/sounds/166466/
+CC-BY-4.0: https://creativecommons.org/licenses/by/4.0/
+
+Fast whoosh, bamboo swoosh through air, version 1 — zapsplat.com (Freesound 719636)
+https://freesound.org/people/zapsplat.com/sounds/719636/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Fast whoosh, bamboo swoosh through air, version 2 — zapsplat.com (Freesound 719637)
+https://freesound.org/people/zapsplat.com/sounds/719637/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+UI_Correct_button12.wav — ZenithInfinitiveStudios (Freesound 342996)
+https://freesound.org/people/ZenithInfinitiveStudios/sounds/342996/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+UI_Correct_button11.wav — ZenithInfinitiveStudios (Freesound 342997)
+https://freesound.org/people/ZenithInfinitiveStudios/sounds/342997/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+UI_Correct_button10.wav — ZenithInfinitiveStudios (Freesound 342998)
+https://freesound.org/people/ZenithInfinitiveStudios/sounds/342998/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+UI_Correct_button1.wav — ZenithInfinitiveStudios (Freesound 342999)
+https://freesound.org/people/ZenithInfinitiveStudios/sounds/342999/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+UI_Correct_button5.wav — ZenithInfinitiveStudios (Freesound 343000)
+https://freesound.org/people/ZenithInfinitiveStudios/sounds/343000/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+UI_Correct_button4.wav — ZenithInfinitiveStudios (Freesound 343001)
+https://freesound.org/people/ZenithInfinitiveStudios/sounds/343001/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+UI_Correct_button3.wav — ZenithInfinitiveStudios (Freesound 343002)
+https://freesound.org/people/ZenithInfinitiveStudios/sounds/343002/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+UI_Correct_button2.wav — ZenithInfinitiveStudios (Freesound 343003)
+https://freesound.org/people/ZenithInfinitiveStudios/sounds/343003/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+UI_Correct_button7.wav — ZenithInfinitiveStudios (Freesound 343004)
+https://freesound.org/people/ZenithInfinitiveStudios/sounds/343004/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+UI_Correct_button6.wav — ZenithInfinitiveStudios (Freesound 343005)
+https://freesound.org/people/ZenithInfinitiveStudios/sounds/343005/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+bad11.wav — ZenithInfinitiveStudios (Freesound 343006)
+https://freesound.org/people/ZenithInfinitiveStudios/sounds/343006/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+bad2.wav — ZenithInfinitiveStudios (Freesound 343007)
+https://freesound.org/people/ZenithInfinitiveStudios/sounds/343007/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+ok9.wav — ZenithInfinitiveStudios (Freesound 343008)
+https://freesound.org/people/ZenithInfinitiveStudios/sounds/343008/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+UI_Wrong_button7.wav — ZenithInfinitiveStudios (Freesound 343009)
+https://freesound.org/people/ZenithInfinitiveStudios/sounds/343009/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+UI_Wrong_button8.wav — ZenithInfinitiveStudios (Freesound 343010)
+https://freesound.org/people/ZenithInfinitiveStudios/sounds/343010/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+UI_Wrong_button5.wav — ZenithInfinitiveStudios (Freesound 343011)
+https://freesound.org/people/ZenithInfinitiveStudios/sounds/343011/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+UI_Wrong_button6.wav — ZenithInfinitiveStudios (Freesound 343012)
+https://freesound.org/people/ZenithInfinitiveStudios/sounds/343012/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+bad10.wav — ZenithInfinitiveStudios (Freesound 343013)
+https://freesound.org/people/ZenithInfinitiveStudios/sounds/343013/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+UI_Wrong_button9.wav — ZenithInfinitiveStudios (Freesound 343014)
+https://freesound.org/people/ZenithInfinitiveStudios/sounds/343014/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+UI_button1.wav — ZenithInfinitiveStudios (Freesound 343015)
+https://freesound.org/people/ZenithInfinitiveStudios/sounds/343015/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+ok8.wav — ZenithInfinitiveStudios (Freesound 343016)
+https://freesound.org/people/ZenithInfinitiveStudios/sounds/343016/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+UI_Wrong_button13.wav — ZenithInfinitiveStudios (Freesound 343017)
+https://freesound.org/people/ZenithInfinitiveStudios/sounds/343017/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+UI_Wrong_button12.wav — ZenithInfinitiveStudios (Freesound 343018)
+https://freesound.org/people/ZenithInfinitiveStudios/sounds/343018/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+UI_Wrong_button4.wav — ZenithInfinitiveStudios (Freesound 343019)
+https://freesound.org/people/ZenithInfinitiveStudios/sounds/343019/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+UI_Wrong_button3.wav — ZenithInfinitiveStudios (Freesound 343020)
+https://freesound.org/people/ZenithInfinitiveStudios/sounds/343020/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+dig.wav — zepurple (Freesound 540264)
+https://freesound.org/people/zepurple/sounds/540264/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Forcefield Hum.wav — Zeraora (Freesound 702631)
+https://freesound.org/people/Zeraora/sounds/702631/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+Forcefield Hum 2 — Zeraora (Freesound 812392)
+https://freesound.org/people/Zeraora/sounds/812392/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/
+
+irregular heartbeat.wav — zimm (Freesound 32858)
+https://freesound.org/people/zimm/sounds/32858/
+CC0-1.0: http://creativecommons.org/publicdomain/zero/1.0/

@@ -1,0 +1,62 @@
+{
+  "dirt": {
+    "source": "dirt-v2.png",
+    "path": "dirt-runtime-v2.png",
+    "sha256": "15b24ebc399f20e758e2b14a0cab2c37e01d3f269c3445d02715e6f6b96c3862",
+    "size": [
+      256,
+      256
+    ],
+    "sourceBounds": [
+      51,
+      50,
+      1205,
+      1191
+    ],
+    "alphaExtrema": [
+      0,
+      255
+    ],
+    "magentaPixels": 0
+  },
+  "stone": {
+    "source": "stone-v2.png",
+    "path": "stone-runtime-v2.png",
+    "sha256": "80b7aabaf902ff4e785b9e215ca43883602a2a20580e36e70662c6ccfc345fb8",
+    "size": [
+      256,
+      256
+    ],
+    "sourceBounds": [
+      122,
+      76,
+      1142,
+      1177
+    ],
+    "alphaExtrema": [
+      0,
+      255
+    ],
+    "magentaPixels": 0
+  },
+  "copper": {
+    "source": "copper-v2.png",
+    "path": "copper-runtime-v2.png",
+    "sha256": "1014b63ec3a3fcb9880e7896bbe49ecde12c997a60afd8b744d29be40e634c0a",
+    "size": [
+      256,
+      256
+    ],
+    "sourceBounds": [
+      90,
+      85,
+      1196,
+      1182
+    ],
+    "alphaExtrema": [
+      0,
+      255
+    ],
+    "magentaPixels": 0
+  }
+}

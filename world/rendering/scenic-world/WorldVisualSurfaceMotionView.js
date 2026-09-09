@@ -1,3 +1,4 @@
+import { WORLD_VISUAL_LAYERED_SKY_REVIEW as LAYERED, resolveLayeredSkyReviewEnabled } from "../../../values/worldVisualLayeredSkyReview.js";
 import {
   clearTintIfChanged,
   setAlphaIfChanged,
@@ -9,6 +10,19 @@ function clampFraction(value) {
 
 function ensureFeatherTexture(scene, key, topFadeFraction, rightFadeFraction) {
   if (scene.textures.exists(key)) return;
+  if(resolveLayeredSkyReviewEnabled()){
+    const cfg=LAYERED.townTransition,size=cfg.maskSize;
+    const texture=scene.textures.createCanvas(key,size,size),context=texture.context;
+    const image=context.createImageData(size,size),pixels=image.data;
+    const smooth=value=>{const t=Math.max(0,Math.min(1,value));return t*t*(3-2*t);};
+    for(let y=0;y<size;y++)for(let x=0;x<size;x++){
+      const u=x/(size-1),v=y/(size-1),lower=smooth((v-cfg.skyFadeStartY)/(cfg.skyFadeEndY-cfg.skyFadeStartY));
+      const right=cfg.skyRightFadeFraction*(1-lower)+rightFadeFraction*lower;
+      const alpha=smooth(v/Math.max(topFadeFraction,cfg.topFadeFraction))*smooth((1-u)/right);
+      const i=(y*size+x)*4;pixels[i]=pixels[i+1]=pixels[i+2]=255;pixels[i+3]=alpha*255;
+    }
+    context.putImageData(image,0,0);texture.refresh();return;
+  }
   const size = 256;
   const texture = scene.textures.createCanvas(key, size, size);
   const context = texture.context;

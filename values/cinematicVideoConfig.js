@@ -10,7 +10,7 @@ const cinematicAsset = ({
 }) => Object.freeze({
   id,
   key,
-  path: `${CINEMATIC_ASSET_ROOT}/${filename}`,
+  path: filename.startsWith("sprites/") ? filename : `${CINEMATIC_ASSET_ROOT}/${filename}`,
   posterKey: `${key}-poster`,
   posterPath: `${CINEMATIC_ASSET_ROOT}/${posterFilename}`,
   durationSeconds,
@@ -24,7 +24,7 @@ export const CINEMATIC_VIDEO_IDS = Object.freeze({
 const OPENING_CINEMATIC = cinematicAsset({
   id: CINEMATIC_VIDEO_IDS.OPENING,
   key: "cinematic-understar-opening-v1",
-  filename: "understar-opening-v1.mp4",
+  filename: "sprites/runtime-startup-v1/understar-opening.mp4",
   posterFilename: "understar-opening-v1-poster.png",
   durationSeconds: 25,
 });

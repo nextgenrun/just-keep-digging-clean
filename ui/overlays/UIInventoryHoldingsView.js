@@ -8,8 +8,13 @@ import {
 } from "../../values/uiIcons.js";
 import {
   addResourceCodexPortrait,
-  installResourceCodexFrames,
 } from "./UIInventoryCodexArt.js?rev=20260826-inventory-codex-v2";
+import { RewardPickupVisualResolver } from
+  "../../systems/visual/RewardPickupVisualResolver.js";
+import { getRememberedResourcePickupVisual } from
+  "../../systems/visual/RewardPickupContinuityState.js";
+
+import { RESOURCE_ICON_ART } from "../../values/resourceIconArt.js";
 
 function addText(scene, shell, x, y, value, style = {}, originX = 0, originY = 0) {
   const text = scene.add.text(x, y, value, {
@@ -34,7 +39,29 @@ function addSurface(scene, shell, x, y, width, height, selected = false) {
   shell.content.add(gfx);
 }
 
-function addResourceArtwork(scene, shell, key, x, y, size, discovered) {
+function addResourceArtwork(scene, shell, resolver, key, x, y, size, discovered) {
+  const approved = RESOURCE_ICON_ART[key];
+  if (approved && scene.textures?.exists?.(approved.key)) {
+    return addResourceCodexPortrait(scene, shell.content, key, {
+      x, y, size, alpha: discovered ? 1 : 0.5,
+    });
+  }
+  const descriptor = getRememberedResourcePickupVisual(scene, key)
+    || resolver.resolveResourcePickup({
+      resourceType: key,
+      tileX: 0,
+      tileY: 0,
+    });
+  if (descriptor) {
+    const image = scene.add.image(
+      x,
+      y,
+      descriptor.textureKey,
+      descriptor.textureFrame ?? descriptor.frameName ?? undefined,
+    ).setDisplaySize(size, size).setAlpha(discovered ? 1 : 0.5);
+    shell.content.add(image);
+    return image;
+  }
   return addResourceCodexPortrait(scene, shell.content, key, {
     x,
     y,
@@ -43,7 +70,7 @@ function addResourceArtwork(scene, shell, key, x, y, size, discovered) {
   });
 }
 
-function renderResourceCard(scene, shell, items, key, config, metrics) {
+function renderResourceCard(scene, shell, resolver, items, key, config, metrics) {
   const discovered = Number(items[key]) > 0
     || scene.retentionProgressSystem?.hasDiscoveredMaterial?.(key) === true;
   const { x, y, width, height } = metrics;
@@ -51,6 +78,7 @@ function renderResourceCard(scene, shell, items, key, config, metrics) {
   addResourceArtwork(
     scene,
     shell,
+    resolver,
     key,
     x + UI_INVENTORY_LAYOUT.itemIconInset,
     y + height / 2,
@@ -82,7 +110,7 @@ function renderResourceCard(scene, shell, items, key, config, metrics) {
 }
 
 export function renderInventoryHoldingsView(scene, shell, rect, items, money) {
-  installResourceCodexFrames(scene);
+  const pickupVisuals = new RewardPickupVisualResolver(scene);
   const values = Object.values(items).map(Number).filter(Number.isFinite);
   const unique = values.filter(value => value > 0).length;
   const total = values.reduce((sum, value) => sum + Math.max(0, value), 0);
@@ -96,7 +124,7 @@ export function renderInventoryHoldingsView(scene, shell, rect, items, money) {
     color: UI_COLORS.title,
   });
   const summaryText = addText(scene, shell, rect.left + 18, rect.top + 39,
-    `${unique} DISCOVERED • ${Math.floor(total).toLocaleString()} ${UI_INVENTORY_COPY.totalUnitsSuffix}`, {
+    `${unique} ${UI_INVENTORY_COPY.discoveredCountSuffix} • ${Math.floor(total).toLocaleString()} ${UI_INVENTORY_COPY.totalUnitsSuffix}`, {
       fontFamily: UI_FONTS.mono,
       fontSize: "10px",
       color: UI_COLORS.body,
@@ -139,7 +167,7 @@ export function renderInventoryHoldingsView(scene, shell, rect, items, money) {
   entries.forEach(([key, config], index) => {
     const row = Math.floor(index / columns);
     const column = index % columns;
-    renderResourceCard(scene, shell, items, key, config, {
+    renderResourceCard(scene, shell, pickupVisuals, items, key, config, {
       x: rect.left + column * (cardWidth + UI_INVENTORY_LAYOUT.columnGap),
       y: gridTop + row * (cardHeight + UI_INVENTORY_LAYOUT.rowGap),
       width: cardWidth,

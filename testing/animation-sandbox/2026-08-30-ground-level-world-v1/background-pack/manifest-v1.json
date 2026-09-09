@@ -1,0 +1,177 @@
+{
+  "version": "ground-observatory-background-pack-v1",
+  "reviewOnly": true,
+  "productionChanged": false,
+  "runtimePixelReuseFromReference": false,
+  "base": {
+    "path": "observatory-static-base-v1.webp",
+    "width": 2048,
+    "height": 1152,
+    "sha256": "8a245862786cd91477e06f62606e6fa18d574d2df7efca68b85cb58f66d0e441",
+    "immutable": [
+      "moon",
+      "mountains",
+      "forest",
+      "terrain-geometry"
+    ]
+  },
+  "atmosphere": [
+    {
+      "id": "observatory-atmosphere-01",
+      "path": "observatory-atmosphere-01-v1.png",
+      "width": 331,
+      "height": 177,
+      "sha256": "238c8d841d1ee6e5c3b7554b0eee316fb6c1b11bca7984da2c6ff62270253511"
+    },
+    {
+      "id": "observatory-atmosphere-02",
+      "path": "observatory-atmosphere-02-v1.png",
+      "width": 362,
+      "height": 184,
+      "sha256": "012dc21aa7995357d7994add4fbd7289650cb9f3b39e7e421cb544020b58abb3"
+    },
+    {
+      "id": "observatory-atmosphere-03",
+      "path": "observatory-atmosphere-03-v1.png",
+      "width": 362,
+      "height": 185,
+      "sha256": "a7fa867c8829435330f9900d87f5183ecce4e1efe518c6e1d85c7cad63494ea6"
+    },
+    {
+      "id": "observatory-atmosphere-04",
+      "path": "observatory-atmosphere-04-v1.png",
+      "width": 328,
+      "height": 196,
+      "sha256": "faf4952622b9bf45070816500e999525e576548228870deac9b44679e4c5d084"
+    },
+    {
+      "id": "observatory-atmosphere-05",
+      "path": "observatory-atmosphere-05-v1.png",
+      "width": 305,
+      "height": 174,
+      "sha256": "42fb846525669bec8a46a07e217f23f1c070149d425de02362fe70eb9bf66c7b"
+    },
+    {
+      "id": "observatory-atmosphere-06",
+      "path": "observatory-atmosphere-06-v1.png",
+      "width": 313,
+      "height": 171,
+      "sha256": "0096b16384c8e980c122cbae1304cbbdcc8a065304e69e87383b45bc98ba5943"
+    },
+    {
+      "id": "observatory-atmosphere-07",
+      "path": "observatory-atmosphere-07-v1.png",
+      "width": 362,
+      "height": 159,
+      "sha256": "f1308753106ed65e4c7d0ebd29b5409ffc66caa4c5644623666f0dfeb6b49709"
+    },
+    {
+      "id": "observatory-atmosphere-08",
+      "path": "observatory-atmosphere-08-v1.png",
+      "width": 309,
+      "height": 145,
+      "sha256": "563e9026290560fdd705e224ad7f750344d6813aac2726502499ae36ba7bac91"
+    },
+    {
+      "id": "observatory-atmosphere-10",
+      "path": "observatory-atmosphere-10-v1.png",
+      "width": 210,
+      "height": 110,
+      "sha256": "40f0a8cdc5ff125245b6e621a3a14252d6f365373f04c74576e34c1d5636047b"
+    },
+    {
+      "id": "observatory-atmosphere-11",
+      "path": "observatory-atmosphere-11-v1.png",
+      "width": 188,
+      "height": 112,
+      "sha256": "5b71e5dafbbecd9052366a0198104862a886ea900373202f94ff9024950ed436"
+    }
+  ],
+  "stars": {
+    "path": "observatory-star-ids-v1.png",
+    "width": 2048,
+    "height": 1152,
+    "sha256": "1bfe3b6829cfa3057fe0e21d9c08f852af4211379408d37b244d701177917a89",
+    "independentIds": true,
+    "skylineMaskPoints": [
+      [
+        0,
+        382
+      ],
+      [
+        132,
+        430
+      ],
+      [
+        286,
+        490
+      ],
+      [
+        452,
+        560
+      ],
+      [
+        616,
+        600
+      ],
+      [
+        790,
+        548
+      ],
+      [
+        948,
+        442
+      ],
+      [
+        1110,
+        338
+      ],
+      [
+        1270,
+        276
+      ],
+      [
+        1435,
+        198
+      ],
+      [
+        1604,
+        132
+      ],
+      [
+        1770,
+        168
+      ],
+      [
+        1908,
+        134
+      ],
+      [
+        2048,
+        92
+      ]
+    ],
+    "moonExclusion": [
+      344,
+      108,
+      504,
+      268
+    ]
+  },
+  "sourceProvenance": {
+    "base": {
+      "path": "C:\\Users\\Mila\\.codex\\generated_images\\01a04f85-cdc1-7ad0-a968-6dc020718f33\\exec-e8281c3c-3375-457f-8283-57ee47a37c0b.png",
+      "sha256": "ece0c4a90dadbe49715f44deafc1659ba03a16bbd19a789e53d044c862888da9"
+    },
+    "cloudAtlas": {
+      "path": "C:\\Users\\Mila\\.codex\\generated_images\\01a04f85-cdc1-7ad0-a968-6dc020718f33\\exec-6cba41ee-c1cf-46bb-9574-72cf6f72e622.png",
+      "sha256": "86492c0038e7068ea7dc9297a185c2d07e45118dbf107e4b4927db4e9e21cb8f"
+    },
+    "starIds": {
+      "path": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\testing\\animation-sandbox\\2026-08-30-observatory-authored-layers-v3\\pack\\sky-stars-v4.png",
+      "sha256": "2c28e8106854c90280a2976ca04e7afb9dd86626c0ecf198880c499b42c32cd1"
+    },
+    "generatedFromScratch": true,
+    "approvedPanelPixelsCopied": false
+  }
+}

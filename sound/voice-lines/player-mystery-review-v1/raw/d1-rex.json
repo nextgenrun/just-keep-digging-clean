@@ -1,0 +1,10 @@
+{
+  "id": "D1",
+  "voice": "rex",
+  "text": "Loose rocks. Keep moving.",
+  "model": "x-ai/grok-voice-tts-1.0",
+  "requestSha256": "93547c07c4941a4eb0f01fafb4e8af022a382ddb355992646a18c01cbcbce6f7",
+  "contentType": "audio/mpeg",
+  "generationId": "gen-tts-1788736869-QOZWQphcVxmhV7BRdYpM",
+  "rawSha256": "453e60a46644d810c77882320fb3de1f7ff6c1d3e396c383b697d09a9b51043a"
+}

@@ -1,0 +1,42 @@
+{
+  "createdAt": "2026-09-05T19:34:34.600Z",
+  "scope": "Sandbox mesh geometry and JavaScript syntax only; browser review recorded separately in readme.md",
+  "merchants": [
+    {
+      "merchant": "playerUpgrades",
+      "sampledPoses": 44,
+      "minTriangleAreaRatio": 0.11,
+      "footErrorReferencePx": 0
+    },
+    {
+      "merchant": "gearMerchant",
+      "sampledPoses": 44,
+      "minTriangleAreaRatio": 0.11,
+      "footErrorReferencePx": 0
+    },
+    {
+      "merchant": "boboMerchant",
+      "sampledPoses": 44,
+      "minTriangleAreaRatio": 0.0341,
+      "footErrorReferencePx": 0
+    },
+    {
+      "merchant": "moneyMonster",
+      "sampledPoses": 44,
+      "minTriangleAreaRatio": 0.11,
+      "footErrorReferencePx": 0
+    },
+    {
+      "merchant": "gemPowerMerchant",
+      "sampledPoses": 44,
+      "minTriangleAreaRatio": 0.7149,
+      "footErrorReferencePx": 0
+    },
+    {
+      "merchant": "magmaMoneyMonster",
+      "sampledPoses": 44,
+      "minTriangleAreaRatio": 0.11,
+      "footErrorReferencePx": 0
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "canvas": {
+    "height": 648,
+    "width": 1152,
+    "x": 30,
+    "y": 261.390625
+  },
+  "edition": "OPEN BETA DEMO",
+  "overflow": false,
+  "panel": {
+    "height": 247.82342529296875,
+    "width": 378,
+    "x": 417,
+    "y": 600.3671875
+  },
+  "railArt": "url(\"http://localhost:8080/sprites/UI/hud-approved-v1/xp-frame.png\")",
+  "retry": {
+    "height": 43.98748779296875,
+    "width": 219.9937744140625,
+    "x": 436.7999877929687,
+    "y": 788.0031127929688
+  },
+  "retryArt": "url(\"http://localhost:8080/sprites/UI/main-menu-v1/main-menu-button-idle-v1.png\")",
+  "root": {
+    "height": 648,
+    "width": 1152,
+    "x": 30,
+    "y": 261.390625
+  },
+  "viewport": {
+    "height": 912,
+    "width": 1227
+  }
+}

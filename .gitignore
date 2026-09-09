@@ -26,6 +26,10 @@ desktop.ini
 __pycache__/
 *.py[cod]
 
+# Reinstallable local audio audit tools and development-server logs.
+.tmp/audio-review-tools/
+.tmp/audio-review-server-*/
+
 # Generated local document/render output (not runtime or canonical authoring input)
 output/
 tmp/
@@ -62,3 +66,9 @@ tools/video-audio-mcp/
 sound/library-v2/SoundLibrary_Review/00_INBOX_RAW_EXPORTS/sonniss-gdc2019-recorded-mining-pilot-2026-08-26/source-recordings/
 sound/library-v2/SoundLibrary_Review/00_INBOX_RAW_EXPORTS/sonniss-gdc2026-recorded-pilot-2026-08-26/raw/
 sound/library-v2/SoundLibrary_Review/00_INBOX_RAW_EXPORTS/sonniss-gdc2026-recorded-pilot-2026-08-26/source-recordings/
+
+# Reproducible public Freesound response cache; retain the normalized review catalog.
+sound/library-v2/SoundLibrary_Review/00_INBOX_RAW_EXPORTS/freesound-review-2026-09-03/cache/*.json
+
+# Reinstallable logo-authoring Python dependencies stay local.
+ai-tools/2026-09-07-logo-animation/pydeps/

@@ -1,0 +1,446 @@
+{
+  "audit": "offline-approved-mix-headroom",
+  "passed": true,
+  "scope": "Approved SFX and recorded ambience, full overlaps without fade-in. Existing music, speech and procedural effects are not in these renders.",
+  "truePeakMethod": "FFmpeg 4x resampling; not hardware SPL measurement",
+  "cases": [
+    {
+      "case": "dirt-contact",
+      "durationSeconds": 0.972,
+      "samplePeak": 0.1761153,
+      "truePeak4x": 0.1761153,
+      "truePeakDbfs": -15.08,
+      "rmsDbfs": -38.78,
+      "clippedSamples": 0,
+      "busScales": {
+        "sfx": 1,
+        "cave": 1,
+        "weather": 1
+      },
+      "userGain": 0.81,
+      "layers": [
+        {
+          "id": "digOne",
+          "bus": "sfx",
+          "gain": 0.36,
+          "delay": 0
+        },
+        {
+          "id": "libDirtBreak",
+          "bus": "sfx",
+          "gain": 0.27,
+          "delay": 0
+        }
+      ],
+      "render": "testing/audio-review-2026-09-03/renders/dirt-contact.wav"
+    },
+    {
+      "case": "stone-contact",
+      "durationSeconds": 1.8,
+      "samplePeak": 0.1695435,
+      "truePeak4x": 0.1808408,
+      "truePeakDbfs": -14.85,
+      "rmsDbfs": -37.84,
+      "clippedSamples": 0,
+      "busScales": {
+        "sfx": 0.9116619216851631,
+        "cave": 1,
+        "weather": 1
+      },
+      "userGain": 0.81,
+      "layers": [
+        {
+          "id": "digTwo",
+          "bus": "sfx",
+          "gain": 0.26,
+          "delay": 0
+        },
+        {
+          "id": "libToolContact",
+          "bus": "sfx",
+          "gain": 0.16,
+          "delay": 0
+        },
+        {
+          "id": "libStoneBreak",
+          "bus": "sfx",
+          "gain": 0.32,
+          "delay": 0
+        }
+      ],
+      "render": "testing/audio-review-2026-09-03/renders/stone-contact.wav"
+    },
+    {
+      "case": "star-plus-contact",
+      "durationSeconds": 7.385,
+      "samplePeak": 0.1572336,
+      "truePeak4x": 0.1572336,
+      "truePeakDbfs": -16.07,
+      "rmsDbfs": -29.76,
+      "clippedSamples": 0,
+      "busScales": {
+        "sfx": 0.5705063892528079,
+        "cave": 1,
+        "weather": 1
+      },
+      "userGain": 0.81,
+      "layers": [
+        {
+          "id": "starDestruction",
+          "bus": "sfx",
+          "gain": 0.18,
+          "delay": 0
+        },
+        {
+          "id": "digOne",
+          "bus": "sfx",
+          "gain": 0.36,
+          "delay": 0
+        },
+        {
+          "id": "libToolContact",
+          "bus": "sfx",
+          "gain": 0.16,
+          "delay": 0
+        },
+        {
+          "id": "libStoneBreak",
+          "bus": "sfx",
+          "gain": 0.32,
+          "delay": 0
+        },
+        {
+          "id": "libUiClick",
+          "bus": "sfx",
+          "gain": 0.2,
+          "delay": 0
+        }
+      ],
+      "render": "testing/audio-review-2026-09-03/renders/star-plus-contact.wav"
+    },
+    {
+      "case": "level-short",
+      "durationSeconds": 1.1,
+      "samplePeak": 0.1331743,
+      "truePeak4x": 0.1332867,
+      "truePeakDbfs": -17.5,
+      "rmsDbfs": -34.9,
+      "clippedSamples": 0,
+      "busScales": {
+        "sfx": 1,
+        "cave": 1,
+        "weather": 1
+      },
+      "userGain": 0.81,
+      "layers": [
+        {
+          "id": "levelUpShort",
+          "bus": "sfx",
+          "gain": 0.2,
+          "delay": 0
+        }
+      ],
+      "render": "testing/audio-review-2026-09-03/renders/level-short.wav"
+    },
+    {
+      "case": "level-epic",
+      "durationSeconds": 5.51,
+      "samplePeak": 0.1292295,
+      "truePeak4x": 0.1294149,
+      "truePeakDbfs": -17.76,
+      "rmsDbfs": -36.98,
+      "clippedSamples": 0,
+      "busScales": {
+        "sfx": 1,
+        "cave": 1,
+        "weather": 1
+      },
+      "userGain": 0.81,
+      "layers": [
+        {
+          "id": "levelUpEpic",
+          "bus": "sfx",
+          "gain": 0.5,
+          "delay": 0
+        }
+      ],
+      "render": "testing/audio-review-2026-09-03/renders/level-epic.wav"
+    },
+    {
+      "case": "creepy-detail",
+      "durationSeconds": 12.0,
+      "samplePeak": 0.0530523,
+      "truePeak4x": 0.0530523,
+      "truePeakDbfs": -25.51,
+      "rmsDbfs": -38.66,
+      "clippedSamples": 0,
+      "busScales": {
+        "sfx": 1,
+        "cave": 0.856911319704273,
+        "weather": 1
+      },
+      "userGain": 0.81,
+      "layers": [
+        {
+          "id": "libDeepCaveBedA",
+          "bus": "cave",
+          "gain": 0.14,
+          "delay": 0
+        },
+        {
+          "id": "libWhispersDeep",
+          "bus": "cave",
+          "gain": 0.07,
+          "delay": 1
+        }
+      ],
+      "render": "testing/audio-review-2026-09-03/renders/creepy-detail.wav"
+    },
+    {
+      "case": "approved-cave-composite",
+      "durationSeconds": 11.96,
+      "samplePeak": 0.0428789,
+      "truePeak4x": 0.0428789,
+      "truePeakDbfs": -27.36,
+      "rmsDbfs": -44.51,
+      "clippedSamples": 0,
+      "busScales": {
+        "sfx": 1,
+        "cave": 0.6457419081177456,
+        "weather": 1
+      },
+      "userGain": 0.81,
+      "layers": [
+        {
+          "id": "caveEerie",
+          "bus": "cave",
+          "gain": 0.08,
+          "delay": 0
+        },
+        {
+          "id": "miningMars",
+          "bus": "cave",
+          "gain": 0.045,
+          "delay": 0
+        },
+        {
+          "id": "evilSpell",
+          "bus": "cave",
+          "gain": 0.055,
+          "delay": 0
+        },
+        {
+          "id": "panicTimber",
+          "bus": "cave",
+          "gain": 0.08,
+          "delay": 0
+        }
+      ],
+      "render": "testing/audio-review-2026-09-03/renders/approved-cave-composite.wav"
+    },
+    {
+      "case": "reference-rain",
+      "durationSeconds": 10.0,
+      "samplePeak": 0.0705537,
+      "truePeak4x": 0.0705537,
+      "truePeakDbfs": -23.03,
+      "rmsDbfs": -44.58,
+      "clippedSamples": 0,
+      "busScales": {
+        "sfx": 1,
+        "cave": 1,
+        "weather": 1
+      },
+      "userGain": 0.81,
+      "layers": [
+        {
+          "id": "rainReference",
+          "bus": "weather",
+          "gain": 0.24,
+          "delay": 0
+        },
+        {
+          "id": "windReference",
+          "bus": "weather",
+          "gain": 0.06,
+          "delay": 0
+        }
+      ],
+      "render": "testing/audio-review-2026-09-03/renders/reference-rain.wav"
+    },
+    {
+      "case": "heavy-rain",
+      "durationSeconds": 11.0,
+      "samplePeak": 0.1134,
+      "truePeak4x": 0.1145854,
+      "truePeakDbfs": -18.82,
+      "rmsDbfs": -43.99,
+      "clippedSamples": 0,
+      "busScales": {
+        "sfx": 1,
+        "cave": 1,
+        "weather": 0.7644523539781337
+      },
+      "userGain": 0.81,
+      "layers": [
+        {
+          "id": "libTownHeavyRain",
+          "bus": "weather",
+          "gain": 0.28,
+          "delay": 0
+        }
+      ],
+      "render": "testing/audio-review-2026-09-03/renders/heavy-rain.wav"
+    },
+    {
+      "case": "sheltered-rain",
+      "durationSeconds": 9.24,
+      "samplePeak": 0.0376037,
+      "truePeak4x": 0.0376037,
+      "truePeakDbfs": -28.5,
+      "rmsDbfs": -47.95,
+      "clippedSamples": 0,
+      "busScales": {
+        "sfx": 1,
+        "cave": 1,
+        "weather": 1
+      },
+      "userGain": 0.81,
+      "layers": [
+        {
+          "id": "libWoodRainInside",
+          "bus": "weather",
+          "gain": 0.055,
+          "delay": 0
+        }
+      ],
+      "render": "testing/audio-review-2026-09-03/renders/sheltered-rain.wav"
+    },
+    {
+      "case": "danger-and-contact",
+      "durationSeconds": 12.0,
+      "samplePeak": 0.1645235,
+      "truePeak4x": 0.1752294,
+      "truePeakDbfs": -15.13,
+      "rmsDbfs": -36.6,
+      "clippedSamples": 0,
+      "busScales": {
+        "sfx": 0.8526320690582319,
+        "cave": 1,
+        "weather": 1
+      },
+      "userGain": 0.81,
+      "layers": [
+        {
+          "id": "libPressureRumble",
+          "bus": "sfx",
+          "gain": 0.24,
+          "delay": 0
+        },
+        {
+          "id": "libStoneBreak",
+          "bus": "sfx",
+          "gain": 0.32,
+          "delay": 0
+        },
+        {
+          "id": "digOne",
+          "bus": "sfx",
+          "gain": 0.36,
+          "delay": 0
+        },
+        {
+          "id": "libDeepCaveBedB",
+          "bus": "cave",
+          "gain": 0.125,
+          "delay": 0
+        }
+      ],
+      "render": "testing/audio-review-2026-09-03/renders/danger-and-contact.wav"
+    },
+    {
+      "case": "max-approved-overlap",
+      "durationSeconds": 11.96,
+      "samplePeak": 0.1887744,
+      "truePeak4x": 0.1889957,
+      "truePeakDbfs": -14.47,
+      "rmsDbfs": -29.61,
+      "clippedSamples": 0,
+      "busScales": {
+        "sfx": 0.5705063892528079,
+        "cave": 0.6457419081177456,
+        "weather": 1
+      },
+      "userGain": 1,
+      "layers": [
+        {
+          "id": "starDestruction",
+          "bus": "sfx",
+          "gain": 0.18,
+          "delay": 0
+        },
+        {
+          "id": "digOne",
+          "bus": "sfx",
+          "gain": 0.36,
+          "delay": 0
+        },
+        {
+          "id": "libToolContact",
+          "bus": "sfx",
+          "gain": 0.16,
+          "delay": 0
+        },
+        {
+          "id": "libStoneBreak",
+          "bus": "sfx",
+          "gain": 0.32,
+          "delay": 0
+        },
+        {
+          "id": "libUiClick",
+          "bus": "sfx",
+          "gain": 0.2,
+          "delay": 0
+        },
+        {
+          "id": "caveEerie",
+          "bus": "cave",
+          "gain": 0.08,
+          "delay": 0
+        },
+        {
+          "id": "miningMars",
+          "bus": "cave",
+          "gain": 0.045,
+          "delay": 0
+        },
+        {
+          "id": "evilSpell",
+          "bus": "cave",
+          "gain": 0.055,
+          "delay": 0
+        },
+        {
+          "id": "panicTimber",
+          "bus": "cave",
+          "gain": 0.08,
+          "delay": 0
+        },
+        {
+          "id": "rainReference",
+          "bus": "weather",
+          "gain": 0.24,
+          "delay": 0
+        },
+        {
+          "id": "windReference",
+          "bus": "weather",
+          "gain": 0.06,
+          "delay": 0
+        }
+      ],
+      "render": "testing/audio-review-2026-09-03/renders/max-approved-overlap.wav"
+    }
+  ]
+}

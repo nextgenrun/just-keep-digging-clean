@@ -63,9 +63,9 @@ export class GraveborerWurmHudSystem {
     );
   }
 
-  update(snapshot, timeMs = 0) {
+  update(snapshot, timeMs = 0, { noticeVisible = false } = {}) {
     if (!this.ready) return;
-    const active = snapshot?.active === true;
+    const active = snapshot?.active === true && !noticeVisible;
     this.root.setVisible(active);
     if (!active) return;
 

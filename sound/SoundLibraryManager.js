@@ -114,6 +114,12 @@ export class SoundLibraryManager {
     return randomSound.key;
   }
 
+  getSoundEntry(libraryName, key) {
+    return this.libraries[libraryName]
+      ?.find(entry => entry.key === key)
+      ?? null;
+  }
+
   /**
    * Check if a sound exists in the cache
    * @param {string} key - Sound key

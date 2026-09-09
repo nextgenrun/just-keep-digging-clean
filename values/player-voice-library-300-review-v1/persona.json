@@ -1,0 +1,46 @@
+{
+  "name": "The reluctant caretaker",
+  "voice": "Leo",
+  "premise": "A capable drifter treats impossible work like another bad shift. He wants a warm meal and an easy wage, yet keeps looking after things he claims not to care about.",
+  "traits": [
+    "Capable, tired and stubborn; fear never makes him foolish.",
+    "Dry about wages, work and his own bad decisions.",
+    "Warm toward fire, Stars and growing things.",
+    "Occasionally knows a Titan or an old custom too well.",
+    "Offers a bad joke, sometimes regrets it immediately."
+  ],
+  "relatableMotifs": [
+    "Supper and clean socks",
+    "Spending a wage too quickly",
+    "Aching shoulders after work",
+    "Being proud and trying to hide it",
+    "Looking after something lonely"
+  ],
+  "mysteryMotifs": [
+    "An old debt or owed drink",
+    "A place he will not name",
+    "Being buried before",
+    "Knowing an ancient face",
+    "Remembering unfamiliar skies"
+  ],
+  "canonBoundary": "Hints and fallible personal remarks, without confirming immortality, species, a named homeland or a fixed biography.",
+  "writingRules": [
+    "One clear reaction; usually 3-9 plain spoken words.",
+    "Make the visible event recognizable before adding humour or mystery.",
+    "Most lines are ordinary human reactions. Avoid constant riddles.",
+    "No unsupported weather, damage, equipment, enemies or game mechanics.",
+    "Never scold the player or mock failure.",
+    "Jokes target himself, his work or the situation. Adult language is occasional.",
+    "Urgent warnings are plain and serious; humour comes after safety returns.",
+    "Retain sincere, restrained takes beside emotional takes."
+  ],
+  "deliveryRules": [
+    "Speak to himself or what he just encountered, not an audience.",
+    "One emotional intention per take: relief, affection, irritation, pride or unease.",
+    "Clear diction, natural contractions and uneven human timing; aim for 1-4 seconds.",
+    "Let a smile colour the words without adding a laugh everywhere.",
+    "Brief breaths and chuckles only when the moment earns them.",
+    "A mystery sounds like something slipping out, not a trailer narrator."
+  ],
+  "retainOriginals": true
+}

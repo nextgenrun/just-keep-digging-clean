@@ -50,23 +50,45 @@ export class CelestialTalentTreeConnectorLayer {
             .setTint(presentation.branchAccents[branchIndex])
             .setAlpha(presentation.connectorLockedAlpha);
           this.root.add(image);
-          this.items.push({ image, sourceId, destinationId: node.id, branchIndex });
+          this.items.push({
+            image, sourceId, destinationId: node.id, branchIndex, branchId: branch.id, length,
+            state: "locked",
+          });
         });
       });
     });
   }
 
-  refresh(nodesById) {
-    const presentation = CELESTIAL_TALENT_TREE_UI_CONFIG.presentation;
+  refresh(nodesById, selectedNodeId = null) {
+    const { layout, presentation } = CELESTIAL_TALENT_TREE_UI_CONFIG;
     this.items.forEach(item => {
+      const source = nodesById.get(item.sourceId)?.snapshot;
       const destination = nodesById.get(item.destinationId)?.snapshot;
-      const alpha = destination?.purchased
-        ? presentation.connectorOwnedAlpha
-        : destination?.available
-          ? presentation.connectorReadyAlpha
-          : presentation.connectorLockedAlpha;
-      item.image.setAlpha(alpha);
+      const selected = item.sourceId === selectedNodeId
+        || item.destinationId === selectedNodeId;
+      const owned = source?.purchased === true && destination?.purchased === true;
+      const ready = source?.purchased === true && (
+        destination?.available === true
+        || destination?.reason === "insufficient-talent-points"
+      );
+      item.state = selected ? "selected" : owned ? "owned" : ready ? "ready" : "locked";
+      const alpha = presentation[`connector${item.state[0].toUpperCase()}${item.state.slice(1)}Alpha`];
+      const thicknessScale = presentation.connectorThicknessScaleByState[item.state];
+      item.image
+        .setAlpha(alpha)
+        .setDisplaySize(item.length, layout.connectorThicknessPx * thicknessScale);
     });
+  }
+
+  setBranch(branchId) {
+    this.items.forEach(item => item.image.setVisible(item.branchId === branchId));
+  }
+
+  getStateSnapshot() {
+    return Object.freeze(this.items.reduce((counts, item) => {
+      if (item.image.visible) counts[item.state] += 1;
+      return counts;
+    }, { locked: 0, ready: 0, owned: 0, selected: 0 }));
   }
 
   get count() {

@@ -1,3 +1,5 @@
+import { eventScreenPoint } from "./eventScreenLayout.js";
+import { fitBakedUiImage, fitLiveUiText } from "./bakedUiArt.js";
 import { APPROVED_HUD_SKIN } from "../../values/approvedHudSkin.js";
 import { EARTHQUAKE_FEEDBACK_CONFIG } from "../../values/earthquakeFeedback.js";
 import {
@@ -12,6 +14,8 @@ export class EarthquakeFeedbackUI {
     this.config = config;
     this.escapeActive = false;
     this.escapeExpiresAt = 0;
+    this.aftershockActive = false;
+    this.aftershockExpiresAt = 0;
     this.mode = null;
     this.hiding = false;
     this.modeExpiresAt = 0;
@@ -42,6 +46,7 @@ export class EarthquakeFeedbackUI {
       0,
       this.config.assets.medallion.key,
     ).setDisplaySize(card.iconSize, card.iconSize);
+    fitBakedUiImage(this.iconArt, card.iconSize, card.iconSize);
     this._iconBaseScaleX = this.iconArt.scaleX;
     this._iconBaseScaleY = this.iconArt.scaleY;
     this.title = this.scene.add.text(card.textX, card.titleY, "", {
@@ -70,7 +75,16 @@ export class EarthquakeFeedbackUI {
   beginEvent() {
     this.escapeActive = false;
     this.escapeExpiresAt = 0;
+    this.aftershockActive = false;
+    this.aftershockExpiresAt = 0;
     this.suppressedSourceState = null;
+  }
+
+  activateAftershockWarning() {
+    this.aftershockActive = true;
+    this.aftershockExpiresAt = this._now()
+      + this.config.timing.aftershockVisibleMs;
+    this.update();
   }
 
   activateEscapeObjective() {
@@ -90,6 +104,8 @@ export class EarthquakeFeedbackUI {
   reset() {
     this.escapeActive = false;
     this.escapeExpiresAt = 0;
+    this.aftershockActive = false;
+    this.aftershockExpiresAt = 0;
     this.mode = null;
     this.hiding = false;
     this.modeExpiresAt = 0;
@@ -114,6 +130,10 @@ export class EarthquakeFeedbackUI {
       this.escapeActive = false;
       this.escapeExpiresAt = 0;
     }
+    if (this.aftershockActive && now >= this.aftershockExpiresAt) {
+      this.aftershockActive = false;
+      this.aftershockExpiresAt = 0;
+    }
     if (
       this.mode === sourceState
       && Number.isFinite(this.modeExpiresAt)
@@ -126,6 +146,7 @@ export class EarthquakeFeedbackUI {
 
     const nextMode = resolveEarthquakeFeedbackMode({
       escapeActive: this.escapeActive,
+      aftershockActive: this.aftershockActive,
       state: sourceState,
       suppressedSourceState: this.suppressedSourceState,
       source: this.source,
@@ -153,6 +174,7 @@ export class EarthquakeFeedbackUI {
     this.root.y += this.config.card.enterOffsetY;
     if (!this.scene.tweens?.add) {
       this.root.setAlpha?.(1);
+      this._layout();
       this._restoreIconScale();
       return;
     }
@@ -212,6 +234,8 @@ export class EarthquakeFeedbackUI {
     }
     this.title.setText(presentation.title).setColor(hexColor(presentation.accent));
     this.detail.setText(presentation.detail);
+    fitLiveUiText(this.title, this.config.card.textWidth, this.config.card.titleHeight);
+    fitLiveUiText(this.detail, this.config.card.textWidth, this.config.card.detailHeight);
     const pulse = 1 + Math.sin(now / this.config.timing.iconPulsePeriodMs * Math.PI * 2)
       * this.config.card.iconPulseScale;
     this.iconArt.setScale?.(
@@ -222,12 +246,14 @@ export class EarthquakeFeedbackUI {
 
   _layout() {
     if (!this.root) return;
+    this.root.setScale?.(eventScreenPoint(this.scene, 0, 0).scale);
     this.root.setPosition(this._viewportWidth() / 2, this._modeY(this.mode));
   }
 
   _modeY(mode) {
-    return mode === "escape" ? this._viewportHeight() - this.config.card.bottomMargin
+    const y = mode === "escape" ? this._viewportHeight() - this.config.card.bottomMargin
       : this.config.card.topY;
+    return eventScreenPoint(this.scene, this._viewportWidth() / 2, y).y;
   }
 
   _setVisible(visible) {

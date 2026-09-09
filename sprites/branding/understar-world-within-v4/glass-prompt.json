@@ -1,0 +1,7 @@
+{
+  "tool": "built-in imagegen",
+  "date": "2026-09-07",
+  "prompt": "Create a production game UI asset: ONE extremely understated smoked-glass logo backing plate. Wide 3.5:1 rounded rectangle, front-facing perfectly orthographic, centered with only 3% transparent outer padding. Transparent background with genuine alpha. No text, no logo, no icons, no objects, no decorative corners. The surface is very dark midnight blue-gray smoked frosted glass, mostly even and quiet so detailed gold and cyan lettering will read over it. Barely perceptible fine satin frost, exceptionally subtle soft diagonal reflected-light gradient near upper-left; a hairline cool silver-blue rim and tiny bevel, corners only slightly rounded, no ornate fantasy frame. The glass material should feel premium, tactile, restrained and translucent, not a bright neon panel. Avoid white reflections or conspicuous streaks across the face. Small soft contact shadow only. This backing will be rendered at about 550 x 170 pixels behind a fantasy mining game's intricate stone/bronze logo, over moving landscapes; all visual emphasis belongs to that logo. Deliver only the empty plate with alpha, no mockup scene or background.",
+  "asset": "understar-logo-glass.png",
+  "notes": "Generated RGBA preserved. Tight Phaser texture frame removes outer padding. Alpha 0.76 at existing logo dimensions; logo playbackRate 0.67."
+}

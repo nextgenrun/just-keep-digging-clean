@@ -1,0 +1,32 @@
+import assert from "node:assert/strict";
+import {sampleLayeredEnvironment} from "../world/rendering/scenic-world/WorldVisualLayeredEnvironment.js";
+import {compositeGeneratedMatte} from "../world/rendering/scenic-world/compositeGeneratedMatte.js";
+import {LEVEL_TWO_SCENIC_MOTION as L} from "../values/levelTwoScenicMotion.js";
+import {WORLD_DEPTH_CONFIG as W} from "../values/worldDepthConfig.js";
+import {TIME_CONFIG} from "../values/timeConfig.js";
+import {DayNightCycle} from "../systems/environment/DayNightCycle.js";
+import {GroundEffectsAtmosphere} from "../systems/environment/GroundEffectsAtmosphere.js";
+const clock={currentTime:.475,timeConfig:TIME_CONFIG,getNightAmount(){return this.currentTime>.88||this.currentTime<.20?1:0;}};
+let weather={cloudCoverAmount:0,fogAmount:0,wind:20};
+const scene={dayNightCycle:clock,weatherSystem:{getLightingSnapshot:()=>weather}};
+const day=sampleLayeredEnvironment(scene);assert.equal(day.stars,0);
+clock.currentTime=.95;const night=sampleLayeredEnvironment(scene);assert.equal(night.stars,1);assert.notEqual(day.skyTop,night.skyTop);
+weather={cloudCoverAmount:.85,fogAmount:.55,precipitationAmount:.9,stormAmount:.9,wind:-120,windGustAmount:.8};
+const storm=sampleLayeredEnvironment(scene);assert(storm.stars<night.stars);assert(storm.cloudOpacity>night.cloudOpacity);assert(storm.mistOpacity>night.mistOpacity);assert.equal(storm.wind,-120);
+assert.equal(clock.currentTime,.95);
+for(const boundary of [...TIME_CONFIG.phases.map(p=>p.start),1]){
+ clock.currentTime=(boundary-1e-6+1)%1;const before=sampleLayeredEnvironment(scene);
+ clock.currentTime=(boundary+1e-6)%1;const after=sampleLayeredEnvironment(scene);
+ for(const shift of [0,8,16])assert(Math.abs(((before.skyTop>>shift)&255)-((after.skyTop>>shift)&255))<=1);
+}
+const pixels=new Uint8ClampedArray([255,0,255,255,10,32,65,255,132,16,160,255]);
+let saved;
+compositeGeneratedMatte({getImageData:()=>({data:pixels}),putImageData:data=>{saved=data.data;}},3,1);
+assert.equal(saved[3],0);assert.equal(saved[7],255);assert(saved[11]>0&&saved[11]<150);assert(saved[8]<35&&saved[9]>=15&&saved[10]>35);
+globalThis.location={search:"?layeredSky=1"};
+const starOwner={scene:{add:{container(){throw Error("Legacy star sprites created");}}}};
+DayNightCycle.prototype._createStars.call(starOwner);
+const ground=new GroundEffectsAtmosphere({});ground.update(16,"night",1,200);
+assert.deepEqual([ground.fireflies.length,ground.mistParticles.length,ground.windParticles.length],[0,0,0]);ground.destroy();
+assert(L.placements.every(p=>p.tileX>=W.levelTwoLeftTile&&p.tileX<=W.levelTwoRightTile));
+console.log(JSON.stringify({passed:true,clockWeather:true,phaseBoundaryContinuity:true,magentaComposition:true,whiteFlecksDisabled:true,levelTwoScope:true}));

@@ -32,7 +32,6 @@ class ActiveHudAlignmentHarnessScene extends Phaser.Scene {
     this.config = { topAirRows: 65 };
     this.playerController = { getPlayerTile: () => ({ tx: 12, ty: 65 }) };
     this.retentionProgressSystem = {
-      getChestCritBuffRemaining: () => 0,
       getObjective: () => ({ complete: true, label: "RETURN", progress: 1, target: 1 }),
       getBestDepth: () => 80,
     };

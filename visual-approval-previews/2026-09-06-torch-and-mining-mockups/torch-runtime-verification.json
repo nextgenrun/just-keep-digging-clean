@@ -1,0 +1,905 @@
+{
+  "samples": [
+    {
+      "viewport": {
+        "w": 1280,
+        "h": 720
+      },
+      "logical": {
+        "w": 1280,
+        "h": 720
+      },
+      "active": false,
+      "intensity": 0.01,
+      "percent": 1,
+      "overdriveActive": false,
+      "drainGpPerSecond": 0.1,
+      "approvedSkinActive": true,
+      "integratedIntoPlayerCore": true,
+      "titleText": "TORCH",
+      "displayText": "1%",
+      "statusText": "OFF",
+      "tooltipVisible": false,
+      "visible": true,
+      "title": {
+        "x": 277.5,
+        "y": 33.5,
+        "w": 23,
+        "h": 9,
+        "cx": 289,
+        "cy": 38
+      },
+      "value": {
+        "x": 278.5,
+        "y": 51.5,
+        "w": 21,
+        "h": 21,
+        "cx": 289,
+        "cy": 62
+      },
+      "status": {
+        "x": 281.5,
+        "y": 78.5,
+        "w": 15,
+        "h": 11,
+        "cx": 289,
+        "cy": 84
+      },
+      "icon": {
+        "x": 315,
+        "y": 50,
+        "w": 22,
+        "h": 22,
+        "cx": 326,
+        "cy": 61
+      },
+      "core": {
+        "x": 12,
+        "y": 14,
+        "w": 335.8333333333333,
+        "h": 92,
+        "cx": 179.91666666666666,
+        "cy": 60
+      },
+      "hit": {
+        "x": 266,
+        "y": 26,
+        "w": 76,
+        "h": 72,
+        "cx": 304,
+        "cy": 62
+      },
+      "tooltip": {
+        "visible": false,
+        "frame": {
+          "x": 135,
+          "y": 106,
+          "w": 338,
+          "h": 118,
+          "cx": 304,
+          "cy": 165
+        },
+        "title": {
+          "x": 257,
+          "y": 124,
+          "w": 94,
+          "h": 20,
+          "cx": 304,
+          "cy": 134
+        },
+        "body": {
+          "x": 205,
+          "y": 148,
+          "w": 198,
+          "h": 58,
+          "cx": 304,
+          "cy": 177
+        },
+        "text": "Scroll mouse wheel to adjust brightness.\nUp +1% / Down -1%  |  Click +10%\n[T] Toggle torch  |  0.1 GP/s while on"
+      },
+      "legacyVisible": false,
+      "saveBlocked": true
+    },
+    {
+      "viewport": {
+        "w": 1280,
+        "h": 720
+      },
+      "logical": {
+        "w": 1280,
+        "h": 720
+      },
+      "active": false,
+      "intensity": 1,
+      "percent": 100,
+      "overdriveActive": false,
+      "drainGpPerSecond": 8,
+      "approvedSkinActive": true,
+      "integratedIntoPlayerCore": true,
+      "titleText": "TORCH",
+      "displayText": "100%",
+      "statusText": "OFF",
+      "tooltipVisible": false,
+      "visible": true,
+      "title": {
+        "x": 277.5,
+        "y": 33.5,
+        "w": 23,
+        "h": 9,
+        "cx": 289,
+        "cy": 38
+      },
+      "value": {
+        "x": 271,
+        "y": 52.30769230769231,
+        "w": 36,
+        "h": 19.384615384615387,
+        "cx": 289,
+        "cy": 62
+      },
+      "status": {
+        "x": 281.5,
+        "y": 78.5,
+        "w": 15,
+        "h": 11,
+        "cx": 289,
+        "cy": 84
+      },
+      "icon": {
+        "x": 315,
+        "y": 50,
+        "w": 22,
+        "h": 22,
+        "cx": 326,
+        "cy": 61
+      },
+      "core": {
+        "x": 12,
+        "y": 14,
+        "w": 335.8333333333333,
+        "h": 92,
+        "cx": 179.91666666666666,
+        "cy": 60
+      },
+      "hit": {
+        "x": 266,
+        "y": 26,
+        "w": 76,
+        "h": 72,
+        "cx": 304,
+        "cy": 62
+      },
+      "tooltip": {
+        "visible": false,
+        "frame": {
+          "x": 135,
+          "y": 106,
+          "w": 338,
+          "h": 118,
+          "cx": 304,
+          "cy": 165
+        },
+        "title": {
+          "x": 250,
+          "y": 124,
+          "w": 108,
+          "h": 20,
+          "cx": 304,
+          "cy": 134
+        },
+        "body": {
+          "x": 205,
+          "y": 148,
+          "w": 198,
+          "h": 58,
+          "cx": 304,
+          "cy": 177
+        },
+        "text": "Scroll mouse wheel to adjust brightness.\nUp +1% / Down -1%  |  Click +10%\n[T] Toggle torch  |  8 GP/s while on"
+      },
+      "legacyVisible": false,
+      "saveBlocked": true
+    },
+    {
+      "viewport": {
+        "w": 1280,
+        "h": 720
+      },
+      "logical": {
+        "w": 1280,
+        "h": 720
+      },
+      "active": false,
+      "intensity": 2,
+      "percent": 200,
+      "overdriveActive": true,
+      "drainGpPerSecond": 128,
+      "approvedSkinActive": true,
+      "integratedIntoPlayerCore": true,
+      "titleText": "BOOST",
+      "displayText": "200%",
+      "statusText": "OFF",
+      "tooltipVisible": false,
+      "visible": true,
+      "title": {
+        "x": 277.5,
+        "y": 33.5,
+        "w": 23,
+        "h": 9,
+        "cx": 289,
+        "cy": 38
+      },
+      "value": {
+        "x": 271,
+        "y": 53,
+        "w": 36,
+        "h": 18,
+        "cx": 289,
+        "cy": 62
+      },
+      "status": {
+        "x": 281.5,
+        "y": 78.5,
+        "w": 15,
+        "h": 11,
+        "cx": 289,
+        "cy": 84
+      },
+      "icon": {
+        "x": 315,
+        "y": 50,
+        "w": 22,
+        "h": 22,
+        "cx": 326,
+        "cy": 61
+      },
+      "core": {
+        "x": 12,
+        "y": 14,
+        "w": 335.8333333333333,
+        "h": 92,
+        "cx": 179.91666666666666,
+        "cy": 60
+      },
+      "hit": {
+        "x": 266,
+        "y": 26,
+        "w": 76,
+        "h": 72,
+        "cx": 304,
+        "cy": 62
+      },
+      "tooltip": {
+        "visible": false,
+        "frame": {
+          "x": 135,
+          "y": 106,
+          "w": 338,
+          "h": 118,
+          "cx": 304,
+          "cy": 165
+        },
+        "title": {
+          "x": 248.5,
+          "y": 124,
+          "w": 111,
+          "h": 20,
+          "cx": 304,
+          "cy": 134
+        },
+        "body": {
+          "x": 205,
+          "y": 148,
+          "w": 198,
+          "h": 58,
+          "cx": 304,
+          "cy": 177
+        },
+        "text": "Scroll mouse wheel to adjust brightness.\nUp +1% / Down -1%  |  Click +10%\n[T] Toggle torch  |  128 GP/s while on"
+      },
+      "legacyVisible": false,
+      "saveBlocked": true
+    },
+    {
+      "viewport": {
+        "w": 800,
+        "h": 450
+      },
+      "logical": {
+        "w": 1280,
+        "h": 720
+      },
+      "active": false,
+      "intensity": 1.1,
+      "percent": 110,
+      "overdriveActive": true,
+      "drainGpPerSecond": 9.200000000000003,
+      "approvedSkinActive": true,
+      "integratedIntoPlayerCore": true,
+      "titleText": "BOOST",
+      "displayText": "110%",
+      "statusText": "OFF",
+      "tooltipVisible": false,
+      "visible": true,
+      "title": {
+        "x": 277.5,
+        "y": 33.5,
+        "w": 23,
+        "h": 9,
+        "cx": 289,
+        "cy": 38
+      },
+      "value": {
+        "x": 271,
+        "y": 51.5,
+        "w": 36,
+        "h": 21,
+        "cx": 289,
+        "cy": 62
+      },
+      "status": {
+        "x": 281.5,
+        "y": 78.5,
+        "w": 15,
+        "h": 11,
+        "cx": 289,
+        "cy": 84
+      },
+      "icon": {
+        "x": 315,
+        "y": 50,
+        "w": 22,
+        "h": 22,
+        "cx": 326,
+        "cy": 61
+      },
+      "core": {
+        "x": 12,
+        "y": 14,
+        "w": 335.8333333333333,
+        "h": 92,
+        "cx": 179.91666666666666,
+        "cy": 60
+      },
+      "hit": {
+        "x": 266,
+        "y": 26,
+        "w": 76,
+        "h": 72,
+        "cx": 304,
+        "cy": 62
+      },
+      "tooltip": {
+        "visible": false,
+        "frame": {
+          "x": 135,
+          "y": 106,
+          "w": 338,
+          "h": 118,
+          "cx": 304,
+          "cy": 165
+        },
+        "title": {
+          "x": 251.5,
+          "y": 124,
+          "w": 105,
+          "h": 20,
+          "cx": 304,
+          "cy": 134
+        },
+        "body": {
+          "x": 205,
+          "y": 148,
+          "w": 198,
+          "h": 58,
+          "cx": 304,
+          "cy": 177
+        },
+        "text": "Scroll mouse wheel to adjust brightness.\nUp +1% / Down -1%  |  Click +10%\n[T] Toggle torch  |  9.2 GP/s while on"
+      },
+      "legacyVisible": false,
+      "saveBlocked": true
+    },
+    {
+      "viewport": {
+        "w": 1600,
+        "h": 1000
+      },
+      "logical": {
+        "w": 1280,
+        "h": 720
+      },
+      "active": false,
+      "intensity": 1.1,
+      "percent": 110,
+      "overdriveActive": true,
+      "drainGpPerSecond": 9.200000000000003,
+      "approvedSkinActive": true,
+      "integratedIntoPlayerCore": true,
+      "titleText": "BOOST",
+      "displayText": "110%",
+      "statusText": "OFF",
+      "tooltipVisible": false,
+      "visible": true,
+      "title": {
+        "x": 277.5,
+        "y": 33.5,
+        "w": 23,
+        "h": 9,
+        "cx": 289,
+        "cy": 38
+      },
+      "value": {
+        "x": 271,
+        "y": 51.5,
+        "w": 36,
+        "h": 21,
+        "cx": 289,
+        "cy": 62
+      },
+      "status": {
+        "x": 281.5,
+        "y": 78.5,
+        "w": 15,
+        "h": 11,
+        "cx": 289,
+        "cy": 84
+      },
+      "icon": {
+        "x": 315,
+        "y": 50,
+        "w": 22,
+        "h": 22,
+        "cx": 326,
+        "cy": 61
+      },
+      "core": {
+        "x": 12,
+        "y": 14,
+        "w": 335.8333333333333,
+        "h": 92,
+        "cx": 179.91666666666666,
+        "cy": 60
+      },
+      "hit": {
+        "x": 266,
+        "y": 26,
+        "w": 76,
+        "h": 72,
+        "cx": 304,
+        "cy": 62
+      },
+      "tooltip": {
+        "visible": false,
+        "frame": {
+          "x": 135,
+          "y": 106,
+          "w": 338,
+          "h": 118,
+          "cx": 304,
+          "cy": 165
+        },
+        "title": {
+          "x": 251.5,
+          "y": 124,
+          "w": 105,
+          "h": 20,
+          "cx": 304,
+          "cy": 134
+        },
+        "body": {
+          "x": 205,
+          "y": 148,
+          "w": 198,
+          "h": 58,
+          "cx": 304,
+          "cy": 177
+        },
+        "text": "Scroll mouse wheel to adjust brightness.\nUp +1% / Down -1%  |  Click +10%\n[T] Toggle torch  |  9.2 GP/s while on"
+      },
+      "legacyVisible": false,
+      "saveBlocked": true
+    },
+    {
+      "viewport": {
+        "w": 1920,
+        "h": 1080
+      },
+      "logical": {
+        "w": 1280,
+        "h": 720
+      },
+      "active": false,
+      "intensity": 1.1,
+      "percent": 110,
+      "overdriveActive": true,
+      "drainGpPerSecond": 9.200000000000003,
+      "approvedSkinActive": true,
+      "integratedIntoPlayerCore": true,
+      "titleText": "BOOST",
+      "displayText": "110%",
+      "statusText": "OFF",
+      "tooltipVisible": false,
+      "visible": true,
+      "title": {
+        "x": 277.5,
+        "y": 33.5,
+        "w": 23,
+        "h": 9,
+        "cx": 289,
+        "cy": 38
+      },
+      "value": {
+        "x": 271,
+        "y": 51.5,
+        "w": 36,
+        "h": 21,
+        "cx": 289,
+        "cy": 62
+      },
+      "status": {
+        "x": 281.5,
+        "y": 78.5,
+        "w": 15,
+        "h": 11,
+        "cx": 289,
+        "cy": 84
+      },
+      "icon": {
+        "x": 315,
+        "y": 50,
+        "w": 22,
+        "h": 22,
+        "cx": 326,
+        "cy": 61
+      },
+      "core": {
+        "x": 12,
+        "y": 14,
+        "w": 335.8333333333333,
+        "h": 92,
+        "cx": 179.91666666666666,
+        "cy": 60
+      },
+      "hit": {
+        "x": 266,
+        "y": 26,
+        "w": 76,
+        "h": 72,
+        "cx": 304,
+        "cy": 62
+      },
+      "tooltip": {
+        "visible": false,
+        "frame": {
+          "x": 135,
+          "y": 106,
+          "w": 338,
+          "h": 118,
+          "cx": 304,
+          "cy": 165
+        },
+        "title": {
+          "x": 251.5,
+          "y": 124,
+          "w": 105,
+          "h": 20,
+          "cx": 304,
+          "cy": 134
+        },
+        "body": {
+          "x": 205,
+          "y": 148,
+          "w": 198,
+          "h": 58,
+          "cx": 304,
+          "cy": 177
+        },
+        "text": "Scroll mouse wheel to adjust brightness.\nUp +1% / Down -1%  |  Click +10%\n[T] Toggle torch  |  9.2 GP/s while on"
+      },
+      "legacyVisible": false,
+      "saveBlocked": true
+    }
+  ],
+  "hover": {
+    "viewport": {
+      "w": 1280,
+      "h": 720
+    },
+    "logical": {
+      "w": 1280,
+      "h": 720
+    },
+    "active": false,
+    "intensity": 1,
+    "percent": 100,
+    "overdriveActive": false,
+    "drainGpPerSecond": 8,
+    "approvedSkinActive": true,
+    "integratedIntoPlayerCore": true,
+    "titleText": "TORCH",
+    "displayText": "100%",
+    "statusText": "OFF",
+    "tooltipVisible": true,
+    "visible": true,
+    "title": {
+      "x": 277.5,
+      "y": 33.5,
+      "w": 23,
+      "h": 9,
+      "cx": 289,
+      "cy": 38
+    },
+    "value": {
+      "x": 271,
+      "y": 52.30769230769231,
+      "w": 36,
+      "h": 19.384615384615387,
+      "cx": 289,
+      "cy": 62
+    },
+    "status": {
+      "x": 281.5,
+      "y": 78.5,
+      "w": 15,
+      "h": 11,
+      "cx": 289,
+      "cy": 84
+    },
+    "icon": {
+      "x": 315,
+      "y": 50,
+      "w": 22,
+      "h": 22,
+      "cx": 326,
+      "cy": 61
+    },
+    "core": {
+      "x": 12,
+      "y": 14,
+      "w": 335.8333333333333,
+      "h": 92,
+      "cx": 179.91666666666666,
+      "cy": 60
+    },
+    "hit": {
+      "x": 266,
+      "y": 26,
+      "w": 76,
+      "h": 72,
+      "cx": 304,
+      "cy": 62
+    },
+    "tooltip": {
+      "visible": true,
+      "frame": {
+        "x": 135,
+        "y": 106,
+        "w": 338,
+        "h": 118,
+        "cx": 304,
+        "cy": 165
+      },
+      "title": {
+        "x": 250,
+        "y": 124,
+        "w": 108,
+        "h": 20,
+        "cx": 304,
+        "cy": 134
+      },
+      "body": {
+        "x": 205,
+        "y": 148,
+        "w": 198,
+        "h": 58,
+        "cx": 304,
+        "cy": 177
+      },
+      "text": "Scroll mouse wheel to adjust brightness.\nUp +1% / Down -1%  |  Click +10%\n[T] Toggle torch  |  8 GP/s while on"
+    },
+    "legacyVisible": false,
+    "saveBlocked": true
+  },
+  "toggleA": {
+    "viewport": {
+      "w": 1280,
+      "h": 720
+    },
+    "logical": {
+      "w": 1280,
+      "h": 720
+    },
+    "active": true,
+    "intensity": 1.1,
+    "percent": 110,
+    "overdriveActive": true,
+    "drainGpPerSecond": 9.200000000000003,
+    "approvedSkinActive": true,
+    "integratedIntoPlayerCore": true,
+    "titleText": "BOOST",
+    "displayText": "110%",
+    "statusText": "ON",
+    "tooltipVisible": false,
+    "visible": true,
+    "title": {
+      "x": 277.5,
+      "y": 33.5,
+      "w": 23,
+      "h": 9,
+      "cx": 289,
+      "cy": 38
+    },
+    "value": {
+      "x": 271,
+      "y": 51.5,
+      "w": 36,
+      "h": 21,
+      "cx": 289,
+      "cy": 62
+    },
+    "status": {
+      "x": 283.5,
+      "y": 78.5,
+      "w": 11,
+      "h": 11,
+      "cx": 289,
+      "cy": 84
+    },
+    "icon": {
+      "x": 315,
+      "y": 50,
+      "w": 22,
+      "h": 22,
+      "cx": 326,
+      "cy": 61
+    },
+    "core": {
+      "x": 12,
+      "y": 14,
+      "w": 335.8333333333333,
+      "h": 92,
+      "cx": 179.91666666666666,
+      "cy": 60
+    },
+    "hit": {
+      "x": 266,
+      "y": 26,
+      "w": 76,
+      "h": 72,
+      "cx": 304,
+      "cy": 62
+    },
+    "tooltip": {
+      "visible": false,
+      "frame": {
+        "x": 135,
+        "y": 106,
+        "w": 338,
+        "h": 118,
+        "cx": 304,
+        "cy": 165
+      },
+      "title": {
+        "x": 230,
+        "y": 124,
+        "w": 148,
+        "h": 20,
+        "cx": 304,
+        "cy": 134
+      },
+      "body": {
+        "x": 205,
+        "y": 148,
+        "w": 198,
+        "h": 58,
+        "cx": 304,
+        "cy": 177
+      },
+      "text": "Scroll mouse wheel to adjust brightness.\nUp +1% / Down -1%  |  Click +10%\n[T] Toggle torch  |  9.2 GP/s while on"
+    },
+    "legacyVisible": false,
+    "saveBlocked": true
+  },
+  "toggleB": {
+    "viewport": {
+      "w": 1280,
+      "h": 720
+    },
+    "logical": {
+      "w": 1280,
+      "h": 720
+    },
+    "active": false,
+    "intensity": 1.1,
+    "percent": 110,
+    "overdriveActive": true,
+    "drainGpPerSecond": 9.200000000000003,
+    "approvedSkinActive": true,
+    "integratedIntoPlayerCore": true,
+    "titleText": "BOOST",
+    "displayText": "110%",
+    "statusText": "OFF",
+    "tooltipVisible": false,
+    "visible": true,
+    "title": {
+      "x": 277.5,
+      "y": 33.5,
+      "w": 23,
+      "h": 9,
+      "cx": 289,
+      "cy": 38
+    },
+    "value": {
+      "x": 271,
+      "y": 51.5,
+      "w": 36,
+      "h": 21,
+      "cx": 289,
+      "cy": 62
+    },
+    "status": {
+      "x": 281.5,
+      "y": 78.5,
+      "w": 15,
+      "h": 11,
+      "cx": 289,
+      "cy": 84
+    },
+    "icon": {
+      "x": 315,
+      "y": 50,
+      "w": 22,
+      "h": 22,
+      "cx": 326,
+      "cy": 61
+    },
+    "core": {
+      "x": 12,
+      "y": 14,
+      "w": 335.8333333333333,
+      "h": 92,
+      "cx": 179.91666666666666,
+      "cy": 60
+    },
+    "hit": {
+      "x": 266,
+      "y": 26,
+      "w": 76,
+      "h": 72,
+      "cx": 304,
+      "cy": 62
+    },
+    "tooltip": {
+      "visible": false,
+      "frame": {
+        "x": 135,
+        "y": 106,
+        "w": 338,
+        "h": 118,
+        "cx": 304,
+        "cy": 165
+      },
+      "title": {
+        "x": 251.5,
+        "y": 124,
+        "w": 105,
+        "h": 20,
+        "cx": 304,
+        "cy": 134
+      },
+      "body": {
+        "x": 205,
+        "y": 148,
+        "w": 198,
+        "h": 58,
+        "cx": 304,
+        "cy": 177
+      },
+      "text": "Scroll mouse wheel to adjust brightness.\nUp +1% / Down -1%  |  Click +10%\n[T] Toggle torch  |  9.2 GP/s while on"
+    },
+    "legacyVisible": false,
+    "saveBlocked": true
+  },
+  "errors": []
+}

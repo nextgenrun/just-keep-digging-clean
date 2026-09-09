@@ -1,0 +1,10 @@
+{
+  "id": "A1",
+  "voice": "leo",
+  "text": "Gold. Someone died for less.",
+  "model": "x-ai/grok-voice-tts-1.0",
+  "requestSha256": "f78cb5ca3a9b16ab40ceb70dc2f357b8f5c6ef3f8c9fc52b351c5570185dc572",
+  "contentType": "audio/mpeg",
+  "generationId": "gen-tts-1788736667-xoMa8KII2PilVZuRn4gd",
+  "rawSha256": "f90393fa2647ec3482bcaa69d3f292a0611e128afc39a7beef70d505fa3d9213"
+}

@@ -15,6 +15,7 @@ import {
 } from "../values/hardcoreMode.js";
 import { APPROVED_HUD_SKIN } from "../values/approvedHudSkin.js";
 import { sanitizePlayerPersistenceData } from "../values/playerPersistence.js";
+import { PORTABLE_SAVE_FILE } from "../values/saveTransfer.js";
 import { UI_NOTIFICATION_CAROUSEL_CONFIG } from "../values/uiNotificationCarousel.js";
 import { SceneModeController } from "../systems/runtime/SceneModeController.js";
 import { SCENE_BASE_PHASES } from "../values/sceneRuntime.js";
@@ -53,19 +54,22 @@ globalThis.window = { localStorage: storage };
 const selectedHardcore = createHardcoreModeData("hardcore", 1000);
 assert.equal(selectedHardcore.mode, "hardcore");
 assert.equal(selectedHardcore.armed, false, "Hardcore must remain pending before Flight");
-assert.equal(selectedHardcore.livesRemaining, 2);
-assert.equal(selectedHardcore.freeReviveAvailable, true);
+assert.equal(selectedHardcore.livesRemaining, 1);
+assert.equal(selectedHardcore.freeReviveAvailable, false);
 assert.equal(isHardcoreModeArmed(selectedHardcore), false);
+
+const migratedHardcore = sanitizeHardcoreModeData({
+  mode: "hardcore",
+  armed: true,
+  livesRemaining: 3,
+  freeReviveAvailable: true,
+});
+assert.equal(migratedHardcore.livesRemaining, 1);
+assert.equal(migratedHardcore.freeReviveAvailable, false);
 
 const armedLivesSystem = new HardcoreModeSystem(selectedHardcore);
 assert.equal(armedLivesSystem.arm("flight", 2000), true);
-const freeRevive = armedLivesSystem.recordDeath("contract-free-revive");
-assert.equal(freeRevive.outcome, "free-revive");
-assert.equal(freeRevive.livesRemaining, 2);
-const firstLife = armedLivesSystem.recordDeath("contract-first-life");
-assert.equal(firstLife.outcome, "life-lost");
-assert.equal(firstLife.livesRemaining, 1);
-const exhaustion = armedLivesSystem.recordDeath("contract-exhaustion");
+const exhaustion = armedLivesSystem.recordDeath("contract-only-life");
 assert.equal(exhaustion.outcome, "exhausted");
 assert.equal(exhaustion.livesRemaining, 0);
 assert.equal(isHardcoreModeExhausted(exhaustion.data), true);
@@ -166,6 +170,7 @@ const retryModeSystem = new HardcoreModeSystem({
 });
 let retryFlushes = 0;
 let retryRestart = null;
+let retryStart = null;
 const retryModal = {
   deathOptions: null,
   error: null,
@@ -222,7 +227,7 @@ const retryScene = {
   },
   scene: {
     restart(payload) { retryRestart = payload; },
-    start() {},
+    start(key) { retryStart = key; },
   },
 };
 Object.defineProperty(retryScene, "gameState", { get: () => retryModeController.legacyGameState });
@@ -241,9 +246,11 @@ assert.match(retryModal.error, /RETRY SAVE/);
 assert.equal(retryModal.ready, null);
 assert.equal(retryRestart, null);
 assert.equal(await retryModal.deathOptions.onRetry(), true);
-assert.match(retryModal.ready.detail, /SAVE INTACT/);
-assert.ok(retryRestart, "Retry Save must continue on the same successful click");
-assert.equal(retryRestart.hardcoreModeData.freeReviveAvailable, false);
+assert.match(retryModal.ready.detail, /YOUR SAVE IS SAFE/);
+assert.equal(retryRestart, null, "Hardcore death must never restart the run");
+assert.equal(retryStart, "StartMenuScene");
+assert.equal(retryModeSystem.getSaveData().livesRemaining, 0);
+assert.equal(retryModeSystem.getSaveData().freeReviveAvailable, false);
 
 assert.deepEqual(
   sanitizePlayerPersistenceData({
@@ -350,11 +357,52 @@ assert.deepEqual(
   sanitizePlayerPersistenceData(checkpointPlayerState),
   "Armed Hardcore reloads must use the latest exact live position and GP checkpoint",
 );
+let exportedHardcoreBlob = null;
+let exportedHardcoreFilename = null;
+const originalDocument = globalThis.document;
+const originalUrl = globalThis.URL;
+globalThis.URL = {
+  createObjectURL(blob) {
+    exportedHardcoreBlob = blob;
+    return "blob:hardcore-portable-save-contract";
+  },
+  revokeObjectURL() {},
+};
+globalThis.document = {
+  body: {
+    appendChild() {},
+    removeChild() {},
+  },
+  createElement(tagName) {
+    assert.equal(tagName, "a");
+    return {
+      href: "",
+      download: "",
+      click() {
+        exportedHardcoreFilename = this.download;
+      },
+    };
+  },
+};
+assert.equal(store.exportSave("hardcore-slot-2.json"), true);
+assert.equal(exportedHardcoreFilename, "hardcore-slot-2.json");
+assert.ok(exportedHardcoreBlob instanceof Blob);
+const exportedHardcoreEnvelope = JSON.parse(await exportedHardcoreBlob.text());
+assert.equal(exportedHardcoreEnvelope.format, PORTABLE_SAVE_FILE.format);
+assert.equal(exportedHardcoreEnvelope.formatVersion, PORTABLE_SAVE_FILE.formatVersion);
+assert.equal(exportedHardcoreEnvelope.payloadVersion, 15);
+assert.equal(exportedHardcoreEnvelope.checksumAlgorithm, PORTABLE_SAVE_FILE.checksumAlgorithm);
 assert.equal(
-  store.exportSave(),
-  false,
-  "Hardcore cannot create an external rollback export",
+  store.backupManager.verifyChecksum(
+    exportedHardcoreEnvelope.saveData,
+    exportedHardcoreEnvelope.payloadChecksum,
+  ),
+  true,
 );
+assert.equal(isHardcoreRunActive(exportedHardcoreEnvelope.saveData.hardcoreModeData), true);
+if (originalDocument === undefined) delete globalThis.document;
+else globalThis.document = originalDocument;
+globalThis.URL = originalUrl;
 const liveHardcoreRestore = store.restoreFromBackup(0);
 assert.equal(liveHardcoreRestore.success, false);
 assert.match(liveHardcoreRestore.error, /oath-locked/i);
@@ -369,16 +417,22 @@ assert.equal(
   false,
   "A Hardcore backup cannot be restored into another slot",
 );
-const hardcoreImport = await hardcoreImportTarget.importSave({
-  text: async () => JSON.stringify({
-    version: 14,
-    exportedAt: new Date().toISOString(),
-    slotId: 2,
-    saveData: hardcoreTransferPayload,
-  }),
+const tamperedHardcoreEnvelope = JSON.parse(JSON.stringify(exportedHardcoreEnvelope));
+tamperedHardcoreEnvelope.saveData.resources.dirt += 1;
+const tamperedImport = await hardcoreImportTarget.importSave({
+  text: async () => JSON.stringify(tamperedHardcoreEnvelope),
 });
-assert.equal(hardcoreImport.success, false);
-assert.match(hardcoreImport.error, /external rollback files break the oath/i);
+assert.equal(tamperedImport.success, false);
+assert.match(tamperedImport.error, /integrity check/i);
+assert.equal(hardcoreImportTarget.loadForDisplay(), null);
+const hardcoreImport = await hardcoreImportTarget.importSave(exportedHardcoreBlob);
+assert.equal(hardcoreImport.success, true);
+assert.equal(isHardcoreRunActive(hardcoreImport.saveData.hardcoreModeData), true);
+assert.equal(
+  isHardcoreRunActive(hardcoreImportTarget.loadForDisplay().hardcoreModeData),
+  true,
+  "A portable Hardcore save must survive the complete export/import path",
+);
 
 const unauthorizedDeath = store.preparePermanentDeath({
   mode: "casual",
@@ -451,6 +505,37 @@ assert.equal(
 );
 assert.equal(storage.getItem(store.localStorageKey), null);
 assert.notEqual(storage.getItem(store.deathTombstoneKey), null);
+
+const originalSetItem = storage.setItem.bind(storage);
+storage.setItem = (key, value) => {
+  if (String(key) === store.localStorageKey) throw new Error("simulated import write failure");
+  originalSetItem(key, value);
+};
+const failedRevivalImport = await store.importSave(exportedHardcoreBlob);
+storage.setItem = originalSetItem;
+assert.equal(failedRevivalImport.success, false);
+assert.match(failedRevivalImport.error, /could not write/i);
+assert.equal(
+  store.isDeathTombstoned(),
+  true,
+  "A failed portable import must restore the permadeath marker",
+);
+
+const revivalImport = await store.importSave(exportedHardcoreBlob);
+assert.equal(revivalImport.success, true);
+assert.equal(store.isDeathTombstoned(), false);
+assert.equal(
+  isHardcoreRunActive(store.loadForDisplay().hardcoreModeData),
+  true,
+  "A valid portable file must import into a tombstoned slot without a mode lock",
+);
+store.preparePermanentDeath({
+  mode: "hardcore",
+  armed: true,
+  source: "contract-second-death",
+  depth: 735,
+});
+assert.equal(store.isDeathTombstoned(), true);
 
 store.beginNewSave();
 assert.equal(store.isDeathTombstoned(), false, "Choosing a genuinely new save clears the tombstone");
@@ -549,26 +634,25 @@ globalThis.fetch = previousFetch;
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const sourceContracts = [
   ["ui/scenes/StartMenuScene.js", "new NewRunSetupOverlay(this)"],
-  ["ui/scenes/StartMenuScene.js", '"OATH LOCKED"'],
+  ["ui/scenes/StartMenuScene.js", "exportButton.setEnabled(Boolean(selectedSave?.hasData));"],
   ["ui/scenes/StartMenuScene.js", "isHardcoreModeExhausted"],
   ["ui/scenes/NewRunSetupInputController.js", "hiddenSequence"],
   ["ui/scenes/NewRunSetupInputController.js", "skipConfirmation"],
   ["ui/scenes/StartMenuScene.js", "hardcoreModeData: sanitizeHardcoreModeData(hardcoreModeData)"],
   ["ui/scenes/WorldLoadScene.js", "isNewSave: isNewSave === true"],
   ["world/playScene/PlaySceneSetup.js", "if (data.isNewSave !== true) this.restorePersistentState();"],
-  ["world/playScene/PlaySceneUI.js", "allowExport: !isHardcoreRunActive"],
+  ["world/playScene/PlaySceneUI.js", "const exported = this.dugTileSaveStore?.exportSave();"],
   ["world/playScene/PlaySceneSaveRuntime.js", "scene.playerController?.getPersistenceData?.()"],
   ["world/playScene/PlaySceneUI.js", "return this.requestHardcoreUnstuck?.()"],
   ["world/playScene/HardcoreDeathBridge.js", "recordDeath(source)"],
   ["world/playScene/HardcoreDeathBridge.js", "queueDugTilesSave"],
   ["world/playScene/HardcoreDeathBridge.js", "persistLifeState"],
   ["world/playScene/HardcoreDeathBridge.js", "setDeathSaving"],
-  ["world/playScene/HardcoreDeathBridge.js", "SAVE INTACT"],
+  ["world/playScene/HardcoreDeathBridge.js", "YOUR SAVE IS SAFE"],
   ["world/playScene/HardcoreDeathBridge.js", "persistHardcoreLiveCheckpoint"],
-  ["world/playScene/HardcoreDeathBridge.js", 'scene.scene.restart({'],
+  ["world/playScene/HardcoreDeathBridge.js", 'scene.scene.start("StartMenuScene")'],
   ["ui/overlays/HardcoreDeathRecapView.js", "this.config.copy.retryLabel"],
   ["ui/overlays/HardcoreDeathRecapView.js", "this.config.copy.menuLabel"],
-  ["ui/overlays/HardcoreDeathRecapView.js", "RETRY SAVE"],
   ["world/model/DugTilesSaveStore.js", "saveHardcoreCheckpoint"],
   ["ui/overlays/ShopOverlay.js", "requestHardcoreConversion"],
   ["systems/mining/SpecialTileSystem.js", "tryPayHardcoreTeleport"],
@@ -576,7 +660,7 @@ const sourceContracts = [
   ["systems/environment/CaveHazardSystem.js", 'source: "caveHazard"'],
   ["systems/lighting/LightSystem.js", 'source: "torch"'],
   ["world/playScene/GraveborerWurmEventBridge.js", 'source: "graveborerWurm"'],
-  ["ui/overlays/SaveTransferPanelContent.js", "Hardcore oath active"],
+  ["ui/overlays/SaveTransferPanelContent.js", "Ready — current save remains local"],
 ];
 for (const [relativePath, expected] of sourceContracts) {
   const source = readFileSync(resolve(root, relativePath), "utf8");
@@ -588,6 +672,7 @@ const deathBridgeSource = readFileSync(
   "utf8",
 );
 assert.doesNotMatch(deathBridgeSource, /preparePermanentDeath|purgePermanentDeath|markDeathTombstone/);
+assert.doesNotMatch(deathBridgeSource, /free-revive|FREE REVIVE|REVIVE IN TOWN|deathRevive|scene\.scene\.restart/);
 
 for (const asset of Object.values(HARDCORE_MODE_CONFIG.assets)) {
   const assetPath = resolve(root, asset.path);
@@ -595,4 +680,4 @@ for (const asset of Object.values(HARDCORE_MODE_CONFIG.assets)) {
   assert.ok(statSync(assetPath).size > 20000, `Hardcore art is unexpectedly tiny: ${asset.path}`);
 }
 
-console.log("Hardcore lives and durable exhaustion lifecycle contract passed.");
+console.log("Hardcore one-life and durable exhaustion lifecycle contract passed.");

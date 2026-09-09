@@ -2,6 +2,7 @@ import { createButton } from "../PhaserUiKit.js";
 import { createModalShell } from "../UiModalShell.js";
 import { UI_COLORS } from "../../values/uiColors.js";
 import { UI_FONTS } from "../../values/uiLayout.js";
+import { RECOVERY_COPY } from "../../values/playerFacingCopy.js";
 
 export class PlaySceneRecoveryOverlay {
   constructor(scene) {
@@ -12,17 +13,9 @@ export class PlaySceneRecoveryOverlay {
     this.menuButton = null;
   }
 
-  show(finding = {}) {
+  show() {
     this._ensureCreated();
-    const subsystem = finding.id || finding.phase || "gameplay authority";
-    this.body.setText([
-      "The game stopped input before the failure could spread.",
-      "Your previous valid save has not been overwritten.",
-      "",
-      `FAILED SUBSYSTEM  ${String(subsystem).toUpperCase()}`,
-      "",
-      "Reload the last valid save or return to the main menu.",
-    ]);
+    this.body.setText(RECOVERY_COPY.body);
     this.shell.show();
     return true;
   }
@@ -42,8 +35,8 @@ export class PlaySceneRecoveryOverlay {
     if (this.shell) return;
     const scene = this.scene;
     this.shell = createModalShell(scene, {
-      title: "RECOVERY MODE",
-      subtitle: "Progress protection is active",
+      title: RECOVERY_COPY.title,
+      subtitle: RECOVERY_COPY.subtitle,
       icon: "health",
       maxWidth: 760,
       maxHeight: 430,
@@ -64,7 +57,7 @@ export class PlaySceneRecoveryOverlay {
       x: rect.left + rect.width * 0.3,
       y: buttonY,
       width: 260,
-      label: "RELOAD LAST VALID SAVE",
+      label: RECOVERY_COPY.reload,
       icon: "save",
       parent: this.shell.content,
       onClick: () => scene.restartFromLastValidSave?.(),
@@ -73,7 +66,7 @@ export class PlaySceneRecoveryOverlay {
       x: rect.left + rect.width * 0.72,
       y: buttonY,
       width: 210,
-      label: "MAIN MENU",
+      label: RECOVERY_COPY.mainMenu,
       icon: "home",
       parent: this.shell.content,
       accent: UI_COLORS.danger,

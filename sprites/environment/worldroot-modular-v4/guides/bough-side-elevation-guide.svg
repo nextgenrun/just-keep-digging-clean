@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1536" height="1024" viewBox="0 0 1536 1024">
+  <rect width="1536" height="1024" fill="#00ff00"/>
+  <!-- One flat side-elevation silhouette. Black is structure; cyan is the
+       exact top contact which the final painting must preserve. -->
+  <path fill="#101014" d="M0 590
+    C170 582 270 548 390 558
+    C530 570 630 514 770 522
+    C920 530 1018 584 1162 562
+    C1308 540 1434 525 1536 538
+    L1536 720
+    C1390 708 1280 742 1130 750
+    C970 760 868 702 728 704
+    C570 708 476 756 320 748
+    C196 742 98 770 0 758 Z"/>
+  <path fill="#101014" d="M350 560
+    C430 512 458 428 536 368
+    C634 294 780 286 914 324
+    C1032 358 1098 462 1180 562
+    L1058 586
+    C1002 516 950 438 866 414
+    C770 386 670 396 606 448
+    C550 492 530 554 486 602 Z"/>
+  <path fill="#262632" d="M0 590
+    C170 582 270 548 390 558
+    C530 570 630 514 770 522
+    C920 530 1018 584 1162 562
+    C1308 540 1434 525 1536 538
+    L1536 596
+    C1378 582 1282 612 1150 620
+    C1004 630 892 574 754 580
+    C606 586 500 626 366 620
+    C220 614 116 638 0 636 Z"/>
+  <path fill="#262632" d="M350 560
+    C430 512 458 428 536 368
+    C634 294 780 286 914 324
+    C1032 358 1098 462 1180 562
+    L1118 580
+    C1040 480 986 402 886 372
+    C774 338 656 350 580 410
+    C510 466 490 538 446 582 Z"/>
+  <path d="M0 590
+    C170 582 270 548 390 558
+    C530 570 630 514 770 522
+    C920 530 1018 584 1162 562
+    C1308 540 1434 525 1536 538"
+    fill="none" stroke="#24f7ff" stroke-width="7"/>
+  <path d="M350 560
+    C430 512 458 428 536 368
+    C634 294 780 286 914 324
+    C1032 358 1098 462 1180 562"
+    fill="none" stroke="#24f7ff" stroke-width="7"/>
+  <!-- Scale bars: one 75px player height and one 31px player width. These are
+       guide-only and must not appear in production art. -->
+  <rect x="700" y="447" width="31" height="75" fill="#ff00ff"/>
+  <rect x="1260" y="474" width="31" height="75" fill="#ff00ff"/>
+</svg>

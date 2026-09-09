@@ -1,0 +1,49 @@
+{
+  "main": {
+    "scene": "MainMenuScene",
+    "texture": [
+      2048,
+      608
+    ],
+    "display": [
+      560,
+      166.25
+    ],
+    "alpha": 1,
+    "position": [
+      640,
+      150
+    ],
+    "canvas": [
+      3840,
+      2160
+    ]
+  },
+  "saves": {
+    "scene": "StartMenuScene",
+    "texture": [
+      2048,
+      608
+    ],
+    "display": [
+      520,
+      154.375
+    ],
+    "alpha": 1,
+    "position": [
+      640,
+      85
+    ],
+    "canvas": [
+      3840,
+      2160
+    ]
+  },
+  "requests": [
+    {
+      "url": "http://localhost:8765/sprites/branding/understar-world-within-v4/understar-world-logo-runtime.webp",
+      "status": 200
+    }
+  ],
+  "errors": []
+}

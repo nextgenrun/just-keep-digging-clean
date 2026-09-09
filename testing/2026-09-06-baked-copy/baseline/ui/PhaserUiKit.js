@@ -1,0 +1,1050 @@
+import { UI_COLORS } from "../values/uiColors.js";
+import { UI_CONTROL_GEOMETRY, UI_FONTS } from "../values/uiLayout.js";
+import { createUiIcon, resolveUiIconForLabel } from "./UiIconAtlas.js";
+
+export const UI_THEME = Object.freeze({
+  fontBody: UI_FONTS.body,
+  fontTitle: UI_FONTS.display,
+  radius: 7,
+  radiusSmall: 4,
+  depthOverlay: 2500,
+  pressScale: 0.97,
+  fadeMs: 180,
+});
+
+function addToParent(parent, child) {
+  if (parent && typeof parent.add === "function") {
+    parent.add(child);
+  }
+  return child;
+}
+
+function setTreeDepth(root, depth) {
+  if (!Number.isFinite(depth) || !root) return;
+  root.setDepth?.(depth);
+  root.iterate?.(child => child?.setDepth?.(depth));
+}
+
+function setTreeScroll(root, scrollFactor) {
+  if (!root) return;
+  root.setScrollFactor?.(scrollFactor);
+  root.iterate?.(child => child?.setScrollFactor?.(scrollFactor));
+}
+
+function isControlVisible(root) {
+  for (let node = root; node; node = node.parentContainer) {
+    if (node.active === false || node.visible === false || node.uiClosing) return false;
+  }
+  return true;
+}
+
+function consumePointer(_pointer, _x, _y, event) {
+  event?.stopPropagation?.();
+}
+
+export function createPanel(scene, options = {}) {
+  const {
+    x = scene.scale.width / 2,
+    y = scene.scale.height / 2,
+    width = 600,
+    height = 360,
+    title = "",
+    depth = UI_THEME.depthOverlay,
+    scrollFactor = 0,
+    fill = UI_COLORS.bg,
+    border = UI_COLORS.borderDim,
+    accent = UI_COLORS.borderSel,
+    alpha = 0.98,
+    parent = null,
+    titleY = -height / 2 + 28,
+    icon = null,
+  } = options;
+
+  const root = scene.add.container(x, y);
+  setTreeScroll(root, scrollFactor);
+  setTreeDepth(root, depth);
+
+  const bg = scene.add.graphics();
+  bg.fillStyle(fill, alpha);
+  bg.fillRoundedRect(-width / 2, -height / 2, width, height, UI_THEME.radius);
+  bg.lineStyle(2, border, 1);
+  bg.strokeRoundedRect(-width / 2, -height / 2, width, height, UI_THEME.radius);
+  bg.lineStyle(1, accent, 0.35);
+  bg.strokeRoundedRect(-width / 2 + 3, -height / 2 + 3, width - 6, height - 6, UI_THEME.radius - 2);
+
+  const titleText = title
+    ? scene.add.text(0, titleY, title, {
+        fontFamily: UI_THEME.fontTitle,
+        fontSize: "22px",
+        fontStyle: "bold",
+        color: UI_COLORS.gold,
+        letterSpacing: 2,
+      }).setOrigin(0.5, 0.5)
+    : null;
+  const panelIconName = icon || resolveUiIconForLabel(title);
+  const panelIcon = title && panelIconName
+    ? createUiIcon(scene, panelIconName, { x: -width / 2 + 34, y: titleY, size: 34, scrollFactor })
+    : null;
+
+  const sep = scene.add.graphics();
+  sep.lineStyle(1, UI_COLORS.borderDim, 0.8);
+  sep.lineBetween(-width / 2 + 24, titleY + 28, width / 2 - 24, titleY + 28);
+
+  root.add(titleText ? [bg, titleText, sep] : [bg]);
+  if (panelIcon) root.add(panelIcon);
+  setTreeDepth(root, depth);
+  setTreeScroll(root, scrollFactor);
+  addToParent(parent, root);
+
+  return {
+    root,
+    bg,
+    titleText,
+    panelIcon,
+    sep,
+    width,
+    height,
+    setTitle(value) {
+      titleText?.setText(value);
+    },
+    setVisible(visible) {
+      root.setVisible(visible);
+    },
+    destroy() {
+      root.destroy(true);
+    },
+  };
+}
+
+export function createButton(scene, options = {}) {
+  const state = {
+    hovered: false,
+    focused: false,
+    selected: Boolean(options.selected),
+    enabled: options.enabled !== false,
+    disabledReason: options.disabledReason || "",
+    pressing: false,
+    activationVersion: 0,
+  };
+
+  const {
+    x = 0,
+    y = 0,
+    width = 220,
+    height = 44,
+    label = "",
+    hint = "",
+    depth = UI_THEME.depthOverlay + 1,
+    scrollFactor = 0,
+    parent = null,
+    accent = UI_COLORS.borderSel,
+    fill = UI_COLORS.cardBase,
+    hoverFill = UI_COLORS.cardHover,
+    selectedFill = hoverFill,
+    focusFill = hoverFill,
+    disabledFill = 0x101820,
+    labelColor = UI_COLORS.white,
+    disabledColor = UI_COLORS.dim,
+    hintColor = UI_COLORS.hint,
+    disabledHintColor = UI_COLORS.dim,
+    fontSize = "14px",
+    align = "center",
+    onClick = null,
+    onFocus = null,
+    playSounds = true,
+    icon = null,
+    autoIcon = true,
+    visibleChrome = true,
+  } = options;
+  let buttonHint = hint || "";
+  const resolvedIcon = icon || (autoIcon ? resolveUiIconForLabel(label) : null);
+
+  const root = scene.add.container(x, y);
+  root.setSize(width, height);
+
+  const bg = scene.add.graphics();
+  const accentBar = scene.add.graphics();
+  const hasIcon = Boolean(resolvedIcon) && (width >= 72 || !label);
+  const iconSize = Math.max(1, Math.min(34, height - 10,
+    width - UI_CONTROL_GEOMETRY.buttonContent.insetX * 2));
+  const textX = align === "left" ? -width / 2 + (hasIcon ? 49 : 18) : (hasIcon ? 8 : 0);
+  const textOrigin = align === "left" ? [0, 0.5] : [0.5, 0.5];
+  const text = scene.add.text(textX, 0, label, {
+    fontFamily: UI_THEME.fontBody,
+    fontSize,
+    fontStyle: "bold",
+    color: labelColor,
+  }).setOrigin(textOrigin[0], textOrigin[1]);
+  const hintText = buttonHint || state.disabledReason
+    ? scene.add.text(width / 2 - 12, 0, buttonHint, {
+        fontFamily: UI_THEME.fontBody,
+        fontSize: "12px",
+        color: hintColor,
+      }).setOrigin(1, 0.5)
+    : null;
+  const iconSprite = hasIcon
+    ? createUiIcon(scene, resolvedIcon, {
+        x: -width / 2 + Math.max(17, Math.min(22, height / 2)),
+        y: 0,
+        size: iconSize,
+        scrollFactor,
+      })
+    : null;
+  const hit = scene.add.rectangle(0, 0, width, height, 0x000000, 0)
+    .setInteractive({ useHandCursor: true });
+
+  let layoutLabel = null;
+  let layoutHint = null;
+  function layoutContent() {
+    layoutLabel = text.text;
+    layoutHint = hintText?.text;
+    const geometry = UI_CONTROL_GEOMETRY.buttonContent;
+    const innerWidth = Math.max(1, width - geometry.insetX * 2);
+    const hintWidth = hintText?.text
+      ? Math.min(hintText.width, innerWidth * geometry.maxHintWidthRatio) : 0;
+    hintText?.setScale?.(hintWidth ? Math.min(1, hintWidth / hintText.width) : 1);
+    const available = innerWidth - (hintWidth ? hintWidth + geometry.hintGap : 0);
+    const showIcon = Boolean(iconSprite) && (Boolean(icon) || !text.text
+      || text.width + iconSize + geometry.iconGap <= available);
+    iconSprite?.setVisible?.(showIcon);
+    const iconSpace = showIcon ? iconSize + (text.text ? geometry.iconGap : 0) : 0;
+    const labelWidth = Math.max(1, available - iconSpace);
+    text.setScale?.(Math.min(1, labelWidth / Math.max(1, text.width)));
+    const visibleTextWidth = Math.min(labelWidth, text.width);
+    const groupWidth = visibleTextWidth + iconSpace;
+    const left = -width / 2 + geometry.insetX
+      + (align === "left" ? 0 : Math.max(0, (available - groupWidth) / 2));
+    iconSprite?.setPosition?.(left + iconSize / 2, 0);
+    text.setPosition(left + iconSpace + (align === "left" ? 0 : visibleTextWidth / 2), 0);
+  }
+
+  function draw() {
+    if (!root?.active || !bg?.active || !accentBar?.active || !text?.active) return;
+    bg.setVisible(visibleChrome);
+    accentBar.setVisible(visibleChrome);
+    const highlighted = state.selected || state.focused || state.hovered;
+    const currentFill = !state.enabled
+      ? disabledFill
+      : state.selected
+        ? selectedFill
+        : state.focused || state.hovered
+          ? focusFill
+          : fill;
+    const currentBorder = state.selected
+      ? accent
+      : state.focused || state.hovered
+        ? UI_COLORS.borderHov
+        : UI_COLORS.borderDim;
+    const alpha = state.enabled ? 1 : 0.62;
+
+    if (visibleChrome) {
+      bg.clear();
+      bg.fillStyle(currentFill, highlighted ? 1 : 0.94);
+      bg.fillRoundedRect(-width / 2, -height / 2, width, height, UI_THEME.radiusSmall);
+      bg.lineStyle(state.selected || state.focused ? 2 : 1, currentBorder, state.enabled ? 1 : 0.55);
+      bg.strokeRoundedRect(-width / 2, -height / 2, width, height, UI_THEME.radiusSmall);
+
+      accentBar.clear();
+      if (accent) {
+        const accentLayout = UI_CONTROL_GEOMETRY.buttonAccent;
+        accentBar.fillStyle(
+          accent,
+          state.enabled ? (state.selected ? 1 : state.focused ? 0.94 : 0.82) : 0.35
+        );
+        accentBar.fillRoundedRect(
+          -width / 2 + accentLayout.insetX,
+          -height / 2 + accentLayout.insetY,
+          accentLayout.width,
+          Math.max(1, height - accentLayout.insetY * 2),
+          Math.max(1, UI_THEME.radiusSmall - accentLayout.insetY),
+        );
+      }
+    }
+
+    try {
+      text.setColor(state.enabled ? labelColor : disabledColor);
+      text.setAlpha(alpha);
+      hintText?.setAlpha(alpha);
+      iconSprite?.setAlpha(alpha);
+      if (hintText) {
+        if (!state.enabled && state.disabledReason) {
+          hintText.setText(state.disabledReason);
+          hintText.setColor(disabledHintColor);
+        } else {
+          hintText.setText(buttonHint);
+          hintText.setColor(hintColor);
+        }
+      }
+      if (layoutLabel !== text.text || layoutHint !== hintText?.text) layoutContent();
+    } catch (_) {
+      // Phaser text can briefly lose its canvas during scene teardown/focus churn.
+    }
+  }
+
+  function activate() {
+    if (state.pressing) return false;
+    if (!state.enabled) return false;
+    if (!root?.active || !isControlVisible(root)) return false;
+    state.pressing = true;
+    const activationVersion = ++state.activationVersion;
+    if (playSounds) scene.soundSystem?.playUiClick?.();
+    scene.tweens.killTweensOf(root);
+    scene.tweens.add({
+      targets: root,
+      scaleX: UI_THEME.pressScale,
+      scaleY: UI_THEME.pressScale,
+      duration: 55,
+      yoyo: true,
+      ease: "Power2.out",
+      onComplete: () => {
+        if (activationVersion !== state.activationVersion) return;
+        state.pressing = false;
+        // A tab rebuild can destroy the button during its press tween. Never
+        // dispatch a delayed action into a view that no longer owns a scene.
+        if (!root?.active || !state.enabled || !isControlVisible(root)) return;
+        onClick?.();
+      },
+    });
+    return true;
+  }
+
+  function handlePointerOver() {
+    if (!state.enabled) return;
+    state.hovered = true;
+    if (playSounds && !state.selected) scene.soundSystem?.playUiSelect?.();
+    onFocus?.();
+    draw();
+  }
+
+  function handlePointerOut() {
+    state.hovered = false;
+    draw();
+  }
+
+  hit.on("pointerover", handlePointerOver);
+  hit.on("pointerout", handlePointerOut);
+  hit.on("pointerdown", (pointer, x, y, event) => {
+    consumePointer(pointer, x, y, event);
+    if (pointer?.button > 0) return;
+    activate();
+  });
+  hit.on("pointerup", consumePointer);
+  if (!state.enabled) hit.disableInteractive();
+
+  root.add(hintText ? [bg, accentBar, text, hintText, hit] : [bg, accentBar, text, hit]);
+  if (iconSprite) root.add(iconSprite);
+  setTreeDepth(root, depth);
+  setTreeScroll(root, scrollFactor);
+  addToParent(parent, root);
+  draw();
+
+  return {
+    root,
+    bg,
+    text,
+    hintText,
+    iconSprite,
+    hit,
+    activate,
+    isEnabled() {
+      return state.enabled;
+    },
+    setSelected(value) {
+      state.selected = Boolean(value);
+      draw();
+    },
+    setFocused(value) {
+      state.focused = Boolean(value);
+      draw();
+    },
+    setEnabled(value, reason = null) {
+      if (!root?.active) return;
+      const nextReason = !value && reason ? String(reason) : "";
+      if (state.enabled === Boolean(value) && state.disabledReason === nextReason) return;
+      state.enabled = Boolean(value);
+      state.activationVersion++;
+      state.pressing = false;
+      if (!state.enabled) { state.focused = false; state.hovered = false; }
+      if (state.enabled) {
+        state.disabledReason = "";
+      } else {
+        state.disabledReason = reason ? String(reason) : "";
+      }
+      hit.disableInteractive();
+      if (state.enabled) {
+        hit.setInteractive({ useHandCursor: true });
+      }
+      draw();
+    },
+    setLabel(value) {
+      if (!text?.active) return;
+      text.setText(value);
+      layoutContent();
+    },
+    setHint(value) {
+      if (hintText && !hintText.active) return;
+      hintText?.setText(value);
+      if (!state.disabledReason) {
+        buttonHint = String(value || "");
+      }
+      draw();
+    },
+    setDisabledReason(value) {
+      state.disabledReason = value ? String(value) : "";
+      draw();
+    },
+    setVisible(value) {
+      root.setVisible(value);
+    },
+    destroy() {
+      scene.tweens?.killTweensOf?.(root);
+      hit?.removeAllListeners?.();
+      root.destroy(true);
+    },
+  };
+}
+
+export function createTogglePair(scene, options = {}) {
+  const {
+    x = 0,
+    y = 0,
+    label = "",
+    value = true,
+    onChange = null,
+    parent = null,
+    depth = UI_THEME.depthOverlay + 1,
+    scrollFactor = 0,
+    layout = "inline",
+    labelX = null,
+    labelY = null,
+    labelFontSize = null,
+    buttonWidth = null,
+    buttonHeight = null,
+    buttonGap = 16,
+    buttonY = null,
+    buttonFontSize = null,
+  } = options;
+  const stacked = layout === "stacked";
+  const resolvedLabelX = Number.isFinite(labelX) ? labelX : (stacked ? 0 : -190);
+  const resolvedLabelY = Number.isFinite(labelY) ? labelY : (stacked ? -12 : 0);
+  const resolvedButtonWidth = Number.isFinite(buttonWidth) ? buttonWidth : (stacked ? 64 : 78);
+  const resolvedButtonHeight = Number.isFinite(buttonHeight) ? buttonHeight : (stacked ? 28 : 34);
+  const resolvedButtonY = Number.isFinite(buttonY) ? buttonY : (stacked ? 11 : 0);
+  const pairedButtonOffset = (resolvedButtonWidth + buttonGap) / 2;
+  const resolvedOnX = stacked ? -pairedButtonOffset : -28;
+  const resolvedOffX = stacked ? pairedButtonOffset : 66;
+
+  const root = scene.add.container(x, y);
+  setTreeDepth(root, depth);
+  setTreeScroll(root, scrollFactor);
+
+  const labelText = scene.add.text(resolvedLabelX, resolvedLabelY, label, {
+    fontFamily: UI_THEME.fontBody,
+    fontSize: labelFontSize || (stacked ? "11px" : "15px"),
+    color: UI_COLORS.white,
+  }).setOrigin(stacked ? 0.5 : 0, 0.5);
+  root.add(labelText);
+
+  let current = Boolean(value);
+  const onBtn = createButton(scene, {
+    x: resolvedOnX,
+    y: resolvedButtonY,
+    width: resolvedButtonWidth,
+    height: resolvedButtonHeight,
+    label: "ON",
+    accent: UI_COLORS.borderGood,
+    labelColor: UI_COLORS.success,
+    fontSize: buttonFontSize || (stacked ? "10px" : "14px"),
+    parent: root,
+    onClick: () => setValue(true),
+  });
+  const offBtn = createButton(scene, {
+    x: resolvedOffX,
+    y: resolvedButtonY,
+    width: resolvedButtonWidth,
+    height: resolvedButtonHeight,
+    label: "OFF",
+    accent: UI_COLORS.borderBad,
+    labelColor: UI_COLORS.danger,
+    fontSize: buttonFontSize || (stacked ? "10px" : "14px"),
+    parent: root,
+    onClick: () => setValue(false),
+  });
+
+  function refresh() {
+    onBtn.setSelected(current);
+    offBtn.setSelected(!current);
+  }
+
+  function setValue(next, silent = false) {
+    current = Boolean(next);
+    refresh();
+    if (!silent) onChange?.(current);
+  }
+
+  setTreeDepth(root, depth);
+  setTreeScroll(root, scrollFactor);
+  addToParent(parent, root);
+  refresh();
+
+  return {
+    root,
+    onBtn,
+    offBtn,
+    setValue,
+    getValue() {
+      return current;
+    },
+    setVisible(value) {
+      root.setVisible(value);
+    },
+    destroy() {
+      root.destroy(true);
+    },
+  };
+}
+
+export function createSlider(scene, options = {}) {
+  const state = {
+    value: Phaser.Math.Clamp(options.value ?? 1, 0, 1),
+    selected: Boolean(options.selected),
+    enabled: options.enabled !== false,
+    dragging: false,
+    hovered: false,
+    focused: false,
+  };
+
+  const {
+    x = 0,
+    y = 0,
+    width = 360,
+    height = 42,
+    label = "",
+    parent = null,
+    depth = UI_THEME.depthOverlay + 1,
+    scrollFactor = 0,
+    accent = UI_COLORS.borderSel,
+    onChange = null,
+    formatValue = value => `${Math.round(value * 100)}%`,
+    step = 0.05,
+  } = options;
+
+  const root = scene.add.container(x, y);
+  setTreeDepth(root, depth);
+  setTreeScroll(root, scrollFactor);
+
+  const labelText = scene.add.text(-width / 2, -14, label, {
+    fontFamily: UI_THEME.fontBody,
+    fontSize: "13px",
+    fontStyle: "bold",
+    color: UI_COLORS.white,
+  }).setOrigin(0, 0.5);
+
+  const valueText = scene.add.text(width / 2, -14, formatValue(state.value), {
+    fontFamily: UI_THEME.fontBody,
+    fontSize: "12px",
+    color: UI_COLORS.gold,
+  }).setOrigin(1, 0.5);
+
+  const track = scene.add.graphics();
+  const fill = scene.add.graphics();
+  const sliderGeometry = UI_CONTROL_GEOMETRY.slider;
+  const thumb = scene.add.rectangle(
+    0,
+    10,
+    sliderGeometry.thumbWidth,
+    sliderGeometry.thumbHeight,
+    accent,
+    1,
+  );
+  const hit = scene.add.rectangle(0, 10, width,
+    Math.max(sliderGeometry.minHitHeight, height - sliderGeometry.labelClearance), 0x000000, 0)
+    .setInteractive({ useHandCursor: true });
+
+  function draw() {
+    const alpha = state.enabled ? 1 : 0.45;
+    const highlighted = state.selected || state.focused || state.hovered || state.dragging;
+    const border = highlighted ? accent : UI_COLORS.borderDim;
+    const trackW = width;
+    const trackX = -trackW / 2;
+    const fillW = Math.max(4, trackW * state.value);
+
+    track.clear();
+    track.fillStyle(UI_COLORS.cardBase, alpha);
+    track.fillRoundedRect(trackX, 2, trackW, 16, 5);
+    track.lineStyle(highlighted ? 2 : 1, border, alpha);
+    track.strokeRoundedRect(trackX, 2, trackW, 16, 5);
+
+    fill.clear();
+    fill.fillStyle(accent, alpha);
+    fill.fillRoundedRect(trackX, 2, fillW, 16, 5);
+
+    thumb.x = trackX + sliderGeometry.thumbWidth / 2
+      + Math.max(0, trackW - sliderGeometry.thumbWidth) * state.value;
+    thumb.setAlpha(alpha);
+    labelText.setAlpha(alpha);
+    valueText.setAlpha(alpha);
+    valueText.setText(formatValue(state.value));
+  }
+
+  function setValue(value, silent = false) {
+    state.value = Phaser.Math.Clamp(value, 0, 1);
+    draw();
+    if (!silent) onChange?.(state.value);
+  }
+
+  function valueFromPointer(pointer) {
+    const matrix = root.getWorldTransformMatrix();
+    const local = matrix.applyInverse(pointer.x, pointer.y);
+    return (local.x + width / 2) / width;
+  }
+
+  function onPointerMove(pointer) {
+    if (!state.dragging || !state.enabled) return;
+    setValue(valueFromPointer(pointer));
+  }
+
+  function onPointerUp() {
+    state.dragging = false;
+    if (root.active) draw();
+  }
+
+  hit.on("pointerdown", (pointer, x, y, event) => {
+    consumePointer(pointer, x, y, event);
+    if (!state.enabled || pointer?.button > 0) return;
+    state.dragging = true;
+    scene.soundSystem?.playUiSelect?.();
+    setValue(valueFromPointer(pointer));
+  });
+  hit.on("pointerover", () => {
+    if (!state.enabled) return;
+    state.hovered = true;
+    draw();
+  });
+  hit.on("pointerout", () => {
+    state.hovered = false;
+    draw();
+  });
+  scene.input.on("pointermove", onPointerMove);
+  scene.input.on("pointerup", onPointerUp);
+  scene.input.on("gameout", onPointerUp);
+  hit.on("pointerup", (pointer, x, y, event) => {
+    onPointerUp();
+    consumePointer(pointer, x, y, event);
+  });
+  const releasePointerListeners = () => {
+    scene.input.off("pointermove", onPointerMove);
+    scene.input.off("pointerup", onPointerUp);
+    scene.input.off("gameout", onPointerUp);
+  };
+  root.once?.("destroy", releasePointerListeners);
+  if (!state.enabled) hit.disableInteractive();
+
+  root.add([labelText, valueText, track, fill, thumb, hit]);
+  setTreeDepth(root, depth);
+  setTreeScroll(root, scrollFactor);
+  addToParent(parent, root);
+  draw();
+
+  return {
+    root,
+    hit,
+    activate() {
+      if (!state.enabled || !isControlVisible(root)) return false;
+      setValue(state.value + step);
+      return true;
+    },
+    adjust(direction) {
+      if (!state.enabled || !isControlVisible(root)) return false;
+      setValue(state.value + step * direction);
+      scene.soundSystem?.playUiSelect?.();
+      return true;
+    },
+    isEnabled() {
+      return state.enabled;
+    },
+    getValue() {
+      return state.value;
+    },
+    setValue,
+    setSelected(value) {
+      state.selected = Boolean(value);
+      draw();
+    },
+    setFocused(value) {
+      state.focused = Boolean(value);
+      draw();
+    },
+    setEnabled(value) {
+      state.enabled = Boolean(value);
+      if (!state.enabled) { state.dragging = false; state.hovered = false; state.focused = false; }
+      hit.disableInteractive();
+      if (state.enabled) hit.setInteractive({ useHandCursor: true });
+      draw();
+    },
+    setLabel(value) {
+      labelText.setText(value);
+    },
+    setVisible(value) {
+      root.setVisible(value);
+    },
+    destroy() {
+      releasePointerListeners();
+      root.destroy(true);
+    },
+  };
+}
+
+export function createTabBar(scene, options = {}) {
+  const {
+    x = 0,
+    y = 0,
+    tabs = [],
+    activeIndex = 0,
+    parent = null,
+    depth = UI_THEME.depthOverlay + 1,
+    spacing = 126,
+    buttonWidth = 112,
+    buttonHeight = 32,
+    fontSize = "12px",
+    onChange = null,
+  } = options;
+
+  const root = scene.add.container(x, y);
+  setTreeDepth(root, depth);
+  setTreeScroll(root, 0);
+
+  let active = activeIndex;
+  const startX = -((tabs.length - 1) * spacing) / 2;
+  const buttons = tabs.map((tab, index) => {
+    const label = typeof tab === "string" ? tab : tab.label;
+    const icon = typeof tab === "string" ? null : tab.icon;
+    return createButton(scene, {
+      x: startX + index * spacing,
+      y: 0,
+      width: buttonWidth,
+      height: buttonHeight,
+      label,
+      icon,
+      fontSize,
+      accent: UI_COLORS.borderSel,
+      parent: root,
+      onClick: () => setActive(index),
+    });
+  });
+
+  function setActive(index, silent = false) {
+    active = Phaser.Math.Clamp(index, 0, Math.max(0, tabs.length - 1));
+    buttons.forEach((button, i) => button.setSelected(i === active));
+    if (!silent) onChange?.(active);
+  }
+
+  setTreeDepth(root, depth);
+  setTreeScroll(root, 0);
+  addToParent(parent, root);
+  setActive(active, true);
+
+  return {
+    root,
+    buttons,
+    setActive,
+    getActive() {
+      return active;
+    },
+    destroy() {
+      root.destroy(true);
+    },
+  };
+}
+
+export function createKeybindRow(scene, options = {}) {
+  const {
+    x = 0,
+    y = 0,
+    width = 330,
+    label = "",
+    description = "",
+    keyLabel = "",
+    parent = null,
+    depth = UI_THEME.depthOverlay + 1,
+    onCapture = null,
+    onReset = null,
+    compact = false,
+  } = options;
+
+  const root = scene.add.container(x, y);
+  setTreeDepth(root, depth);
+  setTreeScroll(root, 0);
+
+  const labelText = scene.add.text(-width / 2, compact ? 0 : -8, label, {
+    fontFamily: UI_THEME.fontBody,
+    fontSize: compact ? "11px" : "12px",
+    fontStyle: "bold",
+    color: UI_COLORS.white,
+  }).setOrigin(0, 0.5);
+
+  const descText = description
+    ? scene.add.text(-width / 2, 10, description, {
+        fontFamily: UI_THEME.fontBody,
+        fontSize: "9px",
+        color: UI_COLORS.hint,
+      }).setOrigin(0, 0.5)
+    : null;
+
+  const keybindGeometry = UI_CONTROL_GEOMETRY.keybind;
+  const resetButtonX = width / 2 - keybindGeometry.resetWidth / 2;
+  const bindingButtonX = width / 2
+    - keybindGeometry.resetWidth
+    - keybindGeometry.buttonGap
+    - keybindGeometry.bindingWidth / 2;
+  const bindButton = createButton(scene, {
+    x: bindingButtonX,
+    y: 0,
+    width: keybindGeometry.bindingWidth,
+    height: compact ? 26 : 30,
+    label: keyLabel,
+    accent: UI_COLORS.borderSel,
+    fontSize: "11px",
+    parent: root,
+    onClick: () => onCapture?.(api),
+  });
+
+  const resetButton = createButton(scene, {
+    x: resetButtonX,
+    y: 0,
+    width: keybindGeometry.resetWidth,
+    height: compact ? 26 : 30,
+    label: "R",
+    accent: UI_COLORS.borderHov,
+    fontSize: "10px",
+    parent: root,
+    onClick: () => onReset?.(api),
+  });
+
+  const statusText = scene.add.text(width / 2, compact ? 15 : 18, "", {
+    fontFamily: UI_THEME.fontBody,
+    fontSize: compact ? "8px" : "9px",
+    color: UI_COLORS.danger,
+  }).setOrigin(1, 0.5);
+
+  root.add(descText ? [labelText, descText, statusText] : [labelText, statusText]);
+  setTreeDepth(root, depth);
+  setTreeScroll(root, 0);
+  addToParent(parent, root);
+
+  const api = {
+    root,
+    bindButton,
+    resetButton,
+    activate() {
+      return bindButton.activate();
+    },
+    isEnabled() {
+      return bindButton.isEnabled();
+    },
+    setSelected(value) {
+      bindButton.setSelected(value);
+    },
+    setFocused(value) {
+      bindButton.setFocused(value);
+    },
+    setEnabled(value) {
+      bindButton.setEnabled(value);
+      resetButton.setEnabled(value);
+    },
+    setLabel(value) {
+      bindButton.setLabel(value);
+    },
+    setStatus(value, color = UI_COLORS.danger) {
+      if (!statusText?.active) return;
+      try {
+        statusText.setText(value || "");
+        statusText.setColor(color);
+      } catch (_) {
+        // Text textures may already be invalid during scene/row teardown.
+      }
+    },
+    flashStatus(value, color = UI_COLORS.danger) {
+      if (!statusText?.active || !scene?.tweens) return;
+      this.setStatus(value, color);
+      scene.tweens.killTweensOf(statusText);
+      statusText.setAlpha(1);
+      scene.tweens.add({
+        targets: statusText,
+        alpha: 0,
+        delay: 1300,
+        duration: 500,
+        ease: "Power1.in",
+        onComplete: () => {
+          if (!statusText?.active) return;
+          try {
+            statusText.setText("");
+            statusText.setAlpha(1);
+          } catch (_) {
+            // Ignore late tween completion after text texture disposal.
+          }
+        },
+      });
+    },
+    setVisible(value) {
+      root.setVisible(value);
+    },
+    destroy() {
+      scene.tweens?.killTweensOf?.(statusText);
+      root.destroy(true);
+    },
+  };
+
+  return api;
+}
+
+export function createHintLegend(scene, options = {}) {
+  const {
+    x = 0,
+    y = 0,
+    text = "",
+    depth = UI_THEME.depthOverlay + 1,
+    scrollFactor = 0,
+    parent = null,
+    color = UI_COLORS.hint,
+    fontSize = "12px",
+  } = options;
+
+  const label = scene.add.text(x, y, text, {
+    fontFamily: UI_THEME.fontBody,
+    fontSize,
+    color,
+    align: "center",
+  }).setOrigin(0.5);
+  label.setDepth(depth).setScrollFactor(scrollFactor);
+  addToParent(parent, label);
+  return label;
+}
+
+export function createFocusController(scene, options = {}) {
+  // Capture at the DOM boundary, before the browser moves focus outside Phaser.
+  scene.input.keyboard.addCapture?.("TAB");
+  let items = (options.items || []).filter(Boolean);
+  let index = Phaser.Math.Clamp(options.index ?? 0, 0, Math.max(0, items.length - 1));
+  const wrap = options.wrap !== false;
+  const enabled = () => options.enabled?.() ?? true;
+
+  function isItemEnabled(item) {
+    return Boolean(item) && (item.isEnabled?.() ?? true) && isControlVisible(item.root);
+  }
+
+  function applyFocus() {
+    items.forEach((item, i) => {
+      try { item?.setFocused?.(i === index && isItemEnabled(item)); } catch (_) {}
+    });
+    options.onFocus?.(index, items[index]);
+  }
+
+  function move(delta) {
+    if (!enabled() || items.length === 0) return;
+    let next = index;
+    for (let tries = 0; tries < items.length; tries++) {
+      next += delta;
+      if (wrap) {
+        next = (next + items.length) % items.length;
+      } else {
+        next = Phaser.Math.Clamp(next, 0, items.length - 1);
+      }
+      if (isItemEnabled(items[next])) {
+        index = next;
+        scene.soundSystem?.playUiSelect?.();
+        applyFocus();
+        return;
+      }
+    }
+  }
+
+  function activate() {
+    if (!enabled() || !isItemEnabled(items[index])) return;
+    items[index]?.activate?.();
+  }
+
+  function adjustOrMove(delta) {
+    if (!enabled()) return;
+    const current = items[index];
+    if (current?.adjust?.(delta)) return;
+    move(delta);
+  }
+
+  function verticalOrMove(delta) {
+    if (!enabled()) return;
+    if (options.onVertical?.(delta) === true) return;
+    move(delta);
+  }
+
+  let pointerBindings = [];
+  function bindPointerFocus() {
+    pointerBindings.forEach(([hit, handler]) => hit.off?.("pointerdown", handler));
+    pointerBindings = [];
+    items.forEach((item, i) => {
+      const hit = item.hit || item.bindButton?.hit;
+      if (!hit?.on) return;
+      const handler = () => {
+        if (!enabled() || !isItemEnabled(item) || index === i) return;
+        index = i;
+        applyFocus();
+      };
+      hit.on("pointerdown", handler);
+      pointerBindings.push([hit, handler]);
+    });
+  }
+
+  function horizontalOrMove(delta) {
+    if (!enabled()) return;
+    if (options.onHorizontal) options.onHorizontal(delta);
+    else adjustOrMove(delta);
+  }
+
+  const handlers = [
+    ["keydown-TAB", event => {
+      if (!enabled() || event?.cancelled) return;
+      event?.preventDefault?.();
+      event?.stopPropagation?.();
+      const direction = event?.shiftKey ? -1 : 1;
+      if (options.onTab?.(direction, event) !== true) move(direction);
+    }],
+    ["keydown-UP", () => verticalOrMove(-1)],
+    ["keydown-W", () => verticalOrMove(-1)],
+    ["keydown-LEFT", () => horizontalOrMove(-1)],
+    ["keydown-A", () => horizontalOrMove(-1)],
+    ["keydown-DOWN", () => verticalOrMove(1)],
+    ["keydown-S", () => verticalOrMove(1)],
+    ["keydown-RIGHT", () => horizontalOrMove(1)],
+    ["keydown-D", () => horizontalOrMove(1)],
+    ["keydown-ENTER", event => { if (!event?.repeat) activate(); }],
+    ["keydown-SPACE", event => { if (!event?.repeat) activate(); }],
+    ["keydown-ESC", () => { if (enabled()) options.onCancel?.(); }],
+  ];
+  handlers.forEach(([event, handler]) => scene.input.keyboard.on(event, handler));
+  bindPointerFocus();
+  applyFocus();
+
+  return {
+    setItems(nextItems, nextIndex = 0) {
+      items.forEach(item => {
+        try { item?.setFocused?.(false); } catch (_) {}
+      });
+      items = (nextItems || []).filter(Boolean);
+      index = Phaser.Math.Clamp(nextIndex, 0, Math.max(0, items.length - 1));
+      bindPointerFocus();
+      applyFocus();
+    },
+    setIndex(nextIndex) {
+      index = Phaser.Math.Clamp(nextIndex, 0, Math.max(0, items.length - 1));
+      applyFocus();
+    },
+    move,
+    activate,
+    destroy() {
+      pointerBindings.forEach(([hit, handler]) => hit.off?.("pointerdown", handler));
+      pointerBindings = [];
+      handlers.forEach(([event, handler]) => scene.input.keyboard.off(event, handler));
+      items.forEach(item => item?.setFocused?.(false));
+    },
+  };
+}

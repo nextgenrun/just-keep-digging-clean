@@ -1,0 +1,42 @@
+{
+  "status": "v15-webgl-runtime-passed-awaiting-user-visual-review",
+  "url": "http://127.0.0.1:8080/testing/animation-sandbox/2026-08-30-observatory-authored-layers-v3/?view=runtime&day=12&hour=22&weather=clear&rev=15",
+  "browser": "local Chrome WebGL render through Playwright",
+  "evidenceScreenshot": "qa-v15-runtime.png",
+  "render": {
+    "renderer": "webgl",
+    "pipeline": "54 sharp single-sample cloud wisps + 14 island sprites + 5 calendar/weather lifecycle islands + 10 existing-character interior figures + 900 star IDs + 87 per-window emissive IDs",
+    "servedHttp200": true,
+    "refreshedBrowserValidation": "WebGL active at 57.0 FPS after stabilization with no browser console errors; subjective naturalness review remains pending",
+    "premultipliedTransparentShaderOutput": true,
+    "runtimePixelReuseFromReference": false,
+    "townSquareVideoModified": false
+  },
+  "motion": {
+    "loopSeconds": 48,
+    "loopClosure": "each cloud wisp uses one sharp forward sample with its own staggered feathered reset; the 48-second phase governs ambient motion only",
+    "cloudSegments": 54,
+    "architectureModules": 14,
+    "dominantWholePlateTranslation": false,
+    "visibleMotion": "browser telemetry advanced normally; isolated rendered-pixel checks found 777 changed window pixels over a 0.96-second flame interval and 515 changed star-field pixels between independent phases",
+    "architectureMotion": true,
+    "motionSystems": 7,
+    "persistentWorldDayDurationMs": 7200000,
+    "islandLifecycleDays": [28, 56, 84],
+    "weatherCloudFlowRange": [0.78, 1.62]
+  },
+  "decomposition": {
+    "independentImageGenSources": 7,
+    "cloudStrata": 4,
+    "cloudSegments": 54,
+    "architectureModules": 14,
+    "calendarWeatherLifecycleIslands": 5,
+    "architectureStatic": false,
+    "individualWindowLights": 87,
+    "lightsSeparated": true,
+    "interiorFigures": 10,
+    "interiorMotionSources": "existing canonical talk, pickaxe-mining, and walk sheets",
+    "starIds": 900,
+    "starActivity": "dedicated star-only layer; cloud pixels cannot enter the star shader"
+  }
+}

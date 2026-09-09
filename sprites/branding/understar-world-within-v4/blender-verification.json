@@ -1,0 +1,17 @@
+{
+  "source": [
+    2152,
+    731
+  ],
+  "cutout": [
+    2112,
+    585
+  ],
+  "master": [
+    4096,
+    1216
+  ],
+  "native4k": false,
+  "relighting": false,
+  "interiorVioletPreserved": true
+}

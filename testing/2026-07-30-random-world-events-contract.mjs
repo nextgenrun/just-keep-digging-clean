@@ -97,9 +97,9 @@ assert.deepEqual(
   RANDOM_EVENT_TYPE_ORDER,
   [
     RANDOM_EVENT_TYPES.CRYSTAL_CHOIR,
-    RANDOM_EVENT_TYPES.BLACKOUT_BLOOM,
+    RANDOM_EVENT_TYPES.SIGNAL,
   ],
-  "only Choir and Blackout remain schedulable",
+  "Choir and Signal are schedulable; retired events stay blocked",
 );
 const flagsOff = resolveRandomEventFlags("?randomEvents=0&blackoutBloom=1");
 assert.equal(flagsOff.master, false);
@@ -185,7 +185,6 @@ const corrupt = sanitizeRandomEventData({
 assert.deepEqual(corrupt.recentResources, ["gold"], "invalid Level Two resource history is removed");
 assert.deepEqual(corrupt.recentTypes, [
   RANDOM_EVENT_TYPES.CRYSTAL_CHOIR,
-  RANDOM_EVENT_TYPES.BLACKOUT_BLOOM,
 ], "Rush Order is removed from saved scheduler history");
 assert.equal(corrupt.active, null, "a saved Rush Order is discarded as retired");
 assert.equal(corrupt.cooldownMs, RANDOM_WORLD_EVENT_CONFIG.scheduler.retryCooldownMs);
@@ -211,12 +210,11 @@ const legacyState = {
   stats: { started: 8, completed: 3, interrupted: 1 },
 };
 const migrated = sanitizeRandomEventData(legacyState, seed);
-assert.equal(migrated.version, 2);
+assert.equal(migrated.version, RANDOM_WORLD_EVENT_CONFIG.version);
 assert.equal(migrated.active, null, "retired active event is discarded without payout");
 assert.equal(migrated.cooldownMs, RANDOM_WORLD_EVENT_CONFIG.scheduler.retryCooldownMs);
 assert.deepEqual(migrated.recentTypes, [
   RANDOM_EVENT_TYPES.CRYSTAL_CHOIR,
-  RANDOM_EVENT_TYPES.BLACKOUT_BLOOM,
 ]);
 assert.deepEqual(migrated.recentResources, legacyState.recentResources);
 assert.deepEqual(migrated.completedChoirs, legacyState.completedChoirs);
@@ -270,7 +268,7 @@ pausedBridge.director = {
   state: {
     active: {
       id: "pause-test",
-      type: RANDOM_EVENT_TYPES.BLACKOUT_BLOOM,
+      type: RANDOM_EVENT_TYPES.CRYSTAL_CHOIR,
       targetResource: "gold",
       remainingMs: 26000,
       suspended: false,

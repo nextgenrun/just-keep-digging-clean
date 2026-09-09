@@ -1,0 +1,36 @@
+{
+  "tool": "built-in image_gen.imagegen",
+  "created": "2026-09-07",
+  "assets": [
+    {
+      "path": "bed.png",
+      "size": [
+        1942,
+        809
+      ],
+      "mode": "RGBA",
+      "sha256": "a7a5c7b1dde7cf2e00ffcfd0fd814c716fa09d9092a3f7bcfeafb9f405ad18b8",
+      "prompt": "Use case: stylized-concept. Production game asset: a single richly detailed rustic adventurer's BED prop for UNDERSTAR, a side-view 2.5D dark fantasy mining game, to be used directly as a baked Phaser sprite. Actual transparent RGBA background, no floor, no room, no rectangular backdrop, no text. Entire bed isolated with generous transparent margin. Horizontal bed, headboard on LEFT, footboard on RIGHT, nearly straight side elevation with only a little top surface visible (low orthographic 3/4 camera, not isometric). Handcrafted dark weathered oak frame with thick wooden legs, carved gentle root motifs, warm aged brass joints, a thick ivory linen pillow on the left, deep desaturated midnight-teal quilt draping over the front with beautiful stitched gold-ochre edging and detailed natural folds. Comfortable, safe and inviting by a town campfire. Adult human scale single bed, low headboard, lower footboard, silhouette wider than tall about 2.4:1. Match a polished high-end painted dark-fantasy prop library: realistic material volume, exquisite sharp microtexture, restrained painterly finish, subtle baked contact shading inside object, warm soft upper-left light and cool ambient fill, warm edge highlights. No bloom haze, no cartoon, no pixel art, no people, no weapons, no flowers, no extra furniture. Export one high quality object on transparency, usable at 240px world width with clean readable silhouette."
+    },
+    {
+      "path": "blessings.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "sha256": "f039600a584fa45f259320d27599a2ad92464fdff7fd500abd52549f12822623",
+      "prompt": "Use case: ui-mockup. Create a finished baked UI panel asset for UNDERSTAR, a premium 2.5D dark fantasy mining game. Landscape 1536x1024 image. Entire image is the game UI panel, no website, no browser, no mockup device. Outer background transparent RGBA. Symmetric dark midnight blue black hammered stone and worn wood panel with finely engraved antique gold border and understated root carvings, dimensional handcrafted painted materials, razor clear polished game art. A restrained warmly glowing leather ember pouch icon at top center, opening glowing orange with a few small sparks. Top centered exact readable gold serif heading at y=165: 'EMBER POUCH FILLED'. At y=260 a smaller exact serif line 'CHOOSE YOUR BLESSING'. Two equally sized framed choice cards, left rectangle from x=110,y=335 to x=720,y=760; right from x=815,y=335 to x=1425,y=760. Left card: beautiful ember-tipped mining torch icon near center at y=450, exact large gold serif title 'WARMTH' at y=580, exact smaller readable cream line 'Mine faster' at y=645. Right card: beautiful small cluster of blue-gold celestial crystals and stars near center at y=450, exact large gold serif title 'INSPIRATION' at y=580, exact cream line 'Earn more experience' at y=645. Leave a clean dark area below each line, within card from y=685 to y=740, for game-rendered changing stats. At bottom y=820 exact small cream serif sentence: 'Choose a blessing to save your rest'. At bottom center a wide dimensional framed dark gold-edged button from x=440,y=875 to x=1096,y=960, with exact label 'TEND THE CAMPFIRE' centered toward upper half y=904, and blank lower half for dynamic upgrade price. All lettering must be baked into the art, correctly spelled, large legible sharp. Preserve balanced ample negative space. No floating windows, no extra labels, no outside icons, no keyboard letters, no watermark. Materials match a handcrafted oak bed with midnight teal quilt, ivory linen and brass fittings; sophisticated dark fantasy UI library. No flat generic rectangles or CSS look. One single complete finished panel."
+    },
+    {
+      "path": "captions.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "sha256": "b4a355a411a60997c4caeebc4459a40ea44d8807b41e0664a2c196c508c8c343",
+      "prompt": "Create a production sprite atlas for a high quality dark fantasy game. 1536x1024 pixels RGBA truly transparent background, four horizontal caption plaques, one centered in each equal 256px-high row, plaques occupy x=90..1446 with at least 25px transparent gap to other rows. Same simple richly textured charcoal slate and antique brass carved oak frame on all four plaques, sophisticated engraved root filigree and small warm amber gems, no surrounding backdrop, no floating decoration. Large crisp baked ivory-gold serif lettering, every word easily legible at one-third size. Row 1, y=128 exact text 'SLEEP & SAVE'. Row 2, y=384 exact text 'A DAY DRIFTS BY'. Row 3, y=640 exact text 'REST SAVED'. Row 4, y=896 exact text 'SAVE FAILED - TRY AGAIN'. Render ONLY these four plaques, orthographic flat view, uniform size and alignment, exquisite realistic material shading, polished hand-painted dark fantasy interface matching midnight teal, weathered oak and gold library. No other text, no UI controls, no keyboard labels, no website, no gradients outside plaques. Transparent gutters. This atlas is the final art used in Phaser, not a mockup."
+    }
+  ]
+}

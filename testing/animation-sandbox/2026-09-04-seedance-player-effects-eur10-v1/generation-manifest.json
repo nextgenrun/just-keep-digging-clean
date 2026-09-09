@@ -1,0 +1,749 @@
+{
+  "schemaVersion": "seedance-player-effects-generation-v1",
+  "reviewOnly": true,
+  "productionChanged": false,
+  "updatedAt": "2026-09-04T04:33:22.675105+00:00",
+  "model": "bytedance/seedance-2.0-mini",
+  "stage": "core-effects",
+  "hardCapUsd": 11.0,
+  "budgetEur": 10,
+  "reservedOrKnownCostUsd": 3.05046,
+  "knownCostUsd": 2.9295,
+  "completed": 21,
+  "failed": 0,
+  "modelPricingSkus": {
+    "video_tokens": "0.0000035",
+    "video_tokens_without_audio": "0.0000035",
+    "video_tokens_with_video_input": "0.0000021"
+  },
+  "jobs": [
+    {
+      "variantId": "cal-walk-loop-v01",
+      "profileId": "cal-walk-loop",
+      "label": "Player walk loop source",
+      "role": "sprite-atlas-source",
+      "seed": 26090401,
+      "durationSeconds": 8,
+      "resolution": "720p",
+      "aspectRatio": "16:9",
+      "estimatedCostUsd": 0.24192,
+      "status": "completed",
+      "response": {
+        "id": "YWvdhbrzRgM6BIjdPBnf",
+        "polling_url": "https://openrouter.ai/api/v1/videos/YWvdhbrzRgM6BIjdPBnf",
+        "status": "pending"
+      },
+      "pollingUrl": "https://openrouter.ai/api/v1/videos/YWvdhbrzRgM6BIjdPBnf",
+      "lastPoll": {
+        "id": "YWvdhbrzRgM6BIjdPBnf",
+        "generation_id": "gen-vid-1788492867-yJtuQQJhMnlZDbes7IFG",
+        "polling_url": "https://openrouter.ai/api/v1/videos/YWvdhbrzRgM6BIjdPBnf",
+        "status": "completed",
+        "usage": {
+          "cost": 0.24318,
+          "is_byok": false
+        }
+      },
+      "knownCostUsd": 0.24318,
+      "costSource": "api-usage",
+      "output": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/raw/cal-walk-loop-v01.mp4",
+      "bytes": 4659918,
+      "sha256": "5ae719c8eceb9c907901f30d71da5fbb34a4db2b9f3dc629860222f1717a13fd"
+    },
+    {
+      "variantId": "cal-walk-loop-v02",
+      "profileId": "cal-walk-loop",
+      "label": "Player walk loop source",
+      "role": "sprite-atlas-source",
+      "seed": 26090402,
+      "durationSeconds": 8,
+      "resolution": "720p",
+      "aspectRatio": "16:9",
+      "estimatedCostUsd": 0.24192,
+      "status": "completed",
+      "response": {
+        "id": "YkcVlXShqsyA8y0pmgPF",
+        "polling_url": "https://openrouter.ai/api/v1/videos/YkcVlXShqsyA8y0pmgPF",
+        "status": "pending"
+      },
+      "pollingUrl": "https://openrouter.ai/api/v1/videos/YkcVlXShqsyA8y0pmgPF",
+      "lastPoll": {
+        "id": "YkcVlXShqsyA8y0pmgPF",
+        "generation_id": "gen-vid-1788492993-7G4ES5y8Vx8yi1Tnjjkt",
+        "polling_url": "https://openrouter.ai/api/v1/videos/YkcVlXShqsyA8y0pmgPF",
+        "status": "completed",
+        "usage": {
+          "cost": 0.24318,
+          "is_byok": false
+        }
+      },
+      "knownCostUsd": 0.24318,
+      "costSource": "api-usage",
+      "output": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/raw/cal-walk-loop-v02.mp4",
+      "bytes": 4822215,
+      "sha256": "f0e686e588051e57d24e2ac4ccfc9462a79b5829958504fc7e256fe59bd13754"
+    },
+    {
+      "variantId": "cal-walk-loop-v03",
+      "profileId": "cal-walk-loop",
+      "label": "Player walk loop source",
+      "role": "sprite-atlas-source",
+      "seed": 26090403,
+      "durationSeconds": 8,
+      "resolution": "720p",
+      "aspectRatio": "16:9",
+      "estimatedCostUsd": 0.24192,
+      "status": "completed",
+      "response": {
+        "id": "R79IGZ5auvTql7PuugWZ",
+        "polling_url": "https://openrouter.ai/api/v1/videos/R79IGZ5auvTql7PuugWZ",
+        "status": "pending"
+      },
+      "pollingUrl": "https://openrouter.ai/api/v1/videos/R79IGZ5auvTql7PuugWZ",
+      "lastPoll": {
+        "id": "R79IGZ5auvTql7PuugWZ",
+        "generation_id": "gen-vid-1788493123-z32SmvBdodN0ou7TbRCD",
+        "polling_url": "https://openrouter.ai/api/v1/videos/R79IGZ5auvTql7PuugWZ",
+        "status": "completed",
+        "usage": {
+          "cost": 0.24318,
+          "is_byok": false
+        }
+      },
+      "knownCostUsd": 0.24318,
+      "costSource": "api-usage",
+      "output": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/raw/cal-walk-loop-v03.mp4",
+      "bytes": 4539916,
+      "sha256": "8954b21ba1e7cc6f16b489cd92d53b4a69a0db4755fd32b257808e9315834021"
+    },
+    {
+      "variantId": "cal-side-dig-v01",
+      "profileId": "cal-side-dig",
+      "label": "Player moving side-dig source",
+      "role": "sprite-atlas-source",
+      "seed": 26090411,
+      "durationSeconds": 4,
+      "resolution": "720p",
+      "aspectRatio": "16:9",
+      "estimatedCostUsd": 0.12096,
+      "status": "completed",
+      "response": {
+        "id": "X9GffWVVlh7AisvEIQAJ",
+        "polling_url": "https://openrouter.ai/api/v1/videos/X9GffWVVlh7AisvEIQAJ",
+        "status": "pending"
+      },
+      "pollingUrl": "https://openrouter.ai/api/v1/videos/X9GffWVVlh7AisvEIQAJ",
+      "lastPoll": {
+        "id": "X9GffWVVlh7AisvEIQAJ",
+        "generation_id": "gen-vid-1788493253-cDIWpZUqu3xi5x9YxmOm",
+        "polling_url": "https://openrouter.ai/api/v1/videos/X9GffWVVlh7AisvEIQAJ",
+        "status": "completed",
+        "usage": {
+          "cost": 0.12222,
+          "is_byok": false
+        }
+      },
+      "knownCostUsd": 0.12222,
+      "costSource": "api-usage",
+      "output": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/raw/cal-side-dig-v01.mp4",
+      "bytes": 2502905,
+      "sha256": "4a3d202c8c7882da56d2cf33a401bd595412b65df51e57aac29430f658ce70ec"
+    },
+    {
+      "variantId": "cal-side-dig-v02",
+      "profileId": "cal-side-dig",
+      "label": "Player moving side-dig source",
+      "role": "sprite-atlas-source",
+      "seed": 26090412,
+      "durationSeconds": 4,
+      "resolution": "720p",
+      "aspectRatio": "16:9",
+      "estimatedCostUsd": 0.12096,
+      "status": "completed",
+      "response": {
+        "id": "Tb4DNQWBEymzTQsje7Kg",
+        "polling_url": "https://openrouter.ai/api/v1/videos/Tb4DNQWBEymzTQsje7Kg",
+        "status": "pending"
+      },
+      "pollingUrl": "https://openrouter.ai/api/v1/videos/Tb4DNQWBEymzTQsje7Kg",
+      "lastPoll": {
+        "id": "Tb4DNQWBEymzTQsje7Kg",
+        "generation_id": "gen-vid-1788493413-QRvMn1LK0YN6E9G4DySj",
+        "polling_url": "https://openrouter.ai/api/v1/videos/Tb4DNQWBEymzTQsje7Kg",
+        "status": "completed",
+        "usage": {
+          "cost": 0.12222,
+          "is_byok": false
+        }
+      },
+      "knownCostUsd": 0.12222,
+      "costSource": "api-usage",
+      "output": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/raw/cal-side-dig-v02.mp4",
+      "bytes": 2496148,
+      "sha256": "f166b56d8872908b3af9897af00b35aa70bffeb2802b021ecd03a9fe0f89bf61"
+    },
+    {
+      "variantId": "cal-side-dig-v03",
+      "profileId": "cal-side-dig",
+      "label": "Player moving side-dig source",
+      "role": "sprite-atlas-source",
+      "seed": 26090413,
+      "durationSeconds": 4,
+      "resolution": "720p",
+      "aspectRatio": "16:9",
+      "estimatedCostUsd": 0.12096,
+      "status": "completed",
+      "response": {
+        "id": "5LlrKxKS54LqNwUPm2PK",
+        "polling_url": "https://openrouter.ai/api/v1/videos/5LlrKxKS54LqNwUPm2PK",
+        "status": "pending"
+      },
+      "pollingUrl": "https://openrouter.ai/api/v1/videos/5LlrKxKS54LqNwUPm2PK",
+      "lastPoll": {
+        "id": "5LlrKxKS54LqNwUPm2PK",
+        "generation_id": "gen-vid-1788493513-CfXmT0JGZz6l9eg1QAFT",
+        "polling_url": "https://openrouter.ai/api/v1/videos/5LlrKxKS54LqNwUPm2PK",
+        "status": "completed",
+        "usage": {
+          "cost": 0.12222,
+          "is_byok": false
+        }
+      },
+      "knownCostUsd": 0.12222,
+      "costSource": "api-usage",
+      "output": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/raw/cal-side-dig-v03.mp4",
+      "bytes": 2378764,
+      "sha256": "eca7765951b3a17b3d6228446dffff0db7ce32137d35e0a4966d02b0d6552f5f"
+    },
+    {
+      "variantId": "cal-soil-impact-v01",
+      "profileId": "cal-soil-impact",
+      "label": "Soil contact aftereffect",
+      "role": "masked-one-shot-aftereffect",
+      "seed": 26090421,
+      "durationSeconds": 4,
+      "resolution": "720p",
+      "aspectRatio": "16:9",
+      "estimatedCostUsd": 0.12096,
+      "status": "completed",
+      "response": {
+        "id": "hH5KHVLHPK9f5uUpgUGM",
+        "polling_url": "https://openrouter.ai/api/v1/videos/hH5KHVLHPK9f5uUpgUGM",
+        "status": "pending"
+      },
+      "pollingUrl": "https://openrouter.ai/api/v1/videos/hH5KHVLHPK9f5uUpgUGM",
+      "lastPoll": {
+        "id": "hH5KHVLHPK9f5uUpgUGM",
+        "generation_id": "gen-vid-1788493632-fCaYgRCCH39IpBbtHnOd",
+        "polling_url": "https://openrouter.ai/api/v1/videos/hH5KHVLHPK9f5uUpgUGM",
+        "status": "completed",
+        "usage": {
+          "cost": 0.12222,
+          "is_byok": false
+        }
+      },
+      "knownCostUsd": 0.12222,
+      "costSource": "api-usage",
+      "output": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/raw/cal-soil-impact-v01.mp4",
+      "bytes": 2000383,
+      "sha256": "7c44052c4bcd9812b2bc845bb3d5576bcaf6622a2d5b42e33e7977401a0ab10e"
+    },
+    {
+      "variantId": "cal-soil-impact-v02",
+      "profileId": "cal-soil-impact",
+      "label": "Soil contact aftereffect",
+      "role": "masked-one-shot-aftereffect",
+      "seed": 26090422,
+      "durationSeconds": 4,
+      "resolution": "720p",
+      "aspectRatio": "16:9",
+      "estimatedCostUsd": 0.12096,
+      "status": "completed",
+      "response": {
+        "id": "nppAvurwJso96EQIcUDZ",
+        "polling_url": "https://openrouter.ai/api/v1/videos/nppAvurwJso96EQIcUDZ",
+        "status": "pending"
+      },
+      "pollingUrl": "https://openrouter.ai/api/v1/videos/nppAvurwJso96EQIcUDZ",
+      "lastPoll": {
+        "id": "nppAvurwJso96EQIcUDZ",
+        "generation_id": "gen-vid-1788493743-wZO7QqFrYPxw4Nn35SHk",
+        "polling_url": "https://openrouter.ai/api/v1/videos/nppAvurwJso96EQIcUDZ",
+        "status": "completed",
+        "usage": {
+          "cost": 0.12222,
+          "is_byok": false
+        }
+      },
+      "knownCostUsd": 0.12222,
+      "costSource": "api-usage",
+      "output": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/raw/cal-soil-impact-v02.mp4",
+      "bytes": 2202401,
+      "sha256": "42695b5044d1953af046046f3c8d8dc15b17548781060fd18a336e16f7d7ace8"
+    },
+    {
+      "variantId": "cal-soil-impact-v03",
+      "profileId": "cal-soil-impact",
+      "label": "Soil contact aftereffect",
+      "role": "masked-one-shot-aftereffect",
+      "seed": 26090423,
+      "durationSeconds": 4,
+      "resolution": "720p",
+      "aspectRatio": "16:9",
+      "estimatedCostUsd": 0.12096,
+      "status": "completed",
+      "response": {
+        "id": "H4lmwZgUwG2iSo4jmW9e",
+        "polling_url": "https://openrouter.ai/api/v1/videos/H4lmwZgUwG2iSo4jmW9e",
+        "status": "pending"
+      },
+      "pollingUrl": "https://openrouter.ai/api/v1/videos/H4lmwZgUwG2iSo4jmW9e",
+      "lastPoll": {
+        "id": "H4lmwZgUwG2iSo4jmW9e",
+        "generation_id": "gen-vid-1788493858-FhOjFNZjdZibWJyXaWM1",
+        "polling_url": "https://openrouter.ai/api/v1/videos/H4lmwZgUwG2iSo4jmW9e",
+        "status": "completed",
+        "usage": {
+          "cost": 0.12222,
+          "is_byok": false
+        }
+      },
+      "knownCostUsd": 0.12222,
+      "costSource": "api-usage",
+      "output": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/raw/cal-soil-impact-v03.mp4",
+      "bytes": 1870251,
+      "sha256": "8291d5bb6dac9691522d120bd2690eb666d9e2588a9e1c3661c81e3e52366527"
+    },
+    {
+      "variantId": "fx-stone-contact-v01",
+      "profileId": "fx-stone-contact",
+      "label": "Stone contact",
+      "role": "masked-one-shot-aftereffect",
+      "seed": 26090501,
+      "durationSeconds": 4,
+      "resolution": "720p",
+      "aspectRatio": "16:9",
+      "estimatedCostUsd": 0.12096,
+      "status": "completed",
+      "response": {
+        "id": "XqLtMmGab87OZU6XGmLP",
+        "polling_url": "https://openrouter.ai/api/v1/videos/XqLtMmGab87OZU6XGmLP",
+        "status": "pending"
+      },
+      "pollingUrl": "https://openrouter.ai/api/v1/videos/XqLtMmGab87OZU6XGmLP",
+      "lastPoll": {
+        "id": "XqLtMmGab87OZU6XGmLP",
+        "generation_id": "gen-vid-1788494938-1jUxVAApuGiDUMo3r6eD",
+        "polling_url": "https://openrouter.ai/api/v1/videos/XqLtMmGab87OZU6XGmLP",
+        "status": "completed",
+        "usage": {
+          "cost": 0.12222,
+          "is_byok": false
+        }
+      },
+      "knownCostUsd": 0.12222,
+      "costSource": "api-usage",
+      "output": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/raw/fx-stone-contact-v01.mp4",
+      "bytes": 1983355,
+      "sha256": "8971d4b0f589cf7e19bb1e7b85821cfc6363527d6466eab2505d444efb5c4b1f"
+    },
+    {
+      "variantId": "fx-stone-contact-v02",
+      "profileId": "fx-stone-contact",
+      "label": "Stone contact",
+      "role": "masked-one-shot-aftereffect",
+      "seed": 26090502,
+      "durationSeconds": 4,
+      "resolution": "720p",
+      "aspectRatio": "16:9",
+      "estimatedCostUsd": 0.12096,
+      "status": "completed",
+      "response": {
+        "id": "Zppe6Grh4KZS6plDXc57",
+        "polling_url": "https://openrouter.ai/api/v1/videos/Zppe6Grh4KZS6plDXc57",
+        "status": "pending"
+      },
+      "pollingUrl": "https://openrouter.ai/api/v1/videos/Zppe6Grh4KZS6plDXc57",
+      "lastPoll": {
+        "id": "Zppe6Grh4KZS6plDXc57",
+        "generation_id": "gen-vid-1788495035-RAC399G4WfQBesUoSgtP",
+        "polling_url": "https://openrouter.ai/api/v1/videos/Zppe6Grh4KZS6plDXc57",
+        "status": "completed",
+        "usage": {
+          "cost": 0.12222,
+          "is_byok": false
+        }
+      },
+      "knownCostUsd": 0.12222,
+      "costSource": "api-usage",
+      "output": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/raw/fx-stone-contact-v02.mp4",
+      "bytes": 2152420,
+      "sha256": "22646d7e04004b2716b537afb77643b9129978b75caa702b4cfc8d3c0cd59af6"
+    },
+    {
+      "variantId": "fx-metal-contact-v01",
+      "profileId": "fx-metal-contact",
+      "label": "Metal and ore contact",
+      "role": "masked-one-shot-aftereffect",
+      "seed": 26090511,
+      "durationSeconds": 4,
+      "resolution": "720p",
+      "aspectRatio": "16:9",
+      "estimatedCostUsd": 0.12096,
+      "status": "completed",
+      "response": {
+        "id": "JeKgHxOT0Mw2h4Asu844",
+        "polling_url": "https://openrouter.ai/api/v1/videos/JeKgHxOT0Mw2h4Asu844",
+        "status": "pending"
+      },
+      "pollingUrl": "https://openrouter.ai/api/v1/videos/JeKgHxOT0Mw2h4Asu844",
+      "lastPoll": {
+        "id": "JeKgHxOT0Mw2h4Asu844",
+        "generation_id": "gen-vid-1788495154-6pbAKb8l4H6RA4Txb0pw",
+        "polling_url": "https://openrouter.ai/api/v1/videos/JeKgHxOT0Mw2h4Asu844",
+        "status": "completed",
+        "usage": {
+          "cost": 0.12222,
+          "is_byok": false
+        }
+      },
+      "knownCostUsd": 0.12222,
+      "costSource": "api-usage",
+      "output": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/raw/fx-metal-contact-v01.mp4",
+      "bytes": 1808123,
+      "sha256": "1a08bf1b9cb2e3e471e8184583c2395121fa9dda0a8f2706438c2196bdba009d"
+    },
+    {
+      "variantId": "fx-metal-contact-v02",
+      "profileId": "fx-metal-contact",
+      "label": "Metal and ore contact",
+      "role": "masked-one-shot-aftereffect",
+      "seed": 26090512,
+      "durationSeconds": 4,
+      "resolution": "720p",
+      "aspectRatio": "16:9",
+      "estimatedCostUsd": 0.12096,
+      "status": "completed",
+      "response": {
+        "id": "UDE3oirkQRoUfCMT4Mxq",
+        "polling_url": "https://openrouter.ai/api/v1/videos/UDE3oirkQRoUfCMT4Mxq",
+        "status": "pending"
+      },
+      "pollingUrl": "https://openrouter.ai/api/v1/videos/UDE3oirkQRoUfCMT4Mxq",
+      "lastPoll": {
+        "id": "UDE3oirkQRoUfCMT4Mxq",
+        "generation_id": "gen-vid-1788495310-81O9M27m3mLYTWkvQxdE",
+        "polling_url": "https://openrouter.ai/api/v1/videos/UDE3oirkQRoUfCMT4Mxq",
+        "status": "completed",
+        "usage": {
+          "cost": 0.12222,
+          "is_byok": false
+        }
+      },
+      "knownCostUsd": 0.12222,
+      "costSource": "api-usage",
+      "output": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/raw/fx-metal-contact-v02.mp4",
+      "bytes": 1809212,
+      "sha256": "6de4a62559f18e6324946b688d5c1accc554fe624bf7d6d5ac8d7511a2b7acdd"
+    },
+    {
+      "variantId": "fx-crystal-contact-v01",
+      "profileId": "fx-crystal-contact",
+      "label": "Crystal contact",
+      "role": "masked-one-shot-aftereffect",
+      "seed": 26090521,
+      "durationSeconds": 4,
+      "resolution": "720p",
+      "aspectRatio": "16:9",
+      "estimatedCostUsd": 0.12096,
+      "status": "completed",
+      "response": {
+        "id": "X1xU7Tfy1Gi85Sy8BvC1",
+        "polling_url": "https://openrouter.ai/api/v1/videos/X1xU7Tfy1Gi85Sy8BvC1",
+        "status": "pending"
+      },
+      "pollingUrl": "https://openrouter.ai/api/v1/videos/X1xU7Tfy1Gi85Sy8BvC1",
+      "lastPoll": {
+        "id": "X1xU7Tfy1Gi85Sy8BvC1",
+        "generation_id": "gen-vid-1788495422-fN5AknOoMpjTgwLgF7y3",
+        "polling_url": "https://openrouter.ai/api/v1/videos/X1xU7Tfy1Gi85Sy8BvC1",
+        "status": "completed",
+        "usage": {
+          "cost": 0.12222,
+          "is_byok": false
+        }
+      },
+      "knownCostUsd": 0.12222,
+      "costSource": "api-usage",
+      "output": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/raw/fx-crystal-contact-v01.mp4",
+      "bytes": 1664094,
+      "sha256": "02cba954427a442e81620a4949b6f251ff3c5d45e41bba702da3ff1839a79f1c"
+    },
+    {
+      "variantId": "fx-crystal-contact-v02",
+      "profileId": "fx-crystal-contact",
+      "label": "Crystal contact",
+      "role": "masked-one-shot-aftereffect",
+      "seed": 26090522,
+      "durationSeconds": 4,
+      "resolution": "720p",
+      "aspectRatio": "16:9",
+      "estimatedCostUsd": 0.12096,
+      "status": "completed",
+      "response": {
+        "id": "REkX7CVZgzYNyK726b75",
+        "polling_url": "https://openrouter.ai/api/v1/videos/REkX7CVZgzYNyK726b75",
+        "status": "pending"
+      },
+      "pollingUrl": "https://openrouter.ai/api/v1/videos/REkX7CVZgzYNyK726b75",
+      "lastPoll": {
+        "id": "REkX7CVZgzYNyK726b75",
+        "generation_id": "gen-vid-1788495503-eAGOAslq2YqckG7slfX8",
+        "polling_url": "https://openrouter.ai/api/v1/videos/REkX7CVZgzYNyK726b75",
+        "status": "completed",
+        "usage": {
+          "cost": 0.12222,
+          "is_byok": false
+        }
+      },
+      "knownCostUsd": 0.12222,
+      "costSource": "api-usage",
+      "output": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/raw/fx-crystal-contact-v02.mp4",
+      "bytes": 1369981,
+      "sha256": "84030f59daa9a21017ebf7041b2b01e647e49f2ce67fd2117f787ba68af73303"
+    },
+    {
+      "variantId": "fx-magma-contact-v01",
+      "profileId": "fx-magma-contact",
+      "label": "Magma contact",
+      "role": "masked-one-shot-aftereffect",
+      "seed": 26090531,
+      "durationSeconds": 4,
+      "resolution": "720p",
+      "aspectRatio": "16:9",
+      "estimatedCostUsd": 0.12096,
+      "status": "completed",
+      "response": {
+        "id": "ENvS84I6eNR6oSDal8IV",
+        "polling_url": "https://openrouter.ai/api/v1/videos/ENvS84I6eNR6oSDal8IV",
+        "status": "pending"
+      },
+      "pollingUrl": "https://openrouter.ai/api/v1/videos/ENvS84I6eNR6oSDal8IV",
+      "lastPoll": {
+        "id": "ENvS84I6eNR6oSDal8IV",
+        "generation_id": "gen-vid-1788495645-2MH4RQjEASPi2ZckdGOX",
+        "polling_url": "https://openrouter.ai/api/v1/videos/ENvS84I6eNR6oSDal8IV",
+        "status": "completed",
+        "usage": {
+          "cost": 0.12222,
+          "is_byok": false
+        }
+      },
+      "knownCostUsd": 0.12222,
+      "costSource": "api-usage",
+      "output": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/raw/fx-magma-contact-v01.mp4",
+      "bytes": 1563896,
+      "sha256": "166ad578c6063cde2954b39cb2a0b2fda9e96380ea5bc1abb5cc95f187a26d28"
+    },
+    {
+      "variantId": "fx-magma-contact-v02",
+      "profileId": "fx-magma-contact",
+      "label": "Magma contact",
+      "role": "masked-one-shot-aftereffect",
+      "seed": 26090532,
+      "durationSeconds": 4,
+      "resolution": "720p",
+      "aspectRatio": "16:9",
+      "estimatedCostUsd": 0.12096,
+      "status": "completed",
+      "response": {
+        "id": "DfLvf2JL8B7FpuVrNzQK",
+        "polling_url": "https://openrouter.ai/api/v1/videos/DfLvf2JL8B7FpuVrNzQK",
+        "status": "pending"
+      },
+      "pollingUrl": "https://openrouter.ai/api/v1/videos/DfLvf2JL8B7FpuVrNzQK",
+      "lastPoll": {
+        "id": "DfLvf2JL8B7FpuVrNzQK",
+        "generation_id": "gen-vid-1788495748-F2erUV5ojhpE87PPNkEU",
+        "polling_url": "https://openrouter.ai/api/v1/videos/DfLvf2JL8B7FpuVrNzQK",
+        "status": "completed",
+        "usage": {
+          "cost": 0.12222,
+          "is_byok": false
+        }
+      },
+      "knownCostUsd": 0.12222,
+      "costSource": "api-usage",
+      "output": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/raw/fx-magma-contact-v02.mp4",
+      "bytes": 1594689,
+      "sha256": "956cb1fe3de4dbc0380abfcbc0938a86e5669acdfeac8429f39882322fc20004"
+    },
+    {
+      "variantId": "fx-dirt-break-v01",
+      "profileId": "fx-dirt-break",
+      "label": "Dirt tile break",
+      "role": "masked-destructive-one-shot",
+      "seed": 26090541,
+      "durationSeconds": 4,
+      "resolution": "720p",
+      "aspectRatio": "16:9",
+      "estimatedCostUsd": 0.12096,
+      "status": "completed",
+      "response": {
+        "id": "S9Jdf3gq8YUdyGgCZeJ0",
+        "polling_url": "https://openrouter.ai/api/v1/videos/S9Jdf3gq8YUdyGgCZeJ0",
+        "status": "pending"
+      },
+      "pollingUrl": "https://openrouter.ai/api/v1/videos/S9Jdf3gq8YUdyGgCZeJ0",
+      "lastPoll": {
+        "id": "S9Jdf3gq8YUdyGgCZeJ0",
+        "generation_id": "gen-vid-1788495876-SzY448V2MxuI5ABO3FOw",
+        "polling_url": "https://openrouter.ai/api/v1/videos/S9Jdf3gq8YUdyGgCZeJ0",
+        "status": "completed",
+        "usage": {
+          "cost": 0.12222,
+          "is_byok": false
+        }
+      },
+      "knownCostUsd": 0.12222,
+      "costSource": "api-usage",
+      "output": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/raw/fx-dirt-break-v01.mp4",
+      "bytes": 2009973,
+      "sha256": "24573d0d3ff4eb039860cd8358f680bcd0b6272b4932e14bab57af4f799b3086"
+    },
+    {
+      "variantId": "fx-dirt-break-v02",
+      "profileId": "fx-dirt-break",
+      "label": "Dirt tile break",
+      "role": "masked-destructive-one-shot",
+      "seed": 26090542,
+      "durationSeconds": 4,
+      "resolution": "720p",
+      "aspectRatio": "16:9",
+      "estimatedCostUsd": 0.12096,
+      "status": "completed",
+      "response": {
+        "id": "4zyfeubUWDawL238Amuh",
+        "polling_url": "https://openrouter.ai/api/v1/videos/4zyfeubUWDawL238Amuh",
+        "status": "pending"
+      },
+      "pollingUrl": "https://openrouter.ai/api/v1/videos/4zyfeubUWDawL238Amuh",
+      "lastPoll": {
+        "id": "4zyfeubUWDawL238Amuh",
+        "generation_id": "gen-vid-1788496020-mVc9KaOFlepFscEiLC5P",
+        "polling_url": "https://openrouter.ai/api/v1/videos/4zyfeubUWDawL238Amuh",
+        "status": "completed",
+        "usage": {
+          "cost": 0.12222,
+          "is_byok": false
+        }
+      },
+      "knownCostUsd": 0.12222,
+      "costSource": "api-usage",
+      "output": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/raw/fx-dirt-break-v02.mp4",
+      "bytes": 1816738,
+      "sha256": "151bdc1897909e7db7e3a7425744c4903e5430aeedd1e119ebabc39281754a44"
+    },
+    {
+      "variantId": "fx-stone-break-v01",
+      "profileId": "fx-stone-break",
+      "label": "Stone tile break",
+      "role": "masked-destructive-one-shot",
+      "seed": 26090551,
+      "durationSeconds": 4,
+      "resolution": "720p",
+      "aspectRatio": "16:9",
+      "estimatedCostUsd": 0.12096,
+      "status": "completed",
+      "response": {
+        "id": "skbDNCh5FTIG8rWPdmXA",
+        "polling_url": "https://openrouter.ai/api/v1/videos/skbDNCh5FTIG8rWPdmXA",
+        "status": "pending"
+      },
+      "pollingUrl": "https://openrouter.ai/api/v1/videos/skbDNCh5FTIG8rWPdmXA",
+      "lastPoll": {
+        "id": "skbDNCh5FTIG8rWPdmXA",
+        "generation_id": "gen-vid-1788496131-oUBD48oCABXoLfQa8fcl",
+        "polling_url": "https://openrouter.ai/api/v1/videos/skbDNCh5FTIG8rWPdmXA",
+        "status": "completed",
+        "usage": {
+          "cost": 0.12222,
+          "is_byok": false
+        }
+      },
+      "knownCostUsd": 0.12222,
+      "costSource": "api-usage",
+      "output": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/raw/fx-stone-break-v01.mp4",
+      "bytes": 1706874,
+      "sha256": "c603c92eb573874baa23309ce5dc8b0bb9648d0b1ffc20a38785e83920281943"
+    },
+    {
+      "variantId": "fx-stone-break-v02",
+      "profileId": "fx-stone-break",
+      "label": "Stone tile break",
+      "role": "masked-destructive-one-shot",
+      "seed": 26090552,
+      "durationSeconds": 4,
+      "resolution": "720p",
+      "aspectRatio": "16:9",
+      "estimatedCostUsd": 0.12096,
+      "status": "completed",
+      "response": {
+        "id": "9hWzLMIOuK8Csrp3NE49",
+        "polling_url": "https://openrouter.ai/api/v1/videos/9hWzLMIOuK8Csrp3NE49",
+        "status": "pending"
+      },
+      "pollingUrl": "https://openrouter.ai/api/v1/videos/9hWzLMIOuK8Csrp3NE49",
+      "lastPoll": {
+        "id": "9hWzLMIOuK8Csrp3NE49",
+        "generation_id": "gen-vid-1788496258-TiEeii9b45HCj2a8KYNB",
+        "polling_url": "https://openrouter.ai/api/v1/videos/9hWzLMIOuK8Csrp3NE49",
+        "status": "completed",
+        "usage": {
+          "cost": 0.12222,
+          "is_byok": false
+        }
+      },
+      "knownCostUsd": 0.12222,
+      "costSource": "api-usage",
+      "output": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/raw/fx-stone-break-v02.mp4",
+      "bytes": 1873168,
+      "sha256": "7216d2c258f2bb3a98635d024dacc9554d6de239ae4c965b3406cd82de65fc65"
+    },
+    {
+      "variantId": "fx-crystal-break-v01",
+      "profileId": "fx-crystal-break",
+      "label": "Crystal tile break",
+      "role": "masked-destructive-one-shot",
+      "seed": 26090561,
+      "durationSeconds": 4,
+      "resolution": "720p",
+      "aspectRatio": "16:9",
+      "estimatedCostUsd": 0.12096,
+      "status": "pending",
+      "response": {
+        "id": "VdM4WP24S89idCYwttO7",
+        "polling_url": "https://openrouter.ai/api/v1/videos/VdM4WP24S89idCYwttO7",
+        "status": "pending"
+      },
+      "pollingUrl": "https://openrouter.ai/api/v1/videos/VdM4WP24S89idCYwttO7",
+      "lastPoll": {
+        "id": "VdM4WP24S89idCYwttO7",
+        "generation_id": "gen-vid-1788496385-8t29fkUniKn5ZJYqEJPF",
+        "polling_url": "https://openrouter.ai/api/v1/videos/VdM4WP24S89idCYwttO7",
+        "status": "pending"
+      }
+    }
+  ],
+  "constraints": [
+    "fixed orthographic side-on camera and crop",
+    "preserve exact player face, hair, clothing, backpack, proportions and shading",
+    "fixed feet or tile anchor",
+    "forward-time motion only",
+    "no ping-pong, reversed playback or backwards recovery",
+    "no optical-flow interpolation",
+    "no rubber limbs, stretching, morphing, duplicate anatomy, texture crawl or flicker",
+    "silent with no text, logo, UI or watermark",
+    "background and floor stay registered to their opening pixels"
+  ]
+}

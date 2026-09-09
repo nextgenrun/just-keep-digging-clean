@@ -1,0 +1,2276 @@
+[
+  {
+    "assetId": "libDirtSwingA",
+    "originalMs": 457.3333333333333,
+    "bufferMs": 457.3333333333333,
+    "channels": 2,
+    "peak": 0.6570540070533752,
+    "attackMs": 35.75,
+    "activeEndMs": 228.875,
+    "flags": [
+      "Main sound body starts after 35 ms",
+      "Tail exceeds a 400 ms contact interval"
+    ],
+    "routes": [
+      {
+        "id": "swing",
+        "label": "Dig swing",
+        "mode": "primary",
+        "stage": "swing",
+        "gain": 0.037867500000000005,
+        "rate": 1,
+        "durationMs": 457.3333333333333,
+        "attackMs": 35.75,
+        "estimatedPeakDb": -32.08264595441868
+      }
+    ]
+  },
+  {
+    "assetId": "freesound-651292",
+    "originalMs": 358.8125,
+    "bufferMs": 358.8125,
+    "channels": 2,
+    "peak": 0.5612985491752625,
+    "attackMs": 60.916666666666664,
+    "activeEndMs": 327.625,
+    "flags": [
+      "Main sound body starts after 35 ms"
+    ],
+    "routes": [
+      {
+        "id": "DIRT-hit-primary",
+        "label": "DIRT hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.14949545190015187,
+        "rate": 1.06,
+        "durationMs": 338.502358490566,
+        "attackMs": 57.46855345911949,
+        "estimatedPeakDb": -21.523562000134774
+      },
+      {
+        "id": "DARK_DIRT_NORMAL-hit-primary",
+        "label": "DARK DIRT NORMAL hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.14949545190015187,
+        "rate": 1.02,
+        "durationMs": 351.7769607843137,
+        "attackMs": 59.72222222222222,
+        "estimatedPeakDb": -21.523562000134774
+      },
+      {
+        "id": "DARK_DIRT_STRONG-hit-primary",
+        "label": "DARK DIRT STRONG hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.14949545190015187,
+        "rate": 0.97,
+        "durationMs": 369.90979381443293,
+        "attackMs": 62.80068728522337,
+        "estimatedPeakDb": -21.523562000134774
+      },
+      {
+        "id": "LAVA_DIRT-hit-primary",
+        "label": "LAVA DIRT hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.14949545190015187,
+        "rate": 1,
+        "durationMs": 358.8125,
+        "attackMs": 60.916666666666664,
+        "estimatedPeakDb": -21.523562000134774
+      },
+      {
+        "id": "cave-DIRT-hit",
+        "label": "Cave DIRT hit",
+        "mode": "cave",
+        "stage": "hit",
+        "gain": 0.14949545190015187,
+        "rate": 1.06,
+        "durationMs": 338.502358490566,
+        "attackMs": 57.46855345911949,
+        "estimatedPeakDb": -21.523562000134774
+      }
+    ]
+  },
+  {
+    "assetId": "freesound-651293",
+    "originalMs": 704.5833333333334,
+    "bufferMs": 704.5833333333334,
+    "channels": 2,
+    "peak": 0.6394962072372437,
+    "attackMs": 60.916666666666664,
+    "activeEndMs": 631.375,
+    "flags": [
+      "Main sound body starts after 35 ms",
+      "Tail exceeds a 400 ms contact interval"
+    ],
+    "routes": [
+      {
+        "id": "DIRT-hit-primary",
+        "label": "DIRT hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.14934063042461143,
+        "rate": 1.06,
+        "durationMs": 664.7012578616351,
+        "attackMs": 57.46855345911949,
+        "estimatedPeakDb": -20.39968093192838
+      },
+      {
+        "id": "DARK_DIRT_NORMAL-hit-primary",
+        "label": "DARK DIRT NORMAL hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.14934063042461143,
+        "rate": 1.02,
+        "durationMs": 690.7679738562091,
+        "attackMs": 59.72222222222222,
+        "estimatedPeakDb": -20.39968093192838
+      },
+      {
+        "id": "DARK_DIRT_STRONG-hit-primary",
+        "label": "DARK DIRT STRONG hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.14934063042461143,
+        "rate": 0.97,
+        "durationMs": 726.3745704467353,
+        "attackMs": 62.80068728522337,
+        "estimatedPeakDb": -20.39968093192838
+      },
+      {
+        "id": "LAVA_DIRT-hit-primary",
+        "label": "LAVA DIRT hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.14934063042461143,
+        "rate": 1,
+        "durationMs": 704.5833333333334,
+        "attackMs": 60.916666666666664,
+        "estimatedPeakDb": -20.39968093192838
+      },
+      {
+        "id": "cave-DIRT-hit",
+        "label": "Cave DIRT hit",
+        "mode": "cave",
+        "stage": "hit",
+        "gain": 0.14934063042461143,
+        "rate": 1.06,
+        "durationMs": 664.7012578616351,
+        "attackMs": 57.46855345911949,
+        "estimatedPeakDb": -20.39968093192838
+      }
+    ]
+  },
+  {
+    "assetId": "freesound-674384",
+    "originalMs": 142.52083333333334,
+    "bufferMs": 142.52083333333334,
+    "channels": 2,
+    "peak": 0.2689554691314697,
+    "attackMs": 0.0,
+    "activeEndMs": 62.958333333333336,
+    "flags": [],
+    "routes": [
+      {
+        "id": "STONE-hit-primary",
+        "label": "STONE hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.1372236184097107,
+        "rate": 0.95,
+        "durationMs": 150.02192982456143,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -28.657815062272984
+      },
+      {
+        "id": "TELEPORT_TILE-hit-primary",
+        "label": "TELEPORT TILE hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.1372236184097107,
+        "rate": 1,
+        "durationMs": 142.52083333333334,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -28.657815062272984
+      },
+      {
+        "id": "GAMBLE_TILE-hit-primary",
+        "label": "GAMBLE TILE hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.1372236184097107,
+        "rate": 1,
+        "durationMs": 142.52083333333334,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -28.657815062272984
+      },
+      {
+        "id": "GEM_POWER_BLOCK-hit-primary",
+        "label": "GEM POWER BLOCK hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.1372236184097107,
+        "rate": 1,
+        "durationMs": 142.52083333333334,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -28.657815062272984
+      },
+      {
+        "id": "SPEED_BLOCK-hit-primary",
+        "label": "SPEED BLOCK hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.1372236184097107,
+        "rate": 1,
+        "durationMs": 142.52083333333334,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -28.657815062272984
+      },
+      {
+        "id": "XP_BLOCK-hit-primary",
+        "label": "XP BLOCK hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.1372236184097107,
+        "rate": 1,
+        "durationMs": 142.52083333333334,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -28.657815062272984
+      },
+      {
+        "id": "BERSERK_BLOCK-hit-primary",
+        "label": "BERSERK BLOCK hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.1372236184097107,
+        "rate": 1,
+        "durationMs": 142.52083333333334,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -28.657815062272984
+      },
+      {
+        "id": "COMBO_BLOCK-hit-primary",
+        "label": "COMBO BLOCK hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.1372236184097107,
+        "rate": 1,
+        "durationMs": 142.52083333333334,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -28.657815062272984
+      },
+      {
+        "id": "LEGEND_BLOCK-hit-primary",
+        "label": "LEGEND BLOCK hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.1372236184097107,
+        "rate": 1,
+        "durationMs": 142.52083333333334,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -28.657815062272984
+      },
+      {
+        "id": "ABILITY_BLOCK-hit-primary",
+        "label": "ABILITY BLOCK hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.1372236184097107,
+        "rate": 1,
+        "durationMs": 142.52083333333334,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -28.657815062272984
+      },
+      {
+        "id": "GEODE_INTERIOR-hit-primary",
+        "label": "GEODE INTERIOR hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.1372236184097107,
+        "rate": 1,
+        "durationMs": 142.52083333333334,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -28.657815062272984
+      },
+      {
+        "id": "OBSIDIAN-hit-primary",
+        "label": "OBSIDIAN hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.1372236184097107,
+        "rate": 1,
+        "durationMs": 142.52083333333334,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -28.657815062272984
+      },
+      {
+        "id": "MAGMA_CRYSTAL-hit-primary",
+        "label": "MAGMA CRYSTAL hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.1372236184097107,
+        "rate": 1,
+        "durationMs": 142.52083333333334,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -28.657815062272984
+      },
+      {
+        "id": "ANCIENT_RELIC_CACHE-hit-primary",
+        "label": "ANCIENT RELIC CACHE hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.1372236184097107,
+        "rate": 1,
+        "durationMs": 142.52083333333334,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -28.657815062272984
+      },
+      {
+        "id": "cave-STONE-hit",
+        "label": "Cave STONE hit",
+        "mode": "cave",
+        "stage": "hit",
+        "gain": 0.1372236184097107,
+        "rate": 0.95,
+        "durationMs": 150.02192982456143,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -28.657815062272984
+      },
+      {
+        "id": "cave-GEODE_INTERIOR-hit",
+        "label": "Cave GEODE_INTERIOR hit",
+        "mode": "cave",
+        "stage": "hit",
+        "gain": 0.1372236184097107,
+        "rate": 1,
+        "durationMs": 142.52083333333334,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -28.657815062272984
+      }
+    ]
+  },
+  {
+    "assetId": "freesound-674385",
+    "originalMs": 142.20833333333331,
+    "bufferMs": 142.20833333333331,
+    "channels": 2,
+    "peak": 0.38498103618621826,
+    "attackMs": 0.0,
+    "activeEndMs": 58.875,
+    "flags": [],
+    "routes": [
+      {
+        "id": "STONE-hit-primary",
+        "label": "STONE hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.13411546722918632,
+        "rate": 0.95,
+        "durationMs": 149.69298245614036,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -25.741635919745832
+      },
+      {
+        "id": "TELEPORT_TILE-hit-primary",
+        "label": "TELEPORT TILE hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.13411546722918632,
+        "rate": 1,
+        "durationMs": 142.20833333333331,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -25.741635919745832
+      },
+      {
+        "id": "GAMBLE_TILE-hit-primary",
+        "label": "GAMBLE TILE hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.13411546722918632,
+        "rate": 1,
+        "durationMs": 142.20833333333331,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -25.741635919745832
+      },
+      {
+        "id": "GEM_POWER_BLOCK-hit-primary",
+        "label": "GEM POWER BLOCK hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.13411546722918632,
+        "rate": 1,
+        "durationMs": 142.20833333333331,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -25.741635919745832
+      },
+      {
+        "id": "SPEED_BLOCK-hit-primary",
+        "label": "SPEED BLOCK hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.13411546722918632,
+        "rate": 1,
+        "durationMs": 142.20833333333331,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -25.741635919745832
+      },
+      {
+        "id": "XP_BLOCK-hit-primary",
+        "label": "XP BLOCK hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.13411546722918632,
+        "rate": 1,
+        "durationMs": 142.20833333333331,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -25.741635919745832
+      },
+      {
+        "id": "BERSERK_BLOCK-hit-primary",
+        "label": "BERSERK BLOCK hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.13411546722918632,
+        "rate": 1,
+        "durationMs": 142.20833333333331,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -25.741635919745832
+      },
+      {
+        "id": "COMBO_BLOCK-hit-primary",
+        "label": "COMBO BLOCK hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.13411546722918632,
+        "rate": 1,
+        "durationMs": 142.20833333333331,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -25.741635919745832
+      },
+      {
+        "id": "LEGEND_BLOCK-hit-primary",
+        "label": "LEGEND BLOCK hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.13411546722918632,
+        "rate": 1,
+        "durationMs": 142.20833333333331,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -25.741635919745832
+      },
+      {
+        "id": "ABILITY_BLOCK-hit-primary",
+        "label": "ABILITY BLOCK hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.13411546722918632,
+        "rate": 1,
+        "durationMs": 142.20833333333331,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -25.741635919745832
+      },
+      {
+        "id": "GEODE_INTERIOR-hit-primary",
+        "label": "GEODE INTERIOR hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.13411546722918632,
+        "rate": 1,
+        "durationMs": 142.20833333333331,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -25.741635919745832
+      },
+      {
+        "id": "OBSIDIAN-hit-primary",
+        "label": "OBSIDIAN hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.13411546722918632,
+        "rate": 1,
+        "durationMs": 142.20833333333331,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -25.741635919745832
+      },
+      {
+        "id": "MAGMA_CRYSTAL-hit-primary",
+        "label": "MAGMA CRYSTAL hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.13411546722918632,
+        "rate": 1,
+        "durationMs": 142.20833333333331,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -25.741635919745832
+      },
+      {
+        "id": "ANCIENT_RELIC_CACHE-hit-primary",
+        "label": "ANCIENT RELIC CACHE hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.13411546722918632,
+        "rate": 1,
+        "durationMs": 142.20833333333331,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -25.741635919745832
+      },
+      {
+        "id": "cave-STONE-hit",
+        "label": "Cave STONE hit",
+        "mode": "cave",
+        "stage": "hit",
+        "gain": 0.13411546722918632,
+        "rate": 0.95,
+        "durationMs": 149.69298245614036,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -25.741635919745832
+      },
+      {
+        "id": "cave-GEODE_INTERIOR-hit",
+        "label": "Cave GEODE_INTERIOR hit",
+        "mode": "cave",
+        "stage": "hit",
+        "gain": 0.13411546722918632,
+        "rate": 1,
+        "durationMs": 142.20833333333331,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -25.741635919745832
+      }
+    ]
+  },
+  {
+    "assetId": "freesound-674386",
+    "originalMs": 164.0,
+    "bufferMs": 164.0,
+    "channels": 2,
+    "peak": 0.37001168727874756,
+    "attackMs": 0.0,
+    "activeEndMs": 106.29166666666667,
+    "flags": [],
+    "routes": [
+      {
+        "id": "STONE-hit-primary",
+        "label": "STONE hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.1332382337561464,
+        "rate": 0.95,
+        "durationMs": 172.63157894736844,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -26.143113821186862
+      },
+      {
+        "id": "TELEPORT_TILE-hit-primary",
+        "label": "TELEPORT TILE hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.1332382337561464,
+        "rate": 1,
+        "durationMs": 164.0,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -26.143113821186862
+      },
+      {
+        "id": "GAMBLE_TILE-hit-primary",
+        "label": "GAMBLE TILE hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.1332382337561464,
+        "rate": 1,
+        "durationMs": 164.0,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -26.143113821186862
+      },
+      {
+        "id": "GEM_POWER_BLOCK-hit-primary",
+        "label": "GEM POWER BLOCK hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.1332382337561464,
+        "rate": 1,
+        "durationMs": 164.0,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -26.143113821186862
+      },
+      {
+        "id": "SPEED_BLOCK-hit-primary",
+        "label": "SPEED BLOCK hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.1332382337561464,
+        "rate": 1,
+        "durationMs": 164.0,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -26.143113821186862
+      },
+      {
+        "id": "XP_BLOCK-hit-primary",
+        "label": "XP BLOCK hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.1332382337561464,
+        "rate": 1,
+        "durationMs": 164.0,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -26.143113821186862
+      },
+      {
+        "id": "BERSERK_BLOCK-hit-primary",
+        "label": "BERSERK BLOCK hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.1332382337561464,
+        "rate": 1,
+        "durationMs": 164.0,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -26.143113821186862
+      },
+      {
+        "id": "COMBO_BLOCK-hit-primary",
+        "label": "COMBO BLOCK hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.1332382337561464,
+        "rate": 1,
+        "durationMs": 164.0,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -26.143113821186862
+      },
+      {
+        "id": "LEGEND_BLOCK-hit-primary",
+        "label": "LEGEND BLOCK hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.1332382337561464,
+        "rate": 1,
+        "durationMs": 164.0,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -26.143113821186862
+      },
+      {
+        "id": "ABILITY_BLOCK-hit-primary",
+        "label": "ABILITY BLOCK hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.1332382337561464,
+        "rate": 1,
+        "durationMs": 164.0,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -26.143113821186862
+      },
+      {
+        "id": "GEODE_INTERIOR-hit-primary",
+        "label": "GEODE INTERIOR hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.1332382337561464,
+        "rate": 1,
+        "durationMs": 164.0,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -26.143113821186862
+      },
+      {
+        "id": "OBSIDIAN-hit-primary",
+        "label": "OBSIDIAN hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.1332382337561464,
+        "rate": 1,
+        "durationMs": 164.0,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -26.143113821186862
+      },
+      {
+        "id": "MAGMA_CRYSTAL-hit-primary",
+        "label": "MAGMA CRYSTAL hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.1332382337561464,
+        "rate": 1,
+        "durationMs": 164.0,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -26.143113821186862
+      },
+      {
+        "id": "ANCIENT_RELIC_CACHE-hit-primary",
+        "label": "ANCIENT RELIC CACHE hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.1332382337561464,
+        "rate": 1,
+        "durationMs": 164.0,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -26.143113821186862
+      },
+      {
+        "id": "cave-STONE-hit",
+        "label": "Cave STONE hit",
+        "mode": "cave",
+        "stage": "hit",
+        "gain": 0.1332382337561464,
+        "rate": 0.95,
+        "durationMs": 172.63157894736844,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -26.143113821186862
+      },
+      {
+        "id": "cave-GEODE_INTERIOR-hit",
+        "label": "Cave GEODE_INTERIOR hit",
+        "mode": "cave",
+        "stage": "hit",
+        "gain": 0.1332382337561464,
+        "rate": 1,
+        "durationMs": 164.0,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -26.143113821186862
+      }
+    ]
+  },
+  {
+    "assetId": "freesound-728756",
+    "originalMs": 433.8958333333333,
+    "bufferMs": 433.8958333333333,
+    "channels": 2,
+    "peak": 0.6403104066848755,
+    "attackMs": 0.0,
+    "activeEndMs": 408.4375,
+    "flags": [
+      "Tail exceeds a 400 ms contact interval"
+    ],
+    "routes": [
+      {
+        "id": "COPPER-hit-primary",
+        "label": "COPPER hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.09629017594624013,
+        "rate": 0.92,
+        "durationMs": 471.6259057971014,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -24.20054918898203
+      },
+      {
+        "id": "BRONZE-hit-primary",
+        "label": "BRONZE hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.09629017594624013,
+        "rate": 0.9,
+        "durationMs": 482.10648148148147,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -24.20054918898203
+      },
+      {
+        "id": "STEEL-hit-primary",
+        "label": "STEEL hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.09629017594624013,
+        "rate": 0.85,
+        "durationMs": 510.46568627450984,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -24.20054918898203
+      },
+      {
+        "id": "IRON-hit-primary",
+        "label": "IRON hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.09629017594624013,
+        "rate": 0.88,
+        "durationMs": 493.06344696969694,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -24.20054918898203
+      },
+      {
+        "id": "SILVER-hit-primary",
+        "label": "SILVER hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.09629017594624013,
+        "rate": 1.05,
+        "durationMs": 413.23412698412693,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -24.20054918898203
+      },
+      {
+        "id": "GOLD-hit-primary",
+        "label": "GOLD hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.09629017594624013,
+        "rate": 1.08,
+        "durationMs": 401.7554012345679,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -24.20054918898203
+      },
+      {
+        "id": "EMBER_ORE-hit-primary",
+        "label": "EMBER ORE hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.09629017594624013,
+        "rate": 1,
+        "durationMs": 433.8958333333333,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -24.20054918898203
+      },
+      {
+        "id": "cave-COPPER-hit",
+        "label": "Cave COPPER hit",
+        "mode": "cave",
+        "stage": "hit",
+        "gain": 0.09629017594624013,
+        "rate": 0.92,
+        "durationMs": 471.6259057971014,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -24.20054918898203
+      }
+    ]
+  },
+  {
+    "assetId": "freesound-728757",
+    "originalMs": 469.6458333333333,
+    "bufferMs": 469.6458333333333,
+    "channels": 2,
+    "peak": 0.683677077293396,
+    "attackMs": 1.4791666666666665,
+    "activeEndMs": 431.9166666666667,
+    "flags": [
+      "Tail exceeds a 400 ms contact interval"
+    ],
+    "routes": [
+      {
+        "id": "COPPER-hit-primary",
+        "label": "COPPER hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.10176114390525044,
+        "rate": 0.92,
+        "durationMs": 510.4846014492753,
+        "attackMs": 1.6077898550724636,
+        "estimatedPeakDb": -23.151340017048888
+      },
+      {
+        "id": "BRONZE-hit-primary",
+        "label": "BRONZE hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.10176114390525044,
+        "rate": 0.9,
+        "durationMs": 521.8287037037037,
+        "attackMs": 1.6435185185185184,
+        "estimatedPeakDb": -23.151340017048888
+      },
+      {
+        "id": "STEEL-hit-primary",
+        "label": "STEEL hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.10176114390525044,
+        "rate": 0.85,
+        "durationMs": 552.5245098039215,
+        "attackMs": 1.7401960784313724,
+        "estimatedPeakDb": -23.151340017048888
+      },
+      {
+        "id": "IRON-hit-primary",
+        "label": "IRON hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.10176114390525044,
+        "rate": 0.88,
+        "durationMs": 533.688446969697,
+        "attackMs": 1.680871212121212,
+        "estimatedPeakDb": -23.151340017048888
+      },
+      {
+        "id": "SILVER-hit-primary",
+        "label": "SILVER hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.10176114390525044,
+        "rate": 1.05,
+        "durationMs": 447.28174603174597,
+        "attackMs": 1.4087301587301586,
+        "estimatedPeakDb": -23.151340017048888
+      },
+      {
+        "id": "GOLD-hit-primary",
+        "label": "GOLD hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.10176114390525044,
+        "rate": 1.08,
+        "durationMs": 434.8572530864197,
+        "attackMs": 1.3695987654320985,
+        "estimatedPeakDb": -23.151340017048888
+      },
+      {
+        "id": "EMBER_ORE-hit-primary",
+        "label": "EMBER ORE hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.10176114390525044,
+        "rate": 1,
+        "durationMs": 469.6458333333333,
+        "attackMs": 1.4791666666666665,
+        "estimatedPeakDb": -23.151340017048888
+      },
+      {
+        "id": "cave-COPPER-hit",
+        "label": "Cave COPPER hit",
+        "mode": "cave",
+        "stage": "hit",
+        "gain": 0.10176114390525044,
+        "rate": 0.92,
+        "durationMs": 510.4846014492753,
+        "attackMs": 1.6077898550724636,
+        "estimatedPeakDb": -23.151340017048888
+      }
+    ]
+  },
+  {
+    "assetId": "freesound-728758",
+    "originalMs": 543.3125,
+    "bufferMs": 543.3125,
+    "channels": 2,
+    "peak": 0.6095346212387085,
+    "attackMs": 0.0,
+    "activeEndMs": 451.0416666666667,
+    "flags": [
+      "Tail exceeds a 400 ms contact interval"
+    ],
+    "routes": [
+      {
+        "id": "COPPER-hit-primary",
+        "label": "COPPER hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.0970693184356164,
+        "rate": 0.92,
+        "durationMs": 590.5570652173913,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -24.558392827616128
+      },
+      {
+        "id": "BRONZE-hit-primary",
+        "label": "BRONZE hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.0970693184356164,
+        "rate": 0.9,
+        "durationMs": 603.6805555555555,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -24.558392827616128
+      },
+      {
+        "id": "STEEL-hit-primary",
+        "label": "STEEL hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.0970693184356164,
+        "rate": 0.85,
+        "durationMs": 639.1911764705882,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -24.558392827616128
+      },
+      {
+        "id": "IRON-hit-primary",
+        "label": "IRON hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.0970693184356164,
+        "rate": 0.88,
+        "durationMs": 617.4005681818181,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -24.558392827616128
+      },
+      {
+        "id": "SILVER-hit-primary",
+        "label": "SILVER hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.0970693184356164,
+        "rate": 1.05,
+        "durationMs": 517.4404761904761,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -24.558392827616128
+      },
+      {
+        "id": "GOLD-hit-primary",
+        "label": "GOLD hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.0970693184356164,
+        "rate": 1.08,
+        "durationMs": 503.0671296296296,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -24.558392827616128
+      },
+      {
+        "id": "EMBER_ORE-hit-primary",
+        "label": "EMBER ORE hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.0970693184356164,
+        "rate": 1,
+        "durationMs": 543.3125,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -24.558392827616128
+      },
+      {
+        "id": "cave-COPPER-hit",
+        "label": "Cave COPPER hit",
+        "mode": "cave",
+        "stage": "hit",
+        "gain": 0.0970693184356164,
+        "rate": 0.92,
+        "durationMs": 590.5570652173913,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -24.558392827616128
+      }
+    ]
+  },
+  {
+    "assetId": "freesound-728759",
+    "originalMs": 581.125,
+    "bufferMs": 581.125,
+    "channels": 2,
+    "peak": 0.6165250539779663,
+    "attackMs": 0.0,
+    "activeEndMs": 357.6666666666667,
+    "flags": [
+      "Tail exceeds a 400 ms contact interval"
+    ],
+    "routes": [
+      {
+        "id": "COPPER-hit-primary",
+        "label": "COPPER hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.09604659659455175,
+        "rate": 0.92,
+        "durationMs": 631.6576086956521,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -24.5513457967591
+      },
+      {
+        "id": "BRONZE-hit-primary",
+        "label": "BRONZE hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.09604659659455175,
+        "rate": 0.9,
+        "durationMs": 645.6944444444445,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -24.5513457967591
+      },
+      {
+        "id": "STEEL-hit-primary",
+        "label": "STEEL hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.09604659659455175,
+        "rate": 0.85,
+        "durationMs": 683.6764705882354,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -24.5513457967591
+      },
+      {
+        "id": "IRON-hit-primary",
+        "label": "IRON hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.09604659659455175,
+        "rate": 0.88,
+        "durationMs": 660.3693181818182,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -24.5513457967591
+      },
+      {
+        "id": "SILVER-hit-primary",
+        "label": "SILVER hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.09604659659455175,
+        "rate": 1.05,
+        "durationMs": 553.452380952381,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -24.5513457967591
+      },
+      {
+        "id": "GOLD-hit-primary",
+        "label": "GOLD hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.09604659659455175,
+        "rate": 1.08,
+        "durationMs": 538.0787037037037,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -24.5513457967591
+      },
+      {
+        "id": "EMBER_ORE-hit-primary",
+        "label": "EMBER ORE hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.09604659659455175,
+        "rate": 1,
+        "durationMs": 581.125,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -24.5513457967591
+      },
+      {
+        "id": "cave-COPPER-hit",
+        "label": "Cave COPPER hit",
+        "mode": "cave",
+        "stage": "hit",
+        "gain": 0.09604659659455175,
+        "rate": 0.92,
+        "durationMs": 631.6576086956521,
+        "attackMs": 0.0,
+        "estimatedPeakDb": -24.5513457967591
+      }
+    ]
+  },
+  {
+    "assetId": "libDirtBreak",
+    "originalMs": 972.2708333333333,
+    "bufferMs": 320.0,
+    "channels": 2,
+    "peak": 0.7165842056274414,
+    "attackMs": 7.4375,
+    "activeEndMs": 307.75,
+    "flags": [],
+    "routes": [
+      {
+        "id": "DIRT-break-primary",
+        "label": "DIRT break",
+        "mode": "primary",
+        "stage": "break",
+        "gain": 0.13384440000000003,
+        "rate": 1.08,
+        "durationMs": 296.2962962962963,
+        "attackMs": 6.8865740740740735,
+        "estimatedPeakDb": -20.36265126501585
+      },
+      {
+        "id": "DIRT-break-fallback",
+        "label": "DIRT break (disabled-bank fallback)",
+        "mode": "fallback",
+        "stage": "break",
+        "gain": 0.13384440000000003,
+        "rate": 1.08,
+        "durationMs": 296.2962962962963,
+        "attackMs": 6.8865740740740735,
+        "estimatedPeakDb": -20.36265126501585
+      },
+      {
+        "id": "DARK_DIRT_NORMAL-break-primary",
+        "label": "DARK DIRT NORMAL break",
+        "mode": "primary",
+        "stage": "break",
+        "gain": 0.14128020000000002,
+        "rate": 1.03,
+        "durationMs": 310.6796116504854,
+        "attackMs": 7.220873786407767,
+        "estimatedPeakDb": -19.89302934802539
+      },
+      {
+        "id": "DARK_DIRT_NORMAL-break-fallback",
+        "label": "DARK DIRT NORMAL break (disabled-bank fallback)",
+        "mode": "fallback",
+        "stage": "break",
+        "gain": 0.14128020000000002,
+        "rate": 1.03,
+        "durationMs": 310.6796116504854,
+        "attackMs": 7.220873786407767,
+        "estimatedPeakDb": -19.89302934802539
+      },
+      {
+        "id": "DARK_DIRT_STRONG-break-primary",
+        "label": "DARK DIRT STRONG break",
+        "mode": "primary",
+        "stage": "break",
+        "gain": 0.14871600000000001,
+        "rate": 0.98,
+        "durationMs": 326.530612244898,
+        "attackMs": 7.589285714285714,
+        "estimatedPeakDb": -19.447501453802346
+      },
+      {
+        "id": "DARK_DIRT_STRONG-break-fallback",
+        "label": "DARK DIRT STRONG break (disabled-bank fallback)",
+        "mode": "fallback",
+        "stage": "break",
+        "gain": 0.14871600000000001,
+        "rate": 0.98,
+        "durationMs": 326.530612244898,
+        "attackMs": 7.589285714285714,
+        "estimatedPeakDb": -19.447501453802346
+      },
+      {
+        "id": "LAVA_DIRT-break-primary",
+        "label": "LAVA DIRT break",
+        "mode": "primary",
+        "stage": "break",
+        "gain": 0.14871600000000001,
+        "rate": 1,
+        "durationMs": 320.0,
+        "attackMs": 7.4375,
+        "estimatedPeakDb": -19.447501453802346
+      },
+      {
+        "id": "LAVA_DIRT-break-fallback",
+        "label": "LAVA DIRT break (disabled-bank fallback)",
+        "mode": "fallback",
+        "stage": "break",
+        "gain": 0.14871600000000001,
+        "rate": 1,
+        "durationMs": 320.0,
+        "attackMs": 7.4375,
+        "estimatedPeakDb": -19.447501453802346
+      },
+      {
+        "id": "cave-DIRT-break",
+        "label": "Cave DIRT break",
+        "mode": "cave",
+        "stage": "break",
+        "gain": 0.13384440000000003,
+        "rate": 1.08,
+        "durationMs": 296.2962962962963,
+        "attackMs": 6.8865740740740735,
+        "estimatedPeakDb": -20.36265126501585
+      }
+    ]
+  },
+  {
+    "assetId": "libStoneBreak",
+    "originalMs": 1800.0,
+    "bufferMs": 300.0,
+    "channels": 2,
+    "peak": 0.47514110803604126,
+    "attackMs": 2.2708333333333335,
+    "activeEndMs": 293.70833333333337,
+    "flags": [
+      "Shared stone / metal destruction texture"
+    ],
+    "routes": [
+      {
+        "id": "STONE-break-primary",
+        "label": "STONE break",
+        "mode": "primary",
+        "stage": "break",
+        "gain": 0.17625600000000002,
+        "rate": 0.94,
+        "durationMs": 319.1489361702128,
+        "attackMs": 2.415780141843972,
+        "estimatedPeakDb": -21.540669679274885
+      },
+      {
+        "id": "STONE-break-fallback",
+        "label": "STONE break (disabled-bank fallback)",
+        "mode": "fallback",
+        "stage": "break",
+        "gain": 0.17625600000000002,
+        "rate": 0.94,
+        "durationMs": 319.1489361702128,
+        "attackMs": 2.415780141843972,
+        "estimatedPeakDb": -21.540669679274885
+      },
+      {
+        "id": "COPPER-break-primary",
+        "label": "COPPER break",
+        "mode": "primary",
+        "stage": "break",
+        "gain": 0.19388160000000004,
+        "rate": 0.9,
+        "durationMs": 333.3333333333333,
+        "attackMs": 2.5231481481481484,
+        "estimatedPeakDb": -20.712815976110384
+      },
+      {
+        "id": "COPPER-break-fallback",
+        "label": "COPPER break (disabled-bank fallback)",
+        "mode": "fallback",
+        "stage": "break",
+        "gain": 0.19388160000000004,
+        "rate": 0.9,
+        "durationMs": 333.3333333333333,
+        "attackMs": 2.5231481481481484,
+        "estimatedPeakDb": -20.712815976110384
+      },
+      {
+        "id": "BRONZE-break-primary",
+        "label": "BRONZE break",
+        "mode": "primary",
+        "stage": "break",
+        "gain": 0.19388160000000004,
+        "rate": 0.88,
+        "durationMs": 340.9090909090909,
+        "attackMs": 2.5804924242424243,
+        "estimatedPeakDb": -20.712815976110384
+      },
+      {
+        "id": "BRONZE-break-fallback",
+        "label": "BRONZE break (disabled-bank fallback)",
+        "mode": "fallback",
+        "stage": "break",
+        "gain": 0.19388160000000004,
+        "rate": 0.88,
+        "durationMs": 340.9090909090909,
+        "attackMs": 2.5804924242424243,
+        "estimatedPeakDb": -20.712815976110384
+      },
+      {
+        "id": "STEEL-break-primary",
+        "label": "STEEL break",
+        "mode": "primary",
+        "stage": "break",
+        "gain": 0.21150720000000003,
+        "rate": 0.84,
+        "durationMs": 357.14285714285717,
+        "attackMs": 2.7033730158730163,
+        "estimatedPeakDb": -19.957044758322386
+      },
+      {
+        "id": "STEEL-break-fallback",
+        "label": "STEEL break (disabled-bank fallback)",
+        "mode": "fallback",
+        "stage": "break",
+        "gain": 0.21150720000000003,
+        "rate": 0.84,
+        "durationMs": 357.14285714285717,
+        "attackMs": 2.7033730158730163,
+        "estimatedPeakDb": -19.957044758322386
+      },
+      {
+        "id": "IRON-break-primary",
+        "label": "IRON break",
+        "mode": "primary",
+        "stage": "break",
+        "gain": 0.20269440000000002,
+        "rate": 0.86,
+        "durationMs": 348.8372093023256,
+        "attackMs": 2.6405038759689923,
+        "estimatedPeakDb": -20.32671287220265
+      },
+      {
+        "id": "IRON-break-fallback",
+        "label": "IRON break (disabled-bank fallback)",
+        "mode": "fallback",
+        "stage": "break",
+        "gain": 0.20269440000000002,
+        "rate": 0.86,
+        "durationMs": 348.8372093023256,
+        "attackMs": 2.6405038759689923,
+        "estimatedPeakDb": -20.32671287220265
+      },
+      {
+        "id": "SILVER-break-primary",
+        "label": "SILVER break",
+        "mode": "primary",
+        "stage": "break",
+        "gain": 0.19388160000000004,
+        "rate": 1.12,
+        "durationMs": 267.85714285714283,
+        "attackMs": 2.027529761904762,
+        "estimatedPeakDb": -20.712815976110384
+      },
+      {
+        "id": "SILVER-break-fallback",
+        "label": "SILVER break (disabled-bank fallback)",
+        "mode": "fallback",
+        "stage": "break",
+        "gain": 0.19388160000000004,
+        "rate": 1.12,
+        "durationMs": 267.85714285714283,
+        "attackMs": 2.027529761904762,
+        "estimatedPeakDb": -20.712815976110384
+      },
+      {
+        "id": "GOLD-break-primary",
+        "label": "GOLD break",
+        "mode": "primary",
+        "stage": "break",
+        "gain": 0.21150720000000003,
+        "rate": 1.12,
+        "durationMs": 267.85714285714283,
+        "attackMs": 2.027529761904762,
+        "estimatedPeakDb": -19.957044758322386
+      },
+      {
+        "id": "GOLD-break-fallback",
+        "label": "GOLD break (disabled-bank fallback)",
+        "mode": "fallback",
+        "stage": "break",
+        "gain": 0.21150720000000003,
+        "rate": 1.12,
+        "durationMs": 267.85714285714283,
+        "attackMs": 2.027529761904762,
+        "estimatedPeakDb": -19.957044758322386
+      },
+      {
+        "id": "TELEPORT_TILE-break-primary",
+        "label": "TELEPORT TILE break",
+        "mode": "primary",
+        "stage": "break",
+        "gain": 0.17625600000000002,
+        "rate": 1,
+        "durationMs": 300.0,
+        "attackMs": 2.2708333333333335,
+        "estimatedPeakDb": -21.540669679274885
+      },
+      {
+        "id": "TELEPORT_TILE-break-fallback",
+        "label": "TELEPORT TILE break (disabled-bank fallback)",
+        "mode": "fallback",
+        "stage": "break",
+        "gain": 0.17625600000000002,
+        "rate": 1,
+        "durationMs": 300.0,
+        "attackMs": 2.2708333333333335,
+        "estimatedPeakDb": -21.540669679274885
+      },
+      {
+        "id": "GAMBLE_TILE-break-primary",
+        "label": "GAMBLE TILE break",
+        "mode": "primary",
+        "stage": "break",
+        "gain": 0.17625600000000002,
+        "rate": 1,
+        "durationMs": 300.0,
+        "attackMs": 2.2708333333333335,
+        "estimatedPeakDb": -21.540669679274885
+      },
+      {
+        "id": "GAMBLE_TILE-break-fallback",
+        "label": "GAMBLE TILE break (disabled-bank fallback)",
+        "mode": "fallback",
+        "stage": "break",
+        "gain": 0.17625600000000002,
+        "rate": 1,
+        "durationMs": 300.0,
+        "attackMs": 2.2708333333333335,
+        "estimatedPeakDb": -21.540669679274885
+      },
+      {
+        "id": "GEM_POWER_BLOCK-break-primary",
+        "label": "GEM POWER BLOCK break",
+        "mode": "primary",
+        "stage": "break",
+        "gain": 0.17625600000000002,
+        "rate": 1,
+        "durationMs": 300.0,
+        "attackMs": 2.2708333333333335,
+        "estimatedPeakDb": -21.540669679274885
+      },
+      {
+        "id": "GEM_POWER_BLOCK-break-fallback",
+        "label": "GEM POWER BLOCK break (disabled-bank fallback)",
+        "mode": "fallback",
+        "stage": "break",
+        "gain": 0.17625600000000002,
+        "rate": 1,
+        "durationMs": 300.0,
+        "attackMs": 2.2708333333333335,
+        "estimatedPeakDb": -21.540669679274885
+      },
+      {
+        "id": "SPEED_BLOCK-break-primary",
+        "label": "SPEED BLOCK break",
+        "mode": "primary",
+        "stage": "break",
+        "gain": 0.17625600000000002,
+        "rate": 1,
+        "durationMs": 300.0,
+        "attackMs": 2.2708333333333335,
+        "estimatedPeakDb": -21.540669679274885
+      },
+      {
+        "id": "SPEED_BLOCK-break-fallback",
+        "label": "SPEED BLOCK break (disabled-bank fallback)",
+        "mode": "fallback",
+        "stage": "break",
+        "gain": 0.17625600000000002,
+        "rate": 1,
+        "durationMs": 300.0,
+        "attackMs": 2.2708333333333335,
+        "estimatedPeakDb": -21.540669679274885
+      },
+      {
+        "id": "XP_BLOCK-break-primary",
+        "label": "XP BLOCK break",
+        "mode": "primary",
+        "stage": "break",
+        "gain": 0.17625600000000002,
+        "rate": 1,
+        "durationMs": 300.0,
+        "attackMs": 2.2708333333333335,
+        "estimatedPeakDb": -21.540669679274885
+      },
+      {
+        "id": "XP_BLOCK-break-fallback",
+        "label": "XP BLOCK break (disabled-bank fallback)",
+        "mode": "fallback",
+        "stage": "break",
+        "gain": 0.17625600000000002,
+        "rate": 1,
+        "durationMs": 300.0,
+        "attackMs": 2.2708333333333335,
+        "estimatedPeakDb": -21.540669679274885
+      },
+      {
+        "id": "BERSERK_BLOCK-break-primary",
+        "label": "BERSERK BLOCK break",
+        "mode": "primary",
+        "stage": "break",
+        "gain": 0.17625600000000002,
+        "rate": 1,
+        "durationMs": 300.0,
+        "attackMs": 2.2708333333333335,
+        "estimatedPeakDb": -21.540669679274885
+      },
+      {
+        "id": "BERSERK_BLOCK-break-fallback",
+        "label": "BERSERK BLOCK break (disabled-bank fallback)",
+        "mode": "fallback",
+        "stage": "break",
+        "gain": 0.17625600000000002,
+        "rate": 1,
+        "durationMs": 300.0,
+        "attackMs": 2.2708333333333335,
+        "estimatedPeakDb": -21.540669679274885
+      },
+      {
+        "id": "COMBO_BLOCK-break-primary",
+        "label": "COMBO BLOCK break",
+        "mode": "primary",
+        "stage": "break",
+        "gain": 0.17625600000000002,
+        "rate": 1,
+        "durationMs": 300.0,
+        "attackMs": 2.2708333333333335,
+        "estimatedPeakDb": -21.540669679274885
+      },
+      {
+        "id": "COMBO_BLOCK-break-fallback",
+        "label": "COMBO BLOCK break (disabled-bank fallback)",
+        "mode": "fallback",
+        "stage": "break",
+        "gain": 0.17625600000000002,
+        "rate": 1,
+        "durationMs": 300.0,
+        "attackMs": 2.2708333333333335,
+        "estimatedPeakDb": -21.540669679274885
+      },
+      {
+        "id": "LEGEND_BLOCK-break-primary",
+        "label": "LEGEND BLOCK break",
+        "mode": "primary",
+        "stage": "break",
+        "gain": 0.17625600000000002,
+        "rate": 1,
+        "durationMs": 300.0,
+        "attackMs": 2.2708333333333335,
+        "estimatedPeakDb": -21.540669679274885
+      },
+      {
+        "id": "LEGEND_BLOCK-break-fallback",
+        "label": "LEGEND BLOCK break (disabled-bank fallback)",
+        "mode": "fallback",
+        "stage": "break",
+        "gain": 0.17625600000000002,
+        "rate": 1,
+        "durationMs": 300.0,
+        "attackMs": 2.2708333333333335,
+        "estimatedPeakDb": -21.540669679274885
+      },
+      {
+        "id": "ABILITY_BLOCK-break-primary",
+        "label": "ABILITY BLOCK break",
+        "mode": "primary",
+        "stage": "break",
+        "gain": 0.17625600000000002,
+        "rate": 1,
+        "durationMs": 300.0,
+        "attackMs": 2.2708333333333335,
+        "estimatedPeakDb": -21.540669679274885
+      },
+      {
+        "id": "ABILITY_BLOCK-break-fallback",
+        "label": "ABILITY BLOCK break (disabled-bank fallback)",
+        "mode": "fallback",
+        "stage": "break",
+        "gain": 0.17625600000000002,
+        "rate": 1,
+        "durationMs": 300.0,
+        "attackMs": 2.2708333333333335,
+        "estimatedPeakDb": -21.540669679274885
+      },
+      {
+        "id": "GEODE_INTERIOR-break-fallback",
+        "label": "GEODE INTERIOR break (disabled-bank fallback)",
+        "mode": "fallback",
+        "stage": "break",
+        "gain": 0.17625600000000002,
+        "rate": 1,
+        "durationMs": 300.0,
+        "attackMs": 2.2708333333333335,
+        "estimatedPeakDb": -21.540669679274885
+      },
+      {
+        "id": "OBSIDIAN-break-fallback",
+        "label": "OBSIDIAN break (disabled-bank fallback)",
+        "mode": "fallback",
+        "stage": "break",
+        "gain": 0.17625600000000002,
+        "rate": 1,
+        "durationMs": 300.0,
+        "attackMs": 2.2708333333333335,
+        "estimatedPeakDb": -21.540669679274885
+      },
+      {
+        "id": "EMBER_ORE-break-primary",
+        "label": "EMBER ORE break",
+        "mode": "primary",
+        "stage": "break",
+        "gain": 0.17625600000000002,
+        "rate": 1,
+        "durationMs": 300.0,
+        "attackMs": 2.2708333333333335,
+        "estimatedPeakDb": -21.540669679274885
+      },
+      {
+        "id": "EMBER_ORE-break-fallback",
+        "label": "EMBER ORE break (disabled-bank fallback)",
+        "mode": "fallback",
+        "stage": "break",
+        "gain": 0.17625600000000002,
+        "rate": 1,
+        "durationMs": 300.0,
+        "attackMs": 2.2708333333333335,
+        "estimatedPeakDb": -21.540669679274885
+      },
+      {
+        "id": "MAGMA_CRYSTAL-break-fallback",
+        "label": "MAGMA CRYSTAL break (disabled-bank fallback)",
+        "mode": "fallback",
+        "stage": "break",
+        "gain": 0.17625600000000002,
+        "rate": 1,
+        "durationMs": 300.0,
+        "attackMs": 2.2708333333333335,
+        "estimatedPeakDb": -21.540669679274885
+      },
+      {
+        "id": "ANCIENT_RELIC_CACHE-break-primary",
+        "label": "ANCIENT RELIC CACHE break",
+        "mode": "primary",
+        "stage": "break",
+        "gain": 0.17625600000000002,
+        "rate": 1,
+        "durationMs": 300.0,
+        "attackMs": 2.2708333333333335,
+        "estimatedPeakDb": -21.540669679274885
+      },
+      {
+        "id": "ANCIENT_RELIC_CACHE-break-fallback",
+        "label": "ANCIENT RELIC CACHE break (disabled-bank fallback)",
+        "mode": "fallback",
+        "stage": "break",
+        "gain": 0.17625600000000002,
+        "rate": 1,
+        "durationMs": 300.0,
+        "attackMs": 2.2708333333333335,
+        "estimatedPeakDb": -21.540669679274885
+      },
+      {
+        "id": "cave-STONE-break",
+        "label": "Cave STONE break",
+        "mode": "cave",
+        "stage": "break",
+        "gain": 0.17625600000000002,
+        "rate": 0.94,
+        "durationMs": 319.1489361702128,
+        "attackMs": 2.415780141843972,
+        "estimatedPeakDb": -21.540669679274885
+      },
+      {
+        "id": "cave-COPPER-break",
+        "label": "Cave COPPER break",
+        "mode": "cave",
+        "stage": "break",
+        "gain": 0.19388160000000004,
+        "rate": 0.9,
+        "durationMs": 333.3333333333333,
+        "attackMs": 2.5231481481481484,
+        "estimatedPeakDb": -20.712815976110384
+      }
+    ]
+  },
+  {
+    "assetId": "freesound-536921",
+    "originalMs": 229.125,
+    "bufferMs": 140.0,
+    "channels": 2,
+    "peak": 0.3897871971130371,
+    "attackMs": 5.875,
+    "activeEndMs": 127.47916666666667,
+    "flags": [
+      "Alternatives in this bank differ by 6.7 dB in estimated peak; compare their balance"
+    ],
+    "routes": [
+      {
+        "id": "GEODE_INTERIOR-break-primary",
+        "label": "GEODE INTERIOR break",
+        "mode": "primary",
+        "stage": "break",
+        "gain": 0.1141825882524255,
+        "rate": 1,
+        "durationMs": 140.0,
+        "attackMs": 5.875,
+        "estimatedPeakDb": -27.031450930539286
+      },
+      {
+        "id": "OBSIDIAN-break-primary",
+        "label": "OBSIDIAN break",
+        "mode": "primary",
+        "stage": "break",
+        "gain": 0.1141825882524255,
+        "rate": 1,
+        "durationMs": 140.0,
+        "attackMs": 5.875,
+        "estimatedPeakDb": -27.031450930539286
+      },
+      {
+        "id": "MAGMA_CRYSTAL-break-primary",
+        "label": "MAGMA CRYSTAL break",
+        "mode": "primary",
+        "stage": "break",
+        "gain": 0.1141825882524255,
+        "rate": 1,
+        "durationMs": 140.0,
+        "attackMs": 5.875,
+        "estimatedPeakDb": -27.031450930539286
+      },
+      {
+        "id": "cave-GEODE_INTERIOR-break",
+        "label": "Cave GEODE_INTERIOR break",
+        "mode": "cave",
+        "stage": "break",
+        "gain": 0.1141825882524255,
+        "rate": 1,
+        "durationMs": 140.0,
+        "attackMs": 5.875,
+        "estimatedPeakDb": -27.031450930539286
+      }
+    ]
+  },
+  {
+    "assetId": "freesound-703115",
+    "originalMs": 419.1458333333333,
+    "bufferMs": 155.0,
+    "channels": 2,
+    "peak": 0.6253580451011658,
+    "attackMs": 5.520833333333333,
+    "activeEndMs": 147.54166666666666,
+    "flags": [
+      "Alternatives in this bank differ by 6.7 dB in estimated peak; compare their balance"
+    ],
+    "routes": [
+      {
+        "id": "GEODE_INTERIOR-break-primary",
+        "label": "GEODE INTERIOR break",
+        "mode": "primary",
+        "stage": "break",
+        "gain": 0.15464998535880078,
+        "rate": 1,
+        "durationMs": 155.0,
+        "attackMs": 5.520833333333333,
+        "estimatedPeakDb": -20.290427509014684
+      },
+      {
+        "id": "OBSIDIAN-break-primary",
+        "label": "OBSIDIAN break",
+        "mode": "primary",
+        "stage": "break",
+        "gain": 0.15464998535880078,
+        "rate": 1,
+        "durationMs": 155.0,
+        "attackMs": 5.520833333333333,
+        "estimatedPeakDb": -20.290427509014684
+      },
+      {
+        "id": "MAGMA_CRYSTAL-break-primary",
+        "label": "MAGMA CRYSTAL break",
+        "mode": "primary",
+        "stage": "break",
+        "gain": 0.15464998535880078,
+        "rate": 1,
+        "durationMs": 155.0,
+        "attackMs": 5.520833333333333,
+        "estimatedPeakDb": -20.290427509014684
+      },
+      {
+        "id": "cave-GEODE_INTERIOR-break",
+        "label": "Cave GEODE_INTERIOR break",
+        "mode": "cave",
+        "stage": "break",
+        "gain": 0.15464998535880078,
+        "rate": 1,
+        "durationMs": 155.0,
+        "attackMs": 5.520833333333333,
+        "estimatedPeakDb": -20.290427509014684
+      }
+    ]
+  },
+  {
+    "assetId": "libToolContact",
+    "originalMs": 1200.0,
+    "bufferMs": 1200.0,
+    "channels": 2,
+    "peak": 0.6936398148536682,
+    "attackMs": 48.583333333333336,
+    "activeEndMs": 574.4583333333333,
+    "flags": [
+      "Main sound body starts after 35 ms",
+      "Tail exceeds a 400 ms contact interval",
+      "Same recording for blocked hits and hard-material fallback"
+    ],
+    "routes": [
+      {
+        "id": "blocked",
+        "label": "Blocked / unbreakable hit",
+        "mode": "primary",
+        "stage": "blocked",
+        "gain": 0.12960000000000002,
+        "rate": 1,
+        "durationMs": 1200.0,
+        "attackMs": 48.583333333333336,
+        "estimatedPeakDb": -20.925219696468645
+      },
+      {
+        "id": "STONE-hit-fallback",
+        "label": "STONE hit (disabled-bank fallback)",
+        "mode": "fallback",
+        "stage": "hit",
+        "gain": 0.09072,
+        "rate": 0.95,
+        "durationMs": 1263.157894736842,
+        "attackMs": 51.140350877192986,
+        "estimatedPeakDb": -24.023258896183513
+      },
+      {
+        "id": "COPPER-hit-fallback",
+        "label": "COPPER hit (disabled-bank fallback)",
+        "mode": "fallback",
+        "stage": "hit",
+        "gain": 0.09072,
+        "rate": 0.92,
+        "durationMs": 1304.3478260869563,
+        "attackMs": 52.80797101449276,
+        "estimatedPeakDb": -24.023258896183513
+      },
+      {
+        "id": "BRONZE-hit-fallback",
+        "label": "BRONZE hit (disabled-bank fallback)",
+        "mode": "fallback",
+        "stage": "hit",
+        "gain": 0.09072,
+        "rate": 0.9,
+        "durationMs": 1333.3333333333333,
+        "attackMs": 53.98148148148148,
+        "estimatedPeakDb": -24.023258896183513
+      },
+      {
+        "id": "STEEL-hit-fallback",
+        "label": "STEEL hit (disabled-bank fallback)",
+        "mode": "fallback",
+        "stage": "hit",
+        "gain": 0.09072,
+        "rate": 0.85,
+        "durationMs": 1411.764705882353,
+        "attackMs": 57.156862745098046,
+        "estimatedPeakDb": -24.023258896183513
+      },
+      {
+        "id": "IRON-hit-fallback",
+        "label": "IRON hit (disabled-bank fallback)",
+        "mode": "fallback",
+        "stage": "hit",
+        "gain": 0.09072,
+        "rate": 0.88,
+        "durationMs": 1363.6363636363635,
+        "attackMs": 55.208333333333336,
+        "estimatedPeakDb": -24.023258896183513
+      },
+      {
+        "id": "SILVER-hit-fallback",
+        "label": "SILVER hit (disabled-bank fallback)",
+        "mode": "fallback",
+        "stage": "hit",
+        "gain": 0.09072,
+        "rate": 1.05,
+        "durationMs": 1142.857142857143,
+        "attackMs": 46.26984126984127,
+        "estimatedPeakDb": -24.023258896183513
+      },
+      {
+        "id": "GOLD-hit-fallback",
+        "label": "GOLD hit (disabled-bank fallback)",
+        "mode": "fallback",
+        "stage": "hit",
+        "gain": 0.09072,
+        "rate": 1.08,
+        "durationMs": 1111.1111111111109,
+        "attackMs": 44.98456790123457,
+        "estimatedPeakDb": -24.023258896183513
+      },
+      {
+        "id": "TELEPORT_TILE-hit-fallback",
+        "label": "TELEPORT TILE hit (disabled-bank fallback)",
+        "mode": "fallback",
+        "stage": "hit",
+        "gain": 0.09072,
+        "rate": 1,
+        "durationMs": 1200.0,
+        "attackMs": 48.583333333333336,
+        "estimatedPeakDb": -24.023258896183513
+      },
+      {
+        "id": "GAMBLE_TILE-hit-fallback",
+        "label": "GAMBLE TILE hit (disabled-bank fallback)",
+        "mode": "fallback",
+        "stage": "hit",
+        "gain": 0.09072,
+        "rate": 1,
+        "durationMs": 1200.0,
+        "attackMs": 48.583333333333336,
+        "estimatedPeakDb": -24.023258896183513
+      },
+      {
+        "id": "GEM_POWER_BLOCK-hit-fallback",
+        "label": "GEM POWER BLOCK hit (disabled-bank fallback)",
+        "mode": "fallback",
+        "stage": "hit",
+        "gain": 0.09072,
+        "rate": 1,
+        "durationMs": 1200.0,
+        "attackMs": 48.583333333333336,
+        "estimatedPeakDb": -24.023258896183513
+      },
+      {
+        "id": "SPEED_BLOCK-hit-fallback",
+        "label": "SPEED BLOCK hit (disabled-bank fallback)",
+        "mode": "fallback",
+        "stage": "hit",
+        "gain": 0.09072,
+        "rate": 1,
+        "durationMs": 1200.0,
+        "attackMs": 48.583333333333336,
+        "estimatedPeakDb": -24.023258896183513
+      },
+      {
+        "id": "XP_BLOCK-hit-fallback",
+        "label": "XP BLOCK hit (disabled-bank fallback)",
+        "mode": "fallback",
+        "stage": "hit",
+        "gain": 0.09072,
+        "rate": 1,
+        "durationMs": 1200.0,
+        "attackMs": 48.583333333333336,
+        "estimatedPeakDb": -24.023258896183513
+      },
+      {
+        "id": "BERSERK_BLOCK-hit-fallback",
+        "label": "BERSERK BLOCK hit (disabled-bank fallback)",
+        "mode": "fallback",
+        "stage": "hit",
+        "gain": 0.09072,
+        "rate": 1,
+        "durationMs": 1200.0,
+        "attackMs": 48.583333333333336,
+        "estimatedPeakDb": -24.023258896183513
+      },
+      {
+        "id": "COMBO_BLOCK-hit-fallback",
+        "label": "COMBO BLOCK hit (disabled-bank fallback)",
+        "mode": "fallback",
+        "stage": "hit",
+        "gain": 0.09072,
+        "rate": 1,
+        "durationMs": 1200.0,
+        "attackMs": 48.583333333333336,
+        "estimatedPeakDb": -24.023258896183513
+      },
+      {
+        "id": "LEGEND_BLOCK-hit-fallback",
+        "label": "LEGEND BLOCK hit (disabled-bank fallback)",
+        "mode": "fallback",
+        "stage": "hit",
+        "gain": 0.09072,
+        "rate": 1,
+        "durationMs": 1200.0,
+        "attackMs": 48.583333333333336,
+        "estimatedPeakDb": -24.023258896183513
+      },
+      {
+        "id": "ABILITY_BLOCK-hit-fallback",
+        "label": "ABILITY BLOCK hit (disabled-bank fallback)",
+        "mode": "fallback",
+        "stage": "hit",
+        "gain": 0.09072,
+        "rate": 1,
+        "durationMs": 1200.0,
+        "attackMs": 48.583333333333336,
+        "estimatedPeakDb": -24.023258896183513
+      },
+      {
+        "id": "GEODE_INTERIOR-hit-fallback",
+        "label": "GEODE INTERIOR hit (disabled-bank fallback)",
+        "mode": "fallback",
+        "stage": "hit",
+        "gain": 0.09072,
+        "rate": 1,
+        "durationMs": 1200.0,
+        "attackMs": 48.583333333333336,
+        "estimatedPeakDb": -24.023258896183513
+      },
+      {
+        "id": "OBSIDIAN-hit-fallback",
+        "label": "OBSIDIAN hit (disabled-bank fallback)",
+        "mode": "fallback",
+        "stage": "hit",
+        "gain": 0.09072,
+        "rate": 1,
+        "durationMs": 1200.0,
+        "attackMs": 48.583333333333336,
+        "estimatedPeakDb": -24.023258896183513
+      },
+      {
+        "id": "EMBER_ORE-hit-fallback",
+        "label": "EMBER ORE hit (disabled-bank fallback)",
+        "mode": "fallback",
+        "stage": "hit",
+        "gain": 0.09072,
+        "rate": 1,
+        "durationMs": 1200.0,
+        "attackMs": 48.583333333333336,
+        "estimatedPeakDb": -24.023258896183513
+      },
+      {
+        "id": "MAGMA_CRYSTAL-hit-fallback",
+        "label": "MAGMA CRYSTAL hit (disabled-bank fallback)",
+        "mode": "fallback",
+        "stage": "hit",
+        "gain": 0.09072,
+        "rate": 1,
+        "durationMs": 1200.0,
+        "attackMs": 48.583333333333336,
+        "estimatedPeakDb": -24.023258896183513
+      },
+      {
+        "id": "ANCIENT_RELIC_CACHE-hit-fallback",
+        "label": "ANCIENT RELIC CACHE hit (disabled-bank fallback)",
+        "mode": "fallback",
+        "stage": "hit",
+        "gain": 0.09072,
+        "rate": 1,
+        "durationMs": 1200.0,
+        "attackMs": 48.583333333333336,
+        "estimatedPeakDb": -24.023258896183513
+      }
+    ]
+  },
+  {
+    "assetId": "digOne",
+    "originalMs": 101.60416666666666,
+    "bufferMs": 101.60416666666666,
+    "channels": 1,
+    "peak": 0.8667656779289246,
+    "attackMs": 25.895833333333332,
+    "activeEndMs": 101.41666666666667,
+    "flags": [],
+    "routes": [
+      {
+        "id": "DIRT-hit-fallback",
+        "label": "DIRT hit (disabled-bank fallback)",
+        "mode": "fallback",
+        "stage": "hit",
+        "gain": 0.20412,
+        "rate": 1.06,
+        "durationMs": 95.85298742138363,
+        "attackMs": 24.430031446540877,
+        "estimatedPeakDb": -15.044254689724049
+      },
+      {
+        "id": "DARK_DIRT_NORMAL-hit-fallback",
+        "label": "DARK DIRT NORMAL hit (disabled-bank fallback)",
+        "mode": "fallback",
+        "stage": "hit",
+        "gain": 0.20412,
+        "rate": 1.02,
+        "durationMs": 99.61192810457516,
+        "attackMs": 25.388071895424837,
+        "estimatedPeakDb": -15.044254689724049
+      },
+      {
+        "id": "DARK_DIRT_STRONG-hit-fallback",
+        "label": "DARK DIRT STRONG hit (disabled-bank fallback)",
+        "mode": "fallback",
+        "stage": "hit",
+        "gain": 0.20412,
+        "rate": 0.97,
+        "durationMs": 104.74656357388317,
+        "attackMs": 26.696735395189002,
+        "estimatedPeakDb": -15.044254689724049
+      },
+      {
+        "id": "LAVA_DIRT-hit-fallback",
+        "label": "LAVA DIRT hit (disabled-bank fallback)",
+        "mode": "fallback",
+        "stage": "hit",
+        "gain": 0.20412,
+        "rate": 1,
+        "durationMs": 101.60416666666666,
+        "attackMs": 25.895833333333332,
+        "estimatedPeakDb": -15.044254689724049
+      }
+    ]
+  },
+  {
+    "assetId": "digTwo",
+    "originalMs": 101.60416666666666,
+    "bufferMs": 101.60416666666666,
+    "channels": 2,
+    "peak": 0.8031910061836243,
+    "attackMs": 27.0625,
+    "activeEndMs": 89.08333333333333,
+    "flags": [],
+    "routes": [
+      {
+        "id": "DIRT-hit-fallback",
+        "label": "DIRT hit (disabled-bank fallback)",
+        "mode": "fallback",
+        "stage": "hit",
+        "gain": 0.14742,
+        "rate": 1.06,
+        "durationMs": 95.85298742138363,
+        "attackMs": 25.53066037735849,
+        "estimatedPeakDb": -18.532495127331426
+      },
+      {
+        "id": "DARK_DIRT_NORMAL-hit-fallback",
+        "label": "DARK DIRT NORMAL hit (disabled-bank fallback)",
+        "mode": "fallback",
+        "stage": "hit",
+        "gain": 0.14742,
+        "rate": 1.02,
+        "durationMs": 99.61192810457516,
+        "attackMs": 26.53186274509804,
+        "estimatedPeakDb": -18.532495127331426
+      },
+      {
+        "id": "DARK_DIRT_STRONG-hit-fallback",
+        "label": "DARK DIRT STRONG hit (disabled-bank fallback)",
+        "mode": "fallback",
+        "stage": "hit",
+        "gain": 0.14742,
+        "rate": 0.97,
+        "durationMs": 104.74656357388317,
+        "attackMs": 27.899484536082475,
+        "estimatedPeakDb": -18.532495127331426
+      },
+      {
+        "id": "LAVA_DIRT-hit-fallback",
+        "label": "LAVA DIRT hit (disabled-bank fallback)",
+        "mode": "fallback",
+        "stage": "hit",
+        "gain": 0.14742,
+        "rate": 1,
+        "durationMs": 101.60416666666666,
+        "attackMs": 27.0625,
+        "estimatedPeakDb": -18.532495127331426
+      }
+    ]
+  },
+  {
+    "assetId": "dig-star-0",
+    "originalMs": 1144.5,
+    "bufferMs": 1144.5,
+    "channels": 1,
+    "peak": 0.8861958980560303,
+    "attackMs": 389.2291666666667,
+    "activeEndMs": 916.9375,
+    "flags": [
+      "Main sound body starts after 35 ms",
+      "Tail exceeds a 400 ms contact interval",
+      "Star hit uses a musical chime; audit sustained tone and retriggering",
+      "Estimated peak is 10.6 dB above the loudest ordinary hit in this audit"
+    ],
+    "routes": [
+      {
+        "id": "SKY_TILE-hit-primary",
+        "label": "SKY TILE hit",
+        "mode": "primary",
+        "stage": "hit",
+        "gain": 0.36450000000000005,
+        "rate": 1,
+        "durationMs": 1144.5,
+        "attackMs": 389.2291666666667,
+        "estimatedPeakDb": -9.81545463738096
+      },
+      {
+        "id": "SKY_TILE-hit-fallback",
+        "label": "SKY TILE hit (disabled-bank fallback)",
+        "mode": "fallback",
+        "stage": "hit",
+        "gain": 0.36450000000000005,
+        "rate": 1,
+        "durationMs": 1144.5,
+        "attackMs": 389.2291666666667,
+        "estimatedPeakDb": -9.81545463738096
+      }
+    ]
+  },
+  {
+    "assetId": "starDestruction",
+    "originalMs": 7384.645833333333,
+    "bufferMs": 7384.645833333333,
+    "channels": 2,
+    "peak": 0.9716784954071045,
+    "attackMs": 6.729166666666666,
+    "activeEndMs": 7121.854166666667,
+    "flags": [
+      "Long special-block cue; judge separately from routine hits"
+    ],
+    "routes": [
+      {
+        "id": "SKY_TILE-break-primary",
+        "label": "SKY TILE break",
+        "mode": "primary",
+        "stage": "break",
+        "gain": 0.1458,
+        "rate": 1,
+        "durationMs": 7384.645833333333,
+        "attackMs": 6.729166666666666,
+        "estimatedPeakDb": -16.974397694422642
+      },
+      {
+        "id": "SKY_TILE-break-fallback",
+        "label": "SKY TILE break (disabled-bank fallback)",
+        "mode": "fallback",
+        "stage": "break",
+        "gain": 0.1458,
+        "rate": 1,
+        "durationMs": 7384.645833333333,
+        "attackMs": 6.729166666666666,
+        "estimatedPeakDb": -16.974397694422642
+      }
+    ]
+  }
+]

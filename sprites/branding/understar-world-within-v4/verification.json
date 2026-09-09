@@ -1,0 +1,31 @@
+{
+  "images": [
+    {
+      "src": "world-within-draft.png",
+      "width": 2161,
+      "height": 728,
+      "loaded": true
+    },
+    {
+      "src": "selected-reference.png",
+      "width": 2167,
+      "height": 726,
+      "loaded": true
+    },
+    {
+      "src": "world-within-draft.png",
+      "width": 2161,
+      "height": 728,
+      "loaded": true
+    },
+    {
+      "src": "world-within-draft.png",
+      "width": 2161,
+      "height": 728,
+      "loaded": true
+    }
+  ],
+  "mobileOverflow": false,
+  "animationStarted": false,
+  "runtimeChanged": false
+}

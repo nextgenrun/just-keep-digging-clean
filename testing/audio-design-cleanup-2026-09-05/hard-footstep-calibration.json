@@ -1,0 +1,25 @@
+{
+  "activeSampleGateDb": -48,
+  "targetSourceRmsDb": -21,
+  "referenceDirtRoleGain": 0.105,
+  "referenceDirtCleanupGain": 0.76,
+  "sources": [
+    {
+      "key": "footsteps-1",
+      "path": "sound/soundEffects/costume-sounds/footsteps/footstep-3.ogg",
+      "gain": 0.288087,
+      "peak": 0.0725907,
+      "duration": 0.127729,
+      "activeRmsDb": -32.15
+    },
+    {
+      "key": "footsteps-2",
+      "path": "sound/soundEffects/costume-sounds/footsteps/footstep-4.ogg",
+      "gain": 0.602351,
+      "peak": 0.0637714,
+      "duration": 0.206083,
+      "activeRmsDb": -38.557
+    }
+  ],
+  "method": "Per-channel RMS over stereo frames with peak absolute amplitude above the gate; match the calibrated dirt-contact RMS without changing source files."
+}

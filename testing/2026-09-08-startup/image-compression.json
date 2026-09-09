@@ -1,0 +1,2247 @@
+{
+  "images": 224,
+  "before": 222742708,
+  "after": 42615976,
+  "assets": [
+    {
+      "source": "exports/pallet-v10/dig_game_full_non_tile_runtime_assets_v10_08_07_2026/sprites/backgrounds/background-database/ChatGPT Image Jun 29, 2026, 07_32_45 PM.png",
+      "path": "sprites/runtime-startup-v1/b5c123e318983a8c.webp",
+      "before": 4318949,
+      "after": 508864,
+      "size": [
+        1920,
+        1080
+      ]
+    },
+    {
+      "source": "exports/pallet-v10/dig_game_full_non_tile_runtime_assets_v10_08_07_2026/sprites/backgrounds/background-database/ChatGPT Image Jun 29, 2026, 07_32_49 PM.png",
+      "path": "sprites/runtime-startup-v1/38a00f8d7797b191.webp",
+      "before": 4389315,
+      "after": 517168,
+      "size": [
+        1920,
+        1080
+      ]
+    },
+    {
+      "source": "exports/pallet-v10/dig_game_full_non_tile_runtime_assets_v10_08_07_2026/sprites/backgrounds/background-database/ChatGPT Image Jun 29, 2026, 07_32_52 PM.png",
+      "path": "sprites/runtime-startup-v1/14d1a1afd73e70e9.webp",
+      "before": 4826479,
+      "after": 770148,
+      "size": [
+        1920,
+        1080
+      ]
+    },
+    {
+      "source": "exports/pallet-v10/dig_game_full_non_tile_runtime_assets_v10_08_07_2026/sprites/backgrounds/background-database/ChatGPT Image Jun 29, 2026, 07_32_58 PM.png",
+      "path": "sprites/runtime-startup-v1/09eeff3b638bfaae.webp",
+      "before": 4732281,
+      "after": 728870,
+      "size": [
+        1920,
+        1080
+      ]
+    },
+    {
+      "source": "exports/pallet-v10/dig_game_full_non_tile_runtime_assets_v10_08_07_2026/sprites/backgrounds/background-database/ChatGPT Image Jun 29, 2026, 07_33_03 PM.png",
+      "path": "sprites/runtime-startup-v1/3032df54f1cbe944.webp",
+      "before": 4580753,
+      "after": 613612,
+      "size": [
+        1920,
+        1080
+      ]
+    },
+    {
+      "source": "exports/pallet-v10/dig_game_full_non_tile_runtime_assets_v10_08_07_2026/sprites/backgrounds/background-database/ChatGPT Image Jun 29, 2026, 07_40_41 PM (1).png",
+      "path": "sprites/runtime-startup-v1/a52591d6c407984f.webp",
+      "before": 4911364,
+      "after": 709840,
+      "size": [
+        1920,
+        1080
+      ]
+    },
+    {
+      "source": "sprites/UI/baked-copy-v1/campfire-rect.png",
+      "path": "sprites/runtime-startup-v1/241a15d8a3bd66de.webp",
+      "before": 3131612,
+      "after": 759322,
+      "size": [
+        1983,
+        793
+      ]
+    },
+    {
+      "source": "sprites/UI/baked-copy-v1/controls-extra.png",
+      "path": "sprites/runtime-startup-v1/8472b1fd7c19fa31.webp",
+      "before": 1281917,
+      "after": 320600,
+      "size": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "source": "sprites/UI/baked-copy-v1/controls.png",
+      "path": "sprites/runtime-startup-v1/aba35a642f6a750d.webp",
+      "before": 2016677,
+      "after": 379240,
+      "size": [
+        1024,
+        1536
+      ]
+    },
+    {
+      "source": "sprites/UI/baked-copy-v1/currency-integrated-v2.png",
+      "path": "sprites/runtime-startup-v1/56b5681ce1f6d45c.webp",
+      "before": 1302440,
+      "after": 277376,
+      "size": [
+        2061,
+        763
+      ]
+    },
+    {
+      "source": "sprites/UI/baked-copy-v1/expedition-one-life.png",
+      "path": "sprites/runtime-startup-v1/6a758a6d5eb7da2d.webp",
+      "before": 2481717,
+      "after": 473528,
+      "size": [
+        1536,
+        1024
+      ]
+    },
+    {
+      "source": "sprites/UI/baked-copy-v1/expedition.png",
+      "path": "sprites/runtime-startup-v1/e19221abc17eae02.webp",
+      "before": 2619969,
+      "after": 509988,
+      "size": [
+        1536,
+        1024
+      ]
+    },
+    {
+      "source": "sprites/UI/baked-copy-v1/headings-a-hd-v2.png",
+      "path": "sprites/runtime-startup-v1/9a0bcce6644a6c32.webp",
+      "before": 1981611,
+      "after": 297128,
+      "size": [
+        1536,
+        1024
+      ]
+    },
+    {
+      "source": "sprites/UI/baked-copy-v1/headings-b-hd-v2.png",
+      "path": "sprites/runtime-startup-v1/cd7cb6c1e3cde3f0.webp",
+      "before": 1851510,
+      "after": 248816,
+      "size": [
+        1536,
+        1024
+      ]
+    },
+    {
+      "source": "sprites/UI/baked-copy-v1/headings-c-hd-v2.png",
+      "path": "sprites/runtime-startup-v1/3de73ff45d0fb812.webp",
+      "before": 1864920,
+      "after": 263914,
+      "size": [
+        1536,
+        1024
+      ]
+    },
+    {
+      "source": "sprites/UI/baked-copy-v1/hud-details-v2.png",
+      "path": "sprites/runtime-startup-v1/f76a9f64df58cf99.webp",
+      "before": 2363504,
+      "after": 409956,
+      "size": [
+        1536,
+        1024
+      ]
+    },
+    {
+      "source": "sprites/UI/baked-copy-v1/icon-badges-v2.png",
+      "path": "sprites/runtime-startup-v1/b047a9653e0d8a91.webp",
+      "before": 2916781,
+      "after": 652396,
+      "size": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "source": "sprites/UI/baked-copy-v1/inventory-settings.png",
+      "path": "sprites/runtime-startup-v1/8e363673ed19a54e.webp",
+      "before": 2173695,
+      "after": 439942,
+      "size": [
+        1024,
+        1536
+      ]
+    },
+    {
+      "source": "sprites/UI/baked-copy-v1/keybind-labels-alpha.png",
+      "path": "sprites/runtime-startup-v1/ea90b18241914180.webp",
+      "before": 1428552,
+      "after": 259772,
+      "size": [
+        1024,
+        1536
+      ]
+    },
+    {
+      "source": "sprites/UI/baked-copy-v1/level-up-integrated-v2.png",
+      "path": "sprites/runtime-startup-v1/60b3da0337f36700.webp",
+      "before": 1112401,
+      "after": 211300,
+      "size": [
+        2172,
+        724
+      ]
+    },
+    {
+      "source": "sprites/UI/baked-copy-v1/menu.png",
+      "path": "sprites/runtime-startup-v1/8d46acb8876d5508.webp",
+      "before": 1697250,
+      "after": 337334,
+      "size": [
+        2039,
+        771
+      ]
+    },
+    {
+      "source": "sprites/UI/baked-copy-v1/navigation-labels.png",
+      "path": "sprites/runtime-startup-v1/91203fe330a5c3e8.webp",
+      "before": 2075835,
+      "after": 430462,
+      "size": [
+        1024,
+        1536
+      ]
+    },
+    {
+      "source": "sprites/UI/baked-copy-v1/pause-stats-v2.png",
+      "path": "sprites/runtime-startup-v1/3c20c7be078a3a56.webp",
+      "before": 2359700,
+      "after": 400060,
+      "size": [
+        1536,
+        1024
+      ]
+    },
+    {
+      "source": "sprites/UI/baked-copy-v1/player-core-integrated-v2.png",
+      "path": "sprites/runtime-startup-v1/dbc508b9e138151f.webp",
+      "before": 1519437,
+      "after": 267986,
+      "size": [
+        2073,
+        759
+      ]
+    },
+    {
+      "source": "sprites/UI/baked-copy-v1/utility-final-v2.png",
+      "path": "sprites/runtime-startup-v1/8636658995c493e4.webp",
+      "before": 2420956,
+      "after": 451064,
+      "size": [
+        1536,
+        1024
+      ]
+    },
+    {
+      "source": "sprites/UI/baked-copy-v1/wiki.png",
+      "path": "sprites/runtime-startup-v1/a9012a4d86f6c0fe.webp",
+      "before": 1397349,
+      "after": 272920,
+      "size": [
+        2135,
+        736
+      ]
+    },
+    {
+      "source": "sprites/UI/baked-copy-v1/world-map.png",
+      "path": "sprites/runtime-startup-v1/887a0b96310a6f07.webp",
+      "before": 1562909,
+      "after": 298922,
+      "size": [
+        2116,
+        743
+      ]
+    },
+    {
+      "source": "sprites/UI/baked-copy-v1/xp-integrated-v2.png",
+      "path": "sprites/runtime-startup-v1/1c5dad2075c5c0e1.webp",
+      "before": 560001,
+      "after": 91566,
+      "size": [
+        2145,
+        733
+      ]
+    },
+    {
+      "source": "sprites/UI/baked-stars-talents-v2/descriptions-0.png",
+      "path": "sprites/runtime-startup-v1/644d12dfe44a98fd.webp",
+      "before": 2549865,
+      "after": 523670,
+      "size": [
+        1536,
+        1024
+      ]
+    },
+    {
+      "source": "sprites/UI/baked-stars-talents-v2/descriptions-1.png",
+      "path": "sprites/runtime-startup-v1/bbdb9686ee237edd.webp",
+      "before": 2608671,
+      "after": 541150,
+      "size": [
+        1536,
+        1024
+      ]
+    },
+    {
+      "source": "sprites/UI/baked-stars-talents-v2/descriptions-2.png",
+      "path": "sprites/runtime-startup-v1/349bbffba152bb1a.webp",
+      "before": 2416581,
+      "after": 478458,
+      "size": [
+        1536,
+        1024
+      ]
+    },
+    {
+      "source": "sprites/UI/baked-stars-talents-v2/descriptions-3.png",
+      "path": "sprites/runtime-startup-v1/5ec9d13243814f52.webp",
+      "before": 2373176,
+      "after": 459644,
+      "size": [
+        1536,
+        1024
+      ]
+    },
+    {
+      "source": "sprites/UI/baked-stars-talents-v2/descriptions-4.png",
+      "path": "sprites/runtime-startup-v1/9ee7ffc73052d995.webp",
+      "before": 2695915,
+      "after": 544852,
+      "size": [
+        1536,
+        1024
+      ]
+    },
+    {
+      "source": "sprites/UI/baked-stars-talents-v2/descriptions-5.png",
+      "path": "sprites/runtime-startup-v1/6e53eabd92ac154b.webp",
+      "before": 2518745,
+      "after": 482054,
+      "size": [
+        1536,
+        1024
+      ]
+    },
+    {
+      "source": "sprites/UI/baked-stars-talents-v2/labels.png",
+      "path": "sprites/runtime-startup-v1/5fb61380dfef8d51.webp",
+      "before": 2035234,
+      "after": 348004,
+      "size": [
+        1536,
+        1024
+      ]
+    },
+    {
+      "source": "sprites/UI/baked-stars-talents-v2/messages.png",
+      "path": "sprites/runtime-startup-v1/3d0ad5e89b9a56c7.webp",
+      "before": 2693828,
+      "after": 564574,
+      "size": [
+        1024,
+        1536
+      ]
+    },
+    {
+      "source": "sprites/UI/baked-stars-talents-v2/talents-hollow.png",
+      "path": "sprites/runtime-startup-v1/6f822ad0ffbe2cc2.webp",
+      "before": 2877868,
+      "after": 612212,
+      "size": [
+        1024,
+        1536
+      ]
+    },
+    {
+      "source": "sprites/UI/baked-stars-talents-v2/talents-lance.png",
+      "path": "sprites/runtime-startup-v1/ab4d6654e244b50c.webp",
+      "before": 2802670,
+      "after": 565796,
+      "size": [
+        1024,
+        1536
+      ]
+    },
+    {
+      "source": "sprites/UI/baked-stars-talents-v2/talents-wayward.png",
+      "path": "sprites/runtime-startup-v1/5dd503ec0ad8c616.webp",
+      "before": 2942704,
+      "after": 630894,
+      "size": [
+        1024,
+        1536
+      ]
+    },
+    {
+      "source": "sprites/UI/celestial-focus-v1/controls.png",
+      "path": "sprites/runtime-startup-v1/752f3fbb78e9b15e.webp",
+      "before": 2672615,
+      "after": 553806,
+      "size": [
+        1536,
+        1024
+      ]
+    },
+    {
+      "source": "sprites/UI/celestial-focus-v1/feedback.png",
+      "path": "sprites/runtime-startup-v1/23d11acc485daa8c.webp",
+      "before": 1147155,
+      "after": 479820,
+      "size": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "source": "sprites/UI/celestial-focus-v1/free.png",
+      "path": "sprites/runtime-startup-v1/1a55c6edfa93d597.webp",
+      "before": 1889474,
+      "after": 425618,
+      "size": [
+        1848,
+        851
+      ]
+    },
+    {
+      "source": "sprites/UI/celestial-focus-v1/hollow.png",
+      "path": "sprites/runtime-startup-v1/b1ff389dedbb5b89.webp",
+      "before": 2537872,
+      "after": 557512,
+      "size": [
+        1535,
+        1025
+      ]
+    },
+    {
+      "source": "sprites/UI/celestial-focus-v1/lance.png",
+      "path": "sprites/runtime-startup-v1/faeb75b7349024b7.webp",
+      "before": 2546485,
+      "after": 559442,
+      "size": [
+        1535,
+        1025
+      ]
+    },
+    {
+      "source": "sprites/UI/celestial-focus-v1/selector.png",
+      "path": "sprites/runtime-startup-v1/e782d47bf5043e90.webp",
+      "before": 3244665,
+      "after": 735392,
+      "size": [
+        1536,
+        1024
+      ]
+    },
+    {
+      "source": "sprites/UI/celestial-focus-v1/wayward.png",
+      "path": "sprites/runtime-startup-v1/533503ab84e2f6d8.webp",
+      "before": 2486335,
+      "after": 534434,
+      "size": [
+        1535,
+        1025
+      ]
+    },
+    {
+      "source": "sprites/UI/celestial-overhaul-v2/talent-connector-v2.png",
+      "path": "sprites/runtime-startup-v1/468e0a5d5dfbe29c.webp",
+      "before": 80406,
+      "after": 21936,
+      "size": [
+        1024,
+        64
+      ]
+    },
+    {
+      "source": "sprites/UI/celestial-overhaul-v2/talent-node-frame-v2.png",
+      "path": "sprites/runtime-startup-v1/4c5e413de4f2aad1.webp",
+      "before": 91865,
+      "after": 26264,
+      "size": [
+        256,
+        256
+      ]
+    },
+    {
+      "source": "sprites/UI/celestial-overhaul-v2/talent-tooltip-v2.png",
+      "path": "sprites/runtime-startup-v1/ee51fbf3db41fcf8.webp",
+      "before": 728560,
+      "after": 153242,
+      "size": [
+        1200,
+        360
+      ]
+    },
+    {
+      "source": "sprites/UI/dynamic-feedback-v2/hardcore-status-shell-v2.png",
+      "path": "sprites/runtime-startup-v1/918c1f5e8b0204c0.webp",
+      "before": 459698,
+      "after": 92686,
+      "size": [
+        1344,
+        224
+      ]
+    },
+    {
+      "source": "sprites/UI/earthquake-feedback-v2/seismic-ceiling-fracture-v1.png",
+      "path": "sprites/runtime-startup-v1/7568d3e8fd5ddab1.webp",
+      "before": 106963,
+      "after": 37286,
+      "size": [
+        512,
+        512
+      ]
+    },
+    {
+      "source": "sprites/UI/earthquake-feedback-v2/seismic-falling-boulder-v1.png",
+      "path": "sprites/runtime-startup-v1/27da8b6bc95ff6d6.webp",
+      "before": 209459,
+      "after": 62390,
+      "size": [
+        512,
+        512
+      ]
+    },
+    {
+      "source": "sprites/UI/earthquake-feedback-v2/seismic-impact-debris-v1.png",
+      "path": "sprites/runtime-startup-v1/29c0b0d94aae41bc.webp",
+      "before": 209307,
+      "after": 82172,
+      "size": [
+        512,
+        512
+      ]
+    },
+    {
+      "source": "sprites/UI/earthquake-feedback-v2/seismic-landing-footprint-v1.png",
+      "path": "sprites/runtime-startup-v1/f52e80bc4248dc4e.webp",
+      "before": 222399,
+      "after": 64658,
+      "size": [
+        512,
+        512
+      ]
+    },
+    {
+      "source": "sprites/UI/earthquake-feedback-v2/seismic-medallion-v2.png",
+      "path": "sprites/runtime-startup-v1/495dc32f0cda8533.webp",
+      "before": 132924,
+      "after": 33274,
+      "size": [
+        256,
+        256
+      ]
+    },
+    {
+      "source": "sprites/UI/earthquake-feedback-v2/seismic-rubble-return-v1.png",
+      "path": "sprites/runtime-startup-v1/2039695fdd6df1d7.webp",
+      "before": 308359,
+      "after": 94480,
+      "size": [
+        512,
+        512
+      ]
+    },
+    {
+      "source": "sprites/UI/earthquake-feedback-v2/seismic-status-frame-v2.png",
+      "path": "sprites/runtime-startup-v1/911e8f4cc67b4839.webp",
+      "before": 280093,
+      "after": 63962,
+      "size": [
+        960,
+        180
+      ]
+    },
+    {
+      "source": "sprites/UI/earthquake-feedback-v2/seismic-tile-collapse-v1.png",
+      "path": "sprites/runtime-startup-v1/e4126084b4298223.webp",
+      "before": 338190,
+      "after": 106328,
+      "size": [
+        512,
+        512
+      ]
+    },
+    {
+      "source": "sprites/UI/earthquake-feedback-v2/seismic-tile-fracture-v1.png",
+      "path": "sprites/runtime-startup-v1/46c12489f8659622.webp",
+      "before": 310186,
+      "after": 99268,
+      "size": [
+        512,
+        512
+      ]
+    },
+    {
+      "source": "sprites/UI/hud-cohesion-v1/celestial-actionbar-v2.png",
+      "path": "sprites/runtime-startup-v1/a46e37ae648ce27b.webp",
+      "before": 382214,
+      "after": 60356,
+      "size": [
+        1024,
+        320
+      ]
+    },
+    {
+      "source": "sprites/UI/hud-cohesion-v1/tutorial-current-action-v1.png",
+      "path": "sprites/runtime-startup-v1/8dedc0b14c3a521a.webp",
+      "before": 277012,
+      "after": 45240,
+      "size": [
+        1024,
+        256
+      ]
+    },
+    {
+      "source": "sprites/UI/icons/shop-ui-icon-atlas-v1.png",
+      "path": "sprites/runtime-startup-v1/7c84cc451df24578.webp",
+      "before": 3002389,
+      "after": 614170,
+      "size": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "source": "sprites/UI/inventory-fullness-v3/inventory-fullness-01.png",
+      "path": "sprites/runtime-startup-v1/287a1cb8b49a8c2b.webp",
+      "before": 69148,
+      "after": 17136,
+      "size": [
+        256,
+        256
+      ]
+    },
+    {
+      "source": "sprites/UI/inventory-fullness-v3/inventory-fullness-02.png",
+      "path": "sprites/runtime-startup-v1/24edde9841efa732.webp",
+      "before": 69803,
+      "after": 17356,
+      "size": [
+        256,
+        256
+      ]
+    },
+    {
+      "source": "sprites/UI/inventory-fullness-v3/inventory-fullness-03.png",
+      "path": "sprites/runtime-startup-v1/458bfbeb4c7f85f7.webp",
+      "before": 69945,
+      "after": 17448,
+      "size": [
+        256,
+        256
+      ]
+    },
+    {
+      "source": "sprites/UI/inventory-fullness-v3/inventory-fullness-04.png",
+      "path": "sprites/runtime-startup-v1/f6c4358cae8b7bd0.webp",
+      "before": 70219,
+      "after": 17550,
+      "size": [
+        256,
+        256
+      ]
+    },
+    {
+      "source": "sprites/UI/inventory-fullness-v3/inventory-fullness-05.png",
+      "path": "sprites/runtime-startup-v1/1ea70e1f8e264f87.webp",
+      "before": 70352,
+      "after": 18034,
+      "size": [
+        256,
+        256
+      ]
+    },
+    {
+      "source": "sprites/UI/inventory-fullness-v3/inventory-fullness-06.png",
+      "path": "sprites/runtime-startup-v1/43d0d72445a6eb8f.webp",
+      "before": 71417,
+      "after": 18406,
+      "size": [
+        256,
+        256
+      ]
+    },
+    {
+      "source": "sprites/UI/inventory-fullness-v3/inventory-fullness-07.png",
+      "path": "sprites/runtime-startup-v1/047e8343a81708cd.webp",
+      "before": 71469,
+      "after": 18556,
+      "size": [
+        256,
+        256
+      ]
+    },
+    {
+      "source": "sprites/UI/inventory-fullness-v3/inventory-fullness-08.png",
+      "path": "sprites/runtime-startup-v1/c7538e297c3063fa.webp",
+      "before": 74285,
+      "after": 19480,
+      "size": [
+        256,
+        256
+      ]
+    },
+    {
+      "source": "sprites/UI/inventory-fullness-v3/inventory-fullness-09.png",
+      "path": "sprites/runtime-startup-v1/5fdc40eb6d78680a.webp",
+      "before": 76037,
+      "after": 20136,
+      "size": [
+        256,
+        256
+      ]
+    },
+    {
+      "source": "sprites/UI/inventory-fullness-v3/inventory-fullness-10.png",
+      "path": "sprites/runtime-startup-v1/d8b5c89ffaeb70f6.webp",
+      "before": 78117,
+      "after": 20546,
+      "size": [
+        256,
+        256
+      ]
+    },
+    {
+      "source": "sprites/UI/loot-pickups-v2/soil-mini-atlas-v1.png",
+      "path": "sprites/runtime-startup-v1/2f8fd09e2ac2dd7d.webp",
+      "before": 65487,
+      "after": 24718,
+      "size": [
+        192,
+        192
+      ]
+    },
+    {
+      "source": "sprites/UI/loot-pickups/inventory-bag-approved-full.png",
+      "path": "sprites/runtime-startup-v1/040ada17b1389360.webp",
+      "before": 1050290,
+      "after": 134072,
+      "size": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "source": "sprites/UI/merchant-signs-v1/bobo.png",
+      "path": "sprites/runtime-startup-v1/6f9834fc3f61a729.webp",
+      "before": 232890,
+      "after": 55434,
+      "size": [
+        768,
+        173
+      ]
+    },
+    {
+      "source": "sprites/UI/merchant-signs-v1/gear-merchant.png",
+      "path": "sprites/runtime-startup-v1/78a40c91035f8370.webp",
+      "before": 276196,
+      "after": 64656,
+      "size": [
+        768,
+        186
+      ]
+    },
+    {
+      "source": "sprites/UI/merchant-signs-v1/gem-merchant.png",
+      "path": "sprites/runtime-startup-v1/8b8dcf3e93f2c8ac.webp",
+      "before": 317211,
+      "after": 71788,
+      "size": [
+        768,
+        215
+      ]
+    },
+    {
+      "source": "sprites/UI/merchant-signs-v1/molten-money-monster.png",
+      "path": "sprites/runtime-startup-v1/8a5d874c473a33f9.webp",
+      "before": 235508,
+      "after": 54642,
+      "size": [
+        768,
+        173
+      ]
+    },
+    {
+      "source": "sprites/UI/merchant-signs-v1/money-monster.png",
+      "path": "sprites/runtime-startup-v1/ae3f95368c63a480.webp",
+      "before": 256968,
+      "after": 65262,
+      "size": [
+        768,
+        171
+      ]
+    },
+    {
+      "source": "sprites/UI/merchant-signs-v1/player-upgrades.png",
+      "path": "sprites/runtime-startup-v1/9d8504960e393355.webp",
+      "before": 307887,
+      "after": 69308,
+      "size": [
+        768,
+        205
+      ]
+    },
+    {
+      "source": "sprites/UI/pickaxe-icons-v1/adamant-pickaxe-v1.png",
+      "path": "sprites/runtime-startup-v1/f53d808231fec898.webp",
+      "before": 53360,
+      "after": 16532,
+      "size": [
+        256,
+        256
+      ]
+    },
+    {
+      "source": "sprites/UI/pickaxe-icons-v1/dragon-pickaxe-v1.png",
+      "path": "sprites/runtime-startup-v1/c3ed8133ea629fdc.webp",
+      "before": 57727,
+      "after": 21548,
+      "size": [
+        256,
+        256
+      ]
+    },
+    {
+      "source": "sprites/UI/pickaxe-icons-v1/rune-pickaxe-v1.png",
+      "path": "sprites/runtime-startup-v1/eff4b8c2aae6b62f.webp",
+      "before": 53342,
+      "after": 18348,
+      "size": [
+        256,
+        256
+      ]
+    },
+    {
+      "source": "sprites/UI/random-events-v1/sleeping-jackpot-panel-v1.png",
+      "path": "sprites/runtime-startup-v1/83db2d976531839f.webp",
+      "before": 1790709,
+      "after": 252736,
+      "size": [
+        1672,
+        941
+      ]
+    },
+    {
+      "source": "sprites/UI/resource-codex-v1/resource-codex-foundation-v1.png",
+      "path": "sprites/runtime-startup-v1/a56b7fbdde8c6783.webp",
+      "before": 1923950,
+      "after": 293996,
+      "size": [
+        1738,
+        905
+      ]
+    },
+    {
+      "source": "sprites/UI/resource-codex-v1/resource-dossier-atlas-v1.png",
+      "path": "sprites/runtime-startup-v1/5414cf562350ab60.webp",
+      "before": 2898091,
+      "after": 627158,
+      "size": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "source": "sprites/UI/starlight-talent-tree-v3/constellation-crest-v2.png",
+      "path": "sprites/runtime-startup-v1/992475ff958203c3.webp",
+      "before": 344191,
+      "after": 75320,
+      "size": [
+        566,
+        556
+      ]
+    },
+    {
+      "source": "sprites/UI/starlight-talent-tree-v4/bobo-lock-seal-v2.png",
+      "path": "sprites/runtime-startup-v1/33dd5eebaa51ed95.webp",
+      "before": 230902,
+      "after": 57942,
+      "size": [
+        315,
+        445
+      ]
+    },
+    {
+      "source": "sprites/UI/starlight-talent-tree-v4/node-frame-quickslash-v2.png",
+      "path": "sprites/runtime-startup-v1/ff75b444aadfba78.webp",
+      "before": 597104,
+      "after": 120662,
+      "size": [
+        453,
+        792
+      ]
+    },
+    {
+      "source": "sprites/UI/starlight-talent-tree-v4/node-frame-thunderstrike-v2.png",
+      "path": "sprites/runtime-startup-v1/d35ee7bb038a6731.webp",
+      "before": 284946,
+      "after": 65266,
+      "size": [
+        313,
+        516
+      ]
+    },
+    {
+      "source": "sprites/UI/starlight-talent-tree-v4/node-selection-halo-v2.png",
+      "path": "sprites/runtime-startup-v1/bba5f90df71af02b.webp",
+      "before": 96860,
+      "after": 34924,
+      "size": [
+        316,
+        455
+      ]
+    },
+    {
+      "source": "sprites/UI/starlight-talent-tree-v4/star-heart-ui-v2.png",
+      "path": "sprites/runtime-startup-v1/d12780977993f964.webp",
+      "before": 562684,
+      "after": 124546,
+      "size": [
+        574,
+        575
+      ]
+    },
+    {
+      "source": "sprites/UI/weather-indicator-v1/world-state-weather-v2.png",
+      "path": "sprites/runtime-startup-v1/69ea8f7ab0b56d23.webp",
+      "before": 199043,
+      "after": 33842,
+      "size": [
+        768,
+        209
+      ]
+    },
+    {
+      "source": "sprites/UI/xp-gathering-v2/xp-cluster-orbit-v2.png",
+      "path": "sprites/runtime-startup-v1/2acadcc7401147c3.webp",
+      "before": 75464,
+      "after": 31744,
+      "size": [
+        256,
+        256
+      ]
+    },
+    {
+      "source": "sprites/UI/xp-gathering-v2/xp-cluster-triad-v2.png",
+      "path": "sprites/runtime-startup-v1/ef2a3533e7a63e4e.webp",
+      "before": 66702,
+      "after": 29048,
+      "size": [
+        256,
+        256
+      ]
+    },
+    {
+      "source": "sprites/UI/xp-gathering-v2/xp-cluster-twin-v2.png",
+      "path": "sprites/runtime-startup-v1/49a80a75dbe6a1b1.webp",
+      "before": 62249,
+      "after": 25738,
+      "size": [
+        256,
+        256
+      ]
+    },
+    {
+      "source": "sprites/UI/xp-gathering-v2/xp-crest-core-v2.png",
+      "path": "sprites/runtime-startup-v1/6583e9440833c9df.webp",
+      "before": 50571,
+      "after": 18604,
+      "size": [
+        256,
+        256
+      ]
+    },
+    {
+      "source": "sprites/UI/xp-gathering-v2/xp-crest-crown-v2.png",
+      "path": "sprites/runtime-startup-v1/dd1ac242fbc9d4c9.webp",
+      "before": 77371,
+      "after": 31362,
+      "size": [
+        256,
+        256
+      ]
+    },
+    {
+      "source": "sprites/UI/xp-gathering-v2/xp-mote-compass-v2.png",
+      "path": "sprites/runtime-startup-v1/62ad02070c4555a8.webp",
+      "before": 59049,
+      "after": 25144,
+      "size": [
+        256,
+        256
+      ]
+    },
+    {
+      "source": "sprites/UI/xp-gathering-v2/xp-mote-facet-v2.png",
+      "path": "sprites/runtime-startup-v1/38c755777f0315db.webp",
+      "before": 61285,
+      "after": 25676,
+      "size": [
+        256,
+        256
+      ]
+    },
+    {
+      "source": "sprites/UI/xp-gathering-v2/xp-mote-kite-v2.png",
+      "path": "sprites/runtime-startup-v1/38bc0a3fdb0a50d8.webp",
+      "before": 55368,
+      "after": 23230,
+      "size": [
+        256,
+        256
+      ]
+    },
+    {
+      "source": "sprites/UI/xp-gathering-v2/xp-sigil-core-v2.png",
+      "path": "sprites/runtime-startup-v1/cb19e4555eee4f2e.webp",
+      "before": 78473,
+      "after": 28886,
+      "size": [
+        256,
+        256
+      ]
+    },
+    {
+      "source": "sprites/UI/xp-gathering-v2/xp-sigil-legend-v2.png",
+      "path": "sprites/runtime-startup-v1/ffee58abedea555e.webp",
+      "before": 78982,
+      "after": 33122,
+      "size": [
+        256,
+        256
+      ]
+    },
+    {
+      "source": "sprites/UI/xp-gathering-v2/xp-sigil-rune-v2.png",
+      "path": "sprites/runtime-startup-v1/760ae93cad665df4.webp",
+      "before": 76442,
+      "after": 30660,
+      "size": [
+        256,
+        256
+      ]
+    },
+    {
+      "source": "sprites/backgrounds/start-zone-scenic-v1/town-square-slate-strip-v3.png",
+      "path": "sprites/runtime-startup-v1/ba8939416ec7f7ae.webp",
+      "before": 192998,
+      "after": 32384,
+      "size": [
+        1801,
+        48
+      ]
+    },
+    {
+      "source": "sprites/backgrounds/titan-discoveries-v1/01-mossback-wanderer.png",
+      "path": "sprites/runtime-startup-v1/8d825c827b028a87.webp",
+      "before": 82046,
+      "after": 26288,
+      "size": [
+        256,
+        256
+      ]
+    },
+    {
+      "source": "sprites/backgrounds/titan-discoveries-v1/02-bellhorn-grazer.png",
+      "path": "sprites/runtime-startup-v1/cae941d6d6dc96dd.webp",
+      "before": 73171,
+      "after": 22582,
+      "size": [
+        256,
+        256
+      ]
+    },
+    {
+      "source": "sprites/backgrounds/titan-discoveries-v1/03-lantern-jaw.png",
+      "path": "sprites/runtime-startup-v1/fda6996de85ed942.webp",
+      "before": 54736,
+      "after": 17944,
+      "size": [
+        256,
+        256
+      ]
+    },
+    {
+      "source": "sprites/backgrounds/titan-discoveries-v1/04-archwalker.png",
+      "path": "sprites/runtime-startup-v1/7f53265e85c980e0.webp",
+      "before": 72065,
+      "after": 22444,
+      "size": [
+        256,
+        256
+      ]
+    },
+    {
+      "source": "sprites/backgrounds/titan-discoveries-v1/05-shale-mother.png",
+      "path": "sprites/runtime-startup-v1/36234da556979e5b.webp",
+      "before": 62742,
+      "after": 19480,
+      "size": [
+        256,
+        256
+      ]
+    },
+    {
+      "source": "sprites/backgrounds/titan-discoveries-v1/06-ribbon-wyrm.png",
+      "path": "sprites/runtime-startup-v1/72b31c2b93c546b8.webp",
+      "before": 63021,
+      "after": 22270,
+      "size": [
+        256,
+        256
+      ]
+    },
+    {
+      "source": "sprites/backgrounds/titan-discoveries-v1/07-crowned-mole.png",
+      "path": "sprites/runtime-startup-v1/712752f9bad65fd3.webp",
+      "before": 64766,
+      "after": 16634,
+      "size": [
+        256,
+        256
+      ]
+    },
+    {
+      "source": "sprites/backgrounds/titan-discoveries-v1/08-hammerhead-pilgrim.png",
+      "path": "sprites/runtime-startup-v1/623827faefc57fdf.webp",
+      "before": 66538,
+      "after": 20970,
+      "size": [
+        256,
+        256
+      ]
+    },
+    {
+      "source": "sprites/backgrounds/titan-discoveries-v1/09-cathedral-stag.png",
+      "path": "sprites/runtime-startup-v1/e49ba80428ce1ec9.webp",
+      "before": 70267,
+      "after": 28232,
+      "size": [
+        256,
+        256
+      ]
+    },
+    {
+      "source": "sprites/backgrounds/titan-discoveries-v1/10-hollowback-bear.png",
+      "path": "sprites/runtime-startup-v1/c3bc7b929decdf86.webp",
+      "before": 68434,
+      "after": 16318,
+      "size": [
+        256,
+        256
+      ]
+    },
+    {
+      "source": "sprites/backgrounds/titan-discoveries-v1/11-silver-strider.png",
+      "path": "sprites/runtime-startup-v1/db7eda6ebcb8657a.webp",
+      "before": 70933,
+      "after": 24598,
+      "size": [
+        256,
+        256
+      ]
+    },
+    {
+      "source": "sprites/backgrounds/titan-discoveries-v1/13-needlecrown.png",
+      "path": "sprites/runtime-startup-v1/a7ec7bb63178a8eb.webp",
+      "before": 64410,
+      "after": 18720,
+      "size": [
+        256,
+        256
+      ]
+    },
+    {
+      "source": "sprites/backgrounds/titan-discoveries-v1/14-moon-shell.png",
+      "path": "sprites/runtime-startup-v1/31ca0b40fe350fdc.webp",
+      "before": 74088,
+      "after": 18800,
+      "size": [
+        256,
+        256
+      ]
+    },
+    {
+      "source": "sprites/backgrounds/titan-discoveries-v1/15-veilwing.png",
+      "path": "sprites/runtime-startup-v1/8fc0fe7ef823f0ae.webp",
+      "before": 69043,
+      "after": 21478,
+      "size": [
+        256,
+        256
+      ]
+    },
+    {
+      "source": "sprites/backgrounds/titan-discoveries-v1/16-ember-tusk.png",
+      "path": "sprites/runtime-startup-v1/93e5f28b324e50e5.webp",
+      "before": 74912,
+      "after": 19614,
+      "size": [
+        256,
+        256
+      ]
+    },
+    {
+      "source": "sprites/backgrounds/titan-discoveries-v1/17-furnace-drake.png",
+      "path": "sprites/runtime-startup-v1/c3f525e22d74ded6.webp",
+      "before": 65833,
+      "after": 19890,
+      "size": [
+        256,
+        256
+      ]
+    },
+    {
+      "source": "sprites/backgrounds/titan-discoveries-v1/18-ash-colossus.png",
+      "path": "sprites/runtime-startup-v1/e924637bccc84e11.webp",
+      "before": 91265,
+      "after": 22378,
+      "size": [
+        256,
+        256
+      ]
+    },
+    {
+      "source": "sprites/backgrounds/titan-discoveries-v1/19-magma-whale.png",
+      "path": "sprites/runtime-startup-v1/f6067cd985c084f8.webp",
+      "before": 53793,
+      "after": 14604,
+      "size": [
+        256,
+        256
+      ]
+    },
+    {
+      "source": "sprites/backgrounds/titan-discoveries-v1/20-cinder-centipede.png",
+      "path": "sprites/runtime-startup-v1/47b54e513b5fcae5.webp",
+      "before": 55050,
+      "after": 17862,
+      "size": [
+        256,
+        256
+      ]
+    },
+    {
+      "source": "sprites/backgrounds/titan-discoveries-v1/22-rift-heron.png",
+      "path": "sprites/runtime-startup-v1/c24320c734ebda0b.webp",
+      "before": 58570,
+      "after": 18790,
+      "size": [
+        256,
+        256
+      ]
+    },
+    {
+      "source": "sprites/backgrounds/titan-discoveries-v1/23-star-eater.png",
+      "path": "sprites/runtime-startup-v1/6c203543c69bd644.webp",
+      "before": 68587,
+      "after": 18364,
+      "size": [
+        256,
+        256
+      ]
+    },
+    {
+      "source": "sprites/backgrounds/titan-discoveries-v1/24-deep-crown.png",
+      "path": "sprites/runtime-startup-v1/dc73d6992da42b05.webp",
+      "before": 86778,
+      "after": 23240,
+      "size": [
+        256,
+        256
+      ]
+    },
+    {
+      "source": "sprites/backgrounds/titan-discoveries-v1/25-worldroot-titan.png",
+      "path": "sprites/runtime-startup-v1/3d428c3cf6024b51.webp",
+      "before": 96182,
+      "after": 29390,
+      "size": [
+        256,
+        256
+      ]
+    },
+    {
+      "source": "sprites/backgrounds/titan-discoveries-v1/titan-walk-plinth-v1.png",
+      "path": "sprites/runtime-startup-v1/62d47d7839a39b94.webp",
+      "before": 240765,
+      "after": 46134,
+      "size": [
+        512,
+        320
+      ]
+    },
+    {
+      "source": "sprites/backgrounds/titan-underground-v2/titan-cover-resonance-v1.png",
+      "path": "sprites/runtime-startup-v1/1fb3aa64f339bba5.webp",
+      "before": 167171,
+      "after": 75514,
+      "size": [
+        512,
+        512
+      ]
+    },
+    {
+      "source": "sprites/backgrounds/titan-underground-v2/titan-dais-v1.png",
+      "path": "sprites/runtime-startup-v1/64dcfc459818d7c0.webp",
+      "before": 625392,
+      "after": 99038,
+      "size": [
+        1024,
+        384
+      ]
+    },
+    {
+      "source": "sprites/backgrounds/titan-underground-v3/titan-ground-contact-v1.png",
+      "path": "sprites/runtime-startup-v1/9ae0cc2bf3b8e69e.webp",
+      "before": 446181,
+      "after": 75404,
+      "size": [
+        1198,
+        292
+      ]
+    },
+    {
+      "source": "sprites/backgrounds/titan-underground-v3/titan-unlock-resonance-v1.png",
+      "path": "sprites/runtime-startup-v1/44e73f8efeadd2df.webp",
+      "before": 898030,
+      "after": 240472,
+      "size": [
+        1511,
+        1041
+      ]
+    },
+    {
+      "source": "sprites/backgrounds/world-scenic-regions-v1/level1-ground-recognition-atlas-v7.png",
+      "path": "sprites/runtime-startup-v1/1c4b3244436bb0f9.webp",
+      "before": 1104400,
+      "after": 328950,
+      "size": [
+        752,
+        940
+      ]
+    },
+    {
+      "source": "sprites/backgrounds/world-visual-v2/depth/terrain-variation-v5/backdrop-card-blend-mask-atlas-v5.png",
+      "path": "sprites/runtime-startup-v1/689d72da2c20aceb.webp",
+      "before": 98390,
+      "after": 67180,
+      "size": [
+        1536,
+        1024
+      ]
+    },
+    {
+      "source": "sprites/backgrounds/world-visual-v2/landmarks/underground-cave-mouth-v1.png",
+      "path": "sprites/runtime-startup-v1/cfe9280ad518aea8.webp",
+      "before": 1976499,
+      "after": 274348,
+      "size": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "source": "sprites/backgrounds/world-visual-v2/materials/town-dark-earth-v1.png",
+      "path": "sprites/runtime-startup-v1/89f8e48767ce8650.webp",
+      "before": 3498420,
+      "after": 649494,
+      "size": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "source": "sprites/backgrounds/world-visual-v2/pilot/mine-entrance-v1/mine-entrance-emissive-v1.png",
+      "path": "sprites/runtime-startup-v1/39f71d0887281b20.webp",
+      "before": 580391,
+      "after": 25230,
+      "size": [
+        1416,
+        1111
+      ]
+    },
+    {
+      "source": "sprites/backgrounds/world-visual-v2/pilot/mine-entrance-v1/mine-entrance-front-v1.png",
+      "path": "sprites/runtime-startup-v1/d6b1bea2f66e7fbe.webp",
+      "before": 1412621,
+      "after": 192938,
+      "size": [
+        1416,
+        1111
+      ]
+    },
+    {
+      "source": "sprites/backgrounds/world-visual-v2/regenerated-horizon-v2/celestial-v3.png",
+      "path": "sprites/runtime-startup-v1/d4ae71719675203a.webp",
+      "before": 1677079,
+      "after": 431346,
+      "size": [
+        1774,
+        887
+      ]
+    },
+    {
+      "source": "sprites/backgrounds/world-visual-v2/regenerated-horizon-v2/cloud-banks-v4.png",
+      "path": "sprites/runtime-startup-v1/4f5596dccdd9650a.webp",
+      "before": 1723928,
+      "after": 476064,
+      "size": [
+        1672,
+        941
+      ]
+    },
+    {
+      "source": "sprites/backgrounds/world-visual-v2/regenerated-horizon-v2/cloud-cumulus-v3.png",
+      "path": "sprites/runtime-startup-v1/88ed845673cd1629.webp",
+      "before": 1447491,
+      "after": 408346,
+      "size": [
+        1774,
+        887
+      ]
+    },
+    {
+      "source": "sprites/backgrounds/world-visual-v2/regenerated-horizon-v2/cloud-wisps.png",
+      "path": "sprites/runtime-startup-v1/f79a54838e288129.webp",
+      "before": 767045,
+      "after": 241312,
+      "size": [
+        2172,
+        724
+      ]
+    },
+    {
+      "source": "sprites/backgrounds/world-visual-v2/regenerated-horizon-v2/forest.png",
+      "path": "sprites/runtime-startup-v1/d55bfd33bc9b3496.webp",
+      "before": 1767841,
+      "after": 432148,
+      "size": [
+        2172,
+        724
+      ]
+    },
+    {
+      "source": "sprites/backgrounds/world-visual-v2/regenerated-horizon-v2/ridge-central.png",
+      "path": "sprites/runtime-startup-v1/67ba08878c51939e.webp",
+      "before": 2097716,
+      "after": 261484,
+      "size": [
+        2172,
+        724
+      ]
+    },
+    {
+      "source": "sprites/backgrounds/world-visual-v2/regenerated-horizon-v2/ridge-east.png",
+      "path": "sprites/runtime-startup-v1/b7f87c42a5f36dd5.webp",
+      "before": 1995459,
+      "after": 220964,
+      "size": [
+        2172,
+        724
+      ]
+    },
+    {
+      "source": "sprites/backgrounds/world-visual-v2/regenerated-horizon-v2/ridge-west.png",
+      "path": "sprites/runtime-startup-v1/4466805ffdbdc4b2.webp",
+      "before": 1914185,
+      "after": 183412,
+      "size": [
+        2115,
+        743
+      ]
+    },
+    {
+      "source": "sprites/backgrounds/world-visual-v2/regenerated-horizon-v2/sky.png",
+      "path": "sprites/runtime-startup-v1/22ac5573e9d70810.webp",
+      "before": 1892904,
+      "after": 97390,
+      "size": [
+        1774,
+        887
+      ]
+    },
+    {
+      "source": "sprites/backgrounds/world-visual-v2/regenerated-horizon-v2/swallow-flight-v6.png",
+      "path": "sprites/runtime-startup-v1/016950a83c99d252.webp",
+      "before": 1531817,
+      "after": 135148,
+      "size": [
+        1536,
+        1024
+      ]
+    },
+    {
+      "source": "sprites/backgrounds/world-visual-v2/regenerated-horizon-v2/weather-v4.png",
+      "path": "sprites/runtime-startup-v1/d843aa0623046545.webp",
+      "before": 1017526,
+      "after": 333148,
+      "size": [
+        1774,
+        887
+      ]
+    },
+    {
+      "source": "sprites/backgrounds/world-visual-v2/semantic-decals-v1/ground-damage-piskel-anchor-v2.png",
+      "path": "sprites/runtime-startup-v1/571601397b38035d.webp",
+      "before": 1271502,
+      "after": 445288,
+      "size": [
+        1880,
+        2256
+      ]
+    },
+    {
+      "source": "sprites/backgrounds/world-visual-v2/semantic-decals-v1/resource-ground-veins-imagegen-2d-v6.png",
+      "path": "sprites/runtime-startup-v1/70c92216572e4f3b.webp",
+      "before": 2561417,
+      "after": 746048,
+      "size": [
+        1128,
+        1880
+      ]
+    },
+    {
+      "source": "sprites/backgrounds/world-visual-v2/semantic-decals-v1/sky-stars-floating-crystal-beauty-v2.png",
+      "path": "sprites/runtime-startup-v1/61482eb4147ec668.webp",
+      "before": 311485,
+      "after": 61668,
+      "size": [
+        768,
+        512
+      ]
+    },
+    {
+      "source": "sprites/backgrounds/world-visual-v2/semantic-decals-v1/sky-stars-floating-crystal-emissive-v2.png",
+      "path": "sprites/runtime-startup-v1/210273d02c986909.webp",
+      "before": 270135,
+      "after": 46222,
+      "size": [
+        768,
+        512
+      ]
+    },
+    {
+      "source": "sprites/backgrounds/world-visual-v2/semantic-decals-v1/special-blocks-imagegen-gp-tiers-v3.png",
+      "path": "sprites/runtime-startup-v1/a525a4145c19518a.webp",
+      "before": 908335,
+      "after": 186996,
+      "size": [
+        752,
+        564
+      ]
+    },
+    {
+      "source": "sprites/backgrounds/world-visual-v2/semantic-decals-v1/star-block-idle-motion-atlas-v1.png",
+      "path": "sprites/runtime-startup-v1/a771246eeaaf50ee.webp",
+      "before": 307444,
+      "after": 57880,
+      "size": [
+        1536,
+        768
+      ]
+    },
+    {
+      "source": "sprites/backgrounds/world-visual-v2/surface/town-surface-edge-thin-v2.png",
+      "path": "sprites/runtime-startup-v1/c6a530085ffac3b1.webp",
+      "before": 177707,
+      "after": 31094,
+      "size": [
+        1672,
+        48
+      ]
+    },
+    {
+      "source": "sprites/branding/understar-world-within-v4/understar-logo-stone.png",
+      "path": "sprites/runtime-startup-v1/c51b267990173e24.webp",
+      "before": 1075099,
+      "after": 35430,
+      "size": [
+        1810,
+        470
+      ]
+    },
+    {
+      "source": "sprites/celestial-engines/cinder-lance-v1/azure.png",
+      "path": "sprites/runtime-startup-v1/dfdb0e3365a2f4ca.webp",
+      "before": 685152,
+      "after": 51566,
+      "size": [
+        1536,
+        1024
+      ]
+    },
+    {
+      "source": "sprites/celestial-engines/cinder-lance-v1/ember.png",
+      "path": "sprites/runtime-startup-v1/aa03dfa7c51b1aec.webp",
+      "before": 628617,
+      "after": 49598,
+      "size": [
+        1536,
+        1024
+      ]
+    },
+    {
+      "source": "sprites/celestial-engines/cinder-lance-v1/prismatic.png",
+      "path": "sprites/runtime-startup-v1/f31bc01073219d52.webp",
+      "before": 707754,
+      "after": 52438,
+      "size": [
+        1536,
+        1024
+      ]
+    },
+    {
+      "source": "sprites/celestial-engines/cinder-lance-v1/violet.png",
+      "path": "sprites/runtime-startup-v1/d4b5d56c14028364.webp",
+      "before": 779387,
+      "after": 45684,
+      "size": [
+        1536,
+        1024
+      ]
+    },
+    {
+      "source": "sprites/celestial-engines/comet-engine-core-v1.png",
+      "path": "sprites/runtime-startup-v1/a7537d8788cff5d4.webp",
+      "before": 181763,
+      "after": 18086,
+      "size": [
+        512,
+        512
+      ]
+    },
+    {
+      "source": "sprites/celestial-engines/hollow-sun-core-v1.png",
+      "path": "sprites/runtime-startup-v1/a70d7e41e34bbdda.webp",
+      "before": 302830,
+      "after": 34406,
+      "size": [
+        512,
+        512
+      ]
+    },
+    {
+      "source": "sprites/celestial-engines/star-heart-core-v1.png",
+      "path": "sprites/runtime-startup-v1/01102feaf48dbd10.webp",
+      "before": 370295,
+      "after": 46916,
+      "size": [
+        512,
+        512
+      ]
+    },
+    {
+      "source": "sprites/celestial-engines/stellar-lance-impact-purple-v1.png",
+      "path": "sprites/runtime-startup-v1/43894c570855a96d.webp",
+      "before": 1829720,
+      "after": 478170,
+      "size": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "source": "sprites/celestial-engines/stellar-lance-projectiles-v1.png",
+      "path": "sprites/runtime-startup-v1/1bc71a4e1d3ce590.webp",
+      "before": 560162,
+      "after": 193484,
+      "size": [
+        1536,
+        512
+      ]
+    },
+    {
+      "source": "sprites/celestial-engines/wayward-star-core-v1.png",
+      "path": "sprites/runtime-startup-v1/7e646dbb665a9088.webp",
+      "before": 229355,
+      "after": 25036,
+      "size": [
+        512,
+        512
+      ]
+    },
+    {
+      "source": "sprites/cinematics/understar-cinematics-v1/mossback-discovery-v1-poster.png",
+      "path": "sprites/runtime-startup-v1/67a9cd559b09b058.webp",
+      "before": 4718940,
+      "after": 837914,
+      "size": [
+        1920,
+        1080
+      ]
+    },
+    {
+      "source": "sprites/cinematics/understar-cinematics-v1/understar-opening-v1-poster.png",
+      "path": "sprites/runtime-startup-v1/04a634f406626e05.webp",
+      "before": 3440176,
+      "after": 542566,
+      "size": [
+        1920,
+        1080
+      ]
+    },
+    {
+      "source": "sprites/environment/approved-pillars-v1/milestone-pillar-stage-1.png",
+      "path": "sprites/runtime-startup-v1/8f106f8aceec5bcb.webp",
+      "before": 116495,
+      "after": 21276,
+      "size": [
+        256,
+        338
+      ]
+    },
+    {
+      "source": "sprites/environment/approved-pillars-v1/milestone-pillar-stage-2.png",
+      "path": "sprites/runtime-startup-v1/3a39c88bd997f138.webp",
+      "before": 185879,
+      "after": 35092,
+      "size": [
+        291,
+        445
+      ]
+    },
+    {
+      "source": "sprites/environment/approved-pillars-v1/milestone-pillar-stage-3.png",
+      "path": "sprites/runtime-startup-v1/310de17442b1098e.webp",
+      "before": 266095,
+      "after": 50230,
+      "size": [
+        309,
+        574
+      ]
+    },
+    {
+      "source": "sprites/environment/approved-pillars-v1/milestone-pillar-stage-4.png",
+      "path": "sprites/runtime-startup-v1/7d889749352133b0.webp",
+      "before": 427139,
+      "after": 82106,
+      "size": [
+        382,
+        693
+      ]
+    },
+    {
+      "source": "sprites/environment/approved-pillars-v1/milestone-pillar-stage-5.png",
+      "path": "sprites/runtime-startup-v1/12529db8b626ce86.webp",
+      "before": 638185,
+      "after": 125340,
+      "size": [
+        455,
+        896
+      ]
+    },
+    {
+      "source": "sprites/environment/approved-pillars-v1/star-pillar-stage-1.png",
+      "path": "sprites/runtime-startup-v1/ffd28c184256731f.webp",
+      "before": 165478,
+      "after": 28348,
+      "size": [
+        296,
+        390
+      ]
+    },
+    {
+      "source": "sprites/environment/approved-pillars-v1/star-pillar-stage-2.png",
+      "path": "sprites/runtime-startup-v1/a483bf181bc09aae.webp",
+      "before": 247418,
+      "after": 42158,
+      "size": [
+        316,
+        525
+      ]
+    },
+    {
+      "source": "sprites/environment/approved-pillars-v1/star-pillar-stage-3.png",
+      "path": "sprites/runtime-startup-v1/5d46b15e0948da3b.webp",
+      "before": 311068,
+      "after": 52532,
+      "size": [
+        342,
+        636
+      ]
+    },
+    {
+      "source": "sprites/environment/approved-pillars-v1/star-pillar-stage-4.png",
+      "path": "sprites/runtime-startup-v1/404171e65b88e8bd.webp",
+      "before": 429427,
+      "after": 73998,
+      "size": [
+        363,
+        709
+      ]
+    },
+    {
+      "source": "sprites/environment/approved-pillars-v1/star-pillar-stage-5.png",
+      "path": "sprites/runtime-startup-v1/79471fd644c2e436.webp",
+      "before": 548259,
+      "after": 94276,
+      "size": [
+        385,
+        874
+      ]
+    },
+    {
+      "source": "sprites/environment/fire-light-v3/fire-flame-states-v3.png",
+      "path": "sprites/runtime-startup-v1/fa31ace0de4d89c8.webp",
+      "before": 979270,
+      "after": 93944,
+      "size": [
+        1252,
+        1252
+      ]
+    },
+    {
+      "source": "sprites/environment/fire-light-v3/fire-flame-steady-v3.png",
+      "path": "sprites/runtime-startup-v1/3f74aac37f66557f.webp",
+      "before": 1079390,
+      "after": 122254,
+      "size": [
+        1252,
+        1252
+      ]
+    },
+    {
+      "source": "sprites/environment/random-events-v1/random-event-sigils-v1.png",
+      "path": "sprites/runtime-startup-v1/ba760e88e11539af.webp",
+      "before": 1102538,
+      "after": 261954,
+      "size": [
+        1672,
+        941
+      ]
+    },
+    {
+      "source": "sprites/environment/starless-scar-v2/starless-scar-territory-material-v2.png",
+      "path": "sprites/runtime-startup-v1/c7f846753fa6da70.webp",
+      "before": 3707147,
+      "after": 892396,
+      "size": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "source": "sprites/environment/starless-scar-v3/starless-scar-dead-center-v3.png",
+      "path": "sprites/runtime-startup-v1/9a57e99ddf0aa244.webp",
+      "before": 2958918,
+      "after": 698620,
+      "size": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "source": "sprites/environment/starless-scar-v3/starless-scar-frontier-edge-v3.png",
+      "path": "sprites/runtime-startup-v1/b745120cd6d13313.webp",
+      "before": 1604794,
+      "after": 258068,
+      "size": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "source": "sprites/environment/starless-scar-v3/starless-scar-walkable-ground-v3.png",
+      "path": "sprites/runtime-startup-v1/c40c1b995f5d58fd.webp",
+      "before": 3195032,
+      "after": 503998,
+      "size": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "source": "sprites/environment/v11-skyline-weather-vfx-v1/weather-particles-v2.png",
+      "path": "sprites/runtime-startup-v1/5a5a7adcc146ae6b.webp",
+      "before": 1241935,
+      "after": 510542,
+      "size": [
+        2048,
+        1024
+      ]
+    },
+    {
+      "source": "sprites/environment/worldroot-sanctuary-v2/crown-star.png",
+      "path": "sprites/runtime-startup-v1/cd135c6870d46cb6.webp",
+      "before": 93775,
+      "after": 34054,
+      "size": [
+        256,
+        256
+      ]
+    },
+    {
+      "source": "sprites/environment/worldroot-sanctuary-v2/falling-leaf.png",
+      "path": "sprites/runtime-startup-v1/9fb3024fe5d26dc2.webp",
+      "before": 696366,
+      "after": 140886,
+      "size": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "source": "sprites/environment/worldroot-sanctuary-v2/hanging-vine.png",
+      "path": "sprites/runtime-startup-v1/e9d9d5e212d2954e.webp",
+      "before": 1783335,
+      "after": 169286,
+      "size": [
+        1024,
+        1536
+      ]
+    },
+    {
+      "source": "sprites/environment/worldroot-sanctuary-v2/root-fern.png",
+      "path": "sprites/runtime-startup-v1/97752d88aef724e5.webp",
+      "before": 2177555,
+      "after": 289834,
+      "size": [
+        1536,
+        1024
+      ]
+    },
+    {
+      "source": "sprites/environment/worldroot-sanctuary-v2/signal-star.png",
+      "path": "sprites/runtime-startup-v1/bb9727d6d0527035.webp",
+      "before": 88148,
+      "after": 32048,
+      "size": [
+        256,
+        256
+      ]
+    },
+    {
+      "source": "sprites/environment/worldroot-sanctuary-v2/talent-star.png",
+      "path": "sprites/runtime-startup-v1/ae46f8c5d84578ab.webp",
+      "before": 95342,
+      "after": 39536,
+      "size": [
+        256,
+        256
+      ]
+    },
+    {
+      "source": "sprites/environment/worldroot-sanctuary-v3/foliage-consumed.png",
+      "path": "sprites/runtime-startup-v1/29356bc03b19bec3.webp",
+      "before": 775857,
+      "after": 201676,
+      "size": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "source": "sprites/environment/worldroot-sanctuary-v3/foliage-living.png",
+      "path": "sprites/runtime-startup-v1/2b23b2f8c26d96e2.webp",
+      "before": 1819352,
+      "after": 302076,
+      "size": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "source": "sprites/environment/worldroot-sanctuary-v3/trunk.png",
+      "path": "sprites/runtime-startup-v1/9979dd4f9f5cb3bd.webp",
+      "before": 1612673,
+      "after": 383402,
+      "size": [
+        1536,
+        1024
+      ]
+    },
+    {
+      "source": "sprites/fx/tile-destruction-fx-v3/tile-break-core-v3.png",
+      "path": "sprites/runtime-startup-v1/02b2d7302f79cc58.webp",
+      "before": 2016949,
+      "after": 654072,
+      "size": [
+        1024,
+        3536
+      ]
+    },
+    {
+      "source": "sprites/fx/tile-destruction-fx-v3/tile-break-shards-v3.png",
+      "path": "sprites/runtime-startup-v1/6c4a4552cafc6011.webp",
+      "before": 201398,
+      "after": 75964,
+      "size": [
+        400,
+        1360
+      ]
+    },
+    {
+      "source": "sprites/tiles/approved-world/bedrock-megalith-lock-v1.png",
+      "path": "sprites/runtime-startup-v1/95d83bdbf42cff36.webp",
+      "before": 2741134,
+      "after": 209760,
+      "size": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "source": "sprites/tiles/dynamic-soil/deep-bases/deep-soil-1000-1200-v1.png",
+      "path": "sprites/runtime-startup-v1/2bcaa888b1fdf909.webp",
+      "before": 85583,
+      "after": 17512,
+      "size": [
+        201,
+        201
+      ]
+    },
+    {
+      "source": "sprites/tiles/dynamic-soil/deep-bases/deep-soil-1000-1200-v2.png",
+      "path": "sprites/runtime-startup-v1/de378640a41cf69d.webp",
+      "before": 84987,
+      "after": 17234,
+      "size": [
+        201,
+        201
+      ]
+    },
+    {
+      "source": "sprites/tiles/dynamic-soil/deep-bases/deep-soil-1000-1200-v3.png",
+      "path": "sprites/runtime-startup-v1/d999edb2d5d021b0.webp",
+      "before": 87284,
+      "after": 18534,
+      "size": [
+        201,
+        201
+      ]
+    },
+    {
+      "source": "sprites/tiles/dynamic-soil/deep-bases/deep-soil-1000-1200-v4.png",
+      "path": "sprites/runtime-startup-v1/d45462d646071522.webp",
+      "before": 86173,
+      "after": 18194,
+      "size": [
+        201,
+        201
+      ]
+    },
+    {
+      "source": "sprites/tiles/dynamic-soil/deep-bases/deep-soil-1000-1200-v5.png",
+      "path": "sprites/runtime-startup-v1/09de7971bc215d92.webp",
+      "before": 87726,
+      "after": 18140,
+      "size": [
+        201,
+        201
+      ]
+    },
+    {
+      "source": "sprites/tiles/dynamic-soil/deep-bases/deep-soil-1000-1200-v6.png",
+      "path": "sprites/runtime-startup-v1/655f5b109f416bfc.webp",
+      "before": 86168,
+      "after": 18258,
+      "size": [
+        201,
+        201
+      ]
+    },
+    {
+      "source": "sprites/tiles/dynamic-soil/deep-bases/deep-soil-1200-1400-v1.png",
+      "path": "sprites/runtime-startup-v1/48f2b3530638db59.webp",
+      "before": 87440,
+      "after": 16016,
+      "size": [
+        201,
+        201
+      ]
+    },
+    {
+      "source": "sprites/tiles/dynamic-soil/deep-bases/deep-soil-1200-1400-v2.png",
+      "path": "sprites/runtime-startup-v1/12f10b113f6d6d42.webp",
+      "before": 87948,
+      "after": 16490,
+      "size": [
+        201,
+        201
+      ]
+    },
+    {
+      "source": "sprites/tiles/dynamic-soil/deep-bases/deep-soil-1200-1400-v3.png",
+      "path": "sprites/runtime-startup-v1/d9b4eefb3bfb2fc4.webp",
+      "before": 88908,
+      "after": 16510,
+      "size": [
+        201,
+        201
+      ]
+    },
+    {
+      "source": "sprites/tiles/dynamic-soil/deep-bases/deep-soil-1200-1400-v4.png",
+      "path": "sprites/runtime-startup-v1/c88ef392d9cc29a6.webp",
+      "before": 87770,
+      "after": 16196,
+      "size": [
+        201,
+        201
+      ]
+    },
+    {
+      "source": "sprites/tiles/dynamic-soil/deep-bases/deep-soil-1200-1400-v5.png",
+      "path": "sprites/runtime-startup-v1/5bd21fc9ecd620ff.webp",
+      "before": 88562,
+      "after": 16294,
+      "size": [
+        201,
+        201
+      ]
+    },
+    {
+      "source": "sprites/tiles/dynamic-soil/deep-bases/deep-soil-1200-1400-v6.png",
+      "path": "sprites/runtime-startup-v1/460724cb4ef5cfb3.webp",
+      "before": 87365,
+      "after": 16134,
+      "size": [
+        201,
+        201
+      ]
+    },
+    {
+      "source": "sprites/tiles/dynamic-soil/deep-bases/deep-soil-1400-1600-v1.png",
+      "path": "sprites/runtime-startup-v1/eef1a80f6a843a88.webp",
+      "before": 88061,
+      "after": 18568,
+      "size": [
+        201,
+        201
+      ]
+    },
+    {
+      "source": "sprites/tiles/dynamic-soil/deep-bases/deep-soil-1400-1600-v2.png",
+      "path": "sprites/runtime-startup-v1/707eb6b21fa552d5.webp",
+      "before": 88231,
+      "after": 18822,
+      "size": [
+        201,
+        201
+      ]
+    },
+    {
+      "source": "sprites/tiles/dynamic-soil/deep-bases/deep-soil-1400-1600-v3.png",
+      "path": "sprites/runtime-startup-v1/f4910f18fdc40007.webp",
+      "before": 87893,
+      "after": 18710,
+      "size": [
+        201,
+        201
+      ]
+    },
+    {
+      "source": "sprites/tiles/dynamic-soil/deep-bases/deep-soil-1400-1600-v4.png",
+      "path": "sprites/runtime-startup-v1/55d48d8e878f7611.webp",
+      "before": 87730,
+      "after": 18778,
+      "size": [
+        201,
+        201
+      ]
+    },
+    {
+      "source": "sprites/tiles/dynamic-soil/deep-bases/deep-soil-1400-1600-v5.png",
+      "path": "sprites/runtime-startup-v1/677f9d7e85fffca6.webp",
+      "before": 88757,
+      "after": 19448,
+      "size": [
+        201,
+        201
+      ]
+    },
+    {
+      "source": "sprites/tiles/dynamic-soil/deep-bases/deep-soil-1400-1600-v6.png",
+      "path": "sprites/runtime-startup-v1/b5e265e4dd14173c.webp",
+      "before": 87218,
+      "after": 18472,
+      "size": [
+        201,
+        201
+      ]
+    },
+    {
+      "source": "sprites/tiles/dynamic-soil/deep-bases/deep-soil-1600-plus-v1.png",
+      "path": "sprites/runtime-startup-v1/814515842f70aee6.webp",
+      "before": 84367,
+      "after": 15996,
+      "size": [
+        201,
+        201
+      ]
+    },
+    {
+      "source": "sprites/tiles/dynamic-soil/deep-bases/deep-soil-1600-plus-v2.png",
+      "path": "sprites/runtime-startup-v1/f526a56850702015.webp",
+      "before": 84219,
+      "after": 15372,
+      "size": [
+        201,
+        201
+      ]
+    },
+    {
+      "source": "sprites/tiles/dynamic-soil/deep-bases/deep-soil-1600-plus-v3.png",
+      "path": "sprites/runtime-startup-v1/47b5fff0c2e9d0d0.webp",
+      "before": 84322,
+      "after": 15784,
+      "size": [
+        201,
+        201
+      ]
+    },
+    {
+      "source": "sprites/tiles/dynamic-soil/deep-bases/deep-soil-1600-plus-v4.png",
+      "path": "sprites/runtime-startup-v1/e849ef654950e8a4.webp",
+      "before": 84232,
+      "after": 15860,
+      "size": [
+        201,
+        201
+      ]
+    },
+    {
+      "source": "sprites/tiles/dynamic-soil/deep-bases/deep-soil-1600-plus-v5.png",
+      "path": "sprites/runtime-startup-v1/29f7c2ac39bd8036.webp",
+      "before": 85026,
+      "after": 16424,
+      "size": [
+        201,
+        201
+      ]
+    },
+    {
+      "source": "sprites/tiles/dynamic-soil/deep-bases/deep-soil-1600-plus-v6.png",
+      "path": "sprites/runtime-startup-v1/c3519658cc9b3816.webp",
+      "before": 83773,
+      "after": 15576,
+      "size": [
+        201,
+        201
+      ]
+    }
+  ]
+}

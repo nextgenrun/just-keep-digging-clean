@@ -1,0 +1,14 @@
+{
+  "cloudMotionMeanRGB": 2.933220824254942,
+  "cloudMotionChangedFraction": 0.24798176345386078,
+  "thicknessMeanRGB": 4.015817391048811,
+  "thicknessChangedFraction": 0.19899308572939886,
+  "clearBrightness": 98.84897335465968,
+  "thickBrightness": 102.86088861181429,
+  "runtimeViews": 44,
+  "runtimeFps": {
+    "min": 52.21,
+    "max": 60.0
+  },
+  "townVideoSha256": "1650f7a88e2445ef9ab1be954680e4a8d5ffb51b2ccd8e7def5bec19726132d6"
+}

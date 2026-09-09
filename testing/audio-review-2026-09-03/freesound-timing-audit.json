@@ -1,0 +1,20 @@
+{
+  "passed": true,
+  "checks": [
+    "Exact export: all 562 approvals, zero rejected/open entries, verified local derivatives",
+    "All active variants are reachable through bounded banks or stable site/episode selection",
+    "Actual mining dispatcher routes dirt, metal and crystal; Star destruction remains single",
+    "An unloaded contact warms future use and never replays from a loading callback",
+    "Distance and rock attenuation are monotonic; direction changes left/right and above/below",
+    "Star identity is stable; two-site handover is bounded; consumed Stars become silent",
+    "Panic follows actual bands, preserves voice across pause, and has a bounded recovery",
+    "Flight acceleration crosses one onset threshold, not one sound each frame",
+    "Loading, decoded residency, mute, teardown and priority admission are bounded",
+    "Menu UI warming survives inactive world ticks but never replays the past click",
+    "Structural detail and rumble follow context, silence and actual threat awareness",
+    "Dirt footsteps use the contacted floor; cave context cannot reuse overworld Stars or threats"
+  ],
+  "approved": 562,
+  "active": 341,
+  "exportHash": "9968a81d2fb652b749543e7e3c18bcf105975ab1952a533c31b5dab94ec62ed7"
+}

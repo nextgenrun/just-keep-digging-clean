@@ -1,0 +1,1318 @@
+{
+  "miaRescue": {
+    "message": "At the minicamp. Press E in the game to approach the survivor.",
+    "failure": null,
+    "game": "playing",
+    "signal": "result",
+    "cinematic": "result",
+    "caption": "MIA IS HOME\nShe is waiting beside Bobo on the surface.",
+    "camp": false,
+    "survivorVisible": false,
+    "resources": {
+      "dirt": 87,
+      "stone": 43,
+      "copper": 75,
+      "darkDirtNormal": 25,
+      "darkDirtStrong": 25,
+      "steel": 25,
+      "iron": 25,
+      "bronze": 25,
+      "silver": 25,
+      "gold": 25,
+      "lavaDirt": 25,
+      "obsidian": 25,
+      "emberOre": 25,
+      "magmaCrystal": 25
+    },
+    "gp": 110,
+    "stars": 25,
+    "hardcore": {
+      "version": 5,
+      "mode": "casual",
+      "armed": false,
+      "livesRemaining": null,
+      "freeReviveAvailable": false,
+      "deaths": 0,
+      "exhausted": false,
+      "stress": 0,
+      "peakStress": 0,
+      "selectedAt": 0,
+      "armedAt": 0,
+      "lastUnstuckAt": 0,
+      "activePlayMs": 0,
+      "unstuckUses": 0,
+      "paidTeleports": 0,
+      "teleportMoneySpent": 0,
+      "isHardcore": false,
+      "stressBand": "calm",
+      "stressRatio": 0,
+      "sanity": 100,
+      "sanityRatio": 1,
+      "stressGpDrainPerSecond": 0
+    },
+    "playerTile": {
+      "tx": 5,
+      "ty": 86
+    },
+    "history": [
+      {
+        "id": "signal-1",
+        "survivorId": "bram",
+        "choice": "attack",
+        "count": 0,
+        "fatal": true
+      },
+      {
+        "id": "signal-2",
+        "survivorId": "oren",
+        "choice": "give",
+        "count": 20,
+        "fatal": false
+      },
+      {
+        "id": "signal-4",
+        "survivorId": "ivo",
+        "choice": "attack",
+        "count": 0,
+        "fatal": false
+      },
+      {
+        "id": "signal-5",
+        "survivorId": "mia",
+        "choice": "rescue",
+        "count": 0,
+        "fatal": false
+      }
+    ],
+    "mia": {
+      "owned": 1,
+      "visible": false,
+      "purchase": {
+        "canPurchase": false,
+        "reason": "max_level"
+      }
+    },
+    "interactionDistance": null,
+    "saveWritesBlocked": true,
+    "voice": {
+      "loaded": 44,
+      "playing": false,
+      "muted": false
+    },
+    "timer": {
+      "remaining": 0,
+      "clockPaused": false,
+      "scale": 1,
+      "scenePaused": false
+    },
+    "cinematicText": "MIA IS HOME\nShe is waiting beside Bobo on the surface.",
+    "footer": "ENTER / ESC: CONTINUE"
+  },
+  "miaSurface": {
+    "message": "Restored the upgrade save map; Mia will be reconstructed beside Bobo.",
+    "failure": null,
+    "game": "playing",
+    "signal": "idle",
+    "cinematic": "closed",
+    "caption": "MIA IS HOME\nShe is waiting beside Bobo on the surface.",
+    "camp": false,
+    "survivorVisible": false,
+    "resources": {
+      "dirt": 87,
+      "stone": 43,
+      "copper": 75,
+      "darkDirtNormal": 25,
+      "darkDirtStrong": 25,
+      "steel": 25,
+      "iron": 25,
+      "bronze": 25,
+      "silver": 25,
+      "gold": 25,
+      "lavaDirt": 25,
+      "obsidian": 25,
+      "emberOre": 25,
+      "magmaCrystal": 25
+    },
+    "gp": 110,
+    "stars": 25,
+    "hardcore": {
+      "version": 5,
+      "mode": "casual",
+      "armed": false,
+      "livesRemaining": null,
+      "freeReviveAvailable": false,
+      "deaths": 0,
+      "exhausted": false,
+      "stress": 0,
+      "peakStress": 0,
+      "selectedAt": 0,
+      "armedAt": 0,
+      "lastUnstuckAt": 0,
+      "activePlayMs": 0,
+      "unstuckUses": 0,
+      "paidTeleports": 0,
+      "teleportMoneySpent": 0,
+      "isHardcore": false,
+      "stressBand": "calm",
+      "stressRatio": 0,
+      "sanity": 100,
+      "sanityRatio": 1,
+      "stressGpDrainPerSecond": 0
+    },
+    "playerTile": {
+      "tx": 6,
+      "ty": 64
+    },
+    "history": [
+      {
+        "id": "signal-1",
+        "survivorId": "bram",
+        "choice": "attack",
+        "count": 0,
+        "fatal": true
+      },
+      {
+        "id": "signal-2",
+        "survivorId": "oren",
+        "choice": "give",
+        "count": 20,
+        "fatal": false
+      },
+      {
+        "id": "signal-4",
+        "survivorId": "ivo",
+        "choice": "attack",
+        "count": 0,
+        "fatal": false
+      },
+      {
+        "id": "signal-5",
+        "survivorId": "mia",
+        "choice": "rescue",
+        "count": 0,
+        "fatal": false
+      }
+    ],
+    "mia": {
+      "owned": 1,
+      "visible": true,
+      "tile": {
+        "tx": 3.55,
+        "ty": 64
+      },
+      "purchase": {
+        "canPurchase": false,
+        "reason": "max_level"
+      }
+    },
+    "interactionDistance": null,
+    "saveWritesBlocked": true,
+    "voice": {
+      "loaded": 44,
+      "playing": false,
+      "muted": false
+    },
+    "timer": {
+      "remaining": 0,
+      "clockPaused": false,
+      "scale": 1,
+      "scenePaused": false
+    },
+    "cinematicText": "MIA IS HOME\nShe is waiting beside Bobo on the surface.",
+    "footer": "ENTER / ESC: CONTINUE"
+  },
+  "bramCinematic": {
+    "message": "At the minicamp. Press E in the game to approach the survivor.",
+    "failure": null,
+    "game": "playing",
+    "signal": "choice",
+    "cinematic": "choice",
+    "survivor": "bram",
+    "source": {
+      "tx": 4,
+      "ty": 86
+    },
+    "real": true,
+    "caption": "“I've got nothing left to trade. Could you spare some supplies?”",
+    "camp": true,
+    "survivorVisible": true,
+    "resources": {
+      "dirt": 100,
+      "stone": 50,
+      "copper": 75,
+      "darkDirtNormal": 25,
+      "darkDirtStrong": 25,
+      "steel": 25,
+      "iron": 25,
+      "bronze": 25,
+      "silver": 25,
+      "gold": 25,
+      "lavaDirt": 25,
+      "obsidian": 25,
+      "emberOre": 25,
+      "magmaCrystal": 25
+    },
+    "gp": 110,
+    "stars": 0,
+    "hardcore": {
+      "version": 5,
+      "mode": "casual",
+      "armed": false,
+      "livesRemaining": null,
+      "freeReviveAvailable": false,
+      "deaths": 0,
+      "exhausted": false,
+      "stress": 0,
+      "peakStress": 0,
+      "selectedAt": 0,
+      "armedAt": 0,
+      "lastUnstuckAt": 0,
+      "activePlayMs": 0,
+      "unstuckUses": 0,
+      "paidTeleports": 0,
+      "teleportMoneySpent": 0,
+      "isHardcore": false,
+      "stressBand": "calm",
+      "stressRatio": 0,
+      "sanity": 100,
+      "sanityRatio": 1,
+      "stressGpDrainPerSecond": 0
+    },
+    "playerTile": {
+      "tx": 3,
+      "ty": 86
+    },
+    "history": [],
+    "mia": {
+      "owned": 0,
+      "visible": false,
+      "purchase": {
+        "canPurchase": false,
+        "reason": "requires_signal_rescue"
+      }
+    },
+    "interactionDistance": 1,
+    "saveWritesBlocked": true,
+    "voice": {
+      "loaded": 10,
+      "playing": false,
+      "muted": false
+    },
+    "call": {
+      "survivorId": "bram",
+      "real": true,
+      "fatal": true,
+      "callInMs": 628.6433332617835,
+      "callSerial": 0,
+      "discovered": true,
+      "pendingDeath": false
+    },
+    "suspended": false,
+    "remainingMs": 109228.64333326183,
+    "timer": {
+      "remaining": 0,
+      "clockPaused": false,
+      "scale": 1,
+      "scenePaused": false
+    },
+    "cinematicText": "“I've got nothing left to trade. Could you spare some supplies?”",
+    "footer": "1: GIVE SUPPLIES · 2: ATTACK · 3 / ESC: LEAVE",
+    "minicampSolidTiles": 0
+  },
+  "casualRisk": {
+    "message": "At the minicamp. Press E in the game to approach the survivor.",
+    "failure": null,
+    "game": "playing",
+    "signal": "risk",
+    "cinematic": "risk",
+    "survivor": "bram",
+    "source": {
+      "tx": 4,
+      "ty": 86
+    },
+    "real": true,
+    "caption": "50% chance he kills you.\n\nYou lose ALL carried resources and GP, then return to the surface.\n\nIf you survive: +25 STARPOWER.",
+    "camp": true,
+    "survivorVisible": true,
+    "resources": {
+      "dirt": 100,
+      "stone": 50,
+      "copper": 75,
+      "darkDirtNormal": 25,
+      "darkDirtStrong": 25,
+      "steel": 25,
+      "iron": 25,
+      "bronze": 25,
+      "silver": 25,
+      "gold": 25,
+      "lavaDirt": 25,
+      "obsidian": 25,
+      "emberOre": 25,
+      "magmaCrystal": 25
+    },
+    "gp": 110,
+    "stars": 0,
+    "hardcore": {
+      "version": 5,
+      "mode": "casual",
+      "armed": false,
+      "livesRemaining": null,
+      "freeReviveAvailable": false,
+      "deaths": 0,
+      "exhausted": false,
+      "stress": 0,
+      "peakStress": 0,
+      "selectedAt": 0,
+      "armedAt": 0,
+      "lastUnstuckAt": 0,
+      "activePlayMs": 0,
+      "unstuckUses": 0,
+      "paidTeleports": 0,
+      "teleportMoneySpent": 0,
+      "isHardcore": false,
+      "stressBand": "calm",
+      "stressRatio": 0,
+      "sanity": 100,
+      "sanityRatio": 1,
+      "stressGpDrainPerSecond": 0
+    },
+    "playerTile": {
+      "tx": 3,
+      "ty": 86
+    },
+    "history": [],
+    "mia": {
+      "owned": 0,
+      "visible": false,
+      "purchase": {
+        "canPurchase": false,
+        "reason": "requires_signal_rescue"
+      }
+    },
+    "interactionDistance": 1,
+    "saveWritesBlocked": true,
+    "voice": {
+      "loaded": 10,
+      "playing": false,
+      "muted": false
+    },
+    "call": {
+      "survivorId": "bram",
+      "real": true,
+      "fatal": true,
+      "callInMs": 628.6433332617835,
+      "callSerial": 0,
+      "discovered": true,
+      "pendingDeath": false
+    },
+    "suspended": false,
+    "remainingMs": 109228.64333326183,
+    "timer": {
+      "remaining": 0,
+      "clockPaused": false,
+      "scale": 1,
+      "scenePaused": false
+    },
+    "cinematicText": "50% chance he kills you.\n\nYou lose ALL carried resources and GP, then return to the surface.\n\nIf you survive: +25 STARPOWER.",
+    "footer": "ENTER: ATTACK · ESC: GO BACK",
+    "minicampSolidTiles": 0
+  },
+  "casualLoss": {
+    "message": "At the minicamp. Press E in the game to approach the survivor.",
+    "failure": null,
+    "game": "playing",
+    "signal": "idle",
+    "cinematic": "closed",
+    "caption": "“You picked the wrong man!”",
+    "camp": false,
+    "survivorVisible": false,
+    "resources": {},
+    "gp": 110,
+    "stars": 0,
+    "hardcore": {
+      "version": 5,
+      "mode": "casual",
+      "armed": false,
+      "livesRemaining": null,
+      "freeReviveAvailable": false,
+      "deaths": 0,
+      "exhausted": false,
+      "stress": 0,
+      "peakStress": 0,
+      "selectedAt": 0,
+      "armedAt": 0,
+      "lastUnstuckAt": 0,
+      "activePlayMs": 0,
+      "unstuckUses": 0,
+      "paidTeleports": 0,
+      "teleportMoneySpent": 0,
+      "isHardcore": false,
+      "stressBand": "calm",
+      "stressRatio": 0,
+      "sanity": 100,
+      "sanityRatio": 1,
+      "stressGpDrainPerSecond": 0
+    },
+    "playerTile": {
+      "tx": 4,
+      "ty": 64
+    },
+    "history": [
+      {
+        "id": "signal-1",
+        "survivorId": "bram",
+        "choice": "attack",
+        "count": 0,
+        "fatal": true
+      }
+    ],
+    "mia": {
+      "owned": 0,
+      "visible": false,
+      "purchase": {
+        "canPurchase": false,
+        "reason": "requires_signal_rescue"
+      }
+    },
+    "interactionDistance": null,
+    "saveWritesBlocked": true,
+    "voice": {
+      "loaded": 10,
+      "playing": false,
+      "muted": false
+    },
+    "timer": {
+      "remaining": 13.830000000000382,
+      "clockPaused": false,
+      "scale": 1,
+      "scenePaused": false
+    },
+    "cinematicText": "“You picked the wrong man!”",
+    "footer": ""
+  },
+  "donation": {
+    "message": "At the minicamp. Press E in the game to approach the survivor.",
+    "failure": null,
+    "game": "playing",
+    "signal": "result",
+    "cinematic": "result",
+    "caption": "Your kindness is remembered.",
+    "camp": false,
+    "survivorVisible": false,
+    "resources": {
+      "dirt": 87,
+      "stone": 43,
+      "copper": 75,
+      "darkDirtNormal": 25,
+      "darkDirtStrong": 25,
+      "steel": 25,
+      "iron": 25,
+      "bronze": 25,
+      "silver": 25,
+      "gold": 25,
+      "lavaDirt": 25,
+      "obsidian": 25,
+      "emberOre": 25,
+      "magmaCrystal": 25
+    },
+    "gp": 110,
+    "stars": 0,
+    "hardcore": {
+      "version": 5,
+      "mode": "casual",
+      "armed": false,
+      "livesRemaining": null,
+      "freeReviveAvailable": false,
+      "deaths": 0,
+      "exhausted": false,
+      "stress": 0,
+      "peakStress": 0,
+      "selectedAt": 0,
+      "armedAt": 0,
+      "lastUnstuckAt": 0,
+      "activePlayMs": 0,
+      "unstuckUses": 0,
+      "paidTeleports": 0,
+      "teleportMoneySpent": 0,
+      "isHardcore": false,
+      "stressBand": "calm",
+      "stressRatio": 0,
+      "sanity": 100,
+      "sanityRatio": 1,
+      "stressGpDrainPerSecond": 0
+    },
+    "playerTile": {
+      "tx": 3,
+      "ty": 86
+    },
+    "history": [
+      {
+        "id": "signal-1",
+        "survivorId": "bram",
+        "choice": "attack",
+        "count": 0,
+        "fatal": true
+      },
+      {
+        "id": "signal-2",
+        "survivorId": "oren",
+        "choice": "give",
+        "count": 20,
+        "fatal": false
+      }
+    ],
+    "mia": {
+      "owned": 0,
+      "visible": false,
+      "purchase": {
+        "canPurchase": false,
+        "reason": "requires_signal_rescue"
+      }
+    },
+    "interactionDistance": null,
+    "saveWritesBlocked": true,
+    "voice": {
+      "loaded": 20,
+      "playing": false,
+      "muted": false
+    },
+    "timer": {
+      "remaining": 0,
+      "clockPaused": false,
+      "scale": 1,
+      "scenePaused": false
+    },
+    "cinematicText": "Your kindness is remembered.",
+    "footer": "ENTER / ESC: CONTINUE"
+  },
+  "mutedCall": {
+    "message": "Signal started. Follow its calls or go to the camp.",
+    "failure": null,
+    "game": "playing",
+    "signal": "calling",
+    "cinematic": "closed",
+    "survivor": "oren",
+    "source": {
+      "tx": 4,
+      "ty": 86
+    },
+    "real": false,
+    "caption": "“Hello! Please answer me!”",
+    "camp": true,
+    "survivorVisible": false,
+    "resources": {},
+    "gp": 110,
+    "stars": 0,
+    "hardcore": {
+      "version": 5,
+      "mode": "casual",
+      "armed": false,
+      "livesRemaining": null,
+      "freeReviveAvailable": false,
+      "deaths": 0,
+      "exhausted": false,
+      "stress": 0,
+      "peakStress": 0,
+      "selectedAt": 0,
+      "armedAt": 0,
+      "lastUnstuckAt": 0,
+      "activePlayMs": 0,
+      "unstuckUses": 0,
+      "paidTeleports": 0,
+      "teleportMoneySpent": 0,
+      "isHardcore": false,
+      "stressBand": "calm",
+      "stressRatio": 0,
+      "sanity": 100,
+      "sanityRatio": 1,
+      "stressGpDrainPerSecond": 0
+    },
+    "playerTile": {
+      "tx": 4,
+      "ty": 64
+    },
+    "history": [],
+    "mia": {
+      "owned": 0,
+      "visible": false,
+      "purchase": {
+        "canPurchase": false,
+        "reason": "requires_signal_rescue"
+      }
+    },
+    "interactionDistance": null,
+    "saveWritesBlocked": true,
+    "voice": {
+      "loaded": 10,
+      "playing": false,
+      "muted": true
+    },
+    "call": {
+      "survivorId": "oren",
+      "real": false,
+      "fatal": true,
+      "callInMs": 25401.511056080668,
+      "callSerial": 1,
+      "discovered": false,
+      "pendingDeath": false
+    },
+    "suspended": false,
+    "remainingMs": 108442.40999990405,
+    "timer": {
+      "remaining": 0,
+      "clockPaused": false,
+      "scale": 1,
+      "scenePaused": false
+    },
+    "minicampSolidTiles": 0
+  },
+  "emptyCamp": {
+    "message": "At the minicamp. Press E in the game to approach the survivor.",
+    "failure": null,
+    "game": "playing",
+    "signal": "idle",
+    "cinematic": "closed",
+    "caption": "Your kindness is remembered.",
+    "camp": false,
+    "survivorVisible": false,
+    "resources": {
+      "dirt": 87,
+      "stone": 43,
+      "copper": 75,
+      "darkDirtNormal": 25,
+      "darkDirtStrong": 25,
+      "steel": 25,
+      "iron": 25,
+      "bronze": 25,
+      "silver": 25,
+      "gold": 25,
+      "lavaDirt": 25,
+      "obsidian": 25,
+      "emberOre": 25,
+      "magmaCrystal": 25
+    },
+    "gp": 110,
+    "stars": 0,
+    "hardcore": {
+      "version": 5,
+      "mode": "casual",
+      "armed": false,
+      "livesRemaining": null,
+      "freeReviveAvailable": false,
+      "deaths": 0,
+      "exhausted": false,
+      "stress": 0,
+      "peakStress": 0,
+      "selectedAt": 0,
+      "armedAt": 0,
+      "lastUnstuckAt": 0,
+      "activePlayMs": 0,
+      "unstuckUses": 0,
+      "paidTeleports": 0,
+      "teleportMoneySpent": 0,
+      "isHardcore": false,
+      "stressBand": "calm",
+      "stressRatio": 0,
+      "sanity": 100,
+      "sanityRatio": 1,
+      "stressGpDrainPerSecond": 0
+    },
+    "playerTile": {
+      "tx": 5,
+      "ty": 86
+    },
+    "history": [
+      {
+        "id": "signal-1",
+        "survivorId": "bram",
+        "choice": "attack",
+        "count": 0,
+        "fatal": true
+      },
+      {
+        "id": "signal-2",
+        "survivorId": "oren",
+        "choice": "give",
+        "count": 20,
+        "fatal": false
+      }
+    ],
+    "mia": {
+      "owned": 0,
+      "visible": false,
+      "purchase": {
+        "canPurchase": false,
+        "reason": "requires_signal_rescue"
+      }
+    },
+    "interactionDistance": null,
+    "saveWritesBlocked": true,
+    "voice": {
+      "loaded": 20,
+      "playing": false,
+      "muted": false
+    },
+    "timer": {
+      "remaining": 0,
+      "clockPaused": false,
+      "scale": 1,
+      "scenePaused": false
+    },
+    "cinematicText": "Your kindness is remembered.",
+    "footer": "ENTER / ESC: CONTINUE"
+  },
+  "attackWin": {
+    "message": "At the minicamp. Press E in the game to approach the survivor.",
+    "failure": null,
+    "game": "playing",
+    "signal": "result",
+    "cinematic": "result",
+    "caption": "+25 STARPOWER · The voice is gone.",
+    "camp": false,
+    "survivorVisible": false,
+    "resources": {
+      "dirt": 87,
+      "stone": 43,
+      "copper": 75,
+      "darkDirtNormal": 25,
+      "darkDirtStrong": 25,
+      "steel": 25,
+      "iron": 25,
+      "bronze": 25,
+      "silver": 25,
+      "gold": 25,
+      "lavaDirt": 25,
+      "obsidian": 25,
+      "emberOre": 25,
+      "magmaCrystal": 25
+    },
+    "gp": 110,
+    "stars": 25,
+    "hardcore": {
+      "version": 5,
+      "mode": "casual",
+      "armed": false,
+      "livesRemaining": null,
+      "freeReviveAvailable": false,
+      "deaths": 0,
+      "exhausted": false,
+      "stress": 0,
+      "peakStress": 0,
+      "selectedAt": 0,
+      "armedAt": 0,
+      "lastUnstuckAt": 0,
+      "activePlayMs": 0,
+      "unstuckUses": 0,
+      "paidTeleports": 0,
+      "teleportMoneySpent": 0,
+      "isHardcore": false,
+      "stressBand": "calm",
+      "stressRatio": 0,
+      "sanity": 100,
+      "sanityRatio": 1,
+      "stressGpDrainPerSecond": 0
+    },
+    "playerTile": {
+      "tx": 5,
+      "ty": 86
+    },
+    "history": [
+      {
+        "id": "signal-1",
+        "survivorId": "bram",
+        "choice": "attack",
+        "count": 0,
+        "fatal": true
+      },
+      {
+        "id": "signal-2",
+        "survivorId": "oren",
+        "choice": "give",
+        "count": 20,
+        "fatal": false
+      },
+      {
+        "id": "signal-4",
+        "survivorId": "ivo",
+        "choice": "attack",
+        "count": 0,
+        "fatal": false
+      }
+    ],
+    "mia": {
+      "owned": 0,
+      "visible": false,
+      "purchase": {
+        "canPurchase": false,
+        "reason": "requires_signal_rescue"
+      }
+    },
+    "interactionDistance": null,
+    "saveWritesBlocked": true,
+    "voice": {
+      "loaded": 30,
+      "playing": false,
+      "muted": false
+    },
+    "timer": {
+      "remaining": 0,
+      "clockPaused": false,
+      "scale": 1,
+      "scenePaused": false
+    },
+    "cinematicText": "+25 STARPOWER · The voice is gone.",
+    "footer": "ENTER / ESC: CONTINUE"
+  },
+  "miaChoices": {
+    "message": "At the minicamp. Press E in the game to approach the survivor.",
+    "failure": null,
+    "game": "playing",
+    "signal": "choice",
+    "cinematic": "choice",
+    "survivor": "mia",
+    "source": {
+      "tx": 6,
+      "ty": 86
+    },
+    "real": true,
+    "caption": "The plate on her leash reads MIA.\nShe watches the path back to the surface.",
+    "camp": true,
+    "survivorVisible": true,
+    "resources": {
+      "dirt": 87,
+      "stone": 43,
+      "copper": 75,
+      "darkDirtNormal": 25,
+      "darkDirtStrong": 25,
+      "steel": 25,
+      "iron": 25,
+      "bronze": 25,
+      "silver": 25,
+      "gold": 25,
+      "lavaDirt": 25,
+      "obsidian": 25,
+      "emberOre": 25,
+      "magmaCrystal": 25
+    },
+    "gp": 110,
+    "stars": 25,
+    "hardcore": {
+      "version": 5,
+      "mode": "casual",
+      "armed": false,
+      "livesRemaining": null,
+      "freeReviveAvailable": false,
+      "deaths": 0,
+      "exhausted": false,
+      "stress": 0,
+      "peakStress": 0,
+      "selectedAt": 0,
+      "armedAt": 0,
+      "lastUnstuckAt": 0,
+      "activePlayMs": 0,
+      "unstuckUses": 0,
+      "paidTeleports": 0,
+      "teleportMoneySpent": 0,
+      "isHardcore": false,
+      "stressBand": "calm",
+      "stressRatio": 0,
+      "sanity": 100,
+      "sanityRatio": 1,
+      "stressGpDrainPerSecond": 0
+    },
+    "playerTile": {
+      "tx": 5,
+      "ty": 86
+    },
+    "history": [
+      {
+        "id": "signal-1",
+        "survivorId": "bram",
+        "choice": "attack",
+        "count": 0,
+        "fatal": true
+      },
+      {
+        "id": "signal-2",
+        "survivorId": "oren",
+        "choice": "give",
+        "count": 20,
+        "fatal": false
+      },
+      {
+        "id": "signal-4",
+        "survivorId": "ivo",
+        "choice": "attack",
+        "count": 0,
+        "fatal": false
+      }
+    ],
+    "mia": {
+      "owned": 0,
+      "visible": false,
+      "purchase": {
+        "canPurchase": false,
+        "reason": "requires_signal_rescue"
+      }
+    },
+    "interactionDistance": 1,
+    "saveWritesBlocked": true,
+    "voice": {
+      "loaded": 44,
+      "playing": false,
+      "muted": false
+    },
+    "call": {
+      "survivorId": "mia",
+      "real": true,
+      "fatal": false,
+      "callInMs": 612.8599999048978,
+      "callSerial": 0,
+      "discovered": true,
+      "pendingDeath": false
+    },
+    "suspended": false,
+    "remainingMs": 109212.85999990492,
+    "timer": {
+      "remaining": 0,
+      "clockPaused": false,
+      "scale": 1,
+      "scenePaused": false
+    },
+    "cinematicText": "The plate on her leash reads MIA.\nShe watches the path back to the surface.",
+    "footer": "1: RESCUE MIA · 2: ATTACK · 3 / ESC: LEAVE",
+    "minicampSolidTiles": 0
+  },
+  "hardcoreRisk": {
+    "message": "At the minicamp. Press E in the game to approach the survivor.",
+    "failure": null,
+    "game": "playing",
+    "signal": "risk",
+    "cinematic": "risk",
+    "survivor": "ivo",
+    "source": {
+      "tx": 6,
+      "ty": 86
+    },
+    "real": true,
+    "caption": "50% chance he kills you.\n\nHARDCORE: YOUR ONLY LIFE WILL BE LOST.\n\nIf you survive: +25 STARPOWER.",
+    "camp": true,
+    "survivorVisible": true,
+    "resources": {
+      "dirt": 87,
+      "stone": 43,
+      "copper": 75,
+      "darkDirtNormal": 25,
+      "darkDirtStrong": 25,
+      "steel": 25,
+      "iron": 25,
+      "bronze": 25,
+      "silver": 25,
+      "gold": 25,
+      "lavaDirt": 25,
+      "obsidian": 25,
+      "emberOre": 25,
+      "magmaCrystal": 25
+    },
+    "gp": 110,
+    "stars": 25,
+    "hardcore": {
+      "version": 5,
+      "mode": "hardcore",
+      "armed": true,
+      "livesRemaining": 1,
+      "freeReviveAvailable": false,
+      "deaths": 0,
+      "exhausted": false,
+      "stress": 2.543042666914889,
+      "peakStress": 2.543042666914889,
+      "selectedAt": 1788755816118,
+      "armedAt": 1788755816118,
+      "lastUnstuckAt": 0,
+      "activePlayMs": 1071.7500000476834,
+      "unstuckUses": 0,
+      "paidTeleports": 0,
+      "teleportMoneySpent": 0,
+      "isHardcore": true,
+      "stressBand": "calm",
+      "stressRatio": 0.025430426669148888,
+      "sanity": 97.45695733308511,
+      "sanityRatio": 0.9745695733308511,
+      "stressGpDrainPerSecond": 0
+    },
+    "playerTile": {
+      "tx": 5,
+      "ty": 86
+    },
+    "history": [
+      {
+        "id": "signal-1",
+        "survivorId": "bram",
+        "choice": "attack",
+        "count": 0,
+        "fatal": true
+      },
+      {
+        "id": "signal-2",
+        "survivorId": "oren",
+        "choice": "give",
+        "count": 20,
+        "fatal": false
+      },
+      {
+        "id": "signal-4",
+        "survivorId": "ivo",
+        "choice": "attack",
+        "count": 0,
+        "fatal": false
+      },
+      {
+        "id": "signal-5",
+        "survivorId": "mia",
+        "choice": "rescue",
+        "count": 0,
+        "fatal": false
+      }
+    ],
+    "mia": {
+      "owned": 1,
+      "visible": true,
+      "tile": {
+        "tx": 3.55,
+        "ty": 64
+      },
+      "purchase": {
+        "canPurchase": false,
+        "reason": "max_level"
+      }
+    },
+    "interactionDistance": 1,
+    "saveWritesBlocked": true,
+    "voice": {
+      "loaded": 44,
+      "playing": false,
+      "muted": false
+    },
+    "call": {
+      "survivorId": "ivo",
+      "real": true,
+      "fatal": true,
+      "callInMs": 627.9199999521844,
+      "callSerial": 0,
+      "discovered": true,
+      "pendingDeath": false
+    },
+    "suspended": false,
+    "remainingMs": 109227.91999995222,
+    "timer": {
+      "remaining": 0,
+      "clockPaused": false,
+      "scale": 1,
+      "scenePaused": false
+    },
+    "cinematicText": "50% chance he kills you.\n\nHARDCORE: YOUR ONLY LIFE WILL BE LOST.\n\nIf you survive: +25 STARPOWER.",
+    "footer": "ENTER: ATTACK · ESC: GO BACK",
+    "minicampSolidTiles": 0
+  },
+  "hardcoreLoss": {
+    "message": "At the minicamp. Press E in the game to approach the survivor.",
+    "failure": null,
+    "game": "dead",
+    "signal": "idle",
+    "cinematic": "closed",
+    "caption": "“I told you to stay back!”",
+    "camp": false,
+    "survivorVisible": false,
+    "resources": {
+      "dirt": 87,
+      "stone": 43,
+      "copper": 75,
+      "darkDirtNormal": 25,
+      "darkDirtStrong": 25,
+      "steel": 25,
+      "iron": 25,
+      "bronze": 25,
+      "silver": 25,
+      "gold": 25,
+      "lavaDirt": 25,
+      "obsidian": 25,
+      "emberOre": 25,
+      "magmaCrystal": 25
+    },
+    "gp": 0,
+    "stars": 25,
+    "hardcore": {
+      "version": 5,
+      "mode": "hardcore",
+      "armed": false,
+      "livesRemaining": 0,
+      "freeReviveAvailable": false,
+      "deaths": 1,
+      "exhausted": true,
+      "stress": 0,
+      "peakStress": 2.543042666914889,
+      "selectedAt": 1788755816118,
+      "armedAt": 0,
+      "lastUnstuckAt": 0,
+      "activePlayMs": 1071.7500000476834,
+      "unstuckUses": 0,
+      "paidTeleports": 0,
+      "teleportMoneySpent": 0,
+      "isHardcore": true,
+      "stressBand": "calm",
+      "stressRatio": 0,
+      "sanity": 100,
+      "sanityRatio": 1,
+      "stressGpDrainPerSecond": 0
+    },
+    "playerTile": {
+      "tx": 5,
+      "ty": 86
+    },
+    "history": [
+      {
+        "id": "signal-1",
+        "survivorId": "bram",
+        "choice": "attack",
+        "count": 0,
+        "fatal": true
+      },
+      {
+        "id": "signal-2",
+        "survivorId": "oren",
+        "choice": "give",
+        "count": 20,
+        "fatal": false
+      },
+      {
+        "id": "signal-4",
+        "survivorId": "ivo",
+        "choice": "attack",
+        "count": 0,
+        "fatal": false
+      },
+      {
+        "id": "signal-5",
+        "survivorId": "mia",
+        "choice": "rescue",
+        "count": 0,
+        "fatal": false
+      },
+      {
+        "id": "signal-6",
+        "survivorId": "ivo",
+        "choice": "attack",
+        "count": 0,
+        "fatal": true
+      }
+    ],
+    "mia": {
+      "owned": 1,
+      "visible": true,
+      "tile": {
+        "tx": 3.55,
+        "ty": 64
+      },
+      "purchase": {
+        "canPurchase": false,
+        "reason": "max_level"
+      }
+    },
+    "interactionDistance": null,
+    "saveWritesBlocked": true,
+    "voice": {
+      "loaded": 44,
+      "playing": false,
+      "muted": false
+    },
+    "timer": {
+      "remaining": 13.790000000036798,
+      "clockPaused": false,
+      "scale": 1,
+      "scenePaused": false
+    },
+    "cinematicText": "“I told you to stay back!”",
+    "footer": ""
+  },
+  "f2Mia": {
+    "message": "Practice ready. Choose a Signal case, then Go to minicamp.",
+    "failure": null,
+    "game": "playing",
+    "signal": "calling",
+    "cinematic": "closed",
+    "survivor": "mia",
+    "source": {
+      "tx": 4,
+      "ty": 86
+    },
+    "real": true,
+    "caption": null,
+    "camp": true,
+    "survivorVisible": false,
+    "resources": {},
+    "gp": 110,
+    "stars": 0,
+    "hardcore": {
+      "version": 5,
+      "mode": "casual",
+      "armed": false,
+      "livesRemaining": null,
+      "freeReviveAvailable": false,
+      "deaths": 0,
+      "exhausted": false,
+      "stress": 0,
+      "peakStress": 0,
+      "selectedAt": 0,
+      "armedAt": 0,
+      "lastUnstuckAt": 0,
+      "activePlayMs": 0,
+      "unstuckUses": 0,
+      "paidTeleports": 0,
+      "teleportMoneySpent": 0,
+      "isHardcore": false,
+      "stressBand": "calm",
+      "stressRatio": 0,
+      "sanity": 100,
+      "sanityRatio": 1,
+      "stressGpDrainPerSecond": 0
+    },
+    "playerTile": {
+      "tx": 4,
+      "ty": 64
+    },
+    "history": [],
+    "mia": {
+      "owned": 0,
+      "visible": false,
+      "purchase": {
+        "canPurchase": false,
+        "reason": "requires_signal_rescue"
+      }
+    },
+    "interactionDistance": null,
+    "saveWritesBlocked": true,
+    "voice": {
+      "loaded": 14,
+      "playing": false,
+      "muted": false
+    },
+    "call": {
+      "survivorId": "mia",
+      "real": true,
+      "fatal": true,
+      "callInMs": 482.3899999999998,
+      "callSerial": 0,
+      "discovered": false,
+      "pendingDeath": false
+    },
+    "suspended": false,
+    "remainingMs": 109082.39000000001,
+    "timer": {
+      "remaining": 0,
+      "clockPaused": false,
+      "scale": 1,
+      "scenePaused": false
+    },
+    "minicampSolidTiles": 0
+  }
+}

@@ -1,0 +1,179 @@
+{
+  "summary": {
+    "registeredAnimations": 213,
+    "registeredSheets": 53,
+    "requiredSheets": 55,
+    "uniqueFrameSequences": 194,
+    "heldTorchBindings": 26,
+    "continuousFlightLoop": true,
+    "rigManifestKey": null,
+    "missingAssets": [],
+    "missingRecoveryTargets": [],
+    "nullRecoveryMappings": [
+      [
+        "survival-ual-player-v1-moving-complex-dig-cross-jab-phase-01-anim",
+        null
+      ],
+      [
+        "survival-ual-player-v1-moving-complex-dig-cross-cross-phase-15-anim",
+        null
+      ],
+      [
+        "survival-ual-player-v1-moving-complex-dig-cross-jab-phase-05-anim",
+        null
+      ],
+      [
+        "survival-ual-player-v1-moving-complex-dig-cross-cross-phase-19-anim",
+        null
+      ],
+      [
+        "survival-ual-player-v1-moving-complex-dig-cross-jab-phase-09-anim",
+        null
+      ],
+      [
+        "survival-ual-player-v1-moving-complex-dig-cross-cross-phase-23-anim",
+        null
+      ],
+      [
+        "survival-ual-player-v1-moving-complex-dig-cross-cross-phase-10-anim",
+        null
+      ],
+      [
+        "survival-ual-player-v1-moving-complex-dig-cross-jab-phase-24-anim",
+        null
+      ]
+    ],
+    "requiredSheetsWithoutAnimation": [
+      "survival-ual-player-v1-punch-jab-sheet",
+      "survival-ual-player-v1-animation-polish-run-sheet"
+    ]
+  },
+  "keys": {
+    "idle": "survival-ual-player-v1-idle-anim",
+    "walk": "survival-ual-player-v1-walk-loop-anim",
+    "walkStart": "survival-mixamo-v1-walk-start-anim",
+    "walkLoop": "survival-ual-player-v1-walk-loop-anim",
+    "walkRun": "survival-ual-player-v1-run-anim",
+    "walkStop": "survival-mixamo-v1-walk-stop-anim",
+    "airborne": "survival-ual-player-v1-airborne-anim",
+    "falling": "survival-ual-player-v1-falling-anim",
+    "duck": "survival-mixamo-v1-crouch-idle-anim",
+    "digDown": "survival-ual-player-v1-dig-down-ground-strike-anim",
+    "digSideways": "survival-ual-player-v1-punch-jab-anim",
+    "digUp": "survival-ual-player-v1-dig-up-jab-anim",
+    "digUpSideways": "survival-ual-player-v1-dig-up-side-jab-anim",
+    "digUpLook": "survival-ual-player-v1-dig-up-look-anim",
+    "wallPush": "survival-ual-player-v1-wall-brace-loop-anim",
+    "leanAgainstWall": "survival-ual-player-v1-lean-wall-anim",
+    "combatIdleRecover": "survival-ual-player-v1-idle-anim",
+    "combatIdleToNormalIdle": "survival-ual-player-v1-idle-anim",
+    "fly": "survival-mixamo-v1-flight-loop-anim",
+    "flightEnter": "survival-ual-player-v1-flight-enter-anim",
+    "flightTravelEnter": "survival-ual-player-v1-flight-travel-enter-anim",
+    "flightTravelLoop": "survival-mixamo-v1-flight-loop-anim",
+    "flightHover": "survival-mixamo-v1-flight-loop-anim",
+    "flightExit": "survival-ual-player-v1-flight-exit-anim",
+    "airborneRise": "survival-ual-player-v1-airborne-anim",
+    "airborneFall": "survival-ual-player-v1-falling-anim",
+    "landing": "survival-mixamo-v1-hard-landing-anim",
+    "quickslash": "survival-mixamo-v2-hurricane-quickslash-anim",
+    "teleportIn": "survival-ual-player-v1-roll-anim",
+    "thunderStrikeCharge": "survival-ual-player-v1-spell-charge-anim",
+    "thunderStrikeStrike": "survival-mixamo-v1-thunder-ground-anim",
+    "attackDown": "survival-ual-player-v1-attack-down-ground-strike-anim",
+    "earthquakeReact": "survival-ual-player-v1-hit-react-anim",
+    "death": "survival-ual-player-v1-death-anim",
+    "pickaxeMining": "survival-ual-player-v1-pickaxe-mining-anim",
+    "uppercut": "survival-ual-player-v1-uppercut-anim",
+    "softLanding": "survival-ual-player-v1-soft-landing-continuity-anim",
+    "legacyLanding": "survival-ual-player-v1-landing-anim",
+    "wallBraceEnter": "survival-ual-player-v1-wall-brace-enter-anim",
+    "wallBraceExit": "survival-ual-player-v1-wall-brace-exit-anim",
+    "crouchEnter": "survival-mixamo-v1-crouch-enter-anim",
+    "crouchExit": "survival-mixamo-v1-crouch-exit-anim",
+    "ledgeCatch": "survival-mixamo-v4-ledge-catch-anim",
+    "ledgeHang": "survival-mixamo-v4-ledge-hang-anim",
+    "ledgeClimb": "survival-mixamo-v4-ledge-climb-anim"
+  },
+  "traces": [
+    {
+      "name": "ordinary walk start and stop",
+      "decisions": [
+        {
+          "animationKey": "survival-ual-player-v1-idle-anim",
+          "phase": "idle",
+          "facingFlipX": false,
+          "restart": false,
+          "loop": true
+        },
+        {
+          "animationKey": "survival-ual-player-v1-walk-loop-anim",
+          "phase": "walk-loop",
+          "facingFlipX": false,
+          "restart": true,
+          "loop": true
+        },
+        {
+          "animationKey": "survival-ual-player-v1-idle-anim",
+          "phase": "idle",
+          "facingFlipX": false,
+          "restart": true,
+          "loop": true
+        }
+      ]
+    },
+    {
+      "name": "Ctrl run start",
+      "decisions": [
+        {
+          "animationKey": "survival-ual-player-v1-idle-anim",
+          "phase": "idle",
+          "facingFlipX": false,
+          "restart": false,
+          "loop": true
+        },
+        {
+          "animationKey": "survival-mixamo-v1-walk-start-anim",
+          "phase": "walk-start",
+          "facingFlipX": false,
+          "restart": true,
+          "loop": false,
+          "startFrame": null
+        }
+      ]
+    },
+    {
+      "name": "flight enter, travel and release",
+      "decisions": [
+        {
+          "animationKey": "survival-ual-player-v1-idle-anim",
+          "phase": "idle",
+          "facingFlipX": false,
+          "restart": false,
+          "loop": true
+        },
+        {
+          "animationKey": "survival-mixamo-v1-flight-loop-anim",
+          "phase": "flight-hover",
+          "facingFlipX": false,
+          "restart": true,
+          "loop": true
+        },
+        {
+          "animationKey": "survival-mixamo-v1-flight-loop-anim",
+          "phase": "flight-travel-loop",
+          "facingFlipX": false,
+          "restart": false,
+          "loop": true
+        },
+        {
+          "animationKey": "survival-ual-player-v1-falling-anim",
+          "phase": "airborne-fall",
+          "facingFlipX": false,
+          "restart": true,
+          "loop": true
+        }
+      ]
+    }
+  ]
+}

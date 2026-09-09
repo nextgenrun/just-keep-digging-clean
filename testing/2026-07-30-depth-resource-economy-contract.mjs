@@ -12,13 +12,6 @@ import {
   resolveDepthEconomyEnabled,
 } from "../values/resourceEconomy.js";
 import {
-  RESOURCE_RARITIES,
-  getResourceRarityChanceMultiplier,
-  getResourceHpMultiplier,
-  getResourceRarityIndex,
-  getResourceYieldMultiplier,
-} from "../values/dynamicSoil.js";
-import {
   RESOURCE_PRICES_CONFIG,
   getAdjustedResourceUnitPrice,
   roundResourceCurrency,
@@ -55,9 +48,6 @@ assert.equal(getDepthEconomyYieldMultiplier(4000, true), 38);
 assert.equal(getDepthEconomyYieldMultiplier(5000, true), 60);
 assert.ok(getDepthEconomyYieldMultiplier(750, false) > 3);
 assert.ok(getDepthEconomyYieldMultiplier(2500, true) > 15);
-assert.equal(getResourceRarityChanceMultiplier(0), 1);
-assert.equal(getResourceRarityChanceMultiplier(2000), 3.5);
-assert.equal(getResourceRarityChanceMultiplier(5000), 5);
 
 assert.equal(WORLD_GEN_CONFIG.terrain.goldMinDepth, 700);
 for (const depthEconomyEnabled of [true, false]) {
@@ -92,42 +82,6 @@ for (const depthEconomyEnabled of [true, false]) {
     "Gold must unlock at the 700m Gilded Fault boundary",
   );
 }
-
-function findRarityCoordinate(targetIndex) {
-  for (let ty = 65; ty < 2000; ty += 1) {
-    for (let tx = 0; tx < 280; tx += 1) {
-      if (getResourceRarityIndex(TILE_TYPES.GOLD, tx, ty, ty - 65, 133742) === targetIndex) {
-        return { tx, ty };
-      }
-    }
-  }
-  throw new Error(`No deterministic coordinate found for rarity ${targetIndex}`);
-}
-
-const modernYield = [1, 3, 8, 25];
-const modernHp = [1, 1.5, 2.5, 5];
-const legacyMultipliers = [1, 2, 5, 12];
-RESOURCE_RARITIES.forEach((rarity, index) => {
-  const { tx, ty } = findRarityCoordinate(index);
-  const depth = ty - 65;
-  assert.equal(
-    getResourceYieldMultiplier(TILE_TYPES.GOLD, tx, ty, depth, 133742, true),
-    modernYield[index],
-  );
-  assert.equal(
-    getResourceHpMultiplier(TILE_TYPES.GOLD, tx, ty, depth, 133742, true),
-    modernHp[index],
-  );
-  assert.equal(
-    getResourceYieldMultiplier(TILE_TYPES.GOLD, tx, ty, depth, 133742, false),
-    legacyMultipliers[index],
-  );
-  assert.equal(
-    getResourceHpMultiplier(TILE_TYPES.GOLD, tx, ty, depth, 133742, false),
-    legacyMultipliers[index],
-  );
-  assert.equal(rarity.multiplier, modernYield[index]);
-});
 
 const deterministicYield = resolveDepthAdjustedResourceYield({
   nativeYield: 3,
@@ -195,7 +149,7 @@ modernUpgrades.setUpgradeLevels({
   worldTwoTunnelAccess: 1,
   deepResourcePrices: 1,
 });
-assert.equal(modernUpgrades.getUpgradeEffects().deepResourceBonus, 0.15);
+assert.equal(modernUpgrades.getUpgradeEffects().deepResourceBonus, 0.60);
 const legacyUpgrades = new UpgradeSystem(null, null, {
   depthEconomyEnabled: false,
 });
@@ -211,23 +165,18 @@ assert.equal(
 
 const milestoneBonuses = resolveDepthMilestoneEconomyBonuses({
   miningSpeedPct: 999,
-  critChancePct: 999,
   resourceYieldPct: 999,
 });
 assert.equal(milestoneBonuses.miningSpeedReduction, 0.32);
-assert.equal(milestoneBonuses.critChance, 0.12);
 assert.equal(milestoneBonuses.resourceYieldPct, 50);
 assert.equal(milestoneBonuses.resourceYieldMultiplier, 1.5);
 assert.deepEqual(
   resolveDepthMilestoneEconomyBonuses({
     miningSpeedPct: 32,
-    critChancePct: 12,
   }, false),
   {
     miningSpeedPct: 0,
     miningSpeedReduction: 0,
-    critChancePct: 0,
-    critChance: 0,
     resourceYieldPct: 0,
     resourceYieldMultiplier: 1,
   },
@@ -243,7 +192,6 @@ const cooldownProbe = new DigSystem(null, null, {
 assert.equal(cooldownProbe.getDepthEconomyHealthSnapshot().ready, false);
 cooldownProbe.setDepthMilestoneBonusProvider(() => ({
   miningSpeedPct: 32,
-  critChancePct: 12,
 }));
 assert.equal(cooldownProbe._getCooldown(), 136);
 assert.equal(cooldownProbe.getDepthEconomyHealthSnapshot().ready, true);

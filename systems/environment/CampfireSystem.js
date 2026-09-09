@@ -28,6 +28,9 @@
  * The campfire sprite is anchored by its feet on the surface tile line.
  */
 
+import { BAKED_UI_ART } from "../../values/bakedUiArt.js";
+import { getBakedUiArt, addBakedUiCaption } from "../visual/bakedUiArt.js";
+import { MerchantPromptView } from "../visual/MerchantPromptView.js";
 import { UI_COLORS } from "../../values/uiColors.js";
 import { UI_FONTS } from "../../values/uiLayout.js";
 import {
@@ -69,11 +72,12 @@ const COL = {
 };
 
 export class CampfireSystem {
-  constructor(scene, config, worldModel, ui, saveSlot = 1, initialData = null) {
+  constructor(scene, config, worldModel, ui, saveSlot = 1, initialData = null, evolution = null) {
     this.scene = scene;
     this.config = config;
     this.worldModel = worldModel;
     this.ui = ui;
+    this._evolution = evolution;
     this.saveSlot = Number.isInteger(saveSlot) && saveSlot > 0 ? saveSlot : 1;
 
     // Campfire visual objects
@@ -123,6 +127,7 @@ export class CampfireSystem {
 
     // Upgrade tier
     this._campfireLevel = initialState.level;
+    this._hasRested = initialState.hasRested === true;
     this._emberCharges = initialState.charges;
     this._emberRefillCapacity = initialState.refillCapacity;
     this._townVisitActive = null;
@@ -157,6 +162,11 @@ export class CampfireSystem {
     this._applyCampfireVisualLayout();
     void this._ensureCampfireTierTexture(this._campfireLevel);
 
+    const promptArt = getBakedUiArt(this.scene, "campfire");
+    if (promptArt) {
+      this._artPrompt = new MerchantPromptView(this.scene, "campfire", "Campfire",
+        this._campX, this._getCampfireTopY() - BAKED_UI_ART.campfire.gap, { art: promptArt });
+    } else {
     // Interact label
     this._interactLabel = this.scene.add.text(this._campX, this._getCampfireTopY() - 18, 'Campfire', {
       fontFamily: 'Trebuchet MS, Segoe UI, sans-serif',
@@ -184,6 +194,7 @@ export class CampfireSystem {
       ease: 'Sine.inOut',
     });
 
+    }
     this._applyCampfireVisualLayout();
 
     // Animate fire particles
@@ -218,9 +229,9 @@ export class CampfireSystem {
    * @param {*} unusedKeys - not used (we own our keys)
    * @param {number} [delta] - frame delta ms
    */
-  update(playerTile, unusedKeys, delta) {
+  update(playerTile, unusedKeys, delta, options = {}) {
     if (!playerTile) return;
-    this._trackTownVisit(playerTile);
+    if (!this.scene.townRestSystem) this._trackTownVisit(playerTile);
 
     // Proximity
     const campTileX = Math.floor(this._campX / this.config.tileSize);
@@ -228,10 +239,13 @@ export class CampfireSystem {
     const dx = Math.abs(playerTile.tx - campTileX);
     const dy = Math.abs(playerTile.ty - campTileY);
     const inRange = dx <= 2 && dy <= 3;
+    const allowOpen = options.allowOpen !== false;
+
+    this._artPrompt?.update(inRange && !this._isSelecting && allowOpen);
 
     // E prompt visibility
     if (this._ePrompt) {
-      this._ePrompt.setVisible(inRange && !this._isSelecting);
+      this._ePrompt.setVisible(inRange && !this._isSelecting && allowOpen);
     }
 
     // Manual JustDown tracking for all keys (done BEFORE any conditionals
@@ -244,7 +258,11 @@ export class CampfireSystem {
     const justW = wDown && !this._prevW;
     const justS = sDown && !this._prevS;
     const justEsc = escDown && !this._prevEsc;
-    const justE = eDown && !this._prevInteract;
+    // Share the game's buffered E press, but only while the Campfire owns it.
+    // A short tap released between render frames must still open this menu.
+    const ownsInteract = this._isSelecting || (inRange && allowOpen);
+    const bufferedE = ownsInteract && options.consumeInteract?.() === true;
+    const justE = (eDown && !this._prevInteract) || bufferedE;
     const justEnter = enterDown && !this._prevEnter;
     this._prevW = wDown;
     this._prevS = sDown;
@@ -253,7 +271,7 @@ export class CampfireSystem {
     this._prevEnter = enterDown;
 
     // Open buff selection (E + in range + not selecting)
-    if (inRange && justE && !this._isSelecting) {
+    if (inRange && justE && !this._isSelecting && allowOpen) {
       this._openBuffSelection();
       return; // Skip rest of update this frame (justOpened prevents E confirm)
     }
@@ -306,15 +324,6 @@ export class CampfireSystem {
     if (this._activeBuff && this._activeBuff.remainingMs > 0 && this._activeBuff.type === 'inspiration') {
       const tier = this._getTierConfig();
       return tier.xpBonus;
-    }
-    return 0;
-  }
-
-  /** Get crit chance bonus (only if Focus buff is active) */
-  getCritBonus() {
-    if (this._activeBuff && this._activeBuff.remainingMs > 0 && this._activeBuff.type === 'focus') {
-      const tier = this._getTierConfig();
-      return tier.critBonus;
     }
     return 0;
   }
@@ -389,6 +398,7 @@ export class CampfireSystem {
       });
     }
 
+    const previousRefillCapacity = this._emberRefillCapacity;
     this._emberRefillCapacity = nextRefillCapacity;
     this._emberCharges = next;
     const feedbackText = refillUpgraded
@@ -412,6 +422,7 @@ export class CampfireSystem {
       gained,
       charges: this._emberCharges,
       refillUpgraded,
+      previousRefillCapacity,
       refillCapacity: this._emberRefillCapacity,
     });
     this.scene.emberDiscoveryEventSystem?.play?.({
@@ -423,6 +434,7 @@ export class CampfireSystem {
 
   restoreEmberCharges(
     source = CAMPFIRE_CONSUMABLE_CONFIG.refill.sources.interaction,
+    options = {},
   ) {
     const next = Math.max(this._emberCharges, this._emberRefillCapacity);
     const gained = next - this._emberCharges;
@@ -439,7 +451,7 @@ export class CampfireSystem {
 
     this._emberCharges = next;
     const useLabel = this._emberCharges === 1 ? "USE" : "USES";
-    this.scene.hudSystem?.flashStatus?.(
+    if (!options.silent) this.scene.hudSystem?.flashStatus?.(
       `${CAMPFIRE_CONSUMABLE_CONFIG.copy.refilled}  •  ${this._emberCharges} ${useLabel}`,
       CAMPFIRE_CONSUMABLE_CONFIG.feedback.refilledColor,
       CAMPFIRE_CONSUMABLE_CONFIG.feedback.durationMs,
@@ -518,13 +530,22 @@ export class CampfireSystem {
       charges: this._emberCharges,
       refillCapacity: this._emberRefillCapacity,
       selectedBuffType: this.getSelectedBuff()?.type,
+      activeBuff: this.getActiveBuff(),
+      hasRested: this._hasRested,
     });
   }
 
   loadSaveData(data) {
     if (!data || typeof data !== "object") return this.getSaveData();
+    this._evolution?.cancel();
     const normalized = sanitizeCampfireData(data);
     this._campfireLevel = normalized.level;
+    this._hasRested = normalized.hasRested === true;
+    this._activeBuff = null;
+    if (normalized.activeBuff) {
+      this._applyBuff(this._buffs.find(buff => buff.type === normalized.activeBuff.type));
+      this._activeBuff.remainingMs = normalized.activeBuff.remainingMs;
+    }
     this._emberCharges = normalized.charges;
     this._emberRefillCapacity = normalized.refillCapacity;
     this._selectedIndex = Math.max(
@@ -542,15 +563,19 @@ export class CampfireSystem {
    */
   upgradeCampfire() {
     if (this._campfireUpgradePromise) return this._campfireUpgradePromise;
+    const before = this._evolution?.prepare(this._campfireSprite, this._campfireLevel);
     this._campfireUpgradePromise = executeCampfireUpgrade(this)
       .then(result => {
-        if (result.success) this.scene.hudSystem?.flashStatus?.(
-          `CAMPFIRE UPGRADED  •  ${result.tier.label}`,
-          COL.cssSuccess,
-          1800,
-        );
+        if (result.success) {
+          this._closeBuffSelection?.();
+          this._evolution?.play(before, this._campfireSprite, result.tier);
+          this.scene.hudSystem?.flashStatus?.(
+            `CAMPFIRE UPGRADED  •  ${result.tier.label}`, COL.cssSuccess, 1800,
+          );
+        } else this._evolution?.discard(before);
         return result;
       })
+      .catch(error => { this._evolution?.discard(before); throw error; })
       .finally(() => { this._campfireUpgradePromise = null; });
     return this._campfireUpgradePromise;
   }
@@ -567,7 +592,6 @@ export class CampfireSystem {
     return {
       miningSpeedBonus: tier.miningSpeedBonus,
       xpBonus: tier.xpBonus,
-      critBonus: tier.critBonus,
       durationMs: tier.durationMs,
     };
   }
@@ -660,6 +684,7 @@ export class CampfireSystem {
       .setDisplaySize(displayWidth, displayHeight);
 
     const topY = this._getCampfireTopY();
+    if (this._artPrompt) this._artPrompt.worldY = topY - BAKED_UI_ART.campfire.gap;
     this._interactLabel?.setPosition(this._campX, topY - 18);
     this._ePrompt?.setPosition(this._campX, topY - 3);
   }
@@ -693,6 +718,8 @@ export class CampfireSystem {
   }
 
   _openBuffSelection(options = {}) {
+    if (this.scene.townRestSystem) return this.scene.townRestSystem.requestSleep();
+    this._evolution?.cancel();
     if (this._isSelecting) return;
     this.restoreEmberCharges(CAMPFIRE_CONSUMABLE_CONFIG.refill.sources.interaction);
     this._isSelecting = true;
@@ -754,6 +781,7 @@ export class CampfireSystem {
       color: UI_COLORS.title,
     });
     content.add(sectionTitle);
+    addBakedUiCaption(this.scene, content, sectionTitle);
 
     this._buffs.forEach((buff, index) => {
       const isSelected = index === this._selectedIndex;
@@ -876,8 +904,7 @@ export class CampfireSystem {
         enabled: canUpgrade,
         disabledReason: "NEED " + upgradeCost.toLocaleString() + " GOLD",
         onClick: async () => {
-          const result = await this.upgradeCampfire();
-          if (result.success) this._rebuffSelection();
+          await this.upgradeCampfire();
         },
       });
     }
@@ -997,7 +1024,7 @@ export class CampfireSystem {
   }
 
   _pulseCampfire(minAlpha, duration) {
-    if (!this._campfireSprite || !this.scene.tweens) return;
+    if (!this._campfireSprite || !this.scene.tweens || this._evolution?.root) return;
     this.scene.tweens.killTweensOf(this._campfireSprite);
     this._campfireSprite.setAlpha(1);
     this.scene.tweens.add({
@@ -1029,10 +1056,13 @@ export class CampfireSystem {
 
   destroy() {
     this._destroyed = true;
+    this._evolution?.destroy();
     if (this._fireAnimTimer) this._fireAnimTimer.remove();
     this._closeBuffSelection();
     this._campfireGfx?.destroy();
     this._campfireSprite?.destroy();
+    this._artPrompt?.destroy();
+    this._artPrompt = null;
     this._ePrompt?.destroy();
     this._interactLabel?.destroy();
     this._flameEmbers.forEach(e => e.destroy());

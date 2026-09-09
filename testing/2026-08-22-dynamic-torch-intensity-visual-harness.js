@@ -1,9 +1,11 @@
 import { HUDSystem } from "../systems/visual/HUDSystem.js";
 import { LightSystem } from "../systems/lighting/LightSystem.js";
 import { APPROVED_HUD_SKIN } from "../values/approvedHudSkin.js";
-import { ASSET_KEYS } from "../values/assetKeys.js";
+import { ASSET_KEYS, getPickaxeIconPreloadAssets } from "../values/assetKeys.js";
 import { FIRE_LIGHT_CONFIG } from "../values/fireLightConfig.js";
+import { HUD_LAYOUT } from "../values/hudLayout.js";
 import { LIGHT_CONFIG } from "../values/lightConfig.js";
+import { UI_ICON_ATLAS } from "../values/uiIcons.js";
 
 class DynamicTorchIntensityVisualHarnessScene extends Phaser.Scene {
   constructor() {
@@ -14,12 +16,19 @@ class DynamicTorchIntensityVisualHarnessScene extends Phaser.Scene {
     for (const [id, path] of Object.entries(APPROVED_HUD_SKIN.paths)) {
       this.load.image(ASSET_KEYS.ui.approvedHud[id], `../${path}`);
     }
+    this.load.spritesheet(UI_ICON_ATLAS.key, `../${UI_ICON_ATLAS.path}`, {
+      frameWidth: UI_ICON_ATLAS.frameWidth,
+      frameHeight: UI_ICON_ATLAS.frameHeight,
+    });
+    for (const asset of getPickaxeIconPreloadAssets()) {
+      this.load.image(asset.key, `../${asset.path}`);
+    }
   }
 
   create() {
     this.cameras.main.setBackgroundColor(0x05090d);
     this.upgradeSystem = {
-      ownedPickaxe: null,
+      ownedPickaxe: "bronzePickaxe",
       godModeActive: false,
       getUpgradeEffects: () => ({}),
     };
@@ -35,6 +44,15 @@ class DynamicTorchIntensityVisualHarnessScene extends Phaser.Scene {
       combo: false,
       buff: true,
     });
+    const gp = this.hudSystem.getGemPowerLayout();
+    this.gpBg = this.add.graphics().setScrollFactor(0);
+    this.gpFill = this.add.graphics().setScrollFactor(0);
+    this.gpLabel = this.add.text(0, 0, "GP  110 / 110", {}).setScrollFactor(0);
+    this.hudSystem.bindGemPowerObjects(this.gpBg, this.gpFill, this.gpLabel);
+    this.gpBg.fillStyle(HUD_LAYOUT.barBgColor, HUD_LAYOUT.barBgAlpha);
+    this.gpBg.fillRoundedRect(gp.x, gp.y, gp.width, gp.height, gp.radius);
+    this.gpFill.fillStyle(HUD_LAYOUT.gpColorHigh, 1);
+    this.gpFill.fillRoundedRect(gp.x, gp.y, gp.width, gp.height, gp.radius);
 
     this.lightSystem = Object.assign(Object.create(LightSystem.prototype), {
       scene: this,

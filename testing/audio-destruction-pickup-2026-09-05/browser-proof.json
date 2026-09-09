@@ -1,0 +1,141 @@
+{
+  "passed": true,
+  "backend": "Phaser WebAudio",
+  "checks": [
+    {
+      "id": "footsteps-1",
+      "originalMs": 127.70833333333334,
+      "bufferMs": 90,
+      "rate": 1,
+      "observedCompletionMs": 90,
+      "sourcePreserved": true,
+      "gainControl": true,
+      "previewDecoded": true,
+      "channels": 1,
+      "previewMaxSampleError": 0.000009476207196712494
+    },
+    {
+      "id": "footsteps-2",
+      "originalMs": 206.0625,
+      "bufferMs": 110,
+      "rate": 1,
+      "observedCompletionMs": 126,
+      "sourcePreserved": true,
+      "gainControl": true,
+      "previewDecoded": true,
+      "channels": 1,
+      "previewMaxSampleError": 0.00011482834815979004
+    },
+    {
+      "id": "freesound-270415",
+      "originalMs": 219.72916666666666,
+      "bufferMs": 120,
+      "rate": 1,
+      "observedCompletionMs": 125,
+      "sourcePreserved": true,
+      "gainControl": true,
+      "previewDecoded": true,
+      "channels": 2,
+      "previewMaxSampleError": 0
+    },
+    {
+      "id": "freesound-270419",
+      "originalMs": 243.72916666666666,
+      "bufferMs": 120,
+      "rate": 1,
+      "observedCompletionMs": 124,
+      "sourcePreserved": true,
+      "gainControl": true,
+      "previewDecoded": true,
+      "channels": 2,
+      "previewMaxSampleError": 0
+    },
+    {
+      "id": "freesound-270418",
+      "originalMs": 309.375,
+      "bufferMs": 100,
+      "rate": 1,
+      "observedCompletionMs": 109,
+      "sourcePreserved": true,
+      "gainControl": true,
+      "previewDecoded": true,
+      "channels": 2,
+      "previewMaxSampleError": 0
+    },
+    {
+      "id": "freesound-270417",
+      "originalMs": 336,
+      "bufferMs": 120,
+      "rate": 1,
+      "observedCompletionMs": 126,
+      "sourcePreserved": true,
+      "gainControl": true,
+      "previewDecoded": true,
+      "channels": 2,
+      "previewMaxSampleError": 0
+    },
+    {
+      "id": "libDirtBreak",
+      "originalMs": 972.2708333333333,
+      "bufferMs": 320,
+      "rate": 1,
+      "observedCompletionMs": 325,
+      "sourcePreserved": true,
+      "gainControl": true,
+      "previewDecoded": true,
+      "channels": 2,
+      "previewMaxSampleError": 0
+    },
+    {
+      "id": "libStoneBreak",
+      "originalMs": 1800,
+      "bufferMs": 300,
+      "rate": 0.9,
+      "observedCompletionMs": 339,
+      "sourcePreserved": true,
+      "gainControl": true,
+      "previewDecoded": true,
+      "channels": 2,
+      "previewMaxSampleError": 0
+    },
+    {
+      "id": "libResourcePop",
+      "originalMs": 617.3333333333333,
+      "bufferMs": 180,
+      "rate": 1,
+      "observedCompletionMs": 190,
+      "sourcePreserved": true,
+      "gainControl": true,
+      "previewDecoded": true,
+      "channels": 2,
+      "previewMaxSampleError": 0
+    },
+    {
+      "id": "freesound-536921",
+      "originalMs": 229.125,
+      "bufferMs": 140,
+      "rate": 1,
+      "observedCompletionMs": 141,
+      "sourcePreserved": true,
+      "gainControl": true,
+      "previewDecoded": true,
+      "channels": 2,
+      "previewMaxSampleError": 0
+    },
+    {
+      "id": "freesound-703115",
+      "originalMs": 419.1458333333333,
+      "bufferMs": 155,
+      "rate": 1,
+      "observedCompletionMs": 160,
+      "sourcePreserved": true,
+      "gainControl": true,
+      "previewDecoded": true,
+      "channels": 2,
+      "previewMaxSampleError": 0
+    }
+  ],
+  "manualPlaythrough": false,
+  "listeningApproved": false,
+  "delayedXpSilent": true
+}

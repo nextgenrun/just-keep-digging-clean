@@ -1,0 +1,319 @@
+{
+  "activities": [
+    {
+      "activity": "habit",
+      "poses": [
+        {
+          "id": "playerUpgrades",
+          "mix": 1,
+          "pose": "habit",
+          "size": 225.6
+        },
+        {
+          "id": "gearMerchant",
+          "mix": 1,
+          "pose": "habit",
+          "size": 225.6
+        },
+        {
+          "id": "boboMerchant",
+          "mix": 1,
+          "pose": "habit",
+          "size": 225.6
+        },
+        {
+          "id": "moneyMonster",
+          "mix": 1,
+          "pose": "habit",
+          "size": 225.6
+        },
+        {
+          "id": "gemPowerMerchant",
+          "mix": 1,
+          "pose": "habit",
+          "size": 225.6
+        },
+        {
+          "id": "magmaMoneyMonster",
+          "mix": 1,
+          "pose": "habit",
+          "size": 225.6
+        }
+      ]
+    },
+    {
+      "activity": "signature",
+      "poses": [
+        {
+          "id": "playerUpgrades",
+          "mix": 1,
+          "pose": "signature",
+          "size": 225.6
+        },
+        {
+          "id": "gearMerchant",
+          "mix": 1,
+          "pose": "signature",
+          "size": 225.6
+        },
+        {
+          "id": "boboMerchant",
+          "mix": 1,
+          "pose": "signature",
+          "size": 225.6
+        },
+        {
+          "id": "moneyMonster",
+          "mix": 1,
+          "pose": "signature",
+          "size": 225.6
+        },
+        {
+          "id": "gemPowerMerchant",
+          "mix": 1,
+          "pose": "signature",
+          "size": 225.6
+        },
+        {
+          "id": "magmaMoneyMonster",
+          "mix": 1,
+          "pose": "signature",
+          "size": 225.6
+        }
+      ]
+    },
+    {
+      "activity": "player",
+      "poses": [
+        {
+          "id": "playerUpgrades",
+          "mix": 1,
+          "pose": "player",
+          "size": 225.6
+        },
+        {
+          "id": "gearMerchant",
+          "mix": 1,
+          "pose": "player",
+          "size": 225.6
+        },
+        {
+          "id": "boboMerchant",
+          "mix": 1,
+          "pose": "player",
+          "size": 225.6
+        },
+        {
+          "id": "moneyMonster",
+          "mix": 1,
+          "pose": "player",
+          "size": 225.6
+        },
+        {
+          "id": "gemPowerMerchant",
+          "mix": 1,
+          "pose": "player",
+          "size": 225.6
+        },
+        {
+          "id": "magmaMoneyMonster",
+          "mix": 1,
+          "pose": "player",
+          "size": 225.6
+        }
+      ]
+    },
+    {
+      "activity": "work",
+      "poses": [
+        {
+          "id": "playerUpgrades",
+          "mix": 1,
+          "pose": "work",
+          "size": 225.6
+        },
+        {
+          "id": "gearMerchant",
+          "mix": 1,
+          "pose": "work",
+          "size": 225.6
+        },
+        {
+          "id": "boboMerchant",
+          "mix": 1,
+          "pose": "work",
+          "size": 225.6
+        },
+        {
+          "id": "moneyMonster",
+          "mix": 1,
+          "pose": "work",
+          "size": 225.6
+        },
+        {
+          "id": "gemPowerMerchant",
+          "mix": 1,
+          "pose": "work",
+          "size": 225.6
+        },
+        {
+          "id": "magmaMoneyMonster",
+          "mix": 1,
+          "pose": "work",
+          "size": 225.6
+        }
+      ]
+    },
+    {
+      "activity": "inspect",
+      "poses": [
+        {
+          "id": "playerUpgrades",
+          "mix": 1,
+          "pose": "inspect",
+          "size": 257.56
+        },
+        {
+          "id": "gearMerchant",
+          "mix": 1,
+          "pose": "inspect",
+          "size": 257.56
+        },
+        {
+          "id": "boboMerchant",
+          "mix": 1,
+          "pose": "inspect",
+          "size": 257.56
+        },
+        {
+          "id": "moneyMonster",
+          "mix": 1,
+          "pose": "inspect",
+          "size": 257.56
+        },
+        {
+          "id": "gemPowerMerchant",
+          "mix": 1,
+          "pose": "inspect",
+          "size": 257.56
+        },
+        {
+          "id": "magmaMoneyMonster",
+          "mix": 1,
+          "pose": "inspect",
+          "size": 257.56
+        }
+      ]
+    },
+    {
+      "activity": "showcase",
+      "poses": [
+        {
+          "id": "playerUpgrades",
+          "mix": 1,
+          "pose": "showcase",
+          "size": 225.6
+        },
+        {
+          "id": "gearMerchant",
+          "mix": 1,
+          "pose": "showcase",
+          "size": 225.6
+        },
+        {
+          "id": "boboMerchant",
+          "mix": 1,
+          "pose": "showcase",
+          "size": 225.6
+        },
+        {
+          "id": "moneyMonster",
+          "mix": 1,
+          "pose": "showcase",
+          "size": 225.6
+        },
+        {
+          "id": "gemPowerMerchant",
+          "mix": 1,
+          "pose": "showcase",
+          "size": 225.6
+        },
+        {
+          "id": "magmaMoneyMonster",
+          "mix": 1,
+          "pose": "showcase",
+          "size": 225.6
+        }
+      ]
+    },
+    {
+      "activity": "rare",
+      "poses": [
+        {
+          "id": "playerUpgrades",
+          "mix": 1,
+          "pose": "rare",
+          "size": 225.6
+        },
+        {
+          "id": "gearMerchant",
+          "mix": 1,
+          "pose": "rare",
+          "size": 225.6
+        },
+        {
+          "id": "boboMerchant",
+          "mix": 1,
+          "pose": "rare",
+          "size": 225.6
+        },
+        {
+          "id": "moneyMonster",
+          "mix": 1,
+          "pose": "rare",
+          "size": 225.6
+        },
+        {
+          "id": "gemPowerMerchant",
+          "mix": 1,
+          "pose": "rare",
+          "size": 225.6
+        },
+        {
+          "id": "magmaMoneyMonster",
+          "mix": 1,
+          "pose": "rare",
+          "size": 225.6
+        }
+      ]
+    }
+  ],
+  "browser": "Codex in-app browser",
+  "scope": "sandbox only",
+  "individualCue": "player",
+  "gameSizes": [
+    99.2,
+    99.2,
+    99.2,
+    99.2,
+    99.2,
+    99.2
+  ],
+  "scrub": {
+    "paused": "true",
+    "seconds": "3.5"
+  },
+  "playbackStart": {
+    "paused": "false",
+    "time": "0.367"
+  },
+  "playbackEnd": {
+    "fps": "51 fps",
+    "paused": "false",
+    "ready": "true",
+    "time": "73.642"
+  },
+  "console": [],
+  "comparison": "Bobo current gesture / restored habit visually checked",
+  "created": "2026-09-06T22:46:07.515Z"
+}

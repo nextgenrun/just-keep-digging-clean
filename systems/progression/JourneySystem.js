@@ -82,12 +82,21 @@ export class JourneySystem {
           precision: 0,
         }
       : JOURNEY_UPGRADE_STAT_MAP[upgrade.effectType];
-    const beforeValue = rule?.statKey
+    const rawBeforeValue = rule?.statKey
       ? beforeSnapshot?.stats?.[rule.statKey]
       : beforeSnapshot?.upgradeEffects?.[rule?.effectKey];
-    const afterValue = rule?.statKey
+    const rawAfterValue = rule?.statKey
       ? afterSnapshot?.stats?.[rule.statKey]
       : afterSnapshot?.upgradeEffects?.[rule?.effectKey];
+    const displayMultiplier = Number.isFinite(rule?.multiplier)
+      ? rule.multiplier
+      : 1;
+    const beforeValue = Number.isFinite(rawBeforeValue)
+      ? rawBeforeValue * displayMultiplier
+      : rawBeforeValue;
+    const afterValue = Number.isFinite(rawAfterValue)
+      ? rawAfterValue * displayMultiplier
+      : rawAfterValue;
     const numericChange = Number.isFinite(beforeValue)
       && Number.isFinite(afterValue)
       && beforeValue !== afterValue;

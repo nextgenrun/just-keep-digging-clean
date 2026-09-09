@@ -1,0 +1,204 @@
+{
+  "created": "2026-09-05",
+  "tool": "Built-in image_gen",
+  "runtimeEnabled": true,
+  "status": "Enabled and verified in the canonical game runtime for all six merchants",
+  "assets": [
+    {
+      "id": "playerUpgrades",
+      "title": "UPGRADES",
+      "action": "Improve your miner",
+      "sourceFile": "player-upgrades-source.png",
+      "runtimeFile": "player-upgrades.png",
+      "width": 2116,
+      "height": 743,
+      "hasAlpha": false,
+      "sha256": "db079a5bdf50d4e424243d07644faeb8bfffa30779b291d62c0d0f9dbf40df88",
+      "runtime": {
+        "masterFile": "player-upgrades-alpha.png",
+        "crop": [
+          40,
+          109,
+          2078,
+          629
+        ],
+        "transparentPadding": 16,
+        "width": 768,
+        "height": 205,
+        "mode": "RGBA",
+        "bytes": 307887,
+        "sha256": "b00c6bf0785d1bee10df2e44494a6cba8c39dd34508d4121890e7688bbb59049",
+        "transparentPixels": 11696,
+        "partialAlphaPixels": 6288,
+        "opaqueLetterCore": true,
+        "sourceRGBChanged": 0
+      }
+    },
+    {
+      "id": "gearMerchant",
+      "title": "GEAR MERCHANT",
+      "action": "Browse gear",
+      "sourceFile": "gear-merchant-source.png",
+      "runtimeFile": "gear-merchant.png",
+      "width": 2066,
+      "height": 761,
+      "hasAlpha": false,
+      "sha256": "1731baeb675512d9f27952d2869338ff1616aabbcf4d94c0ba234576addb09bf",
+      "runtime": {
+        "masterFile": "gear-merchant-alpha.png",
+        "crop": [
+          50,
+          135,
+          2017,
+          588
+        ],
+        "transparentPadding": 16,
+        "width": 768,
+        "height": 186,
+        "mode": "RGBA",
+        "bytes": 276196,
+        "sha256": "fa175622f3266bc15181aca915c04eaa183c48238c136f74378b8b2146e69d81",
+        "transparentPixels": 12745,
+        "partialAlphaPixels": 4657,
+        "opaqueLetterCore": true,
+        "sourceRGBChanged": 0
+      }
+    },
+    {
+      "id": "boboMerchant",
+      "title": "BOBO'S SHOP",
+      "action": "Browse abilities",
+      "sourceFile": "bobo-source.png",
+      "runtimeFile": "bobo.png",
+      "width": 2125,
+      "height": 740,
+      "hasAlpha": false,
+      "sha256": "f0d8d1d76dffea50caf29e9d8ccf963ef21c4587cde29086b089c808a12aae3c",
+      "runtime": {
+        "masterFile": "bobo-alpha.png",
+        "crop": [
+          10,
+          144,
+          2118,
+          595
+        ],
+        "transparentPadding": 16,
+        "width": 768,
+        "height": 173,
+        "mode": "RGBA",
+        "bytes": 232890,
+        "sha256": "8c9dbb8f9c2c9a178d762c765dd84eaa94673a789e01defa1f0b66ece0985a89",
+        "transparentPixels": 12978,
+        "partialAlphaPixels": 5309,
+        "opaqueLetterCore": true,
+        "sourceRGBChanged": 0
+      }
+    },
+    {
+      "id": "moneyMonster",
+      "title": "MONEY MONSTER",
+      "action": "Sell resources",
+      "sourceFile": "money-monster-source.png",
+      "runtimeFile": "money-monster.png",
+      "width": 2238,
+      "height": 702,
+      "hasAlpha": false,
+      "sha256": "7a6249fc7ef4dfbad1ac13f3fc76974c915323592439bda9abfe77c93aa1e284",
+      "runtime": {
+        "masterFile": "money-monster-alpha.png",
+        "crop": [
+          47,
+          121,
+          2188,
+          572
+        ],
+        "transparentPadding": 16,
+        "width": 768,
+        "height": 171,
+        "mode": "RGBA",
+        "bytes": 256968,
+        "sha256": "aaed5daef26b9dc0954826f7b1b7db30c225aeeca637f7997cff0927489e6dd8",
+        "transparentPixels": 9838,
+        "partialAlphaPixels": 5480,
+        "opaqueLetterCore": true,
+        "sourceRGBChanged": 0
+      }
+    },
+    {
+      "id": "gemPowerMerchant",
+      "title": "GEM MERCHANT",
+      "action": "Improve Gem Power",
+      "sourceFile": "gem-merchant-source.png",
+      "runtimeFile": "gem-merchant.png",
+      "width": 2020,
+      "height": 779,
+      "hasAlpha": false,
+      "sha256": "5ae08ab1365a5d227614d9d3b034f34bc17d8d2cadffec151003b9a0158a75bf",
+      "runtime": {
+        "masterFile": "gem-merchant-alpha.png",
+        "crop": [
+          42,
+          125,
+          1967,
+          640
+        ],
+        "transparentPadding": 16,
+        "width": 768,
+        "height": 215,
+        "mode": "RGBA",
+        "bytes": 317211,
+        "sha256": "030202ad6c297903064e592ff378b5b55ad8542abd2204e9f8692f4abdc93636",
+        "transparentPixels": 12811,
+        "partialAlphaPixels": 5886,
+        "opaqueLetterCore": true,
+        "sourceRGBChanged": 0
+      }
+    },
+    {
+      "id": "magmaMoneyMonster",
+      "title": "MOLTEN MONEY MONSTER",
+      "action": "Browse magma gear",
+      "sourceFile": "molten-money-monster-source.png",
+      "runtimeFile": "molten-money-monster.png",
+      "width": 1959,
+      "height": 803,
+      "hasAlpha": false,
+      "sha256": "16a60dc0e3457e1e10297ac5038fded529398b442fab6ce504ca628dd8fa1004",
+      "runtime": {
+        "masterFile": "molten-money-monster-alpha.png",
+        "crop": [
+          27,
+          184,
+          1932,
+          588
+        ],
+        "transparentPadding": 16,
+        "width": 768,
+        "height": 173,
+        "mode": "RGBA",
+        "bytes": 235508,
+        "sha256": "fbedaac66cf9203ae764cf14d8749f81d2a7753ff957c9ee2d309be93efb4a3e",
+        "transparentPixels": 12391,
+        "partialAlphaPixels": 5242,
+        "opaqueLetterCore": true,
+        "sourceRGBChanged": 0
+      }
+    }
+  ],
+  "cleanup": {
+    "authorized": "User approved code-based outside-background removal on 2026-09-05",
+    "method": "Boundary-connected pale matte removal; untouched RGB alpha masters; premultiplied runtime resize",
+    "builder": "ai-tools/2026-09-05-build-merchant-sign-cutouts.py",
+    "config": "values/merchantSignArtBuild.json"
+  },
+  "validation": {
+    "contract": "testing/2026-09-05-merchant-signs-contract.mjs",
+    "browserEvidence": "testing/animation-sandbox/2026-09-05-merchant-motion-v1/merchant-signs-runtime-validation.json",
+    "merchantsVerified": 6,
+    "observedFps": [
+      59,
+      60
+    ],
+    "consoleWarningsAndErrors": 0
+  }
+}

@@ -1,5 +1,130 @@
 # AI Tools
 
+`2026-09-07-import-leo-review-decisions.py` validates the submitted Leo yes/no audit against the exact catalog and condition fingerprints, preserves the original receipt, and builds the approved selection and new-recording list. It makes no provider requests or gameplay changes.
+
+`2026-09-07-render-character-grounding.py` supersamples approved materials on sole-grounded native traversal. `2026-09-07-pack-character-grounding.py` packs padded mip-safe pages and generates foot contacts, stride measurements and gait transfers. Native source files remain unchanged.
+
+`2026-09-04-capture-openrouter-key.py` and its `.cmd` launcher provide a visible,
+hidden-input replacement-key prompt, validate the key with OpenRouter, and store
+only user-scoped DPAPI ciphertext for the resumable Seedance batch.
+
+
+`2026-09-04-build-seedance-aftereffect-webms.py` trims accepted black-plate
+motion without reordering frames, keys the carrier into VP9 alpha WebM files,
+and rejects outputs whose decoded alpha evidence is missing.
+
+
+`2026-09-04-audit-seedance-effects.py` renders eight-timepoint review sheets and
+screens black-plate effects for dirty endpoints, late rebound, frame-wide
+generation, frame-delta spikes, and reverse-like motion.
+
+
+`2026-09-04-extend-seedance-effects-plan.py` records the post-calibration
+reallocation toward two-candidate mining, break, XP, movement, and Celestial
+aftereffects while retaining an adaptive QA reserve under the original cap.
+
+
+`2026-09-04-audit-seedance-player-effects-calibration.py` decodes only
+small analysis copies of the paid calibration videos, renders eight-timepoint
+contact sheets, and measures seams, background drift, baseline and silhouette
+stability, reverse-velocity similarity, and one-shot residue without interpolation.
+
+
+`2026-09-04-generate-seedance-player-effects.py` runs resumable, sequential
+Seedance Mini video batches from the review lab plan. It refreshes model support
+and token pricing, enforces the EUR 10 converted hard cap before each submission,
+records API usage and hashes, and keeps the DPAPI key in process memory only.
+
+
+`2026-09-04-build-seedance-player-effects-inputs.py` composes 720p first/last
+anchors and motion storyboards from the exact active unified player sheets, their
+accepted high-resolution walk authority, and current dirt pickup art. It writes
+review-only references and hashes without touching runtime assets.
+
+
+`2026-09-04-probe-seedance-player-effects.py` decrypts the user-scoped temporary
+DPAPI key only in memory, validates it with OpenRouter, and snapshots the current
+Seedance Mini video capabilities and pricing for the review-only EUR 10 lab.
+
+
+`2026-09-03-build-worldroot-sanctuary-v3.mjs` imports the tall neutral trunk and
+shared green/leafless branch pair from untouched ImageGen masters. With explicit
+user permission it removes neutral carrier backgrounds and unmixes silhouette
+fringes at native dimensions. Its manifest records hashes, bounds, true alpha,
+zero detected carrier pixels and zero detected magenta contamination. Offline
+thresholds live in `values/worldrootSanctuaryArt.js`.
+
+`2026-09-03-build-worldroot-sanctuary-details.mjs` preserves the native RGBA
+of three independent ImageGen plant details and extracts pixel-exact Moonwhite,
+Frost Lilac, and Soft Amber frames from the existing game Star atlas. Its V2
+manifest verifies hashes, alpha, and source-pixel equality; it does not paint
+new Stars or bake progression into the tree.
+
+`2026-09-02-build-worldroot-sanctuary.mjs` imports the approved compact bare
+trunk and five living/killed foliage pairs. It removes the magenta carrier,
+extracts integer atlas cells, and records alpha, zero chroma leak, and hashes.
+Stars and the ten original Campfire forms remain independent runtime sprites.
+This V1 importer now refuses to overwrite the active V3 asset directory.
+
+`2026-08-31-build-dynamic-ui-shells-v2.py` alpha-cleans and cap-retargets the
+regenerated New Expedition selection rim, empty Hardcore/Level Up shells, and
+square transparent Hardcore crest. It validates that runtime icons and text
+remain separate Phaser layers and writes exact dimensions and hashes.
+
+`2026-08-31-build-xp-glyph-library-v2.py` validates and slices the approved
+true-alpha 3×3 ImageGen XP source into nine new centered 256 px glyphs, builds
+three optimized carriers from the untouched V1 masters, records hashes and
+alpha coverage, and renders a dark-field twelve-icon review board. It preserves
+the three V1 assets as rollback and changes presentation only.
+
+`2026-08-31-build-ground-observatory-background-pack.py` promotes the new
+reference-guided but independently generated Observatory mountain/forest base
+and converts its generated cloud sheet into twelve true-alpha motion sprites.
+It records provenance, guarantees zero approved-panel pixel reuse, and marks
+mountains, forest, moon, and terrain geometry immutable.
+
+`2026-08-30-worldroot-native-module-builder.mjs` is the shared, parameterized
+native-density carrier/mask/finalization pipeline. The thin Gate B and Gate C
+commands select only their values-owned country list. Independently authored
+seam and monument caps use the same exact-mask path, allowing a country to be
+repaired piecemeal without resizing or regenerating its accepted body.
+
+`2026-08-30-build-worldroot-gate-b-assets.mjs` builds the approved Rootways and
+Cobalt art samples plus their native alignment seat from exact Gate A geometry
+carriers. It preserves native
+`94 px` tile density, performs no resize, removes the generated neutral checker,
+clips to the collision-authored mask, and leaves later modules and gameplay objects out.
+
+`2026-08-30-build-worldroot-gate-c-assets.mjs` builds the Amber Fault and
+Mirrorstone country-body candidates plus the independent Amber Temple cap.
+Their overlong incoming tendons stay
+whitebox for this gate so no generated asset is squeezed or stretched.
+
+`2026-08-30-build-observatory-authored-layers-pack.py` builds the isolated V3
+Observatory runtime from seven independently authored ImageGen sources. It
+keys only the new chroma plates, removes detected stars from the clean sky,
+builds 84 organic cloud sprites and 14 matched island/emissive sprites, retains
+87 per-window light IDs, records zero reference-pixel reuse, and hash-guards the
+Town Square video. `2026_08_30_observatory_module_atlas.py` owns the reusable
+organic and connected-component atlas packing used by that build.
+
+`2026-08-03-roboplaytest.mjs --profile=worldroot` audits the normal-play ground
+Sanctuary using real walking, Star mining, all nine paid Campfire upgrades,
+two generated Ember seams, and Talent/Map/Archive/Crown routes. It checks V3
+tree growth, fixed ground controls, Star identity, headroom, independent death
+and restoration, with a screenshot and structured result for every phase.
+Travel and bulk progression setup are explicitly accelerated in an isolated
+save-disabled browser. `?worldrootArt=v4` and `?worldrootArt=v3` select the
+retained climbing-tree audits instead.
+Adding `?worldrootWhitebox=1` selects the collision-first Gate A route and
+captures the full-scale modular silhouette before any final art is generated.
+
+`2026-08-30-build-observatory-layered-atmosphere-pack.py` converts the exact
+Observatory `sky13` pixels plus reviewed extraction carriers into a clean hidden
+sky, five transparent cloud strata, unlit architecture, 30 separate emissive
+light groups, a light-ID texture, reconstruction proof, and hash manifest. It
+is review-only and does not read or write Town Square video content.
+
 `2026-08-30-build-observatory-depth-motion-pack.py` compiles the existing
 Observatory `sky13` plate into a review-only Depth Anything V2 Small depth map,
 SegFormer ADE20K sky/architecture masks, GPU motion-domain map, mask review, and
@@ -29,6 +154,12 @@ independent full-coverage ImageGen terrain sources for the thirty added Level
 One families. It requires native `1536x1024` dimensions, opaque source edges,
 meaningful RGB variance, unique hashes, and writes complementary incoming-edge
 WebPs, a provenance manifest, one master sheet, and five regional sheets.
+
+`2026-08-31-build-starless-scar-biome-library-v1.py` packages twenty built-in
+ImageGen 2 x 2 corruption kits into eighty demand-streamed ground, dead-center,
+frontier, and four-frame prop-atlas WebPs. It preserves native alpha, applies
+border-connected cleanup only to the two checker sources, writes exact prompt
+and hash provenance, and emits a complete layered contact sheet.
 
 `2026-08-29-build-level-one-biome-families-v3.py` validates and promotes the
 120 independent built-in ImageGen sources added by the fifty-family Level One
@@ -472,3 +603,18 @@ Outdated import fixers from the initial restructuring have been archived to `/ar
 | `2026-08-19-render-basic-rig-animation-comparison.py` | Retarget current walk, attack, and run actions onto a manual-rig review candidate with optional rest-pose-aware world rotation deltas; never wires runtime assets |
 | `2026-08-19-render-current-rig-animation-baseline.py` | Render the production 160-bone baseline with the V4 material treatment and a bounds-following review camera |
 | `2026-08-19-compose-basic-rig-animation-comparison.py` | Package matched current/manual-rig PNG sequences into per-family and combined animated GIF review evidence |
+
+`2026-09-05-build-merchant-sign-cutouts.py` removes only connected outside mattes from the six approved merchant-sign sources, preserves original RGB in alpha masters, and emits compact RGBA runtime assets with transparent-edge and lettering checks.
+
+`2026-09-07-generate-menu-atmosphere.py` makes the resumable, capped OpenRouter scenic batch with a process-local stdin credential. `2026-09-07-build-menu-atmosphere.py` produces six restrained, silent circular loops over unchanged menu art and records seam/hash evidence. `2026-09-07-build-menu-shell.py` rebuilds the pinned Tailwind shell stylesheet.
+
+`2026-09-07-build-menu-atmosphere-v2.py` restores visible atmosphere using masked changes relative to the generated reference frame, preserving the original sharp base. It checks finite frame data, source hashes and boundary continuity and writes `motion-v2-proof.json`.
+
+`2026-09-07-generate-living-menu.py` generated the stronger physical scene motion. `2026-09-07-build-menu-hd.py` renders the current v4 MP4s: local Lanczos 720p-to-1080p scaling, individual timing, linear temporal interpolation and forward overlap. It records source hashes, output hashes, frame cadence and encoded-boundary evidence in `living-hd-proof.json`. The original cave holdout input is retained as `raw-v3-04-natural.mp4`.
+
+2026-09-07-generate-signal-voices.mjs generates the capped, resumable 30-clip human speech batch using a process-only credential. 2026-09-07-import-signal-dog-audio.mjs imports six public CC0 recordings and records source/license hashes.
+
+
+Motion smoothing (2026-09-07): 2026-09-07-build-smooth-menu.py derives slower 60 fps H.264 scenery and additive logo lighting from the existing approved videos. values/menuMotionRefinement.json owns per-scene timing and encoding. It makes no generation requests.
+
+`2026-09-09-optimize-menu-motion.py` creates smaller native-resolution 30 fps scenery and an original-color full alpha logo from approved sources. It verifies source hashes, media cadence, boundaries and transparency; settings and evidence are confined to the dated logo motion review.

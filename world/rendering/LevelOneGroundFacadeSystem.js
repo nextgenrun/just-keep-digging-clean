@@ -28,6 +28,7 @@ export class LevelOneGroundFacadeSystem {
     this.loadInFlight = null;
     this.loadFailure = null;
     this.enabled = false;
+    this.resourceDepletionProvider = null;
   }
 
   get cells() {
@@ -84,6 +85,17 @@ export class LevelOneGroundFacadeSystem {
     if (!this.enabled) return;
     const chunkIndex = this._chunkIndexForTile(tx);
     this.activeChunks.get(chunkIndex)?.refreshCell(tx, ty);
+  }
+
+  setResourceDepletionProvider(provider) {
+    this.resourceDepletionProvider = typeof provider === "function" ? provider : null;
+    this.invalidateResourcePresentation();
+  }
+
+  invalidateResourcePresentation() {
+    for (const view of this.activeChunks.values()) {
+      view.setResourceDepletionProvider(this.resourceDepletionProvider);
+    }
   }
 
   _syncStreaming(force = false) {
@@ -151,7 +163,8 @@ export class LevelOneGroundFacadeSystem {
       this.config,
       chunk,
       chunkIndex,
-      textureKey
+      textureKey,
+      this.resourceDepletionProvider,
     );
     for (const cell of view.create()) this.cellByKey.set(`${cell.tx},${cell.ty}`, cell);
     this.activeChunks.set(chunkIndex, view);
@@ -218,5 +231,6 @@ export class LevelOneGroundFacadeSystem {
     this.activeChunks.clear();
     this.cellByKey.clear();
     this.desiredChunkIndices.clear();
+    this.resourceDepletionProvider = null;
   }
 }

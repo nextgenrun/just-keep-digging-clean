@@ -1,0 +1,186 @@
+{
+  "version": 1,
+  "generationMode": "built-in ImageGen",
+  "palettes": [
+    {
+      "id": "weathered-rootways",
+      "parentRegionId": "surface-entry",
+      "promptName": "Rootways Void",
+      "biomeLabel": "weathered rootways",
+      "materialRequest": "charcoal peat, fossil roots, violet-black loam, dead amethyst sap and exhausted void corruption",
+      "props": ["void root crown", "amethyst stump husk", "dead sap cairn", "root-ring arch"],
+      "colors": "peat black, charcoal brown, muted amethyst, ultraviolet violet, sparse cold grey"
+    },
+    {
+      "id": "fungal-rainwells",
+      "parentRegionId": "surface-entry",
+      "promptName": "Rootways Blight",
+      "biomeLabel": "fungal rainwells",
+      "materialRequest": "black peat, drowned roots, ochre-green fungal rot, teal mineral mold and exhausted blight darkness",
+      "props": ["blight root fan", "dead fungal bell", "mold cairn", "hollow root arch"],
+      "colors": "peat black, sickly ochre, fungal green, corroded teal, dirty bone grey"
+    },
+    {
+      "id": "sunken-orchard",
+      "parentRegionId": "surface-entry",
+      "promptName": "Rootways Eclipse",
+      "biomeLabel": "sunken orchard",
+      "materialRequest": "cold drowned loam, moon-pale roots, cyan sapglass, indigo bark and exhausted eclipse corruption",
+      "props": ["frozen root fan", "moonfruit husk", "cold sap cairn", "pale orchard arch"],
+      "colors": "loam black, pale cyan, indigo bark, moon silver, muted blue"
+    },
+    {
+      "id": "timber-cisterns",
+      "parentRegionId": "surface-entry",
+      "promptName": "Rootways Ember",
+      "biomeLabel": "timber cisterns",
+      "materialRequest": "charred timber, soot-black loam, rust-red root seams, burnt cistern stone and exhausted ember corruption",
+      "props": ["charred root crown", "burnt cistern bell", "ember stump cairn", "timber arch"],
+      "colors": "soot black, dark timber brown, rust red, ember orange traces, ash grey"
+    },
+    {
+      "id": "cobalt-aquifer",
+      "parentRegionId": "level1-blue",
+      "promptName": "Cobalt Blight",
+      "biomeLabel": "cobalt aquifer",
+      "materialRequest": "teal-black brine corrosion, viridian mineral rot, sickly blue-green saltglass and exhausted toxic darkness",
+      "props": ["blight kelp husk", "corroded mineral bell", "salt fungus cluster", "acid-glass arch"],
+      "colors": "teal black, viridian green, drowned cobalt, sickly ochre, corroded pale cyan"
+    },
+    {
+      "id": "sapphire-grotto",
+      "parentRegionId": "level1-blue",
+      "promptName": "Cobalt Void",
+      "biomeLabel": "sapphire grotto",
+      "materialRequest": "drowned black slate, amethyst saltglass, tide-polished blackglass, cold violet mineral silt and exhausted violet corruption",
+      "props": ["prism kelp husk", "broken bell coral", "void salt arch", "drowned star cairn"],
+      "colors": "coal black, drowned cobalt, muted amethyst, ultraviolet violet, tiny cold silver accents"
+    },
+    {
+      "id": "glacial-waterveil",
+      "parentRegionId": "level1-blue",
+      "promptName": "Cobalt Eclipse",
+      "biomeLabel": "glacial waterveil",
+      "materialRequest": "frost-bitten sapphire slate, cyan saltglass, indigo mineral silt, moon-pale erosion and cold exhausted corruption",
+      "props": ["frozen mineral fan", "saltglass needle cluster", "ice bell husk", "moon-pool cairn"],
+      "colors": "near-black cobalt, muted cyan, sapphire blue, deep indigo, tarnished silver-white"
+    },
+    {
+      "id": "drowned-observatory",
+      "parentRegionId": "level1-blue",
+      "promptName": "Cobalt Ember",
+      "biomeLabel": "drowned observatory",
+      "materialRequest": "steam-dead cobalt slate, rust-red mineral seams, quenched blackglass, burnt tidal silt and exhausted ember corruption",
+      "props": ["quenched vent", "rust crystal fan", "broken tideclock", "clinker coral"],
+      "colors": "blue-black slate, dark rust red, bruised cobalt, ember orange traces, soot grey"
+    },
+    {
+      "id": "amber-silt-fault",
+      "parentRegionId": "level1-amber",
+      "promptName": "Amber Blight",
+      "biomeLabel": "amber silt fault",
+      "materialRequest": "bilious green resin rot, ochre dead honeyglass, teal mold, fossil bone and exhausted toxic darkness",
+      "props": ["mold resin hive", "verdigris fossil fan", "thornwax knot", "diseased pollen crown"],
+      "colors": "black-brown silt, bilious green, sulfur ochre, deep teal, dirty bone white"
+    },
+    {
+      "id": "honeyglass-pocket",
+      "parentRegionId": "level1-amber",
+      "promptName": "Amber Ember",
+      "biomeLabel": "honeyglass pocket",
+      "materialRequest": "burnt honeyglass, rust-red carbonized resin, scorched fossil bone, black compact silt and exhausted ember corruption",
+      "props": ["charred resin hive", "ember fossil fan", "burnt wax cairn", "slag-resin arch"],
+      "colors": "black-brown silt, burnt amber, dark rust red, ember orange traces, soot-grey bone"
+    },
+    {
+      "id": "resin-archive",
+      "parentRegionId": "level1-amber",
+      "promptName": "Amber Void",
+      "biomeLabel": "resin archive",
+      "materialRequest": "black amber, amethyst inclusions, dead honeyglass, bone fragments, compact dark silt and exhausted violet corruption",
+      "props": ["void resin hive", "fossil sun husk", "black honeyglass fan", "bone-ring cairn"],
+      "colors": "soot black, dark fossil brown, muted amethyst, deep violet, thin antique amber traces"
+    },
+    {
+      "id": "fossil-sun-vault",
+      "parentRegionId": "level1-amber",
+      "promptName": "Amber Eclipse",
+      "biomeLabel": "fossil sun vault",
+      "materialRequest": "pale cyan resin, moonlit dead honeyglass, cold fossil bone, compact indigo silt and exhausted eclipse corruption",
+      "props": ["frosted resin comb", "lunar fossil husk", "pale wax crown", "cold bone arch"],
+      "colors": "black-brown silt, pale cyan resin, indigo shadows, bone white, faint desaturated amber"
+    },
+    {
+      "id": "mercury-fold",
+      "parentRegionId": "level1-silver",
+      "promptName": "Silver Blight",
+      "biomeLabel": "mercury fold",
+      "materialRequest": "verdigris mirrorstone, green-black tarnish, corroded moonwire, toxic mercury and exhausted blight darkness",
+      "props": ["corroded mirror fan", "verdigris wire knot", "mercury fungus cluster", "pale acid needle arch"],
+      "colors": "green-black mirror, verdigris teal, toxic pale green, tarnished silver, sulfur ochre traces"
+    },
+    {
+      "id": "magnetic-needle-reef",
+      "parentRegionId": "level1-silver",
+      "promptName": "Silver Ember",
+      "biomeLabel": "magnetic needle reef",
+      "materialRequest": "oxidized red mirrorstone, heat-dead moonwire, rust mercury, iron shale and exhausted ember corruption",
+      "props": ["rust wire coil", "red mirror shard fan", "quenched needle crown", "iron-mercury cairn"],
+      "colors": "iron black, oxidized rust red, quenched silver, ember orange traces, soot grey"
+    },
+    {
+      "id": "lunar-mint-galleries",
+      "parentRegionId": "level1-silver",
+      "promptName": "Silver Eclipse",
+      "biomeLabel": "lunar mint galleries",
+      "materialRequest": "cold cyan mirrorstone, indigo moonwire, frozen mercury beads, pale shale and exhausted eclipse corruption",
+      "props": ["moonwire arch", "frozen mirror fan", "pale needle choir", "cold mercury basin"],
+      "colors": "mirror black, pale cyan, cold silver, deep indigo, blue-white frost"
+    },
+    {
+      "id": "mirrorstone-convergence",
+      "parentRegionId": "level1-silver",
+      "promptName": "Silver Void",
+      "biomeLabel": "mirrorstone convergence",
+      "materialRequest": "black mirrorstone, amethyst fractures, ultraviolet moonwire, dark mercury beads, pale shale and exhausted violet corruption",
+      "props": ["broken mirror halo", "void wire knot", "tarnished needle fan", "dark mercury cairn"],
+      "colors": "mirror black, pale shale, muted amethyst, ultraviolet violet, tarnished silver"
+    },
+    {
+      "id": "basalt-emberworks",
+      "parentRegionId": "level1-magma",
+      "promptName": "Magma Ember",
+      "biomeLabel": "basalt emberworks",
+      "materialRequest": "scorched basalt plates, quenched obsidian, deep red magma seams, clinker ash and exhausted ember corruption",
+      "props": ["collapsed lava vent", "obsidian fan", "broken clinker halo", "slag-chain cairn"],
+      "colors": "basalt black, soot grey, deep rust red, ember orange, quenched silver"
+    },
+    {
+      "id": "obsidian-caldera",
+      "parentRegionId": "level1-magma",
+      "promptName": "Magma Void",
+      "biomeLabel": "obsidian caldera",
+      "materialRequest": "black obsidian, amethyst slag, violet ash, collapsed clinker and exhausted void corruption",
+      "props": ["void obsidian crown", "collapsed clinker halo", "purple slag chain", "ashen vent"],
+      "colors": "obsidian black, charcoal ash, muted amethyst, deep ultraviolet, pale clinker grey"
+    },
+    {
+      "id": "lavawheel-necropolis",
+      "parentRegionId": "level1-magma",
+      "promptName": "Magma Blight",
+      "biomeLabel": "lavawheel necropolis",
+      "materialRequest": "sickly green slag, sulfur ochre, corroded basalt, poisoned black obsidian and exhausted blight darkness",
+      "props": ["sulfur vent", "verdigris slag chain", "blight obsidian fan", "poisoned clinker cairn"],
+      "colors": "basalt black, sickly green, sulfur ochre, corroded teal, dirty ash grey"
+    },
+    {
+      "id": "shattered-furnace",
+      "parentRegionId": "level1-magma",
+      "promptName": "Magma Eclipse",
+      "biomeLabel": "shattered furnace",
+      "materialRequest": "cold caldera basalt, cyan-black obsidian, pale blue scoria, dead ash and exhausted eclipse corruption",
+      "props": ["frozen vent", "moon-obsidian fan", "cold chain cairn", "blue clinker crown"],
+      "colors": "basalt black, pale cyan, cold sapphire, deep indigo, frost-grey ash"
+    }
+  ]
+}

@@ -1,3 +1,7 @@
+import { installStartupImageVariants } from "../../systems/visual/StartupImageVariants.js";
+import { addBrandLogo } from "../components/BrandLogoView.js";
+import { RELEASE_PRESENTATION } from "../../values/releasePresentation.js";
+import { MENU_ATMOSPHERE } from "../../values/menuAtmosphere.js";
 import {
   ASSET_KEYS,
   getHeavenblocksSkyAltarPreloadAssets,
@@ -10,6 +14,7 @@ import {
   AUDIO_RUNTIME_LOADING,
   resolveRuntimeAudioStreamingEnabled,
 } from "../../values/audioConfig.js";
+import { REVIEWED_AUDIO_ASSETS } from "../../values/reviewedAudioAssets.js";
 import {
   CAMPFIRE_TIERS,
   getCampfireTierAsset,
@@ -28,9 +33,17 @@ import {
   isGameplayFeatureEnabled,
 } from "../../values/gameplayDevFlags.js";
 import { THUNDER_STRIKE_CHAIN_CONFIG } from "../../values/thunderStrikeChain.js";
+import {
+  STAR_SANCTUARY_CONFIG,
+  isStarSanctuaryEnabled,
+} from "../../values/starSanctuary.js";
 import { WORLD_MAP_CONFIG } from "../../values/worldMapConfig.js";
 import { APPROVED_HUD_SKIN } from "../../values/approvedHudSkin.js";
+import { MERCHANT_SHOP_AUDIO } from "../../values/merchantShopAudio.js";
+import { MERCHANT_SIGN_ART } from "../../values/merchantSignArt.js";
+import { BAKED_UI_ART } from "../../values/bakedUiArt.js";
 import { XP_GATHERING_CONFIG } from "../../values/xpGathering.js";
+import { LOOT_PICKUP_PRESENTATION } from "../../values/lootPickupPresentation.js";
 import { AUTHORED_BACKGROUND_ASSET_OVERRIDES } from "../../values/authoredBackgroundAssetOverrides.js";
 import { BRAND_CONFIG } from "../../values/branding.js";
 import { CINEMATIC_VIDEO_CONFIG } from "../../values/cinematicVideoConfig.js";
@@ -89,11 +102,27 @@ import { TELEPORT_PORTAL_CONFIG } from "../../values/teleportPortalConfig.js";
 import { GRAVEBORER_WURM_CONFIG } from "../../values/graveborerWurm.js";
 import { RANDOM_EVENT_PRELOAD_ASSETS } from "../../values/randomWorldEvents.js";
 import { PILLAR_VISUAL_CONFIG } from "../../values/pillarVisuals.js";
-import { WORLDROOT_CONFIG } from "../../values/worldroot.js";
+import {
+  WORLDROOT_CONFIG,
+  isWorldrootEnabled,
+} from "../../values/worldroot.js?rev=20260830-worldroot-v13";
+import {
+  WORLDROOT_GATE_B_CONFIG,
+  WORLDROOT_GATE_C_CONFIG,
+  getWorldrootModuleGatePreloadAssets,
+} from "../../values/worldrootModuleArt.js?rev=20260830-alignment-v1";
+import {
+  getWorldrootModularV4PreloadAssets,
+} from "../../values/worldrootModularV4.js?rev=20260901-worldroot-v4-clean-matte-v2";
+import { getWorldrootSanctuaryPreloadAssets, isWorldrootSanctuaryEnabled }
+  from "../../values/worldrootSanctuary.js";
 import { getEarthquakeFeedbackPreloadAssets } from "../../values/earthquakeFeedback.js";
 import { getTileDestructionFxPreloadAssets } from "../../values/tileDestructionFx.js";
 import { getMiningTargetFeedbackPreloadAssets } from "../../values/miningTargetFeedback.js";
 import { UI_ICON_ATLAS } from "../../values/uiIcons.js";
+import { RESOURCE_ICON_ART } from "../../values/resourceIconArt.js";
+import { ABILITY_UPGRADE_ICON_ART } from "../../values/abilityUpgradeIconArt.js";
+import { selectMenuMusicSeedIndex } from "../../sound/musicTrackCatalog.js";
 import {
   createMenuLoadingScreen,
   addMenuBackground,
@@ -261,6 +290,7 @@ export class BootScene extends Phaser.Scene {
   }
 
   preload() {
+    installStartupImageVariants(this);
     console.log('[BootScene] ===== MINI PRELOAD STARTED =====');
 
     this.gameplayCapabilities = this.registry?.get?.("gameplayCapabilities");
@@ -270,6 +300,7 @@ export class BootScene extends Phaser.Scene {
 
     const menuBackground = getSelectedMenuBackgroundAsset();
     this.queueImage(ASSET_KEYS.branding.logo, BRAND_CONFIG.logoAssetPath);
+    if (BRAND_CONFIG.backing.alpha > 0) this.queueImage(BRAND_CONFIG.backing.key, BRAND_CONFIG.backing.path);
     this.queueImage(menuBackground.key, menuBackground.path);
     for (const asset of getPauseFeatureLoadingPreloadAssets()) {
       this.queueImage(asset.key, asset.path);
@@ -295,6 +326,7 @@ export class BootScene extends Phaser.Scene {
         "Loading music and boot menu...",
         "Preparing the first screen before the full game load.",
       );
+      if (this.scene.isActive("LaunchScene")) this.scene.stop("LaunchScene");
       const menuAudioReady = await this.startMenuFirstPreload();
       if (menuAudioReady) {
         this.ensureMenuAudioScene();
@@ -370,14 +402,14 @@ export class BootScene extends Phaser.Scene {
     if (!this.loadingUi) {
       this.loadingUi = createMenuLoadingScreen(this, {
         title: BRAND_CONFIG.name,
-        subtitle: "A L P H A",
+        subtitle: RELEASE_PRESENTATION.label,
         label,
         detail,
         preferLogo: true,
         progress,
         backgroundKey: getSelectedMenuBackgroundKey(),
-        backgroundAlpha: 0.24,
-        overlayAlpha: 0.34,
+        // Background strength is shared by all menu and loading screens.
+        // LoadingScreenView owns its stronger foreground contrast.
       });
       return;
     }
@@ -449,6 +481,8 @@ export class BootScene extends Phaser.Scene {
     }
     this._queuedAudioKeys.clear();
     this._queuedVideoKeys.clear();
+    // Failed images must be eligible again; resident textures are skipped by queueImage.
+    this._queuedImagePaths.clear();
 
     const initialLabel = `Loading game assets... (${attempt})`;
     const menuProgress = this._menuFirstLoadComplete ? 0.1 : 0;
@@ -517,7 +551,13 @@ export class BootScene extends Phaser.Scene {
       if (hasLoadFailure) {
         this._isPreloading = false;
         this.loadingUi?.setFailure(failedKeys.length > 1 ? `${failedKeys.length} assets failed to load.` : `Failed to load: ${failedKeys[0] || "an asset"}`);
-        this.loadingUi?.setRetryHandler(() => this.startFullPreload());
+        const retryDelay = RUNTIME_ASSET_LOADING.phaserLoader.bootRetryDelaysMs[attempt - 1];
+        if (retryDelay !== undefined) {
+          this.loadingUi?.setRetryHandler(null);
+          this.time.delayedCall(retryDelay, () => this.startFullPreload());
+        } else {
+          this.loadingUi?.setRetryHandler(() => this.startFullPreload());
+        }
         return;
       }
 
@@ -559,6 +599,7 @@ export class BootScene extends Phaser.Scene {
 
   preloadBranding() {
     this.queueImage(ASSET_KEYS.branding.logo, BRAND_CONFIG.logoAssetPath);
+    if (BRAND_CONFIG.backing.alpha > 0) this.queueImage(BRAND_CONFIG.backing.key, BRAND_CONFIG.backing.path);
   }
 
   preloadBackgrounds() {
@@ -733,9 +774,21 @@ export class BootScene extends Phaser.Scene {
     keys.starStages.forEach((key, index) => {
       this.queueImage(key, `${base}${PILLAR_VISUAL_CONFIG.star.filenames[index]}`);
     });
-    Object.values(WORLDROOT_CONFIG.assets).forEach(asset => {
-      this.queueImage(asset.key, asset.path);
-    });
+    if (isWorldrootEnabled()) {
+      const baseAssets = isWorldrootSanctuaryEnabled()
+        ? getWorldrootSanctuaryPreloadAssets() : Object.values(WORLDROOT_CONFIG.assets);
+      baseAssets.forEach(asset => {
+        this.queueImage(asset.key, asset.path);
+      });
+      getWorldrootModularV4PreloadAssets().forEach(asset => {
+        this.queueImage(asset.key, asset.path);
+      });
+      [WORLDROOT_GATE_B_CONFIG, WORLDROOT_GATE_C_CONFIG].flatMap(config => (
+        getWorldrootModuleGatePreloadAssets(undefined, config)
+      )).forEach(asset => {
+        this.queueImage(asset.key, asset.path);
+      });
+    }
     for (const [role, path] of Object.entries(CELESTIAL_ENGINE_CORE_ASSETS)) {
       this.queueImage(ASSET_KEYS.celestialEngines[role], path);
     }
@@ -792,6 +845,8 @@ export class BootScene extends Phaser.Scene {
         this.load.image(asset.key, asset.path);
       }
     }
+
+    this.load.audio(MERCHANT_SHOP_AUDIO.key, MERCHANT_SHOP_AUDIO.path);
 
     const supportsAnimatedMerchants = this.sys.game.device.video.webm && this.sys.game.device.video.vp9;
     if (supportsAnimatedMerchants) {
@@ -882,12 +937,12 @@ export class BootScene extends Phaser.Scene {
       width: W,
       height: H,
       key: getSelectedMenuBackgroundKey(),
-      alpha: 0.26,
+      alpha: MENU_ATMOSPHERE.alpha,
     });
-    this.add.rectangle(W / 2, H / 2, W, H, 0x000000, 0.32);
+    this.add.rectangle(W / 2, H / 2, W, H, 0x000000, MENU_ATMOSPHERE.loadingOverlayAlpha);
 
     console.log('[BootScene] Attempting to create logo image...');
-    const logo = this.add.image(W / 2, H / 2, ASSET_KEYS.branding.logo);
+    const logo = addBrandLogo(this, W / 2, H / 2);
     console.log('[BootScene] Logo created successfully. Dimensions:', logo.width, 'x', logo.height);
 
     const scale = Math.min(560 / logo.width, 200 / logo.height);
@@ -1053,6 +1108,22 @@ export class BootScene extends Phaser.Scene {
 
     const soil = ASSET_KEYS.tiles.dynamicSoil;
     const soilBase = "sprites/tiles/dynamic-soil/";
+    const shadowBlocks = ASSET_KEYS.shadowMiner.phantomBlocks;
+    this.load.image(
+      shadowBlocks.stone,
+      "sprites/tiles/resource-tiles-imagegen-v3/stone.webp",
+    );
+    this.load.image(
+      shadowBlocks.darkDirtStrong,
+      "sprites/tiles/tiles-under-1000/dirt-tiles/dark-dirt/dark-dirt-strong/5-of-5-hp.webp",
+    );
+    this.load.image(
+      shadowBlocks.obsidian,
+      "sprites/tiles/resource-tiles-imagegen-v3/obsidian.webp",
+    );
+    shadowBlocks.cracks.forEach((key, stage) => {
+      this.load.image(key, `sprites/tiles/dynamic-soil/overlays/crack-stage-${stage + 1}.png`);
+    });
     const depthBands = ["000-200", "200-400", "400-600", "600-800", "800-1000"];
     soil.bases.forEach((bandKeys, band) => {
       bandKeys.forEach((key, variant) => {
@@ -1070,9 +1141,6 @@ export class BootScene extends Phaser.Scene {
     });
     this.load.image(soil.hardness.compact, `${soilBase}overlays/hardness-compact.png`);
     this.load.image(soil.hardness.strong, `${soilBase}overlays/hardness-strong.png`);
-    this.load.image(soil.rarity.rich, `${soilBase}overlays/rarity-rich.png`);
-    this.load.image(soil.rarity.packed, `${soilBase}overlays/rarity-packed.png`);
-    this.load.image(soil.rarity.ancient, `${soilBase}overlays/rarity-ancient.png`);
     this.load.image(soil.material.damp, `${soilBase}overlays/material-damp.png`);
     this.load.image(soil.material.ash, `${soilBase}overlays/material-ash.png`);
     this.load.image(soil.material.rubble, `${soilBase}overlays/material-rubble.png`);
@@ -1171,16 +1239,24 @@ export class BootScene extends Phaser.Scene {
     this.load.image(ASSET_KEYS.tiles.speedBlock, "sprites/tiles/special-tiles-imagegen-v3/speed.webp");
     this.load.image(ASSET_KEYS.tiles.xpBlock, "sprites/tiles/special-tiles-imagegen-v3/level-up.webp");
     this.load.image(ASSET_KEYS.tiles.sellBlock, "sprites/tiles/special-tiles-imagegen-v3/sell.webp");
-    this.load.image(ASSET_KEYS.tiles.critBlock, "sprites/tiles/special-tiles-imagegen-v3/crit.webp");
     this.load.image(ASSET_KEYS.tiles.berserkBlock, "sprites/tiles/special-tiles-imagegen-v3/berserk.webp");
     this.load.image(ASSET_KEYS.tiles.comboBlock, "sprites/tiles/special-tiles-imagegen-v3/combo.webp");
     this.load.image(ASSET_KEYS.tiles.legendBlock, "sprites/tiles/special-tiles-imagegen-v3/legend.webp");
+    // Reuse the approved retired Crit rune as the neutral choose-a-power block.
+    this.load.image(ASSET_KEYS.tiles.abilityBlock, "sprites/tiles/special-tiles-imagegen-v3/crit.webp");
 
   }
 
   preloadFxSprites() {
     this.load.image(ASSET_KEYS.fx.break1, "sprites/tiles/tiles-under-1000/dirt-tiles/breaking-animation/breaking-1.webp");
     this.load.image(ASSET_KEYS.fx.break2, "sprites/tiles/tiles-under-1000/dirt-tiles/breaking-animation/breaking-2.webp");
+    if (isStarSanctuaryEnabled()) {
+      for (const scarAsset of Object.values(
+        STAR_SANCTUARY_CONFIG.scar.visual.assets,
+      )) {
+        this.queueImage(scarAsset.key, scarAsset.path);
+      }
+    }
     queueCapabilityFireAssets(this);
     for (const asset of getOldSchoolLampLightPreloadAssets()) {
       if (!this.textures.exists(asset.key)) {
@@ -1261,14 +1337,28 @@ export class BootScene extends Phaser.Scene {
         },
       );
     }
-    this.load.image(ASSET_KEYS.ui.resources.dirt, "sprites/UI/dirt/dirt-icon.webp");
-    this.load.image(ASSET_KEYS.ui.resources.stone, "sprites/UI/stone/stone-icon.webp");
-    this.load.image(ASSET_KEYS.ui.resources.copper, "sprites/UI/copper/copper-icon.webp");
+    Object.values(ABILITY_UPGRADE_ICON_ART).forEach(asset => {
+      this.load.image(asset.key, asset.path);
+    });
+    Object.values(RESOURCE_ICON_ART).forEach(asset => {
+      this.load.image(asset.key, asset.path);
+      this.load.image(asset.legacyKey, asset.path);
+    });
     this.load.image(ASSET_KEYS.ui.lootBag, "sprites/UI/loot-pickups/inventory-bag.png");
     Object.entries(ASSET_KEYS.ui.approvedHud).forEach(([name, key]) => {
       const path = APPROVED_HUD_SKIN.paths[name];
       if (path) this.queueImage(key, path);
     });
+    if (BAKED_UI_ART.enabled) {
+      Object.values(BAKED_UI_ART.assets).forEach(asset => {
+        this.queueResidentUiImage(asset.key, asset.path, "baked-ui-copy");
+      });
+    }
+    if (MERCHANT_SIGN_ART.enabled) {
+      Object.values(MERCHANT_SIGN_ART.merchants).forEach(asset => {
+        this.queueResidentUiImage(asset.key, asset.path, "merchant-prompts");
+      });
+    }
     Object.values(ASSET_KEYS.ui.notificationControls).forEach(asset => {
       this.queueImage(asset.key, asset.path);
     });
@@ -1316,6 +1406,10 @@ export class BootScene extends Phaser.Scene {
     for (const asset of getTileDestructionFxPreloadAssets()) {
       this.queueImage(asset.key, asset.path);
     }
+    this.load.image(
+      LOOT_PICKUP_PRESENTATION.assets.soilMinis.key,
+      LOOT_PICKUP_PRESENTATION.assets.soilMinis.path,
+    );
     this.load.image(ASSET_KEYS.ui.lootPickups.dirt, "sprites/UI/loot-pickups/dirt.png");
     this.load.image(ASSET_KEYS.ui.lootPickups.stone, "sprites/UI/loot-pickups/stone.png");
     this.load.image(ASSET_KEYS.ui.lootPickups.copper, "sprites/UI/loot-pickups/copper.png");
@@ -1326,9 +1420,9 @@ export class BootScene extends Phaser.Scene {
     this.load.image(ASSET_KEYS.ui.lootPickups.bronze, "sprites/UI/loot-pickups/bronze.png");
     this.load.image(ASSET_KEYS.ui.lootPickups.silver, "sprites/UI/loot-pickups/silver.png");
     this.load.image(ASSET_KEYS.ui.lootPickups.gold, "sprites/UI/loot-pickups/gold.png");
-    this.load.image(ASSET_KEYS.ui.xpGathering.routine, XP_GATHERING_CONFIG.assetPaths.routine);
-    this.load.image(ASSET_KEYS.ui.xpGathering.special, XP_GATHERING_CONFIG.assetPaths.special);
-    this.load.image(ASSET_KEYS.ui.xpGathering.levelUp, XP_GATHERING_CONFIG.assetPaths.levelUp);
+    for (const [id, path] of Object.entries(XP_GATHERING_CONFIG.assetPaths)) {
+      this.load.image(ASSET_KEYS.ui.xpGathering[id], path);
+    }
     queueCapabilityUiAssets(this, ASSET_KEYS, this.gameplayCapabilities);
   }
 
@@ -1539,11 +1633,10 @@ export class BootScene extends Phaser.Scene {
     ASSET_KEYS.audio.runtime.streamingEnabled = runtimeAudioStreaming;
     ASSET_KEYS.audio.runtime.bootQueuedKeys = [];
     const playlistFiles = await this.getPlaylistFiles();
-    const seedIndex = playlistFiles.length > 0
-      ? (runtimeAudioStreaming ? Math.floor(Math.random() * playlistFiles.length) : 0)
-      : -1;
+    const seedIndex = selectMenuMusicSeedIndex(playlistFiles);
 
     this._bootMusicSeedIndex = seedIndex;
+    ASSET_KEYS.audio.music.files = [...playlistFiles];
     const playlistKeys = playlistFiles.map((file, index) => {
       const key = `music-track-${index + 1}`;
       this.queueAudio(key, `sound/playlists/${file}`, {
@@ -1572,7 +1665,7 @@ export class BootScene extends Phaser.Scene {
         : -1;
       const seedIndex = retainedSeedIndex >= 0
         ? retainedSeedIndex
-        : (runtimeAudioStreaming ? Math.floor(Math.random() * playlistFiles.length) : 0);
+        : selectMenuMusicSeedIndex(playlistFiles);
       this._bootMusicSeedIndex = seedIndex;
       const count = runtimeAudioStreaming
         ? Math.min(AUDIO_RUNTIME_LOADING.bootMusicTracks, playlistFiles.length)
@@ -1581,6 +1674,7 @@ export class BootScene extends Phaser.Scene {
         bootMusicIndexes.add((seedIndex + offset) % playlistFiles.length);
       }
     }
+    ASSET_KEYS.audio.music.files = [...playlistFiles];
     const playlistKeys = playlistFiles.map((file, i) => {
       const key = `music-track-${i + 1}`;
       this.queueAudio(key, `sound/playlists/${file}`, {
@@ -1636,6 +1730,10 @@ export class BootScene extends Phaser.Scene {
 
     Object.values(APPROVED_SFX_FAMILIES)
       .flat()
+      .forEach(asset => this.queueAudio(asset.key, asset.path));
+    // Short approved contacts/UI must be ready at the event. Long beds stream.
+    Object.values(REVIEWED_AUDIO_ASSETS)
+      .filter(asset => asset.preload)
       .forEach(asset => this.queueAudio(asset.key, asset.path));
 
     Object.values(ASSET_KEYS.audio.weatherAmbience)

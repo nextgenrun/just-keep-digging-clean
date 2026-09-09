@@ -22,7 +22,7 @@ try {
   await page.waitForFunction(() => document.body.dataset.celestialTalentTreeReady === "true");
   const locked = await page.evaluate(() => globalThis.__celestialTalentTreeReview.snapshot());
   assert.equal(locked.health.ready, true);
-  assert.equal(locked.health.nodeCount, 33);
+  assert.equal(locked.health.nodeCount, 36);
   assert.equal(locked.visibleLockCount, 3, "pre-level tree should show one root lock per branch");
   await page.screenshot({
     path: new URL("celestial-talent-level1-locks.png", artifactDir).pathname.slice(1),

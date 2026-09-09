@@ -129,16 +129,23 @@ async function auditHardcoreRules(driver) {
       });
     }
     const teleportCost = system.getTeleportCost(4_500, "undergroundToSky");
-    system.recordTeleport(teleportCost);
+    const teleportRecorded = system.recordTeleport(teleportCost);
     system.recordUnstuck(30_000);
     const final = system.getSnapshot();
     const roundTrip = new HardcoreModeSystem(system.getSaveData()).getSnapshot();
+    const paidTeleportExpected = HARDCORE_MODE_CONFIG.teleport.free !== true;
+    const teleportRuleValid = paidTeleportExpected
+      ? teleportCost > 0 && teleportRecorded === true && final.paidTeleports === 1
+      : teleportCost === 0 && teleportRecorded === false && final.paidTeleports === 0;
     if (!armed.isHardcore || !armed.armed || stress.stress <= 0
-      || teleportCost <= 0 || final.paidTeleports !== 1
+      || !teleportRuleValid
       || final.unstuckUses !== 1 || roundTrip.stress !== final.stress) {
       throw new Error("Hardcore stress, cost, action, or save rules failed.");
     }
-    return { armed, stressed: stress, teleportCost, final, events: system.drainEvents(), roundTrip };
+    return {
+      armed, stressed: stress, teleportCost, teleportRecorded, paidTeleportExpected,
+      final, events: system.drainEvents(), roundTrip,
+    };
   });
 }
 
@@ -148,7 +155,7 @@ async function auditProgressionSurfaces(driver) {
     const { TILE_TYPES } = await import("/values/tileTypes.js");
     const specials = [
       "TELEPORT_TILE", "GAMBLE_TILE", "GEM_POWER_BLOCK", "SPEED_BLOCK",
-      "XP_BLOCK", "CRIT_BLOCK", "BERSERK_BLOCK", "COMBO_BLOCK",
+      "XP_BLOCK", "BERSERK_BLOCK", "COMBO_BLOCK",
       "LEGEND_BLOCK", "ANCIENT_RELIC_CACHE", "SKY_TILE",
     ];
     const counts = Object.fromEntries(specials.map(name => [name, 0]));

@@ -1,0 +1,34 @@
+<!doctype html>
+
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Character polish · Grounded movement</title>
+
+<style>
+
+*{box-sizing:border-box}body{margin:0;background:#0d1418;color:#e8e6df;font:16px/1.55 system-ui,sans-serif}main{max-width:1440px;margin:auto;padding:36px 28px}header{max-width:880px;margin-bottom:24px}.eyebrow{color:#bdac7b;letter-spacing:.14em;text-transform:uppercase;font-size:12px}h1{font-size:36px;font-weight:550;line-height:1.15;margin:12px 0}p{color:#aab5b8;margin:12px 0}.tools{display:flex;gap:10px;flex-wrap:wrap;margin:22px 0}button,a{font:inherit;border:1px solid #35454b;background:#1a292f;color:#ece9e0;border-radius:8px;padding:9px 16px;text-decoration:none;cursor:pointer}.active{background:#cebc8b;color:#152026;border-color:#cebc8b}.grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}.panel{background:#121f25;border:1px solid #2d3c43;border-radius:12px;overflow:hidden}.label{padding:16px 20px;display:flex;align-items:center;justify-content:space-between}.label strong{font-weight:550}.label span{font-size:12px;color:#aab5b8}.frame{aspect-ratio:16/9;overflow:hidden;background:#080e11;position:relative}video{display:block;width:100%;height:auto;transform-origin:top left}.close .frame{aspect-ratio:16/6}.close video{width:300%;max-width:none;transform:translate(-33.333333%,-60%)}.caption{font-size:14px;min-height:82px;margin:0;padding:15px 20px}.notes{display:flex;gap:32px;flex-wrap:wrap;margin-top:25px}.notes p{font-size:14px;max-width:390px}.notes b{color:#e2dfd4;font-weight:550}small{color:#86999f}.playlinks{margin-top:24px;display:flex;gap:12px;flex-wrap:wrap}@media(max-width:850px){.grid{grid-template-columns:1fr}main{padding:22px 16px}h1{font-size:29px}}
+
+</style><main><header><div class="eyebrow">UNDERSTAR · Character polish</div><h1>Clearer detail. Feet that carry his weight.</h1><p>The accepted character appearance, with a native running gait, cleaner texture sampling, and soft contact with the ground. No outlines or cloth motion.</p></header>
+
+<div class="tools"><button id="play" class="active">Play both</button><button id="restart">Restart</button><button id="close" class="active">Close-up</button><button id="world">Full scene</button></div>
+
+<div class="grid close" id="views"><section class="panel"><div class="label"><strong>Before</strong><span>Previous character setup</span></div><div class="frame"><video muted playsinline preload="auto" poster="../../testing/character-grounding-2026-09-07/comparison-before/main-walking-run.png" src="../../testing/character-grounding-2026-09-07/comparison-before/main-walking.webm"></video></div><p class="caption">The run uses a walking clip; foot travel falls behind the movement across the ground.</p></section>
+
+<section class="panel"><div class="label"><strong>After</strong><span>Wired in the game</span></div><div class="frame"><video muted playsinline preload="auto" poster="../../testing/character-grounding-2026-09-07/comparison-after/main-walking-run.png" src="../../testing/character-grounding-2026-09-07/comparison-after/main-walking.webm"></video></div><p class="caption">A running stride matched to travel, stable shoe contact, a grounded stop, and clearer material detail.</p></section></div>
+
+<div class="notes"><p><b>Real gameplay recordings.</b><br>Same controls, daylight, weather, resolution and recording quality. Walk, run, stop and reverse in both directions.</p><p><b>Retained character identity.</b><br>The jacket palette, backpack, rig and accepted materials are preserved. The close-up magnifies the same recordings.</p></div>
+
+<div class="playlinks"><a href="../../?character=survivalUal&cinematics=0" target="_blank">Play the polished character</a><a href="../../?character=survivalUal&cinematics=0&characterGrounding=0" target="_blank">Open the previous setup</a></div>
+
+</main><script>
+
+const videos=[...document.querySelectorAll('video')],play=document.querySelector('#play');
+const updatePlay=()=>{play.textContent=videos.some(v=>!v.paused)?'Pause both':'Play both'};
+const startBoth=async()=>{await Promise.all(videos.map(v=>v.play()));updatePlay()};
+play.onclick=async()=>{
+  if(videos.some(v=>!v.paused)){videos.forEach(v=>v.pause());updatePlay()}
+  else{if(videos.some(v=>v.ended))videos.forEach(v=>v.currentTime=0);await startBoth()}
+};
+videos.forEach(v=>v.addEventListener('ended',updatePlay));
+document.querySelector('#restart').onclick=async()=>{videos.forEach(v=>v.currentTime=0);await startBoth()};
+for(const id of ['close','world'])document.querySelector('#'+id).onclick=()=>{document.querySelector('#views').classList.toggle('close',id==='close');document.querySelector('#close').classList.toggle('active',id==='close');document.querySelector('#world').classList.toggle('active',id==='world')};
+
+</script></html>

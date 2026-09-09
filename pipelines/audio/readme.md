@@ -1,7 +1,31 @@
 # Audio Pipelines
 
-Offline tools for generating, inspecting, and preparing review-only audio assets.
-Nothing in this directory may wire audio into the Phaser runtime.
+Offline tools for generating, inspecting, and preparing audio assets.
+Discovery/generation stays review-only. Explicitly approved exports may produce
+measured local assets and immutable data; runtime hooks are implemented and
+audited separately, never inferred from a discovery or generation result.
+
+## Approved Freesound export (2) — 2026-09-03
+
+`prepareFreesoundApprovals.py` freezes the exact 562 approvals, downloads only
+their public catalogued HQ previews, and delegates PCM preparation to
+`freesoundApprovedPreparation.py`. It records hashes, edit points, normalized
+levels, decoded duration/onset/peak/RMS, loop seams and complete source credits.
+These are preview-derived OGG assets, not claimed lossless originals.
+
+Use `--execute --decisions <exact-export>` to prepare/resume, or add
+`--project-only` to rebuild gain/role metadata from verified local derivatives
+without FFmpeg or network access. Configuration lives in
+`values/freesoundAudioPreparation.json`; generated runtime projections are in
+`values/generated/approved-freesound/`. Preparation refuses a changed export
+hash or incomplete approval set.
+
+Run `testing/2026-09-03-freesound-audio-timing-contract.mjs` separately from
+`testing/2026-09-03-freesound-audio-volume-contract.mjs`. Then run
+`auditFreesoundOrchestra.py --ffmpeg <trusted-executable>` for a fresh 4x decode
+of all 562 derivatives and six conservative source-overlap renders. This audit
+excludes music/speech/procedural waveforms and does not claim perceptual or
+calibrated speaker acceptance. No keys or API account access are needed.
 
 ## Stable Audio library pipeline
 
@@ -197,3 +221,48 @@ EQ, synthesis, or AI processing.
 The output includes four separate WAV mixes, one continuous sequence, every
 derived slice, exact timing/provenance in `manifest.json`, and a local review
 page. It remains review-only and is not imported by the game.
+
+## Approved export and Freesound discovery - 2026-09-03
+
+`2026-09-03-approved-review-input.json` freezes the user's 47 approved scenarios.
+`prepareApprovedReviewAudio.py` prepares only those sources and records hashes,
+decoded levels and edits in the production asset manifest. Its `--inspect-only`
+mode measures without replacing production assets, but refreshes the measurement
+report. Do not run it on unreviewed discoveries.
+
+Run the timing and volume contracts independently:
+
+```powershell
+node testing/2026-09-03-reviewed-audio-timing-contract.mjs
+node testing/2026-09-03-reviewed-audio-volume-contract.mjs
+python -B pipelines/audio/auditReviewedAudioMix.py
+python -B testing/2026-09-03-freesound-review-import-contract.py
+```
+
+The render audit needs `FFMPEG_BINARY` pointing to a trusted local executable.
+It reads the exact mix settings exported by the volume contract and reports
+approved-only sample peaks, 4x-resampled true peaks and clipping separately.
+
+`crawlFreesoundReview.py` is a paced, resumable API importer, not a page scraper.
+The default dry run makes zero network requests. A live run requires either
+`FREESOUND_API_KEY` in the process environment or a private inherited pipe with
+`--key-stdin`, plus `--execute --api-use-authorized`; the last flag confirms the
+credential permits the intended use. Never put a key in a command argument,
+the repository, frontend code, or chat. Interactive/echoing key input is refused.
+The 107-query / 22-family plan targets 4,250 distinct candidates with CC0/CC BY
+metadata, format screening and ID/hash deduplication. Human listening and
+source/license verification are still required before runtime promotion.
+
+The inbox at `testing/audio-review-2026-09-03/freesound.html` streams one selected
+preview and keeps approval decisions separate from gameplay. The completed pull
+contains 4,250 distinct IDs/hashes from 1,271 creators across all 22 families:
+2,521 CC0 and 1,729 CC BY declarations, collected in 48 cached search pages.
+Nine older leads now match imports; the remaining 15 are labelled link-only.
+No original masters or extra gameplay assets were downloaded/promoted.
+
+The importer resumes from cached pages, skips exhausted searches, and tolerates
+brief Windows reader locks during atomic catalog saves. Authentication/rate
+errors still stop the run without retries. An already full catalog returns
+complete without a key or a network request. The registered API credential was
+used through a one-time encrypted, memory-only handoff and was not persisted.
+See the catalog/browser audit JSON files in `testing/audio-review-2026-09-03/`.

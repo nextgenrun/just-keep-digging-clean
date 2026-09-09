@@ -1,0 +1,40 @@
+--- testing\character-contact-restoration-2026-09-07\pre-change\systems__visual__GroundFootstepFxSystem.js
+
++++ systems\visual\GroundFootstepFxSystem.js
+
+@@ -27,6 +27,16 @@
+
+     this.pendingFrames = [];
+     this.lastContact = null;
++    this.wasGrounded = controller?.isGrounded?.() === true;
+     this._flushContacts = () => {
+-      for (const frame of this.pendingFrames.splice(0)) this._emitContact(frame);
++      const grounded = this.controller?.isGrounded?.() === true;
++      const landed = grounded && !this.wasGrounded;
++      this.wasGrounded = grounded;
++      const frames = this.pendingFrames.splice(0);
++      for (const frame of frames) this._emitContact(frame);
++      // Carried landing momentum leaves one material scuff at the resolved floor.
++      if (landed && !frames.length) this._emitContact({
++        textureKey: this.player?.texture?.key, textureFrame: this.player?.frame?.name,
++        animationKey: this.player?.anims?.currentAnim?.key, landing: true,
++      });
+     };
+     this.fxEnabled = resolvePlayerGroundFootstepFxEnabled(
+@@ -123,5 +133,6 @@
+
+     this.contactSequence += 1;
+     this.lastContact = { ...anchor, family, tileType, frame: frame.textureFrame,
+-      animationKey: frame.animationKey, sequence: this.contactSequence, liveParticles: this.activeObjects.size };
++      animationKey: frame.animationKey, landing: frame.landing === true,
++      sequence: this.contactSequence, liveParticles: this.activeObjects.size };
+     this.scene.events?.emit?.(POLISH.foot.presentedEvent, this.lastContact);
+     return true;
+@@ -154,5 +165,5 @@
+
+     const count = this.reducedMotion
+       ? cfg.reducedMotionCount
+-      : Math.max(1, Math.round(cfg.count * intensity));
++      : Math.max(1, Math.round((this.polished ? POLISH.foot.count : cfg.count) * intensity));
+     const direction = Math.sign(this.controller?.physicsBody?.vx || 0)
+       || (this.player?.flipX ? -1 : 1);

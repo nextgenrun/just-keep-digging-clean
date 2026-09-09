@@ -1,0 +1,55 @@
+const fs=require('fs'),path=require('path');
+const {chromium}=require('C:/Users/Mila/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
+const out=__dirname;let b,p;
+(async()=>{
+ b=await chromium.launch({executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe',headless:true,args:['--enable-unsafe-swiftshader']});
+ p=await b.newPage({viewport:{width:1280,height:720}});
+ const errors=[],responses=[];p.on('pageerror',e=>{errors.push(e.message);console.log('PAGE_ERROR',e.message)});
+ p.on('response',r=>{if(r.url().includes('understar-logo-loop-alpha'))responses.push({status:r.status(),url:r.url()})});
+ await p.goto('http://localhost:8765/index.html?jkd_e2e=1&logoQa=glass-tempo-v1',{waitUntil:'commit',timeout:60000});
+ console.log('NAVIGATED');
+ await p.locator('canvas').waitFor({state:'visible',timeout:120000});
+ for(let i=0;i<60;i++){const scenes=await p.evaluate(()=>window.__phaserGame?.scene?.getScenes(true).map(s=>s.sys.settings.key)||[]);
+  if(i%5===0)console.log('BOOT',i,scenes);
+  if(scenes.includes('MainMenuScene'))break;await p.mouse.click(640,150);
+  if(scenes.includes('OpeningCinematicScene'))await p.keyboard.press('Escape');
+  await p.waitForTimeout(1800);
+ }
+ const waitPlaying=key=>p.waitForFunction(k=>window.__phaserGame?.scene?.getScene(k)?.children.getByName('brand-logo-view')?.getData('state')==='playing',key,{timeout:30000});
+ const inspect=key=>p.evaluate(k=>{const s=window.__phaserGame.scene.getScene(k),r=s.children.getByName('brand-logo-view'),v=r?.getData('video'),m=v?.video;return{scene:k,state:r?.getData('state'),bounds:r?[r.x,r.y,r.displayWidth,r.displayHeight]:null,time:m?.currentTime,duration:m?.duration,rate:m?.playbackRate,glass:r?.getByName('brand-logo-glass')?{alpha:r.getByName('brand-logo-glass').alpha,width:r.getByName('brand-logo-glass').displayWidth,height:r.getByName('brand-logo-glass').displayHeight,first:r.list[0].name==='brand-logo-glass'}:null,paused:m?.paused,muted:m?.muted,loop:m?.loop,videoSize:m?[m.videoWidth,m.videoHeight]:null,posterVisible:r?.getByName('brand-logo-poster')?.visible}},key);
+ await waitPlaying('MainMenuScene');
+ await p.evaluate(async()=>{const bg=await import('/ui/components/MenuBackgroundView.js');const art=bg.MENU_BACKGROUND_ASSETS.find(a=>a.id==='quiet-foundry');if(window.__phaserGame.textures.exists(art.key)){bg.setSelectedMenuBackgroundKey(art.key);window.__phaserGame.scene.getScene('MainMenuScene').scene.restart()}});
+ await waitPlaying('MainMenuScene');await p.waitForTimeout(2000);
+ const first=await inspect('MainMenuScene');console.log('MAIN_READY',JSON.stringify(first));await p.waitForTimeout(700);const moved=await inspect('MainMenuScene');
+ if(!(moved.time>first.time)||moved.posterVisible||!moved.muted)throw Error('Animation not advancing '+JSON.stringify(moved));
+ await p.screenshot({path:path.join(out,'glass-main-menu.png')});
+ await p.evaluate(()=>{const r=window.__phaserGame.scene.getScene('MainMenuScene').children.getByName('brand-logo-view');r.getData('video').video.currentTime=14.8});
+ await p.waitForTimeout(900);const looped=await inspect('MainMenuScene');
+ if(looped.time>2||JSON.stringify(first.bounds)!==JSON.stringify(looped.bounds))throw Error('Loop or fixed bounds failed');
+ await p.emulateMedia({reducedMotion:'reduce'});await p.waitForTimeout(350);const reduced=await inspect('MainMenuScene');if(!reduced.glass?.first)throw Error('Static logo lost glass');
+ if(reduced.state!=='poster'||!reduced.paused||!reduced.posterVisible)throw Error('Reduced motion fallback failed');
+ await p.emulateMedia({reducedMotion:'no-preference'});await waitPlaying('MainMenuScene');
+ await p.evaluate(()=>window.__phaserGame.scene.pause('MainMenuScene'));await p.waitForTimeout(250);
+ const paused=await inspect('MainMenuScene');if(!paused.paused)throw Error('Scene pause failed');
+ await p.evaluate(()=>window.__phaserGame.scene.resume('MainMenuScene'));await p.waitForTimeout(350);
+ await p.evaluate(()=>{const r=window.__phaserGame.scene.getScene('MainMenuScene').children.getByName('brand-logo-view');window.__retiredLogoMedia=r.getData('video').video;window.__retiredLogoTexture=r.getData('video').videoTexture.key});
+ await p.keyboard.press('Enter');await waitPlaying('StartMenuScene');
+ const saves=await inspect('StartMenuScene');if(saves.rate!==0.67||!saves.glass?.first||saves.glass.alpha!==0.76)throw Error('Glass/rate config missing');await p.screenshot({path:path.join(out,'glass-save-menu.png')});
+ const teardown=await p.evaluate(()=>({paused:window.__retiredLogoMedia.paused,textureRemoved:!window.__phaserGame.textures.exists(window.__retiredLogoTexture)}));
+ if(!teardown.paused||!teardown.textureRemoved)throw Error('Logo teardown failed '+JSON.stringify(teardown));
+ await p.keyboard.press('Escape');await waitPlaying('MainMenuScene');
+ await p.route('**/understar-logo-loop-alpha-v2.webm',route=>route.abort());await p.keyboard.press('Enter');
+ await p.waitForFunction(()=>window.__phaserGame.scene.isActive('StartMenuScene'),null,{timeout:15000});await p.waitForTimeout(1500);
+ const fallback=await inspect('StartMenuScene');if(fallback.state!=='poster'||!fallback.posterVisible)throw Error('Media failure fallback missing');
+ await p.unroute('**/understar-logo-loop-alpha-v2.webm');
+ await p.keyboard.press('Escape');await waitPlaying('MainMenuScene');
+ const explicitDestroy=await p.evaluate(()=>{const g=window.__phaserGame,r=g.scene.getScene('MainMenuScene').children.getByName('brand-logo-view'),v=r.getData('video'),key=v.videoTexture.key,media=v.video;r.destroy();return {paused:media.paused,textureRemoved:!g.textures.exists(key)}});
+ if(!explicitDestroy.paused||!explicitDestroy.textureRemoved)throw Error('Explicit view teardown failed');
+ const report={first,moved,looped,reduced,paused,saves,teardown,explicitDestroy,fallback,responses,errors};
+ fs.writeFileSync(path.join(out,'glass-tempo-verification.json'),JSON.stringify(report,null,2));
+ console.log('GLASS_TEMPO_RUNTIME_OK',JSON.stringify(report));
+ if(errors.length)throw Error('Page errors');
+ await b.close();
+})().catch(async e=>{console.error(e);try{await p?.screenshot({path:path.join(out,'glass-runtime-failure.png')})}catch{};await b?.close();console.error(e);process.exitCode=1});
+
+

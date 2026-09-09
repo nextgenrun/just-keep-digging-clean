@@ -1,3 +1,5 @@
+import { ABILITY_UPGRADE_ICON_ART } from "./abilityUpgradeIconArt.js";
+
 export const UI_ICON_ATLAS = Object.freeze({
   key: "ui-icon-atlas-v1",
   path: "sprites/UI/icons/shop-ui-icon-atlas-v1.png",
@@ -14,7 +16,7 @@ export const UI_ICON_FRAMES = Object.freeze({
   shop: 12, inventory: 13, sell: 14, moneyMonster: 15, upgrade: 16, lock: 17,
   dirt: 18, darkDirt: 18, stone: 19, copper: 20, steel: 21, iron: 21,
   bronze: 20, silver: 22, gold: 23, pickaxe: 24, gem: 25, speed: 26,
-  strength: 27, critical: 28, torch: 29, health: 30, power: 31, luck: 32,
+  strength: 27, torch: 29, health: 30, power: 31,
   bobo: 33, warning: 34, info: 35, controls: 6, unstuck: 2, trash: 0,
   export: 2, import: 1, backup: 5, check: 16,
 });
@@ -49,14 +51,14 @@ export const UI_MERCHANT_ICONS = Object.freeze({
 
 export const UI_UPGRADE_ICONS = Object.freeze({
   gemPowerUnlock: "gem", gemPowerTank: "gem", gemPowerEfficiency: "power",
-  gemPowerRegeneration: "power", gemFlySpeed: "speed", agility: "speed",
-  strength: "strength", quickReflexes: "speed", critChance: "critical",
-  heavyPunch: "strength", luckyCollector: "luck", bronzePickaxe: "pickaxe",
+  gemPowerRegeneration: "power", gemFlySpeed: ABILITY_UPGRADE_ICON_ART.gemFlySpeed.key, agility: "speed",
+  strength: "strength", quickReflexes: "speed", heavyPunch: "strength",
+  bronzePickaxe: "pickaxe",
   ironPickaxe: "pickaxe", steelPickaxe: "pickaxe", mithrilPickaxe: "pickaxe",
   adamantPickaxe: "pickaxe", runePickaxe: "pickaxe", dragonPickaxe: "pickaxe",
   sellAllButton: "sell", startResourcePrices: "sell", nextResourcePrices: "sell",
-  marketInsight: "stats", luckySales: "luck", quickslashAbility: "speed",
-  thunderStrikeAbility: "power", torchDrainEfficiency: "torch", torchRange: "torch",
+  marketInsight: "stats", quickslashAbility: ABILITY_UPGRADE_ICON_ART.quickslashAbility.key,
+  thunderStrikeAbility: ABILITY_UPGRADE_ICON_ART.thunderStrikeAbility.key, torchDrainEfficiency: "torch", torchRange: "torch",
   boboCaveEyes: "bobo", worldTwoTunnelAccess: "lock", mia: "bobo",
   arcCoreVehicle: "power", boboWisdom: "info", upOrDown: "gem",
 });
@@ -79,11 +81,12 @@ export const UI_RESOURCE_PRESENTATION = Object.freeze({
 });
 
 export const UI_INVENTORY_COPY = Object.freeze({
-  title: "FIELD INVENTORY",
-  subtitle: "Every resource icon is named • quantities unlock when mined",
-  iconKeyTitle: "RESOURCE ICON KEY",
-  discoveredStatus: "MINED MATERIAL",
-  undiscoveredStatus: "NOT YET MINED",
+  title: "INVENTORY",
+  subtitle: "See what you carry and what you have discovered",
+  iconKeyTitle: "YOUR MATERIALS",
+  discoveredStatus: "FOUND",
+  undiscoveredStatus: "NOT FOUND YET",
+  discoveredCountSuffix: "FOUND",
   totalUnitsSuffix: "TOTAL UNITS",
   walletSuffix: "M",
   lockedAmount: "—",

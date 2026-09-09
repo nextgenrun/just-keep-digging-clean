@@ -125,6 +125,14 @@ assert.deepEqual(
 const centeredMarker = renderer.worldToScreen(28, 66, layout, centeredView);
 assert.equal(centeredMarker.x, layout.x + layout.width / 2);
 assert.equal(centeredMarker.y, layout.y + layout.height / 2);
+const closeZoomMetrics = renderer.getMetrics(layout, {
+  ...centeredView,
+  zoom: WORLD_MAP_CONFIG.view.maxZoom,
+});
+assert.ok(
+  closeZoomMetrics.pixelsPerTile >= 30,
+  "maximum zoom must provide close, near-native world-tile inspection",
+);
 
 const zoomView = { zoom: 8, centerTileX: 140, centerTileY: 2000 };
 const wheelAnchor = { x: 710, y: 240 };
@@ -275,11 +283,39 @@ assert.equal(buttonCalls, 1, "disabled zoom-limit controls must ignore clicks");
 assert.equal(button.zone.input.cursor, WORLD_MAP_CONFIG.input.disabledCursor);
 button.destroy();
 
+const caption = {
+  scaleX: 0.2, scaleY: 0.3, alpha: 1,
+  setTint(value) { this.tint = value; return this; },
+  setAlpha(value) { this.alpha = value; return this; },
+  setScale(x, y) { this.scaleX = x; this.scaleY = y; return this; },
+  destroy() { this.destroyed = true; },
+};
+const hiddenLabel = { bakedCaption: caption, destroy() { this.destroyed = true; } };
+const bakedButton = new WorldMapTextButton(buttonScene, root, hiddenLabel, {
+  x: 90, y: 40, width: 80, height: 48, activate: () => true,
+});
+bakedButton.zone.emit("pointerover");
+assert.equal(caption.scaleX, 0.2 * WORLD_MAP_CONFIG.input.hoverScale);
+assert.equal(caption.scaleY, 0.3 * WORLD_MAP_CONFIG.input.hoverScale);
+bakedButton.zone.emit("pointerout");
+assert.equal(caption.scaleX, 0.2, "Authored captions retain their fitted source scale");
+bakedButton.setEnabled(false);
+assert.equal(caption.alpha, WORLD_MAP_CONFIG.input.disabledAlpha);
+bakedButton.destroy();
+assert.ok(caption.destroyed && hiddenLabel.destroyed);
+
 assert.ok(WORLD_MAP_CONFIG.input.closeHitSizePx >= 44);
 assert.ok(WORLD_MAP_CONFIG.input.zoomHitSizePx >= 44);
 assert.ok(WORLD_MAP_CONFIG.input.activityHitHeightPx >= 38);
 assert.ok(WORLD_MAP_CONFIG.view.defaultZoom > WORLD_MAP_CONFIG.view.minZoom);
-assert.ok(WORLD_MAP_CONFIG.view.maxZoom > 8, "the deep world needs a useful detail zoom range");
+assert.ok(
+  WORLD_MAP_CONFIG.view.maxZoom / WORLD_MAP_CONFIG.view.defaultZoom >= 16,
+  "the deep world needs a substantially closer zoom range than its opening view",
+);
+assert.ok(
+  WORLD_MAP_CONFIG.view.zoomStep >= 4,
+  "the extended zoom range must remain practical to reach with wheel and button input",
+);
 
 const viewSource = await readFile(new URL("../ui/overlays/world-map/WorldMapOverlayView.js", import.meta.url), "utf8");
 const inputSource = await readFile(new URL("../world/playScene/GameInputHandler.js", import.meta.url), "utf8");

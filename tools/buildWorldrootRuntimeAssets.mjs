@@ -53,23 +53,39 @@ if (
   throw new Error("Worldroot living art and authored consumed alpha must share one RGBA canvas");
 }
 
-const { data: authoredAlpha } = await sharp(consumedSource)
-  .ensureAlpha()
-  .extractChannel(3)
-  .raw()
-  .toBuffer({ resolveWithObject: true });
+const [{ data: authoredAlpha }, { data: livingRgb }] = await Promise.all([
+  sharp(consumedSource)
+    .ensureAlpha()
+    .extractChannel(3)
+    .raw()
+    .toBuffer({ resolveWithObject: true }),
+  sharp(livingSource)
+    .removeAlpha()
+    .raw()
+    .toBuffer({ resolveWithObject: true }),
+]);
 const cleanedAlpha = Buffer.allocUnsafe(authoredAlpha.length);
 const transparentFloor = 96;
 const opaqueCeiling = 224;
 for (let index = 0; index < authoredAlpha.length; index += 1) {
   const value = authoredAlpha[index];
-  cleanedAlpha[index] = value <= transparentFloor
+  const authored = value <= transparentFloor
     ? 0
     : value >= opaqueCeiling
       ? 255
       : Math.round(
         ((value - transparentFloor) / (opaqueCeiling - transparentFloor)) * 255,
       );
+  const rgbIndex = index * 3;
+  const red = livingRgb[rgbIndex];
+  const green = livingRgb[rgbIndex + 1];
+  const blue = livingRgb[rgbIndex + 2];
+  const darkest = Math.min(red, green, blue);
+  const chroma = Math.max(red, green, blue) - darkest;
+  const darkSignal = Math.max(0, Math.min(255, Math.round(((244 - darkest) / 18) * 255)));
+  const colorSignal = Math.max(0, Math.min(255, Math.round(((chroma - 2) / 18) * 255)));
+  const checkerCutout = Math.max(darkSignal, colorSignal);
+  cleanedAlpha[index] = Math.round((authored * checkerCutout) / 255);
 }
 const alphaInput = {
   raw: {

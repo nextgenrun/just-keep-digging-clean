@@ -5,10 +5,13 @@ async function auditOnboardingAndDisclosure(driver) {
     const { UPGRADES } = await import("/values/upgradeDefinitions.js");
     const config = SYSTEM_INTRODUCTION_CONFIG;
     const thresholdEntries = Object.entries(config.thresholds);
-    const thresholdValues = thresholdEntries.map(([, value]) => value);
-    const strictlyIncreasing = thresholdValues.every((value, index) => (
-      index === 0 || value > thresholdValues[index - 1]
+    const depthThresholds = thresholdEntries.filter(([key]) => key.endsWith("Depth"));
+    const depthValues = depthThresholds.map(([, value]) => value);
+    const depthsIncrease = depthValues.every((value, index) => (
+      index === 0 || value > depthValues[index - 1]
     ));
+    const talentLevel = config.thresholds.talentLevel;
+    const validTalentLevel = Number.isInteger(talentLevel) && talentLevel >= 1;
     const validSignals = new Set([
       "always",
       ...Object.keys(config.featureUnlocks),
@@ -30,7 +33,8 @@ async function auditOnboardingAndDisclosure(driver) {
     const introduction = scene.systemIntroductionSystem?.getHealthSnapshot?.() || null;
     const nextPromise = scene.systemIntroductionSystem?.getNextPromise?.() || null;
     const failures = {
-      thresholdOrder: strictlyIncreasing ? [] : thresholdEntries,
+      depthThresholdOrder: depthsIncrease ? [] : depthThresholds,
+      invalidTalentLevel: validTalentLevel ? [] : [talentLevel],
       invalidFeatures,
       invalidMerchants,
       invalidUpgradeIds,

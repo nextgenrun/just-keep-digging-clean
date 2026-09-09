@@ -59,7 +59,17 @@ export class MovingSideDigStandOffController {
     const tooClose = directionX > 0
       ? body.x > boundaryX + epsilonPx
       : body.x < boundaryX - epsilonPx;
-    if (tooClose) body.x = boundaryX;
+    if (tooClose) {
+      if (typeof body.setPosition === "function") {
+        if (body.setPosition(boundaryX, body.y) === false) {
+          this.end();
+          body.vx = 0;
+          return false;
+        }
+      } else {
+        body.x = boundaryX;
+      }
+    }
 
     const movingTowardTarget = directionX * (Number(body.vx) || 0) > 0;
     const gapPx = directionX > 0

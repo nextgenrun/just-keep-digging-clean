@@ -285,6 +285,10 @@ assert.ok(
   THUNDER_STRIKE_CHAIN_CONFIG.timingBar.visibleHeight * standardScale <= 55,
   "the desktop timing interaction must stay below a 55 px visible height",
 );
+assert.ok(
+  THUNDER_STRIKE_CHAIN_CONFIG.timingBar.trackCenterY > 0,
+  "the live target and needle must sit on the authored rail",
+);
 
 const setupSource = readFileSync(
   new URL("../world/playScene/PlaySceneSetup.js", import.meta.url),
@@ -414,6 +418,7 @@ assert.match(timingBarViewSource, /windowStartProgress/);
 assert.match(timingBarViewSource, /thunderStrikeChainFrame/);
 assert.match(timingBarViewSource, /thunderStrikeTargetGate/);
 assert.match(timingBarViewSource, /thunderStrikeNeedle/);
+assert.match(timingBarViewSource, /ui\.trackCenterY/);
 assert.match(timingBarViewSource, /setCrop/);
 assert.doesNotMatch(
   timingBarViewSource,

@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-08-31",
+  "captureType": "public-hq-preview",
+  "assets": [
+    {
+      "role": "star-destruction",
+      "file": "star-destruction-shockwave-freesound-814053.mp3",
+      "title": "Shockwave",
+      "creator": "qubodup",
+      "sourceUrl": "https://freesound.org/people/qubodup/sounds/814053/",
+      "previewUrl": "https://cdn.freesound.org/previews/814/814053_71257-hq.mp3",
+      "license": "CC0-1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "sha256": "AB12C94200983A26D0614EC1A3EAD2F692CFA07B7F20406E2D6D61DA83F3B2A0",
+      "bytes": 177199,
+      "sampleRateHz": 44100,
+      "channels": 2,
+      "durationSeconds": 7.384626,
+      "meanDb": -8.2,
+      "peakDb": -0.2
+    },
+    {
+      "role": "level-up-short",
+      "file": "level-up-short-freesound-320655.mp3",
+      "title": "Level Up 01",
+      "creator": "rhodesmas",
+      "approvalUrl": "https://freesound.org/people/shinephoenixstormcrow/sounds/337049/",
+      "sourceUrl": "https://freesound.org/people/rhodesmas/sounds/320655/",
+      "previewUrl": "https://cdn.freesound.org/previews/320/320655_5260872-hq.mp3",
+      "license": "CC-BY-4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "sha256": "3F321B470816F9CDC807E3CC0E960800D4D54E5DFE429FBAD1C9328B30AB4E42",
+      "bytes": 27550,
+      "sampleRateHz": 44100,
+      "channels": 2,
+      "durationSeconds": 1.1,
+      "meanDb": -19.1,
+      "peakDb": -1.7
+    },
+    {
+      "role": "level-up-epic",
+      "file": "level-up-epic-freesound-682633.mp3",
+      "title": "Level up",
+      "creator": "Bastianhallo",
+      "sourceUrl": "https://freesound.org/people/Bastianhallo/sounds/682633/",
+      "previewUrl": "https://cdn.freesound.org/previews/682/682633_8342190-hq.mp3",
+      "license": "CC0-1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "sha256": "7E7EDDA3BEA604A7D6174DFCDCA54C1CF89254E0CE6B23D8ABE064746404ED93",
+      "bytes": 129983,
+      "sampleRateHz": 44100,
+      "channels": 2,
+      "durationSeconds": 5.509,
+      "meanDb": -29.1,
+      "peakDb": -9.9
+    }
+  ]
+}

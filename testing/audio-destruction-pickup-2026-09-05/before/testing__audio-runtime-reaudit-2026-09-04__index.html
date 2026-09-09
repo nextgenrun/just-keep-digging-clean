@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>UNDERSTAR · Active game-time audio re-audit</title>
+  <style>
+    :root { color-scheme: dark; font: 16px/1.5 system-ui, sans-serif; background: #09131c; color: #e9f0f5; }
+    * { box-sizing: border-box; }
+    body { max-width: 1180px; margin: auto; padding: 24px; }
+    h1 { margin: 0; font-size: clamp(24px, 4vw, 34px); }
+    h2 { margin: 0 0 8px; font-size: 19px; }
+    p { color: #aec1d0; }
+    a { color: #9bd6ff; }
+    .toolbar, .actions, nav { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 14px 0; }
+    button, input, select { font: inherit; }
+    button, input[type="search"], select { border: 1px solid #5d7b91; border-radius: 7px; background: #182b3a; color: inherit; padding: 10px 13px; }
+    button { cursor: pointer; }
+    button:hover { background: #29485f; }
+    button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px solid #9bdcff; outline-offset: 2px; }
+    button[aria-pressed="true"] { box-shadow: inset 0 0 0 2px #dff7ff; }
+    .keep { background: #1b5a40; border-color: #4ba77d; }
+    .reject { background: #653a38; border-color: #bc7068; }
+    .stop { background: #5d4335; }
+    .grid { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(300px, 0.9fr); gap: 18px; }
+    section { border: 1px solid #345166; border-radius: 10px; background: #10212e; padding: 20px; }
+    #search { flex: 1; min-width: 240px; }
+    #status { display: block; padding: 12px 15px; border-left: 4px solid #7fc8ac; background: #183129; margin: 16px 0; }
+    #decision { display: inline-block; border: 1px solid #718da1; border-radius: 999px; padding: 3px 11px; }
+    #decision[data-state="keep"] { background: #174c37; }
+    #decision[data-state="reject"] { background: #582f2e; }
+    #title { overflow-wrap: anywhere; }
+    audio { width: 100%; margin: 15px 0 6px; }
+    dl { display: grid; grid-template-columns: 130px 1fr; gap: 8px 12px; }
+    dt { color: #9fb8c9; }
+    dd { margin: 0; overflow-wrap: anywhere; }
+    code { font-size: 13px; color: #c8e1ef; }
+    .quiet { color: #91a9b9; font-size: 14px; }
+    .counter { margin-left: auto; color: #c5d9e6; }
+    .progress { height: 10px; overflow: hidden; border-radius: 999px; background: #071019; }
+    .progress span { display: block; height: 100%; background: #63b68c; width: 0; }
+    .volume-panel { margin: 16px 0; border: 1px solid #526d82; border-radius: 9px; background: #0b1924; padding: 14px; }
+    .volume-panel h2 { margin-bottom: 10px; }
+    .volume-grid { display: grid; grid-template-columns: repeat(3, minmax(110px, 1fr)); gap: 9px; }
+    .volume-grid p { margin: 0; border-radius: 7px; background: #142938; padding: 9px; }
+    .volume-grid strong { display: block; color: #f1f7fa; font-size: 18px; }
+    .tuning { display: grid; grid-template-columns: auto minmax(160px, 1fr) auto; gap: 10px; align-items: center; margin-top: 14px; }
+    #tuned-gain { width: 100%; accent-color: #7fc8ac; }
+    .empty { padding: 28px; text-align: center; color: #a9bdca; }
+    @media (max-width: 850px) { .grid { grid-template-columns: 1fr; } body { padding: 14px; } }
+    @media (max-width: 560px) { dl, .tuning { grid-template-columns: 1fr; gap: 2px; } dd { margin-bottom: 8px; } .volume-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <h1>Active game-time audio re-audit</h1>
+  <p>Every physical clip reachable in the default gameplay audio path appears once. Mark each clip <strong>KEEP</strong> or <strong>REJECT</strong>, then audition and fine-tune its conservative volume suggestion. Earlier approvals and the game runtime remain unchanged.</p>
+  <nav><a href="../audio-pickup-footstep-2026-09-05/">Footstep and pickup comparison</a><a href="../audio-review-2026-09-03/orchestra.html">Context orchestra</a><a href="../../?jkd_e2e=1&audioReview=1&cinematics=0">Read-only in-game diagnostics</a><a href="readme.md">Scope and controls</a></nav>
+  <output id="status" role="status">Loading the active catalog…</output>
+  <div class="progress" aria-hidden="true"><span id="progress-bar"></span></div>
+  <div class="toolbar">
+    <input id="search" type="search" placeholder="Search title, path, role or creator" aria-label="Search active audio">
+    <select id="kind" aria-label="Audio type"><option value="">All types</option></select>
+    <select id="family" aria-label="Gameplay family"><option value="">All families</option></select>
+    <select id="filter" aria-label="Decision"><option value="">All decisions</option><option value="open">Unreviewed</option><option value="keep">KEEP</option><option value="reject">REJECT</option></select>
+    <span class="counter" id="counter"></span>
+  </div>
+  <div class="toolbar">
+    <button id="previous">← Previous · H</button><button id="next">Next · J →</button><button id="next-open">Next unreviewed · N</button>
+    <label>Listening <select id="gain-mode"><option value="suggested">Suggested gain</option><option value="current">Current runtime gain</option><option value="tuned">Your tuned gain</option><option value="solo">Solo inspection</option></select></label>
+    <button id="compare">A/B current ↔ suggested · V</button>
+    <label>Master <input id="master" type="range" min="0" max="1" step="0.05" value="0.5"><output id="master-value">50%</output></label>
+  </div>
+  <div class="grid">
+    <section id="card" hidden>
+      <span id="decision" data-state="open">Unreviewed</span>
+      <h2 id="title"></h2>
+      <p id="family-copy"></p>
+      <output id="now" role="status">Stopped — no audio is playing.</output>
+      <audio id="audio" controls preload="none"></audio>
+      <div class="actions"><button id="play">Play / pause · Space</button><button id="stop" class="stop">Stop · 0</button></div>
+      <div class="volume-panel">
+        <h2>Volume re-audit</h2>
+        <div class="volume-grid">
+          <p>Current runtime<strong id="current-gain">—</strong></p>
+          <p>Suggested start<strong id="suggested-gain">—</strong></p>
+          <p>Suggested change<strong id="suggested-db">—</strong></p>
+        </div>
+        <label class="tuning" for="tuned-gain"><span>Your final gain</span><input id="tuned-gain" type="range" min="0" max="1" step="0.005" value="0"><output id="tuned-gain-value">—</output></label>
+        <div class="actions"><button id="use-suggested">Set tuned = suggestion</button><button id="use-current">Set tuned = current</button></div>
+        <p id="volume-reason" class="quiet"></p>
+      </div>
+      <div class="actions"><button id="keep" class="keep">KEEP · K</button><button id="reject" class="reject">REJECT · R</button><button id="clear">Clear · U</button></div>
+      <dl id="metadata"></dl>
+    </section>
+    <section>
+      <h2>Fresh audio review ledger</h2>
+      <p id="summary">No decisions loaded.</p>
+      <p class="quiet">V switches current/suggested while a clip plays. K/R records a decision and advances. H/J moves without deciding. Audio stops whenever the item changes, the page hides, or you press 0/Escape.</p>
+      <div class="actions"><button id="export">Export verdicts + volumes</button><button id="import">Import review</button><input id="file" type="file" accept="application/json,.json" hidden></div>
+      <div class="actions"><button id="reset-decisions">Reset KEEP/REJECT</button><button id="reset-volumes">Reset tuned volumes</button></div>
+      <p class="quiet">Exports are review-only. KEEP/REJECT and tuned gains do not remove, promote, or rewire a sound.</p>
+    </section>
+  </div>
+  <p id="empty" class="empty" hidden>No active sounds match these filters.</p>
+  <script type="module" src="review.js"></script>
+</body>
+</html>

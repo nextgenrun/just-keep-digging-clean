@@ -35,7 +35,6 @@ export const RESOURCE_ECONOMY_CONFIG = Object.freeze({
   }),
   milestones: Object.freeze({
     maxMiningSpeedPct: 32,
-    maxCritChancePct: 12,
     maxResourceYieldPct: 50,
   }),
   prices: Object.freeze({

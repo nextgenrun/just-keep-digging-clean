@@ -1,0 +1,10 @@
+{
+  "id": "E2E",
+  "voice": "leo",
+  "text": "Not my first burial.",
+  "ttsInput": "[exhale] <laugh-speak>Not my first burial.</laugh-speak>",
+  "requestSha256": "54a072dd1839fea8014fa69855d110d208dd4b8a43031d91e13e12dcc64fa28e",
+  "contentType": "audio/mpeg",
+  "generationId": "gen-tts-1788745462-LG5t0aQDQO6hbHcSUbkL",
+  "rawSha256": "c398a430011e0b67dd6ddc0adaeae7d55596adab229d607c7199727bcd677e65"
+}

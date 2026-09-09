@@ -7,6 +7,7 @@ export const PLAYER_COLLISION_CONFIG = Object.freeze({
   maxVelocityTilesPerSecond: 30,
   maxDeltaSeconds: 0.05,
   recoverOverlaps: true,
+  rollbackFailedOverlaps: true,
   surfaceDropThrough: Object.freeze({
     enabled: true,
     queryParam: "surfaceDrop",

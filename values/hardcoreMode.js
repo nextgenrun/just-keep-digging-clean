@@ -12,7 +12,7 @@ const TELEPORT_KIND_MULTIPLIERS = Object.freeze({
 });
 
 export const HARDCORE_MODE_CONFIG = Object.freeze({
-  version: 4,
+  version: 5,
   queryParam: "runMode",
   modes: MODES,
   rules: Object.freeze({
@@ -21,8 +21,8 @@ export const HARDCORE_MODE_CONFIG = Object.freeze({
       firstReviveFree: false,
     }),
     [MODES.hardcore]: Object.freeze({
-      startingLives: 2,
-      firstReviveFree: true,
+      startingLives: 1,
+      firstReviveFree: false,
     }),
     [MODES.oneLifeHardcore]: Object.freeze({
       startingLives: 1,
@@ -30,7 +30,7 @@ export const HARDCORE_MODE_CONFIG = Object.freeze({
     }),
   }),
   defaultData: Object.freeze({
-    version: 4,
+    version: 5,
     mode: MODES.casual,
     armed: false,
     livesRemaining: null,
@@ -54,7 +54,7 @@ export const HARDCORE_MODE_CONFIG = Object.freeze({
     }),
     crest: Object.freeze({
       key: "ui-hardcore-oath-crest-v1",
-      path: "sprites/UI/hardcore-mode-v1/hardcore-oath-crest-runtime-v1.webp",
+      path: "sprites/UI/dynamic-feedback-v2/hardcore-oath-crest-alpha-v2.png",
     }),
     panicWarning: Object.freeze({
       key: "ui-hardcore-panic-warning-v1",
@@ -74,12 +74,13 @@ export const HARDCORE_MODE_CONFIG = Object.freeze({
     panelWidth: 960,
     panelHeight: 640,
     panelTopSafeInset: 122,
-    titleY: -188,
-    subtitleY: -151,
-    bodyY: -94,
+    titleY: -122,
+    subtitleY: -88,
+    bodyY: -50,
     bodyWidth: 720,
-    typedPromptY: 103,
-    typedValueY: 144,
+    bodyLineSpacingPx: 1,
+    typedPromptY: 132,
+    typedValueY: 171,
     footerY: 220,
     crestSize: 92,
     font: Object.freeze({
@@ -97,6 +98,8 @@ export const HARDCORE_MODE_CONFIG = Object.freeze({
     modeSelector: Object.freeze({
       title: "CHOOSE SAVE RULES",
       subtitle: "THIS CHOICE IS PERMANENT FOR THE SAVE",
+      headerTitleY: -188,
+      headerSubtitleY: -151,
       choiceCenterY: 58,
       choiceGap: 310,
       choiceWidth: 290,
@@ -122,12 +125,12 @@ export const HARDCORE_MODE_CONFIG = Object.freeze({
       selectedAlpha: 1,
     }),
     statusHud: Object.freeze({
-      x: 202,
-      // Sit below the complete three-chip buff lane (y 120..150). Keeping the
+      x: 180,
+      // Sit below the complete V2 player core and three-chip buff lane. Keeping the
       // status crest out of that lane prevents Hardcore danger feedback from
       // covering active buff names at the exact moment both matter most.
-      y: 184,
-      width: 380,
+      y: 234,
+      width: 336,
       height: 56,
       crestSize: 50,
       textOffsetX: 12,
@@ -135,7 +138,7 @@ export const HARDCORE_MODE_CONFIG = Object.freeze({
     }),
   }),
   stress: Object.freeze({
-    minimumDepthTiles: 22,
+    panicStartDepthTiles: 22,
     maximum: 100,
     maxFrameMs: 100,
     darknessAlphaThreshold: 0.72,
@@ -148,8 +151,6 @@ export const HARDCORE_MODE_CONFIG = Object.freeze({
     deepPressureStartDepthTiles: 420,
     deepPressureFullDepthTiles: 1800,
     deepPressureStressPerSecondMax: 3.4,
-    stressResistancePerPlayerLevel: 0.05,
-    stressResistanceMaximum: 0.4,
     litRecoveryPerSecond: 7.2,
     // Torch power is a continuous sanity shield: dim flames still expose the
     // player to darkness, while overdrive trades immense GP drain for recovery.
@@ -179,7 +180,7 @@ export const HARDCORE_MODE_CONFIG = Object.freeze({
     lowGpImmediateThreshold: 1,
   }),
   upkeepProtection: Object.freeze({
-    floorGp: 1, sources: Object.freeze(["flight", "torch"]),
+    floorGp: 1, sources: Object.freeze(["flight", "torch", "run"]),
   }),
   runStats: Object.freeze({
     maximumActivePlayMs: 315360000000,
@@ -216,6 +217,8 @@ export const HARDCORE_MODE_CONFIG = Object.freeze({
     lifeStateSaveTimeoutMs: 8000,
     remotePurgeWaitMs: 5000,
     sourceLabels: Object.freeze({
+      signal: "You were killed when your attack at the Signal camp failed",
+      signalExplosion: "A Signal survivor exploded. The hissing pack was the warning; distance or solid rock would have saved you",
       flight: "Flight exhausted the last of your Gem Power",
       torch: "The torch consumed the last of your Gem Power",
       stress: "Panic and pressure consumed the last of your Gem Power",
@@ -239,31 +242,38 @@ export const HARDCORE_MODE_CONFIG = Object.freeze({
     errorColor: "#ff8b7f",
     stressWarningText: "Stress is rising • find light and slow your descent",
     stressCriticalText: "Critical stress • panic is draining Gem Power",
-    oneGpText: "1 GP • one mistake from a revive or life loss",
-    armedText: "HARDCORE ARMED • 0 GP CONSUMES A REVIVE OR LIFE",
+    oneGpText: "1 GP • one mistake from losing your only life",
+    armedText: "HARDCORE ARMED • 0 GP ENDS THE RUN",
   }),
   copy: Object.freeze({
     casualName: "CASUAL",
-    casualSummary: "Persistent mine. Zero GP disables abilities,\nbut never deletes your save.",
+    casualSummary: "Explore without limited lives. Running out of GP\ndisables powers, never your save.",
     hardcoreName: "HARDCORE",
-    hardcoreSummary: "2 lives plus one free first revive. Arms at Flight.\nStress and hazards can consume a life.",
+    hardcoreSummary: "1 life and no revives. Starts when Flight unlocks.\nDeath ends the run, but your save remains.",
     oneLifeName: "ONE-LIFE HARDCORE",
-    oneLifeSummary: "1 life. No free revive. Arms at Flight.\nThe save remains intact when the expedition ends.",
-    pendingLabel: "HARDCORE • ARMS AT FLIGHT",
-    armedLabel: "HARDCORE • OATH ARMED",
-    exhaustedLabel: "HARDCORE • EXPEDITION ENDED",
+    oneLifeSummary: "1 life and no revives. Starts when Flight unlocks.\nDeath ends the run, but your save remains.",
+    pendingLabel: "HARDCORE • STARTS WITH FLIGHT",
+    armedLabel: "HARDCORE • ACTIVE",
+    exhaustedLabel: "HARDCORE • RUN ENDED",
     boboOfferName: "The Hardcore Oath",
-    boboOfferSummary: "Convert this Casual save forever. Gain 2 lives and one free first revive; the save remains intact at exhaustion.",
+    boboOfferSummary: "Permanently change this Casual save to Hardcore. You get 1 life and no revives; your save remains when the run ends.",
     boboConfirmationTitle: "BOBO'S HARDCORE OATH",
     boboConfirmationBody:
-      "This cannot be undone.\n\nBobo will fully charge your Gem Power and arm Hardcore immediately with 2 lives and one free first revive. Flight and torch stop at 1 GP, but stress, darkness, cave traps, falling rocks, combat abilities, and the Graveborer Wurm can consume a revive or life. An exhausted expedition remains intact in the Save Vault.",
+      "This cannot be undone.\n\nBobo will fully charge your GP and start Hardcore immediately with 1 life and no revives. Flight and your torch stop at 1 GP, but stress, darkness, cave traps, falling rocks, combat abilities, and the Graveborer Wurm can end the run. Your save remains when the run ends.",
     unstuckTitle: "LAST RESORT RETURN",
     unstuckBody:
       "Returning to safety destroys 50% of every carried resource stack and starts a 10-minute cooldown.\n\nThis applies in Casual and Hardcore. Your wallet and permanent upgrades are not touched.",
     typedInstruction: "TYPE  YES  THEN PRESS ENTER",
-    deathTitle: "THE OATH TAKES ITS TOLL",
-    erasingLabel: "SAVING THE NEW LIFE STATE...",
-    erasedLabel: "LIFE STATE SAVED",
+    irreversibleSubtitle: "THIS CANNOT BE UNDONE",
+    cancelFooter: "ESC  CANCEL",
+    actionFailed: "THAT ACTION FAILED",
+    savingAction: "SAVING...",
+    actionCouldNotComplete: "THAT ACTION COULD NOT BE COMPLETED",
+    conversionSaveFailed: "Hardcore is active, but not saved • choose SAVE GAME to retry",
+    unstuckSaveFailed: "You returned safely, but that change was not saved • choose SAVE GAME to retry",
+    deathTitle: "YOUR HARDCORE RUN ENDED",
+    erasingLabel: "SAVING THIS OUTCOME...",
+    erasedLabel: "PROGRESS SAVED",
     deathFooter: "PRESS ENTER OR CLICK TO RETURN TO SAVE SLOTS",
   }),
   diagnostics: Object.freeze({
@@ -303,9 +313,7 @@ export function sanitizeHardcoreModeData(data) {
     mode,
     armed: riskMode && !exhausted && data?.armed === true,
     livesRemaining,
-    freeReviveAvailable: mode === MODES.hardcore
-      && !exhausted
-      && data?.freeReviveAvailable !== false,
+    freeReviveAvailable: false,
     deaths: riskMode
       ? Math.floor(clamp(
         finiteOr(data?.deaths, 0),
@@ -401,22 +409,14 @@ export function consumeHardcoreDeath(data) {
   if (current.exhausted) {
     return { data: current, outcome: "exhausted", livesRemaining: 0 };
   }
-  if (current.freeReviveAvailable) {
-    const next = sanitizeHardcoreModeData({
-      ...current,
-      freeReviveAvailable: false,
-      deaths: current.deaths + 1,
-    });
-    return { data: next, outcome: "free-revive", livesRemaining: next.livesRemaining };
-  }
   const next = sanitizeHardcoreModeData({
     ...current,
-    livesRemaining: current.livesRemaining - 1,
+    livesRemaining: 0,
     deaths: current.deaths + 1,
   });
   return {
     data: next,
-    outcome: next.exhausted ? "exhausted" : "life-lost",
+    outcome: "exhausted",
     livesRemaining: next.livesRemaining,
   };
 }

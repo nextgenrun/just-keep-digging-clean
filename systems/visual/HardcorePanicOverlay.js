@@ -46,7 +46,7 @@ export class HardcorePanicOverlay {
   }
   _create() {
     const assets = this.config.assets;
-    const frameKey = ASSET_KEYS.ui.approvedHud.notification;
+    const frameKey = ASSET_KEYS.ui.approvedHud.hardcoreStatusShell;
     const required = [assets.panicCritical.key, assets.panicEdgeFrame.key, frameKey];
     if (!required.every(key => this.scene.textures.exists(key))) return;
     const overlay = this.presentation.overlay;

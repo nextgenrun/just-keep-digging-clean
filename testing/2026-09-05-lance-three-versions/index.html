@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Stellar Lance — Cinder contact variations</title><link rel="stylesheet" href="review.css"></head>
+<body><main>
+<header><div><p class="eyebrow">UNDERSTAR <span>/</span> ABILITY STUDY 03</p><h1>Cinder. From the strike.</h1>
+<p class="intro">The selected 03 fireball, with two colour variations and a rare prismatic shot.</p></div>
+<div class="review-mark">VISUAL REVIEW<span>05 SEPTEMBER 2026</span></div></header>
+<section class="controls" aria-label="Animation controls">
+<div class="control-group"><button id="play" class="primary" aria-pressed="true">Pause</button><button id="replay">Fire all <kbd>Space</kbd></button><button id="freeze">Freeze in flight</button><button id="impact">Inspect contact</button></div>
+<div class="control-group"><label>Speed <select id="speed"><option value="1">1×</option><option value="0.25">¼× slow motion</option></select></label><label>Attack <select id="attack"><option value="punch">Punch / hand</option><option value="kick">Kick / foot</option></select></label><label>Direction <select id="direction"><option value="1">Right →</option><option value="-1">← Left</option></select></label><button id="fullscreen">Full screen</button></div></section>
+<section class="stage-wrap" aria-label="Four Cinder fireball variants">
+<div class="stage-note"><span id="status" role="status">Loading game artwork…</span><span>94 px tile reference <i>·</i> 3× detail at right</span></div>
+<div id="stage" role="img" aria-label="Four synchronized contact studies, with the existing game character and tiles for scale."></div>
+<div class="timeline"><label for="scrub">Shot timeline</label><input id="scrub" type="range" min="0" max="3200" value="0" step="1"><output id="time">0 ms</output></div></section>
+<section class="notes"><p><strong>Release at contact.</strong> 225 px/s — 85% slower than the original preview. Solid, crisp projectiles with short echoes. No burning fade, pulsing or wobble in flight. The flame begins on top of the striking fist or foot and extends outward on the exact impact frame.</p>
+<p><strong>Size reference.</strong> <span id="size-reference">The current full-size wave can be overlaid for comparison.</span><label class="check"><input id="footprint" type="checkbox"> Show current wave footprint</label></p></section>
+<footer><span>Save-free preview · selected art also wired into Lance</span><span>Prismatic is shown here for review; in game it has a 4% chance per shot.</span></footer>
+</main><script src="/libs/phaser.js"></script><script type="module" src="review.js"></script></body></html>

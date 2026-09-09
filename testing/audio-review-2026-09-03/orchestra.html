@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <base href="/">
+  <title>UNDERSTAR · Wired sound orchestra</title>
+  <style>
+    :root{color-scheme:dark;font:15px/1.5 system-ui;background:#0c141c;color:#e7edf4}body{max-width:1340px;margin:auto;padding:24px}h1{font-size:27px;margin:0}h2{font-size:19px;margin:0 0 10px}h3{font-size:16px;margin:14px 0 6px}p{color:#adc0d2;margin:8px 0 16px}a{color:#a7d5ff}nav,.bar{display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin:12px 0}button,select,input{font:inherit}button,select,input[type=search]{padding:9px 12px;border:1px solid #56748c;border-radius:6px;background:#203449;color:inherit}button{cursor:pointer}button:hover{background:#34546e}button:disabled{opacity:.45;cursor:wait}button[aria-pressed=true]{background:#28604b}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #b3e3ff;outline-offset:2px}.stop{background:#753f37}label{display:inline-flex;align-items:center;gap:8px}.layout{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(320px,1fr);gap:18px}section{padding:18px;border:1px solid #365166;background:#13212e;border-radius:8px}canvas{display:block;max-width:100%;height:auto!important}output{display:block}#status{padding:13px;border-left:4px solid #83c7b2;background:#1c322e}#position,#meter{color:#b6e6d4;margin:8px 0}.hint{font-size:13px}pre{font:12px/1.5 ui-monospace,monospace;white-space:pre-wrap;max-height:330px;overflow:auto}#sources{max-width:100%;width:100%}#source-search{width:100%;box-sizing:border-box}.badges{font-size:13px;color:#ccdecf}#playing{min-height:70px;white-space:pre-wrap}details{margin:14px 0}@media(max-width:980px){.layout{grid-template-columns:1fr}body{padding:14px}}
+  </style>
+  <script src="libs/phaser.js"></script>
+  <script type="module" src="testing/audio-review-2026-09-03/orchestra-stage.js"></script>
+</head>
+<body>
+  <h1>Wired sound orchestra</h1>
+  <p>562 approvals wired into contextual roles. Listen to the real runtime mix below, or solo any prepared source. No saves, transactions or approval changes.</p>
+  <nav><a href="testing/audio-review-2026-09-03/">Earlier 51-source timing stage</a><a href="testing/audio-review-2026-09-03/freesound.html">Approve / reject source inbox</a><a href="sound/soundEffects/approved-freesound-2026-09-03/CREDITS.txt" target="_blank" rel="noopener">All source credits</a></nav>
+  <div class="bar"><button id="start" disabled>Loading runtime…</button><button id="stop" class="stop">Stop everything · 0 / Esc</button><button id="mute">Mute SFX</button><label>Master <input id="master" type="range" min="0" max="1" step="0.05" value="0.5"><output id="master-value">50%</output></label></div>
+  <output id="status" role="status">Preparing the save-free stage…</output>
+  <div class="layout">
+    <section>
+      <h2>1 · Explore a Star sound pocket</h2>
+      <p class="hint">WASD / arrows move the blue listener; click the grid to place it. Stars stay fixed. This is a diagnostic map, not final game art or physics.</p>
+      <div id="stage" aria-label="Diagnostic listener and Star map"></div>
+      <output id="position">Listener not ready.</output>
+      <div class="bar"><button data-location="left">Near left of Star</button><button data-location="right">Near right of Star</button><button data-location="far">Outside hearing range</button><button data-location="second">Second Star</button></div>
+      <div class="bar"><button data-step="left">Move left</button><button data-step="right">Move right</button><button data-step="up">Move up</button><button data-step="down">Move down</button></div>
+      <div class="bar"><button id="wall" aria-pressed="false">Rock wall: off</button><button id="consume">Consume nearest Star</button><button id="reset">Reset both Stars</button><button id="bed" aria-pressed="true">Cave bed: on</button></div>
+      <h2>2 · Add meaningful game events</h2>
+      <div class="bar"><label>Material <select id="material"><option value="dirt">Dirt</option><option value="stone">Stone</option><option value="metal">Metal ore</option><option value="crystal">Crystal fracture</option></select></label><button data-cue="dig">Dig / break · F</button><button data-cue="footstep">Dirt footstep</button><button data-cue="flight">Flight onset</button></div>
+      <div class="bar"><button data-cue="ui">UI click</button><button data-cue="purchase">Purchase reward</button><button data-cue="coin">Coin arrival</button><button data-cue="level">Level up</button></div>
+      <div class="bar"><label>Panic state <select id="panic"><option value="calm">Calm / recovery</option><option value="warning">Warning</option><option value="critical">Critical</option></select></label><button id="threat" aria-pressed="false">Aware quake: off</button><button id="speech" aria-pressed="false">Speech duck: off</button></div>
+      <p class="hint">Panic selection exercises the existing state input; it does not change Hardcore mechanics. Flight and contacts use real audio event methods. Wood strain stays sparse; no random effects timer.</p>
+    </section>
+    <section>
+      <h2>Now playing</h2><output id="playing">None — stopped.</output><output id="meter">Output meter waiting for audio.</output>
+      <p class="badges">One dominant Star · bounded crossfades · small matched variation banks · no delayed contact replay</p>
+      <h2>3 · Solo one wired source</h2>
+      <p class="hint">Solo stops the world mix. These are trimmed, level-matched HQ-preview derivatives, not downloaded lossless masters. Approval is unchanged; use the inbox to revise it and export a new wiring request.</p>
+      <label for="source-search">Find by role, title, creator or ID</label><input id="source-search" type="search" placeholder="e.g. starHum, heartbeat, 553080">
+      <div class="bar"><select id="sources" aria-label="Wired source"></select><button id="audition">Solo selected source</button><a id="source-link" target="_blank" rel="noopener noreferrer">Original source ↗</a></div>
+      <output id="source-info"></output>
+      <details><summary>Exact active keys, gains, pan, filtering and loading</summary><pre id="diagnostics"></pre></details>
+      <details><summary>Recent played events</summary><pre id="events"></pre></details>
+      <button id="export">Export this session evidence</button>
+    </section>
+  </div>
+</body>
+</html>

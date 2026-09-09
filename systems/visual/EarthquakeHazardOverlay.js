@@ -1,6 +1,8 @@
 import { EARTHQUAKE_FEEDBACK_CONFIG } from "../../values/earthquakeFeedback.js";
 import { UI_COLORS } from "../../values/uiColors.js";
 import { UI_FONTS } from "../../values/uiLayout.js";
+import { placeEventOnScreen } from "./eventScreenLayout.js";
+import { fitLiveUiText } from "./bakedUiArt.js";
 import { EarthquakeFallZoneView } from "./EarthquakeFallZoneView.js";
 
 const tileKey = (tx, ty) => `${tx},${ty}`;
@@ -108,8 +110,10 @@ export class EarthquakeHazardOverlay {
       Math.min(vh - cfg.edgeInset - halfH, rawY),
     );
     const glyph = rawX < 0 ? "◀" : rawX > vw ? "▶" : rawY < 0 ? "▲" : "▼";
-    this.edgeRoot.setPosition(x, y).setVisible(true);
+    placeEventOnScreen(this.scene, this.edgeRoot, x, y);
+    this.edgeRoot.setVisible(true);
     this.edgeText.setText(`${glyph} ${this.config.labels.danger}`);
+    fitLiveUiText(this.edgeText, cfg.edgeWidth / 2 - cfg.edgeTextX, cfg.edgeHeight);
   }
 
   _offscreenHazards(view) {
@@ -120,14 +124,28 @@ export class EarthquakeHazardOverlay {
     const hazards = (this.source?.caveIns || []).map(zone => ({
       x: (zone.tx + 0.5) * ts,
       y: zone.landingTy * ts,
+      phasePriority: 1,
+      urgencyMs: Number.isFinite(zone.remaining)
+        ? Math.max(0, zone.remaining)
+        : Number.POSITIVE_INFINITY,
     })).concat((this.source?.fallingRocks || []).map(rock => ({
       x: rock.x,
       y: rock.endY,
+      phasePriority: 0,
+      urgencyMs: 0,
     })));
+    const centerX = view.x + view.width / 2;
+    const centerY = view.y + view.height / 2;
     return hazards.filter(point => point.x < view.x + margin
       || point.x > right - margin
       || point.y < view.y + margin
-      || point.y > bottom - margin);
+      || point.y > bottom - margin)
+      .sort((a, b) => (
+        a.phasePriority - b.phasePriority
+        || a.urgencyMs - b.urgencyMs
+        || Math.hypot(a.x - centerX, a.y - centerY)
+          - Math.hypot(b.x - centerX, b.y - centerY)
+      ));
   }
 
   _pruneRecent() {

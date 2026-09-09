@@ -1,3 +1,4 @@
+import { MENU_ASSET_KEYS } from "./menuAssetKeys.js";
 import {
   WORLD_VISUAL_PROP_ATLASES_V3,
   WORLD_VISUAL_SKY_PROP_ASSETS_V3,
@@ -50,7 +51,7 @@ const HEAVENBLOCKS_SKY_ALTAR_ASSETS = Object.freeze({
 
 export const ASSET_KEYS = Object.freeze({
   branding: {
-    logo: "brand-logo",
+    logo: MENU_ASSET_KEYS.logo,
   },
   ui: {
     barHp:            "ui-bar-hp",
@@ -139,11 +140,14 @@ export const ASSET_KEYS = Object.freeze({
     thunderStrikeTargetGate: "ui-thunderstrike-target-gate-v2",
     thunderStrikeNeedle: "ui-thunderstrike-needle-v2",
     approvedHud: {
+      playerCoreShell: "ui-hud-approved-player-core-shell-v2",
       playerCore: "ui-hud-approved-player-core",
       playerCoreTorchOff: "ui-hud-approved-player-core-torch-off",
       buffChip: "ui-hud-approved-buff-chip",
       combo: "ui-hud-approved-combo",
       notification: "ui-hud-approved-notification",
+      hardcoreStatusShell: "ui-hud-hardcore-status-shell-v2",
+      levelUpShell: "ui-hud-level-up-shell-v2",
       worldState: "ui-hud-approved-world-state",
       audioMusic: "ui-hud-approved-audio-music",
       audioSfx: "ui-hud-approved-audio-sfx",
@@ -184,6 +188,10 @@ export const ASSET_KEYS = Object.freeze({
       panicCritical: "ui-hardcore-panic-critical-v1",
       panicEdgeFrame: "ui-hardcore-panic-edge-frame-v1",
     },
+    newRunSetup: Object.freeze({
+      foundation: "ui-new-expedition-foundation-v2",
+      selection: "ui-new-expedition-selection-v2",
+    }),
     worldMapFrame: "ui-world-map-frame-foundation-v1",
     worldMapSymbols: "ui-world-map-symbol-atlas-v1",
     resources: {
@@ -218,9 +226,18 @@ export const ASSET_KEYS = Object.freeze({
       magmaCrystal: "loot-pickup-magma-crystal",
     },
     xpGathering: {
-      routine: "ui-xp-gather-routine-v1",
-      special: "ui-xp-gather-special-v1",
-      levelUp: "ui-xp-gather-level-up-v1",
+      routine: "ui-xp-gather-routine-core-v2",
+      routineFacet: "ui-xp-gather-routine-facet-v2",
+      routineCompass: "ui-xp-gather-routine-compass-v2",
+      routineKite: "ui-xp-gather-routine-kite-v2",
+      clusterTwin: "ui-xp-gather-cluster-twin-v2",
+      clusterOrbit: "ui-xp-gather-cluster-orbit-v2",
+      clusterTriad: "ui-xp-gather-cluster-triad-v2",
+      special: "ui-xp-gather-special-core-v2",
+      specialRune: "ui-xp-gather-special-rune-v2",
+      specialLegend: "ui-xp-gather-special-legend-v2",
+      levelUp: "ui-xp-gather-level-core-v2",
+      levelCrown: "ui-xp-gather-level-crown-v2",
     },
     heavenblocks: {
       ancientRelicToken: "heavenblocks-ancient-relic-token-v1",
@@ -280,6 +297,12 @@ export const ASSET_KEYS = Object.freeze({
     waywardStar: "celestial-wayward-star-core-v1",
     hollowSun: "celestial-hollow-sun-core-v1",
     cometEngine: "celestial-comet-engine-core-v1",
+    stellarLanceProjectile: "celestial-stellar-lance-projectiles-v1",
+    stellarLanceWaveBlue: "celestial-stellar-lance-wave-blue-v1",
+    stellarLanceWavePurple: "celestial-stellar-lance-wave-purple-v1",
+    stellarLanceWaveRed: "celestial-stellar-lance-wave-red-v1",
+    stellarLancePrismatic: "celestial-stellar-lance-prismatic-v1",
+    stellarLanceImpact: "celestial-stellar-lance-impact-purple-v1",
   },
   onboarding: {
     openingFlightV2: {
@@ -331,12 +354,12 @@ export const ASSET_KEYS = Object.freeze({
     houseMoneyMonster: "bg-house-money-monster",
     housePlayerUpgrade: "bg-house-player-upgrade",
     // Random background database images
-    dbImage1: "bg-db-f1frtjf1frtjf1fr",
-    dbImage2: "bg-db-g6ozmlg6ozmlg6oz",
-    dbImage3: "bg-db-i30bfci30bfci30b",
-    dbImage4: "bg-db-kjwykkjwykkjwykk",
-    dbImage5: "bg-db-rimx2primx2primx",
-    dbImage6: "bg-db-wocn9hwocn9hwocn",
+    dbImage1: MENU_ASSET_KEYS.backgrounds[0],
+    dbImage2: MENU_ASSET_KEYS.backgrounds[1],
+    dbImage3: MENU_ASSET_KEYS.backgrounds[2],
+    dbImage4: MENU_ASSET_KEYS.backgrounds[3],
+    dbImage5: MENU_ASSET_KEYS.backgrounds[4],
+    dbImage6: MENU_ASSET_KEYS.backgrounds[5],
     // Static town layers are composited into a seamless runtime texture.
     townLoop: {
       aboveFloor: "bg-town-loop-above-floor",
@@ -463,6 +486,18 @@ export const ASSET_KEYS = Object.freeze({
     digSidewaysFrame: 1,
     runFrame: 2,
     runAnim: "npc-v3-shadow-miner-run-anim",
+    phantomBlocks: {
+      stone: "shadow-miner-phantom-stone-runtime",
+      darkDirtStrong: "shadow-miner-phantom-dark-dirt-runtime",
+      obsidian: "shadow-miner-phantom-obsidian-runtime",
+      cracks: [
+        "shadow-miner-phantom-crack-1-runtime",
+        "shadow-miner-phantom-crack-2-runtime",
+        "shadow-miner-phantom-crack-3-runtime",
+        "shadow-miner-phantom-crack-4-runtime",
+        "shadow-miner-phantom-crack-5-runtime",
+      ],
+    },
   },
   player: {
     displaySizePx:    89,
@@ -584,7 +619,7 @@ export const ASSET_KEYS = Object.freeze({
     digUpAnimationFps: 30,
     flightAnimationFps: 14,
     walkAnimation: {
-      baseSpeedPxPerSec: 200,
+      baseSpeedPxPerSec: 160,
       baseFps: 14,
       minTimeScale: 0.75,
       maxTimeScale: 1.85,
@@ -603,11 +638,6 @@ export const ASSET_KEYS = Object.freeze({
       hardness: {
         compact: "tile-soil-hardness-compact",
         strong: "tile-soil-hardness-strong",
-      },
-      rarity: {
-        rich: "tile-soil-rarity-rich",
-        packed: "tile-soil-rarity-packed",
-        ancient: "tile-soil-rarity-ancient",
       },
       material: {
         damp: "tile-soil-material-damp",
@@ -723,10 +753,10 @@ export const ASSET_KEYS = Object.freeze({
     speedBlock: "speed-block",
     xpBlock: "xp-block",
     sellBlock: "sell-block",
-    critBlock: "crit-block",
     berserkBlock: "berserk-block",
     comboBlock: "combo-block",
     legendBlock: "crown-block",
+    abilityBlock: "ability-block",
     // Geode interior
     geodeInterior: "tile-geode-interior",
   },
@@ -753,8 +783,8 @@ export const ASSET_KEYS = Object.freeze({
       ]),
     },
     worldroot: Object.freeze({
-      living: "environment-worldroot-living-v1",
-      consumed: "environment-worldroot-consumed-v1",
+      living: "environment-worldroot-living-v3",
+      consumed: "environment-worldroot-consumed-v3",
     }),
     graveborerWurm: {
       head: "graveborer-wurm-head-v1",
@@ -815,6 +845,7 @@ export const ASSET_KEYS = Object.freeze({
       track2: "music-track-2",
       track3: "music-track-3",
       playlist: ["music-track-1", "music-track-2", "music-track-3"],
+      files: [],
       bootSeedKey: "",
     },
     sfx: {

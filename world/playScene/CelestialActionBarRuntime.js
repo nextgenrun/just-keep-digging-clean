@@ -5,6 +5,7 @@ import {
   getCelestialActionBarEntry,
 } from "../../values/celestialActionBar.js";
 import { CELESTIAL_ENGINE_CONFIG } from "../../values/celestialEngines.js";
+import { SPECIAL_BLOCKS_CONFIG } from "../../values/specialBlocks.js";
 import { TILE_TYPES } from "../../values/tileTypes.js";
 import { describeCelestialTalentAvailability } from
   "../../values/celestialTalentTreeUi.js";
@@ -28,16 +29,32 @@ function gpState(abilities, cost, godMode = false, context = {}) {
   );
   return {
     available,
-    unavailableReason: godMode ? "" : "Requires " + required + " GP. Current GP: "
-      + Math.floor(current) + (hasSpendableValue
-        ? ". Spendable GP: " + Math.floor(spendable) + "."
-        : "."),
+    unavailableReason: godMode ? "" : "Need " + required + " GP • "
+      + (hasSpendableValue
+        ? "You can spend " + Math.floor(spendable) + " of your " + Math.floor(current) + " GP"
+        : "You have " + Math.floor(current) + " GP"),
   };
 }
 
 function gpDescription(entryId, cost) {
   const description = getCelestialActionBarEntry(entryId)?.description || "Activate ability.";
   return `${description} Costs ${Math.max(0, Number(cost) || 0)} GP.`;
+}
+
+function getPendingAbilityChoiceState(scene, entryId) {
+  const snapshot = scene.specialBlockEffectsManager?.getFreeAbilitySnapshot?.();
+  if (snapshot?.pending !== true) return null;
+  const selectable = snapshot.eligibleAbilityIds.includes(entryId);
+  return {
+    unlocked: true,
+    available: selectable,
+    active: selectable,
+    description: selectable
+      ? "Choose this power for 20 seconds of free use."
+      : "This slot is not an Ability Block choice.",
+    unlockCondition: "",
+    unavailableReason: "Choose one of the five power slots.",
+  };
 }
 
 function getEngineState(scene, entryId) {
@@ -47,18 +64,28 @@ function getEngineState(scene, entryId) {
   const root = branch?.nodes?.[0];
   const heart = scene.starHeartProgressionSystem?.getSnapshot?.();
   const godMode = scene.upgradeSystem?.godModeActive === true || heart?.godMode === true;
-  const gpCost = CELESTIAL_ENGINE_CONFIG.activation.gpCost;
-  const gp = gpState(abilities, gpCost, godMode, {
+  const gpContext = {
     source: "celestial-engine",
     abilityId: entryId,
-  });
-  const unlocked = godMode || talents?.unlockedAbilityIds?.includes?.(entryId) === true;
+  };
+  const gpCost = godMode
+    ? 0
+    : abilities?.getEffectiveGemPowerCost?.(
+        CELESTIAL_ENGINE_CONFIG.activation.gpCost,
+        gpContext,
+      ) ?? CELESTIAL_ENGINE_CONFIG.activation.gpCost;
+  const gp = gpState(abilities, gpCost, godMode, gpContext);
   const active = scene.celestialEngineController?.isEngineActive?.(entryId) === true;
+  const temporary = scene.specialBlockEffectsManager?.isFreeAbilityActive?.(entryId) === true;
+  const unlocked = godMode
+    || temporary
+    || active
+    || talents?.unlockedAbilityIds?.includes?.(entryId) === true;
   const runtimeAvailable = scene.celestialEngineController?.isActivationAvailable?.() === true;
   let unavailableReason = "";
-  if (!unlocked) unavailableReason = "Unlock this Engine at the Star Pillar.";
+  if (!unlocked) unavailableReason = "Unlock this power at the Star Pillar.";
   else if (active) unavailableReason = "This Celestial power is already active.";
-  else if (!runtimeAvailable) unavailableReason = "Celestial power runtime is busy.";
+  else if (!runtimeAvailable) unavailableReason = "Finish the active Celestial power first.";
   else if (!gp.available) unavailableReason = gp.unavailableReason;
   return {
     unlocked,
@@ -73,6 +100,8 @@ function getEngineState(scene, entryId) {
 }
 
 export function getCelestialActionBarAbilityState(scene, entryId) {
+  const choiceState = getPendingAbilityChoiceState(scene, entryId);
+  if (choiceState) return choiceState;
   const abilities = scene.playerController?.abilities;
   const godMode = scene.upgradeSystem?.godModeActive === true;
   if (entryId === CELESTIAL_ACTION_BAR_ENTRY_IDS.QUICK_SLASH) {
@@ -132,6 +161,9 @@ export function getCelestialActionBarMetrics(scene) {
 }
 
 export function activateCelestialActionBarEntry(scene, entryId) {
+  if (scene.specialBlockEffectsManager?.isAbilityChoicePending?.() === true) {
+    return scene.specialBlockEffectsManager.selectFreeAbility(entryId);
+  }
   if (entryId === CELESTIAL_ACTION_BAR_ENTRY_IDS.QUICK_SLASH) {
     const queued = scene.playerController?.input?.queueQuickslashInput?.() === true;
     return {
@@ -157,4 +189,64 @@ export function activateCelestialActionBarEntry(scene, entryId) {
       || { ok: false, reason: "missing-engine-controller" };
   }
   return { ok: false, reason: "unknown-ability" };
+}
+
+function cssColor(value, fallback) {
+  if (!Number.isInteger(value)) return fallback;
+  return `#${value.toString(16).padStart(6, "0").toUpperCase()}`;
+}
+
+export function presentAbilityBlockChoiceEvent(scene, event) {
+  const feedback = SPECIAL_BLOCKS_CONFIG.feedback.abilityBlock;
+  scene.celestialActionBarSystem?.sync?.(
+    event.type === "selected" ? event.abilityId : null,
+  );
+
+  if (event.type === "opened") {
+    for (const abilityId of [
+      CELESTIAL_ACTION_BAR_ENTRY_IDS.QUICK_SLASH,
+      CELESTIAL_ACTION_BAR_ENTRY_IDS.THUNDER_STRIKE,
+    ]) {
+      void scene.playerAbilityAssetController?.ensure?.(abilityId, { interactive: true });
+    }
+    scene.celestialActionBarSystem?.pulseEntries?.(event.eligibleAbilityIds);
+    scene.hudSystem?.flashStatus?.(
+      feedback.choicePrompt,
+      feedback.color,
+      feedback.durationMs,
+    );
+    scene.soundSystem?.playUiConfirm?.();
+    scene.screenFlashSystem?.flashReward?.();
+    return true;
+  }
+
+  const entry = getCelestialActionBarEntry(event.abilityId);
+  const label = entry?.label || "ABILITY";
+  const color = cssColor(entry?.accent, feedback.color);
+  if (event.type === "selected") {
+    void scene.playerAbilityAssetController?.ensure?.(
+      event.abilityId,
+      { interactive: true },
+    );
+    scene.hudSystem?.flashStatus?.(
+      feedback.selectedMessage
+        .replace("{ability}", label)
+        .replace("{seconds}", String(Math.ceil(event.durationMs / 1000))),
+      color,
+      2400,
+    );
+    scene.soundSystem?.playUiConfirm?.();
+    scene.screenFlashSystem?.flashReward?.();
+    return true;
+  }
+
+  if (event.type === "expired") {
+    scene.hudSystem?.flashStatus?.(
+      feedback.expiredMessage.replace("{ability}", label),
+      color,
+      1500,
+    );
+    return true;
+  }
+  return false;
 }

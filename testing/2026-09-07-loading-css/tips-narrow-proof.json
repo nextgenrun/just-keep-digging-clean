@@ -1,0 +1,76 @@
+{
+  "detail": "Aim with W/A/S/D, then hold Dig until the block breaks",
+  "edition": "OPEN BETA DEMO",
+  "elements": [
+    {
+      "bounds": {
+        "bottom": 538.699951171875,
+        "height": 80.61636352539062,
+        "right": 519.5,
+        "width": 399,
+        "x": 120.5,
+        "y": 458.0835876464844
+      },
+      "clip": "none",
+      "name": "menu-loading__panel",
+      "overflow": false
+    },
+    {
+      "bounds": {
+        "bottom": 515.4249877929688,
+        "height": 30.266387939453125,
+        "right": 519.5,
+        "width": 399,
+        "x": 120.5,
+        "y": 485.1585998535156
+      },
+      "clip": "none",
+      "name": "menu-loading__track",
+      "overflow": false
+    },
+    {
+      "bounds": {
+        "bottom": 502.1769409179687,
+        "height": 7.562896728515625,
+        "right": 507.1351623535156,
+        "width": 374.2703247070313,
+        "x": 132.86483764648438,
+        "y": 494.6140441894531
+      },
+      "clip": "none",
+      "name": "menu-loading__well",
+      "overflow": false
+    },
+    {
+      "bounds": {
+        "bottom": 538.699951171875,
+        "height": 18.52496337890625,
+        "right": 519.5,
+        "width": 399,
+        "x": 120.5,
+        "y": 520.1749877929688
+      },
+      "clip": "none",
+      "name": "menu-loading__detail",
+      "overflow": false
+    }
+  ],
+  "heading": "Tip: Default F mines the aimed tile",
+  "viewport": [
+    640,
+    800
+  ],
+  "retry": {
+    "viewport": [
+      640,
+      800
+    ],
+    "failurePanelAndDetailAndButtonNoHorizontalOverflow": true,
+    "keyboardEnter": {
+      "detail": "Aim with W/A/S/D, then hold Dig until the block breaks",
+      "panels": 1,
+      "progress": "64",
+      "state": "loading"
+    }
+  }
+}

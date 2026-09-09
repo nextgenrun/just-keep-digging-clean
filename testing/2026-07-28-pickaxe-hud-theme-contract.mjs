@@ -7,12 +7,14 @@ import { fileURLToPath } from "node:url";
 import {
   ASSET_KEYS,
   getPickaxeHudPreloadAssets,
+  getPickaxeIconPreloadAssets,
 } from "../values/assetKeys.js";
 import {
   PICKAXE_HUD_CONFIG,
   PICKAXE_HUD_THEMES,
 } from "../values/pickaxeHudThemes.js";
 import { UPGRADES } from "../values/upgradeDefinitions.js";
+import { UI_ICON_ATLAS } from "../values/uiIcons.js";
 import { PickaxeHudView } from "../systems/visual/PickaxeHudView.js";
 
 
@@ -94,11 +96,9 @@ assert.deepEqual(Object.keys(ASSET_KEYS.ui.pickaxeHud), expectedIds);
 assert.equal(PICKAXE_HUD_CONFIG.rollbackQuery.name, "pickaxeHud");
 assert.equal(PICKAXE_HUD_CONFIG.rollbackQuery.disabledValue, "0");
 assert.deepEqual(
-  [
-    PICKAXE_HUD_CONFIG.overlay.sourceWidth,
-    PICKAXE_HUD_CONFIG.overlay.sourceHeight,
-  ],
-  [417, 93],
+  [PICKAXE_HUD_CONFIG.overlay.x, PICKAXE_HUD_CONFIG.overlay.y,
+    PICKAXE_HUD_CONFIG.overlay.size],
+  [54, 60, 56],
 );
 
 const preloadAssets = getPickaxeHudPreloadAssets();
@@ -140,7 +140,11 @@ for (const [index, entry] of manifest.assets.entries()) {
 }
 assert.equal(overlayHashes.size, expectedIds.length);
 
-const textureKeys = new Set(preloadAssets.map(asset => asset.key));
+const iconAssets = getPickaxeIconPreloadAssets();
+const textureKeys = new Set([
+  UI_ICON_ATLAS.key,
+  ...iconAssets.map(asset => asset.key),
+]);
 const createdImages = [];
 const createdTexts = [];
 let purchasePulseCount = 0;
@@ -149,8 +153,8 @@ const scene = {
     exists: key => textureKeys.has(key),
   },
   add: {
-    image: (_x, _y, texture) => {
-      const image = makeDisplayObject({ texture });
+    image: (_x, _y, texture, frame) => {
+      const image = makeDisplayObject({ scene, texture, frame, width: 256, height: 256 });
       createdImages.push(image);
       return image;
     },
@@ -172,16 +176,18 @@ const scene = {
 
 const view = new PickaxeHudView(scene, 1);
 assert.equal(view.getSnapshot().ready, true);
-assert.equal(view.getSnapshot().overlayVisible, false);
+assert.equal(view.getSnapshot().overlayVisible, true);
+assert.equal(view.getSnapshot().label, PICKAXE_HUD_CONFIG.fallbackLabel);
 assert.equal(view.setPickaxe("bronzePickaxe"), true);
 assert.equal(view.getSnapshot().label, "BRONZE I");
-assert.equal(createdImages[0].texture, ASSET_KEYS.ui.pickaxeHud.bronzePickaxe.key);
+assert.equal(createdImages[0].texture, ASSET_KEYS.ui.pickaxeIcons.bronzePickaxe.key);
 assert.equal(createdTexts[0].color, PICKAXE_HUD_THEMES.bronzePickaxe.accent);
 assert.equal(view.setPickaxe("dragonPickaxe", { animate: true }), true);
 assert.equal(view.getSnapshot().pickaxeId, "dragonPickaxe");
 assert.equal(purchasePulseCount, 1);
 assert.equal(view.setPickaxe("unknownPickaxe"), false);
-assert.equal(view.getSnapshot().overlayVisible, false);
+assert.equal(view.getSnapshot().overlayVisible, true);
+assert.equal(view.getSnapshot().label, PICKAXE_HUD_CONFIG.fallbackLabel);
 view.destroy();
 assert.equal(createdImages[0].active, false);
 assert.equal(createdTexts[0].active, false);
@@ -193,15 +199,17 @@ const [bootSource, hudSource, approvedSource, shopSource] = await Promise.all([
   readFile(path.join(root, "ui", "overlays", "ShopOverlay.js"), "utf8"),
 ]);
 assert.match(bootSource, /getPickaxeHudPreloadAssets\(\)/);
+assert.match(bootSource, /getPickaxeIconPreloadAssets\(\)/);
 assert.match(approvedSource, /new PickaxeHudView\(scene, this\.scale\)/);
 assert.match(hudSource, /setCurrentPickaxe\(this\.scene\.upgradeSystem\?\.ownedPickaxe\)/);
+assert.match(shopSource, /ASSET_KEYS\.ui\.pickaxeIcons\?\.\[upgradeId\]/);
 assert.match(shopSource, /setCurrentPickaxe\?\.\(upgradeId,[\s\S]*animate: true/);
 
 console.log(
   JSON.stringify({
     themes: expectedIds.length,
     uniqueOverlays: overlayHashes.size,
-    runtimeSize: "417x93 RGBA -> 320x71",
+    runtimeSize: "256x256 icon -> 56x56 V2 badge",
     purchaseRefresh: true,
     persistedSync: "UpgradeSystem.ownedPickaxe",
     rollback: "?pickaxeHud=0",

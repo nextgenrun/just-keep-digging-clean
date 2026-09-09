@@ -1,0 +1,12 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>UNDERSTAR · Animated logo study</title>
+<link rel="stylesheet" href="../../css/menu-shell.css"><link rel="stylesheet" href="./review.css">
+</head><body><main class="mx-auto max-w-6xl space-y-4">
+<header><div><p class="eyebrow">UNDERSTAR / MOTION STUDY</p><h1>Let the world move. Keep the title clear.</h1><p>Three treatments of the original animated logo. No added brightness.</p></div><span class="review-tag">LOCAL REVIEW</span></header>
+<div id="styles" class="styles" aria-label="Logo treatment"></div>
+<div class="toolbar"><label>Scenery <select id="scenery"></select></label><label>View <select id="view"><option value="loading">Loading screen</option><option value="menu">Main menu</option></select></label><label>Video <select id="quality"><option value="optimized">Optimized · 30 fps</option><option value="current">Current · 60 fps</option></select></label><button id="pause">Pause motion</button></div>
+<div id="preview-root" aria-label="Animated game mockup"></div>
+<div class="caption"><p id="description"></p><span id="playback">Preparing the original animation…</span></div>
+<details><summary>Playback check</summary><p>Same resolution and scenery speed in both versions. Switching title treatments keeps both videos running. Samples exclude hidden-tab time.</p><button id="reset-stats">Restart measurement</button><pre id="diagnostics"></pre></details>
+</main><script src="../../libs/phaser.js"></script><script type="module" src="./review.js"></script></body></html>

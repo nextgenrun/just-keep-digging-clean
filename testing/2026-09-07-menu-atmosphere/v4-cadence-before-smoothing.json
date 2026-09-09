@@ -1,0 +1,182 @@
+{
+  "audioTracks": 0,
+  "blendSamples": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+  ],
+  "bufferedEnd": 14.875,
+  "cadence": {
+    "frameGapMax": 50.2,
+    "frameGapP95": 50.1,
+    "wraps": []
+  },
+  "decoded": true,
+  "duration": 14.875,
+  "effectiveVideoOpacity": 1,
+  "failedMedia": false,
+  "handoffs": [
+    {
+      "fadeSeconds": 1.7894410000000005,
+      "incomingTime": 1.801638,
+      "outgoingDuration": 14.875,
+      "outgoingTime": 14.737357,
+      "sceneKey": "bg-db-f1frtjf1frtjf1fr"
+    },
+    {
+      "fadeSeconds": 1.7955919999999996,
+      "incomingTime": 1.802153,
+      "outgoingDuration": 14.875,
+      "outgoingTime": 14.731692,
+      "sceneKey": "bg-db-f1frtjf1frtjf1fr"
+    },
+    {
+      "fadeSeconds": 1.7949039999999994,
+      "incomingTime": 1.802095,
+      "outgoingDuration": 14.875,
+      "outgoingTime": 14.732287,
+      "sceneKey": "bg-db-f1frtjf1frtjf1fr"
+    },
+    {
+      "fadeSeconds": 1.7950199999999996,
+      "incomingTime": 1.801871,
+      "outgoingDuration": 14.875,
+      "outgoingTime": 14.732064,
+      "sceneKey": "bg-db-f1frtjf1frtjf1fr"
+    },
+    {
+      "fadeSeconds": 1.7954980000000007,
+      "incomingTime": 1.802411,
+      "outgoingDuration": 14.875,
+      "outgoingTime": 14.732039,
+      "sceneKey": "bg-db-f1frtjf1frtjf1fr"
+    },
+    {
+      "fadeSeconds": 1.794470000000001,
+      "incomingTime": 1.801778,
+      "outgoingDuration": 14.875,
+      "outgoingTime": 14.73244,
+      "sceneKey": "bg-db-f1frtjf1frtjf1fr"
+    },
+    {
+      "fadeSeconds": 1.7948720000000002,
+      "incomingTime": 1.801908,
+      "outgoingDuration": 14.875,
+      "outgoingTime": 14.732112,
+      "sceneKey": "bg-db-f1frtjf1frtjf1fr"
+    },
+    {
+      "fadeSeconds": 1.7950640000000004,
+      "incomingTime": 1.801904,
+      "outgoingDuration": 14.875,
+      "outgoingTime": 14.731918,
+      "sceneKey": "bg-db-f1frtjf1frtjf1fr"
+    }
+  ],
+  "logo": {
+    "backing": true,
+    "posterVisible": true,
+    "state": "playing"
+  },
+  "loopCount": 8,
+  "mediaFallbacks": [],
+  "mode": "motion",
+  "muted": true,
+  "nativeLoopCount": 0,
+  "nativeLoops": [],
+  "ownedShutdownListeners": 16,
+  "playing": true,
+  "posterOpacity": 0,
+  "renderFps": 60,
+  "roots": 1,
+  "scenery": "Aurora sanctuary",
+  "seekableEnd": 14.875,
+  "textureCount": 15,
+  "textureKeys": [
+    "__NORMAL",
+    "__DEFAULT",
+    "__MISSING",
+    "__WHITE",
+    "brand-logo",
+    "brand-logo-backing",
+    "bg-db-f1frtjf1frtjf1fr",
+    "bg-db-g6ozmlg6ozmlg6oz",
+    "bg-db-rimx2primx2primx",
+    "bg-db-kjwykkjwykkjwykk",
+    "bg-db-i30bfci30bfci30b",
+    "bg-db-wocn9hwocn9hwocn",
+    "0895efe0-3bc5-412d-99b8-5eb24c1465f3",
+    "3e50d985-ed84-419e-aeb5-4fbadc1b0a06",
+    "79c3574b-93e6-4cb0-ae44-efb07e50b983"
+  ],
+  "time": 3.386,
+  "videoCount": 2,
+  "videoOpacity": 1,
+  "videoQuality": [
+    {
+      "dropped": 2,
+      "role": "menu-atmosphere-buffer",
+      "total": 1436
+    },
+    {
+      "dropped": 2,
+      "role": "menu-atmosphere-video",
+      "total": 1513
+    }
+  ],
+  "videoSources": [
+    "sprites/backgrounds/menu-atmosphere-v4/aurora.mp4",
+    "sprites/backgrounds/menu-atmosphere-v4/aurora.mp4"
+  ],
+  "videoStates": [
+    {
+      "alpha": 0,
+      "frameReady": true,
+      "paused": true,
+      "role": "menu-atmosphere-buffer",
+      "time": 0
+    },
+    {
+      "alpha": 1,
+      "frameReady": true,
+      "paused": false,
+      "role": "menu-atmosphere-video",
+      "time": 3.386092
+    }
+  ],
+  "view": true,
+  "viewState": "Tip: Default F mines the aimed tile"
+}

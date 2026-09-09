@@ -21,6 +21,7 @@ import {
   resolveUalFlightTimeScale,
 } from "../../values/ualNativeActionTuning.js";
 import { UalMiningComboSelector } from "../../player/UalMiningComboSelector.js";
+import { canStartUalMiningAction } from "../../player/ualMiningActionCadence.js";
 import { resolveMovingDiagonalDigAnimation } from "../../player/UalMovingDiagonalDigSelector.js";
 import { resolveMovingSideDigAnimation } from "../../player/UalMovingSideDigSelector.js?rev=20260821-moving-complex-dig-v1";
 import {
@@ -35,6 +36,7 @@ import {
 } from "../../values/gameplayDevFlags.js";
 import { setBlockingSurfaceOpen } from "./SceneModeBridge.js";
 import {
+  prewarmComplexDigSelection,
   resolveComplexDigSelection,
   resolveComplexDigSourceFacesRight,
 } from "./ComplexDigAnimationRuntime.js";
@@ -171,7 +173,8 @@ export function setupGameplayMethods(prototype) {
     const ts = scene.config.tileSize;
     const visualX = scene.player?.x;
     const visualY = scene.player?.y;
-    scene.playerController.physicsBody.setPosition(tx * ts, ty * ts);
+    const placed = scene.playerController.physicsBody.setPosition(tx * ts, ty * ts);
+    if (placed === false) return false;
     scene.playerController.physicsBody.resetVelocity();
     const base = getLivingDrillBaseSpritePosition(scene);
     if (base && Number.isFinite(visualX) && Number.isFinite(visualY)) {
@@ -281,13 +284,11 @@ export function setupGameplayMethods(prototype) {
 
   prototype._getMovingWalkLoopAnim = function() {
     const profile = getP(this);
-    const cfg = profile.walkAnimation || ASSET_KEYS.player.walkAnimation;
-    const ratio = this.playerController?.getWalkSpeedRatio?.() ?? 1;
     const walkRunFrames = profile.walkRunFrames || ASSET_KEYS.player.walkRunFrames;
     const walkRunAnim = walkRunFrames?.length
       ? profile.walkRunAnim || ASSET_KEYS.player.walkRunAnim
       : null;
-    return ratio >= (cfg.runSpeedRatioThreshold ?? 1.35) && walkRunAnim
+    return this.playerController?.isRunning?.() === true && walkRunAnim
       ? walkRunAnim
       : profile.walkLoopAnim || ASSET_KEYS.player.walkLoopAnim;
   };
@@ -309,6 +310,8 @@ export function setupGameplayMethods(prototype) {
   ) {
     const profile = getP(this);
     if (!profile.isUalNative || !this.isDigAnimating) return false;
+    // Let a watchdog-triggered Lance reach its visible hand/foot contact before recovery can be replaced.
+    if (this.celestialEngineController?.lanceContactPresenter?.hasPendingContact) return false;
     if (this.ualActionContactTimeline?.allContactsFired !== true) return false;
     const contactAtMs = this._ualActionContactAtMs;
     const cadence = abilities?.isQuickslashActive?.() === true
@@ -331,6 +334,7 @@ export function setupGameplayMethods(prototype) {
     this.ualActionContactTimeline?.cancel();
     this.playerRigContact?.endAction();
     this.isDigAnimating = false;
+    this._ualMiningActionKind = null;
     this._ualActionContactAtMs = -Infinity;
     if (this.player?.anims) this.player.anims.timeScale = 1;
     return true;
@@ -341,11 +345,16 @@ export function setupGameplayMethods(prototype) {
     this.worldRenderer?.applyTileUpdate(targetTile.tx, targetTile.ty);
   };
 
-  prototype.applyMineFeedback = function(result, targetTile) {
+  prototype.applyMineFeedback = function(result, targetTile, contactEvent = null) {
     if (!result || !targetTile) return;
     this._lastMinedTileType = result.typeBeforeDamage ?? result.tileType ?? null;
-    this._applyMineShake?.(result);
-    if (result.success) this.playerBodyLanguage?.onDigImpact(result.destroyed === true);
+    let queued = false;
+    if (result.success) {
+      this.playerBodyLanguage?.onDigImpact(result.destroyed === true);
+      queued = this.digImpactFxSystem?.play({ result, targetTile, contactEvent });
+      if (!queued) this.speedBlockFxSystem?.onMineImpact(targetTile);
+    }
+    if (!queued || !this.digImpactFxSystem?.feedback?.enabled) this._applyMineShake?.(result);
     if (result.destroyed) {
       const worldX = targetTile.tx * this.config.tileSize + this.config.tileSize / 2;
       const worldY = targetTile.ty * this.config.tileSize + this.config.tileSize / 2;
@@ -357,23 +366,59 @@ export function setupGameplayMethods(prototype) {
 
   prototype.showLootPickupFeedback = function(reward, targetTile, overrides = {}) {
     if (!reward || !targetTile || !this.lootPickupFxSystem) return;
+    const worldX = targetTile.tx * this.config.tileSize + this.config.tileSize / 2;
+    const worldY = targetTile.ty * this.config.tileSize + this.config.tileSize / 2;
+    const hasResourceOverride = Object.prototype.hasOwnProperty.call(
+      overrides,
+      "resourceType",
+    );
+    const specialBlockDestroyed = overrides.specialBlockDestroyed
+      ?? (!hasResourceOverride && reward.specialBlockDestroyed === true);
+    if (specialBlockDestroyed) {
+      this.lootPickupFxSystem.showSpecialBlockPickup?.(Object.freeze({
+        worldX,
+        worldY,
+        tileX: targetTile.tx,
+        tileY: targetTile.ty,
+        tileType: overrides.tileType
+          ?? reward.typeBeforeDamage
+          ?? reward.tileType
+          ?? null,
+        specialBlockEffect: overrides.specialBlockEffect
+          ?? reward.specialBlockEffect
+          ?? null,
+        gemPowerTierId: overrides.gemPowerTierId
+          ?? reward.gemPowerTierId
+          ?? null,
+      }));
+    }
+
+    const skyTileRarity = overrides.skyTileRarity ?? reward.skyTileRarity;
+    const rewardTileType = overrides.tileType
+      ?? reward.typeBeforeDamage
+      ?? reward.tileType
+      ?? null;
+    const isStarResource = overrides.isStarResource ?? (
+      !hasResourceOverride
+      && rewardTileType === TILE_TYPES.SKY_TILE
+    );
+    if (isStarResource) return;
+
     const resourceType = overrides.resourceType ?? reward.resourceType ?? reward.resource;
     const amount = overrides.amount ?? reward.resourceAmount ?? 1;
     if (!resourceType || amount <= 0) return;
 
-    const worldX = targetTile.tx * this.config.tileSize + this.config.tileSize / 2;
-    const worldY = targetTile.ty * this.config.tileSize + this.config.tileSize / 2;
-    const skyTileRarity = overrides.skyTileRarity ?? reward.skyTileRarity;
     const isSkyTileBonus = overrides.isSkyTileBonus ?? ((reward.skyTileMultiplier ?? 1) > 1);
     this.lootPickupFxSystem.showResourcePickup({
       worldX,
       worldY,
       resourceType,
       amount,
-      isLuckyDrop: overrides.isLuckyDrop ?? reward.isLuckyDrop ?? false,
+      tileX: targetTile.tx,
+      tileY: targetTile.ty,
       isSkyTileBonus,
-      isStarResource: overrides.isStarResource
-        ?? (skyTileRarity !== null && skyTileRarity !== undefined),
+      skyTileRarity,
+      isStarResource,
     });
   };
 
@@ -385,11 +430,18 @@ export function setupGameplayMethods(prototype) {
 
     if (result.success) {
       const material = getMaterialFeedback(tileType);
-      if (tileType === TILE_TYPES.SKY_TILE) { this.soundSystem.playStarDig(); }
-      else {
-        this.soundSystem.playDig({ rate: material.digRate });
+      if (tileType === TILE_TYPES.SKY_TILE) {
+        if (result.destroyed) this.soundSystem.playStarDestruction();
+        else this.soundSystem.playStarDig();
+      } else {
+        if (result.destroyed) {
+          this.soundSystem.playTileBreak({
+            tileType,
+            rate: material.breakRate,
+            volume: material.breakVolume,
+          });
+        } else this.soundSystem.playDig({ rate: material.digRate, tileType });
       }
-      if (result.destroyed) this.soundSystem.playTileBreak({ rate: material.breakRate, volume: material.breakVolume });
     }
   };
 
@@ -397,10 +449,18 @@ export function setupGameplayMethods(prototype) {
 
   prototype.queueDigImpactFeedback = function(feedback) {
     if (!feedback?.result) { this._pendingDigImpactFeedback = null; return; }
+    // Preserve every contact if a skipped frame crosses two hits. The legacy
+    // audio/shake slot stays singular; play() deduplicates its later flush.
+    this.digImpactFxSystem?.play({
+      result: feedback.result,
+      targetTile: feedback.targetTile,
+      contactEvent: feedback.contactEvent,
+    });
     this._pendingDigImpactFeedback = {
       result: feedback.result,
       targetTile: feedback.targetTile ? { ...feedback.targetTile } : null,
       tileType: feedback.tileType ?? null,
+      contactEvent: feedback.contactEvent || null,
     };
   };
 
@@ -408,10 +468,10 @@ export function setupGameplayMethods(prototype) {
     const pending = this._pendingDigImpactFeedback;
     this._pendingDigImpactFeedback = null;
     if (!pending?.result) return;
-    const { result, targetTile, tileType } = pending;
+    const { result, targetTile, tileType, contactEvent } = pending;
     if (result.success) this.playMineImpactFx(targetTile, result.destroyed);
     this.playMineFeedbackAudio(result, tileType);
-    this.applyMineFeedback(result, targetTile);
+    this.applyMineFeedback(result, targetTile, contactEvent);
   };
 
   prototype.startDigAnimation = function(mineFeedback = null) {
@@ -421,6 +481,12 @@ export function setupGameplayMethods(prototype) {
     }
     const profile = getP(this);
     const aim = aimFromTargetTile(this, mineFeedback?.targetTile, this.playerController.getAimLabel());
+    const actionKind = mineFeedback?.actionKind === "quickslash" ? "quickslash" : "normal";
+    if (actionKind === "normal" && aim.startsWith("DOWN")) {
+      this.playerDeferredAnimationAssetController?.ensureForAnimation?.(
+        profile.downwardDigPrewarmAnimationKey,
+      );
+    }
     if (profile.immediateDigImpactFeedback) {
       this.queueDigImpactFeedback(mineFeedback);
       this.flushPendingDigImpactFeedback();
@@ -428,19 +494,26 @@ export function setupGameplayMethods(prototype) {
     const activeActionKey = this.player.anims.currentAnim?.key ?? null;
     const nativePunchInProgress = profile.isUalNative
       && this.isDigAnimating
-      && this.player.anims.isPlaying
+      && (this.player.anims.isPlaying || this.digImpactFxSystem?.feedback?.holding)
       && (profile.punchActionAnims || profile.digAnims || []).includes(activeActionKey);
     if (nativePunchInProgress && !this.cancelUalDigRecovery(
       this.time?.now || 0,
       this.playerController?.abilities,
     )) return false;
+    if (
+      profile.isUalNative
+      && !canStartUalMiningAction({
+        digSystem: this.digSystem,
+        nowMs: this.time?.now || 0,
+        abilities: this.playerController?.abilities,
+        actionKind,
+      })
+    ) return false;
 
     let animKey = profile.digDownAnim || ASSET_KEYS.player.digDownAnim;
     let deferredFallbackAnimKey = animKey;
     let flipX = false;
     let postActionFacingFlipX = !this.playerController.isFacingRight();
-    const actionKind = mineFeedback?.actionKind === "quickslash" ? "quickslash" : "normal";
-
     if (mineFeedback?.animationKeyOverride) {
       animKey = mineFeedback.animationKeyOverride;
     }
@@ -473,12 +546,14 @@ export function setupGameplayMethods(prototype) {
       postActionFacingFlipX = false;
     } else if (aim === "LEFT" || aim === "DOWN-LEFT") {
       const selection = resolveComplexDigSelection(this, profile, "side", profile.digSidewaysHitAnims || ASSET_KEYS.player.digSidewaysHitAnims, profile.digSidewaysAnim || ASSET_KEYS.player.digSidewaysAnim);
+      prewarmComplexDigSelection(this, selection);
       deferredFallbackAnimKey = selection.fallback;
       animKey = selectComboAnim(this, selection.family, aim, selection.animationKeys, selection.fallback, mineFeedback?.targetTile);
       flipX = flipXForSidewaysDigDirectionX(this, -1, animKey);
       postActionFacingFlipX = true;
     } else if (aim === "RIGHT" || aim === "DOWN-RIGHT") {
       const selection = resolveComplexDigSelection(this, profile, "side", profile.digSidewaysHitAnims || ASSET_KEYS.player.digSidewaysHitAnims, profile.digSidewaysAnim || ASSET_KEYS.player.digSidewaysAnim);
+      prewarmComplexDigSelection(this, selection);
       deferredFallbackAnimKey = selection.fallback;
       animKey = selectComboAnim(this, selection.family, aim, selection.animationKeys, selection.fallback, mineFeedback?.targetTile);
       flipX = flipXForSidewaysDigDirectionX(this, 1, animKey);
@@ -549,6 +624,7 @@ export function setupGameplayMethods(prototype) {
       this.ualActionContactTimeline?.cancel();
       this.playerRigContact?.endAction();
       this.isDigAnimating = false;
+      this._ualMiningActionKind = null;
       mineFeedback?.onContact?.({
         now: this.time?.now || 0,
         aim,
@@ -564,13 +640,17 @@ export function setupGameplayMethods(prototype) {
       this.playerController?.abilities,
     ) || 0;
     const actionTimeScale = profile.isUalNative
-      ? resolveUalActionTimeScale({ frameCount, frameRate, effectiveCooldownMs, kind: actionKind })
+      ? resolveUalActionTimeScale({
+          frameCount, frameRate, effectiveCooldownMs, kind: actionKind,
+          miningSpeedMultiplier: this.digSystem?.getMiningSpeedBoostMultiplier?.() || 1,
+        })
       : 1;
     const contactSpec = profile.isUalNative
       ? resolveUalActionContact(profile, animKey, actionKind)
       : null;
 
     this.isDigAnimating = true;
+    this._ualMiningActionKind = actionKind;
     this._ualActionContactAtMs = -Infinity;
     this._actionFlipX = flipX;
     this._postActionFacingFlipX = postActionFacingFlipX;
@@ -581,8 +661,12 @@ export function setupGameplayMethods(prototype) {
       this.config.playerDisplaySizePx,
       animKey,
     );
-    this.player.setDisplaySize(displaySize, displaySize);
     this.player.play(animKey, true);
+    this.soundSystem?.playDigSwing?.();
+    // Phaser keeps the previous frame's scale when a new atlas frame becomes
+    // active. Apply authored geometry after play() so 256px <-> 192px sheet
+    // handoffs cannot flash at 75% or 133% size for one rendered frame.
+    this.player.setDisplaySize(displaySize, displaySize);
 
     if (profile.isUalNative) {
       this.player.setAngle(0);
@@ -983,8 +1067,8 @@ export function setupGameplayMethods(prototype) {
       this.config.playerDisplaySizePx,
       animationKey,
     );
-    this.player.setDisplaySize(displaySize, displaySize);
     this.player.play(animationKey, true);
+    this.player.setDisplaySize(displaySize, displaySize);
     this.playerController?._syncSpriteWithPhysics?.();
     this.pickaxeTrailSystem?.stop();
     return true;
@@ -1113,9 +1197,9 @@ export function setupGameplayMethods(prototype) {
       && !specialIdleVisual
     ) {
       const body = this.playerController?.physicsBody;
-      const horizontalVelocity = this.playerKinematicMotion?.getResolvedVelocityX?.()
-        ?? body?.vx
-        ?? 0;
+      const horizontalVelocity = profile.characterGroundingPolish && this.playerController.isGrounded()
+        ? body?.vx || 0
+        : this.playerKinematicMotion?.getResolvedVelocityX?.() ?? body?.vx ?? 0;
       const resolvedVerticalVelocity = this.playerKinematicMotion?.getResolvedVelocityY?.()
         ?? body?.vy
         ?? 0;
@@ -1126,6 +1210,7 @@ export function setupGameplayMethods(prototype) {
       locomotionSelection = this.ualLocomotionTransitionSelector.resolve({
         grounded: this.playerController.isGrounded(),
         flying: poweredFlight,
+        running: this.playerController.isRunning?.() === true,
         horizontalVelocity,
         verticalVelocity,
         currentAnimationKey: currentAnimKey,
@@ -1244,13 +1329,16 @@ export function setupGameplayMethods(prototype) {
     const duckAnim = profile.duckAnim || ASSET_KEYS.player.duckAnim;
     const crouchEnterAnim = profile.crouchEnterAnim || null;
     const crouchExitAnim = profile.crouchExitAnim || null;
-    if (!ledgeVisual && forcedCrouchVisual) {
+    // Held DOWN also requests the crouch collider. Keep the completed mining
+    // pose until its existing cooldown hold releases, without changing physics.
+    const holdingActionPose = motionOverride?.holdCompleted === true;
+    if (!ledgeVisual && !holdingActionPose && forcedCrouchVisual) {
       targetAnim = duckAnim;
       isWalking = false;
       flipX = !this.playerController.isFacingRight();
     }
     const wantsCrouch = targetAnim === duckAnim;
-    if (!ledgeVisual) {
+    if (!ledgeVisual && !holdingActionPose) {
       const crouchTransitionAnim = resolveUalCrouchTransitionAnimation({
         wantsCrouch,
         currentAnimationKey: currentAnimKey,
@@ -1321,16 +1409,20 @@ export function setupGameplayMethods(prototype) {
       profile.leanAgainstWallAnim || ASSET_KEYS.player.leanAgainstWallAnim,
       ...(this.playerMotionPolish?.oneShotAnimationKeys || []),
     ];
-    const shouldHoldCompletedOneShot = !force
+    const shouldHoldCompletedOneShot = (
+      !force || motionOverride?.holdCompleted === true
+    )
       && currentRuntimeAnimKey === targetAnim
       && !this.player.anims.isPlaying
-      && oneShotHoldAnims.includes(baseTargetAnim);
+      && (
+        oneShotHoldAnims.includes(baseTargetAnim)
+        || motionOverride?.holdCompleted === true
+      );
     const displaySize = resolvePlayerDisplaySizePx(
       profile,
       this.config.playerDisplaySizePx,
       targetAnim,
     );
-    this.player.setDisplaySize(displaySize, displaySize);
     if (!shouldHoldCompletedOneShot) {
       const startFrame = locomotionSelection?.animationKey === baseTargetAnim
         && Number.isFinite(locomotionSelection.startFrame)
@@ -1346,6 +1438,9 @@ export function setupGameplayMethods(prototype) {
       const ignoreIfPlaying = restartRequested ? false : !force;
       this.player.play(targetAnim, ignoreIfPlaying, startFrame);
     }
+    // Always size from the frame that play() actually selected. This is also
+    // required for completed one-shots, where no new play call is made.
+    this.player.setDisplaySize(displaySize, displaySize);
     if (!motionOverride && baseTargetAnim === (profile.idleAnim || ASSET_KEYS.player.idleAnim) && motionState === "idle") {
       this.player.anims.timeScale = this.playerMotionPolish?.getIdleTimeScale?.(now) ?? 1.0;
     }
@@ -1354,13 +1449,10 @@ export function setupGameplayMethods(prototype) {
   };
 
   prototype._applyMineShake = function(result) {
-    if (!this._gamefeelConfig) return;
+    if (!result?.success || !this._gamefeelConfig) return;
     if (this.game.loop.actualFps < this._gamefeelConfig.shake.minFps) return;
-    const tileType = result.tileType ?? result.typeBeforeDamage ?? null;
-    const signature = getMineShakeSignature(tileType, {
-      critical: result.isCriticalHit,
-      destroyed: result.destroyed,
-    });
+    const tileType = result.typeBeforeDamage ?? result.tileType ?? null;
+    const signature = getMineShakeSignature(tileType);
     const material = getMaterialFeedback(tileType);
     const intensityScale = (result.destroyed ? 1 : 0.65) * (material.shakeScale || 1);
     this.shakeSystem?.shake(signature, intensityScale);

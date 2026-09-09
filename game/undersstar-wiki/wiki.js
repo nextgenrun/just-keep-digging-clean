@@ -1,3 +1,4 @@
+import { initializeWikiSearch } from "./search-ui.js?v=20260907-guide1";
 const STRIPE_PUBLIC_KEY = "pk_live_51NxZUUB57hMeY0DPRGITnupp7gwyWGv7Xi1vhCNpdcmtR7eWzA5MCv2iIQrnQOQst7g7HEavjEEyCZPP9RJfjO2400DtEELg5E";
 const CHECKOUT_ENDPOINT = "/_api/stripe-nextgen/create-checkout-session.php";
 const MINIMUM_DONATION_EUR = 2;
@@ -6,9 +7,6 @@ const MAXIMUM_DONATION_EUR = 500;
 const body = document.body;
 const navToggle = document.querySelector("[data-nav-toggle]");
 const wikiNav = document.querySelector("[data-wiki-nav]");
-const searchInput = document.querySelector("[data-wiki-search]");
-const searchStatus = document.querySelector("[data-search-status]");
-const searchEmpty = document.querySelector("[data-search-empty]");
 const sections = [...document.querySelectorAll(".wiki-section")];
 const navLinks = [...document.querySelectorAll("[data-wiki-nav] a")];
 
@@ -28,36 +26,8 @@ wikiNav?.addEventListener("click", (event) => {
 });
 
 document.addEventListener("keydown", (event) => {
-  const typing = /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement?.tagName || "");
-  if (event.key === "/" && !typing) {
-    event.preventDefault();
-    searchInput?.focus();
-  }
   if (event.key === "Escape") closeNavigation();
 });
-
-function normalizeSearch(value) {
-  return String(value || "").trim().toLocaleLowerCase();
-}
-
-function updateSearch() {
-  const query = normalizeSearch(searchInput?.value);
-  let matches = 0;
-  sections.forEach((section) => {
-    const searchableText = normalizeSearch(`${section.dataset.search || ""} ${section.textContent}`);
-    const visible = !query || searchableText.includes(query);
-    section.hidden = !visible;
-    if (visible) matches += 1;
-  });
-  searchEmpty?.classList.toggle("visible", matches === 0);
-  if (searchStatus) {
-    searchStatus.textContent = query
-      ? `${matches} wiki ${matches === 1 ? "section" : "sections"} found for “${searchInput.value.trim()}”.`
-      : "Showing the complete wiki.";
-  }
-}
-
-searchInput?.addEventListener("input", updateSearch);
 
 const visibleSectionObserver = new IntersectionObserver((entries) => {
   const activeEntry = entries
@@ -161,4 +131,4 @@ donationForm?.addEventListener("submit", async (event) => {
   }
 });
 
-updateSearch();
+initializeWikiSearch();

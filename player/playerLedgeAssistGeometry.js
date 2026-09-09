@@ -59,6 +59,10 @@ export function findReachableLedge({
     if (gap < 0 || gap > gapLimit) return;
 
     for (let ty = minimumTy; ty <= maximumTy; ty += 1) {
+      // Only the top surface being dropped through is ineligible; other ledges
+      // keep their normal capture rules, even while this drop is active.
+      if (ty === collisionSystem.config?.topAirRows
+        && ty === body.surfaceDropThroughRow) continue;
       if (!worldModel.isSolid(tx, ty) || worldModel.isSolid(tx, ty - 1)) continue;
       const ledgeTopY = ty * tileSize;
       if (Math.abs(ledgeTopY - gripY) > verticalTolerance) continue;

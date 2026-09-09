@@ -1,0 +1,15 @@
+{
+  "url": "http://127.0.0.1:8775/preview.html",
+  "duration": 180,
+  "resolution": [
+    1920,
+    1080
+  ],
+  "normalPlaybackRate": 1,
+  "chapterSeekVerifiedAtSeconds": 59.564272,
+  "threeStarColorsVisible": true,
+  "endcardVisuallyVerified": true,
+  "finalCurrentTime": 180,
+  "ended": true,
+  "mediaError": null
+}

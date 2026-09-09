@@ -46,15 +46,18 @@ const clips = Object.freeze({
   uppercut: clip({ id: "uppercut", fileName: "survival-character-mixamo-v3-dig-up-uppercut-sheet.png", from: 3, to: 19, contactFrame: 17, contactSequenceIndex: 14, originY: 912 / 1024, markerGroup: "hands", sourceAction: "mixamo-uppercut" }),
 });
 
+// Cross Punch was removed in error. Keep the resident Jab first so the
+// remaining SIDE pack warms before the restored Cross is selected.
+const excludedSideClips = Object.freeze([]);
 const sideFamilies = Object.freeze([
-  Object.freeze(["cross", "jab", "roundhouse"]),
+  Object.freeze(["jab", "cross", "roundhouse"]),
   Object.freeze(["jabElbow"]),
   Object.freeze(["lowKick", "highKick", "spinningBackKick"]),
   Object.freeze(["elbowUppercut", "singleElbow", "hook"]),
 ]);
 
 export const COMPLEX_DIG_ANIMATIONS = Object.freeze({
-  version: "complex-dig-animations-v2-20260821",
+  version: "complex-dig-animations-v4-20260906",
   enabledByDefault: true,
   rollbackQuery: "complexDig",
   disabledQueryValue: "0",
@@ -73,6 +76,7 @@ export const COMPLEX_DIG_ANIMATIONS = Object.freeze({
   }),
   sourceFacesRight: true,
   clips,
+  excludedSideClips,
   sideFamilies,
   sideSequence: Object.freeze(sideFamilies.flatMap((family) => family)),
   upSequence: Object.freeze(["uppercut"]),

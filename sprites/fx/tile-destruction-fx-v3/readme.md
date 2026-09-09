@@ -20,3 +20,13 @@ rotate independently, then grow slightly as they enter the foreground before
 gravity and alpha settle them. `?authoredMineImpact=0` disables the system.
 
 Ground damage-state atlases are separate and unchanged.
+
+The material-particle polish installs tight, padded aliases for isolated chips
+directly from these pixels. Neither PNG, its hashes nor provenance is rewritten.
+Full-tile phases remain untrimmed; foot scuffs reuse authored p04 residue.
+`?particlePolish=0` restores prior full-cell sizing, composition and pacing.
+
+`DigImpactFxSystem` also reuses these promoted frames for small ordinary-hit
+flashes and a few outward chips at the measured fist/foot contact. It does not
+replace the full-tile destruction effect, add raster assets, or load the review
+library. Its independent rollback is `?digImpact=0`.

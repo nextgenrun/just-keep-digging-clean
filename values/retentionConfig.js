@@ -95,52 +95,52 @@ export const RETENTION_CONFIG = Object.freeze({
       ]),
     }),
     choice: Object.freeze({
-      title: "DO YOU WANT TO PLAY THE TUTORIAL?",
-      body: "A short guided start through movement, digging, Flight,\na permanent return gate, selling, and resuming below.\n\nSkip it if you know the loop — Flight is still unlocked.",
-      yesLabel: "YES  •  TEACH ME",
-      noLabel: "NO  •  START PLAYING",
+      title: "WOULD YOU LIKE A GUIDED START?",
+      body: "Learn movement, digging, Flight, return gates,\nselling, upgrades, and how to continue deeper.\n\nSkip it to start immediately with Flight unlocked.",
+      yesLabel: "SHOW ME",
+      noLabel: "SKIP TUTORIAL",
       footer: "A / D OR ARROWS  CHOOSE     ENTER  CONFIRM     ESC  BACK",
     }),
     copy: Object.freeze({
       move: Object.freeze({
-        phase: "1 / 7  •  MOVE",
+        phase: "1 / 7  â€¢  MOVE",
         title: "WALK TO THE GLOWING ARROW",
-        body: "PRESS {left}/{right}  •  STOP ON THE MARKED GROUND",
+        body: "PRESS {left}/{right}  â€¢  STOP ON THE MARKED GROUND",
       }),
       dig: Object.freeze({
-        phase: "2 / 7  •  DIG",
+        phase: "2 / 7  â€¢  DIG",
         title: "DIG THE MARKED BLOCK",
-        body: "FACE THE GLOWING BLOCK  •  HOLD {mine} UNTIL IT BREAKS",
+        body: "FACE THE GLOWING BLOCK  â€¢  HOLD {mine} UNTIL IT BREAKS",
       }),
       flight: Object.freeze({
-        phase: "3 / 7  •  FLIGHT",
+        phase: "3 / 7  â€¢  FLIGHT",
         title: "LIFT OFF ONCE",
-        body: "HOLD {fly} UNTIL YOU LEAVE THE GROUND  •  THEN FOLLOW THE GHOST",
+        body: "HOLD {fly} UNTIL YOU LEAVE THE GROUND  â€¢  THEN FOLLOW THE GHOST",
       }),
       portal: Object.freeze({
-        phase: "4 / 7  •  RETURN GATE",
+        phase: "4 / 7  â€¢  RETURN GATE",
         title: "DIG DOWN TO THE RETURN GATE AT 15M",
-        body: "PRESS {down} TO AIM DOWN  •  HOLD {mine} TO DIG  •  PRESS {interact} AT THE GATE",
+        body: "PRESS {down} TO AIM DOWN  â€¢  HOLD {mine} TO DIG  â€¢  PRESS {interact} AT THE GATE",
       }),
       sell: Object.freeze({
-        phase: "5 / 7  •  SELL",
-        title: "TURN YOUR REAL CARGO INTO MONEY",
-        body: "Return to the Money Monster  •  press {interact}  •  sell any stack",
+        phase: "5 / 7  â€¢  SELL",
+        title: "SELL WHAT YOU MINED",
+        body: "Return to the Money Monster  â€¢  press {interact}  â€¢  sell any material",
       }),
       upgrade: Object.freeze({
-        phase: "6 / 7  •  UPGRADE",
-        title: "TURN THE FIRST HAUL INTO POWER",
-        body: "Visit Player Upgrades  •  press {interact}  •  buy any affordable upgrade",
+        phase: "6 / 7  â€¢  UPGRADE",
+        title: "BUY YOUR FIRST UPGRADE",
+        body: "Visit Player Upgrades  â€¢  press {interact}  â€¢  buy any affordable upgrade",
       }),
       resume: Object.freeze({
-        phase: "7 / 7  •  RESUME",
-        title: "REOPEN THE DEEP ROUTE",
-        body: "Use the surface gate  •  enter the paired sky gate  •  resume at 15m",
+        phase: "7 / 7  â€¢  RESUME",
+        title: "RETURN TO 15m",
+        body: "Use the surface gate  â€¢  enter the paired sky gate  â€¢  resume at 15m",
       }),
       complete: Object.freeze({
-        phase: "CORE ROUTE LEARNED",
-        title: "DIG DEEPER  •  OPEN THE WAY BACK",
-        body: "Flight is local recovery  •  portals are long-distance return",
+        phase: "GUIDED START COMPLETE",
+        title: "YOU'RE READY TO DIG DEEPER",
+        body: "Use Flight for nearby recovery  â€¢  use gates to travel farther",
       }),
     }),
     ui: Object.freeze({
@@ -183,14 +183,14 @@ export const RETENTION_CONFIG = Object.freeze({
     definitions: Object.freeze([
       Object.freeze({
         id: "break-tiles",
-        label: "Break 35 tiles",
+        label: "Mine 35 blocks",
         event: "tileBreak",
         target: 35,
         rewardMoney: 30,
       }),
       Object.freeze({
         id: "gather-cargo",
-        label: "Collect 25 cargo",
+        label: "Collect 25 resources",
         event: "resource",
         target: 25,
         rewardMoney: 35,
@@ -201,13 +201,6 @@ export const RETENTION_CONFIG = Object.freeze({
         event: "depthGain",
         target: 60,
         rewardMoney: 45,
-      }),
-      Object.freeze({
-        id: "land-crits",
-        label: "Land 4 critical hits",
-        event: "criticalHit",
-        target: 4,
-        rewardMoney: 40,
       }),
     ]),
   }),
@@ -225,17 +218,13 @@ export const RETENTION_CONFIG = Object.freeze({
 
   hud: Object.freeze({
     x: 14,
-    // Sits one clean row above the currency strip instead of being hidden
-    // directly behind it at bottom-left.
-    bottom: 84,
-    width: 430,
-    height: 107.5,
-    // Measured against the authored 1024x256 foundation: the medallion is
-    // centered at source x160 and the readable plaque ends before x950.
-    paddingX: 119,
-    textWidth: 280,
-    promiseY: 39,
-    detailY: 69,
+    top: 111,
+    width: 332,
+    height: 48,
+    paddingX: 166,
+    textWidth: 300,
+    promiseY: 15,
+    detailY: 33,
     badgeX: 67,
     badgeKickerY: 42,
     badgeValueY: 63,
@@ -246,9 +235,9 @@ export const RETENTION_CONFIG = Object.freeze({
     borderAlpha: 0.95,
     promiseColor: "#f0c765",
     detailColor: "#b9c8d3",
-    promiseFontSize: "12px",
+    promiseFontSize: "14px",
     promiseMinimumFontSizePx: 9,
-    detailFontSize: "10px",
+    detailFontSize: "12px",
     detailMinimumFontSizePx: 8,
     badgeKickerFontSize: "9px",
     badgeValueFontSize: "15px",
@@ -256,18 +245,6 @@ export const RETENTION_CONFIG = Object.freeze({
     badgeValueColor: "#65d8f2",
     refreshMs: 120,
     cargoPrefix: "CARGO VALUE",
-  }),
-
-  miningFeedback: Object.freeze({
-    critPrefix: "CRIT",
-    luckyText: "LUCKY ×2",
-    luckyColor: "#55ff9a",
-    rarityDurationMs: 1800,
-    rarity: Object.freeze({
-      rich: Object.freeze({ label: "RICH", color: "#6be7ff" }),
-      packed: Object.freeze({ label: "PACKED", color: "#d68cff" }),
-      ancient: Object.freeze({ label: "ANCIENT", color: "#ffd35a" }),
-    }),
   }),
 
   floatingText: Object.freeze({
@@ -281,7 +258,7 @@ export const RETENTION_CONFIG = Object.freeze({
     modes: Object.freeze({
       off: Object.freeze({
         label: "OFF",
-        summary: "No floating combat or reward text.",
+        summary: "Hide all damage and reward numbers.",
         maxActive: 0,
         minIntervalMs: 0,
         maxBurstParticles: 0,
@@ -289,7 +266,7 @@ export const RETENTION_CONFIG = Object.freeze({
       }),
       reduced: Object.freeze({
         label: "REDUCED",
-        summary: "Status text only; routine damage and resources stay hidden.",
+        summary: "Show only important rewards.",
         maxActive: 4,
         minIntervalMs: 180,
         maxBurstParticles: 3,
@@ -297,11 +274,11 @@ export const RETENTION_CONFIG = Object.freeze({
       }),
       full: Object.freeze({
         label: "FULL",
-        summary: "Damage, resources, and status text are visible.",
+        summary: "Show damage and important reward numbers.",
         maxActive: 8,
         minIntervalMs: 60,
         maxBurstParticles: 7,
-        hiddenCategories: Object.freeze([]),
+        hiddenCategories: Object.freeze(["resource"]),
       }),
     }),
   }),
@@ -310,7 +287,6 @@ export const RETENTION_CONFIG = Object.freeze({
     depth: 54,
     lineWidth: 3,
     fillAlpha: 0.12,
-    heavyColor: 0xff9a52,
     thunderColor: 0x65d8f2,
     labelFontSize: "13px",
     labelOffsetY: 18,
@@ -318,10 +294,10 @@ export const RETENTION_CONFIG = Object.freeze({
   }),
 
   settings: Object.freeze({
-    objectiveLabel: "Session Objective",
-    objectiveHint: "Show an optional goal with no streak or failure penalty.",
-    floatingTextLabel: "Floating Damage / Reward Text",
-    floatingTextHint: "Reduced keeps critical and special feedback while hiding routine damage and resource numbers.",
+    objectiveLabel: "Optional Goal",
+    objectiveHint: "Show one bonus goal. Ignoring it has no penalty.",
+    floatingTextLabel: "Damage and Reward Numbers",
+    floatingTextHint: "Reduced shows only important rewards.",
   }),
 });
 

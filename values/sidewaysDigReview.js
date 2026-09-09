@@ -1,0 +1,27 @@
+// Presentation settings for the isolated numbered animation review page.
+export const SIDEWAYS_DIG_REVIEW = Object.freeze({
+  canvasWidth: 256,
+  canvasHeight: 212,
+  pixelRatio: 2,
+  displayScale: 2,
+  floorY: 200,
+  loopHoldMs: 450,
+  maxDeltaMs: 100,
+  millisecondsPerSecond: 1000,
+  defaultSpeed: 0.5,
+  scrubSteps: 1000,
+  restoredClip: "cross",
+  labels: Object.freeze({
+    jab: "Jab Punch",
+    cross: "Cross Punch",
+    roundhouse: "Roundhouse Kick",
+    jabElbow: "Jab → Elbow",
+    lowKick: "Low Kick",
+    highKick: "High Kick",
+    spinningBackKick: "Spinning Back Kick",
+    elbowUppercut: "Elbow → Uppercut",
+    singleElbow: "Single Elbow",
+    hook: "Hook Punch",
+  }),
+  legacyLabels: Object.freeze(["Older Jab", "Older Cross"]),
+});

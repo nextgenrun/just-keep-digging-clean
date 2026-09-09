@@ -1,5 +1,7 @@
 import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { APPROVED_HUD_SKIN } from "../../values/approvedHudSkin.js";
+import { BAKED_UI_ART } from "../../values/bakedUiArt.js";
+import { getBakedUiArt, fitBakedControlKey, fitBakedUiImage } from "./bakedUiArt.js";
 import { HUD_QUICK_CONTROLS } from "../../values/hudQuickControls.js";
 import { USER_SETTINGS } from "../UserSettings.js";
 import { HudWikiShortcut } from "./HudWikiShortcut.js";
@@ -68,6 +70,7 @@ export class HudQuickControls {
       .setDepth(this.depth)
       .setVisible(this.visible);
     this.inventoryHit = this.scene.add.zone(0, 0, 1, 1)
+      .setScrollFactor(0)
       .setOrigin(0.5)
       .setInteractive({ useHandCursor: true });
     this.inventoryIcon = this.scene.add.image(0, 0, inventoryKey);
@@ -119,12 +122,16 @@ export class HudQuickControls {
         .setDepth(this.depth)
         .setVisible(this.visible);
       this.pauseHit = this.scene.add.zone(0, 0, 1, 1)
+        .setScrollFactor(0)
         .setOrigin(0.5)
         .setInteractive({ useHandCursor: true });
+      this.pauseArt = getBakedUiArt(this.scene, "menu");
+      this.mapArt = getBakedUiArt(this.scene, "worldMap");
       this.pauseFrame = this.scene.add.image(
         0,
         0,
-        ASSET_KEYS.ui.approvedHud.buffChip,
+        this.pauseArt?.key || ASSET_KEYS.ui.approvedHud.buffChip,
+        this.pauseArt?.frame,
       );
       this.pauseLabel = this.scene.add.text(0, 0, "", {
         fontFamily: APPROVED_HUD_SKIN.font.family,
@@ -153,9 +160,10 @@ export class HudQuickControls {
         .setDepth(this.depth)
         .setVisible(this.visible);
       this.mapHit = this.scene.add.zone(0, 0, 1, 1)
+        .setScrollFactor(0)
         .setOrigin(0.5)
         .setInteractive({ useHandCursor: true });
-      this.mapFrame = this.scene.add.image(0, 0, ASSET_KEYS.ui.approvedHud.buffChip);
+      this.mapFrame = this.scene.add.image(0, 0, this.mapArt?.key || ASSET_KEYS.ui.approvedHud.buffChip, this.mapArt?.frame);
       this.mapLabel = this.scene.add.text(0, 0, "", {
         fontFamily: APPROVED_HUD_SKIN.font.family,
         fontSize: `${this.config.map.fontSize}px`,
@@ -181,6 +189,7 @@ export class HudQuickControls {
           x: this.mapContainer?.x,
           y: this.mapContainer?.y,
           height: this.mapFrame?.displayHeight,
+          width: this.mapFrame?.displayWidth,
         }),
       });
     }
@@ -259,13 +268,17 @@ export class HudQuickControls {
     const pauseWidth = pause.width * scale;
     const pauseHeight = pause.height * scale;
     const pauseX = viewportWidth - pause.right * scale - pauseWidth / 2;
-    const pauseY = inventoryY - inventoryHeight / 2
-      - pause.gapAboveInventory * scale - pauseHeight / 2;
+    const pauseY = pause.top * scale + pauseHeight / 2;
     this.pauseContainer.setPosition(pauseX, pauseY);
-    this.pauseFrame.setDisplaySize(pauseWidth, pauseHeight);
-    this.pauseLabel
-      .setFontSize(Math.max(10, Math.round(pause.fontSize * scale)))
-      .setText(pause.label.replace("{key}", USER_SETTINGS.getKeyLabel("pause")));
+    if (this.pauseArt) {
+      fitBakedUiImage(this.pauseFrame, pauseWidth, pauseHeight);
+      fitBakedControlKey(this.pauseLabel, USER_SETTINGS.getKeyLabel("pause"),
+        BAKED_UI_ART.keys.menu, this.pauseFrame.displayWidth, Math.max(10, Math.round(pause.fontSize * scale)));
+    } else {
+      this.pauseFrame.setDisplaySize(pauseWidth, pauseHeight);
+      this.pauseLabel.setFontSize(Math.max(10, Math.round(pause.fontSize * scale)))
+        .setText(pause.label.replace("{key}", USER_SETTINGS.getKeyLabel("pause")));
+    }
     const pauseHitWidth = (pause.width + pause.hitPaddingX * 2) * scale;
     const pauseHitHeight = (pause.height + pause.hitPaddingY * 2) * scale;
     this.pauseHit.setSize(pauseHitWidth, pauseHitHeight);
@@ -281,12 +294,17 @@ export class HudQuickControls {
     const mapWidth = map.width * scale;
     const mapHeight = map.height * scale;
     const mapX = viewportWidth - map.right * scale - mapWidth / 2;
-    const mapY = pauseY - pauseHeight / 2 - map.gapAbovePause * scale - mapHeight / 2;
+    const mapY = map.top * scale + mapHeight / 2;
     this.mapContainer.setPosition(mapX, mapY);
-    this.mapFrame.setDisplaySize(mapWidth, mapHeight);
-    this.mapLabel
-      .setFontSize(Math.max(10, Math.round(map.fontSize * scale)))
-      .setText(map.label.replace("{key}", USER_SETTINGS.getKeyLabel("map")));
+    if (this.mapArt) {
+      fitBakedUiImage(this.mapFrame, mapWidth, mapHeight);
+      fitBakedControlKey(this.mapLabel, USER_SETTINGS.getKeyLabel("map"),
+        BAKED_UI_ART.keys.worldMap, this.mapFrame.displayWidth, Math.max(10, Math.round(map.fontSize * scale)));
+    } else {
+      this.mapFrame.setDisplaySize(mapWidth, mapHeight);
+      this.mapLabel.setFontSize(Math.max(10, Math.round(map.fontSize * scale)))
+        .setText(map.label.replace("{key}", USER_SETTINGS.getKeyLabel("map")));
+    }
     const mapHitWidth = (map.width + map.hitPaddingX * 2) * scale;
     const mapHitHeight = (map.height + map.hitPaddingY * 2) * scale;
     this.mapHit.setSize(mapHitWidth, mapHitHeight);

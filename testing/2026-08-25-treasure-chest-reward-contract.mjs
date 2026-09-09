@@ -61,7 +61,6 @@ const scene = {
     },
   },
   retentionProgressSystem: {
-    activateChestCritBuff: () => true,
     recordChest: reward => recordedChests.push(reward),
   },
   worldRenderer: { applyTileUpdate() {} },
@@ -70,7 +69,7 @@ const scene = {
       statusMessages.push({ message, color, duration });
     },
   },
-  screenFlashSystem: { flashLucky() {} },
+  screenFlashSystem: { flashReward() {} },
   soundSystem: { playUiConfirm: () => { uiConfirmCalls += 1; } },
   queueDugTilesSave: () => { saveRequests += 1; },
 };
@@ -112,7 +111,6 @@ assert.equal(floatingMessages.length, 1);
 assert.equal(floatingMessages[0][6], "status");
 assert.match(floatingMessages[0][2], new RegExp(`\\+${reward.money.toLocaleString()}`));
 assert.match(floatingMessages[0][2], /\+1 STAR/);
-assert.match(floatingMessages[0][2], /TREASURE FURY ACTIVE/);
 assert.deepEqual(statusMessages[0], {
   message: floatingMessages[0][2],
   color: TREASURE_CHEST_CONFIG.feedback.starColor,

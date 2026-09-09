@@ -1,0 +1,10 @@
+{
+  "id": "E3",
+  "voice": "leo",
+  "text": "Fuck me. Still breathing.",
+  "ttsInput": "[exhale] Fuck me. <soft>Still breathing.</soft>",
+  "requestSha256": "c58c8ff5f55be8a84cc954f7c6ed352fe18e6ba9dcbd05f6b383da4c0028299f",
+  "contentType": "audio/mpeg",
+  "generationId": "gen-tts-1788745514-HNcH7wCMCWWp2nT6Jyjn",
+  "rawSha256": "88e40f34373702f64f696ea7a0c8b520b61d05b74564720969d21671a6f522e9"
+}

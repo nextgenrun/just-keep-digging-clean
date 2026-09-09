@@ -1,0 +1,23 @@
+/** Authored speed dashes are driven by grounded running distance. */
+export const PLAYER_RUN_DASH_FX = Object.freeze({
+  enabled: true,
+  rollbackQuery: "runDashes",
+  textureKey: "player-run-soft-dash-v1",
+  texturePath: "sprites/fx/player-run-dashes-v1/speed-dash.png",
+  postUpdateEvent: "postupdate",
+  reducedMotionQuery: "(prefers-reduced-motion: reduce)",
+  minimumSpeed: 80,
+  spacingTiles: 0.50,
+  lifetimeMs: 240,
+  maxLive: 5,
+  maxDeltaMs: 50,
+  alpha: 0.42,
+  widthTiles: 1.15,
+  heightTiles: 0.23,
+  bodyHeightRatios: Object.freeze([0.3, 0.55, 0.72]),
+  trailOffsetTiles: 0.16,
+  driftTiles: 0.18,
+  stretch: 0.35,
+  depthOffset: -0.15,
+  blendMode: "SCREEN",
+});

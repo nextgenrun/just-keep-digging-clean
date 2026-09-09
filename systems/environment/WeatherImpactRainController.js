@@ -1,3 +1,4 @@
+import { drawRainDrop } from "./weatherRainTrail.js";
 import { clamp01, lerp } from "../../values/mathUtils.js";
 
 export class WeatherImpactRainController {
@@ -30,6 +31,7 @@ export class WeatherImpactRainController {
     const dt = dtMs / 1000;
     const amount = this._getSurfaceRainAmount(state);
     const layers = this.weatherConfig.rain.layers;
+    this._night = this.scene.dayNightCycle?.getNightAmount?.() || 0;
     const stormAmount = clamp01(state.stormAmount ?? (
       state.kind === "storm" ? state.intensity : 0
     ));
@@ -89,18 +91,21 @@ export class WeatherImpactRainController {
       const wind = state.wind + state.gust;
       const speedX = wind * layer.windScale + this._randomRange([-layer.windSpread, layer.windSpread]);
       const x = sample.worldX + this._randomRange([-layer.xJitterPx, layer.xJitterPx]) * scaleX;
+      const motion = this.weatherConfig.rainMotion;
       this.drops.push({
         x,
-        y: startY,
+        y: startY, spawnY: startY,
+        widthScale: motion ? this._randomRange(motion.widthVariance) : 1,
+        lengthScale: motion ? this._randomRange(motion.lengthVariance) : 1,
         previousX: x,
         previousY: startY,
         speedX,
         speedY,
-        alpha: layer.alpha * amount * this._randomRange(layer.alphaVariance),
+        alpha: layer.alpha * (motion ? motion.alphaFloor + motion.alphaGain * amount : amount) * this._randomRange(layer.alphaVariance),
         layer: name,
         impactWorldY: sample.impactWorldY,
         impactSource: sample.impactSource || sample.source || "air",
-        sprite: this._acquireDropSprite(),
+        sprite: this._acquireDropSprite(name),
       });
     }
   }
@@ -163,7 +168,7 @@ export class WeatherImpactRainController {
 
   _findSweptImpact(drop, nextX, nextY, occlusion, impactCfg) {
     const style = impactCfg.visualStyles[drop.layer] || impactCfg.visualStyles.foreground;
-    const halfWidth = style.widthPx * impactCfg.collisionHalfWidthScale;
+    const halfWidth = style.widthPx * (drop.widthScale || 1) * impactCfg.collisionHalfWidthScale;
     const rayFractions = this.weatherConfig.precipitationCollision.rayFractions;
     let earliest = null;
     for (const fraction of rayFractions) {
@@ -184,29 +189,7 @@ export class WeatherImpactRainController {
     const flash = 1 + clamp01(lightningFlashAmount) * impactCfg.flashBoost;
     for (const drop of this.drops) {
       const style = impactCfg.visualStyles[drop.layer] || impactCfg.visualStyles.foreground;
-      const length = style.lengthPx;
-      const y2 = drop.usesSweptCollision
-        ? drop.y
-        : Math.min(drop.y, drop.impactWorldY - impactCfg.hardStopPaddingPx);
-      const y1 = Math.max(drop.previousY, y2 - length);
-      const visibleLength = Math.max(1, y2 - y1);
-      const x1 = drop.x - drop.speedX * (visibleLength / Math.max(1, drop.speedY));
-      const alpha = clamp01(drop.alpha * style.alphaScale * flash);
-      if (drop.sprite) {
-        const rotation = Math.atan2(y2 - y1, drop.x - x1) - Math.PI * 0.5;
-        drop.sprite
-          .setPosition((x1 + drop.x) * 0.5, (y1 + y2) * 0.5)
-          .setDisplaySize(style.widthPx, visibleLength)
-          .setRotation(rotation)
-          .setAlpha(alpha)
-          .setVisible(true);
-      } else {
-        this._graphics.lineStyle(style.widthPx, 0xbfeeff, alpha);
-        this._graphics.beginPath();
-        this._graphics.moveTo(x1, y1);
-        this._graphics.lineTo(drop.x, y2);
-        this._graphics.strokePath();
-      }
+      drawRainDrop(drop,style,impactCfg,this.weatherConfig.rainMotion,flash,this._night||0,this._graphics);
     }
   }
 
@@ -240,17 +223,20 @@ export class WeatherImpactRainController {
     return range[0] + Math.random() * (range[1] - range[0]);
   }
 
-  _acquireDropSprite() {
+  _acquireDropSprite(layerName = "foreground") {
     if (!this.visualAssets) return null;
+    const textureKey = this.visualAssets.rainTextureKey || this.visualAssets.textureKey;
     const sprite = this._dropSpritePool.pop()
-      || this.scene.add.image(0, 0, this.visualAssets.textureKey);
+      || this.scene.add.image(0, 0, textureKey);
     const frames = this.visualAssets.frames.rainStreaks;
-    const frame = frames[Math.floor(Math.random() * frames.length)];
+    const motion = this.weatherConfig.rainMotion;
+    const indices = motion ? (layerName === "foreground" ? motion.nearFrameIndices : motion.farFrameIndices) : null;
+    const frame = frames[indices ? this._pick(indices) : Math.floor(Math.random() * frames.length)];
     sprite
-      .setTexture(this.visualAssets.textureKey, frame)
+      .setTexture(textureKey, frame)
       .setOrigin(0.5)
       .setScrollFactor(1)
-      .setDepth(this.weatherConfig.renderDepths.rain)
+      .setDepth(this.weatherConfig.rain.impact.visualStyles[layerName]?.depth ?? this.weatherConfig.renderDepths.rain)
       .setAlpha(0)
       .setVisible(false);
     return sprite;

@@ -1,0 +1,7 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><title>UNDERSTAR audio audit</title>
+<style>body{margin:0;background:#0e171e;color:#e2e7e8;font:14px system-ui}header{padding:12px;display:flex;gap:14px;align-items:center}button{padding:8px 16px}iframe{width:100%;height:720px;border:0}pre{padding:18px;white-space:pre-wrap}small{color:#bac6cc}</style>
+<header><strong>UNDERSTAR · Audio audit</strong><button id="run">Run native audio checks</button><button id="snapshot">Snapshot game</button><small>Standalone audio engine. No game saves. Test volume changes restored.</small></header>
+<div id="engine"></div><p style="padding:12px">Native Phaser audio checks run without a world renderer. <a href="../../index.html?jkd_e2e=1&cinematics=0&audioReview=1">Open the game review</a>.</p><script src="../../libs/phaser.js"></script>
+<pre id="result" aria-live="polite">Wait for the audio engine, then run the checks.</pre>
+<script type="module" src="./native.mjs"></script></html>

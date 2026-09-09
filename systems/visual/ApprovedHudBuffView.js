@@ -1,7 +1,8 @@
-import { createUiIcon, setUiIcon } from "../../ui/UiIconAtlas.js";
+import { createUiIcon, setUiIcon } from "./UiIconRenderer.js";
 import { APPROVED_HUD_SKIN } from "../../values/approvedHudSkin.js";
 import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { HUD_LAYOUT } from "../../values/hudLayout.js";
+import { fitLiveUiText } from "./bakedUiArt.js";
 
 function normalizeEntry(value) {
   if (typeof value === "string") return { text: value };
@@ -118,7 +119,9 @@ export class ApprovedHudBuffView {
           layout.width / 2 + (entry.icon ? layout.textCenterOffsetX : 0)
         ) * this.scale)
         .setText(entry.text)
+        .setColor(entry.color || APPROVED_HUD_SKIN.font.cyan)
         .setVisible(visible);
+      fitLiveUiText(this.texts[index], layout.textWidth * this.scale, layout.textHeight * this.scale);
       const icon = this.icons[index];
       if (icon && visible && entry.icon) setUiIcon(icon, entry.icon);
       icon?.setVisible(visible && Boolean(entry.icon));
@@ -147,13 +150,24 @@ export class ApprovedHudBuffView {
       tooltip.viewportMargin * s + halfWidth,
       Math.min(viewportWidth - tooltip.viewportMargin * s - halfWidth, chipCenterX),
     );
-    const y = (layout.y + layout.height + tooltip.gap) * s
-      + tooltip.height * s / 2;
+    const halfHeight = tooltip.height * s / 2;
+    const viewportHeight = this.scene.scale?.height || APPROVED_HUD_SKIN.referenceViewport.height;
+    let top = (layout.y + layout.height + tooltip.gap) * s;
+    const hardcore = this.scene._hardcoreRuntime?.hud;
+    const status = hardcore?.root?.visible ? hardcore.frame?.getBounds?.() : null;
+    if (status && x + halfWidth > status.x && x - halfWidth < status.x + status.width
+      && top < status.y + status.height && top + halfHeight * 2 > status.y) {
+      top = status.y + status.height + tooltip.gap * s;
+    }
+    const y = Math.max(tooltip.viewportMargin * s + halfHeight,
+      Math.min(viewportHeight - tooltip.viewportMargin * s - halfHeight, top + halfHeight));
     this.hoveredIndex = index;
     this.frames[index].setAlpha(layout.hoverAlpha);
     this.tooltipTitle.setText(entry.tooltip.title || entry.text)
       .setColor(entry.tooltip.color || APPROVED_HUD_SKIN.font.gold);
     this.tooltipBody.setText(entry.tooltip.body);
+    fitLiveUiText(this.tooltipTitle, tooltip.bodyWidth * s, tooltip.titleHeight * s);
+    fitLiveUiText(this.tooltipBody, tooltip.bodyWidth * s, tooltip.bodyHeight * s);
     this.tooltipRoot.setPosition(x, y).setVisible(true);
   }
 

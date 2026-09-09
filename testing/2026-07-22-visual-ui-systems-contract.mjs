@@ -138,9 +138,13 @@ skin.setBuffLines(["Haste", "Luck"]); skin.setComboVisible(true); skin.setTorchS
 assert.equal(skin.buffTexts[0].text, "Haste");
 assert.equal(skin.comboFrame.visible, true);
 assert.equal(hudActors.torchStatusText.visible, false);
-assert.equal(skin.playerFrame.key, ASSET_KEYS.ui.approvedHud.playerCoreTorchOff);
+assert.equal(skin.playerFrame.key, ASSET_KEYS.ui.approvedHud.playerCoreShell);
+assert.equal(skin.torchBaseFrame.key, ASSET_KEYS.ui.approvedHud.playerCoreTorchOff);
+assert.equal(skin.torchBurnFrame.visible, false);
 skin.setTorchState(true);
-assert.equal(skin.playerFrame.key, ASSET_KEYS.ui.approvedHud.playerCore);
+assert.equal(skin.playerFrame.key, ASSET_KEYS.ui.approvedHud.playerCoreShell);
+assert.equal(skin.torchBurnFrame.key, ASSET_KEYS.ui.approvedHud.playerCore);
+assert.equal(skin.torchBurnFrame.visible, true);
 skin.destroy();
 assert.equal(skinScene.actors.filter((actor) => actor.destroyed).length > 0, true);
 
@@ -184,8 +188,8 @@ assert.equal(trailScene.actors.length, 2); pickaxeTrail.destroy();
 
 // Re-entrant flashes stop the previous tween and teardown destroys the overlay.
 const flashScene = makeScene();
-const flash = new ScreenFlashSystem(flashScene, { critColor: 1, critAlpha: 0.2, critDuration: 20, luckyColor: 2, luckyAlpha: 0.4, luckyDuration: 30 });
-flash.flashCrit(); const firstFlash = flash._activeTween; flash.flashLucky();
+const flash = new ScreenFlashSystem(flashScene, { rewardColor: 1, rewardAlpha: 0.2, rewardDuration: 20, panicColor: 2, panicAlpha: 0.4, panicDuration: 30 });
+flash.flashReward(); const firstFlash = flash._activeTween; flash.flashPanic();
 assert.equal(firstFlash.stopped, true); assert.equal(flash._rect.fill.color, 2); flash.destroy(); assert.equal(flash._rect.destroyed, true);
 
 // Depth cinematics honor depth, cooldown, FPS, overlay, duplicate, and active guards.

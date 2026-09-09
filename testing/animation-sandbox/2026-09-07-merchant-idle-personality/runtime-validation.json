@@ -1,0 +1,6004 @@
+{
+  "checks": [
+    {
+      "name": "Repeated E opens once",
+      "before": {
+        "cancelledCount": 0,
+        "completedCount": 6,
+        "cueCount": 6,
+        "elapsedMs": 0,
+        "lastOpening": {
+          "cuePlayed": true,
+          "elapsedMs": 697.4200000000013,
+          "merchantId": "magmaMoneyMonster"
+        },
+        "pendingMerchant": null
+      },
+      "after": {
+        "cancelledCount": 0,
+        "completedCount": 7,
+        "cueCount": 7,
+        "elapsedMs": 0,
+        "lastOpening": {
+          "cuePlayed": true,
+          "elapsedMs": 685.7099999999976,
+          "merchantId": "boboMerchant"
+        },
+        "pendingMerchant": null
+      },
+      "shop": "boboMerchant"
+    },
+    {
+      "name": "Escape cancellation",
+      "before": {
+        "cancelledCount": 0,
+        "completedCount": 8,
+        "cueCount": 8,
+        "elapsedMs": 0,
+        "lastOpening": {
+          "cuePlayed": true,
+          "elapsedMs": 689.1299999999932,
+          "merchantId": "boboMerchant"
+        },
+        "pendingMerchant": null
+      },
+      "during": {
+        "cancelledCount": 0,
+        "completedCount": 8,
+        "cueCount": 8,
+        "elapsedMs": 0,
+        "lastOpening": {
+          "cuePlayed": true,
+          "elapsedMs": 689.1299999999932,
+          "merchantId": "boboMerchant"
+        },
+        "pendingMerchant": "boboMerchant"
+      },
+      "after": {
+        "cancelledCount": 1,
+        "completedCount": 8,
+        "cueCount": 8,
+        "elapsedMs": 0,
+        "lastOpening": {
+          "cuePlayed": true,
+          "elapsedMs": 689.1299999999932,
+          "merchantId": "boboMerchant"
+        },
+        "pendingMerchant": null
+      },
+      "phase": "paused",
+      "shop": null
+    },
+    {
+      "name": "Pause prevents a late opening",
+      "entrance": {
+        "cancelledCount": 1,
+        "completedCount": 8,
+        "cueCount": 8,
+        "elapsedMs": 0,
+        "lastOpening": {
+          "cuePlayed": true,
+          "elapsedMs": 689.1299999999932,
+          "merchantId": "boboMerchant"
+        },
+        "pendingMerchant": null
+      },
+      "phase": "paused",
+      "timeMs": 455024.6899999854
+    },
+    {
+      "name": "Scene shutdown",
+      "destroyed": true,
+      "phase": "menus",
+      "remainingTextures": 0
+    }
+  ],
+  "openings": [
+    {
+      "activity": [
+        {
+          "anchorErrorPx": 0,
+          "groundContactErrorPx": 0,
+          "merchantId": "boboMerchant",
+          "state": "quiet"
+        },
+        {
+          "anchorErrorPx": 0,
+          "groundContactErrorPx": 0,
+          "merchantId": "playerUpgrades",
+          "state": "quiet"
+        },
+        {
+          "anchorErrorPx": 0,
+          "groundContactErrorPx": 0,
+          "merchantId": "gemPowerMerchant",
+          "state": "quiet"
+        },
+        {
+          "anchorErrorPx": 0,
+          "groundContactErrorPx": 0,
+          "merchantId": "gearMerchant",
+          "state": "quiet"
+        },
+        {
+          "anchorErrorPx": 0,
+          "groundContactErrorPx": 0,
+          "merchantId": "moneyMonster",
+          "state": "quiet"
+        },
+        {
+          "anchorErrorPx": 0,
+          "groundContactErrorPx": 0,
+          "merchantId": "magmaMoneyMonster",
+          "state": "quiet"
+        }
+      ],
+      "anchorViolations": 0,
+      "audio": {
+        "enabled": true,
+        "initialized": true,
+        "loaded": true,
+        "mix": {
+          "count": 0,
+          "peakBudget": 0.45,
+          "scale": 1,
+          "sources": []
+        }
+      },
+      "entrance": {
+        "cancelledCount": 0,
+        "completedCount": 1,
+        "cueCount": 1,
+        "elapsedMs": 0,
+        "lastOpening": {
+          "cuePlayed": true,
+          "elapsedMs": 695.6899999999995,
+          "merchantId": "boboMerchant"
+        },
+        "pendingMerchant": null
+      },
+      "fps": 39,
+      "groundViolations": 0,
+      "history": [
+        {
+          "elapsedMs": 0,
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": false,
+          "cues": 0,
+          "elapsedMs": 0,
+          "merchant": null,
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": false,
+          "cues": 0,
+          "elapsedMs": 43,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": false,
+          "cues": 0,
+          "elapsedMs": 67,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": false,
+          "cues": 0,
+          "elapsedMs": 112,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": false,
+          "cues": 0,
+          "elapsedMs": 174,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": false,
+          "cues": 0,
+          "elapsedMs": 215,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": false,
+          "cues": 0,
+          "elapsedMs": 259,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": false,
+          "cues": 0,
+          "elapsedMs": 324,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": false,
+          "cues": 0,
+          "elapsedMs": 367,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": false,
+          "cues": 0,
+          "elapsedMs": 414,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 1,
+          "elapsedMs": 459,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 1,
+          "elapsedMs": 504,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 1,
+          "elapsedMs": 576,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 1,
+          "elapsedMs": 601,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 1,
+          "elapsedMs": 647,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 1,
+          "elapsedMs": 0,
+          "merchant": null,
+          "phase": "playing",
+          "shop": "boboMerchant"
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": false,
+          "cues": 1,
+          "elapsedMs": 0,
+          "merchant": null,
+          "phase": "playing",
+          "shop": "boboMerchant"
+        }
+      ],
+      "motion": {
+        "actorCount": 6,
+        "actors": [
+          {
+            "actionTime": 0.6956899999999995,
+            "activityBlend": 1,
+            "activityId": "player",
+            "activityPoseCount": 7,
+            "frameCount": 2179,
+            "frameName": "boboMerchant",
+            "merchantId": "boboMerchant",
+            "ready": true,
+            "renderedActivity": "player",
+            "shopTime": 0.68,
+            "textureKey": "merchant-motion:atlas",
+            "timeMs": 72628.79000000028,
+            "visible": true
+          },
+          {
+            "actionTime": -1,
+            "activityBlend": 0,
+            "activityId": null,
+            "activityPoseCount": 7,
+            "frameCount": 2179,
+            "frameName": "playerUpgrades",
+            "merchantId": "playerUpgrades",
+            "ready": true,
+            "renderedActivity": null,
+            "shopTime": -1,
+            "textureKey": "merchant-motion:atlas",
+            "timeMs": 72628.79000000028,
+            "visible": true
+          },
+          {
+            "actionTime": -1,
+            "activityBlend": 0,
+            "activityId": null,
+            "activityPoseCount": 7,
+            "frameCount": 2179,
+            "frameName": "gemPowerMerchant",
+            "merchantId": "gemPowerMerchant",
+            "ready": true,
+            "renderedActivity": null,
+            "shopTime": -1,
+            "textureKey": "merchant-motion:atlas",
+            "timeMs": 72628.79000000028,
+            "visible": true
+          },
+          {
+            "actionTime": -1,
+            "activityBlend": 0,
+            "activityId": null,
+            "activityPoseCount": 7,
+            "frameCount": 2179,
+            "frameName": "gearMerchant",
+            "merchantId": "gearMerchant",
+            "ready": true,
+            "renderedActivity": null,
+            "shopTime": -1,
+            "textureKey": "merchant-motion:atlas",
+            "timeMs": 72628.79000000028,
+            "visible": true
+          },
+          {
+            "actionTime": -1,
+            "activityBlend": 0,
+            "activityId": null,
+            "activityPoseCount": 7,
+            "frameCount": 1,
+            "frameName": "moneyMonster",
+            "merchantId": "moneyMonster",
+            "ready": true,
+            "renderedActivity": null,
+            "shopTime": -1,
+            "textureKey": "merchant-motion:atlas",
+            "timeMs": 72628.79000000028,
+            "visible": false
+          },
+          {
+            "actionTime": -1,
+            "activityBlend": 0,
+            "activityId": null,
+            "activityPoseCount": 7,
+            "frameCount": 1,
+            "frameName": "magmaMoneyMonster",
+            "merchantId": "magmaMoneyMonster",
+            "ready": true,
+            "renderedActivity": null,
+            "shopTime": -1,
+            "textureKey": "merchant-motion:atlas",
+            "timeMs": 72628.79000000028,
+            "visible": false
+          }
+        ],
+        "destroyed": false,
+        "enabled": true,
+        "reducedMotion": false,
+        "uploadCount": 2184
+      },
+      "phase": "playing",
+      "previousSystemDestroyed": false,
+      "prompts": [
+        {
+          "art": "ui-merchant-sign-bobo-v1",
+          "bottom": -5709.1171875,
+          "id": "boboMerchant",
+          "key": "E",
+          "left": -126,
+          "legacyAction": false,
+          "legacyTitle": false,
+          "right": 126,
+          "top": -5790.8828125,
+          "visible": false
+        },
+        {
+          "art": "ui-merchant-sign-player-upgrades-v1",
+          "bottom": -5703.8671875,
+          "id": "playerUpgrades",
+          "key": "E",
+          "left": -126,
+          "legacyAction": false,
+          "legacyTitle": false,
+          "right": 126,
+          "top": -5796.1328125,
+          "visible": false
+        },
+        {
+          "art": "ui-merchant-sign-gem-merchant-v1",
+          "bottom": -5702.2265625,
+          "id": "gemPowerMerchant",
+          "key": "E",
+          "left": -126,
+          "legacyAction": false,
+          "legacyTitle": false,
+          "right": 126,
+          "top": -5797.7734375,
+          "visible": false
+        },
+        {
+          "art": "ui-merchant-sign-gear-merchant-v1",
+          "bottom": -5706.984375,
+          "id": "gearMerchant",
+          "key": "E",
+          "left": -126,
+          "legacyAction": false,
+          "legacyTitle": false,
+          "right": 126,
+          "top": -5793.015625,
+          "visible": false
+        },
+        {
+          "art": "ui-merchant-sign-money-monster-v1",
+          "bottom": -5709.4453125,
+          "id": "moneyMonster",
+          "key": "E",
+          "left": -126,
+          "legacyAction": false,
+          "legacyTitle": false,
+          "right": 126,
+          "top": -5790.5546875,
+          "visible": false
+        },
+        {
+          "art": "ui-merchant-sign-molten-money-monster-v1",
+          "bottom": -5709.1171875,
+          "id": "magmaMoneyMonster",
+          "key": "E",
+          "left": -126,
+          "legacyAction": false,
+          "legacyTitle": false,
+          "right": 126,
+          "top": -5790.8828125,
+          "visible": false
+        }
+      ],
+      "remainingMotionTextures": 1,
+      "saveBlocked": true,
+      "shop": "boboMerchant",
+      "viewport": {
+        "height": 720,
+        "width": 1280
+      }
+    },
+    {
+      "activity": [
+        {
+          "anchorErrorPx": 0,
+          "groundContactErrorPx": 0,
+          "merchantId": "boboMerchant",
+          "state": "quiet"
+        },
+        {
+          "anchorErrorPx": 0,
+          "groundContactErrorPx": 0,
+          "merchantId": "playerUpgrades",
+          "state": "quiet"
+        },
+        {
+          "anchorErrorPx": 0,
+          "groundContactErrorPx": 0,
+          "merchantId": "gemPowerMerchant",
+          "state": "quiet"
+        },
+        {
+          "anchorErrorPx": 0,
+          "groundContactErrorPx": 0,
+          "merchantId": "gearMerchant",
+          "state": "quiet"
+        },
+        {
+          "anchorErrorPx": 0,
+          "groundContactErrorPx": 0,
+          "merchantId": "moneyMonster",
+          "state": "quiet"
+        },
+        {
+          "anchorErrorPx": 0,
+          "groundContactErrorPx": 0,
+          "merchantId": "magmaMoneyMonster",
+          "state": "quiet"
+        }
+      ],
+      "anchorViolations": 0,
+      "audio": {
+        "enabled": true,
+        "initialized": true,
+        "loaded": true,
+        "mix": {
+          "count": 0,
+          "peakBudget": 0.45,
+          "scale": 1,
+          "sources": []
+        }
+      },
+      "entrance": {
+        "cancelledCount": 0,
+        "completedCount": 2,
+        "cueCount": 2,
+        "elapsedMs": 0,
+        "lastOpening": {
+          "cuePlayed": true,
+          "elapsedMs": 680.679999999993,
+          "merchantId": "gearMerchant"
+        },
+        "pendingMerchant": null
+      },
+      "fps": 43,
+      "groundViolations": 0,
+      "history": [
+        {
+          "elapsedMs": 0,
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": false,
+          "cues": 0,
+          "elapsedMs": 0,
+          "merchant": null,
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": false,
+          "cues": 0,
+          "elapsedMs": 43,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": false,
+          "cues": 0,
+          "elapsedMs": 67,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": false,
+          "cues": 0,
+          "elapsedMs": 112,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": false,
+          "cues": 0,
+          "elapsedMs": 174,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": false,
+          "cues": 0,
+          "elapsedMs": 215,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": false,
+          "cues": 0,
+          "elapsedMs": 259,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": false,
+          "cues": 0,
+          "elapsedMs": 324,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": false,
+          "cues": 0,
+          "elapsedMs": 367,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": false,
+          "cues": 0,
+          "elapsedMs": 414,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 1,
+          "elapsedMs": 459,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 1,
+          "elapsedMs": 504,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 1,
+          "elapsedMs": 576,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 1,
+          "elapsedMs": 601,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 1,
+          "elapsedMs": 647,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 1,
+          "elapsedMs": 0,
+          "merchant": null,
+          "phase": "playing",
+          "shop": "boboMerchant"
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": false,
+          "cues": 1,
+          "elapsedMs": 0,
+          "merchant": null,
+          "phase": "playing",
+          "shop": "boboMerchant"
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": false,
+          "cues": 1,
+          "elapsedMs": 0,
+          "merchant": null,
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": false,
+          "cues": 1,
+          "elapsedMs": 35,
+          "merchant": "gearMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": false,
+          "cues": 1,
+          "elapsedMs": 98,
+          "merchant": "gearMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": false,
+          "cues": 1,
+          "elapsedMs": 160,
+          "merchant": "gearMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": false,
+          "cues": 1,
+          "elapsedMs": 222,
+          "merchant": "gearMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": false,
+          "cues": 1,
+          "elapsedMs": 292,
+          "merchant": "gearMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": false,
+          "cues": 1,
+          "elapsedMs": 354,
+          "merchant": "gearMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": false,
+          "cues": 1,
+          "elapsedMs": 414,
+          "merchant": "gearMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 2,
+          "elapsedMs": 472,
+          "merchant": "gearMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 2,
+          "elapsedMs": 531,
+          "merchant": "gearMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 2,
+          "elapsedMs": 581,
+          "merchant": "gearMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 2,
+          "elapsedMs": 629,
+          "merchant": "gearMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 2,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 2,
+          "elapsedMs": 0,
+          "merchant": null,
+          "phase": "playing",
+          "shop": "gearMerchant"
+        },
+        {
+          "cancelled": 0,
+          "completed": 2,
+          "cueActive": false,
+          "cues": 2,
+          "elapsedMs": 0,
+          "merchant": null,
+          "phase": "playing",
+          "shop": "gearMerchant"
+        }
+      ],
+      "motion": {
+        "actorCount": 6,
+        "actors": [
+          {
+            "actionTime": -1,
+            "activityBlend": 0,
+            "activityId": null,
+            "activityPoseCount": 7,
+            "frameCount": 2180,
+            "frameName": "boboMerchant",
+            "merchantId": "boboMerchant",
+            "ready": true,
+            "renderedActivity": "player",
+            "shopTime": -1,
+            "textureKey": "merchant-motion:atlas",
+            "timeMs": 73783.27000000027,
+            "visible": false
+          },
+          {
+            "actionTime": -1,
+            "activityBlend": 0,
+            "activityId": null,
+            "activityPoseCount": 7,
+            "frameCount": 2214,
+            "frameName": "playerUpgrades",
+            "merchantId": "playerUpgrades",
+            "ready": true,
+            "renderedActivity": null,
+            "shopTime": -1,
+            "textureKey": "merchant-motion:atlas",
+            "timeMs": 73783.27000000027,
+            "visible": true
+          },
+          {
+            "actionTime": -1,
+            "activityBlend": 0,
+            "activityId": null,
+            "activityPoseCount": 7,
+            "frameCount": 2214,
+            "frameName": "gemPowerMerchant",
+            "merchantId": "gemPowerMerchant",
+            "ready": true,
+            "renderedActivity": null,
+            "shopTime": -1,
+            "textureKey": "merchant-motion:atlas",
+            "timeMs": 73783.27000000027,
+            "visible": true
+          },
+          {
+            "actionTime": 0.91595,
+            "activityBlend": 1,
+            "activityId": "player",
+            "activityPoseCount": 7,
+            "frameCount": 2214,
+            "frameName": "gearMerchant",
+            "merchantId": "gearMerchant",
+            "ready": true,
+            "renderedActivity": "player",
+            "shopTime": 0.68,
+            "textureKey": "merchant-motion:atlas",
+            "timeMs": 73783.27000000027,
+            "visible": true
+          },
+          {
+            "actionTime": -1,
+            "activityBlend": 0,
+            "activityId": null,
+            "activityPoseCount": 7,
+            "frameCount": 35,
+            "frameName": "moneyMonster",
+            "merchantId": "moneyMonster",
+            "ready": true,
+            "renderedActivity": null,
+            "shopTime": -1,
+            "textureKey": "merchant-motion:atlas",
+            "timeMs": 73783.27000000027,
+            "visible": true
+          },
+          {
+            "actionTime": -1,
+            "activityBlend": 0,
+            "activityId": null,
+            "activityPoseCount": 7,
+            "frameCount": 1,
+            "frameName": "magmaMoneyMonster",
+            "merchantId": "magmaMoneyMonster",
+            "ready": true,
+            "renderedActivity": null,
+            "shopTime": -1,
+            "textureKey": "merchant-motion:atlas",
+            "timeMs": 73783.27000000027,
+            "visible": false
+          }
+        ],
+        "destroyed": false,
+        "enabled": true,
+        "reducedMotion": false,
+        "uploadCount": 2219
+      },
+      "phase": "playing",
+      "previousSystemDestroyed": false,
+      "prompts": [
+        {
+          "art": "ui-merchant-sign-bobo-v1",
+          "bottom": -5602.1171875,
+          "id": "boboMerchant",
+          "key": "E",
+          "left": -832,
+          "legacyAction": false,
+          "legacyTitle": false,
+          "right": -580,
+          "top": -5683.8828125,
+          "visible": false
+        },
+        {
+          "art": "ui-merchant-sign-player-upgrades-v1",
+          "bottom": -5596.8671875,
+          "id": "playerUpgrades",
+          "key": "E",
+          "left": -832,
+          "legacyAction": false,
+          "legacyTitle": false,
+          "right": -580,
+          "top": -5689.1328125,
+          "visible": false
+        },
+        {
+          "art": "ui-merchant-sign-gem-merchant-v1",
+          "bottom": -5595.2265625,
+          "id": "gemPowerMerchant",
+          "key": "E",
+          "left": -832,
+          "legacyAction": false,
+          "legacyTitle": false,
+          "right": -580,
+          "top": -5690.7734375,
+          "visible": false
+        },
+        {
+          "art": "ui-merchant-sign-gear-merchant-v1",
+          "bottom": -5599.984375,
+          "id": "gearMerchant",
+          "key": "E",
+          "left": -832,
+          "legacyAction": false,
+          "legacyTitle": false,
+          "right": -580,
+          "top": -5686.015625,
+          "visible": false
+        },
+        {
+          "art": "ui-merchant-sign-money-monster-v1",
+          "bottom": -5602.4453125,
+          "id": "moneyMonster",
+          "key": "E",
+          "left": -832,
+          "legacyAction": false,
+          "legacyTitle": false,
+          "right": -580,
+          "top": -5683.5546875,
+          "visible": false
+        },
+        {
+          "art": "ui-merchant-sign-molten-money-monster-v1",
+          "bottom": -5602.1171875,
+          "id": "magmaMoneyMonster",
+          "key": "E",
+          "left": -832,
+          "legacyAction": false,
+          "legacyTitle": false,
+          "right": -580,
+          "top": -5683.8828125,
+          "visible": false
+        }
+      ],
+      "remainingMotionTextures": 1,
+      "saveBlocked": true,
+      "shop": "gearMerchant",
+      "viewport": {
+        "height": 720,
+        "width": 1280
+      }
+    },
+    {
+      "activity": [
+        {
+          "anchorErrorPx": 0,
+          "groundContactErrorPx": 0,
+          "merchantId": "boboMerchant",
+          "state": "quiet"
+        },
+        {
+          "anchorErrorPx": 0,
+          "groundContactErrorPx": 0,
+          "merchantId": "playerUpgrades",
+          "state": "quiet"
+        },
+        {
+          "anchorErrorPx": 0,
+          "groundContactErrorPx": 0,
+          "merchantId": "gemPowerMerchant",
+          "state": "quiet"
+        },
+        {
+          "anchorErrorPx": 0,
+          "groundContactErrorPx": 0,
+          "merchantId": "gearMerchant",
+          "state": "quiet"
+        },
+        {
+          "anchorErrorPx": 0,
+          "groundContactErrorPx": 0,
+          "merchantId": "moneyMonster",
+          "state": "quiet"
+        },
+        {
+          "anchorErrorPx": 0,
+          "groundContactErrorPx": 0,
+          "merchantId": "magmaMoneyMonster",
+          "state": "quiet"
+        }
+      ],
+      "anchorViolations": 0,
+      "audio": {
+        "enabled": true,
+        "initialized": true,
+        "loaded": true,
+        "mix": {
+          "count": 0,
+          "peakBudget": 0.45,
+          "scale": 1,
+          "sources": []
+        }
+      },
+      "entrance": {
+        "cancelledCount": 0,
+        "completedCount": 3,
+        "cueCount": 3,
+        "elapsedMs": 0,
+        "lastOpening": {
+          "cuePlayed": true,
+          "elapsedMs": 689.0700000000011,
+          "merchantId": "playerUpgrades"
+        },
+        "pendingMerchant": null
+      },
+      "fps": 44,
+      "groundViolations": 0,
+      "history": [
+        {
+          "elapsedMs": 0,
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": false,
+          "cues": 0,
+          "elapsedMs": 0,
+          "merchant": null,
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": false,
+          "cues": 0,
+          "elapsedMs": 43,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": false,
+          "cues": 0,
+          "elapsedMs": 67,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": false,
+          "cues": 0,
+          "elapsedMs": 112,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": false,
+          "cues": 0,
+          "elapsedMs": 174,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": false,
+          "cues": 0,
+          "elapsedMs": 215,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": false,
+          "cues": 0,
+          "elapsedMs": 259,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": false,
+          "cues": 0,
+          "elapsedMs": 324,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": false,
+          "cues": 0,
+          "elapsedMs": 367,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": false,
+          "cues": 0,
+          "elapsedMs": 414,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 1,
+          "elapsedMs": 459,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 1,
+          "elapsedMs": 504,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 1,
+          "elapsedMs": 576,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 1,
+          "elapsedMs": 601,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 1,
+          "elapsedMs": 647,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 1,
+          "elapsedMs": 0,
+          "merchant": null,
+          "phase": "playing",
+          "shop": "boboMerchant"
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": false,
+          "cues": 1,
+          "elapsedMs": 0,
+          "merchant": null,
+          "phase": "playing",
+          "shop": "boboMerchant"
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": false,
+          "cues": 1,
+          "elapsedMs": 0,
+          "merchant": null,
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": false,
+          "cues": 1,
+          "elapsedMs": 35,
+          "merchant": "gearMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": false,
+          "cues": 1,
+          "elapsedMs": 98,
+          "merchant": "gearMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": false,
+          "cues": 1,
+          "elapsedMs": 160,
+          "merchant": "gearMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": false,
+          "cues": 1,
+          "elapsedMs": 222,
+          "merchant": "gearMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": false,
+          "cues": 1,
+          "elapsedMs": 292,
+          "merchant": "gearMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": false,
+          "cues": 1,
+          "elapsedMs": 354,
+          "merchant": "gearMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": false,
+          "cues": 1,
+          "elapsedMs": 414,
+          "merchant": "gearMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 2,
+          "elapsedMs": 472,
+          "merchant": "gearMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 2,
+          "elapsedMs": 531,
+          "merchant": "gearMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 2,
+          "elapsedMs": 581,
+          "merchant": "gearMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 2,
+          "elapsedMs": 629,
+          "merchant": "gearMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 2,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 2,
+          "elapsedMs": 0,
+          "merchant": null,
+          "phase": "playing",
+          "shop": "gearMerchant"
+        },
+        {
+          "cancelled": 0,
+          "completed": 2,
+          "cueActive": false,
+          "cues": 2,
+          "elapsedMs": 0,
+          "merchant": null,
+          "phase": "playing",
+          "shop": "gearMerchant"
+        },
+        {
+          "cancelled": 0,
+          "completed": 2,
+          "cueActive": false,
+          "cues": 2,
+          "elapsedMs": 0,
+          "merchant": null,
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 2,
+          "cueActive": false,
+          "cues": 2,
+          "elapsedMs": 23,
+          "merchant": "playerUpgrades",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 2,
+          "cueActive": false,
+          "cues": 2,
+          "elapsedMs": 88,
+          "merchant": "playerUpgrades",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 2,
+          "cueActive": false,
+          "cues": 2,
+          "elapsedMs": 133,
+          "merchant": "playerUpgrades",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 2,
+          "cueActive": false,
+          "cues": 2,
+          "elapsedMs": 180,
+          "merchant": "playerUpgrades",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 2,
+          "cueActive": false,
+          "cues": 2,
+          "elapsedMs": 227,
+          "merchant": "playerUpgrades",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 2,
+          "cueActive": false,
+          "cues": 2,
+          "elapsedMs": 272,
+          "merchant": "playerUpgrades",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 2,
+          "cueActive": false,
+          "cues": 2,
+          "elapsedMs": 322,
+          "merchant": "playerUpgrades",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 2,
+          "cueActive": false,
+          "cues": 2,
+          "elapsedMs": 372,
+          "merchant": "playerUpgrades",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 2,
+          "cueActive": false,
+          "cues": 2,
+          "elapsedMs": 420,
+          "merchant": "playerUpgrades",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 2,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 3,
+          "elapsedMs": 467,
+          "merchant": "playerUpgrades",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 2,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 3,
+          "elapsedMs": 537,
+          "merchant": "playerUpgrades",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 2,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 3,
+          "elapsedMs": 581,
+          "merchant": "playerUpgrades",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 2,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 3,
+          "elapsedMs": 624,
+          "merchant": "playerUpgrades",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 3,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 3,
+          "elapsedMs": 0,
+          "merchant": null,
+          "phase": "playing",
+          "shop": "playerUpgrades"
+        },
+        {
+          "cancelled": 0,
+          "completed": 3,
+          "cueActive": false,
+          "cues": 3,
+          "elapsedMs": 0,
+          "merchant": null,
+          "phase": "playing",
+          "shop": "playerUpgrades"
+        }
+      ],
+      "motion": {
+        "actorCount": 6,
+        "actors": [
+          {
+            "actionTime": -1,
+            "activityBlend": 0,
+            "activityId": null,
+            "activityPoseCount": 7,
+            "frameCount": 2218,
+            "frameName": "boboMerchant",
+            "merchantId": "boboMerchant",
+            "ready": true,
+            "renderedActivity": null,
+            "shopTime": -1,
+            "textureKey": "merchant-motion:atlas",
+            "timeMs": 75064.61000000026,
+            "visible": true
+          },
+          {
+            "actionTime": 0.6890700000000011,
+            "activityBlend": 1,
+            "activityId": "showcase",
+            "activityPoseCount": 7,
+            "frameCount": 2253,
+            "frameName": "playerUpgrades",
+            "merchantId": "playerUpgrades",
+            "ready": true,
+            "renderedActivity": "showcase",
+            "shopTime": 0.68,
+            "textureKey": "merchant-motion:atlas",
+            "timeMs": 75064.61000000026,
+            "visible": true
+          },
+          {
+            "actionTime": -1,
+            "activityBlend": 0,
+            "activityId": null,
+            "activityPoseCount": 7,
+            "frameCount": 2253,
+            "frameName": "gemPowerMerchant",
+            "merchantId": "gemPowerMerchant",
+            "ready": true,
+            "renderedActivity": null,
+            "shopTime": -1,
+            "textureKey": "merchant-motion:atlas",
+            "timeMs": 75064.61000000026,
+            "visible": true
+          },
+          {
+            "actionTime": -1,
+            "activityBlend": 0,
+            "activityId": null,
+            "activityPoseCount": 7,
+            "frameCount": 2253,
+            "frameName": "gearMerchant",
+            "merchantId": "gearMerchant",
+            "ready": true,
+            "renderedActivity": null,
+            "shopTime": -1,
+            "textureKey": "merchant-motion:atlas",
+            "timeMs": 75064.61000000026,
+            "visible": true
+          },
+          {
+            "actionTime": -1,
+            "activityBlend": 0,
+            "activityId": null,
+            "activityPoseCount": 7,
+            "frameCount": 36,
+            "frameName": "moneyMonster",
+            "merchantId": "moneyMonster",
+            "ready": true,
+            "renderedActivity": null,
+            "shopTime": -1,
+            "textureKey": "merchant-motion:atlas",
+            "timeMs": 75064.61000000026,
+            "visible": false
+          },
+          {
+            "actionTime": -1,
+            "activityBlend": 0,
+            "activityId": null,
+            "activityPoseCount": 7,
+            "frameCount": 1,
+            "frameName": "magmaMoneyMonster",
+            "merchantId": "magmaMoneyMonster",
+            "ready": true,
+            "renderedActivity": null,
+            "shopTime": -1,
+            "textureKey": "merchant-motion:atlas",
+            "timeMs": 75064.61000000026,
+            "visible": false
+          }
+        ],
+        "destroyed": false,
+        "enabled": true,
+        "reducedMotion": false,
+        "uploadCount": 2258
+      },
+      "phase": "playing",
+      "previousSystemDestroyed": false,
+      "prompts": [
+        {
+          "art": "ui-merchant-sign-bobo-v1",
+          "bottom": -5644.1171875,
+          "id": "boboMerchant",
+          "key": "E",
+          "left": -255,
+          "legacyAction": false,
+          "legacyTitle": false,
+          "right": -3,
+          "top": -5725.8828125,
+          "visible": false
+        },
+        {
+          "art": "ui-merchant-sign-player-upgrades-v1",
+          "bottom": -5638.8671875,
+          "id": "playerUpgrades",
+          "key": "E",
+          "left": -255,
+          "legacyAction": false,
+          "legacyTitle": false,
+          "right": -3,
+          "top": -5731.1328125,
+          "visible": false
+        },
+        {
+          "art": "ui-merchant-sign-gem-merchant-v1",
+          "bottom": -5637.2265625,
+          "id": "gemPowerMerchant",
+          "key": "E",
+          "left": -255,
+          "legacyAction": false,
+          "legacyTitle": false,
+          "right": -3,
+          "top": -5732.7734375,
+          "visible": false
+        },
+        {
+          "art": "ui-merchant-sign-gear-merchant-v1",
+          "bottom": -5641.984375,
+          "id": "gearMerchant",
+          "key": "E",
+          "left": -255,
+          "legacyAction": false,
+          "legacyTitle": false,
+          "right": -3,
+          "top": -5728.015625,
+          "visible": false
+        },
+        {
+          "art": "ui-merchant-sign-money-monster-v1",
+          "bottom": -5644.4453125,
+          "id": "moneyMonster",
+          "key": "E",
+          "left": -255,
+          "legacyAction": false,
+          "legacyTitle": false,
+          "right": -3,
+          "top": -5725.5546875,
+          "visible": false
+        },
+        {
+          "art": "ui-merchant-sign-molten-money-monster-v1",
+          "bottom": -5644.1171875,
+          "id": "magmaMoneyMonster",
+          "key": "E",
+          "left": -255,
+          "legacyAction": false,
+          "legacyTitle": false,
+          "right": -3,
+          "top": -5725.8828125,
+          "visible": false
+        }
+      ],
+      "remainingMotionTextures": 1,
+      "saveBlocked": true,
+      "shop": "playerUpgrades",
+      "viewport": {
+        "height": 720,
+        "width": 1280
+      }
+    },
+    {
+      "activity": [
+        {
+          "anchorErrorPx": 0,
+          "groundContactErrorPx": 0,
+          "merchantId": "boboMerchant",
+          "state": "quiet"
+        },
+        {
+          "anchorErrorPx": 0,
+          "groundContactErrorPx": 0,
+          "merchantId": "playerUpgrades",
+          "state": "quiet"
+        },
+        {
+          "anchorErrorPx": 0,
+          "groundContactErrorPx": 0,
+          "merchantId": "gemPowerMerchant",
+          "state": "quiet"
+        },
+        {
+          "anchorErrorPx": 0,
+          "groundContactErrorPx": 0,
+          "merchantId": "gearMerchant",
+          "state": "quiet"
+        },
+        {
+          "anchorErrorPx": 0,
+          "groundContactErrorPx": 0,
+          "merchantId": "moneyMonster",
+          "state": "quiet"
+        },
+        {
+          "anchorErrorPx": 0,
+          "groundContactErrorPx": 0,
+          "merchantId": "magmaMoneyMonster",
+          "state": "quiet"
+        }
+      ],
+      "anchorViolations": 0,
+      "audio": {
+        "enabled": true,
+        "initialized": true,
+        "loaded": true,
+        "mix": {
+          "count": 0,
+          "peakBudget": 0.45,
+          "scale": 1,
+          "sources": []
+        }
+      },
+      "entrance": {
+        "cancelledCount": 0,
+        "completedCount": 4,
+        "cueCount": 4,
+        "elapsedMs": 0,
+        "lastOpening": {
+          "cuePlayed": true,
+          "elapsedMs": 684.0300000000047,
+          "merchantId": "gemPowerMerchant"
+        },
+        "pendingMerchant": null
+      },
+      "fps": 45,
+      "groundViolations": 0,
+      "history": [
+        {
+          "elapsedMs": 0,
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": false,
+          "cues": 0,
+          "elapsedMs": 0,
+          "merchant": null,
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": false,
+          "cues": 0,
+          "elapsedMs": 43,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": false,
+          "cues": 0,
+          "elapsedMs": 67,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": false,
+          "cues": 0,
+          "elapsedMs": 112,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": false,
+          "cues": 0,
+          "elapsedMs": 174,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": false,
+          "cues": 0,
+          "elapsedMs": 215,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": false,
+          "cues": 0,
+          "elapsedMs": 259,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": false,
+          "cues": 0,
+          "elapsedMs": 324,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": false,
+          "cues": 0,
+          "elapsedMs": 367,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": false,
+          "cues": 0,
+          "elapsedMs": 414,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 1,
+          "elapsedMs": 459,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 1,
+          "elapsedMs": 504,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 1,
+          "elapsedMs": 576,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 1,
+          "elapsedMs": 601,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 1,
+          "elapsedMs": 647,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 1,
+          "elapsedMs": 0,
+          "merchant": null,
+          "phase": "playing",
+          "shop": "boboMerchant"
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": false,
+          "cues": 1,
+          "elapsedMs": 0,
+          "merchant": null,
+          "phase": "playing",
+          "shop": "boboMerchant"
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": false,
+          "cues": 1,
+          "elapsedMs": 0,
+          "merchant": null,
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": false,
+          "cues": 1,
+          "elapsedMs": 35,
+          "merchant": "gearMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": false,
+          "cues": 1,
+          "elapsedMs": 98,
+          "merchant": "gearMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": false,
+          "cues": 1,
+          "elapsedMs": 160,
+          "merchant": "gearMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": false,
+          "cues": 1,
+          "elapsedMs": 222,
+          "merchant": "gearMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": false,
+          "cues": 1,
+          "elapsedMs": 292,
+          "merchant": "gearMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": false,
+          "cues": 1,
+          "elapsedMs": 354,
+          "merchant": "gearMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": false,
+          "cues": 1,
+          "elapsedMs": 414,
+          "merchant": "gearMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 2,
+          "elapsedMs": 472,
+          "merchant": "gearMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 2,
+          "elapsedMs": 531,
+          "merchant": "gearMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 2,
+          "elapsedMs": 581,
+          "merchant": "gearMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 2,
+          "elapsedMs": 629,
+          "merchant": "gearMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 2,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 2,
+          "elapsedMs": 0,
+          "merchant": null,
+          "phase": "playing",
+          "shop": "gearMerchant"
+        },
+        {
+          "cancelled": 0,
+          "completed": 2,
+          "cueActive": false,
+          "cues": 2,
+          "elapsedMs": 0,
+          "merchant": null,
+          "phase": "playing",
+          "shop": "gearMerchant"
+        },
+        {
+          "cancelled": 0,
+          "completed": 2,
+          "cueActive": false,
+          "cues": 2,
+          "elapsedMs": 0,
+          "merchant": null,
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 2,
+          "cueActive": false,
+          "cues": 2,
+          "elapsedMs": 23,
+          "merchant": "playerUpgrades",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 2,
+          "cueActive": false,
+          "cues": 2,
+          "elapsedMs": 88,
+          "merchant": "playerUpgrades",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 2,
+          "cueActive": false,
+          "cues": 2,
+          "elapsedMs": 133,
+          "merchant": "playerUpgrades",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 2,
+          "cueActive": false,
+          "cues": 2,
+          "elapsedMs": 180,
+          "merchant": "playerUpgrades",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 2,
+          "cueActive": false,
+          "cues": 2,
+          "elapsedMs": 227,
+          "merchant": "playerUpgrades",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 2,
+          "cueActive": false,
+          "cues": 2,
+          "elapsedMs": 272,
+          "merchant": "playerUpgrades",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 2,
+          "cueActive": false,
+          "cues": 2,
+          "elapsedMs": 322,
+          "merchant": "playerUpgrades",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 2,
+          "cueActive": false,
+          "cues": 2,
+          "elapsedMs": 372,
+          "merchant": "playerUpgrades",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 2,
+          "cueActive": false,
+          "cues": 2,
+          "elapsedMs": 420,
+          "merchant": "playerUpgrades",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 2,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 3,
+          "elapsedMs": 467,
+          "merchant": "playerUpgrades",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 2,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 3,
+          "elapsedMs": 537,
+          "merchant": "playerUpgrades",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 2,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 3,
+          "elapsedMs": 581,
+          "merchant": "playerUpgrades",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 2,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 3,
+          "elapsedMs": 624,
+          "merchant": "playerUpgrades",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 3,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 3,
+          "elapsedMs": 0,
+          "merchant": null,
+          "phase": "playing",
+          "shop": "playerUpgrades"
+        },
+        {
+          "cancelled": 0,
+          "completed": 3,
+          "cueActive": false,
+          "cues": 3,
+          "elapsedMs": 0,
+          "merchant": null,
+          "phase": "playing",
+          "shop": "playerUpgrades"
+        },
+        {
+          "cancelled": 0,
+          "completed": 3,
+          "cueActive": false,
+          "cues": 3,
+          "elapsedMs": 0,
+          "merchant": null,
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 3,
+          "cueActive": false,
+          "cues": 3,
+          "elapsedMs": 43,
+          "merchant": "gemPowerMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 3,
+          "cueActive": false,
+          "cues": 3,
+          "elapsedMs": 87,
+          "merchant": "gemPowerMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 3,
+          "cueActive": false,
+          "cues": 3,
+          "elapsedMs": 130,
+          "merchant": "gemPowerMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 3,
+          "cueActive": false,
+          "cues": 3,
+          "elapsedMs": 197,
+          "merchant": "gemPowerMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 3,
+          "cueActive": false,
+          "cues": 3,
+          "elapsedMs": 240,
+          "merchant": "gemPowerMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 3,
+          "cueActive": false,
+          "cues": 3,
+          "elapsedMs": 284,
+          "merchant": "gemPowerMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 3,
+          "cueActive": false,
+          "cues": 3,
+          "elapsedMs": 329,
+          "merchant": "gemPowerMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 3,
+          "cueActive": false,
+          "cues": 3,
+          "elapsedMs": 374,
+          "merchant": "gemPowerMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 3,
+          "cueActive": false,
+          "cues": 3,
+          "elapsedMs": 420,
+          "merchant": "gemPowerMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 3,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 4,
+          "elapsedMs": 467,
+          "merchant": "gemPowerMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 3,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 4,
+          "elapsedMs": 541,
+          "merchant": "gemPowerMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 3,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 4,
+          "elapsedMs": 564,
+          "merchant": "gemPowerMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 3,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 4,
+          "elapsedMs": 637,
+          "merchant": "gemPowerMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 4,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 4,
+          "elapsedMs": 0,
+          "merchant": null,
+          "phase": "playing",
+          "shop": "gemPowerMerchant"
+        },
+        {
+          "cancelled": 0,
+          "completed": 4,
+          "cueActive": false,
+          "cues": 4,
+          "elapsedMs": 0,
+          "merchant": null,
+          "phase": "playing",
+          "shop": "gemPowerMerchant"
+        }
+      ],
+      "motion": {
+        "actorCount": 6,
+        "actors": [
+          {
+            "actionTime": -1,
+            "activityBlend": 0,
+            "activityId": null,
+            "activityPoseCount": 7,
+            "frameCount": 2251,
+            "frameName": "boboMerchant",
+            "merchantId": "boboMerchant",
+            "ready": true,
+            "renderedActivity": null,
+            "shopTime": -1,
+            "textureKey": "merchant-motion:atlas",
+            "timeMs": 76150.7200000003,
+            "visible": true
+          },
+          {
+            "actionTime": -1,
+            "activityBlend": 0,
+            "activityId": null,
+            "activityPoseCount": 7,
+            "frameCount": 2286,
+            "frameName": "playerUpgrades",
+            "merchantId": "playerUpgrades",
+            "ready": true,
+            "renderedActivity": null,
+            "shopTime": -1,
+            "textureKey": "merchant-motion:atlas",
+            "timeMs": 76150.7200000003,
+            "visible": true
+          },
+          {
+            "actionTime": 0.6840300000000048,
+            "activityBlend": 1,
+            "activityId": "showcase",
+            "activityPoseCount": 7,
+            "frameCount": 2286,
+            "frameName": "gemPowerMerchant",
+            "merchantId": "gemPowerMerchant",
+            "ready": true,
+            "renderedActivity": "showcase",
+            "shopTime": 0.68,
+            "textureKey": "merchant-motion:atlas",
+            "timeMs": 76150.7200000003,
+            "visible": true
+          },
+          {
+            "actionTime": -1,
+            "activityBlend": 0,
+            "activityId": null,
+            "activityPoseCount": 7,
+            "frameCount": 2286,
+            "frameName": "gearMerchant",
+            "merchantId": "gearMerchant",
+            "ready": true,
+            "renderedActivity": null,
+            "shopTime": -1,
+            "textureKey": "merchant-motion:atlas",
+            "timeMs": 76150.7200000003,
+            "visible": true
+          },
+          {
+            "actionTime": -1,
+            "activityBlend": 0,
+            "activityId": null,
+            "activityPoseCount": 7,
+            "frameCount": 68,
+            "frameName": "moneyMonster",
+            "merchantId": "moneyMonster",
+            "ready": true,
+            "renderedActivity": null,
+            "shopTime": -1,
+            "textureKey": "merchant-motion:atlas",
+            "timeMs": 76150.7200000003,
+            "visible": true
+          },
+          {
+            "actionTime": -1,
+            "activityBlend": 0,
+            "activityId": null,
+            "activityPoseCount": 7,
+            "frameCount": 1,
+            "frameName": "magmaMoneyMonster",
+            "merchantId": "magmaMoneyMonster",
+            "ready": true,
+            "renderedActivity": null,
+            "shopTime": -1,
+            "textureKey": "merchant-motion:atlas",
+            "timeMs": 76150.7200000003,
+            "visible": false
+          }
+        ],
+        "destroyed": false,
+        "enabled": true,
+        "reducedMotion": false,
+        "uploadCount": 2291
+      },
+      "phase": "playing",
+      "previousSystemDestroyed": false,
+      "prompts": [
+        {
+          "art": "ui-merchant-sign-bobo-v1",
+          "bottom": -5644.1171875,
+          "id": "boboMerchant",
+          "key": "E",
+          "left": -432,
+          "legacyAction": false,
+          "legacyTitle": false,
+          "right": -180,
+          "top": -5725.8828125,
+          "visible": false
+        },
+        {
+          "art": "ui-merchant-sign-player-upgrades-v1",
+          "bottom": -5638.8671875,
+          "id": "playerUpgrades",
+          "key": "E",
+          "left": -432,
+          "legacyAction": false,
+          "legacyTitle": false,
+          "right": -180,
+          "top": -5731.1328125,
+          "visible": false
+        },
+        {
+          "art": "ui-merchant-sign-gem-merchant-v1",
+          "bottom": -5637.2265625,
+          "id": "gemPowerMerchant",
+          "key": "E",
+          "left": -432,
+          "legacyAction": false,
+          "legacyTitle": false,
+          "right": -180,
+          "top": -5732.7734375,
+          "visible": false
+        },
+        {
+          "art": "ui-merchant-sign-gear-merchant-v1",
+          "bottom": -5641.984375,
+          "id": "gearMerchant",
+          "key": "E",
+          "left": -432,
+          "legacyAction": false,
+          "legacyTitle": false,
+          "right": -180,
+          "top": -5728.015625,
+          "visible": false
+        },
+        {
+          "art": "ui-merchant-sign-money-monster-v1",
+          "bottom": -5644.4453125,
+          "id": "moneyMonster",
+          "key": "E",
+          "left": -432,
+          "legacyAction": false,
+          "legacyTitle": false,
+          "right": -180,
+          "top": -5725.5546875,
+          "visible": false
+        },
+        {
+          "art": "ui-merchant-sign-molten-money-monster-v1",
+          "bottom": -5644.1171875,
+          "id": "magmaMoneyMonster",
+          "key": "E",
+          "left": -432,
+          "legacyAction": false,
+          "legacyTitle": false,
+          "right": -180,
+          "top": -5725.8828125,
+          "visible": false
+        }
+      ],
+      "remainingMotionTextures": 1,
+      "saveBlocked": true,
+      "shop": "gemPowerMerchant",
+      "viewport": {
+        "height": 720,
+        "width": 1280
+      }
+    },
+    {
+      "activity": [
+        {
+          "anchorErrorPx": 0,
+          "groundContactErrorPx": 0,
+          "merchantId": "boboMerchant",
+          "state": "quiet"
+        },
+        {
+          "anchorErrorPx": 0,
+          "groundContactErrorPx": 0,
+          "merchantId": "playerUpgrades",
+          "state": "quiet"
+        },
+        {
+          "anchorErrorPx": 0,
+          "groundContactErrorPx": 0,
+          "merchantId": "gemPowerMerchant",
+          "state": "quiet"
+        },
+        {
+          "anchorErrorPx": 0,
+          "groundContactErrorPx": 0,
+          "merchantId": "gearMerchant",
+          "state": "quiet"
+        },
+        {
+          "anchorErrorPx": 0,
+          "groundContactErrorPx": 0,
+          "merchantId": "moneyMonster",
+          "state": "quiet"
+        },
+        {
+          "anchorErrorPx": 0,
+          "groundContactErrorPx": 0,
+          "merchantId": "magmaMoneyMonster",
+          "state": "quiet"
+        }
+      ],
+      "anchorViolations": 0,
+      "audio": {
+        "enabled": true,
+        "initialized": true,
+        "loaded": true,
+        "mix": {
+          "count": 0,
+          "peakBudget": 0.45,
+          "scale": 1,
+          "sources": []
+        }
+      },
+      "entrance": {
+        "cancelledCount": 0,
+        "completedCount": 5,
+        "cueCount": 5,
+        "elapsedMs": 0,
+        "lastOpening": {
+          "cuePlayed": true,
+          "elapsedMs": 692.3899999999908,
+          "merchantId": "moneyMonster"
+        },
+        "pendingMerchant": null
+      },
+      "fps": 47,
+      "groundViolations": 0,
+      "history": [
+        {
+          "elapsedMs": 0,
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": false,
+          "cues": 0,
+          "elapsedMs": 0,
+          "merchant": null,
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": false,
+          "cues": 0,
+          "elapsedMs": 43,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": false,
+          "cues": 0,
+          "elapsedMs": 67,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": false,
+          "cues": 0,
+          "elapsedMs": 112,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": false,
+          "cues": 0,
+          "elapsedMs": 174,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": false,
+          "cues": 0,
+          "elapsedMs": 215,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": false,
+          "cues": 0,
+          "elapsedMs": 259,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": false,
+          "cues": 0,
+          "elapsedMs": 324,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": false,
+          "cues": 0,
+          "elapsedMs": 367,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": false,
+          "cues": 0,
+          "elapsedMs": 414,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 1,
+          "elapsedMs": 459,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 1,
+          "elapsedMs": 504,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 1,
+          "elapsedMs": 576,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 1,
+          "elapsedMs": 601,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 1,
+          "elapsedMs": 647,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 1,
+          "elapsedMs": 0,
+          "merchant": null,
+          "phase": "playing",
+          "shop": "boboMerchant"
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": false,
+          "cues": 1,
+          "elapsedMs": 0,
+          "merchant": null,
+          "phase": "playing",
+          "shop": "boboMerchant"
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": false,
+          "cues": 1,
+          "elapsedMs": 0,
+          "merchant": null,
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": false,
+          "cues": 1,
+          "elapsedMs": 35,
+          "merchant": "gearMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": false,
+          "cues": 1,
+          "elapsedMs": 98,
+          "merchant": "gearMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": false,
+          "cues": 1,
+          "elapsedMs": 160,
+          "merchant": "gearMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": false,
+          "cues": 1,
+          "elapsedMs": 222,
+          "merchant": "gearMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": false,
+          "cues": 1,
+          "elapsedMs": 292,
+          "merchant": "gearMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": false,
+          "cues": 1,
+          "elapsedMs": 354,
+          "merchant": "gearMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": false,
+          "cues": 1,
+          "elapsedMs": 414,
+          "merchant": "gearMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 2,
+          "elapsedMs": 472,
+          "merchant": "gearMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 2,
+          "elapsedMs": 531,
+          "merchant": "gearMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 2,
+          "elapsedMs": 581,
+          "merchant": "gearMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 2,
+          "elapsedMs": 629,
+          "merchant": "gearMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 2,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 2,
+          "elapsedMs": 0,
+          "merchant": null,
+          "phase": "playing",
+          "shop": "gearMerchant"
+        },
+        {
+          "cancelled": 0,
+          "completed": 2,
+          "cueActive": false,
+          "cues": 2,
+          "elapsedMs": 0,
+          "merchant": null,
+          "phase": "playing",
+          "shop": "gearMerchant"
+        },
+        {
+          "cancelled": 0,
+          "completed": 2,
+          "cueActive": false,
+          "cues": 2,
+          "elapsedMs": 0,
+          "merchant": null,
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 2,
+          "cueActive": false,
+          "cues": 2,
+          "elapsedMs": 23,
+          "merchant": "playerUpgrades",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 2,
+          "cueActive": false,
+          "cues": 2,
+          "elapsedMs": 88,
+          "merchant": "playerUpgrades",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 2,
+          "cueActive": false,
+          "cues": 2,
+          "elapsedMs": 133,
+          "merchant": "playerUpgrades",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 2,
+          "cueActive": false,
+          "cues": 2,
+          "elapsedMs": 180,
+          "merchant": "playerUpgrades",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 2,
+          "cueActive": false,
+          "cues": 2,
+          "elapsedMs": 227,
+          "merchant": "playerUpgrades",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 2,
+          "cueActive": false,
+          "cues": 2,
+          "elapsedMs": 272,
+          "merchant": "playerUpgrades",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 2,
+          "cueActive": false,
+          "cues": 2,
+          "elapsedMs": 322,
+          "merchant": "playerUpgrades",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 2,
+          "cueActive": false,
+          "cues": 2,
+          "elapsedMs": 372,
+          "merchant": "playerUpgrades",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 2,
+          "cueActive": false,
+          "cues": 2,
+          "elapsedMs": 420,
+          "merchant": "playerUpgrades",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 2,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 3,
+          "elapsedMs": 467,
+          "merchant": "playerUpgrades",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 2,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 3,
+          "elapsedMs": 537,
+          "merchant": "playerUpgrades",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 2,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 3,
+          "elapsedMs": 581,
+          "merchant": "playerUpgrades",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 2,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 3,
+          "elapsedMs": 624,
+          "merchant": "playerUpgrades",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 3,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 3,
+          "elapsedMs": 0,
+          "merchant": null,
+          "phase": "playing",
+          "shop": "playerUpgrades"
+        },
+        {
+          "cancelled": 0,
+          "completed": 3,
+          "cueActive": false,
+          "cues": 3,
+          "elapsedMs": 0,
+          "merchant": null,
+          "phase": "playing",
+          "shop": "playerUpgrades"
+        },
+        {
+          "cancelled": 0,
+          "completed": 3,
+          "cueActive": false,
+          "cues": 3,
+          "elapsedMs": 0,
+          "merchant": null,
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 3,
+          "cueActive": false,
+          "cues": 3,
+          "elapsedMs": 43,
+          "merchant": "gemPowerMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 3,
+          "cueActive": false,
+          "cues": 3,
+          "elapsedMs": 87,
+          "merchant": "gemPowerMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 3,
+          "cueActive": false,
+          "cues": 3,
+          "elapsedMs": 130,
+          "merchant": "gemPowerMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 3,
+          "cueActive": false,
+          "cues": 3,
+          "elapsedMs": 197,
+          "merchant": "gemPowerMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 3,
+          "cueActive": false,
+          "cues": 3,
+          "elapsedMs": 240,
+          "merchant": "gemPowerMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 3,
+          "cueActive": false,
+          "cues": 3,
+          "elapsedMs": 284,
+          "merchant": "gemPowerMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 3,
+          "cueActive": false,
+          "cues": 3,
+          "elapsedMs": 329,
+          "merchant": "gemPowerMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 3,
+          "cueActive": false,
+          "cues": 3,
+          "elapsedMs": 374,
+          "merchant": "gemPowerMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 3,
+          "cueActive": false,
+          "cues": 3,
+          "elapsedMs": 420,
+          "merchant": "gemPowerMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 3,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 4,
+          "elapsedMs": 467,
+          "merchant": "gemPowerMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 3,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 4,
+          "elapsedMs": 541,
+          "merchant": "gemPowerMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 3,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 4,
+          "elapsedMs": 564,
+          "merchant": "gemPowerMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 3,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 4,
+          "elapsedMs": 637,
+          "merchant": "gemPowerMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 4,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 4,
+          "elapsedMs": 0,
+          "merchant": null,
+          "phase": "playing",
+          "shop": "gemPowerMerchant"
+        },
+        {
+          "cancelled": 0,
+          "completed": 4,
+          "cueActive": false,
+          "cues": 4,
+          "elapsedMs": 0,
+          "merchant": null,
+          "phase": "playing",
+          "shop": "gemPowerMerchant"
+        },
+        {
+          "cancelled": 0,
+          "completed": 4,
+          "cueActive": false,
+          "cues": 4,
+          "elapsedMs": 0,
+          "merchant": null,
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 4,
+          "cueActive": false,
+          "cues": 4,
+          "elapsedMs": 22,
+          "merchant": "moneyMonster",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 4,
+          "cueActive": false,
+          "cues": 4,
+          "elapsedMs": 63,
+          "merchant": "moneyMonster",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 4,
+          "cueActive": false,
+          "cues": 4,
+          "elapsedMs": 128,
+          "merchant": "moneyMonster",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 4,
+          "cueActive": false,
+          "cues": 4,
+          "elapsedMs": 150,
+          "merchant": "moneyMonster",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 4,
+          "cueActive": false,
+          "cues": 4,
+          "elapsedMs": 219,
+          "merchant": "moneyMonster",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 4,
+          "cueActive": false,
+          "cues": 4,
+          "elapsedMs": 275,
+          "merchant": "moneyMonster",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 4,
+          "cueActive": false,
+          "cues": 4,
+          "elapsedMs": 334,
+          "merchant": "moneyMonster",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 4,
+          "cueActive": false,
+          "cues": 4,
+          "elapsedMs": 392,
+          "merchant": "moneyMonster",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 4,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 5,
+          "elapsedMs": 474,
+          "merchant": "moneyMonster",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 4,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 5,
+          "elapsedMs": 524,
+          "merchant": "moneyMonster",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 4,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 5,
+          "elapsedMs": 566,
+          "merchant": "moneyMonster",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 4,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 5,
+          "elapsedMs": 629,
+          "merchant": "moneyMonster",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 4,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 5,
+          "elapsedMs": 671,
+          "merchant": "moneyMonster",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 5,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 5,
+          "elapsedMs": 0,
+          "merchant": null,
+          "phase": "playing",
+          "shop": "moneyMonster"
+        },
+        {
+          "cancelled": 0,
+          "completed": 5,
+          "cueActive": false,
+          "cues": 5,
+          "elapsedMs": 0,
+          "merchant": null,
+          "phase": "playing",
+          "shop": "moneyMonster"
+        }
+      ],
+      "motion": {
+        "actorCount": 6,
+        "actors": [
+          {
+            "actionTime": -1,
+            "activityBlend": 0,
+            "activityId": null,
+            "activityPoseCount": 7,
+            "frameCount": 2252,
+            "frameName": "boboMerchant",
+            "merchantId": "boboMerchant",
+            "ready": true,
+            "renderedActivity": null,
+            "shopTime": -1,
+            "textureKey": "merchant-motion:atlas",
+            "timeMs": 77857.46000000036,
+            "visible": false
+          },
+          {
+            "actionTime": -1,
+            "activityBlend": 0,
+            "activityId": null,
+            "activityPoseCount": 7,
+            "frameCount": 2287,
+            "frameName": "playerUpgrades",
+            "merchantId": "playerUpgrades",
+            "ready": true,
+            "renderedActivity": null,
+            "shopTime": -1,
+            "textureKey": "merchant-motion:atlas",
+            "timeMs": 77857.46000000036,
+            "visible": false
+          },
+          {
+            "actionTime": -1,
+            "activityBlend": 0,
+            "activityId": null,
+            "activityPoseCount": 7,
+            "frameCount": 2337,
+            "frameName": "gemPowerMerchant",
+            "merchantId": "gemPowerMerchant",
+            "ready": true,
+            "renderedActivity": null,
+            "shopTime": -1,
+            "textureKey": "merchant-motion:atlas",
+            "timeMs": 77857.46000000036,
+            "visible": true
+          },
+          {
+            "actionTime": -1,
+            "activityBlend": 0,
+            "activityId": null,
+            "activityPoseCount": 7,
+            "frameCount": 2337,
+            "frameName": "gearMerchant",
+            "merchantId": "gearMerchant",
+            "ready": true,
+            "renderedActivity": null,
+            "shopTime": -1,
+            "textureKey": "merchant-motion:atlas",
+            "timeMs": 77857.46000000036,
+            "visible": true
+          },
+          {
+            "actionTime": 1.4648200000000065,
+            "activityBlend": 1,
+            "activityId": "player",
+            "activityPoseCount": 7,
+            "frameCount": 119,
+            "frameName": "moneyMonster",
+            "merchantId": "moneyMonster",
+            "ready": true,
+            "renderedActivity": "player",
+            "shopTime": 0.68,
+            "textureKey": "merchant-motion:atlas",
+            "timeMs": 77857.46000000036,
+            "visible": true
+          },
+          {
+            "actionTime": -1,
+            "activityBlend": 0,
+            "activityId": null,
+            "activityPoseCount": 7,
+            "frameCount": 1,
+            "frameName": "magmaMoneyMonster",
+            "merchantId": "magmaMoneyMonster",
+            "ready": true,
+            "renderedActivity": null,
+            "shopTime": -1,
+            "textureKey": "merchant-motion:atlas",
+            "timeMs": 77857.46000000036,
+            "visible": false
+          }
+        ],
+        "destroyed": false,
+        "enabled": true,
+        "reducedMotion": false,
+        "uploadCount": 2342
+      },
+      "phase": "playing",
+      "previousSystemDestroyed": false,
+      "prompts": [
+        {
+          "art": "ui-merchant-sign-bobo-v1",
+          "bottom": -5500.1171875,
+          "id": "boboMerchant",
+          "key": "E",
+          "left": -1067,
+          "legacyAction": false,
+          "legacyTitle": false,
+          "right": -815,
+          "top": -5581.8828125,
+          "visible": false
+        },
+        {
+          "art": "ui-merchant-sign-player-upgrades-v1",
+          "bottom": -5494.8671875,
+          "id": "playerUpgrades",
+          "key": "E",
+          "left": -1067,
+          "legacyAction": false,
+          "legacyTitle": false,
+          "right": -815,
+          "top": -5587.1328125,
+          "visible": false
+        },
+        {
+          "art": "ui-merchant-sign-gem-merchant-v1",
+          "bottom": -5493.2265625,
+          "id": "gemPowerMerchant",
+          "key": "E",
+          "left": -1067,
+          "legacyAction": false,
+          "legacyTitle": false,
+          "right": -815,
+          "top": -5588.7734375,
+          "visible": false
+        },
+        {
+          "art": "ui-merchant-sign-gear-merchant-v1",
+          "bottom": -5497.984375,
+          "id": "gearMerchant",
+          "key": "E",
+          "left": -1067,
+          "legacyAction": false,
+          "legacyTitle": false,
+          "right": -815,
+          "top": -5584.015625,
+          "visible": false
+        },
+        {
+          "art": "ui-merchant-sign-money-monster-v1",
+          "bottom": -5500.4453125,
+          "id": "moneyMonster",
+          "key": "E",
+          "left": -1067,
+          "legacyAction": false,
+          "legacyTitle": false,
+          "right": -815,
+          "top": -5581.5546875,
+          "visible": false
+        },
+        {
+          "art": "ui-merchant-sign-molten-money-monster-v1",
+          "bottom": -5500.1171875,
+          "id": "magmaMoneyMonster",
+          "key": "E",
+          "left": -1067,
+          "legacyAction": false,
+          "legacyTitle": false,
+          "right": -815,
+          "top": -5581.8828125,
+          "visible": false
+        }
+      ],
+      "remainingMotionTextures": 1,
+      "saveBlocked": true,
+      "shop": "moneyMonster",
+      "viewport": {
+        "height": 720,
+        "width": 1280
+      }
+    },
+    {
+      "activity": [
+        {
+          "anchorErrorPx": 0,
+          "groundContactErrorPx": 0,
+          "merchantId": "boboMerchant",
+          "state": "quiet"
+        },
+        {
+          "anchorErrorPx": 0,
+          "groundContactErrorPx": 0,
+          "merchantId": "playerUpgrades",
+          "state": "quiet"
+        },
+        {
+          "anchorErrorPx": 0,
+          "groundContactErrorPx": 0,
+          "merchantId": "gemPowerMerchant",
+          "state": "quiet"
+        },
+        {
+          "anchorErrorPx": 0,
+          "groundContactErrorPx": 0,
+          "merchantId": "gearMerchant",
+          "state": "quiet"
+        },
+        {
+          "anchorErrorPx": 0,
+          "groundContactErrorPx": 0,
+          "merchantId": "moneyMonster",
+          "state": "quiet"
+        },
+        {
+          "anchorErrorPx": 0,
+          "groundContactErrorPx": 0,
+          "merchantId": "magmaMoneyMonster",
+          "state": "quiet"
+        }
+      ],
+      "anchorViolations": 0,
+      "audio": {
+        "enabled": true,
+        "initialized": true,
+        "loaded": true,
+        "mix": {
+          "count": 0,
+          "peakBudget": 0.45,
+          "scale": 1,
+          "sources": []
+        }
+      },
+      "entrance": {
+        "cancelledCount": 0,
+        "completedCount": 6,
+        "cueCount": 6,
+        "elapsedMs": 0,
+        "lastOpening": {
+          "cuePlayed": true,
+          "elapsedMs": 697.4200000000013,
+          "merchantId": "magmaMoneyMonster"
+        },
+        "pendingMerchant": null
+      },
+      "fps": 45,
+      "groundViolations": 0,
+      "history": [
+        {
+          "elapsedMs": 0,
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": false,
+          "cues": 0,
+          "elapsedMs": 0,
+          "merchant": null,
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": false,
+          "cues": 0,
+          "elapsedMs": 43,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": false,
+          "cues": 0,
+          "elapsedMs": 67,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": false,
+          "cues": 0,
+          "elapsedMs": 112,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": false,
+          "cues": 0,
+          "elapsedMs": 174,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": false,
+          "cues": 0,
+          "elapsedMs": 215,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": false,
+          "cues": 0,
+          "elapsedMs": 259,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": false,
+          "cues": 0,
+          "elapsedMs": 324,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": false,
+          "cues": 0,
+          "elapsedMs": 367,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": false,
+          "cues": 0,
+          "elapsedMs": 414,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 1,
+          "elapsedMs": 459,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 1,
+          "elapsedMs": 504,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 1,
+          "elapsedMs": 576,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 1,
+          "elapsedMs": 601,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 0,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 1,
+          "elapsedMs": 647,
+          "merchant": "boboMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 1,
+          "elapsedMs": 0,
+          "merchant": null,
+          "phase": "playing",
+          "shop": "boboMerchant"
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": false,
+          "cues": 1,
+          "elapsedMs": 0,
+          "merchant": null,
+          "phase": "playing",
+          "shop": "boboMerchant"
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": false,
+          "cues": 1,
+          "elapsedMs": 0,
+          "merchant": null,
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": false,
+          "cues": 1,
+          "elapsedMs": 35,
+          "merchant": "gearMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": false,
+          "cues": 1,
+          "elapsedMs": 98,
+          "merchant": "gearMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": false,
+          "cues": 1,
+          "elapsedMs": 160,
+          "merchant": "gearMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": false,
+          "cues": 1,
+          "elapsedMs": 222,
+          "merchant": "gearMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": false,
+          "cues": 1,
+          "elapsedMs": 292,
+          "merchant": "gearMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": false,
+          "cues": 1,
+          "elapsedMs": 354,
+          "merchant": "gearMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": false,
+          "cues": 1,
+          "elapsedMs": 414,
+          "merchant": "gearMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 2,
+          "elapsedMs": 472,
+          "merchant": "gearMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 2,
+          "elapsedMs": 531,
+          "merchant": "gearMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 2,
+          "elapsedMs": 581,
+          "merchant": "gearMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 1,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 2,
+          "elapsedMs": 629,
+          "merchant": "gearMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 2,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 2,
+          "elapsedMs": 0,
+          "merchant": null,
+          "phase": "playing",
+          "shop": "gearMerchant"
+        },
+        {
+          "cancelled": 0,
+          "completed": 2,
+          "cueActive": false,
+          "cues": 2,
+          "elapsedMs": 0,
+          "merchant": null,
+          "phase": "playing",
+          "shop": "gearMerchant"
+        },
+        {
+          "cancelled": 0,
+          "completed": 2,
+          "cueActive": false,
+          "cues": 2,
+          "elapsedMs": 0,
+          "merchant": null,
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 2,
+          "cueActive": false,
+          "cues": 2,
+          "elapsedMs": 23,
+          "merchant": "playerUpgrades",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 2,
+          "cueActive": false,
+          "cues": 2,
+          "elapsedMs": 88,
+          "merchant": "playerUpgrades",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 2,
+          "cueActive": false,
+          "cues": 2,
+          "elapsedMs": 133,
+          "merchant": "playerUpgrades",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 2,
+          "cueActive": false,
+          "cues": 2,
+          "elapsedMs": 180,
+          "merchant": "playerUpgrades",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 2,
+          "cueActive": false,
+          "cues": 2,
+          "elapsedMs": 227,
+          "merchant": "playerUpgrades",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 2,
+          "cueActive": false,
+          "cues": 2,
+          "elapsedMs": 272,
+          "merchant": "playerUpgrades",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 2,
+          "cueActive": false,
+          "cues": 2,
+          "elapsedMs": 322,
+          "merchant": "playerUpgrades",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 2,
+          "cueActive": false,
+          "cues": 2,
+          "elapsedMs": 372,
+          "merchant": "playerUpgrades",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 2,
+          "cueActive": false,
+          "cues": 2,
+          "elapsedMs": 420,
+          "merchant": "playerUpgrades",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 2,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 3,
+          "elapsedMs": 467,
+          "merchant": "playerUpgrades",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 2,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 3,
+          "elapsedMs": 537,
+          "merchant": "playerUpgrades",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 2,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 3,
+          "elapsedMs": 581,
+          "merchant": "playerUpgrades",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 2,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 3,
+          "elapsedMs": 624,
+          "merchant": "playerUpgrades",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 3,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 3,
+          "elapsedMs": 0,
+          "merchant": null,
+          "phase": "playing",
+          "shop": "playerUpgrades"
+        },
+        {
+          "cancelled": 0,
+          "completed": 3,
+          "cueActive": false,
+          "cues": 3,
+          "elapsedMs": 0,
+          "merchant": null,
+          "phase": "playing",
+          "shop": "playerUpgrades"
+        },
+        {
+          "cancelled": 0,
+          "completed": 3,
+          "cueActive": false,
+          "cues": 3,
+          "elapsedMs": 0,
+          "merchant": null,
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 3,
+          "cueActive": false,
+          "cues": 3,
+          "elapsedMs": 43,
+          "merchant": "gemPowerMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 3,
+          "cueActive": false,
+          "cues": 3,
+          "elapsedMs": 87,
+          "merchant": "gemPowerMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 3,
+          "cueActive": false,
+          "cues": 3,
+          "elapsedMs": 130,
+          "merchant": "gemPowerMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 3,
+          "cueActive": false,
+          "cues": 3,
+          "elapsedMs": 197,
+          "merchant": "gemPowerMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 3,
+          "cueActive": false,
+          "cues": 3,
+          "elapsedMs": 240,
+          "merchant": "gemPowerMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 3,
+          "cueActive": false,
+          "cues": 3,
+          "elapsedMs": 284,
+          "merchant": "gemPowerMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 3,
+          "cueActive": false,
+          "cues": 3,
+          "elapsedMs": 329,
+          "merchant": "gemPowerMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 3,
+          "cueActive": false,
+          "cues": 3,
+          "elapsedMs": 374,
+          "merchant": "gemPowerMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 3,
+          "cueActive": false,
+          "cues": 3,
+          "elapsedMs": 420,
+          "merchant": "gemPowerMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 3,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 4,
+          "elapsedMs": 467,
+          "merchant": "gemPowerMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 3,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 4,
+          "elapsedMs": 541,
+          "merchant": "gemPowerMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 3,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 4,
+          "elapsedMs": 564,
+          "merchant": "gemPowerMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 3,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 4,
+          "elapsedMs": 637,
+          "merchant": "gemPowerMerchant",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 4,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 4,
+          "elapsedMs": 0,
+          "merchant": null,
+          "phase": "playing",
+          "shop": "gemPowerMerchant"
+        },
+        {
+          "cancelled": 0,
+          "completed": 4,
+          "cueActive": false,
+          "cues": 4,
+          "elapsedMs": 0,
+          "merchant": null,
+          "phase": "playing",
+          "shop": "gemPowerMerchant"
+        },
+        {
+          "cancelled": 0,
+          "completed": 4,
+          "cueActive": false,
+          "cues": 4,
+          "elapsedMs": 0,
+          "merchant": null,
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 4,
+          "cueActive": false,
+          "cues": 4,
+          "elapsedMs": 22,
+          "merchant": "moneyMonster",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 4,
+          "cueActive": false,
+          "cues": 4,
+          "elapsedMs": 63,
+          "merchant": "moneyMonster",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 4,
+          "cueActive": false,
+          "cues": 4,
+          "elapsedMs": 128,
+          "merchant": "moneyMonster",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 4,
+          "cueActive": false,
+          "cues": 4,
+          "elapsedMs": 150,
+          "merchant": "moneyMonster",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 4,
+          "cueActive": false,
+          "cues": 4,
+          "elapsedMs": 219,
+          "merchant": "moneyMonster",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 4,
+          "cueActive": false,
+          "cues": 4,
+          "elapsedMs": 275,
+          "merchant": "moneyMonster",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 4,
+          "cueActive": false,
+          "cues": 4,
+          "elapsedMs": 334,
+          "merchant": "moneyMonster",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 4,
+          "cueActive": false,
+          "cues": 4,
+          "elapsedMs": 392,
+          "merchant": "moneyMonster",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 4,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 5,
+          "elapsedMs": 474,
+          "merchant": "moneyMonster",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 4,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 5,
+          "elapsedMs": 524,
+          "merchant": "moneyMonster",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 4,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 5,
+          "elapsedMs": 566,
+          "merchant": "moneyMonster",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 4,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 5,
+          "elapsedMs": 629,
+          "merchant": "moneyMonster",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 4,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 5,
+          "elapsedMs": 671,
+          "merchant": "moneyMonster",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 5,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 5,
+          "elapsedMs": 0,
+          "merchant": null,
+          "phase": "playing",
+          "shop": "moneyMonster"
+        },
+        {
+          "cancelled": 0,
+          "completed": 5,
+          "cueActive": false,
+          "cues": 5,
+          "elapsedMs": 0,
+          "merchant": null,
+          "phase": "playing",
+          "shop": "moneyMonster"
+        },
+        {
+          "cancelled": 0,
+          "completed": 5,
+          "cueActive": false,
+          "cues": 5,
+          "elapsedMs": 0,
+          "merchant": null,
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 5,
+          "cueActive": false,
+          "cues": 5,
+          "elapsedMs": 0,
+          "merchant": "magmaMoneyMonster",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 5,
+          "cueActive": false,
+          "cues": 5,
+          "elapsedMs": 67,
+          "merchant": "magmaMoneyMonster",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 5,
+          "cueActive": false,
+          "cues": 5,
+          "elapsedMs": 132,
+          "merchant": "magmaMoneyMonster",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 5,
+          "cueActive": false,
+          "cues": 5,
+          "elapsedMs": 197,
+          "merchant": "magmaMoneyMonster",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 5,
+          "cueActive": false,
+          "cues": 5,
+          "elapsedMs": 262,
+          "merchant": "magmaMoneyMonster",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 5,
+          "cueActive": false,
+          "cues": 5,
+          "elapsedMs": 319,
+          "merchant": "magmaMoneyMonster",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 5,
+          "cueActive": false,
+          "cues": 5,
+          "elapsedMs": 367,
+          "merchant": "magmaMoneyMonster",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 5,
+          "cueActive": false,
+          "cues": 5,
+          "elapsedMs": 417,
+          "merchant": "magmaMoneyMonster",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 5,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 6,
+          "elapsedMs": 444,
+          "merchant": "magmaMoneyMonster",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 5,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 6,
+          "elapsedMs": 521,
+          "merchant": "magmaMoneyMonster",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 5,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 6,
+          "elapsedMs": 574,
+          "merchant": "magmaMoneyMonster",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 5,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 6,
+          "elapsedMs": 601,
+          "merchant": "magmaMoneyMonster",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 5,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 6,
+          "elapsedMs": 674,
+          "merchant": "magmaMoneyMonster",
+          "phase": "playing",
+          "shop": null
+        },
+        {
+          "cancelled": 0,
+          "completed": 6,
+          "cueActive": true,
+          "cueGain": 0.132,
+          "cues": 6,
+          "elapsedMs": 0,
+          "merchant": null,
+          "phase": "playing",
+          "shop": "magmaMoneyMonster"
+        },
+        {
+          "cancelled": 0,
+          "completed": 6,
+          "cueActive": false,
+          "cues": 6,
+          "elapsedMs": 0,
+          "merchant": null,
+          "phase": "playing",
+          "shop": "magmaMoneyMonster"
+        }
+      ],
+      "motion": {
+        "actorCount": 6,
+        "actors": [
+          {
+            "actionTime": -1,
+            "activityBlend": 0,
+            "activityId": null,
+            "activityPoseCount": 7,
+            "frameCount": 2252,
+            "frameName": "boboMerchant",
+            "merchantId": "boboMerchant",
+            "ready": true,
+            "renderedActivity": null,
+            "shopTime": -1,
+            "textureKey": "merchant-motion:atlas",
+            "timeMs": 150711.28000000108,
+            "visible": false
+          },
+          {
+            "actionTime": -1,
+            "activityBlend": 0,
+            "activityId": null,
+            "activityPoseCount": 7,
+            "frameCount": 2287,
+            "frameName": "playerUpgrades",
+            "merchantId": "playerUpgrades",
+            "ready": true,
+            "renderedActivity": null,
+            "shopTime": -1,
+            "textureKey": "merchant-motion:atlas",
+            "timeMs": 150711.28000000108,
+            "visible": false
+          },
+          {
+            "actionTime": -1,
+            "activityBlend": 0,
+            "activityId": null,
+            "activityPoseCount": 7,
+            "frameCount": 2338,
+            "frameName": "gemPowerMerchant",
+            "merchantId": "gemPowerMerchant",
+            "ready": true,
+            "renderedActivity": null,
+            "shopTime": -1,
+            "textureKey": "merchant-motion:atlas",
+            "timeMs": 150711.28000000108,
+            "visible": false
+          },
+          {
+            "actionTime": -1,
+            "activityBlend": 0,
+            "activityId": null,
+            "activityPoseCount": 7,
+            "frameCount": 2338,
+            "frameName": "gearMerchant",
+            "merchantId": "gearMerchant",
+            "ready": true,
+            "renderedActivity": null,
+            "shopTime": -1,
+            "textureKey": "merchant-motion:atlas",
+            "timeMs": 150711.28000000108,
+            "visible": false
+          },
+          {
+            "actionTime": -1,
+            "activityBlend": 0,
+            "activityId": null,
+            "activityPoseCount": 7,
+            "frameCount": 120,
+            "frameName": "moneyMonster",
+            "merchantId": "moneyMonster",
+            "ready": true,
+            "renderedActivity": "player",
+            "shopTime": -1,
+            "textureKey": "merchant-motion:atlas",
+            "timeMs": 150711.28000000108,
+            "visible": false
+          },
+          {
+            "actionTime": 0.9877500000000116,
+            "activityBlend": 1,
+            "activityId": "player",
+            "activityPoseCount": 7,
+            "frameCount": 54,
+            "frameName": "magmaMoneyMonster",
+            "merchantId": "magmaMoneyMonster",
+            "ready": true,
+            "renderedActivity": "player",
+            "shopTime": 0.68,
+            "textureKey": "merchant-motion:atlas",
+            "timeMs": 150711.28000000108,
+            "visible": true
+          }
+        ],
+        "destroyed": false,
+        "enabled": true,
+        "reducedMotion": false,
+        "uploadCount": 2396
+      },
+      "phase": "playing",
+      "previousSystemDestroyed": false,
+      "prompts": [
+        {
+          "art": "ui-merchant-sign-bobo-v1",
+          "bottom": -5644.1171875,
+          "id": "boboMerchant",
+          "key": "E",
+          "left": -12849,
+          "legacyAction": false,
+          "legacyTitle": false,
+          "right": -12597,
+          "top": -5725.8828125,
+          "visible": false
+        },
+        {
+          "art": "ui-merchant-sign-player-upgrades-v1",
+          "bottom": -5638.8671875,
+          "id": "playerUpgrades",
+          "key": "E",
+          "left": -12849,
+          "legacyAction": false,
+          "legacyTitle": false,
+          "right": -12597,
+          "top": -5731.1328125,
+          "visible": false
+        },
+        {
+          "art": "ui-merchant-sign-gem-merchant-v1",
+          "bottom": -5637.2265625,
+          "id": "gemPowerMerchant",
+          "key": "E",
+          "left": -12849,
+          "legacyAction": false,
+          "legacyTitle": false,
+          "right": -12597,
+          "top": -5732.7734375,
+          "visible": false
+        },
+        {
+          "art": "ui-merchant-sign-gear-merchant-v1",
+          "bottom": -5641.984375,
+          "id": "gearMerchant",
+          "key": "E",
+          "left": -12849,
+          "legacyAction": false,
+          "legacyTitle": false,
+          "right": -12597,
+          "top": -5728.015625,
+          "visible": false
+        },
+        {
+          "art": "ui-merchant-sign-money-monster-v1",
+          "bottom": -5644.4453125,
+          "id": "moneyMonster",
+          "key": "E",
+          "left": -12849,
+          "legacyAction": false,
+          "legacyTitle": false,
+          "right": -12597,
+          "top": -5725.5546875,
+          "visible": false
+        },
+        {
+          "art": "ui-merchant-sign-molten-money-monster-v1",
+          "bottom": -5644.1171875,
+          "id": "magmaMoneyMonster",
+          "key": "E",
+          "left": -12849,
+          "legacyAction": false,
+          "legacyTitle": false,
+          "right": -12597,
+          "top": -5725.8828125,
+          "visible": false
+        }
+      ],
+      "remainingMotionTextures": 1,
+      "saveBlocked": true,
+      "shop": "magmaMoneyMonster",
+      "viewport": {
+        "height": 720,
+        "width": 1280
+      }
+    }
+  ],
+  "poses": [
+    {
+      "pose": "work",
+      "actor": {
+        "actionTime": 0.4720300000000047,
+        "activityBlend": 1,
+        "activityId": "work",
+        "activityPoseCount": 7,
+        "frameCount": 4218,
+        "frameName": "boboMerchant",
+        "merchantId": "boboMerchant",
+        "ready": true,
+        "renderedActivity": "work",
+        "shopTime": -1,
+        "textureKey": "merchant-motion:atlas",
+        "timeMs": 216367.52999999947,
+        "visible": true
+      },
+      "anchors": 0,
+      "feet": 0,
+      "fps": 52,
+      "phase": "playing"
+    },
+    {
+      "pose": "rare",
+      "actor": {
+        "actionTime": 0.41876999999997205,
+        "activityBlend": 0.9998605548240678,
+        "activityId": "rare",
+        "activityPoseCount": 7,
+        "frameCount": 4239,
+        "frameName": "boboMerchant",
+        "merchantId": "boboMerchant",
+        "ready": true,
+        "renderedActivity": "rare",
+        "shopTime": -1,
+        "textureKey": "merchant-motion:atlas",
+        "timeMs": 217084.9899999994,
+        "visible": true
+      },
+      "anchors": 0,
+      "feet": 0,
+      "fps": 52,
+      "phase": "playing"
+    },
+    {
+      "pose": "player",
+      "actor": {
+        "actionTime": 0.4370900000000024,
+        "activityBlend": 1,
+        "activityId": "player",
+        "activityPoseCount": 7,
+        "frameCount": 4260,
+        "frameName": "boboMerchant",
+        "merchantId": "boboMerchant",
+        "ready": true,
+        "renderedActivity": "player",
+        "shopTime": -1,
+        "textureKey": "merchant-motion:atlas",
+        "timeMs": 217785.6699999993,
+        "visible": true
+      },
+      "anchors": 0,
+      "feet": 0,
+      "fps": 53,
+      "phase": "playing"
+    },
+    {
+      "pose": "inspect",
+      "actor": {
+        "actionTime": 0.7808299999999933,
+        "activityBlend": 1,
+        "activityId": "inspect",
+        "activityPoseCount": 7,
+        "frameCount": 4291,
+        "frameName": "boboMerchant",
+        "merchantId": "boboMerchant",
+        "ready": true,
+        "renderedActivity": "inspect",
+        "shopTime": -1,
+        "textureKey": "merchant-motion:atlas",
+        "timeMs": 218808.39999999935,
+        "visible": true
+      },
+      "anchors": 0,
+      "feet": 0,
+      "fps": 54,
+      "phase": "playing"
+    },
+    {
+      "pose": "habit",
+      "actor": {
+        "actionTime": 0.5255100000000095,
+        "activityBlend": 1,
+        "activityId": "habit",
+        "activityPoseCount": 7,
+        "frameCount": 4318,
+        "frameName": "boboMerchant",
+        "merchantId": "boboMerchant",
+        "ready": true,
+        "renderedActivity": "habit",
+        "shopTime": -1,
+        "textureKey": "merchant-motion:atlas",
+        "timeMs": 219704.30999999947,
+        "visible": true
+      },
+      "anchors": 0,
+      "feet": 0,
+      "fps": 54,
+      "phase": "playing"
+    },
+    {
+      "pose": "signature",
+      "actor": {
+        "actionTime": 0.5289200000000069,
+        "activityBlend": 1,
+        "activityId": "signature",
+        "activityPoseCount": 7,
+        "frameCount": 4343,
+        "frameName": "boboMerchant",
+        "merchantId": "boboMerchant",
+        "ready": true,
+        "renderedActivity": "signature",
+        "shopTime": -1,
+        "textureKey": "merchant-motion:atlas",
+        "timeMs": 220533.53999999943,
+        "visible": true
+      },
+      "anchors": 0,
+      "feet": 0,
+      "fps": 54,
+      "phase": "playing"
+    },
+    {
+      "pose": "showcase",
+      "actor": {
+        "actionTime": 0.5088900000000024,
+        "activityBlend": 1,
+        "activityId": "showcase",
+        "activityPoseCount": 7,
+        "frameCount": 4370,
+        "frameName": "boboMerchant",
+        "merchantId": "boboMerchant",
+        "ready": true,
+        "renderedActivity": "showcase",
+        "shopTime": -1,
+        "textureKey": "merchant-motion:atlas",
+        "timeMs": 221456.16999999952,
+        "visible": true
+      },
+      "anchors": 0,
+      "feet": 0,
+      "fps": 53,
+      "phase": "playing"
+    },
+    {
+      "pose": "work",
+      "actor": {
+        "actionTime": 0.4705099999999861,
+        "activityBlend": 1,
+        "activityId": "work",
+        "activityPoseCount": 7,
+        "frameCount": 5315,
+        "frameName": "playerUpgrades",
+        "merchantId": "playerUpgrades",
+        "ready": true,
+        "renderedActivity": "work",
+        "shopTime": -1,
+        "textureKey": "merchant-motion:atlas",
+        "timeMs": 251797.5299999999,
+        "visible": true
+      },
+      "anchors": 0,
+      "feet": 0,
+      "fps": 49,
+      "phase": "playing"
+    },
+    {
+      "pose": "rare",
+      "actor": {
+        "actionTime": 0.417089999999979,
+        "activityBlend": 0.9992243673425816,
+        "activityId": "rare",
+        "activityPoseCount": 7,
+        "frameCount": 5342,
+        "frameName": "playerUpgrades",
+        "merchantId": "playerUpgrades",
+        "ready": true,
+        "renderedActivity": "rare",
+        "shopTime": -1,
+        "textureKey": "merchant-motion:atlas",
+        "timeMs": 252670.09000000008,
+        "visible": true
+      },
+      "anchors": 0,
+      "feet": 0,
+      "fps": 48,
+      "phase": "playing"
+    },
+    {
+      "pose": "player",
+      "actor": {
+        "actionTime": 0.4704999999999884,
+        "activityBlend": 1,
+        "activityId": "player",
+        "activityPoseCount": 7,
+        "frameCount": 5366,
+        "frameName": "playerUpgrades",
+        "merchantId": "playerUpgrades",
+        "ready": true,
+        "renderedActivity": "player",
+        "shopTime": -1,
+        "textureKey": "merchant-motion:atlas",
+        "timeMs": 253494.32000000012,
+        "visible": true
+      },
+      "anchors": 0,
+      "feet": 0,
+      "fps": 48,
+      "phase": "playing"
+    },
+    {
+      "pose": "inspect",
+      "actor": {
+        "actionTime": 0.4188199999999721,
+        "activityBlend": 0.9998716375281148,
+        "activityId": "inspect",
+        "activityPoseCount": 7,
+        "frameCount": 5387,
+        "frameName": "playerUpgrades",
+        "merchantId": "playerUpgrades",
+        "ready": true,
+        "renderedActivity": "inspect",
+        "shopTime": -1,
+        "textureKey": "merchant-motion:atlas",
+        "timeMs": 254190.05000000016,
+        "visible": true
+      },
+      "anchors": 0,
+      "feet": 0,
+      "fps": 48,
+      "phase": "playing"
+    },
+    {
+      "pose": "habit",
+      "actor": {
+        "actionTime": 0.41875,
+        "activityBlend": 0.9998559938700274,
+        "activityId": "habit",
+        "activityPoseCount": 7,
+        "frameCount": 5409,
+        "frameName": "playerUpgrades",
+        "merchantId": "playerUpgrades",
+        "ready": true,
+        "renderedActivity": "habit",
+        "shopTime": -1,
+        "textureKey": "merchant-motion:atlas",
+        "timeMs": 254919.09000000017,
+        "visible": true
+      },
+      "anchors": 0,
+      "feet": 0,
+      "fps": 47,
+      "phase": "playing"
+    },
+    {
+      "pose": "signature",
+      "actor": {
+        "actionTime": 0.4421500000000117,
+        "activityBlend": 1,
+        "activityId": "signature",
+        "activityPoseCount": 7,
+        "frameCount": 5432,
+        "frameName": "playerUpgrades",
+        "merchantId": "playerUpgrades",
+        "ready": true,
+        "renderedActivity": "signature",
+        "shopTime": -1,
+        "textureKey": "merchant-motion:atlas",
+        "timeMs": 255689.91000000015,
+        "visible": true
+      },
+      "anchors": 0,
+      "feet": 0,
+      "fps": 47,
+      "phase": "playing"
+    },
+    {
+      "pose": "showcase",
+      "actor": {
+        "actionTime": 0.7174300000000163,
+        "activityBlend": 1,
+        "activityId": "showcase",
+        "activityPoseCount": 7,
+        "frameCount": 7139,
+        "frameName": "playerUpgrades",
+        "merchantId": "playerUpgrades",
+        "ready": true,
+        "renderedActivity": "showcase",
+        "shopTime": -1,
+        "textureKey": "merchant-motion:atlas",
+        "timeMs": 312583.8099999916,
+        "visible": true
+      },
+      "anchors": 0,
+      "feet": 0,
+      "fps": 54,
+      "phase": "playing"
+    },
+    {
+      "pose": "work",
+      "actor": {
+        "actionTime": 0.4653400000000024,
+        "activityBlend": 1,
+        "activityId": "work",
+        "activityPoseCount": 7,
+        "frameCount": 7263,
+        "frameName": "gearMerchant",
+        "merchantId": "gearMerchant",
+        "ready": true,
+        "renderedActivity": "work",
+        "shopTime": -1,
+        "textureKey": "merchant-motion:atlas",
+        "timeMs": 314969.58999999147,
+        "visible": true
+      },
+      "anchors": 0,
+      "feet": 0,
+      "fps": 53,
+      "phase": "playing"
+    },
+    {
+      "pose": "rare",
+      "actor": {
+        "actionTime": 0.4371200000000187,
+        "activityBlend": 1,
+        "activityId": "rare",
+        "activityPoseCount": 7,
+        "frameCount": 7296,
+        "frameName": "gearMerchant",
+        "merchantId": "gearMerchant",
+        "ready": true,
+        "renderedActivity": "rare",
+        "shopTime": -1,
+        "textureKey": "merchant-motion:atlas",
+        "timeMs": 316087.4199999912,
+        "visible": true
+      },
+      "anchors": 0,
+      "feet": 0,
+      "fps": 54,
+      "phase": "playing"
+    },
+    {
+      "pose": "player",
+      "actor": {
+        "actionTime": 0.6039799999999932,
+        "activityBlend": 1,
+        "activityId": "player",
+        "activityPoseCount": 7,
+        "frameCount": 7323,
+        "frameName": "gearMerchant",
+        "merchantId": "gearMerchant",
+        "ready": true,
+        "renderedActivity": "player",
+        "shopTime": -1,
+        "textureKey": "merchant-motion:atlas",
+        "timeMs": 316991.6899999908,
+        "visible": true
+      },
+      "anchors": 0,
+      "feet": 0,
+      "fps": 55,
+      "phase": "playing"
+    },
+    {
+      "pose": "inspect",
+      "actor": {
+        "actionTime": 0.46715000000001167,
+        "activityBlend": 1,
+        "activityId": "inspect",
+        "activityPoseCount": 7,
+        "frameCount": 7348,
+        "frameName": "gearMerchant",
+        "merchantId": "gearMerchant",
+        "ready": true,
+        "renderedActivity": "inspect",
+        "shopTime": -1,
+        "textureKey": "merchant-motion:atlas",
+        "timeMs": 317822.55999999074,
+        "visible": true
+      },
+      "anchors": 0,
+      "feet": 0,
+      "fps": 55,
+      "phase": "playing"
+    },
+    {
+      "pose": "habit",
+      "actor": {
+        "actionTime": 0.4354399999999906,
+        "activityBlend": 1,
+        "activityId": "habit",
+        "activityPoseCount": 7,
+        "frameCount": 7377,
+        "frameName": "gearMerchant",
+        "merchantId": "gearMerchant",
+        "ready": true,
+        "renderedActivity": "habit",
+        "shopTime": -1,
+        "textureKey": "merchant-motion:atlas",
+        "timeMs": 318770.16999999044,
+        "visible": true
+      },
+      "anchors": 0,
+      "feet": 0,
+      "fps": 55,
+      "phase": "playing"
+    },
+    {
+      "pose": "signature",
+      "actor": {
+        "actionTime": 0.44380999999999776,
+        "activityBlend": 1,
+        "activityId": "signature",
+        "activityPoseCount": 7,
+        "frameCount": 7403,
+        "frameName": "gearMerchant",
+        "merchantId": "gearMerchant",
+        "ready": true,
+        "renderedActivity": "signature",
+        "shopTime": -1,
+        "textureKey": "merchant-motion:atlas",
+        "timeMs": 319661.13999999047,
+        "visible": true
+      },
+      "anchors": 0,
+      "feet": 0,
+      "fps": 54,
+      "phase": "playing"
+    },
+    {
+      "pose": "showcase",
+      "actor": {
+        "actionTime": 0.5138499999999884,
+        "activityBlend": 1,
+        "activityId": "showcase",
+        "activityPoseCount": 7,
+        "frameCount": 7432,
+        "frameName": "gearMerchant",
+        "merchantId": "gearMerchant",
+        "ready": true,
+        "renderedActivity": "showcase",
+        "shopTime": -1,
+        "textureKey": "merchant-motion:atlas",
+        "timeMs": 320603.7599999904,
+        "visible": true
+      },
+      "anchors": 0,
+      "feet": 0,
+      "fps": 53,
+      "phase": "playing"
+    },
+    {
+      "pose": "work",
+      "actor": {
+        "actionTime": 0.4771500000000117,
+        "activityBlend": 1,
+        "activityId": "work",
+        "activityPoseCount": 7,
+        "frameCount": 7843,
+        "frameName": "gemPowerMerchant",
+        "merchantId": "gemPowerMerchant",
+        "ready": true,
+        "renderedActivity": "work",
+        "shopTime": -1,
+        "textureKey": "merchant-motion:atlas",
+        "timeMs": 334296.2599999896,
+        "visible": true
+      },
+      "anchors": 0,
+      "feet": 0,
+      "fps": 51,
+      "phase": "playing"
+    },
+    {
+      "pose": "rare",
+      "actor": {
+        "actionTime": 0.4304499999999999,
+        "activityBlend": 1,
+        "activityId": "rare",
+        "activityPoseCount": 7,
+        "frameCount": 7868,
+        "frameName": "gemPowerMerchant",
+        "merchantId": "gemPowerMerchant",
+        "ready": true,
+        "renderedActivity": "rare",
+        "shopTime": -1,
+        "textureKey": "merchant-motion:atlas",
+        "timeMs": 335115.45999998995,
+        "visible": true
+      },
+      "anchors": 0,
+      "feet": 0,
+      "fps": 50,
+      "phase": "playing"
+    },
+    {
+      "pose": "player",
+      "actor": {
+        "actionTime": 0.4971199999999953,
+        "activityBlend": 1,
+        "activityId": "player",
+        "activityPoseCount": 7,
+        "frameCount": 7899,
+        "frameName": "gemPowerMerchant",
+        "merchantId": "gemPowerMerchant",
+        "ready": true,
+        "renderedActivity": "player",
+        "shopTime": -1,
+        "textureKey": "merchant-motion:atlas",
+        "timeMs": 336138.13999999,
+        "visible": true
+      },
+      "anchors": 0,
+      "feet": 0,
+      "fps": 50,
+      "phase": "playing"
+    },
+    {
+      "pose": "inspect",
+      "actor": {
+        "actionTime": 0.4505099999999977,
+        "activityBlend": 1,
+        "activityId": "inspect",
+        "activityPoseCount": 7,
+        "frameCount": 7925,
+        "frameName": "gemPowerMerchant",
+        "merchantId": "gemPowerMerchant",
+        "ready": true,
+        "renderedActivity": "inspect",
+        "shopTime": -1,
+        "textureKey": "merchant-motion:atlas",
+        "timeMs": 337025.77999998984,
+        "visible": true
+      },
+      "anchors": 0,
+      "feet": 0,
+      "fps": 52,
+      "phase": "playing"
+    },
+    {
+      "pose": "habit",
+      "actor": {
+        "actionTime": 0.5639100000000095,
+        "activityBlend": 1,
+        "activityId": "habit",
+        "activityPoseCount": 7,
+        "frameCount": 7950,
+        "frameName": "gemPowerMerchant",
+        "merchantId": "gemPowerMerchant",
+        "ready": true,
+        "renderedActivity": "habit",
+        "shopTime": -1,
+        "textureKey": "merchant-motion:atlas",
+        "timeMs": 337859.96999998967,
+        "visible": true
+      },
+      "anchors": 0,
+      "feet": 0,
+      "fps": 53,
+      "phase": "playing"
+    },
+    {
+      "pose": "signature",
+      "actor": {
+        "actionTime": 0.48047000000000706,
+        "activityBlend": 1,
+        "activityId": "signature",
+        "activityPoseCount": 7,
+        "frameCount": 7976,
+        "frameName": "gemPowerMerchant",
+        "merchantId": "gemPowerMerchant",
+        "ready": true,
+        "renderedActivity": "signature",
+        "shopTime": -1,
+        "textureKey": "merchant-motion:atlas",
+        "timeMs": 338725.8499999894,
+        "visible": true
+      },
+      "anchors": 0,
+      "feet": 0,
+      "fps": 54,
+      "phase": "playing"
+    },
+    {
+      "pose": "showcase",
+      "actor": {
+        "actionTime": 1.78031000000001,
+        "activityBlend": 1,
+        "activityId": "showcase",
+        "activityPoseCount": 7,
+        "frameCount": 8043,
+        "frameName": "gemPowerMerchant",
+        "merchantId": "gemPowerMerchant",
+        "ready": true,
+        "renderedActivity": "showcase",
+        "shopTime": -1,
+        "textureKey": "merchant-motion:atlas",
+        "timeMs": 341010.01999998925,
+        "visible": true
+      },
+      "anchors": 0,
+      "feet": 0,
+      "fps": 53,
+      "phase": "playing"
+    },
+    {
+      "pose": "work",
+      "actor": {
+        "actionTime": 0.4621900000000022,
+        "activityBlend": 1,
+        "activityId": "work",
+        "activityPoseCount": 7,
+        "frameCount": 1031,
+        "frameName": "moneyMonster",
+        "merchantId": "moneyMonster",
+        "ready": true,
+        "renderedActivity": "work",
+        "shopTime": -1,
+        "textureKey": "merchant-motion:atlas",
+        "timeMs": 344039.709999989,
+        "visible": true
+      },
+      "anchors": 0,
+      "feet": 0,
+      "fps": 50,
+      "phase": "playing"
+    },
+    {
+      "pose": "rare",
+      "actor": {
+        "actionTime": 1.3313799999999814,
+        "activityBlend": 1,
+        "activityId": "rare",
+        "activityPoseCount": 7,
+        "frameCount": 1081,
+        "frameName": "moneyMonster",
+        "merchantId": "moneyMonster",
+        "ready": true,
+        "renderedActivity": "rare",
+        "shopTime": -1,
+        "textureKey": "merchant-motion:atlas",
+        "timeMs": 345718.109999989,
+        "visible": true
+      },
+      "anchors": 0,
+      "feet": 0,
+      "fps": 49,
+      "phase": "playing"
+    },
+    {
+      "pose": "player",
+      "actor": {
+        "actionTime": 0.5672499999999884,
+        "activityBlend": 1,
+        "activityId": "player",
+        "activityPoseCount": 7,
+        "frameCount": 1113,
+        "frameName": "moneyMonster",
+        "merchantId": "moneyMonster",
+        "ready": true,
+        "renderedActivity": "player",
+        "shopTime": -1,
+        "textureKey": "merchant-motion:atlas",
+        "timeMs": 346785.8899999887,
+        "visible": true
+      },
+      "anchors": 0,
+      "feet": 0,
+      "fps": 51,
+      "phase": "playing"
+    },
+    {
+      "pose": "inspect",
+      "actor": {
+        "actionTime": 0.5088300000000164,
+        "activityBlend": 1,
+        "activityId": "inspect",
+        "activityPoseCount": 7,
+        "frameCount": 1137,
+        "frameName": "moneyMonster",
+        "merchantId": "moneyMonster",
+        "ready": true,
+        "renderedActivity": "inspect",
+        "shopTime": -1,
+        "textureKey": "merchant-motion:atlas",
+        "timeMs": 347586.68999998854,
+        "visible": true
+      },
+      "anchors": 0,
+      "feet": 0,
+      "fps": 51,
+      "phase": "playing"
+    },
+    {
+      "pose": "habit",
+      "actor": {
+        "actionTime": 0.4688300000000046,
+        "activityBlend": 1,
+        "activityId": "habit",
+        "activityPoseCount": 7,
+        "frameCount": 1162,
+        "frameName": "moneyMonster",
+        "merchantId": "moneyMonster",
+        "ready": true,
+        "renderedActivity": "habit",
+        "shopTime": -1,
+        "textureKey": "merchant-motion:atlas",
+        "timeMs": 348422.5699999883,
+        "visible": true
+      },
+      "anchors": 0,
+      "feet": 0,
+      "fps": 52,
+      "phase": "playing"
+    },
+    {
+      "pose": "signature",
+      "actor": {
+        "actionTime": 0.4471400000000023,
+        "activityBlend": 1,
+        "activityId": "signature",
+        "activityPoseCount": 7,
+        "frameCount": 1187,
+        "frameName": "moneyMonster",
+        "merchantId": "moneyMonster",
+        "ready": true,
+        "renderedActivity": "signature",
+        "shopTime": -1,
+        "textureKey": "merchant-motion:atlas",
+        "timeMs": 349235.08999998844,
+        "visible": true
+      },
+      "anchors": 0,
+      "feet": 0,
+      "fps": 52,
+      "phase": "playing"
+    },
+    {
+      "pose": "showcase",
+      "actor": {
+        "actionTime": 0.5222800000000047,
+        "activityBlend": 1,
+        "activityId": "showcase",
+        "activityPoseCount": 7,
+        "frameCount": 1225,
+        "frameName": "moneyMonster",
+        "merchantId": "moneyMonster",
+        "ready": true,
+        "renderedActivity": "showcase",
+        "shopTime": -1,
+        "textureKey": "merchant-motion:atlas",
+        "timeMs": 350523.1799999878,
+        "visible": true
+      },
+      "anchors": 0,
+      "feet": 0,
+      "fps": 53,
+      "phase": "playing"
+    },
+    {
+      "pose": "work",
+      "actor": {
+        "actionTime": 0.538890000000014,
+        "activityBlend": 1,
+        "activityId": "work",
+        "activityPoseCount": 7,
+        "frameCount": 88,
+        "frameName": "magmaMoneyMonster",
+        "merchantId": "magmaMoneyMonster",
+        "ready": true,
+        "renderedActivity": "work",
+        "shopTime": -1,
+        "textureKey": "merchant-motion:atlas",
+        "timeMs": 373164.8799999875,
+        "visible": true
+      },
+      "anchors": 0,
+      "feet": 0,
+      "fps": 43,
+      "phase": "playing"
+    },
+    {
+      "pose": "rare",
+      "actor": {
+        "actionTime": 0.48715000000001174,
+        "activityBlend": 1,
+        "activityId": "rare",
+        "activityPoseCount": 7,
+        "frameCount": 129,
+        "frameName": "magmaMoneyMonster",
+        "merchantId": "magmaMoneyMonster",
+        "ready": true,
+        "renderedActivity": "rare",
+        "shopTime": -1,
+        "textureKey": "merchant-motion:atlas",
+        "timeMs": 374531.2699999875,
+        "visible": true
+      },
+      "anchors": 0,
+      "feet": 0,
+      "fps": 43,
+      "phase": "playing"
+    },
+    {
+      "pose": "player",
+      "actor": {
+        "actionTime": 0.4871999999999999,
+        "activityBlend": 1,
+        "activityId": "player",
+        "activityPoseCount": 7,
+        "frameCount": 163,
+        "frameName": "magmaMoneyMonster",
+        "merchantId": "magmaMoneyMonster",
+        "ready": true,
+        "renderedActivity": "player",
+        "shopTime": -1,
+        "textureKey": "merchant-motion:atlas",
+        "timeMs": 375650.8199999873,
+        "visible": true
+      },
+      "anchors": 0,
+      "feet": 0,
+      "fps": 42,
+      "phase": "playing"
+    },
+    {
+      "pose": "inspect",
+      "actor": {
+        "actionTime": 0.4504699999999837,
+        "activityBlend": 1,
+        "activityId": "inspect",
+        "activityPoseCount": 7,
+        "frameCount": 192,
+        "frameName": "magmaMoneyMonster",
+        "merchantId": "magmaMoneyMonster",
+        "ready": true,
+        "renderedActivity": "inspect",
+        "shopTime": -1,
+        "textureKey": "merchant-motion:atlas",
+        "timeMs": 376628.45999998704,
+        "visible": true
+      },
+      "anchors": 0,
+      "feet": 0,
+      "fps": 43,
+      "phase": "playing"
+    },
+    {
+      "pose": "habit",
+      "actor": {
+        "actionTime": 1.0594399999999906,
+        "activityBlend": 1,
+        "activityId": "habit",
+        "activityPoseCount": 7,
+        "frameCount": 248,
+        "frameName": "magmaMoneyMonster",
+        "merchantId": "magmaMoneyMonster",
+        "ready": true,
+        "renderedActivity": "habit",
+        "shopTime": -1,
+        "textureKey": "merchant-motion:atlas",
+        "timeMs": 378487.0699999868,
+        "visible": true
+      },
+      "anchors": 0,
+      "feet": 0,
+      "fps": 43,
+      "phase": "playing"
+    },
+    {
+      "pose": "signature",
+      "actor": {
+        "actionTime": 0.5772499999999999,
+        "activityBlend": 1,
+        "activityId": "signature",
+        "activityPoseCount": 7,
+        "frameCount": 292,
+        "frameName": "magmaMoneyMonster",
+        "merchantId": "magmaMoneyMonster",
+        "ready": true,
+        "renderedActivity": "signature",
+        "shopTime": -1,
+        "textureKey": "merchant-motion:atlas",
+        "timeMs": 379960.23999998654,
+        "visible": true
+      },
+      "anchors": 0,
+      "feet": 0,
+      "fps": 42,
+      "phase": "playing"
+    },
+    {
+      "pose": "showcase",
+      "actor": {
+        "actionTime": 0.4237500000000234,
+        "activityBlend": 1,
+        "activityId": "showcase",
+        "activityPoseCount": 7,
+        "frameCount": 316,
+        "frameName": "magmaMoneyMonster",
+        "merchantId": "magmaMoneyMonster",
+        "ready": true,
+        "renderedActivity": "showcase",
+        "shopTime": -1,
+        "textureKey": "merchant-motion:atlas",
+        "timeMs": 380739.4099999865,
+        "visible": true
+      },
+      "anchors": 0,
+      "feet": 0,
+      "fps": 42,
+      "phase": "playing"
+    }
+  ],
+  "snapshots": [],
+  "browserLogs": [],
+  "summary": {
+    "merchantsOpened": 6,
+    "activitiesRendered": 42,
+    "anchorViolations": 0,
+    "groundViolations": 0,
+    "observedFps": {
+      "min": 42,
+      "max": 55
+    },
+    "openingElapsedMs": [
+      695.6899999999995,
+      680.679999999993,
+      689.0700000000011,
+      684.0300000000047,
+      692.3899999999908,
+      697.4200000000013
+    ],
+    "saveWritesBlocked": true,
+    "testScope": "Local full-review game, 42 directly requested activities, six real-key shop openings, repeated E, Escape cancellation, cleanup. The existing Level Two review hotkey was used for Magma; this is focused runtime verification, not a natural progression playthrough."
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "layers": [
+    {
+      "id": "distant-ridges",
+      "phases": 3,
+      "width": 1280,
+      "height": 630
+    },
+    {
+      "id": "valley",
+      "phases": 3,
+      "width": 1592,
+      "height": 750
+    },
+    {
+      "id": "forest-rear",
+      "phases": 4,
+      "width": 1262,
+      "height": 522
+    },
+    {
+      "id": "forest",
+      "phases": 4,
+      "width": 1092,
+      "height": 443
+    }
+  ],
+  "pixels": 1370260,
+  "silhouettes": 247475,
+  "guardPixels": 256000,
+  "maxCoverageLoss": 0,
+  "maxGuardAlphaDifference": 0,
+  "maxGuardColorDifference": 0
+}

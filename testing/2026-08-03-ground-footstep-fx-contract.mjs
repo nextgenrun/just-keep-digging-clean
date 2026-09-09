@@ -147,7 +147,8 @@ assert.equal(images.length, 3);
 assert.ok(images.every((image) => image.x > 110), "right-facing burst missed the planted foot");
 assert.ok(images.every((image) => Math.abs(image.y - 188) < 2));
 assert.deepEqual(tileQueries[0], { tx: 1, ty: 2 });
-assert.ok(images.every((image) => image.frame.startsWith("dirt-s")));
+assert.equal(images[0].frame, "dirt-p04", "one low authored scuff replaces an airborne fragment");
+assert.ok(images.slice(1).every((image) => image.frame.startsWith("dirt-s") && image.frame.endsWith("-detail")));
 assert.equal(tweens.length, 3);
 
 emit({ key: "run-anim" }, { index: 13, textureFrame: 13 });
@@ -186,7 +187,7 @@ assert.equal(resolvePlayerGroundFootstepFxEnabled("?groundFootFx=0"), false);
 assert.equal(resolvePlayerGroundFootstepFxEnabled("?groundFootFx=1"), true);
 
 const materialTiles = Object.entries(TILE_TYPES)
-  .filter(([name]) => name !== "AIR");
+  .filter(([name]) => name !== "AIR" && !name.startsWith("RETIRED_"));
 const materialIdentities = materialTiles.map(([name, tileType]) => {
   assert.equal(
     Object.prototype.hasOwnProperty.call(TILE_DESTRUCTION_FX_CONFIG.familyByTile, tileType),
@@ -202,7 +203,7 @@ const materialIdentities = materialTiles.map(([name, tileType]) => {
   assert.equal(Number.isInteger(TILE_DESTRUCTION_FX_CONFIG.families[family]), true);
   return `${family}:${resolveTileDestructionTint(tileType).toString(16)}`;
 });
-assert.equal(materialTiles.length, 33);
+assert.equal(materialTiles.length, 32, "only active tile types have particle palette routes");
 assert.equal(
   new Set(materialIdentities).size,
   materialIdentities.length,

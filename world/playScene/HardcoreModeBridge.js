@@ -67,7 +67,8 @@ function processSystemEvents(scene) {
   if (!runtime) return;
   for (const event of runtime.system.drainEvents()) {
     if (event.type !== "stress-band") continue;
-    scene.soundSystem?.playHardcoreStressWarning?.(event.band === "critical");
+    if (event.band === "calm") scene.soundSystem?.stopSeismicWarning?.();
+    else scene.soundSystem?.playHardcoreStressWarning?.(event.band === "critical");
     if (event.band === "critical") {
       scene.soundSystem?.playPlayerVoiceEvent?.(
         PLAYER_VOICE_CONFIG.eventIds.hardcoreDanger,
@@ -99,6 +100,11 @@ function processSystemEvents(scene) {
 }
 
 async function persistNow(scene) {
+  if (scene.townRestSystem) {
+    scene.dugTileSaveStore?.recordLiveArmedRun?.(scene._hardcoreRuntime?.system?.getSaveData?.());
+    scene.queueDugTilesSave?.();
+    return true; // In-memory change joins the next bed checkpoint.
+  }
   scene.queueDugTilesSave?.();
   const saved = await scene.flushDugTilesSave?.();
   return saved !== false;
@@ -159,7 +165,7 @@ function requestUnstuck(scene) {
       if (!saved) {
         flash(
           scene,
-          "Unstuck penalty save failed • retry SAVE GAME",
+          runtime.config.copy.unstuckSaveFailed,
           runtime.config.feedback.errorColor,
           runtime.config.feedback.errorFlashMs,
         );
@@ -345,6 +351,7 @@ export function updateHardcoreModeRuntime(scene, time, delta, playerTile = null)
   }
 
   const light = scene.lightSystem?.getShaderSnapshot?.() || {};
+  const upgradeEffects = scene.upgradeSystem?.getUpgradeEffects?.() || {};
   const body = scene.playerController?.physicsBody;
   const starLightRadius = runtime.config.stress.intactStarLightRadiusTiles;
   const sanctuaryEnabled = sanctuarySnapshot?.enabled === true;
@@ -367,7 +374,11 @@ export function updateHardcoreModeRuntime(scene, time, delta, playerTile = null)
     consumedStarStressMultiplier: sanctuaryEnabled
       ? sanctuarySnapshot.consumedStarStressMultiplier
       : 1,
-    playerLevel: scene.playerLevelSystem?.level || 1,
+    panicResistanceMeters:
+      scene.playerLevelSystem?.getPanicResistanceMeters?.() || 0,
+    caveEyesPanicReduction: upgradeEffects.caveEyesPanicReduction || 0,
+    gpDrainMultiplier:
+      scene.upgradeSystem?.getGemPowerCostMultiplier?.() || 1,
     descentTilesPerSecond: body && scene.config.tileSize > 0
       ? Math.max(0, body.vy / scene.config.tileSize)
       : 0,

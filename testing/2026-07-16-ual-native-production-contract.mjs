@@ -135,7 +135,9 @@ const loaderScene = {
   textures: {
     exists: (key) => loadedFrames.has(key),
     remove: (key) => loadedFrames.delete(key),
-    getFrame: (key, frame) => loadedFrames.get(key)?.has(Number(frame)) ? { key, frame } : null,
+    getFrame: (key, frame) => loadedFrames.get(key)?.has(Number(frame))
+      ? { name: String(frame), texture: { key } }
+      : null,
   },
   load: {
     spritesheet: (key, url, config) => queuedSheets.push({ key, url, config }),

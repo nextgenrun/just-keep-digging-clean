@@ -5,6 +5,7 @@ import {
   PICKAXE_HUD_CONFIG,
   getPickaxeHudTheme,
 } from "../../values/pickaxeHudThemes.js";
+import { createUiIcon, setUiIcon } from "./UiIconRenderer.js";
 
 
 function isRollbackDisabled() {
@@ -29,22 +30,16 @@ export class PickaxeHudView {
     this.enabled = PICKAXE_HUD_CONFIG.enabled === true && !isRollbackDisabled();
     if (!this.enabled) return;
 
-    const firstAsset = Object.values(ASSET_KEYS.ui.pickaxeHud)[0];
-    if (!firstAsset || scene.textures?.exists(firstAsset.key) !== true) return;
-
-    const frame = APPROVED_HUD_SKIN.layout.playerCore;
     const overlayConfig = PICKAXE_HUD_CONFIG.overlay;
     const labelConfig = PICKAXE_HUD_CONFIG.label;
-    this.overlay = scene.add.image(
-      frame.x * scale,
-      frame.y * scale,
-      firstAsset.key,
-    )
-      .setOrigin(0, 0)
-      .setDisplaySize(frame.width * scale, frame.height * scale)
-      .setScrollFactor(0)
-      .setDepth(HUD_LAYOUT.hudOverlayDepth + overlayConfig.depthOffset)
-      .setVisible(false);
+    this.overlay = createUiIcon(scene, "pickaxe", {
+      x: overlayConfig.x * scale,
+      y: overlayConfig.y * scale,
+      size: overlayConfig.size * scale,
+      depth: HUD_LAYOUT.hudOverlayDepth + overlayConfig.depthOffset,
+      scrollFactor: 0,
+    });
+    if (!this.overlay) return;
 
     this.label = scene.add.text(
       labelConfig.x * scale,
@@ -62,30 +57,32 @@ export class PickaxeHudView {
       .setOrigin(labelConfig.originX, labelConfig.originY)
       .setScrollFactor(0)
       .setDepth(HUD_LAYOUT.hudOverlayDepth + labelConfig.depthOffset)
-      .setVisible(false);
+      .setVisible(true);
+    this.clear();
   }
 
   setPickaxe(pickaxeId, options = {}) {
     const theme = getPickaxeHudTheme(pickaxeId);
-    const asset = ASSET_KEYS.ui.pickaxeHud?.[theme?.id];
+    const asset = ASSET_KEYS.ui.pickaxeIcons?.[theme?.id];
     const ready = this.enabled
       && this.overlay?.active
       && this.label?.active
-      && asset
-      && this.scene?.textures?.exists(asset.key) === true;
+      && (!asset || this.scene?.textures?.exists(asset.key) === true);
     if (!ready) {
       this.clear();
       return false;
+    }
+    if (!theme || !asset) {
+      this.clear();
+      return !pickaxeId;
     }
 
     const unchanged = this.currentPickaxeId === theme.id;
     if (unchanged && options.force !== true && options.animate !== true) return true;
 
     this.currentPickaxeId = theme.id;
-    this.overlay
-      .setTexture(asset.key)
-      .setAlpha(1)
-      .setVisible(true);
+    setUiIcon(this.overlay, asset.key);
+    this.overlay.setAlpha(1).setVisible(true);
     this.label
       .setText(theme.label)
       .setColor(theme.accent)
@@ -100,8 +97,15 @@ export class PickaxeHudView {
     this.currentPickaxeId = null;
     this.scene?.tweens?.killTweensOf?.(this.overlay);
     this.scene?.tweens?.killTweensOf?.(this.label);
-    this.overlay?.setAlpha(1).setVisible(false);
-    this.label?.setAlpha(1).setText("").setVisible(false);
+    if (this.overlay?.active) {
+      setUiIcon(this.overlay, "pickaxe");
+      this.overlay.setAlpha(1).setVisible(true);
+    }
+    this.label
+      ?.setAlpha(1)
+      .setText(PICKAXE_HUD_CONFIG.fallbackLabel)
+      .setColor(APPROVED_HUD_SKIN.font.secondary)
+      .setVisible(true);
   }
 
   getTheme() {
@@ -114,7 +118,9 @@ export class PickaxeHudView {
       enabled: this.enabled,
       ready: Boolean(this.overlay?.active && this.label?.active),
       pickaxeId: theme?.id || null,
-      label: theme?.label || "",
+      label: this.label?.text || "",
+      themed: Boolean(theme),
+      badgeVisible: this.overlay?.visible === true,
       overlayVisible: this.overlay?.visible === true,
     });
   }

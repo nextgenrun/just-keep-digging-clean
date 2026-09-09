@@ -1,0 +1,429 @@
+{
+  "ok": true,
+  "results": [
+    {
+      "id": "idle",
+      "ok": true,
+      "source": "sprites/character/piskel/runtime-active/idle.piskel",
+      "errors": [],
+      "warnings": [],
+      "frameCount": 35,
+      "frameSize": [
+        341,
+        341
+      ],
+      "fps": 8,
+      "anchorMode": "legacy-core",
+      "maxCenterDriftPx": 1.92,
+      "maxBBoxCenterDriftPx": 3.0,
+      "maxRootAnchorDriftPx": 1.92,
+      "maxBottomDriftPx": 0.0,
+      "medianBBoxHeightPx": 325.0
+    },
+    {
+      "id": "walk",
+      "ok": true,
+      "source": "sprites/character/piskel/runtime-active/walk.piskel",
+      "errors": [],
+      "warnings": [
+        "legacy-core drift 11.72px exceeds 5px"
+      ],
+      "frameCount": 51,
+      "frameSize": [
+        341,
+        341
+      ],
+      "fps": 14,
+      "anchorMode": "legacy-core",
+      "maxCenterDriftPx": 11.72,
+      "maxBBoxCenterDriftPx": 11.5,
+      "maxRootAnchorDriftPx": 11.72,
+      "maxBottomDriftPx": 0.0,
+      "medianBBoxHeightPx": 325.0
+    },
+    {
+      "id": "dig-sideways",
+      "ok": true,
+      "source": "sprites/character/piskel/runtime-active/dig-sideways.piskel",
+      "errors": [],
+      "warnings": [
+        "legacy-core drift 16.45px exceeds 10px"
+      ],
+      "frameCount": 18,
+      "frameSize": [
+        341,
+        341
+      ],
+      "fps": 30,
+      "anchorMode": "legacy-core",
+      "maxCenterDriftPx": 16.45,
+      "maxBBoxCenterDriftPx": 13.25,
+      "maxRootAnchorDriftPx": 16.45,
+      "maxBottomDriftPx": 0.0,
+      "medianBBoxHeightPx": 307.5
+    },
+    {
+      "id": "dig-up",
+      "ok": true,
+      "source": "sprites/character/piskel/runtime-active/dig-up.piskel",
+      "errors": [],
+      "warnings": [],
+      "frameCount": 9,
+      "frameSize": [
+        341,
+        341
+      ],
+      "fps": 30,
+      "anchorMode": "legacy-core",
+      "maxCenterDriftPx": 0.43,
+      "maxBBoxCenterDriftPx": 11.5,
+      "maxRootAnchorDriftPx": 0.43,
+      "maxBottomDriftPx": 0.0,
+      "medianBBoxHeightPx": 328.0
+    },
+    {
+      "id": "dig-up-sideways",
+      "ok": true,
+      "source": "sprites/character/piskel/runtime-active/dig-up-sideways.piskel",
+      "errors": [],
+      "warnings": [
+        "legacy-core drift 21.92px exceeds 10px"
+      ],
+      "frameCount": 13,
+      "frameSize": [
+        341,
+        341
+      ],
+      "fps": 30,
+      "anchorMode": "legacy-core",
+      "maxCenterDriftPx": 21.92,
+      "maxBBoxCenterDriftPx": 18.5,
+      "maxRootAnchorDriftPx": 21.92,
+      "maxBottomDriftPx": 0.0,
+      "medianBBoxHeightPx": 328.0
+    },
+    {
+      "id": "dig-up-look",
+      "ok": true,
+      "source": "sprites/character/piskel/runtime-active/dig-up-look.piskel",
+      "errors": [],
+      "warnings": [],
+      "frameCount": 1,
+      "frameSize": [
+        341,
+        341
+      ],
+      "fps": 1,
+      "anchorMode": "legacy-core",
+      "maxCenterDriftPx": 0.0,
+      "maxBBoxCenterDriftPx": 0.0,
+      "maxRootAnchorDriftPx": 0.0,
+      "maxBottomDriftPx": 0.0,
+      "medianBBoxHeightPx": 313.0
+    },
+    {
+      "id": "fly-climb",
+      "ok": true,
+      "source": "sprites/character/piskel/runtime-active/fly-climb.piskel",
+      "errors": [],
+      "warnings": [],
+      "frameCount": 25,
+      "frameSize": [
+        341,
+        341
+      ],
+      "fps": 14,
+      "anchorMode": "legacy-core",
+      "maxCenterDriftPx": 3.77,
+      "maxBBoxCenterDriftPx": 8.0,
+      "maxRootAnchorDriftPx": 3.77,
+      "maxBottomDriftPx": 3.0,
+      "medianBBoxHeightPx": 322.0
+    },
+    {
+      "id": "survival-blender-v2-dig-up",
+      "ok": true,
+      "source": "sprites/character/survival-character-blender-v2/piskel-polish/dig-up.piskel",
+      "errors": [],
+      "warnings": [],
+      "frameCount": 24,
+      "frameSize": [
+        256,
+        256
+      ],
+      "fps": 27,
+      "anchorMode": "alpha-lower-body",
+      "maxCenterDriftPx": 0.89,
+      "maxBBoxCenterDriftPx": 20.75,
+      "maxRootAnchorDriftPx": 0.89,
+      "maxBottomDriftPx": 0.0,
+      "medianBBoxHeightPx": 177.5
+    },
+    {
+      "id": "jump",
+      "ok": true,
+      "source": "sprites/character/piskel/runtime-active/jump.piskel",
+      "errors": [],
+      "warnings": [],
+      "frameCount": 1,
+      "frameSize": [
+        1024,
+        1024
+      ],
+      "fps": 12,
+      "anchorMode": "legacy-core",
+      "maxCenterDriftPx": 0.0,
+      "maxBBoxCenterDriftPx": 0.0,
+      "maxRootAnchorDriftPx": 0.0,
+      "maxBottomDriftPx": 0.0,
+      "medianBBoxHeightPx": 1024.0
+    },
+    {
+      "id": "duck",
+      "ok": true,
+      "source": "sprites/character/piskel/runtime-active/duck.piskel",
+      "errors": [],
+      "warnings": [],
+      "frameCount": 1,
+      "frameSize": [
+        1024,
+        1024
+      ],
+      "fps": 8,
+      "anchorMode": "legacy-core",
+      "maxCenterDriftPx": 0.0,
+      "maxBBoxCenterDriftPx": 0.0,
+      "maxRootAnchorDriftPx": 0.0,
+      "maxBottomDriftPx": 0.0,
+      "medianBBoxHeightPx": 962.0
+    },
+    {
+      "id": "dig-down",
+      "ok": true,
+      "source": "sprites/character/piskel/runtime-active/dig-down.piskel",
+      "errors": [],
+      "warnings": [],
+      "frameCount": 1,
+      "frameSize": [
+        1024,
+        1024
+      ],
+      "fps": 12,
+      "anchorMode": "legacy-core",
+      "maxCenterDriftPx": 0.0,
+      "maxBBoxCenterDriftPx": 0.0,
+      "maxRootAnchorDriftPx": 0.0,
+      "maxBottomDriftPx": 0.0,
+      "medianBBoxHeightPx": 1024.0
+    },
+    {
+      "id": "quickslash",
+      "ok": true,
+      "source": "sprites/character/piskel/runtime-active/quickslash.piskel",
+      "errors": [],
+      "warnings": [],
+      "frameCount": 2,
+      "frameSize": [
+        1280,
+        1280
+      ],
+      "fps": 12,
+      "anchorMode": "legacy-core",
+      "maxCenterDriftPx": 34.15,
+      "maxBBoxCenterDriftPx": 0.0,
+      "maxRootAnchorDriftPx": 34.15,
+      "maxBottomDriftPx": 20.0,
+      "medianBBoxHeightPx": 1260.0
+    },
+    {
+      "id": "quickslash-v2",
+      "ok": true,
+      "source": "sprites/character/character-v8/piskel/quickslash-v2.piskel",
+      "errors": [],
+      "warnings": [],
+      "frameCount": 39,
+      "frameSize": [
+        341,
+        341
+      ],
+      "fps": 30,
+      "anchorMode": "legacy-core",
+      "maxCenterDriftPx": 58.96,
+      "maxBBoxCenterDriftPx": 21.5,
+      "maxRootAnchorDriftPx": 58.96,
+      "maxBottomDriftPx": 3.0,
+      "medianBBoxHeightPx": 308.0
+    },
+    {
+      "id": "teleport-in",
+      "ok": true,
+      "source": "sprites/character/character-v8/piskel/teleport-in.piskel",
+      "errors": [],
+      "warnings": [],
+      "frameCount": 38,
+      "frameSize": [
+        341,
+        341
+      ],
+      "fps": 30,
+      "anchorMode": "legacy-core",
+      "maxCenterDriftPx": 35.03,
+      "maxBBoxCenterDriftPx": 37.75,
+      "maxRootAnchorDriftPx": 35.03,
+      "maxBottomDriftPx": 16.0,
+      "medianBBoxHeightPx": 271.5
+    },
+    {
+      "id": "thunder-charge",
+      "ok": true,
+      "source": "sprites/character/piskel/runtime-active/thunder-charge.piskel",
+      "errors": [],
+      "warnings": [],
+      "frameCount": 1,
+      "frameSize": [
+        1280,
+        1280
+      ],
+      "fps": 6,
+      "anchorMode": "legacy-core",
+      "maxCenterDriftPx": 0.0,
+      "maxBBoxCenterDriftPx": 0.0,
+      "maxRootAnchorDriftPx": 0.0,
+      "maxBottomDriftPx": 0.0,
+      "medianBBoxHeightPx": 1280.0
+    },
+    {
+      "id": "thunder-strike",
+      "ok": true,
+      "source": "sprites/character/piskel/runtime-active/thunder-strike.piskel",
+      "errors": [],
+      "warnings": [],
+      "frameCount": 1,
+      "frameSize": [
+        1280,
+        1280
+      ],
+      "fps": 12,
+      "anchorMode": "bbox-center",
+      "maxCenterDriftPx": 0.0,
+      "maxBBoxCenterDriftPx": 0.0,
+      "maxRootAnchorDriftPx": 0.0,
+      "maxBottomDriftPx": 0.0,
+      "medianBBoxHeightPx": 1280.0
+    },
+    {
+      "id": "survival-moving-side-dig-jab",
+      "ok": true,
+      "source": "sprites/character/piskel/runtime-active/moving-side-dig-jab.piskel",
+      "errors": [],
+      "warnings": [],
+      "frameCount": 22,
+      "frameSize": [
+        256,
+        256
+      ],
+      "fps": 30,
+      "anchorMode": "alpha-lower-body",
+      "maxCenterDriftPx": 9.23,
+      "maxBBoxCenterDriftPx": 15.5,
+      "maxRootAnchorDriftPx": 9.23,
+      "maxBottomDriftPx": 0.0,
+      "medianBBoxHeightPx": 160.0
+    },
+    {
+      "id": "survival-moving-side-dig-cross",
+      "ok": true,
+      "source": "sprites/character/piskel/runtime-active/moving-side-dig-cross.piskel",
+      "errors": [],
+      "warnings": [],
+      "frameCount": 22,
+      "frameSize": [
+        256,
+        256
+      ],
+      "fps": 30,
+      "anchorMode": "alpha-lower-body",
+      "maxCenterDriftPx": 7.31,
+      "maxBBoxCenterDriftPx": 16.5,
+      "maxRootAnchorDriftPx": 7.31,
+      "maxBottomDriftPx": 0.0,
+      "medianBBoxHeightPx": 160.5
+    },
+    {
+      "id": "survival-moving-side-dig-phase-handoff",
+      "ok": true,
+      "source": "sprites/character/piskel/runtime-active/moving-side-dig-phase-handoff.piskel",
+      "errors": [],
+      "warnings": [],
+      "frameCount": 132,
+      "frameSize": [
+        256,
+        256
+      ],
+      "fps": 30,
+      "anchorMode": "alpha-lower-body",
+      "maxCenterDriftPx": 9.76,
+      "maxBBoxCenterDriftPx": 16.5,
+      "maxRootAnchorDriftPx": 9.76,
+      "maxBottomDriftPx": 0.0,
+      "medianBBoxHeightPx": 159.0
+    },
+    {
+      "id": "survival-player-animation-polish-run",
+      "ok": true,
+      "source": "sprites/character/piskel/runtime-active/player-animation-polish-run.piskel",
+      "errors": [],
+      "warnings": [],
+      "frameCount": 28,
+      "frameSize": [
+        256,
+        256
+      ],
+      "fps": 30,
+      "anchorMode": "alpha-lower-body",
+      "maxCenterDriftPx": 8.75,
+      "maxBBoxCenterDriftPx": 9.0,
+      "maxRootAnchorDriftPx": 8.75,
+      "maxBottomDriftPx": 0.0,
+      "medianBBoxHeightPx": 161.0
+    },
+    {
+      "id": "survival-player-animation-polish-transitions",
+      "ok": true,
+      "source": "sprites/character/piskel/runtime-active/player-animation-polish-transitions.piskel",
+      "errors": [],
+      "warnings": [],
+      "frameCount": 133,
+      "frameSize": [
+        256,
+        256
+      ],
+      "fps": 30,
+      "anchorMode": "alpha-lower-body",
+      "maxCenterDriftPx": 5.89,
+      "maxBBoxCenterDriftPx": 36.0,
+      "maxRootAnchorDriftPx": 5.89,
+      "maxBottomDriftPx": 0.0,
+      "medianBBoxHeightPx": 156.0
+    },
+    {
+      "id": "survival-player-animation-polish-diagonal-dig",
+      "ok": true,
+      "source": "sprites/character/piskel/runtime-active/player-animation-polish-diagonal-dig.piskel",
+      "errors": [],
+      "warnings": [],
+      "frameCount": 120,
+      "frameSize": [
+        256,
+        256
+      ],
+      "fps": 30,
+      "anchorMode": "alpha-lower-body",
+      "maxCenterDriftPx": 10.69,
+      "maxBBoxCenterDriftPx": 24.5,
+      "maxRootAnchorDriftPx": 10.69,
+      "maxBottomDriftPx": 0.0,
+      "medianBBoxHeightPx": 158.0
+    }
+  ]
+}

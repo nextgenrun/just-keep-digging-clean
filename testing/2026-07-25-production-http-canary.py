@@ -4,9 +4,11 @@
 from __future__ import annotations
 
 import argparse
-from contextlib import contextmanager
+from contextlib import closing, contextmanager
 from dataclasses import dataclass
 from functools import partial
+import gzip
+from http.client import HTTPConnection
 import json
 from pathlib import Path
 import runpy
@@ -91,6 +93,12 @@ def probe(base_url: str, include_write_guard: bool) -> dict:
     assert f"./main.js?v={build_id}" in index
     assert f"./libs/phaser.js?v={build_id}" in index
 
+    if "BROWSER_CONTROLS" in index:
+        assert f"./values/browserControls.js?v={build_id}" in index
+        require_javascript_contract(base_url, build_id, "values/browserControls.js", (
+            "BROWSER_CONTROLS", "fullscreenLockCodes", "confirmExitSceneKeys",
+        ))
+
     main_response = request(
         endpoint(base_url, f"main.js?v={build_id}"),
         headers={"Accept-Encoding": "identity"},
@@ -100,7 +108,14 @@ def probe(base_url: str, include_write_guard: bool) -> dict:
     require_header(main_response, "Cache-Control", "no-cache")
     main_source = main_response.body.decode("utf-8")
     assert "installRuntimeCanarySystem" in main_source
-    assert "installAdminHealthPanel" in main_source
+    if "installAdminHealthPanel" not in main_source:
+        assert "LaunchScene" in main_source, "Missing startup scene registration"
+        require_javascript_contract(base_url, build_id, "ui/scenes/LaunchScene.js", (
+            "registerRuntimeScenes", f'RuntimeScenes.js?v={build_id}',
+        ))
+        require_javascript_contract(base_url, build_id, "ui/scenes/RuntimeScenes.js", (
+            "installAdminHealthPanel", "registerRuntimeScenes", "game.scene.add",
+        ))
     assert f"?v={build_id}" in main_source
     assert "?rev=" not in main_source
 
@@ -128,7 +143,7 @@ def probe(base_url: str, include_write_guard: bool) -> dict:
         build_id,
         "ui/overlays/ShopOverlay.js",
         (
-            "show(merchantId)",
+            "show(merchantId,",
             "this.currentMerchant = merchantId",
         ),
     )
@@ -184,6 +199,22 @@ def local_production_server(directory: Path):
         thread.join(timeout=REQUEST_TIMEOUT_SECONDS)
 
 
+def check_keepalive_range_reset(base_url: str) -> None:
+    parsed = urlparse(base_url)
+    with closing(HTTPConnection(parsed.hostname, parsed.port, timeout=REQUEST_TIMEOUT_SECONDS)) as connection:
+        connection.request("GET", "/main.js", headers={"Range": "bytes=0-15"})
+        partial_response = connection.getresponse()
+        assert partial_response.status == 206
+        assert len(partial_response.read()) == 16
+        connection.request("GET", "/build-manifest.json", headers={"Accept-Encoding": "gzip"})
+        full_response = connection.getresponse()
+        assert full_response.status == 200, "Video range state leaked into the next request"
+        assert full_response.getheader("Content-Range") is None
+        data = full_response.read()
+        assert full_response.getheader("Content-Encoding") == "gzip"
+        assert json.loads(gzip.decompress(data))["debugMode"] is False
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--directory", help="serve and probe this local production directory")
@@ -200,6 +231,7 @@ def main() -> int:
             if not (directory / "build-manifest.json").is_file():
                 raise AssertionError(f"production manifest is missing from {directory}")
             with local_production_server(directory) as base_url:
+                check_keepalive_range_reset(base_url)
                 summary = probe(base_url, include_write_guard=True)
     except Exception as error:
         print("PRODUCTION_CANARY_SUMMARY " + json.dumps({

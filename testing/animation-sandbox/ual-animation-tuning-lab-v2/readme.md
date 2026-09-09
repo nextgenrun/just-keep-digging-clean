@@ -9,7 +9,10 @@ Jab/Cross/Jab/Cross, DOWN is the `OverhandThrow` ground strike,
 and UP plus UP-SIDE use `Melee_Hook`. Production comparison uses the 109px
 idle/action base and 123px walk/run presentation. Rig/contact validation is
 diagnostic only; the live game admits cooldown at action start and mutates the
-tile at the authored visual contact. The locomotion lane now uses the live
+tile at the authored visual contact. Game-matched mining playback reads the
+authoritative mining cooldown while keeping each authored normal swing within
+the validated 750 ms playback window; the remaining 1500 ms level-one cadence
+is recovery. The locomotion lane now uses the live
 run-slot Jog at every speed, the landing lane uses the sampled impact recovery,
 and UP previews include the neutral-return playback sequence. The raw library
 still reports the original 15-frame uppercut source truth.

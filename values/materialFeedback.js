@@ -75,8 +75,7 @@ export const GLINT_CONFIG = Object.freeze({
   depth: 37, // above destroy particles (36)
 });
 
-export function getMineShakeSignature(tileType, { critical = false, destroyed = false } = {}) {
-  if (critical && destroyed && tileType !== TILE_TYPES.SKY_TILE) return "mining.crit";
+export function getMineShakeSignature(tileType) {
   switch (tileType) {
     case TILE_TYPES.DIRT:
     case TILE_TYPES.DARK_DIRT_NORMAL: return "mining.light";

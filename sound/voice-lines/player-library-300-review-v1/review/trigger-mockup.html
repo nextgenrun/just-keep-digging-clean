@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Leo — visible trigger mockup</title><link rel="stylesheet" href="trigger-mockup.css">
+</head>
+<body>
+<header class="wrap hero">
+  <a class="back" href="./#submitted-review">← Your 300-script review</a>
+  <p class="eyebrow">UNDERSTAR / LEO / SILENT TRIGGER MOCKUP</p>
+  <h1>Leo, in the moment.</h1>
+  <p class="intro">You see what happened. He reacts to <em>that</em>.</p>
+  <p class="scope">Approved words, proposed triggers. No new audio. Gameplay is unchanged.</p>
+</header>
+<main class="wrap">
+  <section class="proposal" aria-label="Proposed cadence">
+    <p><strong>25 s</strong><span>minimum between ordinary remarks</span></p>
+    <p><strong>No chance roll</strong><span>a fresh, eligible event earns the line</span></p>
+    <p><strong>~30 min</strong><span>between rare thought opportunities</span></p>
+  </section>
+  <section class="review" aria-labelledby="review-title">
+    <div class="review-heading"><div><p class="eyebrow">01 / SEE THE CONNECTION</p><h2 id="review-title">Which moment earns his voice?</h2></div><p id="review-count" class="muted" role="status"></p></div>
+    <div class="picker"><label for="moment">Moment to preview<select id="moment" disabled><option>Loading approved scripts…</option></select></label><div class="paging"><button id="previous" type="button" aria-label="Previous moment">←</button><span id="position"></span><button id="next" type="button" aria-label="Next moment">→</button></div></div>
+    <div id="load-error" role="alert" hidden></div>
+    <div class="story-grid" id="story" hidden>
+      <div class="preview-column">
+        <div class="stage" id="stage" data-phase="ready" aria-label="Silent event storyboard">
+          <div class="stage-top"><span id="place"></span><span>REVIEW OVERLAY</span></div>
+          <div class="event-target" id="event-target"><span class="target-label" id="target-label">BEFORE THE EVENT</span><div class="target-body"><img id="ore-image" alt="" hidden><strong id="event-cue"></strong></div></div>
+          <div class="connection" aria-hidden="true"><span></span></div>
+          <div class="subtitle" id="subtitle"><p id="speaker">LEO · WAITING FOR THE MOMENT</p><blockquote id="caption">The event comes first.</blockquote></div>
+        </div>
+        <div class="steps" aria-label="Preview progress"><span id="step-event">1 · Confirmation</span><span id="step-voice">2 · Reaction</span><span id="step-music">3 · Music returns</span></div>
+        <div class="preview-controls"><button class="primary" id="play" type="button">Show event → Leo reacts</button><button id="reset" type="button">Reset preview</button></div>
+        <label class="context-label" for="context">Test the same event when…<select id="context"><option value="clear">The speech channel is clear</option><option value="npc">An NPC / narration owns the conversation</option><option value="stale">The moment has already passed</option><option value="cooldown">Leo spoke 10 seconds ago</option><option value="muted">Voice volume is muted</option></select></label>
+        <p id="preview-status" class="status" role="status"></p>
+        <div class="music"><div><span>Music level · visual simulation</span><output id="music-value">100%</output></div><div class="music-track"><div id="music-fill"></div></div><p id="music-note">0.9 s down · hold under the sentence · 2.4 s back up</p></div>
+        <p class="silent-note">Silent, illustrative timing. Caption length is not a measured recording duration. The highlight is a review aid; final game presentation is not being installed.</p>
+      </div>
+      <article class="direction" aria-labelledby="moment-title">
+        <div class="moment-meta"><span id="moment-id"></span><span id="line-id"></span></div>
+        <h3 id="moment-title"></h3>
+        <blockquote id="script"></blockquote>
+        <p class="delivery" id="delivery"></p>
+        <dl><dt>TRIGGER · what you can see</dt><dd id="trigger"></dd><dt>WHEN HE SPEAKS</dt><dd id="when"></dd><dt>HOW OFTEN</dt><dd id="repeat"></dd></dl>
+        <p class="change"><strong>Proposed change</strong><span id="change"></span></p>
+        <details><summary>What must stay silent</summary><p id="avoid"></p></details>
+        <div class="verdict"><p>Does this trigger + line feel connected?</p><div class="vote-buttons"><button id="yes" type="button" aria-pressed="false">Yes, keep this</button><button id="no" type="button" aria-pressed="false">No, rework it</button></div><label for="note">Optional note<textarea id="note" rows="2" maxlength="1000" placeholder="Too frequent? Wrong cue? Wrong feeling?"></textarea></label><p class="muted" id="verdict-state" role="status">Not reviewed</p></div>
+      </article>
+    </div>
+  </section>
+  <section class="cadence-section" aria-labelledby="cadence-title">
+    <p class="eyebrow">02 / HOW OFTEN IT FEELS</p><h2 id="cadence-title">A few minutes of an ordinary trip.</h2>
+    <p class="section-intro">An illustrative route, not a promise to talk on a timer. Each spoken row has a fresh event. Click one to inspect it above.</p>
+    <div id="cadence" class="cadence"></div>
+    <p class="section-intro">The five event remarks below three minutes show a brief busy stretch. Proposed ceiling: eight ordinary remarks in any five active minutes. Quiet stretches stay quiet.</p>
+  </section>
+  <section class="rules-section" aria-labelledby="rules-title">
+    <p class="eyebrow">03 / THE PERSONALITY & THE RULES</p><h2 id="rules-title">A person, with room to breathe.</h2>
+    <div class="rules-grid">
+      <article><h3>Ordinary life first.</h3><p>Pay, sore knees, supper, bad employers. Warmth around the fire and Stars. A blunt swear after a real scare. His stranger memories surface occasionally, attached to something you can see.</p><p>One clear feeling per line. The default examples use only words you already accepted; these delivery notes are direction for a later recording pass.</p></article>
+      <article><h3>Fresh events beat silence.</h3><p>Common ore pickups can recur, sharing a 45-second gap. New trips get a fresh departure. No exact sentence repeats in a session. If its suitable pool is exhausted, that family rests.</p><p>Normal breathing room is 25 seconds. A skipped pickup does not use up its opportunity: a later, genuinely new pickup may qualify. Nothing waits in a stale queue.</p></article>
+      <article><h3>One moment, one voice.</h3><p>Cinematics, narration and NPC conversations reserve the channel, including gaps between their sentences. Event remarks come next; wandering thoughts come last.</p><p>No voice interrupts another. If an NPC requests speech mid-Leo sentence, finish it and hand over. Wait 1.2 seconds after other dialogue; a fresh cue must still be visible. Colliding rewards receive one reaction.</p></article>
+      <article><h3>Danger stays clear.</h3><p>An actionable warning can bypass ordinary chatter spacing, with its own 45-second gap. It still cannot interrupt speech. The visual warning always remains available.</p><p>Relief waits for safety. If Leo just warned you and the relief would be late, skip the joke. Urgent warnings start immediately while music eases down.</p></article>
+      <article><h3>A thought, every so often.</h3><p>After 27–33 active minutes, allow a two-minute window for safety, 20 seconds without other speech and 90 seconds since Leo spoke. A new event wins that opening.</p><p>Menus, pause and hidden tabs stop the clock. Missed windows are skipped, never accumulated. This is the only context-free family.</p></article>
+      <article><h3>The music yields gently.</h3><p>Ease to 24% of the player’s chosen music level over 0.9 seconds. Start a normal line during that descent. Hold through speech and a 0.45-second breath; return over 2.4 seconds.</p><p>Successive voices share the lowered bed. No dip for a rejected Leo attempt. Muted speech creates no caption or music dip; the player’s music preference remains the baseline.</p></article>
+    </div>
+  </section>
+  <section class="reply-section" aria-label="Return the trigger review"><h2>Your trigger verdict.</h2><p>These 24 decisions concern the new trigger proposal. Your submitted 300-script yes/no receipt stays separate.</p><div class="reply-buttons"><button id="prepare" type="button">Prepare reply for chat</button><button id="export" type="button">Download trigger decisions</button></div><label for="reply" id="reply-label" hidden>Copy this reply into chat<textarea id="reply" rows="6" readonly></textarea></label><p id="save-status" class="muted" role="status"></p></section>
+</main>
+<footer class="wrap">LEO / TRIGGER REVIEW V1 · NO AUDIO GENERATION · NO RUNTIME INTEGRATION</footer>
+<script type="module" src="trigger-mockup.js"></script>
+</body></html>

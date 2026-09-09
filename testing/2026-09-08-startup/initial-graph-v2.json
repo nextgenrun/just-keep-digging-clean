@@ -1,0 +1,13 @@
+{
+  "previous": {
+    "modules": 1101,
+    "rawBytes": 12167943,
+    "gzipBytes": 2657099
+  },
+  "updated": {
+    "modules": 55,
+    "rawBytes": 295601,
+    "gzipBytes": 91859
+  },
+  "motionBytes": 152691
+}

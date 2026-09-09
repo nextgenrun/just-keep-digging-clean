@@ -2,6 +2,11 @@
 
 sprites directory.
 
+`npc/campfire/worldroot-v2/runtime/` contains the active ten-form Campfire
+family: exact 1254 x 1254 source-derived RGBA cutouts with versioned texture
+keys and a hash/alpha manifest. The painted RGB sources and prior metal family
+remain outside normal runtime selection.
+
 `environment/approved-pillars-v1/` contains the exact five-stage RGBA
 production sprites approved for the town Milestone Pillar and Sky Island Star
 Pillar, plus their stable decoded-pixel fingerprints and rebuild provenance.

@@ -28,6 +28,18 @@ const STAR_PROBABILITY = PREVIOUS_STAR_PROBABILITY
 const TOTAL_SPAWN_REDUCTION_RATIO = 1
   - (1 - PREVIOUS_SPAWN_REDUCTION_RATIO) * (1 - CURRENT_RATE_REDUCTION_RATIO);
 
+// Consuming a Star permanently exhausts its complete nearest-Star territory.
+// These jackpot multipliers compensate the one-time sacrifice instead of
+// treating the Star like one ordinary resource tile.
+const STAR_SACRIFICE_YIELD_MULTIPLIERS = Object.freeze({
+  common: 500,
+  uncommon: 1000,
+  rare: 2500,
+  epic: 5000,
+  mythic: 10000,
+  astral: 25000,
+});
+
 const RARITY_TIERS = Object.freeze([
   Object.freeze({
     id: "common",
@@ -38,7 +50,7 @@ const RARITY_TIERS = Object.freeze([
     deepWeightMultiplier: 0.25,
     minDepthTiles: 0,
     signXp: 8,
-    multiplier: 2,
+    multiplier: STAR_SACRIFICE_YIELD_MULTIPLIERS.common,
     engineCharge: 12,
     wow: false,
     palette: palette(
@@ -55,7 +67,7 @@ const RARITY_TIERS = Object.freeze([
     deepWeightMultiplier: 0.75,
     minDepthTiles: 0,
     signXp: 18,
-    multiplier: 3,
+    multiplier: STAR_SACRIFICE_YIELD_MULTIPLIERS.uncommon,
     engineCharge: 18,
     wow: false,
     palette: palette(
@@ -72,7 +84,7 @@ const RARITY_TIERS = Object.freeze([
     deepWeightMultiplier: 2.5,
     minDepthTiles: 0,
     signXp: 45,
-    multiplier: 5,
+    multiplier: STAR_SACRIFICE_YIELD_MULTIPLIERS.rare,
     engineCharge: 30,
     wow: true,
     palette: palette(
@@ -89,7 +101,7 @@ const RARITY_TIERS = Object.freeze([
     deepWeightMultiplier: 6,
     minDepthTiles: 300,
     signXp: 120,
-    multiplier: 8,
+    multiplier: STAR_SACRIFICE_YIELD_MULTIPLIERS.epic,
     engineCharge: 48,
     wow: true,
     palette: palette(
@@ -106,7 +118,7 @@ const RARITY_TIERS = Object.freeze([
     deepWeightMultiplier: 12,
     minDepthTiles: 900,
     signXp: 360,
-    multiplier: 14,
+    multiplier: STAR_SACRIFICE_YIELD_MULTIPLIERS.mythic,
     engineCharge: 72,
     wow: true,
     palette: palette(
@@ -123,7 +135,7 @@ const RARITY_TIERS = Object.freeze([
     deepWeightMultiplier: 20,
     minDepthTiles: 1600,
     signXp: 1200,
-    multiplier: 25,
+    multiplier: STAR_SACRIFICE_YIELD_MULTIPLIERS.astral,
     engineCharge: 100,
     wow: true,
     palette: palette(

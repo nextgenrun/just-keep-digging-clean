@@ -21,10 +21,10 @@ export const TILE_HEALTH = Object.freeze({
   speedBlock: 30,
   xpBlock: 25,
   sellBlock: 20,
-  critBlock: 35,
   berserkBlock: 40,
   comboBlock: 30,
   legendBlock: 100,
+  abilityBlock: 35,
 });
 
 export const TILE_HEALTH_CONFIG = Object.freeze({
@@ -43,18 +43,28 @@ export const TILE_HEALTH_CONFIG = Object.freeze({
     [TILE_TYPES.OBSIDIAN]: { min: 3200, max: 6200 },
     [TILE_TYPES.EMBER_ORE]: { min: 4200, max: 7600 },
     [TILE_TYPES.MAGMA_CRYSTAL]: { min: 5600, max: 9800 },
+    // Bonus blocks scale with depth; rarer spawns have stronger shells.
+    [TILE_TYPES.GEM_POWER_BLOCK]: { min: 120, max: 6000 },
+    [TILE_TYPES.COMBO_BLOCK]: { min: 150, max: 7500 },
+    [TILE_TYPES.XP_BLOCK]: { min: 180, max: 9000 },
+    [TILE_TYPES.BERSERK_BLOCK]: { min: 240, max: 12000 },
+    [TILE_TYPES.SPEED_BLOCK]: { min: 280, max: 14000 },
+    [TILE_TYPES.LEGEND_BLOCK]: { min: 480, max: 24000 },
+    // The active choice is the reward interaction, so this shell stays brisk
+    // even though the block itself is rarer than a Crown.
+    [TILE_TYPES.ABILITY_BLOCK]: { min: 160, max: 8000 },
     [TILE_TYPES.ANCIENT_RELIC_CACHE]: { min: 700, max: 700 },
     [TILE_TYPES.TELEPORT_TILE]: { min: 999999999, max: 999999999999 },
     [TILE_TYPES.GAMBLE_TILE]: { min: 99999999999, max: 99999999999999 },
   },
 });
 
-export function getTileHealth(tileType, depthTiles, rarityMultiplier = 1) {
+export function getTileHealth(tileType, depthTiles) {
   const hc = TILE_HEALTH_CONFIG.tileHealth[tileType];
   if (!hc) return 10;
   if (hc.min === hc.max) return hc.min;
   const maxDepth = WORLD_DEPTH_CONFIG.levelTwoDepthMeters;
   const dr = Math.min(1, Math.max(0, depthTiles / maxDepth));
   const bh = Math.floor(hc.min + (hc.max - hc.min) * dr);
-  return Math.floor(bh * rarityMultiplier);
+  return bh;
 }

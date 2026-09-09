@@ -4,6 +4,25 @@ Development utilities and one-off export scripts used to prepare game data.
 
 ## Production snapshot
 
+The one-release SSH overwrite uses `2026-09-07-deploy-compact.py plan`, then
+`apply`, then `finish`. It is pinned to compact build `b81aff017f80` and the
+verified NextGen `diggame-beta-1` directory. The plan hashes both trees; apply
+streams changed files, removes inventoried obsolete game files, checks peak
+usage against 5 GB and leaves maintenance enabled until finish verifies and
+reopens the game. It creates no prior-release backup or upload archive.
+Unknown root files, symlinks or changes since inventory stop the overwrite.
+Private player storage and other sites are outside its target. Deployment
+evidence contains manifests only, under `.tmp/compact-production-deploy/`.
+
+For the compact SSH release use `python tools/2026-07-17-build-production.py
+--out-dir dist-compact`. Upload only that output directory. The builder enforces
+the 10,000,000,000-byte unpacked limit before copying and after compression,
+including Gzip/Brotli sidecars. It never archives or copies a previous release.
+`values/productionPackaging.json` excludes development media, review captures,
+raw animation work, archives and credentials; reachable JavaScript modules and
+referenced runtime assets remain included. GLB media is supported when referenced
+by runtime modules; disconnected legacy renderers do not pull in old model packs.
+
 The development server remains unchanged. Build and preview the isolated,
 debug-disabled production snapshot with:
 
@@ -30,10 +49,15 @@ manifest and `index.html`. The hash covers reachable modules, collected runtime
 media, the page shell, Phaser, CSS, and the builder itself, allowing the runtime
 panel, CI artifact, and rollback candidate to identify the exact same build.
 Dynamic runtime directories include the opaque ImageGen resource-tile pack and
-the Star identity/core-light atlas packages because runtime configuration
-constructs those file paths from resource or rarity ids; production must copy
-those directories even though no complete path literal appears in the module
-graph.
+the Star identity/core-light atlas packages, plus only the paired living and
+consumed Worldroot V4 outputs, because runtime configuration constructs those
+file paths from ids. Production copies those browser assets even though no
+complete path literal appears in the module graph; chroma sources and review
+guides remain excluded.
+The page-shell Barlow Semi Condensed font files are copied with the same
+snapshot so the production UI does not fall back to a substitute typeface.
+Sound-library review sources referenced only as manifest provenance stay local;
+production copies the approved runtime outputs instead.
 
 ## Star identity assets
 
@@ -110,3 +134,51 @@ blender --background --python tools/export_legacy_miner_blender_motion_reference
 masters into six rarity plates and six matching XP fills, normalizes each
 family without stretching, enforces transparent corners/alpha coverage, and
 writes a hash manifest. It never generates substitute artwork.
+
+## Worldroot runtime assets
+
+`2026-09-04-build-campfire-worldroot-v2-runtime.mjs` converts the ten
+immutable RGB Campfire sources into full-resolution RGBA runtime sprites. It
+removes only connected neutral backdrop components, cleans the neutral fringe,
+and records source/output hashes plus alpha bounds without resizing or
+inventing hearth geometry.
+
+`buildWorldrootV2RuntimeAssets.mjs worldroot-v3` converts the preserved living
+and consumed ImageGen source paintings into aligned 1536 x 1024 RGBA runtime
+assets. It removes only connected neutral-checker regions, reuses the living
+alpha for the consumed state, verifies dimensions/alpha, and never invents
+geometry or modifies either source master.
+
+`buildWorldrootModularV4Assets.mjs` extracts the six authored chroma-backed
+countries, preserves true alpha, bounds each native-pixel output, derives a
+dimension-matched consumed sibling, applies each module's configured locked
+alpha matte plus final despill, and writes a SHA-256 manifest. The module
+registry and maximum widths come from `values/worldrootModularV4.js`; the
+builder does not write gameplay, collision, progression, or save data.
+
+`2026-08-31-build-starless-scar-v3-frontier.mjs` rebuilds the authored
+Starless Scar frontier from its retained ImageGen checker source. It extracts
+connected neutral background, decontaminates the alpha fringe, caps accidental
+bright pixels, and writes the production 1254 x 1254 RGBA decal without
+inventing geometry.
+
+The `2026-09-07-*hints*` tools prepare the scoped public hints patch and its guarded SSH release. `2026-09-07-refresh-wiki.mjs [runtime-root]` generates shared hints using that runtime's supported controls and event flags; pass the verified public snapshot when preparing the public wiki.
+
+## Startup release, 2026-09-08
+
+`2026-09-08-deploy-startup.py` uses the same plan/apply/finish workflow for the
+approved `dist-startup-20260908` build `9ed9ed4a7893`. Its remote helper retains
+peak/final size guards at the user-approved 10 GB allowance and verifies free
+space for growth plus one temporary file and a 1 GB reserve. No hosting account
+quota is changed. Evidence is in `.tmp/startup-production-deploy-20260908/`.
+The earlier dated compact helper remains pinned to its historical release.
+
+The production graph also collects local imports from inline entry-page modules
+and versions their specifiers, so browser-owned controls cannot be omitted
+just because they are not imported by main.js. The HTTP canary verifies that
+entry dependency and the deferred LaunchScene-to-RuntimeScenes boundary.
+
+`2026-09-08-deploy-startup-motion.py` and its matching remote helper use the
+same guarded release workflow, pinned to the tested initial-boot/motion build
+`35b25aa356da`. The verified plan and release result are stored in
+`.tmp/startup-motion-production-deploy-20260908/`.

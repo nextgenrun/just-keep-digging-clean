@@ -17,7 +17,7 @@ Game system — progression.
   Escape still cancels hazards and returns to spawn.
 - `AncientRelicSystem.js` owns only the bounded persistent Relic count; cache
   placement, gates, crafting, presentation, and save transport remain separate
-  consumers.
+  consumers. Shop unlocks may read that count but never spend it.
 - `RetentionProgressSystem.js` / `retentionProgressState.js` own Titan discovery
   persistence. Load sanitization drops unknown ids and duplicates, restores the
   canonical 1-25 definition order, and exposes the same array through the
@@ -34,9 +34,20 @@ Game system — progression.
   migrates former 1-999 saves into the 1-99 scale while preserving partial XP;
   `playerLevelXpMutation.js` applies normal and fractional XP through one
   validated threshold path; `playerLevelRewardMath.js` keeps ten former stat
-  steps in each earned level and publishes the exact darkness, mining, HP, and
-  GP reward summary. XP and Legend blocks preserve their former value as 10%
+  steps in each earned level and publishes the exact panic-resistance, mining,
+  HP, and GP reward summary. XP and Legend blocks preserve their former value as 10%
   and 50% progress toward the next meaningful level.
+- Fourteen current-game repeatable merchant tracks now contain 121 meaningful
+  ranks. `upgradeRankBalance.js` owns their explicit rising prices, while
+  `upgradeUnlockProgression.js` staggers first purchases and later rank batches
+  across depth, first-return, Flight, and permanent Relic milestones.
+  `upgradeSaveState.js` migrates both the old long tracks and version-2
+  compressed tracks to the smallest equally strong version-3 rank.
+- `CelestialTalentProgressionSystem.js` opens at Level 3. Every level from 3
+  grants one Talent Point; Talent Points unlock the 33 nodes, while Star Points
+  buy rank 2 and rank 3. `celestialTalentAvailability.js` keeps level access,
+  branch prerequisites, root capacity, and the two currencies separate. Old
+  Star-paid nodes migrate to rank 2 without retroactive Talent Point charges.
 - `UpgradeSystem.js` persists Seismic Suppression through the existing
   `upgradeLevels` save map and exposes `earthquakesDisabled` only after the
   one-time endgame player-merchant purchase succeeds.

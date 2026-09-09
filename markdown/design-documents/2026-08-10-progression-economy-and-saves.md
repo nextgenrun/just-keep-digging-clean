@@ -125,10 +125,10 @@ world value.
 | Mode | Starting lives | First revive | Exhaustion |
 |---|---:|---|---|
 | Casual | none | always safe | never from life count |
-| Hardcore | 2 | free; consumes no life | after two later life losses |
+| Hardcore | 1 | none | after first death |
 | One-Life Hardcore | 1 | none | after first death |
 
-On death, the run saves the new mode state before revival or menu return. An
+On death, the run saves the new mode state before returning to the menu. An
 exhausted save remains intact and exportable. Clearing it is an explicit player
 operation from save management.
 
@@ -138,8 +138,8 @@ The current outer save envelope is version 14. Relevant nested contracts are:
 
 - Retention tutorial state version 6, including choice, seven-beat stage, and
   free-flight bank; dormant Opening Flight v3 data remains compatibility-only;
-- Hardcore mode version 4, including mode, armed state, lives, free revive,
-  deaths, and exhaustion;
+- Hardcore mode version 5, including mode, armed state, one life, legacy
+  free-revive normalization, deaths, and exhaustion;
 - portal pair/order state;
 - dug/rubble tile state and authoritative world identity;
 - resources, money/upgrades, level, caves, relics, stars, retention,

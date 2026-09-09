@@ -216,20 +216,20 @@ export class HardcoreDeathRecapView {
       .setColor(UI_COLORS.gold);
     this.detail.setText("");
     this.footer.setText(copy.busyFooter || this.config.copy.busyFooter);
-    this.retryButton.actionLabel.setText("SAVING...");
-    this.menuButton.actionLabel.setText("PLEASE WAIT");
+    this.retryButton.actionLabel.setText(this.config.copy.savingLabel);
+    this.menuButton.actionLabel.setText(this.config.copy.pleaseWaitLabel);
     this.buttons.forEach(button => button.root.setVisible(true).setAlpha(0.46));
   }
 
-  setError(message = "LIFE STATE NOT SAVED") {
+  setError(message = this.config.copy.saveErrorDefault) {
     if (this.mode !== "death") return;
     this.ready = true;
     this.status
-      .setText("LIFE STATE SAVE FAILED")
+      .setText(this.config.copy.saveErrorTitle)
       .setColor(UI_COLORS.danger);
     this.detail.setText(String(message));
-    this.footer.setText("ENTER OR CLICK RETRY SAVE  •  LEAVING REMAINS LOCKED");
-    this.retryButton.actionLabel.setText("RETRY SAVE");
+    this.footer.setText(this.config.copy.saveErrorFooter);
+    this.retryButton.actionLabel.setText(this.config.copy.retrySaveLabel);
     this.retryButton.setVisible(true).setAlpha(1);
     this.menuButton.setVisible(false);
   }
@@ -263,7 +263,9 @@ export class HardcoreDeathRecapView {
       return false;
     }
     if (key === "Enter" || key === " ") return this._activate(this.onRetry);
-    if (key === "Escape") return this._activate(this.onReturn);
+    if (key === "Escape" && this.menuButton.visible) {
+      return this._activate(this.onReturn);
+    }
     return false;
   }
 

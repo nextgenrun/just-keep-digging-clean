@@ -1,0 +1,24 @@
+{
+  "maxUnpackedBytes": 10000000000,
+  "excludedAssetPaths": [
+    ".git",
+    ".git-safety",
+    "_ssh-git",
+    "archive",
+    "testing",
+    "visual-approval-previews",
+    "steam-marketing",
+    "debugging",
+    "output",
+    "tmp",
+    "temp",
+    ".tmp",
+    "sound/library-v2/SoundLibrary_Review",
+    "sprites/UI/celestial-focus-v1/prompts.json",
+    "sprites/UI/celestial-focus-v1/manifest.json",
+    "sprites/environment/worldroot-sanctuary-v3/generation.json",
+    "sprites/environment/worldroot-sanctuary-v3/source",
+    "sprites/npc/campfire/worldroot-v2/generation.json",
+    "sprites/npc/campfire/worldroot-v2/sources"
+  ]
+}

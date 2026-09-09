@@ -42,9 +42,9 @@ export class HardcoreModalOverlay {
 
   showConfirmation({
     title,
-    subtitle = "IRREVERSIBLE CONFIRMATION",
+    subtitle = this.config.copy.irreversibleSubtitle,
     body,
-    footer = "ESC  CANCEL",
+    footer = this.config.copy.cancelFooter,
     footerColor = UI_COLORS.dim,
     confirmationWord = this.config.unstuck.confirmationWord,
     typedInstruction = this.config.copy.typedInstruction,
@@ -147,7 +147,7 @@ export class HardcoreModalOverlay {
       this.deathView.setError(message);
       return;
     }
-    this.instruction.setText(String(message || "ACTION FAILED"));
+    this.instruction.setText(String(message || this.config.copy.actionFailed));
     this.instruction.setColor(UI_COLORS.danger);
   }
 
@@ -210,25 +210,28 @@ export class HardcoreModalOverlay {
   async _commitConfirmation() {
     if (this.busy) return;
     this.busy = true;
-    this.instruction.setText("COMMITTING...");
+    this.instruction.setText(this.config.copy.savingAction);
     this.typed.setText("");
     try {
       const result = await this.onConfirm?.();
       if (result === false) {
         this.busy = false;
-        this.instruction.setText("ACTION COULD NOT BE COMPLETED");
+        this.instruction.setText(this.config.copy.actionCouldNotComplete);
         return;
       }
       this._resetAndHide();
     } catch (error) {
       this.busy = false;
-      this.setError(error?.message || "ACTION FAILED");
+      this.setError(error?.message || this.config.copy.actionFailed);
     }
   }
 
-  _finishRecap(callback) {
-    this._resetAndHide();
-    if (typeof callback === "function") callback();
+  async _finishRecap(callback) {
+    const result = typeof callback === "function" ? await callback() : undefined;
+    // A failed save keeps the recap and its retry controls alive.
+    if (result === false) return false;
+    if (this.scene && this.root) this._resetAndHide();
+    return true;
   }
 
   _resetAndHide() {

@@ -7,6 +7,7 @@ import {
 import { TITAN_DEFINITIONS } from "../../values/titanDiscoveries.js";
 import { V11_SKY_ISLAND_LAYOUT } from "../../values/v11SkyIslandLayout.js";
 import { WORLD_MAP_CONFIG } from "../../values/worldMapConfig.js";
+import { WORLD_MAP_COPY } from "../../values/playerFacingCopy.js";
 import {
   WORLD_VISUAL_LANDMARKS,
   resolveWorldVisualLandmarksEnabled,
@@ -190,9 +191,9 @@ function getTitanMarkers({ scene, worldModel }) {
     const tileX = zone.left + zone.width * 0.5;
     const tileY = zone.top + zone.height * 0.5;
     const depth = Math.max(0, Math.round(tileY - surfaceTileY));
-    const label = isDiscovered ? definition.name : config.copy.titanResonance;
+    const label = isDiscovered ? definition.name : WORLD_MAP_COPY.titanResonance;
     const detail = tracked
-      ? `${config.copy.tracked} · ${depth}m`
+      ? `${WORLD_MAP_COPY.tracked} · ${depth}m`
       : `${getTitanBiomeLabel(tileX, tileY, definition)} · ${depth}m`;
     markers.push(createMarker(worldModel, {
       id: zone.id,

@@ -1,0 +1,65 @@
+{
+  "results": [
+    {
+      "scene": "MainMenuScene",
+      "logoBounds": [
+        640,
+        150,
+        560,
+        166.25
+      ],
+      "backing": {
+        "key": "brand-logo-backing",
+        "alpha": 1,
+        "frame": "tight-stone",
+        "first": true
+      },
+      "rate": 0.67,
+      "footer": {
+        "text": "OPEN BETA DEMO",
+        "fontSize": "15px",
+        "color": "#fff0cd",
+        "stroke": "#100d09",
+        "strokeThickness": 4,
+        "bounds": {
+          "type": 5,
+          "x": 1134,
+          "y": 685,
+          "width": 128,
+          "height": 21
+        }
+      }
+    },
+    {
+      "scene": "StartMenuScene",
+      "logoBounds": [
+        640,
+        85,
+        520,
+        154.375
+      ],
+      "backing": {
+        "key": "brand-logo-backing",
+        "alpha": 1,
+        "frame": "tight-stone",
+        "first": true
+      },
+      "rate": 0.67,
+      "footer": {
+        "text": "OPEN BETA DEMO",
+        "fontSize": "15px",
+        "color": "#fff0cd",
+        "stroke": "#100d09",
+        "strokeThickness": 4,
+        "bounds": {
+          "type": 5,
+          "x": 1134,
+          "y": 685,
+          "width": 128,
+          "height": 21
+        }
+      }
+    }
+  ],
+  "errors": []
+}

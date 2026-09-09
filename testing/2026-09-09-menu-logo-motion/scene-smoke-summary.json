@@ -1,0 +1,129 @@
+{
+  "optimized-final": {
+    "sampleSeconds": 86,
+    "width": 1280,
+    "height": 720,
+    "paused": false,
+    "readyState": 4,
+    "error": null,
+    "totalFrames": 2583,
+    "droppedFrames": 0,
+    "wraps": [
+      {
+        "gapMs": 33.4,
+        "from": 22.233333,
+        "to": 0
+      },
+      {
+        "gapMs": 33.4,
+        "from": 22.233333,
+        "to": 0
+      },
+      {
+        "gapMs": 33.4,
+        "from": 22.233333,
+        "to": 0.033333
+      }
+    ]
+  },
+  "foundry": {
+    "sampleSeconds": 133,
+    "width": 1280,
+    "height": 720,
+    "paused": false,
+    "readyState": 4,
+    "error": null,
+    "totalFrames": 3987,
+    "droppedFrames": 0,
+    "wraps": [
+      {
+        "gapMs": 16.7,
+        "from": 28,
+        "to": 0
+      },
+      {
+        "gapMs": 16.7,
+        "from": 28,
+        "to": 0.033333
+      },
+      {
+        "gapMs": 33.4,
+        "from": 28,
+        "to": 0.033333
+      },
+      {
+        "gapMs": 33.5,
+        "from": 28,
+        "to": 0.033333
+      }
+    ]
+  },
+  "aurora": {
+    "sampleSeconds": 33,
+    "width": 1280,
+    "height": 720,
+    "paused": false,
+    "readyState": 4,
+    "error": null,
+    "totalFrames": 1004,
+    "droppedFrames": 1,
+    "wraps": [
+      {
+        "gapMs": 33.3,
+        "from": 29.866667,
+        "to": 0.033333
+      }
+    ]
+  },
+  "starfall": {
+    "sampleSeconds": 32,
+    "width": 1280,
+    "height": 720,
+    "paused": false,
+    "readyState": 4,
+    "error": null,
+    "totalFrames": 951,
+    "droppedFrames": 0,
+    "wraps": [
+      {
+        "gapMs": 16.8,
+        "from": 29.866667,
+        "to": 0.033333
+      }
+    ]
+  },
+  "ember": {
+    "sampleSeconds": 42,
+    "width": 1280,
+    "height": 720,
+    "paused": false,
+    "readyState": 4,
+    "error": null,
+    "totalFrames": 1260,
+    "droppedFrames": 1,
+    "wraps": [
+      {
+        "gapMs": 16.6,
+        "from": 31.8,
+        "to": 0
+      }
+    ]
+  },
+  "grotto": {
+    "sampleSeconds": 38,
+    "width": 1280,
+    "height": 720,
+    "paused": false,
+    "readyState": 4,
+    "error": null,
+    "totalFrames": 1149,
+    "droppedFrames": 0,
+    "wraps": [
+      {
+        "gapMs": 16.8,
+        "from": 24.166667,
+        "to": 0
+      }
+    ]
+  }
+}

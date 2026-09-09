@@ -1,0 +1,667 @@
+{
+  "origin": "http://127.0.0.1:58746",
+  "errors": [],
+  "failedRequests": [],
+  "scale": {
+    "phase": "idle",
+    "inRange": false,
+    "prompt": false,
+    "caption": false,
+    "guidance": {
+      "phase": "idle",
+      "elapsed": 0,
+      "alpha": 0,
+      "visible": false,
+      "ready": true,
+      "distance": 263.20000000000005,
+      "arrowVisible": false,
+      "edge": false
+    },
+    "instruction": false,
+    "gameState": "playing",
+    "merchantPrompt": true,
+    "inventory": false,
+    "map": false,
+    "pause": false,
+    "shop": false,
+    "uiPriority": false,
+    "saves": 0,
+    "bed": {
+      "width": 150.4,
+      "height": 62.653759011328525,
+      "x": 1814.2,
+      "y": 6113
+    },
+    "player": {
+      "x": 1535.5,
+      "y": 6035,
+      "height": 75,
+      "controls": true
+    }
+  },
+  "menus": [
+    {
+      "name": "inventory",
+      "before": {
+        "phase": "idle",
+        "inRange": false,
+        "prompt": false,
+        "caption": false,
+        "guidance": {
+          "phase": "following",
+          "elapsed": 333.6999999999996,
+          "alpha": 1,
+          "visible": false,
+          "ready": true,
+          "distance": 220.77089200000023,
+          "arrowVisible": false,
+          "edge": false
+        },
+        "instruction": false,
+        "gameState": "playing",
+        "merchantPrompt": true,
+        "inventory": true,
+        "map": false,
+        "pause": false,
+        "shop": false,
+        "uiPriority": true,
+        "saves": 0,
+        "bed": {
+          "width": 150.4,
+          "height": 62.653759011328525,
+          "x": 1814.2,
+          "y": 6113
+        },
+        "player": {
+          "x": 1577.9291079999998,
+          "y": 6035,
+          "height": 75,
+          "controls": false
+        }
+      },
+      "after": {
+        "phase": "idle",
+        "inRange": false,
+        "prompt": false,
+        "caption": false,
+        "guidance": {
+          "phase": "following",
+          "elapsed": 333.6999999999996,
+          "alpha": 1,
+          "visible": false,
+          "ready": true,
+          "distance": 220.77089200000023,
+          "arrowVisible": false,
+          "edge": false
+        },
+        "instruction": false,
+        "gameState": "playing",
+        "merchantPrompt": true,
+        "inventory": true,
+        "map": false,
+        "pause": false,
+        "shop": false,
+        "uiPriority": true,
+        "saves": 0,
+        "bed": {
+          "width": 150.4,
+          "height": 62.653759011328525,
+          "x": 1814.2,
+          "y": 6113
+        },
+        "player": {
+          "x": 1577.9291079999998,
+          "y": 6035,
+          "height": 75,
+          "controls": false
+        }
+      }
+    },
+    {
+      "name": "map",
+      "before": {
+        "phase": "idle",
+        "inRange": false,
+        "prompt": false,
+        "caption": false,
+        "guidance": {
+          "phase": "following",
+          "elapsed": 400.42999999999995,
+          "alpha": 1,
+          "visible": false,
+          "ready": true,
+          "distance": 220.77089200000023,
+          "arrowVisible": false,
+          "edge": false
+        },
+        "instruction": false,
+        "gameState": "paused",
+        "merchantPrompt": true,
+        "inventory": false,
+        "map": true,
+        "pause": false,
+        "shop": false,
+        "uiPriority": false,
+        "saves": 0,
+        "bed": {
+          "width": 150.4,
+          "height": 62.653759011328525,
+          "x": 1814.2,
+          "y": 6113
+        },
+        "player": {
+          "x": 1577.9291079999998,
+          "y": 6035,
+          "height": 75,
+          "controls": false
+        }
+      },
+      "after": {
+        "phase": "idle",
+        "inRange": false,
+        "prompt": false,
+        "caption": false,
+        "guidance": {
+          "phase": "following",
+          "elapsed": 400.42999999999995,
+          "alpha": 1,
+          "visible": false,
+          "ready": true,
+          "distance": 220.77089200000023,
+          "arrowVisible": false,
+          "edge": false
+        },
+        "instruction": false,
+        "gameState": "paused",
+        "merchantPrompt": true,
+        "inventory": false,
+        "map": true,
+        "pause": false,
+        "shop": false,
+        "uiPriority": false,
+        "saves": 0,
+        "bed": {
+          "width": 150.4,
+          "height": 62.653759011328525,
+          "x": 1814.2,
+          "y": 6113
+        },
+        "player": {
+          "x": 1577.9291079999998,
+          "y": 6035,
+          "height": 75,
+          "controls": false
+        }
+      }
+    },
+    {
+      "name": "pause",
+      "before": {
+        "phase": "idle",
+        "inRange": false,
+        "prompt": false,
+        "caption": false,
+        "guidance": {
+          "phase": "following",
+          "elapsed": 417.1200000000001,
+          "alpha": 1,
+          "visible": false,
+          "ready": true,
+          "distance": 220.77089200000023,
+          "arrowVisible": false,
+          "edge": false
+        },
+        "instruction": false,
+        "gameState": "paused",
+        "merchantPrompt": true,
+        "inventory": false,
+        "map": false,
+        "pause": true,
+        "shop": false,
+        "uiPriority": true,
+        "saves": 0,
+        "bed": {
+          "width": 150.4,
+          "height": 62.653759011328525,
+          "x": 1814.2,
+          "y": 6113
+        },
+        "player": {
+          "x": 1577.9291079999998,
+          "y": 6035,
+          "height": 75,
+          "controls": false
+        }
+      },
+      "after": {
+        "phase": "idle",
+        "inRange": false,
+        "prompt": false,
+        "caption": false,
+        "guidance": {
+          "phase": "following",
+          "elapsed": 417.1200000000001,
+          "alpha": 1,
+          "visible": false,
+          "ready": true,
+          "distance": 220.77089200000023,
+          "arrowVisible": false,
+          "edge": false
+        },
+        "instruction": false,
+        "gameState": "paused",
+        "merchantPrompt": true,
+        "inventory": false,
+        "map": false,
+        "pause": true,
+        "shop": false,
+        "uiPriority": true,
+        "saves": 0,
+        "bed": {
+          "width": 150.4,
+          "height": 62.653759011328525,
+          "x": 1814.2,
+          "y": 6113
+        },
+        "player": {
+          "x": 1577.9291079999998,
+          "y": 6035,
+          "height": 75,
+          "controls": false
+        }
+      }
+    }
+  ],
+  "shop": {
+    "phase": "idle",
+    "inRange": false,
+    "prompt": false,
+    "caption": false,
+    "guidance": {
+      "phase": "following",
+      "elapsed": 433.8000000000004,
+      "alpha": 1,
+      "visible": false,
+      "ready": true,
+      "distance": 220.77089200000023,
+      "arrowVisible": false,
+      "edge": false
+    },
+    "instruction": false,
+    "gameState": "playing",
+    "merchantPrompt": true,
+    "inventory": false,
+    "map": false,
+    "pause": false,
+    "shop": true,
+    "uiPriority": true,
+    "saves": 0,
+    "bed": {
+      "width": 150.4,
+      "height": 62.653759011328525,
+      "x": 1814.2,
+      "y": 6113
+    },
+    "player": {
+      "x": 1577.9291079999998,
+      "y": 6035,
+      "height": 75,
+      "controls": false
+    }
+  },
+  "atBed": {
+    "phase": "idle",
+    "inRange": true,
+    "prompt": true,
+    "caption": false,
+    "guidance": {
+      "phase": "arrived",
+      "elapsed": 1735.14,
+      "alpha": 1,
+      "visible": true,
+      "ready": true,
+      "distance": 23.51850133333437,
+      "arrowVisible": false,
+      "edge": false
+    },
+    "instruction": true,
+    "gameState": "playing",
+    "merchantPrompt": false,
+    "inventory": false,
+    "map": false,
+    "pause": false,
+    "shop": false,
+    "uiPriority": false,
+    "saves": 0,
+    "bed": {
+      "width": 150.4,
+      "height": 62.653759011328525,
+      "x": 1814.2,
+      "y": 6113
+    },
+    "player": {
+      "x": 1766.6814986666657,
+      "y": 6035,
+      "height": 75,
+      "controls": true
+    }
+  },
+  "nearBedMenus": [
+    {
+      "name": "inventory",
+      "state": {
+        "phase": "idle",
+        "inRange": true,
+        "prompt": false,
+        "caption": false,
+        "guidance": {
+          "phase": "arrived",
+          "elapsed": 2118.8499999999985,
+          "alpha": 1,
+          "visible": false,
+          "ready": true,
+          "distance": 18.77853482666751,
+          "arrowVisible": false,
+          "edge": false
+        },
+        "instruction": false,
+        "gameState": "playing",
+        "merchantPrompt": true,
+        "inventory": true,
+        "map": false,
+        "pause": false,
+        "shop": false,
+        "uiPriority": true,
+        "saves": 0,
+        "bed": {
+          "width": 150.4,
+          "height": 62.653759011328525,
+          "x": 1814.2,
+          "y": 6113
+        },
+        "player": {
+          "x": 1779.9214651733325,
+          "y": 6035,
+          "height": 75,
+          "controls": false
+        }
+      },
+      "accepted": false
+    },
+    {
+      "name": "map",
+      "state": {
+        "phase": "idle",
+        "inRange": true,
+        "prompt": false,
+        "caption": false,
+        "guidance": {
+          "phase": "arrived",
+          "elapsed": 2135.5299999999984,
+          "alpha": 1,
+          "visible": false,
+          "ready": true,
+          "distance": 18.77853482666751,
+          "arrowVisible": false,
+          "edge": false
+        },
+        "instruction": false,
+        "gameState": "paused",
+        "merchantPrompt": false,
+        "inventory": false,
+        "map": true,
+        "pause": false,
+        "shop": false,
+        "uiPriority": false,
+        "saves": 0,
+        "bed": {
+          "width": 150.4,
+          "height": 62.653759011328525,
+          "x": 1814.2,
+          "y": 6113
+        },
+        "player": {
+          "x": 1779.9214651733325,
+          "y": 6035,
+          "height": 75,
+          "controls": false
+        }
+      },
+      "accepted": false
+    },
+    {
+      "name": "pause",
+      "state": {
+        "phase": "idle",
+        "inRange": true,
+        "prompt": false,
+        "caption": false,
+        "guidance": {
+          "phase": "arrived",
+          "elapsed": 2135.5299999999984,
+          "alpha": 1,
+          "visible": false,
+          "ready": true,
+          "distance": 18.77853482666751,
+          "arrowVisible": false,
+          "edge": false
+        },
+        "instruction": false,
+        "gameState": "paused",
+        "merchantPrompt": false,
+        "inventory": false,
+        "map": false,
+        "pause": true,
+        "shop": false,
+        "uiPriority": true,
+        "saves": 0,
+        "bed": {
+          "width": 150.4,
+          "height": 62.653759011328525,
+          "x": 1814.2,
+          "y": 6113
+        },
+        "player": {
+          "x": 1779.9214651733325,
+          "y": 6035,
+          "height": 75,
+          "controls": false
+        }
+      },
+      "accepted": false
+    }
+  ],
+  "sleeping": {
+    "phase": "sleeping",
+    "inRange": true,
+    "prompt": false,
+    "caption": false,
+    "guidance": {
+      "phase": "idle",
+      "elapsed": 2152.209999999998,
+      "alpha": 0,
+      "visible": false,
+      "ready": true,
+      "distance": 18.77853482666751,
+      "arrowVisible": false,
+      "edge": false
+    },
+    "instruction": false,
+    "gameState": "playing",
+    "merchantPrompt": false,
+    "inventory": false,
+    "map": false,
+    "pause": false,
+    "shop": false,
+    "uiPriority": true,
+    "saves": 0,
+    "bed": {
+      "width": 150.4,
+      "height": 62.653759011328525,
+      "x": 1814.2,
+      "y": 6113
+    },
+    "player": {
+      "x": 1779.9214651733325,
+      "y": 6035,
+      "height": 75,
+      "controls": false
+    },
+    "sleeper": {
+      "x": 1779.608,
+      "y": 6074.913894953656
+    }
+  },
+  "choosing": {
+    "phase": "choosing",
+    "inRange": true,
+    "prompt": false,
+    "caption": false,
+    "guidance": {
+      "phase": "idle",
+      "elapsed": 2152.209999999998,
+      "alpha": 0,
+      "visible": false,
+      "ready": true,
+      "distance": 18.77853482666751,
+      "arrowVisible": false,
+      "edge": false
+    },
+    "instruction": false,
+    "gameState": "playing",
+    "merchantPrompt": false,
+    "inventory": false,
+    "map": false,
+    "pause": false,
+    "shop": false,
+    "uiPriority": true,
+    "saves": 0,
+    "bed": {
+      "width": 150.4,
+      "height": 62.653759011328525,
+      "x": 1814.2,
+      "y": 6113
+    },
+    "player": {
+      "x": 1779.9214651733325,
+      "y": 6035,
+      "height": 75,
+      "controls": false
+    },
+    "sleeper": null
+  },
+  "after": {
+    "phase": "idle",
+    "inRange": true,
+    "prompt": true,
+    "caption": true,
+    "guidance": {
+      "phase": "idle",
+      "elapsed": 2152.209999999998,
+      "alpha": 0,
+      "visible": false,
+      "ready": true,
+      "distance": 18.77853482666751,
+      "arrowVisible": false,
+      "edge": false
+    },
+    "instruction": false,
+    "gameState": "playing",
+    "merchantPrompt": false,
+    "inventory": false,
+    "map": false,
+    "pause": false,
+    "shop": false,
+    "uiPriority": false,
+    "saves": 1,
+    "bed": {
+      "width": 150.4,
+      "height": 62.653759011328525,
+      "x": 1814.2,
+      "y": 6113
+    },
+    "player": {
+      "x": 1779.9214651733325,
+      "y": 6035,
+      "height": 75,
+      "controls": true
+    },
+    "sleeper": null
+  },
+  "afterInventory": {
+    "phase": "idle",
+    "inRange": true,
+    "prompt": false,
+    "caption": false,
+    "guidance": {
+      "phase": "idle",
+      "elapsed": 2152.209999999998,
+      "alpha": 0,
+      "visible": false,
+      "ready": true,
+      "distance": 18.77853482666751,
+      "arrowVisible": false,
+      "edge": false
+    },
+    "instruction": false,
+    "gameState": "playing",
+    "merchantPrompt": true,
+    "inventory": true,
+    "map": false,
+    "pause": false,
+    "shop": false,
+    "uiPriority": true,
+    "saves": 1,
+    "bed": {
+      "width": 150.4,
+      "height": 62.653759011328525,
+      "x": 1814.2,
+      "y": 6113
+    },
+    "player": {
+      "x": 1779.9214651733325,
+      "y": 6035,
+      "height": 75,
+      "controls": false
+    },
+    "sleeper": null
+  },
+  "finished": {
+    "phase": "idle",
+    "inRange": true,
+    "prompt": true,
+    "caption": true,
+    "guidance": {
+      "phase": "idle",
+      "elapsed": 2152.209999999998,
+      "alpha": 0,
+      "visible": false,
+      "ready": true,
+      "distance": 18.77853482666751,
+      "arrowVisible": false,
+      "edge": false
+    },
+    "instruction": false,
+    "gameState": "playing",
+    "merchantPrompt": false,
+    "inventory": false,
+    "map": false,
+    "pause": false,
+    "shop": false,
+    "uiPriority": false,
+    "saves": 1,
+    "bed": {
+      "width": 150.4,
+      "height": 62.653759011328525,
+      "x": 1814.2,
+      "y": 6113
+    },
+    "player": {
+      "x": 1779.9214651733325,
+      "y": 6035,
+      "height": 75,
+      "controls": true
+    },
+    "sleeper": null
+  }
+}

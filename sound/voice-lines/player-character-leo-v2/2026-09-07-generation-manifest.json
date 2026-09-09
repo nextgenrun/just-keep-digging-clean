@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "reviewStatus": "replacement-awaiting-listening",
+  "generatedAt": "2026-09-06T22:36:41.646869+00:00",
+  "model": "x-ai/grok-voice-tts-1.0",
+  "voice": "leo",
+  "sourceCatalog": "values/playerVoiceCharacterLeoV2.json",
+  "sourceCatalogSha256": "54AB15760DEB656A4C73663516DA24FA33B098B757C2D1D61D8F76B131D0BBFB",
+  "plannedRequests": 24,
+  "completedRequests": 0,
+  "completed": false,
+  "charactersAuthored": 422,
+  "providerCharactersGenerated": 0,
+  "estimatedProviderCostUsd": 0.0,
+  "localBatchCapUsd": 0.25,
+  "userMaximumSpendEur": null,
+  "apiKeyStored": false,
+  "thisRun": {
+    "attempted": 1,
+    "generated": 0,
+    "reusedExisting": 0,
+    "reusedApproved": 0,
+    "failed": 1
+  },
+  "clips": []
+}

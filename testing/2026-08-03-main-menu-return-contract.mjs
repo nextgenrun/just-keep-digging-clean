@@ -24,12 +24,14 @@ function deferred() {
 const save = deferred();
 const calls = {
   hide: 0,
+  release: 0,
   queue: 0,
   flush: 0,
   starts: [],
   flushOptions: null,
 };
 const scene = attachSceneMode(Object.assign(Object.create(prototype), {
+  _pauseSuspension: { release() { calls.release += 1; return true; } },
   hidePauseMenu() { calls.hide += 1; },
   queueDugTilesSave() { calls.queue += 1; },
   flushDugTilesSave(options) {
@@ -47,6 +49,7 @@ const duplicateExit = scene.returnToMainMenu();
 assert.equal(firstExit, duplicateExit, "double activation must share one in-flight exit");
 assert.equal(scene.gameState, "transitioning");
 assert.equal(calls.hide, 1);
+assert.equal(calls.release, 1, "hidden pause ownership must be released before saving");
 assert.equal(calls.queue, 1);
 assert.equal(calls.flush, 1);
 assert.deepEqual(calls.flushOptions, { scheduled: false, force: true });
@@ -70,8 +73,41 @@ try {
   assert.equal(await saveFailureScene.returnToMainMenu(), true);
   assert.deepEqual(saveFailureStarts, ["MainMenuScene"]);
   assert.equal(warnings.length >= 2, true, "save failure must be reported without aborting exit");
+
+  const cleanupFailureStarts = [];
+  const cleanupFailureScene = attachSceneMode(Object.assign(Object.create(prototype), {
+    _pauseSuspension: { release() { throw new Error("simulated pause release failure"); } },
+    hidePauseMenu() { throw new Error("simulated pause cleanup failure"); },
+    queueDugTilesSave() {},
+    async flushDugTilesSave() { return true; },
+    scene: { start(key) { cleanupFailureStarts.push(key); } },
+  }));
+  assert.equal(await cleanupFailureScene.returnToMainMenu(), true);
+  assert.deepEqual(
+    cleanupFailureStarts,
+    ["MainMenuScene"],
+    "pause cleanup failures must not trap the player in PlayScene",
+  );
+
+  const timeoutStarts = [];
+  const timeoutScene = attachSceneMode(Object.assign(Object.create(prototype), {
+    _mainMenuSaveTimeoutMs: 5,
+    hidePauseMenu() {},
+    queueDugTilesSave() {},
+    flushDugTilesSave() { return new Promise(() => {}); },
+    scene: {
+      start(key) { timeoutStarts.push(key); },
+    },
+  }));
+  assert.equal(await timeoutScene.returnToMainMenu(), true);
+  assert.deepEqual(timeoutStarts, ["MainMenuScene"], "a hung save must not trap Escape exit");
+  assert.equal(
+    warnings.some(entry => entry.join(" ").includes("Save timed out")),
+    true,
+    "bounded save timeout must be reported",
+  );
 } finally {
   console.warn = originalWarn;
 }
 
-console.log("Main-menu return contract passed: one save, one transition, no uncaught teardown error.");
+console.log("Main-menu return contract passed: one bounded save, one transition, no stuck pause state.");

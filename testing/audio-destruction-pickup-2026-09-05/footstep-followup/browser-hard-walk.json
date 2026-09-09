@@ -1,0 +1,81 @@
+{
+  "frameRate": 24,
+  "contactFrames": [
+    0,
+    12
+  ],
+  "contacts": [
+    {
+      "atMs": 0,
+      "frame": 0,
+      "key": "footsteps-2",
+      "audibleBufferMs": 110,
+      "native": true,
+      "completedAtMs": 129
+    },
+    {
+      "atMs": 496,
+      "frame": 12,
+      "key": "footsteps-1",
+      "audibleBufferMs": 90,
+      "native": true,
+      "completedAtMs": 596
+    },
+    {
+      "atMs": 996,
+      "frame": 0,
+      "key": "footsteps-2",
+      "audibleBufferMs": 110,
+      "native": true,
+      "completedAtMs": 1113
+    },
+    {
+      "atMs": 1497,
+      "frame": 12,
+      "key": "footsteps-1",
+      "audibleBufferMs": 90,
+      "native": true,
+      "completedAtMs": 1597
+    },
+    {
+      "atMs": 1997,
+      "frame": 0,
+      "key": "footsteps-2",
+      "audibleBufferMs": 110,
+      "native": true,
+      "completedAtMs": 2114
+    },
+    {
+      "atMs": 2498,
+      "frame": 12,
+      "key": "footsteps-1",
+      "audibleBufferMs": 90,
+      "native": true,
+      "completedAtMs": 2598
+    },
+    {
+      "atMs": 2998,
+      "frame": 0,
+      "key": "footsteps-2",
+      "audibleBufferMs": 110,
+      "native": true,
+      "completedAtMs": 3115
+    },
+    {
+      "atMs": 3499,
+      "frame": 12,
+      "key": "footsteps-1",
+      "audibleBufferMs": 90,
+      "native": true,
+      "completedAtMs": 3599
+    },
+    {
+      "atMs": 3999,
+      "frame": 0,
+      "key": "footsteps-2",
+      "audibleBufferMs": 110,
+      "native": true,
+      "completedAtMs": 4116
+    }
+  ]
+}

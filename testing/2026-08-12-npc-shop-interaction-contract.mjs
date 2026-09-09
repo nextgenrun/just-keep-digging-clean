@@ -67,4 +67,23 @@ noInput.manager.scene.interactKey.pressed = false;
 assert.equal(noInput.manager.checkNPCInteraction(), false);
 assert.deepEqual(noInput.calls.opened, []);
 
+const quickTap = createHarness();
+quickTap.manager.scene.interactKey.pressed = false;
+let bufferedTap = true;
+quickTap.manager.scene.inputHandler = {
+  consumeSpecialTileInteractInput: () => {
+    const pending = bufferedTap;
+    bufferedTap = false;
+    return pending;
+  },
+};
+assert.equal(quickTap.manager.checkNPCInteraction(), true, "A buffered E tap survives key release before the render frame");
+assert.equal(quickTap.manager.checkNPCInteraction(), false, "A buffered tap opens a shop only once");
+assert.deepEqual(quickTap.calls.opened, ["boboMerchant"]);
+
+const outOfRange = createHarness();
+outOfRange.manager.scene.playerController.state.getPlayerTile = () => ({ tx: 100, ty: 100 });
+outOfRange.manager.scene.inputHandler = { consumeSpecialTileInteractInput: () => { throw new Error("Do not consume another interaction owner's buffered tap"); } };
+assert.equal(outOfRange.manager.checkNPCInteraction(), false);
+
 console.log("NPC_SHOP_INTERACTION_CONTRACT_OK");

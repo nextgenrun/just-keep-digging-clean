@@ -3,6 +3,8 @@ import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { HUD_LAYOUT } from "../../values/hudLayout.js";
 import { PickaxeHudView } from "./PickaxeHudView.js";
 import { ApprovedHudBuffView } from "./ApprovedHudBuffView.js";
+import { createUiIcon } from "./UiIconRenderer.js";
+import { prepareArt, fitBakedUiImage, fitLiveUiText } from "./bakedUiArt.js";
 
 const REQUIRED_KEYS = Object.freeze(Object.values(ASSET_KEYS.ui.approvedHud));
 const clamp01 = value => Math.max(0, Math.min(1, Number(value) || 0));
@@ -32,6 +34,7 @@ export class ApprovedHudSkin {
     this.buffView = null;
     this.buffFrames = [];
     this.buffTexts = [];
+    this.torchBaseFrame = null;
     this.torchBurnFrame = null;
     this.torchActive = false;
     this.torchIntensity = 1;
@@ -54,31 +57,30 @@ export class ApprovedHudSkin {
 
   _createFrames() {
     const layout = APPROVED_HUD_SKIN.layout;
-    const depth = HUD_LAYOUT.hudDepth - 2;
+    const shellDepth = HUD_LAYOUT.hudOverlayDepth + layout.layers.shellOffset;
+    const artDepth = HUD_LAYOUT.hudOverlayDepth + layout.layers.artOffset;
     const width = this.scene.scale?.width || 1280;
     const s = this.scale;
 
     this.playerFrame = this._image(
       layout.playerCore.x * s,
       layout.playerCore.y * s,
-      ASSET_KEYS.ui.approvedHud.playerCore,
+      ASSET_KEYS.ui.approvedHud.playerCoreShell,
       layout.playerCore.width * s,
       layout.playerCore.height * s,
-      depth,
+      shellDepth,
     );
 
-    const burn = layout.torchBurn;
-    const burnScaleX = layout.playerCore.width / burn.sourceWidth;
-    const burnScaleY = layout.playerCore.height / burn.sourceHeight;
-    this.torchBurnFrame = this._croppedImage(
-      (layout.playerCore.x + burn.sourceCrop.x * burnScaleX) * s,
-      (layout.playerCore.y + burn.sourceCrop.y * burnScaleY) * s,
-      ASSET_KEYS.ui.approvedHud.playerCore,
-      burn.sourceCrop,
-      burn.sourceCrop.width * burnScaleX * s,
-      burn.sourceCrop.height * burnScaleY * s,
-      depth,
-    ).setAlpha(0).setVisible(false);
+    const torch = layout.torchArtwork;
+    const torchOptions = {
+      x: torch.x * s, y: torch.y * s, size: torch.size * s,
+      depth: artDepth, scrollFactor: 0,
+    };
+    this.torchBaseFrame = createUiIcon(this.scene, torch.icon, torchOptions)
+      ?.setTint(torch.offTint);
+    this.torchBurnFrame = createUiIcon(this.scene, torch.icon, {
+      ...torchOptions, depth: artDepth + 1,
+    })?.setAlpha(0).setVisible(false);
 
     this.comboFrame = this._image(
       width / 2 - layout.combo.width * s / 2,
@@ -86,7 +88,7 @@ export class ApprovedHudSkin {
       ASSET_KEYS.ui.approvedHud.combo,
       layout.combo.width * s,
       layout.combo.height * s,
-      depth,
+      HUD_LAYOUT.hudDepth - 2,
     ).setVisible(false);
 
     this.worldFrame = HUD_LAYOUT.showWorldStateHud
@@ -97,7 +99,7 @@ export class ApprovedHudSkin {
           layout.worldState.sourceCrop,
           layout.worldState.width * s,
           layout.worldState.height * s,
-          depth,
+          HUD_LAYOUT.hudDepth - 2,
         )
       : null;
 
@@ -108,6 +110,7 @@ export class ApprovedHudSkin {
     const layout = APPROVED_HUD_SKIN.layout;
     const width = this.scene.scale?.width || 1280;
     const s = this.scale;
+    const contentDepth = HUD_LAYOUT.hudOverlayDepth + layout.layers.contentOffset;
     const worldX = width - (layout.worldState.right + layout.worldState.width) * s;
 
     hud.hudBg?.setVisible(false);
@@ -119,11 +122,17 @@ export class ApprovedHudSkin {
     hud.clockTimeText?.setVisible(HUD_LAYOUT.showWorldStateHud);
     hud.clockDayText?.setVisible(HUD_LAYOUT.showWorldStateHud);
 
-    hud.statsText?.setPosition(layout.depth.x * s, layout.depth.y * s).setOrigin(0, 0);
+    hud.statsText
+      ?.setPosition(layout.depth.x * s, layout.depth.y * s)
+      .setOrigin(0, 0)
+      .setDepth(contentDepth);
     setHudTextStyle(hud.statsText, layout.depth.fontSize * s);
+    this.fitDepthText();
 
     const comboX = width / 2;
-    hud.comboText?.setPosition(comboX, (layout.combo.y + layout.combo.textY) * s).setOrigin(0.5, 0);
+    hud.comboText
+      ?.setPosition(comboX, (layout.combo.y + layout.combo.textY) * s)
+      .setOrigin(0.5, 0);
     setHudTextStyle(hud.comboText, layout.combo.fontSize * s);
 
     hud.clockTimeText?.setPosition(
@@ -149,11 +158,20 @@ export class ApprovedHudSkin {
   bindGemPowerObjects(bg, fill, label) {
     if (!this.active) return;
     const gp = APPROVED_HUD_SKIN.layout.gemPower;
+    const layers = APPROVED_HUD_SKIN.layout.layers;
     const s = this.scale;
     setHudTextStyle(label, gp.fontSize * s);
-    label?.setPosition(gp.labelX * s, gp.labelY * s).setOrigin(0, 0);
-    bg?.setDepth(HUD_LAYOUT.hudDepth);
-    fill?.setDepth(HUD_LAYOUT.hudOverlayDepth);
+    label
+      ?.setPosition(gp.labelX * s, gp.labelY * s)
+      .setOrigin(0, 0)
+      .setDepth(HUD_LAYOUT.hudOverlayDepth + layers.contentOffset + 1);
+    bg?.setDepth(HUD_LAYOUT.hudOverlayDepth + layers.artOffset);
+    fill?.setDepth(HUD_LAYOUT.hudOverlayDepth + layers.contentOffset);
+  }
+
+  fitDepthText() {
+    const cfg = APPROVED_HUD_SKIN.layout.depth;
+    if (this.hud.statsText) fitLiveUiText(this.hud.statsText, cfg.width * this.scale);
   }
 
   getGemPowerLayout() {
@@ -197,7 +215,6 @@ export class ApprovedHudSkin {
     if (!this.active) return;
     this.torchActive = Boolean(active);
     this.torchIntensity = clamp01(intensity);
-    this.playerFrame?.setTexture(ASSET_KEYS.ui.approvedHud.playerCoreTorchOff);
     this.setTorchBurn(this.torchActive ? this.torchIntensity : 0);
     this.hud.torchStatusText?.setVisible(false);
   }
@@ -242,6 +259,7 @@ export class ApprovedHudSkin {
     this.buffView?.destroy();
     [
       this.playerFrame,
+      this.torchBaseFrame,
       this.torchBurnFrame,
       this.comboFrame,
       this.worldFrame,
@@ -250,6 +268,7 @@ export class ApprovedHudSkin {
     this.buffView = null;
     this.buffFrames = [];
     this.buffTexts = [];
+    this.torchBaseFrame = null;
     this.torchBurnFrame = null;
     this.pickaxeHudView = null;
     this.scene = null;
@@ -257,11 +276,15 @@ export class ApprovedHudSkin {
   }
 
   _image(x, y, key, width, height, depth) {
-    return this.scene.add.image(x, y, key)
+    const config = key === ASSET_KEYS.ui.approvedHud.playerCoreShell
+      ? APPROVED_HUD_SKIN.frames.playerCoreShell : null;
+    const art = config ? prepareArt(this.scene, { key, ...config }) : { key };
+    const image = this.scene.add.image(x, y, art.key, art.frame)
       .setOrigin(0, 0)
       .setDisplaySize(width, height)
       .setScrollFactor(0)
       .setDepth(depth);
+    return config ? fitBakedUiImage(image, width, height) : image;
   }
 
   _croppedImage(x, y, key, crop, width, height, depth) {
@@ -269,7 +292,7 @@ export class ApprovedHudSkin {
       .setOrigin(0, 0)
       .setCrop(crop.x, crop.y, crop.width, crop.height)
       .setDisplayOrigin(crop.x, crop.y)
-      .setScale(width / crop.width, height / crop.height)
+      .setScale(Math.min(width / crop.width, height / crop.height))
       .setScrollFactor(0)
       .setDepth(depth);
   }

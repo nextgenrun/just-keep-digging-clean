@@ -1,0 +1,1014 @@
+{
+  "phase": "before",
+  "errors": [],
+  "views": [
+    {
+      "label": "day-7",
+      "file": "before-day-7.jpg",
+      "camera": {
+        "x": 18,
+        "y": 5562,
+        "width": 1280,
+        "height": 720
+      },
+      "trees": [
+        {
+          "id": "forest:-2",
+          "x": -1832,
+          "y": 6178,
+          "pipeline": "MultiPipeline"
+        },
+        {
+          "id": "forest:-1",
+          "x": -916,
+          "y": 6198,
+          "pipeline": "MultiPipeline"
+        },
+        {
+          "id": "forest:0",
+          "x": 0,
+          "y": 6190,
+          "pipeline": "MultiPipeline"
+        },
+        {
+          "id": "forest:1",
+          "x": 916,
+          "y": 6210,
+          "pipeline": "MultiPipeline"
+        }
+      ],
+      "clouds": [
+        "high-cirrus:1:0",
+        "high-cirrus:2:0",
+        "silver-cloud:2:0",
+        "silver-cloud:2:1",
+        "silver-cloud:3:0",
+        "silver-cloud:3:1"
+      ],
+      "motion": {
+        "variantId": "town-air",
+        "ready": true,
+        "failed": false,
+        "paused": false,
+        "currentTime": 0.301359,
+        "duration": 18,
+        "displayWidth": 1801.0000000000002,
+        "displayHeight": 534
+      }
+    },
+    {
+      "label": "day-13",
+      "file": "before-day-13.jpg",
+      "camera": {
+        "x": 582,
+        "y": 5562,
+        "width": 1280,
+        "height": 720
+      },
+      "trees": [
+        {
+          "id": "forest:-1",
+          "x": -916,
+          "y": 6198,
+          "pipeline": "MultiPipeline"
+        },
+        {
+          "id": "forest:0",
+          "x": 0,
+          "y": 6190,
+          "pipeline": "MultiPipeline"
+        },
+        {
+          "id": "forest:1",
+          "x": 916,
+          "y": 6210,
+          "pipeline": "MultiPipeline"
+        }
+      ],
+      "clouds": [
+        "high-cirrus:1:0",
+        "high-cirrus:2:0",
+        "silver-cloud:2:0",
+        "silver-cloud:3:0",
+        "silver-cloud:2:1",
+        "silver-cloud:3:1"
+      ],
+      "motion": {
+        "variantId": "town-air",
+        "ready": true,
+        "failed": false,
+        "paused": false,
+        "currentTime": 0.830467,
+        "duration": 18,
+        "displayWidth": 1801.0000000000002,
+        "displayHeight": 534
+      }
+    },
+    {
+      "label": "day-19",
+      "file": "before-day-19.jpg",
+      "camera": {
+        "x": 1146,
+        "y": 5562,
+        "width": 1280,
+        "height": 720
+      },
+      "trees": [
+        {
+          "id": "forest:-1",
+          "x": -916,
+          "y": 6198,
+          "pipeline": "MultiPipeline"
+        },
+        {
+          "id": "forest:0",
+          "x": 0,
+          "y": 6190,
+          "pipeline": "MultiPipeline"
+        },
+        {
+          "id": "forest:1",
+          "x": 916,
+          "y": 6210,
+          "pipeline": "MultiPipeline"
+        },
+        {
+          "id": "forest:2",
+          "x": 1832,
+          "y": 6178,
+          "pipeline": "MultiPipeline"
+        }
+      ],
+      "clouds": [
+        "high-cirrus:1:0",
+        "high-cirrus:2:0",
+        "silver-cloud:2:0",
+        "silver-cloud:3:0",
+        "silver-cloud:2:1",
+        "silver-cloud:3:1",
+        "high-cirrus:2:1"
+      ],
+      "motion": {
+        "variantId": "town-air",
+        "ready": true,
+        "failed": false,
+        "paused": false,
+        "currentTime": 1.309225,
+        "duration": 18,
+        "displayWidth": 1801.0000000000002,
+        "displayHeight": 534
+      }
+    },
+    {
+      "label": "day-25",
+      "file": "before-day-25.jpg",
+      "camera": {
+        "x": 1710,
+        "y": 5562,
+        "width": 1280,
+        "height": 720
+      },
+      "trees": [
+        {
+          "id": "forest:0",
+          "x": 0,
+          "y": 6190,
+          "pipeline": "MultiPipeline"
+        },
+        {
+          "id": "forest:1",
+          "x": 916,
+          "y": 6210,
+          "pipeline": "MultiPipeline"
+        },
+        {
+          "id": "forest:2",
+          "x": 1832,
+          "y": 6178,
+          "pipeline": "MultiPipeline"
+        }
+      ],
+      "clouds": [
+        "high-cirrus:1:0",
+        "high-cirrus:2:0",
+        "silver-cloud:2:0",
+        "silver-cloud:3:0",
+        "silver-cloud:2:1",
+        "silver-cloud:3:1",
+        "high-cirrus:1:1",
+        "high-cirrus:2:1"
+      ],
+      "motion": {
+        "variantId": "town-air",
+        "ready": true,
+        "failed": false,
+        "paused": false,
+        "currentTime": 1.773896,
+        "duration": 18,
+        "displayWidth": 1801.0000000000002,
+        "displayHeight": 534
+      }
+    },
+    {
+      "label": "day-31",
+      "file": "before-day-31.jpg",
+      "camera": {
+        "x": 2274,
+        "y": 5562,
+        "width": 1280,
+        "height": 720
+      },
+      "trees": [
+        {
+          "id": "forest:0",
+          "x": 0,
+          "y": 6190,
+          "pipeline": "MultiPipeline"
+        },
+        {
+          "id": "forest:1",
+          "x": 916,
+          "y": 6210,
+          "pipeline": "MultiPipeline"
+        },
+        {
+          "id": "forest:2",
+          "x": 1832,
+          "y": 6178,
+          "pipeline": "MultiPipeline"
+        },
+        {
+          "id": "forest:3",
+          "x": 2748,
+          "y": 6198,
+          "pipeline": "MultiPipeline"
+        }
+      ],
+      "clouds": [
+        "high-cirrus:1:0",
+        "high-cirrus:2:0",
+        "silver-cloud:2:0",
+        "silver-cloud:3:0",
+        "silver-cloud:2:1",
+        "silver-cloud:3:1",
+        "high-cirrus:1:1",
+        "high-cirrus:2:1"
+      ],
+      "motion": {
+        "variantId": "town-air",
+        "ready": true,
+        "failed": false,
+        "paused": false,
+        "currentTime": 2.227405,
+        "duration": 18,
+        "displayWidth": 1801.0000000000002,
+        "displayHeight": 534
+      }
+    },
+    {
+      "label": "day-43",
+      "file": "before-day-43.jpg",
+      "camera": {
+        "x": 3402,
+        "y": 5562,
+        "width": 1280,
+        "height": 720
+      },
+      "trees": [
+        {
+          "id": "forest:1",
+          "x": 916,
+          "y": 6210,
+          "pipeline": "MultiPipeline"
+        },
+        {
+          "id": "forest:2",
+          "x": 1832,
+          "y": 6178,
+          "pipeline": "MultiPipeline"
+        },
+        {
+          "id": "forest:3",
+          "x": 2748,
+          "y": 6198,
+          "pipeline": "MultiPipeline"
+        },
+        {
+          "id": "forest:4",
+          "x": 3664,
+          "y": 6190,
+          "pipeline": "MultiPipeline"
+        }
+      ],
+      "clouds": [
+        "high-cirrus:1:0",
+        "high-cirrus:2:0",
+        "silver-cloud:2:0",
+        "silver-cloud:3:0",
+        "silver-cloud:2:1",
+        "silver-cloud:3:1",
+        "high-cirrus:1:1",
+        "high-cirrus:2:1",
+        "silver-cloud:2:2"
+      ],
+      "motion": {
+        "variantId": "town-air",
+        "ready": true,
+        "failed": false,
+        "paused": false,
+        "currentTime": 2.711239,
+        "duration": 18,
+        "displayWidth": 1801.0000000000002,
+        "displayHeight": 534
+      }
+    },
+    {
+      "label": "day-55",
+      "file": "before-day-55.jpg",
+      "camera": {
+        "x": 4530,
+        "y": 5562,
+        "width": 1280,
+        "height": 720
+      },
+      "trees": [
+        {
+          "id": "forest:2",
+          "x": 1832,
+          "y": 6178,
+          "pipeline": "MultiPipeline"
+        },
+        {
+          "id": "forest:3",
+          "x": 2748,
+          "y": 6198,
+          "pipeline": "MultiPipeline"
+        },
+        {
+          "id": "forest:4",
+          "x": 3664,
+          "y": 6190,
+          "pipeline": "MultiPipeline"
+        },
+        {
+          "id": "forest:5",
+          "x": 4580,
+          "y": 6210,
+          "pipeline": "MultiPipeline"
+        }
+      ],
+      "clouds": [
+        "high-cirrus:1:0",
+        "high-cirrus:2:0",
+        "silver-cloud:2:1",
+        "silver-cloud:3:1",
+        "high-cirrus:1:1",
+        "high-cirrus:2:1",
+        "silver-cloud:2:2",
+        "silver-cloud:3:2"
+      ],
+      "motion": {
+        "variantId": "town-air",
+        "ready": true,
+        "failed": false,
+        "paused": false,
+        "currentTime": 3.180298,
+        "duration": 18,
+        "displayWidth": 1801.0000000000002,
+        "displayHeight": 534
+      }
+    },
+    {
+      "label": "day-67",
+      "file": "before-day-67.jpg",
+      "camera": {
+        "x": 5658,
+        "y": 5562,
+        "width": 1280,
+        "height": 720
+      },
+      "trees": [
+        {
+          "id": "forest:3",
+          "x": 2748,
+          "y": 6198,
+          "pipeline": "MultiPipeline"
+        },
+        {
+          "id": "forest:4",
+          "x": 3664,
+          "y": 6190,
+          "pipeline": "MultiPipeline"
+        },
+        {
+          "id": "forest:5",
+          "x": 4580,
+          "y": 6210,
+          "pipeline": "MultiPipeline"
+        },
+        {
+          "id": "forest:6",
+          "x": 5496,
+          "y": 6178,
+          "pipeline": "MultiPipeline"
+        }
+      ],
+      "clouds": [
+        "high-cirrus:2:0",
+        "silver-cloud:2:1",
+        "silver-cloud:3:1",
+        "high-cirrus:1:1",
+        "high-cirrus:2:1",
+        "silver-cloud:2:2",
+        "silver-cloud:3:2"
+      ],
+      "motion": {
+        "variantId": "town-air",
+        "ready": true,
+        "failed": false,
+        "paused": false,
+        "currentTime": 3.677534,
+        "duration": 18,
+        "displayWidth": 1801.0000000000002,
+        "displayHeight": 534
+      }
+    },
+    {
+      "label": "day-79",
+      "file": "before-day-79.jpg",
+      "camera": {
+        "x": 6786,
+        "y": 5562,
+        "width": 1280,
+        "height": 720
+      },
+      "trees": [
+        {
+          "id": "forest:4",
+          "x": 3664,
+          "y": 6190,
+          "pipeline": "MultiPipeline"
+        },
+        {
+          "id": "forest:5",
+          "x": 4580,
+          "y": 6210,
+          "pipeline": "MultiPipeline"
+        },
+        {
+          "id": "forest:6",
+          "x": 5496,
+          "y": 6178,
+          "pipeline": "MultiPipeline"
+        },
+        {
+          "id": "forest:7",
+          "x": 6412,
+          "y": 6198,
+          "pipeline": "MultiPipeline"
+        }
+      ],
+      "clouds": [
+        "silver-cloud:2:1",
+        "silver-cloud:3:1",
+        "silver-cloud:2:2",
+        "silver-cloud:3:2",
+        "high-cirrus:1:1",
+        "high-cirrus:2:1",
+        "silver-cloud:2:3",
+        "silver-cloud:3:3"
+      ],
+      "motion": {
+        "variantId": "town-air",
+        "ready": true,
+        "failed": false,
+        "paused": false,
+        "currentTime": 4.148924,
+        "duration": 18,
+        "displayWidth": 1801.0000000000002,
+        "displayHeight": 534
+      }
+    },
+    {
+      "label": "day-91",
+      "file": "before-day-91.jpg",
+      "camera": {
+        "x": 7914,
+        "y": 5562,
+        "width": 1280,
+        "height": 720
+      },
+      "trees": [
+        {
+          "id": "forest:5",
+          "x": 4580,
+          "y": 6210,
+          "pipeline": "MultiPipeline"
+        },
+        {
+          "id": "forest:6",
+          "x": 5496,
+          "y": 6178,
+          "pipeline": "MultiPipeline"
+        },
+        {
+          "id": "forest:7",
+          "x": 6412,
+          "y": 6198,
+          "pipeline": "MultiPipeline"
+        }
+      ],
+      "clouds": [
+        "silver-cloud:2:2",
+        "silver-cloud:3:2",
+        "high-cirrus:1:1",
+        "high-cirrus:2:1",
+        "silver-cloud:2:3",
+        "silver-cloud:3:3"
+      ],
+      "motion": {
+        "variantId": "town-air",
+        "ready": true,
+        "failed": false,
+        "paused": false,
+        "currentTime": 4.615995,
+        "duration": 18,
+        "displayWidth": 1801.0000000000002,
+        "displayHeight": 534
+      }
+    },
+    {
+      "label": "day-103",
+      "file": "before-day-103.jpg",
+      "camera": {
+        "x": 9042,
+        "y": 5562,
+        "width": 1280,
+        "height": 720
+      },
+      "trees": [
+        {
+          "id": "forest:6",
+          "x": 5496,
+          "y": 6178,
+          "pipeline": "MultiPipeline"
+        },
+        {
+          "id": "forest:7",
+          "x": 6412,
+          "y": 6198,
+          "pipeline": "MultiPipeline"
+        },
+        {
+          "id": "forest:8",
+          "x": 7328,
+          "y": 6190,
+          "pipeline": "MultiPipeline"
+        }
+      ],
+      "clouds": [
+        "silver-cloud:2:2",
+        "silver-cloud:3:2",
+        "high-cirrus:1:1",
+        "high-cirrus:2:1",
+        "silver-cloud:2:3",
+        "silver-cloud:3:3"
+      ],
+      "motion": {
+        "variantId": "town-air",
+        "ready": true,
+        "failed": false,
+        "paused": false,
+        "currentTime": 5.095781,
+        "duration": 18,
+        "displayWidth": 1801.0000000000002,
+        "displayHeight": 534
+      }
+    },
+    {
+      "label": "day-117",
+      "file": "before-day-117.jpg",
+      "camera": {
+        "x": 10358,
+        "y": 5562,
+        "width": 1280,
+        "height": 720
+      },
+      "trees": [
+        {
+          "id": "forest:7",
+          "x": 6412,
+          "y": 6198,
+          "pipeline": "MultiPipeline"
+        },
+        {
+          "id": "forest:8",
+          "x": 7328,
+          "y": 6190,
+          "pipeline": "MultiPipeline"
+        },
+        {
+          "id": "forest:9",
+          "x": 8244,
+          "y": 6210,
+          "pipeline": "MultiPipeline"
+        }
+      ],
+      "clouds": [
+        "silver-cloud:2:2",
+        "silver-cloud:3:2",
+        "high-cirrus:1:1",
+        "high-cirrus:2:1",
+        "silver-cloud:2:3",
+        "silver-cloud:3:3",
+        "high-cirrus:1:2"
+      ],
+      "motion": {
+        "variantId": "town-air",
+        "ready": true,
+        "failed": false,
+        "paused": false,
+        "currentTime": 5.549231,
+        "duration": 18,
+        "displayWidth": 1801.0000000000002,
+        "displayHeight": 534
+      }
+    },
+    {
+      "label": "night-19",
+      "file": "before-night-19.jpg",
+      "camera": {
+        "x": 1146,
+        "y": 5562,
+        "width": 1280,
+        "height": 720
+      },
+      "trees": [
+        {
+          "id": "forest:-1",
+          "x": -916,
+          "y": 6198,
+          "pipeline": "MultiPipeline"
+        },
+        {
+          "id": "forest:0",
+          "x": 0,
+          "y": 6190,
+          "pipeline": "MultiPipeline"
+        },
+        {
+          "id": "forest:1",
+          "x": 916,
+          "y": 6210,
+          "pipeline": "MultiPipeline"
+        },
+        {
+          "id": "forest:2",
+          "x": 1832,
+          "y": 6178,
+          "pipeline": "MultiPipeline"
+        }
+      ],
+      "clouds": [
+        "high-cirrus:1:0",
+        "high-cirrus:2:0",
+        "high-cirrus:2:1",
+        "silver-cloud:2:0",
+        "silver-cloud:2:1",
+        "silver-cloud:3:0",
+        "silver-cloud:3:1"
+      ],
+      "motion": {
+        "variantId": "town-air",
+        "ready": true,
+        "failed": false,
+        "paused": false,
+        "currentTime": 6.020493,
+        "duration": 18,
+        "displayWidth": 1801.0000000000002,
+        "displayHeight": 534
+      }
+    },
+    {
+      "label": "night-47",
+      "file": "before-night-47.jpg",
+      "camera": {
+        "x": 3778,
+        "y": 5562,
+        "width": 1280,
+        "height": 720
+      },
+      "trees": [
+        {
+          "id": "forest:1",
+          "x": 916,
+          "y": 6210,
+          "pipeline": "MultiPipeline"
+        },
+        {
+          "id": "forest:2",
+          "x": 1832,
+          "y": 6178,
+          "pipeline": "MultiPipeline"
+        },
+        {
+          "id": "forest:3",
+          "x": 2748,
+          "y": 6198,
+          "pipeline": "MultiPipeline"
+        },
+        {
+          "id": "forest:4",
+          "x": 3664,
+          "y": 6190,
+          "pipeline": "MultiPipeline"
+        }
+      ],
+      "clouds": [
+        "high-cirrus:1:0",
+        "high-cirrus:1:1",
+        "high-cirrus:2:0",
+        "high-cirrus:2:1",
+        "silver-cloud:2:1",
+        "silver-cloud:2:2",
+        "silver-cloud:3:0",
+        "silver-cloud:3:1",
+        "silver-cloud:3:2"
+      ],
+      "motion": {
+        "variantId": "town-air",
+        "ready": true,
+        "failed": false,
+        "paused": false,
+        "currentTime": 6.719578,
+        "duration": 18,
+        "displayWidth": 1801.0000000000002,
+        "displayHeight": 534
+      }
+    },
+    {
+      "label": "night-79",
+      "file": "before-night-79.jpg",
+      "camera": {
+        "x": 6786,
+        "y": 5562,
+        "width": 1280,
+        "height": 720
+      },
+      "trees": [
+        {
+          "id": "forest:4",
+          "x": 3664,
+          "y": 6190,
+          "pipeline": "MultiPipeline"
+        },
+        {
+          "id": "forest:5",
+          "x": 4580,
+          "y": 6210,
+          "pipeline": "MultiPipeline"
+        },
+        {
+          "id": "forest:6",
+          "x": 5496,
+          "y": 6178,
+          "pipeline": "MultiPipeline"
+        },
+        {
+          "id": "forest:7",
+          "x": 6412,
+          "y": 6198,
+          "pipeline": "MultiPipeline"
+        }
+      ],
+      "clouds": [
+        "high-cirrus:1:1",
+        "high-cirrus:2:1",
+        "silver-cloud:2:1",
+        "silver-cloud:2:2",
+        "silver-cloud:2:3",
+        "silver-cloud:3:1",
+        "silver-cloud:3:2",
+        "silver-cloud:3:3"
+      ],
+      "motion": {
+        "variantId": "town-air",
+        "ready": true,
+        "failed": false,
+        "paused": false,
+        "currentTime": 7.298498,
+        "duration": 18,
+        "displayWidth": 1801.0000000000002,
+        "displayHeight": 534
+      }
+    },
+    {
+      "label": "night-117",
+      "file": "before-night-117.jpg",
+      "camera": {
+        "x": 10358,
+        "y": 5562,
+        "width": 1280,
+        "height": 720
+      },
+      "trees": [
+        {
+          "id": "forest:7",
+          "x": 6412,
+          "y": 6198,
+          "pipeline": "MultiPipeline"
+        },
+        {
+          "id": "forest:8",
+          "x": 7328,
+          "y": 6190,
+          "pipeline": "MultiPipeline"
+        },
+        {
+          "id": "forest:9",
+          "x": 8244,
+          "y": 6210,
+          "pipeline": "MultiPipeline"
+        }
+      ],
+      "clouds": [
+        "high-cirrus:1:1",
+        "high-cirrus:1:2",
+        "high-cirrus:2:1",
+        "silver-cloud:2:2",
+        "silver-cloud:2:3",
+        "silver-cloud:3:2",
+        "silver-cloud:3:3"
+      ],
+      "motion": {
+        "variantId": "town-air",
+        "ready": true,
+        "failed": false,
+        "paused": false,
+        "currentTime": 7.785874,
+        "duration": 18,
+        "displayWidth": 1801.0000000000002,
+        "displayHeight": 534
+      }
+    },
+    {
+      "label": "sky-60",
+      "file": "before-sky-60.jpg",
+      "camera": {
+        "x": 3778,
+        "y": 5280,
+        "width": 1280,
+        "height": 720
+      },
+      "trees": [
+        {
+          "id": "forest:1",
+          "x": 916,
+          "y": 6210,
+          "pipeline": "MultiPipeline"
+        },
+        {
+          "id": "forest:2",
+          "x": 1832,
+          "y": 6178,
+          "pipeline": "MultiPipeline"
+        },
+        {
+          "id": "forest:3",
+          "x": 2748,
+          "y": 6198,
+          "pipeline": "MultiPipeline"
+        },
+        {
+          "id": "forest:4",
+          "x": 3664,
+          "y": 6190,
+          "pipeline": "MultiPipeline"
+        }
+      ],
+      "clouds": [
+        "high-cirrus:1:0",
+        "high-cirrus:1:1",
+        "high-cirrus:2:0",
+        "high-cirrus:2:1",
+        "silver-cloud:2:0",
+        "silver-cloud:2:1",
+        "silver-cloud:2:2",
+        "silver-cloud:3:0",
+        "silver-cloud:3:1",
+        "silver-cloud:3:2"
+      ],
+      "motion": {
+        "variantId": "town-air",
+        "ready": true,
+        "failed": false,
+        "paused": false,
+        "currentTime": 8.323812,
+        "duration": 18,
+        "displayWidth": 1801.0000000000002,
+        "displayHeight": 534
+      }
+    },
+    {
+      "label": "sky-56",
+      "file": "before-sky-56.jpg",
+      "camera": {
+        "x": 3778,
+        "y": 4904,
+        "width": 1280,
+        "height": 720
+      },
+      "trees": [],
+      "clouds": [
+        "high-cirrus:1:0",
+        "high-cirrus:1:1",
+        "high-cirrus:2:0",
+        "high-cirrus:2:1",
+        "silver-cloud:2:0",
+        "silver-cloud:2:1",
+        "silver-cloud:3:0",
+        "silver-cloud:3:1",
+        "silver-cloud:3:2",
+        "silver-cloud:2:2"
+      ],
+      "motion": {
+        "variantId": "town-air",
+        "ready": true,
+        "failed": false,
+        "paused": true,
+        "currentTime": 8.474136,
+        "duration": 18,
+        "displayWidth": 1801.0000000000002,
+        "displayHeight": 534
+      }
+    },
+    {
+      "label": "sky-48",
+      "file": "before-sky-48.jpg",
+      "camera": {
+        "x": 3778,
+        "y": 4152,
+        "width": 1280,
+        "height": 720
+      },
+      "trees": [],
+      "clouds": [
+        "high-cirrus:1:0",
+        "high-cirrus:1:1",
+        "silver-cloud:2:0",
+        "silver-cloud:2:1",
+        "silver-cloud:2:2"
+      ],
+      "motion": {
+        "variantId": "town-air",
+        "ready": true,
+        "failed": false,
+        "paused": true,
+        "currentTime": 8.474136,
+        "duration": 18,
+        "displayWidth": 1801.0000000000002,
+        "displayHeight": 534
+      }
+    },
+    {
+      "label": "sky-24",
+      "file": "before-sky-24.jpg",
+      "camera": {
+        "x": 3778,
+        "y": 1896,
+        "width": 1280,
+        "height": 720
+      },
+      "trees": [],
+      "clouds": [
+        "high-cirrus:0:1",
+        "high-cirrus:1:0",
+        "high-cirrus:1:1",
+        "silver-cloud:1:1",
+        "silver-cloud:1:2"
+      ],
+      "motion": {
+        "variantId": "town-air",
+        "ready": true,
+        "failed": false,
+        "paused": true,
+        "currentTime": 8.474136,
+        "duration": 18,
+        "displayWidth": 1801.0000000000002,
+        "displayHeight": 534
+      }
+    }
+  ],
+  "scope": {
+    "profile": "demo",
+    "levelTwo": false,
+    "bounds": {
+      "type": 5,
+      "x": 0,
+      "y": 0,
+      "width": 12502,
+      "height": 194204
+    },
+    "tileSize": 94
+  }
+}

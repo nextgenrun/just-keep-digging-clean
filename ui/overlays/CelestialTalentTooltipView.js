@@ -1,11 +1,10 @@
-// Owns the authored image-backed description popup for one Celestial talent.
-
-import {
-  CELESTIAL_TALENT_TREE_UI_CONFIG,
-  describeCelestialTalentAvailability,
-  getCelestialTalentChoiceLabel,
-} from "../../values/celestialTalentTreeUi.js";
+// Baked talent descriptions with a separate rail for live rank and cost values.
+import { CELESTIAL_TALENT_TREE_UI_CONFIG, getCelestialTalentChoiceLabel } from "../../values/celestialTalentTreeUi.js";
+import { BAKED_TALENT_NODES, BAKED_CELESTIAL_LABELS, BAKED_CELESTIAL_LAYOUT } from "../../values/bakedCelestialUi.js";
 import { UI_FONTS } from "../../values/uiLayout.js";
+import { prepareArt, fitBakedUiImage, fitLiveUiText } from "../../systems/visual/bakedUiArt.js";
+import { addCelestialLabel, setCelestialArt } from "./bakedCelestialUi.js";
+import { CelestialTalentStateView } from "./CelestialTalentStateView.js";
 
 export class CelestialTalentTooltipView {
   constructor(scene, parent) {
@@ -13,74 +12,54 @@ export class CelestialTalentTooltipView {
     this.config = CELESTIAL_TALENT_TREE_UI_CONFIG;
     this.nodeId = null;
     this.visible = false;
-    const { assets, layout, presentation } = this.config;
+    const g = BAKED_CELESTIAL_LAYOUT;
     this.root = scene.add.container(0, 0).setVisible(false);
-    this.frame = scene.add.image(0, 0, assets.tooltip.key)
-      .setDisplaySize(layout.tooltipWidthPx, layout.tooltipHeightPx);
-    this.title = this._text(
-      layout.tooltipTitleOffsetYPx,
-      presentation.tooltipTitleFontSizePx,
-      presentation.titleColor,
-    );
-    this.meta = this._text(
-      layout.tooltipMetaOffsetYPx,
-      presentation.tooltipMetaFontSizePx,
-      presentation.dimColor,
-    );
-    this.body = this._text(
-      layout.tooltipBodyOffsetYPx,
-      presentation.tooltipBodyFontSizePx,
-      presentation.bodyColor,
-      layout.tooltipBodyWidthPx,
-    );
-    this.status = this._text(
-      layout.tooltipStatusOffsetYPx,
-      presentation.tooltipStatusFontSizePx,
-      presentation.readyColor,
-      layout.tooltipBodyWidthPx,
-    );
-    this.root.add([this.frame, this.title, this.meta, this.body, this.status]);
+    this.frame = fitBakedUiImage(scene.add.image(0, g.tooltipFooterY, this.config.assets.tooltip.key),
+      g.tooltipWidth, g.tooltipFooterHeight);
+    if (this.frame) this.root.add(this.frame);
+    const first = prepareArt(scene, Object.values(BAKED_TALENT_NODES)[0].card);
+    this.card = scene.add.image(0, g.tooltipCardY, first.key, first.frame);
+    this.choice = scene.add.image(0, g.tooltipChoiceY, first.key, first.frame);
+    this.costUnit = scene.add.image(g.tooltipCostUnitX, g.tooltipRankY, first.key, first.frame);
+    this.rank = this._text(g.tooltipRankValueX, g.tooltipRankY);
+    this.cost = this._text(g.tooltipCostValueX, g.tooltipRankY);
+    this.root.add([this.card, this.choice, this.costUnit, this.rank, this.cost]);
+    addCelestialLabel(scene, this.root, "RANK", g.tooltipRankLabelX, g.tooltipRankY,
+      g.headerValueWidth, g.statusLabelHeight);
+    addCelestialLabel(scene, this.root, "COST", g.tooltipCostLabelX, g.tooltipRankY,
+      g.headerValueWidth, g.statusLabelHeight);
+    this.status = new CelestialTalentStateView(scene, this.root, 0, g.tooltipStatusY,
+      g.tooltipStatusWidth, g.tooltipStatusHeight);
     parent.add(this.root);
   }
 
-  _text(y, size, color, wrapWidth = null) {
-    const presentation = this.config.presentation;
-    const style = {
-      fontFamily: UI_FONTS.display,
-      fontSize: `${size}px`,
-      fontStyle: "bold",
-      color,
-      align: "center",
-      stroke: presentation.shadowColor,
-      strokeThickness: presentation.shadowThicknessPx,
-    };
-    if (wrapWidth) style.wordWrap = { width: wrapWidth };
-    return this.scene.add.text(0, y, "", style).setOrigin(0.5);
+  _text(x, y) {
+    const p = this.config.presentation;
+    return this.scene.add.text(x, y, "", {
+      fontFamily: UI_FONTS.mono, fontSize: BAKED_CELESTIAL_LAYOUT.metadataFontSize,
+      color:p.bodyColor, align:"center",
+    }).setOrigin(0.5);
   }
 
   show(nodeView, snapshot) {
     if (!nodeView || !snapshot) return false;
-    const { copy, layout, presentation } = this.config;
-    const node = nodeView.node;
-    const price = snapshot.starsCost > 0
-      ? `${snapshot.starsCost} ${copy.starPointLabel}`
-      : copy.free;
-    this.nodeId = node.id;
+    const g = BAKED_CELESTIAL_LAYOUT;
+    this.nodeId = nodeView.node.id;
     this.nodeView = nodeView;
-    this.title.setText(node.name.toUpperCase());
-    this.meta.setText([
-      getCelestialTalentChoiceLabel(node),
-      node.path,
-      `${copy.levelLabel} ${node.requiredLevel}`,
-      price,
-    ].join("  •  "));
-    this.body.setText(node.description);
-    this.status.setText(describeCelestialTalentAvailability(snapshot));
-    this.status.setColor(snapshot.purchased
-      ? presentation.ownedColor
-      : snapshot.available
-        ? presentation.readyColor
-        : presentation.lockedColor);
+    setCelestialArt(this.scene, this.card, BAKED_TALENT_NODES[this.nodeId].card,
+      g.tooltipWidth, g.tooltipCardHeight);
+    this.card.setData("bakedTalentDescription", this.nodeId);
+    setCelestialArt(this.scene, this.choice,
+      BAKED_CELESTIAL_LABELS[getCelestialTalentChoiceLabel(nodeView.node)],
+      g.tooltipChoiceWidth, g.tooltipChoiceHeight);
+    this.rank.setText(`${snapshot.rank}/${snapshot.maxRank}`);
+    const special = snapshot.rank >= snapshot.maxRank ? "MAX" : snapshot.godMode ? "FREE" : null;
+    this.cost.setText(special ? "" : String(snapshot.purchased ? snapshot.starsCost : snapshot.talentPointsCost));
+    setCelestialArt(this.scene, this.costUnit,
+      BAKED_CELESTIAL_LABELS[special || (snapshot.purchased ? "SP" : "TP")],
+      g.headerValueWidth / 2, g.statusLabelHeight);
+    [this.rank, this.cost].forEach(text => fitLiveUiText(text, g.headerValueWidth / 2, g.headerValueHeight));
+    this.status.setState(snapshot);
     this._position(nodeView);
     this.visible = true;
     this.root.setVisible(true);
@@ -90,8 +69,8 @@ export class CelestialTalentTooltipView {
   _position(nodeView) {
     const layout = this.config.layout;
     const tooltipScale = this.root.scaleX || 1;
-    const halfWidth = layout.tooltipWidthPx * tooltipScale / 2;
-    const halfHeight = layout.tooltipHeightPx * tooltipScale / 2;
+    const halfWidth = BAKED_CELESTIAL_LAYOUT.tooltipWidth * tooltipScale / 2;
+    const halfHeight = BAKED_CELESTIAL_LAYOUT.tooltipHeight * tooltipScale / 2;
     const halfReferenceWidth = layout.referenceWidthPx / 2;
     const halfReferenceHeight = layout.referenceHeightPx / 2;
     const branchDirection = nodeView.branchIndex === 0
@@ -99,9 +78,10 @@ export class CelestialTalentTooltipView {
       : nodeView.branchIndex === 2
         ? -1
         : nodeView.lane > 0 ? -1 : 1;
-    const isApexChoice = nodeView.node.kind === "capstone";
-    // Every branch opens toward the tree interior. Apex cards also drop one
-    // row, avoiding the title/currency rail and the capstone's own node stack.
+    const isTopChoice = nodeView.node.kind === "capstone"
+      || nodeView.node.kind === "apex";
+    // Every branch opens toward the tree interior. Top-row cards also drop
+    // below their node, avoiding the title and currency rail.
     const requestedX = nodeView.root.x + branchDirection * (
       layout.nodeHitWidthPx / 2 + layout.tooltipGapPx + halfWidth
     );
@@ -112,19 +92,22 @@ export class CelestialTalentTooltipView {
         requestedX,
       ),
     );
-    const requestedY = isApexChoice
+    const requestedY = isTopChoice
       ? nodeView.root.y + layout.nodeHitHeightPx / 2
         + layout.tooltipGapPx + halfHeight
       : nodeView.root.y;
     const y = Math.max(
       -halfReferenceHeight + layout.tooltipViewportMarginPx + halfHeight,
       Math.min(
-        halfReferenceHeight - layout.tooltipViewportMarginPx - halfHeight,
+        BAKED_CELESTIAL_LAYOUT.tooltipBottomYFraction * layout.referenceHeightPx
+          - halfReferenceHeight - halfHeight,
         requestedY,
       ),
     );
     this.root.setPosition(x, y);
   }
+
+
 
   refresh(snapshot) {
     if (!this.visible || !this.nodeView || snapshot?.id !== this.nodeId) return false;
@@ -133,8 +116,7 @@ export class CelestialTalentTooltipView {
 
   setViewportScale(parentScale) {
     const minimum = this.config.layout.tooltipMinimumScreenScale;
-    const localScale = parentScale < minimum ? minimum / parentScale : 1;
-    this.root.setScale(localScale);
+    this.root.setScale(parentScale < minimum ? minimum / parentScale : 1);
     if (this.visible && this.nodeView) this._position(this.nodeView);
   }
 

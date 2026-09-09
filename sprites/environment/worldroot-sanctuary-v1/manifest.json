@@ -1,0 +1,211 @@
+{
+  "version": 1,
+  "date": "2026-09-02",
+  "builtInImageGen": true,
+  "contract": "independent-trunk-five-foliage-pairs-separate-live-stars-no-platforms",
+  "processing": "Magenta carrier removal and integer cell extraction; no painted runtime stars or campfire.",
+  "assets": [
+    {
+      "key": "worldroot-sanctuary-trunk-v1",
+      "path": "sprites/environment/worldroot-sanctuary-v1/trunk.png",
+      "width": 1536,
+      "height": 1024,
+      "hasAlpha": true,
+      "visiblePixels": 260853,
+      "chromaLeak": 0,
+      "sha256": "fd5200f0af438704e85ff76f4c26e3fbc225bdbab26d3f3a08862c3547d34d74"
+    },
+    {
+      "key": "worldroot-sanctuary-rootways-living-v1",
+      "path": "sprites/environment/worldroot-sanctuary-v1/rootways-living.png",
+      "width": 397,
+      "height": 397,
+      "hasAlpha": true,
+      "visiblePixels": 71195,
+      "chromaLeak": 0,
+      "sha256": "0cc114aa5a786b39914f88430e97cafdd38549a8e5d55b7d330ba1cef64dd9e9",
+      "regionId": "surface-entry",
+      "state": "living",
+      "sourceCell": {
+        "left": 0,
+        "top": 0,
+        "width": 397,
+        "height": 397
+      }
+    },
+    {
+      "key": "worldroot-sanctuary-rootways-consumed-v1",
+      "path": "sprites/environment/worldroot-sanctuary-v1/rootways-consumed.png",
+      "width": 397,
+      "height": 396,
+      "hasAlpha": true,
+      "visiblePixels": 33924,
+      "chromaLeak": 0,
+      "sha256": "cd16f090fc24f45e01e797528dbac95241e393db1d5449f804cdda7d79233e2f",
+      "regionId": "surface-entry",
+      "state": "consumed",
+      "sourceCell": {
+        "left": 0,
+        "top": 397,
+        "width": 397,
+        "height": 396
+      }
+    },
+    {
+      "key": "worldroot-sanctuary-cobalt-living-v1",
+      "path": "sprites/environment/worldroot-sanctuary-v1/cobalt-living.png",
+      "width": 396,
+      "height": 397,
+      "hasAlpha": true,
+      "visiblePixels": 67501,
+      "chromaLeak": 0,
+      "sha256": "e33f2c38431502704ef0e1976e757b59e6deba1b9d646c783c19fc8bb18a4004",
+      "regionId": "level1-blue",
+      "state": "living",
+      "sourceCell": {
+        "left": 397,
+        "top": 0,
+        "width": 396,
+        "height": 397
+      }
+    },
+    {
+      "key": "worldroot-sanctuary-cobalt-consumed-v1",
+      "path": "sprites/environment/worldroot-sanctuary-v1/cobalt-consumed.png",
+      "width": 396,
+      "height": 396,
+      "hasAlpha": true,
+      "visiblePixels": 29929,
+      "chromaLeak": 0,
+      "sha256": "fb57389ac99c828f148f21af038bce2628c1af16934caf89db8f27d816e1f99c",
+      "regionId": "level1-blue",
+      "state": "consumed",
+      "sourceCell": {
+        "left": 397,
+        "top": 397,
+        "width": 396,
+        "height": 396
+      }
+    },
+    {
+      "key": "worldroot-sanctuary-amber-living-v1",
+      "path": "sprites/environment/worldroot-sanctuary-v1/amber-living.png",
+      "width": 397,
+      "height": 397,
+      "hasAlpha": true,
+      "visiblePixels": 64733,
+      "chromaLeak": 0,
+      "sha256": "0b37909dfdfe0a54c95863c2e1bffd1870b95f51ea8421e995de8e0f63300992",
+      "regionId": "level1-amber",
+      "state": "living",
+      "sourceCell": {
+        "left": 793,
+        "top": 0,
+        "width": 397,
+        "height": 397
+      }
+    },
+    {
+      "key": "worldroot-sanctuary-amber-consumed-v1",
+      "path": "sprites/environment/worldroot-sanctuary-v1/amber-consumed.png",
+      "width": 397,
+      "height": 396,
+      "hasAlpha": true,
+      "visiblePixels": 30683,
+      "chromaLeak": 0,
+      "sha256": "1ddfad5d37c76518fcf6dfdf363e23a3ee171a75b405f1a840b7278101068bde",
+      "regionId": "level1-amber",
+      "state": "consumed",
+      "sourceCell": {
+        "left": 793,
+        "top": 397,
+        "width": 397,
+        "height": 396
+      }
+    },
+    {
+      "key": "worldroot-sanctuary-silver-living-v1",
+      "path": "sprites/environment/worldroot-sanctuary-v1/silver-living.png",
+      "width": 396,
+      "height": 397,
+      "hasAlpha": true,
+      "visiblePixels": 67148,
+      "chromaLeak": 0,
+      "sha256": "82bf83e89495c0231b0578a2f5c83f4e242198b38846fa13d0e1a3a96153b6c5",
+      "regionId": "level1-silver",
+      "state": "living",
+      "sourceCell": {
+        "left": 1190,
+        "top": 0,
+        "width": 396,
+        "height": 397
+      }
+    },
+    {
+      "key": "worldroot-sanctuary-silver-consumed-v1",
+      "path": "sprites/environment/worldroot-sanctuary-v1/silver-consumed.png",
+      "width": 396,
+      "height": 396,
+      "hasAlpha": true,
+      "visiblePixels": 32182,
+      "chromaLeak": 0,
+      "sha256": "846f345753760b65517fb684d11024e8a7c3194f133e7861b60fbfdef1989ba7",
+      "regionId": "level1-silver",
+      "state": "consumed",
+      "sourceCell": {
+        "left": 1190,
+        "top": 397,
+        "width": 396,
+        "height": 396
+      }
+    },
+    {
+      "key": "worldroot-sanctuary-starfire-living-v1",
+      "path": "sprites/environment/worldroot-sanctuary-v1/starfire-living.png",
+      "width": 397,
+      "height": 397,
+      "hasAlpha": true,
+      "visiblePixels": 64649,
+      "chromaLeak": 0,
+      "sha256": "c89fb7972aa3054dcc6b4eabf6b6be3b47a0f32b4f461c1f3a6babcab68b5c1a",
+      "regionId": "level1-magma",
+      "state": "living",
+      "sourceCell": {
+        "left": 1586,
+        "top": 0,
+        "width": 397,
+        "height": 397
+      }
+    },
+    {
+      "key": "worldroot-sanctuary-starfire-consumed-v1",
+      "path": "sprites/environment/worldroot-sanctuary-v1/starfire-consumed.png",
+      "width": 397,
+      "height": 396,
+      "hasAlpha": true,
+      "visiblePixels": 32690,
+      "chromaLeak": 0,
+      "sha256": "9376e290c9dba32edc2f13597ff80badb67596c6b3003bba2597e2c95946645c",
+      "regionId": "level1-magma",
+      "state": "consumed",
+      "sourceCell": {
+        "left": 1586,
+        "top": 397,
+        "width": 397,
+        "height": 396
+      }
+    }
+  ],
+  "sources": [
+    {
+      "id": "trunk",
+      "path": "source/trunk-chroma.png",
+      "sha256": "64256c8c01c2bece0f30e3d62654a2f030dbd0b58f1190eb6b639abaeed58fe7"
+    },
+    {
+      "id": "foliage",
+      "path": "source/foliage-chroma.png",
+      "sha256": "269581bee11bc899dbd81961e67f2a6e578937b5bee1d03efe8d201cf988c4c8"
+    }
+  ]
+}

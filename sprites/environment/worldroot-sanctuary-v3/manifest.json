@@ -1,0 +1,68 @@
+{
+  "version": 3,
+  "date": "2026-09-03",
+  "builtInImageGen": true,
+  "processing": "User-approved neutral carrier and fringe removal; native dimensions; untouched source masters.",
+  "assets": [
+    {
+      "name": "trunk",
+      "key": "worldroot-sanctuary-trunk-v3",
+      "path": "sprites/environment/worldroot-sanctuary-v3/trunk.png",
+      "source": "source/trunk.png",
+      "sourceSha256": "02a20b4bb12f4967ce07d6d7d68ee6be0574c34558913d9f725db500f4f6d4f3",
+      "sha256": "996cade680c69c7ed6a07c17e1e4f3f83f9c83f5f61f954a4aadfd5c552c2eb6",
+      "width": 1536,
+      "height": 1024,
+      "hasAlpha": true,
+      "visiblePixels": 489300,
+      "chromaLeak": 0,
+      "carrierPixels": 0,
+      "bounds": {
+        "left": 36,
+        "top": 14,
+        "right": 1508,
+        "bottom": 987
+      }
+    },
+    {
+      "name": "foliage-living",
+      "key": "worldroot-sanctuary-foliage-living-v3",
+      "path": "sprites/environment/worldroot-sanctuary-v3/foliage-living.png",
+      "source": "source/foliage-living.png",
+      "sourceSha256": "5b37583f66abae1813d955f4aadffe02bfc4a324f4fa2aead3af1809780692cb",
+      "sha256": "1f952e82e5364ec71bb088e9f895e9f43d277d63b9ce974fb721da13de783b39",
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "visiblePixels": 580486,
+      "chromaLeak": 0,
+      "carrierPixels": 0,
+      "bounds": {
+        "left": 32,
+        "top": 203,
+        "right": 1221,
+        "bottom": 1049
+      }
+    },
+    {
+      "name": "foliage-consumed",
+      "key": "worldroot-sanctuary-foliage-consumed-v3",
+      "path": "sprites/environment/worldroot-sanctuary-v3/foliage-consumed.png",
+      "source": "source/foliage-consumed.png",
+      "sourceSha256": "fd8c259c2f74a37ac4ed61a9c7e09cb84643f149783a5aca64167fcf84d7df40",
+      "sha256": "2705a7ba4237e0f3965b6859f1ea1d69ecf101cfaa8f84d0b23ae84a16063f6a",
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "visiblePixels": 236201,
+      "chromaLeak": 0,
+      "carrierPixels": 0,
+      "bounds": {
+        "left": 39,
+        "top": 207,
+        "right": 1226,
+        "bottom": 1047
+      }
+    }
+  ]
+}

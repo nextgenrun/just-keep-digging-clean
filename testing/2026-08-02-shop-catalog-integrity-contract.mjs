@@ -19,7 +19,6 @@ const EXPECTED_CATALOGS = Object.freeze({
     "nextResourcePrices",
     "deepResourcePrices",
     "marketInsight",
-    "luckySales",
   ]),
   gearMerchant: Object.freeze([
     "bronzePickaxe",
@@ -51,12 +50,14 @@ const EXPECTED_PRESENTED_CATALOGS = Object.freeze({
 });
 const EXPECTED_FRESH_AVAILABLE = Object.freeze({
   moneyMonster: Object.freeze(["startResourcePrices"]),
-  gearMerchant: Object.freeze(["bronzePickaxe"]),
+  gearMerchant: Object.freeze([]),
   // Survival tools must precede the depth danger they solve.
   boboMerchant: Object.freeze([
     "torchDrainEfficiency",
     "torchRange",
     "boboCaveEyes",
+    "mia",
+    "boboWisdom",
   ]),
 });
 
@@ -163,7 +164,7 @@ assert.deepEqual(
   "all five Level-1 merchants must remain presented on a fresh save",
 );
 assert.equal(pacing.isMerchantUnlocked("gearMerchant"), false);
-assert.equal(pacing.isMerchantUnlocked("boboMerchant"), false);
+assert.equal(pacing.isMerchantUnlocked("boboMerchant"), true);
 assert.equal(pacing.isMerchantAvailable("magmaMoneyMonster"), false);
 
 function createCatalog(merchantId) {
@@ -223,7 +224,7 @@ for (const [merchantId, expectedIds] of Object.entries(EXPECTED_PRESENTED_CATALO
 
 assert.deepEqual(
   freshCatalogs.moneyMonster.allUpgrades.slice(5).map(upgrade => upgrade.id),
-  ["luckySales"],
+  [],
 );
 assert.deepEqual(
   freshCatalogs.gearMerchant.allUpgrades.slice(5).map(upgrade => upgrade.id),
@@ -332,13 +333,13 @@ const dragonRequirements = freshCatalogs.gearMerchant._buildRequirementLines(
 );
 assert.equal(dragonRequirements[0].text.startsWith("Unlock  "), true);
 assert.equal(
-  dragonRequirements.length >= Object.keys(dragon.resources || {}).length + 3,
+  dragonRequirements.length >= Object.keys(dragon.resources || {}).length + 2,
   true,
-  "Dragon detail must retain lock, money, materials, prerequisite, and level rows",
+  "Dragon detail must retain its depth lock, money, and material rows",
 );
 assert.equal(
   dragonRequirements.some(line => line.text.startsWith("Player level  ")),
-  true,
+  false,
 );
 
 const moneyBeforeLock = upgradeSystem.getMoney();

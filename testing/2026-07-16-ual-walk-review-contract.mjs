@@ -15,7 +15,7 @@ const manifest = JSON.parse(readFileSync(resolve(reviewRoot, "assets/manifest.js
 const renderer = readFileSync(resolve(root, "ai-tools/2026-07-16-render-ual-native-player.py"), "utf8");
 
 assert.equal(GAME_CONFIG.tileSize, 94);
-assert.equal(PLAYER_STATS_CONFIG.walkSpeedPxPerSec, 200);
+assert.equal(PLAYER_STATS_CONFIG.walkSpeedPxPerSec, 160);
 assert.equal(PLAYER_KINEMATIC_MOTION_CONFIG.locomotion.walk.strideTilesPerCycle, 1.55);
 assert.equal(UAL_NATIVE_PLAYER_ASSET_PROFILE.displaySizePx, 109);
 assert.equal(UAL_NATIVE_PLAYER_ASSET_PROFILE.playerBodyWidthPx, 31);

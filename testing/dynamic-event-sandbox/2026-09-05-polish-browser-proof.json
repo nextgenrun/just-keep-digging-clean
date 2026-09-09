@@ -1,0 +1,229 @@
+{
+  "date": "2026-09-05T20:11:11.864Z",
+  "server": "Canonical root serve.py on port 8098",
+  "sandboxUrl": "http://127.0.0.1:8098/testing/dynamic-event-sandbox/index.html",
+  "legacy": {
+    "url": "https://nextgen.run/diggame-2/",
+    "gameplayReached": true,
+    "earthquakeComparisonCompleted": false
+  },
+  "shadow": {
+    "observedState": "observing",
+    "texture": "survival-ual-player-v1-ground-strike-sheet",
+    "observedFrame": 7,
+    "completedWork": {
+      "blocksMined": 1,
+      "frameChanges": 251
+    },
+    "persistentWarningSeen": true
+  },
+  "wurmGiant": {
+    "active": true,
+    "activityMultiplier": 1,
+    "cooldownMs": 0,
+    "devTest10x": false,
+    "difficulty": {
+      "bodyDamageRatio": 0.7779038461538461,
+      "depthRatio": 0.08653846153846154,
+      "depthTiles": 300,
+      "headDamageRatio": 0.9598653846153846,
+      "minimumBodyDamageGp": 49,
+      "minimumHeadDamageGp": 67,
+      "passCount": 5,
+      "passIndex": 2,
+      "size": "giant",
+      "threatPercent": 31,
+      "travelMs": 2773,
+      "variant": "ancient",
+      "warningMs": 4128
+    },
+    "enabled": true,
+    "encounterCount": 1,
+    "encounterDepthTiles": 300,
+    "heartbeat": 569,
+    "hitConsumed": true,
+    "hitCount": 1,
+    "huntHitCount": 1,
+    "noise": 35.992,
+    "noiseRatio": 1,
+    "offspring": [],
+    "passCount": 5,
+    "passIndex": 2,
+    "phase": "burrowing",
+    "progress": 0.4597908402452218,
+    "targetTile": {
+      "tx": 36,
+      "ty": 363
+    },
+    "variant": {
+      "difficulty": "ancient",
+      "label": "Ancient",
+      "scale": 1.6,
+      "size": "giant"
+    },
+    "warningRemainingMs": 0,
+    "connectedBodyVisuallyChecked": true,
+    "healthy": true
+  },
+  "brood": {
+    "completed": true,
+    "parent": {
+      "difficulty": "broodmother",
+      "label": "Broodmother",
+      "scale": 1,
+      "size": "medium"
+    },
+    "children": [
+      {
+        "phase": "cooldown",
+        "variant": {
+          "difficulty": "drifter",
+          "label": "Drifter",
+          "scale": 0.55,
+          "size": "tiny"
+        }
+      },
+      {
+        "phase": "cooldown",
+        "variant": {
+          "difficulty": "drifter",
+          "label": "Drifter",
+          "scale": 0.75,
+          "size": "small"
+        }
+      }
+    ],
+    "healthy": true
+  },
+  "minorEarthquake": {
+    "counters": {
+      "cancelledCeilings": 0,
+      "completed": 1,
+      "emptySearches": 0,
+      "hits": 2,
+      "queued": 3,
+      "rocks": 3,
+      "started": 1
+    },
+    "healthy": true,
+    "storage": {
+      "persistentReads": 0,
+      "persistentWrites": 0,
+      "reads": 0,
+      "removals": 0,
+      "writes": 0
+    },
+    "warningCardAndLandingMarkerVisuallyChecked": true
+  },
+  "repeated": {
+    "sequence": {
+      "completed": true,
+      "deadline": 241850,
+      "failed": false,
+      "index": 6,
+      "nextAt": 151850,
+      "waiting": false
+    },
+    "controls": {
+      "audio": false,
+      "depth": 300,
+      "flight": true,
+      "hardcore": true,
+      "hazards": true,
+      "intensity": "minor",
+      "mining": true,
+      "natural": false,
+      "patrol": true,
+      "speed": 10,
+      "suppressed": false,
+      "torch": false,
+      "wurmDifficulty": "broodmother",
+      "wurmSize": "medium"
+    },
+    "metrics": {
+      "audioCues": 0,
+      "destroyed": 101,
+      "hits": 11,
+      "quakesCompleted": 2,
+      "saveRequestsIntercepted": 95
+    },
+    "healthy": true,
+    "events": {
+      "earthquake": {
+        "starts": 2,
+        "completions": 2,
+        "issue": null
+      },
+      "shadow": {
+        "starts": 2,
+        "completions": 2,
+        "issue": null
+      },
+      "wurm": {
+        "starts": 2,
+        "completions": 2,
+        "issue": null
+      }
+    },
+    "storage": {
+      "persistentReads": 0,
+      "persistentWrites": 0,
+      "reads": 0,
+      "removals": 0,
+      "writes": 0
+    },
+    "retired": [
+      {
+        "blocked": true,
+        "type": "moneyMonsterRush"
+      },
+      {
+        "blocked": true,
+        "type": "blackoutBloom"
+      },
+      {
+        "blocked": true,
+        "type": "lumenBloom"
+      }
+    ],
+    "loadErrors": [],
+    "runtimeError": null,
+    "console": []
+  },
+  "fullGame": {
+    "panelRendered": true,
+    "f2OpenedPanel": true,
+    "eventsButtonClickable": true,
+    "playerStayedAtSurface": true,
+    "admissionReasonsShown": [
+      "Below minimum depth",
+      "Hardcore is not armed",
+      "Hazard introduction locked"
+    ],
+    "wurm": {
+      "selection": "Mature / Drifter",
+      "started": true,
+      "observedPhases": [
+        "warning",
+        "burrowing"
+      ],
+      "connectedBodyVisuallyChecked": true,
+      "completed": true,
+      "counts": [
+        1,
+        1
+      ],
+      "latestOutcome": "PASSED",
+      "gpBefore": 110,
+      "gpAfter": 110
+    },
+    "errors": [],
+    "verificationPending": false,
+    "finalNoticeHandoffPending": false,
+    "singlePersistentWarningVisuallyChecked": true
+  },
+  "limits": [
+    "The lab uses an instrumented body and in-memory chamber, not the full player controller.",
+    "Subjective long-session balance and audio mixing remain user review."
+  ]
+}

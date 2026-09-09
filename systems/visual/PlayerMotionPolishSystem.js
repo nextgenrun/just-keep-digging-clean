@@ -48,8 +48,8 @@ export class PlayerMotionPolishSystem {
     return this.config.postActionRecoverMs;
   }
 
-  beginActionRecovery(animationKey, flipX = false) {
-    return this.actionRecovery.begin(animationKey, flipX);
+  beginActionRecovery(animationKey, flipX = false, options = undefined) {
+    return this.actionRecovery.begin(animationKey, flipX, options);
   }
 
   consumeWallRunResumeFrame() {
@@ -88,7 +88,7 @@ export class PlayerMotionPolishSystem {
 
   onAnimationComplete(animationKey, now = 0) {
     const time = finiteTime(now);
-    if (this.actionRecovery.onAnimationComplete(animationKey)) return true;
+    if (this.actionRecovery.onAnimationComplete(animationKey, time)) return true;
     if (this.wallBrace.onAnimationComplete(animationKey)) return true;
     if (this._impactActive && animationKey === this.profile.earthquakeReactAnim) {
       this._impactActive = false;
@@ -127,6 +127,7 @@ export class PlayerMotionPolishSystem {
       moving: moving || context.grounded !== true,
       currentAnimationKey: context.currentAnimationKey,
       isPlaying: context.isPlaying,
+      nowMs: now,
     });
     if (recoveryOverride) return recoveryOverride;
 

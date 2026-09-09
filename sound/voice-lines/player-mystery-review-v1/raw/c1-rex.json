@@ -1,0 +1,10 @@
+{
+  "id": "C1",
+  "voice": "rex",
+  "text": "I know that face.",
+  "model": "x-ai/grok-voice-tts-1.0",
+  "requestSha256": "175e5b451c85a1214b6d009bae66f06c419f7cfdca2b3523f2a0395b13bc1096",
+  "contentType": "audio/mpeg",
+  "generationId": "gen-tts-1788736867-5uaSq0mbXm4IHYQrO7IT",
+  "rawSha256": "73b3879d8ab9a2050951a2af163702b05cf8ea828054f83e7f4e0b8e871dfd26"
+}

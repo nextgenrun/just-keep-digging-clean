@@ -2,41 +2,39 @@ export const DEPTH_GATE_CONFIG = Object.freeze({
   gates: Object.freeze([
     Object.freeze({
       threshold: 100,
-      title: "DEPTH WARNING: 100M",
+      title: "CROSS 100M?",
       confirmationWord: "100M",
       typedInstruction: "TYPE  100M  THEN PRESS ENTER",
       message:
-        "You are entering the first deep layer. "
-        + "Dangers and tile strength increase from here.",
+        "The mine gets more dangerous below 100m, and blocks become harder to break.",
     }),
     Object.freeze({
       threshold: 300,
-      title: "DEPTH WARNING: 300M",
+      title: "CROSS 300M?",
       confirmationWord: "300M",
       typedInstruction: "TYPE  300M  THEN PRESS ENTER",
       message:
-        "You are pushing into a harsher depth band. "
-        + "Hazards become more frequent below 300m.",
+        "Hazards appear more often below 300m. Make sure you can return safely.",
     }),
     Object.freeze({
       threshold: 1000,
-      title: "DEPTH WARNING: 1000M",
+      title: "CROSS 1000M?",
       confirmationWord: "RISK",
       typedInstruction: "TYPE  RISK  THEN PRESS ENTER",
       message:
-        "You are entering the 1000M tier. Torches now burn near 15 GP/s "
-        + "and scale to ~30 GP/s by 2000M; deep darkness also ramps up 2-3x.",
+        "Below 1000m, your torch uses about 15 GP each second and can reach "
+        + "about 30 GP each second by 2000m. The darkness also becomes much stronger.",
     }),
   ]),
   legacyThresholdAliases: Object.freeze({
     999: 1000,
   }),
   confirmation: Object.freeze({
-    subtitle: "PROGRESSION CONFIRMATION",
-    footer: "ESC  RETURN TO SPAWN",
+    subtitle: "THE MINE GETS MORE DANGEROUS BELOW",
+    footer: "ESC  RETURN TO TOWN",
   }),
   feedback: Object.freeze({
-    returnedText: "Returned safely to spawn",
+    returnedText: "Returned safely to Town",
     returnedColor: "#e4ba78",
     returnedDurationMs: 2200,
   }),

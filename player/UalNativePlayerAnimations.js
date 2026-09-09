@@ -1,3 +1,4 @@
+import { applyCharacterTextureSampling } from "../systems/visual/characterTextureSampling.js";
 import { PLAYER_MOTION_POLISH_CONFIG } from "../values/playerMotionPolish.js";
 
 function createAnimation(scene, key, sheet, frames, frameRate, repeat) {
@@ -35,6 +36,7 @@ function applyTextureFilter(scene, profile) {
 
 export function createUalNativePlayerAnimations(scene, profile) {
   applyTextureFilter(scene, profile);
+  applyCharacterTextureSampling(scene, profile);
   const idleFidgets = profile.idleFidgets || PLAYER_MOTION_POLISH_CONFIG.idle.fidgets;
   // Generated polish animations are registered first so shared public keys
   // (start/stop/landing) resolve to their Piskel-authored atlas definitions.

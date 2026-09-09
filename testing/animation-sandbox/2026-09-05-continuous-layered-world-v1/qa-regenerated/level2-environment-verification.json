@@ -1,0 +1,1355 @@
+{
+  "date": "2026-09-06",
+  "views": [
+    {
+      "name": "crownfall-day",
+      "ready": true,
+      "mode": "candidate",
+      "x": 196,
+      "y": 63,
+      "playing": false,
+      "held": false,
+      "renderer": {
+        "reviewOnly": true,
+        "generation": "regenerated-horizon-v2",
+        "ready": true,
+        "paused": false,
+        "skyCards": 12,
+        "landscapeCards": 11,
+        "cloudSprites": 12,
+        "pooledCloudSprites": 5,
+        "layers": [
+          {
+            "id": "high-cirrus",
+            "parallaxX": 0.18,
+            "speed": 11
+          },
+          {
+            "id": "silver-cloud",
+            "parallaxX": 0.36,
+            "speed": 19
+          },
+          {
+            "id": "valley-mist",
+            "parallaxX": 0.6,
+            "speed": 31
+          },
+          {
+            "id": "near-haze",
+            "parallaxX": 0.88,
+            "speed": 44
+          }
+        ],
+        "traveledSeconds": 1.6949000000000003,
+        "windDistance": 0.06981957959496961,
+        "wind": -0.34253052403615203,
+        "environment": {
+          "phase": "afternoon",
+          "time": 0.4750977875000001,
+          "night": 0,
+          "cover": 0,
+          "fog": 0,
+          "rain": 0,
+          "storm": 0,
+          "stars": 0,
+          "skyTop": 5929626,
+          "skyHorizon": 11583696,
+          "terrainTint": 15856887,
+          "cloudTint": 14410995,
+          "cloudOpacity": 0.55,
+          "mistOpacity": 0.85,
+          "wind": -6.905117772881578,
+          "gust": 0.0040060540725563865
+        },
+        "landmarks": [
+          {
+            "id": "moonfall",
+            "tileX": 155,
+            "visible": false,
+            "flowing": true,
+            "scale": 0.576171875,
+            "waterfalls": 2,
+            "sprayPuffs": 10
+          },
+          {
+            "id": "crownfall",
+            "tileX": 196,
+            "visible": true,
+            "flowing": true,
+            "scale": 0.634765625,
+            "waterfalls": 3,
+            "sprayPuffs": 15
+          },
+          {
+            "id": "eastern-cascades",
+            "tileX": 258,
+            "visible": false,
+            "flowing": true,
+            "scale": 0.537109375,
+            "waterfalls": 2,
+            "sprayPuffs": 10
+          }
+        ],
+        "blendedHeavenblocks": 0,
+        "backgroundAssets": [
+          "regenerated-horizon-v2-sky",
+          "regenerated-horizon-v2-ridge-west",
+          "regenerated-horizon-v2-ridge-central",
+          "regenerated-horizon-v2-ridge-east",
+          "regenerated-horizon-v2-forest",
+          "regenerated-horizon-v2-clouds",
+          "regenerated-horizon-v2-moonfall-escarpment",
+          "regenerated-horizon-v2-crownfall-sanctuary"
+        ]
+      },
+      "counts": {
+        "stars": 0,
+        "fireflies": 0,
+        "windMotes": 0,
+        "weather": {
+          "kind": "clear",
+          "intensity": 0.02085301438299649,
+          "targetIntensity": 0,
+          "wind": -6.766120084789418,
+          "forecastKind": "storm",
+          "forecastProgress": 0,
+          "stormDistance": 1,
+          "windGustAmount": 0.004019003983621045,
+          "gustAmount": 0.004019003983621045,
+          "rainAmount": 0,
+          "snowAmount": 0,
+          "precipitationAmount": 0,
+          "stormAmount": 0,
+          "surfaceAmount": 1,
+          "undergroundAmount": 0,
+          "undergroundSignal": 0,
+          "coveredAmount": 0,
+          "openSkyAmount": 1,
+          "playerShelterAmount": 0,
+          "visibilityPenalty": 0,
+          "movementWetnessPenalty": 0,
+          "campfireExposure": 0,
+          "worldWetnessAmount": 0,
+          "surfaceWetness": 0,
+          "lightningFlashAmount": 0,
+          "isStorming": false,
+          "isSnowing": false,
+          "tint": 16777215,
+          "exposure": 1,
+          "cloudCoverAmount": 0,
+          "sunTransmittance": 1,
+          "fogAmount": 0,
+          "sunTint": 16777215,
+          "sunExposure": 1
+        }
+      }
+    },
+    {
+      "name": "crownfall-dawn",
+      "ready": true,
+      "mode": "candidate",
+      "x": 196,
+      "y": 63,
+      "playing": false,
+      "held": false,
+      "renderer": {
+        "reviewOnly": true,
+        "generation": "regenerated-horizon-v2",
+        "ready": true,
+        "paused": false,
+        "skyCards": 12,
+        "landscapeCards": 11,
+        "cloudSprites": 13,
+        "pooledCloudSprites": 4,
+        "layers": [
+          {
+            "id": "high-cirrus",
+            "parallaxX": 0.18,
+            "speed": 11
+          },
+          {
+            "id": "silver-cloud",
+            "parallaxX": 0.36,
+            "speed": 19
+          },
+          {
+            "id": "valley-mist",
+            "parallaxX": 0.6,
+            "speed": 31
+          },
+          {
+            "id": "near-haze",
+            "parallaxX": 0.88,
+            "speed": 44
+          }
+        ],
+        "traveledSeconds": 2.5958999999999994,
+        "windDistance": -0.32690471244855507,
+        "wind": -0.5157825419697857,
+        "environment": {
+          "phase": "dawn",
+          "time": 0.16009963611111125,
+          "night": 1,
+          "cover": 0,
+          "fog": 0,
+          "rain": 0,
+          "storm": 0,
+          "stars": 0.5907352027378862,
+          "skyTop": 2040114,
+          "skyHorizon": 11565905,
+          "terrainTint": 12439534,
+          "cloudTint": 14406354,
+          "cloudOpacity": 0.55,
+          "mistOpacity": 0.85,
+          "wind": -5.398351080972585,
+          "gust": 0.0012104326117665443
+        },
+        "landmarks": [
+          {
+            "id": "moonfall",
+            "tileX": 155,
+            "visible": false,
+            "flowing": true,
+            "scale": 0.576171875,
+            "waterfalls": 2,
+            "sprayPuffs": 10
+          },
+          {
+            "id": "crownfall",
+            "tileX": 196,
+            "visible": true,
+            "flowing": true,
+            "scale": 0.634765625,
+            "waterfalls": 3,
+            "sprayPuffs": 15
+          },
+          {
+            "id": "eastern-cascades",
+            "tileX": 258,
+            "visible": false,
+            "flowing": true,
+            "scale": 0.537109375,
+            "waterfalls": 2,
+            "sprayPuffs": 10
+          }
+        ],
+        "blendedHeavenblocks": 0,
+        "backgroundAssets": [
+          "regenerated-horizon-v2-sky",
+          "regenerated-horizon-v2-ridge-west",
+          "regenerated-horizon-v2-ridge-central",
+          "regenerated-horizon-v2-ridge-east",
+          "regenerated-horizon-v2-forest",
+          "regenerated-horizon-v2-clouds",
+          "regenerated-horizon-v2-moonfall-escarpment",
+          "regenerated-horizon-v2-crownfall-sanctuary"
+        ]
+      },
+      "counts": {
+        "stars": 0,
+        "fireflies": 0,
+        "windMotes": 0,
+        "weather": {
+          "kind": "clear",
+          "intensity": 0.01438407817422721,
+          "targetIntensity": 0,
+          "wind": -5.398351080972585,
+          "forecastKind": "rain",
+          "forecastProgress": 0,
+          "stormDistance": 1,
+          "windGustAmount": 0.0012104326117665443,
+          "gustAmount": 0.0012104326117665443,
+          "rainAmount": 0,
+          "snowAmount": 0,
+          "precipitationAmount": 0,
+          "stormAmount": 0,
+          "surfaceAmount": 1,
+          "undergroundAmount": 0,
+          "undergroundSignal": 0,
+          "coveredAmount": 0,
+          "openSkyAmount": 1,
+          "playerShelterAmount": 0,
+          "visibilityPenalty": 0,
+          "movementWetnessPenalty": 0,
+          "campfireExposure": 0,
+          "worldWetnessAmount": 0,
+          "surfaceWetness": 0,
+          "lightningFlashAmount": 0,
+          "isStorming": false,
+          "isSnowing": false,
+          "tint": 16777215,
+          "exposure": 1,
+          "cloudCoverAmount": 0,
+          "sunTransmittance": 1,
+          "fogAmount": 0,
+          "sunTint": 16777215,
+          "sunExposure": 1
+        }
+      }
+    },
+    {
+      "name": "crownfall-dusk",
+      "ready": true,
+      "mode": "candidate",
+      "x": 196,
+      "y": 63,
+      "playing": false,
+      "held": false,
+      "renderer": {
+        "reviewOnly": true,
+        "generation": "regenerated-horizon-v2",
+        "ready": true,
+        "paused": false,
+        "skyCards": 12,
+        "landscapeCards": 11,
+        "cloudSprites": 13,
+        "pooledCloudSprites": 4,
+        "layers": [
+          {
+            "id": "high-cirrus",
+            "parallaxX": 0.18,
+            "speed": 11
+          },
+          {
+            "id": "silver-cloud",
+            "parallaxX": 0.36,
+            "speed": 19
+          },
+          {
+            "id": "valley-mist",
+            "parallaxX": 0.6,
+            "speed": 31
+          },
+          {
+            "id": "near-haze",
+            "parallaxX": 0.88,
+            "speed": 44
+          }
+        ],
+        "traveledSeconds": 3.429999999999997,
+        "windDistance": -0.7961788403167908,
+        "wind": -0.5979195366193625,
+        "environment": {
+          "phase": "dusk",
+          "time": 0.7000996333333314,
+          "night": 0,
+          "cover": 0,
+          "fog": 0,
+          "rain": 0,
+          "storm": 0,
+          "stars": 0,
+          "skyTop": 5651804,
+          "skyHorizon": 12936261,
+          "terrainTint": 16114654,
+          "cloudTint": 14732495,
+          "cloudOpacity": 0.55,
+          "mistOpacity": 0.85,
+          "wind": -3.776061953347264,
+          "gust": 0.0013146279054037624
+        },
+        "landmarks": [
+          {
+            "id": "moonfall",
+            "tileX": 155,
+            "visible": false,
+            "flowing": true,
+            "scale": 0.576171875,
+            "waterfalls": 2,
+            "sprayPuffs": 10
+          },
+          {
+            "id": "crownfall",
+            "tileX": 196,
+            "visible": true,
+            "flowing": true,
+            "scale": 0.634765625,
+            "waterfalls": 3,
+            "sprayPuffs": 15
+          },
+          {
+            "id": "eastern-cascades",
+            "tileX": 258,
+            "visible": false,
+            "flowing": true,
+            "scale": 0.537109375,
+            "waterfalls": 2,
+            "sprayPuffs": 10
+          }
+        ],
+        "blendedHeavenblocks": 0,
+        "backgroundAssets": [
+          "regenerated-horizon-v2-sky",
+          "regenerated-horizon-v2-ridge-west",
+          "regenerated-horizon-v2-ridge-central",
+          "regenerated-horizon-v2-ridge-east",
+          "regenerated-horizon-v2-forest",
+          "regenerated-horizon-v2-clouds",
+          "regenerated-horizon-v2-moonfall-escarpment",
+          "regenerated-horizon-v2-crownfall-sanctuary"
+        ]
+      },
+      "counts": {
+        "stars": 0,
+        "fireflies": 0,
+        "windMotes": 0,
+        "weather": {
+          "kind": "clear",
+          "intensity": 0.01013276986245213,
+          "targetIntensity": 0,
+          "wind": -3.776061953347264,
+          "forecastKind": "drizzle",
+          "forecastProgress": 0,
+          "stormDistance": 1,
+          "windGustAmount": 0.0013146279054037624,
+          "gustAmount": 0.0013146279054037624,
+          "rainAmount": 0,
+          "snowAmount": 0,
+          "precipitationAmount": 0,
+          "stormAmount": 0,
+          "surfaceAmount": 1,
+          "undergroundAmount": 0,
+          "undergroundSignal": 0,
+          "coveredAmount": 0,
+          "openSkyAmount": 1,
+          "playerShelterAmount": 0,
+          "visibilityPenalty": 0,
+          "movementWetnessPenalty": 0,
+          "campfireExposure": 0,
+          "worldWetnessAmount": 0,
+          "surfaceWetness": 0,
+          "lightningFlashAmount": 0,
+          "isStorming": false,
+          "isSnowing": false,
+          "tint": 16777215,
+          "exposure": 1,
+          "cloudCoverAmount": 0,
+          "sunTransmittance": 1,
+          "fogAmount": 0,
+          "sunTint": 16777215,
+          "sunExposure": 1
+        }
+      }
+    },
+    {
+      "name": "crownfall-night",
+      "ready": true,
+      "mode": "candidate",
+      "x": 196,
+      "y": 63,
+      "playing": false,
+      "held": false,
+      "renderer": {
+        "reviewOnly": true,
+        "generation": "regenerated-horizon-v2",
+        "ready": true,
+        "paused": false,
+        "skyCards": 12,
+        "landscapeCards": 11,
+        "cloudSprites": 13,
+        "pooledCloudSprites": 4,
+        "layers": [
+          {
+            "id": "high-cirrus",
+            "parallaxX": 0.18,
+            "speed": 11
+          },
+          {
+            "id": "silver-cloud",
+            "parallaxX": 0.36,
+            "speed": 19
+          },
+          {
+            "id": "valley-mist",
+            "parallaxX": 0.6,
+            "speed": 31
+          },
+          {
+            "id": "near-haze",
+            "parallaxX": 0.88,
+            "speed": 44
+          }
+        ],
+        "traveledSeconds": 4.2642999999999995,
+        "windDistance": -1.3155894913913337,
+        "wind": -0.6445954199152343,
+        "environment": {
+          "phase": "night",
+          "time": 0.9500973291666646,
+          "night": 1,
+          "cover": 0,
+          "fog": 0,
+          "rain": 0,
+          "storm": 0,
+          "stars": 1,
+          "skyTop": 658970,
+          "skyHorizon": 922658,
+          "terrainTint": 12439534,
+          "cloudTint": 11647174,
+          "cloudOpacity": 0.55,
+          "mistOpacity": 0.85,
+          "wind": -5.895740369358064,
+          "gust": 0.001581596357978341
+        },
+        "landmarks": [
+          {
+            "id": "moonfall",
+            "tileX": 155,
+            "visible": false,
+            "flowing": true,
+            "scale": 0.576171875,
+            "waterfalls": 2,
+            "sprayPuffs": 10
+          },
+          {
+            "id": "crownfall",
+            "tileX": 196,
+            "visible": true,
+            "flowing": true,
+            "scale": 0.634765625,
+            "waterfalls": 3,
+            "sprayPuffs": 15
+          },
+          {
+            "id": "eastern-cascades",
+            "tileX": 258,
+            "visible": false,
+            "flowing": true,
+            "scale": 0.537109375,
+            "waterfalls": 2,
+            "sprayPuffs": 10
+          }
+        ],
+        "blendedHeavenblocks": 0,
+        "backgroundAssets": [
+          "regenerated-horizon-v2-sky",
+          "regenerated-horizon-v2-ridge-west",
+          "regenerated-horizon-v2-ridge-central",
+          "regenerated-horizon-v2-ridge-east",
+          "regenerated-horizon-v2-forest",
+          "regenerated-horizon-v2-clouds",
+          "regenerated-horizon-v2-moonfall-escarpment",
+          "regenerated-horizon-v2-crownfall-sanctuary"
+        ]
+      },
+      "counts": {
+        "stars": 0,
+        "fireflies": 0,
+        "windMotes": 0,
+        "weather": {
+          "kind": "clear",
+          "intensity": 0.007137723675173743,
+          "targetIntensity": 0,
+          "wind": -5.895740369358064,
+          "forecastKind": "drizzle",
+          "forecastProgress": 0,
+          "stormDistance": 1,
+          "windGustAmount": 0.001581596357978341,
+          "gustAmount": 0.001581596357978341,
+          "rainAmount": 0,
+          "snowAmount": 0,
+          "precipitationAmount": 0,
+          "stormAmount": 0,
+          "surfaceAmount": 1,
+          "undergroundAmount": 0,
+          "undergroundSignal": 0,
+          "coveredAmount": 0,
+          "openSkyAmount": 1,
+          "playerShelterAmount": 0,
+          "visibilityPenalty": 0,
+          "movementWetnessPenalty": 0,
+          "campfireExposure": 0,
+          "worldWetnessAmount": 0,
+          "surfaceWetness": 0,
+          "lightningFlashAmount": 0,
+          "isStorming": false,
+          "isSnowing": false,
+          "tint": 16777215,
+          "exposure": 1,
+          "cloudCoverAmount": 0,
+          "sunTransmittance": 1,
+          "fogAmount": 0,
+          "sunTint": 16777215,
+          "sunExposure": 1
+        }
+      }
+    },
+    {
+      "name": "moonfall-night",
+      "ready": true,
+      "mode": "candidate",
+      "x": 155,
+      "y": 63,
+      "playing": false,
+      "held": false,
+      "renderer": {
+        "reviewOnly": true,
+        "generation": "regenerated-horizon-v2",
+        "ready": true,
+        "paused": false,
+        "skyCards": 12,
+        "landscapeCards": 9,
+        "cloudSprites": 13,
+        "pooledCloudSprites": 10,
+        "layers": [
+          {
+            "id": "high-cirrus",
+            "parallaxX": 0.18,
+            "speed": 11
+          },
+          {
+            "id": "silver-cloud",
+            "parallaxX": 0.36,
+            "speed": 19
+          },
+          {
+            "id": "valley-mist",
+            "parallaxX": 0.6,
+            "speed": 31
+          },
+          {
+            "id": "near-haze",
+            "parallaxX": 0.88,
+            "speed": 44
+          }
+        ],
+        "traveledSeconds": 5.098500000000009,
+        "windDistance": -1.8677902209814634,
+        "wind": -0.6738860355956846,
+        "environment": {
+          "phase": "night",
+          "time": 0.9500996430555543,
+          "night": 1,
+          "cover": 0,
+          "fog": 0,
+          "rain": 0,
+          "storm": 0,
+          "stars": 1,
+          "skyTop": 658970,
+          "skyHorizon": 922658,
+          "terrainTint": 12439534,
+          "cloudTint": 11647174,
+          "cloudOpacity": 0.55,
+          "mistOpacity": 0.85,
+          "wind": -4.65098915816118,
+          "gust": 0.0003889209218137612
+        },
+        "landmarks": [
+          {
+            "id": "moonfall",
+            "tileX": 155,
+            "visible": true,
+            "flowing": true,
+            "scale": 0.576171875,
+            "waterfalls": 2,
+            "sprayPuffs": 10
+          },
+          {
+            "id": "crownfall",
+            "tileX": 196,
+            "visible": false,
+            "flowing": true,
+            "scale": 0.634765625,
+            "waterfalls": 3,
+            "sprayPuffs": 15
+          },
+          {
+            "id": "eastern-cascades",
+            "tileX": 258,
+            "visible": false,
+            "flowing": true,
+            "scale": 0.537109375,
+            "waterfalls": 2,
+            "sprayPuffs": 10
+          }
+        ],
+        "blendedHeavenblocks": 0,
+        "backgroundAssets": [
+          "regenerated-horizon-v2-sky",
+          "regenerated-horizon-v2-ridge-west",
+          "regenerated-horizon-v2-ridge-central",
+          "regenerated-horizon-v2-ridge-east",
+          "regenerated-horizon-v2-forest",
+          "regenerated-horizon-v2-clouds",
+          "regenerated-horizon-v2-moonfall-escarpment",
+          "regenerated-horizon-v2-crownfall-sanctuary"
+        ]
+      },
+      "counts": {
+        "stars": 0,
+        "fireflies": 0,
+        "windMotes": 0,
+        "weather": {
+          "kind": "clear",
+          "intensity": 0.005027996087166405,
+          "targetIntensity": 0,
+          "wind": -4.65098915816118,
+          "forecastKind": "drizzle",
+          "forecastProgress": 0,
+          "stormDistance": 1,
+          "windGustAmount": 0.0003889209218137612,
+          "gustAmount": 0.0003889209218137612,
+          "rainAmount": 0,
+          "snowAmount": 0,
+          "precipitationAmount": 0,
+          "stormAmount": 0,
+          "surfaceAmount": 1,
+          "undergroundAmount": 0,
+          "undergroundSignal": 0,
+          "coveredAmount": 0,
+          "openSkyAmount": 1,
+          "playerShelterAmount": 0,
+          "visibilityPenalty": 0,
+          "movementWetnessPenalty": 0,
+          "campfireExposure": 0,
+          "worldWetnessAmount": 0,
+          "surfaceWetness": 0,
+          "lightningFlashAmount": 0,
+          "isStorming": false,
+          "isSnowing": false,
+          "tint": 16777215,
+          "exposure": 1,
+          "cloudCoverAmount": 0,
+          "sunTransmittance": 1,
+          "fogAmount": 0,
+          "sunTint": 16777215,
+          "sunExposure": 1
+        }
+      }
+    },
+    {
+      "name": "eastern-cascades-night",
+      "ready": true,
+      "mode": "candidate",
+      "x": 258,
+      "y": 63,
+      "playing": false,
+      "held": false,
+      "renderer": {
+        "reviewOnly": true,
+        "generation": "regenerated-horizon-v2",
+        "ready": true,
+        "paused": false,
+        "skyCards": 12,
+        "landscapeCards": 10,
+        "cloudSprites": 11,
+        "pooledCloudSprites": 12,
+        "layers": [
+          {
+            "id": "high-cirrus",
+            "parallaxX": 0.18,
+            "speed": 11
+          },
+          {
+            "id": "silver-cloud",
+            "parallaxX": 0.36,
+            "speed": 19
+          },
+          {
+            "id": "valley-mist",
+            "parallaxX": 0.6,
+            "speed": 31
+          },
+          {
+            "id": "near-haze",
+            "parallaxX": 0.88,
+            "speed": 44
+          }
+        ],
+        "traveledSeconds": 5.945900000000018,
+        "windDistance": -2.445913636638896,
+        "wind": -0.6915662538009977,
+        "environment": {
+          "phase": "night",
+          "time": 0.9500996416666659,
+          "night": 1,
+          "cover": 0,
+          "fog": 0,
+          "rain": 0,
+          "storm": 0,
+          "stars": 1,
+          "skyTop": 658970,
+          "skyHorizon": 922658,
+          "terrainTint": 12439534,
+          "cloudTint": 11647174,
+          "cloudOpacity": 0.55,
+          "mistOpacity": 0.85,
+          "wind": -7.089756504782541,
+          "gust": 0.0003590705008137239
+        },
+        "landmarks": [
+          {
+            "id": "moonfall",
+            "tileX": 155,
+            "visible": false,
+            "flowing": true,
+            "scale": 0.576171875,
+            "waterfalls": 2,
+            "sprayPuffs": 10
+          },
+          {
+            "id": "crownfall",
+            "tileX": 196,
+            "visible": false,
+            "flowing": true,
+            "scale": 0.634765625,
+            "waterfalls": 3,
+            "sprayPuffs": 15
+          },
+          {
+            "id": "eastern-cascades",
+            "tileX": 258,
+            "visible": true,
+            "flowing": true,
+            "scale": 0.537109375,
+            "waterfalls": 2,
+            "sprayPuffs": 10
+          }
+        ],
+        "blendedHeavenblocks": 0,
+        "backgroundAssets": [
+          "regenerated-horizon-v2-sky",
+          "regenerated-horizon-v2-ridge-west",
+          "regenerated-horizon-v2-ridge-central",
+          "regenerated-horizon-v2-ridge-east",
+          "regenerated-horizon-v2-forest",
+          "regenerated-horizon-v2-clouds",
+          "regenerated-horizon-v2-moonfall-escarpment",
+          "regenerated-horizon-v2-crownfall-sanctuary"
+        ]
+      },
+      "counts": {
+        "stars": 0,
+        "fireflies": 0,
+        "windMotes": 0,
+        "weather": {
+          "kind": "clear",
+          "intensity": 0.0035171827446458955,
+          "targetIntensity": 0,
+          "wind": -7.089756504782541,
+          "forecastKind": "drizzle",
+          "forecastProgress": 0,
+          "stormDistance": 1,
+          "windGustAmount": 0.0003590705008137239,
+          "gustAmount": 0.0003590705008137239,
+          "rainAmount": 0,
+          "snowAmount": 0,
+          "precipitationAmount": 0,
+          "stormAmount": 0,
+          "surfaceAmount": 1,
+          "undergroundAmount": 0,
+          "undergroundSignal": 0,
+          "coveredAmount": 0,
+          "openSkyAmount": 1,
+          "playerShelterAmount": 0,
+          "visibilityPenalty": 0,
+          "movementWetnessPenalty": 0,
+          "campfireExposure": 0,
+          "worldWetnessAmount": 0,
+          "surfaceWetness": 0,
+          "lightningFlashAmount": 0,
+          "isStorming": false,
+          "isSnowing": false,
+          "tint": 16777215,
+          "exposure": 1,
+          "cloudCoverAmount": 0,
+          "sunTransmittance": 1,
+          "fogAmount": 0,
+          "sunTint": 16777215,
+          "sunExposure": 1
+        }
+      }
+    },
+    {
+      "name": "crownfall-storm",
+      "ready": true,
+      "mode": "candidate",
+      "x": 196,
+      "y": 63,
+      "playing": false,
+      "held": false,
+      "renderer": {
+        "reviewOnly": true,
+        "generation": "regenerated-horizon-v2",
+        "ready": true,
+        "paused": false,
+        "skyCards": 12,
+        "landscapeCards": 11,
+        "cloudSprites": 12,
+        "pooledCloudSprites": 11,
+        "layers": [
+          {
+            "id": "high-cirrus",
+            "parallaxX": 0.18,
+            "speed": 11
+          },
+          {
+            "id": "silver-cloud",
+            "parallaxX": 0.36,
+            "speed": 19
+          },
+          {
+            "id": "valley-mist",
+            "parallaxX": 0.6,
+            "speed": 31
+          },
+          {
+            "id": "near-haze",
+            "parallaxX": 0.88,
+            "speed": 44
+          }
+        ],
+        "traveledSeconds": 12.549499999999979,
+        "windDistance": 3.894393618024875,
+        "wind": 2.0372482183027216,
+        "environment": {
+          "phase": "dusk",
+          "time": 0.7009037138888738,
+          "night": 0,
+          "cover": 0.7830122839202162,
+          "fog": 0.15423306831817138,
+          "rain": 0.6937750812948847,
+          "storm": 0.6111150147171556,
+          "stars": 0,
+          "skyTop": 3617611,
+          "skyHorizon": 9465966,
+          "terrainTint": 12173517,
+          "cloudTint": 10989503,
+          "cloudOpacity": 1.5287653549002702,
+          "mistOpacity": 1.6826395880086162,
+          "wind": 121.90959731952852,
+          "gust": 0.4643478637270286
+        },
+        "landmarks": [
+          {
+            "id": "moonfall",
+            "tileX": 155,
+            "visible": false,
+            "flowing": true,
+            "scale": 0.576171875,
+            "waterfalls": 2,
+            "sprayPuffs": 10
+          },
+          {
+            "id": "crownfall",
+            "tileX": 196,
+            "visible": true,
+            "flowing": true,
+            "scale": 0.634765625,
+            "waterfalls": 3,
+            "sprayPuffs": 15
+          },
+          {
+            "id": "eastern-cascades",
+            "tileX": 258,
+            "visible": false,
+            "flowing": true,
+            "scale": 0.537109375,
+            "waterfalls": 2,
+            "sprayPuffs": 10
+          }
+        ],
+        "blendedHeavenblocks": 0,
+        "backgroundAssets": [
+          "regenerated-horizon-v2-sky",
+          "regenerated-horizon-v2-ridge-west",
+          "regenerated-horizon-v2-ridge-central",
+          "regenerated-horizon-v2-ridge-east",
+          "regenerated-horizon-v2-forest",
+          "regenerated-horizon-v2-clouds",
+          "regenerated-horizon-v2-moonfall-escarpment",
+          "regenerated-horizon-v2-crownfall-sanctuary"
+        ]
+      },
+      "counts": {
+        "stars": 0,
+        "fireflies": 0,
+        "windMotes": 0,
+        "weather": {
+          "kind": "storm",
+          "intensity": 0.7949381025081808,
+          "targetIntensity": 0.85,
+          "wind": 121.90959731952852,
+          "forecastKind": "drizzle",
+          "forecastProgress": 0,
+          "stormDistance": 0,
+          "windGustAmount": 0.4643478637270286,
+          "gustAmount": 0.4643478637270286,
+          "rainAmount": 0.6937750812948847,
+          "snowAmount": 0,
+          "precipitationAmount": 0.6937750812948847,
+          "stormAmount": 0.6111150147171556,
+          "surfaceAmount": 1,
+          "undergroundAmount": 0,
+          "undergroundSignal": 0.110000702649088,
+          "coveredAmount": 0,
+          "openSkyAmount": 1,
+          "playerShelterAmount": 0,
+          "visibilityPenalty": 0.110000702649088,
+          "movementWetnessPenalty": 0.079959968,
+          "campfireExposure": 0,
+          "worldWetnessAmount": 0.4156335681852513,
+          "surfaceWetness": 0.4156335681852513,
+          "lightningFlashAmount": 0,
+          "isStorming": true,
+          "isSnowing": false,
+          "tint": 8297915,
+          "exposure": 0.8094042844050174,
+          "cloudCoverAmount": 0.7830122839202162,
+          "sunTransmittance": 0.4705009008748012,
+          "fogAmount": 0.15423306831817138,
+          "sunTint": 8297915,
+          "sunExposure": 0.8094042844050174
+        }
+      }
+    },
+    {
+      "name": "moonfall-rain",
+      "ready": true,
+      "mode": "candidate",
+      "x": 155,
+      "y": 63,
+      "playing": false,
+      "held": false,
+      "renderer": {
+        "reviewOnly": true,
+        "generation": "regenerated-horizon-v2",
+        "ready": true,
+        "paused": false,
+        "skyCards": 12,
+        "landscapeCards": 9,
+        "cloudSprites": 13,
+        "pooledCloudSprites": 11,
+        "layers": [
+          {
+            "id": "high-cirrus",
+            "parallaxX": 0.18,
+            "speed": 11
+          },
+          {
+            "id": "silver-cloud",
+            "parallaxX": 0.36,
+            "speed": 19
+          },
+          {
+            "id": "valley-mist",
+            "parallaxX": 0.6,
+            "speed": 31
+          },
+          {
+            "id": "near-haze",
+            "parallaxX": 0.88,
+            "speed": 44
+          }
+        ],
+        "traveledSeconds": 19.17299999999988,
+        "windDistance": 15.317408483598365,
+        "wind": 1.2914184071546648,
+        "environment": {
+          "phase": "afternoon",
+          "time": 0.4759037166666682,
+          "night": 0,
+          "cover": 0.7197301524254068,
+          "fog": 0.14838375888972927,
+          "rain": 0.7855420889108191,
+          "storm": 0.07713085304883695,
+          "stars": 0,
+          "skyTop": 4546169,
+          "skyHorizon": 9938871,
+          "terrainTint": 13424094,
+          "cloudTint": 12109269,
+          "cloudOpacity": 1.4496626905317584,
+          "mistOpacity": 1.745524437130168,
+          "wind": 29.607877369730566,
+          "gust": 0.1210757740390169
+        },
+        "landmarks": [
+          {
+            "id": "moonfall",
+            "tileX": 155,
+            "visible": true,
+            "flowing": true,
+            "scale": 0.576171875,
+            "waterfalls": 2,
+            "sprayPuffs": 10
+          },
+          {
+            "id": "crownfall",
+            "tileX": 196,
+            "visible": false,
+            "flowing": true,
+            "scale": 0.634765625,
+            "waterfalls": 3,
+            "sprayPuffs": 15
+          },
+          {
+            "id": "eastern-cascades",
+            "tileX": 258,
+            "visible": false,
+            "flowing": true,
+            "scale": 0.537109375,
+            "waterfalls": 2,
+            "sprayPuffs": 10
+          }
+        ],
+        "blendedHeavenblocks": 0,
+        "backgroundAssets": [
+          "regenerated-horizon-v2-sky",
+          "regenerated-horizon-v2-ridge-west",
+          "regenerated-horizon-v2-ridge-central",
+          "regenerated-horizon-v2-ridge-east",
+          "regenerated-horizon-v2-forest",
+          "regenerated-horizon-v2-clouds",
+          "regenerated-horizon-v2-moonfall-escarpment",
+          "regenerated-horizon-v2-crownfall-sanctuary"
+        ]
+      },
+      "counts": {
+        "stars": 0,
+        "fireflies": 0,
+        "windMotes": 0,
+        "weather": {
+          "kind": "rain",
+          "intensity": 0.6534311752409564,
+          "targetIntensity": 0.48167451346299783,
+          "wind": 29.340037067763923,
+          "forecastKind": "storm",
+          "forecastProgress": 0,
+          "stormDistance": 1,
+          "windGustAmount": 0.12245718189384477,
+          "gustAmount": 0.12245718189384477,
+          "rainAmount": 0.7848830515280749,
+          "snowAmount": 0,
+          "precipitationAmount": 0.7848830515280749,
+          "stormAmount": 0.07672050168855472,
+          "surfaceAmount": 1,
+          "undergroundAmount": 0,
+          "undergroundSignal": 0.01380969030393985,
+          "coveredAmount": 0,
+          "openSkyAmount": 1,
+          "playerShelterAmount": 0,
+          "visibilityPenalty": 0.01380969030393985,
+          "movementWetnessPenalty": 0.07995999200000001,
+          "campfireExposure": 0,
+          "worldWetnessAmount": 0.7475374225589321,
+          "surfaceWetness": 0.7475374225589321,
+          "lightningFlashAmount": 0,
+          "isStorming": false,
+          "isSnowing": false,
+          "tint": 9943764,
+          "exposure": 0.817767309702027,
+          "cloudCoverAmount": 0.7189293441666437,
+          "sunTransmittance": 0.5787510871626437,
+          "fogAmount": 0.1481562757074639,
+          "sunTint": 9943764,
+          "sunExposure": 0.817767309702027
+        }
+      }
+    },
+    {
+      "name": "crownfall-snow",
+      "ready": true,
+      "mode": "candidate",
+      "x": 196,
+      "y": 63,
+      "playing": false,
+      "held": false,
+      "renderer": {
+        "reviewOnly": true,
+        "generation": "regenerated-horizon-v2",
+        "ready": true,
+        "paused": false,
+        "skyCards": 12,
+        "landscapeCards": 11,
+        "cloudSprites": 11,
+        "pooledCloudSprites": 13,
+        "layers": [
+          {
+            "id": "high-cirrus",
+            "parallaxX": 0.18,
+            "speed": 11
+          },
+          {
+            "id": "silver-cloud",
+            "parallaxX": 0.36,
+            "speed": 19
+          },
+          {
+            "id": "valley-mist",
+            "parallaxX": 0.6,
+            "speed": 31
+          },
+          {
+            "id": "near-haze",
+            "parallaxX": 0.88,
+            "speed": 44
+          }
+        ],
+        "traveledSeconds": 25.826499999999676,
+        "windDistance": 24.33668893148308,
+        "wind": 1.2281228845248435,
+        "environment": {
+          "phase": "afternoon",
+          "time": 0.47590603055555664,
+          "night": 0,
+          "cover": 0.833932332150298,
+          "fog": 0.1816937507124563,
+          "rain": 0.6803609273704805,
+          "storm": 0.009164232816001936,
+          "stars": 0,
+          "skyTop": 4480119,
+          "skyHorizon": 9807285,
+          "terrainTint": 13292509,
+          "cloudTint": 11977428,
+          "cloudOpacity": 1.5924154151878727,
+          "mistOpacity": 1.7213374931788057,
+          "wind": 23.668932783252995,
+          "gust": 0.0312566697186707
+        },
+        "landmarks": [
+          {
+            "id": "moonfall",
+            "tileX": 155,
+            "visible": false,
+            "flowing": true,
+            "scale": 0.576171875,
+            "waterfalls": 2,
+            "sprayPuffs": 10
+          },
+          {
+            "id": "crownfall",
+            "tileX": 196,
+            "visible": true,
+            "flowing": true,
+            "scale": 0.634765625,
+            "waterfalls": 3,
+            "sprayPuffs": 15
+          },
+          {
+            "id": "eastern-cascades",
+            "tileX": 258,
+            "visible": false,
+            "flowing": true,
+            "scale": 0.537109375,
+            "waterfalls": 2,
+            "sprayPuffs": 10
+          }
+        ],
+        "blendedHeavenblocks": 0,
+        "backgroundAssets": [
+          "regenerated-horizon-v2-sky",
+          "regenerated-horizon-v2-ridge-west",
+          "regenerated-horizon-v2-ridge-central",
+          "regenerated-horizon-v2-ridge-east",
+          "regenerated-horizon-v2-forest",
+          "regenerated-horizon-v2-clouds",
+          "regenerated-horizon-v2-moonfall-escarpment",
+          "regenerated-horizon-v2-crownfall-sanctuary"
+        ]
+      },
+      "counts": {
+        "stars": 0,
+        "fireflies": 0,
+        "windMotes": 0,
+        "weather": {
+          "kind": "snow",
+          "intensity": 0.696490201101526,
+          "targetIntensity": 0.6046101548863987,
+          "wind": 23.668932783252995,
+          "forecastKind": "rain",
+          "forecastProgress": 0,
+          "stormDistance": 1,
+          "windGustAmount": 0.0312566697186707,
+          "gustAmount": 0.0312566697186707,
+          "rainAmount": 0.1102242488962351,
+          "snowAmount": 0.6803609273704805,
+          "precipitationAmount": 0.6803609273704805,
+          "stormAmount": 0.009164232816001936,
+          "surfaceAmount": 1,
+          "undergroundAmount": 0,
+          "undergroundSignal": 0.0016495619068803483,
+          "coveredAmount": 0,
+          "openSkyAmount": 1,
+          "playerShelterAmount": 0,
+          "visibilityPenalty": 0.0016495619068803483,
+          "movementWetnessPenalty": 0.079959968,
+          "campfireExposure": 0,
+          "worldWetnessAmount": 0.6568457713098835,
+          "surfaceWetness": 0.6568457713098835,
+          "lightningFlashAmount": 0,
+          "isStorming": false,
+          "isSnowing": true,
+          "tint": 12375781,
+          "exposure": 0.7843071578640349,
+          "cloudCoverAmount": 0.833932332150298,
+          "sunTransmittance": 0.499727679055032,
+          "fogAmount": 0.1816937507124563,
+          "sunTint": 12375781,
+          "sunExposure": 0.7843071578640349
+        }
+      }
+    }
+  ],
+  "pageErrors": [],
+  "failedRequests": [],
+  "clockProgression": {
+    "before": 0.4000023180555556,
+    "after": 0.400120063888889
+  },
+  "mattes": [
+    {
+      "key": "regenerated-horizon-v2-moonfall-escarpment:edge:190.91525423728814:0:true",
+      "visibleMagenta": 0,
+      "transparentFraction": 0.23313458760579428
+    },
+    {
+      "key": "regenerated-horizon-v2-crownfall-sanctuary:edge:173.2923076923077:0:true",
+      "visibleMagenta": 0,
+      "transparentFraction": 0.3362770080566406
+    },
+    {
+      "key": "regenerated-horizon-v2-moonfall-escarpment:edge:204.8:0:true",
+      "visibleMagenta": 0,
+      "transparentFraction": 0.2331364949544271
+    },
+    {
+      "key": "regenerated-horizon-v2-ridge-east:edge:355.1698113207547:0:true",
+      "visibleMagenta": 0,
+      "transparentFraction": 0.3462469348717479
+    },
+    {
+      "key": "regenerated-horizon-v2-ridge-west:edge:364.49056603773585:0:true",
+      "visibleMagenta": 0,
+      "transparentFraction": 0.32686285552469224
+    },
+    {
+      "key": "regenerated-horizon-v2-ridge-central:edge:355.1698113207547:0:true",
+      "visibleMagenta": 0,
+      "transparentFraction": 0.3354051565377532
+    },
+    {
+      "key": "regenerated-horizon-v2-ridge-west:edge:331.4923076923077:0:true",
+      "visibleMagenta": 0,
+      "transparentFraction": 0.3268622191677087
+    },
+    {
+      "key": "regenerated-horizon-v2-ridge-central:edge:323.0153846153846:0:true",
+      "visibleMagenta": 0,
+      "transparentFraction": 0.33540388470030424
+    },
+    {
+      "key": "regenerated-horizon-v2-ridge-east:edge:323.0153846153846:0:true",
+      "visibleMagenta": 0,
+      "transparentFraction": 0.34624566303429893
+    }
+  ],
+  "isolation": {
+    "x": 190.89999999999964,
+    "y": 13,
+    "width": 975,
+    "height": 650,
+    "cameraWidth": 1280,
+    "cameraHeight": 720
+  },
+  "cleanedPipelines": [],
+  "passed": true
+}

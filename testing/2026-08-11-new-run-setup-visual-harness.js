@@ -1,8 +1,9 @@
+import { BAKED_UI_ART } from "../values/bakedUiArt.js";
 import { NewRunSetupOverlay } from "../ui/scenes/NewRunSetupOverlay.js";
 import { getSaveMenuAssetEntries } from "../values/saveMenuPresentation.js";
-import { APPROVED_HUD_SKIN } from "../values/approvedHudSkin.js";
 import { ASSET_KEYS } from "../values/assetKeys.js";
-import { HARDCORE_MODE_CONFIG } from "../values/hardcoreMode.js";
+import { NEW_RUN_SETUP_CONFIG } from "../values/newRunSetup.js";
+import { UI_ICON_ATLAS } from "../values/uiIcons.js";
 
 class NewRunSetupVisualHarnessScene extends Phaser.Scene {
   constructor() {
@@ -10,24 +11,17 @@ class NewRunSetupVisualHarnessScene extends Phaser.Scene {
   }
 
   preload() {
+    for (const asset of Object.values(BAKED_UI_ART.assets)) this.load.image(asset.key, `../${asset.path}`);
     for (const [key, path] of getSaveMenuAssetEntries()) {
       this.load.image(key, `../${path}`);
     }
-    this.load.image(
-      ASSET_KEYS.ui.hardcore.oathPanel,
-      `../${HARDCORE_MODE_CONFIG.assets.panel.path}`,
-    );
-    this.load.image(
-      ASSET_KEYS.ui.hardcore.oathCrest,
-      `../${HARDCORE_MODE_CONFIG.assets.crest.path}`,
-    );
-    for (const id of ["playerCore", "inventory"]) {
-      this.load.image(ASSET_KEYS.ui.approvedHud[id], `../${APPROVED_HUD_SKIN.paths[id]}`);
+    for (const [assetId, path] of Object.entries(NEW_RUN_SETUP_CONFIG.assets)) {
+      this.load.image(ASSET_KEYS.ui.newRunSetup[assetId], `../${path}`);
     }
-    this.load.image(
-      ASSET_KEYS.onboarding.openingFlightV2.shaftMarker,
-      `../${ASSET_KEYS.onboarding.openingFlightV2.paths.shaftMarker}`,
-    );
+    this.load.spritesheet(UI_ICON_ATLAS.key, `../${UI_ICON_ATLAS.path}`, {
+      frameWidth: UI_ICON_ATLAS.frameWidth,
+      frameHeight: UI_ICON_ATLAS.frameHeight,
+    });
   }
 
   create() {
@@ -48,6 +42,7 @@ class NewRunSetupVisualHarnessScene extends Phaser.Scene {
 
     const snapshot = () => ({
       ready: true,
+      bakedCopy: this.overlay.bakedCopy,
       visible: this.overlay.isVisible,
       mode: this.overlay.mode,
       tutorialChoice: this.overlay.tutorialChoice,
@@ -58,9 +53,11 @@ class NewRunSetupVisualHarnessScene extends Phaser.Scene {
         [...this.overlay.cards].map(([id, card]) => [id, {
           x: this.overlay.root.x + card.root.x,
           y: this.overlay.root.y + card.root.y,
-          selected: card.selected.visible === true,
+          selected: card.root.alpha === this.overlay.config.cards.selectedAlpha,
           alpha: card.root.alpha,
-          title: card.title.text,
+          iconTexture: card.icon.texture?.key || "",
+          iconFrame: card.icon.frame?.name ?? null,
+          title: card.title?.text || this.overlay.copy[id + "Title"],
         }]),
       ),
       start: {

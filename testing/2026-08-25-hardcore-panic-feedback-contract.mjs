@@ -3,6 +3,7 @@ import { existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 
 import { HardcoreStatusHud } from "../systems/visual/HardcoreStatusHud.js";
+import { acquireUiInputPriority } from "../systems/UiInputPriorityRegistry.js";
 import { ScreenFlashSystem } from "../systems/visual/ScreenFlashSystem.js";
 import { HardcoreModeSystem } from "../systems/hardcore/HardcoreModeSystem.js";
 import { ASSET_KEYS } from "../values/assetKeys.js";
@@ -16,6 +17,10 @@ import {
   HARDCORE_PANIC_PRESENTATION,
   resolveHardcorePanicView,
 } from "../values/hardcorePanicPresentation.js";
+import {
+  HARDCORE_PANIC_BOUNDARY,
+  resolveHardcorePanicBoundary,
+} from "../values/hardcorePanicBoundary.js";
 import { UI_NOTIFICATION_CAROUSEL_CONFIG } from
   "../values/uiNotificationCarousel.js";
 import { readRgbaPng } from "./titanCreatureFootprintFixture.mjs";
@@ -32,6 +37,10 @@ class FakeObject {
     this.children = [];
   }
   setOrigin() { return this; }
+  setCrop(x, y, width, height) {
+    this.crop = { x, y, width, height };
+    return this;
+  }
   setScrollFactor() { return this; }
   setDepth(value) { this.depth = value; return this; }
   setVisible(value) { this.visible = value; return this; }
@@ -57,6 +66,14 @@ function createScene(missingKeys = []) {
   let panicFlashCalls = 0;
   return {
     scale: { width: 1280, height: 720 },
+    config: { topAirRows: 65, tileSize: 94 },
+    cameras: {
+      main: {
+        zoom: 1,
+        scrollX: 0,
+        worldView: { width: 1280, centerX: 640 },
+      },
+    },
     textures: { exists: key => !missing.has(key) },
     screenFlashSystem: {
       flashPanic() { panicFlashCalls += 1; },
@@ -75,11 +92,15 @@ function hardcoreSnapshot(overrides = {}) {
     isHardcore: true,
     armed: true,
     exhausted: false,
-    livesRemaining: 2,
+    livesRemaining: 1,
     freeReviveAvailable: false,
     stress: 20,
     stressBand: "calm",
     stressGpDrainPerSecond: 0,
+    panicStartDepth: 42,
+    panicResistanceMeters: 20,
+    insideConsumedStarScar: false,
+    consumedStarStressMultiplier: 1,
     ...overrides,
   };
   const maximum = HARDCORE_MODE_CONFIG.stress.maximum;
@@ -96,6 +117,7 @@ const overlayLayout = HARDCORE_PANIC_PRESENTATION.overlay;
 const riskThresholds = {
   nearDeathGpThreshold: HARDCORE_MODE_CONFIG.stress.nearDeathGpThreshold,
   lastBreathGpThreshold: HARDCORE_MODE_CONFIG.checkpoint.lowGpImmediateThreshold,
+  panicStartDepth: HARDCORE_MODE_CONFIG.stress.panicStartDepthTiles,
 };
 const flashConfig = GAMEFEEL_CONFIG.flash;
 assert.equal(flashConfig.panicColor, 0xff1f2d);
@@ -127,6 +149,11 @@ assert.ok(
 assert.ok(
   overlayLayout.edgeDepth > SHADER_CONFIG.layers.lightningFlash.depth,
   "the full-screen frame must remain visible above darkness and weather",
+);
+assert.ok(
+  HARDCORE_PANIC_BOUNDARY.renderDepth > SHADER_CONFIG.layers.lightningFlash.depth
+    && HARDCORE_PANIC_BOUNDARY.renderDepth < overlayLayout.edgeDepth,
+  "the panic line must stay above world lighting but below the panic overlay",
 );
 assert.ok(
   overlayLayout.bannerDepth > UI_NOTIFICATION_CAROUSEL_CONFIG.depth,
@@ -194,7 +221,7 @@ const sanitySystem = new HardcoreModeSystem({
   ...HARDCORE_MODE_CONFIG.defaultData,
   mode: HARDCORE_MODE_CONFIG.modes.hardcore,
   armed: true,
-  livesRemaining: 2,
+  livesRemaining: 1,
   freeReviveAvailable: false,
   stress: 84,
   peakStress: 84,
@@ -225,6 +252,51 @@ const severeView = resolveHardcorePanicView(
 );
 assert.equal(stableView.severity, "stable");
 assert.equal(stableView.edgeVisible, false);
+assert.equal(stableView.detail, "PANIC STARTS 42M  •  LEVEL PROTECTION +20M");
+const panicBoundary = resolveHardcorePanicBoundary(
+  hardcoreSnapshot(),
+  { topAirRows: 65, tileSize: 94 },
+  {
+    gameplayActive: true,
+    basePanicStartDepth: HARDCORE_MODE_CONFIG.stress.panicStartDepthTiles,
+  },
+);
+assert.equal(panicBoundary.visible, true);
+assert.equal(panicBoundary.panicStartDepth, 42);
+assert.equal(panicBoundary.firstPanicTileY, 106);
+assert.equal(panicBoundary.worldY, 9964);
+assert.equal(panicBoundary.title, "PANIC STARTS HERE  •  42M");
+assert.equal(
+  panicBoundary.detail,
+  "DARKNESS BUILDS PANIC BELOW  •  TORCHLIGHT HOLDS IT BACK",
+);
+assert.equal(
+  resolveHardcorePanicBoundary(
+    hardcoreSnapshot({ armed: false }),
+    { topAirRows: 65, tileSize: 94 },
+    { gameplayActive: true, basePanicStartDepth: 22 },
+  ).visible,
+  false,
+  "the world line must remain hidden before Hardcore arms",
+);
+assert.equal(
+  resolveHardcorePanicBoundary(
+    hardcoreSnapshot({ isHardcore: false }),
+    { topAirRows: 65, tileSize: 94 },
+    { gameplayActive: true, basePanicStartDepth: 22 },
+  ).visible,
+  false,
+  "the world line must never appear in Casual",
+);
+const deadzoneView = resolveHardcorePanicView(
+  hardcoreSnapshot({
+    insideConsumedStarScar: true,
+    consumedStarStressMultiplier: 4,
+  }),
+  50,
+  riskThresholds,
+);
+assert.equal(deadzoneView.detail, "SCAR PANIC 4X  •  USE YOUR TORCH OR LEAVE");
 assert.equal(uneaseView.severity, "uneasy");
 assert.match(uneaseView.title, /^UNEASE RISING/);
 assert.equal(uneaseView.overlayVisible, false);
@@ -283,6 +355,14 @@ assert.equal(hud.isReady(), true);
 hud.update(hardcoreSnapshot(), 0, 50, { gameplayActive: true });
 assert.equal(hud.crest.key, ASSET_KEYS.ui.hardcore.oathCrest);
 assert.equal(hud.getDebugSnapshot().highPanicVisible, false);
+assert.equal(hud.panicBoundary.root.visible, true);
+assert.equal(hud.panicBoundary.root.y, 9964);
+assert.equal(hud.panicBoundary.line.crop.height, 112);
+assert.equal(hud.panicBoundary.line.displayWidth, 1280);
+assert.equal(hud.panicBoundary.title.text, "PANIC STARTS HERE  •  42M");
+assert.ok(
+  hud.panicBoundary.line.alpha >= HARDCORE_PANIC_BOUNDARY.line.alphaMinimum,
+);
 assert.equal(scene.getPanicFlashCalls(), 0);
 
 hud.update(
@@ -355,6 +435,8 @@ assert.match(imminentView.overlayDetail, /^1 GP LEFT  •  0 GP TAKES A LIFE/);
 
 scene.scale.width = 960;
 scene.scale.height = 540;
+scene.cameras.main.worldView.width = 960;
+scene.cameras.main.worldView.centerX = 480;
 hud.update(
   hardcoreSnapshot({ stress: 96, stressBand: "critical" }),
   750,
@@ -364,6 +446,7 @@ hud.update(
 assert.equal(hud.panicOverlay.edge.displayWidth, 960);
 assert.equal(hud.panicOverlay.edge.displayHeight, 540);
 assert.equal(hud.panicOverlay.bannerRoot.x, 480);
+assert.equal(hud.panicBoundary.line.displayWidth, 960);
 assert.equal(
   scene.getPanicFlashCalls(),
   1,
@@ -396,6 +479,20 @@ hud.update(
 );
 assert.equal(hud.getDebugSnapshot().highPanicVisible, false);
 assert.equal(hud.panicOverlay.edge.visible, false);
+assert.equal(hud.panicBoundary.root.visible, false);
+assert.equal(hud.root.visible, false, "paused play must hide the compact status too");
+const pendingSnapshot = hardcoreSnapshot({ armed: false });
+hud.update(pendingSnapshot, 4100, 25, { gameplayActive: true });
+assert.equal(hud.root.visible, true, "resuming restores the pending status");
+const releaseMenu = acquireUiInputPriority(scene);
+hud.update(pendingSnapshot, 4200, 25, { gameplayActive: true });
+assert.equal(hud.root.visible, false, "a modal hides pending Hardcore guidance");
+hud.update(hardcoreSnapshot({ stress: 96, stressBand: "critical" }), 4300, 25);
+assert.equal(hud.panicOverlay.bannerRoot.visible, false);
+assert.equal(hud.panicOverlay.edge.visible, false);
+releaseMenu();
+hud.update(pendingSnapshot, 4400, 25, { gameplayActive: true });
+assert.equal(hud.root.visible, true, "closing the modal restores the status");
 hud.destroy();
 assert.equal(hud.root, null);
 

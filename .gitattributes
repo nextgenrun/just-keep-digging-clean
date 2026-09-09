@@ -54,6 +54,7 @@
 /sprites/character/survival-character-fab-v1/source/**/*.jpeg filter=lfs diff=lfs merge=lfs -text
 /sprites/character/survival-character-fab-v1/source/**/*.png filter=lfs diff=lfs merge=lfs -text
 /sprites/character/survival-character-fab-v1/source/**/*.webp filter=lfs diff=lfs merge=lfs -text
+/sprites/environment/starless-scar-biomes-v1/source/**/*.png filter=lfs diff=lfs merge=lfs -text
 /sprites/backgrounds/world-v11-test/**/*.jpg filter=lfs diff=lfs merge=lfs -text
 /sprites/backgrounds/world-v11-test/**/*.png filter=lfs diff=lfs merge=lfs -text
 /sprites/backgrounds/world-v11-test/**/*.webp filter=lfs diff=lfs merge=lfs -text
@@ -111,3 +112,7 @@
 /visual-approval-previews/understar-floating-logo-redesign-v1/**/*.jpg filter=lfs diff=lfs merge=lfs -text
 /visual-approval-previews/understar-floating-logo-redesign-v1/**/*.png filter=lfs diff=lfs merge=lfs -text
 /visual-approval-previews/understar-floating-logo-redesign-v1/**/*.webp filter=lfs diff=lfs merge=lfs -text
+
+# Preserve oversized review-only trailer masters without normal Git blobs.
+/steam-marketing/2026-09-05-understar-three-minute-trailer/understar-gameplay-trailer-3min.mp4 filter=lfs diff=lfs merge=lfs -text
+/steam-marketing/2026-09-05-understar-three-minute-trailer/work/picture-lock.mp4 filter=lfs diff=lfs merge=lfs -text

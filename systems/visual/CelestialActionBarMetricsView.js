@@ -1,6 +1,10 @@
-// Compact live GP and mining-damage readout anchored to the authored actionbar.
+// Uses the actionbar metric provider to place mining damage in the player core.
 
 import { CELESTIAL_ACTION_BAR_CONFIG } from "../../values/celestialActionBar.js";
+import { GAMEPLAY_PRESENTATION } from "../../values/gameplayPresentation.js";
+import { APPROVED_HUD_SKIN } from "../../values/approvedHudSkin.js";
+import { fitLiveUiText } from "./bakedUiArt.js";
+import { hasApprovedHudSkin } from "./ApprovedHudSkin.js";
 import { UI_FONTS } from "../../values/uiLayout.js";
 
 function finite(value) {
@@ -10,6 +14,7 @@ function finite(value) {
 export class CelestialActionBarMetricsView {
   constructor(scene, getMetrics = null) {
     this.scene = scene;
+    this.bakedLabels = hasApprovedHudSkin(scene);
     this.getMetrics = getMetrics;
     this.ready = true;
     this.visible = true;
@@ -25,7 +30,7 @@ export class CelestialActionBarMetricsView {
     const presentation = CELESTIAL_ACTION_BAR_CONFIG.presentation;
     return this.scene.add.text(0, 0, "", {
       fontFamily: UI_FONTS.display,
-      fontSize: `${presentation.metricFontSizePx}px`,
+      fontSize: `${GAMEPLAY_PRESENTATION.damage.fontSize}px`,
       fontStyle: "bold",
       color,
       stroke: presentation.shadowColor,
@@ -50,25 +55,25 @@ export class CelestialActionBarMetricsView {
     });
     this.lastSnapshot = snapshot;
     this.gpText.setText(`GP ${Math.floor(snapshot.gpCurrent)}/${Math.floor(snapshot.gpMax)}`);
-    this.damageText.setText(`MINE DMG ${Math.round(snapshot.miningDamage)}`);
+    this.damageText.setText(this.bakedLabels
+      ? String(Math.round(snapshot.miningDamage)) : `MINE DMG ${Math.round(snapshot.miningDamage)}`);
+    this.resize();
     return snapshot;
   }
 
-  resize(centerX, centerY, scale) {
-    const layout = CELESTIAL_ACTION_BAR_CONFIG.layout;
-    this.gpText.setPosition(
-      centerX - layout.metricOffsetXPx * scale,
-      centerY + layout.metricOffsetYPx * scale,
-    ).setScale(scale);
-    this.damageText.setPosition(
-      centerX + layout.metricOffsetXPx * scale,
-      centerY + layout.metricOffsetYPx * scale,
-    ).setScale(scale);
+  resize() {
+    const cfg = GAMEPLAY_PRESENTATION.damage;
+    const ref = APPROVED_HUD_SKIN.referenceViewport;
+    const scale = Math.min(this.scene.scale.width / ref.width, this.scene.scale.height / ref.height);
+    this.gpText.setVisible(false);
+    this.damageText.setPosition(cfg.x * scale, cfg.y * scale).setScale(1);
+    fitLiveUiText(this.damageText, cfg.width);
+    this.damageText.setScale(this.damageText.scaleX * scale);
   }
 
   setVisible(visible) {
     this.visible = visible === true;
-    this.gpText.setVisible(this.visible);
+    this.gpText.setVisible(false);
     this.damageText.setVisible(this.visible);
   }
 

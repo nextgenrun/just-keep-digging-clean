@@ -154,7 +154,8 @@ class ObservatoryLayeredScene extends Phaser.Scene {
   }
 
   updatePageState() {
-    const ready = this.cloudEntries.length === CONFIG.cloudLayers.length && Boolean(this.emissivePipeline);
+    const lightSamplerReady = Boolean(this.emissivePipeline?.resolveLightIds());
+    const ready = this.cloudEntries.length === CONFIG.cloudLayers.length && lightSamplerReady;
     page.status.dataset.state = ready ? "ready" : "loading";
     page.status.textContent = ready ? "Segmented runtime active" : "Loading segmented pack…";
     page.pipeline.textContent = ready ? "5 cloud flows + emissive" : "pending";
@@ -170,6 +171,7 @@ class ObservatoryLayeredScene extends Phaser.Scene {
     document.body.dataset.paused = String(this.state.paused);
     document.body.dataset.view = this.state.view;
     document.body.dataset.lightsSeparated = String(this.manifest?.decomposition?.lightsSeparated === true);
+    document.body.dataset.lightSampler = lightSamplerReady ? "active" : "missing";
   }
 
   update(_time, delta) {

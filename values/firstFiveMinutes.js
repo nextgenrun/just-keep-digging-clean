@@ -55,10 +55,10 @@ export const FIRST_FIVE_MINUTES_CONFIG = Object.freeze({
   }),
   copy: Object.freeze({
     protectedGround: Object.freeze({
-      detail: "TOWN GROUND IS PROTECTED  •  USE THE MARKED STARTER ROUTE",
+      detail: "THE TOWN FLOOR IS PROTECTED  •  START AT THE GLOWING MARKER",
     }),
     surfaceDropBlocked: Object.freeze({
-      detail: "HOLD {fly} UNTIL YOU LIFT OFF  •  THEN GO DOWN",
+      detail: "HOLD {fly} TO LIFT OFF  •  MOVE OVER THE OPENING, THEN DESCEND",
     }),
   }),
 });

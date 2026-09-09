@@ -5,8 +5,8 @@
 The default Survival character now uses these approved Mixamo-to-Survival V4
 motions for exact horizontal mining:
 
-1. Cross Punch
-2. Jab Punch
+1. Jab Punch
+2. Cross Punch
 3. MMA Roundhouse
 4. Native Jab-Elbow
 5. Low MMA Kick
@@ -15,6 +15,11 @@ motions for exact horizontal mining:
 8. Elbow-Uppercut
 9. Single Elbow
 10. Hook Punch
+
+Cross Punch was restored on 2026-09-06 after the user identified its removal
+as a mistake. Jab remains resident and opens the sequence; it prewarms Cross
+with the remaining SIDE pack. Cross retains its authored contacts and both
+stationary and moving recovery mappings.
 
 Exact UP mining uses Uppercut. Diagonal UP, diagonal DOWN, and exact DOWN keep
 their existing animation routing.
@@ -54,11 +59,18 @@ Both `PlaySceneGameplay` and `CaveActionAnimationRuntime` select the same
 complex families and pass them through the existing cooldown-to-animation
 time-scale resolver. Switching direction, pausing past the combo window, or
 switching between complex and legacy families restarts the chain at stage one.
+When a stationary ordinary mining clip finishes before that cooldown, the
+runtime now holds its final combat-ready pose through the legal-hit boundary
+plus a bounded 180 ms input/render grace. It no longer plays the two-frame
+idle-settle bridge or exposes Idle between held attacks. The approved Jab is
+resident and prewarms the remaining SIDE pack, so deferred decoding can never
+select an old punch as a visual fallback. Movement and non-mining actions keep
+their prior authored recovery paths.
 
 ## Moving SIDE polish
 
 When the player has real resolved velocity toward a horizontal target, all ten
-complex SIDE stages now use the approved phase-locked Jog legs beneath a
+active complex SIDE stages use the approved phase-locked Jog legs beneath a
 run-compatible upper-body strike. Eight entry phases cover the complete Jog
 cycle and every frame advances the lower-body phase by at most one. Completion
 returns to the exact next Jog frame, preventing a frame-zero restart or a random
@@ -92,8 +104,9 @@ Run:
 & 'C:\Users\Mila\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\bin\node.exe' testing/2026-08-21-moving-complex-dig-production-contract.mjs
 ```
 
-The contract pins sequence order, all 13 authored contacts, source/runtime
-hashes, green-pixel gate, pixel-exact Piskel round trips, 103 px family scale,
+The contract pins the ten-stage sequence order, the restored Cross asset, all
+13 catalogued authored contacts, source/runtime hashes, green-pixel gate,
+pixel-exact Piskel round trips, 103 px family scale,
 idle/walk luminance and visible-height continuity, 0.51 px handoff gate,
 unchanged cadence constants, both runtime paths, and all three rollback
 controls.

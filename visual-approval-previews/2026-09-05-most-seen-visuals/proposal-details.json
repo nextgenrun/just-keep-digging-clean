@@ -1,0 +1,224 @@
+{
+  "slots": [
+    {
+      "id": "quickslash",
+      "keys": [
+        "scene",
+        "entry",
+        "callbacks",
+        "config",
+        "basePosition",
+        "uiScale",
+        "state",
+        "dragging",
+        "draggedSincePointerDown",
+        "destroyed",
+        "bindings",
+        "root",
+        "icon",
+        "keyText",
+        "quantityText",
+        "draggable",
+        "slotNumber"
+      ],
+      "state": {
+        "unlocked": false,
+        "available": false,
+        "active": false,
+        "quantity": null,
+        "description": "Fast directional mining strike powered by Gem Power. Costs 12 GP.",
+        "unlockCondition": "Buy Quick Slash from Bobo.",
+        "unavailableReason": "Need 12 GP • You can spend 110 of your 110 GP"
+      }
+    },
+    {
+      "id": "thunderStrike",
+      "keys": [
+        "scene",
+        "entry",
+        "callbacks",
+        "config",
+        "basePosition",
+        "uiScale",
+        "state",
+        "dragging",
+        "draggedSincePointerDown",
+        "destroyed",
+        "bindings",
+        "root",
+        "icon",
+        "keyText",
+        "quantityText",
+        "draggable",
+        "slotNumber"
+      ],
+      "state": {
+        "unlocked": false,
+        "available": false,
+        "active": false,
+        "quantity": null,
+        "description": "Start a timed chain of lightning strikes. Costs 250 GP.",
+        "unlockCondition": "Buy Thunder Strike from Bobo.",
+        "unavailableReason": "Need 250 GP • You can spend 110 of your 110 GP"
+      }
+    },
+    {
+      "id": "wayward-star",
+      "keys": [
+        "scene",
+        "entry",
+        "callbacks",
+        "config",
+        "basePosition",
+        "uiScale",
+        "state",
+        "dragging",
+        "draggedSincePointerDown",
+        "destroyed",
+        "bindings",
+        "root",
+        "icon",
+        "keyText",
+        "quantityText",
+        "draggable",
+        "slotNumber"
+      ],
+      "state": {
+        "unlocked": false,
+        "available": false,
+        "active": false,
+        "quantity": null,
+        "description": "Release a swarm of stars that ricochet on their own. Costs 100 GP.",
+        "unlockCondition": "Star Pillar: Reach Player Level 3.",
+        "unavailableReason": "Unlock this power at the Star Pillar."
+      }
+    },
+    {
+      "id": "hollow-sun",
+      "keys": [
+        "scene",
+        "entry",
+        "callbacks",
+        "config",
+        "basePosition",
+        "uiScale",
+        "state",
+        "dragging",
+        "draggedSincePointerDown",
+        "destroyed",
+        "bindings",
+        "root",
+        "icon",
+        "keyText",
+        "quantityText",
+        "draggable",
+        "slotNumber"
+      ],
+      "state": {
+        "unlocked": false,
+        "available": false,
+        "active": false,
+        "quantity": null,
+        "description": "Place a long-lived gravity field that pulls broken blocks inward. Costs 100 GP.",
+        "unlockCondition": "Star Pillar: Reach Player Level 3.",
+        "unavailableReason": "Unlock this power at the Star Pillar."
+      }
+    },
+    {
+      "id": "comet-engine",
+      "keys": [
+        "scene",
+        "entry",
+        "callbacks",
+        "config",
+        "basePosition",
+        "uiScale",
+        "state",
+        "dragging",
+        "draggedSincePointerDown",
+        "destroyed",
+        "bindings",
+        "root",
+        "icon",
+        "keyText",
+        "quantityText",
+        "draggable",
+        "slotNumber"
+      ],
+      "state": {
+        "unlocked": false,
+        "available": false,
+        "active": false,
+        "quantity": null,
+        "description": "Every dig fires a piercing purple Star Lance that grows stronger twice as it travels. Costs 100 GP.",
+        "unlockCondition": "Star Pillar: Reach Player Level 3.",
+        "unavailableReason": "Unlock this power at the Star Pillar."
+      }
+    },
+    {
+      "id": "campfire",
+      "keys": [
+        "scene",
+        "entry",
+        "callbacks",
+        "config",
+        "basePosition",
+        "uiScale",
+        "state",
+        "dragging",
+        "draggedSincePointerDown",
+        "destroyed",
+        "bindings",
+        "root",
+        "icon",
+        "keyText",
+        "quantityText",
+        "draggable",
+        "slotNumber"
+      ],
+      "state": {
+        "unlocked": true,
+        "available": true,
+        "active": false,
+        "quantity": 1,
+        "description": "Warmth lasts 60s and costs 1 Ember Charge. Mine Ember Ore underground to add a charge. Look for rare glowing seams in deep cave walls. Town or Campfire restores at least 1 use. Find Ember Ore underground in rare cave-wall seams to upgrade this refill to 2 uses.",
+        "unlockCondition": "Mine Ember Ore, return to Town, or use the Campfire to restore charges.",
+        "unavailableReason": "No Ember Charges left. Mine Ember Ore underground to add a charge. Look for rare glowing seams in deep cave walls. Town or Campfire restores at least 1 use. Find Ember Ore underground in rare cave-wall seams to upgrade this refill to 2 uses."
+      }
+    }
+  ],
+  "metrics": [
+    "scene",
+    "getMetrics",
+    "ready",
+    "visible",
+    "lastSnapshot",
+    "gpText",
+    "damageText"
+  ],
+  "skin": [
+    "scene",
+    "hud",
+    "active",
+    "buffView",
+    "buffFrames",
+    "buffTexts",
+    "torchBaseFrame",
+    "torchBurnFrame",
+    "torchActive",
+    "torchIntensity",
+    "torchBurnAlpha",
+    "pickaxeHudView",
+    "scale",
+    "playerFrame",
+    "comboFrame",
+    "worldFrame"
+  ],
+  "result": {
+    "reviewOnly": true,
+    "productionChanged": false,
+    "changedObjects": 15,
+    "addedObjects": 6,
+    "saveBlocked": true
+  }
+}

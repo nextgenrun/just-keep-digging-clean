@@ -33,6 +33,16 @@ export class PlayerInputHandler {
     
     // Register all keys
     this.keys = this._registerKeys();
+    // Phaser leaves modified shortcuts uncancelled. Handle them after Phaser
+    // updates its keys: a DOM capture listener would discard movement input.
+    this._onRunShortcut = event => {
+      if (!event.ctrlKey || event.altKey || event.metaKey || event.isComposing
+        || scene.gameState !== "playing" || scene._settingsKeyCaptureActive) return;
+      if (this.keys.run?.isDown && Object.values(this.keys).some(key => key?.keyCode === event.keyCode)) {
+        event.preventDefault();
+      }
+    };
+    scene.input.keyboard.on("keydown", this._onRunShortcut);
     
     // Create target feedback and pointer input after keyboard registration.
     this._createAimBox();
@@ -62,6 +72,7 @@ export class PlayerInputHandler {
     // Register action keys
     const jump = addBoundKey("jump");
     const fly = addBoundKey("fly");
+    const run = addBoundKey("run");
     const mine = addBoundKey("dig");
     const interact = addBoundKey("interact");
     this._bindInteractBuffer(interact);
@@ -122,6 +133,7 @@ export class PlayerInputHandler {
       // Actions
       jump,
       fly,
+      run,
       mine,
       interact,
       arcCoreVehicle,
@@ -175,12 +187,10 @@ export class PlayerInputHandler {
     if (!key?.on) return;
     this.interactBufferKey = key;
     this.interactBufferHandler = () => {
-      if (
-        this.scene?.gameState !== "playing"
-        || !this.scene?.specialTileSystem?.promptTile
-      ) {
-        return;
-      }
+      // Buffer the shared interaction action, not only SpecialTile prompts.
+      // Worldroot, Titan, map, and other priority owners all consume this same
+      // path, and a quick tap must survive a slow render frame.
+      if (this.scene?.gameState !== "playing") return;
       const now = globalThis.performance?.now?.() ?? Date.now();
       this.specialTileInteractBufferedUntilMs = now
         + GAMEPLAY_INPUT_TIMING.specialTileInteractBufferMs;
@@ -298,6 +308,7 @@ export class PlayerInputHandler {
   }
 
   destroy() {
+    this.scene.input.keyboard.off("keydown", this._onRunShortcut);
     this._unbindInteractBuffer();
     this.stableMineTarget = null;
     this.stableMineAim = "";

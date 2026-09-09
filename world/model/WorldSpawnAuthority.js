@@ -8,6 +8,7 @@ import { resolveStarIdentityIndex } from "../../values/starIdentityLibraryMath.j
 import { STAR_RARITY_PROGRESSION_CONFIG } from "../../values/starRarityProgression.js";
 import { resolveStarRarityIndex } from "../../values/starRarityProgressionMath.js";
 import { TILE_TYPES } from "../../values/tileTypes.js";
+import { SPECIAL_BLOCKS_CONFIG } from "../../values/specialBlocks.js";
 import { WORLD_GEN_CONFIG } from "../../values/worldGen.js";
 import { resolveBaseTerrainResourceType } from "./baseTerrainResourceResolver.js";
 
@@ -49,7 +50,8 @@ function repairMissingStarIdentityCoverage(
  */
 export function resolveAuthoredMaterialType(tileType, tileX, tileY, modelConfig) {
   const isMaterialCell = LEVEL_ONE_RESOURCE_TYPES.has(tileType)
-    || tileType === TILE_TYPES.SKY_TILE;
+    || tileType === TILE_TYPES.SKY_TILE
+    || tileType === TILE_TYPES.RETIRED_RANDOM_BONUS_BLOCK;
   if (!isMaterialCell) return tileType;
 
   const depth = Math.max(0, tileY - modelConfig.topAirRows);
@@ -65,6 +67,55 @@ export function resolveAuthoredMaterialType(tileType, tileX, tileY, modelConfig)
     WORLD_GEN_CONFIG.terrain,
     modelConfig.resourceEconomyEnabled !== false,
   );
+}
+
+/**
+ * Adds the general Ability Block after authored geometry settles. It replaces
+ * only ordinary resources, remains deterministic for saves, and is confined
+ * to the early world rather than being placed as a tutorial encounter.
+ */
+export function applyConfiguredAbilityBlockSpawns(
+  worldModel,
+  config = SPECIAL_BLOCKS_CONFIG,
+) {
+  const probability = Math.max(
+    0,
+    Math.min(1, Number(config.spawnRates?.abilityBlock) || 0),
+  );
+  const rule = config.worldSpawns?.abilityBlock || {};
+  if (probability <= 0) return 0;
+
+  const minDepth = Math.max(1, Math.floor(Number(rule.minimumDepthTiles) || 1));
+  const maxDepth = Math.min(
+    worldModel.depthTiles - worldModel.topAirRows - 2,
+    Math.max(minDepth, Math.floor(Number(rule.maximumDepthTiles) || minDepth)),
+  );
+  const protectedSeams = new Set(
+    (worldModel.caveResourceSeams || []).map(seam => `${seam.tx},${seam.ty}`),
+  );
+  let applied = 0;
+  for (let depth = minDepth; depth <= maxDepth; depth += 1) {
+    const ty = worldModel.topAirRows + depth;
+    for (let tx = 0; tx < worldModel.widthTiles; tx += 1) {
+      if (protectedSeams.has(`${tx},${ty}`)) continue;
+      if (!RESOURCE_TYPES.has(worldModel.getTileType(tx, ty))) continue;
+      const roll = hash01(
+        tx,
+        ty,
+        worldModel.config.seed,
+        rule.occurrenceHashSalt,
+      );
+      if (roll >= probability) continue;
+      worldModel.setTile(
+        tx,
+        ty,
+        TILE_TYPES.ABILITY_BLOCK,
+        worldModel.getTileMaxHp(tx, ty, TILE_TYPES.ABILITY_BLOCK),
+      );
+      applied += 1;
+    }
+  }
+  return applied;
 }
 
 /** Apply Stars only after every geometry and material authority has settled. */

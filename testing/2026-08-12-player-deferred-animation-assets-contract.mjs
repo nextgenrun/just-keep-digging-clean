@@ -29,7 +29,12 @@ const requests = [];
 const releasedSources = [];
 const scene = {
   time: { now: 0 },
-  player: { anims: { isPlaying: false, currentAnim: null } },
+  player: {
+    active: true,
+    anims: { isPlaying: false, currentAnim: null },
+    texture: { key: "contract-base-sheet" },
+    frame: { texture: { key: "contract-base-sheet" } },
+  },
   textures: {
     exists: key => textureKeys.has(key),
     remove(key) {
@@ -55,6 +60,7 @@ const scene = {
     },
   },
 };
+scene.children = { list: [scene.player] };
 
 const controller = new PlayerDeferredAnimationAssetController(scene, profile);
 const firstLoad = controller.ensureForAnimation(profile.teleportInAnim);
@@ -72,10 +78,23 @@ controller.update();
 assert.equal(textureKeys.has(profile.teleportInSheet), true);
 
 scene.player.anims.isPlaying = false;
+scene.player.texture.key = profile.teleportInSheet;
+scene.player.frame.texture.key = profile.teleportInSheet;
 scene.time.now = 14999;
 controller.update();
 assert.equal(textureKeys.has(profile.teleportInSheet), true);
 scene.time.now = 15000;
+controller.update();
+assert.equal(textureKeys.has(profile.teleportInSheet), true,
+  "a stopped animation's displayed frame must keep its texture resident");
+assert.equal(animations.has(profile.teleportInAnim), true);
+scene.player.texture.key = "contract-base-sheet";
+scene.player.frame.texture.key = "contract-base-sheet";
+scene.time.now = 15001;
+controller.update();
+assert.equal(textureKeys.has(profile.teleportInSheet), true,
+  "a refused eviction should back off instead of rescanning the scene every frame");
+scene.time.now = 20000;
 controller.update();
 assert.equal(textureKeys.has(profile.teleportInSheet), false);
 assert.deepEqual(removedTextures, [profile.teleportInSheet]);

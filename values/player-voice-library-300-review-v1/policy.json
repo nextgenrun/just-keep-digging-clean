@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 1,
+  "libraryId": "leo-library-300-review-v1",
+  "reviewOnly": true,
+  "runtimeWired": false,
+  "recordingStage": "scripts-first-pending-yes-no-audit",
+  "totalLines": 300,
+  "eventLines": 276,
+  "randomLines": 24,
+  "maxSpokenWords": 9,
+  "targetDurationSeconds": 4,
+  "event": {
+    "globalGapMs": 90000,
+    "familyGapMs": 300000,
+    "maxPerTenMinutes": 4,
+    "quietAfterOtherSpeechMs": 12000,
+    "maxPendingPlayer": 1,
+    "selection": "One eligible, accepted, unplayed line for the moment; never every variant.",
+    "recheckAtStart": true,
+    "consumeOn": "audible-start",
+    "exactLineOncePerSession": true,
+    "noRepeatsBeforePoolExhausted": true,
+    "coalesce": "Same reward, quake, purchase or growth transaction gets at most one player reaction.",
+    "criticalMayBypassGap": true,
+    "criticalGapMs": 180000
+  },
+  "random": {
+    "minActiveMs": 1620000,
+    "maxActiveMs": 1980000,
+    "quietBeforeMs": 20000,
+    "eligibleWindowMs": 120000,
+    "minimumAfterAnyPlayerMs": 90000,
+    "advanceWhile": [
+      "gameplay",
+      "visible",
+      "unpaused"
+    ],
+    "persistRemainingPerSave": true,
+    "noBacklog": true,
+    "onWindowMiss": "Discard the opportunity and draw a new 27-33 minute active-play interval.",
+    "onEvent": "Event wins; recheck quiet time within the current window.",
+    "repeat": "Do not repeat until the accepted random pool is exhausted."
+  },
+  "priority": {
+    "cinematic": 500,
+    "narration": 400,
+    "npc": 300,
+    "event": 200,
+    "random": 100
+  },
+  "speech": {
+    "singleOwner": true,
+    "reserveWhileLoading": true,
+    "reserveWhilePreDucking": true,
+    "playerInterrupts": false,
+    "npcDialogueBlocksPlayer": true,
+    "narrationBlocksPlayer": true,
+    "ambientNeverQueued": true,
+    "playerAfterNpc": "Drop if stale; never answer an old event after a long conversation.",
+    "npcDuringPlayer": "Finish the short active sentence, then serve a still-valid NPC request first.",
+    "interlineMs": 450,
+    "staleAtStart": "Recheck deadline, visibility, safety, scene, transaction and ownership before playback.",
+    "loading": "Late assets must revalidate before speech or music ducking begins."
+  },
+  "music": {
+    "floorGain": 0.24,
+    "fadeDownMs": 900,
+    "leadInMs": 500,
+    "dangerLeadInMs": 0,
+    "holdMs": 450,
+    "fadeUpMs": 2400,
+    "curve": "smooth exponential approach",
+    "attackTimeConstantMs": 300,
+    "releaseTimeConstantMs": 800,
+    "preserveUserVolume": true,
+    "holdAcrossSpeech": true
+  },
+  "flavour": {
+    "mysteryGapMs": 300000,
+    "mysteryMaxPerTenMinutes": 2,
+    "strongLanguageGapMs": 1200000
+  },
+  "review": {
+    "pageSize": 12,
+    "storageKey": "understar-leo-300-audit-v1",
+    "defaultDecision": "pending",
+    "schemaVersion": 1,
+    "maximumNoteCharacters": 1000
+  },
+  "preview": {
+    "musicPath": "sound/playlists/j-k-d-amb-1.ogg",
+    "npcPath": "sound/voice-lines/npc-voicelines/gear-upgrade-npc-voicelines/gear-upgrades.ogg",
+    "musicVolume": 0.28,
+    "speechVolume": 0.85,
+    "clockStepMinutes": 30,
+    "loadTimeoutMs": 10000,
+    "npcQueueTtlMs": 8000,
+    "eventTtlMs": 2500,
+    "meterIntervalMs": 100
+  }
+}

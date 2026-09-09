@@ -118,6 +118,7 @@ export const RUNTIME_ASSET_LOADING = Object.freeze({
     audio: "audio",
     image: "image",
     spritesheet: "spritesheet",
+    multiatlas: "multiatlas",
     video: "video",
   }),
   bitmapDecode: Object.freeze({
@@ -209,6 +210,10 @@ export const RUNTIME_ASSET_LOADING = Object.freeze({
         priority: RUNTIME_ASSET_LOAD_PRIORITIES.featureCampfire,
         residencyClass: RUNTIME_ASSET_RESIDENCY_CLASSES.onDemand,
         releaseWhenUnused: true,
+        // A requested tier swap is one bounded sprite. Keep the old form until
+        // this one is ready, then release it; do not stall the ritual behind
+        // unrelated background texture pressure.
+        bypassPressureGate: true,
       }),
     }),
     starBlockPrefetch: Object.freeze({
@@ -228,6 +233,9 @@ export const RUNTIME_ASSET_LOADING = Object.freeze({
   }),
   phaserLoader: Object.freeze({
     maxParallelDownloads: 4,
+    timeoutMs: 120000,
+    maxRetries: 2,
+    bootRetryDelaysMs: Object.freeze([1500, 4000]),
     completeEvent: "complete",
     errorEvent: "loaderror",
   }),

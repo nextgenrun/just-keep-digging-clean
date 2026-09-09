@@ -1,4 +1,5 @@
 import { ASSET_KEYS } from "../../values/assetKeys.js";
+import { BAKED_CELESTIAL_ASSETS } from "../../values/bakedCelestialUi.js";
 import { getCampfireTierAsset } from "../../values/campfireConfig.js";
 import {
   getStarBlockPulsePreloadAssets,
@@ -87,7 +88,7 @@ function getGroupAssets(groupId) {
     ].filter(Boolean);
   }
   if (groupId === RUNTIME_FEATURE_ASSET_GROUP_IDS.starAtlas) {
-    return [STAR_IDENTITY_LIBRARY_CONFIG.inventory.foundation];
+    return [STAR_IDENTITY_LIBRARY_CONFIG.inventory.foundation, STAR_IDENTITY_LIBRARY_CONFIG.inventory.emptyFoundation, BAKED_CELESTIAL_ASSETS.labels];
   }
   if (groupId === RUNTIME_FEATURE_ASSET_GROUP_IDS.starlight) {
     return [...CELESTIAL_TALENT_TREE_PRELOAD_ASSETS];

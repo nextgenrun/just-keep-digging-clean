@@ -3,7 +3,10 @@ import {
   getCaveArchetype,
 } from "../../values/caveArchetypes.js";
 import { hash01, hashUint } from "../../values/deterministicMath.js";
+import { RESOURCE_TILE_TYPE_VALUES } from "../../values/resourceTypes.js";
 import { TILE_TYPES } from "../../values/tileTypes.js";
+
+const RESOURCE_TYPES = new Set(RESOURCE_TILE_TYPE_VALUES);
 
 const CARDINAL_NEIGHBORS = Object.freeze([
   Object.freeze({ tx: 1, ty: 0 }),
@@ -168,7 +171,7 @@ export function isCaveZoneStructurallyLive(worldModel, zone) {
   const shellOffset = Math.max(1, zone.ry + zone.wallThickness);
   const topShell = worldModel.getTileType(zone.cx, zone.cy - shellOffset);
   const bottomShell = worldModel.getTileType(zone.cx, zone.cy + shellOffset);
-  return topShell === TILE_TYPES.CAVE_WALL || bottomShell === TILE_TYPES.CAVE_WALL;
+  return RESOURCE_TYPES.has(topShell) || RESOURCE_TYPES.has(bottomShell);
 }
 
 export function finalizeCaveIdentities(

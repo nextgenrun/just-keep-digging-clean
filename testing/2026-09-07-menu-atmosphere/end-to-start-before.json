@@ -1,0 +1,305 @@
+{
+  "capturedAt": "2026-09-06T23:06:32.381Z",
+  "observations": [
+    {
+      "scenery": "Aurora sanctuary",
+      "mode": "motion",
+      "view": true,
+      "roots": 1,
+      "decoded": true,
+      "playing": true,
+      "time": 0.002,
+      "duration": 20.5,
+      "cadence": {
+        "wraps": [
+          {
+            "gapMs": 66.7,
+            "from": 20.458333,
+            "to": 0
+          }
+        ],
+        "frameGapP95": 50.1,
+        "frameGapMax": 66.8
+      },
+      "loopCount": 1,
+      "muted": true,
+      "audioTracks": 0,
+      "viewState": "Preparing your expedition",
+      "videoOpacity": 0.64,
+      "failedMedia": false,
+      "textureCount": 19,
+      "textureKeys": [
+        "__NORMAL",
+        "__DEFAULT",
+        "__MISSING",
+        "__WHITE",
+        "brand-logo",
+        "bg-db-f1frtjf1frtjf1fr",
+        "bg-db-g6ozmlg6ozmlg6oz",
+        "bg-db-rimx2primx2primx",
+        "bg-db-kjwykkjwykkjwykk",
+        "bg-db-i30bfci30bfci30b",
+        "bg-db-wocn9hwocn9hwocn",
+        "bf815efc-e29c-4fd6-92b8-2c742506e816",
+        "c5edcf7b-014b-49c4-a80c-cafa9760161b",
+        "26ac0bad-e40b-452e-9758-ac1bf2690e53",
+        "f1db2645-6b98-4ccc-8a9c-16b0a4de5611",
+        "7ef9dcf6-2476-4662-bb03-a363737d8cf9",
+        "127776cb-0aa1-4dca-8e9f-abbe5547f354",
+        "4d3b96fa-9958-44ca-b2f9-b067ea0f50ac",
+        "4a140db1-ecbc-44b4-9d6e-f8b1cb5faa66"
+      ],
+      "ownedShutdownListeners": 13
+    },
+    {
+      "scenery": "Distant starfall",
+      "mode": "motion",
+      "view": true,
+      "roots": 1,
+      "decoded": true,
+      "playing": true,
+      "time": 1.927,
+      "duration": 20.5,
+      "cadence": {
+        "wraps": [
+          {
+            "gapMs": 100.1,
+            "from": 20.458333,
+            "to": 0
+          }
+        ],
+        "frameGapP95": 50.1,
+        "frameGapMax": 50.2
+      },
+      "loopCount": 1,
+      "muted": true,
+      "audioTracks": 0,
+      "viewState": "Preparing your expedition",
+      "videoOpacity": 0.64,
+      "failedMedia": false,
+      "textureCount": 19,
+      "textureKeys": [
+        "__NORMAL",
+        "__DEFAULT",
+        "__MISSING",
+        "__WHITE",
+        "brand-logo",
+        "bg-db-f1frtjf1frtjf1fr",
+        "bg-db-g6ozmlg6ozmlg6oz",
+        "bg-db-rimx2primx2primx",
+        "bg-db-kjwykkjwykkjwykk",
+        "bg-db-i30bfci30bfci30b",
+        "bg-db-wocn9hwocn9hwocn",
+        "b3c4a0ba-f4ad-4e92-9dad-2be8bc24da1a",
+        "5ad0192e-aafd-474f-97cc-5541782e6172",
+        "127a34fc-d0ac-4757-b3d2-9e6a975199ea",
+        "a1a83ad8-e1bc-4def-a92b-d48bf7e10754",
+        "6acfa0d8-de64-4548-95fa-8d8a2bc114b9",
+        "973c2582-63d1-46ca-851a-3b43d74ef5f5",
+        "9e69daa5-dbc0-4658-ba37-a08f2baca54a",
+        "e9e5a808-1c54-4d3e-a9de-c2812f561dab"
+      ],
+      "ownedShutdownListeners": 13
+    },
+    {
+      "scenery": "Lantern forest",
+      "mode": "motion",
+      "view": true,
+      "roots": 1,
+      "decoded": true,
+      "playing": true,
+      "time": 2.057,
+      "duration": 20.5,
+      "cadence": {
+        "wraps": [
+          {
+            "gapMs": 50,
+            "from": 20.458333,
+            "to": 0
+          }
+        ],
+        "frameGapP95": 50.1,
+        "frameGapMax": 66.8
+      },
+      "loopCount": 1,
+      "muted": true,
+      "audioTracks": 0,
+      "viewState": "Preparing your expedition",
+      "videoOpacity": 0.64,
+      "failedMedia": false,
+      "textureCount": 19,
+      "textureKeys": [
+        "__NORMAL",
+        "__DEFAULT",
+        "__MISSING",
+        "__WHITE",
+        "brand-logo",
+        "bg-db-f1frtjf1frtjf1fr",
+        "bg-db-g6ozmlg6ozmlg6oz",
+        "bg-db-rimx2primx2primx",
+        "bg-db-kjwykkjwykkjwykk",
+        "bg-db-i30bfci30bfci30b",
+        "bg-db-wocn9hwocn9hwocn",
+        "77954c1b-e208-4519-a844-0888f88e40c9",
+        "9086e6f2-7297-4353-8f9d-25843f8aefa0",
+        "40de3f54-2a46-4540-9ff1-3673d6a8763b",
+        "41425741-b754-48a5-b671-3e7ce3547e74",
+        "eef51a0c-a77e-4003-ab06-8a35429261ee",
+        "cfc0d843-2f46-42bd-84a7-86532e616dfe",
+        "8c19363f-8908-4560-9d23-d3279c344273",
+        "796722cf-7d88-4e45-85c5-1d6b9e085385"
+      ],
+      "ownedShutdownListeners": 13
+    },
+    {
+      "scenery": "Luminous grotto",
+      "mode": "motion",
+      "view": true,
+      "roots": 1,
+      "decoded": true,
+      "playing": true,
+      "time": 2.261,
+      "duration": 20.5,
+      "cadence": {
+        "wraps": [
+          {
+            "gapMs": 100.1,
+            "from": 20.458333,
+            "to": 0
+          }
+        ],
+        "frameGapP95": 50.1,
+        "frameGapMax": 50.2
+      },
+      "loopCount": 1,
+      "muted": true,
+      "audioTracks": 0,
+      "viewState": "Preparing your expedition",
+      "videoOpacity": 0.64,
+      "failedMedia": false,
+      "textureCount": 19,
+      "textureKeys": [
+        "__NORMAL",
+        "__DEFAULT",
+        "__MISSING",
+        "__WHITE",
+        "brand-logo",
+        "bg-db-f1frtjf1frtjf1fr",
+        "bg-db-g6ozmlg6ozmlg6oz",
+        "bg-db-rimx2primx2primx",
+        "bg-db-kjwykkjwykkjwykk",
+        "bg-db-i30bfci30bfci30b",
+        "bg-db-wocn9hwocn9hwocn",
+        "c24d3235-9239-440b-bcc8-770cfd2f2065",
+        "0be19f29-ccca-48c6-aaad-7a43244b9a95",
+        "5ac57077-c048-4d12-ad06-4a80813d0300",
+        "10eda1e9-8ba1-407c-a887-33135ee5aa28",
+        "da7cf86a-fd86-43dc-870c-3aae5b0ce614",
+        "8a38fe01-51dc-493d-8938-9747913b58d4",
+        "d7e12e57-e35e-4d83-b0f4-7fb15becb3ea",
+        "4a9aa20f-4679-4ad7-b40e-00728245935b"
+      ],
+      "ownedShutdownListeners": 13
+    },
+    {
+      "scenery": "Ember reaches",
+      "mode": "motion",
+      "view": true,
+      "roots": 1,
+      "decoded": true,
+      "playing": true,
+      "time": 0.009,
+      "duration": 20.5,
+      "cadence": {
+        "wraps": [
+          {
+            "gapMs": 66.8,
+            "from": 20.458333,
+            "to": 0
+          }
+        ],
+        "frameGapP95": 50.2,
+        "frameGapMax": 216.8
+      },
+      "loopCount": 1,
+      "muted": true,
+      "audioTracks": 0,
+      "viewState": "Preparing your expedition",
+      "videoOpacity": 0.64,
+      "failedMedia": false,
+      "textureCount": 19,
+      "textureKeys": [
+        "__NORMAL",
+        "__DEFAULT",
+        "__MISSING",
+        "__WHITE",
+        "brand-logo",
+        "bg-db-f1frtjf1frtjf1fr",
+        "bg-db-g6ozmlg6ozmlg6oz",
+        "bg-db-rimx2primx2primx",
+        "bg-db-kjwykkjwykkjwykk",
+        "bg-db-i30bfci30bfci30b",
+        "bg-db-wocn9hwocn9hwocn",
+        "66e2eb3c-7acf-4f0e-9a91-2917d8a6d4d2",
+        "28be31ce-308c-4784-affb-0ff26522cb37",
+        "b6de765e-0c2e-4041-945b-89871b763241",
+        "156f1ab9-7f91-4ee3-a9d9-b3e1faf54428",
+        "fedbb786-9024-4547-8f99-1bb63f17d39a",
+        "5c57456f-3e99-4345-8173-90ad1ec122b1",
+        "0ac86212-f3a1-4caf-b465-2aa53ec1a48f",
+        "a66b282b-23ff-4721-a37c-b3a74330e614"
+      ],
+      "ownedShutdownListeners": 13
+    },
+    {
+      "scenery": "Quiet foundry",
+      "mode": "motion",
+      "view": true,
+      "roots": 1,
+      "decoded": true,
+      "playing": true,
+      "time": 1.033,
+      "duration": 20.5,
+      "cadence": {
+        "wraps": [
+          {
+            "gapMs": 83.5,
+            "from": 20.458333,
+            "to": 0
+          }
+        ],
+        "frameGapP95": 50.2,
+        "frameGapMax": 83.4
+      },
+      "loopCount": 1,
+      "muted": true,
+      "audioTracks": 0,
+      "viewState": "Preparing your expedition",
+      "videoOpacity": 0.64,
+      "failedMedia": false,
+      "textureCount": 19,
+      "textureKeys": [
+        "__NORMAL",
+        "__DEFAULT",
+        "__MISSING",
+        "__WHITE",
+        "brand-logo",
+        "bg-db-f1frtjf1frtjf1fr",
+        "bg-db-g6ozmlg6ozmlg6oz",
+        "bg-db-rimx2primx2primx",
+        "bg-db-kjwykkjwykkjwykk",
+        "bg-db-i30bfci30bfci30b",
+        "bg-db-wocn9hwocn9hwocn",
+        "44906cb4-5176-440f-a270-a51b7dcc3b04",
+        "61b1cb8e-dc12-4291-afcd-50f34d80285d",
+        "5f0a4c16-9c3d-4abb-995e-036a44230fcd",
+        "a47fc1cd-365f-4209-9468-7cfd5a0cbd4d",
+        "85db930a-0a3b-499c-ade9-ef7214538c60",
+        "173823c3-2800-45e2-9025-63c34a596616",
+        "b10c788e-df0a-44ef-89a3-14c1f50a1786",
+        "3c81a309-ab32-4021-8c73-b8bd32548eca"
+      ],
+      "ownedShutdownListeners": 13
+    }
+  ]
+}

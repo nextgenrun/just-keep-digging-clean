@@ -1,0 +1,92 @@
+{
+  "baseline": {
+    "target": {
+      "type": 2,
+      "hp": 88
+    },
+    "player": {
+      "x": 4089,
+      "y": 9964,
+      "frame": 31,
+      "key": "survival-mixamo-v1-idle-fidget-sheet"
+    },
+    "camera": {
+      "x": 3385,
+      "y": 9539,
+      "zoom": 1
+    },
+    "torch": {
+      "active": true,
+      "intensity": 1,
+      "percent": 100,
+      "overdriveActive": false,
+      "drainGpPerSecond": 8,
+      "approvedSkinActive": true,
+      "integratedIntoPlayerCore": true,
+      "titleText": "TORCH",
+      "displayText": "100%",
+      "statusText": "ON",
+      "tooltipVisible": false,
+      "visible": true,
+      "burnAlpha": 0.7705272091094798,
+      "burnVisible": true
+    },
+    "saveBlocked": true,
+    "caps": [
+      "world-visual-terrain-caps-v4-weathered-roots",
+      "world-visual-terrain-caps-v5-weathered-roots"
+    ]
+  },
+  "reports": [
+    {
+      "reviewOnly": true,
+      "mode": "terrain",
+      "changedImages": 130,
+      "authoredEdges": 22,
+      "playerEffects": 0,
+      "saveWritesBlocked": true,
+      "state": {
+        "target": {
+          "type": 2,
+          "hp": 88
+        },
+        "player": {
+          "x": 4089,
+          "y": 9964,
+          "frame": 31,
+          "key": "survival-mixamo-v1-idle-fidget-sheet"
+        },
+        "camera": {
+          "x": 3385,
+          "y": 9539,
+          "zoom": 1
+        }
+      }
+    },
+    {
+      "reviewOnly": true,
+      "mode": "player",
+      "changedImages": 130,
+      "authoredEdges": 22,
+      "playerEffects": 2,
+      "saveWritesBlocked": true,
+      "state": {
+        "target": {
+          "type": 2,
+          "hp": 88
+        },
+        "player": {
+          "x": 4089,
+          "y": 9964,
+          "frame": 31,
+          "key": "survival-mixamo-v1-idle-fidget-sheet"
+        },
+        "camera": {
+          "x": 3385,
+          "y": 9539,
+          "zoom": 1
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,237 @@
+{
+  "version": 2,
+  "date": "2026-09-06",
+  "generator": "image_gen",
+  "originalBytesPreserved": true,
+  "labelCount": 136,
+  "badgeFrames": 16,
+  "bytes": 48420725,
+  "decodedBytes": 157262468,
+  "assets": [
+    {
+      "key": "ui-baked-pause-stats-v2",
+      "file": "pause-stats-v2.png",
+      "load": "boot",
+      "sha256": "51691a9762e812ce939ca02b155e191d4420ea8d42ed6ec1d3d9bf921223d078",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 2359700
+    },
+    {
+      "key": "ui-baked-utility-final-v2",
+      "file": "utility-final-v2.png",
+      "load": "boot",
+      "sha256": "11fb624aebbb64430d9ac5552b1d5e523e74c3234f0cc5750517216a7394b718",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 2420956
+    },
+    {
+      "key": "ui-baked-hud-details-v2",
+      "file": "hud-details-v2.png",
+      "load": "boot",
+      "sha256": "89de55603110b37dea7ad01c789cbb0fdd34c531e70c04703be9de0935730a78",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 2363504
+    },
+    {
+      "key": "ui-baked-wiki-v1",
+      "file": "wiki.png",
+      "load": "boot",
+      "sha256": "34c32c070560eeeb11af89bae7bf11a799a8d529022e441f639c1a06096a833c",
+      "width": 2135,
+      "height": 736,
+      "bytes": 1397349
+    },
+    {
+      "key": "ui-baked-menu-v1",
+      "file": "menu.png",
+      "load": "boot",
+      "sha256": "200d65c9a944129115d0de2be53a7015778d34a9ead4d10a2c92c272e40d15e6",
+      "width": 2039,
+      "height": 771,
+      "bytes": 1697250
+    },
+    {
+      "key": "ui-baked-world-map-v1",
+      "file": "world-map.png",
+      "load": "boot",
+      "sha256": "ea84479dd5ce83783cde72a4f7856f6516454405e660416fdf35b143338e4a6e",
+      "width": 2116,
+      "height": 743,
+      "bytes": 1562909
+    },
+    {
+      "key": "ui-baked-expedition-v1",
+      "file": "expedition.png",
+      "load": "boot",
+      "sha256": "e45ffeeef292d9309ad94fc46905c3aa98de74057e2fcf1139f6f54f0752e394",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 2619969
+    },
+    {
+      "key": "ui-baked-expedition-one-life-v1",
+      "file": "expedition-one-life.png",
+      "load": "boot",
+      "sha256": "bfc03e439cbfcfdbc285396a5a3f04d357c957b1c4aafc734fce730b141a6122",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 2481717
+    },
+    {
+      "key": "ui-baked-controls-v1",
+      "file": "controls.png",
+      "load": "boot",
+      "sha256": "d0801272dbe8341dc60be81843af83c532dddd9296784454d63d204f81f05856",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 2016677
+    },
+    {
+      "key": "ui-baked-controls-extra-v1",
+      "file": "controls-extra.png",
+      "load": "boot",
+      "sha256": "6af68c8f1cee0436c2441ede15f23a7fe3726cac955f1612f772a7e3ef7287c2",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1281917
+    },
+    {
+      "key": "ui-baked-headingsa-hd-v2",
+      "file": "headings-a-hd-v2.png",
+      "load": "boot",
+      "sha256": "ef56e3f80ceaff65f11927508c10be933801ce164e31b43f87405d194c13f312",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1981611
+    },
+    {
+      "key": "ui-baked-headingsb-hd-v2",
+      "file": "headings-b-hd-v2.png",
+      "load": "boot",
+      "sha256": "4d155dc69011d79cbc792ac53cd91980cd7f1fb0a020e2ad469cfe53130005ca",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1851510
+    },
+    {
+      "key": "ui-baked-headingsc-hd-v2",
+      "file": "headings-c-hd-v2.png",
+      "load": "boot",
+      "sha256": "5eaa8da6409fe800b443a050b0693aaf9d69022a484d5cab450300a8db601a60",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1864920
+    },
+    {
+      "key": "ui-baked-icon-badges-v2",
+      "file": "icon-badges-v2.png",
+      "load": "boot",
+      "sha256": "eb11b2b34660c2f740d1ebddbe05de3a782609aa3dec7dfcf1ff1c07dbc87789",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 2916781
+    },
+    {
+      "key": "ui-baked-inventory-settings-v1",
+      "file": "inventory-settings.png",
+      "load": "boot",
+      "sha256": "2e7194965ef1c3a2d05c9672cfa6ddce22fed94e35c53c23c098ea7c8a85a1ec",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 2173695
+    },
+    {
+      "key": "ui-baked-keybind-labels-alpha-v1",
+      "file": "keybind-labels-alpha.png",
+      "load": "boot",
+      "sha256": "5a94a79f972881e7f910607baeb739d8ae10bc1e7e7e9a31c85f2063e0789e3d",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 1428552
+    },
+    {
+      "key": "ui-baked-navigation-labels-v1",
+      "file": "navigation-labels.png",
+      "load": "boot",
+      "sha256": "67a94d816c9170e082d1bac426ec8b875af7d42e6f2be737242b0acb5f840ea1",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 2075835
+    },
+    {
+      "key": "ui-baked-campfire-v1",
+      "file": "campfire-rect.png",
+      "load": "boot",
+      "sha256": "db7e5209426446b686592e5dfca66217d16f863b0e6f279bee6749dc25976acd",
+      "width": 1983,
+      "height": 793,
+      "bytes": 3131612
+    },
+    {
+      "key": "ui-celestial-currency-baked-v2",
+      "file": "currency-integrated-v2.png",
+      "load": "boot",
+      "sha256": "c879cc23fb784c225a7603a1b18d1ae715dd28ebf5536530e6e558138f246975",
+      "width": 2061,
+      "height": 763,
+      "bytes": 1302440
+    },
+    {
+      "key": "ui-hud-approved-player-core-shell-v2",
+      "file": "player-core-integrated-v2.png",
+      "load": "boot",
+      "sha256": "4079b49ea5354467af3c3dea74bf9daa589c2b7b07a959a3a1c3b708da72c4f8",
+      "width": 2073,
+      "height": 759,
+      "bytes": 1519437
+    },
+    {
+      "key": "ui-hud-level-up-shell-v2",
+      "file": "level-up-integrated-v2.png",
+      "load": "boot",
+      "sha256": "d02823b57a64c30d3f9a58d37ba9eb6cc7a28673efc7f781d12508ded29b05db",
+      "width": 2172,
+      "height": 724,
+      "bytes": 1112401
+    },
+    {
+      "key": "ui-hud-approved-xp",
+      "file": "xp-integrated-v2.png",
+      "load": "boot",
+      "sha256": "d513e7f20e0947a94b6568b54b11e61c02af07880d182b3ada47a81321fbf15d",
+      "width": 2145,
+      "height": 733,
+      "bytes": 560001
+    },
+    {
+      "key": "star-codex-foundation-baked-v1",
+      "file": "star-codex-v2.png",
+      "load": "star-codex",
+      "sha256": "b773aa62288b617a430bc1266ab78e01339050da18336301352308f26b62eff5",
+      "width": 1739,
+      "height": 904,
+      "bytes": 1751125
+    },
+    {
+      "key": "star-codex-empty-baked-v1",
+      "file": "star-codex-empty.png",
+      "load": "star-codex",
+      "sha256": "992b4a6e67daba62683b3a078cf965217b248021b1ede01a5f3ee7cd6c65f0f3",
+      "width": 1735,
+      "height": 906,
+      "bytes": 1843505
+    },
+    {
+      "key": "ui-celestial-talent-foundation-baked-v1",
+      "file": "talents-layout.png",
+      "load": "talents",
+      "sha256": "0f510abaa5f05a42893c672db04ad637c61994330020c66717f8daaa43124510",
+      "width": 1672,
+      "height": 941,
+      "bytes": 2705352
+    }
+  ]
+}

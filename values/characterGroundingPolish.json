@@ -1,0 +1,190 @@
+{
+  "version": "character-grounded-v3-20260907",
+  "sourceSizePx": 1024,
+  "frameSizePx": 512,
+  "soleBaselinePx": 454.5,
+  "atlasPageSizePx": 4096,
+  "atlasPaddingPx": 4,
+  "clothEnabled": false,
+  "runtimeRoot": "sprites/character/survival-character-grounded-v3/runtime",
+  "workRoot": "testing/character-grounding-2026-09-07",
+  "styleConfig": "values/characterDefinitionPreviewV2.json",
+  "sheets": {
+    "survival-blender-v2-idle-sheet": {
+      "mode": "MASTER",
+      "action": "MINER_idle",
+      "frames": 48,
+      "loop": true,
+      "grounding": "PER_FRAME"
+    },
+    "survival-blender-v2-walk-sheet": {
+      "mode": "MIXAMO",
+      "root": "mixamoAccepted",
+      "source": "mixamo-standard-walk-123500901.fbx",
+      "sourceBonePrefix": "mixamorig9:",
+      "frames": 24,
+      "loop": true,
+      "grounding": "PER_FRAME",
+      "reference": "MEAN",
+      "preserveVertical": false
+    },
+    "survival-mixamo-v1-walk-loop-sheet": {
+      "mode": "MIXAMO",
+      "root": "mixamoAccepted",
+      "source": "mixamo-standard-run-123560901.fbx",
+      "sourceBonePrefix": "mixamorig:",
+      "frames": 24,
+      "loop": true,
+      "grounding": "PER_FRAME",
+      "reference": "MEAN",
+      "preserveVertical": false
+    },
+    "survival-mixamo-v2-walk-handoff-sheet": {
+      "mode": "WALK_HANDOFF",
+      "root": "mixamoAccepted",
+      "source": "mixamo-standard-run-123560901.fbx",
+      "sourceBonePrefix": "mixamorig:",
+      "frames": 67,
+      "packedSizePx": 192,
+      "columns": 16,
+      "walkFrameCount": 24,
+      "idleAction": "MINER_idle",
+      "idleFrame": 0,
+      "start": {
+        "walkFrames": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "walkBlendWeights": [
+          0.0,
+          0.07,
+          0.2,
+          0.42,
+          0.68,
+          0.88,
+          1.0
+        ]
+      },
+      "stop": {
+        "phases": [
+          0,
+          2,
+          4,
+          6,
+          8,
+          10,
+          12,
+          14,
+          16,
+          18,
+          20,
+          22
+        ],
+        "idleBlendWeights": [
+          0.0,
+          0.22,
+          0.55,
+          0.84,
+          1.0
+        ]
+      }
+    },
+    "survival-held-torch-v1-idle-sheet": {
+      "mode": "MASTER",
+      "sourceBlend": "testing/blender-animation-lab-v1/review-drafts/held-torch-rig-v1/survival-held-torch-rig-v1.blend",
+      "action": "DG_HELD_TORCH_MIXAMO_V1",
+      "frames": 48,
+      "loop": true,
+      "grounding": "PER_FRAME",
+      "heldTorchPose": true
+    },
+    "survival-held-torch-v1-walkLoop-sheet": {
+      "mode": "MIXAMO",
+      "sourceBlend": "testing/blender-animation-lab-v1/review-drafts/held-torch-rig-v1/survival-held-torch-rig-v1.blend",
+      "root": "mixamoAccepted",
+      "source": "mixamo-standard-walk-123500901.fbx",
+      "sourceBonePrefix": "mixamorig9:",
+      "frames": 24,
+      "loop": true,
+      "grounding": "PER_FRAME",
+      "reference": "MEAN",
+      "preserveVertical": false,
+      "heldTorchPose": true
+    },
+    "survival-held-torch-v2-run-sheet": {
+      "mode": "MIXAMO",
+      "root": "mixamoAccepted",
+      "source": "mixamo-standard-run-123560901.fbx",
+      "sourceBonePrefix": "mixamorig:",
+      "frames": 24,
+      "loop": true,
+      "grounding": "PER_FRAME",
+      "reference": "MEAN",
+      "preserveVertical": false,
+      "sourceBlend": "testing/blender-animation-lab-v1/review-drafts/held-torch-rig-v1/survival-held-torch-rig-v1.blend",
+      "heldTorchPose": true
+    },
+    "survival-held-torch-v2-run-handoff-sheet": {
+      "mode": "WALK_HANDOFF",
+      "root": "mixamoAccepted",
+      "source": "mixamo-standard-run-123560901.fbx",
+      "sourceBonePrefix": "mixamorig:",
+      "frames": 67,
+      "packedSizePx": 192,
+      "columns": 16,
+      "walkFrameCount": 24,
+      "idleAction": "DG_HELD_TORCH_MIXAMO_V1",
+      "idleFrame": 0,
+      "start": {
+        "walkFrames": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "walkBlendWeights": [
+          0.0,
+          0.07,
+          0.2,
+          0.42,
+          0.68,
+          0.88,
+          1.0
+        ]
+      },
+      "stop": {
+        "phases": [
+          0,
+          2,
+          4,
+          6,
+          8,
+          10,
+          12,
+          14,
+          16,
+          18,
+          20,
+          22
+        ],
+        "idleBlendWeights": [
+          0.0,
+          0.22,
+          0.55,
+          0.84,
+          1.0
+        ]
+      },
+      "sourceBlend": "testing/blender-animation-lab-v1/review-drafts/held-torch-rig-v1/survival-held-torch-rig-v1.blend",
+      "heldTorchPose": true
+    }
+  }
+}

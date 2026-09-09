@@ -2,6 +2,23 @@
 
 Standalone Phaser 3 mini-game for rapid animation & collision testing. Loads player spritesheets and tile textures into a small collidable world — no need to boot the full game.
 
+## Audio mix review
+
+`2026-08-31-audio-mix-review-v1/` compares panic, Star, level-up, deep-
+ambience, and approved weather contexts at game scale. Keys `J` / `K` move
+between scenes, `0` resets, and `R` or Space replays the current transient.
+Only the approved Star-destruction and two level-up cues mirror production;
+all other candidate sounds remain sandbox-only.
+
+## Observatory independently authored layers V3
+
+`2026-08-30-observatory-authored-layers-v3/` replaces the rejected flattened-
+source extraction branch with seven independent source plates. The original is
+visible only for A/B review. Four dedicated cloud/fog cards use closed orbital
+flow fields, architecture remains rigid, and separately keyed window groups
+animate through stable IDs. The page is review-only and leaves Town Square and
+all production world routes unchanged.
+
 ## Surface living background mockup
 
 `2026-08-26-surface-living-background-mockup-v1/` is an isolated ten-candidate
@@ -149,8 +166,8 @@ Single-file Phaser scene (`sandbox.js`) with:
 
 `earthquake-feedback-ui-v1/` runs the production feedback, FallZone, grounded
 impact, and tile-feedback classes at the live 1280x720 viewport and 94px tile
-scale. Open `?phase=warning`, `earthquake`, or `escape`; it remains test-only
-and does not mutate a save or world model.
+scale. Open `?phase=warning`, `earthquake`, `aftershock`, or `escape`; it remains
+test-only and does not mutate a save or world model.
 
 ## Earthquake dodge world review
 

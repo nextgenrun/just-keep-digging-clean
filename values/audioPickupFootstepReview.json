@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "reviewOnly": true,
+  "runtimeWired": false,
+  "candidateSampleRate": 24000,
+  "candidateChannels": 1,
+  "fadeInSeconds": 0.003,
+  "fadeOutSeconds": 0.05,
+  "edits": {
+    "walk": {
+      "maxSeconds": 0.18,
+      "highpassHz": 85,
+      "lowpassHz": 2200
+    },
+    "hard-walk": {
+      "maxSeconds": 0.16,
+      "highpassHz": 85,
+      "lowpassHz": 1800
+    }
+  },
+  "attackWindowSeconds": 0.006,
+  "attackThresholdRatio": 0.45,
+  "attackPreRollSeconds": 0.004
+}

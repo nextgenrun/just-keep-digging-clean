@@ -1,0 +1,130 @@
+{
+  "version": 2,
+  "fps": 24,
+  "overlapSeconds": 1.5,
+  "slowdown": 2.4,
+  "width": 1280,
+  "height": 720,
+  "workingWidth": 480,
+  "workingHeight": 270,
+  "blurSigma": 1.25,
+  "deltaLimit": 110,
+  "ellipseFeather": 0.35,
+  "displayAlpha": 0.44,
+  "displayVideoMix": 1,
+  "loadingVeilAlpha": 0.34,
+  "profiles": [
+    {
+      "id": "aurora",
+      "gain": 1.2,
+      "sky": [
+        0.48,
+        0.7
+      ],
+      "zones": [
+        [
+          0.5,
+          0.8,
+          0.33,
+          0.19
+        ]
+      ],
+      "holdouts": [
+        [
+          0.01,
+          0.22,
+          0.16,
+          0.18
+        ],
+        [
+          0.71,
+          0.31,
+          0.075,
+          0.12
+        ]
+      ]
+    },
+    {
+      "id": "starfall",
+      "gain": 1.5,
+      "sky": [
+        0.46,
+        0.75
+      ],
+      "zones": [],
+      "holdouts": []
+    },
+    {
+      "id": "lantern-forest",
+      "gain": 1.4,
+      "zones": [
+        [
+          0.5,
+          0.65,
+          0.33,
+          0.37
+        ],
+        [
+          0.5,
+          0.88,
+          0.46,
+          0.12
+        ]
+      ],
+      "holdouts": []
+    },
+    {
+      "id": "luminous-grotto",
+      "gain": 1.2,
+      "zones": [
+        [
+          0.52,
+          0.57,
+          0.34,
+          0.44
+        ],
+        [
+          0.51,
+          0.86,
+          0.35,
+          0.18
+        ]
+      ],
+      "holdouts": []
+    },
+    {
+      "id": "ember-reaches",
+      "gain": 1.0,
+      "sky": [
+        0.43,
+        0.67
+      ],
+      "zones": [],
+      "warmGround": true,
+      "holdouts": []
+    },
+    {
+      "id": "quiet-foundry",
+      "gain": 1.5,
+      "sky": [
+        0.29,
+        0.56
+      ],
+      "zones": [
+        [
+          0.52,
+          0.71,
+          0.17,
+          0.31
+        ]
+      ],
+      "holdouts": []
+    }
+  ],
+  "warmGround": {
+    "redBlueThreshold": 8,
+    "colorRange": 80,
+    "startY": 0.45,
+    "featherY": 0.2
+  }
+}

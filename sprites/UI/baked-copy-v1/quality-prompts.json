@@ -1,0 +1,101 @@
+[
+  {
+    "id": "currency-integrated-v2",
+    "prompts": [
+      {
+        "step": "uiQualityCurrencyPrompt",
+        "prompt": "Edit target: image 1, the UNDERSTAR currency HUD foundation. Supporting insert/style reference: image 2, the Star Points celestial star medallion. Produce a final high-resolution transparent PNG game asset. Preserve the exact long horizontal silhouette, metallic charcoal stone, silver and antique-gold bevels, cyan central diamond, two long dark numeric value wells, existing spacing, orthographic front view, and all outer corners from image 1. Bake a handsome embossed stack of gold coins INTO the left circular socket, lit and recessed in the same metal frame; no arrow or sell symbol. Bake the cyan star motif from image 2 INTO the right socket, conforming to that socket and its inner rim, so it is part of the foundation, not a pasted-on circular badge. Both icons must be complete and crisp. Leave BOTH numeric wells entirely blank for changing balances. No digits, no words, no new sockets, no perspective, no extra decorative glow outside the frame. Make the artwork at least 2500 pixels wide with crisp new material detail, fully preserve proportions, centered on a genuinely transparent canvas with modest transparent padding. The source PNG must be ready for production; do not show a mockup, checkerboard, caption, or surrounding scene."
+      },
+      {
+        "step": "uiQualityCurrencyAlphaPrompt",
+        "prompt": "Background extraction edit. Keep this currency HUD artwork EXACTLY unchanged: gold coin stack in left circle, cyan star in right socket, metal silhouette, two empty dark number wells and proportions. Remove the entire white/gray checkerboard and exterior background around the silhouette. Deliver a PNG with a real alpha channel: alpha=0 outside the metal frame, fully transparent external padding and corners. The checkerboard is NOT part of the artwork and must not be painted or replaced with any colour. Do not alter, redraw, resize or blur any internal pixels of the coin, star, central diamond, frame or numeric wells. No mockup and no presentation background. Just the cut-out production game asset."
+      }
+    ],
+    "source": "exec-3b485b05-4a96-4e66-bcf8-65f9112eed65.png"
+  },
+  {
+    "id": "icon-badges-v2",
+    "prompt": "Generate a production UNDERSTAR utility-button atlas. Supporting reference: existing project icon sheet; retain the illustrated metal, gold, leather and gemstone style, but integrate every icon INTO its own complete button artwork. Make a square atlas with EXACTLY FOUR equal columns and FOUR equal rows, sixteen equally sized square tiles. Each tile is a finished dark-charcoal square button with a slim antique-gold bevel, a recessed inner face, and one large centered sculpted icon attached to that face. All corners and edges are fully inside the tile, 6% safe inset. Uniform lighting from upper-left, consistent icon scale, crisp high-resolution detail, clear silhouettes at 40-pixel display. Opaque dark charcoal between and behind the buttons, no transparency checkerboard, no external shadows crossing tiles. No letters, words, numbers or labels. Ordered from left to right, top to bottom: row1 silver X close icon | gold left arrow | gold right arrow | gold play triangle; row2 two silver pause bars | leather save journal | golden gear settings | stone cottage home; row3 leather inventory satchel | stack of gold coins with gold selling arrow | hammer striking an anvil with upward arrow | closed metal padlock; row4 steel pickaxe | purple faceted gem | rolled parchment information scroll with blue seal | small warm campfire built from logs. Exactly these 16 icons, no duplicates, no missing tiles. Deliver the atlas at the highest practical square resolution, ideally 2048x2048. Every fixed icon and its button frame must be one baked bitmap, never a floating icon on white.",
+    "source": "exec-bd289aee-2379-4741-936f-cec97ebe1b3f.png"
+  },
+  {
+    "id": "heading-pages-v2",
+    "prompts": [
+      "Create a NEW six-heading UNDERSTAR asset sheet in the style of the reference. This is page 1 of a high-resolution lettering family. Canvas landscape 1536x1024. EXACTLY TWO equal columns and THREE equal rows. Each cell contains one wide charcoal plaque with a restrained antique-gold frame and very large, exceptionally sharp single-line gold serif lettering centered on it. Only six plaques, ample separation. This replaces an old crowded 18-label sheet: each label must now have at least twice as many real source pixels. Lettering should be roughly 65-80 pixels tall, with generous spacing, crisp highlights, and no soft blur. Preserve the project's material style. Row order verbatim: row1 \"PAUSED\" | \"RUN ACTIONS\"; row2 \"CURRENT RUN\" | \"SAVE SLOTS\"; row3 \"IMPORT SAVE\" | \"WORLD MAP\". Correct spelling, no extra characters, duplicates, words or icons. The six plaques occupy equal 768x341 cells with the text centered in each cell. Background is a uniform very dark charcoal; each plaque's face is nearly-black blue charcoal. All frames and letters remain inside their cells. Deliver the final asset only.",
+      "Create a NEW six-heading UNDERSTAR asset sheet in the style of the reference. This is page 2 of a high-resolution lettering family. Canvas landscape 1536x1024. EXACTLY TWO equal columns and THREE equal rows. Each cell contains one wide charcoal plaque with a restrained antique-gold frame and very large, exceptionally sharp single-line gold serif lettering centered on it. Only six plaques, ample separation. This replaces an old crowded 18-label sheet: each label must now have at least twice as many real source pixels. Lettering should be roughly 65-80 pixels tall, with generous spacing, crisp highlights, and no soft blur. Preserve the project's material style. Row order verbatim: row1 \"MAP MARKERS\" | \"YOUR LOCATION\"; row2 \"DISCOVERED\" | \"YOUR RESOURCES\"; row3 \"ARC FORGE RECIPES\" | \"UPGRADES\". Correct spelling, no extra characters, duplicates, words or icons. The six plaques occupy equal 768x341 cells with the text centered in each cell. Background is a uniform very dark charcoal; each plaque's face is nearly-black blue charcoal. All frames and letters remain inside their cells. Deliver the final asset only.",
+      "Create a NEW six-heading UNDERSTAR asset sheet in the style of the reference. This is page 3 of a high-resolution lettering family. Canvas landscape 1536x1024. EXACTLY TWO equal columns and THREE equal rows. Each cell contains one wide charcoal plaque with a restrained antique-gold frame and very large, exceptionally sharp single-line gold serif lettering centered on it. Only six plaques, ample separation. This replaces an old crowded 18-label sheet: each label must now have at least twice as many real source pixels. Lettering should be roughly 65-80 pixels tall, with generous spacing, crisp highlights, and no soft blur. Preserve the project's material style. Row order verbatim: row1 \"WHAT YOU NEED\" | \"AVAILABLE BLESSINGS\"; row2 \"INVENTORY\" | \"TALENTS\"; row3 \"STAR HEART\" | \"CAMPFIRE\". Correct spelling, no extra characters, duplicates, words or icons. The six plaques occupy equal 768x341 cells with the text centered in each cell. Background is a uniform very dark charcoal; each plaque's face is nearly-black blue charcoal. All frames and letters remain inside their cells. Deliver the final asset only."
+    ],
+    "sources": [
+      "exec-b8126520-977e-48bd-bc4b-cb30e44701bc.png",
+      "exec-d7f5dd90-f07a-4a6f-a84e-47a30fc74c87.png",
+      "exec-4f385392-3b76-4ad0-bf97-fce7ff7a4293.png"
+    ]
+  },
+  {
+    "id": "player-core-integrated-v2",
+    "reference": "sprites/UI/hud-approved-v2/player-core-shell-v2.png",
+    "prompts": [
+      {
+        "step": "uiQualityPlayerPrompt",
+        "prompt": "Rebuild the referenced UNDERSTAR player HUD shell as a high-resolution production PNG, preserving its exact 4.07:1 proportions and source layout: large EMPTY pickaxe circle on the left, two long dark readout wells stacked in the middle, small blank upright control well on the right, and the slim empty torch tube on the far right. The current 456-pixel-wide shell is too small for high-resolution rendering; render crisp new metal detail at least 1600 pixels wide. Keep the thin antique-gold frame, charcoal metal and restrained engraving. Bake ONLY these permanent gold labels into the main shell: DEPTH at 28% width and 29% height; MINE DMG in small letters centered near 60% width and 47% height; GP at 28% width and 75% height. Reserve empty numeric space immediately after DEPTH and after MINE DMG. Reserve a long empty fill/value well after GP, from 35% to 74% width. Leave all numbers, tier labels, pickaxe art, torch art and the two right-hand wells completely empty because those change during gameplay. No other words, no digits, no duplicated icons. Real transparent alpha outside the complete metal silhouette; do not paint a checkerboard. Preserve all well boundaries and circle placement, orthographic view, sharp 2D game artwork only."
+      },
+      {
+        "step": "uiQualityPlayerAlphaPrompt",
+        "prompt": "Background extraction edit. Keep this player HUD artwork EXACTLY unchanged: circular empty pickaxe socket, fixed DEPTH, MINE DMG and GP lettering, all empty dark number wells, metal borders and proportions. Remove the entire white/gray checkerboard and exterior background around the silhouette. Deliver a PNG with a real alpha channel: alpha=0 outside the metal frame, fully transparent external padding and corners. The checkerboard is NOT part of the artwork and must not be painted or replaced with any colour. Do not alter, redraw, resize or blur any internal pixels. No mockup and no presentation background. Just the cut-out production game asset."
+      },
+      {
+        "step": "uiQualityPlayerCutoutPrompt",
+        "prompt": "Remove background. Return this exact HUD isolated on a TRANSPARENT BACKGROUND with real alpha transparency in the PNG file. All checkerboard pixels outside the metal frame must be fully transparent (alpha zero). Keep the inside artwork and lettering intact. This is a background removal task, not a mockup."
+      }
+    ],
+    "source": "exec-6a8ba4f7-912c-4df1-82eb-d0ae486e0e95.png"
+  },
+  {
+    "id": "level-up-integrated-v2",
+    "reference": "sprites/UI/dynamic-feedback-v2/level-up-shell-v2.png",
+    "prompts": [
+      {
+        "step": "uiQualityLevelUpNewEmblemPrompt",
+        "prompt": "Add a permanently integrated reward emblem to the EMPTY left socket of this reference reward shell. Design a NEW detailed emblem: one luminous emerald five-point gemstone star with smooth polished facets, engraved antique-gold edging, and two sculpted gold laurel branches beneath it. Painted realistic fantasy metal and gem rendering, smooth anti-aliased silhouette, absolutely no pixel art or stair-step edges. It must feel physically set inside the circular recess. Keep the rest of this reference frame unchanged and keep the entire wide dark message bay empty, with NO text, numbers or extra objects. High-resolution finished bitmap UI asset, approximately 2000 pixels wide, with genuine transparency outside the frame and inside any exterior cutouts. No white background and no transparency checkerboard drawn into the image. This is the final combined frame-and-emblem asset, not a mockup."
+      },
+      {
+        "step": "uiQualityLevelUpAlphaPrompt",
+        "prompt": "Background extraction edit. Keep this emerald level-up HUD artwork EXACTLY unchanged: smooth emerald star and golden laurel inside the left round socket, complete gold/green frame, empty dark panel and proportions. Remove the entire black exterior background around the silhouette. Deliver a PNG with a real alpha channel: alpha=0 outside the metal frame, fully transparent external padding and corners. Keep the dark INNER panel opaque. The exterior black is NOT part of the artwork and must not be painted or replaced with any colour or checkerboard. Do not alter, redraw, resize or blur any internal pixels. No mockup and no presentation background. Just the cut-out production game asset."
+      },
+      {
+        "step": "uiQualityLevelUpCutout2Prompt",
+        "prompt": "Remove background. Return this exact emerald star HUD isolated on a TRANSPARENT BACKGROUND with real alpha transparency in the PNG file. All checkerboard pixels outside the metal frame must be fully transparent (alpha zero). Keep the dark panel inside the artwork opaque. This is a background removal task, not a mockup."
+      }
+    ],
+    "source": "exec-cc4c52d4-f569-4917-85a8-074a175635fc.png"
+  },
+  {
+    "id": "xp-integrated-v2",
+    "prompts": [
+      {
+        "step": "uiQualityXpPrompt",
+        "prompt": "Create the final baked UNDERSTAR experience HUD rail using the referenced slim gold-and-charcoal frame as the style and silhouette reference. One very long, slender horizontal game UI strip, approximately 13.3:1 width-to-height, centered on a REAL transparent PNG canvas with alpha outside the strip. High-resolution artwork at least 1800 pixels wide. Keep its restrained antique-gold border and nearly-black inner material, crisp detail, no heavy ornament. Bake the fixed text \"LEVEL\" in small readable gold serif letters at about 6% of the strip width, leaving an EMPTY number space at 14% width. Bake exactly TEN equal empty recessed experience segments in one straight horizontal row, from 19% to 75% width, vertically centered. The ten segment wells have dark interiors and slim gold inner borders; no filled segments, numbers or progress. Leave a blank counter area from 78% to 92% width. Bake the fixed letters \"XP\" at 96% width. No other text or numbers. Every letter and all ten empty segment sockets are permanently integrated into this one bitmap. No checkerboard, white background, duplicate strips or surrounding scene. The art will be displayed at about 504x38 logical pixels, so prioritize clean thin rails and legible fixed lettering."
+      },
+      {
+        "step": "uiQualityXpTroughPrompt",
+        "prompt": "Edit this production fantasy game XP HUD rail. Preserve its broad 15:1 silhouette, black metal gold border, fixed LEVEL lettering at left and XP at far right. REPLACE ALL NINE SMALL BOXES with one continuous empty dark horizontal trough, absolutely no internal dividers or little boxes. Keep the empty space for the changing level number after LEVEL and the empty space for the changing XP count before XP. Make the result crisp at least 1800 pixels wide. Remove all white gray checkerboard and exterior background: output a transparent PNG with real alpha=0 outside the metal silhouette. Interior must remain opaque black metal. Do not draw any checkerboard, numbers, or additional text. One beautiful single continuous progress trough in the middle."
+      },
+      {
+        "step": "uiQualityXpCutoutPrompt",
+        "prompt": "Remove background. Return this exact LEVEL / XP HUD isolated on a TRANSPARENT BACKGROUND with real alpha transparency in the PNG file. All checkerboard pixels outside the metal frame must be fully transparent (alpha zero). Keep the inside dark artwork and lettering intact. This is a background removal task, not a mockup."
+      }
+    ],
+    "source": "exec-7674b459-ff6e-4a1f-9f18-7755093322d7.png",
+    "notes": "Nine-well candidates rejected; accepted source contains a continuous trough. The ten changing fill segments remain live."
+  },
+  {
+    "id": "utility-final-v2",
+    "prompt": "Generate one production UNDERSTAR fantasy game UI sprite sheet with TWO complete wide buttons, one above the other. 1536x1024 image, solid uniform near-black charcoal background. Each button approximately 1320 pixels wide and 270 tall, centered, with thick antique gold beveled rectangular corners and dark textured metal inside. Top button from y160 to430: permanently integrated ornate blue compass medallion in the left end and large exact engraved gold text 'EVENTS \u00b7 F2' centered in the remaining area. Bottom button from y594 to864: permanently integrated leather journal with gold clasp in the left end and large exact engraved gold text 'EXPORT SAVE' centered in the remaining area. Full buttons including emblem and letters are one authored piece of artwork; lit, embossed, sharp, polished fantasy game craftsmanship. Strong clear wide spacing. No other words, no variable values, no extra buttons. No checkerboard, no fake transparency, no external drop shadows. This is a high resolution source sheet for small actual game controls; make lettering bold and icons readable.",
+    "source": "exec-0b76b874-3db0-4002-b1a1-ec37cbec1b0d.png"
+  },
+  {
+    "id": "hud-details-v2",
+    "prompt": "Create a production UNDERSTAR fantasy game HUD asset sheet, 1536x1024, uniform solid near-black charcoal background. Three separate full assets in matching antique gold beveled metal, dark textured interiors, clean high resolution game art. Top left: a complete wide square gold-edged sound button, centered at (410,320), about520 wide by380 high, with a large gold musical-note icon permanently integrated into its dark metal face. Top right: matching button centered at (1125,320), same size, with a large gold speaker icon and three sound waves permanently integrated. Bottom: a long EMPTY dark rectangular notification panel with slim antique gold beveled border, from x70 to1466 and y720 to925, approximately6.8:1 proportions, uninterrupted empty dark interior, no icon, no text. This bottom panel will hold live changing messages, leave it entirely empty. All assets sharp at source pixels. No lettering anywhere, no checkerboard, no drop shadows outside the rectangles, no mockup.",
+    "source": "exec-be320f38-5e57-4ce6-af0b-166a2490cb2e.png"
+  }
+]

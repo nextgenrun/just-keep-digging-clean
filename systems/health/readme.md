@@ -54,3 +54,16 @@ The system never mutates gameplay state. Admin presentation belongs in
 - Every sampled error finding is forwarded to the health worker. The worker
   deduplicates active keys and independently posts newly broken invariants to
   the optional alert endpoint; main-thread freeze detection remains separate.
+
+`DynamicEventHealthSystem` observes actual event phase and heartbeat progress,
+tracks starts/completions, and separates legitimate admission waits from
+missing/stalled controllers. Pause time is excluded from lifetime checks;
+cancelled developer requests never count as passed. The existing runtime
+canary requires `dynamicEventRuntime` and reports its faults. Thresholds and
+labels live in `values/dynamicEventHealth.js`; this monitor does not reset or
+mutate encounters automatically.
+
+`dynamicEventOutcome.js` derives the final encounter notice from measured work:
+Shadowminer blocks, retained Wurm pass/offspring results, and earthquake rock/hit
+counter deltas. Cancellation produces no result. Active earthquake aftermath
+still owns completion; earlier session totals cannot leak into the next card.

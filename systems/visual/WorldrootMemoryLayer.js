@@ -1,12 +1,5 @@
-import { WORLDROOT_CONFIG } from "../../values/worldroot.js";
-
-function mixColor(first, second, amount) {
-  const t = Math.max(0, Math.min(1, amount));
-  const channel = shift => Math.round(
-    ((first >> shift) & 0xff) + (((second >> shift) & 0xff) - ((first >> shift) & 0xff)) * t,
-  );
-  return (channel(16) << 16) | (channel(8) << 8) | channel(0);
-}
+import { WORLDROOT_CONFIG } from "../../values/worldroot.js?rev=20260830-worldroot-v13";
+import { WorldrootStarArrivalController } from "./WorldrootStarArrivalController.js?rev=20260830-worldroot-v10";
 
 function drawOrganicLine(graphics, start, end, color, alpha, width, seed = 0) {
   graphics.lineStyle(width, color, alpha);
@@ -35,7 +28,8 @@ export class WorldrootMemoryLayer {
     this.snapshot = null;
     this.staticGraphics = null;
     this.pulseGraphics = null;
-    this.arrivals = new Set();
+    this.arrivalController = new WorldrootStarArrivalController(scene, config);
+    this.arrivals = this.arrivalController.arrivals;
   }
 
   create() {
@@ -51,6 +45,19 @@ export class WorldrootMemoryLayer {
       x: this.transform.left + point.x * this.transform.width,
       y: this.transform.top + point.y * this.transform.height,
     };
+  }
+
+  _getRevealRight(snapshot = this.snapshot) {
+    const maximumStage = this.config.reveal.rightByStage.length - 1;
+    const stage = Math.max(0, Math.min(
+      maximumStage,
+      Math.floor(Number(snapshot?.growthStage) || 0),
+    ));
+    return this.config.reveal.rightByStage[stage];
+  }
+
+  _isPointRevealed(point, snapshot = this.snapshot) {
+    return Number.isFinite(point?.x) && point.x <= this._getRevealRight(snapshot);
   }
 
   sync(snapshot) {
@@ -71,25 +78,22 @@ export class WorldrootMemoryLayer {
   }
 
   _drawConvergenceCurrents(graphics, snapshot) {
-    const crown = this.pointToWorld({ x: 0.82, y: 0.20 });
-    const sources = [
-      { point: { x: 0.217, y: 0.858 }, color: this.config.colors.warmth },
-      { point: { x: 0.54, y: 0.43 }, color: 0x76d88c },
-      { point: { x: 0.64, y: 0.59 }, color: this.config.colors.intact },
-      { point: { x: 0.365, y: 0.665 }, color: this.config.colors.focus },
-      { point: { x: 0.76, y: 0.64 }, color: 0xc878ff },
-    ];
-    snapshot.currents.forEach((current, index) => {
+    const crown = this.pointToWorld(this.config.currents.crownPoint);
+    const routesById = new Map(
+      this.config.currents.routes.map(route => [route.id, route]),
+    );
+    (snapshot.currents || []).forEach((current) => {
       if (!current.ready) return;
-      const source = sources[index] || sources[0];
+      const source = routesById.get(current.id);
+      if (!source || !this._isPointRevealed(source.point, snapshot)) return;
       drawOrganicLine(
         graphics,
         this.pointToWorld(source.point),
         crown,
         source.color,
-        0.24,
-        2.1,
-        index * 1.31,
+        this.config.currents.lineAlpha,
+        this.config.currents.lineWidthPx,
+        source.seed,
       );
     });
   }
@@ -97,10 +101,12 @@ export class WorldrootMemoryLayer {
   _drawTalentSap(graphics, snapshot) {
     const root = this.pointToWorld(this.config.interaction.rootTalent);
     for (const [index, talent] of snapshot.talentMemories.entries()) {
-      if (!talent.rootPurchased) continue;
+      if (!talent.rootPurchased || !this._isPointRevealed(talent.point, snapshot)) continue;
       const point = this.pointToWorld(talent.point);
-      const alpha = 0.3 + talent.progress * 0.52;
-      drawOrganicLine(graphics, root, point, talent.color, alpha, 3 + talent.progress * 2, index);
+      // These currents should read as sap inside the authored structure, not as
+      // screen-wide debug beams when all three branches are complete.
+      const alpha = 0.12 + talent.progress * 0.2;
+      drawOrganicLine(graphics, root, point, talent.color, alpha, 1.5 + talent.progress * 0.8, index);
       graphics.fillStyle(talent.color, talent.completed ? 0.95 : 0.55);
       graphics.fillPoints([
         { x: point.x, y: point.y - 7 },
@@ -113,6 +119,7 @@ export class WorldrootMemoryLayer {
 
   _drawBiomeKnots(graphics, snapshot) {
     for (const memory of snapshot.profileMemories) {
+      if (!this._isPointRevealed(memory.anchor, snapshot)) continue;
       const point = this.pointToWorld(memory.anchor);
       const sleeping = memory.status === "sleeping";
       const consumed = memory.status === "consumed";
@@ -136,12 +143,15 @@ export class WorldrootMemoryLayer {
 
   _drawStarMemories(graphics, snapshot) {
     for (const star of snapshot.starMemories) {
+      if (!this._isPointRevealed(star.point, snapshot)) continue;
       const point = this.pointToWorld(star.point);
       const rarity = Math.max(0, Math.min(5, Number(star.rarityIndex) || 0));
-      const radius = this.config.markers.starRadiusPx + rarity * 0.45;
+      const radius = star.state === "consumed"
+        ? this.config.markers.consumedRadiusPx + rarity * 0.45
+        : this.config.markers.starRadiusPx + rarity * 0.45;
       if (star.state === "consumed") {
         graphics.fillStyle(this.config.colors.consumed, 0.88);
-        graphics.fillCircle(point.x, point.y, radius + 1.2);
+        graphics.fillCircle(point.x, point.y, radius);
         graphics.lineStyle(1.7, this.config.colors.scar, 0.92);
         graphics.lineBetween(point.x - radius, point.y - radius, point.x + radius, point.y + radius);
         graphics.lineBetween(point.x - radius, point.y + radius, point.x + radius, point.y - radius);
@@ -156,7 +166,7 @@ export class WorldrootMemoryLayer {
 
   _drawTitanWounds(graphics, snapshot) {
     for (const titan of snapshot.titanMemories) {
-      if (!titan.discovered) continue;
+      if (!titan.discovered || !this._isPointRevealed(titan.point, snapshot)) continue;
       const point = this.pointToWorld(titan.point);
       const size = titan.worldrootKeystone ? 15 : 7 + (titan.index % 4) * 1.6;
       const color = titan.color || 0xc878ff;
@@ -175,12 +185,13 @@ export class WorldrootMemoryLayer {
   }
 
   update(time = 0) {
+    this.arrivalController?.update(time);
     const graphics = this.pulseGraphics;
     const snapshot = this.snapshot;
     if (!graphics || !snapshot) return;
     graphics.clear();
     const idle = (Math.sin(time / this.config.markers.idlePulsePeriodMs * Math.PI * 2) + 1) / 2;
-    const hearth = this.pointToWorld(this.config.interaction.rootTalent);
+    const hearth = this.pointToWorld(this.config.interaction.rootHearth);
     const buffColor = this.config.colors[snapshot.activeCampfireBuff?.type]
       || this.config.colors.warmth;
     graphics.lineStyle(2 + idle * 2, buffColor, 0.22 + idle * 0.32);
@@ -193,13 +204,11 @@ export class WorldrootMemoryLayer {
 
   _drawGpPulse(graphics, snapshot, time) {
     if (snapshot.gpRatio <= 0) return;
-    const route = [
-      this.pointToWorld({ x: 0.217, y: 0.858 }),
-      this.pointToWorld({ x: 0.31, y: 0.72 }),
-      this.pointToWorld({ x: 0.48, y: 0.54 }),
-      this.pointToWorld({ x: 0.65, y: 0.49 }),
-    ];
-    const phase = ((time / 1850) % 1) * (route.length - 1);
+    const route = this.config.motion.gpRoute
+      .filter(point => this._isPointRevealed(point, snapshot))
+      .map(point => this.pointToWorld(point));
+    if (route.length < 2) return;
+    const phase = ((time / this.config.motion.gpPulsePeriodMs) % 1) * (route.length - 1);
     const index = Math.min(route.length - 2, Math.floor(phase));
     const local = phase - index;
     const first = route[index];
@@ -213,7 +222,7 @@ export class WorldrootMemoryLayer {
 
   _drawActiveTitanPulse(graphics, snapshot, time) {
     const tracked = snapshot.titanMemories.find(titan => titan.tracked);
-    if (!tracked) return;
+    if (!tracked || !this._isPointRevealed(tracked.point, snapshot)) return;
     const point = this.pointToWorld(tracked.point);
     const pulse = (Math.sin(time / this.config.markers.activeTitanPulsePeriodMs * Math.PI * 2) + 1) / 2;
     graphics.lineStyle(2.4, tracked.color, 0.45 + pulse * 0.5);
@@ -222,7 +231,7 @@ export class WorldrootMemoryLayer {
   }
 
   _drawCrownPulse(graphics, snapshot, idle) {
-    const crown = this.pointToWorld({ x: 0.82, y: 0.20 });
+    const crown = this.pointToWorld(this.config.currents.crownPoint);
     const color = snapshot.endgameReady
       ? this.config.colors.crownReady
       : this.config.colors.crownDormant;
@@ -234,8 +243,8 @@ export class WorldrootMemoryLayer {
   queueStarArrival(detail = {}) {
     if (!this.scene || this.arrivals.size >= this.config.markers.maximumArrivalQueue) return false;
     const tileSize = this.scene.config?.tileSize || 94;
-    const matching = this.snapshot?.starMemories.find(star => (
-      star.tile.tx === detail.originTileX && star.tile.ty === detail.originTileY
+    const matching = this.snapshot?.starMemories?.find(star => (
+      star?.tile?.tx === detail.originTileX && star?.tile?.ty === detail.originTileY
     ));
     const target = this.pointToWorld(matching?.point || {
       x: 0.25 + ((Number(detail.identityIndex) || 0) % 7) * 0.018,
@@ -246,45 +255,15 @@ export class WorldrootMemoryLayer {
           x: (detail.originTileX + 0.5) * tileSize,
           y: (detail.originTileY + 0.5) * tileSize,
         }
-      : this.pointToWorld(this.config.interaction.rootTalent);
+      : this.pointToWorld(this.config.interaction.rootHearth);
     const color = Number.parseInt(String(detail.identityPrimary || "8eeaff").replace("#", ""), 16)
       || this.config.colors.intact;
-    const halo = this.scene.add.circle(start.x, start.y, 11, color, 0.18)
-      .setDepth(this.config.placement.overlayDepth + 0.02);
-    const core = this.scene.add.circle(start.x, start.y, 4.5, color, 0.95)
-      .setDepth(this.config.placement.overlayDepth + 0.03);
-    const arrival = { halo, core };
-    this.arrivals.add(arrival);
-    this.scene.tweens.add({
-      targets: [halo, core],
-      x: target.x,
-      y: target.y,
-      duration: this.config.markers.arrivalDurationMs,
-      ease: "Sine.inOut",
-      onComplete: () => {
-        this.arrivals.delete(arrival);
-        halo.destroy();
-        core.destroy();
-      },
-    });
-    this.scene.tweens.add({
-      targets: halo,
-      scaleX: 2.2,
-      scaleY: 2.2,
-      alpha: 0,
-      duration: this.config.markers.arrivalDurationMs,
-      ease: "Power2.out",
-    });
-    return true;
+    return this.arrivalController?.queue({ start, target, color }) === true;
   }
 
   destroy() {
-    for (const arrival of this.arrivals) {
-      this.scene?.tweens?.killTweensOf?.([arrival.core, arrival.halo]);
-      arrival.core?.destroy();
-      arrival.halo?.destroy();
-    }
-    this.arrivals.clear();
+    this.arrivalController?.destroy();
+    this.arrivalController = null;
     this.staticGraphics?.destroy();
     this.pulseGraphics?.destroy();
     this.staticGraphics = null;

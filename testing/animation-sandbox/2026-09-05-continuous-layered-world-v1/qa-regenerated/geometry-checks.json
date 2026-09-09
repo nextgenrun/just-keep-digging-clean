@@ -1,0 +1,16 @@
+{
+  "pass": true,
+  "kind": "geometry-admission-lifecycle",
+  "cameraCases": 50,
+  "coverageSamples": 3150,
+  "nativeScale": true,
+  "sixCoreAssets": true,
+  "legacySkyAdmissionDisabled": true,
+  "legacySurfaceAtmosphereDisabled": true,
+  "baselineFarPresent": true,
+  "pause": true,
+  "undergroundCull": true,
+  "teardown": true,
+  "forestBoundary": true,
+  "visualArtAssessment": false
+}

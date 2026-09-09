@@ -18,6 +18,7 @@ function escapeDetail(scene, labels) {
 
 export function resolveEarthquakeFeedbackMode({
   escapeActive,
+  aftershockActive,
   state,
   suppressedSourceState,
   source,
@@ -25,6 +26,7 @@ export function resolveEarthquakeFeedbackMode({
   if (escapeActive) return "escape";
   const awarenessKnown = typeof source?.isPlayerAware === "function";
   const playerAware = awarenessKnown ? source.isPlayerAware() : true;
+  if (aftershockActive && playerAware) return "aftershock";
   if (state !== "idle" && state !== suppressedSourceState && playerAware) return state;
   return null;
 }
@@ -44,25 +46,35 @@ export function resolveEarthquakeFeedbackPresentation({
   if (mode === "warning") {
     return card(
       labels.warningTitle,
-      `${intensity}  •  ${seconds.toFixed(1)}s`,
+      `${labels.warningAction}  •  ${intensity}  •  ${seconds.toFixed(1)}s`,
       config.colors.warning,
     );
   }
   if (mode === "earthquake") {
     return card(
       labels.quakeTitle,
-      `${intensity}  •  ${Math.ceil(seconds)}s`,
+      `${labels.movementAction}  •  ${Math.ceil(seconds)}s`,
       config.colors.danger,
     );
   }
   if (mode === "aftermath") {
+    const chainSeconds = Math.max(0, (source?.chainTimer || 0) / 1000);
     const detail = source?.chainPending
-      ? labels.aftershockWatch
-      : `${seconds.toFixed(1)}s`;
+      ? `${labels.aftershockWatch}  •  ${Math.ceil(chainSeconds)}s`
+      : (source?.caveIns?.length || source?.fallingRocks?.length)
+        ? labels.pendingRocks
+        : `${seconds.toFixed(1)}s`;
     return card(
       labels.aftermathTitle,
       detail,
       source?.chainPending ? config.colors.warning : config.colors.calm,
+    );
+  }
+  if (mode === "aftershock") {
+    return card(
+      labels.aftershock,
+      labels.aftershockAction,
+      config.colors.danger,
     );
   }
   if (mode === "escape") {

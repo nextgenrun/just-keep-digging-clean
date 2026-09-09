@@ -1,0 +1,134 @@
+{
+  "renders": [
+    {
+      "mode": "before",
+      "id": "walk",
+      "voices": 16,
+      "peak": 0.059438,
+      "clippedSamples": 0,
+      "file": "before-walk.wav"
+    },
+    {
+      "mode": "before",
+      "id": "hard-walk",
+      "voices": 16,
+      "peak": 0.034416,
+      "clippedSamples": 0,
+      "file": "before-hard-walk.wav"
+    },
+    {
+      "mode": "before",
+      "id": "earth",
+      "voices": 28,
+      "peak": 0.147021,
+      "clippedSamples": 0,
+      "file": "before-earth.wav"
+    },
+    {
+      "mode": "before",
+      "id": "stone",
+      "voices": 40,
+      "peak": 0.205217,
+      "clippedSamples": 0,
+      "file": "before-stone.wav"
+    },
+    {
+      "mode": "before",
+      "id": "metal",
+      "voices": 40,
+      "peak": 0.224165,
+      "clippedSamples": 0,
+      "file": "before-metal.wav"
+    },
+    {
+      "mode": "before",
+      "id": "crystal",
+      "voices": 48,
+      "peak": 0.161304,
+      "clippedSamples": 0,
+      "file": "before-crystal.wav"
+    },
+    {
+      "mode": "before",
+      "id": "cave",
+      "voices": 12,
+      "peak": 0.180581,
+      "clippedSamples": 0,
+      "file": "before-cave.wav"
+    },
+    {
+      "mode": "before",
+      "id": "landing",
+      "voices": 3,
+      "peak": 0.1111,
+      "clippedSamples": 0,
+      "file": "before-landing.wav"
+    },
+    {
+      "mode": "after",
+      "id": "walk",
+      "voices": 16,
+      "peak": 0.048527,
+      "clippedSamples": 0,
+      "file": "after-walk.wav"
+    },
+    {
+      "mode": "after",
+      "id": "hard-walk",
+      "voices": 16,
+      "peak": 0.031114,
+      "clippedSamples": 0,
+      "file": "after-hard-walk.wav"
+    },
+    {
+      "mode": "after",
+      "id": "earth",
+      "voices": 24,
+      "peak": 0.094411,
+      "clippedSamples": 0,
+      "file": "after-earth.wav"
+    },
+    {
+      "mode": "after",
+      "id": "stone",
+      "voices": 24,
+      "peak": 0.122741,
+      "clippedSamples": 0,
+      "file": "after-stone.wav"
+    },
+    {
+      "mode": "after",
+      "id": "metal",
+      "voices": 24,
+      "peak": 0.136878,
+      "clippedSamples": 0,
+      "file": "after-metal.wav"
+    },
+    {
+      "mode": "after",
+      "id": "crystal",
+      "voices": 24,
+      "peak": 0.105567,
+      "clippedSamples": 0,
+      "file": "after-crystal.wav"
+    },
+    {
+      "mode": "after",
+      "id": "cave",
+      "voices": 12,
+      "peak": 0.122794,
+      "clippedSamples": 0,
+      "file": "after-cave.wav"
+    },
+    {
+      "mode": "after",
+      "id": "landing",
+      "voices": 2,
+      "peak": 0.091418,
+      "clippedSamples": 0,
+      "file": "after-landing.wav"
+    }
+  ],
+  "sampleRate": 48000,
+  "scope": "Captured runtime events with mixer gain changes, playback rates, natural completions and stop times. Music, speech ducking, device output and full-game timing are not simulated."
+}

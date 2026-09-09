@@ -58,10 +58,12 @@ export class WeatherParticleController {
       this._emitSplashes(surfaceRain, gustAmount, dt, state.occlusion.landingSamples);
     }
     this._emitDrips(Math.max(caveRain, coveredRain * this.weatherConfig.underground.coverDripScale), dt, state);
-    this._emitMist(Math.max(caveRain, surfaceRain * 0.32 + gustAmount * surfaceRain * 0.18), dt, state.occlusion.landingSamples);
+    const surfaceMist = (surfaceRain * 0.32 + gustAmount * surfaceRain * 0.18)
+      * (this.weatherConfig.surfaceAtmosphere?.mistScale ?? 1);
+    this._emitMist(Math.max(caveRain, surfaceMist), dt, state.occlusion.landingSamples);
     this._emitPreStormDust(dt, state, gustAmount);
     this._emitWetSurfaceRipples(dt, state);
-    this._emitPostRainSteam(dt, state, rainAmount, snowAmount);
+    this._emitPostRainSteam(dt * (this.weatherConfig.surfaceAtmosphere?.steamScale ?? 1), state, rainAmount, snowAmount);
   }
 
   resize() {}
@@ -276,7 +278,7 @@ export class WeatherParticleController {
       lifespan: options.lifespan || { min: 430, max: 780 },
       speedX: options.speedX || { min: -120, max: 90 },
       speedY: options.speedY || { min: 760, max: 1280 },
-      rotate: options.rotate || { min: -7, max: 11 },
+      rotate: options.rotate ?? { min: -7, max: 11 },
       scale: options.scale,
       alpha: options.alpha,
       frequency: -1,
@@ -295,7 +297,7 @@ export class WeatherParticleController {
 
   _imagegenAsset(frameGroup) {
     return {
-      textureKey: this.visualAssets.textureKey,
+      textureKey: this.visualAssets.groupTextureKeys?.[frameGroup] || this.visualAssets.textureKey,
       frames: this.visualAssets.frames[frameGroup],
     };
   }

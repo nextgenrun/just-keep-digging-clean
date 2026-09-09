@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "seedance-browser-playback-proof-v1",
+  "reviewOnly": true,
+  "productionChanged": false,
+  "browser": "Codex In-app Browser",
+  "url": "http://127.0.0.1:8080/testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/",
+  "testedEffects": [
+    "fx-stone-contact-v01",
+    "fx-metal-contact-v01",
+    "fx-crystal-contact-v01",
+    "fx-magma-contact-v01",
+    "fx-dirt-break-v01",
+    "fx-stone-break-v01"
+  ],
+  "checks": {
+    "eachSelectedEffectReachedForwardPassComplete": true,
+    "dirtBreakThreeCycleInspectionReachedForwardPassComplete": true,
+    "loopAttribute": false,
+    "loopProperty": false,
+    "playbackRate": 1,
+    "threeCycleFinalCurrentTimeSeconds": 2.875,
+    "threeCycleDurationSeconds": 2.875,
+    "effectHiddenAfterFinalEnd": true,
+    "browserConsoleWarningsOrErrors": 0,
+    "blackCarrierVisibleInComposite": false
+  },
+  "evidenceBoundary": "Browser playback proves decoding, compositing, forward restart behavior and clean completion. Contact sheets and numeric screening remain the motion-content evidence; the player-video candidates are rejected rather than repaired.",
+  "constraints": [
+    "frame order unchanged",
+    "no reverse playback",
+    "no ping-pong",
+    "no optical-flow interpolation",
+    "no runtime wiring"
+  ]
+}

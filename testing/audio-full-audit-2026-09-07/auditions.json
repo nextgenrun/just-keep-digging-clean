@@ -1,0 +1,236 @@
+{
+  "examples": [
+    {
+      "id": "music",
+      "title": "Music loudness",
+      "note": "The loudest measured track; a 12-second excerpt at the default Music and Master levels.",
+      "source": "sound/playlists/tor-music-tower-gate-entry-full-commitment-epic-dread-i03-b03-c02-v01.mp3",
+      "defaultBusGain": 0.36000000000000004,
+      "sourceGainAfter": 0.44157,
+      "variants": {
+        "before": {
+          "file": "auditions/music-before.wav",
+          "metrics": {
+            "path": "testing/audio-full-audit-2026-09-07/auditions/music-before.wav",
+            "kind": "audition",
+            "families": [
+              "audit"
+            ],
+            "codec_name": "pcm_s24le",
+            "sample_rate": "48000",
+            "channels": 2,
+            "duration": 12.0,
+            "bit_rate": "2304000",
+            "sha256": "8653b4c2ad0553c0bc0dd7a4b9c7d5a96a9b7c6669aea7ad15335f2b32a2397e",
+            "peakDbFS": -11.16,
+            "rmsDbFS": -26.482,
+            "integratedLUFS": -22.6,
+            "truePeakDbTP": -11.2,
+            "loudnessRangeLU": 12.3,
+            "dcOffset": -0.0,
+            "leadingSilenceSeconds": 1.183,
+            "trailingSilenceSeconds": 0
+          }
+        },
+        "after": {
+          "file": "auditions/music-after.wav",
+          "metrics": {
+            "path": "testing/audio-full-audit-2026-09-07/auditions/music-after.wav",
+            "kind": "audition",
+            "families": [
+              "audit"
+            ],
+            "codec_name": "pcm_s24le",
+            "sample_rate": "48000",
+            "channels": 2,
+            "duration": 12.0,
+            "bit_rate": "2304000",
+            "sha256": "c49d319963c4772250374f3ff276a7eb0ae29a0f425ac86b47cf907f56e5a0b9",
+            "peakDbFS": -18.26,
+            "rmsDbFS": -33.582,
+            "integratedLUFS": -29.7,
+            "truePeakDbTP": -18.3,
+            "loudnessRangeLU": 12.3,
+            "dcOffset": -0.0,
+            "leadingSilenceSeconds": 1.394,
+            "trailingSilenceSeconds": 0
+          }
+        }
+      }
+    },
+    {
+      "id": "voice",
+      "title": "Dialogue balance",
+      "note": "The loudest shared dialogue recording at the default Voice and Master levels. NPC attenuation is included where applicable.",
+      "source": "sound/voice-lines/npc-voicelines/gem-merchant-voice-lines/update-2/I wish I was mortal(1).wav",
+      "defaultBusGain": 0.36288,
+      "sourceGainAfter": 0.416869,
+      "variants": {
+        "before": {
+          "file": "auditions/voice-before.wav",
+          "metrics": {
+            "path": "testing/audio-full-audit-2026-09-07/auditions/voice-before.wav",
+            "kind": "audition",
+            "families": [
+              "audit"
+            ],
+            "codec_name": "pcm_s24le",
+            "sample_rate": "48000",
+            "channels": 2,
+            "duration": 14.72,
+            "bit_rate": "2304000",
+            "sha256": "3900f9e9d305d795e125b5a692d628125bbf003c7906936d2d3344631aed27d0",
+            "peakDbFS": -13.223,
+            "rmsDbFS": -23.876,
+            "integratedLUFS": -21.2,
+            "truePeakDbTP": -13.2,
+            "loudnessRangeLU": 10.5,
+            "dcOffset": -0.0,
+            "leadingSilenceSeconds": 1.511,
+            "trailingSilenceSeconds": 0
+          }
+        },
+        "after": {
+          "file": "auditions/voice-after.wav",
+          "metrics": {
+            "path": "testing/audio-full-audit-2026-09-07/auditions/voice-after.wav",
+            "kind": "audition",
+            "families": [
+              "audit"
+            ],
+            "codec_name": "pcm_s24le",
+            "sample_rate": "48000",
+            "channels": 2,
+            "duration": 13.894,
+            "bit_rate": "2304000",
+            "sha256": "f2d2de0e00192298a58b918b63d957e2fe9d16f708c2e4b780bf74ae5ed54bfb",
+            "peakDbFS": -20.823,
+            "rmsDbFS": -31.225,
+            "integratedLUFS": -28.8,
+            "truePeakDbTP": -20.8,
+            "loudnessRangeLU": 10.5,
+            "dcOffset": -0.0,
+            "leadingSilenceSeconds": 2.255,
+            "trailingSilenceSeconds": 0
+          }
+        }
+      }
+    },
+    {
+      "id": "npc",
+      "title": "Quicker dialogue release",
+      "note": "A real NPC line with excess trailing silence removed and short fades at the edited edges.",
+      "source": "sound/voice-lines/npc-voicelines/player-upgrade-npc-voicelines/update-2/Dwarf Uplifted.wav",
+      "defaultBusGain": 0.36288,
+      "sourceGainAfter": 0.69183,
+      "variants": {
+        "before": {
+          "file": "auditions/npc-before.wav",
+          "metrics": {
+            "path": "testing/audio-full-audit-2026-09-07/auditions/npc-before.wav",
+            "kind": "audition",
+            "families": [
+              "audit"
+            ],
+            "codec_name": "pcm_s24le",
+            "sample_rate": "48000",
+            "channels": 2,
+            "duration": 3.64,
+            "bit_rate": "2304000",
+            "sha256": "af7ae2dcdd851aba65f4653eff156455bea8c4a83b51755ba8db1dcb536173e7",
+            "peakDbFS": -13.273,
+            "rmsDbFS": -30.297,
+            "integratedLUFS": -25.6,
+            "truePeakDbTP": -13.3,
+            "loudnessRangeLU": 0.9,
+            "dcOffset": 0.0,
+            "leadingSilenceSeconds": 0,
+            "trailingSilenceSeconds": 1.096
+          }
+        },
+        "after": {
+          "file": "auditions/npc-after.wav",
+          "metrics": {
+            "path": "testing/audio-full-audit-2026-09-07/auditions/npc-after.wav",
+            "kind": "audition",
+            "families": [
+              "audit"
+            ],
+            "codec_name": "pcm_s24le",
+            "sample_rate": "48000",
+            "channels": 2,
+            "duration": 2.936,
+            "bit_rate": "2304000",
+            "sha256": "abc232b5a2cc76001492a705d6ba7e5e1b94e151fd1aa9ed0a961cc231c73083",
+            "peakDbFS": -16.473,
+            "rmsDbFS": -32.563,
+            "integratedLUFS": -28.8,
+            "truePeakDbTP": -16.5,
+            "loudnessRangeLU": 0.0,
+            "dcOffset": 0.0,
+            "leadingSilenceSeconds": 0,
+            "trailingSilenceSeconds": 0.458
+          }
+        }
+      }
+    },
+    {
+      "id": "star",
+      "title": "Star destruction cleanup",
+      "note": "The same approved recording at its existing gain, with a 20 Hz high-pass to remove DC.",
+      "source": "sound/soundEffects/approved-sfx-findings-v1/star-destruction-shockwave-freesound-814053.mp3",
+      "defaultBusGain": 0.1458,
+      "sourceGainAfter": 1,
+      "variants": {
+        "before": {
+          "file": "auditions/star-before.wav",
+          "metrics": {
+            "path": "testing/audio-full-audit-2026-09-07/auditions/star-before.wav",
+            "kind": "audition",
+            "families": [
+              "audit"
+            ],
+            "codec_name": "pcm_s24le",
+            "sample_rate": "44100",
+            "channels": 2,
+            "duration": 7.384626,
+            "bit_rate": "2116800",
+            "sha256": "8ecc97347bf4ddb21a64f194e8eb0672522347b26f88ffc770a6b5cfb40b30c8",
+            "peakDbFS": -16.974,
+            "rmsDbFS": -24.955,
+            "integratedLUFS": -34.7,
+            "truePeakDbTP": -17.0,
+            "loudnessRangeLU": 8.4,
+            "dcOffset": -0.054,
+            "leadingSilenceSeconds": 0,
+            "trailingSilenceSeconds": 0.366
+          }
+        },
+        "after": {
+          "file": "auditions/star-after.wav",
+          "metrics": {
+            "path": "testing/audio-full-audit-2026-09-07/auditions/star-after.wav",
+            "kind": "audition",
+            "families": [
+              "audit"
+            ],
+            "codec_name": "pcm_s24le",
+            "sample_rate": "44100",
+            "channels": 2,
+            "duration": 7.384626,
+            "bit_rate": "2116800",
+            "sha256": "228969e2c07526684174f00d3db42cf4adb5b3f437aa65962c01ff4044b94e9f",
+            "peakDbFS": -15.461,
+            "rmsDbFS": -34.969,
+            "integratedLUFS": -34.7,
+            "truePeakDbTP": -15.5,
+            "loudnessRangeLU": 8.4,
+            "dcOffset": -0.0,
+            "leadingSilenceSeconds": 0,
+            "trailingSilenceSeconds": 0.363
+          }
+        }
+      }
+    }
+  ]
+}

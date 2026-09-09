@@ -247,32 +247,41 @@ rate and cap, so the difference is visible rather than hidden in a formula.
 
 The first attempted Star sacrifice in a save slot has no countdown. Gameplay
 stops behind the approved warning panel and explains the complete permanent
-loss: light, GP recovery, Panic relief, and the four-tile Starless Scar where
-darkness Panic builds 60% faster. The player must type exact `DESTROY` and
-press Enter. Escape closes the panel and leaves the Star untouched.
+loss: light, material yield, GP recovery, Panic relief, and the Starless Scar
+across that Star's complete nearest-site territory, where darkness Panic builds
+60% faster. Destroying the final intact Star scars the whole underground. The
+player must type exact `DESTROY` and press Enter. Escape closes the panel and
+leaves the Star untouched.
 
 Typing `DESTROY` acknowledges the rule only. It never damages or authorizes
 the current Star, and the player must deliberately begin mining again.
 
 Every Star then uses a fresh one-second continuous mining hold before damage
 is authorized. Releasing mine or changing target resets the hold. During that
-second, the world shows the exact four-tile scar footprint and an approved
+second, the world shows the exact owned-territory scar footprint and an approved
 framed percentage meter states which services will be lost:
 
-> REMOVING THIS STAR WILL CONSUME THE SURROUNDING LAND • HOLD MINE
+> REMOVING THIS STAR WILL EXHAUST ITS TERRITORY • HOLD MINE
 
 Once confirmed, the normal `DigSystem` destruction and Star reward path remains
 the sole reward authority.
 
 ### A4. The permanent Starless Scar
 
-Destroying the Star leaves a fixed four-tile-radius scar that never spreads:
+Destroying the Star scars its complete nearest-Star territory. It never spreads
+beyond that authored ownership area while another intact Star owns the adjacent
+section:
 
 - the land is visibly blackened with a dead core and branching rot;
-- the former light, GP service, and Panic relief are gone;
+- ordinary material yield, material XP, light, GP service, and Panic relief are gone;
 - darkness-driven Panic builds 60% faster inside the scar in Hardcore;
 - Casual still loses the light, GP service, landmark, and healthy ground;
 - a nearby intact Star can still provide its own refuge normally.
+
+Because every underground cell has exactly one nearest-Star owner, consuming
+every Star makes the entire underground depleted, dark, and high-Stress. The
+14-tile value remains only as a defensive fallback if territory authority is
+unavailable.
 
 The scar coordinate, rarity, and identity are derived from the existing saved
 dug-tile source record. No save schema or second permanent scar list is needed.
@@ -767,9 +776,10 @@ Exit gate: one written activation-cost decision and a reproducible baseline.
 - stronger per-Star Panic recovery in Hardcore;
 - blocking first-use explanation with exact typed `DESTROY` acknowledgement;
 - no damage on acknowledgement, followed by a fresh one-second hold;
-- release/retarget cancellation, exact scar-radius preview, and approved hold
+- release/retarget cancellation, exact owned-territory preview, and approved hold
   meter with lost-service copy;
 - fixed, non-spreading Starless Scar derived from existing save data;
+- ordinary material yield and resource XP depleted in every consumed territory;
 - 60% stronger darkness Panic inside the scar;
 - every discovered underground map cell connected to its nearest original Star;
 - M-map territory colour, boundaries, current-refuge route, hidden signal, and
@@ -839,8 +849,8 @@ approved and browser-playable through their real progression path.
 - Typing `DESTROY` causes zero damage and starts no carry-over hold progress.
 - Every later sacrifice requires a fresh one-second hold; releasing mine or
   changing target resets progress and leaves the Star intact.
-- Destroying the Star removes light, GP charging, and Panic recovery on the
-  same authoritative tile result.
+- Destroying the Star removes material yield, light, GP charging, and Panic
+  recovery from its complete owned territory on the same authoritative result.
 - The saved dug-tile source reconstructs the fixed Starless Scar after load.
 - Only darkness-driven Panic is multiplied inside a scar.
 - Casual receives normal Star progression and GP refuge behavior.
@@ -859,7 +869,8 @@ approved and browser-playable through their real progression path.
    the mechanic.
 3. Begin again, release a partial hold to verify complete cancellation, then
    complete the hold and verify the normal reward, service loss, preview, and
-   four-tile scar.
+   complete owned-territory scar; on the final Star, verify the preview covers
+   the whole underground.
 4. Save / reload before and after consumption; verify the scar is reconstructed.
 5. Compare Warmth, Inspiration, and Focus on the same seeded route.
 6. Discover and equip each prototype Titan Memory; verify one-rule changes.
@@ -923,3 +934,82 @@ design promise:
 If players understand and enjoy that choice, expand the same pattern through
 Campfire blessings and three Titan Memories. If they do not, adjust the
 relationship before connecting the rest of the game to it.
+
+## Approved Worldroot convergence — implemented 2026-08-30
+
+The small town Starpillar is replaced by one broad, asymmetrical living
+Worldroot. The original Sky Island pillar remains intact. The Worldroot adds no
+currency and owns no progression: it reads the game's existing authorities and
+turns the playthrough into a physical place the player can climb and inspect.
+
+### What feeds the tree
+
+| Current | Existing authority | Crown requirement | Worldroot response |
+|---|---|---:|---|
+| Root Hearth | Campfire | Tier 10 | The Campfire is the root heart; its active blessing changes the root pulse. |
+| World Memory | Level One biome field | All 5 parent regions discovered | All 50 named biome profiles exist as irregular knots along five broad biome countries. |
+| Star Memory | M-map Star territories | 50 known Star sites | Every known intact Star appears as light; every consumed Star remains as a permanent crossed scar. |
+| Celestial Mastery | Celestial talent progression | 3 completed branches | Wayward Star, Hollow Sun, and Stellar Lance become three coloured sap currents rather than another UI tree. |
+| Titan Chorus | Retention discoveries and active clue | All 25 Titans, including Worldroot Titan | Discoveries become irregular structural wounds; the Money-funded active clue pulses on its matching branch. |
+
+GP remains the action and refuge power authority. Its live fill ratio controls a
+travelling sap pulse, so GP is visible in the Worldroot without becoming a sixth
+endgame checklist. Darkness and Panic remain owned by Star Sanctuary and
+Starless Scar; the tree records the result instead of applying a duplicate rule.
+
+### The Crown Star
+
+The enormous blue Crown Star is visible from a new game. The root-road grows
+toward it in seven visual states: rooted beginning, five story-growth states,
+and final convergence. Its one-way Crown terrace exists only when all five
+currents are complete. Touching it then emits the `worldroot-endgame-ready`
+runtime event and announces the endgame start; this deliberately does not
+pretend the existing 2000 m demo ending is the Crown sequence.
+
+### Traversal and inspection
+
+- Upper branches are true one-way terraces: rise through them, land and walk,
+  then press the existing Down action to drop through the current branch.
+- The root heart opens the existing Celestial Talent view.
+- A biome knot or individual Star memory opens the existing M map centred on
+  the corresponding underground tile.
+- A Titan wound opens the existing Titan Archive; the currently tracked clue
+  is the only undiscovered Titan mark allowed to pulse.
+- Consumed-region art uses the identical authored tree silhouette, blended over
+  the affected biome country, while individual Star scars preserve exact loss.
+- Newly mined Stars retain their source tile and visibly fly toward their tree
+  memory; no additional reward is granted.
+
+### Space, rollback, and proof
+
+The authored hearth aligns with the existing Campfire at tile 21.5. The active
+V3 tree spans tiles 18–46, but only its compact left base touches the ground:
+that footprint ends at tile 26.82, before Titan #1 begins at tile 27.90. The
+remaining structure is an elevated, asymmetrical canopy with a measured 1.49
+tile air gap over the tallest surfaced Titan; statues render in front at their
+existing depth. `?worldrootPillar=legacy` restores the prior small town pillar
+without altering save data. Runtime art and its exact living/consumed sources
+live in `sprites/environment/worldroot-v3/`; deterministic coverage is in
+`testing/2026-08-30-worldroot-interconnection-contract.mjs`. The focused browser
+run passed 23/23 phases, including the Hearth, all growth/consumed states, the
+Titan promenade, real Crown-branch landing/walking/drop-through, interaction
+routes, Star arrivals, and save-safe restoration with no runtime errors.
+
+The polish contract also rejects unknown Titan save ids, preserves an active
+growth reveal across the 350 ms authority sync, clears deferred M-map focus on
+success or load failure, staggers simultaneous Star flights, resets synthetic
+preview states back to their real snapshot, and keeps action-bar key 6 free.
+It now also keeps pre-discovery territory signals anonymous, derives Star and
+talent counts from normalized real records instead of trusting duplicated save
+summaries, bounds corrupt numeric feeds, maps Crown currents by stable ids, and
+clears a terrace drop-through lock when the player leaves that specific branch.
+The legacy query is a complete presentation rollback and therefore no longer
+preloads the living or consumed Worldroot textures.
+
+The final lifecycle pass admits a memory or inspection hotspot only after its
+branch has visibly grown, caches the player's nearest story knot for the frame's
+prompt/priority/interaction consumers, and redraws static memories only for
+structural changes. Live GP, Campfire blessing, and tracked-Titan pulses remain
+responsive without rebuilding the tree. Failed or unavailable map/archive
+routes now fail closed without displaying success feedback or falling through
+into Celestial Talents, and teardown restores every preview and Crown guard.

@@ -1,0 +1,62 @@
+{
+  "before": {
+    "tile": {
+      "tx": 43,
+      "ty": 105
+    },
+    "camera": {
+      "x": 3385,
+      "y": 9539
+    },
+    "player": {
+      "x": 4089,
+      "y": 9964,
+      "frame": 3
+    },
+    "hp": 30,
+    "renderer": 2,
+    "saveBlocked": true,
+    "errors": []
+  },
+  "after": {
+    "tile": {
+      "tx": 43,
+      "ty": 105
+    },
+    "camera": {
+      "x": 3385,
+      "y": 9539
+    },
+    "player": {
+      "x": 4089,
+      "y": 9964,
+      "frame": 3
+    },
+    "hp": 30,
+    "renderer": 2,
+    "saveBlocked": true,
+    "errors": []
+  },
+  "hud": {
+    "reviewOnly": true,
+    "productionChanged": false,
+    "changedObjects": 18,
+    "addedObjects": 4,
+    "collapsedLockedSlots": 5,
+    "campfirePreserved": true,
+    "quieterDecorations": 0,
+    "saveBlocked": true
+  },
+  "focus": {
+    "reviewOnly": true,
+    "productionChanged": false,
+    "changedObjects": 91,
+    "addedObjects": 6,
+    "collapsedLockedSlots": 5,
+    "campfirePreserved": true,
+    "quieterDecorations": 73,
+    "saveBlocked": true
+  },
+  "sameGameState": true,
+  "fixture": "28 pre-dug cells in the normal 41m terrain; real PlayScene, current asset graph"
+}

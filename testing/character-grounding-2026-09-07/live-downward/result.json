@@ -1,0 +1,78 @@
+{
+  "baseline": false,
+  "errors": [],
+  "cases": [
+    {
+      "name": "main-down",
+      "contacts": [
+        {
+          "t": 46546.4,
+          "key": "survival-ual-player-v1-dig-down-ground-strike-anim",
+          "frame": 18,
+          "visibleFrame": 13,
+          "index": 0
+        },
+        {
+          "t": 47714.2,
+          "key": "survival-mixamo-v3-downward-dig-body-low-anim",
+          "frame": 12,
+          "visibleFrame": 12,
+          "index": 0
+        },
+        {
+          "t": 49082.3,
+          "key": "survival-ual-player-v1-dig-down-ground-strike-anim",
+          "frame": 18,
+          "visibleFrame": 19,
+          "index": 0
+        },
+        {
+          "t": 50633.9,
+          "key": "survival-mixamo-v3-downward-dig-body-low-anim",
+          "frame": 12,
+          "visibleFrame": 12,
+          "index": 0
+        },
+        {
+          "t": 52085.4,
+          "key": "survival-ual-player-v1-dig-down-ground-strike-anim",
+          "frame": 18,
+          "visibleFrame": 18,
+          "index": 0
+        }
+      ],
+      "crouchFrames": 0,
+      "holdFrames": 95,
+      "transitions": [
+        {
+          "t": 46546.4,
+          "key": "survival-ual-player-v1-dig-down-ground-strike-anim"
+        },
+        {
+          "t": 47280.5,
+          "key": "survival-mixamo-v3-downward-dig-body-low-anim"
+        },
+        {
+          "t": 48782,
+          "key": "survival-ual-player-v1-dig-down-ground-strike-anim"
+        },
+        {
+          "t": 50283.6,
+          "key": "survival-mixamo-v3-downward-dig-body-low-anim"
+        },
+        {
+          "t": 51785.1,
+          "key": "survival-ual-player-v1-dig-down-ground-strike-anim"
+        }
+      ],
+      "afterMining": {
+        "key": "survival-mixamo-v1-crouch-idle-anim",
+        "playing": true
+      },
+      "stopped": {
+        "key": "survival-mixamo-v1-crouch-exit-anim",
+        "crouch": false
+      }
+    }
+  ]
+}

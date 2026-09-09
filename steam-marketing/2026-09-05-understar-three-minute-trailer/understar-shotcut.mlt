@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mlt LC_NUMERIC="C" version="7.30.0" producer="main_bin" title="Shotcut version 26.8.1" root="C:/xampp/_Backups/dig-game-simple/dig-game-dev-env-cleaned/steam-marketing/2026-09-05-understar-three-minute-trailer">
+  <profile description="HD 1080p60" width="1920" height="1080" frame_rate_num="60" frame_rate_den="1" progressive="1" sample_aspect_num="1" sample_aspect_den="1" display_aspect_num="16" display_aspect_den="9" colorspace="709" />
+  <producer id="black" in="0" out="10799">
+    <property name="length">10800</property>
+    <property name="eof">pause</property>
+    <property name="resource">0</property>
+    <property name="mlt_service">color</property>
+    <property name="mlt_image_format">rgba</property>
+    <property name="set.test_audio">1</property>
+  </producer>
+  <playlist id="background">
+    <entry producer="black" in="0" out="10799" />
+  </playlist>
+  <chain id="trailer" in="0" out="10799">
+    <property name="length">10800</property>
+    <property name="eof">pause</property>
+    <property name="resource">C:/xampp/_Backups/dig-game-simple/dig-game-dev-env-cleaned/steam-marketing/2026-09-05-understar-three-minute-trailer/understar-gameplay-trailer-3min.mp4</property>
+    <property name="mlt_service">avformat</property>
+    <property name="seekable">1</property>
+    <property name="audio_index">1</property>
+    <property name="video_index">0</property>
+    <property name="mute_on_pause">0</property>
+    <property name="shotcut:caption">UNDERSTAR trailer</property>
+    <property name="shotcut:detail">Final trailer with music and titles; split at original scene boundaries.</property>
+  </chain>
+  <playlist id="main_bin">
+    <property name="xml_retain">1</property>
+    <entry producer="trailer" in="0" out="10799" />
+  </playlist>
+  <playlist id="video_track">
+    <property name="shotcut:video">1</property>
+    <property name="shotcut:name">TRAILER</property>
+    <entry producer="trailer" in="0" out="239" />
+    <entry producer="trailer" in="240" out="419" />
+    <entry producer="trailer" in="420" out="599" />
+    <entry producer="trailer" in="600" out="959" />
+    <entry producer="trailer" in="960" out="1319" />
+    <entry producer="trailer" in="1320" out="1739" />
+    <entry producer="trailer" in="1740" out="2219" />
+    <entry producer="trailer" in="2220" out="2579" />
+    <entry producer="trailer" in="2580" out="2879" />
+    <entry producer="trailer" in="2880" out="3179" />
+    <entry producer="trailer" in="3180" out="3479" />
+    <entry producer="trailer" in="3480" out="3959" />
+    <entry producer="trailer" in="3960" out="4199" />
+    <entry producer="trailer" in="4200" out="4319" />
+    <entry producer="trailer" in="4320" out="4799" />
+    <entry producer="trailer" in="4800" out="5159" />
+    <entry producer="trailer" in="5160" out="5519" />
+    <entry producer="trailer" in="5520" out="5879" />
+    <entry producer="trailer" in="5880" out="6299" />
+    <entry producer="trailer" in="6300" out="6779" />
+    <entry producer="trailer" in="6780" out="7259" />
+    <entry producer="trailer" in="7260" out="7499" />
+    <entry producer="trailer" in="7500" out="7859" />
+    <entry producer="trailer" in="7860" out="8159" />
+    <entry producer="trailer" in="8160" out="8519" />
+    <entry producer="trailer" in="8520" out="8819" />
+    <entry producer="trailer" in="8820" out="9119" />
+    <entry producer="trailer" in="9120" out="9419" />
+    <entry producer="trailer" in="9420" out="9659" />
+    <entry producer="trailer" in="9660" out="9899" />
+    <entry producer="trailer" in="9900" out="10079" />
+    <entry producer="trailer" in="10080" out="10259" />
+    <entry producer="trailer" in="10260" out="10439" />
+    <entry producer="trailer" in="10440" out="10799" />
+  </playlist>
+  <tractor id="tractor0" title="Shotcut version 26.8.1" in="0" out="10799">
+    <property name="shotcut">1</property>
+    <property name="shotcut:projectAudioChannels">2</property>
+    <property name="shotcut:projectFolder">0</property>
+    <property name="shotcut:trackHeight">100</property>
+    <property name="shotcut:scaleFactor">1.1</property>
+    <property name="shotcut:projectNote">Select a scene in the timeline and press X to remove it and close the gap. To cut inside a scene, place the playhead and press S. Ctrl+S saves the project; Ctrl+E exports your edited video.</property>
+    <track producer="background" />
+    <track producer="video_track" />
+    <transition id="audio_mix">
+      <property name="a_track">0</property>
+      <property name="b_track">1</property>
+      <property name="mlt_service">mix</property>
+      <property name="always_active">1</property>
+      <property name="sum">1</property>
+    </transition>
+    <transition id="composite">
+      <property name="a_track">0</property>
+      <property name="b_track">1</property>
+      <property name="mlt_service">frei0r.cairoblend</property>
+      <property name="disable">1</property>
+    </transition>
+  </tractor>
+</mlt>

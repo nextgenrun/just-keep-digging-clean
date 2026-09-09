@@ -145,7 +145,7 @@ assert.equal(
 );
 assert.equal(writes[0].hardcoreModeData.freeReviveAvailable, false);
 assert.equal(scene._hardcoreLifeStateSaveInProgress, false);
-assert.match(modal.ready?.detail || "", /SAVE INTACT/);
+assert.match(modal.ready?.detail || "", /YOUR SAVE IS SAFE/);
 assert.equal(modal.error, null);
 assert.equal(
   scene.gameSaveCoordinator.requestSnapshot("ordinary-save-after-death"),
@@ -171,5 +171,66 @@ const tutorialViewSource = readFileSync(
 );
 assert.match(tutorialViewSource, /setDepth\(this\.config\.offscreenMarkerDepth\)/);
 assert.match(tutorialViewSource, /setScrollFactor\(0\)/);
+
+// Exercise the same world and edge pointers through a menu open/close cycle.
+const { TownSquareTutorialView } = await import(
+  "../systems/onboarding/TownSquareTutorialView.js"
+);
+const { acquireUiInputPriority } = await import(
+  "../systems/UiInputPriorityRegistry.js"
+);
+function pointerPart(x, y, text = "") {
+  return {
+    x, y, text, visible: true, scaleX: 1, scaleY: 1,
+    setOrigin() { return this; },
+    setDepth(depth) { this.depth = depth; return this; },
+    setScrollFactor() { return this; },
+    setRotation() { return this; },
+    setDisplaySize(width, height) {
+      this.displayWidth = width; this.displayHeight = height; return this;
+    },
+    setPosition(x, y) { this.x = x; this.y = y; return this; },
+    setVisible(visible) { this.visible = visible; return this; },
+    setText(text) { this.text = text; return this; },
+    destroy() {},
+  };
+}
+const pointerScene = {
+  add: { image: pointerPart, text: pointerPart },
+  tweens: { add() {}, killTweensOf() {} },
+  cameras: { main: {
+    x: 0, y: 0, width: 1280, height: 720, zoom: 1,
+    worldView: { x: 0, y: 0 },
+  } },
+};
+const pointerView = new TownSquareTutorialView(pointerScene);
+pointerView.pointAt(1800, 300, "F");
+assert.equal(pointerView.edgeMarker.visible, true);
+const releasePointerMenu = acquireUiInputPriority(pointerScene);
+pointerView.update();
+for (const part of [pointerView.marker, pointerView.keyLabel, pointerView.edgeMarker]) {
+  assert.equal(part.visible, false, "menus must hide every tutorial pointer part");
+}
+releasePointerMenu();
+pointerView.update();
+assert.equal(pointerView.marker.visible, true);
+assert.equal(pointerView.keyLabel.visible, true);
+assert.equal(pointerView.edgeMarker.visible, true);
+pointerScene.gameState = "paused"; // The world map uses a pause token, not a modal shell.
+pointerView.update();
+for (const part of [pointerView.marker, pointerView.keyLabel, pointerView.edgeMarker]) {
+  assert.equal(part.visible, false, "a map pause must hide every pointer part");
+}
+pointerScene.gameState = "playing";
+pointerView.update();
+assert.equal(pointerView.edgeMarker.visible, true);
+pointerView.pointAt(200, 300);
+assert.equal(pointerView.marker.visible, true);
+assert.equal(pointerView.keyLabel.visible, false);
+assert.equal(pointerView.edgeMarker.visible, false);
+pointerView.clearMarker();
+pointerView.update();
+assert.equal(pointerView.marker.visible, false, "cleared targets must stay hidden");
+pointerView.destroy();
 
 console.log("Hardcore death save and tutorial pointer contract passed.");

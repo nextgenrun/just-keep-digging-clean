@@ -5,6 +5,7 @@ import { WORLD_VISUAL_GAMEPLAY_EFFECTS } from "../../../values/worldVisualGamepl
 import { WORLD_VISUAL_RUNTIME } from "../../../values/worldVisualRuntime.js";
 import { resolveWorldVisualSemanticAssetsEnabled } from "../../../values/worldVisualSemanticAssets.js";
 import { collectWorldVisualGameplayEffectTargets } from "./collectWorldVisualGameplayEffectTargets.js";
+import { drawSpecialBlockAura } from "../specialBlockAura.js";
 
 const TAU = Math.PI * 2;
 
@@ -47,12 +48,15 @@ export class WorldVisualGameplayEffectLayer {
     this.chestTiles = [];
     this.crystalTiles = [];
     this.crystalZones = [];
+    this.specialTiles = [];
     this.skyGraphics = null;
     this.chestGraphics = null;
     this.crystalGlowGraphics = null;
     this.crystalShardGraphics = null;
+    this.specialGraphics = null;
     this.chestGraphicsPopulated = false;
     this.crystalGraphicsPopulated = false;
+    this.specialGraphicsPopulated = false;
   }
 
   create() {
@@ -65,6 +69,7 @@ export class WorldVisualGameplayEffectLayer {
     this.skyGraphics = addGraphics(this.runtimeConfig.render.emissiveDepth, true);
     this.chestGraphics = addGraphics(this.runtimeConfig.render.emissiveDepth, true);
     this.crystalGlowGraphics = addGraphics(this.runtimeConfig.render.emissiveDepth, true);
+    this.specialGraphics = addGraphics(this.runtimeConfig.render.emissiveDepth, true);
   }
 
   sync(bounds) {
@@ -272,10 +277,37 @@ export class WorldVisualGameplayEffectLayer {
   }
 
 
-  updateSpecialBlockGlow() {
-    // Explicit visual-only no-op: persistent semantic markers are owned by
-    // WorldVisualFeedbackLayer, avoiding a second square overlay.
-    return false;
+  updateSpecialBlockGlow(playerTile, viewRange = 20) {
+    const graphics = this.specialGraphics;
+    if (!graphics) return false;
+    if (!playerTile) {
+      if (this.specialGraphicsPopulated) graphics.clear();
+      this.specialGraphicsPopulated = false;
+      return false;
+    }
+    graphics.clear();
+    const config = this.effectConfig.specialBlocks;
+    const size = this.scene.config.tileSize;
+    const nowMs = this.scene.time?.now || 0;
+    let drawn = 0;
+    for (const tile of this.specialTiles) {
+      if (!isNear(tile, playerTile, viewRange)) continue;
+      const profile = config.profilesByTileType[tile.tileType];
+      if (!profile) continue;
+      drawSpecialBlockAura(graphics, {
+        cx: (tile.tx + 0.5) * size,
+        cy: (tile.ty + 0.5) * size,
+        size,
+        nowMs,
+        tx: tile.tx,
+        ty: tile.ty,
+        profile,
+        highlightColor: config.highlightColor,
+      });
+      drawn += 1;
+    }
+    this.specialGraphicsPopulated = drawn > 0;
+    return this.specialGraphicsPopulated;
   }
 
   setEmissiveDepth(depth) {
@@ -283,6 +315,7 @@ export class WorldVisualGameplayEffectLayer {
     this.skyGraphics?.setDepth(resolved);
     this.chestGraphics?.setDepth(resolved);
     this.crystalGlowGraphics?.setDepth(resolved);
+    this.specialGraphics?.setDepth(resolved);
   }
 
   destroy() {
@@ -290,12 +323,15 @@ export class WorldVisualGameplayEffectLayer {
     this.chestGraphics?.destroy();
     this.crystalGlowGraphics?.destroy();
     this.crystalShardGraphics?.destroy();
+    this.specialGraphics?.destroy();
     this.skyGraphics = null;
     this.chestGraphics = null;
     this.crystalGlowGraphics = null;
     this.crystalShardGraphics = null;
+    this.specialGraphics = null;
     this.chestGraphicsPopulated = false;
     this.crystalGraphicsPopulated = false;
+    this.specialGraphicsPopulated = false;
     this.activeBounds = null;
   }
 }

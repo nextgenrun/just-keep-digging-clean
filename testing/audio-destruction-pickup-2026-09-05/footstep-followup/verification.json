@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "checks": [
+    "Actual animation contact system routes one short step per sole plant on hard ground and dirt",
+    "Hard-ground variants have comparable trimmed output peaks and all six footstep attacks are prompt",
+    "All supplied rejects stay excluded and current review identities remain stable",
+    "Old hard-walk and mining composites cannot be mistaken for the current playback"
+  ],
+  "manualPlaythrough": false,
+  "listeningApproved": false
+}

@@ -1,0 +1,16 @@
+{
+  "passed": true,
+  "defaultWithoutFlag": true,
+  "rollback": true,
+  "productionDemoScope": true,
+  "fullReviewUnchanged": true,
+  "birdFrames": 6,
+  "firstEvent": "birds",
+  "weatherSuppression": true,
+  "quietGaps": true,
+  "pausedClock": true,
+  "undergroundCull": true,
+  "teleportCleanup": true,
+  "reducedMotion": true,
+  "teardown": true
+}

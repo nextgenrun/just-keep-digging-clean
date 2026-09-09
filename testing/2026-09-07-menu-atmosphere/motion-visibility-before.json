@@ -1,0 +1,68 @@
+[
+  {
+    "id": "aurora",
+    "raw": {
+      "meanTemporalStd": 14.547439575195312,
+      "p95TemporalStd": 30.564311981201172
+    },
+    "current": {
+      "meanTemporalStd": 2.773906707763672,
+      "p95TemporalStd": 4.963595867156982
+    }
+  },
+  {
+    "id": "starfall",
+    "raw": {
+      "meanTemporalStd": 5.136893272399902,
+      "p95TemporalStd": 16.741287231445312
+    },
+    "current": {
+      "meanTemporalStd": 0.8387352824211121,
+      "p95TemporalStd": 2.3518052101135254
+    }
+  },
+  {
+    "id": "lantern-forest",
+    "raw": {
+      "meanTemporalStd": 8.924735069274902,
+      "p95TemporalStd": 26.525279998779297
+    },
+    "current": {
+      "meanTemporalStd": 1.6304645538330078,
+      "p95TemporalStd": 3.9542338848114014
+    }
+  },
+  {
+    "id": "luminous-grotto",
+    "raw": {
+      "meanTemporalStd": 7.06618595123291,
+      "p95TemporalStd": 22.251874923706055
+    },
+    "current": {
+      "meanTemporalStd": 1.319571852684021,
+      "p95TemporalStd": 3.3958961963653564
+    }
+  },
+  {
+    "id": "ember-reaches",
+    "raw": {
+      "meanTemporalStd": 5.857881546020508,
+      "p95TemporalStd": 18.173805236816406
+    },
+    "current": {
+      "meanTemporalStd": 1.055560827255249,
+      "p95TemporalStd": 2.7578353881835938
+    }
+  },
+  {
+    "id": "quiet-foundry",
+    "raw": {
+      "meanTemporalStd": 5.858161926269531,
+      "p95TemporalStd": 19.651132583618164
+    },
+    "current": {
+      "meanTemporalStd": 1.1913084983825684,
+      "p95TemporalStd": 3.5677826404571533
+    }
+  }
+]

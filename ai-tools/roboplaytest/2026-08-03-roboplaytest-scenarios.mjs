@@ -8,10 +8,15 @@ import { runUiMenuAuditScenarios } from
   "./2026-08-13-roboplaytest-ui-menus.mjs";
 import { runHumanCampaignScenarios } from
   "./2026-08-14-roboplaytest-human-campaign.mjs";
+import { releaseOpeningCinematic } from
+  "./2026-08-30-roboplaytest-opening-gate.mjs";
+import { runWorldrootScenarios } from
+  "./2026-08-30-roboplaytest-worldroot.mjs";
 
 async function bootFreshSave(driver) {
   const { page, config } = driver;
   await page.goto(config.url, { waitUntil: "domcontentloaded", timeout: config.loadTimeoutMs });
+  const opening = await releaseOpeningCinematic(driver);
   await driver.waitFor(() => {
     const scenes = globalThis.__phaserGame?.scene?.getScenes?.(true) || [];
     return scenes.some(scene => ["MainMenuScene", "StartMenuScene"].includes(scene.scene?.key));
@@ -51,7 +56,7 @@ async function bootFreshSave(driver) {
   await page.waitForTimeout(500);
   active = await page.evaluate(() => globalThis.__phaserGame.scene.getScenes(true).map(scene => scene.scene.key));
   if (!active.includes("PlayScene")) throw new Error(`PlayScene is not active: ${active.join(", ")}`);
-  return { activeScenes: active, saveSlot: 1, tutorial: config.tutorial, openingGateWaitMs };
+  return { activeScenes: active, saveSlot: 1, tutorial: config.tutorial, opening, openingGateWaitMs };
 }
 
 async function purchaseFirstUpgrade(driver) {
@@ -246,6 +251,10 @@ export async function runRoboplaytestScenarios(driver) {
     },
   );
   if (driver.config.profile === "opening") return;
+  if (driver.config.profile === "worldroot") {
+    await runWorldrootScenarios(driver);
+    return;
+  }
   if (driver.config.profile === "human") {
     await runHumanCampaignScenarios(driver);
     return;

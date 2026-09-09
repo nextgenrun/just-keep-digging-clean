@@ -10,9 +10,13 @@ export const UAL_NATIVE_ACTION_TUNING = Object.freeze({
     frameRate: 30,
     normal: Object.freeze({
       minDurationMs: 360,
+      maxPlaybackDurationMs: 750,
       minTimeScale: 0.65,
       maxTimeScale: 2.25,
       recoveryCancelDelayMs: 100,
+      // Covers the frame/input handoff at the exact cooldown boundary. A new
+      // legal action still interrupts immediately; idle wins after this grace.
+      recoveryReleaseGraceMs: 180,
     }),
     quickslash: Object.freeze({
       minDurationMs: 150,
@@ -23,7 +27,9 @@ export const UAL_NATIVE_ACTION_TUNING = Object.freeze({
   }),
 
   combo: Object.freeze({
-    resetAfterMs: 950,
+    // Level 1 admits ordinary swings every 1,500 ms. Keep enough input grace
+    // for the next legal hit to advance instead of resetting every combo.
+    resetAfterMs: 2000,
     resetOnTargetChange: false,
     resetOnDirectionChange: true,
   }),
@@ -93,14 +99,28 @@ export function resolveUalActionTimeScale({
   frameCount,
   frameRate = UAL_NATIVE_ACTION_TUNING.cadence.frameRate,
   effectiveCooldownMs,
+  miningSpeedMultiplier = 1,
   kind = "normal",
 }) {
   const cadence = kind === "quickslash"
     ? UAL_NATIVE_ACTION_TUNING.cadence.quickslash
     : UAL_NATIVE_ACTION_TUNING.cadence.normal;
   const sourceDurationMs = (Math.max(1, frameCount) / Math.max(1, frameRate)) * 1000;
-  const targetDurationMs = Math.max(cadence.minDurationMs, effectiveCooldownMs || cadence.minDurationMs);
-  return Math.min(cadence.maxTimeScale, Math.max(cadence.minTimeScale, sourceDurationMs / targetDurationMs));
+  const speedBoost = kind !== "quickslash" && Number.isFinite(miningSpeedMultiplier)
+    ? Math.max(1, miningSpeedMultiplier)
+    : 1;
+  // Normalize the unbuffed swing first. Otherwise both 1500 ms and 1000 ms
+  // hit the 750 ms presentation ceiling and +50% speed looks unchanged.
+  const cooldownDurationMs = (effectiveCooldownMs || cadence.minDurationMs) * speedBoost;
+  const playbackDurationCeilingMs = Number.isFinite(cadence.maxPlaybackDurationMs)
+    ? cadence.maxPlaybackDurationMs
+    : Number.POSITIVE_INFINITY;
+  const targetDurationMs = Math.max(
+    cadence.minDurationMs,
+    Math.min(cooldownDurationMs, playbackDurationCeilingMs),
+  );
+  const baseTimeScale = Math.min(cadence.maxTimeScale, Math.max(cadence.minTimeScale, sourceDurationMs / targetDurationMs));
+  return baseTimeScale * speedBoost;
 }
 
 export function resolveUalFlightTimeScale(speedPxPerSec, travel = false) {

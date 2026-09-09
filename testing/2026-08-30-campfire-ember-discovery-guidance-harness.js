@@ -6,9 +6,11 @@ import { NextPromiseHudSystem } from "../systems/visual/NextPromiseHudSystem.js"
 import { ApprovedHudSkin } from "../systems/visual/ApprovedHudSkin.js";
 import { EmberDiscoveryEventSystem } from
   "../systems/visual/EmberDiscoveryEventSystem.js";
+import { EmberDiscoveryEvolutionView } from
+  "../systems/visual/EmberDiscoveryEvolutionView.js";
 import { APPROVED_HUD_SKIN } from "../values/approvedHudSkin.js";
 import { ASSET_KEYS } from "../values/assetKeys.js";
-import { CAMPFIRE_CONFIG } from "../values/campfireConfig.js";
+import { CAMPFIRE_CONFIG, getCampfireTierAsset } from "../values/campfireConfig.js";
 import { EMBER_DISCOVERY_EVENT_CONFIG } from "../values/emberDiscoveryEvent.js";
 import {
   CELESTIAL_ACTION_BAR_EAGER_ASSETS,
@@ -59,7 +61,7 @@ class EmberDiscoveryGuidanceScene extends Phaser.Scene {
     );
     this.load.image(
       CAMPFIRE_CONFIG.spriteKeys[0],
-      "../sprites/npc/campfire/generated/campfire-tier-01.png",
+      `../${getCampfireTierAsset(1).path}`,
     );
     this.load.image(
       ASSET_KEYS.ui.lootPickups.emberOre,
@@ -92,7 +94,6 @@ class EmberDiscoveryGuidanceScene extends Phaser.Scene {
         return true;
       },
       getSeenMechanicTutorials: () => [...seen],
-      getChestCritBuffRemaining: () => 0,
       getObjective: () => ({ complete: true, label: "", progress: 0, target: 0 }),
       getBestDepth: () => 0,
     };
@@ -126,6 +127,7 @@ class EmberDiscoveryGuidanceScene extends Phaser.Scene {
     this.emberDiscoveryEventSystem = new EmberDiscoveryEventSystem(
       this,
       HARNESS_EVENT_CONFIG,
+      new EmberDiscoveryEvolutionView(this, HARNESS_EVENT_CONFIG),
     );
     this.campfireSystem = new CampfireSystem(
       this,
@@ -135,6 +137,10 @@ class EmberDiscoveryGuidanceScene extends Phaser.Scene {
       1,
       { level: 1, charges: 1, refillCapacity: 1, selectedBuffType: "warmth" },
     );
+    this.campfireSystem._campfireSprite = this.add.image(0, 0, CAMPFIRE_CONFIG.spriteKeys[0])
+      .setOrigin(0.5, 1).setVisible(false);
+    const hearth = this.campfireSystem._campfireSprite;
+    hearth.setScale(this.config.tileSize * CAMPFIRE_CONFIG.heightByLevelTiles[0] / hearth.height);
     this.celestialActionBarSystem = new CelestialActionBarSystem(this, {
       getAbilityState: entryId => entryId === CELESTIAL_ACTION_BAR_ENTRY_IDS.CAMPFIRE
         ? this.campfireSystem.getActionBarState()

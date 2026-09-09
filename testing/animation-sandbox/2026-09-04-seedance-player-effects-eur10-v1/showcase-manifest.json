@@ -1,0 +1,128 @@
+{
+  "schemaVersion": "seedance-player-effects-showcase-v1",
+  "reviewOnly": true,
+  "productionChanged": false,
+  "model": "bytedance/seedance-2.0-mini",
+  "resolution": "720p",
+  "budget": {
+    "capEur": 10,
+    "knownUsd": 2.9295,
+    "knownEur": 2.5226,
+    "reservedOrKnownUsd": 3.05046,
+    "eurUsdReference": 1.1615,
+    "completedClips": 21,
+    "note": "Includes nine calibration clips and twelve completed core-effect clips; one further job was pending when the temporary key expired."
+  },
+  "scene": {
+    "background": "../../../sprites/backgrounds/start-zone-scenic-v1/npc-town-scenic-composite-v2-relief-bake-v1.webp",
+    "player": "runtime-samples/side-current-contact-06.png"
+  },
+  "effects": [
+    {
+      "id": "fx-stone-contact-v01",
+      "label": "Stone contact",
+      "family": "Most seen",
+      "role": "Mining contact",
+      "use": "Anchor at the authored fist or foot contact point on every ordinary stone hit.",
+      "why": "Compact gray chips and dust add weight without covering the player.",
+      "tile": "../../../sprites/UI/loot-pickups/stone.png",
+      "scale": 0.36,
+      "blend": "normal",
+      "breakTile": false,
+      "raw": "raw/fx-stone-contact-v01.mp4",
+      "processed": "processed/fx-stone-contact-v01-alpha.webm"
+    },
+    {
+      "id": "fx-metal-contact-v01",
+      "label": "Ore spark",
+      "family": "Most seen",
+      "role": "Mining contact",
+      "use": "Reuse for copper, iron, silver, gold, and steel by tinting the small keyed layer.",
+      "why": "A single warm spark fan reads instantly at small game scale.",
+      "tile": "../../../sprites/UI/loot-pickups/iron.png",
+      "scale": 0.31,
+      "blend": "screen",
+      "breakTile": false,
+      "raw": "raw/fx-metal-contact-v01.mp4",
+      "processed": "processed/fx-metal-contact-v01-alpha.webm"
+    },
+    {
+      "id": "fx-crystal-contact-v01",
+      "label": "Crystal shatter",
+      "family": "Rare hit",
+      "role": "Rare contact",
+      "use": "Use at reduced scale for crystal seams, geodes, and rare-break confirmation.",
+      "why": "The wide faceted burst earns spectacle only where rarity justifies it.",
+      "tile": "../../../sprites/backgrounds/world-visual-v2/semantic-decals-v1/imagegen-overlay-v3/masters/alpha/magma-crystal.png",
+      "scale": 0.24,
+      "blend": "screen",
+      "breakTile": false,
+      "raw": "raw/fx-crystal-contact-v01.mp4",
+      "processed": "processed/fx-crystal-contact-v01-alpha.webm"
+    },
+    {
+      "id": "fx-magma-contact-v01",
+      "label": "Magma contact",
+      "family": "Biome hit",
+      "role": "Mining contact",
+      "use": "Attach to magma crystal and ember-ore contacts; keep the player and tile art unchanged.",
+      "why": "Molten chips and droplets travel outward and down with a stable warm palette.",
+      "tile": "../../../sprites/backgrounds/world-visual-v2/semantic-decals-v1/imagegen-overlay-v3/masters/alpha/ember-ore.png",
+      "scale": 0.33,
+      "blend": "screen",
+      "breakTile": false,
+      "raw": "raw/fx-magma-contact-v01.mp4",
+      "processed": "processed/fx-magma-contact-v01-alpha.webm"
+    },
+    {
+      "id": "fx-dirt-break-v01",
+      "label": "Dirt destruction",
+      "family": "Most seen",
+      "role": "Tile break",
+      "use": "Hide the exact dirt tile at contact, then play this keyed collapse once over its bounds.",
+      "why": "Localized debris and dust make the common break event feel physical.",
+      "tile": "../../../sprites/UI/loot-pickups/dirt.png",
+      "scale": 0.4,
+      "blend": "normal",
+      "breakTile": true,
+      "raw": "raw/fx-dirt-break-v01.mp4",
+      "processed": "processed/fx-dirt-break-v01-alpha.webm"
+    },
+    {
+      "id": "fx-stone-break-v01",
+      "label": "Stone destruction",
+      "family": "Most seen",
+      "role": "Tile break",
+      "use": "Swap over the tile for the fracture, then remove the source tile as shards fall.",
+      "why": "A readable fracture phase bridges the intact tile and detached fragments.",
+      "tile": "../../../sprites/UI/loot-pickups/stone.png",
+      "scale": 0.39,
+      "blend": "normal",
+      "breakTile": true,
+      "raw": "raw/fx-stone-break-v01.mp4",
+      "processed": "processed/fx-stone-break-v01-alpha.webm"
+    }
+  ],
+  "rejectedPlayerVideo": [
+    {
+      "label": "Walk video",
+      "source": "raw/cal-walk-loop-v02.mp4",
+      "poster": "qa/cal-walk-loop-v02-contact-sheet.png",
+      "reason": "The actor travels across the carrier and the endpoints do not make a true in-place loop."
+    },
+    {
+      "label": "Side-dig video",
+      "source": "raw/cal-side-dig-v01.mp4",
+      "poster": "qa/cal-side-dig-v01-contact-sheet.png",
+      "reason": "Seedance invents a pickaxe in one take, a long pole in another, and no tool in the third."
+    }
+  ],
+  "playbackContract": {
+    "direction": "forward-only",
+    "loopAttribute": false,
+    "repeatMethod": "restart from time zero only after ended",
+    "opticalFlow": false,
+    "frameInterpolation": false,
+    "productionUse": "candidate source only until explicit approval"
+  }
+}

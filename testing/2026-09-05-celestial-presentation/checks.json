@@ -1,0 +1,80 @@
+{
+  "checkedAt": "2026-09-05T19:23:59.313Z",
+  "checks": [
+    {
+      "path": "testing/2026-09-05-celestial-presentation-contract.mjs",
+      "chunk_id": "65bd0d",
+      "wall_time_seconds": 0.3889001,
+      "exit_code": 0,
+      "original_token_count": 31,
+      "output": "CELESTIAL_PRESENTATION_CONTRACT_OK: colour trails, limits, quiet companions, delayed arrivals, inward pulses and teardown.\n"
+    },
+    {
+      "path": "testing/2026-08-31-stellar-lance-vfx-hud-contract.mjs",
+      "chunk_id": "685029",
+      "wall_time_seconds": 0.4201666,
+      "exit_code": 0,
+      "original_token_count": 9,
+      "output": "STELLAR_LANCE_VFX_HUD_CONTRACT_OK\n"
+    },
+    {
+      "path": "testing/2026-07-26-celestial-engines-contract.mjs",
+      "chunk_id": "01add7",
+      "wall_time_seconds": 0.3004981,
+      "exit_code": 0,
+      "original_token_count": 31,
+      "output": "celestial engines contract: three permanent unlocks, milestones, caps, protected tiles, rewards, and save migration passed\n"
+    },
+    {
+      "path": "testing/2026-08-03-celestial-runtime-wiring-contract.mjs",
+      "chunk_id": "ea2707",
+      "wall_time_seconds": 0.2829268,
+      "exit_code": 0,
+      "original_token_count": 29,
+      "output": "PASS celestial runtime: GP-funded actionbar powers, queued abilities, bounded mastery, save caller, pillar priority\n"
+    },
+    {
+      "path": "testing/2026-09-03-celestial-talent-skill-audit-contract.mjs",
+      "chunk_id": "9a0a2c",
+      "wall_time_seconds": 0.2245057,
+      "exit_code": 0,
+      "original_token_count": 38,
+      "output": "CELESTIAL_TALENT_SKILL_AUDIT_OK {\n  nodes: 36,\n  wayward: [ 145, 215 ],\n  hollow: [ 344, 456 ],\n  lanceFirstHitBudget: [ 37.5, 65.20500000000001 ]\n}\n"
+    },
+    {
+      "path": "testing/2026-09-04-celestial-apex-passives-contract.mjs",
+      "chunk_id": "3cd6dd",
+      "wall_time_seconds": 0.2917753,
+      "exit_code": 0,
+      "original_token_count": 31,
+      "output": "CELESTIAL_APEX_PASSIVES_OK {\n  nodes: 36,\n  waywardDamageScale: 0.28,\n  hollowPulseEveryDigs: 2,\n  echoLance: [ 4, 0.35 ]\n}\n"
+    },
+    {
+      "path": "testing/2026-08-30-quickslash-ability-combination-contract.mjs",
+      "chunk_id": "4e1213",
+      "wall_time_seconds": 0.2766344,
+      "exit_code": 0,
+      "original_token_count": 11,
+      "output": "QUICKSLASH_ABILITY_COMBINATION_CONTRACT_OK\n"
+    }
+  ],
+  "starAndHollowDefinitionsUnchanged": true,
+  "balanceScope": "Wayward Star and Hollow Sun definition blocks match the source captured before this pass. The separate Cinder Lance task owns its current speed, contact and art changes.",
+  "runtimeProof": {
+    "actualGameplay": [
+      "wayward-gameplay.json",
+      "hollow-gameplay.json"
+    ],
+    "saveWritesBlocked": true,
+    "currentPreview": {
+      "runtimeErrors": [],
+      "missingTextures": [],
+      "companionsActive": 3
+    }
+  },
+  "limits": [
+    "Seven focused checks passed; this is not a full repository test run.",
+    "Actual-game Star/Hollow captures predate the concurrent Cinder replacement; fresh rank-3 and companion captures use its current shared palette assets.",
+    "Superseded wave-Lance media is retained as historical evidence only."
+  ]
+}

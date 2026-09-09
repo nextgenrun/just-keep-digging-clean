@@ -4,7 +4,7 @@ import { PlayerMovement } from "../player/PlayerMovement.js";
 import { UpgradeSystem } from "../systems/progression/UpgradeSystem.js";
 import { PLAYER_STATS_CONFIG } from "../values/playerStats.js";
 import { UPGRADES } from "../values/upgradeDefinitions.js";
-import { getUpgradeEffect } from "../values/upgradeFormulas.js";
+import { getUpgradeCost, getUpgradeEffect } from "../values/upgradeFormulas.js";
 
 const baseSpeed = PLAYER_STATS_CONFIG.walkSpeedPxPerSec;
 const agility = UPGRADES.agility;
@@ -14,16 +14,17 @@ assert.equal(getUpgradeEffect("agility", agility.softcapLevel), agility.softcapV
 assert.equal(getUpgradeEffect("agility", agility.maxLevel), agility.maxValue);
 
 const upgradeSystem = new UpgradeSystem();
-upgradeSystem.setMoney(agility.baseCost);
-assert.equal(upgradeSystem.getEffectiveWalkSpeed(baseSpeed), 200);
+const firstLevelCost = getUpgradeCost("agility", 0);
+upgradeSystem.setMoney(firstLevelCost);
+assert.equal(upgradeSystem.getEffectiveWalkSpeed(baseSpeed), 160);
 assert.deepEqual(upgradeSystem.purchaseUpgrade("agility"), {
   success: true,
   level: 1,
   effect: 20,
-  cost: agility.baseCost,
+  cost: firstLevelCost,
 });
 assert.equal(upgradeSystem.getUpgradeEffects().walkSpeed, 20);
-assert.equal(upgradeSystem.getEffectiveWalkSpeed(baseSpeed), 220);
+assert.equal(upgradeSystem.getEffectiveWalkSpeed(baseSpeed), 180);
 
 function movementDistanceAt(speed) {
   const body = {
@@ -50,8 +51,8 @@ function movementDistanceAt(speed) {
   return body.x;
 }
 
-assert.equal(movementDistanceAt(baseSpeed), 200);
-assert.equal(movementDistanceAt(upgradeSystem.getEffectiveWalkSpeed(baseSpeed)), 220);
+assert.equal(movementDistanceAt(baseSpeed), 160);
+assert.equal(movementDistanceAt(upgradeSystem.getEffectiveWalkSpeed(baseSpeed)), 180);
 
 console.log("Agility movement-speed contract OK", {
   baseSpeed,

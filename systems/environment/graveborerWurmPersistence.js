@@ -71,6 +71,10 @@ export function resolveGraveborerWurmRestoredState(data, config) {
 
 export function createGraveborerWurmSaveData(state) {
   return sanitizeGraveborerWurmData({
+    variantSize: state.variant?.size.id,
+    variantDifficulty: state.variant?.difficulty.id,
+    broodSpawned: state.broodSpawned,
+    offspring: (state.offspring || []).map(child => child.getSaveData()),
     phase: state.phase,
     noise: state.noise,
     cooldownMs: state.cooldownMs,

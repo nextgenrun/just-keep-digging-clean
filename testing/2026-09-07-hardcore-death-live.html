@@ -1,0 +1,11 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Hardcore death runtime review</title>
+<style>html,body{margin:0;background:#101016;color:#eee;font:14px system-ui}nav{padding:8px;display:flex;gap:8px;align-items:center}button,select{font:inherit;padding:6px}#status{padding:0 8px 8px}iframe{display:block;width:100%;height:calc(100vh - 86px);border:0}details{padding:8px}pre{white-space:pre-wrap}</style></head>
+<body><nav><button id="start" disabled>Start Hardcore run</button>
+<label>Simulated save failures <select id="failures"><option value="0">None</option><option value="2">Two failures</option></select></label>
+<button id="kill" disabled>Deplete GP</button><span>Local review · saves stay in memory</span></nav>
+<div id="status">Loading game…</div>
+<iframe title="Production game" src="../?jkd_e2e=1&amp;cinematics=0&amp;hardcoreDeathReview=1"></iframe>
+<details><summary>Diagnostics</summary><pre id="diagnostics"></pre></details>
+<script type="module" src="./2026-09-07-hardcore-death-live.js"></script></body></html>
+

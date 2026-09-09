@@ -53,9 +53,9 @@ export const TITAN_CLUE_CATALOG_CONFIG = Object.freeze({
     costPrefix: "COST",
     activePrefix: "ACTIVE",
     needPrefix: "NEED",
-    unavailableDirection: "DIRECTION READY AFTER RESUME",
+    unavailableDirection: "RETURN TO THE MINE TO SHOW DIRECTION",
     lockedLore:
-      "Clear every tile covering the creature. Buy exact directions.",
+      "Clear at least half the rubble covering the creature. Buy a clue for exact directions.",
     journalEntryPrefix: "Titan Locator Clue",
   }),
 });

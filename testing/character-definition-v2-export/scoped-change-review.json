@@ -1,0 +1,54 @@
+[
+  {
+    "file": "player/PlayerAssetLoader.js",
+    "diffLines": 36
+  },
+  {
+    "file": "player/PlayerAssetSheetCatalog.js",
+    "diffLines": 16
+  },
+  {
+    "file": "systems/visual/groundFootstepContact.js",
+    "diffLines": 12
+  },
+  {
+    "file": "systems/visual/GroundFootstepFxSystem.js",
+    "diffLines": 8
+  },
+  {
+    "file": "testing/2026-09-06-skeletal-run-contract.mjs",
+    "diffLines": 10
+  },
+  {
+    "file": "values/playerSkeletalRun.js",
+    "diffLines": 9
+  },
+  {
+    "file": "values/runtimeAssetLoading.js",
+    "diffLines": 8
+  },
+  {
+    "file": "values/survivalUalPlayerAssetProfile.js",
+    "diffLines": 17
+  },
+  {
+    "file": "world/playScene/CaveGameplayController.js",
+    "diffLines": 22
+  },
+  {
+    "file": "world/playScene/PlaySceneLifecycle.js",
+    "diffLines": 8
+  },
+  {
+    "file": "world/playScene/PlaySceneSetup.js",
+    "diffLines": 14
+  },
+  {
+    "file": "world/rendering/RuntimeAssetLoadCoordinator.js",
+    "diffLines": 39
+  },
+  {
+    "file": "world/rendering/RuntimeAssetTextureRegistry.js",
+    "diffLines": 41
+  }
+]

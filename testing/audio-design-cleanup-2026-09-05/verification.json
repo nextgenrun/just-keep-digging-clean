@@ -1,0 +1,20 @@
+{
+  "passed": true,
+  "checks": [
+    "Original source approvals and all nine unfinished-review rejections are preserved",
+    "Each real main-world mining contact has exactly one primary impact",
+    "Main-world and cave mining dispatch the same material and break cues",
+    "Star destruction stays a single approved special cue",
+    "Stationary, airborne and duplicate animation contacts cannot spam footsteps",
+    "A braked descent is quiet; all landing speeds use bounded ground contacts",
+    "Cold core contacts warm their intended material without random fallback or late playback",
+    "Proactive core loading respects the existing pending-work bound",
+    "Core banks stay physical and exhaust their matched variants without repeats",
+    "Mute and suspension remain authoritative for movement and mining",
+    "Refreshed review cards retain physical-file IDs and report current core gains",
+    "Hard ground excludes the long loud outlier and applies source calibration once"
+  ],
+  "totalChecks": 12,
+  "manualPlaythrough": false,
+  "listeningApproved": false
+}

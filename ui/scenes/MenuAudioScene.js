@@ -52,6 +52,7 @@ export class MenuAudioScene extends Phaser.Scene {
       return;
     }
     this._startRequested = false;
+    this.soundSystem.updateMusicContext({ scene: "menu" }, { immediate: true });
     this.soundSystem?.startAudioAfterUserGesture({ voiceLines: false });
     this._removeUserGesture();
   }

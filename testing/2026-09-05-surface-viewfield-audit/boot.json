@@ -1,0 +1,28 @@
+{
+  "boot": {
+    "title": "UNDERSTAR Alpha 1",
+    "text": "⛶",
+    "globals": [
+      "ongamepadconnected",
+      "ongamepaddisconnected",
+      "Phaser",
+      "__isGameFullscreen",
+      "__toggleGameFullscreen",
+      "__jkdPerformance",
+      "__jkdHealth",
+      "__jkdUiErrors",
+      "__jkdHealthPanel",
+      "__phaserGame",
+      "__jkdRenderDensity",
+      "__jkdPlayerVoices"
+    ],
+    "canvases": [
+      {
+        "width": 1920,
+        "height": 1080
+      }
+    ]
+  },
+  "errors": [],
+  "responses": []
+}

@@ -74,8 +74,9 @@ portraits, and the World Map load only when their views are requested; and
 WorldLoad queues only the saved Campfire tier plus its next upgrade. Closed
 views release manager-owned textures after a short anti-thrash delay, while a
 704/640 MiB decoded-texture watermark is visible in runtime health. Routine
-save mutations coalesce into bounded idle work; manual save, menu exit,
-visibility loss, page hide, and shutdown still force an immediate snapshot.
+save mutations remain in memory until the player sleeps in the town bed and
+chooses a blessing. The bed commits the checkpoint; manual save, menu exit,
+visibility loss, page hide and shutdown cannot save an expedition.
 See `/markdown/2026-07-30-runtime-feature-residency-and-save-scheduling.md`;
 
 ---
@@ -107,7 +108,7 @@ PlayScene (game runs here, MenuAudioScene stopped)
 | Environment | `/systems/environment/` | DayNightCycle, WeatherSystem, AtmosphereSystem, EarthquakeSystem, GraveborerWurmSystem, AboveGroundDecorationSystem, CampfireSystem, SurfaceTunnelDoorSystem, BiomeSystem |
 | Hardcore | `/systems/hardcore/` | HardcoreModeSystem, HardcoreMemorialStore, hardcoreMemorialRecord |
 | Lighting | `/systems/lighting/` | LightSystem, ShaderSystem |
-| Combo | `/systems/combo/` | ComboSystem, HitstopSystem |
+| Combo | `/systems/combo/` | ComboSystem |
 | Health | `/systems/health/` | RuntimeCanarySystem, RuntimeCanaryReporter, deterministic runtime checks |
 
 `DayNightCycle` owns the sun/moon world-space orbit. `LightSystem`, weather,
@@ -223,5 +224,17 @@ This project uses a 3-tier version control system:
 | `/markdown/2026-07-28-earthquake-dodge-audit-and-layering.md` | Production FallZones, measured dodge fairness, exact tile/ground feedback, world layering, and regression coverage |
 | `/markdown/2026-07-29-starlight-talent-tree-v3-polish.md` | Native ultra-wide ImageGen talent presentation, three-card carousel spacing, proportional scaling, and rollback |
 | `/markdown/2026-07-28-ui-notification-carousel.md` | Centered transient-card queue with fresh seven-second selection timing, consumptive arrows, full-queue X, modal isolation, and reduced floating text |
-| `/markdown/2026-07-30-depth-resource-economy-rebalance.md` | Steep continuous depth income, high-impact rarity, deep composition, live Milestone bonuses, Level Two market progression, caps, canary/worker health, and exact rollback |
+| `/markdown/2026-07-30-depth-resource-economy-rebalance.md` | Historical depth-economy rollout; current runtime keeps continuous depth income, deep composition, Milestone bonuses, Level Two market progression, caps, and health checks while ordinary block rarity is retired |
 | `/markdown/2026-07-30-starlight-talent-tree-v4-mockup-fidelity.md` | Approved tall single-frame ImageGen talent composition, full-shell ESC/Star Pillar parity, large readable choices, responsive live QA, worker health, and rollback |
+
+## Approved Level 1 living background
+
+The Level 1 composition is now the default scenic presentation in the bounded
+demo, with the existing world clock/weather, compact moving clouds, rooted
+forest motion, rare bird flocks, windblown leaves and dusk glimmers. Town's
+video is unchanged. `?layeredSky=0` restores the previous background;
+`?surfaceEvents=0` disables the new occasional events. Full-review retains its
+existing opt-in route. See `markdown/2026-09-06-level-one-live-backgrounds-v6.md`
+and `testing/2026-09-06-level-one-live-v6/gallery.html`.
+
+- [7 September: relevant Hints and public wiki release](markdown/2026-09-07-hints-and-wiki.md) — Esc field guide, useful search, current screenshots, public browser proof and guarded rollback.

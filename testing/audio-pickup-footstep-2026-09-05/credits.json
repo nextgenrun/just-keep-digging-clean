@@ -1,0 +1,336 @@
+{
+  "sources": [
+    {
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-270415.ogg",
+      "sha256": "571350a925bc4c7b3919fd481f83a846c496ebdd36caa5386928d42899da72df",
+      "title": "Footstep_Dirt_00.wav",
+      "sourceUrl": "https://freesound.org/people/LittleRobotSoundFactory/sounds/270415/",
+      "licenseDeclared": "CC-BY-4.0"
+    },
+    {
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-270417.ogg",
+      "sha256": "318363b247d441fba21e20587e2783943c96d01b139a10896a95e17563c4d4d3",
+      "title": "Footstep_Dirt_06.wav",
+      "sourceUrl": "https://freesound.org/people/LittleRobotSoundFactory/sounds/270417/",
+      "licenseDeclared": "CC-BY-4.0"
+    },
+    {
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-270418.ogg",
+      "sha256": "bd0bcd3ebcd8df2b5921d33577233251906ca275ee65777299b0bfb5b916bbf4",
+      "title": "Footstep_Dirt_05.wav",
+      "sourceUrl": "https://freesound.org/people/LittleRobotSoundFactory/sounds/270418/",
+      "licenseDeclared": "CC-BY-4.0"
+    },
+    {
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-270419.ogg",
+      "sha256": "1a8115cb8760eb0a46b7008624c109c00ecc339f228779d2fbb87925ab78127f",
+      "title": "Footstep_Dirt_04.wav",
+      "sourceUrl": "https://freesound.org/people/LittleRobotSoundFactory/sounds/270419/",
+      "licenseDeclared": "CC-BY-4.0"
+    },
+    {
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-536921.ogg",
+      "sha256": "2ed23b535315d5ed58b6715f68456d0cf789dcfeee84cdcbef4cd2bd902050fa",
+      "title": "Ice Crack Low",
+      "sourceUrl": "https://freesound.org/people/EminYILDIRIM/sounds/536921/",
+      "licenseDeclared": "CC-BY-4.0"
+    },
+    {
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-573350.ogg",
+      "sha256": "9cb2879e95c46d0412e7cf16980575324565e60d0d2b0a33d5be72d6c38eee07",
+      "title": "Coins29.wav",
+      "sourceUrl": "https://freesound.org/people/doudar41/sounds/573350/",
+      "licenseDeclared": "CC0-1.0"
+    },
+    {
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-573352.ogg",
+      "sha256": "37e0117299c4bb70729cc10c08978227c9e56c5f941c692c1ebb2e1ce714ac85",
+      "title": "Coins23.wav",
+      "sourceUrl": "https://freesound.org/people/doudar41/sounds/573352/",
+      "licenseDeclared": "CC0-1.0"
+    },
+    {
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-573353.ogg",
+      "sha256": "416750d8c4c2b0c81470f492b2cb9ae63283212e4b1c1b1fa1747937276db47d",
+      "title": "Coins24.wav",
+      "sourceUrl": "https://freesound.org/people/doudar41/sounds/573353/",
+      "licenseDeclared": "CC0-1.0"
+    },
+    {
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-573354.ogg",
+      "sha256": "3744d2b66fbd6e58bb85702dae9c2d0587e157e2097ffd561a9c32bb42ebc662",
+      "title": "Coins21.wav",
+      "sourceUrl": "https://freesound.org/people/doudar41/sounds/573354/",
+      "licenseDeclared": "CC0-1.0"
+    },
+    {
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-573361.ogg",
+      "sha256": "6ba0be984bb65dbaed462e2d153c871ea20f1f690c6babbe27c31a040a2d68e5",
+      "title": "Coins13.wav",
+      "sourceUrl": "https://freesound.org/people/doudar41/sounds/573361/",
+      "licenseDeclared": "CC0-1.0"
+    },
+    {
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-573370.ogg",
+      "sha256": "076fb1bcfadb8c97806f641d79585be68f91084b57a119061201009cc1aa3d1b",
+      "title": "Coins32.wav",
+      "sourceUrl": "https://freesound.org/people/doudar41/sounds/573370/",
+      "licenseDeclared": "CC0-1.0"
+    },
+    {
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-573371.ogg",
+      "sha256": "bf93b1faad2b6193bde3522146918c7be9b4bc2621f1c23ea2c222aaa535a4e7",
+      "title": "Coins31.wav",
+      "sourceUrl": "https://freesound.org/people/doudar41/sounds/573371/",
+      "licenseDeclared": "CC0-1.0"
+    },
+    {
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-573373.ogg",
+      "sha256": "d790f1a3f9f75bfc5d11cfb6de9b8c77c2b06f62ba13f417560d346a052f7eca",
+      "title": "Coins33.wav",
+      "sourceUrl": "https://freesound.org/people/doudar41/sounds/573373/",
+      "licenseDeclared": "CC0-1.0"
+    },
+    {
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-651292.ogg",
+      "sha256": "91efa3848a203a16bb2154f4bf51d8ecf0daec60ed04000e454f24fa46c9f198",
+      "title": "Digging in wet course sand (1)",
+      "sourceUrl": "https://freesound.org/people/f3bbbo/sounds/651292/",
+      "licenseDeclared": "CC0-1.0"
+    },
+    {
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-651293.ogg",
+      "sha256": "5a8fdf2dc28afd913bfb4014c3754dca62543f9ee7063a093dfdcd0acec79202",
+      "title": "Digging in wet course sand (2)",
+      "sourceUrl": "https://freesound.org/people/f3bbbo/sounds/651293/",
+      "licenseDeclared": "CC0-1.0"
+    },
+    {
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-674384.ogg",
+      "sha256": "c1eac6fb1363070cbb696d5a0bfc5293849c4e2590282f19b9dead5f3da4af45",
+      "title": "IcePick_StoneHit01.wav",
+      "sourceUrl": "https://freesound.org/people/marb7e/sounds/674384/",
+      "licenseDeclared": "CC-BY-4.0"
+    },
+    {
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-674385.ogg",
+      "sha256": "9d0c9efeda7a9069b2936e998475d96d6fada5cda7bd5ea57acf1406913699af",
+      "title": "IcePick_StoneHit02.wav",
+      "sourceUrl": "https://freesound.org/people/marb7e/sounds/674385/",
+      "licenseDeclared": "CC-BY-4.0"
+    },
+    {
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-674386.ogg",
+      "sha256": "1c88d83bbe837eb87b3be7d55b2acdb902a349a854272aa9f3d75bb9ef4868a7",
+      "title": "IcePick_StoneHit03.wav",
+      "sourceUrl": "https://freesound.org/people/marb7e/sounds/674386/",
+      "licenseDeclared": "CC-BY-4.0"
+    },
+    {
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-703115.ogg",
+      "sha256": "9e53744f2de3edcdda20b73dc914dfc5b43f5f50d3e2aa65e635525d8cf71bbc",
+      "title": "crush1.wav",
+      "sourceUrl": "https://freesound.org/people/franzzle/sounds/703115/",
+      "licenseDeclared": "CC0-1.0"
+    },
+    {
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-728756.ogg",
+      "sha256": "f41a42dba4e450d6aea6a315a920e408d00be013adc18821f31532e6ea375e85",
+      "title": "Metallic pickaxe 1/4",
+      "sourceUrl": "https://freesound.org/people/TechspiredMinds/sounds/728756/",
+      "licenseDeclared": "CC-BY-4.0"
+    },
+    {
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-728757.ogg",
+      "sha256": "b0253019fa6f09d2b5bcd5ab134d5a40523f9073ca754583a741900e87fd3565",
+      "title": "Metallic pickaxe 2/4",
+      "sourceUrl": "https://freesound.org/people/TechspiredMinds/sounds/728757/",
+      "licenseDeclared": "CC-BY-4.0"
+    },
+    {
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-728758.ogg",
+      "sha256": "68e494fa66a74e6bab2da07ae309dab2a02b1e7492a5b7a446ba8f7604a89357",
+      "title": "Metallic pickaxe 3/4",
+      "sourceUrl": "https://freesound.org/people/TechspiredMinds/sounds/728758/",
+      "licenseDeclared": "CC-BY-4.0"
+    },
+    {
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-728759.ogg",
+      "sha256": "57d87cb51f8973dccc0dcdfc5d8e43cec15d07cdb15217d9e1e7d98232a9f4f9",
+      "title": "Metallic pickaxe 4/4",
+      "sourceUrl": "https://freesound.org/people/TechspiredMinds/sounds/728759/",
+      "licenseDeclared": "CC-BY-4.0"
+    },
+    {
+      "path": "sound/soundEffects/approved-review-2026-09-03/libDirtBreak.ogg",
+      "sha256": "2208502a60a1ed41366251c234bf4e4b1e7ae7c55ed209269bebaf7fb0b3a7a1",
+      "title": "libDirtBreak",
+      "sourceUrl": null,
+      "licenseDeclared": null
+    },
+    {
+      "path": "sound/soundEffects/approved-review-2026-09-03/libDirtSwingA.ogg",
+      "sha256": "36d4ebd0a1f4872d81ae033aa64b9b12cc0a7fe23d6bf8148de687e186378799",
+      "title": "libDirtSwingA",
+      "sourceUrl": null,
+      "licenseDeclared": null
+    },
+    {
+      "path": "sound/soundEffects/approved-review-2026-09-03/libLandingDebris.ogg",
+      "sha256": "0c04f15acf361dc7cfa01d50e7a891623276ff9f748a2478a7c0077718d6e7e3",
+      "title": "libLandingDebris",
+      "sourceUrl": null,
+      "licenseDeclared": null
+    },
+    {
+      "path": "sound/soundEffects/approved-review-2026-09-03/libResourcePop.ogg",
+      "sha256": "c447d3074c513dec206b5fe1a287286b37eeadaebc8ffeed762c79824e080baf",
+      "title": "libResourcePop",
+      "sourceUrl": null,
+      "licenseDeclared": null
+    },
+    {
+      "path": "sound/soundEffects/approved-review-2026-09-03/libStoneBreak.ogg",
+      "sha256": "0fb92dc4a016dc01a58f84b5a677982c3d52106bbe6cefeb278fa957287aa097",
+      "title": "libStoneBreak",
+      "sourceUrl": null,
+      "licenseDeclared": null
+    },
+    {
+      "path": "sound/soundEffects/costume-sounds/footsteps/footstep-3.ogg",
+      "sha256": "91258031b3a64699439c79a70ae78ea51ece18e36d604c1dd140c32ffed57462",
+      "title": "footsteps-1",
+      "sourceUrl": null,
+      "licenseDeclared": null
+    },
+    {
+      "path": "sound/soundEffects/costume-sounds/footsteps/footstep-4.ogg",
+      "sha256": "caebc65e0276a79544caf6355e4e51b66b7f72bab759bed2b485f60fead19499",
+      "title": "footsteps-2",
+      "sourceUrl": null,
+      "licenseDeclared": null
+    },
+    {
+      "path": "sound/soundEffects/ui/ui-select.wav",
+      "sha256": "a2137b0bcb2fbf7a891f535e69116f22fbb43cf9ed5c484d48ac28cbbc70544e",
+      "title": "sfx-ui-select",
+      "sourceUrl": null,
+      "licenseDeclared": null
+    }
+  ],
+  "candidateEdits": [
+    {
+      "file": "candidate-walk-fs-approved-270419.ogg",
+      "sourcePath": "sound/soundEffects/approved-freesound-2026-09-03/freesound-270419.ogg",
+      "sourceSha256": "1a8115cb8760eb0a46b7008624c109c00ecc339f228779d2fbb87925ab78127f",
+      "trimStartSeconds": 0.02925,
+      "duration": 0.16933333333333334,
+      "peak": 0.5731202960014343,
+      "filters": "highpass=f=85,lowpass=f=2200",
+      "maxSeconds": 0.18,
+      "fadeInSeconds": 0.003,
+      "fadeOutSeconds": 0.05,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bytes": 4639,
+      "reviewOnly": true,
+      "runtimeWired": false,
+      "approval": "pending-listening"
+    },
+    {
+      "file": "candidate-walk-fs-approved-270418.ogg",
+      "sourcePath": "sound/soundEffects/approved-freesound-2026-09-03/freesound-270418.ogg",
+      "sourceSha256": "bd0bcd3ebcd8df2b5921d33577233251906ca275ee65777299b0bfb5b916bbf4",
+      "trimStartSeconds": 0.0,
+      "duration": 0.19733333333333333,
+      "peak": 0.3091074824333191,
+      "filters": "highpass=f=85,lowpass=f=2200",
+      "maxSeconds": 0.18,
+      "fadeInSeconds": 0.003,
+      "fadeOutSeconds": 0.05,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bytes": 5155,
+      "reviewOnly": true,
+      "runtimeWired": false,
+      "approval": "pending-listening"
+    },
+    {
+      "file": "candidate-walk-fs-approved-270417.ogg",
+      "sourcePath": "sound/soundEffects/approved-freesound-2026-09-03/freesound-270417.ogg",
+      "sourceSha256": "318363b247d441fba21e20587e2783943c96d01b139a10896a95e17563c4d4d3",
+      "trimStartSeconds": 0.0014166666666666668,
+      "duration": 0.16933333333333334,
+      "peak": 0.2212185561656952,
+      "filters": "highpass=f=85,lowpass=f=2200",
+      "maxSeconds": 0.18,
+      "fadeInSeconds": 0.003,
+      "fadeOutSeconds": 0.05,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bytes": 5220,
+      "reviewOnly": true,
+      "runtimeWired": false,
+      "approval": "pending-listening"
+    },
+    {
+      "file": "candidate-walk-fs-approved-270415.ogg",
+      "sourcePath": "sound/soundEffects/approved-freesound-2026-09-03/freesound-270415.ogg",
+      "sourceSha256": "571350a925bc4c7b3919fd481f83a846c496ebdd36caa5386928d42899da72df",
+      "trimStartSeconds": 0.0,
+      "duration": 0.16933333333333334,
+      "peak": 0.4506129026412964,
+      "filters": "highpass=f=85,lowpass=f=2200",
+      "maxSeconds": 0.18,
+      "fadeInSeconds": 0.003,
+      "fadeOutSeconds": 0.05,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bytes": 5261,
+      "reviewOnly": true,
+      "runtimeWired": false,
+      "approval": "pending-listening"
+    },
+    {
+      "file": "candidate-hard-walk-footsteps-1.ogg",
+      "sourcePath": "sound/soundEffects/costume-sounds/footsteps/footstep-3.ogg",
+      "sourceSha256": "91258031b3a64699439c79a70ae78ea51ece18e36d604c1dd140c32ffed57462",
+      "trimStartSeconds": 0.023083333333333334,
+      "duration": 0.09395833333333334,
+      "peak": 0.0851934477686882,
+      "filters": "highpass=f=85,lowpass=f=1800",
+      "maxSeconds": 0.16,
+      "fadeInSeconds": 0.003,
+      "fadeOutSeconds": 0.05,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bytes": 4257,
+      "reviewOnly": true,
+      "runtimeWired": false,
+      "approval": "pending-listening"
+    },
+    {
+      "file": "candidate-hard-walk-footsteps-2.ogg",
+      "sourcePath": "sound/soundEffects/costume-sounds/footsteps/footstep-4.ogg",
+      "sourceSha256": "caebc65e0276a79544caf6355e4e51b66b7f72bab759bed2b485f60fead19499",
+      "trimStartSeconds": 0.027375,
+      "duration": 0.176,
+      "peak": 0.051358990371227264,
+      "filters": "highpass=f=85,lowpass=f=1800",
+      "maxSeconds": 0.16,
+      "fadeInSeconds": 0.003,
+      "fadeOutSeconds": 0.05,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bytes": 4413,
+      "reviewOnly": true,
+      "runtimeWired": false,
+      "approval": "pending-listening"
+    }
+  ],
+  "sourceRegistries": [
+    "sound/soundEffects/approved-freesound-2026-09-03/manifest.json",
+    "sound/soundEffects/approved-review-2026-09-03/manifest.json"
+  ],
+  "note": "Original recordings are unchanged. These are offline edits, not new AI-generated recordings. Dry candidates require listening approval."
+}

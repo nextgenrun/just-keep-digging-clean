@@ -1,0 +1,29 @@
+{
+  "duration": 0.80254,
+  "sampleRate": 44100,
+  "channels": 1,
+  "peak": 0.5119235515594482,
+  "rmsDb": -23.921737670898438,
+  "clippedSamples": 0,
+  "bytes": 10889,
+  "sha256": "28cf4822f19994ed00a628938722add7b8b9108bfe7abd283788d833a2e625b3",
+  "sources": [
+    {
+      "file": "freesound-573361.ogg",
+      "title": "Coins13.wav",
+      "creator": "doudar41",
+      "url": "https://freesound.org/people/doudar41/sounds/573361/",
+      "license": "CC0-1.0",
+      "sha256": "6ba0be984bb65dbaed462e2d153c871ea20f1f690c6babbe27c31a040a2d68e5"
+    },
+    {
+      "file": "freesound-849807.ogg",
+      "title": "User Interface Magic Chimes",
+      "creator": "mikiko850",
+      "url": "https://freesound.org/people/mikiko850/sounds/849807/",
+      "license": "CC-BY-4.0",
+      "sha256": "4c1834a1b081229d07de857d20a9e8b525ef1e9d9987363c6b8b0d5c6ce03d31"
+    }
+  ],
+  "modifications": "Trimmed and low-pass filtered; coin rate 0.91; chime rate 0.82; shaped fades; authored rustle and quiet warm sine body; mixed into one cue."
+}

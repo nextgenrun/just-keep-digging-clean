@@ -6,7 +6,7 @@
 
 import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { RESOURCE_COLORS, getResourceDisplayName } from "../../values/resourceTypes.js";
-import { RETENTION_CONFIG, RETENTION_EVENT_TYPES } from "../../values/retentionConfig.js";
+import { RETENTION_EVENT_TYPES } from "../../values/retentionConfig.js";
 import { PERFORMANCE_TELEMETRY_CONFIG } from "../../values/performanceTelemetryConfig.js";
 import {
   performanceNow,
@@ -21,6 +21,8 @@ import {
 } from "./GraveborerWurmBridge.js";
 import { updateHardcoreModeRuntime } from "./HardcoreModeBridge.js";
 import { updateStarSanctuaryRuntime } from "./StarSanctuaryBridge.js";
+import { syncPlaySceneMusicContext } from "./PlaySceneMusicBridge.js";
+import { updateWorldrootSurfaceFraming } from "./worldrootSurfaceFraming.js";
 import { hasEscapeClosableUi } from "./hasEscapeClosableUi.js";
 import { resolveInteractionPriorities } from "./interactionPriority.js";
 import { isRequiredTownTutorialDigTarget } from
@@ -45,9 +47,10 @@ function resolveLiveContactDirection(scene, targetTile) {
 }
 
 function miningOptionsForAuthoredContact(contactEvent, actionStartedAtMs) {
-  if ((contactEvent?.contactIndex ?? 0) === 0) return { actionStartedAtMs };
+  if ((contactEvent?.contactIndex ?? 0) === 0) return { actionStartedAtMs, contactEvent };
   return {
     actionStartedAtMs,
+    contactEvent,
     ignoreCooldown: true,
     skipAbilityCost: true,
     skipHeavyPunch: true,
@@ -77,48 +80,41 @@ function _handleLevelUpResult(scene, result) {
     levelsGained: result.levelsGained || result.rewardSummary?.levelsGained || 1,
     gemPowerRestored,
   });
-  scene.soundSystem?.playLevelUpReward?.();
+  // Crown destruction already starts the exact approved epic cue. Do not
+  // replace it with the normal randomized level-up family in the same frame.
+  if (!String(result.specialBlockEffect || "").startsWith("legend")) {
+    scene.soundSystem?.playLevelUpReward?.();
+  }
   scene.queueDugTilesSave?.();
 }
 
 function showMiningRetentionFeedback(scene, result, targetTile, options = {}) {
-  if (!result?.success || !targetTile || !scene.floatingTextSystem) return;
-  const worldX = targetTile.tx * scene.config.tileSize + scene.config.tileSize / 2;
-  const worldY = targetTile.ty * scene.config.tileSize + scene.config.tileSize / 2;
-  const feedback = RETENTION_CONFIG.miningFeedback;
-
-  if (result.isCriticalHit) {
-    scene.screenFlashSystem?.flashCrit?.();
-  }
-
-  const rarity = feedback.rarity[result.rarityId];
-  if (result.destroyed && rarity) {
-    scene.floatingTextSystem.showFloatingText(
-      worldX,
-      worldY - 34,
-      `${rarity.label}  ${Number(result.rarityMultiplier || 1).toFixed(1)}x`,
-      rarity.color,
-      feedback.rarityDurationMs,
-      19
-    );
-  }
-
-  if (result.isLuckyDrop) {
-    scene.floatingTextSystem.showResourceLuckBonus(
-      worldX,
-      worldY,
-      result.resourceType || "Resource",
-      feedback.luckyColor,
-      1
-    );
-  }
-
+  if (!result?.success || !targetTile) return;
   if (options.consumeUpgradePayoff !== false) {
     scene.retentionProgressSystem?.consumeUpgradePayoff?.();
   }
 }
 
+function showHeavyPunchLootPickup(scene, result) {
+  if (!result?.behindDestroyed || !result.heavyPunchTile) return;
+  if (result.behindResourceType) {
+    scene.showLootPickupFeedback?.(result, result.heavyPunchTile, {
+      resourceType: result.behindResourceType,
+      amount: result.behindResourceAmount,
+    });
+  } else if (result.behindSpecialBlockDestroyed) {
+    scene.showLootPickupFeedback?.(result, result.heavyPunchTile, {
+      specialBlockDestroyed: true,
+      tileType: result.behindTileType,
+      specialBlockEffect: result.behindSpecialBlockEffect,
+      gemPowerTierId: result.behindGemPowerTierId,
+    });
+  }
+}
+
 function isSystemFeatureAvailable(scene, feature) {
+  // A restored or developer-started Signal remains interactable before its natural unlock.
+  if (feature === "randomEvents" && scene.randomEventBridge?.signal?.active) return true;
   if (
     feature === "abilities"
     && (
@@ -221,27 +217,31 @@ function handleQuickslashMineResult(scene, result, targetTile, tileType) {
       damage: result.behindDamage,
       maxHp: result.behindMaxHp,
       overkillDamage: result.behindOverkillDamage,
-      rarityId: result.behindRarityId,
-      rarityMultiplier: result.behindRarityMultiplier,
-      isLuckyDrop: result.behindIsLuckyDrop,
       resourceType: result.behindResourceType,
     }, result.heavyPunchTile, { consumeUpgradePayoff: false });
   }
   if (result.behindDestroyed) scene.queueDugTilesSave?.();
-  if (result.behindDestroyed && result.behindResourceType && result.heavyPunchTile) {
-    scene.showLootPickupFeedback?.(result, result.heavyPunchTile, {
-      resourceType: result.behindResourceType,
-      amount: result.behindResourceAmount,
-      isLuckyDrop: result.behindIsLuckyDrop,
-    });
-  }
+  showHeavyPunchLootPickup(scene, result);
   const worldX = targetTile.tx * scene.config.tileSize + scene.config.tileSize / 2;
   const worldY = targetTile.ty * scene.config.tileSize + scene.config.tileSize / 2;
   showMiningDamageFeedback(scene.floatingTextSystem, worldX, worldY, result);
   if (result.levelUp) _handleLevelUpResult(scene, result);
 }
 
-function handleNormalMineResult(scene, result, targetTile, tileType, { flushContactFeedback = true } = {}) {
+function handleQuickslashAreaResult(scene, areaResult) {
+  if (!areaResult || areaResult.reason === "cooldown") return;
+  for (const hit of areaResult.hits || []) {
+    handleQuickslashMineResult(
+      scene,
+      hit.result,
+      { tx: hit.tx, ty: hit.ty },
+      hit.tileType,
+    );
+  }
+  refreshMiningTargetVisual(scene);
+}
+
+function handleNormalMineResult(scene, result, targetTile, tileType, { flushContactFeedback = true, contactEvent = null } = {}) {
   if (!result || result.reason === "cooldown" || !targetTile) return;
   if (result.celestialProjectile) {
     const hits = result.celestialProjectile.hits || [];
@@ -269,7 +269,7 @@ function handleNormalMineResult(scene, result, targetTile, tileType, { flushCont
     return;
   }
   if (flushContactFeedback) {
-    scene.queueDigImpactFeedback?.({ result, targetTile, tileType });
+    scene.queueDigImpactFeedback?.({ result, targetTile, tileType, contactEvent });
     scene.flushPendingDigImpactFeedback?.();
   }
 
@@ -292,9 +292,6 @@ function handleNormalMineResult(scene, result, targetTile, tileType, { flushCont
         damage: result.behindDamage,
         maxHp: result.behindMaxHp,
         overkillDamage: result.behindOverkillDamage,
-        rarityId: result.behindRarityId,
-        rarityMultiplier: result.behindRarityMultiplier,
-        isLuckyDrop: result.behindIsLuckyDrop,
         resourceType: result.behindResourceType,
       }, result.heavyPunchTile, { consumeUpgradePayoff: false });
     }
@@ -309,13 +306,7 @@ function handleNormalMineResult(scene, result, targetTile, tileType, { flushCont
       }
     }
     if (result.behindDestroyed) scene.queueDugTilesSave?.();
-    if (result.behindDestroyed && result.behindResourceType && result.heavyPunchTile) {
-      scene.showLootPickupFeedback?.(result, result.heavyPunchTile, {
-        resourceType: result.behindResourceType,
-        amount: result.behindResourceAmount,
-        isLuckyDrop: result.behindIsLuckyDrop,
-      });
-    }
+    showHeavyPunchLootPickup(scene, result);
   }
 
   refreshMiningTargetVisual(scene);
@@ -405,9 +396,6 @@ function handleArcCoreMine(scene, aimTargetTile, time, abilities, aimDirectionOv
         const color = RESOURCE_COLORS[result.resourceType] || "#FFB347";
         scene.floatingTextSystem.showResource(worldX, worldY, label, color, result.resourceAmount);
       }
-      if (result.isLuckyDrop && scene.floatingTextSystem) {
-        scene.floatingTextSystem.showResourceLuckBonus(worldX, worldY, result.resourceType || "Resource", "#00ff00", 1);
-      }
     }
   }
 
@@ -435,9 +423,23 @@ function handleArcCoreMine(scene, aimTargetTile, time, abilities, aimDirectionOv
 export function updateScene(time, delta) {
   // Safety guard: if setup hasn't completed, skip update
   if (!this.gameInputHandler) return false;
+  if (this.townRestSystem?.isActive()) {
+    this.townRestSystem.update(time, delta);
+    return false;
+  }
   const comboShouldPause = this.gameState !== "playing" || hasEscapeClosableUi(this);
   if (comboShouldPause) this.comboSystem?.pause?.(this.time?.now ?? time);
   else this.comboSystem?.resume?.(this.time?.now ?? time);
+  if (this.sessionAwakeningController?.blocksGameplay) {
+    // Draw the settled world throughout the reveal while simulation waits.
+    this._framePlayerTile = this.playerController?.getPlayerTile?.();
+    this.worldRenderer?.updateRenderWindow?.(this._framePlayerTile);
+    return true;
+  }
+  if (this.teleportTransitionController?.isActive?.()) {
+    this.teleportTransitionController.update(time, delta);
+    return false;
+  }
   if (this._hardcoreRuntime?.modal?.isVisible || this._randomEventModalVisible) {
     this.uiNotifications?.setPaused?.(true);
     return false;
@@ -519,6 +521,13 @@ function _updateSystems(time, delta, keys, samplePerformancePhases = false) {
   // HUD updates
   this.systemIntroductionSystem?.update?.();
   this.hudSystem.update(time);
+  if (this.gameState !== "playing" && this._hardcoreRuntime) {
+    this._hardcoreRuntime.hud.update(
+      this._hardcoreRuntime.system.getSnapshot(), time,
+      this.playerController?.getGemPowerExact?.() || 0,
+      { gameplayActive: false },
+    );
+  }
   this.nextPromiseHudSystem?.update(time);
   this.contextualMechanicTutorialSystem?.update?.(delta);
   handleRetentionEvents(this);
@@ -582,6 +591,7 @@ function _updateSystems(time, delta, keys, samplePerformancePhases = false) {
   if (this.specialBlockEffectsManager) {
     this.specialBlockEffectsManager.update();
   }
+  this.speedBlockFxSystem?.update(delta);
 
   // Clock progression begins with the first-return system introduction.
   if (isSystemFeatureAvailable(this, "clock") && this.dayNightCycle) {
@@ -633,6 +643,10 @@ function _updateSystems(time, delta, keys, samplePerformancePhases = false) {
       this.worldRenderer.updateGlowCrystals(activePlayerTile, 25);
     }
 
+    if (this.worldRenderer && activePlayerTile) {
+      this.worldRenderer.updateSpecialBlockGlow(activePlayerTile, 22);
+    }
+
     if (isSystemFeatureAvailable(this, "caves") && this.caveAtmosphereSystem && activePlayerTile) {
       this.caveAtmosphereSystem.update(activePlayerTile, time);
     }
@@ -673,11 +687,19 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
   // Get player tile early (needed for campfire proximity check)
   let playerTile = framePlayerTile;
 
+  if (this.townRestSystem?.updateInteraction()) return;
+
   // Campfire system (surface buff station) — MUST run before player controller
   // so W/S/E input handling works while menu is open, and so player can't move
   if (featureAvailable("campfire") && this.campfireSystem && this.inputHandler) {
     const handlerKeys = this.inputHandler.getKeys();
-    this.campfireSystem.update(playerTile, handlerKeys, delta);
+    const worldrootClaimsInteraction = Number.isFinite(
+      this.starPillarSystem?.getWorldrootInteractionDistance?.(playerTile),
+    );
+    this.campfireSystem.update(playerTile, handlerKeys, delta, {
+      allowOpen: !this.townRestSystem && !worldrootClaimsInteraction,
+      consumeInteract: () => this.inputHandler.consumeSpecialTileInteractInput(),
+    });
   }
 
   // Block all gameplay while campfire menu is open (like shop overlay does)
@@ -686,6 +708,7 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
   this.celestialActionBarInputBridge?.update?.();
   // Update player controller (physics, movement, flight logic)
   this.playerController.update(delta);
+  this.soundSystem?.reviewedAmbience?.observeMotion(this.playerController, delta);
   const ledgeTraversalActive = this.playerController.isLedgeAssistActive?.() === true;
   // A player can still enter the authored surface shaft by walking into it;
   // rescue that route immediately while the tutorial has not taught Flight.
@@ -716,6 +739,7 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
     delta,
     playerTile,
   );
+  this.starScarResourcePresentationSystem?.update?.(time);
   if (this.gameState !== "playing") return;
   updateGraveborerWurmRuntime(this, time, delta, playerTile);
   if (this.gameState !== "playing") return;
@@ -728,6 +752,7 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
     stressSnapshot: shadowMinerStressSnapshot,
     starSnapshot: this.starSanctuarySnapshot,
   });
+  this.dynamicEventRuntime?.update(time, delta);
   this.npcManager?.updateActivities?.(time, delta, playerTile);
   const arcCoreConsumedInteraction = featureAvailable("arcCore") && this.arcCoreVehicleSystem?.update(playerTile, keys) === true;
 
@@ -744,7 +769,11 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
     ?? Number.POSITIVE_INFINITY;
   const eventDistance = featureDistance("randomEvents", () => this.randomEventBridge?.getInteractionDistance?.(playerTile));
   const memoryReliquaryDistance = featureDistance("relics", () => this.memoryReliquaryWorldSystem?.getInteractionDistance?.(playerTile));
-  const pillarDistance = featureDistance("constellations", () => this.starPillarSystem?.getInteractionDistance?.(playerTile));
+  const worldrootPillarDistance = this.starPillarSystem
+    ?.getWorldrootInteractionDistance?.(playerTile) ?? Number.POSITIVE_INFINITY;
+  const pillarDistance = Number.isFinite(worldrootPillarDistance)
+    ? worldrootPillarDistance
+    : featureDistance("constellations", () => this.starPillarSystem?.getInteractionDistance?.(playerTile));
   const understarDistance = this.understarEndingSystem?.getInteractionDistance?.(playerTile)
     ?? Number.POSITIVE_INFINITY;
   const priority = resolveInteractionPriorities({
@@ -863,7 +892,7 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
   const wasQuickslashActive = this._wasQuickslashActive || false;
   this._wasQuickslashActive = isQuickslashActive;
   
-  // Quickslash: one native action owns one GP cost, one contact, and one hit.
+  // Quickslash: one native action owns one GP cost and one two-sided contact.
   const thunderStrikeOwnsPlayerAction = this.thunderStrikeActionRuntime?.isAnimating === true;
   if (
     isQuickslashActive
@@ -873,10 +902,20 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
   ) {
     const quickslashDir = abilities.getQuickslashDirection();
     const quickslashAim = quickslashDir > 0 ? "RIGHT" : "LEFT";
-    const quickslashTarget = this.inputHandler.resolveAimTargetTileForVector({
-      x: quickslashDir,
-      y: 0,
-    });
+    const quickslashTargets = [quickslashDir, -quickslashDir]
+      .map(direction => {
+        const target = this.inputHandler.resolveAimTargetTileForVector({
+          x: direction,
+          y: 0,
+        });
+        if (!target) return null;
+        return {
+          ...target,
+          aimDirection: direction > 0 ? "RIGHT" : "LEFT",
+        };
+      })
+      .filter(Boolean);
+    const quickslashTarget = quickslashTargets[0] || null;
     const quickslashCommittedDirection = resolvePlayerTargetDirection(
       this.playerController?.physicsBody,
       this.config.tileSize,
@@ -909,14 +948,18 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
             targetTile: quickslashTarget,
             direction: contactDirection,
           });
-          const result = this.digSystem.tryMine(
-            quickslashTarget,
+          const result = this.digSystem.tryMineArea(
+            quickslashTargets,
             now,
             contactDirection.aimLabel || quickslashAim,
             abilities,
-            miningOptionsForAuthoredContact(contactEvent, time),
+            {
+              ...miningOptionsForAuthoredContact(contactEvent, time),
+              projectilePerEntry: true,
+              skipHeavyPunch: false,
+            },
           );
-          handleQuickslashMineResult(this, result, quickslashTarget, tileType);
+          handleQuickslashAreaResult(this, result);
         },
       });
     }
@@ -1016,7 +1059,7 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
                   abilities,
                   miningOptionsForAuthoredContact(contactEvent, time),
                 );
-                handleNormalMineResult(this, result, mineTargetTile, tileType);
+                handleNormalMineResult(this, result, mineTargetTile, tileType, { contactEvent });
               },
             });
           }
@@ -1101,6 +1144,7 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
   if (this.biomeSystem) {
     this.biomeSystem.update(depth);
   }
+  syncPlaySceneMusicContext(this, time, depth);
 
   // Check depth milestones
   if (featureAvailable("milestones") && this.milestoneBoardSystem && !this._randomEventModalVisible) {
@@ -1182,6 +1226,7 @@ function _updatePlayingState(time, delta, keys, framePlayerTile = null) {
 //
 //   1. shakeSystem.update()     -- apply active camera-shake offset
 export function updateCameraSystems(scene, time, delta) {
+  updateWorldrootSurfaceFraming(scene, delta);
   // 1. Apply active shake offset (custom multi-frequency, see CameraShakeSystem)
   if (scene.shakeSystem) scene.shakeSystem.update(time, delta);
 

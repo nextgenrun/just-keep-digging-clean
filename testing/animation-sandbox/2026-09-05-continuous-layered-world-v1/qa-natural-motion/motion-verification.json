@@ -1,0 +1,849 @@
+{
+  "date": "2026-09-06",
+  "pageErrors": [],
+  "failedRequests": [],
+  "shaderErrors": [],
+  "before": {
+    "seconds": 3.5066999999999995,
+    "wind": 0.728812774169897,
+    "camera": {
+      "x": 17784,
+      "y": 5562
+    },
+    "fps": 50.263913333415985,
+    "cloudTime": 3.5066999999999995,
+    "foliageTime": 3.5066999999999995,
+    "clouds": [
+      {
+        "id": "high-cirrus:1:2",
+        "x": 3158.153494650666,
+        "y": 957.5626880641926,
+        "scale": 0.8,
+        "pipeline": "RegeneratedAtmosphere:cloud"
+      },
+      {
+        "id": "high-cirrus:2:2",
+        "x": 3353.4393522233836,
+        "y": 1666.1083249749247,
+        "scale": 0.8,
+        "pipeline": "RegeneratedAtmosphere:cloud"
+      },
+      {
+        "id": "silver-cloud:2:4",
+        "x": 5213.735903088134,
+        "y": 1845.1253761283851,
+        "scale": 1,
+        "pipeline": "RegeneratedAtmosphere:cloud"
+      },
+      {
+        "id": "silver-cloud:2:5",
+        "x": 6514.197287240591,
+        "y": 1744.7241725175527,
+        "scale": 1,
+        "pipeline": "RegeneratedAtmosphere:cloud"
+      },
+      {
+        "id": "silver-cloud:2:6",
+        "x": 7639.834197972788,
+        "y": 1836.960882647944,
+        "scale": 1,
+        "pipeline": "RegeneratedAtmosphere:cloud"
+      },
+      {
+        "id": "silver-cloud:3:4",
+        "x": 5262.482141804283,
+        "y": 2661.935807422267,
+        "scale": 1,
+        "pipeline": "RegeneratedAtmosphere:cloud"
+      },
+      {
+        "id": "silver-cloud:3:5",
+        "x": 6500.054859958746,
+        "y": 2800.952858575727,
+        "scale": 1,
+        "pipeline": "RegeneratedAtmosphere:cloud"
+      },
+      {
+        "id": "silver-cloud:3:6",
+        "x": 7612.151148825345,
+        "y": 2731.003009027081,
+        "scale": 1,
+        "pipeline": "RegeneratedAtmosphere:cloud"
+      },
+      {
+        "id": "valley-mist:0:10",
+        "x": 10144.301090468507,
+        "y": 5770.4754262788365,
+        "scale": 0.95,
+        "pipeline": "RegeneratedAtmosphere:cloud"
+      },
+      {
+        "id": "valley-mist:0:11",
+        "x": 11236.216837710233,
+        "y": 5734.639919759278,
+        "scale": 0.95,
+        "pipeline": "RegeneratedAtmosphere:cloud"
+      },
+      {
+        "id": "near-haze:0:13",
+        "x": 15868.190708793234,
+        "y": 5896.253761283851,
+        "scale": 0.88,
+        "pipeline": "RegeneratedAtmosphere:cloud"
+      },
+      {
+        "id": "near-haze:0:12",
+        "x": 14602.152594450205,
+        "y": 5882.171514543631,
+        "scale": 0.88,
+        "pipeline": "RegeneratedAtmosphere:cloud"
+      }
+    ],
+    "spray": [
+      {
+        "id": "regenerated-waterfall-spray:moonfall:0",
+        "x": 9040.934370898865,
+        "y": 6105.4129,
+        "alpha": 0.012107304382046923,
+        "scale": 0.3030194736842105
+      },
+      {
+        "id": "regenerated-waterfall-spray:moonfall:1",
+        "x": 9079.8405519443,
+        "y": 6093.1929,
+        "alpha": 0.005962657073361231,
+        "scale": 0.30814340425531916
+      },
+      {
+        "id": "regenerated-waterfall-spray:moonfall:2",
+        "x": 9000.82079429063,
+        "y": 6149.0929,
+        "alpha": 0.0014191310219063933,
+        "scale": 0.10576321428571431
+      },
+      {
+        "id": "regenerated-waterfall-spray:moonfall:3",
+        "x": 9036.578286007489,
+        "y": 6127.2529,
+        "alpha": 0.20134551083914617,
+        "scale": 0.1956842857142857
+      },
+      {
+        "id": "regenerated-waterfall-spray:moonfall:4",
+        "x": 9063.864851937955,
+        "y": 6118.6729,
+        "alpha": 0.209680871205397,
+        "scale": 0.2072694117647059
+      },
+      {
+        "id": "regenerated-waterfall-spray:moonfall:5",
+        "x": 9254.930231653001,
+        "y": 6111.3129,
+        "alpha": 0.012107304382046923,
+        "scale": 0.3030194736842105
+      },
+      {
+        "id": "regenerated-waterfall-spray:moonfall:6",
+        "x": 9272.832799628186,
+        "y": 6099.0929,
+        "alpha": 0.005962657073361231,
+        "scale": 0.30814340425531916
+      },
+      {
+        "id": "regenerated-waterfall-spray:moonfall:7",
+        "x": 9206.133317528871,
+        "y": 6154.992899999999,
+        "alpha": 0.0014191310219063933,
+        "scale": 0.10576321428571431
+      },
+      {
+        "id": "regenerated-waterfall-spray:moonfall:8",
+        "x": 9241.779594805377,
+        "y": 6133.1529,
+        "alpha": 0.20134551083914617,
+        "scale": 0.1956842857142857
+      },
+      {
+        "id": "regenerated-waterfall-spray:moonfall:9",
+        "x": 9263.067047396633,
+        "y": 6124.572899999999,
+        "alpha": 0.209680871205397,
+        "scale": 0.2072694117647059
+      },
+      {
+        "id": "regenerated-waterfall-spray:crownfall:0",
+        "x": 11271.705265883977,
+        "y": 5958.4129,
+        "alpha": 0.10756849708560441,
+        "scale": 0.2641434042553191
+      },
+      {
+        "id": "regenerated-waterfall-spray:crownfall:1",
+        "x": 11313.07064836995,
+        "y": 5943.8529,
+        "alpha": 0.056629057195268825,
+        "scale": 0.28176321428571427
+      },
+      {
+        "id": "regenerated-waterfall-spray:crownfall:2",
+        "x": 11245.841064858241,
+        "y": 5991.1729,
+        "alpha": 0.09507171334597338,
+        "scale": 0.15168428571428566
+      },
+      {
+        "id": "regenerated-waterfall-spray:crownfall:3",
+        "x": 11259.224689078817,
+        "y": 5984.9329,
+        "alpha": 0.1295683629004708,
+        "scale": 0.16326941176470586
+      },
+      {
+        "id": "regenerated-waterfall-spray:crownfall:4",
+        "x": 11300.778762286347,
+        "y": 5968.2929,
+        "alpha": 0.12284728521263166,
+        "scale": 0.2590194736842105
+      },
+      {
+        "id": "regenerated-waterfall-spray:crownfall:5",
+        "x": 11395.232291600087,
+        "y": 6016.9129,
+        "alpha": 0.10756849708560441,
+        "scale": 0.2641434042553191
+      },
+      {
+        "id": "regenerated-waterfall-spray:crownfall:6",
+        "x": 11418.749086151956,
+        "y": 6002.3529,
+        "alpha": 0.056629057195268825,
+        "scale": 0.28176321428571427
+      },
+      {
+        "id": "regenerated-waterfall-spray:crownfall:7",
+        "x": 11365.067363440736,
+        "y": 6049.6729,
+        "alpha": 0.09507171334597338,
+        "scale": 0.15168428571428566
+      },
+      {
+        "id": "regenerated-waterfall-spray:crownfall:8",
+        "x": 11377.374876631273,
+        "y": 6043.4329,
+        "alpha": 0.1295683629004708,
+        "scale": 0.16326941176470586
+      },
+      {
+        "id": "regenerated-waterfall-spray:crownfall:9",
+        "x": 11409.69166765182,
+        "y": 6026.7929,
+        "alpha": 0.12284728521263166,
+        "scale": 0.2590194736842105
+      },
+      {
+        "id": "regenerated-waterfall-spray:crownfall:10",
+        "x": 11573.954414871536,
+        "y": 6127.4129,
+        "alpha": 0.10756849708560441,
+        "scale": 0.2641434042553191
+      },
+      {
+        "id": "regenerated-waterfall-spray:crownfall:11",
+        "x": 11584.87653736164,
+        "y": 6112.8529,
+        "alpha": 0.056629057195268825,
+        "scale": 0.28176321428571427
+      },
+      {
+        "id": "regenerated-waterfall-spray:crownfall:12",
+        "x": 11534.551401101853,
+        "y": 6160.1729,
+        "alpha": 0.09507171334597338,
+        "scale": 0.15168428571428566
+      },
+      {
+        "id": "regenerated-waterfall-spray:crownfall:13",
+        "x": 11551.250715338007,
+        "y": 6153.9329,
+        "alpha": 0.1295683629004708,
+        "scale": 0.16326941176470586
+      },
+      {
+        "id": "regenerated-waterfall-spray:crownfall:14",
+        "x": 11572.180142509276,
+        "y": 6137.2929,
+        "alpha": 0.12284728521263166,
+        "scale": 0.2590194736842105
+      },
+      {
+        "id": "regenerated-waterfall-spray:eastern-cascades:0",
+        "x": 14855.758730338159,
+        "y": 6099.4129,
+        "alpha": 0.17868598225689256,
+        "scale": 0.23776321428571429
+      },
+      {
+        "id": "regenerated-waterfall-spray:eastern-cascades:1",
+        "x": 14805.743045955873,
+        "y": 6143.0929,
+        "alpha": 0.002518470558613494,
+        "scale": 0.10768428571428566
+      },
+      {
+        "id": "regenerated-waterfall-spray:eastern-cascades:2",
+        "x": 14818.752845644813,
+        "y": 6139.1929,
+        "alpha": 0.015503212115035976,
+        "scale": 0.1192694117647059
+      },
+      {
+        "id": "regenerated-waterfall-spray:eastern-cascades:3",
+        "x": 14851.266605371604,
+        "y": 6119.1729,
+        "alpha": 0.2089229244862729,
+        "scale": 0.21501947368421054
+      },
+      {
+        "id": "regenerated-waterfall-spray:eastern-cascades:4",
+        "x": 14877.802940778427,
+        "y": 6111.6329,
+        "alpha": 0.20562476142554728,
+        "scale": 0.22014340425531914
+      },
+      {
+        "id": "regenerated-waterfall-spray:eastern-cascades:5",
+        "x": 15053.04592156418,
+        "y": 6104.9129,
+        "alpha": 0.17868598225689256,
+        "scale": 0.23776321428571429
+      },
+      {
+        "id": "regenerated-waterfall-spray:eastern-cascades:6",
+        "x": 14996.750772325207,
+        "y": 6148.5929,
+        "alpha": 0.002518470558613494,
+        "scale": 0.10768428571428566
+      },
+      {
+        "id": "regenerated-waterfall-spray:eastern-cascades:7",
+        "x": 15010.568062224955,
+        "y": 6144.6929,
+        "alpha": 0.015503212115035976,
+        "scale": 0.1192694117647059
+      },
+      {
+        "id": "regenerated-waterfall-spray:eastern-cascades:8",
+        "x": 15041.105824578011,
+        "y": 6124.6729,
+        "alpha": 0.2089229244862729,
+        "scale": 0.21501947368421054
+      },
+      {
+        "id": "regenerated-waterfall-spray:eastern-cascades:9",
+        "x": 15062.61416426979,
+        "y": 6117.1329,
+        "alpha": 0.20562476142554728,
+        "scale": 0.22014340425531914
+      }
+    ],
+    "landmarks": [
+      {
+        "id": "moonfall",
+        "tileX": 155,
+        "visible": false,
+        "flowing": true,
+        "scale": 0.576171875,
+        "waterfalls": 2,
+        "sprayPuffs": 10
+      },
+      {
+        "id": "crownfall",
+        "tileX": 196,
+        "visible": true,
+        "flowing": true,
+        "scale": 0.634765625,
+        "waterfalls": 3,
+        "sprayPuffs": 15
+      },
+      {
+        "id": "eastern-cascades",
+        "tileX": 258,
+        "visible": false,
+        "flowing": true,
+        "scale": 0.537109375,
+        "waterfalls": 2,
+        "sprayPuffs": 10
+      }
+    ]
+  },
+  "crop": {
+    "x": 33,
+    "y": 105,
+    "width": 1470,
+    "height": 826
+  },
+  "after": {
+    "seconds": 15.635999999999939,
+    "wind": 0.8056609778363291,
+    "camera": {
+      "x": 17784,
+      "y": 5562
+    },
+    "fps": 59.69159629141235,
+    "cloudTime": 15.635999999999939,
+    "foliageTime": 15.635999999999939,
+    "clouds": [
+      {
+        "id": "high-cirrus:1:2",
+        "x": 3261.967765214673,
+        "y": 957.5626880641926,
+        "scale": 0.8,
+        "pipeline": "RegeneratedAtmosphere:cloud"
+      },
+      {
+        "id": "high-cirrus:2:2",
+        "x": 3457.2536227873907,
+        "y": 1666.1083249749247,
+        "scale": 0.8,
+        "pipeline": "RegeneratedAtmosphere:cloud"
+      },
+      {
+        "id": "silver-cloud:2:4",
+        "x": 5393.051461335055,
+        "y": 1845.1253761283851,
+        "scale": 1,
+        "pipeline": "RegeneratedAtmosphere:cloud"
+      },
+      {
+        "id": "silver-cloud:2:5",
+        "x": 6693.512845487512,
+        "y": 1744.7241725175527,
+        "scale": 1,
+        "pipeline": "RegeneratedAtmosphere:cloud"
+      },
+      {
+        "id": "silver-cloud:2:6",
+        "x": 7819.149756219709,
+        "y": 1836.960882647944,
+        "scale": 1,
+        "pipeline": "RegeneratedAtmosphere:cloud"
+      },
+      {
+        "id": "silver-cloud:3:4",
+        "x": 5441.797700051204,
+        "y": 2661.935807422267,
+        "scale": 1,
+        "pipeline": "RegeneratedAtmosphere:cloud"
+      },
+      {
+        "id": "silver-cloud:3:5",
+        "x": 6679.370418205667,
+        "y": 2800.952858575727,
+        "scale": 1,
+        "pipeline": "RegeneratedAtmosphere:cloud"
+      },
+      {
+        "id": "silver-cloud:3:6",
+        "x": 7791.466707072266,
+        "y": 2731.003009027081,
+        "scale": 1,
+        "pipeline": "RegeneratedAtmosphere:cloud"
+      },
+      {
+        "id": "valley-mist:0:10",
+        "x": 10436.868580239801,
+        "y": 5770.4754262788365,
+        "scale": 0.95,
+        "pipeline": "RegeneratedAtmosphere:cloud"
+      },
+      {
+        "id": "valley-mist:0:11",
+        "x": 11528.784327481528,
+        "y": 5734.639919759278,
+        "scale": 0.95,
+        "pipeline": "RegeneratedAtmosphere:cloud"
+      },
+      {
+        "id": "near-haze:0:13",
+        "x": 16283.447791049262,
+        "y": 5896.253761283851,
+        "scale": 0.88,
+        "pipeline": "RegeneratedAtmosphere:cloud"
+      },
+      {
+        "id": "near-haze:0:12",
+        "x": 15017.409676706233,
+        "y": 5882.171514543631,
+        "scale": 0.88,
+        "pipeline": "RegeneratedAtmosphere:cloud"
+      },
+      {
+        "id": "valley-mist:0:9",
+        "x": 9601.622843028166,
+        "y": 5749.41223671013,
+        "scale": 0.95,
+        "pipeline": "RegeneratedAtmosphere:cloud"
+      }
+    ],
+    "spray": [
+      {
+        "id": "regenerated-waterfall-spray:moonfall:0",
+        "x": 8994.460384687545,
+        "y": 6145.332,
+        "alpha": 0.02612363218981389,
+        "scale": 0.12524210526315446
+      },
+      {
+        "id": "regenerated-waterfall-spray:moonfall:1",
+        "x": 9039.72885405022,
+        "y": 6118.812000000001,
+        "alpha": 0.2085139366661302,
+        "scale": 0.21589787234042268
+      },
+      {
+        "id": "regenerated-waterfall-spray:moonfall:2",
+        "x": 9020.999396429981,
+        "y": 6137.012000000001,
+        "alpha": 0.06766482622714452,
+        "scale": 0.14227142857142624
+      },
+      {
+        "id": "regenerated-waterfall-spray:moonfall:3",
+        "x": 9030.903575705264,
+        "y": 6133.372000000001,
+        "alpha": 0.1514050891156799,
+        "scale": 0.17102857142856814
+      },
+      {
+        "id": "regenerated-waterfall-spray:moonfall:4",
+        "x": 9102.656057640213,
+        "y": 6093.592000000001,
+        "alpha": 0.03512666985240024,
+        "scale": 0.2904941176470561
+      },
+      {
+        "id": "regenerated-waterfall-spray:moonfall:5",
+        "x": 9198.273938330956,
+        "y": 6151.232,
+        "alpha": 0.02612363218981389,
+        "scale": 0.12524210526315446
+      },
+      {
+        "id": "regenerated-waterfall-spray:moonfall:6",
+        "x": 9251.337256211842,
+        "y": 6124.712,
+        "alpha": 0.2085139366661302,
+        "scale": 0.21589787234042268
+      },
+      {
+        "id": "regenerated-waterfall-spray:moonfall:7",
+        "x": 9228.664619935917,
+        "y": 6142.912,
+        "alpha": 0.06766482622714452,
+        "scale": 0.14227142857142624
+      },
+      {
+        "id": "regenerated-waterfall-spray:moonfall:8",
+        "x": 9238.592761848047,
+        "y": 6139.272000000001,
+        "alpha": 0.1514050891156799,
+        "scale": 0.17102857142856814
+      },
+      {
+        "id": "regenerated-waterfall-spray:moonfall:9",
+        "x": 9318.77771087255,
+        "y": 6099.492,
+        "alpha": 0.03512666985240024,
+        "scale": 0.2904941176470561
+      },
+      {
+        "id": "regenerated-waterfall-spray:crownfall:0",
+        "x": 11250.07861799512,
+        "y": 5984.032000000001,
+        "alpha": 0.15372899471685383,
+        "scale": 0.17189787234042264
+      },
+      {
+        "id": "regenerated-waterfall-spray:crownfall:1",
+        "x": 11348.693125513733,
+        "y": 5931.772000000001,
+        "alpha": 0.00012792638645517474,
+        "scale": 0.3182714285714263
+      },
+      {
+        "id": "regenerated-waterfall-spray:crownfall:2",
+        "x": 11238.628581335084,
+        "y": 5997.292,
+        "alpha": 0.029760899033895245,
+        "scale": 0.1270285714285683
+      },
+      {
+        "id": "regenerated-waterfall-spray:crownfall:3",
+        "x": 11313.136880823064,
+        "y": 5959.852000000001,
+        "alpha": 0.1579474758414953,
+        "scale": 0.24649411764705623
+      },
+      {
+        "id": "regenerated-waterfall-spray:crownfall:4",
+        "x": 11322.885369192294,
+        "y": 5958.812000000001,
+        "alpha": 0.014710587553976357,
+        "scale": 0.3012421052631544
+      },
+      {
+        "id": "regenerated-waterfall-spray:crownfall:5",
+        "x": 11365.670632230189,
+        "y": 6042.532000000001,
+        "alpha": 0.15372899471685383,
+        "scale": 0.17189787234042264
+      },
+      {
+        "id": "regenerated-waterfall-spray:crownfall:6",
+        "x": 11461.686415629318,
+        "y": 5990.272000000001,
+        "alpha": 0.00012792638645517474,
+        "scale": 0.3182714285714263
+      },
+      {
+        "id": "regenerated-waterfall-spray:crownfall:7",
+        "x": 11355.856900966079,
+        "y": 6055.792,
+        "alpha": 0.029760899033895245,
+        "scale": 0.1270285714285683
+      },
+      {
+        "id": "regenerated-waterfall-spray:crownfall:8",
+        "x": 11421.913825887272,
+        "y": 6018.352000000001,
+        "alpha": 0.1579474758414953,
+        "scale": 0.24649411764705623
+      },
+      {
+        "id": "regenerated-waterfall-spray:crownfall:9",
+        "x": 11439.677569401587,
+        "y": 6017.312000000001,
+        "alpha": 0.014710587553976357,
+        "scale": 0.3012421052631544
+      },
+      {
+        "id": "regenerated-waterfall-spray:crownfall:10",
+        "x": 11531.516399938448,
+        "y": 6153.032000000001,
+        "alpha": 0.15372899471685383,
+        "scale": 0.17189787234042264
+      },
+      {
+        "id": "regenerated-waterfall-spray:crownfall:11",
+        "x": 11618.7624163807,
+        "y": 6100.772000000001,
+        "alpha": 0.00012792638645517474,
+        "scale": 0.3182714285714263
+      },
+      {
+        "id": "regenerated-waterfall-spray:crownfall:12",
+        "x": 11524.806455482636,
+        "y": 6166.292,
+        "alpha": 0.029760899033895245,
+        "scale": 0.1270285714285683
+      },
+      {
+        "id": "regenerated-waterfall-spray:crownfall:13",
+        "x": 11585.900258793834,
+        "y": 6128.852000000001,
+        "alpha": 0.1579474758414953,
+        "scale": 0.24649411764705623
+      },
+      {
+        "id": "regenerated-waterfall-spray:crownfall:14",
+        "x": 11598.348452167227,
+        "y": 6127.812000000001,
+        "alpha": 0.014710587553976357,
+        "scale": 0.3012421052631544
+      },
+      {
+        "id": "regenerated-waterfall-spray:eastern-cascades:0",
+        "x": 14886.131527250956,
+        "y": 6087.332,
+        "alpha": 0.07752066780900371,
+        "scale": 0.2742714285714263
+      },
+      {
+        "id": "regenerated-waterfall-spray:eastern-cascades:1",
+        "x": 14883.144453943853,
+        "y": 6094.612000000001,
+        "alpha": 0.012094589204281919,
+        "scale": 0.30302857142856826
+      },
+      {
+        "id": "regenerated-waterfall-spray:eastern-cascades:2",
+        "x": 14856.353928516231,
+        "y": 6114.112000000001,
+        "alpha": 0.2075966698361579,
+        "scale": 0.20249411764705616
+      },
+      {
+        "id": "regenerated-waterfall-spray:eastern-cascades:3",
+        "x": 14877.007809139142,
+        "y": 6109.692000000001,
+        "alpha": 0.12807444209428587,
+        "scale": 0.2572421052631544
+      },
+      {
+        "id": "regenerated-waterfall-spray:eastern-cascades:4",
+        "x": 14834.752423231126,
+        "y": 6137.252,
+        "alpha": 0.03160223830649964,
+        "scale": 0.1278978723404227
+      },
+      {
+        "id": "regenerated-waterfall-spray:eastern-cascades:5",
+        "x": 15073.347225815089,
+        "y": 6092.832,
+        "alpha": 0.07752066780900371,
+        "scale": 0.2742714285714263
+      },
+      {
+        "id": "regenerated-waterfall-spray:eastern-cascades:6",
+        "x": 15066.858746750178,
+        "y": 6100.112000000001,
+        "alpha": 0.012094589204281919,
+        "scale": 0.30302857142856826
+      },
+      {
+        "id": "regenerated-waterfall-spray:eastern-cascades:7",
+        "x": 15049.361551898224,
+        "y": 6119.612000000001,
+        "alpha": 0.2075966698361579,
+        "scale": 0.20249411764705616
+      },
+      {
+        "id": "regenerated-waterfall-spray:eastern-cascades:8",
+        "x": 15059.718251624847,
+        "y": 6115.192000000001,
+        "alpha": 0.12807444209428587,
+        "scale": 0.2572421052631544
+      },
+      {
+        "id": "regenerated-waterfall-spray:eastern-cascades:9",
+        "x": 15027.06626623876,
+        "y": 6142.752,
+        "alpha": 0.03160223830649964,
+        "scale": 0.1278978723404227
+      }
+    ],
+    "landmarks": [
+      {
+        "id": "moonfall",
+        "tileX": 155,
+        "visible": false,
+        "flowing": true,
+        "scale": 0.576171875,
+        "waterfalls": 2,
+        "sprayPuffs": 10
+      },
+      {
+        "id": "crownfall",
+        "tileX": 196,
+        "visible": true,
+        "flowing": true,
+        "scale": 0.634765625,
+        "waterfalls": 3,
+        "sprayPuffs": 15
+      },
+      {
+        "id": "eastern-cascades",
+        "tileX": 258,
+        "visible": false,
+        "flowing": true,
+        "scale": 0.537109375,
+        "waterfalls": 2,
+        "sprayPuffs": 10
+      }
+    ]
+  },
+  "travel": [
+    {
+      "id": "high-cirrus:1:2",
+      "pixels": 103.81427056400707
+    },
+    {
+      "id": "high-cirrus:2:2",
+      "pixels": 103.81427056400707
+    },
+    {
+      "id": "silver-cloud:2:4",
+      "pixels": 179.31555824692077
+    },
+    {
+      "id": "silver-cloud:2:5",
+      "pixels": 179.31555824692077
+    },
+    {
+      "id": "silver-cloud:2:6",
+      "pixels": 179.31555824692077
+    },
+    {
+      "id": "silver-cloud:3:4",
+      "pixels": 179.31555824692077
+    },
+    {
+      "id": "silver-cloud:3:5",
+      "pixels": 179.31555824692077
+    },
+    {
+      "id": "silver-cloud:3:6",
+      "pixels": 179.31555824692077
+    },
+    {
+      "id": "valley-mist:0:10",
+      "pixels": 292.5674897712943
+    },
+    {
+      "id": "valley-mist:0:11",
+      "pixels": 292.5674897712943
+    },
+    {
+      "id": "near-haze:0:13",
+      "pixels": 415.2570822560283
+    },
+    {
+      "id": "near-haze:0:12",
+      "pixels": 415.2570822560283
+    }
+  ],
+  "recording": {
+    "frames": 717,
+    "seconds": 11.982549905776978,
+    "sampleFps": 59.75355876922365
+  },
+  "pause": true,
+  "isolation": {
+    "water": {
+      "x": 100,
+      "y": 20,
+      "width": 975,
+      "height": 650,
+      "cameraWidth": 1280,
+      "cameraHeight": 720
+    },
+    "cloud": {
+      "x": 100,
+      "y": 100,
+      "width": 868.8000000000001,
+      "height": 289.6,
+      "cameraWidth": 1280,
+      "cameraHeight": 720
+    },
+    "foliage": {
+      "x": 100,
+      "y": 100,
+      "width": 1086,
+      "height": 362,
+      "cameraWidth": 1280,
+      "cameraHeight": 720
+    }
+  },
+  "remainingPipelines": [],
+  "passed": true
+}

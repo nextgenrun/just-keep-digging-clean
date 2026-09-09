@@ -3,6 +3,47 @@
 const ROOT = "sprites/UI/save-menu-v1";
 
 export const SAVE_MENU_PRESENTATION = Object.freeze({
+  copy: Object.freeze({
+    title: "SAVE SLOTS",
+    subtitle: "Choose a save to continue or start a new one",
+    startPrompt: "CHOOSE A SLOT, THEN PRESS ENTER OR SPACE",
+    controlsHint: "1 / 2 / 3: choose  •  Enter / Space: start  •  Del: clear  •  B: backups  •  E: export  •  I: import  •  Esc: back",
+    slotPrefix: "SLOT",
+    lastPlayedPrefix: "LAST PLAYED",
+    runEnded: "RUN ENDED",
+    startsWithFlight: "STARTS WITH FLIGHT",
+    casual: "CASUAL",
+    life: "LIFE",
+    lives: "LIVES",
+    unknownDate: "Unknown date",
+    continue: "CONTINUE",
+    newSave: "NEW SAVE",
+    selectedContinue: "PRESS ENTER OR SPACE TO CONTINUE",
+    selectedNew: "PRESS ENTER OR SPACE TO CHOOSE SAVE RULES",
+    endedPrompt: "RUN ENDED  •  EXPORT OR CLEAR THIS SLOT",
+    clearQuestion: "Clear save slot {slot}?",
+    clearHint: "Y: clear  •  N / Esc: cancel",
+    clear: "CLEAR",
+    cancel: "CANCEL",
+    backupsTitle: "BACKUPS FOR SLOT {slot}",
+    backupsAvailable: "backups available",
+    lockedBackups: "Hardcore backups",
+    noBackups: "No backups available",
+    backupPrefix: "Backup",
+    restore: "RESTORE",
+    hardcoreBackupLock: "HARDCORE LOCKED",
+    hardcoreBackupHint: "Hardcore backups cannot rewind lives or restore an ended run.",
+    casualBackupHint: "Choose Restore beside any Casual backup.",
+    close: "CLOSE",
+    importTitle: "IMPORT SAVE",
+    importBody: "Choose a save file. This slot is backed up before the imported save replaces it.",
+    selectFile: "SELECT FILE",
+    jsonOnly: "JSON save files only",
+  }),
+  baked: Object.freeze({
+    cards: Object.freeze({ key: "baked-save-cards-v2", path: "sprites/UI/save-menu-baked-v2/save-cards-original.png" }),
+    copy: Object.freeze({ key: "baked-save-copy-v2", path: "sprites/UI/save-menu-baked-v2/save-copy-original.png" }),
+  }),
   artEnabledByDefault: true,
   query: Object.freeze({
     param: "saveMenuArt",
@@ -70,8 +111,10 @@ export function resolveSaveMenuArtEnabled(search = globalThis.location?.search |
 }
 
 export function getSaveMenuAssetEntries() {
-  const { slot, modal, choice, button } = SAVE_MENU_PRESENTATION;
+  const { slot, modal, choice, button, baked } = SAVE_MENU_PRESENTATION;
   return [
+    [baked.cards.key, baked.cards.path],
+    [baked.copy.key, baked.copy.path],
     [slot.idleKey, slot.idlePath],
     [slot.selectedKey, slot.selectedPath],
     [modal.confirm.key, modal.confirm.path],

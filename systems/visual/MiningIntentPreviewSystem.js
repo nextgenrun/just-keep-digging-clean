@@ -18,7 +18,7 @@ export class MiningIntentPreviewSystem {
     }).setOrigin(0.5, 1).setDepth(this.config.depth + 1).setVisible(false);
   }
 
-  update(targetTile, keys, aimLabel = null) {
+  update(targetTile, keys) {
     this.graphics.clear();
     this.label.setVisible(false);
     if (
@@ -32,19 +32,7 @@ export class MiningIntentPreviewSystem {
     if (thunderActive) {
       const preview = abilities?.getThunderStrikePreview?.();
       if (preview?.entries?.length) this._drawThunder(preview);
-      return;
     }
-
-    // Quickslash reads clearly from the authored action itself. Suppress the
-    // generic mining preview too, so Q never swaps the removed route UI for an
-    // unrelated Heavy Punch marker.
-    if (keys?.q?.isDown) return;
-
-    const heavy = this.scene.digSystem?.getHeavyPunchPreview?.(
-      targetTile,
-      aimLabel || this.scene.playerController?.getAimLabel?.()
-    );
-    if (heavy) this._drawHeavyPunch(heavy);
   }
 
   _drawTile(tx, ty, color, fillAlpha = this.config.fillAlpha) {
@@ -64,13 +52,6 @@ export class MiningIntentPreviewSystem {
       .setText(text)
       .setColor(`#${color.toString(16).padStart(6, "0")}`)
       .setVisible(true);
-  }
-
-  _drawHeavyPunch(preview, showLabel = true) {
-    const position = this._drawTile(preview.tx, preview.ty, this.config.heavyColor);
-    if (showLabel) {
-      this._setLabel(position, `HEAVY PUNCH  +${preview.damage}`, this.config.heavyColor);
-    }
   }
 
   _drawThunder(preview) {

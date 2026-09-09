@@ -1,0 +1,31 @@
+{
+  "source": "sprites/branding/understar-world-within-v4/understar-logo-loop-15s.mp4",
+  "output": "sprites/branding/understar-world-within-v4/understar-logo-loop-alpha-v2.webm",
+  "ffmpeg": "tmp/seedance-loop-tools/imageio_ffmpeg/binaries/ffmpeg-win-x86_64-v7.1.exe",
+  "dependencies": "ai-tools/2026-09-07-logo-animation/pydeps",
+  "crop": [
+    1400,
+    416,
+    35,
+    107
+  ],
+  "fps": 24,
+  "frames": 360,
+  "keyColor": [
+    7,
+    14,
+    24
+  ],
+  "colorDistance": 22,
+  "closeSize": 5,
+  "openSize": 3,
+  "minComponent": 45,
+  "maxHole": 600,
+  "featherSigma": 0.65,
+  "crf": 20,
+  "threads": 8,
+  "previewFrame": 180,
+  "minimumBrightness": 48,
+  "coreMask": "sprites/branding/understar-world-within-v4/understar-world-logo-runtime.webp",
+  "coreErodeSize": 7
+}

@@ -4,8 +4,12 @@ import { STAR_IDENTITY_LIBRARY_CONFIG } from
   "../values/starIdentityLibrary.js";
 import { getStarIdentity } from "../values/starIdentityLibraryMath.js";
 import { WORLD_VISUAL_MATERIALS } from "../values/worldVisualMaterials.js";
+import { getStarlessScarBiomePalette } from
+  "../values/starlessScarBiomePalettes.js";
 import { resolveStarSanctuaryProfile } from
   "../systems/environment/starSanctuaryProfile.js";
+import { WorldMapStarTerritorySystem } from
+  "../systems/map/WorldMapStarTerritorySystem.js";
 import { installStarIdentityTextureFrames } from
   "../systems/visual/installStarIdentityTextureFrames.js";
 import { StarlessScarView } from "../systems/visual/StarlessScarView.js";
@@ -17,6 +21,8 @@ const INTACT = Object.freeze({ tx: 5, ty: 5 });
 const CONSUMED = Object.freeze({ tx: 15, ty: 5 });
 const IDENTITY_INDEX = 37;
 const RARITY_INDEX = 3;
+const SCAR_BIOME_ID = new URLSearchParams(location.search).get("scarBiome")
+  || "cobalt-aquifer";
 const assetPath = path => `../${path}`;
 
 class HarnessWorld {
@@ -24,6 +30,11 @@ class HarnessWorld {
     this.widthTiles = WIDTH / TILE_SIZE;
     this.depthTiles = HEIGHT / TILE_SIZE;
     this.tileSize = TILE_SIZE;
+    this.topAirRows = 0;
+    this.dugTileSource = new Map([[`${CONSUMED.tx},${CONSUMED.ty}`, {
+      ...CONSUMED,
+      type: TILE_TYPES.SKY_TILE,
+    }]]);
   }
 
   getTileType(tx, ty) {
@@ -33,8 +44,7 @@ class HarnessWorld {
   }
 
   getDugTileSource(tx, ty) {
-    if (tx !== CONSUMED.tx || ty !== CONSUMED.ty) return null;
-    return { tx, ty, type: TILE_TYPES.SKY_TILE };
+    return this.dugTileSource.get(`${tx},${ty}`) || null;
   }
 
   getSkyTileIdentity(tx, ty) {
@@ -61,8 +71,12 @@ class StarSanctuaryConsequenceHarness extends Phaser.Scene {
   }
 
   preload() {
+    this.scarPalette = getStarlessScarBiomePalette(SCAR_BIOME_ID)
+      || getStarlessScarBiomePalette("cobalt-aquifer");
     const assets = [
       WORLD_VISUAL_MATERIALS.shallowBlue,
+      ...Object.values(STAR_SANCTUARY_CONFIG.scar.visual.assets),
+      ...Object.values(this.scarPalette.assets),
       ...STAR_IDENTITY_LIBRARY_CONFIG.atlases,
       ...STAR_IDENTITY_LIBRARY_CONFIG.lightAtlases,
     ];
@@ -85,8 +99,29 @@ class StarSanctuaryConsequenceHarness extends Phaser.Scene {
     document.body.dataset.gpRate = this.profile.gpPerSecond.toFixed(2);
     document.body.dataset.gpCap = this.profile.gpCapRatio.toFixed(3);
     document.body.dataset.scarRadius = `${STAR_SANCTUARY_CONFIG.scar.radiusTiles}`;
-    document.body.dataset.scarStressMultiplier = `${STAR_SANCTUARY_CONFIG.scar.darknessStressMultiplier}`;
-    this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => this.scarView?.destroy());
+    document.body.dataset.scarTerritoryBound = `${STAR_SANCTUARY_CONFIG.scar.territoryBound}`;
+    document.body.dataset.scarCoversEntireTerritory = `${STAR_SANCTUARY_CONFIG.scar.coversEntireTerritory}`;
+    document.body.dataset.scarStressMultiplier = `${STAR_SANCTUARY_CONFIG.scar.panicStressMultiplier}`;
+    const scarSnapshot = this.scarView.getSnapshot();
+    document.body.dataset.scarCellCount = `${scarSnapshot.visibleScarCellCount}`;
+    document.body.dataset.scarMaterialReady = `${scarSnapshot.materialReady}`;
+    document.body.dataset.scarGroundReady = `${scarSnapshot.groundReady}`;
+    document.body.dataset.scarCenterReady = `${scarSnapshot.centerReady}`;
+    document.body.dataset.scarFrontierReady = `${scarSnapshot.frontierReady}`;
+    document.body.dataset.scarCenterCount = `${scarSnapshot.visibleCenterCount}`;
+    document.body.dataset.scarFrontierCount = `${scarSnapshot.visibleFrontierCount}`;
+    document.body.dataset.scarViewTerritoryBound = `${scarSnapshot.territoryBound}`;
+    document.body.dataset.scarBiomeId = SCAR_BIOME_ID;
+    document.body.dataset.scarPaletteId = scarSnapshot.visiblePaletteIds?.[0] || "";
+    document.body.dataset.scarPaletteReady = `${scarSnapshot.readyPaletteCount > 0}`;
+    document.body.dataset.scarOverlayPropsReady = `${(
+      scarSnapshot.palettes?.[0]?.readyRoleCount || 0
+    ) === 4}`;
+    document.body.dataset.scarOverlayPropCount = `${scarSnapshot.visiblePalettePropCount}`;
+    this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
+      this.scarView?.destroy();
+      this.worldMapStarTerritorySystem?.destroy();
+    });
   }
 
   _drawGround() {
@@ -141,6 +176,17 @@ class StarSanctuaryConsequenceHarness extends Phaser.Scene {
   }
 
   _createScar() {
+    this.worldMapStarTerritorySystem = new WorldMapStarTerritorySystem(
+      this.worldModel,
+    );
+    const consumedSite = this.worldMapStarTerritorySystem.getNearestSite(
+      CONSUMED.tx,
+      CONSUMED.ty,
+    );
+    if (consumedSite) {
+      consumedSite.biomeId = this.scarPalette.id;
+      consumedSite.sourceRegionId = this.scarPalette.parentRegionId;
+    }
     this._starSanctuaryRuntime = {
       system: {
         enabled: true,
@@ -160,7 +206,7 @@ class StarSanctuaryConsequenceHarness extends Phaser.Scene {
   }
 
   _drawHeaders() {
-    this.add.text(28, 18, "STAR SANCTUARY V1  •  THE SAME STAR, BEFORE AND AFTER", {
+    this.add.text(28, 18, "STAR SANCTUARY V3  •  THE SAME STAR, BEFORE AND AFTER", {
       color: "#f2f7fb",
       fontFamily: "Consolas, monospace",
       fontSize: "24px",
@@ -196,9 +242,9 @@ class StarSanctuaryConsequenceHarness extends Phaser.Scene {
     const right = [
       "NORMAL STAR REWARD RECEIVED",
       `${this.identity.name.toUpperCase()} refuge is gone`,
-      "No GP generation • no Panic relief",
-      "Darkness Panic builds 60% faster",
-      "Permanent 4-tile scar • never spreads",
+      "No material yield • no GP • no Panic relief",
+      "Deadzone Panic builds at 4x rate",
+      "The Star's complete owned territory is scarred",
     ];
     this._drawContractList(54, 478, left, "#bcefff");
     this._drawContractList(704, 478, right, "#ffc0d4");

@@ -1,0 +1,7 @@
+{
+  "passed": true,
+  "heightMismatchPx": 80,
+  "maxSkylineStepPx": 1,
+  "opaqueInterior": true,
+  "unchangedOutsideOverlap": true
+}

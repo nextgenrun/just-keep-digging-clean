@@ -1,0 +1,117 @@
+{
+  "original": {
+    "bytes": 995200,
+    "sha256": "b20efc283ce144186fa99caee4fefd820a8bfca8df514801dc7b633dacb3fa68",
+    "size": [
+      1555,
+      462
+    ],
+    "mode": "RGBA",
+    "alphaBounds": [
+      24,
+      24,
+      1531,
+      438
+    ],
+    "transparentPixels": 342549,
+    "softEdgePixels": 22730
+  },
+  "assets": {
+    "source-remaster.png": {
+      "bytes": 1955331,
+      "sha256": "558857a1c96b6209fdf5814e97e3f0ce2c416e7200a7df05e773249bb44cceb3",
+      "size": [
+        1815,
+        866
+      ],
+      "mode": "RGB"
+    },
+    "source-chroma.png": {
+      "bytes": 2116875,
+      "sha256": "8f0a4d0565999129e8216f001c4625445e1fa1620ccd3d5d2f27829ed27d7483",
+      "size": [
+        1881,
+        836
+      ],
+      "mode": "RGB"
+    },
+    "understar-source-cutout.png": {
+      "bytes": 1726564,
+      "sha256": "f328b1c60a878699cdaf534bec01f1241ffc3b83bc130ff4943e6cbc39162d49",
+      "size": [
+        1813,
+        532
+      ],
+      "mode": "RGBA",
+      "alphaBounds": [
+        4,
+        4,
+        1809,
+        528
+      ],
+      "transparentPixels": 371958,
+      "softEdgePixels": 25650
+    },
+    "understar-rift-monolith-4k.png": {
+      "bytes": 7029809,
+      "sha256": "d6a9eb8063876f625a4c346e855047162acd002e24864f241997dd2fc1787e47",
+      "size": [
+        4096,
+        1216
+      ],
+      "mode": "RGBA",
+      "alphaBounds": [
+        96,
+        39,
+        4003,
+        1181
+      ],
+      "transparentPixels": 1997491,
+      "softEdgePixels": 263637
+    },
+    "understar-rift-monolith-runtime.webp": {
+      "bytes": 438024,
+      "sha256": "a34d6f55084900406cacd4cdfa694feaaaea8240433f2ea27b320ba8e9604d9f",
+      "size": [
+        2048,
+        608
+      ],
+      "mode": "RGBA",
+      "alphaBounds": [
+        46,
+        18,
+        2004,
+        593
+      ],
+      "transparentPixels": 483977,
+      "softEdgePixels": 92655
+    },
+    "understar-logo-hd-v2.blend": {
+      "bytes": 1831496,
+      "sha256": "9e91a82e856080e1dd5dd549d7922d4c01568fda0aa4462d218a5057dec1d6b7"
+    }
+  },
+  "checks": {
+    "transparentOuterEdges": true,
+    "magentaSpillPixels": 0,
+    "masterWidthGain": 2.634,
+    "native4kTexture": false,
+    "browser": "passed",
+    "browserProof": "browser-verification.json",
+    "visualComparisons": [
+      "review-dark.png",
+      "review-light.png",
+      "review-mobile.png"
+    ],
+    "runtimeScreenshots": [
+      "runtime-main-menu.png",
+      "runtime-save-menu.png"
+    ],
+    "originalPreserved": true
+  },
+  "scope": {
+    "localRuntimeUpdated": true,
+    "deployed": false,
+    "runtimeConfig": "values/branding.js"
+  }
+}

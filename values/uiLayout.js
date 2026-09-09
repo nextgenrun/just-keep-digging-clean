@@ -13,6 +13,26 @@ export const UI_FONT_BOOT = Object.freeze({
   readinessTimeoutMs: 2000,
 });
 
+export const UI_CONTROL_GEOMETRY = Object.freeze({
+  buttonContent: Object.freeze({ insetX: 12, iconGap: 7, hintGap: 10, maxHintWidthRatio: 0.42 }),
+  buttonAccent: Object.freeze({
+    insetX: 2,
+    insetY: 2,
+    width: 3,
+  }),
+  slider: Object.freeze({
+    thumbWidth: 12,
+    thumbHeight: 24,
+    minHitHeight: 28,
+    labelClearance: 14,
+  }),
+  keybind: Object.freeze({
+    bindingWidth: 92,
+    resetWidth: 28,
+    buttonGap: 4,
+  }),
+});
+
 export async function waitForUiFonts(
   documentRef = globalThis.document,
   config = UI_FONT_BOOT,
@@ -45,6 +65,8 @@ export const UI_MODAL_LAYOUT = Object.freeze({
   backdropAlpha: 0.82,
   enterDurationMs: 180,
   exitDurationMs: 130,
+  headerTextGap: 14,
+  closeHitSize: 44,
 });
 
 export const PAUSE_MENU_LAYOUT = Object.freeze({
@@ -93,16 +115,17 @@ export const SAVE_TRANSFER_UI = Object.freeze({
   copy: Object.freeze({
     startExport: "EXPORT SAVE",
     startImport: "IMPORT SAVE",
-    pauseTitle: "MANUAL SAVE TOOLS",
-    pauseDescription: "Export a portable copy or import one into this slot.",
-    pauseSafety: "Imports create a safety backup, then reload the selected slot.",
-    saveNow: "SAVE NOW",
-    saveAndExport: "SAVE + EXPORT FILE",
-    importAndReload: "IMPORT FILE + RELOAD",
+    pauseTitle: "SAVE & BACKUP",
+    pauseDescription: "Save progress, download a backup, or replace this slot from a file.",
+    pauseSafety: "Importing first keeps a backup, then reloads this slot.",
+    saveNow: "SAVE",
+    saveAndExport: "SAVE & DOWNLOAD",
+    importAndReload: "IMPORT & RELOAD",
   }),
 });
 
 export const SETTINGS_PANEL_LAYOUT = Object.freeze({
+  mainMenu: Object.freeze({ contentOffsetY: 16, contentHeightReserve: 148, maxContentHeight: 472 }),
   compactWidth: 760,
   compactHeight: 420,
   tabCenterInsetY: 24,
@@ -206,27 +229,27 @@ export const SHOP_MERCHANT_PROFILES = Object.freeze({
   gemPowerMerchant: Object.freeze({
     title: "GEM POWER WORKSHOP",
     role: "Aether Engineer",
-    greeting: "Shape raw crystal power into flight, endurance, and control.",
+    greeting: "Improve Flight endurance, speed, and control.",
   }),
   playerUpgrades: Object.freeze({
     title: "TRAINING HALL",
     role: "Combat Trainer",
-    greeting: "Choose a discipline. I will show you exactly what improves next.",
+    greeting: "Choose a skill to see its next improvement.",
   }),
   gearMerchant: Object.freeze({
     title: "GEAR FORGE",
     role: "Master Smith",
-    greeting: "Tools for deeper stone. Check every material before you commit.",
+    greeting: "Forge stronger tools for deeper stone. Check the cost before buying.",
   }),
   moneyMonster: Object.freeze({
     title: "MONEY MONSTER EXCHANGE",
     role: "Licensed Buyer",
-    greeting: "Upgrade your market skills or convert gathered resources into money.",
+    greeting: "Sell what you mined or improve future sale prices.",
   }),
   magmaMoneyMonster: Object.freeze({
     title: "MOLTEN ARC FORGE",
     role: "Arc Core Smith and Buyer",
-    greeting: "Bring attuned Heavenblock parts and deep-world ore. I forge cores or buy surplus stock.",
+    greeting: "Bring Heavenblock parts and deep ore to forge cores, or sell what you do not need.",
   }),
   boboMerchant: Object.freeze({
     title: "BOBO'S COUNTER",
@@ -236,13 +259,13 @@ export const SHOP_MERCHANT_PROFILES = Object.freeze({
   default: Object.freeze({
     title: "MERCHANT DESK",
     role: "Trader",
-    greeting: "Select an item to inspect its effect, price, and requirements.",
+    greeting: "Choose an item to see what it does and what it costs.",
   }),
 });
 
 export const SHOP_SELECTION_BEHAVIOR = Object.freeze({
-  previewLabel: "HOVER PREVIEW",
-  pinnedLabel: "PINNED",
-  mouseHint: "Click row: pin/unpin",
+  previewLabel: "PREVIEW",
+  pinnedLabel: "SELECTED",
+  mouseHint: "Click to select • Click again to unpin",
   statusFontSize: "10px",
 });

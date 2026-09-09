@@ -4,6 +4,14 @@ Runtime bitmap assets used by heads-up displays, overlays, pickup feedback, and
 inventory presentation. Gameplay state and progression remain authoritative in
 their systems; these files are presentation only.
 
+`expedition-setup-v2/` contains the single regenerated New Expedition
+foundation and transparent selected-state rim. Its four sockets and bays are
+part of one panel while all choice icons and copy remain live Phaser layers.
+
+`dynamic-feedback-v2/` contains separate textless Hardcore-status and Level-Up
+shells plus the regenerated alpha-safe Hardcore crest. Empty sockets prevent
+legacy baked symbols from colliding with current runtime icons.
+
 `inventory-fullness-v3/` contains ten transparent ImageGen-authored states for
 the always-visible inventory bag, from empty through packed. Its shared open
 master supplies a dark interior cavity; every ore pile is clipped inside it,
@@ -35,6 +43,29 @@ visible in the top-left medallion after purchase and reload, while tier rivets
 and restrained GP-bar accents identify the current tool without replacing the
 purple GP read or its orange/red warning states. `?pickaxeHud=0` restores the
 generic approved HUD.
+
+`hud-approved-v2/` contains the active opaque player HUD shell, displayed at a
+compact 336x82 logical footprint from its 456x112 RGBA bitmap. Its
+dedicated pickaxe socket, Depth bay, GP bay, and torch module remain presentation
+only; Phaser overlays the selected authored pickaxe icon, live tier label,
+Depth, GP fill/value, torch state, and 1-200% control above the shell.
+
+`xp-gathering-v2/` contains twelve unique 256x256 transparent emerald-and-gold
+XP glyphs: four routine motes, three cluster marks, three special seals, and two
+level crests. Nine new ImageGen glyphs broaden the library while three optimized
+carriers preserve the original silhouettes; together they decode to exactly
+3 MiB. The manifest, dark-field review board, generated source and provenance
+notes live beside the runtime files, and
+`../../ai-tools/2026-08-31-build-xp-glyph-library-v2.py` reproducibly performs
+the bounded slice/downsample/center/hash build. The three untouched 1254 px V1
+masters remain in `xp-gathering-v1/` for values-only rollback.
+
+`loot-pickups-v2/` contains the transparent four-frame soil mini atlas used by
+both pickup flights and the `I` inventory. Its root-bound, dark, reinforced
+dark, and lava-soil frames complement the existing semantic resource, special-
+tile, and 250-Star atlases instead of duplicating them. The retained ImageGen
+master and reproducible builder keep the runtime atlas at 192x192 RGBA
+(144 KiB decoded).
 
 `starlight-talent-tree-v2/` contains the 18-piece ImageGen runtime family for
 the shared ESC talent tree and dedicated Star Pillar: outer shell, inner
@@ -78,3 +109,7 @@ unchanged approved transparent V3 assets, copied locally so deferred loading
 remains one exact package. `manifest-v4.json` pins the new source dimensions,
 bytes, and SHA-256; `sources/` retains the unmodified ImageGen output. The V3
 folder remains intact as the presentation rollback source.
+
+`merchant-signs-v1/` contains six enabled ImageGen merchant signs with names and shop actions baked into the artwork, approved transparent cutouts, untouched sources, exact prompts, hashes, and an all-six review page.
+
+Save Slots (2026-09-07): save-menu-baked-v2/ contains complete ImageGen book/save cards and fixed instruction plaques, with original PNGs, exact prompts and source hashes.

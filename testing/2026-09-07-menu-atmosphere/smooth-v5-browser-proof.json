@@ -1,0 +1,707 @@
+{
+  "strategy": "Single native decoder for closed 60 fps scenery",
+  "scenes": {
+    "ember-reaches": {
+      "audioTracks": 0,
+      "blendSamples": [],
+      "bufferedEnd": 31.833333,
+      "cadence": {
+        "frameGapMax": 33.5,
+        "frameGapP95": 33.4,
+        "wraps": [
+          {
+            "from": 31.816667,
+            "gapMs": 16.7,
+            "to": 0
+          },
+          {
+            "from": 31.816667,
+            "gapMs": 33.2,
+            "to": 0
+          },
+          {
+            "from": 31.816667,
+            "gapMs": 16.7,
+            "to": 0.016667
+          },
+          {
+            "from": 31.816667,
+            "gapMs": 50,
+            "to": 0
+          },
+          {
+            "from": 31.816667,
+            "gapMs": 33.4,
+            "to": 0.033333
+          },
+          {
+            "from": 31.816667,
+            "gapMs": 16.6,
+            "to": 0.016667
+          },
+          {
+            "from": 31.816667,
+            "gapMs": 50.1,
+            "to": 0.033333
+          }
+        ]
+      },
+      "decoded": true,
+      "duration": 31.833333,
+      "effectiveVideoOpacity": 1,
+      "failedMedia": false,
+      "handoffs": [],
+      "logo": {
+        "backing": true,
+        "blendMode": 1,
+        "playbackRate": 1,
+        "posterVisible": true,
+        "source": "sprites/branding/understar-world-within-v4/understar-logo-light-60.mp4",
+        "state": "playing",
+        "videoAlpha": 0.55
+      },
+      "loopCount": 0,
+      "mediaFallbacks": [],
+      "mode": "motion",
+      "muted": true,
+      "nativeLoopCount": 8,
+      "nativeLoops": [
+        {
+          "blending": false,
+          "time": 0.015185
+        },
+        {
+          "blending": false,
+          "time": 0.008828
+        },
+        {
+          "blending": false,
+          "time": 0.01381
+        },
+        {
+          "blending": false,
+          "time": 0.005829
+        },
+        {
+          "blending": false,
+          "time": 0.01148
+        },
+        {
+          "blending": false,
+          "time": 0.013761
+        },
+        {
+          "blending": false,
+          "time": 0.003263
+        },
+        {
+          "blending": false,
+          "time": 0.012983
+        }
+      ],
+      "ownedShutdownListeners": 16,
+      "playing": true,
+      "posterOpacity": 0,
+      "renderFps": 60,
+      "roots": 1,
+      "scenery": "Ember reaches",
+      "seekableEnd": 31.833333,
+      "textureCount": 14,
+      "textureKeys": [
+        "__NORMAL",
+        "__DEFAULT",
+        "__MISSING",
+        "__WHITE",
+        "brand-logo",
+        "brand-logo-backing",
+        "bg-db-f1frtjf1frtjf1fr",
+        "bg-db-g6ozmlg6ozmlg6oz",
+        "bg-db-rimx2primx2primx",
+        "bg-db-kjwykkjwykkjwykk",
+        "bg-db-i30bfci30bfci30b",
+        "bg-db-wocn9hwocn9hwocn",
+        "727c604f-e050-47fd-b95f-277fa549bcbe",
+        "6cfdb86d-604a-4f36-b97c-7800b0e756df"
+      ],
+      "time": 0.06,
+      "videoCount": 1,
+      "videoOpacity": 1,
+      "videoQuality": [
+        {
+          "dropped": 2888,
+          "role": "menu-atmosphere-video",
+          "total": 15288
+        }
+      ],
+      "videoSources": [
+        "sprites/backgrounds/menu-atmosphere-v5/ember-reaches.mp4"
+      ],
+      "videoStates": [
+        {
+          "alpha": 1,
+          "frameReady": true,
+          "paused": false,
+          "role": "menu-atmosphere-video",
+          "time": 0.060302
+        }
+      ],
+      "view": true,
+      "viewState": "Tip: Default F mines the aimed tile"
+    },
+    "quiet-foundry": {
+      "audioTracks": 0,
+      "blendSamples": [],
+      "bufferedEnd": 28.033333,
+      "cadence": {
+        "frameGapMax": 33.5,
+        "frameGapP95": 33.4,
+        "wraps": [
+          {
+            "from": 28.016667,
+            "gapMs": 33.3,
+            "to": 0.033333
+          },
+          {
+            "from": 28.016667,
+            "gapMs": 16.6,
+            "to": 0.016667
+          },
+          {
+            "from": 28.016667,
+            "gapMs": 50,
+            "to": 0
+          }
+        ]
+      },
+      "decoded": true,
+      "duration": 28.033333,
+      "effectiveVideoOpacity": 1,
+      "failedMedia": false,
+      "handoffs": [],
+      "logo": {
+        "backing": true,
+        "blendMode": 1,
+        "playbackRate": 1,
+        "posterVisible": true,
+        "source": "sprites/branding/understar-world-within-v4/understar-logo-light-60.mp4",
+        "state": "playing",
+        "videoAlpha": 0.55
+      },
+      "loopCount": 0,
+      "mediaFallbacks": [],
+      "mode": "motion",
+      "muted": true,
+      "nativeLoopCount": 3,
+      "nativeLoops": [
+        {
+          "blending": false,
+          "time": 0.013714
+        },
+        {
+          "blending": false,
+          "time": 0.005859
+        },
+        {
+          "blending": false,
+          "time": 0.013121
+        }
+      ],
+      "ownedShutdownListeners": 16,
+      "playing": true,
+      "posterOpacity": 0,
+      "renderFps": 60,
+      "roots": 1,
+      "scenery": "Quiet foundry",
+      "seekableEnd": 0,
+      "textureCount": 14,
+      "textureKeys": [
+        "__NORMAL",
+        "__DEFAULT",
+        "__MISSING",
+        "__WHITE",
+        "brand-logo",
+        "brand-logo-backing",
+        "bg-db-f1frtjf1frtjf1fr",
+        "bg-db-g6ozmlg6ozmlg6oz",
+        "bg-db-rimx2primx2primx",
+        "bg-db-kjwykkjwykkjwykk",
+        "bg-db-i30bfci30bfci30b",
+        "bg-db-wocn9hwocn9hwocn",
+        "1024432c-ac9a-4a1f-913b-17623bfb2080",
+        "9029dce4-0bb4-4584-b05e-8be67be671cb"
+      ],
+      "time": 3.867,
+      "videoCount": 1,
+      "videoOpacity": 1,
+      "videoQuality": [
+        {
+          "dropped": 623,
+          "role": "menu-atmosphere-video",
+          "total": 5284
+        }
+      ],
+      "videoSources": [
+        "sprites/backgrounds/menu-atmosphere-v5/quiet-foundry.mp4"
+      ],
+      "videoStates": [
+        {
+          "alpha": 1,
+          "frameReady": true,
+          "paused": false,
+          "role": "menu-atmosphere-video",
+          "time": 3.867046
+        }
+      ],
+      "view": true,
+      "viewState": "Tip: Default F mines the aimed tile"
+    },
+    "luminous-grotto": {
+      "audioTracks": 0,
+      "blendSamples": [],
+      "bufferedEnd": 24.2,
+      "cadence": {
+        "frameGapMax": 33.5,
+        "frameGapP95": 33.4,
+        "wraps": [
+          {
+            "from": 24.183333,
+            "gapMs": 33.3,
+            "to": 0.033333
+          }
+        ]
+      },
+      "decoded": true,
+      "duration": 24.2,
+      "effectiveVideoOpacity": 1,
+      "failedMedia": false,
+      "handoffs": [],
+      "logo": {
+        "backing": true,
+        "blendMode": 1,
+        "playbackRate": 1,
+        "posterVisible": true,
+        "source": "sprites/branding/understar-world-within-v4/understar-logo-light-60.mp4",
+        "state": "playing",
+        "videoAlpha": 0.55
+      },
+      "loopCount": 0,
+      "mediaFallbacks": [],
+      "mode": "motion",
+      "muted": true,
+      "nativeLoopCount": 1,
+      "nativeLoops": [
+        {
+          "blending": false,
+          "time": 0.013655
+        }
+      ],
+      "ownedShutdownListeners": 16,
+      "playing": true,
+      "posterOpacity": 0,
+      "renderFps": 60,
+      "roots": 1,
+      "scenery": "Luminous grotto",
+      "seekableEnd": 24.2,
+      "textureCount": 14,
+      "textureKeys": [
+        "__NORMAL",
+        "__DEFAULT",
+        "__MISSING",
+        "__WHITE",
+        "brand-logo",
+        "brand-logo-backing",
+        "bg-db-f1frtjf1frtjf1fr",
+        "bg-db-g6ozmlg6ozmlg6oz",
+        "bg-db-rimx2primx2primx",
+        "bg-db-kjwykkjwykkjwykk",
+        "bg-db-i30bfci30bfci30b",
+        "bg-db-wocn9hwocn9hwocn",
+        "47b82bd4-6097-467d-9d43-a0d4d0ad37c0",
+        "71e89407-d8c2-4510-8e22-ae33710bff79"
+      ],
+      "time": 19.684,
+      "videoCount": 1,
+      "videoOpacity": 1,
+      "videoQuality": [
+        {
+          "dropped": 279,
+          "role": "menu-atmosphere-video",
+          "total": 2637
+        }
+      ],
+      "videoSources": [
+        "sprites/backgrounds/menu-atmosphere-v5/luminous-grotto.mp4"
+      ],
+      "videoStates": [
+        {
+          "alpha": 1,
+          "frameReady": true,
+          "paused": false,
+          "role": "menu-atmosphere-video",
+          "time": 19.683667
+        }
+      ],
+      "view": true,
+      "viewState": "Tip: Default F mines the aimed tile"
+    },
+    "lantern-forest": {
+      "audioTracks": 0,
+      "blendSamples": [],
+      "bufferedEnd": 22.283333,
+      "cadence": {
+        "frameGapMax": 33.3,
+        "frameGapP95": 16.8,
+        "wraps": [
+          {
+            "from": 22.266667,
+            "gapMs": 33.5,
+            "to": 0.033333
+          },
+          {
+            "from": 22.266667,
+            "gapMs": 33.2,
+            "to": 0.033333
+          },
+          {
+            "from": 22.266667,
+            "gapMs": 33.3,
+            "to": 0.033333
+          }
+        ]
+      },
+      "decoded": true,
+      "duration": 22.283333,
+      "effectiveVideoOpacity": 1,
+      "failedMedia": false,
+      "handoffs": [],
+      "logo": {
+        "backing": true,
+        "blendMode": 1,
+        "playbackRate": 1,
+        "posterVisible": true,
+        "source": "sprites/branding/understar-world-within-v4/understar-logo-light-60.mp4",
+        "state": "playing",
+        "videoAlpha": 0.55
+      },
+      "loopCount": 0,
+      "mediaFallbacks": [],
+      "mode": "motion",
+      "muted": true,
+      "nativeLoopCount": 4,
+      "nativeLoops": [
+        {
+          "blending": false,
+          "time": 0.013587
+        },
+        {
+          "blending": false,
+          "time": 0.014381
+        },
+        {
+          "blending": false,
+          "time": 0
+        },
+        {
+          "blending": false,
+          "time": 0.013964
+        }
+      ],
+      "ownedShutdownListeners": 16,
+      "playing": true,
+      "posterOpacity": 0,
+      "renderFps": 60,
+      "roots": 1,
+      "scenery": "Lantern forest",
+      "seekableEnd": 22.283333,
+      "textureCount": 14,
+      "textureKeys": [
+        "__NORMAL",
+        "__DEFAULT",
+        "__MISSING",
+        "__WHITE",
+        "brand-logo",
+        "brand-logo-backing",
+        "bg-db-f1frtjf1frtjf1fr",
+        "bg-db-g6ozmlg6ozmlg6oz",
+        "bg-db-rimx2primx2primx",
+        "bg-db-kjwykkjwykkjwykk",
+        "bg-db-i30bfci30bfci30b",
+        "bg-db-wocn9hwocn9hwocn",
+        "637616db-82b8-49e2-b406-7185e3c1d8e6",
+        "b4e4d192-c57b-4596-b026-9f7086242b6c"
+      ],
+      "time": 16.078,
+      "videoCount": 1,
+      "videoOpacity": 1,
+      "videoQuality": [
+        {
+          "dropped": 135,
+          "role": "menu-atmosphere-video",
+          "total": 6317
+        }
+      ],
+      "videoSources": [
+        "sprites/backgrounds/menu-atmosphere-v5/lantern-forest.mp4"
+      ],
+      "videoStates": [
+        {
+          "alpha": 1,
+          "frameReady": true,
+          "paused": false,
+          "role": "menu-atmosphere-video",
+          "time": 16.078028
+        }
+      ],
+      "view": true,
+      "viewState": "Tip: Default F mines the aimed tile"
+    },
+    "starfall": {
+      "audioTracks": 0,
+      "blendSamples": [],
+      "bufferedEnd": 29.916667,
+      "cadence": {
+        "frameGapMax": 16.9,
+        "frameGapP95": 16.8,
+        "wraps": [
+          {
+            "from": 29.9,
+            "gapMs": 16.6,
+            "to": 0.016667
+          },
+          {
+            "from": 29.9,
+            "gapMs": 50.1,
+            "to": 0.033333
+          },
+          {
+            "from": 29.9,
+            "gapMs": 16.7,
+            "to": 0.016667
+          }
+        ]
+      },
+      "decoded": true,
+      "duration": 29.916667,
+      "effectiveVideoOpacity": 1,
+      "failedMedia": false,
+      "handoffs": [],
+      "logo": {
+        "backing": true,
+        "blendMode": 1,
+        "playbackRate": 1,
+        "posterVisible": true,
+        "source": "sprites/branding/understar-world-within-v4/understar-logo-light-60.mp4",
+        "state": "playing",
+        "videoAlpha": 0.55
+      },
+      "loopCount": 0,
+      "mediaFallbacks": [],
+      "mode": "motion",
+      "muted": true,
+      "nativeLoopCount": 3,
+      "nativeLoops": [
+        {
+          "blending": false,
+          "time": 0.003369
+        },
+        {
+          "blending": false,
+          "time": 0.013165
+        },
+        {
+          "blending": false,
+          "time": 0.004407
+        }
+      ],
+      "ownedShutdownListeners": 16,
+      "playing": true,
+      "posterOpacity": 0,
+      "renderFps": 60,
+      "roots": 1,
+      "scenery": "Distant starfall",
+      "seekableEnd": 29.916667,
+      "textureCount": 14,
+      "textureKeys": [
+        "__NORMAL",
+        "__DEFAULT",
+        "__MISSING",
+        "__WHITE",
+        "brand-logo",
+        "brand-logo-backing",
+        "bg-db-f1frtjf1frtjf1fr",
+        "bg-db-g6ozmlg6ozmlg6oz",
+        "bg-db-rimx2primx2primx",
+        "bg-db-kjwykkjwykkjwykk",
+        "bg-db-i30bfci30bfci30b",
+        "bg-db-wocn9hwocn9hwocn",
+        "b995c067-1c48-4c9e-98ae-d55719f48d64",
+        "c3e9ce02-2529-4ec7-b4bc-ea9f106c75b3"
+      ],
+      "time": 17.154,
+      "videoCount": 1,
+      "videoOpacity": 1,
+      "videoQuality": [
+        {
+          "dropped": 17,
+          "role": "menu-atmosphere-video",
+          "total": 6418
+        }
+      ],
+      "videoSources": [
+        "sprites/backgrounds/menu-atmosphere-v5/starfall.mp4"
+      ],
+      "videoStates": [
+        {
+          "alpha": 1,
+          "frameReady": true,
+          "paused": false,
+          "role": "menu-atmosphere-video",
+          "time": 17.154398
+        }
+      ],
+      "view": true,
+      "viewState": "Tip: Default F mines the aimed tile"
+    },
+    "aurora": {
+      "audioTracks": 0,
+      "blendSamples": [],
+      "bufferedEnd": 29.916667,
+      "cadence": {
+        "frameGapMax": 16.8,
+        "frameGapP95": 16.8,
+        "wraps": [
+          {
+            "from": 29.9,
+            "gapMs": 50,
+            "to": 0.033333
+          },
+          {
+            "from": 29.9,
+            "gapMs": 33.4,
+            "to": 0.033333
+          }
+        ]
+      },
+      "decoded": true,
+      "duration": 29.916667,
+      "effectiveVideoOpacity": 1,
+      "failedMedia": false,
+      "handoffs": [],
+      "logo": {
+        "backing": true,
+        "blendMode": 1,
+        "playbackRate": 1,
+        "posterVisible": true,
+        "source": "sprites/branding/understar-world-within-v4/understar-logo-light-60.mp4",
+        "state": "playing",
+        "videoAlpha": 0.55
+      },
+      "loopCount": 0,
+      "mediaFallbacks": [],
+      "mode": "motion",
+      "muted": true,
+      "nativeLoopCount": 2,
+      "nativeLoops": [
+        {
+          "blending": false,
+          "time": 0.013223
+        },
+        {
+          "blending": false,
+          "time": 0.014267
+        }
+      ],
+      "ownedShutdownListeners": 16,
+      "playing": true,
+      "posterOpacity": 0,
+      "renderFps": 60,
+      "roots": 1,
+      "scenery": "Aurora sanctuary",
+      "seekableEnd": 29.916667,
+      "textureCount": 14,
+      "textureKeys": [
+        "__NORMAL",
+        "__DEFAULT",
+        "__MISSING",
+        "__WHITE",
+        "brand-logo",
+        "brand-logo-backing",
+        "bg-db-f1frtjf1frtjf1fr",
+        "bg-db-g6ozmlg6ozmlg6oz",
+        "bg-db-rimx2primx2primx",
+        "bg-db-kjwykkjwykkjwykk",
+        "bg-db-i30bfci30bfci30b",
+        "bg-db-wocn9hwocn9hwocn",
+        "294b552d-3d57-489a-a93a-108a532e8ebe",
+        "dc97fbcd-dd23-4512-b88e-2d01f7fe5f25"
+      ],
+      "time": 15.63,
+      "videoCount": 1,
+      "videoOpacity": 1,
+      "videoQuality": [
+        {
+          "dropped": 15,
+          "role": "menu-atmosphere-video",
+          "total": 4533
+        }
+      ],
+      "videoSources": [
+        "sprites/backgrounds/menu-atmosphere-v5/aurora.mp4"
+      ],
+      "videoStates": [
+        {
+          "alpha": 1,
+          "frameReady": true,
+          "paused": false,
+          "role": "menu-atmosphere-video",
+          "time": 15.630079
+        }
+      ],
+      "view": true,
+      "viewState": "Tip: Default F mines the aimed tile"
+    }
+  },
+  "paused": {
+    "time": 16.081,
+    "playing": false,
+    "logo": {
+      "backing": true,
+      "blendMode": 1,
+      "playbackRate": 1,
+      "posterVisible": true,
+      "source": "sprites/branding/understar-world-within-v4/understar-logo-light-60.mp4",
+      "state": "playing",
+      "videoAlpha": 0.55
+    },
+    "held": true
+  },
+  "resumed": {
+    "playing": true,
+    "time": 2.308
+  },
+  "fallback": {
+    "videos": 0,
+    "poster": 1,
+    "logo": {
+      "backing": true,
+      "blendMode": 1,
+      "playbackRate": 1,
+      "posterVisible": true,
+      "source": "sprites/branding/understar-world-within-v4/understar-logo-light-60.mp4",
+      "state": "playing",
+      "videoAlpha": 0.55
+    }
+  },
+  "destroyed": {
+    "panels": 0,
+    "roots": 0,
+    "textures": 12
+  },
+  "errors": [],
+  "game": {
+    "title": "UNDERSTAR — Open Beta Demo",
+    "loadingPanels": 0,
+    "errors": [],
+    "saveMenuReached": true
+  }
+}

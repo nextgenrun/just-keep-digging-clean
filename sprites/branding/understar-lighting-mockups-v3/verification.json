@@ -1,0 +1,37 @@
+{
+  "images": [
+    {
+      "src": "04-unearthed-starlight.png",
+      "loaded": true,
+      "width": 2167,
+      "height": 726
+    },
+    {
+      "src": "../understar-logo-v1/understar-rift-monolith-runtime.png",
+      "loaded": true,
+      "width": 1555,
+      "height": 462
+    },
+    {
+      "src": "01-soft-stone.png",
+      "loaded": true,
+      "width": 2172,
+      "height": 724
+    },
+    {
+      "src": "02-cool-chisel.png",
+      "loaded": true,
+      "width": 2206,
+      "height": 713
+    },
+    {
+      "src": "03-warm-bronze.png",
+      "loaded": true,
+      "width": 2172,
+      "height": 724
+    }
+  ],
+  "pageErrors": [],
+  "mobileOverflow": false,
+  "runtimeChanged": false
+}

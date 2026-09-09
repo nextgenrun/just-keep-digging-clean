@@ -1,0 +1,7 @@
+{
+  "tool": "built-in imagegen",
+  "prompt": "Use the attached existing game menu artwork ONLY as a material/style reference. Generate ONE empty logo backing panel with genuine transparent outer alpha. Wide 3.45:1 rectangle, front facing orthographic, tightly framed with almost no outer padding. Match the reference's dark charcoal stone and aged bronze. Thin restrained bronze rim, small clipped angular corners, near-black matte slate face with very subtle worn stone grain. Far slimmer and quieter border than the reference: the lettering placed on top must be the entire focus. Remove the purple jewel and all cyan energy strips, no gems, no runes, no extra ornaments. No text or logos. No glass, no frosted blue reflections, no glossy plastic, no rounded modern corners. The central face should be uniformly dark and calm, without dramatic cracks or highlights. This is a compact noninteractive header backing behind the UNDERSTAR logo, NOT a large ornate button. Aim for the material quality of the original menu buttons with a rim only 1-2 pixels wide when displayed at 550px. RGBA transparency outside the panel, no mockup background or scene.",
+  "source": "understar-logo-stone-source.png",
+  "runtime": "understar-logo-stone.png",
+  "transparency": "Blender exports the authored eight-corner silhouette; values/understarLogoStoneExport.json records the crop and geometry."
+}

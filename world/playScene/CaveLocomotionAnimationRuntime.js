@@ -59,6 +59,7 @@ export function updateCaveLocomotionVisual(runtime, time, deltaMs) {
     moving: walking || !grounded,
     currentAnimationKey,
     isPlaying: scene.player.anims.isPlaying === true,
+    nowMs: time,
   }) || null;
   const wallBlocked = walking && grounded && Math.abs(body?.vx || 0) < 1;
   const wallOverride = recoveryOverride ? null : runtime.wallBrace?.resolve({
@@ -87,6 +88,7 @@ export function updateCaveLocomotionVisual(runtime, time, deltaMs) {
     selection = runtime.locomotion.resolve({
       grounded,
       flying: poweredFlight,
+      running: controller.playerController.isRunning?.() === true,
       horizontalVelocity: scene.playerKinematicMotion?.getResolvedVelocityX?.() ?? body?.vx ?? 0,
       verticalVelocity: Math.abs(bodyVelocityY) > Math.abs(resolvedVelocityY)
         ? bodyVelocityY
@@ -105,13 +107,17 @@ export function updateCaveLocomotionVisual(runtime, time, deltaMs) {
   } else {
     const flying = poweredFlight || motion === "airborne";
     key = flying ? (profile.flyAnim || profile.idleAnim) : walking
-      ? (profile.walkLoopAnim || profile.walkAnim) : profile.idleAnim;
+      ? controller.playerController.isRunning?.() === true
+        ? (profile.walkRunAnim || profile.walkLoopAnim || profile.walkAnim)
+        : (profile.walkLoopAnim || profile.walkAnim)
+      : profile.idleAnim;
     scene.player.setFlipX(!controller.playerController.isFacingRight());
   }
   if (profile.isUalNative && !key) {
     key = walking ? (profile.walkLoopAnim || profile.walkAnim) : profile.idleAnim;
   }
-  if (!ledgeVisual) {
+  // Match main-world mining: held DOWN must not replace a cooldown pose.
+  if (!ledgeVisual && recoveryOverride?.holdCompleted !== true) {
     const crouchTransitionKey = resolveUalCrouchTransitionAnimation({
       wantsCrouch: forcedCrouchVisual,
       currentAnimationKey,
@@ -155,8 +161,8 @@ export function updateCaveLocomotionVisual(runtime, time, deltaMs) {
     const startFrame = selectionOwnsKey && Number.isFinite(selection?.startFrame)
       ? selection.startFrame
       : 0;
-    controller._applyPlayerDisplaySize(key);
     scene.player.play(key, !shouldRestart, startFrame);
+    controller._applyPlayerDisplaySize(key);
     controller.playerController?._syncSpriteWithPhysics?.();
   }
   const kinematicScale = key === requestedKey

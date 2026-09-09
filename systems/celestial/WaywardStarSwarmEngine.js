@@ -61,6 +61,7 @@ export class WaywardStarSwarmEngine {
         toTile: this.toTile,
         onImpact: this.onImpact,
         onBounce: this.onBounce,
+        getAnchor: this.getAnchor,
         assetKey: this.assetKey,
         startX: this.startX + perpendicular.x * centeredIndex * spawnOffsetPx,
         startY: this.startY + perpendicular.y * centeredIndex * spawnOffsetPx,
@@ -136,6 +137,8 @@ export class WaywardStarSwarmEngine {
       starCount: this.starCount,
       activeStars: this.children.filter(child => child.active).length,
       completedStars: this.completions.filter(Boolean).length,
+      presentation: childSnapshots.map(child => child.presentation),
+      speedTilesPerSecond: this.definition.speedTilesPerSecond,
     };
   }
 

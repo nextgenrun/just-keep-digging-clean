@@ -1,4 +1,5 @@
 import { STAR_IDENTITY_LIBRARY_CONFIG } from "./starIdentityLibrary.js";
+import { BAKED_STAR_ATLASES } from "./bakedCelestialUi.js";
 
 export function getStarIdentityRarityAssets(
   rarity,
@@ -9,5 +10,6 @@ export function getStarIdentityRarityAssets(
   return Object.freeze([
     config.atlases[index],
     config.lightAtlases[index],
+    BAKED_STAR_ATLASES[index],
   ].filter(Boolean));
 }

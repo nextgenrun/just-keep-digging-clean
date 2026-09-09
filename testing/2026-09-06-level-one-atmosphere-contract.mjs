@@ -1,0 +1,33 @@
+import assert from 'node:assert/strict';
+import {DayNightCycle} from '../systems/environment/DayNightCycle.js';
+import {TIME_CONFIG} from '../values/timeConfig.js';
+import {WORLD_DEPTH_CONFIG as W} from '../values/worldDepthConfig.js';
+import {sampleLayeredEnvironment} from '../world/rendering/scenic-world/WorldVisualLayeredEnvironment.js';
+const cycle=Object.create(DayNightCycle.prototype);
+cycle.timeConfig=TIME_CONFIG;cycle.config={tileSize:94,topAirRows:65,worldWidthPx:280*94};
+cycle.scene={gameplayCapabilities:{isLevelEnabled:level=>level===1},cameras:{main:{width:1470,height:826,zoom:1,worldView:{x:3600,y:5400}}}};
+cycle.dayDuration=TIME_CONFIG.dayDurationMs;cycle.day=1;cycle._nightAmount=0;
+const sample=t=>{cycle.currentTime=t;cycle.currentPhase=cycle._getCurrentPhase();return cycle.getCelestialSnapshot();};
+globalThis.location={search:'?layeredSky=1&gameplayProfile=demo'};
+const noon=sample(.5);assert.equal(noon.sun.worldPosition.x,(W.levelTwoLeftTile+1)*94/2);
+for(const boundary of [...TIME_CONFIG.phases.map(p=>p.start),TIME_CONFIG.celestial.riseTime,TIME_CONFIG.celestial.setTime,1]){
+ const before=sample((boundary-1e-6+1)%1),after=sample((boundary+1e-6)%1);
+ for(const body of ['sun','moon'])assert(Math.abs(before[body].alpha-after[body].alpha)<.0001,'Continuous body brightness at '+boundary);
+}
+const stable=sample(.4).sun;cycle.scene.cameras.main.worldView.x+=250;
+const panned=cycle.getSunState();assert.deepEqual(stable.worldPosition,panned.worldPosition);
+assert.equal(panned.screenPosition.x,stable.screenPosition.x-250);
+cycle.scene.cameras.main.zoom=.6;const zoomed=cycle.getSunState();
+assert(Math.abs(zoomed.screenPosition.x-panned.screenPosition.x*.6)<1e-8);
+globalThis.location.search='?layeredSky=0';assert.equal(sample(.5).sun.worldPosition.x,280*94/2);
+globalThis.location.search='?layeredSky=1';cycle.scene.gameplayCapabilities.isLevelEnabled=()=>true;
+assert.equal(sample(.5).sun.worldPosition.x,280*94/2);
+let weather={cloudCoverAmount:0,fogAmount:0,wind:10};
+const scene={dayNightCycle:cycle,weatherSystem:{getLightingSnapshot:()=>weather}};
+sample(.4);const day=sampleLayeredEnvironment(scene);
+weather={cloudCoverAmount:.9,stormAmount:.9,precipitationAmount:.9,fogAmount:.2,wind:-120};
+const storm=sampleLayeredEnvironment(scene);
+assert(storm.cloudThickness>day.cloudThickness*2);assert(storm.cloudOpacity>day.cloudOpacity);assert.equal(storm.wind,-120);
+weather={};sample(.95);cycle._nightAmount=1;const night=sampleLayeredEnvironment(scene);
+assert.notEqual(day.cloudTint,night.cloudTint);assert.equal(night.stars,1);
+console.log(JSON.stringify({passed:true,levelOneOrbit:true,baselineOrbitPreserved:true,phaseContinuity:true,cameraProjection:true,cloudWeather:true,nightCloudColor:true}));

@@ -67,3 +67,11 @@ encounters.
   mining. Until the first portal actually succeeds, surface drop and downward
   mining are allowed only inside the Bedrock-wrapped x12 starter corridor; an
   accidental underground position anywhere else is returned to a safe town tile.
+
+TownRestGuidanceSystem.js owns optional directions requested by the Save UI.
+An ignored invitation lasts eight visible gameplay seconds and fades over 650 ms.
+Moving at least 0.45 tile closer accepts the route until grounded bed arrival;
+later pauses or detours do not abandon it. UI suspension hides the guidance and
+freezes its timers. The bed host cancels and destroys it without save data.
+
+`playerHintContext.js` ranks the field guide from current player and world state without acknowledging lessons. Contextual mechanic lessons expire when their condition ends, urgent warnings can interrupt them, and visible reading time resumes afterward.

@@ -8,6 +8,7 @@ import { destroyHardcoreModeRuntime } from
 const image = {
   scene: undefined,
   setDisplaySize() { return this; },
+  setScrollFactor(value) { this.scrollFactorX = this.scrollFactorY = value; return this; },
   setInteractive() { return this; },
   on() { return this; },
   removeAllListeners() {},
@@ -47,6 +48,8 @@ const action = createHardcoreRecapAction({
   activate() {},
 });
 
+assert.equal(image.scrollFactorX, 0, "Death buttons must hit-test in the same fixed space as their artwork");
+assert.equal(image.scrollFactorY, 0);
 assert.doesNotThrow(() => action.destroy());
 assert.doesNotThrow(() => action.destroy());
 

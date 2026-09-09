@@ -83,6 +83,7 @@ class ProductionHandler(http.server.SimpleHTTPRequestHandler):
         return requested
 
     def send_head(self):
+        self.range_bytes = None  # One handler can serve multiple HTTP/1.1 requests.
         requested = self._requested_path()
         if requested is None or not requested.is_file():
             self.send_error(404, "File not found")

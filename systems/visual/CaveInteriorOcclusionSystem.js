@@ -58,7 +58,7 @@ export class CaveInteriorOcclusionSystem {
   addEllipseZones(out, type, sourceZones) {
     sourceZones.forEach((zone, index) => {
       const fallbackLabel = {
-        cave: "Integrated Cave",
+        cave: "Cave",
         hiddenCave: "Hidden Cave",
         geode: "Crystal Geode",
       }[type] || "Underground Discovery";

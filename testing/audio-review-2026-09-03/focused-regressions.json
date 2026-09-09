@@ -1,0 +1,92 @@
+{
+  "audit": "focused-audio-regressions",
+  "checkedAt": "2026-09-03T04:17:35.1884598+03:00",
+  "total": 14,
+  "passed": true,
+  "results": [
+    {
+      "test": "2026-09-03-reviewed-audio-timing-contract.mjs",
+      "passed": true,
+      "exitCode": 0,
+      "output": "[SoundSystem] Runtime audio uses a bounded current/next working set\n[SoundSystem] Audio context not available\n[SoundSystem] Initialized - waiting for user interaction to start audio\n[SoundSystem] Runtime audio uses a bounded current/next working set\n[SoundSystem] Initialized - waiting for user interaction to start audio\n[SoundSystem] Audio context not available\n[SoundSystem] Destroying sound system\n[SoundSystem] Runtime audio uses a bounded current/next working set\n[SoundSystem] Audio context not available\n[SoundSystem] Initialized - waiting for user interaction to start audio\n[SoundSystem] Destroying sound system\n[SoundSystem] Runtime audio uses a bounded current/next working set\n[SoundSystem] Initialized - waiting for user interaction to start audio\n[SoundSystem] Audio context not available\n[SoundSystem] Destroying sound system\n[SoundSystem] Runtime audio uses a bounded current/next working set\n[SoundSystem] Initialized - waiting for user interaction to start audio\n[SoundSystem] Audio context not available\n[SoundSystem] Destroying sound system\n[SoundSystem] SFX disabled (includes voice lines)\n[SoundSystem] SFX enabled (includes voice lines)\n[SoundSystem] Destroying sound system\nREVIEWED_AUDIO_TIMING_OK {\"audit\":\"timing-and-lifecycle\",\"passed\":true,\"checks\":[\"Every promoted source has explicit approval and an unchanged production hash\",\"No sound for cooldown or absent target; contact and material break share authoritative dispatch\",\"Star destruction emits one cue, never generic material break\",\"Repeated UI events are throttled and active tails are bounded\",\"Late loads warm the next event; they never replay a stale transient\",\"Rejected solo stems cannot be played outside their approved composite\",\"Variant bags exhaust alternatives and an active cave clock keeps cooldowns alive\",\"Contact-source leading silence stays within one 30 ms onset budget\",\"Composite loop loading is atomic, and surface depth clears cave layers\",\"Landing requires a real airborne downward interval; spawn/teleport are silent\",\"Mute, pause and destroy cancel all managed SFX and loops\",\"Success-only purchase/save/arrival hooks and calm recovery route are present\"],\"totalChecks\":12}"
+    },
+    {
+      "test": "2026-09-03-reviewed-audio-volume-contract.mjs",
+      "passed": true,
+      "exitCode": 0,
+      "output": "[SoundSystem] Runtime audio uses a bounded current/next working set\n[SoundSystem] Audio context not available\n[SoundSystem] Initialized - waiting for user interaction to start audio\n[SoundSystem] Runtime audio uses a bounded current/next working set\n[SoundSystem] Audio context not available\n[SoundSystem] Initialized - waiting for user interaction to start audio\n[SoundSystem] Destroying sound system\n[SoundSystem] Runtime audio uses a bounded current/next working set\n[SoundSystem] Audio context not available\n[SoundSystem] Initialized - waiting for user interaction to start audio\n[SoundSystem] Destroying sound system\n[SoundSystem] SFX disabled (includes voice lines)\n[SoundSystem] Destroying sound system\nREVIEWED_AUDIO_VOLUME_OK {\"passed\":true,\"checks\":11,\"sources\":51}"
+    },
+    {
+      "test": "2026-07-29-runtime-audio-streaming-contract.mjs",
+      "passed": true,
+      "exitCode": 0,
+      "output": "[BootScene] Audio streaming: 324 registered, 41 queued for boot.\n[BootScene] Audio eager rollback: 324 registered, 318 queued for boot.\n[VoiceLineManager] Registering player/random voice lines\n[VoiceLineManager] player/random: 3 voice lines registered\n[VoiceLineManager] Playing player/random: a.ogg\n[MusicDirector] context=unclassified track=j-k-d-amb-2.ogg\nruntime audio streaming contract: ok (324 registered; 41 Boot seeds; 12.7 MiB)"
+    },
+    {
+      "test": "2026-08-31-approved-star-level-up-audio-contract.mjs",
+      "passed": true,
+      "exitCode": 0,
+      "output": "[SoundLibraryManager] levelUpReward: Playing level-up-short-freesound-320655.mp3\n[SoundLibraryManager] levelUpReward: Playing level-up-epic-freesound-682633.mp3\nAPPROVED_STAR_LEVEL_UP_AUDIO_CONTRACT_OK {\n  promotedFiles: 3,\n  starEventCues: 1,\n  levelEventCues: 1,\n  creditedCcBy: true\n}"
+    },
+    {
+      "test": "2026-08-30-recorded-weather-ambience-contract.mjs",
+      "passed": true,
+      "exitCode": 0,
+      "output": "Recorded weather ambience contract passed: six seamless lazy assets, one contextual rain role, and hysteretic wind selection"
+    },
+    {
+      "test": "2026-08-31-contextual-music-director-contract.mjs",
+      "passed": true,
+      "exitCode": 0,
+      "output": "[MusicDirector] context=surface-day track=j-k-d-amb-1.ogg\nPASS: contextual music director covers 144 tracks, 17 contexts and 6 cues"
+    },
+    {
+      "test": "2026-08-30-event-voice-director-contract.mjs",
+      "passed": true,
+      "exitCode": 0,
+      "output": "[VoiceLineManager] Registering player/random voice lines\n[VoiceLineManager] player/random: 1 voice lines registered\n[VoiceLineManager] Playing player/random: ambient.ogg\nEVENT_VOICE_DIRECTOR_CONTRACT_OK"
+    },
+    {
+      "test": "2026-08-27-merchant-voice-cycle-contract.mjs",
+      "passed": true,
+      "exitCode": 0,
+      "output": "[VoiceLineManager] Registering npc/moneyMonster voice lines\n[VoiceLineManager] npc/moneyMonster: 3 voice lines registered\n[VoiceLineManager] Registering npc/gearUpgrades voice lines\n[VoiceLineManager] npc/gearUpgrades: 3 voice lines registered\n[VoiceLineManager] Registering npc/playerUpgrades voice lines\n[VoiceLineManager] npc/playerUpgrades: 3 voice lines registered\n[VoiceLineManager] Registering npc/gemPowerMerchant voice lines\n[VoiceLineManager] npc/gemPowerMerchant: 3 voice lines registered\n[VoiceLineManager] Registering npc/boboMerchant voice lines\n[VoiceLineManager] npc/boboMerchant: 3 voice lines registered\n[VoiceLineManager] Playing npc/moneyMonster: a.ogg\n[VoiceLineManager] Playing npc/moneyMonster: b.ogg\n[VoiceLineManager] Playing npc/moneyMonster: c.ogg\n[VoiceLineManager] Playing npc/moneyMonster: a.ogg\n[VoiceLineManager] Playing npc/gearUpgrades: a.ogg\n[VoiceLineManager] Playing npc/gearUpgrades: b.ogg\n[VoiceLineManager] Playing npc/gearUpgrades: c.ogg\n[VoiceLineManager] Playing npc/gearUpgrades: a.ogg\n[VoiceLineManager] Playing npc/playerUpgrades: a.ogg\n[VoiceLineManager] Playing npc/playerUpgrades: b.ogg\n[VoiceLineManager] Playing npc/playerUpgrades: c.ogg\n[VoiceLineManager] Playing npc/playerUpgrades: a.ogg\n[VoiceLineManager] Playing npc/gemPowerMerchant: a.ogg\n[VoiceLineManager] Playing npc/gemPowerMerchant: b.ogg\n[VoiceLineManager] Playing npc/gemPowerMerchant: c.ogg\n[VoiceLineManager] Playing npc/gemPowerMerchant: a.ogg\n[VoiceLineManager] Playing npc/boboMerchant: a.ogg\n[VoiceLineManager] Playing npc/boboMerchant: b.ogg\n[VoiceLineManager] Playing npc/boboMerchant: c.ogg\n[VoiceLineManager] Playing npc/boboMerchant: a.ogg\nmerchant voice cycle contract: all merchant catalogs advance and wrap passed"
+    },
+    {
+      "test": "2026-08-20-player-jump-flight-motion-contract.mjs",
+      "passed": true,
+      "exitCode": 0,
+      "output": "[PlayerInput] Using keys from inputHandler\n[PlayerInput] Using keys from inputHandler\n[PlayerInput] Using keys from inputHandler\n[PlayerInput] Using keys from inputHandler\n[PlayerInput] Using keys from inputHandler\n[PlayerInput] Using keys from inputHandler\n[PlayerInput] Using keys from inputHandler\n[PlayerInput] Using keys from inputHandler\n[PlayerInput] Using keys from inputHandler\n[PlayerInput] Using keys from inputHandler\n[PlayerInput] Using keys from inputHandler\n[PlayerInput] Using keys from inputHandler\n[PlayerInput] Using keys from inputHandler\n[PlayerInput] Using keys from inputHandler\n[PlayerInput] Using keys from inputHandler\n[PlayerInput] Using keys from inputHandler\nPLAYER_TRAVERSAL_INPUT_REGRESSIONS_OK { cases: 15 }\nplayer jump and momentum-flight contract: PASS"
+    },
+    {
+      "test": "2026-08-31-audio-mix-review-contract.mjs",
+      "passed": true,
+      "exitCode": 0,
+      "output": "AUDIO_MIX_REVIEW_CONTRACT_OK {\"sources\":16,\"scenarios\":14,\"reviewItems\":13,\"maxPeak\":0.3384,\"maxTransitionPeak\":0.41543115914704987,\"productionWired\":true}"
+    },
+    {
+      "test": "2026-09-01-audio-library-review-expansion-contract.mjs",
+      "passed": true,
+      "exitCode": 0,
+      "output": "AUDIO_LIBRARY_REVIEW_EXPANSION_OK {\"playableSources\":85,\"reviewItems\":82,\"categories\":8,\"onlineLeads\":24,\"playableMiB\":27.3,\"maxTransitionPeak\":0.41543115914704987,\"runtimeWired\":false}"
+    },
+    {
+      "test": "2026-07-26-earthquake-feedback-lifecycle-contract.mjs",
+      "passed": true,
+      "exitCode": 0,
+      "output": "earthquake feedback lifecycle contract passed"
+    },
+    {
+      "test": "2026-08-30-earthquake-event-cohesion-contract.mjs",
+      "passed": true,
+      "exitCode": 0,
+      "output": "earthquake event cohesion contract passed"
+    },
+    {
+      "test": "2026-08-25-hardcore-panic-feedback-contract.mjs",
+      "passed": true,
+      "exitCode": 0,
+      "output": "Hardcore panic feedback contract passed."
+    }
+  ]
+}

@@ -1,0 +1,106 @@
+{
+  "reviewOnly": true,
+  "width": 1280,
+  "height": 720,
+  "fps": 30,
+  "backgroundSource": "sprites/backgrounds/menu-atmosphere-v5/",
+  "backgroundOutput": "sprites/backgrounds/menu-atmosphere-v6/",
+  "backgroundCrf": 22,
+  "maxRate": "6M",
+  "bufferSize": "12M",
+  "gop": 30,
+  "workers": 2,
+  "logo": {
+    "source": "sprites/branding/understar-world-within-v4/understar-logo-loop-alpha-v2.webm",
+    "output": "sprites/branding/understar-motion-review-20260909/logo-full.webm",
+    "poster": "sprites/branding/understar-world-within-v4/understar-world-logo-runtime.webp",
+    "width": 1120,
+    "height": 332,
+    "slowdown": 1.4925373134328357,
+    "crf": 34,
+    "x": 640,
+    "y": 152,
+    "displayWidth": 740,
+    "displayHeight": 220,
+    "shadowOffsets": [
+      [
+        -2,
+        0
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        0,
+        -2
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        0,
+        5
+      ]
+    ],
+    "shadowAlpha": 0.78
+  },
+  "styles": [
+    {
+      "id": "quiet-sky",
+      "label": "Quiet sky",
+      "description": "Original animated stone, with a soft shadow in the sky behind the title.",
+      "shadeAlpha": 0.6,
+      "shadeHeight": 350,
+      "backingAlpha": 0,
+      "shadow": true
+    },
+    {
+      "id": "silhouette",
+      "label": "Clear silhouette",
+      "description": "Original animated stone with a dark contour; the scenery keeps its full brightness.",
+      "shadeAlpha": 0,
+      "shadeHeight": 350,
+      "backingAlpha": 0,
+      "shadow": true
+    },
+    {
+      "id": "stone",
+      "label": "Stone plaque",
+      "description": "The approved matte stone backing separates the moving letters from the scenery.",
+      "shadeAlpha": 0,
+      "shadeHeight": 350,
+      "backingAlpha": 1,
+      "shadow": false
+    }
+  ],
+  "defaultStyle": "quiet-sky",
+  "progress": 0.64,
+  "statusIntervalMs": 500,
+  "sampleWindow": 300,
+  "readinessMs": 30000,
+  "inspectionWidth": 320,
+  "assetRevision": "20260909-final",
+  "menu": {
+    "x": 640,
+    "firstY": 330,
+    "spacing": 66,
+    "labels": [
+      "PLAY",
+      "SETTINGS",
+      "CREDITS"
+    ],
+    "text": {
+      "fontFamily": "Georgia",
+      "fontSize": "18px",
+      "color": "#ead5a8"
+    }
+  },
+  "loadingCopy": {
+    "label": "The world below awaits",
+    "detail": "Preparing your journey into the deep."
+  },
+  "approvedStyle": "quiet-sky",
+  "approvedOn": "2026-09-09"
+}

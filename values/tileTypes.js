@@ -22,13 +22,18 @@ export const TILE_TYPES = Object.freeze({
   GEM_POWER_BLOCK: 17,
   SPEED_BLOCK: 18,
   XP_BLOCK: 19,
-  CRIT_BLOCK: 20,
+  // Compatibility value for old authored maps. WorldSpawnAuthority converts
+  // these retired cells into ordinary mineable terrain during import.
+  RETIRED_RANDOM_BONUS_BLOCK: 20,
   BERSERK_BLOCK: 21,
   COMBO_BLOCK: 22,
   LEGEND_BLOCK: 23,
 
   // Cave wall — unbreakable decorative shell using the shared unbreakable material.
   CAVE_WALL: 24,
+
+  // Rare choice block. IDs 25-26 were intentionally left free by older saves.
+  ABILITY_BLOCK: 25,
 
   // Geode interior — rare resource tile inside a geode pocket
   GEODE_INTERIOR: 27,

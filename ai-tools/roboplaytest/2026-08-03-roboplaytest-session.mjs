@@ -137,7 +137,7 @@ export async function createRoboplaytestSession(config) {
     executablePath: config.edgePath,
     headless: !config.headed,
     args: [
-      "--use-angle=swiftshader",
+      ...(config.nativeGpu ? [] : ["--use-angle=swiftshader"]),
       "--autoplay-policy=no-user-gesture-required",
       "--disable-background-timer-throttling",
     ],

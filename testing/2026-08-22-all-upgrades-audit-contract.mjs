@@ -4,7 +4,7 @@ import { UpgradeSystem } from "../systems/progression/UpgradeSystem.js";
 import { UPGRADES } from "../values/upgradeDefinitions.js";
 
 const entries = Object.entries(UPGRADES);
-assert.equal(entries.length, 37, "every current upgrade definition must be audited");
+assert.equal(entries.length, 34, "every current upgrade definition must be audited");
 assert.equal(new Set(entries.map(([id]) => id)).size, entries.length);
 
 const validMerchants = new Set([
@@ -54,4 +54,4 @@ assert.equal(UPGRADES.torchDrainEfficiency.requiresDepthGateAccepted, undefined)
 assert.equal(UPGRADES.torchRange.requiresDepthGateAccepted, undefined);
 assert.equal(UPGRADES.boboCaveEyes.requiresDepthGateAccepted, undefined);
 
-console.log("All-upgrades audit passed: 37 definitions, costs, descriptions, merchants, effects, and survival-tool locks.");
+console.log("All-upgrades audit passed: 34 definitions, costs, descriptions, merchants, effects, and survival-tool locks.");

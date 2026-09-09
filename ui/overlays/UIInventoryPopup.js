@@ -1,3 +1,4 @@
+import { hasUiInputPriority } from '../../systems/UiInputPriorityRegistry.js';
 import { createButton, createTabBar } from "../PhaserUiKit.js";
 import { createModalShell } from "../UiModalShell.js";
 import { INVENTORY_RESOURCE_GUIDE } from
@@ -5,7 +6,7 @@ import { INVENTORY_RESOURCE_GUIDE } from
 import { INVENTORY_CODEX_CONFIG } from
   "../../values/inventoryCodex.js?rev=20260826-inventory-codex-v2";
 import { STAR_IDENTITY_LIBRARY_CONFIG } from
-  "../../values/starIdentityLibrary.js?rev=20260830-star-codex-v3";
+  "../../values/starIdentityLibrary.js?rev=20260906-baked-celestial-v2";
 import { UI_COLORS } from "../../values/uiColors.js";
 import {
   UI_INVENTORY_COPY,
@@ -18,11 +19,11 @@ import { renderInventoryHoldingsView } from
 import { renderInventoryResourceGuide } from
   "./UIInventoryResourceGuide.js?rev=20260826-inventory-codex-v3";
 import { renderInventoryStarAtlas } from
-  "./UIInventoryStarAtlas.js?rev=20260830-star-codex-v3";
+  "./UIInventoryStarAtlas.js?rev=20260906-baked-celestial-v2";
 import { UIInventoryStarAtlasAssetController } from
   "./UIInventoryStarAtlasAssetController.js";
 import { UIInventoryStarAtlasKeyboard } from
-  "./UIInventoryStarAtlasKeyboard.js?rev=20260830-star-codex-v3";
+  "./UIInventoryStarAtlasKeyboard.js?rev=20260906-baked-celestial-v2";
 import { UIInventoryResourceKeyboard } from
   "./UIInventoryResourceKeyboard.js?rev=20260826-inventory-codex-v2";
 import { INVENTORY_SPECIAL_BLOCKS } from "../../values/inventorySpecialBlocks.js";
@@ -82,6 +83,29 @@ export class UIInventoryPopup {
     };
     this.inventoryKey.on("down", this.handleInventoryToggle);
     this.escapeKey.on("down", this.handleInventoryClose);
+    const keyboard = this.scene.input.keyboard;
+    keyboard.addCapture("TAB");
+    if (this.handleSpecialNavigation) keyboard.off("keydown", this.handleSpecialNavigation);
+    this.handleSpecialNavigation = event => this._navigateSpecialBlock(event);
+    keyboard.on("keydown", this.handleSpecialNavigation);
+  }
+
+  _navigateSpecialBlock(event) {
+    if (!this.isOpen) return;
+    const navigation = STAR_IDENTITY_LIBRARY_CONFIG.inventory.navigation;
+    const showStars = this.scene.systemIntroductionSystem?.isFeatureAvailable?.("inventoryStarAtlas") ?? true;
+    const specialTab = navigation.starAtlasTabIndex + (showStars ? 1 : 0);
+    if (this.activeTab !== specialTab) return;
+    const code = event.code || event.key;
+    const direction = [...navigation.upCodes, ...navigation.leftCodes].includes(code) ? -1
+      : [...navigation.downCodes, ...navigation.rightCodes].includes(code) ? 1 : 0;
+    if (!direction) return;
+    event.preventDefault?.();
+    event.stopPropagation?.();
+    const entries = INVENTORY_SPECIAL_BLOCKS.entries;
+    const current = Math.max(0, entries.findIndex(entry => entry.id === this.selectedSpecialBlock));
+    this.selectedSpecialBlock = entries[(current + direction + entries.length) % entries.length].id;
+    this._render();
   }
 
   refreshKeybinds() {
@@ -94,7 +118,9 @@ export class UIInventoryPopup {
   }
 
   open() {
-    if (this.isOpen) return;
+    if (this.isOpen || hasUiInputPriority(this.scene)
+      || this.scene.sceneModeController?.isGameplayActive === false
+      || (this.scene.gameState && this.scene.gameState !== 'playing')) return false;
     this.isOpen = true;
     this.scene.setShopOpen?.(true);
     this.scene.playerController?.setControlsEnabled?.(false);
@@ -103,6 +129,7 @@ export class UIInventoryPopup {
 
   close() {
     if (!this.isOpen) return;
+    this.scene.inputHandler?.consumeSpecialTileInteractInput?.();
     this.isOpen = false;
     const shell = this.shell;
     this.shell = null;
@@ -174,7 +201,12 @@ export class UIInventoryPopup {
         : this.activeTab === specialTabIndex
           ? INVENTORY_SPECIAL_BLOCKS.selectorTitle
           : UI_INVENTORY_COPY.title;
-    this.shell.setHeader(title, subtitle);
+    this.shell.setHeader(title, showStarAtlas && this.activeTab === 2 ? " " : subtitle);
+    this.shell.subtitleText.setVisible(true);
+    if (showStarAtlas && this.activeTab === 2) {
+      renderBakedStarAtlasHeader(this.scene, this.shell, starFoundCount,
+        STAR_IDENTITY_LIBRARY_CONFIG.identities.length, starCollectedCount);
+    }
     this.tabs = createTabBar(this.scene, {
       x: 0,
       y: fullRect.top + guide.layout.tabTopInset,
@@ -288,7 +320,7 @@ export class UIInventoryPopup {
       ?.isFeatureAvailable?.("inventoryStarAtlas") ?? true;
     const tabCount = showStarAtlas ? navigation.starAtlasTabIndex + 2 : 3;
     const target = (this.activeTab + direction + tabCount) % tabCount;
-    if (target === navigation.starAtlasTabIndex) {
+    if (showStarAtlas && target === navigation.starAtlasTabIndex) {
       void this._activateStarAtlasRarity(this.selectedStarRarity);
       return;
     }
@@ -340,6 +372,8 @@ export class UIInventoryPopup {
       activeTab: this.activeTab,
       selectedTab: this.tabs?.getActive?.() ?? null,
       selectedGuideResource: this.selectedGuideResource,
+      starAtlasAvailable: this.scene.systemIntroductionSystem
+        ?.isFeatureAvailable?.("inventoryStarAtlas") ?? true,
       selectedStarRarity: this.selectedStarRarity,
       selectedStarIdentity: this.selectedStarIdentity,
       starIdentityCounts: this._getStarIdentityCounts(),
@@ -356,8 +390,10 @@ export class UIInventoryPopup {
     else this.shell?.destroy?.();
     this.inventoryKey?.off("down", this.handleInventoryToggle, this);
     this.escapeKey?.off("down", this.handleInventoryClose, this);
+    this.scene.input.keyboard.off("keydown", this.handleSpecialNavigation);
     this.starAtlasKeyboard.destroy();
     this.resourceCodexKeyboard.destroy();
     this.starAtlasAssets.destroy();
   }
 }
+import { renderBakedStarAtlasHeader } from "./UIInventoryStarAtlasHeader.js";

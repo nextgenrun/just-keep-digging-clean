@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "checks": [
+    "Playback windows preserve source PCM, stereo, rate and zero-ended fades; edited buffers are reused",
+    "Phaser HTMLAudio fallback marker retains live mixer config and crops the same source interval",
+    "Real contact timeline dispatches exactly one final destruction at the crossed frame, with no late cancelled hit",
+    "Pickup belongs to resource arrival even when special XP arrives beyond the previous cooldown",
+    "Loot completion does not fire before arrival and ignores a removed visual",
+    "Cancelled XP flight cannot run its final arrival callback",
+    "Current review keeps source IDs, with matching trimmed preview metadata"
+  ],
+  "manualPlaythrough": false,
+  "listeningApproved": false
+}

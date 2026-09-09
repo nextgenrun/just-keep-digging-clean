@@ -4,6 +4,7 @@ import {
 } from "../../values/cinematicVideoConfig.js";
 import { SCENE_SUSPENSION_KINDS } from "../../values/sceneRuntime.js";
 import { CinematicVideoView } from "./CinematicVideoView.js";
+import { USER_SETTINGS } from "../UserSettings.js";
 
 export class CinematicVideoPlayer {
   constructor(scene, config = CINEMATIC_VIDEO_CONFIG) {
@@ -63,6 +64,7 @@ export class CinematicVideoPlayer {
   }
 
   _bindInput() {
+    this._unsubscribeAudio = USER_SETTINGS.subscribe(() => this._applyAudioSettings());
     this.scene.input.keyboard?.on?.("keydown", this._onKeyDown);
     this.scene.input.keyboard?.on?.("keyup", this._onKeyUp);
     this.scene.input?.on?.("pointerdown", this._onPointerDown);
@@ -72,6 +74,8 @@ export class CinematicVideoPlayer {
   }
 
   _unbindInput() {
+    this._unsubscribeAudio?.();
+    this._unsubscribeAudio = null;
     this.scene.input.keyboard?.off?.("keydown", this._onKeyDown);
     this.scene.input.keyboard?.off?.("keyup", this._onKeyUp);
     this.scene.input?.off?.("pointerdown", this._onPointerDown);
@@ -130,7 +134,8 @@ export class CinematicVideoPlayer {
     this.playRequested = true;
     this.view?.showPrompt?.(this.config.copy.loading);
     this._publish(this.config.health.states.loading);
-    this.video?.setVolume?.(this.config.playback.volume).play?.(false);
+    this._applyAudioSettings();
+    this.video?.play?.(false);
     this.startupTimer = this.scene.time?.delayedCall?.(
       this.config.playback.startupTimeoutMs,
       () => this._finish(this.config.health.states.failed, "startup-timeout"),
@@ -139,6 +144,15 @@ export class CinematicVideoPlayer {
 
   _onVideoCreated() {
     this.view?.layout?.();
+    this._applyAudioSettings();
+  }
+
+  _applyAudioSettings() {
+    // HTML video has its own output, so Phaser's WebAudio master cannot scale it.
+    // The film's baked dialogue/music mix follows Voice as a single recording.
+    const audio = USER_SETTINGS.getAudio();
+    const gain = audio.sfxEnabled ? audio.masterVolume * audio.voiceVolume : 0;
+    this.video?.setVolume?.(this.config.playback.volume * gain);
   }
 
   _onVideoPlaying() {

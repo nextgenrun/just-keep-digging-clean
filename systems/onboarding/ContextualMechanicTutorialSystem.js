@@ -33,6 +33,7 @@ export class ContextualMechanicTutorialSystem {
     this.config = options.config || CONTEXTUAL_MECHANIC_TUTORIAL_CONFIG;
     this.active = null;
     this.runtimeTriggers = new Set();
+    this.visibleDwellById = new Map();
   }
 
   notifyEmberDiscovery() {
@@ -43,6 +44,18 @@ export class ContextualMechanicTutorialSystem {
 
   update(deltaMs = 0) {
     if (this.scene.emberDiscoveryEventSystem?.active === true) return null;
+    if (this.active && !this._isEligible(this.active.id)) {
+      this.visibleDwellById.set(this.active.id, this.active.visibleMs);
+      this.active = null;
+    }
+    const urgentId = this.config.priority.find(id => (
+      !this.retention?.hasSeenMechanicTutorial?.(id) && this._isEligible(id)
+    ));
+    if (this.active && urgentId
+      && this.config.priority.indexOf(urgentId) < this.config.priority.indexOf(this.active.id)) {
+      this.visibleDwellById.set(this.active.id, this.active.visibleMs);
+      this.active = { id: urgentId, visibleMs: this.visibleDwellById.get(urgentId) || 0 };
+    }
     if (this.active) {
       this._advanceActive(deltaMs);
       return this.getNextPromiseOverride();
@@ -54,12 +67,13 @@ export class ContextualMechanicTutorialSystem {
       && this._isEligible(id)
     ));
     if (!tutorialId) return null;
-    this.active = { id: tutorialId, visibleMs: 0 };
+    this.active = { id: tutorialId, visibleMs: this.visibleDwellById.get(tutorialId) || 0 };
     return this.getNextPromiseOverride();
   }
 
   getNextPromiseOverride() {
     if (this.scene.emberDiscoveryEventSystem?.active === true) return null;
+    if (this.active && !this._isEligible(this.active.id)) return null;
     const copy = this.config.entries[this.active?.id];
     if (!copy) return null;
     return {
@@ -89,6 +103,7 @@ export class ContextualMechanicTutorialSystem {
     if (this.active.visibleMs < this.config.visibleDwellMs) return;
 
     const completedId = this.active.id;
+    this.visibleDwellById.delete(completedId);
     this.active = null;
     this.runtimeTriggers.delete(completedId);
     if (this.retention?.recordMechanicTutorialSeen?.(completedId)) {
@@ -157,6 +172,7 @@ export class ContextualMechanicTutorialSystem {
   destroy() {
     this.active = null;
     this.runtimeTriggers.clear();
+    this.visibleDwellById.clear();
     this.scene = null;
     this.retention = null;
   }

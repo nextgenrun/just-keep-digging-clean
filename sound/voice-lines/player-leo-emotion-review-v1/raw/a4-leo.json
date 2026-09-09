@@ -1,0 +1,10 @@
+{
+  "id": "A4",
+  "voice": "leo",
+  "text": "Gold. I've killed for less.",
+  "ttsInput": "Gold. <soft>I've killed for less.</soft>",
+  "requestSha256": "98d4c0b9a986a6b1a4cb847a184c3d60a828b66fd4dda6c3ba23cd4f89175116",
+  "contentType": "audio/mpeg",
+  "generationId": "gen-tts-1788745482-nrsl4802OyNFUbpItI5d",
+  "rawSha256": "78b755399ce839ab8ea3b90bbcbc4a69f84bb9b293218a714e39569b1c87000b"
+}

@@ -1,0 +1,148 @@
+{
+  "version": "survival-unified-animation-runtime-v1-20260825",
+  "sourceBlendChanged": false,
+  "quality": {
+    "textures": {
+      "normalMaps": 9,
+      "relinkedTextures": 32,
+      "eye": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\visual-approval-previews\\2026-08-14-survival-global-benchmark-v1\\texture-cache-2k\\Textures\\Eye\\Eye_BaseColor.png",
+      "fullResolutionRestored": [
+        "Backpack_BaseColor.jpg",
+        "Backpack_Normal.jpg",
+        "Backpack_OcclusionRoughnessMetallic.jpg",
+        "Backpack_OcclusionRoughnessMetallic.jpg.001",
+        "Backpack_OcclusionRoughnessMetallic.jpg.002",
+        "Eye_BaseColor.png",
+        "Eyebrows_AO.jpg",
+        "Eyebrows_BaseColor.jpg",
+        "Eyebrows_Normal.jpg",
+        "Eyebrows_Opacity.jpg",
+        "Gloves_BaseColor.jpg",
+        "Gloves_Normal.jpg",
+        "Gloves_OcclusionRoughnessMetallic.jpg",
+        "Gloves_OcclusionRoughnessMetallic.jpg.001",
+        "Gloves_OcclusionRoughnessMetallic.jpg.002",
+        "HairBrown_Alpha.jpg",
+        "HairBrown_Diffuse_2.jpg",
+        "HairBrown_Normal.jpg",
+        "Jacket_BaseColor.jpg",
+        "Jacket_Normal.jpg",
+        "Jacket_OcclusionRoughnessMetallic.jpg",
+        "Jacket_OcclusionRoughnessMetallic.jpg.001",
+        "Jacket_OcclusionRoughnessMetallic.jpg.002",
+        "Jeans_BaseColor.jpg",
+        "Jeans_Normal.jpg",
+        "Jeans_OcclusionRoughnessMetallic.jpg",
+        "Jeans_OcclusionRoughnessMetallic.jpg.001",
+        "Jeans_OcclusionRoughnessMetallic.jpg.002",
+        "Shoes_BaseColor.jpg",
+        "Shoes_Normal.jpg",
+        "Shoes_OcclusionRoughnessMetallic.jpg",
+        "Shoes_OcclusionRoughnessMetallic.jpg.001",
+        "Shoes_OcclusionRoughnessMetallic.jpg.002"
+      ]
+    },
+    "pbr": {
+      "Jacket1": {
+        "ormSplit": true,
+        "aoMix": 0.28,
+        "roughnessMultiply": 0.82,
+        "roughnessAdd": 0.08,
+        "normalStrength": 1.2,
+        "coatWeight": 0.12,
+        "coatRoughness": 0.22
+      },
+      "Backpack2": {
+        "ormSplit": true,
+        "aoMix": 0.24,
+        "roughnessMultiply": 0.9,
+        "roughnessAdd": 0.06,
+        "normalStrength": 1.15,
+        "coatWeight": 0.05,
+        "coatRoughness": 0.3
+      },
+      "Gloves1": {
+        "ormSplit": true,
+        "aoMix": 0.24,
+        "roughnessMultiply": 0.8,
+        "roughnessAdd": 0.08,
+        "normalStrength": 1.15,
+        "coatWeight": 0.08,
+        "coatRoughness": 0.24
+      },
+      "Jeans1": {
+        "ormSplit": true,
+        "aoMix": 0.18,
+        "roughnessMultiply": 1.02,
+        "roughnessAdd": 0.04,
+        "normalStrength": 1.12,
+        "sheenWeight": 0.035
+      },
+      "Shoes1": {
+        "ormSplit": true,
+        "aoMix": 0.25,
+        "roughnessMultiply": 0.76,
+        "roughnessAdd": 0.08,
+        "normalStrength": 1.12,
+        "coatWeight": 0.1,
+        "coatRoughness": 0.2
+      }
+    },
+    "special": {
+      "Hair3": {
+        "roughness": 0.4,
+        "specularIorLevel": 0.24,
+        "anisotropic": 0.3,
+        "sheenWeight": 0.05,
+        "normalStrength": 1.1
+      },
+      "Head": {
+        "roughness": 0.38,
+        "specularIorLevel": 0.2,
+        "subsurfaceWeight": 0.04,
+        "subsurfaceScale": 0.08
+      },
+      "Body_Arkit:Eye": {
+        "roughness": 0.09,
+        "ior": 1.38,
+        "coatWeight": 0.38,
+        "coatRoughness": 0.055
+      }
+    },
+    "fullGlovePolygons": 6162
+  },
+  "sheets": {
+    "survival-mixamo-v1-walk-loop-sheet": {
+      "mode": "MIXAMO",
+      "sourceAction": "Armature|mixamo.com|Layer0",
+      "residual": 0.14465528036833053,
+      "samples": [
+        1.0,
+        2.458333333333333,
+        3.9166666666666665,
+        5.375,
+        6.833333333333333,
+        8.291666666666668,
+        9.75,
+        11.208333333333334,
+        12.666666666666666,
+        14.125,
+        15.583333333333334,
+        17.041666666666668,
+        18.5,
+        19.958333333333332,
+        21.416666666666668,
+        22.875,
+        24.333333333333332,
+        25.791666666666668,
+        27.25,
+        28.708333333333332,
+        30.166666666666668,
+        31.625,
+        33.083333333333336,
+        34.541666666666664
+      ],
+      "frames": 24
+    }
+  }
+}

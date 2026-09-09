@@ -182,7 +182,6 @@ assert.equal(ellipses.every(ellipse => !ellipse.active), true);
 assert.equal(resolvePlayerContactShadowEnabled("?contactShadow=0"), false);
 assert.equal(resolvePlayerContactShadowEnabled(""), true);
 assert.equal(LEVEL_CONFIG.CHOICE_REWARDS.miningPower.icon, "pickaxe");
-assert.equal(LEVEL_CONFIG.CHOICE_REWARDS.resourceLuck.icon, "luck");
 const startMenuSource = read("ui/scenes/StartMenuScene.js");
 assert.match(startMenuSource, /createUiIcon\(this, 'play'/);
 assert.match(startMenuSource, /createUiIcon\(this, 'save'/);

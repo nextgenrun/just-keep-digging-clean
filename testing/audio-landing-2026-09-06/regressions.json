@@ -1,0 +1,53 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "path": "testing/2026-09-03-reviewed-audio-timing-contract.mjs",
+      "exitCode": 0,
+      "output": "[SoundSystem] Runtime audio uses a bounded current/next working set\n[SoundSystem] Initialized - waiting for user interaction to start audio\n[SoundSystem] Runtime audio uses a bounded current/next working set\n[SoundSystem] Initialized - waiting for user interaction to start audio\n[SoundSystem] Destroying sound system\n[SoundSystem] Runtime audio uses a bounded current/next working set\n[SoundSystem] Initialized - waiting for user interaction to start audio\n[SoundSystem] Destroying sound system\n[SoundSystem] Runtime audio uses a bounded current/next working set\n[SoundSystem] Initialized - waiting for user interaction to start audio\n[SoundSystem] Destroying sound system\n[SoundSystem] Runtime audio uses a bounded current/next working set\n[SoundSystem] Initialized - waiting for user interaction to start audio\n[SoundSystem] Destroying sound system\n[SoundSystem] SFX disabled (includes voice lines)\n[SoundSystem] SFX enabled (includes voice lines)\n[SoundSystem] Destroying sound system\nREVIEWED_AUDIO_TIMING_OK {\"audit\":\"timing-and-lifecycle\",\"passed\":true,\"checks\":[\"Every promoted source has explicit approval and an unchanged production hash\",\"No sound for cooldown or absent target; contact and material break share authoritative dispatch\",\"Star destruction emits one cue, never generic material break\",\"Repeated UI events are throttled and active tails are bounded\",\"Late loads warm the next event; they never replay a stale transient\",\"Rejected solo stems cannot be played outside their approved composite\",\"Variant bags exhaust alternatives and an active cave clock keeps cooldowns alive\",\"Contact-source leading silence stays within one 30 ms onset budget\",\"Composite loop loading is atomic, and surface depth clears cave layers\",\"Landing requires a real airborne downward interval; spawn/teleport are silent\",\"Mute, pause and destroy cancel all managed SFX and loops\",\"Success-only purchase/save/arrival hooks and calm recovery route are present\"],\"totalChecks\":12}\n",
+      "error": ""
+    },
+    {
+      "path": "testing/2026-09-03-reviewed-audio-volume-contract.mjs",
+      "exitCode": 0,
+      "output": "[SoundSystem] Runtime audio uses a bounded current/next working set\n[SoundSystem] Initialized - waiting for user interaction to start audio\n[SoundSystem] Runtime audio uses a bounded current/next working set\n[SoundSystem] Initialized - waiting for user interaction to start audio\n[SoundSystem] Destroying sound system\n[SoundSystem] Runtime audio uses a bounded current/next working set\n[SoundSystem] Initialized - waiting for user interaction to start audio\n[SoundSystem] Destroying sound system\n[SoundSystem] SFX disabled (includes voice lines)\n[SoundSystem] Destroying sound system\nREVIEWED_AUDIO_VOLUME_OK {\"passed\":true,\"checks\":11,\"sources\":51}\n",
+      "error": ""
+    },
+    {
+      "path": "testing/2026-09-03-freesound-audio-timing-contract.mjs",
+      "exitCode": 0,
+      "output": "orking set\n[SoundSystem] Initialized - waiting for user interaction to start audio\n[SoundSystem] Destroying sound system\n[SoundSystem] Runtime audio uses a bounded current/next working set\n[SoundSystem] Initialized - waiting for user interaction to start audio\n[SoundSystem] Destroying sound system\n[SoundSystem] Runtime audio uses a bounded current/next working set\n[SoundSystem] Initialized - waiting for user interaction to start audio\n[SoundSystem] Destroying sound system\n[SoundSystem] Runtime audio uses a bounded current/next working set\n[SoundSystem] Initialized - waiting for user interaction to start audio\n[SoundSystem] Destroying sound system\n[SoundSystem] Runtime audio uses a bounded current/next working set\n[SoundSystem] Initialized - waiting for user interaction to start audio\n[SoundSystem] Destroying sound system\n[SoundSystem] Runtime audio uses a bounded current/next working set\n[SoundSystem] Initialized - waiting for user interaction to start audio\n[SoundSystem] Destroying sound system\n[SoundSystem] Runtime audio uses a bounded current/next working set\n[SoundSystem] Initialized - waiting for user interaction to start audio\n[SoundSystem] Destroying sound system\n[SoundSystem] Runtime audio uses a bounded current/next working set\n[SoundSystem] Initialized - waiting for user interaction to start audio\n[SoundSystem] SFX disabled (includes voice lines)\n[SoundSystem] Destroying sound system\n[SoundSystem] Runtime audio uses a bounded current/next working set\n[SoundSystem] Initialized - waiting for user interaction to start audio\n[SoundSystem] Destroying sound system\n[SoundSystem] Runtime audio uses a bounded current/next working set\n[SoundSystem] Initialized - waiting for user interaction to start audio\n[SoundSystem] Destroying sound system\n[SoundSystem] Runtime audio uses a bounded current/next working set\n[SoundSystem] Initialized - waiting for user interaction to start audio\n[SoundSystem] Destroying sound system\nFREESOUND_TIMING_OK {\"checks\":12,\"approved\":562}\n",
+      "error": ""
+    },
+    {
+      "path": "testing/2026-09-03-freesound-audio-volume-contract.mjs",
+      "exitCode": 0,
+      "output": "[SoundSystem] Runtime audio uses a bounded current/next working set\n[SoundSystem] Initialized - waiting for user interaction to start audio\n[SoundSystem] Destroying sound system\n[SoundSystem] Runtime audio uses a bounded current/next working set\n[SoundSystem] Initialized - waiting for user interaction to start audio\n[SoundSystem] Destroying sound system\n[SoundSystem] Runtime audio uses a bounded current/next working set\n[SoundSystem] Initialized - waiting for user interaction to start audio\n[SoundSystem] Destroying sound system\n[SoundSystem] Runtime audio uses a bounded current/next working set\n[SoundSystem] Initialized - waiting for user interaction to start audio\n[SoundSystem] SFX disabled (includes voice lines)\n[SoundSystem] Destroying sound system\nFREESOUND_VOLUME_OK {\"checks\":8,\"approved\":562}\n",
+      "error": ""
+    },
+    {
+      "path": "sound/SoundSystem.js",
+      "kind": "syntax",
+      "exitCode": 0,
+      "error": ""
+    },
+    {
+      "path": "values/coreActionAudio.js",
+      "kind": "syntax",
+      "exitCode": 0,
+      "error": ""
+    },
+    {
+      "path": "testing/audio-destruction-pickup-2026-09-05/live-examples.js",
+      "kind": "syntax",
+      "exitCode": 0,
+      "error": ""
+    },
+    {
+      "path": "testing/audio-destruction-pickup-2026-09-05/browser-check.js",
+      "kind": "syntax",
+      "exitCode": 0,
+      "error": ""
+    }
+  ]
+}

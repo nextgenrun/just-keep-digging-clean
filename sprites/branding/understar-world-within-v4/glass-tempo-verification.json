@@ -1,0 +1,234 @@
+{
+  "first": {
+    "scene": "MainMenuScene",
+    "state": "playing",
+    "bounds": [
+      640,
+      150,
+      560,
+      166.25
+    ],
+    "time": 2.261194,
+    "duration": 15,
+    "rate": 0.67,
+    "glass": {
+      "alpha": 0.76,
+      "width": 2048,
+      "height": 608,
+      "first": true
+    },
+    "paused": false,
+    "muted": true,
+    "loop": true,
+    "videoSize": [
+      1400,
+      416
+    ],
+    "posterVisible": false
+  },
+  "moved": {
+    "scene": "MainMenuScene",
+    "state": "playing",
+    "bounds": [
+      640,
+      150,
+      560,
+      166.25
+    ],
+    "time": 2.733115,
+    "duration": 15,
+    "rate": 0.67,
+    "glass": {
+      "alpha": 0.76,
+      "width": 2048,
+      "height": 608,
+      "first": true
+    },
+    "paused": false,
+    "muted": true,
+    "loop": true,
+    "videoSize": [
+      1400,
+      416
+    ],
+    "posterVisible": false
+  },
+  "looped": {
+    "scene": "MainMenuScene",
+    "state": "playing",
+    "bounds": [
+      640,
+      150,
+      560,
+      166.25
+    ],
+    "time": 0.597286,
+    "duration": 15,
+    "rate": 0.67,
+    "glass": {
+      "alpha": 0.76,
+      "width": 2048,
+      "height": 608,
+      "first": true
+    },
+    "paused": false,
+    "muted": true,
+    "loop": true,
+    "videoSize": [
+      1400,
+      416
+    ],
+    "posterVisible": false
+  },
+  "reduced": {
+    "scene": "MainMenuScene",
+    "state": "poster",
+    "bounds": [
+      640,
+      150,
+      560,
+      166.25
+    ],
+    "time": 0.617277,
+    "duration": 15,
+    "rate": 0.67,
+    "glass": {
+      "alpha": 0.76,
+      "width": 2048,
+      "height": 608,
+      "first": true
+    },
+    "paused": true,
+    "muted": true,
+    "loop": true,
+    "videoSize": [
+      1400,
+      416
+    ],
+    "posterVisible": true
+  },
+  "paused": {
+    "scene": "MainMenuScene",
+    "state": "playing",
+    "bounds": [
+      640,
+      150,
+      560,
+      166.25
+    ],
+    "time": 0.618575,
+    "duration": 15,
+    "rate": 0.67,
+    "glass": {
+      "alpha": 0.76,
+      "width": 2048,
+      "height": 608,
+      "first": true
+    },
+    "paused": true,
+    "muted": true,
+    "loop": true,
+    "videoSize": [
+      1400,
+      416
+    ],
+    "posterVisible": false
+  },
+  "saves": {
+    "scene": "StartMenuScene",
+    "state": "playing",
+    "bounds": [
+      640,
+      85,
+      520,
+      154.375
+    ],
+    "time": 0.028893,
+    "duration": 15,
+    "rate": 0.67,
+    "glass": {
+      "alpha": 0.76,
+      "width": 2048,
+      "height": 608,
+      "first": true
+    },
+    "paused": false,
+    "muted": true,
+    "loop": true,
+    "videoSize": [
+      1400,
+      416
+    ],
+    "posterVisible": false
+  },
+  "teardown": {
+    "paused": true,
+    "textureRemoved": true
+  },
+  "explicitDestroy": {
+    "paused": true,
+    "textureRemoved": true
+  },
+  "fallback": {
+    "scene": "StartMenuScene",
+    "state": "poster",
+    "bounds": [
+      640,
+      85,
+      520,
+      154.375
+    ],
+    "time": 0,
+    "duration": null,
+    "rate": 1,
+    "glass": {
+      "alpha": 0.76,
+      "width": 2048,
+      "height": 608,
+      "first": true
+    },
+    "paused": true,
+    "muted": true,
+    "loop": true,
+    "videoSize": [
+      0,
+      0
+    ],
+    "posterVisible": true
+  },
+  "responses": [
+    {
+      "status": 200,
+      "url": "http://localhost:8765/sprites/branding/understar-world-within-v4/understar-logo-loop-alpha-v2.webm"
+    },
+    {
+      "status": 200,
+      "url": "http://localhost:8765/sprites/branding/understar-world-within-v4/understar-logo-loop-alpha-v2.webm"
+    },
+    {
+      "status": 200,
+      "url": "http://localhost:8765/sprites/branding/understar-world-within-v4/understar-logo-loop-alpha-v2.webm"
+    },
+    {
+      "status": 200,
+      "url": "http://localhost:8765/sprites/branding/understar-world-within-v4/understar-logo-loop-alpha-v2.webm"
+    },
+    {
+      "status": 200,
+      "url": "http://localhost:8765/sprites/branding/understar-world-within-v4/understar-logo-loop-alpha-v2.webm"
+    },
+    {
+      "status": 200,
+      "url": "http://localhost:8765/sprites/branding/understar-world-within-v4/understar-logo-loop-alpha-v2.webm"
+    },
+    {
+      "status": 200,
+      "url": "http://localhost:8765/sprites/branding/understar-world-within-v4/understar-logo-loop-alpha-v2.webm"
+    },
+    {
+      "status": 200,
+      "url": "http://localhost:8765/sprites/branding/understar-world-within-v4/understar-logo-loop-alpha-v2.webm"
+    }
+  ],
+  "errors": []
+}

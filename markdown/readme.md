@@ -1,6 +1,43 @@
 # Dig Game Dev Environment — README
 
+`2026-09-07-character-grounding-polish.md` records the wired character crispness, ground contact, measured gait and validation evidence.
+
 **Last updated:** 2026-07-30
+
+Surface drop regression and verified cause:
+[2026-09-06 Ledge assist interrupted moving surface drops](persistant-bugs/solved-at-root/2026-09-06-surface-drop-ledge-regrab.md).
+
+
+
+Downward attack animation gap:
+[2026-09-06 Downward mining pose hold](2026-09-06-downward-mining-pose-hold.md).
+Keeps the ground strike and low downward punch, removes the rejected turning step,
+and prevents crouch from interrupting the existing cooldown pose.
+
+Living-tree composition and proof:
+[2026-09-03 Taller, naturally coloured Root Sanctuary](2026-09-03-worldroot-tree-composition-v3.md).
+Includes modular artwork/provenance, growth, fixed ground controls, restrained
+Star light, surface-camera framing and real-input RoboPlay screenshots.
+
+Campfire/Ember implementation and proof:
+[2026-09-03 Campfire and Ember evolution](2026-09-03-campfire-ember-evolution.md).
+Includes the ten-stage size ramp, live upgrade reveals, preserved charge rules,
+the current shop-scaled price ladder, and active transparent Worldroot-v2 art.
+
+Progression balance and migration contract:
+[2026-09-03 Talent and shop progression rebalance](2026-09-03-talent-shop-progression-rebalance.md).
+Defines Level-earned Talent Points, Star-funded node ranks, the 121-rank shop
+tail, gradual depth and Relic unlocks, save migration, and current-game exclusions.
+
+Celestial tree readability and power audit:
+[2026-09-03 Celestial talent and skill audit](2026-09-03-celestial-talent-and-skill-audit.md).
+Covers all 33 node ranks, clearer graph states, bounded ability envelopes, and
+Hollow Sun's alternating pulse wave plus dig-directed drift.
+
+Celestial tree readability and power audit:
+[2026-09-03 Celestial talent and skill audit](2026-09-03-celestial-talent-and-skill-audit.md).
+Covers all 33 node ranks, clearer graph states, bounded ability envelopes, and
+Hollow Sun's alternating pulse wave plus dig-directed drift.
 
 ## Table of Contents
 1. [Directory Structure Overview](#directory-structure-overview)
@@ -29,9 +66,9 @@ dig-game-dev-env/
 │   ├── tileTypes.js                ← TILE_TYPES enum (AIR=0…GLOW_CRYSTAL=30)
 │   ├── upgrades.js                 ← Upgrade definitions, costs, formulas
 │   ├── abilities.js                ← Ability configs (gem power, flight, etc.)
-│   ├── resources.js                ← Resource prices, rarity, spawn rates
+│   ├── resources.js                ← Resource prices, depth yield, spawn rates
 │   ├── world.js                    ← World gen params, soil bands, tile health
-│   ├── gamefeel.js                 ← Camera shake, hitstop, screen flash
+│   ├── gamefeel.js                 ← Camera shake and screen flash
 │   ├── lighting.js                 ← Light system config
 │   ├── combo.js                    ← Combo system config
 │   ├── assetKeys.js                ← ALL asset keys (single source for paths)
@@ -126,8 +163,7 @@ dig-game-dev-env/
 │   │   ├── RuntimeCanaryReporter.js ← Local critical report + optional endpoint
 │   │   └── runtimeCanaryChecks.js  ← Deterministic canvas/scene/loop checks
 │   └── combo/
-│       ├── ComboSystem.js          ← Dig combo multiplier
-│       └── HitstopSystem.js        ← Hit pause on tile break
+│       └── ComboSystem.js          ← Dig combo multiplier
 │
 ├── ui/                             ← UI components & scenes
 │   ├── admin/
@@ -302,6 +338,8 @@ See `markdown/archive-policy.md` for full details.
 | `values-system.md` | How to use the /values/ system |
 | `archive-policy.md` | What to archive & when to delete |
 | `design-documents/readme.md` | Canonical design authority and runtime-alignment register |
+| `2026-09-04-downward-dig-animation-runtime.md` | Three-stage DOWN/DOWN-SIDE chain, promoted assets, authored contacts, deferred loading, live-game evidence, and rollback |
+| `2026-09-03-contact-local-dig-impact-polish.md` | Current-sheet contact tips, local impact particles, timing corrections, save-disabled review and rollback |
 | `2026-07-30-fire-light-v3-runtime.md` | Fire-specific carried torch with five 4x4 ImageGen atlases, hand socket, first-solid local rays, eye adaptation, shader integration, validation, and complete/narrow rollbacks |
 | `2026-07-30-star-colour-identity-library.md` | Fifty authored Star colours, per-identity light/flavour, deterministic within-rarity selection, the I-key Star Atlas, health checks, and rollback |
 | `2026-07-30-star-colour-identity-library-v2.md` | 250 authored Star lights, preserved V1 indices, 62.5 MiB capped atlases, twelve-card paging, authored controls, health checks, and rollback |
@@ -311,6 +349,8 @@ See `markdown/archive-policy.md` for full details.
 | `2026-07-29-runtime-asset-loading-optimization.md` | Full-quality prioritized runtime loading, off-main-thread image decode, frame-budgeted GPU activation, telemetry, contracts, and rollback |
 | `2026-07-30-runtime-feature-residency-and-save-scheduling.md` | Measured 89-file Boot deferral, atomic full-quality feature residency, decoded-memory watermarks, selected Campfire loading, coalesced idle saves, lifecycle forcing, telemetry, rollback, and contracts |
 | `2026-07-28-star-block-crystal-popout-v2.md` | Approved Choice 1 Star Block art, exact one-to-one tile pop-out, delayed growth, calmer levitation, heavy echo trail, validation, and rollback |
+| `2026-08-31-loot-pickup-continuity-v2.md` | Exact world-to-flight-to-inventory pickup continuity for resources, special tiles, and 250 Stars, with deterministic dynamic routing and rarity moments |
+| `2026-09-01-audio-library-gap-expansion-v1.md` | Review-only 85-source audio library, gap matrix, paged decision UX, 24 public CC0 leads, and explicit production promotion gate |
 | `2026-08-26-star-block-openrouter-idle-v1.md` | Three budget-capped OpenRouter Star idle loops, motion-only extraction, 72-frame runtime atlas, exact 250-core preservation, WebGL QA, and rollback |
 | `2026-08-27-ground-damage-universal-v2-restoration.md` | Restores universal V2 as the production default after rejecting all V3-V6 resource-specific persistent damage responses |
 | `2026-08-26-expanded-ground-damage-library-v4.md` | Rejected comparison history for the 64-motif, 33-profile resource-specific V4 direction |
@@ -340,13 +380,17 @@ See `markdown/archive-policy.md` for full details.
 | `2026-07-30-surface-hero-landmarks-v4-runtime.md` | Seven physically scaled Level 2 hero landmarks, twenty-four deliberate prop suppressions, static depth/fade profiles, protected portals/Titans, actual live before/after evidence, validation, and exact rollback |
 | `2026-07-28-earthquake-polish-seismic-suppression.md` | Compact seismic UI, authored tile-hit feedback, permanent Level 11 earthquake suppression, persistence, validation, and rollback |
 | `2026-07-28-earthquake-dodge-audit-and-layering.md` | Production FallZone behavior, measured dodge window, exact tile/ground feedback, world layer stack, and regression coverage |
+| `2026-08-30-earthquake-event-cohesion-v2.md` | Earlier first discovery, cohesive aftershock lifecycle, urgent edge ranking, authored hit reaction, validation, and rollback |
 | `2026-07-28-starlight-talent-tree-runtime.md` | Shared ESC/Star Pillar talent tree, first-star reveals, three-Heart Engine mastery, safety caps, health checks, and rollback |
 | `2026-07-29-starlight-talent-tree-v3-polish.md` | Native ultra-wide ImageGen presentation, three-card carousels, proportional scaling, God Mode review, validation, and V2 rollback |
 | `2026-07-28-ui-notification-carousel.md` | Centered transient-card queue, seven-second per-selection timing, consumptive arrows, full-queue X, modal input isolation, and reduced floating-text default |
 | `2026-07-28-authored-mining-target-and-mouse-dig.md` | Image-backed corner targeting, adjacent primary-click digging, keyboard parity, final-hit removal, safety checks, and rollback |
-| `2026-07-30-depth-resource-economy-rebalance.md` | Continuous steep depth income, rarity yield/HP separation, richer deep composition, live Milestone bonuses, Deep Market progression, caps, health checks, measurements, and exact rollback |
+| `2026-07-30-depth-resource-economy-rebalance.md` | Historical rollout; current runtime retains continuous depth income, deeper material composition, Milestone bonuses, Deep Market progression, caps, health checks, and measurements while ordinary block rarity is retired |
 | `2026-08-26-understar-cinematic-video-pack.md` | Generated opening and first-Mossback runtime cinematics, cinematic companion trailer, two captioned vertical Steam-wishlist shorts, bounded cost/provenance, runtime wiring, verification, and rollback |
 | `2026-08-26-talent-and-depth-progression-rebalance.md` | Complete 33-node power/runtime and ten-Sign ability rebalance, including the five-star Wayward swarm, five-core Hollow Sun cluster, Stellar Lance piercing projectile replacement, GP activation economy, bounded Thunder/Quick Slash scaling, Star/depth economy, measurements, and rollback |
+| `2026-09-03-celestial-talent-and-skill-audit.md` | Current 33-node copy/rank audit, readable connector states, bounded power envelopes, and player-steered alternating Hollow Sun pulses |
+| `2026-09-03-celestial-talent-and-skill-audit.md` | Current 33-node copy/rank audit, readable connector states, bounded power envelopes, and player-steered alternating Hollow Sun pulses |
+| `2026-08-31-upgrade-rank-compression.md` | Fifteen repeatable merchant tracks compressed by 70-80%, with bundled prices, meaningful effects, explicit caps, and non-lossy version-2 save migration |
 | `2026-08-03-safe-asset-resolution-polish.md` | Full raster inventory, safe Ultra backing-density promotion, authored main-menu bitmap polish, live evidence, validation, and exact rollbacks |
 | `2026-08-15-survival-hero-quality-v4-benchmark.md` | Review-only six-family V4 material reconstruction, correct packed ORM routing, punch-first current/123/155 px action proofs, drift gates, and runtime/source isolation |
 | `2026-08-20-complex-dig-animation-runtime.md` | Approved ten-stage SIDE and Uppercut-only UP wiring, two native dual-contact clips, phase-locked moving/Jog composites, zero-drift Piskel polish, validation, and instant legacy rollback |
@@ -364,3 +408,31 @@ See `markdown/archive-policy.md` for full details.
 </content-file>
 </write_to_file>
 | `2026-07-30-starlight-talent-tree-v4-mockup-fidelity.md` | Approved mockup-ratio single-frame Starlight UI, full-shell ESC and Star Pillar integration, large choice/dossier art, responsive Phaser evidence, validation, and rollback |
+
+Cave visual composition and player grounding:
+[2026-09-05 Cave composition](2026-09-05-cave-composition.md).
+Includes depth grading, physical contact shadows, rollback and real-game review.
+
+
+## Destruction and pickup timing - 2026-09-05
+
+The current timing cleanup and native Phaser proof are in `testing/audio-destruction-pickup-2026-09-05/`; see `markdown/2026-09-05-destruction-pickup-audio-timing.md`. Five approved recordings now use short playback windows from `values/coreSfxWindows.js`. Only resource arrival owns pickup audio; XP cannot replay it later. Original files and review IDs are preserved. Prior audio comparisons remain historical snapshots.
+
+Encounter outcomes and UI text alignment:
+[2026-09-06 review and evidence](2026-09-06-event-outcomes-and-ui-alignment.md).
+
+- `2026-09-06-level-one-live-backgrounds-v6.md`: approved default Level 1 backgrounds, rare ambient birds/details, final ridge joins and real-game verification.
+
+`2026-09-07-quiet-menu-atmosphere.md` documents the six restrained menu/loading loops, local Tailwind/Radash integration, resource cleanup, generation costs and focused runtime verification.
+
+Town bed rest and checkpoint rules: [2026-09-07 Town bed rest](2026-09-07-town-bed-rest.md). Includes the baked prop/UI, accelerated clock/weather, free waking blessing, Ember refill and focused runtime evidence.
+
+`2026-09-07-session-awakening.md` records three varied session-entry awakenings, approved breathing/heartbeat audio, generated eyelid art, camera compatibility, and gameplay recordings.
+
+- [7 September: relevant Hints and public wiki release](2026-09-07-hints-and-wiki.md) — Esc field guide, useful search, current screenshots, public browser proof and guarded rollback.
+
+[Signal and Mia rescue](2026-09-07-signal-event.md) documents sparse calls, sound-off captions, tile-free minicamps, survivor choices, Mia's shop unlock and surface placement, explosive Signal risk, substantial-gift rewards, practice controls, verification and an optional permanent reward proposal.
+
+[2026-09-08 Initial boot and logo motion](2026-09-08-initial-boot-logo-motion.md)
+records the small launch graph, improved loading contrast, compact approved
+light loop, failure recovery and production candidate evidence.

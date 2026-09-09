@@ -103,7 +103,7 @@ function carveGapCave(worldModel, protectedMask, zone) {
       if (!RESOURCE_TYPES.has(worldModel.getTileType(tx, ty))) continue;
       if (!isInsideEllipse(tx, ty, zone.cx, zone.cy, wallRx, wallRy)) continue;
       const inside = isInsideEllipse(tx, ty, zone.cx, zone.cy, zone.rx, zone.ry);
-      worldModel.setTile(tx, ty, inside ? TILE_TYPES.AIR : TILE_TYPES.CAVE_WALL, 0);
+      if (inside) worldModel.setTile(tx, ty, TILE_TYPES.AIR, 0);
     }
   }
 

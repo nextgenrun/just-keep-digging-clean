@@ -39,11 +39,13 @@ export const GAME_CONFIG = Object.freeze({
     // High keeps a sharp 1920x1080 backing canvas while avoiding Ultra's
     // additional 44% pixel-fill cost. Ultra remains an explicit query opt-in.
     defaultDensityPreset: "high",
+    defaultDisplayDensityCap: 2, // Match large/HiDPI displays within the existing Ultra budget.
     densityPresets: Object.freeze({
       legacy: 1,
       balanced: 1,
       high: 1.5,
       ultra: 2,
+      uhd: 3, // Native 3840x2160 backing; explicit opt-in keeps default fill cost unchanged.
     }),
     query: Object.freeze({
       qualityParam: "renderQuality",

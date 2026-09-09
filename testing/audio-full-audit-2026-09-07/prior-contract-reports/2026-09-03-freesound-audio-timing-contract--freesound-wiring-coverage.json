@@ -1,0 +1,4518 @@
+{
+  "passed": true,
+  "checks": [
+    "Exact export: all 562 approvals, zero rejected/open entries, verified local derivatives",
+    "All active variants are reachable through bounded banks or stable site/episode selection",
+    "Actual mining dispatcher routes dirt, metal and crystal; Star destruction remains single",
+    "An unloaded contact warms future use and never replays from a loading callback",
+    "Distance and rock attenuation are monotonic; direction changes left/right and above/below",
+    "Star identity is stable; two-site handover is bounded; consumed Stars become silent",
+    "Panic follows actual bands, preserves voice across pause, and has a bounded recovery",
+    "Flight acceleration crosses one onset threshold, not one sound each frame",
+    "Loading, decoded residency, mute, teardown and priority admission are bounded",
+    "Menu UI warming survives inactive world ticks but never replays the past click",
+    "Structural detail and rumble follow context, silence and actual threat awareness",
+    "Dirt footsteps use the contacted floor; cave context cannot reuse overworld Stars or threats"
+  ],
+  "approved": 562,
+  "active": 341,
+  "exportHash": "9968a81d2fb652b749543e7e3c18bcf105975ab1952a533c31b5dab94ec62ed7",
+  "assets": [
+    {
+      "id": "freesound-418788",
+      "sourceRole": "panicPulse",
+      "role": "panicPulse",
+      "consumer": "PanicSoundscapeController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-418788.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-784656",
+      "sourceRole": "panicPulse",
+      "role": "panicPulse",
+      "consumer": "PanicSoundscapeController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-784656.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-332816",
+      "sourceRole": "panicSlow",
+      "role": "panicSlow",
+      "consumer": "PanicSoundscapeController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-332816.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-332817",
+      "sourceRole": "panicSlow",
+      "role": "panicSlow",
+      "consumer": "PanicSoundscapeController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-332817.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-332814",
+      "sourceRole": "panicSlow",
+      "role": "panicSlow",
+      "consumer": "PanicSoundscapeController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-332814.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-784655",
+      "sourceRole": "panicFast",
+      "role": "panicFast",
+      "consumer": "PanicSoundscapeController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-784655.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-332806",
+      "sourceRole": "panicFast",
+      "role": "panicFast",
+      "consumer": "PanicSoundscapeController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-332806.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-332813",
+      "sourceRole": "panicFast",
+      "role": "panicFast",
+      "consumer": "PanicSoundscapeController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-332813.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-254365",
+      "sourceRole": "panicPulse",
+      "role": "panicPulse",
+      "consumer": "PanicSoundscapeController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-254365.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-784657",
+      "sourceRole": "panicPulse",
+      "role": "panicPulse",
+      "consumer": "PanicSoundscapeController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-784657.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-332818",
+      "sourceRole": "panicSlow",
+      "role": "panicSlow",
+      "consumer": "PanicSoundscapeController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-332818.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-332808",
+      "sourceRole": "panicPulse",
+      "role": "panicPulse",
+      "consumer": "PanicSoundscapeController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-332808.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-332807",
+      "sourceRole": "panicFast",
+      "role": "panicFast",
+      "consumer": "PanicSoundscapeController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-332807.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-332815",
+      "sourceRole": "panicSlow",
+      "role": "panicSlow",
+      "consumer": "PanicSoundscapeController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-332815.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-332811",
+      "sourceRole": "panicFast",
+      "role": "panicFast",
+      "consumer": "PanicSoundscapeController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-332811.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-540905",
+      "sourceRole": "panicPulse",
+      "role": "panicPulse",
+      "consumer": "PanicSoundscapeController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-540905.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-855883",
+      "sourceRole": "panicPulse",
+      "role": "panicPulse",
+      "consumer": "PanicSoundscapeController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-855883.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-164644",
+      "sourceRole": "panicPulse",
+      "role": "panicPulse",
+      "consumer": "PanicSoundscapeController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-164644.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-324456",
+      "sourceRole": "panicPulse",
+      "role": "panicPulse",
+      "consumer": "PanicSoundscapeController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-324456.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-63028",
+      "sourceRole": "panicPulse",
+      "role": "panicPulse",
+      "consumer": "PanicSoundscapeController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-63028.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-410378",
+      "sourceRole": "panicPulse",
+      "role": "panicPulse",
+      "consumer": "PanicSoundscapeController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-410378.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-485786",
+      "sourceRole": "panicPulse",
+      "role": "panicPulse",
+      "consumer": "PanicSoundscapeController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-485786.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-384662",
+      "sourceRole": "panicPulse",
+      "role": "panicPulse",
+      "consumer": "PanicSoundscapeController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-384662.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-675719",
+      "sourceRole": "panicPulse",
+      "role": "panicPulse",
+      "consumer": "PanicSoundscapeController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-675719.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-333483",
+      "sourceRole": "panicPulse",
+      "role": "panicPulse",
+      "consumer": "PanicSoundscapeController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-333483.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-254062",
+      "sourceRole": "panicPulse",
+      "role": "panicPulse",
+      "consumer": "PanicSoundscapeController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-254062.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-791908",
+      "sourceRole": "panicPulse",
+      "role": "panicPulse",
+      "consumer": "PanicSoundscapeController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-791908.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-595050",
+      "sourceRole": "panicPulse",
+      "role": "panicPulse",
+      "consumer": "PanicSoundscapeController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-595050.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-136723",
+      "sourceRole": "panicPulse",
+      "role": "panicPulse",
+      "consumer": "PanicSoundscapeController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-136723.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-195312",
+      "sourceRole": "panicPulse",
+      "role": "panicPulse",
+      "consumer": "PanicSoundscapeController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-195312.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-145420",
+      "sourceRole": "panicPulse",
+      "role": "panicPulse",
+      "consumer": "PanicSoundscapeController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-145420.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-323714",
+      "sourceRole": "panicPulse",
+      "role": "panicPulse",
+      "consumer": "PanicSoundscapeController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-323714.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-666042",
+      "sourceRole": "panicFast",
+      "role": "panicFast",
+      "consumer": "PanicSoundscapeController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-666042.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-147338",
+      "sourceRole": "panicPulse",
+      "role": "panicPulse",
+      "consumer": "PanicSoundscapeController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-147338.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-851904",
+      "sourceRole": "panicPulse",
+      "role": "panicPulse",
+      "consumer": "PanicSoundscapeController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-851904.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-524935",
+      "sourceRole": "panicFast",
+      "role": "panicFast",
+      "consumer": "PanicSoundscapeController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-524935.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-545938",
+      "sourceRole": "panicFast",
+      "role": "panicFast",
+      "consumer": "PanicSoundscapeController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-545938.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-547434",
+      "sourceRole": "panicPulse",
+      "role": "panicPulse",
+      "consumer": "PanicSoundscapeController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-547434.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-616836",
+      "sourceRole": "panicPulse",
+      "role": "panicPulse",
+      "consumer": "PanicSoundscapeController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-616836.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-276578",
+      "sourceRole": "panicPulse",
+      "role": "panicPulse",
+      "consumer": "PanicSoundscapeController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-276578.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-347326",
+      "sourceRole": "panicFast",
+      "role": "panicFast",
+      "consumer": "PanicSoundscapeController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-347326.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-670465",
+      "sourceRole": "panicPulse",
+      "role": "panicPulse",
+      "consumer": "PanicSoundscapeController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-670465.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-387072",
+      "sourceRole": "panicPulse",
+      "role": "panicPulse",
+      "consumer": "PanicSoundscapeController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-387072.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-63027",
+      "sourceRole": "panicPulse",
+      "role": "panicPulse",
+      "consumer": "PanicSoundscapeController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-63027.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-588575",
+      "sourceRole": "panicPulse",
+      "role": "panicPulse",
+      "consumer": "PanicSoundscapeController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-588575.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-410390",
+      "sourceRole": "panicPulse",
+      "role": "panicPulse",
+      "consumer": "PanicSoundscapeController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-410390.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-485076",
+      "sourceRole": "panicPulse",
+      "role": "panicPulse",
+      "consumer": "PanicSoundscapeController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-485076.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-865357",
+      "sourceRole": "panicPulse",
+      "role": "panicPulse",
+      "consumer": "PanicSoundscapeController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-865357.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-675720",
+      "sourceRole": "panicFast",
+      "role": "panicFast",
+      "consumer": "PanicSoundscapeController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-675720.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-32858",
+      "sourceRole": "panicPulse",
+      "role": "panicPulse",
+      "consumer": "PanicSoundscapeController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-32858.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-34186",
+      "sourceRole": "quakeRumble",
+      "role": "quakeRumble",
+      "consumer": "FreesoundAudioDirector.update (aware threat)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-34186.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-636348",
+      "sourceRole": "quakeRumble",
+      "role": "quakeRumble",
+      "consumer": "FreesoundAudioDirector.update (aware threat)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-636348.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-636347",
+      "sourceRole": "quakeRumble",
+      "role": "quakeRumble",
+      "consumer": "FreesoundAudioDirector.update (aware threat)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-636347.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-636344",
+      "sourceRole": "quakeRumble",
+      "role": "quakeRumble",
+      "consumer": "FreesoundAudioDirector.update (aware threat)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-636344.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-462936",
+      "sourceRole": "quakeRumble",
+      "role": "quakeRumble",
+      "consumer": "FreesoundAudioDirector.update (aware threat)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-462936.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-337850",
+      "sourceRole": "quakeRumble",
+      "role": "quakeRumble",
+      "consumer": "FreesoundAudioDirector.update (aware threat)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-337850.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-166466",
+      "sourceRole": "quakeRumble",
+      "role": "quakeRumble",
+      "consumer": "FreesoundAudioDirector.update (aware threat)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-166466.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-737848",
+      "sourceRole": "quakeRumble",
+      "role": "quakeRumble",
+      "consumer": "FreesoundAudioDirector.update (aware threat)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-737848.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-778362",
+      "sourceRole": "quakeRumble",
+      "role": "quakeRumble",
+      "consumer": "FreesoundAudioDirector.update (aware threat)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-778362.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-453406",
+      "sourceRole": "quakeRumble",
+      "role": "quakeRumble",
+      "consumer": "FreesoundAudioDirector.update (aware threat)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-453406.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-386556",
+      "sourceRole": "quakeRumble",
+      "role": "quakeRumble",
+      "consumer": "FreesoundAudioDirector.update (aware threat)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-386556.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-737849",
+      "sourceRole": "quakeRumble",
+      "role": "quakeRumble",
+      "consumer": "FreesoundAudioDirector.update (aware threat)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-737849.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-132872",
+      "sourceRole": "quakeRumble",
+      "role": "quakeRumble",
+      "consumer": "FreesoundAudioDirector.update (aware threat)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-132872.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-132870",
+      "sourceRole": "quakeRumble",
+      "role": "quakeRumble",
+      "consumer": "FreesoundAudioDirector.update (aware threat)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-132870.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-132869",
+      "sourceRole": "quakeRumble",
+      "role": "quakeRumble",
+      "consumer": "FreesoundAudioDirector.update (aware threat)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-132869.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-132868",
+      "sourceRole": "quakeRumble",
+      "role": "quakeRumble",
+      "consumer": "FreesoundAudioDirector.update (aware threat)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-132868.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-811480",
+      "sourceRole": "quakeRumble",
+      "role": "quakeRumble",
+      "consumer": "FreesoundAudioDirector.update (aware threat)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-811480.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-811479",
+      "sourceRole": "quakeRumble",
+      "role": "quakeRumble",
+      "consumer": "FreesoundAudioDirector.update (aware threat)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-811479.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-353973",
+      "sourceRole": "quakeRumble",
+      "role": "quakeRumble",
+      "consumer": "FreesoundAudioDirector.update (aware threat)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-353973.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-815892",
+      "sourceRole": "quakeRumble",
+      "role": "quakeRumble",
+      "consumer": "FreesoundAudioDirector.update (aware threat)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-815892.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-815891",
+      "sourceRole": "quakeRumble",
+      "role": "quakeRumble",
+      "consumer": "FreesoundAudioDirector.update (aware threat)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-815891.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-815884",
+      "sourceRole": "quakeRumble",
+      "role": "quakeRumble",
+      "consumer": "FreesoundAudioDirector.update (aware threat)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-815884.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-266410",
+      "sourceRole": "quakeRumble",
+      "role": "quakeRumble",
+      "consumer": "FreesoundAudioDirector.update (aware threat)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-266410.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-842354",
+      "sourceRole": "quakeRumble",
+      "role": "quakeRumble",
+      "consumer": "FreesoundAudioDirector.update (aware threat)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-842354.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-364222",
+      "sourceRole": "quakeRumble",
+      "role": "quakeRumble",
+      "consumer": "FreesoundAudioDirector.update (aware threat)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-364222.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-76262",
+      "sourceRole": "quakeRumble",
+      "role": "quakeRumble",
+      "consumer": "FreesoundAudioDirector.update (aware threat)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-76262.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-346109",
+      "sourceRole": "quakeRumble",
+      "role": "quakeRumble",
+      "consumer": "FreesoundAudioDirector.update (aware threat)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-346109.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-116644",
+      "sourceRole": "quakeRumble",
+      "role": "quakeRumble",
+      "consumer": "FreesoundAudioDirector.update (aware threat)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-116644.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-784652",
+      "sourceRole": "quakeRumble",
+      "role": "quakeRumble",
+      "consumer": "FreesoundAudioDirector.update (aware threat)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-784652.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-316096",
+      "sourceRole": "quakeRumble",
+      "role": "quakeRumble",
+      "consumer": "FreesoundAudioDirector.update (aware threat)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-316096.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-75364",
+      "sourceRole": "quakeRumble",
+      "role": "quakeRumble",
+      "consumer": "FreesoundAudioDirector.update (aware threat)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-75364.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-261253",
+      "sourceRole": "quakeRumble",
+      "role": "quakeRumble",
+      "consumer": "FreesoundAudioDirector.update (aware threat)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-261253.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-261246",
+      "sourceRole": "quakeRumble",
+      "role": "quakeRumble",
+      "consumer": "FreesoundAudioDirector.update (aware threat)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-261246.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-431390",
+      "sourceRole": "quakeRumble",
+      "role": "quakeRumble",
+      "consumer": "FreesoundAudioDirector.update (aware threat)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-431390.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-719637",
+      "sourceRole": "flightWhoosh",
+      "role": "flightWhoosh",
+      "consumer": "FreesoundAudioDirector.observeFlight",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-719637.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-719636",
+      "sourceRole": "flightWhoosh",
+      "role": "flightWhoosh",
+      "consumer": "FreesoundAudioDirector.observeFlight",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-719636.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-60026",
+      "sourceRole": "flightWhoosh",
+      "role": "flightWhoosh",
+      "consumer": "FreesoundAudioDirector.observeFlight",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-60026.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-60030",
+      "sourceRole": "flightWhoosh",
+      "role": "flightWhoosh",
+      "consumer": "FreesoundAudioDirector.observeFlight",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-60030.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-73262",
+      "sourceRole": "flightWhoosh",
+      "role": "flightWhoosh",
+      "consumer": "FreesoundAudioDirector.observeFlight",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-73262.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-733890",
+      "sourceRole": "flightWhoosh",
+      "role": "flightWhoosh",
+      "consumer": "FreesoundAudioDirector.observeFlight",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-733890.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-73263",
+      "sourceRole": "flightWhoosh",
+      "role": "flightWhoosh",
+      "consumer": "FreesoundAudioDirector.observeFlight",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-73263.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-817959",
+      "sourceRole": "flightWhoosh",
+      "role": "flightWhoosh",
+      "consumer": "FreesoundAudioDirector.observeFlight",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-817959.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-817958",
+      "sourceRole": "flightWhoosh",
+      "role": "flightWhoosh",
+      "consumer": "FreesoundAudioDirector.observeFlight",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-817958.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-701104",
+      "sourceRole": "flightWhoosh",
+      "role": "flightWhoosh",
+      "consumer": "FreesoundAudioDirector.observeFlight",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-701104.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-166511",
+      "sourceRole": "footstepDirt",
+      "role": "footstepDirt",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-166511.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-477394",
+      "sourceRole": "footstepDirt",
+      "role": "footstepDirt",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-477394.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-477392",
+      "sourceRole": "footstepDirt",
+      "role": "footstepDirt",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-477392.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-477391",
+      "sourceRole": "footstepDirt",
+      "role": "footstepDirt",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-477391.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-477390",
+      "sourceRole": "footstepDirt",
+      "role": "footstepDirt",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-477390.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-477396",
+      "sourceRole": "footstepDirt",
+      "role": "footstepDirt",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-477396.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-223154",
+      "sourceRole": "footstepDirt",
+      "role": "footstepDirt",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-223154.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-166510",
+      "sourceRole": "footstepDirt",
+      "role": "footstepDirt",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-166510.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-223153",
+      "sourceRole": "footstepDirt",
+      "role": "footstepDirt",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-223153.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-477395",
+      "sourceRole": "footstepDirt",
+      "role": "footstepDirt",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-477395.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-477393",
+      "sourceRole": "footstepDirt",
+      "role": "footstepDirt",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-477393.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-620337",
+      "sourceRole": "footstepDirt",
+      "role": "footstepDirt",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-620337.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-620336",
+      "sourceRole": "footstepDirt",
+      "role": "footstepDirt",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-620336.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-620335",
+      "sourceRole": "footstepDirt",
+      "role": "footstepDirt",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-620335.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-270420",
+      "sourceRole": "footstepDirt",
+      "role": "footstepDirt",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-270420.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-270419",
+      "sourceRole": "footstepDirt",
+      "role": "footstepDirt",
+      "consumer": "SoundSystem.playFootstep",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-270419.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-270418",
+      "sourceRole": "footstepDirt",
+      "role": "footstepDirt",
+      "consumer": "SoundSystem.playFootstep",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-270418.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-270417",
+      "sourceRole": "footstepDirt",
+      "role": "footstepDirt",
+      "consumer": "SoundSystem.playFootstep",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-270417.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-270416",
+      "sourceRole": "footstepDirt",
+      "role": "footstepDirt",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-270416.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-270415",
+      "sourceRole": "footstepDirt",
+      "role": "footstepDirt",
+      "consumer": "SoundSystem.playFootstep",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-270415.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-270414",
+      "sourceRole": "footstepDirt",
+      "role": "footstepDirt",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-270414.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-270413",
+      "sourceRole": "footstepDirt",
+      "role": "footstepDirt",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-270413.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-270412",
+      "sourceRole": "footstepDirt",
+      "role": "footstepDirt",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-270412.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-270421",
+      "sourceRole": "footstepDirt",
+      "role": "footstepDirt",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-270421.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-620339",
+      "sourceRole": "footstepDirt",
+      "role": "footstepDirt",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-620339.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-620338",
+      "sourceRole": "footstepDirt",
+      "role": "footstepDirt",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-620338.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-620340",
+      "sourceRole": "footstepDirt",
+      "role": "footstepDirt",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-620340.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-487863",
+      "sourceRole": "footstepDirt",
+      "role": "footstepDirt",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-487863.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-487869",
+      "sourceRole": "footstepDirt",
+      "role": "footstepDirt",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-487869.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-487862",
+      "sourceRole": "footstepDirt",
+      "role": "footstepDirt",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-487862.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-487864",
+      "sourceRole": "footstepDirt",
+      "role": "footstepDirt",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-487864.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-370367",
+      "sourceRole": "footstepDirt",
+      "role": "footstepDirt",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-370367.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-651293",
+      "sourceRole": "mineEarth",
+      "role": "mineEarth",
+      "consumer": "SoundSystem.playDig",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-651293.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-651292",
+      "sourceRole": "mineEarth",
+      "role": "mineEarth",
+      "consumer": "SoundSystem.playDig",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-651292.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-213005",
+      "sourceRole": "mineEarth",
+      "role": "mineEarth",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-213005.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-540264",
+      "sourceRole": "mineEarth",
+      "role": "mineEarth",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-540264.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-70112",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-70112.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-70110",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-70110.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-70109",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-70109.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-177219",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-177219.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-70108",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-70108.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-177212",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-177212.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-177217",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-177217.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-177216",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-177216.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-177215",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-177215.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-177214",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-177214.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-177213",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-177213.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-177211",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-177211.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-177210",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-177210.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-177223",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-177223.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-793540",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-793540.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-723875",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-723875.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-263927",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-263927.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-263922",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-263922.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-263921",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-263921.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-263919",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-263919.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-263914",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-263914.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-263909",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-263909.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-263907",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-263907.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-85453",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-85453.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-263933",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-263933.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-263924",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-263924.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-263931",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-263931.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-263925",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-263925.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-263923",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-263923.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-263920",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-263920.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-263917",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-263917.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-263915",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-263915.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-263910",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-263910.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-263906",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-263906.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-263905",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-263905.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-263908",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-263908.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-89771",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-89771.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-263929",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-263929.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-527322",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-527322.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-329744",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-329744.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-661830",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-661830.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-263913",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-263913.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-263928",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-263928.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-263904",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-263904.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-263926",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-263926.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-263918",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-263918.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-527325",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-527325.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-527324",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-527324.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-426204",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-426204.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-426205",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-426205.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-621138",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-621138.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-52146",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-52146.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-52145",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-52145.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-52143",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-52143.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-52147",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-52147.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-52150",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-52150.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-52149",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-52149.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-52148",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-52148.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-52151",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-52151.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-52144",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-52144.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-249192",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-249192.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-720087",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-720087.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-591152",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-591152.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-819719",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-819719.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-819722",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-819722.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-819721",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-819721.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-819720",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-819720.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-549014",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-549014.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-665085",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-665085.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-233698",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-233698.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-703115",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": "SoundSystem.playTileBreak",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-703115.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-719973",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-719973.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-418194",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-418194.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-611427",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-611427.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-119452",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-119452.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-536921",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": "SoundSystem.playTileBreak",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-536921.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-808016",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-808016.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-767348",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-767348.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-685253",
+      "sourceRole": "crystalBreak",
+      "role": "crystalBreak",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-685253.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-406491",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-406491.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-854927",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-854927.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-854926",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-854926.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-406528",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-406528.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-406559",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-406559.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-854929",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-854929.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-406561",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-406561.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-406557",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-406557.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-406560",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-406560.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-406492",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-406492.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-406556",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-406556.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-160124",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-160124.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-160123",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-160123.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-160120",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-160120.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-160088",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-160088.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-160078",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-160078.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-160075",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-160075.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-160074",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-160074.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-160073",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-160073.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-160058",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-160058.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-160056",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-160056.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-160055",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-160055.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-160046",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-160046.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-160044",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-160044.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-160042",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-160042.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-160027",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-160027.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-160024",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-160024.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-160022",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-160022.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-160020",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-160020.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-160019",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-160019.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-160008",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-160008.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-514413",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-514413.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-514412",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-514412.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-514411",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-514411.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-514409",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-514409.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-514393",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-514393.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-514392",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-514392.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-514391",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-514391.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-514390",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-514390.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-514389",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-514389.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-514388",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-514388.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-337854",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-337854.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-176673",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-176673.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-160089",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-160089.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-176675",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-176675.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-160081",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-160081.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-514414",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-514414.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-160079",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-160079.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-337871",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-337871.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-337870",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-337870.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-337869",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-337869.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-337867",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-337867.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-160025",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-160025.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-176669",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-176669.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-160043",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-160043.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-160045",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-160045.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-337873",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-337873.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-337868",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-337868.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-337845",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-337845.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-160122",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-160122.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-160121",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-160121.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-176674",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-176674.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-104373",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-104373.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-334420",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-334420.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-468837",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-468837.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-405665",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-405665.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-410364",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-410364.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-337833",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-337833.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-334419",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-334419.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-556926",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-556926.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-556925",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-556925.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-556924",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-556924.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-556923",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-556923.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-556918",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-556918.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-556917",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-556917.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-556915",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-556915.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-556914",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-556914.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-406524",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-406524.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-406523",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-406523.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-406522",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-406522.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-556922",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-556922.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-406525",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-406525.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-406494",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-406494.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-556920",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-556920.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-556916",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-556916.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-406490",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-406490.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-556927",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-556927.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-406558",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-406558.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-671097",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-671097.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-160034",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-160034.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-160032",
+      "sourceRole": "mineMetal",
+      "role": "mineMetal",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-160032.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-760565",
+      "sourceRole": "mineStone",
+      "role": "mineStone",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-760565.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-728758",
+      "sourceRole": "mineStone",
+      "role": "mineMetal",
+      "consumer": "SoundSystem.playDig",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-728758.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-728757",
+      "sourceRole": "mineStone",
+      "role": "mineMetal",
+      "consumer": "SoundSystem.playDig",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-728757.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-728756",
+      "sourceRole": "mineStone",
+      "role": "mineMetal",
+      "consumer": "SoundSystem.playDig",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-728756.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-728759",
+      "sourceRole": "mineStone",
+      "role": "mineMetal",
+      "consumer": "SoundSystem.playDig",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-728759.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-760566",
+      "sourceRole": "mineStone",
+      "role": "mineStone",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-760566.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-233630",
+      "sourceRole": "mineStone",
+      "role": "mineStone",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-233630.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-760567",
+      "sourceRole": "mineStone",
+      "role": "mineStone",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-760567.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-674386",
+      "sourceRole": "mineStone",
+      "role": "mineStone",
+      "consumer": "SoundSystem.playDig",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-674386.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-674385",
+      "sourceRole": "mineStone",
+      "role": "mineStone",
+      "consumer": "SoundSystem.playDig",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-674385.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-674384",
+      "sourceRole": "mineStone",
+      "role": "mineStone",
+      "consumer": "SoundSystem.playDig",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-674384.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-674388",
+      "sourceRole": "mineStone",
+      "role": "mineStone",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-674388.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-674389",
+      "sourceRole": "mineStone",
+      "role": "mineStone",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-674389.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-431019",
+      "sourceRole": "mineStone",
+      "role": "mineStone",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-431019.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-524312",
+      "sourceRole": "mineStone",
+      "role": "mineStone",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-524312.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-17289",
+      "sourceRole": "mineStone",
+      "role": "mineStone",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-17289.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-201919",
+      "sourceRole": "mineStone",
+      "role": "mineStone",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-201919.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-843338",
+      "sourceRole": "mineStone",
+      "role": "mineStone",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-843338.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-815336",
+      "sourceRole": "mineStone",
+      "role": "mineStone",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-815336.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-276219",
+      "sourceRole": "coinPickup",
+      "role": "coinPickup",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-276219.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-276187",
+      "sourceRole": "coinReward",
+      "role": "coinReward",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-276187.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-276186",
+      "sourceRole": "coinReward",
+      "role": "coinReward",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-276186.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-276168",
+      "sourceRole": "coinPickup",
+      "role": "coinPickup",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-276168.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-853707",
+      "sourceRole": "coinReward",
+      "role": "coinReward",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-853707.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-336934",
+      "sourceRole": "coinPickup",
+      "role": "coinPickup",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-336934.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-623077",
+      "sourceRole": "coinReward",
+      "role": "coinReward",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-623077.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-573373",
+      "sourceRole": "coinReward",
+      "role": "coinReward",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-573373.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-573371",
+      "sourceRole": "coinReward",
+      "role": "coinReward",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-573371.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-573370",
+      "sourceRole": "coinReward",
+      "role": "coinReward",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-573370.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-573361",
+      "sourceRole": "coinPickup",
+      "role": "coinPickup",
+      "consumer": "SoundSystem.playPurchase",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-573361.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-573354",
+      "sourceRole": "coinPickup",
+      "role": "coinPickup",
+      "consumer": "SoundSystem.playPurchase",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-573354.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-573353",
+      "sourceRole": "coinPickup",
+      "role": "coinReward",
+      "consumer": "SoundSystem.playCoinReward",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-573353.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-573352",
+      "sourceRole": "coinPickup",
+      "role": "coinReward",
+      "consumer": "SoundSystem.playCoinReward",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-573352.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-573350",
+      "sourceRole": "coinReward",
+      "role": "coinReward",
+      "consumer": null,
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-573350.ogg",
+      "runtimeWired": false
+    },
+    {
+      "id": "freesound-522116",
+      "sourceRole": "starGrain",
+      "role": "starGrain",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-522116.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-459612",
+      "sourceRole": "starGrain",
+      "role": "starGrain",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-459612.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-532159",
+      "sourceRole": "starGrain",
+      "role": "starGrain",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-532159.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-685560",
+      "sourceRole": "starGrain",
+      "role": "starGrain",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-685560.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-87040",
+      "sourceRole": "starAccent",
+      "role": "starAccent",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-87040.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-542686",
+      "sourceRole": "starGrain",
+      "role": "starGrain",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-542686.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-246207",
+      "sourceRole": "starGrain",
+      "role": "starGrain",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-246207.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-686836",
+      "sourceRole": "starAccent",
+      "role": "starAccent",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-686836.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-382776",
+      "sourceRole": "starGrain",
+      "role": "starGrain",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-382776.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-249609",
+      "sourceRole": "starGrain",
+      "role": "starGrain",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-249609.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-585798",
+      "sourceRole": "starGrain",
+      "role": "starGrain",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-585798.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-103333",
+      "sourceRole": "starAccent",
+      "role": "starAccent",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-103333.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-420651",
+      "sourceRole": "starAccent",
+      "role": "starAccent",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-420651.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-238596",
+      "sourceRole": "starGrain",
+      "role": "starGrain",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-238596.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-238598",
+      "sourceRole": "starGrain",
+      "role": "starGrain",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-238598.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-238597",
+      "sourceRole": "starGrain",
+      "role": "starGrain",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-238597.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-644432",
+      "sourceRole": "starGrain",
+      "role": "starGrain",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-644432.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-765160",
+      "sourceRole": "starAccent",
+      "role": "starAccent",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-765160.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-30774",
+      "sourceRole": "starAccent",
+      "role": "starAccent",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-30774.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-139663",
+      "sourceRole": "starAccent",
+      "role": "starAccent",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-139663.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-864837",
+      "sourceRole": "starAccent",
+      "role": "starAccent",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-864837.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-817233",
+      "sourceRole": "starAccent",
+      "role": "starAccent",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-817233.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-691021",
+      "sourceRole": "starAccent",
+      "role": "starAccent",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-691021.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-423221",
+      "sourceRole": "starHum",
+      "role": "starHum",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-423221.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-530974",
+      "sourceRole": "starAccent",
+      "role": "starAccent",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-530974.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-702631",
+      "sourceRole": "starHum",
+      "role": "starHum",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-702631.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-349704",
+      "sourceRole": "starHum",
+      "role": "starHum",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-349704.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-703383",
+      "sourceRole": "starAccent",
+      "role": "starAccent",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-703383.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-812392",
+      "sourceRole": "starHum",
+      "role": "starHum",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-812392.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-766085",
+      "sourceRole": "starAccent",
+      "role": "starAccent",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-766085.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-849807",
+      "sourceRole": "starAccent",
+      "role": "starAccent",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-849807.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-767162",
+      "sourceRole": "starAccent",
+      "role": "starAccent",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-767162.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-791981",
+      "sourceRole": "starAccent",
+      "role": "starAccent",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-791981.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-709257",
+      "sourceRole": "starAccent",
+      "role": "starAccent",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-709257.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-849806",
+      "sourceRole": "starHum",
+      "role": "starHum",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-849806.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-585615",
+      "sourceRole": "starHum",
+      "role": "starHum",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-585615.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-849380",
+      "sourceRole": "starHum",
+      "role": "starHum",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-849380.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-835898",
+      "sourceRole": "starHum",
+      "role": "starHum",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-835898.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-752035",
+      "sourceRole": "starAccent",
+      "role": "starAccent",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-752035.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-720416",
+      "sourceRole": "starAccent",
+      "role": "starAccent",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-720416.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-534345",
+      "sourceRole": "starAccent",
+      "role": "starAccent",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-534345.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-749979",
+      "sourceRole": "starAccent",
+      "role": "starAccent",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-749979.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-825284",
+      "sourceRole": "starAccent",
+      "role": "starAccent",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-825284.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-33507",
+      "sourceRole": "starAccent",
+      "role": "starAccent",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-33507.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-726230",
+      "sourceRole": "starAccent",
+      "role": "starAccent",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-726230.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-726224",
+      "sourceRole": "starAccent",
+      "role": "starAccent",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-726224.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-726223",
+      "sourceRole": "starAccent",
+      "role": "starAccent",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-726223.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-726222",
+      "sourceRole": "starAccent",
+      "role": "starAccent",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-726222.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-726220",
+      "sourceRole": "starAccent",
+      "role": "starAccent",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-726220.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-726219",
+      "sourceRole": "starAccent",
+      "role": "starAccent",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-726219.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-726183",
+      "sourceRole": "starAccent",
+      "role": "starAccent",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-726183.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-726181",
+      "sourceRole": "starAccent",
+      "role": "starAccent",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-726181.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-726169",
+      "sourceRole": "starAccent",
+      "role": "starAccent",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-726169.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-726167",
+      "sourceRole": "starAccent",
+      "role": "starAccent",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-726167.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-726166",
+      "sourceRole": "starAccent",
+      "role": "starAccent",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-726166.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-726164",
+      "sourceRole": "starAccent",
+      "role": "starAccent",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-726164.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-726163",
+      "sourceRole": "starAccent",
+      "role": "starAccent",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-726163.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-726160",
+      "sourceRole": "starAccent",
+      "role": "starAccent",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-726160.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-726156",
+      "sourceRole": "starAccent",
+      "role": "starAccent",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-726156.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-726154",
+      "sourceRole": "starAccent",
+      "role": "starAccent",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-726154.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-726150",
+      "sourceRole": "starAccent",
+      "role": "starAccent",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-726150.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-726149",
+      "sourceRole": "starAccent",
+      "role": "starAccent",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-726149.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-726148",
+      "sourceRole": "starAccent",
+      "role": "starAccent",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-726148.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-726145",
+      "sourceRole": "starAccent",
+      "role": "starAccent",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-726145.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-726143",
+      "sourceRole": "starAccent",
+      "role": "starAccent",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-726143.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-726140",
+      "sourceRole": "starAccent",
+      "role": "starAccent",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-726140.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-726136",
+      "sourceRole": "starAccent",
+      "role": "starAccent",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-726136.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-726131",
+      "sourceRole": "starAccent",
+      "role": "starAccent",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-726131.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-726128",
+      "sourceRole": "starAccent",
+      "role": "starAccent",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-726128.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-726126",
+      "sourceRole": "starAccent",
+      "role": "starAccent",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-726126.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-726123",
+      "sourceRole": "starAccent",
+      "role": "starAccent",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-726123.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-726122",
+      "sourceRole": "starAccent",
+      "role": "starAccent",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-726122.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-726121",
+      "sourceRole": "starAccent",
+      "role": "starAccent",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-726121.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-726227",
+      "sourceRole": "starAccent",
+      "role": "starAccent",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-726227.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-726225",
+      "sourceRole": "starAccent",
+      "role": "starAccent",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-726225.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-848195",
+      "sourceRole": "starAccent",
+      "role": "starAccent",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-848195.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-848194",
+      "sourceRole": "starAccent",
+      "role": "starAccent",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-848194.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-861431",
+      "sourceRole": "starAccent",
+      "role": "starAccent",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-861431.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-848196",
+      "sourceRole": "starAccent",
+      "role": "starAccent",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-848196.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-861430",
+      "sourceRole": "starAccent",
+      "role": "starAccent",
+      "consumer": "StarSoundPocketController.update",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-861430.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-475188",
+      "sourceRole": "uiClick",
+      "role": "uiClick",
+      "consumer": "SoundSystem.playUiClick",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-475188.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-707039",
+      "sourceRole": "uiClick",
+      "role": "uiClick",
+      "consumer": "SoundSystem.playUiClick",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-707039.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-707038",
+      "sourceRole": "uiClick",
+      "role": "uiClick",
+      "consumer": "SoundSystem.playUiClick",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-707038.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-707040",
+      "sourceRole": "uiClick",
+      "role": "uiClick",
+      "consumer": "SoundSystem.playUiClick",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-707040.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-707041",
+      "sourceRole": "uiClick",
+      "role": "uiClick",
+      "consumer": "SoundSystem.playUiClick",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-707041.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-707042",
+      "sourceRole": "uiClick",
+      "role": "uiClick",
+      "consumer": "SoundSystem.playUiClick",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-707042.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-107150",
+      "sourceRole": "uiClick",
+      "role": "uiClick",
+      "consumer": "SoundSystem.playUiClick",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-107150.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-107143",
+      "sourceRole": "uiClick",
+      "role": "uiClick",
+      "consumer": "SoundSystem.playUiClick",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-107143.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-107141",
+      "sourceRole": "uiClick",
+      "role": "uiClick",
+      "consumer": "SoundSystem.playUiClick",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-107141.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-107133",
+      "sourceRole": "uiClick",
+      "role": "uiClick",
+      "consumer": "SoundSystem.playUiClick",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-107133.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-107129",
+      "sourceRole": "uiClick",
+      "role": "uiClick",
+      "consumer": "SoundSystem.playUiClick",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-107129.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-107152",
+      "sourceRole": "uiClick",
+      "role": "uiClick",
+      "consumer": "SoundSystem.playUiClick",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-107152.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-107151",
+      "sourceRole": "uiClick",
+      "role": "uiClick",
+      "consumer": "SoundSystem.playUiClick",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-107151.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-107149",
+      "sourceRole": "uiClick",
+      "role": "uiClick",
+      "consumer": "SoundSystem.playUiClick",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-107149.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-107138",
+      "sourceRole": "uiClick",
+      "role": "uiClick",
+      "consumer": "SoundSystem.playUiClick",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-107138.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-107147",
+      "sourceRole": "uiClick",
+      "role": "uiClick",
+      "consumer": "SoundSystem.playUiClick",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-107147.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-107146",
+      "sourceRole": "uiClick",
+      "role": "uiClick",
+      "consumer": "SoundSystem.playUiClick",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-107146.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-107137",
+      "sourceRole": "uiClick",
+      "role": "uiClick",
+      "consumer": "SoundSystem.playUiClick",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-107137.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-107127",
+      "sourceRole": "uiClick",
+      "role": "uiClick",
+      "consumer": "SoundSystem.playUiClick",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-107127.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-107130",
+      "sourceRole": "uiClick",
+      "role": "uiClick",
+      "consumer": "SoundSystem.playUiClick",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-107130.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-107136",
+      "sourceRole": "uiClick",
+      "role": "uiClick",
+      "consumer": "SoundSystem.playUiClick",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-107136.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-107128",
+      "sourceRole": "uiClick",
+      "role": "uiClick",
+      "consumer": "SoundSystem.playUiClick",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-107128.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-448080",
+      "sourceRole": "uiClick",
+      "role": "uiClick",
+      "consumer": "SoundSystem.playUiClick",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-448080.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-342200",
+      "sourceRole": "uiClick",
+      "role": "uiClick",
+      "consumer": "SoundSystem.playUiClick",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-342200.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-343015",
+      "sourceRole": "uiClick",
+      "role": "uiClick",
+      "consumer": "SoundSystem.playUiClick",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-343015.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-343000",
+      "sourceRole": "uiClick",
+      "role": "uiClick",
+      "consumer": "SoundSystem.playUiClick",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-343000.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-342999",
+      "sourceRole": "uiClick",
+      "role": "uiClick",
+      "consumer": "SoundSystem.playUiClick",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-342999.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-343018",
+      "sourceRole": "uiClick",
+      "role": "uiClick",
+      "consumer": "SoundSystem.playUiClick",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-343018.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-343010",
+      "sourceRole": "uiClick",
+      "role": "uiClick",
+      "consumer": "SoundSystem.playUiClick",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-343010.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-343017",
+      "sourceRole": "uiClick",
+      "role": "uiClick",
+      "consumer": "SoundSystem.playUiClick",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-343017.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-343019",
+      "sourceRole": "uiClick",
+      "role": "uiClick",
+      "consumer": "SoundSystem.playUiClick",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-343019.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-343004",
+      "sourceRole": "uiClick",
+      "role": "uiClick",
+      "consumer": "SoundSystem.playUiClick",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-343004.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-343009",
+      "sourceRole": "uiClick",
+      "role": "uiClick",
+      "consumer": "SoundSystem.playUiClick",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-343009.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-343002",
+      "sourceRole": "uiClick",
+      "role": "uiClick",
+      "consumer": "SoundSystem.playUiClick",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-343002.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-343001",
+      "sourceRole": "uiClick",
+      "role": "uiClick",
+      "consumer": "SoundSystem.playUiClick",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-343001.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-342998",
+      "sourceRole": "uiClick",
+      "role": "uiClick",
+      "consumer": "SoundSystem.playUiClick",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-342998.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-343005",
+      "sourceRole": "uiClick",
+      "role": "uiClick",
+      "consumer": "SoundSystem.playUiClick",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-343005.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-342997",
+      "sourceRole": "uiClick",
+      "role": "uiClick",
+      "consumer": "SoundSystem.playUiClick",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-342997.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-343014",
+      "sourceRole": "uiClick",
+      "role": "uiClick",
+      "consumer": "SoundSystem.playUiClick",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-343014.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-343012",
+      "sourceRole": "uiClick",
+      "role": "uiClick",
+      "consumer": "SoundSystem.playUiClick",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-343012.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-342996",
+      "sourceRole": "uiClick",
+      "role": "uiClick",
+      "consumer": "SoundSystem.playUiClick",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-342996.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-322228",
+      "sourceRole": "uiClick",
+      "role": "uiClick",
+      "consumer": "SoundSystem.playUiClick",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-322228.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-343011",
+      "sourceRole": "uiClick",
+      "role": "uiClick",
+      "consumer": "SoundSystem.playUiClick",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-343011.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-493551",
+      "sourceRole": "uiClick",
+      "role": "uiClick",
+      "consumer": "SoundSystem.playUiClick",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-493551.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-343003",
+      "sourceRole": "uiClick",
+      "role": "uiClick",
+      "consumer": "SoundSystem.playUiClick",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-343003.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-343020",
+      "sourceRole": "uiClick",
+      "role": "uiClick",
+      "consumer": "SoundSystem.playUiClick",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-343020.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-538727",
+      "sourceRole": "uiClick",
+      "role": "uiClick",
+      "consumer": "SoundSystem.playUiClick",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-538727.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-721503",
+      "sourceRole": "uiClick",
+      "role": "uiClick",
+      "consumer": "SoundSystem.playUiClick",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-721503.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-343016",
+      "sourceRole": "uiClick",
+      "role": "uiClick",
+      "consumer": "SoundSystem.playUiClick",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-343016.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-343008",
+      "sourceRole": "uiClick",
+      "role": "uiClick",
+      "consumer": "SoundSystem.playUiClick",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-343008.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-343007",
+      "sourceRole": "uiClick",
+      "role": "uiClick",
+      "consumer": "SoundSystem.playUiClick",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-343007.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-343006",
+      "sourceRole": "uiClick",
+      "role": "uiClick",
+      "consumer": "SoundSystem.playUiClick",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-343006.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-288908",
+      "sourceRole": "uiClick",
+      "role": "uiClick",
+      "consumer": "SoundSystem.playUiClick",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-288908.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-288911",
+      "sourceRole": "uiClick",
+      "role": "uiClick",
+      "consumer": "SoundSystem.playUiClick",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-288911.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-343013",
+      "sourceRole": "uiClick",
+      "role": "uiClick",
+      "consumer": "SoundSystem.playUiClick",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-343013.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-533568",
+      "sourceRole": "uiClick",
+      "role": "uiClick",
+      "consumer": "SoundSystem.playUiClick",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-533568.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-590159",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-590159.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-590155",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-590155.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-590154",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-590154.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-590152",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-590152.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-590151",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-590151.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-590150",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-590150.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-590148",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-590148.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-590147",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-590147.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-590149",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-590149.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-590153",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-590153.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-590158",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-590158.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-590157",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-590157.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-590156",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-590156.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-590164",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-590164.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-590163",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-590163.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-590160",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-590160.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-590166",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-590166.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-590161",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-590161.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-590170",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-590170.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-590167",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-590167.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-590162",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-590162.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-590168",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-590168.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-590165",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-590165.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-590169",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-590169.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-590171",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-590171.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-506659",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-506659.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-506662",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-506662.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-506663",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-506663.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-506664",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-506664.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-506660",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-506660.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-506661",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-506661.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-506665",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-506665.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-452598",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-452598.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-637487",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-637487.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-618082",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-618082.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-618085",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-618085.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-452600",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-452600.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-572645",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-572645.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-188606",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-188606.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-618084",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-618084.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-618083",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-618083.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-261370",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-261370.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-261369",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-261369.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-261368",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-261368.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-261367",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-261367.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-261363",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-261363.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-261362",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-261362.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-261361",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-261361.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-261358",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-261358.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-261357",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-261357.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-261353",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-261353.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-261352",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-261352.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-261364",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-261364.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-261360",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-261360.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-261359",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-261359.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-261355",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-261355.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-261351",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-261351.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-261356",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-261356.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-261372",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-261372.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-683415",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-683415.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-362344",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-362344.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-362343",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-362343.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-362342",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-362342.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-547466",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-547466.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-683416",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-683416.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-436534",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-436534.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-436535",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-436535.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-436537",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-436537.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-791998",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-791998.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-791997",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-791997.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-436536",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-436536.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-269722",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-269722.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-813650",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-813650.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-502511",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-502511.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-502505",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-502505.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-502507",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-502507.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-646695",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-646695.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-646691",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-646691.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-646690",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-646690.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-646689",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-646689.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-646688",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-646688.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-646687",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-646687.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-502504",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-502504.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-646696",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-646696.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-436539",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-436539.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-280237",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-280237.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-539183",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-539183.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-390799",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-390799.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-642951",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-642951.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-642950",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-642950.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-13837",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-13837.ogg",
+      "runtimeWired": true
+    },
+    {
+      "id": "freesound-95260",
+      "sourceRole": "structuralCreak",
+      "role": "structuralCreak",
+      "consumer": "FreesoundAudioDirector.update (structural context)",
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-95260.ogg",
+      "runtimeWired": true
+    }
+  ]
+}

@@ -2,11 +2,15 @@ import { createButton, createFocusController, createHintLegend, createPanel, cre
 import { createIconBadge, createModalShell } from "../UiModalShell.js";
 import { UINotificationSystem } from "../UINotificationSystem.js";
 import { createPauseFeatureLoadingView } from "../components/PauseFeatureLoadingView.js";
+import { createTeleportLoadingOverlay } from
+  "../components/TeleportLoadingOverlay.js";
+import { createSessionAwakeningView } from "../components/SessionAwakeningView.js";
 import { UIMuteToggle } from "../hud/UIMuteToggle.js";
 import { XPProgressBar } from "../hud/XPProgressBar.js";
 import { CelestialTalentTreeView } from "../overlays/CelestialTalentTreeView.js";
 import { HardcoreModalOverlay } from "../overlays/HardcoreModalOverlay.js";
 import { createJourneyPanelContent } from "../overlays/JourneyView.js";
+import { createHintsPanelContent } from "../overlays/HintsPanelContent.js";
 import { createSaveTransferPanelContent } from "../overlays/SaveTransferPanelContent.js";
 import { createSettingsPanelContent } from "../overlays/SettingsPanelContent.js";
 import { ShopOverlay } from "../overlays/ShopOverlay.js";
@@ -25,6 +29,7 @@ export const PLAY_SCENE_UI_METHOD_DEPENDENCIES = Object.freeze({
   createHintLegend,
   createIconBadge,
   createJourneyPanelContent,
+  createHintsPanelContent,
   createModalShell,
   createPanel,
   createPauseFeatureLoadingView,
@@ -56,4 +61,6 @@ export const PLAY_SCENE_UI_PORTS = Object.freeze({
     new UnderstarEndingOverlay(scene, callbacks)
   ),
   createRecoveryOverlay: scene => new PlaySceneRecoveryOverlay(scene),
+  createTeleportLoadingOverlay,
+  createSessionAwakeningView,
 });

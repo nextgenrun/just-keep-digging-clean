@@ -1,0 +1,29 @@
+{
+  "tag": "live",
+  "gameplay": null,
+  "manualRetried": false,
+  "previewApiWarnings": [],
+  "injectedFailures": 0,
+  "failedAssetRequests": 0,
+  "bootAttempt": 0,
+  "seconds": 1.086,
+  "firstLoading": null,
+  "bytes": 462,
+  "last": null,
+  "errors": [
+    "page.evaluate: Execution context was destroyed, most likely because of a navigation"
+  ],
+  "files": [],
+  "responses": [
+    {
+      "url": "https://www.nextgen.run/diggame-beta-1/",
+      "status": 202,
+      "length": "183"
+    },
+    {
+      "url": "https://www.nextgen.run/.well-known/sgcaptcha/?r=%2Fdiggame-beta-1%2F&y=ipr:62.73.69.11:1788867741.042",
+      "status": 200,
+      "encoding": "br"
+    }
+  ]
+}

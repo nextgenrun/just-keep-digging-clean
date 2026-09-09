@@ -36,6 +36,7 @@ function createWorld(extraSolid = []) {
 
 function createCollision(world) {
   return {
+    config: { topAirRows: 5 },
     isBodyOverlappingSolid(body) {
       const left = Math.floor((body.x + 0.01) / TILE_SIZE);
       const right = Math.floor((body.x + body.w - 0.01) / TILE_SIZE);
@@ -126,6 +127,30 @@ assert.equal(
 assert.equal(dropCase.assist.isActive(), false);
 assert.ok(dropCase.body.vy > 0);
 assert.ok(dropCase.assist.getSnapshot().cooldownMs > 0);
+
+// Only the configured top-surface candidate is excluded during its drop.
+const surfaceDropCase = createAssist();
+surfaceDropCase.body.surfaceDropThroughRow = 5;
+const grabOptions = {
+  input: createInput(), grounded: false, flightActive: false, facingRight: true, actionLocked: false,
+};
+assert.equal(surfaceDropCase.assist.tryGrab(grabOptions), false,
+  "the active top-surface drop must not grab that same surface");
+surfaceDropCase.body.surfaceDropThroughRow = null;
+assert.equal(surfaceDropCase.assist.tryGrab(grabOptions), true,
+  "the same surface retains its ordinary ledge trigger after the drop clears");
+for (const ledgeRow of [4, 6]) {
+  const otherBody = new BodyStub();
+  otherBody.y += (ledgeRow - 5) * TILE_SIZE;
+  otherBody.surfaceDropThroughRow = 5;
+  const other = createAssist({
+    body: otherBody,
+    world: { isSolid: (tx, ty) => tx === 5 && ty === ledgeRow },
+  });
+  assert.equal(other.assist.tryGrab(grabOptions), true,
+    "a top-surface drop must not suppress ledges at other heights");
+  assert.deepEqual(other.assist.getSnapshot().support, { tx: 5, ty: ledgeRow });
+}
 
 const blocked = createAssist({ world: createWorld(["5,4"]) });
 assert.equal(blocked.assist.tryGrab({

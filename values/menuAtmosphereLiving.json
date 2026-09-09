@@ -1,0 +1,74 @@
+{
+  "version": 3,
+  "api": "https://openrouter.ai/api/v1",
+  "model": "bytedance/seedance-2.0-mini",
+  "duration": 10,
+  "resolution": "720p",
+  "fps": 24,
+  "width": 1280,
+  "height": 720,
+  "seedBase": 26090730,
+  "generationCeilingUsd": 5,
+  "pollSeconds": 20,
+  "deadlineSeconds": 2400,
+  "referenceJpegQuality": 97,
+  "overlapSeconds": 1.25,
+  "slowdown": 1.15,
+  "displayAlpha": 1,
+  "videoMix": 1,
+  "prompt": "Create a living landscape from this exact game painting. LOCKED TRIPOD CAMERA and fixed composition for the entire ten seconds. Preserve the original painterly style, palette, focus, exposure and framing. The environmental movement must be STRONG, clearly visible within one second and continuous at natural physical speed. Animate real movement of matter with coherent trajectories and evolving shapes. Preserve the shapes and placement of rocks, buildings, large tree trunks, crystals, mountains, planets and the distant starfield. Mechanisms can rotate only around their existing axles when specified. Keep all architecture structurally stable. No camera movement, zoom, perspective drift, rubbery deformation, morphing landmarks, synchronized breathing, screen-wide brightness pulse, magic energy waves, extra objects, characters, text or logos. Natural physics and continuously evolving local motion make this fixed landscape feel alive. Motion is ongoing from the first frame through the last; no freeze, dramatic event, slow motion, rewind or reversal. Finish at the supplied matching frame for a repeating cycle. Silent video. SCENE MOTION: ",
+  "profiles": [
+    {
+      "id": "aurora",
+      "motion": "Broad aurora curtains travel sideways across the existing sky and fold into visible rolling ribbons, with fine streaming striations. Their flowing contours change clearly across the whole upper sky. Low valley mist streams laterally around the fixed crystal silhouettes. Planets, stars, monuments and foreground crystals stay anchored.",
+      "slowdown": 1.7
+    },
+    {
+      "id": "starfall",
+      "motion": "The existing diagonal meteor streaks travel along their upper-right to lower-left trajectories, with luminous tails visibly streaming behind the moving points. Keep the large foreground rock silhouettes anchored. Distant horizon cloud banks roll and shear sideways. Preserve the existing meteor density and warm palette; no explosions, extra showers or new giant objects.",
+      "slowdown": 1.65
+    },
+    {
+      "id": "lantern-forest",
+      "motion": "Wind visibly moves slender hanging vines and outer branch tips in the clearing while large trunks remain rigid. Dense low mist streams between the trees and curls across the wet path. Existing lantern flames flutter with irregular physical flame shapes and their reflections shimmer on the wet ground. Lantern fixtures and crystal formations remain fixed.",
+      "slowdown": 1.35
+    },
+    {
+      "id": "luminous-grotto",
+      "motion": "The existing water channel flows continuously toward the viewer with clearly travelling irregular ripples, small eddies and sliding lantern reflections. Strong visible current and continuously changing surface texture across the lower half of the image. Existing lantern flames flutter with physical asymmetric flame shapes. All large mushrooms, crystals, hanging fixtures and distant cave forms stay rigid. Keep the deep blue cave air visually clear and unchanged: absolutely no added fog, smoke, cyan swirls, fluorescent ribbons, energy tendrils or moving magic orbs. Existing bioluminescent points remain at their original positions and brightness. The living motion comes from real flowing water and real flames.",
+      "outputName": "raw-v3-04-water.mp4",
+      "slowdown": 1.4
+    },
+    {
+      "id": "ember-reaches",
+      "motion": "The existing volcanic smoke plumes rise strongly, billow, curl and drift across the sky with continuous turbulent contours. Existing fire and incandescent fountains move upward continuously, and lava visibly flows downhill through the drawn channels. Keep black rock shelves and all cyan crystal towers fixed. No eruptions, explosions, camera shake or new vents.",
+      "slowdown": 1.45
+    },
+    {
+      "id": "quiet-foundry",
+      "motion": "Thick steam and smoke rise continuously from the existing warm vents, curl through the central chasm and drift across the upper sky. Existing large exposed gears turn slowly and steadily around fixed axles with mechanically consistent teeth. The existing sparse hot flecks fall down the chasm. Buildings, bridges, platforms and pipes remain perfectly rigid. No newly invented machines or lights.",
+      "slowdown": 1.5
+    }
+  ],
+  "encodeCrf": 17,
+  "renderVersion": 4,
+  "renderWidth": 1920,
+  "renderHeight": 1080,
+  "loadingOverlayAlpha": 0,
+  "interpolation": {
+    "fps": 24,
+    "mode": "linear frame blending"
+  },
+  "grottoHoldout": {
+    "center": [
+      0.5,
+      0.34
+    ],
+    "radius": [
+      0.19,
+      0.33
+    ],
+    "feather": 0.3
+  },
+  "upscaleMethod": "lanczos"
+}

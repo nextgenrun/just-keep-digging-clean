@@ -1,3 +1,4 @@
+import { WURM_SIZES, WURM_DIFFICULTIES, WURM_POLISH } from "./graveborerWurmVariants.js";
 export const GRAVEBORER_WURM_PHASES = Object.freeze({
   dormant: "dormant",
   warning: "warning",
@@ -6,7 +7,7 @@ export const GRAVEBORER_WURM_PHASES = Object.freeze({
 });
 
 export const GRAVEBORER_WURM_CONFIG = Object.freeze({
-  version: 4,
+  version: 5,
   name: "Graveborer Wurm",
   featureFlags: Object.freeze({
     enabled: true,
@@ -95,8 +96,8 @@ export const GRAVEBORER_WURM_CONFIG = Object.freeze({
     tangentSampleProgress: 0.008,
   }),
   combat: Object.freeze({
-    headHitRadiusTiles: 0.72,
-    bodyHitRadiusTiles: 0.52,
+    headHitRadiusTiles: 0.54,
+    bodyHitRadiusTiles: 0.25,
     headDamageMaxGpRatio: 0.96,
     bodyDamageMaxGpRatio: 0.78,
     minimumHeadDamageGp: 60,
@@ -115,12 +116,12 @@ export const GRAVEBORER_WURM_CONFIG = Object.freeze({
     warningAlphaMin: 0.24,
     warningAlphaMax: 0.82,
     warningPulseHz: 2.2,
-    bodyWaveTiles: 0.08,
+    bodyWaveTiles: 0.035,
     bodyWaveHz: 2.6,
     bodyWavePhase: 0.72,
     headPulseAmount: 0.055,
     headPulseHz: 3.4,
-    burrowAlphaFadeProgress: 0.12,
+    burrowAlphaFadeProgress: 0.055,
     hudX: 370,
     hudY: 150,
     hudSizePx: 104,
@@ -170,7 +171,7 @@ export const GRAVEBORER_WURM_CONFIG = Object.freeze({
     dormant: "THE DEEP IS QUIET",
     listening: "IT IS LISTENING",
     warningPrefix: "BREACH IN",
-    burrowing: "DODGE NOW • FLY CLEAR OF THE LINE",
+    burrowing: "DODGE NOW • LEAVE THE MARKED LINE",
     passPrefix: "PASS",
     circling: "THE GRAVEBORER IS CIRCLING",
     hitPrefix: "WURM HIT",
@@ -220,7 +221,7 @@ function sanitizeTile(tile) {
   };
 }
 
-export function sanitizeGraveborerWurmData(data) {
+export function sanitizeGraveborerWurmData(data, offspring = false) {
   const validPhases = new Set(Object.values(GRAVEBORER_WURM_PHASES));
   const phase = validPhases.has(data?.phase)
     ? data.phase
@@ -250,6 +251,11 @@ export function sanitizeGraveborerWurmData(data) {
   );
   return {
     version: GRAVEBORER_WURM_CONFIG.version,
+    variantSize: WURM_SIZES.some(size => size.id === data?.variantSize) ? data.variantSize : null,
+    variantDifficulty: WURM_DIFFICULTIES.some(profile => profile.id === data?.variantDifficulty) ? data.variantDifficulty : null,
+    broodSpawned: data?.broodSpawned === true,
+    offspring: offspring ? [] : (Array.isArray(data?.offspring) ? data.offspring : [])
+      .slice(0, WURM_POLISH.maximumOffspring).map(child => sanitizeGraveborerWurmData(child, true)),
     phase,
     noise: clamp(
       finiteOr(data?.noise, 0),

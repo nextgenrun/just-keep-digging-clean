@@ -1,0 +1,145 @@
+{
+  "passed": true,
+  "canonicalFiles": 27,
+  "files": [
+    {
+      "path": "testing/audio-dig-hit-break-2026-09-06/index.html",
+      "sha256": "07518b86e26bc580b788b9fe4d50eb297b27b2b5810da40007d67a749fb33103",
+      "byteIdentical": true
+    },
+    {
+      "path": "testing/audio-dig-hit-break-2026-09-06/review.css",
+      "sha256": "1fbc015fc65f20c5121ce6d7997730b8b3b7cc5296aa1ffddd986e4836e5e81d",
+      "byteIdentical": true
+    },
+    {
+      "path": "testing/audio-dig-hit-break-2026-09-06/review.js",
+      "sha256": "6024809a99772c03ffd58af4f5f715a0cf635ae2baeda4a98ad616d93f60b0bc",
+      "byteIdentical": true
+    },
+    {
+      "path": "testing/audio-dig-hit-break-2026-09-06/player.js",
+      "sha256": "f9fed850196cdcbd5c6a0b72eb9152005776c67595f5aadb9dc090f2097d17e9",
+      "byteIdentical": true
+    },
+    {
+      "path": "testing/audio-dig-hit-break-2026-09-06/catalog.json",
+      "sha256": "3910322bc24bc6084f407ec5a18f7425fe57e16a45d6ed2bf4f5f8bbcd918016",
+      "byteIdentical": true
+    },
+    {
+      "path": "testing/audio-dig-hit-break-2026-09-06/measurements.json",
+      "sha256": "ab182e97eb05db482d967bcdb7e6cda81af34d5c7f9193dece08a56ce7138602",
+      "byteIdentical": true
+    },
+    {
+      "path": "values/audioDigHitBreakReview.js",
+      "sha256": "24be5eb28d0289122f49cb5f1989084b2862c3b7d346a56a01cf83d9571bb008",
+      "byteIdentical": true
+    },
+    {
+      "path": "testing/audio-destruction-pickup-2026-09-05/index.html",
+      "sha256": "ab6d848252037f0179c99ff49265b213d8260d23ff6c5f8cf26c81e05870ce7a",
+      "byteIdentical": true
+    },
+    {
+      "path": "sound/soundEffects/approved-review-2026-09-03/libDirtSwingA.ogg",
+      "sha256": "36d4ebd0a1f4872d81ae033aa64b9b12cc0a7fe23d6bf8148de687e186378799",
+      "byteIdentical": true
+    },
+    {
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-651292.ogg",
+      "sha256": "91efa3848a203a16bb2154f4bf51d8ecf0daec60ed04000e454f24fa46c9f198",
+      "byteIdentical": true
+    },
+    {
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-651293.ogg",
+      "sha256": "5a8fdf2dc28afd913bfb4014c3754dca62543f9ee7063a093dfdcd0acec79202",
+      "byteIdentical": true
+    },
+    {
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-674384.ogg",
+      "sha256": "c1eac6fb1363070cbb696d5a0bfc5293849c4e2590282f19b9dead5f3da4af45",
+      "byteIdentical": true
+    },
+    {
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-674385.ogg",
+      "sha256": "9d0c9efeda7a9069b2936e998475d96d6fada5cda7bd5ea57acf1406913699af",
+      "byteIdentical": true
+    },
+    {
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-674386.ogg",
+      "sha256": "1c88d83bbe837eb87b3be7d55b2acdb902a349a854272aa9f3d75bb9ef4868a7",
+      "byteIdentical": true
+    },
+    {
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-728756.ogg",
+      "sha256": "f41a42dba4e450d6aea6a315a920e408d00be013adc18821f31532e6ea375e85",
+      "byteIdentical": true
+    },
+    {
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-728757.ogg",
+      "sha256": "b0253019fa6f09d2b5bcd5ab134d5a40523f9073ca754583a741900e87fd3565",
+      "byteIdentical": true
+    },
+    {
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-728758.ogg",
+      "sha256": "68e494fa66a74e6bab2da07ae309dab2a02b1e7492a5b7a446ba8f7604a89357",
+      "byteIdentical": true
+    },
+    {
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-728759.ogg",
+      "sha256": "57d87cb51f8973dccc0dcdfc5d8e43cec15d07cdb15217d9e1e7d98232a9f4f9",
+      "byteIdentical": true
+    },
+    {
+      "path": "sound/soundEffects/approved-review-2026-09-03/libDirtBreak.ogg",
+      "sha256": "2208502a60a1ed41366251c234bf4e4b1e7ae7c55ed209269bebaf7fb0b3a7a1",
+      "byteIdentical": true
+    },
+    {
+      "path": "sound/soundEffects/approved-review-2026-09-03/libStoneBreak.ogg",
+      "sha256": "0fb92dc4a016dc01a58f84b5a677982c3d52106bbe6cefeb278fa957287aa097",
+      "byteIdentical": true
+    },
+    {
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-536921.ogg",
+      "sha256": "2ed23b535315d5ed58b6715f68456d0cf789dcfeee84cdcbef4cd2bd902050fa",
+      "byteIdentical": true
+    },
+    {
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-703115.ogg",
+      "sha256": "9e53744f2de3edcdda20b73dc914dfc5b43f5f50d3e2aa65e635525d8cf71bbc",
+      "byteIdentical": true
+    },
+    {
+      "path": "sound/soundEffects/approved-review-2026-09-03/libToolContact.ogg",
+      "sha256": "576af2f7f6569facf8ce3d5c305b722e39815eeb63570ef7cfca2c391db6ae00",
+      "byteIdentical": true
+    },
+    {
+      "path": "sound/soundEffects/costume-sounds/dig/dig-1.ogg",
+      "sha256": "f8b6de678dfce65100bddef5ce0992aa3636927a96f1eb779b9b6f44783940a6",
+      "byteIdentical": true
+    },
+    {
+      "path": "sound/soundEffects/costume-sounds/dig/dig-2.ogg",
+      "sha256": "3f7afeba6a0651f03c7fe1feb0e6cf2183f814db7efb1f60435216628d6ffd98",
+      "byteIdentical": true
+    },
+    {
+      "path": "sound/soundEffects/costume-sounds/dig/dig-star/MUSCChim_Chimes dream 3 (ID 2081)_BigSoundBank.com.ogg",
+      "sha256": "2fc7e0cbfa3cb304712c547c0b04926a2a87895becebb9e6f7f4d3cb590987f4",
+      "byteIdentical": true
+    },
+    {
+      "path": "sound/soundEffects/approved-sfx-findings-v1/star-destruction-shockwave-freesound-814053.mp3",
+      "sha256": "ab12c94200983a26d0614ec1a3ead2f692cfa07b7f20406e2d6d61da83f3b2a0",
+      "byteIdentical": true
+    }
+  ],
+  "moduleSyntaxChecked": true,
+  "allReferencedDomIdsExist": true,
+  "browserPlaybackVerified": false,
+  "listeningApproved": false
+}

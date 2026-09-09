@@ -1,5 +1,6 @@
 // ==================== CELESTIAL ACTION BAR ====================
 // Pure six-slot presentation, ordering, interaction, and copy contract.
+import { BAKED_CELESTIAL_ASSETS } from "./bakedCelestialUi.js";
 
 export const CELESTIAL_ACTION_BAR_ENTRY_IDS = Object.freeze({
   QUICK_SLASH: "quickslash",
@@ -25,9 +26,9 @@ export const CELESTIAL_ACTION_BAR_ASSET_KEYS = Object.freeze({
   foundation: "celestial-actionbar-foundation-v2",
   quickslash: "celestial-actionbar-quickslash-v1",
   thunderStrike: "celestial-actionbar-thunderstrike-v1",
-  waywardStar: "celestial-actionbar-wayward-star-v1",
-  hollowSun: "celestial-actionbar-hollow-sun-v1",
-  cometEngine: "celestial-actionbar-comet-engine-v1",
+  waywardStar: BAKED_CELESTIAL_ASSETS["talents-wayward"].key,
+  hollowSun: BAKED_CELESTIAL_ASSETS["talents-hollow"].key,
+  cometEngine: BAKED_CELESTIAL_ASSETS["talents-lance"].key,
 });
 
 export const CELESTIAL_ACTION_BAR_EAGER_ASSETS = Object.freeze([
@@ -49,17 +50,17 @@ export const CELESTIAL_ACTION_BAR_EAGER_ASSETS = Object.freeze([
   Object.freeze({
     type: "image",
     key: CELESTIAL_ACTION_BAR_ASSET_KEYS.waywardStar,
-    path: "sprites/UI/celestial-overhaul-v1/talent-icon-wayward-star-root-v1.png",
+    path: BAKED_CELESTIAL_ASSETS["talents-wayward"].path,
   }),
   Object.freeze({
     type: "image",
     key: CELESTIAL_ACTION_BAR_ASSET_KEYS.hollowSun,
-    path: "sprites/UI/celestial-overhaul-v1/talent-icon-hollow-sun-root-v1.png",
+    path: BAKED_CELESTIAL_ASSETS["talents-hollow"].path,
   }),
   Object.freeze({
     type: "image",
     key: CELESTIAL_ACTION_BAR_ASSET_KEYS.cometEngine,
-    path: "sprites/UI/celestial-overhaul-v1/talent-icon-comet-engine-root-v1.png",
+    path: BAKED_CELESTIAL_ASSETS["talents-lance"].path,
   }),
 ]);
 
@@ -80,7 +81,7 @@ const entries = Object.freeze([
     assetRole: "thunderStrike",
     accent: 0x65d8f2,
     unlockCondition: "Buy Thunder Strike from Bobo.",
-    description: "Begin the exact-timing thunder chain.",
+    description: "Start a timed chain of lightning strikes.",
   }),
   Object.freeze({
     id: CELESTIAL_ACTION_BAR_ENTRY_IDS.WAYWARD_STAR,
@@ -89,7 +90,7 @@ const entries = Object.freeze([
     assetRole: "waywardStar",
     accent: 0x65e8ff,
     unlockCondition: "Attune Wayward Star at the Star Pillar.",
-    description: "Release a simultaneous swarm of independently ricocheting stars.",
+    description: "Release a swarm of stars that ricochet on their own.",
   }),
   Object.freeze({
     id: CELESTIAL_ACTION_BAR_ENTRY_IDS.HOLLOW_SUN,
@@ -98,16 +99,16 @@ const entries = Object.freeze([
     assetRole: "hollowSun",
     accent: 0xa96dff,
     unlockCondition: "Attune Hollow Sun at the Star Pillar.",
-    description: "Place a long-lived gravity field that pulls broken blocks inward.",
+    description: "Create three black holes that pulse, follow you, and move toward each punch.",
   }),
   Object.freeze({
     id: CELESTIAL_ACTION_BAR_ENTRY_IDS.COMET_ENGINE,
     label: "STELLAR LANCE",
     shortLabel: "LANCE",
     assetRole: "cometEngine",
-    accent: 0xff6d4a,
+    accent: 0xa855f7,
     unlockCondition: "Attune Stellar Lance at the Star Pillar.",
-    description: "For a short time, every dig fires a full-damage projectile through tiles and empty space.",
+    description: "For 15 seconds, every punch fires a five-tile cinder wave. Leftover damage carries through broken blocks.",
   }),
   Object.freeze({
     id: CELESTIAL_ACTION_BAR_ENTRY_IDS.CAMPFIRE,
@@ -139,6 +140,7 @@ export const CELESTIAL_ACTION_BAR_CONFIG = Object.freeze({
     detachedSlotFrameSizePx: 76,
     slotOffsetYPx: 4,
     iconSizePx: 38,
+    bakedIconSizePx: 52,
     campfireIconWidthPx: 48,
     campfireIconHeightPx: 28,
     keyOffsetXPx: 0,
@@ -193,9 +195,9 @@ export const CELESTIAL_ACTION_BAR_CONFIG = Object.freeze({
   }),
   copy: Object.freeze({
     lockedPrefix: "Unlock: ",
-    unavailable: "Currently unavailable.",
-    readyHint: "Click to activate. Drag to reorder.",
-    persistenceError: "Actionbar order could not be saved.",
+    unavailable: "Not ready yet.",
+    readyHint: "Click to use • Drag to reorder",
+    persistenceError: "Your action-bar order could not be saved.",
   }),
 });
 

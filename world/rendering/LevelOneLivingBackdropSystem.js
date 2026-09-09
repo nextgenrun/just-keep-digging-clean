@@ -34,6 +34,12 @@ export class LevelOneLivingBackdropSystem {
       kind,
       this.anchors.filter(anchor => anchor.kind === kind),
     ]));
+    this.anchorSpatialIndexByKind = Object.fromEntries(
+      Object.entries(this.anchorsByKind).map(([kind, anchors]) => [
+        kind,
+        this._buildAnchorSpatialIndex(kind, anchors),
+      ])
+    );
     this.pools = Object.fromEntries(Object.keys(config.layers).map(kind => [kind, []]));
     this.enabled = false;
     this.destroyed = false;
@@ -171,10 +177,48 @@ export class LevelOneLivingBackdropSystem {
     return { sprite, anchorId: null };
   }
 
+  _buildAnchorSpatialIndex(kind, anchors) {
+    const spacingTilesY = Number(this.config.layers[kind]?.spacingTilesY) || 16;
+    const bucketSizeTiles = Math.max(1, spacingTilesY * 2);
+    const buckets = new Map();
+    anchors.forEach((anchor, order) => {
+      const bucketKey = Math.floor(anchor.yTile / bucketSizeTiles);
+      const bucket = buckets.get(bucketKey) || [];
+      bucket.push({ anchor, order });
+      buckets.set(bucketKey, bucket);
+    });
+    return { bucketSizeTiles, buckets };
+  }
+
+  _getVisibleAnchors(kind, bounds, tileSize, cap) {
+    if (cap <= 0) return [];
+    const index = this.anchorSpatialIndexByKind[kind];
+    if (!index) {
+      return this.anchorsByKind[kind]
+        .filter(anchor => this._isVisible(anchor, bounds, tileSize))
+        .slice(0, cap);
+    }
+
+    const firstBucket = Math.floor(bounds.top / tileSize / index.bucketSizeTiles);
+    const lastBucket = Math.floor(bounds.bottom / tileSize / index.bucketSizeTiles);
+    const candidates = [];
+    for (let bucketKey = firstBucket; bucketKey <= lastBucket; bucketKey += 1) {
+      const bucket = index.buckets.get(bucketKey);
+      if (bucket) candidates.push(...bucket);
+    }
+    candidates.sort((left, right) => left.order - right.order);
+
+    const visible = [];
+    for (const candidate of candidates) {
+      if (!this._isVisible(candidate.anchor, bounds, tileSize)) continue;
+      visible.push(candidate.anchor);
+      if (visible.length >= cap) break;
+    }
+    return visible;
+  }
+
   _renderLayer(kind, layer, cap, bounds, tileSize, time, environment) {
-    const visible = this.anchorsByKind[kind]
-      .filter(anchor => this._isVisible(anchor, bounds, tileSize))
-      .slice(0, cap);
+    const visible = this._getVisibleAnchors(kind, bounds, tileSize, cap);
     const pool = this.pools[kind];
     pool.forEach((actor, index) => {
       const anchor = visible[index];

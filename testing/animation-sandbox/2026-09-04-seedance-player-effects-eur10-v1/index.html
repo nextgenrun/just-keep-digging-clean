@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Seedance Player Effects — €10 Review Lab</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark">U</span><span>UNDERSTAR / VISUAL LAB</span></div>
+    <span class="review-pill">REVIEW ONLY · PRODUCTION UNCHANGED</span>
+  </header>
+
+  <main>
+    <section class="hero">
+      <p class="eyebrow">SEEDANCE 2.0 MINI · 720P · FORWARD-ONLY</p>
+      <h1>Aftereffects that sit <em>inside</em> the game.</h1>
+      <p class="lede">The current player, tiles, and town art stay authoritative. AI video supplies only a keyed motion layer at the exact contact point, so it reads as impact and atmosphere instead of a pasted clip.</p>
+      <div class="budget-card" aria-label="API budget status">
+        <div><span>Known spend</span><strong id="known-spend">—</strong></div>
+        <div><span>Completed clips</span><strong id="clip-count">—</strong></div>
+        <div><span>Hard cap</span><strong>€10.00</strong></div>
+        <div class="meter"><span id="budget-meter"></span></div>
+      </div>
+    </section>
+
+    <section class="lab-grid">
+      <div class="stage-shell">
+        <div class="stage-head">
+          <div><span class="section-index">01</span><h2>Layered in the current town</h2></div>
+          <span class="status" id="play-status">READY</span>
+        </div>
+        <div class="game-stage" id="game-stage">
+          <img class="scene-bg" id="scene-bg" alt="Current town background">
+          <div class="scene-shade"></div>
+          <img class="tile" id="tile" alt="Current material tile">
+          <img class="player" id="player" alt="Current player contact frame">
+          <video class="effect-video" id="effect-video" muted playsinline preload="auto"></video>
+          <div class="contact-marker"><i></i><span>AUTHORED CONTACT</span></div>
+          <div class="stage-caption">
+            <span id="effect-family">—</span>
+            <strong id="effect-label">—</strong>
+            <small id="effect-role">—</small>
+          </div>
+        </div>
+        <div class="controls">
+          <button class="primary" id="play-once">PLAY ONCE</button>
+          <button id="play-three">INSPECT 3×</button>
+          <button id="speed-toggle">SPEED 1×</button>
+          <span class="contract">No loop attribute · no reverse frames</span>
+        </div>
+      </div>
+
+      <aside class="effect-rail">
+        <div class="rail-head"><span class="section-index">02</span><h2>Highest-impact set</h2></div>
+        <div id="effect-list" class="effect-list"></div>
+      </aside>
+    </section>
+
+    <section class="proof-section">
+      <div class="section-title"><span class="section-index">03</span><div><h2>Raw carrier → keyed layer</h2><p>The left side is the paid MP4. The right side is the same forward frames with black converted to verified alpha.</p></div></div>
+      <div class="proof-grid">
+        <article class="proof-card raw-proof">
+          <div class="card-label"><span>RAW MODEL OUTPUT</span><b>BLACK PLATE</b></div>
+          <video id="raw-video" controls muted playsinline preload="metadata"></video>
+        </article>
+        <article class="proof-card composite-proof">
+          <div class="card-label"><span>AFTEREFFECT</span><b>TRUE ALPHA WEBM</b></div>
+          <div class="mini-scene">
+            <img id="mini-bg" alt="Current town background">
+            <img id="mini-tile" class="mini-tile" alt="Current tile">
+            <video id="mini-effect" muted playsinline preload="auto"></video>
+          </div>
+        </article>
+      </div>
+      <div class="use-note"><span>USED FOR</span><p id="effect-use">—</p><small id="effect-why">—</small></div>
+    </section>
+
+    <section class="qa-section">
+      <div class="section-title"><span class="section-index">04</span><div><h2>Motion gate</h2><p>These rules are baked into the processing and the playback controls.</p></div></div>
+      <div class="qa-cards">
+        <article><b>FORWARD ONLY</b><span>Original frame order is retained. Repeats restart only after <code>ended</code>.</span></article>
+        <article><b>NO INTERPOLATION</b><span>No optical flow, tweened frames, or generated in-betweens.</span></article>
+        <article><b>ALPHA VERIFIED</b><span>Every processed clip contains fully transparent and partial-alpha pixels.</span></article>
+        <article><b>SOURCE LOCKED</b><span>Player, tile, background, timing, damage, and saves remain current game assets and code.</span></article>
+      </div>
+    </section>
+
+    <section class="reject-section">
+      <div class="section-title"><span class="section-index">05</span><div><h2>Why player video stays out</h2><p>These paid clips remain visible for audit, but they are rejected as runtime assets.</p></div></div>
+      <div id="reject-grid" class="reject-grid"></div>
+    </section>
+  </main>
+
+  <footer><span>SEEDANCE PLAYER EFFECTS · 2026-09-04</span><span id="model-name">—</span></footer>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

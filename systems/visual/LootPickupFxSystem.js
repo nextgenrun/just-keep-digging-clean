@@ -1,160 +1,263 @@
-import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { GAME_CONFIG } from "../../values/gameConfig.js";
-import { HUD_LAYOUT } from "../../values/hudLayout.js";
+import {
+  LOOT_PICKUP_PRESENTATION,
+  resolveLootPickupMoment,
+} from "../../values/lootPickupPresentation.js";
 import { REWARD_FLIGHT_CHANNELS } from "../../values/rewardFlightMotions.js";
-import { RESOURCE_COLOR_INTS, RESOURCE_ORE_COLOR_INTS } from "../../values/resourceTypes.js";
+import { LootPickupFlightView } from "./LootPickupFlightView.js";
+import { lootPickupUnit, normalizeLootPickupDescriptor } from "./LootPickupFxMath.js";
 import { RewardFlightMotionSystem } from "./RewardFlightMotionSystem.js";
+import { RewardPickupVisualResolver } from "./RewardPickupVisualResolver.js";
+import { rememberRewardPickupVisual } from "./RewardPickupContinuityState.js";
 
 function isLootVisualsEnabled(scene) {
   const config = scene?.config || GAME_CONFIG;
   if (config.lootVisuals === false) return false;
   if (config.featureFlags?.lootVisuals === false) return false;
-  if (config.featureFlags?.["loot-visuals"] === false) return false;
-  return true;
+  return config.featureFlags?.["loot-visuals"] !== false;
 }
-
 export class LootPickupFxSystem {
-  constructor(scene, targetProvider = null, motionProvider = null) {
+  constructor(scene, targetProvider = null, motionProvider = null, visualResolver = null) {
     this.scene = scene;
     this.targetProvider = targetProvider;
     const sharedMotionProvider = motionProvider || scene?.rewardFlightMotionSystem;
     this.motionProvider = sharedMotionProvider || new RewardFlightMotionSystem();
     this.ownsMotionProvider = !sharedMotionProvider;
-    this.activeSprites = [];
-    this.maxActiveSprites = 24;
+    this.visualResolver = visualResolver || new RewardPickupVisualResolver(scene);
+    this.activeFlights = [];
+    this.activeSprites = this.activeFlights;
+    this.maxActiveSprites = LOOT_PICKUP_PRESENTATION.limits.maxActiveFlights;
+    this.eventSequence = 0;
+    this.recentTelemetry = [];
     this._destroyed = false;
+    this.flightView = new LootPickupFlightView(scene, {
+      removeFlight: this._removeFlight.bind(this),
+    });
   }
 
-  showResourcePickup({ worldX, worldY, resourceType, amount = 1, isLuckyDrop = false, isSkyTileBonus = false, isStarResource = false } = {}) {
-    if (this._destroyed || !isLootVisualsEnabled(this.scene)) return;
-    if (!resourceType || !Number.isFinite(worldX) || !Number.isFinite(worldY)) return;
+  showResourcePickup({
+    worldX,
+    worldY,
+    resourceType,
+    amount = 1,
+    tileX = null,
+    tileY = null,
+    isSkyTileBonus = false,
+    isStarResource = false,
+    skyTileRarity = null,
+  } = {}) {
+    if (!this._canShow(worldX, worldY) || !resourceType) return false;
+    const descriptor = normalizeLootPickupDescriptor(this.visualResolver.resolveResourcePickup({
+      resourceType, tileX, tileY,
+    }));
+    if (!descriptor) return false;
+    return this._show({
+      worldX, worldY, resourceType, amount, descriptor,
+      tileX, tileY, isSkyTileBonus, isStarResource, skyTileRarity,
+      special: isSkyTileBonus,
+    });
+  }
 
-    const pickupCount = this._getPickupCount(amount, isLuckyDrop, isSkyTileBonus);
-    if (pickupCount <= 0) return;
+  showSpecialTilePickup({
+    worldX,
+    worldY,
+    tileType,
+    tileY = null,
+    depthTiles = null,
+    gemPowerTierId = null,
+    specialEffect = null,
+    specialBlockEffect = null,
+  } = {}) {
+    if (!this._canShow(worldX, worldY)) return false;
+    const resolvedDepth = Number.isFinite(depthTiles)
+      ? depthTiles
+      : (Number.isFinite(tileY) ? tileY : 0);
+    const descriptor = normalizeLootPickupDescriptor(this.visualResolver.resolveSpecialPickup({
+      tileType, depthTiles: resolvedDepth, gemPowerTierId,
+    }));
+    if (!descriptor) return false;
+    return this._show({
+      worldX, worldY, tileType, descriptor, amount: 1,
+      specialEffect: specialEffect ?? specialBlockEffect, special: true, pickupCount: 1,
+    });
+  }
+  showSpecialBlockPickup(detail = {}) {
+    return this.showSpecialTilePickup(detail);
+  }
 
-    for (let i = 0; i < pickupCount; i += 1) {
-      if (this.activeSprites.length >= this.maxActiveSprites) {
-        this._removeSprite(this.activeSprites[0]);
+  showStarPickup(detail = {}) {
+    const worldX = detail.worldX ?? detail.startWorldX;
+    const worldY = detail.worldY ?? detail.startWorldY;
+    if (!this._canShow(worldX, worldY) || !detail.textureKey) return false;
+    const progress = detail.progress || {};
+    const descriptor = normalizeLootPickupDescriptor(Object.freeze({
+      visualId: `star:${detail.identityId || progress.identityId || "unknown"}`,
+      kind: "star",
+      sourceId: "collected-star-release-entry",
+      textureKey: detail.textureKey,
+      textureFrame: detail.textureFrame ?? null,
+      lightTextureKey: detail.lightTextureKey ?? null,
+      lightTextureFrame: detail.lightTextureFrame ?? null,
+      identityIndex: detail.identityIndex ?? progress.identityIndex ?? null,
+      identityId: detail.identityId ?? progress.identityId ?? null,
+      rarity: detail.rarity ?? progress.rarity ?? 0,
+      exactWorldFrame: true,
+      blendMode: globalThis.Phaser?.BlendModes?.SCREEN ?? "SCREEN",
+    }));
+    return this._show({
+      worldX,
+      worldY,
+      descriptor,
+      resourceType: detail.resourceType ?? progress.resourceType ?? null,
+      amount: progress.materialAmount ?? 1,
+      isStarResource: true,
+      isSkyTileBonus: true,
+      skyTileRarity: descriptor.rarity,
+      identityId: descriptor.identityId,
+      identityNewlyDiscovered: progress.identityNewlyDiscovered === true,
+      special: true,
+      pickupCount: 1,
+    });
+  }
+
+  _show(context) {
+    const eventId = this.eventSequence;
+    this.eventSequence += 1;
+    this.lastArrivalTarget = null;
+    const count = context.pickupCount ?? this._getPickupCount(
+      context.amount,
+      context.isSkyTileBonus,
+    );
+    if (count <= 0) return false;
+    let spawned = false;
+    for (let index = 0; index < count; index += 1) {
+      while (this.activeFlights.length >= this.maxActiveSprites) {
+        this._removeFlight(this.activeFlights[0]);
       }
-      this._spawnPickup(
-        worldX, worldY, resourceType, amount, i, pickupCount,
-        isLuckyDrop, isSkyTileBonus, isStarResource,
-      );
+      spawned = this._spawn({ ...context, eventId, index, count }) || spawned;
     }
+    return spawned;
   }
 
-  _getPickupCount(amount, isLuckyDrop = false, isSkyTileBonus = false) {
-    const awardedAmount = Math.max(1, Math.round(Number.isFinite(amount) ? amount : 1));
-    const cap = isSkyTileBonus ? 4 : 3;
-    return Math.min(awardedAmount, cap);
-  }
-
-  _spawnPickup(worldX, worldY, resourceType, amount, index, pickupCount, isLuckyDrop, isSkyTileBonus, isStarResource) {
-    const start = this._worldToScreen(worldX, worldY);
-    const target = this.targetProvider?.getLootPickupTarget?.(resourceType) || this._fallbackTarget();
-    const textureKey = this._getTextureKey(resourceType);
-    const startOffsetX = (Math.random() - 0.5) * 22 + (index - (pickupCount - 1) / 2) * 8;
-    const startOffsetY = (Math.random() - 0.5) * 14;
-    const sprite = this.scene.add.image(start.x + startOffsetX, start.y + startOffsetY, textureKey)
-      .setScrollFactor(0)
-      .setDepth(HUD_LAYOUT.hudOverlayDepth + 60)
-      .setAlpha(0)
-      .setScale(0.4);
-
-    const displaySize = isSkyTileBonus ? 21 : 20;
-    sprite.setDisplaySize(displaySize, displaySize);
-    if (isLuckyDrop) sprite.setTint(0xeaffb0);
-    else if (isSkyTileBonus) sprite.setTint(0xc7fbff);
-
-    this.activeSprites.push(sprite);
-
-    const hoverY = sprite.y - 8 - Math.random() * 6;
-    this.scene.tweens.add({
-      targets: sprite,
-      alpha: 1,
-      scaleX: 1.15,
-      scaleY: 1.15,
-      y: hoverY,
-      duration: 95,
-      ease: "Back.out",
-      onComplete: () => this._flyToTarget(
-        sprite,
-        target,
-        resourceType,
-        isLuckyDrop,
-        isSkyTileBonus,
-        { amount, index, pickupCount, isStarResource },
-      ),
-    });
-  }
-
-  _flyToTarget(sprite, target, resourceType, isLuckyDrop, isSkyTileBonus, details = {}) {
-    if (!sprite?.active) return;
-
-    const startX = sprite.x;
-    const startY = sprite.y;
+  _spawn(context) {
+    const config = LOOT_PICKUP_PRESENTATION;
+    const source = this._worldToScreen(context.worldX, context.worldY);
+    const offsetX = (lootPickupUnit(context, 31) - 0.5) * config.spawn.spreadXPx
+      + (context.index - (context.count - 1) / 2) * config.spawn.indexSpacingPx;
+    const offsetY = (lootPickupUnit(context, 43) - 0.5) * config.spawn.spreadYPx;
+    const rise = config.spawn.riseMinPx + lootPickupUnit(context, 59) * config.spawn.riseRangePx;
+    const start = { x: source.x + offsetX, y: source.y + offsetY };
+    const hover = { x: start.x, y: start.y - rise };
+    const targetProvider = () => this._getTarget(context.resourceType);
+    const target = targetProvider();
     const motionPlan = this.motionProvider.createPlan({
+      ...context,
       channel: REWARD_FLIGHT_CHANNELS.loot,
-      start: { x: startX, y: startY },
+      start: hover,
       target,
-      resourceType,
-      amount: details.amount ?? 1,
-      isSkyTileBonus,
-      isStarResource: details.isStarResource,
-      special: isLuckyDrop || isSkyTileBonus,
-      index: details.index ?? 0,
-      count: details.pickupCount ?? 1,
+      index: context.index,
+      count: context.count,
     });
-    if (!motionPlan) { this._removeSprite(sprite); return; }
-    this.lastMotionProfileId = motionPlan.profileId;
-    const startRotation = Number.isFinite(sprite.rotation) ? sprite.rotation : 0;
-    const state = { t: 0 };
-    sprite._rewardFlightState = state;
-
+    if (!motionPlan) return false;
+    const moment = resolveLootPickupMoment(context);
+    const displaySize = this._getDisplaySize(context);
+    const flight = this.flightView.create({
+      descriptor: context.descriptor,
+      x: start.x,
+      y: start.y,
+      displaySize,
+      trailCount: moment.trailCount,
+    });
+    if (!flight) return false;
+    flight.motionPlan = motionPlan;
+    this.activeFlights.push(flight);
+    this._recordTelemetry(context, motionPlan, moment);
+    flight.root.setScale(config.spawn.startScale)
+      .setAlpha(0)
+      .setRotation((lootPickupUnit(context, 71) - 0.5) * 0.12);
     this.scene.tweens.add({
-      targets: state,
-      t: 1,
-      duration: motionPlan.durationMs,
-      ease: motionPlan.ease,
-      onUpdate: () => {
-        if (!sprite.active) return;
-        const t = state.t;
-        const point = motionPlan.sample(t);
-        sprite.x = point.x;
-        sprite.y = point.y;
-        sprite.alpha = 1 - Math.max(0, t - 0.82) / 0.18;
-        const scale = 1.05 - t * 0.38;
-        sprite.setScale(scale);
-        sprite.rotation = startRotation + motionPlan.rotationRadians * t;
-      },
+      targets: flight.root,
+      x: hover.x,
+      y: hover.y,
+      alpha: 1,
+      scaleX: config.spawn.endScale,
+      scaleY: config.spawn.endScale,
+      duration: config.spawn.durationMs,
+      ease: config.spawn.ease,
       onComplete: () => {
-        this._arrivalBurst(target.x, target.y, resourceType, isLuckyDrop, isSkyTileBonus);
-        this.targetProvider?.pulseLootTarget?.(resourceType, isLuckyDrop || isSkyTileBonus);
-        this._removeSprite(sprite);
+        if (!flight.root.active) return;
+        const started = this.flightView.animate({
+          flight,
+          motionPlan,
+          moment,
+          targetProvider,
+          onArrival: liveTarget => {
+            if (this._destroyed) return;
+            if (context.index === 0 && !context.isStarResource) this.scene.soundSystem?.playResourcePickup?.({ special: context.special });
+            this.targetProvider?.pulseLootTarget?.(
+              context.resourceType,
+              context.special || context.isStarResource,
+            );
+            rememberRewardPickupVisual(this.scene, context);
+            this.lastArrivalTarget = Object.freeze({ ...liveTarget });
+          },
+        });
+        if (!started) this._removeFlight(flight);
       },
     });
+    return true;
   }
 
-  _arrivalBurst(x, y, resourceType, isLuckyDrop, isSkyTileBonus) {
-    const color = isLuckyDrop ? 0x9dff75 : isSkyTileBonus ? 0xa8f5ff : (RESOURCE_COLOR_INTS[resourceType] || 0xffffff);
-    const count = isLuckyDrop || isSkyTileBonus ? 7 : 4;
-    for (let i = 0; i < count; i += 1) {
-      const angle = (i / count) * Math.PI * 2 + Math.random() * 0.25;
-      const spark = this.scene.add.circle(x, y, 2, color, 0.9)
-        .setScrollFactor(0)
-        .setDepth(HUD_LAYOUT.hudOverlayDepth + 58);
-      this.scene.tweens.add({
-        targets: spark,
-        x: x + Math.cos(angle) * (12 + Math.random() * 10),
-        y: y + Math.sin(angle) * (12 + Math.random() * 10),
-        alpha: 0,
-        scaleX: 0.2,
-        scaleY: 0.2,
-        duration: 220,
-        ease: "Power2.out",
-        onComplete: () => spark.destroy(),
-      });
+  _recordTelemetry(context, plan, moment) {
+    const entry = Object.freeze({
+      visualId: context.descriptor.visualId,
+      textureKey: context.descriptor.textureKey,
+      textureFrame: context.descriptor.textureFrame,
+      lightTextureKey: context.descriptor.lightTextureKey ?? null,
+      lightTextureFrame: context.descriptor.lightTextureFrame ?? null,
+      momentId: moment.id,
+      profileId: plan.profileId,
+      routeId: plan.routeId || null,
+      rareRewardPath: plan.route?.rareReward === true,
+      softEchoCount: moment.softEchoRatios.length,
+      rarity: context.skyTileRarity ?? null,
+    });
+    this.recentTelemetry.push(entry);
+    if (this.recentTelemetry.length > 16) this.recentTelemetry.shift();
+    this.lastTelemetry = entry;
+    this.lastMotionProfileId = plan.profileId;
+  }
+
+  _getPickupCount(amount, isSkyTileBonus = false) {
+    const awarded = Math.max(1, Math.round(Number.isFinite(amount) ? amount : 1));
+    const cap = isSkyTileBonus
+      ? LOOT_PICKUP_PRESENTATION.limits.bonusPickupCap
+      : LOOT_PICKUP_PRESENTATION.limits.routinePickupCap;
+    return Math.min(awarded, cap);
+  }
+
+  _getDisplaySize(context) {
+    const flight = LOOT_PICKUP_PRESENTATION.flight;
+    if (context.isStarResource) {
+      const rarity = Math.max(0, Math.floor(Number(context.skyTileRarity) || 0));
+      return flight.starDisplaySizePx + rarity * flight.starRaritySizeStepPx;
     }
+    if (context.descriptor.kind === "special") return flight.specialDisplaySizePx;
+    return flight.resourceDisplaySizePx;
+  }
+
+  _getTarget(resourceType) {
+    const target = this.targetProvider?.getLootPickupTarget?.(resourceType);
+    return Number.isFinite(target?.x) && Number.isFinite(target?.y)
+      ? target
+      : this._fallbackTarget();
+  }
+
+  _canShow(worldX, worldY) {
+    return !this._destroyed
+      && isLootVisualsEnabled(this.scene)
+      && Number.isFinite(worldX)
+      && Number.isFinite(worldY);
   }
 
   _worldToScreen(worldX, worldY) {
@@ -167,73 +270,31 @@ export class LootPickupFxSystem {
   }
 
   _fallbackTarget() {
-    const width = this.scene.scale?.width || 1280;
-    const height = this.scene.scale?.height || 720;
-    return { x: width - 42, y: height - 42 };
+    return {
+      x: (this.scene.scale?.width || 1280) - 42,
+      y: (this.scene.scale?.height || 720) - 42,
+    };
   }
 
-  _getTextureKey(resourceType) {
-    const key = ASSET_KEYS.ui.lootPickups?.[resourceType];
-    if (key && this.scene.textures.exists(key)) return key;
-    return this._ensureFallbackTexture(resourceType);
-  }
-
-  _ensureFallbackTexture(resourceType) {
-    const key = `loot-pickup-fallback-${resourceType || "resource"}`;
-    if (this.scene.textures.exists(key)) return key;
-
-    const color = RESOURCE_COLOR_INTS[resourceType] || 0xffffff;
-    const oreColor = RESOURCE_ORE_COLOR_INTS[resourceType] || 0xffd98f;
-    const canvas = this.scene.textures.createCanvas(key, 32, 32);
-    const ctx = canvas.getContext();
-    ctx.clearRect(0, 0, 32, 32);
-    ctx.fillStyle = "rgba(0, 0, 0, 0.35)";
-    ctx.fillRect(5, 7, 24, 22);
-
-    ctx.fillStyle = `#${color.toString(16).padStart(6, "0")}`;
-    ctx.beginPath();
-    ctx.moveTo(4, 3);
-    ctx.lineTo(27, 3);
-    ctx.lineTo(30, 7);
-    ctx.lineTo(30, 25);
-    ctx.lineTo(26, 30);
-    ctx.lineTo(7, 30);
-    ctx.lineTo(3, 26);
-    ctx.lineTo(3, 8);
-    ctx.closePath();
-    ctx.fill();
-
-    ctx.fillStyle = `#${oreColor.toString(16).padStart(6, "0")}`;
-    ctx.fillRect(6, 6, 8, 7);
-    ctx.fillRect(19, 8, 6, 6);
-    ctx.fillRect(12, 20, 8, 5);
-
-    ctx.fillStyle = "rgba(255, 245, 210, 0.55)";
-    ctx.fillRect(7, 7, 5, 3);
-    ctx.fillRect(20, 9, 4, 2);
-    ctx.fillRect(13, 21, 5, 2);
-
-    ctx.strokeStyle = "rgba(245, 225, 180, 0.86)";
-    ctx.lineWidth = 2;
-    ctx.stroke();
-    canvas.refresh();
-    return key;
-  }
-
-  _removeSprite(sprite) {
-    if (!sprite) return;
-    if (sprite._rewardFlightState) this.scene.tweens.killTweensOf(sprite._rewardFlightState);
-    this.scene.tweens.killTweensOf(sprite);
-    const idx = this.activeSprites.indexOf(sprite);
-    if (idx !== -1) this.activeSprites.splice(idx, 1);
-    sprite.destroy();
+  _removeFlight(flight, preserveRoots = []) {
+    if (!flight) return;
+    const preserved = new Set(preserveRoots);
+    if (flight.state) this.scene.tweens.killTweensOf(flight.state);
+    for (const root of [flight.root, ...(flight.trails || []), ...(flight.softEchoes || []), ...(flight._arrivalRoots || [])]) {
+      if (!root || preserved.has(root)) continue;
+      this.scene.tweens.killTweensOf(root);
+      if (root.active !== false) root.destroy();
+    }
+    const index = this.activeFlights.indexOf(flight);
+    if (index !== -1) this.activeFlights.splice(index, 1);
   }
 
   destroy() {
     if (this._destroyed) return;
     this._destroyed = true;
-    [...this.activeSprites].forEach(sprite => this._removeSprite(sprite));
-    this.activeSprites = [];
+    [...this.activeFlights].forEach(flight => this._removeFlight(flight));
+    this.activeFlights.length = 0;
+    this.recentTelemetry.length = 0;
     if (this.ownsMotionProvider) this.motionProvider.destroy();
   }
 }

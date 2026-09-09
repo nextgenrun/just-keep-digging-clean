@@ -1,0 +1,147 @@
+{
+  "generatedAt": "2026-08-30T20:47:55.188Z",
+  "gate": "B",
+  "reviewStatus": "accepted",
+  "builtInImageGen": true,
+  "sourceTileSizePx": 94,
+  "runtimeScale": 1,
+  "carrier": {
+    "widthPx": 1536,
+    "heightPx": 1024
+  },
+  "noRuntimeResize": true,
+  "contactRepairDepthPx": 6,
+  "alphaContract": "generated foreground intersected with Gate A; pixels can never exist beyond the collision silhouette",
+  "geometryAuthority": "values/worldrootWhitebox.js",
+  "prompts": {
+    "mode": "built-in-imagegen",
+    "rootways": {
+      "input": "guides/rootways-carrier-v1.png",
+      "prompt": "Use case: stylized-concept. Asset type: transparent 2D side-view game environment module. Transform the exact carrier silhouette into the grounded Rootways and Hearth foundation of one immense ancient living subterranean Worldroot. Preserve the image dimensions, placement, silhouette, proportions, and every horizontal cyan walkable top from Image 1. Render a strict orthographic side elevation on one fixed 2D plane: massive old bark, load-bearing roots, broad naturally walkable branch tops, restrained violet fungal light, moss, small mushroom shelves, and layered hand-painted material detail suited to UNDERSTAR. The module must read as one connected structure planted in the earth, with believable thickness under every walkable top. Actual transparent background outside the carrier. Do not add or remove geometry. No isometric view, perspective, top-facing planes, rotation, stretching, floating platforms, separate islands, fruit, Stars, blue Crown Star, sockets, Titans, statues, Campfire, shrine, character, UI, labels, text, logos, or watermark."
+    },
+    "cobalt": {
+      "input": "guides/cobalt-carrier-v1.png",
+      "prompt": "Use case: stylized-concept. Asset type: transparent 2D side-view game environment module. Transform the exact carrier silhouette into the Cobalt Aquifer branch-country of the same immense ancient living subterranean Worldroot. Preserve the image dimensions, placement, silhouette, proportions, and every horizontal cyan walkable top from Image 1. Render a strict orthographic side elevation on one fixed 2D plane: dark ancient load-bearing wood, broad naturally walkable boughs, wet cobalt mineral veins flowing through the wood, sparse luminous blue fungi, crystalline aquifer deposits, droplets and restrained cyan bioluminescence, with layered hand-painted detail suited to UNDERSTAR. It must remain one connected branch system with believable thickness under every walkable top. Actual transparent background outside the carrier. Do not add or remove geometry. No isometric view, perspective, top-facing planes, rotation, stretching, floating platforms, separate islands, fruit, Stars, blue Crown Star, sockets, Titans, statues, Campfire, shrine, character, UI, labels, text, logos, or watermark."
+    },
+    "root-cobalt-seat": {
+      "input": "guides/root-cobalt-seat-carrier-v1.png",
+      "references": [
+        "living/rootways-living-v1.png",
+        "living/cobalt-living-v1.png"
+      ],
+      "prompt": "Use case: stylized-concept. Asset type: transparent 2D side-view game environment connector. Image 1 is the immutable native carrier for the missing Rootways-to-Cobalt structural seat. Images 2 and 3 are material references only. Paint the complete short carrier as one thick, load-bearing root joint that begins in dark violet fungal Rootways bark and resolves into wet cobalt-veined ancient wood. Preserve the exact 1536 x 1024 canvas, position, length, angle, and thickness of Image 1. Strict orthographic side elevation on the same fixed 2D plane; crisp native-density hand-painted texture; actual transparent background or edge-connected neutral checker. Do not move, resize, rotate, stretch, widen, narrow, or add geometry. No isometric view, perspective, or floating platforms. No fruit, Stars, blue Crown Star, sockets, Titans, statues, Campfire, player, NPC, vendor, UI, text, particles, logo, or watermark."
+    }
+  },
+  "modules": [
+    {
+      "id": "rootways",
+      "stage": 0,
+      "key": "environment-worldroot-gate-b-rootways-v1",
+      "path": "sprites/environment/worldroot-gate-b-v1/living/rootways-living-v1.png?rev=20260830-gate-b-v2",
+      "promptId": "rootways",
+      "sourcePath": null,
+      "sourceOffsetYPx": 0,
+      "geometry": {
+        "silhouettes": [
+          "root-mass",
+          "root-loft",
+          "root-talent"
+        ],
+        "connectors": [
+          "root-spine"
+        ],
+        "platforms": [
+          "root-loft",
+          "root-talent"
+        ]
+      },
+      "bounds": {
+        "moduleId": "rootways",
+        "worldLeftPx": 1720,
+        "worldTopPx": 5506,
+        "worldRightPx": 2574,
+        "worldBottomPx": 6178,
+        "widthPx": 854,
+        "heightPx": 672,
+        "carrierLeftPx": 341,
+        "carrierTopPx": 176
+      },
+      "output": {
+        "width": 854,
+        "height": 672,
+        "hasAlpha": true
+      }
+    },
+    {
+      "id": "cobalt",
+      "stage": 1,
+      "key": "environment-worldroot-gate-b-cobalt-v1",
+      "path": "sprites/environment/worldroot-gate-b-v1/living/cobalt-living-v1.png?rev=20260830-gate-b-v2",
+      "promptId": "cobalt",
+      "sourcePath": null,
+      "sourceOffsetYPx": 0,
+      "geometry": {
+        "silhouettes": [
+          "cobalt-road",
+          "cobalt-nook"
+        ],
+        "connectors": [
+          "root-to-cobalt",
+          "cobalt-fork"
+        ],
+        "platforms": [
+          "cobalt-road",
+          "cobalt-nook"
+        ]
+      },
+      "bounds": {
+        "moduleId": "cobalt",
+        "worldLeftPx": 2363,
+        "worldTopPx": 5178,
+        "worldRightPx": 3751,
+        "worldBottomPx": 5608,
+        "widthPx": 1388,
+        "heightPx": 430,
+        "carrierLeftPx": 74,
+        "carrierTopPx": 297
+      },
+      "output": {
+        "width": 1388,
+        "height": 430,
+        "hasAlpha": true
+      }
+    },
+    {
+      "id": "root-cobalt-seat",
+      "stage": 1,
+      "key": "environment-worldroot-gate-b-root-cobalt-seat-v1",
+      "path": "sprites/environment/worldroot-gate-b-v1/living/root-cobalt-seat-living-v1.png?rev=20260830-alignment-v1",
+      "promptId": "root-cobalt-seat",
+      "sourcePath": null,
+      "sourceOffsetYPx": 0,
+      "geometry": {
+        "silhouettes": [],
+        "connectors": [
+          "root-cobalt-seat"
+        ],
+        "platforms": []
+      },
+      "bounds": {
+        "moduleId": "root-cobalt-seat",
+        "worldLeftPx": 2250,
+        "worldTopPx": 5507,
+        "worldRightPx": 2483,
+        "worldBottomPx": 5637,
+        "widthPx": 233,
+        "heightPx": 130,
+        "carrierLeftPx": 651,
+        "carrierTopPx": 447
+      },
+      "output": {
+        "width": 233,
+        "height": 130,
+        "hasAlpha": true
+      }
+    }
+  ]
+}

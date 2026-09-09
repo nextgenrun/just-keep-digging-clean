@@ -1,0 +1,10 @@
+{
+  "id": "C1",
+  "voice": "leo",
+  "text": "I know that face.",
+  "model": "x-ai/grok-voice-tts-1.0",
+  "requestSha256": "a53deab60c9e4284b687ad111ddea149e24a06946775cca39403b11e5f876c88",
+  "contentType": "audio/mpeg",
+  "generationId": "gen-tts-1788736847-xsTdWfX70OdtGXEuB4MY",
+  "rawSha256": "53c5c5ea79a13681b8c769a37d984b42ab5e67a989dc92d8b0f5c7c70c3de027"
+}

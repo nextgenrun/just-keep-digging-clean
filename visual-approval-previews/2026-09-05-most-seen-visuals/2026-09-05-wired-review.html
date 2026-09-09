@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Understar — Implemented gameplay visuals</title>
+<style>
+:root{color-scheme:dark}*{box-sizing:border-box}body{margin:0;background:#090e15;color:#eef2ef;font:16px/1.55 system-ui,sans-serif}
+main{max-width:1540px;margin:auto;padding:32px 28px}header{max-width:950px;margin-bottom:32px}
+small{color:#eccb85;letter-spacing:.14em;font-size:11px;font-weight:700}h1{font-size:clamp(28px,4vw,46px);line-height:1.1;margin:12px 0 16px;font-weight:650;letter-spacing:-.03em}
+p{color:#b7c3ce}a{color:#eccb85;text-underline-offset:4px}figure{margin:0 0 34px}img{width:100%;height:auto;display:block;border:1px solid #293544;border-radius:8px}
+figcaption{display:flex;gap:20px;justify-content:space-between;padding-top:12px;color:#b7c3ce;font-size:14px}figcaption strong{color:#eef2ef}
+footer{border-top:1px solid #293544;padding:16px 0;color:#8c9dab;font-size:13px}
+@media(max-width:700px){main{padding:22px 14px}figcaption{display:block}figcaption a{display:block;margin-top:8px}}
+</style></head><body><main>
+<header><small>UNDERSTAR / IMPLEMENTED / 05 SEP 2026</small>
+<h1>Tile HP beside GP.<br>Clear merchant interactions.</h1>
+<p>The approved presentation now runs in the actual game. The target plate tracks the tile being mined, and merchant names and actions stay aligned inside the viewport.</p>
+<p>Verified with live mining and shop inputs, three viewport sizes, all five surface merchants, screen-edge clamping, and camera zoom.</p></header>
+<figure><a href="wired-mining-1080.png"><img src="wired-mining-1080.png" alt="Actual mining gameplay with target material and tile HP beside GP in the top HUD"></a>
+<figcaption><span><strong>Mining</strong> — HP updates on damage and target changes; hidden for destroyed tiles and open overlays.</span><a href="wired-mining-1080.png">Full-resolution render</a></figcaption></figure>
+<figure><a href="wired-surface-1080.png"><img src="wired-surface-1080.png" alt="Actual surface gameplay with the approved Bobo shop plate aligned over the merchant"></a>
+<figcaption><span><strong>Town</strong> — One nearest-merchant plate, bound interaction key, and consistent text padding.</span><a href="wired-surface-1080.png">Full-resolution render</a></figcaption></figure>
+<footer><p>Real Phaser/WebGL gameplay captures from the active checkout, served by serve.py. An isolated browser blocked save writes. The mining checkpoint used staged dug cells to reach the test face.</p>
+<p><a href="2026-09-05-wired-notes.md">Implementation and verification</a> · <a href="wired-bounds-checks.json">Measured viewport bounds</a> · <a href="wired-contract-results.json">Focused test results</a> · <a href="2026-09-05-visual-review.html">Original proposals</a></p></footer>
+</main></body></html>

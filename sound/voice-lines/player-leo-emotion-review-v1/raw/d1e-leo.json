@@ -1,0 +1,10 @@
+{
+  "id": "D1E",
+  "voice": "leo",
+  "text": "Loose rocks. Keep moving.",
+  "ttsInput": "<loud>Loose rocks!</loud> <emphasis>Keep moving.</emphasis>",
+  "requestSha256": "849213c70a26c2ade9abe6b37ea667e6b3e2ee9e9d9cecdd86f640b3579fc855",
+  "contentType": "audio/mpeg",
+  "generationId": "gen-tts-1788745456-yzpwuILPY5SiRd7vU6sb",
+  "rawSha256": "59017d710566a6c812baa2f2a17198d6d12320d354af423f998ed53e128fe15b"
+}

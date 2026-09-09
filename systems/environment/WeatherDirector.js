@@ -84,6 +84,12 @@ export class WeatherDirector {
     };
   }
 
+  resume(time) {
+    this._overrideUntil = 0;
+    this.forecastProgress = 0;
+    return this.start(time, false);
+  }
+
   getSnapshot() {
     return {
       forecastKind: this.forecastKind,

@@ -65,7 +65,7 @@ export class RuntimeAssetLoadCoordinator {
     if (this.assetCatalog && !descriptor) return null;
     const type = resolveRuntimeAssetType(asset, this.config);
     if (this._assetExists(asset, type)) {
-      if ([this.config.types.image, this.config.types.spritesheet].includes(type)) {
+      if ([this.config.types.image, this.config.types.spritesheet, this.config.types.multiatlas].includes(type)) {
         this._registerTexture({ asset, type, owner }, false);
       }
       onStart?.(asset);
@@ -248,7 +248,7 @@ export class RuntimeAssetLoadCoordinator {
         else this._finish(record, new Error(`Asset was not cached: ${record.asset.key}`));
       };
       record.loaderError = file => {
-        if (file?.key !== record.asset.key) return;
+        if (file?.key !== record.asset.key && file?.multiFile?.key !== record.asset.key) return;
         this._clearLoaderListeners(record, eventName);
         this._finish(record, file || bitmapError || new Error(`Asset failed: ${record.asset.key}`));
       };
@@ -259,7 +259,7 @@ export class RuntimeAssetLoadCoordinator {
       // framed source; otherwise deferred flight/crouch animations resolve to
       // the missing-texture frame while the coordinator reports them ready.
       if (
-        record.type === this.config.types.spritesheet
+        [this.config.types.spritesheet, this.config.types.multiatlas].includes(record.type)
         && this.scene.textures?.exists?.(record.asset.key)
         && !this._assetExists(record.asset, record.type)
       ) {
@@ -272,14 +272,14 @@ export class RuntimeAssetLoadCoordinator {
     }
   }
   _getLoaderCompletionEvent(record) {
-    return record.asset.normalMapPath
+    return record.asset.normalMapPath || record.type === this.config.types.multiatlas
       ? this.config.phaserLoader.completeEvent
       : `filecomplete-${record.type}-${record.asset.key}`;
   }
   _clearLoaderListeners(record, eventName) {
     const loader = this.scene.load;
-    loader?.off?.(eventName, record.loaderComplete);
-    loader?.off?.(this.config.phaserLoader.errorEvent, record.loaderError);
+    if (record.loaderComplete) loader?.off?.(eventName, record.loaderComplete);
+    if (record.loaderError) loader?.off?.(this.config.phaserLoader.errorEvent, record.loaderError);
     record.loaderComplete = null; record.loaderError = null;
   }
   _finish(record, error = null, cancelled = false) {

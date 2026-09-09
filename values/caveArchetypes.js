@@ -123,8 +123,8 @@ export const CAVE_ARCHETYPE_CONFIG = Object.freeze({
       features: [
         caveFeature("crystal-crown", "ceiling", 0.86, [TILE_TYPES.GLOW_CRYSTAL]),
         caveFeature("prism-node", "floor", 0.44, [
-          TILE_TYPES.CRIT_BLOCK,
           TILE_TYPES.XP_BLOCK,
+          TILE_TYPES.GEM_POWER_BLOCK,
         ]),
       ],
     }),
@@ -135,13 +135,13 @@ export const CAVE_ARCHETYPE_CONFIG = Object.freeze({
       minDepth: 320,
       weight: 13,
       motif: "storm",
-      hint: "Charged rock can yield speed, power, or critical energy.",
+      hint: "Charged rock can yield speed, power, or stored Gem energy.",
       palette: cavePalette(0x0d1b2c, 0x050a12, 0x3f8cff, 0x8ff7ff, 0x31558b),
       features: [
         caveFeature("storm-crystal", "ceiling", 0.58, [TILE_TYPES.GLOW_CRYSTAL]),
         caveFeature("charged-node", "floor", 0.66, [
           TILE_TYPES.SPEED_BLOCK,
-          TILE_TYPES.CRIT_BLOCK,
+          TILE_TYPES.BERSERK_BLOCK,
           TILE_TYPES.GEM_POWER_BLOCK,
         ]),
       ],

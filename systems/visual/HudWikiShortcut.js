@@ -1,5 +1,6 @@
 import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { APPROVED_HUD_SKIN } from "../../values/approvedHudSkin.js";
+import { getBakedUiArt, fitBakedUiImage } from "./bakedUiArt.js";
 import { GAME_WIKI } from "../../values/gameWiki.js";
 import { openGameWiki } from "./gameWikiLink.js";
 
@@ -25,17 +26,19 @@ export class HudWikiShortcut {
   }
 
   _create() {
-    const textureKey = ASSET_KEYS.ui.approvedHud.buffChip;
+    this.bakedArt = getBakedUiArt(this.scene, "wiki");
+    const textureKey = this.bakedArt?.key || ASSET_KEYS.ui.approvedHud.buffChip;
     if (this.config.enabled !== true || !textureExists(this.scene, textureKey)) return;
     this.container = this.scene.add.container(0, 0)
       .setScrollFactor(0)
       .setDepth(this.depth)
       .setVisible(this.visible);
     this.hit = this.scene.add.zone(0, 0, 1, 1)
+      .setScrollFactor(0)
       .setOrigin(0.5)
       .setInteractive({ useHandCursor: true });
-    this.frame = this.scene.add.image(0, 0, textureKey);
-    this.label = this.scene.add.text(0, 0, this.config.label, {
+    this.frame = this.scene.add.image(0, 0, textureKey, this.bakedArt?.frame);
+    this.label = this.bakedArt ? null : this.scene.add.text(0, 0, this.config.label, {
       fontFamily: APPROVED_HUD_SKIN.font.family,
       fontSize: `${this.config.fontSize}px`,
       fontStyle: "bold",
@@ -43,7 +46,7 @@ export class HudWikiShortcut {
       stroke: this.config.stroke,
       strokeThickness: this.config.strokeThickness,
     }).setOrigin(0.5);
-    this.container.add([this.hit, this.frame, this.label]);
+    this.container.add([this.hit, this.frame, this.label].filter(Boolean));
     this._wireInput();
   }
 
@@ -73,15 +76,16 @@ export class HudWikiShortcut {
     const displayHeight = Math.max(this.config.minimumDisplayHeight, this.config.height * scale);
     const anchor = this.anchorProvider() || {};
     const x = Number.isFinite(anchor.x)
-      ? anchor.x
+      ? anchor.x - (Number(anchor.width) || 0) / 2
+        - this.config.gapBesideMap * scale - displayWidth / 2
       : width - this.config.right * scale - displayWidth / 2;
     const y = Number.isFinite(anchor.y)
-      ? anchor.y - (Number(anchor.height) || 0) / 2
-        - this.config.gapAboveMap * scale - displayHeight / 2
+      ? anchor.y
       : height - displayHeight / 2 - 14 * scale;
     this.container.setPosition(x, y);
-    this.frame.setDisplaySize(displayWidth, displayHeight);
-    this.label.setFontSize(Math.max(10, Math.round(this.config.fontSize * scale)));
+    if (this.bakedArt) fitBakedUiImage(this.frame, displayWidth, displayHeight);
+    else this.frame.setDisplaySize(displayWidth, displayHeight);
+    this.label?.setFontSize(Math.max(10, Math.round(this.config.fontSize * scale)));
     const hitWidth = Math.max(
       this.config.minimumHitSize,
       displayWidth + this.config.hitPaddingX * 2 * scale,
@@ -116,7 +120,8 @@ export class HudWikiShortcut {
     return {
       active: Boolean(this.container),
       visible: this.container?.visible === true,
-      label: this.label?.text || "",
+      label: this.bakedArt ? this.config.label : this.label?.text || "",
+      baked: Boolean(this.bakedArt),
       width: this.frame?.displayWidth || 0,
       height: this.frame?.displayHeight || 0,
       hitWidth: this.hit?.input?.hitArea?.width || 0,

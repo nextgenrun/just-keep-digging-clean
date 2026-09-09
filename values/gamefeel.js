@@ -21,34 +21,14 @@ export const GAMEFEEL_CONFIG = Object.freeze({
     secondaryWavePhaseY: 0.9,
   }),
 
-  // ── HITSTOP ────────────────────────────────────────────────────────────
-  hitstop: {
-    critDurationMs:   90,
-    luckyDurationMs:  60,
-    slowTimeScale:    0.05,
-    resumeTimeScale:  1.0,
-  },
-
   // ── SCREEN FLASH (removed bright white flash to fix lag) ──────────────
   flash: {
-    critColor:    0x6644aa,  // subtle purple instead of bright white
-    critAlpha:    0.016,     // 80% reduced for subtle feedback
-    critDuration: 80,        // faster fade
-    luckyColor:   0x44cc88,
-    luckyAlpha:   0.024,
-    luckyDuration: 70,
+    rewardColor:   0x44cc88,
+    rewardAlpha:   0.024,
+    rewardDuration: 70,
     panicColor:   0xff1f2d,
     panicAlpha:   0.34,
     panicDuration: 260,
-  },
-
-  // ── CAMERA ZOOM PULSE (on crit) ────────────────────────────────────────
-  zoomPulse: {
-    enabled:      true,
-    targetZoom:   0.965,
-    defaultZoom:  1.0,
-    inDuration:   25,
-    outDuration:  80,
   },
 
   // ── PICKAXE TRAIL (swing arc ghost sprites) ────────────────────────────
@@ -62,7 +42,7 @@ export const GAMEFEEL_CONFIG = Object.freeze({
 
   // ── DIG ANIMATION SPEED SCALING ────────────────────────────────────────
   animSpeed: {
-    baseCooldownMs: 750,  // matches miningConfig.mineCooldownMs baseline
+    baseCooldownMs: 1500,  // matches miningConfig.mineCooldownMs baseline
     maxSpeedMultiplier: 2.5,
   },
 

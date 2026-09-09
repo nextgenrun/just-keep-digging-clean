@@ -57,9 +57,9 @@ export const CRAFTING_RECIPES = Object.freeze({
     ui: {
       category: "Heavenblock Vehicle Core",
       description:
-        "Fuse all three attuned Heavenblock components into the small Arc Core chassis.",
+        "Build a permanent Arc Core from your three attuned Heavenblock parts. It carries your upgrades and abilities into a 2 x 2 mining vehicle.",
       iconAssetKey: ASSET_KEYS.ui.heavenblocks.aetherTurbine,
-      successCopy: "ARC CORE FORGED  •  Vehicle systems online",
+      successCopy: "ARC CORE FORGED  •  READY TO DRIVE",
       requirementCopy: [
         "3 Ancient Relics found (permanent)",
         "World Two Tunnel Key",
@@ -87,9 +87,9 @@ export const CRAFTING_RECIPES = Object.freeze({
     ui: {
       category: "Zenith Vehicle Core",
       description:
-        "Temper the Arc Core with all three reopened sky vaults and the permanent Zenith Keystone.",
+        "Transform your Arc Core with the Zenith Keystone. The much larger Omega Core mines an 8 x 8 area with every normal dig.",
       iconAssetKey: ASSET_KEYS.ui.heavenblocks.eclipseCrucible,
-      successCopy: "OMEGA ARC CORE FORGED  •  Zenith drive online",
+      successCopy: "OMEGA ARC CORE FORGED  •  ZENITH DRIVE READY",
       requirementCopy: [
         "Arc Core owned",
         "18 Ancient Relics found (permanent)",

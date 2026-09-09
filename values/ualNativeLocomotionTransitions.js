@@ -18,9 +18,11 @@ export const UAL_NATIVE_LOCOMOTION_PHASES = Object.freeze({
 
 export const UAL_NATIVE_LOCOMOTION_TRANSITION_CONFIG = Object.freeze({
   ground: Object.freeze({
-    // The production run slot preserves the existing animation key but now
-    // carries the approved Mixamo Standard Walk. Every grounded speed uses that
-    // gait so speed thresholds cannot switch mesh occupancy mid-stride.
+    // Ctrl running preserves the approved Mixamo Standard Walk in the existing
+    // run slot; ordinary ground movement returns to the retained walk loop.
+    walkAnimationRole: "walkLoop",
+    runAnimationRole: "run",
+    // Kept for compatibility with older profile/contract consumers.
     gaitAnimationRole: "run",
     moveEnterSpeedPxPerSec: 24,
     moveExitSpeedPxPerSec: 10,

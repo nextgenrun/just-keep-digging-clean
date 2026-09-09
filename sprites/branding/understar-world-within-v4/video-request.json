@@ -1,0 +1,9 @@
+{
+  "model": "bytedance/seedance-2.0-mini",
+  "prompt": "Create an exactly 15-second seamless living-logo loop from the supplied identical first and last frames. The UNDERSTAR wordmark is a rigid fixed graphic: preserve every letter, especially the three-bar E, exact silhouette, positions, scale, bronze borders, underline, center star and composition for the entire clip. Locked orthographic camera, no camera movement or zoom, no wobble, morphing or newly invented details. Animate only the tiny world already INSIDE the letters: gentle campfire flicker and a few swaying leaves in U/N, the little miner makes one restrained strike-and-return cycle inside E without obscuring its openings, a few tiny contained sparks appear and fade, cyan Stars gently shimmer, blue-violet energy slowly travels along the EXISTING veins on the right and around the existing Hollow Sun core. Rock and metal stay stationary. No floating debris movement outside the wordmark, no pulsing whole-logo brightness or resizing. Keep movement subtle enough for a menu, never flashy. Uniform deep navy background stays perfectly still. All motion returns naturally to its exact starting phase by 15 seconds, first and last frames match, seamless cyclic motion with no cut or fade to black. No audio, added text or new symbols.",
+  "duration": 15,
+  "resolution": "720p",
+  "aspect_ratio": "21:9",
+  "generate_audio": false,
+  "seed": 20260907
+}

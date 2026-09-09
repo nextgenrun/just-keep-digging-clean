@@ -1,4 +1,7 @@
-import { PLAYER_TILE_CONTACT_CONFIG } from "../../values/playerTileContact.js";
+import {
+  PLAYER_TILE_CONTACT_CONFIG,
+  resolvePlayerSolidOcclusionEnabled,
+} from "../../values/playerTileContact.js";
 
 function finiteBound(primary, fallback) {
   return Number.isFinite(primary) ? primary : fallback;
@@ -11,12 +14,14 @@ export class PlayerSolidOcclusionSystem {
     worldModel,
     profile,
     config = PLAYER_TILE_CONTACT_CONFIG.solidOcclusion,
+    search = globalThis.location?.search || "",
   ) {
     this.scene = scene;
     this.player = player;
     this.worldModel = worldModel;
     this.config = config;
-    this.enabled = config.enabled === true && profile?.isUalNative === true;
+    this.enabled = resolvePlayerSolidOcclusionEnabled(config, search)
+      && profile?.isUalNative === true;
     this.graphics = null;
     this.mask = null;
     this._onPostUpdate = null;
@@ -25,10 +30,12 @@ export class PlayerSolidOcclusionSystem {
   create() {
     const phaser = globalThis.Phaser;
     const rendererType = this.scene?.game?.renderer?.type;
-    if (!this.enabled || !phaser || rendererType !== phaser.WEBGL || this.player?.mask) return false;
+    const supportedRenderer = rendererType === phaser?.WEBGL
+      || rendererType === phaser?.CANVAS;
+    if (!this.enabled || !phaser || !supportedRenderer || this.player?.mask) return false;
 
     this.graphics = this.scene.make.graphics({ add: false });
-    this.mask = this.graphics.createGeometryMask().setInvertAlpha(true);
+    this.mask = this.graphics.createGeometryMask();
     this.player.setMask(this.mask);
     this._onPostUpdate = () => this.update();
     this.scene.events.on(phaser.Scenes.Events.POST_UPDATE, this._onPostUpdate);
@@ -55,16 +62,23 @@ export class PlayerSolidOcclusionSystem {
     const minTileY = Math.floor(top / tileSize) - padding;
     const maxTileY = Math.floor((bottom - epsilon) / tileSize) + padding;
 
+    // A positive air-cell mask avoids inverted-stencil conflicts and works in
+    // both Phaser renderers. The sprite keeps animating normally; only pixels
+    // whose world position enters an authoritative solid cell are withheld.
     this.graphics.clear().fillStyle(this.config.maskFillColor, this.config.maskFillAlpha);
-    let filledCells = 0;
+    let occludedCells = 0;
     for (let ty = minTileY; ty <= maxTileY; ty += 1) {
       for (let tx = minTileX; tx <= maxTileX; tx += 1) {
-        if (this.worldModel.inBounds?.(tx, ty) === false || !this.worldModel.isSolid?.(tx, ty)) continue;
+        const inBounds = this.worldModel.inBounds?.(tx, ty) !== false;
+        const solid = inBounds && this.worldModel.isSolid?.(tx, ty) === true;
+        if (!inBounds || solid) {
+          if (solid) occludedCells += 1;
+          continue;
+        }
         this.graphics.fillRect(tx * tileSize, ty * tileSize, tileSize, tileSize);
-        filledCells += 1;
       }
     }
-    return filledCells;
+    return occludedCells;
   }
 
   destroy() {

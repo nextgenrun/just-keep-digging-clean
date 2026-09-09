@@ -271,7 +271,7 @@ export class HardcoreMemorialWorldSystem {
     this.entries.forEach(entry => {
       entry.pulse?.stop?.();
       entry.image?.removeAllListeners?.();
-      entry.image?.disableInteractive?.();
+      if (entry.image?.scene?.sys) entry.image.disableInteractive?.();
       entry.root?.destroy?.(true);
     });
     this.entries = [];

@@ -1,0 +1,9 @@
+{
+  "mode": "built-in imagegen",
+  "date": "2026-09-03",
+  "asset": "falling-leaf.png",
+  "source": "exec-cd3078a4-b027-4ec9-ac90-592ffbaa89a8.png",
+  "styleReference": "worldroot-sanctuary-v1/trunk.png",
+  "prompt": "Use case: stylized-concept. Asset type: one single small transparent falling-leaf game sprite for UNDERSTAR. Input image is style reference only. Match its crisp hand-painted woodland leaves, warm gold edge and cool teal shadow. Draw exactly ONE curled ochre-gold leaf with a short stem, side view, isolated and centered, entire leaf visible with generous clear padding. No vine, other leaves, branch, stars, crystals, particles, glow cloud, writing or frame. Genuinely transparent RGBA background, not black or checkerboard. It must remain a natural leaf silhouette when displayed at 7 pixels. Rich clean painterly detail, no blurred halo.",
+  "processing": "Preserve native RGBA; no repainting, background removal, resampling, or generated Star art."
+}

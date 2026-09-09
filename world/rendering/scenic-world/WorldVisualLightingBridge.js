@@ -1,3 +1,9 @@
+import {
+  CAVE_VISUAL_COMPOSITION,
+  resolveCaveCompositionEnabled,
+  resolveCaveCompositionWeight,
+} from "../../../values/caveVisualComposition.js";
+
 function clamp01(value) {
   return Math.max(0, Math.min(1, Number(value) || 0));
 }
@@ -9,8 +15,9 @@ function mixColor(from, to, amount) {
 }
 
 export class WorldVisualLightingBridge {
-  constructor(scene) {
+  constructor(scene, search = globalThis.location?.search || "") {
     this.scene = scene;
+    this.caveCompositionEnabled = resolveCaveCompositionEnabled(search);
   }
 
   sample() {
@@ -39,6 +46,17 @@ export class WorldVisualLightingBridge {
       0xa8bfd5,
       wet * 0.16 + fog * 0.08
     );
+    const body = this.scene.playerController?.physicsBody;
+    const tileSize = this.scene.config?.tileSize;
+    const surfaceRow = this.scene.config?.topAirRows;
+    const playerY = body ? body.y + body.h / 2 : this.scene.player?.y;
+    const caveWeight = this.caveCompositionEnabled && tileSize > 0
+      && Number.isFinite(surfaceRow) && Number.isFinite(playerY)
+      ? resolveCaveCompositionWeight(playerY / tileSize - surfaceRow)
+      : 0;
+    const litTerrainTint = lightning > 0
+      ? mixColor(terrainTint, 0xffffff, lightning * 0.65)
+      : terrainTint;
     return Object.freeze({
       night,
       daylight,
@@ -49,7 +67,8 @@ export class WorldVisualLightingBridge {
       wind: Number(snapshot.wind ?? weather?.wind ?? 0) || 0,
       exposure: clamp01(snapshot.sunExposure ?? snapshot.exposure ?? 1),
       farTint: lightning > 0 ? mixColor(farTint, 0xeaf7ff, lightning) : farTint,
-      terrainTint: lightning > 0 ? mixColor(terrainTint, 0xffffff, lightning * 0.65) : terrainTint,
+      terrainTint: mixColor(litTerrainTint, CAVE_VISUAL_COMPOSITION.terrainNeutralTint, caveWeight),
+      caveCompositionEnabled: this.caveCompositionEnabled,
       cloudAlpha: clamp01(0.035 + wet * 0.15 + fog * 0.12 + snow * 0.06),
     });
   }

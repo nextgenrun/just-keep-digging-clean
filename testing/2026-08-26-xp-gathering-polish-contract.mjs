@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 
-import { SoundSystem } from "../sound/SoundSystem.js";
+import { createFreesoundFixture } from "./audio-review-2026-09-03/freesound-fixture.mjs";
 import {
   isNearXpViewport,
   resolveXpGatheringVariation,
@@ -9,7 +9,7 @@ import {
   resolveXpSourceColor,
 } from "../systems/visual/XPGatheringFxMath.js";
 import { ASSET_KEYS } from "../values/assetKeys.js";
-import { AUDIO_CONFIG } from "../values/audioConfig.js";
+import { CORE_ACTION_AUDIO } from "../values/coreActionAudio.js";
 import { RESOURCE_ORE_COLOR_INTS } from "../values/resourceTypes.js";
 import { XP_GATHERING_CONFIG } from "../values/xpGathering.js";
 
@@ -69,30 +69,18 @@ for (const [id, path] of Object.entries(XP_GATHERING_CONFIG.assetPaths)) {
   assert.equal(png[25], 6, `${id} XP icon must retain true RGBA transparency`);
 }
 
-const played = [];
-const soundScene = {
-  cache: { audio: { exists: key => key === ASSET_KEYS.audio.sfx.uiSelect } },
-  sound: {
-    add(key, config) {
-      return {
-        key, config, manager: {}, pendingDestroy: false,
-        once() { return this; },
-        play() { played.push(this); },
-        destroy() {},
-      };
-    },
-  },
-  time: { now: 1000 },
-};
-const sound = new SoundSystem(soundScene);
-sound.audioInitialized = true;
-assert.ok(sound.playXpGather({ segmentIndex: 4 }));
-assert.equal(sound.playXpGather({ segmentIndex: 5 }), null);
-soundScene.time.now += AUDIO_CONFIG.xpGatherMinIntervalMs;
-assert.ok(sound.playXpGather({ special: true, segmentIndex: 9 }));
-assert.equal(played.length, 2);
-assert.ok(played[1].config.rate > played[0].config.rate);
-assert.ok(played[1].config.volume > played[0].config.volume);
+const audioFixture = createFreesoundFixture();
+const sound = audioFixture.system;
+assert.equal(sound.playXpGather({ segmentIndex: 4 }), null);
+assert.equal(sound.playXpGather({ levelUp: true }), null);
+assert.equal(sound.playXpGather({ special: true, segmentIndex: 9 }), null);
+assert.ok(sound.playResourcePickup({ special: true }));
+audioFixture.tick(CORE_ACTION_AUDIO.pickups.pickupGapMs);
+assert.ok(sound.playResourcePickup());
+assert.equal(audioFixture.played.length, 2);
+assert.ok(audioFixture.played.every(event => event.key === "approved-review-libResourcePop"));
+assert.ok(sound.reviewedSfx.history.every(event => event.rate === 1));
+sound.destroy();
 
 const [barSource, gameplaySource, updateSource, engineSource] = await Promise.all([
   readFile(new URL("../ui/hud/XPProgressBar.js", import.meta.url), "utf8"),

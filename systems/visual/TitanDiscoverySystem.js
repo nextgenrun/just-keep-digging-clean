@@ -71,7 +71,6 @@ export class TitanDiscoverySystem {
       registerTransient: object => this.transients.add(object),
       releaseTransient: object => this.transients.delete(object),
     });
-    this.lastDugCount = -1;
     this.lastDiscoverySignature = "";
     this.forceProgressSync = true;
     this.galleryInitialized = false;
@@ -124,11 +123,7 @@ export class TitanDiscoverySystem {
     const retention = this.scene.retentionProgressSystem;
     const discoveredIds = retention?.getDiscoveredTitans?.() || [];
     const discoverySignature = [...discoveredIds].sort().join("|");
-    const dugCount = Number.isInteger(this.worldModel.dugTiles?.size)
-      ? this.worldModel.dugTiles.size
-      : 0;
     const needsSync = this.forceProgressSync
-      || dugCount !== this.lastDugCount
       || discoverySignature !== this.lastDiscoverySignature;
     const discovered = new Set(discoveredIds);
     if (needsSync) {
@@ -141,7 +136,6 @@ export class TitanDiscoverySystem {
       );
       this._syncSurfaceGallery(discovered, !this.galleryInitialized);
       this.galleryInitialized = true;
-      this.lastDugCount = dugCount;
       this.lastDiscoverySignature = discoverySignature;
       this.forceProgressSync = false;
       this._publishHealth(true);

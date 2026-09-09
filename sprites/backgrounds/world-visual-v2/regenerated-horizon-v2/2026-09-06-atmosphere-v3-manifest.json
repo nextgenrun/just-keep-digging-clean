@@ -1,0 +1,34 @@
+{
+  "date": "2026-09-06",
+  "method": "Built-in ImageGen; source files copied byte-for-byte. Runtime-only frame/edge masks, no source repainting.",
+  "assets": [
+    {
+      "file": "cloud-cumulus-v3.png",
+      "width": 1774,
+      "height": 887,
+      "mode": "RGBA",
+      "bytes": 1447491,
+      "sha256": "5d770be3077089566a1cdaca65420d50b28fe61087576b7f0303df55798e719f",
+      "alphaExtrema": [
+        0,
+        254
+      ],
+      "transparentPixels": 806424,
+      "opaquePixels": 0
+    },
+    {
+      "file": "celestial-v3.png",
+      "width": 1774,
+      "height": 887,
+      "mode": "RGBA",
+      "bytes": 1677079,
+      "sha256": "e87bd1b549c8b93730152029c93b5bcfbf2104735f9eb6272ed57e3b9e5f1297",
+      "alphaExtrema": [
+        0,
+        254
+      ],
+      "transparentPixels": 327805,
+      "opaquePixels": 0
+    }
+  ]
+}

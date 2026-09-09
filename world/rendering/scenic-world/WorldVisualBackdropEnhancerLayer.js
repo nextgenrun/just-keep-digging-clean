@@ -1,3 +1,8 @@
+import { resolveScenicFocusAlpha } from "../../../values/gameplayPresentation.js";
+import {
+  CAVE_VISUAL_COMPOSITION,
+  resolveCaveCompositionWeight,
+} from "../../../values/caveVisualComposition.js";
 import {
   WORLD_VISUAL_BACKDROP_ENHANCERS,
   getWorldVisualBackdropEnhancerAssets,
@@ -257,7 +262,7 @@ export class WorldVisualBackdropEnhancerLayer {
         placement.contentWidthPx / cropWidth,
         placement.contentHeightPx / cropHeight
       )
-      .setAlpha(selection.alpha);
+      .setAlpha(resolveScenicFocusAlpha(selection.asset.key, selection.alpha));
     image.setBlendMode?.(selection.asset.blendMode);
     image.name = (
       `world-visual-backdrop-enhancer-${region.id}-${column}-${row}`
@@ -287,12 +292,17 @@ export class WorldVisualBackdropEnhancerLayer {
         this.backdropConfig,
         card.region
       );
+      const caveWeight = lighting.caveCompositionEnabled
+        ? resolveCaveCompositionWeight(card.centerTileY - this.backdropConfig.regions[0].topTile)
+        : 0;
+      const tintMix = this.config.render.tintMix * (1 - caveWeight)
+        + CAVE_VISUAL_COMPOSITION.backdrop.enhancerTintMix * caveWeight;
       setTintIfChanged(
         card.image,
         mixWorldVisualTint(
           0xffffff,
           backdropTint,
-          this.config.render.tintMix
+          tintMix
         )
       );
     }

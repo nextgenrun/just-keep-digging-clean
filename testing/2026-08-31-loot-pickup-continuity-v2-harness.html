@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>UNDERSTAR Loot Pickup Continuity V2 Harness</title>
+  <style>
+    html, body, #game { width: 100%; height: 100%; margin: 0; overflow: hidden; background: #061019; }
+    #controls { position: fixed; z-index: 10; top: 14px; left: 50%; transform: translateX(-50%); display: flex; flex-wrap: wrap; justify-content: center; gap: 7px; width: min(96vw, 980px); }
+    button { border: 1px solid #806b42; border-radius: 4px; padding: 7px 10px; color: #f3e4bd; background: rgba(10, 18, 26, .94); font: 700 11px Consolas, monospace; letter-spacing: .05em; cursor: pointer; }
+    button:hover { border-color: #d0aa55; background: rgba(20, 31, 41, .97); }
+  </style>
+</head>
+<body>
+  <div id="controls">
+    <button data-fx="dirt">DIRT → I</button>
+    <button data-fx="copper">COPPER → I</button>
+    <button data-fx="gold">GOLD → I</button>
+    <button data-fx="magmaCrystal">MAGMA → I</button>
+    <button data-fx="gp">GP TILE → I</button>
+    <button data-fx="xp">XP TILE → I</button>
+    <button data-fx="legend">LEGEND TILE → I</button>
+    <button data-fx="commonStar">COMMON STAR → I</button>
+    <button data-fx="astralStar">ASTRAL STAR → I</button>
+  </div>
+  <output id="harness-state" hidden></output>
+  <div id="game"></div>
+  <script src="../libs/phaser.js"></script>
+  <script type="module" src="./2026-08-31-loot-pickup-continuity-v2-harness.js?rev=20260831d"></script>
+</body>
+</html>

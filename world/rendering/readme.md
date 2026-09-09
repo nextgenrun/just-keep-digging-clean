@@ -40,10 +40,18 @@ World layer module — rendering.
 - Resource recognition in the semantic, Level One, and deep-facade paths uses
   the same transparent ImageGen 2D frame order. Phaser places raster images
   over continuous geology; it does not draw resource veins or baked ground
-  squares. The procedural comparison is disabled unless `?resourceVeins=1`.
+  squares. All three paths accept the shared Starless Scar depletion provider,
+  hiding resource recognition and resource crack sprites without mutating the
+  solid world cell. The procedural comparison is disabled unless
+  `?resourceVeins=1`.
 - Star recognition in the semantic renderer uses the exact one-of-fifty
   identity atlas frame stored by `WorldModel`. That same frame reaches the
   darkness light, mined release, popup, and I-key guide. The previous six
   rarity assets remain missing-frame fallbacks only; Phaser never recolours a
   generic Star with tint.
 - `WorldDepthContinuationBuilder.js` extends the approved high-detail Level Two depth plates from row 2065 through row 5064 over the playable `x132..279` deep-world span. It reuses the authored source plates with exact edge crops and facade-band color grading; `WorldBackgroundMasterSystem` still camera-streams only nearby images, and `?worldDepthMaster=0` rolls the continuation back with the rest of the depth master.
+- `specialBlockAura.js` draws the shared deterministic world-space corona used
+  by scenic and legacy renderers. The Ability Block receives a bounded violet
+  pulse; the ultra-rare Crown receives the larger, brighter gold ring and extra
+  orbiting sparks. The scenic gameplay-effect layer caps nearby special targets
+  rather than scanning or allocating for the full world.

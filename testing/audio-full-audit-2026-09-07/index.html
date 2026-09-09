@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>UNDERSTAR — Audio audit</title>
+<style>
+:root{color-scheme:dark;--bg:#0a1118;--panel:#121e28;--line:#293d4b;--text:#e6eff3;--muted:#9ab0be;--mint:#8ce5c0;--gold:#f0cb85}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.55 system-ui,sans-serif}main{max-width:1120px;margin:auto;padding:48px 24px 72px}
+header{border-bottom:1px solid var(--line);padding-bottom:28px;margin-bottom:28px}.eyebrow{color:var(--mint);letter-spacing:.14em;font-size:12px;font-weight:700}h1{font-size:clamp(30px,5vw,48px);line-height:1.1;margin:14px 0}h2{font-size:24px;margin-top:38px}h3{margin:0 0 8px;font-size:19px}p{color:var(--muted);max-width:80ch}.links{display:flex;gap:22px;flex-wrap:wrap}a{color:var(--mint)}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.stat,.card{border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:22px}.stat strong{display:block;font-size:32px;color:var(--gold);line-height:1.2}.stat span{color:var(--muted);font-size:14px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:18px}.card p{font-size:14px;min-height:66px}.pair{display:grid;grid-template-columns:1fr;gap:14px}.sample label{display:block;font-weight:650;font-size:13px;margin-bottom:6px}audio{width:100%;height:40px}.metrics{font-size:12px;color:var(--muted)}.controls{display:flex;align-items:center;gap:14px;margin:22px 0}input[type=range]{accent-color:var(--mint)}table{width:100%;border-collapse:collapse;font-size:14px}td,th{text-align:left;padding:12px;border-bottom:1px solid var(--line)}th{color:var(--mint)}.scroll{overflow:auto}code{color:var(--gold)}footer{margin-top:36px;border-top:1px solid var(--line);padding-top:20px;color:var(--muted);font-size:13px}.status{color:var(--mint)}@media(max-width:700px){.stats{grid-template-columns:1fr 1fr}.cards{grid-template-columns:1fr}main{padding:26px 16px}.card p{min-height:0}}
+</style>
+<main>
+<header><div class="eyebrow">UNDERSTAR / 07 SEPTEMBER 2026</div><h1>Sound with room to breathe.</h1>
+<p>Full audio audit of source quality, overlapping layers, playback cleanup and settings. These listening examples use the approved recordings and the existing game mixer.</p>
+<div class="links"><a href="../../markdown/2026-09-07-full-audio-audit.md">Read the complete audit</a><a href="native.html">Native browser checks</a><a href="../../index.html?jkd_e2e=1&cinematics=0&audioReview=1&renderQuality=balanced">Open game review</a></div></header>
+<div class="stats"><div class="stat"><strong id="count">795</strong><span>recordings checked</span></div><div class="stat"><strong>350</strong><span>calibrated music and voice sources</span></div><div class="stat"><strong>12</strong><span>dialogue silence edits</span></div><div class="stat"><strong id="failures">0</strong><span>missing or broken recordings</span></div></div>
+<h2>Listen before and after</h2><p>WAV examples are rendered at the game's default category and master levels. Preview volume below adds a listening control. Only one sample plays at a time. Original game preferences are unaffected by this page.</p>
+<div class="controls"><label for="volume">Preview volume</label><input id="volume" type="range" min="0" max="100" value="50"><output id="level" for="volume">50%</output></div>
+<div id="cards" class="cards"></div>
+<h2>What the mix controls</h2>
+<div class="scroll"><table><thead><tr><th>Layer</th><th>Control</th><th>Overlap control</th></tr></thead><tbody>
+<tr><td>Contextual and menu music</td><td>Music → Master</td><td>Per-track calibration; sum-bounded crossfades</td></tr>
+<tr><td>Digging, movement, UI, rewards</td><td>SFX → Master</td><td>10 transients; shared peak budget 0.45</td></tr>
+<tr><td>Cave and weather beds</td><td>SFX → Master</td><td>Separate bounded buses; shelter and depth blending</td></tr>
+<tr><td>Star pockets and panic</td><td>SFX → Master</td><td>0.045 peak budget each</td></tr>
+<tr><td>Player, merchant and Signal voices</td><td>Voice → Master</td><td>Shared dialogue channel and audible speech ducking</td></tr>
+<tr><td>Cinematic baked soundtrack</td><td>Voice × Master</td><td>Single video mix; SFX toggle also mutes voices</td></tr>
+</tbody></table></div>
+<h2>Verification</h2><p id="verification">Loading the saved browser and contract results…</p>
+<p>Digital measurements establish levels, duration, source integrity and routing. A listening pass on your speakers or headphones remains useful for preference, fatigue and the balance of a full play session. The complete audit records the current limits of the gameplay smoke check.</p>
+<footer>Local review only. FFmpeg renders preserve the source files. <a href="measurements.json">All measurements</a> · <a href="source-mix.json">Gain and silence edits</a> · <a href="auditions.json">Rendered example metrics</a></footer>
+</main><script type="module" src="./review.mjs"></script></html>

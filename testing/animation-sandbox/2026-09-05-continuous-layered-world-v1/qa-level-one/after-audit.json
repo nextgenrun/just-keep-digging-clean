@@ -1,0 +1,1419 @@
+{
+  "phase": "after",
+  "errors": [],
+  "views": [
+    {
+      "label": "day-7",
+      "file": "after-day-7.jpg",
+      "camera": {
+        "x": 18,
+        "y": 5562,
+        "width": 1280,
+        "height": 720
+      },
+      "trees": [
+        {
+          "id": "forest:-1",
+          "x": -1060,
+          "y": 6200,
+          "pipeline": "RegeneratedAtmosphere:foliage"
+        },
+        {
+          "id": "forest:0",
+          "x": 0,
+          "y": 6200,
+          "pipeline": "RegeneratedAtmosphere:foliage"
+        },
+        {
+          "id": "forest:1",
+          "x": 1060,
+          "y": 6200,
+          "pipeline": "RegeneratedAtmosphere:foliage"
+        }
+      ],
+      "clouds": [
+        "cloud-deck:1:-1",
+        "cloud-deck:1:0",
+        "cloud-deck:1:1",
+        "cloud-deck:2:-1",
+        "cloud-deck:2:0",
+        "cloud-deck:2:1",
+        "cloud-deck:3:-1",
+        "cloud-deck:3:0",
+        "cloud-deck:3:1",
+        "cloud-deck:4:-1",
+        "cloud-deck:4:0",
+        "cloud-deck:4:1",
+        "cloud-deck:5:-1",
+        "cloud-deck:5:0",
+        "cloud-deck:5:1",
+        "high-cirrus:2:0",
+        "high-cirrus:2:1",
+        "high-cirrus:3:0",
+        "high-cirrus:3:1",
+        "silver-cloud:4:-1",
+        "silver-cloud:4:0",
+        "silver-cloud:4:1",
+        "silver-cloud:5:-1",
+        "silver-cloud:5:0",
+        "silver-cloud:5:1",
+        "silver-cloud:6:-1",
+        "silver-cloud:6:0",
+        "silver-cloud:6:1",
+        "valley-mist:0:1",
+        "near-haze:0:1"
+      ],
+      "motion": {
+        "variantId": "town-air",
+        "ready": true,
+        "failed": false,
+        "paused": false,
+        "currentTime": 0.328221,
+        "duration": 18,
+        "displayWidth": 1801.0000000000002,
+        "displayHeight": 534
+      }
+    },
+    {
+      "label": "day-13",
+      "file": "after-day-13.jpg",
+      "camera": {
+        "x": 582,
+        "y": 5562,
+        "width": 1280,
+        "height": 720
+      },
+      "trees": [
+        {
+          "id": "forest:0",
+          "x": 0,
+          "y": 6200,
+          "pipeline": "RegeneratedAtmosphere:foliage"
+        },
+        {
+          "id": "forest:1",
+          "x": 1060,
+          "y": 6200,
+          "pipeline": "RegeneratedAtmosphere:foliage"
+        }
+      ],
+      "clouds": [
+        "cloud-deck:1:-1",
+        "cloud-deck:1:0",
+        "cloud-deck:2:-1",
+        "cloud-deck:2:0",
+        "cloud-deck:3:-1",
+        "cloud-deck:3:0",
+        "cloud-deck:4:-1",
+        "cloud-deck:4:0",
+        "cloud-deck:4:1",
+        "cloud-deck:5:-1",
+        "cloud-deck:5:0",
+        "high-cirrus:2:0",
+        "high-cirrus:3:0",
+        "silver-cloud:4:-1",
+        "silver-cloud:4:0",
+        "silver-cloud:5:0",
+        "silver-cloud:5:1",
+        "silver-cloud:6:-1",
+        "silver-cloud:6:0",
+        "valley-mist:0:1",
+        "near-haze:0:1",
+        "cloud-deck:1:1",
+        "cloud-deck:2:1",
+        "cloud-deck:3:1",
+        "cloud-deck:5:1",
+        "high-cirrus:2:1",
+        "high-cirrus:3:1",
+        "silver-cloud:4:1",
+        "silver-cloud:6:1"
+      ],
+      "motion": {
+        "variantId": "town-air",
+        "ready": true,
+        "failed": false,
+        "paused": false,
+        "currentTime": 0.845459,
+        "duration": 18,
+        "displayWidth": 1801.0000000000002,
+        "displayHeight": 534
+      }
+    },
+    {
+      "label": "day-19",
+      "file": "after-day-19.jpg",
+      "camera": {
+        "x": 1146,
+        "y": 5562,
+        "width": 1280,
+        "height": 720
+      },
+      "trees": [
+        {
+          "id": "forest:0",
+          "x": 0,
+          "y": 6200,
+          "pipeline": "RegeneratedAtmosphere:foliage"
+        },
+        {
+          "id": "forest:1",
+          "x": 1060,
+          "y": 6200,
+          "pipeline": "RegeneratedAtmosphere:foliage"
+        },
+        {
+          "id": "forest:2",
+          "x": 2120,
+          "y": 6200,
+          "pipeline": "RegeneratedAtmosphere:foliage"
+        }
+      ],
+      "clouds": [
+        "cloud-deck:1:-1",
+        "cloud-deck:1:0",
+        "cloud-deck:2:-1",
+        "cloud-deck:2:0",
+        "cloud-deck:3:-1",
+        "cloud-deck:3:0",
+        "cloud-deck:4:-1",
+        "cloud-deck:4:0",
+        "cloud-deck:4:1",
+        "cloud-deck:5:-1",
+        "cloud-deck:5:0",
+        "high-cirrus:2:0",
+        "high-cirrus:3:0",
+        "silver-cloud:4:0",
+        "silver-cloud:5:0",
+        "silver-cloud:5:1",
+        "silver-cloud:6:0",
+        "valley-mist:0:1",
+        "near-haze:0:1",
+        "cloud-deck:1:1",
+        "cloud-deck:2:1",
+        "cloud-deck:3:1",
+        "cloud-deck:5:1",
+        "silver-cloud:4:1",
+        "silver-cloud:6:1",
+        "high-cirrus:2:1",
+        "high-cirrus:3:1"
+      ],
+      "motion": {
+        "variantId": "town-air",
+        "ready": true,
+        "failed": false,
+        "paused": false,
+        "currentTime": 1.324397,
+        "duration": 18,
+        "displayWidth": 1801.0000000000002,
+        "displayHeight": 534
+      }
+    },
+    {
+      "label": "day-25",
+      "file": "after-day-25.jpg",
+      "camera": {
+        "x": 1710,
+        "y": 5562,
+        "width": 1280,
+        "height": 720
+      },
+      "trees": [
+        {
+          "id": "forest:1",
+          "x": 1060,
+          "y": 6200,
+          "pipeline": "RegeneratedAtmosphere:foliage"
+        },
+        {
+          "id": "forest:2",
+          "x": 2120,
+          "y": 6200,
+          "pipeline": "RegeneratedAtmosphere:foliage"
+        }
+      ],
+      "clouds": [
+        "cloud-deck:1:-1",
+        "cloud-deck:1:0",
+        "cloud-deck:2:-1",
+        "cloud-deck:2:0",
+        "cloud-deck:3:-1",
+        "cloud-deck:3:0",
+        "cloud-deck:4:-1",
+        "cloud-deck:4:0",
+        "cloud-deck:4:1",
+        "cloud-deck:5:-1",
+        "cloud-deck:5:0",
+        "high-cirrus:2:0",
+        "high-cirrus:3:0",
+        "silver-cloud:4:0",
+        "silver-cloud:5:0",
+        "silver-cloud:5:1",
+        "silver-cloud:6:0",
+        "valley-mist:0:1",
+        "near-haze:0:1",
+        "cloud-deck:1:1",
+        "cloud-deck:2:1",
+        "cloud-deck:3:1",
+        "cloud-deck:5:1",
+        "silver-cloud:4:1",
+        "silver-cloud:6:1",
+        "high-cirrus:2:1",
+        "high-cirrus:3:1",
+        "valley-mist:0:2",
+        "near-haze:0:2"
+      ],
+      "motion": {
+        "variantId": "town-air",
+        "ready": true,
+        "failed": false,
+        "paused": false,
+        "currentTime": 1.781778,
+        "duration": 18,
+        "displayWidth": 1801.0000000000002,
+        "displayHeight": 534
+      }
+    },
+    {
+      "label": "day-31",
+      "file": "after-day-31.jpg",
+      "camera": {
+        "x": 2274,
+        "y": 5562,
+        "width": 1280,
+        "height": 720
+      },
+      "trees": [
+        {
+          "id": "forest:1",
+          "x": 1060,
+          "y": 6200,
+          "pipeline": "RegeneratedAtmosphere:foliage"
+        },
+        {
+          "id": "forest:2",
+          "x": 2120,
+          "y": 6200,
+          "pipeline": "RegeneratedAtmosphere:foliage"
+        },
+        {
+          "id": "forest:3",
+          "x": 3180,
+          "y": 6200,
+          "pipeline": "RegeneratedAtmosphere:foliage"
+        }
+      ],
+      "clouds": [
+        "cloud-deck:1:-1",
+        "cloud-deck:1:0",
+        "cloud-deck:2:-1",
+        "cloud-deck:2:0",
+        "cloud-deck:3:-1",
+        "cloud-deck:3:0",
+        "cloud-deck:4:-1",
+        "cloud-deck:4:0",
+        "cloud-deck:4:1",
+        "cloud-deck:5:-1",
+        "cloud-deck:5:0",
+        "high-cirrus:2:0",
+        "high-cirrus:3:0",
+        "silver-cloud:4:0",
+        "silver-cloud:5:0",
+        "silver-cloud:5:1",
+        "silver-cloud:6:0",
+        "valley-mist:0:1",
+        "near-haze:0:1",
+        "cloud-deck:1:1",
+        "cloud-deck:2:1",
+        "cloud-deck:3:1",
+        "cloud-deck:5:1",
+        "silver-cloud:4:1",
+        "silver-cloud:6:1",
+        "valley-mist:0:2",
+        "near-haze:0:2",
+        "high-cirrus:2:1",
+        "high-cirrus:3:1",
+        "silver-cloud:5:2"
+      ],
+      "motion": {
+        "variantId": "town-air",
+        "ready": true,
+        "failed": false,
+        "paused": false,
+        "currentTime": 2.250581,
+        "duration": 18,
+        "displayWidth": 1801.0000000000002,
+        "displayHeight": 534
+      }
+    },
+    {
+      "label": "day-43",
+      "file": "after-day-43.jpg",
+      "camera": {
+        "x": 3402,
+        "y": 5562,
+        "width": 1280,
+        "height": 720
+      },
+      "trees": [
+        {
+          "id": "forest:2",
+          "x": 2120,
+          "y": 6200,
+          "pipeline": "RegeneratedAtmosphere:foliage"
+        },
+        {
+          "id": "forest:3",
+          "x": 3180,
+          "y": 6200,
+          "pipeline": "RegeneratedAtmosphere:foliage"
+        }
+      ],
+      "clouds": [
+        "cloud-deck:1:-1",
+        "cloud-deck:1:0",
+        "cloud-deck:2:-1",
+        "cloud-deck:2:0",
+        "cloud-deck:3:-1",
+        "cloud-deck:3:0",
+        "cloud-deck:4:0",
+        "cloud-deck:5:0",
+        "high-cirrus:2:0",
+        "high-cirrus:3:0",
+        "silver-cloud:5:1",
+        "silver-cloud:6:0",
+        "valley-mist:0:1",
+        "silver-cloud:4:1",
+        "silver-cloud:6:1",
+        "valley-mist:0:2",
+        "near-haze:0:2",
+        "cloud-deck:1:1",
+        "cloud-deck:1:2",
+        "cloud-deck:2:1",
+        "cloud-deck:3:1",
+        "cloud-deck:4:1",
+        "cloud-deck:5:1",
+        "high-cirrus:2:1",
+        "high-cirrus:3:1",
+        "silver-cloud:4:2",
+        "silver-cloud:5:2",
+        "silver-cloud:6:2",
+        "valley-mist:0:3",
+        "near-haze:0:3"
+      ],
+      "motion": {
+        "variantId": "town-air",
+        "ready": true,
+        "failed": false,
+        "paused": false,
+        "currentTime": 2.708595,
+        "duration": 18,
+        "displayWidth": 1801.0000000000002,
+        "displayHeight": 534
+      }
+    },
+    {
+      "label": "day-55",
+      "file": "after-day-55.jpg",
+      "camera": {
+        "x": 4530,
+        "y": 5562,
+        "width": 1280,
+        "height": 720
+      },
+      "trees": [
+        {
+          "id": "forest:3",
+          "x": 3180,
+          "y": 6200,
+          "pipeline": "RegeneratedAtmosphere:foliage"
+        },
+        {
+          "id": "forest:4",
+          "x": 4240,
+          "y": 6200,
+          "pipeline": "RegeneratedAtmosphere:foliage"
+        }
+      ],
+      "clouds": [
+        "cloud-deck:1:0",
+        "cloud-deck:2:0",
+        "cloud-deck:3:0",
+        "cloud-deck:4:0",
+        "cloud-deck:5:0",
+        "high-cirrus:2:0",
+        "high-cirrus:3:0",
+        "silver-cloud:5:1",
+        "silver-cloud:4:1",
+        "silver-cloud:6:1",
+        "valley-mist:0:2",
+        "near-haze:0:3",
+        "cloud-deck:1:1",
+        "cloud-deck:1:2",
+        "cloud-deck:2:1",
+        "cloud-deck:2:2",
+        "cloud-deck:3:1",
+        "cloud-deck:3:2",
+        "cloud-deck:4:1",
+        "cloud-deck:4:2",
+        "cloud-deck:5:1",
+        "high-cirrus:2:1",
+        "high-cirrus:3:1",
+        "silver-cloud:4:2",
+        "silver-cloud:5:2",
+        "silver-cloud:6:2",
+        "valley-mist:0:3",
+        "valley-mist:0:4",
+        "near-haze:0:4"
+      ],
+      "motion": {
+        "variantId": "town-air",
+        "ready": true,
+        "failed": false,
+        "paused": false,
+        "currentTime": 3.167643,
+        "duration": 18,
+        "displayWidth": 1801.0000000000002,
+        "displayHeight": 534
+      }
+    },
+    {
+      "label": "day-67",
+      "file": "after-day-67.jpg",
+      "camera": {
+        "x": 5658,
+        "y": 5562,
+        "width": 1280,
+        "height": 720
+      },
+      "trees": [
+        {
+          "id": "forest:3",
+          "x": 3180,
+          "y": 6200,
+          "pipeline": "RegeneratedAtmosphere:foliage"
+        },
+        {
+          "id": "forest:4",
+          "x": 4240,
+          "y": 6200,
+          "pipeline": "RegeneratedAtmosphere:foliage"
+        },
+        {
+          "id": "forest:5",
+          "x": 5300,
+          "y": 6200,
+          "pipeline": "RegeneratedAtmosphere:foliage"
+        }
+      ],
+      "clouds": [
+        "cloud-deck:1:0",
+        "cloud-deck:2:0",
+        "cloud-deck:3:0",
+        "cloud-deck:4:0",
+        "cloud-deck:5:0",
+        "high-cirrus:2:0",
+        "high-cirrus:3:0",
+        "silver-cloud:5:1",
+        "silver-cloud:4:1",
+        "silver-cloud:6:1",
+        "valley-mist:0:2",
+        "near-haze:0:3",
+        "high-cirrus:2:1",
+        "high-cirrus:3:1",
+        "silver-cloud:4:2",
+        "silver-cloud:5:2",
+        "valley-mist:0:3",
+        "near-haze:0:4",
+        "cloud-deck:1:1",
+        "cloud-deck:1:2",
+        "cloud-deck:2:1",
+        "cloud-deck:2:2",
+        "cloud-deck:3:1",
+        "cloud-deck:3:2",
+        "cloud-deck:4:1",
+        "cloud-deck:4:2",
+        "cloud-deck:5:1",
+        "cloud-deck:5:2",
+        "silver-cloud:4:3",
+        "silver-cloud:6:2",
+        "valley-mist:0:4",
+        "near-haze:0:5"
+      ],
+      "motion": {
+        "variantId": "town-air",
+        "ready": true,
+        "failed": false,
+        "paused": false,
+        "currentTime": 3.636702,
+        "duration": 18,
+        "displayWidth": 1801.0000000000002,
+        "displayHeight": 534
+      }
+    },
+    {
+      "label": "day-79",
+      "file": "after-day-79.jpg",
+      "camera": {
+        "x": 6786,
+        "y": 5562,
+        "width": 1280,
+        "height": 720
+      },
+      "trees": [
+        {
+          "id": "forest:4",
+          "x": 4240,
+          "y": 6200,
+          "pipeline": "RegeneratedAtmosphere:foliage"
+        },
+        {
+          "id": "forest:5",
+          "x": 5300,
+          "y": 6200,
+          "pipeline": "RegeneratedAtmosphere:foliage"
+        },
+        {
+          "id": "forest:6",
+          "x": 6360,
+          "y": 6200,
+          "pipeline": "RegeneratedAtmosphere:foliage"
+        }
+      ],
+      "clouds": [
+        "cloud-deck:1:0",
+        "cloud-deck:2:0",
+        "cloud-deck:3:0",
+        "cloud-deck:4:0",
+        "cloud-deck:5:0",
+        "silver-cloud:4:1",
+        "silver-cloud:6:1",
+        "high-cirrus:2:1",
+        "high-cirrus:3:1",
+        "silver-cloud:4:2",
+        "silver-cloud:5:2",
+        "valley-mist:0:3",
+        "near-haze:0:4",
+        "cloud-deck:1:1",
+        "cloud-deck:2:1",
+        "cloud-deck:4:1",
+        "cloud-deck:5:1",
+        "silver-cloud:6:2",
+        "valley-mist:0:4",
+        "near-haze:0:5",
+        "cloud-deck:1:2",
+        "cloud-deck:2:2",
+        "cloud-deck:3:1",
+        "cloud-deck:3:2",
+        "cloud-deck:4:2",
+        "cloud-deck:5:2",
+        "silver-cloud:4:3",
+        "silver-cloud:5:3",
+        "silver-cloud:6:3",
+        "valley-mist:0:5"
+      ],
+      "motion": {
+        "variantId": "town-air",
+        "ready": true,
+        "failed": false,
+        "paused": false,
+        "currentTime": 4.093752,
+        "duration": 18,
+        "displayWidth": 1801.0000000000002,
+        "displayHeight": 534
+      }
+    },
+    {
+      "label": "day-91",
+      "file": "after-day-91.jpg",
+      "camera": {
+        "x": 7914,
+        "y": 5562,
+        "width": 1280,
+        "height": 720
+      },
+      "trees": [
+        {
+          "id": "forest:5",
+          "x": 5300,
+          "y": 6200,
+          "pipeline": "RegeneratedAtmosphere:foliage"
+        },
+        {
+          "id": "forest:6",
+          "x": 6360,
+          "y": 6200,
+          "pipeline": "RegeneratedAtmosphere:foliage"
+        },
+        {
+          "id": "forest:7",
+          "x": 7420,
+          "y": 6200,
+          "pipeline": "RegeneratedAtmosphere:foliage"
+        }
+      ],
+      "clouds": [
+        "cloud-deck:1:0",
+        "cloud-deck:2:0",
+        "cloud-deck:3:0",
+        "cloud-deck:4:0",
+        "cloud-deck:5:0",
+        "high-cirrus:2:1",
+        "high-cirrus:3:1",
+        "silver-cloud:4:2",
+        "silver-cloud:5:2",
+        "cloud-deck:1:1",
+        "cloud-deck:2:1",
+        "cloud-deck:4:1",
+        "cloud-deck:5:1",
+        "silver-cloud:6:2",
+        "valley-mist:0:4",
+        "near-haze:0:5",
+        "cloud-deck:3:1",
+        "cloud-deck:1:2",
+        "cloud-deck:2:2",
+        "cloud-deck:3:2",
+        "cloud-deck:4:2",
+        "cloud-deck:5:2",
+        "high-cirrus:2:2",
+        "high-cirrus:3:2",
+        "silver-cloud:4:3",
+        "silver-cloud:5:3",
+        "silver-cloud:6:3",
+        "valley-mist:0:5",
+        "valley-mist:0:6",
+        "near-haze:0:6"
+      ],
+      "motion": {
+        "variantId": "town-air",
+        "ready": true,
+        "failed": false,
+        "paused": false,
+        "currentTime": 4.544138,
+        "duration": 18,
+        "displayWidth": 1801.0000000000002,
+        "displayHeight": 534
+      }
+    },
+    {
+      "label": "day-103",
+      "file": "after-day-103.jpg",
+      "camera": {
+        "x": 9042,
+        "y": 5562,
+        "width": 1280,
+        "height": 720
+      },
+      "trees": [
+        {
+          "id": "forest:6",
+          "x": 6360,
+          "y": 6200,
+          "pipeline": "RegeneratedAtmosphere:foliage"
+        },
+        {
+          "id": "forest:7",
+          "x": 7420,
+          "y": 6200,
+          "pipeline": "RegeneratedAtmosphere:foliage"
+        }
+      ],
+      "clouds": [
+        "cloud-deck:1:0",
+        "cloud-deck:2:0",
+        "cloud-deck:3:0",
+        "cloud-deck:4:0",
+        "cloud-deck:5:0",
+        "high-cirrus:2:1",
+        "high-cirrus:3:1",
+        "silver-cloud:4:2",
+        "silver-cloud:5:2",
+        "cloud-deck:1:1",
+        "cloud-deck:2:1",
+        "cloud-deck:4:1",
+        "cloud-deck:5:1",
+        "silver-cloud:6:2",
+        "cloud-deck:3:1",
+        "silver-cloud:4:3",
+        "silver-cloud:5:3",
+        "silver-cloud:6:3",
+        "valley-mist:0:5",
+        "near-haze:0:6",
+        "cloud-deck:1:2",
+        "cloud-deck:2:2",
+        "cloud-deck:3:2",
+        "cloud-deck:4:2",
+        "cloud-deck:5:2",
+        "high-cirrus:2:2",
+        "high-cirrus:3:2",
+        "silver-cloud:4:4",
+        "silver-cloud:5:4",
+        "silver-cloud:6:4",
+        "valley-mist:0:6",
+        "near-haze:0:7"
+      ],
+      "motion": {
+        "variantId": "town-air",
+        "ready": true,
+        "failed": false,
+        "paused": false,
+        "currentTime": 4.995969,
+        "duration": 18,
+        "displayWidth": 1801.0000000000002,
+        "displayHeight": 534
+      }
+    },
+    {
+      "label": "day-117",
+      "file": "after-day-117.jpg",
+      "camera": {
+        "x": 10358,
+        "y": 5562,
+        "width": 1280,
+        "height": 720
+      },
+      "trees": [
+        {
+          "id": "forest:7",
+          "x": 7420,
+          "y": 6200,
+          "pipeline": "RegeneratedAtmosphere:foliage"
+        },
+        {
+          "id": "forest:8",
+          "x": 8480,
+          "y": 6200,
+          "pipeline": "RegeneratedAtmosphere:foliage"
+        }
+      ],
+      "clouds": [
+        "cloud-deck:1:0",
+        "cloud-deck:2:0",
+        "cloud-deck:3:0",
+        "cloud-deck:4:0",
+        "cloud-deck:5:0",
+        "high-cirrus:2:1",
+        "high-cirrus:3:1",
+        "cloud-deck:1:1",
+        "cloud-deck:2:1",
+        "cloud-deck:4:1",
+        "cloud-deck:5:1",
+        "cloud-deck:3:1",
+        "silver-cloud:4:3",
+        "silver-cloud:5:3",
+        "silver-cloud:6:3",
+        "valley-mist:0:5",
+        "valley-mist:0:6",
+        "near-haze:0:7",
+        "cloud-deck:1:2",
+        "cloud-deck:2:2",
+        "cloud-deck:3:2",
+        "cloud-deck:4:2",
+        "cloud-deck:5:2",
+        "high-cirrus:2:2",
+        "high-cirrus:3:2",
+        "silver-cloud:4:4",
+        "silver-cloud:5:4",
+        "silver-cloud:6:4",
+        "near-haze:0:8"
+      ],
+      "motion": {
+        "variantId": "town-air",
+        "ready": true,
+        "failed": false,
+        "paused": false,
+        "currentTime": 5.449388,
+        "duration": 18,
+        "displayWidth": 1801.0000000000002,
+        "displayHeight": 534
+      }
+    },
+    {
+      "label": "day-126",
+      "file": "after-day-126.jpg",
+      "camera": {
+        "x": 11204,
+        "y": 5562,
+        "width": 1280,
+        "height": 720
+      },
+      "trees": [
+        {
+          "id": "forest:7",
+          "x": 7420,
+          "y": 6200,
+          "pipeline": "RegeneratedAtmosphere:foliage"
+        },
+        {
+          "id": "forest:8",
+          "x": 8480,
+          "y": 6200,
+          "pipeline": "RegeneratedAtmosphere:foliage"
+        },
+        {
+          "id": "forest:9",
+          "x": 9540,
+          "y": 6200,
+          "pipeline": "RegeneratedAtmosphere:foliage"
+        }
+      ],
+      "clouds": [
+        "cloud-deck:1:0",
+        "cloud-deck:2:0",
+        "cloud-deck:3:0",
+        "cloud-deck:4:0",
+        "cloud-deck:5:0",
+        "high-cirrus:2:1",
+        "high-cirrus:3:1",
+        "cloud-deck:1:1",
+        "cloud-deck:2:1",
+        "cloud-deck:4:1",
+        "cloud-deck:5:1",
+        "cloud-deck:3:1",
+        "silver-cloud:4:3",
+        "silver-cloud:5:3",
+        "silver-cloud:6:3",
+        "valley-mist:0:6",
+        "silver-cloud:5:4",
+        "silver-cloud:6:4",
+        "near-haze:0:8",
+        "cloud-deck:1:2",
+        "cloud-deck:2:2",
+        "cloud-deck:3:2",
+        "cloud-deck:4:2",
+        "cloud-deck:5:2",
+        "high-cirrus:2:2",
+        "high-cirrus:3:2",
+        "silver-cloud:4:4"
+      ],
+      "motion": {
+        "variantId": "town-air",
+        "ready": true,
+        "failed": false,
+        "paused": false,
+        "currentTime": 5.901352,
+        "duration": 18,
+        "displayWidth": 1801.0000000000002,
+        "displayHeight": 534
+      }
+    },
+    {
+      "label": "night-19",
+      "file": "after-night-19.jpg",
+      "camera": {
+        "x": 1146,
+        "y": 5562,
+        "width": 1280,
+        "height": 720
+      },
+      "trees": [
+        {
+          "id": "forest:0",
+          "x": 0,
+          "y": 6200,
+          "pipeline": "RegeneratedAtmosphere:foliage"
+        },
+        {
+          "id": "forest:1",
+          "x": 1060,
+          "y": 6200,
+          "pipeline": "RegeneratedAtmosphere:foliage"
+        },
+        {
+          "id": "forest:2",
+          "x": 2120,
+          "y": 6200,
+          "pipeline": "RegeneratedAtmosphere:foliage"
+        }
+      ],
+      "clouds": [
+        "cloud-deck:1:-1",
+        "cloud-deck:1:0",
+        "cloud-deck:1:1",
+        "cloud-deck:2:-1",
+        "cloud-deck:2:0",
+        "cloud-deck:2:1",
+        "cloud-deck:3:-1",
+        "cloud-deck:3:0",
+        "cloud-deck:3:1",
+        "cloud-deck:4:-1",
+        "cloud-deck:4:0",
+        "cloud-deck:4:1",
+        "cloud-deck:5:-1",
+        "cloud-deck:5:0",
+        "cloud-deck:5:1",
+        "high-cirrus:2:0",
+        "high-cirrus:2:1",
+        "high-cirrus:3:0",
+        "high-cirrus:3:1",
+        "silver-cloud:4:0",
+        "silver-cloud:4:1",
+        "silver-cloud:5:0",
+        "silver-cloud:5:1",
+        "silver-cloud:6:0",
+        "silver-cloud:6:1",
+        "valley-mist:0:0",
+        "valley-mist:0:1",
+        "near-haze:0:0",
+        "near-haze:0:1"
+      ],
+      "motion": {
+        "variantId": "town-air",
+        "ready": true,
+        "failed": false,
+        "paused": false,
+        "currentTime": 6.363431,
+        "duration": 18,
+        "displayWidth": 1801.0000000000002,
+        "displayHeight": 534
+      }
+    },
+    {
+      "label": "night-47",
+      "file": "after-night-47.jpg",
+      "camera": {
+        "x": 3778,
+        "y": 5562,
+        "width": 1280,
+        "height": 720
+      },
+      "trees": [
+        {
+          "id": "forest:2",
+          "x": 2120,
+          "y": 6200,
+          "pipeline": "RegeneratedAtmosphere:foliage"
+        },
+        {
+          "id": "forest:3",
+          "x": 3180,
+          "y": 6200,
+          "pipeline": "RegeneratedAtmosphere:foliage"
+        },
+        {
+          "id": "forest:4",
+          "x": 4240,
+          "y": 6200,
+          "pipeline": "RegeneratedAtmosphere:foliage"
+        }
+      ],
+      "clouds": [
+        "cloud-deck:3:-1",
+        "silver-cloud:6:0",
+        "cloud-deck:1:0",
+        "cloud-deck:1:1",
+        "cloud-deck:1:2",
+        "cloud-deck:2:0",
+        "cloud-deck:2:1",
+        "cloud-deck:3:0",
+        "cloud-deck:3:1",
+        "cloud-deck:3:2",
+        "cloud-deck:4:0",
+        "cloud-deck:4:1",
+        "cloud-deck:5:0",
+        "cloud-deck:5:1",
+        "high-cirrus:2:0",
+        "high-cirrus:2:1",
+        "high-cirrus:3:0",
+        "high-cirrus:3:1",
+        "silver-cloud:4:1",
+        "silver-cloud:4:2",
+        "silver-cloud:5:1",
+        "silver-cloud:5:2",
+        "silver-cloud:6:1",
+        "silver-cloud:6:2",
+        "valley-mist:0:1",
+        "valley-mist:0:2",
+        "valley-mist:0:3",
+        "near-haze:0:2",
+        "near-haze:0:3"
+      ],
+      "motion": {
+        "variantId": "town-air",
+        "ready": true,
+        "failed": false,
+        "paused": false,
+        "currentTime": 6.81573,
+        "duration": 18,
+        "displayWidth": 1801.0000000000002,
+        "displayHeight": 534
+      }
+    },
+    {
+      "label": "night-79",
+      "file": "after-night-79.jpg",
+      "camera": {
+        "x": 6786,
+        "y": 5562,
+        "width": 1280,
+        "height": 720
+      },
+      "trees": [
+        {
+          "id": "forest:4",
+          "x": 4240,
+          "y": 6200,
+          "pipeline": "RegeneratedAtmosphere:foliage"
+        },
+        {
+          "id": "forest:5",
+          "x": 5300,
+          "y": 6200,
+          "pipeline": "RegeneratedAtmosphere:foliage"
+        },
+        {
+          "id": "forest:6",
+          "x": 6360,
+          "y": 6200,
+          "pipeline": "RegeneratedAtmosphere:foliage"
+        }
+      ],
+      "clouds": [
+        "cloud-deck:1:0",
+        "cloud-deck:1:1",
+        "cloud-deck:1:2",
+        "cloud-deck:2:0",
+        "cloud-deck:2:1",
+        "cloud-deck:2:2",
+        "cloud-deck:3:0",
+        "cloud-deck:3:1",
+        "cloud-deck:3:2",
+        "cloud-deck:4:0",
+        "cloud-deck:4:1",
+        "cloud-deck:4:2",
+        "cloud-deck:5:0",
+        "cloud-deck:5:1",
+        "cloud-deck:5:2",
+        "high-cirrus:2:1",
+        "high-cirrus:3:1",
+        "silver-cloud:4:1",
+        "silver-cloud:4:2",
+        "silver-cloud:4:3",
+        "silver-cloud:5:2",
+        "silver-cloud:5:3",
+        "silver-cloud:6:1",
+        "silver-cloud:6:2",
+        "silver-cloud:6:3",
+        "valley-mist:0:3",
+        "valley-mist:0:4",
+        "valley-mist:0:5",
+        "near-haze:0:4",
+        "near-haze:0:5"
+      ],
+      "motion": {
+        "variantId": "town-air",
+        "ready": true,
+        "failed": false,
+        "paused": false,
+        "currentTime": 7.270898,
+        "duration": 18,
+        "displayWidth": 1801.0000000000002,
+        "displayHeight": 534
+      }
+    },
+    {
+      "label": "night-126",
+      "file": "after-night-126.jpg",
+      "camera": {
+        "x": 11204,
+        "y": 5562,
+        "width": 1280,
+        "height": 720
+      },
+      "trees": [
+        {
+          "id": "forest:7",
+          "x": 7420,
+          "y": 6200,
+          "pipeline": "RegeneratedAtmosphere:foliage"
+        },
+        {
+          "id": "forest:8",
+          "x": 8480,
+          "y": 6200,
+          "pipeline": "RegeneratedAtmosphere:foliage"
+        },
+        {
+          "id": "forest:9",
+          "x": 9540,
+          "y": 6200,
+          "pipeline": "RegeneratedAtmosphere:foliage"
+        }
+      ],
+      "clouds": [
+        "cloud-deck:1:0",
+        "cloud-deck:1:1",
+        "cloud-deck:1:2",
+        "cloud-deck:2:0",
+        "cloud-deck:2:1",
+        "cloud-deck:2:2",
+        "cloud-deck:3:0",
+        "cloud-deck:3:1",
+        "cloud-deck:3:2",
+        "cloud-deck:4:0",
+        "cloud-deck:4:1",
+        "cloud-deck:4:2",
+        "cloud-deck:5:0",
+        "cloud-deck:5:1",
+        "cloud-deck:5:2",
+        "high-cirrus:2:1",
+        "high-cirrus:2:2",
+        "high-cirrus:3:1",
+        "high-cirrus:3:2",
+        "silver-cloud:4:3",
+        "silver-cloud:4:4",
+        "silver-cloud:5:3",
+        "silver-cloud:5:4",
+        "silver-cloud:6:3",
+        "silver-cloud:6:4",
+        "valley-mist:0:6"
+      ],
+      "motion": {
+        "variantId": "town-air",
+        "ready": true,
+        "failed": false,
+        "paused": false,
+        "currentTime": 7.737145,
+        "duration": 18,
+        "displayWidth": 1801.0000000000002,
+        "displayHeight": 534
+      }
+    },
+    {
+      "label": "sky-60",
+      "file": "after-sky-60.jpg",
+      "camera": {
+        "x": 3778,
+        "y": 5280,
+        "width": 1280,
+        "height": 720
+      },
+      "trees": [
+        {
+          "id": "forest:2",
+          "x": 2120,
+          "y": 6200,
+          "pipeline": "RegeneratedAtmosphere:foliage"
+        },
+        {
+          "id": "forest:3",
+          "x": 3180,
+          "y": 6200,
+          "pipeline": "RegeneratedAtmosphere:foliage"
+        },
+        {
+          "id": "forest:4",
+          "x": 4240,
+          "y": 6200,
+          "pipeline": "RegeneratedAtmosphere:foliage"
+        }
+      ],
+      "clouds": [
+        "cloud-deck:1:0",
+        "cloud-deck:1:1",
+        "cloud-deck:1:2",
+        "cloud-deck:2:-1",
+        "cloud-deck:2:0",
+        "cloud-deck:2:1",
+        "cloud-deck:3:-1",
+        "cloud-deck:3:0",
+        "cloud-deck:3:1",
+        "cloud-deck:3:2",
+        "cloud-deck:4:0",
+        "cloud-deck:4:1",
+        "cloud-deck:5:0",
+        "cloud-deck:5:1",
+        "high-cirrus:1:0",
+        "high-cirrus:2:0",
+        "high-cirrus:2:1",
+        "high-cirrus:3:0",
+        "high-cirrus:3:1",
+        "silver-cloud:4:1",
+        "silver-cloud:4:2",
+        "silver-cloud:5:1",
+        "silver-cloud:5:2",
+        "silver-cloud:6:0",
+        "silver-cloud:6:1",
+        "silver-cloud:6:2",
+        "valley-mist:0:1",
+        "valley-mist:0:2",
+        "valley-mist:0:3",
+        "near-haze:0:2",
+        "near-haze:0:3"
+      ],
+      "motion": {
+        "variantId": "town-air",
+        "ready": true,
+        "failed": false,
+        "paused": false,
+        "currentTime": 8.222933,
+        "duration": 18,
+        "displayWidth": 1801.0000000000002,
+        "displayHeight": 534
+      }
+    },
+    {
+      "label": "sky-56",
+      "file": "after-sky-56.jpg",
+      "camera": {
+        "x": 3778,
+        "y": 4904,
+        "width": 1280,
+        "height": 720
+      },
+      "trees": [],
+      "clouds": [
+        "cloud-deck:2:-1",
+        "cloud-deck:2:0",
+        "cloud-deck:2:1",
+        "cloud-deck:3:-1",
+        "cloud-deck:3:0",
+        "cloud-deck:3:1",
+        "cloud-deck:4:0",
+        "cloud-deck:4:1",
+        "cloud-deck:5:0",
+        "high-cirrus:2:0",
+        "high-cirrus:2:1",
+        "high-cirrus:3:0",
+        "high-cirrus:3:1",
+        "silver-cloud:4:1",
+        "silver-cloud:4:2",
+        "silver-cloud:5:1",
+        "silver-cloud:5:2",
+        "silver-cloud:6:0",
+        "silver-cloud:6:1",
+        "silver-cloud:6:2",
+        "valley-mist:0:1",
+        "valley-mist:0:2",
+        "valley-mist:0:3",
+        "cloud-deck:1:0",
+        "cloud-deck:1:1",
+        "cloud-deck:1:2",
+        "high-cirrus:1:0",
+        "high-cirrus:1:1"
+      ],
+      "motion": {
+        "variantId": "town-air",
+        "ready": true,
+        "failed": false,
+        "paused": true,
+        "currentTime": 8.361308,
+        "duration": 18,
+        "displayWidth": 1801.0000000000002,
+        "displayHeight": 534
+      }
+    },
+    {
+      "label": "sky-48",
+      "file": "after-sky-48.jpg",
+      "camera": {
+        "x": 3778,
+        "y": 4152,
+        "width": 1280,
+        "height": 720
+      },
+      "trees": [],
+      "clouds": [
+        "cloud-deck:3:-1",
+        "cloud-deck:3:0",
+        "cloud-deck:3:1",
+        "cloud-deck:4:0",
+        "cloud-deck:4:1",
+        "high-cirrus:3:0",
+        "high-cirrus:3:1",
+        "silver-cloud:4:1",
+        "silver-cloud:5:1",
+        "silver-cloud:5:2",
+        "cloud-deck:0:1",
+        "cloud-deck:1:0",
+        "cloud-deck:1:1",
+        "cloud-deck:1:2",
+        "cloud-deck:2:-1",
+        "cloud-deck:2:0",
+        "cloud-deck:2:1",
+        "high-cirrus:1:0",
+        "high-cirrus:1:1",
+        "high-cirrus:2:0",
+        "high-cirrus:2:1",
+        "silver-cloud:3:0",
+        "silver-cloud:3:1",
+        "silver-cloud:3:2",
+        "silver-cloud:4:2",
+        "cloud-deck:1:-1"
+      ],
+      "motion": {
+        "variantId": "town-air",
+        "ready": true,
+        "failed": false,
+        "paused": true,
+        "currentTime": 8.361308,
+        "duration": 18,
+        "displayWidth": 1801.0000000000002,
+        "displayHeight": 534
+      }
+    },
+    {
+      "label": "sky-24",
+      "file": "after-sky-24.jpg",
+      "camera": {
+        "x": 3778,
+        "y": 1896,
+        "width": 1280,
+        "height": 720
+      },
+      "trees": [],
+      "clouds": [
+        "cloud-deck:-1:-1",
+        "cloud-deck:-1:0",
+        "cloud-deck:-1:1",
+        "cloud-deck:-1:2",
+        "cloud-deck:0:0",
+        "cloud-deck:0:1",
+        "cloud-deck:1:-1",
+        "cloud-deck:1:0",
+        "cloud-deck:1:1",
+        "cloud-deck:1:2",
+        "cloud-deck:2:-1",
+        "cloud-deck:2:0",
+        "cloud-deck:2:1",
+        "cloud-deck:3:-1",
+        "cloud-deck:3:0",
+        "cloud-deck:3:1",
+        "high-cirrus:0:1",
+        "high-cirrus:1:0",
+        "high-cirrus:1:1",
+        "high-cirrus:2:0",
+        "high-cirrus:2:1",
+        "silver-cloud:1:1",
+        "silver-cloud:1:2",
+        "silver-cloud:2:0",
+        "silver-cloud:2:1",
+        "silver-cloud:2:2",
+        "silver-cloud:3:0",
+        "silver-cloud:3:1",
+        "silver-cloud:3:2"
+      ],
+      "motion": {
+        "variantId": "town-air",
+        "ready": true,
+        "failed": false,
+        "paused": true,
+        "currentTime": 8.361308,
+        "duration": 18,
+        "displayWidth": 1801.0000000000002,
+        "displayHeight": 534
+      }
+    }
+  ],
+  "scope": {
+    "profile": "demo",
+    "levelTwo": false,
+    "bounds": {
+      "type": 5,
+      "x": 0,
+      "y": 0,
+      "width": 12502,
+      "height": 194204
+    },
+    "tileSize": 94
+  }
+}

@@ -2,6 +2,13 @@
 
 Game system — environment.
 
+Campfire upgrades keep payment, save data, blessings and charge ownership in
+`CampfireSystem`. Its injected `CampfireEvolutionPresentation` closes the ritual
+menu only after a successful purchase and presents the old/new forms at the
+same ground anchor. Save restoration and reopening the menu cancel the effect.
+Ember collection reports the previous refill capacity to its view; only the
+first find raises refill capacity from one to two, and every find adds a charge.
+
 Notable systems:
 - `DayNightCycle.js` — authoritative world clock, one smooth sun/moon orbit, surface-only celestial rendering, and tint cycles
 - `WeatherSystem.js` — authoritative weather phase orchestration, including winter/temperature-gated snow and frame-rate-independent cloud/fog/sun attenuation snapshots
@@ -18,15 +25,22 @@ Notable systems:
   its local authored gobos beneath the darkness mask.
 - `AmbientParticleSystem.js` — underground dust motes + falling debris (values/ambientParticleConfig.js)
 - `StarSanctuarySystem.js` / `StarConsumptionGuard.js` /
-  `starSanctuaryProfile.js` — turn each intact Star
+  `starSanctuaryProfile.js` / `starScarTerritory.js` — turn each intact Star
   into a deterministic Wellspring, Reservoir, or Haven mini-base. Standing
   nearly still restores GP only to that site's reserve; the system also owns
   the first-use typed `DESTROY` gate plus release-cancellable hold admission,
-  and derives permanent scars from existing saved dug-Star source records
-  without owning Star rewards, Stress, lighting, or save transport.
+  with verified held input keeping the attempt alive between slow pickaxe
+  contacts. Release, retarget, pause, and genuinely stale frames cancel the
+  attempt; the typed acknowledgement and one-second hold remain unchanged.
+  The system also
+  derives the consumed Star's complete nearest-site territory from existing
+  saved dug-Star source records. That same query marks ordinary material yield
+  as depleted; `DigSystem` remains the grant authority. The environment system
+  publishes the scar's 4x darkness-Stress multiplier but does not own the Star
+  reward, Stress mutation, lighting, or save transport.
 - `CampfireSystem.js` — campfire buffs, saved Ember Charges, slot-six
   consumption, and save-slot-aware texture residency. Every save starts with
-  one use. Returning to the Town surface or interacting with the Campfire
+  one use. Sleeping in the town bed
   restores the reserve to at least one use; the first mined Ember Ore block
   permanently raises that refill to two, while every mined Ember still adds one
   immediate use through `DigSystem`.
@@ -42,6 +56,10 @@ Notable systems:
   before spending, rechecks the level and wallet after the wait, and coalesces
   duplicate clicks. A failed, cancelled, or pressure-timed-out load spends no
   gold and writes no save.
+  Ground-level E uses the shared buffered interaction action only when the
+  Campfire owns it, preserving short taps and Worldroot priority. Requested
+  tier swaps admit one full-quality sprite despite unrelated texture pressure,
+  retain the previous form until ready, then release its old residency group.
 - `BiomeSystem.js`, `SurfaceTunnelDoorSystem.js`
 - `V11SkyIslandVisualSystem.js` submits the six Heavenblocks backdrops/facades
   as separate low-priority requests to the shared runtime coordinator. Each
@@ -64,8 +82,12 @@ Notable systems:
   authored boulders, leading-edge swept player collision, retry-safe local
   rubble, authoritative tile-feedback callbacks, distance-attenuated player
   response, and immediate cancellation when the permanent Seismic Suppression
-  player upgrade is owned. Event completion records intensity, distance, and
-  opened passages silently; it does not reopen a cleared-status card
+  player upgrade is owned. A save's first eligible event uses a shorter
+  discovery window without changing the restrained repeat cadence. Warned
+  aftershocks remain inside the originating event until every FallZone settles,
+  and a real boulder hit requests the authored player reaction. Event completion
+  records intensity, distance, and opened passages silently; it does not reopen
+  a cleared-status card.
   The default LEO player-character runtime may request a contextual warning at
   the player-aware boundary; the shared voice director can queue it but can
   never interrupt active narration, player, or merchant speech. Biome entry is
@@ -88,3 +110,43 @@ Notable systems:
   `graveborerWurmPersistence.js`, pure path/render sampling lives in
   `graveborerWurmPath.js`, and static plus swept hit math lives in
   `graveborerWurmCollision.js`.
+
+The 2026-09-05 polish adds `graveborerWurmVariants` for independent size and
+behavior selection, two-to-five-pass hunts and bounded Broodmother children.
+Path samples now follow actual curve distance so body pieces remain connected.
+`earthquakeLocalHazards` reacquires nearby ordinary ceilings as the player
+moves, preserves each warned lane, and recomputes falling-rock landing height
+from current terrain. Minor events have a nonzero rock budget; all intensities
+cap live hazards and total queued falls. Mutation pulses preserve already
+warned ceiling tiles. A removed floor cannot suspend a rock; solid cover stops
+it. `EarthquakeSystem.getStatus()` includes started/completed, queued/spawned,
+hit, cancelled-ceiling and no-candidate counts.
+
+
+In the layeredSky replacement candidate, V11SkyIslandVisualSystem excludes all six old Heavenblock backdrop/facade paintings and adds the new collision-aligned island skin. Portal arches, altars and collision retain their owners. DayNightCycle omits the duplicate large procedural stars, and GroundEffectsAtmosphere omits its old ambient motes/mist; the new renderer reads the live clock/weather snapshots while weather precipitation and lightning keep their existing systems.
+
+LayeredCelestialView.js supplies the query-gated Level 1 candidate's authored
+sun/moon presentation. DayNightCycle retains time, world orbit and camera
+projection ownership; art renders behind cloud/terrain and respects weather.
+The helper owns and removes its halo-composited textures on scene shutdown.
+
+Weather V4 adds weather-owned passing cloud fronts and a measured rain atlas.
+`WeatherCloudFront.js` publishes evolving cover into the existing lighting
+snapshot. `LayeredWeatherAtlas.js` registers and releases source frames and
+routes rain, contact splashes and wet-surface ripples to their matching texture.
+`weatherRainTrail.js` keeps candidate streak length independent of refresh rate;
+precipitation still uses the existing authoritative swept tile collision.
+`values/layeredWeatherVisuals.js` owns candidate-only density, depth, optical
+trail, impact and smaller snowflake settings. World weather in the review
+releases a manual override back to the existing director.
+
+Cloud polish V5 adds candidate-only surfaceAtmosphere settings through
+LayeredWeatherAtlas. WeatherParticleController suppresses outdoor rain mist
+and post-rain steam; cave rain mist, precipitation, contact splashes and their
+authoritative collision continue through the same owners.
+
+`TownRestSystem` now owns the town resting interaction. In the default runtime, returning to town or opening the old Campfire menu no longer refills Ember; completed sleep does. `sleepWeatherSimulation` advances the existing clock/weather authority and persists the forecast alongside dayNightData. Campfire remains the blessing/charge/tier authority. TownRestBridge supplies eyelid/audio presentation ports: dozing closes the eyes first, an unobscured outdoor time-lapse advances exactly eight game hours, then the varied awakening completes before Ember feedback and blessing selection. The bed retains its input suspension through checkpoint completion.
+
+Bed admission also respects the shared UI input lock. A postupdate presentation check hides the idle bed prompt and rest feedback while another menu owns input, including when that menu suspends the gameplay update. Sleep consumes deferred Pause/Map edges through the bridge and clears them once more before releasing gameplay.
+
+Rest acquires the shared UI input lock for the entire sleep/choice/save flow and releases it only on successful completion or teardown; a failed save keeps ownership for retry. Pause and World Map entry refuse active rest. A pending map asset load also postpones bed admission.

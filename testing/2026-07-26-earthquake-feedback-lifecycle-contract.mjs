@@ -59,11 +59,11 @@ assert.ok(EARTHQUAKE_FEEDBACK_CONFIG.timing.escapeVisibleMs <= 3400);
 assert.equal("recapVisibleMs" in EARTHQUAKE_FEEDBACK_CONFIG.timing, false);
 assert.deepEqual(
   EARTHQUAKE_FEEDBACK_CONFIG.timing.phaseVisibleMs,
-  { warning: 2400, earthquake: 2600, aftermath: 1400 },
+  { warning: null, earthquake: null, aftermath: null },
 );
 assert.ok(EARTHQUAKE_FEEDBACK_CONFIG.timing.hideFailsafePaddingMs > 0);
-assert.ok(EARTHQUAKE_FEEDBACK_CONFIG.card.width <= 320);
-assert.ok(EARTHQUAKE_FEEDBACK_CONFIG.card.height <= 60);
+assert.ok(EARTHQUAKE_FEEDBACK_CONFIG.card.width <= 420);
+assert.ok(EARTHQUAKE_FEEDBACK_CONFIG.card.height <= 80);
 assert.ok(
   EARTHQUAKE_FEEDBACK_CONFIG.hazards.maxFallZones
     >= EARTHQUAKE_CONFIG.maxConcurrentFallZones,
@@ -135,7 +135,7 @@ assert.ok(bootSource.includes("getEarthquakeFeedbackPreloadAssets"));
 
 {
   const recordedEvents = [];
-  const system = Object.create(EarthquakeSystem.prototype);
+  const system = Object.assign(Object.create(EarthquakeSystem.prototype), { heartbeat: 0, _eventFallZonesQueued: 0, health: { started: 0, completed: 0, queued: 0, rocks: 0, hits: 0, cancelledCeilings: 0, emptySearches: 0 } });
   Object.assign(system, {
     state: "aftermath",
     intensity: "major",

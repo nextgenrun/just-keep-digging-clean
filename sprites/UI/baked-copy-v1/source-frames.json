@@ -1,0 +1,1414 @@
+{
+  "wiki": {
+    "file": "wiki.png",
+    "source": "C:\\Users\\Mila\\.codex\\generated_images\\01a073dd-be6a-7970-8435-e600fc19371a\\exec-08560eca-761e-48a1-b07d-66c087314781.png",
+    "sha256": "34c32c070560eeeb11af89bae7bf11a799a8d529022e441f639c1a06096a833c",
+    "width": 2135,
+    "height": 736,
+    "mode": "RGBA",
+    "frames": [
+      [
+        23,
+        131,
+        2088,
+        401
+      ]
+    ]
+  },
+  "menu": {
+    "file": "menu.png",
+    "source": "C:\\Users\\Mila\\.codex\\generated_images\\01a073dd-be6a-7970-8435-e600fc19371a\\exec-90783e6f-e703-498f-abf5-3b2e582e3659.png",
+    "sha256": "200d65c9a944129115d0de2be53a7015778d34a9ead4d10a2c92c272e40d15e6",
+    "width": 2039,
+    "height": 771,
+    "mode": "RGBA",
+    "frames": [
+      [
+        8,
+        98,
+        2019,
+        471
+      ]
+    ]
+  },
+  "world-map": {
+    "file": "world-map.png",
+    "source": "C:\\Users\\Mila\\.codex\\generated_images\\01a073dd-be6a-7970-8435-e600fc19371a\\exec-53b31740-c7a1-4fd5-bf92-3e26b474a12c.png",
+    "sha256": "ea84479dd5ce83783cde72a4f7856f6516454405e660416fdf35b143338e4a6e",
+    "width": 2116,
+    "height": 743,
+    "mode": "RGBA",
+    "frames": [
+      [
+        10,
+        129,
+        2092,
+        423
+      ]
+    ]
+  },
+  "controls": {
+    "file": "controls.png",
+    "source": "C:\\Users\\Mila\\.codex\\generated_images\\01a073dd-be6a-7970-8435-e600fc19371a\\exec-3c898d8b-13b9-483c-ad02-99819f2068af.png",
+    "sha256": "d0801272dbe8341dc60be81843af83c532dddd9296784454d63d204f81f05856",
+    "width": 1024,
+    "height": 1536,
+    "mode": "RGBA",
+    "frames": [
+      [
+        13,
+        125,
+        329,
+        118
+      ],
+      [
+        348,
+        125,
+        328,
+        118
+      ],
+      [
+        683,
+        125,
+        329,
+        118
+      ],
+      [
+        13,
+        273,
+        329,
+        118
+      ],
+      [
+        348,
+        273,
+        328,
+        118
+      ],
+      [
+        683,
+        273,
+        329,
+        118
+      ],
+      [
+        13,
+        420,
+        329,
+        118
+      ],
+      [
+        348,
+        420,
+        328,
+        118
+      ],
+      [
+        683,
+        420,
+        329,
+        118
+      ],
+      [
+        13,
+        569,
+        329,
+        118
+      ],
+      [
+        348,
+        569,
+        328,
+        118
+      ],
+      [
+        683,
+        569,
+        329,
+        118
+      ],
+      [
+        13,
+        717,
+        329,
+        119
+      ],
+      [
+        348,
+        717,
+        328,
+        119
+      ],
+      [
+        683,
+        717,
+        329,
+        119
+      ],
+      [
+        13,
+        868,
+        329,
+        119
+      ],
+      [
+        348,
+        868,
+        328,
+        119
+      ],
+      [
+        683,
+        868,
+        329,
+        119
+      ],
+      [
+        13,
+        1018,
+        329,
+        119
+      ],
+      [
+        348,
+        1018,
+        328,
+        119
+      ],
+      [
+        683,
+        1018,
+        329,
+        119
+      ],
+      [
+        13,
+        1166,
+        329,
+        118
+      ],
+      [
+        348,
+        1166,
+        328,
+        118
+      ],
+      [
+        683,
+        1166,
+        329,
+        118
+      ]
+    ]
+  },
+  "controls-extra": {
+    "file": "controls-extra.png",
+    "source": "C:\\Users\\Mila\\.codex\\generated_images\\01a073dd-be6a-7970-8435-e600fc19371a\\exec-7b236487-b949-4d09-9452-a135412d8920.png",
+    "sha256": "6af68c8f1cee0436c2441ede15f23a7fe3726cac955f1612f772a7e3ef7287c2",
+    "width": 1254,
+    "height": 1254,
+    "mode": "RGBA",
+    "frames": [
+      [
+        20,
+        94,
+        392,
+        105
+      ],
+      [
+        432,
+        94,
+        391,
+        105
+      ],
+      [
+        842,
+        94,
+        392,
+        105
+      ],
+      [
+        20,
+        274,
+        392,
+        104
+      ],
+      [
+        432,
+        274,
+        391,
+        104
+      ],
+      [
+        842,
+        274,
+        392,
+        104
+      ],
+      [
+        20,
+        455,
+        392,
+        105
+      ],
+      [
+        432,
+        455,
+        391,
+        105
+      ],
+      [
+        842,
+        455,
+        392,
+        105
+      ],
+      [
+        20,
+        636,
+        392,
+        104
+      ],
+      [
+        432,
+        636,
+        391,
+        104
+      ],
+      [
+        842,
+        636,
+        392,
+        104
+      ],
+      [
+        20,
+        816,
+        392,
+        105
+      ],
+      [
+        432,
+        816,
+        391,
+        105
+      ],
+      [
+        842,
+        816,
+        392,
+        105
+      ],
+      [
+        20,
+        997,
+        392,
+        105
+      ],
+      [
+        432,
+        997,
+        391,
+        105
+      ],
+      [
+        842,
+        997,
+        392,
+        105
+      ]
+    ]
+  },
+  "headings": {
+    "file": "headings.png",
+    "source": "C:\\Users\\Mila\\.codex\\generated_images\\01a073dd-be6a-7970-8435-e600fc19371a\\exec-daea0302-5788-4aa8-bddf-99c769c8d23f.png",
+    "sha256": "06f7c42e23f13998dc952b9987e7cbfc5cb9742f3ecb5e83e0a654dadf3e7f16",
+    "width": 1536,
+    "height": 1024,
+    "mode": "RGBA",
+    "frames": [
+      [
+        28,
+        47,
+        474,
+        113
+      ],
+      [
+        529,
+        47,
+        478,
+        113
+      ],
+      [
+        1034,
+        47,
+        475,
+        113
+      ],
+      [
+        28,
+        202,
+        474,
+        113
+      ],
+      [
+        529,
+        202,
+        478,
+        113
+      ],
+      [
+        1034,
+        202,
+        474,
+        113
+      ],
+      [
+        28,
+        357,
+        474,
+        113
+      ],
+      [
+        529,
+        357,
+        478,
+        113
+      ],
+      [
+        1034,
+        357,
+        475,
+        113
+      ],
+      [
+        28,
+        515,
+        474,
+        113
+      ],
+      [
+        529,
+        515,
+        478,
+        113
+      ],
+      [
+        1034,
+        515,
+        474,
+        113
+      ],
+      [
+        28,
+        674,
+        474,
+        113
+      ],
+      [
+        529,
+        674,
+        478,
+        113
+      ],
+      [
+        1034,
+        674,
+        475,
+        113
+      ],
+      [
+        28,
+        832,
+        474,
+        114
+      ],
+      [
+        529,
+        832,
+        478,
+        114
+      ],
+      [
+        1034,
+        832,
+        475,
+        114
+      ]
+    ]
+  },
+  "expedition-one-life": {
+    "file": "expedition-one-life.png",
+    "source": "C:\\Users\\Mila\\.codex\\generated_images\\01a073dd-be6a-7970-8435-e600fc19371a\\exec-6f3b5690-1e31-469f-8260-15ac9835f399.png",
+    "sha256": "bfc03e439cbfcfdbc285396a5a3f04d357c957b1c4aafc734fce730b141a6122",
+    "width": 1536,
+    "height": 1024,
+    "mode": "RGB",
+    "frames": []
+  },
+  "talents": {
+    "file": "talents.png",
+    "source": "C:\\Users\\Mila\\.codex\\generated_images\\01a073dd-be6a-7970-8435-e600fc19371a\\exec-e76567df-4dc6-442f-a17b-ae9a3517b2c0.png",
+    "sha256": "d8cd72224b3d7e21dcde59cacc5d0d7b4e1ef2f65293b4d6055aaa3dd3f2e1fc",
+    "width": 1672,
+    "height": 941,
+    "mode": "RGB",
+    "frames": []
+  },
+  "star-codex": {
+    "file": "star-codex.png",
+    "source": "C:\\Users\\Mila\\.codex\\generated_images\\01a073dd-be6a-7970-8435-e600fc19371a\\exec-6f3d9f48-4298-4925-a0c1-7333a56314ef.png",
+    "sha256": "0daad19ac584050afa0c73b2198e802ee1eda6342c15638f56c76b1ca101287a",
+    "width": 1738,
+    "height": 905,
+    "mode": "RGB",
+    "frames": []
+  },
+  "inventory-settings": {
+    "file": "inventory-settings.png",
+    "source": "C:\\Users\\Mila\\.codex\\generated_images\\01a073dd-be6a-7970-8435-e600fc19371a\\exec-3864d994-a53a-46da-8e3b-321cf42f91b0.png",
+    "sha256": "2e7194965ef1c3a2d05c9672cfa6ddce22fed94e35c53c23c098ea7c8a85a1ec",
+    "width": 1024,
+    "height": 1536,
+    "mode": "RGBA",
+    "frames": [
+      [
+        11,
+        112,
+        329,
+        95
+      ],
+      [
+        345,
+        112,
+        333,
+        95
+      ],
+      [
+        684,
+        112,
+        329,
+        95
+      ],
+      [
+        11,
+        231,
+        329,
+        96
+      ],
+      [
+        345,
+        231,
+        333,
+        96
+      ],
+      [
+        684,
+        231,
+        329,
+        96
+      ],
+      [
+        11,
+        352,
+        329,
+        98
+      ],
+      [
+        345,
+        352,
+        333,
+        98
+      ],
+      [
+        684,
+        352,
+        329,
+        98
+      ],
+      [
+        11,
+        478,
+        329,
+        98
+      ],
+      [
+        345,
+        478,
+        333,
+        98
+      ],
+      [
+        684,
+        478,
+        329,
+        98
+      ],
+      [
+        10,
+        607,
+        330,
+        98
+      ],
+      [
+        345,
+        607,
+        333,
+        98
+      ],
+      [
+        684,
+        607,
+        329,
+        98
+      ],
+      [
+        10,
+        733,
+        330,
+        99
+      ],
+      [
+        345,
+        733,
+        333,
+        99
+      ],
+      [
+        684,
+        733,
+        329,
+        99
+      ],
+      [
+        11,
+        870,
+        329,
+        98
+      ],
+      [
+        345,
+        870,
+        333,
+        98
+      ],
+      [
+        683,
+        870,
+        330,
+        98
+      ],
+      [
+        11,
+        1004,
+        329,
+        99
+      ],
+      [
+        345,
+        1004,
+        333,
+        99
+      ],
+      [
+        683,
+        1004,
+        330,
+        99
+      ],
+      [
+        11,
+        1136,
+        329,
+        99
+      ],
+      [
+        345,
+        1136,
+        333,
+        99
+      ],
+      [
+        683,
+        1136,
+        330,
+        99
+      ],
+      [
+        11,
+        1263,
+        329,
+        98
+      ],
+      [
+        345,
+        1263,
+        333,
+        98
+      ],
+      [
+        684,
+        1263,
+        329,
+        98
+      ]
+    ]
+  },
+  "campfire-rect": {
+    "file": "campfire-rect.png",
+    "source": "C:\\Users\\Mila\\.codex\\generated_images\\01a073dd-be6a-7970-8435-e600fc19371a\\exec-805071eb-649d-44d3-b1e2-66785458b567.png",
+    "sha256": "db7e5209426446b686592e5dfca66217d16f863b0e6f279bee6749dc25976acd",
+    "width": 1983,
+    "height": 793,
+    "mode": "RGB",
+    "frames": []
+  },
+  "talents-layout": {
+    "file": "talents-layout.png",
+    "source": "C:\\Users\\Mila\\.codex\\generated_images\\01a073dd-be6a-7970-8435-e600fc19371a\\exec-0a4f27d9-943b-4be2-b4ad-781ee075ed59.png",
+    "sha256": "0f510abaa5f05a42893c672db04ad637c61994330020c66717f8daaa43124510",
+    "width": 1672,
+    "height": 941,
+    "mode": "RGB",
+    "frames": []
+  },
+  "keybind-labels-alpha": {
+    "file": "keybind-labels-alpha.png",
+    "source": "C:\\Users\\Mila\\.codex\\generated_images\\01a073dd-be6a-7970-8435-e600fc19371a\\exec-8057f0b8-9f04-423a-87c7-b6ad637f4d54.png",
+    "sha256": "5a94a79f972881e7f910607baeb739d8ae10bc1e7e7e9a31c85f2063e0789e3d",
+    "width": 1024,
+    "height": 1536,
+    "mode": "RGB",
+    "frames": [
+      [
+        10,
+        282,
+        332,
+        111
+      ],
+      [
+        345,
+        282,
+        335,
+        111
+      ],
+      [
+        682,
+        282,
+        332,
+        111
+      ],
+      [
+        10,
+        421,
+        332,
+        112
+      ],
+      [
+        345,
+        421,
+        335,
+        112
+      ],
+      [
+        682,
+        421,
+        332,
+        112
+      ],
+      [
+        10,
+        561,
+        332,
+        111
+      ],
+      [
+        345,
+        561,
+        335,
+        111
+      ],
+      [
+        682,
+        561,
+        332,
+        111
+      ],
+      [
+        10,
+        701,
+        332,
+        111
+      ],
+      [
+        345,
+        701,
+        335,
+        111
+      ],
+      [
+        682,
+        701,
+        332,
+        111
+      ],
+      [
+        10,
+        840,
+        332,
+        111
+      ],
+      [
+        345,
+        840,
+        335,
+        111
+      ],
+      [
+        682,
+        840,
+        332,
+        111
+      ],
+      [
+        10,
+        979,
+        332,
+        112
+      ],
+      [
+        345,
+        979,
+        335,
+        112
+      ],
+      [
+        682,
+        979,
+        332,
+        112
+      ],
+      [
+        10,
+        1119,
+        332,
+        113
+      ],
+      [
+        345,
+        1119,
+        335,
+        113
+      ],
+      [
+        682,
+        1119,
+        332,
+        113
+      ]
+    ]
+  },
+  "navigation-labels": {
+    "file": "navigation-labels.png",
+    "source": "C:\\Users\\Mila\\.codex\\generated_images\\01a073dd-be6a-7970-8435-e600fc19371a\\exec-ff0eeb48-3509-430c-a921-421d5ec3fe14.png",
+    "sha256": "67a94d816c9170e082d1bac426ec8b875af7d42e6f2be737242b0acb5f840ea1",
+    "width": 1024,
+    "height": 1536,
+    "mode": "RGBA",
+    "frames": [
+      [
+        6,
+        104,
+        336,
+        117
+      ],
+      [
+        342,
+        104,
+        340,
+        117
+      ],
+      [
+        681,
+        104,
+        337,
+        117
+      ],
+      [
+        6,
+        248,
+        336,
+        116
+      ],
+      [
+        342,
+        248,
+        340,
+        116
+      ],
+      [
+        681,
+        248,
+        337,
+        116
+      ],
+      [
+        6,
+        391,
+        336,
+        117
+      ],
+      [
+        342,
+        391,
+        340,
+        117
+      ],
+      [
+        681,
+        391,
+        337,
+        117
+      ],
+      [
+        6,
+        535,
+        336,
+        117
+      ],
+      [
+        342,
+        535,
+        340,
+        117
+      ],
+      [
+        681,
+        535,
+        337,
+        117
+      ],
+      [
+        6,
+        677,
+        336,
+        117
+      ],
+      [
+        342,
+        677,
+        340,
+        117
+      ],
+      [
+        681,
+        677,
+        337,
+        117
+      ],
+      [
+        6,
+        822,
+        336,
+        116
+      ],
+      [
+        342,
+        822,
+        340,
+        116
+      ],
+      [
+        681,
+        822,
+        337,
+        116
+      ],
+      [
+        6,
+        965,
+        337,
+        118
+      ],
+      [
+        342,
+        965,
+        340,
+        118
+      ],
+      [
+        681,
+        965,
+        337,
+        118
+      ],
+      [
+        6,
+        1111,
+        336,
+        117
+      ],
+      [
+        342,
+        1111,
+        340,
+        117
+      ],
+      [
+        681,
+        1111,
+        337,
+        117
+      ]
+    ]
+  },
+  "star-codex-empty": {
+    "file": "star-codex-empty.png",
+    "source": "C:\\Users\\Mila\\.codex\\generated_images\\01a073dd-be6a-7970-8435-e600fc19371a\\exec-842af645-0d6f-47ad-b68a-e4236ed57829.png",
+    "sha256": "992b4a6e67daba62683b3a078cf965217b248021b1ede01a5f3ee7cd6c65f0f3",
+    "width": 1735,
+    "height": 906,
+    "mode": "RGB",
+    "frames": []
+  },
+  "expedition": {
+    "file": "expedition.png",
+    "source": "C:/Users/Mila/.codex/generated_images/01a073dd-be6a-7970-8435-e600fc19371a/exec-fb595d93-8d85-4ad4-8fbb-dd6af9366dbd.png",
+    "sha256": "e45ffeeef292d9309ad94fc46905c3aa98de74057e2fcf1139f6f54f0752e394",
+    "width": 1536,
+    "height": 1024,
+    "mode": "RGB",
+    "frames": []
+  },
+  "headingsA": {
+    "file": "headings-a-hd-v2.png",
+    "source": "C:\\Users\\Mila\\.codex\\generated_images\\01a073dd-be6a-7970-8435-e600fc19371a\\exec-b8126520-977e-48bd-bc4b-cb30e44701bc.png",
+    "sha256": "ef56e3f80ceaff65f11927508c10be933801ce164e31b43f87405d194c13f312",
+    "width": 1536,
+    "height": 1024,
+    "mode": "RGB",
+    "frames": [
+      [
+        26,
+        121,
+        717,
+        194
+      ],
+      [
+        789,
+        121,
+        721,
+        194
+      ],
+      [
+        26,
+        394,
+        717,
+        196
+      ],
+      [
+        789,
+        394,
+        721,
+        196
+      ],
+      [
+        25,
+        669,
+        718,
+        197
+      ],
+      [
+        789,
+        669,
+        721,
+        197
+      ]
+    ]
+  },
+  "headingsB": {
+    "file": "headings-b-hd-v2.png",
+    "source": "C:\\Users\\Mila\\.codex\\generated_images\\01a073dd-be6a-7970-8435-e600fc19371a\\exec-d7f5dd90-f07a-4a6f-a84e-47a30fc74c87.png",
+    "sha256": "4d155dc69011d79cbc792ac53cd91980cd7f1fb0a020e2ad469cfe53130005ca",
+    "width": 1536,
+    "height": 1024,
+    "mode": "RGB",
+    "frames": [
+      [
+        33,
+        142,
+        717,
+        192
+      ],
+      [
+        786,
+        142,
+        716,
+        192
+      ],
+      [
+        34,
+        414,
+        716,
+        191
+      ],
+      [
+        786,
+        414,
+        716,
+        191
+      ],
+      [
+        34,
+        685,
+        716,
+        192
+      ],
+      [
+        786,
+        685,
+        716,
+        192
+      ]
+    ]
+  },
+  "headingsC": {
+    "file": "headings-c-hd-v2.png",
+    "source": "C:\\Users\\Mila\\.codex\\generated_images\\01a073dd-be6a-7970-8435-e600fc19371a\\exec-4f385392-3b76-4ad0-bf97-fce7ff7a4293.png",
+    "sha256": "5eaa8da6409fe800b443a050b0693aaf9d69022a484d5cab450300a8db601a60",
+    "width": 1536,
+    "height": 1024,
+    "mode": "RGB",
+    "frames": [
+      [
+        30,
+        143,
+        716,
+        191
+      ],
+      [
+        789,
+        143,
+        716,
+        192
+      ],
+      [
+        30,
+        416,
+        716,
+        190
+      ],
+      [
+        789,
+        416,
+        716,
+        190
+      ],
+      [
+        30,
+        686,
+        716,
+        190
+      ],
+      [
+        789,
+        686,
+        717,
+        191
+      ]
+    ]
+  },
+  "iconBadges": {
+    "file": "icon-badges-v2.png",
+    "source": "C:\\Users\\Mila\\.codex\\generated_images\\01a073dd-be6a-7970-8435-e600fc19371a\\exec-bd289aee-2379-4741-936f-cec97ebe1b3f.png",
+    "sha256": "eb11b2b34660c2f740d1ebddbe05de3a782609aa3dec7dfcf1ff1c07dbc87789",
+    "width": 1254,
+    "height": 1254,
+    "mode": "RGB",
+    "frames": [
+      [
+        0,
+        0,
+        314,
+        314
+      ],
+      [
+        314,
+        0,
+        313,
+        314
+      ],
+      [
+        627,
+        0,
+        313,
+        314
+      ],
+      [
+        940,
+        0,
+        314,
+        314
+      ],
+      [
+        0,
+        314,
+        314,
+        313
+      ],
+      [
+        314,
+        314,
+        313,
+        313
+      ],
+      [
+        627,
+        314,
+        313,
+        313
+      ],
+      [
+        940,
+        314,
+        314,
+        313
+      ],
+      [
+        0,
+        627,
+        314,
+        313
+      ],
+      [
+        314,
+        627,
+        313,
+        313
+      ],
+      [
+        627,
+        627,
+        313,
+        313
+      ],
+      [
+        940,
+        627,
+        314,
+        313
+      ],
+      [
+        0,
+        940,
+        314,
+        314
+      ],
+      [
+        314,
+        940,
+        313,
+        314
+      ],
+      [
+        627,
+        940,
+        313,
+        314
+      ],
+      [
+        940,
+        940,
+        314,
+        314
+      ]
+    ]
+  },
+  "currencyIntegrated": {
+    "file": "currency-integrated-v2.png",
+    "source": "C:\\Users\\Mila\\.codex\\generated_images\\01a073dd-be6a-7970-8435-e600fc19371a\\exec-3b485b05-4a96-4e66-bcf8-65f9112eed65.png",
+    "sha256": "c879cc23fb784c225a7603a1b18d1ae715dd28ebf5536530e6e558138f246975",
+    "width": 2061,
+    "height": 763,
+    "mode": "RGBA",
+    "frames": [
+      [
+        28,
+        170,
+        2006,
+        360
+      ]
+    ]
+  },
+  "playerCoreIntegrated": {
+    "file": "player-core-integrated-v2.png",
+    "source": "C:\\Users\\Mila\\.codex\\generated_images\\01a073dd-be6a-7970-8435-e600fc19371a\\exec-6a8ba4f7-912c-4df1-82eb-d0ae486e0e95.png",
+    "sha256": "4079b49ea5354467af3c3dea74bf9daa589c2b7b07a959a3a1c3b708da72c4f8",
+    "width": 2073,
+    "height": 759,
+    "mode": "RGBA",
+    "frames": [
+      [
+        30,
+        94,
+        2015,
+        552
+      ]
+    ]
+  },
+  "levelUpIntegrated": {
+    "file": "level-up-integrated-v2.png",
+    "source": "C:\\Users\\Mila\\.codex\\generated_images\\01a073dd-be6a-7970-8435-e600fc19371a\\exec-cc4c52d4-f569-4917-85a8-074a175635fc.png",
+    "sha256": "d02823b57a64c30d3f9a58d37ba9eb6cc7a28673efc7f781d12508ded29b05db",
+    "width": 2172,
+    "height": 724,
+    "mode": "RGBA",
+    "frames": [
+      [
+        0,
+        135,
+        2172,
+        402
+      ]
+    ]
+  },
+  "xpIntegrated": {
+    "file": "xp-integrated-v2.png",
+    "source": "C:\\Users\\Mila\\.codex\\generated_images\\01a073dd-be6a-7970-8435-e600fc19371a\\exec-7674b459-ff6e-4a1f-9f18-7755093322d7.png",
+    "sha256": "d513e7f20e0947a94b6568b54b11e61c02af07880d182b3ada47a81321fbf15d",
+    "width": 2145,
+    "height": 733,
+    "mode": "RGBA",
+    "frames": [
+      [
+        25,
+        268,
+        2090,
+        215
+      ]
+    ]
+  },
+  "utilityFinal": {
+    "file": "utility-final-v2.png",
+    "source": "C:\\Users\\Mila\\.codex\\generated_images\\01a073dd-be6a-7970-8435-e600fc19371a\\exec-0b76b874-3db0-4002-b1a1-ec37cbec1b0d.png",
+    "sha256": "11fb624aebbb64430d9ac5552b1d5e523e74c3234f0cc5750517216a7394b718",
+    "width": 1536,
+    "height": 1024,
+    "mode": "RGB",
+    "frames": [
+      [
+        93,
+        118,
+        1353,
+        328
+      ],
+      [
+        92,
+        528,
+        1354,
+        334
+      ]
+    ]
+  },
+  "hudDetails": {
+    "file": "hud-details-v2.png",
+    "source": "C:\\Users\\Mila\\.codex\\generated_images\\01a073dd-be6a-7970-8435-e600fc19371a\\exec-be320f38-5e57-4ce6-af0b-166a2490cb2e.png",
+    "sha256": "89de55603110b37dea7ad01c789cbb0fdd34c531e70c04703be9de0935730a78",
+    "width": 1536,
+    "height": 1024,
+    "mode": "RGB",
+    "frames": [
+      [
+        101,
+        96,
+        619,
+        473
+      ],
+      [
+        818,
+        96,
+        620,
+        473
+      ],
+      [
+        98,
+        645,
+        1341,
+        268
+      ]
+    ]
+  },
+  "pauseStats": {
+    "file": "pause-stats-v2.png",
+    "source": "C:\\Users\\Mila\\.codex\\generated_images\\01a073dd-be6a-7970-8435-e600fc19371a\\exec-7644f139-faf4-4a24-8d14-148d21e01507.png",
+    "sha256": "51691a9762e812ce939ca02b155e191d4420ea8d42ed6ec1d3d9bf921223d078",
+    "width": 1536,
+    "height": 1024,
+    "mode": "RGB",
+    "frames": [
+      [
+        88,
+        24,
+        1362,
+        268
+      ],
+      [
+        88,
+        301,
+        1363,
+        81
+      ],
+      [
+        88,
+        392,
+        1363,
+        80
+      ],
+      [
+        88,
+        483,
+        1363,
+        79
+      ],
+      [
+        88,
+        573,
+        1363,
+        79
+      ],
+      [
+        88,
+        661,
+        1363,
+        79
+      ],
+      [
+        88,
+        748,
+        1363,
+        78
+      ],
+      [
+        88,
+        834,
+        1363,
+        78
+      ],
+      [
+        88,
+        920,
+        1363,
+        79
+      ]
+    ]
+  },
+  "starCodexV2": {
+    "file": "star-codex-v2.png",
+    "source": "C:/Users/Mila/.codex/generated_images/01a073dd-be6a-7970-8435-e600fc19371a/exec-1166e14f-a270-46bd-8328-1439620b0ad8.png",
+    "sha256": "b773aa62288b617a430bc1266ab78e01339050da18336301352308f26b62eff5",
+    "width": 1739,
+    "height": 904,
+    "mode": "RGB",
+    "frames": []
+  }
+}

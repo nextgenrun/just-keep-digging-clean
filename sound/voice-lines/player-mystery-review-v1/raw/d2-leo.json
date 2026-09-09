@@ -1,0 +1,10 @@
+{
+  "id": "D2",
+  "voice": "leo",
+  "text": "Loose rocks. Not again.",
+  "model": "x-ai/grok-voice-tts-1.0",
+  "requestSha256": "0212ba71d7d2d24a93ea0f9f20aa0b1b8e2873bfb9a12954a30f6fcb2d4a3ec6",
+  "contentType": "audio/mpeg",
+  "generationId": "gen-tts-1788736853-5UGIhvHncGEGhEijZRnM",
+  "rawSha256": "0cb783831db3955d0f75ca81dd4124effff5d5361c96ce5edc52b55238393db0"
+}

@@ -1,5 +1,6 @@
 import { calculateStrideMatchedTimeScale } from "../../../systems/visual/PlayerKinematicMotionSystem.js";
 import { GAME_CONFIG } from "../../../values/gameConfig.js";
+import { MINING_CONFIG } from "../../../values/miningConfig.js";
 import { UAL_NATIVE_PLAYER_ASSET_PROFILE as PROFILE } from "../../../values/ualNativePlayerAssetProfile.js";
 import { resolveUalActionTimeScale, resolveUalFlightTimeScale } from "../../../values/ualNativeActionTuning.js";
 import { LAB_MINING, LAB_TIMELINE } from "./labConfig.js";
@@ -51,7 +52,7 @@ function timeScaleFor(clip, state, speed) {
     return resolveUalActionTimeScale({
       frameCount: clip.frames.length,
       frameRate: 30,
-      effectiveCooldownMs: GAME_CONFIG.mineCooldownMs,
+      effectiveCooldownMs: MINING_CONFIG.mineCooldownMs,
     });
   }
   return 1;

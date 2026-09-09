@@ -122,10 +122,20 @@ export function buildSurvivalUalAnimationPolishProfile({
   const defaultStop = ground.stopVariants[0];
   const transitionAnimations = polish.transitionAnimations
     .filter((spec) => (
-      !verticalAnimationKeys.has(spec.key)
-      || (verticalEnabled && !retainedLegacyAnimationKeySet.has(spec.key))
+      (
+        !verticalAnimationKeys.has(spec.key)
+        || (verticalEnabled && !retainedLegacyAnimationKeySet.has(spec.key))
+      )
+      && (!wallEnabled || spec.key !== wall.loop.key)
     ))
     .map(animationDefinition);
+  const wallLoopAnimation = wallEnabled ? animationDefinition({
+    key: wall.loop.key,
+    sheet: profile.wallPushSheet,
+    frames: profile.wallPushFrames,
+    frameRate: profile.wallPushAnimationFps,
+    repeat: -1,
+  }) : null;
   const verticalContactByAnimation = verticalContacts(
     polish,
     verticalEnabled,
@@ -155,6 +165,7 @@ export function buildSurvivalUalAnimationPolishProfile({
   ));
   const customAnimationKeys = frozenUnique([
     ...transitionAnimations.map((animation) => animation.key),
+    wallLoopAnimation?.key,
     ...diagonalAnimations.map((animation) => animation.key),
     legacyLandingAnimation.key,
   ]);
@@ -193,6 +204,7 @@ export function buildSurvivalUalAnimationPolishProfile({
     animationPolishAnimations: Object.freeze([
       legacyLandingAnimation,
       ...transitionAnimations,
+      ...(wallLoopAnimation ? [wallLoopAnimation] : []),
       ...diagonalAnimations,
     ]),
     animationPolishSheetFiles: Object.freeze([

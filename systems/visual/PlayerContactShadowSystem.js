@@ -1,23 +1,34 @@
+import { GroundedCharacterShadow } from "./GroundedCharacterShadow.js";
 import {
   PLAYER_CONTACT_SHADOW_CONFIG,
   resolvePlayerContactShadowEnabled,
 } from "../../values/playerContactShadow.js";
+import { resolveCaveCompositionEnabled } from "../../values/caveVisualComposition.js";
 
 const clamp01 = value => Math.max(0, Math.min(1, value));
 const lerp = (from, to, amount) => from + (to - from) * amount;
 
 export class PlayerContactShadowSystem {
-  constructor(scene, player, controller, config = PLAYER_CONTACT_SHADOW_CONFIG) {
+  constructor(scene, player, controller, config = PLAYER_CONTACT_SHADOW_CONFIG,
+    search = globalThis.location?.search || "") {
     this.scene = scene;
     this.player = player;
     this.controller = controller;
     this.config = config;
+    this.compositionEnabled = resolveCaveCompositionEnabled(search);
     this.outer = null;
     this.inner = null;
   }
 
   create() {
     if (!resolvePlayerContactShadowEnabled(undefined, this.config) || !this.scene?.add) return false;
+    if (this.scene.sys?.settings?.key === "PlayScene" && this.scene.playerAssetProfile?.characterGroundingPolish) {
+      this.groundedShadow = new GroundedCharacterShadow(this.scene, this.player, this.controller, this.config);
+      const created = this.groundedShadow.create();
+      this.outer = this.groundedShadow.outer;
+      this.inner = this.groundedShadow.inner;
+      return created;
+    }
     this.outer = this.scene.add.ellipse(
       0,
       0,
@@ -38,8 +49,11 @@ export class PlayerContactShadowSystem {
   }
 
   update(deltaMs = 16.67) {
+    if (this.groundedShadow) return; // Sample the final pose in postupdate.
     if (!this.outer || !this.inner || !this.player) return;
-    const body = this.player.body || this.controller?.physicsBody;
+    const body = this.compositionEnabled
+      ? this.controller?.physicsBody || this.player.body
+      : this.player.body || this.controller?.physicsBody;
     const bodyEnabled = body?.enable !== false;
     const grounded = this.controller?.isGrounded?.()
       ?? body?.blocked?.down
@@ -50,13 +64,21 @@ export class PlayerContactShadowSystem {
     const response = 1 - Math.exp(
       -Math.min(50, Math.max(0, deltaMs)) * this.config.responsePerMs,
     );
-    const x = Number.isFinite(body?.center?.x) ? body.center.x : this.player.x;
+    const width = body?.w ?? body?.width;
+    const height = body?.h ?? body?.height;
+    const customCenterX = this.compositionEnabled && Number.isFinite(body?.x)
+      && Number.isFinite(width) ? body.x + width / 2 : this.player.x;
+    const x = Number.isFinite(body?.center?.x) ? body.center.x : customCenterX;
+    const spriteBottom = this.player.y + (this.player.displayHeight || 0)
+      * (this.compositionEnabled ? 1 - (this.player.originY ?? 0.5) : 0.5);
     const bodyBottom = Number.isFinite(body?.bottom)
       ? body.bottom
-      : this.player.y + (this.player.displayHeight || 0) * 0.5;
+      : this.compositionEnabled && Number.isFinite(body?.y) && Number.isFinite(height)
+        ? body.y + height : spriteBottom;
     const y = bodyBottom + this.config.groundedOffsetYPx;
     const speedRatio = clamp01(
-      Math.abs(body?.velocity?.x || 0) / this.config.speedReferencePxPerSecond,
+      Math.abs(body?.velocity?.x ?? (this.compositionEnabled ? body?.vx || 0 : 0))
+        / this.config.speedReferencePxPerSecond,
     );
     const targetScaleX = 1 + speedRatio * this.config.maxHorizontalStretch;
     const targetScaleY = 1 - speedRatio * this.config.maxVerticalCompression;
@@ -79,6 +101,12 @@ export class PlayerContactShadowSystem {
   }
 
   destroy() {
+    if (this.groundedShadow) {
+      this.groundedShadow.destroy();
+      this.groundedShadow = null;
+      this.outer = this.inner = this.scene = this.player = this.controller = null;
+      return;
+    }
     this.outer?.destroy();
     this.inner?.destroy();
     this.outer = null;

@@ -1,6 +1,135 @@
 # Values
 
+`characterGroundingPolish.js` wires native grounded traversal, measured cadence, torch handoffs and crisp atlas sampling. Its JSON owns source export settings; the generated contact table comes from the native shoe measurements.
+
+`characterDefinitionRuntimeV2.js` enables the accepted character surfaces, higher-resolution atlas paths and fixed moving-attack calibration. Cloth deformation is excluded. `characterDefinitionRuntimeV2.json` owns export settings; the preview material config supplies the approved style.
+
+
+`survivalUalPlayerAssetProfile.js` appends the original Jab/Cross pair to the ten current SIDE moves. Their existing unified sheets, origins, contacts and moving handoffs remain authoritative. The shared SIDE prewarm requests both the Mixamo pack and the original moving-punch pack, so the first moving legacy strike is ready before its turn.
+
+`bakedUiArt.js` owns fixed-label texture keys, original source frames, and
+placement for baked HUD, menus and shared controls. Star and Talents
+foundations remain in their existing feature configurations. `bakedCelestialFrames.js`
+and `bakedCelestialUi.js` own original-pixel frames and alignment for the 36 talent
+faces, fixed descriptions/state labels, and 250 Star Codex medallions.
+
+`celestialTalentFocusUi.js` owns the three-tree selector, focused foundations,
+original control/effect atlas rectangles, source-space layout and bounded
+purchase feedback timings. Its measured price well keeps changing Star costs
+inside the baked upgrade button while all artwork scales proportionally.
+
 Single Source of Truth — ALL numeric/string/config values.
+
+- `caveVisualComposition.js` owns cave depth grading and presentation rollback.
+  `caveVisualCompositionReview.js` owns its local before/after review fixtures.
+
+- `celestialTalentTreeUi.js`, `celestialTalentBranches.js`,
+  `celestialTalentRanks.js`, and `celestialEngines.js` own the current tree
+  hierarchy, player-facing node/rank copy, bounded rank effects, and Celestial
+  power limits. Hollow Sun's 125 ms alternating wave and slow dig-directed
+  drift are values, not engine-local magic numbers.
+
+- `celestialTalentTreeUi.js`, `celestialTalentBranches.js`,
+  `celestialTalentRanks.js`, and `celestialEngines.js` own the current tree
+  hierarchy, player-facing node/rank copy, bounded rank effects, and Celestial
+  power limits. Hollow Sun's 125 ms alternating wave and slow dig-directed
+  drift are values, not engine-local magic numbers.
+
+- `freesoundAudio.js` owns the 562-approved-source role projection, bounded
+  banks/residency, Star hearing/distance/occlusion, panic transitions and sparse
+  event timing. `freesoundAudioPreparation.json` owns exact approval hash/count,
+  source processing and role gains. `generated/approved-freesound/` is immutable
+  generated data; `freesoundAudioReview.js` owns save-free review controls only.
+
+- `miningImpactPolish.js` owns contact-pose hold limits, directional impact
+  strength, native-pixel selection and independent shake/hitstop rollback.
+  `gameConfig.js` adds explicit `renderQuality=uhd` 3840x2160 backing while
+  retaining the default High preset and logical 1280x720 input/layout.
+
+- `campfireConfig.js` owns the ten-form size progression: roughly 42 to 171 px
+  tall at the current 94 px tile size, with a visible increase at every tier.
+  `campfireEvolution.js` owns the world reveal timing, motion and caption.
+  `emberDiscoveryEvent.js` owns the first-refill/repeat-charge mini reveal.
+  The same Campfire config selects the versioned Worldroot-v2 RGBA family and
+  the 0 / 250 / 750 / 2,500 / 8,000 / 25,000 / 75,000 / 200,000 / 500,000 /
+  1,250,000 gold ladder. Blessings and ore rarity remain separate.
+
+- `materialParticlePolish.js` owns approved-atlas alpha bounds, isolated chips,
+  material motion, foot scuffs, early destruction debris and `particlePolish=0`.
+  `playerFootstepContacts.js` pins current unified sole coordinates and texture
+  contacts without changing playback or actor geometry.
+
+- `tileHealth.js` gives all six bonus blocks depth-scaled health, ordered by
+  their existing spawn rarity: GP, Combo, XP, Berserk, Speed, then Legendary.
+  The active curve spans 120–480 HP at the surface and 6,000–24,000 HP at
+  5,000 m; generation and mining feedback share `getTileMaxHp`.
+
+- `digImpactContacts.generated.js`, `digImpactPresentation.js`, and
+  `digImpactFx.js` own current-sheet contact tips, unified-only impact-frame
+  corrections, material-bitmap burst limits, reduced motion and `?digImpact=0`.
+  Playback speed, damage and body collision remain with their existing owners.
+  Limb masking is now opt-in through `?playerSolidOcclusion=1`.
+
+- `playerCollisionReview.js` owns the opt-in local collision-comparison query,
+  review keys, high-HP fixture and diagnostic caption. It changes no production
+  collision or animation defaults; only the save-disabled E2E harness uses it.
+
+- `speedBlockFx.js` owns the Speed Block's yellow spark frames, particle
+  limits, motion, reduced-motion profile, HUD copy/colour, and visual rollback.
+  `specialBlocks.js` still owns the +50% / 20-second gameplay effect;
+  `ualNativeActionTuning.js` applies that same temporary multiplier after
+  normalizing the ordinary authored swing, with Quickslash bounds unchanged.
+
+- `rewardFlightMotions.js` owns the shared twenty-four-profile XP/loot curve
+  library, including the ten-path rare/surge tier and its deterministic recent-
+  four exclusion inputs. `lootPickupPresentation.js` owns the restrained
+  exact-frame soft-echo ratios, opacity, drift, scale, duration, and reduced-
+  motion suppression contract; neither file owns reward amounts or inventory.
+
+- `worldVisualGroundBackgroundMotionReview.js` owns the review-only fourteen
+  chapter background map. It forbids a shared fallback, keeps unsegmented
+  panels static, and gives Observatory an independently generated immutable
+  mountain base plus separate star and atmosphere targets.
+
+- `worldrootWhitebox.js` owns the review-only Gate A structure contract:
+  a 51.6-by-21.8-tile side elevation, twelve exact flat branch contacts,
+  connector silhouettes, fifty empty Star-memory sockets, five separate system
+  sockets, and merchant/Titan clearance budgets. `?worldrootWhitebox=1` enables
+  it; it contains no fruit, final art, rotation, or scale instruction.
+
+- `worldrootModuleArt.js` owns the query-gated native-density country art
+  contracts. Gate B is the accepted Rootways/Cobalt baseline; Gate C is the
+  Amber/Mirrorstone candidate and requires Gate B. Both use Gate A geometry at
+  scale 1 and own no gameplay or collision. Alignment values bound source-only
+  pixel translation, full contact sampling, endpoint tolerance, and connector
+  joins; small seam/monument modules repair countries without stretching them.
+
+- `worldrootSanctuary.js` owns the default ground-only Root Sanctuary's tall V3
+  art, discovery/Campfire-driven silhouette growth, five independent foliage
+  states, organic live-Star spacing, fixed ground interaction points, and
+  surface-camera headroom. Real in-game Stars use their own pixels without an
+  extra colour-wash light. Vine/fern/leaf motion and GP/Talent/Titan feedback
+  remain bounded. It owns no progression or physics.
+  `worldroot.js` and the existing resolver retain all Crown requirements.
+- `worldrootSanctuaryArt.js` owns only the offline V3 transparency extraction
+  and edge-cleanup settings; source masters remain untouched.
+- `worldrootModularV4.js` owns the rollback six-module living/consumed asset
+  registry, native scale, whole-sprite alignment offsets, sprite-relative
+  walkable segments, Cobalt-only green-despill routing, and measurable
+  HD/state-contrast thresholds. Normal play
+  uses the Root Sanctuary; `?worldrootArt=v4` restores V4 and
+  `?worldrootArt=v3` restores the previous composite, while
+  `?worldrootWhitebox=1` keeps the isolated Gate A review route authoritative.
+
+- `observatoryAuthoredLayersReview.js` owns the isolated V3 48-second runtime:
+  seven independent authored-source paths, four periodic orbital atmosphere
+  profiles, static architecture, separate light IDs, restrained star activity,
+  inspect views, and review limits. Production does not import it.
+
+- `observatoryLayeredAtmosphereReview.js` owns the review-only 32-second exact
+  cycle, five source-derived cloud flow profiles, static architecture and
+  emissive asset paths, independent-light response, limits, and inspect views.
+  It is never imported by production scenes.
 
 - `observatoryRealtimeDepthMotionAuthoring.json` contains eight normalized,
   feathered silhouette envelopes around the visible Observatory `sky13` tower
@@ -8,13 +137,39 @@ Single Source of Truth — ALL numeric/string/config values.
 
 - `starSanctuary.js` owns deterministic Star Refuge service values, the
   first-use typed `DESTROY` copy/storage version, approved hold-meter layout,
-  exact four-tile preview, Starless Scar presentation, and the isolated
+  full owned-territory preview, four-layer Starless Scar asset/depth values,
+  radial hold/post-break spread timing, permanent material/resource
+  consequences, 4x darkness-Stress pressure, 14-tile no-territory fallback,
+  and the isolated
   `?starSanctuary=0` rollback.
+- `starlessScarBiomePalettes.js` owns the stable twenty-palette asset registry,
+  parent/deep-region fallbacks, four-frame prop-atlas contract, demand-stream
+  keys, and the isolated `?scarBiomeLibrary=0` visual rollback.
 
 - `eventVoiceLibrary.js` owns the ten four-variant Grok V2 gameplay candidate
   catalogs and their streamed asset paths. `audioConfig.js -> EVENT_VOICE_CONFIG`
   owns query gating, family selection, priorities, cooldowns, queue lifetimes,
   quiet tails, and the 35% merchant-open admission rule.
+
+- `musicDirector.js` owns the complete music taxonomy, continuous-context
+  priority, cue policies, transition timing, and filename-semantic routes. The
+  actual ordered inventory remains `sound/playlists/playlist.json`.
+
+- `xpGathering.js` owns the twelve 256 px XP V2 asset paths, four visual
+  families, seven semantic selection pools, optical scale corrections,
+  recent-repeat window, tangent-aware flight profiles, arrival treatment, and
+  `prefers-reduced-motion` response. `assetKeys.js -> ui.xpGathering` provides
+  the matching preload/runtime keys. These values are presentation-only; XP
+  amounts, level thresholds, reward authority, and saves remain elsewhere.
+  Restoring the three V1 paths/keys in these values is the rollback, and the
+  untouched 1254 px V1 masters remain under `sprites/UI/xp-gathering-v1/`.
+
+- `lootPickupPresentation.js` owns the shared source-to-flight-to-inventory
+  visual registry, four-frame soil mini atlas, six rarity-scaled Star moments,
+  first-discovery escalation, spawn/arrival timing, and reduced-motion response.
+  It exposes presentation
+  metadata only; mining rewards, inventory counts, Star progress, and saves
+  remain authoritative elsewhere.
 
 - `worldMapConfig.js` owns world-map discovery, viewport, authored symbol atlas,
   annotation, activity-layer, landmark, depth-grid, input, layout, color, copy,
@@ -66,10 +221,16 @@ Single Source of Truth — ALL numeric/string/config values.
   `complexDigAnimations.js`.
 
 - `complexDigAnimations.js` owns the default-on, fixed-103px complex-dig
-  presentation: ten ordered SIDE stages and the Uppercut-only UP replacement.
+  presentation: ten ordered SIDE stages and the Mixamo half of the two-stage
+  Blender Dig Up / Mixamo Uppercut UP alternation.
   It stores crop/contact/origin provenance and the `?complexDig=0` plus
   Ctrl+Alt+9 rollback controls. Existing mining cadence, target, hitbox and the
   authored one- or two-contact timeline stay authoritative.
+
+- `downwardDigAnimations.js` owns the default-on DOWN extension. It appends the
+  reviewed low body punch to the retained ground strike, pins the
+  promoted source/runtime hashes, frame ranges, 103 px presentation, authored
+  contacts and origins, and exposes `?downDigCombo=0` as an independent rollback.
 
 - `mixamoAcceptedRuntime.json` owns the accepted Mixamo-to-Survival retarget,
   render, timing, contact, and output contract. Rejected mining motions are not
@@ -150,6 +311,8 @@ Single Source of Truth — ALL numeric/string/config values.
 
 - `saveScheduling.js` owns routine-save debounce, maximum delay, idle timeout,
   lifecycle event names, telemetry sample bound, and autosave interval.
+- `saveTransfer.js` owns the stable portable-save envelope ID/version, JSON MIME
+  type, and filename convention shared by Casual and Hardcore transfers.
 
 - `depthGateConfig.js` owns the three blocking depth thresholds, warning copy,
   typed-modal phrases (`100M`, `300M`, and `RISK`), legacy 999m migration, and
@@ -318,7 +481,9 @@ Single Source of Truth — ALL numeric/string/config values.
   paths. `hardcorePanicPresentation.js` owns sanity-derived stage copy, colors,
   early/mid/late intensity curves, asymmetric transition smoothing, responsive
   layout, and the shared view resolver used by both the compact HUD and
-  full-screen danger indicator.
+  full-screen danger indicator. `hardcorePanicBoundary.js` owns the approved
+  world-line crop, marker layout/copy, and the exact depth-to-world projection
+  for the first panic-eligible tile.
   `hardcoreMemorials.js` owns the independently persisted grave limits,
   near-death ground-search offsets, measured visible-base anchor,
   player-matched 0.8-tile height, paginated death/inspection recap layout, stat
@@ -346,10 +511,10 @@ Single Source of Truth — ALL numeric/string/config values.
 
 - `earthquakeFeedback.js` owns the generated seismic frame/medallion, tile
   fracture/collapse/rubble-return sprites, landing footprint, ceiling fracture,
-  falling boulder, impact debris, 320x60 status signal, exact
+  falling boulder, impact debris, 390x72 persistent status signal, exact
   ground/player/falling/settling/debris depths, authored ground-contact squash,
   pooled motion, and active-event seismic copy. Completion has no recap copy.
-  `earthquakes.js` owns the 1.8-second local warning,
+  `earthquakes.js` owns the 2.1-second local rock warning,
   independently validated collapse widths, rock physics/hitbox/knockback,
   occupied-rubble retry, and the Level 11 + accepted-1000 m, 75,000 M permanent
   Seismic Suppression upgrade. Earthquake state and mutations remain owned by
@@ -423,10 +588,10 @@ Single Source of Truth — ALL numeric/string/config values.
   runtime-logo path shared by the boot and menu scenes.
 - `worldDepthConfig.js` owns the 2,000-row Level 1 boundary and 5,000-meter Level 2 runtime depth; `arcCoreConfig.js` owns both Arc Core material costs, the 2x2 base footprint, the final 8x8 Omega footprint, and vehicle presentation copy/style. `craftingRecipes.js` owns their permanent relic, Heavenblock, part, and Zenith requirements plus Forge presentation copy. `arcCoreVisualConfig.js` owns the approved Small/Omega motion language, cloud transition timing, `B`/`F` sandbox controls, health expectations, and `?arcCoreVisualsV3=0` rollback. `arcCoreVisuals.sprite.json` is the centralized Piskel-round-tripped Phaser pack for ten fixed-center production body/VFX roles plus one sandbox background; it owns paths, hashes, shared center, display sizes, depths, and layered-motion values.
 - `ualNativePlayerAssetProfile.js` owns the production player's UAL sheets and the review manifest, plus the shared 1.75 m midpoint physical-height reference, 0.8-tile visible-height target, measured 31x75 collider, no-weapon policy, and direction-specific mappings. Idle and authored actions use the 109px base display size; grounded movement uses the 123px run-slot Jog with footfalls on its measured plant frames. Side digging keeps Jab/Cross/Jab/Cross; DOWN uses `OverhandThrow`; UP and UP-SIDE use a `Melee_Hook` strike followed by a sampled neutral recovery. Landing keeps the complete source sheet for loading but plays a short impact-readable sample.
-- `survivalUalPlayerAssetProfile.js` owns the default `survivalUal` player. Existing saves that still name the former UAL mannequin default migrate to Survivor on load, while `?character=ualNative` remains the explicit visual rollback. The accepted Mixamo pass supplies V4-rendered walk start/stop, prone flight loop, crouch entry/hold/exit, idle fidget, hard landing, Thunder Strike, Hurricane Kick Quickslash, the approved ten-stage SIDE combat-dig sequence, and the Uppercut-only UP replacement with measured anchors. Blender idle, Piskel-round-tripped UAL Jog/run, DOWN/diagonal mining, flight handoffs, wall, reactions and death remain authoritative. Moving complex SIDE attacks reuse the phase-locked Jog legs at 123 px while the stationary complex family remains 103 px. `?complexDig=0` restores the prior SIDE/UP animation families without changing the shared 31x75 collider, cooldown, GP cost or no-jump rules.
+- `survivalUalPlayerAssetProfile.js` owns the default `survivalUal` player. Existing saves that still name the former UAL mannequin default migrate to Survivor on load, while `?character=ualNative` remains the explicit visual rollback. The accepted Mixamo pass supplies V4-rendered walk start/stop, prone flight loop, crouch entry/hold/exit, idle fidget, hard landing, Thunder Strike, Hurricane Kick Quickslash, the approved ten-stage SIDE combat-dig sequence, one half of the two-stage Blender Dig Up / Mixamo Uppercut UP alternation, and the reviewed low-body punch in the two-stage DOWN family. Cross Punch is restored immediately after Jab, including its deferred asset and stationary/moving recovery mappings. The approved Jab is resident and prewarms the other SIDE clips, so an on-demand decode can repeat Jab but cannot inject a legacy attack. Blender idle, Piskel-round-tripped UAL Jog/run, the retained DOWN ground strike, flight handoffs, reactions and death remain authoritative; blocked A/D movement holds the unified UAL wall-push loop between its short brace handoffs. Moving complex SIDE attacks reuse the phase-locked Jog legs at 123 px while stationary complex and DOWN additions remain 103 px; moving down-diagonals route through the existing phase-matched down presentation. `?complexDig=0` restores the prior SIDE/UP families and `?downDigCombo=0` restores the prior single-stage DOWN family without changing the shared 31x75 collider, cooldown, GP cost or no-jump rules.
 - `survivalBlenderV2Runtime.js` names the approved Blender v2 core sheet paths, exact source frame groups, measured idle/walk/quality-v1-run visible-height calibration, Piskel-polished dig-up presentation/contact contract, and Blender-only idle fidgets. The breath fidget continues through the settle tail so it returns to idle without a frame-27-to-frame-0 snap. `survivalSideComboReview.js` owns the four fist-only side-combo review candidates and stage constants; it is explicitly non-production.
 - `ualNativeAuthoredKick.json` retains provenance for the rejected 26-frame grounded side-kick experiment; it is not referenced by the active combo or the 19-sheet game preload.
-- `ualNativeActionTuning.js` is the single source for combo reset rules, authored visual-contact frames, cooldown-to-action time scaling, post-contact recovery replacement, the complete Thunder Strike hold, hysteretic velocity-matched flight playback, and frame-rate-independent flight-bank response. `DigSystem` cooldown admission is anchored to the visible action's start time while tile damage remains on authored contact.
+- `ualNativeActionTuning.js` is the single source for combo reset rules, authored visual-contact frames, cooldown-to-action time scaling, post-contact recovery replacement, the complete Thunder Strike hold, hysteretic velocity-matched flight playback, and frame-rate-independent flight-bank response. `DigSystem` cooldown admission is anchored to the visible action's start time while tile damage remains on authored contact. Ordinary UAL swings retain the validated 750 ms maximum playback envelope when the gameplay cooldown is slower; stationary mining holds the completed combat-ready pose through the remainder plus a bounded 180 ms handoff grace instead of exposing Idle at the exact next-input boundary.
 - `playerKinematicMotion.js` owns the UAL grounded anchor, 94px-grid stride lengths, response/clamp values, teleport threshold, and falling hysteresis. Main world and caves use immediate post-collision body velocity for grounded Jog cadence while retaining smoothed displacement for airborne flight.
 - `playerGroundMotion.js` owns the frame-rate-independent grounded horizontal response: 120 ms to full speed, 90 ms release, and 150 ms for a complete direction reversal. Input-facing remains immediate and `?smoothGroundRun=0` restores direct grounded velocity.
 - `playerTraversal.js` owns the fixed 1.2-tile jump contract, progressive airborne steering and carry, the ledge catch/hold/climb timing, plus momentum-Flight acceleration, braking, reversal, takeoff-assist, coast, and delta caps used by both world implementations. `?jumpMomentum=0` restores direct airborne response without changing jump height.
@@ -463,7 +628,7 @@ Single Source of Truth — ALL numeric/string/config values.
 - `playerFlightFootFx.js` owns the approved Survivor Superman-flight foot offsets, cadence, color, travel, lifetime, and visual-skin gate used identically in the main world and compact caves.
 - `tileDestructionFx.js` owns the promoted seventeen-family core/shard atlas routing. Every non-air `TILE_TYPES` material has an explicit authored family plus palette identity, including structural floors/walls, cave features, and each special block; no grounded contact silently inherits the generic fallback.
 - `playerGroundFootstepFx.js` owns grounded contact thresholds, reduced-motion counts, at most three promoted bitmap fragments per authored plant, a 0.09-tile size ceiling, twelve-object live cap, material probing, and the independent `?groundFootFx=0` visual rollback used identically in the main world and compact caves.
-- `playerTileContact.js` owns body-edge targeting tolerance, target-direction variant/aim labels, and the UAL solid-tile visual-occlusion scan/mask values.
+- `playerTileContact.js` owns body-edge targeting tolerance, target-direction variant/aim labels, and the UAL positive air-cell visual-occlusion scan/mask values plus the independent `?playerSolidOcclusion=0` rollback.
 - `miningTargetFeedback.js` owns the generated target-overlay asset, hover/held
   frame-and-glow motion, mouse click buffer, primary-button policy, diagnostics
   key, and independent visual/input rollback queries.
@@ -486,7 +651,7 @@ Single Source of Truth — ALL numeric/string/config values.
 
 `deepWorldLivingBackdrop.js` owns the separated Level Two living pass at `x132..279 / y2065..5064`. Its pure config maps ember, steam, ash, and magma-aura atlas treatments onto `WORLD_SCENIC_FACADE` band ids, fixes pool/FPS limits, attenuates surface weather underground, and provides `?deepWorldLiving=0` plus shared `?worldMotion=0` rollback.
 
-`celestialEngines.js` is the sole baseline balance and presentation contract for Star Hearts and the three Celestial powers. Talent roots own normal-play access; every action-bar power costs 100 GP through `PlayerAbilities`, while Star Heart state owns one equipped power, legacy charge-save compatibility, Heart milestones/migration, baseline lifetime/impact/bounce/swarm/black-hole/projectile caps, modal/HUD and God Mode copy, sanitization, and the explicit `?starHearts=0` rollback. `celestialTalentEffects.js` resolves order-independent purchased-node bonuses for Wayward's one-to-five-star swarm, Hollow Sun's two-to-five-core pulse/implosion cluster, and Stellar Lance's duration, range, lanes, and per-projectile damage without embedding balance in runtime classes. The internal `comet-engine`, `comet-*`, and `rage-*` identifiers are save compatibility only.
+`celestialEngines.js` is the sole baseline balance and presentation contract for Star Hearts and the three Celestial powers. Talent roots own normal-play access; every action-bar power costs 100 GP through `PlayerAbilities`, while Star Heart state owns one equipped power, legacy charge-save compatibility, Heart milestones/migration, baseline lifetime/impact/bounce/swarm/black-hole/projectile caps, modal/HUD and God Mode copy, sanitization, and the explicit `?starHearts=0` rollback. Its Stellar Lance FX block owns wave travel/fade and impact timing, while the HUD block owns the approved buff-chip label, icon, tooltip copy, color, and number precision. `celestialTalentEffects.js` resolves order-independent purchased-node bonuses for Wayward's one-to-five-star swarm, Hollow Sun's pulse/implosion cluster, and Stellar Lance's 9.5-to-15-second duration, bounded 5-to-10-tile lanes, blue-purple-red palette cycle, and 75%-to-150% first-hit damage without embedding balance in runtime classes. `celestialTalentRanks.js` and `celestialTalentRankEffects.js` add two Star-funded ranks to every owned node while keeping entity counts bounded. The internal `comet-engine`, `comet-*`, and `rage-*` identifiers are save compatibility only.
 
 `thunderStrikeChain.js` owns the ten-slam Thunderstrike contract: one 2.5x
 upfront GP payment, nine free earned follow-ups, and the
@@ -558,8 +723,9 @@ runtime import boundary. `movingSideDigReview.json` remains the shared visual
 recipe used by the review sandbox and production builder.
 
 `movingComplexDigAnimation.generated.js` owns the 80 phase-selected aliases
-that place the approved ten-stage complex SIDE family over the same Jog lower
-body. `movingComplexDigAnimation.js` is the stable runtime boundary. Its single
+for the ten-clip complex SIDE asset catalog; live selection uses all ten
+approved stages, including the restored Cross aliases.
+`movingComplexDigAnimation.js` is the stable runtime boundary. Its single
 528-frame Piskel/WebP atlas uses a fixed 123 px display size and origin, removes
 green spill, never rescales or recenters individual frames, preserves both
 contacts for Jab-Elbow and Elbow-Uppercut, and records the exact Jog phase to
@@ -585,7 +751,8 @@ silhouette.
 `playerAnimationPolishProduction.json` is the production SSOT for the
 source-hash-guarded 28-frame Jog root/baseline pass, planted Jog/idle bridges,
 four-phase moving diagonal mining, stationary action settles,
-authored landing thresholds/exits, and wall-brace enter/hold/release. The Piskel
+authored landing thresholds/exits, and wall-brace enter/release around the
+unified UAL wall-push hold loop. The Piskel
 builder emits `playerAnimationPolish.generated.js`;
 `playerAnimationPolish.js` is the stable runtime boundary and
 `survivalUalAnimationPolishProfile.js` maps the generated sheets into the
@@ -650,11 +817,13 @@ real download progress.
 
 `resourceEconomy.js` is the SSOT for the reversible modern depth economy:
 piecewise Level One/Two yield curves up to 8x/60x, deterministic rounding salt,
-the 50,000 final-tile cap, Milestone speed/crit/+50% material-yield caps, price
+the 50,000 final-tile cap, Milestone speed/+50% material-yield caps, price
 precision, configuration health, and `?depthEconomy=legacy`. `dynamicSoil.js`
-owns the 1x-to-5x depth rarity-frequency curve, modern rarity yield/HP
-separation, and exact legacy behavior. `depthMilestones.js` extends permanent
-GP and material-yield rewards through 4,800m. `worldGen.js` and
+owns depth bands, deterministic visual variation, and damage-atlas addressing
+for one ordinary resource tier. Rich/Packed/Ancient ordinary block rarity and
+its HP/yield multipliers are retired; Star rarity remains independent.
+`depthMilestones.js` extends permanent GP and material-yield rewards through
+4,800m. `worldGen.js` and
 `secondWorldConfig.js` own depth-biased composition only; runtime systems do
 not embed economy tunables.
 
@@ -666,10 +835,17 @@ and bounded motion. Asset paths point at
 Bobo locks, and save state remain owned by their existing progression
 definitions and systems.
 
-`celestialTalentTreeUi.js` owns the production 33-node Star Pillar talent
+`celestialTalentTreeUi.js` owns the production 36-node Star Pillar talent
 surface. Its V2 1672x941 foundation deliberately contains no baked sockets or
 paths; the live row/lane graph places every Pillar-matched node frame and thin
-runic connector over the three authored branch fields.
+runic connector over the three authored branch fields. Each branch joins its
+three capstones into one expensive, rankable permanent-mastery Apex. Its copy and layout also
+separate the Level-earned Talent Point balance from the Star Point rank balance.
+
+`upgradeRankBalance.js` owns explicit prices for the 121 current-game
+repeatable ranks. `upgradeUnlockProgression.js` owns the gradual depth,
+first-return, Flight, and permanent-Relic unlock map. Dormant Level Two and Arc
+entries are intentionally outside that map.
 
 `approvedHudSkin.js` is the SSOT for the 1280x720 HUD alignment grid, the
 ImageGen-authored weather package, tutorial frame, and Inventory keycap.
@@ -769,7 +945,7 @@ the existing review renders and cannot wire production assets.
 
 `levelConfig.js` owns progression version 2: ten former XP thresholds per
 meaningful level, the 1-99 cap, rescaled permanent bonus steps, legacy-save
-mapping, and the cumulative 20-50m per-level darkness-resistance curve.
+mapping, and the cumulative 20-50m per-level panic-resistance curve.
 `specialBlocks.js` preserves the former XP and Legend block value as 10% and
 50% progress toward the next meaningful level.
 `levelUpPresentation.js` owns all authored-frame reward copy, layout, colors,
@@ -789,7 +965,10 @@ do not own Star spawn, rarity, HP, rewards, reveal radius, destruction, or saves
 `survivalUnifiedAnimationRuntimeV1.json` is the render inventory and quality
 contract for all 55 active Survival sheet keys. `survivalUnifiedAnimationRuntimeV1.js`
 atomically remaps the existing profile to the unified lossless runtime, a 101 px
-display size and one grounded origin. `?unifiedAnimation=0` restores the prior
+default display size and one grounded origin. The lower-occupancy 192 px
+running-side complex atlas uses one measured 117 px family size so its visible
+stature matches the 101 px run without per-frame scaling.
+`?unifiedAnimation=0` restores the prior
 mixed package. `movingComplexDigAnimationUnifiedV1.generated.js` supplies 960
 real phase-matched combat frames while keeping all existing animation keys and
 multi-contact timing metadata. Transition Cohesion keeps the thirteen ordinary
@@ -824,12 +1003,185 @@ asset paths and source hash. Regenerate the projection with
 Legacy random player speech is disabled, shop-open merchant speech is 35%, and
 `?playerVoiceMode=stress10x` scales chance/cooldowns without allowing overlap.
 
-## 2026-08-30 Shadow Miner stress echo
+## 2026-08-30 Shadow Miner dynamic stress echo
 
 `shadowMiner.js` owns the rare ambient profile, canonical Hardcore warning and
-critical multipliers, pose-history window, approach/flee playback, purple
-silhouette, save-safe preview, and local-only `?shadowMiner10x=1` admission
-accelerator. `?shadowMiner=0` disables the encounter and
-`?shadowMiner=review` enables deterministic local review frequency. These
-values never own player movement, stress, torch/Star authority, terrain, or
-saves.
+critical multipliers, camera-safe pose admission, 2.5-tile hard personal space,
+approach/flee playback, arrival/recognition/light-recoil timing, save-safe
+preview, and local-only `?shadowMiner10x=1` exact
+ten-times admission cadence. It also owns three weighted encounter personalities
+(`lurker`, `mimic`, and `stalker`) plus bounded ranges for entry distance,
+replay lag, action-pose preference, approach hesitation/speed, recognition,
+retreat, visibility, and sound pitch. One complete plan is rolled per encounter;
+numbers never reroll per frame. Panic changes the weights toward stalkers while
+Casual favors lurkers and mimics. `?shadowMiner=0` disables the encounter,
+`?shadowMiner=review` enables deterministic local review frequency, and local
+QA can force one profile with `?shadowMinerBehavior=lurker|mimic|stalker`.
+Four depth profiles (`shallow`, `lower`, `deep`, and `abyss`) coherently scale
+visibility, pursuit, observation, retreat, audio pitch, and modest light
+resistance from the player's real depth. The continuous light-response values
+turn dim/standard/overdrive torch intensity into a bounded exposure delay,
+visible hesitation, tint/echo pressure, and final retreat; intact Star light has
+the shortest response. Local visual QA can simulate a band with
+`?shadowMinerDepth=1400`; remote hosts ignore that override.
+`shadowMinerPresentation.js` owns the pure-purple silhouette, stronger bounded
+arrival flash and one-shot screen-space directional banner, three-copy residue
+ceiling, light-caught jitter/bleach/echo response, and the presentation-only
+block/crack/break textures and timing.
+These values never own player movement, stress, torch/Star authority, terrain,
+or saves.
+
+## 2026-08-30 living Worldroot
+
+For the retained V3/V4 rollbacks, `worldroot.js` owns layout, growth, traversal, interaction, motion,
+feedback, and Crown-requirement contract for the living town Worldroot. It
+keeps the five broad biome countries and all 50 Level One biome profiles,
+requires 50 known Star territories, three completed Celestial Talent branches,
+Campfire tier 10, and all 25 valid Titan definitions including Worldroot Titan,
+and exposes `?worldrootPillar=legacy` as the save-neutral rollback. Named
+convergence-route records are the single source for each current's origin,
+colour, bend seed, and Crown destination; `Unknown Star Signal` is the shared
+pre-discovery label. The GP travelling-pulse route is also authored here, while
+the visual snapshot signature separates structural changes from live GP,
+Campfire-buff, and tracked-Titan pulses. Legacy rollback also skips all
+Worldroot texture loads during boot. The explicit V4 rollback pairs six
+living and consumed modules at native scale across the twelve Gate A contacts;
+each biome branch reads its own consumed ratio and the Crown reads aggregate
+Star consumption. `?worldrootArt=v3` restores the 1536 x 1024 V3 painting,
+which spans 28 town tiles at no more than 1.75 source scale. Its compact grounded base starts
+after the final merchant, owns the real Campfire hearth at tile 21.5, and ends
+at tile 26.82 before the Titan promenade begins. The canopy then cantilevers
+upward over that promenade: live bounds leave 1.08 tiles before Titan #1 and
+1.49 vertical tiles above the tallest surfaced statue, while the statues render
+in front. Hard rectangular growth crops remain disabled. The V4 rollback uses
+twelve exact one-way contacts that follow its broad visible branch tops; they
+stay physical across growth states, allow ascent from below, support horizontal
+walking, and release on the existing Down action. V3 retains its thirteen
+normalized rollback contacts.
+
+## 2026-09-04 Ability Block and Crown reward
+
+`specialBlocks.js` owns the general Ability Block contract: its deterministic
+early-world rate is half the Crown rate, and breaking it offers Quick Slash,
+Thunder Strike, Wayward Star, Hollow Sun, or Stellar Lance for twenty seconds of
+zero-GP use. `tileTypes.js` assigns the stable `ABILITY_BLOCK` identity while
+`tileHealth.js` keeps its shell shorter than the passive ultra-rare Crown. The
+same values file makes the Crown worth one complete player level and owns the
+violet Ability Block versus stronger gold Crown corona profiles.
+
+- `celestialPresentation.js` owns the restrained multicolour Celestial
+  animation palette, textured wakes, corona motion, arrival/fade curves,
+  companion intensity and transient limits. It owns no power balance.
+
+## Core action cleanup - 2026-09-05
+
+`values/coreActionAudio.js` owns the physical-contact shortlist and movement/mining mix.
+The full source approval registry is preserved; active banks and the re-audit use a
+separate runtime projection. Mining plays one primary hit or break per contact.
+Landing uses immediate pre-contact speed. Before/after listening sequences and
+the original unfinished review export are in `testing/audio-design-cleanup-2026-09-05/`.
+
+## 2026-09-05 approved merchant motion
+
+`merchantMotion.js` and `merchantMotionRigs.js` own the shared game/sandbox joint motion, gestures, rendering limits and `merchantMotion=0` rollback. The sandbox value files retain only review settings and compatibility exports.
+
+`graveborerWurmVariants.js` owns five sizes, five depth-unlocked behaviors,
+arc-length spacing, reaction minima and bounded offspring. `shadowMinerWork.js`
+owns readable observation, approach/retreat speed limits and ordinary-terrain
+work authority. `dynamicEventHealth.js` owns controller health budgets,
+persistent notice geometry, measured-result copy, text fitting slots, local
+developer controls and F2. `earthquakeFeedback.js` owns the fitted seismic card.
+Review-only chamber conditions stay in `dynamicEventReview.js`.
+
+
+## Pickup and footstep follow-up - 2026-09-05
+
+The latest local mix and footstep tone auditions are in `testing/audio-pickup-footstep-2026-09-05/`. The foot-material probe now uses the real collision body dimensions, routine XP ticks are removed, and pickup/shop repetition is bounded. `values/coreActionAudio.js` owns runtime tuning; `values/audioPickupFootstepReview.json` owns the six offline footstep edits, which remain audition-only.
+
+`merchantSignArt.js` enables the six generated merchant-sign textures and owns their key/event-label layout. `merchantSignArtBuild.json` owns the approved source-preserving cutout build settings.
+
+
+## Destruction and pickup timing - 2026-09-05
+
+The current timing cleanup and native Phaser proof are in `testing/audio-destruction-pickup-2026-09-05/`; see `markdown/2026-09-05-destruction-pickup-audio-timing.md`. Eleven existing recordings now use short playback windows from `values/coreSfxWindows.js`, including six 90-120 ms footstep contacts. The current page includes a live walk and isolated mining layers; outdated hard-walk/mining composites are withdrawn. Only resource arrival owns pickup audio; XP cannot replay it later. Original files and review IDs are preserved. Prior audio comparisons remain historical snapshots.
+
+
+worldVisualLayeredSkyReview.js owns the regenerated layeredSky=1 background composition, native parallax planes, transparent cloud atlas, edge blending and review bookmarks. Art and prompt provenance live in sprites/backgrounds/world-visual-v2/regenerated-horizon-v2/.
+
+- layeredAtmosphereMotion.js owns regenerated-cloud turbulence and rooted
+  foliage sway; levelTwoScenicMotion.js owns falling water and renewed spray.
+  worldVisualLayeredSkyReview.js owns the common wind response and layer speeds.
+
+The current background review is Level 1 only. worldVisualLayeredSkyReview.js
+owns its demo-profile bounds, joined landscape sections, cloud deck, Level 1
+mist and Town sky transition. layeredAtmosphereMotion.js owns the rooted wind
+and padded texture-sampling envelope. See markdown/2026-09-06-level-one-background-polish.md.
+
+
+The focused mining audio audit in `testing/audio-dig-hit-break-2026-09-06/` captures 19 current sources across 116 routing cases. `values/audioDigHitBreakReview.js` is review-only; no gameplay imports it. See `markdown/2026-09-06-dig-hit-break-audio-audit.md` for measured concerns, shared review decisions and browser validation limits.
+
+playerRunning.js owns the 2.1x Ctrl run multiplier; playerSkeletalRun.js and playerRunDashFx.js own its live mesh and authored dash presentation.
+
+
+## Flight landing follow-up - 2026-09-06
+
+Fast landings now use one material-matched 90-120 ms foot contact, capped at 80% of normal walking gain. The heavy dirt-destruction/rubble branch is removed from landing. The shared contact gate prevents duplicate walking/landing cues without cutting off an already admitted step. The existing review page includes hard-ground and dirt landing auditions. See markdown/2026-09-06-flight-landing-audio.md and testing/audio-landing-2026-09-06/ for scoped evidence; new native landing checks remain pending because the browser connection timed out.
+
+## Approved Level 1 background V6
+
+`worldVisualLayeredSkyReview.js` now enables the approved composition by default
+for the canonical demo profile. Its historical name and explicit `layeredSky=1`
+review route remain compatible; `layeredSky=0` is the background rollback.
+`worldVisualRuntimeSelection.js` centralizes the existing renderer selector so
+legacy rendering cannot accidentally enable the new weather or asset owners.
+`levelOneAmbientEvents.js` owns rare-event timing, size, motion, atlas frames,
+weather limits and reduced-motion behavior. Gameplay timing, world random
+state and saves retain their existing owners. Earlier review-only descriptions
+above are historical. See the dated V6 report for actual gameplay evidence.
+
+
+Menu atmosphere (2026-09-07): `values/menuAtmosphere.js` owns the shared six-scene
+configuration. `ui/components/MenuBackgroundView.js` owns silent video playback,
+poster fallback, reduced motion, visibility and teardown. Tailwind 4.3.3 builds
+`css/menu-shell.css`; the local Radash 12.1.1 module debounces resize work.
+
+Baked Save Slots (2026-09-07): bakedSaveMenu.js owns original source rectangles, measured frame outlines, layout and live-value wells. saveMenuPresentation.js registers the two menu-only atlases and remains the copy/rollback owner.
+
+Menu loop timing (2026-09-07): `menuAtmosphere.js` owns the 1800 ms overlap and 150 ms end-of-file headroom. These values smooth the selected clip's own end-to-start join; they do not enable scenic rotation.
+
+Menu scenery (2026-09-07): `menuAtmosphere.js` selects v5 at full opacity.
+`menuMotionRefinement.json` owns the slower 60 fps scenery and logo-light exports.
+`menuAtmosphereLiving.json` and `menuAtmosphereMotion.json` retain historical
+generation/export settings. The six landscapes each repeat into themselves.
+
+menuLoadingPresentation.js and menuLoadingTheme.css own loading foreground
+copy, layout and CSS design tokens. Scenery remains owned by menuAtmosphere.js.
+
+`townRest.js` owns the baked bed/rest assets, town placement, cinematic timing, UI layout and bed checkpoint admission. The generated assets retain native pixels and alpha.
+
+- `characterDefinitionImpactContacts.js` pins current 512px fist contacts and the native extension frames of moving SIDE/diagonal strikes. `digImpactPresentation.js` applies those contacts to the existing animations; the original contact table remains available for earlier frame sizes. `playerTraversal.js` owns airborne drag and the short landing braking durations.
+
+`townRest.js` sets the eight-hour rest duration, separate doze/time-lapse clocks, covered camera cuts, and native-scale outdoor framing.
+
+`sessionAwakening.js` owns the three varied wake profiles for session entry and bed rest, the dozing eyelid/mix curve, occasional blur, approved audio selection, authored eyelid asset, reduced-motion path, and arrival-animation preload. See `markdown/2026-09-07-session-awakening.md`.
+
+townRest.js owns the bed guidance asset, eight-second invitation, fade,
+approach threshold and viewport layout. townRestGuidanceArt.js contains measured
+source frames and silhouette paths for the unchanged generated artwork.
+
+`playerHints.js` owns the shared pause/wiki advice, relevance priorities, approved button skin, and panel layout. Key placeholders resolve through the active key bindings.
+
+signalRisk.js owns the constant explosive variant, reaction/cover rules, approved ember art references and substantial-gift reward values. signalEvent.js and signalSurvivors.js own Signal tuning, three survivor sheets, Mia and exact dialogue. signalMia.js owns the rescue/shop/surface presentation; signalDogAudio.js and signalVoiceManifest.generated.js identify local captioned clips.
+
+
+## Audio mastering — 2026-09-07
+
+`audioMastering.js` owns source targets, silence-window pads and the Star high-pass parameters. `musicSourceMix.generated.js` and `voiceSourceMix.generated.js` are generated by `testing/audio-full-audit-2026-09-07/project-source-mix.mjs` from hash-verified FFmpeg measurements. Signal retains its separate authored segment normalization. Remeasure changed recordings before regenerating; user volumes and source approvals remain separate.
+
+`menuAssetKeys.js` owns the lightweight logo and menu backdrop keys shared with `assetKeys.js`, keeping world atlas metadata out of the initial loading graph. `branding.js` owns the loading-only grade and compact motion URL; `menuLoadingPresentation.js` owns its layout and contrast.
+
+playerVoiceTriggerReviewV1.js owns the silent Leo trigger mockup proposal: 24 moments, revised cadence, existing art references and an illustrative trip. Review-only; no game system imports it. The approved 300-script source and receipt are unchanged.
+
+playerVoiceTriggerBreadthV2.js owns the broader silent Leo proposal, including 12 families, 37 situations, nine draft scripts and exact wording snapshots. Review-only; no game system imports it.
+
+`menuMotionReview20260909.json` owns review-only encoding, logo treatment and mockup layout values. It does not change the production branding or scenery defaults.

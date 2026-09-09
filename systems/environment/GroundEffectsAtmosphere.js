@@ -1,3 +1,4 @@
+import { resolveLayeredSkyReviewEnabled } from "../../values/worldVisualLayeredSkyReview.js";
 /**
  * GroundEffectsAtmosphere
  * Ground-level ambient effects: mist, fireflies, wind particles.
@@ -14,6 +15,7 @@ export class GroundEffectsAtmosphere {
     this.scene = scene;
     this.config = config;
     this.visualAssets = visualAssets;
+    this.layeredReview = resolveLayeredSkyReviewEnabled();
 
     // Ground mist
     this.mistParticles = [];
@@ -26,11 +28,11 @@ export class GroundEffectsAtmosphere {
     this._windTimer = 0;
     this._elapsedMs = 0;
 
-    this._createMist();
-    this._createFireflies();
+    if (!this.layeredReview) { this._createMist(); this._createFireflies(); }
   }
 
   update(delta, phase, nightAmount, windPower) {
+    if (this.layeredReview) return;
     const timing = ANIMATION_SMOOTHNESS_CONFIG;
     const stepCount = frameRateIndependentStepCount(
       delta,

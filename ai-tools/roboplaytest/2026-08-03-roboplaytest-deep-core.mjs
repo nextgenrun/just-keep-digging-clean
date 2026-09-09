@@ -131,10 +131,12 @@ async function exerciseMovementAndFlight(driver) {
   await driver.page.keyboard.down("Shift");
   let flight = null;
   try {
-    await driver.waitFor(() => (
-      globalThis.__phaserGame?.scene?.getScene?.("PlayScene")
-        ?.playerController?.abilities?.isFlying?.() === true
-    ), "real Shift input to activate Flight", 10_000);
+    await driver.waitFor(({ baselineY }) => {
+      const controller = globalThis.__phaserGame?.scene?.getScene?.("PlayScene")
+        ?.playerController;
+      return controller?.abilities?.isFlying?.() === true
+        && controller.physicsBody.y < baselineY - 3;
+    }, "real Shift input to activate upward Flight", 15_000, { baselineY: walked.y });
     flight = await driver.page.evaluate(() => {
       const scene = globalThis.__phaserGame.scene.getScene("PlayScene");
       return {

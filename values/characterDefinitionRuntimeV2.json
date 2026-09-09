@@ -1,0 +1,23 @@
+{
+  "version": "character-definition-v2-20260906",
+  "styleConfig": "values/characterDefinitionPreviewV2.json",
+  "workRoot": "testing/character-definition-v2-export",
+  "runtimeRoot": "sprites/character/survival-character-definition-v2/runtime",
+  "sourceSizePx": 512,
+  "packedSizePx": 512,
+  "atlasPageSizePx": 4096,
+  "atlasPaddingPx": 2,
+  "clothEnabled": false,
+  "extraSheets": {
+    "survival-mixamo-v3-downward-dig-body-low-sheet": {
+      "mode": "MIXAMO",
+      "root": "mixamoCombat",
+      "source": "mixamo-body-punch-low.fbx",
+      "frames": 24,
+      "loop": false,
+      "grounding": "PER_FRAME",
+      "reference": "FIRST",
+      "preserveVertical": false
+    }
+  }
+}

@@ -1,0 +1,2476 @@
+{
+  "checks": [
+    "All live values fit their wells; Casual and Hardcore, including 987.7B money.",
+    "Empty slot uses the selected baked book card and New Save instruction.",
+    "Enter opens New Expedition; Escape returns to Save Slots without creating a save.",
+    "An ended Hardcore run stays in the menu and displays the baked ended-run plaque.",
+    "Continue reaches PlayScene with E2E save writes blocked and no runtime errors."
+  ],
+  "snapshots": {
+    "stress": {
+      "save": {
+        "phase": "StartMenuScene",
+        "selected": null,
+        "cards": [
+          {
+            "name": "baked-save-slot-1",
+            "values": [
+              {
+                "name": "save-value-slot",
+                "text": "1",
+                "bounds": {
+                  "type": 5,
+                  "x": 252.8595041322314,
+                  "y": 300.9917355371901,
+                  "width": 6.611570247933912,
+                  "height": 13.223140495867767
+                },
+                "well": {
+                  "x": 256.1652892561983,
+                  "y": 307.60330578512395,
+                  "width": 19.00826446280992,
+                  "height": 13.223140495867769
+                },
+                "scale": 0.8264462809917356
+              }
+            ],
+            "art": [
+              {
+                "frame": "empty",
+                "bounds": {
+                  "type": 5,
+                  "x": 182.19834710743802,
+                  "y": 270,
+                  "width": 287.6033057851239,
+                  "height": 200
+                },
+                "scaleX": 0.4132231404958678,
+                "scaleY": 0.4132231404958678
+              }
+            ]
+          },
+          {
+            "name": "baked-save-slot-2",
+            "values": [
+              {
+                "name": "save-value-slot",
+                "text": "2",
+                "bounds": {
+                  "type": 5,
+                  "x": 566.8595041322315,
+                  "y": 300.9917355371901,
+                  "width": 6.611570247933855,
+                  "height": 13.223140495867767
+                },
+                "well": {
+                  "x": 570.1652892561983,
+                  "y": 307.60330578512395,
+                  "width": 19.00826446280992,
+                  "height": 13.223140495867769
+                },
+                "scale": 0.8264462809917356
+              },
+              {
+                "name": "save-value-date",
+                "text": "7-9-2026",
+                "bounds": {
+                  "type": 5,
+                  "x": 673.0578512396694,
+                  "y": 312.1487603305785,
+                  "width": 46.280991735537214,
+                  "height": 11.570247933884275
+                },
+                "well": {
+                  "x": 696.198347107438,
+                  "y": 317.93388429752065,
+                  "width": 79.33884297520662,
+                  "height": 11.570247933884298
+                },
+                "scale": 0.8900190718372537
+              },
+              {
+                "name": "save-value-mode",
+                "text": "CASUAL",
+                "bounds": {
+                  "type": 5,
+                  "x": 617.194214876033,
+                  "y": 334.1611570247934,
+                  "width": 39,
+                  "height": 13
+                },
+                "well": {
+                  "x": 636.694214876033,
+                  "y": 340.6611570247934,
+                  "width": 191.73553719008265,
+                  "height": 25.619834710743802
+                },
+                "scale": 1
+              },
+              {
+                "name": "save-value-level",
+                "text": "999",
+                "bounds": {
+                  "type": 5,
+                  "x": 608.9090909090909,
+                  "y": 359.6942148760331,
+                  "width": 22,
+                  "height": 14
+                },
+                "well": {
+                  "x": 606.5289256198347,
+                  "y": 366.6942148760331,
+                  "width": 48.760330578512395,
+                  "height": 14.462809917355372
+                },
+                "scale": 1
+              },
+              {
+                "name": "save-value-depth",
+                "text": "123,456m",
+                "bounds": {
+                  "type": 5,
+                  "x": 679.694214876033,
+                  "y": 359.6942148760331,
+                  "width": 57,
+                  "height": 14
+                },
+                "well": {
+                  "x": 706.5289256198347,
+                  "y": 366.6942148760331,
+                  "width": 60.3305785123967,
+                  "height": 14.462809917355372
+                },
+                "scale": 1
+              },
+              {
+                "name": "save-value-best",
+                "text": "987,654m",
+                "bounds": {
+                  "type": 5,
+                  "x": 679.694214876033,
+                  "y": 377.46280991735534,
+                  "width": 57,
+                  "height": 14
+                },
+                "well": {
+                  "x": 685.4545454545455,
+                  "y": 384.46280991735534,
+                  "width": 102.47933884297521,
+                  "height": 14.462809917355372
+                },
+                "scale": 1
+              },
+              {
+                "name": "save-value-money",
+                "text": "987.7B",
+                "bounds": {
+                  "type": 5,
+                  "x": 587.9090909090909,
+                  "y": 394.8181818181818,
+                  "width": 43,
+                  "height": 14
+                },
+                "well": {
+                  "x": 606.5289256198347,
+                  "y": 401.8181818181818,
+                  "width": 48.760330578512395,
+                  "height": 14.462809917355372
+                },
+                "scale": 1
+              },
+              {
+                "name": "save-value-stars",
+                "text": "1B",
+                "bounds": {
+                  "type": 5,
+                  "x": 721.694214876033,
+                  "y": 394.8181818181818,
+                  "width": 15,
+                  "height": 14
+                },
+                "well": {
+                  "x": 706.5289256198347,
+                  "y": 401.8181818181818,
+                  "width": 60.3305785123967,
+                  "height": 14.462809917355372
+                },
+                "scale": 1
+              },
+              {
+                "name": "save-value-tiles",
+                "text": "987.7M",
+                "bounds": {
+                  "type": 5,
+                  "x": 693.694214876033,
+                  "y": 412.1735537190083,
+                  "width": 43,
+                  "height": 14
+                },
+                "well": {
+                  "x": 678.8429752066115,
+                  "y": 419.1735537190083,
+                  "width": 115.70247933884298,
+                  "height": 14.462809917355372
+                },
+                "scale": 1
+              }
+            ],
+            "art": [
+              {
+                "frame": "occupied",
+                "bounds": {
+                  "type": 5,
+                  "x": 496.19834710743805,
+                  "y": 270,
+                  "width": 287.6033057851239,
+                  "height": 200
+                },
+                "scaleX": 0.4132231404958678,
+                "scaleY": 0.4132231404958678
+              }
+            ]
+          },
+          {
+            "name": "baked-save-slot-3",
+            "values": [
+              {
+                "name": "save-value-slot",
+                "text": "3",
+                "bounds": {
+                  "type": 5,
+                  "x": 880.8595041322315,
+                  "y": 300.9917355371901,
+                  "width": 6.611570247933855,
+                  "height": 13.223140495867767
+                },
+                "well": {
+                  "x": 884.1652892561983,
+                  "y": 307.60330578512395,
+                  "width": 19.00826446280992,
+                  "height": 13.223140495867769
+                },
+                "scale": 0.8264462809917356
+              },
+              {
+                "name": "save-value-date",
+                "text": "7-9-2026",
+                "bounds": {
+                  "type": 5,
+                  "x": 987.0578512396694,
+                  "y": 312.1487603305785,
+                  "width": 46.28099173553733,
+                  "height": 11.570247933884275
+                },
+                "well": {
+                  "x": 1010.198347107438,
+                  "y": 317.93388429752065,
+                  "width": 79.33884297520662,
+                  "height": 11.570247933884298
+                },
+                "scale": 0.8900190718372537
+              },
+              {
+                "name": "save-value-mode",
+                "text": "HARDCORE\n1 LIFE",
+                "bounds": {
+                  "type": 5,
+                  "x": 925.0743801652893,
+                  "y": 327.8512396694215,
+                  "width": 51.23966942148752,
+                  "height": 25.619834710743817
+                },
+                "well": {
+                  "x": 950.694214876033,
+                  "y": 340.6611570247934,
+                  "width": 191.73553719008265,
+                  "height": 25.619834710743802
+                },
+                "scale": 0.9853782581055308
+              },
+              {
+                "name": "save-value-level",
+                "text": "80",
+                "bounds": {
+                  "type": 5,
+                  "x": 929.9090909090909,
+                  "y": 359.6942148760331,
+                  "width": 15,
+                  "height": 14
+                },
+                "well": {
+                  "x": 920.5289256198347,
+                  "y": 366.6942148760331,
+                  "width": 48.760330578512395,
+                  "height": 14.462809917355372
+                },
+                "scale": 1
+              },
+              {
+                "name": "save-value-depth",
+                "text": "1,234m",
+                "bounds": {
+                  "type": 5,
+                  "x": 1007.694214876033,
+                  "y": 359.6942148760331,
+                  "width": 43.000000000000114,
+                  "height": 14
+                },
+                "well": {
+                  "x": 1020.5289256198347,
+                  "y": 366.6942148760331,
+                  "width": 60.3305785123967,
+                  "height": 14.462809917355372
+                },
+                "scale": 1
+              },
+              {
+                "name": "save-value-best",
+                "text": "5,678m",
+                "bounds": {
+                  "type": 5,
+                  "x": 1007.694214876033,
+                  "y": 377.46280991735534,
+                  "width": 43.000000000000114,
+                  "height": 14
+                },
+                "well": {
+                  "x": 999.4545454545455,
+                  "y": 384.46280991735534,
+                  "width": 102.47933884297521,
+                  "height": 14.462809917355372
+                },
+                "scale": 1
+              },
+              {
+                "name": "save-value-money",
+                "text": "123.5M",
+                "bounds": {
+                  "type": 5,
+                  "x": 901.9090909090909,
+                  "y": 394.8181818181818,
+                  "width": 43,
+                  "height": 14
+                },
+                "well": {
+                  "x": 920.5289256198347,
+                  "y": 401.8181818181818,
+                  "width": 48.760330578512395,
+                  "height": 14.462809917355372
+                },
+                "scale": 1
+              },
+              {
+                "name": "save-value-stars",
+                "text": "12,345",
+                "bounds": {
+                  "type": 5,
+                  "x": 1007.694214876033,
+                  "y": 394.8181818181818,
+                  "width": 43.000000000000114,
+                  "height": 14
+                },
+                "well": {
+                  "x": 1020.5289256198347,
+                  "y": 401.8181818181818,
+                  "width": 60.3305785123967,
+                  "height": 14.462809917355372
+                },
+                "scale": 1
+              },
+              {
+                "name": "save-value-tiles",
+                "text": "987,654",
+                "bounds": {
+                  "type": 5,
+                  "x": 1000.694214876033,
+                  "y": 412.1735537190083,
+                  "width": 50.000000000000114,
+                  "height": 14
+                },
+                "well": {
+                  "x": 992.8429752066115,
+                  "y": 419.1735537190083,
+                  "width": 115.70247933884298,
+                  "height": 14.462809917355372
+                },
+                "scale": 1
+              }
+            ],
+            "art": [
+              {
+                "frame": "occupied",
+                "bounds": {
+                  "type": 5,
+                  "x": 810.198347107438,
+                  "y": 270,
+                  "width": 287.603305785124,
+                  "height": 200
+                },
+                "scaleX": 0.4132231404958678,
+                "scaleY": 0.4132231404958678
+              }
+            ]
+          }
+        ],
+        "copy": [
+          {
+            "name": "baked-save-choose",
+            "frame": "choose",
+            "bounds": {
+              "type": 5,
+              "x": 282,
+              "y": 536,
+              "width": 716,
+              "height": 72
+            }
+          },
+          {
+            "name": "baked-save-controls",
+            "frame": "controls",
+            "bounds": {
+              "type": 5,
+              "x": 290,
+              "y": 607.1935483870968,
+              "width": 700,
+              "height": 101.61290322580646
+            }
+          }
+        ],
+        "setupOpen": false,
+        "fixture": true
+      },
+      "live": {
+        "savesBlocked": false,
+        "phase": "MenuAudioScene, StartMenuScene",
+        "viewport": null,
+        "enabled": true,
+        "labelCount": 136,
+        "bakedSprites": [
+          {
+            "key": "ui-baked-headingsa-hd-v2",
+            "frame": "label-3-caption",
+            "scaleX": 0.376231884057971,
+            "scaleY": 0.376231884057971,
+            "visible": true,
+            "label": "SAVE SLOTS"
+          },
+          {
+            "key": "ui-baked-utility-final-v2",
+            "frame": "export-save",
+            "scaleX": 0.12574850299401197,
+            "scaleY": 0.12574850299401197,
+            "visible": true,
+            "label": null
+          },
+          {
+            "key": "ui-baked-headingsa-hd-v2",
+            "frame": "label-4",
+            "scaleX": 0.21319796954314724,
+            "scaleY": 0.2131979695431472,
+            "visible": true,
+            "label": null
+          },
+          {
+            "key": "baked-save-copy-v2",
+            "frame": "choose",
+            "scaleX": 0.5,
+            "scaleY": 0.5,
+            "visible": true,
+            "label": null
+          },
+          {
+            "key": "baked-save-copy-v2",
+            "frame": "controls",
+            "scaleX": 0.47043010752688175,
+            "scaleY": 0.47043010752688175,
+            "visible": true,
+            "label": null
+          },
+          {
+            "key": "baked-save-cards-v2",
+            "frame": "empty",
+            "scaleX": 0.4132231404958678,
+            "scaleY": 0.4132231404958678,
+            "visible": true,
+            "label": null
+          },
+          {
+            "key": "baked-save-cards-v2",
+            "frame": "occupied",
+            "scaleX": 0.4132231404958678,
+            "scaleY": 0.4132231404958678,
+            "visible": true,
+            "label": null
+          },
+          {
+            "key": "baked-save-cards-v2",
+            "frame": "occupied",
+            "scaleX": 0.4132231404958678,
+            "scaleY": 0.4132231404958678,
+            "visible": true,
+            "label": null
+          },
+          {
+            "key": "ui-baked-expedition-v1",
+            "frame": "__BASE",
+            "scaleX": 0.6770833333333334,
+            "scaleY": 0.677734375,
+            "visible": false,
+            "label": null
+          },
+          {
+            "key": "ui-baked-expedition-v1",
+            "frame": "baked-card-casual",
+            "scaleX": 0.6767169179229481,
+            "scaleY": 0.6774193548387096,
+            "visible": false,
+            "label": null
+          },
+          {
+            "key": "ui-baked-expedition-v1",
+            "frame": "baked-card-hardcore",
+            "scaleX": 0.6767169179229481,
+            "scaleY": 0.6774193548387096,
+            "visible": false,
+            "label": null
+          },
+          {
+            "key": "ui-baked-expedition-v1",
+            "frame": "baked-card-guided",
+            "scaleX": 0.6767169179229481,
+            "scaleY": 0.6774193548387096,
+            "visible": false,
+            "label": null
+          },
+          {
+            "key": "ui-baked-expedition-v1",
+            "frame": "baked-card-skip",
+            "scaleX": 0.6767169179229481,
+            "scaleY": 0.6774193548387096,
+            "visible": false,
+            "label": null
+          }
+        ],
+        "visibleText": [
+          "v0.1-alpha",
+          "1",
+          "2",
+          "7-9-2026",
+          "CASUAL",
+          "999",
+          "123,456m",
+          "987,654m",
+          "987.7B",
+          "1B",
+          "987.7M",
+          "3",
+          "7-9-2026",
+          "HARDCORE\n1 LIFE",
+          "80",
+          "1,234m",
+          "5,678m",
+          "123.5M",
+          "12,345",
+          "987,654"
+        ],
+        "artQuality": [
+          {
+            "key": "ui-baked-headingsa-hd-v2",
+            "frame": "label-3-caption",
+            "label": "SAVE SLOTS",
+            "source": [
+              534,
+              69
+            ],
+            "logical": [
+              200.90782338380814,
+              25.95999965071678
+            ],
+            "pixelScale": [
+              0.7524637579917908,
+              0.7524637579917908
+            ],
+            "bounds": {
+              "x": 539.5460869565218,
+              "y": 213.02,
+              "width": 200.90782608695645,
+              "height": 25.960000000000008
+            }
+          },
+          {
+            "key": "ui-baked-utility-final-v2",
+            "frame": "export-save",
+            "label": null,
+            "source": [
+              1354,
+              334
+            ],
+            "logical": [
+              170.26346930861473,
+              41.999999076128006
+            ],
+            "pixelScale": [
+              0.2514970004558563,
+              0.2514970004558563
+            ],
+            "bounds": {
+              "x": 435.8682634730539,
+              "y": 493,
+              "width": 170.26347305389214,
+              "height": 42
+            }
+          },
+          {
+            "key": "ui-baked-headingsa-hd-v2",
+            "frame": "label-4",
+            "label": null,
+            "source": [
+              718,
+              197
+            ],
+            "logical": [
+              153.07614701986313,
+              42.00000134110451
+            ],
+            "pixelScale": [
+              0.4263959527015686,
+              0.4263959527015686
+            ],
+            "bounds": {
+              "x": 682.4619289340102,
+              "y": 493,
+              "width": 153.07614213197962,
+              "height": 42
+            }
+          },
+          {
+            "key": "baked-save-copy-v2",
+            "frame": "choose",
+            "label": null,
+            "source": [
+              1432,
+              144
+            ],
+            "logical": [
+              716,
+              72
+            ],
+            "pixelScale": [
+              1,
+              1
+            ],
+            "bounds": {
+              "x": 282,
+              "y": 536,
+              "width": 716,
+              "height": 72
+            }
+          },
+          {
+            "key": "baked-save-copy-v2",
+            "frame": "controls",
+            "label": null,
+            "source": [
+              1488,
+              216
+            ],
+            "logical": [
+              699.9999976158142,
+              101.61290287971497
+            ],
+            "pixelScale": [
+              0.9408602118492126,
+              0.9408602118492126
+            ],
+            "bounds": {
+              "x": 290,
+              "y": 607.1935483870968,
+              "width": 700,
+              "height": 101.61290322580646
+            }
+          },
+          {
+            "key": "baked-save-cards-v2",
+            "frame": "empty",
+            "label": null,
+            "source": [
+              696,
+              484
+            ],
+            "logical": [
+              287.603310585022,
+              200.0000033378601
+            ],
+            "pixelScale": [
+              0.8264462947845459,
+              0.8264462947845459
+            ],
+            "bounds": {
+              "x": 182.19834710743802,
+              "y": 270,
+              "width": 287.6033057851239,
+              "height": 200
+            }
+          },
+          {
+            "key": "baked-save-cards-v2",
+            "frame": "occupied",
+            "label": null,
+            "source": [
+              696,
+              484
+            ],
+            "logical": [
+              287.603310585022,
+              200.0000033378601
+            ],
+            "pixelScale": [
+              0.8264462947845459,
+              0.8264462947845459
+            ],
+            "bounds": {
+              "x": 496.19834710743805,
+              "y": 270,
+              "width": 287.6033057851239,
+              "height": 200
+            }
+          },
+          {
+            "key": "baked-save-cards-v2",
+            "frame": "occupied",
+            "label": null,
+            "source": [
+              696,
+              484
+            ],
+            "logical": [
+              287.603310585022,
+              200.0000033378601
+            ],
+            "pixelScale": [
+              0.8264462947845459,
+              0.8264462947845459
+            ],
+            "bounds": {
+              "x": 810.198347107438,
+              "y": 270,
+              "width": 287.603305785124,
+              "height": 200
+            }
+          }
+        ],
+        "density": 2,
+        "celestialQuality": {
+          "starArt": [],
+          "talents": [],
+          "description": null,
+          "focus": null
+        },
+        "buffs": null,
+        "worldMapOpen": false,
+        "hudQuality": null,
+        "inventory": null,
+        "talents": null,
+        "errors": [],
+        "failure": null
+      }
+    },
+    "emptySelected": {
+      "phase": "StartMenuScene",
+      "selected": 1,
+      "cards": [
+        {
+          "name": "baked-save-slot-1",
+          "values": [
+            {
+              "name": "save-value-slot",
+              "text": "1",
+              "bounds": {
+                "type": 5,
+                "x": 252.8595041322314,
+                "y": 300.9917355371901,
+                "width": 6.611570247933912,
+                "height": 13.223140495867767
+              },
+              "well": {
+                "x": 256.1652892561983,
+                "y": 307.60330578512395,
+                "width": 19.00826446280992,
+                "height": 13.223140495867769
+              },
+              "scale": 0.8264462809917356
+            }
+          ],
+          "art": [
+            {
+              "frame": "emptySelected",
+              "bounds": {
+                "type": 5,
+                "x": 182.19834710743802,
+                "y": 270,
+                "width": 287.6033057851239,
+                "height": 200
+              },
+              "scaleX": 0.4132231404958678,
+              "scaleY": 0.4132231404958678
+            }
+          ]
+        },
+        {
+          "name": "baked-save-slot-2",
+          "values": [
+            {
+              "name": "save-value-slot",
+              "text": "2",
+              "bounds": {
+                "type": 5,
+                "x": 566.8595041322315,
+                "y": 300.9917355371901,
+                "width": 6.611570247933855,
+                "height": 13.223140495867767
+              },
+              "well": {
+                "x": 570.1652892561983,
+                "y": 307.60330578512395,
+                "width": 19.00826446280992,
+                "height": 13.223140495867769
+              },
+              "scale": 0.8264462809917356
+            },
+            {
+              "name": "save-value-date",
+              "text": "7-9-2026",
+              "bounds": {
+                "type": 5,
+                "x": 673.0578512396694,
+                "y": 312.1487603305785,
+                "width": 46.280991735537214,
+                "height": 11.570247933884275
+              },
+              "well": {
+                "x": 696.198347107438,
+                "y": 317.93388429752065,
+                "width": 79.33884297520662,
+                "height": 11.570247933884298
+              },
+              "scale": 0.8900190718372537
+            },
+            {
+              "name": "save-value-mode",
+              "text": "CASUAL",
+              "bounds": {
+                "type": 5,
+                "x": 617.194214876033,
+                "y": 334.1611570247934,
+                "width": 39,
+                "height": 13
+              },
+              "well": {
+                "x": 636.694214876033,
+                "y": 340.6611570247934,
+                "width": 191.73553719008265,
+                "height": 25.619834710743802
+              },
+              "scale": 1
+            },
+            {
+              "name": "save-value-level",
+              "text": "999",
+              "bounds": {
+                "type": 5,
+                "x": 608.9090909090909,
+                "y": 359.6942148760331,
+                "width": 22,
+                "height": 14
+              },
+              "well": {
+                "x": 606.5289256198347,
+                "y": 366.6942148760331,
+                "width": 48.760330578512395,
+                "height": 14.462809917355372
+              },
+              "scale": 1
+            },
+            {
+              "name": "save-value-depth",
+              "text": "123,456m",
+              "bounds": {
+                "type": 5,
+                "x": 679.694214876033,
+                "y": 359.6942148760331,
+                "width": 57,
+                "height": 14
+              },
+              "well": {
+                "x": 706.5289256198347,
+                "y": 366.6942148760331,
+                "width": 60.3305785123967,
+                "height": 14.462809917355372
+              },
+              "scale": 1
+            },
+            {
+              "name": "save-value-best",
+              "text": "987,654m",
+              "bounds": {
+                "type": 5,
+                "x": 679.694214876033,
+                "y": 377.46280991735534,
+                "width": 57,
+                "height": 14
+              },
+              "well": {
+                "x": 685.4545454545455,
+                "y": 384.46280991735534,
+                "width": 102.47933884297521,
+                "height": 14.462809917355372
+              },
+              "scale": 1
+            },
+            {
+              "name": "save-value-money",
+              "text": "987.7B",
+              "bounds": {
+                "type": 5,
+                "x": 587.9090909090909,
+                "y": 394.8181818181818,
+                "width": 43,
+                "height": 14
+              },
+              "well": {
+                "x": 606.5289256198347,
+                "y": 401.8181818181818,
+                "width": 48.760330578512395,
+                "height": 14.462809917355372
+              },
+              "scale": 1
+            },
+            {
+              "name": "save-value-stars",
+              "text": "1B",
+              "bounds": {
+                "type": 5,
+                "x": 721.694214876033,
+                "y": 394.8181818181818,
+                "width": 15,
+                "height": 14
+              },
+              "well": {
+                "x": 706.5289256198347,
+                "y": 401.8181818181818,
+                "width": 60.3305785123967,
+                "height": 14.462809917355372
+              },
+              "scale": 1
+            },
+            {
+              "name": "save-value-tiles",
+              "text": "987.7M",
+              "bounds": {
+                "type": 5,
+                "x": 693.694214876033,
+                "y": 412.1735537190083,
+                "width": 43,
+                "height": 14
+              },
+              "well": {
+                "x": 678.8429752066115,
+                "y": 419.1735537190083,
+                "width": 115.70247933884298,
+                "height": 14.462809917355372
+              },
+              "scale": 1
+            }
+          ],
+          "art": [
+            {
+              "frame": "occupied",
+              "bounds": {
+                "type": 5,
+                "x": 496.19834710743805,
+                "y": 270,
+                "width": 287.6033057851239,
+                "height": 200
+              },
+              "scaleX": 0.4132231404958678,
+              "scaleY": 0.4132231404958678
+            }
+          ]
+        },
+        {
+          "name": "baked-save-slot-3",
+          "values": [
+            {
+              "name": "save-value-slot",
+              "text": "3",
+              "bounds": {
+                "type": 5,
+                "x": 880.8595041322315,
+                "y": 300.9917355371901,
+                "width": 6.611570247933855,
+                "height": 13.223140495867767
+              },
+              "well": {
+                "x": 884.1652892561983,
+                "y": 307.60330578512395,
+                "width": 19.00826446280992,
+                "height": 13.223140495867769
+              },
+              "scale": 0.8264462809917356
+            },
+            {
+              "name": "save-value-date",
+              "text": "7-9-2026",
+              "bounds": {
+                "type": 5,
+                "x": 987.0578512396694,
+                "y": 312.1487603305785,
+                "width": 46.28099173553733,
+                "height": 11.570247933884275
+              },
+              "well": {
+                "x": 1010.198347107438,
+                "y": 317.93388429752065,
+                "width": 79.33884297520662,
+                "height": 11.570247933884298
+              },
+              "scale": 0.8900190718372537
+            },
+            {
+              "name": "save-value-mode",
+              "text": "HARDCORE\n1 LIFE",
+              "bounds": {
+                "type": 5,
+                "x": 925.0743801652893,
+                "y": 327.8512396694215,
+                "width": 51.23966942148752,
+                "height": 25.619834710743817
+              },
+              "well": {
+                "x": 950.694214876033,
+                "y": 340.6611570247934,
+                "width": 191.73553719008265,
+                "height": 25.619834710743802
+              },
+              "scale": 0.9853782581055308
+            },
+            {
+              "name": "save-value-level",
+              "text": "80",
+              "bounds": {
+                "type": 5,
+                "x": 929.9090909090909,
+                "y": 359.6942148760331,
+                "width": 15,
+                "height": 14
+              },
+              "well": {
+                "x": 920.5289256198347,
+                "y": 366.6942148760331,
+                "width": 48.760330578512395,
+                "height": 14.462809917355372
+              },
+              "scale": 1
+            },
+            {
+              "name": "save-value-depth",
+              "text": "1,234m",
+              "bounds": {
+                "type": 5,
+                "x": 1007.694214876033,
+                "y": 359.6942148760331,
+                "width": 43.000000000000114,
+                "height": 14
+              },
+              "well": {
+                "x": 1020.5289256198347,
+                "y": 366.6942148760331,
+                "width": 60.3305785123967,
+                "height": 14.462809917355372
+              },
+              "scale": 1
+            },
+            {
+              "name": "save-value-best",
+              "text": "5,678m",
+              "bounds": {
+                "type": 5,
+                "x": 1007.694214876033,
+                "y": 377.46280991735534,
+                "width": 43.000000000000114,
+                "height": 14
+              },
+              "well": {
+                "x": 999.4545454545455,
+                "y": 384.46280991735534,
+                "width": 102.47933884297521,
+                "height": 14.462809917355372
+              },
+              "scale": 1
+            },
+            {
+              "name": "save-value-money",
+              "text": "123.5M",
+              "bounds": {
+                "type": 5,
+                "x": 901.9090909090909,
+                "y": 394.8181818181818,
+                "width": 43,
+                "height": 14
+              },
+              "well": {
+                "x": 920.5289256198347,
+                "y": 401.8181818181818,
+                "width": 48.760330578512395,
+                "height": 14.462809917355372
+              },
+              "scale": 1
+            },
+            {
+              "name": "save-value-stars",
+              "text": "12,345",
+              "bounds": {
+                "type": 5,
+                "x": 1007.694214876033,
+                "y": 394.8181818181818,
+                "width": 43.000000000000114,
+                "height": 14
+              },
+              "well": {
+                "x": 1020.5289256198347,
+                "y": 401.8181818181818,
+                "width": 60.3305785123967,
+                "height": 14.462809917355372
+              },
+              "scale": 1
+            },
+            {
+              "name": "save-value-tiles",
+              "text": "987,654",
+              "bounds": {
+                "type": 5,
+                "x": 1000.694214876033,
+                "y": 412.1735537190083,
+                "width": 50.000000000000114,
+                "height": 14
+              },
+              "well": {
+                "x": 992.8429752066115,
+                "y": 419.1735537190083,
+                "width": 115.70247933884298,
+                "height": 14.462809917355372
+              },
+              "scale": 1
+            }
+          ],
+          "art": [
+            {
+              "frame": "occupied",
+              "bounds": {
+                "type": 5,
+                "x": 810.198347107438,
+                "y": 270,
+                "width": 287.603305785124,
+                "height": 200
+              },
+              "scaleX": 0.4132231404958678,
+              "scaleY": 0.4132231404958678
+            }
+          ]
+        }
+      ],
+      "copy": [
+        {
+          "name": "baked-save-choose",
+          "frame": "new",
+          "bounds": {
+            "type": 5,
+            "x": 282,
+            "y": 536,
+            "width": 716,
+            "height": 72
+          }
+        },
+        {
+          "name": "baked-save-controls",
+          "frame": "controls",
+          "bounds": {
+            "type": 5,
+            "x": 290,
+            "y": 607.1935483870968,
+            "width": 700,
+            "height": 101.61290322580646
+          }
+        }
+      ],
+      "setupOpen": false,
+      "fixture": true
+    },
+    "newRunSetup": {
+      "savesBlocked": false,
+      "phase": "MenuAudioScene, StartMenuScene",
+      "viewport": null,
+      "enabled": true,
+      "labelCount": 136,
+      "bakedSprites": [
+        {
+          "key": "ui-baked-headingsa-hd-v2",
+          "frame": "label-3-caption",
+          "scaleX": 0.376231884057971,
+          "scaleY": 0.376231884057971,
+          "visible": true,
+          "label": "SAVE SLOTS"
+        },
+        {
+          "key": "ui-baked-utility-final-v2",
+          "frame": "export-save",
+          "scaleX": 0.12574850299401197,
+          "scaleY": 0.12574850299401197,
+          "visible": true,
+          "label": null
+        },
+        {
+          "key": "ui-baked-headingsa-hd-v2",
+          "frame": "label-4",
+          "scaleX": 0.21319796954314724,
+          "scaleY": 0.2131979695431472,
+          "visible": true,
+          "label": null
+        },
+        {
+          "key": "baked-save-copy-v2",
+          "frame": "new",
+          "scaleX": 0.5,
+          "scaleY": 0.5,
+          "visible": true,
+          "label": null
+        },
+        {
+          "key": "baked-save-copy-v2",
+          "frame": "controls",
+          "scaleX": 0.47043010752688175,
+          "scaleY": 0.47043010752688175,
+          "visible": true,
+          "label": null
+        },
+        {
+          "key": "baked-save-cards-v2",
+          "frame": "emptySelected",
+          "scaleX": 0.4132231404958678,
+          "scaleY": 0.4132231404958678,
+          "visible": true,
+          "label": null
+        },
+        {
+          "key": "baked-save-cards-v2",
+          "frame": "occupied",
+          "scaleX": 0.4132231404958678,
+          "scaleY": 0.4132231404958678,
+          "visible": true,
+          "label": null
+        },
+        {
+          "key": "baked-save-cards-v2",
+          "frame": "occupied",
+          "scaleX": 0.4132231404958678,
+          "scaleY": 0.4132231404958678,
+          "visible": true,
+          "label": null
+        },
+        {
+          "key": "ui-baked-expedition-v1",
+          "frame": "__BASE",
+          "scaleX": 0.6770833333333334,
+          "scaleY": 0.677734375,
+          "visible": true,
+          "label": null
+        },
+        {
+          "key": "ui-baked-expedition-v1",
+          "frame": "baked-card-casual",
+          "scaleX": 0.6767169179229481,
+          "scaleY": 0.6774193548387096,
+          "visible": true,
+          "label": null
+        },
+        {
+          "key": "ui-baked-expedition-v1",
+          "frame": "baked-card-hardcore",
+          "scaleX": 0.6767169179229481,
+          "scaleY": 0.6774193548387096,
+          "visible": true,
+          "label": null
+        },
+        {
+          "key": "ui-baked-expedition-v1",
+          "frame": "baked-card-guided",
+          "scaleX": 0.6767169179229481,
+          "scaleY": 0.6774193548387096,
+          "visible": true,
+          "label": null
+        },
+        {
+          "key": "ui-baked-expedition-v1",
+          "frame": "baked-card-skip",
+          "scaleX": 0.6767169179229481,
+          "scaleY": 0.6774193548387096,
+          "visible": true,
+          "label": null
+        }
+      ],
+      "visibleText": [
+        "v0.1-alpha",
+        "1",
+        "2",
+        "7-9-2026",
+        "CASUAL",
+        "999",
+        "123,456m",
+        "987,654m",
+        "987.7B",
+        "1B",
+        "987.7M",
+        "3",
+        "7-9-2026",
+        "HARDCORE\n1 LIFE",
+        "80",
+        "1,234m",
+        "5,678m",
+        "123.5M",
+        "12,345",
+        "987,654",
+        "GUIDED START SELECTED  •  PRESS ENTER OR CLICK START"
+      ],
+      "artQuality": [
+        {
+          "key": "ui-baked-headingsa-hd-v2",
+          "frame": "label-3-caption",
+          "label": "SAVE SLOTS",
+          "source": [
+            534,
+            69
+          ],
+          "logical": [
+            200.90782338380814,
+            25.95999965071678
+          ],
+          "pixelScale": [
+            0.7524637579917908,
+            0.7524637579917908
+          ],
+          "bounds": {
+            "x": 539.5460869565218,
+            "y": 213.02,
+            "width": 200.90782608695645,
+            "height": 25.960000000000008
+          }
+        },
+        {
+          "key": "ui-baked-utility-final-v2",
+          "frame": "export-save",
+          "label": null,
+          "source": [
+            1354,
+            334
+          ],
+          "logical": [
+            170.26346930861473,
+            41.999999076128006
+          ],
+          "pixelScale": [
+            0.2514970004558563,
+            0.2514970004558563
+          ],
+          "bounds": {
+            "x": 435.8682634730539,
+            "y": 493,
+            "width": 170.26347305389214,
+            "height": 42
+          }
+        },
+        {
+          "key": "ui-baked-headingsa-hd-v2",
+          "frame": "label-4",
+          "label": null,
+          "source": [
+            718,
+            197
+          ],
+          "logical": [
+            153.07614701986313,
+            42.00000134110451
+          ],
+          "pixelScale": [
+            0.4263959527015686,
+            0.4263959527015686
+          ],
+          "bounds": {
+            "x": 682.4619289340102,
+            "y": 493,
+            "width": 153.07614213197962,
+            "height": 42
+          }
+        },
+        {
+          "key": "baked-save-copy-v2",
+          "frame": "new",
+          "label": null,
+          "source": [
+            1432,
+            144
+          ],
+          "logical": [
+            716,
+            72
+          ],
+          "pixelScale": [
+            1,
+            1
+          ],
+          "bounds": {
+            "x": 282,
+            "y": 536,
+            "width": 716,
+            "height": 72
+          }
+        },
+        {
+          "key": "baked-save-copy-v2",
+          "frame": "controls",
+          "label": null,
+          "source": [
+            1488,
+            216
+          ],
+          "logical": [
+            699.9999976158142,
+            101.61290287971497
+          ],
+          "pixelScale": [
+            0.9408602118492126,
+            0.9408602118492126
+          ],
+          "bounds": {
+            "x": 290,
+            "y": 607.1935483870968,
+            "width": 700,
+            "height": 101.61290322580646
+          }
+        },
+        {
+          "key": "baked-save-cards-v2",
+          "frame": "emptySelected",
+          "label": null,
+          "source": [
+            696,
+            484
+          ],
+          "logical": [
+            287.603310585022,
+            200.0000033378601
+          ],
+          "pixelScale": [
+            0.8264462947845459,
+            0.8264462947845459
+          ],
+          "bounds": {
+            "x": 182.19834710743802,
+            "y": 270,
+            "width": 287.6033057851239,
+            "height": 200
+          }
+        },
+        {
+          "key": "baked-save-cards-v2",
+          "frame": "occupied",
+          "label": null,
+          "source": [
+            696,
+            484
+          ],
+          "logical": [
+            287.603310585022,
+            200.0000033378601
+          ],
+          "pixelScale": [
+            0.8264462947845459,
+            0.8264462947845459
+          ],
+          "bounds": {
+            "x": 496.19834710743805,
+            "y": 270,
+            "width": 287.6033057851239,
+            "height": 200
+          }
+        },
+        {
+          "key": "baked-save-cards-v2",
+          "frame": "occupied",
+          "label": null,
+          "source": [
+            696,
+            484
+          ],
+          "logical": [
+            287.603310585022,
+            200.0000033378601
+          ],
+          "pixelScale": [
+            0.8264462947845459,
+            0.8264462947845459
+          ],
+          "bounds": {
+            "x": 810.198347107438,
+            "y": 270,
+            "width": 287.603305785124,
+            "height": 200
+          }
+        },
+        {
+          "key": "ui-baked-expedition-v1",
+          "frame": "__BASE",
+          "label": null,
+          "source": [
+            1536,
+            1024
+          ],
+          "logical": [
+            1039.9999694824219,
+            694
+          ],
+          "pixelScale": [
+            1.3541666269302368,
+            1.35546875
+          ],
+          "bounds": {
+            "x": 120,
+            "y": 13,
+            "width": 1040,
+            "height": 694
+          }
+        },
+        {
+          "key": "ui-baked-expedition-v1",
+          "frame": "baked-card-casual",
+          "label": null,
+          "source": [
+            597,
+            248
+          ],
+          "logical": [
+            404.0000034570694,
+            168.0000023841858
+          ],
+          "pixelScale": [
+            1.3534338474273682,
+            1.3548387289047241
+          ],
+          "bounds": {
+            "x": 186,
+            "y": 159,
+            "width": 404,
+            "height": 168
+          }
+        },
+        {
+          "key": "ui-icon-atlas-v1",
+          "frame": 30,
+          "label": null,
+          "source": [
+            209,
+            209
+          ],
+          "logical": [
+            57.999998450279236,
+            57.999998450279236
+          ],
+          "pixelScale": [
+            0.5550239086151123,
+            0.5550239086151123
+          ],
+          "bounds": {
+            "x": 232,
+            "y": 214,
+            "width": 58,
+            "height": 58
+          }
+        },
+        {
+          "key": "ui-baked-expedition-v1",
+          "frame": "baked-card-hardcore",
+          "label": null,
+          "source": [
+            597,
+            248
+          ],
+          "logical": [
+            404.0000034570694,
+            168.0000023841858
+          ],
+          "pixelScale": [
+            1.3534338474273682,
+            1.3548387289047241
+          ],
+          "bounds": {
+            "x": 690,
+            "y": 159,
+            "width": 404,
+            "height": 168
+          }
+        },
+        {
+          "key": "ui-icon-atlas-v1",
+          "frame": 25,
+          "label": null,
+          "source": [
+            209,
+            209
+          ],
+          "logical": [
+            57.999998450279236,
+            57.999998450279236
+          ],
+          "pixelScale": [
+            0.5550239086151123,
+            0.5550239086151123
+          ],
+          "bounds": {
+            "x": 736,
+            "y": 214,
+            "width": 58,
+            "height": 58
+          }
+        },
+        {
+          "key": "ui-baked-expedition-v1",
+          "frame": "baked-card-guided",
+          "label": null,
+          "source": [
+            597,
+            248
+          ],
+          "logical": [
+            404.0000034570694,
+            168.0000023841858
+          ],
+          "pixelScale": [
+            1.3534338474273682,
+            1.3548387289047241
+          ],
+          "bounds": {
+            "x": 186,
+            "y": 375,
+            "width": 404,
+            "height": 168
+          }
+        },
+        {
+          "key": "ui-icon-atlas-v1",
+          "frame": 24,
+          "label": null,
+          "source": [
+            209,
+            209
+          ],
+          "logical": [
+            57.999998450279236,
+            57.999998450279236
+          ],
+          "pixelScale": [
+            0.5550239086151123,
+            0.5550239086151123
+          ],
+          "bounds": {
+            "x": 232,
+            "y": 430,
+            "width": 58,
+            "height": 58
+          }
+        },
+        {
+          "key": "ui-baked-expedition-v1",
+          "frame": "baked-card-skip",
+          "label": null,
+          "source": [
+            597,
+            248
+          ],
+          "logical": [
+            404.0000034570694,
+            168.0000023841858
+          ],
+          "pixelScale": [
+            1.3534338474273682,
+            1.3548387289047241
+          ],
+          "bounds": {
+            "x": 690,
+            "y": 375,
+            "width": 404,
+            "height": 168
+          }
+        },
+        {
+          "key": "ui-icon-atlas-v1",
+          "frame": 13,
+          "label": null,
+          "source": [
+            209,
+            209
+          ],
+          "logical": [
+            57.999998450279236,
+            57.999998450279236
+          ],
+          "pixelScale": [
+            0.5550239086151123,
+            0.5550239086151123
+          ],
+          "bounds": {
+            "x": 736,
+            "y": 430,
+            "width": 58,
+            "height": 58
+          }
+        }
+      ],
+      "density": 2,
+      "celestialQuality": {
+        "starArt": [],
+        "talents": [],
+        "description": null,
+        "focus": null
+      },
+      "buffs": null,
+      "worldMapOpen": false,
+      "hudQuality": null,
+      "inventory": null,
+      "talents": null,
+      "errors": [],
+      "failure": null
+    },
+    "ended": {
+      "phase": "StartMenuScene",
+      "selected": 3,
+      "cards": [
+        {
+          "name": "baked-save-slot-1",
+          "values": [
+            {
+              "name": "save-value-slot",
+              "text": "1",
+              "bounds": {
+                "type": 5,
+                "x": 252.8595041322314,
+                "y": 300.9917355371901,
+                "width": 6.611570247933912,
+                "height": 13.223140495867767
+              },
+              "well": {
+                "x": 256.1652892561983,
+                "y": 307.60330578512395,
+                "width": 19.00826446280992,
+                "height": 13.223140495867769
+              },
+              "scale": 0.8264462809917356
+            }
+          ],
+          "art": [
+            {
+              "frame": "empty",
+              "bounds": {
+                "type": 5,
+                "x": 182.19834710743802,
+                "y": 270,
+                "width": 287.6033057851239,
+                "height": 200
+              },
+              "scaleX": 0.4132231404958678,
+              "scaleY": 0.4132231404958678
+            }
+          ]
+        },
+        {
+          "name": "baked-save-slot-2",
+          "values": [
+            {
+              "name": "save-value-slot",
+              "text": "2",
+              "bounds": {
+                "type": 5,
+                "x": 566.8595041322315,
+                "y": 300.9917355371901,
+                "width": 6.611570247933855,
+                "height": 13.223140495867767
+              },
+              "well": {
+                "x": 570.1652892561983,
+                "y": 307.60330578512395,
+                "width": 19.00826446280992,
+                "height": 13.223140495867769
+              },
+              "scale": 0.8264462809917356
+            },
+            {
+              "name": "save-value-date",
+              "text": "7-9-2026",
+              "bounds": {
+                "type": 5,
+                "x": 673.0578512396694,
+                "y": 312.1487603305785,
+                "width": 46.280991735537214,
+                "height": 11.570247933884275
+              },
+              "well": {
+                "x": 696.198347107438,
+                "y": 317.93388429752065,
+                "width": 79.33884297520662,
+                "height": 11.570247933884298
+              },
+              "scale": 0.8900190718372537
+            },
+            {
+              "name": "save-value-mode",
+              "text": "CASUAL",
+              "bounds": {
+                "type": 5,
+                "x": 617.194214876033,
+                "y": 334.1611570247934,
+                "width": 39,
+                "height": 13
+              },
+              "well": {
+                "x": 636.694214876033,
+                "y": 340.6611570247934,
+                "width": 191.73553719008265,
+                "height": 25.619834710743802
+              },
+              "scale": 1
+            },
+            {
+              "name": "save-value-level",
+              "text": "999",
+              "bounds": {
+                "type": 5,
+                "x": 608.9090909090909,
+                "y": 359.6942148760331,
+                "width": 22,
+                "height": 14
+              },
+              "well": {
+                "x": 606.5289256198347,
+                "y": 366.6942148760331,
+                "width": 48.760330578512395,
+                "height": 14.462809917355372
+              },
+              "scale": 1
+            },
+            {
+              "name": "save-value-depth",
+              "text": "123,456m",
+              "bounds": {
+                "type": 5,
+                "x": 679.694214876033,
+                "y": 359.6942148760331,
+                "width": 57,
+                "height": 14
+              },
+              "well": {
+                "x": 706.5289256198347,
+                "y": 366.6942148760331,
+                "width": 60.3305785123967,
+                "height": 14.462809917355372
+              },
+              "scale": 1
+            },
+            {
+              "name": "save-value-best",
+              "text": "987,654m",
+              "bounds": {
+                "type": 5,
+                "x": 679.694214876033,
+                "y": 377.46280991735534,
+                "width": 57,
+                "height": 14
+              },
+              "well": {
+                "x": 685.4545454545455,
+                "y": 384.46280991735534,
+                "width": 102.47933884297521,
+                "height": 14.462809917355372
+              },
+              "scale": 1
+            },
+            {
+              "name": "save-value-money",
+              "text": "987.7B",
+              "bounds": {
+                "type": 5,
+                "x": 587.9090909090909,
+                "y": 394.8181818181818,
+                "width": 43,
+                "height": 14
+              },
+              "well": {
+                "x": 606.5289256198347,
+                "y": 401.8181818181818,
+                "width": 48.760330578512395,
+                "height": 14.462809917355372
+              },
+              "scale": 1
+            },
+            {
+              "name": "save-value-stars",
+              "text": "1B",
+              "bounds": {
+                "type": 5,
+                "x": 721.694214876033,
+                "y": 394.8181818181818,
+                "width": 15,
+                "height": 14
+              },
+              "well": {
+                "x": 706.5289256198347,
+                "y": 401.8181818181818,
+                "width": 60.3305785123967,
+                "height": 14.462809917355372
+              },
+              "scale": 1
+            },
+            {
+              "name": "save-value-tiles",
+              "text": "987.7M",
+              "bounds": {
+                "type": 5,
+                "x": 693.694214876033,
+                "y": 412.1735537190083,
+                "width": 43,
+                "height": 14
+              },
+              "well": {
+                "x": 678.8429752066115,
+                "y": 419.1735537190083,
+                "width": 115.70247933884298,
+                "height": 14.462809917355372
+              },
+              "scale": 1
+            }
+          ],
+          "art": [
+            {
+              "frame": "occupied",
+              "bounds": {
+                "type": 5,
+                "x": 496.19834710743805,
+                "y": 270,
+                "width": 287.6033057851239,
+                "height": 200
+              },
+              "scaleX": 0.4132231404958678,
+              "scaleY": 0.4132231404958678
+            }
+          ]
+        },
+        {
+          "name": "baked-save-slot-3",
+          "values": [
+            {
+              "name": "save-value-slot",
+              "text": "3",
+              "bounds": {
+                "type": 5,
+                "x": 880.8595041322315,
+                "y": 300.9917355371901,
+                "width": 6.611570247933855,
+                "height": 13.223140495867767
+              },
+              "well": {
+                "x": 884.1652892561983,
+                "y": 307.60330578512395,
+                "width": 19.00826446280992,
+                "height": 13.223140495867769
+              },
+              "scale": 0.8264462809917356
+            },
+            {
+              "name": "save-value-date",
+              "text": "7-9-2026",
+              "bounds": {
+                "type": 5,
+                "x": 987.0578512396694,
+                "y": 312.1487603305785,
+                "width": 46.28099173553733,
+                "height": 11.570247933884275
+              },
+              "well": {
+                "x": 1010.198347107438,
+                "y": 317.93388429752065,
+                "width": 79.33884297520662,
+                "height": 11.570247933884298
+              },
+              "scale": 0.8900190718372537
+            },
+            {
+              "name": "save-value-mode",
+              "text": "HARDCORE\nRUN ENDED",
+              "bounds": {
+                "type": 5,
+                "x": 921.6255562619199,
+                "y": 327.8512396694215,
+                "width": 58.13731722822638,
+                "height": 25.619834710743817
+              },
+              "well": {
+                "x": 950.694214876033,
+                "y": 340.6611570247934,
+                "width": 191.73553719008265,
+                "height": 25.619834710743802
+              },
+              "scale": 0.9853782581055308
+            },
+            {
+              "name": "save-value-level",
+              "text": "80",
+              "bounds": {
+                "type": 5,
+                "x": 929.9090909090909,
+                "y": 359.6942148760331,
+                "width": 15,
+                "height": 14
+              },
+              "well": {
+                "x": 920.5289256198347,
+                "y": 366.6942148760331,
+                "width": 48.760330578512395,
+                "height": 14.462809917355372
+              },
+              "scale": 1
+            },
+            {
+              "name": "save-value-depth",
+              "text": "1,234m",
+              "bounds": {
+                "type": 5,
+                "x": 1007.694214876033,
+                "y": 359.6942148760331,
+                "width": 43.000000000000114,
+                "height": 14
+              },
+              "well": {
+                "x": 1020.5289256198347,
+                "y": 366.6942148760331,
+                "width": 60.3305785123967,
+                "height": 14.462809917355372
+              },
+              "scale": 1
+            },
+            {
+              "name": "save-value-best",
+              "text": "5,678m",
+              "bounds": {
+                "type": 5,
+                "x": 1007.694214876033,
+                "y": 377.46280991735534,
+                "width": 43.000000000000114,
+                "height": 14
+              },
+              "well": {
+                "x": 999.4545454545455,
+                "y": 384.46280991735534,
+                "width": 102.47933884297521,
+                "height": 14.462809917355372
+              },
+              "scale": 1
+            },
+            {
+              "name": "save-value-money",
+              "text": "123.5M",
+              "bounds": {
+                "type": 5,
+                "x": 901.9090909090909,
+                "y": 394.8181818181818,
+                "width": 43,
+                "height": 14
+              },
+              "well": {
+                "x": 920.5289256198347,
+                "y": 401.8181818181818,
+                "width": 48.760330578512395,
+                "height": 14.462809917355372
+              },
+              "scale": 1
+            },
+            {
+              "name": "save-value-stars",
+              "text": "12,345",
+              "bounds": {
+                "type": 5,
+                "x": 1007.694214876033,
+                "y": 394.8181818181818,
+                "width": 43.000000000000114,
+                "height": 14
+              },
+              "well": {
+                "x": 1020.5289256198347,
+                "y": 401.8181818181818,
+                "width": 60.3305785123967,
+                "height": 14.462809917355372
+              },
+              "scale": 1
+            },
+            {
+              "name": "save-value-tiles",
+              "text": "987,654",
+              "bounds": {
+                "type": 5,
+                "x": 1000.694214876033,
+                "y": 412.1735537190083,
+                "width": 50.000000000000114,
+                "height": 14
+              },
+              "well": {
+                "x": 992.8429752066115,
+                "y": 419.1735537190083,
+                "width": 115.70247933884298,
+                "height": 14.462809917355372
+              },
+              "scale": 1
+            }
+          ],
+          "art": [
+            {
+              "frame": "occupiedSelected",
+              "bounds": {
+                "type": 5,
+                "x": 810.198347107438,
+                "y": 270,
+                "width": 287.603305785124,
+                "height": 200
+              },
+              "scaleX": 0.4132231404958678,
+              "scaleY": 0.4132231404958678
+            }
+          ]
+        }
+      ],
+      "copy": [
+        {
+          "name": "baked-save-choose",
+          "frame": "ended",
+          "bounds": {
+            "type": 5,
+            "x": 282,
+            "y": 536,
+            "width": 716,
+            "height": 72
+          }
+        },
+        {
+          "name": "baked-save-controls",
+          "frame": "controls",
+          "bounds": {
+            "type": 5,
+            "x": 290,
+            "y": 607.1935483870968,
+            "width": 700,
+            "height": 101.61290322580646
+          }
+        }
+      ],
+      "setupOpen": false,
+      "fixture": true
+    },
+    "continueSelected": {
+      "phase": "StartMenuScene",
+      "selected": 3,
+      "cards": [
+        {
+          "name": "baked-save-slot-1",
+          "values": [
+            {
+              "name": "save-value-slot",
+              "text": "1",
+              "bounds": {
+                "type": 5,
+                "x": 252.8595041322314,
+                "y": 300.9917355371901,
+                "width": 6.611570247933912,
+                "height": 13.223140495867767
+              },
+              "well": {
+                "x": 256.1652892561983,
+                "y": 307.60330578512395,
+                "width": 19.00826446280992,
+                "height": 13.223140495867769
+              },
+              "scale": 0.8264462809917356
+            }
+          ],
+          "art": [
+            {
+              "frame": "empty",
+              "bounds": {
+                "type": 5,
+                "x": 182.19834710743802,
+                "y": 270,
+                "width": 287.6033057851239,
+                "height": 200
+              },
+              "scaleX": 0.4132231404958678,
+              "scaleY": 0.4132231404958678
+            }
+          ]
+        },
+        {
+          "name": "baked-save-slot-2",
+          "values": [
+            {
+              "name": "save-value-slot",
+              "text": "2",
+              "bounds": {
+                "type": 5,
+                "x": 566.8595041322315,
+                "y": 300.9917355371901,
+                "width": 6.611570247933855,
+                "height": 13.223140495867767
+              },
+              "well": {
+                "x": 570.1652892561983,
+                "y": 307.60330578512395,
+                "width": 19.00826446280992,
+                "height": 13.223140495867769
+              },
+              "scale": 0.8264462809917356
+            }
+          ],
+          "art": [
+            {
+              "frame": "empty",
+              "bounds": {
+                "type": 5,
+                "x": 496.19834710743805,
+                "y": 270,
+                "width": 287.6033057851239,
+                "height": 200
+              },
+              "scaleX": 0.4132231404958678,
+              "scaleY": 0.4132231404958678
+            }
+          ]
+        },
+        {
+          "name": "baked-save-slot-3",
+          "values": [
+            {
+              "name": "save-value-slot",
+              "text": "3",
+              "bounds": {
+                "type": 5,
+                "x": 880.8595041322315,
+                "y": 300.9917355371901,
+                "width": 6.611570247933855,
+                "height": 13.223140495867767
+              },
+              "well": {
+                "x": 884.1652892561983,
+                "y": 307.60330578512395,
+                "width": 19.00826446280992,
+                "height": 13.223140495867769
+              },
+              "scale": 0.8264462809917356
+            },
+            {
+              "name": "save-value-date",
+              "text": "5-9-2026",
+              "bounds": {
+                "type": 5,
+                "x": 987.0578512396694,
+                "y": 312.1487603305785,
+                "width": 46.28099173553733,
+                "height": 11.570247933884275
+              },
+              "well": {
+                "x": 1010.198347107438,
+                "y": 317.93388429752065,
+                "width": 79.33884297520662,
+                "height": 11.570247933884298
+              },
+              "scale": 0.8900190718372537
+            },
+            {
+              "name": "save-value-mode",
+              "text": "CASUAL",
+              "bounds": {
+                "type": 5,
+                "x": 931.194214876033,
+                "y": 334.1611570247934,
+                "width": 39,
+                "height": 13
+              },
+              "well": {
+                "x": 950.694214876033,
+                "y": 340.6611570247934,
+                "width": 191.73553719008265,
+                "height": 25.619834710743802
+              },
+              "scale": 1
+            },
+            {
+              "name": "save-value-level",
+              "text": "1",
+              "bounds": {
+                "type": 5,
+                "x": 936.9090909090909,
+                "y": 359.6942148760331,
+                "width": 8,
+                "height": 14
+              },
+              "well": {
+                "x": 920.5289256198347,
+                "y": 366.6942148760331,
+                "width": 48.760330578512395,
+                "height": 14.462809917355372
+              },
+              "scale": 1
+            },
+            {
+              "name": "save-value-depth",
+              "text": "0m",
+              "bounds": {
+                "type": 5,
+                "x": 1035.6942148760331,
+                "y": 359.6942148760331,
+                "width": 15,
+                "height": 14
+              },
+              "well": {
+                "x": 1020.5289256198347,
+                "y": 366.6942148760331,
+                "width": 60.3305785123967,
+                "height": 14.462809917355372
+              },
+              "scale": 1
+            },
+            {
+              "name": "save-value-best",
+              "text": "0m",
+              "bounds": {
+                "type": 5,
+                "x": 1035.6942148760331,
+                "y": 377.46280991735534,
+                "width": 15,
+                "height": 14
+              },
+              "well": {
+                "x": 999.4545454545455,
+                "y": 384.46280991735534,
+                "width": 102.47933884297521,
+                "height": 14.462809917355372
+              },
+              "scale": 1
+            },
+            {
+              "name": "save-value-money",
+              "text": "0",
+              "bounds": {
+                "type": 5,
+                "x": 936.9090909090909,
+                "y": 394.8181818181818,
+                "width": 8,
+                "height": 14
+              },
+              "well": {
+                "x": 920.5289256198347,
+                "y": 401.8181818181818,
+                "width": 48.760330578512395,
+                "height": 14.462809917355372
+              },
+              "scale": 1
+            },
+            {
+              "name": "save-value-stars",
+              "text": "0",
+              "bounds": {
+                "type": 5,
+                "x": 1042.6942148760331,
+                "y": 394.8181818181818,
+                "width": 8,
+                "height": 14
+              },
+              "well": {
+                "x": 1020.5289256198347,
+                "y": 401.8181818181818,
+                "width": 60.3305785123967,
+                "height": 14.462809917355372
+              },
+              "scale": 1
+            },
+            {
+              "name": "save-value-tiles",
+              "text": "0",
+              "bounds": {
+                "type": 5,
+                "x": 1042.6942148760331,
+                "y": 412.1735537190083,
+                "width": 8,
+                "height": 14
+              },
+              "well": {
+                "x": 992.8429752066115,
+                "y": 419.1735537190083,
+                "width": 115.70247933884298,
+                "height": 14.462809917355372
+              },
+              "scale": 1
+            }
+          ],
+          "art": [
+            {
+              "frame": "occupiedSelected",
+              "bounds": {
+                "type": 5,
+                "x": 810.198347107438,
+                "y": 270,
+                "width": 287.603305785124,
+                "height": 200
+              },
+              "scaleX": 0.4132231404958678,
+              "scaleY": 0.4132231404958678
+            }
+          ]
+        }
+      ],
+      "copy": [
+        {
+          "name": "baked-save-choose",
+          "frame": "continue",
+          "bounds": {
+            "type": 5,
+            "x": 282,
+            "y": 536,
+            "width": 716,
+            "height": 72
+          }
+        },
+        {
+          "name": "baked-save-controls",
+          "frame": "controls",
+          "bounds": {
+            "type": 5,
+            "x": 290,
+            "y": 607.1935483870968,
+            "width": 700,
+            "height": 101.61290322580646
+          }
+        }
+      ],
+      "setupOpen": false,
+      "fixture": false
+    },
+    "gameAfterContinue": {
+      "phase": "playing",
+      "savesBlocked": true,
+      "errors": []
+    }
+  }
+}

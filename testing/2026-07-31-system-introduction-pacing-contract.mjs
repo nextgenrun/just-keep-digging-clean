@@ -57,7 +57,7 @@ assert.equal(pacing.isFeatureAvailable("gemPower"), false);
 assert.equal(pacing.isFeatureAvailable("caves"), false);
 assert.equal(pacing.isFeatureAvailable("milestones"), true);
 assert.equal(pacing.isUpgradeAvailable("strength"), true);
-assert.equal(pacing.isUpgradeAvailable("bronzePickaxe"), true);
+assert.equal(pacing.isUpgradeAvailable("bronzePickaxe"), false);
 assert.equal(pacing.isUpgradeAvailable("startResourcePrices"), true);
 assert.equal(pacing.isUpgradeAvailable("quickReflexes"), false);
 assert.equal(pacing.isUpgradeAvailable("ironPickaxe"), false);
@@ -122,7 +122,7 @@ assert.equal(pacing.isFeatureAvailable("comboHud"), true);
 stats.portalsActivated = 0;
 snapshot = pacing.refresh({ announce: false });
 assert.equal(pacing.isUpgradeAvailable("quickReflexes"), true);
-assert.equal(pacing.isUpgradeAvailable("ironPickaxe"), true);
+assert.equal(pacing.isUpgradeAvailable("ironPickaxe"), false);
 assert.equal(pacing.isUpgradeAvailable("nextResourcePrices"), true);
 assert.equal(pacing.isUpgradeAvailable("critChance"), false);
 assert.equal(pacing.isUpgradeAvailable("steelPickaxe"), false);
@@ -153,8 +153,8 @@ for (const [depth, feature, expected] of [
   [250, "relics", true],
   [349, "titans", false],
   [350, "titans", true],
-  [499, "abilities", false],
-  [500, "abilities", true],
+  [499, "randomEvents", false],
+  [500, "randomEvents", true],
 ]) {
   stats.bestDepth = depth;
   snapshot = pacing.refresh({ announce: false });
@@ -176,25 +176,35 @@ assert.equal(
 stats.bestDepth = 40;
 snapshot = pacing.refresh({ announce: false });
 assert.equal(pacing.isUpgradeAvailable("steelPickaxe"), false);
-assert.equal(pacing.isUpgradeAvailable("critChance"), true);
-assert.equal(pacing.isUpgradeAvailable("luckyCollector"), true);
+assert.equal(pacing.isUpgradeAvailable("critChance"), false);
+assert.equal(pacing.isUpgradeAvailable("luckyCollector"), false);
 assert.equal(pacing.isUpgradeAvailable("steelPickaxe"), false);
 stats.bestDepth = 80;
+snapshot = pacing.refresh({ announce: false });
+assert.equal(pacing.isUpgradeAvailable("steelPickaxe"), false);
+stats.bestDepth = 299;
+snapshot = pacing.refresh({ announce: false });
+assert.equal(pacing.isUpgradeAvailable("steelPickaxe"), false);
+stats.bestDepth = 300;
 snapshot = pacing.refresh({ announce: false });
 assert.equal(pacing.isUpgradeAvailable("steelPickaxe"), true);
 stats.bestDepth = 140;
 snapshot = pacing.refresh({ announce: false });
-assert.equal(pacing.isUpgradeAvailable("mithrilPickaxe"), true);
+assert.equal(pacing.isUpgradeAvailable("mithrilPickaxe"), false);
 assert.equal(pacing.isUpgradeAvailable("gemPowerRegeneration"), true);
-assert.equal(pacing.isUpgradeAvailable("marketInsight"), true);
+assert.equal(pacing.isUpgradeAvailable("marketInsight"), false);
 assert.equal(pacing.isUpgradeAvailable("seismicSuppression"), false);
 stats.bestDepth = 249;
 snapshot = pacing.refresh({ announce: false });
 assert.equal(pacing.isUpgradeAvailable("heavyPunch"), false);
 assert.equal(pacing.isUpgradeAvailable("adamantPickaxe"), false);
 stats.bestDepth = 250;
+stats.relicsFound = 2;
 snapshot = pacing.refresh({ announce: false });
 assert.equal(pacing.isUpgradeAvailable("heavyPunch"), true);
+assert.equal(pacing.isUpgradeAvailable("adamantPickaxe"), false);
+stats.bestDepth = 750;
+snapshot = pacing.refresh({ announce: false });
 assert.equal(pacing.isUpgradeAvailable("adamantPickaxe"), true);
 stats.bestDepth = 999;
 snapshot = pacing.refresh({ announce: false });

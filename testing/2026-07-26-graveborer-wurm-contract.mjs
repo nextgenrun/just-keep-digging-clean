@@ -367,9 +367,8 @@ assert.equal(
   "10x dev mode should quickly self-trigger without mining",
 );
 assert.ok(
-  dev10x.warningRemainingMs <= GRAVEBORER_WURM_CONFIG.timing.devWarningMs
-    && dev10x.warningRemainingMs
-      >= GRAVEBORER_WURM_CONFIG.timing.devWarningMs - 600,
+  dev10x.warningRemainingMs <= dev10x.difficulty.warningMs
+    && dev10x.warningRemainingMs >= dev10x.difficulty.warningMs - 600,
 );
 
 const summonedSystem = new GraveborerWurmSystem();
@@ -564,11 +563,11 @@ assert.equal(
 assert.deepEqual(
   sanitizeHardcoreModeData({ mode: "casual", armed: true }),
   {
-    version: 4,
+    version: 5,
     mode: "hardcore",
     armed: true,
-    livesRemaining: 2,
-    freeReviveAvailable: true,
+    livesRemaining: 1,
+    freeReviveAvailable: false,
     deaths: 0,
     exhausted: false,
     stress: 0,

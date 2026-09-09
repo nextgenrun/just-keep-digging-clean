@@ -1,0 +1,978 @@
+--- before/systems/visual/CelestialActionBarMetricsView.js
++++ after/systems/visual/CelestialActionBarMetricsView.js
+@@ -1,6 +1,8 @@
+-// Compact live GP and mining-damage readout anchored to the authored actionbar.
++// Uses the actionbar metric provider to place mining damage in the player core.
+ 
+ import { CELESTIAL_ACTION_BAR_CONFIG } from "../../values/celestialActionBar.js";
++import { GAMEPLAY_PRESENTATION } from "../../values/gameplayPresentation.js";
++import { APPROVED_HUD_SKIN } from "../../values/approvedHudSkin.js";
+ import { UI_FONTS } from "../../values/uiLayout.js";
+ 
+ function finite(value) {
+@@ -25,7 +27,7 @@
+     const presentation = CELESTIAL_ACTION_BAR_CONFIG.presentation;
+     return this.scene.add.text(0, 0, "", {
+       fontFamily: UI_FONTS.display,
+-      fontSize: `${presentation.metricFontSizePx}px`,
++      fontSize: `${GAMEPLAY_PRESENTATION.damage.fontSize}px`,
+       fontStyle: "bold",
+       color,
+       stroke: presentation.shadowColor,
+@@ -54,21 +56,18 @@
+     return snapshot;
+   }
+ 
+-  resize(centerX, centerY, scale) {
+-    const layout = CELESTIAL_ACTION_BAR_CONFIG.layout;
+-    this.gpText.setPosition(
+-      centerX - layout.metricOffsetXPx * scale,
+-      centerY + layout.metricOffsetYPx * scale,
+-    ).setScale(scale);
+-    this.damageText.setPosition(
+-      centerX + layout.metricOffsetXPx * scale,
+-      centerY + layout.metricOffsetYPx * scale,
+-    ).setScale(scale);
++  resize() {
++    const cfg = GAMEPLAY_PRESENTATION.damage;
++    const ref = APPROVED_HUD_SKIN.referenceViewport;
++    const scale = Math.min(this.scene.scale.width / ref.width, this.scene.scale.height / ref.height);
++    this.gpText.setVisible(false);
++    this.damageText.setPosition(cfg.x * scale, cfg.y * scale)
++      .setScale(scale);
+   }
+ 
+   setVisible(visible) {
+     this.visible = visible === true;
+-    this.gpText.setVisible(this.visible);
++    this.gpText.setVisible(false);
+     this.damageText.setVisible(this.visible);
+   }
+ 
+--- before/systems/visual/CelestialActionBarSlotView.js
++++ after/systems/visual/CelestialActionBarSlotView.js
+@@ -188,6 +188,7 @@
+   }
+ 
+   containsScreenPoint(x, y) {
++    if (!this.root.visible) return false;
+     const radius = this.config.interaction.dropRadiusPx * this.uiScale;
+     return Math.abs(x - this.basePosition.x) <= radius
+       && Math.abs(y - this.basePosition.y) <= radius;
+--- before/systems/visual/CelestialActionBarSystem.js
++++ after/systems/visual/CelestialActionBarSystem.js
+@@ -41,7 +41,6 @@
+     this.scene.scale?.on?.("resize", this._resizeHandler);
+     this.refreshAssets();
+   }
+-
+   _readLoadout() {
+     try {
+       return this.loadoutProvider?.getLoadout?.() || null;
+@@ -50,7 +49,6 @@
+       return null;
+     }
+   }
+-
+   refreshAssets() {
+     if (this.destroyed || this.mounted) return this.mounted;
+     this.assetHealth = inspectCelestialActionBarAssets(
+@@ -64,7 +62,6 @@
+     this.setVisible(this.visible);
+     return true;
+   }
+-
+   refreshEntryIcons() {
+     if (this.destroyed || !this.mounted) return false;
+     const assetHealth = inspectCelestialActionBarAssets(this.scene, this.config.entries);
+@@ -75,7 +72,6 @@
+     });
+     return true;
+   }
+-
+   _build() {
+     this.foundationView = new CelestialActionBarFoundationView(
+       this.scene,
+@@ -96,7 +92,6 @@
+       );
+       this.slotsById.set(entry.id, slot);
+     }
+-
+     this.tooltip = new CelestialActionBarTooltipView(
+       this.scene,
+       this.assetHealth.chrome.tooltip,
+@@ -104,7 +99,6 @@
+     this.metrics = new CelestialActionBarMetricsView(this.scene, this.getMetrics);
+     this.mounted = true;
+   }
+-
+   _resolveState(entry) {
+     let source = null;
+     try {
+@@ -126,7 +120,6 @@
+       unavailableReason: source?.unavailableReason || this.config.copy.unavailable,
+     });
+   }
+-
+   sync(pulseEntryId = null) {
+     if (!this.mounted && !this.refreshAssets()) return this.getHealthSnapshot();
+     for (const entry of this.config.entries) {
+@@ -134,10 +127,10 @@
+     }
+     this.slotsById.get(pulseEntryId)?.pulse?.();
+     this.metrics?.sync();
++    this._syncSlotVisibility();
+     if (this.tooltipVisible && this.hoveredSlot) this._showTooltip(this.hoveredSlot);
+     return this.getHealthSnapshot();
+   }
+-
+   _activateEntry(slot, source) {
+     const state = this._resolveState(slot.entry);
+     slot.setState(state);
+@@ -163,18 +156,15 @@
+       return { ok: false, reason: "activation-error" };
+     }
+   }
+-
+   activateSlot(slotNumber, source = this.config.interaction.keyboardActivationSource) {
+     const entryId = this.order[slotNumber - 1];
+     const slot = this.slotsById.get(entryId);
+     if (!slot) return { ok: false, reason: "invalid-slot" };
+     return this._activateEntry(slot, source);
+   }
+-
+   pulseEntries(entryIds = []) {
+     for (const entryId of entryIds) this.slotsById.get(entryId)?.pulse?.();
+   }
+-
+   _finishDrag(slot, pointer) {
+     const sourceIndex = this.order.indexOf(slot.entry.id);
+     const targetIndex = this.order.findIndex(entryId => (
+@@ -193,9 +183,9 @@
+       this.order = previousOrder;
+     }
+     this._layoutSlots();
+-    return true;
+-  }
+-
++    this._syncSlotVisibility();
++    return true;
++  }
+   _persistOrder(previousOrder, sourceIndex, targetIndex) {
+     const nextOrder = [...this.order];
+     const metadata = Object.freeze({
+@@ -215,7 +205,6 @@
+       return false;
+     }
+   }
+-
+   _showTooltip(slot) {
+     if (!this.mounted || !slot) return;
+     const state = slot.state || this._resolveState(slot.entry);
+@@ -229,13 +218,11 @@
+     this.tooltip.show(slot, `${slot.slotNumber}  ${slot.entry.label}`, body);
+     this.tooltip.setParentVisible(this.visible);
+   }
+-
+   _hideTooltip() {
+     this.hoveredSlot = null;
+     this.tooltipVisible = false;
+     this.tooltip?.hide();
+   }
+-
+   resize() {
+     if (!this.mounted) return false;
+     const layout = this.config.layout;
+@@ -253,7 +240,6 @@
+     );
+     return true;
+   }
+-
+   _layoutSlots() {
+     if (!this.mounted) return;
+     this.order.forEach((entryId, index) => {
+@@ -263,19 +249,24 @@
+       slot?.setBasePosition(position.x, position.y, this.uiScale);
+     });
+   }
+-
+   setVisible(visible) {
+     this.visible = visible === true;
+-    this.foundationView?.setVisible(this.visible);
+-    for (const slot of this.slotsById.values()) slot.setVisible(this.visible);
++    this._syncSlotVisibility();
+     this.metrics?.setVisible(this.visible);
+     this.tooltip?.setParentVisible(this.visible);
+   }
+-
++  _syncSlotVisibility() {
++    const slots = this.order.map(id => this.slotsById.get(id));
++    const last = slots.length - 1;
++    this.foundationView?.foundation.setVisible(this.visible
++      && slots.slice(0, last).some(slot => slot?.state?.unlocked));
++    this.foundationView?.detachedSlot.setVisible(this.visible && slots[last]?.state?.unlocked === true);
++    for (const slot of slots) slot?.setVisible(this.visible && slot.state?.unlocked === true);
++    if (this.hoveredSlot?.root?.visible === false) this._hideTooltip();
++  }
+   getLoadout() {
+     return [...this.order];
+   }
+-
+   loadLoadout(order) {
+     if (this.destroyed) return false;
+     this.order = sanitizeCelestialActionBarOrder(order);
+@@ -283,11 +274,9 @@
+     this.sync();
+     return this.getLoadout();
+   }
+-
+   getHealthSnapshot() {
+     return buildCelestialActionBarHealth(this);
+   }
+-
+   destroy() {
+     if (this.destroyed) return;
+     this.destroyed = true;
+--- before/systems/visual/HudQuickControls.js
++++ after/systems/visual/HudQuickControls.js
+@@ -184,6 +184,7 @@
+           x: this.mapContainer?.x,
+           y: this.mapContainer?.y,
+           height: this.mapFrame?.displayHeight,
++          width: this.mapFrame?.displayWidth,
+         }),
+       });
+     }
+@@ -262,8 +263,7 @@
+     const pauseWidth = pause.width * scale;
+     const pauseHeight = pause.height * scale;
+     const pauseX = viewportWidth - pause.right * scale - pauseWidth / 2;
+-    const pauseY = inventoryY - inventoryHeight / 2
+-      - pause.gapAboveInventory * scale - pauseHeight / 2;
++    const pauseY = pause.top * scale + pauseHeight / 2;
+     this.pauseContainer.setPosition(pauseX, pauseY);
+     this.pauseFrame.setDisplaySize(pauseWidth, pauseHeight);
+     this.pauseLabel
+@@ -284,7 +284,7 @@
+     const mapWidth = map.width * scale;
+     const mapHeight = map.height * scale;
+     const mapX = viewportWidth - map.right * scale - mapWidth / 2;
+-    const mapY = pauseY - pauseHeight / 2 - map.gapAbovePause * scale - mapHeight / 2;
++    const mapY = map.top * scale + mapHeight / 2;
+     this.mapContainer.setPosition(mapX, mapY);
+     this.mapFrame.setDisplaySize(mapWidth, mapHeight);
+     this.mapLabel
+--- before/systems/visual/HudWikiShortcut.js
++++ after/systems/visual/HudWikiShortcut.js
+@@ -74,11 +74,11 @@
+     const displayHeight = Math.max(this.config.minimumDisplayHeight, this.config.height * scale);
+     const anchor = this.anchorProvider() || {};
+     const x = Number.isFinite(anchor.x)
+-      ? anchor.x
++      ? anchor.x - (Number(anchor.width) || 0) / 2
++        - this.config.gapBesideMap * scale - displayWidth / 2
+       : width - this.config.right * scale - displayWidth / 2;
+     const y = Number.isFinite(anchor.y)
+-      ? anchor.y - (Number(anchor.height) || 0) / 2
+-        - this.config.gapAboveMap * scale - displayHeight / 2
++      ? anchor.y
+       : height - displayHeight / 2 - 14 * scale;
+     this.container.setPosition(x, y);
+     this.frame.setDisplaySize(displayWidth, displayHeight);
+--- before/systems/visual/MerchantPromptView.js
++++ after/systems/visual/MerchantPromptView.js
+@@ -0,0 +1,82 @@
++// Keeps the approved merchant plate aligned with its NPC inside the camera view.
++import { GAMEPLAY_PRESENTATION } from "../../values/gameplayPresentation.js";
++import { APPROVED_HUD_SKIN } from "../../values/approvedHudSkin.js";
++import { ASSET_KEYS } from "../../values/assetKeys.js";
++import { USER_SETTINGS } from "../UserSettings.js";
++
++export function clampMerchantPlate(anchor, viewport, size, margin) {
++  const halfWidth = size.width / 2;
++  const halfHeight = size.height / 2;
++  return {
++    x: Math.max(viewport.x + margin + halfWidth,
++      Math.min(viewport.x + viewport.width - margin - halfWidth, anchor.x)),
++    y: Math.max(viewport.y + margin + halfHeight,
++      Math.min(viewport.y + viewport.height - margin - halfHeight, anchor.y - halfHeight)),
++  };
++}
++export class MerchantPromptView {
++  constructor(scene, merchantId, name, worldX, worldY) {
++    this.scene = scene;
++    this.merchantId = merchantId;
++    this.name = name;
++    this.worldX = worldX;
++    this.worldY = worldY;
++    this.inRange = false;
++    this.config = GAMEPLAY_PRESENTATION.merchant;
++    const cfg = this.config;
++    this.root = scene.add.container(0, 0).setScrollFactor(1)
++      .setDepth(cfg.depth).setVisible(false);
++    this.frame = scene.add.image(0, 0, ASSET_KEYS.ui.approvedHud.buffChip)
++      .setDisplaySize(cfg.width, cfg.height);
++    const font = APPROVED_HUD_SKIN.font;
++    const style = { fontFamily: font.family, fontStyle: "bold", color: font.color,
++      stroke: font.shadow, strokeThickness: font.strokeThickness, align: "center" };
++    this.title = scene.add.text(0, cfg.titleY, "", { ...style, fontSize: cfg.titleSize }).setOrigin(0.5);
++    this.detail = scene.add.text(0, cfg.detailY, "",
++      { ...style, fontSize: cfg.detailSize, color: font.secondary }).setOrigin(0.5);
++    this.root.add([this.frame, this.title, this.detail]);
++    scene.events.on("prerender", this.refresh, this);
++  }
++  update(inRange, rushPrompt = null) {
++    this.inRange = inRange;
++    const cfg = this.config;
++    const title = (this.name || cfg.fallbackTitle).toUpperCase();
++    const action = rushPrompt || cfg.actions[this.merchantId] || cfg.fallbackAction;
++    const detail = USER_SETTINGS.getKeyLabel("interact") + "  Â·  " + action;
++    this._fit(this.title, title);
++    this._fit(this.detail, detail);
++    this.refresh();
++  }
++  _fit(text, value) {
++    if (text.text === value) return;
++    text.setScale(1).setText(value);
++    text.setScale(Math.min(1, this.config.textWidth / Math.max(1, text.width)));
++  }
++  refresh() {
++    const scene = this.scene;
++    const visible = this.inRange && scene.gameState === "playing"
++      && !scene.hasEscapeClosableUi?.()
++      && !scene.shopOverlay?.isVisible && !scene._pillarViewActive
++      && !scene.townSquareTutorialSystem?.isShowingGuide?.()
++      && !scene.campfireSystem?.isSelecting?.();
++    this.root.setVisible(Boolean(visible));
++    if (!visible) return;
++    const camera = scene.cameras.main;
++    const ref = APPROVED_HUD_SKIN.referenceViewport;
++    const scale = Math.min(scene.scale.width / ref.width, scene.scale.height / ref.height);
++    const anchor = camera.matrix.transformPoint(
++      this.worldX - camera.scrollX, this.worldY - camera.scrollY, {});
++    const point = clampMerchantPlate(anchor, camera,
++      { width: this.config.width * scale, height: this.config.height * scale },
++      this.config.margin * scale);
++    const local = camera.matrix.applyInverse(point.x, point.y, {});
++    this.root.setPosition(local.x + camera.scrollX, local.y + camera.scrollY)
++      .setScale(scale / camera.zoomX, scale / camera.zoomY)
++      .setRotation(-camera.rotation);
++  }
++  destroy() {
++    this.scene.events.off("prerender", this.refresh, this);
++    this.root.destroy(true);
++    this.scene = null;
++  }
++}
+--- before/systems/visual/MiningTargetVisualSystem.js
++++ after/systems/visual/MiningTargetVisualSystem.js
+@@ -2,6 +2,8 @@
+   MINING_TARGET_FEEDBACK_CONFIG,
+   resolveMiningTargetVisualsEnabled,
+ } from "../../values/miningTargetFeedback.js";
++
++import { TargetTileHudView } from "./TargetTileHudView.js";
+ 
+ export class MiningTargetVisualSystem {
+   constructor(scene, config = MINING_TARGET_FEEDBACK_CONFIG) {
+@@ -18,6 +20,7 @@
+     this._diagnostics = null;
+ 
+     this._create();
++    this.targetHud = new TargetTileHudView(scene);
+     this._publishDiagnostics();
+   }
+ 
+@@ -66,6 +69,7 @@
+     timeMs = this.scene.time?.now || 0,
+   ) {
+     if (!this.root) return;
++    this.targetHud.setTarget(targetTile, shouldShow);
+     if (!shouldShow || !targetTile) {
+       this.lastTargetKey = "";
+       this.interactionMode = "hidden";
+@@ -132,6 +136,7 @@
+ 
+   setVisible(visible) {
+     this.root?.setVisible(Boolean(visible));
++    if (!visible) this.targetHud.setTarget(null, false);
+   }
+ 
+   snapshot() {
+@@ -158,6 +163,7 @@
+     if (globalThis.window?.[key] === this._diagnostics) {
+       delete globalThis.window[key];
+     }
++    this.targetHud?.destroy();
+     this.root?.destroy(true);
+     this.root = null;
+     this.image = null;
+--- before/systems/visual/NextPromiseHudSystem.js
++++ after/systems/visual/NextPromiseHudSystem.js
+@@ -21,7 +21,7 @@
+     this.background = scene.add.image(
+       this.config.width / 2,
+       this.config.height / 2,
+-      ASSET_KEYS.ui.approvedHud.tutorialCurrentAction,
++      ASSET_KEYS.ui.approvedHud.buffChip,
+     ).setDisplaySize(this.config.width, this.config.height);
+     this.badgeKicker = scene.add.text(
+       this.config.badgeX,
+@@ -83,6 +83,10 @@
+       this.promiseText,
+       this.detailText,
+     ]);
++    this.badgeKicker.setVisible(false);
++    this.badgeValue.setVisible(false);
++    this.promiseText.setOrigin(0.5);
++    this.detailText.setOrigin(0.5);
+     this._layout();
+   }
+ 
+@@ -104,19 +108,21 @@
+ 
+   _fitText(textObject, value, baseFontSize, minimumFontSize) {
+     const baseSize = Math.max(1, Number.parseFloat(baseFontSize) || 1);
+-    textObject.setFontSize(baseSize).setText(value);
++    textObject.setScale(1).setFontSize(baseSize).setText(value);
+     if (textObject.width <= this.config.textWidth) return;
+     const fittedSize = Math.max(
+       minimumFontSize,
+       Math.floor(baseSize * this.config.textWidth / textObject.width),
+     );
+     textObject.setFontSize(fittedSize);
++    textObject.setScale(Math.min(1, this.config.textWidth / textObject.width));
+   }
+ 
+   _layout() {
+     const height = this.config.height;
+-    const viewportHeight = this.scene.scale?.height || 720;
+-    this.root.setPosition(this.config.x, viewportHeight - this.config.bottom - height);
++    const ref = APPROVED_HUD_SKIN.referenceViewport;
++    const scale = Math.min(this.scene.scale.width / ref.width, this.scene.scale.height / ref.height);
++    this.root.setPosition(this.config.x * scale, this.config.top * scale).setScale(scale);
+     this.background
+       .setPosition(this.config.width / 2, height / 2)
+       .setDisplaySize(this.config.width, height);
+--- before/systems/visual/TargetTileHudView.js
++++ after/systems/visual/TargetTileHudView.js
+@@ -0,0 +1,65 @@
++// Shows the authoritative mining target's remaining HP beside the GP panel.
++import { GAMEPLAY_PRESENTATION, TARGET_TILE_LABELS } from "../../values/gameplayPresentation.js";
++import { APPROVED_HUD_SKIN } from "../../values/approvedHudSkin.js";
++import { ASSET_KEYS } from "../../values/assetKeys.js";
++
++export class TargetTileHudView {
++  constructor(scene) {
++    this.scene = scene;
++    this.config = GAMEPLAY_PRESENTATION.target;
++    this.target = null;
++    this.root = scene.add.container(0, 0).setScrollFactor(0)
++      .setDepth(this.config.depth).setVisible(false);
++    this.frame = scene.add.image(this.config.width / 2, this.config.height / 2,
++      ASSET_KEYS.ui.approvedHud.buffChip)
++      .setDisplaySize(this.config.width, this.config.height);
++    const font = APPROVED_HUD_SKIN.font;
++    const style = { fontFamily: font.family, fontStyle: "bold",
++      color: font.color, stroke: font.shadow, strokeThickness: font.strokeThickness };
++    this.title = scene.add.text(this.config.width / 2, this.config.titleY, "",
++      { ...style, fontSize: this.config.titleSize, color: font.secondary }).setOrigin(0.5);
++    this.hp = scene.add.text(this.config.width / 2, this.config.hpY, "",
++      { ...style, fontSize: this.config.hpSize }).setOrigin(0.5);
++    this.root.add([this.frame, this.title, this.hp]);
++    scene.events.on("postupdate", this.refresh, this);
++    scene.scale.on("resize", this.resize, this);
++    this.resize();
++  }
++  resize() {
++    const ref = APPROVED_HUD_SKIN.referenceViewport;
++    const scale = Math.min(this.scene.scale.width / ref.width, this.scene.scale.height / ref.height);
++    this.root.setPosition(this.config.x * scale, this.config.y * scale).setScale(scale);
++  }
++  setTarget(tile, visible) {
++    this.target = visible && tile ? { tx: tile.tx, ty: tile.ty } : null;
++  }
++  refresh() {
++    const scene = this.scene;
++    const world = scene.worldModel;
++    const tile = this.target;
++    const show = tile && scene.gameState === "playing"
++      && !scene.hasEscapeClosableUi?.()
++      && !scene.shopOverlay?.isVisible && !scene._pillarViewActive
++      && !scene.campfireSystem?.isSelecting?.()
++      && !scene.townSquareTutorialSystem?.isShowingGuide?.()
++      && world?.inBounds(tile.tx, tile.ty) && world.isDiggable(tile.tx, tile.ty);
++    const hp = show ? world.getHp(tile.tx, tile.ty) : 0;
++    this.root.setVisible(Boolean(show && hp > 0));
++    if (!this.root.visible) return;
++    const maxHp = world.getTileMaxHp(tile.tx, tile.ty);
++    const label = (TARGET_TILE_LABELS[world.getType(tile.tx, tile.ty)] || "").toUpperCase();
++    const value = this.config.hpLabel + " " + Math.ceil(hp) + "/" + Math.ceil(maxHp);
++    if (this.title.text !== label) this._fit(this.title, label);
++    if (this.hp.text !== value) this._fit(this.hp, value);
++  }
++  _fit(text, value) {
++    text.setScale(1).setText(value);
++    text.setScale(Math.min(1, this.config.textWidth / Math.max(1, text.width)));
++  }
++  destroy() {
++    this.scene.events.off("postupdate", this.refresh, this);
++    this.scene.scale.off("resize", this.resize, this);
++    this.root.destroy(true);
++    this.scene = null;
++  }
++}
+--- before/values/approvedHudSkin.js
++++ after/values/approvedHudSkin.js
+@@ -75,7 +75,7 @@
+     }),
+     buffs: Object.freeze({
+       x: 14,
+-      y: 103,
++      y: 161,
+       width: 131,
+       height: 30,
+       gap: 6,
+--- before/values/gameWiki.js
++++ after/values/gameWiki.js
+@@ -7,9 +7,10 @@
+     label: "WIKI",
+     right: 14,
+     gapAboveMap: 7,
+-    width: 154,
++    gapBesideMap: 12,
++    width: 104,
+     height: 36,
+-    minimumDisplayWidth: 116,
++    minimumDisplayWidth: 104,
+     minimumDisplayHeight: 32,
+     minimumHitSize: 48,
+     hitPaddingX: 5,
+--- before/values/gameplayPresentation.js
++++ after/values/gameplayPresentation.js
+@@ -0,0 +1,37 @@
++// Approved everyday gameplay presentation: one source for layout and copy.
++import { TILE_TYPES } from "./tileTypes.js";
++import { RESOURCE_BY_TILE_TYPE, RESOURCE_DISPLAY } from "./resourceTypes.js";
++
++export const GAMEPLAY_PRESENTATION = Object.freeze({
++  target: Object.freeze({
++    x: 354, y: 38, width: 172, height: 48, textWidth: 146,
++    titleY: 14, hpY: 34, titleSize: 12, hpSize: 14, depth: 1970,
++    hpLabel: "HP",
++  }),
++  damage: Object.freeze({ x: 236, y: 52, fontSize: 11 }),
++  merchant: Object.freeze({
++    width: 208, height: 48, textWidth: 178, titleY: -9, detailY: 10,
++    titleSize: 16, detailSize: 12, margin: 12, depth: 1960,
++    fallbackTitle: "Shop", fallbackAction: "Browse shop",
++    actions: Object.freeze({
++      moneyMonster: "Sell resources", magmaMoneyMonster: "Browse magma gear",
++      playerUpgrades: "Improve your miner", gearMerchant: "Browse gear",
++      boboMerchant: "Browse abilities", gemPowerMerchant: "Improve Gem Power",
++    }),
++  }),
++  scenicAlpha: 0.58,
++  scenicPrefixes: Object.freeze([
++    "world-visual-underground-foreground", "world-visual-ground-structure",
++    "world-visual-underground-overlay", "world-visual-biome-expansion",
++  ]),
++});
++export const TARGET_TILE_LABELS = Object.freeze(Object.fromEntries(
++  Object.entries(TILE_TYPES).map(([name, type]) => [
++    type, RESOURCE_DISPLAY[RESOURCE_BY_TILE_TYPE[type]]?.name
++      || name.replaceAll("_", " ").toLowerCase(),
++  ]),
++));
++export function resolveScenicFocusAlpha(key, alpha) {
++  return GAMEPLAY_PRESENTATION.scenicPrefixes.some(prefix => key?.startsWith(prefix))
++    ? alpha * GAMEPLAY_PRESENTATION.scenicAlpha : alpha;
++}
+--- before/values/hardcoreMode.js
++++ after/values/hardcoreMode.js
+@@ -129,7 +129,7 @@
+       // Sit below the complete V2 player core and three-chip buff lane. Keeping the
+       // status crest out of that lane prevents Hardcore danger feedback from
+       // covering active buff names at the exact moment both matter most.
+-      y: 170,
++      y: 234,
+       width: 336,
+       height: 56,
+       crestSize: 50,
+--- before/values/hudQuickControls.js
++++ after/values/hudQuickControls.js
+@@ -41,9 +41,10 @@
+     }),
+   }),
+   pause: Object.freeze({
+-    right: 14,
++    right: 76,
++    top: 15,
+     gapAboveInventory: 9,
+-    width: 154,
++    width: 130,
+     height: 36,
+     hitPaddingX: 5,
+     hitPaddingY: 4,
+@@ -56,10 +57,11 @@
+     pressScale: 0.97,
+   }),
+   map: Object.freeze({
+-    right: 14,
++    right: 221,
++    top: 15,
+     gapAboveInventory: 9,
+     gapAbovePause: 7,
+-    width: 154,
++    width: 146,
+     height: 36,
+     hitPaddingX: 5,
+     hitPaddingY: 4,
+--- before/values/retentionConfig.js
++++ after/values/retentionConfig.js
+@@ -103,44 +103,44 @@
+     }),
+     copy: Object.freeze({
+       move: Object.freeze({
+-        phase: "1 / 7  â€¢  MOVE",
++        phase: "1 / 7  Ã¢â‚¬Â¢  MOVE",
+         title: "WALK TO THE GLOWING ARROW",
+-        body: "PRESS {left}/{right}  â€¢  STOP ON THE MARKED GROUND",
++        body: "PRESS {left}/{right}  Ã¢â‚¬Â¢  STOP ON THE MARKED GROUND",
+       }),
+       dig: Object.freeze({
+-        phase: "2 / 7  â€¢  DIG",
++        phase: "2 / 7  Ã¢â‚¬Â¢  DIG",
+         title: "DIG THE MARKED BLOCK",
+-        body: "FACE THE GLOWING BLOCK  â€¢  HOLD {mine} UNTIL IT BREAKS",
++        body: "FACE THE GLOWING BLOCK  Ã¢â‚¬Â¢  HOLD {mine} UNTIL IT BREAKS",
+       }),
+       flight: Object.freeze({
+-        phase: "3 / 7  â€¢  FLIGHT",
++        phase: "3 / 7  Ã¢â‚¬Â¢  FLIGHT",
+         title: "LIFT OFF ONCE",
+-        body: "HOLD {fly} UNTIL YOU LEAVE THE GROUND  â€¢  THEN FOLLOW THE GHOST",
++        body: "HOLD {fly} UNTIL YOU LEAVE THE GROUND  Ã¢â‚¬Â¢  THEN FOLLOW THE GHOST",
+       }),
+       portal: Object.freeze({
+-        phase: "4 / 7  â€¢  RETURN GATE",
++        phase: "4 / 7  Ã¢â‚¬Â¢  RETURN GATE",
+         title: "DIG DOWN TO THE RETURN GATE AT 15M",
+-        body: "PRESS {down} TO AIM DOWN  â€¢  HOLD {mine} TO DIG  â€¢  PRESS {interact} AT THE GATE",
++        body: "PRESS {down} TO AIM DOWN  Ã¢â‚¬Â¢  HOLD {mine} TO DIG  Ã¢â‚¬Â¢  PRESS {interact} AT THE GATE",
+       }),
+       sell: Object.freeze({
+-        phase: "5 / 7  â€¢  SELL",
++        phase: "5 / 7  Ã¢â‚¬Â¢  SELL",
+         title: "SELL WHAT YOU MINED",
+-        body: "Return to the Money Monster  â€¢  press {interact}  â€¢  sell any material",
++        body: "Return to the Money Monster  Ã¢â‚¬Â¢  press {interact}  Ã¢â‚¬Â¢  sell any material",
+       }),
+       upgrade: Object.freeze({
+-        phase: "6 / 7  â€¢  UPGRADE",
++        phase: "6 / 7  Ã¢â‚¬Â¢  UPGRADE",
+         title: "BUY YOUR FIRST UPGRADE",
+-        body: "Visit Player Upgrades  â€¢  press {interact}  â€¢  buy any affordable upgrade",
++        body: "Visit Player Upgrades  Ã¢â‚¬Â¢  press {interact}  Ã¢â‚¬Â¢  buy any affordable upgrade",
+       }),
+       resume: Object.freeze({
+-        phase: "7 / 7  â€¢  RESUME",
++        phase: "7 / 7  Ã¢â‚¬Â¢  RESUME",
+         title: "RETURN TO 15m",
+-        body: "Use the surface gate  â€¢  enter the paired sky gate  â€¢  resume at 15m",
++        body: "Use the surface gate  Ã¢â‚¬Â¢  enter the paired sky gate  Ã¢â‚¬Â¢  resume at 15m",
+       }),
+       complete: Object.freeze({
+         phase: "GUIDED START COMPLETE",
+         title: "YOU'RE READY TO DIG DEEPER",
+-        body: "Use Flight for nearby recovery  â€¢  use gates to travel farther",
++        body: "Use Flight for nearby recovery  Ã¢â‚¬Â¢  use gates to travel farther",
+       }),
+     }),
+     ui: Object.freeze({
+@@ -218,17 +218,13 @@
+ 
+   hud: Object.freeze({
+     x: 14,
+-    // Sits one clean row above the currency strip instead of being hidden
+-    // directly behind it at bottom-left.
+-    bottom: 84,
+-    width: 430,
+-    height: 107.5,
+-    // Measured against the authored 1024x256 foundation: the medallion is
+-    // centered at source x160 and the readable plaque ends before x950.
+-    paddingX: 119,
+-    textWidth: 280,
+-    promiseY: 39,
+-    detailY: 69,
++    top: 101,
++    width: 332,
++    height: 48,
++    paddingX: 166,
++    textWidth: 300,
++    promiseY: 15,
++    detailY: 33,
+     badgeX: 67,
+     badgeKickerY: 42,
+     badgeValueY: 63,
+@@ -239,9 +235,9 @@
+     borderAlpha: 0.95,
+     promiseColor: "#f0c765",
+     detailColor: "#b9c8d3",
+-    promiseFontSize: "12px",
++    promiseFontSize: "14px",
+     promiseMinimumFontSizePx: 9,
+-    detailFontSize: "10px",
++    detailFontSize: "12px",
+     detailMinimumFontSizePx: 8,
+     badgeKickerFontSize: "9px",
+     badgeValueFontSize: "15px",
+--- before/world/playScene/NPCManager.js
++++ after/world/playScene/NPCManager.js
+@@ -2,7 +2,7 @@
+  * Manages NPC creation and interaction for PlayScene
+  * Handles merchant placement and player interaction
+  */
+-import { USER_SETTINGS } from "../../systems/UserSettings.js";
++import { MerchantPromptView } from "../../systems/visual/MerchantPromptView.js";
+ import { NPCActivitySystem } from "../../systems/visual/NPCActivitySystem.js";
+ import { MerchantMotionSystem } from "../../systems/visual/MerchantMotionSystem.js";
+ import { ARC_CORE_CONFIG } from "../../values/arcCoreConfig.js";
+@@ -85,7 +85,7 @@
+     }
+     for (const prompt of this._interactPrompts) {
+       if (!this._isMerchantAvailable(prompt.npc?.merchantId)) {
+-        prompt.text?.setVisible(false);
++        prompt.view.update(false);
+       }
+     }
+   }
+@@ -139,7 +139,7 @@
+       const useIdleVideo = hasIdleVideo && !motion;
+       const sprite = useIdleVideo
+         ? this.scene.add.video(pos.x, pos.y, npc.videoKey)
+-        : this.scene.add.sprite(pos.x, pos.y, motion?.textureKey || npc.assetKey);
++        : this.scene.add.sprite(pos.x, pos.y, motion?.textureKey || npc.assetKey, motion?.frameName);
+       sprite.setOrigin(0.5, 1);
+       sprite.setDepth(NPC_ACTIVITY_CONFIG.render.depth);
+       sprite.setDisplaySize(spriteSize, spriteSize);
+@@ -160,27 +160,14 @@
+         groundContact,
+       });
+ 
+-      // Create "Press E" interact prompt above each NPC (hidden by default)
+-      const promptText = this.scene.add.text(
+-        pos.x,
+-        pos.y - spriteSize + groundContact.visibleTopInsetPx
+-          - NPC_ACTIVITY_CONFIG.render.promptGapPx,
+-        `[${USER_SETTINGS.getKeyLabel("interact")}] ${this._merchantNames[npc.merchantId] || 'Shop'}`, {
+-          fontFamily: 'Consolas, monospace',
+-          fontSize: '14px',
+-          color: '#AACCFF',
+-          stroke: '#000022',
+-          strokeThickness: 4,
+-          shadow: { offsetX: 0, offsetY: 0, color: '#4488FF', blur: 8, fill: true },
+-        }
+-      ).setOrigin(0.5, 1).setDepth(20).setVisible(false);
++      const baseY = pos.y - spriteSize + groundContact.visibleTopInsetPx
++        - NPC_ACTIVITY_CONFIG.render.promptGapPx;
++      const view = new MerchantPromptView(this.scene, npc.merchantId,
++        this._merchantNames[npc.merchantId], pos.x, baseY);
+       this._interactPrompts.push({
+-        npc: npc,
+-        text: promptText,
+-        spriteHeight: spriteSize,
+-        baseY: promptText.y,
++        npc, view, text: view.root, worldX: pos.x, spriteHeight: spriteSize, baseY,
+       });
+-      
++
+       // Register NPC with decoration system for debug mode
+       if (this.decorationSystem) {
+         this.decorationSystem.registerNPC(npc, sprite);
+@@ -193,48 +180,22 @@
+    * Called from PlaySceneUpdate each frame
+    */
+   updateInteractPrompts(playerTile, competingDistance = Number.POSITIVE_INFINITY) {
+-    if (!playerTile || !this._interactPrompts) return;
+-
+-    for (const prompt of this._interactPrompts) {
+-      const dist = Math.abs(playerTile.tx - prompt.npc.tx) + Math.abs(playerTile.ty - prompt.npc.ty);
+-      const merchantId = prompt.npc.merchantId;
+-      const rushPrompt = this.scene.randomEventBridge?.getMerchantPrompt?.(merchantId);
+-      if (!this._isMerchantAvailable(merchantId)) {
+-        prompt.text.setVisible(false);
+-        continue;
+-      }
+-      const label = rushPrompt
+-        ? `[${USER_SETTINGS.getKeyLabel("interact")}] ${rushPrompt}`
+-        : `[${USER_SETTINGS.getKeyLabel("interact")}] ${this._merchantNames[merchantId] || "Shop"}`;
+-      if (prompt.text.text !== label) prompt.text.setText(label);
+-
+-      const inRange = dist <= TOWN_SQUARE_CONFIG.merchantInteractionRangeTiles
+-        && dist <= competingDistance;
+-      
+-      if (inRange && !prompt.text.visible) {
+-        this.scene.tweens.killTweensOf?.(prompt.text);
+-        prompt.text.setY(prompt.baseY);
+-        prompt.text.setVisible(true);
+-        // Fade in with a subtle bounce
+-        prompt.text.setAlpha(0);
+-        this.scene.tweens.add({
+-          targets: prompt.text,
+-          alpha: 1,
+-          y: prompt.text.y + 8,
+-          duration: 200,
+-          ease: 'Power2.out',
+-          yoyo: true,
+-          hold: 100,
+-          onComplete: () => {
+-            prompt.text.setY(prompt.baseY);
+-            prompt.text.setAlpha(1);
+-          }
+-        });
+-      } else if (!inRange && prompt.text.visible) {
+-        this.scene.tweens.killTweensOf?.(prompt.text);
+-        prompt.text.setY(prompt.baseY);
+-        prompt.text.setVisible(false);
+-      }
++    if (!this._interactPrompts) return;
++    // Match the same nearest merchant and tie order used when E opens a shop.
++    let nearest = null;
++    let nearestDistance = TOWN_SQUARE_CONFIG.merchantInteractionRangeTiles + 1;
++    for (const prompt of this._interactPrompts) {
++      if (!playerTile || !this._isMerchantAvailable(prompt.npc.merchantId)) continue;
++      const distance = Math.abs(playerTile.tx - prompt.npc.tx)
++        + Math.abs(playerTile.ty - prompt.npc.ty);
++      if (distance < nearestDistance && distance <= competingDistance) {
++        nearest = prompt;
++        nearestDistance = distance;
++      }
++    }
++    for (const prompt of this._interactPrompts) {
++      prompt.view.update(prompt === nearest,
++        this.scene.randomEventBridge?.getMerchantPrompt?.(prompt.npc.merchantId));
+     }
+   }
+ 
+@@ -248,7 +209,8 @@
+ 
+   refreshInteractPromptLabels() {
+     for (const prompt of this._interactPrompts) {
+-      prompt.text?.setText(`[${USER_SETTINGS.getKeyLabel("interact")}] ${this._merchantNames[prompt.npc.merchantId] || 'Shop'}`);
++      prompt.view.update(prompt.view.inRange,
++        this.scene.randomEventBridge?.getMerchantPrompt?.(prompt.npc.merchantId));
+     }
+   }
+ 
+@@ -269,7 +231,12 @@
+       }
+     }
+ 
+-    if (nearestNPC && this.scene.interactKey && Phaser.Input.Keyboard.JustDown(this.scene.interactKey)) {
++    const interactPressed = nearestNPC && (
++      typeof this.scene.inputHandler?.consumeSpecialTileInteractInput === "function"
++        ? this.scene.inputHandler.consumeSpecialTileInteractInput()
++        : this.scene.interactKey && Phaser.Input.Keyboard.JustDown(this.scene.interactKey)
++    );
++    if (interactPressed) {
+       const shopOverlay = this.scene.shopOverlay;
+       if (typeof shopOverlay?.show !== "function" || shopOverlay.isOperational?.() !== true) return false;
+       const opened = shopOverlay.show(nearestNPC.merchantId);
+@@ -312,7 +279,7 @@
+       entry => entry.npc?.merchantId === merchantId,
+     );
+     if (!prompt) return null;
+-    return { x: prompt.text.x, y: prompt.baseY };
++    return { x: prompt.worldX, y: prompt.baseY };
+   }
+ 
+   getActivityHealthSnapshot() {
+@@ -376,7 +343,7 @@
+     }
+     this.npcSprites.clear();
+     for (const prompt of this._interactPrompts) {
+-      prompt.text?.destroy?.();
++      prompt.view.destroy();
+     }
+     this._interactPrompts = [];
+   }
+--- before/world/rendering/scenic-world/WorldVisualBackdropEnhancerLayer.js
++++ after/world/rendering/scenic-world/WorldVisualBackdropEnhancerLayer.js
+@@ -1,3 +1,4 @@
++import { resolveScenicFocusAlpha } from "../../../values/gameplayPresentation.js";
+ import {
+   CAVE_VISUAL_COMPOSITION,
+   resolveCaveCompositionWeight,
+@@ -261,7 +262,7 @@
+         placement.contentWidthPx / cropWidth,
+         placement.contentHeightPx / cropHeight
+       )
+-      .setAlpha(selection.alpha);
++      .setAlpha(resolveScenicFocusAlpha(selection.asset.key, selection.alpha));
+     image.setBlendMode?.(selection.asset.blendMode);
+     image.name = (
+       `world-visual-backdrop-enhancer-${region.id}-${column}-${row}`
+--- before/world/rendering/scenic-world/WorldVisualGroundStructureRegionView.js
++++ after/world/rendering/scenic-world/WorldVisualGroundStructureRegionView.js
+@@ -1,3 +1,4 @@
++import { resolveScenicFocusAlpha } from "../../../values/gameplayPresentation.js";
+ import {
+   setAlphaIfChanged,
+   setTintIfChanged,
+@@ -80,9 +81,9 @@
+ }
+ 
+ function resolveSegmentAlpha(region, config) {
+-  return region.seamBlendEnabled
++  return resolveScenicFocusAlpha("world-visual-ground-structure", region.seamBlendEnabled
+     ? config.seamBlendV6.alpha
+-    : config.render.alpha;
++    : config.render.alpha);
+ }
+ 
+ export class WorldVisualGroundStructureRegionView {
+--- before/world/rendering/scenic-world/WorldVisualTerrainCohesionView.js
++++ after/world/rendering/scenic-world/WorldVisualTerrainCohesionView.js
+@@ -1,3 +1,4 @@
++import { resolveScenicFocusAlpha } from "../../../values/gameplayPresentation.js";
+ import { resolveWorldVisualTerrainCohesionPlacement } from
+   "../../../values/worldVisualTerrainVariation.js?rev=20260729-underground-seam-v6";
+ import {
+@@ -56,7 +57,7 @@
+     )
+       .setOrigin(0)
+       .setDepth(this.config.render.cohesionDepth)
+-      .setAlpha(this.config.render.cohesionAlpha)
++      .setAlpha(resolveScenicFocusAlpha(placement.asset.key, this.config.render.cohesionAlpha))
+       .setScale(placement.displayScale)
+       .setMask(this.terrainMask);
+     image.name = `world-visual-terrain-cohesion-${this.region.id}`;
+@@ -71,7 +72,7 @@
+   update(lighting) {
+     if (!this.image || !lighting) return;
+     setTintIfChanged(this.image, lighting.terrainTint);
+-    setAlphaIfChanged(this.image, this.config.render.cohesionAlpha);
++    setAlphaIfChanged(this.image, resolveScenicFocusAlpha(this.image.texture.key, this.config.render.cohesionAlpha));
+   }
+ 
+   destroyImage() {
+--- before/world/rendering/scenic-world/WorldVisualUndergroundDetailRegionView.js
++++ after/world/rendering/scenic-world/WorldVisualUndergroundDetailRegionView.js
+@@ -1,3 +1,4 @@
++import { resolveScenicFocusAlpha } from "../../../values/gameplayPresentation.js";
+ import {
+   setAlphaIfChanged,
+   setTintIfChanged,
+@@ -263,9 +264,9 @@
+     const baseDepth = isTexture
+       ? config.render.textureDepth
+       : config.render.propDepth;
+-    const baseAlpha = isTexture
++    const baseAlpha = resolveScenicFocusAlpha(atlas.key, isTexture
+       ? config.render.textureAlpha
+-      : config.render.propAlpha;
++      : config.render.propAlpha);
+     const image = scene.add.image(
+       centerTileX * tileSize,
+       centerTileY * tileSize,

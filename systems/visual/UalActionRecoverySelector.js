@@ -31,16 +31,29 @@ export class UalActionRecoverySelector {
     return this;
   }
 
-  begin(completedAnimationKey, flipX = false) {
+  begin(completedAnimationKey, flipX = false, {
+    holdUntilMs = null,
+    holdCompletedAnimation = false,
+  } = {}) {
     if (!this.enabled) return false;
-    const animationKey = this.profile
+    const recoveryAnimationKey = this.profile
       ?.actionRecoveryAnimationByCompletedAnimation
       ?.[completedAnimationKey];
-    if (!animationKey) return false;
+    if (!recoveryAnimationKey) return false;
+    const holdsCompletedAnimation = holdCompletedAnimation === true;
+    const animationKey = holdsCompletedAnimation
+      ? completedAnimationKey
+      : recoveryAnimationKey;
+    const finiteHoldUntilMs = Number(holdUntilMs);
     this._active = {
       animationKey,
       flipX: flipX === true,
-      observedPlaying: false,
+      observedPlaying: holdsCompletedAnimation,
+      completed: holdsCompletedAnimation,
+      holdsCompletedAnimation,
+      holdUntilMs: Number.isFinite(finiteHoldUntilMs)
+        ? finiteHoldUntilMs
+        : -Infinity,
     };
     return true;
   }
@@ -49,6 +62,7 @@ export class UalActionRecoverySelector {
     moving = false,
     currentAnimationKey = null,
     isPlaying = false,
+    nowMs = Number.POSITIVE_INFINITY,
   } = {}) {
     const active = this._active;
     if (!this.enabled || !active) return null;
@@ -58,6 +72,32 @@ export class UalActionRecoverySelector {
     }
     if (currentAnimationKey === active.animationKey && isPlaying) {
       active.observedPlaying = true;
+    }
+    if (
+      active.observedPlaying
+      && currentAnimationKey === active.animationKey
+      && isPlaying !== true
+    ) {
+      active.completed = true;
+    }
+    if (active.completed) {
+      if (currentAnimationKey !== active.animationKey) {
+        this._active = null;
+        return null;
+      }
+      if (Number.isFinite(nowMs) && nowMs < active.holdUntilMs) {
+        return {
+          animationKey: active.animationKey,
+          flipX: active.flipX,
+          kind: active.holdsCompletedAnimation
+            ? "action-cooldown-hold"
+            : "action-settle-hold",
+          restart: false,
+          holdCompleted: true,
+        };
+      }
+      this._active = null;
+      return null;
     }
     if (
       active.observedPlaying
@@ -77,8 +117,11 @@ export class UalActionRecoverySelector {
     };
   }
 
-  onAnimationComplete(animationKey) {
+  onAnimationComplete(animationKey, nowMs = Number.POSITIVE_INFINITY) {
     if (this._active?.animationKey !== animationKey) return false;
+    this._active.observedPlaying = true;
+    this._active.completed = true;
+    if (Number.isFinite(nowMs) && nowMs < this._active.holdUntilMs) return true;
     this._active = null;
     return true;
   }

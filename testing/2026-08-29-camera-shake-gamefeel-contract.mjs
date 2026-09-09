@@ -58,19 +58,19 @@ for (const offset of early.offsets.at(-1)) {
 
 // Same-frame duplicate dispatches merge strength without restarting or echoing flash.
 const duplicate = createShake(2000);
-assert.equal(duplicate.shake.shake("mining.crit", 0.5), true);
+assert.equal(duplicate.shake.shake("misc.legendBlock", 0.5), true);
 const firstStartTime = duplicate.shake._active.startTime;
 assert.equal(duplicate.flashes.length, 1);
 duplicate.scene.time.now += GAMEFEEL_CONFIG.shake.duplicateMergeWindowMs - 1;
-assert.equal(duplicate.shake.shake("mining.crit", 1), true);
+assert.equal(duplicate.shake.shake("misc.legendBlock", 1), true);
 assert.equal(duplicate.shake._active.startTime, firstStartTime);
 assert.equal(
   duplicate.shake.getStatus().intensity,
-  CAMERA_SHAKE_SIGNATURES.mining.crit.intensity,
+  CAMERA_SHAKE_SIGNATURES.misc.legendBlock.intensity,
 );
 assert.equal(duplicate.flashes.length, 1);
 duplicate.shake.update(
-  firstStartTime + CAMERA_SHAKE_SIGNATURES.mining.crit.duration + 1,
+  firstStartTime + CAMERA_SHAKE_SIGNATURES.misc.legendBlock.duration + 1,
   16,
 );
 assert.equal(duplicate.shake.getStatus().active, false);

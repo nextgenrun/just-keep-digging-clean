@@ -1,5 +1,6 @@
+import { getBakedUiLabel, getBakedUiBadge, addBakedUiCaption, fitBakedUiImage } from "../systems/visual/bakedUiArt.js";
 import { UI_COLORS } from "../values/uiColors.js";
-import { UI_FONTS } from "../values/uiLayout.js";
+import { UI_CONTROL_GEOMETRY, UI_FONTS } from "../values/uiLayout.js";
 import { createUiIcon, resolveUiIconForLabel } from "./UiIconAtlas.js";
 
 export const UI_THEME = Object.freeze({
@@ -29,6 +30,17 @@ function setTreeScroll(root, scrollFactor) {
   if (!root) return;
   root.setScrollFactor?.(scrollFactor);
   root.iterate?.(child => child?.setScrollFactor?.(scrollFactor));
+}
+
+function isControlVisible(root) {
+  for (let node = root; node; node = node.parentContainer) {
+    if (node.active === false || node.visible === false || node.uiClosing) return false;
+  }
+  return true;
+}
+
+function consumePointer(_pointer, _x, _y, event) {
+  event?.stopPropagation?.();
 }
 
 export function createPanel(scene, options = {}) {
@@ -81,6 +93,7 @@ export function createPanel(scene, options = {}) {
 
   root.add(titleText ? [bg, titleText, sep] : [bg]);
   if (panelIcon) root.add(panelIcon);
+  let bakedTitle = titleText ? addBakedUiCaption(scene, root, titleText, { maxWidth: width - 120 }) : null;
   setTreeDepth(root, depth);
   setTreeScroll(root, scrollFactor);
   addToParent(parent, root);
@@ -94,7 +107,9 @@ export function createPanel(scene, options = {}) {
     width,
     height,
     setTitle(value) {
-      titleText?.setText(value);
+      titleText?.setText(value).setVisible(true);
+      bakedTitle?.destroy();
+      bakedTitle = titleText ? addBakedUiCaption(scene, root, titleText, { maxWidth: width - 120 }) : null;
     },
     setVisible(visible) {
       root.setVisible(visible);
@@ -113,6 +128,7 @@ export function createButton(scene, options = {}) {
     enabled: options.enabled !== false,
     disabledReason: options.disabledReason || "",
     pressing: false,
+    activationVersion: 0,
   };
 
   const {
@@ -142,7 +158,8 @@ export function createButton(scene, options = {}) {
     playSounds = true,
     icon = null,
     autoIcon = true,
-    visibleChrome = true,
+    skinKey = null,
+    visibleChrome = !skinKey,
   } = options;
   let buttonHint = hint || "";
   const resolvedIcon = icon || (autoIcon ? resolveUiIconForLabel(label) : null);
@@ -152,7 +169,11 @@ export function createButton(scene, options = {}) {
 
   const bg = scene.add.graphics();
   const accentBar = scene.add.graphics();
-  const hasIcon = Boolean(resolvedIcon) && width >= 72;
+  const buttonSkin = skinKey && scene.textures.exists(skinKey)
+    ? scene.add.image(0, 0, skinKey).setDisplaySize(width, height) : null;
+  const hasIcon = Boolean(resolvedIcon) && (width >= 72 || !label);
+  const iconSize = Math.max(1, Math.min(34, height - 10,
+    width - UI_CONTROL_GEOMETRY.buttonContent.insetX * 2));
   const textX = align === "left" ? -width / 2 + (hasIcon ? 49 : 18) : (hasIcon ? 8 : 0);
   const textOrigin = align === "left" ? [0, 0.5] : [0.5, 0.5];
   const text = scene.add.text(textX, 0, label, {
@@ -172,18 +193,45 @@ export function createButton(scene, options = {}) {
     ? createUiIcon(scene, resolvedIcon, {
         x: -width / 2 + Math.max(17, Math.min(22, height / 2)),
         y: 0,
-        size: Math.max(20, Math.min(34, height - 10)),
+        size: iconSize,
         scrollFactor,
       })
     : null;
   const hit = scene.add.rectangle(0, 0, width, height, 0x000000, 0)
     .setInteractive({ useHandCursor: true });
 
+  let bakedImage = null;
+  let layoutLabel = null;
+  let layoutHint = null;
+  function layoutContent() {
+    layoutLabel = text.text;
+    layoutHint = hintText?.text;
+    const geometry = UI_CONTROL_GEOMETRY.buttonContent;
+    const innerWidth = Math.max(1, width - geometry.insetX * 2);
+    const hintWidth = hintText?.text
+      ? Math.min(hintText.width, innerWidth * geometry.maxHintWidthRatio) : 0;
+    hintText?.setScale?.(hintWidth ? Math.min(1, hintWidth / hintText.width) : 1);
+    const available = innerWidth - (hintWidth ? hintWidth + geometry.hintGap : 0);
+    const showIcon = Boolean(iconSprite) && (Boolean(icon) || !text.text
+      || text.width + iconSize + geometry.iconGap <= available);
+    iconSprite?.setVisible?.(showIcon);
+    const iconSpace = showIcon ? iconSize + (text.text ? geometry.iconGap : 0) : 0;
+    const labelWidth = Math.max(1, available - iconSpace);
+    text.setScale?.(Math.min(1, labelWidth / Math.max(1, text.width)));
+    const visibleTextWidth = Math.min(labelWidth, text.width);
+    const groupWidth = visibleTextWidth + iconSpace;
+    const left = -width / 2 + geometry.insetX
+      + (align === "left" ? 0 : Math.max(0, (available - groupWidth) / 2));
+    iconSprite?.setPosition?.(left + iconSize / 2, 0);
+    text.setPosition(left + iconSpace + (align === "left" ? 0 : visibleTextWidth / 2), 0);
+  }
+
   function draw() {
     if (!root?.active || !bg?.active || !accentBar?.active || !text?.active) return;
     bg.setVisible(visibleChrome);
     accentBar.setVisible(visibleChrome);
     const highlighted = state.selected || state.focused || state.hovered;
+    buttonSkin?.setAlpha(!state.enabled ? 0.42 : highlighted ? 1 : 0.72);
     const currentFill = !state.enabled
       ? disabledFill
       : state.selected
@@ -207,11 +255,18 @@ export function createButton(scene, options = {}) {
 
       accentBar.clear();
       if (accent) {
+        const accentLayout = UI_CONTROL_GEOMETRY.buttonAccent;
         accentBar.fillStyle(
           accent,
           state.enabled ? (state.selected ? 1 : state.focused ? 0.94 : 0.82) : 0.35
         );
-        accentBar.fillRoundedRect(-width / 2, -height / 2, 4, height, UI_THEME.radiusSmall);
+        accentBar.fillRoundedRect(
+          -width / 2 + accentLayout.insetX,
+          -height / 2 + accentLayout.insetY,
+          accentLayout.width,
+          Math.max(1, height - accentLayout.insetY * 2),
+          Math.max(1, UI_THEME.radiusSmall - accentLayout.insetY),
+        );
       }
     }
 
@@ -229,6 +284,30 @@ export function createButton(scene, options = {}) {
           hintText.setColor(hintColor);
         }
       }
+      if (layoutLabel !== text.text || layoutHint !== hintText?.text) layoutContent();
+      const art = getBakedUiLabel(scene, text.text)
+        || (!text.text.trim() && visibleChrome ? getBakedUiBadge(scene, resolvedIcon) : null);
+      text.setVisible(!art);
+      if (art) {
+        if (!bakedImage) {
+          bakedImage = scene.add.image(0, 0, art.key, art.frame);
+          root.addAt(bakedImage, 2);
+        }
+        const liveHintWidth = hintText?.text ? Math.min(hintText.displayWidth, width * 0.38) + 12 : 0;
+        bakedImage.setTexture(art.key, art.frame);
+        fitBakedUiImage(bakedImage, Math.max(1, width - liveHintWidth), height)
+          .setPosition(-liveHintWidth / 2, 0)
+          .setAlpha(!state.enabled ? 0.42 : highlighted ? 1 : 0.83)
+          .setTint(state.selected ? accent || 0xffffff : 0xffffff)
+          .setVisible(true);
+        bg.setVisible(false);
+        accentBar.setVisible(false);
+        iconSprite?.setVisible(false);
+      } else {
+        bakedImage?.setVisible(false);
+        iconSprite?.setVisible(true);
+      }
+      root.setData?.("bakedLabel", art ? text.text : null);
     } catch (_) {
       // Phaser text can briefly lose its canvas during scene teardown/focus churn.
     }
@@ -237,8 +316,10 @@ export function createButton(scene, options = {}) {
   function activate() {
     if (state.pressing) return false;
     if (!state.enabled) return false;
-    if (!root?.active) return false;
+    if (!root?.active || !isControlVisible(root)) return false;
     state.pressing = true;
+    const activationVersion = ++state.activationVersion;
+    if (playSounds) scene.soundSystem?.playUiClick?.();
     scene.tweens.killTweensOf(root);
     scene.tweens.add({
       targets: root,
@@ -248,11 +329,11 @@ export function createButton(scene, options = {}) {
       yoyo: true,
       ease: "Power2.out",
       onComplete: () => {
+        if (activationVersion !== state.activationVersion) return;
         state.pressing = false;
         // A tab rebuild can destroy the button during its press tween. Never
         // dispatch a delayed action into a view that no longer owns a scene.
-        if (!root?.active) return;
-        if (playSounds) scene.soundSystem?.playUiConfirm?.();
+        if (!root?.active || !state.enabled || !isControlVisible(root)) return;
         onClick?.();
       },
     });
@@ -274,9 +355,16 @@ export function createButton(scene, options = {}) {
 
   hit.on("pointerover", handlePointerOver);
   hit.on("pointerout", handlePointerOut);
-  hit.on("pointerdown", activate);
+  hit.on("pointerdown", (pointer, x, y, event) => {
+    consumePointer(pointer, x, y, event);
+    if (pointer?.button > 0) return;
+    activate();
+  });
+  hit.on("pointerup", consumePointer);
+  if (!state.enabled) hit.disableInteractive();
 
   root.add(hintText ? [bg, accentBar, text, hintText, hit] : [bg, accentBar, text, hit]);
+  if (buttonSkin) root.addAt(buttonSkin, 0);
   if (iconSprite) root.add(iconSprite);
   setTreeDepth(root, depth);
   setTreeScroll(root, scrollFactor);
@@ -304,9 +392,12 @@ export function createButton(scene, options = {}) {
     },
     setEnabled(value, reason = null) {
       if (!root?.active) return;
+      const nextReason = !value && reason ? String(reason) : "";
+      if (state.enabled === Boolean(value) && state.disabledReason === nextReason) return;
       state.enabled = Boolean(value);
+      state.activationVersion++;
       state.pressing = false;
-      if (!state.enabled) state.focused = false;
+      if (!state.enabled) { state.focused = false; state.hovered = false; }
       if (state.enabled) {
         state.disabledReason = "";
       } else {
@@ -321,6 +412,8 @@ export function createButton(scene, options = {}) {
     setLabel(value) {
       if (!text?.active) return;
       text.setText(value);
+      layoutContent();
+      draw();
     },
     setHint(value) {
       if (hintText && !hintText.active) return;
@@ -328,6 +421,7 @@ export function createButton(scene, options = {}) {
       if (!state.disabledReason) {
         buttonHint = String(value || "");
       }
+      draw();
     },
     setDisabledReason(value) {
       state.disabledReason = value ? String(value) : "";
@@ -384,6 +478,7 @@ export function createTogglePair(scene, options = {}) {
     color: UI_COLORS.white,
   }).setOrigin(stacked ? 0.5 : 0, 0.5);
   root.add(labelText);
+  addBakedUiCaption(scene, root, labelText, { maxWidth: stacked ? 220 : 190 });
 
   let current = Boolean(value);
   const onBtn = createButton(scene, {
@@ -450,6 +545,8 @@ export function createSlider(scene, options = {}) {
     selected: Boolean(options.selected),
     enabled: options.enabled !== false,
     dragging: false,
+    hovered: false,
+    focused: false,
   };
 
   const {
@@ -478,6 +575,7 @@ export function createSlider(scene, options = {}) {
     color: UI_COLORS.white,
   }).setOrigin(0, 0.5);
 
+  let bakedLabel = addBakedUiCaption(scene, root, labelText, { maxWidth: width - 60 });
   const valueText = scene.add.text(width / 2, -14, formatValue(state.value), {
     fontFamily: UI_THEME.fontBody,
     fontSize: "12px",
@@ -486,13 +584,23 @@ export function createSlider(scene, options = {}) {
 
   const track = scene.add.graphics();
   const fill = scene.add.graphics();
-  const thumb = scene.add.rectangle(0, 10, 12, 24, accent, 1);
-  const hit = scene.add.rectangle(0, 10, width, height, 0x000000, 0)
+  const sliderGeometry = UI_CONTROL_GEOMETRY.slider;
+  const thumb = scene.add.rectangle(
+    0,
+    10,
+    sliderGeometry.thumbWidth,
+    sliderGeometry.thumbHeight,
+    accent,
+    1,
+  );
+  const hit = scene.add.rectangle(0, 10, width,
+    Math.max(sliderGeometry.minHitHeight, height - sliderGeometry.labelClearance), 0x000000, 0)
     .setInteractive({ useHandCursor: true });
 
   function draw() {
     const alpha = state.enabled ? 1 : 0.45;
-    const border = state.selected ? accent : UI_COLORS.borderDim;
+    const highlighted = state.selected || state.focused || state.hovered || state.dragging;
+    const border = highlighted ? accent : UI_COLORS.borderDim;
     const trackW = width;
     const trackX = -trackW / 2;
     const fillW = Math.max(4, trackW * state.value);
@@ -500,16 +608,18 @@ export function createSlider(scene, options = {}) {
     track.clear();
     track.fillStyle(UI_COLORS.cardBase, alpha);
     track.fillRoundedRect(trackX, 2, trackW, 16, 5);
-    track.lineStyle(state.selected ? 2 : 1, border, alpha);
+    track.lineStyle(highlighted ? 2 : 1, border, alpha);
     track.strokeRoundedRect(trackX, 2, trackW, 16, 5);
 
     fill.clear();
     fill.fillStyle(accent, alpha);
     fill.fillRoundedRect(trackX, 2, fillW, 16, 5);
 
-    thumb.x = trackX + trackW * state.value;
+    thumb.x = trackX + sliderGeometry.thumbWidth / 2
+      + Math.max(0, trackW - sliderGeometry.thumbWidth) * state.value;
     thumb.setAlpha(alpha);
     labelText.setAlpha(alpha);
+    bakedLabel?.setAlpha(alpha);
     valueText.setAlpha(alpha);
     valueText.setText(formatValue(state.value));
   }
@@ -533,26 +643,39 @@ export function createSlider(scene, options = {}) {
 
   function onPointerUp() {
     state.dragging = false;
+    if (root.active) draw();
   }
 
-  hit.on("pointerdown", pointer => {
-    if (!state.enabled) return;
+  hit.on("pointerdown", (pointer, x, y, event) => {
+    consumePointer(pointer, x, y, event);
+    if (!state.enabled || pointer?.button > 0) return;
     state.dragging = true;
     scene.soundSystem?.playUiSelect?.();
     setValue(valueFromPointer(pointer));
   });
   hit.on("pointerover", () => {
     if (!state.enabled) return;
-    state.selected = true;
+    state.hovered = true;
     draw();
   });
   hit.on("pointerout", () => {
-    if (state.dragging) return;
-    state.selected = false;
+    state.hovered = false;
     draw();
   });
   scene.input.on("pointermove", onPointerMove);
   scene.input.on("pointerup", onPointerUp);
+  scene.input.on("gameout", onPointerUp);
+  hit.on("pointerup", (pointer, x, y, event) => {
+    onPointerUp();
+    consumePointer(pointer, x, y, event);
+  });
+  const releasePointerListeners = () => {
+    scene.input.off("pointermove", onPointerMove);
+    scene.input.off("pointerup", onPointerUp);
+    scene.input.off("gameout", onPointerUp);
+  };
+  root.once?.("destroy", releasePointerListeners);
+  if (!state.enabled) hit.disableInteractive();
 
   root.add([labelText, valueText, track, fill, thumb, hit]);
   setTreeDepth(root, depth);
@@ -562,13 +685,14 @@ export function createSlider(scene, options = {}) {
 
   return {
     root,
+    hit,
     activate() {
-      if (!state.enabled) return false;
+      if (!state.enabled || !isControlVisible(root)) return false;
       setValue(state.value + step);
       return true;
     },
     adjust(direction) {
-      if (!state.enabled) return false;
+      if (!state.enabled || !isControlVisible(root)) return false;
       setValue(state.value + step * direction);
       scene.soundSystem?.playUiSelect?.();
       return true;
@@ -585,24 +709,27 @@ export function createSlider(scene, options = {}) {
       draw();
     },
     setFocused(value) {
-      state.selected = Boolean(value);
+      state.focused = Boolean(value);
       draw();
     },
     setEnabled(value) {
       state.enabled = Boolean(value);
+      if (!state.enabled) { state.dragging = false; state.hovered = false; state.focused = false; }
       hit.disableInteractive();
       if (state.enabled) hit.setInteractive({ useHandCursor: true });
       draw();
     },
     setLabel(value) {
-      labelText.setText(value);
+      bakedLabel?.destroy();
+      labelText.setText(value).setVisible(true);
+      bakedLabel = addBakedUiCaption(scene, root, labelText, { maxWidth: width - 60 });
+      draw();
     },
     setVisible(value) {
       root.setVisible(value);
     },
     destroy() {
-      scene.input.off("pointermove", onPointerMove);
-      scene.input.off("pointerup", onPointerUp);
+      releasePointerListeners();
       root.destroy(true);
     },
   };
@@ -639,6 +766,7 @@ export function createTabBar(scene, options = {}) {
       height: buttonHeight,
       label,
       icon,
+      skinKey: typeof tab === "string" ? null : tab.skinKey,
       fontSize,
       accent: UI_COLORS.borderSel,
       parent: root,
@@ -704,10 +832,16 @@ export function createKeybindRow(scene, options = {}) {
       }).setOrigin(0, 0.5)
     : null;
 
+  const keybindGeometry = UI_CONTROL_GEOMETRY.keybind;
+  const resetButtonX = width / 2 - keybindGeometry.resetWidth / 2;
+  const bindingButtonX = width / 2
+    - keybindGeometry.resetWidth
+    - keybindGeometry.buttonGap
+    - keybindGeometry.bindingWidth / 2;
   const bindButton = createButton(scene, {
-    x: width / 2 - 72,
+    x: bindingButtonX,
     y: 0,
-    width: 92,
+    width: keybindGeometry.bindingWidth,
     height: compact ? 26 : 30,
     label: keyLabel,
     accent: UI_COLORS.borderSel,
@@ -717,9 +851,9 @@ export function createKeybindRow(scene, options = {}) {
   });
 
   const resetButton = createButton(scene, {
-    x: width / 2 - 14,
+    x: resetButtonX,
     y: 0,
-    width: 28,
+    width: keybindGeometry.resetWidth,
     height: compact ? 26 : 30,
     label: "R",
     accent: UI_COLORS.borderHov,
@@ -735,6 +869,7 @@ export function createKeybindRow(scene, options = {}) {
   }).setOrigin(1, 0.5);
 
   root.add(descText ? [labelText, descText, statusText] : [labelText, statusText]);
+  addBakedUiCaption(scene, root, labelText, { maxWidth: width - keybindGeometry.bindingWidth - keybindGeometry.resetWidth - keybindGeometry.buttonGap * 3 });
   setTreeDepth(root, depth);
   setTreeScroll(root, 0);
   addToParent(parent, root);
@@ -829,18 +964,20 @@ export function createHintLegend(scene, options = {}) {
 }
 
 export function createFocusController(scene, options = {}) {
+  // Capture at the DOM boundary, before the browser moves focus outside Phaser.
+  scene.input.keyboard.addCapture?.("TAB");
   let items = (options.items || []).filter(Boolean);
   let index = Phaser.Math.Clamp(options.index ?? 0, 0, Math.max(0, items.length - 1));
   const wrap = options.wrap !== false;
   const enabled = () => options.enabled?.() ?? true;
 
   function isItemEnabled(item) {
-    return item?.isEnabled?.() ?? true;
+    return Boolean(item) && (item.isEnabled?.() ?? true) && isControlVisible(item.root);
   }
 
   function applyFocus() {
     items.forEach((item, i) => {
-      try { item?.setFocused?.(i === index); } catch (_) {}
+      try { item?.setFocused?.(i === index && isItemEnabled(item)); } catch (_) {}
     });
     options.onFocus?.(index, items[index]);
   }
@@ -865,7 +1002,7 @@ export function createFocusController(scene, options = {}) {
   }
 
   function activate() {
-    if (!enabled()) return;
+    if (!enabled() || !isItemEnabled(items[index])) return;
     items[index]?.activate?.();
   }
 
@@ -882,20 +1019,51 @@ export function createFocusController(scene, options = {}) {
     move(delta);
   }
 
+  let pointerBindings = [];
+  function bindPointerFocus() {
+    pointerBindings.forEach(([hit, handler]) => hit.off?.("pointerdown", handler));
+    pointerBindings = [];
+    items.forEach((item, i) => {
+      const hit = item.hit || item.bindButton?.hit;
+      if (!hit?.on) return;
+      const handler = () => {
+        if (!enabled() || !isItemEnabled(item) || index === i) return;
+        index = i;
+        applyFocus();
+      };
+      hit.on("pointerdown", handler);
+      pointerBindings.push([hit, handler]);
+    });
+  }
+
+  function horizontalOrMove(delta) {
+    if (!enabled()) return;
+    if (options.onHorizontal) options.onHorizontal(delta);
+    else adjustOrMove(delta);
+  }
+
   const handlers = [
+    ["keydown-TAB", event => {
+      if (!enabled() || event?.cancelled) return;
+      event?.preventDefault?.();
+      event?.stopPropagation?.();
+      const direction = event?.shiftKey ? -1 : 1;
+      if (options.onTab?.(direction, event) !== true) move(direction);
+    }],
     ["keydown-UP", () => verticalOrMove(-1)],
     ["keydown-W", () => verticalOrMove(-1)],
-    ["keydown-LEFT", () => options.onHorizontal ? options.onHorizontal(-1) : adjustOrMove(-1)],
-    ["keydown-A", () => options.onHorizontal ? options.onHorizontal(-1) : adjustOrMove(-1)],
+    ["keydown-LEFT", () => horizontalOrMove(-1)],
+    ["keydown-A", () => horizontalOrMove(-1)],
     ["keydown-DOWN", () => verticalOrMove(1)],
     ["keydown-S", () => verticalOrMove(1)],
-    ["keydown-RIGHT", () => options.onHorizontal ? options.onHorizontal(1) : adjustOrMove(1)],
-    ["keydown-D", () => options.onHorizontal ? options.onHorizontal(1) : adjustOrMove(1)],
-    ["keydown-ENTER", activate],
-    ["keydown-SPACE", activate],
+    ["keydown-RIGHT", () => horizontalOrMove(1)],
+    ["keydown-D", () => horizontalOrMove(1)],
+    ["keydown-ENTER", event => { if (!event?.repeat) activate(); }],
+    ["keydown-SPACE", event => { if (!event?.repeat) activate(); }],
     ["keydown-ESC", () => { if (enabled()) options.onCancel?.(); }],
   ];
   handlers.forEach(([event, handler]) => scene.input.keyboard.on(event, handler));
+  bindPointerFocus();
   applyFocus();
 
   return {
@@ -905,6 +1073,7 @@ export function createFocusController(scene, options = {}) {
       });
       items = (nextItems || []).filter(Boolean);
       index = Phaser.Math.Clamp(nextIndex, 0, Math.max(0, items.length - 1));
+      bindPointerFocus();
       applyFocus();
     },
     setIndex(nextIndex) {
@@ -914,6 +1083,8 @@ export function createFocusController(scene, options = {}) {
     move,
     activate,
     destroy() {
+      pointerBindings.forEach(([hit, handler]) => hit.off?.("pointerdown", handler));
+      pointerBindings = [];
       handlers.forEach(([event, handler]) => scene.input.keyboard.off(event, handler));
       items.forEach(item => item?.setFocused?.(false));
     },

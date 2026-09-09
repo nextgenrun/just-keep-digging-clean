@@ -1,0 +1,63 @@
+[
+  {
+    "check": "2026-08-20-player-jump-flight-motion-contract.mjs",
+    "exit": 0,
+    "result": [
+      "PLAYER_TRAVERSAL_INPUT_REGRESSIONS_OK { cases: 19 }",
+      "player jump and momentum-flight contract: PASS"
+    ]
+  },
+  {
+    "check": "2026-09-04-player-running-contract.mjs",
+    "exit": 0,
+    "result": "player running contract passed"
+  },
+  {
+    "check": "2026-09-04-downward-dig-animation-runtime-contract.mjs",
+    "exit": 0,
+    "result": [
+      "  rollback: '?downDigCombo=0'",
+      "}"
+    ]
+  },
+  {
+    "check": "2026-08-27-held-torch-blender-runtime-contract.mjs",
+    "exit": 0,
+    "result": [
+      "  rollback: '?heldTorch3d=0'",
+      "}"
+    ]
+  },
+  {
+    "check": "2026-08-25-player-animation-transition-cohesion-v3-contract.mjs",
+    "exit": 0,
+    "result": [
+      "  rollback: '?transitionCohesion=0'",
+      "}"
+    ]
+  },
+  {
+    "check": "2026-09-01-level-one-dig-rhythm-and-moving-scale-contract.mjs",
+    "exit": 0,
+    "result": [
+      "  runVisibleHeightMedianPx: 76",
+      "}"
+    ]
+  },
+  {
+    "check": "2026-09-03-impact-resolution-hitstop-contract.mjs",
+    "exit": 0,
+    "result": [
+      "PASS failed hits never shake and main/cave feedback cannot dispatch a second mining impulse",
+      "Impact resolution and hitstop: 11 contracts passed."
+    ]
+  },
+  {
+    "check": "2026-09-05-cave-composition-contract.mjs",
+    "exit": 0,
+    "result": [
+      "ℹ todo 0",
+      "ℹ duration_ms 8.038"
+    ]
+  }
+]

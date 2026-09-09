@@ -11,11 +11,19 @@ export const SPECIAL_BLOCKS_CONFIG = Object.freeze({
     gemPowerBlock: 0.00315,      // 0.315% - reduced by 65%
     speedBlock: 0.000525,        // 0.0525% - very rare
     xpBlock: 0.00105,            // 0.105% - reduced by 65%
-    critBlock: 0.00028,          // 0.028% - very rare
     berserkBlock: 0.0007,        // 0.07% - reduced by 65%
     comboBlock: 0.0014,          // 0.14% - reduced by 65%
     legendBlock: 0.000175,        // 0.0175% - extremely rare, legendary
+    abilityBlock: 0.0000875,      // 0.00875% - half the Crown rate
   },
+
+  worldSpawns: Object.freeze({
+    abilityBlock: Object.freeze({
+      minimumDepthTiles: 8,
+      maximumDepthTiles: 1000,
+      occurrenceHashSalt: 0x0ab11e,
+    }),
+  }),
 
   // Cave bonus multiplier for special blocks
   // Makes exploring caves rewarding with special blocks
@@ -42,13 +50,6 @@ export const SPECIAL_BLOCKS_CONFIG = Object.freeze({
       edgeAlpha: 0.8,
       particles: true,          // Upward particles
     },
-    critBlock: {
-      color: 0xFF0000,         // Red
-      intensity: 0.7,
-      pulseSpeed: 1000,
-      edgeAlpha: 0.9,
-      symbols: true,           // Crit symbol
-    },
     berserkBlock: {
       color: 0xDC143C,         // Crimson
       intensity: 0.6,
@@ -69,6 +70,13 @@ export const SPECIAL_BLOCKS_CONFIG = Object.freeze({
       edgeAlpha: 1.0,
       sparkles: true,          // Sparkle effect
       crown: true,             // Crown effect
+    },
+    abilityBlock: {
+      color: 0xB57CFF,         // Celestial violet
+      intensity: 0.65,
+      pulseSpeed: 1250,
+      edgeAlpha: 0.9,
+      sparkles: true,
     },
   },
 
@@ -132,11 +140,6 @@ export const SPECIAL_BLOCKS_CONFIG = Object.freeze({
       effect: 'addLevelProgress',
       value: 0.1,              // One former level in the ten-to-one scale
     },
-    critBlock: {
-      type: 'timed',
-      effect: 'guaranteedCrit',
-      duration: 20000,         // 20 seconds
-    },
     berserkBlock: {
       type: 'timed',
       effect: 'damageBoost',
@@ -152,7 +155,19 @@ export const SPECIAL_BLOCKS_CONFIG = Object.freeze({
     legendBlock: {
       type: 'instant',
       effect: 'addLevelProgress',
-      value: 0.5,              // Five former levels in the ten-to-one scale
+      value: 1,                // One complete player level, with progress carried
+    },
+    abilityBlock: {
+      type: 'choice',
+      effect: 'temporaryFreeAbility',
+      duration: 20000,
+      eligibleAbilityIds: Object.freeze([
+        'quickslash',
+        'thunderStrike',
+        'wayward-star',
+        'hollow-sun',
+        'comet-engine',
+      ]),
     },
   },
 
@@ -164,6 +179,19 @@ export const SPECIAL_BLOCKS_CONFIG = Object.freeze({
       color: "#F1C56A",
       notificationKey: "special-block-combo-reward",
       priority: 6,
+    }),
+    abilityBlock: Object.freeze({
+      choicePrompt: "ABILITY BLOCK  •  CHOOSE A POWER ON THE ACTION BAR",
+      selectedMessage: "{ability}  •  FREE USE FOR {seconds} SECONDS",
+      expiredMessage: "{ability} FREE USE ENDED",
+      color: "#C69BFF",
+      durationMs: 5200,
+    }),
+    legendBlock: Object.freeze({
+      message: "ULTRA-RARE CROWN  •  +{levels} LEVEL",
+      cappedMessage: "ULTRA-RARE CROWN FOUND  •  LEVEL CAP REACHED",
+      color: "#FFE08A",
+      durationMs: 3600,
     }),
   }),
 });

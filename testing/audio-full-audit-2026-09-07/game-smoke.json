@@ -1,0 +1,108 @@
+{
+  "url": "http://127.0.0.1:8080/?jkd_e2e=1&cinematics=0&audioReview=1&renderQuality=balanced&renderer=auto",
+  "coverage": "Menu, unchanged saved settings and live surface gameplay with audio running, save writes blocked and no reported audio errors. Short key taps did not establish movement in the captured diagnostics; movement/mining and a full playthrough are not claimed.",
+  "before": {
+    "audioContextState": "running",
+    "context": {
+      "biome": "surface",
+      "dayPhase": "afternoon",
+      "depth": 0,
+      "earthquakePlayerAware": false,
+      "earthquakeState": "idle",
+      "gameState": "playing",
+      "hardcoreArmed": false,
+      "hardcoreStressBand": "calm",
+      "scene": "play",
+      "tutorialActive": true,
+      "weather": "clear",
+      "wurmActive": false,
+      "wurmPhase": "dormant"
+    },
+    "enabled": true,
+    "errors": [],
+    "initialized": true,
+    "listener": {
+      "x": 4.335106382978723,
+      "y": 64.20212765957447
+    },
+    "memory": {
+      "decodedBytes": 2298136,
+      "failed": [],
+      "pending": 0,
+      "resident": 19
+    },
+    "panic": {
+      "active": [],
+      "band": "calm",
+      "pending": [],
+      "role": null
+    },
+    "phase": "playing",
+    "recentEvents": [],
+    "saveWritesBlocked": true,
+    "sfx": {
+      "count": 0,
+      "peakBudget": 0.45,
+      "scale": 1,
+      "sources": []
+    },
+    "stars": {
+      "active": [],
+      "nearRefuge": false,
+      "pending": [],
+      "source": null
+    }
+  },
+  "after": {
+    "audioContextState": "running",
+    "context": {
+      "biome": "surface",
+      "dayPhase": "afternoon",
+      "depth": 0,
+      "earthquakePlayerAware": false,
+      "earthquakeState": "idle",
+      "gameState": "playing",
+      "hardcoreArmed": false,
+      "hardcoreStressBand": "calm",
+      "scene": "play",
+      "tutorialActive": true,
+      "weather": "clear",
+      "wurmActive": false,
+      "wurmPhase": "dormant"
+    },
+    "enabled": true,
+    "errors": [],
+    "initialized": true,
+    "listener": {
+      "x": 4.335106382978723,
+      "y": 64.20212765957447
+    },
+    "memory": {
+      "decodedBytes": 2298136,
+      "failed": [],
+      "pending": 0,
+      "resident": 19
+    },
+    "panic": {
+      "active": [],
+      "band": "calm",
+      "pending": [],
+      "role": null
+    },
+    "phase": "playing",
+    "recentEvents": [],
+    "saveWritesBlocked": true,
+    "sfx": {
+      "count": 0,
+      "peakBudget": 0.45,
+      "scale": 1,
+      "sources": []
+    },
+    "stars": {
+      "active": [],
+      "nearRefuge": false,
+      "pending": [],
+      "source": null
+    }
+  }
+}

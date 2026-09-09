@@ -1,5 +1,6 @@
 import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { RETENTION_CONFIG } from "../../values/retentionConfig.js";
+import { hasUiInputPriority } from "../UiInputPriorityRegistry.js";
 
 export class TownSquareTutorialView {
   constructor(scene) {
@@ -59,7 +60,12 @@ export class TownSquareTutorialView {
   }
 
   update() {
-    if (!this.target || this.marker?.visible !== true) {
+    const visible = Boolean(this.target)
+      && this.scene?.gameState !== "paused"
+      && !hasUiInputPriority(this.scene);
+    this.marker?.setVisible(visible);
+    this.keyLabel?.setVisible(visible && Boolean(this.keyLabel.text));
+    if (!visible) {
       this.edgeMarker?.setVisible?.(false);
       return;
     }

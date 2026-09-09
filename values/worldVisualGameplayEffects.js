@@ -1,3 +1,6 @@
+import { SPECIAL_BLOCKS_CONFIG } from "./specialBlocks.js";
+import { TILE_TYPES } from "./tileTypes.js";
+
 export const WORLD_VISUAL_GAMEPLAY_EFFECTS = Object.freeze({
   blendMode: "ADD",
   performance: Object.freeze({
@@ -5,6 +8,7 @@ export const WORLD_VISUAL_GAMEPLAY_EFFECTS = Object.freeze({
     maxChestTiles: 18,
     maxCrystalTiles: 48,
     maxCrystalZones: 8,
+    maxSpecialTiles: 12,
   }),
   sky: Object.freeze({
     defaultColor: 0x87ceeb,
@@ -60,6 +64,41 @@ export const WORLD_VISUAL_GAMEPLAY_EFFECTS = Object.freeze({
     shardBaseYScale: 0.82,
     sparkleRadiusScale: 0.018,
   }),
+  specialBlocks: Object.freeze({
+    profilesByTileType: Object.freeze({
+      [TILE_TYPES.ABILITY_BLOCK]: Object.freeze({
+        color: SPECIAL_BLOCKS_CONFIG.glowEffects.abilityBlock.color,
+        pulsePeriodMs: SPECIAL_BLOCKS_CONFIG.glowEffects.abilityBlock.pulseSpeed,
+        haloRadiusScale: 0.62,
+        haloAlphaBase: 0.09,
+        haloAlphaPulse: 0.11,
+        coreRadiusScale: 0.35,
+        coreAlphaBase: 0.06,
+        ringRadiusScale: 0.53,
+        ringAlphaBase: 0.34,
+        ringWidthScale: 0.022,
+        sparkleCount: 5,
+        sparkleOrbitScale: 0.54,
+        sparkleRadiusScale: 0.026,
+      }),
+      [TILE_TYPES.LEGEND_BLOCK]: Object.freeze({
+        color: SPECIAL_BLOCKS_CONFIG.glowEffects.legendBlock.color,
+        pulsePeriodMs: SPECIAL_BLOCKS_CONFIG.glowEffects.legendBlock.pulseSpeed,
+        haloRadiusScale: 0.86,
+        haloAlphaBase: 0.16,
+        haloAlphaPulse: 0.20,
+        coreRadiusScale: 0.42,
+        coreAlphaBase: 0.14,
+        ringRadiusScale: 0.66,
+        ringAlphaBase: 0.62,
+        ringWidthScale: 0.035,
+        sparkleCount: 8,
+        sparkleOrbitScale: 0.73,
+        sparkleRadiusScale: 0.038,
+      }),
+    }),
+    highlightColor: 0xffffff,
+  }),
   compatibility: Object.freeze({
     legacyDirectOnly: Object.freeze([
       "createTilesheetTexture",
@@ -69,9 +108,9 @@ export const WORLD_VISUAL_GAMEPLAY_EFFECTS = Object.freeze({
       "layer",
     ]),
     specialBlockGlow: Object.freeze({
-      owner: "WorldVisualFeedbackLayer",
-      disposition: "visual-only-no-op",
-      reason: "Special blocks already retain persistent semantic atlas markers; a second pulsing square overlay would duplicate and degrade them.",
+      owner: "WorldVisualGameplayEffectLayer",
+      disposition: "rare-block-corona-only",
+      reason: "Ability and Crown blocks retain their semantic art while a capped circular corona makes their decision/reward value readable through darkness.",
     }),
   }),
 });

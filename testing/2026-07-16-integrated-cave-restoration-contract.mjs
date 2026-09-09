@@ -69,7 +69,8 @@ const zone = {
 world.caveZones.push(zone);
 world.applyCaveZone(zone);
 assert.equal(world.getTileType(zone.cx, zone.cy), TILE_TYPES.AIR, "legacy ellipse interior must be open");
-assert.equal(world.getTileType(zone.cx, zone.cy - 2), TILE_TYPES.CAVE_WALL, "legacy shell must remain solid");
+assert.equal(world.getTileType(zone.cx, zone.cy - 2), TILE_TYPES.DIRT, "cave shell must preserve mineable terrain");
+assert.equal(world.isDiggable(zone.cx, zone.cy - 2), true, "integrated caves must not create unbreakable walls");
 assert.equal(world.getTileType(zone.entry.tx, zone.entry.ty), TILE_TYPES.AIR, "integrated entrance must reach interior air");
 assert.equal(world.getTileType(zone.mouthAnchor.tx, zone.mouthAnchor.ty), TILE_TYPES.AIR, "scenic mouth anchor must be an open world cell");
 

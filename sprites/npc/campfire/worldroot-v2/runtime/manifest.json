@@ -1,0 +1,211 @@
+{
+  "schemaVersion": 1,
+  "family": "campfire-worldroot-v2-runtime",
+  "sourcePolicy": "RGB sources remain immutable; only neutral connected backdrop is removed.",
+  "extraction": {
+    "checkerMinimum": 216,
+    "checkerChromaMaximum": 26,
+    "enclosedMinimumPixels": 80,
+    "enclosedMinimumSpan": 8,
+    "enclosedMinimumFill": 0.6,
+    "enclosedAverageMinimum": 232,
+    "enclosedAverageChromaMaximum": 8,
+    "fringeRadiusPx": 2,
+    "fringeMinimum": 170,
+    "fringeChromaMaximum": 36,
+    "fringeAlpha": 72,
+    "matteValue": 246
+  },
+  "tiers": [
+    {
+      "level": 1,
+      "source": "../sources/campfire-tier-01.png",
+      "runtime": "campfire-tier-01.png",
+      "sourceSha256": "489d4e687c6a6d6f10f1979b2c0044af86a416d13db8c9b5020789e5feca0bb1",
+      "runtimeSha256": "19f2860c0bb84b185dac8d027adb9bb45a945cd4f3bd9f2994d9e3c409957308",
+      "width": 1254,
+      "height": 1254,
+      "visibleBounds": {
+        "x": 22,
+        "y": 448,
+        "width": 1211,
+        "height": 556,
+        "transparentRatio": 0.8083434445182116
+      },
+      "removedComponents": 1,
+      "removedPixels": 1271133,
+      "fringePixels": 1321
+    },
+    {
+      "level": 2,
+      "source": "../sources/campfire-tier-02.png",
+      "runtime": "campfire-tier-02.png",
+      "sourceSha256": "04c9f2caa68b6e04c57b0bbbea694640bbcb37555f39fb17b483dc39989a272d",
+      "runtimeSha256": "f6cada20c418660e6e0e1fca27c2d26479667be2a346399b62d1804da8716a19",
+      "width": 1254,
+      "height": 1254,
+      "visibleBounds": {
+        "x": 108,
+        "y": 227,
+        "width": 1036,
+        "height": 792,
+        "transparentRatio": 0.7263697157930349
+      },
+      "removedComponents": 1,
+      "removedPixels": 1142228,
+      "fringePixels": 1467
+    },
+    {
+      "level": 3,
+      "source": "../sources/campfire-tier-03.png",
+      "runtime": "campfire-tier-03.png",
+      "sourceSha256": "693a2d72dfa74d384a595944ccd78b4bdd14be0a301a484554f30d1c3f8e6ab6",
+      "runtimeSha256": "312418b10de7bfab8bfc614ee7c6ade8fc6068bd8ff56b3641ce45acfc6e03de",
+      "width": 1254,
+      "height": 1254,
+      "visibleBounds": {
+        "x": 149,
+        "y": 188,
+        "width": 947,
+        "height": 851,
+        "transparentRatio": 0.7615458284685179
+      },
+      "removedComponents": 1,
+      "removedPixels": 1197543,
+      "fringePixels": 1480
+    },
+    {
+      "level": 4,
+      "source": "../sources/campfire-tier-04.png",
+      "runtime": "campfire-tier-04.png",
+      "sourceSha256": "f49f4d9a55cdfe065c4c5e2143ed34974ea02c875f925cca572c9f13ffd036fb",
+      "runtimeSha256": "c77083c97e64e038c79bce10d263bc8bedead906dc723c9a8abccd2180fd84f6",
+      "width": 1254,
+      "height": 1254,
+      "visibleBounds": {
+        "x": 137,
+        "y": 59,
+        "width": 969,
+        "height": 1064,
+        "transparentRatio": 0.7060564089649962
+      },
+      "removedComponents": 1,
+      "removedPixels": 1110285,
+      "fringePixels": 1417
+    },
+    {
+      "level": 5,
+      "source": "../sources/campfire-tier-05.png",
+      "runtime": "campfire-tier-05.png",
+      "sourceSha256": "d24f21d327696760d740b65c79e2a0ef2e33f8220b3ca3be3170821d9ef80500",
+      "runtimeSha256": "37e820bdbc6ae22d98d4991b1cb4fe0691511c361d38fe7ce4dd7ac14c4821e7",
+      "width": 1254,
+      "height": 1254,
+      "visibleBounds": {
+        "x": 126,
+        "y": 183,
+        "width": 1002,
+        "height": 898,
+        "transparentRatio": 0.7426709807722147
+      },
+      "removedComponents": 1,
+      "removedPixels": 1167862,
+      "fringePixels": 1829
+    },
+    {
+      "level": 6,
+      "source": "../sources/campfire-tier-06.png",
+      "runtime": "campfire-tier-06.png",
+      "sourceSha256": "a41b4e64cedd63ec8f402b75cd2c36ea2ede62169e1811240a4ba2d15e00d57c",
+      "runtimeSha256": "325c180235138d898788a636a4862fe6be31f9bcbd0b81747ee6e59c9f543c6e",
+      "width": 1254,
+      "height": 1254,
+      "visibleBounds": {
+        "x": 31,
+        "y": 144,
+        "width": 1194,
+        "height": 991,
+        "transparentRatio": 0.6414077821783689
+      },
+      "removedComponents": 1,
+      "removedPixels": 1008624,
+      "fringePixels": 5108
+    },
+    {
+      "level": 7,
+      "source": "../sources/campfire-tier-07.png",
+      "runtime": "campfire-tier-07.png",
+      "sourceSha256": "1c8456bb65f417f1f5fe88c1b3f1d80d6a2edcacc0dc6207ef76d9a5885a8d31",
+      "runtimeSha256": "9b3ff4b4f529e78fd4215a7785f40b9080a080603f229cba22759ba53c47cd2e",
+      "width": 1254,
+      "height": 1254,
+      "visibleBounds": {
+        "x": 171,
+        "y": 32,
+        "width": 903,
+        "height": 1159,
+        "transparentRatio": 0.7404134520729837
+      },
+      "removedComponents": 1,
+      "removedPixels": 1164312,
+      "fringePixels": 2555
+    },
+    {
+      "level": 8,
+      "source": "../sources/campfire-tier-08.png",
+      "runtime": "campfire-tier-08.png",
+      "sourceSha256": "67061fb58f7cb339537cdc98c90f450cb578a127df550966afd5aecc92c60e1e",
+      "runtimeSha256": "e534038e13240e38d9e66e5f55c832477ca146dfe7ea4560f53d1fc0d4323dc2",
+      "width": 1254,
+      "height": 1254,
+      "visibleBounds": {
+        "x": 61,
+        "y": 105,
+        "width": 1137,
+        "height": 998,
+        "transparentRatio": 0.6529892223672128
+      },
+      "removedComponents": 1,
+      "removedPixels": 1026836,
+      "fringePixels": 2223
+    },
+    {
+      "level": 9,
+      "source": "../sources/campfire-tier-09.png",
+      "runtime": "campfire-tier-09.png",
+      "sourceSha256": "6cd8f4fec10ff27e35ea6686ae45a5b122b743ea6a65f68f3d4939c4310afec0",
+      "runtimeSha256": "77b082f4f9b7ec1cc3b3367fe57f73015cd2d1e491b49c2c47b519aa204d7fbc",
+      "width": 1254,
+      "height": 1254,
+      "visibleBounds": {
+        "x": 12,
+        "y": 176,
+        "width": 1229,
+        "height": 931,
+        "transparentRatio": 0.5982075858051683
+      },
+      "removedComponents": 4,
+      "removedPixels": 940691,
+      "fringePixels": 3244
+    },
+    {
+      "level": 10,
+      "source": "../sources/campfire-tier-10.png",
+      "runtime": "campfire-tier-10.png",
+      "sourceSha256": "6830cd86a3767ad946c1c99edbadc4f53f3950fcfbb37309f48dfb261f036f14",
+      "runtimeSha256": "67484a2e248d726af9b0c248b9c735071eb94f4f0d7f447c15c39b08fa89debe",
+      "width": 1254,
+      "height": 1254,
+      "visibleBounds": {
+        "x": 27,
+        "y": 38,
+        "width": 1196,
+        "height": 1120,
+        "transparentRatio": 0.5905447066993277
+      },
+      "removedComponents": 2,
+      "removedPixels": 928641,
+      "fringePixels": 4650
+    }
+  ]
+}

@@ -1,244 +1,71 @@
-import { STAR_IDENTITY_LIBRARY_CONFIG } from
-  "../../values/starIdentityLibrary.js?rev=20260830-star-codex-v3";
+// Dossier values align with fixed lettering baked into the Codex foundation.
+import { STAR_IDENTITY_LIBRARY_CONFIG } from "../../values/starIdentityLibrary.js?rev=20260906-baked-celestial-v2";
+import { BAKED_STAR_LAYOUT, BAKED_CELESTIAL_LAYOUT } from "../../values/bakedCelestialUi.js";
 import { getStarRarityTier } from "../../values/starRarityProgressionMath.js";
 import { UI_FONTS } from "../../values/uiLayout.js";
-import {
-  starAtlasFontSize,
-  starAtlasPoint,
-  starAtlasSize,
-} from "./UIInventoryStarAtlasLayout.js?rev=20260830-star-codex-v3";
-import { addStarAtlasText } from
-  "./UIInventoryStarAtlasPrimitives.js?rev=20260830-star-codex-v3";
-import { addUiStarIdlePreviewMotion } from
-  "./UIStarIdleMotion.js?rev=20260826-star-idle-ui-v2";
+import { starAtlasFontSize, starAtlasPoint, starAtlasSize } from "./UIInventoryStarAtlasLayout.js?rev=20260906-baked-celestial-v2";
+import { addStarAtlasText } from "./UIInventoryStarAtlasPrimitives.js?rev=20260906-baked-celestial-v2";
+import { fitBakedUiImage, fitLiveUiText } from "../../systems/visual/bakedUiArt.js";
+import { addCelestialLabel } from "./bakedCelestialUi.js";
+import { animateBakedStar } from "./UIBakedStarMotion.js";
 
-function addDossierText(scene, parent, bounds, xPx, yPx, value, style) {
-  const layout = STAR_IDENTITY_LIBRARY_CONFIG.inventory.layout;
-  const point = starAtlasPoint(bounds, xPx, yPx, layout);
-  return addStarAtlasText(scene, parent, point.x, point.y, value, style);
-}
-
-export function renderEmptyStarAtlasDossier(
-  scene,
-  parent,
-  bounds,
-) {
-  const config = STAR_IDENTITY_LIBRARY_CONFIG;
-  const copy = config.inventory.copy;
-  const layout = config.inventory.layout;
-  const appearance = config.inventory.appearance;
-  addDossierText(
-    scene,
-    parent,
-    bounds,
-    layout.previewBadgeXPx,
-    layout.previewBadgeYPx,
-    `0 ${copy.found}`,
-    {
-      fontFamily: UI_FONTS.display,
-      fontSizePx: starAtlasFontSize(
-        bounds,
-        layout.previewBadgeFontSizePx,
-        layout,
-        10,
-      ),
-      fontStyle: "bold",
-      color: appearance.muted,
-    },
-  );
-  addDossierText(
-    scene,
-    parent,
-    bounds,
-    layout.nameCenterXPx,
-    layout.nameCenterYPx,
-    copy.emptyTitle,
-    {
-      fontFamily: UI_FONTS.display,
-      fontSizePx: starAtlasFontSize(bounds, layout.nameFontSizePx, layout, 18),
-      fontStyle: "bold",
-      color: appearance.title,
-      stroke: appearance.shadow,
-      strokeThickness: 3,
-    },
-  );
-  addDossierText(
-    scene,
-    parent,
-    bounds,
-    layout.nameCenterXPx,
-    layout.flavourCenterYPx,
-    copy.emptyBody,
-    {
-      fontFamily: UI_FONTS.body,
-      fontSizePx: starAtlasFontSize(bounds, layout.flavourFontSizePx, layout, 12),
-      fontStyle: "bold",
-      color: appearance.body,
-      wordWrapWidth: starAtlasSize(bounds, layout.flavourWidthPx, layout),
-      lineSpacing: 4,
-    },
-  );
+export function renderEmptyStarAtlasDossier() {
+  // The empty dossier is itself an authored frame, installed by the atlas view.
   return null;
 }
 
-export function renderStarAtlasDossier(
-  scene,
-  parent,
-  bounds,
-  identity,
-  collectionCount,
-) {
+export function renderStarAtlasDossier(scene, parent, bounds, identity, collectionCount) {
   const config = STAR_IDENTITY_LIBRARY_CONFIG;
-  const copy = config.inventory.copy;
   const layout = config.inventory.layout;
   const appearance = config.inventory.appearance;
+  const g = BAKED_STAR_LAYOUT;
   const tier = getStarRarityTier(identity.rarityIndex);
-  const previewPoint = starAtlasPoint(
-    bounds,
-    layout.previewCenterXPx,
-    layout.previewCenterYPx,
-    layout,
-  );
-  const previewSize = starAtlasSize(bounds, layout.previewImageSizePx, layout);
-  const previewLight = scene.add.image(
-    previewPoint.x,
-    previewPoint.y,
-    identity.lightAtlasKey,
-    identity.lightFrameName,
-  ).setDisplaySize(
-    previewSize * layout.previewLightScale,
-    previewSize * layout.previewLightScale,
-  ).setAlpha(layout.previewLightAlpha);
-  previewLight.setBlendMode?.(globalThis.Phaser?.BlendModes?.ADD);
-  parent.add(previewLight);
-  const preview = scene.add.image(
-    previewPoint.x,
-    previewPoint.y,
-    identity.atlasKey,
-    identity.frameName,
-  ).setDisplaySize(previewSize, previewSize);
+  const at = (x,y) => starAtlasPoint(bounds,x,y,layout);
+  const size = value => starAtlasSize(bounds,value,layout);
+  const value = (x,y,text,font,width,height,style={}) => {
+    const point = at(x,y);
+    const display = addStarAtlasText(scene,parent,point.x,point.y,text,{
+      fontFamily:UI_FONTS.mono,fontSizePx:starAtlasFontSize(bounds,font,layout),
+      color:appearance.body,align:"center",wordWrapWidth:size(width),...style,
+    });
+    return fitLiveUiText(display,size(width),size(height));
+  };
+  const point = at(layout.previewCenterXPx,layout.previewCenterYPx);
+  // The original 256px portrait already contains its unique light phenomenon.
+  const preview = scene.add.image(point.x,point.y,identity.atlasKey,identity.frameName);
+  const density = scene.game.canvas.width / scene.scale.width;
+  const previewSize = size(layout.previewImageSizePx);
+  fitBakedUiImage(preview,Math.min(previewSize,preview.width/density),Math.min(previewSize,preview.height/density));
   preview.setBlendMode?.(globalThis.Phaser?.BlendModes?.SCREEN);
+  preview.setData("bakedStarPortrait",identity.index);
   parent.add(preview);
-  addUiStarIdlePreviewMotion(scene, parent, {
-    x: previewPoint.x,
-    y: previewPoint.y,
-    size: previewSize,
-    identityIndex: identity.index,
-  });
+  animateBakedStar(scene,preview,identity.index);
 
-  addDossierText(
-    scene,
-    parent,
-    bounds,
-    layout.previewBadgeXPx,
-    layout.previewBadgeYPx,
-    `${copy.collected}\n${tier.name.toUpperCase()}`,
-    {
-      fontFamily: UI_FONTS.display,
-      fontSizePx: starAtlasFontSize(
-        bounds,
-        layout.previewBadgeFontSizePx,
-        layout,
-        10,
-      ),
-      fontStyle: "bold",
-      color: tier.palette.highlight,
-      lineSpacing: 2,
-      stroke: appearance.shadow,
-      strokeThickness: 3,
-    },
-  );
-  addDossierText(
-    scene,
-    parent,
-    bounds,
-    layout.nameCenterXPx,
-    layout.nameCenterYPx,
-    identity.name.toUpperCase(),
-    {
-      fontFamily: UI_FONTS.display,
-      fontSizePx: starAtlasFontSize(bounds, layout.nameFontSizePx, layout, 18),
-      fontStyle: "bold",
-      color: appearance.title,
-      stroke: appearance.shadow,
-      strokeThickness: 3,
-    },
-  );
-  const collectionLabel = collectionCount > 1
-    ? `${copy.collected} ×${collectionCount}`
-    : copy.collected;
-  addDossierText(
-    scene,
-    parent,
-    bounds,
-    layout.nameCenterXPx,
-    layout.colourCenterYPx,
-    `${collectionLabel}  •  STAR ${String(identity.index + 1).padStart(3, "0")}`
-      + `  •  ${copy.colour}: ${identity.colourName.toUpperCase()}`,
-    {
-      fontFamily: UI_FONTS.mono,
-      fontSizePx: starAtlasFontSize(bounds, layout.colourFontSizePx, layout, 10),
-      fontStyle: "bold",
-      color: appearance.focus,
-      stroke: appearance.shadow,
-      strokeThickness: 2,
-    },
-  );
-  addDossierText(
-    scene,
-    parent,
-    bounds,
-    layout.nameCenterXPx,
-    layout.flavourCenterYPx,
-    identity.flavour,
-    {
-      fontFamily: UI_FONTS.body,
-      fontSizePx: starAtlasFontSize(bounds, layout.flavourFontSizePx, layout, 12),
-      fontStyle: "italic",
-      color: appearance.body,
-      wordWrapWidth: starAtlasSize(bounds, layout.flavourWidthPx, layout),
-      lineSpacing: 4,
-    },
-  );
-  addDossierText(
-    scene,
-    parent,
-    bounds,
-    layout.nameCenterXPx,
-    layout.lightCenterYPx,
-    `${copy.lightStyle}: ${identity.light.style.toUpperCase()}`
-      + `  •  ${tier.minDepthTiles > 0
-        ? `${copy.depthLocked} ${tier.minDepthTiles}M`
-        : copy.surfaceDepth}`,
-    {
-      fontFamily: UI_FONTS.mono,
-      fontSizePx: starAtlasFontSize(bounds, layout.lightFontSizePx, layout, 10),
-      fontStyle: "bold",
-      color: appearance.muted,
-    },
-  );
-
-  const stats = [
-    `${copy.signXp}\n+${tier.signXp}`,
-    `${copy.material}\n${tier.multiplier}x`,
-    `${copy.engine}\n+${tier.engineCharge}`,
-  ];
-  stats.forEach((value, index) => {
-    addDossierText(
-      scene,
-      parent,
-      bounds,
-      layout.statCentersXPx[index],
-      layout.statCenterYPx,
-      value,
-      {
-        fontFamily: UI_FONTS.display,
-        fontSizePx: starAtlasFontSize(bounds, layout.statFontSizePx, layout, 11),
-        fontStyle: "bold",
-        color: index === 1 ? appearance.focus : appearance.title,
-        lineSpacing: 2,
-      },
-    );
-  });
+  value(layout.previewBadgeXPx,g.badgeY,`${tier.name.toUpperCase()}\n×${collectionCount}`,
+    layout.previewBadgeFontSizePx,g.badgeWidth,g.badgeHeight,{color:tier.palette.highlight});
+  value(layout.nameCenterXPx,layout.nameCenterYPx,identity.name.toUpperCase(),
+    layout.nameFontSizePx,g.nameWidth,g.nameHeight,
+    {fontFamily:UI_FONTS.display,fontStyle:"bold",color:appearance.title});
+  value(g.colourLabelValueX,g.colourY,identity.colourName.toUpperCase(),
+    layout.colourFontSizePx,g.colourWidth,BAKED_CELESTIAL_LAYOUT.statusLineGap,{color:appearance.focus});
+  value(g.starValueX,g.colourY,String(identity.index+1).padStart(3,"0"),
+    layout.colourFontSizePx,g.starWidth,BAKED_CELESTIAL_LAYOUT.statusLineGap,{color:appearance.focus});
+  value(layout.nameCenterXPx,layout.flavourCenterYPx,identity.flavour,
+    layout.flavourFontSizePx,layout.flavourWidthPx,g.flavourHeight,
+    {fontFamily:UI_FONTS.body,fontStyle:"italic"});
+  value(g.lightValueX,g.metadataY,identity.light.style.toUpperCase(),
+    layout.lightFontSizePx,g.lightWidth,BAKED_CELESTIAL_LAYOUT.statusLineGap,{color:appearance.muted});
+  if (tier.minDepthTiles > 0) {
+    value(g.depthValueX,g.metadataY,`${tier.minDepthTiles}M`,
+      layout.lightFontSizePx,g.depthWidth,BAKED_CELESTIAL_LAYOUT.statusLineGap,{color:appearance.muted});
+  } else {
+    const depthPoint=at(g.depthValueX,g.metadataY);
+    addCelestialLabel(scene,parent,"ANY DEPTH",depthPoint.x,depthPoint.y,size(g.depthWidth),
+      size(BAKED_CELESTIAL_LAYOUT.statusLineGap));
+  }
+  [`+${tier.signXp}`,`${tier.multiplier}x`,`+${tier.engineCharge}`].forEach((text,index)=>
+    value(layout.statCentersXPx[index],layout.statCenterYPx,text,
+      layout.statFontSizePx,g.depthWidth,BAKED_CELESTIAL_LAYOUT.statusLineGap,
+      {fontFamily:UI_FONTS.display,color:index===1?appearance.focus:appearance.title}));
   return preview;
 }

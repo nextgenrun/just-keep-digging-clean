@@ -14,6 +14,7 @@ const PLAY_SCENE_REQUIRED_PATHS = Object.freeze([
   "heavenblocksAccessSystem",
   "craftingSystem",
   "openingFlightArtifactSystem",
+        "dynamicEventRuntime",
   "arcCoreVehicleSystem",
 ]);
 

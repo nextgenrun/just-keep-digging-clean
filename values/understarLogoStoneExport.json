@@ -1,0 +1,8 @@
+{
+  "source": "sprites/branding/understar-world-within-v4/understar-logo-stone-source.png",
+  "output": "sprites/branding/understar-world-within-v4/understar-logo-stone.png",
+  "sourceSize": [1910, 823],
+  "size": [1810, 470],
+  "center": [957, 415],
+  "corners": [[57,222],[92,185],[1822,185],[1857,222],[1857,607],[1822,645],[92,645],[57,607]]
+}

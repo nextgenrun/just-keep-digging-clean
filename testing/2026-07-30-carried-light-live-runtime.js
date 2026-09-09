@@ -37,14 +37,11 @@ export function createCarriedLightLiveRuntime(frameEntries, CONFIG) {
   };
   const allScenes = () => frameEntries.map(playSceneFor).filter(Boolean);
   async function launch(entry) {
-    const game = await waitFor(() => {
-      const candidate = gameFor(entry);
-      const ready = candidate?.scene?.getScenes?.(true)?.some(
-        scene => ["MainMenuScene", "StartMenuScene"].includes(scene.scene.key)
-      );
-      return ready ? candidate : null;
-    }, CONFIG.timing.bootTimeoutMs, `${entry.scenario.id} menu`, CONFIG.timing.pollIntervalMs);
-    game.scene.start("WorldLoadScene", {
+    const menu = await waitFor(() => gameFor(entry)?.scene?.getScenes?.(true)?.find(
+      scene => ["MainMenuScene", "StartMenuScene"].includes(scene.scene.key)
+    ), CONFIG.timing.bootTimeoutMs, `${entry.scenario.id} menu`, CONFIG.timing.pollIntervalMs);
+    // Stop the menu before world loading releases its textures.
+    menu.scene.start("WorldLoadScene", {
       saveSlot: entry.scenario.saveSlot,
       worldIdentity: CONFIG.world.identity,
       isNewSave: true,

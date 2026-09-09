@@ -1,0 +1,12 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>UNDERSTAR - Living menu scenery</title>
+<link rel="stylesheet" href="../../css/menu-shell.css"><link rel="stylesheet" href="../../css/style.css">
+<style>body{overflow:auto;background:#070c13}button,select{font:inherit;color:#dae3eb;background:#15202d;border:1px solid #405367;padding:8px 12px;border-radius:6px}button:disabled{opacity:.45;cursor:wait}button:focus-visible,select:focus-visible{outline:2px solid #e4c996;outline-offset:3px}#preview-root{aspect-ratio:16/9;width:100%;overflow:hidden}#preview-root canvas{display:block;width:100%;height:auto}#status{font:13px Consolas,monospace;color:#acbac9;white-space:pre-wrap}label{display:flex;align-items:center;gap:8px}</style>
+</head><body class="m-0 p-4"><main class="mx-auto max-w-6xl space-y-4">
+<header class="flex flex-wrap items-center justify-between gap-3"><div><h1 class="text-xl font-semibold text-amber-100">UNDERSTAR / Living scenery</h1><p class="text-sm text-slate-400">A living landscape. Continuous motion within one scene. The production loading view.</p></div>
+<a class="text-sm text-amber-100 underline" href="../../?jkd_e2e=1">Open the game</a></header>
+<div class="flex flex-wrap items-center gap-3"><label>Scenery <select id="scenery" aria-label="Scenery"></select></label><button id="pause">Pause</button><button id="loop-join">Preview loop join</button><button id="recreate">Recreate loading screen</button><button id="destroy">Destroy loading screen</button><button id="failure">Show loading error</button><button id="media-error">Test video fallback</button><a id="motion-link" class="text-sm text-amber-100 underline" href="?menuMotion=0">Still artwork</a></div>
+<div id="preview-root" class="relative overflow-hidden"></div>
+<output id="status" aria-live="off">Preparing the production loading screen...</output>
+</main><script src="../../libs/phaser.js"></script><script type="module" src="./preview.js"></script></body></html>

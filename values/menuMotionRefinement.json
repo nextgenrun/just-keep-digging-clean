@@ -1,0 +1,74 @@
+{
+  "version": 5,
+  "ffmpeg": "tmp/seedance-loop-tools/imageio_ffmpeg/binaries/ffmpeg-win-x86_64-v7.1.exe",
+  "outputDirectory": "sprites/backgrounds/menu-atmosphere-v5",
+  "proof": "testing/2026-09-07-menu-atmosphere/smooth-v5-proof.json",
+  "fps": 60,
+  "sourceFps": 24,
+  "width": 1280,
+  "height": 720,
+  "sourceDuration": 10,
+  "sourceOverlapSeconds": 0.4,
+  "endPaddingSeconds": 0.5,
+  "crf": 18,
+  "workers": 4,
+  "interpolation": "minterpolate=fps=60:mi_mode=mci:mc_mode=aobmc:me_mode=bidir:me=hexbs:search_param=16:vsbmc=1",
+  "profiles": [
+    {
+      "id": "aurora",
+      "source": "raw-v3-01.mp4",
+      "slowdown": 3.2,
+      "previousSlowdown": 1.7
+    },
+    {
+      "id": "starfall",
+      "source": "raw-v3-02.mp4",
+      "slowdown": 3.2,
+      "previousSlowdown": 1.65
+    },
+    {
+      "id": "lantern-forest",
+      "source": "raw-v3-03.mp4",
+      "slowdown": 2.4,
+      "previousSlowdown": 1.35
+    },
+    {
+      "id": "luminous-grotto",
+      "source": "raw-v3-04-natural.mp4",
+      "slowdown": 2.6,
+      "previousSlowdown": 1.4
+    },
+    {
+      "id": "ember-reaches",
+      "source": "raw-v3-05.mp4",
+      "slowdown": 3.4,
+      "previousSlowdown": 1.45
+    },
+    {
+      "id": "quiet-foundry",
+      "source": "raw-v3-06.mp4",
+      "slowdown": 3,
+      "previousSlowdown": 1.5
+    }
+  ],
+  "logo": {
+    "source": "sprites/branding/understar-world-within-v4/understar-logo-loop-15s.mp4",
+    "output": "sprites/branding/understar-world-within-v4/understar-logo-light-60.mp4",
+    "crop": [
+      1400,
+      416,
+      35,
+      107
+    ],
+    "width": 1120,
+    "height": 332,
+    "duration": 15,
+    "slowdown": 1.4925373134328357,
+    "chromaThreshold": 24
+  },
+  "inspectionWidth": 320,
+  "inspectionDependencies": "ai-tools/2026-09-07-logo-animation/pydeps",
+  "verification": "testing/2026-09-07-menu-atmosphere/smooth-v5-media-checks.json",
+  "closureFrames": 36,
+  "closureCrf": 16
+}

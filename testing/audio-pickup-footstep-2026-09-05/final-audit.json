@@ -1,0 +1,334 @@
+{
+  "checkedAt": "2026-09-05T20:00:11.051418+00:00",
+  "focusedContracts": [
+    {
+      "test": "testing/audio-pickup-footstep-2026-09-05/verify.mjs",
+      "baselineAudio": false,
+      "exitCode": 0,
+      "log": "checks/final-testing__audio-pickup-footstep-2026-09-05__verify.mjs.log",
+      "failure": null
+    },
+    {
+      "test": "testing/audio-design-cleanup-2026-09-05/verify.mjs",
+      "baselineAudio": false,
+      "exitCode": 0,
+      "log": "checks/final-testing__audio-design-cleanup-2026-09-05__verify.mjs.log",
+      "failure": null
+    },
+    {
+      "test": "testing/2026-09-04-active-gametime-audio-reaudit-contract.mjs",
+      "baselineAudio": false,
+      "exitCode": 0,
+      "log": "checks/final-testing__2026-09-04-active-gametime-audio-reaudit-contract.mjs.log",
+      "failure": null
+    },
+    {
+      "test": "testing/2026-09-03-reviewed-audio-timing-contract.mjs",
+      "baselineAudio": false,
+      "exitCode": 0,
+      "log": "checks/final-testing__2026-09-03-reviewed-audio-timing-contract.mjs.log",
+      "failure": null
+    },
+    {
+      "test": "testing/2026-09-03-reviewed-audio-volume-contract.mjs",
+      "baselineAudio": false,
+      "exitCode": 0,
+      "log": "checks/final-testing__2026-09-03-reviewed-audio-volume-contract.mjs.log",
+      "failure": null
+    },
+    {
+      "test": "testing/2026-09-03-freesound-audio-timing-contract.mjs",
+      "baselineAudio": false,
+      "exitCode": 0,
+      "log": "checks/final-testing__2026-09-03-freesound-audio-timing-contract.mjs.log",
+      "failure": null
+    },
+    {
+      "test": "testing/2026-09-03-freesound-audio-volume-contract.mjs",
+      "baselineAudio": false,
+      "exitCode": 0,
+      "log": "checks/final-testing__2026-09-03-freesound-audio-volume-contract.mjs.log",
+      "failure": null
+    },
+    {
+      "test": "testing/2026-08-26-xp-gathering-polish-contract.mjs",
+      "baselineAudio": false,
+      "exitCode": 0,
+      "log": "checks/final-testing__2026-08-26-xp-gathering-polish-contract.mjs.log",
+      "failure": null
+    },
+    {
+      "test": "testing/2026-08-31-loot-pickup-continuity-v2-contract.mjs",
+      "baselineAudio": false,
+      "exitCode": 0,
+      "log": "checks/final-testing__2026-08-31-loot-pickup-continuity-v2-contract.mjs.log",
+      "failure": null
+    }
+  ],
+  "allFocusedPassed": true,
+  "followupBehaviorChecks": 9,
+  "coreBehaviorChecks": 12,
+  "catalogClips": 753,
+  "activeFreesoundSources": 341,
+  "preservedFreesoundApprovals": 562,
+  "renderCount": 26,
+  "clippedSamples": 0,
+  "auditionOnlyFootstepEdits": 6,
+  "originalReviewExportByteExact": true,
+  "preservedKeepDecisions": 3,
+  "servedBytesVerified": [
+    {
+      "path": "sound/SoundSystem.js",
+      "bytes": 39675,
+      "sha256": "8b1c194f1fdd04f277df93f1da50fa2a50019929d27339f45de5c62c9b0237b6"
+    },
+    {
+      "path": "sound/ReviewedSfxController.js",
+      "bytes": 4526,
+      "sha256": "d7bec00ac3b96a069add0e1deb14c929199dbceb89348485fb296b1969e358d9"
+    },
+    {
+      "path": "sound/FreesoundAudioDirector.js",
+      "bytes": 9314,
+      "sha256": "5df57cca6a5e0b94556f6e4d47de06dcb1f6a9f6ad30c890131981fe9c1ba38b"
+    },
+    {
+      "path": "values/coreActionAudio.js",
+      "bytes": 2030,
+      "sha256": "9fbb92a5d392e53277597885bfeaaf8aac44cc071df48dbc0a9a0a6ec4d6c8ae"
+    },
+    {
+      "path": "values/freesoundAudio.js",
+      "bytes": 3551,
+      "sha256": "e3a24e64b548eea5f0be9b8dd2cc655eb38ce9d75009a1386a0487da8b438149"
+    },
+    {
+      "path": "testing/audio-runtime-reaudit-2026-09-04/catalog.json",
+      "bytes": 879544,
+      "sha256": "d4c31d286ed14d71401d66967387b7ce6ce557d9cd2504a3835e3719c5c5c067"
+    },
+    {
+      "path": "testing/audio-runtime-reaudit-2026-09-04/review.js",
+      "bytes": 16732,
+      "sha256": "6ff92882ea59a69387e4f83e3a68e7a63a19c5257d4b95729a966e1791669c97"
+    },
+    {
+      "path": "testing/audio-runtime-reaudit-2026-09-04/index.html",
+      "bytes": 7884,
+      "sha256": "146e12744bbe1562f8b793cf4d1892ad0b4cfd344362410c1171770d6b0e756d"
+    },
+    {
+      "path": "testing/audio-pickup-footstep-2026-09-05/index.html",
+      "bytes": 4622,
+      "sha256": "c100cfb94e421cc964114b99f4a9165746a1287c384be06f5f2899e99da10b83"
+    },
+    {
+      "path": "testing/audio-pickup-footstep-2026-09-05/before-pickup.wav",
+      "bytes": 1536044,
+      "sha256": "4ec7c915b7383eb0f5c6f39c8278174b5a5ed3bc718d2564cbac5e6d6d61e21a"
+    },
+    {
+      "path": "testing/audio-pickup-footstep-2026-09-05/before-special-pickup.wav",
+      "bytes": 1536044,
+      "sha256": "ec2d5d5405fb17d3fd7af0b3ab80904ec633ffae5c1928e779cab8a305c0b6b5"
+    },
+    {
+      "path": "testing/audio-pickup-footstep-2026-09-05/before-shop.wav",
+      "bytes": 1536044,
+      "sha256": "589b589bcaa5716f061265a5b4dbe7a93acc5d657d7e470f4b574a7f69d6c5b9"
+    },
+    {
+      "path": "testing/audio-pickup-footstep-2026-09-05/before-mine-loot.wav",
+      "bytes": 1536044,
+      "sha256": "96ebec27de95b3dc1730c4dc51bb9464e6639cb1a64d73ee0f944eff93ba849f"
+    },
+    {
+      "path": "testing/audio-pickup-footstep-2026-09-05/before-walk.wav",
+      "bytes": 1536044,
+      "sha256": "0f4645b00f883ef8e6af8a8ca5588747548c86c5361bbacb0e58bd4fde0c34cf"
+    },
+    {
+      "path": "testing/audio-pickup-footstep-2026-09-05/before-hard-walk.wav",
+      "bytes": 1536044,
+      "sha256": "0f4645b00f883ef8e6af8a8ca5588747548c86c5361bbacb0e58bd4fde0c34cf"
+    },
+    {
+      "path": "testing/audio-pickup-footstep-2026-09-05/before-earth.wav",
+      "bytes": 1536044,
+      "sha256": "6716f79be28fb9c0b59406e29ba98de500962af58adf81ab64b7d2da0ae94ef4"
+    },
+    {
+      "path": "testing/audio-pickup-footstep-2026-09-05/before-stone.wav",
+      "bytes": 1536044,
+      "sha256": "58cf8ee2821757431cf7e9f69e7704ed7b56d84e8291f2bb5fec2a4594305f56"
+    },
+    {
+      "path": "testing/audio-pickup-footstep-2026-09-05/before-metal.wav",
+      "bytes": 1536044,
+      "sha256": "fa048704fa4f12820af24f43cd64f06e28b534fc45fe4e8a9da9a46cc48e2d85"
+    },
+    {
+      "path": "testing/audio-pickup-footstep-2026-09-05/before-crystal.wav",
+      "bytes": 1536044,
+      "sha256": "3c5812e8c3a93855df82378597652aaa7b664e90b4a83f31229207bfcbba935f"
+    },
+    {
+      "path": "testing/audio-pickup-footstep-2026-09-05/before-cave.wav",
+      "bytes": 1536044,
+      "sha256": "7406813b9a4a9cdb3ce3075915a066aca984b504c808bba8f9a030b220809a7b"
+    },
+    {
+      "path": "testing/audio-pickup-footstep-2026-09-05/before-landing.wav",
+      "bytes": 1536044,
+      "sha256": "54a04c3e947716fe11882f23727dd51efa7b15c0afc396074393bd8f31db91c9"
+    },
+    {
+      "path": "testing/audio-pickup-footstep-2026-09-05/after-pickup.wav",
+      "bytes": 1536044,
+      "sha256": "70df4edd8c23f101424bfc824fda342bbfcd785c84dd73d47d280d429b763382"
+    },
+    {
+      "path": "testing/audio-pickup-footstep-2026-09-05/after-special-pickup.wav",
+      "bytes": 1536044,
+      "sha256": "70df4edd8c23f101424bfc824fda342bbfcd785c84dd73d47d280d429b763382"
+    },
+    {
+      "path": "testing/audio-pickup-footstep-2026-09-05/after-shop.wav",
+      "bytes": 1536044,
+      "sha256": "568f6fda0832b9ab0a83095e04c7c57f8812679b8e9d0efb30e5bd0164b56329"
+    },
+    {
+      "path": "testing/audio-pickup-footstep-2026-09-05/after-mine-loot.wav",
+      "bytes": 1536044,
+      "sha256": "b31de0153f9377a034d1b95feeed0ae204548f09116ee1ffed4ade4a5fdae02b"
+    },
+    {
+      "path": "testing/audio-pickup-footstep-2026-09-05/after-walk.wav",
+      "bytes": 1536044,
+      "sha256": "c15cca6dfed66bf665aa9b964b87bae37bccb2355061ac58d22c606f9ef33a69"
+    },
+    {
+      "path": "testing/audio-pickup-footstep-2026-09-05/after-hard-walk.wav",
+      "bytes": 1536044,
+      "sha256": "39e650ca46ee7974eda90e9eda0d4c2111636167f51c5adab0027198edc9db39"
+    },
+    {
+      "path": "testing/audio-pickup-footstep-2026-09-05/after-earth.wav",
+      "bytes": 1536044,
+      "sha256": "6716f79be28fb9c0b59406e29ba98de500962af58adf81ab64b7d2da0ae94ef4"
+    },
+    {
+      "path": "testing/audio-pickup-footstep-2026-09-05/after-stone.wav",
+      "bytes": 1536044,
+      "sha256": "58cf8ee2821757431cf7e9f69e7704ed7b56d84e8291f2bb5fec2a4594305f56"
+    },
+    {
+      "path": "testing/audio-pickup-footstep-2026-09-05/after-metal.wav",
+      "bytes": 1536044,
+      "sha256": "fa048704fa4f12820af24f43cd64f06e28b534fc45fe4e8a9da9a46cc48e2d85"
+    },
+    {
+      "path": "testing/audio-pickup-footstep-2026-09-05/after-crystal.wav",
+      "bytes": 1536044,
+      "sha256": "3c5812e8c3a93855df82378597652aaa7b664e90b4a83f31229207bfcbba935f"
+    },
+    {
+      "path": "testing/audio-pickup-footstep-2026-09-05/after-cave.wav",
+      "bytes": 1536044,
+      "sha256": "7406813b9a4a9cdb3ce3075915a066aca984b504c808bba8f9a030b220809a7b"
+    },
+    {
+      "path": "testing/audio-pickup-footstep-2026-09-05/after-landing.wav",
+      "bytes": 1536044,
+      "sha256": "99caa1e6b1ae5c48dab7ff628a18fea5603c6b10524d7838a2743baa94807b5a"
+    },
+    {
+      "path": "testing/audio-pickup-footstep-2026-09-05/candidate-walk.wav",
+      "bytes": 1536044,
+      "sha256": "e5d9e791e5d48d382d4f5fa575f5a66edb42e807a2e8e37c6ab0f1da4f50e234"
+    },
+    {
+      "path": "testing/audio-pickup-footstep-2026-09-05/candidate-hard-walk.wav",
+      "bytes": 1536044,
+      "sha256": "59dc0cc1b9e5c898e97e84df5fb2f20a152a31de50d242957b4245784e4f80ef"
+    },
+    {
+      "path": "testing/audio-pickup-footstep-2026-09-05/candidate-walk-fs-approved-270419.ogg",
+      "bytes": 4639,
+      "sha256": "3b27d6849b747136cc6fc409b85740468250fd3780526cb4246270a8a72b78e1"
+    },
+    {
+      "path": "testing/audio-pickup-footstep-2026-09-05/candidate-walk-fs-approved-270418.ogg",
+      "bytes": 5155,
+      "sha256": "e6e4b376109181b194a76b96503bbc418e2402cc955f5142d987ef11c7594d5f"
+    },
+    {
+      "path": "testing/audio-pickup-footstep-2026-09-05/candidate-walk-fs-approved-270417.ogg",
+      "bytes": 5220,
+      "sha256": "c41ed9f6dfd878e052bd696fa833e38db1ad6772f8cf863539bca20037a913ed"
+    },
+    {
+      "path": "testing/audio-pickup-footstep-2026-09-05/candidate-walk-fs-approved-270415.ogg",
+      "bytes": 5261,
+      "sha256": "338e003c33e17af91b5712fb21ae48af1a28c48924f7261bb17532babd7d0b7b"
+    },
+    {
+      "path": "testing/audio-pickup-footstep-2026-09-05/candidate-hard-walk-footsteps-1.ogg",
+      "bytes": 4257,
+      "sha256": "4b1a69530dc96ae44b6a84521756424c84e76e1771478b32d6d81da78f9b8b25"
+    },
+    {
+      "path": "testing/audio-pickup-footstep-2026-09-05/candidate-hard-walk-footsteps-2.ogg",
+      "bytes": 4413,
+      "sha256": "8cca8fa7c5b3aae925705a1afdb6189abb58b91dec004e67290655f229739d9f"
+    }
+  ],
+  "initialWiderSuite": {
+    "total": 16,
+    "passedCount": 14,
+    "failed": [
+      "2026-08-31-contextual-music-director-contract.mjs",
+      "2026-08-20-player-jump-flight-motion-contract.mjs"
+    ]
+  },
+  "isolatedReruns": [
+    {
+      "test": "testing/2026-08-20-player-jump-flight-motion-contract.mjs",
+      "baselineAudio": false,
+      "exitCode": 0,
+      "log": "checks/final-testing__2026-08-20-player-jump-flight-motion-contract.mjs.log",
+      "failure": null
+    },
+    {
+      "test": "testing/2026-08-20-player-jump-flight-motion-contract.mjs",
+      "baselineAudio": true,
+      "exitCode": 0,
+      "log": "checks/baseline-testing__2026-08-20-player-jump-flight-motion-contract.mjs.log",
+      "failure": null
+    },
+    {
+      "test": "testing/2026-08-03-ground-footstep-fx-contract.mjs",
+      "baselineAudio": false,
+      "exitCode": 1,
+      "log": "checks/final-testing__2026-08-03-ground-footstep-fx-contract.mjs.log",
+      "failure": "\nnode:internal/modules/run_main:107\n    triggerUncaughtException(\n    ^\n\nAssertionError [ERR_ASSERTION]: only active tile types have particle palette routes\n\n33 !== 32\n\n    at file:///C:/xampp/_Backups/dig-game-simple/dig-game-dev-env-cleaned/testing/2026-08-03-ground-footstep-fx-contract.mjs:206:8\n    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)\n    at async node:internal/modules/esm/loader:643:26\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {\n  generatedMessage: false,\n  code: 'ERR_ASSERTION',\n  actual: 33,\n  expected: 32,\n  operator: 'strictEqual',\n  diff: 'simple'\n}\n\nNode.js v24.19.0\n"
+    },
+    {
+      "test": "testing/2026-08-03-ground-footstep-fx-contract.mjs",
+      "baselineAudio": true,
+      "exitCode": 1,
+      "log": "checks/baseline-testing__2026-08-03-ground-footstep-fx-contract.mjs.log",
+      "failure": "\nnode:internal/modules/run_main:107\n    triggerUncaughtException(\n    ^\n\nAssertionError [ERR_ASSERTION]: only active tile types have particle palette routes\n\n33 !== 32\n\n    at file:///C:/xampp/_Backups/dig-game-simple/dig-game-dev-env-cleaned/testing/2026-08-03-ground-footstep-fx-contract.mjs:206:8\n    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)\n    at async node:internal/modules/esm/loader:643:26\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {\n  generatedMessage: false,\n  code: 'ERR_ASSERTION',\n  actual: 33,\n  expected: 32,\n  operator: 'strictEqual',\n  diff: 'simple'\n}\n\nNode.js v24.19.0\n"
+    }
+  ],
+  "baselineMusicFailure": "checks/baseline-music.log",
+  "manualBrowserPlaythrough": false,
+  "subjectiveListeningApproved": false,
+  "browserLimit": "Node browser-control bridge timed out and reset its kernel.",
+  "sourcePolicy": "Original runtime recordings unchanged; six offline edits remain audition-only.",
+  "documentationUpdates": [
+    "sound/readme.md",
+    "values/readme.md",
+    "testing/audio-runtime-reaudit-2026-09-04/readme.md"
+  ]
+}

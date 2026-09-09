@@ -13,8 +13,17 @@ import { registerWorldMapCoreActivities } from
   "../systems/map/registerWorldMapCoreActivities.js";
 import { getRuntimeFeatureAssetGroup } from
   "../world/rendering/runtimeFeatureAssetGroups.js";
-import { resolveWorldMapBiomeLabels } from
+import {
+  resolveWorldMapBiomeLabels,
+  resolveWorldMapMarkerAnnotations,
+} from
   "../ui/overlays/world-map/resolveWorldMapAnnotations.js";
+import {
+  isWorldMapTerrainDetailActive,
+  resolveWorldMapMirrorTransform,
+  resolveWorldMapTerrainWindow,
+  shouldMirrorWorldMapObject,
+} from "../ui/overlays/world-map/WorldMapTerrainTextureView.js";
 
 function pngDimensions(buffer) {
   assert.equal(buffer.toString("ascii", 1, 4), "PNG");
@@ -114,6 +123,43 @@ assert.ok(hiddenSnapshot.filter(marker => marker.providerId === "titans")
 assert.equal(registry.getMarkers(context).some(marker => marker.providerId === "titans"), false);
 
 const layout = { x: 150, y: 59, width: 823, height: 599 };
+assert.equal(isWorldMapTerrainDetailActive(layout, 2), false);
+assert.equal(isWorldMapTerrainDetailActive(layout, 30), false);
+assert.equal(isWorldMapTerrainDetailActive(layout, 60), true);
+const terrainWindow = resolveWorldMapTerrainWindow(
+  layout,
+  { centerTileX: 140, centerTileY: 75 },
+  model,
+  60,
+);
+assert.ok(terrainWindow.tileCount < WORLD_MAP_CONFIG.terrainDetail.maximumVisibleTiles);
+assert.ok(terrainWindow.left < 140 && terrainWindow.right > 140);
+assert.ok(terrainWindow.top < 75 && terrainWindow.bottom > 75);
+
+const mirrorTransform = resolveWorldMapMirrorTransform(
+  layout,
+  { centerTileX: 140, centerTileY: 75 },
+  model,
+  60,
+);
+assert.equal(mirrorTransform.zoom, 60 / model.tileSize);
+assert.equal(
+  mirrorTransform.scrollX,
+  (140 - layout.width / 120) * model.tileSize,
+);
+assert.equal(
+  mirrorTransform.scrollY,
+  (75 - layout.height / 120) * model.tileSize,
+);
+assert.equal(shouldMirrorWorldMapObject({
+  active: true, visible: true, alpha: 1, depth: 2.41,
+  scrollFactorX: 1, scrollFactorY: 1,
+}), true);
+assert.equal(shouldMirrorWorldMapObject({
+  active: true, visible: true, alpha: 1, depth: 2000,
+  scrollFactorX: 0, scrollFactorY: 0,
+}), false);
+
 const worldToScreen = (tx, ty) => ({
   x: layout.x + tx * 3,
   y: layout.y + (ty - LEVEL_ONE_BIOME_FIELD.bounds.topTile) * 2,
@@ -138,18 +184,37 @@ assert.ok(biomeLabels.length > 0);
 assert.ok(biomeLabels.length <= WORLD_MAP_CONFIG.annotations.maxBiomeLabels);
 assert.equal(new Set(biomeLabels.map(label => label.key)).size, biomeLabels.length);
 
+const edgeMarker = resolveWorldMapMarkerAnnotations({
+  markers: [{
+    id: "edge-star", providerId: "stars", alwaysVisible: true,
+    worldX: 4, worldY: 4, label: "Edge Star", priority: 100,
+  }],
+  model,
+  discoverySystem: { isWorldPositionDiscovered: () => true },
+  layout,
+  viewState: {},
+  worldToScreen: () => ({
+    x: layout.x + 20,
+    y: layout.y + layout.height - 10,
+    pixelsPerTile: 2,
+  }),
+})[0];
+assert.equal(edgeMarker.labelOriginY, 1);
+assert.ok(edgeMarker.labelY < edgeMarker.y);
+assert.ok(edgeMarker.labelX > edgeMarker.x);
+
 const atlas = await readFile(new URL(
   `../${WORLD_MAP_CONFIG.symbolAtlas.path}`,
   import.meta.url,
 ));
-assert.deepEqual(pngDimensions(atlas), { width: 384, height: 256 });
+assert.deepEqual(pngDimensions(atlas), { width: 384, height: 384 });
 assert.equal(WORLD_MAP_CONFIG.symbolAtlas.frameWidth * 3, 384);
-assert.equal(WORLD_MAP_CONFIG.symbolAtlas.frameHeight * 2, 256);
+assert.equal(WORLD_MAP_CONFIG.symbolAtlas.frameHeight * 3, 384);
 assert.equal(Object.keys(WORLD_MAP_CONFIG.symbolAtlas.frames).length, 7);
-assert.equal(
+assert.notEqual(
   WORLD_MAP_CONFIG.symbolAtlas.frames.star,
   WORLD_MAP_CONFIG.symbolAtlas.frames.resonance,
-  "The Star layer must reuse the approved golden signal glyph without adding residency.",
+  "Star territories need a distinct authored glyph instead of the Titan-resonance symbol.",
 );
 
 const featureGroup = getRuntimeFeatureAssetGroup(RUNTIME_FEATURE_ASSET_GROUP_IDS.worldMap);
@@ -167,14 +232,27 @@ const viewSource = await readFile(new URL(
   "../ui/overlays/world-map/WorldMapOverlayView.js",
   import.meta.url,
 ), "utf8");
+const terrainSource = await readFile(new URL(
+  "../ui/overlays/world-map/WorldMapTerrainTextureView.js",
+  import.meta.url,
+), "utf8");
 assert.match(setupSource, /registerWorldMapCoreActivities\(this\.worldMapActivityRegistry\)/);
 assert.match(rendererSource, /resolveWorldMapBiomeLabels/);
 assert.match(rendererSource, /drawWorldMapDepthGrid/);
 assert.doesNotMatch(rendererSource, /fillTriangle/);
 assert.match(viewSource, /WorldMapAnnotationView/);
+assert.match(viewSource, /WorldMapTerrainTextureView/);
+assert.doesNotMatch(terrainSource, /getTileTextureLayerKeys|dynamicSoil/);
+assert.match(terrainSource, /discoverySystem\.isTileDiscovered/);
+assert.match(terrainSource, /renderTexture\.clear\(\)\.draw\(this\.renderGroup\)/);
+assert.match(terrainSource, /renderTexture\.erase\(this\.discoveryEraseGraphics\)/);
+assert.match(terrainSource, /this\.scene\.children/);
+assert.doesNotMatch(terrainSource, /load\.image/);
+assert.match(viewSource, /starTerritoryIcon/);
 assert.ok(WORLD_MAP_CONFIG.view.defaultZoom >= 16);
+assert.ok(WORLD_MAP_CONFIG.view.maxZoom >= 256);
 
 registry.destroy();
 console.log(
-  "World map polish contract passed: authored symbols, named biomes, core landmarks, activated portals, discovery-safe Titan states, counts, and runtime asset routing.",
+  "World map polish contract passed: close zoom mirrors the composed gameplay world with discovery erasure, distinct Star symbol, biome identity color, landmarks, portals, Titans, counts, and runtime asset routing.",
 );

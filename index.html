@@ -3,21 +3,26 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>UNDERSTAR Alpha 1</title>
+  <title>UNDERSTAR — Open Beta Demo</title>
   <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="./css/menu-shell.css">
   <link rel="stylesheet" href="./css/style.css">
+  <link rel="stylesheet" href="./css/menu-loading.css">
   <link rel="preload" href="./assets/fonts/barlow-semi-condensed/BarlowSemiCondensed-Regular.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="preload" href="./assets/fonts/barlow-semi-condensed/BarlowSemiCondensed-SemiBold.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="preload" href="./assets/fonts/barlow-semi-condensed/BarlowSemiCondensed-Bold.ttf" as="font" type="font/ttf" crossorigin>
 </head>
 <body>
-  <div id="game-root" aria-label="Game canvas">
-    <button id="fs-btn" title="Enter fullscreen" aria-label="Toggle fullscreen" aria-pressed="false">&#x26F6;</button>
+  <div id="game-root" class="relative isolate flex h-dvh w-full items-center justify-center overflow-hidden" aria-label="Game canvas">
+    <button id="fs-btn" class="transition-colors duration-300 motion-reduce:transition-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-amber-200" title="Enter fullscreen" aria-label="Toggle fullscreen" aria-pressed="false">&#x26F6;</button>
   </div>
 
+  <script type="module" src="./session-logging.js"></script>
   <script src="./libs/phaser.js"></script>
-  <script type="module" src="./main.js?rev=20260830-menu-first-v1"></script>
-  <script>
+  <script type="module" src="./main.js?rev=20260831-worldroot-v4-despill-v1"></script>
+  <script type="module">
+    import { BROWSER_CONTROLS } from './values/browserControls.js';
+
     (function() {
       'use strict';
 
@@ -40,15 +45,14 @@
         var request = gameRoot.requestFullscreen ||
           gameRoot.webkitRequestFullscreen ||
           gameRoot.msRequestFullscreen;
-        var keyboardCanKeepEscape = navigator.keyboard &&
-          typeof navigator.keyboard.lock === 'function';
-        if (!request || !keyboardCanKeepEscape) {
+        if (!request) {
           return Promise.resolve(enterFallbackFullscreen());
         }
         return Promise.resolve(request.call(gameRoot)).then(function() {
-          return navigator.keyboard.lock(['Escape']).catch(function(error) {
-            console.warn('[Fullscreen] Escape lock unavailable, using viewport fallback:', error);
-            return exitGameFullscreen().then(enterFallbackFullscreen);
+          // Native fullscreen also works without Keyboard Lock (e.g. Firefox).
+          if (!navigator.keyboard || typeof navigator.keyboard.lock !== 'function') return;
+          return navigator.keyboard.lock(BROWSER_CONTROLS.fullscreenLockCodes).catch(function(error) {
+            console.warn('[Fullscreen] Keyboard lock unavailable; keeping native fullscreen:', error);
           });
         });
       }
@@ -160,6 +164,18 @@
       document.addEventListener('fullscreenchange', onFullscreenChange);
       document.addEventListener('webkitfullscreenchange', onFullscreenChange);
       document.addEventListener('MSFullscreenChange', onFullscreenChange);
+
+      // Windowed tabs cannot intercept Ctrl+W. Protect an open run with the
+      // browser's leave-page confirmation, including while the game is paused.
+      window.addEventListener('beforeunload', function(event) {
+        var scenes = window.__phaserGame && window.__phaserGame.scene;
+        if (!scenes || !BROWSER_CONTROLS.confirmExitSceneKeys.some(function(key) {
+          return scenes.isActive(key) || scenes.isPaused(key);
+        })) return;
+        event.preventDefault();
+        event.returnValue = true;
+      });
+
       syncFullscreenButton();
     })();
   </script>

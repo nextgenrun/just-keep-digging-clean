@@ -16,6 +16,7 @@ export class StarConsumptionGuard {
     this.acknowledgementPending = null;
     this.pendingDamage = null;
     this.authorizedDamageKeys = new Set();
+    this.authorizedDamageProfiles = new Map();
     this.events = [];
   }
 
@@ -92,6 +93,7 @@ export class StarConsumptionGuard {
 
     const profile = this.pendingDamage.profile;
     this.authorizedDamageKeys.add(key);
+    this.authorizedDamageProfiles.set(key, profile);
     this.pendingDamage = null;
     this.events.push({ type: "star-consumption-confirmed", profile });
     return false;
@@ -121,13 +123,18 @@ export class StarConsumptionGuard {
       context,
       "consumptionHeld",
     );
-    const released = inputKnown && (
+    const released = context.gameplayActive === false || (inputKnown && (
       context.consumptionHeld !== true
       || targetKey !== this.pendingDamage.key
-    );
+    ));
     const expired = nowMs - this.pendingDamage.lastAttemptAt
       > this.config.consumption.maximumAttemptGapMs;
-    if (!released && !expired) return;
+    if (!released && !expired) {
+      // A verified continuous hold survives slow gaps between pickaxe contacts.
+      // Keep startedAt intact; release, retarget, pause, and stale frames cancel.
+      if (inputKnown) this.pendingDamage.lastAttemptAt = nowMs;
+      return;
+    }
     this.events.push({
       type: "star-consumption-hold-cancelled",
       profile: this.pendingDamage.profile,
@@ -143,17 +150,26 @@ export class StarConsumptionGuard {
         progress: 0,
       };
     }
-    if (!this.pendingDamage) return null;
-    const elapsedMs = Math.max(0, nowMs - this.pendingDamage.startedAt);
-    return {
-      phase: "holding",
-      profile: this.pendingDamage.profile,
-      elapsedMs,
+    if (this.pendingDamage) {
+      const elapsedMs = Math.max(0, nowMs - this.pendingDamage.startedAt);
+      return {
+        phase: "holding",
+        profile: this.pendingDamage.profile,
+        elapsedMs,
+        holdMs: this.config.consumption.confirmationHoldMs,
+        progress: clamp01(
+          elapsedMs / this.config.consumption.confirmationHoldMs,
+        ),
+      };
+    }
+    const authorized = this.authorizedDamageProfiles.values().next().value;
+    return authorized ? {
+      phase: "authorized",
+      profile: authorized,
+      elapsedMs: this.config.consumption.confirmationHoldMs,
       holdMs: this.config.consumption.confirmationHoldMs,
-      progress: clamp01(
-        elapsedMs / this.config.consumption.confirmationHoldMs,
-      ),
-    };
+      progress: 1,
+    } : null;
   }
 
   _flushConsumedAuthorizations() {
@@ -161,6 +177,7 @@ export class StarConsumptionGuard {
       const tile = parseTileKey(key);
       if (!tile) {
         this.authorizedDamageKeys.delete(key);
+        this.authorizedDamageProfiles.delete(key);
         continue;
       }
       if (this.worldModel?.getTileType?.(tile.tx, tile.ty) === TILE_TYPES.SKY_TILE) {
@@ -174,12 +191,14 @@ export class StarConsumptionGuard {
         });
       }
       this.authorizedDamageKeys.delete(key);
+      this.authorizedDamageProfiles.delete(key);
     }
   }
 
   destroy() {
     this.events.length = 0;
     this.authorizedDamageKeys.clear();
+    this.authorizedDamageProfiles.clear();
     this.acknowledgementPending = null;
     this.pendingDamage = null;
     this.resolveProfile = null;

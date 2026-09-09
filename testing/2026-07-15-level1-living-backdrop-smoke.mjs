@@ -106,6 +106,36 @@ assert.deepEqual(new Set(system.anchors.map(anchor => anchor.kind)), new Set([
 assert.ok(system.anchors.every(anchor => anchor.periodMs >= 7000 && anchor.periodMs <= 18000),
   "all ambient cycles must stay within the soft 7-18 second range");
 
+const representativeBounds = [
+  { left: 0, right: 34 * 94, top: 590 * 94, bottom: 610 * 94 },
+  { left: 120 * 94, right: 158 * 94, top: 890 * 94, bottom: 910 * 94 },
+];
+for (const bounds of representativeBounds) {
+  for (const kind of Object.keys(LEVEL_ONE_LIVING_BACKDROP.layers)) {
+    const cap = LEVEL_ONE_LIVING_BACKDROP.performance.maxVisible[kind];
+    const expected = system.anchorsByKind[kind]
+      .filter(anchor => system._isVisible(anchor, bounds, 94))
+      .slice(0, cap)
+      .map(anchor => anchor.id);
+    const actual = system._getVisibleAnchors(kind, bounds, 94, cap)
+      .map(anchor => anchor.id);
+    assert.deepEqual(actual, expected,
+      `${kind} spatial lookup must preserve the authored full-scan selection order`);
+  }
+}
+const mistIndex = system.anchorSpatialIndexByKind.mist;
+const deepBounds = representativeBounds[0];
+let indexedMistCandidates = 0;
+for (
+  let key = Math.floor(deepBounds.top / 94 / mistIndex.bucketSizeTiles);
+  key <= Math.floor(deepBounds.bottom / 94 / mistIndex.bucketSizeTiles);
+  key += 1
+) {
+  indexedMistCandidates += mistIndex.buckets.get(key)?.length || 0;
+}
+assert.ok(indexedMistCandidates < system.anchorsByKind.mist.length / 4,
+  "deep-camera lookup must avoid scanning the complete 2,000-row anchor field");
+
 assert.equal(system.create(), true);
 const fullPoolSize = Object.values(LEVEL_ONE_LIVING_BACKDROP.performance.maxVisible)
   .reduce((sum, value) => sum + value, 0);

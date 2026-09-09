@@ -4,6 +4,7 @@ export function collectWorldVisualGameplayEffectTargets(worldModel, bounds, caps
   const skyTiles = [];
   const chestTiles = [];
   const crystalTiles = [];
+  const specialTiles = [];
   const chestKeys = new Set();
   const addChest = (tx, ty) => {
     const key = `${tx}:${ty}`;
@@ -31,6 +32,12 @@ export function collectWorldVisualGameplayEffectTargets(worldModel, bounds, caps
       if (type === TILE_TYPES.GLOW_CRYSTAL && crystalTiles.length < caps.maxCrystalTiles) {
         crystalTiles.push({ tx, ty });
       }
+      if (
+        (type === TILE_TYPES.ABILITY_BLOCK || type === TILE_TYPES.LEGEND_BLOCK)
+        && specialTiles.length < caps.maxSpecialTiles
+      ) {
+        specialTiles.push({ tx, ty, tileType: type });
+      }
     }
   }
 
@@ -43,5 +50,5 @@ export function collectWorldVisualGameplayEffectTargets(worldModel, bounds, caps
     && zone.cy + zone.ry >= bounds.top && zone.cy - zone.ry < bounds.bottom
   )).slice(0, caps.maxCrystalZones);
 
-  return { skyTiles, chestTiles, crystalTiles, crystalZones };
+  return { skyTiles, chestTiles, crystalTiles, crystalZones, specialTiles };
 }

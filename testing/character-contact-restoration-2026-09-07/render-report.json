@@ -1,0 +1,216 @@
+{
+  "version": "survival-unified-animation-runtime-v1-20260825",
+  "sourceBlendChanged": false,
+  "quality": {
+    "textures": {
+      "normalMaps": 9,
+      "relinkedTextures": 32,
+      "eye": "C:\\xampp\\_Backups\\dig-game-simple\\dig-game-dev-env-cleaned\\visual-approval-previews\\2026-08-14-survival-global-benchmark-v1\\texture-cache-2k\\Textures\\Eye\\Eye_BaseColor.png",
+      "fullResolutionRestored": [
+        "Backpack_BaseColor.jpg",
+        "Backpack_Normal.jpg",
+        "Backpack_OcclusionRoughnessMetallic.jpg",
+        "Backpack_OcclusionRoughnessMetallic.jpg.001",
+        "Backpack_OcclusionRoughnessMetallic.jpg.002",
+        "Eye_BaseColor.png",
+        "Eyebrows_AO.jpg",
+        "Eyebrows_BaseColor.jpg",
+        "Eyebrows_Normal.jpg",
+        "Eyebrows_Opacity.jpg",
+        "Gloves_BaseColor.jpg",
+        "Gloves_Normal.jpg",
+        "Gloves_OcclusionRoughnessMetallic.jpg",
+        "Gloves_OcclusionRoughnessMetallic.jpg.001",
+        "Gloves_OcclusionRoughnessMetallic.jpg.002",
+        "HairBrown_Alpha.jpg",
+        "HairBrown_Diffuse_2.jpg",
+        "HairBrown_Normal.jpg",
+        "Jacket_BaseColor.jpg",
+        "Jacket_Normal.jpg",
+        "Jacket_OcclusionRoughnessMetallic.jpg",
+        "Jacket_OcclusionRoughnessMetallic.jpg.001",
+        "Jacket_OcclusionRoughnessMetallic.jpg.002",
+        "Jeans_BaseColor.jpg",
+        "Jeans_Normal.jpg",
+        "Jeans_OcclusionRoughnessMetallic.jpg",
+        "Jeans_OcclusionRoughnessMetallic.jpg.001",
+        "Jeans_OcclusionRoughnessMetallic.jpg.002",
+        "Shoes_BaseColor.jpg",
+        "Shoes_Normal.jpg",
+        "Shoes_OcclusionRoughnessMetallic.jpg",
+        "Shoes_OcclusionRoughnessMetallic.jpg.001",
+        "Shoes_OcclusionRoughnessMetallic.jpg.002"
+      ]
+    },
+    "pbr": {
+      "Jacket1": {
+        "ormSplit": true,
+        "aoMix": 0.28,
+        "roughnessMultiply": 0.82,
+        "roughnessAdd": 0.08,
+        "normalStrength": 1.2,
+        "coatWeight": 0.12,
+        "coatRoughness": 0.22
+      },
+      "Backpack2": {
+        "ormSplit": true,
+        "aoMix": 0.24,
+        "roughnessMultiply": 0.9,
+        "roughnessAdd": 0.06,
+        "normalStrength": 1.15,
+        "coatWeight": 0.05,
+        "coatRoughness": 0.3
+      },
+      "Gloves1": {
+        "ormSplit": true,
+        "aoMix": 0.24,
+        "roughnessMultiply": 0.8,
+        "roughnessAdd": 0.08,
+        "normalStrength": 1.15,
+        "coatWeight": 0.08,
+        "coatRoughness": 0.24
+      },
+      "Jeans1": {
+        "ormSplit": true,
+        "aoMix": 0.18,
+        "roughnessMultiply": 1.02,
+        "roughnessAdd": 0.04,
+        "normalStrength": 1.12,
+        "sheenWeight": 0.035
+      },
+      "Shoes1": {
+        "ormSplit": true,
+        "aoMix": 0.25,
+        "roughnessMultiply": 0.76,
+        "roughnessAdd": 0.08,
+        "normalStrength": 1.12,
+        "coatWeight": 0.1,
+        "coatRoughness": 0.2
+      }
+    },
+    "special": {
+      "Hair3": {
+        "roughness": 0.4,
+        "specularIorLevel": 0.24,
+        "anisotropic": 0.3,
+        "sheenWeight": 0.05,
+        "normalStrength": 1.1
+      },
+      "Head": {
+        "roughness": 0.38,
+        "specularIorLevel": 0.2,
+        "subsurfaceWeight": 0.04,
+        "subsurfaceScale": 0.08
+      },
+      "Body_Arkit:Eye": {
+        "roughness": 0.09,
+        "ior": 1.38,
+        "coatWeight": 0.38,
+        "coatRoughness": 0.055
+      }
+    },
+    "fullGlovePolygons": 6162
+  },
+  "sheets": {
+    "survival-ual-player-v1-moving-side-dig-jab-sheet": {
+      "mode": "MOVING_SIMPLE",
+      "sequences": {
+        "jab": {
+          "residual": 0.1490854152780025,
+          "frames": 22,
+          "runStart": 9
+        }
+      },
+      "frames": 22
+    },
+    "survival-ual-player-v1-moving-side-dig-cross-sheet": {
+      "mode": "MOVING_SIMPLE",
+      "sequences": {
+        "cross": {
+          "residual": 0.1490854152780025,
+          "frames": 22,
+          "runStart": 23
+        }
+      },
+      "frames": 22
+    },
+    "survival-ual-player-v1-moving-side-dig-phase-handoff-sheet": {
+      "mode": "MOVING_HANDOFF",
+      "sequences": {
+        "jab-phase-01": {
+          "residual": 0.1490854152780025,
+          "frames": 22,
+          "runStart": 1
+        },
+        "cross-phase-15": {
+          "residual": 0.1490854152780025,
+          "frames": 22,
+          "runStart": 15
+        },
+        "jab-phase-05": {
+          "residual": 0.1490854152780025,
+          "frames": 22,
+          "runStart": 5
+        },
+        "cross-phase-19": {
+          "residual": 0.1490854152780025,
+          "frames": 22,
+          "runStart": 19
+        },
+        "cross-phase-10": {
+          "residual": 0.1490854152780025,
+          "frames": 22,
+          "runStart": 10
+        },
+        "jab-phase-24": {
+          "residual": 0.1490854152780025,
+          "frames": 22,
+          "runStart": 24
+        }
+      },
+      "frames": 132
+    },
+    "survival-ual-player-v1-animation-polish-diagonal-dig-sheet": {
+      "mode": "DIAGONAL",
+      "phaseStarts": [
+        1,
+        8,
+        15,
+        22
+      ],
+      "frames": 120
+    },
+    "survival-mixamo-v3-downward-dig-body-low-sheet": {
+      "mode": "MIXAMO",
+      "sourceAction": "Armature|mixamo.com|Layer0.008",
+      "residual": 0.1490854152780025,
+      "samples": [
+        1.0,
+        6.521739130434782,
+        12.043478260869565,
+        17.565217391304348,
+        23.08695652173913,
+        28.608695652173914,
+        34.130434782608695,
+        39.65217391304348,
+        45.17391304347826,
+        50.69565217391305,
+        56.21739130434783,
+        61.73913043478261,
+        67.26086956521739,
+        72.78260869565217,
+        78.30434782608695,
+        83.82608695652173,
+        89.34782608695652,
+        94.8695652173913,
+        100.3913043478261,
+        105.91304347826087,
+        111.43478260869566,
+        116.95652173913044,
+        122.47826086956522,
+        128.0
+      ],
+      "frames": 24
+    }
+  }
+}

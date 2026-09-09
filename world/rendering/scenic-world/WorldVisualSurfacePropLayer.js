@@ -44,7 +44,8 @@ export class WorldVisualSurfacePropLayer {
   create(search = globalThis.location?.search || "", options = {}) {
     const resolved = resolveWorldVisualSurfacePropsEnabled(this.config, search);
     const levelTwoEnabled = resolved.level2
-      && isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.LEVEL_TWO);
+      && isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.LEVEL_TWO,
+        this.scene.gameplayCapabilities || this.scene.registry?.get?.("gameplayCapabilities"));
     this.enabled = Object.freeze({
       all: resolved.all && (resolved.level1 || levelTwoEnabled),
       level1: resolved.level1,

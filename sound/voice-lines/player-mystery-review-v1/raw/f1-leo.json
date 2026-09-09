@@ -1,0 +1,10 @@
+{
+  "id": "F1",
+  "voice": "leo",
+  "text": "I used to hate daylight.",
+  "model": "x-ai/grok-voice-tts-1.0",
+  "requestSha256": "0e7ec2c2806232cf13037c91b962e0dd20bc0aeb4a85fb1e9e72c0d0122207be",
+  "contentType": "audio/mpeg",
+  "generationId": "gen-tts-1788736862-tEXn71nQAFbSp8Org8gQ",
+  "rawSha256": "2da65b4b750abf109d2054a463a60a484892c908d4416459d56605bdbc9b2d1a"
+}

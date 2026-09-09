@@ -1,0 +1,10 @@
+{
+  "id": "F2",
+  "voice": "leo",
+  "text": "The sky still looks wrong.",
+  "model": "x-ai/grok-voice-tts-1.0",
+  "requestSha256": "b89d6f733930d32c942cf011723cf4a6afd06a60e75af5cc3358a79724425bd6",
+  "contentType": "audio/mpeg",
+  "generationId": "gen-tts-1788736864-JHyJjv1ZjAe4Rc3MgaK5",
+  "rawSha256": "caeff361b2b23bdab3d8cb43f1aa2ea04daf7a4e249357bb812372f2ded04749"
+}

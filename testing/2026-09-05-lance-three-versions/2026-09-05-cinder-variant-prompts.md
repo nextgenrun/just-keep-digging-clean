@@ -1,0 +1,25 @@
+# 2026-09-05 Cinder Lance artwork prompts
+
+The user selected direction 03 and requested colour variations plus occasional multicolour shots. Art is unchanged from imagegen outputs; runtime uses additive blending on pure black and a shared atlas frame.
+
+## Base fireball
+
+Use case: stylized-concept. Asset type: one isolated 2D fantasy action-game fireball projectile sprite for a review of Stellar Lance. Input image role: STYLE REFERENCE ONLY, the existing violet energy wave; create a distinct compact fireball, do not recreate the wide crescent. Generate a single clean high-end hand-painted VFX sprite on a genuinely transparent RGBA background. Horizontal travel to the RIGHT, perfectly horizontal centerline. A dense small near-spherical pear-shaped white-hot lavender fire core at the leading RIGHT end, clear round leading contour, saturated violet and amethyst fire shell, and just two or three clean swept-back violet flame tongues making a SHORT tapered tail to the LEFT. It should look like a powerful compact burning projectile with mass and a very clear silhouette, not a bubble, cloudy orb or floating magic icon. Fine sharp internal hot filaments, crisp violet rim and restrained close bloom, no diffuse haze, no surrounding aura or ring, no disconnected spray or sparks, no starbursts, no speed lines, no shockwave, no decoration, no text. The small bright core and directional shape must remain readable at approximately 50 by 24 game pixels. Do not make a long laser or spear; this option is the round compact fireball. Whole flame silhouette should be roughly 2.2 times as wide as tall, with the head accounting for about 45 percent of its width. One sprite, centered with ample clean transparent padding on every side, all flame tips fully inside the canvas. Landscape 1536 by 1024. Nothing else, no ground, no scene, no checkerboard.
+
+## Additive background correction
+
+Edit target: the supplied newly created single violet fireball sprite. Change ONLY the backdrop: remove the entire light gray and white checkerboard and replace it with perfectly uniform pure black #000000 all around the fireball, including between every flame tongue. The checkerboard is unwanted. Preserve the fireball's exact shape, internal white-hot details, existing violet colors, orientation, scale, placement and short left-facing tail; do not redesign the fireball. The result is for additive compositing in a game, so black background is intentional. Every pixel away from the luminous flame must be pure black, no gradient, no grey, no checkerboard, no ground, no alpha illustration, no text. Keep canvas size 1536 by 1024.
+
+## azure
+
+Edit target: the supplied approved compact fireball sprite. Preserve the exact canvas size 1536x1024, silhouette, position, scale, orientation, short left-facing tail, right-facing round core, crisp linework and perfectly black #000000 background. Change ONLY the flame/core colours. Recolour the existing violet flame into electric sapphire and azure blue, with cyan inner filaments and a white-hot pale icy core. This is a game projectile rendered with additive blending; preserve pure black everywhere outside the flame and between every flame tongue. No checkerboard, no grey, no aura, no halo, no detached particles, no text. The shape and source bounding box must exactly match the reference. One isolated sprite only.
+
+## ember
+
+Edit target: the supplied approved compact fireball sprite. Preserve the exact canvas size 1536x1024, silhouette, position, scale, orientation, short left-facing tail, right-facing round core, crisp linework and perfectly black #000000 background. Change ONLY the flame/core colours. Recolour the existing violet flame into rich crimson and tangerine fire, golden-orange inner filaments and a white-hot pale ivory core. This is a game projectile rendered with additive blending; preserve pure black everywhere outside the flame and between every flame tongue. No checkerboard, no grey, no aura, no halo, no detached particles, no text. The shape and source bounding box must exactly match the reference. One isolated sprite only.
+
+## prismatic
+
+Edit target: the supplied approved compact fireball sprite. Preserve the exact canvas size 1536x1024, silhouette, position, scale, orientation, short left-facing tail, right-facing round core, crisp linework and perfectly black #000000 background. Change ONLY the flame/core colours. Recolour the flame into a rare beautiful prismatic fireball: distinct interwoven cyan, violet, magenta and warm gold flame strands with a white-hot pearlescent core. The different colours should coexist across the fireball's flame tongues and internal filaments. Keep a coherent clearly readable fireball, not separate copies or a rainbow aura. This is a game projectile rendered with additive blending; preserve pure black everywhere outside the flame and between every flame tongue. No checkerboard, no grey, no aura, no halo, no detached particles, no text. The shape and source bounding box must exactly match the reference. One isolated sprite only.
+
+Runtime files: `sprites/celestial-engines/cinder-lance-v1/{violet,azure,ember,prismatic}.png`.

@@ -1,0 +1,208 @@
+{
+  "generatedAt": "2026-08-30T20:47:55.359Z",
+  "gate": "C",
+  "reviewStatus": "candidate",
+  "builtInImageGen": true,
+  "sourceTileSizePx": 94,
+  "runtimeScale": 1,
+  "carrier": {
+    "widthPx": 1536,
+    "heightPx": 1024
+  },
+  "noRuntimeResize": true,
+  "contactRepairDepthPx": 12,
+  "alphaContract": "generated foreground intersected with Gate A; pixels can never exist beyond the collision silhouette",
+  "geometryAuthority": "values/worldrootWhitebox.js",
+  "prompts": {
+    "mode": "built-in-imagegen",
+    "date": "2026-08-30",
+    "contract": "Image 1 is immutable Gate A geometry; Images 2 and 3 are accepted style references. Native 1536 x 1024 carrier, strict side elevation, no runtime resize.",
+    "amber": {
+      "task": "edit",
+      "references": [
+        "guides/amber-carrier-v1.png",
+        "../worldroot-gate-b-v1/living/rootways-living-v1.png",
+        "../worldroot-gate-b-v1/living/cobalt-living-v1.png"
+      ],
+      "prompt": "Use Image 1 as an immutable geometry carrier and layout mask. Use Images 2 and 3 only as the accepted Worldroot material, lighting, detail-density, and side-view quality benchmark. Create one production-quality Amber Fault country module for a dark fantasy 2D platform game, on the exact 1536 x 1024 carrier. Strict orthographic side elevation; the camera looks squarely at the platform profile. Preserve Image 1's two horizontal walkable top lines, their exact positions, lengths, gap, platform thickness below the lines, and the short central joining root. Do not move, rotate, widen, narrow, mirror, perspective-warp, or reinterpret the carrier geometry. The entire walkable surface must read as a broad load-bearing living branch that a human character can realistically stand and walk across, never as a detached floating platform. Paint old living wood fused with translucent amber seams, warm resin veins, fossil inclusions, and restrained golden bioluminescence. Build the upper Amber Temple into the branch itself: ancient root-grown columns, a broken arch, weathered reliefs, and a half-buried processional threshold fused into the mass, telling the story of a civilization that worshipped the Star before the tree overgrew it. The monument is architectural scenery embedded in the wood, not a separate prop or interactable. Keep the top contact edges visually clean, continuous, mostly level, and readable for gameplay. Rich hand-painted detail, crisp native-density texture, varied silhouette below the path, coherent with Images 2 and 3. Background must be an actual transparent background; if transparency cannot be emitted, use a neutral white and light-gray checker connected to every canvas edge so it can be removed without touching the art. No isometric view, no three-quarter angle, no top-down view, no vanishing point, no diagonal camera, no scene background, no ground plane, no detached or floating platforms, no unsupported architecture, no labels or text. Do not include fruit, Stars, blue Crown Star, sockets, Titans, statues as separate objects, Campfire, player character, NPCs, vendors, UI, particles, or gameplay icons.",
+      "finalSource": "amber-imagegen-source-v1.png",
+      "correctionPrompt": "Correct the first Amber draft into the exact immutable carrier. Preserve the painting while placing the complete lower road at y 546 px, the upper temple shelf at y 381 px, and the joining root exactly; embed all architecture within the shelf thickness. Strict orthographic side elevation, connected neutral checker, no gameplay objects."
+    },
+    "amber-temple-cap": {
+      "task": "edit",
+      "references": [
+        "guides/amber-temple-cap-carrier-v1.png",
+        "amber-imagegen-source-v1.png",
+        "../worldroot-gate-b-v1/living/rootways-living-v1.png"
+      ],
+      "prompt": "Use case: stylized-concept. Asset type: transparent 2D side-view game environment module. Image 1 is the immutable native carrier for the corrected Amber Temple shelf. Images 2 and 3 are style and material references only. Fill the entire carrier, including every pixel of its horizontal walkable top, with a broad load-bearing living root shelf fused with amber seams, warm resin veins, fossil inclusions, and restrained golden bioluminescence. Embed the ancient root-grown temple, broken arch, weathered reliefs, and a solid processional threshold inside the shelf thickness; the threshold must never cut a hole through the walkable top. Preserve the exact 1536 x 1024 canvas, carrier position, width, thickness, and strict orthographic side elevation. Actual transparent background or edge-connected neutral checker. Do not move, resize, rotate, stretch, widen, narrow, or add geometry. No isometric view or perspective. No detached or floating platforms. No fruit, Stars, blue Crown Star, sockets, Titans, separate statues, Campfire, player, NPC, vendor, UI, text, particles, logo, or watermark.",
+      "correctionPrompt": "Change only the center of the generated Amber shelf: embed a compact broken arch, two root-grown columns, worn relief stone, and a solid closed threshold around x 768 px. Preserve the continuous top, geometry, material, lighting, checker, and all other pixels.",
+      "sourceOffsetYPx": 39
+    },
+    "mirror": {
+      "task": "edit",
+      "references": [
+        "guides/mirror-carrier-v1.png",
+        "../worldroot-gate-b-v1/living/rootways-living-v1.png",
+        "../worldroot-gate-b-v1/living/cobalt-living-v1.png"
+      ],
+      "prompt": "Use Image 1 as an immutable geometry carrier and layout mask. Use Images 2 and 3 only as the accepted Worldroot material, lighting, detail-density, and side-view quality benchmark. Create one production-quality Mirrorstone country module for a dark fantasy 2D platform game, on the exact 1536 x 1024 carrier. Strict orthographic side elevation; the camera looks squarely at the platform profile. Preserve Image 1's two horizontal walkable top lines, their exact positions, lengths, gap, platform thickness below the lines, and the short central hanging root. Do not move, rotate, widen, narrow, mirror, perspective-warp, or reinterpret the carrier geometry. The entire walkable surface must read as a broad load-bearing living branch that a human character can realistically stand and walk across, never as a detached floating platform. Paint pale ancient living wood fused with fractured mirrorstone plates, silver sap, cool blue-white veins, dim reflections, and restrained water-like glow. Embed a ruined underground observatory and memorial into the long upper branch: root-swallowed carved arches, a fractured circular sighting frame, and worn guardian reliefs fused flush into the wood and stone. This is part of the country's architecture and history, not a separate statue, prop, or interactable. The lower reflection shelf should feel like an organically grown echo chamber beneath the main road, visibly connected by the hanging root. Keep the top contact edges visually clean, continuous, mostly level, and readable for gameplay. Rich hand-painted detail, crisp native-density texture, varied silhouette below the path, coherent with Images 2 and 3. Background must be an actual transparent background; if transparency cannot be emitted, use a neutral white and light-gray checker connected to every canvas edge so it can be removed without touching the art. No isometric view, no three-quarter angle, no top-down view, no vanishing point, no diagonal camera, no scene background, no ground plane, no detached or floating platforms, no unsupported architecture, no labels or text. Do not include fruit, Stars, blue Crown Star, sockets, Titans, statues as separate objects, Campfire, player character, NPCs, vendors, UI, particles, or gameplay icons.",
+      "finalSource": "mirror-imagegen-source-v1.png",
+      "correctionPrompt": "Correct the first Mirrorstone draft into the exact immutable carrier. Preserve the memorial and observatory painting while keeping the complete upper road at y 356 px and all architecture inside its thickness. Strict orthographic side elevation, connected neutral checker, no gameplay objects."
+    },
+    "mirror-reflection": {
+      "task": "edit",
+      "references": [
+        "guides/mirror-reflection-carrier-v1.png",
+        "mirror-imagegen-source-v1.png"
+      ],
+      "finalSource": "mirror-reflection-imagegen-source-v1.png",
+      "sourceOffsetYPx": -45,
+      "prompt": "Create the missing modular Mirrorstone reflection shelf from Image 1, using Image 2 only as the material and lighting reference. Exact 1536 x 1024 output and strict orthographic side elevation. Fill the complete lower shelf and short upward connector with pale living wood, fractured mirrorstone, silver sap, cool veins, and embedded echo chambers. Preserve the exact horizontal walkable top and connector geometry. Background must be an actual transparent background or connected neutral checker only; no isometric view, no detached or floating platforms, and no fruit, Stars, blue Crown Star, sockets, Titans, Campfire, player, NPC, vendor, UI, text, particles, or icons. The source is translated upward by 45 native pixels before exact-mask clipping; it is never rescaled."
+    }
+  },
+  "modules": [
+    {
+      "id": "amber",
+      "stage": 2,
+      "key": "environment-worldroot-gate-c-amber-v1",
+      "path": "sprites/environment/worldroot-gate-c-v1/living/amber-living-v1.png?rev=20260830-gate-c-v1",
+      "promptId": "amber",
+      "sourcePath": null,
+      "sourceOffsetYPx": -10,
+      "geometry": {
+        "silhouettes": [
+          "amber-road",
+          "amber-temple"
+        ],
+        "connectors": [
+          "amber-fork"
+        ],
+        "platforms": [
+          "amber-road",
+          "amber-temple"
+        ]
+      },
+      "bounds": {
+        "moduleId": "amber",
+        "worldLeftPx": 3407,
+        "worldTopPx": 4830,
+        "worldRightPx": 4841,
+        "worldBottomPx": 5198,
+        "widthPx": 1434,
+        "heightPx": 368,
+        "carrierLeftPx": 51,
+        "carrierTopPx": 328
+      },
+      "output": {
+        "width": 1434,
+        "height": 368,
+        "hasAlpha": true
+      }
+    },
+    {
+      "id": "amber-temple-cap",
+      "stage": 2,
+      "key": "environment-worldroot-gate-c-amber-temple-cap-v1",
+      "path": "sprites/environment/worldroot-gate-c-v1/living/amber-temple-cap-living-v1.png?rev=20260830-alignment-v1",
+      "promptId": "amber-temple-cap",
+      "sourcePath": null,
+      "sourceOffsetYPx": 39,
+      "geometry": {
+        "silhouettes": [
+          "amber-temple"
+        ],
+        "connectors": [],
+        "platforms": [
+          "amber-temple"
+        ]
+      },
+      "bounds": {
+        "moduleId": "amber-temple-cap",
+        "worldLeftPx": 3840,
+        "worldTopPx": 4855,
+        "worldRightPx": 4428,
+        "worldBottomPx": 5010,
+        "widthPx": 588,
+        "heightPx": 155,
+        "carrierLeftPx": 474,
+        "carrierTopPx": 434
+      },
+      "output": {
+        "width": 588,
+        "height": 155,
+        "hasAlpha": true
+      }
+    },
+    {
+      "id": "mirror",
+      "stage": 3,
+      "key": "environment-worldroot-gate-c-mirror-v1",
+      "path": "sprites/environment/worldroot-gate-c-v1/living/mirror-living-v1.png?rev=20260830-alignment-v1",
+      "promptId": "mirror",
+      "sourcePath": null,
+      "sourceOffsetYPx": 110,
+      "geometry": {
+        "silhouettes": [
+          "mirror-road"
+        ],
+        "connectors": [],
+        "platforms": [
+          "mirror-road"
+        ]
+      },
+      "bounds": {
+        "moduleId": "mirror",
+        "worldLeftPx": 4413,
+        "worldTopPx": 4657,
+        "worldRightPx": 5899,
+        "worldBottomPx": 4832,
+        "widthPx": 1486,
+        "heightPx": 175,
+        "carrierLeftPx": 25,
+        "carrierTopPx": 424
+      },
+      "output": {
+        "width": 1486,
+        "height": 175,
+        "hasAlpha": true
+      }
+    },
+    {
+      "id": "mirror-reflection",
+      "stage": 3,
+      "key": "environment-worldroot-gate-c-mirror-reflection-v1",
+      "path": "sprites/environment/worldroot-gate-c-v1/living/mirror-reflection-living-v1.png?rev=20260830-gate-c-v1",
+      "promptId": "mirror-reflection",
+      "sourcePath": null,
+      "sourceOffsetYPx": -45,
+      "geometry": {
+        "silhouettes": [
+          "mirror-reflection"
+        ],
+        "connectors": [
+          "mirror-drop"
+        ],
+        "platforms": [
+          "mirror-reflection"
+        ]
+      },
+      "bounds": {
+        "moduleId": "mirror-reflection",
+        "worldLeftPx": 4733,
+        "worldTopPx": 4644,
+        "worldRightPx": 5372,
+        "worldBottomPx": 5039,
+        "widthPx": 639,
+        "heightPx": 395,
+        "carrierLeftPx": 448,
+        "carrierTopPx": 314
+      },
+      "output": {
+        "width": 639,
+        "height": 395,
+        "hasAlpha": true
+      }
+    }
+  ]
+}

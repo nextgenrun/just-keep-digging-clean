@@ -3,6 +3,11 @@
 import {
   CELESTIAL_TALENT_BRANCHES,
 } from "./celestialTalentBranches.js";
+import { LEVEL_CONFIG } from "./levelConfig.js";
+import {
+  CELESTIAL_TALENT_RANK_CONFIG,
+  getCelestialTalentRank,
+} from "./celestialTalentRanks.js";
 
 export { CELESTIAL_TALENT_BRANCH_IDS } from "./celestialTalentBranches.js";
 
@@ -25,12 +30,13 @@ const STAR_POINT_YIELDS = Object.freeze({
 });
 
 export const CELESTIAL_TALENT_PROGRESSION_CONFIG = Object.freeze({
-  saveVersion: 2,
+  saveVersion: 3,
   access: Object.freeze({
     requiredPlayerLevel: 3,
     initialFreeRootSelections: 1,
     rootSelectionsPerCompletedBranch: 1,
   }),
+  talentPoints: Object.freeze({ firstLevel: 3, perLevel: 1, unlockCost: 1 }),
   currency: Object.freeze({
     maximumBalance: 9999999,
     maximumLifetimeEarned: 99999999,
@@ -74,6 +80,12 @@ export function getCelestialStarPointYield(rarity) {
     ? CELESTIAL_STAR_RARITY_ORDER[rarity]
     : String(rarity || "").toLowerCase();
   return STAR_POINT_YIELDS[id] || 0;
+}
+
+export function getEarnedCelestialTalentPoints(playerLevel) {
+  const level = boundedInteger(playerLevel, LEVEL_CONFIG.HARDCAP);
+  const { firstLevel, perLevel } = CELESTIAL_TALENT_PROGRESSION_CONFIG.talentPoints;
+  return Math.max(0, level - firstLevel + 1) * perLevel;
 }
 
 function boundedInteger(value, maximum) {
@@ -120,6 +132,14 @@ export function sanitizeCelestialTalentProgressionData(data) {
     ? data.celestialTalents
     : data && typeof data === "object" ? data : {};
   const purchasedNodeIds = acceptRequestedGraph(requestedNodeIds(source));
+  const legacy = Number(source.version || 0) < CELESTIAL_TALENT_PROGRESSION_CONFIG.saveVersion;
+  const nodeRanks = Object.fromEntries(purchasedNodeIds.map(nodeId => [
+    nodeId,
+    legacy
+      ? (CELESTIAL_TALENT_NODES_BY_ID[nodeId].starsCost > 0
+        ? CELESTIAL_TALENT_RANK_CONFIG.legacyPaidRank : 1)
+      : getCelestialTalentRank(source.nodeRanks?.[nodeId]),
+  ]));
   const currency = source.currency && typeof source.currency === "object"
     ? source.currency
     : {};
@@ -128,7 +148,7 @@ export function sanitizeCelestialTalentProgressionData(data) {
     CELESTIAL_TALENT_PROGRESSION_CONFIG.currency.maximumBalance,
   );
   const configuredSpend = purchasedNodeIds.reduce(
-    (total, nodeId) => total + CELESTIAL_TALENT_NODES_BY_ID[nodeId].starsCost,
+    (total, nodeId) => total + (legacy ? CELESTIAL_TALENT_NODES_BY_ID[nodeId].starsCost : 0),
     0,
   );
   const spentStars = Math.max(
@@ -155,5 +175,8 @@ export function sanitizeCelestialTalentProgressionData(data) {
       lifetimeStarsEarned,
     ),
     purchasedNodeIds,
+    nodeRanks,
+    // Old unlocks are grandfathered. Only new Talent Point purchases use this ledger.
+    spentTalentPoints: legacy ? 0 : boundedInteger(source.spentTalentPoints, purchasedNodeIds.length),
   };
 }

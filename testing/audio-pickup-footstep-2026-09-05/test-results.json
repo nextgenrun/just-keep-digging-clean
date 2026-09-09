@@ -1,0 +1,65 @@
+[
+  {
+    "test": "testing/audio-pickup-footstep-2026-09-05/verify.mjs",
+    "baselineAudio": false,
+    "exitCode": 0,
+    "log": "checks/final-testing__audio-pickup-footstep-2026-09-05__verify.mjs.log",
+    "failure": null
+  },
+  {
+    "test": "testing/audio-design-cleanup-2026-09-05/verify.mjs",
+    "baselineAudio": false,
+    "exitCode": 0,
+    "log": "checks/final-testing__audio-design-cleanup-2026-09-05__verify.mjs.log",
+    "failure": null
+  },
+  {
+    "test": "testing/2026-09-04-active-gametime-audio-reaudit-contract.mjs",
+    "baselineAudio": false,
+    "exitCode": 0,
+    "log": "checks/final-testing__2026-09-04-active-gametime-audio-reaudit-contract.mjs.log",
+    "failure": null
+  },
+  {
+    "test": "testing/2026-09-03-reviewed-audio-timing-contract.mjs",
+    "baselineAudio": false,
+    "exitCode": 0,
+    "log": "checks/final-testing__2026-09-03-reviewed-audio-timing-contract.mjs.log",
+    "failure": null
+  },
+  {
+    "test": "testing/2026-09-03-reviewed-audio-volume-contract.mjs",
+    "baselineAudio": false,
+    "exitCode": 0,
+    "log": "checks/final-testing__2026-09-03-reviewed-audio-volume-contract.mjs.log",
+    "failure": null
+  },
+  {
+    "test": "testing/2026-09-03-freesound-audio-timing-contract.mjs",
+    "baselineAudio": false,
+    "exitCode": 0,
+    "log": "checks/final-testing__2026-09-03-freesound-audio-timing-contract.mjs.log",
+    "failure": null
+  },
+  {
+    "test": "testing/2026-09-03-freesound-audio-volume-contract.mjs",
+    "baselineAudio": false,
+    "exitCode": 0,
+    "log": "checks/final-testing__2026-09-03-freesound-audio-volume-contract.mjs.log",
+    "failure": null
+  },
+  {
+    "test": "testing/2026-08-26-xp-gathering-polish-contract.mjs",
+    "baselineAudio": false,
+    "exitCode": 0,
+    "log": "checks/final-testing__2026-08-26-xp-gathering-polish-contract.mjs.log",
+    "failure": null
+  },
+  {
+    "test": "testing/2026-08-31-loot-pickup-continuity-v2-contract.mjs",
+    "baselineAudio": false,
+    "exitCode": 0,
+    "log": "checks/final-testing__2026-08-31-loot-pickup-continuity-v2-contract.mjs.log",
+    "failure": null
+  }
+]

@@ -8,10 +8,69 @@ import {
   WORLDROOT_CONFIG,
   resolveWorldrootGrowthStage,
   sampleWorldrootPath,
-} from "../../values/worldroot.js";
+} from "../../values/worldroot.js?rev=20260830-worldroot-v13";
 
 const clamp = (value, minimum, maximum) => Math.max(minimum, Math.min(maximum, value));
-const integer = value => Math.max(0, Math.floor(Number(value) || 0));
+const integer = (value) => {
+  const numeric = Number(value);
+  return Number.isFinite(numeric) ? Math.max(0, Math.floor(numeric)) : 0;
+};
+const TITAN_IDS = new Set(TITAN_DEFINITIONS.map(definition => definition.id));
+const STAR_STATES = new Set(["intact", "consumed"]);
+
+function finiteNonNegative(value) {
+  const numeric = Number(value);
+  return Number.isFinite(numeric) ? Math.max(0, numeric) : 0;
+}
+
+function colorNumber(value, fallback) {
+  const parsed = Number.isFinite(value)
+    ? value
+    : Number.parseInt(String(value || "").replace("#", ""), 16);
+  return Number.isFinite(parsed)
+    ? clamp(Math.floor(parsed), 0, 0xffffff)
+    : fallback;
+}
+
+function normalizeKnownSites(rawMap, discoverySystem, config) {
+  const seenKeys = new Set();
+  const seenTiles = new Set();
+  const sites = [];
+  for (const raw of Array.isArray(rawMap?.knownSites) ? rawMap.knownSites : []) {
+    const tx = Number(raw?.tx);
+    const ty = Number(raw?.ty);
+    if (!Number.isFinite(tx) || !Number.isFinite(ty) || !STAR_STATES.has(raw?.state)) {
+      continue;
+    }
+    const tileX = Math.floor(tx);
+    const tileY = Math.floor(ty);
+    const key = String(raw?.key || `${tileX},${tileY}`);
+    const tileKey = `${tileX},${tileY}`;
+    if (!key || seenKeys.has(key) || seenTiles.has(tileKey)) continue;
+    seenKeys.add(key);
+    seenTiles.add(tileKey);
+    const discovered = raw?.discovered === true
+      || discoverySystem?.isTileDiscovered?.(tileX, tileY) === true;
+    sites.push({
+      ...raw,
+      id: String(raw?.id || `star-${tileX}-${tileY}`),
+      key,
+      tx: tileX,
+      ty: tileY,
+      state: raw.state,
+      discovered,
+      identityId: discovered ? raw?.identityId || null : null,
+      identityName: discovered
+        ? String(raw?.identityName || config.copy.unknownStarLabel)
+        : config.copy.unknownStarLabel,
+      rarityIndex: discovered ? clamp(integer(raw?.rarityIndex), 0, 5) : 0,
+      color: discovered
+        ? colorNumber(raw?.color, config.colors.intact)
+        : config.colors.intact,
+    });
+  }
+  return sites.sort((left, right) => left.ty - right.ty || left.tx - right.tx);
+}
 
 function hashUnit(value) {
   let hash = 2166136261;
@@ -46,12 +105,15 @@ function resolveProfileAnchor(profile, regionLayout, profilesInRegion) {
   const progress = (index + 0.45 + hashUnit(profile.id) * 0.1) / profilesInRegion.length;
   const sampled = sampleWorldrootPath(regionLayout.path, progress);
   const side = hashUnit(`${profile.id}:side`) - 0.5;
+  const y = clamp(sampled.y + (hashUnit(`${profile.id}:rise`) - 0.5) * 0.028,
+    regionLayout.mask.y + 0.012,
+    regionLayout.mask.y + regionLayout.mask.height - 0.012);
   return {
     x: clamp(sampled.x + side * 0.025, regionLayout.mask.x + 0.012,
       regionLayout.mask.x + regionLayout.mask.width - 0.012),
-    y: clamp(sampled.y + (hashUnit(`${profile.id}:rise`) - 0.5) * 0.028,
-      regionLayout.mask.y + 0.012,
-      regionLayout.mask.y + regionLayout.mask.height - 0.012),
+    // Keep all inspectable story knots above the town interaction band. The
+    // only surface Worldroot action remains its dedicated talent root.
+    y: profile.sourceRegionId === "surface-entry" ? Math.min(y, 0.74) : y,
   };
 }
 
@@ -122,11 +184,14 @@ function buildBiomeMemories(knownSites, config, field) {
     return {
       id: site.id,
       key: site.key,
-      label: site.identityName,
-      identityId: site.identityId,
+      label: site.discovered
+        ? String(site.identityName || config.copy.unknownStarLabel)
+        : config.copy.unknownStarLabel,
+      identityId: site.discovered ? site.identityId || null : null,
+      discovered: site.discovered,
       state: site.state,
-      rarityIndex: site.rarityIndex,
-      color: site.color,
+      rarityIndex: site.discovered ? site.rarityIndex : 0,
+      color: site.discovered ? site.color : config.colors.intact,
       profileId: site.profileId,
       regionId: profile?.regionId,
       projected: site.projected,
@@ -190,18 +255,28 @@ function buildTalentMemories(talentSnapshot, config) {
     { x: 0.300, y: 0.735 },
     { x: 0.365, y: 0.665 },
   ];
-  return (talentSnapshot?.branches || []).map((branch, index) => ({
-    id: branch.id,
-    name: branch.name,
-    color: config.colors.talentBranches[branch.id] || config.colors.intact,
-    rootPurchased: branch.rootPurchased === true,
-    completed: branch.completed === true,
-    mastered: branch.mastered === true,
-    purchasedCount: integer(branch.purchasedCount),
-    nodeCount: integer(branch.nodeCount),
-    progress: branch.nodeCount > 0 ? branch.purchasedCount / branch.nodeCount : 0,
-    point: anchors[index] || anchors[anchors.length - 1],
-  }));
+  const branchesById = new Map(
+    (Array.isArray(talentSnapshot?.branches) ? talentSnapshot.branches : [])
+      .filter(branch => config.endgame.talentBranchIds.includes(branch?.id))
+      .map(branch => [branch.id, branch]),
+  );
+  return config.endgame.talentBranchIds.map((branchId, index) => {
+    const branch = branchesById.get(branchId) || {};
+    const purchasedCount = integer(branch.purchasedCount);
+    const nodeCount = integer(branch.nodeCount);
+    return {
+      id: branchId,
+      name: String(branch.name || branchId),
+      color: config.colors.talentBranches[branchId] || config.colors.intact,
+      rootPurchased: branch.rootPurchased === true,
+      completed: branch.completed === true,
+      mastered: branch.mastered === true,
+      purchasedCount,
+      nodeCount,
+      progress: nodeCount > 0 ? clamp(purchasedCount / nodeCount, 0, 1) : 0,
+      point: anchors[index] || anchors[anchors.length - 1],
+    };
+  });
 }
 
 export function resolveWorldrootSnapshot(
@@ -210,25 +285,48 @@ export function resolveWorldrootSnapshot(
   config = WORLDROOT_CONFIG,
   field = LEVEL_ONE_BIOME_FIELD,
 ) {
-  const map = scene?.worldMapStarTerritorySystem?.resolveMap?.(
+  const rawMap = scene?.worldMapStarTerritorySystem?.resolveMap?.(
     scene?.worldMapDiscoverySystem,
     playerTile,
   ) || { knownSites: [], knownIntactCount: 0, knownConsumedCount: 0 };
-  const knownSites = [...(map.knownSites || [])].sort((left, right) => (
-    left.ty - right.ty || left.tx - right.tx
-  ));
+  const knownSites = normalizeKnownSites(
+    rawMap,
+    scene?.worldMapDiscoverySystem,
+    config,
+  );
+  const intactStarCount = knownSites.filter(site => site.state === "intact").length;
+  const consumedStarCount = knownSites.length - intactStarCount;
+  const map = {
+    ...rawMap,
+    knownSites,
+    knownIntactCount: intactStarCount,
+    knownConsumedCount: consumedStarCount,
+  };
   const biome = buildBiomeMemories(knownSites, config, field);
   const talentSnapshot = scene?.celestialTalentProgressionSystem?.getSnapshot?.() || {};
-  const discoveredTitanIds = scene?.retentionProgressSystem?.getDiscoveredTitans?.() || [];
-  const activeTitanClueId = scene?.titanClueSystem?.getActiveClueId?.() || null;
-  const campfireLevel = integer(scene?.campfireSystem?.getCampfireLevel?.() || 1);
+  const talentMemories = buildTalentMemories(talentSnapshot, config);
+  const rawDiscoveredTitanIds = scene?.retentionProgressSystem
+    ?.getDiscoveredTitans?.();
+  const discoveredTitanIds = [...new Set(
+    (Array.isArray(rawDiscoveredTitanIds) ? rawDiscoveredTitanIds : [])
+      .filter(id => TITAN_IDS.has(id)),
+  )];
+  const requestedTitanClueId = scene?.titanClueSystem?.getActiveClueId?.() || null;
+  const activeTitanClueId = TITAN_IDS.has(requestedTitanClueId)
+    ? requestedTitanClueId
+    : null;
+  const campfireLevel = clamp(
+    integer(scene?.campfireSystem?.getCampfireLevel?.() || 1),
+    1,
+    config.endgame.requiredCampfireLevel,
+  );
   const activeCampfireBuff = scene?.campfireSystem?.getActiveBuff?.() || null;
   const abilities = scene?.playerController?.abilities;
-  const gpCurrent = Math.max(0, Number(abilities?.getGemPowerExact?.()) || 0);
-  const gpMaximum = Math.max(0, Number(abilities?.getGemPowerMax?.()) || 0);
+  const gpCurrent = finiteNonNegative(abilities?.getGemPowerExact?.());
+  const gpMaximum = finiteNonNegative(abilities?.getGemPowerMax?.());
   const awakeRegionCount = biome.regionMemories.filter(region => region.awake).length;
-  const completedTalentBranchCount = integer(talentSnapshot.completedBranchIds?.length);
-  const talentRootCount = integer(talentSnapshot.purchasedRootNodeIds?.length);
+  const completedTalentBranchCount = talentMemories.filter(branch => branch.completed).length;
+  const talentRootCount = talentMemories.filter(branch => branch.rootPurchased).length;
   const discoveredSet = new Set(discoveredTitanIds);
   const titanCount = discoveredSet.size;
   const knownStarCount = knownSites.length;
@@ -270,14 +368,14 @@ export function resolveWorldrootSnapshot(
   const snapshot = {
     map,
     knownStarCount,
-    intactStarCount: integer(map.knownIntactCount),
-    consumedStarCount: integer(map.knownConsumedCount),
+    intactStarCount,
+    consumedStarCount,
     profileMemories: biome.profileMemories,
     regionMemories: biome.regionMemories,
     starMemories: biome.starMemories,
     awakeRegionCount,
     talentSnapshot,
-    talentMemories: buildTalentMemories(talentSnapshot, config),
+    talentMemories,
     talentRootCount,
     completedTalentBranchCount,
     titanMemories: buildTitanMemories(discoveredTitanIds, activeTitanClueId, config),
@@ -293,13 +391,18 @@ export function resolveWorldrootSnapshot(
   };
   snapshot.growthStage = resolveWorldrootGrowthStage(snapshot);
   snapshot.signature = [
-    knownSites.map(site => `${site.key}:${site.state}`).join("|"),
+    knownSites.map(site => (
+      site.discovered
+        ? `${site.key}:${site.state}:seen:${site.identityId || "unknown"}`
+          + `:${site.identityName}:${site.rarityIndex}:${site.color}`
+        : `${site.key}:${site.state}:signal`
+    )).join("|"),
     [...discoveredSet].sort().join("|"),
-    talentSnapshot.purchasedNodeIds?.join("|") || "",
+    talentMemories.map(branch => (
+      `${branch.id}:${branch.rootPurchased ? 1 : 0}:${branch.purchasedCount}`
+      + `:${branch.nodeCount}:${branch.completed ? 1 : 0}:${branch.mastered ? 1 : 0}`
+    )).join("|"),
     campfireLevel,
-    activeCampfireBuff?.type || "none",
-    Math.round(snapshot.gpRatio * 20),
-    activeTitanClueId || "none",
   ].join("::");
   return snapshot;
 }

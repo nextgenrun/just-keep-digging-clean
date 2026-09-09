@@ -1,0 +1,155 @@
+[
+  {
+    "file": "talents-wayward.png",
+    "source": "C:/Users/Mila/.codex/generated_images/01a073dd-be6a-7970-8435-e600fc19371a/exec-0dbbbe6a-f1b2-41c8-a208-276225ee57bb.png",
+    "path": "sprites/UI/baked-stars-talents-v2/talents-wayward.png",
+    "width": 1024,
+    "height": 1536,
+    "bytes": 2942704,
+    "sha256": "02a379557b0e0cbf062c94840336cfcb0c4d63139e32d0e9f901158f3784f737"
+  },
+  {
+    "file": "talents-hollow.png",
+    "source": "C:/Users/Mila/.codex/generated_images/01a073dd-be6a-7970-8435-e600fc19371a/exec-6997e3cd-a50c-4dad-a0e5-ce2361e25153.png",
+    "path": "sprites/UI/baked-stars-talents-v2/talents-hollow.png",
+    "width": 1024,
+    "height": 1536,
+    "bytes": 2877868,
+    "sha256": "3704992512017940001f331d6eed4556ece7a42e2463c5df6a79da2c565505a6"
+  },
+  {
+    "file": "talents-lance.png",
+    "source": "C:/Users/Mila/.codex/generated_images/01a073dd-be6a-7970-8435-e600fc19371a/exec-0606be64-af85-4ea1-b9ac-13d65a071766.png",
+    "path": "sprites/UI/baked-stars-talents-v2/talents-lance.png",
+    "width": 1024,
+    "height": 1536,
+    "bytes": 2802670,
+    "sha256": "6040b0394519dd4380a675e5cd1a43eac80411af2eec06f178dbb5247cb8a711"
+  },
+  {
+    "file": "stars-common.png",
+    "source": "C:/Users/Mila/.codex/generated_images/01a073dd-be6a-7970-8435-e600fc19371a/exec-a88d9c28-7312-4a90-a1ee-d0c953cd4c82.png",
+    "path": "sprites/UI/baked-stars-talents-v2/stars-common.png",
+    "width": 1619,
+    "height": 972,
+    "bytes": 2436239,
+    "sha256": "c745f907a1c30c6accf5c0a379742571fb336cf2e1594d3874653d33ecfb1348"
+  },
+  {
+    "file": "stars-uncommon.png",
+    "source": "C:/Users/Mila/.codex/generated_images/01a073dd-be6a-7970-8435-e600fc19371a/exec-abcc9b87-d898-43cb-af4e-1cc038882e3a.png",
+    "path": "sprites/UI/baked-stars-talents-v2/stars-uncommon.png",
+    "width": 1619,
+    "height": 972,
+    "bytes": 2350320,
+    "sha256": "47c1bfd0c890f25c4b92b7a879ba505c8853885183cf10db91c0cc2e51b9202a"
+  },
+  {
+    "file": "stars-rare.png",
+    "source": "C:/Users/Mila/.codex/generated_images/01a073dd-be6a-7970-8435-e600fc19371a/exec-bf1cb68e-55c6-41ea-b107-7de3e79133a4.png",
+    "path": "sprites/UI/baked-stars-talents-v2/stars-rare.png",
+    "width": 1619,
+    "height": 972,
+    "bytes": 2226096,
+    "sha256": "9cec3a5845938ff29b7ef73f95fd281b7bb82a18827d6ffc29bb6e75a10a0155"
+  },
+  {
+    "file": "stars-epic.png",
+    "source": "C:/Users/Mila/.codex/generated_images/01a073dd-be6a-7970-8435-e600fc19371a/exec-87d66f3a-8894-451a-aeaf-d6fdd10b211d.png",
+    "path": "sprites/UI/baked-stars-talents-v2/stars-epic.png",
+    "width": 1619,
+    "height": 972,
+    "bytes": 2348495,
+    "sha256": "8a0f623a597d06e018e1b9aee935c94f958c89a0b128caa36a067e0377519304"
+  },
+  {
+    "file": "stars-mythic.png",
+    "source": "C:/Users/Mila/.codex/generated_images/01a073dd-be6a-7970-8435-e600fc19371a/exec-6a7f9303-4f28-4b5b-b612-8e9963f98fd3.png",
+    "path": "sprites/UI/baked-stars-talents-v2/stars-mythic.png",
+    "width": 1535,
+    "height": 1024,
+    "bytes": 2237211,
+    "sha256": "2fce40960da018c8f1ebca4b831a124b6b9612d025712951b6ce74de1cd85ec1"
+  },
+  {
+    "file": "stars-astral.png",
+    "source": "C:/Users/Mila/.codex/generated_images/01a073dd-be6a-7970-8435-e600fc19371a/exec-cdcf910a-fc8e-4a44-bb46-413d1f2cde1c.png",
+    "path": "sprites/UI/baked-stars-talents-v2/stars-astral.png",
+    "width": 1402,
+    "height": 1122,
+    "bytes": 2122606,
+    "sha256": "e8f54894e93798704af1be150ba193b641ceed9886af5440a6071cc2518ab1c4"
+  },
+  {
+    "file": "labels.png",
+    "source": "C:/Users/Mila/.codex/generated_images/01a073dd-be6a-7970-8435-e600fc19371a/exec-4664a054-2b88-4680-aa5d-910a7b08e914.png",
+    "path": "sprites/UI/baked-stars-talents-v2/labels.png",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 2035234,
+    "sha256": "e3d90a8ab945285bac1c6d064dae639f6f66731edc9861cf8d5665d96f07b4e9"
+  },
+  {
+    "file": "messages.png",
+    "source": "C:/Users/Mila/.codex/generated_images/01a073dd-be6a-7970-8435-e600fc19371a/exec-afcc9981-7b69-426f-9a40-47d135fc8299.png",
+    "path": "sprites/UI/baked-stars-talents-v2/messages.png",
+    "width": 1024,
+    "height": 1536,
+    "bytes": 2693828,
+    "sha256": "17ac0e150c5531ae015391bec0428820f523a2ebaecdec61c36235039231a23a"
+  },
+  {
+    "file": "descriptions-0.png",
+    "source": "C:/Users/Mila/.codex/generated_images/01a073dd-be6a-7970-8435-e600fc19371a/exec-0aa869e1-3611-4a70-a591-585a8be82ba2.png",
+    "path": "sprites/UI/baked-stars-talents-v2/descriptions-0.png",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 2549865,
+    "sha256": "58707595240d5b440787125aa46ca7e4dd53e4f239eac39591b8612f6af456cd"
+  },
+  {
+    "file": "descriptions-1.png",
+    "source": "C:/Users/Mila/.codex/generated_images/01a073dd-be6a-7970-8435-e600fc19371a/exec-1ca45946-ac40-43cc-a1a6-7720b51ae2e6.png",
+    "path": "sprites/UI/baked-stars-talents-v2/descriptions-1.png",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 2608671,
+    "sha256": "18792773daf13182fbd24584cafd18c9548e9df0c81316804c42d3e914ac27fb"
+  },
+  {
+    "file": "descriptions-2.png",
+    "source": "C:/Users/Mila/.codex/generated_images/01a073dd-be6a-7970-8435-e600fc19371a/exec-2ff0369c-5f65-463e-b996-e0ff59208ef3.png",
+    "path": "sprites/UI/baked-stars-talents-v2/descriptions-2.png",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 2416581,
+    "sha256": "5f95c35fae1c98c25dd96a538414e06899d3b9df96e4437309b29b55bdd31472"
+  },
+  {
+    "file": "descriptions-3.png",
+    "source": "C:/Users/Mila/.codex/generated_images/01a073dd-be6a-7970-8435-e600fc19371a/exec-3d116e2e-cc80-462f-845c-d45ef9b63af0.png",
+    "path": "sprites/UI/baked-stars-talents-v2/descriptions-3.png",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 2373176,
+    "sha256": "55e21118a1b1da8ee0f290db5208e05fec92d74a1e25573fbda6ddfc3968869c"
+  },
+  {
+    "file": "descriptions-4.png",
+    "source": "C:/Users/Mila/.codex/generated_images/01a073dd-be6a-7970-8435-e600fc19371a/exec-8bcb4669-bccd-4ce5-b880-bb28d759ab84.png",
+    "path": "sprites/UI/baked-stars-talents-v2/descriptions-4.png",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 2695915,
+    "sha256": "b20d6153086e63b8cf5ec5ad08d4480e89efc3e1dbaf360e87c8a073fee889d0"
+  },
+  {
+    "file": "descriptions-5.png",
+    "source": "C:/Users/Mila/.codex/generated_images/01a073dd-be6a-7970-8435-e600fc19371a/exec-6d09c6ad-eb4a-4e7a-89f4-7ed66ea59902.png",
+    "path": "sprites/UI/baked-stars-talents-v2/descriptions-5.png",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 2518745,
+    "sha256": "146da0ed1977232dd28f3242413006e4e8d3da934e1fade8304339ad4a078387"
+  }
+]

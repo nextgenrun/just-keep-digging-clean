@@ -60,6 +60,7 @@ function createDisplayObject(x = 0, y = 0) {
       this.displayHeight = height;
       return this;
     },
+    setScrollFactor(value) { this.scrollFactorX = this.scrollFactorY = value; return this; },
     setInteractive(options) { this.interactive = options || true; return this; },
     disableInteractive() { this.interactive = false; return this; },
     setText(value) { this.text = value; return this; },

@@ -1,5 +1,11 @@
 # Survival unified animation runtime v1
 
+Current-sheet dig contact tips and source hashes are recorded in
+`values/digImpactContacts.generated.js`; `values/digImpactPresentation.js`
+corrects the reviewed unified extension frames without changing these pixels,
+family scales, origins, or the legacy pipeline. Re-audit changed sheets with
+`testing/2026-09-03-dig-impact-asset-audit.py` before updating that data.
+
 This folder is the active 2026-08-25 Survival character package. Its 54
 lossless WebP sheets were rendered from one Survival V4 mesh and 160-bone rig
 with the same full-glove materials, restored eyes, orthographic camera, light,

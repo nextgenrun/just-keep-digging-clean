@@ -1,0 +1,19 @@
+{
+  "audit": "timing-and-lifecycle",
+  "passed": true,
+  "checks": [
+    "Every promoted source has explicit approval and an unchanged production hash",
+    "No sound for cooldown or absent target; contact and material break share authoritative dispatch",
+    "Star destruction emits one cue, never generic material break",
+    "Repeated UI events are throttled and active tails are bounded",
+    "Late loads warm the next event; they never replay a stale transient",
+    "Rejected solo stems cannot be played outside their approved composite",
+    "Variant bags exhaust alternatives and an active cave clock keeps cooldowns alive",
+    "Contact-source leading silence stays within one 30 ms onset budget",
+    "Composite loop loading is atomic, and surface depth clears cave layers",
+    "Landing requires a real airborne downward interval; spawn/teleport are silent",
+    "Mute, pause and destroy cancel all managed SFX and loops",
+    "Success-only purchase/save/arrival hooks and calm recovery route are present"
+  ],
+  "totalChecks": 12
+}

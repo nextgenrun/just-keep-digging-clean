@@ -1,0 +1,39 @@
+Focused Talents validation — 2026-09-07
+
+node testing/2026-09-06-baked-copy/asset-contract.mjs
+exit_code: 0
+{"pass":true,"labels":136,"assets":31,"decodedMiB":186}
+
+node testing/2026-09-06-baked-copy/celestial-art-contract.mjs
+exit_code: 0
+PASS baked Celestial art: 17 byte-identical sources, 36 current descriptions, 250 mapped stars, 430 valid frames.
+
+node testing/2026-09-06-baked-copy/celestial-rendering-contract.mjs
+exit_code: 0
+PASS baked Star UI: pagination, native resolution, fixed geometry, subtle glint, cleanup and reduced motion.
+
+node testing/2026-07-30-star-identity-library-contract.mjs
+exit_code: 0
+star identity library contract: PASS (250 identities, 6 rarities)
+
+node testing/2026-08-03-celestial-talent-progression-contract.mjs
+exit_code: 0
+Celestial talent progression contract passed.
+
+node testing/2026-08-03-celestial-talent-effects-contract.mjs
+exit_code: 0
+PASS Celestial effects: every purchased upgrade changes its live Engine definition
+
+node testing/2026-08-03-celestial-action-bar-contract.mjs
+exit_code: 0
+PASS celestial actionbar: eager authored shell, empty unowned slots, activation, drag-save rollback, resize, teardown
+
+node testing/2026-08-03-celestial-actionbar-input-contract.mjs
+exit_code: 0
+Celestial actionbar input contract passed.
+
+node testing/2026-08-03-celestial-talent-tree-ui-contract.mjs
+exit_code: 0
+PASS focused Talents: 3 choices, 12 visible nodes, docked baked cards, inspect-before-purchase, guarded ranks/costs, feedback and reduced-motion cleanup.
+
+Scoped git diff --check: exit 0 (only existing line-ending normalization warnings).

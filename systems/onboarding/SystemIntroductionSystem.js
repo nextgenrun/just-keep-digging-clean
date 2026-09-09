@@ -3,6 +3,7 @@ import {
   resolveSystemIntroductionEnabled,
 } from "../../values/systemIntroduction.js";
 import { UPGRADES } from "../../values/upgradeDefinitions.js";
+import { getShopUpgradeProgression } from "../../values/upgradeUnlockProgression.js";
 import {
   RETENTION_CONFIG,
   TOWN_TUTORIAL_CHOICES,
@@ -76,11 +77,13 @@ export class SystemIntroductionSystem {
     const thresholds = this.config.thresholds;
     const snapshot = {
       bestDepth,
+      relicCount: Math.max(number(stats.relicsFound), number(this.scene.ancientRelicSystem?.getCount?.())),
       playerLevel,
       legacySave,
       tutorialComplete,
       flightReady,
       firstReturn,
+      hearthKnown: firstReturn || this.scene.campfireSystem?._hasRested === true,
       coreLoopComplete: tutorialComplete
         && number(stats.totalTilesBroken) > 0
         && number(stats.resourcesSold) > 0
@@ -148,7 +151,16 @@ export class SystemIntroductionSystem {
         detail: "The upgrade definition is unavailable.",
       };
     }
-    if (!this.enabled || this.scene.upgradeSystem?.getUpgradeLevel?.(upgradeId) > 0) {
+    if (!this.enabled) {
+      return { available: true, reason: null, feature: "core", short: "AVAILABLE NOW", detail: "" };
+    }
+    const currentRank = this.scene.upgradeSystem?.getUpgradeLevel?.(upgradeId) || 0;
+    const progression = getShopUpgradeProgression(
+      upgradeId, currentRank, upgrade.maxLevel || (upgrade.oneTimePurchase ? 1 : Infinity),
+      this.getProgressSnapshot(),
+    );
+    if (progression) return progression;
+    if (currentRank > 0) {
       return { available: true, reason: null, feature: "core", short: "AVAILABLE NOW", detail: "" };
     }
     const feature = this.config.upgradeUnlocks[upgradeId]

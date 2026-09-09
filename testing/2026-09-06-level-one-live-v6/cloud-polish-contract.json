@@ -1,0 +1,12 @@
+{
+  "passed": true,
+  "groundCloudsRemoved": true,
+  "outdoorMistAndSteamRemoved": true,
+  "undergroundWeatherPreserved": true,
+  "minimumBankOverlapPx": 86.86474575915372,
+  "maxBankHeightPx": 335.291093952563,
+  "ceilingBandSpreadPx": 151,
+  "silhouetteCoverage": true,
+  "softJoinBorders": true,
+  "paddedJoinContinuity": true
+}

@@ -1,3 +1,4 @@
+import { resolveLayeredSkyReviewEnabled } from "../../../values/worldVisualLayeredSkyReview.js";
 import { ASSET_KEYS } from "../../../values/assetKeys.js";
 import { SKYLINE_WEATHER_VFX } from "../../../values/skylineWeatherVfx.js";
 import {
@@ -33,7 +34,8 @@ export class WorldVisualSurfaceAtmosphereLayer {
   }
 
   create(search = globalThis.location?.search || "") {
-    if (!resolveWorldVisualSurfaceAtmosphereEnabled(this.config, search)) return false;
+    if (resolveLayeredSkyReviewEnabled(search)
+      || !resolveWorldVisualSurfaceAtmosphereEnabled(this.config, search)) return false;
     if (!this.atlas.register()) {
       console.warn("[WorldVisualSurfaceAtmosphereLayer] Approved atmosphere atlas unavailable");
       return false;

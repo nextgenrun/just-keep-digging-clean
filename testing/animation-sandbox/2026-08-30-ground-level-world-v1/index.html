@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Piecemeal ground-level background runtime review</title>
+    <link rel="stylesheet" href="./styles.css?v=ground-world-v1-3">
+  </head>
+  <body>
+    <main id="map" aria-label="Interactive complete ground-level world mockup"></main>
+    <div class="loading" id="loading">
+      <span>LOADING PER-CHAPTER BACKGROUND PACKS</span>
+    </div>
+
+    <section class="identity panel" aria-live="polite">
+      <div class="eyebrow">REVIEW-ONLY · ACTUAL PHASER RUNTIME</div>
+      <h1>Complete ground-level world</h1>
+      <div class="chapter-name" id="chapter-name">Loading world…</div>
+      <div class="chapter-plan" id="chapter-plan">Each approved landscape has its own static and motion authority.</div>
+      <div class="badges">
+        <span>14 chapters</span>
+        <span id="prop-badge">background only · 0 overlays</span>
+        <span>No repeated backdrop</span>
+        <span>No legacy/archive props</span>
+        <span>0 NPC placeholders</span>
+        <span class="safe">Town video unchanged</span>
+      </div>
+    </section>
+
+    <aside class="inspector panel" aria-label="Runtime controls">
+      <div class="eyebrow">WORLD STATE</div>
+      <label>Motion <output id="motion-value">100%</output>
+        <input id="motion" type="range" min="0" max="150" value="100">
+      </label>
+      <div class="calibration">100% here = 150% of Observatory V15</div>
+      <div class="control-grid">
+        <label>Day<input id="day" type="number" min="1" max="999" value="12"></label>
+        <label>Hour<input id="hour" type="number" min="0" max="23" step="1" value="22"></label>
+      </div>
+      <label>Weather
+        <select id="weather">
+          <option value="clear">Clear</option>
+          <option value="drizzle">Drizzle</option>
+          <option value="rain">Rain</option>
+          <option value="storm">Storm</option>
+          <option value="snow">Snow</option>
+        </select>
+      </label>
+      <button id="pause" type="button">Pause world clock</button>
+      <dl class="telemetry">
+        <div><dt>Clock</dt><dd id="clock">—</dd></div>
+        <div><dt>Legacy prop overlays</dt><dd id="legacy-props">—</dd></div>
+        <div><dt>Legacy structure overlays</dt><dd id="legacy-structures">—</dd></div>
+        <div><dt>Cloud pieces</dt><dd id="cloud-count">—</dd></div>
+        <div><dt>Background motion</dt><dd id="background-motion">—</dd></div>
+        <div><dt>Renderer</dt><dd id="renderer">—</dd></div>
+      </dl>
+    </aside>
+
+    <nav class="route panel" aria-label="Fourteen ground chapters">
+      <button id="previous" class="arrow" type="button" aria-label="Previous chapter">‹</button>
+      <select id="chapter-select" aria-label="Ground chapter"></select>
+      <div id="chapter-strip" class="chapter-strip" aria-hidden="true"></div>
+      <button id="next" class="arrow" type="button" aria-label="Next chapter">›</button>
+      <div class="hint">Q/E chapters · drag to inspect · wheel zoom</div>
+    </nav>
+
+    <div class="truth-chip">BACKGROUND-ONLY · 0 LEGACY OVERLAYS · MOUNTAINS STATIC · REV 7</div>
+    <script src="../../../libs/phaser.js"></script>
+    <script type="module" src="./main.js?v=ground-world-v1-7"></script>
+  </body>
+</html>

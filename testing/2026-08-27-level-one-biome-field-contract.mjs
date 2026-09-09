@@ -292,6 +292,48 @@ for (const region of resolvedSets.details) {
   }
   view.destroy();
 }
+const localDetailBounds = {
+  left: 33,
+  right: 55,
+  top: FIELD_TOP + 600,
+  bottom: FIELD_TOP + 616,
+};
+const localDetailRegion = resolvedSets.details.find(region => (
+  region.topTile < localDetailBounds.bottom
+  && region.bottomTileExclusive > localDetailBounds.top
+));
+const localDetailView = new WorldVisualUndergroundDetailRegionView(
+  scene,
+  localDetailRegion,
+  WORLD_VISUAL_UNDERGROUND_DETAILS,
+  terrainMask,
+);
+const localDetailRange = localDetailView._resolveRange(localDetailBounds);
+const expectedLocalDetailAssets = new Map();
+for (let row = localDetailRange.firstRow; row <= localDetailRange.lastRow; row += 1) {
+  for (let column = localDetailRange.firstColumn; column <= localDetailRange.lastColumn; column += 1) {
+    const sourceRegion = localDetailView._resolveBiomeFieldRegion(column, row);
+    if (localDetailRegion.kinds.textures) {
+      expectedLocalDetailAssets.set(sourceRegion.textureAtlas.key, sourceRegion.textureAtlas);
+    }
+    if (localDetailRegion.kinds.props) {
+      expectedLocalDetailAssets.set(sourceRegion.propAtlas.key, sourceRegion.propAtlas);
+    }
+  }
+}
+const localDetailAssets = localDetailView.resolveRequiredAssets(localDetailBounds);
+assert.deepEqual(
+  new Set(localDetailAssets.map(asset => asset.key)),
+  new Set(expectedLocalDetailAssets.keys()),
+  "detail streaming must request only atlases selected by the local camera cells",
+);
+const completeDetailPoolSize = new Set(
+  Object.values(localDetailRegion.biomeFieldRegionsById)
+    .flatMap(region => region.assets)
+    .map(asset => asset.key),
+).size;
+assert.ok(localDetailAssets.length < completeDetailPoolSize);
+localDetailView.destroy();
 for (const [kind, sourceIds] of Object.entries(selectedByKind)) {
   assert.deepEqual(sourceIds, SOURCE_IDS, `${kind} must select all five asset families in 2D`);
 }
@@ -435,6 +477,23 @@ for (const [pairKey, assets] of Object.entries(
     `${pairKey} must exercise every authored boundary variant`,
   );
 }
+const localBoundaryBounds = {
+  left: 33,
+  right: 55,
+  top: FIELD_TOP + 600,
+  bottom: FIELD_TOP + 616,
+};
+const localBoundaryKeys = new Set(
+  boundaryView.resolveRequiredAssets(localBoundaryBounds).map(asset => asset.key),
+);
+assert.deepEqual(
+  localBoundaryKeys,
+  new Set(
+    boundaryView._resolvePlacements(localBoundaryBounds).map(entry => entry.asset.key),
+  ),
+  "boundary streaming must match exactly the placements visible to the local camera",
+);
+assert.ok(localBoundaryKeys.size < activeBoundaryKeys.size);
 
 globalThis.Phaser = {
   Math: { Clamp: (value, minimum, maximum) => Math.max(minimum, Math.min(maximum, value)) },

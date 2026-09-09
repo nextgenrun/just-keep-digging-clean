@@ -12,8 +12,8 @@ export class WeatherWorldState {
     this._playerState = this._emptyPlayerState();
   }
 
-  update(delta, state) {
-    const dt = Math.min(Math.max(delta || 0, 0), 100) / 1000;
+  update(delta, state, simulation = false) {
+    const dt = Math.min(Math.max(delta || 0, 0), simulation ? 1000 : 100) / 1000;
     const wetCfg = this.weatherConfig.worldWetness;
     const rainAmount = clamp01(state.rainAmount ?? (
       state.isRainKind ? state.intensity : 0

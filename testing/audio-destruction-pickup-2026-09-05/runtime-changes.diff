@@ -1,0 +1,73 @@
+--- before/sound/SoundSystem.js
++++ current/sound/SoundSystem.js
+@@ -1,2 +1,3 @@
++import { applySfxWindow } from "./coreSfxWindow.js";
+ import { CORE_ACTION_AUDIO } from "../values/coreActionAudio.js";
+ import { ASSET_KEYS } from "../values/assetKeys.js";
+@@ -224,5 +225,6 @@
+         try { sound.destroy(); } catch (_) {}
+       });
+-      sound.play();
++      const marker = applySfxWindow(sound, this.scene.sound.context, options.window);
++      sound.play(marker);
+       return sound;
+     } catch (error) {
+@@ -273,9 +275,9 @@
+   }
+ 
+-  playXpGather({ special = false, levelUp = false } = {}) {
+-    // Routine XP is already visible and accompanies the resource arrival.
+-    // A level-up has its own approved reward cue; do not add another UI tick.
+-    if (!special || levelUp) return null;
+-    return this.playResourcePickup({ special: true });
++  playXpGather() {
++    // Resource arrival owns the pickup cue. XP often arrives much later from the
++    // same destruction, so even special XP must not replay a second pickup.
++    // Level-up retains its own dedicated reward cue.
++    return null;
+   }
+ 
+--- before/sound/ReviewedSfxController.js
++++ current/sound/ReviewedSfxController.js
+@@ -1,2 +1,3 @@
++import { CORE_SFX_WINDOWS } from "../values/coreSfxWindows.js";
+ import { REVIEWED_AUDIO_ASSETS } from "../values/reviewedAudioAssets.js";
+ import { FREESOUND_RUNTIME_ASSETS as FREESOUND_AUDIO_ASSETS } from "../values/freesoundAudio.js";
+@@ -56,4 +57,5 @@
+     const sound = system.playSfx(asset.key, asset.gain * Math.max(0, options.gain ?? 1), {
+       rate, sourcePeak: asset.peak, rawGain: true, pan: options.pan,
++      window: CORE_SFX_WINDOWS[id],
+       priority: options.priority ?? asset.priority ?? (group === "danger" ? REVIEWED_AUDIO_MIX.protectedPriority : undefined),
+     });
+--- before/systems/visual/LootPickupFxSystem.js
++++ current/systems/visual/LootPickupFxSystem.js
+@@ -17,5 +17,4 @@
+   return config.featureFlags?.["loot-visuals"] !== false;
+ }
+-
+ export class LootPickupFxSystem {
+   constructor(scene, targetProvider = null, motionProvider = null, visualResolver = null) {
+@@ -194,5 +193,6 @@
+           targetProvider,
+           onArrival: liveTarget => {
+-            if (context.index === 0 && !context.isStarResource) this.scene.soundSystem?.playResourcePickup?.();
++            if (this._destroyed) return;
++            if (context.index === 0 && !context.isStarResource) this.scene.soundSystem?.playResourcePickup?.({ special: context.special });
+             this.targetProvider?.pulseLootTarget?.(
+               context.resourceType,
+--- before/systems/visual/LootPickupFlightView.js
++++ current/systems/visual/LootPickupFlightView.js
+@@ -82,4 +82,5 @@
+       },
+       onComplete: () => {
++        if (!root.active) return;
+         const liveTarget = targetProvider?.() || motionPlan.target;
+         this._playArrival(flight, liveTarget, moment);
+--- before/systems/visual/XPGatheringFlightView.js
++++ current/systems/visual/XPGatheringFlightView.js
+@@ -65,4 +65,5 @@
+       },
+       onComplete: () => {
++        if (!sprite.active) return;
+         this._spawnArrivalEchoes(target, sprite, flight, profile, isFinalPickup);
+         if (isFinalPickup) onFinalArrival?.(target);

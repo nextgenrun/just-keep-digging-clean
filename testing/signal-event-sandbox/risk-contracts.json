@@ -1,0 +1,25 @@
+{
+  "passed": 14,
+  "checks": [
+    "100,000 worlds: fixed 10% trap / 35% occupied / 65% empty, invariant across depth",
+    "Cumulative odds reflect encounter count, with no depth pity or reroll",
+    "Saved armed fuse and sampled fatal result survive restore; legacy and Mia stay safe",
+    "Blast is lethal close; walking to the room edge or solid cover stops it",
+    "Casual explosion instantly clears every resource and GP, teleports, grants no Stars, commits once",
+    "Hardcore explosion arms permanent death and restores its distinct cause",
+    "Escaped trap rewards 750 once without changing cargo, position or GP",
+    "An armed or sleeping trap cannot enter choices or collect a free reward",
+    "Blast save failure rolls back damage and reward but retains the sampled lethal fate",
+    "Substantial gift respects depth/value/share; small gifts stay free-form",
+    "Small gift grants 250; failed generous gift restores resources, Stars and GP",
+    "Trap counts visible fuse time, supports retreat, and samples only once",
+    "Pause suspends the fuse; ordinary event expiry cannot erase an armed trap",
+    "Currency-cap feedback reports only the actual Stars granted"
+  ],
+  "probability": {
+    "perSignal": 0.1,
+    "ten": 0.6513215599,
+    "twenty": 0.8784233454094307,
+    "thirty": 0.9576088417247838
+  }
+}

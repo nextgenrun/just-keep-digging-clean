@@ -3,6 +3,7 @@
  * Delegates to LightRayAtmosphere.js and GroundEffectsAtmosphere.js
  * for the ≤300-line rule. Keeps clouds and horizon glow inline.
  */
+import { resolveLayeredSkyReviewEnabled } from "../../values/worldVisualLayeredSkyReview.js";
 import { LightRayAtmosphere } from "./LightRayAtmosphere.js";
 import { GroundEffectsAtmosphere } from "./GroundEffectsAtmosphere.js";
 import { SkylineWeatherVfxSystem } from "./SkylineWeatherVfxSystem.js";
@@ -11,6 +12,7 @@ export class AtmosphereSystem {
   constructor(scene, config = {}) {
     this.scene = scene;
     this.config = config;
+    this.layeredReview = resolveLayeredSkyReviewEnabled();
 
     // Clouds
     this.clouds = [];
@@ -27,7 +29,7 @@ export class AtmosphereSystem {
       scene.weatherSystem?.particleVisualAssets || null,
     );
 
-    this._createClouds();
+    if (!this.layeredReview) this._createClouds();
     this._createHorizonGlow();
     this.skylineWeatherVfx = new SkylineWeatherVfxSystem(scene);
     this.imagegenVfxEnabled = this.skylineWeatherVfx.create();
@@ -42,7 +44,7 @@ export class AtmosphereSystem {
     const phase = dnc.getCurrentPhaseName();
     const nightAmount = dnc.getNightAmount();
 
-    if (!this.imagegenVfxEnabled) this._updateClouds(delta);
+    if (!this.layeredReview && !this.imagegenVfxEnabled) this._updateClouds(delta);
     this._updateHorizonGlow(phase, nightAmount);
     this.skylineWeatherVfx.update(time, delta);
 

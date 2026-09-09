@@ -11,9 +11,14 @@ import { resolveWorldVisualLandmarkAnchor } from "../world/rendering/scenic-worl
 import { createTitanE2EPreviewController } from "./JkdE2ETitanPreview.js";
 import { createLedgeAssistE2EPreviewController } from "./JkdE2ELedgeAssistPreview.js";
 import { createShadowMinerE2EPreviewController } from "./JkdE2EShadowMinerPreview.js";
+import { createCollisionE2EPreviewController } from "./JkdE2ECollisionPreview.js";
 import { isLocalGameplayProfileHost } from "../values/gameplayCapabilities.js";
 import { SCENE_BASE_PHASES } from "../values/sceneRuntime.js";
 import { WEATHER_CONFIG } from "../values/weatherConfig.js";
+import { isWorldrootSanctuaryEnabled } from "../values/worldrootSanctuary.js";
+import { CAMPFIRE_TIERS } from "../values/campfireConfig.js";
+import { STAR_IDENTITY_LIBRARY_CONFIG } from "../values/starIdentityLibrary.js";
+import { installAudioGameDiagnostics } from "./audio-review-2026-09-03/game-diagnostics.js";
 
 const BACKGROUND_PREVIEW_DEPTHS = Object.freeze([
   30, 100, 350, 700, 1100, 1450, 1800, 2500, 3500, 4500, 4990,
@@ -23,12 +28,26 @@ const BACKGROUND_PREVIEW_RANGES = Object.freeze({
   level2: Object.freeze({ minX: 113, maxX: 278 }),
 });
 const BACKGROUND_PREVIEW_SEARCH_RADIUS_TILES = 24;
-const SURFACE_BENCHMARK_PREVIEW_TILES = Object.freeze([4, 12, 14, 33, 63]);
+const SURFACE_BENCHMARK_PREVIEW_TILES = Object.freeze([4, 12, 14, 21, 33, 46, 63]);
 const SURFACE_PROP_PREVIEW_TILES = Object.freeze([
   40, 63, 89, 109,
   155, 169, 182, 195, 209, 231, 251, 271,
 ]);
 const STAR_PILLAR_PREVIEW_COUNTS = Object.freeze([0, 1, 3, 5, 7, 10]);
+const WORLDROOT_PREVIEWS = Object.freeze([
+  Object.freeze({ id: "hearth", tx: 21, ty: 64, stage: 0 }),
+  Object.freeze({ id: "biome-road", tx: 34, ty: 55, stage: 5 }),
+  Object.freeze({ id: "crown", tx: 59, ty: 43, stage: 6 }),
+  Object.freeze({ id: "consumed", tx: 34, ty: 55, stage: 5, consumed: true }),
+]);
+const WORLDROOT_SANCTUARY_PREVIEWS = Object.freeze([
+  Object.freeze({ id: "hearth", tx: 20, ty: 64, stage: 0 }),
+  Object.freeze({ id: "living", tx: 20, ty: 64, stage: 5 }),
+  Object.freeze({ id: "mixed", tx: 20, ty: 64, stage: 5, consumedRegions: ["level1-blue"] }),
+  Object.freeze({ id: "consumed", tx: 20, ty: 64, stage: 5, consumed: true }),
+  Object.freeze({ id: "talents", tx: 24, ty: 64, stage: 5 }),
+  Object.freeze({ id: "crown", tx: 25, ty: 64, stage: 6 }),
+]);
 const WEATHER_PREVIEW_SAMPLE_MS = Object.freeze([500, 2500, 6000]);
 const TEXTURE_AUDIT_RESOURCE_TYPES = Object.freeze([
   TILE_TYPES.STONE,
@@ -48,10 +67,10 @@ const TEXTURE_AUDIT_SPECIAL_TYPES = Object.freeze([
   TILE_TYPES.GEM_POWER_BLOCK,
   TILE_TYPES.SPEED_BLOCK,
   TILE_TYPES.XP_BLOCK,
-  TILE_TYPES.CRIT_BLOCK,
   TILE_TYPES.BERSERK_BLOCK,
   TILE_TYPES.COMBO_BLOCK,
   TILE_TYPES.LEGEND_BLOCK,
+  TILE_TYPES.ABILITY_BLOCK,
   TILE_TYPES.ANCIENT_RELIC_CACHE,
 ]);
 
@@ -101,6 +120,7 @@ function closeTransientUi(scene) {
   scene.openingFlightArtifactSystem?.view?.hideHud?.();
   scene.campfireSystem?._closeBuffSelection?.();
   scene.milestoneBoardSystem?._closeBoardView?.();
+  scene.hideWorldMap?.();
   if (scene.depthGateSystem?.isOpen?.()) scene.depthGateSystem._decline?.();
   if (scene._pillarViewActive && scene.starPillarSystem) {
     scene.starPillarSystem.closeConstellationView?.();
@@ -486,7 +506,32 @@ function buildTextureAuditGallery(scene, mode = "sparse") {
   }
 
   const playerTile = { tx: left + Math.floor(width / 2), ty: top + 4 };
+  const reviewParams = new URLSearchParams(window.location.search);
+  if (reviewParams.get("speedBlockReview") === "1") {
+    // Local, save-safe real-input route: Speed Block beside the player and
+    // ordinary stone overhead for comparing authored attack contacts.
+    setTile(playerTile.tx + 1, playerTile.ty, TILE_TYPES.SPEED_BLOCK);
+    setTile(playerTile.tx, playerTile.ty - 1, TILE_TYPES.STONE);
+  }
+  if (reviewParams.get("abilityBlockReview") === "1") {
+    // Local, save-safe real-input route: one-hit reward blocks on opposite
+    // sides of the player. The browser can use the production F-key path,
+    // then choose a power through the production action bar.
+    scene.specialBlockEffectsManager?.clearAllEffects?.();
+    model.setTile(playerTile.tx + 1, playerTile.ty, TILE_TYPES.ABILITY_BLOCK, 1);
+    model.setTile(playerTile.tx - 1, playerTile.ty, TILE_TYPES.LEGEND_BLOCK, 1);
+    scene.worldRenderer.applyTileUpdate(playerTile.tx + 1, playerTile.ty);
+    scene.worldRenderer.applyTileUpdate(playerTile.tx - 1, playerTile.ty);
+    console.info(
+      `[JkdE2EHarness] Ability Block review at ${playerTile.tx + 1},${playerTile.ty}; `
+      + `Crown review at ${playerTile.tx - 1},${playerTile.ty}; use real directional input + F`,
+    );
+  }
   forcePlayerState(scene, playerTile);
+  if (reviewParams.get("abilityBlockReview") === "1") {
+    scene.playerController?.movement?.setFacingRight?.(true);
+    scene.playerController?._syncSpriteWithPhysics?.();
+  }
   scene.weatherSystem?.forceWeather?.("clear", 0, 10 * 60 * 1000);
   scene.worldRenderer?.invalidate?.();
   console.info(
@@ -626,9 +671,14 @@ function resetTestSave() {
 export function installJkdE2EHarness(scene) {
   if (!e2eEnabled()) return;
 
+  // The coordinator also forces saves on page-hide/visibility/shutdown.
+  // Block its authority port, not only the scene's ordinary save wrappers.
+  scene._saveWritesBlocked = true;
+  installAudioGameDiagnostics(scene);
   scene.gameSaveCoordinator?.discardPending?.();
   scene.queueDugTilesSave = () => undefined;
   scene.flushDugTilesSave = async () => true;
+  const collisionPreview = createCollisionE2EPreviewController(scene);
   for (const threshold of [100, 300, 1000]) {
     scene.depthGateSystem?.accepted?.add?.(threshold);
   }
@@ -639,9 +689,36 @@ export function installJkdE2EHarness(scene) {
   let surfaceAltarPreviewIndex = -1;
   let heavenblockPreviewIndex = -1;
   let starPillarPreviewIndex = -1;
+  let worldrootPreviewIndex = -1;
+  let campfirePreviewTier = 0;
   let caveHazardPreviewIndex = -1;
   let caveHazardKindPreviewIndex = -1;
   let currentCaveHazard = null;
+  let abilityReviewMineTimer = null;
+  const releaseAbilityReviewMine = () => {
+    if (abilityReviewMineTimer !== null) {
+      globalThis.clearTimeout(abilityReviewMineTimer);
+      abilityReviewMineTimer = null;
+    }
+    window.dispatchEvent(new KeyboardEvent("keyup", {
+      code: "KeyF",
+      key: "f",
+      keyCode: 70,
+      which: 70,
+      bubbles: true,
+    }));
+  };
+  const holdAbilityReviewMine = () => {
+    releaseAbilityReviewMine();
+    window.dispatchEvent(new KeyboardEvent("keydown", {
+      code: "KeyF",
+      key: "f",
+      keyCode: 70,
+      which: 70,
+      bubbles: true,
+    }));
+    abilityReviewMineTimer = globalThis.setTimeout(releaseAbilityReviewMine, 900);
+  };
   const reportWeatherPreview = label => {
     const weather = scene.weatherSystem;
     const snapshot = weather?.getSnapshot?.() || {};
@@ -662,6 +739,47 @@ export function installJkdE2EHarness(scene) {
     closeUi: () => closeTransientUi(scene),
     forcePlayer: options => forcePlayerState(scene, options),
   });
+  const previewWorldroot = () => {
+    const previews = isWorldrootSanctuaryEnabled() ? WORLDROOT_SANCTUARY_PREVIEWS : WORLDROOT_PREVIEWS;
+    worldrootPreviewIndex = (worldrootPreviewIndex + 1) % previews.length;
+    const preview = previews[worldrootPreviewIndex];
+    closeTransientUi(scene);
+    const state = scene.starPillarSystem?.previewWorldrootProgress?.(
+      preview.stage,
+      isWorldrootSanctuaryEnabled() ? { ...preview,
+        starIdentities: STAR_IDENTITY_LIBRARY_CONFIG.identities } : preview,
+    ) || null;
+    forcePlayerState(scene, { tx: preview.tx, ty: preview.ty });
+    console.info(
+      `[JkdE2EHarness] Worldroot preview ${preview.id} at ${preview.tx},${preview.ty}`,
+    );
+    console.info(`[JkdE2EHarness] Worldroot state ${JSON.stringify(state)}`);
+    return { preview, state };
+  };
+  const previewCampfireTier = async () => {
+    closeTransientUi(scene);
+    campfirePreviewTier = campfirePreviewTier % CAMPFIRE_TIERS.length + 1;
+    const campfire = scene.campfireSystem;
+    campfire.loadSaveData({ ...campfire.getSaveData(), level: campfirePreviewTier });
+    const loadReady = await campfire._ensureCampfireTierTexture(campfirePreviewTier);
+    forcePlayerState(scene, { tx: 20, ty: 64 });
+    const sprite = campfire._campfireSprite;
+    console.info(`[JkdE2EHarness] Campfire form ${JSON.stringify({
+      tier: campfire.getSaveData().level, texture: sprite?.texture?.key, loadReady,
+      residency: scene.runtimeFeatureAssetManager?.getSnapshot?.(),
+      x: sprite?.x, y: sprite?.y, width: sprite?.displayWidth, height: sprite?.displayHeight,
+      originX: sprite?.originX, originY: sprite?.originY,
+      groundY: campfire._campGroundY, tree: scene.starPillarSystem?.getWorldrootDebugSnapshot?.(),
+    })}`);
+  };
+  const interactWorldroot = () => {
+    const playerTile = scene.playerController?.getPlayerTile?.() || null;
+    const handled = scene.starPillarSystem?.handleInteract?.(playerTile) === true;
+    console.info(
+      `[JkdE2EHarness] Worldroot direct interaction ${handled ? "handled" : "ignored"}`,
+    );
+    return handled;
+  };
   const previewFirstUnlockedTitanStatue = () => {
     const discoveredIds = scene.retentionProgressSystem
       ?.getDiscoveredTitans?.() || [];
@@ -775,7 +893,7 @@ export function installJkdE2EHarness(scene) {
   };
   const enterCaveHazard = () => {
     if (!currentCaveHazard) {
-      console.warn("[JkdE2EHarness] Preview a cave hazard with F2 or Ctrl+Alt+C first");
+      console.warn("[JkdE2EHarness] Preview a cave hazard with Ctrl+Alt+C first");
       return;
     }
     scene.playerController?.fillGemPower?.();
@@ -786,6 +904,18 @@ export function installJkdE2EHarness(scene) {
     console.info(`[JkdE2EHarness] Entered cave hazard ${currentCaveHazard.id} for failure validation`);
   };
   const handleBackgroundPreviewKey = event => {
+    if (scene._randomEventModalVisible) return;
+    if (collisionPreview?.handleKey(event)) return;
+    if (
+      event.ctrlKey
+      && event.altKey
+      && event.code === "KeyR"
+      && new URLSearchParams(window.location.search).get("abilityBlockReview") === "1"
+    ) {
+      event.preventDefault?.();
+      if (!event.repeat) holdAbilityReviewMine();
+      return;
+    }
     if (event.ctrlKey && event.altKey && event.code === "KeyM") {
       event.preventDefault?.();
       shadowMinerPreview.activate();
@@ -793,7 +923,9 @@ export function installJkdE2EHarness(scene) {
     }
     if (event.code === "F1") {
       event.preventDefault?.();
-      buildTextureAuditGallery(scene, event.shiftKey ? "dense" : "sparse");
+      collisionPreview?.resume();
+      const gallery = buildTextureAuditGallery(scene, event.shiftKey ? "dense" : "sparse");
+      collisionPreview?.stage(gallery);
       return;
     }
     if (event.code === "F5") {
@@ -935,7 +1067,7 @@ export function installJkdE2EHarness(scene) {
       );
       return;
     }
-    if (event.code === "F2") {
+    if (event.code === "F2" && !scene.dynamicEventRuntime?.devEnabled) {
       event.preventDefault?.();
       previewCaveHazard();
       return;
@@ -976,7 +1108,27 @@ export function installJkdE2EHarness(scene) {
       );
       return;
     }
+    if (event.code === "BracketRight") {
+      event.preventDefault?.();
+      previewWorldroot();
+      return;
+    }
+    if (event.code === "BracketLeft") {
+      event.preventDefault?.();
+      interactWorldroot();
+      return;
+    }
+    if (event.code === "Backslash") {
+      event.preventDefault?.();
+      void previewCampfireTier();
+      return;
+    }
     if (!event.ctrlKey || !event.altKey) return;
+    if (event.code === "KeyW") {
+      event.preventDefault?.();
+      previewWorldroot();
+      return;
+    }
     if (event.code === "KeyG") {
       event.preventDefault?.();
       previewTutorialPortal(scene);
@@ -1150,11 +1302,16 @@ export function installJkdE2EHarness(scene) {
     previewLedgeAssist: () => ledgeAssistPreview.advance(),
     previewTreasureChest: () => previewTreasureChest(scene),
     previewShadowMiner: () => shadowMinerPreview.activate(),
+    previewWorldroot,
+    interactWorldroot,
+    restoreWorldroot: () => scene.starPillarSystem?.restoreWorldrootPreview?.() === true,
   };
 
   window.__jkdE2E = harness;
-  console.info("[JkdE2EHarness] Installed in save-safe mode; F1 opens the sparse opaque-ImageGen texture gallery and Shift+F1 shows the intentionally over-dense comparison; F2 cycles cave hazards; F3 enters the selected hazard; F4 cycles one example of each hazard family; F5 previews the ImageGen Star Block release without awarding it; F6/F7/F8 preview star/bedrock/resource semantics; F9 previews the scenic mine entrance; F10 cycles surface benchmark anchors; Ctrl+Alt+F10 cycles modular surface prop clusters; Ctrl+Alt+S previews the Level 1/2 surface drop-through seam; F11 forces clear-weather benchmark lighting and Shift+F11 previews smooth rain release; F12 forces the swept-collision snow preview and Shift+F12 previews smooth rain entry; 7 or Ctrl+Alt+M previews Shadow Miner; 9/0 or Ctrl+Alt+Insert/Delete preview the two Sky Islands; 8 cycles Star Pillar stages; Ctrl+Alt+G stages the save-safe first tutorial gate for a real E-key test; Ctrl+Alt+B stages an off-route tutorial surface-drop bypass test; Ctrl+Alt+E previews the Understar ending; Ctrl+Alt+A cycles all nine surface-altar art stages without save writes; Ctrl+Alt+U funds and opens the Titan catalog; Ctrl+Alt+Y advances sealed/partial/one-left/complete Titan cover; Ctrl+Alt+I previews the first unlocked Titan plinth; Ctrl+Alt+K stages an unopened treasure chest with a zero wallet; Ctrl+Alt+L stages/cycles Ledge Assist; Ctrl+Alt+PageDown/PageUp preview backgrounds; Ctrl+Alt+T previews a Level 2 teleport; Ctrl+Alt+H cycles the three Heavenblocks; Ctrl+Alt+C/V remain cave-hazard aliases");
+  console.info("[JkdE2EHarness] Installed in save-safe mode; F1 opens the sparse opaque-ImageGen texture gallery and Shift+F1 shows the intentionally over-dense comparison; F2 opens dynamic events; Ctrl+Alt+C cycles cave hazards; F3 enters the selected hazard; F4 cycles one example of each hazard family; F5 previews the ImageGen Star Block release without awarding it; F6/F7/F8 preview star/bedrock/resource semantics; F9 previews the scenic mine entrance; F10 cycles surface benchmark anchors; Ctrl+Alt+F10 cycles modular surface prop clusters; ] or Ctrl+Alt+W cycles Worldroot hearth/biome/Crown/consumed previews and [ directly exercises its current interaction; Ctrl+Alt+S previews the Level 1/2 surface drop-through seam; F11 forces clear-weather benchmark lighting and Shift+F11 previews smooth rain release; F12 forces the swept-collision snow preview and Shift+F12 previews smooth rain entry; 7 or Ctrl+Alt+M previews Shadow Miner; 9/0 or Ctrl+Alt+Insert/Delete preview the two Sky Islands; 8 cycles Star Pillar stages; Ctrl+Alt+G stages the save-safe first tutorial gate for a real E-key test; Ctrl+Alt+B stages an off-route tutorial surface-drop bypass test; Ctrl+Alt+E previews the Understar ending; Ctrl+Alt+A cycles all nine surface-altar art stages without save writes; Ctrl+Alt+U funds and opens the Titan catalog; Ctrl+Alt+Y advances sealed/partial/one-left/complete Titan cover; Ctrl+Alt+I previews the first unlocked Titan plinth; Ctrl+Alt+K stages an unopened treasure chest with a zero wallet; Ctrl+Alt+L stages/cycles Ledge Assist; Ctrl+Alt+PageDown/PageUp preview backgrounds; Ctrl+Alt+T previews a Level 2 teleport; Ctrl+Alt+H cycles the three Heavenblocks; Ctrl+Alt+C/V remain cave-hazard aliases");
   scene.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
+    releaseAbilityReviewMine();
+    collisionPreview?.destroy();
     window.removeEventListener("keydown", handleBackgroundPreviewKey);
     if (window.__jkdE2E === harness) {
       delete window.__jkdE2E;

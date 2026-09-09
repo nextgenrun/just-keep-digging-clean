@@ -108,6 +108,7 @@ export const THUNDER_STRIKE_CHAIN_CONFIG = Object.freeze({
     horizontalMargin: 18,
     trackX: -300,
     trackWidth: 600,
+    trackCenterY: 38,
     targetArtHeight: 42,
     targetArtAlpha: 0.98,
     needleArtWidth: 10,

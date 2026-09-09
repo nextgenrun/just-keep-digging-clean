@@ -16,7 +16,8 @@ function isBridgeUndercroft(config, tileX, tileY) {
 
 /**
  * Makes one gate-controlled Level 1/Level 2 divider, pauses it through the
- * shared surface-clearance row, and removes every unrelated BEDROCK cell.
+ * shared surface-clearance row, and removes every unrelated BEDROCK or legacy
+ * integrated-cave wall cell from the normal world.
  */
 export function enforceUndergroundBedrockLayout(
   worldModel,
@@ -27,6 +28,7 @@ export function enforceUndergroundBedrockLayout(
   const report = {
     removedLevelOne: 0,
     removedLevelTwo: 0,
+    removedCaveWalls: 0,
     clearedBridgeUndercroft: 0,
     clearedLegacyGate: 0,
     clearedSurfaceClearance: 0,
@@ -76,9 +78,12 @@ export function enforceUndergroundBedrockLayout(
 
   for (let tileY = firstUndergroundTileY; tileY < worldModel.depthTiles; tileY += 1) {
     for (let tileX = 0; tileX < worldModel.widthTiles; tileX += 1) {
-      if (worldModel.getTileType(tileX, tileY) !== TILE_TYPES.BEDROCK) continue;
+      const currentType = worldModel.getTileType(tileX, tileY);
+      if (currentType !== TILE_TYPES.BEDROCK && currentType !== TILE_TYPES.CAVE_WALL) continue;
 
-      if (tileX === divider.tileX && tileY >= divider.topTileY) {
+      if (currentType === TILE_TYPES.BEDROCK
+        && tileX === divider.tileX
+        && tileY >= divider.topTileY) {
         continue;
       }
 
@@ -93,6 +98,7 @@ export function enforceUndergroundBedrockLayout(
       worldModel.setTile(tileX, tileY, nextType, nextHp);
       worldModel.skyTileOriginalType[index] = 0;
       worldModel.skyTileRarity[index] = 0;
+      if (currentType === TILE_TYPES.CAVE_WALL) report.removedCaveWalls += 1;
 
       if (nextType === TILE_TYPES.AIR) {
         report.clearedBridgeUndercroft += 1;

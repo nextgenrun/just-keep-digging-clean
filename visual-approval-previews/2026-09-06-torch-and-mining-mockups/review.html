@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>UNDERSTAR — torch fix and mining mockups</title>
+<style>
+:root{color-scheme:dark;--ink:#ebe6d9;--muted:#a9adb1;--gold:#d5b66d}
+*{box-sizing:border-box}body{margin:0;background:#0b0f13;color:var(--ink);font:16px/1.5 system-ui,sans-serif}
+main{max-width:1440px;margin:auto;padding:30px 28px 60px}
+h1{font-size:30px;line-height:1.2;margin:5px 0 10px}h2{font-size:22px;margin:0}p{margin:8px 0;color:var(--muted)}
+.eyebrow{font-size:12px;letter-spacing:.16em;color:var(--gold);font-weight:700}
+.row{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}.tag{border:1px solid #596346;border-radius:30px;padding:4px 12px;font-size:12px;color:#cfdfaf}.tag.review{border-color:#665c43;color:var(--gold)}
+section{margin-top:30px;padding-top:24px;border-top:1px solid #293036}
+.torch{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+figure{margin:0;background:#080a0c;border:1px solid #293036;border-radius:9px;overflow:hidden}
+figcaption{font-size:13px;color:var(--muted);padding:10px 14px;border-bottom:1px solid #293036}
+.torch img{display:block;max-width:100%;height:auto;margin:auto}
+.help{display:flex;align-items:center;gap:24px;margin-top:16px;flex-wrap:wrap}.help img{width:580px;max-width:100%;height:auto;border:1px solid #293036;border-radius:8px}.help p{flex:1;min-width:220px}
+button,a{color:inherit}button{background:#1a2128;border:1px solid #414b55;border-radius:7px;padding:10px 16px;font:inherit;font-size:14px;cursor:pointer}
+button[aria-pressed=true]{border-color:var(--gold);background:#393124;color:#ffe5a5}button:hover{border-color:#d5b66d}
+.controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:20px 0 12px}.controls a{margin-left:auto;font-size:14px;color:var(--gold)}
+.comparison{position:relative;aspect-ratio:16/9;overflow:hidden;border:1px solid #434343;border-radius:9px;background:#000}
+.comparison img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+.after{clip-path:inset(0 0 0 var(--split,50%))}
+.divider{position:absolute;top:0;bottom:0;left:var(--split,50%);width:2px;background:#ffe5a5;pointer-events:none}
+.badge{position:absolute;top:12px;padding:5px 9px;border-radius:5px;background:#090c10dc;color:#fff;font-size:12px;letter-spacing:.06em}.before-label{left:12px}.after-label{right:12px;color:#ffe5a5}
+.slider{display:flex;align-items:center;gap:14px;margin:12px 0}.slider input{flex:1;accent-color:var(--gold)}.slider label{font-size:13px;min-width:140px}
+.caption{max-width:1050px;font-size:14px}.note{font-size:12px;color:#849099;margin-top:18px}
+@media(max-width:700px){main{padding:20px 12px 40px}.torch{grid-template-columns:1fr}h1{font-size:25px}.controls a{margin-left:0}.badge{font-size:9px;top:7px}.slider label{min-width:100px}}
+</style>
+<main>
+<div class="eyebrow">UNDERSTAR / REAL GAME VISUAL REVIEW</div>
+<h1>Torch approved. Mining mockups rejected.</h1>
+<p>The torch correction is approved and implemented. All other visual changes proposed in this review were rejected.</p>
+<section>
+<div class="row"><h2>Torch: one aligned control</h2><span class="tag">APPROVED · IMPLEMENTED</span></div>
+<p>A centered live percentage, explicit ON/OFF status, a clean torch icon, and mouse-wheel guidance.</p>
+<div class="torch">
+<figure><figcaption>Before — legacy torch frame inside the new panel</figcaption><img src="torch-before.png" alt="Original torch UI with overlapping legacy artwork"></figure>
+<figure><figcaption>After — percentage and status aligned inside their compartment</figcaption><img src="torch-after.png" alt="Corrected torch UI showing 100 percent and OFF"></figure>
+</div>
+<div class="help"><img src="torch-tooltip-on.png" alt="Torch tooltip: scroll mouse wheel to adjust brightness; up plus one percent, down minus one percent, click plus ten percent, T to toggle">
+<p>Hover over the torch to see the controls and current GP cost. The displayed key follows the player's binding.<br><br>Checked in the real game at 1%, 100%, and 200%, with wheel, click, toggle, pause, and four window sizes.</p></div>
+</section>
+<section>
+<div class="row"><h2>Rejected mining proposals</h2><span class="tag review">REJECTED</span></div>
+<p>Rejected because these changes made the scene more boring. The comparisons remain here as a record; they were never wired into the game.</p>
+<div class="controls">
+<button id="terrain" aria-pressed="false">A · Terrain and ore</button>
+<button id="player" aria-pressed="true">B · Terrain + player lighting</button>
+<button id="showBefore">Show current</button>
+<button id="showAfter">Show rejected mockup</button>
+<a id="fullImage" href="mining-player-1080.png" target="_blank">Open rejected mockup ↗</a>
+</div>
+<div class="comparison" id="comparison">
+<img src="mining-before-1080.png" alt="Current mining scene">
+<img class="after" id="candidate" src="mining-player-1080.png" alt="Proposed mining scene">
+<div class="divider"></div><div class="badge before-label">CURRENT GAME</div><div class="badge after-label" id="afterLabel">REJECTED · B</div>
+</div>
+<div class="slider"><label for="split">Before / after split</label><input id="split" type="range" min="0" max="100" value="50"></div>
+<p class="caption" id="description">Rejected: B adds brighter player shading and a restrained rim to A's coherent earth material, authored tunnel cut edges, and warmer ore blending. The character's position, pose, scale, torch setting, and tile HP are identical.</p>
+<p class="note">This is a staged chamber at 41 m for comparing presentation. Its rectangular layout is not a natural-playthrough example. Both proposals reuse existing game artwork. Their code is isolated from production. Both directions are rejected; keep the existing cave's richness and character.</p>
+</section>
+</main>
+<script>
+const split=document.querySelector('#split'),comparison=document.querySelector('#comparison');
+const setSplit=value=>{split.value=value;comparison.style.setProperty('--split',value+'%');document.querySelector('.before-label').style.opacity=value===0?0:1;document.querySelector('.after-label').style.opacity=value===100?0:1};
+split.addEventListener('input',()=>setSplit(Number(split.value)));
+document.querySelector('#showBefore').onclick=()=>setSplit(100);
+document.querySelector('#showAfter').onclick=()=>setSplit(0);
+function select(mode){
+const player=mode==='player';
+document.querySelector('#candidate').src='mining-'+mode+'-1080.png';
+document.querySelector('#fullImage').href='mining-'+mode+'-1080.png';
+document.querySelector('#terrain').setAttribute('aria-pressed',String(!player));
+document.querySelector('#player').setAttribute('aria-pressed',String(player));
+document.querySelector('#afterLabel').textContent=player?'REJECTED · B':'REJECTED · A';
+document.querySelector('#description').textContent=player
+?"Rejected: B adds brighter player shading and a restrained rim to A's coherent earth material, authored tunnel cut edges, and warmer ore blending. The character's position, pose, scale, torch setting, and tile HP are identical."
+:"Rejected: A makes the solid wall read as a continuous earth material, gives exposed tunnel boundaries an authored cut edge, and blends the existing ore artwork into the rock. The camera, character, and tile HP are identical.";
+}
+document.querySelector('#terrain').onclick=()=>select('terrain');
+document.querySelector('#player').onclick=()=>select('player');
+</script>
+</html>

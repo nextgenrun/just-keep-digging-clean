@@ -1,0 +1,1830 @@
+{
+  "schemaVersion": 1,
+  "decisionExportSha256": "f75b9ceee77ba998a9f98ef11c51a906a5f98751c431926732ffd3918c238cc4",
+  "inspectOnly": false,
+  "assets": [
+    {
+      "id": "libSupportCreak",
+      "approvedBy": [
+        "libSupportCreak"
+      ],
+      "mixOnly": false,
+      "label": "Timber support strain",
+      "sourcePath": "sound/library-v2/SoundLibrary_Review/00_INBOX_RAW_EXPORTS/sonniss-ingame-sfx-mockup-v1-2026-08-27/slices/deep-cave-danger-05-SONNISS19-SRC-077-000350ms.wav",
+      "sourceSha256": "9721301f4912dc12a6473ff5300fd515bfd4846b864953ea0e582e5dedaa9ce0",
+      "provenance": "SONNISS GDC19 \u00b7 Old wood floor creak",
+      "before": {
+        "durationSeconds": 1.35,
+        "peakLinear": 0.7079163,
+        "peakDbfs": -3.0,
+        "rmsDbfs": -24.24,
+        "activeRmsDbfs": -20.721,
+        "onsetMs": 10.625,
+        "clippedSamples": 0
+      },
+      "path": "sound/soundEffects/approved-review-2026-09-03/libSupportCreak.ogg",
+      "reused": false,
+      "after": {
+        "durationSeconds": 1.34137,
+        "peakLinear": 0.6987518,
+        "peakDbfs": -3.114,
+        "rmsDbfs": -24.329,
+        "activeRmsDbfs": -20.978,
+        "onsetMs": 2.021,
+        "clippedSamples": 0
+      },
+      "sha256": "2a418d1a331d34ae850e949d0bfc1c9c6a8bda522ebe575cda0f8933edbb569f",
+      "bytes": 45244,
+      "trimStartMs": 8.625,
+      "attenuationDb": 0.0,
+      "seamOverlapMs": 0
+    },
+    {
+      "id": "libFarCollapse",
+      "approvedBy": [
+        "libFarCollapse"
+      ],
+      "mixOnly": false,
+      "label": "Distant rock collapse",
+      "sourcePath": "sound/library-v2/SoundLibrary_Review/00_INBOX_RAW_EXPORTS/sonniss-ingame-sfx-mockup-v1-2026-08-27/slices/deep-cave-danger-06-SONNISS19-MINE-28-003100ms.wav",
+      "sourceSha256": "4388a76bd46d7adb0df749e8e8ead8fbe16138d46e1a4446d35feed3fdde76b7",
+      "provenance": "SONNISS GDC19 \u00b7 Rocks falling",
+      "before": {
+        "durationSeconds": 3.0,
+        "peakLinear": 0.7079163,
+        "peakDbfs": -3.0,
+        "rmsDbfs": -11.475,
+        "activeRmsDbfs": -11.475,
+        "onsetMs": 0.625,
+        "clippedSamples": 0
+      },
+      "path": "sound/soundEffects/approved-review-2026-09-03/libFarCollapse.ogg",
+      "reused": false,
+      "after": {
+        "durationSeconds": 3.0,
+        "peakLinear": 0.7481518,
+        "peakDbfs": -2.52,
+        "rmsDbfs": -11.462,
+        "activeRmsDbfs": -11.462,
+        "onsetMs": 1.25,
+        "clippedSamples": 0
+      },
+      "sha256": "ec885b3bbb0cbac0e4e67a65d3b3604e042cb15621d7b26145c071d037c1ac2c",
+      "bytes": 73525,
+      "trimStartMs": 0.0,
+      "attenuationDb": 0.0,
+      "seamOverlapMs": 0
+    },
+    {
+      "id": "miningMars",
+      "approvedBy": [
+        "creepyIndustrialSolo",
+        "deepCave"
+      ],
+      "mixOnly": false,
+      "label": "B \u00b7 Mining on Mars",
+      "sourcePath": "sound/library-v2/SoundLibrary_Review/00_INBOX_RAW_EXPORTS/sonniss-gdc2019-recorded-mining-pilot-2026-08-26/previews/mining-on-mars.mp3",
+      "sourceSha256": "6f574efd0a2db5d9a764ea3a65f60df5ed26a81db1166fa6ccc6313c5afd377e",
+      "provenance": "Sonniss GameAudioGDC 2019",
+      "before": {
+        "durationSeconds": 12.0,
+        "peakLinear": 0.659418,
+        "peakDbfs": -3.617,
+        "rmsDbfs": -16.762,
+        "activeRmsDbfs": -16.116,
+        "onsetMs": 972.458,
+        "clippedSamples": 0
+      },
+      "path": "sound/soundEffects/approved-review-2026-09-03/miningMars.ogg",
+      "reused": false,
+      "after": {
+        "durationSeconds": 11.96,
+        "peakLinear": 0.6654963,
+        "peakDbfs": -3.537,
+        "rmsDbfs": -16.742,
+        "activeRmsDbfs": -16.11,
+        "onsetMs": 932.417,
+        "clippedSamples": 0
+      },
+      "sha256": "5b169eaa8f139b2c6be09e629de4e9a9f7746824224e2780aebbec4f731fa808",
+      "bytes": 204424,
+      "trimStartMs": 0.0,
+      "attenuationDb": 0.0,
+      "seamOverlapMs": 40
+    },
+    {
+      "id": "libPressureRumble",
+      "approvedBy": [
+        "libPressureRumble"
+      ],
+      "mixOnly": false,
+      "label": "Pressure rumble",
+      "sourcePath": "sound/library-v2/SoundLibrary_Review/00_INBOX_RAW_EXPORTS/sonniss-ingame-sfx-mockup-v1-2026-08-27/slices/deep-cave-danger-08-SONNISS19-SRC-101-041000ms.wav",
+      "sourceSha256": "06f1c67a762c4182e567222c8ac2a46052bb49530bb0aca3e8ca797998a3c65c",
+      "provenance": "SONNISS GDC19 \u00b7 Distant thunder-like mass",
+      "before": {
+        "durationSeconds": 5.0,
+        "peakLinear": 0.5623169,
+        "peakDbfs": -5.0,
+        "rmsDbfs": -23.67,
+        "activeRmsDbfs": -22.94,
+        "onsetMs": 22.938,
+        "clippedSamples": 0
+      },
+      "path": "sound/soundEffects/approved-review-2026-09-03/libPressureRumble.ogg",
+      "reused": false,
+      "after": {
+        "durationSeconds": 4.97906,
+        "peakLinear": 0.5714165,
+        "peakDbfs": -4.861,
+        "rmsDbfs": -23.639,
+        "activeRmsDbfs": -22.928,
+        "onsetMs": 2.229,
+        "clippedSamples": 0
+      },
+      "sha256": "574bfcfed48506a28c1f10ff3df52cb24980dfbaf5454249678a8bbc445a2266",
+      "bytes": 100486,
+      "trimStartMs": 20.938,
+      "attenuationDb": 0.0,
+      "seamOverlapMs": 0
+    },
+    {
+      "id": "libTorchReact",
+      "approvedBy": [
+        "libTorchReact"
+      ],
+      "mixOnly": false,
+      "label": "Torch heat reaction",
+      "sourcePath": "sound/library-v2/SoundLibrary_Review/00_INBOX_RAW_EXPORTS/sonniss-ingame-sfx-mockup-v1-2026-08-27/slices/deep-cave-danger-09-SONNISS19-SRC-097-000300ms.wav",
+      "sourceSha256": "5198ddf8b5a17ff50697ad5994d4c4539cd5ad21a5ddc6bfeb826918ca29e8fd",
+      "provenance": "SONNISS GDC19 \u00b7 Water sizzle on hot pan",
+      "before": {
+        "durationSeconds": 3.6,
+        "peakLinear": 0.7079163,
+        "peakDbfs": -3.0,
+        "rmsDbfs": -24.481,
+        "activeRmsDbfs": -24.481,
+        "onsetMs": 1.292,
+        "clippedSamples": 0
+      },
+      "path": "sound/soundEffects/approved-review-2026-09-03/libTorchReact.ogg",
+      "reused": false,
+      "after": {
+        "durationSeconds": 3.6,
+        "peakLinear": 0.6391665,
+        "peakDbfs": -3.888,
+        "rmsDbfs": -24.864,
+        "activeRmsDbfs": -24.864,
+        "onsetMs": 2.396,
+        "clippedSamples": 0
+      },
+      "sha256": "cf73dcbcdfcca5e7fa81a1e8637e58438fe5c8e52a2100be989f21f1ab73ae2f",
+      "bytes": 100607,
+      "trimStartMs": 0.0,
+      "attenuationDb": 0.0,
+      "seamOverlapMs": 0
+    },
+    {
+      "id": "libDeepCaveBedA",
+      "approvedBy": [
+        "libDeepCaveBedA"
+      ],
+      "mixOnly": false,
+      "label": "Deep cave bed A",
+      "sourcePath": "sound/library-v2/SoundLibrary_Review/00_INBOX_RAW_EXPORTS/sonniss-ingame-sfx-mockup-v1-2026-08-27/slices/deep-cave-danger-01-SONNISS19-MINE-02-030000ms.wav",
+      "sourceSha256": "d83be560513c99be11ebae1f63d6bfbcb17fcdd21e01aa17412d5650348fd8fc",
+      "provenance": "SONNISS GDC19 \u00b7 Eerie cave, water drips, interior wind",
+      "before": {
+        "durationSeconds": 20.0,
+        "peakLinear": 0.5011597,
+        "peakDbfs": -6.0,
+        "rmsDbfs": -19.264,
+        "activeRmsDbfs": -19.259,
+        "onsetMs": 4.583,
+        "clippedSamples": 0
+      },
+      "path": "sound/soundEffects/approved-review-2026-09-03/libDeepCaveBedA.ogg",
+      "reused": false,
+      "after": {
+        "durationSeconds": 19.96,
+        "peakLinear": 0.5050963,
+        "peakDbfs": -5.933,
+        "rmsDbfs": -19.233,
+        "activeRmsDbfs": -19.233,
+        "onsetMs": 0.0,
+        "clippedSamples": 0
+      },
+      "sha256": "03b5e03928ac7f91702d90964f846def6782a9b5e92b2c3b9f0bf8675992543a",
+      "bytes": 411701,
+      "trimStartMs": 0.0,
+      "attenuationDb": 0.0,
+      "seamOverlapMs": 40
+    },
+    {
+      "id": "caveEerie",
+      "approvedBy": [
+        "deepCave"
+      ],
+      "mixOnly": true,
+      "label": "A \u00b7 Eerie cave",
+      "sourcePath": "sound/library-v2/SoundLibrary_Review/00_INBOX_RAW_EXPORTS/sonniss-gdc2019-recorded-mining-pilot-2026-08-26/previews/ATMO-EERIE-Cave-Water-Drips-Emptyness-Ho.mp3",
+      "sourceSha256": "bd13272fedbb7252596e7855c4fab3fa7c39205d57d6c58c45a95e26f6bcef73",
+      "provenance": "Sonniss GameAudioGDC 2019",
+      "before": {
+        "durationSeconds": 12.0,
+        "peakLinear": 0.1260408,
+        "peakDbfs": -17.99,
+        "rmsDbfs": -31.606,
+        "activeRmsDbfs": -31.606,
+        "onsetMs": 0.0,
+        "clippedSamples": 0
+      },
+      "path": "sound/soundEffects/approved-review-2026-09-03/caveEerie.ogg",
+      "reused": false,
+      "after": {
+        "durationSeconds": 11.96,
+        "peakLinear": 0.1263048,
+        "peakDbfs": -17.972,
+        "rmsDbfs": -31.599,
+        "activeRmsDbfs": -31.599,
+        "onsetMs": 0.0,
+        "clippedSamples": 0
+      },
+      "sha256": "82ce0ec862b205e91806425b8bb6f82f93050cc773883f5137f91c854a456016",
+      "bytes": 239272,
+      "trimStartMs": 0.0,
+      "attenuationDb": 0.0,
+      "seamOverlapMs": 40
+    },
+    {
+      "id": "evilSpell",
+      "approvedBy": [
+        "deepCave"
+      ],
+      "mixOnly": true,
+      "label": "C \u00b7 Dark spell drone",
+      "sourcePath": "sound/library-v2/SoundLibrary_Review/00_INBOX_RAW_EXPORTS/sonniss-gdc2026-recorded-pilot-2026-08-26/previews/15_AMBDsgn_Evil-Spell-Ambience_344-Audio_Ghostly-Pr.mp3",
+      "sourceSha256": "64be6a6660ad66acfe5a84e801c15bbdd79a0c56677ab8faa109d7b2ff56705b",
+      "provenance": "Sonniss GameAudioGDC 2026",
+      "before": {
+        "durationSeconds": 12.0,
+        "peakLinear": 0.932834,
+        "peakDbfs": -0.604,
+        "rmsDbfs": -20.275,
+        "activeRmsDbfs": -20.202,
+        "onsetMs": 86.021,
+        "clippedSamples": 0
+      },
+      "path": "sound/soundEffects/approved-review-2026-09-03/evilSpell.ogg",
+      "reused": false,
+      "after": {
+        "durationSeconds": 11.96,
+        "peakLinear": 0.8357679,
+        "peakDbfs": -1.558,
+        "rmsDbfs": -21.137,
+        "activeRmsDbfs": -21.072,
+        "onsetMs": 18.667,
+        "clippedSamples": 0
+      },
+      "sha256": "c69e9a97dd8811ccd2e6b1585210c2add90c5e512f373345c4aa04ba2b772957",
+      "bytes": 230037,
+      "trimStartMs": 0.0,
+      "attenuationDb": -0.808,
+      "seamOverlapMs": 40
+    },
+    {
+      "id": "panicTimber",
+      "approvedBy": [
+        "deepCave"
+      ],
+      "mixOnly": true,
+      "label": "Mine-shaft timber stress",
+      "sourcePath": "sound/library-v2/SoundLibrary_Review/00_INBOX_RAW_EXPORTS/sonniss-gdc2019-recorded-mining-pilot-2026-08-26/previews/BROKEN---DESIGNED---MINE-SHAFT-Wood-Meta.mp3",
+      "sourceSha256": "2e848c07dd9b69dde0319800342d5aa2b181317fdb1798d3406333b6bc19a53a",
+      "provenance": "Sonniss GameAudioGDC 2019",
+      "before": {
+        "durationSeconds": 12.0,
+        "peakLinear": 0.9856794,
+        "peakDbfs": -0.125,
+        "rmsDbfs": -19.158,
+        "activeRmsDbfs": -18.744,
+        "onsetMs": 82.438,
+        "clippedSamples": 0
+      },
+      "path": "sound/soundEffects/approved-review-2026-09-03/panicTimber.ogg",
+      "reused": false,
+      "after": {
+        "durationSeconds": 11.91956,
+        "peakLinear": 0.860521,
+        "peakDbfs": -1.305,
+        "rmsDbfs": -20.403,
+        "activeRmsDbfs": -19.996,
+        "onsetMs": 8.0,
+        "clippedSamples": 0
+      },
+      "sha256": "909d58201aab10dad91574939f9b55ffdb6fb45fa4de02b355db27689aef498c",
+      "bytes": 303601,
+      "trimStartMs": 80.438,
+      "attenuationDb": -1.286,
+      "seamOverlapMs": 0
+    },
+    {
+      "id": "libWaterSeep",
+      "approvedBy": [
+        "libWaterSeep"
+      ],
+      "mixOnly": false,
+      "label": "Underground water seep",
+      "sourcePath": "sound/library-v2/SoundLibrary_Review/00_INBOX_RAW_EXPORTS/sonniss-ingame-sfx-mockup-v1-2026-08-27/slices/deep-cave-danger-03-SONNISS19-SRC-109-000300ms.wav",
+      "sourceSha256": "a35beb7ab199837f31c861df5c66cc968361868e594303044d1576519ba3db00",
+      "provenance": "SONNISS GDC19 \u00b7 Water pouring",
+      "before": {
+        "durationSeconds": 4.2,
+        "peakLinear": 0.7079163,
+        "peakDbfs": -3.0,
+        "rmsDbfs": -39.501,
+        "activeRmsDbfs": -38.865,
+        "onsetMs": 21.396,
+        "clippedSamples": 0
+      },
+      "path": "sound/soundEffects/approved-review-2026-09-03/libWaterSeep.ogg",
+      "reused": false,
+      "after": {
+        "durationSeconds": 4.1806,
+        "peakLinear": 0.6931369,
+        "peakDbfs": -3.184,
+        "rmsDbfs": -39.567,
+        "activeRmsDbfs": -38.927,
+        "onsetMs": 2.271,
+        "clippedSamples": 0
+      },
+      "sha256": "d5c1a9fb800c77b3267f23df659ac2d437530fc81fd6d7ef25b8b531d88e238c",
+      "bytes": 144779,
+      "trimStartMs": 19.396,
+      "attenuationDb": 0.0,
+      "seamOverlapMs": 0
+    },
+    {
+      "id": "libDeepCaveBedB",
+      "approvedBy": [
+        "libDeepCaveBedB"
+      ],
+      "mixOnly": false,
+      "label": "Deep cave bed B",
+      "sourcePath": "sound/library-v2/SoundLibrary_Review/00_INBOX_RAW_EXPORTS/sonniss-ingame-sfx-mockup-v1-2026-08-27/slices/mining-material-loop-01-SONNISS19-MINE-02-020000ms.wav",
+      "sourceSha256": "fa2dce95645dcb800bae6ac9d6c6c62088986b7481060c2c90d0333864fbabd5",
+      "provenance": "SONNISS GDC19 \u00b7 Eerie cave alternate window",
+      "before": {
+        "durationSeconds": 15.0,
+        "peakLinear": 0.5011597,
+        "peakDbfs": -6.0,
+        "rmsDbfs": -18.408,
+        "activeRmsDbfs": -18.397,
+        "onsetMs": 5.729,
+        "clippedSamples": 0
+      },
+      "path": "sound/soundEffects/approved-review-2026-09-03/libDeepCaveBedB.ogg",
+      "reused": false,
+      "after": {
+        "durationSeconds": 14.96,
+        "peakLinear": 0.5011376,
+        "peakDbfs": -6.001,
+        "rmsDbfs": -18.378,
+        "activeRmsDbfs": -18.378,
+        "onsetMs": 0.0,
+        "clippedSamples": 0
+      },
+      "sha256": "29544f2bdf184250292f73576c93928835518aad886d2b16704a95f45da2aacf",
+      "bytes": 306177,
+      "trimStartMs": 0.0,
+      "attenuationDb": 0.0,
+      "seamOverlapMs": 40
+    },
+    {
+      "id": "libCreepySingerA",
+      "approvedBy": [
+        "libCreepySingerA"
+      ],
+      "mixOnly": false,
+      "label": "Distant creepy singer A",
+      "sourcePath": "sound/library-v2/SoundLibrary_Review/02_ACCEPTED_CANDIDATES/deep_scary/Creepy Girl Singing In The Dinstance.mp3",
+      "sourceSha256": "92f0d014d9f7bdc593494f6f4f1e7096a1ba931aae1558b9d20da9994b1bfa55",
+      "provenance": "LOCAL ACCEPTED \u00b7 Creepy Girl Singing In The Dinstance.mp3",
+      "before": {
+        "durationSeconds": 9.87998,
+        "peakLinear": 0.8742107,
+        "peakDbfs": -1.168,
+        "rmsDbfs": -19.252,
+        "activeRmsDbfs": -19.244,
+        "onsetMs": 0.0,
+        "clippedSamples": 0
+      },
+      "path": "sound/soundEffects/approved-review-2026-09-03/libCreepySingerA.ogg",
+      "reused": false,
+      "after": {
+        "durationSeconds": 9.83998,
+        "peakLinear": 0.774981,
+        "peakDbfs": -2.214,
+        "rmsDbfs": -19.482,
+        "activeRmsDbfs": -19.473,
+        "onsetMs": 0.0,
+        "clippedSamples": 0
+      },
+      "sha256": "2b79349dc5ea31e0b0873615cdd9b4d3921e5b012db0777886000e61b853e483",
+      "bytes": 194642,
+      "trimStartMs": 0.0,
+      "attenuationDb": -0.244,
+      "seamOverlapMs": 40
+    },
+    {
+      "id": "libCreepySingerB",
+      "approvedBy": [
+        "libCreepySingerB"
+      ],
+      "mixOnly": false,
+      "label": "Distant creepy singer B",
+      "sourcePath": "sound/library-v2/SoundLibrary_Review/02_ACCEPTED_CANDIDATES/deep_scary/Creepy Girl Singing In The Dinstance(1).mp3",
+      "sourceSha256": "f056ec3f4d935b9c038095826e97df8d00f3bcdf3122ee48db8015796ba9e149",
+      "provenance": "LOCAL ACCEPTED \u00b7 Creepy Girl Singing In The Dinstance(1).mp3",
+      "before": {
+        "durationSeconds": 12.07998,
+        "peakLinear": 0.4586562,
+        "peakDbfs": -6.77,
+        "rmsDbfs": -20.172,
+        "activeRmsDbfs": -19.598,
+        "onsetMs": 0.021,
+        "clippedSamples": 0
+      },
+      "path": "sound/soundEffects/approved-review-2026-09-03/libCreepySingerB.ogg",
+      "reused": false,
+      "after": {
+        "durationSeconds": 12.03998,
+        "peakLinear": 0.4611018,
+        "peakDbfs": -6.724,
+        "rmsDbfs": -20.078,
+        "activeRmsDbfs": -19.518,
+        "onsetMs": 0.042,
+        "clippedSamples": 0
+      },
+      "sha256": "51f4627e8cc430f22f6cd93d889d75e89e58859d9b002bb2bfa83e02f358f26c",
+      "bytes": 241167,
+      "trimStartMs": 0.0,
+      "attenuationDb": 0.0,
+      "seamOverlapMs": 40
+    },
+    {
+      "id": "libCreepySingerC",
+      "approvedBy": [
+        "libCreepySingerC"
+      ],
+      "mixOnly": false,
+      "label": "Distant creepy singer C",
+      "sourcePath": "sound/library-v2/SoundLibrary_Review/02_ACCEPTED_CANDIDATES/deep_scary/Creepy Girl Singing In The Dinstance(2).mp3",
+      "sourceSha256": "506fe9b156e347862be56e0efe26884e3fa776f3dd8d8a1a17b1c7908ce63251",
+      "provenance": "LOCAL ACCEPTED \u00b7 Creepy Girl Singing In The Dinstance(2).mp3",
+      "before": {
+        "durationSeconds": 9.19998,
+        "peakLinear": 0.5662737,
+        "peakDbfs": -4.939,
+        "rmsDbfs": -16.903,
+        "activeRmsDbfs": -16.827,
+        "onsetMs": 0.458,
+        "clippedSamples": 0
+      },
+      "path": "sound/soundEffects/approved-review-2026-09-03/libCreepySingerC.ogg",
+      "reused": false,
+      "after": {
+        "durationSeconds": 9.15998,
+        "peakLinear": 0.5673431,
+        "peakDbfs": -4.923,
+        "rmsDbfs": -16.803,
+        "activeRmsDbfs": -16.746,
+        "onsetMs": 20.062,
+        "clippedSamples": 0
+      },
+      "sha256": "150d4e4190d796d26aaec8731e8ebee2e7364067d581d5005959e46aa3633fa5",
+      "bytes": 154820,
+      "trimStartMs": 0.0,
+      "attenuationDb": 0.0,
+      "seamOverlapMs": 40
+    },
+    {
+      "id": "libCreepySingerD",
+      "approvedBy": [
+        "libCreepySingerD"
+      ],
+      "mixOnly": false,
+      "label": "Distant creepy singer D",
+      "sourcePath": "sound/library-v2/SoundLibrary_Review/02_ACCEPTED_CANDIDATES/deep_scary/Creepy Singing In The Dinstance.mp3",
+      "sourceSha256": "8718d6c3af44a69b55797ed55ef403797da8a36ff236d5742b93fefad602dead",
+      "provenance": "LOCAL ACCEPTED \u00b7 Creepy Singing In The Dinstance.mp3",
+      "before": {
+        "durationSeconds": 4.31998,
+        "peakLinear": 0.4086231,
+        "peakDbfs": -7.774,
+        "rmsDbfs": -19.741,
+        "activeRmsDbfs": -19.619,
+        "onsetMs": 0.146,
+        "clippedSamples": 0
+      },
+      "path": "sound/soundEffects/approved-review-2026-09-03/libCreepySingerD.ogg",
+      "reused": false,
+      "after": {
+        "durationSeconds": 4.27998,
+        "peakLinear": 0.4142332,
+        "peakDbfs": -7.655,
+        "rmsDbfs": -19.62,
+        "activeRmsDbfs": -19.538,
+        "onsetMs": 17.417,
+        "clippedSamples": 0
+      },
+      "sha256": "0768760f8e641a4129e930c2094e9f794b860b32859d3822a03749d548c9b357",
+      "bytes": 78995,
+      "trimStartMs": 0.0,
+      "attenuationDb": 0.0,
+      "seamOverlapMs": 40
+    },
+    {
+      "id": "libDeepVoicesA",
+      "approvedBy": [
+        "libDeepVoicesA"
+      ],
+      "mixOnly": false,
+      "label": "Deep voices A",
+      "sourcePath": "sound/library-v2/SoundLibrary_Review/02_ACCEPTED_CANDIDATES/deep_scary/Deep Underground Voices Creepy.mp3",
+      "sourceSha256": "bd6307d8d38adf4691b3576ef3d5e75f500e39970340694010dba9c3925aaaef",
+      "provenance": "LOCAL ACCEPTED \u00b7 Deep Underground Voices Creepy.mp3",
+      "before": {
+        "durationSeconds": 8.91998,
+        "peakLinear": 0.6864217,
+        "peakDbfs": -3.268,
+        "rmsDbfs": -18.518,
+        "activeRmsDbfs": -17.172,
+        "onsetMs": 0.021,
+        "clippedSamples": 0
+      },
+      "path": "sound/soundEffects/approved-review-2026-09-03/libDeepVoicesA.ogg",
+      "reused": false,
+      "after": {
+        "durationSeconds": 8.87998,
+        "peakLinear": 0.6923853,
+        "peakDbfs": -3.193,
+        "rmsDbfs": -18.416,
+        "activeRmsDbfs": -17.09,
+        "onsetMs": 24.625,
+        "clippedSamples": 0
+      },
+      "sha256": "871b1b28ad436cb7cd152049a024768fd890ecb0b910c5d24afbfb72914df34b",
+      "bytes": 164640,
+      "trimStartMs": 0.0,
+      "attenuationDb": 0.0,
+      "seamOverlapMs": 40
+    },
+    {
+      "id": "libDeepVoicesB",
+      "approvedBy": [
+        "libDeepVoicesB"
+      ],
+      "mixOnly": false,
+      "label": "Deep voices B",
+      "sourcePath": "sound/library-v2/SoundLibrary_Review/02_ACCEPTED_CANDIDATES/deep_scary/Deep Underground Voices Creepy(1).mp3",
+      "sourceSha256": "49c9e089fef35f63f15716c31141abcbf834ea504fd52b8cd01e87160005d129",
+      "provenance": "LOCAL ACCEPTED \u00b7 Deep Underground Voices Creepy(1).mp3",
+      "before": {
+        "durationSeconds": 11.15998,
+        "peakLinear": 0.8547738,
+        "peakDbfs": -1.363,
+        "rmsDbfs": -16.734,
+        "activeRmsDbfs": -15.407,
+        "onsetMs": 128.208,
+        "clippedSamples": 0
+      },
+      "path": "sound/soundEffects/approved-review-2026-09-03/libDeepVoicesB.ogg",
+      "reused": false,
+      "after": {
+        "durationSeconds": 11.11998,
+        "peakLinear": 0.8603407,
+        "peakDbfs": -1.307,
+        "rmsDbfs": -16.692,
+        "activeRmsDbfs": -15.38,
+        "onsetMs": 88.125,
+        "clippedSamples": 0
+      },
+      "sha256": "93d0a14fd81ce6e6299681109c97adce8a4dfea44f569add2dd86f6735c6a910",
+      "bytes": 211385,
+      "trimStartMs": 0.0,
+      "attenuationDb": -0.049,
+      "seamOverlapMs": 40
+    },
+    {
+      "id": "libSoundsDeep",
+      "approvedBy": [
+        "libSoundsDeep"
+      ],
+      "mixOnly": false,
+      "label": "Sounds from the deep",
+      "sourcePath": "sound/library-v2/SoundLibrary_Review/02_ACCEPTED_CANDIDATES/deep_scary/Sounds From The Deep Creepy.mp3",
+      "sourceSha256": "44e92687a612f358628f00e3f84e1d5906562186c45b2600fc03be3041648aae",
+      "provenance": "LOCAL ACCEPTED \u00b7 Sounds From The Deep Creepy.mp3",
+      "before": {
+        "durationSeconds": 12.23998,
+        "peakLinear": 0.5697447,
+        "peakDbfs": -4.886,
+        "rmsDbfs": -19.535,
+        "activeRmsDbfs": -18.543,
+        "onsetMs": 0.271,
+        "clippedSamples": 0
+      },
+      "path": "sound/soundEffects/approved-review-2026-09-03/libSoundsDeep.ogg",
+      "reused": false,
+      "after": {
+        "durationSeconds": 12.19998,
+        "peakLinear": 0.5706924,
+        "peakDbfs": -4.872,
+        "rmsDbfs": -19.464,
+        "activeRmsDbfs": -18.487,
+        "onsetMs": 4.292,
+        "clippedSamples": 0
+      },
+      "sha256": "cd3c61c6b2fa7b32131f32287c19421fd9f06b7b87620532afba31a391db9f19",
+      "bytes": 233538,
+      "trimStartMs": 0.0,
+      "attenuationDb": 0.0,
+      "seamOverlapMs": 40
+    },
+    {
+      "id": "libWhispersDeep",
+      "approvedBy": [
+        "libWhispersDeep"
+      ],
+      "mixOnly": false,
+      "label": "Whispers from the deep",
+      "sourcePath": "sound/library-v2/SoundLibrary_Review/02_ACCEPTED_CANDIDATES/deep_scary/Wispers From The Deep Creepy.mp3",
+      "sourceSha256": "e116404081fa3af6ba3a180e19bb9e0de92855011ddc6bedf4cb658098a49753",
+      "provenance": "LOCAL ACCEPTED \u00b7 Wispers From The Deep Creepy.mp3",
+      "before": {
+        "durationSeconds": 7.99998,
+        "peakLinear": 0.6454078,
+        "peakDbfs": -3.803,
+        "rmsDbfs": -18.98,
+        "activeRmsDbfs": -17.585,
+        "onsetMs": 151.688,
+        "clippedSamples": 0
+      },
+      "path": "sound/soundEffects/approved-review-2026-09-03/libWhispersDeep.ogg",
+      "reused": false,
+      "after": {
+        "durationSeconds": 7.95998,
+        "peakLinear": 0.6569244,
+        "peakDbfs": -3.65,
+        "rmsDbfs": -18.914,
+        "activeRmsDbfs": -17.541,
+        "onsetMs": 111.688,
+        "clippedSamples": 0
+      },
+      "sha256": "0878ac4dd31800b209fd59fde2aeac329cafcffa9ac57ea057756bf980524eb0",
+      "bytes": 128209,
+      "trimStartMs": 0.0,
+      "attenuationDb": 0.0,
+      "seamOverlapMs": 40
+    },
+    {
+      "id": "digOne",
+      "approvedBy": [
+        "digSequence"
+      ],
+      "mixOnly": false,
+      "label": "Runtime dig variant 1",
+      "sourcePath": "sound/soundEffects/costume-sounds/dig/dig-1.ogg",
+      "sourceSha256": "f8b6de678dfce65100bddef5ce0992aa3636927a96f1eb779b9b6f44783940a6",
+      "provenance": "Current randomized runtime dig pool",
+      "before": {
+        "durationSeconds": 0.1016,
+        "peakLinear": 0.612896,
+        "peakDbfs": -4.252,
+        "rmsDbfs": -21.574,
+        "activeRmsDbfs": -20.536,
+        "onsetMs": 25.688,
+        "clippedSamples": 0
+      },
+      "path": "sound/soundEffects/costume-sounds/dig/dig-1.ogg",
+      "reused": true,
+      "after": {
+        "durationSeconds": 0.1016,
+        "peakLinear": 0.612896,
+        "peakDbfs": -4.252,
+        "rmsDbfs": -21.574,
+        "activeRmsDbfs": -20.536,
+        "onsetMs": 25.688,
+        "clippedSamples": 0
+      },
+      "sha256": "f8b6de678dfce65100bddef5ce0992aa3636927a96f1eb779b9b6f44783940a6",
+      "trimStartMs": 0,
+      "attenuationDb": 0
+    },
+    {
+      "id": "digTwo",
+      "approvedBy": [
+        "digSequence"
+      ],
+      "mixOnly": false,
+      "label": "Runtime dig variant 2",
+      "sourcePath": "sound/soundEffects/costume-sounds/dig/dig-2.ogg",
+      "sourceSha256": "3f7afeba6a0651f03c7fe1feb0e6cf2183f814db7efb1f60435216628d6ffd98",
+      "provenance": "Current randomized runtime dig pool",
+      "before": {
+        "durationSeconds": 0.1016,
+        "peakLinear": 0.803191,
+        "peakDbfs": -1.904,
+        "rmsDbfs": -18.644,
+        "activeRmsDbfs": -17.606,
+        "onsetMs": 24.438,
+        "clippedSamples": 0
+      },
+      "path": "sound/soundEffects/costume-sounds/dig/dig-2.ogg",
+      "reused": true,
+      "after": {
+        "durationSeconds": 0.1016,
+        "peakLinear": 0.803191,
+        "peakDbfs": -1.904,
+        "rmsDbfs": -18.644,
+        "activeRmsDbfs": -17.606,
+        "onsetMs": 24.438,
+        "clippedSamples": 0
+      },
+      "sha256": "3f7afeba6a0651f03c7fe1feb0e6cf2183f814db7efb1f60435216628d6ffd98",
+      "trimStartMs": 0,
+      "attenuationDb": 0
+    },
+    {
+      "id": "libDirtSwingA",
+      "approvedBy": [
+        "libDirtSwingA"
+      ],
+      "mixOnly": false,
+      "label": "Dirt swing A",
+      "sourcePath": "sound/library-v2/SoundLibrary_Review/00_INBOX_RAW_EXPORTS/sonniss-ingame-sfx-mockup-v1-2026-08-27/slices/mining-material-loop-02-SONNISS19-SRC-110-000000ms.wav",
+      "sourceSha256": "2d424d9a31a5d3a04a57f2ac41854d9c122d4f48730fe2b58fa7ad3f800f00fa",
+      "provenance": "SONNISS GDC19 \u00b7 Breathy glove whoosh",
+      "before": {
+        "durationSeconds": 0.46,
+        "peakLinear": 0.7079163,
+        "peakDbfs": -3.0,
+        "rmsDbfs": -25.972,
+        "activeRmsDbfs": -22.357,
+        "onsetMs": 25.479,
+        "clippedSamples": 0
+      },
+      "path": "sound/soundEffects/approved-review-2026-09-03/libDirtSwingA.ogg",
+      "reused": false,
+      "after": {
+        "durationSeconds": 0.45733,
+        "peakLinear": 0.657054,
+        "peakDbfs": -3.648,
+        "rmsDbfs": -26.007,
+        "activeRmsDbfs": -22.417,
+        "onsetMs": 2.917,
+        "clippedSamples": 0
+      },
+      "sha256": "36d4ebd0a1f4872d81ae033aa64b9b12cc0a7fe23d6bf8148de687e186378799",
+      "bytes": 13832,
+      "trimStartMs": 23.479,
+      "attenuationDb": 0.0,
+      "seamOverlapMs": 0
+    },
+    {
+      "id": "libDirtBreak",
+      "approvedBy": [
+        "libDirtBreak"
+      ],
+      "mixOnly": false,
+      "label": "Dirt block break",
+      "sourcePath": "sound/library-v2/SoundLibrary_Review/00_INBOX_RAW_EXPORTS/sonniss-ingame-sfx-mockup-v1-2026-08-27/slices/mining-material-loop-07-SONNISS19-MINE-24-000000ms.wav",
+      "sourceSha256": "027b2915744b8ceea1f65bf321cd6aa61d3eeeff9196b2ec1451be1618119146",
+      "provenance": "SONNISS GDC19 \u00b7 Heavy dry-ground contact",
+      "before": {
+        "durationSeconds": 0.98,
+        "peakLinear": 0.7079163,
+        "peakDbfs": -3.0,
+        "rmsDbfs": -28.001,
+        "activeRmsDbfs": -25.728,
+        "onsetMs": 7.062,
+        "clippedSamples": 0
+      },
+      "path": "sound/soundEffects/approved-review-2026-09-03/libDirtBreak.ogg",
+      "reused": false,
+      "after": {
+        "durationSeconds": 0.97227,
+        "peakLinear": 0.7165842,
+        "peakDbfs": -2.895,
+        "rmsDbfs": -28.131,
+        "activeRmsDbfs": -25.891,
+        "onsetMs": 2.062,
+        "clippedSamples": 0
+      },
+      "sha256": "2208502a60a1ed41366251c234bf4e4b1e7ae7c55ed209269bebaf7fb0b3a7a1",
+      "bytes": 24334,
+      "trimStartMs": 5.062,
+      "attenuationDb": 0.0,
+      "seamOverlapMs": 0
+    },
+    {
+      "id": "libToolContact",
+      "approvedBy": [
+        "libToolContact"
+      ],
+      "mixOnly": false,
+      "label": "Pick metal contact",
+      "sourcePath": "sound/library-v2/SoundLibrary_Review/00_INBOX_RAW_EXPORTS/sonniss-ingame-sfx-mockup-v1-2026-08-27/slices/mining-material-loop-10-SONNISS19-SRC-070-000120ms.wav",
+      "sourceSha256": "caa75b575c2ca30aadcfa0b4e46b796691580ea77eec230b892f01f0a02cdc7d",
+      "provenance": "SONNISS GDC19 \u00b7 Sledgehammer on metal sheet",
+      "before": {
+        "durationSeconds": 1.2,
+        "peakLinear": 0.7079163,
+        "peakDbfs": -3.0,
+        "rmsDbfs": -25.078,
+        "activeRmsDbfs": -20.918,
+        "onsetMs": 0.104,
+        "clippedSamples": 0
+      },
+      "path": "sound/soundEffects/approved-review-2026-09-03/libToolContact.ogg",
+      "reused": false,
+      "after": {
+        "durationSeconds": 1.2,
+        "peakLinear": 0.6936398,
+        "peakDbfs": -3.177,
+        "rmsDbfs": -25.155,
+        "activeRmsDbfs": -20.995,
+        "onsetMs": 0.833,
+        "clippedSamples": 0
+      },
+      "sha256": "576af2f7f6569facf8ce3d5c305b722e39815eeb63570ef7cfca2c391db6ae00",
+      "bytes": 22037,
+      "trimStartMs": 0.0,
+      "attenuationDb": 0.0,
+      "seamOverlapMs": 0
+    },
+    {
+      "id": "libStoneBreak",
+      "approvedBy": [
+        "libStoneBreak"
+      ],
+      "mixOnly": false,
+      "label": "Stone block break",
+      "sourcePath": "sound/library-v2/SoundLibrary_Review/00_INBOX_RAW_EXPORTS/sonniss-ingame-sfx-mockup-v1-2026-08-27/slices/mining-material-loop-11-SONNISS19-MINE-18-001200ms.wav",
+      "sourceSha256": "8c23c166abf7fb8b2957343b87c812ff783171e483c9558a6a1468a7da433783",
+      "provenance": "SONNISS GDC19 \u00b7 Large falling-rock impact",
+      "before": {
+        "durationSeconds": 1.8,
+        "peakLinear": 0.7079163,
+        "peakDbfs": -3.0,
+        "rmsDbfs": -26.91,
+        "activeRmsDbfs": -26.862,
+        "onsetMs": 0.604,
+        "clippedSamples": 0
+      },
+      "path": "sound/soundEffects/approved-review-2026-09-03/libStoneBreak.ogg",
+      "reused": false,
+      "after": {
+        "durationSeconds": 1.8,
+        "peakLinear": 0.7144903,
+        "peakDbfs": -2.92,
+        "rmsDbfs": -26.924,
+        "activeRmsDbfs": -26.875,
+        "onsetMs": 1.125,
+        "clippedSamples": 0
+      },
+      "sha256": "0fb92dc4a016dc01a58f84b5a677982c3d52106bbe6cefeb278fa957287aa097",
+      "bytes": 75750,
+      "trimStartMs": 0.0,
+      "attenuationDb": 0.0,
+      "seamOverlapMs": 0
+    },
+    {
+      "id": "starDestruction",
+      "approvedBy": [
+        "starDestruction"
+      ],
+      "mixOnly": false,
+      "label": "Approved Star destruction",
+      "sourcePath": "sound/soundEffects/approved-sfx-findings-v1/star-destruction-shockwave-freesound-814053.mp3",
+      "sourceSha256": "ab12c94200983a26d0614ec1a3ead2f692cfa07b7f20406e2d6d61da83f3b2a0",
+      "provenance": "Freesound 814053 \u00b7 qubodup \u00b7 CC0 1.0",
+      "before": {
+        "durationSeconds": 7.38465,
+        "peakLinear": 0.9716785,
+        "peakDbfs": -0.25,
+        "rmsDbfs": -8.231,
+        "activeRmsDbfs": -7.873,
+        "onsetMs": 0.062,
+        "clippedSamples": 0
+      },
+      "path": "sound/soundEffects/approved-sfx-findings-v1/star-destruction-shockwave-freesound-814053.mp3",
+      "reused": true,
+      "after": {
+        "durationSeconds": 7.38465,
+        "peakLinear": 0.9716785,
+        "peakDbfs": -0.25,
+        "rmsDbfs": -8.231,
+        "activeRmsDbfs": -7.873,
+        "onsetMs": 0.062,
+        "clippedSamples": 0
+      },
+      "sha256": "ab12c94200983a26d0614ec1a3ead2f692cfa07b7f20406e2d6d61da83f3b2a0",
+      "trimStartMs": 0,
+      "attenuationDb": 0
+    },
+    {
+      "id": "libLandingDebris",
+      "approvedBy": [
+        "libLandingDebris"
+      ],
+      "mixOnly": false,
+      "label": "Heavy landing debris",
+      "sourcePath": "sound/library-v2/SoundLibrary_Review/00_INBOX_RAW_EXPORTS/sonniss-ingame-sfx-mockup-v1-2026-08-27/slices/robot-flight-movement-14-SONNISS19-MINE-18-000050ms.wav",
+      "sourceSha256": "3cbf0f03fbcae0d155dd2905c3f5158900990b8b27c6f2965f01acacf5c5c15a",
+      "provenance": "SONNISS GDC19 \u00b7 Falling rock debris",
+      "before": {
+        "durationSeconds": 1.25,
+        "peakLinear": 0.7079163,
+        "peakDbfs": -3.0,
+        "rmsDbfs": -19.117,
+        "activeRmsDbfs": -19.084,
+        "onsetMs": 6.979,
+        "clippedSamples": 0
+      },
+      "path": "sound/soundEffects/approved-review-2026-09-03/libLandingDebris.ogg",
+      "reused": false,
+      "after": {
+        "durationSeconds": 1.24502,
+        "peakLinear": 0.7053962,
+        "peakDbfs": -3.031,
+        "rmsDbfs": -19.141,
+        "activeRmsDbfs": -19.124,
+        "onsetMs": 2.104,
+        "clippedSamples": 0
+      },
+      "sha256": "0c04f15acf361dc7cfa01d50e7a891623276ff9f748a2478a7c0077718d6e7e3",
+      "bytes": 48055,
+      "trimStartMs": 4.979,
+      "attenuationDb": 0.0,
+      "seamOverlapMs": 0
+    },
+    {
+      "id": "libMenuOpen",
+      "approvedBy": [
+        "libMenuOpen"
+      ],
+      "mixOnly": false,
+      "label": "Mechanical menu open",
+      "sourcePath": "sound/library-v2/SoundLibrary_Review/00_INBOX_RAW_EXPORTS/sonniss-ingame-sfx-mockup-v1-2026-08-27/slices/ui-reward-flow-01-SONNISS19-SRC-093-000000ms.wav",
+      "sourceSha256": "bf98c0b4d6d130b09f9f4beafcaf370ad66f43cdfee3a71a7c028ae2b8da7120",
+      "provenance": "SONNISS GDC19 \u00b7 Small mechanism open",
+      "before": {
+        "durationSeconds": 1.6,
+        "peakLinear": 0.7079163,
+        "peakDbfs": -3.0,
+        "rmsDbfs": -21.671,
+        "activeRmsDbfs": -20.205,
+        "onsetMs": 8.208,
+        "clippedSamples": 0
+      },
+      "path": "sound/soundEffects/approved-review-2026-09-03/libMenuOpen.ogg",
+      "reused": false,
+      "after": {
+        "durationSeconds": 1.59379,
+        "peakLinear": 0.7029096,
+        "peakDbfs": -3.062,
+        "rmsDbfs": -21.628,
+        "activeRmsDbfs": -20.254,
+        "onsetMs": 6.583,
+        "clippedSamples": 0
+      },
+      "sha256": "7c6cc1041daf4f4416b59fe79d903fc831b2223b6285736f0d20546db9b78d71",
+      "bytes": 43242,
+      "trimStartMs": 6.208,
+      "attenuationDb": 0.0,
+      "seamOverlapMs": 0
+    },
+    {
+      "id": "libUiHover",
+      "approvedBy": [
+        "libUiHover"
+      ],
+      "mixOnly": false,
+      "label": "Mechanical hover",
+      "sourcePath": "sound/library-v2/SoundLibrary_Review/00_INBOX_RAW_EXPORTS/sonniss-ingame-sfx-mockup-v1-2026-08-27/slices/ui-reward-flow-02-SONNISS19-SRC-107-000000ms.wav",
+      "sourceSha256": "63d6ba89d2d15caa3147f5e37b26ecb7068e2de918df4f9f5f47c187a97ab04e",
+      "provenance": "SONNISS GDC19 \u00b7 Mechanical UI move",
+      "before": {
+        "durationSeconds": 0.25,
+        "peakLinear": 0.7079163,
+        "peakDbfs": -3.0,
+        "rmsDbfs": -27.255,
+        "activeRmsDbfs": -23.281,
+        "onsetMs": 4.083,
+        "clippedSamples": 0
+      },
+      "path": "sound/soundEffects/approved-review-2026-09-03/libUiHover.ogg",
+      "reused": false,
+      "after": {
+        "durationSeconds": 0.24525,
+        "peakLinear": 0.7050329,
+        "peakDbfs": -3.036,
+        "rmsDbfs": -27.171,
+        "activeRmsDbfs": -22.315,
+        "onsetMs": 3.208,
+        "clippedSamples": 0
+      },
+      "sha256": "fef925f65c9f3627c74517e8e85ac32852e0e6eb24e0e78ec4083f27ef7b02a9",
+      "bytes": 9601,
+      "trimStartMs": 2.083,
+      "attenuationDb": 0.0,
+      "seamOverlapMs": 0
+    },
+    {
+      "id": "libUiClick",
+      "approvedBy": [
+        "libUiClick"
+      ],
+      "mixOnly": false,
+      "label": "Mechanical click",
+      "sourcePath": "sound/library-v2/SoundLibrary_Review/00_INBOX_RAW_EXPORTS/sonniss-ingame-sfx-mockup-v1-2026-08-27/slices/ui-reward-flow-03-SONNISS19-SRC-050-000000ms.wav",
+      "sourceSha256": "f94d3d68443b1e14603fc456ea4bb7c5e72a4373067ed803e3c6c80fa1a49684",
+      "provenance": "SONNISS GDC19 \u00b7 Door lock click",
+      "before": {
+        "durationSeconds": 0.6,
+        "peakLinear": 0.7079163,
+        "peakDbfs": -3.0,
+        "rmsDbfs": -35.284,
+        "activeRmsDbfs": -34.323,
+        "onsetMs": 13.271,
+        "clippedSamples": 0
+      },
+      "path": "sound/soundEffects/approved-review-2026-09-03/libUiClick.ogg",
+      "reused": false,
+      "after": {
+        "durationSeconds": 0.58606,
+        "peakLinear": 0.7062521,
+        "peakDbfs": -3.021,
+        "rmsDbfs": -35.244,
+        "activeRmsDbfs": -34.012,
+        "onsetMs": 2.312,
+        "clippedSamples": 0
+      },
+      "sha256": "9c6ff3f6d30705fe7bf6ddd58c24d1b237c883c5f067d10716563b49720940ee",
+      "bytes": 19061,
+      "trimStartMs": 11.271,
+      "attenuationDb": 0.0,
+      "seamOverlapMs": 0
+    },
+    {
+      "id": "libUiConfirm",
+      "approvedBy": [
+        "libUiConfirm"
+      ],
+      "mixOnly": false,
+      "label": "Mechanical confirm",
+      "sourcePath": "sound/library-v2/SoundLibrary_Review/00_INBOX_RAW_EXPORTS/sonniss-ingame-sfx-mockup-v1-2026-08-27/slices/ui-reward-flow-04-SONNISS19-SRC-105-000150ms.wav",
+      "sourceSha256": "2547f9f27d20ce4214d5b4d4462aee9019ee8aefdf75be14f868407b8c607f56",
+      "provenance": "SONNISS GDC19 \u00b7 Mechanical UI confirm",
+      "before": {
+        "durationSeconds": 2.1,
+        "peakLinear": 0.7079163,
+        "peakDbfs": -3.0,
+        "rmsDbfs": -21.162,
+        "activeRmsDbfs": -20.592,
+        "onsetMs": 0.542,
+        "clippedSamples": 0
+      },
+      "path": "sound/soundEffects/approved-review-2026-09-03/libUiConfirm.ogg",
+      "reused": false,
+      "after": {
+        "durationSeconds": 2.1,
+        "peakLinear": 0.7010514,
+        "peakDbfs": -3.085,
+        "rmsDbfs": -21.124,
+        "activeRmsDbfs": -20.554,
+        "onsetMs": 1.5,
+        "clippedSamples": 0
+      },
+      "sha256": "ac3f2f1f9786f89b5eb63ab756125b1cf4679979f7b855b66c9a1fd2c232b089",
+      "bytes": 52799,
+      "trimStartMs": 0.0,
+      "attenuationDb": 0.0,
+      "seamOverlapMs": 0
+    },
+    {
+      "id": "libSaveCard",
+      "approvedBy": [
+        "libSaveCard"
+      ],
+      "mixOnly": false,
+      "label": "Soft save-card cue",
+      "sourcePath": "sound/library-v2/SoundLibrary_Review/00_INBOX_RAW_EXPORTS/sonniss-ingame-sfx-mockup-v1-2026-08-27/slices/ui-reward-flow-12-SONNISS19-MINE-14-000000ms.wav",
+      "sourceSha256": "46f9f395bdcfea7f141ad9759b088dc610755e464654ec944721cfc1e476c200",
+      "provenance": "SONNISS GDC19 \u00b7 Coins in drawstring sack",
+      "before": {
+        "durationSeconds": 0.45,
+        "peakLinear": 0.7079163,
+        "peakDbfs": -3.0,
+        "rmsDbfs": -29.438,
+        "activeRmsDbfs": -22.912,
+        "onsetMs": 9.562,
+        "clippedSamples": 0
+      },
+      "path": "sound/soundEffects/approved-review-2026-09-03/libSaveCard.ogg",
+      "reused": false,
+      "after": {
+        "durationSeconds": 0.43977,
+        "peakLinear": 0.5932305,
+        "peakDbfs": -4.536,
+        "rmsDbfs": -29.59,
+        "activeRmsDbfs": -22.196,
+        "onsetMs": 2.979,
+        "clippedSamples": 0
+      },
+      "sha256": "6db4935e215e74d9a9bef1b37ceba419c8b08ebb50f6dd10f7dfe1fd59872589",
+      "bytes": 15644,
+      "trimStartMs": 7.562,
+      "attenuationDb": 0.0,
+      "seamOverlapMs": 0
+    },
+    {
+      "id": "levelUpShort",
+      "approvedBy": [
+        "levelUpShort"
+      ],
+      "mixOnly": false,
+      "label": "Approved level up \u00b7 short",
+      "sourcePath": "sound/soundEffects/approved-sfx-findings-v1/level-up-short-freesound-320655.mp3",
+      "sourceSha256": "3f321b470816f9cdc807e3cc0e960800d4d54e5dfe429fbad1c9328b30ab4e42",
+      "provenance": "Freesound 320655 \u00b7 rhodesmas \u00b7 CC BY 4.0",
+      "before": {
+        "durationSeconds": 1.1,
+        "peakLinear": 0.8220638,
+        "peakDbfs": -1.702,
+        "rmsDbfs": -19.086,
+        "activeRmsDbfs": -17.812,
+        "onsetMs": 0.104,
+        "clippedSamples": 0
+      },
+      "path": "sound/soundEffects/approved-sfx-findings-v1/level-up-short-freesound-320655.mp3",
+      "reused": true,
+      "after": {
+        "durationSeconds": 1.1,
+        "peakLinear": 0.8220638,
+        "peakDbfs": -1.702,
+        "rmsDbfs": -19.086,
+        "activeRmsDbfs": -17.812,
+        "onsetMs": 0.104,
+        "clippedSamples": 0
+      },
+      "sha256": "3f321b470816f9cdc807e3cc0e960800d4d54e5dfe429fbad1c9328b30ab4e42",
+      "trimStartMs": 0,
+      "attenuationDb": 0
+    },
+    {
+      "id": "levelUpEpic",
+      "approvedBy": [
+        "levelUpEpic"
+      ],
+      "mixOnly": false,
+      "label": "Approved level up \u00b7 epic",
+      "sourcePath": "sound/soundEffects/approved-sfx-findings-v1/level-up-epic-freesound-682633.mp3",
+      "sourceSha256": "7e7edda3bea604a7d6174dfcdca54c1cf89254e0ce6b23d8abe064746404ed93",
+      "provenance": "Freesound 682633 \u00b7 Bastianhallo \u00b7 CC0 1.0",
+      "before": {
+        "durationSeconds": 5.51,
+        "peakLinear": 0.3190852,
+        "peakDbfs": -9.922,
+        "rmsDbfs": -29.133,
+        "activeRmsDbfs": -27.164,
+        "onsetMs": 0.438,
+        "clippedSamples": 0
+      },
+      "path": "sound/soundEffects/approved-sfx-findings-v1/level-up-epic-freesound-682633.mp3",
+      "reused": true,
+      "after": {
+        "durationSeconds": 5.51,
+        "peakLinear": 0.3190852,
+        "peakDbfs": -9.922,
+        "rmsDbfs": -29.133,
+        "activeRmsDbfs": -27.164,
+        "onsetMs": 0.438,
+        "clippedSamples": 0
+      },
+      "sha256": "7e7edda3bea604a7d6174dfcdca54c1cf89254e0ce6b23d8abe064746404ed93",
+      "trimStartMs": 0,
+      "attenuationDb": 0
+    },
+    {
+      "id": "libPurchaseCoin",
+      "approvedBy": [
+        "libPurchaseCoin"
+      ],
+      "mixOnly": false,
+      "label": "Purchase coin",
+      "sourcePath": "sound/library-v2/SoundLibrary_Review/00_INBOX_RAW_EXPORTS/sonniss-ingame-sfx-mockup-v1-2026-08-27/slices/ui-reward-flow-05-SONNISS19-MINE-11-000000ms.wav",
+      "sourceSha256": "51b830d3ee8ac1aeb589b0aa9c33a52b2b8c5318137d2c3db62231284c8c859e",
+      "provenance": "SONNISS GDC19 \u00b7 Coin slide",
+      "before": {
+        "durationSeconds": 0.4,
+        "peakLinear": 0.7079163,
+        "peakDbfs": -3.0,
+        "rmsDbfs": -20.396,
+        "activeRmsDbfs": -18.849,
+        "onsetMs": 2.542,
+        "clippedSamples": 0
+      },
+      "path": "sound/soundEffects/approved-review-2026-09-03/libPurchaseCoin.ogg",
+      "reused": false,
+      "after": {
+        "durationSeconds": 0.39679,
+        "peakLinear": 0.6894307,
+        "peakDbfs": -3.23,
+        "rmsDbfs": -20.344,
+        "activeRmsDbfs": -18.832,
+        "onsetMs": 2.167,
+        "clippedSamples": 0
+      },
+      "sha256": "984aea2abe04a5bd716665606d75c301cf820518a8ed8a4ac7f2e555d8713777",
+      "bytes": 14317,
+      "trimStartMs": 0.542,
+      "attenuationDb": 0.0,
+      "seamOverlapMs": 0
+    },
+    {
+      "id": "libResourcePop",
+      "approvedBy": [
+        "libResourcePop"
+      ],
+      "mixOnly": false,
+      "label": "Resource pop",
+      "sourcePath": "sound/library-v2/SoundLibrary_Review/00_INBOX_RAW_EXPORTS/sonniss-ingame-sfx-mockup-v1-2026-08-27/slices/mining-material-loop-12-SONNISS19-MINE-13-000000ms.wav",
+      "sourceSha256": "09027a4c997a80c7cf98594e4e14c428a2dfed819899100199f30a2fdf20d4b3",
+      "provenance": "SONNISS GDC19 \u00b7 Coin drop on carpet",
+      "before": {
+        "durationSeconds": 0.62,
+        "peakLinear": 0.7079163,
+        "peakDbfs": -3.0,
+        "rmsDbfs": -17.432,
+        "activeRmsDbfs": -15.741,
+        "onsetMs": 1.896,
+        "clippedSamples": 0
+      },
+      "path": "sound/soundEffects/approved-review-2026-09-03/libResourcePop.ogg",
+      "reused": false,
+      "after": {
+        "durationSeconds": 0.61733,
+        "peakLinear": 0.7228451,
+        "peakDbfs": -2.819,
+        "rmsDbfs": -17.464,
+        "activeRmsDbfs": -15.792,
+        "onsetMs": 2.562,
+        "clippedSamples": 0
+      },
+      "sha256": "c447d3074c513dec206b5fe1a287286b37eeadaebc8ffeed762c79824e080baf",
+      "bytes": 19291,
+      "trimStartMs": 0.0,
+      "attenuationDb": 0.0,
+      "seamOverlapMs": 0
+    },
+    {
+      "id": "libRewardCoins",
+      "approvedBy": [
+        "libRewardCoins"
+      ],
+      "mixOnly": false,
+      "label": "Coin reward cluster",
+      "sourcePath": "sound/library-v2/SoundLibrary_Review/00_INBOX_RAW_EXPORTS/sonniss-ingame-sfx-mockup-v1-2026-08-27/slices/ui-reward-flow-09-SONNISS19-MINE-12-000000ms.wav",
+      "sourceSha256": "b8a3a39a41773baee2ead9968b1fefdd7ae645f8c2d45d1b3e007dfff8b2f115",
+      "provenance": "SONNISS GDC19 \u00b7 Bottlecap coin cluster",
+      "before": {
+        "durationSeconds": 0.82,
+        "peakLinear": 0.7079163,
+        "peakDbfs": -3.0,
+        "rmsDbfs": -27.827,
+        "activeRmsDbfs": -25.134,
+        "onsetMs": 3.833,
+        "clippedSamples": 0
+      },
+      "path": "sound/soundEffects/approved-review-2026-09-03/libRewardCoins.ogg",
+      "reused": false,
+      "after": {
+        "durationSeconds": 0.8155,
+        "peakLinear": 0.6983849,
+        "peakDbfs": -3.118,
+        "rmsDbfs": -27.939,
+        "activeRmsDbfs": -25.271,
+        "onsetMs": 3.458,
+        "clippedSamples": 0
+      },
+      "sha256": "76fae788720554c3a86b7e1f1da29259fc2686afd560594ed07b84b8ca4375e9",
+      "bytes": 27725,
+      "trimStartMs": 1.833,
+      "attenuationDb": 0.0,
+      "seamOverlapMs": 0
+    },
+    {
+      "id": "rainReference",
+      "approvedBy": [
+        "rainReference"
+      ],
+      "mixOnly": false,
+      "label": "Approved rain reference",
+      "sourcePath": "sound/soundEffects/weather-ambience-v1/rain-open-soft-v1.wav",
+      "sourceSha256": "940f03067732ccf19a47d7b473a5a2c7d1a5bd37d169a09cd9c37fb5ddcd195b",
+      "provenance": "Approved weather ambience v1",
+      "before": {
+        "durationSeconds": 10.0,
+        "peakLinear": 0.3596032,
+        "peakDbfs": -8.884,
+        "rmsDbfs": -35.231,
+        "activeRmsDbfs": -35.231,
+        "onsetMs": 0.0,
+        "clippedSamples": 0
+      },
+      "path": "sound/soundEffects/weather-ambience-v1/rain-open-soft-v1.wav",
+      "reused": true,
+      "after": {
+        "durationSeconds": 10.0,
+        "peakLinear": 0.3596032,
+        "peakDbfs": -8.884,
+        "rmsDbfs": -35.231,
+        "activeRmsDbfs": -35.231,
+        "onsetMs": 0.0,
+        "clippedSamples": 0
+      },
+      "sha256": "940f03067732ccf19a47d7b473a5a2c7d1a5bd37d169a09cd9c37fb5ddcd195b",
+      "trimStartMs": 0,
+      "attenuationDb": 0
+    },
+    {
+      "id": "windReference",
+      "approvedBy": [
+        "rainReference"
+      ],
+      "mixOnly": true,
+      "label": "Approved wind reference",
+      "sourcePath": "sound/soundEffects/weather-ambience-v1/wind-open-v1.wav",
+      "sourceSha256": "cf4f8f9fbedf518c2312f27c0ba64fa2732893bdc0f68851709e160cbca4d9f9",
+      "provenance": "Approved weather ambience v1",
+      "before": {
+        "durationSeconds": 10.0,
+        "peakLinear": 0.6523829,
+        "peakDbfs": -3.71,
+        "rmsDbfs": -20.0,
+        "activeRmsDbfs": -20.0,
+        "onsetMs": 0.0,
+        "clippedSamples": 0
+      },
+      "path": "sound/soundEffects/weather-ambience-v1/wind-open-v1.wav",
+      "reused": true,
+      "after": {
+        "durationSeconds": 10.0,
+        "peakLinear": 0.6523829,
+        "peakDbfs": -3.71,
+        "rmsDbfs": -20.0,
+        "activeRmsDbfs": -20.0,
+        "onsetMs": 0.0,
+        "clippedSamples": 0
+      },
+      "sha256": "cf4f8f9fbedf518c2312f27c0ba64fa2732893bdc0f68851709e160cbca4d9f9",
+      "trimStartMs": 0,
+      "attenuationDb": 0
+    },
+    {
+      "id": "libRainDirtA",
+      "approvedBy": [
+        "libRainDirtA"
+      ],
+      "mixOnly": false,
+      "label": "Rain on dirt A",
+      "sourcePath": "sound/library-v2/SoundLibrary_Review/01_REVIEW_BY_TAG/GOOD/Loopable Field Recording Medium Rain Falling On Dirt Ground And Scattered Gr_1.mp3",
+      "sourceSha256": "3e9b54761263ebca3aca93237a6b5a1c4934c0daee58028ceef2751f329d0ac6",
+      "provenance": "LOCAL GOOD LOOP \u00b7 Loopable Field Recording Medium Rain Falling On Dirt Ground And Scattered Gr_1.mp3",
+      "before": {
+        "durationSeconds": 8.23998,
+        "peakLinear": 0.7123117,
+        "peakDbfs": -2.947,
+        "rmsDbfs": -29.218,
+        "activeRmsDbfs": -29.197,
+        "onsetMs": 0.0,
+        "clippedSamples": 0
+      },
+      "path": "sound/soundEffects/approved-review-2026-09-03/libRainDirtA.ogg",
+      "reused": false,
+      "after": {
+        "durationSeconds": 8.19998,
+        "peakLinear": 0.7154567,
+        "peakDbfs": -2.908,
+        "rmsDbfs": -29.335,
+        "activeRmsDbfs": -29.326,
+        "onsetMs": 0.0,
+        "clippedSamples": 0
+      },
+      "sha256": "6bfb90233fdab59bec0863a6e472166e94c5c957936f20b6f06e404a3b440480",
+      "bytes": 179419,
+      "trimStartMs": 0.0,
+      "attenuationDb": 0.0,
+      "seamOverlapMs": 40
+    },
+    {
+      "id": "libRainDirtB",
+      "approvedBy": [
+        "libRainDirtB"
+      ],
+      "mixOnly": false,
+      "label": "Rain on dirt B",
+      "sourcePath": "sound/library-v2/SoundLibrary_Review/01_REVIEW_BY_TAG/GOOD/Loopable Field Recording Medium Rain Falling On Dirt Ground And Scattered Gr_2.mp3",
+      "sourceSha256": "69faefad5898a29e47e237d32b77d546c0c59e2be7d58752ae448520b2b1ca70",
+      "provenance": "LOCAL GOOD LOOP \u00b7 Loopable Field Recording Medium Rain Falling On Dirt Ground And Scattered Gr_2.mp3",
+      "before": {
+        "durationSeconds": 6.83998,
+        "peakLinear": 0.9377389,
+        "peakDbfs": -0.558,
+        "rmsDbfs": -21.995,
+        "activeRmsDbfs": -21.945,
+        "onsetMs": 0.0,
+        "clippedSamples": 0
+      },
+      "path": "sound/soundEffects/approved-review-2026-09-03/libRainDirtB.ogg",
+      "reused": false,
+      "after": {
+        "durationSeconds": 6.79998,
+        "peakLinear": 0.8354492,
+        "peakDbfs": -1.562,
+        "rmsDbfs": -22.856,
+        "activeRmsDbfs": -22.806,
+        "onsetMs": 0.0,
+        "clippedSamples": 0
+      },
+      "sha256": "8c60ca8b6934e81ed88cd8ff1a8b3688f4bb3ff6364aa1c0df360ee59c9027bf",
+      "bytes": 155103,
+      "trimStartMs": 0.0,
+      "attenuationDb": -0.853,
+      "seamOverlapMs": 40
+    },
+    {
+      "id": "libRainDirtC",
+      "approvedBy": [
+        "libRainDirtC"
+      ],
+      "mixOnly": false,
+      "label": "Rain on dirt C",
+      "sourcePath": "sound/library-v2/SoundLibrary_Review/01_REVIEW_BY_TAG/GOOD/Loopable Field Recording Medium Rain Falling On Dirt Ground And Scattered Gr.mp3",
+      "sourceSha256": "cbd4328299078ad088169c6f7070cc31d57ae9167c1bd4215fa7c49ccedd9be9",
+      "provenance": "LOCAL GOOD LOOP \u00b7 Loopable Field Recording Medium Rain Falling On Dirt Ground And Scattered Gr.mp3",
+      "before": {
+        "durationSeconds": 7.43998,
+        "peakLinear": 0.9077204,
+        "peakDbfs": -0.841,
+        "rmsDbfs": -23.53,
+        "activeRmsDbfs": -23.518,
+        "onsetMs": 0.0,
+        "clippedSamples": 0
+      },
+      "path": "sound/soundEffects/approved-review-2026-09-03/libRainDirtC.ogg",
+      "reused": false,
+      "after": {
+        "durationSeconds": 7.39998,
+        "peakLinear": 0.8200026,
+        "peakDbfs": -1.724,
+        "rmsDbfs": -24.343,
+        "activeRmsDbfs": -24.336,
+        "onsetMs": 0.0,
+        "clippedSamples": 0
+      },
+      "sha256": "3f8a4be894813ebb101699903bd839b2419648e32594748af35569a93d50b284",
+      "bytes": 134057,
+      "trimStartMs": 0.0,
+      "attenuationDb": -0.571,
+      "seamOverlapMs": 40
+    },
+    {
+      "id": "libShopRainInside",
+      "approvedBy": [
+        "libShopRainInside"
+      ],
+      "mixOnly": false,
+      "label": "Shop rain interior",
+      "sourcePath": "sound/library-v2/SoundLibrary_Review/01_REVIEW_BY_TAG/GOOD/Loopable Foley Recording Inside Empty Wooden Shop During Rain Raindrops On_1.mp3",
+      "sourceSha256": "17bec28f53361b6e1a65451edd03e161945e9e35ef0317706644e1276d4744a0",
+      "provenance": "LOCAL GOOD LOOP \u00b7 Loopable Foley Recording Inside Empty Wooden Shop During Rain Raindrops On_1.mp3",
+      "before": {
+        "durationSeconds": 10.19998,
+        "peakLinear": 1.0046308,
+        "peakDbfs": 0.04,
+        "rmsDbfs": -24.775,
+        "activeRmsDbfs": -24.641,
+        "onsetMs": 0.021,
+        "clippedSamples": 3
+      },
+      "path": "sound/soundEffects/approved-review-2026-09-03/libShopRainInside.ogg",
+      "reused": false,
+      "after": {
+        "durationSeconds": 10.15998,
+        "peakLinear": 0.8586597,
+        "peakDbfs": -1.324,
+        "rmsDbfs": -26.187,
+        "activeRmsDbfs": -26.036,
+        "onsetMs": 0.0,
+        "clippedSamples": 0
+      },
+      "sha256": "df8f1e734c8785e3d7dfd72e009103a63cca8d35cf30894f9394d1f9f943c3b6",
+      "bytes": 196527,
+      "trimStartMs": 0.0,
+      "attenuationDb": -1.452,
+      "seamOverlapMs": 40
+    },
+    {
+      "id": "libShopRainOutside",
+      "approvedBy": [
+        "libShopRainOutside"
+      ],
+      "mixOnly": false,
+      "label": "Shop rain exterior",
+      "sourcePath": "sound/library-v2/SoundLibrary_Review/01_REVIEW_BY_TAG/GOOD/Loopable Foley Recording Outside A Small Wooden Shop In A Mining Town During.mp3",
+      "sourceSha256": "6ce0bdae06cf5da7ba72da053361ff6d87c506b6d2b24af9ce19032e0ee82539",
+      "provenance": "LOCAL GOOD LOOP \u00b7 Loopable Foley Recording Outside A Small Wooden Shop In A Mining Town During.mp3",
+      "before": {
+        "durationSeconds": 10.91998,
+        "peakLinear": 0.9889736,
+        "peakDbfs": -0.096,
+        "rmsDbfs": -23.293,
+        "activeRmsDbfs": -23.285,
+        "onsetMs": 0.0,
+        "clippedSamples": 0
+      },
+      "path": "sound/soundEffects/approved-review-2026-09-03/libShopRainOutside.ogg",
+      "reused": false,
+      "after": {
+        "durationSeconds": 10.87998,
+        "peakLinear": 0.8486254,
+        "peakDbfs": -1.426,
+        "rmsDbfs": -24.954,
+        "activeRmsDbfs": -24.948,
+        "onsetMs": 0.0,
+        "clippedSamples": 0
+      },
+      "sha256": "46b74e49281e134bb6356b5430dcd6545b21b7bc2facfd01c75d71e5fdf984b1",
+      "bytes": 230455,
+      "trimStartMs": 0.0,
+      "attenuationDb": -1.315,
+      "seamOverlapMs": 40
+    },
+    {
+      "id": "libNightWindDirtB",
+      "approvedBy": [
+        "libNightWindDirtB"
+      ],
+      "mixOnly": false,
+      "label": "Night wind over dirt B",
+      "sourcePath": "sound/library-v2/SoundLibrary_Review/01_REVIEW_BY_TAG/GOOD/Loopable Natural Foley Sound Empty Dry Ground At Night Light Wind Over Dirt_2.mp3",
+      "sourceSha256": "b209ea858ae39785a3e5c24a81222eafbec54273aa470776d7ec2e1feced6bf3",
+      "provenance": "LOCAL GOOD LOOP \u00b7 Loopable Natural Foley Sound Empty Dry Ground At Night Light Wind Over Dirt_2.mp3",
+      "before": {
+        "durationSeconds": 4.63998,
+        "peakLinear": 0.4533574,
+        "peakDbfs": -6.871,
+        "rmsDbfs": -25.103,
+        "activeRmsDbfs": -25.085,
+        "onsetMs": 0.0,
+        "clippedSamples": 0
+      },
+      "path": "sound/soundEffects/approved-review-2026-09-03/libNightWindDirtB.ogg",
+      "reused": false,
+      "after": {
+        "durationSeconds": 4.59998,
+        "peakLinear": 0.4141457,
+        "peakDbfs": -7.657,
+        "rmsDbfs": -25.458,
+        "activeRmsDbfs": -25.447,
+        "onsetMs": 0.0,
+        "clippedSamples": 0
+      },
+      "sha256": "768e789ad2e4c118556691d95e2877400f7bc22868b475f3297726cea3ceb4ec",
+      "bytes": 100641,
+      "trimStartMs": 0.0,
+      "attenuationDb": 0.0,
+      "seamOverlapMs": 40
+    },
+    {
+      "id": "libWoodRainInside",
+      "approvedBy": [
+        "libWoodRainInside"
+      ],
+      "mixOnly": false,
+      "label": "Wood building rain",
+      "sourcePath": "sound/library-v2/SoundLibrary_Review/01_REVIEW_BY_TAG/GOOD/Loopable Natural Indoor Sound Rain Heard From Inside Wooden Building With Wa.mp3",
+      "sourceSha256": "d3760c2cf8481bc35a7d27fc234e0c86e7b0e497e47a921dd994822256e60f52",
+      "provenance": "LOCAL GOOD LOOP \u00b7 Loopable Natural Indoor Sound Rain Heard From Inside Wooden Building With Wa.mp3",
+      "before": {
+        "durationSeconds": 9.27998,
+        "peakLinear": 0.9902353,
+        "peakDbfs": -0.085,
+        "rmsDbfs": -19.589,
+        "activeRmsDbfs": -19.57,
+        "onsetMs": 0.0,
+        "clippedSamples": 0
+      },
+      "path": "sound/soundEffects/approved-review-2026-09-03/libWoodRainInside.ogg",
+      "reused": false,
+      "after": {
+        "durationSeconds": 9.23998,
+        "peakLinear": 0.8440776,
+        "peakDbfs": -1.472,
+        "rmsDbfs": -20.925,
+        "activeRmsDbfs": -20.917,
+        "onsetMs": 0.0,
+        "clippedSamples": 0
+      },
+      "sha256": "fa216f9cea3c7bc544e35b90f80d6e292dce6f9435ee92687cc103bd3be24b35",
+      "bytes": 196654,
+      "trimStartMs": 0.0,
+      "attenuationDb": -1.326,
+      "seamOverlapMs": 40
+    },
+    {
+      "id": "libLightRainStoneA",
+      "approvedBy": [
+        "libLightRainStoneA"
+      ],
+      "mixOnly": false,
+      "label": "Light rain on stone A",
+      "sourcePath": "sound/library-v2/SoundLibrary_Review/01_REVIEW_BY_TAG/GOOD/Loopable Natural Rain Foley Light Rain Tapping On Small Stones And Compact D_1.mp3",
+      "sourceSha256": "5e281a83daf0f9593ae29d1d8980eec0c11f7e2315a5a1e1120f193a5f79a2a2",
+      "provenance": "LOCAL GOOD LOOP \u00b7 Loopable Natural Rain Foley Light Rain Tapping On Small Stones And Compact D_1.mp3",
+      "before": {
+        "durationSeconds": 4.95998,
+        "peakLinear": 0.9933673,
+        "peakDbfs": -0.058,
+        "rmsDbfs": -26.045,
+        "activeRmsDbfs": -26.028,
+        "onsetMs": 0.0,
+        "clippedSamples": 0
+      },
+      "path": "sound/soundEffects/approved-review-2026-09-03/libLightRainStoneA.ogg",
+      "reused": false,
+      "after": {
+        "durationSeconds": 4.91998,
+        "peakLinear": 0.8436059,
+        "peakDbfs": -1.477,
+        "rmsDbfs": -27.751,
+        "activeRmsDbfs": -27.741,
+        "onsetMs": 0.0,
+        "clippedSamples": 0
+      },
+      "sha256": "741b910ecafcd8436e948cd179e8948b702e6684b5bf2a8e5800f9fa23202de5",
+      "bytes": 107083,
+      "trimStartMs": 0.0,
+      "attenuationDb": -1.354,
+      "seamOverlapMs": 40
+    },
+    {
+      "id": "libLightRainStoneB",
+      "approvedBy": [
+        "libLightRainStoneB"
+      ],
+      "mixOnly": false,
+      "label": "Light rain on stone B",
+      "sourcePath": "sound/library-v2/SoundLibrary_Review/01_REVIEW_BY_TAG/GOOD/Loopable Natural Rain Foley Light Rain Tapping On Small Stones And Compact D.mp3",
+      "sourceSha256": "6775768b073cb69a09ae06a83c466a094d3c2392fa4ca2a34f4406c67a53d47e",
+      "provenance": "LOCAL GOOD LOOP \u00b7 Loopable Natural Rain Foley Light Rain Tapping On Small Stones And Compact D.mp3",
+      "before": {
+        "durationSeconds": 8.79998,
+        "peakLinear": 0.997773,
+        "peakDbfs": -0.019,
+        "rmsDbfs": -29.338,
+        "activeRmsDbfs": -29.329,
+        "onsetMs": 0.0,
+        "clippedSamples": 0
+      },
+      "path": "sound/soundEffects/approved-review-2026-09-03/libLightRainStoneB.ogg",
+      "reused": false,
+      "after": {
+        "durationSeconds": 8.75998,
+        "peakLinear": 0.8607896,
+        "peakDbfs": -1.302,
+        "rmsDbfs": -31.028,
+        "activeRmsDbfs": -31.021,
+        "onsetMs": 0.0,
+        "clippedSamples": 0
+      },
+      "sha256": "ea766bbe9391a160b776a93a52c37159ca59ec4642146beb906ea6f6acfe2465",
+      "bytes": 209454,
+      "trimStartMs": 0.0,
+      "attenuationDb": -1.392,
+      "seamOverlapMs": 40
+    },
+    {
+      "id": "libTownHeavyRain",
+      "approvedBy": [
+        "libTownHeavyRain"
+      ],
+      "mixOnly": false,
+      "label": "Mining town heavy rain",
+      "sourcePath": "sound/library-v2/SoundLibrary_Review/01_REVIEW_BY_TAG/GOOD/Loopable Natural Sound Effect Heavy Rain On A Small Mining Town Exterior Ra_1.mp3",
+      "sourceSha256": "e340b62e655636406d8fee0037363c0b7d095664a062cf9bf76f8c6e2f9dcd39",
+      "provenance": "LOCAL GOOD LOOP \u00b7 Loopable Natural Sound Effect Heavy Rain On A Small Mining Town Exterior Ra_1.mp3",
+      "before": {
+        "durationSeconds": 11.03998,
+        "peakLinear": 0.6552051,
+        "peakDbfs": -3.672,
+        "rmsDbfs": -28.671,
+        "activeRmsDbfs": -28.464,
+        "onsetMs": 0.0,
+        "clippedSamples": 0
+      },
+      "path": "sound/soundEffects/approved-review-2026-09-03/libTownHeavyRain.ogg",
+      "reused": false,
+      "after": {
+        "durationSeconds": 10.99998,
+        "peakLinear": 0.654063,
+        "peakDbfs": -3.688,
+        "rmsDbfs": -28.768,
+        "activeRmsDbfs": -28.538,
+        "onsetMs": 0.0,
+        "clippedSamples": 0
+      },
+      "sha256": "294c9fa5802ff9416e56bea57a21ebcf953669df671e22747e80a223c6329113",
+      "bytes": 226340,
+      "trimStartMs": 0.0,
+      "attenuationDb": 0.0,
+      "seamOverlapMs": 40
+    },
+    {
+      "id": "libNightWindOnly",
+      "approvedBy": [
+        "libNightWindOnly"
+      ],
+      "mixOnly": false,
+      "label": "Night wind only",
+      "sourcePath": "sound/library-v2/SoundLibrary_Review/01_REVIEW_BY_TAG/GOOD/Loopable Natural Sound Effect Wind Only Over Empty Dry Ground At Night Smoo_1.mp3",
+      "sourceSha256": "1e9db0ff1e4406539d6906054bac9a6db13afe799448216e6f1b8feb3cc6f91f",
+      "provenance": "LOCAL GOOD LOOP \u00b7 Loopable Natural Sound Effect Wind Only Over Empty Dry Ground At Night Smoo_1.mp3",
+      "before": {
+        "durationSeconds": 5.55998,
+        "peakLinear": 0.72849,
+        "peakDbfs": -2.752,
+        "rmsDbfs": -21.674,
+        "activeRmsDbfs": -18.321,
+        "onsetMs": 0.0,
+        "clippedSamples": 0
+      },
+      "path": "sound/soundEffects/approved-review-2026-09-03/libNightWindOnly.ogg",
+      "reused": false,
+      "after": {
+        "durationSeconds": 5.51998,
+        "peakLinear": 0.7231243,
+        "peakDbfs": -2.816,
+        "rmsDbfs": -21.609,
+        "activeRmsDbfs": -18.219,
+        "onsetMs": 0.0,
+        "clippedSamples": 0
+      },
+      "sha256": "7f2a20114fa6f97caead6ca1d5e216bff3aa4bb1819beb8578cef4d29310a259",
+      "bytes": 120127,
+      "trimStartMs": 0.0,
+      "attenuationDb": 0.0,
+      "seamOverlapMs": 40
+    },
+    {
+      "id": "libTownDayBreeze",
+      "approvedBy": [
+        "libTownDayBreeze"
+      ],
+      "mixOnly": false,
+      "label": "Mining town day breeze",
+      "sourcePath": "sound/library-v2/SoundLibrary_Review/01_REVIEW_BY_TAG/GOOD/Loopable Outdoor Foley Daytime Wooden Mining Town Exterior Light Breeze Mov_1.mp3",
+      "sourceSha256": "54b9c2e54ba32929db525d9959972bdb73b67e4c5ae3424c79f100868c658a28",
+      "provenance": "LOCAL GOOD LOOP \u00b7 Loopable Outdoor Foley Daytime Wooden Mining Town Exterior Light Breeze Mov_1.mp3",
+      "before": {
+        "durationSeconds": 8.55998,
+        "peakLinear": 0.9985713,
+        "peakDbfs": -0.012,
+        "rmsDbfs": -22.828,
+        "activeRmsDbfs": -17.577,
+        "onsetMs": 0.021,
+        "clippedSamples": 0
+      },
+      "path": "sound/soundEffects/approved-review-2026-09-03/libTownDayBreeze.ogg",
+      "reused": false,
+      "after": {
+        "durationSeconds": 8.51998,
+        "peakLinear": 0.8491516,
+        "peakDbfs": -1.42,
+        "rmsDbfs": -24.198,
+        "activeRmsDbfs": -18.489,
+        "onsetMs": 0.0,
+        "clippedSamples": 0
+      },
+      "sha256": "734943d8fd2107c84b99e2ce0f2a5ef40f81d1d4761c9089ae1402b5ce676b20",
+      "bytes": 178645,
+      "trimStartMs": 0.0,
+      "attenuationDb": -1.399,
+      "seamOverlapMs": 40
+    }
+  ]
+}

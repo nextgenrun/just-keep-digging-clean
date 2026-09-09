@@ -1,0 +1,4287 @@
+{
+  "date": "2026-09-06",
+  "earthquake": {
+    "controls": {
+      "audio": false,
+      "depth": 300,
+      "flight": true,
+      "hardcore": true,
+      "hazards": true,
+      "intensity": "medium",
+      "mining": false,
+      "natural": false,
+      "patrol": true,
+      "pauseOnResult": true,
+      "speed": 10,
+      "suppressed": false,
+      "torch": false,
+      "wurmDifficulty": "broodmother",
+      "wurmSize": "medium"
+    },
+    "earthquake": {
+      "caveIns": 0,
+      "chainPending": false,
+      "chainRemainingMs": 0,
+      "debug": false,
+      "depth": 300,
+      "epicenter": null,
+      "epicenterDepth": null,
+      "eventFallZonesQueued": 5,
+      "fallingRocks": 0,
+      "health": {
+        "cancelledCeilings": 0,
+        "completed": 1,
+        "emptySearches": 0,
+        "hits": 0,
+        "queued": 5,
+        "rocks": 5,
+        "started": 1
+      },
+      "heartbeat": 878,
+      "intensity": null,
+      "nextEventMs": 406892,
+      "nextEventSchedule": "repeat",
+      "paused": false,
+      "playerAware": false,
+      "playerDistanceTiles": null,
+      "rubbleQueue": 0,
+      "rubbleTiles": 50,
+      "state": "idle",
+      "stateRemaining": 0,
+      "stateTotalMs": 0,
+      "suppressed": false,
+      "warningTextActive": false
+    },
+    "elapsedMs": 87475,
+    "gates": {
+      "activation": {
+        "active": true,
+        "depth": 300,
+        "depthEligible": true,
+        "devForceActive": false,
+        "devOverride": false,
+        "flightUnlocked": true,
+        "hardcoreArmed": true,
+        "productionActive": true
+      },
+      "quake": [
+        "Next check 406.9s"
+      ],
+      "shadow": [
+        "Next check 45.0s"
+      ],
+      "wurm": [
+        "Cooldown 90.0s",
+        "Noise 0.0 / 18"
+      ]
+    },
+    "health": {
+      "devEnabled": false,
+      "events": {
+        "earthquake": {
+          "active": false,
+          "activeSince": 83575,
+          "blocked": false,
+          "cancelled": false,
+          "changedAt": 105475,
+          "completions": 1,
+          "countersAtStart": {
+            "cancelledCeilings": 0,
+            "completed": 0,
+            "emptySearches": 0,
+            "hits": 0,
+            "queued": 0,
+            "rocks": 0,
+            "started": 1
+          },
+          "detail": "Leave marked ground. Solid cover stops rocks.",
+          "finishedAt": 105475,
+          "id": "earthquake",
+          "issue": null,
+          "monitor": false,
+          "observedAt": 105475,
+          "paused": false,
+          "phase": "idle",
+          "phaseSince": 105475,
+          "pulse": 878,
+          "reason": "407s · repeat",
+          "result": {
+            "detail": "5 rocks fell · 0 hits",
+            "metrics": {
+              "hits": 0,
+              "rocks": 5
+            },
+            "title": "EARTHQUAKE SETTLED"
+          },
+          "source": {
+            "caveIns": 0,
+            "chainPending": false,
+            "chainRemainingMs": 0,
+            "debug": false,
+            "depth": 300,
+            "epicenter": null,
+            "epicenterDepth": null,
+            "eventFallZonesQueued": 5,
+            "fallingRocks": 0,
+            "health": {
+              "cancelledCeilings": 0,
+              "completed": 1,
+              "emptySearches": 0,
+              "hits": 0,
+              "queued": 5,
+              "rocks": 5,
+              "started": 1
+            },
+            "heartbeat": 878,
+            "intensity": null,
+            "nextEventMs": 406892,
+            "nextEventSchedule": "repeat",
+            "paused": false,
+            "playerAware": false,
+            "playerDistanceTiles": null,
+            "rubbleQueue": 0,
+            "rubbleTiles": 50,
+            "state": "idle",
+            "stateRemaining": 0,
+            "stateTotalMs": 0,
+            "suppressed": false,
+            "warningTextActive": false
+          },
+          "starts": 1,
+          "status": "WAITING"
+        },
+        "shadow": {
+          "active": false,
+          "activeSince": 71425,
+          "blocked": false,
+          "cancelled": false,
+          "changedAt": 105475,
+          "completions": 1,
+          "countersAtStart": {},
+          "detail": "NEARBY · A miner works in the dark. Approach with light.",
+          "finishedAt": 80425,
+          "id": "shadow",
+          "issue": null,
+          "monitor": true,
+          "observedAt": 105475,
+          "pending": false,
+          "phase": "dormant",
+          "phaseSince": 80425,
+          "pulse": 105475,
+          "reason": "Waiting for the next random check · 45s",
+          "result": {
+            "detail": "It left the terrain unchanged.",
+            "metrics": {
+              "blocksMined": 0
+            },
+            "title": "SHADOWMINER VANISHED"
+          },
+          "source": {
+            "active": false,
+            "approachCount": 1,
+            "approachPlaybackRate": null,
+            "awarenessCue": {
+              "atMs": 71300,
+              "direction": "left",
+              "flashAlpha": 0.3,
+              "labelCreated": true,
+              "message": "◀  SHADOW MINER NEARBY"
+            },
+            "behavior": null,
+            "completedCount": 1,
+            "depthProfile": null,
+            "dev10x": false,
+            "distanceToPlayerTiles": null,
+            "encounterBand": null,
+            "fleeCount": 0,
+            "history": {
+              "newestAtMs": 105450,
+              "oldestAtMs": 96450,
+              "samples": 181
+            },
+            "id": "shadow-miner-dynamic-echo-v5",
+            "lastBehavior": {
+              "approachHoldMs": 116,
+              "approachPlaybackRate": 0.625796636963496,
+              "audioRateMultiplier": 1.026404304737225,
+              "depthBandId": "lower",
+              "depthMeters": 300,
+              "fleeDurationMs": 1522,
+              "fleePlaybackRate": 1.030701632425189,
+              "id": "lurker",
+              "lightResistanceMultiplier": 1,
+              "maximumEncounterMs": 8124,
+              "nearPlayerDistanceTiles": 3.574439072655514,
+              "observeMs": 1060,
+              "performObserveDig": false,
+              "preferActionPose": false,
+              "replayDelayMs": 7083,
+              "targetDistanceTiles": 4.802268075407483,
+              "visualIntensity": 0.8845217415280641
+            },
+            "lastDepthProfile": {
+              "approachRateMultiplier": 1,
+              "audioRateMultiplier": 1,
+              "fleeRateMultiplier": 1,
+              "id": "lower",
+              "lightResistanceMultiplier": 1,
+              "minimumDepthMeters": 300,
+              "observeDurationMultiplier": 1,
+              "visualIntensityMultiplier": 1
+            },
+            "lastEntryDistanceTiles": 5.424999999999998,
+            "lastEntryVisible": true,
+            "lastRepelledBy": null,
+            "lastSpawnAttempt": {
+              "forced": true,
+              "reason": null,
+              "spawned": true,
+              "time": 71300
+            },
+            "lastUpdateAtMs": 105475,
+            "lightInteraction": {
+              "active": false,
+              "exposureProgress": 0,
+              "pressure": 0,
+              "response": null,
+              "source": null
+            },
+            "nextCheckAtMs": 150475,
+            "observeAction": {
+              "active": false
+            },
+            "observeCount": 1,
+            "playbackDelayMs": null,
+            "rateMultiplier": 1,
+            "ready": true,
+            "repelledBy": null,
+            "replayWindow": {
+              "actionSamples": 0,
+              "samples": 150,
+              "selectedStartAction": false,
+              "selectedStartOffsetMs": 108,
+              "travelTiles": 5.214999999999995
+            },
+            "reviewMode": false,
+            "spawnCount": 1,
+            "state": "dormant",
+            "view": {
+              "alpha": 0,
+              "animationKey": null,
+              "displayHeight": 0,
+              "displayWidth": 0,
+              "fleeing": false,
+              "flipX": false,
+              "frameName": null,
+              "lightExposureProgress": 0,
+              "lightPressure": 0,
+              "lightReacting": false,
+              "lightSource": null,
+              "observing": false,
+              "phantomDig": {
+                "actionLatched": false,
+                "activeBlock": false,
+                "activeFxSprites": 0,
+                "authority": "visual-only",
+                "blockArtAvailable": null,
+                "blockArtSource": null,
+                "breakCount": 0,
+                "crackTextureKey": null,
+                "lastAttemptTileType": null,
+                "lastStartFailure": null,
+                "renderIndex": null,
+                "stageIndex": null,
+                "target": null,
+                "targetSource": null,
+                "textureKey": null
+              },
+              "recoilActive": false,
+              "renderMode": "solid-purple-silhouette",
+              "residue": {
+                "activeSprites": 0,
+                "lastStampAtMs": null,
+                "maximumSprites": 3
+              },
+              "textureKey": null,
+              "visible": false,
+              "visualIntensity": 1,
+              "worldX": 0,
+              "worldY": 0
+            },
+            "work": {
+              "animationReady": true,
+              "blocksMined": 0,
+              "frameChanges": 260,
+              "lastResult": null,
+              "maximumBlocks": 3,
+              "target": null
+            }
+          },
+          "starts": 1,
+          "status": "WAITING"
+        },
+        "wurm": {
+          "active": false,
+          "activeSince": 36475,
+          "blocked": false,
+          "cancelled": false,
+          "changedAt": 68275,
+          "completions": 1,
+          "countersAtStart": {},
+          "detail": "Broodmother · 0/0 · Move off the marked tunnel now.",
+          "encounterResult": {
+            "completedPasses": 4,
+            "huntHitCount": 2,
+            "offspringCount": 2,
+            "tilesCarved": 48
+          },
+          "finishedAt": 68275,
+          "id": "wurm",
+          "issue": null,
+          "monitor": false,
+          "observedAt": 105475,
+          "paused": false,
+          "phase": "cooldown",
+          "phaseSince": 68275,
+          "pulse": 1277,
+          "reason": "Cooldown · 90s",
+          "result": {
+            "detail": "4 passes completed · 2 smaller Wurms",
+            "metrics": {
+              "completedPasses": 4,
+              "hits": 2,
+              "offspringCount": 2
+            },
+            "title": "WURM RETREATED"
+          },
+          "source": {
+            "active": true,
+            "activityMultiplier": 1,
+            "cooldownMs": 90000,
+            "devTest10x": false,
+            "difficulty": {
+              "bodyDamageRatio": 0.78,
+              "depthRatio": 0,
+              "depthTiles": 120,
+              "headDamageRatio": 0.96,
+              "minimumBodyDamageGp": 45,
+              "minimumHeadDamageGp": 60,
+              "passCount": 2,
+              "passIndex": 1,
+              "threatPercent": 25,
+              "travelMs": 1900,
+              "warningMs": 3600
+            },
+            "enabled": true,
+            "encounterCount": 1,
+            "encounterDepthTiles": 0,
+            "heartbeat": 1277,
+            "hitConsumed": false,
+            "hitCount": 0,
+            "huntHitCount": 0,
+            "noise": 0,
+            "noiseRatio": 0,
+            "offspring": [
+              {
+                "active": true,
+                "activityMultiplier": 1,
+                "cooldownMs": 90000,
+                "devTest10x": false,
+                "difficulty": {
+                  "bodyDamageRatio": 0.78,
+                  "depthRatio": 0,
+                  "depthTiles": 120,
+                  "headDamageRatio": 0.96,
+                  "minimumBodyDamageGp": 45,
+                  "minimumHeadDamageGp": 60,
+                  "passCount": 2,
+                  "passIndex": 1,
+                  "threatPercent": 25,
+                  "travelMs": 1900,
+                  "warningMs": 3600
+                },
+                "enabled": true,
+                "encounterCount": 1,
+                "encounterDepthTiles": 0,
+                "heartbeat": 730,
+                "hitConsumed": false,
+                "hitCount": 0,
+                "huntHitCount": 0,
+                "noise": 0,
+                "noiseRatio": 0,
+                "offspring": [],
+                "passCount": 0,
+                "passIndex": 0,
+                "phase": "cooldown",
+                "progress": 0,
+                "targetTile": null,
+                "variant": {
+                  "difficulty": "drifter",
+                  "label": "Drifter",
+                  "scale": 0.55,
+                  "size": "tiny"
+                },
+                "warningRemainingMs": 0
+              },
+              {
+                "active": true,
+                "activityMultiplier": 1,
+                "cooldownMs": 90000,
+                "devTest10x": false,
+                "difficulty": {
+                  "bodyDamageRatio": 0.78,
+                  "depthRatio": 0,
+                  "depthTiles": 120,
+                  "headDamageRatio": 0.96,
+                  "minimumBodyDamageGp": 45,
+                  "minimumHeadDamageGp": 60,
+                  "passCount": 2,
+                  "passIndex": 1,
+                  "threatPercent": 25,
+                  "travelMs": 1900,
+                  "warningMs": 3600
+                },
+                "enabled": true,
+                "encounterCount": 1,
+                "encounterDepthTiles": 0,
+                "heartbeat": 730,
+                "hitConsumed": false,
+                "hitCount": 0,
+                "huntHitCount": 0,
+                "noise": 0,
+                "noiseRatio": 0,
+                "offspring": [],
+                "passCount": 0,
+                "passIndex": 0,
+                "phase": "cooldown",
+                "progress": 0,
+                "targetTile": null,
+                "variant": {
+                  "difficulty": "drifter",
+                  "label": "Drifter",
+                  "scale": 0.75,
+                  "size": "small"
+                },
+                "warningRemainingMs": 0
+              }
+            ],
+            "passCount": 0,
+            "passIndex": 0,
+            "phase": "cooldown",
+            "progress": 0,
+            "targetTile": null,
+            "variant": {
+              "difficulty": "broodmother",
+              "label": "Broodmother",
+              "scale": 1,
+              "size": "medium"
+            },
+            "warningRemainingMs": 0
+          },
+          "starts": 1,
+          "status": "WAITING"
+        }
+      },
+      "history": [
+        {
+          "id": "wurm",
+          "outcome": "STARTED",
+          "reason": "warning",
+          "time": 36475
+        },
+        {
+          "id": "wurm",
+          "outcome": "PASSED",
+          "reason": "4 passes completed · 2 smaller Wurms",
+          "time": 68275
+        },
+        {
+          "id": "shadow",
+          "outcome": "STARTED",
+          "reason": "spawning",
+          "time": 71425
+        },
+        {
+          "id": "shadow",
+          "outcome": "PASSED",
+          "reason": "It left the terrain unchanged.",
+          "time": 80425
+        },
+        {
+          "id": "earthquake",
+          "outcome": "STARTED",
+          "reason": "warning",
+          "time": 83575
+        },
+        {
+          "id": "earthquake",
+          "outcome": "PASSED",
+          "reason": "5 rocks fell · 0 hits",
+          "time": 105475
+        }
+      ],
+      "lastObservedAt": 105475,
+      "pendingShadow": null,
+      "ready": true,
+      "stale": false
+    },
+    "loadErrors": [],
+    "metrics": {
+      "audioCues": 0,
+      "destroyed": 56,
+      "hits": 3,
+      "quakesCompleted": 1,
+      "saveRequestsIntercepted": 53
+    },
+    "paused": true,
+    "ready": true,
+    "retired": [
+      {
+        "blocked": true,
+        "type": "moneyMonsterRush"
+      },
+      {
+        "blocked": true,
+        "type": "blackoutBloom"
+      },
+      {
+        "blocked": true,
+        "type": "lumenBloom"
+      }
+    ],
+    "reviewOnly": true,
+    "runtimeError": null,
+    "saveStorageUsed": false,
+    "sequence": null,
+    "shadow": {
+      "active": false,
+      "approachCount": 1,
+      "approachPlaybackRate": null,
+      "awarenessCue": {
+        "atMs": 71300,
+        "direction": "left",
+        "flashAlpha": 0.3,
+        "labelCreated": true,
+        "message": "◀  SHADOW MINER NEARBY"
+      },
+      "behavior": null,
+      "completedCount": 1,
+      "depthProfile": null,
+      "dev10x": false,
+      "distanceToPlayerTiles": null,
+      "encounterBand": null,
+      "fleeCount": 0,
+      "history": {
+        "newestAtMs": 105450,
+        "oldestAtMs": 96450,
+        "samples": 181
+      },
+      "id": "shadow-miner-dynamic-echo-v5",
+      "lastBehavior": {
+        "approachHoldMs": 116,
+        "approachPlaybackRate": 0.625796636963496,
+        "audioRateMultiplier": 1.026404304737225,
+        "depthBandId": "lower",
+        "depthMeters": 300,
+        "fleeDurationMs": 1522,
+        "fleePlaybackRate": 1.030701632425189,
+        "id": "lurker",
+        "lightResistanceMultiplier": 1,
+        "maximumEncounterMs": 8124,
+        "nearPlayerDistanceTiles": 3.574439072655514,
+        "observeMs": 1060,
+        "performObserveDig": false,
+        "preferActionPose": false,
+        "replayDelayMs": 7083,
+        "targetDistanceTiles": 4.802268075407483,
+        "visualIntensity": 0.8845217415280641
+      },
+      "lastDepthProfile": {
+        "approachRateMultiplier": 1,
+        "audioRateMultiplier": 1,
+        "fleeRateMultiplier": 1,
+        "id": "lower",
+        "lightResistanceMultiplier": 1,
+        "minimumDepthMeters": 300,
+        "observeDurationMultiplier": 1,
+        "visualIntensityMultiplier": 1
+      },
+      "lastEntryDistanceTiles": 5.424999999999998,
+      "lastEntryVisible": true,
+      "lastRepelledBy": null,
+      "lastSpawnAttempt": {
+        "forced": true,
+        "reason": null,
+        "spawned": true,
+        "time": 71300
+      },
+      "lastUpdateAtMs": 105475,
+      "lightInteraction": {
+        "active": false,
+        "exposureProgress": 0,
+        "pressure": 0,
+        "response": null,
+        "source": null
+      },
+      "nextCheckAtMs": 150475,
+      "observeAction": {
+        "active": false
+      },
+      "observeCount": 1,
+      "playbackDelayMs": null,
+      "rateMultiplier": 1,
+      "ready": true,
+      "repelledBy": null,
+      "replayWindow": {
+        "actionSamples": 0,
+        "samples": 150,
+        "selectedStartAction": false,
+        "selectedStartOffsetMs": 108,
+        "travelTiles": 5.214999999999995
+      },
+      "reviewMode": false,
+      "spawnCount": 1,
+      "state": "dormant",
+      "view": {
+        "alpha": 0,
+        "animationKey": null,
+        "displayHeight": 0,
+        "displayWidth": 0,
+        "fleeing": false,
+        "flipX": false,
+        "frameName": null,
+        "lightExposureProgress": 0,
+        "lightPressure": 0,
+        "lightReacting": false,
+        "lightSource": null,
+        "observing": false,
+        "phantomDig": {
+          "actionLatched": false,
+          "activeBlock": false,
+          "activeFxSprites": 0,
+          "authority": "visual-only",
+          "blockArtAvailable": null,
+          "blockArtSource": null,
+          "breakCount": 0,
+          "crackTextureKey": null,
+          "lastAttemptTileType": null,
+          "lastStartFailure": null,
+          "renderIndex": null,
+          "stageIndex": null,
+          "target": null,
+          "targetSource": null,
+          "textureKey": null
+        },
+        "recoilActive": false,
+        "renderMode": "solid-purple-silhouette",
+        "residue": {
+          "activeSprites": 0,
+          "lastStampAtMs": null,
+          "maximumSprites": 3
+        },
+        "textureKey": null,
+        "visible": false,
+        "visualIntensity": 1,
+        "worldX": 0,
+        "worldY": 0
+      },
+      "work": {
+        "animationReady": true,
+        "blocksMined": 0,
+        "frameChanges": 260,
+        "lastResult": null,
+        "maximumBlocks": 3,
+        "target": null
+      }
+    },
+    "storage": {
+      "persistentReads": 0,
+      "persistentWrites": 0,
+      "reads": 0,
+      "removals": 0,
+      "writes": 0
+    },
+    "wurm": {
+      "active": true,
+      "activityMultiplier": 1,
+      "cooldownMs": 90000,
+      "devTest10x": false,
+      "difficulty": {
+        "bodyDamageRatio": 0.78,
+        "depthRatio": 0,
+        "depthTiles": 120,
+        "headDamageRatio": 0.96,
+        "minimumBodyDamageGp": 45,
+        "minimumHeadDamageGp": 60,
+        "passCount": 2,
+        "passIndex": 1,
+        "threatPercent": 25,
+        "travelMs": 1900,
+        "warningMs": 3600
+      },
+      "enabled": true,
+      "encounterCount": 1,
+      "encounterDepthTiles": 0,
+      "heartbeat": 1277,
+      "hitConsumed": false,
+      "hitCount": 0,
+      "huntHitCount": 0,
+      "noise": 0,
+      "noiseRatio": 0,
+      "offspring": [
+        {
+          "active": true,
+          "activityMultiplier": 1,
+          "cooldownMs": 90000,
+          "devTest10x": false,
+          "difficulty": {
+            "bodyDamageRatio": 0.78,
+            "depthRatio": 0,
+            "depthTiles": 120,
+            "headDamageRatio": 0.96,
+            "minimumBodyDamageGp": 45,
+            "minimumHeadDamageGp": 60,
+            "passCount": 2,
+            "passIndex": 1,
+            "threatPercent": 25,
+            "travelMs": 1900,
+            "warningMs": 3600
+          },
+          "enabled": true,
+          "encounterCount": 1,
+          "encounterDepthTiles": 0,
+          "heartbeat": 730,
+          "hitConsumed": false,
+          "hitCount": 0,
+          "huntHitCount": 0,
+          "noise": 0,
+          "noiseRatio": 0,
+          "offspring": [],
+          "passCount": 0,
+          "passIndex": 0,
+          "phase": "cooldown",
+          "progress": 0,
+          "targetTile": null,
+          "variant": {
+            "difficulty": "drifter",
+            "label": "Drifter",
+            "scale": 0.55,
+            "size": "tiny"
+          },
+          "warningRemainingMs": 0
+        },
+        {
+          "active": true,
+          "activityMultiplier": 1,
+          "cooldownMs": 90000,
+          "devTest10x": false,
+          "difficulty": {
+            "bodyDamageRatio": 0.78,
+            "depthRatio": 0,
+            "depthTiles": 120,
+            "headDamageRatio": 0.96,
+            "minimumBodyDamageGp": 45,
+            "minimumHeadDamageGp": 60,
+            "passCount": 2,
+            "passIndex": 1,
+            "threatPercent": 25,
+            "travelMs": 1900,
+            "warningMs": 3600
+          },
+          "enabled": true,
+          "encounterCount": 1,
+          "encounterDepthTiles": 0,
+          "heartbeat": 730,
+          "hitConsumed": false,
+          "hitCount": 0,
+          "huntHitCount": 0,
+          "noise": 0,
+          "noiseRatio": 0,
+          "offspring": [],
+          "passCount": 0,
+          "passIndex": 0,
+          "phase": "cooldown",
+          "progress": 0,
+          "targetTile": null,
+          "variant": {
+            "difficulty": "drifter",
+            "label": "Drifter",
+            "scale": 0.75,
+            "size": "small"
+          },
+          "warningRemainingMs": 0
+        }
+      ],
+      "passCount": 0,
+      "passIndex": 0,
+      "phase": "cooldown",
+      "progress": 0,
+      "targetTile": null,
+      "variant": {
+        "difficulty": "broodmother",
+        "label": "Broodmother",
+        "scale": 1,
+        "size": "medium"
+      },
+      "warningRemainingMs": 0
+    }
+  },
+  "earthquakeRepeat": {
+    "controls": {
+      "audio": false,
+      "depth": 300,
+      "flight": true,
+      "hardcore": true,
+      "hazards": true,
+      "intensity": "medium",
+      "mining": false,
+      "natural": false,
+      "patrol": true,
+      "pauseOnResult": true,
+      "speed": 10,
+      "suppressed": false,
+      "torch": false,
+      "wurmDifficulty": "broodmother",
+      "wurmSize": "medium"
+    },
+    "earthquake": {
+      "caveIns": 0,
+      "chainPending": false,
+      "chainRemainingMs": 0,
+      "debug": false,
+      "depth": 300,
+      "epicenter": null,
+      "epicenterDepth": null,
+      "eventFallZonesQueued": 5,
+      "fallingRocks": 0,
+      "health": {
+        "cancelledCeilings": 0,
+        "completed": 2,
+        "emptySearches": 0,
+        "hits": 0,
+        "queued": 10,
+        "rocks": 10,
+        "started": 2
+      },
+      "heartbeat": 1885,
+      "intensity": null,
+      "nextEventMs": 421804,
+      "nextEventSchedule": "repeat",
+      "paused": false,
+      "playerAware": false,
+      "playerDistanceTiles": null,
+      "rubbleQueue": 0,
+      "rubbleTiles": 56,
+      "state": "idle",
+      "stateRemaining": 0,
+      "stateTotalMs": 0,
+      "suppressed": false,
+      "warningTextActive": false
+    },
+    "elapsedMs": 115375,
+    "gates": {
+      "activation": {
+        "active": true,
+        "depth": 300,
+        "depthEligible": true,
+        "devForceActive": false,
+        "devOverride": false,
+        "flightUnlocked": true,
+        "hardcoreArmed": true,
+        "productionActive": true
+      },
+      "quake": [
+        "Next check 421.8s"
+      ],
+      "shadow": [
+        "Next check 45.0s"
+      ],
+      "wurm": [
+        "Cooldown 90.0s",
+        "Noise 0.0 / 18"
+      ]
+    },
+    "health": {
+      "devEnabled": false,
+      "events": {
+        "earthquake": {
+          "active": false,
+          "activeSince": 108175,
+          "blocked": false,
+          "cancelled": false,
+          "changedAt": 133375,
+          "completions": 2,
+          "countersAtStart": {
+            "cancelledCeilings": 0,
+            "completed": 1,
+            "emptySearches": 0,
+            "hits": 0,
+            "queued": 5,
+            "rocks": 5,
+            "started": 2
+          },
+          "detail": "Leave marked ground. Solid cover stops rocks.",
+          "finishedAt": 133375,
+          "id": "earthquake",
+          "issue": null,
+          "monitor": false,
+          "observedAt": 133375,
+          "paused": false,
+          "phase": "idle",
+          "phaseSince": 133375,
+          "pulse": 1885,
+          "reason": "422s · repeat",
+          "result": {
+            "detail": "5 rocks fell · 0 hits",
+            "metrics": {
+              "hits": 0,
+              "rocks": 5
+            },
+            "title": "EARTHQUAKE SETTLED"
+          },
+          "source": {
+            "caveIns": 0,
+            "chainPending": false,
+            "chainRemainingMs": 0,
+            "debug": false,
+            "depth": 300,
+            "epicenter": null,
+            "epicenterDepth": null,
+            "eventFallZonesQueued": 5,
+            "fallingRocks": 0,
+            "health": {
+              "cancelledCeilings": 0,
+              "completed": 2,
+              "emptySearches": 0,
+              "hits": 0,
+              "queued": 10,
+              "rocks": 10,
+              "started": 2
+            },
+            "heartbeat": 1885,
+            "intensity": null,
+            "nextEventMs": 421804,
+            "nextEventSchedule": "repeat",
+            "paused": false,
+            "playerAware": false,
+            "playerDistanceTiles": null,
+            "rubbleQueue": 0,
+            "rubbleTiles": 56,
+            "state": "idle",
+            "stateRemaining": 0,
+            "stateTotalMs": 0,
+            "suppressed": false,
+            "warningTextActive": false
+          },
+          "starts": 2,
+          "status": "WAITING"
+        },
+        "shadow": {
+          "active": false,
+          "activeSince": 71425,
+          "blocked": false,
+          "cancelled": false,
+          "changedAt": 133375,
+          "completions": 1,
+          "countersAtStart": {},
+          "detail": "NEARBY · A miner works in the dark. Approach with light.",
+          "finishedAt": 80425,
+          "id": "shadow",
+          "issue": null,
+          "monitor": true,
+          "observedAt": 133375,
+          "pending": false,
+          "phase": "dormant",
+          "phaseSince": 80425,
+          "pulse": 133375,
+          "reason": "Waiting for the next random check · 45s",
+          "result": {
+            "detail": "It left the terrain unchanged.",
+            "metrics": {
+              "blocksMined": 0
+            },
+            "title": "SHADOWMINER VANISHED"
+          },
+          "source": {
+            "active": false,
+            "approachCount": 1,
+            "approachPlaybackRate": null,
+            "awarenessCue": {
+              "atMs": 71300,
+              "direction": "left",
+              "flashAlpha": 0.3,
+              "labelCreated": true,
+              "message": "◀  SHADOW MINER NEARBY"
+            },
+            "behavior": null,
+            "completedCount": 1,
+            "depthProfile": null,
+            "dev10x": false,
+            "distanceToPlayerTiles": null,
+            "encounterBand": null,
+            "fleeCount": 0,
+            "history": {
+              "newestAtMs": 133350,
+              "oldestAtMs": 124350,
+              "samples": 181
+            },
+            "id": "shadow-miner-dynamic-echo-v5",
+            "lastBehavior": {
+              "approachHoldMs": 116,
+              "approachPlaybackRate": 0.625796636963496,
+              "audioRateMultiplier": 1.026404304737225,
+              "depthBandId": "lower",
+              "depthMeters": 300,
+              "fleeDurationMs": 1522,
+              "fleePlaybackRate": 1.030701632425189,
+              "id": "lurker",
+              "lightResistanceMultiplier": 1,
+              "maximumEncounterMs": 8124,
+              "nearPlayerDistanceTiles": 3.574439072655514,
+              "observeMs": 1060,
+              "performObserveDig": false,
+              "preferActionPose": false,
+              "replayDelayMs": 7083,
+              "targetDistanceTiles": 4.802268075407483,
+              "visualIntensity": 0.8845217415280641
+            },
+            "lastDepthProfile": {
+              "approachRateMultiplier": 1,
+              "audioRateMultiplier": 1,
+              "fleeRateMultiplier": 1,
+              "id": "lower",
+              "lightResistanceMultiplier": 1,
+              "minimumDepthMeters": 300,
+              "observeDurationMultiplier": 1,
+              "visualIntensityMultiplier": 1
+            },
+            "lastEntryDistanceTiles": 5.424999999999998,
+            "lastEntryVisible": true,
+            "lastRepelledBy": null,
+            "lastSpawnAttempt": {
+              "forced": true,
+              "reason": null,
+              "spawned": true,
+              "time": 71300
+            },
+            "lastUpdateAtMs": 133375,
+            "lightInteraction": {
+              "active": false,
+              "exposureProgress": 0,
+              "pressure": 0,
+              "response": null,
+              "source": null
+            },
+            "nextCheckAtMs": 178375,
+            "observeAction": {
+              "active": false
+            },
+            "observeCount": 1,
+            "playbackDelayMs": null,
+            "rateMultiplier": 1,
+            "ready": true,
+            "repelledBy": null,
+            "replayWindow": {
+              "actionSamples": 0,
+              "samples": 150,
+              "selectedStartAction": false,
+              "selectedStartOffsetMs": 108,
+              "travelTiles": 5.214999999999995
+            },
+            "reviewMode": false,
+            "spawnCount": 1,
+            "state": "dormant",
+            "view": {
+              "alpha": 0,
+              "animationKey": null,
+              "displayHeight": 0,
+              "displayWidth": 0,
+              "fleeing": false,
+              "flipX": false,
+              "frameName": null,
+              "lightExposureProgress": 0,
+              "lightPressure": 0,
+              "lightReacting": false,
+              "lightSource": null,
+              "observing": false,
+              "phantomDig": {
+                "actionLatched": false,
+                "activeBlock": false,
+                "activeFxSprites": 0,
+                "authority": "visual-only",
+                "blockArtAvailable": null,
+                "blockArtSource": null,
+                "breakCount": 0,
+                "crackTextureKey": null,
+                "lastAttemptTileType": null,
+                "lastStartFailure": null,
+                "renderIndex": null,
+                "stageIndex": null,
+                "target": null,
+                "targetSource": null,
+                "textureKey": null
+              },
+              "recoilActive": false,
+              "renderMode": "solid-purple-silhouette",
+              "residue": {
+                "activeSprites": 0,
+                "lastStampAtMs": null,
+                "maximumSprites": 3
+              },
+              "textureKey": null,
+              "visible": false,
+              "visualIntensity": 1,
+              "worldX": 0,
+              "worldY": 0
+            },
+            "work": {
+              "animationReady": true,
+              "blocksMined": 0,
+              "frameChanges": 260,
+              "lastResult": null,
+              "maximumBlocks": 3,
+              "target": null
+            }
+          },
+          "starts": 1,
+          "status": "WAITING"
+        },
+        "wurm": {
+          "active": false,
+          "activeSince": 36475,
+          "blocked": false,
+          "cancelled": false,
+          "changedAt": 68275,
+          "completions": 1,
+          "countersAtStart": {},
+          "detail": "Broodmother · 0/0 · Move off the marked tunnel now.",
+          "encounterResult": {
+            "completedPasses": 4,
+            "huntHitCount": 2,
+            "offspringCount": 2,
+            "tilesCarved": 48
+          },
+          "finishedAt": 68275,
+          "id": "wurm",
+          "issue": null,
+          "monitor": false,
+          "observedAt": 133375,
+          "paused": false,
+          "phase": "cooldown",
+          "phaseSince": 68275,
+          "pulse": 1277,
+          "reason": "Cooldown · 90s",
+          "result": {
+            "detail": "4 passes completed · 2 smaller Wurms",
+            "metrics": {
+              "completedPasses": 4,
+              "hits": 2,
+              "offspringCount": 2
+            },
+            "title": "WURM RETREATED"
+          },
+          "source": {
+            "active": true,
+            "activityMultiplier": 1,
+            "cooldownMs": 90000,
+            "devTest10x": false,
+            "difficulty": {
+              "bodyDamageRatio": 0.78,
+              "depthRatio": 0,
+              "depthTiles": 120,
+              "headDamageRatio": 0.96,
+              "minimumBodyDamageGp": 45,
+              "minimumHeadDamageGp": 60,
+              "passCount": 2,
+              "passIndex": 1,
+              "threatPercent": 25,
+              "travelMs": 1900,
+              "warningMs": 3600
+            },
+            "enabled": true,
+            "encounterCount": 1,
+            "encounterDepthTiles": 0,
+            "heartbeat": 1277,
+            "hitConsumed": false,
+            "hitCount": 0,
+            "huntHitCount": 0,
+            "noise": 0,
+            "noiseRatio": 0,
+            "offspring": [
+              {
+                "active": true,
+                "activityMultiplier": 1,
+                "cooldownMs": 90000,
+                "devTest10x": false,
+                "difficulty": {
+                  "bodyDamageRatio": 0.78,
+                  "depthRatio": 0,
+                  "depthTiles": 120,
+                  "headDamageRatio": 0.96,
+                  "minimumBodyDamageGp": 45,
+                  "minimumHeadDamageGp": 60,
+                  "passCount": 2,
+                  "passIndex": 1,
+                  "threatPercent": 25,
+                  "travelMs": 1900,
+                  "warningMs": 3600
+                },
+                "enabled": true,
+                "encounterCount": 1,
+                "encounterDepthTiles": 0,
+                "heartbeat": 730,
+                "hitConsumed": false,
+                "hitCount": 0,
+                "huntHitCount": 0,
+                "noise": 0,
+                "noiseRatio": 0,
+                "offspring": [],
+                "passCount": 0,
+                "passIndex": 0,
+                "phase": "cooldown",
+                "progress": 0,
+                "targetTile": null,
+                "variant": {
+                  "difficulty": "drifter",
+                  "label": "Drifter",
+                  "scale": 0.55,
+                  "size": "tiny"
+                },
+                "warningRemainingMs": 0
+              },
+              {
+                "active": true,
+                "activityMultiplier": 1,
+                "cooldownMs": 90000,
+                "devTest10x": false,
+                "difficulty": {
+                  "bodyDamageRatio": 0.78,
+                  "depthRatio": 0,
+                  "depthTiles": 120,
+                  "headDamageRatio": 0.96,
+                  "minimumBodyDamageGp": 45,
+                  "minimumHeadDamageGp": 60,
+                  "passCount": 2,
+                  "passIndex": 1,
+                  "threatPercent": 25,
+                  "travelMs": 1900,
+                  "warningMs": 3600
+                },
+                "enabled": true,
+                "encounterCount": 1,
+                "encounterDepthTiles": 0,
+                "heartbeat": 730,
+                "hitConsumed": false,
+                "hitCount": 0,
+                "huntHitCount": 0,
+                "noise": 0,
+                "noiseRatio": 0,
+                "offspring": [],
+                "passCount": 0,
+                "passIndex": 0,
+                "phase": "cooldown",
+                "progress": 0,
+                "targetTile": null,
+                "variant": {
+                  "difficulty": "drifter",
+                  "label": "Drifter",
+                  "scale": 0.75,
+                  "size": "small"
+                },
+                "warningRemainingMs": 0
+              }
+            ],
+            "passCount": 0,
+            "passIndex": 0,
+            "phase": "cooldown",
+            "progress": 0,
+            "targetTile": null,
+            "variant": {
+              "difficulty": "broodmother",
+              "label": "Broodmother",
+              "scale": 1,
+              "size": "medium"
+            },
+            "warningRemainingMs": 0
+          },
+          "starts": 1,
+          "status": "WAITING"
+        }
+      },
+      "history": [
+        {
+          "id": "wurm",
+          "outcome": "STARTED",
+          "reason": "warning",
+          "time": 36475
+        },
+        {
+          "id": "wurm",
+          "outcome": "PASSED",
+          "reason": "4 passes completed · 2 smaller Wurms",
+          "time": 68275
+        },
+        {
+          "id": "shadow",
+          "outcome": "STARTED",
+          "reason": "spawning",
+          "time": 71425
+        },
+        {
+          "id": "shadow",
+          "outcome": "PASSED",
+          "reason": "It left the terrain unchanged.",
+          "time": 80425
+        },
+        {
+          "id": "earthquake",
+          "outcome": "STARTED",
+          "reason": "warning",
+          "time": 83575
+        },
+        {
+          "id": "earthquake",
+          "outcome": "PASSED",
+          "reason": "5 rocks fell · 0 hits",
+          "time": 105475
+        },
+        {
+          "id": "earthquake",
+          "outcome": "STARTED",
+          "reason": "warning",
+          "time": 108175
+        },
+        {
+          "id": "earthquake",
+          "outcome": "PASSED",
+          "reason": "5 rocks fell · 0 hits",
+          "time": 133375
+        }
+      ],
+      "lastObservedAt": 133375,
+      "pendingShadow": null,
+      "ready": true,
+      "stale": false
+    },
+    "loadErrors": [],
+    "metrics": {
+      "audioCues": 0,
+      "destroyed": 65,
+      "hits": 3,
+      "quakesCompleted": 2,
+      "saveRequestsIntercepted": 66
+    },
+    "paused": true,
+    "ready": true,
+    "retired": [
+      {
+        "blocked": true,
+        "type": "moneyMonsterRush"
+      },
+      {
+        "blocked": true,
+        "type": "blackoutBloom"
+      },
+      {
+        "blocked": true,
+        "type": "lumenBloom"
+      }
+    ],
+    "reviewOnly": true,
+    "runtimeError": null,
+    "saveStorageUsed": false,
+    "sequence": null,
+    "shadow": {
+      "active": false,
+      "approachCount": 1,
+      "approachPlaybackRate": null,
+      "awarenessCue": {
+        "atMs": 71300,
+        "direction": "left",
+        "flashAlpha": 0.3,
+        "labelCreated": true,
+        "message": "◀  SHADOW MINER NEARBY"
+      },
+      "behavior": null,
+      "completedCount": 1,
+      "depthProfile": null,
+      "dev10x": false,
+      "distanceToPlayerTiles": null,
+      "encounterBand": null,
+      "fleeCount": 0,
+      "history": {
+        "newestAtMs": 133350,
+        "oldestAtMs": 124350,
+        "samples": 181
+      },
+      "id": "shadow-miner-dynamic-echo-v5",
+      "lastBehavior": {
+        "approachHoldMs": 116,
+        "approachPlaybackRate": 0.625796636963496,
+        "audioRateMultiplier": 1.026404304737225,
+        "depthBandId": "lower",
+        "depthMeters": 300,
+        "fleeDurationMs": 1522,
+        "fleePlaybackRate": 1.030701632425189,
+        "id": "lurker",
+        "lightResistanceMultiplier": 1,
+        "maximumEncounterMs": 8124,
+        "nearPlayerDistanceTiles": 3.574439072655514,
+        "observeMs": 1060,
+        "performObserveDig": false,
+        "preferActionPose": false,
+        "replayDelayMs": 7083,
+        "targetDistanceTiles": 4.802268075407483,
+        "visualIntensity": 0.8845217415280641
+      },
+      "lastDepthProfile": {
+        "approachRateMultiplier": 1,
+        "audioRateMultiplier": 1,
+        "fleeRateMultiplier": 1,
+        "id": "lower",
+        "lightResistanceMultiplier": 1,
+        "minimumDepthMeters": 300,
+        "observeDurationMultiplier": 1,
+        "visualIntensityMultiplier": 1
+      },
+      "lastEntryDistanceTiles": 5.424999999999998,
+      "lastEntryVisible": true,
+      "lastRepelledBy": null,
+      "lastSpawnAttempt": {
+        "forced": true,
+        "reason": null,
+        "spawned": true,
+        "time": 71300
+      },
+      "lastUpdateAtMs": 133375,
+      "lightInteraction": {
+        "active": false,
+        "exposureProgress": 0,
+        "pressure": 0,
+        "response": null,
+        "source": null
+      },
+      "nextCheckAtMs": 178375,
+      "observeAction": {
+        "active": false
+      },
+      "observeCount": 1,
+      "playbackDelayMs": null,
+      "rateMultiplier": 1,
+      "ready": true,
+      "repelledBy": null,
+      "replayWindow": {
+        "actionSamples": 0,
+        "samples": 150,
+        "selectedStartAction": false,
+        "selectedStartOffsetMs": 108,
+        "travelTiles": 5.214999999999995
+      },
+      "reviewMode": false,
+      "spawnCount": 1,
+      "state": "dormant",
+      "view": {
+        "alpha": 0,
+        "animationKey": null,
+        "displayHeight": 0,
+        "displayWidth": 0,
+        "fleeing": false,
+        "flipX": false,
+        "frameName": null,
+        "lightExposureProgress": 0,
+        "lightPressure": 0,
+        "lightReacting": false,
+        "lightSource": null,
+        "observing": false,
+        "phantomDig": {
+          "actionLatched": false,
+          "activeBlock": false,
+          "activeFxSprites": 0,
+          "authority": "visual-only",
+          "blockArtAvailable": null,
+          "blockArtSource": null,
+          "breakCount": 0,
+          "crackTextureKey": null,
+          "lastAttemptTileType": null,
+          "lastStartFailure": null,
+          "renderIndex": null,
+          "stageIndex": null,
+          "target": null,
+          "targetSource": null,
+          "textureKey": null
+        },
+        "recoilActive": false,
+        "renderMode": "solid-purple-silhouette",
+        "residue": {
+          "activeSprites": 0,
+          "lastStampAtMs": null,
+          "maximumSprites": 3
+        },
+        "textureKey": null,
+        "visible": false,
+        "visualIntensity": 1,
+        "worldX": 0,
+        "worldY": 0
+      },
+      "work": {
+        "animationReady": true,
+        "blocksMined": 0,
+        "frameChanges": 260,
+        "lastResult": null,
+        "maximumBlocks": 3,
+        "target": null
+      }
+    },
+    "storage": {
+      "persistentReads": 0,
+      "persistentWrites": 0,
+      "reads": 0,
+      "removals": 0,
+      "writes": 0
+    },
+    "wurm": {
+      "active": true,
+      "activityMultiplier": 1,
+      "cooldownMs": 90000,
+      "devTest10x": false,
+      "difficulty": {
+        "bodyDamageRatio": 0.78,
+        "depthRatio": 0,
+        "depthTiles": 120,
+        "headDamageRatio": 0.96,
+        "minimumBodyDamageGp": 45,
+        "minimumHeadDamageGp": 60,
+        "passCount": 2,
+        "passIndex": 1,
+        "threatPercent": 25,
+        "travelMs": 1900,
+        "warningMs": 3600
+      },
+      "enabled": true,
+      "encounterCount": 1,
+      "encounterDepthTiles": 0,
+      "heartbeat": 1277,
+      "hitConsumed": false,
+      "hitCount": 0,
+      "huntHitCount": 0,
+      "noise": 0,
+      "noiseRatio": 0,
+      "offspring": [
+        {
+          "active": true,
+          "activityMultiplier": 1,
+          "cooldownMs": 90000,
+          "devTest10x": false,
+          "difficulty": {
+            "bodyDamageRatio": 0.78,
+            "depthRatio": 0,
+            "depthTiles": 120,
+            "headDamageRatio": 0.96,
+            "minimumBodyDamageGp": 45,
+            "minimumHeadDamageGp": 60,
+            "passCount": 2,
+            "passIndex": 1,
+            "threatPercent": 25,
+            "travelMs": 1900,
+            "warningMs": 3600
+          },
+          "enabled": true,
+          "encounterCount": 1,
+          "encounterDepthTiles": 0,
+          "heartbeat": 730,
+          "hitConsumed": false,
+          "hitCount": 0,
+          "huntHitCount": 0,
+          "noise": 0,
+          "noiseRatio": 0,
+          "offspring": [],
+          "passCount": 0,
+          "passIndex": 0,
+          "phase": "cooldown",
+          "progress": 0,
+          "targetTile": null,
+          "variant": {
+            "difficulty": "drifter",
+            "label": "Drifter",
+            "scale": 0.55,
+            "size": "tiny"
+          },
+          "warningRemainingMs": 0
+        },
+        {
+          "active": true,
+          "activityMultiplier": 1,
+          "cooldownMs": 90000,
+          "devTest10x": false,
+          "difficulty": {
+            "bodyDamageRatio": 0.78,
+            "depthRatio": 0,
+            "depthTiles": 120,
+            "headDamageRatio": 0.96,
+            "minimumBodyDamageGp": 45,
+            "minimumHeadDamageGp": 60,
+            "passCount": 2,
+            "passIndex": 1,
+            "threatPercent": 25,
+            "travelMs": 1900,
+            "warningMs": 3600
+          },
+          "enabled": true,
+          "encounterCount": 1,
+          "encounterDepthTiles": 0,
+          "heartbeat": 730,
+          "hitConsumed": false,
+          "hitCount": 0,
+          "huntHitCount": 0,
+          "noise": 0,
+          "noiseRatio": 0,
+          "offspring": [],
+          "passCount": 0,
+          "passIndex": 0,
+          "phase": "cooldown",
+          "progress": 0,
+          "targetTile": null,
+          "variant": {
+            "difficulty": "drifter",
+            "label": "Drifter",
+            "scale": 0.75,
+            "size": "small"
+          },
+          "warningRemainingMs": 0
+        }
+      ],
+      "passCount": 0,
+      "passIndex": 0,
+      "phase": "cooldown",
+      "progress": 0,
+      "targetTile": null,
+      "variant": {
+        "difficulty": "broodmother",
+        "label": "Broodmother",
+        "scale": 1,
+        "size": "medium"
+      },
+      "warningRemainingMs": 0
+    }
+  },
+  "shadowFresh": {
+    "controls": {
+      "audio": false,
+      "depth": 300,
+      "flight": true,
+      "hardcore": true,
+      "hazards": true,
+      "intensity": "medium",
+      "mining": false,
+      "natural": false,
+      "patrol": true,
+      "pauseOnResult": true,
+      "speed": 10,
+      "suppressed": false,
+      "torch": false,
+      "wurmDifficulty": "broodmother",
+      "wurmSize": "medium"
+    },
+    "earthquake": {
+      "caveIns": 0,
+      "chainPending": false,
+      "chainRemainingMs": 0,
+      "debug": false,
+      "depth": 300,
+      "epicenter": null,
+      "epicenterDepth": null,
+      "eventFallZonesQueued": 0,
+      "fallingRocks": 0,
+      "health": {
+        "cancelledCeilings": 0,
+        "completed": 0,
+        "emptySearches": 0,
+        "hits": 0,
+        "queued": 0,
+        "rocks": 0,
+        "started": 0
+      },
+      "heartbeat": 0,
+      "intensity": null,
+      "nextEventMs": 100254,
+      "nextEventSchedule": "first",
+      "paused": false,
+      "playerAware": false,
+      "playerDistanceTiles": null,
+      "rubbleQueue": 0,
+      "rubbleTiles": 0,
+      "state": "idle",
+      "stateRemaining": 0,
+      "stateTotalMs": 0,
+      "suppressed": false,
+      "warningTextActive": false
+    },
+    "elapsedMs": 13225,
+    "gates": {
+      "activation": {
+        "active": true,
+        "depth": 300,
+        "depthEligible": true,
+        "devForceActive": false,
+        "devOverride": false,
+        "flightUnlocked": true,
+        "hardcoreArmed": true,
+        "productionActive": true
+      },
+      "quake": [
+        "Next check 100.3s"
+      ],
+      "shadow": [
+        "Next check 45.0s"
+      ],
+      "wurm": [
+        "Cooldown 18.0s",
+        "Noise 0.0 / 18"
+      ]
+    },
+    "health": {
+      "devEnabled": false,
+      "events": {
+        "earthquake": {
+          "active": false,
+          "activeSince": 18025,
+          "blocked": false,
+          "changedAt": 18025,
+          "completions": 0,
+          "detail": "Leave marked ground. Solid cover stops rocks.",
+          "finishedAt": null,
+          "id": "earthquake",
+          "issue": null,
+          "monitor": false,
+          "observedAt": 31225,
+          "paused": false,
+          "phase": "idle",
+          "phaseSince": 18025,
+          "pulse": 0,
+          "reason": "101s · first",
+          "source": {
+            "caveIns": 0,
+            "chainPending": false,
+            "chainRemainingMs": 0,
+            "debug": false,
+            "depth": 300,
+            "epicenter": null,
+            "epicenterDepth": null,
+            "eventFallZonesQueued": 0,
+            "fallingRocks": 0,
+            "health": {
+              "cancelledCeilings": 0,
+              "completed": 0,
+              "emptySearches": 0,
+              "hits": 0,
+              "queued": 0,
+              "rocks": 0,
+              "started": 0
+            },
+            "heartbeat": 0,
+            "intensity": null,
+            "nextEventMs": 100254,
+            "nextEventSchedule": "first",
+            "paused": false,
+            "playerAware": false,
+            "playerDistanceTiles": null,
+            "rubbleQueue": 0,
+            "rubbleTiles": 0,
+            "state": "idle",
+            "stateRemaining": 0,
+            "stateTotalMs": 0,
+            "suppressed": false,
+            "warningTextActive": false
+          },
+          "starts": 0,
+          "status": "WAITING"
+        },
+        "shadow": {
+          "active": false,
+          "activeSince": 22225,
+          "blocked": false,
+          "cancelled": false,
+          "changedAt": 31225,
+          "completions": 1,
+          "countersAtStart": {},
+          "detail": "NEARBY · A miner works in the dark. Approach with light.",
+          "finishedAt": 31225,
+          "id": "shadow",
+          "issue": null,
+          "monitor": true,
+          "observedAt": 31225,
+          "pending": false,
+          "phase": "dormant",
+          "phaseSince": 31225,
+          "pulse": 31225,
+          "reason": "Waiting for the next random check · 45s",
+          "result": {
+            "detail": "1 block mined nearby.",
+            "metrics": {
+              "blocksMined": 1
+            },
+            "title": "SHADOWMINER VANISHED"
+          },
+          "source": {
+            "active": false,
+            "approachCount": 1,
+            "approachPlaybackRate": null,
+            "awarenessCue": {
+              "atMs": 22100,
+              "direction": "left",
+              "flashAlpha": 0.3,
+              "labelCreated": true,
+              "message": "◀  SHADOW MINER NEARBY"
+            },
+            "behavior": null,
+            "completedCount": 1,
+            "depthProfile": null,
+            "dev10x": false,
+            "distanceToPlayerTiles": null,
+            "encounterBand": null,
+            "fleeCount": 0,
+            "history": {
+              "newestAtMs": 31200,
+              "oldestAtMs": 22200,
+              "samples": 181
+            },
+            "id": "shadow-miner-dynamic-echo-v5",
+            "lastBehavior": {
+              "approachHoldMs": 116,
+              "approachPlaybackRate": 0.625796636963496,
+              "audioRateMultiplier": 1.026404304737225,
+              "depthBandId": "lower",
+              "depthMeters": 300,
+              "fleeDurationMs": 1522,
+              "fleePlaybackRate": 1.030701632425189,
+              "id": "lurker",
+              "lightResistanceMultiplier": 1,
+              "maximumEncounterMs": 8124,
+              "nearPlayerDistanceTiles": 3.574439072655514,
+              "observeMs": 1060,
+              "performObserveDig": false,
+              "preferActionPose": false,
+              "replayDelayMs": 7083,
+              "targetDistanceTiles": 4.802268075407483,
+              "visualIntensity": 0.8845217415280641
+            },
+            "lastDepthProfile": {
+              "approachRateMultiplier": 1,
+              "audioRateMultiplier": 1,
+              "fleeRateMultiplier": 1,
+              "id": "lower",
+              "lightResistanceMultiplier": 1,
+              "minimumDepthMeters": 300,
+              "observeDurationMultiplier": 1,
+              "visualIntensityMultiplier": 1
+            },
+            "lastEntryDistanceTiles": 5.424999999999998,
+            "lastEntryVisible": true,
+            "lastRepelledBy": null,
+            "lastSpawnAttempt": {
+              "forced": true,
+              "reason": null,
+              "spawned": true,
+              "time": 22100
+            },
+            "lastUpdateAtMs": 31225,
+            "lightInteraction": {
+              "active": false,
+              "exposureProgress": 0,
+              "pressure": 0,
+              "response": null,
+              "source": null
+            },
+            "nextCheckAtMs": 76225,
+            "observeAction": {
+              "active": false
+            },
+            "observeCount": 1,
+            "playbackDelayMs": null,
+            "rateMultiplier": 1,
+            "ready": true,
+            "repelledBy": null,
+            "replayWindow": {
+              "actionSamples": 0,
+              "samples": 150,
+              "selectedStartAction": false,
+              "selectedStartOffsetMs": 108,
+              "travelTiles": 5.214999999999995
+            },
+            "reviewMode": false,
+            "spawnCount": 1,
+            "state": "dormant",
+            "view": {
+              "alpha": 0,
+              "animationKey": null,
+              "displayHeight": 0,
+              "displayWidth": 0,
+              "fleeing": false,
+              "flipX": false,
+              "frameName": null,
+              "lightExposureProgress": 0,
+              "lightPressure": 0,
+              "lightReacting": false,
+              "lightSource": null,
+              "observing": false,
+              "phantomDig": {
+                "actionLatched": false,
+                "activeBlock": false,
+                "activeFxSprites": 0,
+                "authority": "visual-only",
+                "blockArtAvailable": null,
+                "blockArtSource": null,
+                "breakCount": 0,
+                "crackTextureKey": null,
+                "lastAttemptTileType": null,
+                "lastStartFailure": null,
+                "renderIndex": null,
+                "stageIndex": null,
+                "target": null,
+                "targetSource": null,
+                "textureKey": null
+              },
+              "recoilActive": false,
+              "renderMode": "solid-purple-silhouette",
+              "residue": {
+                "activeSprites": 0,
+                "lastStampAtMs": null,
+                "maximumSprites": 3
+              },
+              "textureKey": null,
+              "visible": false,
+              "visualIntensity": 1,
+              "worldX": 0,
+              "worldY": 0
+            },
+            "work": {
+              "animationReady": true,
+              "blocksMined": 1,
+              "frameChanges": 251,
+              "lastResult": "ordinary block mined",
+              "maximumBlocks": 3,
+              "target": null
+            }
+          },
+          "starts": 1,
+          "status": "WAITING"
+        },
+        "wurm": {
+          "active": false,
+          "activeSince": 18025,
+          "blocked": false,
+          "changedAt": 18025,
+          "completions": 0,
+          "detail": "GRAVEBORER WURM · 0/0 · Move off the marked tunnel now.",
+          "encounterResult": null,
+          "finishedAt": null,
+          "id": "wurm",
+          "issue": null,
+          "monitor": false,
+          "observedAt": 31225,
+          "paused": false,
+          "phase": "dormant",
+          "phaseSince": 18025,
+          "pulse": 0,
+          "reason": "Cooldown · 18s",
+          "source": {
+            "active": false,
+            "activityMultiplier": 1,
+            "cooldownMs": 18000,
+            "devTest10x": false,
+            "difficulty": {
+              "bodyDamageRatio": 0.78,
+              "depthRatio": 0,
+              "depthTiles": 120,
+              "headDamageRatio": 0.96,
+              "minimumBodyDamageGp": 45,
+              "minimumHeadDamageGp": 60,
+              "passCount": 2,
+              "passIndex": 1,
+              "threatPercent": 25,
+              "travelMs": 1900,
+              "warningMs": 3600
+            },
+            "enabled": true,
+            "encounterCount": 0,
+            "encounterDepthTiles": 0,
+            "heartbeat": 0,
+            "hitConsumed": false,
+            "hitCount": 0,
+            "huntHitCount": 0,
+            "noise": 0,
+            "noiseRatio": 0,
+            "offspring": [],
+            "passCount": 0,
+            "passIndex": 0,
+            "phase": "dormant",
+            "progress": 0,
+            "targetTile": null,
+            "variant": null,
+            "warningRemainingMs": 0
+          },
+          "starts": 0,
+          "status": "WAITING"
+        }
+      },
+      "history": [
+        {
+          "id": "shadow",
+          "outcome": "STARTED",
+          "reason": "spawning",
+          "time": 22225
+        },
+        {
+          "id": "shadow",
+          "outcome": "PASSED",
+          "reason": "1 block mined nearby.",
+          "time": 31225
+        }
+      ],
+      "lastObservedAt": 31225,
+      "pendingShadow": null,
+      "ready": true,
+      "stale": false
+    },
+    "loadErrors": [],
+    "metrics": {
+      "audioCues": 0,
+      "destroyed": 1,
+      "hits": 0,
+      "quakesCompleted": 0,
+      "saveRequestsIntercepted": 1
+    },
+    "paused": true,
+    "ready": true,
+    "retired": [
+      {
+        "blocked": true,
+        "type": "moneyMonsterRush"
+      },
+      {
+        "blocked": true,
+        "type": "blackoutBloom"
+      },
+      {
+        "blocked": true,
+        "type": "lumenBloom"
+      }
+    ],
+    "reviewOnly": true,
+    "runtimeError": null,
+    "saveStorageUsed": false,
+    "sequence": null,
+    "shadow": {
+      "active": false,
+      "approachCount": 1,
+      "approachPlaybackRate": null,
+      "awarenessCue": {
+        "atMs": 22100,
+        "direction": "left",
+        "flashAlpha": 0.3,
+        "labelCreated": true,
+        "message": "◀  SHADOW MINER NEARBY"
+      },
+      "behavior": null,
+      "completedCount": 1,
+      "depthProfile": null,
+      "dev10x": false,
+      "distanceToPlayerTiles": null,
+      "encounterBand": null,
+      "fleeCount": 0,
+      "history": {
+        "newestAtMs": 31200,
+        "oldestAtMs": 22200,
+        "samples": 181
+      },
+      "id": "shadow-miner-dynamic-echo-v5",
+      "lastBehavior": {
+        "approachHoldMs": 116,
+        "approachPlaybackRate": 0.625796636963496,
+        "audioRateMultiplier": 1.026404304737225,
+        "depthBandId": "lower",
+        "depthMeters": 300,
+        "fleeDurationMs": 1522,
+        "fleePlaybackRate": 1.030701632425189,
+        "id": "lurker",
+        "lightResistanceMultiplier": 1,
+        "maximumEncounterMs": 8124,
+        "nearPlayerDistanceTiles": 3.574439072655514,
+        "observeMs": 1060,
+        "performObserveDig": false,
+        "preferActionPose": false,
+        "replayDelayMs": 7083,
+        "targetDistanceTiles": 4.802268075407483,
+        "visualIntensity": 0.8845217415280641
+      },
+      "lastDepthProfile": {
+        "approachRateMultiplier": 1,
+        "audioRateMultiplier": 1,
+        "fleeRateMultiplier": 1,
+        "id": "lower",
+        "lightResistanceMultiplier": 1,
+        "minimumDepthMeters": 300,
+        "observeDurationMultiplier": 1,
+        "visualIntensityMultiplier": 1
+      },
+      "lastEntryDistanceTiles": 5.424999999999998,
+      "lastEntryVisible": true,
+      "lastRepelledBy": null,
+      "lastSpawnAttempt": {
+        "forced": true,
+        "reason": null,
+        "spawned": true,
+        "time": 22100
+      },
+      "lastUpdateAtMs": 31225,
+      "lightInteraction": {
+        "active": false,
+        "exposureProgress": 0,
+        "pressure": 0,
+        "response": null,
+        "source": null
+      },
+      "nextCheckAtMs": 76225,
+      "observeAction": {
+        "active": false
+      },
+      "observeCount": 1,
+      "playbackDelayMs": null,
+      "rateMultiplier": 1,
+      "ready": true,
+      "repelledBy": null,
+      "replayWindow": {
+        "actionSamples": 0,
+        "samples": 150,
+        "selectedStartAction": false,
+        "selectedStartOffsetMs": 108,
+        "travelTiles": 5.214999999999995
+      },
+      "reviewMode": false,
+      "spawnCount": 1,
+      "state": "dormant",
+      "view": {
+        "alpha": 0,
+        "animationKey": null,
+        "displayHeight": 0,
+        "displayWidth": 0,
+        "fleeing": false,
+        "flipX": false,
+        "frameName": null,
+        "lightExposureProgress": 0,
+        "lightPressure": 0,
+        "lightReacting": false,
+        "lightSource": null,
+        "observing": false,
+        "phantomDig": {
+          "actionLatched": false,
+          "activeBlock": false,
+          "activeFxSprites": 0,
+          "authority": "visual-only",
+          "blockArtAvailable": null,
+          "blockArtSource": null,
+          "breakCount": 0,
+          "crackTextureKey": null,
+          "lastAttemptTileType": null,
+          "lastStartFailure": null,
+          "renderIndex": null,
+          "stageIndex": null,
+          "target": null,
+          "targetSource": null,
+          "textureKey": null
+        },
+        "recoilActive": false,
+        "renderMode": "solid-purple-silhouette",
+        "residue": {
+          "activeSprites": 0,
+          "lastStampAtMs": null,
+          "maximumSprites": 3
+        },
+        "textureKey": null,
+        "visible": false,
+        "visualIntensity": 1,
+        "worldX": 0,
+        "worldY": 0
+      },
+      "work": {
+        "animationReady": true,
+        "blocksMined": 1,
+        "frameChanges": 251,
+        "lastResult": "ordinary block mined",
+        "maximumBlocks": 3,
+        "target": null
+      }
+    },
+    "storage": {
+      "persistentReads": 0,
+      "persistentWrites": 0,
+      "reads": 0,
+      "removals": 0,
+      "writes": 0
+    },
+    "wurm": {
+      "active": false,
+      "activityMultiplier": 1,
+      "cooldownMs": 18000,
+      "devTest10x": false,
+      "difficulty": {
+        "bodyDamageRatio": 0.78,
+        "depthRatio": 0,
+        "depthTiles": 120,
+        "headDamageRatio": 0.96,
+        "minimumBodyDamageGp": 45,
+        "minimumHeadDamageGp": 60,
+        "passCount": 2,
+        "passIndex": 1,
+        "threatPercent": 25,
+        "travelMs": 1900,
+        "warningMs": 3600
+      },
+      "enabled": true,
+      "encounterCount": 0,
+      "encounterDepthTiles": 0,
+      "heartbeat": 0,
+      "hitConsumed": false,
+      "hitCount": 0,
+      "huntHitCount": 0,
+      "noise": 0,
+      "noiseRatio": 0,
+      "offspring": [],
+      "passCount": 0,
+      "passIndex": 0,
+      "phase": "dormant",
+      "progress": 0,
+      "targetTile": null,
+      "variant": null,
+      "warningRemainingMs": 0
+    }
+  },
+  "wurm": {
+    "controls": {
+      "audio": false,
+      "depth": 300,
+      "flight": true,
+      "hardcore": true,
+      "hazards": true,
+      "intensity": "medium",
+      "mining": false,
+      "natural": false,
+      "patrol": true,
+      "pauseOnResult": true,
+      "speed": 10,
+      "suppressed": false,
+      "torch": false,
+      "wurmDifficulty": "broodmother",
+      "wurmSize": "medium"
+    },
+    "earthquake": {
+      "caveIns": 0,
+      "chainPending": false,
+      "chainRemainingMs": 0,
+      "debug": false,
+      "depth": 300,
+      "epicenter": null,
+      "epicenterDepth": null,
+      "eventFallZonesQueued": 0,
+      "fallingRocks": 0,
+      "health": {
+        "cancelledCeilings": 0,
+        "completed": 0,
+        "emptySearches": 0,
+        "hits": 0,
+        "queued": 0,
+        "rocks": 0,
+        "started": 0
+      },
+      "heartbeat": 0,
+      "intensity": null,
+      "nextEventMs": 100254,
+      "nextEventSchedule": "first",
+      "paused": false,
+      "playerAware": false,
+      "playerDistanceTiles": null,
+      "rubbleQueue": 0,
+      "rubbleTiles": 0,
+      "state": "idle",
+      "stateRemaining": 0,
+      "stateTotalMs": 0,
+      "suppressed": false,
+      "warningTextActive": false
+    },
+    "elapsedMs": 48325,
+    "gates": {
+      "activation": {
+        "active": true,
+        "depth": 300,
+        "depthEligible": true,
+        "devForceActive": false,
+        "devOverride": false,
+        "flightUnlocked": true,
+        "hardcoreArmed": true,
+        "productionActive": true
+      },
+      "quake": [
+        "Next check 100.3s"
+      ],
+      "shadow": [
+        "Next check 45.0s"
+      ],
+      "wurm": [
+        "Cooldown 90.0s",
+        "Noise 0.0 / 18"
+      ]
+    },
+    "health": {
+      "devEnabled": false,
+      "events": {
+        "earthquake": {
+          "active": false,
+          "activeSince": 18025,
+          "blocked": false,
+          "changedAt": 18025,
+          "completions": 0,
+          "detail": "Leave marked ground. Solid cover stops rocks.",
+          "finishedAt": null,
+          "id": "earthquake",
+          "issue": null,
+          "monitor": false,
+          "observedAt": 66325,
+          "paused": false,
+          "phase": "idle",
+          "phaseSince": 18025,
+          "pulse": 0,
+          "reason": "101s · first",
+          "source": {
+            "caveIns": 0,
+            "chainPending": false,
+            "chainRemainingMs": 0,
+            "debug": false,
+            "depth": 300,
+            "epicenter": null,
+            "epicenterDepth": null,
+            "eventFallZonesQueued": 0,
+            "fallingRocks": 0,
+            "health": {
+              "cancelledCeilings": 0,
+              "completed": 0,
+              "emptySearches": 0,
+              "hits": 0,
+              "queued": 0,
+              "rocks": 0,
+              "started": 0
+            },
+            "heartbeat": 0,
+            "intensity": null,
+            "nextEventMs": 100254,
+            "nextEventSchedule": "first",
+            "paused": false,
+            "playerAware": false,
+            "playerDistanceTiles": null,
+            "rubbleQueue": 0,
+            "rubbleTiles": 0,
+            "state": "idle",
+            "stateRemaining": 0,
+            "stateTotalMs": 0,
+            "suppressed": false,
+            "warningTextActive": false
+          },
+          "starts": 0,
+          "status": "WAITING"
+        },
+        "shadow": {
+          "active": false,
+          "activeSince": 22225,
+          "blocked": false,
+          "cancelled": false,
+          "changedAt": 66325,
+          "completions": 1,
+          "countersAtStart": {},
+          "detail": "NEARBY · A miner works in the dark. Approach with light.",
+          "finishedAt": 31225,
+          "id": "shadow",
+          "issue": null,
+          "monitor": true,
+          "observedAt": 66325,
+          "pending": false,
+          "phase": "dormant",
+          "phaseSince": 31225,
+          "pulse": 66325,
+          "reason": "Waiting for the next random check · 45s",
+          "result": {
+            "detail": "1 block mined nearby.",
+            "metrics": {
+              "blocksMined": 1
+            },
+            "title": "SHADOWMINER VANISHED"
+          },
+          "source": {
+            "active": false,
+            "approachCount": 1,
+            "approachPlaybackRate": null,
+            "awarenessCue": {
+              "atMs": 22100,
+              "direction": "left",
+              "flashAlpha": 0.3,
+              "labelCreated": true,
+              "message": "◀  SHADOW MINER NEARBY"
+            },
+            "behavior": null,
+            "completedCount": 1,
+            "depthProfile": null,
+            "dev10x": false,
+            "distanceToPlayerTiles": null,
+            "encounterBand": null,
+            "fleeCount": 0,
+            "history": {
+              "newestAtMs": 66300,
+              "oldestAtMs": 57300,
+              "samples": 181
+            },
+            "id": "shadow-miner-dynamic-echo-v5",
+            "lastBehavior": {
+              "approachHoldMs": 116,
+              "approachPlaybackRate": 0.625796636963496,
+              "audioRateMultiplier": 1.026404304737225,
+              "depthBandId": "lower",
+              "depthMeters": 300,
+              "fleeDurationMs": 1522,
+              "fleePlaybackRate": 1.030701632425189,
+              "id": "lurker",
+              "lightResistanceMultiplier": 1,
+              "maximumEncounterMs": 8124,
+              "nearPlayerDistanceTiles": 3.574439072655514,
+              "observeMs": 1060,
+              "performObserveDig": false,
+              "preferActionPose": false,
+              "replayDelayMs": 7083,
+              "targetDistanceTiles": 4.802268075407483,
+              "visualIntensity": 0.8845217415280641
+            },
+            "lastDepthProfile": {
+              "approachRateMultiplier": 1,
+              "audioRateMultiplier": 1,
+              "fleeRateMultiplier": 1,
+              "id": "lower",
+              "lightResistanceMultiplier": 1,
+              "minimumDepthMeters": 300,
+              "observeDurationMultiplier": 1,
+              "visualIntensityMultiplier": 1
+            },
+            "lastEntryDistanceTiles": 5.424999999999998,
+            "lastEntryVisible": true,
+            "lastRepelledBy": null,
+            "lastSpawnAttempt": {
+              "forced": true,
+              "reason": null,
+              "spawned": true,
+              "time": 22100
+            },
+            "lastUpdateAtMs": 66325,
+            "lightInteraction": {
+              "active": false,
+              "exposureProgress": 0,
+              "pressure": 0,
+              "response": null,
+              "source": null
+            },
+            "nextCheckAtMs": 111325,
+            "observeAction": {
+              "active": false
+            },
+            "observeCount": 1,
+            "playbackDelayMs": null,
+            "rateMultiplier": 1,
+            "ready": true,
+            "repelledBy": null,
+            "replayWindow": {
+              "actionSamples": 0,
+              "samples": 150,
+              "selectedStartAction": false,
+              "selectedStartOffsetMs": 108,
+              "travelTiles": 5.214999999999995
+            },
+            "reviewMode": false,
+            "spawnCount": 1,
+            "state": "dormant",
+            "view": {
+              "alpha": 0,
+              "animationKey": null,
+              "displayHeight": 0,
+              "displayWidth": 0,
+              "fleeing": false,
+              "flipX": false,
+              "frameName": null,
+              "lightExposureProgress": 0,
+              "lightPressure": 0,
+              "lightReacting": false,
+              "lightSource": null,
+              "observing": false,
+              "phantomDig": {
+                "actionLatched": false,
+                "activeBlock": false,
+                "activeFxSprites": 0,
+                "authority": "visual-only",
+                "blockArtAvailable": null,
+                "blockArtSource": null,
+                "breakCount": 0,
+                "crackTextureKey": null,
+                "lastAttemptTileType": null,
+                "lastStartFailure": null,
+                "renderIndex": null,
+                "stageIndex": null,
+                "target": null,
+                "targetSource": null,
+                "textureKey": null
+              },
+              "recoilActive": false,
+              "renderMode": "solid-purple-silhouette",
+              "residue": {
+                "activeSprites": 0,
+                "lastStampAtMs": null,
+                "maximumSprites": 3
+              },
+              "textureKey": null,
+              "visible": false,
+              "visualIntensity": 1,
+              "worldX": 0,
+              "worldY": 0
+            },
+            "work": {
+              "animationReady": true,
+              "blocksMined": 1,
+              "frameChanges": 251,
+              "lastResult": "ordinary block mined",
+              "maximumBlocks": 3,
+              "target": null
+            }
+          },
+          "starts": 1,
+          "status": "WAITING"
+        },
+        "wurm": {
+          "active": false,
+          "activeSince": 34375,
+          "blocked": false,
+          "cancelled": false,
+          "changedAt": 66325,
+          "completions": 1,
+          "countersAtStart": {},
+          "detail": "Broodmother · 0/0 · Move off the marked tunnel now.",
+          "encounterResult": {
+            "completedPasses": 4,
+            "huntHitCount": 2,
+            "offspringCount": 2,
+            "tilesCarved": 49
+          },
+          "finishedAt": 66325,
+          "id": "wurm",
+          "issue": null,
+          "monitor": false,
+          "observedAt": 66325,
+          "paused": false,
+          "phase": "cooldown",
+          "phaseSince": 66325,
+          "pulse": 1277,
+          "reason": "Cooldown · 90s",
+          "result": {
+            "detail": "4 passes completed · 2 smaller Wurms",
+            "metrics": {
+              "completedPasses": 4,
+              "hits": 2,
+              "offspringCount": 2
+            },
+            "title": "WURM RETREATED"
+          },
+          "source": {
+            "active": true,
+            "activityMultiplier": 1,
+            "cooldownMs": 90000,
+            "devTest10x": false,
+            "difficulty": {
+              "bodyDamageRatio": 0.78,
+              "depthRatio": 0,
+              "depthTiles": 120,
+              "headDamageRatio": 0.96,
+              "minimumBodyDamageGp": 45,
+              "minimumHeadDamageGp": 60,
+              "passCount": 2,
+              "passIndex": 1,
+              "threatPercent": 25,
+              "travelMs": 1900,
+              "warningMs": 3600
+            },
+            "enabled": true,
+            "encounterCount": 1,
+            "encounterDepthTiles": 0,
+            "heartbeat": 1277,
+            "hitConsumed": false,
+            "hitCount": 0,
+            "huntHitCount": 0,
+            "noise": 0,
+            "noiseRatio": 0,
+            "offspring": [
+              {
+                "active": true,
+                "activityMultiplier": 1,
+                "cooldownMs": 90000,
+                "devTest10x": false,
+                "difficulty": {
+                  "bodyDamageRatio": 0.78,
+                  "depthRatio": 0,
+                  "depthTiles": 120,
+                  "headDamageRatio": 0.96,
+                  "minimumBodyDamageGp": 45,
+                  "minimumHeadDamageGp": 60,
+                  "passCount": 2,
+                  "passIndex": 1,
+                  "threatPercent": 25,
+                  "travelMs": 1900,
+                  "warningMs": 3600
+                },
+                "enabled": true,
+                "encounterCount": 1,
+                "encounterDepthTiles": 0,
+                "heartbeat": 730,
+                "hitConsumed": false,
+                "hitCount": 0,
+                "huntHitCount": 0,
+                "noise": 0,
+                "noiseRatio": 0,
+                "offspring": [],
+                "passCount": 0,
+                "passIndex": 0,
+                "phase": "cooldown",
+                "progress": 0,
+                "targetTile": null,
+                "variant": {
+                  "difficulty": "drifter",
+                  "label": "Drifter",
+                  "scale": 0.55,
+                  "size": "tiny"
+                },
+                "warningRemainingMs": 0
+              },
+              {
+                "active": true,
+                "activityMultiplier": 1,
+                "cooldownMs": 90000,
+                "devTest10x": false,
+                "difficulty": {
+                  "bodyDamageRatio": 0.78,
+                  "depthRatio": 0,
+                  "depthTiles": 120,
+                  "headDamageRatio": 0.96,
+                  "minimumBodyDamageGp": 45,
+                  "minimumHeadDamageGp": 60,
+                  "passCount": 2,
+                  "passIndex": 1,
+                  "threatPercent": 25,
+                  "travelMs": 1900,
+                  "warningMs": 3600
+                },
+                "enabled": true,
+                "encounterCount": 1,
+                "encounterDepthTiles": 0,
+                "heartbeat": 730,
+                "hitConsumed": false,
+                "hitCount": 0,
+                "huntHitCount": 0,
+                "noise": 0,
+                "noiseRatio": 0,
+                "offspring": [],
+                "passCount": 0,
+                "passIndex": 0,
+                "phase": "cooldown",
+                "progress": 0,
+                "targetTile": null,
+                "variant": {
+                  "difficulty": "drifter",
+                  "label": "Drifter",
+                  "scale": 0.75,
+                  "size": "small"
+                },
+                "warningRemainingMs": 0
+              }
+            ],
+            "passCount": 0,
+            "passIndex": 0,
+            "phase": "cooldown",
+            "progress": 0,
+            "targetTile": null,
+            "variant": {
+              "difficulty": "broodmother",
+              "label": "Broodmother",
+              "scale": 1,
+              "size": "medium"
+            },
+            "warningRemainingMs": 0
+          },
+          "starts": 1,
+          "status": "WAITING"
+        }
+      },
+      "history": [
+        {
+          "id": "shadow",
+          "outcome": "STARTED",
+          "reason": "spawning",
+          "time": 22225
+        },
+        {
+          "id": "shadow",
+          "outcome": "PASSED",
+          "reason": "1 block mined nearby.",
+          "time": 31225
+        },
+        {
+          "id": "wurm",
+          "outcome": "STARTED",
+          "reason": "warning",
+          "time": 34375
+        },
+        {
+          "id": "wurm",
+          "outcome": "PASSED",
+          "reason": "4 passes completed · 2 smaller Wurms",
+          "time": 66325
+        }
+      ],
+      "lastObservedAt": 66325,
+      "pendingShadow": null,
+      "ready": true,
+      "stale": false
+    },
+    "loadErrors": [],
+    "metrics": {
+      "audioCues": 0,
+      "destroyed": 50,
+      "hits": 2,
+      "quakesCompleted": 0,
+      "saveRequestsIntercepted": 8
+    },
+    "paused": true,
+    "ready": true,
+    "retired": [
+      {
+        "blocked": true,
+        "type": "moneyMonsterRush"
+      },
+      {
+        "blocked": true,
+        "type": "blackoutBloom"
+      },
+      {
+        "blocked": true,
+        "type": "lumenBloom"
+      }
+    ],
+    "reviewOnly": true,
+    "runtimeError": null,
+    "saveStorageUsed": false,
+    "sequence": null,
+    "shadow": {
+      "active": false,
+      "approachCount": 1,
+      "approachPlaybackRate": null,
+      "awarenessCue": {
+        "atMs": 22100,
+        "direction": "left",
+        "flashAlpha": 0.3,
+        "labelCreated": true,
+        "message": "◀  SHADOW MINER NEARBY"
+      },
+      "behavior": null,
+      "completedCount": 1,
+      "depthProfile": null,
+      "dev10x": false,
+      "distanceToPlayerTiles": null,
+      "encounterBand": null,
+      "fleeCount": 0,
+      "history": {
+        "newestAtMs": 66300,
+        "oldestAtMs": 57300,
+        "samples": 181
+      },
+      "id": "shadow-miner-dynamic-echo-v5",
+      "lastBehavior": {
+        "approachHoldMs": 116,
+        "approachPlaybackRate": 0.625796636963496,
+        "audioRateMultiplier": 1.026404304737225,
+        "depthBandId": "lower",
+        "depthMeters": 300,
+        "fleeDurationMs": 1522,
+        "fleePlaybackRate": 1.030701632425189,
+        "id": "lurker",
+        "lightResistanceMultiplier": 1,
+        "maximumEncounterMs": 8124,
+        "nearPlayerDistanceTiles": 3.574439072655514,
+        "observeMs": 1060,
+        "performObserveDig": false,
+        "preferActionPose": false,
+        "replayDelayMs": 7083,
+        "targetDistanceTiles": 4.802268075407483,
+        "visualIntensity": 0.8845217415280641
+      },
+      "lastDepthProfile": {
+        "approachRateMultiplier": 1,
+        "audioRateMultiplier": 1,
+        "fleeRateMultiplier": 1,
+        "id": "lower",
+        "lightResistanceMultiplier": 1,
+        "minimumDepthMeters": 300,
+        "observeDurationMultiplier": 1,
+        "visualIntensityMultiplier": 1
+      },
+      "lastEntryDistanceTiles": 5.424999999999998,
+      "lastEntryVisible": true,
+      "lastRepelledBy": null,
+      "lastSpawnAttempt": {
+        "forced": true,
+        "reason": null,
+        "spawned": true,
+        "time": 22100
+      },
+      "lastUpdateAtMs": 66325,
+      "lightInteraction": {
+        "active": false,
+        "exposureProgress": 0,
+        "pressure": 0,
+        "response": null,
+        "source": null
+      },
+      "nextCheckAtMs": 111325,
+      "observeAction": {
+        "active": false
+      },
+      "observeCount": 1,
+      "playbackDelayMs": null,
+      "rateMultiplier": 1,
+      "ready": true,
+      "repelledBy": null,
+      "replayWindow": {
+        "actionSamples": 0,
+        "samples": 150,
+        "selectedStartAction": false,
+        "selectedStartOffsetMs": 108,
+        "travelTiles": 5.214999999999995
+      },
+      "reviewMode": false,
+      "spawnCount": 1,
+      "state": "dormant",
+      "view": {
+        "alpha": 0,
+        "animationKey": null,
+        "displayHeight": 0,
+        "displayWidth": 0,
+        "fleeing": false,
+        "flipX": false,
+        "frameName": null,
+        "lightExposureProgress": 0,
+        "lightPressure": 0,
+        "lightReacting": false,
+        "lightSource": null,
+        "observing": false,
+        "phantomDig": {
+          "actionLatched": false,
+          "activeBlock": false,
+          "activeFxSprites": 0,
+          "authority": "visual-only",
+          "blockArtAvailable": null,
+          "blockArtSource": null,
+          "breakCount": 0,
+          "crackTextureKey": null,
+          "lastAttemptTileType": null,
+          "lastStartFailure": null,
+          "renderIndex": null,
+          "stageIndex": null,
+          "target": null,
+          "targetSource": null,
+          "textureKey": null
+        },
+        "recoilActive": false,
+        "renderMode": "solid-purple-silhouette",
+        "residue": {
+          "activeSprites": 0,
+          "lastStampAtMs": null,
+          "maximumSprites": 3
+        },
+        "textureKey": null,
+        "visible": false,
+        "visualIntensity": 1,
+        "worldX": 0,
+        "worldY": 0
+      },
+      "work": {
+        "animationReady": true,
+        "blocksMined": 1,
+        "frameChanges": 251,
+        "lastResult": "ordinary block mined",
+        "maximumBlocks": 3,
+        "target": null
+      }
+    },
+    "storage": {
+      "persistentReads": 0,
+      "persistentWrites": 0,
+      "reads": 0,
+      "removals": 0,
+      "writes": 0
+    },
+    "wurm": {
+      "active": true,
+      "activityMultiplier": 1,
+      "cooldownMs": 90000,
+      "devTest10x": false,
+      "difficulty": {
+        "bodyDamageRatio": 0.78,
+        "depthRatio": 0,
+        "depthTiles": 120,
+        "headDamageRatio": 0.96,
+        "minimumBodyDamageGp": 45,
+        "minimumHeadDamageGp": 60,
+        "passCount": 2,
+        "passIndex": 1,
+        "threatPercent": 25,
+        "travelMs": 1900,
+        "warningMs": 3600
+      },
+      "enabled": true,
+      "encounterCount": 1,
+      "encounterDepthTiles": 0,
+      "heartbeat": 1277,
+      "hitConsumed": false,
+      "hitCount": 0,
+      "huntHitCount": 0,
+      "noise": 0,
+      "noiseRatio": 0,
+      "offspring": [
+        {
+          "active": true,
+          "activityMultiplier": 1,
+          "cooldownMs": 90000,
+          "devTest10x": false,
+          "difficulty": {
+            "bodyDamageRatio": 0.78,
+            "depthRatio": 0,
+            "depthTiles": 120,
+            "headDamageRatio": 0.96,
+            "minimumBodyDamageGp": 45,
+            "minimumHeadDamageGp": 60,
+            "passCount": 2,
+            "passIndex": 1,
+            "threatPercent": 25,
+            "travelMs": 1900,
+            "warningMs": 3600
+          },
+          "enabled": true,
+          "encounterCount": 1,
+          "encounterDepthTiles": 0,
+          "heartbeat": 730,
+          "hitConsumed": false,
+          "hitCount": 0,
+          "huntHitCount": 0,
+          "noise": 0,
+          "noiseRatio": 0,
+          "offspring": [],
+          "passCount": 0,
+          "passIndex": 0,
+          "phase": "cooldown",
+          "progress": 0,
+          "targetTile": null,
+          "variant": {
+            "difficulty": "drifter",
+            "label": "Drifter",
+            "scale": 0.55,
+            "size": "tiny"
+          },
+          "warningRemainingMs": 0
+        },
+        {
+          "active": true,
+          "activityMultiplier": 1,
+          "cooldownMs": 90000,
+          "devTest10x": false,
+          "difficulty": {
+            "bodyDamageRatio": 0.78,
+            "depthRatio": 0,
+            "depthTiles": 120,
+            "headDamageRatio": 0.96,
+            "minimumBodyDamageGp": 45,
+            "minimumHeadDamageGp": 60,
+            "passCount": 2,
+            "passIndex": 1,
+            "threatPercent": 25,
+            "travelMs": 1900,
+            "warningMs": 3600
+          },
+          "enabled": true,
+          "encounterCount": 1,
+          "encounterDepthTiles": 0,
+          "heartbeat": 730,
+          "hitConsumed": false,
+          "hitCount": 0,
+          "huntHitCount": 0,
+          "noise": 0,
+          "noiseRatio": 0,
+          "offspring": [],
+          "passCount": 0,
+          "passIndex": 0,
+          "phase": "cooldown",
+          "progress": 0,
+          "targetTile": null,
+          "variant": {
+            "difficulty": "drifter",
+            "label": "Drifter",
+            "scale": 0.75,
+            "size": "small"
+          },
+          "warningRemainingMs": 0
+        }
+      ],
+      "passCount": 0,
+      "passIndex": 0,
+      "phase": "cooldown",
+      "progress": 0,
+      "targetTile": null,
+      "variant": {
+        "difficulty": "broodmother",
+        "label": "Broodmother",
+        "scale": 1,
+        "size": "medium"
+      },
+      "warningRemainingMs": 0
+    }
+  },
+  "fullGame": {
+    "hud": {
+      "artQuality": [
+        {
+          "bounds": {
+            "height": 51.846889952153106,
+            "width": 504,
+            "x": 388,
+            "y": 655
+          },
+          "frame": "integrated-xp",
+          "key": "ui-hud-approved-xp",
+          "label": null,
+          "logical": [
+            503.9999946951866,
+            51.84688940644264
+          ],
+          "pixelScale": [
+            0.3617224842309952,
+            0.3617224842309952
+          ],
+          "source": [
+            2090,
+            215
+          ]
+        },
+        {
+          "bounds": {
+            "height": 92,
+            "width": 335.8333333333333,
+            "x": 12,
+            "y": 14
+          },
+          "frame": "integrated-player",
+          "key": "ui-hud-approved-player-core-shell-v2",
+          "label": null,
+          "logical": [
+            335.8333433419466,
+            92.00000274181366
+          ],
+          "pixelScale": [
+            0.2500000074505806,
+            0.2500000074505806
+          ],
+          "source": [
+            2015,
+            552
+          ]
+        },
+        {
+          "bounds": {
+            "height": 22,
+            "width": 22,
+            "x": 315,
+            "y": 50
+          },
+          "frame": 29,
+          "key": "ui-icon-atlas-v1",
+          "label": null,
+          "logical": [
+            22.000000163912773,
+            22.000000163912773
+          ],
+          "pixelScale": [
+            0.15789473801851273,
+            0.15789473801851273
+          ],
+          "source": [
+            209,
+            209
+          ]
+        },
+        {
+          "bounds": {
+            "height": 56,
+            "width": 56,
+            "x": 26,
+            "y": 32
+          },
+          "frame": "__BASE",
+          "key": "ui-pickaxe-dragon-v1",
+          "label": null,
+          "logical": [
+            56,
+            56
+          ],
+          "pixelScale": [
+            0.328125,
+            0.328125
+          ],
+          "source": [
+            256,
+            256
+          ]
+        },
+        {
+          "bounds": {
+            "height": 38.60317460317458,
+            "width": 38.60317460317469,
+            "x": 1119.3968253968253,
+            "y": 656.3968253968253
+          },
+          "frame": "__BASE",
+          "key": "ui-celestial-talent-node-frame-v2",
+          "label": null,
+          "logical": [
+            38.60317611694336,
+            38.60317611694336
+          ],
+          "pixelScale": [
+            0.226190485060215,
+            0.226190485060215
+          ],
+          "source": [
+            256,
+            256
+          ]
+        },
+        {
+          "bounds": {
+            "height": 56.765625,
+            "width": 252,
+            "x": 391,
+            "y": 5869.84814453125
+          },
+          "frame": "__BASE",
+          "key": "ui-merchant-sign-bobo-v1",
+          "label": null,
+          "logical": [
+            252,
+            56.765625
+          ],
+          "pixelScale": [
+            0.4921875,
+            0.4921875
+          ],
+          "source": [
+            768,
+            173
+          ]
+        },
+        {
+          "bounds": {
+            "height": 22,
+            "width": 28,
+            "x": 503,
+            "y": 5929.61376953125
+          },
+          "frame": "__BASE",
+          "key": "ui-hud-approved-buff-chip",
+          "label": null,
+          "logical": [
+            28.000000208616257,
+            22.00000101327896
+          ],
+          "pixelScale": [
+            0.2456140369176865,
+            0.8461538851261139
+          ],
+          "source": [
+            171,
+            39
+          ]
+        },
+        {
+          "bounds": {
+            "height": 53.12063808574271,
+            "width": 296,
+            "x": 14,
+            "y": 651.1896809571286
+          },
+          "frame": "currency",
+          "key": "ui-celestial-currency-baked-v2",
+          "label": null,
+          "logical": [
+            296.0000102221966,
+            53.12063992023468
+          ],
+          "pixelScale": [
+            0.2213359996676445,
+            0.2213359996676445
+          ],
+          "source": [
+            2006,
+            360
+          ]
+        },
+        {
+          "bounds": {
+            "height": 94,
+            "width": 94,
+            "x": 1172,
+            "y": 613
+          },
+          "frame": "__BASE",
+          "key": "ui-hud-inventory-fullness-01",
+          "label": null,
+          "logical": [
+            94,
+            94
+          ],
+          "pixelScale": [
+            0.55078125,
+            0.55078125
+          ],
+          "source": [
+            256,
+            256
+          ]
+        },
+        {
+          "bounds": {
+            "height": 25,
+            "width": 25,
+            "x": 1233.5,
+            "y": 672.5
+          },
+          "frame": "__BASE",
+          "key": "ui-hud-approved-inventory-keycap-v1",
+          "label": null,
+          "logical": [
+            25,
+            25
+          ],
+          "pixelScale": [
+            0.29296875,
+            0.29296875
+          ],
+          "source": [
+            128,
+            128
+          ]
+        },
+        {
+          "bounds": {
+            "height": 30.326894502228825,
+            "width": 130,
+            "x": 1074,
+            "y": 17.836552748885588
+          },
+          "frame": "art",
+          "key": "ui-baked-menu-v1",
+          "label": null,
+          "logical": [
+            130.00000273436308,
+            30.326895140111446
+          ],
+          "pixelScale": [
+            0.09658246859908104,
+            0.09658246859908104
+          ],
+          "source": [
+            2019,
+            471
+          ]
+        },
+        {
+          "bounds": {
+            "height": 29.52103250478012,
+            "width": 146,
+            "x": 913,
+            "y": 18.239483747609945
+          },
+          "frame": "art",
+          "key": "ui-baked-world-map-v1",
+          "label": null,
+          "logical": [
+            146.00000607967377,
+            29.521033734083176
+          ],
+          "pixelScale": [
+            0.104684516787529,
+            0.104684516787529
+          ],
+          "source": [
+            2092,
+            423
+          ]
+        },
+        {
+          "bounds": {
+            "height": 19.973180076628353,
+            "width": 104,
+            "x": 797,
+            "y": 23.013409961685824
+          },
+          "frame": "art",
+          "key": "ui-baked-wiki-v1",
+          "label": null,
+          "logical": [
+            103.99999701976776,
+            19.97317950427532
+          ],
+          "pixelScale": [
+            0.07471264153718948,
+            0.07471264153718948
+          ],
+          "source": [
+            2088,
+            401
+          ]
+        },
+        {
+          "bounds": {
+            "height": 38,
+            "width": 49.72938689217767,
+            "x": 1216,
+            "y": 14
+          },
+          "frame": "music",
+          "key": "ui-baked-hud-details-v2",
+          "label": null,
+          "logical": [
+            49.72938880324364,
+            38.0000014603138
+          ],
+          "pixelScale": [
+            0.12050740420818327,
+            0.12050740420818327
+          ],
+          "source": [
+            619,
+            473
+          ]
+        },
+        {
+          "bounds": {
+            "height": 38,
+            "width": 49.80972515856229,
+            "x": 1216,
+            "y": 56
+          },
+          "frame": "sfx",
+          "key": "ui-baked-hud-details-v2",
+          "label": null,
+          "logical": [
+            49.80972707271576,
+            38.0000014603138
+          ],
+          "pixelScale": [
+            0.12050740420818327,
+            0.12050740420818327
+          ],
+          "source": [
+            620,
+            473
+          ]
+        },
+        {
+          "bounds": {
+            "height": 34,
+            "width": 140.25,
+            "x": 44.875,
+            "y": 483
+          },
+          "frame": "events",
+          "key": "ui-baked-utility-final-v2",
+          "label": null,
+          "logical": [
+            140.24999729543924,
+            33.99999934434891
+          ],
+          "pixelScale": [
+            0.1554878018796444,
+            0.1554878018796444
+          ],
+          "source": [
+            1353,
+            328
+          ]
+        }
+      ],
+      "bakedSprites": [
+        {
+          "frame": "__BASE",
+          "key": "ui-baked-campfire-v1",
+          "label": null,
+          "scaleX": 0.12708018154311648,
+          "scaleY": 0.12708018154311648,
+          "visible": false
+        },
+        {
+          "frame": "wayward-star-root-face",
+          "key": "ui-baked-celestial-talents-wayward-v2",
+          "label": null,
+          "scaleX": 0.17333333333333334,
+          "scaleY": 0.17333333333333334,
+          "visible": false
+        },
+        {
+          "frame": "hollow-sun-root-face",
+          "key": "ui-baked-celestial-talents-hollow-v2",
+          "label": null,
+          "scaleX": 0.17275747508305647,
+          "scaleY": 0.17275747508305647,
+          "visible": false
+        },
+        {
+          "frame": "comet-engine-root-face",
+          "key": "ui-baked-celestial-talents-lance-v2",
+          "label": null,
+          "scaleX": 0.16560509554140126,
+          "scaleY": 0.16560509554140126,
+          "visible": false
+        },
+        {
+          "frame": "currency",
+          "key": "ui-celestial-currency-baked-v2",
+          "label": null,
+          "scaleX": 0.14755732801595214,
+          "scaleY": 0.14755732801595214,
+          "visible": true
+        },
+        {
+          "frame": "art",
+          "key": "ui-baked-menu-v1",
+          "label": null,
+          "scaleX": 0.06438831104507181,
+          "scaleY": 0.06438831104507181,
+          "visible": true
+        },
+        {
+          "frame": "art",
+          "key": "ui-baked-world-map-v1",
+          "label": null,
+          "scaleX": 0.06978967495219886,
+          "scaleY": 0.06978967495219886,
+          "visible": true
+        },
+        {
+          "frame": "art",
+          "key": "ui-baked-wiki-v1",
+          "label": null,
+          "scaleX": 0.04980842911877394,
+          "scaleY": 0.04980842911877395,
+          "visible": true
+        },
+        {
+          "frame": "music",
+          "key": "ui-baked-hud-details-v2",
+          "label": null,
+          "scaleX": 0.080338266384778,
+          "scaleY": 0.080338266384778,
+          "visible": true
+        },
+        {
+          "frame": "sfx",
+          "key": "ui-baked-hud-details-v2",
+          "label": null,
+          "scaleX": 0.080338266384778,
+          "scaleY": 0.080338266384778,
+          "visible": true
+        },
+        {
+          "frame": "badge-5",
+          "key": "ui-baked-icon-badges-v2",
+          "label": null,
+          "scaleX": 0.1597444089456869,
+          "scaleY": 0.1597444089456869,
+          "visible": false
+        },
+        {
+          "frame": "label-27",
+          "key": "ui-baked-inventory-settings-v1",
+          "label": null,
+          "scaleX": 0.3469387755102041,
+          "scaleY": 0.3469387755102041,
+          "visible": false
+        },
+        {
+          "frame": "badge-0",
+          "key": "ui-baked-icon-badges-v2",
+          "label": null,
+          "scaleX": 0.14012738853503184,
+          "scaleY": 0.14012738853503184,
+          "visible": false
+        },
+        {
+          "frame": "events",
+          "key": "ui-baked-utility-final-v2",
+          "label": null,
+          "scaleX": 0.10365853658536583,
+          "scaleY": 0.10365853658536583,
+          "visible": true
+        }
+      ],
+      "celestialQuality": {
+        "description": null,
+        "starArt": [],
+        "talents": []
+      },
+      "density": 1.5,
+      "enabled": true,
+      "errors": [],
+      "failure": null,
+      "hudQuality": {
+        "currency": {
+          "bakedIcons": true,
+          "destroyed": false,
+          "money": "987,654,321,012",
+          "ready": true,
+          "stars": "999,999,999",
+          "visible": true
+        },
+        "levelUp": {
+          "active": true,
+          "bakedIcon": true,
+          "level": null,
+          "panicResistanceMeters": 0,
+          "talentPointsGain": 0,
+          "textureKey": "ui-hud-level-up-shell-v2",
+          "visible": false
+        },
+        "liveValues": [
+          {
+            "height": 15.65217391304348,
+            "scaleX": 0.6260869565217392,
+            "scaleY": 0.6260869565217392,
+            "text": "987,654,321,012",
+            "width": 72
+          },
+          {
+            "height": 20,
+            "scaleX": 0.8,
+            "scaleY": 0.8,
+            "text": "999,999,999",
+            "width": 72
+          },
+          {
+            "height": 16,
+            "scaleX": 1,
+            "scaleY": 1,
+            "text": "999",
+            "width": 21
+          },
+          {
+            "height": 11.276190476190475,
+            "scaleX": 0.7047619047619048,
+            "scaleY": 0.7047619047619048,
+            "text": "500.000 / 1.000.000",
+            "width": 74
+          },
+          {
+            "height": 15,
+            "scaleX": 1,
+            "scaleY": 1,
+            "text": "110 / 110",
+            "width": 37
+          },
+          {
+            "height": 16,
+            "scaleX": 1,
+            "scaleY": 1,
+            "text": "0 m",
+            "width": 22
+          }
+        ],
+        "pickaxe": {
+          "badgeVisible": true,
+          "enabled": true,
+          "label": "DRAGON VII",
+          "overlayVisible": true,
+          "pickaxeId": "dragonPickaxe",
+          "ready": true,
+          "themed": true
+        },
+        "xp": {
+          "bakedFrame": "integrated-xp",
+          "barWidth": 234,
+          "percent": 0.5,
+          "segmentWidth": 21.6
+        }
+      },
+      "inventory": {
+        "open": false,
+        "rarity": 0,
+        "selected": -1,
+        "tab": 0
+      },
+      "labelCount": 136,
+      "phase": "playing",
+      "savesBlocked": true,
+      "talents": null,
+      "viewport": {
+        "height": 720,
+        "width": 1280
+      },
+      "visibleText": [
+        "SAFE RETURN  •  ~3 tiles",
+        "⚠  Gem Power critical zone — returning is very difficult",
+        "✦  Sky Island  ✦",
+        "",
+        "",
+        "SESSION  •  Mine 35 blocks  0/35",
+        "CARGO VALUE  0 M",
+        "999",
+        "500.000 / 1.000.000",
+        "0 m",
+        "TORCH",
+        "100%",
+        "OFF",
+        "DRAGON VII",
+        "110 / 110",
+        "E",
+        "6",
+        "1",
+        "16",
+        "987,654,321,012",
+        "999,999,999",
+        "I",
+        "Esc",
+        "M",
+        "All encounter controllers are responding\nSHADOW · BLOCKED",
+        "SHADOWMINER",
+        "BLOCKED · 0/0\nBelow minimum depth",
+        "GRAVEBORER WURM",
+        "BLOCKED · 0/0\nHardcore is not armed",
+        "EARTHQUAKE",
+        "WAITING · 0/0\n43s · first",
+        "Size: Mature",
+        "Behaviour: Broodmother",
+        "Cancel encounter",
+        "Open sandbox"
+      ],
+      "worldMapOpen": false
+    },
+    "pause": {
+      "errors": [],
+      "failure": null,
+      "phase": "paused",
+      "text": [
+        "SAFE RETURN  •  ~3 tiles",
+        "⚠  Gem Power critical zone — returning is very difficult",
+        "✦  Sky Island  ✦",
+        "",
+        "",
+        "999",
+        "500.000 / 1.000.000",
+        "0 m",
+        "TORCH",
+        "100%",
+        "OFF",
+        "DRAGON VII",
+        "110 / 110",
+        "6",
+        "1",
+        "16",
+        "987,654,321,012",
+        "999,999,999",
+        "I",
+        "Esc",
+        "M",
+        "Manage this run, your saves, and settings",
+        "Esc / ESC",
+        "0m",
+        "1",
+        "0 M",
+        "110 / 110",
+        "0",
+        "0",
+        "0 / 25",
+        "NONE ACTIVE",
+        "Tab: next control  •  Ctrl+Tab: section  •  Arrows: move / adjust  •  Enter: select  •  Esc: resume"
+      ]
+    },
+    "settings": {
+      "errors": [],
+      "failure": null,
+      "phase": "paused",
+      "text": [
+        "SAFE RETURN  •  ~3 tiles",
+        "⚠  Gem Power critical zone — returning is very difficult",
+        "✦  Sky Island  ✦",
+        "",
+        "",
+        "999",
+        "500.000 / 1.000.000",
+        "0 m",
+        "TORCH",
+        "100%",
+        "OFF",
+        "DRAGON VII",
+        "110 / 110",
+        "6",
+        "1",
+        "16",
+        "987,654,321,012",
+        "999,999,999",
+        "I",
+        "Esc",
+        "M",
+        "Manage this run, your saves, and settings",
+        "90%",
+        "40%",
+        "90%",
+        "80%",
+        "Audio changes save instantly.",
+        "Tab: next control  •  Ctrl+Tab: section  •  Arrows: move / adjust  •  Enter: select  •  Esc: resume"
+      ]
+    },
+    "codex": {
+      "errors": [],
+      "failure": null,
+      "inventory": {
+        "open": true,
+        "rarity": 0,
+        "selected": 0,
+        "tab": 2
+      },
+      "text": [
+        "SAFE RETURN  •  ~3 tiles",
+        "⚠  Gem Power critical zone — returning is very difficult",
+        "✦  Sky Island  ✦",
+        "",
+        "",
+        "SESSION  •  Mine 35 blocks  0/35",
+        "CARGO VALUE  0 M",
+        "999",
+        "500.000 / 1.000.000",
+        "0 m",
+        "TORCH",
+        "100%",
+        "OFF",
+        "DRAGON VII",
+        "110 / 110",
+        "6",
+        "1",
+        "16",
+        "987,654,321,012",
+        "999,999,999",
+        "I",
+        "Esc",
+        "M",
+        "14 / 250",
+        "15",
+        "14 / 60",
+        "0 / 50",
+        "0 / 50",
+        "0 / 40",
+        "0 / 30",
+        "0 / 20",
+        "14 / 60 FOUND  •  PAGE 1 / 2",
+        "GLACIER BLUE\n×2",
+        "CLOUD CYAN",
+        "MOONWHITE",
+        "SEAFOAM",
+        "SKYGLASS",
+        "FROST LILAC",
+        "DAWN PEACH",
+        "MINT WHISPER",
+        "ROSE MIST",
+        "SOFT AMBER",
+        "PERIWINKLE",
+        "SILVER RAIN",
+        "COMMON\n×2",
+        "GLACIER BLUE",
+        "ICE BLUE",
+        "001",
+        "A quiet shard of winter sky that sheds snow-bright dust.",
+        "SNOW-DUST HALO",
+        "+8",
+        "500x",
+        "+12",
+        "I / ESC"
+      ]
+    },
+    "talents": {
+      "errors": [],
+      "failure": null,
+      "talents": {
+        "health": {
+          "bakedNodeFaces": 36,
+          "connectorCount": 57,
+          "connectorStates": {
+            "locked": 54,
+            "owned": 0,
+            "ready": 0,
+            "selected": 3
+          },
+          "missingTextureKeys": [],
+          "nodeCount": 36,
+          "ready": true,
+          "selectedIndex": 0,
+          "tooltipNodeId": "wayward-star-root",
+          "tooltipVisible": true,
+          "visible": true
+        },
+        "legacySubtitle": false,
+        "legacyTitle": false,
+        "level": "1",
+        "open": true,
+        "points": "0",
+        "stars": "300"
+      },
+      "text": [
+        "SAFE RETURN  •  ~3 tiles",
+        "⚠  Gem Power critical zone — returning is very difficult",
+        "✦  Sky Island  ✦",
+        "",
+        "",
+        "999",
+        "500.000 / 1.000.000",
+        "0 m",
+        "TORCH",
+        "100%",
+        "OFF",
+        "DRAGON VII",
+        "110 / 110",
+        "6",
+        "1",
+        "16",
+        "987,654,321,012",
+        "999,999,999",
+        "I",
+        "Esc",
+        "M",
+        "Tab: next control  •  Ctrl+Tab: section  •  Arrows: move / adjust  •  Enter: select  •  Esc: resume",
+        "1",
+        "0",
+        "300",
+        "3",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "3",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "3",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "0/3",
+        "0/3",
+        "1"
+      ]
+    },
+    "campfire": {
+      "errors": [],
+      "failure": null,
+      "text": [
+        "SAFE RETURN  •  ~3 tiles",
+        "⚠  Gem Power critical zone — returning is very difficult",
+        "✦  Sky Island  ✦",
+        "",
+        "",
+        "999",
+        "500.000 / 1.000.000",
+        "0 m",
+        "TORCH",
+        "100%",
+        "OFF",
+        "DRAGON VII",
+        "110 / 110",
+        "6",
+        "1",
+        "16",
+        "987,654,321,012",
+        "999,999,999",
+        "I",
+        "Esc",
+        "M",
+        "CAMPFIRE RITUAL",
+        "Tier 1  |  60 seconds  |  EMBER CHARGES 1  |  W/S select  |  E activate",
+        "Warmth",
+        "+5% mining speed",
+        "Inspiration",
+        "+10% xp gain",
+        "WARMTH",
+        "+Mining Speed",
+        "Uses one Ember Charge. The blessing starts now and stays on the HUD until it ends. Town or Campfire restores at least 1 use. Find Ember Ore underground in rare cave-wall seams to upgrade this refill to 2 uses.",
+        "+5% MINING SPEED",
+        "DURATION  60 SECONDS",
+        "UPGRADE TO TIER 2  -  250 M",
+        "NEED 250 GOLD",
+        "IGNITE WARMTH  -  1 EMBER CHARGE",
+        "E"
+      ]
+    },
+    "merchant": {
+      "errors": [],
+      "failure": null,
+      "text": [
+        "SAFE RETURN  •  ~3 tiles",
+        "⚠  Gem Power critical zone — returning is very difficult",
+        "✦  Sky Island  ✦",
+        "",
+        "",
+        "999",
+        "500.000 / 1.000.000",
+        "0 m",
+        "TORCH",
+        "100%",
+        "OFF",
+        "DRAGON VII",
+        "110 / 110",
+        "6",
+        "1",
+        "16",
+        "987,654,321,012",
+        "999,999,999",
+        "I",
+        "Esc",
+        "M",
+        "TRAINING HALL",
+        "Combat Trainer  |  Choose a skill to see its next improvement.",
+        "PREVIEW",
+        "Agility Training",
+        "LEVEL 0 / 20",
+        "",
+        "Strength",
+        "LEVEL 0 / 10",
+        "",
+        "Quick Reflexes",
+        "LEVEL 0 / 10",
+        "",
+        "Heavy Punch",
+        "LEVEL 0 / 20",
+        "",
+        "Seismic Suppression",
+        "ONE-TIME PURCHASE",
+        "",
+        "PAGE 1 / 1",
+        "Agility Training",
+        "PLAYERSTATS",
+        "Move faster on the ground.",
+        "CURRENT LEVEL",
+        "0",
+        "NEXT  >  1",
+        "Money  0 M / 18 M",
+        "BUY UPGRADE  -  18 M",
+        "E",
+        "WALLET  0 M",
+        "Click: select  •  W/S or arrows: move  •  PgUp/PgDn: page  •  A/D or Tab: switch  •  E/Enter: choose  •  Esc: close"
+      ]
+    },
+    "worldMap": {
+      "errors": [],
+      "failure": null,
+      "open": true,
+      "text": [
+        "SAFE RETURN  •  ~3 tiles",
+        "⚠  Gem Power critical zone — returning is very difficult",
+        "✦  Sky Island  ✦",
+        "",
+        "",
+        "999",
+        "500.000 / 1.000.000",
+        "0 m",
+        "TORCH",
+        "100%",
+        "OFF",
+        "DRAGON VII",
+        "110 / 110",
+        "6",
+        "1",
+        "16",
+        "987,654,321,012",
+        "999,999,999",
+        "I",
+        "Esc",
+        "M",
+        "Town Square\nMilestone Pillar & merchants",
+        "X",
+        "DISCOVERED\n0%",
+        "YOUR LOCATION\nDEPTH 0m / 5000m\nSURFACE • NO STAR NEARBY\nKNOWN STAR LINKS 1 • 0 LOST\nZOOM 16.0x • KNOWN SIGNALS 2",
+        "0m",
+        "1250m",
+        "2500m",
+        "3750m",
+        "5000m",
+        "+",
+        "-",
+        "16x",
+        "LANDMARKS  1  ON",
+        "PORTALS  0  ON",
+        "TITANS  0  ON",
+        "STAR TERRITORIES  1  ON"
+      ]
+    },
+    "codexFinal": {
+      "errors": [],
+      "failure": null,
+      "inventory": {
+        "open": true,
+        "rarity": 0,
+        "selected": 0,
+        "tab": 2
+      },
+      "text": [
+        "SAFE RETURN  •  ~3 tiles",
+        "⚠  Gem Power critical zone — returning is very difficult",
+        "✦  Sky Island  ✦",
+        "",
+        "",
+        "SESSION  •  Mine 35 blocks  0/35",
+        "CARGO VALUE  0 M",
+        "1",
+        "0 / 2.417",
+        "0 m",
+        "TORCH",
+        "100%",
+        "OFF",
+        "STARTER",
+        "110 / 110",
+        "6",
+        "1",
+        "16",
+        "0",
+        "300",
+        "I",
+        "Esc",
+        "M",
+        "14 / 250",
+        "15",
+        "14 / 60",
+        "0 / 50",
+        "0 / 50",
+        "0 / 40",
+        "0 / 30",
+        "0 / 20",
+        "14 / 60",
+        "1 / 2",
+        "GLACIER BLUE\n×2",
+        "CLOUD CYAN",
+        "MOONWHITE",
+        "SEAFOAM",
+        "SKYGLASS",
+        "FROST LILAC",
+        "DAWN PEACH",
+        "MINT WHISPER",
+        "ROSE MIST",
+        "SOFT AMBER",
+        "PERIWINKLE",
+        "SILVER RAIN",
+        "COMMON\n×2",
+        "GLACIER BLUE",
+        "ICE BLUE",
+        "001",
+        "A quiet shard of winter sky that sheds snow-bright dust.",
+        "SNOW-DUST HALO",
+        "+8",
+        "500x",
+        "+12",
+        "I / ESC"
+      ]
+    },
+    "codexPageTwo": {
+      "errors": [],
+      "failure": null,
+      "inventory": {
+        "open": true,
+        "rarity": 0,
+        "selected": 50,
+        "tab": 2
+      },
+      "text": [
+        "SAFE RETURN  •  ~3 tiles",
+        "⚠  Gem Power critical zone — returning is very difficult",
+        "✦  Sky Island  ✦",
+        "",
+        "",
+        "SESSION  •  Mine 35 blocks  0/35",
+        "CARGO VALUE  0 M",
+        "1",
+        "0 / 2.417",
+        "0 m",
+        "TORCH",
+        "100%",
+        "OFF",
+        "STARTER",
+        "110 / 110",
+        "6",
+        "1",
+        "16",
+        "0",
+        "300",
+        "I",
+        "Esc",
+        "M",
+        "14 / 250",
+        "15",
+        "14 / 60",
+        "0 / 50",
+        "0 / 50",
+        "0 / 40",
+        "0 / 30",
+        "0 / 20",
+        "14 / 60",
+        "2 / 2",
+        "WHISPERED CRIMSON HALO",
+        "WHISPERED VERMILION MIST",
+        "COMMON\n×1",
+        "WHISPERED CRIMSON HALO",
+        "WHISPERED CRIMSON",
+        "051",
+        "A quiet halo of whispered crimson light settles around a patient crystal heart.",
+        "WHISPERED CRIMSON MEASURED HALO",
+        "+8",
+        "500x",
+        "+12",
+        "I / ESC"
+      ]
+    },
+    "talentsFinal": {
+      "errors": [],
+      "failure": null,
+      "talents": {
+        "health": {
+          "bakedNodeFaces": 36,
+          "connectorCount": 57,
+          "connectorStates": {
+            "locked": 54,
+            "owned": 0,
+            "ready": 0,
+            "selected": 3
+          },
+          "missingTextureKeys": [],
+          "nodeCount": 36,
+          "ready": true,
+          "selectedIndex": 0,
+          "tooltipNodeId": "wayward-star-root",
+          "tooltipVisible": true,
+          "visible": true
+        },
+        "legacySubtitle": false,
+        "legacyTitle": false,
+        "level": "1",
+        "open": true,
+        "points": "0",
+        "stars": "300"
+      },
+      "text": [
+        "SAFE RETURN  •  ~3 tiles",
+        "⚠  Gem Power critical zone — returning is very difficult",
+        "✦  Sky Island  ✦",
+        "",
+        "",
+        "1",
+        "0 / 2.417",
+        "0 m",
+        "TORCH",
+        "100%",
+        "OFF",
+        "STARTER",
+        "110 / 110",
+        "6",
+        "1",
+        "16",
+        "0",
+        "300",
+        "I",
+        "Esc",
+        "M",
+        "Tab: next control  •  Ctrl+Tab: section  •  Arrows: move / adjust  •  Enter: select  •  Esc: resume",
+        "1",
+        "0",
+        "300",
+        "3",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "3",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "3",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "0/3",
+        "0/3",
+        "1"
+      ]
+    }
+  },
+  "labLayout": {
+    "overflowing": [],
+    "pageOverflow": false,
+    "viewport": {
+      "height": 720,
+      "width": 1280
+    }
+  }
+}

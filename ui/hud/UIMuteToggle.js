@@ -2,6 +2,7 @@ import { USER_SETTINGS } from "../../systems/UserSettings.js";
 import { APPROVED_HUD_SKIN } from "../../values/approvedHudSkin.js";
 import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { hasApprovedHudSkin } from "../../systems/visual/ApprovedHudSkin.js";
+import { getBakedHudDetail, fitBakedUiImage } from "../../systems/visual/bakedUiArt.js";
 
 // ─── Generated button texture keys ────────────────────────────────────────
 export const MUTE_BTN_TEXTURES = Object.freeze({
@@ -193,22 +194,28 @@ export class UIMuteToggle {
     this.container = this.scene.add.container(this.x, this.y);
     this.container.setScrollFactor(0);
     this.container.setDepth(2000);
+    const musicArt = this.approved && getBakedHudDetail(this.scene,"music");
+    const sfxArt = this.approved && getBakedHudDetail(this.scene,"sfx");
 
     // --- Music button (left) — generated in-engine texture ---
     this._musicImg = this.scene.add.image(
       -buttonWidth / 2,
       -buttonHeight / 2,
-      this.approved ? ASSET_KEYS.ui.approvedHud.audioMusic : MUTE_BTN_TEXTURES.musicOn,
+      musicArt ? musicArt.key : this.approved ? ASSET_KEYS.ui.approvedHud.audioMusic : MUTE_BTN_TEXTURES.musicOn,
+      musicArt ? musicArt.frame : undefined,
     ).setOrigin(0, 0).setDisplaySize(buttonWidth, buttonHeight);
     this.container.add(this._musicImg);
+    fitBakedUiImage(this._musicImg,buttonWidth,buttonHeight);
 
     // --- SFX button (right) — generated in-engine texture ---
     this._sfxImg = this.scene.add.image(
       -buttonWidth / 2,
       buttonHeight / 2 + buttonGap,
-      this.approved ? ASSET_KEYS.ui.approvedHud.audioSfx : MUTE_BTN_TEXTURES.sfxOn,
+      sfxArt ? sfxArt.key : this.approved ? ASSET_KEYS.ui.approvedHud.audioSfx : MUTE_BTN_TEXTURES.sfxOn,
+      sfxArt ? sfxArt.frame : undefined,
     ).setOrigin(0, 0).setDisplaySize(buttonWidth, buttonHeight);
     this.container.add(this._sfxImg);
+    fitBakedUiImage(this._sfxImg,buttonWidth,buttonHeight);
 
     // --- Interactivity (hit zones) ---
     this._musicHit = this.scene.add.rectangle(0, 0, buttonWidth, buttonHeight, 0x000000, 0)

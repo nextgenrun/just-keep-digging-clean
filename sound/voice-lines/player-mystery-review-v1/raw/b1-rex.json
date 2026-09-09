@@ -1,0 +1,10 @@
+{
+  "id": "B1",
+  "voice": "rex",
+  "text": "I remember that light.",
+  "model": "x-ai/grok-voice-tts-1.0",
+  "requestSha256": "2c644b2e2f1796efc8d60629665aad0a717a04707baef63285c6549a19bff143",
+  "contentType": "audio/mpeg",
+  "generationId": "gen-tts-1788736865-Oz3MbhM97TVGP621WYZH",
+  "rawSha256": "d95e8a9bae9f591fce630b5dc32f88caa059aad72fa0fafcc357bde1df6c40c8"
+}

@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>UNDERSTAR · Eight hours above ground</title>
+<style>
+:root{color-scheme:dark;font-family:system-ui,sans-serif;background:#080e16;color:#e4e7ed}
+body{max-width:1380px;margin:0 auto;padding:44px 28px}h1{font:400 clamp(32px,4vw,52px) Georgia,serif;margin:10px 0 16px}
+.eyebrow{letter-spacing:.19em;font-size:11px;color:#c6a36d}p{color:#aebccc;line-height:1.6;max-width:860px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;margin:30px 0}
+article{border-top:1px solid #6b583c;padding-top:12px}h2{font:24px Georgia,serif;margin:10px 0 16px}article p{font-size:14px}
+video{display:block;width:100%;background:#000;aspect-ratio:16/9;border-radius:4px}a{color:#d9ba87}small{color:#91a3b7}
+footer{border-top:1px solid #263240;padding-top:16px;margin-top:30px;font-size:13px}
+@media(max-width:900px){.grid{grid-template-columns:1fr}body{padding:28px 20px}}
+</style>
+<body>
+<div class="eyebrow">UNDERSTAR · TOWN BED</div>
+<h1>Eight hours pass above ground.</h1>
+<p>Heavy eyelids close. A sharp view of the mountains and Worldroot reveals the sky and weather moving through eight hours, then the eyes reopen into the changed world.</p>
+<small>Two complete rests recorded from the running game, including its audio. Play with sound.</small>
+<div class="grid">
+<article><h2>01 · Day into dusk</h2>
+<video controls playsinline preload="metadata" poster="cycle-1-outdoor-start.png?v=eight-hours" src="sleep-and-wake-1.webm?v=eight-hours"></video>
+<p>Doze off, watch the day slip toward dusk, then wake with a fresh rhythm.</p></article>
+<article><h2>02 · Dusk into night</h2>
+<video controls playsinline preload="metadata" poster="cycle-2-outdoor-middle.png?v=eight-hours" src="sleep-and-wake-2.webm?v=eight-hours"></video>
+<p>The next rest carries the world through night and uses a different awakening.</p></article>
+</div>
+<p>The outdoor time-lapse stays fully sharp and unobscured for the eight-hour advance. Each rest adds exactly eight game hours from its starting time. Optional blur and small timing shifts belong to the dozing and waking moments. Tap or press a key to ease through awakening.</p>
+<footer><a href="../2026-09-07-session-awakening-qa/preview.html">All three entry variants</a> · <a href="evidence.json">Gameplay checks</a> · <a href="../../markdown/2026-09-07-session-awakening.md">Implementation notes</a></footer>
+<script>document.querySelectorAll('video').forEach(video=>video.addEventListener('play',()=>document.querySelectorAll('video').forEach(other=>{if(other!==video)other.pause()})))</script>
+</body></html>

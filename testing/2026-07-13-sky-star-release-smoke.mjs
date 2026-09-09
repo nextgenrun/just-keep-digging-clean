@@ -1,6 +1,8 @@
 import assert from "node:assert/strict";
 import { FloatingTextSystem } from "../systems/visual/FloatingTextSystem.js";
 import { STAR_CONSTELLATION_CONFIG } from "../values/starConstellations.js";
+import { STAR_IDENTITY_LIBRARY_CONFIG } from "../values/starIdentityLibrary.js";
+import { getStarIdentitiesForRarity } from "../values/starIdentityLibraryMath.js";
 
 const storedValues = new Map();
 globalThis.localStorage = {
@@ -28,13 +30,22 @@ function createSceneHarness() {
   const images = [];
   const tweens = [];
   const saveRequests = [];
+  const textureFrames = new Map();
+  const getTexture = key => {
+    if (!textureFrames.has(key)) textureFrames.set(key, new Set());
+    const frames = textureFrames.get(key);
+    return {
+      has: frame => frames.has(frame),
+      add: frame => frames.add(frame),
+    };
+  };
 
   const scene = {
     config: {},
     queueDugTilesSave(reason) { saveRequests.push(reason); },
-    textures: { exists: () => true },
+    textures: { exists: () => true, get: getTexture },
     add: {
-      image(x, y, textureKey) {
+      image(x, y, textureKey, textureFrame) {
         const image = {
           active: true,
           x,
@@ -44,6 +55,7 @@ function createSceneHarness() {
           scaleX: 1,
           scaleY: 1,
           textureKey,
+          textureFrame: textureFrame ?? null,
           setDepth() { return this; },
           setDisplaySize(width, height) {
             this.displayWidth = width;
@@ -80,6 +92,8 @@ function createSceneHarness() {
 
 const { scene, images, tweens, saveRequests } = createSceneHarness();
 const system = new FloatingTextSystem(scene, 1);
+let pickupDescriptor = null;
+system.setCollectedSkyStarPickupCallback(detail => { pickupDescriptor = detail; });
 system.releaseCollectedSkyStar(0, 500, 700, "dirt");
 
 assert.deepEqual(
@@ -97,18 +111,24 @@ assert.equal(storedValues.has("dig-game-star-counts-slot-1"), false);
 assert.equal(system._townStars.length, 0, "a collected star must not enter the persistent world pool");
 assert.equal(
   images.length,
-  3 + STAR_CONSTELLATION_CONFIG.collectedStarReleaseFx.echoCount,
-  "the release should use one core, one authored fracture, one authored pulse, and bounded image echoes"
+  4 + STAR_CONSTELLATION_CONFIG.collectedStarReleaseFx.echoCount,
+  "the release should use core/light, fracture, pulse, and bounded image echoes"
 );
-assert.equal(system.activeFloatingTexts.length, 1);
+assert.equal(system.activeFloatingTexts.length, 0, "Star actors must not consume the text cap");
+assert.equal(system._activeSkyStarReleaseViews.size, 1);
 
 const releaseFx = STAR_CONSTELLATION_CONFIG.collectedStarReleaseFx;
 const releasedStar = images[0];
 const sourceFracture = images[1];
 const sourcePulse = images[2];
-const echoes = images.slice(3);
+const echoes = images.slice(3, 3 + releaseFx.echoCount);
+const identityLight = images.at(-1);
+const expectedIdentity = getStarIdentitiesForRarity(0)[0];
 assert.equal(releaseFx.artSource, "ImageGen");
-assert.equal(releasedStar.textureKey, releaseFx.coreAssets[0].key);
+assert.equal(releasedStar.textureKey, STAR_IDENTITY_LIBRARY_CONFIG.atlases[0].key);
+assert.equal(releasedStar.textureFrame, expectedIdentity.frameName);
+assert.equal(identityLight.textureKey, STAR_IDENTITY_LIBRARY_CONFIG.lightAtlases[0].key);
+assert.equal(identityLight.textureFrame, expectedIdentity.lightFrameName);
 assert.equal(releaseFx.startScale, 0.9);
 assert.equal(releaseFx.flashScale, 1);
 assert.equal(releasedStar.displayWidth, releaseFx.tileDisplaySizePx);
@@ -122,7 +142,8 @@ assert.equal(
 );
 assert.equal(sourceFracture.textureKey, releaseFx.fractureAssets[0].key);
 assert.equal(sourcePulse.textureKey, "star-block-pulse-cyan-v1");
-assert.ok(echoes.every(image => image.textureKey === releaseFx.coreAssets[0].key));
+assert.ok(echoes.every(image => image.textureKey === releasedStar.textureKey));
+assert.ok(echoes.every(image => image.textureFrame === releasedStar.textureFrame));
 assert.ok(images.every(image => !Object.hasOwn(image, "tint")));
 
 const motionTween = tweens.find((config) =>
@@ -191,6 +212,10 @@ assert.ok(
 );
 
 flashInTween.onComplete();
+assert.equal(pickupDescriptor.textureKey, releasedStar.textureKey);
+assert.equal(pickupDescriptor.textureFrame, releasedStar.textureFrame);
+assert.equal(pickupDescriptor.lightTextureKey, identityLight.textureKey);
+assert.equal(pickupDescriptor.lightTextureFrame, identityLight.textureFrame);
 const growthTween = tweens.find((config) =>
   config.targets === releasedStar
     && config.scaleX === releaseFx.peakScale
@@ -221,5 +246,15 @@ const restoredHarness = createSceneHarness();
 const restoredSystem = new FloatingTextSystem(restoredHarness.scene, 1);
 restoredSystem.ensureConstellationsLoaded();
 assert.equal(restoredHarness.images.length, 0, "loading saved progress must remain UI-only");
+
+const cappedHarness = createSceneHarness();
+const cappedSystem = new FloatingTextSystem(cappedHarness.scene, 2);
+for (let index = 0; index < releaseFx.maxActiveReleases + 2; index += 1) {
+  cappedSystem.releaseCollectedSkyStar(0, 500 + index, 700, "dirt");
+}
+assert.equal(cappedSystem._activeSkyStarReleaseViews.size, releaseFx.maxActiveReleases);
+assert.equal(cappedSystem.activeFloatingTexts.length, 0);
+cappedSystem.destroy();
+assert.equal(cappedSystem._activeSkyStarReleaseViews.size, 0);
 
 console.log("sky star release smoke: PASS");

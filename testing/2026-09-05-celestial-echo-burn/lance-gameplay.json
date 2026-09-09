@@ -1,0 +1,344 @@
+{
+  "celestial": {
+    "activation": {
+      "activationId": "god:comet-engine:639088:4",
+      "active": true,
+      "ageMs": 1001,
+      "bounces": 0,
+      "contactPresentation": {
+        "count": 2,
+        "lastContact": {
+          "colour": "violet",
+          "x": 158.75390625,
+          "y": 6392
+        }
+      },
+      "earnedLifetimeMs": 0,
+      "empowered": true,
+      "engineId": "comet-engine",
+      "finalWindow": false,
+      "impactMomentCount": 2,
+      "impacts": 5,
+      "lastConsumedBreakCharge": 0,
+      "lastProjectilePalette": "blue",
+      "launchFlashCount": 0,
+      "launchHistory": [
+        {
+          "contactEvent": {
+            "actionId": 1,
+            "animationKey": "survival-ual-player-v1-dig-down-ground-strike-anim",
+            "contactCount": 1,
+            "contactFrame": 18,
+            "contactIndex": 0,
+            "contactSequenceIndex": 14,
+            "trigger": "animationupdate"
+          },
+          "contactPose": {
+            "animationKey": "survival-ual-player-v1-dig-down-ground-strike-anim",
+            "contactFrame": 18,
+            "flipX": false,
+            "sheet": "survival-ual-player-v1-ground-strike-sheet",
+            "visibleFrame": 18
+          },
+          "origin": {
+            "x": 158.75390625,
+            "y": 6285.84589784
+          },
+          "originSource": "authored-hand-foot",
+          "palette": "blue",
+          "releaseFrame": 37620,
+          "releasedAtMs": 639555,
+          "shot": 1
+        }
+      ],
+      "lifetimeMs": 15000,
+      "liveProjectileCount": 1,
+      "liveVfxCount": 17,
+      "liveWakes": 7,
+      "maxBounces": 0,
+      "maxImpacts": 0,
+      "maxRedirects": 0,
+      "nextShot": 2,
+      "paletteHistory": [
+        "blue"
+      ],
+      "playerVisualCount": 0,
+      "projectileDamageMultiplier": 0.75,
+      "projectileDestroyed": 5,
+      "projectileEnabled": true,
+      "projectileImpacts": 5,
+      "projectileInfiniteRange": false,
+      "projectileMaximumDamageMultiplier": 0.75,
+      "projectilePaletteCycle": [
+        "blue",
+        "purple",
+        "red",
+        "prismatic"
+      ],
+      "projectilePassesGeodeWalls": true,
+      "projectileRangeTiles": 5,
+      "projectileSafetyMaxTiles": 8,
+      "projectileSideLanes": 0,
+      "projectileSpeedPxPerSecond": 225,
+      "projectileStateCount": 3,
+      "projectileStates": [
+        {
+          "alpha": 0.94,
+          "damageMultiplier": 1,
+          "displayScale": 0.9,
+          "id": "violet-edge",
+          "impactTint": 14795519,
+          "label": "VIOLET EDGE",
+          "minimumDistanceTiles": 1,
+          "tint": 12619007
+        },
+        {
+          "alpha": 0.95,
+          "damageMultiplier": 1,
+          "displayScale": 1,
+          "id": "amethyst-surge",
+          "impactTint": 14198783,
+          "label": "AMETHYST SURGE",
+          "minimumDistanceTiles": 3,
+          "tint": 11032055
+        },
+        {
+          "alpha": 1,
+          "damageMultiplier": 1,
+          "displayScale": 1.1,
+          "id": "voidpiercer",
+          "impactTint": 15918591,
+          "label": "VOIDPIERCER",
+          "minimumDistanceTiles": 5,
+          "tint": 8141549
+        }
+      ],
+      "redirects": 0,
+      "remainingMs": 13999,
+      "resonantReady": false,
+      "scheduledImpactCount": 5,
+      "shotsFired": 1,
+      "stateBurstCount": 0,
+      "storedBreakCharge": 0,
+      "uniqueTargets": 0,
+      "wakeCount": 7
+    },
+    "activeCount": 1,
+    "empower": {
+      "activationId": "god:comet-engine:639088:4",
+      "active": true,
+      "ageMs": 1001,
+      "bounces": 0,
+      "contactPresentation": {
+        "count": 2,
+        "lastContact": {
+          "colour": "violet",
+          "x": 158.75390625,
+          "y": 6392
+        }
+      },
+      "earnedLifetimeMs": 0,
+      "empowered": true,
+      "engineId": "comet-engine",
+      "finalWindow": false,
+      "impactMomentCount": 2,
+      "impacts": 5,
+      "lastConsumedBreakCharge": 0,
+      "lastProjectilePalette": "blue",
+      "launchFlashCount": 0,
+      "launchHistory": [
+        {
+          "contactEvent": {
+            "actionId": 1,
+            "animationKey": "survival-ual-player-v1-dig-down-ground-strike-anim",
+            "contactCount": 1,
+            "contactFrame": 18,
+            "contactIndex": 0,
+            "contactSequenceIndex": 14,
+            "trigger": "animationupdate"
+          },
+          "contactPose": {
+            "animationKey": "survival-ual-player-v1-dig-down-ground-strike-anim",
+            "contactFrame": 18,
+            "flipX": false,
+            "sheet": "survival-ual-player-v1-ground-strike-sheet",
+            "visibleFrame": 18
+          },
+          "origin": {
+            "x": 158.75390625,
+            "y": 6285.84589784
+          },
+          "originSource": "authored-hand-foot",
+          "palette": "blue",
+          "releaseFrame": 37620,
+          "releasedAtMs": 639555,
+          "shot": 1
+        }
+      ],
+      "lifetimeMs": 15000,
+      "liveProjectileCount": 1,
+      "liveVfxCount": 17,
+      "liveWakes": 7,
+      "maxBounces": 0,
+      "maxImpacts": 0,
+      "maxRedirects": 0,
+      "nextShot": 2,
+      "paletteHistory": [
+        "blue"
+      ],
+      "playerVisualCount": 0,
+      "projectileDamageMultiplier": 0.75,
+      "projectileDestroyed": 5,
+      "projectileEnabled": true,
+      "projectileImpacts": 5,
+      "projectileInfiniteRange": false,
+      "projectileMaximumDamageMultiplier": 0.75,
+      "projectilePaletteCycle": [
+        "blue",
+        "purple",
+        "red",
+        "prismatic"
+      ],
+      "projectilePassesGeodeWalls": true,
+      "projectileRangeTiles": 5,
+      "projectileSafetyMaxTiles": 8,
+      "projectileSideLanes": 0,
+      "projectileSpeedPxPerSecond": 225,
+      "projectileStateCount": 3,
+      "projectileStates": [
+        {
+          "alpha": 0.94,
+          "damageMultiplier": 1,
+          "displayScale": 0.9,
+          "id": "violet-edge",
+          "impactTint": 14795519,
+          "label": "VIOLET EDGE",
+          "minimumDistanceTiles": 1,
+          "tint": 12619007
+        },
+        {
+          "alpha": 0.95,
+          "damageMultiplier": 1,
+          "displayScale": 1,
+          "id": "amethyst-surge",
+          "impactTint": 14198783,
+          "label": "AMETHYST SURGE",
+          "minimumDistanceTiles": 3,
+          "tint": 11032055
+        },
+        {
+          "alpha": 1,
+          "damageMultiplier": 1,
+          "displayScale": 1.1,
+          "id": "voidpiercer",
+          "impactTint": 15918591,
+          "label": "VOIDPIERCER",
+          "minimumDistanceTiles": 5,
+          "tint": 8141549
+        }
+      ],
+      "redirects": 0,
+      "remainingMs": 13999,
+      "resonantReady": false,
+      "scheduledImpactCount": 5,
+      "shotsFired": 1,
+      "stateBurstCount": 0,
+      "storedBreakCharge": 0,
+      "uniqueTargets": 0,
+      "wakeCount": 7
+    },
+    "enabled": true,
+    "lastCompletion": {
+      "completedAtMs": 568014.3,
+      "health": {
+        "activationId": "god:wayward-star:559572:3",
+        "active": false,
+        "activeStars": 0,
+        "ageMs": 8442.100000000093,
+        "bounces": 0,
+        "completedStars": 1,
+        "engineId": "wayward-star",
+        "impacts": 0,
+        "lifetimeMs": 8000,
+        "maxBounces": 8,
+        "maxImpacts": 14,
+        "maxRedirects": 0,
+        "maxRouteImpacts": 14,
+        "maxSupernovaImpacts": 0,
+        "presentation": [
+          {
+            "contacts": 0,
+            "lastContact": null,
+            "liveContactEffects": 0,
+            "livePulses": 0,
+            "liveTrails": 5,
+            "palette": "ember",
+            "passive": false,
+            "trailSamples": 227
+          }
+        ],
+        "redirects": 0,
+        "remainingMs": 0,
+        "routeImpacts": 0,
+        "speedTilesPerSecond": 3.2,
+        "starCount": 1,
+        "stars": [
+          {
+            "health": {
+              "activationId": "god:wayward-star:559572:3:star:1",
+              "active": false,
+              "ageMs": 8442.100000000093,
+              "bounces": 0,
+              "engineId": "wayward-star",
+              "finishing": true,
+              "impacts": 0,
+              "lifetimeMs": 8000,
+              "maxBounces": 8,
+              "maxImpacts": 14,
+              "maxRedirects": 0,
+              "maxRouteImpacts": 14,
+              "maxSupernovaImpacts": 0,
+              "presentation": {
+                "contacts": 0,
+                "lastContact": null,
+                "liveContactEffects": 0,
+                "livePulses": 0,
+                "liveTrails": 5,
+                "palette": "ember",
+                "passive": false,
+                "trailSamples": 227
+              },
+              "redirects": 0,
+              "remainingMs": 0,
+              "returning": false,
+              "routeImpacts": 0,
+              "speedPxPerSecond": 300.8,
+              "supernovaImpacts": 0,
+              "uniqueTargets": 0
+            },
+            "reason": "route-complete"
+          }
+        ],
+        "supernovaImpacts": 0,
+        "uniqueRouteTargets": 0,
+        "uniqueTargets": 0
+      },
+      "reason": "swarm-complete"
+    },
+    "passives": {
+      "activeCount": 0,
+      "hollow": null,
+      "lance": null,
+      "wayward": null
+    }
+  },
+  "errors": [],
+  "fonts": "loaded",
+  "gameReady": true,
+  "healthReady": true,
+  "resourceCount": 250,
+  "saveWritesBlocked": true,
+  "scenes": [
+    "PlayScene"
+  ]
+}

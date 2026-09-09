@@ -667,7 +667,7 @@ assert.ok(!earthquakeSystemSource.includes("earthquakeFeedbackUI?.completeEvent"
 assert.ok(earthquakeSystemSource.includes("recordEarthquake"));
 assert.ok(!earthquakeFeedbackUiSource.includes("recap"));
 assert.ok(!earthquakeFeedbackConfigSource.includes("recap"));
-assert.ok(specialTileSource.includes("activateChestCritBuff"));
+assert.ok(!specialTileSource.includes("activateChestCritBuff"));
 assert.ok(specialTileSource.includes("recordChest"));
 assert.ok(!specialTileSource.includes('key: "treasure-fury"'));
 

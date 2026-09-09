@@ -1,0 +1,49 @@
+testing/2026-09-06-baked-copy/asset-contract.mjs
+exit: 0
+{"pass":true,"labels":136,"assets":25,"decodedMiB":150}
+
+testing/2026-08-03-celestial-currency-hud-contract.mjs
+exit: 0
+Celestial currency HUD contract passed.
+
+testing/2026-07-28-pickaxe-hud-theme-contract.mjs
+exit: 0
+{"themes":7,"uniqueOverlays":7,"runtimeSize":"256x256 icon -> 56x56 V2 badge","purchaseRefresh":true,"persistedSync":"UpgradeSystem.ownedPickaxe","rollback":"?pickaxeHud=0"}
+
+testing/2026-08-26-xp-gathering-polish-contract.mjs
+exit: 0
+[SoundSystem] Runtime audio uses a bounded current/next working set
+[SoundSystem] Audio context not available
+[SoundSystem] Initialized - waiting for user interaction to start audio
+[SoundSystem] Destroying sound system
+XP_GATHERING_POLISH_CONTRACT_OK
+
+testing/2026-08-22-hud-quick-controls-hit-area-contract.mjs
+exit: 0
+HUD quick-control hit-area contract passed: Inventory, Menu, and Map use Phaser-local clickable bounds.
+
+testing/2026-07-26-pause-settings-layout-contract.mjs
+exit: 0
+pause settings contract: popup option retired, controls unobscured, and layout non-overlapping
+
+testing/2026-08-03-save-menu-presentation-contract.mjs
+exit: 0
+save-menu authored presentation contract: PASS
+
+testing/2026-07-26-retention-systems-contract.mjs
+exit: 0
+retention systems contract: progression, promises, feedback, saves, and guardrails passed
+
+testing/2026-08-03-celestial-action-bar-contract.mjs
+exit: 0
+PASS celestial actionbar: eager authored shell, empty unowned slots, activation, drag-save rollback, resize, teardown
+
+Final Pause row alignment follow-up:
+node testing/2026-09-06-baked-copy/asset-contract.mjs
+exit: 0
+{"pass":true,"labels":136,"assets":25,"decodedMiB":150}
+node testing/2026-07-26-pause-settings-layout-contract.mjs
+exit: 0
+pause settings contract: popup option retired, controls unobscured, and layout non-overlapping
+node --check world/playScene/PlaySceneUI.js
+exit: 0

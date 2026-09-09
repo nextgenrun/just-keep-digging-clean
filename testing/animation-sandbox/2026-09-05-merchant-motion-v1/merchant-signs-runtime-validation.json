@@ -1,0 +1,997 @@
+{
+  "created": "2026-09-05",
+  "entry": "testing/2026-09-05-merchant-motion-game-review.html?jkd_e2e=1&gameplayProfile=full-review&cinematics=0",
+  "merchants": [
+    {
+      "id": "playerUpgrades",
+      "name": "Upgrade Merchant",
+      "shown": {
+        "anchorViolations": 0,
+        "fps": 60,
+        "groundViolations": 0,
+        "motion": {
+          "actorCount": 6,
+          "actors": [
+            {
+              "actionTime": -1,
+              "frameCount": 1813,
+              "frameName": "boboMerchant",
+              "merchantId": "boboMerchant",
+              "ready": true,
+              "textureKey": "merchant-motion:atlas",
+              "timeMs": 60429.260000001304,
+              "visible": true
+            },
+            {
+              "actionTime": -1,
+              "frameCount": 1813,
+              "frameName": "playerUpgrades",
+              "merchantId": "playerUpgrades",
+              "ready": true,
+              "textureKey": "merchant-motion:atlas",
+              "timeMs": 60429.260000001304,
+              "visible": true
+            },
+            {
+              "actionTime": 1.4514999999999991,
+              "frameCount": 1813,
+              "frameName": "gemPowerMerchant",
+              "merchantId": "gemPowerMerchant",
+              "ready": true,
+              "textureKey": "merchant-motion:atlas",
+              "timeMs": 60429.260000001304,
+              "visible": true
+            },
+            {
+              "actionTime": -1,
+              "frameCount": 1813,
+              "frameName": "gearMerchant",
+              "merchantId": "gearMerchant",
+              "ready": true,
+              "textureKey": "merchant-motion:atlas",
+              "timeMs": 60429.260000001304,
+              "visible": true
+            },
+            {
+              "actionTime": -1,
+              "frameCount": 1,
+              "frameName": "moneyMonster",
+              "merchantId": "moneyMonster",
+              "ready": true,
+              "textureKey": "merchant-motion:atlas",
+              "timeMs": 60429.260000001304,
+              "visible": false
+            },
+            {
+              "actionTime": -1,
+              "frameCount": 1,
+              "frameName": "magmaMoneyMonster",
+              "merchantId": "magmaMoneyMonster",
+              "ready": true,
+              "textureKey": "merchant-motion:atlas",
+              "timeMs": 60429.260000001304,
+              "visible": false
+            }
+          ],
+          "destroyed": false,
+          "enabled": true,
+          "reducedMotion": false,
+          "uploadCount": 1818
+        },
+        "phase": "playing",
+        "previousSystemDestroyed": false,
+        "prompts": [
+          {
+            "art": "ui-merchant-sign-bobo-v1",
+            "bottom": 201.6140136718741,
+            "id": "boboMerchant",
+            "key": "E",
+            "left": 390,
+            "legacyAction": false,
+            "legacyTitle": false,
+            "right": 642,
+            "top": 119.84838867187408,
+            "visible": false
+          },
+          {
+            "art": "ui-merchant-sign-player-upgrades-v1",
+            "bottom": 200.6967285156252,
+            "id": "playerUpgrades",
+            "key": "E",
+            "left": 578,
+            "legacyAction": false,
+            "legacyTitle": false,
+            "right": 830,
+            "top": 108.43110351562518,
+            "visible": true
+          },
+          {
+            "art": "ui-merchant-sign-gem-merchant-v1",
+            "bottom": -5702.2265625,
+            "id": "gemPowerMerchant",
+            "key": "E",
+            "left": -127,
+            "legacyAction": false,
+            "legacyTitle": false,
+            "right": 125,
+            "top": -5797.7734375,
+            "visible": false
+          },
+          {
+            "art": "ui-merchant-sign-gear-merchant-v1",
+            "bottom": -5706.984375,
+            "id": "gearMerchant",
+            "key": "E",
+            "left": -127,
+            "legacyAction": false,
+            "legacyTitle": false,
+            "right": 125,
+            "top": -5793.015625,
+            "visible": false
+          },
+          {
+            "art": "ui-merchant-sign-money-monster-v1",
+            "bottom": -5709.4453125,
+            "id": "moneyMonster",
+            "key": "E",
+            "left": -127,
+            "legacyAction": false,
+            "legacyTitle": false,
+            "right": 125,
+            "top": -5790.5546875,
+            "visible": false
+          },
+          {
+            "art": "ui-merchant-sign-molten-money-monster-v1",
+            "bottom": -5709.1171875,
+            "id": "magmaMoneyMonster",
+            "key": "E",
+            "left": -127,
+            "legacyAction": false,
+            "legacyTitle": false,
+            "right": 125,
+            "top": -5790.8828125,
+            "visible": false
+          }
+        ],
+        "remainingMotionTextures": 1,
+        "saveBlocked": true,
+        "shop": null,
+        "viewport": {
+          "height": 720,
+          "width": 1280
+        }
+      },
+      "shop": "playerUpgrades",
+      "promptsHiddenInShop": true
+    },
+    {
+      "id": "gearMerchant",
+      "name": "Gear Merchant",
+      "shown": {
+        "anchorViolations": 0,
+        "fps": 59,
+        "groundViolations": 0,
+        "motion": {
+          "actorCount": 6,
+          "actors": [
+            {
+              "actionTime": -1,
+              "frameCount": 1819,
+              "frameName": "boboMerchant",
+              "merchantId": "boboMerchant",
+              "ready": true,
+              "textureKey": "merchant-motion:atlas",
+              "timeMs": 62064.25000000138,
+              "visible": false
+            },
+            {
+              "actionTime": -1,
+              "frameCount": 1862,
+              "frameName": "playerUpgrades",
+              "merchantId": "playerUpgrades",
+              "ready": true,
+              "textureKey": "merchant-motion:atlas",
+              "timeMs": 62064.25000000138,
+              "visible": true
+            },
+            {
+              "actionTime": 3.086490000000008,
+              "frameCount": 1862,
+              "frameName": "gemPowerMerchant",
+              "merchantId": "gemPowerMerchant",
+              "ready": true,
+              "textureKey": "merchant-motion:atlas",
+              "timeMs": 62064.25000000138,
+              "visible": true
+            },
+            {
+              "actionTime": -1,
+              "frameCount": 1862,
+              "frameName": "gearMerchant",
+              "merchantId": "gearMerchant",
+              "ready": true,
+              "textureKey": "merchant-motion:atlas",
+              "timeMs": 62064.25000000138,
+              "visible": true
+            },
+            {
+              "actionTime": -1,
+              "frameCount": 44,
+              "frameName": "moneyMonster",
+              "merchantId": "moneyMonster",
+              "ready": true,
+              "textureKey": "merchant-motion:atlas",
+              "timeMs": 62064.25000000138,
+              "visible": true
+            },
+            {
+              "actionTime": -1,
+              "frameCount": 1,
+              "frameName": "magmaMoneyMonster",
+              "merchantId": "magmaMoneyMonster",
+              "ready": true,
+              "textureKey": "merchant-motion:atlas",
+              "timeMs": 62064.25000000138,
+              "visible": false
+            }
+          ],
+          "destroyed": false,
+          "enabled": true,
+          "reducedMotion": false,
+          "uploadCount": 1867
+        },
+        "phase": "playing",
+        "previousSystemDestroyed": false,
+        "prompts": [
+          {
+            "art": "ui-merchant-sign-bobo-v1",
+            "bottom": 302.6140136718741,
+            "id": "boboMerchant",
+            "key": "E",
+            "left": -315,
+            "legacyAction": false,
+            "legacyTitle": false,
+            "right": -63,
+            "top": 220.8483886718741,
+            "visible": false
+          },
+          {
+            "art": "ui-merchant-sign-player-upgrades-v1",
+            "bottom": 301.6967285156252,
+            "id": "playerUpgrades",
+            "key": "E",
+            "left": -127,
+            "legacyAction": false,
+            "legacyTitle": false,
+            "right": 125,
+            "top": 209.4311035156252,
+            "visible": false
+          },
+          {
+            "art": "ui-merchant-sign-gem-merchant-v1",
+            "bottom": -5601.2265625,
+            "id": "gemPowerMerchant",
+            "key": "E",
+            "left": -832,
+            "legacyAction": false,
+            "legacyTitle": false,
+            "right": -580,
+            "top": -5696.7734375,
+            "visible": false
+          },
+          {
+            "art": "ui-merchant-sign-gear-merchant-v1",
+            "bottom": 305.97739257812464,
+            "id": "gearMerchant",
+            "key": "E",
+            "left": 578,
+            "legacyAction": false,
+            "legacyTitle": false,
+            "right": 830,
+            "top": 219.94614257812464,
+            "visible": true
+          },
+          {
+            "art": "ui-merchant-sign-money-monster-v1",
+            "bottom": -5608.4453125,
+            "id": "moneyMonster",
+            "key": "E",
+            "left": -832,
+            "legacyAction": false,
+            "legacyTitle": false,
+            "right": -580,
+            "top": -5689.5546875,
+            "visible": false
+          },
+          {
+            "art": "ui-merchant-sign-molten-money-monster-v1",
+            "bottom": -5608.1171875,
+            "id": "magmaMoneyMonster",
+            "key": "E",
+            "left": -832,
+            "legacyAction": false,
+            "legacyTitle": false,
+            "right": -580,
+            "top": -5689.8828125,
+            "visible": false
+          }
+        ],
+        "remainingMotionTextures": 1,
+        "saveBlocked": true,
+        "shop": null,
+        "viewport": {
+          "height": 720,
+          "width": 1280
+        }
+      },
+      "shop": "gearMerchant",
+      "promptsHiddenInShop": true
+    },
+    {
+      "id": "boboMerchant",
+      "name": "Bobo",
+      "shown": {
+        "anchorViolations": 0,
+        "fps": 60,
+        "groundViolations": 0,
+        "motion": {
+          "actorCount": 6,
+          "actors": [
+            {
+              "actionTime": -1,
+              "frameCount": 1862,
+              "frameName": "boboMerchant",
+              "merchantId": "boboMerchant",
+              "ready": true,
+              "textureKey": "merchant-motion:atlas",
+              "timeMs": 63682.660000001466,
+              "visible": true
+            },
+            {
+              "actionTime": -1,
+              "frameCount": 1911,
+              "frameName": "playerUpgrades",
+              "merchantId": "playerUpgrades",
+              "ready": true,
+              "textureKey": "merchant-motion:atlas",
+              "timeMs": 63682.660000001466,
+              "visible": true
+            },
+            {
+              "actionTime": 4.704900000000004,
+              "frameCount": 1911,
+              "frameName": "gemPowerMerchant",
+              "merchantId": "gemPowerMerchant",
+              "ready": true,
+              "textureKey": "merchant-motion:atlas",
+              "timeMs": 63682.660000001466,
+              "visible": true
+            },
+            {
+              "actionTime": -1,
+              "frameCount": 1911,
+              "frameName": "gearMerchant",
+              "merchantId": "gearMerchant",
+              "ready": true,
+              "textureKey": "merchant-motion:atlas",
+              "timeMs": 63682.660000001466,
+              "visible": true
+            },
+            {
+              "actionTime": -1,
+              "frameCount": 50,
+              "frameName": "moneyMonster",
+              "merchantId": "moneyMonster",
+              "ready": true,
+              "textureKey": "merchant-motion:atlas",
+              "timeMs": 63682.660000001466,
+              "visible": false
+            },
+            {
+              "actionTime": -1,
+              "frameCount": 1,
+              "frameName": "magmaMoneyMonster",
+              "merchantId": "magmaMoneyMonster",
+              "ready": true,
+              "textureKey": "merchant-motion:atlas",
+              "timeMs": 63682.660000001466,
+              "visible": false
+            }
+          ],
+          "destroyed": false,
+          "enabled": true,
+          "reducedMotion": false,
+          "uploadCount": 1916
+        },
+        "phase": "playing",
+        "previousSystemDestroyed": false,
+        "prompts": [
+          {
+            "art": "ui-merchant-sign-bobo-v1",
+            "bottom": 269.6140136718741,
+            "id": "boboMerchant",
+            "key": "E",
+            "left": 391,
+            "legacyAction": false,
+            "legacyTitle": false,
+            "right": 643,
+            "top": 187.8483886718741,
+            "visible": true
+          },
+          {
+            "art": "ui-merchant-sign-player-upgrades-v1",
+            "bottom": 268.6967285156252,
+            "id": "playerUpgrades",
+            "key": "E",
+            "left": 579,
+            "legacyAction": false,
+            "legacyTitle": false,
+            "right": 831,
+            "top": 176.43110351562518,
+            "visible": false
+          },
+          {
+            "art": "ui-merchant-sign-gem-merchant-v1",
+            "bottom": -5634.2265625,
+            "id": "gemPowerMerchant",
+            "key": "E",
+            "left": -126,
+            "legacyAction": false,
+            "legacyTitle": false,
+            "right": 126,
+            "top": -5729.7734375,
+            "visible": false
+          },
+          {
+            "art": "ui-merchant-sign-gear-merchant-v1",
+            "bottom": 272.97739257812464,
+            "id": "gearMerchant",
+            "key": "E",
+            "left": 1284,
+            "legacyAction": false,
+            "legacyTitle": false,
+            "right": 1536,
+            "top": 186.94614257812464,
+            "visible": false
+          },
+          {
+            "art": "ui-merchant-sign-money-monster-v1",
+            "bottom": -5641.4453125,
+            "id": "moneyMonster",
+            "key": "E",
+            "left": -126,
+            "legacyAction": false,
+            "legacyTitle": false,
+            "right": 126,
+            "top": -5722.5546875,
+            "visible": false
+          },
+          {
+            "art": "ui-merchant-sign-molten-money-monster-v1",
+            "bottom": -5641.1171875,
+            "id": "magmaMoneyMonster",
+            "key": "E",
+            "left": -126,
+            "legacyAction": false,
+            "legacyTitle": false,
+            "right": 126,
+            "top": -5722.8828125,
+            "visible": false
+          }
+        ],
+        "remainingMotionTextures": 1,
+        "saveBlocked": true,
+        "shop": null,
+        "viewport": {
+          "height": 720,
+          "width": 1280
+        }
+      },
+      "shop": "boboMerchant",
+      "promptsHiddenInShop": true
+    },
+    {
+      "id": "moneyMonster",
+      "name": "Money Monster",
+      "shown": {
+        "anchorViolations": 0,
+        "fps": 59,
+        "groundViolations": 0,
+        "motion": {
+          "actorCount": 6,
+          "actors": [
+            {
+              "actionTime": -1,
+              "frameCount": 1868,
+              "frameName": "boboMerchant",
+              "merchantId": "boboMerchant",
+              "ready": true,
+              "textureKey": "merchant-motion:atlas",
+              "timeMs": 65301.00000000155,
+              "visible": false
+            },
+            {
+              "actionTime": -1,
+              "frameCount": 1917,
+              "frameName": "playerUpgrades",
+              "merchantId": "playerUpgrades",
+              "ready": true,
+              "textureKey": "merchant-motion:atlas",
+              "timeMs": 65301.00000000155,
+              "visible": false
+            },
+            {
+              "actionTime": 6.323240000000009,
+              "frameCount": 1961,
+              "frameName": "gemPowerMerchant",
+              "merchantId": "gemPowerMerchant",
+              "ready": true,
+              "textureKey": "merchant-motion:atlas",
+              "timeMs": 65301.00000000155,
+              "visible": true
+            },
+            {
+              "actionTime": -1,
+              "frameCount": 1961,
+              "frameName": "gearMerchant",
+              "merchantId": "gearMerchant",
+              "ready": true,
+              "textureKey": "merchant-motion:atlas",
+              "timeMs": 65301.00000000155,
+              "visible": true
+            },
+            {
+              "actionTime": -1,
+              "frameCount": 94,
+              "frameName": "moneyMonster",
+              "merchantId": "moneyMonster",
+              "ready": true,
+              "textureKey": "merchant-motion:atlas",
+              "timeMs": 65301.00000000155,
+              "visible": true
+            },
+            {
+              "actionTime": -1,
+              "frameCount": 1,
+              "frameName": "magmaMoneyMonster",
+              "merchantId": "magmaMoneyMonster",
+              "ready": true,
+              "textureKey": "merchant-motion:atlas",
+              "timeMs": 65301.00000000155,
+              "visible": false
+            }
+          ],
+          "destroyed": false,
+          "enabled": true,
+          "reducedMotion": false,
+          "uploadCount": 1966
+        },
+        "phase": "playing",
+        "previousSystemDestroyed": false,
+        "prompts": [
+          {
+            "art": "ui-merchant-sign-bobo-v1",
+            "bottom": 401.6140136718741,
+            "id": "boboMerchant",
+            "key": "E",
+            "left": -550,
+            "legacyAction": false,
+            "legacyTitle": false,
+            "right": -298,
+            "top": 319.8483886718741,
+            "visible": false
+          },
+          {
+            "art": "ui-merchant-sign-player-upgrades-v1",
+            "bottom": 400.6967285156252,
+            "id": "playerUpgrades",
+            "key": "E",
+            "left": -362,
+            "legacyAction": false,
+            "legacyTitle": false,
+            "right": -110,
+            "top": 308.4311035156252,
+            "visible": false
+          },
+          {
+            "art": "ui-merchant-sign-gem-merchant-v1",
+            "bottom": -5502.2265625,
+            "id": "gemPowerMerchant",
+            "key": "E",
+            "left": -1067,
+            "legacyAction": false,
+            "legacyTitle": false,
+            "right": -815,
+            "top": -5597.7734375,
+            "visible": false
+          },
+          {
+            "art": "ui-merchant-sign-gear-merchant-v1",
+            "bottom": 404.97739257812464,
+            "id": "gearMerchant",
+            "key": "E",
+            "left": 343,
+            "legacyAction": false,
+            "legacyTitle": false,
+            "right": 595,
+            "top": 318.94614257812464,
+            "visible": false
+          },
+          {
+            "art": "ui-merchant-sign-money-monster-v1",
+            "bottom": 409.258056640625,
+            "id": "moneyMonster",
+            "key": "E",
+            "left": 578,
+            "legacyAction": false,
+            "legacyTitle": false,
+            "right": 830,
+            "top": 328.148681640625,
+            "visible": true
+          },
+          {
+            "art": "ui-merchant-sign-molten-money-monster-v1",
+            "bottom": -5509.1171875,
+            "id": "magmaMoneyMonster",
+            "key": "E",
+            "left": -1067,
+            "legacyAction": false,
+            "legacyTitle": false,
+            "right": -815,
+            "top": -5590.8828125,
+            "visible": false
+          }
+        ],
+        "remainingMotionTextures": 1,
+        "saveBlocked": true,
+        "shop": null,
+        "viewport": {
+          "height": 720,
+          "width": 1280
+        }
+      },
+      "shop": "moneyMonster",
+      "promptsHiddenInShop": true
+    },
+    {
+      "id": "gemPowerMerchant",
+      "name": "Gem Merchant",
+      "shown": {
+        "anchorViolations": 0,
+        "fps": 60,
+        "groundViolations": 0,
+        "motion": {
+          "actorCount": 6,
+          "actors": [
+            {
+              "actionTime": -1,
+              "frameCount": 1911,
+              "frameName": "boboMerchant",
+              "merchantId": "boboMerchant",
+              "ready": true,
+              "textureKey": "merchant-motion:atlas",
+              "timeMs": 66935.99000000156,
+              "visible": true
+            },
+            {
+              "actionTime": 1.1512000000000024,
+              "frameCount": 1960,
+              "frameName": "playerUpgrades",
+              "merchantId": "playerUpgrades",
+              "ready": true,
+              "textureKey": "merchant-motion:atlas",
+              "timeMs": 66935.99000000156,
+              "visible": true
+            },
+            {
+              "actionTime": -1,
+              "frameCount": 2011,
+              "frameName": "gemPowerMerchant",
+              "merchantId": "gemPowerMerchant",
+              "ready": true,
+              "textureKey": "merchant-motion:atlas",
+              "timeMs": 66935.99000000156,
+              "visible": true
+            },
+            {
+              "actionTime": -1,
+              "frameCount": 2011,
+              "frameName": "gearMerchant",
+              "merchantId": "gearMerchant",
+              "ready": true,
+              "textureKey": "merchant-motion:atlas",
+              "timeMs": 66935.99000000156,
+              "visible": true
+            },
+            {
+              "actionTime": -1,
+              "frameCount": 144,
+              "frameName": "moneyMonster",
+              "merchantId": "moneyMonster",
+              "ready": true,
+              "textureKey": "merchant-motion:atlas",
+              "timeMs": 66935.99000000156,
+              "visible": true
+            },
+            {
+              "actionTime": -1,
+              "frameCount": 1,
+              "frameName": "magmaMoneyMonster",
+              "merchantId": "magmaMoneyMonster",
+              "ready": true,
+              "textureKey": "merchant-motion:atlas",
+              "timeMs": 66935.99000000156,
+              "visible": false
+            }
+          ],
+          "destroyed": false,
+          "enabled": true,
+          "reducedMotion": false,
+          "uploadCount": 2016
+        },
+        "phase": "playing",
+        "previousSystemDestroyed": false,
+        "prompts": [
+          {
+            "art": "ui-merchant-sign-bobo-v1",
+            "bottom": 271.6140136718741,
+            "id": "boboMerchant",
+            "key": "E",
+            "left": -43,
+            "legacyAction": false,
+            "legacyTitle": false,
+            "right": 209,
+            "top": 189.8483886718741,
+            "visible": false
+          },
+          {
+            "art": "ui-merchant-sign-player-upgrades-v1",
+            "bottom": 270.6967285156252,
+            "id": "playerUpgrades",
+            "key": "E",
+            "left": 145,
+            "legacyAction": false,
+            "legacyTitle": false,
+            "right": 397,
+            "top": 178.43110351562518,
+            "visible": false
+          },
+          {
+            "art": "ui-merchant-sign-gem-merchant-v1",
+            "bottom": 280.0224609374991,
+            "id": "gemPowerMerchant",
+            "key": "E",
+            "left": 450.5,
+            "legacyAction": false,
+            "legacyTitle": false,
+            "right": 702.5,
+            "top": 184.4755859374991,
+            "visible": true
+          },
+          {
+            "art": "ui-merchant-sign-gear-merchant-v1",
+            "bottom": 274.97739257812464,
+            "id": "gearMerchant",
+            "key": "E",
+            "left": 850,
+            "legacyAction": false,
+            "legacyTitle": false,
+            "right": 1102,
+            "top": 188.94614257812464,
+            "visible": false
+          },
+          {
+            "art": "ui-merchant-sign-money-monster-v1",
+            "bottom": 279.258056640625,
+            "id": "moneyMonster",
+            "key": "E",
+            "left": 1085,
+            "legacyAction": false,
+            "legacyTitle": false,
+            "right": 1337,
+            "top": 198.148681640625,
+            "visible": false
+          },
+          {
+            "art": "ui-merchant-sign-molten-money-monster-v1",
+            "bottom": -5639.1171875,
+            "id": "magmaMoneyMonster",
+            "key": "E",
+            "left": -560,
+            "legacyAction": false,
+            "legacyTitle": false,
+            "right": -308,
+            "top": -5720.8828125,
+            "visible": false
+          }
+        ],
+        "remainingMotionTextures": 1,
+        "saveBlocked": true,
+        "shop": null,
+        "viewport": {
+          "height": 720,
+          "width": 1280
+        }
+      },
+      "shop": "gemPowerMerchant",
+      "promptsHiddenInShop": true
+    },
+    {
+      "id": "magmaMoneyMonster",
+      "name": "Magma Money Monster",
+      "shown": {
+        "anchorViolations": 0,
+        "fps": 59,
+        "groundViolations": 0,
+        "motion": {
+          "actorCount": 6,
+          "actors": [
+            {
+              "actionTime": -1,
+              "frameCount": 1918,
+              "frameName": "boboMerchant",
+              "merchantId": "boboMerchant",
+              "ready": true,
+              "textureKey": "merchant-motion:atlas",
+              "timeMs": 69605.43000000164,
+              "visible": false
+            },
+            {
+              "actionTime": 3.820640000000004,
+              "frameCount": 1967,
+              "frameName": "playerUpgrades",
+              "merchantId": "playerUpgrades",
+              "ready": true,
+              "textureKey": "merchant-motion:atlas",
+              "timeMs": 69605.43000000164,
+              "visible": false
+            },
+            {
+              "actionTime": -1,
+              "frameCount": 2018,
+              "frameName": "gemPowerMerchant",
+              "merchantId": "gemPowerMerchant",
+              "ready": true,
+              "textureKey": "merchant-motion:atlas",
+              "timeMs": 69605.43000000164,
+              "visible": false
+            },
+            {
+              "actionTime": -1,
+              "frameCount": 2018,
+              "frameName": "gearMerchant",
+              "merchantId": "gearMerchant",
+              "ready": true,
+              "textureKey": "merchant-motion:atlas",
+              "timeMs": 69605.43000000164,
+              "visible": false
+            },
+            {
+              "actionTime": -1,
+              "frameCount": 151,
+              "frameName": "moneyMonster",
+              "merchantId": "moneyMonster",
+              "ready": true,
+              "textureKey": "merchant-motion:atlas",
+              "timeMs": 69605.43000000164,
+              "visible": false
+            },
+            {
+              "actionTime": -1,
+              "frameCount": 65,
+              "frameName": "magmaMoneyMonster",
+              "merchantId": "magmaMoneyMonster",
+              "ready": true,
+              "textureKey": "merchant-motion:atlas",
+              "timeMs": 69605.43000000164,
+              "visible": true
+            }
+          ],
+          "destroyed": false,
+          "enabled": true,
+          "reducedMotion": false,
+          "uploadCount": 2087
+        },
+        "phase": "playing",
+        "previousSystemDestroyed": false,
+        "prompts": [
+          {
+            "art": "ui-merchant-sign-bobo-v1",
+            "bottom": 266.6140136718741,
+            "id": "boboMerchant",
+            "key": "E",
+            "left": -12334,
+            "legacyAction": false,
+            "legacyTitle": false,
+            "right": -12082,
+            "top": 184.8483886718741,
+            "visible": false
+          },
+          {
+            "art": "ui-merchant-sign-player-upgrades-v1",
+            "bottom": 265.6967285156252,
+            "id": "playerUpgrades",
+            "key": "E",
+            "left": -12146,
+            "legacyAction": false,
+            "legacyTitle": false,
+            "right": -11894,
+            "top": 173.43110351562518,
+            "visible": false
+          },
+          {
+            "art": "ui-merchant-sign-gem-merchant-v1",
+            "bottom": 275.0224609374991,
+            "id": "gemPowerMerchant",
+            "key": "E",
+            "left": -11840.5,
+            "legacyAction": false,
+            "legacyTitle": false,
+            "right": -11588.5,
+            "top": 179.4755859374991,
+            "visible": false
+          },
+          {
+            "art": "ui-merchant-sign-gear-merchant-v1",
+            "bottom": 269.97739257812464,
+            "id": "gearMerchant",
+            "key": "E",
+            "left": -11441,
+            "legacyAction": false,
+            "legacyTitle": false,
+            "right": -11189,
+            "top": 183.94614257812464,
+            "visible": false
+          },
+          {
+            "art": "ui-merchant-sign-money-monster-v1",
+            "bottom": 274.258056640625,
+            "id": "moneyMonster",
+            "key": "E",
+            "left": -11206,
+            "legacyAction": false,
+            "legacyTitle": false,
+            "right": -10954,
+            "top": 193.148681640625,
+            "visible": false
+          },
+          {
+            "art": "ui-merchant-sign-molten-money-monster-v1",
+            "bottom": 271.1655826171873,
+            "id": "magmaMoneyMonster",
+            "key": "E",
+            "left": 450,
+            "legacyAction": false,
+            "legacyTitle": false,
+            "right": 702,
+            "top": 189.39995761718728,
+            "visible": true
+          }
+        ],
+        "remainingMotionTextures": 1,
+        "saveBlocked": true,
+        "shop": null,
+        "viewport": {
+          "height": 720,
+          "width": 1280
+        }
+      },
+      "shop": "magmaMoneyMonster",
+      "promptsHiddenInShop": true
+    }
+  ],
+  "pauseHidesAllPrompts": true,
+  "cleanup": {
+    "fps": 60,
+    "phase": "menus",
+    "previousSystemDestroyed": true,
+    "prompts": [],
+    "remainingMotionTextures": 0,
+    "saveBlocked": false,
+    "shop": null,
+    "viewport": null
+  },
+  "logs": [],
+  "limitations": "Local browser verification; key-rebind and event-countdown cases are covered by the focused contract. Level Two was reached through the existing review hotkey."
+}

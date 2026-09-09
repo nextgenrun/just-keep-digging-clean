@@ -1,3 +1,5 @@
+import { MERCHANT_ACTIVITY_MOTION as A } from '../../values/merchantActivityMotion.js';
+
 function moveTowards(current, target, distance) {
   if (Math.abs(target - current) <= distance) return target;
   return current + Math.sign(target - current) * distance;
@@ -28,9 +30,10 @@ export function createNpcActivityActor(
   presentation,
   config,
 ) {
-  const overlay = scene.add.image(presentation.x, presentation.y, keys.work);
+  const motion = presentation.motion || null;
+  const overlay = motion ? null : scene.add.image(presentation.x, presentation.y, keys.work);
   overlay
-    .setOrigin(0.5, 1)
+    ?.setOrigin(0.5, 1)
     .setDepth(presentation.depth + config.render.activityDepthOffset)
     .setDisplaySize(presentation.displaySize, presentation.displaySize)
     .setAlpha(0)
@@ -41,6 +44,7 @@ export function createNpcActivityActor(
     keys,
     baseVisual,
     overlay,
+    motion,
     anchorX: presentation.x,
     anchorY: presentation.y,
     displaySize: presentation.displaySize,
@@ -52,6 +56,7 @@ export function createNpcActivityActor(
     reactionReadyAt: 0,
     reactedDuringVisit: false,
     playerNear: false,
+    lastAmbientActivity: null,
     poseBlend: 0,
     originalFlipX: Boolean(baseVisual.flipX),
   };
@@ -59,11 +64,13 @@ export function createNpcActivityActor(
 
 export function startNpcPose(actor, state, time) {
   actor.state = state;
-  actor.stateEndsAt = time + actor.merchant.durationsMs[state];
-  actor.overlay.setTexture(actor.keys[state]).setVisible(true);
+  if (actor.motion) actor.motion.startGesture(state, actor.merchant.durationsMs[state]);
+  else actor.overlay.setTexture(actor.keys[state]).setVisible(true);
+  actor.stateEndsAt = time + (actor.motion?.durationMs ?? actor.merchant.durationsMs[state]);
 }
 
 export function finishNpcActor(actor, time, config, random) {
+  actor.motion?.settle();
   actor.state = "quiet";
   actor.stateEndsAt = Number.POSITIVE_INFINITY;
   actor.nextEventAt = time + randomRange(
@@ -74,6 +81,11 @@ export function finishNpcActor(actor, time, config, random) {
 }
 
 export function updateNpcActorVisual(actor, _time, delta, config) {
+  if (actor.motion) {
+    lockVisualToActor(actor.baseVisual, actor);
+    actor.baseVisual.setAlpha?.(1);
+    return;
+  }
   const activePose = actor.state !== "quiet";
   const crossfadeMs = activePose
     ? config.render.crossfadeInMs
@@ -102,4 +114,12 @@ export function updateNpcActorVisual(actor, _time, delta, config) {
 export function restoreNpcBase(actor) {
   lockVisualToActor(actor.baseVisual, actor);
   actor.baseVisual?.setAlpha?.(1).setVisible?.(true);
+}
+
+export function startNpcShopIntro(actor) {
+  const state = A.shopActivities[actor.npc.merchantId] || "player";
+  if (!actor.motion?.startShopIntro(state, actor.merchant.durationsMs[state])) return false;
+  actor.state = actor.motion.activityId;
+  actor.stateEndsAt = Number.POSITIVE_INFINITY;
+  return true;
 }

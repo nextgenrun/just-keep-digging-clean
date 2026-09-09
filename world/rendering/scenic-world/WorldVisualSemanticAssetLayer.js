@@ -32,6 +32,7 @@ export class WorldVisualSemanticAssetLayer {
     this.starIdleEnabled = false;
     this.bedrockLayer = null;
     this.resourcePool = [];
+    this.resourceDepletionProvider = null;
     this.starBeautyPool = [];
     this.starEmissivePool = [];
     this.starIdlePool = [];
@@ -141,6 +142,12 @@ export class WorldVisualSemanticAssetLayer {
         }
         const resourceKey = RESOURCE_BY_TILE_TYPE[tileType];
         if (!resourceKey) continue;
+        if (this.resourceDepletionProvider?.({
+          tileX: tx,
+          tileY: ty,
+          tileType,
+          resourceKey,
+        }) === true) continue;
         const frame = resolveWorldVisualSemanticResourceFrame(tx, ty, resourceKey, this.config);
         if (!Number.isInteger(frame)) continue;
         const candidate = { tx, ty, resourceKey, frame };
@@ -287,6 +294,18 @@ export class WorldVisualSemanticAssetLayer {
     this.sync(bounds, this.lastLighting, this.lastReduced);
   }
 
+  setResourceDepletionProvider(provider) {
+    this.resourceDepletionProvider = typeof provider === "function" ? provider : null;
+    this.invalidateResourcePresentation();
+  }
+
+  invalidateResourcePresentation() {
+    this.dirty = true;
+    if (this.activeBounds) {
+      this.sync(this.activeBounds, this.lastLighting, this.lastReduced);
+    }
+  }
+
   destroy() {
     this.bedrockLayer?.destroy();
     this.resourcePool.forEach(image => image.destroy());
@@ -306,6 +325,7 @@ export class WorldVisualSemanticAssetLayer {
     this.activeSpecials = [];
     this.activeBounds = null;
     this.activeSignature = null;
+    this.resourceDepletionProvider = null;
     this.townFloorOcclusion = null;
   }
 }

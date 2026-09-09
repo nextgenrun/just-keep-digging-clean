@@ -1,0 +1,37 @@
+[
+  {
+    "check": "review-followup",
+    "exitCode": 0,
+    "tail": "passed"
+  },
+  {
+    "check": "review-catalog",
+    "exitCode": 0,
+    "tail": "passed"
+  },
+  {
+    "check": "xp-presentation",
+    "exitCode": 1,
+    "tail": "\nnode:internal/modules/run_main:107\n    triggerUncaughtException(\n    ^\n\nAssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert.ok(sound.playXpGather({ segmentIndex: 4 }))\n\n    at file:///C:/xampp/_Backups/dig-game-simple/dig-game-dev-env-cleaned/testing/2026-08-26-xp-gathering-polish-contract.mjs:89:8 {\n  generatedMessage: true,\n  code: 'ERR_ASSERTION',\n  actual: null,\n  expected: true,\n  operator: '==',\n  diff: 'simple'\n}\n\nNode.js v24.19.0\n"
+  },
+  {
+    "check": "loot-presentation",
+    "exitCode": 0,
+    "tail": "passed"
+  },
+  {
+    "check": "ground-contacts",
+    "exitCode": 1,
+    "tail": "\nnode:internal/modules/run_main:107\n    triggerUncaughtException(\n    ^\n\nAssertionError [ERR_ASSERTION]: only active tile types have particle palette routes\n\n33 !== 32\n\n    at file:///C:/xampp/_Backups/dig-game-simple/dig-game-dev-env-cleaned/testing/2026-08-03-ground-footstep-fx-contract.mjs:206:8\n    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)\n    at async node:internal/modules/esm/loader:643:26\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {\n  generatedMessage: false,\n  code: 'ERR_ASSERTION',\n  actual: 33,\n  expected: 32,\n  operator: 'strictEqual',\n  diff: 'simple'\n}\n\nNode.js v24.19.0\n"
+  },
+  {
+    "check": "baseline-jump",
+    "exitCode": 0,
+    "tail": "passed"
+  },
+  {
+    "check": "baseline-music",
+    "exitCode": 1,
+    "tail": "' +\n    '    runtime.oneGpWarned = true;\\n' +\n    '    runtime.flash?.(\\n' +\n    '      runtime.config.feedback.oneGpText,\\n' +\n    '      runtime.config.feedback.dangerColor,\\n' +\n    '      runtime.config.feedback.dangerFlashMs,\\n' +\n    '    );\\n' +\n    '  }\\n' +\n    '  if (\\n' +\n    '    current > runtime.config.death.zeroGpEpsilon\\n' +\n    '    && current <= runtime.config.checkpoint.lowGpImmediateThreshold\\n' +\n    '    && Number(event.previous) > runtime.config.checkpoint.lowGpImmediateThreshold\\n' +\n    '  ) {\\n' +\n    '    persistHardcoreLiveCheckpoint(scene, scene.time?.now || 0, true);\\n' +\n    '  }\\n' +\n    '  if (current <= runtime.config.death.zeroGpEpsilon) {\\n' +\n    '    void beginHardcorePermanentDeath(scene, {\\n' +\n    '      source: event.source || event.context?.source,\\n' +\n    '    });\\n' +\n    '  }\\n' +\n    '}\\n',\n  expected: /MUSIC_CUE_IDS\\.deathRevive/,\n  operator: 'match',\n  diff: 'simple'\n}\n\nNode.js v24.19.0\n"
+  }
+]

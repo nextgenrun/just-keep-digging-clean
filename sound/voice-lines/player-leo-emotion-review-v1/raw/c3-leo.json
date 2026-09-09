@@ -1,0 +1,10 @@
+{
+  "id": "C3",
+  "voice": "leo",
+  "text": "You still owe me a drink.",
+  "ttsInput": "<soft>You still owe me a drink.</soft> [chuckle]",
+  "requestSha256": "6951a2701f1d93c2d749f9d41526fcad6c34f778bcaae8eee3a92c996d344455",
+  "contentType": "audio/mpeg",
+  "generationId": "gen-tts-1788745500-ROsIMQQyok7tmMcMsydl",
+  "rawSha256": "132e56a34c6606233bb7e87076b2578bd5b5a2155d1601ce78c332100aec9422"
+}

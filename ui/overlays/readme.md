@@ -6,18 +6,29 @@ UI module — overlays.
   over the approved full-screen Understar painting. Escape returns to the mine;
   Enter uses PlayScene's serialized save-and-main-menu transition.
 
-- `CelestialTalentTreeView.js`, `CelestialTalentTreeNodeView.js`, and
-  `CelestialTalentTreeConnectorLayer.js` — the physical Star Pillar's
-  image-backed 33-node Celestial progression surface. Three Engine roots fan
-  upward through authored connector art into three alternate mastery paths;
-  the view reads the live row/lane graph and Star Point authority instead of
-  hard-coding the retired five-node columns. V2 uses a socket-free cobalt
-  foundation, Pillar-matched square skill frames, and restrained stretchable
-  rails so the bitmap cannot contradict the live graph.
+- `CelestialTalentTreeView.js` opens the shared ESC/Star Pillar progression
+  surface with three authored tree choices. `CelestialTalentTreeSelector.js`
+  selects one branch; only its twelve nodes and connectors accept input.
+  `buildCelestialTalentFocusView.js` uses the proportional source geometry in
+  `values/celestialTalentFocusUi.js`. Node selection opens the stationary
+  `CelestialTalentDetailView.js` dossier; the action button or Enter purchases.
+  Foundations, instructions, descriptions, node faces, rank plates and button
+  labels are original baked artwork in `celestial-focus-v1` and
+  `baked-stars-talents-v2`. Live balances and upgrade prices fit measured wells.
+  `CelestialTalentStateView.js` keeps locked-state requirements in the fixed
+  dossier. No hover tooltip or per-node text is created by this view.
+  `CelestialTalentUpgradeFeedback.js` responds only to a successful transaction
+  with a short authored flash/ring, fixed result plaque and one tracked chime.
+  Reduced motion uses the plaque alone; switching, closing and destruction
+  cancel feedback. Progression authority remains in the existing system:
+  Talent Points unlock nodes and Star Points upgrade owned talents.
 - `UIInventoryPopup.js`, `UIInventoryHoldingsView.js`,
   `UIInventoryResourceGuide.js`, and `UIInventoryStarAtlas.js` own the `I`-key
   field inventory. `HOLDINGS` keeps all fourteen named resource icons visible
-  while discovery gates quantities. `RESOURCE CODEX` replaces gameplay-tile
+  while discovery gates quantities. Holdings and the Special Blocks panel use
+  `RewardPickupVisualResolver` plus the scene-only arrival record, so the exact
+  semantic frame and GP tier that lands is the mini icon shown next in `I`.
+  `RESOURCE CODEX` replaces gameplay-tile
   composites with one authored foundation and a dedicated fourteen-specimen
   portrait atlas; its collection, selected border, dossier, copy, and hit zones
   all use the same measured 1738x905 source-space transform.
@@ -120,9 +131,8 @@ UI module — overlays.
   discovered entry pins its streamed 1536x848 chamber vignette with a restrained
   living pulse; locked entries never request or reveal chamber art.
 - `SaveTransferPanelContent.js` — the responsive ESC `SAVES` tab with manual save, save-and-export, and backup-before-import controls that remain inside the fitted modal body.
-  Armed or pending Hardcore keeps manual save but locks export with visible
-  `OATH LOCKED` status; the store also rejects Hardcore JSON imports so UI
-  shortcuts cannot bypass permadeath.
+  Casual and Hardcore slots both support portable JSON export/import; death
+  tombstones and internal Hardcore backup restoration remain independently protected.
 - Money Monster exposes `Deep Market Contracts` only in modern depth-economy
   mode. The detail card explicitly shows its World Two Tunnel Key prerequisite,
   and prerequisite failure takes priority over price failure. Sale cards and
@@ -142,3 +152,12 @@ UI module — overlays.
 upgrade spends at least 20% of the pre-purchase wallet. The event busy-drops,
 has a 90-second cooldown, and remains separate from the merchant shop-open roll,
 which is 35% with its own cooldown.
+
+`UIInventoryStarAtlasPagination` places only the changing found/page numbers
+under the foundation's authored FOUND and PAGE labels, using `BAKED_STAR_LAYOUT`
+slots and width fitting. It preserves the existing page controls and legacy
+non-baked presentation; see the 2026-09-06 event/UI alignment report.
+
+`HintsPanelContent.js` provides the Esc Hints library with relevant advice first, keyboard/pointer paging, remapped controls, and direct wiki answer links. It uses the approved HUD chip artwork on the pause modal.
+
+Inventory admission checks the shared UI input lock, scene mode and gameplay state before its direct keyboard listener can open a popup. This prevents I from stacking Inventory over sleep, the waking blessing choice, shops, maps or Pause, and respects modal closing transitions. Closing Inventory consumes its pending world-interaction press so an E tap inside the popup cannot trigger the nearby bed or shop after the closing transition.

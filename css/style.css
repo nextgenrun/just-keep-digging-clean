@@ -116,11 +116,10 @@ body::before {
 #game-root {
   position: relative;
   z-index: 1;
-  width: 100vw;
+  min-width: 0;
+  min-height: 0;
   height: 100vh;
-  display: center;
-  align-items: center;
-  justify-content: center;
+  height: 100dvh;
   background: radial-gradient(ellipse at center, #111926 0%, #080c14 100%);
 }
 
@@ -154,8 +153,9 @@ body::before {
 
 #fs-btn {
   position: absolute;
-  bottom: 10px;
+  top: 50%;
   right: 10px;
+  transform: translateY(-50%);
   z-index: 10;
   width: 32px;
   height: 32px;
@@ -210,4 +210,16 @@ body::before {
     border-bottom: 1px solid var(--panel-border);
     max-height: 160px;
   }
+}
+
+/* A quiet utility control that also remains usable with a keyboard or touch. */
+#fs-btn:focus-visible {
+  outline: 2px solid #e4c996;
+  outline-offset: 4px;
+}
+@media (prefers-reduced-motion: reduce) {
+  #fs-btn { transition: none; }
+}
+@media (pointer: coarse) {
+  #fs-btn { width: 44px; height: 44px; }
 }

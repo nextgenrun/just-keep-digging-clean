@@ -1,0 +1,16 @@
+{
+  "state": {
+    "dataset": {
+      "pipeline": "active",
+      "paused": "false",
+      "view": "runtime",
+      "weather": "clear",
+      "worldDay": "12.918716",
+      "runtimePixelReuse": "false",
+      "phase": "0.307421"
+    },
+    "text": "REVIEW-ONLY · CLEAN-SOURCE REBUILD\n\nObservatory · independently authored runtime\n\nThe original is comparison only. Runtime uses a clean sky, independent star and light behavior IDs, sharp cloud streams, fourteen buoyant island sprites, calendar/weather-driven island arrivals, and existing-character loops inside selected buildings.\n\nINDEPENDENT RUNTIME ACTIVE\nPHASER 3.90 · LONG RESET ENVELOPES V16 · 0 REFERENCE PIXELS\nINSPECT\nReference\nRuntime\nSplit\nSource layers\nLight IDs\nSIMULATION\nPause simulation\nCloud stream motion\n100%\nIsland buoyancy\n100%\nIndividual lights\n108%\nStar activity\n90%\nPersistent world day\nDay 12\nWorld time\n22:02\nWeather state\nClear\nDrizzle\nRain\nStorm\nSnow\nRENDERED PROOF\nPIPELINE\n54 sharp wisps + 14 islands + 10 figures\nCYCLE PHASE\n0.307\nFPS\n59.8\nCLOUD STRATA\n4\nORGANIC CLOUD WISPS\n54\nISLAND MODULES\n14\nLONG-CYCLE ISLANDS\n5\nMOTION SYSTEMS\n7\nWINDOW LIGHTS\n87\nINTERIOR FIGURES\n10\nWORLD CALENDAR\nmonth 1 · week 2 · day 12 · 22:02 · clear\nREFERENCE REUSE\n0 pixels\nTOWN VIDEO\n1650f7a88e24… unchanged\n\nIsolated under testing/. It changes no production scene, save, map, background, or Town Square video."
+  },
+  "errors": [],
+  "failed": []
+}

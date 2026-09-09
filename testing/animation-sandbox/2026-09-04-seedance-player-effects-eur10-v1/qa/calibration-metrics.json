@@ -1,0 +1,174 @@
+{
+  "schemaVersion": "seedance-player-effects-calibration-qa-v1",
+  "reviewOnly": true,
+  "productionChanged": false,
+  "method": {
+    "decode": "320x180 at 8 fps",
+    "reverseMetric": "cosine between first-half velocity and negated reversed second-half velocity; high values require manual playback review",
+    "noOpticalFlow": true
+  },
+  "results": [
+    {
+      "id": "cal-side-dig-v01",
+      "kind": "player",
+      "source": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/raw/cal-side-dig-v01.mp4",
+      "sourceSha256": "4a3d202c8c7882da56d2cf33a401bd595412b65df51e57aac29430f658ce70ec",
+      "decodedFrames": 32,
+      "sampleFps": 8,
+      "contactSheet": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/qa/cal-side-dig-v01-contact-sheet.png",
+      "metrics": {
+        "seamMadRgb": 14.297534722222222,
+        "backgroundDriftP95Percent": 24.787962962962965,
+        "baselineRangeSourcePx": 0,
+        "silhouetteAreaP95P05Ratio": 3.225148023451556,
+        "frameDeltaMedian": 1.776412037037037,
+        "frameDeltaP95": 13.52853877314815,
+        "reverseVelocityCosine": 0.0007692816434428096
+      }
+    },
+    {
+      "id": "cal-side-dig-v02",
+      "kind": "player",
+      "source": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/raw/cal-side-dig-v02.mp4",
+      "sourceSha256": "f166b56d8872908b3af9897af00b35aa70bffeb2802b021ecd03a9fe0f89bf61",
+      "decodedFrames": 32,
+      "sampleFps": 8,
+      "contactSheet": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/qa/cal-side-dig-v02-contact-sheet.png",
+      "metrics": {
+        "seamMadRgb": 31.12928240740741,
+        "backgroundDriftP95Percent": 80.2675925925926,
+        "baselineRangeSourcePx": 0,
+        "silhouetteAreaP95P05Ratio": 1.0004882136277349,
+        "frameDeltaMedian": 3.2900578703703705,
+        "frameDeltaP95": 13.894814814814815,
+        "reverseVelocityCosine": 0.008193223737180233
+      }
+    },
+    {
+      "id": "cal-side-dig-v03",
+      "kind": "player",
+      "source": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/raw/cal-side-dig-v03.mp4",
+      "sourceSha256": "eca7765951b3a17b3d6228446dffff0db7ce32137d35e0a4966d02b0d6552f5f",
+      "decodedFrames": 32,
+      "sampleFps": 8,
+      "contactSheet": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/qa/cal-side-dig-v03-contact-sheet.png",
+      "metrics": {
+        "seamMadRgb": 13.512378472222222,
+        "backgroundDriftP95Percent": 44.37037037037035,
+        "baselineRangeSourcePx": 0,
+        "silhouetteAreaP95P05Ratio": 1.4348893013990132,
+        "frameDeltaMedian": 2.4660532407407407,
+        "frameDeltaP95": 13.116397569444445,
+        "reverseVelocityCosine": 0.04129569232463837
+      }
+    },
+    {
+      "id": "cal-soil-impact-v01",
+      "kind": "effect",
+      "source": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/raw/cal-soil-impact-v01.mp4",
+      "sourceSha256": "7c44052c4bcd9812b2bc845bb3d5576bcaf6622a2d5b42e33e7977401a0ab10e",
+      "decodedFrames": 32,
+      "sampleFps": 8,
+      "contactSheet": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/qa/cal-soil-impact-v01-contact-sheet.png",
+      "metrics": {
+        "peakTimeSeconds": 1.0,
+        "peakActivityMadRgb": 7.558923611111111,
+        "earlyActivityToPeak": 0.24178483549765653,
+        "endActivityToPeak": 0.36439236645429196,
+        "lateReboundToPeak": 0.4290711401627032,
+        "backgroundDriftP95Percent": 0.3673432496642908,
+        "reverseVelocityCosine": 0.018120964989066124
+      }
+    },
+    {
+      "id": "cal-soil-impact-v02",
+      "kind": "effect",
+      "source": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/raw/cal-soil-impact-v02.mp4",
+      "sourceSha256": "42695b5044d1953af046046f3c8d8dc15b17548781060fd18a336e16f7d7ace8",
+      "decodedFrames": 32,
+      "sampleFps": 8,
+      "contactSheet": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/qa/cal-soil-impact-v02-contact-sheet.png",
+      "metrics": {
+        "peakTimeSeconds": 1.0,
+        "peakActivityMadRgb": 7.679907407407407,
+        "earlyActivityToPeak": 0.21557085890310212,
+        "endActivityToPeak": 0.32673530316000143,
+        "lateReboundToPeak": 0.3576793701698757,
+        "backgroundDriftP95Percent": 0.7415298006404297,
+        "reverseVelocityCosine": 0.031756442040205
+      }
+    },
+    {
+      "id": "cal-soil-impact-v03",
+      "kind": "effect",
+      "source": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/raw/cal-soil-impact-v03.mp4",
+      "sourceSha256": "8291d5bb6dac9691522d120bd2690eb666d9e2588a9e1c3661c81e3e52366527",
+      "decodedFrames": 32,
+      "sampleFps": 8,
+      "contactSheet": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/qa/cal-soil-impact-v03-contact-sheet.png",
+      "metrics": {
+        "peakTimeSeconds": 0.5,
+        "peakActivityMadRgb": 8.974056712962962,
+        "earlyActivityToPeak": 0.1338264815565961,
+        "endActivityToPeak": 0.22069871549741185,
+        "lateReboundToPeak": 0.2382278649166805,
+        "backgroundDriftP95Percent": 0.25010329511414103,
+        "reverseVelocityCosine": 0.024248866364359856
+      }
+    },
+    {
+      "id": "cal-walk-loop-v01",
+      "kind": "player",
+      "source": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/raw/cal-walk-loop-v01.mp4",
+      "sourceSha256": "5ae719c8eceb9c907901f30d71da5fbb34a4db2b9f3dc629860222f1717a13fd",
+      "decodedFrames": 64,
+      "sampleFps": 8,
+      "contactSheet": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/qa/cal-walk-loop-v01-contact-sheet.png",
+      "metrics": {
+        "seamMadRgb": 11.239947916666667,
+        "backgroundDriftP95Percent": 61.99560185185181,
+        "baselineRangeSourcePx": 0,
+        "silhouetteAreaP95P05Ratio": 1.2599584851258303,
+        "frameDeltaMedian": 4.96171875,
+        "frameDeltaP95": 6.743910300925926,
+        "reverseVelocityCosine": 0.031476184725761414
+      }
+    },
+    {
+      "id": "cal-walk-loop-v02",
+      "kind": "player",
+      "source": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/raw/cal-walk-loop-v02.mp4",
+      "sourceSha256": "f0e686e588051e57d24e2ac4ccfc9462a79b5829958504fc7e256fe59bd13754",
+      "decodedFrames": 64,
+      "sampleFps": 8,
+      "contactSheet": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/qa/cal-walk-loop-v02-contact-sheet.png",
+      "metrics": {
+        "seamMadRgb": 14.904427083333333,
+        "backgroundDriftP95Percent": 2.854629629629629,
+        "baselineRangeSourcePx": 0,
+        "silhouetteAreaP95P05Ratio": 1.1815207386527067,
+        "frameDeltaMedian": 6.4917592592592595,
+        "frameDeltaP95": 8.433362268518518,
+        "reverseVelocityCosine": -0.047766685485839844
+      }
+    },
+    {
+      "id": "cal-walk-loop-v03",
+      "kind": "player",
+      "source": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/raw/cal-walk-loop-v03.mp4",
+      "sourceSha256": "8954b21ba1e7cc6f16b489cd92d53b4a69a0db4755fd32b257808e9315834021",
+      "decodedFrames": 64,
+      "sampleFps": 8,
+      "contactSheet": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/qa/cal-walk-loop-v03-contact-sheet.png",
+      "metrics": {
+        "seamMadRgb": 11.863431712962964,
+        "backgroundDriftP95Percent": 7.150462962962959,
+        "baselineRangeSourcePx": 0,
+        "silhouetteAreaP95P05Ratio": 1.2160697518443997,
+        "frameDeltaMedian": 5.1286805555555555,
+        "frameDeltaP95": 7.099821759259259,
+        "reverseVelocityCosine": 0.05616188421845436
+      }
+    }
+  ]
+}

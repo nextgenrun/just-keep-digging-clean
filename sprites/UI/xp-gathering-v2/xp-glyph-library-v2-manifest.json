@@ -1,0 +1,213 @@
+{
+  "id": "understar-xp-glyph-library-v2",
+  "version": 2,
+  "source": {
+    "file": "sprites/UI/xp-gathering-v2/source/xp-glyph-library-v2-source.png",
+    "size": [
+      1274,
+      1235
+    ],
+    "sha256": "5b5b89c987527fc7958c798fde7ec782d6d17dc6d9891602d3da12d232911a71",
+    "generator": "Codex built-in image generation",
+    "alphaCorrection": "background-extraction edit"
+  },
+  "runtimeSizePx": 256,
+  "outputs": [
+    {
+      "id": "routineCore",
+      "file": "xp-mote-core-v2.png",
+      "source": "sprites/UI/xp-gathering-v1/xp-mote-routine.png",
+      "sourceCrop": [
+        271,
+        247,
+        984,
+        994
+      ],
+      "componentPixels": 220320,
+      "alphaCoverage": 0.297424,
+      "sha256": "1e6d4d25578dd97a1b0ed958383b0f60de5691a08c60c7ecd83b547aa51a61dd"
+    },
+    {
+      "id": "routineFacet",
+      "file": "xp-mote-facet-v2.png",
+      "sourceCell": {
+        "row": 0,
+        "column": 0
+      },
+      "sourceCrop": [
+        88,
+        55,
+        383,
+        372
+      ],
+      "componentPixels": 40438,
+      "alphaCoverage": 0.316666,
+      "sha256": "00036ef0919e608d3247bfab128716e4fd0ad056ffbce7e5e863152f40c388eb"
+    },
+    {
+      "id": "routineCompass",
+      "file": "xp-mote-compass-v2.png",
+      "sourceCell": {
+        "row": 0,
+        "column": 1
+      },
+      "sourceCrop": [
+        58,
+        54,
+        369,
+        377
+      ],
+      "componentPixels": 41108,
+      "alphaCoverage": 0.311951,
+      "sha256": "72c73bc28cc762e13273d24562b39e2aec0b40dc3dc91603f778c434c49cd1f5"
+    },
+    {
+      "id": "routineKite",
+      "file": "xp-mote-kite-v2.png",
+      "sourceCell": {
+        "row": 0,
+        "column": 2
+      },
+      "sourceCrop": [
+        52,
+        51,
+        315,
+        377
+      ],
+      "componentPixels": 40875,
+      "alphaCoverage": 0.301575,
+      "sha256": "f2dd4ac796db85c01f88b2725614f9f8ef47bac0dc019d1a72d879135cae71ee"
+    },
+    {
+      "id": "clusterTwin",
+      "file": "xp-cluster-twin-v2.png",
+      "sourceCell": {
+        "row": 1,
+        "column": 0
+      },
+      "sourceCrop": [
+        64,
+        47,
+        420,
+        318
+      ],
+      "componentPixels": 53165,
+      "alphaCoverage": 0.324371,
+      "sha256": "c4eb0bc812c4e1d70f6db77c85147db1c7936825360cdf7c5026b8903d179bbc"
+    },
+    {
+      "id": "clusterOrbit",
+      "file": "xp-cluster-orbit-v2.png",
+      "sourceCell": {
+        "row": 1,
+        "column": 1
+      },
+      "sourceCrop": [
+        47,
+        17,
+        381,
+        348
+      ],
+      "componentPixels": 59161,
+      "alphaCoverage": 0.405518,
+      "sha256": "70cbc5bb1d6140d5364b13f968c0a227d359f40a5e0be426e5dc781ceb8aa3e2"
+    },
+    {
+      "id": "clusterTriad",
+      "file": "xp-cluster-triad-v2.png",
+      "sourceCell": {
+        "row": 1,
+        "column": 2
+      },
+      "sourceCrop": [
+        9,
+        12,
+        352,
+        342
+      ],
+      "componentPixels": 48609,
+      "alphaCoverage": 0.33313,
+      "sha256": "8725c290b9250b21fbebffeb04fe6e2e3180800b844d5d61d642d6e2c74fcb4d"
+    },
+    {
+      "id": "specialCore",
+      "file": "xp-sigil-core-v2.png",
+      "source": "sprites/UI/xp-gathering-v1/xp-sigil-special.png",
+      "sourceCrop": [
+        422,
+        365,
+        832,
+        803
+      ],
+      "componentPixels": 101426,
+      "alphaCoverage": 0.53157,
+      "sha256": "4f126af89ad85d0dcb142fa1d7eaac16a9e5de07c2d4e0807743f59254aae3ba"
+    },
+    {
+      "id": "specialRune",
+      "file": "xp-sigil-rune-v2.png",
+      "sourceCell": {
+        "row": 2,
+        "column": 0
+      },
+      "sourceCrop": [
+        61,
+        0,
+        412,
+        334
+      ],
+      "componentPixels": 65875,
+      "alphaCoverage": 0.408157,
+      "sha256": "8a843d9bb806178a01bee16c85504aba8793c086cc184418bda066a50814d454"
+    },
+    {
+      "id": "specialLegend",
+      "file": "xp-sigil-legend-v2.png",
+      "sourceCell": {
+        "row": 2,
+        "column": 1
+      },
+      "sourceCrop": [
+        35,
+        1,
+        394,
+        334
+      ],
+      "componentPixels": 72449,
+      "alphaCoverage": 0.427139,
+      "sha256": "5d41761c35ecefb2019fb98387cad9aa4269f7ddf267b6be539898d0de9ed681"
+    },
+    {
+      "id": "levelCore",
+      "file": "xp-crest-core-v2.png",
+      "source": "sprites/UI/xp-gathering-v1/xp-crest-level.png",
+      "sourceCrop": [
+        296,
+        221,
+        960,
+        988
+      ],
+      "componentPixels": 266992,
+      "alphaCoverage": 0.330887,
+      "sha256": "34e586f47f4db8adc81d16bbe104aba84fb2e345cc39076f9821d335627a69f7"
+    },
+    {
+      "id": "levelCrown",
+      "file": "xp-crest-crown-v2.png",
+      "sourceCell": {
+        "row": 2,
+        "column": 2
+      },
+      "sourceCrop": [
+        4,
+        0,
+        359,
+        323
+      ],
+      "componentPixels": 70180,
+      "alphaCoverage": 0.428894,
+      "sha256": "fde6fd7bad695e72679d3909115963a672688ec5e8b844cad84a80e571f539dd"
+    }
+  ],
+  "review": "sprites/UI/xp-gathering-v2/xp-glyph-library-v2-review.png"
+}

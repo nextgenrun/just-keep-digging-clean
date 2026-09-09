@@ -31,11 +31,9 @@ export const AUDIO_CONFIG = Object.freeze({
   xpGatherMaxSegmentIndex: 9,
   xpGatherLevelRateBoost: 0.06,
   xpGatherMinIntervalMs: 180,
-  levelUpFirstVolumeMultiplier: 0.82,
-  levelUpSecondVolumeMultiplier: 1.0,
-  levelUpFirstRate: 0.92,
-  levelUpSecondRate: 1.18,
-  levelUpSecondDelayMs: 115,
+  starDigVolume: 0.85,
+  starDestructionVolume: 0.18,
+  levelUpRewardVolume: 0.5,
   
   // Intervals
   musicTrackChangeInterval: 180000, // 3 minutes in ms
@@ -152,6 +150,38 @@ export const APPROVED_SFX_FAMILIES = Object.freeze({
       file: "hardcore-near-death-warning.wav",
       path: `${APPROVED_SFX_BASE_PATH}hardcore-near-death-warning.wav`,
       sha256: "7A4EEF03201228A108C8D481D8FFE17F2A97F8D20DF0FFE1ED0A60B4AF88508E",
+    }),
+  ]),
+  starDestruction: Object.freeze([
+    Object.freeze({
+      key: "sfx-star-destruction-0",
+      file: "star-destruction-shockwave-freesound-814053.mp3",
+      path: `${APPROVED_SFX_BASE_PATH}star-destruction-shockwave-freesound-814053.mp3`,
+      sha256: "AB12C94200983A26D0614EC1A3EAD2F692CFA07B7F20406E2D6D61DA83F3B2A0",
+      volumeMultiplier: 1,
+      sourceUrl: "https://freesound.org/people/qubodup/sounds/814053/",
+      license: "CC0-1.0",
+    }),
+  ]),
+  levelUpReward: Object.freeze([
+    Object.freeze({
+      key: "sfx-level-up-reward-0",
+      file: "level-up-short-freesound-320655.mp3",
+      path: `${APPROVED_SFX_BASE_PATH}level-up-short-freesound-320655.mp3`,
+      sha256: "3F321B470816F9CDC807E3CC0E960800D4D54E5DFE429FBAD1C9328B30AB4E42",
+      volumeMultiplier: 0.4,
+      sourceUrl: "https://freesound.org/people/rhodesmas/sounds/320655/",
+      license: "CC-BY-4.0",
+      credit: "Level Up 01 by rhodesmas",
+    }),
+    Object.freeze({
+      key: "sfx-level-up-reward-1",
+      file: "level-up-epic-freesound-682633.mp3",
+      path: `${APPROVED_SFX_BASE_PATH}level-up-epic-freesound-682633.mp3`,
+      sha256: "7E7EDDA3BEA604A7D6174DFCDCA54C1CF89254E0CE6B23D8ABE064746404ED93",
+      volumeMultiplier: 1,
+      sourceUrl: "https://freesound.org/people/Bastianhallo/sounds/682633/",
+      license: "CC0-1.0",
     }),
   ]),
 });

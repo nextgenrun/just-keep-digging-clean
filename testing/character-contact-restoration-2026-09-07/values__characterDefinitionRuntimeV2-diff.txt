@@ -1,0 +1,23 @@
+--- testing\character-contact-restoration-2026-09-07\pre-change\values__characterDefinitionRuntimeV2.js
+
++++ values\characterDefinitionRuntimeV2.js
+
+@@ -1,2 +1,4 @@
+
++import { CHARACTER_DEFINITION_IMPACT_CONTACTS } from "./characterDefinitionImpactContacts.js";
++import { applyUnifiedDigContactPresentation } from "./digImpactPresentation.js";
+ import { applyCharacterGroundingPolish } from "./characterGroundingPolish.js";
+ /** Approved V2 appearance on the existing animation keys, timings and anchors. */
+@@ -42,4 +44,11 @@
+
+     sheetType: config.sheetType,
+     characterDefinitionRuntime: config,
++    actionContactByAnimation: applyUnifiedDigContactPresentation(
++      profile, undefined, CHARACTER_DEFINITION_IMPACT_CONTACTS,
++    ),
++    quickslashActionContactByAnimation: applyUnifiedDigContactPresentation(
++      { ...profile, actionContactByAnimation: profile.quickslashActionContactByAnimation },
++      undefined, CHARACTER_DEFINITION_IMPACT_CONTACTS,
++    ),
+     sheetFiles: Object.freeze(profile.sheetFiles.map(entry => Object.freeze([
+       entry[0], `${profile[entry[0]]}.json`, entry[2], config.runtimeRoot,

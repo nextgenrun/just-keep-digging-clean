@@ -58,15 +58,15 @@ const campfire = new CampfireSystem(
   { level: 3, charges: 1, selectedBuffType: "focus" },
 );
 assert.equal(campfire.getEmberCharges(), 1);
-assert.equal(campfire.getSelectedBuff().type, "focus");
+assert.equal(campfire.getSelectedBuff().type, "warmth", "retired Focus saves migrate to Warmth");
 assert.equal(campfire.getActionBarState().quantity, 1);
-assert.match(campfire.getActionBarState().description, /Focus.*90s/);
+assert.match(campfire.getActionBarState().description, /Warmth.*90s/);
 
 const consumed = campfire.consumeSelectedBuff("contract");
 assert.equal(consumed.ok, true);
 assert.equal(consumed.source, "contract");
 assert.equal(campfire.getEmberCharges(), 0);
-assert.equal(campfire.getCritBonus(), 0.05);
+assert.equal(campfire.getMiningSpeedBonus(), 0.10);
 assert.equal(campfire.getActionBarState().available, false);
 assert.match(campfire.getActionBarState().unavailableReason, /at least 1 use/);
 assert.match(campfire.getActionBarState().unavailableReason, /Find Ember Ore underground/);
@@ -85,7 +85,7 @@ assert.equal(collected.refillUpgraded, true);
 assert.equal(campfire.getEmberCharges(), 1);
 assert.equal(campfire.getEmberRefillCapacity(), 2);
 assert.match(campfire.getActionBarState().description, /at least 2 uses/);
-assert.match(campfire.getActionBarState().description, /refill upgrade found/i);
+assert.match(campfire.getActionBarState().description, /found the Campfire refill upgrade/i);
 assert.deepEqual(saves, [
   CAMPFIRE_CONSUMABLE_CONFIG.saveReasons.consumed,
   CAMPFIRE_CONSUMABLE_CONFIG.saveReasons.collected,
@@ -109,7 +109,7 @@ assert.equal(statuses.length, 3);
 const restored = new CampfireSystem(scene, { tileSize: 94 }, {}, {}, 1, campfire.getSaveData());
 assert.equal(restored.getEmberCharges(), 2);
 assert.equal(restored.getEmberRefillCapacity(), 2);
-assert.equal(restored.getSelectedBuff().type, "focus");
+assert.equal(restored.getSelectedBuff().type, "warmth");
 assert.equal(new CampfireSystem(scene, { tileSize: 94 }, {}, {}, 1, { level: 4 })
   .getEmberCharges(), 1, "legacy campfire saves receive the one-use starting migration");
 const savePayload = createDugTilesSavePayload({
@@ -121,7 +121,7 @@ assert.deepEqual(savePayload.campfireData, {
   level: 3,
   charges: 7,
   refillCapacity: 2,
-  selectedBuffType: "focus",
+  selectedBuffType: "warmth",
 });
 
 const townSaves = [];

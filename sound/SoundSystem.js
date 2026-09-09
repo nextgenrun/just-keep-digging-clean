@@ -1,3 +1,9 @@
+import { applySfxWindow } from "./coreSfxWindow.js";
+import { AUDIO_MASTERING } from "../values/audioMastering.js";
+import { installLayerSpatialFilter } from "./AudioLayerSpatialFilter.js";
+import { CORE_SFX_WINDOWS } from "../values/coreSfxWindows.js";
+import { MERCHANT_SHOP_AUDIO } from "../values/merchantShopAudio.js";
+import { CORE_ACTION_AUDIO } from "../values/coreActionAudio.js";
 import { ASSET_KEYS } from "../values/assetKeys.js";
 import {
   APPROVED_SFX_FAMILIES,
@@ -6,8 +12,15 @@ import {
 import { SoundLibraryManager } from "./SoundLibraryManager.js";
 import { VoiceLineManager } from "./VoiceLineManager.js";
 import { RuntimeAudioAssetManager } from "./RuntimeAudioAssetManager.js";
+import { MusicDirector } from "./MusicDirector.js";
 import { MusicStreamController } from "./MusicStreamController.js";
 import { EventVoiceLineDirector } from "./EventVoiceLineDirector.js";
+import { ActiveSfxMixer } from "./ActiveSfxMixer.js";
+import { ReviewedSfxController } from "./ReviewedSfxController.js";
+import { ReviewedAmbienceController } from "./ReviewedAmbienceController.js";
+import { REVIEWED_AUDIO_MIX } from "../values/reviewedAudioMix.js";
+import { REVIEWED_AUDIO_ASSETS } from "../values/reviewedAudioAssets.js";
+import { FreesoundAudioDirector } from "./FreesoundAudioDirector.js";
 export class SoundSystem {
   constructor(scene) {
     this.scene = scene;
@@ -25,11 +38,14 @@ export class SoundSystem {
     this.currentTrackIndex = -1;
 
     this.sfxEnabled = true;
-    this.lastFootstepTime = 0;
+    this.lastFootstepTime = -Infinity;
     this.lastUiSelectTime = -Infinity;
-    this.lastXpGatherTime = -Infinity;
+    this.lastPickupTime = -Infinity;
+    this.lastShopCoinTime = -Infinity;
+    this.lastMerchantWelcomeTime = -Infinity;
     this.activeSeismicWarning = null;
-    this.levelUpCueTimer = null;
+    this.activeStarDestruction = null;
+    this.activeLevelUpCue = null;
 
     this.voiceLineTimer = null;
     this.lastVoiceLineTime = 0;
@@ -52,14 +68,41 @@ export class SoundSystem {
     );
     this.voiceLineManager = new VoiceLineManager(scene, this);
     this.runtimeAudioAssetManager = new RuntimeAudioAssetManager(scene);
+    this.musicDirector = new MusicDirector(this);
     this.musicStreamController = new MusicStreamController(this, this.runtimeAudioAssetManager);
     this.eventVoiceLineDirector = new EventVoiceLineDirector(scene, this);
+    this.activeSfxMixer = new ActiveSfxMixer(this);
+    this.reviewedSfx = new ReviewedSfxController(this);
+    this.reviewedAmbience = new ReviewedAmbienceController(this);
+    this.freesoundAudio = new FreesoundAudioDirector(this);
+    this.voiceDucked = false;
+    this._reviewedTick = (time, delta) => {
+      this.freesoundAudio.updateFromScene(time, delta);
+      this.reviewedAmbience.updateFromScene(time, delta);
+    };
+    this._suspendAudio = () => {
+      this.eventVoiceLineDirector?.suspend?.();
+      this.voiceLineManager?.stopCurrentVoiceLine?.();
+      for (const sound of this.voiceLineCache.values()) sound.stop?.();
+      this.activeSfxMixer.stopAll();
+      this.reviewedSfx.stop();
+      this.reviewedAmbience.stop();
+      this.freesoundAudio.stop();
+      this.scene.weatherSystem?.audioController?.stop?.();
+      this.scene.earthquakeSystem?.stopAudio?.();
+    };
+    this._audioVisibility = () => { if (typeof document !== "undefined" && document.hidden) this._suspendAudio(); };
   }
 
   init() {
     this.audioInitialized = false;
     console.log('[SoundSystem] Runtime audio uses a bounded current/next working set');
     this.scene.sound.volume = this.masterVolume;
+    this.scene.events?.off?.("postupdate", this._reviewedTick);
+    this.scene.events?.on?.("postupdate", this._reviewedTick);
+    this.scene.events?.on?.("pause", this._suspendAudio);
+    this.scene.events?.on?.("sleep", this._suspendAudio);
+    if (typeof document !== "undefined") document.addEventListener("visibilitychange", this._audioVisibility);
     this.tryUnlockAudioContext();
     console.log('[SoundSystem] Initialized - waiting for user interaction to start audio');
   }
@@ -97,8 +140,53 @@ export class SoundSystem {
     return this.musicStreamController.stop();
   }
 
+  updateMusicContext(snapshot, options = {}) {
+    this.freesoundAudio?.setContext(snapshot);
+    return this.musicDirector.update(snapshot, options);
+  }
+
+  playMusicCue(cueId, options = {}) {
+    return this.musicDirector.requestCue(cueId, options);
+  }
+
+  getMusicSnapshot() {
+    return this.musicDirector.getSnapshot();
+  }
+
   getSfxVolumeForKey(key) {
-    const baseVolume = this.sfxVolume * this.masterVolume;
+    return this.getSfxMixVolume() * this.getSfxCategoryGainForKey(key);
+  }
+
+  getSfxMixVolume() {
+    return (this.sfxEnabled ? this.sfxVolume * (this.isVoiceDuckingAudible() ? this.config.voiceSfxDuckMultiplier : 1) : 0) * (this.sessionAwakeningMix?.sfx ?? 1);
+  }
+
+  getMusicMixVolume() {
+    return (this.musicVolume * (this.isVoiceDuckingAudible() ? this.config.voiceMusicDuckMultiplier : 1)) * (this.sessionAwakeningMix?.music ?? 1);
+  }
+
+  isVoiceDuckingAudible() {
+    const npc = this.voiceLineManager?.currentVoiceIsNpc || Boolean(this.voiceLineManager?.externalVoiceOwner);
+    return this.voiceDucked && this.getVoiceMixVolume(npc) > 0;
+  }
+
+  getVoiceMixVolume(isNpc = false) {
+    return this.sfxEnabled ? this.voiceVolume * REVIEWED_AUDIO_MIX.voiceHeadroom * (isNpc ? this.npcVoiceVolume : 1) : 0;
+  }
+
+  refreshMixVolumes() {
+    this.updateMusicVolume();
+    this.activeSfxMixer.refresh();
+    this.reviewedAmbience.bus.refreshVolume();
+    this.freesoundAudio.refreshVolume();
+    this.scene.weatherSystem?.audioController?.recordedAmbience?.bus?.refreshVolume?.();
+    this.scene.weatherSystem?.audioController?.refreshVolume?.();
+    this.scene.earthquakeSystem?.refreshAudioVolume?.();
+    this.updateVoiceVolume();
+  }
+
+  getSfxCategoryGainForKey(key) {
+    const baseVolume = 1;
     if (key.startsWith('footsteps-')) return baseVolume * this.config.footstepVolume;
     if (key.startsWith('dig-') || key.startsWith('tileBreak-') || key.startsWith('tileHit-')) return baseVolume * 0.7;
     switch (key) {
@@ -135,19 +223,41 @@ export class SoundSystem {
       console.warn(`[SoundSystem] Audio asset not available: ${key}`);
       return null;
     }
+    let sound;
     try {
       // Create a new sound instance each time to allow overlapping playback.
       // Important for rapid dig sounds where multiple hits happen in quick succession.
-      const sound = this.scene.sound.add(key, { 
-        volume: this.getSfxVolumeForKey(key) * volumeMultiplier,
+      sound = this.scene.sound.add(key, {
+        volume: 0,
         rate: Number.isFinite(options.rate) && options.rate > 0 ? options.rate : 1,
+        pan: Math.max(-1, Math.min(1, Number(options.pan) || 0)),
       });
+      const dcFilter = key === AUDIO_MASTERING.starSoundKey
+        ? installLayerSpatialFilter(sound, this.scene.sound, AUDIO_MASTERING.starDcHighpassHz,
+          "highpass", AUDIO_MASTERING.starDcFilterQ) : null;
+      sound.dcFilter = dcFilter;
+      sound.once("destroy", () => { try { dcFilter?.disconnect(); } catch (_) {} });
+      sound.once("stop", () => queueMicrotask(() => {
+        // Phaser emits STOP inside destroy, before it marks the sound removed.
+        try { if (sound.manager) sound.destroy(); } catch (_) {}
+      }));
+      const priority = options.priority ?? (REVIEWED_AUDIO_MIX.protectedKeyParts.some(part => key.toLowerCase().includes(part))
+        ? REVIEWED_AUDIO_MIX.protectedPriority : REVIEWED_AUDIO_MIX.defaultPriority);
+      const admitted = this.activeSfxMixer.add(sound,
+        Math.max(0, volumeMultiplier) * (options.rawGain ? 1 : this.getSfxCategoryGainForKey(key)),
+        Math.max(options.sourcePeak ?? 1, dcFilter ? AUDIO_MASTERING.starFilteredPeak : 0), priority);
+      if (!admitted) { sound.destroy(); return null; }
       sound.once('complete', () => {
         try { sound.destroy(); } catch (_) {}
       });
-      sound.play();
+      const marker = applySfxWindow(sound, this.scene.sound.context, options.window);
+      if (sound.play(marker) === false) {
+        this.activeSfxMixer.stop(sound);
+        return null;
+      }
       return sound;
     } catch (error) {
+      if (sound) this.activeSfxMixer.stop(sound);
       console.warn(`[SoundSystem] Failed to play sound effect: ${key}`, error);
       return null;
     }
@@ -160,58 +270,89 @@ export class SoundSystem {
   }
 
   playUiSelect() {
-    const now = Number(this.scene.time?.now) || 0;
-    if (now - this.lastUiSelectTime < this.config.uiSelectMinIntervalMs) return null;
-    this.lastUiSelectTime = now;
-    return this.playFirstAvailableSfx([
-      ASSET_KEYS.audio.sfx.uiSelect,
-    ], this.config.uiSelectVolumeMultiplier, { rate: this.config.uiSelectRate });
+    return this.reviewedSfx.play("libUiHover");
   }
+
+  playUiClick() { return this.freesoundAudio.play("uiClick", { context: "interface" }, () => this.reviewedSfx.play("libUiClick")); }
+  playMerchantWelcome() {
+    const now = this.freesoundAudio.now();
+    if (now >= this.lastMerchantWelcomeTime && now - this.lastMerchantWelcomeTime < MERCHANT_SHOP_AUDIO.cooldownMs) return null;
+    const sound = this.playFirstAvailableSfx([MERCHANT_SHOP_AUDIO.key],
+      MERCHANT_SHOP_AUDIO.gain * this.config.uiVolume, { sourcePeak: MERCHANT_SHOP_AUDIO.sourcePeak });
+    if (sound) this.lastMerchantWelcomeTime = now;
+    return sound;
+  }
+
+  playMenuOpen() { return this.freesoundAudio.play("uiMechanical", { context: "interface" }, () => this.reviewedSfx.play("libMenuOpen")); }
+  playPurchase() { return this.playShopCoin("coinPickup", "libPurchaseCoin", CORE_ACTION_AUDIO.pickups.purchaseFallbackGain); }
+  playCoinReward() { return this.playShopCoin("coinReward", "libRewardCoins", CORE_ACTION_AUDIO.pickups.rewardFallbackGain); }
+
+  playShopCoin(role, fallbackId, fallbackGain) {
+    const now = this.freesoundAudio.now();
+    if (now >= this.lastShopCoinTime && now - this.lastShopCoinTime < CORE_ACTION_AUDIO.pickups.shopGapMs) return null;
+    const sound = this.freesoundAudio.play(role, { context: "shop", group: "reward", cooldownKey: "shop-coins" },
+      () => this.reviewedSfx.play(fallbackId, { gain: fallbackGain, group: "reward", cooldownKey: "shop-coins" }));
+    if (sound) this.lastShopCoinTime = now;
+    return sound;
+  }
+
+  playResourcePickup({ special = false } = {}) {
+    const now = this.freesoundAudio.now();
+    if (now >= this.lastPickupTime && now - this.lastPickupTime < CORE_ACTION_AUDIO.pickups.pickupGapMs) return null;
+    const gain = special ? CORE_ACTION_AUDIO.pickups.specialResourceGain : CORE_ACTION_AUDIO.pickups.resourceGain;
+    const sound = this.reviewedSfx.play("libResourcePop", { gain, group: "pickup", cooldownKey: "loot-arrival" });
+    if (sound) this.lastPickupTime = now;
+    return sound;
+  }
+  playManualSave() { return this.freesoundAudio.play("uiMechanical", { context: "interface" }, () => this.reviewedSfx.play("libSaveCard")); }
+  playTorchExtinguish() { return this.reviewedSfx.play("libTorchReact"); }
+  playDigSwing() { return this.reviewedSfx.play("libDirtSwingA", { gain: CORE_ACTION_AUDIO.swingGain }); }
+  stopTrackedSfx(sound) { this.activeSfxMixer.stop(sound); }
 
   playUiConfirm() {
-    return this.playFirstAvailableSfx([
-      ASSET_KEYS.audio.sfx.uiConfirm,
-    ], this.config.uiConfirmVolumeMultiplier, { rate: this.config.uiConfirmRate });
+    return this.freesoundAudio.play("uiMechanical", { context: "interface" }, () => this.reviewedSfx.play("libUiConfirm"));
   }
 
-  playXpGather({ special = false, levelUp = false, segmentIndex = 0 } = {}) {
-    const now = Number(this.scene.time?.now) || 0;
-    if (now - this.lastXpGatherTime < this.config.xpGatherMinIntervalMs) return null;
-    this.lastXpGatherTime = now;
-    const safeSegment = Math.max(
-      0,
-      Math.min(this.config.xpGatherMaxSegmentIndex, Math.floor(Number(segmentIndex) || 0)),
-    );
-    const rate = this.config.xpGatherBaseRate
-      + safeSegment * this.config.xpGatherSegmentRateStep
-      + (levelUp ? this.config.xpGatherLevelRateBoost : 0);
-    const volume = special || levelUp
-      ? this.config.xpGatherSpecialVolumeMultiplier
-      : this.config.xpGatherVolumeMultiplier;
-    return this.playFirstAvailableSfx([ASSET_KEYS.audio.sfx.uiSelect], volume, { rate });
+  playXpGather() {
+    // Resource arrival owns the pickup cue. XP often arrives much later from the
+    // same destruction, so even special XP must not replay a second pickup.
+    // Level-up retains its own dedicated reward cue.
+    return null;
   }
 
   playLevelUpReward() {
-    this.levelUpCueTimer?.remove?.();
-    this.levelUpCueTimer = null;
-    const first = this.playFirstAvailableSfx(
-      [ASSET_KEYS.audio.sfx.uiConfirm],
-      this.config.levelUpFirstVolumeMultiplier,
-      { rate: this.config.levelUpFirstRate },
+    this.stopLevelUpReward();
+    const sound = this.playApprovedSfxFamily(
+      "levelUpReward",
+      this.config.levelUpRewardVolume,
     );
-    if (!first) return null;
-    this.levelUpCueTimer = this.scene.time.delayedCall(
-      this.config.levelUpSecondDelayMs,
-      () => {
-        this.levelUpCueTimer = null;
-        this.playFirstAvailableSfx(
-          [ASSET_KEYS.audio.sfx.uiConfirm],
-          this.config.levelUpSecondVolumeMultiplier,
-          { rate: this.config.levelUpSecondRate },
-        );
-      },
+    this.activeLevelUpCue = sound;
+    sound?.once?.("complete", () => {
+      if (this.activeLevelUpCue === sound) this.activeLevelUpCue = null;
+    });
+    return sound;
+  }
+
+  playLegendReward() {
+    this.stopLevelUpReward();
+    const asset = REVIEWED_AUDIO_ASSETS.levelUpEpic;
+    if (!asset) return this.playLevelUpReward();
+    const sound = this.playSfx(
+      asset.key,
+      this.config.levelUpRewardVolume,
+      { sourcePeak: asset.peak ?? 1 },
     );
-    return first;
+    this.activeLevelUpCue = sound;
+    sound?.once?.("complete", () => {
+      if (this.activeLevelUpCue === sound) this.activeLevelUpCue = null;
+    });
+    return sound;
+  }
+
+  stopLevelUpReward() {
+    const sound = this.activeLevelUpCue;
+    this.activeLevelUpCue = null;
+    this.stopTrackedSfx(sound);
   }
 
   playVoiceLine(key) {
@@ -224,7 +365,7 @@ export class SoundSystem {
       let sound = this.voiceLineCache.get(key);
       if (sound && !this._isUsableSound(sound)) { this.voiceLineCache.delete(key); sound = null; }
       if (!sound) {
-        sound = this.scene.sound.add(key, { volume: this.sfxVolume * this.masterVolume * this.voiceVolume });
+        sound = this.scene.sound.add(key, { volume: this.getVoiceMixVolume() });
         this.voiceLineCache.set(key, sound);
       }
       sound.play();
@@ -302,57 +443,115 @@ export class SoundSystem {
     }
   }
 
-  playFootstep() {
-    if (!this.sfxEnabled || !this.audioInitialized) return null;
-    const soundKey = this.soundLibraryManager.getRandomSound('footsteps');
-    if (soundKey && this.soundLibraryManager.soundExists(soundKey)) return this.playSfx(soundKey);
-    return null;
+  groundAudioMaterial(controller, worldModel) {
+    const body = controller?.physicsBody;
+    const size = worldModel?.tileSize || this.scene.config?.tileSize;
+    return body && size ? worldModel?.getTileType?.(
+      Math.floor((body.x + (body.w ?? body.width ?? 0) / 2) / size),
+      Math.floor((body.y + (body.h ?? body.height ?? 0)) / size + this.freesoundAudio.config.floorProbeTiles),
+    ) : null;
+  }
+
+  playFootstep({ controller = this.scene.playerController, worldModel = this.scene.worldModel, landingGain = null } = {}) {
+    if (!this.sfxEnabled || !this.audioInitialized || this.audioSuspended || !controller?.isGrounded?.()) return null;
+    if (landingGain === null && Math.abs(controller.physicsBody?.vx || 0) < CORE_ACTION_AUDIO.minWalkSpeed) return null;
+    const now = this.freesoundAudio.now();
+    if (this.footstepOwner !== controller || now < this.lastFootstepTime) {
+      this.footstepOwner = controller;
+      this.lastFootstepTime = -Infinity;
+    }
+    if (now - this.lastFootstepTime < CORE_ACTION_AUDIO.minFootstepMs) return null;
+    const fallback = () => {
+      const available = CORE_ACTION_AUDIO.hardFootsteps.filter(asset => this.scene.cache.audio.exists(asset.key));
+      const key = this.reviewedSfx.choose("hard-footstep", available.map(asset => asset.key));
+      const asset = available.find(candidate => candidate.key === key);
+      return asset ? this.playSfx(key, asset.gain * (landingGain ?? 1), {
+        rawGain: true, sourcePeak: asset.peak, window: CORE_SFX_WINDOWS[key],
+      }) : null;
+    };
+    const floor = this.groundAudioMaterial(controller, worldModel);
+    const sound = this.freesoundAudio.config.softTypes.includes(floor)
+      ? this.freesoundAudio.play("footstepDirt", { gain: landingGain ?? 1,
+        group: landingGain === null ? "footstep" : "landing", cooldownKey: "ground-contact" }, fallback) : fallback();
+    if (sound) this.lastFootstepTime = now;
+    return sound;
+  }
+
+  playLanding(controller, speed, worldModel = this.scene.worldModel) {
+    const strength = Math.max(CORE_ACTION_AUDIO.landingMinimumStrength,
+      Math.min(1, speed / REVIEWED_AUDIO_MIX.landing.fullSpeed));
+    return this.playFootstep({ controller, worldModel,
+      landingGain: strength * CORE_ACTION_AUDIO.landingFootstepGain });
   }
 
   playDig(options = {}) {
-    if (!this.sfxEnabled || !this.audioInitialized) return null;
-    const soundKey = this.soundLibraryManager.getRandomSound('dig');
-    if (soundKey && this.soundLibraryManager.soundExists(soundKey)) return this.playSfx(soundKey, 1, options);
-    return null;
+    this.freesoundAudio.noteAction();
+    const role = this.freesoundAudio.materialRole(options.tileType);
+    const id = role === "mineEarth" ? this.reviewedSfx.choose("dig", ["digOne", "digTwo"]) : "libToolContact";
+    return this.freesoundAudio.play(role, { ...options, group: "contact", cooldownKey: "dig-contact" },
+      () => this.reviewedSfx.play(id, { ...options, group: "contact", cooldownKey: "dig-contact",
+        gain: (options.gain ?? 1) * CORE_ACTION_AUDIO.fallbackContactGain }));
   }
 
   playTileBreak(options = {}) {
-    if (!this.sfxEnabled || !this.audioInitialized) return null;
-    const soundKey = this.soundLibraryManager.getRandomSound('tileBreak');
-    if (soundKey && this.soundLibraryManager.soundExists(soundKey)) {
-      const volume = Number.isFinite(options.volume) ? options.volume : 1;
-      return this.playSfx(soundKey, volume, options);
-    }
-    return null;
+    this.freesoundAudio.noteAction();
+    const id = REVIEWED_AUDIO_MIX.softMaterialTypes.includes(options.tileType) ? "libDirtBreak" : "libStoneBreak";
+    const fallback = () => this.reviewedSfx.play(id, { ...options,
+      gain: Math.min(1.2, options.volume ?? 1) * CORE_ACTION_AUDIO.breakGain });
+    return this.freesoundAudio.isCrystal(options.tileType)
+      ? this.freesoundAudio.play("crystalBreak", { ...options, gain: options.volume ?? options.gain ?? 1 }, fallback) : fallback();
   }
 
   playTileHit(options = {}) {
-    if (!this.sfxEnabled || !this.audioInitialized) return null;
-    const soundKey = this.soundLibraryManager.getRandomSound('tileHit');
-    if (soundKey && this.soundLibraryManager.soundExists(soundKey)) return this.playSfx(soundKey, 1, options);
-    return null;
+    return this.reviewedSfx.play("libToolContact", options);
   }
 
   playStarDig() {
     if (!this.sfxEnabled || !this.audioInitialized) return null;
     const soundKey = this.soundLibraryManager.getRandomSound('starDig');
-    if (soundKey && this.soundLibraryManager.soundExists(soundKey)) return this.playSfx(soundKey, 0.85);
+    if (soundKey && this.soundLibraryManager.soundExists(soundKey)) {
+      return this.playSfx(soundKey, this.config.starDigVolume);
+    }
     return null;
+  }
+
+  playStarDestruction() {
+    this.freesoundAudio.stars.consumed(this.freesoundAudio.now());
+    this.stopStarDestruction();
+    const sound = this.playApprovedSfxFamily(
+      "starDestruction",
+      this.config.starDestructionVolume,
+    );
+    this.activeStarDestruction = sound;
+    sound?.once?.("complete", () => {
+      if (this.activeStarDestruction === sound) this.activeStarDestruction = null;
+    });
+    return sound;
+  }
+
+  stopStarDestruction() {
+    const sound = this.activeStarDestruction;
+    this.activeStarDestruction = null;
+    this.stopTrackedSfx(sound);
   }
 
   playApprovedSfxFamily(libraryName, volumeMultiplier = 1, options = {}) {
     if (!this.sfxEnabled || !this.audioInitialized) return null;
     const soundKey = this.soundLibraryManager.getRandomSound(libraryName);
     if (!soundKey || !this.soundLibraryManager.soundExists(soundKey)) return null;
-    return this.playSfx(soundKey, volumeMultiplier, options);
+    const entry = this.soundLibraryManager.getSoundEntry(libraryName, soundKey);
+    const assetVolume = Number.isFinite(entry?.volumeMultiplier)
+      ? entry.volumeMultiplier
+      : 1;
+    const reviewed = Object.values(REVIEWED_AUDIO_ASSETS).find(asset => asset.key === soundKey);
+    return this.playSfx(soundKey, volumeMultiplier * assetVolume, {
+      sourcePeak: reviewed?.peak ?? 1, ...options,
+    });
   }
 
   playSeismicWarning(proximity = 1) {
-    this.stopSeismicWarning();
-    const sound = this.playApprovedSfxFamily(
-      "seismicWarning",
-      this.config.seismicWarningVolume * Math.max(0, Math.min(1, proximity)),
-    );
+    const sound = this.reviewedSfx.play("libFarCollapse", { gain: Math.max(0, Math.min(1, proximity)) });
+    if (!sound) return null;
     this.activeSeismicWarning = sound;
     sound?.once?.("complete", () => {
       if (this.activeSeismicWarning === sound) this.activeSeismicWarning = null;
@@ -361,12 +560,8 @@ export class SoundSystem {
   }
 
   playHardcoreNearDeath() {
-    this.stopSeismicWarning();
-    const sound = this.playApprovedSfxFamily(
-      "hardcoreNearDeath",
-      this.config.hardcoreNearDeathVolume,
-      { rate: this.config.hardcoreNearDeathRate },
-    );
+    const sound = this.reviewedSfx.play("libPressureRumble", { gain: 1.15 });
+    if (!sound) return null;
     this.activeSeismicWarning = sound;
     sound?.once?.("complete", () => {
       if (this.activeSeismicWarning === sound) this.activeSeismicWarning = null;
@@ -375,12 +570,8 @@ export class SoundSystem {
   }
 
   playHardcoreStressWarning(critical = false) {
-    this.stopSeismicWarning();
-    const sound = this.playApprovedSfxFamily(
-      "hardcoreNearDeath",
-      this.config.hardcoreNearDeathVolume * (critical ? 0.72 : 0.48),
-      { rate: critical ? 1 : 1.08 },
-    );
+    const sound = this.reviewedSfx.play(critical ? "libPressureRumble" : "libSupportCreak");
+    if (!sound) return null;
     this.activeSeismicWarning = sound;
     sound?.once?.("complete", () => {
       if (this.activeSeismicWarning === sound) this.activeSeismicWarning = null;
@@ -391,9 +582,7 @@ export class SoundSystem {
   stopSeismicWarning() {
     const sound = this.activeSeismicWarning;
     this.activeSeismicWarning = null;
-    if (!this._isUsableSound(sound)) return;
-    try { sound.stop(); } catch (_) {}
-    try { sound.destroy(); } catch (_) {}
+    this.stopTrackedSfx(sound);
   }
 
   setMasterVolume(volume) {
@@ -401,7 +590,7 @@ export class SoundSystem {
     this.scene.sound.volume = this.masterVolume;
     this.updateMusicVolume();
     this.updateVoiceVolume();
-    // SFX volume is applied per-instance at creation time; next plays will use new volume.
+    // Phaser's master stage changes all currently playing voices immediately.
   }
 
   setMusicVolume(volume) {
@@ -410,33 +599,34 @@ export class SoundSystem {
   }
 
   updateMusicVolume() {
-    const volume = this.musicVolume * this.masterVolume;
-    if (this.currentTrack && !this._setSoundVolume(this.currentTrack, volume, 'current music track')) this.currentTrack = null;
-    if (this.nextTrack && !this._setSoundVolume(this.nextTrack, volume, 'next music track')) this.nextTrack = null;
+    if (this.currentTrack && !this._isUsableSound(this.currentTrack)) this.currentTrack = null;
+    if (this.nextTrack && !this._isUsableSound(this.nextTrack)) this.nextTrack = null;
+    this.musicStreamController.refreshVolume();
   }
 
   setSfxVolume(volume) {
     this.sfxVolume = Math.max(0, Math.min(1, volume));
-    // SFX cache is no longer used; new instances will pick up the volume on next play.
-    this.updateVoiceVolume();
+    this.refreshMixVolumes();
   }
 
   setVoiceVolume(volume) {
     this.voiceVolume = Math.max(0, Math.min(1, volume));
-    this.updateVoiceVolume();
+    this.refreshMixVolumes();
   }
 
   updateVoiceVolume() {
-    const volume = this.sfxVolume * this.masterVolume * this.voiceVolume;
+    const volume = this.getVoiceMixVolume();
     for (const [key, sound] of this.voiceLineCache) {
       if (!this._setSoundVolume(sound, volume, `voice line ${key}`)) {
         this.voiceLineCache.delete(key);
       }
     }
     const currentVoiceLine = this.voiceLineManager?.currentVoiceLine;
-    if (currentVoiceLine && !this._setSoundVolume(currentVoiceLine, volume, 'current voice line')) {
+    if (currentVoiceLine && !this._setSoundVolume(currentVoiceLine,
+      this.getVoiceMixVolume(this.voiceLineManager.currentVoiceIsNpc) * (this.voiceLineManager.currentVoiceSourceGain ?? 1), 'current voice line')) {
       this.voiceLineManager.currentVoiceLine = null;
     }
+    this.voiceLineManager?.externalVoiceOwner?.refreshVolume?.();
   }
 
   applySettings(settings = {}) {
@@ -456,6 +646,11 @@ export class SoundSystem {
 
   toggleSfx(enabled) {
     this.sfxEnabled = enabled;
+    if (!enabled) {
+      this._suspendAudio();
+      this.voiceLineManager?.stopCurrentVoiceLine?.();
+    }
+    this.refreshMixVolumes();
     console.log(`[SoundSystem] SFX ${enabled ? 'enabled' : 'disabled'} (includes voice lines)`);
   }
 
@@ -525,7 +720,7 @@ export class SoundSystem {
     }
     if (!this.soundLibraryManager.libraries.starDig) this.soundLibraryManager.libraries.starDig = [];
     if (this.scene.cache.audio.exists('dig-star-0')) {
-      this.soundLibraryManager.libraries.starDig.push({ key: 'dig-star-0', file: 'dig-star-0', path: 'sound/soundEffects/costume-sounds/dig/dig-star/MUSCChim_Chimes dream 3 (ID 2081)_BigSoundBank.com.wav' });
+      this.soundLibraryManager.libraries.starDig.push({ key: 'dig-star-0', file: 'dig-star-0', path: 'sound/soundEffects/costume-sounds/dig/dig-star/MUSCChim_Chimes dream 3 (ID 2081)_BigSoundBank.com.ogg' });
     }
 
     for (const [libraryName, assets] of Object.entries(APPROVED_SFX_FAMILIES)) {
@@ -680,6 +875,10 @@ export class SoundSystem {
   }
 
   playPlayerVoiceEvent(eventId, context = {}) {
+    this.musicDirector?.handleVoiceEvent?.(eventId, {
+      ...context,
+      now: this.scene.time?.now,
+    });
     if (!this.sfxEnabled || !this.audioInitialized) return null;
     return this.eventVoiceLineDirector.requestEvent(eventId, context);
   }
@@ -706,13 +905,22 @@ export class SoundSystem {
 
   destroy() {
     console.log('[SoundSystem] Destroying sound system');
-    this.levelUpCueTimer?.remove?.();
-    this.levelUpCueTimer = null;
+    this.scene.events?.off?.("postupdate", this._reviewedTick);
+    this.scene.events?.off?.("pause", this._suspendAudio);
+    this.scene.events?.off?.("sleep", this._suspendAudio);
+    if (typeof document !== "undefined") document.removeEventListener("visibilitychange", this._audioVisibility);
+    this.reviewedSfx.destroy();
+    this.reviewedAmbience.destroy();
+    this.activeSfxMixer.stopAll();
+    this.freesoundAudio.destroy();
+    this.stopLevelUpReward();
+    this.stopStarDestruction();
     this.stopSeismicWarning();
     this.stopVoiceLineTimer();
     this.eventVoiceLineDirector?.destroy();
     this.voiceLineManager?.destroy();
     this.musicStreamController?.destroy();
+    this.musicDirector?.destroy();
     this.runtimeAudioAssetManager?.destroy();
     // Kill any remaining tweens targeting cached sounds to prevent "Cannot set properties of null (setting 'volume')"
     for (const [key, sound] of this.sfxCache) {

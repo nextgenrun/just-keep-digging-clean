@@ -1,4 +1,5 @@
 import { ASSET_KEYS } from "../../values/assetKeys.js";
+import { MUSIC_CUE_IDS } from "../../values/musicDirector.js";
 import {
   UNDERSTAR_ENDING_CONFIG,
   UNDERSTAR_ENDING_STATES,
@@ -38,6 +39,9 @@ export class UnderstarEndingSystem {
         anchorTileX: playerTile.tx,
       });
       this._ensureAsset();
+      this.scene.soundSystem?.playMusicCue?.(MUSIC_CUE_IDS.discovery, {
+        dedupeKey: "understar-discovered",
+      });
       this.onChanged?.("understar-discovered");
     }
     if (this.data.state !== UNDERSTAR_ENDING_STATES.LOCKED && this.assetReady) {
@@ -70,6 +74,9 @@ export class UnderstarEndingSystem {
       this.data = sanitizeUnderstarEndingData({
         ...this.data,
         state: UNDERSTAR_ENDING_STATES.COMPLETED,
+      });
+      this.scene.soundSystem?.playMusicCue?.(MUSIC_CUE_IDS.finale, {
+        dedupeKey: "understar-completed",
       });
       this.onChanged?.("understar-completed");
       void this.scene.flushDugTilesSave?.({

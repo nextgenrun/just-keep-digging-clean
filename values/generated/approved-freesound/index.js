@@ -1,0 +1,16 @@
+import family0 from "./danger-panic.js";
+import family1 from "./flight-air.js";
+import family2 from "./footsteps.js";
+import family3 from "./mining-earth.js";
+import family4 from "./mining-ice.js";
+import family5 from "./mining-metal.js";
+import family6 from "./mining-stone.js";
+import family7 from "./reward-economy.js";
+import family8 from "./star-texture.js";
+import family9 from "./ui-tactile.js";
+import family10 from "./wood-supports.js";
+export const FREESOUND_APPROVAL_HASH = "9968a81d2fb652b749543e7e3c18bcf105975ab1952a533c31b5dab94ec62ed7";
+export const FREESOUND_LEVEL_POLICY = Object.freeze({"targetRmsDb":-21,"minimum":0.9,"maximum":1.75});
+export const FREESOUND_ROLE_SETTINGS = Object.freeze({"mineEarth":{"maxSeconds":0.85,"gain":0.24,"group":"contact","cooldownMs":65,"priority":70},"mineStone":{"maxSeconds":0.6,"gain":0.2,"group":"contact","cooldownMs":65,"priority":70},"mineMetal":{"maxSeconds":0.75,"gain":0.14,"group":"tool","cooldownMs":85,"priority":65},"crystalBreak":{"maxSeconds":1.1,"gain":0.19,"group":"break","cooldownMs":100,"priority":70},"structuralCreak":{"maxSeconds":3.5,"gain":0.09,"group":"structural","cooldownMs":16000,"priority":15},"footstepDirt":{"maxSeconds":0.38,"gain":0.105,"group":"footstep","cooldownMs":110,"priority":55},"flightWhoosh":{"maxSeconds":0.9,"gain":0.12,"group":"flight","cooldownMs":1400,"priority":55},"coinPickup":{"maxSeconds":0.42,"gain":0.115,"group":"pickup","cooldownMs":180,"priority":65},"coinReward":{"maxSeconds":1.15,"gain":0.18,"group":"reward","cooldownMs":260,"priority":75},"uiClick":{"maxSeconds":0.19,"gain":0.095,"group":"ui","cooldownMs":90,"priority":65},"uiMechanical":{"maxSeconds":0.32,"gain":0.12,"group":"ui","cooldownMs":180,"priority":65},"starHum":{"maxSeconds":12,"gain":0.14,"group":"star","cooldownMs":0,"priority":40,"loop":true,"mono":true},"starGrain":{"maxSeconds":8,"gain":0.04,"group":"star","cooldownMs":0,"priority":25,"loop":true,"mono":true},"starAccent":{"maxSeconds":1.8,"gain":0.065,"group":"starDetail","cooldownMs":18000,"priority":25,"mono":true},"panicSlow":{"maxSeconds":12,"gain":0.042,"group":"panic","cooldownMs":0,"priority":75,"loop":true,"bpm":60},"panicPulse":{"maxSeconds":12,"gain":0.065,"group":"panic","cooldownMs":0,"priority":80,"loop":true,"bpm":100},"panicFast":{"maxSeconds":12,"gain":0.082,"group":"panic","cooldownMs":0,"priority":85,"loop":true,"bpm":130},"quakeRumble":{"maxSeconds":4.5,"gain":0.095,"group":"dangerDetail","cooldownMs":8000,"priority":80}});
+export const FREESOUND_APPROVED_LIST = Object.freeze([...family0,...family1,...family2,...family3,...family4,...family5,...family6,...family7,...family8,...family9,...family10]);
+export const FREESOUND_APPROVED_ASSETS = Object.freeze(Object.fromEntries(FREESOUND_APPROVED_LIST.map(asset => [asset.id, asset])));

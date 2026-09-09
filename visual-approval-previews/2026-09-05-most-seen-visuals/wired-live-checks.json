@@ -1,0 +1,37 @@
+{
+  "shop": {
+    "visible": true,
+    "prompts": 0,
+    "targetVisible": false
+  },
+  "mapOpenedByClick": true,
+  "menuOpenedByClick": true,
+  "stage": {
+    "teleported": true,
+    "saveBlocked": true
+  },
+  "before": {
+    "visible": true,
+    "title": "STONE",
+    "hp": "HP 88/88",
+    "target": {
+      "tx": 44,
+      "ty": 105
+    },
+    "current": 88,
+    "x": 354,
+    "y": 38
+  },
+  "after": {
+    "visible": true,
+    "title": "STONE",
+    "hp": "HP 80/88",
+    "target": {
+      "tx": 44,
+      "ty": 105
+    },
+    "current": 80,
+    "type": 2
+  },
+  "errors": []
+}

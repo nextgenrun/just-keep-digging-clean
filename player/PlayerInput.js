@@ -4,6 +4,8 @@
  * Manages button state tracking and aim direction
  */
 import { GAME_CONFIG } from '../values/gameConfig.js';
+import { PlayerJumpInputBuffer } from './PlayerJumpInputBuffer.js';
+import { PlayerSurfaceDropInputBuffer } from './PlayerSurfaceDropInputBuffer.js';
 
 export class PlayerInput {
   constructor(scene, inputHandler = null) {
@@ -31,6 +33,8 @@ export class PlayerInput {
 
     // Controls enabled flag
     this.controlsEnabled = true;
+    this._jumpInputBuffer = new PlayerJumpInputBuffer(this);
+    this._surfaceDropInputBuffer = new PlayerSurfaceDropInputBuffer(this);
 
     // Mine input edge-detection state
     this._lastMineState = false;
@@ -57,6 +61,7 @@ export class PlayerInput {
       mine: Phaser.Input.Keyboard.KeyCodes.F,
       reset: Phaser.Input.Keyboard.KeyCodes.R,
       shift: Phaser.Input.Keyboard.KeyCodes.SHIFT,
+      run: Phaser.Input.Keyboard.KeyCodes.CTRL,
       z: "Z",
       q: "Q",
       thunderStrike: Phaser.Input.Keyboard.KeyCodes.V,
@@ -70,11 +75,17 @@ export class PlayerInput {
    * @param {boolean} enabled
    */
   setControlsEnabled(enabled) {
+    if (this.controlsEnabled !== enabled) {
+      this._jumpInputBuffer.clear();
+      this._surfaceDropInputBuffer.clear();
+    }
     this.controlsEnabled = enabled;
   }
 
   setKeys(keys) {
     this.keys = keys;
+    this._jumpInputBuffer.bind(keys?.jump);
+    this._surfaceDropInputBuffer.bind(keys?.aimDown);
   }
   
   /**
@@ -116,8 +127,7 @@ export class PlayerInput {
   }
 
   consumeSurfaceDropInput() {
-    if (!this.controlsEnabled || this.keys.shift?.isDown) return false;
-    return Phaser.Input.Keyboard.JustDown(this.keys.aimDown) || false;
+    return this._surfaceDropInputBuffer.consume();
   }
 
   /**
@@ -167,9 +177,13 @@ export class PlayerInput {
     return this.keys.shift.isDown || false;
   }
 
+  getRunInput() {
+    if (!this.controlsEnabled) return false;
+    return this.keys.run?.isDown === true;
+  }
+
   consumeJumpInput() {
-    if (!this.controlsEnabled || !this.keys.jump) return false;
-    return Phaser.Input.Keyboard.JustDown(this.keys.jump) || false;
+    return this._jumpInputBuffer.consume();
   }
 
   getFlightMovement() {

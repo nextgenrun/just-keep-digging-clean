@@ -17,7 +17,6 @@ const SPECIAL_REWARD_TYPES = Object.freeze([
   TILE_TYPES.GEM_POWER_BLOCK,
   TILE_TYPES.SPEED_BLOCK,
   TILE_TYPES.XP_BLOCK,
-  TILE_TYPES.CRIT_BLOCK,
   TILE_TYPES.BERSERK_BLOCK,
   TILE_TYPES.COMBO_BLOCK,
   TILE_TYPES.LEGEND_BLOCK,
@@ -55,7 +54,7 @@ assert.equal(
   "gameplay resource identity must not participate in active-window LOD culling",
 );
 for (const [index, tileType] of SPECIAL_REWARD_TYPES.entries()) {
-  const expectedFrame = [0, 5, 6, 7, 8, 9, 10][index];
+  const expectedFrame = [0, 5, 6, 8, 9, 10][index];
   assert.equal(
     resolveWorldVisualSemanticSpecialFrame(tileType, 0),
     expectedFrame,

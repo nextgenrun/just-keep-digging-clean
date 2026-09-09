@@ -1,0 +1,9 @@
+PASS baked Celestial art: 17 byte-identical sources, 36 current descriptions, 250 mapped stars, 430 valid frames.
+PASS baked Star UI: pagination, native resolution, fixed geometry, subtle glint, cleanup and reduced motion.
+{"pass":true,"labels":136,"assets":25,"decodedMiB":150}
+star identity library contract: PASS (250 identities, 6 rarities)
+PASS Celestial tree UI: resident icons, three choices, popup, and authored-only presentation
+Celestial talent progression contract passed.
+PASS Celestial effects: every purchased upgrade changes its live Engine definition
+PASS celestial actionbar: eager authored shell, empty unowned slots, activation, drag-save rollback, resize, teardown
+Celestial actionbar input contract passed.

@@ -177,6 +177,8 @@ class FakeSound {
 
 const cache = new Set(["player-random-0", "event-test"]);
 const lowLevelSystem = {
+  getVoiceMixVolume() { return this.voiceVolume; },
+  refreshMixVolumes() {},
   voiceVolume: 1, masterVolume: 1, musicVolume: 1, sfxVolume: 1,
   setMusicVolume(value) { this.musicVolume = value; },
   setSfxVolume(value) { this.sfxVolume = value; },

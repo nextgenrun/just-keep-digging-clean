@@ -11,12 +11,109 @@ const SPECIAL_PROGRESS_EFFECTS = new Set([
   "legendLevelUp",
 ]);
 
+function isLegendProgress(entry) {
+  return String(entry?.specialBlockEffect || "").startsWith("legend");
+}
+
+function isStarReward(entry) {
+  return entry?.skyTileRarity !== null
+    && entry?.skyTileRarity !== undefined
+    && Number.isFinite(Number(entry.skyTileRarity));
+}
+
 export function resolveXpGatheringVariation(entries = []) {
   if (entries.some(entry => entry?.levelUp)) return "levelUp";
+  if (entries.some(isLegendProgress)) return "legend";
   if (entries.some(entry => SPECIAL_PROGRESS_EFFECTS.has(entry?.specialBlockEffect))) {
     return "special";
   }
+  if (entries.some(isStarReward)) return "star";
+  const totalXp = entries.reduce((sum, entry) => sum + Math.max(0, Number(entry?.xpGained) || 0), 0);
+  if (totalXp >= XP_GATHERING_CONFIG.pickup.surgeThresholdXp) return "surge";
   return entries.length > 1 ? "cluster" : "routine";
+}
+
+export function resolveXpGatheringIconId(
+  variationId,
+  entries = [],
+  index = 0,
+  sequence = 0,
+  recentIds = [],
+) {
+  const profile = XP_GATHERING_CONFIG.pickup.variations[variationId]
+    || XP_GATHERING_CONFIG.pickup.variations.routine;
+  const library = XP_GATHERING_CONFIG.iconLibraries[profile.iconLibrary]
+    || XP_GATHERING_CONFIG.iconLibraries.routine;
+  const key = [
+    variationId,
+    index,
+    sequence,
+    ...entries.flatMap(entry => [
+      Math.round(Number(entry?.worldX) || 0),
+      Math.round(Number(entry?.worldY) || 0),
+      Math.round(Number(entry?.xpGained) || 0),
+      entry?.resourceType || "",
+      entry?.skyTileRarity ?? "",
+      entry?.specialBlockEffect || "",
+    ]),
+  ].join("|");
+  let hash = XP_GATHERING_CONFIG.iconSelection.hashOffset;
+  for (let cursor = 0; cursor < key.length; cursor += 1) {
+    hash ^= key.charCodeAt(cursor);
+    hash = Math.imul(hash, XP_GATHERING_CONFIG.iconSelection.hashPrime);
+  }
+  const start = (hash >>> 0) % library.length;
+  for (let offset = 0; offset < library.length; offset += 1) {
+    const candidate = library[(start + offset) % library.length];
+    if (!recentIds.includes(candidate)) return candidate;
+  }
+  return library[start];
+}
+
+export function resolveXpFlightPose(motionPlan, t, profile, index = 0, reducedMotion = false) {
+  const progress = Math.max(0, Math.min(Number(t) || 0, 1));
+  const point = motionPlan.sample(progress);
+  const reduced = XP_GATHERING_CONFIG.pickup.reducedMotion;
+  if (reducedMotion) {
+    return {
+      x: point.x,
+      y: point.y,
+      scaleX: 1,
+      scaleY: 1,
+      rotation: motionPlan.rotationRadians * progress * reduced.rotationMultiplier,
+    };
+  }
+  const delta = XP_GATHERING_CONFIG.pickup.flightSampleDelta;
+  const before = motionPlan.sample(Math.max(0, progress - delta));
+  const after = motionPlan.sample(Math.min(1, progress + delta));
+  const tangentX = after.x - before.x;
+  const tangentY = after.y - before.y;
+  const length = Math.max(
+    XP_GATHERING_CONFIG.pickup.flightTangentMinimum,
+    Math.hypot(tangentX, tangentY),
+  );
+  const envelope = Math.sin(Math.PI * progress);
+  const phase = index * XP_GATHERING_CONFIG.pickup.flightPhaseStepRadians;
+  const wave = cycles => Math.sin(Math.PI * 2 * cycles * progress + phase);
+  const flutter = wave(profile.flutterCycles) * profile.flutterAmplitudePx * envelope;
+  const bob = Math.sin(
+    Math.PI * 2 * profile.bobCycles * progress
+      + phase * XP_GATHERING_CONFIG.pickup.flightBobPhaseRatio,
+  )
+    * profile.bobAmplitudePx * envelope;
+  const breath = wave(profile.breathCycles) * profile.breathScale * envelope;
+  const squash = Math.cos(Math.PI * 2 * profile.breathCycles * progress + phase)
+    * profile.squashScale * envelope;
+  const tangentAngle = Math.atan2(tangentY, tangentX);
+  const bank = wave(profile.bankCycles) * profile.bankRadians * envelope
+    + tangentAngle * profile.headingInfluence * envelope;
+  return {
+    x: point.x - (tangentY / length) * flutter,
+    y: point.y + (tangentX / length) * flutter + bob,
+    scaleX: 1 + breath + squash,
+    scaleY: 1 + breath - squash,
+    rotation: motionPlan.rotationRadians * progress + bank,
+  };
 }
 
 export function isXpGatheringEnabled(scene) {

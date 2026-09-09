@@ -1,0 +1,354 @@
+{
+  "merchants": [
+    {
+      "id": "boboMerchant",
+      "visible": true,
+      "title": "BOBO'S SHOP",
+      "detail": "E  ·  Browse abilities",
+      "frame": {
+        "x": 413,
+        "y": 89.61376953125,
+        "w": 208,
+        "h": 48
+      },
+      "titleBounds": {
+        "x": 474,
+        "y": 94.61376953125,
+        "w": 86,
+        "h": 20
+      },
+      "detailBounds": {
+        "x": 468,
+        "y": 115.61376953125,
+        "w": 98,
+        "h": 16
+      },
+      "count": 1
+    },
+    {
+      "id": "playerUpgrades",
+      "visible": true,
+      "title": "UPGRADES",
+      "detail": "E  ·  Improve your miner",
+      "frame": {
+        "x": 600,
+        "y": 88.69677734375,
+        "w": 208,
+        "h": 48
+      },
+      "titleBounds": {
+        "x": 668,
+        "y": 93.69677734375,
+        "w": 72,
+        "h": 20
+      },
+      "detailBounds": {
+        "x": 646.5,
+        "y": 114.69677734375,
+        "w": 115,
+        "h": 16
+      },
+      "count": 1
+    },
+    {
+      "id": "gemPowerMerchant",
+      "visible": true,
+      "title": "GEM MERCHANT",
+      "detail": "E  ·  Improve Gem Power",
+      "frame": {
+        "x": 623.5,
+        "y": 98.0224609375,
+        "w": 208,
+        "h": 48
+      },
+      "titleBounds": {
+        "x": 675.5,
+        "y": 103.0224609375,
+        "w": 104,
+        "h": 20
+      },
+      "detailBounds": {
+        "x": 669,
+        "y": 124.0224609375,
+        "w": 117,
+        "h": 16
+      },
+      "count": 1
+    },
+    {
+      "id": "gearMerchant",
+      "visible": true,
+      "title": "GEAR MERCHANT",
+      "detail": "E  ·  Browse gear",
+      "frame": {
+        "x": 553,
+        "y": 263.9775390625,
+        "w": 208,
+        "h": 48
+      },
+      "titleBounds": {
+        "x": 601,
+        "y": 268.9775390625,
+        "w": 112,
+        "h": 20
+      },
+      "detailBounds": {
+        "x": 616.5,
+        "y": 289.9775390625,
+        "w": 81,
+        "h": 16
+      },
+      "count": 1
+    },
+    {
+      "id": "moneyMonster",
+      "visible": true,
+      "title": "MONEY MONSTER",
+      "detail": "E  ·  Sell resources",
+      "frame": {
+        "x": 600,
+        "y": 357.2578125,
+        "w": 208,
+        "h": 48
+      },
+      "titleBounds": {
+        "x": 647.5,
+        "y": 362.2578125,
+        "w": 113,
+        "h": 20
+      },
+      "detailBounds": {
+        "x": 659,
+        "y": 383.2578125,
+        "w": 90,
+        "h": 16
+      },
+      "count": 1
+    }
+  ],
+  "viewport": [
+    {
+      "screen": {
+        "w": 800,
+        "h": 450
+      },
+      "game": {
+        "w": 1280,
+        "h": 720
+      },
+      "frame": {
+        "x": 354,
+        "y": 38,
+        "w": 172,
+        "h": 48
+      },
+      "title": {
+        "x": 419.5,
+        "y": 44,
+        "w": 41,
+        "h": 16
+      },
+      "hp": {
+        "x": 407.5,
+        "y": 62,
+        "w": 65,
+        "h": 20
+      },
+      "coreRight": 348,
+      "buttons": [
+        {
+          "x": 797,
+          "y": 15,
+          "w": 104,
+          "h": 36
+        },
+        {
+          "x": 913,
+          "y": 15,
+          "w": 146,
+          "h": 36
+        },
+        {
+          "x": 1074,
+          "y": 15,
+          "w": 130,
+          "h": 36
+        }
+      ]
+    },
+    {
+      "screen": {
+        "w": 1920,
+        "h": 1080
+      },
+      "game": {
+        "w": 1280,
+        "h": 720
+      },
+      "frame": {
+        "x": 354,
+        "y": 38,
+        "w": 172,
+        "h": 48
+      },
+      "title": {
+        "x": 419.5,
+        "y": 44,
+        "w": 41,
+        "h": 16
+      },
+      "hp": {
+        "x": 407.5,
+        "y": 62,
+        "w": 65,
+        "h": 20
+      },
+      "coreRight": 348,
+      "buttons": [
+        {
+          "x": 797,
+          "y": 15,
+          "w": 104,
+          "h": 36
+        },
+        {
+          "x": 913,
+          "y": 15,
+          "w": 146,
+          "h": 36
+        },
+        {
+          "x": 1074,
+          "y": 15,
+          "w": 130,
+          "h": 36
+        }
+      ]
+    },
+    {
+      "screen": {
+        "w": 1280,
+        "h": 720
+      },
+      "game": {
+        "w": 1280,
+        "h": 720
+      },
+      "frame": {
+        "x": 354,
+        "y": 38,
+        "w": 172,
+        "h": 48
+      },
+      "title": {
+        "x": 419.5,
+        "y": 44,
+        "w": 41,
+        "h": 16
+      },
+      "hp": {
+        "x": 407.5,
+        "y": 62,
+        "w": 65,
+        "h": 20
+      },
+      "coreRight": 348,
+      "buttons": [
+        {
+          "x": 797,
+          "y": 15,
+          "w": 104,
+          "h": 36
+        },
+        {
+          "x": 913,
+          "y": 15,
+          "w": 146,
+          "h": 36
+        },
+        {
+          "x": 1074,
+          "y": 15,
+          "w": 130,
+          "h": 36
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "destruction": {
+    "oneHpFixture": true,
+    "type": 0,
+    "visible": false,
+    "hp": "HP 1/88",
+    "target": null
+  },
+  "retarget": {
+    "visible": true,
+    "title": "COPPER",
+    "hp": "HP 142/142"
+  },
+  "mapHidesTarget": true,
+  "edges": [
+    {
+      "zoom": 1,
+      "width": 1280,
+      "height": 720,
+      "left": 12,
+      "top": 312.2578125,
+      "right": 220,
+      "bottom": 360.2578125,
+      "visible": true
+    },
+    {
+      "zoom": 1,
+      "width": 1280,
+      "height": 720,
+      "left": 1060,
+      "top": 312.2578125,
+      "right": 1268,
+      "bottom": 360.2578125,
+      "visible": true
+    },
+    {
+      "zoom": 1,
+      "width": 1280,
+      "height": 720,
+      "left": 536,
+      "top": 12,
+      "right": 744,
+      "bottom": 60,
+      "visible": true
+    },
+    {
+      "zoom": 1,
+      "width": 1280,
+      "height": 720,
+      "left": 536,
+      "top": 660,
+      "right": 744,
+      "bottom": 708,
+      "visible": true
+    },
+    {
+      "zoom": 1.35,
+      "width": 1280,
+      "height": 720,
+      "left": 11.999931283349326,
+      "top": 312.3486337114022,
+      "right": 219.99992813799003,
+      "bottom": 360.34863298555007,
+      "visible": true
+    },
+    {
+      "zoom": 0.8,
+      "width": 1280,
+      "height": 720,
+      "left": 1046.400006055832,
+      "top": 312.20663657496334,
+      "right": 1254.4000091552734,
+      "bottom": 360.2066372902191,
+      "visible": true
+    }
+  ]
+}

@@ -69,10 +69,10 @@ export const WORLD_VISUAL_SEMANTIC_ASSETS = Object.freeze({
     frameByTileType: Object.freeze({
       [TILE_TYPES.SPEED_BLOCK]: 5,
       [TILE_TYPES.XP_BLOCK]: 6,
-      [TILE_TYPES.CRIT_BLOCK]: 7,
       [TILE_TYPES.BERSERK_BLOCK]: 8,
       [TILE_TYPES.COMBO_BLOCK]: 9,
       [TILE_TYPES.LEGEND_BLOCK]: 10,
+      [TILE_TYPES.ABILITY_BLOCK]: 7,
       [TILE_TYPES.ANCIENT_RELIC_CACHE]: 11,
     }),
     scale: 1,

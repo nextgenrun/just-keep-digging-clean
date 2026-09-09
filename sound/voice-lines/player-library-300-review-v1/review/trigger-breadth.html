@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Leo — broader everyday triggers</title><link rel="stylesheet" href="trigger-mockup.css"><link rel="stylesheet" href="trigger-breadth.css">
+</head>
+<body>
+<header class="wrap hero">
+  <a class="back" href="./#submitted-review">← Your 300-script review</a>
+  <p class="eyebrow">UNDERSTAR / LEO / BROADER TRIGGERS · V2</p>
+  <h1>Leo, part of the trip.</h1>
+  <p class="intro">More of what you <em>actually do</em>. A fitting response.</p>
+  <p class="scope">37 situations across 12 families. Accepted wording plus 9 clearly marked draft lines. No audio generation or gameplay changes.</p>
+</header>
+<main class="wrap">
+  <p class="scope previous-review">Your earlier review: 19 yes / 5 no. <a href="trigger-mockup.html">Open that review</a>. Its choices remain separate; the pasted page did not identify the five rejected moments.</p><section class="proposal" aria-label="Proposed coverage">
+    <p><strong>37 situations</strong><span>ordinary work, travel, money and discoveries</span></p>
+    <p><strong>Action + evidence</strong><span>several valid cues, one literal match</span></p>
+    <p><strong>~30 min</strong><span>between rare thought opportunities</span></p>
+  </section>
+  <section class="review" aria-labelledby="review-title">
+    <div class="review-heading"><div><p class="eyebrow">01 / SEE THE CONNECTION</p><h2 id="review-title">One family, several relevant moments.</h2></div><p id="review-count" class="muted" role="status"></p></div>
+    <div class="picker"><label for="moment">Gameplay family<select id="moment" disabled><option>Loading the broader proposal…</option></select></label><div class="paging"><button id="previous" type="button" aria-label="Previous moment">←</button><span id="position"></span><button id="next" type="button" aria-label="Next moment">→</button></div></div>
+    <div id="load-error" role="alert" hidden></div><div class="situations" id="situations" role="group" aria-label="Valid situations"></div><p class="case-help" id="case-help"></p>
+    <div class="story-grid" id="story" hidden>
+      <div class="preview-column">
+        <div class="stage" id="stage" data-phase="ready" aria-label="Silent event storyboard">
+          <div class="stage-top"><span id="place"></span><span>REVIEW OVERLAY</span></div>
+          <div class="event-target" id="event-target"><span class="target-label" id="target-label">BEFORE THE EVENT</span><div class="target-body"><img id="ore-image" alt="" hidden><strong id="event-cue"></strong></div></div>
+          <div class="connection" aria-hidden="true"><span></span></div>
+          <div class="subtitle" id="subtitle"><p id="speaker">LEO · WAITING FOR THE MOMENT</p><blockquote id="caption">The event comes first.</blockquote></div>
+        </div>
+        <div class="steps" aria-label="Preview progress"><span id="step-event">1 · Confirmation</span><span id="step-voice">2 · Reaction</span><span id="step-music">3 · Music returns</span></div>
+        <div class="preview-controls"><button class="primary" id="play" type="button">Show event → Leo reacts</button><button id="reset" type="button">Reset preview</button></div>
+        <label class="context-label" for="context">Test the same event when…<select id="context"><option value="clear">The speech channel is clear</option><option value="npc">An NPC / narration owns the conversation</option><option value="stale">The moment has already passed</option><option value="cooldown">Leo spoke 10 seconds ago</option><option value="muted">Voice volume is muted</option></select></label>
+        <p id="preview-status" class="status" role="status"></p>
+        <div class="music"><div><span>Music level · visual simulation</span><output id="music-value">100%</output></div><div class="music-track"><div id="music-fill"></div></div><p id="music-note">0.9 s down · hold under the sentence · 2.4 s back up</p></div>
+        <p class="silent-note">Silent, illustrative timing. Caption length is not a measured recording duration. The highlight is a review aid; final game presentation is not being installed.</p>
+      </div>
+      <article class="direction" aria-labelledby="moment-title">
+        <div class="moment-meta"><span id="moment-id"></span><span id="line-id"></span></div>
+        <h3 id="moment-title"></h3>
+        <blockquote id="script"></blockquote>
+        <p class="delivery" id="delivery"></p>
+        <dl><dt>TRIGGER · what you can see</dt><dd id="trigger"></dd><dt>WHEN HE SPEAKS</dt><dd id="when"></dd><dt>HOW OFTEN</dt><dd id="repeat"></dd></dl>
+        <p class="change"><strong>Proposed change</strong><span id="change"></span></p>
+        <details><summary>What must stay silent</summary><p id="avoid"></p></details>
+        <div class="verdict"><p>Do this family’s situations and lines work?</p><div class="vote-buttons"><button id="yes" type="button" aria-pressed="false">Yes, keep this</button><button id="no" type="button" aria-pressed="false">No, rework it</button></div><label for="note">Optional note<textarea id="note" rows="2" maxlength="1000" placeholder="Too frequent? Wrong cue? Wrong feeling?"></textarea></label><p class="muted" id="verdict-state" role="status">Not reviewed</p></div>
+      </article>
+    </div>
+  </section>
+<section class="cadence-section" aria-labelledby="coverage-title"><p class="eyebrow">02 / COVERAGE AT A GLANCE</p><h2 id="coverage-title">Everyday play has more to say.</h2><p class="section-intro">Select a family to inspect its situations. Each situation gets a fitting sentence; the game does not pick a generic line just because a timer elapsed.</p><div id="cadence" class="cadence"></div></section>
+<section class="rules-section" aria-labelledby="rules-title"><p class="eyebrow">03 / BROADER, WITH A CLEAR CONNECTION</p><h2 id="rules-title">One real action. One fitting response.</h2><div class="rules-grid">
+<article><h3>Several ways to qualify.</h3><p>A fresh ore award can happen in a new vein, during ordinary digging, after travel or after a break. A return counts after real work; it need not cross an arbitrary depth. Any successful paid upgrade can earn a reaction.</p><p>A pickup, changed HUD value or visible world result can confirm the action. They are alternatives, not a checklist that all has to happen at once.</p></article>
+<article><h3>The words still have to fit.</h3><p>Iron means actual iron. “Paid” means a completed sale. “Power gone” means powered flight actually ran out. An expensive-sounding line still needs an expensive purchase, even though ordinary purchase lines do not.</p><p>Never stretch a specific sentence across unrelated situations. The nine newly written examples are clearly marked as drafts, awaiting your wording approval.</p></article>
+<article><h3>Room, without empty stretches.</h3><p>Keep the proposed 25-second ordinary gap and eight remarks per five active minutes. Broaden the eligible actions instead of filling silence with unrelated chatter. Ore shares a 45-second gap; each other family has its stated repeat rule.</p><p>Rotate context-compatible alternatives; do not repeat the same sentence within a session. A family does not go silent because its first-ever discovery has already happened.</p></article>
+<article><h3>A current situation can last.</h3><p>A pickup reaction must start promptly. Ongoing work, resting and just-regained safety can remain relevant for a short window while that situation is still true. A vanished floating label alone does not invalidate a still-obvious action.</p><p>When the player changes activity, leaves the object or enters danger, the opportunity ends. No delayed backlog.</p></article>
+<article><h3>Other voices keep their space.</h3><p>NPC conversations, cinematics and narration retain the speech channel, including pauses between sentences. Leo never overwrites them. If another voice requests the channel mid-sentence, finish that short line, then hand over.</p><p>Music still eases down over 0.9 seconds and returns over 2.4 seconds. The preview remains entirely silent.</p></article>
+<article><h3>Mystery belongs somewhere.</h3><p>Let everyday events reveal the tired worker, bad joker and reluctant caretaker. Recognition belongs to a visible Star or Titan. A campfire can earn warmth without requiring an upgrade.</p><p>Unprompted thoughts stay around 30 active minutes apart, with the existing safety and quiet conditions.</p></article>
+</div></section>
+<section class="reply-section" aria-label="Return the trigger review"><h2>Your broader-trigger verdict.</h2><p>Yes/no covers a family and its listed situations. Add a note to reject or change a particular example. These decisions stay separate from both earlier reviews.</p><div class="reply-buttons"><button id="prepare" type="button">Prepare reply for chat</button><button id="export" type="button">Download trigger decisions</button></div><label for="reply" id="reply-label" hidden>Copy this reply into chat<textarea id="reply" rows="6" readonly></textarea></label><p id="save-status" class="muted" role="status"></p></section>
+</main>
+<footer class="wrap">LEO / BROADER TRIGGERS V2 · WORDING & CONDITIONS FOR REVIEW ONLY</footer>
+<script type="module" src="trigger-breadth.js"></script>
+</body></html>

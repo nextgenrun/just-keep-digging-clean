@@ -27,6 +27,8 @@ import {
 } from "../../values/dynamicSoil.js";
 import { TitanDiscoverySystem } from "../../systems/visual/TitanDiscoverySystem.js?rev=20260729-native-density-v14";
 import { WorldRenderWindowBuffer } from "./WorldRenderWindowBuffer.js";
+import { WORLD_VISUAL_GAMEPLAY_EFFECTS } from "../../values/worldVisualGameplayEffects.js";
+import { drawSpecialBlockAura } from "./specialBlockAura.js";
 
 // Resource colors used for brief "what's inside" flashes on sky tiles.
 const RESOURCE_GLOW_COLORS = Object.freeze(
@@ -267,7 +269,6 @@ export class WorldRenderer {
     };
 
     const soilKeys = ASSET_KEYS.tiles.dynamicSoil;
-    const rarityKeys = [null, soilKeys.rarity.rich, soilKeys.rarity.packed, soilKeys.rarity.ancient];
     const getImage = (key) => this.scene.textures.get(key)?.getSourceImage();
     const scratch = document.createElement('canvas');
     scratch.width = tileSize;
@@ -288,9 +289,6 @@ export class WorldRenderer {
         scratchContext.drawImage(getImage(hardnessKey), 0, 0, tileSize, tileSize);
       }
 
-      if (rarityKeys[descriptor.rarity]) {
-        scratchContext.drawImage(getImage(rarityKeys[descriptor.rarity]), 0, 0, tileSize, tileSize);
-      }
       scratchContext.drawImage(getImage(soilKeys.cracks[stage - 1]), 0, 0, tileSize, tileSize);
 
       const index = 1 + getSoilAtlasOffset(descriptor, stage);
@@ -506,6 +504,17 @@ export class WorldRenderer {
     }
   }
 
+  applyTileDamageUpdate(tx, ty) {
+    this.applyTileUpdate(tx, ty);
+  }
+
+  applyTileUpdates(tiles = []) {
+    for (const tile of tiles) {
+      if (!Number.isInteger(tile?.tx) || !Number.isInteger(tile?.ty)) continue;
+      this.applyTileUpdate(tile.tx, tile.ty);
+    }
+  }
+
   applyTileUpdateToWindow(layer, worldTopTile, tx, ty) {
     const localTy = this._toLocalTileYForTop(ty, worldTopTile);
     if (localTy === null) return;
@@ -568,6 +577,16 @@ export class WorldRenderer {
     return {
       stagedStreamingEnabled: this._streamStagingEnabled,
       ...this._streamBuffer.snapshot(this._streamTopTile),
+    };
+  }
+
+  getTransitionPreparationSnapshot() {
+    const pending = Boolean(this._streamBuffer.getPendingWindow());
+    return {
+      totalAssets: 1,
+      loadedAssets: pending ? 0 : 1,
+      pendingAssets: pending ? 1 : 0,
+      ready: !pending,
     };
   }
 
@@ -963,14 +982,35 @@ export class WorldRenderer {
    * @param {number} viewRange - View range in tiles (unused, kept for API compatibility)
    */
   updateSpecialBlockGlow(playerTile, viewRange = 20) {
-    // DISABLED: Direct alpha manipulation on tilemap tiles causes:
-    // - Rendering corruption (normal tiles not appearing)
-    // - Performance issues (400+ tile property updates per frame)
-    // - Visual glitches from constant property modifications
-    // 
-    // Future: Use _specialBlockGraphics overlay (like sky tiles use _skyTileGraphics)
-    // for special block effects without modifying tile properties.
-    return;
+    const graphics = this._specialBlockGraphics;
+    graphics?.clear();
+    if (!graphics || !playerTile) return false;
+    const config = WORLD_VISUAL_GAMEPLAY_EFFECTS.specialBlocks;
+    const tileSize = this.config.tileSize;
+    const nowMs = this.scene.time?.now || performance.now();
+    const startX = Math.max(0, playerTile.tx - viewRange);
+    const endX = Math.min(this.worldModel.width - 1, playerTile.tx + viewRange);
+    const startY = Math.max(0, playerTile.ty - viewRange);
+    const endY = Math.min(this.worldModel.depth - 1, playerTile.ty + viewRange);
+    let drawn = 0;
+    for (let ty = startY; ty <= endY; ty += 1) {
+      for (let tx = startX; tx <= endX; tx += 1) {
+        const profile = config.profilesByTileType[this.worldModel.getTileType(tx, ty)];
+        if (!profile) continue;
+        drawSpecialBlockAura(graphics, {
+          cx: (tx + 0.5) * tileSize,
+          cy: (ty + 0.5) * tileSize,
+          size: tileSize,
+          nowMs,
+          tx,
+          ty,
+          profile,
+          highlightColor: config.highlightColor,
+        });
+        drawn += 1;
+      }
+    }
+    return drawn > 0;
   }
 
   /**

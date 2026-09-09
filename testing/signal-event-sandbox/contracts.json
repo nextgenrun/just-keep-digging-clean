@@ -1,0 +1,24 @@
+{
+  "passed": 19,
+  "checks": [
+    "Most signals are empty; attack risk is 50 percent",
+    "Reload preserves source, survivor, calls and committed attack fate",
+    "Captions cover every authored line with real, measured audio",
+    "Exact donations reject invalid, empty and unaffordable input",
+    "Minicamps have zero interior tiles and retain solid floors and special blocks",
+    "Donation commits once and records exactly what was given",
+    "Attack win awards exactly the configured Starpower once",
+    "Casual loss empties all cargo and GP and returns to surface",
+    "Hardcore loss commits an armed pending death that survives reload",
+    "Save false restores cargo, GP, position, currency and encounter",
+    "Save throw restores cargo, GP, position, currency and encounter",
+    "Signal voice owns one shared channel and releases it when stopped",
+    "Surface dev spawns still require a fully underground camp",
+    "Mia cannot be purchased; rescue ownership survives upgrade save restoration",
+    "Rescued Mia is excluded from future Signal camps",
+    "Mia rescue grants existing upgrade once and records rescue",
+    "Failed rescue rolls back Mia ownership",
+    "Mia has 14 captioned segments from six recorded dog sounds",
+    "Walking beyond hearing range silences a Signal"
+  ]
+}

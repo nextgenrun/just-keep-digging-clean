@@ -1,0 +1,10 @@
+{
+  "id": "C1E",
+  "voice": "leo",
+  "text": "I know that face.",
+  "ttsInput": "<soft>I know that face.</soft> [sigh]",
+  "requestSha256": "fcfbc253948319613f5b8ce8a564ab103e16115ee04e342016c5266661cbe281",
+  "contentType": "audio/mpeg",
+  "generationId": "gen-tts-1788745447-igVT6uaSWubE7JooUavN",
+  "rawSha256": "647bad990ed9c7456d520bbe400f236f4a9a24f30f1b430377fbf1c2bdb22ab4"
+}

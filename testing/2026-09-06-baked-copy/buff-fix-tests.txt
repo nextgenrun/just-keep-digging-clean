@@ -1,0 +1,22 @@
+node testing/2026-08-31-stellar-lance-vfx-hud-contract.mjs
+exit_code: 0
+STELLAR_LANCE_VFX_HUD_CONTRACT_OK
+
+node testing/2026-09-07-buff-tooltip-layout-contract.mjs
+exit_code: 0
+PASS buff layout: fitted chip/title/body, three hover targets, Hardcore clearance, compact bounds and hover cleanup.
+
+node testing/2026-09-04-celestial-apex-passives-contract.mjs
+exit_code: 0
+CELESTIAL_APEX_PASSIVES_OK {
+  nodes: 36,
+  waywardDamageScale: 0.28,
+  hollowPulseEveryDigs: 2,
+  echoLance: [ 4, 0.35 ]
+}
+
+node testing/2026-08-25-hardcore-panic-feedback-contract.mjs
+exit_code: 0
+Hardcore panic feedback contract passed.
+
+Scoped git diff --check: passed.

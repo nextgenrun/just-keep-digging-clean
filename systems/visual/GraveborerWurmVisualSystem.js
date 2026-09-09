@@ -1,3 +1,4 @@
+import { WURM_POLISH } from "../../values/graveborerWurmVariants.js";
 import { ASSET_KEYS } from "../../values/assetKeys.js";
 import {
   GRAVEBORER_WURM_CONFIG,
@@ -21,6 +22,9 @@ function setBaseDisplaySize(image, width, height) {
 export class GraveborerWurmVisualSystem {
   constructor(scene, config = GRAVEBORER_WURM_CONFIG) {
     this.scene = scene;
+    this.childViews = [];
+    this.creatureScale = 1;
+    this.nextAssetCheckMs = 0;
     this.config = config;
     this.tileSize = scene.config?.tileSize || 32;
     this.ready = this._hasRequiredTextures();
@@ -33,11 +37,11 @@ export class GraveborerWurmVisualSystem {
     if (this.ready) this._create();
   }
 
-  _hasRequiredTextures() {
+  _hasRequiredTextures(log = true) {
     const keys = ASSET_KEYS.environment.graveborerWurm;
     const required = [keys.head, keys.body, keys.tail, keys.warning];
     const ready = required.every(key => this.scene.textures?.exists?.(key));
-    if (!ready) {
+    if (!ready && log) {
       console.warn("[GraveborerWurmVisualSystem] Production Wurm textures are unavailable.");
     }
     return ready;
@@ -87,7 +91,20 @@ export class GraveborerWurmVisualSystem {
   }
 
   update(renderState, timeMs = 0) {
+    if (!this.ready && timeMs >= this.nextAssetCheckMs) {
+      this.nextAssetCheckMs = timeMs + WURM_POLISH.assetRetryMs;
+      this.ready = this._hasRequiredTextures(false);
+      if (this.ready) this._create();
+    }
     if (!this.ready) return;
+    const children = (renderState?.offspring || []).filter(child => child.active
+      && [GRAVEBORER_WURM_PHASES.warning, GRAVEBORER_WURM_PHASES.burrowing].includes(child.phase));
+    while (this.childViews.length > children.length) this.childViews.pop().destroy();
+    children.forEach((child, index) => {
+      this.childViews[index] ||= new GraveborerWurmVisualSystem(this.scene, this.config);
+      this.childViews[index].update(child, timeMs);
+    });
+    this.creatureScale = renderState?.scale || 1;
     const visible = renderState?.active === true;
     this.creatureContainer.setVisible(visible);
     this.warningContainer.setVisible(visible);
@@ -171,12 +188,14 @@ export class GraveborerWurmVisualSystem {
       .setRotation(part.angle + Math.PI)
       .setAlpha(alpha)
       .setScale(
-        image._graveborerBaseScaleX * pulse,
-        image._graveborerBaseScaleY * (2 - pulse),
+        image._graveborerBaseScaleX * pulse * this.creatureScale,
+        image._graveborerBaseScaleY * (2 - pulse) * this.creatureScale,
       );
   }
 
   destroy() {
+    this.childViews.forEach(view => view.destroy());
+    this.childViews = [];
     this.warningContainer?.destroy(true);
     this.creatureContainer?.destroy(true);
     this.warningContainer = null;

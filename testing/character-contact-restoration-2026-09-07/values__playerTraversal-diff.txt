@@ -1,0 +1,14 @@
+--- testing\character-contact-restoration-2026-09-07\pre-change\values__playerTraversal.js
+
++++ values\playerTraversal.js
+
+@@ -8,5 +8,7 @@
+
+     accelerationTilesPerSecondSquared: 7,
+     reverseAccelerationTilesPerSecondSquared: 10.5,
+-    releaseDragTilesPerSecondSquared: 1.1,
++    releaseDragTilesPerSecondSquared: 0.45,
++    landingReleaseToStopMs: 260,
++    landingReverseBrakeMs: 180,
+     stopSpeedPxPerSecond: 4,
+     maxDeltaSeconds: 0.05,

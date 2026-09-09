@@ -17,7 +17,7 @@ const floatingText = RETENTION_CONFIG.floatingText;
 assert.equal("starPopupsDefaultEnabled" in RETENTION_CONFIG.settings, false);
 assert.equal("starPopupHint" in RETENTION_CONFIG.settings, false);
 assert.equal(floatingText.defaultMode, "full");
-assert.deepEqual(floatingText.modes.full.hiddenCategories, []);
+assert.deepEqual(floatingText.modes.full.hiddenCategories, ["resource"]);
 assert.deepEqual(floatingText.modes.reduced.hiddenCategories, ["damage", "resource"]);
 assert.deepEqual(
   resolveFloatingTextPreference({ floatingTextMode: "reduced" }),
@@ -253,7 +253,7 @@ const [uiKitSource, settingsSource, pauseSource, floatingTextSource, userSetting
 assert.match(uiKitSource, /setFocused\(value\)\s*\{\s*state\.focused = Boolean\(value\)/);
 assert.match(settingsSource, /selected:\s*active/);
 assert.match(settingsSource, /layout:\s*"stacked"/);
-assert.match(settingsSource, /SELECTED:/);
+assert.match(settingsSource, /SETTINGS_COPY\.currentPrefix/);
 assert.match(pauseSource, /maxHeight:\s*PAUSE_MENU_LAYOUT\.maxHeight/);
 assert.match(pauseSource, /bodyHeight < SETTINGS_PANEL_LAYOUT\.compactHeight/);
 assert.match(

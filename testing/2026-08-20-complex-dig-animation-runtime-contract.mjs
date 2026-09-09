@@ -29,6 +29,9 @@ const piskelReport = JSON.parse(readFileSync(
   "utf8",
 ));
 const sha256 = (bytes) => createHash("sha256").update(bytes).digest("hex");
+const unifiedContactFrames = {
+  roundhouse: [9], spinningBackKick: [12], uppercut: [10], elbowUppercut: [8, 16],
+};
 
 assert.equal(config.enabledByDefault, true);
 assert.equal(resolveComplexDigAnimationsEnabled(""), true);
@@ -38,13 +41,14 @@ assert.equal(config.displaySizePx, 103);
 assert.equal(config.visualPolish.uniformDisplaySizePx, 103);
 assert.equal(config.visualPolish.maximumHandoffDriftPx, 0.51);
 assert.equal(Object.keys(config.clips).length, 11);
+assert.deepEqual(config.excludedSideClips, []);
 assert.deepEqual(config.sideSequence, [
-  "cross", "jab", "roundhouse", "jabElbow", "lowKick", "highKick",
+  "jab", "cross", "roundhouse", "jabElbow", "lowKick", "highKick",
   "spinningBackKick", "elbowUppercut", "singleElbow", "hook",
 ]);
 assert.deepEqual(config.upSequence, ["uppercut"]);
 assert.deepEqual(config.sideFamilies.map((family) => [...family]), [
-  ["cross", "jab", "roundhouse"],
+  ["jab", "cross", "roundhouse"],
   ["jabElbow"],
   ["lowKick", "highKick", "spinningBackKick"],
   ["elbowUppercut", "singleElbow", "hook"],
@@ -55,6 +59,7 @@ assert.equal(manifest.rollbackQuery, "?complexDig=0");
 assert.equal(manifest.hotkey, "Ctrl+Alt+9");
 assert.equal(manifest.displaySizePx, 103);
 assert.equal(manifest.visualPolish.piskelPackage, "complex-dig-piskel-polish-v2");
+assert.deepEqual(manifest.excludedSideClips, config.excludedSideClips);
 assert.deepEqual(manifest.sideSequence, config.sideSequence);
 assert.deepEqual(manifest.upSequence, config.upSequence);
 
@@ -73,10 +78,31 @@ for (const [id, clip] of Object.entries(config.clips)) {
     assert.equal(clip.frames[contact.sequenceIndex], contact.textureFrame);
   }
   assert.equal(clip.contact.visualAlignmentEnabled, false);
-  assert.equal(profile.displaySizePxByAnimation[clip.animationKey], 103);
-  assert.deepEqual(profile.visualOriginBySheet[clip.sheetKey], clip.origin);
-  assert.deepEqual(resolveUalActionContact(profile, clip.animationKey), clip.contact);
-  assert.ok(profile.actionRecoveryAnimationByCompletedAnimation[clip.animationKey]);
+  const gameplayRegistered = !config.excludedSideClips.includes(id);
+  if (gameplayRegistered) {
+    assert.equal(profile.displaySizePxByAnimation[clip.animationKey], 103);
+    assert.deepEqual(
+      profile.visualOriginBySheet[clip.sheetKey],
+      profile.unifiedAnimationRuntime.groundedOrigin,
+    );
+    // The source pack retains its original manifest. Unified artwork has
+    // separately reviewed extension frames; guard those without changing it.
+    const runtimeContact = resolveUalActionContact(profile, clip.animationKey);
+    assert.deepEqual(runtimeContact.contacts.map(contact => contact.textureFrame),
+      unifiedContactFrames[id] || clip.contact.contacts.map(contact => contact.textureFrame));
+    assert.equal(runtimeContact.contacts.length, clip.contact.contacts.length);
+    assert.equal(runtimeContact.sourceAction, clip.contact.sourceAction);
+    assert.equal(runtimeContact.markerGroup, clip.contact.markerGroup);
+    assert.equal(runtimeContact.visualAlignmentEnabled, false);
+    for (const contact of runtimeContact.contacts) {
+      assert.equal(clip.frames[contact.sequenceIndex], contact.textureFrame);
+    }
+    assert.ok(profile.actionRecoveryAnimationByCompletedAnimation[clip.animationKey]);
+  } else {
+    assert.equal(profile.complexDigAnimationKeys.includes(clip.animationKey), false);
+    assert.equal(profile.displaySizePxByAnimation[clip.animationKey], undefined);
+    assert.equal(profile.actionRecoveryAnimationByCompletedAnimation[clip.animationKey], undefined);
+  }
   assert.equal(piskelReport.clips[id].runtimeSha256, runtimeClip.sha256);
   assert.equal(piskelReport.clips[id].piskelRoundTripPixelExact, true);
   assert.equal(piskelReport.clips[id].perFrameRescaleApplied, false);
@@ -108,8 +134,17 @@ assert.ok(piskelReport.familyWideGamma > 1);
 assert.ok(piskelReport.existingAnimationContinuity.absoluteMedianLuminanceDelta <= 1);
 assert.ok(piskelReport.existingAnimationContinuity.absoluteMedianVisibleHeightDeltaGamePx <= 0.6);
 
-assert.deepEqual(profile.complexDigSideAnimationKeys, config.sideSequence.map((id) => config.clips[id].animationKey));
-assert.deepEqual(profile.complexDigUpAnimationKeys, [config.clips.uppercut.animationKey]);
+assert.deepEqual(profile.complexDigSideAnimationKeys, [
+  ...config.sideSequence.map((id) => config.clips[id].animationKey),
+  ...new Set(profile.digSidewaysHitAnims),
+]);
+assert.equal(profile.complexDigAnimationKeys.length, 11);
+assert.equal(profile.complexDigSideFallbackAnimationKey, config.clips.jab.animationKey);
+assert.equal(profile.complexDigSidePrewarmAnimationKey, config.clips.cross.animationKey);
+assert.deepEqual(profile.complexDigUpAnimationKeys, [
+  profile.digUpAnim,
+  config.clips.uppercut.animationKey,
+]);
 assert.ok(profile.digAnims.every((key) => (
   !profile.complexDigAnimationKeys.includes(key) || profile.punchActionAnims.includes(key)
 )));
@@ -126,6 +161,7 @@ for (const key of profile.complexDigAnimationKeys) {
   assert.ok(registered.has(key), `${key} was not registered`);
   assert.equal(registered.get(key).repeat, 0);
 }
+assert.equal(registered.has(config.clips.cross.animationKey), true);
 
 const legacySide = ["legacy-side-a", "legacy-side-b"];
 const enabled = resolveComplexDigSelection(
@@ -133,6 +169,8 @@ const enabled = resolveComplexDigSelection(
 );
 assert.equal(enabled.family, "complex-side");
 assert.deepEqual(enabled.animationKeys, profile.complexDigSideAnimationKeys);
+assert.equal(enabled.fallback, config.clips.jab.animationKey);
+assert.equal(enabled.prewarmAnimationKey, config.clips.cross.animationKey);
 assert.equal(enabled.complex, true);
 assert.equal(resolveComplexDigSourceFacesRight(profile, enabled.animationKeys[0], false), true);
 const disabled = resolveComplexDigSelection(
@@ -142,8 +180,31 @@ assert.deepEqual(disabled, {
   family: "side", animationKeys: legacySide, fallback: "legacy-side-a", complex: false,
 });
 
+const enabledUp = resolveComplexDigSelection(
+  { complexDigAnimationsEnabled: true },
+  profile,
+  "up",
+  profile.digUpHitAnims,
+  profile.digUpAnim,
+);
+const upSelector = new UalMiningComboSelector();
+const selectedUp = Array.from({ length: 4 }, (_, index) => upSelector.select({
+  family: enabledUp.family,
+  direction: "UP",
+  animationKeys: enabledUp.animationKeys,
+  fallback: enabledUp.fallback,
+  targetTile: { tx: 3, ty: 3 },
+  nowMs: index * 100,
+}));
+assert.deepEqual(selectedUp, [
+  profile.digUpAnim,
+  config.clips.uppercut.animationKey,
+  profile.digUpAnim,
+  config.clips.uppercut.animationKey,
+]);
+
 const selector = new UalMiningComboSelector();
-const selected = Array.from({ length: 10 }, (_, index) => selector.select({
+const selected = Array.from({ length: profile.complexDigSideAnimationKeys.length }, (_, index) => selector.select({
   family: enabled.family,
   direction: "RIGHT",
   animationKeys: enabled.animationKeys,
@@ -176,6 +237,7 @@ for (const path of [
 }
 const runtimeSource = readFileSync(resolve(root, "world/playScene/ComplexDigAnimationRuntime.js"), "utf8");
 assert.match(runtimeSource, /ualMiningComboSelector\?\.reset/);
+assert.match(runtimeSource, /prewarmComplexDigSelection/);
 assert.match(runtimeSource, /addEventListener\?\.\("keydown"/);
 assert.match(runtimeSource, /Complex dig animations: OFF \(legacy\)/);
 assert.match(
@@ -189,8 +251,8 @@ assert.match(
 
 console.log("COMPLEX_DIG_ANIMATION_RUNTIME_CONTRACT_OK", {
   clips: Object.keys(config.clips).length,
-  sideStages: config.sideSequence.length,
-  upStages: config.upSequence.length,
+  sideStages: profile.complexDigSideAnimationKeys.length,
+  upStages: profile.complexDigUpAnimationKeys.length,
   authoredContacts: 13,
   multiContactClips: ["jabElbow", "elbowUppercut"],
   maximumHandoffDriftGamePx: piskelReport.maximumHandoffDriftGamePx,

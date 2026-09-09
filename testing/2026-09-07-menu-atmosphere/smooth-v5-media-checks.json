@@ -1,0 +1,102 @@
+{
+  "clips": [
+    {
+      "id": "aurora",
+      "width": 1280,
+      "height": 720,
+      "fps": 60.0,
+      "decodedFrames": 1795,
+      "durationSeconds": 29.916666666666668,
+      "encodedStepP95": 0.6335335648148147,
+      "encodedStepMax": 1.3837731481481481,
+      "encodedBoundaryStep": 1.855491898148148,
+      "nearStillFrameSteps": 0,
+      "sha256": "e55ab524c79ac0a0ddb49df478f77e29747c666819d7efb61ea6c4973731c3af",
+      "sourceUnchanged": true
+    },
+    {
+      "id": "logo-light",
+      "width": 1120,
+      "height": 332,
+      "fps": 60.0,
+      "decodedFrames": 1300,
+      "durationSeconds": 21.666666666666668,
+      "encodedStepP95": 0.0771984649122807,
+      "encodedStepMax": 0.1900986842105263,
+      "encodedBoundaryStep": 0.32402412280701753,
+      "nearStillFrameSteps": 133,
+      "sha256": "f1348b52d7a9c2051644aa76a6bd8e0df54b14f70fcc553ea858bb64cecdae4d",
+      "sourceUnchanged": true
+    },
+    {
+      "id": "lantern-forest",
+      "width": 1280,
+      "height": 720,
+      "fps": 60.0,
+      "decodedFrames": 1337,
+      "durationSeconds": 22.283333333333335,
+      "encodedStepP95": 0.46947193287037037,
+      "encodedStepMax": 3.2133622685185186,
+      "encodedBoundaryStep": 1.6953587962962964,
+      "nearStillFrameSteps": 0,
+      "sha256": "739c1098b8d45740a627f63cee1adf2eb8cc9bf06d784ebe970871ce57f02cb3",
+      "sourceUnchanged": true
+    },
+    {
+      "id": "luminous-grotto",
+      "width": 1280,
+      "height": 720,
+      "fps": 60.0,
+      "decodedFrames": 1452,
+      "durationSeconds": 24.2,
+      "encodedStepP95": 0.41402488425925926,
+      "encodedStepMax": 1.2757349537037037,
+      "encodedBoundaryStep": 1.7411979166666667,
+      "nearStillFrameSteps": 1,
+      "sha256": "37a112abfc990676aae3237af65ed02d06a29c8072672b6101265dae0f9c4eed",
+      "sourceUnchanged": true
+    },
+    {
+      "id": "starfall",
+      "width": 1280,
+      "height": 720,
+      "fps": 60.0,
+      "decodedFrames": 1795,
+      "durationSeconds": 29.916666666666668,
+      "encodedStepP95": 0.441941261574074,
+      "encodedStepMax": 1.285636574074074,
+      "encodedBoundaryStep": 1.805787037037037,
+      "nearStillFrameSteps": 0,
+      "sha256": "40e74c66ef034687dc62fcdcb770f4205b1b6e4bba51188dfe7e23361a10467e",
+      "sourceUnchanged": true
+    },
+    {
+      "id": "ember-reaches",
+      "width": 1280,
+      "height": 720,
+      "fps": 60.0,
+      "decodedFrames": 1910,
+      "durationSeconds": 31.833333333333332,
+      "encodedStepP95": 0.42658333333333304,
+      "encodedStepMax": 1.1617650462962963,
+      "encodedBoundaryStep": 1.7536921296296297,
+      "nearStillFrameSteps": 4,
+      "sha256": "3dd1194bd59f3eb9731f6be2da2b0472005f6783bfb617afa5b7d10843c11084",
+      "sourceUnchanged": true
+    },
+    {
+      "id": "quiet-foundry",
+      "width": 1280,
+      "height": 720,
+      "fps": 60.0,
+      "decodedFrames": 1682,
+      "durationSeconds": 28.033333333333335,
+      "encodedStepP95": 0.46388310185185183,
+      "encodedStepMax": 1.287199074074074,
+      "encodedBoundaryStep": 1.5103472222222223,
+      "nearStillFrameSteps": 1,
+      "sha256": "f3d97ce101297f768566566dd5ab726e8281cef94b11fe117c282066c0224ce6",
+      "sourceUnchanged": true
+    }
+  ]
+}

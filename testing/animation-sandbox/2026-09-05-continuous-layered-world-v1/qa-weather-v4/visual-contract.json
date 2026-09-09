@@ -1,0 +1,21 @@
+{
+  "passed": true,
+  "frameRates": [
+    30,
+    60,
+    144
+  ],
+  "rainTrailPixels": 68.04851210717247,
+  "solidAndAirShaftCollision": true,
+  "atlasRouting": true,
+  "baselineConfigUnchanged": true,
+  "cloudCoverRange": [
+    0.08550477641580262,
+    0.6268017277626292
+  ],
+  "cloudWidthRange": [
+    264.40945296168326,
+    1610.6928080357477
+  ],
+  "uniqueCloudScales": 375
+}

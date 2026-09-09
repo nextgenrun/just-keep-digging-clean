@@ -1,0 +1,652 @@
+[
+  {
+    "sheet": "survival-ual-player-v1-punch-jab-sheet",
+    "frame": 7,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-punch-cross-sheet",
+    "frame": 9,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-blender-v2-dig-up-polished-sheet",
+    "frame": 11,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-side-dig-phase-handoff-sheet",
+    "frame": 11,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-side-dig-phase-handoff-sheet",
+    "frame": 34,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-side-dig-phase-handoff-sheet",
+    "frame": 55,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-side-dig-phase-handoff-sheet",
+    "frame": 78,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-side-dig-phase-handoff-sheet",
+    "frame": 100,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-side-dig-phase-handoff-sheet",
+    "frame": 121,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-side-dig-jab-sheet",
+    "frame": 11,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-side-dig-cross-sheet",
+    "frame": 12,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 5,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 15,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 23,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 36,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 43,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 54,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 64,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 76,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 88,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 95,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 105,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 115,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 125,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 135,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 143,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 156,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 163,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 174,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 184,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 196,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 208,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 215,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 225,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 235,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 245,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 255,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 263,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 276,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 283,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 294,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 304,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 316,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 328,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 335,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 345,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 355,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 365,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 375,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 383,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 396,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 403,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 414,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 424,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 436,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 448,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 455,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 465,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 475,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 485,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 495,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 503,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 516,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 523,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 534,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 544,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 556,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 568,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 575,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 585,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 595,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 605,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 615,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 623,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 636,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 643,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 654,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 664,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 676,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 688,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 695,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 705,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 715,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 725,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 735,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 743,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 756,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 763,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 774,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 784,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 796,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 808,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 815,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 825,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 835,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 845,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 855,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 863,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 876,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 883,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 894,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 904,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 916,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 928,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 935,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 945,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "frame": 955,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-animation-polish-diagonal-dig-sheet",
+    "frame": 8,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-animation-polish-diagonal-dig-sheet",
+    "frame": 23,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-animation-polish-diagonal-dig-sheet",
+    "frame": 38,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-animation-polish-diagonal-dig-sheet",
+    "frame": 53,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-animation-polish-diagonal-dig-sheet",
+    "frame": 72,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-animation-polish-diagonal-dig-sheet",
+    "frame": 87,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-animation-polish-diagonal-dig-sheet",
+    "frame": 102,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-animation-polish-diagonal-dig-sheet",
+    "frame": 117,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-mixamo-v3-complex-dig-cross-sheet",
+    "frame": 10,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-mixamo-v3-complex-dig-jab-sheet",
+    "frame": 9,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-mixamo-v3-complex-dig-roundhouse-sheet",
+    "frame": 9,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-mixamo-v3-complex-dig-jab-elbow-sheet",
+    "frame": 9,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-mixamo-v3-complex-dig-jab-elbow-sheet",
+    "frame": 20,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-mixamo-v3-complex-dig-low-kick-sheet",
+    "frame": 8,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-mixamo-v3-complex-dig-high-kick-sheet",
+    "frame": 9,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-mixamo-v3-complex-dig-spinning-back-kick-sheet",
+    "frame": 12,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-mixamo-v3-complex-dig-elbow-uppercut-sheet",
+    "frame": 8,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-mixamo-v3-complex-dig-elbow-uppercut-sheet",
+    "frame": 16,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-mixamo-v3-complex-dig-single-elbow-sheet",
+    "frame": 10,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-mixamo-v3-complex-dig-hook-sheet",
+    "frame": 11,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-mixamo-v3-complex-dig-uppercut-sheet",
+    "frame": 10,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-ual-player-v1-ground-strike-sheet",
+    "frame": 18,
+    "nearestOpaquePx": 0.0
+  },
+  {
+    "sheet": "survival-mixamo-v3-downward-dig-body-low-sheet",
+    "frame": 12,
+    "nearestOpaquePx": 0.0
+  }
+]

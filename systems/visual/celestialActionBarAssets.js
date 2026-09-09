@@ -1,5 +1,7 @@
 // Resolves actionbar-owned eager aliases and approved shared engine textures.
 
+import { BAKED_TALENT_NODES } from "../../values/bakedCelestialUi.js";
+import { prepareArt } from "./bakedUiArt.js";
 import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { CAMPFIRE_CONFIG } from "../../values/campfireConfig.js";
 import { CELESTIAL_ACTION_BAR_ASSET_KEYS } from "../../values/celestialActionBar.js";
@@ -57,6 +59,11 @@ export function getCelestialActionBarChrome() {
 
 export function resolveCelestialActionBarIcon(scene, assetRole) {
   if (assetRole === "campfire") return resolveCampfireIcon(scene);
+  const roots = { waywardStar:"wayward-star-root", hollowSun:"hollow-sun-root", cometEngine:"comet-engine-root" };
+  if (roots[assetRole]) {
+    const art = prepareArt(scene, BAKED_TALENT_NODES[roots[assetRole]].face);
+    return art ? Object.freeze({...art, bakedFace:true, fallback:false}) : null;
+  }
   const candidates = iconCandidates[assetRole] || [];
   const candidateIndex = candidates.findIndex(candidate => hasTexture(scene, candidate.key));
   if (candidateIndex < 0) return null;

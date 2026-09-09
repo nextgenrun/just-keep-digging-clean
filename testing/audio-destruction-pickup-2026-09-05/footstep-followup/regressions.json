@@ -1,0 +1,42 @@
+[
+  {
+    "script": "testing/2026-07-16-ual-action-contact-timeline-contract.mjs",
+    "exitCode": 0
+  },
+  {
+    "script": "testing/2026-09-03-reviewed-audio-timing-contract.mjs",
+    "exitCode": 0
+  },
+  {
+    "script": "testing/2026-09-03-reviewed-audio-volume-contract.mjs",
+    "exitCode": 0
+  },
+  {
+    "script": "testing/2026-09-03-freesound-audio-timing-contract.mjs",
+    "exitCode": 0
+  },
+  {
+    "script": "testing/2026-09-03-freesound-audio-volume-contract.mjs",
+    "exitCode": 0
+  },
+  {
+    "script": "testing/2026-09-04-active-gametime-audio-reaudit-contract.mjs",
+    "exitCode": 0
+  },
+  {
+    "script": "testing/2026-08-26-xp-gathering-polish-contract.mjs",
+    "exitCode": 0
+  },
+  {
+    "script": "testing/2026-08-31-loot-pickup-continuity-v2-contract.mjs",
+    "exitCode": 0
+  },
+  {
+    "script": "testing/audio-design-cleanup-2026-09-05/verify.mjs",
+    "exitCode": 0
+  },
+  {
+    "script": "testing/audio-pickup-footstep-2026-09-05/verify.mjs",
+    "exitCode": 0
+  }
+]

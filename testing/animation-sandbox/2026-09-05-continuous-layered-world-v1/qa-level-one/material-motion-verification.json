@@ -1,0 +1,56 @@
+{
+  "cloud_structure": {
+    "bounds": [
+      177,
+      135,
+      1299,
+      509
+    ],
+    "meanRgbDifference": [
+      1.0751069995329197,
+      0.9751875470654962,
+      0.9071939908681023
+    ],
+    "changedBounds": [
+      110,
+      51,
+      992,
+      269
+    ]
+  },
+  "tree_canopies": {
+    "bounds": [
+      175,
+      165,
+      1210,
+      495
+    ],
+    "meanRgbDifference": [
+      0.90819206558337,
+      1.249855072463768,
+      1.4597218562435954
+    ],
+    "changedBounds": [
+      0,
+      53,
+      1035,
+      330
+    ]
+  },
+  "tree_roots": {
+    "bounds": [
+      212,
+      561,
+      1210,
+      612
+    ],
+    "meanRgbDifference": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "changedBounds": null
+  },
+  "passed": true,
+  "method": "Read-only comparisons of actual rendered, fixed-position sprites with the camera and scene paused."
+}

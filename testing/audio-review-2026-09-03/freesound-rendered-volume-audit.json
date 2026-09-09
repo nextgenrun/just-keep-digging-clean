@@ -1,0 +1,3113 @@
+{
+  "passed": true,
+  "decoded": 562,
+  "method": "FFmpeg 4x resampling",
+  "limits": "Conservative simultaneous source overlaps using exported bus budgets. No fades, filtering or panning; existing music, speech and procedural effects excluded. Not speaker SPL or perceptual acceptance.",
+  "maxSourceTruePeak": 0.8223264,
+  "sourceLevels": [
+    {
+      "id": "freesound-418788",
+      "truePeak4x": 0.1757046,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-784656",
+      "truePeak4x": 0.2685279,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-332816",
+      "truePeak4x": 0.3695615,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-332817",
+      "truePeak4x": 0.2384623,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-332814",
+      "truePeak4x": 0.3358046,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-784655",
+      "truePeak4x": 0.3068558,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-332806",
+      "truePeak4x": 0.3454731,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-332813",
+      "truePeak4x": 0.2395795,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-254365",
+      "truePeak4x": 0.579255,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-784657",
+      "truePeak4x": 0.2077835,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-332818",
+      "truePeak4x": 0.2491534,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-332808",
+      "truePeak4x": 0.3920054,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-332807",
+      "truePeak4x": 0.247946,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-332815",
+      "truePeak4x": 0.2408017,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-332811",
+      "truePeak4x": 0.238423,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-540905",
+      "truePeak4x": 0.2012169,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-855883",
+      "truePeak4x": 0.3967471,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-164644",
+      "truePeak4x": 0.4306124,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-324456",
+      "truePeak4x": 0.2647197,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-63028",
+      "truePeak4x": 0.4865704,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-410378",
+      "truePeak4x": 0.3076379,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-485786",
+      "truePeak4x": 0.1387475,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-384662",
+      "truePeak4x": 0.2289945,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-675719",
+      "truePeak4x": 0.4953683,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-333483",
+      "truePeak4x": 0.3488786,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-254062",
+      "truePeak4x": 0.6800209,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-791908",
+      "truePeak4x": 0.6154808,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-595050",
+      "truePeak4x": 0.4621742,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-136723",
+      "truePeak4x": 0.249096,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-195312",
+      "truePeak4x": 0.280686,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-145420",
+      "truePeak4x": 0.5062773,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-323714",
+      "truePeak4x": 0.385493,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-666042",
+      "truePeak4x": 0.5175458,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-147338",
+      "truePeak4x": 0.3919636,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-851904",
+      "truePeak4x": 0.685468,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-524935",
+      "truePeak4x": 0.2697284,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-545938",
+      "truePeak4x": 0.3802878,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-547434",
+      "truePeak4x": 0.2984892,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-616836",
+      "truePeak4x": 0.4034554,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-276578",
+      "truePeak4x": 0.2635981,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-347326",
+      "truePeak4x": 0.3120898,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-670465",
+      "truePeak4x": 0.2891224,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-387072",
+      "truePeak4x": 0.3448421,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-63027",
+      "truePeak4x": 0.5068908,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-588575",
+      "truePeak4x": 0.2264645,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-410390",
+      "truePeak4x": 0.3100906,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-485076",
+      "truePeak4x": 0.4369578,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-865357",
+      "truePeak4x": 0.6503316,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-675720",
+      "truePeak4x": 0.4960603,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-32858",
+      "truePeak4x": 0.3909307,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-34186",
+      "truePeak4x": 0.4101283,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-636348",
+      "truePeak4x": 0.1923939,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-636347",
+      "truePeak4x": 0.2040698,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-636344",
+      "truePeak4x": 0.350011,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-462936",
+      "truePeak4x": 0.3849331,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-337850",
+      "truePeak4x": 0.6773607,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-166466",
+      "truePeak4x": 0.6656108,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-737848",
+      "truePeak4x": 0.24916,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-778362",
+      "truePeak4x": 0.6296233,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-453406",
+      "truePeak4x": 0.2908543,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-386556",
+      "truePeak4x": 0.3651056,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-737849",
+      "truePeak4x": 0.3669356,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-132872",
+      "truePeak4x": 0.2735168,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-132870",
+      "truePeak4x": 0.2019686,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-132869",
+      "truePeak4x": 0.224334,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-132868",
+      "truePeak4x": 0.2058527,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-811480",
+      "truePeak4x": 0.6761407,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-811479",
+      "truePeak4x": 0.4900928,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-353973",
+      "truePeak4x": 0.2282854,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-815892",
+      "truePeak4x": 0.3552325,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-815891",
+      "truePeak4x": 0.4376163,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-815884",
+      "truePeak4x": 0.3705414,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-266410",
+      "truePeak4x": 0.3146499,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-842354",
+      "truePeak4x": 0.5289845,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-364222",
+      "truePeak4x": 0.6670277,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-76262",
+      "truePeak4x": 0.6014445,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-346109",
+      "truePeak4x": 0.6183449,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-116644",
+      "truePeak4x": 0.2528565,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-784652",
+      "truePeak4x": 0.6856766,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-316096",
+      "truePeak4x": 0.474905,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-75364",
+      "truePeak4x": 0.3081304,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-261253",
+      "truePeak4x": 0.2198085,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-261246",
+      "truePeak4x": 0.4601303,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-431390",
+      "truePeak4x": 0.2612045,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-719637",
+      "truePeak4x": 0.4069251,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-719636",
+      "truePeak4x": 0.4890701,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-60026",
+      "truePeak4x": 0.3930477,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-60030",
+      "truePeak4x": 0.4034448,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-73262",
+      "truePeak4x": 0.48717,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-733890",
+      "truePeak4x": 0.4209882,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-73263",
+      "truePeak4x": 0.3713365,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-817959",
+      "truePeak4x": 0.3835856,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-817958",
+      "truePeak4x": 0.3337429,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-701104",
+      "truePeak4x": 0.5215649,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-166511",
+      "truePeak4x": 0.6803561,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-477394",
+      "truePeak4x": 0.3451513,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-477392",
+      "truePeak4x": 0.4597587,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-477391",
+      "truePeak4x": 0.3877724,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-477390",
+      "truePeak4x": 0.4190692,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-477396",
+      "truePeak4x": 0.4729682,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-223154",
+      "truePeak4x": 0.6023571,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-166510",
+      "truePeak4x": 0.6169004,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-223153",
+      "truePeak4x": 0.52033,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-477395",
+      "truePeak4x": 0.5310018,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-477393",
+      "truePeak4x": 0.3750809,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-620337",
+      "truePeak4x": 0.6847809,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-620336",
+      "truePeak4x": 0.6833427,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-620335",
+      "truePeak4x": 0.5359448,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-270420",
+      "truePeak4x": 0.4947119,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-270419",
+      "truePeak4x": 0.6000234,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-270418",
+      "truePeak4x": 0.690737,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-270417",
+      "truePeak4x": 0.6822492,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-270416",
+      "truePeak4x": 0.5841216,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-270415",
+      "truePeak4x": 0.546512,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-270414",
+      "truePeak4x": 0.5650147,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-270413",
+      "truePeak4x": 0.592593,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-270412",
+      "truePeak4x": 0.5244355,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-270421",
+      "truePeak4x": 0.4951613,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-620339",
+      "truePeak4x": 0.534093,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-620338",
+      "truePeak4x": 0.4630104,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-620340",
+      "truePeak4x": 0.6892731,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-487863",
+      "truePeak4x": 0.3341363,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-487869",
+      "truePeak4x": 0.5306942,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-487862",
+      "truePeak4x": 0.6799936,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-487864",
+      "truePeak4x": 0.4774562,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-370367",
+      "truePeak4x": 0.6922899,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-651293",
+      "truePeak4x": 0.6438718,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-651292",
+      "truePeak4x": 0.5657498,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-213005",
+      "truePeak4x": 0.6788514,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-540264",
+      "truePeak4x": 0.6541246,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-70112",
+      "truePeak4x": 0.463847,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-70110",
+      "truePeak4x": 0.6812863,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-70109",
+      "truePeak4x": 0.5132462,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-177219",
+      "truePeak4x": 0.7255729,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-70108",
+      "truePeak4x": 0.4261211,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-177212",
+      "truePeak4x": 0.8223264,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-177217",
+      "truePeak4x": 0.6790854,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-177216",
+      "truePeak4x": 0.684111,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-177215",
+      "truePeak4x": 0.6852617,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-177214",
+      "truePeak4x": 0.6842814,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-177213",
+      "truePeak4x": 0.7184858,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-177211",
+      "truePeak4x": 0.6786036,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-177210",
+      "truePeak4x": 0.7024094,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-177223",
+      "truePeak4x": 0.5707711,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-793540",
+      "truePeak4x": 0.313382,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-723875",
+      "truePeak4x": 0.6527811,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-263927",
+      "truePeak4x": 0.6373968,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-263922",
+      "truePeak4x": 0.6286662,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-263921",
+      "truePeak4x": 0.6174046,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-263919",
+      "truePeak4x": 0.5514954,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-263914",
+      "truePeak4x": 0.3214488,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-263909",
+      "truePeak4x": 0.7309073,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-263907",
+      "truePeak4x": 0.5973895,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-85453",
+      "truePeak4x": 0.3764234,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-263933",
+      "truePeak4x": 0.6968055,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-263924",
+      "truePeak4x": 0.6815608,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-263931",
+      "truePeak4x": 0.5757606,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-263925",
+      "truePeak4x": 0.4517937,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-263923",
+      "truePeak4x": 0.4138486,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-263920",
+      "truePeak4x": 0.4823169,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-263917",
+      "truePeak4x": 0.4525886,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-263915",
+      "truePeak4x": 0.4373909,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-263910",
+      "truePeak4x": 0.6704203,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-263906",
+      "truePeak4x": 0.5648633,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-263905",
+      "truePeak4x": 0.4211375,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-263908",
+      "truePeak4x": 0.3418607,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-89771",
+      "truePeak4x": 0.2861622,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-263929",
+      "truePeak4x": 0.663322,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-527322",
+      "truePeak4x": 0.4707,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-329744",
+      "truePeak4x": 0.6294859,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-661830",
+      "truePeak4x": 0.6808352,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-263913",
+      "truePeak4x": 0.5127316,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-263928",
+      "truePeak4x": 0.6816298,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-263904",
+      "truePeak4x": 0.7768884,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-263926",
+      "truePeak4x": 0.5386605,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-263918",
+      "truePeak4x": 0.4189515,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-527325",
+      "truePeak4x": 0.6897972,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-527324",
+      "truePeak4x": 0.6646007,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-426204",
+      "truePeak4x": 0.7184788,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-426205",
+      "truePeak4x": 0.703546,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-621138",
+      "truePeak4x": 0.720654,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-52146",
+      "truePeak4x": 0.4324495,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-52145",
+      "truePeak4x": 0.5490685,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-52143",
+      "truePeak4x": 0.6822764,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-52147",
+      "truePeak4x": 0.5381966,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-52150",
+      "truePeak4x": 0.6011938,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-52149",
+      "truePeak4x": 0.5841289,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-52148",
+      "truePeak4x": 0.5543463,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-52151",
+      "truePeak4x": 0.4751719,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-52144",
+      "truePeak4x": 0.6280735,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-249192",
+      "truePeak4x": 0.3517895,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-720087",
+      "truePeak4x": 0.7142614,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-591152",
+      "truePeak4x": 0.6905354,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-819719",
+      "truePeak4x": 0.3726249,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-819722",
+      "truePeak4x": 0.3672155,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-819721",
+      "truePeak4x": 0.3348055,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-819720",
+      "truePeak4x": 0.4301739,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-549014",
+      "truePeak4x": 0.3992634,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-665085",
+      "truePeak4x": 0.6519037,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-233698",
+      "truePeak4x": 0.6841142,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-703115",
+      "truePeak4x": 0.6911322,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-719973",
+      "truePeak4x": 0.6359149,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-418194",
+      "truePeak4x": 0.3231896,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-611427",
+      "truePeak4x": 0.7305751,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-119452",
+      "truePeak4x": 0.480262,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-536921",
+      "truePeak4x": 0.3897872,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-808016",
+      "truePeak4x": 0.6374096,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-767348",
+      "truePeak4x": 0.5050495,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-685253",
+      "truePeak4x": 0.3842725,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-406491",
+      "truePeak4x": 0.6544788,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-854927",
+      "truePeak4x": 0.3359379,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-854926",
+      "truePeak4x": 0.3304941,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-406528",
+      "truePeak4x": 0.6807382,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-406559",
+      "truePeak4x": 0.693946,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-854929",
+      "truePeak4x": 0.2890231,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-406561",
+      "truePeak4x": 0.7026492,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-406557",
+      "truePeak4x": 0.587953,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-406560",
+      "truePeak4x": 0.6856397,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-406492",
+      "truePeak4x": 0.6804855,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-406556",
+      "truePeak4x": 0.5337108,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-160124",
+      "truePeak4x": 0.4617251,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-160123",
+      "truePeak4x": 0.5002358,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-160120",
+      "truePeak4x": 0.6624897,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-160088",
+      "truePeak4x": 0.5043937,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-160078",
+      "truePeak4x": 0.4299898,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-160075",
+      "truePeak4x": 0.6132872,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-160074",
+      "truePeak4x": 0.46806,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-160073",
+      "truePeak4x": 0.5076432,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-160058",
+      "truePeak4x": 0.6812536,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-160056",
+      "truePeak4x": 0.5327118,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-160055",
+      "truePeak4x": 0.6891622,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-160046",
+      "truePeak4x": 0.4264253,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-160044",
+      "truePeak4x": 0.5180482,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-160042",
+      "truePeak4x": 0.5212591,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-160027",
+      "truePeak4x": 0.6448559,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-160024",
+      "truePeak4x": 0.688428,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-160022",
+      "truePeak4x": 0.4974287,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-160020",
+      "truePeak4x": 0.5757606,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-160019",
+      "truePeak4x": 0.5229292,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-160008",
+      "truePeak4x": 0.6905055,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-514413",
+      "truePeak4x": 0.6414695,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-514412",
+      "truePeak4x": 0.5220562,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-514411",
+      "truePeak4x": 0.3986936,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-514409",
+      "truePeak4x": 0.6046079,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-514393",
+      "truePeak4x": 0.7905025,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-514392",
+      "truePeak4x": 0.684604,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-514391",
+      "truePeak4x": 0.6482942,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-514390",
+      "truePeak4x": 0.7011994,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-514389",
+      "truePeak4x": 0.4258325,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-514388",
+      "truePeak4x": 0.6879644,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-337854",
+      "truePeak4x": 0.694148,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-176673",
+      "truePeak4x": 0.6815238,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-160089",
+      "truePeak4x": 0.5017703,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-176675",
+      "truePeak4x": 0.6978199,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-160081",
+      "truePeak4x": 0.5826722,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-514414",
+      "truePeak4x": 0.4805177,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-160079",
+      "truePeak4x": 0.6260394,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-337871",
+      "truePeak4x": 0.5368747,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-337870",
+      "truePeak4x": 0.6421739,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-337869",
+      "truePeak4x": 0.4877878,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-337867",
+      "truePeak4x": 0.6850511,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-160025",
+      "truePeak4x": 0.6862419,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-176669",
+      "truePeak4x": 0.6202578,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-160043",
+      "truePeak4x": 0.6852769,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-160045",
+      "truePeak4x": 0.5229838,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-337873",
+      "truePeak4x": 0.5389426,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-337868",
+      "truePeak4x": 0.5428408,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-337845",
+      "truePeak4x": 0.7634737,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-160122",
+      "truePeak4x": 0.4268095,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-160121",
+      "truePeak4x": 0.5144521,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-176674",
+      "truePeak4x": 0.6817564,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-104373",
+      "truePeak4x": 0.6933922,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-334420",
+      "truePeak4x": 0.6823435,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-468837",
+      "truePeak4x": 0.4342753,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-405665",
+      "truePeak4x": 0.5279797,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-410364",
+      "truePeak4x": 0.5627787,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-337833",
+      "truePeak4x": 0.5085037,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-334419",
+      "truePeak4x": 0.3214049,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-556926",
+      "truePeak4x": 0.2474371,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-556925",
+      "truePeak4x": 0.2605548,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-556924",
+      "truePeak4x": 0.2696094,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-556923",
+      "truePeak4x": 0.2789026,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-556918",
+      "truePeak4x": 0.2512801,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-556917",
+      "truePeak4x": 0.2657371,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-556915",
+      "truePeak4x": 0.2856714,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-556914",
+      "truePeak4x": 0.2762679,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-406524",
+      "truePeak4x": 0.5484031,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-406523",
+      "truePeak4x": 0.5958946,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-406522",
+      "truePeak4x": 0.6951934,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-556922",
+      "truePeak4x": 0.2682048,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-406525",
+      "truePeak4x": 0.6861935,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-406494",
+      "truePeak4x": 0.6440749,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-556920",
+      "truePeak4x": 0.2667181,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-556916",
+      "truePeak4x": 0.2722883,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-406490",
+      "truePeak4x": 0.659408,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-556927",
+      "truePeak4x": 0.2678318,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-406558",
+      "truePeak4x": 0.683982,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-671097",
+      "truePeak4x": 0.389772,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-160034",
+      "truePeak4x": 0.6872991,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-160032",
+      "truePeak4x": 0.5021349,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-760565",
+      "truePeak4x": 0.3891916,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-728758",
+      "truePeak4x": 0.6208324,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-728757",
+      "truePeak4x": 0.6840665,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-728756",
+      "truePeak4x": 0.6403104,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-728759",
+      "truePeak4x": 0.6223196,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-760566",
+      "truePeak4x": 0.4792179,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-233630",
+      "truePeak4x": 0.3365835,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-760567",
+      "truePeak4x": 0.3510137,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-674386",
+      "truePeak4x": 0.3700117,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-674385",
+      "truePeak4x": 0.3931436,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-674384",
+      "truePeak4x": 0.2732775,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-674388",
+      "truePeak4x": 0.5073929,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-674389",
+      "truePeak4x": 0.6261011,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-431019",
+      "truePeak4x": 0.4870891,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-524312",
+      "truePeak4x": 0.2076905,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-17289",
+      "truePeak4x": 0.3141569,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-201919",
+      "truePeak4x": 0.2823937,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-843338",
+      "truePeak4x": 0.4141788,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-815336",
+      "truePeak4x": 0.4826927,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-276219",
+      "truePeak4x": 0.7205606,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-276187",
+      "truePeak4x": 0.5974338,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-276186",
+      "truePeak4x": 0.6524702,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-276168",
+      "truePeak4x": 0.7796322,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-853707",
+      "truePeak4x": 0.5945204,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-336934",
+      "truePeak4x": 0.1950387,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-623077",
+      "truePeak4x": 0.6098796,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-573373",
+      "truePeak4x": 0.6900235,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-573371",
+      "truePeak4x": 0.7396545,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-573370",
+      "truePeak4x": 0.6890877,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-573361",
+      "truePeak4x": 0.5704829,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-573354",
+      "truePeak4x": 0.6631436,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-573353",
+      "truePeak4x": 0.4281112,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-573352",
+      "truePeak4x": 0.6934819,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-573350",
+      "truePeak4x": 0.7149366,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-522116",
+      "truePeak4x": 0.728715,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-459612",
+      "truePeak4x": 0.6804482,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-532159",
+      "truePeak4x": 0.6153613,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-685560",
+      "truePeak4x": 0.1103319,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-87040",
+      "truePeak4x": 0.3699453,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-542686",
+      "truePeak4x": 0.5148693,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-246207",
+      "truePeak4x": 0.4957301,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-686836",
+      "truePeak4x": 0.6354821,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-382776",
+      "truePeak4x": 0.6825793,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-249609",
+      "truePeak4x": 0.2765665,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-585798",
+      "truePeak4x": 0.2248439,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-103333",
+      "truePeak4x": 0.7434627,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-420651",
+      "truePeak4x": 0.5024675,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-238596",
+      "truePeak4x": 0.6267903,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-238598",
+      "truePeak4x": 0.62231,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-238597",
+      "truePeak4x": 0.6308151,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-644432",
+      "truePeak4x": 0.6183249,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-765160",
+      "truePeak4x": 0.5697328,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-30774",
+      "truePeak4x": 0.2153828,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-139663",
+      "truePeak4x": 0.6844045,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-864837",
+      "truePeak4x": 0.3175347,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-817233",
+      "truePeak4x": 0.1962246,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-691021",
+      "truePeak4x": 0.2850215,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-423221",
+      "truePeak4x": 0.184073,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-530974",
+      "truePeak4x": 0.3462209,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-702631",
+      "truePeak4x": 0.2308531,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-349704",
+      "truePeak4x": 0.1438821,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-703383",
+      "truePeak4x": 0.3605305,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-812392",
+      "truePeak4x": 0.3415657,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-766085",
+      "truePeak4x": 0.5195769,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-849807",
+      "truePeak4x": 0.4296549,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-767162",
+      "truePeak4x": 0.3450383,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-791981",
+      "truePeak4x": 0.3021333,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-709257",
+      "truePeak4x": 0.427651,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-849806",
+      "truePeak4x": 0.6053445,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-585615",
+      "truePeak4x": 0.2124291,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-849380",
+      "truePeak4x": 0.6726711,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-835898",
+      "truePeak4x": 0.3153636,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-752035",
+      "truePeak4x": 0.3230305,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-720416",
+      "truePeak4x": 0.3232935,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-534345",
+      "truePeak4x": 0.4003197,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-749979",
+      "truePeak4x": 0.3538891,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-825284",
+      "truePeak4x": 0.4544343,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-33507",
+      "truePeak4x": 0.3681777,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-726230",
+      "truePeak4x": 0.3291071,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-726224",
+      "truePeak4x": 0.3315253,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-726223",
+      "truePeak4x": 0.2745409,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-726222",
+      "truePeak4x": 0.6784646,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-726220",
+      "truePeak4x": 0.3396467,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-726219",
+      "truePeak4x": 0.4827025,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-726183",
+      "truePeak4x": 0.2946276,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-726181",
+      "truePeak4x": 0.3923527,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-726169",
+      "truePeak4x": 0.3775689,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-726167",
+      "truePeak4x": 0.4514029,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-726166",
+      "truePeak4x": 0.5550349,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-726164",
+      "truePeak4x": 0.3767786,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-726163",
+      "truePeak4x": 0.4455168,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-726160",
+      "truePeak4x": 0.4846487,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-726156",
+      "truePeak4x": 0.3854877,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-726154",
+      "truePeak4x": 0.3506056,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-726150",
+      "truePeak4x": 0.3852695,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-726149",
+      "truePeak4x": 0.38978,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-726148",
+      "truePeak4x": 0.3291992,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-726145",
+      "truePeak4x": 0.4177037,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-726143",
+      "truePeak4x": 0.4840332,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-726140",
+      "truePeak4x": 0.264807,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-726136",
+      "truePeak4x": 0.3020414,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-726131",
+      "truePeak4x": 0.302327,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-726128",
+      "truePeak4x": 0.2761628,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-726126",
+      "truePeak4x": 0.458775,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-726123",
+      "truePeak4x": 0.2514944,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-726122",
+      "truePeak4x": 0.3202921,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-726121",
+      "truePeak4x": 0.5415953,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-726227",
+      "truePeak4x": 0.513848,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-726225",
+      "truePeak4x": 0.3763816,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-848195",
+      "truePeak4x": 0.2918074,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-848194",
+      "truePeak4x": 0.6801703,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-861431",
+      "truePeak4x": 0.2576633,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-848196",
+      "truePeak4x": 0.2711753,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-861430",
+      "truePeak4x": 0.2691098,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-475188",
+      "truePeak4x": 0.4577388,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-707039",
+      "truePeak4x": 0.3525343,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-707038",
+      "truePeak4x": 0.6209677,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-707040",
+      "truePeak4x": 0.5345016,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-707041",
+      "truePeak4x": 0.7047901,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-707042",
+      "truePeak4x": 0.4508785,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-107150",
+      "truePeak4x": 0.704702,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-107143",
+      "truePeak4x": 0.2243509,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-107141",
+      "truePeak4x": 0.4263225,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-107133",
+      "truePeak4x": 0.5848711,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-107129",
+      "truePeak4x": 0.4727283,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-107152",
+      "truePeak4x": 0.561197,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-107151",
+      "truePeak4x": 0.4853115,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-107149",
+      "truePeak4x": 0.3827698,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-107138",
+      "truePeak4x": 0.4374519,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-107147",
+      "truePeak4x": 0.5250953,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-107146",
+      "truePeak4x": 0.4347633,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-107137",
+      "truePeak4x": 0.4333811,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-107127",
+      "truePeak4x": 0.5894397,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-107130",
+      "truePeak4x": 0.4868081,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-107136",
+      "truePeak4x": 0.5476148,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-107128",
+      "truePeak4x": 0.5417646,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-448080",
+      "truePeak4x": 0.3852073,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-342200",
+      "truePeak4x": 0.2796025,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-343015",
+      "truePeak4x": 0.3608044,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-343000",
+      "truePeak4x": 0.2768403,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-342999",
+      "truePeak4x": 0.318726,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-343018",
+      "truePeak4x": 0.1824705,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-343010",
+      "truePeak4x": 0.3463696,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-343017",
+      "truePeak4x": 0.3510036,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-343019",
+      "truePeak4x": 0.4259702,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-343004",
+      "truePeak4x": 0.4165682,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-343009",
+      "truePeak4x": 0.1965453,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-343002",
+      "truePeak4x": 0.1745973,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-343001",
+      "truePeak4x": 0.3803049,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-342998",
+      "truePeak4x": 0.1747905,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-343005",
+      "truePeak4x": 0.3176683,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-342997",
+      "truePeak4x": 0.1960585,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-343014",
+      "truePeak4x": 0.2208836,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-343012",
+      "truePeak4x": 0.338696,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-342996",
+      "truePeak4x": 0.3127297,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-322228",
+      "truePeak4x": 0.4877648,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-343011",
+      "truePeak4x": 0.3291545,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-493551",
+      "truePeak4x": 0.3741283,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-343003",
+      "truePeak4x": 0.2609411,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-343020",
+      "truePeak4x": 0.3627327,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-538727",
+      "truePeak4x": 0.5771555,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-721503",
+      "truePeak4x": 0.3853965,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-343016",
+      "truePeak4x": 0.2365618,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-343008",
+      "truePeak4x": 0.3082966,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-343007",
+      "truePeak4x": 0.325293,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-343006",
+      "truePeak4x": 0.2472146,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-288908",
+      "truePeak4x": 0.2006553,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-288911",
+      "truePeak4x": 0.353554,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-343013",
+      "truePeak4x": 0.2651681,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-533568",
+      "truePeak4x": 0.351875,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-590159",
+      "truePeak4x": 0.6798497,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-590155",
+      "truePeak4x": 0.6770068,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-590154",
+      "truePeak4x": 0.7047422,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-590152",
+      "truePeak4x": 0.6832572,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-590151",
+      "truePeak4x": 0.7031761,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-590150",
+      "truePeak4x": 0.6850262,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-590148",
+      "truePeak4x": 0.6185952,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-590147",
+      "truePeak4x": 0.6460217,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-590149",
+      "truePeak4x": 0.6796141,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-590153",
+      "truePeak4x": 0.6999631,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-590158",
+      "truePeak4x": 0.6987131,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-590157",
+      "truePeak4x": 0.6888002,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-590156",
+      "truePeak4x": 0.7064074,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-590164",
+      "truePeak4x": 0.4995753,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-590163",
+      "truePeak4x": 0.5115848,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-590160",
+      "truePeak4x": 0.6124432,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-590166",
+      "truePeak4x": 0.6541025,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-590161",
+      "truePeak4x": 0.5408947,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-590170",
+      "truePeak4x": 0.6729391,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-590167",
+      "truePeak4x": 0.6958177,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-590162",
+      "truePeak4x": 0.6406822,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-590168",
+      "truePeak4x": 0.6828777,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-590165",
+      "truePeak4x": 0.6401718,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-590169",
+      "truePeak4x": 0.5432019,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-590171",
+      "truePeak4x": 0.6958923,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-506659",
+      "truePeak4x": 0.5080977,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-506662",
+      "truePeak4x": 0.4945606,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-506663",
+      "truePeak4x": 0.5148437,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-506664",
+      "truePeak4x": 0.4777199,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-506660",
+      "truePeak4x": 0.546334,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-506661",
+      "truePeak4x": 0.571853,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-506665",
+      "truePeak4x": 0.4831623,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-452598",
+      "truePeak4x": 0.7207379,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-637487",
+      "truePeak4x": 0.5322268,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-618082",
+      "truePeak4x": 0.6829165,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-618085",
+      "truePeak4x": 0.6841046,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-452600",
+      "truePeak4x": 0.4188846,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-572645",
+      "truePeak4x": 0.6524746,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-188606",
+      "truePeak4x": 0.6662548,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-618084",
+      "truePeak4x": 0.6827679,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-618083",
+      "truePeak4x": 0.6078014,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-261370",
+      "truePeak4x": 0.5971136,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-261369",
+      "truePeak4x": 0.6933815,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-261368",
+      "truePeak4x": 0.6987268,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-261367",
+      "truePeak4x": 0.6206724,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-261363",
+      "truePeak4x": 0.6830778,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-261362",
+      "truePeak4x": 0.4872887,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-261361",
+      "truePeak4x": 0.7001202,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-261358",
+      "truePeak4x": 0.6839122,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-261357",
+      "truePeak4x": 0.6923118,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-261353",
+      "truePeak4x": 0.6806954,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-261352",
+      "truePeak4x": 0.6806012,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-261364",
+      "truePeak4x": 0.6987061,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-261360",
+      "truePeak4x": 0.6823742,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-261359",
+      "truePeak4x": 0.7203909,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-261355",
+      "truePeak4x": 0.6861734,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-261351",
+      "truePeak4x": 0.6808307,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-261356",
+      "truePeak4x": 0.6803756,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-261372",
+      "truePeak4x": 0.6833816,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-683415",
+      "truePeak4x": 0.6874672,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-362344",
+      "truePeak4x": 0.3622548,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-362343",
+      "truePeak4x": 0.3448026,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-362342",
+      "truePeak4x": 0.4343708,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-547466",
+      "truePeak4x": 0.6895252,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-683416",
+      "truePeak4x": 0.5910928,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-436534",
+      "truePeak4x": 0.4721903,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-436535",
+      "truePeak4x": 0.4138281,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-436537",
+      "truePeak4x": 0.3694118,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-791998",
+      "truePeak4x": 0.6827793,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-791997",
+      "truePeak4x": 0.6890077,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-436536",
+      "truePeak4x": 0.5083416,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-269722",
+      "truePeak4x": 0.6277109,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-813650",
+      "truePeak4x": 0.6019993,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-502511",
+      "truePeak4x": 0.6817771,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-502505",
+      "truePeak4x": 0.7197741,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-502507",
+      "truePeak4x": 0.7213057,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-646695",
+      "truePeak4x": 0.5451126,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-646691",
+      "truePeak4x": 0.393314,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-646690",
+      "truePeak4x": 0.4263871,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-646689",
+      "truePeak4x": 0.6829896,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-646688",
+      "truePeak4x": 0.6825042,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-646687",
+      "truePeak4x": 0.3968641,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-502504",
+      "truePeak4x": 0.6881673,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-646696",
+      "truePeak4x": 0.4106738,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-436539",
+      "truePeak4x": 0.4505869,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-280237",
+      "truePeak4x": 0.6880823,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-539183",
+      "truePeak4x": 0.6724622,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-390799",
+      "truePeak4x": 0.727571,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-642951",
+      "truePeak4x": 0.6804215,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-642950",
+      "truePeak4x": 0.6828816,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-13837",
+      "truePeak4x": 0.6826294,
+      "clippedSamples": 0
+    },
+    {
+      "id": "freesound-95260",
+      "truePeak4x": 0.6849534,
+      "clippedSamples": 0
+    }
+  ],
+  "cases": [
+    {
+      "case": "near-star-and-earth-contact",
+      "samplePeak": 0.1513627,
+      "truePeak4x": 0.152728,
+      "clippedSamples": 0,
+      "busScales": {
+        "sfx": 0.9740550835705627,
+        "stars": 0.33109554066503905,
+        "panic": 1,
+        "cave": 1,
+        "weather": 1
+      },
+      "userGain": 0.81,
+      "layers": [
+        {
+          "id": "freesound-849380",
+          "bus": "stars",
+          "gain": 0.14951268324841865
+        },
+        {
+          "id": "freesound-532159",
+          "bus": "stars",
+          "gain": 0.058071091800925
+        },
+        {
+          "id": "freesound-213005",
+          "bus": "sfx",
+          "gain": 0.2608021946794619
+        },
+        {
+          "id": "libDirtBreak",
+          "bus": "sfx",
+          "gain": 0.27
+        },
+        {
+          "id": "freesound-370367",
+          "bus": "sfx",
+          "gain": 0.13397979195210824
+        }
+      ],
+      "render": "testing/audio-review-2026-09-03/orchestra-renders/near-star-and-earth-contact.wav"
+    },
+    {
+      "case": "two-star-handover",
+      "samplePeak": 0.0129428,
+      "truePeak4x": 0.0129428,
+      "clippedSamples": 0,
+      "busScales": {
+        "sfx": 1,
+        "stars": 0.3524593866286833,
+        "panic": 1,
+        "cave": 1,
+        "weather": 1
+      },
+      "userGain": 0.81,
+      "layers": [
+        {
+          "id": "freesound-849380",
+          "bus": "stars",
+          "gain": 0.07475634162420933
+        },
+        {
+          "id": "freesound-849806",
+          "bus": "stars",
+          "gain": 0.07021793283681123
+        },
+        {
+          "id": "freesound-532159",
+          "bus": "stars",
+          "gain": 0.0290355459004625
+        },
+        {
+          "id": "freesound-238597",
+          "bus": "stars",
+          "gain": 0.02728537931763412
+        }
+      ],
+      "render": "testing/audio-review-2026-09-03/orchestra-renders/two-star-handover.wav"
+    },
+    {
+      "case": "critical-metal-and-reward",
+      "samplePeak": 0.0947942,
+      "truePeak4x": 0.0947942,
+      "clippedSamples": 0,
+      "busScales": {
+        "sfx": 0.5465394138330246,
+        "stars": 1,
+        "panic": 1,
+        "cave": 1,
+        "weather": 1
+      },
+      "userGain": 0.81,
+      "layers": [
+        {
+          "id": "freesound-666042",
+          "bus": "panic",
+          "gain": 0.08187736401087113
+        },
+        {
+          "id": "freesound-728757",
+          "bus": "sfx",
+          "gain": 0.211144608165267
+        },
+        {
+          "id": "freesound-334420",
+          "bus": "sfx",
+          "gain": 0.24500000000000002
+        },
+        {
+          "id": "freesound-177216",
+          "bus": "sfx",
+          "gain": 0.3325
+        },
+        {
+          "id": "freesound-573373",
+          "bus": "sfx",
+          "gain": 0.21336466839647583
+        },
+        {
+          "id": "libPressureRumble",
+          "bus": "sfx",
+          "gain": 0.24
+        }
+      ],
+      "render": "testing/audio-review-2026-09-03/orchestra-renders/critical-metal-and-reward.wav"
+    },
+    {
+      "case": "quiet-refuge-recovery",
+      "samplePeak": 0.0368358,
+      "truePeak4x": 0.037435,
+      "clippedSamples": 0,
+      "busScales": {
+        "sfx": 1,
+        "stars": 0.4492016384856252,
+        "panic": 1,
+        "cave": 1,
+        "weather": 1
+      },
+      "userGain": 0.81,
+      "layers": [
+        {
+          "id": "freesound-849380",
+          "bus": "stars",
+          "gain": 0.14951268324841865
+        },
+        {
+          "id": "freesound-332816",
+          "bus": "panic",
+          "gain": 0.01878070124476554
+        },
+        {
+          "id": "libDeepCaveBedA",
+          "bus": "cave",
+          "gain": 0.07700000000000001
+        }
+      ],
+      "render": "testing/audio-review-2026-09-03/orchestra-renders/quiet-refuge-recovery.wav"
+    },
+    {
+      "case": "interface-and-impact",
+      "samplePeak": 0.0980297,
+      "truePeak4x": 0.0980297,
+      "clippedSamples": 0,
+      "busScales": {
+        "sfx": 0.31680910540670043,
+        "stars": 1,
+        "panic": 1,
+        "cave": 1,
+        "weather": 1
+      },
+      "userGain": 0.81,
+      "layers": [
+        {
+          "id": "freesound-707041",
+          "bus": "sfx",
+          "gain": 0.11532503770975373
+        },
+        {
+          "id": "freesound-573373",
+          "bus": "sfx",
+          "gain": 0.21336466839647583
+        },
+        {
+          "id": "freesound-276219",
+          "bus": "sfx",
+          "gain": 0.16158380857385432
+        },
+        {
+          "id": "freesound-728757",
+          "bus": "sfx",
+          "gain": 0.211144608165267
+        },
+        {
+          "id": "freesound-334420",
+          "bus": "sfx",
+          "gain": 0.24500000000000002
+        },
+        {
+          "id": "freesound-177216",
+          "bus": "sfx",
+          "gain": 0.3325
+        },
+        {
+          "id": "freesound-701104",
+          "bus": "sfx",
+          "gain": 0.12480478775458191
+        },
+        {
+          "id": "libLandingDebris",
+          "bus": "sfx",
+          "gain": 0.2
+        },
+        {
+          "id": "starDestruction",
+          "bus": "sfx",
+          "gain": 0.18
+        },
+        {
+          "id": "levelUpShort",
+          "bus": "sfx",
+          "gain": 0.2
+        }
+      ],
+      "render": "testing/audio-review-2026-09-03/orchestra-renders/interface-and-impact.wav"
+    },
+    {
+      "case": "unity-sliders-full-overlap",
+      "samplePeak": 0.1465009,
+      "truePeak4x": 0.1476678,
+      "clippedSamples": 0,
+      "busScales": {
+        "sfx": 0.5465394138330246,
+        "stars": 0.33109554066503905,
+        "panic": 1,
+        "cave": 1,
+        "weather": 0.7644523539781337
+      },
+      "userGain": 1,
+      "layers": [
+        {
+          "id": "freesound-666042",
+          "bus": "panic",
+          "gain": 0.08187736401087113
+        },
+        {
+          "id": "freesound-728757",
+          "bus": "sfx",
+          "gain": 0.211144608165267
+        },
+        {
+          "id": "freesound-334420",
+          "bus": "sfx",
+          "gain": 0.24500000000000002
+        },
+        {
+          "id": "freesound-177216",
+          "bus": "sfx",
+          "gain": 0.3325
+        },
+        {
+          "id": "freesound-573373",
+          "bus": "sfx",
+          "gain": 0.21336466839647583
+        },
+        {
+          "id": "libPressureRumble",
+          "bus": "sfx",
+          "gain": 0.24
+        },
+        {
+          "id": "freesound-849380",
+          "bus": "stars",
+          "gain": 0.14951268324841865
+        },
+        {
+          "id": "freesound-532159",
+          "bus": "stars",
+          "gain": 0.058071091800925
+        },
+        {
+          "id": "libDeepCaveBedA",
+          "bus": "cave",
+          "gain": 0.14
+        },
+        {
+          "id": "libTownHeavyRain",
+          "bus": "weather",
+          "gain": 0.28
+        }
+      ],
+      "render": "testing/audio-review-2026-09-03/orchestra-renders/unity-sliders-full-overlap.wav"
+    }
+  ]
+}

@@ -1,0 +1,161 @@
+{
+  "date": "2026-09-05T19:01:36.756710+00:00",
+  "focusedAudioTests": [
+    {
+      "test": "testing/audio-design-cleanup-2026-09-05/verify.mjs",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "testing/2026-09-04-active-gametime-audio-reaudit-contract.mjs",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "testing/2026-09-03-reviewed-audio-timing-contract.mjs",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "testing/2026-09-03-reviewed-audio-volume-contract.mjs",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "testing/2026-09-03-freesound-audio-timing-contract.mjs",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "testing/2026-09-03-freesound-audio-volume-contract.mjs",
+      "passed": true,
+      "exit": 0
+    }
+  ],
+  "newBehaviorChecks": 12,
+  "renderedComparisons": 16,
+  "clippedSamples": 0,
+  "sourceRegistryPreserved": 562,
+  "activeFreesoundSources": 352,
+  "activeReauditClips": 764,
+  "coreShortlist": 15,
+  "excludedCoreRoutes": 211,
+  "originalReviewExportPreserved": true,
+  "servedSourceChecks": [
+    {
+      "path": "testing/audio-design-cleanup-2026-09-05/",
+      "status": 200,
+      "matchesWorkspace": true
+    },
+    {
+      "path": "testing/audio-design-cleanup-2026-09-05/after-hard-walk.wav",
+      "status": 200,
+      "matchesWorkspace": true
+    },
+    {
+      "path": "testing/audio-runtime-reaudit-2026-09-04/catalog.json",
+      "status": 200,
+      "matchesWorkspace": true
+    },
+    {
+      "path": "sound/SoundSystem.js",
+      "status": 200,
+      "matchesWorkspace": true
+    },
+    {
+      "path": "values/coreActionAudio.js",
+      "status": 200,
+      "matchesWorkspace": true
+    }
+  ],
+  "widerSuite": {
+    "total": 16,
+    "passed": 15,
+    "failures": [
+      {
+        "test": "2026-08-31-contextual-music-director-contract.mjs",
+        "reason": "Unrelated existing assertion expects MUSIC_CUE_IDS.deathRevive in HardcoreModeBridge; reproduces with the pre-cleanup audio module snapshot."
+      }
+    ]
+  },
+  "manualBrowserPlaythrough": false,
+  "listeningApproved": false,
+  "browserLimitation": "Browser tool connection timed out; rendered listening sequences and actual browser gameplay still require human review.",
+  "initialWiderSuite": {
+    "total": 16,
+    "passed": 13,
+    "failures": [
+      {
+        "test": "2026-08-31-contextual-music-director-contract.mjs",
+        "exitCode": 1
+      },
+      {
+        "test": "2026-07-26-earthquake-feedback-lifecycle-contract.mjs",
+        "exitCode": 1
+      },
+      {
+        "test": "2026-08-30-earthquake-event-cohesion-contract.mjs",
+        "exitCode": 1
+      }
+    ]
+  },
+  "earthquakeBaselineComparison": [
+    {
+      "test": "testing/2026-07-26-earthquake-feedback-lifecycle-contract.mjs",
+      "beforeCleanupExit": 0,
+      "outputTail": "earthquake feedback lifecycle contract passed\n"
+    },
+    {
+      "test": "testing/2026-08-30-earthquake-event-cohesion-contract.mjs",
+      "beforeCleanupExit": 0,
+      "outputTail": "earthquake event cohesion contract passed\n"
+    }
+  ],
+  "earthquakeValidationNote": "The earlier batch reported failures; the earthquake tests changed independently during this shared-checkout task. Both now pass in isolated current and saved-audio-snapshot runs. No earthquake files were edited by this cleanup.",
+  "finalizedAt": "2026-09-05T19:15:32.855047+00:00",
+  "finalSourceHashes": {
+    "values/freesoundAudio.js": "d46dd0df523f34acba4a64e231893e7e42f24faf2b840ecaa3368b8cc319e0a7",
+    "sound/FreesoundPaletteBank.js": "60ec646e7e2fbd7ada17cd43dfdd2700cb7a4099c58da82da45d5c8da2a83f08",
+    "sound/ReviewedSfxController.js": "9c5dde3ff802772ba84fc767ab2aa40233a79ece130f87ba0f5a673c1617e042",
+    "sound/FreesoundAudioDirector.js": "082660643598ac72bfee9b358601cda1d7c83304592a0f310628df5fa01d9560",
+    "sound/SoundSystem.js": "774db88188a559a6091ec6e9b7a539fa481510e0aba97742ef0dfef5bce33912",
+    "sound/ReviewedAmbienceController.js": "4927f30efef7177fa3efbc92c0ae19390731683b802857c452671e01ff73f204",
+    "world/playScene/PlaySceneGameplay.js": "762a8a513b58c3f5c07d147f950535f78b5dc6f8010dfe7bb2715b8c37ac4456",
+    "world/playScene/caveMineFeedback.js": "08f186d0272e636d59cb6671ee53d579b3bca626c112dde22096775450094304",
+    "world/playScene/CaveGameplayController.js": "4619239d413c7d0942a19a7e8d19209a30f3a65bb1dfccc7e2e51e37d67aa5ca",
+    "testing/audio-runtime-reaudit-2026-09-04/catalog-builder.mjs": "8ba189f69f5d8bf3820db8b7513cd03e54769187377b416206d77c0918ac0dc5",
+    "sound/readme.md": "7c5fa561d206ca7831bd24edc53fc66f819c25cce51f7f979ec9896ce8e7cd7d",
+    "values/readme.md": "758b4f2550b8a6609f5547dc48f52fc8d8077adddabec1f68c98d27ff8a16f0f",
+    "testing/audio-runtime-reaudit-2026-09-04/readme.md": "3d484be64ff3ba0afbdd8ca0baddad65076c1ad1b4ae96254becc9a933ebe38b",
+    "values/coreActionAudio.js": "620ac62226e2976b7b27f65a5968e448717f9ab0b6d7595afa40420fe9ce3d84",
+    "testing/2026-09-04-active-gametime-audio-reaudit-contract.mjs": "da7f2a1eb58b0e07f1aae7736ba31c9f70a00064839d94acfbb4abac03d086c5",
+    "testing/2026-09-03-reviewed-audio-timing-contract.mjs": "df3536c265565d33222e9a6b351215571e65bc88569dc45044ad3bd57a84cf9c",
+    "testing/2026-09-03-freesound-audio-timing-contract.mjs": "c5951d6d9dcbd8d1874a498ca2a99ebcf67575ad76e142a639108104d99ecc0f"
+  },
+  "hardFloorShortlist": 2,
+  "hardFloorCalibration": {
+    "activeSampleGateDb": -48,
+    "targetSourceRmsDb": -21,
+    "referenceDirtRoleGain": 0.105,
+    "referenceDirtCleanupGain": 0.76,
+    "sources": [
+      {
+        "key": "footsteps-1",
+        "path": "sound/soundEffects/costume-sounds/footsteps/footstep-3.ogg",
+        "gain": 0.288087,
+        "peak": 0.0725907,
+        "duration": 0.127729,
+        "activeRmsDb": -32.15
+      },
+      {
+        "key": "footsteps-2",
+        "path": "sound/soundEffects/costume-sounds/footsteps/footstep-4.ogg",
+        "gain": 0.602351,
+        "peak": 0.0637714,
+        "duration": 0.206083,
+        "activeRmsDb": -38.557
+      }
+    ],
+    "method": "Per-channel RMS over stereo frames with peak absolute amplitude above the gate; match the calibrated dirt-contact RMS without changing source files."
+  }
+}

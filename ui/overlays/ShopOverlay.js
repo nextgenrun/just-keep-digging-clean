@@ -1,3 +1,4 @@
+import { SIGNAL_MIA } from "../../values/signalMia.js";
 import { UPGRADES } from "../../values/upgradeDefinitions.js";
 import { resolveFirstFiveMinutesEnabled } from "../../values/firstFiveMinutes.js";
 import { getUpgradeCost } from "../../values/upgradeFormulas.js";
@@ -32,8 +33,11 @@ import {
 import { createIconBadge, createModalShell } from "../UiModalShell.js";
 import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { HARDCORE_MODE_CONFIG } from "../../values/hardcoreMode.js";
+import { NEW_RUN_SETUP_CONFIG } from "../../values/newRunSetup.js";
 import { PLAYER_VOICE_CONFIG } from
   "../../values/playerVoiceCharacterLeoV1.generated.js";
+import { addBakedUiCaption } from "../../systems/visual/bakedUiArt.js";
+import { SHOP_COPY } from "../../values/playerFacingCopy.js";
 
 const LIST_ROW_HEIGHT = 62;
 const ARC_FORGE_MERCHANT_ID = "magmaMoneyMonster";
@@ -89,8 +93,8 @@ export class ShopOverlay {
     this.saleConfirmSignature = "";
 
     this.shell = createModalShell(scene, {
-      title: "MERCHANT DESK",
-      subtitle: "Select an item to inspect it",
+      title: SHOP_COPY.defaultTitle,
+      subtitle: SHOP_COPY.defaultSubtitle,
       icon: "shop",
       maxWidth: 1040,
       maxHeight: 672,
@@ -144,19 +148,13 @@ export class ShopOverlay {
 
   _layoutChrome() {
     this.shell.layout();
-    this.walletText.setPosition(this.shell.width / 2 - 82, -this.shell.height / 2 + 41);
+    this.walletText.setPosition(this.shell.width / 2 - 82, this.shell.titleText.y);
     this.helpText.setPosition(0, this.shell.height / 2 - 25);
   }
 
   refreshKeybindHints() {
     const interact = USER_SETTINGS.getKeyLabel("interact");
-    this.helpText.setText(
-      SHOP_SELECTION_BEHAVIOR.mouseHint
-      + "    W/S or arrows: select    PgUp/PgDn: pages    "
-      + "A/D or Tab: tabs/pages    "
-      + interact
-      + "/Enter: action    ESC: close"
-    );
+    this.helpText.setText(SHOP_COPY.help.replace("{interact}", interact));
   }
 
   update() {
@@ -195,7 +193,7 @@ export class ShopOverlay {
     );
   }
 
-  show(merchantId) {
+  show(merchantId, { playOpenSound = true } = {}) {
     if (!this.isOperational() || !isKnownShopMerchant(merchantId)) return false;
     if (this.scene?.systemIntroductionSystem
       && this.scene.systemIntroductionSystem.isMerchantAvailable?.(merchantId) === false) return false;
@@ -215,7 +213,7 @@ export class ShopOverlay {
     this.populateUpgrades(merchantId);
     this.shell.show();
     this._layoutChrome();
-    this.soundSystem?.playUiSelect?.();
+    if (playOpenSound) this.soundSystem?.playMenuOpen?.();
     return true;
   }
 
@@ -449,6 +447,7 @@ export class ShopOverlay {
       lineSpacing: style.lineSpacing,
     }).setOrigin(originX, originY);
     this.upgradesContainer.add(text);
+    addBakedUiCaption(this.scene, this.upgradesContainer, text);
     return text;
   }
 
@@ -482,10 +481,10 @@ export class ShopOverlay {
 
   _renderList(items, x, y, width, height) {
     const title = this.moneyMonsterMode === "sell"
-      ? "RESOURCE STOCK"
+      ? SHOP_COPY.resourcesTitle
       : this.moneyMonsterMode === "craft"
-        ? "HEAVENBLOCK SCHEMATICS"
-        : "UPGRADE CATALOG";
+        ? SHOP_COPY.schematicsTitle
+        : SHOP_COPY.upgradesTitle;
     this._text(x + 16, y + 14, title, {
       fontFamily: UI_FONTS.display,
       fontSize: "15px",
@@ -545,12 +544,10 @@ export class ShopOverlay {
             ? null
             : resolveUpgradeUiIcon(item);
       if (item.isHardcoreConversion) {
-        const crest = this.scene.add.image(
-          x + 42,
-          rowY + 27,
-          ASSET_KEYS.ui.hardcore.oathCrest,
-        ).setDisplaySize(42, 42).setAlpha(selected ? 1 : 0.78);
-        this.upgradesContainer.add(crest);
+        createUiIcon(this.scene, this._hardcoreIconKey(), {
+          x: x + 42, y: rowY + 27, size: 42, alpha: selected ? 1 : 0.78,
+          parent: this.upgradesContainer, scrollFactor: 0,
+        });
       } else {
         createIconBadge(this.scene, iconKey, {
           x: x + 42,
@@ -656,6 +653,7 @@ export class ShopOverlay {
   _upgradeRowStatus(upgrade) {
     if (upgrade?.isHardcoreConversion) return HARDCORE_MODE_CONFIG.bobo.rowStatus;
     const level = this.upgradeSystem?.getUpgradeLevel?.(upgrade.id) || 0;
+    if (upgrade.acquisitionMode === "signal") return level > 0 ? SIGNAL_MIA.copy.shopFound : SIGNAL_MIA.copy.shopFind;
     if (upgrade.oneTimePurchase && level > 0) return "OWNED";
     if (upgrade.availability?.available === false) {
       return "LOCKED  •  " + (upgrade.availability.short || "PROGRESSION");
@@ -713,7 +711,7 @@ export class ShopOverlay {
     });
 
     const requirementsY = y + Math.min(190, height * 0.38);
-    this._text(x + 20, requirementsY, "PERMANENT PROGRESSION + MATERIALS", {
+    this._text(x + 20, requirementsY, SHOP_COPY.requirementsTitle, {
       fontFamily: UI_FONTS.display,
       fontSize: "14px",
       fontStyle: "bold",
@@ -823,25 +821,25 @@ export class ShopOverlay {
     stat.lineStyle(1, UI_COLORS.borderDim, 0.95);
     stat.strokeRoundedRect(x + 18, statY, width - 36, 84, 6);
     this.upgradesContainer.add(stat);
-    this._text(x + 36, statY + 13, owned ? "OWNERSHIP" : "CURRENT LEVEL", {
+    this._text(x + 36, statY + 13, upgrade.acquisitionMode === "signal" ? SIGNAL_MIA.copy.shopStatus : owned ? "OWNERSHIP" : SHOP_COPY.currentLevel, {
       fontFamily: UI_FONTS.mono,
       fontSize: "10px",
       color: UI_COLORS.dim,
     });
-    this._text(x + 36, statY + 38, owned ? "OWNED" : String(level), {
+    this._text(x + 36, statY + 38, upgrade.acquisitionMode === "signal" ? (owned ? SIGNAL_MIA.copy.shopHome : SIGNAL_MIA.copy.shopMissing) : owned ? "OWNED" : String(level), {
       fontFamily: UI_FONTS.display,
       fontSize: "22px",
       fontStyle: "bold",
       color: owned ? UI_COLORS.success : UI_COLORS.title,
     });
-    this._text(x + width / 2, statY + 38, maxed ? "MAXIMUM" : "NEXT  >  " + (level + 1), {
+    this._text(x + width / 2, statY + 38, upgrade.acquisitionMode === "signal" ? (owned ? SIGNAL_MIA.copy.shopFound : SIGNAL_MIA.copy.shopFollow) : maxed ? SHOP_COPY.maximum : "NEXT  >  " + (level + 1), {
       fontFamily: UI_FONTS.display,
       fontSize: "18px",
       fontStyle: "bold",
       color: maxed ? UI_COLORS.dim : UI_COLORS.gold,
     }, 0.5, 0.5);
     const requirementsY = statY + 100;
-    this._text(x + 20, requirementsY, "REQUIREMENTS", {
+    this._text(x + 20, requirementsY, SHOP_COPY.requirementsTitle, {
       fontFamily: UI_FONTS.display,
       fontSize: "14px",
       fontStyle: "bold",
@@ -863,7 +861,7 @@ export class ShopOverlay {
     });
 
     const actionY = y + height - 37;
-    const actionLabel = progressionLocked
+    const actionLabel = upgrade.acquisitionMode === "signal" ? (owned ? SIGNAL_MIA.copy.shopFound : SIGNAL_MIA.copy.shopFind) : progressionLocked
       ? "LOCKED  -  " + (availability.short || "KEEP PROGRESSING")
       : owned
         ? (upgrade.id === "sellAllButton" ? "SELL ALL RESOURCES" : "OWNED")
@@ -893,13 +891,16 @@ export class ShopOverlay {
     action.setEnabled?.(!progressionLocked && (!maxed || (owned && upgrade.id === "sellAllButton")));
   }
 
+  _hardcoreIconKey() {
+    const crest = ASSET_KEYS.ui.hardcore.oathCrest;
+    return this.scene.textures.exists(crest)
+      ? crest : NEW_RUN_SETUP_CONFIG.cards.hardcoreIconName;
+  }
+
   _renderHardcoreConversionDetail(upgrade, x, y, width, height) {
-    const crest = this.scene.add.image(
-      x + 60,
-      y + 62,
-      ASSET_KEYS.ui.hardcore.oathCrest,
-    ).setDisplaySize(88, 88);
-    this.upgradesContainer.add(crest);
+    createUiIcon(this.scene, this._hardcoreIconKey(), {
+      x: x + 60, y: y + 62, size: 88, parent: this.upgradesContainer, scrollFactor: 0,
+    });
     this._text(x + 118, y + 25, upgrade.name, {
       fontFamily: UI_FONTS.display,
       fontSize: "23px",
@@ -924,7 +925,7 @@ export class ShopOverlay {
     [
       "• Hardcore is armed immediately because Flight is unlocked.",
       "• Darkness, pressure, hazards, abilities and the Wurm can drain GP.",
-      "• At 0 GP the free revive or one life is consumed; the save stays intact.",
+      "• At 0 GP your only life is lost and the run ends; the save stays intact.",
       "• This conversion can never be reversed.",
     ].forEach((line, index) => {
       this._text(x + 36, warningY + 18 + index * 27, line, {
@@ -951,6 +952,8 @@ export class ShopOverlay {
   }
 
   _buildRequirementLines(upgrade, cost) {
+    if (upgrade.acquisitionMode === "signal") return [{ text: this.upgradeSystem?.getUpgradeLevel?.(upgrade.id) > 0 ? SIGNAL_MIA.copy.shopFound : SIGNAL_MIA.copy.requirement,
+      met: this.upgradeSystem?.getUpgradeLevel?.(upgrade.id) > 0 }];
     const wallet = this.upgradeSystem?.getMoney?.() || 0;
     const resources = this.scene.digSystem?.getResourceTotals?.() || {};
     const lines = [];
@@ -1019,7 +1022,7 @@ export class ShopOverlay {
       fontSize: "11px",
       color: UI_COLORS.gold,
     });
-    this._text(x + 20, y + 116, "Sell from your current stock. Market bonuses are already included in the value shown below.", {
+    this._text(x + 20, y + 116, SHOP_COPY.saleHint, {
       fontSize: "14px",
       color: UI_COLORS.body,
       wordWrap: { width: width - 40, useAdvancedWrap: true },
@@ -1241,18 +1244,18 @@ export class ShopOverlay {
     const result = this.scene.craftingSystem?.craft?.(recipeId);
     if (!result?.success) {
       const messages = {
-        already_owned: "This core is already forged.",
-        not_enough_relics: "More Ancient Relics must be discovered.",
+        already_owned: SHOP_COPY.alreadyForged,
+        not_enough_relics: SHOP_COPY.needMoreRelics,
         requires_upgrade: "A prerequisite upgrade is missing.",
         requires_blueprint: "Complete all three Heavenblocks first.",
         requires_installed_parts: "All three Heavenblock parts must be installed.",
         requires_zenith_keystone: "Open all three Arc Vaults to forge the Zenith Keystone.",
         not_enough_resources: "Required crafting materials are missing.",
         craft_in_progress: "The Forge is already active.",
-        progression_system_unavailable: "Heavenblock progression is unavailable.",
+        progression_system_unavailable: SHOP_COPY.forgeUnavailable,
       };
       this.soundSystem?.playUiSelect?.();
-      this._notify(messages[result?.reason] || "Crafting requirements are not met.", UI_COLORS.danger);
+      this._notify(messages[result?.reason] || SHOP_COPY.requirementsMissing, UI_COLORS.danger);
       this._render();
       return;
     }
@@ -1294,29 +1297,30 @@ export class ShopOverlay {
     const beforeJourneySnapshot = this.scene.journeySystem?.captureSnapshot?.();
     const result = this.upgradeSystem?.purchaseUpgrade?.(upgradeId);
     if (!upgrade || !result) {
-      this._notify("Upgrade unavailable", UI_COLORS.danger);
+      this._notify(SHOP_COPY.unavailable, UI_COLORS.danger);
       return;
     }
     if (!result.success) {
       const messages = {
+        requires_signal_rescue: SIGNAL_MIA.copy.requirement,
         not_enough_money: "Not enough money.",
         max_level: "This upgrade is already at maximum.",
         not_enough_resources: "Required materials are missing.",
         requires_upgrade: "Another upgrade is required first.",
         requires_depth_gate: "A deeper milestone must be claimed first.",
         requires_player_level: "A higher player level is required.",
-        feature_disabled: "This upgrade belongs to the modern depth economy.",
+        feature_disabled: SHOP_COPY.unavailable,
         progression_locked: "Keep progressing to unlock this upgrade.",
         guided_step_locked: "Complete the current guided shop step first.",
       };
       this.soundSystem?.playUiSelect?.();
-      this._notify(messages[result.reason] || "Purchase requirements are not met.", UI_COLORS.danger);
+      this._notify(messages[result.reason] || SHOP_COPY.requirementsMissing, UI_COLORS.danger);
       this._render();
       return;
     }
 
-    this.soundSystem?.playUiConfirm?.();
-    if (ASSET_KEYS.ui.pickaxeHud?.[upgradeId]) {
+    this.soundSystem?.playPurchase?.();
+    if (ASSET_KEYS.ui.pickaxeIcons?.[upgradeId]) {
       this.scene.hudSystem?.setCurrentPickaxe?.(upgradeId, {
         animate: true,
         force: true,
@@ -1394,19 +1398,13 @@ export class ShopOverlay {
     const permanentUnitPrice = this._permanentUnitPrice(resource, basePrice);
     const unitPrice = this._adjustedUnitPrice(resource, basePrice);
     let total = unitPrice * count;
-    const luckySales = this.upgradeSystem.getUpgradeEffects?.().luckySales || 0;
-    if (luckySales > 0 && Math.random() < luckySales * 0.1) {
-      const bonus = roundResourceCurrency(total * 0.5);
-      total += bonus;
-      this._notify("Lucky sale bonus: +" + formatMoney(bonus), UI_COLORS.gold);
-    }
     total = roundResourceCurrency(total);
 
     resources[resource] = available - count;
     digSystem.setResourceTotals(resources);
     this.upgradeSystem.addMoney(total);
     this.scene.retentionProgressSystem?.recordSale?.(total, count);
-    this.soundSystem?.playUiConfirm?.();
+    this.soundSystem?.playCoinReward?.();
     this.scene?.randomEventBridge?.recordRushSale?.(resource, count, permanentUnitPrice, unitPrice);
     this._notify(
       "Sold " + count.toLocaleString() + " " + getResourceDisplayName(resource) + " for " + formatMoney(total) + ".",
@@ -1444,7 +1442,7 @@ export class ShopOverlay {
     digSystem.setResourceTotals(resources);
     this.upgradeSystem.addMoney(totalMoney);
     this.scene.retentionProgressSystem?.recordSale?.(totalMoney, totalSold);
-    this.soundSystem?.playUiConfirm?.();
+    this.soundSystem?.playCoinReward?.();
     this._notify("Sold " + totalSold.toLocaleString() + " resources for " + formatMoney(totalMoney) + ".", UI_COLORS.success);
     this.scene.uiResourceBar?.setResources?.(resources);
     this.scene.queueDugTilesSave?.();

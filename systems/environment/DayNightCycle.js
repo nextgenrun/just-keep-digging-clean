@@ -1,8 +1,11 @@
+import { resolveLayeredSkyReviewEnabled } from "../../values/worldVisualLayeredSkyReview.js";
 /**
  * Day/Night Cycle System — Enhanced
  * Manages time progression with 7 distinct phases, sun/moon arc animation,
  * sky color grading, shadow direction, and star + sun/moon rendering.
  */
+import { LayeredCelestialView } from "./LayeredCelestialView.js";
+import { WORLD_DEPTH_CONFIG } from "../../values/worldDepthConfig.js";
 import { TIME_CONFIG } from "../../values/timeConfig.js";
 import { LIGHT_CONFIG } from "../../values/lightConfig.js";
 import { clamp01 } from "../../values/mathUtils.js";
@@ -48,13 +51,15 @@ export class DayNightCycle {
     this._createSunMoon();
   }
 
-  update(delta) {
-    // Advance time
-    this.currentTime += delta / this.dayDuration;
+  advanceTime(delta) {
+    const elapsed = Number.isFinite(delta) ? Math.max(0, delta) : 0;
+    this.currentTime += elapsed / this.dayDuration;
     if (this.currentTime >= 1) {
-      this.currentTime = 0;
-      this.day++;
+      const days = Math.floor(this.currentTime);
+      this.currentTime -= days;
+      this.day += days;
       this._determineSeason();
+      this.scene.events?.emit?.('world-days-passed', { days, day: this.day });
     }
 
     // Update current phase
@@ -64,7 +69,11 @@ export class DayNightCycle {
     this._nightAmount = this.getNightAmount();
     this.isNight = this._nightAmount > 0.1;
 
-    // Update visual elements
+  }
+
+  update(delta) {
+    this.advanceTime(delta);
+    // Render only once per frame, even when sleep advances many simulation steps.
     this._updateStarVisibility();
     this._updateSunMoonPositions();
     this._updateSkyTint();
@@ -261,7 +270,8 @@ export class DayNightCycle {
     const orbit = this.timeConfig.celestial;
     const normalized = this._getCelestialOrbitPosition(arc, phaseOffset);
     const tileSize = this.config.tileSize || 94;
-    const worldWidth = this.config.worldWidthPx
+    const levelOneReview = resolveLayeredSkyReviewEnabled() && this.scene.gameplayCapabilities?.isLevelEnabled?.(2) === false;
+    const worldWidth = levelOneReview ? (WORLD_DEPTH_CONFIG.levelTwoLeftTile + 1) * tileSize : this.config.worldWidthPx
       || (this.config.worldWidthTiles || 280) * tileSize;
     const surfaceWorldY = (this.config.topAirRows || 65) * tileSize;
 
@@ -339,7 +349,7 @@ export class DayNightCycle {
    */
   getSunAlpha() {
     const offset = this.timeConfig.celestial.sun.phaseOffset;
-    return (this.currentPhase?.sunAlpha ?? 1) * this._getHorizonVisibility(offset);
+    return this._getCelestialPhaseAlpha("sun") * this._getHorizonVisibility(offset);
   }
 
   /**
@@ -348,13 +358,24 @@ export class DayNightCycle {
    */
   getMoonAlpha() {
     const offset = this.timeConfig.celestial.moon.phaseOffset;
-    return (this.currentPhase?.moonAlpha ?? 0) * this._getHorizonVisibility(offset);
+    return this._getCelestialPhaseAlpha("moon") * this._getHorizonVisibility(offset);
   }
 
-  /**
-   * Get an immutable world-space state plus its active-camera projection.
-   * @returns {Readonly<Object>}
-   */
+  // Match the continuous sky phase blend without changing the authoritative orbit.
+  _getCelestialPhaseAlpha(body) {
+    const property = body + "Alpha";
+    if (!resolveLayeredSkyReviewEnabled()) return this.currentPhase?.[property] ?? (body === "sun" ? 1 : 0);
+    const phases = this.timeConfig.phases, time = this.currentTime;
+    const centers = phases.map(phase => (phase.start + phase.end) / 2);
+    let next = centers.findIndex(center => center > time);
+    if (next < 0) next = 0;
+    const previous = (next + phases.length - 1) % phases.length;
+    const start = centers[previous], end = centers[next] + (next === 0 ? 1 : 0);
+    const t = smoothstep01(((time < start ? time + 1 : time) - start) / (end - start));
+    return phases[previous][property] + (phases[next][property] - phases[previous][property]) * t;
+  }
+
+  /** Get immutable sun world coordinates and their active-camera projection. */
   getSunState(viewportW, viewportH) {
     return this._getCelestialBodyState("sun", viewportW, viewportH);
   }
@@ -390,7 +411,7 @@ export class DayNightCycle {
       ? this.getSunWorldPosition()
       : this.getMoonWorldPosition();
     const position = this._projectWorldPositionToScreen(worldPosition, viewportW, viewportH);
-    const phaseAlpha = body === "sun" ? phase?.sunAlpha : phase?.moonAlpha;
+    const phaseAlpha = this._getCelestialPhaseAlpha(body);
     const aboveHorizon = this._isCelestialAboveHorizon(bodyConfig.phaseOffset);
     const horizonVisibility = this._getHorizonVisibility(bodyConfig.phaseOffset);
 
@@ -445,6 +466,7 @@ export class DayNightCycle {
    * @private
    */
   _createStars() {
+    if (resolveLayeredSkyReviewEnabled()) return;
     this.starContainer = this.scene.add.container().setDepth(49);
 
     const tileSize = this.config.tileSize || 94;
@@ -487,6 +509,12 @@ export class DayNightCycle {
    * @private
    */
   _createSunMoon() {
+    if (resolveLayeredSkyReviewEnabled()) {
+      this.layeredCelestial = new LayeredCelestialView(this.scene, this);
+      this.sunSprite = this.layeredCelestial.sun;
+      this.moonSprite = this.layeredCelestial.moon;
+      return;
+    }
     // Sun — warm gradient circle (smaller, softer)
     const sunGfx = this.scene.add.graphics();
     sunGfx.fillStyle(0xffee88, 0.7);
@@ -551,6 +579,7 @@ export class DayNightCycle {
 
     this.moonSprite.setPosition(moonPos.x, moonPos.y);
     this.moonSprite.setAlpha(this.getMoonAlpha() * moonTransmission * surfaceVisibility);
+    this.layeredCelestial?.update(weather);
   }
 
   /**
@@ -622,11 +651,11 @@ export class DayNightCycle {
    */
   fromJSON(data) {
     if (!data) return;
-    if (typeof data.currentTime === 'number') {
-      this.currentTime = data.currentTime;
+    if (Number.isFinite(data.currentTime)) {
+      this.currentTime = ((data.currentTime % 1) + 1) % 1;
     }
-    if (typeof data.day === 'number') {
-      this.day = data.day;
+    if (Number.isFinite(data.day)) {
+      this.day = Math.max(1, Math.floor(data.day));
     }
     // Re-evaluate season and phase after restore
     this._determineSeason();
@@ -645,8 +674,8 @@ export class DayNightCycle {
     });
     this.stars = [];
     this.starContainer?.destroy();
-    this.sunSprite?.destroy();
-    this.moonSprite?.destroy();
+    if (this.layeredCelestial) this.layeredCelestial.destroy();
+    else { this.sunSprite?.destroy(); this.moonSprite?.destroy(); }
     this.skyTintOverlay?.destroy();
   }
 }

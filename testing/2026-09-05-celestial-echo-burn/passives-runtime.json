@@ -1,0 +1,255 @@
+{
+  "missingTextures": [],
+  "passives": {
+    "activeCount": 3,
+    "hollow": {
+      "active": true,
+      "damageScale": 0.24,
+      "digs": 215,
+      "impacts": 321,
+      "pulseEveryDigs": 2,
+      "pulses": 107
+    },
+    "lance": {
+      "activationId": "apex:comet-engine:3",
+      "active": true,
+      "ageMs": 136441.1,
+      "bounces": 0,
+      "contactPresentation": {
+        "count": 101,
+        "lastContact": {
+          "colour": "rose",
+          "x": 768,
+          "y": 326.15553251491264
+        }
+      },
+      "earnedLifetimeMs": 0,
+      "empowered": true,
+      "engineId": "comet-engine",
+      "finalWindow": false,
+      "impactMomentCount": 101,
+      "impacts": 101,
+      "lastConsumedBreakCharge": 0,
+      "lastProjectilePalette": "purple",
+      "launchFlashCount": 0,
+      "launchHistory": [
+        {
+          "origin": {
+            "x": 726.532662538719,
+            "y": 383.841328785045
+          },
+          "originSource": "fallback",
+          "palette": "red",
+          "shot": 90
+        },
+        {
+          "origin": {
+            "x": 666.511355795165,
+            "y": 355.48894077388024
+          },
+          "originSource": "fallback",
+          "palette": "blue",
+          "shot": 91
+        },
+        {
+          "origin": {
+            "x": 585.0810448162728,
+            "y": 329.32407452900463
+          },
+          "originSource": "fallback",
+          "palette": "purple",
+          "shot": 92
+        },
+        {
+          "origin": {
+            "x": 548.000036574405,
+            "y": 318.03470676579866
+          },
+          "originSource": "fallback",
+          "palette": "red",
+          "shot": 93
+        },
+        {
+          "origin": {
+            "x": 585.2178592186731,
+            "y": 327.09669886781273
+          },
+          "originSource": "fallback",
+          "palette": "blue",
+          "shot": 94
+        },
+        {
+          "origin": {
+            "x": 666.6684231498552,
+            "y": 352.11221638687664
+          },
+          "originSource": "fallback",
+          "palette": "purple",
+          "shot": 95
+        },
+        {
+          "origin": {
+            "x": 726.5903855580653,
+            "y": 380.95600056803494
+          },
+          "originSource": "fallback",
+          "palette": "red",
+          "shot": 96
+        },
+        {
+          "origin": {
+            "x": 716.5845132980687,
+            "y": 399.6348105464414
+          },
+          "originSource": "fallback",
+          "palette": "blue",
+          "shot": 97
+        },
+        {
+          "origin": {
+            "x": 644.7293212879142,
+            "y": 399.0948498515563
+          },
+          "originSource": "fallback",
+          "palette": "purple",
+          "shot": 98
+        },
+        {
+          "origin": {
+            "x": 569.0625648184491,
+            "y": 379.59807440475294
+          },
+          "originSource": "fallback",
+          "palette": "red",
+          "shot": 99
+        },
+        {
+          "origin": {
+            "x": 550.6758713915407,
+            "y": 350.59475630212563
+          },
+          "originSource": "fallback",
+          "palette": "blue",
+          "shot": 100
+        },
+        {
+          "origin": {
+            "x": 604.420254328089,
+            "y": 326.15553251491264
+          },
+          "originSource": "fallback",
+          "palette": "purple",
+          "shot": 101
+        }
+      ],
+      "lifetimeMs": 9007199254740991,
+      "liveProjectileCount": 0,
+      "liveVfxCount": 2,
+      "liveWakes": 1,
+      "maxBounces": 0,
+      "maxImpacts": 0,
+      "maxRedirects": 0,
+      "nextShot": 102,
+      "paletteHistory": [
+        "red",
+        "blue",
+        "purple",
+        "red",
+        "blue",
+        "purple",
+        "red",
+        "blue",
+        "purple",
+        "red",
+        "blue",
+        "purple"
+      ],
+      "passiveEcho": true,
+      "playerVisualCount": 0,
+      "projectileDamageMultiplier": 0.35,
+      "projectileDestroyed": 0,
+      "projectileEnabled": true,
+      "projectileImpacts": 101,
+      "projectileInfiniteRange": false,
+      "projectileMaximumDamageMultiplier": 0.47,
+      "projectilePaletteCycle": [
+        "blue",
+        "purple",
+        "red",
+        "prismatic"
+      ],
+      "projectilePassesGeodeWalls": true,
+      "projectileRangeTiles": 4,
+      "projectileSafetyMaxTiles": 8,
+      "projectileSideLanes": 0,
+      "projectileSpeedPxPerSecond": 225,
+      "projectileStateCount": 3,
+      "projectileStates": [
+        {
+          "alpha": 0.94,
+          "damageMultiplier": 1,
+          "displayScale": 0.9,
+          "id": "violet-edge",
+          "impactTint": 14795519,
+          "label": "VIOLET EDGE",
+          "minimumDistanceTiles": 1,
+          "tint": 12619007
+        },
+        {
+          "alpha": 0.95,
+          "damageMultiplier": 1.35,
+          "displayScale": 1,
+          "id": "amethyst-surge",
+          "impactTint": 14198783,
+          "label": "AMETHYST SURGE",
+          "minimumDistanceTiles": 3,
+          "tint": 11032055
+        },
+        {
+          "alpha": 1,
+          "damageMultiplier": 1.35,
+          "displayScale": 1.1,
+          "id": "voidpiercer",
+          "impactTint": 15918591,
+          "label": "VOIDPIERCER",
+          "minimumDistanceTiles": 5,
+          "tint": 8141549
+        }
+      ],
+      "redirects": 0,
+      "remainingMs": 9007199254604550,
+      "resonantReady": false,
+      "scheduledImpactCount": 101,
+      "shotsFired": 101,
+      "stateBurstCount": 0,
+      "storedBreakCharge": 0,
+      "uniqueTargets": 0,
+      "wakeCount": 1263
+    },
+    "wayward": {
+      "active": true,
+      "bounces": 1,
+      "damageScale": 0.28,
+      "impacts": 24,
+      "launches": 27,
+      "leashTiles": 3.8,
+      "presentation": {
+        "contacts": 24,
+        "lastContact": {
+          "colour": "ember",
+          "x": 528,
+          "y": 375.1492206256387
+        },
+        "liveContactEffects": 0,
+        "livePulses": 0,
+        "liveTrails": 4,
+        "palette": "ember",
+        "passive": true,
+        "trailSamples": 783
+      },
+      "returning": false,
+      "returns": 26
+    }
+  },
+  "runtimeErrors": []
+}

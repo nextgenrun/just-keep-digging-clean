@@ -355,3 +355,70 @@ frames. `WorldVisualSemanticAssetLayer` owns atlas frame installation, pool
 visibility, emissive depth handoff, and cleanup. The steady hard-darkness light
 and rare beacon pulse remain untouched. Use `?starIdle=0` to omit only the
 video-derived atlas while retaining ImageGen identity motion.
+
+
+The layeredSky=1 candidate now uses newly generated sky, ridge, forest and true-alpha cloud sources. WorldVisualLayeredSkyReview owns the sky, WorldVisualLayeredLandscapeField grounds independent scenery planes, and WorldVisualLayeredCloudField streams four wind planes. Legacy far/sky/cloud painting owners are disabled in this view. Town motion retains its original file and owner. The current review and evidence live in testing/animation-sandbox/2026-09-05-continuous-layered-world-v1/ and qa-regenerated/.
+
+WorldVisualLayeredEnvironment samples the existing clock and weather to grade the regenerated sky, ridges, cloud cover, fog and signed wind. WorldVisualLayeredLandmarks adds three Level 2 cliff landmarks, seven shader-driven waterfall channels and localized spray. WorldVisualWaterfallPipeline animates water UVs only; compositeGeneratedMatte composites the explicit ImageGen matte into owned textures. All owned textures, sprites, frames and pipelines are released on scene shutdown. Configuration is in values/worldVisualLayeredSkyReview.js and values/levelTwoScenicMotion.js.
+
+The 2026-09-06 natural-motion follow-up adds WorldVisualLayeredMotionPipeline
+for atlas-bounded cloud turbulence and rooted foliage sway. It uses the same
+integrated wind distance as cloud travel and renewed waterfall spray. Calm wind
+retargets preserve prevailing direction. Tuning is in values/layeredAtmosphereMotion.js;
+fresh fixed-camera evidence and the motion clip are in qa-natural-motion/.
+See markdown/2026-09-06-natural-layer-motion.md for the runtime checks.
+
+## Current Level 1 preview
+
+WorldVisualLandscapeSections creates native-density, opacity-preserving joins
+between neighbouring source paintings. WorldVisualLayeredLandscapeField streams
+these sections and applies wind to both Level 1 forest planes. Padded forest
+frames let the shader sample neighbouring pixels without clipping the crowns.
+The current demo-profile preview excludes Level 2 landmark assets and owners.
+It adds a moving cloud deck, Level 1 valley mist and a wider sky-only Town video
+transition. No source art or video bytes changed. Evidence and the current clip
+are in testing/animation-sandbox/2026-09-05-continuous-layered-world-v1/qa-level-one/;
+see markdown/2026-09-06-level-one-background-polish.md.
+
+The 2026-09-06 atmosphere V3 pass adds generated cumulus banks, a weather-only
+ceiling and continuous optical thickness in the existing cloud pipeline.
+DayNightCycle owns the new sun/moon art through LayeredCelestialView. Its Level 1
+candidate orbit uses the accessible width, remains in world coordinates and
+feeds the same camera projection to lighting. Celestial bodies render behind
+clouds/ridges; owned halo textures fade to clear guards. Phase brightness now
+blends continuously in the candidate. The baseline clock/orbit remains intact.
+WorldVisualLayeredFloatingDetails adds a bounded world-anchored pool of existing
+leaf/glimmer artwork: it drifts and curls, fades at lifetime/region boundaries,
+responds to night and precipitation, and uses the cloud owner's pause clock.
+See markdown/2026-09-06-level-one-atmosphere-v3.md and qa-atmosphere-v3 evidence.
+
+Weather V4 adds two broad cloud-bank frames beside the four cumulus forms.
+`layeredCloudShape.js` gives streamed cells stable mixed sizes and independent
+slow growth; source density remains at or below scale 1. Banks overlap while
+fine clouds and mist retain separate parallax and wind speeds. The live
+WeatherSystem cover controls their optical depth, connected cover and size.
+The sky and landscape guards continue to own edge continuity. Evidence lives
+in the Level 1 comparison's qa-weather-v4 directory.
+
+Cloud polish V5 removes valley-mist/near-haze and confines all remaining cloud
+planes behind terrain in one compact ceiling. Shared vertical parallax stops
+the layer stack spreading during flight; each plane retains its horizontal
+wind/parallax and stable size variation. Cloud rows below the ceiling are not
+admitted. Landscape alpha now preserves silhouette coverage through joins,
+with soft border ramps and matching neighbour guards for the foliage shader.
+See markdown/2026-09-06-level-one-cloud-polish-v5.md and qa-cloud-polish-v5.
+
+## Approved Level 1 background V6
+
+The previously reviewed Level 1 renderer is now the default in the bounded demo.
+`WorldVisualLevelOneAmbientEvents` shares the cloud owner's pause clock and runs
+one occasional bird flock, leaf eddy or dusk-glimmer group at a time, with
+45-88 seconds of quiet after each event. Rain/storms suppress admission and fade
+active sprites; reduced-motion preference disables these events. It owns and
+releases the six authored bird frames. Town's video retains its original owner.
+`landscapeRidgeJoin.js` aligns adjacent painted skylines inside the existing
+join overlap, then blends their colors. This removes vertical mountain fade
+curtains while keeping ridge interiors opaque and original assets intact.
+Forest silhouette joins retain the V5 treatment. Historical Review class names
+and the inspector remain for tool compatibility. See
+`markdown/2026-09-06-level-one-live-backgrounds-v6.md` for runtime evidence.

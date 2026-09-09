@@ -20,6 +20,8 @@ import {
 } from
   "./worldVisualBlendMaskFrame.js?rev=20260729-native-density-v14";
 import { setTintIfChanged } from "./worldVisualRenderState.js";
+import { resolveLayeredSkyReviewEnabled } from "../../../values/worldVisualLayeredSkyReview.js";
+import { WorldVisualLayeredSkyReview } from "./WorldVisualLayeredSkyReview.js";
 
 function sourceSize(scene, key) {
   const texture = scene.textures.get(key);
@@ -47,7 +49,8 @@ export class WorldVisualSurfaceStage {
         throw new Error(`[WorldVisualSurfaceStage] Required texture was not preloaded: ${asset.key}`);
       }
     }
-    this._createFarSegments();
+    this.layeredSky = resolveLayeredSkyReviewEnabled() ? new WorldVisualLayeredSkyReview(this.scene) : null;
+    if (!this.layeredSky) this._createFarSegments();
     const pack = resolveWorldVisualSurfacePack(this.config.surfacePacks);
     if (pack) {
       const motion = resolveWorldVisualSurfaceMotion(pack);
@@ -222,6 +225,7 @@ export class WorldVisualSurfaceStage {
   }
 
   update(time, lighting) {
+    this.layeredSky?.update(time, lighting);
     this.far.forEach(image => setTintIfChanged(image, lighting.farTint));
     setTintIfChanged(this.town, lighting.farTint);
     this.surfaceEdges.forEach(image => setTintIfChanged(image, lighting.terrainTint));
@@ -229,6 +233,8 @@ export class WorldVisualSurfaceStage {
   }
 
   destroy() {
+    this.layeredSky?.destroy();
+    this.layeredSky = null;
     this.far.forEach(image => {
       image.clearMask?.(false);
       image.destroy();

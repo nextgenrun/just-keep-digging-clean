@@ -13,6 +13,7 @@ import { PLAYER_STATS_CONFIG } from '../values/playerStats.js';
 import { PLAYER_ABILITIES_CONFIG } from '../values/playerAbilities.js';
 import { PLAYER_MOTION_POLISH_CONFIG } from '../values/playerMotionPolish.js';
 import { PLAYER_KINEMATIC_MOTION_CONFIG } from '../values/playerKinematicMotion.js';
+import { PLAYER_RUNNING_CONFIG } from '../values/playerRunning.js';
 import { GOD_MODE_CONFIG } from '../values/godMode.js';
 import {
   PLAYER_COLLISION_CONFIG,
@@ -42,6 +43,12 @@ import { createResolvedMovementSnapshot } from '../systems/progression/ResolvedP
     const physicsX = spawn.x;
     const physicsY = spawn.y;
     this.physicsBody = new PlayerPhysicsBody(config, physicsX, physicsY);
+    this.physicsBody.setCollisionValidator((body) => (
+      this.collisionSystem?.resolveBodyOverlap?.(body)
+      ?? body.captureCollisionSafeState?.()
+      ?? true
+    ));
+    this.collisionSystem?.resolveBodyOverlap?.(this.physicsBody);
     this.collisionPolishV2Enabled = resolvePlayerCollisionPolishV2Enabled(
       scene?.playerAssetProfile,
     );
@@ -88,13 +95,15 @@ import { createResolvedMovementSnapshot } from '../systems/progression/ResolvedP
     this.movingSideDigStandOff.end();
     this._forceCollisionPolishProfile("upright");
     const bodyPos = this._bodyPositionForStandingTile(tx, ty);
-    this.physicsBody.setPosition(bodyPos.x, bodyPos.y);
+    const placed = this.physicsBody.setPosition(bodyPos.x, bodyPos.y);
     this.physicsBody.resetVelocity();
     this.movement.resetGroundMotionState();
     this.flightMotion?.reset();
-    this.collisionSystem?.resolveBodyOverlap?.(this.physicsBody);
+    this.jumpMotion?.reset();
     this._syncSpriteWithPhysics();
+    if (placed === false) return false;
     this.scene?.playTeleportInAnimation?.();
+    return true;
   }
 
   _bodyPositionForStandingTile(tx, ty) {
@@ -115,6 +124,7 @@ import { createResolvedMovementSnapshot } from '../systems/progression/ResolvedP
       this.physicsBody.resetVelocity();
       this.movement.resetGroundMotionState();
       this.flightMotion?.reset();
+      this.jumpMotion?.reset();
       // Clear flying state to prevent getting stuck
       this.abilities.resetFlyingState();
       // Reset flight state to prevent getting stuck
@@ -157,10 +167,19 @@ import { createResolvedMovementSnapshot } from '../systems/progression/ResolvedP
     return this._resolveMovementStats(includeTemporary);
   }
 
+  _getGroundTravelSpeed() {
+    const walkSpeed = this._getWalkSpeed();
+    return this.isRunning()
+      ? walkSpeed * PLAYER_RUNNING_CONFIG.speedMultiplier
+      : walkSpeed;
+  }
+
   getWalkSpeedRatio() {
     const baseSpeed = this.config.walkSpeedPxPerSec || PLAYER_STATS_CONFIG.walkSpeedPxPerSec || 200;
-    return this._getWalkSpeed() / baseSpeed;
+    return this._getGroundTravelSpeed() / baseSpeed;
   }
+
+  isRunning() { return this.abilities?.isRunning?.() === true; }
 
 
   beginMovingSideDigStandOff(options) {
@@ -235,8 +254,26 @@ import { createResolvedMovementSnapshot } from '../systems/progression/ResolvedP
       && (this._collisionCrouchForced || this.input.getVerticalAim?.()?.down === true);
   }
 
+  _validateCollisionSafety() {
+    const body = this.physicsBody;
+    if (!body) return false;
+    const safe = this.collisionSystem?.resolveBodyOverlap?.(body)
+      ?? body.captureCollisionSafeState?.()
+      ?? true;
+    if (safe) return true;
+    this.ledgeAssist?.cancel();
+    this.movingSideDigStandOff?.end();
+    this.movement?.resetGroundMotionState();
+    this.flightMotion?.reset();
+    this.jumpMotion?.reset();
+    body.resetVelocity();
+    this.state?.refreshAfterPhysics?.(this.input, this.abilities, this.collisionSystem);
+    return false;
+  }
+
   update(delta = 16.67) {
     if (!this.physicsBody) return;
+    this._validateCollisionSafety();
     const dt = Math.min(delta / 1000, PLAYER_COLLISION_CONFIG.maxDeltaSeconds);
     this.ledgeAssist?.updateCooldown(delta);
     const ledgeWasActive = this.ledgeAssist?.isActive() === true;
@@ -245,6 +282,13 @@ import { createResolvedMovementSnapshot } from '../systems/progression/ResolvedP
     
     // Update state (ground detection, coyote time, etc.)
     this.state.update(dt, this.input, this.abilities, this.collisionSystem);
+
+    const runMovement = this.input.getHorizontalMovement();
+    const groundRunRequested = this.externalKnockbackMs <= 0
+      && !ledgeWasActive
+      && this.state.isGrounded()
+      && this.input.getRunInput()
+      && runMovement.left !== runMovement.right;
     
     // Update abilities (flight, gem power regen)
     this.abilities.update(
@@ -252,7 +296,7 @@ import { createResolvedMovementSnapshot } from '../systems/progression/ResolvedP
       this.input,
       this.state.isGrounded(),
       this.movement.isFacingRight(),
-      { actionLocked: ledgeWasActive },
+      { actionLocked: ledgeWasActive, groundRunRequested },
     );
     this.state.setFlightActive(this.abilities.isFlying?.() === true);
     this._updateCollisionPolishProfile(ledgeWasActive);
@@ -264,8 +308,10 @@ import { createResolvedMovementSnapshot } from '../systems/progression/ResolvedP
       this.state.setFlightActive(false);
       this.physicsBody.setFlightActive(false);
       this.flightMotion?.reset();
+      this.jumpMotion?.reset();
       this.movement.resetGroundMotionState();
       this.state.refreshAfterPhysics(this.input, this.abilities, this.collisionSystem);
+      this._validateCollisionSafety();
       this.input.updateAim();
       this._syncSpriteWithPhysics();
       if (ledgeResult !== 'released') return;
@@ -275,7 +321,11 @@ import { createResolvedMovementSnapshot } from '../systems/progression/ResolvedP
     if (this.externalKnockbackMs <= 0) {
       const horizMove = this.input.getHorizontalMovement();
       const flightActive = this.state.isFlightActive();
+      // Consume Space in powered frames too; it must not become a delayed
+      // jump when Flight ends or runs out of GP.
+      const jumpStarted = this.jumpMotion.tryStart(this.input, this.state.isGrounded(), flightActive);
       if (flightActive) {
+        this.jumpMotion.reset();
         this.flightMotion.updatePowered(
           dt,
           this.input,
@@ -283,7 +333,6 @@ import { createResolvedMovementSnapshot } from '../systems/progression/ResolvedP
           this.abilities.getEffectiveFlightSpeed(),
         );
       } else {
-        this.jumpMotion.tryStart(this.input, this.state.isGrounded(), flightActive);
         const walkSpeed = this._getWeatherAdjustedWalkSpeed();
         const coasting = this.flightMotion.updateUnpowered(
           dt,
@@ -291,16 +340,20 @@ import { createResolvedMovementSnapshot } from '../systems/progression/ResolvedP
           this.state.isGrounded(),
           walkSpeed,
         );
+        if (coasting) this.jumpMotion.reset();
         if (!coasting) {
-          const smoothGroundMotion = this.state.isGrounded();
-          const jumpMomentumHandled = this.jumpMotion.updateAirborneHorizontal(
+          const smoothGroundMotion = this.state.isGrounded() && !jumpStarted;
+          const jumpMomentumHandled = jumpStarted || this.jumpMotion.updateAirborneHorizontal(
             dt,
             horizMove,
             smoothGroundMotion,
             flightActive,
             walkSpeed,
           );
-          if (jumpMomentumHandled) {
+          const landingMomentumHandled = !jumpMomentumHandled && this.jumpMotion.updateGroundedHorizontal(
+            dt, horizMove, smoothGroundMotion, flightActive, walkSpeed,
+          );
+          if (jumpMomentumHandled || landingMomentumHandled) {
             if (horizMove.left !== horizMove.right) {
               this.movement.setFacingRight(horizMove.right);
             }
@@ -315,6 +368,8 @@ import { createResolvedMovementSnapshot } from '../systems/progression/ResolvedP
           }
         }
       }
+    } else {
+      this.input.consumeJumpInput();
     }
 
     // Integrate and resolve against authoritative tile collision.
@@ -334,12 +389,15 @@ import { createResolvedMovementSnapshot } from '../systems/progression/ResolvedP
       this.surfaceDrop.reset();
       this.movingSideDigStandOff.end();
       this.flightMotion?.reset();
+      this.jumpMotion?.reset();
       this.movement.resetGroundMotionState();
       this.state.setFlightActive(false);
       this.physicsBody.setFlightActive(false);
       this._updateCollisionPolishProfile(true);
       this.state.refreshAfterPhysics(this.input, this.abilities, this.collisionSystem);
     }
+
+    this._validateCollisionSafety();
     
     // Update aim
     this.input.updateAim();
@@ -350,7 +408,7 @@ import { createResolvedMovementSnapshot } from '../systems/progression/ResolvedP
   }
 
   _getWeatherAdjustedWalkSpeed() {
-    const baseSpeed = this._getWalkSpeed();
+    const baseSpeed = this._getGroundTravelSpeed();
     const weatherState = this.scene?.weatherSystem?.getPlayerWeatherState?.();
     const penalty = weatherState?.onWetSurface
       ? (weatherState.movementWetnessPenalty || 0)
@@ -519,6 +577,11 @@ import { createResolvedMovementSnapshot } from '../systems/progression/ResolvedP
     return this.abilities?.canSpendGemPower?.(amount, context) ?? false;
   }
 
+  getEffectiveGemPowerCost(amount, context) {
+    return this.abilities?.getEffectiveGemPowerCost?.(amount, context)
+      ?? Math.max(0, Number(amount) || 0);
+  }
+
   fillGemPower() {
     return this.abilities?.fillGemPower?.() ?? 0;
   }
@@ -565,14 +628,16 @@ import { createResolvedMovementSnapshot } from '../systems/progression/ResolvedP
     this.surfaceDrop.reset();
     this.movingSideDigStandOff.end();
     this.flightMotion?.reset();
+    this.jumpMotion?.reset();
     this._forceCollisionPolishProfile("upright");
-    body.setPosition(normalized.bodyX, normalized.bodyY);
+    const placed = body.setPosition(normalized.bodyX, normalized.bodyY);
     body.resetVelocity();
-    if (this.collisionSystem && !this.collisionSystem.resolveBodyOverlap(body)) {
+    if (placed === false || (this.collisionSystem && !this.collisionSystem.resolveBodyOverlap(body))) {
       if (!body.restoreCollisionProfileSnapshot?.(previous)) {
         body.setPosition(previous.x, previous.y);
       }
       body.resetVelocity();
+      this.collisionSystem?.resolveBodyOverlap?.(body);
       this._syncSpriteWithPhysics();
       return false;
     }
@@ -590,6 +655,7 @@ import { createResolvedMovementSnapshot } from '../systems/progression/ResolvedP
     this.physicsBody.vy = Number.isFinite(vy) ? vy : 0;
     this.movement.resetGroundMotionState();
     this.flightMotion?.reset();
+    this.jumpMotion?.reset();
     this.externalKnockbackMs = PLAYER_MOTION_POLISH_CONFIG.hitReaction.externalKnockbackLockMs;
     this.state?.setFlightActive(false);
     this.scene?.playPlayerImpactReaction?.();

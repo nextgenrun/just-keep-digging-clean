@@ -5,6 +5,7 @@ import {
 } from "../../systems/hardcore/hardcoreMemorialRecord.js";
 import { isHardcoreModeArmed } from "../../values/hardcoreMode.js";
 import { HARDCORE_MEMORIAL_CONFIG } from "../../values/hardcoreMemorials.js";
+import { MUSIC_CUE_IDS } from "../../values/musicDirector.js";
 import { SCENE_BASE_PHASES } from "../../values/sceneRuntime.js";
 
 export function getHardcoreDepth(scene, playerTile = null) {
@@ -26,6 +27,11 @@ export function persistHardcoreLiveCheckpoint(
     || scene._saveWritesBlocked
     || !isHardcoreModeArmed(runtime.system.state)
   ) {
+    return false;
+  }
+  if (scene.townRestSystem) {
+    // Keep death authorization in memory; expeditions cannot create resume checkpoints.
+    scene.dugTileSaveStore?.recordLiveArmedRun?.(runtime.system.getSaveData());
     return false;
   }
   const now = Math.max(0, Number(time) || scene.time?.now || 0);
@@ -147,33 +153,13 @@ function withTimeout(promise, timeoutMs) {
   });
 }
 
-function buildDeathPresentation(result) {
-  if (result.outcome === "free-revive") {
-    return {
-      title: "THE OATH GRANTS ONE MERCY",
-      subtitlePrefix: "FREE FIRST REVIVE",
-      readyStatus: "FREE REVIVE SAVED • 2 LIVES REMAIN",
-      readyDetail: "RETURNING TO TOWN WITH FULL GEM POWER",
-      primaryLabel: "REVIVE IN TOWN",
-      secondaryLabel: "BACK TO SAVE VAULT",
-    };
-  }
-  if (result.outcome === "life-lost") {
-    return {
-      title: "ONE LIFE IS SPENT",
-      subtitlePrefix: "HARDCORE LIFE LOST",
-      readyStatus: `${result.livesRemaining} LIFE REMAINS • SAVE INTACT`,
-      readyDetail: "RETURNING TO TOWN WITH FULL GEM POWER",
-      primaryLabel: "REVIVE IN TOWN",
-      secondaryLabel: "BACK TO SAVE VAULT",
-    };
-  }
+function buildDeathPresentation() {
   return {
-    title: "THE EXPEDITION IS ENDED",
-    subtitlePrefix: "HARDCORE EXHAUSTED",
-    readyStatus: "0 LIVES REMAIN • SAVE AND RECORD INTACT",
-    readyDetail: "EXPORT OR CLEAR THE ENDED EXPEDITION FROM THE SAVE VAULT",
-    primaryLabel: "BACK TO SAVE VAULT",
+    title: "YOUR HARDCORE RUN ENDED",
+    subtitlePrefix: "YOUR ONLY LIFE IS LOST",
+    readyStatus: "RUN ENDED • SAVE AND RECORD INTACT",
+    readyDetail: "EXPORT OR CLEAR THIS RUN FROM SAVE SLOTS",
+    primaryLabel: "BACK TO SAVE SLOTS",
     secondaryLabel: "MAIN MENU",
   };
 }
@@ -201,15 +187,19 @@ export async function beginHardcorePermanentDeath(scene, context = {}) {
 
   const source = context.source || "unknown";
   const result = runtime.system.recordDeath(source);
-  const presentation = buildDeathPresentation(result);
+  scene.soundSystem?.playMusicCue?.(
+    MUSIC_CUE_IDS.deathFinal,
+    {
+      dedupeKey: `hardcore-${scene.saveSlot}-${source}`,
+    },
+  );
+  const presentation = buildDeathPresentation();
   scene.hardcoreModeData = runtime.system.getSaveData();
   const memorial = captureHardcoreDeathRecord(scene, {
     ...context,
     persistMemorial: result.outcome === "exhausted",
   });
   const { record } = memorial;
-  scene._resetPlayerToSpawn?.();
-  scene.playerController?.abilities?.fillGemPower?.();
   let lifeStateSaved = false;
   let saveInFlight = false;
   const continueFromDeath = async () => {
@@ -217,17 +207,7 @@ export async function beginHardcorePermanentDeath(scene, context = {}) {
       const saved = await persistLifeState();
       if (!saved) return false;
     }
-    if (result.outcome === "exhausted") {
-      scene.scene.start("StartMenuScene");
-      return true;
-    }
-    scene.scene.restart({
-      autoStart: true,
-      saveSlot: scene.saveSlot,
-      worldIdentity: scene.worldIdentity || `save-slot-${scene.saveSlot}`,
-      playerCharacterId: scene.playerCharacterId,
-      hardcoreModeData: runtime.system.getSaveData(),
-    });
+    scene.scene.start("StartMenuScene");
     return true;
   };
   runtime.modal.showDeath({
@@ -236,9 +216,7 @@ export async function beginHardcorePermanentDeath(scene, context = {}) {
     pages: memorial.pages,
     presentation,
     onRetry: continueFromDeath,
-    onReturn: () => scene.scene.start(
-      result.outcome === "exhausted" ? "MainMenuScene" : "StartMenuScene",
-    ),
+    onReturn: () => scene.scene.start("MainMenuScene"),
   });
   runtime.lastDeath = {
     source: record.source,
@@ -274,7 +252,7 @@ export async function beginHardcorePermanentDeath(scene, context = {}) {
       lifeStateSaved = true;
       runtime.lastDeath.saveError = null;
       runtime.modal.setDeathReady(
-        `${HARDCORE_MEMORIAL_CONFIG.copy.slotPrefix} ${scene.saveSlot}  •  SAVE INTACT`,
+        `${HARDCORE_MEMORIAL_CONFIG.copy.slotPrefix} ${scene.saveSlot}  •  YOUR SAVE IS SAFE`,
         presentation,
       );
       runtime.updateDiagnostics?.();
@@ -282,7 +260,7 @@ export async function beginHardcorePermanentDeath(scene, context = {}) {
     } catch (error) {
       console.error("[HardcoreDeathBridge] Life-state save failed:", error);
       runtime.lastDeath.saveError = String(error?.message || "unknown");
-      runtime.modal.setError("LIFE STATE NOT SAVED  •  PRESS RETRY SAVE");
+      runtime.modal.setError("PROGRESS NOT SAVED  •  PRESS RETRY SAVE");
       runtime.updateDiagnostics?.();
       return false;
     } finally {

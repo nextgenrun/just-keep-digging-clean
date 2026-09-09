@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Character definition · second pass</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#0f141b;color:#d8e0e7;font:14px "Segoe UI",sans-serif}header{padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:18px;border-bottom:1px solid #303c48}header strong{display:block;color:#f0cf8b;font-size:16px}header small{display:block;margin-top:5px;color:#96a7b6}nav{display:flex;align-items:center;gap:9px;flex-wrap:wrap;justify-content:flex-end}button,select{background:#25323f;color:#efd49f;border:1px solid #475561;border-radius:6px;padding:8px 11px;font:inherit;cursor:pointer}input{width:115px;vertical-align:middle;accent-color:#f0cf8b}canvas{display:block;width:auto;max-width:100%;max-height:calc(100dvh - 172px);height:auto;margin:auto}p{max-width:1160px;padding:0 24px 15px;margin:auto;color:#9eacb9;line-height:1.5}a{color:#ecc889}label{white-space:nowrap}#number{min-width:46px;font-variant-numeric:tabular-nums}@media(max-width:900px){header{flex-direction:column;align-items:flex-start;gap:10px}nav{justify-content:flex-start}canvas{max-height:calc(100dvh - 235px)}}
+</style>
+<header><div><strong>Character definition · second pass</strong><small>Same character. Same camera. Same walk.</small></div><nav><label>Compare against <select id="reference"><option value="previous">First improvement</option><option value="original">Current game</option></select></label><button id="detail">Face &amp; fabric</button><button id="play">Pause</button><button id="slow">0.5× speed</button><label>Frame <input id="frame" type="range" min="0" max="23" value="0"></label><span id="number">1 / 24</span></nav></header>
+<canvas id="stage" width="1600" height="1000" aria-label="Animated comparison of the previous character and the second quality pass"></canvas>
+<p>Fixed jacket colour, corrected skin and hair shading, textured fabric and leather, and smoother jacket/backpack settling. <strong>Face &amp; fabric</strong> gives a closer view; <strong>Current game</strong> shows the full jump from the original. Cloth motion is baked from springs; full cloth collision simulation remains a separate step. <a href="./first-vs-second.webp">Animated first vs second pass</a> · <a href="./before-after.webp">Original vs second pass</a>. Review only.</p>
+<script>
+(async()=>{
+const data=await(await fetch('./comparison.json')).json(),p=data.presentation,canvas=document.querySelector('#stage'),ctx=canvas.getContext('2d');
+if(data.renderedIndices.length!==data.frames)throw new Error('The full walking loop is still rendering.');
+const slider=document.querySelector('#frame'),number=document.querySelector('#number'),play=document.querySelector('#play'),slow=document.querySelector('#slow'),reference=document.querySelector('#reference'),detail=document.querySelector('#detail');
+const load=src=>new Promise((ok,fail)=>{const image=new Image();image.onload=()=>ok(image);image.onerror=()=>fail(new Error(src));image.src=src});
+const [original,previous,after]=await Promise.all([load('./before-walk-256.webp'),load('./previous-walk-512.webp'),load('./after-walk-768.webp')]);
+let frame=0,playing=true,speed=1,zoom=false,last=performance.now(),elapsed=0;
+slider.max=data.frames-1;
+function text(value,x,y,size,colour,bold=false){ctx.fillStyle=colour;ctx.font=(bold?'600 ':'')+size+'px "Segoe UI",sans-serif';ctx.textAlign='center';ctx.textBaseline='top';ctx.fillText(value,x,y)}
+function sprite(image,n,cols,x,ground,height,isDetail=false){let sx=(frame%cols)*n,sy=Math.floor(frame/cols)*n;if(isDetail){const z=p.closeup,f=z.fraction;sx+=(z.center[0]-f/2)*n;sy+=(z.center[1]-f/2)*n;ctx.drawImage(image,sx,sy,n*f,n*f,x-310,140,620,620)}else{const size=height/data.occupancy;ctx.drawImage(image,sx,sy,n,n,x-size*.5,ground-size*.890625,size,size)}}
+function draw(){
+const first=reference.value==='previous',before=first?previous:original,n=first?data.previousFrameSize:data.beforeFrameSize,cols=first?data.previousColumns:data.sourceColumns;
+ctx.fillStyle='#0f141b';ctx.fillRect(0,0,canvas.width,canvas.height);ctx.strokeStyle='#333e49';ctx.beginPath();ctx.moveTo(800,48);ctx.lineTo(800,950);ctx.stroke();
+text(first?p.previousTitle:'CURRENT GAME',p.beforeCenter,48,34,'#c5cdd5',true);text(p.afterTitle,p.afterCenter,48,34,'#f0cf8b',true);
+text(first?p.previousSubtitle:'Original sprites · 256px',p.beforeCenter,95,19,'#8a99a7');text(p.afterSubtitle,p.afterCenter,95,19,'#adb6be');
+for(const x of [p.beforeCenter,p.afterCenter]){ctx.strokeStyle='#2f3f49';ctx.beginPath();ctx.moveTo(x-290,p.groundY);ctx.lineTo(x+290,p.groundY);ctx.stroke()}
+sprite(before,n,cols,p.beforeCenter,p.groundY,p.bodyHeight,zoom);sprite(after,data.afterFrameSize,data.afterColumns,p.afterCenter,p.groundY,p.bodyHeight,zoom);
+text('SAME SMALL-SCALE VIEW · 75 PX AT 1×',800,814,15,'#8a99a7',true);sprite(before,n,cols,p.beforeCenter,950,p.gameplayHeight);sprite(after,data.afterFrameSize,data.afterColumns,p.afterCenter,950,p.gameplayHeight);
+text('Same model, camera and walk poses. Native material and deformation trial; review only.',800,978,15,'#82929e');slider.value=frame;number.textContent=(frame+1)+' / '+data.frames;
+}
+play.onclick=()=>{playing=!playing;play.textContent=playing?'Pause':'Play';elapsed=0};
+slow.onclick=()=>{speed=speed===1?.5:1;slow.textContent=speed===1?'0.5× speed':'1× speed';elapsed=0};
+slider.oninput=()=>{playing=false;play.textContent='Play';frame=Number(slider.value);draw()};
+reference.onchange=draw;detail.onclick=()=>{zoom=!zoom;detail.textContent=zoom?'Full character':'Face & fabric';draw()};
+function tick(now){if(playing){elapsed+=(now-last)*speed;if(elapsed>=1000/data.fps){frame=(frame+Math.floor(elapsed*data.fps/1000))%data.frames;elapsed%=1000/data.fps;draw()}}last=now;requestAnimationFrame(tick)}draw();requestAnimationFrame(tick);
+})().catch(error=>{document.querySelector('p').textContent='Preview could not load: '+error.message});
+</script>
+</html>

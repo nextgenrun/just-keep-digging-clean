@@ -1,5 +1,10 @@
 # Observatory Segmented Atmosphere Runtime V2
 
+**Status: visually rejected.** The extracted/source-derived layers flatten the
+cloud ocean, expose cutout architecture, and do not preserve the reference's
+atmospheric depth in motion. Retained only as failure evidence; the independent
+source rebuild is `../2026-08-30-observatory-authored-layers-v3/`.
+
 Review-only Phaser/WebGL vertical slice using the existing Observatory `sky13`
 background. Nothing here is imported by the production game or Town Square.
 

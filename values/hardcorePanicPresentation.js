@@ -14,7 +14,7 @@ export const HARDCORE_PANIC_PRESENTATION = Object.freeze({
   }),
   status: Object.freeze({
     titleY: -11, detailY: 11,
-    calmIconSizePx: 42, warningIconSizePx: 50, criticalIconSizePx: 54,
+    calmIconSizePx: 50, warningIconSizePx: 50, criticalIconSizePx: 54,
     pulseHzMinimum: 0.55, pulseHzMaximum: 1.75,
     pulseScaleMaximum: 0.025,
     iconPulseScale: 0.055,
@@ -24,8 +24,8 @@ export const HARDCORE_PANIC_PRESENTATION = Object.freeze({
   overlay: Object.freeze({
     edgeDepth: 997, bannerDepth: 3602,
     bannerY: 115, bannerWidth: 430, bannerHeight: 76,
-    iconX: -170, iconSizePx: 62,
-    textX: -126, titleY: -13, detailY: 13,
+    iconX: -179, iconSizePx: 50,
+    textX: -139, titleY: -13, detailY: 13,
     titleFontPx: 18, detailFontPx: 12,
     millisecondsPerSecond: 1000,
     pulseHzMinimum: 0.85, pulseHzMaximum: 1.9,
@@ -63,10 +63,10 @@ export const HARDCORE_PANIC_PRESENTATION = Object.freeze({
     endedTitle: "#ff7468",
   }),
   copy: Object.freeze({
-    endedTitle: "HARDCORE EXPEDITION ENDED",
-    endedDetail: "SAVE INTACT  •  CLEAR OR EXPORT FROM SAVE VAULT",
-    pendingTitle: "HARDCORE OATH PENDING",
-    pendingDetail: "ARMS THE MOMENT FLIGHT UNLOCKS",
+    endedTitle: "HARDCORE RUN ENDED",
+    endedDetail: "YOUR SAVE IS SAFE  •  EXPORT OR CLEAR IT FROM SAVE SLOTS",
+    pendingTitle: "HARDCORE STARTS WITH FLIGHT",
+    pendingDetail: "UNLOCK FLIGHT TO BEGIN THE CHALLENGE",
     hardcorePrefix: "HARDCORE",
     sanityPrefix: "SANITY",
     uneasePrefix: "UNEASE RISING",
@@ -77,8 +77,6 @@ export const HARDCORE_PANIC_PRESENTATION = Object.freeze({
     extremePrefix: "YOU ARE LOSING YOUR MIND",
     deathClosePrefix: "DEATH IS CLOSE",
     deathImminentPrefix: "DEATH IS IMMINENT",
-    reviveClosePrefix: "FREE REVIVE IS AT RISK",
-    reviveImminentPrefix: "FREE REVIVE LOSS IMMINENT",
     lifeSingular: "LIFE",
     lifePlural: "LIVES",
     uneaseAction: "SOMETHING FEELS WRONG  •  LIGHT KEEPS YOU STEADY",
@@ -89,16 +87,12 @@ export const HARDCORE_PANIC_PRESENTATION = Object.freeze({
     drainPrefix: "LOSING",
     gpLeftSuffix: "GP LEFT",
     deathAtZero: "0 GP TAKES A LIFE",
-    reviveAtZero: "0 GP TAKES THE FREE REVIVE",
-    freeReviveReady: "FIRST REVIVE IS FREE  •  SAVE STAYS INTACT",
-    zeroGpRule: "0 GP CONSUMES ONE LIFE  •  SAVE STAYS INTACT",
-    freeReviveRisk: "FREE REVIVE AT RISK",
+    panicLinePrefix: "PANIC STARTS", levelResistancePrefix: "LEVEL PROTECTION",
+    deadzonePanicPrefix: "SCAR PANIC", deadzoneAction: "USE YOUR TORCH OR LEAVE", depthUnit: "M",
     lifeRisk: "LIFE AT RISK",
   }),
 });
-const finite = (value, fallback = 0) => (
-  Number.isFinite(value) ? value : fallback
-);
+const finite = (value, fallback = 0) => Number.isFinite(value) ? value : fallback;
 const clamp01 = value => Math.max(0, Math.min(1, finite(value)));
 const smoothstepRange = (start, end, value) => {
   const width = Math.max(end - start, Number.EPSILON);
@@ -123,8 +117,7 @@ export function resolveHardcorePanicView(snapshot, gp = 0, risk = {}) {
   const lives = Math.max(0, Math.floor(finite(snapshot?.livesRemaining)));
   const lifeLabel = `${lives} ${lives === 1 ? copy.lifeSingular : copy.lifePlural}`;
   const gpAmount = Math.max(0, finite(gp));
-  const freeRevive = snapshot?.freeReviveAvailable === true;
-  const riskCopy = freeRevive ? copy.freeReviveRisk : copy.lifeRisk;
+  const riskCopy = copy.lifeRisk;
   const drain = Math.max(0, finite(snapshot?.stressGpDrainPerSecond));
   if (!visible) return {
     visible: false,
@@ -213,12 +206,14 @@ export function resolveHardcorePanicView(snapshot, gp = 0, risk = {}) {
               ? "uneasy"
               : "stable";
   const gpLeft = `${Math.ceil(gpAmount)} ${copy.gpLeftSuffix}`;
-  const zeroOutcome = freeRevive ? copy.reviveAtZero : copy.deathAtZero;
-  const nearDeathPrefix = freeRevive ? copy.reviveClosePrefix : copy.deathClosePrefix;
-  const lastBreathPrefix = freeRevive
-    ? copy.reviveImminentPrefix
-    : copy.deathImminentPrefix;
+  const zeroOutcome = copy.deathAtZero;
+  const nearDeathPrefix = copy.deathClosePrefix;
+  const lastBreathPrefix = copy.deathImminentPrefix;
   const criticalPrefix = extreme ? copy.extremePrefix : copy.criticalPrefix;
+  const panicStartDepth = Math.max(0, Math.round(finite(snapshot?.panicStartDepth, finite(risk.panicStartDepth))));
+  const panicResistance = Math.max(0, Math.round(finite(snapshot?.panicResistanceMeters)));
+  const deadzoneMultiplier = Math.max(1, Math.round(finite(snapshot?.consumedStarStressMultiplier, 1)));
+  const stableAction = snapshot?.insideConsumedStarScar === true ? `${copy.deadzonePanicPrefix} ${deadzoneMultiplier}X  •  ${copy.deadzoneAction}` : `${copy.panicLinePrefix} ${panicStartDepth}${copy.depthUnit}  •  ${copy.levelResistancePrefix} +${panicResistance}${copy.depthUnit}`;
   const statusPrefix = severity === "severe"
     ? copy.severePrefix
     : severity === "fracturing"
@@ -236,9 +231,7 @@ export function resolveHardcorePanicView(snapshot, gp = 0, risk = {}) {
         ? copy.frayingAction
         : severity === "uneasy"
           ? copy.uneaseAction
-          : freeRevive
-            ? copy.freeReviveReady
-            : copy.zeroGpRule;
+          : stableAction;
   const title = lastBreath
     ? `${lastBreathPrefix}  •  ${copy.sanityPrefix} ${sanityPercent}%`
     : nearDeath

@@ -1,6 +1,6 @@
+import { installStartupImageVariants } from "../../systems/visual/StartupImageVariants.js";
 import {
   CINEMATIC_VIDEO_CONFIG,
-  getCinematicImagePreloadAssets,
   resolveCinematicVideosEnabled,
   resolveOpeningCinematicAsset,
 } from "../../values/cinematicVideoConfig.js";
@@ -15,12 +15,14 @@ export class OpeningCinematicScene extends Phaser.Scene {
 
   preload() {
     if (!resolveCinematicVideosEnabled()) return;
-    for (const asset of getCinematicImagePreloadAssets()) {
+    installStartupImageVariants(this);
+    const opening = resolveOpeningCinematicAsset();
+    const images = [{ key: opening.posterKey, path: opening.posterPath },
+      ...Object.values(CINEMATIC_VIDEO_CONFIG.uiAssets)];
+    for (const asset of images) {
       if (!this.textures.exists(asset.key)) this.load.image(asset.key, asset.path);
     }
-    for (const asset of Object.values(CINEMATIC_VIDEO_CONFIG.assets)) {
-      if (!this.cache.video.exists(asset.key)) this.load.video(asset.key, asset.path, false);
-    }
+    // The player streams the selected clip; later discovery videos do not block boot.
   }
 
   create() {

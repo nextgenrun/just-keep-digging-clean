@@ -1,0 +1,45 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "name": "Stopping an effect releases its peak budget immediately",
+      "passed": true
+    },
+    {
+      "name": "Effect playback false leaves no sound or occupied mixer slot",
+      "passed": true
+    },
+    {
+      "name": "Voice playback false restores the mix and releases the channel",
+      "passed": true
+    },
+    {
+      "name": "Effect playback throw leaves no sound or occupied mixer slot",
+      "passed": true
+    },
+    {
+      "name": "Voice playback throw restores the mix and releases the channel",
+      "passed": true
+    },
+    {
+      "name": "Muting cancels a loading voice and late completion cannot restart it",
+      "passed": true
+    },
+    {
+      "name": "An externally stopped or destroyed voice always releases ducking",
+      "passed": true
+    },
+    {
+      "name": "Voice at zero does not duck music; raising it during speech restores ducking",
+      "passed": true
+    },
+    {
+      "name": "Each duck owner releases only its own request",
+      "passed": true
+    },
+    {
+      "name": "A paused voice and an unfinished load are both canceled by scene suspension",
+      "passed": true
+    }
+  ]
+}

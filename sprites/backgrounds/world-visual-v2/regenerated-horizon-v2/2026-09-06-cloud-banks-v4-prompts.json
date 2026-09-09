@@ -1,0 +1,13 @@
+{
+  "date": "2026-09-06",
+  "tool": "image_gen.imagegen",
+  "prompt": "A production-quality natural cloud-bank texture atlas for a premium cinematic alpine woodland game. TRUE TRANSPARENT RGBA background. Wide landscape canvas. Exactly TWO HORIZONTAL ROWS, one enormous connected cloud bank per row, each bank stretching across almost the full width of the image with generous empty transparent gutters along ALL four sides and between rows. These are full sweeping three-dimensional cloud LAYERS, not four isolated round puffs. Top bank: a long interlocking stratocumulus shelf with many differently sized rising billows, small frayed edges on one side, large towers in the middle, a continuous gently rolling grey underside, delicate cream-silver lit rims, deep soft blue-grey internal shadow, photorealistic volume with fine painterly game-art finish. Bottom bank: an entirely different broad stormbank, flatter and flowing, big layered overhangs and overlapping soft billows, darker cool grey underbelly, wispy dissolving margins, a small taller grouping towards one side. All cloud edges vaporously feather into true transparency. No cropped clouds at canvas or row edges. No black or colored backdrop. No painted blue sky, no scenery, no horizon, no rain, no sunlight object, no lightning, no text, no gridlines. Atmospheric believable natural water vapor, varied scales within each bank, high detail that remains beautiful at game scale. Neutral softly warm white highlights and blue grey shade so runtime day/night weather can tint them. Each row centered vertically in its half of the canvas and safely separated.",
+  "source": "C:/Users/Mila/.codex/generated_images/01a072c3-6b8d-76c1-8064-6398be841847/exec-1beabeb3-c2dd-4d73-a757-e19bde6eeacd.png",
+  "project": "cloud-banks-v4.png",
+  "dimensions": [
+    1672,
+    941
+  ],
+  "sha256": "1d4bffe4a8779a69a1ff2820f200479018cfcf59170fc3d15dcb571edc6feba4",
+  "note": "Copied byte-identically; two measured atlas rectangles meet in the transparent gutter at Y516."
+}

@@ -11,6 +11,7 @@ import {
   CONTEXTUAL_MECHANIC_TUTORIAL_IDS,
 } from "../values/contextualMechanicTutorials.js";
 import { TOWN_TUTORIAL_STAGES } from "../values/retentionConfig.js";
+import { CAMPFIRE_CONSUMABLE_CONFIG } from "../values/campfireConfig.js";
 
 const seen = new Set();
 const retention = {
@@ -62,7 +63,7 @@ const campfire = new CampfireSystem(
 const discovery = campfire.collectEmberCharge();
 assert.equal(discovery.ok, true);
 assert.equal(discovery.refillUpgraded, true);
-assert.match(statuses[0], /EMBER FUELS THE CAMPFIRE/);
+assert.ok(statuses[0].startsWith(CAMPFIRE_CONSUMABLE_CONFIG.copy.firstDiscovery));
 assert.match(statuses[0], /TOWN REFILL 2/);
 assert.equal(actionBarSyncs, 1);
 assert.deepEqual(pulsedEntries, [CELESTIAL_ACTION_BAR_ENTRY_IDS.CAMPFIRE]);
@@ -70,10 +71,11 @@ assert.match(campfire.getActionBarState().description, /Mine Ember Ore undergrou
 
 const prompt = tutorial.update();
 assert.equal(prompt.badgeValue, "EMBER");
-assert.match(prompt.promise, /FUELS CAMPFIRE BLESSINGS/);
-assert.match(prompt.detail, /RETURN TO TOWN/);
-assert.match(prompt.detail, /INTERACT TO CHOOSE/);
-assert.match(prompt.detail, /CAMPFIRE SLOT IGNITES/);
+const guidance = CONTEXTUAL_MECHANIC_TUTORIAL_CONFIG.entries[CONTEXTUAL_MECHANIC_TUTORIAL_IDS.EMBER_CAMPFIRE];
+assert.equal(prompt.promise, guidance.promise);
+assert.equal(prompt.detail, guidance.detail);
+assert.match(prompt.promise, /CAMPFIRE BLESSINGS/);
+assert.match(prompt.detail, /CAMPFIRE.*INTERACT.*BLESSING/);
 
 scene.nextPromiseHudSystem.getHealthSnapshot = () => ({
   visible: true,

@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Merchant personality · UNDERSTAR review</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="../2026-09-05-merchant-motion-v1/sandbox.css">
+  <link rel="stylesheet" href="personality.css">
+</head>
+<body data-background="dark">
+  <main>
+    <header class="page-heading">
+      <div><p class="eyebrow">UNDERSTAR / MERCHANT ANIMATION REVIEW</p><h1>A little more character.</h1><p class="intro">Familiar merchants. Their little habits, greetings, and expressive poses brought back.</p></div>
+      <div class="heading-meta"><span class="review-badge">SANDBOX ONLY</span><span id="status" role="status">Loading the cast…</span></div>
+    </header>
+    <section class="toolbar" aria-label="Animation controls">
+      <div class="control-group"><button id="pause" type="button" aria-pressed="false">Pause</button><button id="replay" class="primary" type="button">Replay activities</button></div>
+      <label>Activity<select id="mode"><option value="natural">Natural variety</option><option value="idle">Calm idle</option></select></label>
+      <label>Speed<select id="speed"><option value="0.25">0.25×</option><option value="0.5">0.5×</option><option value="1" selected>1×</option></select></label>
+      <label>Scale<select id="size"><option value="fit">Detail</option><option value="game">Game size</option></select></label>
+      <label>Backdrop<select id="background"><option value="dark">Dark</option><option value="light">Light</option><option value="checker">Checker</option></select></label>
+      <button id="compare" type="button" aria-pressed="false">Compare with today</button>
+    </section>
+    <div class="timeline-row"><button id="back" type="button" hidden>← All merchants</button><label class="timeline-label" for="timeline">Activity cycle</label><input id="timeline" type="range" min="0" max="12" step="0.02" value="0"><label class="seconds-label"><input id="seconds" aria-label="Time in cycle" type="number" min="0" max="12" step="0.05" value="0">s</label><span id="time-status">Playing</span></div>
+    <section id="merchants" class="merchant-grid" aria-label="Six merchants with restored idle variations"></section>
+    <footer class="page-footer"><p>Seven recovered poses per merchant, with current idle motion between activities. Timing is accelerated for this review.</p><div><span id="actual-size"></span><span id="fps">Starting…</span></div></footer>
+  </main>
+  <script type="module" src="main.js"></script>
+</body>
+</html>

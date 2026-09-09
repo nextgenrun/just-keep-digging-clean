@@ -188,21 +188,42 @@ const projectileResult = dig.tryMine(
   { ignoreCooldown: true },
 );
 assert.equal(projectileResult.success, true);
-assert.equal(hits.length, 2);
+assert.equal(hits.length, 1);
 assert.deepEqual(
   hits.map(hit => hit.damage),
   [
     MINING_CONFIG.baseDamage * PLAYER_ABILITIES_CONFIG.quickslashDamageMultiplier * 2,
-    MINING_CONFIG.baseDamage * PLAYER_ABILITIES_CONFIG.quickslashDamageMultiplier * 2,
   ],
 );
+assert.equal(projectileResult.celestialProjectile.visualPaths[0].endTile.tx, 0);
 assert.equal(quickslashCosts, 1);
+
+// One Quick Slash contact must mine both horizontal targets for one GP cost.
+dig.setCelestialEmpowerProvider(null);
+dig.lastMineTime = -Infinity;
+hits.length = 0;
+const dualSidedResult = dig.tryMineArea(
+  [
+    { tx: 0, ty: 0, aimDirection: "LEFT" },
+    { tx: 1, ty: 0, aimDirection: "RIGHT" },
+  ],
+  2000,
+  "RIGHT",
+  quickslash,
+  { skipHeavyPunch: false },
+);
+assert.equal(dualSidedResult.success, true);
+assert.equal(dualSidedResult.hits.filter(hit => hit.result.success).length, 2);
+assert.equal(hits.length, 2);
+assert.equal(quickslashCosts, 2, "the two-sided contact must add only one cost");
 
 const playUpdateSource = await readFile(
   new URL("../world/playScene/PlaySceneUpdate.js", import.meta.url),
   "utf8",
 );
 assert.match(playUpdateSource, /thunderStrikeOwnsPlayerAction/);
+assert.match(playUpdateSource, /\[quickslashDir, -quickslashDir\]/);
+assert.match(playUpdateSource, /tryMineArea\(\s*quickslashTargets/);
 assert.ok(
   playUpdateSource.indexOf("thunderStrikeActionRuntime?.update")
     < playUpdateSource.indexOf("// Quickslash: one native action"),

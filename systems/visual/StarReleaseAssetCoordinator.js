@@ -4,6 +4,7 @@ import {
   getStarRarityFeatureAssetGroupId,
   getStarReleaseFeatureAssetGroupId,
 } from "../../values/runtimeAssetLoading.js";
+import { STAR_CONSTELLATION_CONFIG } from "../../values/starConstellations.js";
 
 function releaseLease(lease) {
   if (!lease || lease.released) return;
@@ -11,6 +12,24 @@ function releaseLease(lease) {
   for (const groupId of lease.groupIds) {
     lease.manager.releaseGroup(groupId, lease.consumer);
   }
+}
+
+function createPickupDescriptor(entry, detail, position) {
+  if (!detail?.progress) return null;
+  return Object.freeze({
+    textureKey: entry.textureKey,
+    textureFrame: entry.textureFrame || null,
+    lightTextureKey: entry.lightTextureKey || null,
+    lightTextureFrame: entry.lightTextureFrame || null,
+    displaySize: entry.displaySize,
+    rarity: entry.rarity,
+    identityIndex: entry.identityIndex,
+    identityId: entry.identityId,
+    resourceType: entry.resourceType,
+    progress: Object.freeze({ ...detail.progress }),
+    worldX: position.worldX,
+    worldY: position.worldY,
+  });
 }
 
 function present(system, detail, lease = null) {
@@ -35,13 +54,22 @@ function present(system, detail, lease = null) {
     releaseLease(lease);
   };
 
-  system.activeFloatingTexts.push(star);
+  const maximum = STAR_CONSTELLATION_CONFIG.collectedStarReleaseFx.maxActiveReleases;
+  while (system._activeSkyStarReleaseViews.size >= maximum) {
+    system._activeSkyStarReleaseViews.values().next().value?.destroy();
+  }
   system._activeSkyStarReleaseViews.add(releaseView);
   const started = releaseView.play({
     entry,
     startWorldX: detail.startWorldX,
     startWorldY: detail.startWorldY,
     onComplete: discard,
+    onVisible: detail.progress
+      ? (position) => {
+        const pickup = createPickupDescriptor(entry, detail, position);
+        if (pickup) system._emitCollectedSkyStarPickup?.(pickup);
+      }
+      : null,
   });
   if (!started) {
     releaseView.destroy();

@@ -1,0 +1,13 @@
+{
+  "bootObservation": {
+    "heading": "Tip: Returning to Town restores Ember Charges",
+    "detail": "Interacting with a Campfire restores at least the same amount",
+    "progress": 89,
+    "source": "Visible DOM snapshot and screenshot from real boot"
+  },
+  "menu": {
+    "loadingPanels": 0,
+    "title": "UNDERSTAR — Open Beta Demo"
+  },
+  "errors": []
+}

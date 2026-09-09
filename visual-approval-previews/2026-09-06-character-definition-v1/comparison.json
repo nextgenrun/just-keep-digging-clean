@@ -1,0 +1,25 @@
+{
+  "frames": 24,
+  "sourceSheetSha256": "bf11ee1b2d8bdea82b0e195b986e8e702dec24b3562d92652fb178d954e62869",
+  "afterFrameSize": 512,
+  "beforeFrameSize": 256,
+  "occupancy": 0.75390625,
+  "sourceColumns": 16,
+  "afterColumns": 8,
+  "fps": 16,
+  "presentation": {
+    "width": 1600,
+    "height": 1000,
+    "background": [
+      15,
+      20,
+      27
+    ],
+    "bodyHeight": 630,
+    "gameplayHeight": 124,
+    "groundY": 765,
+    "beforeCenter": 425,
+    "afterCenter": 1175,
+    "fps": 16
+  }
+}

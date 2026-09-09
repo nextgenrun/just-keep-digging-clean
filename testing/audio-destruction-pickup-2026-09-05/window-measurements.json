@@ -1,0 +1,222 @@
+[
+  {
+    "id": "footsteps-1",
+    "source": "sound/soundEffects/costume-sounds/footsteps/footstep-3.ogg",
+    "window": {
+      "start": 0.037,
+      "duration": 0.09,
+      "fadeIn": 0.003,
+      "fadeOut": 0.022
+    },
+    "originalSeconds": 0.12772916666666667,
+    "editedSeconds": 0.09,
+    "dominantAttackMs": 0,
+    "channels": 1,
+    "peak": 0.10049554705619812,
+    "sourceSamplesAboveFullScale": 0,
+    "format": "float32 PCM, unclamped original amplitude",
+    "firstSample": 0,
+    "lastSample": 0,
+    "previewPath": "testing/audio-destruction-pickup-2026-09-05/renders/footsteps-1.wav"
+  },
+  {
+    "id": "footsteps-2",
+    "source": "sound/soundEffects/costume-sounds/footsteps/footstep-4.ogg",
+    "window": {
+      "start": 0.072,
+      "duration": 0.11,
+      "fadeIn": 0.003,
+      "fadeOut": 0.03
+    },
+    "originalSeconds": 0.20608333333333334,
+    "editedSeconds": 0.11,
+    "dominantAttackMs": 1.0833333333333333,
+    "channels": 1,
+    "peak": 0.09018638730049133,
+    "sourceSamplesAboveFullScale": 0,
+    "format": "float32 PCM, unclamped original amplitude",
+    "firstSample": 0,
+    "lastSample": 0,
+    "previewPath": "testing/audio-destruction-pickup-2026-09-05/renders/footsteps-2.wav"
+  },
+  {
+    "id": "freesound-270415",
+    "source": "sound/soundEffects/approved-freesound-2026-09-03/freesound-270415.ogg",
+    "window": {
+      "start": 0,
+      "duration": 0.12,
+      "fadeIn": 0.002,
+      "fadeOut": 0.03
+    },
+    "originalSeconds": 0.21972916666666667,
+    "editedSeconds": 0.12,
+    "dominantAttackMs": 0,
+    "channels": 2,
+    "peak": 0.5465120077133179,
+    "sourceSamplesAboveFullScale": 0,
+    "format": "float32 PCM, unclamped original amplitude",
+    "firstSample": 0,
+    "lastSample": 0,
+    "previewPath": "testing/audio-destruction-pickup-2026-09-05/renders/freesound-270415.wav"
+  },
+  {
+    "id": "freesound-270419",
+    "source": "sound/soundEffects/approved-freesound-2026-09-03/freesound-270419.ogg",
+    "window": {
+      "start": 0.03,
+      "duration": 0.12,
+      "fadeIn": 0.002,
+      "fadeOut": 0.03
+    },
+    "originalSeconds": 0.24372916666666666,
+    "editedSeconds": 0.12,
+    "dominantAttackMs": 3.6458333333333335,
+    "channels": 2,
+    "peak": 0.5952591300010681,
+    "sourceSamplesAboveFullScale": 0,
+    "format": "float32 PCM, unclamped original amplitude",
+    "firstSample": 0,
+    "lastSample": 0,
+    "previewPath": "testing/audio-destruction-pickup-2026-09-05/renders/freesound-270419.wav"
+  },
+  {
+    "id": "freesound-270418",
+    "source": "sound/soundEffects/approved-freesound-2026-09-03/freesound-270418.ogg",
+    "window": {
+      "start": 0.112,
+      "duration": 0.1,
+      "fadeIn": 0.002,
+      "fadeOut": 0.03
+    },
+    "originalSeconds": 0.309375,
+    "editedSeconds": 0.1,
+    "dominantAttackMs": 7.9375,
+    "channels": 2,
+    "peak": 0.6795543432235718,
+    "sourceSamplesAboveFullScale": 0,
+    "format": "float32 PCM, unclamped original amplitude",
+    "firstSample": 0,
+    "lastSample": 0,
+    "previewPath": "testing/audio-destruction-pickup-2026-09-05/renders/freesound-270418.wav"
+  },
+  {
+    "id": "freesound-270417",
+    "source": "sound/soundEffects/approved-freesound-2026-09-03/freesound-270417.ogg",
+    "window": {
+      "start": 0.073,
+      "duration": 0.12,
+      "fadeIn": 0.002,
+      "fadeOut": 0.03
+    },
+    "originalSeconds": 0.336,
+    "editedSeconds": 0.12,
+    "dominantAttackMs": 3.7916666666666665,
+    "channels": 2,
+    "peak": 0.6822492480278015,
+    "sourceSamplesAboveFullScale": 0,
+    "format": "float32 PCM, unclamped original amplitude",
+    "firstSample": 0,
+    "lastSample": 0,
+    "previewPath": "testing/audio-destruction-pickup-2026-09-05/renders/freesound-270417.wav"
+  },
+  {
+    "id": "libDirtBreak",
+    "source": "sound/soundEffects/approved-review-2026-09-03/libDirtBreak.ogg",
+    "window": {
+      "start": 0.03,
+      "duration": 0.32,
+      "fadeIn": 0.004,
+      "fadeOut": 0.065
+    },
+    "originalSeconds": 0.9722708333333333,
+    "editedSeconds": 0.32,
+    "dominantAttackMs": 7.4375,
+    "channels": 2,
+    "peak": 0.7165842056274414,
+    "sourceSamplesAboveFullScale": 0,
+    "format": "float32 PCM, unclamped original amplitude",
+    "firstSample": 0,
+    "lastSample": 0,
+    "previewPath": "testing/audio-destruction-pickup-2026-09-05/renders/libDirtBreak.wav"
+  },
+  {
+    "id": "libStoneBreak",
+    "source": "sound/soundEffects/approved-review-2026-09-03/libStoneBreak.ogg",
+    "window": {
+      "start": 0.215,
+      "duration": 0.3,
+      "fadeIn": 0.004,
+      "fadeOut": 0.08
+    },
+    "originalSeconds": 1.8,
+    "editedSeconds": 0.3,
+    "dominantAttackMs": 2.895833333333333,
+    "channels": 2,
+    "peak": 0.47514110803604126,
+    "sourceSamplesAboveFullScale": 0,
+    "format": "float32 PCM, unclamped original amplitude",
+    "firstSample": 0,
+    "lastSample": 0,
+    "previewPath": "testing/audio-destruction-pickup-2026-09-05/renders/libStoneBreak.wav"
+  },
+  {
+    "id": "libResourcePop",
+    "source": "sound/soundEffects/approved-review-2026-09-03/libResourcePop.ogg",
+    "window": {
+      "start": 0.18,
+      "duration": 0.18,
+      "fadeIn": 0.004,
+      "fadeOut": 0.055
+    },
+    "originalSeconds": 0.6173333333333333,
+    "editedSeconds": 0.18,
+    "dominantAttackMs": 0,
+    "channels": 2,
+    "peak": 0.7228451371192932,
+    "sourceSamplesAboveFullScale": 0,
+    "format": "float32 PCM, unclamped original amplitude",
+    "firstSample": 0,
+    "lastSample": 0,
+    "previewPath": "testing/audio-destruction-pickup-2026-09-05/renders/libResourcePop.wav"
+  },
+  {
+    "id": "freesound-536921",
+    "source": "sound/soundEffects/approved-freesound-2026-09-03/freesound-536921.ogg",
+    "window": {
+      "start": 0.08,
+      "duration": 0.14,
+      "fadeIn": 0.003,
+      "fadeOut": 0.035
+    },
+    "originalSeconds": 0.229125,
+    "editedSeconds": 0.14,
+    "dominantAttackMs": 5.791666666666666,
+    "channels": 2,
+    "peak": 0.3897871971130371,
+    "sourceSamplesAboveFullScale": 0,
+    "format": "float32 PCM, unclamped original amplitude",
+    "firstSample": 0,
+    "lastSample": 0,
+    "previewPath": "testing/audio-destruction-pickup-2026-09-05/renders/freesound-536921.wav"
+  },
+  {
+    "id": "freesound-703115",
+    "source": "sound/soundEffects/approved-freesound-2026-09-03/freesound-703115.ogg",
+    "window": {
+      "start": 0,
+      "duration": 0.155,
+      "fadeIn": 0.003,
+      "fadeOut": 0.035
+    },
+    "originalSeconds": 0.41914583333333333,
+    "editedSeconds": 0.155,
+    "dominantAttackMs": 5.520833333333333,
+    "channels": 2,
+    "peak": 0.6253580451011658,
+    "sourceSamplesAboveFullScale": 0,
+    "format": "float32 PCM, unclamped original amplitude",
+    "firstSample": 0,
+    "lastSample": 0,
+    "previewPath": "testing/audio-destruction-pickup-2026-09-05/renders/freesound-703115.wav"
+  }
+]

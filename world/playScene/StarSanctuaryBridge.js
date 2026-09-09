@@ -6,6 +6,9 @@ import { StarConsumptionHoldView } from
   "../../systems/visual/StarConsumptionHoldView.js";
 import { StarlessScarView } from "../../systems/visual/StarlessScarView.js";
 import { STAR_SANCTUARY_CONFIG } from "../../values/starSanctuary.js";
+import { STAR_SANCTUARY_COPY } from "../../values/playerFacingCopy.js";
+import { WorldVisualAssetCache } from
+  "../rendering/scenic-world/WorldVisualAssetCache.js";
 import {
   enterHardcoreBlockingModal,
   leaveHardcoreBlockingModal,
@@ -47,7 +50,7 @@ function showAcknowledgementModal(scene, runtime) {
     runtime.system.cancelConsumptionAttempt();
     return false;
   }
-  const copy = runtime.config.consumption.acknowledgement;
+  const copy = STAR_SANCTUARY_COPY.acknowledgement;
   enterHardcoreBlockingModal(scene);
   runtime.acknowledgementModalOpen = true;
   const shown = modal.showConfirmation({
@@ -151,6 +154,10 @@ function processEvents(scene, runtime) {
       );
       continue;
     }
+    if (event.type === "star-consumed") {
+      runtime.view.startSpread(event.profile, scene.time?.now || 0);
+      continue;
+    }
     if (event.type === "star-scar-entered") {
       showFeedback(
         scene,
@@ -196,17 +203,34 @@ export function createStarSanctuaryRuntime(scene) {
   );
   const system = new StarSanctuarySystem(scene.worldModel, config, {
     consumptionAcknowledged: acknowledgementStore.isAcknowledged(),
+    territorySystem: scene.worldMapStarTerritorySystem,
   });
+  const resourceDepletionProvider = ({ tileX, tileY } = {}) => (
+    system.isResourceDepletedAt(tileX, tileY)
+  );
+  scene.digSystem?.setResourceDepletionProvider?.(
+    resourceDepletionProvider,
+  );
+  const scarAssetCache = scene.load?.on && scene.textures?.exists
+    ? new WorldVisualAssetCache(scene, { deferTextureRelease: true })
+    : null;
   const runtime = {
     config,
     system,
     acknowledgementStore,
-    view: new StarlessScarView(scene, scene.worldModel, config),
+    view: new StarlessScarView(
+      scene,
+      scene.worldModel,
+      config,
+      { assetCache: scarAssetCache },
+    ),
+    scarAssetCache,
     holdView: new StarConsumptionHoldView(scene, config),
     acknowledgementModalOpen: false,
     lastGpPulseAt: 0,
     downstreamDamageGuard: null,
     composedDamageGuard: null,
+    resourceDepletionProvider,
   };
   scene._starSanctuaryRuntime = runtime;
   scene.starSanctuarySnapshot = system.getSnapshot();
@@ -282,8 +306,15 @@ export function destroyStarSanctuaryRuntime(scene) {
   if (scene.worldModel?.tileDamageGuard === runtime.composedDamageGuard) {
     scene.worldModel.setTileDamageGuard?.(runtime.downstreamDamageGuard);
   }
+  if (
+    scene.digSystem?.resourceDepletionProvider
+    === runtime.resourceDepletionProvider
+  ) {
+    scene.digSystem.setResourceDepletionProvider?.(null);
+  }
   runtime.holdView?.destroy();
   runtime.view?.destroy();
+  runtime.scarAssetCache?.destroy();
   runtime.system?.destroy();
   runtime.acknowledgementStore = null;
 }

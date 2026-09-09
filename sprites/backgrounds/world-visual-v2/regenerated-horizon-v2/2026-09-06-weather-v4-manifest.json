@@ -1,0 +1,28 @@
+{
+  "date": "2026-09-06",
+  "generator": "built-in image_gen.imagegen",
+  "assets": [
+    {
+      "path": "sprites/backgrounds/world-visual-v2/regenerated-horizon-v2/cloud-banks-v4.png",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "mode": "RGBA",
+      "sha256": "1d4bffe4a8779a69a1ff2820f200479018cfcf59170fc3d15dcb571edc6feba4",
+      "prompts": "sprites/backgrounds/world-visual-v2/regenerated-horizon-v2/2026-09-06-cloud-banks-v4-prompts.json",
+      "sourcePixelsUnmodified": true
+    },
+    {
+      "path": "sprites/backgrounds/world-visual-v2/regenerated-horizon-v2/weather-v4.png",
+      "dimensions": [
+        1774,
+        887
+      ],
+      "mode": "RGBA",
+      "sha256": "4474acd313071ea3d6c37c3b61ea1a335400048219454080d8fe74028778b7fc",
+      "prompts": "sprites/backgrounds/world-visual-v2/regenerated-horizon-v2/2026-09-06-weather-v4-prompts.json",
+      "sourcePixelsUnmodified": true
+    }
+  ]
+}

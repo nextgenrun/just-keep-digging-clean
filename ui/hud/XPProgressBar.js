@@ -4,13 +4,15 @@ import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { XP_GATHERING_CONFIG } from "../../values/xpGathering.js";
 import { hasApprovedHudSkin } from "../../systems/visual/ApprovedHudSkin.js";
 import { XPGatheringFxSystem } from "../../systems/visual/XPGatheringFxSystem.js";
+import { prepareArt, fitBakedUiImage, fitLiveUiText } from "../../systems/visual/bakedUiArt.js";
 export class XPProgressBar {
   constructor(scene) {
     this.scene = scene;
     this.visible = false;
     this.approved = hasApprovedHudSkin(scene);
     if (this.approved) {
-      this.frame = scene.add.image(0, 0, ASSET_KEYS.ui.approvedHud.xp)
+      const art = prepareArt(scene, { key: ASSET_KEYS.ui.approvedHud.xp, ...APPROVED_HUD_SKIN.frames.xp });
+      this.frame = scene.add.image(0, 0, art.key, art.frame)
         .setOrigin(0, 0)
         .setScrollFactor(0)
         .setDepth(HUD_LAYOUT.hudDepth - 1);
@@ -71,7 +73,7 @@ export class XPProgressBar {
     ) / XP_GATHERING_CONFIG.segments.count;
 
     if (this.approved) {
-      this.frame.setPosition(frameX, frameY).setDisplaySize(frameWidth, frameHeight);
+      fitBakedUiImage(this.frame.setPosition(frameX, frameY), frameWidth, frameHeight);
       this.levelText.setPosition(frameX + layout.levelX * scale, frameY + frameHeight / 2).setOrigin(0, 0.5);
       this.xpText.setPosition(frameX + frameWidth - layout.xpRight * scale, frameY + frameHeight / 2).setOrigin(1, 0.5);
       const textStyle = {
@@ -84,6 +86,7 @@ export class XPProgressBar {
       };
       this.levelText.setStyle(textStyle);
       this.xpText.setStyle(textStyle);
+      this._fitValues();
     } else {
       this.levelText.setPosition(barX - 100, barY + barHeight / 2).setOrigin(1, 0.5);
       this.xpText.setPosition(barX + barWidth + 10, barY + barHeight / 2).setOrigin(0, 0.5);
@@ -100,6 +103,10 @@ export class XPProgressBar {
     const borderWidth = (this.approved ? config.borderWidthPx : config.legacyBorderWidthPx)
       * this.uiScale;
     this.barBg.clear();
+    if (this.approved) {
+      this._drawFill();
+      return;
+    }
     this.barBg.fillStyle(config.emptyColor, this.approved ? config.emptyAlpha : config.legacyEmptyAlpha);
     this.barBg.lineStyle(
       borderWidth,
@@ -158,8 +165,9 @@ export class XPProgressBar {
     this.level = level;
     this.currentXP = currentXP;
     this.xpRequired = xpRequired;
-    this.levelText.setText(this.approved ? `LEVEL ${level}` : `Lvl ${level}`);
-    this.xpText.setText(`${currentXP.toLocaleString()} / ${xpRequired.toLocaleString()} XP`);
+    this.levelText.setText(this.approved ? String(level) : `Lvl ${level}`);
+    this.xpText.setText(`${currentXP.toLocaleString()} / ${xpRequired.toLocaleString()}${this.approved ? "" : " XP"}`);
+    this._fitValues();
     const newPct = xpRequired > 0 ? Math.min(currentXP / xpRequired, 1.0) : 0;
     if (!Number.isFinite(previousLevel)) {
       this._cancelFillMotion();
@@ -180,6 +188,13 @@ export class XPProgressBar {
         this._animateFillTo(remainder, motion.levelRemainderDurationMs);
       });
     });
+  }
+
+  _fitValues() {
+    if (!this.approved) return;
+    const layout = APPROVED_HUD_SKIN.layout.xp;
+    fitLiveUiText(this.levelText, layout.levelWidth * this.uiScale);
+    fitLiveUiText(this.xpText, layout.xpWidth * this.uiScale);
   }
 
   _animateFillTo(target, duration, onComplete = null) {
@@ -223,23 +238,39 @@ export class XPProgressBar {
   }
 
   getActiveSegmentIndex() {
+    return this._segmentIndexForPercent(this._fillPercent);
+  }
+
+  getResolvedSegmentIndex() {
+    const resolvedPercent = this.xpRequired > 0
+      ? Math.min(this.currentXP / this.xpRequired, 1)
+      : this._fillPercent;
+    return this._segmentIndexForPercent(resolvedPercent);
+  }
+
+  _segmentIndexForPercent(percent) {
     const count = XP_GATHERING_CONFIG.segments.count;
-    return Math.min(count - 1, Math.max(0, Math.ceil(this._fillPercent * count) - 1));
+    return Math.min(count - 1, Math.max(0, Math.ceil(percent * count) - 1));
   }
 
   getGatheringTarget(variationId = "routine") {
     const index = variationId === "levelUp"
       ? XP_GATHERING_CONFIG.segments.count - 1
-      : this.getActiveSegmentIndex();
+      : this.getResolvedSegmentIndex();
     return {
       x: this._segmentX(index) + this.segmentWidth / 2,
       y: this.barY + this.barHeight / 2,
+      segmentIndex: index,
     };
   }
 
-  pulseGatheringTarget(strength = 0.3, variationId = "routine") {
+  pulseGatheringTarget(strength = 0.3, variationId = "routine", targetIndex = null) {
     const motion = XP_GATHERING_CONFIG.motion;
-    const index = variationId === "levelUp" ? XP_GATHERING_CONFIG.segments.count - 1 : this.getActiveSegmentIndex();
+    const index = Number.isInteger(targetIndex)
+      ? targetIndex
+      : variationId === "levelUp"
+        ? XP_GATHERING_CONFIG.segments.count - 1
+        : this.getResolvedSegmentIndex();
     this.scene.tweens.killTweensOf(this.barPulse);
     this.barPulse.clear();
     this.barPulse.fillStyle(XP_GATHERING_CONFIG.segments.fillHighlightColor, 1);

@@ -1,0 +1,34 @@
+{
+  "ok": true,
+  "searches": [
+    {
+      "query": "how do I fly",
+      "answer": "HINTS & QUICK ANSWERS\nHow do I fly?\n\nAfter the opening gives you Flight, hold SHIFT in the air. Steer with A/D; W/S build vertical momentum. Release Flight to stop its GP drain. SPACE is a separate, fixed-height jump."
+    },
+    {
+      "query": "talnet points",
+      "answer": "HINTS & QUICK ANSWERS\nTalent Points and Stars\n\nOpen Esc > Stars. The trees open at player level 3. Level-earned Talent Points unlock new nodes; Star Points improve ranks on nodes you already own. Select a node to read its prerequisites and price, then use its action button."
+    },
+    {
+      "query": "portla",
+      "answer": "HOW TO PLAY UNDERSTAR: YOUR FIRST EXPEDITION\nUse the first portal.\n\nContinue through the opening shaft, approach the marked portal, and press E. Activate it before leaving the tutorial route."
+    },
+    {
+      "query": "save backup",
+      "answer": "HINTS & QUICK ANSWERS\nKeep a backup of this save\n\nOpen Esc > Saves to save or export this slot as a JSON file. Import replaces the selected slot after keeping a backup. Keep exported files somewhere safe, especially before clearing browser data or changing browser profiles."
+    },
+    {
+      "query": "worm",
+      "answer": "HINTS & QUICK ANSWERS\nAvoid the Graveborer Wurm\n\nMining noise can draw a Graveborer Wurm. Watch its breach warning and move out of the marked path before it arrives. Preserve GP for an escape and avoid standing on the breach line."
+    },
+    {
+      "query": "ember charges",
+      "answer": "HINTS & QUICK ANSWERS\nEmber and the Campfire\n\nEmber Ore adds Campfire charges. Return to the Campfire and press E to inspect its blessings, stored charges, and upgrades. Choose a blessing in the Campfire menu, then use its action-bar control to spend a charge."
+    },
+    {
+      "query": "low gp",
+      "answer": "HINTS & QUICK ANSWERS\nLow on Gem Power\n\nLand in a safe, lit place. Release SHIFT and Q, and stop powered movement so GP can recover. Lower the torch intensity if needed; in Hardcore, keep enough light to control stress. Return through an activated portal when you can af…"
+    }
+  ],
+  "errors": []
+}

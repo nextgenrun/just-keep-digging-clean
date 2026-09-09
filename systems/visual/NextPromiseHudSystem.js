@@ -3,6 +3,7 @@ import { getCargoSellValue } from "../../values/resourcePrices.js";
 import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { APPROVED_HUD_SKIN } from "../../values/approvedHudSkin.js";
 import { USER_SETTINGS } from "../UserSettings.js";
+import { createBakedUiPanel } from "./bakedUiArt.js";
 
 function formatMoney(value) {
   return `${Math.max(0, Math.floor(Number(value) || 0)).toLocaleString()} M`;
@@ -18,10 +19,11 @@ export class NextPromiseHudSystem {
     this.root = scene.add.container(this.config.x, 0)
       .setScrollFactor(0)
       .setDepth(this.config.depth);
-    this.background = scene.add.image(
+    this.background = createBakedUiPanel(scene, this.config.width / 2, this.config.height / 2,
+      this.config.width, this.config.height) || scene.add.image(
       this.config.width / 2,
       this.config.height / 2,
-      ASSET_KEYS.ui.approvedHud.tutorialCurrentAction,
+      ASSET_KEYS.ui.approvedHud.buffChip,
     ).setDisplaySize(this.config.width, this.config.height);
     this.badgeKicker = scene.add.text(
       this.config.badgeX,
@@ -83,6 +85,10 @@ export class NextPromiseHudSystem {
       this.promiseText,
       this.detailText,
     ]);
+    this.badgeKicker.setVisible(false);
+    this.badgeValue.setVisible(false);
+    this.promiseText.setOrigin(0.5);
+    this.detailText.setOrigin(0.5);
     this._layout();
   }
 
@@ -104,22 +110,23 @@ export class NextPromiseHudSystem {
 
   _fitText(textObject, value, baseFontSize, minimumFontSize) {
     const baseSize = Math.max(1, Number.parseFloat(baseFontSize) || 1);
-    textObject.setFontSize(baseSize).setText(value);
+    textObject.setScale(1).setFontSize(baseSize).setText(value);
     if (textObject.width <= this.config.textWidth) return;
     const fittedSize = Math.max(
       minimumFontSize,
       Math.floor(baseSize * this.config.textWidth / textObject.width),
     );
     textObject.setFontSize(fittedSize);
+    textObject.setScale(Math.min(1, this.config.textWidth / textObject.width));
   }
 
   _layout() {
     const height = this.config.height;
-    const viewportHeight = this.scene.scale?.height || 720;
-    this.root.setPosition(this.config.x, viewportHeight - this.config.bottom - height);
+    const ref = APPROVED_HUD_SKIN.referenceViewport;
+    const scale = Math.min(this.scene.scale.width / ref.width, this.scene.scale.height / ref.height);
+    this.root.setPosition(this.config.x * scale, this.config.top * scale).setScale(scale);
     this.background
-      .setPosition(this.config.width / 2, height / 2)
-      .setDisplaySize(this.config.width, height);
+      .setPosition(this.config.width / 2, height / 2);
   }
 
   update(nowMs) {
@@ -149,8 +156,6 @@ export class NextPromiseHudSystem {
       return;
     }
 
-    const now = this.scene.time?.now || nowMs;
-    const chestSeconds = Math.ceil(retention.getChestCritBuffRemaining(now) / 1000);
     const objective = retention.getObjective();
     const showObjective = USER_SETTINGS.getDisplay().showSessionObjective !== false;
     const nextMilestone = this.scene.milestoneBoardSystem?.getNextMilestone?.();
@@ -163,8 +168,6 @@ export class NextPromiseHudSystem {
     let promise = "";
     if (priorityPromise) {
       promise = priorityPromise.promise;
-    } else if (chestSeconds > 0) {
-      promise = `TREASURE FURY  •  ${chestSeconds}s ultra crit damage`;
     } else if (showObjective && !objective.complete) {
       promise = `SESSION  •  ${objective.label}  ${Math.floor(objective.progress)}/${objective.target}`;
     } else if (atTown && deepestPortal) {

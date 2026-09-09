@@ -1,0 +1,799 @@
+{
+  "audit": "live-approved-audio-stage",
+  "capturedAt": "2026-09-03T01:16:07.618Z",
+  "url": "http://127.0.0.1:8080/testing/audio-review-2026-09-03/",
+  "scope": "Save-free Phaser runtime and real mining feedback dispatcher; not a full gameplay, hardware SPL or subjective listening audit.",
+  "phases": [
+    {
+      "phase": "contacts-and-composite-entry",
+      "evidence": {
+        "loaded": 51,
+        "loadErrors": [],
+        "contacts": [
+          {
+            "material": "dirt",
+            "scheduledAt": 24389.4,
+            "dispatchedAt": 24393,
+            "frameErrorMs": 3.6
+          },
+          {
+            "material": "stone",
+            "scheduledAt": 24673.1,
+            "dispatchedAt": 24676.6,
+            "frameErrorMs": 3.5
+          }
+        ],
+        "maxMeasuredPeak": 0.09919235110282898,
+        "clippedFrames": 0,
+        "runtimeErrors": [],
+        "sfx": {
+          "count": 2,
+          "scale": 1,
+          "peakBudget": 0.5,
+          "sources": [
+            {
+              "key": "approved-review-libToolContact",
+              "gain": 0.16,
+              "peak": 0.6936398
+            },
+            {
+              "key": "approved-review-libStoneBreak",
+              "gain": 0.32,
+              "peak": 0.7144903
+            }
+          ]
+        },
+        "mix": {
+          "master": 0.5,
+          "sfx": 0.9,
+          "speechDucked": false,
+          "context": "composite",
+          "audioContextState": "running"
+        },
+        "cave": {
+          "entered": true,
+          "preset": 3,
+          "detail": null,
+          "active": [
+            {
+              "id": "caveEerie",
+              "key": "approved-review-caveEerie",
+              "gain": 0.006673333333333345,
+              "target": 0.08,
+              "peakContribution": 0.0008428740320000015
+            },
+            {
+              "id": "miningMars",
+              "key": "approved-review-miningMars",
+              "gain": 0.003753750000000007,
+              "target": 0.045,
+              "peakContribution": 0.002498106736125005
+            },
+            {
+              "id": "evilSpell",
+              "key": "approved-review-evilSpell",
+              "gain": 0.004587916666666675,
+              "target": 0.055,
+              "peakContribution": 0.003834433477875007
+            },
+            {
+              "id": "panicTimber",
+              "key": "approved-review-panicTimber",
+              "gain": 0.011440000000000023,
+              "target": 0.08,
+              "peakContribution": 0.00984436024000002
+            }
+          ],
+          "pending": []
+        },
+        "weather": {
+          "rainRole": null,
+          "windRole": null,
+          "rainManaged": false,
+          "windManaged": false,
+          "rainCoverage": 0,
+          "windCoverage": 0,
+          "stormCoverage": 0,
+          "loadedRoles": [],
+          "pendingRoles": [],
+          "layers": []
+        }
+      }
+    },
+    {
+      "phase": "full-master-overlap",
+      "evidence": {
+        "loaded": 51,
+        "loadErrors": [],
+        "contacts": [
+          {
+            "material": "dirt",
+            "scheduledAt": 24389.4,
+            "dispatchedAt": 24393,
+            "frameErrorMs": 3.6
+          },
+          {
+            "material": "stone",
+            "scheduledAt": 24673.1,
+            "dispatchedAt": 24676.6,
+            "frameErrorMs": 3.5
+          }
+        ],
+        "maxMeasuredPeak": 0.17549580335617065,
+        "clippedFrames": 0,
+        "runtimeErrors": [],
+        "sfx": {
+          "count": 7,
+          "scale": 0.5655732433497253,
+          "peakBudget": 0.5,
+          "sources": [
+            {
+              "key": "sfx-star-destruction-0",
+              "gain": 0.10180318380295054,
+              "peak": 0.9716785
+            },
+            {
+              "key": "sfx-level-up-reward-0",
+              "gain": 0.11311464866994506,
+              "peak": 0.8220638
+            },
+            {
+              "key": "approved-review-libPurchaseCoin",
+              "gain": 0.1187703811034423,
+              "peak": 0.6894307
+            },
+            {
+              "key": "approved-review-libResourcePop",
+              "gain": 0.045245859467978024,
+              "peak": 0.7228451
+            },
+            {
+              "key": "approved-review-libLandingDebris",
+              "gain": 0.11311464866994506,
+              "peak": 0.7053962
+            },
+            {
+              "key": "approved-review-libPressureRumble",
+              "gain": 0.13573757840393405,
+              "peak": 0.5714165
+            },
+            {
+              "key": "approved-review-libTorchReact",
+              "gain": 0.05655732433497253,
+              "peak": 0.6391665
+            }
+          ]
+        },
+        "mix": {
+          "master": 1,
+          "sfx": 0.9,
+          "speechDucked": false,
+          "context": "composite",
+          "audioContextState": "running"
+        },
+        "cave": {
+          "entered": true,
+          "preset": 3,
+          "detail": null,
+          "active": [
+            {
+              "id": "caveEerie",
+              "key": "approved-review-caveEerie",
+              "gain": 0.08,
+              "target": 0.08,
+              "peakContribution": 0.010104384
+            },
+            {
+              "id": "miningMars",
+              "key": "approved-review-miningMars",
+              "gain": 0.045,
+              "target": 0.045,
+              "peakContribution": 0.0299473335
+            },
+            {
+              "id": "evilSpell",
+              "key": "approved-review-evilSpell",
+              "gain": 0.055,
+              "target": 0.055,
+              "peakContribution": 0.0459672345
+            }
+          ],
+          "pending": []
+        },
+        "weather": {
+          "rainRole": null,
+          "windRole": null,
+          "rainManaged": false,
+          "windManaged": false,
+          "rainCoverage": 0,
+          "windCoverage": 0,
+          "stormCoverage": 0,
+          "loadedRoles": [],
+          "pendingRoles": [],
+          "layers": []
+        }
+      }
+    },
+    {
+      "phase": "creepy-detail-before-speech",
+      "evidence": {
+        "loaded": 51,
+        "loadErrors": [],
+        "contacts": [
+          {
+            "material": "dirt",
+            "scheduledAt": 24389.4,
+            "dispatchedAt": 24393,
+            "frameErrorMs": 3.6
+          },
+          {
+            "material": "stone",
+            "scheduledAt": 24673.1,
+            "dispatchedAt": 24676.6,
+            "frameErrorMs": 3.5
+          }
+        ],
+        "maxMeasuredPeak": 0.17549580335617065,
+        "clippedFrames": 0,
+        "runtimeErrors": [],
+        "sfx": {
+          "count": 6,
+          "scale": 0.6763352414590126,
+          "peakBudget": 0.5,
+          "sources": [
+            {
+              "key": "sfx-star-destruction-0",
+              "gain": 0.12174034346262226,
+              "peak": 0.9716785
+            },
+            {
+              "key": "sfx-level-up-reward-0",
+              "gain": 0.13526704829180253,
+              "peak": 0.8220638
+            },
+            {
+              "key": "approved-review-libResourcePop",
+              "gain": 0.05410681931672101,
+              "peak": 0.7228451
+            },
+            {
+              "key": "approved-review-libLandingDebris",
+              "gain": 0.13526704829180253,
+              "peak": 0.7053962
+            },
+            {
+              "key": "approved-review-libPressureRumble",
+              "gain": 0.162320457950163,
+              "peak": 0.5714165
+            },
+            {
+              "key": "approved-review-libTorchReact",
+              "gain": 0.06763352414590126,
+              "peak": 0.6391665
+            }
+          ]
+        },
+        "mix": {
+          "master": 1,
+          "sfx": 0.9,
+          "speechDucked": false,
+          "context": "voice",
+          "audioContextState": "running"
+        },
+        "cave": {
+          "entered": true,
+          "preset": 0,
+          "detail": "libCreepySingerA",
+          "active": [
+            {
+              "id": "caveEerie",
+              "key": "approved-review-caveEerie",
+              "gain": 0.07388166666666665,
+              "target": 0,
+              "peakContribution": 0.009331609131999997
+            },
+            {
+              "id": "miningMars",
+              "key": "approved-review-miningMars",
+              "gain": 0.04155843749999998,
+              "target": 0,
+              "peakContribution": 0.02765698639003124
+            },
+            {
+              "id": "evilSpell",
+              "key": "approved-review-evilSpell",
+              "gain": 0.05079364583333334,
+              "target": 0,
+              "peakContribution": 0.042451698711468755
+            },
+            {
+              "id": "libDeepCaveBedA",
+              "key": "approved-review-libDeepCaveBedA",
+              "gain": 0.010707083333333334,
+              "target": 0.14,
+              "peakContribution": 0.0054081081754583345
+            },
+            {
+              "id": "libCreepySingerA",
+              "key": "approved-review-libCreepySingerA",
+              "gain": 0.01048857142857143,
+              "target": 0.08,
+              "peakContribution": 0.008128443574285715
+            }
+          ],
+          "pending": []
+        },
+        "weather": {
+          "rainRole": null,
+          "windRole": null,
+          "rainManaged": false,
+          "windManaged": false,
+          "rainCoverage": 0,
+          "windCoverage": 0,
+          "stormCoverage": 0,
+          "loadedRoles": [],
+          "pendingRoles": [],
+          "layers": []
+        }
+      }
+    },
+    {
+      "phase": "speech-duck-settled",
+      "evidence": {
+        "loaded": 51,
+        "loadErrors": [],
+        "contacts": [
+          {
+            "material": "dirt",
+            "scheduledAt": 24389.4,
+            "dispatchedAt": 24393,
+            "frameErrorMs": 3.6
+          },
+          {
+            "material": "stone",
+            "scheduledAt": 24673.1,
+            "dispatchedAt": 24676.6,
+            "frameErrorMs": 3.5
+          }
+        ],
+        "maxMeasuredPeak": 0.17549580335617065,
+        "clippedFrames": 0,
+        "runtimeErrors": [],
+        "sfx": {
+          "count": 0,
+          "scale": 1,
+          "peakBudget": 0.5,
+          "sources": []
+        },
+        "mix": {
+          "master": 1,
+          "sfx": 0.45,
+          "speechDucked": true,
+          "context": "voice",
+          "audioContextState": "running"
+        },
+        "cave": {
+          "entered": true,
+          "preset": 0,
+          "detail": null,
+          "active": [
+            {
+              "id": "libDeepCaveBedA",
+              "key": "approved-review-libDeepCaveBedA",
+              "gain": 0.14,
+              "target": 0.14,
+              "peakContribution": 0.07071348200000001
+            }
+          ],
+          "pending": []
+        },
+        "weather": {
+          "rainRole": null,
+          "windRole": null,
+          "rainManaged": false,
+          "windManaged": false,
+          "rainCoverage": 0,
+          "windCoverage": 0,
+          "stormCoverage": 0,
+          "loadedRoles": [],
+          "pendingRoles": [],
+          "layers": []
+        }
+      }
+    },
+    {
+      "phase": "open-rain-settled",
+      "evidence": {
+        "loaded": 51,
+        "loadErrors": [],
+        "contacts": [
+          {
+            "material": "dirt",
+            "scheduledAt": 24389.4,
+            "dispatchedAt": 24393,
+            "frameErrorMs": 3.6
+          },
+          {
+            "material": "stone",
+            "scheduledAt": 24673.1,
+            "dispatchedAt": 24676.6,
+            "frameErrorMs": 3.5
+          }
+        ],
+        "maxMeasuredPeak": 0.17549580335617065,
+        "clippedFrames": 0,
+        "runtimeErrors": [],
+        "sfx": {
+          "count": 0,
+          "scale": 1,
+          "peakBudget": 0.5,
+          "sources": []
+        },
+        "mix": {
+          "master": 1,
+          "sfx": 0.9,
+          "speechDucked": false,
+          "context": "rain",
+          "audioContextState": "running"
+        },
+        "cave": {
+          "entered": false,
+          "preset": 0,
+          "detail": null,
+          "active": [],
+          "pending": []
+        },
+        "weather": {
+          "rainRole": "rainOpen",
+          "windRole": "windOpen",
+          "rainManaged": true,
+          "windManaged": true,
+          "rainCoverage": 1,
+          "windCoverage": 1,
+          "stormCoverage": 0,
+          "loadedRoles": [
+            "libRainDirtC",
+            "libTownDayBreeze"
+          ],
+          "pendingRoles": [],
+          "layers": [
+            {
+              "id": "libRainDirtC",
+              "key": "approved-review-libRainDirtC",
+              "gain": 0.096,
+              "target": 0.096,
+              "peakContribution": 0.0787202496
+            },
+            {
+              "id": "libTownDayBreeze",
+              "key": "approved-review-libTownDayBreeze",
+              "gain": 0.009305263157894737,
+              "target": 0.009305263157894737,
+              "peakContribution": 0.007901579098947368
+            }
+          ]
+        }
+      }
+    },
+    {
+      "phase": "sheltered-rain-settled",
+      "evidence": {
+        "loaded": 51,
+        "loadErrors": [],
+        "contacts": [
+          {
+            "material": "dirt",
+            "scheduledAt": 24389.4,
+            "dispatchedAt": 24393,
+            "frameErrorMs": 3.6
+          },
+          {
+            "material": "stone",
+            "scheduledAt": 24673.1,
+            "dispatchedAt": 24676.6,
+            "frameErrorMs": 3.5
+          }
+        ],
+        "maxMeasuredPeak": 0.17549580335617065,
+        "clippedFrames": 0,
+        "runtimeErrors": [],
+        "sfx": {
+          "count": 0,
+          "scale": 1,
+          "peakBudget": 0.5,
+          "sources": []
+        },
+        "mix": {
+          "master": 1,
+          "sfx": 0.9,
+          "speechDucked": false,
+          "context": "shelter",
+          "audioContextState": "running"
+        },
+        "cave": {
+          "entered": false,
+          "preset": 0,
+          "detail": null,
+          "active": [],
+          "pending": []
+        },
+        "weather": {
+          "rainRole": "rainRoof",
+          "windRole": "windOpen",
+          "rainManaged": true,
+          "windManaged": true,
+          "rainCoverage": 1,
+          "windCoverage": 1,
+          "stormCoverage": 0,
+          "loadedRoles": [
+            "libTownDayBreeze",
+            "libShopRainInside"
+          ],
+          "pendingRoles": [],
+          "layers": [
+            {
+              "id": "libTownDayBreeze",
+              "key": "approved-review-libTownDayBreeze",
+              "gain": 0.0018610526315789469,
+              "target": 0.0018610526315789469,
+              "peakContribution": 0.0015803158197894734
+            },
+            {
+              "id": "libShopRainInside",
+              "key": "approved-review-libShopRainInside",
+              "gain": 0.064,
+              "target": 0.064,
+              "peakContribution": 0.0549542208
+            }
+          ]
+        }
+      }
+    },
+    {
+      "phase": "night-wind-settled",
+      "evidence": {
+        "loaded": 51,
+        "loadErrors": [],
+        "contacts": [
+          {
+            "material": "dirt",
+            "scheduledAt": 24389.4,
+            "dispatchedAt": 24393,
+            "frameErrorMs": 3.6
+          },
+          {
+            "material": "stone",
+            "scheduledAt": 24673.1,
+            "dispatchedAt": 24676.6,
+            "frameErrorMs": 3.5
+          }
+        ],
+        "maxMeasuredPeak": 0.17549580335617065,
+        "clippedFrames": 0,
+        "runtimeErrors": [],
+        "sfx": {
+          "count": 0,
+          "scale": 1,
+          "peakBudget": 0.5,
+          "sources": []
+        },
+        "mix": {
+          "master": 1,
+          "sfx": 0.9,
+          "speechDucked": false,
+          "context": "wind",
+          "audioContextState": "running"
+        },
+        "cave": {
+          "entered": false,
+          "preset": 0,
+          "detail": null,
+          "active": [],
+          "pending": []
+        },
+        "weather": {
+          "rainRole": null,
+          "windRole": "windOpen",
+          "rainManaged": false,
+          "windManaged": true,
+          "rainCoverage": 0,
+          "windCoverage": 1,
+          "stormCoverage": 0,
+          "loadedRoles": [
+            "libNightWindOnly"
+          ],
+          "pendingRoles": [],
+          "layers": [
+            {
+              "id": "libNightWindOnly",
+              "key": "approved-review-libNightWindOnly",
+              "gain": 0.02210526315789474,
+              "target": 0.02210526315789474,
+              "peakContribution": 0.015984852947368424
+            }
+          ]
+        }
+      }
+    },
+    {
+      "phase": "muted",
+      "evidence": {
+        "loaded": 51,
+        "loadErrors": [],
+        "contacts": [
+          {
+            "material": "dirt",
+            "scheduledAt": 24389.4,
+            "dispatchedAt": 24393,
+            "frameErrorMs": 3.6
+          },
+          {
+            "material": "stone",
+            "scheduledAt": 24673.1,
+            "dispatchedAt": 24676.6,
+            "frameErrorMs": 3.5
+          }
+        ],
+        "maxMeasuredPeak": 0.17549580335617065,
+        "clippedFrames": 0,
+        "runtimeErrors": [],
+        "sfx": {
+          "count": 0,
+          "scale": 1,
+          "peakBudget": 0.5,
+          "sources": []
+        },
+        "mix": {
+          "master": 1,
+          "sfx": 0,
+          "speechDucked": false,
+          "context": "wind",
+          "audioContextState": "running"
+        },
+        "cave": {
+          "entered": false,
+          "preset": 0,
+          "detail": null,
+          "active": [],
+          "pending": []
+        },
+        "weather": {
+          "rainRole": null,
+          "windRole": null,
+          "rainManaged": false,
+          "windManaged": false,
+          "rainCoverage": 0,
+          "windCoverage": 0,
+          "stormCoverage": 0,
+          "loadedRoles": [],
+          "pendingRoles": [],
+          "layers": []
+        }
+      }
+    },
+    {
+      "phase": "half-master-playback-confirmed",
+      "evidence": {
+        "loaded": 51,
+        "loadErrors": [],
+        "contacts": [
+          {
+            "material": "dirt",
+            "scheduledAt": 24389.4,
+            "dispatchedAt": 24393,
+            "frameErrorMs": 3.6
+          },
+          {
+            "material": "stone",
+            "scheduledAt": 24673.1,
+            "dispatchedAt": 24676.6,
+            "frameErrorMs": 3.5
+          }
+        ],
+        "maxMeasuredPeak": 0.17549580335617065,
+        "clippedFrames": 0,
+        "runtimeErrors": [],
+        "sfx": {
+          "count": 0,
+          "scale": 1,
+          "peakBudget": 0.5,
+          "sources": []
+        },
+        "mix": {
+          "master": 0.5,
+          "sfx": 0.9,
+          "speechDucked": false,
+          "context": "quiet",
+          "audioContextState": "running"
+        },
+        "cave": {
+          "entered": false,
+          "preset": 0,
+          "detail": null,
+          "active": [],
+          "pending": []
+        },
+        "weather": {
+          "rainRole": null,
+          "windRole": null,
+          "rainManaged": false,
+          "windManaged": false,
+          "rainCoverage": 0,
+          "windCoverage": 0,
+          "stormCoverage": 0,
+          "loadedRoles": [],
+          "pendingRoles": [],
+          "layers": []
+        }
+      }
+    },
+    {
+      "phase": "stopped-safe-handoff",
+      "evidence": {
+        "loaded": 51,
+        "loadErrors": [],
+        "contacts": [
+          {
+            "material": "dirt",
+            "scheduledAt": 24389.4,
+            "dispatchedAt": 24393,
+            "frameErrorMs": 3.6
+          },
+          {
+            "material": "stone",
+            "scheduledAt": 24673.1,
+            "dispatchedAt": 24676.6,
+            "frameErrorMs": 3.5
+          }
+        ],
+        "maxMeasuredPeak": 0.17549580335617065,
+        "clippedFrames": 0,
+        "runtimeErrors": [],
+        "sfx": {
+          "count": 0,
+          "scale": 1,
+          "peakBudget": 0.5,
+          "sources": []
+        },
+        "mix": {
+          "master": 0.5,
+          "sfx": 0.9,
+          "speechDucked": false,
+          "context": "quiet",
+          "audioContextState": "running"
+        },
+        "cave": {
+          "entered": false,
+          "preset": 0,
+          "detail": null,
+          "active": [],
+          "pending": []
+        },
+        "weather": {
+          "rainRole": null,
+          "windRole": null,
+          "rainManaged": false,
+          "windManaged": false,
+          "rainCoverage": 0,
+          "windCoverage": 0,
+          "stormCoverage": 0,
+          "loadedRoles": [],
+          "pendingRoles": [],
+          "layers": []
+        }
+      }
+    }
+  ],
+  "passed": true,
+  "checks": [
+    "51 sources loaded; no recorded runtime/load errors or clipped frames",
+    "Two contacts dispatched within a render frame",
+    "Four approved composite stems entered together",
+    "Seven full-master overlapping effects stayed within their measured-source budget",
+    "Speech halved SFX and cleared vocal detail",
+    "Shelter changed rain and reduced outdoor wind to one fifth",
+    "Night used one approved wind variant without rain",
+    "Mute cleared managed audio",
+    "Final handoff is silent at 50 percent master"
+  ]
+}

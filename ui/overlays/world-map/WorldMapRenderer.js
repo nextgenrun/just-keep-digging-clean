@@ -1,4 +1,5 @@
 import { WORLD_MAP_CONFIG } from "../../../values/worldMapConfig.js";
+import { WORLD_MAP_COPY } from "../../../values/playerFacingCopy.js";
 import {
   LEVEL_ONE_BIOME_FIELD,
   resolveLevelOneBiomeFieldAtTile,
@@ -7,6 +8,7 @@ import {
 import { resolveWorldMapPlayerTile } from "../../../systems/map/resolveWorldMapPlayerTile.js";
 import {
   resolveWorldMapBiomeLabels,
+  resolveWorldMapLabelPlacement,
   resolveWorldMapMarkerAnnotations,
 } from "./resolveWorldMapAnnotations.js";
 import { drawWorldMapDepthGrid } from "./drawWorldMapDepthGrid.js";
@@ -195,8 +197,8 @@ export class WorldMapRenderer {
       avoidPoints: markerAnnotations
         .filter(marker => marker.showLabel)
         .map(marker => ({
-          x: marker.x,
-          y: marker.y + config.annotations.markerLabelOffsetYPx,
+          x: marker.labelX,
+          y: marker.labelY,
         })),
       config,
     });
@@ -221,12 +223,13 @@ export class WorldMapRenderer {
           key: "player",
           x: point.x,
           y: point.y,
-          label: config.copy.player,
+          label: WORLD_MAP_COPY.player,
           color: colors.player,
           iconFrame: config.symbolAtlas.frames.player,
           iconSizePx: config.annotations.iconSizesPx.player,
           showLabel: point.pixelsPerTile >= config.annotations.markerLabelMinimumPixelsPerTile,
           priority: config.annotations.markerPriorities.player,
+          ...resolveWorldMapLabelPlacement(point, layout, config),
         };
       }
     }
@@ -243,6 +246,7 @@ export class WorldMapRenderer {
       biomeLabels,
       playerAnnotation,
       currentBiome: currentBiome?.label || "",
+      currentBiomeColor: currentBiome?.mapColor ?? null,
       biomeFieldActive: Boolean(currentBiome),
       discoveredBiomeCount: discoveredBiomeIds.size,
       totalBiomeCount: biomeFieldEnabled ? LEVEL_ONE_BIOME_FIELD.profiles.length : 0,

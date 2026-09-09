@@ -15,7 +15,7 @@ function cue(id, script, promise, detail) {
 export const TUTORIAL_NARRATION_CUES = Object.freeze({
   move: cue(
     "move",
-    "Head to the marked ground. That is your first way down.",
+    "Walk to the glowing marker. Your first route down starts there.",
     "STEP 1  •  WALK TO THE GLOWING ARROW",
     "PRESS {left}/{right}  •  STOP ON THE MARKED GROUND",
   ),
@@ -27,7 +27,7 @@ export const TUTORIAL_NARRATION_CUES = Object.freeze({
   ),
   flight: cue(
     "flight",
-    "Hold Flight to rise. Use it whenever you need to recover locally.",
+    "Hold Flight to rise. Use it to recover from nearby drops.",
     "STEP 3  •  LIFT OFF ONCE",
     "HOLD {fly} UNTIL YOU LEAVE THE GROUND  •  THEN FOLLOW THE GHOST",
   ),
@@ -45,14 +45,14 @@ export const TUTORIAL_NARRATION_CUES = Object.freeze({
   ),
   sell: cue(
     "sell",
-    "Your route is open. Return to town and sell what you actually found.",
-    "STEP 5  •  SELL YOUR REAL CARGO",
-    "RETURN TO THE MONEY MONSTER  •  {interact}  •  SELL 1+ ITEM",
+    "Your route is open. Return to town and sell what you mined.",
+    "STEP 5  •  SELL WHAT YOU MINED",
+    "RETURN TO THE MONEY MONSTER  •  {interact}  •  SELL ANY MATERIAL",
   ),
   upgrade: cue(
     "upgrade",
-    "Spend part of that first haul on one upgrade. The choice is yours.",
-    "STEP 6  •  BUY ONE UPGRADE",
+    "Spend part of your first haul on any affordable upgrade.",
+    "STEP 6  •  BUY YOUR FIRST UPGRADE",
     "VISIT PLAYER UPGRADES  •  BUY ANY AFFORDABLE CHOICE  •  NEXT: RESUME",
   ),
   resume: cue(
@@ -63,9 +63,9 @@ export const TUTORIAL_NARRATION_CUES = Object.freeze({
   ),
   complete: cue(
     "complete",
-    "Your route is yours. Dig deeper, return through gates, and spend only what you earn.",
-    "CORE ROUTE LEARNED  •  DIG DEEPER",
-    "FLIGHT = LOCAL RECOVERY  •  PORTALS = LONG-DISTANCE RETURN",
+    "You're ready. Dig deeper, use Flight for nearby recovery, and use gates to travel farther.",
+    "GUIDED START COMPLETE  •  DIG DEEPER",
+    "FLIGHT = NEARBY RECOVERY  •  GATES = LONG-DISTANCE TRAVEL",
   ),
 });
 

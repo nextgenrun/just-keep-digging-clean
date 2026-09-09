@@ -1,0 +1,83 @@
+{
+  "scenery": "Aurora sanctuary",
+  "mode": "motion",
+  "view": true,
+  "roots": 1,
+  "decoded": true,
+  "playing": true,
+  "time": 18.65,
+  "duration": 29.9,
+  "bufferedEnd": 29.9,
+  "seekableEnd": 29.9,
+  "cadence": {
+    "wraps": [],
+    "frameGapP95": 33.5,
+    "frameGapMax": 33.5
+  },
+  "loopCount": 0,
+  "nativeLoopCount": 1,
+  "nativeLoops": [
+    {
+      "time": 0,
+      "blending": false
+    }
+  ],
+  "handoffs": [],
+  "blendSamples": [],
+  "renderFps": 60,
+  "videoQuality": [
+    {
+      "role": "menu-atmosphere-video",
+      "total": 1460,
+      "dropped": 0
+    }
+  ],
+  "logo": {
+    "state": "playing",
+    "backing": false,
+    "posterVisible": false,
+    "videoAlpha": 1,
+    "blendMode": 0,
+    "playbackRate": 1,
+    "source": "sprites/branding/understar-motion-v6/understar-logo-loop.webm"
+  },
+  "videoStates": [
+    {
+      "role": "menu-atmosphere-video",
+      "alpha": 1,
+      "frameReady": true,
+      "paused": false,
+      "time": 18.649893
+    }
+  ],
+  "videoCount": 1,
+  "videoSources": [
+    "sprites/backgrounds/menu-atmosphere-v6/aurora.mp4"
+  ],
+  "effectiveVideoOpacity": 1,
+  "posterOpacity": 0,
+  "muted": true,
+  "audioTracks": 0,
+  "viewState": "Tip: Default F mines the aimed tile",
+  "videoOpacity": 1,
+  "failedMedia": false,
+  "mediaFallbacks": [],
+  "textureCount": 14,
+  "textureKeys": [
+    "__NORMAL",
+    "__DEFAULT",
+    "__MISSING",
+    "__WHITE",
+    "brand-logo",
+    "brand-logo-backing",
+    "bg-db-f1frtjf1frtjf1fr",
+    "bg-db-g6ozmlg6ozmlg6oz",
+    "bg-db-rimx2primx2primx",
+    "bg-db-kjwykkjwykkjwykk",
+    "bg-db-i30bfci30bfci30b",
+    "bg-db-wocn9hwocn9hwocn",
+    "24397bd3-42fe-4b55-9109-f8c0e9e21f38",
+    "5523c7c5-26e2-4e6f-99ba-fc3b9a38f32d"
+  ],
+  "ownedShutdownListeners": 16
+}

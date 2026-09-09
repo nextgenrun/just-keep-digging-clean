@@ -1,0 +1,17 @@
+{
+  "passed": true,
+  "totalChecks": 9,
+  "checks": [
+    "Routine XP and level-up arrivals do not add UI ticks",
+    "Resource arrivals have an 850ms gap and special XP never adds a queued tail",
+    "Shop bursts yield one short physical receipt, independent of biome",
+    "Cold coin receipts warm silently and mute never consumes a future pickup",
+    "A scene clock rewind cannot suppress pickup and coin channels",
+    "Rollback coin fallbacks also retain the quieter mix and burst limit",
+    "Current review cards report pickup and fallback reward gains from the runtime",
+    "Review playback preserves very quiet and zero gains instead of boosting them",
+    "The real w/h collision body probes under its feet for footsteps and landings"
+  ],
+  "manualPlaythrough": false,
+  "listeningApproved": false
+}

@@ -1,0 +1,100 @@
+{
+  "errors": [],
+  "missing": [],
+  "snapshot": {
+    "activationId": "visual:wayward-star",
+    "active": true,
+    "activeStars": 5,
+    "ageMs": 8441.999999999998,
+    "bounces": 38,
+    "completedStars": 0,
+    "engineId": "wayward-star",
+    "impacts": 38,
+    "lifetimeMs": 9500,
+    "maxBounces": 90,
+    "maxImpacts": 215,
+    "maxRedirects": 0,
+    "maxRouteImpacts": 215,
+    "maxSupernovaImpacts": 0,
+    "presentation": [
+      {
+        "contacts": 9,
+        "lastContact": {
+          "colour": "azure",
+          "x": 880.2218845322417,
+          "y": 96
+        },
+        "liveContactEffects": 2,
+        "livePulses": 0,
+        "liveTrails": 24,
+        "palette": "ember",
+        "passive": false,
+        "trailSamples": 179
+      },
+      {
+        "contacts": 8,
+        "lastContact": {
+          "colour": "mint",
+          "x": 428.9059704421032,
+          "y": 96
+        },
+        "liveContactEffects": 0,
+        "livePulses": 0,
+        "liveTrails": 24,
+        "palette": "azure",
+        "passive": false,
+        "trailSamples": 187
+      },
+      {
+        "contacts": 8,
+        "lastContact": {
+          "colour": "mint",
+          "x": 430.39145888790387,
+          "y": 96
+        },
+        "liveContactEffects": 6,
+        "livePulses": 0,
+        "liveTrails": 21,
+        "palette": "violet",
+        "passive": false,
+        "trailSamples": 170
+      },
+      {
+        "contacts": 7,
+        "lastContact": {
+          "colour": "ember",
+          "x": 384,
+          "y": 346.37089965268535
+        },
+        "liveContactEffects": 4,
+        "livePulses": 0,
+        "liveTrails": 18,
+        "palette": "ember",
+        "passive": false,
+        "trailSamples": 164
+      },
+      {
+        "contacts": 6,
+        "lastContact": {
+          "colour": "rose",
+          "x": 912,
+          "y": 168.63924828323695
+        },
+        "liveContactEffects": 5,
+        "livePulses": 0,
+        "liveTrails": 18,
+        "palette": "azure",
+        "passive": false,
+        "trailSamples": 158
+      }
+    ],
+    "redirects": 0,
+    "remainingMs": 1058.0000000000018,
+    "routeImpacts": 38,
+    "speedTilesPerSecond": 3.2,
+    "starCount": 5,
+    "supernovaImpacts": 0,
+    "uniqueRouteTargets": 22,
+    "uniqueTargets": 22
+  }
+}

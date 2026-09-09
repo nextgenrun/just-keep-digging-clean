@@ -1,3 +1,4 @@
+import { resolveLayeredSkyReviewEnabled } from "../../values/worldVisualLayeredSkyReview.js";
 import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { SKYLINE_WEATHER_VFX } from "../../values/skylineWeatherVfx.js";
 import { SkylineWeatherVfxAtlas } from "./SkylineWeatherVfxAtlas.js";
@@ -17,8 +18,13 @@ export class SkylineWeatherVfxSystem {
   constructor(scene, config = SKYLINE_WEATHER_VFX) {
     this.scene = scene;
     this.config = config;
+    this.layeredReview = resolveLayeredSkyReviewEnabled();
     this.keys = ASSET_KEYS.environment.skylineWeatherVfx;
-    this.atlas = new SkylineWeatherVfxAtlas(scene, this.keys, config);
+    this.atlas = this.layeredReview
+      ? new SkylineWeatherVfxAtlas(scene, { lightning: this.keys.lightning }, {
+        sheets: { lightning: config.sheets.lightning },
+      })
+      : new SkylineWeatherVfxAtlas(scene, this.keys, config);
     this.clouds = [];
     this.fog = [];
     this.lightning = [];
@@ -34,9 +40,11 @@ export class SkylineWeatherVfxSystem {
       return false;
     }
     this.enabled = true;
-    this._createClouds();
-    this._createFog();
-    this.worldWispsEnabled = this.worldWisps.create();
+    if (!this.layeredReview) {
+      this._createClouds();
+      this._createFog();
+      this.worldWispsEnabled = this.worldWisps.create();
+    }
     this._createLightning();
     console.info("[SkylineWeatherVfxSystem] Approved v11 atlases active; use ?skylineVfx=0 to roll back");
     return true;
@@ -59,9 +67,11 @@ export class SkylineWeatherVfxSystem {
     const fog = clamp01(weather.fogAmount ?? 0) * surface;
     const night = clamp01(dayNight?.getNightAmount?.() ?? 0);
 
-    this._updateClouds(dt, weather, tint, night, surface);
-    this._updateFog(dt, fog, weather, tint);
-    this.worldWisps.update(time, rain, surface, weather, tint, night);
+    if (!this.layeredReview) {
+      this._updateClouds(dt, weather, tint, night, surface);
+      this._updateFog(dt, fog, weather, tint);
+      this.worldWisps.update(time, rain, surface, weather, tint, night);
+    }
     this._updateLightning(time, weather, tint);
   }
 

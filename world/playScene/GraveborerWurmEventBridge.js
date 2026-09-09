@@ -21,7 +21,7 @@ function carveNaturalTerrain(scene, runtime, event) {
     ? { x: Math.sign(normal.x) || 1, y: 0 }
     : { x: 0, y: Math.sign(normal.y) || 1 };
   const candidates = new Map();
-  GRAVEBORER_WURM_CONFIG.path.carveLaneOffsetsTiles.forEach(offset => {
+  (event.laneOffsets || GRAVEBORER_WURM_CONFIG.path.carveLaneOffsetsTiles).forEach(offset => {
     const tx = Math.round(event.point.x) + dominantNormal.x * offset;
     const ty = Math.round(event.point.y) + dominantNormal.y * offset;
     candidates.set(`${tx},${ty}`, { tx, ty });
@@ -70,11 +70,19 @@ function applyWurmHit(scene, runtime, event) {
       ? GRAVEBORER_WURM_CONFIG.combat.minimumHeadDamageGp
       : GRAVEBORER_WURM_CONFIG.combat.minimumBodyDamageGp;
   const requested = Math.max(minimum, Math.ceil(maxGp * ratio));
-  const consumed = controller?.consumeGemPower?.(requested, {
+  const gpContext = {
     source: "graveborerWurm",
     part: event.part,
     hazard: true,
-  }) || 0;
+  };
+  const effectiveRequested = controller?.getEffectiveGemPowerCost?.(
+    requested,
+    gpContext,
+  ) ?? requested;
+  const consumed = controller?.consumeGemPower?.(
+    effectiveRequested,
+    gpContext,
+  ) || 0;
   const casualDevSafety = runtime.lastGate?.devOverride === true
     && runtime.lastGate?.hardcoreArmed !== true;
   if (casualDevSafety) {
@@ -127,6 +135,7 @@ export function handleGraveborerWurmEvents(scene, runtime) {
       return;
     }
     if (event.type === "phase" && event.phase === GRAVEBORER_WURM_PHASES.warning) {
+      if (event.passIndex === 1) runtime.lastEncounterResult = null;
       scene.soundSystem?.playTileHit?.();
       scene.shakeSystem?.shake?.("earthquake.warning", 0.62);
       scene.queueDugTilesSave?.();
@@ -138,6 +147,9 @@ export function handleGraveborerWurmEvents(scene, runtime) {
       return;
     }
     if (event.type === "encounter-complete") {
+      runtime.lastEncounterResult = { completedPasses: event.completedPasses,
+        huntHitCount: event.huntHitCount, offspringCount: runtime.system.offspring?.length || 0,
+        tilesCarved: runtime.tilesCarved };
       runtime.encountersCompleted += 1;
       runtime.forcedDevEncounter = false;
       if (runtime.tilesCarved > 0) scene.queueDugTilesSave?.();

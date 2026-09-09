@@ -1,0 +1,14 @@
+import fs from "node:fs/promises";
+import {createRequire} from "node:module";
+const require=createRequire(import.meta.url),{chromium}=require("C:/Users/Mila/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright");
+const b=await chromium.connectOverCDP("http://127.0.0.1:9337");
+const p=await b.contexts()[0].newPage();
+await p.setViewportSize({width:1100,height:1200});
+const response=await p.goto("http://127.0.0.1:8194/visual-approval-previews/2026-09-05-most-seen-visuals/2026-09-05-wired-review.html",{waitUntil:"load"});
+const proof=await p.evaluate(()=>({title:document.title,overflow:document.documentElement.scrollWidth>innerWidth,images:[...document.images].map(i=>({src:i.getAttribute("src"),loaded:i.complete&&i.naturalWidth>0,width:i.naturalWidth,height:i.naturalHeight}))}));
+if(response.status()!==200 || proof.overflow || proof.images.some(i=>!i.loaded)) throw new Error(JSON.stringify(proof));
+await p.screenshot({path:"visual-approval-previews/2026-09-05-most-seen-visuals/wired-gallery-check.jpg",quality:48,fullPage:true});
+await fs.writeFile("visual-approval-previews/2026-09-05-most-seen-visuals/wired-gallery-check.json",JSON.stringify(proof,null,2));
+console.log(JSON.stringify(proof));
+await p.close();
+process.exit(0);

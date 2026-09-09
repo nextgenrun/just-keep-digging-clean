@@ -4,8 +4,11 @@ import { WorldMapStarTerritorySystem } from
   "../systems/map/WorldMapStarTerritorySystem.js";
 import { TILE_TYPES } from "../values/tileTypes.js";
 import { WORLD_MAP_CONFIG } from "../values/worldMapConfig.js";
+import { WORLD_MAP_COPY } from "../values/playerFacingCopy.js";
 import { drawWorldMapStarNavigation } from
   "../ui/overlays/world-map/drawWorldMapStarNavigation.js";
+import { formatWorldMapStatus } from
+  "../ui/overlays/world-map/formatWorldMapStatus.js";
 import { renderWorldMapDiscoveredTerrain } from
   "../ui/overlays/world-map/renderWorldMapDiscoveredTerrain.js";
 
@@ -29,7 +32,7 @@ const addStar = (tx, ty, identityIndex, rarityIndex, consumed = false) => {
 
 addStar(5, 20, 0, 0);
 addStar(30, 20, 1, 1);
-addStar(6, 60, 2, 2, true);
+addStar(6, 68, 2, 2, true);
 
 const model = {
   widthTiles,
@@ -52,7 +55,7 @@ const discoveredCells = [
   { cellX: 3, cellY: 5 },
   { cellX: 4, cellY: 5 },
   { cellX: 7, cellY: 5 },
-  { cellX: 1, cellY: 15 },
+  { cellX: 1, cellY: 17 },
 ];
 const discoveredKeys = new Set(discoveredCells.map(cell => `${cell.cellX},${cell.cellY}`));
 const discovery = {
@@ -69,7 +72,7 @@ const snapshot = system.resolveMap(discovery, { tx: 14, ty: 22 });
 assert.equal(snapshot.cells.length, 4, "Only underground discovered cells receive Star ownership.");
 assert.equal(snapshot.cellByKey.get("3,5").siteKey, "5,20");
 assert.equal(snapshot.cellByKey.get("4,5").siteKey, "30,20");
-assert.equal(snapshot.cellByKey.get("1,15").state, "consumed");
+assert.equal(snapshot.cellByKey.get("1,17").state, "consumed");
 assert.equal(snapshot.currentTerritory.key, "5,20");
 assert.equal(snapshot.currentTerritory.discovered, false);
 assert.equal(snapshot.currentTerritory.direction, "W");
@@ -79,13 +82,35 @@ assert.equal(snapshot.knownConsumedCount, 1);
 const markers = system.getMarkers(discovery, { tx: 14, ty: 22 });
 const signal = markers.find(marker => marker.id === "star-5-20");
 const refuge = markers.find(marker => marker.id === "star-30-20");
-const scar = markers.find(marker => marker.id === "star-6-60");
-assert.equal(signal.label, WORLD_MAP_CONFIG.copy.unidentifiedStar);
+const scar = markers.find(marker => marker.id === "star-6-68");
+assert.equal(signal.label, WORLD_MAP_COPY.unidentifiedStar);
 assert.equal(signal.forceLabel, true);
 assert.equal(signal.alwaysVisible, true);
 assert.match(refuge.detail, /LIGHT.*GP.*PANIC/);
 assert.equal(scar.state, "consumed");
 assert.equal(scar.iconTint, WORLD_MAP_CONFIG.starTerritories.consumedMarkerTint);
+assert.equal(scar.detail, WORLD_MAP_COPY.starRefugeLost);
+const scarSite = snapshot.knownSites.find(site => site.key === "6,68");
+assert.ok(scarSite.biomeName);
+const starBiomeStatus = formatWorldMapStatus({
+  currentDepth: 58,
+  maxDepth: 70,
+  biomeFieldActive: true,
+  currentBiome: scarSite.biomeName,
+  currentStarTerritory: {
+    ...scarSite,
+    discovered: true,
+    distanceTiles: 12,
+    direction: "N",
+  },
+  knownStarTerritoryCount: snapshot.knownSites.length,
+  knownConsumedStarCount: snapshot.knownConsumedCount,
+  markerCount: markers.length,
+}, { zoom: 1.4 });
+assert.match(
+  starBiomeStatus,
+  new RegExp(`${WORLD_MAP_COPY.starAnchorBiome} ${scarSite.biomeName.toUpperCase()}`),
+);
 
 const retainedOwner = snapshot.cellByKey.get("4,5").siteKey;
 types[indexOf(30, 20)] = TILE_TYPES.AIR;

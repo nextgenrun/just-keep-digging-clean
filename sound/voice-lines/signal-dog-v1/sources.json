@@ -1,0 +1,80 @@
+[
+  {
+    "id": 118964,
+    "creator": "esperri",
+    "name": "bark",
+    "title": "Dog Bark 4",
+    "sourceUrl": "https://freesound.org/people/esperri/sounds/118964/",
+    "license": "CC0-1.0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "previewUrl": "https://cdn.freesound.org/previews/118/118964_1990695-hq.mp3",
+    "path": "sound/voice-lines/signal-dog-v1/bark.mp3",
+    "bytes": 21024,
+    "sha256": "3fc8db3948439a553e6dd4344b7b3ba559e90a7ae63d167da95be36207c06601"
+  },
+  {
+    "id": 530604,
+    "creator": "_natiKatz",
+    "name": "whine-bark",
+    "title": "Dog Whine and Bark",
+    "sourceUrl": "https://freesound.org/people/_natiKatz/sounds/530604/",
+    "license": "CC0-1.0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "previewUrl": "https://cdn.freesound.org/previews/530/530604_1621161-hq.mp3",
+    "path": "sound/voice-lines/signal-dog-v1/whine-bark.mp3",
+    "bytes": 172082,
+    "sha256": "0025083c7ad5c2788e60dc38562124d351d4cc741af17f7642ed7ea8a1298b9d"
+  },
+  {
+    "id": 462660,
+    "creator": "Breviceps",
+    "name": "whining",
+    "title": "Whining Dog",
+    "sourceUrl": "https://freesound.org/people/Breviceps/sounds/462660/",
+    "license": "CC0-1.0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "previewUrl": "https://cdn.freesound.org/previews/462/462660_9159316-hq.mp3",
+    "path": "sound/voice-lines/signal-dog-v1/whining.mp3",
+    "bytes": 274659,
+    "sha256": "83d3f3c41aaeb411c8ca76b5373d5214fa91e7f839f7e1590688d2280ec6e51f"
+  },
+  {
+    "id": 735365,
+    "creator": "haulaway",
+    "name": "cry",
+    "title": "Small Dog Cry",
+    "sourceUrl": "https://freesound.org/people/haulaway/sounds/735365/",
+    "license": "CC0-1.0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "previewUrl": "https://cdn.freesound.org/previews/735/735365_7228277-hq.mp3",
+    "path": "sound/voice-lines/signal-dog-v1/cry.mp3",
+    "bytes": 21030,
+    "sha256": "8075d80e0499677e4ec107d7332f1b6577deaa385acda84b7fb68a1e1bb738b4"
+  },
+  {
+    "id": 361429,
+    "creator": "black_trillium",
+    "name": "growl",
+    "title": "Dog Growl",
+    "sourceUrl": "https://freesound.org/people/black_trillium/sounds/361429/",
+    "license": "CC0-1.0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "previewUrl": "https://cdn.freesound.org/previews/361/361429_4889106-hq.mp3",
+    "path": "sound/voice-lines/signal-dog-v1/growl.mp3",
+    "bytes": 547112,
+    "sha256": "8206444d0ff9dbd4b6d7c59726b7f97ce3e4bf423eddbe8402e8d3b0f0a60e18"
+  },
+  {
+    "id": 518566,
+    "creator": "Latranz",
+    "name": "howl",
+    "title": "Dog Howl",
+    "sourceUrl": "https://freesound.org/people/Latranz/sounds/518566/",
+    "license": "CC0-1.0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "previewUrl": "https://cdn.freesound.org/previews/518/518566_6767177-hq.mp3",
+    "path": "sound/voice-lines/signal-dog-v1/howl.mp3",
+    "bytes": 77018,
+    "sha256": "6a1bc206ac46b5c33e873ff11b046e00f57f987891aeea337ec29fc1c2f8ff9b"
+  }
+]

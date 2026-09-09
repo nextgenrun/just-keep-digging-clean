@@ -234,6 +234,14 @@ export class EventVoiceLineDirector {
     this.session.clear();
   }
 
+  suspend() {
+    this.drainTimer?.remove?.();
+    this.drainTimer = null;
+    this.requestQueue.clear();
+    this.session.release(this.activeRequest?.selection);
+    this.activeRequest = null;
+  }
+
   _playRequest(request) {
     if (this.destroyed || this._channelBusy()) return null;
     const result = request.play();

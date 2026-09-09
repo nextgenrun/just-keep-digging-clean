@@ -1,0 +1,80 @@
+[
+  {
+    "path": "values/freesoundAudio.js",
+    "prepared": "values__freesoundAudio.js",
+    "beforeHash": "e8cfb737c735535d5faa401126f89c9872f8ad75c66211b00a70ed54756928aa",
+    "afterHash": "d46dd0df523f34acba4a64e231893e7e42f24faf2b840ecaa3368b8cc319e0a7"
+  },
+  {
+    "path": "sound/FreesoundPaletteBank.js",
+    "prepared": "sound__FreesoundPaletteBank.js",
+    "beforeHash": "cf31bb9e95264b0d03a3ba74fb9390dd2d3d57fbf65df018df74621d3eafb0c8",
+    "afterHash": "60ec646e7e2fbd7ada17cd43dfdd2700cb7a4099c58da82da45d5c8da2a83f08"
+  },
+  {
+    "path": "sound/ReviewedSfxController.js",
+    "prepared": "sound__ReviewedSfxController.js",
+    "beforeHash": "5608387d2254005c2673af6c4f83078ca3fe24a2f4c2165f859c0943f2239377",
+    "afterHash": "9c5dde3ff802772ba84fc767ab2aa40233a79ece130f87ba0f5a673c1617e042"
+  },
+  {
+    "path": "sound/FreesoundAudioDirector.js",
+    "prepared": "sound__FreesoundAudioDirector.js",
+    "beforeHash": "5ed8505b56210a634c80fa1778455e9c1bb266b2bb423b8462c936955bf18e6f",
+    "afterHash": "082660643598ac72bfee9b358601cda1d7c83304592a0f310628df5fa01d9560"
+  },
+  {
+    "path": "sound/SoundSystem.js",
+    "prepared": "sound__SoundSystem.js",
+    "beforeHash": "f678c350ae71a2c3f95dd417476a19ec81dc3996d987bd7bd71808e44817bdae",
+    "afterHash": "d60af74bf841d59e6ec647242cc33416b7e219515c421a65f046830c7be002be"
+  },
+  {
+    "path": "sound/ReviewedAmbienceController.js",
+    "prepared": "sound__ReviewedAmbienceController.js",
+    "beforeHash": "537cbfeafda483583ee581556adbd02b2738ecdcbcea17e7cfb647e21ac961e7",
+    "afterHash": "4927f30efef7177fa3efbc92c0ae19390731683b802857c452671e01ff73f204"
+  },
+  {
+    "path": "world/playScene/PlaySceneGameplay.js",
+    "prepared": "world__playScene__PlaySceneGameplay.js",
+    "beforeHash": "a181045fa94acae1ff95cb9f893d7df8c3970fbee39063fdeaba8ca787daada5",
+    "afterHash": "762a8a513b58c3f5c07d147f950535f78b5dc6f8010dfe7bb2715b8c37ac4456"
+  },
+  {
+    "path": "world/playScene/caveMineFeedback.js",
+    "prepared": "world__playScene__caveMineFeedback.js",
+    "beforeHash": "6007af2040b8f671efa8ed7d8825fdea1b9daf06bba7e8467c108cfa2d17fad0",
+    "afterHash": "08f186d0272e636d59cb6671ee53d579b3bca626c112dde22096775450094304"
+  },
+  {
+    "path": "world/playScene/CaveGameplayController.js",
+    "prepared": "world__playScene__CaveGameplayController.js",
+    "beforeHash": "bbf6a4c588145181b715f8df0eda4c1bd72d409b79c5f61c7c4599200d82ae86",
+    "afterHash": "109c5a84a560145be82be6fa156c9a154e9f56a4a4328c5f1764a45bacb216c8"
+  },
+  {
+    "path": "testing/audio-runtime-reaudit-2026-09-04/catalog-builder.mjs",
+    "prepared": "testing__audio-runtime-reaudit-2026-09-04__catalog-builder.mjs",
+    "beforeHash": "a48bcd8d75b5757ecc21e0b11bbb0a105cea795ebcb9dd0da8ecb94796137418",
+    "afterHash": "953b05c44f38883574f16c469240185ab8c38d1cdf23c345a5e1a6557d456700"
+  },
+  {
+    "path": "sound/readme.md",
+    "prepared": "sound__readme.md",
+    "beforeHash": "92a79df4f6692d244160a85ea2585a2c7f5858bcd5d6af957369055fca1aa278",
+    "afterHash": "7c5fa561d206ca7831bd24edc53fc66f819c25cce51f7f979ec9896ce8e7cd7d"
+  },
+  {
+    "path": "values/readme.md",
+    "prepared": "values__readme.md",
+    "beforeHash": "a8a9dd70777a699f05cf344c74d291016bbcad79b3a8a4704d38deb7460d88d7",
+    "afterHash": "758b4f2550b8a6609f5547dc48f52fc8d8077adddabec1f68c98d27ff8a16f0f"
+  },
+  {
+    "path": "testing/audio-runtime-reaudit-2026-09-04/readme.md",
+    "prepared": "testing__audio-runtime-reaudit-2026-09-04__readme.md",
+    "beforeHash": "7dfe978b7791c798f0e97020e18fe92f4e4f223b09902b7ebbd8fe0ff56370ce",
+    "afterHash": "3d484be64ff3ba0afbdd8ca0baddad65076c1ad1b4ae96254becc9a933ebe38b"
+  }
+]

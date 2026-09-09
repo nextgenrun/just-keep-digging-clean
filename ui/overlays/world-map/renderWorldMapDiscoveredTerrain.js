@@ -3,6 +3,7 @@ import {
   resolveLevelOneBiomeFieldAtTile,
 } from "../../../values/levelOneBiomeField.js";
 import { WORLD_MAP_CONFIG } from "../../../values/worldMapConfig.js";
+import { isWorldMapTerrainDetailActive } from "./WorldMapTerrainTextureView.js";
 
 function territoryKey(cellX, cellY) {
   return `${cellX},${cellY}`;
@@ -65,6 +66,10 @@ export function renderWorldMapDiscoveredTerrain({
   const bandColors = config.colors.depthBands;
   const discoveredBiomeIds = new Set();
   const visibleTerritories = [];
+  const pixelsPerTile = worldToScreen(0, 0, layout).pixelsPerTile;
+  const terrainDetailActive = isWorldMapTerrainDetailActive(
+    layout, pixelsPerTile, config,
+  );
 
   for (const { cellX, cellY } of discoverySystem.getDiscoveredCells()) {
     const tileX = cellX * cellSize;
@@ -96,7 +101,10 @@ export function renderWorldMapDiscoveredTerrain({
       Math.floor(depthRatio * bandColors.length),
     );
     if (biome) discoveredBiomeIds.add(biome.id);
-    graphics.fillStyle(biome?.mapColor ?? bandColors[bandIndex], drawing.cellAlpha);
+    graphics.fillStyle(
+      biome?.mapColor ?? bandColors[bandIndex],
+      terrainDetailActive ? config.terrainDetail.biomeBackdropAlpha : drawing.cellAlpha,
+    );
     graphics.fillRect(point.x, point.y, sizePx, sizePx);
 
     const territory = territorySnapshot?.cellByKey?.get?.(territoryKey(cellX, cellY));
@@ -115,7 +123,10 @@ export function renderWorldMapDiscoveredTerrain({
       visibleTerritories.push({ territory, point, sizePx, cellX, cellY });
     }
 
-    if (point.pixelsPerTile * cellSize >= drawing.cellOutlineMinimumPx) {
+    if (
+      !terrainDetailActive
+      && point.pixelsPerTile * cellSize >= drawing.cellOutlineMinimumPx
+    ) {
       graphics.lineStyle(
         drawing.cellOutlineWidthPx,
         config.colors.discoveredOutline,

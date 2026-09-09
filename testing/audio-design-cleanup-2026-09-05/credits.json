@@ -1,0 +1,366 @@
+{
+  "sources": [
+    {
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-808016.ogg",
+      "title": "COMTran_Walkie Talkie Beep With Noise.Dispatch Signal.Artificial x3_EM",
+      "sourceUrls": [
+        "https://freesound.org/people/newlocknew/sounds/808016/"
+      ],
+      "licenses": [
+        "CC-BY-4.0"
+      ]
+    },
+    {
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-767348.ogg",
+      "title": "Crispy Impact Remix Body Ice Hard Hitting",
+      "sourceUrls": [
+        "https://freesound.org/people/DeqstersLab/sounds/767348/"
+      ],
+      "licenses": [
+        "CC-BY-4.0"
+      ]
+    },
+    {
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-703115.ogg",
+      "title": "crush1.wav",
+      "sourceUrls": [
+        "https://freesound.org/people/franzzle/sounds/703115/"
+      ],
+      "licenses": [
+        "CC0-1.0"
+      ]
+    },
+    {
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-685253.ogg",
+      "title": "Freeze sound effect FX",
+      "sourceUrls": [
+        "https://freesound.org/people/antonsoederberg/sounds/685253/"
+      ],
+      "licenses": [
+        "CC0-1.0"
+      ]
+    },
+    {
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-536921.ogg",
+      "title": "Ice Crack Low",
+      "sourceUrls": [
+        "https://freesound.org/people/EminYILDIRIM/sounds/536921/"
+      ],
+      "licenses": [
+        "CC-BY-4.0"
+      ]
+    },
+    {
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-119452.ogg",
+      "title": "Ice Cube Tray Crack.wav",
+      "sourceUrls": [
+        "https://freesound.org/people/lmbubec/sounds/119452/"
+      ],
+      "licenses": [
+        "CC0-1.0"
+      ]
+    },
+    {
+      "path": "sound/soundEffects/approved-review-2026-09-03/libDirtBreak.ogg",
+      "title": "libDirtBreak",
+      "sourceUrls": [],
+      "licenses": []
+    },
+    {
+      "path": "sound/soundEffects/approved-review-2026-09-03/libStoneBreak.ogg",
+      "title": "libStoneBreak",
+      "sourceUrls": [],
+      "licenses": []
+    },
+    {
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-540264.ogg",
+      "title": "dig.wav",
+      "sourceUrls": [
+        "https://freesound.org/people/zepurple/sounds/540264/"
+      ],
+      "licenses": [
+        "CC0-1.0"
+      ]
+    },
+    {
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-651292.ogg",
+      "title": "Digging in wet course sand (1)",
+      "sourceUrls": [
+        "https://freesound.org/people/f3bbbo/sounds/651292/"
+      ],
+      "licenses": [
+        "CC0-1.0"
+      ]
+    },
+    {
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-651293.ogg",
+      "title": "Digging in wet course sand (2)",
+      "sourceUrls": [
+        "https://freesound.org/people/f3bbbo/sounds/651293/"
+      ],
+      "licenses": [
+        "CC0-1.0"
+      ]
+    },
+    {
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-674384.ogg",
+      "title": "IcePick_StoneHit01.wav",
+      "sourceUrls": [
+        "https://freesound.org/people/marb7e/sounds/674384/"
+      ],
+      "licenses": [
+        "CC-BY-4.0"
+      ]
+    },
+    {
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-674385.ogg",
+      "title": "IcePick_StoneHit02.wav",
+      "sourceUrls": [
+        "https://freesound.org/people/marb7e/sounds/674385/"
+      ],
+      "licenses": [
+        "CC-BY-4.0"
+      ]
+    },
+    {
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-674386.ogg",
+      "title": "IcePick_StoneHit03.wav",
+      "sourceUrls": [
+        "https://freesound.org/people/marb7e/sounds/674386/"
+      ],
+      "licenses": [
+        "CC-BY-4.0"
+      ]
+    },
+    {
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-728756.ogg",
+      "title": "Metallic pickaxe 1/4",
+      "sourceUrls": [
+        "https://freesound.org/people/TechspiredMinds/sounds/728756/"
+      ],
+      "licenses": [
+        "CC-BY-4.0"
+      ]
+    },
+    {
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-728757.ogg",
+      "title": "Metallic pickaxe 2/4",
+      "sourceUrls": [
+        "https://freesound.org/people/TechspiredMinds/sounds/728757/"
+      ],
+      "licenses": [
+        "CC-BY-4.0"
+      ]
+    },
+    {
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-728758.ogg",
+      "title": "Metallic pickaxe 3/4",
+      "sourceUrls": [
+        "https://freesound.org/people/TechspiredMinds/sounds/728758/"
+      ],
+      "licenses": [
+        "CC-BY-4.0"
+      ]
+    },
+    {
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-728759.ogg",
+      "title": "Metallic pickaxe 4/4",
+      "sourceUrls": [
+        "https://freesound.org/people/TechspiredMinds/sounds/728759/"
+      ],
+      "licenses": [
+        "CC-BY-4.0"
+      ]
+    },
+    {
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-760565.ogg",
+      "title": "Pickaxe1",
+      "sourceUrls": [
+        "https://freesound.org/people/NoisyRedFox/sounds/760565/"
+      ],
+      "licenses": [
+        "CC0-1.0"
+      ]
+    },
+    {
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-760566.ogg",
+      "title": "Pickaxe2",
+      "sourceUrls": [
+        "https://freesound.org/people/NoisyRedFox/sounds/760566/"
+      ],
+      "licenses": [
+        "CC0-1.0"
+      ]
+    },
+    {
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-760567.ogg",
+      "title": "Pickaxe3",
+      "sourceUrls": [
+        "https://freesound.org/people/NoisyRedFox/sounds/760567/"
+      ],
+      "licenses": [
+        "CC0-1.0"
+      ]
+    },
+    {
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-213005.ogg",
+      "title": "Shovel.wav",
+      "sourceUrls": [
+        "https://freesound.org/people/abstraktgeneriert/sounds/213005/"
+      ],
+      "licenses": [
+        "CC0-1.0"
+      ]
+    },
+    {
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-815336.ogg",
+      "title": "superhero_earth_impact_hit_07062025",
+      "sourceUrls": [
+        "https://freesound.org/people/Artninja/sounds/815336/"
+      ],
+      "licenses": [
+        "CC-BY-4.0"
+      ]
+    },
+    {
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-166511.ogg",
+      "title": "dirt/gravel footstep 1",
+      "sourceUrls": [
+        "https://freesound.org/people/Yoyodaman234/sounds/166511/"
+      ],
+      "licenses": [
+        "CC0-1.0"
+      ]
+    },
+    {
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-166510.ogg",
+      "title": "dirt/gravel footstep 2",
+      "sourceUrls": [
+        "https://freesound.org/people/Yoyodaman234/sounds/166510/"
+      ],
+      "licenses": [
+        "CC0-1.0"
+      ]
+    },
+    {
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-223154.ogg",
+      "title": "dirt/gravel footstep 3",
+      "sourceUrls": [
+        "https://freesound.org/people/Yoyodaman234/sounds/223154/"
+      ],
+      "licenses": [
+        "CC0-1.0"
+      ]
+    },
+    {
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-223153.ogg",
+      "title": "dirt/gravel footstep 4",
+      "sourceUrls": [
+        "https://freesound.org/people/Yoyodaman234/sounds/223153/"
+      ],
+      "licenses": [
+        "CC0-1.0"
+      ]
+    },
+    {
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-270415.ogg",
+      "title": "Footstep_Dirt_00.wav",
+      "sourceUrls": [
+        "https://freesound.org/people/LittleRobotSoundFactory/sounds/270415/"
+      ],
+      "licenses": [
+        "CC-BY-4.0"
+      ]
+    },
+    {
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-270419.ogg",
+      "title": "Footstep_Dirt_04.wav",
+      "sourceUrls": [
+        "https://freesound.org/people/LittleRobotSoundFactory/sounds/270419/"
+      ],
+      "licenses": [
+        "CC-BY-4.0"
+      ]
+    },
+    {
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-270418.ogg",
+      "title": "Footstep_Dirt_05.wav",
+      "sourceUrls": [
+        "https://freesound.org/people/LittleRobotSoundFactory/sounds/270418/"
+      ],
+      "licenses": [
+        "CC-BY-4.0"
+      ]
+    },
+    {
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-270417.ogg",
+      "title": "Footstep_Dirt_06.wav",
+      "sourceUrls": [
+        "https://freesound.org/people/LittleRobotSoundFactory/sounds/270417/"
+      ],
+      "licenses": [
+        "CC-BY-4.0"
+      ]
+    },
+    {
+      "path": "sound/soundEffects/costume-sounds/footsteps/footstep-1.ogg",
+      "title": "footstep-1.ogg",
+      "sourceUrls": [],
+      "licenses": []
+    },
+    {
+      "path": "sound/soundEffects/costume-sounds/footsteps/footstep-3.ogg",
+      "title": "footstep-3.ogg",
+      "sourceUrls": [],
+      "licenses": []
+    },
+    {
+      "path": "sound/soundEffects/costume-sounds/footsteps/footstep-4.ogg",
+      "title": "footstep-4.ogg",
+      "sourceUrls": [],
+      "licenses": []
+    },
+    {
+      "path": "sound/soundEffects/approved-review-2026-09-03/libLandingDebris.ogg",
+      "title": "libLandingDebris",
+      "sourceUrls": [],
+      "licenses": []
+    },
+    {
+      "path": "sound/soundEffects/approved-review-2026-09-03/libDirtSwingA.ogg",
+      "title": "libDirtSwingA",
+      "sourceUrls": [],
+      "licenses": []
+    },
+    {
+      "path": "sound/soundEffects/approved-review-2026-09-03/libToolContact.ogg",
+      "title": "libToolContact",
+      "sourceUrls": [],
+      "licenses": []
+    },
+    {
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-334420.ogg",
+      "title": "MetalHit1_boom.wav",
+      "sourceUrls": [
+        "https://freesound.org/people/Markozz/sounds/334420/"
+      ],
+      "licenses": [
+        "CC0-1.0"
+      ]
+    },
+    {
+      "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-334419.ogg",
+      "title": "MetalHit2_boom.wav",
+      "sourceUrls": [
+        "https://freesound.org/people/Markozz/sounds/334419/"
+      ],
+      "licenses": [
+        "CC0-1.0"
+      ]
+    }
+  ],
+  "additionalProvenance": [
+    "sound/soundEffects/approved-freesound-2026-09-03/manifest.json",
+    "sound/soundEffects/approved-review-2026-09-03/manifest.json"
+  ]
+}

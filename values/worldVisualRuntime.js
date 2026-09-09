@@ -1,3 +1,6 @@
+import { WORLD_VISUAL_RUNTIME_MODES, WORLD_VISUAL_RUNTIME_SELECTION, resolveWorldVisualRuntimeMode } from "./worldVisualRuntimeSelection.js";
+export { WORLD_VISUAL_RUNTIME_MODES, resolveWorldVisualRuntimeMode };
+import { getLayeredSkyReviewAssets, resolveLayeredSkyReviewEnabled } from "./worldVisualLayeredSkyReview.js";
 import {
   WORLD_VISUAL_SURFACE_PACKS,
   getWorldVisualSurfacePackPreloadAssets,
@@ -24,16 +27,8 @@ const SURFACE_GROUND_VARIATION_ASSETS = Object.freeze([
   "surface-eastern-expedition-rock-v5",
 ].map(surfaceGroundVariationAsset));
 
-export const WORLD_VISUAL_RUNTIME_MODES = Object.freeze({
-  scenic: "scenic-v2",
-  legacy: "legacy",
-});
-
 export const WORLD_VISUAL_RUNTIME = Object.freeze({
-  defaultMode: WORLD_VISUAL_RUNTIME_MODES.scenic,
-  queryParam: "worldVisualRuntime",
-  legacyValues: Object.freeze(["legacy", "tiled", "tiles", "old"]),
-  scenicValues: Object.freeze(["scenic", "scenic-v2", "new", "v2"]),
+  ...WORLD_VISUAL_RUNTIME_SELECTION,
   streaming: Object.freeze({
     updateIntervalMs: 50,
     maskMarginTiles: 2,
@@ -135,16 +130,6 @@ export const WORLD_VISUAL_RUNTIME = Object.freeze({
   surfacePacks: WORLD_VISUAL_SURFACE_PACKS,
 });
 
-export function resolveWorldVisualRuntimeMode(
-  config = WORLD_VISUAL_RUNTIME,
-  search = globalThis.location?.search || ""
-) {
-  const value = new URLSearchParams(search).get(config.queryParam)?.trim().toLowerCase();
-  if (value && config.legacyValues.includes(value)) return WORLD_VISUAL_RUNTIME_MODES.legacy;
-  if (value && config.scenicValues.includes(value)) return WORLD_VISUAL_RUNTIME_MODES.scenic;
-  return config.defaultMode;
-}
-
 export function isScenicWorldVisualRuntime(config = WORLD_VISUAL_RUNTIME, search) {
   return resolveWorldVisualRuntimeMode(config, search) === WORLD_VISUAL_RUNTIME_MODES.scenic;
 }
@@ -212,9 +197,11 @@ export function getWorldVisualPreloadAssets(
   const baseAssets = Object.entries(config.assets)
     .filter(([name]) => name !== "surfaceEdge" || includeSurfaceEdge)
     .filter(([name]) => name !== "town" || !surfacePack)
+    .filter(([name]) => name !== "far" || !resolveLayeredSkyReviewEnabled(search))
     .map(([, asset]) => asset);
   return [
     ...baseAssets,
+    ...getLayeredSkyReviewAssets(search),
     ...(resolveWorldVisualSurfaceGroundVariationEnabled(config, search)
       ? config.surface.surfaceGroundVariation.assets
       : []),

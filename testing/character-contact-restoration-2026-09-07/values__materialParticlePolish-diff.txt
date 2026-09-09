@@ -1,0 +1,31 @@
+--- testing\character-contact-restoration-2026-09-07\pre-change\values__materialParticlePolish.js
+
++++ values\materialParticlePolish.js
+
+@@ -3,8 +3,8 @@
+
+   travel, gravity, spin, flashScale, fade, scuffAlpha,
+ });
+-const EARTH = response(0.78, 1.2, 0.7, 1, 1.2, 0.48);
+-const ROCK = response(1, 1.12, 1, 0.94, 0.95, 0.3);
+-const METAL = response(1.12, 1.08, 1.15, 0.9, 0.86, 0.26);
+-const CRYSTAL = response(1.06, 0.82, 0.72, 0.94, 1.08, 0.28);
++const EARTH = response(0.78, 1.2, 0.7, 1, 1.2, 0.7);
++const ROCK = response(1, 1.12, 1, 0.94, 0.95, 0.54);
++const METAL = response(1.12, 1.08, 1.15, 0.9, 0.86, 0.54);
++const CRYSTAL = response(1.06, 0.82, 0.72, 0.94, 1.08, 0.54);
+ 
+ export const MATERIAL_PARTICLE_POLISH = Object.freeze({
+@@ -32,8 +32,8 @@
+
+   }).map(([key, frames]) => [key, Object.freeze(frames)]))),
+   foot: Object.freeze({
+-    sizeTiles: Object.freeze([0.018, 0.038]),
++    sizeTiles: Object.freeze([0.035, 0.06]), count: 5,
+     scuffFrame: "p04", scuffOriginY: 0.79,
+-    scuffWidthTiles: 0.22, scuffStartScale: 0.76, scuffEndScale: 1.34,
+-    scuffDriftTiles: 0.055, scuffFadeMs: 210,
++    scuffWidthTiles: 0.34, scuffStartScale: 0.9, scuffEndScale: 1.25,
++    scuffDriftTiles: 0.055, scuffFadeMs: 280,
+     minimumDepth: 38.2, depthOffset: 0.2,
+     floorInsetTiles: 0.006, reducedTravel: 0.3,

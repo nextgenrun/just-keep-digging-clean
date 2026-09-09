@@ -16,68 +16,45 @@ export class PlayerLevelSystem {
       miningDamageMultiplier: 1,
       miningFlatDamageBonus: 0,
       miningSpeedBonus: 0,
-      criticalHitChance: 0,
-      criticalHitDamage: 0,
       maxHpBonus: 0,
       xpMultiplier: 0,
-      resourceLuck: 0,
       globalMiningSpeed: 0,
       perLevelSpeed: 0,
       hardcapMiningSpeed: 0,
-      darknessResistanceMeters: 0,
+      panicResistanceMeters: 0,
     };
     this.comboSystem = null;
     this.campfireSystem = null;
-    this.temporaryCriticalDamageBonusProvider = null;
     this.choiceSelections = {
       miningPower: 0,
-      resourceLuck: 0,
     };
     this.automaticMilestoneRewards = 0;
   }
 
   setComboSystem(comboSystem) { this.comboSystem = comboSystem; }
   setCampfireSystem(campfireSystem) { this.campfireSystem = campfireSystem; }
-  setTemporaryCriticalDamageBonusProvider(provider) {
-    this.temporaryCriticalDamageBonusProvider = typeof provider === "function" ? provider : null;
-  }
   getBonusesSummary() {
     return {
       level: this.level,
       miningDamageMultiplier: this.calculatedBonuses.miningDamageMultiplier,
       miningFlatDamageBonus: this.calculatedBonuses.miningFlatDamageBonus,
       miningSpeedBonus: this.calculatedBonuses.miningSpeedBonus,
-      criticalHitChance: this.getCriticalHitChance(),
-      criticalHitDamage: this.calculatedBonuses.criticalHitDamage,
       maxHpBonus: this.calculatedBonuses.maxHpBonus,
       xpMultiplier: this.getXpMultiplier(),
-      resourceLuck: this.calculatedBonuses.resourceLuck,
       globalMiningSpeed: this.calculatedBonuses.globalMiningSpeed,
       perLevelSpeed: this.calculatedBonuses.perLevelSpeed,
       hardcapMiningSpeed: this.calculatedBonuses.hardcapMiningSpeed,
       gemPowerMaxBonus: this.getGemPowerMaxBonus(),
-      darknessResistanceMeters: this.getDarknessResistanceMeters(),
+      panicResistanceMeters: this.getPanicResistanceMeters(),
     };
   }
 
   getMiningDamageMultiplier() { return this.calculatedBonuses.miningDamageMultiplier; }
   getMiningFlatDamageBonus() { return this.calculatedBonuses.miningFlatDamageBonus; }
-  getCriticalHitChance() {
-    const campfireBonus = this.campfireSystem?.getCritBonus?.() || 0;
-    return Math.min(1, this.calculatedBonuses.criticalHitChance + campfireBonus);
-  }
   getXpMultiplier() {
     const campfireBonus = this.campfireSystem?.getXpBonus?.() || 0;
     return this.calculatedBonuses.xpMultiplier + campfireBonus;
   }
-  getCriticalHitDamageMultiplier() {
-    const temporaryBonus = Number(this.temporaryCriticalDamageBonusProvider?.()) || 0;
-    return 1.5 + (this.calculatedBonuses.criticalHitDamage || 0) / 100 + Math.max(0, temporaryBonus);
-  }
-  checkResourceLuck() {
-    return this.calculatedBonuses.resourceLuck > 0 && Math.random() < this.calculatedBonuses.resourceLuck;
-  }
-
   getMiningSpeedBonus() {
     let speed = this.calculatedBonuses.globalMiningSpeed;
     speed += this.calculatedBonuses.perLevelSpeed;
@@ -98,7 +75,7 @@ export class PlayerLevelSystem {
         + (legacyLevel - LEVEL_CONFIG.LEGACY_SOFTCAP) * gpPerLevelHardcap;
   }
 
-  getDarknessResistanceMeters(level = this.level) { return LEVEL_CONFIG.getDarknessResistanceMeters(level); }
+  getPanicResistanceMeters(level = this.level) { return LEVEL_CONFIG.getPanicResistanceMeters(level); }
   gainXP(resourceType) {
     const baseXP = LEVEL_CONFIG.TILE_XP[resourceType] || LEVEL_CONFIG.defaultXP || 1;
     const xpMultiplier = 1 + this.getXpMultiplier();
@@ -204,7 +181,6 @@ export class PlayerLevelSystem {
       count,
       total: this.automaticMilestoneRewards,
       miningPower: LEVEL_CONFIG.CHOICE_REWARDS.miningPower.damageBonus * count,
-      resourceLuck: LEVEL_CONFIG.CHOICE_REWARDS.resourceLuck.luckBonus * count,
     };
   }
 
@@ -266,18 +242,11 @@ export class PlayerLevelSystem {
     this._recalculateBonuses();
     if (restored.calculatedBonuses) {
       const legacyDamage = Number(restored.calculatedBonuses.miningDamageMultiplier);
-      const legacyLuck = Number(restored.calculatedBonuses.resourceLuck);
       const damageExcess = Number.isFinite(legacyDamage)
         ? Math.max(0, legacyDamage - this.calculatedBonuses.miningDamageMultiplier)
         : 0;
-      const luckExcess = Number.isFinite(legacyLuck)
-        ? Math.max(0, legacyLuck - this.calculatedBonuses.resourceLuck)
-        : 0;
       this.choiceSelections.miningPower = Math.round(
         damageExcess / Math.max(0.0001, LEVEL_CONFIG.CHOICE_REWARDS.miningPower.damageBonus)
-      );
-      this.choiceSelections.resourceLuck = Math.round(
-        luckExcess / Math.max(0.0001, LEVEL_CONFIG.CHOICE_REWARDS.resourceLuck.luckBonus)
       );
       this._recalculateBonuses();
     }

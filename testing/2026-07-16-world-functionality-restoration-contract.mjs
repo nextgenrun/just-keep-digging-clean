@@ -30,7 +30,6 @@ const functionalTypes = [
   "GEM_POWER_BLOCK",
   "SPEED_BLOCK",
   "XP_BLOCK",
-  "CRIT_BLOCK",
   "BERSERK_BLOCK",
   "COMBO_BLOCK",
   "LEGEND_BLOCK",

@@ -2,6 +2,7 @@
  * CaveScene — fixed cave destination backed by the normal tile/player/mining stack.
  */
 import { CAVE_SCENE_CONFIG } from "../../values/caveSceneConfig.js";
+import { RuntimeAudioAssetManager } from "../../sound/RuntimeAudioAssetManager.js";
 import {
   CAVE_LEVEL_CONFIG,
   getCaveLevelVisualPack,
@@ -10,10 +11,11 @@ import {
 import { getCaveArchetype } from "../../values/caveArchetypes.js";
 import { GAMEFEEL_CONFIG } from "../../values/gamefeel.js";
 import { ASSET_KEYS } from "../../values/assetKeys.js";
+import { resolvePlayerDisplaySizePx } from "../../values/playerAssetProfiles.js?rev=20260831-stable-animation-size-v1";
 import { WORLD_GEN_CONFIG } from "../../values/worldGen.js";
 import { CaveWorldModel, makeCaveTileSaveKey } from "../../world/model/CaveWorldModel.js";
 import { WorldRenderer } from "../../world/rendering/WorldRenderer.js";
-import { CaveGameplayController } from "../../world/playScene/CaveGameplayController.js?rev=20260821-moving-complex-dig-v1";
+import { CaveGameplayController } from "../../world/playScene/CaveGameplayController.js?rev=20260831-stable-animation-moving-drop-v1";
 import { USER_SETTINGS } from "../../systems/UserSettings.js";
 import { SCENE_BASE_PHASES } from "../../values/sceneRuntime.js";
 import { CameraShakeSystem } from "../../systems/visual/CameraShakeSystem.js";
@@ -81,6 +83,16 @@ export class CaveScene extends Phaser.Scene {
   }
 
   create() {
+    // The origin scene is paused here. Keep its mixer, but use this scene's
+    // live clock/loader so cooldowns and lazy cave assets continue to work.
+    this.reviewedAudioAssets = new RuntimeAudioAssetManager(this);
+    if (this.originScene.soundSystem) {
+      this.originScene.soundSystem.reviewedAssetManager = this.reviewedAudioAssets;
+      this.originScene.soundSystem.reviewedClock = () => this.time.now;
+      this.originScene.soundSystem.freesoundAudio?.panic.stop(true);
+      this.events.on("pause", this.originScene.soundSystem._suspendAudio);
+      this.events.on("sleep", this.originScene.soundSystem._suspendAudio);
+    }
     const grid = this.expandedLevelEnabled ? CAVE_LEVEL_CONFIG.grid : CAVE_SCENE_CONFIG.grid;
     const tileSize = this.originScene.config.tileSize;
     const depthTiles = Math.max(0, this.entryData?.depthTiles || 0);
@@ -169,10 +181,19 @@ export class CaveScene extends Phaser.Scene {
   update(time, delta) {
     if (this.isLeaving || !this.gameplay) return;
     if (this.uiNotifications?.handleInput?.()) {
+      this.originScene.soundSystem?.freesoundAudio?.stop();
       this._updateGpText();
       return;
     }
     this.gameplay.update(time, delta);
+    const audio = this.originScene.soundSystem;
+    audio?.freesoundAudio?.updateFromCaveScene(this, this.time.now, delta);
+    audio?.reviewedAmbience?.update({ time: this.time.now, delta,
+      depth: this.entryData?.depthTiles || 0, active: true,
+      speaking: audio.voiceLineManager?.isBusy?.() === true,
+      detailAllowed: audio.freesoundAudio?.allowDetail?.() !== false,
+      ambienceGain: audio.freesoundAudio?.decorativeGain?.() ?? 1 });
+    audio?.reviewedAmbience?.observeMotion(this.gameplay.playerController, delta);
     this.shakeSystem?.update(time, delta);
     this._updateGpText();
     this._tryExit();
@@ -204,10 +225,13 @@ export class CaveScene extends Phaser.Scene {
       profile.isLivingDrill ? undefined : profile.idleFrames?.[0]
     ).setOrigin(sourcePlayer?.originX ?? 0.5, sourcePlayer?.originY ?? 1).setDepth(CAVE_SCENE_CONFIG.player.spriteDepth);
 
-    if (sourcePlayer?.displayWidth && sourcePlayer?.displayHeight) {
-      this.player.setDisplaySize(sourcePlayer.displayWidth, sourcePlayer.displayHeight);
-    }
     if (profile.idleAnim && this.anims.exists(profile.idleAnim)) this.player.play(profile.idleAnim, true);
+    const displaySize = resolvePlayerDisplaySizePx(
+      profile,
+      this.config.playerDisplaySizePx,
+      profile.idleAnim,
+    );
+    this.player.setDisplaySize(displaySize, displaySize);
   }
 
   _configureCamera() {
@@ -267,6 +291,18 @@ export class CaveScene extends Phaser.Scene {
   }
 
   _handleShutdown() {
+    const audio = this.originScene?.soundSystem;
+    if (audio?.reviewedAssetManager === this.reviewedAudioAssets) {
+      audio.freesoundAudio?.stop();
+      this.events.off("pause", audio._suspendAudio);
+      this.events.off("sleep", audio._suspendAudio);
+      audio.reviewedAmbience.stop();
+      audio.reviewedSfx.stop();
+      audio.reviewedAssetManager = null;
+      audio.reviewedClock = null;
+    }
+    this.reviewedAudioAssets?.destroy();
+    this.reviewedAudioAssets = null;
     this._syncToOrigin();
     this.uiNotifications?.destroy();
     this.uiNotifications = null;

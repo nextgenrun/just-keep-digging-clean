@@ -29,6 +29,12 @@ import {
   RUNTIME_FEATURE_ASSET_GROUP_IDS,
 } from "../../values/runtimeAssetLoading.js";
 import { StarPillarWorldVisual } from "./StarPillarWorldVisual.js";
+import {
+  WORLDROOT_CONFIG,
+  isWorldrootEnabled,
+} from "../../values/worldroot.js?rev=20260830-worldroot-v13";
+import { resolveWorldrootSnapshot } from "./WorldrootStateResolver.js?rev=20260830-worldroot-v11";
+import { WorldrootWorldVisual } from "./WorldrootWorldVisual.js?rev=20260901-worldroot-v4-clean-matte-v2";
 
 // ─── Module-level constants ───────────────────────────────────────────────────
 
@@ -90,6 +96,11 @@ export class StarPillarSystem {
     this._townPillarBaseY = 0;
     this._townWorldVisual = null;
     this._townPrompt = null;
+    this._townUsesWorldroot = isWorldrootEnabled();
+    this._worldrootSnapshot = null;
+    this._worldrootPreviewBaseline = null;
+    this._worldrootPreviewEndgameStartedBaseline = null;
+    this._lastWorldrootSyncAt = Number.NEGATIVE_INFINITY;
 
     // Approved production world visual
     this._worldVisual  = null;
@@ -135,8 +146,11 @@ export class StarPillarSystem {
       ?.getSnapshot?.();
     const initialProgress = initialSnapshot?.pillarProgressUnits
       ?? Math.min(10, initialSnapshot?.purchasedNodeIds?.length || 0);
+    this._worldrootSnapshot = this._townUsesWorldroot
+      ? resolveWorldrootSnapshot(this.scene, this.scene.playerController?.getPlayerTile?.())
+      : null;
     this._buildPillarVisual(initialProgress);
-    this._buildTownPillarVisual(initialProgress);
+    this._buildTownPillarVisual(initialProgress, this._worldrootSnapshot);
     this._buildEPrompt();
     this._buildTownPrompt();
     this._lastUnlockedCount = initialProgress;
@@ -162,14 +176,26 @@ export class StarPillarSystem {
       this.config.starPillarProximityTiles,
       this.config.starPillarProximityTiles + 2,
     );
+    if (
+      this._townUsesWorldroot
+      && time - this._lastWorldrootSyncAt >= WORLDROOT_CONFIG.syncIntervalMs
+    ) {
+      this._worldrootSnapshot = resolveWorldrootSnapshot(this.scene, playerTile);
+      this._townWorldVisual?.sync?.(this._worldrootSnapshot, true);
+      this._lastWorldrootSyncAt = time;
+    }
+    this._townWorldVisual?.update?.(time, delta, playerTile);
     const town = CELESTIAL_PILLAR_ACCESS_CONFIG.town;
-    const townDistance = this._getAnchorInteractionDistance(
-      playerTile,
-      this._townPillarTileX,
-      this._townPillarTileY,
-      town.proximityTiles,
-      town.verticalProximityTiles,
-    );
+    const townDistance = this._townUsesWorldroot
+      ? this._townWorldVisual?.getInteractionDistance?.(playerTile)
+        ?? Number.POSITIVE_INFINITY
+      : this._getAnchorInteractionDistance(
+        playerTile,
+        this._townPillarTileX,
+        this._townPillarTileY,
+        town.proximityTiles,
+        town.verticalProximityTiles,
+      );
     this._playerInRange = Number.isFinite(Math.min(skyDistance, townDistance));
 
     const promptAllowed = !this._isViewOpen && !this.starHeartOverlay?.isOpen?.();
@@ -177,7 +203,17 @@ export class StarPillarSystem {
       this._ePrompt.setVisible(Number.isFinite(skyDistance) && promptAllowed);
     }
     if (this._townPrompt) {
-      this._townPrompt.setVisible(Number.isFinite(townDistance) && promptAllowed);
+      const promptState = this._townUsesWorldroot
+        ? this._townWorldVisual?.getPromptState?.(playerTile)
+        : null;
+      if (promptState) {
+        this._townPrompt
+          .setText(promptState.text)
+          .setPosition(promptState.x, promptState.y);
+      }
+      this._townPrompt.setVisible(
+        Number.isFinite(townDistance) && promptAllowed && (!this._townUsesWorldroot || promptState),
+      );
     }
 
 
@@ -241,6 +277,19 @@ export class StarPillarSystem {
       this.closeConstellationView();
       return true;
     }
+    if (this._townUsesWorldroot && playerTile) {
+      const worldrootDistance = this._townWorldVisual
+        ?.getInteractionDistance?.(playerTile) ?? Number.POSITIVE_INFINITY;
+      if (Number.isFinite(worldrootDistance)) {
+        const result = this._townWorldVisual?.handleInteract?.(playerTile);
+        if (result === "talents") {
+          this.openConstellationView();
+          return true;
+        }
+        if (result === true) return true;
+        return false;
+      }
+    }
     const inRange = playerTile
       ? Number.isFinite(this.getInteractionDistance(playerTile))
       : this._playerInRange;
@@ -261,13 +310,16 @@ export class StarPillarSystem {
       this.config.starPillarProximityTiles + 2,
     );
     const town = CELESTIAL_PILLAR_ACCESS_CONFIG.town;
-    const townDistance = this._getAnchorInteractionDistance(
-      playerTile,
-      this._townPillarTileX,
-      this._townPillarTileY,
-      town.proximityTiles,
-      town.verticalProximityTiles,
-    );
+    const townDistance = this._townUsesWorldroot
+      ? this._townWorldVisual?.getInteractionDistance?.(playerTile)
+        ?? Number.POSITIVE_INFINITY
+      : this._getAnchorInteractionDistance(
+        playerTile,
+        this._townPillarTileX,
+        this._townPillarTileY,
+        town.proximityTiles,
+        town.verticalProximityTiles,
+      );
     return Math.min(skyDistance, townDistance);
   }
 
@@ -298,22 +350,207 @@ export class StarPillarSystem {
     ) || 0);
     if (progress === this._lastUnlockedCount) return false;
     this._worldVisual?.syncUnlocked(progress, animate);
-    this._townWorldVisual?.syncUnlocked(progress, animate);
+    if (!this._townUsesWorldroot) this._townWorldVisual?.syncUnlocked(progress, animate);
+    else {
+      this._worldrootSnapshot = resolveWorldrootSnapshot(
+        this.scene,
+        this.scene.playerController?.getPlayerTile?.(),
+      );
+      this._townWorldVisual?.sync?.(this._worldrootSnapshot, animate);
+    }
     this._lastUnlockedCount = progress;
     this._syncPromptY();
     return true;
   }
 
   /** Star collection never opens an explanatory screen-space reveal. */
-  onCollectedSkyStar(_detail) {
-    return false;
+  onCollectedSkyStar(detail) {
+    if (!this._townUsesWorldroot) return false;
+    this._worldrootSnapshot = resolveWorldrootSnapshot(
+      this.scene,
+      this.scene.playerController?.getPlayerTile?.(),
+    );
+    this._townWorldVisual?.sync?.(this._worldrootSnapshot, true);
+    return this._townWorldVisual?.queueStarArrival?.(detail) === true;
+  }
+
+  getTownOneWayPlatforms() {
+    return this._townUsesWorldroot
+      ? this._townWorldVisual?.getOneWayPlatforms?.() || []
+      : [];
+  }
+
+  getWorldrootInteractionDistance(playerTile) {
+    if (!this._townUsesWorldroot || !playerTile) return Number.POSITIVE_INFINITY;
+    return this._townWorldVisual?.getInteractionDistance?.(playerTile)
+      ?? Number.POSITIVE_INFINITY;
+  }
+
+  getWorldrootDebugSnapshot() {
+    return this._townUsesWorldroot
+      ? this._townWorldVisual?.getDebugSnapshot?.() || null
+      : null;
+  }
+
+  /** Save-safe query-gated visual preview; existing authorities are not mutated. */
+  previewWorldrootProgress(stage = 0, options = {}) {
+    if (!this._townUsesWorldroot || !this._worldrootSnapshot) return null;
+    if (!this._worldrootPreviewBaseline) {
+      this._worldrootPreviewBaseline = this._worldrootSnapshot;
+      this._worldrootPreviewEndgameStartedBaseline =
+        this.scene?._worldrootEndgameStarted === true;
+    }
+    const baseline = this._worldrootPreviewBaseline;
+    if (this.scene) {
+      this.scene._worldrootEndgameStarted =
+        this._worldrootPreviewEndgameStartedBaseline === true;
+    }
+    const growthStage = Phaser.Math.Clamp(Math.floor(Number(stage) || 0), 0, 6);
+    const consumed = options.consumed === true;
+    const consumedRegions = new Set(options.consumedRegions || []);
+    const complete = growthStage === 6;
+    const knownStarTargets = [0, 5, 10, 20, 35, 50, 50];
+    const titanTargets = [0, 0, 0, 2, 5, 20, 25];
+    const campfireLevels = [1, 1, 2, 3, 6, 10, 10];
+    const talentRootTarget = growthStage >= 5
+      ? 3
+      : growthStage >= 4
+        ? 2
+        : growthStage >= 2 ? 1 : 0;
+    const completedTalentBranchCount = growthStage >= 5 ? 3 : 0;
+    const knownStarTarget = Math.min(
+      baseline.profileMemories.length,
+      knownStarTargets[growthStage],
+    );
+    const profileMemories = baseline.profileMemories.map((memory, index) => {
+      const known = index < knownStarTarget;
+      const scarred = consumed || consumedRegions.has(memory.regionId);
+      return {
+        ...memory,
+        status: known ? (scarred ? "consumed" : "intact") : "sleeping",
+        knownCount: known ? 1 : 0,
+        intactCount: known && !scarred ? 1 : 0,
+        consumedCount: known && scarred ? 1 : 0,
+      };
+    });
+    const starMemories = profileMemories
+      .filter(memory => memory.knownCount > 0)
+      .map((memory, index) => ({
+        id: `e2e-worldroot-star-${index}`,
+        key: `e2e-${index}`,
+        label: memory.label,
+        ...(options.starIdentities?.length ? {
+          discovered: true,
+          identityId: options.starIdentities[index % options.starIdentities.length].id,
+          label: options.starIdentities[index % options.starIdentities.length].name,
+        } : {}),
+        state: memory.consumedCount > 0 ? "consumed" : "intact",
+        rarityIndex: index % 6,
+        color: memory.color,
+        profileId: memory.id,
+        regionId: memory.regionId,
+        tile: memory.focusTile || { tx: index, ty: this.config.topAirRows + index },
+        point: {
+          x: memory.anchor.x + ((index % 3) - 1) * 0.008,
+          y: memory.anchor.y + ((index % 2) ? 0.006 : -0.006),
+        },
+      }));
+    const regionMemories = baseline.regionMemories.map(memory => {
+      const profiles = profileMemories.filter(profile => profile.regionId === memory.id);
+      const knownCount = profiles.reduce((total, profile) => total + profile.knownCount, 0);
+      const intactCount = profiles.reduce((total, profile) => total + profile.intactCount, 0);
+      const consumedCount = profiles.reduce((total, profile) => total + profile.consumedCount, 0);
+      return {
+        ...memory,
+        awake: knownCount > 0,
+        knownCount,
+        intactCount,
+        consumedCount,
+        consumedRatio: knownCount > 0 ? consumedCount / knownCount : 0,
+        status: knownCount <= 0 ? "sleeping" : consumedCount === knownCount ? "consumed"
+          : consumedCount > 0 ? "mixed" : "intact",
+      };
+    });
+    const awakeRegionCount = regionMemories.filter(memory => memory.awake).length;
+    const titanCount = titanTargets[growthStage];
+    const titanMemories = baseline.titanMemories.map((memory, index) => ({
+      ...memory,
+      discovered: index < titanCount,
+      tracked: false,
+    }));
+    const campfireLevel = campfireLevels[growthStage];
+    const talentMemories = baseline.talentMemories.map((memory, index) => ({
+      ...memory,
+      rootPurchased: index < talentRootTarget,
+      completed: index < completedTalentBranchCount,
+      mastered: complete,
+      progress: index < completedTalentBranchCount ? 1 : index < talentRootTarget ? 0.45 : 0,
+    }));
+    const currentReady = {
+      "root-hearth": campfireLevel >= WORLDROOT_CONFIG.endgame.requiredCampfireLevel,
+      "world-memory": awakeRegionCount >= WORLDROOT_CONFIG.endgame.requiredRegions,
+      "star-memory": starMemories.length >= WORLDROOT_CONFIG.endgame.requiredKnownStars,
+      "celestial-mastery": completedTalentBranchCount
+        >= WORLDROOT_CONFIG.endgame.requiredCompletedTalentBranches,
+      "titan-chorus": titanCount >= WORLDROOT_CONFIG.endgame.requiredTitans
+        && titanMemories.some(memory => memory.worldrootKeystone && memory.discovered),
+    };
+    const preview = {
+      ...baseline,
+      signature: `${baseline.signature}:e2e:${growthStage}:${consumed}:${[...consumedRegions].sort().join(",")}:${Boolean(options.starIdentities?.length)}`,
+      growthStage,
+      endgameReady: complete,
+      knownStarCount: starMemories.length,
+      intactStarCount: starMemories.filter(star => star.state !== "consumed").length,
+      consumedStarCount: starMemories.filter(star => star.state === "consumed").length,
+      campfireLevel,
+      awakeRegionCount,
+      profileMemories,
+      starMemories,
+      regionMemories,
+      talentMemories,
+      talentRootCount: talentRootTarget,
+      completedTalentBranchCount,
+      titanMemories,
+      titanCount,
+      activeTitanClueId: null,
+      gpRatio: growthStage / 6,
+      currents: baseline.currents.map(current => ({
+        ...current,
+        ready: currentReady[current.id] === true,
+      })),
+    };
+    this._lastWorldrootSyncAt = Number.POSITIVE_INFINITY;
+    this._worldrootSnapshot = preview;
+    this._townWorldVisual.sync(preview, false);
+    return this.getWorldrootDebugSnapshot();
+  }
+
+  restoreWorldrootPreview() {
+    if (!this._townUsesWorldroot || !this._worldrootPreviewBaseline) return false;
+    this._worldrootSnapshot = this._worldrootPreviewBaseline;
+    this._worldrootPreviewBaseline = null;
+    if (this.scene) {
+      this.scene._worldrootEndgameStarted =
+        this._worldrootPreviewEndgameStartedBaseline === true;
+    }
+    this._worldrootPreviewEndgameStartedBaseline = null;
+    this._lastWorldrootSyncAt = Number.NEGATIVE_INFINITY;
+    this._townWorldVisual?.sync?.(this._worldrootSnapshot, false);
+    return true;
   }
 
   /** Clean up all created objects (called on scene shutdown). */
   destroy() {
+    if (this._worldrootPreviewBaseline && this.scene) {
+      this.scene._worldrootEndgameStarted =
+        this._worldrootPreviewEndgameStartedBaseline === true;
+    }
+    this._releaseStarlightFeatureAssets();
     this._worldVisual?.destroy();
     this._worldVisual = null;
     this._ePrompt?.destroy();
+    this._ePrompt = null;
     this._townWorldVisual?.destroy();
     this._townWorldVisual = null;
     this._townPrompt?.destroy();
@@ -328,6 +565,11 @@ export class StarPillarSystem {
     this._talentTreeView = null;
     this.starHeartOverlay?.destroy?.();
     this.starHeartOverlay = null;
+    this._worldrootSnapshot = null;
+    this._worldrootPreviewBaseline = null;
+    this._worldrootPreviewEndgameStartedBaseline = null;
+    this._lastWorldrootSyncAt = Number.NEGATIVE_INFINITY;
+    this._playerInRange = false;
   }
 
   // ── Pillar visual ──────────────────────────────────────────────────────────
@@ -344,7 +586,7 @@ export class StarPillarSystem {
     ).create(unlockedCount);
   }
 
-  _buildTownPillarVisual(unlockedCount) {
+  _buildTownPillarVisual(unlockedCount, worldrootSnapshot = null) {
     const ts = this.config.tileSize;
     const town = CELESTIAL_PILLAR_ACCESS_CONFIG.town;
     this._townPillarTileY = this.config.topAirRows + town.surfaceTileYOffset;
@@ -355,6 +597,11 @@ export class StarPillarSystem {
       maxHeightPx: town.maxHeightPx,
       promptText: town.promptText,
     };
+    if (this._townUsesWorldroot) {
+      this._townWorldVisual = new WorldrootWorldVisual(this.scene, WORLDROOT_CONFIG)
+        .create(worldrootSnapshot || resolveWorldrootSnapshot(this.scene));
+      return;
+    }
     this._townWorldVisual = new StarPillarWorldVisual(
       this.scene,
       this._townPillarCenterX,
@@ -411,6 +658,9 @@ export class StarPillarSystem {
   }
 
   _getTownPromptText() {
+    if (this._townUsesWorldroot) {
+      return `[${USER_SETTINGS.getKeyLabel("interact")}] ${WORLDROOT_CONFIG.copy.rootPrompt}`;
+    }
     return `[${USER_SETTINGS.getKeyLabel("interact")}] ${CELESTIAL_PILLAR_ACCESS_CONFIG.town.promptText}`;
   }
 
@@ -419,6 +669,9 @@ export class StarPillarSystem {
   }
 
   _getTownPromptY() {
+    if (this._townUsesWorldroot) {
+      return this._townPillarBaseY - 48;
+    }
     return this._townWorldVisual?.getTopY() - this._townVisualConfig.promptOffsetPx;
   }
 
@@ -585,7 +838,6 @@ export class StarPillarSystem {
             ?.syncTalentUnlockedEngines?.(unlockedEngineIds);
           this.scene.celestialActionBarSystem?.sync?.();
           this.scene.celestialCurrencyHudSystem?.update?.(true);
-          this.scene.soundSystem?.playUiConfirm?.();
           this.scene.queueDugTilesSave?.();
         },
       });

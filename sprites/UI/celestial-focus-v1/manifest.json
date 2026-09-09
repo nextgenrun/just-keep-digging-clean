@@ -1,0 +1,72 @@
+[
+  {
+    "file": "selector.png",
+    "path": "sprites/UI/celestial-focus-v1/selector.png",
+    "source": "C:/Users/Mila/.codex/generated_images/01a073dd-be6a-7970-8435-e600fc19371a/exec-6327713a-9d0b-415d-8af0-7fe7127aba5b.png",
+    "width": 1536,
+    "height": 1024,
+    "mode": "RGB",
+    "bytes": 3244665,
+    "sha256": "5edf8e592638fa1f1917d20df069488c4d681b14bfcaa699ba22023411f0c21d"
+  },
+  {
+    "file": "wayward.png",
+    "path": "sprites/UI/celestial-focus-v1/wayward.png",
+    "source": "C:/Users/Mila/.codex/generated_images/01a073dd-be6a-7970-8435-e600fc19371a/exec-8efc2b0a-19bd-447a-bb05-8fd0aa0c0229.png",
+    "width": 1535,
+    "height": 1025,
+    "mode": "RGB",
+    "bytes": 2486335,
+    "sha256": "46bb3d215c8f9eb7c3756aba7c4cf6ae711aa5bafc5ee538cc213ee5ffd51c4b"
+  },
+  {
+    "file": "hollow.png",
+    "path": "sprites/UI/celestial-focus-v1/hollow.png",
+    "source": "C:/Users/Mila/.codex/generated_images/01a073dd-be6a-7970-8435-e600fc19371a/exec-b9d57711-b9f6-4d24-97ef-9611c5970638.png",
+    "width": 1535,
+    "height": 1025,
+    "mode": "RGB",
+    "bytes": 2537872,
+    "sha256": "d739b3289e91c38623622bfd949c6fc902de8418bb614d5f2b16fc86b69104be"
+  },
+  {
+    "file": "lance.png",
+    "path": "sprites/UI/celestial-focus-v1/lance.png",
+    "source": "C:/Users/Mila/.codex/generated_images/01a073dd-be6a-7970-8435-e600fc19371a/exec-0ed7e23f-a658-46e1-9316-795f391b521d.png",
+    "width": 1535,
+    "height": 1025,
+    "mode": "RGB",
+    "bytes": 2546485,
+    "sha256": "94dd0dff5a2406387d4b1511308f9b72d060bfc45172c1b456f066ad7425bb03"
+  },
+  {
+    "file": "controls.png",
+    "path": "sprites/UI/celestial-focus-v1/controls.png",
+    "source": "C:/Users/Mila/.codex/generated_images/01a073dd-be6a-7970-8435-e600fc19371a/exec-84bfdbef-6074-4509-bb9b-e5a29f64923f.png",
+    "width": 1536,
+    "height": 1024,
+    "mode": "RGBA",
+    "bytes": 2672615,
+    "sha256": "0e0b95d27c7fcd6fce9d98767255c64d9ba84d99604ea3b4e021d622a65f3161"
+  },
+  {
+    "file": "feedback.png",
+    "path": "sprites/UI/celestial-focus-v1/feedback.png",
+    "source": "C:/Users/Mila/.codex/generated_images/01a073dd-be6a-7970-8435-e600fc19371a/exec-ab4de7b7-009e-4056-97bb-8ba862ae320d.png",
+    "width": 1254,
+    "height": 1254,
+    "mode": "RGBA",
+    "bytes": 1147155,
+    "sha256": "e4c80e4e1c34bb50bcfd17b8bd1d621d62fe662048fc7c212d2b82d3ba9322bd"
+  },
+  {
+    "file": "free.png",
+    "path": "sprites/UI/celestial-focus-v1/free.png",
+    "source": "C:/Users/Mila/.codex/generated_images/01a073dd-be6a-7970-8435-e600fc19371a/exec-85a427b2-85a1-4495-8aa3-84374ff0280d.png",
+    "width": 1848,
+    "height": 851,
+    "mode": "RGBA",
+    "bytes": 1889474,
+    "sha256": "61a186f8903cd6ab29c715e1d340f6a056d646662cc62e8d4389e92db9064105"
+  }
+]

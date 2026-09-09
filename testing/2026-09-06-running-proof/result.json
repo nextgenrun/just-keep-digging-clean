@@ -1,0 +1,83 @@
+{
+  "running": {
+    "scenes": [
+      "PlayScene"
+    ],
+    "state": "playing",
+    "ready": true,
+    "active": true,
+    "pose": "survival-ual-player-v1-run-anim",
+    "profile": "survivalUal",
+    "x": 879.22805284,
+    "y": 6110,
+    "vx": 336,
+    "running": true,
+    "grounded": true,
+    "frames": 26,
+    "dashes": 1,
+    "gp": 99.56624999999998
+  },
+  "jumping": {
+    "scenes": [
+      "PlayScene"
+    ],
+    "state": "playing",
+    "ready": true,
+    "active": false,
+    "pose": "survival-ual-player-v1-airborne-anim",
+    "profile": "survivalUal",
+    "x": 745.4764334935184,
+    "y": 6032.587007686979,
+    "vx": 156.4715600000004,
+    "running": false,
+    "grounded": false,
+    "frames": 84,
+    "dashes": 0,
+    "gp": 101.26802999999894
+  },
+  "reduced": {
+    "scenes": [
+      "PlayScene"
+    ],
+    "state": "playing",
+    "ready": true,
+    "active": true,
+    "pose": "survival-ual-player-v1-run-anim",
+    "profile": "survivalUal",
+    "x": 996.800910598258,
+    "y": 6110,
+    "vx": 336,
+    "running": true,
+    "grounded": true,
+    "frames": 116,
+    "dashes": 0,
+    "gp": 100.76749999999888
+  },
+  "empty": {
+    "scenes": [
+      "PlayScene"
+    ],
+    "state": "playing",
+    "ready": true,
+    "active": false,
+    "pose": "survival-ual-player-v1-walk-loop-anim",
+    "profile": "survivalUal",
+    "x": 1073.020297640273,
+    "y": 6110,
+    "vx": 160,
+    "running": false,
+    "grounded": true,
+    "frames": 117,
+    "dashes": 0,
+    "gp": 0
+  },
+  "cave": {
+    "ready": true,
+    "active": true,
+    "vx": 336,
+    "pose": "survival-ual-player-v1-run-anim",
+    "dashes": 1,
+    "frames": 1
+  },
+  "errors": []
+}

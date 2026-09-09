@@ -1,0 +1,195 @@
+{
+  "reviewOnly": true,
+  "outputRoot": "visual-approval-previews/2026-09-06-character-definition-v1",
+  "sheet": "survival-mixamo-v1-walk-loop-sheet",
+  "sourceBlend": "sprites/character/survival-character-blender-v2/blender/survival-character-blender-v2.blend",
+  "beforeSheet": "sprites/character/survival-character-unified-v1/runtime/2026-08-25-survival-mixamo-v1-walk-loop-sheet.webp",
+  "sourceFrameSize": 256,
+  "sourceColumns": 16,
+  "renderSize": 1536,
+  "packedSize": 512,
+  "fps": 16,
+  "filterWidth": 1.0,
+  "exposure": -0.5,
+  "renderSamples": 64,
+  "look": "AgX - Medium High Contrast",
+  "materials": {
+    "Jacket1": {
+      "dark": [
+        0.024,
+        0.013,
+        0.006,
+        1
+      ],
+      "light": [
+        0.42,
+        0.21,
+        0.064,
+        1
+      ],
+      "roughness": 0.78,
+      "sheen": 0.04,
+      "normal": 1.1
+    },
+    "Backpack2": {
+      "dark": [
+        0.008,
+        0.016,
+        0.024,
+        1
+      ],
+      "light": [
+        0.047,
+        0.115,
+        0.155,
+        1
+      ],
+      "roughness": 0.88,
+      "sheen": 0.04,
+      "normal": 1.05
+    },
+    "Jeans1": {
+      "dark": [
+        0.008,
+        0.011,
+        0.016,
+        1
+      ],
+      "light": [
+        0.07,
+        0.095,
+        0.13,
+        1
+      ],
+      "roughness": 0.93,
+      "sheen": 0.035,
+      "normal": 0.9
+    },
+    "Gloves1": {
+      "dark": [
+        0.017,
+        0.009,
+        0.006,
+        1
+      ],
+      "light": [
+        0.15,
+        0.073,
+        0.032,
+        1
+      ],
+      "roughness": 0.57,
+      "sheen": 0.04,
+      "normal": 0.9
+    },
+    "Shoes1": {
+      "dark": [
+        0.01,
+        0.009,
+        0.008,
+        1
+      ],
+      "light": [
+        0.1,
+        0.08,
+        0.055,
+        1
+      ],
+      "roughness": 0.67,
+      "sheen": 0.02,
+      "normal": 1.0
+    }
+  },
+  "rampPositions": [
+    0.01,
+    0.34
+  ],
+  "skin": {
+    "roughness": 0.47,
+    "subsurface": 0.065
+  },
+  "lights": [
+    {
+      "name": "Key",
+      "offset": [
+        0.75,
+        0.68,
+        0.9
+      ],
+      "energy": 320,
+      "size": 0.7,
+      "color": [
+        1,
+        0.88,
+        0.73
+      ]
+    },
+    {
+      "name": "Fill",
+      "offset": [
+        -0.7,
+        0.22,
+        0.7
+      ],
+      "energy": 35,
+      "size": 0.85,
+      "color": [
+        0.62,
+        0.78,
+        1
+      ]
+    },
+    {
+      "name": "Rim",
+      "offset": [
+        -0.45,
+        0.42,
+        -0.65
+      ],
+      "energy": 140,
+      "size": 0.5,
+      "color": [
+        0.66,
+        0.85,
+        1
+      ]
+    }
+  ],
+  "lightReferenceHeight": 1.75,
+  "secondary": {
+    "driverBone": "spine_03",
+    "jacket": {
+      "material": "Jacket1",
+      "lowerFraction": 0.42,
+      "amplitudeHeight": 0.011,
+      "frequency": 3.2,
+      "damping": 0.36,
+      "inertia": 3.5
+    },
+    "backpack": {
+      "material": "Backpack2",
+      "lowerFraction": 0.82,
+      "amplitudeHeight": 0.014,
+      "frequency": 2.5,
+      "damping": 0.4,
+      "inertia": 4.6
+    },
+    "substeps": 6,
+    "settleCycles": 5
+  },
+  "presentation": {
+    "width": 1600,
+    "height": 1000,
+    "background": [
+      15,
+      20,
+      27
+    ],
+    "bodyHeight": 630,
+    "gameplayHeight": 124,
+    "groundY": 765,
+    "beforeCenter": 425,
+    "afterCenter": 1175,
+    "fps": 16
+  }
+}

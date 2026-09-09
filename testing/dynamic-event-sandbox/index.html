@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dynamic Event Lab · Just Keep Digging</title>
+<link rel="stylesheet" href="./lab.css">
+<script src="./saveIsolation.js"></script>
+<script src="../../libs/phaser.js"></script>
+<script type="module" src="./main.js"></script>
+</head>
+<body>
+<header><div><span class="eyebrow">JUST KEEP DIGGING / ENCOUNTER REVIEW</span>
+<h1>Dynamic Event Lab<span class="dot">.</span></h1>
+<p>A repeatable chamber for the things that move in the dark.</p></div>
+<span class="badge">SAVE-FREE TEST SCENE</span></header>
+<main>
+<section class="stage">
+<div class="toolbar"><span id="status" role="status">Loading encounter assets…</span>
+<div class="launch-controls"><button data-trigger="shadow" aria-label="Trigger Shadowminer">Shadowminer</button><button data-trigger="wurm" aria-label="Trigger Wurm">Wurm</button><button data-trigger="earthquake" aria-label="Trigger Earthquake">Earthquake</button><button id="sequence" aria-label="Run six encounters" class="launch">Run six</button><button id="pause">Pause</button><button id="reset">Reset chamber</button></div></div>
+<div id="game" tabindex="0" aria-label="Encounter chamber. Use A and D to move."></div>
+<div class="stage-footer"><span>A / D · move test body &nbsp; | &nbsp; Torch · repel Shadowminer</span>
+<span id="health-status" role="status">Waiting for health checks</span><span id="clock">00:00</span></div>
+<div class="cards">
+<article><span class="eyebrow">01 / PRESENCE</span><h2>Shadowminer</h2><p id="shadow-state">Waiting</p>
+<small id="shadow-gate"></small></article>
+<article><span class="eyebrow">02 / HUNT</span><h2>Graveborer Wurm</h2><p id="wurm-state">Waiting</p>
+<small id="wurm-gate"></small></article>
+<article><span class="eyebrow">03 / SEISMIC</span><h2>Earthquake</h2><p id="quake-state">Waiting</p>
+<small id="quake-gate"></small></article>
+</div>
+<div class="retired"><b>RETIRED</b> Money Monster Rush · Blackout Bloom · Lumen Bloom
+<span id="legacy-status">Checking admission…</span></div>
+</section>
+<aside>
+<div class="panel"><span class="eyebrow">TEST CONDITIONS</span>
+<label>Depth (m)<input id="depth" type="number" min="1" max="2000" step="1" value="300"></label>
+<label>Wurm size<select id="wurmSize" aria-label="Wurm size"></select></label>
+<label>Wurm behaviour<select id="wurmDifficulty" aria-label="Wurm behaviour"></select></label>
+<label>Earthquake intensity<select id="intensity"><option>minor</option><option selected>medium</option><option>major</option><option>cataclysmic</option></select></label>
+<label>Simulation speed<select id="speed" aria-label="Simulation speed"><option value="1">1× · real time</option><option value="4">4×</option><option value="10">10×</option></select></label>
+<label class="check"><input id="hardcore" type="checkbox" checked>Hardcore armed</label>
+<label class="check"><input id="flight" type="checkbox" checked>Flight unlocked</label>
+<label class="check"><input id="hazards" type="checkbox" checked>Hazard introduction unlocked</label>
+<label class="check"><input id="suppressed" type="checkbox">Seismic Suppression owned</label>
+<label class="check"><input id="torch" type="checkbox">Torch light</label>
+<label class="check"><input id="patrol" type="checkbox" checked>Auto patrol</label>
+<label class="check"><input id="mining" type="checkbox">Auto mining noise</label>
+<label class="check"><input id="natural" type="checkbox">Normal timers and chance</label>
+<label class="check"><input id="audio" type="checkbox">Hear approved cue previews</label>
+<label class="check"><input id="pauseOnResult" type="checkbox">Pause on encounter result</label>
+<button id="noise">Add mining noise</button>
+<p class="hint">Normal timers honor the gates above. Trigger buttons use review admission and keep the real encounter phases.</p>
+</div>
+<div class="panel"><span class="eyebrow">REPEATED ENCOUNTERS</span>
+
+<p id="sequence-state">Shadowminer → Wurm → Earthquake, twice.</p>
+<button id="export">Export report</button></div>
+</aside>
+<section class="log-panel"><div class="log-heading"><h2>Encounter trace</h2><span id="metrics">No encounters yet</span></div>
+<pre id="trace" aria-label="Encounter trace"></pre>
+<details><summary>Current system snapshots</summary><pre id="snapshot"></pre></details>
+</section>
+</main></body></html>

@@ -1,0 +1,1765 @@
+{
+  "observations": [
+    {
+      "label": "initial-world-mix",
+      "status": "World mix running. Move toward a Star; F digs. 0 / Escape stops everything.",
+      "positionText": "Listener 6.50, 8.50 · Star 12,8 · 6.00 tiles · pan 0.82 · open path",
+      "meter": "Output peak 0.0045 · session peak 0.0045 · clipped frames 0",
+      "mode": "world mix",
+      "position": {
+        "x": 6.5,
+        "y": 8.5
+      },
+      "contextState": "running",
+      "sfxEnabled": true,
+      "master": 0.5,
+      "stars": {
+        "source": "12,8",
+        "nearRefuge": false,
+        "distance": 6,
+        "dx": 6,
+        "dy": 0,
+        "weight": 0.630979035212701,
+        "gain": 0.630979035212701,
+        "pan": 0.82,
+        "cutoff": 10000,
+        "occlusion": 0,
+        "vertical": "below",
+        "active": [
+          {
+            "id": "freesound-849806",
+            "key": "fs-approved-849806",
+            "gain": 0.04201798615295396,
+            "target": 0.08861208703200278,
+            "owner": "12,8",
+            "peakContribution": 0.02543535681876684,
+            "pan": 0.8199999928474426,
+            "cutoff": 10000
+          }
+        ],
+        "pending": []
+      },
+      "panic": {
+        "band": "calm",
+        "role": null,
+        "active": [],
+        "pending": []
+      },
+      "memory": {
+        "resident": 5,
+        "decodedBytes": 4946524,
+        "pending": 0,
+        "failed": []
+      },
+      "solo": [],
+      "sfx": {
+        "count": 0,
+        "scale": 1,
+        "peakBudget": 0.45,
+        "sources": []
+      },
+      "errors": []
+    },
+    {
+      "label": "near-left",
+      "status": "World mix running. Move toward a Star; F digs. 0 / Escape stops everything.",
+      "positionText": "Listener 10.50, 8.50 · Star 12,8 · 2.00 tiles · pan 0.82 · open path",
+      "meter": "Output peak 0.0182 · session peak 0.0321 · clipped frames 0",
+      "mode": "world mix",
+      "position": {
+        "x": 10.5,
+        "y": 8.5
+      },
+      "contextState": "running",
+      "sfxEnabled": true,
+      "master": 0.5,
+      "stars": {
+        "source": "12,8",
+        "nearRefuge": false,
+        "distance": 2,
+        "dx": 2,
+        "dy": 0,
+        "weight": 0.9988616746198672,
+        "gain": 0.9988616746198672,
+        "pan": 0.82,
+        "cutoff": 10000,
+        "occlusion": 0,
+        "vertical": "below",
+        "active": [
+          {
+            "id": "freesound-849806",
+            "key": "fs-approved-849806",
+            "gain": 0.06983699365332349,
+            "target": 0.14027600396344525,
+            "owner": "12,8",
+            "peakContribution": 0.04227544000457428,
+            "pan": 0.8199999928474426,
+            "cutoff": 10000
+          },
+          {
+            "id": "freesound-238598",
+            "key": "fs-approved-238598",
+            "gain": 0.004378139505111158,
+            "target": 0.018546606595069067,
+            "owner": "12,8",
+            "peakContribution": 0.002724559995425725,
+            "pan": 0.8199999928474426,
+            "cutoff": 10000
+          }
+        ],
+        "pending": []
+      },
+      "panic": {
+        "band": "calm",
+        "role": null,
+        "active": [],
+        "pending": []
+      },
+      "memory": {
+        "resident": 9,
+        "decodedBytes": 7519324,
+        "pending": 0,
+        "failed": []
+      },
+      "solo": [],
+      "sfx": {
+        "count": 0,
+        "scale": 1,
+        "peakBudget": 0.45,
+        "sources": []
+      },
+      "errors": []
+    },
+    {
+      "label": "rock-wall",
+      "status": "World mix running. Move toward a Star; F digs. 0 / Escape stops everything.",
+      "positionText": "Listener 10.50, 8.50 · Star 12,8 · 2.00 tiles · pan 0.82 · rock-muffled",
+      "meter": "Output peak 0.0145 · session peak 0.0321 · clipped frames 0",
+      "mode": "world mix",
+      "position": {
+        "x": 10.5,
+        "y": 8.5
+      },
+      "contextState": "running",
+      "sfxEnabled": true,
+      "master": 0.5,
+      "stars": {
+        "source": "12,8",
+        "nearRefuge": false,
+        "distance": 2,
+        "dx": 2,
+        "dy": 0,
+        "weight": 0.9988616746198672,
+        "gain": 0.699203172233907,
+        "pan": 0.82,
+        "cutoff": 4200,
+        "occlusion": 0.6666666666666666,
+        "vertical": "below",
+        "active": [
+          {
+            "id": "freesound-849806",
+            "key": "fs-approved-849806",
+            "gain": 0.06600992071723114,
+            "target": 0.09819320277441168,
+            "owner": "12,8",
+            "peakContribution": 0.03995874245161192,
+            "pan": 0.8199999928474426,
+            "cutoff": 5117.216796875
+          },
+          {
+            "id": "freesound-238598",
+            "key": "fs-approved-238598",
+            "gain": 0.008100878257440951,
+            "target": 0.012982624616548347,
+            "owner": "12,8",
+            "peakContribution": 0.005041257548388078,
+            "pan": 0.8199999928474426,
+            "cutoff": 5117.216796875
+          }
+        ],
+        "pending": []
+      },
+      "panic": {
+        "band": "calm",
+        "role": null,
+        "active": [],
+        "pending": []
+      },
+      "memory": {
+        "resident": 9,
+        "decodedBytes": 7519324,
+        "pending": 0,
+        "failed": []
+      },
+      "solo": [],
+      "sfx": {
+        "count": 0,
+        "scale": 1,
+        "peakBudget": 0.45,
+        "sources": []
+      },
+      "errors": []
+    },
+    {
+      "label": "near-right",
+      "status": "World mix running. Move toward a Star; F digs. 0 / Escape stops everything.",
+      "positionText": "Listener 14.50, 8.50 · Star 12,8 · 2.00 tiles · pan -0.82 · open path",
+      "meter": "Output peak 0.0085 · session peak 0.0321 · clipped frames 0",
+      "mode": "world mix",
+      "position": {
+        "x": 14.5,
+        "y": 8.5
+      },
+      "contextState": "running",
+      "sfxEnabled": true,
+      "master": 0.5,
+      "stars": {
+        "source": "12,8",
+        "nearRefuge": false,
+        "distance": 2,
+        "dx": -2,
+        "dy": 0,
+        "weight": 0.9988616746198672,
+        "gain": 0.9988616746198672,
+        "pan": -0.82,
+        "cutoff": 10000,
+        "occlusion": 0,
+        "vertical": "below",
+        "active": [
+          {
+            "id": "freesound-849806",
+            "key": "fs-approved-849806",
+            "gain": 0.0654569117996537,
+            "target": 0.14027600396344525,
+            "owner": "12,8",
+            "peakContribution": 0.039623981544905464,
+            "pan": -0.8199999928474426,
+            "cutoff": 7539.22412109375
+          },
+          {
+            "id": "freesound-238598",
+            "key": "fs-approved-238598",
+            "gain": 0.008638810970568582,
+            "target": 0.018546606595069067,
+            "owner": "12,8",
+            "peakContribution": 0.005376018455094535,
+            "pan": -0.8199999928474426,
+            "cutoff": 7539.22412109375
+          }
+        ],
+        "pending": []
+      },
+      "panic": {
+        "band": "calm",
+        "role": null,
+        "active": [],
+        "pending": []
+      },
+      "memory": {
+        "resident": 9,
+        "decodedBytes": 7519324,
+        "pending": 0,
+        "failed": []
+      },
+      "solo": [],
+      "sfx": {
+        "count": 0,
+        "scale": 1,
+        "peakBudget": 0.45,
+        "sources": []
+      },
+      "errors": []
+    },
+    {
+      "label": "critical-settled",
+      "status": "World mix running. Move toward a Star; F digs. 0 / Escape stops everything.",
+      "positionText": "Listener 14.50, 8.50 · Star 12,8 · 2.00 tiles · pan -0.82 · open path",
+      "meter": "Output peak 0.0085 · session peak 0.0353 · clipped frames 0",
+      "mode": "world mix",
+      "position": {
+        "x": 14.5,
+        "y": 8.5
+      },
+      "contextState": "running",
+      "sfxEnabled": true,
+      "master": 0.5,
+      "stars": {
+        "source": "12,8",
+        "nearRefuge": false,
+        "distance": 2,
+        "dx": -2,
+        "dy": 0,
+        "weight": 0.9988616746198672,
+        "gain": 0.9988616746198672,
+        "pan": -0.82,
+        "cutoff": 10000,
+        "occlusion": 0,
+        "vertical": "below",
+        "active": [
+          {
+            "id": "freesound-849806",
+            "key": "fs-approved-849806",
+            "gain": 0.07433783572825062,
+            "target": 0.14027600396344525,
+            "owner": "12,8",
+            "peakContribution": 0.045000000000000005,
+            "pan": -0.8199999928474426,
+            "cutoff": 9999.296875
+          }
+        ],
+        "pending": []
+      },
+      "panic": {
+        "band": "critical",
+        "role": "panicFast",
+        "active": [
+          {
+            "id": "freesound-666042",
+            "key": "fs-approved-666042",
+            "gain": 0.08187736401087113,
+            "target": 0.08187736401087113,
+            "owner": null,
+            "peakContribution": 0.042374008572018944,
+            "pan": 0,
+            "cutoff": null
+          }
+        ],
+        "pending": []
+      },
+      "memory": {
+        "resident": 10,
+        "decodedBytes": 10365412,
+        "pending": 0,
+        "failed": []
+      },
+      "solo": [],
+      "sfx": {
+        "count": 0,
+        "scale": 1,
+        "peakBudget": 0.45,
+        "sources": []
+      },
+      "errors": []
+    },
+    {
+      "label": "second-star-handover",
+      "status": "World mix running. Move toward a Star; F digs. 0 / Escape stops everything.",
+      "positionText": "Listener 23.50, 8.50 · Star 24,8 · 1.00 tiles · pan 0.82 · open path",
+      "meter": "Output peak 0.0062 · session peak 0.0353 · clipped frames 0",
+      "mode": "world mix",
+      "position": {
+        "x": 23.5,
+        "y": 8.5
+      },
+      "contextState": "running",
+      "sfxEnabled": true,
+      "master": 0.5,
+      "stars": {
+        "source": "24,8",
+        "nearRefuge": true,
+        "distance": 1,
+        "dx": 1,
+        "dy": 0,
+        "weight": 1,
+        "gain": 1,
+        "pan": 0.82,
+        "cutoff": 10000,
+        "occlusion": 0,
+        "vertical": "below",
+        "active": [
+          {
+            "id": "freesound-849806",
+            "key": "fs-approved-849806",
+            "gain": 0.05866037669558742,
+            "target": 0,
+            "owner": "12,8",
+            "peakContribution": 0.03550973640060202,
+            "pan": -0.8199999928474426,
+            "cutoff": 9999.296875
+          },
+          {
+            "id": "freesound-849806",
+            "key": "fs-approved-849806",
+            "gain": 0.01567745903266319,
+            "target": 0.14043586567362246,
+            "owner": "24,8",
+            "peakContribution": 0.009490263599397981,
+            "pan": 0.8199999928474426,
+            "cutoff": 10000
+          }
+        ],
+        "pending": []
+      },
+      "panic": {
+        "band": "critical",
+        "role": "panicFast",
+        "active": [
+          {
+            "id": "freesound-666042",
+            "key": "fs-approved-666042",
+            "gain": 0.08187736401087113,
+            "target": 0.08187736401087113,
+            "owner": null,
+            "peakContribution": 0.042374008572018944,
+            "pan": 0,
+            "cutoff": null
+          }
+        ],
+        "pending": []
+      },
+      "memory": {
+        "resident": 11,
+        "decodedBytes": 11901412,
+        "pending": 0,
+        "failed": []
+      },
+      "solo": [],
+      "sfx": {
+        "count": 0,
+        "scale": 1,
+        "peakBudget": 0.45,
+        "sources": []
+      },
+      "errors": []
+    },
+    {
+      "label": "star-consumed",
+      "status": "Consumed test Star 24,8. Its emitter is gone; the approved destruction cue is unchanged.",
+      "positionText": "Listener 23.50, 8.50 · no audible Star",
+      "meter": "Output peak 0.0574 · session peak 0.0590 · clipped frames 0",
+      "mode": "world mix",
+      "position": {
+        "x": 23.5,
+        "y": 8.5
+      },
+      "contextState": "running",
+      "sfxEnabled": true,
+      "master": 0.5,
+      "stars": {
+        "source": null,
+        "nearRefuge": false,
+        "active": [],
+        "pending": []
+      },
+      "panic": {
+        "band": "critical",
+        "role": "panicFast",
+        "active": [
+          {
+            "id": "freesound-666042",
+            "key": "fs-approved-666042",
+            "gain": 0.08187736401087113,
+            "target": 0.08187736401087113,
+            "owner": null,
+            "peakContribution": 0.042374008572018944,
+            "pan": 0,
+            "cutoff": null
+          }
+        ],
+        "pending": []
+      },
+      "memory": {
+        "resident": 11,
+        "decodedBytes": 11901412,
+        "pending": 0,
+        "failed": []
+      },
+      "solo": [],
+      "sfx": {
+        "count": 1,
+        "scale": 1,
+        "peakBudget": 0.45,
+        "sources": [
+          {
+            "key": "sfx-star-destruction-0",
+            "gain": 0.18,
+            "peak": 0.9716785,
+            "priority": 100
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "label": "calm-outside-range",
+      "status": "Consumed test Star 24,8. Its emitter is gone; the approved destruction cue is unchanged.",
+      "positionText": "Listener 0.50, 0.50 · no audible Star",
+      "meter": "Output peak 0.0000 · session peak 0.0789 · clipped frames 0",
+      "mode": "world mix",
+      "position": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "contextState": "running",
+      "sfxEnabled": true,
+      "master": 0.5,
+      "stars": {
+        "source": null,
+        "nearRefuge": false,
+        "active": [],
+        "pending": []
+      },
+      "panic": {
+        "band": "calm",
+        "role": null,
+        "active": [],
+        "pending": []
+      },
+      "memory": {
+        "resident": 15,
+        "decodedBytes": 16730596,
+        "pending": 0,
+        "failed": []
+      },
+      "solo": [],
+      "sfx": {
+        "count": 0,
+        "scale": 1,
+        "peakBudget": 0.45,
+        "sources": []
+      },
+      "errors": []
+    },
+    {
+      "label": "stopped",
+      "status": "Stopped — no active or queued sound. Start world mix to resume.",
+      "positionText": "Listener 0.50, 0.50 · no audible Star",
+      "meter": "Output peak 0.0000 · session peak 0.0789 · clipped frames 0",
+      "mode": "stopped",
+      "position": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "contextState": "running",
+      "sfxEnabled": true,
+      "master": 0.5,
+      "stars": {
+        "source": null,
+        "nearRefuge": false,
+        "active": [],
+        "pending": []
+      },
+      "panic": {
+        "band": "calm",
+        "role": null,
+        "active": [],
+        "pending": []
+      },
+      "memory": {
+        "resident": 15,
+        "decodedBytes": 16730596,
+        "pending": 0,
+        "failed": []
+      },
+      "solo": [],
+      "sfx": {
+        "count": 0,
+        "scale": 1,
+        "peakBudget": 0.45,
+        "sources": []
+      },
+      "errors": []
+    },
+    {
+      "label": "distance-mid-calibrated",
+      "status": "World mix running. Move toward a Star; F digs. 0 / Escape stops everything.",
+      "positionText": "Listener 6.50, 8.50 · Star 12,8 · 6.00 tiles · pan 0.82 · open path",
+      "meter": "Output peak 0.0000 · session peak 0.0097 · clipped frames 0",
+      "mode": "world mix",
+      "position": {
+        "x": 6.5,
+        "y": 8.5
+      },
+      "contextState": "running",
+      "sfxEnabled": true,
+      "master": 0.5,
+      "stars": {
+        "source": "12,8",
+        "nearRefuge": false,
+        "distance": 6,
+        "dx": 6,
+        "dy": 0,
+        "weight": 0.630979035212701,
+        "gain": 0.630979035212701,
+        "pan": 0.82,
+        "cutoff": 10000,
+        "occlusion": 0,
+        "vertical": "below",
+        "active": [
+          {
+            "id": "freesound-849806",
+            "key": "fs-approved-849806",
+            "gain": 0.046905615867611834,
+            "target": 0.046905615867611834,
+            "owner": "12,8",
+            "peakContribution": 0.02839405658457155,
+            "pan": 0.8199999928474426,
+            "cutoff": 10000
+          }
+        ],
+        "pending": []
+      },
+      "panic": {
+        "band": "calm",
+        "role": null,
+        "active": [],
+        "pending": []
+      },
+      "memory": {
+        "resident": 5,
+        "decodedBytes": 4946524,
+        "pending": 0,
+        "failed": []
+      },
+      "solo": [],
+      "sfx": {
+        "count": 0,
+        "scale": 1,
+        "peakBudget": 0.45,
+        "sources": []
+      },
+      "errors": []
+    },
+    {
+      "label": "distance-near-calibrated",
+      "status": "World mix running. Move toward a Star; F digs. 0 / Escape stops everything.",
+      "positionText": "Listener 10.50, 8.50 · Star 12,8 · 2.00 tiles · pan 0.82 · open path",
+      "meter": "Output peak 0.0342 · session peak 0.0377 · clipped frames 0",
+      "mode": "world mix",
+      "position": {
+        "x": 10.5,
+        "y": 8.5
+      },
+      "contextState": "running",
+      "sfxEnabled": true,
+      "master": 0.5,
+      "stars": {
+        "source": "12,8",
+        "nearRefuge": false,
+        "distance": 2,
+        "dx": 2,
+        "dy": 0,
+        "weight": 0.9988616746198672,
+        "gain": 0.9988616746198672,
+        "pan": 0.82,
+        "cutoff": 10000,
+        "occlusion": 0,
+        "vertical": "below",
+        "active": [
+          {
+            "id": "freesound-849806",
+            "key": "fs-approved-849806",
+            "gain": 0.06536831508532767,
+            "target": 0.06536831508532767,
+            "owner": "12,8",
+            "peakContribution": 0.03957035001117013,
+            "pan": 0.8199999928474426,
+            "cutoff": 10000
+          },
+          {
+            "id": "freesound-238598",
+            "key": "fs-approved-238598",
+            "gain": 0.008642678643640447,
+            "target": 0.008642678643640447,
+            "owner": "12,8",
+            "peakContribution": 0.005378425346723887,
+            "pan": 0.8199999928474426,
+            "cutoff": 10000
+          }
+        ],
+        "pending": []
+      },
+      "panic": {
+        "band": "calm",
+        "role": null,
+        "active": [],
+        "pending": []
+      },
+      "memory": {
+        "resident": 16,
+        "decodedBytes": 8402795,
+        "pending": 0,
+        "failed": []
+      },
+      "solo": [],
+      "sfx": {
+        "count": 3,
+        "scale": 1,
+        "peakBudget": 0.45,
+        "sources": [
+          {
+            "key": "approved-review-libToolContact",
+            "gain": 0.16,
+            "peak": 0.6936398,
+            "priority": 60
+          },
+          {
+            "key": "approved-review-libStoneBreak",
+            "gain": 0.35200000000000004,
+            "peak": 0.7144903,
+            "priority": 60
+          },
+          {
+            "key": "fs-approved-60026",
+            "gain": 0.11932494587565405,
+            "peak": 0.3928846,
+            "priority": 55
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "label": "muted",
+      "status": "SFX muted — all sound effects are silent.",
+      "positionText": "Listener 10.50, 8.50 · no audible Star",
+      "meter": "Output peak 0.0000 · session peak 0.0635 · clipped frames 0",
+      "mode": "world mix",
+      "position": {
+        "x": 10.5,
+        "y": 8.5
+      },
+      "contextState": "running",
+      "sfxEnabled": false,
+      "master": 0.5,
+      "stars": {
+        "source": null,
+        "nearRefuge": false,
+        "active": [],
+        "pending": []
+      },
+      "panic": {
+        "band": "calm",
+        "role": null,
+        "active": [],
+        "pending": []
+      },
+      "memory": {
+        "resident": 20,
+        "decodedBytes": 9702635,
+        "pending": 0,
+        "failed": []
+      },
+      "solo": [],
+      "sfx": {
+        "count": 0,
+        "scale": 1,
+        "peakBudget": 0.45,
+        "sources": []
+      },
+      "errors": []
+    },
+    {
+      "label": "solo-loop",
+      "status": "Solo loop: Channeling Magic Texture. World mix is stopped. 0 stops solo.",
+      "positionText": "Listener 10.50, 8.50 · no audible Star",
+      "meter": "Output peak 0.0023 · session peak 0.0635 · clipped frames 0",
+      "mode": "solo",
+      "position": {
+        "x": 10.5,
+        "y": 8.5
+      },
+      "contextState": "running",
+      "sfxEnabled": true,
+      "master": 0.5,
+      "stars": {
+        "source": null,
+        "nearRefuge": false,
+        "active": [],
+        "pending": []
+      },
+      "panic": {
+        "band": "calm",
+        "role": null,
+        "active": [],
+        "pending": []
+      },
+      "memory": {
+        "resident": 20,
+        "decodedBytes": 9702635,
+        "pending": 0,
+        "failed": []
+      },
+      "solo": [
+        {
+          "id": "freesound-849806",
+          "key": "fs-approved-849806",
+          "gain": 0.07433783572825062,
+          "target": 0.14043586567362246,
+          "owner": null,
+          "peakContribution": 0.045000000000000005,
+          "pan": 0,
+          "cutoff": null
+        }
+      ],
+      "sfx": {
+        "count": 0,
+        "scale": 1,
+        "peakBudget": 0.45,
+        "sources": []
+      },
+      "errors": []
+    },
+    {
+      "label": "source-change-stops-solo",
+      "status": "Stopped — no active or queued sound. Start world mix to resume.",
+      "positionText": "Listener 10.50, 8.50 · no audible Star",
+      "meter": "Output peak 0.0023 · session peak 0.0635 · clipped frames 0",
+      "mode": "solo",
+      "position": {
+        "x": 10.5,
+        "y": 8.5
+      },
+      "contextState": "running",
+      "sfxEnabled": true,
+      "master": 0.5,
+      "stars": {
+        "source": null,
+        "nearRefuge": false,
+        "active": [],
+        "pending": []
+      },
+      "panic": {
+        "band": "calm",
+        "role": null,
+        "active": [],
+        "pending": []
+      },
+      "memory": {
+        "resident": 20,
+        "decodedBytes": 9702635,
+        "pending": 0,
+        "failed": []
+      },
+      "solo": [
+        {
+          "id": "freesound-849806",
+          "key": "fs-approved-849806",
+          "gain": 0.07433783572825062,
+          "target": 0.14043586567362246,
+          "owner": null,
+          "peakContribution": 0.045000000000000005,
+          "pan": 0,
+          "cutoff": null
+        }
+      ],
+      "sfx": {
+        "count": 0,
+        "scale": 1,
+        "peakBudget": 0.45,
+        "sources": []
+      },
+      "errors": []
+    },
+    {
+      "label": "solo-stopped-settled",
+      "status": "Stopped — no active or queued sound. Start world mix to resume.",
+      "positionText": "Listener 10.50, 8.50 · no audible Star",
+      "meter": "Output peak 0.0000 · session peak 0.0635 · clipped frames 0",
+      "mode": "stopped",
+      "position": {
+        "x": 10.5,
+        "y": 8.5
+      },
+      "contextState": "running",
+      "sfxEnabled": true,
+      "master": 0.5,
+      "stars": {
+        "source": null,
+        "nearRefuge": false,
+        "active": [],
+        "pending": []
+      },
+      "panic": {
+        "band": "calm",
+        "role": null,
+        "active": [],
+        "pending": []
+      },
+      "memory": {
+        "resident": 20,
+        "decodedBytes": 9702635,
+        "pending": 0,
+        "failed": []
+      },
+      "solo": [],
+      "sfx": {
+        "count": 0,
+        "scale": 1,
+        "peakBudget": 0.45,
+        "sources": []
+      },
+      "errors": []
+    },
+    {
+      "label": "keyboard-right-moved",
+      "status": "World mix running. Move toward a Star; F digs. 0 / Escape stops everything.",
+      "positionText": "Listener 10.50, 8.50 · Star 12,8 · 2.00 tiles · pan 0.82 · open path",
+      "meter": "Output peak 0.0038 · session peak 0.0635 · clipped frames 0",
+      "mode": "world mix",
+      "position": {
+        "x": 10.5,
+        "y": 8.5
+      },
+      "contextState": "running",
+      "sfxEnabled": true,
+      "master": 0.5,
+      "stars": {
+        "source": "12,8",
+        "nearRefuge": false,
+        "distance": 2,
+        "dx": 2,
+        "dy": 0,
+        "weight": 0.9988616746198672,
+        "gain": 0.9988616746198672,
+        "pan": 0.82,
+        "cutoff": 10000,
+        "occlusion": 0,
+        "vertical": "below",
+        "active": [
+          {
+            "id": "freesound-849806",
+            "key": "fs-approved-849806",
+            "gain": 0.06536831508532767,
+            "target": 0.06536831508532767,
+            "owner": "12,8",
+            "peakContribution": 0.03957035001117013,
+            "pan": 0.8199999928474426,
+            "cutoff": 10000
+          },
+          {
+            "id": "freesound-238598",
+            "key": "fs-approved-238598",
+            "gain": 0.008642678643640447,
+            "target": 0.008642678643640447,
+            "owner": "12,8",
+            "peakContribution": 0.005378425346723887,
+            "pan": 0.8199999928474426,
+            "cutoff": 10000
+          }
+        ],
+        "pending": []
+      },
+      "panic": {
+        "band": "calm",
+        "role": null,
+        "active": [],
+        "pending": []
+      },
+      "memory": {
+        "resident": 23,
+        "decodedBytes": 10739435,
+        "pending": 0,
+        "failed": []
+      },
+      "solo": [],
+      "sfx": {
+        "count": 0,
+        "scale": 1,
+        "peakBudget": 0.45,
+        "sources": []
+      },
+      "errors": []
+    },
+    {
+      "label": "scaled-grid-click",
+      "status": "World mix running. Move toward a Star; F digs. 0 / Escape stops everything.",
+      "positionText": "Listener 4.25, 3.75 · Star 12,8 · 9.52 tiles · pan 0.71 · open path",
+      "meter": "Output peak 0.0000 · session peak 0.0635 · clipped frames 0",
+      "mode": "world mix",
+      "position": {
+        "x": 4.25,
+        "y": 3.749999492409148
+      },
+      "contextState": "running",
+      "sfxEnabled": true,
+      "master": 0.5,
+      "stars": {
+        "source": "12,8",
+        "nearRefuge": false,
+        "distance": 9.519716635599682,
+        "dx": 8.25,
+        "dy": 4.750000507590852,
+        "weight": 0.14863137891061348,
+        "gain": 0.14863137891061348,
+        "pan": 0.7106303957306652,
+        "cutoff": 10000,
+        "occlusion": 0,
+        "vertical": "below",
+        "active": [
+          {
+            "id": "freesound-849806",
+            "key": "fs-approved-849806",
+            "gain": 0.011048935029520559,
+            "target": 0.011048935029520559,
+            "owner": "12,8",
+            "peakContribution": 0.006688412050977607,
+            "pan": 0.7106304168701172,
+            "cutoff": 10000
+          }
+        ],
+        "pending": []
+      },
+      "panic": {
+        "band": "calm",
+        "role": null,
+        "active": [],
+        "pending": []
+      },
+      "memory": {
+        "resident": 23,
+        "decodedBytes": 10739435,
+        "pending": 0,
+        "failed": []
+      },
+      "solo": [],
+      "sfx": {
+        "count": 0,
+        "scale": 1,
+        "peakBudget": 0.45,
+        "sources": []
+      },
+      "errors": []
+    },
+    {
+      "label": "short-key-tap",
+      "status": "World mix running. Move toward a Star; F digs. 0 / Escape stops everything.",
+      "positionText": "Listener 4.25, 3.75 · Star 12,8 · 9.52 tiles · pan 0.71 · open path",
+      "meter": "Output peak 0.0000 · session peak 0.0635 · clipped frames 0",
+      "mode": "world mix",
+      "position": {
+        "x": 4.25,
+        "y": 3.749999492409148
+      },
+      "contextState": "running",
+      "sfxEnabled": true,
+      "master": 0.5,
+      "stars": {
+        "source": "12,8",
+        "nearRefuge": false,
+        "distance": 9.519716635599682,
+        "dx": 8.25,
+        "dy": 4.750000507590852,
+        "weight": 0.14863137891061348,
+        "gain": 0.14863137891061348,
+        "pan": 0.7106303957306652,
+        "cutoff": 10000,
+        "occlusion": 0,
+        "vertical": "below",
+        "active": [
+          {
+            "id": "freesound-849806",
+            "key": "fs-approved-849806",
+            "gain": 0.011048935029520559,
+            "target": 0.011048935029520559,
+            "owner": "12,8",
+            "peakContribution": 0.006688412050977607,
+            "pan": 0.7106304168701172,
+            "cutoff": 10000
+          }
+        ],
+        "pending": []
+      },
+      "panic": {
+        "band": "calm",
+        "role": null,
+        "active": [],
+        "pending": []
+      },
+      "memory": {
+        "resident": 23,
+        "decodedBytes": 10739435,
+        "pending": 0,
+        "failed": []
+      },
+      "solo": [],
+      "sfx": {
+        "count": 0,
+        "scale": 1,
+        "peakBudget": 0.45,
+        "sources": []
+      },
+      "errors": []
+    },
+    {
+      "label": "final-short-key-tap",
+      "status": "World mix running. Move toward a Star; F digs. 0 / Escape stops everything.",
+      "positionText": "Listener 6.75, 8.50 · Star 12,8 · 5.75 tiles · pan 0.82 · open path",
+      "meter": "Output peak 0.0122 · session peak 0.0525 · clipped frames 0",
+      "mode": "world mix",
+      "position": {
+        "x": 6.75,
+        "y": 8.5
+      },
+      "contextState": "running",
+      "sfxEnabled": true,
+      "master": 0.5,
+      "stars": {
+        "source": "12,8",
+        "nearRefuge": false,
+        "distance": 5.75,
+        "dx": 5.75,
+        "dy": 0,
+        "weight": 0.6662513380977152,
+        "gain": 0.6662513380977152,
+        "pan": 0.82,
+        "cutoff": 10000,
+        "occlusion": 0,
+        "vertical": "below",
+        "active": [
+          {
+            "id": "freesound-849806",
+            "key": "fs-approved-849806",
+            "gain": 0.049527682525235116,
+            "target": 0.049527682525235116,
+            "owner": "12,8",
+            "peakContribution": 0.029981310214397185,
+            "pan": 0.8199999928474426,
+            "cutoff": 10000
+          }
+        ],
+        "pending": []
+      },
+      "panic": {
+        "band": "calm",
+        "role": null,
+        "active": [],
+        "pending": []
+      },
+      "memory": {
+        "resident": 5,
+        "decodedBytes": 4946524,
+        "pending": 0,
+        "failed": []
+      },
+      "solo": [],
+      "sfx": {
+        "count": 0,
+        "scale": 1,
+        "peakBudget": 0.45,
+        "sources": []
+      },
+      "lastInput": {
+        "key": "ArrowRight",
+        "code": "ArrowRight"
+      },
+      "errors": []
+    },
+    {
+      "label": "escape-stopped",
+      "status": "Stopped — no active or queued sound. Start world mix to resume.",
+      "positionText": "Listener 6.75, 8.50 · no audible Star",
+      "meter": "Output peak 0.0000 · session peak 0.0525 · clipped frames 0",
+      "mode": "stopped",
+      "position": {
+        "x": 6.75,
+        "y": 8.5
+      },
+      "contextState": "running",
+      "sfxEnabled": true,
+      "master": 0.5,
+      "stars": {
+        "source": null,
+        "nearRefuge": false,
+        "active": [],
+        "pending": []
+      },
+      "panic": {
+        "band": "calm",
+        "role": null,
+        "active": [],
+        "pending": []
+      },
+      "memory": {
+        "resident": 5,
+        "decodedBytes": 4946524,
+        "pending": 0,
+        "failed": []
+      },
+      "solo": [],
+      "sfx": {
+        "count": 0,
+        "scale": 1,
+        "peakBudget": 0.45,
+        "sources": []
+      },
+      "lastInput": {
+        "key": "Escape",
+        "code": "Escape"
+      },
+      "errors": []
+    }
+  ],
+  "game": [
+    {
+      "label": "actual-game-surface",
+      "saveWritesBlocked": true,
+      "phase": "playing",
+      "audioContextState": "running",
+      "initialized": true,
+      "enabled": true,
+      "listener": {
+        "x": 4.335106382978723,
+        "y": 64.20212765957447
+      },
+      "context": {
+        "scene": "play",
+        "gameState": "playing",
+        "depth": 0,
+        "biome": "surface",
+        "dayPhase": "afternoon",
+        "weather": "clear",
+        "tutorialActive": false,
+        "earthquakeState": "idle",
+        "earthquakePlayerAware": false,
+        "wurmActive": false,
+        "wurmPhase": "dormant",
+        "hardcoreArmed": false,
+        "hardcoreStressBand": "calm"
+      },
+      "stars": {
+        "source": null,
+        "nearRefuge": false,
+        "active": [],
+        "pending": []
+      },
+      "panic": {
+        "band": "calm",
+        "role": null,
+        "active": [],
+        "pending": []
+      },
+      "memory": {
+        "resident": 2,
+        "decodedBytes": 207528,
+        "pending": 0,
+        "failed": []
+      },
+      "sfx": {
+        "count": 0,
+        "scale": 1,
+        "peakBudget": 0.45,
+        "sources": []
+      },
+      "recentEvents": [],
+      "errors": []
+    },
+    {
+      "label": "actual-game-near-star",
+      "saveWritesBlocked": true,
+      "phase": "playing",
+      "audioContextState": "running",
+      "initialized": true,
+      "enabled": true,
+      "listener": {
+        "x": 73.33510638297872,
+        "y": 66.20212765957447
+      },
+      "context": {
+        "scene": "play",
+        "gameState": "playing",
+        "depth": 2,
+        "biome": "surface",
+        "dayPhase": "afternoon",
+        "weather": "drizzle",
+        "tutorialActive": false,
+        "earthquakeState": "idle",
+        "earthquakePlayerAware": false,
+        "wurmActive": false,
+        "wurmPhase": "dormant",
+        "hardcoreArmed": false,
+        "hardcoreStressBand": "calm"
+      },
+      "stars": {
+        "source": "75,68",
+        "nearRefuge": false,
+        "distance": 3.157052686591113,
+        "dx": 2.164893617021278,
+        "dy": 2.2978723404255277,
+        "weight": 0.951607563931472,
+        "gain": 0.780318202423807,
+        "pan": 0.5623006462632928,
+        "cutoff": 6520,
+        "occlusion": 0.4,
+        "vertical": "below",
+        "active": [
+          {
+            "id": "freesound-423221",
+            "key": "fs-approved-423221",
+            "gain": 0.10890549001955759,
+            "target": 0.10890549001955759,
+            "owner": "75,68",
+            "peakContribution": 0.02004520983629378,
+            "pan": 0.5623006224632263,
+            "cutoff": 6520
+          },
+          {
+            "id": "freesound-522116",
+            "key": "fs-approved-522116",
+            "gain": 0.0022980787818784646,
+            "target": 0.0022980787818784646,
+            "owner": "75,68",
+            "peakContribution": 0.0015523970296951496,
+            "pan": 0.5623006224632263,
+            "cutoff": 6520
+          }
+        ],
+        "pending": []
+      },
+      "panic": {
+        "band": "calm",
+        "role": null,
+        "active": [],
+        "pending": []
+      },
+      "memory": {
+        "resident": 6,
+        "decodedBytes": 3623008,
+        "pending": 0,
+        "failed": []
+      },
+      "sfx": {
+        "count": 0,
+        "scale": 1,
+        "peakBudget": 0.45,
+        "sources": []
+      },
+      "recentEvents": [
+        {
+          "id": "freesound-752035",
+          "role": "starAccent",
+          "at": 631427.8,
+          "context": "18:75,68"
+        },
+        {
+          "id": "freesound-749979",
+          "role": "starAccent",
+          "at": 657438,
+          "context": "18:75,68"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "label": "actual-contact-check",
+      "saveWritesBlocked": true,
+      "phase": "playing",
+      "audioContextState": "running",
+      "initialized": true,
+      "enabled": true,
+      "listener": {
+        "x": 73.33510638297872,
+        "y": 66.20212765957447
+      },
+      "context": {
+        "scene": "play",
+        "gameState": "playing",
+        "depth": 2,
+        "biome": "surface",
+        "dayPhase": "afternoon",
+        "weather": "rain",
+        "tutorialActive": false,
+        "earthquakeState": "idle",
+        "earthquakePlayerAware": false,
+        "wurmActive": false,
+        "wurmPhase": "dormant",
+        "hardcoreArmed": false,
+        "hardcoreStressBand": "calm"
+      },
+      "stars": {
+        "source": "75,68",
+        "nearRefuge": false,
+        "distance": 3.157052686591113,
+        "dx": 2.164893617021278,
+        "dy": 2.2978723404255277,
+        "weight": 0.951607563931472,
+        "gain": 0.780318202423807,
+        "pan": 0.5623006462632928,
+        "cutoff": 6520,
+        "occlusion": 0.4,
+        "vertical": "below",
+        "active": [
+          {
+            "id": "freesound-423221",
+            "key": "fs-approved-423221",
+            "gain": 0.10890549001955759,
+            "target": 0.10890549001955759,
+            "owner": "75,68",
+            "peakContribution": 0.02004520983629378,
+            "pan": 0.5623006224632263,
+            "cutoff": 6520
+          },
+          {
+            "id": "freesound-522116",
+            "key": "fs-approved-522116",
+            "gain": 0.0022980787818784646,
+            "target": 0.0022980787818784646,
+            "owner": "75,68",
+            "peakContribution": 0.0015523970296951496,
+            "pan": 0.5623006224632263,
+            "cutoff": 6520
+          }
+        ],
+        "pending": []
+      },
+      "panic": {
+        "band": "calm",
+        "role": null,
+        "active": [],
+        "pending": []
+      },
+      "memory": {
+        "resident": 8,
+        "decodedBytes": 4273759,
+        "pending": 0,
+        "failed": []
+      },
+      "sfx": {
+        "count": 0,
+        "scale": 1,
+        "peakBudget": 0.45,
+        "sources": []
+      },
+      "recentEvents": [
+        {
+          "id": "freesound-752035",
+          "role": "starAccent",
+          "at": 631427.8,
+          "context": "18:75,68"
+        },
+        {
+          "id": "freesound-749979",
+          "role": "starAccent",
+          "at": 657438,
+          "context": "18:75,68"
+        },
+        {
+          "id": "freesound-752035",
+          "role": "starAccent",
+          "at": 683448.3,
+          "context": "18:75,68"
+        },
+        {
+          "id": "freesound-749979",
+          "role": "starAccent",
+          "at": 709458.6,
+          "context": "18:75,68"
+        },
+        {
+          "id": "freesound-752035",
+          "role": "starAccent",
+          "at": 735468.9,
+          "context": "18:75,68"
+        },
+        {
+          "id": "freesound-749979",
+          "role": "starAccent",
+          "at": 761479.1,
+          "context": "18:75,68"
+        },
+        {
+          "id": "freesound-752035",
+          "role": "starAccent",
+          "at": 787489.4,
+          "context": "18:75,68"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "label": "game-Escape-attempt-not-counted-as-pause-proof",
+      "saveWritesBlocked": true,
+      "phase": "playing",
+      "audioContextState": "running",
+      "initialized": true,
+      "enabled": true,
+      "listener": {
+        "x": 73.33510638297872,
+        "y": 66.20212765957447
+      },
+      "context": {
+        "scene": "play",
+        "gameState": "playing",
+        "depth": 2,
+        "biome": "surface",
+        "dayPhase": "afternoon",
+        "weather": "storm",
+        "tutorialActive": false,
+        "earthquakeState": "idle",
+        "earthquakePlayerAware": false,
+        "wurmActive": false,
+        "wurmPhase": "dormant",
+        "hardcoreArmed": false,
+        "hardcoreStressBand": "calm"
+      },
+      "stars": {
+        "source": "75,68",
+        "nearRefuge": false,
+        "distance": 3.157052686591113,
+        "dx": 2.164893617021278,
+        "dy": 2.2978723404255277,
+        "weight": 0.951607563931472,
+        "gain": 0.780318202423807,
+        "pan": 0.5623006462632928,
+        "cutoff": 6520,
+        "occlusion": 0.4,
+        "vertical": "below",
+        "active": [
+          {
+            "id": "freesound-423221",
+            "key": "fs-approved-423221",
+            "gain": 0.10890549001955759,
+            "target": 0.10890549001955759,
+            "owner": "75,68",
+            "peakContribution": 0.02004520983629378,
+            "pan": 0.5623006224632263,
+            "cutoff": 6520
+          },
+          {
+            "id": "freesound-522116",
+            "key": "fs-approved-522116",
+            "gain": 0.0022980787818784646,
+            "target": 0.0022980787818784646,
+            "owner": "75,68",
+            "peakContribution": 0.0015523970296951496,
+            "pan": 0.5623006224632263,
+            "cutoff": 6520
+          }
+        ],
+        "pending": []
+      },
+      "panic": {
+        "band": "calm",
+        "role": null,
+        "active": [],
+        "pending": []
+      },
+      "memory": {
+        "resident": 8,
+        "decodedBytes": 4273759,
+        "pending": 0,
+        "failed": []
+      },
+      "sfx": {
+        "count": 0,
+        "scale": 1,
+        "peakBudget": 0.45,
+        "sources": []
+      },
+      "recentEvents": [
+        {
+          "id": "freesound-749979",
+          "role": "starAccent",
+          "at": 709458.6,
+          "context": "18:75,68"
+        },
+        {
+          "id": "freesound-752035",
+          "role": "starAccent",
+          "at": 735468.9,
+          "context": "18:75,68"
+        },
+        {
+          "id": "freesound-749979",
+          "role": "starAccent",
+          "at": 761479.1,
+          "context": "18:75,68"
+        },
+        {
+          "id": "freesound-752035",
+          "role": "starAccent",
+          "at": 787489.4,
+          "context": "18:75,68"
+        },
+        {
+          "id": "freesound-749979",
+          "role": "starAccent",
+          "at": 813499.7,
+          "context": "18:75,68"
+        },
+        {
+          "id": "freesound-752035",
+          "role": "starAccent",
+          "at": 839510,
+          "context": "18:75,68"
+        },
+        {
+          "id": "freesound-749979",
+          "role": "starAccent",
+          "at": 865520.3,
+          "context": "18:75,68"
+        },
+        {
+          "id": "freesound-752035",
+          "role": "starAccent",
+          "at": 891530.6,
+          "context": "18:75,68"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "label": "actual-game-warmed-contact",
+      "saveWritesBlocked": true,
+      "phase": "playing",
+      "audioContextState": "running",
+      "initialized": true,
+      "enabled": true,
+      "listener": {
+        "x": 73.33510638297872,
+        "y": 66.20212765957447
+      },
+      "context": {
+        "scene": "play",
+        "gameState": "playing",
+        "depth": 2,
+        "biome": "surface",
+        "dayPhase": "afternoon",
+        "weather": "drizzle",
+        "tutorialActive": false,
+        "earthquakeState": "idle",
+        "earthquakePlayerAware": false,
+        "wurmActive": false,
+        "wurmPhase": "dormant",
+        "hardcoreArmed": false,
+        "hardcoreStressBand": "calm"
+      },
+      "stars": {
+        "source": "75,68",
+        "nearRefuge": false,
+        "distance": 3.157052686591113,
+        "dx": 2.164893617021278,
+        "dy": 2.2978723404255277,
+        "weight": 0.951607563931472,
+        "gain": 0.780318202423807,
+        "pan": 0.5623006462632928,
+        "cutoff": 6520,
+        "occlusion": 0.4,
+        "vertical": "below",
+        "active": [
+          {
+            "id": "freesound-423221",
+            "key": "fs-approved-423221",
+            "gain": 0.10890549001955759,
+            "target": 0.10890549001955759,
+            "owner": "75,68",
+            "peakContribution": 0.02004520983629378,
+            "pan": 0.5623006224632263,
+            "cutoff": 6520
+          },
+          {
+            "id": "freesound-522116",
+            "key": "fs-approved-522116",
+            "gain": 0.0022980787818784646,
+            "target": 0.0022980787818784646,
+            "owner": "75,68",
+            "peakContribution": 0.0015523970296951496,
+            "pan": 0.5623006224632263,
+            "cutoff": 6520
+          }
+        ],
+        "pending": []
+      },
+      "panic": {
+        "band": "calm",
+        "role": null,
+        "active": [],
+        "pending": []
+      },
+      "memory": {
+        "resident": 8,
+        "decodedBytes": 4273759,
+        "pending": 0,
+        "failed": []
+      },
+      "sfx": {
+        "count": 0,
+        "scale": 1,
+        "peakBudget": 0.45,
+        "sources": []
+      },
+      "recentEvents": [
+        {
+          "id": "freesound-752035",
+          "role": "starAccent",
+          "at": 839510,
+          "context": "18:75,68"
+        },
+        {
+          "id": "freesound-749979",
+          "role": "starAccent",
+          "at": 865520.3,
+          "context": "18:75,68"
+        },
+        {
+          "id": "freesound-752035",
+          "role": "starAccent",
+          "at": 891530.6,
+          "context": "18:75,68"
+        },
+        {
+          "id": "freesound-213005",
+          "role": "mineEarth",
+          "at": 894049.9,
+          "context": "surface"
+        },
+        {
+          "id": "freesound-749979",
+          "role": "starAccent",
+          "at": 917540.9,
+          "context": "18:75,68"
+        },
+        {
+          "id": "freesound-752035",
+          "role": "starAccent",
+          "at": 943551.1,
+          "context": "18:75,68"
+        },
+        {
+          "id": "freesound-749979",
+          "role": "starAccent",
+          "at": 969561.5,
+          "context": "18:75,68"
+        },
+        {
+          "id": "freesound-752035",
+          "role": "starAccent",
+          "at": 995571.8,
+          "context": "18:75,68"
+        }
+      ],
+      "errors": []
+    }
+  ],
+  "inbox": {
+    "decision": "Approved — included in wired batch (2)",
+    "metadata": "Source ID423221Length16.28 secondsWired batch (2)Included — starHum; review changes need a new exportOriginal formatwav · 44100 Hz · 1 channel(s)Declared licenseCC0-1.0License reviewAPI declaration only — recheck at promotionAvailabilityHQ preview on demand; original not downloadedQualitymetadata-screened; human audition and original-file QC requiredTagsenergy, hum, humming, lightsword, scifi",
+    "playing": "Stopped — no audio is playing.",
+    "ratings": "1 / 1 shown · 562 approved · 775 rejected"
+  },
+  "scope": "Visible DOM diagnostics from real Phaser playback, plus an unused-slot save-blocked actual-game run. No review decisions were clicked.",
+  "limits": [
+    "Some observations precede the distance-cap and short-key-tap corrections; use explicitly labelled calibrated/final observations for those checks.",
+    "Instantaneous game Escape attempts left phase=playing and are not claimed as live pause proof; pause lifecycle is covered by the timing contracts. The review page's Escape stop is verified.",
+    "Actual game Star layers and a mineEarth contact are verified. Other role/state combinations use the real-audio review stage and focused contracts, not a full game/biome playthrough.",
+    "No subjective full-library listening, calibrated hardware SPL, mobile-device, or long-session acceptance is claimed."
+  ],
+  "checks": {
+    "actualGameStar": true,
+    "actualGameMine": true,
+    "calibratedDistance": true,
+    "directionChange": true,
+    "rockFiltering": true,
+    "criticalPanic": true,
+    "starConsumption": true,
+    "outOfRange": true,
+    "soloIsolation": true,
+    "muteStopsVoices": true,
+    "tapControls": true,
+    "scaledGridClick": true,
+    "escapeStops": true,
+    "approvalBaseline": true,
+    "noObservedErrors": true
+  },
+  "passed": true
+}

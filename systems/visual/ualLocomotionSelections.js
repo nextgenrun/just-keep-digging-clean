@@ -1,5 +1,30 @@
 /** Builds shared loop and one-shot selections for the UAL locomotion state machine. */
 
+const finite = (value) => (Number.isFinite(value) ? value : 0);
+
+export function normalizeLocomotionSnapshot(snapshot = {}) {
+  return {
+    grounded: snapshot.grounded === true,
+    flying: snapshot.flying === true,
+    horizontalVelocity: finite(snapshot.horizontalVelocity),
+    verticalVelocity: finite(snapshot.verticalVelocity),
+    currentAnimationKey: snapshot.currentAnimationKey || null,
+    isPlaying: snapshot.isPlaying === true,
+    facingFlipX: typeof snapshot.facingFlipX === "boolean" ? snapshot.facingFlipX : null,
+    groundMovementActive: typeof snapshot.groundMovementActive === "boolean"
+      ? snapshot.groundMovementActive
+      : null,
+    // Older callers omitted this field and retain the previous all-run gait.
+    running: typeof snapshot.running === "boolean" ? snapshot.running : true,
+    currentFrameIndex: Number.isFinite(snapshot.currentFrameIndex)
+      ? Math.max(0, Math.floor(snapshot.currentFrameIndex))
+      : 0,
+    currentTextureFrame: Number.isFinite(Number(snapshot.currentTextureFrame))
+      ? Math.max(0, Math.floor(Number(snapshot.currentTextureFrame)))
+      : null,
+  };
+}
+
 export function beginLocomotionTransition(
   phase,
   animationKey,

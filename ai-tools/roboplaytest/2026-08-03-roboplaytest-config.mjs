@@ -26,11 +26,12 @@ Options:
   --url=<url>                 Existing game URL (default starts an isolated local server)
   --output=<directory>        Artifact directory (default: OS temp directory)
   --edge=<path>               Edge/Chromium executable
-  --profile=<deep|critical|opening|ui|human> Coverage profile (default: deep)
+  --profile=<deep|critical|opening|ui|human|worldroot> Coverage profile (default: deep)
   --viewport-width=<number>  Browser viewport width (default: 1280)
   --viewport-height=<number> Browser viewport height (default: 720)
   --tutorial=<guided|skip>    Fresh-save opening route (default: skip)
   --headed=1                  Show the automated browser
+  --native-gpu=1              Use Chromium's normal GPU backend instead of CI SwiftShader
   --no-server=1               Never start the built-in local server
   --load-timeout-ms=<number>  Boot/world-load timeout (default: 240000)
   --phase-timeout-ms=<number> Per-action timeout (default: 30000)
@@ -96,8 +97,8 @@ export function parseRoboplaytestConfig(argv = process.argv.slice(2), now = new 
   const runId = createRunId(now);
   const suppliedUrl = options.get("url");
   const profile = String(options.get("profile") || "deep").toLowerCase();
-  if (!["deep", "critical", "opening", "ui", "human"].includes(profile)) {
-    throw new Error("--profile must be deep, critical, opening, ui, or human");
+  if (!["deep", "critical", "opening", "ui", "human", "worldroot"].includes(profile)) {
+    throw new Error("--profile must be deep, critical, opening, ui, human, or worldroot");
   }
   const tutorial = String(options.get("tutorial") || "skip").toLowerCase();
   if (!["guided", "skip"].includes(tutorial)) {
@@ -124,6 +125,7 @@ export function parseRoboplaytestConfig(argv = process.argv.slice(2), now = new 
     output,
     edgePath: path.resolve(options.get("edge") || DEFAULT_EDGE_PATH),
     headed: booleanOption(options, "headed"),
+    nativeGpu: booleanOption(options, "native-gpu"),
     noServer: booleanOption(options, "no-server", Boolean(suppliedUrl)),
     profile,
     tutorial,

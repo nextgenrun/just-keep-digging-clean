@@ -1,0 +1,27 @@
+{
+  "loadingFrame": [
+    {
+      "border": "0px none rgb(221, 205, 166)",
+      "content": "normal",
+      "pseudo": "",
+      "shadow": "none"
+    },
+    {
+      "border": "0px none rgb(221, 205, 166)",
+      "content": "none",
+      "pseudo": "::before",
+      "shadow": "none"
+    },
+    {
+      "border": "0px none rgb(221, 205, 166)",
+      "content": "none",
+      "pseudo": "::after",
+      "shadow": "none"
+    }
+  ],
+  "viewport": {
+    "border": "0px none rgb(240, 244, 248)",
+    "borderRadius": "0px",
+    "outline": "rgb(240, 244, 248) none 3px"
+  }
+}

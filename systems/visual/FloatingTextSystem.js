@@ -60,6 +60,7 @@ export class FloatingTextSystem {
     this._constellationStarsBeingAnimated = new Set(); // Track stars being animated
     this._onConstellationUnlocked = null; // callback(resourceType) wired by StarPillarSystem
     this._onCollectedSkyStar = null; // callback(detail) wired by Star Heart progression
+    this._onCollectedSkyStarPickup = null; // presentation-only exact-icon handoff
     this.loadSaveData(initialData);
   }
 
@@ -70,6 +71,16 @@ export class FloatingTextSystem {
 
   setCollectedSkyStarCallback(fn) {
     this._onCollectedSkyStar = typeof fn === "function" ? fn : null;
+  }
+
+  setCollectedSkyStarPickupCallback(fn) {
+    this._onCollectedSkyStarPickup = typeof fn === "function" ? fn : null;
+  }
+
+  _emitCollectedSkyStarPickup(detail) {
+    if (!detail?.progress || !this._onCollectedSkyStarPickup) return false;
+    this._onCollectedSkyStarPickup(detail);
+    return true;
   }
 
   /** Return array of resource types whose constellations are unlocked. */
@@ -459,67 +470,6 @@ export class FloatingTextSystem {
   }
 
   /**
-   * Show critical hit damage (extra large with flash effect)
-   * @param {number} worldX - World X position
-   * @param {number} worldY - World Y position
-   * @param {number} damage - Damage dealt
-   * @param {number} multiplier - Critical hit multiplier (e.g., 1.5)
-   */
-  showCriticalHit(worldX, worldY, damage, multiplier) {
-    if (!this._shouldShowFloatingText("critical")) return;
-    // Guard against NaN
-    if (!Number.isFinite(damage) || damage < 0) damage = 0;
-    const formattedDamage = Math.floor(damage);
-    const text = ` ${formattedDamage}`;
-    
-    const floatingText = this.scene.add.text(worldX, worldY, text, {
-      fontFamily: "Consolas, monospace",
-      fontSize: `${HUD_LAYOUT.floatCriticalFontSize}px`,
-      color: HUD_LAYOUT.floatCriticalColor,
-      fontStyle: "bold",
-      stroke: "#ffffff",
-      strokeThickness: HUD_LAYOUT.floatCriticalStrokeThickness,
-      shadow: {
-        offsetX: HUD_LAYOUT.floatCriticalShadowX,
-        offsetY: HUD_LAYOUT.floatCriticalShadowY,
-        color: "#ff0000",
-        blur: 8,
-        stroke: true,
-        fill: true
-      }
-    });
-
-    floatingText.setOrigin(0.5);
-    floatingText.setDepth(HUD_LAYOUT.floatingTextDepth);
-    floatingText.setAlpha(1);
-
-    // Add flash effect
-    this.scene.tweens.add({
-      targets: floatingText,
-      alpha: 1,
-      scale: 1.2,
-      duration: 150,
-      ease: "Power2.out",
-      yoyo: true
-    });
-
-    this.activeFloatingTexts.push(floatingText);
-
-    this.scene.tweens.add({
-      targets: floatingText,
-      y: worldY - HUD_LAYOUT.floatCriticalUpPx,
-      alpha: 0,
-      duration: HUD_LAYOUT.floatCriticalDurationMs,
-      ease: "Power2.out",
-      onComplete: () => {
-        floatingText.destroy();
-        const idx = this.activeFloatingTexts.indexOf(floatingText);
-        if (idx !== -1) this.activeFloatingTexts.splice(idx, 1);
-      }
-    });
-  }
-
-  /**
    * Show heavy punch damage number (orange, distinct style)
    * @param {number} worldX
    * @param {number} worldY
@@ -569,123 +519,6 @@ export class FloatingTextSystem {
       y: worldY - HUD_LAYOUT.floatHeavyPunchUpPx,
       alpha: 0,
       duration: HUD_LAYOUT.floatHeavyPunchDurationMs,
-      ease: "Power2.out",
-      onComplete: () => {
-        floatingText.destroy();
-        const idx = this.activeFloatingTexts.indexOf(floatingText);
-        if (idx !== -1) this.activeFloatingTexts.splice(idx, 1);
-      }
-    });
-  }
-
-  /**
-   * Show resource luck bonus (extra large with flash effect)
-   * @param {number} worldX - World X position
-   * @param {number} worldY - World Y position
-   * @param {string} label - Resource name (e.g., "Dirt", "Copper")
-   * @param {string} color - Resource color
-   * @param {number} amount - Bonus amount collected
-   */
-  showResourceLuckBonus(worldX, worldY, label, color, amount) {
-    if (!this._shouldShowFloatingText("bonus")) return;
-    const text = `+${amount} ${label} `;
-    
-    const floatingText = this.scene.add.text(worldX, worldY, text, {
-      fontFamily: "Consolas, monospace",
-      fontSize: `${HUD_LAYOUT.floatLuckFontSize}px`,
-      color: color,
-      fontStyle: "bold",
-      stroke: "#ffffff",
-      strokeThickness: HUD_LAYOUT.floatLuckStrokeThickness,
-      shadow: {
-        offsetX: HUD_LAYOUT.floatLuckShadowX,
-        offsetY: HUD_LAYOUT.floatLuckShadowY,
-        color: "#00ff00",
-        blur: 6,
-        stroke: true,
-        fill: true
-      }
-    });
-
-    floatingText.setOrigin(0.5);
-    floatingText.setDepth(HUD_LAYOUT.floatingTextDepth);
-    floatingText.setAlpha(1);
-
-    // Add flash effect
-    this.scene.tweens.add({
-      targets: floatingText,
-      alpha: 1,
-      scale: 1.15,
-      duration: 150,
-      ease: "Power2.out",
-      yoyo: true
-    });
-
-    this.activeFloatingTexts.push(floatingText);
-
-    this.scene.tweens.add({
-      targets: floatingText,
-      y: worldY - HUD_LAYOUT.floatLuckUpPx,
-      alpha: 0,
-      duration: HUD_LAYOUT.floatLuckDurationMs,
-      ease: "Power2.out",
-      onComplete: () => {
-        floatingText.destroy();
-        const idx = this.activeFloatingTexts.indexOf(floatingText);
-        if (idx !== -1) this.activeFloatingTexts.splice(idx, 1);
-      }
-    });
-  }
-
-  /**
-   * Show a lucky sale bonus popup (gold coins style, large and bouncy)
-   * @param {number} worldX - World X position (player position)
-   * @param {number} worldY - World Y position (player position)
-   * @param {number} amount - Bonus gold amount earned
-   */
-  showLuckySaleBonus(worldX, worldY, amount) {
-    if (!this._shouldShowFloatingText("bonus")) return;
-    const text = `+${amount}g LUCKY!`;
-
-    const floatingText = this.scene.add.text(worldX, worldY - 20, text, {
-      fontFamily: "Consolas, monospace",
-      fontSize: "32px",
-      color: "#ffd700",
-      fontStyle: "bold",
-      stroke: "#000000",
-      strokeThickness: 5,
-      shadow: {
-        offsetX: 2,
-        offsetY: 2,
-        color: "#ff8800",
-        blur: 8,
-        stroke: true,
-        fill: true
-      }
-    });
-
-    floatingText.setOrigin(0.5);
-    floatingText.setDepth(HUD_LAYOUT.floatingTextDepth + 10);
-    floatingText.setAlpha(1);
-
-    // Scale-bounce entrance
-    this.scene.tweens.add({
-      targets: floatingText,
-      scaleX: 1.4,
-      scaleY: 1.4,
-      duration: 180,
-      ease: "Back.out",
-      yoyo: true
-    });
-
-    this.activeFloatingTexts.push(floatingText);
-
-    // Float upward and fade out
-    this.scene.tweens.add({
-      targets: floatingText,
-      y: worldY - 80,
-      alpha: 0,
-      duration: 1800,
       ease: "Power2.out",
       onComplete: () => {
         floatingText.destroy();
@@ -964,7 +797,7 @@ export class FloatingTextSystem {
     ) {
       return null;
     }
-    const star = this.scene.add.image(x, y, textureKey, textureFrame || undefined);
+    const star = this.scene.add.image(x, y, textureKey, textureFrame ?? undefined);
     star.setDepth(HUD_LAYOUT.hudDepth - 5);
     star.setDisplaySize(displaySize, displaySize);
     star.setAlpha(0);
@@ -1180,6 +1013,12 @@ export class FloatingTextSystem {
       ),
       materialAmount: Number.isFinite(rewardDetail?.materialAmount)
         ? Math.max(0, rewardDetail.materialAmount)
+        : null,
+      originTileX: Number.isFinite(rewardDetail?.originTileX)
+        ? Math.floor(rewardDetail.originTileX)
+        : null,
+      originTileY: Number.isFinite(rewardDetail?.originTileY)
+        ? Math.floor(rewardDetail.originTileY)
         : null,
       relicCurrent: this.getAncientRelicCount(),
       relicRequired: getConstellationRelicRequirement(resourceType),
@@ -1490,6 +1329,7 @@ export class FloatingTextSystem {
   destroy() {
     // Kill in-flight tweens before destroying objects to prevent onComplete
     this._destroyed = true;
+    this._onCollectedSkyStarPickup = null;
     // callbacks firing on already-destroyed objects after scene shutdown
     this.activeFloatingTexts.forEach(text => {
       this.scene.tweens.killTweensOf(text);

@@ -48,7 +48,7 @@ export class StartModeSelectionOverlay {
       .setInteractive();
     const panel = this.scene.add.image(0, 0, panelKey)
       .setDisplaySize(ui.panelWidth, ui.panelHeight);
-    const title = this.scene.add.text(0, ui.titleY, modeUi.title, {
+    const title = this.scene.add.text(0, modeUi.headerTitleY, modeUi.title, {
       fontFamily: UI_FONTS.display,
       fontSize: `${ui.font.titlePx}px`,
       fontStyle: "bold",
@@ -56,7 +56,7 @@ export class StartModeSelectionOverlay {
       stroke: "#080204",
       strokeThickness: 5,
     }).setOrigin(0.5);
-    const subtitle = this.scene.add.text(0, ui.subtitleY, modeUi.subtitle, {
+    const subtitle = this.scene.add.text(0, modeUi.headerSubtitleY, modeUi.subtitle, {
       fontFamily: UI_FONTS.mono,
       fontSize: `${ui.font.subtitlePx}px`,
       fontStyle: "bold",

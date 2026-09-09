@@ -40,6 +40,7 @@ function makeDisplay(registry = []) {
     setBlendMode() { return this; },
     setDepth() { return this; },
     setDisplaySize() { return this; },
+    setOrigin(x, y) { this.originX = x; this.originY = y; return this; },
     setPosition(x, y) { this.x = x; this.y = y; return this; },
     setScale(x, y = x) { this.scaleX = x; this.scaleY = y; return this; },
     setStrokeStyle() { return this; },
@@ -139,7 +140,7 @@ assert.throws(() => new WaywardStarSwarmEngine({
 }), /texture unavailable/);
 assert.ok(rollbackDisplays.every(display => display.destroyed));
 
-// Hollow Sun completes five independently budgeted black holes.
+// Hollow Sun completes four independently budgeted full-talent black holes.
 const hollowDefinition = fullDefinition("hollow-sun");
 const hollowScene = makeScene();
 let hollowCompletion = null;
@@ -156,19 +157,19 @@ const hollow = new HollowSunClusterEngine({
   probeTile: () => ({ diggable: true, type: TILE_TYPES.DIRT }),
   onComplete: (_reason, health) => { hollowCompletion = health; },
 });
-hollow.update(11520, 16);
+hollow.update(11650, 16);
 assert.deepEqual(
-  [hollow.getSnapshot(11520).holeCount, hollow.getSnapshot(11520).impacts],
-  [5, 395],
+  [hollow.getSnapshot(11650).holeCount, hollow.getSnapshot(11650).impacts],
+  [4, 440],
 );
-assert.equal(hollow.getSnapshot(11520).maxImpacts, 395);
+assert.equal(hollow.getSnapshot(11650).maxImpacts, 440);
 for (const child of hollow.children) {
   hollowScene.tweenConfigs.find(
     tween => tween.targets === child.sprite && typeof tween.onComplete === "function",
   ).onComplete();
 }
-assert.equal(hollowCompletion.impacts, 395);
-assert.equal(hollowCompletion.holeCount, 5);
+assert.equal(hollowCompletion.impacts, 440);
+assert.equal(hollowCompletion.holeCount, 4);
 assert.equal(hollow.active, false);
 assert.doesNotThrow(() => hollow.destroy());
 
@@ -185,12 +186,14 @@ const rage = new StellarRageEngine({
   getAnchor: () => ({ x: 10, y: 20 }),
   onComplete: (_reason, health) => { rageCompletion = health; },
 });
-assert.equal(rage.getBuffSnapshot(10999).active, true);
-assert.equal(rage.getBuffSnapshot(11000).active, false);
+assert.equal(rage.getBuffSnapshot(12499).active, true);
+assert.equal(rage.getBuffSnapshot(12500).active, false);
+assert.equal(rageScene.displays.length, 0, "no legacy icon may float inside the player model");
 assert.equal(rage.launchProjectile({
   direction: { x: 1, y: 0 },
   targetTile: { tx: 1, ty: 1 },
   rangeTiles: 3,
+  traversedRangeTiles: 3,
   endTiles: [{ tx: 3, ty: 1, distance: 3 }],
   hits: [{ tx: 1, ty: 1, distance: 1 }, { tx: 3, ty: 1, distance: 3 }],
   impactedCount: 2,
@@ -198,32 +201,11 @@ assert.equal(rage.launchProjectile({
 }), true);
 assert.equal(rage.getBuffSnapshot(1000).shotsFired, 1);
 assert.equal(rage.getBuffSnapshot(1000).projectileImpacts, 2);
-rage.update(11000, 1000);
-rageScene.tweenConfigs.find(tween => (
-  Array.isArray(tween.targets) && typeof tween.onComplete === "function"
-)).onComplete();
+rage.update(12500, 1000);
 assert.equal(rageCompletion.active, false);
 assert.equal(rageCompletion.projectileDestroyed, 1);
 assert.doesNotThrow(() => rage.destroy());
 assert.ok(rageScene.displays.every(display => display.destroyed));
-
-const failedRageDisplays = [];
-let failedImageAttempts = 0;
-assert.throws(() => new StellarRageEngine({
-  scene: {
-    add: { image: () => {
-      failedImageAttempts += 1;
-      if (failedImageAttempts === 2) throw new Error("rage visual failed");
-      return makeDisplay(failedRageDisplays);
-    } },
-    tweens: { add() {}, killTweensOf() {} },
-  },
-  budget: new CelestialActivationBudget("comet-engine", "polish:rage-fail", 0, rageDefinition),
-  definitionOverride: rageDefinition,
-  assetKey: "rage",
-  getAnchor: () => ({ x: 0, y: 0 }),
-}), /visual failed/);
-assert.ok(failedRageDisplays.every(display => display.destroyed));
 
 // Compact HUD copy exposes live projectile, star, and multi-hole budgets.
 const hudLines = [];
@@ -233,15 +215,17 @@ const hud = Object.assign(Object.create(CelestialEngineHudSystem.prototype), {
 });
 hud.setActiveSnapshot({
   projectileEnabled: true,
-  remainingMs: 9000,
-  projectileRangeTiles: 12,
+  remainingMs: 6000,
+  projectileInfiniteRange: false,
+  projectileRangeTiles: 8,
   projectileSideLanes: 1,
-  projectileDamageMultiplier: 2,
+  projectileDamageMultiplier: 1.5,
+  projectileMaximumDamageMultiplier: 1.5,
 });
 hud.setActiveSnapshot({ starCount: 5, activeStars: 5, impacts: 0, maxImpacts: 265 });
-hud.setActiveSnapshot({ holeCount: 5, activeHoles: 5, impacts: 0, maxImpacts: 395 });
-assert.match(hudLines[0], /12 TILE.*3× 2 DMG/);
+hud.setActiveSnapshot({ holeCount: 4, activeHoles: 4, impacts: 0, maxImpacts: 440 });
+assert.match(hudLines[0], /8 TILE.*3× 1.5 DMG/);
 assert.match(hudLines[1], /STARS 5\/5.*0\/265/);
-assert.match(hudLines[2], /HOLES 5\/5.*0\/395/);
+assert.match(hudLines[2], /HOLES 4\/4.*0\/440/);
 
 console.log("ALL_ABILITIES_POLISH_CONTRACT_OK");

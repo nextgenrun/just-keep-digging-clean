@@ -1,0 +1,86 @@
+[
+  {
+    "file": "player/PlayerDeferredAnimationAssetController.js",
+    "before": "059c2375e3ce7a69128543974bce88d6fbeeabac7c8de80c9e4418f9739debb4",
+    "after": "d191cbf1812adaa3da9050e9475b85a808a558b831f091cd3e6c3632ad206788",
+    "diff": "--- testing\\character-grounding-2026-09-07\\pre-polish\\player__PlayerDeferredAnimationAssetController.js\n+++ player\\PlayerDeferredAnimationAssetController.js\n@@ -152,4 +152,7 @@\n           state.pending -= 1;\n           if (state.pending === 0) this._settle(packId, state, true);\n+          // Each completed atlas is already atomic. Expose its animations while\n+          // the remaining pack loads, avoiding a wrong-pose fallback on Cross.\n+          else createUalNativePlayerAnimations(this.scene, this.profile);\n         },\n         onError: () => this._settle(packId, state, false, \"load-failed\"),"
+  },
+  {
+    "file": "player/UalNativePlayerAnimations.js",
+    "before": "7c205e2c823d8149349c2a3c73533a1ef77004ea24c8b5c8f571a7c08f2208db",
+    "after": "e75c8b6220fa6f793c4876385b14028a6722259e3cd3ab502aa8dbeaf0492efa",
+    "diff": "--- testing\\character-grounding-2026-09-07\\pre-polish\\player__UalNativePlayerAnimations.js\n+++ player\\UalNativePlayerAnimations.js\n@@ -1,2 +1,3 @@\n+import { applyCharacterTextureSampling } from \"../systems/visual/characterTextureSampling.js\";\n import { PLAYER_MOTION_POLISH_CONFIG } from \"../values/playerMotionPolish.js\";\n \n@@ -36,4 +37,5 @@\n export function createUalNativePlayerAnimations(scene, profile) {\n   applyTextureFilter(scene, profile);\n+  applyCharacterTextureSampling(scene, profile);\n   const idleFidgets = profile.idleFidgets || PLAYER_MOTION_POLISH_CONFIG.idle.fidgets;\n   // Generated polish animations are registered first so shared public keys"
+  },
+  {
+    "file": "systems/visual/groundFootstepContact.js",
+    "before": "1e595213c0f155f59055041b456a6b859d51b2895a8a4c273703872722d34f71",
+    "after": "065dce1af54547962e95f685dd533ebebd101e3ab2cc07a1d00e42a0942b0ae5",
+    "diff": "--- testing\\character-grounding-2026-09-07\\pre-polish\\systems__visual__groundFootstepContact.js\n+++ systems\\visual\\groundFootstepContact.js\n@@ -7,5 +7,6 @@\n export function unifiedFootstepSheet(profile, player, frame) {\n   if (profile?.renderPipeline !== PLAYER_FOOTSTEP_CONTACTS.pipeline) return null;\n-  return PLAYER_FOOTSTEP_CONTACTS.sheets[frame?.textureKey || player?.texture?.key] || null;\n+  const key = frame?.textureKey || player?.texture?.key;\n+  return profile.groundingContacts?.[key] || PLAYER_FOOTSTEP_CONTACTS.sheets[key] || null;\n }\n "
+  },
+  {
+    "file": "systems/visual/PlayerContactShadowSystem.js",
+    "before": "987a16abaaf85852ac23a1757e09df20667d3e825b4526b3833f3de2547fd84d",
+    "after": "94b4c542377fa718374a160a1a01a7afe6eb72b510b5f1c54ca642227882c2cd",
+    "diff": "--- testing\\character-grounding-2026-09-07\\pre-polish\\systems__visual__PlayerContactShadowSystem.js\n+++ systems\\visual\\PlayerContactShadowSystem.js\n@@ -1,2 +1,3 @@\n+import { GroundedCharacterShadow } from \"./GroundedCharacterShadow.js\";\n import {\n   PLAYER_CONTACT_SHADOW_CONFIG,\n@@ -22,4 +23,11 @@\n   create() {\n     if (!resolvePlayerContactShadowEnabled(undefined, this.config) || !this.scene?.add) return false;\n+    if (this.scene.sys?.settings?.key === \"PlayScene\" && this.scene.playerAssetProfile?.characterGroundingPolish) {\n+      this.groundedShadow = new GroundedCharacterShadow(this.scene, this.player, this.controller, this.config);\n+      const created = this.groundedShadow.create();\n+      this.outer = this.groundedShadow.outer;\n+      this.inner = this.groundedShadow.inner;\n+      return created;\n+    }\n     this.outer = this.scene.add.ellipse(\n       0,\n@@ -42,4 +50,5 @@\n \n   update(deltaMs = 16.67) {\n+    if (this.groundedShadow) return; // Sample the final pose in postupdate.\n     if (!this.outer || !this.inner || !this.player) return;\n     const body = this.compositionEnabled\n@@ -93,4 +102,10 @@\n \n   destroy() {\n+    if (this.groundedShadow) {\n+      this.groundedShadow.destroy();\n+      this.groundedShadow = null;\n+      this.outer = this.inner = this.scene = this.player = this.controller = null;\n+      return;\n+    }\n     this.outer?.destroy();\n     this.inner?.destroy();"
+  },
+  {
+    "file": "systems/visual/PlayerKinematicMotionSystem.js",
+    "before": "99c06397ec24cf4a1cb07179dc362668e55a21db7c22cf5b5af4d2294a3e4ffe",
+    "after": "24f5359789629129eb9e58219a052c4ea921e61a29bf4771f6370edbdcd601a5",
+    "diff": "--- testing\\character-grounding-2026-09-07\\pre-polish\\systems__visual__PlayerKinematicMotionSystem.js\n+++ systems\\visual\\PlayerKinematicMotionSystem.js\n@@ -36,4 +36,5 @@\n     this._lastY = Number.isFinite(body?.y) ? body.y : null;\n     this._speedX = 0;\n+    this._frameSpeedX = 0;\n     this._speedY = 0;\n     this._hasMotionSample = false;\n@@ -58,8 +59,10 @@\n     if (Math.hypot(dx, dy) > tileSize * sampling.maxDisplacementTiles) {\n       this._speedX = 0;\n+      this._frameSpeedX = 0;\n       this._speedY = 0;\n       this._hasMotionSample = false;\n       return;\n     }\n+    this._frameSpeedX = dx / (Math.max(1, Number(deltaMs) || 0) / 1000);\n     const alpha = 1 - Math.exp(-sampling.responsePerSecond * dt);\n     this._speedX += (dx / dt - this._speedX) * alpha;\n@@ -109,8 +112,8 @@\n     const cadence = isRun ? this.config.locomotion.run : this.config.locomotion.walk;\n     const hasSpeedOverride = Number.isFinite(speedOverridePxPerSec);\n-    const speed = hasSpeedOverride\n-      ? Math.abs(speedOverridePxPerSec)\n-      : Math.abs(this._speedX);\n-    if (speed < this.config.sampling.zeroSpeedEpsilonPxPerSec) return 1;\n+    const speed = this.profile.characterGroundingPolish && this._hasMotionSample\n+      ? Math.abs(this._frameSpeedX)\n+      : hasSpeedOverride ? Math.abs(speedOverridePxPerSec) : Math.abs(this._speedX);\n+    if (speed < this.config.sampling.zeroSpeedEpsilonPxPerSec) return this.profile.characterGroundingPolish ? 0 : 1;\n     const tileSize = this.scene?.config?.tileSize || 1;\n     const profileStride = Number(\n@@ -124,7 +127,7 @@\n       frameCount: animation.frames?.length || 1,\n       frameRate: animation.frameRate || 30,\n-      stridePx: strideTilesPerCycle * tileSize,\n-      minTimeScale: cadence.minTimeScale,\n-      maxTimeScale: cadence.maxTimeScale,\n+      stridePx: this.profile.stridePxByAnimation?.[animationKey] || strideTilesPerCycle * tileSize,\n+      minTimeScale: this.profile.characterGroundingPolish?.minimumTimeScale ?? cadence.minTimeScale,\n+      maxTimeScale: this.profile.characterGroundingPolish?.maximumTimeScale ?? cadence.maxTimeScale,\n     });\n   }"
+  },
+  {
+    "file": "systems/visual/RenderDensitySystem.js",
+    "before": "af0db4df2a3d53ffcb96d021717c55024b77e6ca969ca7a1cfb9fa58e49e90f2",
+    "after": "05bdc1385cbbd674f27c32e28ec884879a66442f9958d98674fc337356918e15",
+    "diff": "--- testing\\character-grounding-2026-09-07\\pre-polish\\systems__visual__RenderDensitySystem.js\n+++ systems\\visual\\RenderDensitySystem.js\n@@ -276,7 +276,13 @@\n   const forceLegacyDensity = rollbackDisabled || rendererMode === query.autoRendererValue;\n   const preset = forceLegacyDensity ? \"legacy\" : requestedPreset;\n-  const density = positiveNumber(quality.densityPresets[preset], 1);\n+  let density = positiveNumber(quality.densityPresets[preset], 1);\n   const logicalWidth = Math.round(positiveNumber(viewport.viewportWidth, 1280));\n   const logicalHeight = Math.round(positiveNumber(viewport.viewportHeight, 720));\n+  if (!forceLegacyDensity && !params.has(query.qualityParam)) {\n+    const display = globalThis.window;\n+    const fit = Math.min((display?.innerWidth || 0) / logicalWidth, (display?.innerHeight || 0) / logicalHeight);\n+    const physicalDensity = fit * positiveNumber(display?.devicePixelRatio, 1);\n+    density = Math.max(density, Math.min(quality.defaultDisplayDensityCap || density, physicalDensity));\n+  }\n \n   return Object.freeze({"
+  },
+  {
+    "file": "systems/visual/UalGroundPhaseHandoffSelector.js",
+    "before": "a6ff5212baf433005f6732cc6b32975b81dadc2d5e094b3930f9159a78a26ff3",
+    "after": "bbb34028ddd843203cf3071487e71cf96bf746efc0ce064058d086092c52fe17",
+    "diff": "--- testing\\character-grounding-2026-09-07\\pre-polish\\systems__visual__UalGroundPhaseHandoffSelector.js\n+++ systems\\visual\\UalGroundPhaseHandoffSelector.js\n@@ -189,4 +189,5 @@\n           animationKey: transition.animationKey,\n           phase: transition.kind === \"start\" ? PHASE.WALK_START : PHASE.WALK_STOP,\n+          timeScale: this.bridge.timeScaleByKind?.[transition.kind] ?? null,\n           restart: !transition.observedPlaying,\n           startFrame: transition.startFrame,\n@@ -239,4 +240,5 @@\n       animationKey,\n       phase: kind === \"start\" ? PHASE.WALK_START : PHASE.WALK_STOP,\n+      timeScale: this.bridge.timeScaleByKind?.[kind] ?? null,\n       restart: true,\n       startFrame: resolvedStartFrame,"
+  },
+  {
+    "file": "systems/visual/UalNativeLocomotionTransitionSelector.js",
+    "before": "de63d2ab4c7e303433acfe0806a288339cc9cfc9b2ca4aa932c5d8876d77dfff",
+    "after": "bf042ff9bbc964cc852216df9d0235fb2e3c781869f09fd613a9fca874b1fcf9",
+    "diff": "--- testing\\character-grounding-2026-09-07\\pre-polish\\systems__visual__UalNativeLocomotionTransitionSelector.js\n+++ systems\\visual\\UalNativeLocomotionTransitionSelector.js\n@@ -27,4 +27,5 @@\n   constructor(profile, config = UAL_NATIVE_LOCOMOTION_TRANSITION_CONFIG) {\n     this.keys = requireUalLocomotionAnimationKeys(profile);\n+    this.gaitFrameTransfers = profile?.groundGaitFrameTransfers;\n     this.config = config;\n     this.continuousFlightLoop = profile?.continuousFlightLoop === true;\n@@ -71,7 +72,9 @@\n     }\n     if (state.grounded && !state.flying && state.facingFlipX !== null) {\n-      // Ground facing follows current input instead of smoothed displacement.\n-      // This makes low-speed reversals visible on the same frame.\n-      this._facingFlipX = state.facingFlipX;\n+      // The grounded polish brakes in its travel direction before the pivot.\n+      // Legacy profiles retain their immediate input-facing behavior.\n+      if (this.gaitFrameTransfers && Math.abs(state.horizontalVelocity) > this.config.facing.directionEpsilonPxPerSec) {\n+        this._adoptVelocityFacing(state.horizontalVelocity);\n+      } else this._facingFlipX = state.facingFlipX;\n     } else if (\n       state.facingFlipX !== null\n@@ -234,4 +237,13 @@\n     }\n     if (this._transition && this._transition.phase !== PHASE.LANDING) this._transition = null;\n+    const outgoingGait = running ? this.keys.walkLoop : this.keys.run;\n+    if (this.gaitFrameTransfers && moving && wasMoving && running !== wasRunning\n+      && state.currentAnimationKey === outgoingGait && state.currentTextureFrame !== null) {\n+      this.groundHandoff.reset();\n+      const mapping = running ? this.gaitFrameTransfers.walkToRun : this.gaitFrameTransfers.runToWalk;\n+      return { ...this._loop(running ? this.keys.run : this.keys.walkLoop,\n+        running ? PHASE.RUN : PHASE.WALK_LOOP, state),\n+        restart: true, startFrame: mapping[state.currentTextureFrame] ?? 0 };\n+    }\n     let handoff = null;\n     if (running || (wasRunning && !moving)) {"
+  },
+  {
+    "file": "values/characterDefinitionRuntimeV2.js",
+    "before": "5e787e9cb62941f8fb1080633fa2bee859432d32fd3c9b4f0b17a3b9d0dd21f8",
+    "after": "361b07e4ce68ce108a2920fdbd6043b5d192e08659ab0a8bb6fe337086ce3dff",
+    "diff": "--- testing\\character-grounding-2026-09-07\\pre-polish\\values__characterDefinitionRuntimeV2.js\n+++ values\\characterDefinitionRuntimeV2.js\n@@ -1,2 +1,3 @@\n+import { applyCharacterGroundingPolish } from \"./characterGroundingPolish.js\";\n /** Approved V2 appearance on the existing animation keys, timings and anchors. */\n export const CHARACTER_DEFINITION_RUNTIME_V2 = Object.freeze({\n@@ -22,5 +23,5 @@\n     config.calibratedAnimationPrefixes.some(prefix => key.startsWith(prefix)),\n   );\n-  return Object.freeze({\n+  return applyCharacterGroundingPolish(Object.freeze({\n     ...profile,\n     version: config.version,\n@@ -44,4 +45,4 @@\n       entry[0], `${profile[entry[0]]}.json`, entry[2], config.runtimeRoot,\n     ]))),\n-  });\n+  }));\n }"
+  },
+  {
+    "file": "values/gameConfig.js",
+    "before": "11160b2d28651d2ee237de8e0d851513a7f7ee4265673687840309b8df7bdf9d",
+    "after": "de18dbd2ff3fc0a3ad40c2f9671db4b487d825a69fa1c1240146ed2ef37dc8de",
+    "diff": "--- testing\\character-grounding-2026-09-07\\pre-polish\\values__gameConfig.js\n+++ values\\gameConfig.js\n@@ -40,4 +40,5 @@\n     // additional 44% pixel-fill cost. Ultra remains an explicit query opt-in.\n     defaultDensityPreset: \"high\",\n+    defaultDisplayDensityCap: 2, // Match large/HiDPI displays within the existing Ultra budget.\n     densityPresets: Object.freeze({\n       legacy: 1,"
+  },
+  {
+    "file": "values/playerContactShadow.js",
+    "before": "d26a267f3ccd866311e2f7386aeab3deef2a4fd3dd00d1bf857d163f0c4d1cc9",
+    "after": "43be3a8b0feeff7c96d37dd9ee88e09438c5e1db3e572509aa0bc19717a7380d",
+    "diff": "--- testing\\character-grounding-2026-09-07\\pre-polish\\values__playerContactShadow.js\n+++ values\\playerContactShadow.js\n@@ -5,4 +5,24 @@\n export const PLAYER_CONTACT_SHADOW_CONFIG = Object.freeze({\n   enabled: true,\n+  grounded: Object.freeze({\n+    textureKey: \"character-soft-contact-v3\",\n+    textureWidth: 128,\n+    textureHeight: 64,\n+    outerWidth: 42,\n+    outerHeight: 9,\n+    outerAlpha: 0.24,\n+    innerWidth: 24,\n+    innerHeight: 5,\n+    innerAlpha: 0.22,\n+    footWidth: 13,\n+    footHeight: 3.2,\n+    footAlpha: 0.32,\n+    footLiftFadePx: 4,\n+    floorInsetPx: 0.35,\n+    fadeResponsePerSecond: 28,\n+    landingExtraAlpha: 0.10,\n+    landingSettleMs: 110,\n+    landingSpeedReference: 580,\n+  }),\n   depth: HUD_LAYOUT.playerDepth - 3,\n   color: 0x03060a,"
+  },
+  {
+    "file": "world/playScene/PlaySceneGameplay.js",
+    "before": "7c430ce9f00f89dd401629705f90b5e14249ebe5a9389b3b1cb59c51779be1a5",
+    "after": "d70ef9e1df2216e1b10334807e066f303c99736046bb1665d82e1ce16704a68f",
+    "diff": "--- testing\\character-grounding-2026-09-07\\pre-polish\\world__playScene__PlaySceneGameplay.js\n+++ world\\playScene\\PlaySceneGameplay.js\n@@ -1198,7 +1198,7 @@\n     ) {\n       const body = this.playerController?.physicsBody;\n-      const horizontalVelocity = this.playerKinematicMotion?.getResolvedVelocityX?.()\n-        ?? body?.vx\n-        ?? 0;\n+      const horizontalVelocity = profile.characterGroundingPolish && this.playerController.isGrounded()\n+        ? body?.vx || 0\n+        : this.playerKinematicMotion?.getResolvedVelocityX?.() ?? body?.vx ?? 0;\n       const resolvedVerticalVelocity = this.playerKinematicMotion?.getResolvedVelocityY?.()\n         ?? body?.vy"
+  },
+  {
+    "file": "world/playScene/PlaySceneLifecycle.js",
+    "before": "2cb57b4a4e94eab6ef275d8ff629d7c6f037f06a7bf6bbfb943ce788484492fc",
+    "after": "dc0c4dfe3453366273d1467323b496f37fb8a6a869c141539401a2f2f57246be",
+    "diff": "--- testing\\character-grounding-2026-09-07\\pre-polish\\world__playScene__PlaySceneLifecycle.js\n+++ world\\playScene\\PlaySceneLifecycle.js\n@@ -59,4 +59,5 @@\n   \"playerBodyLanguage\",\n   \"playerContactShadow\",\n+  \"playerWorldAppearance\",\n   \"playerMotionPolish\",\n   \"playerKinematicMotion\","
+  },
+  {
+    "file": "world/playScene/PlaySceneSetup.js",
+    "before": "ad2176e0428d3da89a4e084905bc62eebd431a8476b8a6534dbf7ed4118e1577",
+    "after": "75b62d20429c162614c0dd1e579578e802a1c6b31fcf7e27107043c131249d19",
+    "diff": "--- testing\\character-grounding-2026-09-07\\pre-polish\\world__playScene__PlaySceneSetup.js\n+++ world\\playScene\\PlaySceneSetup.js\n@@ -1,2 +1,3 @@\n+import { PlayerWorldAppearanceSystem } from \"../../systems/visual/PlayerWorldAppearanceSystem.js\";\n import { DynamicEventRuntime } from \"./DynamicEventRuntime.js\";\n /**\n@@ -824,4 +825,6 @@\n   this.postFxSystem = new PostFxSystem(this);\n   this.postFxSystem.create();\n+  this.playerWorldAppearance = new PlayerWorldAppearanceSystem(this, this.player);\n+  this.playerWorldAppearance.create();\n   this.playerBodyLanguage = new PlayerBodyLanguageSystem(this, this.player);\n   this.playerBodyLanguage.create();"
+  }
+]

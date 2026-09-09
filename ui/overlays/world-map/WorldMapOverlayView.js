@@ -1,8 +1,18 @@
+import { addBakedUiCaption } from "../../../systems/visual/bakedUiArt.js";
 import { ASSET_KEYS } from "../../../values/assetKeys.js";
 import { WORLD_MAP_CONFIG } from "../../../values/worldMapConfig.js";
+import { WORLD_MAP_COPY } from "../../../values/playerFacingCopy.js";
 import { WorldMapAnnotationView } from "./WorldMapAnnotationView.js";
+import { WorldMapTerrainTextureView } from "./WorldMapTerrainTextureView.js";
 import { WorldMapTextButton } from "./WorldMapTextButton.js";
 import { formatWorldMapStatus } from "./formatWorldMapStatus.js";
+
+function liftColor(value, amount) {
+  if (!Number.isFinite(value)) return value;
+  const channel = shift => (value >> shift) & 0xff;
+  const lift = source => Math.round(source + (255 - source) * amount);
+  return (lift(channel(16)) << 16) | (lift(channel(8)) << 8) | lift(channel(0));
+}
 
 /** Builds and updates the authored world-map frame, labels, and mouse controls. */
 export class WorldMapOverlayView {
@@ -15,6 +25,7 @@ export class WorldMapOverlayView {
     this.activitySignature = "";
     this.root = null;
     this.annotationView = null;
+    this.terrainTextureView = null;
   }
 
   _rectFromRatio(rect) {
@@ -37,6 +48,7 @@ export class WorldMapOverlayView {
       lineSpacing: style.lineSpacing || 0,
     }).setOrigin(origin[0], origin[1]).setScrollFactor(0);
     this.root.add(object);
+    addBakedUiCaption(this.scene, this.root, object);
     return object;
   }
 
@@ -49,7 +61,8 @@ export class WorldMapOverlayView {
   build(visible = false) {
     this.destroy();
     const { width, height } = this.scene.scale;
-    const { layout, colors, copy, input } = WORLD_MAP_CONFIG;
+    const { layout, colors, input } = WORLD_MAP_CONFIG;
+    const copy = WORLD_MAP_COPY;
     this.viewport = this._rectFromRatio(layout.viewport);
     this.root = this.scene.add.container(0, 0)
       .setDepth(WORLD_MAP_CONFIG.depth).setScrollFactor(0).setVisible(visible);
@@ -57,10 +70,18 @@ export class WorldMapOverlayView {
     const shade = this.scene.add.rectangle(width / 2, height / 2, width, height, colors.shade, 0.82)
       .setScrollFactor(0).setInteractive();
     this.mapGraphics = this.scene.add.graphics().setScrollFactor(0);
+    this.terrainTextureView = new WorldMapTerrainTextureView(this.scene);
+    const terrainTexture = this.terrainTextureView.create(this.viewport);
     this.annotationView = new WorldMapAnnotationView(this.scene);
     this.frame = this.scene.add.image(width / 2, height / 2, ASSET_KEYS.ui.worldMapFrame)
       .setDisplaySize(width, height).setScrollFactor(0);
-    this.root.add([shade, this.mapGraphics, this.annotationView.root, this.frame]);
+    this.root.add([
+      shade,
+      this.mapGraphics,
+      terrainTexture,
+      this.annotationView.root,
+      this.frame,
+    ].filter(Boolean));
     this._buildMask();
     this._buildViewportInput();
 
@@ -93,6 +114,7 @@ export class WorldMapOverlayView {
     );
     this.mapMask = this.maskShape.createGeometryMask();
     this.mapGraphics.setMask(this.mapMask);
+    this.terrainTextureView.setMask(this.mapMask);
     this.annotationView.setMask(this.mapMask);
   }
 
@@ -111,7 +133,8 @@ export class WorldMapOverlayView {
   }
 
   _buildStatusPanels(width, height) {
-    const { colors, copy, layout } = WORLD_MAP_CONFIG;
+    const { colors, layout } = WORLD_MAP_CONFIG;
+    const copy = WORLD_MAP_COPY;
     this.discoveryText = this._addText(layout.discoveryX * width, layout.discoveryY * height, "", {
       fontSize: `${Math.max(15, Math.round(height * 0.025))}px`,
       fontStyle: "bold", color: colors.title,
@@ -135,6 +158,16 @@ export class WorldMapOverlayView {
       WORLD_MAP_CONFIG.annotations.iconSizesPx.status,
     ).setScrollFactor(0).setVisible(false);
     this.root.add(this.regionIcon);
+    this.starTerritoryIcon = this.scene.add.image(
+      layout.statusStarIconX * width,
+      layout.statusStarIconY * height,
+      ASSET_KEYS.ui.worldMapSymbols,
+      WORLD_MAP_CONFIG.symbolAtlas.frames.star,
+    ).setDisplaySize(
+      WORLD_MAP_CONFIG.annotations.iconSizesPx.status,
+      WORLD_MAP_CONFIG.annotations.iconSizesPx.status,
+    ).setScrollFactor(0).setVisible(false);
+    this.root.add(this.starTerritoryIcon);
     this.depthTexts = [];
     const depthPanel = this._rectFromRatio(layout.depthPanel);
     for (let index = 0; index < 5; index += 1) {
@@ -148,7 +181,8 @@ export class WorldMapOverlayView {
   }
 
   _buildFooter(width, height) {
-    const { colors, copy, input, layout } = WORLD_MAP_CONFIG;
+    const { colors, input, layout } = WORLD_MAP_CONFIG;
+    const copy = WORLD_MAP_COPY;
     const style = {
       fontFamily: "Consolas, monospace",
       fontSize: `${Math.max(10, Math.round(height * 0.016))}px`,
@@ -191,7 +225,8 @@ export class WorldMapOverlayView {
 
   _renderActivityRows(stats) {
     const { width, height } = this.scene.scale;
-    const { annotations, colors, copy, input, layout, symbolAtlas } = WORLD_MAP_CONFIG;
+    const { annotations, colors, input, layout, symbolAtlas } = WORLD_MAP_CONFIG;
+    const copy = WORLD_MAP_COPY;
     const providers = this.activityRegistry.getProviders();
     const counts = stats.markerCounts || {};
     const signature = providers
@@ -246,7 +281,8 @@ export class WorldMapOverlayView {
   }
 
   render(stats, viewState) {
-    const { copy, view } = WORLD_MAP_CONFIG;
+    const { view } = WORLD_MAP_CONFIG;
+    const copy = WORLD_MAP_COPY;
     this.annotationView.render({
       markers: stats.markerAnnotations,
       biomeLabels: stats.biomeLabels,
@@ -255,6 +291,28 @@ export class WorldMapOverlayView {
     this.discoveryText.setText(`${copy.discovered}\n${Math.round(stats.discoveryRatio * 100)}%`);
     this.worldStatusText.setText(formatWorldMapStatus(stats, viewState));
     this.regionIcon.setVisible(stats.biomeFieldActive);
+    if (stats.biomeFieldActive && Number.isFinite(stats.currentBiomeColor)) {
+      this.regionIcon.setTint(liftColor(
+        stats.currentBiomeColor,
+        WORLD_MAP_CONFIG.annotations.biomeIdentityLift,
+      ));
+    } else {
+      this.regionIcon.clearTint?.();
+    }
+    const territory = stats.currentStarTerritory;
+    this.starTerritoryIcon.setVisible(Boolean(territory));
+    if (territory?.state === "consumed") {
+      this.starTerritoryIcon
+        .setTint(WORLD_MAP_CONFIG.starTerritories.consumedMarkerTint)
+        .setAlpha(WORLD_MAP_CONFIG.starTerritories.consumedMarkerAlpha);
+    } else if (territory && !territory.discovered) {
+      this.starTerritoryIcon
+        .setTint(WORLD_MAP_CONFIG.starTerritories.routeSignalColor)
+        .setAlpha(WORLD_MAP_CONFIG.starTerritories.signalMarkerAlpha);
+    } else {
+      this.starTerritoryIcon.clearTint?.();
+      this.starTerritoryIcon.setAlpha(1);
+    }
     this.zoomValueText.setText(`${viewState.zoom.toFixed(0)}x`);
     this.zoomInButton.setEnabled(viewState.zoom < view.maxZoom);
     this.zoomOutButton.setEnabled(viewState.zoom > view.minZoom);
@@ -262,6 +320,14 @@ export class WorldMapOverlayView {
       text.setText(`${Math.round(stats.maxDepth * (index / 4))}m`);
     });
     this._renderActivityRows(stats);
+  }
+
+  renderTerrain(options) {
+    return this.terrainTextureView?.render?.(options) || {
+      terrainTextureActive: false,
+      terrainTextureTileCount: 0,
+      terrainTextureMissingLayers: 0,
+    };
   }
 
   setVisible(visible) {
@@ -275,6 +341,7 @@ export class WorldMapOverlayView {
     this.staticButtons.length = 0;
     this.activitySignature = "";
     this.annotationView?.destroy?.();
+    this.terrainTextureView?.destroy?.();
     this.mapGraphics?.clearMask?.(true);
     this.mapMask?.destroy?.();
     this.maskShape?.destroy?.();
@@ -282,5 +349,6 @@ export class WorldMapOverlayView {
     this.root = null;
     this.inputZone = null;
     this.annotationView = null;
+    this.terrainTextureView = null;
   }
 }

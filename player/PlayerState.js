@@ -174,6 +174,7 @@ export class PlayerState {
     if (this.physicsBody) {
       this.physicsBody.resetVelocity();
       this.physicsBody.clearSurfaceDropThrough();
+      this.physicsBody.clearOneWayPlatformDropThrough?.();
       this.physicsBody.setFlightActive(false);
     }
   }

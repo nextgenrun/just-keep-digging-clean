@@ -35,6 +35,7 @@ export class PlayerKinematicMotionSystem {
     this._lastX = Number.isFinite(body?.x) ? body.x : null;
     this._lastY = Number.isFinite(body?.y) ? body.y : null;
     this._speedX = 0;
+    this._frameSpeedX = 0;
     this._speedY = 0;
     this._hasMotionSample = false;
     this._falling = false;
@@ -57,10 +58,12 @@ export class PlayerKinematicMotionSystem {
     const tileSize = this.scene?.config?.tileSize || 1;
     if (Math.hypot(dx, dy) > tileSize * sampling.maxDisplacementTiles) {
       this._speedX = 0;
+      this._frameSpeedX = 0;
       this._speedY = 0;
       this._hasMotionSample = false;
       return;
     }
+    this._frameSpeedX = dx / (Math.max(1, Number(deltaMs) || 0) / 1000);
     const alpha = 1 - Math.exp(-sampling.responsePerSecond * dt);
     this._speedX += (dx / dt - this._speedX) * alpha;
     this._speedY += (dy / dt - this._speedY) * alpha;
@@ -108,10 +111,10 @@ export class PlayerKinematicMotionSystem {
     const isRun = animationKey === this.profile.walkRunAnim;
     const cadence = isRun ? this.config.locomotion.run : this.config.locomotion.walk;
     const hasSpeedOverride = Number.isFinite(speedOverridePxPerSec);
-    const speed = hasSpeedOverride
-      ? Math.abs(speedOverridePxPerSec)
-      : Math.abs(this._speedX);
-    if (speed < this.config.sampling.zeroSpeedEpsilonPxPerSec) return 1;
+    const speed = this.profile.characterGroundingPolish && this._hasMotionSample
+      ? Math.abs(this._frameSpeedX)
+      : hasSpeedOverride ? Math.abs(speedOverridePxPerSec) : Math.abs(this._speedX);
+    if (speed < this.config.sampling.zeroSpeedEpsilonPxPerSec) return this.profile.characterGroundingPolish ? 0 : 1;
     const tileSize = this.scene?.config?.tileSize || 1;
     const profileStride = Number(
       this.profile?.strideTilesPerCycleByAnimation?.[animationKey],
@@ -123,9 +126,9 @@ export class PlayerKinematicMotionSystem {
       speedPxPerSec: speed,
       frameCount: animation.frames?.length || 1,
       frameRate: animation.frameRate || 30,
-      stridePx: strideTilesPerCycle * tileSize,
-      minTimeScale: cadence.minTimeScale,
-      maxTimeScale: cadence.maxTimeScale,
+      stridePx: this.profile.stridePxByAnimation?.[animationKey] || strideTilesPerCycle * tileSize,
+      minTimeScale: this.profile.characterGroundingPolish?.minimumTimeScale ?? cadence.minTimeScale,
+      maxTimeScale: this.profile.characterGroundingPolish?.maximumTimeScale ?? cadence.maxTimeScale,
     });
   }
 

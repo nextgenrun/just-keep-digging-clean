@@ -1,0 +1,855 @@
+{
+  "mutedFuse": {
+    "message": "At the minicamp. Press E in the game to approach the survivor.",
+    "failure": null,
+    "game": "playing",
+    "signal": "fuse",
+    "cinematic": "closed",
+    "trap": {
+      "ready": true,
+      "phase": "fuse",
+      "fuseMs": 1683.4399999999937,
+      "fatal": false,
+      "glow": true
+    },
+    "survivor": "bram",
+    "source": {
+      "tx": 4,
+      "ty": 86
+    },
+    "real": true,
+    "caption": "[His pack hisses. An ember burns inside.]",
+    "camp": true,
+    "survivorVisible": true,
+    "resources": {
+      "dirt": 100,
+      "stone": 50,
+      "copper": 75,
+      "darkDirtNormal": 25,
+      "darkDirtStrong": 25,
+      "steel": 25,
+      "iron": 25,
+      "bronze": 25,
+      "silver": 25,
+      "gold": 25,
+      "lavaDirt": 25,
+      "obsidian": 25,
+      "emberOre": 25,
+      "magmaCrystal": 25
+    },
+    "gp": 110,
+    "stars": 0,
+    "hardcore": {
+      "version": 5,
+      "mode": "casual",
+      "armed": false,
+      "livesRemaining": null,
+      "freeReviveAvailable": false,
+      "deaths": 0,
+      "exhausted": false,
+      "stress": 0,
+      "peakStress": 0,
+      "selectedAt": 0,
+      "armedAt": 0,
+      "lastUnstuckAt": 0,
+      "activePlayMs": 0,
+      "unstuckUses": 0,
+      "paidTeleports": 0,
+      "teleportMoneySpent": 0,
+      "isHardcore": false,
+      "stressBand": "calm",
+      "stressRatio": 0,
+      "sanity": 100,
+      "sanityRatio": 1,
+      "stressGpDrainPerSecond": 0
+    },
+    "playerTile": {
+      "tx": 3,
+      "ty": 86
+    },
+    "history": [],
+    "mia": {
+      "owned": 0,
+      "visible": false,
+      "purchase": {
+        "canPurchase": false,
+        "reason": "requires_signal_rescue"
+      }
+    },
+    "interactionDistance": null,
+    "saveWritesBlocked": true,
+    "voice": {
+      "loaded": 10,
+      "playing": false,
+      "muted": true
+    },
+    "call": {
+      "survivorId": "bram",
+      "real": true,
+      "fatal": true,
+      "explosive": true,
+      "blastPhase": "fuse",
+      "fuseRemainingMs": 1683.4399999999937,
+      "blastFatal": false,
+      "deathSource": "signal",
+      "callInMs": 19769.734389414298,
+      "callSerial": 2,
+      "discovered": true,
+      "pendingDeath": false
+    },
+    "suspended": false,
+    "remainingMs": 81378.58666666556,
+    "timer": {
+      "remaining": 0,
+      "clockPaused": false,
+      "scale": 1,
+      "scenePaused": false
+    },
+    "minicampSolidTiles": 0
+  },
+  "casualExplosion": {
+    "message": "At the minicamp. Press E in the game to approach the survivor.",
+    "failure": null,
+    "game": "playing",
+    "signal": "idle",
+    "cinematic": "closed",
+    "trap": {
+      "ready": true,
+      "glow": false
+    },
+    "caption": null,
+    "camp": false,
+    "survivorVisible": false,
+    "resources": {},
+    "gp": 15.993999999999685,
+    "stars": 0,
+    "hardcore": {
+      "version": 5,
+      "mode": "casual",
+      "armed": false,
+      "livesRemaining": null,
+      "freeReviveAvailable": false,
+      "deaths": 0,
+      "exhausted": false,
+      "stress": 0,
+      "peakStress": 0,
+      "selectedAt": 0,
+      "armedAt": 0,
+      "lastUnstuckAt": 0,
+      "activePlayMs": 0,
+      "unstuckUses": 0,
+      "paidTeleports": 0,
+      "teleportMoneySpent": 0,
+      "isHardcore": false,
+      "stressBand": "calm",
+      "stressRatio": 0,
+      "sanity": 100,
+      "sanityRatio": 1,
+      "stressGpDrainPerSecond": 0
+    },
+    "playerTile": {
+      "tx": 4,
+      "ty": 64
+    },
+    "history": [
+      {
+        "id": "signal-1",
+        "survivorId": "bram",
+        "choice": "blast",
+        "count": 0,
+        "fatal": true
+      }
+    ],
+    "mia": {
+      "owned": 0,
+      "visible": false,
+      "purchase": {
+        "canPurchase": false,
+        "reason": "requires_signal_rescue"
+      }
+    },
+    "interactionDistance": null,
+    "saveWritesBlocked": true,
+    "voice": {
+      "loaded": 10,
+      "playing": false,
+      "muted": true
+    },
+    "timer": {
+      "remaining": 0,
+      "clockPaused": false,
+      "scale": 1,
+      "scenePaused": false
+    }
+  },
+  "walkEscape": {
+    "message": "Walking left with ordinary movement after a 200 ms reaction. No jump, Flight or GP needed.",
+    "failure": null,
+    "game": "playing",
+    "signal": "idle",
+    "cinematic": "closed",
+    "trap": {
+      "ready": true,
+      "glow": false
+    },
+    "caption": null,
+    "camp": false,
+    "survivorVisible": false,
+    "resources": {},
+    "gp": 110,
+    "stars": 750,
+    "hardcore": {
+      "version": 5,
+      "mode": "casual",
+      "armed": false,
+      "livesRemaining": null,
+      "freeReviveAvailable": false,
+      "deaths": 0,
+      "exhausted": false,
+      "stress": 0,
+      "peakStress": 0,
+      "selectedAt": 0,
+      "armedAt": 0,
+      "lastUnstuckAt": 0,
+      "activePlayMs": 0,
+      "unstuckUses": 0,
+      "paidTeleports": 0,
+      "teleportMoneySpent": 0,
+      "isHardcore": false,
+      "stressBand": "calm",
+      "stressRatio": 0,
+      "sanity": 100,
+      "sanityRatio": 1,
+      "stressGpDrainPerSecond": 0
+    },
+    "input": {
+      "left": 65,
+      "right": 68,
+      "leftDown": false,
+      "enabled": true
+    },
+    "playerTile": {
+      "tx": 1,
+      "ty": 86
+    },
+    "history": [
+      {
+        "id": "signal-1",
+        "survivorId": "bram",
+        "choice": "blast",
+        "count": 0,
+        "fatal": false
+      }
+    ],
+    "mia": {
+      "owned": 0,
+      "visible": false,
+      "purchase": {
+        "canPurchase": false,
+        "reason": "requires_signal_rescue"
+      }
+    },
+    "interactionDistance": null,
+    "saveWritesBlocked": true,
+    "voice": {
+      "loaded": 10,
+      "playing": false,
+      "muted": false
+    },
+    "timer": {
+      "remaining": 0,
+      "clockPaused": false,
+      "scale": 1,
+      "scenePaused": false
+    }
+  },
+  "visibleBurst": {
+    "message": "Walking left with ordinary movement after a 200 ms reaction. No jump, Flight or GP needed.",
+    "failure": null,
+    "game": "playing",
+    "signal": "idle",
+    "cinematic": "closed",
+    "trap": {
+      "ready": true,
+      "glow": false,
+      "burst": true
+    },
+    "caption": null,
+    "camp": false,
+    "survivorVisible": false,
+    "resources": {},
+    "gp": 110,
+    "stars": 1500,
+    "hardcore": {
+      "version": 5,
+      "mode": "casual",
+      "armed": false,
+      "livesRemaining": null,
+      "freeReviveAvailable": false,
+      "deaths": 0,
+      "exhausted": false,
+      "stress": 0,
+      "peakStress": 0,
+      "selectedAt": 0,
+      "armedAt": 0,
+      "lastUnstuckAt": 0,
+      "activePlayMs": 0,
+      "unstuckUses": 0,
+      "paidTeleports": 0,
+      "teleportMoneySpent": 0,
+      "isHardcore": false,
+      "stressBand": "calm",
+      "stressRatio": 0,
+      "sanity": 100,
+      "sanityRatio": 1,
+      "stressGpDrainPerSecond": 0
+    },
+    "input": {
+      "left": 65,
+      "right": 68,
+      "leftDown": true,
+      "enabled": true
+    },
+    "playerTile": {
+      "tx": 0,
+      "ty": 86
+    },
+    "history": [
+      {
+        "id": "signal-1",
+        "survivorId": "bram",
+        "choice": "blast",
+        "count": 0,
+        "fatal": false
+      },
+      {
+        "id": "signal-2",
+        "survivorId": "bram",
+        "choice": "blast",
+        "count": 0,
+        "fatal": false
+      }
+    ],
+    "mia": {
+      "owned": 0,
+      "visible": false,
+      "purchase": {
+        "canPurchase": false,
+        "reason": "requires_signal_rescue"
+      }
+    },
+    "interactionDistance": null,
+    "saveWritesBlocked": true,
+    "voice": {
+      "loaded": 10,
+      "playing": false,
+      "muted": false
+    },
+    "timer": {
+      "remaining": 0,
+      "clockPaused": false,
+      "scale": 1,
+      "scenePaused": false
+    }
+  },
+  "generousGift": {
+    "message": "Encounter opened through the real interaction bridge.",
+    "failure": null,
+    "game": "playing",
+    "signal": "result",
+    "cinematic": "result",
+    "trap": {
+      "ready": false
+    },
+    "caption": "A LIGHT LEFT ON\n+2000 STARPOWER · GP FULLY RESTORED",
+    "camp": false,
+    "survivorVisible": false,
+    "resources": {
+      "dirt": 100,
+      "stone": 50,
+      "copper": 75,
+      "darkDirtNormal": 25,
+      "darkDirtStrong": 25,
+      "steel": 25,
+      "iron": 25,
+      "bronze": 25,
+      "silver": 25,
+      "gold": 25,
+      "lavaDirt": 25,
+      "obsidian": 25,
+      "emberOre": 25,
+      "magmaCrystal": 14
+    },
+    "gp": 110,
+    "stars": 3500,
+    "hardcore": {
+      "version": 5,
+      "mode": "casual",
+      "armed": false,
+      "livesRemaining": null,
+      "freeReviveAvailable": false,
+      "deaths": 0,
+      "exhausted": false,
+      "stress": 0,
+      "peakStress": 0,
+      "selectedAt": 0,
+      "armedAt": 0,
+      "lastUnstuckAt": 0,
+      "activePlayMs": 0,
+      "unstuckUses": 0,
+      "paidTeleports": 0,
+      "teleportMoneySpent": 0,
+      "isHardcore": false,
+      "stressBand": "calm",
+      "stressRatio": 0,
+      "sanity": 100,
+      "sanityRatio": 1,
+      "stressGpDrainPerSecond": 0
+    },
+    "input": {
+      "left": 65,
+      "right": 68,
+      "leftDown": false,
+      "enabled": false
+    },
+    "playerTile": {
+      "tx": 2,
+      "ty": 86
+    },
+    "history": [
+      {
+        "id": "signal-1",
+        "survivorId": "bram",
+        "choice": "blast",
+        "count": 0,
+        "fatal": false
+      },
+      {
+        "id": "signal-2",
+        "survivorId": "bram",
+        "choice": "blast",
+        "count": 0,
+        "fatal": false
+      },
+      {
+        "id": "signal-3",
+        "survivorId": "ivo",
+        "choice": "give",
+        "count": 11,
+        "fatal": false
+      }
+    ],
+    "mia": {
+      "owned": 0,
+      "visible": false,
+      "purchase": {
+        "canPurchase": false,
+        "reason": "requires_signal_rescue"
+      }
+    },
+    "interactionDistance": null,
+    "saveWritesBlocked": true,
+    "voice": {
+      "loaded": 20,
+      "playing": false,
+      "muted": false
+    },
+    "timer": {
+      "remaining": 0,
+      "clockPaused": false,
+      "scale": 1,
+      "scenePaused": false
+    },
+    "cinematicText": "A LIGHT LEFT ON\n+2000 STARPOWER · GP FULLY RESTORED",
+    "footer": "ENTER / ESC: CONTINUE"
+  },
+  "hardcoreExplosion": {
+    "message": "Start a Signal first.",
+    "failure": null,
+    "game": "dead",
+    "signal": "idle",
+    "cinematic": "closed",
+    "trap": {
+      "ready": true,
+      "glow": false
+    },
+    "caption": null,
+    "camp": false,
+    "survivorVisible": false,
+    "resources": {
+      "dirt": 100,
+      "stone": 50,
+      "copper": 75,
+      "darkDirtNormal": 25,
+      "darkDirtStrong": 25,
+      "steel": 25,
+      "iron": 25,
+      "bronze": 25,
+      "silver": 25,
+      "gold": 25,
+      "lavaDirt": 25,
+      "obsidian": 25,
+      "emberOre": 25,
+      "magmaCrystal": 14
+    },
+    "gp": 0,
+    "stars": 3500,
+    "hardcore": {
+      "version": 5,
+      "mode": "hardcore",
+      "armed": false,
+      "livesRemaining": 0,
+      "freeReviveAvailable": false,
+      "deaths": 1,
+      "exhausted": true,
+      "stress": 0,
+      "peakStress": 11.08282933333339,
+      "selectedAt": 1788758670128,
+      "armedAt": 0,
+      "lastUnstuckAt": 0,
+      "activePlayMs": 2131.3133333333467,
+      "unstuckUses": 0,
+      "paidTeleports": 0,
+      "teleportMoneySpent": 0,
+      "isHardcore": true,
+      "stressBand": "calm",
+      "stressRatio": 0,
+      "sanity": 100,
+      "sanityRatio": 1,
+      "stressGpDrainPerSecond": 0
+    },
+    "input": {
+      "left": 65,
+      "right": 68,
+      "leftDown": false,
+      "enabled": false
+    },
+    "playerTile": {
+      "tx": 2,
+      "ty": 86
+    },
+    "history": [
+      {
+        "id": "signal-1",
+        "survivorId": "bram",
+        "choice": "blast",
+        "count": 0,
+        "fatal": false
+      },
+      {
+        "id": "signal-2",
+        "survivorId": "bram",
+        "choice": "blast",
+        "count": 0,
+        "fatal": false
+      },
+      {
+        "id": "signal-3",
+        "survivorId": "ivo",
+        "choice": "give",
+        "count": 11,
+        "fatal": false
+      },
+      {
+        "id": "signal-4",
+        "survivorId": "bram",
+        "choice": "blast",
+        "count": 0,
+        "fatal": true
+      }
+    ],
+    "mia": {
+      "owned": 0,
+      "visible": false,
+      "purchase": {
+        "canPurchase": false,
+        "reason": "requires_signal_rescue"
+      }
+    },
+    "interactionDistance": null,
+    "saveWritesBlocked": true,
+    "voice": {
+      "loaded": 20,
+      "playing": false,
+      "muted": false
+    },
+    "timer": {
+      "remaining": 0,
+      "clockPaused": false,
+      "scale": 1,
+      "scenePaused": false
+    },
+    "cinematicText": "A LIGHT LEFT ON\n+2000 STARPOWER · GP FULLY RESTORED",
+    "footer": "ENTER / ESC: CONTINUE"
+  },
+  "f2Explosive": {
+    "message": "Practice ready. Choose a Signal case, then Go to minicamp.",
+    "failure": null,
+    "game": "playing",
+    "signal": "calling",
+    "cinematic": "closed",
+    "trap": {
+      "ready": true,
+      "phase": "dormant",
+      "fuseMs": 1800,
+      "fatal": false
+    },
+    "survivor": "bram",
+    "source": {
+      "tx": 4,
+      "ty": 86
+    },
+    "real": true,
+    "caption": null,
+    "camp": true,
+    "survivorVisible": false,
+    "resources": {},
+    "gp": 110,
+    "stars": 0,
+    "hardcore": {
+      "version": 5,
+      "mode": "casual",
+      "armed": false,
+      "livesRemaining": null,
+      "freeReviveAvailable": false,
+      "deaths": 0,
+      "exhausted": false,
+      "stress": 0,
+      "peakStress": 0,
+      "selectedAt": 0,
+      "armedAt": 0,
+      "lastUnstuckAt": 0,
+      "activePlayMs": 0,
+      "unstuckUses": 0,
+      "paidTeleports": 0,
+      "teleportMoneySpent": 0,
+      "isHardcore": false,
+      "stressBand": "calm",
+      "stressRatio": 0,
+      "sanity": 100,
+      "sanityRatio": 1,
+      "stressGpDrainPerSecond": 0
+    },
+    "input": {
+      "left": 65,
+      "right": 68,
+      "leftDown": false,
+      "enabled": true
+    },
+    "playerTile": {
+      "tx": 4,
+      "ty": 64
+    },
+    "history": [],
+    "mia": {
+      "owned": 0,
+      "visible": false,
+      "purchase": {
+        "canPurchase": false,
+        "reason": "requires_signal_rescue"
+      }
+    },
+    "interactionDistance": null,
+    "saveWritesBlocked": true,
+    "voice": {
+      "loaded": 10,
+      "playing": false,
+      "muted": false
+    },
+    "call": {
+      "survivorId": "bram",
+      "real": true,
+      "fatal": true,
+      "explosive": true,
+      "blastPhase": "dormant",
+      "fuseRemainingMs": 1800,
+      "blastFatal": false,
+      "deathSource": "signal",
+      "callInMs": 12148.05463147406,
+      "callSerial": 3,
+      "discovered": false,
+      "pendingDeath": false
+    },
+    "suspended": false,
+    "remainingMs": 60281.79999999952,
+    "timer": {
+      "remaining": 0,
+      "clockPaused": false,
+      "scale": 1,
+      "scenePaused": false
+    },
+    "minicampSolidTiles": 0
+  },
+  "finalMutedFuse": {
+    "message": "At the minicamp. Press E in the game to approach the survivor.",
+    "failure": null,
+    "game": "playing",
+    "signal": "fuse",
+    "cinematic": "closed",
+    "trap": {
+      "ready": true,
+      "phase": "fuse",
+      "fuseMs": 1783.3599999999976,
+      "fatal": false,
+      "glow": true
+    },
+    "survivor": "bram",
+    "source": {
+      "tx": 4,
+      "ty": 86
+    },
+    "real": true,
+    "caption": "[His pack hisses. An ember burns inside.]",
+    "camp": true,
+    "survivorVisible": true,
+    "resources": {},
+    "gp": 110,
+    "stars": 0,
+    "hardcore": {
+      "version": 5,
+      "mode": "casual",
+      "armed": false,
+      "livesRemaining": null,
+      "freeReviveAvailable": false,
+      "deaths": 0,
+      "exhausted": false,
+      "stress": 0,
+      "peakStress": 0,
+      "selectedAt": 0,
+      "armedAt": 0,
+      "lastUnstuckAt": 0,
+      "activePlayMs": 0,
+      "unstuckUses": 0,
+      "paidTeleports": 0,
+      "teleportMoneySpent": 0,
+      "isHardcore": false,
+      "stressBand": "calm",
+      "stressRatio": 0,
+      "sanity": 100,
+      "sanityRatio": 1,
+      "stressGpDrainPerSecond": 0
+    },
+    "input": {
+      "left": 65,
+      "right": 68,
+      "leftDown": false,
+      "enabled": true
+    },
+    "playerTile": {
+      "tx": 3,
+      "ty": 86
+    },
+    "history": [],
+    "mia": {
+      "owned": 0,
+      "visible": false,
+      "purchase": {
+        "canPurchase": false,
+        "reason": "requires_signal_rescue"
+      }
+    },
+    "interactionDistance": null,
+    "saveWritesBlocked": true,
+    "voice": {
+      "loaded": 10,
+      "playing": false,
+      "muted": true
+    },
+    "call": {
+      "survivorId": "bram",
+      "real": true,
+      "fatal": true,
+      "explosive": true,
+      "blastPhase": "fuse",
+      "fuseRemainingMs": 1783.3599999999976,
+      "blastFatal": false,
+      "deathSource": "signal",
+      "callInMs": 11681.46129814072,
+      "callSerial": 3,
+      "discovered": true,
+      "pendingDeath": false
+    },
+    "suspended": false,
+    "remainingMs": 59781.92666666614,
+    "timer": {
+      "remaining": 0,
+      "clockPaused": false,
+      "scale": 1,
+      "scenePaused": false
+    },
+    "minicampSolidTiles": 0
+  },
+  "cancelledFuse": {
+    "message": "Encounter cancelled.",
+    "failure": null,
+    "game": "playing",
+    "signal": "idle",
+    "cinematic": "closed",
+    "trap": {
+      "ready": false
+    },
+    "caption": null,
+    "camp": false,
+    "survivorVisible": false,
+    "resources": {},
+    "gp": 110,
+    "stars": 0,
+    "hardcore": {
+      "version": 5,
+      "mode": "casual",
+      "armed": false,
+      "livesRemaining": null,
+      "freeReviveAvailable": false,
+      "deaths": 0,
+      "exhausted": false,
+      "stress": 0,
+      "peakStress": 0,
+      "selectedAt": 0,
+      "armedAt": 0,
+      "lastUnstuckAt": 0,
+      "activePlayMs": 0,
+      "unstuckUses": 0,
+      "paidTeleports": 0,
+      "teleportMoneySpent": 0,
+      "isHardcore": false,
+      "stressBand": "calm",
+      "stressRatio": 0,
+      "sanity": 100,
+      "sanityRatio": 1,
+      "stressGpDrainPerSecond": 0
+    },
+    "input": {
+      "left": 65,
+      "right": 68,
+      "leftDown": false,
+      "enabled": true
+    },
+    "playerTile": {
+      "tx": 3,
+      "ty": 86
+    },
+    "history": [],
+    "mia": {
+      "owned": 0,
+      "visible": false,
+      "purchase": {
+        "canPurchase": false,
+        "reason": "requires_signal_rescue"
+      }
+    },
+    "interactionDistance": null,
+    "saveWritesBlocked": true,
+    "voice": {
+      "loaded": 10,
+      "playing": false,
+      "muted": true
+    },
+    "timer": {
+      "remaining": 0,
+      "clockPaused": false,
+      "scale": 1,
+      "scenePaused": false
+    }
+  },
+  "browserErrors": []
+}

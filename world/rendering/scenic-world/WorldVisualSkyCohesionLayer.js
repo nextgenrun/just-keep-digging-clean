@@ -18,6 +18,7 @@ import {
 } from
   "./worldVisualBlendMaskFrame.js?rev=20260729-native-density-v14";
 import { WorldVisualSkyFoundationView } from "./WorldVisualSkyFoundationView.js";
+import { resolveLayeredSkyReviewEnabled } from "../../../values/worldVisualLayeredSkyReview.js";
 
 function sourceSize(scene, key) {
   const texture = scene.textures.get(key);
@@ -67,7 +68,8 @@ export class WorldVisualSkyCohesionLayer {
     this.scene = scene;
     this.config = config;
     this.search = search;
-    this.enabled = resolveWorldVisualSkyCohesionEnabled(config, search);
+    this.layeredReview = resolveLayeredSkyReviewEnabled(search);
+    this.enabled = !this.layeredReview && resolveWorldVisualSkyCohesionEnabled(config, search);
     this.runtimeMode = resolveWorldVisualSkyRuntimeMode(config, search);
     this.cells = [];
     this.cards = new Map();

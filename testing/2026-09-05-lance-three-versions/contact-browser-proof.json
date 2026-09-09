@@ -1,0 +1,2718 @@
+{
+  "cases": [
+    {
+      "attack": "punch",
+      "direction": 1,
+      "at": {
+        "ready": true,
+        "playing": false,
+        "direction": 1,
+        "timeMs": 233.33333333333334,
+        "attack": "punch",
+        "contacts": [
+          {
+            "point": {
+              "x": 93.248,
+              "y": 93.248
+            },
+            "rawPoint": {
+              "x": 227.63671875,
+              "y": 128.390625
+            },
+            "normal": {
+              "x": 0.8422714006615114,
+              "y": 0.5390536964233673
+            },
+            "sweep": -0.6937686497076742,
+            "strength": 0.86,
+            "authored": true,
+            "contactFrame": 7,
+            "visibleFrame": 7,
+            "origin": {
+              "x": 227.63671875,
+              "y": 124.984375
+            },
+            "pose": {
+              "sheet": "survival-ual-player-v1-punch-jab-sheet",
+              "contactFrame": 7,
+              "visibleFrame": 7,
+              "x": 194,
+              "y": 188,
+              "scaleX": 0.42578125,
+              "scaleY": 0.42578125,
+              "width": 256,
+              "height": 256,
+              "originX": 0.5,
+              "originY": 0.890625,
+              "flipX": false,
+              "rotation": 0
+            }
+          },
+          {
+            "point": {
+              "x": 93.248,
+              "y": 93.248
+            },
+            "rawPoint": {
+              "x": 227.63671875,
+              "y": 358.390625
+            },
+            "normal": {
+              "x": 0.3220181909349906,
+              "y": 0.9467334813488725
+            },
+            "sweep": -0.9915015198906546,
+            "strength": 0.86,
+            "authored": true,
+            "contactFrame": 7,
+            "visibleFrame": 7,
+            "origin": {
+              "x": 227.63671875,
+              "y": 354.984375
+            },
+            "pose": {
+              "sheet": "survival-ual-player-v1-punch-jab-sheet",
+              "contactFrame": 7,
+              "visibleFrame": 7,
+              "x": 194,
+              "y": 418,
+              "scaleX": 0.42578125,
+              "scaleY": 0.42578125,
+              "width": 256,
+              "height": 256,
+              "originX": 0.5,
+              "originY": 0.890625,
+              "flipX": false,
+              "rotation": 0
+            }
+          },
+          {
+            "point": {
+              "x": 93.248,
+              "y": 93.248
+            },
+            "rawPoint": {
+              "x": 227.63671875,
+              "y": 588.390625
+            },
+            "normal": {
+              "x": 0.18745665565948877,
+              "y": 0.9822728756557211
+            },
+            "sweep": -0.9999610749372186,
+            "strength": 0.86,
+            "authored": true,
+            "contactFrame": 7,
+            "visibleFrame": 7,
+            "origin": {
+              "x": 227.63671875,
+              "y": 584.984375
+            },
+            "pose": {
+              "sheet": "survival-ual-player-v1-punch-jab-sheet",
+              "contactFrame": 7,
+              "visibleFrame": 7,
+              "x": 194,
+              "y": 648,
+              "scaleX": 0.42578125,
+              "scaleY": 0.42578125,
+              "width": 256,
+              "height": 256,
+              "originX": 0.5,
+              "originY": 0.890625,
+              "flipX": false,
+              "rotation": 0
+            }
+          },
+          {
+            "point": {
+              "x": 93.248,
+              "y": 93.248
+            },
+            "rawPoint": {
+              "x": 227.63671875,
+              "y": 818.390625
+            },
+            "normal": {
+              "x": 0.13147473757752384,
+              "y": 0.9913195213345297
+            },
+            "sweep": -0.9978530834578235,
+            "strength": 0.86,
+            "authored": true,
+            "contactFrame": 7,
+            "visibleFrame": 7,
+            "origin": {
+              "x": 227.63671875,
+              "y": 814.984375
+            },
+            "pose": {
+              "sheet": "survival-ual-player-v1-punch-jab-sheet",
+              "contactFrame": 7,
+              "visibleFrame": 7,
+              "x": 194,
+              "y": 878,
+              "scaleX": 0.42578125,
+              "scaleY": 0.42578125,
+              "width": 256,
+              "height": 256,
+              "originX": 0.5,
+              "originY": 0.890625,
+              "flipX": false,
+              "rotation": 0
+            }
+          }
+        ],
+        "tileSize": 94,
+        "renderer": 2,
+        "loadFailures": [],
+        "projectiles": [
+          {
+            "variant": "violet",
+            "timeMs": 233.33333333333334,
+            "flying": true,
+            "x": 227.63671875,
+            "y": 124.984375,
+            "width": 64,
+            "height": 28,
+            "bounds": {
+              "type": 5,
+              "x": 226.35671875,
+              "y": 110.424375,
+              "width": 64.00000000000003,
+              "height": 28
+            },
+            "originX": 0.02,
+            "alpha": 1,
+            "angle": 0,
+            "origin": {
+              "x": 227.63671875,
+              "y": 124.984375
+            },
+            "launchAtMs": 233.33333333333334,
+            "contactsVisible": 1,
+            "contactsDue": 1,
+            "echoes": []
+          },
+          {
+            "variant": "azure",
+            "timeMs": 233.33333333333334,
+            "flying": true,
+            "x": 227.63671875,
+            "y": 354.984375,
+            "width": 64,
+            "height": 28,
+            "bounds": {
+              "type": 5,
+              "x": 226.35671875,
+              "y": 340.424375,
+              "width": 64.00000000000003,
+              "height": 28
+            },
+            "originX": 0.02,
+            "alpha": 1,
+            "angle": 0,
+            "origin": {
+              "x": 227.63671875,
+              "y": 354.984375
+            },
+            "launchAtMs": 233.33333333333334,
+            "contactsVisible": 1,
+            "contactsDue": 1,
+            "echoes": []
+          },
+          {
+            "variant": "ember",
+            "timeMs": 233.33333333333334,
+            "flying": true,
+            "x": 227.63671875,
+            "y": 584.984375,
+            "width": 64,
+            "height": 28,
+            "bounds": {
+              "type": 5,
+              "x": 226.35671875,
+              "y": 570.424375,
+              "width": 64.00000000000003,
+              "height": 28
+            },
+            "originX": 0.02,
+            "alpha": 1,
+            "angle": 0,
+            "origin": {
+              "x": 227.63671875,
+              "y": 584.984375
+            },
+            "launchAtMs": 233.33333333333334,
+            "contactsVisible": 1,
+            "contactsDue": 1,
+            "echoes": []
+          },
+          {
+            "variant": "prismatic",
+            "timeMs": 233.33333333333334,
+            "flying": true,
+            "x": 227.63671875,
+            "y": 814.984375,
+            "width": 64,
+            "height": 28,
+            "bounds": {
+              "type": 5,
+              "x": 226.35671875,
+              "y": 800.424375,
+              "width": 64.00000000000003,
+              "height": 28
+            },
+            "originX": 0.02,
+            "alpha": 1,
+            "angle": 0,
+            "origin": {
+              "x": 227.63671875,
+              "y": 814.984375
+            },
+            "launchAtMs": 233.33333333333334,
+            "contactsVisible": 1,
+            "contactsDue": 1,
+            "echoes": []
+          }
+        ],
+        "displayObjects": 108
+      },
+      "later": {
+        "ready": true,
+        "playing": false,
+        "direction": 1,
+        "timeMs": 1233.3333333333333,
+        "attack": "punch",
+        "contacts": [
+          {
+            "point": {
+              "x": 93.248,
+              "y": 93.248
+            },
+            "rawPoint": {
+              "x": 227.63671875,
+              "y": 128.390625
+            },
+            "normal": {
+              "x": 0.8422714006615114,
+              "y": 0.5390536964233673
+            },
+            "sweep": -0.6937686497076742,
+            "strength": 0.86,
+            "authored": true,
+            "contactFrame": 7,
+            "visibleFrame": 37,
+            "origin": {
+              "x": 227.63671875,
+              "y": 124.984375
+            },
+            "pose": {
+              "sheet": "survival-ual-player-v1-punch-jab-sheet",
+              "contactFrame": 7,
+              "visibleFrame": 7,
+              "x": 194,
+              "y": 188,
+              "scaleX": 0.42578125,
+              "scaleY": 0.42578125,
+              "width": 256,
+              "height": 256,
+              "originX": 0.5,
+              "originY": 0.890625,
+              "flipX": false,
+              "rotation": 0
+            }
+          },
+          {
+            "point": {
+              "x": 93.248,
+              "y": 93.248
+            },
+            "rawPoint": {
+              "x": 227.63671875,
+              "y": 358.390625
+            },
+            "normal": {
+              "x": 0.3220181909349906,
+              "y": 0.9467334813488725
+            },
+            "sweep": -0.9915015198906546,
+            "strength": 0.86,
+            "authored": true,
+            "contactFrame": 7,
+            "visibleFrame": 37,
+            "origin": {
+              "x": 227.63671875,
+              "y": 354.984375
+            },
+            "pose": {
+              "sheet": "survival-ual-player-v1-punch-jab-sheet",
+              "contactFrame": 7,
+              "visibleFrame": 7,
+              "x": 194,
+              "y": 418,
+              "scaleX": 0.42578125,
+              "scaleY": 0.42578125,
+              "width": 256,
+              "height": 256,
+              "originX": 0.5,
+              "originY": 0.890625,
+              "flipX": false,
+              "rotation": 0
+            }
+          },
+          {
+            "point": {
+              "x": 93.248,
+              "y": 93.248
+            },
+            "rawPoint": {
+              "x": 227.63671875,
+              "y": 588.390625
+            },
+            "normal": {
+              "x": 0.18745665565948877,
+              "y": 0.9822728756557211
+            },
+            "sweep": -0.9999610749372186,
+            "strength": 0.86,
+            "authored": true,
+            "contactFrame": 7,
+            "visibleFrame": 37,
+            "origin": {
+              "x": 227.63671875,
+              "y": 584.984375
+            },
+            "pose": {
+              "sheet": "survival-ual-player-v1-punch-jab-sheet",
+              "contactFrame": 7,
+              "visibleFrame": 7,
+              "x": 194,
+              "y": 648,
+              "scaleX": 0.42578125,
+              "scaleY": 0.42578125,
+              "width": 256,
+              "height": 256,
+              "originX": 0.5,
+              "originY": 0.890625,
+              "flipX": false,
+              "rotation": 0
+            }
+          },
+          {
+            "point": {
+              "x": 93.248,
+              "y": 93.248
+            },
+            "rawPoint": {
+              "x": 227.63671875,
+              "y": 818.390625
+            },
+            "normal": {
+              "x": 0.13147473757752384,
+              "y": 0.9913195213345297
+            },
+            "sweep": -0.9978530834578235,
+            "strength": 0.86,
+            "authored": true,
+            "contactFrame": 7,
+            "visibleFrame": 37,
+            "origin": {
+              "x": 227.63671875,
+              "y": 814.984375
+            },
+            "pose": {
+              "sheet": "survival-ual-player-v1-punch-jab-sheet",
+              "contactFrame": 7,
+              "visibleFrame": 7,
+              "x": 194,
+              "y": 878,
+              "scaleX": 0.42578125,
+              "scaleY": 0.42578125,
+              "width": 256,
+              "height": 256,
+              "originX": 0.5,
+              "originY": 0.890625,
+              "flipX": false,
+              "rotation": 0
+            }
+          }
+        ],
+        "tileSize": 94,
+        "renderer": 2,
+        "loadFailures": [],
+        "projectiles": [
+          {
+            "variant": "violet",
+            "timeMs": 1233.3333333333333,
+            "flying": true,
+            "x": 452.63671875,
+            "y": 124.984375,
+            "width": 64,
+            "height": 28,
+            "bounds": {
+              "type": 5,
+              "x": 451.35671875,
+              "y": 110.424375,
+              "width": 64,
+              "height": 28
+            },
+            "originX": 0.02,
+            "alpha": 1,
+            "angle": 0,
+            "origin": {
+              "x": 227.63671875,
+              "y": 124.984375
+            },
+            "launchAtMs": 233.33333333333334,
+            "contactsVisible": 0,
+            "contactsDue": 2,
+            "echoes": [
+              {
+                "x": 423.63671875,
+                "y": 124.984375,
+                "alpha": 0.17666666666666675,
+                "width": 64,
+                "height": 28,
+                "angle": 0
+              },
+              {
+                "x": 395.63671875,
+                "y": 124.984375,
+                "alpha": 0.0833333333333334,
+                "width": 64,
+                "height": 28,
+                "angle": 0
+              }
+            ]
+          },
+          {
+            "variant": "azure",
+            "timeMs": 1233.3333333333333,
+            "flying": true,
+            "x": 452.63671875,
+            "y": 354.984375,
+            "width": 64,
+            "height": 28,
+            "bounds": {
+              "type": 5,
+              "x": 451.35671875,
+              "y": 340.424375,
+              "width": 64,
+              "height": 28
+            },
+            "originX": 0.02,
+            "alpha": 1,
+            "angle": 0,
+            "origin": {
+              "x": 227.63671875,
+              "y": 354.984375
+            },
+            "launchAtMs": 233.33333333333334,
+            "contactsVisible": 0,
+            "contactsDue": 2,
+            "echoes": [
+              {
+                "x": 423.63671875,
+                "y": 354.984375,
+                "alpha": 0.17666666666666675,
+                "width": 64,
+                "height": 28,
+                "angle": 0
+              },
+              {
+                "x": 395.63671875,
+                "y": 354.984375,
+                "alpha": 0.0833333333333334,
+                "width": 64,
+                "height": 28,
+                "angle": 0
+              }
+            ]
+          },
+          {
+            "variant": "ember",
+            "timeMs": 1233.3333333333333,
+            "flying": true,
+            "x": 452.63671875,
+            "y": 584.984375,
+            "width": 64,
+            "height": 28,
+            "bounds": {
+              "type": 5,
+              "x": 451.35671875,
+              "y": 570.424375,
+              "width": 64,
+              "height": 28
+            },
+            "originX": 0.02,
+            "alpha": 1,
+            "angle": 0,
+            "origin": {
+              "x": 227.63671875,
+              "y": 584.984375
+            },
+            "launchAtMs": 233.33333333333334,
+            "contactsVisible": 0,
+            "contactsDue": 2,
+            "echoes": [
+              {
+                "x": 423.63671875,
+                "y": 584.984375,
+                "alpha": 0.17666666666666675,
+                "width": 64,
+                "height": 28,
+                "angle": 0
+              },
+              {
+                "x": 395.63671875,
+                "y": 584.984375,
+                "alpha": 0.0833333333333334,
+                "width": 64,
+                "height": 28,
+                "angle": 0
+              }
+            ]
+          },
+          {
+            "variant": "prismatic",
+            "timeMs": 1233.3333333333333,
+            "flying": true,
+            "x": 452.63671875,
+            "y": 814.984375,
+            "width": 64,
+            "height": 28,
+            "bounds": {
+              "type": 5,
+              "x": 451.35671875,
+              "y": 800.424375,
+              "width": 64,
+              "height": 28
+            },
+            "originX": 0.02,
+            "alpha": 1,
+            "angle": 0,
+            "origin": {
+              "x": 227.63671875,
+              "y": 814.984375
+            },
+            "launchAtMs": 233.33333333333334,
+            "contactsVisible": 0,
+            "contactsDue": 2,
+            "echoes": [
+              {
+                "x": 423.63671875,
+                "y": 814.984375,
+                "alpha": 0.17666666666666675,
+                "width": 64,
+                "height": 28,
+                "angle": 0
+              },
+              {
+                "x": 395.63671875,
+                "y": 814.984375,
+                "alpha": 0.0833333333333334,
+                "width": 64,
+                "height": 28,
+                "angle": 0
+              }
+            ]
+          }
+        ],
+        "displayObjects": 108
+      },
+      "steady": [
+        {
+          "age": 1,
+          "alpha": [
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "age": 100,
+          "alpha": [
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "age": 350,
+          "alpha": [
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "age": 700,
+          "alpha": [
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "age": 1300,
+          "alpha": [
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "age": 1750,
+          "alpha": [
+            1,
+            1,
+            1,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "attack": "punch",
+      "direction": -1,
+      "at": {
+        "ready": true,
+        "playing": false,
+        "direction": -1,
+        "timeMs": 233.33333333333334,
+        "attack": "punch",
+        "contacts": [
+          {
+            "point": {
+              "x": 93.248,
+              "y": 93.248
+            },
+            "rawPoint": {
+              "x": 732.36328125,
+              "y": 128.390625
+            },
+            "normal": {
+              "x": 0.9954954725939523,
+              "y": 0.09480909262799546
+            },
+            "sweep": -0.10226476052188309,
+            "strength": 0.86,
+            "authored": true,
+            "contactFrame": 7,
+            "visibleFrame": 7,
+            "origin": {
+              "x": 732.36328125,
+              "y": 124.984375
+            },
+            "pose": {
+              "sheet": "survival-ual-player-v1-punch-jab-sheet",
+              "contactFrame": 7,
+              "visibleFrame": 7,
+              "x": 766,
+              "y": 188,
+              "scaleX": 0.42578125,
+              "scaleY": 0.42578125,
+              "width": 256,
+              "height": 256,
+              "originX": 0.5,
+              "originY": 0.890625,
+              "flipX": true,
+              "rotation": 0
+            }
+          },
+          {
+            "point": {
+              "x": 93.248,
+              "y": 93.248
+            },
+            "rawPoint": {
+              "x": 732.36328125,
+              "y": 358.390625
+            },
+            "normal": {
+              "x": 0.9161573349021893,
+              "y": 0.4008188340197078
+            },
+            "sweep": 0.21336196739317553,
+            "strength": 0.86,
+            "authored": true,
+            "contactFrame": 7,
+            "visibleFrame": 7,
+            "origin": {
+              "x": 732.36328125,
+              "y": 354.984375
+            },
+            "pose": {
+              "sheet": "survival-ual-player-v1-punch-jab-sheet",
+              "contactFrame": 7,
+              "visibleFrame": 7,
+              "x": 766,
+              "y": 418,
+              "scaleX": 0.42578125,
+              "scaleY": 0.42578125,
+              "width": 256,
+              "height": 256,
+              "originX": 0.5,
+              "originY": 0.890625,
+              "flipX": true,
+              "rotation": 0
+            }
+          },
+          {
+            "point": {
+              "x": 93.248,
+              "y": 93.248
+            },
+            "rawPoint": {
+              "x": 732.36328125,
+              "y": 588.390625
+            },
+            "normal": {
+              "x": 0.7885933524939608,
+              "y": 0.6149150546232671
+            },
+            "sweep": 0.44831793926822305,
+            "strength": 0.86,
+            "authored": true,
+            "contactFrame": 7,
+            "visibleFrame": 7,
+            "origin": {
+              "x": 732.36328125,
+              "y": 584.984375
+            },
+            "pose": {
+              "sheet": "survival-ual-player-v1-punch-jab-sheet",
+              "contactFrame": 7,
+              "visibleFrame": 7,
+              "x": 766,
+              "y": 648,
+              "scaleX": 0.42578125,
+              "scaleY": 0.42578125,
+              "width": 256,
+              "height": 256,
+              "originX": 0.5,
+              "originY": 0.890625,
+              "flipX": true,
+              "rotation": 0
+            }
+          },
+          {
+            "point": {
+              "x": 93.248,
+              "y": 93.248
+            },
+            "rawPoint": {
+              "x": 732.36328125,
+              "y": 818.390625
+            },
+            "normal": {
+              "x": 0.6653465346534654,
+              "y": 0.7465346534653465
+            },
+            "sweep": 0.601552264017915,
+            "strength": 0.86,
+            "authored": true,
+            "contactFrame": 7,
+            "visibleFrame": 7,
+            "origin": {
+              "x": 732.36328125,
+              "y": 814.984375
+            },
+            "pose": {
+              "sheet": "survival-ual-player-v1-punch-jab-sheet",
+              "contactFrame": 7,
+              "visibleFrame": 7,
+              "x": 766,
+              "y": 878,
+              "scaleX": 0.42578125,
+              "scaleY": 0.42578125,
+              "width": 256,
+              "height": 256,
+              "originX": 0.5,
+              "originY": 0.890625,
+              "flipX": true,
+              "rotation": 0
+            }
+          }
+        ],
+        "tileSize": 94,
+        "renderer": 2,
+        "loadFailures": [],
+        "projectiles": [
+          {
+            "variant": "violet",
+            "timeMs": 233.33333333333334,
+            "flying": true,
+            "x": 732.36328125,
+            "y": 124.984375,
+            "width": 64,
+            "height": 28,
+            "bounds": {
+              "type": 5,
+              "x": 669.64328125,
+              "y": 111.544375,
+              "width": 64,
+              "height": 28
+            },
+            "originX": 0.02,
+            "alpha": 1,
+            "angle": -180,
+            "origin": {
+              "x": 732.36328125,
+              "y": 124.984375
+            },
+            "launchAtMs": 233.33333333333334,
+            "contactsVisible": 1,
+            "contactsDue": 1,
+            "echoes": []
+          },
+          {
+            "variant": "azure",
+            "timeMs": 233.33333333333334,
+            "flying": true,
+            "x": 732.36328125,
+            "y": 354.984375,
+            "width": 64,
+            "height": 28,
+            "bounds": {
+              "type": 5,
+              "x": 669.64328125,
+              "y": 341.544375,
+              "width": 64,
+              "height": 28
+            },
+            "originX": 0.02,
+            "alpha": 1,
+            "angle": -180,
+            "origin": {
+              "x": 732.36328125,
+              "y": 354.984375
+            },
+            "launchAtMs": 233.33333333333334,
+            "contactsVisible": 1,
+            "contactsDue": 1,
+            "echoes": []
+          },
+          {
+            "variant": "ember",
+            "timeMs": 233.33333333333334,
+            "flying": true,
+            "x": 732.36328125,
+            "y": 584.984375,
+            "width": 64,
+            "height": 28,
+            "bounds": {
+              "type": 5,
+              "x": 669.64328125,
+              "y": 571.544375,
+              "width": 64,
+              "height": 28
+            },
+            "originX": 0.02,
+            "alpha": 1,
+            "angle": -180,
+            "origin": {
+              "x": 732.36328125,
+              "y": 584.984375
+            },
+            "launchAtMs": 233.33333333333334,
+            "contactsVisible": 1,
+            "contactsDue": 1,
+            "echoes": []
+          },
+          {
+            "variant": "prismatic",
+            "timeMs": 233.33333333333334,
+            "flying": true,
+            "x": 732.36328125,
+            "y": 814.984375,
+            "width": 64,
+            "height": 28,
+            "bounds": {
+              "type": 5,
+              "x": 669.64328125,
+              "y": 801.544375,
+              "width": 64,
+              "height": 28
+            },
+            "originX": 0.02,
+            "alpha": 1,
+            "angle": -180,
+            "origin": {
+              "x": 732.36328125,
+              "y": 814.984375
+            },
+            "launchAtMs": 233.33333333333334,
+            "contactsVisible": 1,
+            "contactsDue": 1,
+            "echoes": []
+          }
+        ],
+        "displayObjects": 108
+      },
+      "later": {
+        "ready": true,
+        "playing": false,
+        "direction": -1,
+        "timeMs": 1233.3333333333333,
+        "attack": "punch",
+        "contacts": [
+          {
+            "point": {
+              "x": 93.248,
+              "y": 93.248
+            },
+            "rawPoint": {
+              "x": 732.36328125,
+              "y": 128.390625
+            },
+            "normal": {
+              "x": 0.9954954725939523,
+              "y": 0.09480909262799546
+            },
+            "sweep": -0.10226476052188309,
+            "strength": 0.86,
+            "authored": true,
+            "contactFrame": 7,
+            "visibleFrame": 37,
+            "origin": {
+              "x": 732.36328125,
+              "y": 124.984375
+            },
+            "pose": {
+              "sheet": "survival-ual-player-v1-punch-jab-sheet",
+              "contactFrame": 7,
+              "visibleFrame": 7,
+              "x": 766,
+              "y": 188,
+              "scaleX": 0.42578125,
+              "scaleY": 0.42578125,
+              "width": 256,
+              "height": 256,
+              "originX": 0.5,
+              "originY": 0.890625,
+              "flipX": true,
+              "rotation": 0
+            }
+          },
+          {
+            "point": {
+              "x": 93.248,
+              "y": 93.248
+            },
+            "rawPoint": {
+              "x": 732.36328125,
+              "y": 358.390625
+            },
+            "normal": {
+              "x": 0.9161573349021893,
+              "y": 0.4008188340197078
+            },
+            "sweep": 0.21336196739317553,
+            "strength": 0.86,
+            "authored": true,
+            "contactFrame": 7,
+            "visibleFrame": 37,
+            "origin": {
+              "x": 732.36328125,
+              "y": 354.984375
+            },
+            "pose": {
+              "sheet": "survival-ual-player-v1-punch-jab-sheet",
+              "contactFrame": 7,
+              "visibleFrame": 7,
+              "x": 766,
+              "y": 418,
+              "scaleX": 0.42578125,
+              "scaleY": 0.42578125,
+              "width": 256,
+              "height": 256,
+              "originX": 0.5,
+              "originY": 0.890625,
+              "flipX": true,
+              "rotation": 0
+            }
+          },
+          {
+            "point": {
+              "x": 93.248,
+              "y": 93.248
+            },
+            "rawPoint": {
+              "x": 732.36328125,
+              "y": 588.390625
+            },
+            "normal": {
+              "x": 0.7885933524939608,
+              "y": 0.6149150546232671
+            },
+            "sweep": 0.44831793926822305,
+            "strength": 0.86,
+            "authored": true,
+            "contactFrame": 7,
+            "visibleFrame": 37,
+            "origin": {
+              "x": 732.36328125,
+              "y": 584.984375
+            },
+            "pose": {
+              "sheet": "survival-ual-player-v1-punch-jab-sheet",
+              "contactFrame": 7,
+              "visibleFrame": 7,
+              "x": 766,
+              "y": 648,
+              "scaleX": 0.42578125,
+              "scaleY": 0.42578125,
+              "width": 256,
+              "height": 256,
+              "originX": 0.5,
+              "originY": 0.890625,
+              "flipX": true,
+              "rotation": 0
+            }
+          },
+          {
+            "point": {
+              "x": 93.248,
+              "y": 93.248
+            },
+            "rawPoint": {
+              "x": 732.36328125,
+              "y": 818.390625
+            },
+            "normal": {
+              "x": 0.6653465346534654,
+              "y": 0.7465346534653465
+            },
+            "sweep": 0.601552264017915,
+            "strength": 0.86,
+            "authored": true,
+            "contactFrame": 7,
+            "visibleFrame": 37,
+            "origin": {
+              "x": 732.36328125,
+              "y": 814.984375
+            },
+            "pose": {
+              "sheet": "survival-ual-player-v1-punch-jab-sheet",
+              "contactFrame": 7,
+              "visibleFrame": 7,
+              "x": 766,
+              "y": 878,
+              "scaleX": 0.42578125,
+              "scaleY": 0.42578125,
+              "width": 256,
+              "height": 256,
+              "originX": 0.5,
+              "originY": 0.890625,
+              "flipX": true,
+              "rotation": 0
+            }
+          }
+        ],
+        "tileSize": 94,
+        "renderer": 2,
+        "loadFailures": [],
+        "projectiles": [
+          {
+            "variant": "violet",
+            "timeMs": 1233.3333333333333,
+            "flying": true,
+            "x": 507.36328125,
+            "y": 124.984375,
+            "width": 64,
+            "height": 28,
+            "bounds": {
+              "type": 5,
+              "x": 444.64328125,
+              "y": 111.544375,
+              "width": 64,
+              "height": 28
+            },
+            "originX": 0.02,
+            "alpha": 1,
+            "angle": -180,
+            "origin": {
+              "x": 732.36328125,
+              "y": 124.984375
+            },
+            "launchAtMs": 233.33333333333334,
+            "contactsVisible": 0,
+            "contactsDue": 2,
+            "echoes": [
+              {
+                "x": 536.36328125,
+                "y": 124.984375,
+                "alpha": 0.17666666666666675,
+                "width": 64,
+                "height": 28,
+                "angle": -180
+              },
+              {
+                "x": 564.36328125,
+                "y": 124.984375,
+                "alpha": 0.0833333333333334,
+                "width": 64,
+                "height": 28,
+                "angle": -180
+              }
+            ]
+          },
+          {
+            "variant": "azure",
+            "timeMs": 1233.3333333333333,
+            "flying": true,
+            "x": 507.36328125,
+            "y": 354.984375,
+            "width": 64,
+            "height": 28,
+            "bounds": {
+              "type": 5,
+              "x": 444.64328125,
+              "y": 341.544375,
+              "width": 64,
+              "height": 28
+            },
+            "originX": 0.02,
+            "alpha": 1,
+            "angle": -180,
+            "origin": {
+              "x": 732.36328125,
+              "y": 354.984375
+            },
+            "launchAtMs": 233.33333333333334,
+            "contactsVisible": 0,
+            "contactsDue": 2,
+            "echoes": [
+              {
+                "x": 536.36328125,
+                "y": 354.984375,
+                "alpha": 0.17666666666666675,
+                "width": 64,
+                "height": 28,
+                "angle": -180
+              },
+              {
+                "x": 564.36328125,
+                "y": 354.984375,
+                "alpha": 0.0833333333333334,
+                "width": 64,
+                "height": 28,
+                "angle": -180
+              }
+            ]
+          },
+          {
+            "variant": "ember",
+            "timeMs": 1233.3333333333333,
+            "flying": true,
+            "x": 507.36328125,
+            "y": 584.984375,
+            "width": 64,
+            "height": 28,
+            "bounds": {
+              "type": 5,
+              "x": 444.64328125,
+              "y": 571.544375,
+              "width": 64,
+              "height": 28
+            },
+            "originX": 0.02,
+            "alpha": 1,
+            "angle": -180,
+            "origin": {
+              "x": 732.36328125,
+              "y": 584.984375
+            },
+            "launchAtMs": 233.33333333333334,
+            "contactsVisible": 0,
+            "contactsDue": 2,
+            "echoes": [
+              {
+                "x": 536.36328125,
+                "y": 584.984375,
+                "alpha": 0.17666666666666675,
+                "width": 64,
+                "height": 28,
+                "angle": -180
+              },
+              {
+                "x": 564.36328125,
+                "y": 584.984375,
+                "alpha": 0.0833333333333334,
+                "width": 64,
+                "height": 28,
+                "angle": -180
+              }
+            ]
+          },
+          {
+            "variant": "prismatic",
+            "timeMs": 1233.3333333333333,
+            "flying": true,
+            "x": 507.36328125,
+            "y": 814.984375,
+            "width": 64,
+            "height": 28,
+            "bounds": {
+              "type": 5,
+              "x": 444.64328125,
+              "y": 801.544375,
+              "width": 64,
+              "height": 28
+            },
+            "originX": 0.02,
+            "alpha": 1,
+            "angle": -180,
+            "origin": {
+              "x": 732.36328125,
+              "y": 814.984375
+            },
+            "launchAtMs": 233.33333333333334,
+            "contactsVisible": 0,
+            "contactsDue": 2,
+            "echoes": [
+              {
+                "x": 536.36328125,
+                "y": 814.984375,
+                "alpha": 0.17666666666666675,
+                "width": 64,
+                "height": 28,
+                "angle": -180
+              },
+              {
+                "x": 564.36328125,
+                "y": 814.984375,
+                "alpha": 0.0833333333333334,
+                "width": 64,
+                "height": 28,
+                "angle": -180
+              }
+            ]
+          }
+        ],
+        "displayObjects": 108
+      },
+      "steady": [
+        {
+          "age": 1,
+          "alpha": [
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "age": 100,
+          "alpha": [
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "age": 350,
+          "alpha": [
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "age": 700,
+          "alpha": [
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "age": 1300,
+          "alpha": [
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "age": 1750,
+          "alpha": [
+            1,
+            1,
+            1,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "attack": "kick",
+      "direction": 1,
+      "at": {
+        "ready": true,
+        "playing": false,
+        "direction": 1,
+        "timeMs": 300,
+        "attack": "kick",
+        "contacts": [
+          {
+            "point": {
+              "x": 93.248,
+              "y": 93.248
+            },
+            "rawPoint": {
+              "x": 235.7265625,
+              "y": 117.3203125
+            },
+            "normal": {
+              "x": 0.8422714006615114,
+              "y": 0.5390536964233673
+            },
+            "sweep": -0.9949715912933407,
+            "strength": 1.22,
+            "authored": true,
+            "contactFrame": 9,
+            "visibleFrame": 9,
+            "origin": {
+              "x": 235.7265625,
+              "y": 113.9140625
+            },
+            "pose": {
+              "sheet": "survival-mixamo-v3-complex-dig-roundhouse-sheet",
+              "contactFrame": 9,
+              "visibleFrame": 9,
+              "x": 194,
+              "y": 188,
+              "scaleX": 0.42578125,
+              "scaleY": 0.42578125,
+              "width": 256,
+              "height": 256,
+              "originX": 0.5,
+              "originY": 0.890625,
+              "flipX": false,
+              "rotation": 0
+            }
+          },
+          {
+            "point": {
+              "x": 93.248,
+              "y": 93.248
+            },
+            "rawPoint": {
+              "x": 235.7265625,
+              "y": 347.3203125
+            },
+            "normal": {
+              "x": 0.3220181909349906,
+              "y": 0.9467334813488725
+            },
+            "sweep": -0.8401172774060127,
+            "strength": 1.22,
+            "authored": true,
+            "contactFrame": 9,
+            "visibleFrame": 9,
+            "origin": {
+              "x": 235.7265625,
+              "y": 343.9140625
+            },
+            "pose": {
+              "sheet": "survival-mixamo-v3-complex-dig-roundhouse-sheet",
+              "contactFrame": 9,
+              "visibleFrame": 9,
+              "x": 194,
+              "y": 418,
+              "scaleX": 0.42578125,
+              "scaleY": 0.42578125,
+              "width": 256,
+              "height": 256,
+              "originX": 0.5,
+              "originY": 0.890625,
+              "flipX": false,
+              "rotation": 0
+            }
+          },
+          {
+            "point": {
+              "x": 93.248,
+              "y": 93.248
+            },
+            "rawPoint": {
+              "x": 235.7265625,
+              "y": 577.3203125
+            },
+            "normal": {
+              "x": 0.18745665565948877,
+              "y": 0.9822728756557211
+            },
+            "sweep": -0.756674274227321,
+            "strength": 1.22,
+            "authored": true,
+            "contactFrame": 9,
+            "visibleFrame": 9,
+            "origin": {
+              "x": 235.7265625,
+              "y": 573.9140625
+            },
+            "pose": {
+              "sheet": "survival-mixamo-v3-complex-dig-roundhouse-sheet",
+              "contactFrame": 9,
+              "visibleFrame": 9,
+              "x": 194,
+              "y": 648,
+              "scaleX": 0.42578125,
+              "scaleY": 0.42578125,
+              "width": 256,
+              "height": 256,
+              "originX": 0.5,
+              "originY": 0.890625,
+              "flipX": false,
+              "rotation": 0
+            }
+          },
+          {
+            "point": {
+              "x": 93.248,
+              "y": 93.248
+            },
+            "rawPoint": {
+              "x": 235.7265625,
+              "y": 807.3203125
+            },
+            "normal": {
+              "x": 0.13147473757752384,
+              "y": 0.9913195213345297
+            },
+            "sweep": -0.7183971647192646,
+            "strength": 1.22,
+            "authored": true,
+            "contactFrame": 9,
+            "visibleFrame": 9,
+            "origin": {
+              "x": 235.7265625,
+              "y": 803.9140625
+            },
+            "pose": {
+              "sheet": "survival-mixamo-v3-complex-dig-roundhouse-sheet",
+              "contactFrame": 9,
+              "visibleFrame": 9,
+              "x": 194,
+              "y": 878,
+              "scaleX": 0.42578125,
+              "scaleY": 0.42578125,
+              "width": 256,
+              "height": 256,
+              "originX": 0.5,
+              "originY": 0.890625,
+              "flipX": false,
+              "rotation": 0
+            }
+          }
+        ],
+        "tileSize": 94,
+        "renderer": 2,
+        "loadFailures": [],
+        "projectiles": [
+          {
+            "variant": "violet",
+            "timeMs": 300,
+            "flying": true,
+            "x": 235.7265625,
+            "y": 113.9140625,
+            "width": 64,
+            "height": 28,
+            "bounds": {
+              "type": 5,
+              "x": 234.4465625,
+              "y": 99.3540625,
+              "width": 64.00000000000003,
+              "height": 28
+            },
+            "originX": 0.02,
+            "alpha": 1,
+            "angle": 0,
+            "origin": {
+              "x": 235.7265625,
+              "y": 113.9140625
+            },
+            "launchAtMs": 300,
+            "contactsVisible": 1,
+            "contactsDue": 1,
+            "echoes": []
+          },
+          {
+            "variant": "azure",
+            "timeMs": 300,
+            "flying": true,
+            "x": 235.7265625,
+            "y": 343.9140625,
+            "width": 64,
+            "height": 28,
+            "bounds": {
+              "type": 5,
+              "x": 234.4465625,
+              "y": 329.3540625,
+              "width": 64.00000000000003,
+              "height": 28
+            },
+            "originX": 0.02,
+            "alpha": 1,
+            "angle": 0,
+            "origin": {
+              "x": 235.7265625,
+              "y": 343.9140625
+            },
+            "launchAtMs": 300,
+            "contactsVisible": 1,
+            "contactsDue": 1,
+            "echoes": []
+          },
+          {
+            "variant": "ember",
+            "timeMs": 300,
+            "flying": true,
+            "x": 235.7265625,
+            "y": 573.9140625,
+            "width": 64,
+            "height": 28,
+            "bounds": {
+              "type": 5,
+              "x": 234.4465625,
+              "y": 559.3540625,
+              "width": 64.00000000000003,
+              "height": 28
+            },
+            "originX": 0.02,
+            "alpha": 1,
+            "angle": 0,
+            "origin": {
+              "x": 235.7265625,
+              "y": 573.9140625
+            },
+            "launchAtMs": 300,
+            "contactsVisible": 1,
+            "contactsDue": 1,
+            "echoes": []
+          },
+          {
+            "variant": "prismatic",
+            "timeMs": 300,
+            "flying": true,
+            "x": 235.7265625,
+            "y": 803.9140625,
+            "width": 64,
+            "height": 28,
+            "bounds": {
+              "type": 5,
+              "x": 234.4465625,
+              "y": 789.3540625,
+              "width": 64.00000000000003,
+              "height": 28
+            },
+            "originX": 0.02,
+            "alpha": 1,
+            "angle": 0,
+            "origin": {
+              "x": 235.7265625,
+              "y": 803.9140625
+            },
+            "launchAtMs": 300,
+            "contactsVisible": 1,
+            "contactsDue": 1,
+            "echoes": []
+          }
+        ],
+        "displayObjects": 108
+      },
+      "later": {
+        "ready": true,
+        "playing": false,
+        "direction": 1,
+        "timeMs": 1300,
+        "attack": "kick",
+        "contacts": [
+          {
+            "point": {
+              "x": 93.248,
+              "y": 93.248
+            },
+            "rawPoint": {
+              "x": 235.7265625,
+              "y": 117.3203125
+            },
+            "normal": {
+              "x": 0.8422714006615114,
+              "y": 0.5390536964233673
+            },
+            "sweep": -0.9949715912933407,
+            "strength": 1.22,
+            "authored": true,
+            "contactFrame": 9,
+            "visibleFrame": 39,
+            "origin": {
+              "x": 235.7265625,
+              "y": 113.9140625
+            },
+            "pose": {
+              "sheet": "survival-mixamo-v3-complex-dig-roundhouse-sheet",
+              "contactFrame": 9,
+              "visibleFrame": 9,
+              "x": 194,
+              "y": 188,
+              "scaleX": 0.42578125,
+              "scaleY": 0.42578125,
+              "width": 256,
+              "height": 256,
+              "originX": 0.5,
+              "originY": 0.890625,
+              "flipX": false,
+              "rotation": 0
+            }
+          },
+          {
+            "point": {
+              "x": 93.248,
+              "y": 93.248
+            },
+            "rawPoint": {
+              "x": 235.7265625,
+              "y": 347.3203125
+            },
+            "normal": {
+              "x": 0.3220181909349906,
+              "y": 0.9467334813488725
+            },
+            "sweep": -0.8401172774060127,
+            "strength": 1.22,
+            "authored": true,
+            "contactFrame": 9,
+            "visibleFrame": 39,
+            "origin": {
+              "x": 235.7265625,
+              "y": 343.9140625
+            },
+            "pose": {
+              "sheet": "survival-mixamo-v3-complex-dig-roundhouse-sheet",
+              "contactFrame": 9,
+              "visibleFrame": 9,
+              "x": 194,
+              "y": 418,
+              "scaleX": 0.42578125,
+              "scaleY": 0.42578125,
+              "width": 256,
+              "height": 256,
+              "originX": 0.5,
+              "originY": 0.890625,
+              "flipX": false,
+              "rotation": 0
+            }
+          },
+          {
+            "point": {
+              "x": 93.248,
+              "y": 93.248
+            },
+            "rawPoint": {
+              "x": 235.7265625,
+              "y": 577.3203125
+            },
+            "normal": {
+              "x": 0.18745665565948877,
+              "y": 0.9822728756557211
+            },
+            "sweep": -0.756674274227321,
+            "strength": 1.22,
+            "authored": true,
+            "contactFrame": 9,
+            "visibleFrame": 39,
+            "origin": {
+              "x": 235.7265625,
+              "y": 573.9140625
+            },
+            "pose": {
+              "sheet": "survival-mixamo-v3-complex-dig-roundhouse-sheet",
+              "contactFrame": 9,
+              "visibleFrame": 9,
+              "x": 194,
+              "y": 648,
+              "scaleX": 0.42578125,
+              "scaleY": 0.42578125,
+              "width": 256,
+              "height": 256,
+              "originX": 0.5,
+              "originY": 0.890625,
+              "flipX": false,
+              "rotation": 0
+            }
+          },
+          {
+            "point": {
+              "x": 93.248,
+              "y": 93.248
+            },
+            "rawPoint": {
+              "x": 235.7265625,
+              "y": 807.3203125
+            },
+            "normal": {
+              "x": 0.13147473757752384,
+              "y": 0.9913195213345297
+            },
+            "sweep": -0.7183971647192646,
+            "strength": 1.22,
+            "authored": true,
+            "contactFrame": 9,
+            "visibleFrame": 39,
+            "origin": {
+              "x": 235.7265625,
+              "y": 803.9140625
+            },
+            "pose": {
+              "sheet": "survival-mixamo-v3-complex-dig-roundhouse-sheet",
+              "contactFrame": 9,
+              "visibleFrame": 9,
+              "x": 194,
+              "y": 878,
+              "scaleX": 0.42578125,
+              "scaleY": 0.42578125,
+              "width": 256,
+              "height": 256,
+              "originX": 0.5,
+              "originY": 0.890625,
+              "flipX": false,
+              "rotation": 0
+            }
+          }
+        ],
+        "tileSize": 94,
+        "renderer": 2,
+        "loadFailures": [],
+        "projectiles": [
+          {
+            "variant": "violet",
+            "timeMs": 1300,
+            "flying": true,
+            "x": 460.7265625,
+            "y": 113.9140625,
+            "width": 64,
+            "height": 28,
+            "bounds": {
+              "type": 5,
+              "x": 459.4465625,
+              "y": 99.3540625,
+              "width": 64,
+              "height": 28
+            },
+            "originX": 0.02,
+            "alpha": 1,
+            "angle": 0,
+            "origin": {
+              "x": 235.7265625,
+              "y": 113.9140625
+            },
+            "launchAtMs": 300,
+            "contactsVisible": 0,
+            "contactsDue": 2,
+            "echoes": [
+              {
+                "x": 431.7265625,
+                "y": 113.9140625,
+                "alpha": 0.17666666666666664,
+                "width": 64,
+                "height": 28,
+                "angle": 0
+              },
+              {
+                "x": 403.7265625,
+                "y": 113.9140625,
+                "alpha": 0.08333333333333331,
+                "width": 64,
+                "height": 28,
+                "angle": 0
+              }
+            ]
+          },
+          {
+            "variant": "azure",
+            "timeMs": 1300,
+            "flying": true,
+            "x": 460.7265625,
+            "y": 343.9140625,
+            "width": 64,
+            "height": 28,
+            "bounds": {
+              "type": 5,
+              "x": 459.4465625,
+              "y": 329.3540625,
+              "width": 64,
+              "height": 28
+            },
+            "originX": 0.02,
+            "alpha": 1,
+            "angle": 0,
+            "origin": {
+              "x": 235.7265625,
+              "y": 343.9140625
+            },
+            "launchAtMs": 300,
+            "contactsVisible": 0,
+            "contactsDue": 2,
+            "echoes": [
+              {
+                "x": 431.7265625,
+                "y": 343.9140625,
+                "alpha": 0.17666666666666664,
+                "width": 64,
+                "height": 28,
+                "angle": 0
+              },
+              {
+                "x": 403.7265625,
+                "y": 343.9140625,
+                "alpha": 0.08333333333333331,
+                "width": 64,
+                "height": 28,
+                "angle": 0
+              }
+            ]
+          },
+          {
+            "variant": "ember",
+            "timeMs": 1300,
+            "flying": true,
+            "x": 460.7265625,
+            "y": 573.9140625,
+            "width": 64,
+            "height": 28,
+            "bounds": {
+              "type": 5,
+              "x": 459.4465625,
+              "y": 559.3540625,
+              "width": 64,
+              "height": 28
+            },
+            "originX": 0.02,
+            "alpha": 1,
+            "angle": 0,
+            "origin": {
+              "x": 235.7265625,
+              "y": 573.9140625
+            },
+            "launchAtMs": 300,
+            "contactsVisible": 0,
+            "contactsDue": 2,
+            "echoes": [
+              {
+                "x": 431.7265625,
+                "y": 573.9140625,
+                "alpha": 0.17666666666666664,
+                "width": 64,
+                "height": 28,
+                "angle": 0
+              },
+              {
+                "x": 403.7265625,
+                "y": 573.9140625,
+                "alpha": 0.08333333333333331,
+                "width": 64,
+                "height": 28,
+                "angle": 0
+              }
+            ]
+          },
+          {
+            "variant": "prismatic",
+            "timeMs": 1300,
+            "flying": true,
+            "x": 460.7265625,
+            "y": 803.9140625,
+            "width": 64,
+            "height": 28,
+            "bounds": {
+              "type": 5,
+              "x": 459.4465625,
+              "y": 789.3540625,
+              "width": 64,
+              "height": 28
+            },
+            "originX": 0.02,
+            "alpha": 1,
+            "angle": 0,
+            "origin": {
+              "x": 235.7265625,
+              "y": 803.9140625
+            },
+            "launchAtMs": 300,
+            "contactsVisible": 0,
+            "contactsDue": 2,
+            "echoes": [
+              {
+                "x": 431.7265625,
+                "y": 803.9140625,
+                "alpha": 0.17666666666666664,
+                "width": 64,
+                "height": 28,
+                "angle": 0
+              },
+              {
+                "x": 403.7265625,
+                "y": 803.9140625,
+                "alpha": 0.08333333333333331,
+                "width": 64,
+                "height": 28,
+                "angle": 0
+              }
+            ]
+          }
+        ],
+        "displayObjects": 108
+      },
+      "steady": [
+        {
+          "age": 1,
+          "alpha": [
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "age": 100,
+          "alpha": [
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "age": 350,
+          "alpha": [
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "age": 700,
+          "alpha": [
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "age": 1300,
+          "alpha": [
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "age": 1750,
+          "alpha": [
+            1,
+            1,
+            1,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "attack": "kick",
+      "direction": -1,
+      "at": {
+        "ready": true,
+        "playing": false,
+        "direction": -1,
+        "timeMs": 300,
+        "attack": "kick",
+        "contacts": [
+          {
+            "point": {
+              "x": 93.248,
+              "y": 93.248
+            },
+            "rawPoint": {
+              "x": 724.2734375,
+              "y": 117.3203125
+            },
+            "normal": {
+              "x": 0.9954954725939523,
+              "y": 0.09480909262799546
+            },
+            "sweep": -0.7216657856110521,
+            "strength": 1.22,
+            "authored": true,
+            "contactFrame": 9,
+            "visibleFrame": 9,
+            "origin": {
+              "x": 724.2734375,
+              "y": 113.9140625
+            },
+            "pose": {
+              "sheet": "survival-mixamo-v3-complex-dig-roundhouse-sheet",
+              "contactFrame": 9,
+              "visibleFrame": 9,
+              "x": 766,
+              "y": 188,
+              "scaleX": 0.42578125,
+              "scaleY": 0.42578125,
+              "width": 256,
+              "height": 256,
+              "originX": 0.5,
+              "originY": 0.890625,
+              "flipX": true,
+              "rotation": 0
+            }
+          },
+          {
+            "point": {
+              "x": 93.248,
+              "y": 93.248
+            },
+            "rawPoint": {
+              "x": 724.2734375,
+              "y": 347.3203125
+            },
+            "normal": {
+              "x": 0.9161573349021893,
+              "y": 0.4008188340197078
+            },
+            "sweep": -0.4695199025468733,
+            "strength": 1.22,
+            "authored": true,
+            "contactFrame": 9,
+            "visibleFrame": 9,
+            "origin": {
+              "x": 724.2734375,
+              "y": 343.9140625
+            },
+            "pose": {
+              "sheet": "survival-mixamo-v3-complex-dig-roundhouse-sheet",
+              "contactFrame": 9,
+              "visibleFrame": 9,
+              "x": 766,
+              "y": 418,
+              "scaleX": 0.42578125,
+              "scaleY": 0.42578125,
+              "width": 256,
+              "height": 256,
+              "originX": 0.5,
+              "originY": 0.890625,
+              "flipX": true,
+              "rotation": 0
+            }
+          },
+          {
+            "point": {
+              "x": 93.248,
+              "y": 93.248
+            },
+            "rawPoint": {
+              "x": 724.2734375,
+              "y": 577.3203125
+            },
+            "normal": {
+              "x": 0.7885933524939608,
+              "y": 0.6149150546232671
+            },
+            "sweep": -0.23661374028182014,
+            "strength": 1.22,
+            "authored": true,
+            "contactFrame": 9,
+            "visibleFrame": 9,
+            "origin": {
+              "x": 724.2734375,
+              "y": 573.9140625
+            },
+            "pose": {
+              "sheet": "survival-mixamo-v3-complex-dig-roundhouse-sheet",
+              "contactFrame": 9,
+              "visibleFrame": 9,
+              "x": 766,
+              "y": 648,
+              "scaleX": 0.42578125,
+              "scaleY": 0.42578125,
+              "width": 256,
+              "height": 256,
+              "originX": 0.5,
+              "originY": 0.890625,
+              "flipX": true,
+              "rotation": 0
+            }
+          },
+          {
+            "point": {
+              "x": 93.248,
+              "y": 93.248
+            },
+            "rawPoint": {
+              "x": 724.2734375,
+              "y": 807.3203125
+            },
+            "normal": {
+              "x": 0.6653465346534654,
+              "y": 0.7465346534653465
+            },
+            "sweep": -0.0582859148382877,
+            "strength": 1.22,
+            "authored": true,
+            "contactFrame": 9,
+            "visibleFrame": 9,
+            "origin": {
+              "x": 724.2734375,
+              "y": 803.9140625
+            },
+            "pose": {
+              "sheet": "survival-mixamo-v3-complex-dig-roundhouse-sheet",
+              "contactFrame": 9,
+              "visibleFrame": 9,
+              "x": 766,
+              "y": 878,
+              "scaleX": 0.42578125,
+              "scaleY": 0.42578125,
+              "width": 256,
+              "height": 256,
+              "originX": 0.5,
+              "originY": 0.890625,
+              "flipX": true,
+              "rotation": 0
+            }
+          }
+        ],
+        "tileSize": 94,
+        "renderer": 2,
+        "loadFailures": [],
+        "projectiles": [
+          {
+            "variant": "violet",
+            "timeMs": 300,
+            "flying": true,
+            "x": 724.2734375,
+            "y": 113.9140625,
+            "width": 64,
+            "height": 28,
+            "bounds": {
+              "type": 5,
+              "x": 661.5534375,
+              "y": 100.4740625,
+              "width": 64,
+              "height": 28
+            },
+            "originX": 0.02,
+            "alpha": 1,
+            "angle": -180,
+            "origin": {
+              "x": 724.2734375,
+              "y": 113.9140625
+            },
+            "launchAtMs": 300,
+            "contactsVisible": 1,
+            "contactsDue": 1,
+            "echoes": []
+          },
+          {
+            "variant": "azure",
+            "timeMs": 300,
+            "flying": true,
+            "x": 724.2734375,
+            "y": 343.9140625,
+            "width": 64,
+            "height": 28,
+            "bounds": {
+              "type": 5,
+              "x": 661.5534375,
+              "y": 330.4740625,
+              "width": 64,
+              "height": 28
+            },
+            "originX": 0.02,
+            "alpha": 1,
+            "angle": -180,
+            "origin": {
+              "x": 724.2734375,
+              "y": 343.9140625
+            },
+            "launchAtMs": 300,
+            "contactsVisible": 1,
+            "contactsDue": 1,
+            "echoes": []
+          },
+          {
+            "variant": "ember",
+            "timeMs": 300,
+            "flying": true,
+            "x": 724.2734375,
+            "y": 573.9140625,
+            "width": 64,
+            "height": 28,
+            "bounds": {
+              "type": 5,
+              "x": 661.5534375,
+              "y": 560.4740625,
+              "width": 64,
+              "height": 28
+            },
+            "originX": 0.02,
+            "alpha": 1,
+            "angle": -180,
+            "origin": {
+              "x": 724.2734375,
+              "y": 573.9140625
+            },
+            "launchAtMs": 300,
+            "contactsVisible": 1,
+            "contactsDue": 1,
+            "echoes": []
+          },
+          {
+            "variant": "prismatic",
+            "timeMs": 300,
+            "flying": true,
+            "x": 724.2734375,
+            "y": 803.9140625,
+            "width": 64,
+            "height": 28,
+            "bounds": {
+              "type": 5,
+              "x": 661.5534375,
+              "y": 790.4740625,
+              "width": 64,
+              "height": 28
+            },
+            "originX": 0.02,
+            "alpha": 1,
+            "angle": -180,
+            "origin": {
+              "x": 724.2734375,
+              "y": 803.9140625
+            },
+            "launchAtMs": 300,
+            "contactsVisible": 1,
+            "contactsDue": 1,
+            "echoes": []
+          }
+        ],
+        "displayObjects": 108
+      },
+      "later": {
+        "ready": true,
+        "playing": false,
+        "direction": -1,
+        "timeMs": 1300,
+        "attack": "kick",
+        "contacts": [
+          {
+            "point": {
+              "x": 93.248,
+              "y": 93.248
+            },
+            "rawPoint": {
+              "x": 724.2734375,
+              "y": 117.3203125
+            },
+            "normal": {
+              "x": 0.9954954725939523,
+              "y": 0.09480909262799546
+            },
+            "sweep": -0.7216657856110521,
+            "strength": 1.22,
+            "authored": true,
+            "contactFrame": 9,
+            "visibleFrame": 39,
+            "origin": {
+              "x": 724.2734375,
+              "y": 113.9140625
+            },
+            "pose": {
+              "sheet": "survival-mixamo-v3-complex-dig-roundhouse-sheet",
+              "contactFrame": 9,
+              "visibleFrame": 9,
+              "x": 766,
+              "y": 188,
+              "scaleX": 0.42578125,
+              "scaleY": 0.42578125,
+              "width": 256,
+              "height": 256,
+              "originX": 0.5,
+              "originY": 0.890625,
+              "flipX": true,
+              "rotation": 0
+            }
+          },
+          {
+            "point": {
+              "x": 93.248,
+              "y": 93.248
+            },
+            "rawPoint": {
+              "x": 724.2734375,
+              "y": 347.3203125
+            },
+            "normal": {
+              "x": 0.9161573349021893,
+              "y": 0.4008188340197078
+            },
+            "sweep": -0.4695199025468733,
+            "strength": 1.22,
+            "authored": true,
+            "contactFrame": 9,
+            "visibleFrame": 39,
+            "origin": {
+              "x": 724.2734375,
+              "y": 343.9140625
+            },
+            "pose": {
+              "sheet": "survival-mixamo-v3-complex-dig-roundhouse-sheet",
+              "contactFrame": 9,
+              "visibleFrame": 9,
+              "x": 766,
+              "y": 418,
+              "scaleX": 0.42578125,
+              "scaleY": 0.42578125,
+              "width": 256,
+              "height": 256,
+              "originX": 0.5,
+              "originY": 0.890625,
+              "flipX": true,
+              "rotation": 0
+            }
+          },
+          {
+            "point": {
+              "x": 93.248,
+              "y": 93.248
+            },
+            "rawPoint": {
+              "x": 724.2734375,
+              "y": 577.3203125
+            },
+            "normal": {
+              "x": 0.7885933524939608,
+              "y": 0.6149150546232671
+            },
+            "sweep": -0.23661374028182014,
+            "strength": 1.22,
+            "authored": true,
+            "contactFrame": 9,
+            "visibleFrame": 39,
+            "origin": {
+              "x": 724.2734375,
+              "y": 573.9140625
+            },
+            "pose": {
+              "sheet": "survival-mixamo-v3-complex-dig-roundhouse-sheet",
+              "contactFrame": 9,
+              "visibleFrame": 9,
+              "x": 766,
+              "y": 648,
+              "scaleX": 0.42578125,
+              "scaleY": 0.42578125,
+              "width": 256,
+              "height": 256,
+              "originX": 0.5,
+              "originY": 0.890625,
+              "flipX": true,
+              "rotation": 0
+            }
+          },
+          {
+            "point": {
+              "x": 93.248,
+              "y": 93.248
+            },
+            "rawPoint": {
+              "x": 724.2734375,
+              "y": 807.3203125
+            },
+            "normal": {
+              "x": 0.6653465346534654,
+              "y": 0.7465346534653465
+            },
+            "sweep": -0.0582859148382877,
+            "strength": 1.22,
+            "authored": true,
+            "contactFrame": 9,
+            "visibleFrame": 39,
+            "origin": {
+              "x": 724.2734375,
+              "y": 803.9140625
+            },
+            "pose": {
+              "sheet": "survival-mixamo-v3-complex-dig-roundhouse-sheet",
+              "contactFrame": 9,
+              "visibleFrame": 9,
+              "x": 766,
+              "y": 878,
+              "scaleX": 0.42578125,
+              "scaleY": 0.42578125,
+              "width": 256,
+              "height": 256,
+              "originX": 0.5,
+              "originY": 0.890625,
+              "flipX": true,
+              "rotation": 0
+            }
+          }
+        ],
+        "tileSize": 94,
+        "renderer": 2,
+        "loadFailures": [],
+        "projectiles": [
+          {
+            "variant": "violet",
+            "timeMs": 1300,
+            "flying": true,
+            "x": 499.2734375,
+            "y": 113.9140625,
+            "width": 64,
+            "height": 28,
+            "bounds": {
+              "type": 5,
+              "x": 436.5534375,
+              "y": 100.4740625,
+              "width": 64,
+              "height": 28
+            },
+            "originX": 0.02,
+            "alpha": 1,
+            "angle": -180,
+            "origin": {
+              "x": 724.2734375,
+              "y": 113.9140625
+            },
+            "launchAtMs": 300,
+            "contactsVisible": 0,
+            "contactsDue": 2,
+            "echoes": [
+              {
+                "x": 528.2734375,
+                "y": 113.9140625,
+                "alpha": 0.17666666666666664,
+                "width": 64,
+                "height": 28,
+                "angle": -180
+              },
+              {
+                "x": 556.2734375,
+                "y": 113.9140625,
+                "alpha": 0.08333333333333331,
+                "width": 64,
+                "height": 28,
+                "angle": -180
+              }
+            ]
+          },
+          {
+            "variant": "azure",
+            "timeMs": 1300,
+            "flying": true,
+            "x": 499.2734375,
+            "y": 343.9140625,
+            "width": 64,
+            "height": 28,
+            "bounds": {
+              "type": 5,
+              "x": 436.5534375,
+              "y": 330.4740625,
+              "width": 64,
+              "height": 28
+            },
+            "originX": 0.02,
+            "alpha": 1,
+            "angle": -180,
+            "origin": {
+              "x": 724.2734375,
+              "y": 343.9140625
+            },
+            "launchAtMs": 300,
+            "contactsVisible": 0,
+            "contactsDue": 2,
+            "echoes": [
+              {
+                "x": 528.2734375,
+                "y": 343.9140625,
+                "alpha": 0.17666666666666664,
+                "width": 64,
+                "height": 28,
+                "angle": -180
+              },
+              {
+                "x": 556.2734375,
+                "y": 343.9140625,
+                "alpha": 0.08333333333333331,
+                "width": 64,
+                "height": 28,
+                "angle": -180
+              }
+            ]
+          },
+          {
+            "variant": "ember",
+            "timeMs": 1300,
+            "flying": true,
+            "x": 499.2734375,
+            "y": 573.9140625,
+            "width": 64,
+            "height": 28,
+            "bounds": {
+              "type": 5,
+              "x": 436.5534375,
+              "y": 560.4740625,
+              "width": 64,
+              "height": 28
+            },
+            "originX": 0.02,
+            "alpha": 1,
+            "angle": -180,
+            "origin": {
+              "x": 724.2734375,
+              "y": 573.9140625
+            },
+            "launchAtMs": 300,
+            "contactsVisible": 0,
+            "contactsDue": 2,
+            "echoes": [
+              {
+                "x": 528.2734375,
+                "y": 573.9140625,
+                "alpha": 0.17666666666666664,
+                "width": 64,
+                "height": 28,
+                "angle": -180
+              },
+              {
+                "x": 556.2734375,
+                "y": 573.9140625,
+                "alpha": 0.08333333333333331,
+                "width": 64,
+                "height": 28,
+                "angle": -180
+              }
+            ]
+          },
+          {
+            "variant": "prismatic",
+            "timeMs": 1300,
+            "flying": true,
+            "x": 499.2734375,
+            "y": 803.9140625,
+            "width": 64,
+            "height": 28,
+            "bounds": {
+              "type": 5,
+              "x": 436.5534375,
+              "y": 790.4740625,
+              "width": 64,
+              "height": 28
+            },
+            "originX": 0.02,
+            "alpha": 1,
+            "angle": -180,
+            "origin": {
+              "x": 724.2734375,
+              "y": 803.9140625
+            },
+            "launchAtMs": 300,
+            "contactsVisible": 0,
+            "contactsDue": 2,
+            "echoes": [
+              {
+                "x": 528.2734375,
+                "y": 803.9140625,
+                "alpha": 0.17666666666666664,
+                "width": 64,
+                "height": 28,
+                "angle": -180
+              },
+              {
+                "x": 556.2734375,
+                "y": 803.9140625,
+                "alpha": 0.08333333333333331,
+                "width": 64,
+                "height": 28,
+                "angle": -180
+              }
+            ]
+          }
+        ],
+        "displayObjects": 108
+      },
+      "steady": [
+        {
+          "age": 1,
+          "alpha": [
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "age": 100,
+          "alpha": [
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "age": 350,
+          "alpha": [
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "age": 700,
+          "alpha": [
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "age": 1300,
+          "alpha": [
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "age": 1750,
+          "alpha": [
+            1,
+            1,
+            1,
+            1
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "status": "PASS"
+}

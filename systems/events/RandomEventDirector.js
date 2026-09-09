@@ -7,6 +7,9 @@ import {
 } from "../../values/randomWorldEvents.js";
 import { MONEY_MONSTER_RESOURCE_KEYS, RESOURCE_KEYS } from "../../values/resourceTypes.js";
 
+import { sanitizeSignal } from "./signalEventRules.js";
+import { SIGNAL_EVENT } from "../../values/signalEvent.js";
+
 const VALID_TYPES = new Set(RANDOM_EVENT_TYPE_ORDER);
 const VALID_RESOURCES = new Set(MONEY_MONSTER_RESOURCE_KEYS);
 const clone = value => JSON.parse(JSON.stringify(value));
@@ -64,6 +67,8 @@ function sanitizeActive(value) {
   if (!value || !VALID_TYPES.has(value.type)) return null;
   const maxDuration = RANDOM_WORLD_EVENT_CONFIG.scheduler.maxPersistedDurationMs;
   const anchors = sanitizePoints(value.anchors);
+  const signal = value.type === RANDOM_EVENT_TYPES.SIGNAL ? sanitizeSignal(value.signal) : null;
+  if (value.type === RANDOM_EVENT_TYPES.SIGNAL && (!signal || anchors.length !== 1)) return null;
   const sequence = Array.isArray(value.sequence)
     ? value.sequence.slice(0, 8).map(index => boundedInt(index, 0, 31, 0))
     : [];
@@ -83,6 +88,7 @@ function sanitizeActive(value) {
     suspended: value.suspended === true,
     startedDepth: boundedInt(value.startedDepth, 0, 100000, 0),
     anchors,
+    ...(signal ? { signal } : {}),
     sequence,
     progress: boundedInt(value.progress, 0, Math.max(32, anchors.length), 0),
     targetResource,
@@ -116,6 +122,7 @@ export function sanitizeRandomEventData(value, seed = 0) {
       ? Math.max(storedCooldownMs, scheduler.retryCooldownMs)
       : storedCooldownMs,
     active,
+    signalHistory: Array.isArray(value?.signalHistory) ? value.signalHistory.slice(-SIGNAL_EVENT.historyLimit).filter(v => v && typeof v.id === "string").map(v => ({ id: v.id.slice(0,80), survivorId: String(v.survivorId || "").slice(0,20), choice: ["give","ignore","attack","rescue","blast"].includes(v.choice) ? v.choice : "ignore", count: boundedInt(v.count,0,Number.MAX_SAFE_INTEGER,0), fatal: v.fatal === true })) : [],
     recentTypes,
     recentResources,
     sleepingJackpot: sanitizeJackpot(value?.sleepingJackpot),

@@ -115,6 +115,9 @@ const makeDisplayObject = (textureKey = null) => ({
   displayWidth: 0,
   displayHeight: 0,
   setOrigin() { return this; },
+  setScrollFactor() { return this; },
+  setScale(scale) { this.scale = scale; return this; },
+  setText(text) { this.text = text; this.width = text.length * 7; return this; },
   setDisplaySize(width, height) { this.displayWidth = width; this.displayHeight = height; return this; },
   setAlpha(alpha) { this.alpha = alpha; return this; },
   setStrokeStyle() { return this; },
@@ -124,10 +127,13 @@ const makeDisplayObject = (textureKey = null) => ({
 const visualScene = {
   config: { tileSize: TILE_SIZE },
   time: { now: 100 },
+  scale: { width: 1280, height: 720, on() {}, off() {} },
+  events: { on() {}, off() {} },
   worldModel: {
     tileToWorld: (tx, ty) => ({ x: tx * TILE_SIZE, y: ty * TILE_SIZE }),
   },
   add: {
+    text: () => makeDisplayObject(),
     image: (x, y, key) => makeDisplayObject(key),
     rectangle: () => makeDisplayObject(),
     container: () => ({

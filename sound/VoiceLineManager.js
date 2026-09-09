@@ -1,4 +1,6 @@
 import { VoiceLineVolumeDucker } from "./VoiceLineVolumeDucker.js";
+import { VOICE_SOURCE_MIX } from "../values/voiceSourceMix.generated.js";
+import { applySfxWindow } from "./coreSfxWindow.js";
 
 /**
  * VoiceLineManager
@@ -137,18 +139,7 @@ export class VoiceLineManager {
       } while (selectedVoiceLine.key === lastPlayedKey && attempts < 10 && candidates.length > 1);
     }
     if (!this.scene.cache.audio.exists(selectedVoiceLine.key)) {
-      this.pendingVoiceLineHandle?.cancel?.();
-      this.pendingVoiceLineKey = selectedVoiceLine.key;
-      this.pendingVoiceLineHandle = this.soundSystem.loadVoiceLineAsset(
-        selectedVoiceLine,
-        () => {
-          if (this.pendingVoiceLineKey !== selectedVoiceLine.key) return;
-          this.pendingVoiceLineHandle = null;
-          this.pendingVoiceLineKey = null;
-          this._playSelectedVoiceLine(category, subCategory, selectedVoiceLine, library);
-        },
-        (_asset, error) => this._handlePendingLoadError(selectedVoiceLine.key, error),
-      );
+      this._loadSelectedVoiceLine(category, subCategory, selectedVoiceLine, library);
       return null;
     }
     return this._playSelectedVoiceLine(category, subCategory, selectedVoiceLine, library);
@@ -168,24 +159,7 @@ export class VoiceLineManager {
     };
     const library = [selectedVoiceLine];
     if (!this.scene.cache.audio.exists(selectedVoiceLine.key)) {
-      this.pendingVoiceLineHandle?.cancel?.();
-      this.pendingVoiceLineKey = selectedVoiceLine.key;
-      this.pendingVoiceLineHandle = this.soundSystem.loadVoiceLineAsset(
-        selectedVoiceLine,
-        () => {
-          if (this.pendingVoiceLineKey !== selectedVoiceLine.key) return;
-          this.pendingVoiceLineHandle = null;
-          this.pendingVoiceLineKey = null;
-          this._playSelectedVoiceLine(
-            "tutorial",
-            "named",
-            selectedVoiceLine,
-            library,
-            callbacks,
-          );
-        },
-        (_asset, error) => this._handlePendingLoadError(selectedVoiceLine.key, error),
-      );
+      this._loadSelectedVoiceLine("tutorial", "named", selectedVoiceLine, library, callbacks);
       return null;
     }
     return this._playSelectedVoiceLine(
@@ -198,44 +172,73 @@ export class VoiceLineManager {
   }
 
   _playSelectedVoiceLine(category, subCategory, selectedVoiceLine, library, callbacks = {}) {
-    if (this.destroyed || !this.scene.cache.audio.exists(selectedVoiceLine.key)) return null;
+    if (this.destroyed || this.soundSystem.sfxEnabled === false || this.soundSystem.audioSuspended
+      || globalThis.document?.hidden || !this.scene.cache.audio.exists(selectedVoiceLine.key)) return null;
     this.pendingVoiceLineHandle?.cancel?.();
     this.pendingVoiceLineHandle = null;
     this.pendingVoiceLineKey = null;
-    if (this.currentVoiceLine) return null;
-    this.volumeDucker.duck();
-    console.log(`[VoiceLineManager] Playing ${category}/${subCategory}: ${selectedVoiceLine.file}`);
-    const sound = this.scene.sound.add(selectedVoiceLine.key, {
-      volume: this.soundSystem.voiceVolume * this.soundSystem.masterVolume,
-      loop: false
-    });
-    sound.play();
-    this.lastPlayed[`${category}-${subCategory}`] = selectedVoiceLine.key;
-    this.currentVoiceLine = sound;
-    this.currentVoiceLineKey = selectedVoiceLine.key;
-    this.soundSystem.noteVoiceLineUse(selectedVoiceLine.key);
-    try { callbacks.onStarted?.(sound, selectedVoiceLine); } catch (error) {
-      console.warn("[VoiceLineManager] Voice start callback failed", error);
-    }
-    sound.once('complete', () => {
+    if (this.currentVoiceLine || this.externalVoiceOwner) return null;
+    this.currentVoiceIsNpc = category === "npc";
+    const sourceMix = VOICE_SOURCE_MIX[selectedVoiceLine.path];
+    this.currentVoiceSourceGain = sourceMix?.gain ?? 1;
+    let sound;
+    const finish = (played, dispose = true) => {
       if (this.currentVoiceLine !== sound) return;
       this.currentVoiceLine = null;
       this.currentVoiceLineKey = null;
       this.volumeDucker.restore();
-      try { sound.destroy(); } catch (_) {}
-      this.soundSystem.prefetchVoiceLine(library, selectedVoiceLine);
-      this.soundSystem.onVoiceLineIdle?.({
-        played: true,
-        key: selectedVoiceLine.key,
-        category,
-        subCategory,
+      const destroy = () => { try { if (sound.manager) sound.destroy(); } catch (_) {} };
+      if (dispose === "defer") queueMicrotask(destroy);
+      else if (dispose) destroy();
+      if (played) this.soundSystem.prefetchVoiceLine(library, selectedVoiceLine);
+      this.soundSystem.onVoiceLineIdle?.({ played, key: selectedVoiceLine.key, category, subCategory });
+    };
+    try {
+      sound = this.scene.sound.add(selectedVoiceLine.key, {
+        volume: this.soundSystem.getVoiceMixVolume(this.currentVoiceIsNpc) * this.currentVoiceSourceGain, loop: false,
       });
-    });
+      this.currentVoiceLine = sound;
+      this.currentVoiceLineKey = selectedVoiceLine.key;
+      sound.once('complete', () => finish(true));
+      sound.once('stop', () => finish(false, "defer"));
+      sound.once('destroy', () => finish(false, false));
+      const marker = applySfxWindow(sound, this.scene.sound.context, sourceMix?.window);
+      if (sound.play(marker) === false) { finish(false); return null; }
+      this.volumeDucker.duck();
+    } catch (error) {
+      if (sound) finish(false);
+      console.warn(`[VoiceLineManager] Voice playback failed: ${selectedVoiceLine.key}`, error);
+      return null;
+    }
+    this.lastPlayed[`${category}-${subCategory}`] = selectedVoiceLine.key;
+    this.soundSystem.noteVoiceLineUse(selectedVoiceLine.key);
+    try { callbacks.onStarted?.(sound, selectedVoiceLine); } catch (error) {
+      console.warn("[VoiceLineManager] Voice start callback failed", error);
+    }
     return sound;
   }
 
+  _loadSelectedVoiceLine(category, subCategory, entry, library, callbacks) {
+    if (this.destroyed || this.soundSystem.sfxEnabled === false) return;
+    const request = {};
+    this.pendingVoiceRequest = request;
+    this.pendingVoiceLineKey = entry.key;
+    const handle = this.soundSystem.loadVoiceLineAsset(entry, () => {
+      if (this.pendingVoiceRequest !== request) return;
+      this.pendingVoiceRequest = null;
+      this.pendingVoiceLineHandle = null;
+      this.pendingVoiceLineKey = null;
+      this._playSelectedVoiceLine(category, subCategory, entry, library, callbacks);
+    }, (_asset, error) => {
+      if (this.pendingVoiceRequest !== request) return;
+      this.pendingVoiceRequest = null;
+      this._handlePendingLoadError(entry.key, error);
+    });
+    if (this.pendingVoiceRequest === request) this.pendingVoiceLineHandle = handle;
+  }
+
   isBusy() {
-    return Boolean(this.currentVoiceLine || this.pendingVoiceLineKey);
+    return Boolean(this.currentVoiceLine || this.pendingVoiceLineKey || this.externalVoiceOwner);
   }
 
   _handlePendingLoadError(key, error) {
@@ -249,14 +252,17 @@ export class VoiceLineManager {
    * Stop current voice line
    */
   stopCurrentVoiceLine() {
-    if (this.currentVoiceLine && this.currentVoiceLine.isPlaying) {
-      const oldVoiceLine = this.currentVoiceLine;
-      this.currentVoiceLine = null;
-      this.currentVoiceLineKey = null;
-      oldVoiceLine.stop();
-      oldVoiceLine.destroy();
-      this.volumeDucker.restore();
-    }
+    this.pendingVoiceRequest = null;
+    this.pendingVoiceLineHandle?.cancel?.();
+    this.pendingVoiceLineHandle = null;
+    this.pendingVoiceLineKey = null;
+    const sound = this.currentVoiceLine;
+    this.currentVoiceLine = null;
+    this.currentVoiceLineKey = null;
+    this.externalVoiceOwner?.stop?.();
+    try { sound?.stop(); } catch (_) {}
+    try { sound?.destroy(); } catch (_) {}
+    this.volumeDucker.restore();
   }
 
   /**

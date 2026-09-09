@@ -275,9 +275,15 @@ export function resolveRenderDensityProfile(search = "", viewport = GAME_CONFIG)
   const rollbackDisabled = params.get(query.densityRollbackParam) === query.disabledValue;
   const forceLegacyDensity = rollbackDisabled || rendererMode === query.autoRendererValue;
   const preset = forceLegacyDensity ? "legacy" : requestedPreset;
-  const density = positiveNumber(quality.densityPresets[preset], 1);
+  let density = positiveNumber(quality.densityPresets[preset], 1);
   const logicalWidth = Math.round(positiveNumber(viewport.viewportWidth, 1280));
   const logicalHeight = Math.round(positiveNumber(viewport.viewportHeight, 720));
+  if (!forceLegacyDensity && !params.has(query.qualityParam)) {
+    const display = globalThis.window;
+    const fit = Math.min((display?.innerWidth || 0) / logicalWidth, (display?.innerHeight || 0) / logicalHeight);
+    const physicalDensity = fit * positiveNumber(display?.devicePixelRatio, 1);
+    density = Math.max(density, Math.min(quality.defaultDisplayDensityCap || density, physicalDensity));
+  }
 
   return Object.freeze({
     requestedPreset,

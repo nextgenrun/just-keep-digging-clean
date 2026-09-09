@@ -1,0 +1,9 @@
+{
+  "files": [
+    "candidate-pickup.wav",
+    "candidate-pickup-approved-review-libResourcePop.wav",
+    "candidate-pickup-approved-review-libResourcePop.ogg"
+  ],
+  "reason": "The exploratory low-pass cut removed too much of the source energy. Omitted from the listening page; the runtime gain and repetition cleanup remains active.",
+  "runtimeWired": false
+}

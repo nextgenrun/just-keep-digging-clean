@@ -1,0 +1,20 @@
+--- testing\character-contact-restoration-2026-09-07\pre-change\values__digImpactPresentation.js
+
++++ values\digImpactPresentation.js
+
+@@ -3,5 +3,5 @@
+
+ 
+ /** Correct only the measured contact markers of the unified production artwork. */
+-export function applyUnifiedDigContactPresentation(profile, enabled = isDigImpactEnabled()) {
++export function applyUnifiedDigContactPresentation(profile, enabled = isDigImpactEnabled(), sheets = DIG_IMPACT_CONTACTS) {
+   const original = profile.actionContactByAnimation;
+   if (!enabled) return original;
+@@ -9,5 +9,5 @@
+
+   return Object.freeze(Object.fromEntries(Object.entries(original || {}).map(([key, spec]) => {
+     const variant = variants.get(key);
+-    const records = DIG_IMPACT_CONTACTS[variant?.sheet]?.contacts;
++    const records = sheets[variant?.sheet]?.contacts;
+     if (!records || !variant?.frames) return [key, spec];
+     const source = spec.contacts || [spec];

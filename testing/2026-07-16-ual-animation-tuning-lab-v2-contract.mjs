@@ -65,6 +65,7 @@ const scenarios = await readFile(path.join(lab, "labScenarios.js"), "utf8");
 assert.match(scenarios, /const jog = clips\.get\("run"\)/, "locomotion lane must use the live run-slot Jog");
 assert.match(scenarios, /calculateStrideMatchedTimeScale/, "locomotion must use production cadence math");
 assert.match(scenarios, /resolveUalActionTimeScale/, "actions must use production timing math");
+assert.match(scenarios, /MINING_CONFIG\.mineCooldownMs/, "action playback must use the authoritative mining cooldown");
 assert.match(scenarios, /resolveUalFlightTimeScale/, "flight must use production timing math");
 assert.match(scenarios, /state\.landingFrameCount/, "landing frame trim must be draft-tunable");
 assert.match(scenarios, /state\.comboGapMs/, "combo recovery gap must be draft-tunable");

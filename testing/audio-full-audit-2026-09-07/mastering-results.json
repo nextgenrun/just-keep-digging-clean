@@ -1,0 +1,33 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "name": "Every calibrated source still matches its measured full content hash",
+      "passed": true
+    },
+    {
+      "name": "Layer playback false destroys its instance and observes retry cooldown",
+      "passed": true
+    },
+    {
+      "name": "Layer playback throw destroys its instance and observes retry cooldown",
+      "passed": true
+    },
+    {
+      "name": "An externally stopped layer releases its sound and can be requested again",
+      "passed": true
+    },
+    {
+      "name": "Music keeps source calibration through user volume and overlapping fades",
+      "passed": true
+    },
+    {
+      "name": "Music playback false does not leave an occupied transition",
+      "passed": true
+    },
+    {
+      "name": "Music playback throw does not leave an occupied transition",
+      "passed": true
+    }
+  ]
+}

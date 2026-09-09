@@ -19,16 +19,16 @@ export class ScreenFlashSystem {
       .setFillStyle(0xffffff);
   }
 
-  flashCrit() {
-    this._flash(this.config.critColor, this.config.critAlpha, this.config.critDuration);
-  }
-
-  flashLucky() {
-    this._flash(this.config.luckyColor, this.config.luckyAlpha, this.config.luckyDuration);
+  flashReward() {
+    this._flash(this.config.rewardColor, this.config.rewardAlpha, this.config.rewardDuration);
   }
 
   flashPanic() {
     this._flash(this.config.panicColor, this.config.panicAlpha, this.config.panicDuration);
+  }
+
+  flashCustom(color, alpha, duration) {
+    this._flash(color, alpha, duration);
   }
 
   _flash(color, alpha, duration) {

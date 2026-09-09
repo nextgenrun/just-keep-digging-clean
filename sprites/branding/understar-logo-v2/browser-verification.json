@@ -1,0 +1,80 @@
+{
+  "preview": [
+    {
+      "id": "before",
+      "loaded": true,
+      "width": 1555,
+      "height": 462,
+      "displayWidth": 560,
+      "displayHeight": 166.375
+    },
+    {
+      "id": "after",
+      "loaded": true,
+      "width": 2048,
+      "height": 608,
+      "displayWidth": 560,
+      "displayHeight": 166.25
+    },
+    {
+      "id": "master",
+      "loaded": true,
+      "width": 4096,
+      "height": 1216,
+      "displayWidth": 1120,
+      "displayHeight": 332.5
+    }
+  ],
+  "mobileOverflow": false,
+  "mainMenu": {
+    "scene": "MainMenuScene",
+    "active": true,
+    "textureSize": [
+      2048,
+      608
+    ],
+    "display": [
+      560,
+      166.25
+    ],
+    "position": [
+      640,
+      150
+    ],
+    "alpha": 1,
+    "source": "blob:http://localhost:8765/5da7b0b9-9c12-446a-a24a-6a24d3249c33",
+    "canvas": [
+      3840,
+      2160
+    ]
+  },
+  "saveMenu": {
+    "scene": "StartMenuScene",
+    "active": true,
+    "textureSize": [
+      2048,
+      608
+    ],
+    "display": [
+      520,
+      154.375
+    ],
+    "position": [
+      640,
+      85
+    ],
+    "alpha": 1,
+    "source": "blob:http://localhost:8765/5da7b0b9-9c12-446a-a24a-6a24d3249c33",
+    "canvas": [
+      3840,
+      2160
+    ]
+  },
+  "logoRequests": [
+    {
+      "url": "http://localhost:8765/sprites/branding/understar-logo-v2/understar-rift-monolith-runtime.webp",
+      "status": 200
+    }
+  ],
+  "pageErrors": []
+}

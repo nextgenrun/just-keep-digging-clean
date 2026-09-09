@@ -1,0 +1,7 @@
+# Signal encounter practice
+
+Open index.html through the canonical serve.py server. The iframe runs the real game with jkd_e2e=1. Start practice, fill the dummy pack, choose Ivo, Bram, Oren or Mia, and choose a real or empty Signal. Go to minicamp, click the game to focus it, then press E. The optional Approach / talk button uses the same interaction bridge. Attack wins/losses are deterministic fixtures. Sound can be muted without changing captions or direction. Hardcore arms a disposable one-life run. Explosive survivor forces the rare Bram variant; approach arms its 1.8-second fuse. Walk out of blast sends the ordinary left key after a 200ms reaction to verify walking escape. Staying close kills; escape awards 750 Starpower. Sound-off preserves the hissing-pack caption. Generous gifts award 2,000 Starpower and full GP; small gifts award 250. The threshold is shown in the gift form.
+
+Mia's first choice is rescue. Go to Bobo checks her surface placement; Reload rescued Mia serializes/restores the upgrade map and reconstructs her sprite. This checks ownership restoration without writing a checkpoint.
+
+The sandbox keeps _saveWritesBlocked enabled and supplies memory-only transaction/flush and memorial ports. It never removes that save block or saves user audio settings. Browser proof and screenshots are saved here; contracts.json records the focused contract cases. See ../../markdown/2026-09-07-signal-event.md for implementation, limits and the donation reward proposal.

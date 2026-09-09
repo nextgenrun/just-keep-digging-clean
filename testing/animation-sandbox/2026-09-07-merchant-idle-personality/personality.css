@@ -1,0 +1,24 @@
+.intro{margin:9px 0 0;font-size:12px;color:#a6aaa7;line-height:1.55}
+.stage{height:clamp(240px,calc((100vh - 440px)/2),440px)}
+.stage>canvas{position:absolute;inset:0;z-index:1}
+.stage .pane{pointer-events:none}
+.stage .baseline{border-right:1px solid #43413b}
+.pane-label{font-size:9px;letter-spacing:1px}
+.merchant-footer{height:auto;min-height:42px;gap:7px;flex-wrap:wrap;padding-top:6px;padding-bottom:6px}
+.pose-select{font-size:10px;min-height:27px;max-width:136px;padding:3px 19px 3px 7px;background:#202326}
+.motion-state{flex:1;line-height:1.4}
+.merchant{--accent:#d5b77a}
+.merchant-heading{height:55px}
+.merchant-grid.compare{grid-template-columns:repeat(2,minmax(0,1fr))}
+.compare .stage{height:clamp(245px,calc((100vh - 420px)/2),430px)}
+.compare .merchant-heading{height:49px}
+.compare .merchant-footer .contact{display:none}
+body.focused .merchant-grid{grid-template-columns:1fr}
+body.focused .stage{height:clamp(400px,calc(100vh - 245px),900px)}
+body.focused .merchant-heading{height:57px}
+body.focused .pose-select{font-size:12px;max-width:200px}
+body.focused .merchant-footer{min-height:45px;font-size:12px}
+.page-footer{padding-bottom:10px}
+.contact{color:#87978c}
+@media(max-width:900px){.merchant-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.merchant-grid.compare{grid-template-columns:1fr}.intro{max-width:45ch}.stage{height:280px}}
+@media(max-width:510px){.merchant-grid{grid-template-columns:1fr}.stage{height:330px}.compare .stage{height:290px}.heading-meta{min-width:98px}.intro{font-size:11px}.merchant-footer{font-size:10px}.page-heading{gap:7px}}

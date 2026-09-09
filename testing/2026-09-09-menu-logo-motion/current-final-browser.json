@@ -1,0 +1,87 @@
+{
+  "reviewOnly": true,
+  "style": "quiet-sky",
+  "source": "current",
+  "canvas": [
+    1920,
+    1080
+  ],
+  "scenery": {
+    "name": "Scenery",
+    "time": 19.28,
+    "duration": 22.283333,
+    "width": 1280,
+    "height": 720,
+    "paused": false,
+    "readyState": 4,
+    "error": null,
+    "sampleSeconds": 95,
+    "totalFrames": 5705,
+    "droppedFrames": 20,
+    "callbacks": 5681,
+    "gapP95": 16.8,
+    "gapMax": 33.5,
+    "wraps": [
+      {
+        "gapMs": 33.5,
+        "from": 22.266667,
+        "to": 0.033333
+      },
+      {
+        "gapMs": 33.4,
+        "from": 22.266667,
+        "to": 0.033333
+      },
+      {
+        "gapMs": 50,
+        "from": 22.266667,
+        "to": 0.033333
+      },
+      {
+        "gapMs": 33.4,
+        "from": 22.266667,
+        "to": 0.033333
+      }
+    ],
+    "hiddenBreaks": 0
+  },
+  "logo": {
+    "name": "Logo",
+    "time": 12.57,
+    "duration": 22.4,
+    "width": 1120,
+    "height": 332,
+    "paused": false,
+    "readyState": 4,
+    "error": null,
+    "sampleSeconds": 95,
+    "totalFrames": 2851,
+    "droppedFrames": 0,
+    "callbacks": 2850,
+    "gapP95": 50.1,
+    "gapMax": 50.3,
+    "wraps": [
+      {
+        "gapMs": 33.4,
+        "from": 22.367,
+        "to": 0
+      },
+      {
+        "gapMs": 33.4,
+        "from": 22.367,
+        "to": 0.033
+      },
+      {
+        "gapMs": 33.4,
+        "from": 22.367,
+        "to": 0
+      },
+      {
+        "gapMs": 50,
+        "from": 22.367,
+        "to": 0
+      }
+    ],
+    "hiddenBreaks": 0
+  }
+}

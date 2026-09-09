@@ -9,11 +9,16 @@ import {
 } from "../values/rewardFlightMotions.js";
 
 const { profiles } = REWARD_FLIGHT_MOTION_CONFIG;
-assert.equal(profiles.length, 20, "the shared reward flight library must expose exactly twenty arcs");
-assert.equal(new Set(profiles.map(profile => profile.id)).size, 20);
-assert.equal(new Set(profiles.map(profile => profile.lootWeight)).size, 20);
-assert.equal(new Set(profiles.map(profile => profile.xpWeight)).size, 20);
+assert.equal(profiles.length, 24, "the shared reward flight library must expose exactly twenty-four arcs");
+assert.equal(new Set(profiles.map(profile => profile.id)).size, 24);
+assert.equal(new Set(profiles.map(profile => profile.lootWeight)).size, 24);
+assert.equal(new Set(profiles.map(profile => profile.xpWeight)).size, 24);
 assert.ok(profiles.every(profile => profile.lootWeight > 0 && profile.xpWeight > 0));
+assert.deepEqual(
+  profiles.filter(profile => /^(slingshot|halo-dive)-/.test(profile.id))
+    .map(profile => profile.amountAffinity),
+  ["surge", "surge", "surge", "surge"],
+);
 assert.deepEqual(
   Object.keys(REWARD_FLIGHT_MOTION_CONFIG.resourceFamilies).sort(),
   [...RESOURCE_KEYS].sort(),
@@ -98,9 +103,15 @@ const contexts = [
 ];
 for (const context of contexts) {
   const rates = selector.describeTriggerRates({ start, target, ...context });
-  assert.equal(rates.length, 20);
-  assert.ok(rates.every(entry => entry.triggerRate > 0));
+  assert.equal(rates.length, 24);
+  assert.ok(rates.every(entry => entry.triggerRate >= 0));
+  assert.ok(rates.some(entry => entry.triggerRate > 0));
   assert.ok(Math.abs(rates.reduce((sum, entry) => sum + entry.triggerRate, 0) - 1) < 1e-10);
+  if (context.levelUp) {
+    const bandByProfile = new Map(profiles.map(profile => [profile.id, profile.amountAffinity]));
+    assert.ok(rates.filter(entry => entry.triggerRate > 0)
+      .every(entry => bandByProfile.get(entry.profileId) === "surge"));
+  }
 }
 
 const [lootSource, xpSource, setupSource, lifecycleSource] = await Promise.all([
@@ -110,7 +121,7 @@ const [lootSource, xpSource, setupSource, lifecycleSource] = await Promise.all([
   readFile(new URL("../world/playScene/PlaySceneLifecycle.js", import.meta.url), "utf8"),
 ]);
 assert.match(lootSource, /REWARD_FLIGHT_CHANNELS\.loot/);
-assert.match(lootSource, /amount: details\.amount/);
+assert.match(lootSource, /this\.motionProvider\.createPlan/);
 assert.match(lootSource, /isStarResource/);
 assert.match(xpSource, /REWARD_FLIGHT_CHANNELS\.xp/);
 assert.match(xpSource, /xpGained: details\.xpGained/);
@@ -120,4 +131,4 @@ assert.match(lifecycleSource, /rewardFlightMotionSystem/);
 assert.ok(lootSource.split(/\r?\n/).length <= 300);
 assert.ok(xpSource.split(/\r?\n/).length <= 300);
 
-console.log("REWARD_FLIGHT_MOTION_LIBRARY_OK profiles=20 channels=loot,xp");
+console.log("REWARD_FLIGHT_MOTION_LIBRARY_OK profiles=24 channels=loot,xp");

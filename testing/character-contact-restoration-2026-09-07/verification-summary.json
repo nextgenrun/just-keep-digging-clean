@@ -1,0 +1,82 @@
+{
+  "currentMarkerCount": 130,
+  "maximumMarkerDistancePx": 0.0,
+  "lance": {
+    "status": "PASS",
+    "releases": 11,
+    "errors": []
+  },
+  "traversal": {
+    "status": "PASS",
+    "jumps": [
+      {
+        "direction": "right",
+        "carried": 336,
+        "airFrames": 47,
+        "landingSpeed": 309.88821000000013,
+        "slide": 37.74035364345309,
+        "brakeMs": 266.90000000000146
+      },
+      {
+        "direction": "left",
+        "carried": -336,
+        "airFrames": 47,
+        "landingSpeed": -309.88651800000036,
+        "slide": 37.740809664323706,
+        "brakeMs": 266.8999999999978
+      }
+    ],
+    "footstepCount": 18,
+    "materials": [
+      "copper",
+      "dirt",
+      "hard",
+      "magma"
+    ],
+    "landingScuffs": 2,
+    "errors": []
+  },
+  "downward": {
+    "contacts": 5,
+    "allAuthored": true,
+    "allVisible": true,
+    "crouchInterruptions": 0,
+    "errors": []
+  },
+  "side": {
+    "status": "PASS",
+    "cases": [
+      {
+        "direction": "right",
+        "sequenceLength": 12,
+        "starts": 14,
+        "impacts": 16,
+        "allAuthored": true,
+        "allVisible": true,
+        "alignmentSamples": 253,
+        "bodySpriteMismatches": 0,
+        "frameMismatches": 0,
+        "movingAnimations": [
+          "survival-ual-player-v1-moving-side-dig-jab-anim"
+        ],
+        "evidence": "live-side-combo/evidence-right.json"
+      },
+      {
+        "direction": "left",
+        "sequenceLength": 12,
+        "starts": 14,
+        "impacts": 16,
+        "allAuthored": true,
+        "allVisible": true,
+        "alignmentSamples": 252,
+        "bodySpriteMismatches": 0,
+        "frameMismatches": 0,
+        "movingAnimations": [
+          "survival-ual-player-v1-moving-side-dig-cross-anim"
+        ],
+        "evidence": "live-side-combo/evidence-left.json"
+      }
+    ],
+    "errors": []
+  }
+}

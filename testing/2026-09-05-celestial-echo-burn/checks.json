@@ -1,0 +1,43 @@
+{
+  "checkedAt": "2026-09-05T20:11:35.330Z",
+  "testEntryPoints": 6,
+  "passed": 6,
+  "failed": 0,
+  "includedSharedPresentationContract": true,
+  "waywardSpeedTilesPerSecond": 3.2,
+  "waywardSpeedReductionPercent": 60,
+  "coreColours": [
+    "azure",
+    "violet",
+    "ember"
+  ],
+  "effectColours": [
+    "azure",
+    "violet",
+    "ember",
+    "mint",
+    "rose"
+  ],
+  "runtime": {
+    "previewErrors": [],
+    "missingTextures": [],
+    "waywardMineContacts": 2,
+    "lanceMineShots": 1,
+    "lanceOrigin": "authored-hand-foot",
+    "saveWritesBlocked": true
+  },
+  "sourceHashes": {
+    "values/celestialEngines.js": "e14817037547611248f3a35f01374bf72bbe1948fe2172de05e908d7bc4b9baf",
+    "values/celestialTalentEffects.js": "8274feacff831a0cc0f8040fe20efdc678f8ff30279e626caf93adee692163e4",
+    "values/celestialTalentRanks.js": "8377ae5deb2247e81013af87cd98251fa7b0a842c2153b255a3c6bc7d85b2a16",
+    "values/celestialPresentation.js": "31678f52629c02e39c751dc2387dedeb6bf05c78b3253d67d89934b29abf4ff7",
+    "values/stellarLancePresentation.js": "92de2d93e08490d0f7c81932493beb577e497be14b5ae2fda3e2c3ba7fc725cb",
+    "systems/celestial/CelestialStarVfx.js": "416410d884aa297a6b14daac60c6416038b4d798588632a08b861bec1cd9e973",
+    "systems/celestial/WaywardStarEngine.js": "0d5c168752a3f2d97b921e24285e1e98f7d2a58105338408ceba06e38b0c2121",
+    "systems/celestial/WaywardStarCompanion.js": "d01831fe8aafab45ad9f1413ee7e5106a842e2bff4ddd214ab2b8e2263f9379e",
+    "systems/celestial/StellarLanceVfx.js": "9c15020f7e08d78b42673b726d807972387447539fe9b281687c89696d2759f7",
+    "systems/celestial/StellarRageEngine.js": "63d7b6b0c05e72fe99989fc52b68ee8226f523b1425818300e8d7be4e04a6a5a",
+    "systems/celestial/CelestialContactVfx.js": "278ba797d25afc901ca4091e53d501fc0d9abb4655c8a703b29f6b4777c22100",
+    "systems/celestial/WaywardStarSwarmEngine.js": "a2a3a23058e5ec5e70fbace65c33f5098d88cbe138a35e67342390829065419a"
+  }
+}

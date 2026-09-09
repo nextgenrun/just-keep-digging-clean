@@ -1,0 +1,63 @@
+{
+  "celestial": {
+    "activation": {
+      "activationId": "god:wayward-star:279707:1",
+      "active": true,
+      "activeStars": 1,
+      "ageMs": 934.2999999999884,
+      "bounces": 2,
+      "completedStars": 0,
+      "engineId": "wayward-star",
+      "impacts": 2,
+      "lifetimeMs": 8000,
+      "maxBounces": 8,
+      "maxImpacts": 14,
+      "maxRedirects": 0,
+      "maxRouteImpacts": 14,
+      "maxSupernovaImpacts": 0,
+      "presentation": [
+        {
+          "contacts": 2,
+          "lastContact": {
+            "colour": "violet",
+            "x": 141,
+            "y": 6204
+          },
+          "liveContactEffects": 1,
+          "livePulses": 0,
+          "liveTrails": 16,
+          "palette": "azure",
+          "passive": false,
+          "trailSamples": 20
+        }
+      ],
+      "redirects": 0,
+      "remainingMs": 7065.700000000012,
+      "routeImpacts": 2,
+      "speedTilesPerSecond": 3.2,
+      "starCount": 1,
+      "supernovaImpacts": 0,
+      "uniqueRouteTargets": 2,
+      "uniqueTargets": 2
+    },
+    "activeCount": 1,
+    "empower": null,
+    "enabled": true,
+    "lastCompletion": null,
+    "passives": {
+      "activeCount": 0,
+      "hollow": null,
+      "lance": null,
+      "wayward": null
+    }
+  },
+  "errors": [],
+  "fonts": "loaded",
+  "gameReady": true,
+  "healthReady": true,
+  "resourceCount": 250,
+  "saveWritesBlocked": true,
+  "scenes": [
+    "PlayScene"
+  ]
+}

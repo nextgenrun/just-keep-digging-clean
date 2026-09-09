@@ -1,0 +1,291 @@
+{
+  "origin": "http://127.0.0.1:53152",
+  "errors": [],
+  "failedRequests": [],
+  "offscreen": {
+    "phase": "invited",
+    "elapsed": 16.68999999999978,
+    "alpha": 1,
+    "visible": true,
+    "ready": true,
+    "distance": 1015.2,
+    "arrowVisible": true,
+    "edge": true,
+    "x": 783.5,
+    "inRange": false,
+    "gameState": "playing",
+    "saves": 0,
+    "hintVisible": true,
+    "hintY": 525,
+    "restCaptionVisible": false,
+    "arrowPosition": {
+      "x": 1144.2384250023672,
+      "y": 310.38203644427136,
+      "rotation": -1.6786933971332552
+    },
+    "bed": {
+      "x": 1814.2,
+      "y": 6110
+    }
+  },
+  "fading": {
+    "phase": "fading",
+    "elapsed": 8008.290000000035,
+    "alpha": 0.9872461538460994,
+    "visible": true,
+    "ready": true,
+    "distance": 1015.2,
+    "arrowVisible": true,
+    "edge": true,
+    "x": 783.5,
+    "inRange": false,
+    "gameState": "playing",
+    "saves": 0,
+    "hintVisible": false,
+    "hintY": 525,
+    "restCaptionVisible": false,
+    "arrowPosition": {
+      "x": 1144.2384250023672,
+      "y": 310.38203644427136,
+      "rotation": -1.6786933971332552
+    },
+    "bed": {
+      "x": 1814.2,
+      "y": 6110
+    }
+  },
+  "ignored": {
+    "phase": "idle",
+    "elapsed": 8658.960000000048,
+    "alpha": 0,
+    "visible": false,
+    "ready": true,
+    "distance": 1015.2,
+    "arrowVisible": false,
+    "edge": true,
+    "x": 783.5,
+    "inRange": false,
+    "gameState": "playing",
+    "saves": 0,
+    "hintVisible": false,
+    "hintY": 525,
+    "restCaptionVisible": false,
+    "arrowPosition": {
+      "x": 1144.2384250023672,
+      "y": 310.38203644427136,
+      "rotation": -1.6786933971332552
+    },
+    "bed": {
+      "x": 1814.2,
+      "y": 6110
+    }
+  },
+  "following": {
+    "phase": "following",
+    "elapsed": 9543.20000000004,
+    "alpha": 1,
+    "visible": true,
+    "ready": true,
+    "distance": 968.0444420799998,
+    "arrowVisible": true,
+    "edge": true,
+    "x": 830.6555579200002,
+    "inRange": false,
+    "gameState": "playing",
+    "saves": 0,
+    "hintVisible": false,
+    "hintY": 525,
+    "restCaptionVisible": false,
+    "arrowPosition": {
+      "x": 1144.2604209821748,
+      "y": 307.8925813579133,
+      "rotation": -1.6835657088697147
+    },
+    "bed": {
+      "x": 1814.2,
+      "y": 6110
+    }
+  },
+  "pausedBefore": {
+    "phase": "following",
+    "elapsed": 9810.110000000044,
+    "alpha": 1,
+    "visible": false,
+    "ready": true,
+    "distance": 968.0444420799998,
+    "arrowVisible": false,
+    "edge": true,
+    "x": 830.6555579200002,
+    "inRange": false,
+    "gameState": "paused",
+    "saves": 0,
+    "hintVisible": false,
+    "hintY": 525,
+    "restCaptionVisible": false,
+    "arrowPosition": {
+      "x": 1144.2604209821748,
+      "y": 307.8925813579133,
+      "rotation": -1.6835657088697147
+    },
+    "bed": {
+      "x": 1814.2,
+      "y": 6110
+    }
+  },
+  "pausedAfter": {
+    "phase": "following",
+    "elapsed": 9810.110000000044,
+    "alpha": 1,
+    "visible": false,
+    "ready": true,
+    "distance": 968.0444420799998,
+    "arrowVisible": false,
+    "edge": true,
+    "x": 830.6555579200002,
+    "inRange": false,
+    "gameState": "paused",
+    "saves": 0,
+    "hintVisible": false,
+    "hintY": 525,
+    "restCaptionVisible": false,
+    "arrowPosition": {
+      "x": 1144.2604209821748,
+      "y": 307.8925813579133,
+      "rotation": -1.6835657088697147
+    },
+    "bed": {
+      "x": 1814.2,
+      "y": 6110
+    }
+  },
+  "arrived": {
+    "phase": "idle",
+    "elapsed": 15032.210000000128,
+    "alpha": 0,
+    "visible": false,
+    "ready": true,
+    "distance": 138.7322632533328,
+    "arrowVisible": false,
+    "edge": false,
+    "x": 1659.9677367466672,
+    "inRange": true,
+    "gameState": "playing",
+    "saves": 0,
+    "hintVisible": false,
+    "hintY": 210,
+    "restCaptionVisible": false,
+    "arrowPosition": {
+      "x": 853.2,
+      "y": 408.10350154479875,
+      "rotation": 0
+    },
+    "bed": {
+      "x": 1814.2,
+      "y": 6110
+    }
+  },
+  "restSaved": {
+    "phase": "idle",
+    "elapsed": 15032.210000000128,
+    "alpha": 0,
+    "visible": false,
+    "ready": true,
+    "distance": 13.553995519998807,
+    "arrowVisible": false,
+    "edge": false,
+    "x": 1785.1460044800012,
+    "inRange": true,
+    "gameState": "playing",
+    "saves": 1,
+    "hintVisible": false,
+    "hintY": 210,
+    "restCaptionVisible": true,
+    "arrowPosition": {
+      "x": 853.2,
+      "y": 408.10350154479875,
+      "rotation": 0
+    },
+    "bed": {
+      "x": 1814.2,
+      "y": 6110
+    }
+  },
+  "underground": {
+    "phase": "invited",
+    "elapsed": 16.670000000000435,
+    "alpha": 1,
+    "visible": true,
+    "ready": true,
+    "distance": 1410.125327763458,
+    "arrowVisible": true,
+    "edge": true,
+    "x": 1817.5,
+    "inRange": false,
+    "gameState": "playing",
+    "saves": 1,
+    "hintVisible": true,
+    "hintY": 525,
+    "restCaptionVisible": false,
+    "arrowPosition": {
+      "x": 645.0747512812092,
+      "y": 200.98038988385957,
+      "rotation": -3.1106626148490957
+    },
+    "bed": {
+      "x": 1814.2,
+      "y": 6110
+    }
+  },
+  "resized": {
+    "phase": "invited",
+    "elapsed": 884.2600000000011,
+    "alpha": 1,
+    "visible": true,
+    "ready": true,
+    "distance": 1410.125327763458,
+    "arrowVisible": true,
+    "edge": true,
+    "x": 1817.5,
+    "inRange": false,
+    "gameState": "playing",
+    "saves": 1,
+    "hintVisible": true,
+    "hintY": 525,
+    "restCaptionVisible": false,
+    "arrowPosition": {
+      "x": 645.0712791047291,
+      "y": 200.98041668379543,
+      "rotation": -3.110683758846813
+    },
+    "bed": {
+      "x": 1814.2,
+      "y": 6110
+    }
+  },
+  "nearBed": {
+    "phase": "following",
+    "elapsed": 1184.510000000001,
+    "alpha": 1,
+    "visible": true,
+    "ready": true,
+    "distance": 263.20000000000005,
+    "arrowVisible": true,
+    "edge": false,
+    "x": 1535.5,
+    "inRange": false,
+    "gameState": "playing",
+    "saves": 1,
+    "hintVisible": true,
+    "hintY": 210,
+    "restCaptionVisible": false,
+    "arrowPosition": {
+      "x": 839.2,
+      "y": 412.10350154479875,
+      "rotation": 0
+    },
+    "bed": {
+      "x": 1814.2,
+      "y": 6110
+    }
+  }
+}

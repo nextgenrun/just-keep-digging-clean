@@ -1,0 +1,100 @@
+{
+  "checkedAt": "2026-09-03T02:21:54.046Z",
+  "phase": "completed-import-with-player-cancellation-fix",
+  "checks": [
+    {
+      "name": "skip-during-preview-load-clears-source-without-stale-error",
+      "passed": true,
+      "observed": {
+        "notice": "",
+        "now": "Stopped — no audio is playing.",
+        "paused": true,
+        "progress": "3 / 4265 shown · 0 approved · 0 rejected",
+        "source": null
+      }
+    },
+    {
+      "name": "creepy-family-search",
+      "passed": true,
+      "observed": {
+        "byline": "WIM · creepy-details",
+        "progress": "1 / 250 shown · 0 approved · 0 rejected",
+        "source": null
+      }
+    },
+    {
+      "name": "live-cave-preview-at-35-percent-with-clean-status",
+      "passed": true,
+      "observed": {
+        "notice": "",
+        "now": "Playing: ambience cave2.ogg · HQ preview at 35%",
+        "paused": false,
+        "source": "https://cdn.freesound.org/previews/636/636107_11705708-hq.mp3",
+        "time": 68.480631
+      }
+    },
+    {
+      "name": "stop-unloads-preview",
+      "passed": true,
+      "observed": {
+        "now": "Stopped — no audio is playing.",
+        "paused": true,
+        "source": null
+      }
+    },
+    {
+      "name": "completed-inbox-restored-without-decisions-or-autoplay",
+      "passed": true,
+      "observed": {
+        "audioElementCount": 1,
+        "notice": "",
+        "preload": "none",
+        "progress": "1 / 4265 shown · 0 approved · 0 rejected",
+        "source": null,
+        "status": "4.250 imported HQ-preview candidates / 4.250 target (85 × 50). 15 earlier source-page leads shown separately. Importer status: complete."
+      }
+    }
+  ],
+  "runtimeChanged": false,
+  "scope": "Sample playback and DOM controls, not subjective audition or whole-library audio QC",
+  "earlierObservations": [
+    {
+      "name": "completed-catalog-and-review-boundary",
+      "audioElementCount": 1,
+      "preload": "none",
+      "progress": "1 / 4265 shown · 0 approved · 0 rejected",
+      "sourceBeforePlay": null,
+      "status": "4.250 imported HQ-preview candidates / 4.250 target (85 × 50). 15 earlier source-page leads shown separately. Importer status: complete."
+    },
+    {
+      "name": "dig-preview-playback",
+      "error": null,
+      "now": "Stopped — no audio is playing.",
+      "paused": false,
+      "source": "https://cdn.freesound.org/previews/491/491824_9610323-hq.mp3",
+      "time": 0
+    },
+    {
+      "name": "next-stops-previous-preview",
+      "now": "Stopped — no audio is playing.",
+      "paused": true,
+      "progress": "2 / 4265 shown · 0 approved · 0 rejected",
+      "source": null
+    },
+    {
+      "name": "cave-preview-live-playback",
+      "notice": "Preview could not play. Try the original source page.",
+      "now": "Playing: ambience cave2.ogg · HQ preview at 35%",
+      "paused": false,
+      "source": "https://cdn.freesound.org/previews/636/636107_11705708-hq.mp3",
+      "time": 139.947398
+    },
+    {
+      "name": "explicit-loading-or-playing-state",
+      "now": "Playing: Digging Dirt · HQ preview at 35%",
+      "source": "https://cdn.freesound.org/previews/491/491824_9610323-hq.mp3"
+    }
+  ],
+  "passed": true,
+  "keyClearedFromRunner": true
+}

@@ -44,7 +44,7 @@ function imageDouble() {
 }
 
 {
-  let level = 98;
+  let level = Math.max(0, EARTHQUAKE_SUPPRESSION_UPGRADE.requiresLevel - 1);
   let gateAccepted = true;
   const upgrades = new UpgradeSystem(null, {
     get level() { return level; },

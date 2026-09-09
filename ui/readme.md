@@ -1,6 +1,15 @@
 # Ui
 
+Shared buttons, modal titles and fixed captions use `values/bakedUiArt.js`.
+The I-key Star Codex and Esc Celestial Talents also use baked foundations.
+Provenance is in `sprites/UI/baked-copy-v1/README.md`; local review lives in
+`testing/2026-09-06-baked-copy/`.
+
 ui directory.
+
+`UiIconAtlas.js` owns label, upgrade and merchant icon selection. It re-exports
+`systems/visual/UiIconRenderer.js` so menus and HUD views share the same
+textures and fallbacks without a systems-to-UI dependency.
 
 ## Unified modal shell
 
@@ -15,8 +24,9 @@ PlayScene overlays use this visual language.
 ## New expedition setup
 
 `scenes/NewRunSetupOverlay.js` is the integrated empty-slot decision surface.
-One authored bitmap panel presents Casual/Hardcore and Guided/Skip together;
-live text and invisible pointer zones preserve accessibility and input accuracy.
+The regenerated V2 foundation carves all four icon sockets and choice bays into
+one bitmap; live icons, selection rims, text, and invisible pointer zones stay
+aligned in Phaser without stacked save-card chrome.
 Skip requires typed `YES`, while `ONELIFE` reveals the hidden one-life rule set
 only from the selected Hardcore + Guided state. `NewRunSetupInputController.js`
 owns keyboard focus, confirmation, cancellation, and hidden-sequence input.

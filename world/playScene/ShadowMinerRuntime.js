@@ -1,18 +1,36 @@
+import { ShadowMinerWorkLoop } from "./ShadowMinerWorkLoop.js";
+import { SHADOW_MINER_WORK } from "../../values/shadowMinerWork.js";
 import {
   SHADOW_MINER_CONFIG,
+  SHADOW_MINER_REPELLENTS,
   SHADOW_MINER_STATES,
   resolveShadowMinerMode,
 } from "../../values/shadowMiner.js";
 import {
   resolveShadowMinerEncounterBand,
+  resolveShadowMinerDepthProfile,
   resolveShadowMinerEnvironment,
-  resolveShadowMinerRepellent,
+  resolveShadowMinerLightResponse,
 } from "./ShadowMinerEncounterContext.js";
 import { ShadowMinerPoseHistory } from "./ShadowMinerPoseHistory.js";
 import { ShadowMinerView } from "./ShadowMinerView.js";
+import { createShadowMinerRuntimeSnapshot } from "./shadowMinerRuntimeSnapshot.js";
+import { createShadowMinerSpawnPlan } from "./shadowMinerSpawnPlan.js";
+import { playShadowMinerArrivalAwareness } from "./shadowMinerArrivalAwareness.js";
+import {
+  isShadowMinerPoseInsideCamera,
+  measureShadowMinerDistanceToPlayer,
+  selectShadowMinerAdmissionPose,
+} from "./shadowMinerAdmission.js";
 
-function distanceBetween(left, right) {
-  return Math.hypot(right.x - left.x, right.y - left.y);
+function readPlayerActionContext(scene) {
+  const action = scene?.playerRigContact?.getActionSnapshot?.();
+  const targetTile = action?.targetTile;
+  if (!action || !targetTile) return null;
+  return {
+    ...action,
+    tileType: scene?.worldModel?.getTileType?.(targetTile.tx, targetTile.ty),
+  };
 }
 
 export class ShadowMinerRuntime {
@@ -35,42 +53,66 @@ export class ShadowMinerRuntime {
     this.encounterEndsAtMs = 0;
     this.encounterBand = null;
     this.encounterProfile = null;
+    this.depthProfile = null;
+    this.lastDepthProfile = null;
+    this.behaviorPlan = null;
+    this.lastBehaviorPlan = null;
     this.playbackTimeMs = 0;
+    this.observeActionWindow = null;
+    this.observeActionPlaybackMs = 0;
     this.lastUpdateAtMs = 0;
     this.lastPlayerTile = null;
     this.lastWindowSummary = null;
     this.distanceToPlayerTiles = null;
     this.repelledBy = null;
     this.lastRepelledBy = null;
+    this.lastEntryVisible = null;
+    this.lastEntryDistanceTiles = null;
+    this.lastAwarenessCue = null;
+    this.lightExposureProgress = 0;
+    this.lightPressure = 0;
+    this.lightSource = null;
+    this.lastLightResponse = null;
+    this.lastSpawnAttempt = null;
     this.spawnCount = 0;
     this.approachCount = 0;
     this.observeCount = 0;
     this.fleeCount = 0;
     this.completedCount = 0;
     this.destroyed = false;
+    this.workLoop = new ShadowMinerWorkLoop(this);
+    this.spawnedAtMs = 0;
   }
 
   update(time, delta, playerTile, providedContext = {}) {
     if (this.destroyed || !this.mode.enabled) return;
     this.lastUpdateAtMs = time;
     this.lastPlayerTile = playerTile || this.lastPlayerTile;
-    this.history.record(time, this.scene?.player, playerTile);
+    this.history.record(
+      time,
+      this.scene?.player,
+      playerTile,
+      readPlayerActionContext(this.scene),
+    );
     this.view.update?.(time);
     if (!playerTile) return;
 
-    const environment = resolveShadowMinerEnvironment(this.scene, providedContext);
+    const environment = resolveShadowMinerEnvironment(
+      this.scene,
+      providedContext,
+      playerTile,
+    );
     if (this.state === SHADOW_MINER_STATES.DORMANT) {
       if (time >= this.nextCheckAtMs) this._trySpawn(time, playerTile, environment);
       return;
     }
 
-    const repellent = resolveShadowMinerRepellent(environment, this.config);
     if (
-      repellent
-      && this.state !== SHADOW_MINER_STATES.FLEEING
+      this.state !== SHADOW_MINER_STATES.FLEEING
       && this.state !== SHADOW_MINER_STATES.VANISHING
     ) {
-      this._beginFlee(time, repellent);
+      const repellent = this._updateLightInteraction(time, delta, environment);
+      if (repellent) this._beginFlee(time, repellent);
     }
 
     if (this.state === SHADOW_MINER_STATES.SPAWNING) {
@@ -78,8 +120,7 @@ export class ShadowMinerRuntime {
     } else if (this.state === SHADOW_MINER_STATES.APPROACHING) {
       this._updateApproach(time, delta);
     } else if (this.state === SHADOW_MINER_STATES.OBSERVING) {
-      this.view.facePlayer?.(this.scene?.player?.x);
-      if (time >= this.stateDeadlineMs) this._beginVanish(time);
+      this._updateObserve(time, delta);
     } else if (this.state === SHADOW_MINER_STATES.FLEEING) {
       this._updateFlee(time, delta);
     } else if (
@@ -98,101 +139,144 @@ export class ShadowMinerRuntime {
     if (!this.mode.enabled || this.state !== SHADOW_MINER_STATES.DORMANT || !playerTile) {
       return false;
     }
-    const environment = resolveShadowMinerEnvironment(this.scene, providedContext);
+    const environment = resolveShadowMinerEnvironment(
+      this.scene,
+      providedContext,
+      playerTile,
+    );
     return this._trySpawn(time, playerTile, environment, true);
   }
 
   getHealthSnapshot() {
-    return Object.freeze({
-      id: this.config.id,
-      ready: !this.destroyed && this.mode.enabled,
-      reviewMode: this.mode.review,
-      dev10x: this.mode.dev10x === true,
-      rateMultiplier: this.rateMultiplier,
-      nextCheckAtMs: this.nextCheckAtMs,
-      state: this.state,
-      active: this.state !== SHADOW_MINER_STATES.DORMANT,
-      encounterBand: this.encounterBand,
-      approachPlaybackRate: this.encounterProfile?.approachPlaybackRate || null,
-      playbackDelayMs: this.state === SHADOW_MINER_STATES.DORMANT
-        ? null
-        : Math.max(0, this.lastUpdateAtMs - this.playbackTimeMs),
-      distanceToPlayerTiles: this.distanceToPlayerTiles,
-      repelledBy: this.repelledBy,
-      lastRepelledBy: this.lastRepelledBy,
-      spawnCount: this.spawnCount,
-      approachCount: this.approachCount,
-      observeCount: this.observeCount,
-      fleeCount: this.fleeCount,
-      completedCount: this.completedCount,
-      replayWindow: this.lastWindowSummary,
-      history: this.history.getSnapshot?.() || null,
-      view: this.view.getSnapshot?.() || null,
-    });
+    return createShadowMinerRuntimeSnapshot(this);
   }
 
   destroy() {
     if (this.destroyed) return;
     this.destroyed = true;
     this.view.destroy?.();
+    this.workLoop.reset();
     this.history.clear?.();
     this.scene = null;
     this.lastPlayerTile = null;
   }
 
   _trySpawn(time, playerTile, environment, forced = false) {
+    const reject = (reason, delayMs) => {
+      this.lastSpawnAttempt = { time, forced, spawned: false, reason };
+      this._scheduleNext(time, delayMs);
+      return false;
+    };
     const depthTiles = playerTile.ty - (this.scene.config.topAirRows || 0);
     if (!forced && !this.mode.review && depthTiles < this.profile.minimumDepthTiles) {
-      this._scheduleNext(time, this.profile.checkIntervalMs);
-      return false;
+      return reject("depth", this.profile.checkIntervalMs);
     }
 
     const encounterBand = resolveShadowMinerEncounterBand(environment, this.config);
     const encounterProfile = this.config.panic.profiles[encounterBand];
+    const depthMeters = this.mode.reviewDepthMeters ?? environment.depthMeters;
+    const depthProfile = resolveShadowMinerDepthProfile(
+      depthMeters,
+      this.config,
+    );
     const spawnChance = Math.min(
       1,
       this.profile.spawnChance * encounterProfile.spawnChanceMultiplier,
     );
     if (!forced && this.random() > spawnChance) {
-      this._scheduleNext(time, this.profile.checkIntervalMs);
-      return false;
+      return reject("chance", this.profile.checkIntervalMs);
     }
 
-    const replayEndAt = time - this.config.interaction.minimumTrailingDelayMs;
-    const replayStartAt = time - encounterProfile.replayDelayMs;
-    const windowSummary = this.history.getWindowSummary(replayStartAt, replayEndAt);
-    if (!windowSummary.ready || !windowSummary.startPose) {
-      this._scheduleNext(time, this.profile.placementRetryMs);
-      return false;
+    const spawnPlan = createShadowMinerSpawnPlan({
+      config: this.config,
+      history: this.history,
+      scene: this.scene,
+      mode: this.mode,
+      random: this.random,
+      time,
+      encounterBand,
+      encounterProfile,
+      depthProfile,
+      depthMeters,
+      forced,
+      selectAdmissionPose: (...args) => selectShadowMinerAdmissionPose(...args),
+    });
+    if (!spawnPlan) {
+      return reject("placement", this.profile.placementRetryMs);
+    }
+    const {
+      behaviorPlan,
+      replayStartAt,
+      admissionPose,
+      admittedWindow,
+    } = spawnPlan;
+    const admissionDistance = measureShadowMinerDistanceToPlayer(
+      this.scene,
+      admissionPose,
+    );
+    if (
+      Number.isFinite(admissionDistance)
+      && admissionDistance < this.config.behavior.minimumPersonalSpaceTiles
+    ) {
+      return reject("space", this.profile.placementRetryMs);
     }
     const spawned = this.view.spawn?.({
-      pose: windowSummary.startPose,
-      visualIntensity: encounterProfile.visualIntensity,
+      pose: admissionPose,
+      visualIntensity: behaviorPlan.visualIntensity,
+      time,
     });
     if (spawned === false) {
-      this._scheduleNext(time, this.profile.placementRetryMs);
-      return false;
+      return reject("texture", this.profile.placementRetryMs);
     }
 
     this.encounterBand = encounterBand;
     this.encounterProfile = encounterProfile;
+    this.depthProfile = depthProfile;
+    this.lastDepthProfile = depthProfile;
+    this.behaviorPlan = behaviorPlan;
+    this.lastBehaviorPlan = behaviorPlan;
     this.lastUpdateAtMs = time;
-    this.playbackTimeMs = replayStartAt;
-    this.encounterEndsAtMs = time + encounterProfile.maximumEncounterMs;
+    this.playbackTimeMs = admissionPose.time;
+    this.encounterEndsAtMs = time + behaviorPlan.maximumEncounterMs;
     this.lastWindowSummary = Object.freeze({
-      samples: windowSummary.samples,
-      travelTiles: windowSummary.travelTiles,
-      actionSamples: windowSummary.actionSamples,
+      samples: admittedWindow.samples,
+      travelTiles: admittedWindow.travelTiles,
+      actionSamples: admittedWindow.actionSamples,
+      selectedStartOffsetMs: admissionPose.time - replayStartAt,
+      selectedStartAction: admissionPose.action === true,
     });
-    this.distanceToPlayerTiles = this._measureDistanceToPlayer(windowSummary.startPose);
+    this.distanceToPlayerTiles = measureShadowMinerDistanceToPlayer(
+      this.scene,
+      admissionPose,
+    );
+    this.lastEntryDistanceTiles = this.distanceToPlayerTiles;
+    this.lastEntryVisible = isShadowMinerPoseInsideCamera(
+      this.scene,
+      this.config,
+      admissionPose,
+    );
     this.repelledBy = null;
+    this.lightExposureProgress = 0;
+    this.lightPressure = 0;
+    this.lightSource = null;
+    this.lastLightResponse = null;
+    this.lastSpawnAttempt = { time, forced, spawned: true, reason: null };
     this.spawnCount += 1;
+    this.spawnedAtMs = time;
+    this.workLoop.reset();
     this.state = SHADOW_MINER_STATES.SPAWNING;
-    this.stateDeadlineMs = time + this.config.timing.spawnMs;
+    this.stateDeadlineMs = time + this.config.timing.spawnMs
+      + behaviorPlan.approachHoldMs;
+    this.lastAwarenessCue = playShadowMinerArrivalAwareness(
+      this.scene,
+      this.config,
+      admissionPose,
+      behaviorPlan.visualIntensity,
+    );
     this.scene.soundSystem?.playApprovedSfxFamily?.(
       this.config.audio.spawnFamily,
       this.config.audio.spawnVolume,
-      { rate: this.config.audio.spawnRate },
+      { rate: this.config.audio.spawnRate * behaviorPlan.audioRateMultiplier },
     );
     return true;
   }
@@ -203,23 +287,51 @@ export class ShadowMinerRuntime {
   }
 
   _updateApproach(time, delta) {
+    if (time - this.spawnedAtMs >= SHADOW_MINER_WORK.maximumApproachMs) {
+      this._beginObserve(time);
+      return;
+    }
     const elapsedMs = Math.max(0, Number(delta) || 0);
+    const lightResponse = this.config.interaction.lightResponse;
+    const lightSlowMultiplier = Math.max(
+      lightResponse.minimumApproachRateMultiplier,
+      1 - lightResponse.approachSlowMaximum * this.lightPressure,
+    );
     const latestPlaybackAt = time - this.config.interaction.minimumTrailingDelayMs;
     this.playbackTimeMs = Math.min(
       latestPlaybackAt,
-      this.playbackTimeMs + elapsedMs * this.encounterProfile.approachPlaybackRate,
+      this.playbackTimeMs
+        + elapsedMs
+          * this.behaviorPlan.approachPlaybackRate
+          * lightSlowMultiplier,
     );
-    const pose = this.history.sampleAt(this.playbackTimeMs);
-    if (!pose || this.view.applyPose?.(pose) === false) {
+    const pose = this.workLoop.limitTravel(this.history.sampleAt(this.playbackTimeMs), delta);
+    if (!pose) {
+      this._beginObserve(time);
+      return;
+    }
+    const candidateDistanceTiles = measureShadowMinerDistanceToPlayer(
+      this.scene,
+      pose,
+    );
+    const stopDistanceTiles = Math.max(
+      this.config.behavior.minimumPersonalSpaceTiles,
+      this.behaviorPlan.nearPlayerDistanceTiles,
+    );
+    if (
+      Number.isFinite(candidateDistanceTiles)
+      && candidateDistanceTiles <= stopDistanceTiles
+    ) {
+      this._beginObserve(time);
+      return;
+    }
+    if (this.view.applyPose?.(pose) === false) {
       this._beginVanish(time);
       return;
     }
-    this.distanceToPlayerTiles = this._measureDistanceToPlayer(pose);
-    const nearPlayer = Number.isFinite(this.distanceToPlayerTiles)
-      && this.distanceToPlayerTiles <= this.config.interaction.nearPlayerDistanceTiles;
+    this.distanceToPlayerTiles = candidateDistanceTiles;
     if (
-      nearPlayer
-      || this.playbackTimeMs >= latestPlaybackAt
+      this.playbackTimeMs >= latestPlaybackAt
       || time >= this.encounterEndsAtMs
     ) {
       this._beginObserve(time);
@@ -228,25 +340,131 @@ export class ShadowMinerRuntime {
 
   _beginObserve(time) {
     this.state = SHADOW_MINER_STATES.OBSERVING;
-    this.stateDeadlineMs = time + this.encounterProfile.observeMs;
+    this.observeActionWindow = null;
+    this.observeActionPlaybackMs = 0;
+    this.stateDeadlineMs = time + Math.max(this.behaviorPlan.observeMs, SHADOW_MINER_WORK.minimumObserveMs);
     this.observeCount += 1;
-    this.view.facePlayer?.(this.scene?.player?.x);
+    this.view.phantomDig?.cancelAction?.();
+    this.view.beginObserve?.(time, this.scene?.player?.x);
+  }
+
+  _updateObserve(time, delta) {
+    this.distanceToPlayerTiles = measureShadowMinerDistanceToPlayer(this.scene, this.view.anchor);
+    this.workLoop.update(time);
+    if (time >= this.stateDeadlineMs) this._beginVanish(time);
+  }
+
+  _applyObserveActionPose() {
+    if (!this.observeActionWindow) return false;
+    const pose = this.history.sampleAt(this.observeActionPlaybackMs);
+    if (!pose?.action) return false;
+    return this.view.applyAnchoredActionPose?.(pose) === true;
+  }
+
+  _updateLightInteraction(time, delta, environment) {
+    const distance = measureShadowMinerDistanceToPlayer(this.scene, this.view.anchor);
+    if ((Number.isFinite(distance) && distance > SHADOW_MINER_WORK.torchRangeTiles)
+      || time - this.spawnedAtMs < SHADOW_MINER_WORK.torchArrivalGraceMs) {
+      environment = { ...environment, torchActive: false, torchIntensity: 0 };
+    }
+    const responseConfig = this.config.interaction.lightResponse;
+    const elapsedMs = Math.min(
+      responseConfig.maximumFrameMs,
+      Math.max(0, Number(delta) || 0),
+    );
+    const response = resolveShadowMinerLightResponse(
+      environment,
+      this.depthProfile,
+      this.config,
+    );
+    if (response) {
+      this.lightExposureProgress = Math.min(
+        1,
+        this.lightExposureProgress
+          + elapsedMs / Math.max(Number.EPSILON, response.repelDelayMs),
+      );
+      const attackRatio = Math.min(
+        1,
+        elapsedMs / Math.max(Number.EPSILON, responseConfig.visualAttackMs),
+      );
+      this.lightPressure += (
+        response.visualPressure - this.lightPressure
+      ) * attackRatio;
+      this.lightSource = response.source;
+      this.lastLightResponse = response;
+    } else {
+      this.lightExposureProgress = Math.max(
+        0,
+        this.lightExposureProgress
+          - elapsedMs / Math.max(Number.EPSILON, responseConfig.exposureDecayMs),
+      );
+      this.lightPressure = Math.max(
+        0,
+        this.lightPressure
+          - elapsedMs / Math.max(Number.EPSILON, responseConfig.visualReleaseMs),
+      );
+      if (this.lightPressure <= 0) this.lightSource = null;
+    }
+    this.view.setLightExposure?.({
+      pressure: this.lightPressure,
+      source: this.lightSource,
+      progress: this.lightExposureProgress,
+      time,
+    });
+    return response && this.lightExposureProgress >= 1
+      ? response.source
+      : null;
   }
 
   _beginFlee(time, repellent) {
     this.repelledBy = repellent;
     this.lastRepelledBy = repellent;
     this.state = SHADOW_MINER_STATES.FLEEING;
-    this.stateDeadlineMs = time + this.config.interaction.fleeDurationMs;
+    this.stateDeadlineMs = time + this.behaviorPlan.fleeDurationMs;
     this.fleeCount += 1;
-    this.view.setFleeing?.(true);
+    if (this.view.beginFlee) {
+      this.view.beginFlee({
+        time,
+        repellent,
+        playerWorldX: this.scene?.player?.x,
+      });
+    } else {
+      this.view.setFleeing?.(true);
+    }
+    const starRepellent = repellent === SHADOW_MINER_REPELLENTS.STAR;
+    this.scene.soundSystem?.playApprovedSfxFamily?.(
+      this.config.audio.repelFamily,
+      starRepellent
+        ? this.config.audio.starRepelVolume
+        : this.config.audio.torchRepelVolume,
+      {
+        rate: (
+          starRepellent
+            ? this.config.audio.starRepelRate
+            : this.config.audio.torchRepelRate
+        ) * this.behaviorPlan.audioRateMultiplier,
+      },
+    );
   }
 
   _updateFlee(time, delta) {
     const elapsedMs = Math.max(0, Number(delta) || 0);
-    this.playbackTimeMs -= elapsedMs * this.config.interaction.fleePlaybackRate;
-    const pose = this.history.sampleAt(this.playbackTimeMs);
-    if (pose) this.view.applyPose?.(pose);
+    this.playbackTimeMs -= elapsedMs * this.behaviorPlan.fleePlaybackRate;
+    const pose = this.workLoop.limitTravel(this.history.sampleAt(this.playbackTimeMs), delta, true);
+    if (pose) {
+      const applied = this.view.applyFleePose?.(
+        pose,
+        time,
+        this.scene?.player?.x,
+      );
+      const fallbackApplied = applied === undefined
+        ? this.view.applyPose?.(pose)
+        : applied;
+      if (fallbackApplied === false) {
+        this._beginVanish(time);
+        return;
+      }
+    }
     if (!pose || time >= this.stateDeadlineMs) this._beginVanish(time);
   }
 
@@ -258,25 +476,31 @@ export class ShadowMinerRuntime {
   }
 
   _finishVanish(time) {
-    this.view.hide?.();
+    this.view.hide?.({ preserveResidue: true });
     this.completedCount += 1;
     this.state = SHADOW_MINER_STATES.DORMANT;
     this.stateDeadlineMs = 0;
     this.encounterEndsAtMs = 0;
     this.encounterBand = null;
     this.encounterProfile = null;
+    this.depthProfile = null;
+    this.behaviorPlan = null;
     this.playbackTimeMs = 0;
+    this.observeActionWindow = null;
+    this.observeActionPlaybackMs = 0;
     this.distanceToPlayerTiles = null;
     this.repelledBy = null;
+    this.lightExposureProgress = 0;
+    this.lightPressure = 0;
+    this.lightSource = null;
+    this.lastLightResponse = null;
+    this.view.setLightExposure?.({
+      pressure: 0,
+      source: null,
+      progress: 0,
+      time,
+    });
     this._scheduleNext(time, this.profile.checkIntervalMs);
-  }
-
-  _measureDistanceToPlayer(pose) {
-    const player = this.scene?.player;
-    if (!pose || !Number.isFinite(player?.x) || !Number.isFinite(player?.y)) {
-      return null;
-    }
-    return distanceBetween(pose, player) / this.scene.config.tileSize;
   }
 
   _scaledDelay(delayMs) {

@@ -1,0 +1,13 @@
+{
+  "generator": "built-in ImageGen",
+  "date": "2026-09-06",
+  "source": "exec-695f986e-22cf-46df-9e1b-7f39c605e542.png",
+  "sha256": "49165cba76ffa8fd7bc122ad5acd15b4c45c987b49e45fb0bfccd94161d851fb",
+  "size": [
+    2048,
+    768
+  ],
+  "alphaPreserved": true,
+  "pixelEdits": false,
+  "prompt": "prompt.txt"
+}

@@ -15,6 +15,7 @@ import {
 } from "../values/hardcoreMode.js";
 import { HUD_QUICK_CONTROLS } from "../values/hudQuickControls.js";
 import { NEW_RUN_SETUP_CONFIG } from "../values/newRunSetup.js";
+import { NEW_RUN_COPY } from "../values/playerFacingCopy.js";
 import {
   RETENTION_CONFIG,
   TOWN_TUTORIAL_CHOICES,
@@ -35,15 +36,16 @@ assert.equal(HUD_QUICK_CONTROLS.inventory.keyOffsetX, 27);
 assert.equal(HUD_QUICK_CONTROLS.inventory.keyOffsetY, 25);
 assert.equal(HUD_QUICK_CONTROLS.pause.label, "{key}  MENU");
 
-assert.match(NEW_RUN_SETUP_CONFIG.copy.hardcoreBody, /2 lives.*first revive free/s);
-assert.equal(NEW_RUN_SETUP_CONFIG.copy.skipConfirmation, "YES");
-assert.equal(NEW_RUN_SETUP_CONFIG.copy.hiddenSequence, "ONELIFE");
-assert.match(NEW_RUN_SETUP_CONFIG.copy.guidedBody, /Move.*Dig.*Flight.*Portal.*Sell.*Upgrade.*Resume/s);
+assert.match(NEW_RUN_COPY.hardcoreBody, /1 life.*no revives/s);
+assert.equal(NEW_RUN_COPY.skipConfirmation, "YES");
+assert.equal(NEW_RUN_COPY.hiddenSequence, "ONELIFE");
+assert.match(NEW_RUN_COPY.guidedBody, /movement.*digging.*Flight.*gates.*shops/s);
 
 const inputOwner = {
   scene: {},
   isVisible: true,
   config: NEW_RUN_SETUP_CONFIG,
+  copy: NEW_RUN_COPY,
   mode: "casual",
   tutorialChoice: TOWN_TUTORIAL_CHOICES.NO,
   skipConfirmation: "YE",
@@ -72,10 +74,6 @@ assert.deepEqual(skip.claimTutorialFlightTraining(), {
 
 let hardcore = { ...createHardcoreModeData("hardcore"), armed: true };
 let death = consumeHardcoreDeath(hardcore);
-assert.deepEqual([death.outcome, death.livesRemaining], ["free-revive", 2]);
-death = consumeHardcoreDeath(death.data);
-assert.deepEqual([death.outcome, death.livesRemaining], ["life-lost", 1]);
-death = consumeHardcoreDeath(death.data);
 assert.deepEqual([death.outcome, death.livesRemaining], ["exhausted", 0]);
 assert.equal(isHardcoreModeExhausted(death.data), true);
 
@@ -103,4 +101,4 @@ for (const designDoc of [
   assert.equal(existsSync(resolve(root, designDoc)), true, `Missing ${designDoc}`);
 }
 
-console.log("Demo intro recovery contract passed: aligned HUD, integrated choices, seven beats, durable lives.");
+console.log("Demo intro recovery contract passed: aligned HUD, integrated choices, seven beats, one-life Hardcore.");

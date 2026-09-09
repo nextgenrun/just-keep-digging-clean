@@ -1,0 +1,349 @@
+{
+  "renders": [
+    {
+      "mode": "before",
+      "id": "pickup",
+      "voices": 30,
+      "peak": 0.046982,
+      "clippedSamples": 0,
+      "file": "before-pickup.wav",
+      "rmsDb": -40.06442554160823
+    },
+    {
+      "mode": "before",
+      "id": "special-pickup",
+      "voices": 30,
+      "peak": 0.046845,
+      "clippedSamples": 0,
+      "file": "before-special-pickup.wav",
+      "rmsDb": -40.536268183636906
+    },
+    {
+      "mode": "before",
+      "id": "shop",
+      "voices": 12,
+      "peak": 0.119254,
+      "clippedSamples": 0,
+      "file": "before-shop.wav",
+      "rmsDb": -45.802530350913045
+    },
+    {
+      "mode": "before",
+      "id": "mine-loot",
+      "voices": 40,
+      "peak": 0.094413,
+      "clippedSamples": 0,
+      "file": "before-mine-loot.wav",
+      "rmsDb": -40.12874468287907
+    },
+    {
+      "mode": "before",
+      "id": "walk",
+      "voices": 16,
+      "peak": 0.031114,
+      "clippedSamples": 0,
+      "file": "before-walk.wav",
+      "rmsDb": -53.46890521723875
+    },
+    {
+      "mode": "before",
+      "id": "hard-walk",
+      "voices": 16,
+      "peak": 0.031114,
+      "clippedSamples": 0,
+      "file": "before-hard-walk.wav",
+      "rmsDb": -53.46890521723875
+    },
+    {
+      "mode": "before",
+      "id": "earth",
+      "voices": 24,
+      "peak": 0.094411,
+      "clippedSamples": 0,
+      "file": "before-earth.wav",
+      "rmsDb": -44.01023678400576
+    },
+    {
+      "mode": "before",
+      "id": "stone",
+      "voices": 24,
+      "peak": 0.122741,
+      "clippedSamples": 0,
+      "file": "before-stone.wav",
+      "rmsDb": -42.01390758596706
+    },
+    {
+      "mode": "before",
+      "id": "metal",
+      "voices": 24,
+      "peak": 0.136878,
+      "clippedSamples": 0,
+      "file": "before-metal.wav",
+      "rmsDb": -40.963429627117655
+    },
+    {
+      "mode": "before",
+      "id": "crystal",
+      "voices": 24,
+      "peak": 0.105567,
+      "clippedSamples": 0,
+      "file": "before-crystal.wav",
+      "rmsDb": -47.116891128262886
+    },
+    {
+      "mode": "before",
+      "id": "cave",
+      "voices": 12,
+      "peak": 0.122794,
+      "clippedSamples": 0,
+      "file": "before-cave.wav",
+      "rmsDb": -42.17021015723677
+    },
+    {
+      "mode": "before",
+      "id": "landing",
+      "voices": 2,
+      "peak": 0.06666,
+      "clippedSamples": 0,
+      "file": "before-landing.wav",
+      "rmsDb": -47.68772264523329
+    },
+    {
+      "mode": "after",
+      "id": "pickup",
+      "voices": 8,
+      "peak": 0.010539,
+      "clippedSamples": 0,
+      "file": "after-pickup.wav",
+      "rmsDb": -56.32240061246393
+    },
+    {
+      "mode": "after",
+      "id": "special-pickup",
+      "voices": 8,
+      "peak": 0.010539,
+      "clippedSamples": 0,
+      "file": "after-special-pickup.wav",
+      "rmsDb": -56.32240061246393
+    },
+    {
+      "mode": "after",
+      "id": "shop",
+      "voices": 3,
+      "peak": 0.014523,
+      "clippedSamples": 0,
+      "file": "after-shop.wav",
+      "rmsDb": -71.41673489597119
+    },
+    {
+      "mode": "after",
+      "id": "mine-loot",
+      "voices": 25,
+      "peak": 0.094411,
+      "clippedSamples": 0,
+      "file": "after-mine-loot.wav",
+      "rmsDb": -44.72661336936956
+    },
+    {
+      "mode": "after",
+      "id": "walk",
+      "voices": 16,
+      "peak": 0.019155,
+      "clippedSamples": 0,
+      "file": "after-walk.wav",
+      "rmsDb": -62.736285272911715
+    },
+    {
+      "mode": "after",
+      "id": "hard-walk",
+      "voices": 16,
+      "peak": 0.012282,
+      "clippedSamples": 0,
+      "file": "after-hard-walk.wav",
+      "rmsDb": -61.57473420512653
+    },
+    {
+      "mode": "after",
+      "id": "earth",
+      "voices": 24,
+      "peak": 0.094411,
+      "clippedSamples": 0,
+      "file": "after-earth.wav",
+      "rmsDb": -44.01023678400576
+    },
+    {
+      "mode": "after",
+      "id": "stone",
+      "voices": 24,
+      "peak": 0.122741,
+      "clippedSamples": 0,
+      "file": "after-stone.wav",
+      "rmsDb": -42.01390758596706
+    },
+    {
+      "mode": "after",
+      "id": "metal",
+      "voices": 24,
+      "peak": 0.136878,
+      "clippedSamples": 0,
+      "file": "after-metal.wav",
+      "rmsDb": -40.963429627117655
+    },
+    {
+      "mode": "after",
+      "id": "crystal",
+      "voices": 24,
+      "peak": 0.105567,
+      "clippedSamples": 0,
+      "file": "after-crystal.wav",
+      "rmsDb": -47.116891128262886
+    },
+    {
+      "mode": "after",
+      "id": "cave",
+      "voices": 12,
+      "peak": 0.122794,
+      "clippedSamples": 0,
+      "file": "after-cave.wav",
+      "rmsDb": -42.17021015723677
+    },
+    {
+      "mode": "after",
+      "id": "landing",
+      "voices": 2,
+      "peak": 0.091418,
+      "clippedSamples": 0,
+      "file": "after-landing.wav",
+      "rmsDb": -55.16312566055462
+    },
+    {
+      "mode": "candidate",
+      "id": "walk",
+      "voices": 16,
+      "peak": 0.014387699775397778,
+      "clippedSamples": 0,
+      "file": "candidate-walk.wav",
+      "rmsDb": -64.8525955616409
+    },
+    {
+      "mode": "candidate",
+      "id": "hard-walk",
+      "voices": 16,
+      "peak": 0.009891417808830738,
+      "clippedSamples": 0,
+      "file": "candidate-hard-walk.wav",
+      "rmsDb": -62.65208160854603
+    }
+  ],
+  "candidateAssets": [
+    {
+      "file": "candidate-walk-fs-approved-270419.ogg",
+      "sourcePath": "sound/soundEffects/approved-freesound-2026-09-03/freesound-270419.ogg",
+      "sourceSha256": "1a8115cb8760eb0a46b7008624c109c00ecc339f228779d2fbb87925ab78127f",
+      "trimStartSeconds": 0.02925,
+      "duration": 0.16933333333333334,
+      "peak": 0.5731202960014343,
+      "filters": "highpass=f=85,lowpass=f=2200",
+      "maxSeconds": 0.18,
+      "fadeInSeconds": 0.003,
+      "fadeOutSeconds": 0.05,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bytes": 4639,
+      "reviewOnly": true,
+      "runtimeWired": false,
+      "approval": "pending-listening"
+    },
+    {
+      "file": "candidate-walk-fs-approved-270418.ogg",
+      "sourcePath": "sound/soundEffects/approved-freesound-2026-09-03/freesound-270418.ogg",
+      "sourceSha256": "bd0bcd3ebcd8df2b5921d33577233251906ca275ee65777299b0bfb5b916bbf4",
+      "trimStartSeconds": 0.0,
+      "duration": 0.19733333333333333,
+      "peak": 0.3091074824333191,
+      "filters": "highpass=f=85,lowpass=f=2200",
+      "maxSeconds": 0.18,
+      "fadeInSeconds": 0.003,
+      "fadeOutSeconds": 0.05,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bytes": 5155,
+      "reviewOnly": true,
+      "runtimeWired": false,
+      "approval": "pending-listening"
+    },
+    {
+      "file": "candidate-walk-fs-approved-270417.ogg",
+      "sourcePath": "sound/soundEffects/approved-freesound-2026-09-03/freesound-270417.ogg",
+      "sourceSha256": "318363b247d441fba21e20587e2783943c96d01b139a10896a95e17563c4d4d3",
+      "trimStartSeconds": 0.0014166666666666668,
+      "duration": 0.16933333333333334,
+      "peak": 0.2212185561656952,
+      "filters": "highpass=f=85,lowpass=f=2200",
+      "maxSeconds": 0.18,
+      "fadeInSeconds": 0.003,
+      "fadeOutSeconds": 0.05,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bytes": 5220,
+      "reviewOnly": true,
+      "runtimeWired": false,
+      "approval": "pending-listening"
+    },
+    {
+      "file": "candidate-walk-fs-approved-270415.ogg",
+      "sourcePath": "sound/soundEffects/approved-freesound-2026-09-03/freesound-270415.ogg",
+      "sourceSha256": "571350a925bc4c7b3919fd481f83a846c496ebdd36caa5386928d42899da72df",
+      "trimStartSeconds": 0.0,
+      "duration": 0.16933333333333334,
+      "peak": 0.4506129026412964,
+      "filters": "highpass=f=85,lowpass=f=2200",
+      "maxSeconds": 0.18,
+      "fadeInSeconds": 0.003,
+      "fadeOutSeconds": 0.05,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bytes": 5261,
+      "reviewOnly": true,
+      "runtimeWired": false,
+      "approval": "pending-listening"
+    },
+    {
+      "file": "candidate-hard-walk-footsteps-1.ogg",
+      "sourcePath": "sound/soundEffects/costume-sounds/footsteps/footstep-3.ogg",
+      "sourceSha256": "91258031b3a64699439c79a70ae78ea51ece18e36d604c1dd140c32ffed57462",
+      "trimStartSeconds": 0.023083333333333334,
+      "duration": 0.09395833333333334,
+      "peak": 0.0851934477686882,
+      "filters": "highpass=f=85,lowpass=f=1800",
+      "maxSeconds": 0.16,
+      "fadeInSeconds": 0.003,
+      "fadeOutSeconds": 0.05,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bytes": 4257,
+      "reviewOnly": true,
+      "runtimeWired": false,
+      "approval": "pending-listening"
+    },
+    {
+      "file": "candidate-hard-walk-footsteps-2.ogg",
+      "sourcePath": "sound/soundEffects/costume-sounds/footsteps/footstep-4.ogg",
+      "sourceSha256": "caebc65e0276a79544caf6355e4e51b66b7f72bab759bed2b485f60fead19499",
+      "trimStartSeconds": 0.027375,
+      "duration": 0.176,
+      "peak": 0.051358990371227264,
+      "filters": "highpass=f=85,lowpass=f=1800",
+      "maxSeconds": 0.16,
+      "fadeInSeconds": 0.003,
+      "fadeOutSeconds": 0.05,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bytes": 4413,
+      "reviewOnly": true,
+      "runtimeWired": false,
+      "approval": "pending-listening"
+    }
+  ],
+  "scope": "Actual SoundSystem fixture calls, gain changes, natural completions and stop times. Full gameplay, music, speech ducking and hardware output are not simulated."
+}

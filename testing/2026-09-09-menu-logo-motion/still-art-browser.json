@@ -1,0 +1,9 @@
+{
+  "reviewOnly": true,
+  "style": "quiet-sky",
+  "source": "optimized",
+  "canvas": [
+    1920,
+    1080
+  ]
+}

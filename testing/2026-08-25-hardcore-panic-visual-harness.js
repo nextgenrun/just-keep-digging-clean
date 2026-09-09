@@ -3,7 +3,10 @@ import { ScreenFlashSystem } from "../systems/visual/ScreenFlashSystem.js";
 import { APPROVED_HUD_SKIN } from "../values/approvedHudSkin.js";
 import { ASSET_KEYS } from "../values/assetKeys.js";
 import { GAMEFEEL_CONFIG } from "../values/gamefeel.js";
+import { GAME_CONFIG } from "../values/gameConfig.js";
 import { HARDCORE_MODE_CONFIG } from "../values/hardcoreMode.js";
+import { LEVEL_CONFIG } from "../values/levelConfig.js";
+import { STAR_SANCTUARY_CONFIG } from "../values/starSanctuary.js";
 import { HardcoreModeSystem } from "../systems/hardcore/HardcoreModeSystem.js";
 
 const BACKGROUND_KEY = "hardcore-panic-harness-background";
@@ -27,6 +30,12 @@ function resolveHarnessViewport() {
 }
 
 const HARNESS_VIEWPORT = resolveHarnessViewport();
+const HARNESS_PARAMS = new URLSearchParams(location.search);
+const HARNESS_LEVEL = Math.max(
+  1,
+  Math.min(LEVEL_CONFIG.HARDCAP, Math.floor(Number(HARNESS_PARAMS.get("level"))) || 1),
+);
+const HARNESS_DEADZONE = HARNESS_PARAMS.get("deadzone") === "1";
 
 function resolveInitialBand() {
   const requested = new URLSearchParams(location.search).get("band");
@@ -34,20 +43,24 @@ function resolveInitialBand() {
 }
 
 function resolveInitialStress() {
-  const requested = Number(new URLSearchParams(location.search).get("stress"));
-  if (Number.isFinite(requested)) {
+  const raw = new URLSearchParams(location.search).get("stress");
+  const requested = Number(raw);
+  if (raw !== null && raw.trim() !== "" && Number.isFinite(requested)) {
     return Math.max(0, Math.min(HARDCORE_MODE_CONFIG.stress.maximum, requested));
   }
   return STRESS_BY_BAND[resolveInitialBand()];
 }
 
 function resolveInitialGp() {
-  const requested = Number(new URLSearchParams(location.search).get("gp"));
-  return Number.isFinite(requested) ? Math.max(0, requested) : 42;
+  const raw = new URLSearchParams(location.search).get("gp");
+  const requested = Number(raw);
+  return raw !== null && raw.trim() !== "" && Number.isFinite(requested)
+    ? Math.max(0, requested)
+    : 42;
 }
 
 function createSnapshot(stress) {
-  return new HardcoreModeSystem({
+  const snapshot = new HardcoreModeSystem({
     ...HARDCORE_MODE_CONFIG.defaultData,
     mode: HARDCORE_MODE_CONFIG.modes.hardcore,
     armed: true,
@@ -56,11 +69,23 @@ function createSnapshot(stress) {
     stress,
     peakStress: stress,
   }, HARDCORE_MODE_CONFIG).getSnapshot();
+  const panicResistanceMeters = LEVEL_CONFIG.getPanicResistanceMeters(HARNESS_LEVEL);
+  return {
+    ...snapshot,
+    panicResistanceMeters,
+    panicStartDepth: HARDCORE_MODE_CONFIG.stress.panicStartDepthTiles
+      + panicResistanceMeters,
+    insideConsumedStarScar: HARNESS_DEADZONE,
+    consumedStarStressMultiplier: HARNESS_DEADZONE
+      ? STAR_SANCTUARY_CONFIG.scar.panicStressMultiplier
+      : 1,
+  };
 }
 
 class HardcorePanicVisualHarnessScene extends Phaser.Scene {
   constructor() {
     super("HardcorePanicVisualHarnessScene");
+    this.config = GAME_CONFIG;
     this.stress = resolveInitialStress();
     this.gp = resolveInitialGp();
     this.snapshot = createSnapshot(this.stress);
@@ -70,8 +95,8 @@ class HardcorePanicVisualHarnessScene extends Phaser.Scene {
   preload() {
     this.load.image(BACKGROUND_KEY, BACKGROUND_PATH);
     this.load.image(
-      ASSET_KEYS.ui.approvedHud.notification,
-      `../${APPROVED_HUD_SKIN.paths.notification}`,
+      ASSET_KEYS.ui.approvedHud.hardcoreStatusShell,
+      `../${APPROVED_HUD_SKIN.paths.hardcoreStatusShell}`,
     );
     for (const id of [
       "crest",
@@ -87,9 +112,14 @@ class HardcorePanicVisualHarnessScene extends Phaser.Scene {
   create() {
     this.add.image(this.scale.width / 2, this.scale.height / 2, BACKGROUND_KEY)
       .setDisplaySize(this.scale.width, this.scale.height)
+      .setScrollFactor(0)
       .setDepth(0);
     this.screenFlashSystem = new ScreenFlashSystem(this, GAMEFEEL_CONFIG.flash);
     this.hud = new HardcoreStatusHud(this);
+    const panicLineWorldY = (
+      GAME_CONFIG.topAirRows + this.snapshot.panicStartDepth - 1
+    ) * GAME_CONFIG.tileSize;
+    this.cameras.main.setScroll(0, panicLineWorldY - 290);
     window.__hardcorePanicHarness = {
       setBand: band => {
         if (!VALID_BANDS.includes(band)) return false;
@@ -121,6 +151,11 @@ class HardcorePanicVisualHarnessScene extends Phaser.Scene {
         sanity: this.snapshot.sanity,
         selectedBand: this.snapshot.stressBand,
         gp: this.gp,
+        playerLevel: HARNESS_LEVEL,
+        panicStartDepth: this.snapshot.panicStartDepth,
+        panicResistanceMeters: this.snapshot.panicResistanceMeters,
+        panicLineWorldY,
+        insideConsumedStarScar: this.snapshot.insideConsumedStarScar,
         gameplayActive: this.gameplayActive,
         flashAlpha: Number(this.screenFlashSystem?._rect?.alpha) || 0,
         ...this.hud.getDebugSnapshot(),
@@ -143,6 +178,12 @@ class HardcorePanicVisualHarnessScene extends Phaser.Scene {
       highPanicVisible: String(review.highPanicVisible),
       panicFlashAlpha: String(Number(this.screenFlashSystem?._rect?.alpha) || 0),
       statusIconKey: review.statusIconKey || "",
+      panicStartDepth: String(this.snapshot.panicStartDepth),
+      panicLineVisible: String(review.panicLineVisible),
+      panicLineDepth: String(review.panicLineDepth),
+      panicLineWorldY: String(review.panicLineWorldY),
+      panicLineTitle: review.panicLineTitle || "",
+      insideConsumedStarScar: String(this.snapshot.insideConsumedStarScar),
     });
   }
 }

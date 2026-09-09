@@ -1,0 +1,233 @@
+{
+  "missingTextures": [],
+  "passives": {
+    "activeCount": 3,
+    "hollow": {
+      "active": true,
+      "damageScale": 0.24,
+      "digs": 24,
+      "impacts": 36,
+      "pulseEveryDigs": 2,
+      "pulses": 12
+    },
+    "lance": {
+      "activationId": "apex:comet-engine:3",
+      "active": true,
+      "ageMs": 15566,
+      "bounces": 0,
+      "earnedLifetimeMs": 0,
+      "empowered": true,
+      "engineId": "comet-engine",
+      "finalWindow": false,
+      "impactMomentCount": 11,
+      "impacts": 12,
+      "lastConsumedBreakCharge": 0,
+      "lastProjectilePalette": "red",
+      "launchFlashCount": 0,
+      "launchHistory": [
+        {
+          "origin": {
+            "x": 682.1851260349247,
+            "y": 399.25524864132103
+          },
+          "originSource": "fallback",
+          "palette": "blue",
+          "shot": 1
+        },
+        {
+          "origin": {
+            "x": 730.7866516246761,
+            "y": 379.9924193627388
+          },
+          "originSource": "fallback",
+          "palette": "purple",
+          "shot": 2
+        },
+        {
+          "origin": {
+            "x": 706.0811055300028,
+            "y": 351.03105087291226
+          },
+          "originSource": "fallback",
+          "palette": "red",
+          "shot": 3
+        },
+        {
+          "origin": {
+            "x": 628.0176276202454,
+            "y": 326.42221470289303
+          },
+          "originSource": "fallback",
+          "palette": "blue",
+          "shot": 4
+        },
+        {
+          "origin": {
+            "x": 559.6229040714861,
+            "y": 318.0940472980844
+          },
+          "originSource": "fallback",
+          "palette": "purple",
+          "shot": 5
+        },
+        {
+          "origin": {
+            "x": 556.1422640151435,
+            "y": 330.0884181226447
+          },
+          "originSource": "fallback",
+          "palette": "red",
+          "shot": 6
+        },
+        {
+          "origin": {
+            "x": 620.373977093141,
+            "y": 356.5854355129697
+          },
+          "originSource": "fallback",
+          "palette": "blue",
+          "shot": 7
+        },
+        {
+          "origin": {
+            "x": 700.4618983013248,
+            "y": 384.7415958759847
+          },
+          "originSource": "fallback",
+          "palette": "purple",
+          "shot": 8
+        },
+        {
+          "origin": {
+            "x": 731.71866068956,
+            "y": 400.8972513889777
+          },
+          "originSource": "fallback",
+          "palette": "prismatic",
+          "shot": 9
+        },
+        {
+          "origin": {
+            "x": 688.9136352489355,
+            "y": 397.2226264677554
+          },
+          "originSource": "fallback",
+          "palette": "blue",
+          "shot": 10
+        },
+        {
+          "origin": {
+            "x": 606.6088485625585,
+            "y": 375.4978493505254
+          },
+          "originSource": "fallback",
+          "palette": "prismatic",
+          "shot": 11
+        },
+        {
+          "origin": {
+            "x": 551.2687825064767,
+            "y": 346.25779010428965
+          },
+          "originSource": "fallback",
+          "palette": "red",
+          "shot": 12
+        }
+      ],
+      "lifetimeMs": 9007199254740991,
+      "liveProjectileCount": 1,
+      "liveVfxCount": 1,
+      "liveWakes": 0,
+      "maxBounces": 0,
+      "maxImpacts": 0,
+      "maxRedirects": 0,
+      "nextShot": 13,
+      "paletteHistory": [
+        "blue",
+        "purple",
+        "red",
+        "blue",
+        "purple",
+        "red",
+        "blue",
+        "purple",
+        "prismatic",
+        "blue",
+        "prismatic",
+        "red"
+      ],
+      "passiveEcho": true,
+      "playerVisualCount": 0,
+      "projectileDamageMultiplier": 0.35,
+      "projectileDestroyed": 0,
+      "projectileEnabled": true,
+      "projectileImpacts": 12,
+      "projectileInfiniteRange": false,
+      "projectileMaximumDamageMultiplier": 0.47,
+      "projectilePaletteCycle": [
+        "blue",
+        "purple",
+        "red",
+        "prismatic"
+      ],
+      "projectilePassesGeodeWalls": true,
+      "projectileRangeTiles": 4,
+      "projectileSafetyMaxTiles": 8,
+      "projectileSideLanes": 0,
+      "projectileSpeedPxPerSecond": 225,
+      "projectileStateCount": 3,
+      "projectileStates": [
+        {
+          "alpha": 0.94,
+          "damageMultiplier": 1,
+          "displayScale": 0.9,
+          "id": "violet-edge",
+          "impactTint": 14795519,
+          "label": "VIOLET EDGE",
+          "minimumDistanceTiles": 1,
+          "tint": 12619007
+        },
+        {
+          "alpha": 0.95,
+          "damageMultiplier": 1.35,
+          "displayScale": 1,
+          "id": "amethyst-surge",
+          "impactTint": 14198783,
+          "label": "AMETHYST SURGE",
+          "minimumDistanceTiles": 3,
+          "tint": 11032055
+        },
+        {
+          "alpha": 1,
+          "damageMultiplier": 1.35,
+          "displayScale": 1.1,
+          "id": "voidpiercer",
+          "impactTint": 15918591,
+          "label": "VOIDPIERCER",
+          "minimumDistanceTiles": 5,
+          "tint": 8141549
+        }
+      ],
+      "redirects": 0,
+      "remainingMs": 9007199254725425,
+      "resonantReady": false,
+      "scheduledImpactCount": 12,
+      "shotsFired": 12,
+      "stateBurstCount": 0,
+      "storedBreakCharge": 0,
+      "uniqueTargets": 0,
+      "wakeCount": 0
+    },
+    "wayward": {
+      "active": true,
+      "bounces": 1,
+      "damageScale": 0.28,
+      "impacts": 4,
+      "launches": 8,
+      "leashTiles": 3.8,
+      "returning": true,
+      "returns": 7
+    }
+  },
+  "runtimeErrors": []
+}

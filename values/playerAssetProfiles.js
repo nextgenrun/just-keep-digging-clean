@@ -123,7 +123,7 @@ const robot = Object.freeze({
   airborneAnimationFps: 12,
   duckAnimationFps: 8,
   walkAnimation: {
-    baseSpeedPxPerSec: 200,
+    baseSpeedPxPerSec: 160,
     baseFps: 14,
     minTimeScale: 0.75,
     maxTimeScale: 1.85,
@@ -179,7 +179,7 @@ const drillHead = Object.freeze({
   digAnimationFps: 14,
   flyAnimationFps: 9,
   walkAnimation: {
-    baseSpeedPxPerSec: 200,
+    baseSpeedPxPerSec: 160,
     baseFps: 7,
     minTimeScale: 1,
     maxTimeScale: 1,

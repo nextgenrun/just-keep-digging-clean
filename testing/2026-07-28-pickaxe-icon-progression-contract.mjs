@@ -9,7 +9,8 @@ import {
   getPickaxeIconPreloadAssets,
 } from "../values/assetKeys.js";
 import { UPGRADES } from "../values/upgradeDefinitions.js";
-import { resolveUpgradeUiIcon } from "../ui/UiIconAtlas.js";
+import { createUiIcon, resolveUpgradeUiIcon, setUiIcon } from "../ui/UiIconAtlas.js";
+import { UI_ICON_ATLAS, UI_ICON_FRAMES } from "../values/uiIcons.js";
 
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -79,18 +80,49 @@ for (const entry of manifest.assets) {
   assert.ok(entry.runtimeBounds.every(Number.isInteger));
 }
 
-const [bootSource, shopSource, iconSource] = await Promise.all([
+const [bootSource, shopSource] = await Promise.all([
   readFile(path.join(root, "ui", "scenes", "BootScene.js"), "utf8"),
   readFile(path.join(root, "ui", "overlays", "ShopOverlay.js"), "utf8"),
-  readFile(path.join(root, "ui", "UiIconAtlas.js"), "utf8"),
 ]);
 assert.match(bootSource, /getPickaxeIconPreloadAssets\(\)/);
 assert.ok(
   (shopSource.match(/resolveUpgradeUiIcon\(/g) || []).length >= 2,
   "shop list and detail panel must both resolve the tier-specific icon",
 );
-assert.match(iconSource, /getDirectIconFallback/);
-assert.match(iconSource, /return "pickaxe"/);
+const textures = new Set([UI_ICON_ATLAS.key]);
+const iconScene = {
+  textures: { exists: key => textures.has(key) },
+  add: {
+    image(x, y, key, frame) {
+      return {
+        scene: iconScene, active: true, x, y, key, frame,
+        setDisplaySize() { return this; },
+        setOrigin() { return this; },
+        setTexture(nextKey, nextFrame) {
+          this.key = nextKey;
+          this.frame = nextFrame;
+          return this;
+        },
+      };
+    },
+  },
+};
+for (const key of resolvedKeys) {
+  const icon = createUiIcon(iconScene, key);
+  assert.equal(icon.key, UI_ICON_ATLAS.key, "unloaded pickaxes use the shared atlas");
+  assert.equal(icon.frame, UI_ICON_FRAMES.pickaxe, "unloaded pickaxes keep their identity");
+  textures.add(key);
+  assert.equal(createUiIcon(iconScene, key).key, key, "loaded art uses its direct texture");
+  setUiIcon(icon, key);
+  assert.equal(icon.key, key, "an existing icon adopts loaded art");
+  textures.delete(key);
+  setUiIcon(icon, key);
+  assert.equal(icon.key, UI_ICON_ATLAS.key);
+  assert.equal(icon.frame, UI_ICON_FRAMES.pickaxe, "released art falls back safely");
+}
+assert.equal(createUiIcon(iconScene, "unknown-icon").frame, UI_ICON_FRAMES.info);
+textures.clear();
+assert.equal(createUiIcon(iconScene, resolvedKeys[0]), null, "missing art creates no invalid image");
 
 console.log(
   JSON.stringify({

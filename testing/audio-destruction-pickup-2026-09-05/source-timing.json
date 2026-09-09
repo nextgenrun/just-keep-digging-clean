@@ -1,0 +1,56 @@
+[
+  {
+    "path": "sound/soundEffects/approved-review-2026-09-03/libDirtSwingA.ogg",
+    "durationMs": 457.3333333333333,
+    "firstDominantAttackMs": 35.520833333333336,
+    "strongest5msWindowMs": 63.583333333333336,
+    "energy10Ms": 41.770833333333336,
+    "energy50Ms": 64.33333333333333,
+    "energy90Ms": 88.5625
+  },
+  {
+    "path": "sound/soundEffects/approved-review-2026-09-03/libDirtBreak.ogg",
+    "durationMs": 972.2708333333334,
+    "firstDominantAttackMs": 37.4375,
+    "strongest5msWindowMs": 43.875,
+    "energy10Ms": 47.083333333333336,
+    "energy50Ms": 119.83333333333333,
+    "energy90Ms": 257.4166666666667
+  },
+  {
+    "path": "sound/soundEffects/approved-review-2026-09-03/libStoneBreak.ogg",
+    "durationMs": 1800.0,
+    "firstDominantAttackMs": 45.0,
+    "strongest5msWindowMs": 231.97916666666666,
+    "energy10Ms": 95.125,
+    "energy50Ms": 385.1458333333333,
+    "energy90Ms": 1228.4791666666667
+  },
+  {
+    "path": "sound/soundEffects/approved-review-2026-09-03/libResourcePop.ogg",
+    "durationMs": 617.3333333333334,
+    "firstDominantAttackMs": 117.64583333333333,
+    "strongest5msWindowMs": 204.27083333333334,
+    "energy10Ms": 143.91666666666666,
+    "energy50Ms": 233.5,
+    "energy90Ms": 374.2291666666667
+  },
+  {
+    "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-536921.ogg",
+    "durationMs": 229.125,
+    "firstDominantAttackMs": 86.27083333333333,
+    "strongest5msWindowMs": 90.14583333333333,
+    "energy10Ms": 91.25,
+    "energy50Ms": 171.0625,
+    "energy90Ms": 199.3125
+  },
+  {
+    "path": "sound/soundEffects/approved-freesound-2026-09-03/freesound-703115.ogg",
+    "durationMs": 419.1458333333333,
+    "firstDominantAttackMs": 5.708333333333333,
+    "strongest5msWindowMs": 336.5833333333333,
+    "energy10Ms": 11.4375,
+    "energy50Ms": 174.35416666666666,
+    "energy90Ms": 345.9583333333333
+  }
+]

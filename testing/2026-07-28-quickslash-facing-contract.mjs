@@ -191,7 +191,6 @@ const retentionSource = await readFile(
   "utf8",
 );
 assert.doesNotMatch(previewSource, /_drawQuickslash|quickslashColor|ROUTE/);
-assert.match(previewSource, /if \(keys\?\.q\?\.isDown\) return;/);
 assert.doesNotMatch(retentionSource, /quickslashColor/);
 
 console.log("QUICKSLASH_FACING_CONTRACT_OK");

@@ -1,0 +1,66 @@
+{
+  "package": "sprites/branding/understar-logo-v2",
+  "source": "source-chroma.png",
+  "width": 4096,
+  "height": 1216,
+  "runtimeWidth": 2048,
+  "samples": 16,
+  "renderThreads": 8,
+  "planeWidth": 10,
+  "cameraWidth": 10.46,
+  "alphaCutoff": 0.035,
+  "backgroundGreenRatio": 0.16,
+  "backgroundChromaMin": 0.1,
+  "grid": 1024,
+  "extrude": 0.038,
+  "bevel": 0.004,
+  "bodyOffset": [
+    0.016,
+    -0.019,
+    -0.045
+  ],
+  "bodyColor": [
+    0.012,
+    0.018,
+    0.023,
+    1
+  ],
+  "litMix": 0.12,
+  "stoneBump": 0.018,
+  "stoneStrength": 0.16,
+  "microScale": 220,
+  "microDistance": 0.002,
+  "microStrength": 0.12,
+  "lights": [
+    {
+      "name": "Warm broad key",
+      "position": [
+        -3,
+        4,
+        6
+      ],
+      "power": 1150,
+      "color": [
+        1,
+        0.86,
+        0.69
+      ],
+      "size": 7
+    },
+    {
+      "name": "Cyan lower fill",
+      "position": [
+        1,
+        -3,
+        4
+      ],
+      "power": 300,
+      "color": [
+        0.25,
+        0.8,
+        1
+      ],
+      "size": 5
+    }
+  ]
+}

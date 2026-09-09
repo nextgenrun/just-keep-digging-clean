@@ -38,6 +38,7 @@ export class WorldScenicFacadeSystem {
     this.enabled = false;
     this.destroyed = false;
     this.nextUpdateAt = 0;
+    this.resourceDepletionProvider = null;
   }
   create() {
     const master = this.scene.worldBackgroundMasterSystem;
@@ -87,6 +88,15 @@ export class WorldScenicFacadeSystem {
     const bounds = this._getVisibleTileBounds(0);
     if (tx < bounds.left || tx >= bounds.right || ty < bounds.top || ty >= bounds.bottom) return;
     this.update(this.scene.time?.now || 0, 0, true);
+  }
+  setResourceDepletionProvider(provider) {
+    this.resourceDepletionProvider = typeof provider === "function" ? provider : null;
+    this.invalidateResourcePresentation();
+  }
+  invalidateResourcePresentation() {
+    if (this.enabled && !this.destroyed) {
+      this.update(this.scene.time?.now || 0, 0, true);
+    }
   }
   _getVisibleTileBounds(marginTiles) {
     const camera = this.scene.cameras.main;
@@ -179,7 +189,16 @@ export class WorldScenicFacadeSystem {
         const maxHp = this.worldModel.getTileMaxHp(tx, ty, type);
         const stage = getDamageStage(hp, maxHp);
         const resourceKey = RESOURCE_BY_TILE_TYPE[type];
-        const marker = resolveScenicFacadeMarker(
+        const resourceDepleted = Boolean(
+          resourceKey
+          && this.resourceDepletionProvider?.({
+            tileX: tx,
+            tileY: ty,
+            tileType: type,
+            resourceKey,
+          }) === true
+        );
+        const marker = resourceDepleted ? null : resolveScenicFacadeMarker(
           this.markerConfig,
           type,
           resourceKey,
@@ -192,7 +211,7 @@ export class WorldScenicFacadeSystem {
         if (marker && markerIndex < this.config.performance.maxVisibleMarkers) {
           this._showMarker(markerIndex++, tx, ty, type, marker, stage);
         }
-        if (hp > 0 && hp < maxHp && stage < 5 && crackIndex < this.config.performance.maxVisibleCracks) {
+        if (!resourceDepleted && hp > 0 && hp < maxHp && stage < 5 && crackIndex < this.config.performance.maxVisibleCracks) {
           this._showCrack(crackIndex++, tx, ty, stage);
         }
       }
@@ -288,5 +307,6 @@ export class WorldScenicFacadeSystem {
     this.ownedTextures.clear();
     this.markerPool = [];
     this.crackPool = [];
+    this.resourceDepletionProvider = null;
   }
 }

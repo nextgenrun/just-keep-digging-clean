@@ -95,12 +95,12 @@ export class ThunderStrikeTimingBarView {
     this.root.setVisible(true);
     this.targetGate
       .setVisible(true)
-      .setPosition(targetX + targetWidth / 2, 0)
+      .setPosition(targetX + targetWidth / 2, ui.trackCenterY)
       .setDisplaySize(targetWidth, ui.targetArtHeight)
       .setAlpha(ui.targetArtAlpha);
     this.needle
       .setVisible(true)
-      .setPosition(needleX, 0)
+      .setPosition(needleX, ui.trackCenterY)
       .setDisplaySize(ui.needleArtWidth, ui.needleArtHeight);
     this.presentedTimingSnapshot = {
       challengeStageIndex: snapshot.challengeStageIndex,

@@ -1,0 +1,14 @@
+{
+  "buildId": "35b25aa356da",
+  "firstLoadingSeconds": 6.195,
+  "menuSeconds": 140.184,
+  "errors": [],
+  "motionVerified": true,
+  "injectedFailures": 9,
+  "manualRetried": true,
+  "productionSmoke": "passed",
+  "httpCanary": "passed",
+  "sizeContract": "passed",
+  "published": true,
+  "publicBuildId": "35b25aa356da"
+}

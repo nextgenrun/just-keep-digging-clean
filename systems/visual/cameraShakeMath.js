@@ -1,3 +1,5 @@
+import { MINING_IMPACT_POLISH_CONFIG } from "../../values/miningImpactPolish.js";
+
 const MILLISECONDS_PER_SECOND = 1000;
 const TAU = Math.PI * 2;
 
@@ -17,6 +19,15 @@ export function resolveCameraShakeOffset(shake, elapsedMs, progress, config) {
   const phaseX = elapsedSeconds * shake.freqX * TAU;
   const phaseY = elapsedSeconds * shake.freqY * TAU;
   const amplitude = shake.intensity * factor;
+  const directionLength = Math.hypot(shake.direction?.x || 0, shake.direction?.y || 0);
+  if (shake.renderImpulse && directionLength > 0) {
+    const x = shake.direction.x / directionLength, y = shake.direction.y / directionLength;
+    let normal = Math.cos(phaseX) * amplitude;
+    let tangent = Math.sin(phaseY) * amplitude * MINING_IMPACT_POLISH_CONFIG.shake.tangentRatio;
+    const magnitude = Math.hypot(normal, tangent);
+    if (magnitude > amplitude) { normal *= amplitude / magnitude; tangent *= amplitude / magnitude; }
+    return { offsetX: x * normal - y * tangent, offsetY: y * normal + x * tangent };
+  }
   const secondaryRatio = config.secondaryWaveAmplitudeRatio;
   const waveNormalization = 1 + secondaryRatio;
   const secondaryX = Math.sin(

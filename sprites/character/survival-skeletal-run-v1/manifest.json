@@ -1,0 +1,21 @@
+{
+  "sourceMesh": "Survival Character by Arberry",
+  "sourceUrl": "https://www.fab.com/listings/11d20d01-b764-4936-8163-cb20d05c369e",
+  "sourceBlend": "testing/blender-animation-lab-v1/blender-animation-lab-v1.blend",
+  "sourceSha256": "9120ff1a5266ddbc3333a5389d14b5e253e21214e9ed2b34c4a314e4cd3b5aae",
+  "motion": "Quaternius Jog_Fwd_Loop retargeted to the Survival Epic skeleton",
+  "animation": "Legacy_Jog_Run",
+  "frameRange": [
+    1,
+    24
+  ],
+  "fps": 30,
+  "bones": 160,
+  "meshVertices": 78497,
+  "sourceUnchanged": true,
+  "glbBytes": 10417072,
+  "runtimeTextureMaxEdge": 1024,
+  "runtimeTexturePreparation": "Original embedded PBR textures resized to 1024px using Sharp; source assets unchanged.",
+  "glbSha256": "bd4820d3f8704fb769e9c70190470cf6f543a917b303ccd9933186ea41adcc1e",
+  "maxVertexInfluences": 4
+}

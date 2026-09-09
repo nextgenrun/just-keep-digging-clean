@@ -1,3 +1,4 @@
+import { DYNAMIC_EVENT_HEALTH } from "../../values/dynamicEventHealth.js";
 import { RUNTIME_CANARY_CONFIG } from "../../values/runtimeCanaryConfig.js";
 import { CELESTIAL_ENGINE_CONFIG } from "../../values/celestialEngines.js";
 import { ARC_CORE_VISUAL_CONFIG } from "../../values/arcCoreVisualConfig.js";
@@ -246,6 +247,11 @@ export function evaluateRuntimeCanaries(
       ));
     }
     if (key === "PlayScene") {
+      const eventHealth = scene.dynamicEventRuntime?.getHealthSnapshot?.();
+      if (scene.gameState === "playing" && eventHealth && !eventHealth.ready) {
+        findings.push(finding(config, DYNAMIC_EVENT_HEALTH.invariantCode, config.severity.error,
+          DYNAMIC_EVENT_HEALTH.invariantMessage, { sceneKey: key, eventHealth }));
+      }
       findings.push(...shopUiFindings(scene, config));
       findings.push(...celestialFindings(scene, nowMs, config));
       findings.push(...starProgressionFindings(scene, config));

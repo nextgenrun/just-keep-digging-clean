@@ -1,8 +1,10 @@
+import { addBakedUiCaption } from "../../systems/visual/bakedUiArt.js";
 import { KEYBIND_ACTIONS } from "../../values/keybindActions.js";
 import { CAMERA_SHAKE_SETTINGS_GROUPS } from "../../values/cameraShake.js";
 import { UI_COLORS } from "../../values/uiColors.js";
 import { SETTINGS_PANEL_LAYOUT } from "../../values/uiLayout.js";
 import { RETENTION_CONFIG } from "../../values/retentionConfig.js";
+import { SETTINGS_COPY } from "../../values/playerFacingCopy.js";
 import { USER_SETTINGS, formatKey, normalizeKeyboardEvent } from "../../systems/UserSettings.js";
 import {
   createButton,
@@ -63,6 +65,7 @@ function addText(scene, parent, x, y, text, style = {}, origin = [0, 0]) {
     lineSpacing: style.lineSpacing || 0,
   }).setOrigin(origin[0], origin[1]);
   parent.add(obj);
+  addBakedUiCaption(scene, parent, obj);
   return obj;
 }
 
@@ -122,7 +125,7 @@ export function createSettingsPanelContent(scene, options = {}) {
   const tabs = createTabBar(scene, {
     x: 0,
     y: metrics.tabY,
-    tabs: ["AUDIO", "CONTROLS", "DISPLAY", "GAMEPLAY"],
+    tabs: SETTINGS_COPY.tabs,
     activeIndex: 0,
     parent: root,
     depth,
@@ -142,7 +145,8 @@ export function createSettingsPanelContent(scene, options = {}) {
   };
 
   function setFocusItems(startIndex = 0) {
-    const allControls = [...tabs.buttons, ...state.controls];
+    const allControls = [...tabs.buttons, ...state.controls.flatMap(control =>
+      control.resetButton ? [control, control.resetButton] : [control])];
     state.focus?.setItems?.(allControls, Math.min(startIndex, Math.max(0, allControls.length - 1)));
   }
 
@@ -244,7 +248,7 @@ export function createSettingsPanelContent(scene, options = {}) {
       root,
       0,
       metrics.contentBottom - audioLayout.footerBottomInsetY,
-      "Audio settings save instantly.",
+      SETTINGS_COPY.audioSaved,
       {
       fontSize: "12px",
       color: UI_COLORS.hint,
@@ -271,14 +275,14 @@ export function createSettingsPanelContent(scene, options = {}) {
     const captureRoot = scene.add.container(cx, cy).setDepth(depth + 400).setScrollFactor(0);
     const shade = scene.add.rectangle(0, 0, W, H, 0x000000, 0.72).setInteractive();
     const bg = scene.add.rectangle(0, 0, 520, 170, UI_COLORS.bg, 0.98).setStrokeStyle(2, UI_COLORS.borderSel);
-    const title = scene.add.text(0, -48, `Press a new key for ${action.label} (ESC to cancel)`, {
+    const title = scene.add.text(0, -48, SETTINGS_COPY.rebindTitle.replace("{action}", action.label), {
       fontFamily: "Trebuchet MS, Segoe UI, sans-serif",
       fontSize: "18px",
       fontStyle: "bold",
       color: UI_COLORS.title,
       align: "center",
     }).setOrigin(0.5);
-    const hint = scene.add.text(0, 8, "Press a valid key to replace this binding. ESC cancels capture.", {
+    const hint = scene.add.text(0, 8, SETTINGS_COPY.rebindHint, {
       fontFamily: "Consolas, monospace",
       fontSize: "12px",
       color: UI_COLORS.hint,
@@ -301,7 +305,7 @@ export function createSettingsPanelContent(scene, options = {}) {
       event?.stopPropagation?.();
       const nextKey = normalizeKeyboardEvent(event);
       if (!nextKey || nextKey === "ESC") {
-        row.flashStatus("Binding capture canceled.", UI_COLORS.hint);
+        row.flashStatus(SETTINGS_COPY.rebindCancelled, UI_COLORS.hint);
         closeCapture();
         return;
       }
@@ -313,7 +317,7 @@ export function createSettingsPanelContent(scene, options = {}) {
         return;
       }
 
-      row.flashStatus(`Bound to ${formatKey(nextKey)}.`, UI_COLORS.success);
+      row.flashStatus(SETTINGS_COPY.rebindSuccess.replace("{key}", formatKey(nextKey)), UI_COLORS.success);
       refreshRows();
       refreshInputBindings(scene, inputHandler);
       closeCapture();
@@ -359,7 +363,7 @@ export function createSettingsPanelContent(scene, options = {}) {
 
     const fullscreenKey = USER_SETTINGS.getKeyLabel("fullscreen");
     state.objects.push(addText(scene, root, 0, metrics.contentTop + controlsLayout.instructionOffsetY,
-      `${fullscreenKey} is reserved for fullscreen. Click a binding, then press a new key. ESC exits binding mode.`,
+      SETTINGS_COPY.reservedKeyHint.replace("{key}", fullscreenKey),
       { fontSize: isCompact ? "10px" : "11px", color: UI_COLORS.hint, align: "center" },
       [0.5, 0]
     ));
@@ -384,7 +388,7 @@ export function createSettingsPanelContent(scene, options = {}) {
             row.flashStatus(result.error);
             return;
           }
-          row.flashStatus("Default restored.", UI_COLORS.success);
+          row.flashStatus(SETTINGS_COPY.defaultRestored, UI_COLORS.success);
           refreshRows();
           refreshInputBindings(scene, inputHandler);
         },
@@ -471,7 +475,7 @@ export function createSettingsPanelContent(scene, options = {}) {
     );
     const resetOffsetX = (resetButtonWidth + displayLayout.resetButtonGap) / 2;
 
-    state.objects.push(addText(scene, root, 0, headerY, "Display", {
+    state.objects.push(addText(scene, root, 0, headerY, SETTINGS_COPY.displayTitle, {
       fontFamily: "Trebuchet MS, Segoe UI, sans-serif",
       fontSize: "18px",
       fontStyle: "bold",
@@ -484,16 +488,16 @@ export function createSettingsPanelContent(scene, options = {}) {
       y: fullscreenY,
       width: Math.min(metrics.width - 80, 420),
       height: fullscreenButtonHeight,
-      label: "TOGGLE FULLSCREEN",
+      label: SETTINGS_COPY.fullscreen,
       hint: USER_SETTINGS.getKeyLabel("fullscreen"),
       parent: root,
       depth,
       accent: UI_COLORS.borderSel,
       onClick: () => {
         if (typeof window !== "undefined" && window.__toggleGameFullscreen) {
-          window.__toggleGameFullscreen().catch(() => flashMessage("Fullscreen request was blocked."));
+          window.__toggleGameFullscreen().catch(() => flashMessage(SETTINGS_COPY.fullscreenBlocked));
         } else {
-          flashMessage("Fullscreen is unavailable in this browser.");
+          flashMessage(SETTINGS_COPY.fullscreenUnavailable);
         }
       },
     });
@@ -502,7 +506,7 @@ export function createSettingsPanelContent(scene, options = {}) {
     const hints = createTogglePair(scene, {
       x: 40,
       y: controlHintsY,
-      label: "Control Hints",
+      label: SETTINGS_COPY.controlHints,
       value: display.showControlHints,
       buttonHeight: primaryButtonHeight,
       parent: root,
@@ -518,7 +522,7 @@ export function createSettingsPanelContent(scene, options = {}) {
     const cameraShakeMaster = createTogglePair(scene, {
       x: 40,
       y: cameraShakeY,
-      label: "Camera Shake",
+      label: SETTINGS_COPY.cameraShake,
       value: display.cameraShakeEnabled,
       buttonHeight: primaryButtonHeight,
       parent: root,
@@ -534,7 +538,7 @@ export function createSettingsPanelContent(scene, options = {}) {
       x: 0,
       y: intensityY,
       width: sliderWidth,
-      label: "Camera Shake Intensity",
+      label: SETTINGS_COPY.cameraShakeIntensity,
       value: display.cameraShakeIntensity,
       parent: root,
       depth,
@@ -547,7 +551,7 @@ export function createSettingsPanelContent(scene, options = {}) {
     const camFlashToggle = createTogglePair(scene, {
       x: 40,
       y: flashY,
-      label: "Shake Flash",
+      label: SETTINGS_COPY.shakeFlash,
       value: display.cameraShakeFlashEnabled !== false,
       buttonHeight: primaryButtonHeight,
       parent: root,
@@ -559,7 +563,7 @@ export function createSettingsPanelContent(scene, options = {}) {
     state.objects.push(camFlashToggle.root);
     state.controls.push(camFlashToggle.onBtn, camFlashToggle.offBtn);
 
-    state.objects.push(addText(scene, root, 0, groupHeaderY, "Camera Shake Events", {
+    state.objects.push(addText(scene, root, 0, groupHeaderY, SETTINGS_COPY.shakeEvents, {
       fontFamily: "Consolas, monospace",
       fontSize: isCompact ? "10px" : "11px",
       color: UI_COLORS.hint,
@@ -594,14 +598,14 @@ export function createSettingsPanelContent(scene, options = {}) {
       y: resetY,
       width: resetButtonWidth,
       height: resetButtonHeight,
-      label: "RESET KEYBINDS",
+      label: SETTINGS_COPY.resetControls,
       parent: root,
       depth,
       accent: UI_COLORS.borderBad,
       onClick: () => {
         USER_SETTINGS.resetKeybinds();
         refreshInputBindings(scene, inputHandler);
-        flashMessage("Keybinds reset.", UI_COLORS.success);
+        flashMessage(SETTINGS_COPY.controlsReset, UI_COLORS.success);
       },
     });
     const resetAll = createButton(scene, {
@@ -609,7 +613,7 @@ export function createSettingsPanelContent(scene, options = {}) {
       y: resetY,
       width: resetButtonWidth,
       height: resetButtonHeight,
-      label: "RESET SETTINGS",
+      label: SETTINGS_COPY.resetSettings,
       parent: root,
       depth,
       accent: UI_COLORS.borderBad,
@@ -618,7 +622,7 @@ export function createSettingsPanelContent(scene, options = {}) {
         applyAudio(scene, soundSystem, uiMuteToggle);
         refreshInputBindings(scene, inputHandler);
         buildTab(state.activeTab, true);
-        flashMessage("Settings reset.", UI_COLORS.success);
+        flashMessage(SETTINGS_COPY.settingsReset, UI_COLORS.success);
       },
     });
     state.controls.push(resetControls, resetAll);
@@ -661,7 +665,7 @@ export function createSettingsPanelContent(scene, options = {}) {
       },
     ];
 
-    state.objects.push(addText(scene, root, 0, atOffset(gameplayLayout.headerOffsetY), "Gameplay Feedback", {
+    state.objects.push(addText(scene, root, 0, atOffset(gameplayLayout.headerOffsetY), SETTINGS_COPY.feedbackTitle, {
       fontFamily: "Trebuchet MS, Segoe UI, sans-serif",
       fontSize: "18px",
       fontStyle: "bold",
@@ -697,9 +701,7 @@ export function createSettingsPanelContent(scene, options = {}) {
         y: atOffset(modeButtonOffsetY),
         width: modeButtonWidth,
         height: modeButtonHeight,
-        label: active
-          ? `${modeConfig.label}  ${isCompact ? "ACTIVE" : "SELECTED"}`
-          : modeConfig.label,
+        label: modeConfig.label,
         fontSize: isCompact ? "10px" : "12px",
         selected: active,
         selectedFill: UI_COLORS.cardSel,
@@ -723,7 +725,7 @@ export function createSettingsPanelContent(scene, options = {}) {
       root,
       0,
       atOffset(selectedSummaryOffsetY),
-      `SELECTED: ${activeMode.label} — ${activeMode.summary}`,
+      `${SETTINGS_COPY.currentPrefix}: ${activeMode.label} — ${activeMode.summary}`,
       {
         fontSize: isCompact ? "9px" : "10px",
         fontStyle: "bold",
@@ -791,7 +793,7 @@ export function createSettingsPanelContent(scene, options = {}) {
           ? gameplayLayout.shortFooterBottomInsetY
           : gameplayLayout.footerBottomInsetY
       ),
-      "These options hide presentation only. Progress and rewards remain unchanged.",
+      SETTINGS_COPY.feedbackFooter,
       { fontSize: "11px", color: UI_COLORS.hint, align: "center" },
       [0.5, 0]
     ));
@@ -812,6 +814,11 @@ export function createSettingsPanelContent(scene, options = {}) {
     state.focus = createFocusController(scene, {
       items: [],
       enabled: () => root.visible && !scene._settingsKeyCaptureActive,
+      onTab: (direction, event) => {
+        if (!event?.ctrlKey || !options.onSectionChange) return false;
+        options.onSectionChange(direction);
+        return true;
+      },
       onCancel: () => options.onCancel?.(),
     });
   }

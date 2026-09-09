@@ -111,6 +111,10 @@ liveHud.update({ active: false, enabled: true }, 1000);
 assert.equal(liveScene.images[0].interactive, false);
 assert.equal(liveScene.containers[0].visible, false);
 assert.equal(liveScene.texts.length, 1);
+liveHud.update({ active: true, enabled: true }, 1000, { noticeVisible: true });
+assert.equal(liveScene.containers[0].visible, false, "the persistent encounter card owns the active warning");
+liveHud.update({ active: true, enabled: true }, 1000, { noticeVisible: false });
+assert.equal(liveScene.containers[0].visible, true, "listening HUD remains available when no encounter card is shown");
 liveHud.destroy();
 
 console.log("Graveborer Wurm production HUD without demo cheats contract passed.");

@@ -13,7 +13,7 @@ the nearest directory `readme.md`; exact tunables remain in `/values/`.
 | Guided seven-beat opening | `TownSquareTutorialSystem`, `FirstFiveMinutesTutorialBridge` | SHIPPED | Teach Move, Dig, Flight, Portal, Sell, Upgrade, and Resume through real actions |
 | Guided town containment | `TutorialTownExitBarrierSystem` | SHIPPED | Block the exit through the protected portal return, then restore exact cells |
 | Starter portal | `FirstSessionPortalSystem`, `SpecialTileSystem` | SHIPPED | Guarantee and preserve the 15 m portal, then use normal portal pairing |
-| Movement and aim | `PlayerController`, `PlayerInput`, collision systems | SHIPPED | Responsive horizontal travel, directional aim, Flight, no jump |
+| Movement and aim | `PlayerController`, `PlayerInput`, collision systems | SHIPPED | Responsive horizontal travel, directional aim, fixed 1.2-tile jumping, momentum-based Flight |
 | Mining | `DigSystem`, `TileCollisionSystem`, WorldModel | SHIPPED | Damage authoritative targets; produce resources, XP, combo, feedback |
 | Mining momentum | `ComboSystem`, material/gamefeel systems | SHIPPED | Reward sustained accurate mining without changing the return decision |
 | Inventory and selling | `DigSystem` ledger, Inventory, merchants, UpgradeSystem | SHIPPED | Keep one authoritative cargo ledger and convert it to money/progression |
@@ -45,7 +45,8 @@ the nearest directory `readme.md`; exact tunables remain in `/values/`.
 - `SpecialTileSystem` owns activated portal pairs.
 - Retention state owns tutorial choice, stage, and free-flight bank;
   `UpgradeSystem` owns the permanent Flight unlock and real purchases.
-- `hardcoreModeData` owns mode, lives, free revive, death count, and exhaustion.
+- `hardcoreModeData` owns mode, the single life, death count, and exhaustion;
+  the legacy free-revive field is always normalized to false.
 - Retention and journal systems may mirror progress for presentation, but cannot
   become a second reward or inventory authority.
 
@@ -94,11 +95,10 @@ mode rules.
 
 Hardcore sequence:
 
-1. death 1 uses the free revive; lives stay 2;
-2. death 2 consumes a life; lives become 1;
-3. death 3 consumes the last life; the expedition becomes exhausted.
+1. the run starts with exactly one life and no revives;
+2. the first death consumes that life and exhausts the expedition.
 
-One-Life sequence is one death to exhausted. Casual never consumes a life.
+The legacy One-Life identifier uses that same sequence. Casual never consumes a life.
 Automatic save deletion is retired; explicit player clearing and backups remain
 the recovery boundary.
 

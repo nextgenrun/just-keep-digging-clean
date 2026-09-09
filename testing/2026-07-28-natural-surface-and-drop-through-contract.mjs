@@ -126,8 +126,10 @@ const openWorld = createWorld(
 const collision = new TileCollisionSystem(openWorld, GAME_CONFIG);
 const body = createStandingBody();
 assert.equal(collision.isOnGround(body), true);
+body.vx = tileSize * 2;
 assert.equal(collision.tryBeginSurfaceDropThrough(body, surfaceRow), true);
 assert.equal(body.surfaceDropThroughRow, surfaceRow);
+assert.equal(body.vx, tileSize * 2, "moving surface drops must preserve horizontal velocity");
 assert.ok(
   body.vy >= PLAYER_COLLISION_CONFIG.surfaceDropThrough.minimumDownVelocityTilesPerSecond
     * tileSize,
@@ -137,6 +139,7 @@ collision.moveAndCollideY(body, tileSize * 2 + 2);
 assert.equal(body.surfaceDropThroughRow, null);
 assert.equal(body.onGround, true);
 assert.equal(body.y, (surfaceRow + 2) * tileSize - body.h);
+assert.equal(body.vx, tileSize * 2);
 
 const solidBelowCollision = new TileCollisionSystem(
   createWorld(TILE_TYPES.FLOOR_TOWN_1, TILE_TYPES.DIRT),

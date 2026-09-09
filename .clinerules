@@ -51,6 +51,7 @@ See /markdown/archive-policy.md. Archive unused with date prefix. Delete if >180
 - Space performs one fixed, non-variable jump exactly 1.2 tiles high.
 - Flight is momentum-based magic-plane traversal: Shift powers it, A/D steer horizontally, and W/S build upward or downward momentum through acceleration and braking.
 - Hazards must remain avoidable without requiring jump-only counterplay; walking, digging, cover, jumping, and Flight reserve are all valid movement tools.
+- After player input, movement, collision, or animation-handoff changes, run `node testing/2026-08-20-player-jump-flight-motion-contract.mjs`. It includes full-controller Space/Shift, empty-GP, short-tap, pause/resume, and rebind regressions. Also verify the affected controls in gameplay; report any browser coverage limit explicitly.
 
 ---
 

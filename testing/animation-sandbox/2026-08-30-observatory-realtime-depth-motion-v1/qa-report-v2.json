@@ -1,0 +1,50 @@
+{
+  "status": "review-only",
+  "url": "http://127.0.0.1:8080/testing/animation-sandbox/2026-08-30-observatory-realtime-depth-motion-v1/?view=runtime&rev=8",
+  "renderer": "Phaser 3.90.0 WebGL",
+  "decomposition": {
+    "cloudLayers": 5,
+    "lightGroups": 30,
+    "architectureStatic": true,
+    "lightsSeparated": true
+  },
+  "pausedReconstruction": {
+    "stagePixels": 464499,
+    "meanMaxRgbDifference": 1.602916,
+    "changedOver12Ratio": 0.0009
+  },
+  "lightOnlySample": {
+    "seconds": 2.3,
+    "motionStrength": 0,
+    "lightStrength": 1.6,
+    "staticArchitectureMeanDifference": 0.349477,
+    "emissiveMeanDifference": 9.857906,
+    "emissiveChangedOver3Ratio": 0.622863
+  },
+  "cloudFlowSample": {
+    "seconds": 5,
+    "motionStrength": 1,
+    "lightStrength": 0,
+    "staticArchitectureMeanDifference": 0.919414,
+    "segmentedCloudMeanDifference": 1.6238,
+    "segmentedCloudChangedOver3Ratio": 0.096363
+  },
+  "periodicBoundary": {
+    "phaseZero": 0,
+    "phaseOne": 1,
+    "stagePixels": 462570,
+    "meanDifference": 0,
+    "maxDifference": 0,
+    "changedPixels": 0
+  },
+  "pauseFreeze": {
+    "stagePixels": 462570,
+    "maxDifference": 0,
+    "changedPixels": 0
+  },
+  "console": {
+    "errors": 0,
+    "warnings": 0
+  },
+  "townSquareVideoModified": false
+}

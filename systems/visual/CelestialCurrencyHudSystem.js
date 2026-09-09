@@ -6,6 +6,7 @@ import {
   formatCelestialStars,
 } from "../../values/celestialCurrencyHud.js";
 import { UI_FONTS } from "../../values/uiLayout.js";
+import { prepareArt, fitBakedUiImage, fitLiveUiText } from "./bakedUiArt.js";
 
 function readProvider(provider) {
   try {
@@ -37,17 +38,17 @@ export class CelestialCurrencyHudSystem {
     this.root = this.scene.add.container(0, 0)
       .setScrollFactor(0)
       .setDepth(presentation.depth);
-    this.foundation = this.scene.add.image(0, 0, assets.foundation.key)
+    const art = prepareArt(this.scene, assets.foundation) || assets.foundation;
+    this.foundation = fitBakedUiImage(this.scene.add.image(0, 0, art.key, art.frame), layout.widthPx, layout.heightPx)
       .setOrigin(0, 0.5)
-      .setDisplaySize(layout.widthPx, layout.heightPx)
       .setAlpha(presentation.foundationAlpha);
-    this.moneyIcon = this.scene.add.sprite(
+    this.moneyIcon = assets.foundation.bakedIcons ? null : this.scene.add.sprite(
       layout.widthPx * layout.moneyIconXFraction,
       0,
       assets.moneyIcon.key,
       assets.moneyIcon.frame,
     ).setDisplaySize(layout.iconSizePx, layout.iconSizePx);
-    this.starsIcon = this.scene.add.image(
+    this.starsIcon = assets.foundation.bakedIcons ? null : this.scene.add.image(
       layout.widthPx * layout.starsIconXFraction,
       0,
       assets.starsIcon.key,
@@ -66,7 +67,7 @@ export class CelestialCurrencyHudSystem {
       this.moneyText,
       this.starsText,
       this.starsIcon,
-    ]);
+    ].filter(Boolean));
   }
 
   _createValueText(x, color) {
@@ -89,11 +90,13 @@ export class CelestialCurrencyHudSystem {
     let changed = false;
     if (force || moneyText !== this.lastMoneyText) {
       this.moneyText.setText(moneyText);
+      fitLiveUiText(this.moneyText, this.config.layout.valueWidthPx, this.config.layout.valueHeightPx);
       this.lastMoneyText = moneyText;
       changed = true;
     }
     if (force || starsText !== this.lastStarsText) {
       this.starsText.setText(starsText);
+      fitLiveUiText(this.starsText, this.config.layout.valueWidthPx, this.config.layout.valueHeightPx);
       this.lastStarsText = starsText;
       changed = true;
     }
@@ -103,17 +106,19 @@ export class CelestialCurrencyHudSystem {
   pulseStars() {
     if (this.destroyed) return;
     const { pulseScale, pulseDurationMs } = this.config.presentation;
-    const baseScaleX = this.starsIcon.scaleX;
-    const baseScaleY = this.starsIcon.scaleY;
-    this.scene.tweens?.killTweensOf?.(this.starsIcon);
+    const target = this.starsIcon || this.starsText;
+    const baseScaleX = target.uiFittedScale ?? target.scaleX;
+    const baseScaleY = target.uiFittedScale ?? target.scaleY;
+    this.scene.tweens?.killTweensOf?.(target);
+    target.setScale(baseScaleX, baseScaleY);
     this.scene.tweens?.add?.({
-      targets: this.starsIcon,
+      targets: target,
       scaleX: baseScaleX * pulseScale,
       scaleY: baseScaleY * pulseScale,
       duration: pulseDurationMs,
       yoyo: true,
       ease: "Back.out",
-      onComplete: () => this.starsIcon?.setScale(baseScaleX, baseScaleY),
+      onComplete: () => target?.setScale(target.uiFittedScale ?? baseScaleX, target.uiFittedScale ?? baseScaleY),
     });
   }
 
@@ -147,6 +152,7 @@ export class CelestialCurrencyHudSystem {
       visible: this.visible,
       money: this.lastMoneyText,
       stars: this.lastStarsText,
+      bakedIcons: this.config.assets.foundation.bakedIcons === true,
     });
   }
 
@@ -155,6 +161,7 @@ export class CelestialCurrencyHudSystem {
     this.destroyed = true;
     this.scene.scale?.off?.("resize", this._resizeHandler);
     this.scene.tweens?.killTweensOf?.(this.starsIcon);
+    this.scene.tweens?.killTweensOf?.(this.starsText);
     this.root?.destroy(true);
     this.getMoney = null;
     this.getStars = null;

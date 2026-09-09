@@ -92,16 +92,8 @@ const managerSource = readFileSync(
   `${root}world/playScene/NPCManager.js`,
   "utf8",
 );
-assert.match(
-  managerSource,
-  /const sprite = hasIdleVideo[\s\S]*add\.video\(pos\.x, pos\.y, npc\.videoKey\)[\s\S]*add\.sprite\(pos\.x, pos\.y, npc\.assetKey\)/,
-  "original idle video must remain the preferred baseline",
-);
-assert.match(
-  managerSource,
-  /if \(hasIdleVideo\)[\s\S]*sprite\.play\(true\)/,
-  "the original idle video must keep playing beneath activity crossfades",
-);
+// Legacy video/still crossfades remain the fallback. The approved articulated
+// default and its scene lifecycle are covered by the 2026-09-05 motion contract.
 assert.match(
   managerSource,
   /resolveNpcGroundContact\([\s\S]*npc\.merchantId,[\s\S]*spriteSize,[\s\S]*\)/,

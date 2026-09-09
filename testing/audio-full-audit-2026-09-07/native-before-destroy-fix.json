@@ -1,0 +1,14 @@
+{
+  "passed": false,
+  "checks": [
+    {
+      "name": "Native Phaser effect starts",
+      "passed": true
+    },
+    {
+      "name": "Native stop frees the active mixer slot",
+      "passed": true
+    }
+  ],
+  "error": "TypeError: Cannot read properties of null (reading 'disconnect')\n    at WebAudioSound.destroy (http://127.0.0.1:8080/libs/phaser.js:207660:23)\n    at document.querySelector.onclick (http://127.0.0.1:8080/testing/audio-full-audit-2026-09-07/native.mjs:47:14)"
+}

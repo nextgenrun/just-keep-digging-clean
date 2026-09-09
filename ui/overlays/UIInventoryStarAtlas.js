@@ -1,17 +1,19 @@
 import { STAR_IDENTITY_LIBRARY_CONFIG } from
-  "../../values/starIdentityLibrary.js?rev=20260830-star-codex-v3";
+  "../../values/starIdentityLibrary.js?rev=20260906-baked-celestial-v2";
 import { getStarIdentitiesForRarity } from
   "../../values/starIdentityLibraryMath.js";
 import { installStarIdentityTextureFrames } from
   "../../systems/visual/installStarIdentityTextureFrames.js";
+import { BAKED_STAR_LAYOUT } from "../../values/bakedCelestialUi.js";
+import { prepareArt } from "../../systems/visual/bakedUiArt.js";
 import { renderStarAtlasControls } from
-  "./UIInventoryStarAtlasControls.js?rev=20260830-star-codex-v3";
+  "./UIInventoryStarAtlasControls.js?rev=20260906-baked-celestial-v2";
 import { fitStarAtlasFoundation } from
-  "./UIInventoryStarAtlasLayout.js?rev=20260830-star-codex-v3";
+  "./UIInventoryStarAtlasLayout.js?rev=20260906-baked-celestial-v2";
 import {
   renderEmptyStarAtlasDossier,
   renderStarAtlasDossier,
-} from "./UIInventoryStarAtlasDossier.js?rev=20260830-star-codex-v3";
+} from "./UIInventoryStarAtlasDossier.js?rev=20260906-baked-celestial-v2";
 
 function normalizeIdentityCounts(identityCounts, identityTotal) {
   return Array.from({ length: identityTotal }, (unused, identityIndex) => (
@@ -66,6 +68,15 @@ export function renderInventoryStarAtlas(
   ).setOrigin(0)
     .setDisplaySize(bounds.width, bounds.height);
   shell.content.add(foundation);
+  if (!identity && scene.textures.exists(config.inventory.emptyFoundation.key)) {
+    const g = BAKED_STAR_LAYOUT;
+    const art = prepareArt(scene, { ...config.inventory.emptyFoundation,
+      frame:g.emptyDossierFrame, rect:g.emptyDossierRect });
+    const [x, y, width, height] = g.emptyDossierRect;
+    const scale = bounds.width / config.inventory.layout.sourceWidthPx;
+    shell.content.add(scene.add.image(bounds.left + x * scale, bounds.top + y * scale,
+      art.key, art.frame).setOrigin(0).setDisplaySize(width * scale, height * scale));
+  }
 
   const pageState = renderStarAtlasControls(
     scene,

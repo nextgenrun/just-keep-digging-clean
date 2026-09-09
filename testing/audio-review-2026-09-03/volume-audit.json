@@ -1,0 +1,481 @@
+{
+  "audit": "volume-and-layer-gain",
+  "passed": true,
+  "totalChecks": 11,
+  "checks": [
+    "All 51 decoded approved sources are unclipped and use role-specific gains",
+    "Master is applied only by Phaser and changes already-playing sounds",
+    "Speech ducking preserves user settings, including edits made during speech",
+    "Music gain changes preserve crossfade envelopes and update the outgoing track",
+    "Voice has one master stage, explicit headroom, and a preserved NPC multiplier",
+    "Level-up variants are matched by active RMS; dense Star cue has lower gain",
+    "Overlapping one-shots remain below the measured-source peak budget",
+    "Cave composite and crossfades remain below the cave-layer peak budget",
+    "Reference rain owns its approved wind stem; shelter transitions do not stack a second wind bed",
+    "Shelter attenuates the same outdoor wind profile while preserving its stable selection",
+    "Mute is immediate for tracked effects and leaves no managed ambience running"
+  ],
+  "scope": "Decoded sources and runtime gain routing, not calibrated speaker SPL or subjective listening approval",
+  "sourceLevelNote": "Nominal solo levels before contextual fades, overlap caps and speech ducking",
+  "sourceLevels": [
+    {
+      "id": "libSupportCreak",
+      "group": "danger",
+      "gain": 0.2,
+      "sourcePeak": 0.6987518,
+      "soloPeakDbfs": -18.92,
+      "soloActiveRmsDbfs": -36.79,
+      "onsetMs": 2.021
+    },
+    {
+      "id": "libFarCollapse",
+      "group": "danger",
+      "gain": 0.16,
+      "sourcePeak": 0.7481518,
+      "soloPeakDbfs": -20.27,
+      "soloActiveRmsDbfs": -29.21,
+      "onsetMs": 1.25
+    },
+    {
+      "id": "miningMars",
+      "group": "ambience",
+      "gain": 0.1,
+      "sourcePeak": 0.6654963,
+      "soloPeakDbfs": -25.37,
+      "soloActiveRmsDbfs": -37.94,
+      "onsetMs": 932.417
+    },
+    {
+      "id": "libPressureRumble",
+      "group": "danger",
+      "gain": 0.24,
+      "sourcePeak": 0.5714165,
+      "soloPeakDbfs": -19.09,
+      "soloActiveRmsDbfs": -37.15,
+      "onsetMs": 2.229
+    },
+    {
+      "id": "libTorchReact",
+      "group": "torch",
+      "gain": 0.1,
+      "sourcePeak": 0.6391665,
+      "soloPeakDbfs": -25.72,
+      "soloActiveRmsDbfs": -46.69,
+      "onsetMs": 2.396
+    },
+    {
+      "id": "libDeepCaveBedA",
+      "group": "ambience",
+      "gain": 0.14,
+      "sourcePeak": 0.5050963,
+      "soloPeakDbfs": -24.84,
+      "soloActiveRmsDbfs": -38.14,
+      "onsetMs": 0
+    },
+    {
+      "id": "caveEerie",
+      "group": "ambience",
+      "gain": 0.08,
+      "sourcePeak": 0.1263048,
+      "soloPeakDbfs": -41.74,
+      "soloActiveRmsDbfs": -55.37,
+      "onsetMs": 0
+    },
+    {
+      "id": "evilSpell",
+      "group": "ambience",
+      "gain": 0.055,
+      "sourcePeak": 0.8357679,
+      "soloPeakDbfs": -28.58,
+      "soloActiveRmsDbfs": -48.1,
+      "onsetMs": 18.667
+    },
+    {
+      "id": "panicTimber",
+      "group": "detail",
+      "gain": 0.08,
+      "sourcePeak": 0.860521,
+      "soloPeakDbfs": -25.07,
+      "soloActiveRmsDbfs": -43.76,
+      "onsetMs": 8
+    },
+    {
+      "id": "libWaterSeep",
+      "group": "detail",
+      "gain": 0.22,
+      "sourcePeak": 0.6931369,
+      "soloPeakDbfs": -18.17,
+      "soloActiveRmsDbfs": -53.91,
+      "onsetMs": 2.271
+    },
+    {
+      "id": "libDeepCaveBedB",
+      "group": "ambience",
+      "gain": 0.125,
+      "sourcePeak": 0.5011376,
+      "soloPeakDbfs": -25.89,
+      "soloActiveRmsDbfs": -38.27,
+      "onsetMs": 0
+    },
+    {
+      "id": "libCreepySingerA",
+      "group": "ambience",
+      "gain": 0.08,
+      "sourcePeak": 0.774981,
+      "soloPeakDbfs": -25.98,
+      "soloActiveRmsDbfs": -43.24,
+      "onsetMs": 0
+    },
+    {
+      "id": "libCreepySingerB",
+      "group": "ambience",
+      "gain": 0.09,
+      "sourcePeak": 0.4611018,
+      "soloPeakDbfs": -29.47,
+      "soloActiveRmsDbfs": -42.26,
+      "onsetMs": 0.042
+    },
+    {
+      "id": "libCreepySingerC",
+      "group": "ambience",
+      "gain": 0.06,
+      "sourcePeak": 0.5673431,
+      "soloPeakDbfs": -31.19,
+      "soloActiveRmsDbfs": -43.01,
+      "onsetMs": 20.062
+    },
+    {
+      "id": "libCreepySingerD",
+      "group": "ambience",
+      "gain": 0.09,
+      "sourcePeak": 0.4142332,
+      "soloPeakDbfs": -30.4,
+      "soloActiveRmsDbfs": -42.28,
+      "onsetMs": 17.417
+    },
+    {
+      "id": "libDeepVoicesA",
+      "group": "ambience",
+      "gain": 0.065,
+      "sourcePeak": 0.6923853,
+      "soloPeakDbfs": -28.77,
+      "soloActiveRmsDbfs": -42.66,
+      "onsetMs": 24.625
+    },
+    {
+      "id": "libDeepVoicesB",
+      "group": "ambience",
+      "gain": 0.05,
+      "sourcePeak": 0.8603407,
+      "soloPeakDbfs": -29.16,
+      "soloActiveRmsDbfs": -43.23,
+      "onsetMs": 88.125
+    },
+    {
+      "id": "libSoundsDeep",
+      "group": "ambience",
+      "gain": 0.08,
+      "sourcePeak": 0.5706924,
+      "soloPeakDbfs": -28.64,
+      "soloActiveRmsDbfs": -42.26,
+      "onsetMs": 4.292
+    },
+    {
+      "id": "libWhispersDeep",
+      "group": "ambience",
+      "gain": 0.07,
+      "sourcePeak": 0.6569244,
+      "soloPeakDbfs": -28.58,
+      "soloActiveRmsDbfs": -42.47,
+      "onsetMs": 111.688
+    },
+    {
+      "id": "digOne",
+      "group": "contact",
+      "gain": 0.36,
+      "sourcePeak": 0.612896,
+      "soloPeakDbfs": -14.96,
+      "soloActiveRmsDbfs": -31.24,
+      "onsetMs": 25.688
+    },
+    {
+      "id": "digTwo",
+      "group": "contact",
+      "gain": 0.26,
+      "sourcePeak": 0.803191,
+      "soloPeakDbfs": -15.43,
+      "soloActiveRmsDbfs": -31.14,
+      "onsetMs": 24.438
+    },
+    {
+      "id": "libDirtSwingA",
+      "group": "swing",
+      "gain": 0.085,
+      "sourcePeak": 0.657054,
+      "soloPeakDbfs": -26.89,
+      "soloActiveRmsDbfs": -45.66,
+      "onsetMs": 2.917
+    },
+    {
+      "id": "libDirtBreak",
+      "group": "break",
+      "gain": 0.27,
+      "sourcePeak": 0.7165842,
+      "soloPeakDbfs": -16.1,
+      "soloActiveRmsDbfs": -39.09,
+      "onsetMs": 2.062
+    },
+    {
+      "id": "libToolContact",
+      "group": "tool",
+      "gain": 0.16,
+      "sourcePeak": 0.6936398,
+      "soloPeakDbfs": -20.92,
+      "soloActiveRmsDbfs": -38.74,
+      "onsetMs": 0.833
+    },
+    {
+      "id": "libStoneBreak",
+      "group": "break",
+      "gain": 0.32,
+      "sourcePeak": 0.7144903,
+      "soloPeakDbfs": -14.65,
+      "soloActiveRmsDbfs": -38.6,
+      "onsetMs": 1.125
+    },
+    {
+      "id": "starDestruction",
+      "group": "star",
+      "gain": 0.18,
+      "sourcePeak": 0.9716785,
+      "soloPeakDbfs": -16.97,
+      "soloActiveRmsDbfs": -24.6,
+      "onsetMs": 0.062
+    },
+    {
+      "id": "libLandingDebris",
+      "group": "landing",
+      "gain": 0.2,
+      "sourcePeak": 0.7053962,
+      "soloPeakDbfs": -18.84,
+      "soloActiveRmsDbfs": -34.93,
+      "onsetMs": 2.104
+    },
+    {
+      "id": "libMenuOpen",
+      "group": "ui",
+      "gain": 0.12,
+      "sourcePeak": 0.7029096,
+      "soloPeakDbfs": -23.31,
+      "soloActiveRmsDbfs": -40.5,
+      "onsetMs": 6.583
+    },
+    {
+      "id": "libUiHover",
+      "group": "ui",
+      "gain": 0.1,
+      "sourcePeak": 0.7050329,
+      "soloPeakDbfs": -24.87,
+      "soloActiveRmsDbfs": -44.15,
+      "onsetMs": 3.208
+    },
+    {
+      "id": "libUiClick",
+      "group": "ui",
+      "gain": 0.2,
+      "sourcePeak": 0.7062521,
+      "soloPeakDbfs": -18.83,
+      "soloActiveRmsDbfs": -49.82,
+      "onsetMs": 2.312
+    },
+    {
+      "id": "libUiConfirm",
+      "group": "ui",
+      "gain": 0.13,
+      "sourcePeak": 0.7010514,
+      "soloPeakDbfs": -22.64,
+      "soloActiveRmsDbfs": -40.11,
+      "onsetMs": 1.5
+    },
+    {
+      "id": "libSaveCard",
+      "group": "ui",
+      "gain": 0.19,
+      "sourcePeak": 0.5932305,
+      "soloPeakDbfs": -20.79,
+      "soloActiveRmsDbfs": -38.45,
+      "onsetMs": 2.979
+    },
+    {
+      "id": "levelUpShort",
+      "group": "level",
+      "gain": 0.2,
+      "sourcePeak": 0.8220638,
+      "soloPeakDbfs": -17.51,
+      "soloActiveRmsDbfs": -33.62,
+      "onsetMs": 0.104
+    },
+    {
+      "id": "levelUpEpic",
+      "group": "level",
+      "gain": 0.5,
+      "sourcePeak": 0.3190852,
+      "soloPeakDbfs": -17.77,
+      "soloActiveRmsDbfs": -35.01,
+      "onsetMs": 0.438
+    },
+    {
+      "id": "libPurchaseCoin",
+      "group": "reward",
+      "gain": 0.21,
+      "sourcePeak": 0.6894307,
+      "soloPeakDbfs": -18.62,
+      "soloActiveRmsDbfs": -34.22,
+      "onsetMs": 2.167
+    },
+    {
+      "id": "libResourcePop",
+      "group": "pickup",
+      "gain": 0.08,
+      "sourcePeak": 0.7228451,
+      "soloPeakDbfs": -26.59,
+      "soloActiveRmsDbfs": -39.56,
+      "onsetMs": 2.562
+    },
+    {
+      "id": "libRewardCoins",
+      "group": "reward",
+      "gain": 0.25,
+      "sourcePeak": 0.6983849,
+      "soloPeakDbfs": -16.99,
+      "soloActiveRmsDbfs": -39.14,
+      "onsetMs": 3.458
+    },
+    {
+      "id": "rainReference",
+      "group": "ambience",
+      "gain": 0.24,
+      "sourcePeak": 0.3596032,
+      "soloPeakDbfs": -23.11,
+      "soloActiveRmsDbfs": -49.46,
+      "onsetMs": 0
+    },
+    {
+      "id": "windReference",
+      "group": "ambience",
+      "gain": 0.06,
+      "sourcePeak": 0.6523829,
+      "soloPeakDbfs": -29.98,
+      "soloActiveRmsDbfs": -46.27,
+      "onsetMs": 0
+    },
+    {
+      "id": "libRainDirtA",
+      "group": "ambience",
+      "gain": 0.16,
+      "sourcePeak": 0.7154567,
+      "soloPeakDbfs": -20.66,
+      "soloActiveRmsDbfs": -47.07,
+      "onsetMs": 0
+    },
+    {
+      "id": "libRainDirtB",
+      "group": "ambience",
+      "gain": 0.1,
+      "sourcePeak": 0.8354492,
+      "soloPeakDbfs": -23.39,
+      "soloActiveRmsDbfs": -44.64,
+      "onsetMs": 0
+    },
+    {
+      "id": "libRainDirtC",
+      "group": "ambience",
+      "gain": 0.12,
+      "sourcePeak": 0.8200026,
+      "soloPeakDbfs": -21.97,
+      "soloActiveRmsDbfs": -44.58,
+      "onsetMs": 0
+    },
+    {
+      "id": "libShopRainInside",
+      "group": "ambience",
+      "gain": 0.08,
+      "sourcePeak": 0.8586597,
+      "soloPeakDbfs": -25.09,
+      "soloActiveRmsDbfs": -49.8,
+      "onsetMs": 0
+    },
+    {
+      "id": "libShopRainOutside",
+      "group": "ambience",
+      "gain": 0.1,
+      "sourcePeak": 0.8486254,
+      "soloPeakDbfs": -23.26,
+      "soloActiveRmsDbfs": -46.78,
+      "onsetMs": 0
+    },
+    {
+      "id": "libNightWindDirtB",
+      "group": "ambience",
+      "gain": 0.08,
+      "sourcePeak": 0.4141457,
+      "soloPeakDbfs": -31.43,
+      "soloActiveRmsDbfs": -49.22,
+      "onsetMs": 0
+    },
+    {
+      "id": "libWoodRainInside",
+      "group": "ambience",
+      "gain": 0.055,
+      "sourcePeak": 0.8440776,
+      "soloPeakDbfs": -28.5,
+      "soloActiveRmsDbfs": -47.94,
+      "onsetMs": 0
+    },
+    {
+      "id": "libLightRainStoneA",
+      "group": "ambience",
+      "gain": 0.12,
+      "sourcePeak": 0.8436059,
+      "soloPeakDbfs": -21.72,
+      "soloActiveRmsDbfs": -47.99,
+      "onsetMs": 0
+    },
+    {
+      "id": "libLightRainStoneB",
+      "group": "ambience",
+      "gain": 0.17,
+      "sourcePeak": 0.8607896,
+      "soloPeakDbfs": -18.52,
+      "soloActiveRmsDbfs": -48.24,
+      "onsetMs": 0
+    },
+    {
+      "id": "libTownHeavyRain",
+      "group": "ambience",
+      "gain": 0.28,
+      "sourcePeak": 0.654063,
+      "soloPeakDbfs": -16.58,
+      "soloActiveRmsDbfs": -41.43,
+      "onsetMs": 0
+    },
+    {
+      "id": "libNightWindOnly",
+      "group": "ambience",
+      "gain": 0.06,
+      "sourcePeak": 0.7231243,
+      "soloPeakDbfs": -29.08,
+      "soloActiveRmsDbfs": -44.49,
+      "onsetMs": 0
+    },
+    {
+      "id": "libTownDayBreeze",
+      "group": "ambience",
+      "gain": 0.065,
+      "sourcePeak": 0.8491516,
+      "soloPeakDbfs": -26.99,
+      "soloActiveRmsDbfs": -44.06,
+      "onsetMs": 0
+    }
+  ]
+}

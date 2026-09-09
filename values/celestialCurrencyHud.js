@@ -4,8 +4,11 @@
 import { UI_ICON_ATLAS, UI_ICON_FRAMES } from "./uiIcons.js";
 
 const foundation = Object.freeze({
-  key: "ui-celestial-currency-hud-v1",
-  path: "sprites/UI/celestial-overhaul-v1/celestial-currency-hud-v1.png",
+  key: "ui-celestial-currency-baked-v2",
+  path: "sprites/UI/baked-copy-v1/currency-integrated-v2.png",
+  frame: "currency",
+  rect: Object.freeze([28, 170, 2006, 360]),
+  bakedIcons: true,
 });
 const starPointIcon = Object.freeze({
   key: "ui-celestial-star-point-icon-v1",
@@ -42,6 +45,8 @@ export const CELESTIAL_CURRENCY_HUD_CONFIG = Object.freeze({
     iconSizePx: 31,
     starIconSizePx: 29,
     valueOffsetYPx: 1,
+    valueWidthPx: 72,
+    valueHeightPx: 26,
   }),
   presentation: Object.freeze({
     depth: 1965,

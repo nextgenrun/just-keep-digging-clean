@@ -1,4 +1,5 @@
 import { UPGRADES } from "./upgradeDefinitions.js";
+import { COMPRESSED_V2_UPGRADE_EFFECTS } from "./upgradeRankBalance.js";
 
 // ==================== UPGRADE FORMULAS ====================
 
@@ -52,6 +53,47 @@ export function calculateHeavyPunchEffect(softcapValue, maxValue, level, softcap
   return calculateSoftcappedEffect(softcapValue, maxValue, level, softcapLevel, maxLevel);
 }
 
+// One meaningful level purchases several former price steps at once. Keeping
+// the original 1.15 curve inside each bundle makes every purchase substantial
+// without inventing a second economy curve.
+export function calculateCompressedCost(baseCost, level, legacyLevelsPerLevel) {
+  const safeLevel = Number.isFinite(level) ? Math.max(0, Math.floor(level)) : 0;
+  const bundleSize = Number.isFinite(legacyLevelsPerLevel)
+    ? Math.max(1, Math.floor(legacyLevelsPerLevel))
+    : 1;
+  const firstLegacyLevel = safeLevel * bundleSize;
+  let total = 0;
+  for (let offset = 0; offset < bundleSize; offset += 1) {
+    total += calculateCost(baseCost, firstLegacyLevel + offset);
+  }
+  return total;
+}
+
+function calculateConfiguredEffect(upgrade, level, maxLevel = upgrade?.maxLevel) {
+  if (!upgrade) return 0;
+
+  if (upgrade.effectValue) {
+    return upgrade.effectValue;
+  }
+
+  if (upgrade.softcapLevel && upgrade.softcapValue && upgrade.maxValue) {
+    return calculateSoftcappedEffect(
+      upgrade.softcapValue,
+      upgrade.maxValue,
+      level,
+      upgrade.softcapLevel,
+      maxLevel,
+    );
+  }
+
+  if (upgrade.maxEffect) {
+    if (upgrade.linearEffect) return Math.min(upgrade.baseEffect * level, upgrade.maxEffect);
+    return Math.min(calculateEffect(upgrade.baseEffect, level), upgrade.maxEffect);
+  }
+
+  return calculateEffect(upgrade.baseEffect, level);
+}
+
 // Get upgrade cost for a specific upgrade at current level
 export function getUpgradeCost(upgradeId, currentLevel) {
   const upgrade = UPGRADES[upgradeId];
@@ -69,34 +111,42 @@ export function getUpgradeCost(upgradeId, currentLevel) {
   if (upgrade.goldCost !== undefined) {
     return upgrade.goldCost;
   }
+  if (upgrade.rankCosts) return upgrade.rankCosts[currentLevel] ?? Infinity;
   
   // For upgrades with baseCost, use exponential scaling
+  if (upgrade.legacyLevelsPerLevel) {
+    return calculateCompressedCost(
+      upgrade.baseCost,
+      currentLevel,
+      upgrade.legacyLevelsPerLevel,
+    );
+  }
   return calculateCost(upgrade.baseCost, currentLevel);
 }
 
 // Get upgrade effect for a specific upgrade at level
 export function getUpgradeEffect(upgradeId, level) {
   const upgrade = UPGRADES[upgradeId];
-  if (!upgrade) return 0;
-  
-  if (upgrade.effectValue) {
-    return upgrade.effectValue; // Fixed value for pickaxes
-  }
-  
-  if (upgrade.softcapLevel && upgrade.softcapValue && upgrade.maxValue) {
-    return calculateSoftcappedEffect(
-      upgrade.softcapValue,
-      upgrade.maxValue,
-      level,
-      upgrade.softcapLevel,
-      upgrade.maxLevel,
-    );
-  }
-  
-  if (upgrade.maxEffect) {
-    // Cap effect at absolute max value (e.g., quickReflexes caps at 0.75)
-    return Math.min(calculateEffect(upgrade.baseEffect, level), upgrade.maxEffect);
-  }
-  
-  return calculateEffect(upgrade.baseEffect, level);
+  return calculateConfiguredEffect(upgrade, level);
+}
+
+export function getCompressedV2UpgradeEffect(upgradeId, level) {
+  const previous = COMPRESSED_V2_UPGRADE_EFFECTS[upgradeId];
+  if (!previous) return getUpgradeEffect(upgradeId, level);
+  return calculateConfiguredEffect(previous, Math.min(previous.maxLevel, Math.max(0, level)));
+}
+
+// Used only while migrating unversioned saves from the former long tracks.
+export function getLegacyUpgradeEffect(upgradeId, level) {
+  const upgrade = UPGRADES[upgradeId];
+  if (!upgrade?.legacyEffect || !upgrade.legacyMaxLevel) return 0;
+  const legacyLevel = Math.min(
+    upgrade.legacyMaxLevel,
+    Number.isFinite(level) ? Math.max(0, Math.floor(level)) : 0,
+  );
+  return calculateConfiguredEffect(
+    upgrade.legacyEffect,
+    legacyLevel,
+    upgrade.legacyMaxLevel,
+  );
 }

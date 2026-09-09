@@ -1,0 +1,23 @@
+export const MINING_READABILITY_REVIEW = Object.freeze({
+  reviewOnly: true,
+  status: "rejected",
+  rejectionReason: "User rejected all mining visual changes: they look much more boring.",
+  terrainTexture: "world-visual-terrain-seam-v6-weathered-roots-rain-compacted-loam",
+  capTexture: "world-visual-terrain-caps-v5-weathered-roots",
+  decorationAlpha: 0.28,
+  materialDepth: 2.37, materialAlpha: 0.96,
+  edgeBleed: 2,
+  oreAlpha: 0.92,
+  oreTint: 0xe8ddd0,
+  edgeDepth: 2.39,
+  edgeAlpha: 0.94,
+  edgeTint: 0xe0d9c7,
+  playerBrightness: 1.22,
+  playerRimColor: 0xd7e3eb,
+  playerRimStrength: 0.45,
+  framePrefix: "review-mining-cut-edge-",
+  decorationPrefixes: Object.freeze([
+    "world-visual-underground-foreground", "world-visual-ground-structure",
+    "world-visual-underground-overlay", "world-visual-biome-expansion",
+  ]),
+});

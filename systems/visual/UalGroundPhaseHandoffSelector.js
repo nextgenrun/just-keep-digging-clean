@@ -188,6 +188,7 @@ export class UalGroundPhaseHandoffSelector {
         return {
           animationKey: transition.animationKey,
           phase: transition.kind === "start" ? PHASE.WALK_START : PHASE.WALK_STOP,
+          timeScale: this.bridge.timeScaleByKind?.[transition.kind] ?? null,
           restart: !transition.observedPlaying,
           startFrame: transition.startFrame,
           loop: false,
@@ -238,6 +239,7 @@ export class UalGroundPhaseHandoffSelector {
     return {
       animationKey,
       phase: kind === "start" ? PHASE.WALK_START : PHASE.WALK_STOP,
+      timeScale: this.bridge.timeScaleByKind?.[kind] ?? null,
       restart: true,
       startFrame: resolvedStartFrame,
       loop: false,

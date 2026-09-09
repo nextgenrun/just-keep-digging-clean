@@ -1,0 +1,10 @@
+{
+  "id": "B1E",
+  "voice": "leo",
+  "text": "I remember that light.",
+  "ttsInput": "<soft>I remember that light.</soft>",
+  "requestSha256": "03ea68cc3ed4fb89fcfb130abbca080473a17629be2fb5610c8b157d33b97810",
+  "contentType": "audio/mpeg",
+  "generationId": "gen-tts-1788745439-2X556sLw7CigXRU0LRoy",
+  "rawSha256": "bea69396c88833deff1b0a12eb0efb73e4d866a268e88f13ae50f79b1805a5f8"
+}

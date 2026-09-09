@@ -1,4 +1,9 @@
 import { CELESTIAL_ENGINE_CONFIG } from "../../values/celestialEngines.js";
+import { StellarLanceVfx } from "./StellarLanceVfx.js?rev=20260905-cinder-contact";
+import { STELLAR_LANCE_PRESENTATION as C } from "../../values/stellarLancePresentation.js";
+import { resolveStellarLanceTravel, resolveStellarLanceHit } from "./stellarLanceTravel.js";
+
+const roundHundredth = value => Math.round(value * 100) / 100;
 
 /** Save-compatible runtime for the player-facing Stellar Lance projectile buff. */
 export class StellarRageEngine {
@@ -12,158 +17,132 @@ export class StellarRageEngine {
     this.shotsFired = 0;
     this.projectileImpacts = 0;
     this.projectileDestroyed = 0;
+    this.storedBreakCharge = 0;
+    this.earnedLifetimeMs = 0;
+    this.lastConsumedBreakCharge = 0;
+    this.lastProjectilePalette = null;
+    this.paletteHistory = [];
+    this.launchHistory = [];
+    this.random = options.random || Math.random;
     this.projectiles = new Set();
-    try {
-      this._createVisual();
-    } catch (error) {
-      this.active = false;
-      this.empowered = false;
-      this._destroyVisual();
-      throw error;
-    }
+    this.vfx = new StellarLanceVfx({
+      scene: this.scene,
+      assetKey: this.assetKey,
+      projectileAssetKeys: this.projectileAssetKeys,
+      impactAssetKey: this.impactAssetKey,
+      definition: this.definition,
+      passive: options.passive === true,
+      tileSize: this.tileSize,
+    });
+    this._createVisual();
   }
 
+  /** The retired spinning core/aura is deliberately absent from the player. */
   _createVisual() {
-    const anchor = this.getAnchor();
-    const depth = CELESTIAL_ENGINE_CONFIG.fx.worldDepth;
-    this.aura = this.scene.add.image(anchor.x, anchor.y, this.assetKey)
-      .setDisplaySize(
-        this.definition.auraDisplaySizePx,
-        this.definition.auraDisplaySizePx,
-      )
-      .setBlendMode(Phaser.BlendModes.ADD)
-      .setTint(this.definition.accent)
-      .setAlpha(CELESTIAL_ENGINE_CONFIG.fx.stellarRage.auraAlpha)
-      .setDepth(depth - 1);
-    this.core = this.scene.add.image(anchor.x, anchor.y, this.assetKey)
-      .setDisplaySize(
-        this.definition.displaySizePx,
-        this.definition.displaySizePx,
-      )
-      .setBlendMode(Phaser.BlendModes.ADD)
-      .setTint(0xffd2a0)
-      .setDepth(depth);
-    this.ring = this.scene.add.circle(
-      anchor.x,
-      anchor.y,
-      this.definition.auraDisplaySizePx * 0.52,
-      this.definition.accent,
-      0.035,
-    ).setStrokeStyle(3, this.definition.accent, 0.72)
-      .setBlendMode(Phaser.BlendModes.ADD)
-      .setDepth(depth - 2)
-      .setScale(0.78);
-    this.scene.tweens.add({
-      targets: this.aura,
-      scaleX: this.aura.scaleX * CELESTIAL_ENGINE_CONFIG.fx.stellarRage.auraPulseScale,
-      scaleY: this.aura.scaleY * CELESTIAL_ENGINE_CONFIG.fx.stellarRage.auraPulseScale,
-      alpha: CELESTIAL_ENGINE_CONFIG.fx.stellarRage.auraAlpha * 0.5,
-      duration: CELESTIAL_ENGINE_CONFIG.fx.stellarRage.auraPulseMs,
-      yoyo: true,
-      repeat: -1,
-      ease: "Sine.inOut",
-    });
-    this.scene.tweens.add({
-      targets: this.ring,
-      scale: 1.16,
-      alpha: 0.16,
-      duration: CELESTIAL_ENGINE_CONFIG.fx.stellarRage.auraPulseMs,
-      yoyo: true,
-      repeat: -1,
-      ease: "Sine.inOut",
-    });
+    this.playerVisualCount = 0;
   }
 
-  update(nowMs, deltaMs) {
+  update(nowMs) {
     if (!this.active || this.finishing) return;
-    const anchor = this.getAnchor();
-    this.aura.setPosition(anchor.x, anchor.y);
-    this.core.setPosition(anchor.x, anchor.y);
-    this.ring.setPosition(anchor.x, anchor.y);
-    const dt = Math.min(0.05, Math.max(0, Number(deltaMs) || 0) / 1000);
-    this.core.angle += CELESTIAL_ENGINE_CONFIG.fx.stellarRage.coreRotationDegPerSecond * dt;
-    this.aura.angle += CELESTIAL_ENGINE_CONFIG.fx.stellarRage.auraRotationDegPerSecond * dt;
-    if (this.budget.isExpired(nowMs)) this._finish(nowMs);
+    const ageMs = Math.max(0, Number(nowMs) - this.budget.startedAtMs);
+    if (ageMs >= this._getEffectiveLifetimeMs()) this._finish(nowMs);
   }
 
   launchProjectile(projectile) {
     if (!this.active || !this.empowered || !projectile) return false;
     this.shotsFired += 1;
+    this.lastConsumedBreakCharge = this.storedBreakCharge;
+    this.storedBreakCharge = 0;
     this.projectileImpacts += Math.max(0, projectile.impactedCount || 0);
     this.projectileDestroyed += Math.max(0, projectile.destroyedCount || 0);
-    const anchor = this.getAnchor();
-    const fx = CELESTIAL_ENGINE_CONFIG.fx.stellarRage;
-    const angle = Math.atan2(projectile.direction.y, projectile.direction.x)
-      * 180 / Math.PI;
-    const laneEnds = projectile.endTiles?.length > 0
-      ? projectile.endTiles
-      : [projectile.targetTile];
+    const destroyed = Math.max(0, projectile.destroyedCount || 0);
+    this.storedBreakCharge = Math.min(
+      Math.max(0, Number(this.definition.breakChargeMaximum) || 0),
+      destroyed * Math.max(0, Number(this.definition.breakChargePerDestroyedTile) || 0),
+    );
+    this.earnedLifetimeMs = Math.min(
+      Math.max(0, Number(this.definition.lifetimeGainCapMs) || 0),
+      this.earnedLifetimeMs
+        + destroyed * Math.max(0, Number(this.definition.lifetimeGainPerDestroyedTileMs) || 0),
+    );
+    const origin = { ...(projectile.originWorld || this.getAnchor()) };
+    const normalCount = Math.min(C.normalPaletteCount, this.vfx.paletteCount);
+    const rare = this.vfx.paletteCount > C.rarePaletteIndex && this.random() < C.rareChance;
+    const paletteIndex = rare ? C.rarePaletteIndex : (this.shotsFired - 1) % normalCount;
+    this.lastProjectilePalette = this.vfx.getPalette(paletteIndex).id;
+    this.paletteHistory.push(this.lastProjectilePalette);
+    if (this.paletteHistory.length > C.historyLimit) this.paletteHistory.shift();
+    this.launchHistory.push({
+      shot: this.shotsFired, origin, originSource: projectile.originSource || "fallback",
+      palette: this.lastProjectilePalette, releasedAtMs: projectile.releasedAtMs,
+      releaseFrame: projectile.releaseFrame, contactPose: projectile.contactPose,
+      contactEvent: projectile.contactEvent,
+    });
+    if (this.launchHistory.length > C.historyLimit) this.launchHistory.shift();
+    const visualPaths = projectile.visualPaths?.length > 0
+      ? projectile.visualPaths
+      : (projectile.endTiles || [projectile.targetTile]).map(endTile => ({
+          lane: endTile?.lane || 0,
+          transitions: [],
+          endTile,
+        }));
 
-    for (const endTile of laneEnds) {
-      const endX = endTile.tx * this.tileSize + this.tileSize / 2;
-      const endY = endTile.ty * this.tileSize + this.tileSize / 2;
-      const travelMs = Math.max(
-        this.definition.projectileMinimumTravelMs,
-        Math.min(
-          this.definition.projectileMaximumTravelMs,
-          (endTile.distance || projectile.rangeTiles)
-            * this.definition.projectileTravelMsPerTile,
-        ),
-      );
-      const sprite = this.scene.add.image(anchor.x, anchor.y, this.assetKey)
-        .setDisplaySize(
-          this.definition.projectileDisplaySizePx,
-          this.definition.projectileDisplaySizePx,
-        )
-        .setBlendMode(Phaser.BlendModes.ADD)
-        .setTint(0xfff0b8)
-        .setAlpha(fx.projectileAlpha)
-        .setDepth(CELESTIAL_ENGINE_CONFIG.fx.worldDepth + 2);
-      sprite.angle = angle;
+    const travels = new Map();
+    for (const path of visualPaths) {
+      if (!path?.endTile) continue;
+      const travel = resolveStellarLanceTravel(origin, path, projectile.direction, this.tileSize);
+      travels.set(Number(path.lane) || 0, travel);
+      const sprite = this._createProjectileVisual(origin, travel.angle, paletteIndex);
       this.projectiles.add(sprite);
-      this.scene.tweens.add({
-        targets: sprite,
-        x: endX,
-        y: endY,
-        alpha: 0.2,
-        duration: travelMs,
-        ease: "Linear",
-        onComplete: () => this._releaseProjectile(sprite),
-      });
+      this._launchVisualPath(sprite, travel);
     }
-
-    for (const hit of projectile.hits || []) this._spawnImpact(hit);
+    for (const hit of projectile.hits || []) {
+      if (hit.result && hit.result.success !== true) continue;
+      const travel = travels.get(Number(hit.lane) || 0);
+      if (travel) this._spawnImpact(hit, travel, paletteIndex);
+    }
     return true;
   }
 
-  _spawnImpact(hit) {
-    const fx = CELESTIAL_ENGINE_CONFIG.fx.stellarRage;
-    const image = this.scene.add.image(
-      hit.tx * this.tileSize + this.tileSize / 2,
-      hit.ty * this.tileSize + this.tileSize / 2,
-      this.assetKey,
-    ).setDisplaySize(
-      this.definition.projectileDisplaySizePx * fx.projectileImpactScale,
-      this.definition.projectileDisplaySizePx * fx.projectileImpactScale,
-    ).setBlendMode(Phaser.BlendModes.ADD)
-      .setTint(this.definition.accent)
-      .setAlpha(fx.projectileImpactAlpha)
-      .setDepth(CELESTIAL_ENGINE_CONFIG.fx.worldDepth + 1);
-    this.projectiles.add(image);
+  _createProjectileVisual(anchor, angle, paletteIndex) {
+    const sprite = this.scene.add.image(
+      anchor.x,
+      anchor.y,
+      this.vfx.getProjectileAssetKey(paletteIndex),
+      this.vfx.getProjectileFrame(paletteIndex),
+    )
+      .setBlendMode(Phaser.BlendModes.ADD)
+      .setDepth(CELESTIAL_ENGINE_CONFIG.fx.worldDepth + 2);
+    sprite.angle = angle;
+    sprite.celestialPaletteIndex = paletteIndex;
+    this.vfx.applyState(sprite);
+    return sprite;
+  }
+
+  _launchVisualPath(sprite, travel) {
+    // The core keeps full opacity and fixed size; only separate echoes fade.
+    this.vfx.trackTravel(sprite);
     this.scene.tweens.add({
-      targets: image,
-      scaleX: image.scaleX * 1.8,
-      scaleY: image.scaleY * 1.8,
-      alpha: 0,
-      delay: Math.max(0, hit.distance - 1) * this.definition.projectileTravelMsPerTile,
-      duration: fx.projectileImpactMs,
-      ease: "Power2.out",
-      onComplete: () => this._releaseProjectile(image),
+      targets: sprite, x: travel.end.x, y: travel.end.y,
+      duration: travel.durationMs, ease: "Linear",
+      onUpdate: () => this.vfx.trackTravel(sprite),
+      onComplete: () => this._releaseProjectile(sprite),
     });
+  }
+
+  _getTravelMs(distance) {
+    return distance * this.tileSize / C.speedPxPerSecond * 1000;
+  }
+
+  _spawnImpact(hit, travel, paletteIndex) {
+    const contact = resolveStellarLanceHit(travel, hit, this.tileSize);
+    this.vfx.spawnImpact({ ...hit, worldPoint: contact.worldPoint },
+      paletteIndex, contact.delayMs, travel.angle);
   }
 
   _releaseProjectile(projectile) {
     this.projectiles.delete(projectile);
+    this.scene.tweens?.killTweensOf?.(projectile);
     projectile?.destroy?.();
   }
 
@@ -172,7 +151,29 @@ export class StellarRageEngine {
       ? Number(nowMs)
       : this.budget.startedAtMs;
     const ageMs = Math.max(0, currentMs - this.budget.startedAtMs);
-    const empowered = this.empowered && ageMs < this.definition.lifetimeMs;
+    const lifetimeMs = this._getEffectiveLifetimeMs();
+    const remainingMs = Math.max(0, lifetimeMs - ageMs);
+    const empowered = this.empowered && ageMs < lifetimeMs;
+    const nextShot = this.shotsFired + 1;
+    const resonantEvery = Math.max(0, Math.floor(Number(this.definition.resonantEveryShots) || 0));
+    const resonantReady = resonantEvery > 0 && nextShot % resonantEvery === 0;
+    const finalWindow = empowered
+      && Number(this.definition.finalWindowMs) > 0
+      && remainingMs <= Number(this.definition.finalWindowMs);
+    const projectileDamageMultiplier = roundHundredth(
+      this.definition.projectileDamageMultiplier
+        + this.storedBreakCharge
+        + (resonantReady ? Number(this.definition.resonantDamageBonus) || 0 : 0),
+    );
+    const projectileSideLanes = this.definition.projectileSideLanes
+      + (resonantReady ? Math.max(0, Number(this.definition.resonantSideLanes) || 0) : 0)
+      + (finalWindow ? Math.max(0, Number(this.definition.finalWindowSideLanes) || 0) : 0);
+    const states = this.definition.projectileStates || [];
+    const maximumStateDamage = states.reduce(
+      (maximum, state) => Math.max(maximum, Number(state.damageMultiplier) || 1),
+      1,
+    );
+    const vfx = this.vfx?.getSnapshot?.() || {};
     return {
       active: empowered,
       empowered,
@@ -180,8 +181,8 @@ export class StellarRageEngine {
       engineId: this.budget.engineId,
       activationId: this.budget.activationId,
       ageMs,
-      lifetimeMs: this.definition.lifetimeMs,
-      remainingMs: Math.max(0, this.definition.lifetimeMs - ageMs),
+      lifetimeMs,
+      remainingMs,
       impacts: this.projectileImpacts,
       maxImpacts: 0,
       bounces: 0,
@@ -189,13 +190,41 @@ export class StellarRageEngine {
       redirects: 0,
       maxRedirects: 0,
       uniqueTargets: 0,
+      projectileInfiniteRange: this.definition.projectileInfiniteRange === true,
       projectileRangeTiles: this.definition.projectileRangeTiles,
-      projectileDamageMultiplier: this.definition.projectileDamageMultiplier,
-      projectileSideLanes: this.definition.projectileSideLanes,
+      projectileSafetyMaxTiles: this.definition.projectileSafetyMaxTiles,
+      projectileDamageMultiplier,
+      projectileMaximumDamageMultiplier: roundHundredth(
+        projectileDamageMultiplier * maximumStateDamage,
+      ),
+      projectileStates: states,
+      projectileStateCount: states.length,
+      projectileSideLanes,
       projectilePassesGeodeWalls: this.definition.projectilePassesGeodeWalls,
       shotsFired: this.shotsFired,
       projectileImpacts: this.projectileImpacts,
       projectileDestroyed: this.projectileDestroyed,
+      storedBreakCharge: roundHundredth(this.storedBreakCharge),
+      lastConsumedBreakCharge: roundHundredth(this.lastConsumedBreakCharge),
+      earnedLifetimeMs: this.earnedLifetimeMs,
+      resonantReady,
+      nextShot,
+      finalWindow,
+      playerVisualCount: this.playerVisualCount,
+      liveVfxCount: vfx.liveVfxCount || 0,
+      liveWakes: vfx.liveWakes || 0,
+      wakeCount: vfx.wakeCount || 0,
+      launchFlashCount: vfx.launchFlashCount || 0,
+      stateBurstCount: vfx.stateBurstCount || 0,
+      scheduledImpactCount: vfx.scheduledImpactCount || 0,
+      impactMomentCount: vfx.impactMomentCount || 0,
+      contactPresentation: { count: vfx.contacts || 0, lastContact: vfx.lastContact || null },
+      projectilePaletteCycle: vfx.paletteIds || [],
+      lastProjectilePalette: this.lastProjectilePalette,
+      paletteHistory: [...(this.paletteHistory || [])],
+      liveProjectileCount: this.projectiles.size,
+      projectileSpeedPxPerSecond: C.speedPxPerSecond,
+      launchHistory: this.launchHistory.map(entry => ({ ...entry })),
     };
   }
 
@@ -203,22 +232,16 @@ export class StellarRageEngine {
     return this.getBuffSnapshot(nowMs);
   }
 
+  _getEffectiveLifetimeMs() {
+    return Math.max(1, Number(this.definition.lifetimeMs) || 1)
+      + Math.max(0, Number(this.earnedLifetimeMs) || 0);
+  }
+
   _finish(nowMs) {
     if (!this.active || this.finishing) return;
     this.finishing = true;
     this.empowered = false;
-    this.scene.tweens?.killTweensOf?.(this.aura);
-    this.scene.tweens?.killTweensOf?.(this.core);
-    this.scene.tweens?.killTweensOf?.(this.ring);
-    this.scene.tweens.add({
-      targets: [this.aura, this.core, this.ring],
-      alpha: 0,
-      scaleX: 0,
-      scaleY: 0,
-      duration: CELESTIAL_ENGINE_CONFIG.fx.finishDelayMs,
-      ease: "Power2.in",
-      onComplete: () => this._complete(nowMs),
-    });
+    this._complete(nowMs);
   }
 
   _complete(nowMs) {
@@ -230,17 +253,12 @@ export class StellarRageEngine {
   }
 
   _destroyVisual() {
-    this.scene.tweens?.killTweensOf?.(this.aura);
-    this.scene.tweens?.killTweensOf?.(this.core);
-    this.scene.tweens?.killTweensOf?.(this.ring);
     for (const projectile of this.projectiles || []) {
       this.scene.tweens?.killTweensOf?.(projectile);
       projectile.destroy?.();
     }
     this.projectiles?.clear?.();
-    this.aura?.destroy();
-    this.core?.destroy();
-    this.ring?.destroy();
+    this.vfx?.destroy?.();
   }
 
   destroy() {

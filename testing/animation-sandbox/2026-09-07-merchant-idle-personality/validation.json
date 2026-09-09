@@ -1,0 +1,62 @@
+{
+  "created": "2026-09-06T22:41:28.391Z",
+  "scope": "sandbox only",
+  "checks": {
+    "distinctActivityCoverage": "42 / 42",
+    "fixedScaleMetadata": "6 / 6",
+    "groundedMeshSamples": "passed",
+    "finiteTransitionSamples": "passed",
+    "modulePaths": "passed",
+    "gameSpriteSizePx": 99.2,
+    "httpAssets": "49 / 49"
+  },
+  "merchants": [
+    {
+      "id": "playerUpgrades",
+      "recoveredPoses": 7,
+      "fixedPoseScale": true,
+      "footReferencePx": 970
+    },
+    {
+      "id": "gearMerchant",
+      "recoveredPoses": 7,
+      "fixedPoseScale": true,
+      "footReferencePx": 957
+    },
+    {
+      "id": "boboMerchant",
+      "recoveredPoses": 7,
+      "fixedPoseScale": true,
+      "footReferencePx": 962
+    },
+    {
+      "id": "moneyMonster",
+      "recoveredPoses": 7,
+      "fixedPoseScale": true,
+      "footReferencePx": 931
+    },
+    {
+      "id": "gemPowerMerchant",
+      "recoveredPoses": 7,
+      "fixedPoseScale": true,
+      "footReferencePx": 942
+    },
+    {
+      "id": "magmaMoneyMonster",
+      "recoveredPoses": 7,
+      "fixedPoseScale": true,
+      "footReferencePx": 917.028
+    }
+  ],
+  "browser": {
+    "status": "passed",
+    "renderedMerchantPoses": 42,
+    "comparison": true,
+    "individualCue": true,
+    "gameSizePx": 99.2,
+    "pauseScrub": true,
+    "playback": true,
+    "consoleErrors": 0,
+    "evidence": "browser-validation.json"
+  }
+}

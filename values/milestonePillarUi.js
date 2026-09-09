@@ -3,7 +3,7 @@
 export const MILESTONE_PILLAR_UI = Object.freeze({
   modal: Object.freeze({
     title: "MILESTONE PILLAR",
-    subtitle: "Permanent depth rewards, miner statistics, and discoveries",
+    subtitle: "Your depth rewards, mining record, and discoveries",
     maxWidth: 1080,
     maxHeight: 690,
     // Keep this read-heavy modal above earthquake, tutorial, and timing HUDs.

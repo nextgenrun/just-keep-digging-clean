@@ -100,9 +100,7 @@ export function createSaveTransferPanelContent(scene, options = {}) {
   const status = scene.add.text(
     width / 2,
     metrics.statusY,
-    options.allowExport === false
-      ? "Hardcore oath active — external rollback files are disabled."
-      : "Ready — current save remains local until you choose an action.",
+    "Ready — current save remains local until you choose an action.",
     {
       fontFamily: UI_FONTS.mono,
       fontSize: metrics.compact ? "9px" : "10px",
@@ -173,8 +171,6 @@ export function createSaveTransferPanelContent(scene, options = {}) {
       label: SAVE_TRANSFER_UI.copy.saveAndExport,
       icon: "journal",
       accent: UI_COLORS.borderSel,
-      enabled: options.allowExport !== false,
-      disabledReason: options.exportDisabledReason || "OATH LOCKED",
       onClick: () => runAction("Saving, then preparing the download...", options.onExport),
     },
     {

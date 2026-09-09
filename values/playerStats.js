@@ -1,7 +1,7 @@
 // ==================== PLAYER STATS CONFIG ====================
 export const PLAYER_STATS_CONFIG = Object.freeze({
   // Movement
-  walkSpeedPxPerSec: 200,
+  walkSpeedPxPerSec: 160, // 20% below the previous 200 px/s baseline
   flightSpeedPxPerSec: 252, // Powered upward flight speed before upgrades
   
   // Player dimensions

@@ -25,3 +25,5 @@ state elsewhere.
 `DugTilesSaveCodec.js` keeps payload normalization separate from transport, and
 `SaveBackupManager.js` preserves the last committed primary snapshots for
 recovery.
+
+The optional coordinator `canPersist` port admits gameplay checkpoints only during a town-bed commit. Deferred transactions still apply in memory and report `persisted: false`; every writer rechecks admission at capture time. Visibility/page-hide/shutdown cannot create expedition saves.

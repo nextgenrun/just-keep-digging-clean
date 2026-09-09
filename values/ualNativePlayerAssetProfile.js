@@ -410,7 +410,7 @@ export const UAL_NATIVE_PLAYER_ASSET_PROFILE = Object.freeze({
   earthquakeReactAnimationFps: 30,
   deathAnimationFps: 30,
   walkAnimation: Object.freeze({
-    baseSpeedPxPerSec: 200,
+    baseSpeedPxPerSec: 160,
     baseFps: 30,
     minTimeScale: 0.65,
     maxTimeScale: 1.6,

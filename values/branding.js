@@ -1,4 +1,41 @@
 export const BRAND_CONFIG = Object.freeze({
   name: "UNDERSTAR",
-  logoAssetPath: "sprites/branding/understar-logo-v1/understar-rift-monolith-runtime.png",
+  logoAssetPath: "sprites/branding/understar-world-within-v4/understar-world-logo-runtime.webp",
+  loading: Object.freeze({
+    readyTimeoutMs: 120000,
+  }),
+  backing: Object.freeze({
+    key: "brand-logo-backing",
+    path: "sprites/branding/understar-world-within-v4/understar-logo-stone.png",
+    frame: "tight-stone",
+    crop: Object.freeze({ x: 0, y: 0, width: 1810, height: 470 }),
+    name: "brand-logo-backing",
+    alpha: 0,
+  }),
+  visibility: Object.freeze({
+    treatment: "quiet-sky",
+    shadeName: "brand-logo-shade",
+    shadeColor: 0x000000,
+    shadeAlpha: 0.6,
+    shadeHeight: 350,
+    referenceWidth: 740,
+    shadowAlpha: 0.78,
+    shadowTint: 0x000000,
+    shadowOffsets: Object.freeze([[-2, 0], [2, 0], [0, -2], [0, 2], [0, 5]].map(Object.freeze)),
+  }),
+  layout: Object.freeze({ y: 152, width: 740, height: 220 }),
+  animation: Object.freeze({
+    "enabled": true,
+    "playbackRate": 1,
+    "keepPoster": false,
+    "blendMode": "NORMAL",
+    "opacity": 1,
+    "path": "sprites/branding/understar-motion-v6/understar-logo-loop.webm",
+    "viewName": "brand-logo-view",
+    "posterName": "brand-logo-poster",
+    "videoName": "brand-logo-video",
+    "query": "logoMotion",
+    "reducedMotionQuery": "(prefers-reduced-motion: reduce)",
+    "readyTimeoutMs": 15000
+  }),
 });

@@ -1,0 +1,3951 @@
+{
+  "passed": true,
+  "checks": [
+    "562 real derivatives are unclipped, onset-aligned, bounded and license-attributed",
+    "Role loudness is matched within 4 dB without flattening all transient peaks",
+    "A new approved one-shot receives source gain, SFX gain and master exactly once",
+    "Star handover and near textures share one bounded pocket budget",
+    "The Star peak cap never cancels its steady distance or rock attenuation",
+    "Panic crossfades share one budget and speech duck updates both positional and pulse layers",
+    "Rock filter is local, non-resonant, smoothly retuned and leaves the master graph alone",
+    "All SFX/ambience budgets leave default music and voice headroom"
+  ],
+  "approved": 562,
+  "limits": "Digital levels and routing; not calibrated speaker SPL or subjective long-session acceptance",
+  "sourceLevels": [
+    {
+      "id": "freesound-418788",
+      "role": "panicPulse",
+      "gain": 0.06448569081270485,
+      "peak": 0.1757046,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-784656",
+      "role": "panicPulse",
+      "gain": 0.06453768108612778,
+      "peak": 0.2685279,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-332816",
+      "role": "panicSlow",
+      "gain": 0.04173489165503454,
+      "peak": 0.3695615,
+      "nominalActiveRmsDb": -50.36531381446899
+    },
+    {
+      "id": "freesound-332817",
+      "role": "panicSlow",
+      "gain": 0.041696470095779516,
+      "peak": 0.2384623,
+      "nominalActiveRmsDb": -50.36531381446899
+    },
+    {
+      "id": "freesound-332814",
+      "role": "panicSlow",
+      "gain": 0.041725282947382085,
+      "peak": 0.3358046,
+      "nominalActiveRmsDb": -50.36531381446899
+    },
+    {
+      "id": "freesound-784655",
+      "role": "panicFast",
+      "gain": 0.08139802216342452,
+      "peak": 0.3068558,
+      "nominalActiveRmsDb": -44.554022574752665
+    },
+    {
+      "id": "freesound-332806",
+      "role": "panicFast",
+      "gain": 0.08162324422282523,
+      "peak": 0.3454731,
+      "nominalActiveRmsDb": -44.55402257475267
+    },
+    {
+      "id": "freesound-332813",
+      "role": "panicFast",
+      "gain": 0.08152932606414244,
+      "peak": 0.2395783,
+      "nominalActiveRmsDb": -44.554022574752665
+    },
+    {
+      "id": "freesound-254365",
+      "role": "panicPulse",
+      "gain": 0.06450796722804054,
+      "peak": 0.579255,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-784657",
+      "role": "panicPulse",
+      "gain": 0.0643892485385893,
+      "peak": 0.2077835,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-332818",
+      "role": "panicSlow",
+      "gain": 0.04166288024804142,
+      "peak": 0.2491534,
+      "nominalActiveRmsDb": -50.36531381446899
+    },
+    {
+      "id": "freesound-332808",
+      "role": "panicPulse",
+      "gain": 0.06480572247605075,
+      "peak": 0.3920054,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-332807",
+      "role": "panicFast",
+      "gain": 0.08159505742098527,
+      "peak": 0.2479455,
+      "nominalActiveRmsDb": -44.554022574752665
+    },
+    {
+      "id": "freesound-332815",
+      "role": "panicSlow",
+      "gain": 0.04174450257542843,
+      "peak": 0.2408017,
+      "nominalActiveRmsDb": -50.36531381446899
+    },
+    {
+      "id": "freesound-332811",
+      "role": "panicFast",
+      "gain": 0.0811640766590326,
+      "peak": 0.238423,
+      "nominalActiveRmsDb": -44.554022574752665
+    },
+    {
+      "id": "freesound-540905",
+      "role": "panicPulse",
+      "gain": 0.06454511168897974,
+      "peak": 0.2012169,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-855883",
+      "role": "panicPulse",
+      "gain": 0.0647833432374537,
+      "peak": 0.3967471,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-164644",
+      "role": "panicPulse",
+      "gain": 0.0648953167656513,
+      "peak": 0.4306124,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-324456",
+      "role": "panicPulse",
+      "gain": 0.06465667345042253,
+      "peak": 0.2647197,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-63028",
+      "role": "panicPulse",
+      "gain": 0.06468645580602687,
+      "peak": 0.4865704,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-410378",
+      "role": "panicPulse",
+      "gain": 0.0647833432374537,
+      "peak": 0.3070251,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-485786",
+      "role": "panicPulse",
+      "gain": 0.06435219377387262,
+      "peak": 0.1382253,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-384662",
+      "role": "panicPulse",
+      "gain": 0.06427074833575035,
+      "peak": 0.2289945,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-675719",
+      "role": "panicPulse",
+      "gain": 0.06490278854520272,
+      "peak": 0.4953683,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-333483",
+      "role": "panicPulse",
+      "gain": 0.06458227753814488,
+      "peak": 0.3488106,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-254062",
+      "role": "panicPulse",
+      "gain": 0.06520987333757002,
+      "peak": 0.6799814,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-791908",
+      "role": "panicPulse",
+      "gain": 0.06468645580602687,
+      "peak": 0.6154808,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-595050",
+      "role": "panicPulse",
+      "gain": 0.06441149163819049,
+      "peak": 0.4621683,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-136723",
+      "role": "panicPulse",
+      "gain": 0.0649700732852007,
+      "peak": 0.2490959,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-195312",
+      "role": "panicPulse",
+      "gain": 0.06444858054732838,
+      "peak": 0.280686,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-145420",
+      "role": "panicPulse",
+      "gain": 0.06482810944549798,
+      "peak": 0.5062213,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-323714",
+      "role": "panicPulse",
+      "gain": 0.0644040764180299,
+      "peak": 0.385493,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-666042",
+      "role": "panicFast",
+      "gain": 0.08187736401087113,
+      "peak": 0.5175302,
+      "nominalActiveRmsDb": -44.554022574752665
+    },
+    {
+      "id": "freesound-147338",
+      "role": "panicPulse",
+      "gain": 0.06464923000428746,
+      "peak": 0.3919559,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-851904",
+      "role": "panicPulse",
+      "gain": 0.06510485209984009,
+      "peak": 0.6854277,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-524935",
+      "role": "panicFast",
+      "gain": 0.08136054561889358,
+      "peak": 0.2697284,
+      "nominalActiveRmsDb": -44.55402257475267
+    },
+    {
+      "id": "freesound-545938",
+      "role": "panicFast",
+      "gain": 0.08127628646877641,
+      "peak": 0.3802522,
+      "nominalActiveRmsDb": -44.55402257475267
+    },
+    {
+      "id": "freesound-547434",
+      "role": "panicPulse",
+      "gain": 0.06457484265666276,
+      "peak": 0.2984892,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-616836",
+      "role": "panicPulse",
+      "gain": 0.06445600089151118,
+      "peak": 0.4034554,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-276578",
+      "role": "panicPulse",
+      "gain": 0.06438183587911277,
+      "peak": 0.2635981,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-347326",
+      "role": "panicFast",
+      "gain": 0.08134181381760468,
+      "peak": 0.3120898,
+      "nominalActiveRmsDb": -44.55402257475267
+    },
+    {
+      "id": "freesound-670465",
+      "role": "panicPulse",
+      "gain": 0.064522822446617,
+      "peak": 0.2891224,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-387072",
+      "role": "panicPulse",
+      "gain": 0.06470880157511098,
+      "peak": 0.3448407,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-63027",
+      "role": "panicPulse",
+      "gain": 0.06465667345042253,
+      "peak": 0.5068908,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-588575",
+      "role": "panicPulse",
+      "gain": 0.0647311550634833,
+      "peak": 0.2264645,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-410390",
+      "role": "panicPulse",
+      "gain": 0.06447084414301876,
+      "peak": 0.3100906,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-485076",
+      "role": "panicPulse",
+      "gain": 0.06449311542961077,
+      "peak": 0.436943,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-865357",
+      "role": "panicPulse",
+      "gain": 0.06461946478785159,
+      "peak": 0.6502724,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-675720",
+      "role": "panicFast",
+      "gain": 0.08129500318009845,
+      "peak": 0.4960573,
+      "nominalActiveRmsDb": -44.554022574752665
+    },
+    {
+      "id": "freesound-32858",
+      "role": "panicPulse",
+      "gain": 0.06447826705054029,
+      "peak": 0.3909307,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-34186",
+      "role": "quakeRumble",
+      "gain": 0.09484700142672113,
+      "peak": 0.4101267,
+      "nominalActiveRmsDb": -43.27582751665005
+    },
+    {
+      "id": "freesound-636348",
+      "role": "quakeRumble",
+      "gain": 0.09552644267632408,
+      "peak": 0.1923939,
+      "nominalActiveRmsDb": -43.27582751665005
+    },
+    {
+      "id": "freesound-636347",
+      "role": "quakeRumble",
+      "gain": 0.09548246125162002,
+      "peak": 0.2038215,
+      "nominalActiveRmsDb": -43.275827516650054
+    },
+    {
+      "id": "freesound-636344",
+      "role": "quakeRumble",
+      "gain": 0.09665483978715746,
+      "peak": 0.3312686,
+      "nominalActiveRmsDb": -43.275827516650054
+    },
+    {
+      "id": "freesound-462936",
+      "role": "quakeRumble",
+      "gain": 0.09536161671729136,
+      "peak": 0.3848955,
+      "nominalActiveRmsDb": -43.275827516650054
+    },
+    {
+      "id": "freesound-337850",
+      "role": "quakeRumble",
+      "gain": 0.11205303015548056,
+      "peak": 0.6695092,
+      "nominalActiveRmsDb": -43.27582751665005
+    },
+    {
+      "id": "freesound-166466",
+      "role": "quakeRumble",
+      "gain": 0.11434669203016533,
+      "peak": 0.6643086,
+      "nominalActiveRmsDb": -43.27582751665005
+    },
+    {
+      "id": "freesound-737848",
+      "role": "quakeRumble",
+      "gain": 0.09492346988779174,
+      "peak": 0.2491588,
+      "nominalActiveRmsDb": -43.275827516650054
+    },
+    {
+      "id": "freesound-778362",
+      "role": "quakeRumble",
+      "gain": 0.09521899761740046,
+      "peak": 0.6295768,
+      "nominalActiveRmsDb": -43.275827516650054
+    },
+    {
+      "id": "freesound-453406",
+      "role": "quakeRumble",
+      "gain": 0.09443296052924888,
+      "peak": 0.2908543,
+      "nominalActiveRmsDb": -43.27582751665005
+    },
+    {
+      "id": "freesound-386556",
+      "role": "quakeRumble",
+      "gain": 0.09474877534342012,
+      "peak": 0.3651056,
+      "nominalActiveRmsDb": -43.275827516650054
+    },
+    {
+      "id": "freesound-737849",
+      "role": "quakeRumble",
+      "gain": 0.09503281750463119,
+      "peak": 0.3666012,
+      "nominalActiveRmsDb": -43.27582751665005
+    },
+    {
+      "id": "freesound-132872",
+      "role": "quakeRumble",
+      "gain": 0.09436775107622845,
+      "peak": 0.2735168,
+      "nominalActiveRmsDb": -43.27582751665005
+    },
+    {
+      "id": "freesound-132870",
+      "role": "quakeRumble",
+      "gain": 0.09443296052924888,
+      "peak": 0.2019686,
+      "nominalActiveRmsDb": -43.27582751665005
+    },
+    {
+      "id": "freesound-132869",
+      "role": "quakeRumble",
+      "gain": 0.09453085920723903,
+      "peak": 0.224334,
+      "nominalActiveRmsDb": -43.275827516650054
+    },
+    {
+      "id": "freesound-132868",
+      "role": "quakeRumble",
+      "gain": 0.09435688721277032,
+      "peak": 0.2058527,
+      "nominalActiveRmsDb": -43.275827516650054
+    },
+    {
+      "id": "freesound-811480",
+      "role": "quakeRumble",
+      "gain": 0.09722402695211355,
+      "peak": 0.6761177,
+      "nominalActiveRmsDb": -43.275827516650054
+    },
+    {
+      "id": "freesound-811479",
+      "role": "quakeRumble",
+      "gain": 0.095,
+      "peak": 0.4900388,
+      "nominalActiveRmsDb": -43.27582751665005
+    },
+    {
+      "id": "freesound-353973",
+      "role": "quakeRumble",
+      "gain": 0.09430258665274793,
+      "peak": 0.2282854,
+      "nominalActiveRmsDb": -43.275827516650054
+    },
+    {
+      "id": "freesound-815892",
+      "role": "quakeRumble",
+      "gain": 0.09530673795491003,
+      "peak": 0.35468,
+      "nominalActiveRmsDb": -43.275827516650054
+    },
+    {
+      "id": "freesound-815891",
+      "role": "quakeRumble",
+      "gain": 0.09527382585784348,
+      "peak": 0.4376163,
+      "nominalActiveRmsDb": -43.27582751665005
+    },
+    {
+      "id": "freesound-815884",
+      "role": "quakeRumble",
+      "gain": 0.09435688721277032,
+      "peak": 0.368757,
+      "nominalActiveRmsDb": -43.275827516650054
+    },
+    {
+      "id": "freesound-266410",
+      "role": "quakeRumble",
+      "gain": 0.09487976607839035,
+      "peak": 0.3145247,
+      "nominalActiveRmsDb": -43.275827516650054
+    },
+    {
+      "id": "freesound-842354",
+      "role": "quakeRumble",
+      "gain": 0.09459618137028893,
+      "peak": 0.5289845,
+      "nominalActiveRmsDb": -43.27582751665005
+    },
+    {
+      "id": "freesound-364222",
+      "role": "quakeRumble",
+      "gain": 0.09448733616011244,
+      "peak": 0.6669891,
+      "nominalActiveRmsDb": -43.275827516650054
+    },
+    {
+      "id": "freesound-76262",
+      "role": "quakeRumble",
+      "gain": 0.0953396614213755,
+      "peak": 0.6011418,
+      "nominalActiveRmsDb": -43.27582751665005
+    },
+    {
+      "id": "freesound-346109",
+      "role": "quakeRumble",
+      "gain": 0.09514229108506347,
+      "peak": 0.6183373,
+      "nominalActiveRmsDb": -43.275827516650054
+    },
+    {
+      "id": "freesound-116644",
+      "role": "quakeRumble",
+      "gain": 0.09427002131736724,
+      "peak": 0.2528565,
+      "nominalActiveRmsDb": -43.27582751665005
+    },
+    {
+      "id": "freesound-784652",
+      "role": "quakeRumble",
+      "gain": 0.13498129962359753,
+      "peak": 0.6845219,
+      "nominalActiveRmsDb": -43.275827516650054
+    },
+    {
+      "id": "freesound-316096",
+      "role": "quakeRumble",
+      "gain": 0.09462885937681749,
+      "peak": 0.474905,
+      "nominalActiveRmsDb": -43.275827516650054
+    },
+    {
+      "id": "freesound-75364",
+      "role": "quakeRumble",
+      "gain": 0.0944438331514754,
+      "peak": 0.3081304,
+      "nominalActiveRmsDb": -43.275827516650054
+    },
+    {
+      "id": "freesound-261253",
+      "role": "quakeRumble",
+      "gain": 0.09416155139675315,
+      "peak": 0.2198085,
+      "nominalActiveRmsDb": -43.275827516650054
+    },
+    {
+      "id": "freesound-261246",
+      "role": "quakeRumble",
+      "gain": 0.09504375919191986,
+      "peak": 0.4601303,
+      "nominalActiveRmsDb": -43.275827516650054
+    },
+    {
+      "id": "freesound-431390",
+      "role": "quakeRumble",
+      "gain": 0.09462885937681749,
+      "peak": 0.2612045,
+      "nominalActiveRmsDb": -43.275827516650054
+    },
+    {
+      "id": "freesound-719637",
+      "role": "flightWhoosh",
+      "gain": 0.12016590070045186,
+      "peak": 0.4037681,
+      "nominalActiveRmsDb": -41.24667470147451
+    },
+    {
+      "id": "freesound-719636",
+      "role": "flightWhoosh",
+      "gain": 0.11889983338713211,
+      "peak": 0.4873773,
+      "nominalActiveRmsDb": -41.24667470147451
+    },
+    {
+      "id": "freesound-60026",
+      "role": "flightWhoosh",
+      "gain": 0.11932494587565405,
+      "peak": 0.3928846,
+      "nominalActiveRmsDb": -41.24667470147451
+    },
+    {
+      "id": "freesound-60030",
+      "role": "flightWhoosh",
+      "gain": 0.1201105749983155,
+      "peak": 0.403295,
+      "nominalActiveRmsDb": -41.246674701474504
+    },
+    {
+      "id": "freesound-73262",
+      "role": "flightWhoosh",
+      "gain": 0.11980673864427932,
+      "peak": 0.48717,
+      "nominalActiveRmsDb": -41.246674701474504
+    },
+    {
+      "id": "freesound-733890",
+      "role": "flightWhoosh",
+      "gain": 0.12066498022272515,
+      "peak": 0.4209882,
+      "nominalActiveRmsDb": -41.246674701474504
+    },
+    {
+      "id": "freesound-73263",
+      "role": "flightWhoosh",
+      "gain": 0.12080398091495577,
+      "peak": 0.3713365,
+      "nominalActiveRmsDb": -41.24667470147451
+    },
+    {
+      "id": "freesound-817959",
+      "role": "flightWhoosh",
+      "gain": 0.11964133380193985,
+      "peak": 0.383352,
+      "nominalActiveRmsDb": -41.246674701474504
+    },
+    {
+      "id": "freesound-817958",
+      "role": "flightWhoosh",
+      "gain": 0.1201244040353387,
+      "peak": 0.3337429,
+      "nominalActiveRmsDb": -41.246674701474504
+    },
+    {
+      "id": "freesound-701104",
+      "role": "flightWhoosh",
+      "gain": 0.12480478775458191,
+      "peak": 0.5215649,
+      "nominalActiveRmsDb": -41.246674701474504
+    },
+    {
+      "id": "freesound-166511",
+      "role": "footstepDirt",
+      "gain": 0.10785475560561665,
+      "peak": 0.6803561,
+      "nominalActiveRmsDb": -42.40651364102824
+    },
+    {
+      "id": "freesound-477394",
+      "role": "footstepDirt",
+      "gain": 0.10383393171587349,
+      "peak": 0.3448014,
+      "nominalActiveRmsDb": -42.40651364102824
+    },
+    {
+      "id": "freesound-477392",
+      "role": "footstepDirt",
+      "gain": 0.10486710987611565,
+      "peak": 0.4594979,
+      "nominalActiveRmsDb": -42.40651364102824
+    },
+    {
+      "id": "freesound-477391",
+      "role": "footstepDirt",
+      "gain": 0.10480676088663107,
+      "peak": 0.387404,
+      "nominalActiveRmsDb": -42.40651364102824
+    },
+    {
+      "id": "freesound-477390",
+      "role": "footstepDirt",
+      "gain": 0.10452960254441003,
+      "peak": 0.4189262,
+      "nominalActiveRmsDb": -42.40651364102824
+    },
+    {
+      "id": "freesound-477396",
+      "role": "footstepDirt",
+      "gain": 0.1038698008793994,
+      "peak": 0.4714687,
+      "nominalActiveRmsDb": -42.40651364102824
+    },
+    {
+      "id": "freesound-223154",
+      "role": "footstepDirt",
+      "gain": 0.10518148523792069,
+      "peak": 0.6005545,
+      "nominalActiveRmsDb": -42.40651364102824
+    },
+    {
+      "id": "freesound-166510",
+      "role": "footstepDirt",
+      "gain": 0.10615471753820362,
+      "peak": 0.6152017,
+      "nominalActiveRmsDb": -42.40651364102824
+    },
+    {
+      "id": "freesound-223153",
+      "role": "footstepDirt",
+      "gain": 0.10560617161518251,
+      "peak": 0.520304,
+      "nominalActiveRmsDb": -42.40651364102824
+    },
+    {
+      "id": "freesound-477395",
+      "role": "footstepDirt",
+      "gain": 0.10410924549953045,
+      "peak": 0.5308989,
+      "nominalActiveRmsDb": -42.40651364102824
+    },
+    {
+      "id": "freesound-477393",
+      "role": "footstepDirt",
+      "gain": 0.10556970283400706,
+      "peak": 0.3750809,
+      "nominalActiveRmsDb": -42.40651364102824
+    },
+    {
+      "id": "freesound-620337",
+      "role": "footstepDirt",
+      "gain": 0.10912877975228553,
+      "peak": 0.6841413,
+      "nominalActiveRmsDb": -42.40651364102824
+    },
+    {
+      "id": "freesound-620336",
+      "role": "footstepDirt",
+      "gain": 0.1080287371072011,
+      "peak": 0.6829016,
+      "nominalActiveRmsDb": -42.40651364102824
+    },
+    {
+      "id": "freesound-620335",
+      "role": "footstepDirt",
+      "gain": 0.10532689925521684,
+      "peak": 0.5359448,
+      "nominalActiveRmsDb": -42.40651364102824
+    },
+    {
+      "id": "freesound-270420",
+      "role": "footstepDirt",
+      "gain": 0.10336875821793974,
+      "peak": 0.4906085,
+      "nominalActiveRmsDb": -42.40651364102824
+    },
+    {
+      "id": "freesound-270419",
+      "role": "footstepDirt",
+      "gain": 0.10330927150079745,
+      "peak": 0.5952591,
+      "nominalActiveRmsDb": -42.40651364102825
+    },
+    {
+      "id": "freesound-270418",
+      "role": "footstepDirt",
+      "gain": 0.11283382197373833,
+      "peak": 0.6795543,
+      "nominalActiveRmsDb": -42.40651364102824
+    },
+    {
+      "id": "freesound-270417",
+      "role": "footstepDirt",
+      "gain": 0.11554184523686568,
+      "peak": 0.6822492,
+      "nominalActiveRmsDb": -42.40651364102824
+    },
+    {
+      "id": "freesound-270416",
+      "role": "footstepDirt",
+      "gain": 0.10427718508419806,
+      "peak": 0.5826432,
+      "nominalActiveRmsDb": -42.40651364102824
+    },
+    {
+      "id": "freesound-270415",
+      "role": "footstepDirt",
+      "gain": 0.10421717558499885,
+      "peak": 0.546512,
+      "nominalActiveRmsDb": -42.40651364102824
+    },
+    {
+      "id": "freesound-270414",
+      "role": "footstepDirt",
+      "gain": 0.10522993425685687,
+      "peak": 0.5650147,
+      "nominalActiveRmsDb": -42.40651364102824
+    },
+    {
+      "id": "freesound-270413",
+      "role": "footstepDirt",
+      "gain": 0.10258628411578616,
+      "peak": 0.5876729,
+      "nominalActiveRmsDb": -42.40651364102824
+    },
+    {
+      "id": "freesound-270412",
+      "role": "footstepDirt",
+      "gain": 0.10326170677611549,
+      "peak": 0.5244355,
+      "nominalActiveRmsDb": -42.40651364102824
+    },
+    {
+      "id": "freesound-270421",
+      "role": "footstepDirt",
+      "gain": 0.10360704781544894,
+      "peak": 0.4951613,
+      "nominalActiveRmsDb": -42.40651364102824
+    },
+    {
+      "id": "freesound-620339",
+      "role": "footstepDirt",
+      "gain": 0.10569131443784952,
+      "peak": 0.5309742,
+      "nominalActiveRmsDb": -42.40651364102824
+    },
+    {
+      "id": "freesound-620338",
+      "role": "footstepDirt",
+      "gain": 0.10593495808039495,
+      "peak": 0.4616835,
+      "nominalActiveRmsDb": -42.40651364102824
+    },
+    {
+      "id": "freesound-620340",
+      "role": "footstepDirt",
+      "gain": 0.11923103092340338,
+      "peak": 0.6866995,
+      "nominalActiveRmsDb": -42.40651364102824
+    },
+    {
+      "id": "freesound-487863",
+      "role": "footstepDirt",
+      "gain": 0.10413322029929839,
+      "peak": 0.3320462,
+      "nominalActiveRmsDb": -42.40651364102824
+    },
+    {
+      "id": "freesound-487869",
+      "role": "footstepDirt",
+      "gain": 0.10422917472145823,
+      "peak": 0.5304007,
+      "nominalActiveRmsDb": -42.40651364102825
+    },
+    {
+      "id": "freesound-487862",
+      "role": "footstepDirt",
+      "gain": 0.10594715499525743,
+      "peak": 0.6781811,
+      "nominalActiveRmsDb": -42.40651364102824
+    },
+    {
+      "id": "freesound-487864",
+      "role": "footstepDirt",
+      "gain": 0.10463796841415067,
+      "peak": 0.4728681,
+      "nominalActiveRmsDb": -42.40651364102824
+    },
+    {
+      "id": "freesound-370367",
+      "role": "footstepDirt",
+      "gain": 0.13397979195210824,
+      "peak": 0.6826591,
+      "nominalActiveRmsDb": -42.40651364102824
+    },
+    {
+      "id": "freesound-651293",
+      "role": "mineEarth",
+      "gain": 0.24915020090859433,
+      "peak": 0.6394962,
+      "nominalActiveRmsDb": -35.226074788194886
+    },
+    {
+      "id": "freesound-651292",
+      "role": "mineEarth",
+      "gain": 0.24940849499524834,
+      "peak": 0.5612985,
+      "nominalActiveRmsDb": -35.22607478819488
+    },
+    {
+      "id": "freesound-213005",
+      "role": "mineEarth",
+      "gain": 0.2608021946794619,
+      "peak": 0.6788514,
+      "nominalActiveRmsDb": -35.226074788194886
+    },
+    {
+      "id": "freesound-540264",
+      "role": "mineEarth",
+      "gain": 0.2654979925588465,
+      "peak": 0.6434358,
+      "nominalActiveRmsDb": -35.226074788194886
+    },
+    {
+      "id": "freesound-70112",
+      "role": "crystalBreak",
+      "gain": 0.19114088871977433,
+      "peak": 0.4610544,
+      "nominalActiveRmsDb": -37.25522760337043
+    },
+    {
+      "id": "freesound-70110",
+      "role": "crystalBreak",
+      "gain": 0.1927097113731632,
+      "peak": 0.6799505,
+      "nominalActiveRmsDb": -37.25522760337043
+    },
+    {
+      "id": "freesound-70109",
+      "role": "crystalBreak",
+      "gain": 0.18925771875363498,
+      "peak": 0.5018794,
+      "nominalActiveRmsDb": -37.25522760337043
+    },
+    {
+      "id": "freesound-177219",
+      "role": "crystalBreak",
+      "gain": 0.26127845598452626,
+      "peak": 0.6805899,
+      "nominalActiveRmsDb": -37.25522760337043
+    },
+    {
+      "id": "freesound-70108",
+      "role": "crystalBreak",
+      "gain": 0.1900437541539567,
+      "peak": 0.4261211,
+      "nominalActiveRmsDb": -37.25522760337043
+    },
+    {
+      "id": "freesound-177212",
+      "role": "crystalBreak",
+      "gain": 0.3325,
+      "peak": 0.6797375,
+      "nominalActiveRmsDb": -40.284466629644534
+    },
+    {
+      "id": "freesound-177217",
+      "role": "crystalBreak",
+      "gain": 0.3325,
+      "peak": 0.6790854,
+      "nominalActiveRmsDb": -37.87646662964453
+    },
+    {
+      "id": "freesound-177216",
+      "role": "crystalBreak",
+      "gain": 0.3325,
+      "peak": 0.684111,
+      "nominalActiveRmsDb": -37.45346662964454
+    },
+    {
+      "id": "freesound-177215",
+      "role": "crystalBreak",
+      "gain": 0.28777535673364707,
+      "peak": 0.6852617,
+      "nominalActiveRmsDb": -37.25522760337043
+    },
+    {
+      "id": "freesound-177214",
+      "role": "crystalBreak",
+      "gain": 0.2576639148127726,
+      "peak": 0.6819225,
+      "nominalActiveRmsDb": -37.25522760337043
+    },
+    {
+      "id": "freesound-177213",
+      "role": "crystalBreak",
+      "gain": 0.3325,
+      "peak": 0.6790272,
+      "nominalActiveRmsDb": -38.02646662964454
+    },
+    {
+      "id": "freesound-177211",
+      "role": "crystalBreak",
+      "gain": 0.3325,
+      "peak": 0.6786036,
+      "nominalActiveRmsDb": -38.994466629644535
+    },
+    {
+      "id": "freesound-177210",
+      "role": "crystalBreak",
+      "gain": 0.3325,
+      "peak": 0.6808172,
+      "nominalActiveRmsDb": -37.723466629644534
+    },
+    {
+      "id": "freesound-177223",
+      "role": "crystalBreak",
+      "gain": 0.1890834862022324,
+      "peak": 0.5353255,
+      "nominalActiveRmsDb": -37.25522760337043
+    },
+    {
+      "id": "freesound-793540",
+      "role": "crystalBreak",
+      "gain": 0.1894539222864012,
+      "peak": 0.313382,
+      "nominalActiveRmsDb": -37.25522760337043
+    },
+    {
+      "id": "freesound-723875",
+      "role": "crystalBreak",
+      "gain": 0.1898032309345951,
+      "peak": 0.6383526,
+      "nominalActiveRmsDb": -37.25522760337043
+    },
+    {
+      "id": "freesound-263927",
+      "role": "crystalBreak",
+      "gain": 0.1870266956726563,
+      "peak": 0.6316153,
+      "nominalActiveRmsDb": -37.25522760337043
+    },
+    {
+      "id": "freesound-263922",
+      "role": "crystalBreak",
+      "gain": 0.1871559337692088,
+      "peak": 0.6286662,
+      "nominalActiveRmsDb": -37.25522760337043
+    },
+    {
+      "id": "freesound-263921",
+      "role": "crystalBreak",
+      "gain": 0.18806310445385602,
+      "peak": 0.6023328,
+      "nominalActiveRmsDb": -37.25522760337043
+    },
+    {
+      "id": "freesound-263919",
+      "role": "crystalBreak",
+      "gain": 0.18877896511150044,
+      "peak": 0.5504442,
+      "nominalActiveRmsDb": -37.25522760337043
+    },
+    {
+      "id": "freesound-263914",
+      "role": "crystalBreak",
+      "gain": 0.1890834862022324,
+      "peak": 0.3213286,
+      "nominalActiveRmsDb": -37.25522760337043
+    },
+    {
+      "id": "freesound-263909",
+      "role": "crystalBreak",
+      "gain": 0.1916256323276301,
+      "peak": 0.6763818,
+      "nominalActiveRmsDb": -37.25522760337043
+    },
+    {
+      "id": "freesound-263907",
+      "role": "crystalBreak",
+      "gain": 0.1871990329773143,
+      "peak": 0.5903989,
+      "nominalActiveRmsDb": -37.25522760337043
+    },
+    {
+      "id": "freesound-85453",
+      "role": "crystalBreak",
+      "gain": 0.190679322842751,
+      "peak": 0.3756404,
+      "nominalActiveRmsDb": -37.25522760337043
+    },
+    {
+      "id": "freesound-263933",
+      "role": "crystalBreak",
+      "gain": 0.21296272779475303,
+      "peak": 0.6880795,
+      "nominalActiveRmsDb": -37.25522760337043
+    },
+    {
+      "id": "freesound-263924",
+      "role": "crystalBreak",
+      "gain": 0.19925241824427706,
+      "peak": 0.6815608,
+      "nominalActiveRmsDb": -37.25522760337043
+    },
+    {
+      "id": "freesound-263931",
+      "role": "crystalBreak",
+      "gain": 0.18851833740963145,
+      "peak": 0.5757606,
+      "nominalActiveRmsDb": -37.25522760337043
+    },
+    {
+      "id": "freesound-263925",
+      "role": "crystalBreak",
+      "gain": 0.18912702929679015,
+      "peak": 0.4517937,
+      "nominalActiveRmsDb": -37.25522760337043
+    },
+    {
+      "id": "freesound-263923",
+      "role": "crystalBreak",
+      "gain": 0.18838815852295987,
+      "peak": 0.4123701,
+      "nominalActiveRmsDb": -37.25522760337043
+    },
+    {
+      "id": "freesound-263920",
+      "role": "crystalBreak",
+      "gain": 0.18906171841447805,
+      "peak": 0.4823169,
+      "nominalActiveRmsDb": -37.25522760337043
+    },
+    {
+      "id": "freesound-263917",
+      "role": "crystalBreak",
+      "gain": 0.18864860625175814,
+      "peak": 0.4481417,
+      "nominalActiveRmsDb": -37.25522760337043
+    },
+    {
+      "id": "freesound-263915",
+      "role": "crystalBreak",
+      "gain": 0.19008751838383972,
+      "peak": 0.4373909,
+      "nominalActiveRmsDb": -37.25522760337043
+    },
+    {
+      "id": "freesound-263910",
+      "role": "crystalBreak",
+      "gain": 0.1897595321567807,
+      "peak": 0.6421273,
+      "nominalActiveRmsDb": -37.25522760337043
+    },
+    {
+      "id": "freesound-263906",
+      "role": "crystalBreak",
+      "gain": 0.18965032922342764,
+      "peak": 0.5648633,
+      "nominalActiveRmsDb": -37.25522760337043
+    },
+    {
+      "id": "freesound-263905",
+      "role": "crystalBreak",
+      "gain": 0.19626985469621375,
+      "peak": 0.4044466,
+      "nominalActiveRmsDb": -37.25522760337043
+    },
+    {
+      "id": "freesound-263908",
+      "role": "crystalBreak",
+      "gain": 0.1899562559196498,
+      "peak": 0.3415263,
+      "nominalActiveRmsDb": -37.25522760337043
+    },
+    {
+      "id": "freesound-89771",
+      "role": "crystalBreak",
+      "gain": 0.19304279678095546,
+      "peak": 0.2756749,
+      "nominalActiveRmsDb": -37.25522760337043
+    },
+    {
+      "id": "freesound-263929",
+      "role": "crystalBreak",
+      "gain": 0.18854004263473448,
+      "peak": 0.663322,
+      "nominalActiveRmsDb": -37.25522760337043
+    },
+    {
+      "id": "freesound-527322",
+      "role": "crystalBreak",
+      "gain": 0.18993438765635226,
+      "peak": 0.4668932,
+      "nominalActiveRmsDb": -37.25522760337043
+    },
+    {
+      "id": "freesound-329744",
+      "role": "crystalBreak",
+      "gain": 0.18867032647547924,
+      "peak": 0.6050187,
+      "nominalActiveRmsDb": -37.25522760337042
+    },
+    {
+      "id": "freesound-661830",
+      "role": "crystalBreak",
+      "gain": 0.2635746272173315,
+      "peak": 0.6808352,
+      "nominalActiveRmsDb": -37.25522760337043
+    },
+    {
+      "id": "freesound-263913",
+      "role": "crystalBreak",
+      "gain": 0.1909869094180764,
+      "peak": 0.4868848,
+      "nominalActiveRmsDb": -37.25522760337043
+    },
+    {
+      "id": "freesound-263928",
+      "role": "crystalBreak",
+      "gain": 0.20682527047786015,
+      "peak": 0.6816298,
+      "nominalActiveRmsDb": -37.25522760337043
+    },
+    {
+      "id": "freesound-263904",
+      "role": "crystalBreak",
+      "gain": 0.1896284961792152,
+      "peak": 0.6581898,
+      "nominalActiveRmsDb": -37.25522760337043
+    },
+    {
+      "id": "freesound-263926",
+      "role": "crystalBreak",
+      "gain": 0.1937329987887546,
+      "peak": 0.5300852,
+      "nominalActiveRmsDb": -37.25522760337043
+    },
+    {
+      "id": "freesound-263918",
+      "role": "crystalBreak",
+      "gain": 0.1903503154875649,
+      "peak": 0.4047012,
+      "nominalActiveRmsDb": -37.25522760337042
+    },
+    {
+      "id": "freesound-527325",
+      "role": "crystalBreak",
+      "gain": 0.214685938997223,
+      "peak": 0.6816469,
+      "nominalActiveRmsDb": -37.25522760337043
+    },
+    {
+      "id": "freesound-527324",
+      "role": "crystalBreak",
+      "gain": 0.19063542236054276,
+      "peak": 0.6356488,
+      "nominalActiveRmsDb": -37.25522760337043
+    },
+    {
+      "id": "freesound-426204",
+      "role": "crystalBreak",
+      "gain": 0.23369724947838963,
+      "peak": 0.6854011,
+      "nominalActiveRmsDb": -37.25522760337043
+    },
+    {
+      "id": "freesound-426205",
+      "role": "crystalBreak",
+      "gain": 0.24243962353238632,
+      "peak": 0.688677,
+      "nominalActiveRmsDb": -37.25522760337043
+    },
+    {
+      "id": "freesound-621138",
+      "role": "crystalBreak",
+      "gain": 0.2354797689159294,
+      "peak": 0.6806756,
+      "nominalActiveRmsDb": -37.25522760337043
+    },
+    {
+      "id": "freesound-52146",
+      "role": "crystalBreak",
+      "gain": 0.1895411891342464,
+      "peak": 0.4318733,
+      "nominalActiveRmsDb": -37.25522760337043
+    },
+    {
+      "id": "freesound-52145",
+      "role": "crystalBreak",
+      "gain": 0.1876089707919045,
+      "peak": 0.549031,
+      "nominalActiveRmsDb": -37.25522760337043
+    },
+    {
+      "id": "freesound-52143",
+      "role": "crystalBreak",
+      "gain": 0.3068340842358625,
+      "peak": 0.6809371,
+      "nominalActiveRmsDb": -37.25522760337043
+    },
+    {
+      "id": "freesound-52147",
+      "role": "crystalBreak",
+      "gain": 0.18956301212628515,
+      "peak": 0.5381966,
+      "nominalActiveRmsDb": -37.25522760337043
+    },
+    {
+      "id": "freesound-52150",
+      "role": "crystalBreak",
+      "gain": 0.1884315414939685,
+      "peak": 0.6008095,
+      "nominalActiveRmsDb": -37.25522760337043
+    },
+    {
+      "id": "freesound-52149",
+      "role": "crystalBreak",
+      "gain": 0.1896721647814068,
+      "peak": 0.5838099,
+      "nominalActiveRmsDb": -37.25522760337042
+    },
+    {
+      "id": "freesound-52148",
+      "role": "crystalBreak",
+      "gain": 0.19054765171568697,
+      "peak": 0.5542647,
+      "nominalActiveRmsDb": -37.25522760337043
+    },
+    {
+      "id": "freesound-52151",
+      "role": "crystalBreak",
+      "gain": 0.18856175035888773,
+      "peak": 0.4751719,
+      "nominalActiveRmsDb": -37.25522760337043
+    },
+    {
+      "id": "freesound-52144",
+      "role": "crystalBreak",
+      "gain": 0.18884417831741432,
+      "peak": 0.6276001,
+      "nominalActiveRmsDb": -37.25522760337043
+    },
+    {
+      "id": "freesound-249192",
+      "role": "crystalBreak",
+      "gain": 0.18934489522560596,
+      "peak": 0.3329619,
+      "nominalActiveRmsDb": -37.25522760337043
+    },
+    {
+      "id": "freesound-720087",
+      "role": "crystalBreak",
+      "gain": 0.22951105058547908,
+      "peak": 0.6396791,
+      "nominalActiveRmsDb": -37.25522760337043
+    },
+    {
+      "id": "freesound-591152",
+      "role": "crystalBreak",
+      "gain": 0.21419217503933416,
+      "peak": 0.6876125,
+      "nominalActiveRmsDb": -37.25522760337043
+    },
+    {
+      "id": "freesound-819719",
+      "role": "crystalBreak",
+      "gain": 0.1892795091080613,
+      "peak": 0.3726249,
+      "nominalActiveRmsDb": -37.25522760337043
+    },
+    {
+      "id": "freesound-819722",
+      "role": "crystalBreak",
+      "gain": 0.18910525649624027,
+      "peak": 0.3671108,
+      "nominalActiveRmsDb": -37.25522760337043
+    },
+    {
+      "id": "freesound-819721",
+      "role": "crystalBreak",
+      "gain": 0.18917058241867024,
+      "peak": 0.3347551,
+      "nominalActiveRmsDb": -37.25522760337043
+    },
+    {
+      "id": "freesound-819720",
+      "role": "crystalBreak",
+      "gain": 0.18897467232022488,
+      "peak": 0.4300499,
+      "nominalActiveRmsDb": -37.25522760337043
+    },
+    {
+      "id": "freesound-549014",
+      "role": "crystalBreak",
+      "gain": 0.18930130197133935,
+      "peak": 0.3992014,
+      "nominalActiveRmsDb": -37.25522760337043
+    },
+    {
+      "id": "freesound-665085",
+      "role": "crystalBreak",
+      "gain": 0.18825806952962587,
+      "peak": 0.6001969,
+      "nominalActiveRmsDb": -37.25522760337043
+    },
+    {
+      "id": "freesound-233698",
+      "role": "crystalBreak",
+      "gain": 0.21269319785875881,
+      "peak": 0.6841142,
+      "nominalActiveRmsDb": -37.25522760337043
+    },
+    {
+      "id": "freesound-703115",
+      "role": "crystalBreak",
+      "gain": 0.25456787713382845,
+      "peak": 0.6826163,
+      "nominalActiveRmsDb": -37.25522760337042
+    },
+    {
+      "id": "freesound-719973",
+      "role": "crystalBreak",
+      "gain": 0.1901750770806662,
+      "peak": 0.5376508,
+      "nominalActiveRmsDb": -37.25522760337043
+    },
+    {
+      "id": "freesound-418194",
+      "role": "crystalBreak",
+      "gain": 0.19105288535264817,
+      "peak": 0.3231083,
+      "nominalActiveRmsDb": -37.25522760337043
+    },
+    {
+      "id": "freesound-611427",
+      "role": "crystalBreak",
+      "gain": 0.24885914285594038,
+      "peak": 0.678544,
+      "nominalActiveRmsDb": -37.25522760337043
+    },
+    {
+      "id": "freesound-119452",
+      "role": "crystalBreak",
+      "gain": 0.18670399073761101,
+      "peak": 0.480262,
+      "nominalActiveRmsDb": -37.25522760337042
+    },
+    {
+      "id": "freesound-536921",
+      "role": "crystalBreak",
+      "gain": 0.18795487778177036,
+      "peak": 0.3897872,
+      "nominalActiveRmsDb": -37.25522760337043
+    },
+    {
+      "id": "freesound-808016",
+      "role": "crystalBreak",
+      "gain": 0.1946720494168082,
+      "peak": 0.6371543,
+      "nominalActiveRmsDb": -37.25522760337042
+    },
+    {
+      "id": "freesound-767348",
+      "role": "crystalBreak",
+      "gain": 0.1903064907533787,
+      "peak": 0.5000713,
+      "nominalActiveRmsDb": -37.25522760337043
+    },
+    {
+      "id": "freesound-685253",
+      "role": "crystalBreak",
+      "gain": 0.18869204919997745,
+      "peak": 0.3830688,
+      "nominalActiveRmsDb": -37.25522760337043
+    },
+    {
+      "id": "freesound-406491",
+      "role": "mineMetal",
+      "gain": 0.14149074577159118,
+      "peak": 0.6275231,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-854927",
+      "role": "mineMetal",
+      "gain": 0.13879634689285103,
+      "peak": 0.3351924,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-854926",
+      "role": "mineMetal",
+      "gain": 0.1385409099117803,
+      "peak": 0.3304941,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-406528",
+      "role": "mineMetal",
+      "gain": 0.18508790328759225,
+      "peak": 0.6800692,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-406559",
+      "role": "mineMetal",
+      "gain": 0.14152332897092773,
+      "peak": 0.6741384,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-854929",
+      "role": "mineMetal",
+      "gain": 0.1386526056956946,
+      "peak": 0.2884248,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-406561",
+      "role": "mineMetal",
+      "gain": 0.2085105508795282,
+      "peak": 0.6796895,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-406557",
+      "role": "mineMetal",
+      "gain": 0.14119783434667482,
+      "peak": 0.5847944,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-406560",
+      "role": "mineMetal",
+      "gain": 0.1403388895126115,
+      "peak": 0.6788594,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-406492",
+      "role": "mineMetal",
+      "gain": 0.16454247883714526,
+      "peak": 0.6596797,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-406556",
+      "role": "mineMetal",
+      "gain": 0.14124661077385994,
+      "peak": 0.5322128,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-160124",
+      "role": "mineMetal",
+      "gain": 0.14003223990291547,
+      "peak": 0.4597964,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-160123",
+      "role": "mineMetal",
+      "gain": 0.1407109955287032,
+      "peak": 0.4975802,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-160120",
+      "role": "mineMetal",
+      "gain": 0.14118157928098307,
+      "peak": 0.6437563,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-160088",
+      "role": "mineMetal",
+      "gain": 0.14132794226580012,
+      "peak": 0.4931566,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-160078",
+      "role": "mineMetal",
+      "gain": 0.1393246740437502,
+      "peak": 0.4299821,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-160075",
+      "role": "mineMetal",
+      "gain": 0.13905225483987205,
+      "peak": 0.6132388,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-160074",
+      "role": "mineMetal",
+      "gain": 0.13914834191809478,
+      "peak": 0.4680591,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-160073",
+      "role": "mineMetal",
+      "gain": 0.1401451380412285,
+      "peak": 0.5076432,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-160058",
+      "role": "mineMetal",
+      "gain": 0.1663903118411826,
+      "peak": 0.6808818,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-160056",
+      "role": "mineMetal",
+      "gain": 0.13921243685492973,
+      "peak": 0.5326276,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-160055",
+      "role": "mineMetal",
+      "gain": 0.19296477423277647,
+      "peak": 0.688872,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-160046",
+      "role": "mineMetal",
+      "gain": 0.14009674198355626,
+      "peak": 0.4185706,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-160044",
+      "role": "mineMetal",
+      "gain": 0.14191491312441093,
+      "peak": 0.5180482,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-160042",
+      "role": "mineMetal",
+      "gain": 0.13996776751974196,
+      "peak": 0.5212427,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-160027",
+      "role": "mineMetal",
+      "gain": 0.13948516987361848,
+      "peak": 0.6448559,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-160024",
+      "role": "mineMetal",
+      "gain": 0.16286510202445495,
+      "peak": 0.68337,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-160022",
+      "role": "mineMetal",
+      "gain": 0.1397584372073524,
+      "peak": 0.4974287,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-160020",
+      "role": "mineMetal",
+      "gain": 0.1409379777341151,
+      "peak": 0.5708262,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-160019",
+      "role": "mineMetal",
+      "gain": 0.1426027943275764,
+      "peak": 0.5212758,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-160008",
+      "role": "mineMetal",
+      "gain": 0.18796545299103334,
+      "peak": 0.6899487,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-514413",
+      "role": "mineMetal",
+      "gain": 0.13938885020323072,
+      "peak": 0.6414695,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-514412",
+      "role": "mineMetal",
+      "gain": 0.13902024056087944,
+      "peak": 0.5220327,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-514411",
+      "role": "mineMetal",
+      "gain": 0.1426027943275764,
+      "peak": 0.3970243,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-514409",
+      "role": "mineMetal",
+      "gain": 0.13938885020323072,
+      "peak": 0.5744327,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-514393",
+      "role": "mineMetal",
+      "gain": 0.14121409128390786,
+      "peak": 0.6069356,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-514392",
+      "role": "mineMetal",
+      "gain": 0.1401612737753437,
+      "peak": 0.6781154,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-514391",
+      "role": "mineMetal",
+      "gain": 0.1425043218221591,
+      "peak": 0.6482942,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-514390",
+      "role": "mineMetal",
+      "gain": 0.15020280243825349,
+      "peak": 0.6795822,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-514389",
+      "role": "mineMetal",
+      "gain": 0.13950122962171643,
+      "peak": 0.4258325,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-514388",
+      "role": "mineMetal",
+      "gain": 0.14009674198355626,
+      "peak": 0.6366393,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-337854",
+      "role": "mineMetal",
+      "gain": 0.14627767056069615,
+      "peak": 0.6777034,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-176673",
+      "role": "mineMetal",
+      "gain": 0.15989247890224853,
+      "peak": 0.6812808,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-160089",
+      "role": "mineMetal",
+      "gain": 0.14097043363925257,
+      "peak": 0.4992681,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-176675",
+      "role": "mineMetal",
+      "gain": 0.1792165182151992,
+      "peak": 0.686216,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-160081",
+      "role": "mineMetal",
+      "gain": 0.14041969832776646,
+      "peak": 0.5798759,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-514414",
+      "role": "mineMetal",
+      "gain": 0.1419312526231417,
+      "peak": 0.4617161,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-160079",
+      "role": "mineMetal",
+      "gain": 0.14053290884653466,
+      "peak": 0.6260394,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-337871",
+      "role": "mineMetal",
+      "gain": 0.14084065484614952,
+      "peak": 0.5368747,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-337870",
+      "role": "mineMetal",
+      "gain": 0.14131167222174285,
+      "peak": 0.6421739,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-337869",
+      "role": "mineMetal",
+      "gain": 0.13977452841832588,
+      "peak": 0.4797071,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-337867",
+      "role": "mineMetal",
+      "gain": 0.14331050806827247,
+      "peak": 0.683313,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-160025",
+      "role": "mineMetal",
+      "gain": 0.15748095351054864,
+      "peak": 0.6862419,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-176669",
+      "role": "mineMetal",
+      "gain": 0.13884429373239787,
+      "peak": 0.6196375,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-160043",
+      "role": "mineMetal",
+      "gain": 0.15141818484100628,
+      "peak": 0.6848591,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-160045",
+      "role": "mineMetal",
+      "gain": 0.14056527147037493,
+      "peak": 0.5103448,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-337873",
+      "role": "mineMetal",
+      "gain": 0.1407109955287032,
+      "peak": 0.5386658,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-337868",
+      "role": "mineMetal",
+      "gain": 0.1411490747633618,
+      "peak": 0.5227056,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-337845",
+      "role": "mineMetal",
+      "gain": 0.14098666439450458,
+      "peak": 0.6589486,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-160122",
+      "role": "mineMetal",
+      "gain": 0.14043586567362246,
+      "peak": 0.4257081,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-160121",
+      "role": "mineMetal",
+      "gain": 0.14158851788159688,
+      "peak": 0.5123438,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-176674",
+      "role": "mineMetal",
+      "gain": 0.1437235830452176,
+      "peak": 0.6817564,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-104373",
+      "role": "mineMetal",
+      "gain": 0.18634941583725245,
+      "peak": 0.6896534,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-334420",
+      "role": "mineMetal",
+      "gain": 0.24500000000000002,
+      "peak": 0.6823435,
+      "nominalActiveRmsDb": -40.82197793513635
+    },
+    {
+      "id": "freesound-468837",
+      "role": "mineMetal",
+      "gain": 0.1396619288357605,
+      "peak": 0.4342753,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-405665",
+      "role": "mineMetal",
+      "gain": 0.13985501226759642,
+      "peak": 0.5244599,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-410364",
+      "role": "mineMetal",
+      "gain": 0.14,
+      "peak": 0.5621743,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-337833",
+      "role": "mineMetal",
+      "gain": 0.14098666439450458,
+      "peak": 0.5070379,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-334419",
+      "role": "mineMetal",
+      "gain": 0.14339302797701955,
+      "peak": 0.3206819,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-556926",
+      "role": "mineMetal",
+      "gain": 0.1405167303288136,
+      "peak": 0.2474371,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-556925",
+      "role": "mineMetal",
+      "gain": 0.14029042654710708,
+      "peak": 0.2602523,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-556924",
+      "role": "mineMetal",
+      "gain": 0.14066240406452613,
+      "peak": 0.2648984,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-556923",
+      "role": "mineMetal",
+      "gain": 0.14085687065920569,
+      "peak": 0.2766293,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-556918",
+      "role": "mineMetal",
+      "gain": 0.1407596037786761,
+      "peak": 0.2512801,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-556917",
+      "role": "mineMetal",
+      "gain": 0.14098666439450458,
+      "peak": 0.2654158,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-556915",
+      "role": "mineMetal",
+      "gain": 0.1403388895126115,
+      "peak": 0.2856714,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-556914",
+      "role": "mineMetal",
+      "gain": 0.1403388895126115,
+      "peak": 0.2728448,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-406524",
+      "role": "mineMetal",
+      "gain": 0.14008061367851055,
+      "peak": 0.5248219,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-406523",
+      "role": "mineMetal",
+      "gain": 0.13995165406257534,
+      "peak": 0.5708994,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-406522",
+      "role": "mineMetal",
+      "gain": 0.15582173499225083,
+      "peak": 0.6835017,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-556922",
+      "role": "mineMetal",
+      "gain": 0.14035504755447323,
+      "peak": 0.2660656,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-406525",
+      "role": "mineMetal",
+      "gain": 0.14965045295423812,
+      "peak": 0.6796238,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-406494",
+      "role": "mineMetal",
+      "gain": 0.1922994471544094,
+      "peak": 0.6257879,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-556920",
+      "role": "mineMetal",
+      "gain": 0.14058145557692314,
+      "peak": 0.2638314,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-556916",
+      "role": "mineMetal",
+      "gain": 0.14061382938034822,
+      "peak": 0.2695222,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-406490",
+      "role": "mineMetal",
+      "gain": 0.19673337194391521,
+      "peak": 0.6592984,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-556927",
+      "role": "mineMetal",
+      "gain": 0.140500553673606,
+      "peak": 0.2623177,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-406558",
+      "role": "mineMetal",
+      "gain": 0.14178426483403433,
+      "peak": 0.669222,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-671097",
+      "role": "mineMetal",
+      "gain": 0.13811092554323376,
+      "peak": 0.389772,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-160034",
+      "role": "mineMetal",
+      "gain": 0.14422084496154094,
+      "peak": 0.6871354,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-160032",
+      "role": "mineMetal",
+      "gain": 0.13958155610226317,
+      "peak": 0.5021349,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-760565",
+      "role": "mineStone",
+      "gain": 0.20069196982956786,
+      "peak": 0.3891916,
+      "nominalActiveRmsDb": -36.80969970914738
+    },
+    {
+      "id": "freesound-728758",
+      "role": "mineStone",
+      "gain": 0.20140952056357797,
+      "peak": 0.6095346,
+      "nominalActiveRmsDb": -36.80969970914738
+    },
+    {
+      "id": "freesound-728757",
+      "role": "mineStone",
+      "gain": 0.211144608165267,
+      "peak": 0.6836771,
+      "nominalActiveRmsDb": -36.80969970914738
+    },
+    {
+      "id": "freesound-728756",
+      "role": "mineStone",
+      "gain": 0.19979287466799486,
+      "peak": 0.6403104,
+      "nominalActiveRmsDb": -36.80969970914738
+    },
+    {
+      "id": "freesound-728759",
+      "role": "mineStone",
+      "gain": 0.1992874708881663,
+      "peak": 0.6165251,
+      "nominalActiveRmsDb": -36.80969970914738
+    },
+    {
+      "id": "freesound-760566",
+      "role": "mineStone",
+      "gain": 0.1994022230032331,
+      "peak": 0.4517726,
+      "nominalActiveRmsDb": -36.80969970914738
+    },
+    {
+      "id": "freesound-233630",
+      "role": "mineStone",
+      "gain": 0.20259559375202035,
+      "peak": 0.3365835,
+      "nominalActiveRmsDb": -36.80969970914738
+    },
+    {
+      "id": "freesound-760567",
+      "role": "mineStone",
+      "gain": 0.2011083003712086,
+      "peak": 0.3342887,
+      "nominalActiveRmsDb": -36.80969970914738
+    },
+    {
+      "id": "freesound-674386",
+      "role": "mineStone",
+      "gain": 0.20059956903966636,
+      "peak": 0.3700117,
+      "nominalActiveRmsDb": -36.80969970914738
+    },
+    {
+      "id": "freesound-674385",
+      "role": "mineStone",
+      "gain": 0.20192030597589025,
+      "peak": 0.384981,
+      "nominalActiveRmsDb": -36.80969970914738
+    },
+    {
+      "id": "freesound-674384",
+      "role": "mineStone",
+      "gain": 0.20659984704864606,
+      "peak": 0.2689555,
+      "nominalActiveRmsDb": -36.80969970914738
+    },
+    {
+      "id": "freesound-674388",
+      "role": "mineStone",
+      "gain": 0.1999769754744937,
+      "peak": 0.5066622,
+      "nominalActiveRmsDb": -36.80969970914738
+    },
+    {
+      "id": "freesound-674389",
+      "role": "mineStone",
+      "gain": 0.1985089058761883,
+      "peak": 0.6208264,
+      "nominalActiveRmsDb": -36.80969970914738
+    },
+    {
+      "id": "freesound-431019",
+      "role": "mineStone",
+      "gain": 0.20208310010564268,
+      "peak": 0.4858526,
+      "nominalActiveRmsDb": -36.80969970914738
+    },
+    {
+      "id": "freesound-524312",
+      "role": "mineStone",
+      "gain": 0.1986918235589623,
+      "peak": 0.2073868,
+      "nominalActiveRmsDb": -36.80969970914738
+    },
+    {
+      "id": "freesound-17289",
+      "role": "mineStone",
+      "gain": 0.19951704119394356,
+      "peak": 0.3128849,
+      "nominalActiveRmsDb": -36.80969970914738
+    },
+    {
+      "id": "freesound-201919",
+      "role": "mineStone",
+      "gain": 0.19878334559727823,
+      "peak": 0.2720628,
+      "nominalActiveRmsDb": -36.80969970914738
+    },
+    {
+      "id": "freesound-843338",
+      "role": "mineStone",
+      "gain": 0.19880623269315553,
+      "peak": 0.4141788,
+      "nominalActiveRmsDb": -36.80969970914738
+    },
+    {
+      "id": "freesound-815336",
+      "role": "mineStone",
+      "gain": 0.1989436106166847,
+      "peak": 0.4813154,
+      "nominalActiveRmsDb": -36.80969970914738
+    },
+    {
+      "id": "freesound-276219",
+      "role": "coinPickup",
+      "gain": 0.16158380857385432,
+      "peak": 0.6826152,
+      "nominalActiveRmsDb": -41.61634281535477
+    },
+    {
+      "id": "freesound-276187",
+      "role": "coinReward",
+      "gain": 0.18564040409478913,
+      "peak": 0.5897666,
+      "nominalActiveRmsDb": -37.72484952036088
+    },
+    {
+      "id": "freesound-276186",
+      "role": "coinReward",
+      "gain": 0.18451110301996426,
+      "peak": 0.5451646,
+      "nominalActiveRmsDb": -37.724849520360884
+    },
+    {
+      "id": "freesound-276168",
+      "role": "coinPickup",
+      "gain": 0.11626469063708016,
+      "peak": 0.6669804,
+      "nominalActiveRmsDb": -41.61634281535477
+    },
+    {
+      "id": "freesound-853707",
+      "role": "coinReward",
+      "gain": 0.18026960416117288,
+      "peak": 0.5589218,
+      "nominalActiveRmsDb": -37.724849520360884
+    },
+    {
+      "id": "freesound-336934",
+      "role": "coinPickup",
+      "gain": 0.11424779854640334,
+      "peak": 0.1840826,
+      "nominalActiveRmsDb": -41.61634281535477
+    },
+    {
+      "id": "freesound-623077",
+      "role": "coinReward",
+      "gain": 0.1794413405658468,
+      "peak": 0.6057399,
+      "nominalActiveRmsDb": -37.724849520360884
+    },
+    {
+      "id": "freesound-573373",
+      "role": "coinReward",
+      "gain": 0.21336466839647583,
+      "peak": 0.6900235,
+      "nominalActiveRmsDb": -37.72484952036088
+    },
+    {
+      "id": "freesound-573371",
+      "role": "coinReward",
+      "gain": 0.19546657583627253,
+      "peak": 0.6820892,
+      "nominalActiveRmsDb": -37.724849520360884
+    },
+    {
+      "id": "freesound-573370",
+      "role": "coinReward",
+      "gain": 0.19997352637068758,
+      "peak": 0.6890877,
+      "nominalActiveRmsDb": -37.724849520360884
+    },
+    {
+      "id": "freesound-573361",
+      "role": "coinPickup",
+      "gain": 0.11365743228138817,
+      "peak": 0.5634158,
+      "nominalActiveRmsDb": -41.61634281535477
+    },
+    {
+      "id": "freesound-573354",
+      "role": "coinPickup",
+      "gain": 0.11432674539389129,
+      "peak": 0.5509578,
+      "nominalActiveRmsDb": -41.61634281535477
+    },
+    {
+      "id": "freesound-573353",
+      "role": "coinPickup",
+      "gain": 0.11326555056279393,
+      "peak": 0.4281112,
+      "nominalActiveRmsDb": -41.61634281535477
+    },
+    {
+      "id": "freesound-573352",
+      "role": "coinPickup",
+      "gain": 0.11436623927280112,
+      "peak": 0.6657328,
+      "nominalActiveRmsDb": -41.61634281535477
+    },
+    {
+      "id": "freesound-573350",
+      "role": "coinReward",
+      "gain": 0.2042784270440889,
+      "peak": 0.6867545,
+      "nominalActiveRmsDb": -37.724849520360884
+    },
+    {
+      "id": "freesound-522116",
+      "role": "starGrain",
+      "gain": 0.04121544481766465,
+      "peak": 0.6755195,
+      "nominalActiveRmsDb": -50.789099795867756
+    },
+    {
+      "id": "freesound-459612",
+      "role": "starGrain",
+      "gain": 0.04908061447483283,
+      "peak": 0.6804482,
+      "nominalActiveRmsDb": -50.789099795867756
+    },
+    {
+      "id": "freesound-532159",
+      "role": "starGrain",
+      "gain": 0.058071091800925,
+      "peak": 0.6153613,
+      "nominalActiveRmsDb": -50.789099795867756
+    },
+    {
+      "id": "freesound-685560",
+      "role": "starGrain",
+      "gain": 0.03959679100322336,
+      "peak": 0.1092603,
+      "nominalActiveRmsDb": -50.789099795867756
+    },
+    {
+      "id": "freesound-87040",
+      "role": "starAccent",
+      "gain": 0.06554859038045642,
+      "peak": 0.3642635,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-542686",
+      "role": "starGrain",
+      "gain": 0.03993098205924354,
+      "peak": 0.5127909,
+      "nominalActiveRmsDb": -50.789099795867756
+    },
+    {
+      "id": "freesound-246207",
+      "role": "starGrain",
+      "gain": 0.04008297901345916,
+      "peak": 0.4957301,
+      "nominalActiveRmsDb": -50.789099795867756
+    },
+    {
+      "id": "freesound-686836",
+      "role": "starAccent",
+      "gain": 0.06460458731911542,
+      "peak": 0.6279343,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-382776",
+      "role": "starGrain",
+      "gain": 0.03972921566853487,
+      "peak": 0.638125,
+      "nominalActiveRmsDb": -50.789099795867756
+    },
+    {
+      "id": "freesound-249609",
+      "role": "starGrain",
+      "gain": 0.040115295098039364,
+      "peak": 0.2693186,
+      "nominalActiveRmsDb": -50.789099795867756
+    },
+    {
+      "id": "freesound-585798",
+      "role": "starGrain",
+      "gain": 0.040023032479574436,
+      "peak": 0.2248439,
+      "nominalActiveRmsDb": -50.789099795867756
+    },
+    {
+      "id": "freesound-103333",
+      "role": "starAccent",
+      "gain": 0.08723953792992671,
+      "peak": 0.6817796,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-420651",
+      "role": "starAccent",
+      "gain": 0.06457484265666276,
+      "peak": 0.4973232,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-238596",
+      "role": "starGrain",
+      "gain": 0.05195292351022899,
+      "peak": 0.5883095,
+      "nominalActiveRmsDb": -50.789099795867756
+    },
+    {
+      "id": "freesound-238598",
+      "role": "starGrain",
+      "gain": 0.04509308948196509,
+      "peak": 0.62231,
+      "nominalActiveRmsDb": -50.789099795867756
+    },
+    {
+      "id": "freesound-238597",
+      "role": "starGrain",
+      "gain": 0.05457075863526824,
+      "peak": 0.6308151,
+      "nominalActiveRmsDb": -50.789099795867756
+    },
+    {
+      "id": "freesound-644432",
+      "role": "starGrain",
+      "gain": 0.05433253786348617,
+      "peak": 0.6183249,
+      "nominalActiveRmsDb": -50.789099795867756
+    },
+    {
+      "id": "freesound-765160",
+      "role": "starAccent",
+      "gain": 0.0670754131902027,
+      "peak": 0.5697328,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-30774",
+      "role": "starAccent",
+      "gain": 0.0643892485385893,
+      "peak": 0.2153823,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-139663",
+      "role": "starAccent",
+      "gain": 0.11375,
+      "peak": 0.6844045,
+      "nominalActiveRmsDb": -47.57527151584401
+    },
+    {
+      "id": "freesound-864837",
+      "role": "starAccent",
+      "gain": 0.06463434568264595,
+      "peak": 0.31749,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-817233",
+      "role": "starAccent",
+      "gain": 0.06448569081270485,
+      "peak": 0.1881213,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-691021",
+      "role": "starAccent",
+      "gain": 0.0658132528666376,
+      "peak": 0.2846119,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-423221",
+      "role": "starHum",
+      "gain": 0.13956548710676975,
+      "peak": 0.1840606,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-530974",
+      "role": "starAccent",
+      "gain": 0.06551086843697698,
+      "peak": 0.3461389,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-702631",
+      "role": "starHum",
+      "gain": 0.13905225483987205,
+      "peak": 0.2308531,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-349704",
+      "role": "starHum",
+      "gain": 0.13937280339254673,
+      "peak": 0.143879,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-703383",
+      "role": "starAccent",
+      "gain": 0.065375249095113,
+      "peak": 0.3604809,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-812392",
+      "role": "starHum",
+      "gain": 0.1403065790091425,
+      "peak": 0.3415657,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-766085",
+      "role": "starAccent",
+      "gain": 0.0648206462632007,
+      "peak": 0.5193689,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-849807",
+      "role": "starAccent",
+      "gain": 0.06486543824816429,
+      "peak": 0.4006075,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-767162",
+      "role": "starAccent",
+      "gain": 0.06460458731911542,
+      "peak": 0.3449219,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-791981",
+      "role": "starAccent",
+      "gain": 0.0648579707684772,
+      "peak": 0.3021333,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-709257",
+      "role": "starAccent",
+      "gain": 0.0649700732852007,
+      "peak": 0.427651,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-849806",
+      "role": "starHum",
+      "gain": 0.14043586567362246,
+      "peak": 0.6053445,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-585615",
+      "role": "starHum",
+      "gain": 0.13930863462119436,
+      "peak": 0.2124238,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-849380",
+      "role": "starHum",
+      "gain": 0.14951268324841865,
+      "peak": 0.6700283,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-835898",
+      "role": "starHum",
+      "gain": 0.13921243685492973,
+      "peak": 0.3153636,
+      "nominalActiveRmsDb": -39.90773890886224
+    },
+    {
+      "id": "freesound-752035",
+      "role": "starAccent",
+      "gain": 0.06474606167887513,
+      "peak": 0.3230098,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-720416",
+      "role": "starAccent",
+      "gain": 0.0651123480044271,
+      "peak": 0.3230978,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-534345",
+      "role": "starAccent",
+      "gain": 0.06549578573859421,
+      "peak": 0.3997147,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-749979",
+      "role": "starAccent",
+      "gain": 0.06450796722804054,
+      "peak": 0.353839,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-825284",
+      "role": "starAccent",
+      "gain": 0.06569969548695409,
+      "peak": 0.4544343,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-33507",
+      "role": "starAccent",
+      "gain": 0.0648206462632007,
+      "peak": 0.3681067,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-726230",
+      "role": "starAccent",
+      "gain": 0.0657072598793593,
+      "peak": 0.32746,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-726224",
+      "role": "starAccent",
+      "gain": 0.06439666205152893,
+      "peak": 0.3314376,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-726223",
+      "role": "starAccent",
+      "gain": 0.06511984477206167,
+      "peak": 0.2731867,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-726222",
+      "role": "starAccent",
+      "gain": 0.0712300676223671,
+      "peak": 0.6782372,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-726220",
+      "role": "starAccent",
+      "gain": 0.06515734155942676,
+      "peak": 0.3396077,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-726219",
+      "role": "starAccent",
+      "gain": 0.0648579707684772,
+      "peak": 0.4823998,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-726183",
+      "role": "starAccent",
+      "gain": 0.06508986287941143,
+      "peak": 0.2946276,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-726181",
+      "role": "starAccent",
+      "gain": 0.06518735453431397,
+      "peak": 0.3916011,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-726169",
+      "role": "starAccent",
+      "gain": 0.0657526645268934,
+      "peak": 0.3775689,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-726167",
+      "role": "starAccent",
+      "gain": 0.0647908021248342,
+      "peak": 0.4514029,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-726166",
+      "role": "starAccent",
+      "gain": 0.06502245408211609,
+      "peak": 0.5444801,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-726164",
+      "role": "starAccent",
+      "gain": 0.06469390353818746,
+      "peak": 0.3762382,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-726163",
+      "role": "starAccent",
+      "gain": 0.0653601976206428,
+      "peak": 0.423451,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-726160",
+      "role": "starAccent",
+      "gain": 0.06569969548695409,
+      "peak": 0.484352,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-726156",
+      "role": "starAccent",
+      "gain": 0.06488784584627075,
+      "peak": 0.3851998,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-726154",
+      "role": "starAccent",
+      "gain": 0.06520236620561043,
+      "peak": 0.3505186,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-726150",
+      "role": "starAccent",
+      "gain": 0.06568456931454164,
+      "peak": 0.3826039,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-726149",
+      "role": "starAccent",
+      "gain": 0.06473860794213233,
+      "peak": 0.3897297,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-726148",
+      "role": "starAccent",
+      "gain": 0.06515734155942676,
+      "peak": 0.3242578,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-726145",
+      "role": "starAccent",
+      "gain": 0.06613987299770341,
+      "peak": 0.400799,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-726143",
+      "role": "starAccent",
+      "gain": 0.06524742196446251,
+      "peak": 0.4838405,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-726140",
+      "role": "starAccent",
+      "gain": 0.06469390353818746,
+      "peak": 0.264807,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-726136",
+      "role": "starAccent",
+      "gain": 0.06485050414846598,
+      "peak": 0.3019069,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-726131",
+      "role": "starAccent",
+      "gain": 0.06480572247605075,
+      "peak": 0.3017907,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-726128",
+      "role": "starAccent",
+      "gain": 0.06470135212784926,
+      "peak": 0.2756585,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-726126",
+      "role": "starAccent",
+      "gain": 0.06515734155942676,
+      "peak": 0.4585922,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-726123",
+      "role": "starAccent",
+      "gain": 0.065164843507434,
+      "peak": 0.2514715,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-726122",
+      "role": "starAccent",
+      "gain": 0.0647833432374537,
+      "peak": 0.3170595,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-726121",
+      "role": "starAccent",
+      "gain": 0.06470880157511098,
+      "peak": 0.5415953,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-726227",
+      "role": "starAccent",
+      "gain": 0.06467900893126881,
+      "peak": 0.513848,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-726225",
+      "role": "starAccent",
+      "gain": 0.06463434568264595,
+      "peak": 0.3763816,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-848195",
+      "role": "starAccent",
+      "gain": 0.0645302513387064,
+      "peak": 0.2918074,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-848194",
+      "role": "starAccent",
+      "gain": 0.09835883058300442,
+      "peak": 0.6795427,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-861431",
+      "role": "starAccent",
+      "gain": 0.0648579707684772,
+      "peak": 0.2576612,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-848196",
+      "role": "starAccent",
+      "gain": 0.06441890771210902,
+      "peak": 0.2710319,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-861430",
+      "role": "starAccent",
+      "gain": 0.0649700732852007,
+      "peak": 0.2691098,
+      "nominalActiveRmsDb": -46.57203248956989
+    },
+    {
+      "id": "freesound-475188",
+      "role": "uiClick",
+      "gain": 0.09415071127154395,
+      "peak": 0.4170235,
+      "nominalActiveRmsDb": -43.275827516650054
+    },
+    {
+      "id": "freesound-707039",
+      "role": "uiClick",
+      "gain": 0.09493439898524604,
+      "peak": 0.3506313,
+      "nominalActiveRmsDb": -43.275827516650054
+    },
+    {
+      "id": "freesound-707038",
+      "role": "uiClick",
+      "gain": 0.09485792171991167,
+      "peak": 0.6209677,
+      "nominalActiveRmsDb": -43.275827516650054
+    },
+    {
+      "id": "freesound-707040",
+      "role": "uiClick",
+      "gain": 0.0943786161905071,
+      "peak": 0.5304382,
+      "nominalActiveRmsDb": -43.275827516650054
+    },
+    {
+      "id": "freesound-707041",
+      "role": "uiClick",
+      "gain": 0.11532503770975373,
+      "peak": 0.6798506,
+      "nominalActiveRmsDb": -43.275827516650054
+    },
+    {
+      "id": "freesound-707042",
+      "role": "uiClick",
+      "gain": 0.09487976607839035,
+      "peak": 0.4395857,
+      "nominalActiveRmsDb": -43.275827516650054
+    },
+    {
+      "id": "freesound-107150",
+      "role": "uiClick",
+      "gain": 0.09850847714052001,
+      "peak": 0.6747029,
+      "nominalActiveRmsDb": -43.27582751665005
+    },
+    {
+      "id": "freesound-107143",
+      "role": "uiClick",
+      "gain": 0.09429173029118944,
+      "peak": 0.2228234,
+      "nominalActiveRmsDb": -43.275827516650054
+    },
+    {
+      "id": "freesound-107141",
+      "role": "uiClick",
+      "gain": 0.09491254204852388,
+      "peak": 0.4043421,
+      "nominalActiveRmsDb": -43.275827516650054
+    },
+    {
+      "id": "freesound-107133",
+      "role": "uiClick",
+      "gain": 0.09455262824812014,
+      "peak": 0.5848711,
+      "nominalActiveRmsDb": -43.275827516650054
+    },
+    {
+      "id": "freesound-107129",
+      "role": "uiClick",
+      "gain": 0.09443296052924888,
+      "peak": 0.4682156,
+      "nominalActiveRmsDb": -43.27582751665005
+    },
+    {
+      "id": "freesound-107152",
+      "role": "uiClick",
+      "gain": 0.09427002131736724,
+      "peak": 0.5312491,
+      "nominalActiveRmsDb": -43.27582751665005
+    },
+    {
+      "id": "freesound-107151",
+      "role": "uiClick",
+      "gain": 0.09435688721277032,
+      "peak": 0.4533858,
+      "nominalActiveRmsDb": -43.275827516650054
+    },
+    {
+      "id": "freesound-107149",
+      "role": "uiClick",
+      "gain": 0.09423746722771273,
+      "peak": 0.3825388,
+      "nominalActiveRmsDb": -43.275827516650054
+    },
+    {
+      "id": "freesound-107138",
+      "role": "uiClick",
+      "gain": 0.09418323539157748,
+      "peak": 0.4331143,
+      "nominalActiveRmsDb": -43.275827516650054
+    },
+    {
+      "id": "freesound-107147",
+      "role": "uiClick",
+      "gain": 0.09423746722771273,
+      "peak": 0.5250953,
+      "nominalActiveRmsDb": -43.275827516650054
+    },
+    {
+      "id": "freesound-107146",
+      "role": "uiClick",
+      "gain": 0.09512038628492696,
+      "peak": 0.4347138,
+      "nominalActiveRmsDb": -43.27582751665005
+    },
+    {
+      "id": "freesound-107137",
+      "role": "uiClick",
+      "gain": 0.09480333282424011,
+      "peak": 0.4288199,
+      "nominalActiveRmsDb": -43.275827516650054
+    },
+    {
+      "id": "freesound-107127",
+      "role": "uiClick",
+      "gain": 0.09428087517944386,
+      "peak": 0.5883723,
+      "nominalActiveRmsDb": -43.275827516650054
+    },
+    {
+      "id": "freesound-107130",
+      "role": "uiClick",
+      "gain": 0.09459618137028893,
+      "peak": 0.4809696,
+      "nominalActiveRmsDb": -43.27582751665005
+    },
+    {
+      "id": "freesound-107136",
+      "role": "uiClick",
+      "gain": 0.09429173029118944,
+      "peak": 0.5476148,
+      "nominalActiveRmsDb": -43.275827516650054
+    },
+    {
+      "id": "freesound-107128",
+      "role": "uiClick",
+      "gain": 0.09469424925937306,
+      "peak": 0.5018181,
+      "nominalActiveRmsDb": -43.27582751665005
+    },
+    {
+      "id": "freesound-448080",
+      "role": "uiClick",
+      "gain": 0.09431344426426318,
+      "peak": 0.383266,
+      "nominalActiveRmsDb": -43.275827516650054
+    },
+    {
+      "id": "freesound-342200",
+      "role": "uiClick",
+      "gain": 0.09561446631164096,
+      "peak": 0.2789332,
+      "nominalActiveRmsDb": -43.27582751665005
+    },
+    {
+      "id": "freesound-343015",
+      "role": "uiClick",
+      "gain": 0.09457440230208528,
+      "peak": 0.3596618,
+      "nominalActiveRmsDb": -43.275827516650054
+    },
+    {
+      "id": "freesound-343000",
+      "role": "uiClick",
+      "gain": 0.09485792171991167,
+      "peak": 0.2749087,
+      "nominalActiveRmsDb": -43.275827516650054
+    },
+    {
+      "id": "freesound-342999",
+      "role": "uiClick",
+      "gain": 0.09449821504292523,
+      "peak": 0.318726,
+      "nominalActiveRmsDb": -43.27582751665005
+    },
+    {
+      "id": "freesound-343018",
+      "role": "uiClick",
+      "gain": 0.09424831734164553,
+      "peak": 0.1812139,
+      "nominalActiveRmsDb": -43.275827516650054
+    },
+    {
+      "id": "freesound-343010",
+      "role": "uiClick",
+      "gain": 0.09492346988779174,
+      "peak": 0.3463696,
+      "nominalActiveRmsDb": -43.275827516650054
+    },
+    {
+      "id": "freesound-343017",
+      "role": "uiClick",
+      "gain": 0.09479241881546668,
+      "peak": 0.3510036,
+      "nominalActiveRmsDb": -43.275827516650054
+    },
+    {
+      "id": "freesound-343019",
+      "role": "uiClick",
+      "gain": 0.09456351464839508,
+      "peak": 0.4228379,
+      "nominalActiveRmsDb": -43.275827516650054
+    },
+    {
+      "id": "freesound-343004",
+      "role": "uiClick",
+      "gain": 0.09435688721277032,
+      "peak": 0.4165682,
+      "nominalActiveRmsDb": -43.275827516650054
+    },
+    {
+      "id": "freesound-343009",
+      "role": "uiClick",
+      "gain": 0.09422661836287356,
+      "peak": 0.1965453,
+      "nominalActiveRmsDb": -43.275827516650054
+    },
+    {
+      "id": "freesound-343002",
+      "role": "uiClick",
+      "gain": 0.09424831734164553,
+      "peak": 0.1744127,
+      "nominalActiveRmsDb": -43.275827516650054
+    },
+    {
+      "id": "freesound-343001",
+      "role": "uiClick",
+      "gain": 0.094661548671879,
+      "peak": 0.3803049,
+      "nominalActiveRmsDb": -43.27582751665005
+    },
+    {
+      "id": "freesound-342998",
+      "role": "uiClick",
+      "gain": 0.09418323539157748,
+      "peak": 0.1738595,
+      "nominalActiveRmsDb": -43.275827516650054
+    },
+    {
+      "id": "freesound-343005",
+      "role": "uiClick",
+      "gain": 0.09450909517828773,
+      "peak": 0.3165405,
+      "nominalActiveRmsDb": -43.27582751665005
+    },
+    {
+      "id": "freesound-342997",
+      "role": "uiClick",
+      "gain": 0.09429173029118944,
+      "peak": 0.1960585,
+      "nominalActiveRmsDb": -43.275827516650054
+    },
+    {
+      "id": "freesound-343014",
+      "role": "uiClick",
+      "gain": 0.0943786161905071,
+      "peak": 0.2200248,
+      "nominalActiveRmsDb": -43.275827516650054
+    },
+    {
+      "id": "freesound-343012",
+      "role": "uiClick",
+      "gain": 0.09468334780858619,
+      "peak": 0.3377512,
+      "nominalActiveRmsDb": -43.275827516650054
+    },
+    {
+      "id": "freesound-342996",
+      "role": "uiClick",
+      "gain": 0.09442208915870716,
+      "peak": 0.3127002,
+      "nominalActiveRmsDb": -43.275827516650054
+    },
+    {
+      "id": "freesound-322228",
+      "role": "uiClick",
+      "gain": 0.09470515196530803,
+      "peak": 0.4869134,
+      "nominalActiveRmsDb": -43.275827516650054
+    },
+    {
+      "id": "freesound-343011",
+      "role": "uiClick",
+      "gain": 0.09447645852970527,
+      "peak": 0.3291128,
+      "nominalActiveRmsDb": -43.275827516650054
+    },
+    {
+      "id": "freesound-493551",
+      "role": "uiClick",
+      "gain": 0.0953396614213755,
+      "peak": 0.3741283,
+      "nominalActiveRmsDb": -43.27582751665005
+    },
+    {
+      "id": "freesound-343003",
+      "role": "uiClick",
+      "gain": 0.09420492437990097,
+      "peak": 0.2609411,
+      "nominalActiveRmsDb": -43.27582751665005
+    },
+    {
+      "id": "freesound-343020",
+      "role": "uiClick",
+      "gain": 0.09509848652797646,
+      "peak": 0.3610034,
+      "nominalActiveRmsDb": -43.275827516650054
+    },
+    {
+      "id": "freesound-538727",
+      "role": "uiClick",
+      "gain": 0.09457440230208528,
+      "peak": 0.5768825,
+      "nominalActiveRmsDb": -43.275827516650054
+    },
+    {
+      "id": "freesound-721503",
+      "role": "uiClick",
+      "gain": 0.09470515196530803,
+      "peak": 0.3838697,
+      "nominalActiveRmsDb": -43.275827516650054
+    },
+    {
+      "id": "freesound-343016",
+      "role": "uiClick",
+      "gain": 0.09450909517828773,
+      "peak": 0.2364196,
+      "nominalActiveRmsDb": -43.27582751665005
+    },
+    {
+      "id": "freesound-343008",
+      "role": "uiClick",
+      "gain": 0.09429173029118944,
+      "peak": 0.3082966,
+      "nominalActiveRmsDb": -43.275827516650054
+    },
+    {
+      "id": "freesound-343007",
+      "role": "uiClick",
+      "gain": 0.09450909517828773,
+      "peak": 0.325293,
+      "nominalActiveRmsDb": -43.27582751665005
+    },
+    {
+      "id": "freesound-343006",
+      "role": "uiClick",
+      "gain": 0.0944438331514754,
+      "peak": 0.2472146,
+      "nominalActiveRmsDb": -43.275827516650054
+    },
+    {
+      "id": "freesound-288908",
+      "role": "uiClick",
+      "gain": 0.0950109379088163,
+      "peak": 0.2006553,
+      "nominalActiveRmsDb": -43.27582751665005
+    },
+    {
+      "id": "freesound-288911",
+      "role": "uiClick",
+      "gain": 0.09446558215155945,
+      "peak": 0.3520557,
+      "nominalActiveRmsDb": -43.275827516650054
+    },
+    {
+      "id": "freesound-343013",
+      "role": "uiClick",
+      "gain": 0.0945417431011162,
+      "peak": 0.263668,
+      "nominalActiveRmsDb": -43.27582751665005
+    },
+    {
+      "id": "freesound-533568",
+      "role": "uiClick",
+      "gain": 0.09407486532945869,
+      "peak": 0.3515917,
+      "nominalActiveRmsDb": -43.275827516650054
+    },
+    {
+      "id": "freesound-590159",
+      "role": "structuralCreak",
+      "gain": 0.1175824511749814,
+      "peak": 0.6798497,
+      "nominalActiveRmsDb": -43.7454494336405
+    },
+    {
+      "id": "freesound-590155",
+      "role": "structuralCreak",
+      "gain": 0.09348512421803594,
+      "peak": 0.6770068,
+      "nominalActiveRmsDb": -43.74544943364051
+    },
+    {
+      "id": "freesound-590154",
+      "role": "structuralCreak",
+      "gain": 0.10150618589866382,
+      "peak": 0.6856488,
+      "nominalActiveRmsDb": -43.74544943364051
+    },
+    {
+      "id": "freesound-590152",
+      "role": "structuralCreak",
+      "gain": 0.10244541107286288,
+      "peak": 0.6832572,
+      "nominalActiveRmsDb": -43.74544943364051
+    },
+    {
+      "id": "freesound-590151",
+      "role": "structuralCreak",
+      "gain": 0.1198236402748023,
+      "peak": 0.6854628,
+      "nominalActiveRmsDb": -43.74544943364051
+    },
+    {
+      "id": "freesound-590150",
+      "role": "structuralCreak",
+      "gain": 0.14819805690485727,
+      "peak": 0.6850262,
+      "nominalActiveRmsDb": -43.74544943364051
+    },
+    {
+      "id": "freesound-590148",
+      "role": "structuralCreak",
+      "gain": 0.09389500933139688,
+      "peak": 0.6014029,
+      "nominalActiveRmsDb": -43.74544943364051
+    },
+    {
+      "id": "freesound-590147",
+      "role": "structuralCreak",
+      "gain": 0.09308774490477176,
+      "peak": 0.6393943,
+      "nominalActiveRmsDb": -43.74544943364051
+    },
+    {
+      "id": "freesound-590149",
+      "role": "structuralCreak",
+      "gain": 0.14014980874539618,
+      "peak": 0.6796141,
+      "nominalActiveRmsDb": -43.74544943364051
+    },
+    {
+      "id": "freesound-590153",
+      "role": "structuralCreak",
+      "gain": 0.1138262712724036,
+      "peak": 0.6817102,
+      "nominalActiveRmsDb": -43.74544943364051
+    },
+    {
+      "id": "freesound-590158",
+      "role": "structuralCreak",
+      "gain": 0.09426327174633545,
+      "peak": 0.6843418,
+      "nominalActiveRmsDb": -43.7454494336405
+    },
+    {
+      "id": "freesound-590157",
+      "role": "structuralCreak",
+      "gain": 0.10669461716290916,
+      "peak": 0.683119,
+      "nominalActiveRmsDb": -43.74544943364051
+    },
+    {
+      "id": "freesound-590156",
+      "role": "structuralCreak",
+      "gain": 0.10825364028200876,
+      "peak": 0.6819384,
+      "nominalActiveRmsDb": -43.74544943364051
+    },
+    {
+      "id": "freesound-590164",
+      "role": "structuralCreak",
+      "gain": 0.09371141799076932,
+      "peak": 0.4933313,
+      "nominalActiveRmsDb": -43.74544943364051
+    },
+    {
+      "id": "freesound-590163",
+      "role": "structuralCreak",
+      "gain": 0.09263871225946498,
+      "peak": 0.5043459,
+      "nominalActiveRmsDb": -43.7454494336405
+    },
+    {
+      "id": "freesound-590160",
+      "role": "structuralCreak",
+      "gain": 0.10311990623254003,
+      "peak": 0.6061073,
+      "nominalActiveRmsDb": -43.7454494336405
+    },
+    {
+      "id": "freesound-590166",
+      "role": "structuralCreak",
+      "gain": 0.08987574625618722,
+      "peak": 0.6528521,
+      "nominalActiveRmsDb": -43.74544943364051
+    },
+    {
+      "id": "freesound-590161",
+      "role": "structuralCreak",
+      "gain": 0.09308774490477176,
+      "peak": 0.5346574,
+      "nominalActiveRmsDb": -43.74544943364051
+    },
+    {
+      "id": "freesound-590170",
+      "role": "structuralCreak",
+      "gain": 0.08923649614245467,
+      "peak": 0.6633525,
+      "nominalActiveRmsDb": -43.74544943364051
+    },
+    {
+      "id": "freesound-590167",
+      "role": "structuralCreak",
+      "gain": 0.0942741248312942,
+      "peak": 0.6816092,
+      "nominalActiveRmsDb": -43.7454494336405
+    },
+    {
+      "id": "freesound-590162",
+      "role": "structuralCreak",
+      "gain": 0.09049873516704386,
+      "peak": 0.6268141,
+      "nominalActiveRmsDb": -43.74544943364051
+    },
+    {
+      "id": "freesound-590168",
+      "role": "structuralCreak",
+      "gain": 0.10388252793282038,
+      "peak": 0.6823545,
+      "nominalActiveRmsDb": -43.74544943364051
+    },
+    {
+      "id": "freesound-590165",
+      "role": "structuralCreak",
+      "gain": 0.09062385019666236,
+      "peak": 0.6343503,
+      "nominalActiveRmsDb": -43.7454494336405
+    },
+    {
+      "id": "freesound-590169",
+      "role": "structuralCreak",
+      "gain": 0.09394907520351109,
+      "peak": 0.5319041,
+      "nominalActiveRmsDb": -43.7454494336405
+    },
+    {
+      "id": "freesound-590171",
+      "role": "structuralCreak",
+      "gain": 0.09824094003553611,
+      "peak": 0.6804287,
+      "nominalActiveRmsDb": -43.7454494336405
+    },
+    {
+      "id": "freesound-506659",
+      "role": "structuralCreak",
+      "gain": 0.09043624244219224,
+      "peak": 0.5005347,
+      "nominalActiveRmsDb": -43.74544943364051
+    },
+    {
+      "id": "freesound-506662",
+      "role": "structuralCreak",
+      "gain": 0.09128354749255098,
+      "peak": 0.493817,
+      "nominalActiveRmsDb": -43.74544943364051
+    },
+    {
+      "id": "freesound-506663",
+      "role": "structuralCreak",
+      "gain": 0.09131508115826245,
+      "peak": 0.5064154,
+      "nominalActiveRmsDb": -43.7454494336405
+    },
+    {
+      "id": "freesound-506664",
+      "role": "structuralCreak",
+      "gain": 0.092766785819905,
+      "peak": 0.4728827,
+      "nominalActiveRmsDb": -43.7454494336405
+    },
+    {
+      "id": "freesound-506660",
+      "role": "structuralCreak",
+      "gain": 0.08938044435788405,
+      "peak": 0.546334,
+      "nominalActiveRmsDb": -43.7454494336405
+    },
+    {
+      "id": "freesound-506661",
+      "role": "structuralCreak",
+      "gain": 0.08996892046879842,
+      "peak": 0.571853,
+      "nominalActiveRmsDb": -43.74544943364051
+    },
+    {
+      "id": "freesound-506665",
+      "role": "structuralCreak",
+      "gain": 0.09121001128063126,
+      "peak": 0.4831623,
+      "nominalActiveRmsDb": -43.7454494336405
+    },
+    {
+      "id": "freesound-452598",
+      "role": "structuralCreak",
+      "gain": 0.1330431470959385,
+      "peak": 0.6881264,
+      "nominalActiveRmsDb": -43.74544943364051
+    },
+    {
+      "id": "freesound-637487",
+      "role": "structuralCreak",
+      "gain": 0.08932900764428474,
+      "peak": 0.507556,
+      "nominalActiveRmsDb": -43.74544943364051
+    },
+    {
+      "id": "freesound-618082",
+      "role": "structuralCreak",
+      "gain": 0.09401399534557155,
+      "peak": 0.6816052,
+      "nominalActiveRmsDb": -43.7454494336405
+    },
+    {
+      "id": "freesound-618085",
+      "role": "structuralCreak",
+      "gain": 0.10123775582820983,
+      "peak": 0.6841046,
+      "nominalActiveRmsDb": -43.7454494336405
+    },
+    {
+      "id": "freesound-452600",
+      "role": "structuralCreak",
+      "gain": 0.08989644329428545,
+      "peak": 0.4167662,
+      "nominalActiveRmsDb": -43.7454494336405
+    },
+    {
+      "id": "freesound-572645",
+      "role": "structuralCreak",
+      "gain": 0.09050915481876226,
+      "peak": 0.6498839,
+      "nominalActiveRmsDb": -43.7454494336405
+    },
+    {
+      "id": "freesound-188606",
+      "role": "structuralCreak",
+      "gain": 0.08990679360059768,
+      "peak": 0.6619596,
+      "nominalActiveRmsDb": -43.7454494336405
+    },
+    {
+      "id": "freesound-618084",
+      "role": "structuralCreak",
+      "gain": 0.1537242948053737,
+      "peak": 0.681211,
+      "nominalActiveRmsDb": -43.7454494336405
+    },
+    {
+      "id": "freesound-618083",
+      "role": "structuralCreak",
+      "gain": 0.09129405750432885,
+      "peak": 0.606652,
+      "nominalActiveRmsDb": -43.74544943364051
+    },
+    {
+      "id": "freesound-261370",
+      "role": "structuralCreak",
+      "gain": 0.08980334414096842,
+      "peak": 0.5904778,
+      "nominalActiveRmsDb": -43.74544943364051
+    },
+    {
+      "id": "freesound-261369",
+      "role": "structuralCreak",
+      "gain": 0.09886498605525378,
+      "peak": 0.6814294,
+      "nominalActiveRmsDb": -43.7454494336405
+    },
+    {
+      "id": "freesound-261368",
+      "role": "structuralCreak",
+      "gain": 0.09077003636571952,
+      "peak": 0.5238125,
+      "nominalActiveRmsDb": -43.7454494336405
+    },
+    {
+      "id": "freesound-261367",
+      "role": "structuralCreak",
+      "gain": 0.0904883167148632,
+      "peak": 0.5844206,
+      "nominalActiveRmsDb": -43.7454494336405
+    },
+    {
+      "id": "freesound-261363",
+      "role": "structuralCreak",
+      "gain": 0.10812908038901754,
+      "peak": 0.6797034,
+      "nominalActiveRmsDb": -43.74544943364051
+    },
+    {
+      "id": "freesound-261362",
+      "role": "structuralCreak",
+      "gain": 0.09070735629735273,
+      "peak": 0.4752522,
+      "nominalActiveRmsDb": -43.7454494336405
+    },
+    {
+      "id": "freesound-261361",
+      "role": "structuralCreak",
+      "gain": 0.11266590496786837,
+      "peak": 0.6816731,
+      "nominalActiveRmsDb": -43.7454494336405
+    },
+    {
+      "id": "freesound-261358",
+      "role": "structuralCreak",
+      "gain": 0.09928702764950127,
+      "peak": 0.6839122,
+      "nominalActiveRmsDb": -43.74544943364051
+    },
+    {
+      "id": "freesound-261357",
+      "role": "structuralCreak",
+      "gain": 0.09688186922668514,
+      "peak": 0.6845706,
+      "nominalActiveRmsDb": -43.7454494336405
+    },
+    {
+      "id": "freesound-261353",
+      "role": "structuralCreak",
+      "gain": 0.12961119340580132,
+      "peak": 0.6806954,
+      "nominalActiveRmsDb": -43.74544943364051
+    },
+    {
+      "id": "freesound-261352",
+      "role": "structuralCreak",
+      "gain": 0.10032115173842938,
+      "peak": 0.6806012,
+      "nominalActiveRmsDb": -43.7454494336405
+    },
+    {
+      "id": "freesound-261364",
+      "role": "structuralCreak",
+      "gain": 0.10986073732446683,
+      "peak": 0.6812597,
+      "nominalActiveRmsDb": -43.74544943364051
+    },
+    {
+      "id": "freesound-261360",
+      "role": "structuralCreak",
+      "gain": 0.11066046974788522,
+      "peak": 0.6814624,
+      "nominalActiveRmsDb": -43.74544943364051
+    },
+    {
+      "id": "freesound-261359",
+      "role": "structuralCreak",
+      "gain": 0.12480802459846996,
+      "peak": 0.6772394,
+      "nominalActiveRmsDb": -43.7454494336405
+    },
+    {
+      "id": "freesound-261355",
+      "role": "structuralCreak",
+      "gain": 0.10707609132415831,
+      "peak": 0.6861734,
+      "nominalActiveRmsDb": -43.74544943364051
+    },
+    {
+      "id": "freesound-261351",
+      "role": "structuralCreak",
+      "gain": 0.09004145607655564,
+      "peak": 0.6808307,
+      "nominalActiveRmsDb": -43.7454494336405
+    },
+    {
+      "id": "freesound-261356",
+      "role": "structuralCreak",
+      "gain": 0.12724552251851082,
+      "peak": 0.6803756,
+      "nominalActiveRmsDb": -43.7454494336405
+    },
+    {
+      "id": "freesound-261372",
+      "role": "structuralCreak",
+      "gain": 0.11160727625847935,
+      "peak": 0.6756381,
+      "nominalActiveRmsDb": -43.74544943364051
+    },
+    {
+      "id": "freesound-683415",
+      "role": "structuralCreak",
+      "gain": 0.12500935357471676,
+      "peak": 0.6873372,
+      "nominalActiveRmsDb": -43.7454494336405
+    },
+    {
+      "id": "freesound-362344",
+      "role": "structuralCreak",
+      "gain": 0.0897206702829234,
+      "peak": 0.3622548,
+      "nominalActiveRmsDb": -43.74544943364051
+    },
+    {
+      "id": "freesound-362343",
+      "role": "structuralCreak",
+      "gain": 0.09049873516704386,
+      "peak": 0.343141,
+      "nominalActiveRmsDb": -43.74544943364051
+    },
+    {
+      "id": "freesound-362342",
+      "role": "structuralCreak",
+      "gain": 0.08949370940674053,
+      "peak": 0.4341021,
+      "nominalActiveRmsDb": -43.74544943364051
+    },
+    {
+      "id": "freesound-547466",
+      "role": "structuralCreak",
+      "gain": 0.1544160750798475,
+      "peak": 0.6839382,
+      "nominalActiveRmsDb": -43.7454494336405
+    },
+    {
+      "id": "freesound-683416",
+      "role": "structuralCreak",
+      "gain": 0.08976199769376642,
+      "peak": 0.5885996,
+      "nominalActiveRmsDb": -43.7454494336405
+    },
+    {
+      "id": "freesound-436534",
+      "role": "structuralCreak",
+      "gain": 0.09192687767908646,
+      "peak": 0.4681065,
+      "nominalActiveRmsDb": -43.74544943364051
+    },
+    {
+      "id": "freesound-436535",
+      "role": "structuralCreak",
+      "gain": 0.09085367717087149,
+      "peak": 0.3772638,
+      "nominalActiveRmsDb": -43.7454494336405
+    },
+    {
+      "id": "freesound-436537",
+      "role": "structuralCreak",
+      "gain": 0.09043624244219224,
+      "peak": 0.3694118,
+      "nominalActiveRmsDb": -43.74544943364051
+    },
+    {
+      "id": "freesound-791998",
+      "role": "structuralCreak",
+      "gain": 0.13026942896995425,
+      "peak": 0.6785026,
+      "nominalActiveRmsDb": -43.74544943364051
+    },
+    {
+      "id": "freesound-791997",
+      "role": "structuralCreak",
+      "gain": 0.10400219598619159,
+      "peak": 0.6873177,
+      "nominalActiveRmsDb": -43.7454494336405
+    },
+    {
+      "id": "freesound-436536",
+      "role": "structuralCreak",
+      "gain": 0.09070735629735273,
+      "peak": 0.4969467,
+      "nominalActiveRmsDb": -43.7454494336405
+    },
+    {
+      "id": "freesound-269722",
+      "role": "structuralCreak",
+      "gain": 0.09092692609568045,
+      "peak": 0.6169304,
+      "nominalActiveRmsDb": -43.74544943364051
+    },
+    {
+      "id": "freesound-813650",
+      "role": "structuralCreak",
+      "gain": 0.09034258425848656,
+      "peak": 0.6014044,
+      "nominalActiveRmsDb": -43.74544943364051
+    },
+    {
+      "id": "freesound-502511",
+      "role": "structuralCreak",
+      "gain": 0.13339590858354972,
+      "peak": 0.6817771,
+      "nominalActiveRmsDb": -43.7454494336405
+    },
+    {
+      "id": "freesound-502505",
+      "role": "structuralCreak",
+      "gain": 0.13703847260111432,
+      "peak": 0.6838988,
+      "nominalActiveRmsDb": -43.7454494336405
+    },
+    {
+      "id": "freesound-502507",
+      "role": "structuralCreak",
+      "gain": 0.13876901621922744,
+      "peak": 0.6827645,
+      "nominalActiveRmsDb": -43.74544943364051
+    },
+    {
+      "id": "freesound-646695",
+      "role": "structuralCreak",
+      "gain": 0.08958648756163744,
+      "peak": 0.5449318,
+      "nominalActiveRmsDb": -43.7454494336405
+    },
+    {
+      "id": "freesound-646691",
+      "role": "structuralCreak",
+      "gain": 0.08953493227416733,
+      "peak": 0.3930253,
+      "nominalActiveRmsDb": -43.7454494336405
+    },
+    {
+      "id": "freesound-646690",
+      "role": "structuralCreak",
+      "gain": 0.09038419813725601,
+      "peak": 0.4263871,
+      "nominalActiveRmsDb": -43.7454494336405
+    },
+    {
+      "id": "freesound-646689",
+      "role": "structuralCreak",
+      "gain": 0.09622601692194414,
+      "peak": 0.6816207,
+      "nominalActiveRmsDb": -43.7454494336405
+    },
+    {
+      "id": "freesound-646688",
+      "role": "structuralCreak",
+      "gain": 0.10744655844748016,
+      "peak": 0.682445,
+      "nominalActiveRmsDb": -43.7454494336405
+    },
+    {
+      "id": "freesound-646687",
+      "role": "structuralCreak",
+      "gain": 0.08984470963329796,
+      "peak": 0.3968641,
+      "nominalActiveRmsDb": -43.7454494336405
+    },
+    {
+      "id": "freesound-502504",
+      "role": "structuralCreak",
+      "gain": 0.10867821819387027,
+      "peak": 0.6881673,
+      "nominalActiveRmsDb": -43.7454494336405
+    },
+    {
+      "id": "freesound-646696",
+      "role": "structuralCreak",
+      "gain": 0.08947310509087143,
+      "peak": 0.4106738,
+      "nominalActiveRmsDb": -43.74544943364051
+    },
+    {
+      "id": "freesound-436539",
+      "role": "structuralCreak",
+      "gain": 0.09149397780211656,
+      "peak": 0.4499195,
+      "nominalActiveRmsDb": -43.7454494336405
+    },
+    {
+      "id": "freesound-280237",
+      "role": "structuralCreak",
+      "gain": 0.10960806464021333,
+      "peak": 0.6880823,
+      "nominalActiveRmsDb": -43.7454494336405
+    },
+    {
+      "id": "freesound-539183",
+      "role": "structuralCreak",
+      "gain": 0.09072824484278662,
+      "peak": 0.6626098,
+      "nominalActiveRmsDb": -43.7454494336405
+    },
+    {
+      "id": "freesound-390799",
+      "role": "structuralCreak",
+      "gain": 0.1162364959863763,
+      "peak": 0.6813912,
+      "nominalActiveRmsDb": -43.74544943364051
+    },
+    {
+      "id": "freesound-642951",
+      "role": "structuralCreak",
+      "gain": 0.10987338623738627,
+      "peak": 0.6804215,
+      "nominalActiveRmsDb": -43.74544943364051
+    },
+    {
+      "id": "freesound-642950",
+      "role": "structuralCreak",
+      "gain": 0.10761988148246182,
+      "peak": 0.6769487,
+      "nominalActiveRmsDb": -43.7454494336405
+    },
+    {
+      "id": "freesound-13837",
+      "role": "structuralCreak",
+      "gain": 0.1506060816155382,
+      "peak": 0.6812401,
+      "nominalActiveRmsDb": -43.7454494336405
+    },
+    {
+      "id": "freesound-95260",
+      "role": "structuralCreak",
+      "gain": 0.09271340033241916,
+      "peak": 0.6808963,
+      "nominalActiveRmsDb": -43.7454494336405
+    }
+  ]
+}

@@ -21,6 +21,7 @@ export function createHardcoreRecapAction({
   const root = scene.add.container(x, y).setVisible(false);
   const image = scene.add.image(0, 0, imageKey)
     .setDisplaySize(layout.actionWidth, layout.actionHeight)
+    .setScrollFactor(0)
     .setInteractive({ useHandCursor: true });
   const actionLabel = scene.add.text(0, 0, label, {
     fontFamily: UI_FONTS.display,

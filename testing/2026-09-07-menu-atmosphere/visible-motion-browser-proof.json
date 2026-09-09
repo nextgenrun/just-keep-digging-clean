@@ -1,0 +1,1636 @@
+{
+  "version": 2,
+  "renderedOpacityIncludesContainer": true,
+  "scenes": [
+    {
+      "id": "starfall",
+      "scenery": "Distant starfall",
+      "mode": "motion",
+      "view": true,
+      "roots": 1,
+      "decoded": true,
+      "playing": true,
+      "time": 18.089,
+      "duration": 20.5,
+      "cadence": {
+        "wraps": [],
+        "frameGapP95": 50.2,
+        "frameGapMax": 50.3
+      },
+      "loopCount": 1,
+      "nativeLoopCount": 0,
+      "handoffs": [
+        {
+          "outgoingTime": 20.359285,
+          "outgoingDuration": 20.5,
+          "incomingTime": 1.800365,
+          "fadeSeconds": 1.793162000000001,
+          "sceneKey": "bg-db-g6ozmlg6ozmlg6oz"
+        }
+      ],
+      "blendSamples": [
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44
+      ],
+      "videoStates": [
+        {
+          "role": "menu-atmosphere-buffer",
+          "alpha": 0,
+          "frameReady": true,
+          "paused": true,
+          "time": 0
+        },
+        {
+          "role": "menu-atmosphere-video",
+          "alpha": 1,
+          "frameReady": true,
+          "paused": false,
+          "time": 18.08871
+        }
+      ],
+      "videoCount": 2,
+      "videoSources": [
+        "sprites/backgrounds/menu-atmosphere-v2/starfall.mp4",
+        "sprites/backgrounds/menu-atmosphere-v2/starfall.mp4"
+      ],
+      "effectiveVideoOpacity": 0.44,
+      "muted": true,
+      "audioTracks": 0,
+      "viewState": "Preparing your expedition",
+      "videoOpacity": 1,
+      "failedMedia": false,
+      "mediaFallbacks": [],
+      "textureCount": 20,
+      "textureKeys": [
+        "__NORMAL",
+        "__DEFAULT",
+        "__MISSING",
+        "__WHITE",
+        "brand-logo",
+        "bg-db-f1frtjf1frtjf1fr",
+        "bg-db-g6ozmlg6ozmlg6oz",
+        "bg-db-rimx2primx2primx",
+        "bg-db-kjwykkjwykkjwykk",
+        "bg-db-i30bfci30bfci30b",
+        "bg-db-wocn9hwocn9hwocn",
+        "6d1572fd-0c13-4e62-8214-e84e4c81ee30",
+        "21cd7948-606e-424e-b180-e436efb9a749",
+        "fb77dea1-4b81-4689-85e2-71600d392b0b",
+        "2c2a877b-27fa-459d-8859-b706d9077fae",
+        "d62f3361-263c-4326-b3e4-c39c7606c1e2",
+        "7b88d7b5-f527-45b8-bb9d-a60e8fa90249",
+        "f6ae5dab-5121-461a-9820-f0a050662c5e",
+        "146a4091-840f-4146-94e8-092b89c15c46",
+        "f0658478-dac1-4224-b253-4cb2b3bec035"
+      ],
+      "ownedShutdownListeners": 13
+    },
+    {
+      "id": "lantern-forest",
+      "scenery": "Lantern forest",
+      "mode": "motion",
+      "view": true,
+      "roots": 1,
+      "decoded": true,
+      "playing": true,
+      "time": 7.787,
+      "duration": 20.5,
+      "cadence": {
+        "wraps": [],
+        "frameGapP95": 50.2,
+        "frameGapMax": 67
+      },
+      "loopCount": 1,
+      "nativeLoopCount": 0,
+      "handoffs": [
+        {
+          "outgoingTime": 20.364574,
+          "outgoingDuration": 20.5,
+          "incomingTime": 1.798457,
+          "fadeSeconds": 1.7884240000000013,
+          "sceneKey": "bg-db-i30bfci30bfci30b"
+        }
+      ],
+      "blendSamples": [
+        0.44,
+        0.44,
+        0.44,
+        0.44
+      ],
+      "videoStates": [
+        {
+          "role": "menu-atmosphere-buffer",
+          "alpha": 0,
+          "frameReady": true,
+          "paused": true,
+          "time": 0
+        },
+        {
+          "role": "menu-atmosphere-video",
+          "alpha": 1,
+          "frameReady": true,
+          "paused": false,
+          "time": 7.786841
+        }
+      ],
+      "videoCount": 2,
+      "videoSources": [
+        "sprites/backgrounds/menu-atmosphere-v2/lantern-forest.mp4",
+        "sprites/backgrounds/menu-atmosphere-v2/lantern-forest.mp4"
+      ],
+      "effectiveVideoOpacity": 0.44,
+      "muted": true,
+      "audioTracks": 0,
+      "viewState": "Preparing your expedition",
+      "videoOpacity": 1,
+      "failedMedia": false,
+      "mediaFallbacks": [],
+      "textureCount": 20,
+      "textureKeys": [
+        "__NORMAL",
+        "__DEFAULT",
+        "__MISSING",
+        "__WHITE",
+        "brand-logo",
+        "bg-db-f1frtjf1frtjf1fr",
+        "bg-db-g6ozmlg6ozmlg6oz",
+        "bg-db-rimx2primx2primx",
+        "bg-db-kjwykkjwykkjwykk",
+        "bg-db-i30bfci30bfci30b",
+        "bg-db-wocn9hwocn9hwocn",
+        "eb6af082-b22d-4ee2-8cdc-91d83cfb4af6",
+        "75a46777-53d6-4bbd-bfe2-1e5a8a9b3e71",
+        "ab784860-4059-43f2-b4ef-a2df03fce8cf",
+        "46320a90-1c24-4807-8ca9-266e6837f2a4",
+        "dbcdf10f-aa24-403d-9460-c536c99dd815",
+        "a7d4d459-b949-4b16-b952-e9a6608da14e",
+        "76b409fb-1634-4fe2-b4d4-0203e1c9084b",
+        "60900e64-9497-4cd1-9913-47ef0aec2126",
+        "01ebac57-c778-43b8-aad3-4dee67867e9e"
+      ],
+      "ownedShutdownListeners": 13
+    },
+    {
+      "id": "luminous-grotto",
+      "scenery": "Luminous grotto",
+      "mode": "motion",
+      "view": true,
+      "roots": 1,
+      "decoded": true,
+      "playing": true,
+      "time": 13.221,
+      "duration": 20.5,
+      "cadence": {
+        "wraps": [],
+        "frameGapP95": 50.2,
+        "frameGapMax": 50.3
+      },
+      "loopCount": 2,
+      "nativeLoopCount": 0,
+      "nativeLoops": [],
+      "handoffs": [
+        {
+          "outgoingTime": 20.360151,
+          "outgoingDuration": 20.5,
+          "incomingTime": 1.798354,
+          "fadeSeconds": 1.792250999999999,
+          "sceneKey": "bg-db-kjwykkjwykkjwykk"
+        },
+        {
+          "outgoingTime": 20.360643,
+          "outgoingDuration": 20.5,
+          "incomingTime": 1.791201,
+          "fadeSeconds": 1.7846099999999994,
+          "sceneKey": "bg-db-kjwykkjwykkjwykk"
+        }
+      ],
+      "blendSamples": [
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44
+      ],
+      "videoStates": [
+        {
+          "role": "menu-atmosphere-buffer",
+          "alpha": 0,
+          "frameReady": true,
+          "paused": true,
+          "time": 0
+        },
+        {
+          "role": "menu-atmosphere-video",
+          "alpha": 1,
+          "frameReady": true,
+          "paused": false,
+          "time": 13.221416
+        }
+      ],
+      "videoCount": 2,
+      "videoSources": [
+        "sprites/backgrounds/menu-atmosphere-v2/luminous-grotto.mp4",
+        "sprites/backgrounds/menu-atmosphere-v2/luminous-grotto.mp4"
+      ],
+      "effectiveVideoOpacity": 0.44,
+      "muted": true,
+      "audioTracks": 0,
+      "viewState": "Preparing your expedition",
+      "videoOpacity": 1,
+      "failedMedia": false,
+      "mediaFallbacks": [],
+      "textureCount": 20,
+      "textureKeys": [
+        "__NORMAL",
+        "__DEFAULT",
+        "__MISSING",
+        "__WHITE",
+        "brand-logo",
+        "bg-db-f1frtjf1frtjf1fr",
+        "bg-db-g6ozmlg6ozmlg6oz",
+        "bg-db-rimx2primx2primx",
+        "bg-db-kjwykkjwykkjwykk",
+        "bg-db-i30bfci30bfci30b",
+        "bg-db-wocn9hwocn9hwocn",
+        "ab9e8aef-4f85-42f6-ace6-b4070042e0e8",
+        "16cef49e-74ab-4ca6-87f6-3b512ae00ec8",
+        "232f3bcc-7f01-4b5a-83ed-5b8dacfe25fe",
+        "feb5bae5-6792-482e-98c1-18c264cdc047",
+        "e3df9b66-c6dd-4c94-98d7-3917fb1208c8",
+        "d59c1dd9-bcde-40e4-9ed9-4a68a6f1e5bb",
+        "e59be7d2-b10f-461f-b5a1-0055f6244654",
+        "5a2371aa-e9c6-488b-9d27-4324774e7b07",
+        "380107f3-d82b-4512-90c7-5352eb4dd0c4"
+      ],
+      "ownedShutdownListeners": 13
+    },
+    {
+      "id": "ember-reaches",
+      "scenery": "Ember reaches",
+      "mode": "motion",
+      "view": true,
+      "roots": 1,
+      "decoded": true,
+      "playing": true,
+      "time": 12.83,
+      "duration": 20.5,
+      "bufferedEnd": 20.5,
+      "seekableEnd": 20.5,
+      "cadence": {
+        "wraps": [],
+        "frameGapP95": 50.2,
+        "frameGapMax": 50.3
+      },
+      "loopCount": 2,
+      "nativeLoopCount": 0,
+      "nativeLoops": [],
+      "handoffs": [
+        {
+          "outgoingTime": 20.360697,
+          "outgoingDuration": 20.5,
+          "incomingTime": 1.798773,
+          "fadeSeconds": 1.790995000000001,
+          "sceneKey": "bg-db-rimx2primx2primx"
+        },
+        {
+          "outgoingTime": 20.368457,
+          "outgoingDuration": 20.5,
+          "incomingTime": 1.800536,
+          "fadeSeconds": 1.7836179999999993,
+          "sceneKey": "bg-db-rimx2primx2primx"
+        }
+      ],
+      "blendSamples": [
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44
+      ],
+      "videoStates": [
+        {
+          "role": "menu-atmosphere-buffer",
+          "alpha": 0,
+          "frameReady": true,
+          "paused": true,
+          "time": 0
+        },
+        {
+          "role": "menu-atmosphere-video",
+          "alpha": 1,
+          "frameReady": true,
+          "paused": false,
+          "time": 12.829826
+        }
+      ],
+      "videoCount": 2,
+      "videoSources": [
+        "sprites/backgrounds/menu-atmosphere-v2/ember-reaches.mp4",
+        "sprites/backgrounds/menu-atmosphere-v2/ember-reaches.mp4"
+      ],
+      "effectiveVideoOpacity": 0.44,
+      "muted": true,
+      "audioTracks": 0,
+      "viewState": "Preparing your expedition",
+      "videoOpacity": 1,
+      "failedMedia": false,
+      "mediaFallbacks": [],
+      "textureCount": 20,
+      "textureKeys": [
+        "__NORMAL",
+        "__DEFAULT",
+        "__MISSING",
+        "__WHITE",
+        "brand-logo",
+        "bg-db-f1frtjf1frtjf1fr",
+        "bg-db-g6ozmlg6ozmlg6oz",
+        "bg-db-rimx2primx2primx",
+        "bg-db-kjwykkjwykkjwykk",
+        "bg-db-i30bfci30bfci30b",
+        "bg-db-wocn9hwocn9hwocn",
+        "d0d7c0a6-b22d-4d40-97a0-8f5d429ce0a3",
+        "d612616d-3c10-4edb-9dc6-01f33bef86e0",
+        "92e17e93-24a1-4295-88b8-97fca4e2ce11",
+        "15102980-bd3c-4036-8780-da51d17a56f6",
+        "58540456-7a81-40fb-a34a-9fffb1c6f2ad",
+        "88fec4d1-afde-4a15-81ec-e717cc1f5cd7",
+        "1930780f-4378-4c08-9e76-543a1153ac29",
+        "4210adee-3511-4218-96df-e46503768c27",
+        "7b3146de-2964-43bb-9ccf-8e2d27af6bbe"
+      ],
+      "ownedShutdownListeners": 13
+    },
+    {
+      "id": "quiet-foundry",
+      "scenery": "Quiet foundry",
+      "mode": "motion",
+      "view": true,
+      "roots": 1,
+      "decoded": true,
+      "playing": true,
+      "time": 7.986,
+      "duration": 20.5,
+      "bufferedEnd": 20.5,
+      "seekableEnd": 20.5,
+      "cadence": {
+        "wraps": [],
+        "frameGapP95": 50.1,
+        "frameGapMax": 65.8
+      },
+      "loopCount": 5,
+      "nativeLoopCount": 0,
+      "nativeLoops": [],
+      "handoffs": [
+        {
+          "outgoingTime": 20.361446,
+          "outgoingDuration": 20.5,
+          "incomingTime": 1.798638,
+          "fadeSeconds": 1.7904000000000004,
+          "sceneKey": "bg-db-wocn9hwocn9hwocn"
+        },
+        {
+          "outgoingTime": 20.368532,
+          "outgoingDuration": 20.5,
+          "incomingTime": 1.800262,
+          "fadeSeconds": 1.7836769999999995,
+          "sceneKey": "bg-db-wocn9hwocn9hwocn"
+        },
+        {
+          "outgoingTime": 20.364532,
+          "outgoingDuration": 20.5,
+          "incomingTime": 1.793222,
+          "fadeSeconds": 1.7787959999999985,
+          "sceneKey": "bg-db-wocn9hwocn9hwocn"
+        },
+        {
+          "outgoingTime": 20.358614,
+          "outgoingDuration": 20.5,
+          "incomingTime": 1.800146,
+          "fadeSeconds": 1.7954719999999988,
+          "sceneKey": "bg-db-wocn9hwocn9hwocn"
+        },
+        {
+          "outgoingTime": 20.367022,
+          "outgoingDuration": 20.5,
+          "incomingTime": 1.79539,
+          "fadeSeconds": 1.7848050000000009,
+          "sceneKey": "bg-db-wocn9hwocn9hwocn"
+        }
+      ],
+      "blendSamples": [
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44
+      ],
+      "videoStates": [
+        {
+          "role": "menu-atmosphere-buffer",
+          "alpha": 0,
+          "frameReady": true,
+          "paused": true,
+          "time": 0
+        },
+        {
+          "role": "menu-atmosphere-video",
+          "alpha": 1,
+          "frameReady": true,
+          "paused": false,
+          "time": 7.986251
+        }
+      ],
+      "videoCount": 2,
+      "videoSources": [
+        "sprites/backgrounds/menu-atmosphere-v2/quiet-foundry.mp4",
+        "sprites/backgrounds/menu-atmosphere-v2/quiet-foundry.mp4"
+      ],
+      "effectiveVideoOpacity": 0.44,
+      "muted": true,
+      "audioTracks": 0,
+      "viewState": "Preparing your expedition",
+      "videoOpacity": 1,
+      "failedMedia": false,
+      "mediaFallbacks": [],
+      "textureCount": 20,
+      "textureKeys": [
+        "__NORMAL",
+        "__DEFAULT",
+        "__MISSING",
+        "__WHITE",
+        "brand-logo",
+        "bg-db-f1frtjf1frtjf1fr",
+        "bg-db-g6ozmlg6ozmlg6oz",
+        "bg-db-rimx2primx2primx",
+        "bg-db-kjwykkjwykkjwykk",
+        "bg-db-i30bfci30bfci30b",
+        "bg-db-wocn9hwocn9hwocn",
+        "e64ab1fc-dbb4-4c1f-a251-4e96516515cd",
+        "7616ce29-f3e5-4900-97f0-03842b12abc6",
+        "181984a8-19bd-406b-b55a-a733041a6aa7",
+        "c35f67da-efff-4252-90a5-5f1869c12ac4",
+        "45e13526-981e-4186-9dc9-94f20cabc77e",
+        "4ff43400-f33a-48b3-8089-ac761040629a",
+        "e0d2b70c-9109-4f0b-9d60-4f53e232808a",
+        "b9caffe0-6108-43ec-9cca-b9b3dbafae34",
+        "d5a35ef6-c082-4e66-8bc8-ecb030511b18"
+      ],
+      "ownedShutdownListeners": 13
+    },
+    {
+      "id": "aurora",
+      "scenery": "Aurora sanctuary",
+      "mode": "motion",
+      "view": true,
+      "roots": 1,
+      "decoded": true,
+      "playing": true,
+      "time": 5.524,
+      "duration": 20.5,
+      "bufferedEnd": 20.5,
+      "seekableEnd": 20.5,
+      "cadence": {
+        "wraps": [],
+        "frameGapP95": 50.1,
+        "frameGapMax": 50.2
+      },
+      "loopCount": 8,
+      "nativeLoopCount": 0,
+      "nativeLoops": [],
+      "handoffs": [
+        {
+          "outgoingTime": 20.360908,
+          "outgoingDuration": 20.5,
+          "incomingTime": 1.799394,
+          "fadeSeconds": 1.7912060000000012,
+          "sceneKey": "bg-db-f1frtjf1frtjf1fr"
+        },
+        {
+          "outgoingTime": 20.368359,
+          "outgoingDuration": 20.5,
+          "incomingTime": 1.797958,
+          "fadeSeconds": 1.782303000000001,
+          "sceneKey": "bg-db-f1frtjf1frtjf1fr"
+        },
+        {
+          "outgoingTime": 20.367674,
+          "outgoingDuration": 20.5,
+          "incomingTime": 1.800977,
+          "fadeSeconds": 1.784418000000001,
+          "sceneKey": "bg-db-f1frtjf1frtjf1fr"
+        },
+        {
+          "outgoingTime": 20.370446,
+          "outgoingDuration": 20.5,
+          "incomingTime": 1.815172,
+          "fadeSeconds": 1.7992140000000014,
+          "sceneKey": "bg-db-f1frtjf1frtjf1fr"
+        },
+        {
+          "outgoingTime": 20.366739,
+          "outgoingDuration": 20.5,
+          "incomingTime": 1.798967,
+          "fadeSeconds": 1.7850570000000006,
+          "sceneKey": "bg-db-f1frtjf1frtjf1fr"
+        },
+        {
+          "outgoingTime": 20.368356,
+          "outgoingDuration": 20.5,
+          "incomingTime": 1.798599,
+          "fadeSeconds": 1.7835619999999985,
+          "sceneKey": "bg-db-f1frtjf1frtjf1fr"
+        },
+        {
+          "outgoingTime": 20.3677,
+          "outgoingDuration": 20.5,
+          "incomingTime": 1.79862,
+          "fadeSeconds": 1.7840900000000013,
+          "sceneKey": "bg-db-f1frtjf1frtjf1fr"
+        },
+        {
+          "outgoingTime": 20.351164,
+          "outgoingDuration": 20.5,
+          "incomingTime": 1.785304,
+          "fadeSeconds": 1.7842410000000002,
+          "sceneKey": "bg-db-f1frtjf1frtjf1fr"
+        }
+      ],
+      "blendSamples": [
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44
+      ],
+      "videoStates": [
+        {
+          "role": "menu-atmosphere-buffer",
+          "alpha": 0,
+          "frameReady": true,
+          "paused": true,
+          "time": 0
+        },
+        {
+          "role": "menu-atmosphere-video",
+          "alpha": 1,
+          "frameReady": true,
+          "paused": false,
+          "time": 5.523579
+        }
+      ],
+      "videoCount": 2,
+      "videoSources": [
+        "sprites/backgrounds/menu-atmosphere-v2/aurora.mp4",
+        "sprites/backgrounds/menu-atmosphere-v2/aurora.mp4"
+      ],
+      "effectiveVideoOpacity": 0.44,
+      "muted": true,
+      "audioTracks": 0,
+      "viewState": "Preparing your expedition",
+      "videoOpacity": 1,
+      "failedMedia": false,
+      "mediaFallbacks": [],
+      "textureCount": 20,
+      "textureKeys": [
+        "__NORMAL",
+        "__DEFAULT",
+        "__MISSING",
+        "__WHITE",
+        "brand-logo",
+        "bg-db-f1frtjf1frtjf1fr",
+        "bg-db-g6ozmlg6ozmlg6oz",
+        "bg-db-rimx2primx2primx",
+        "bg-db-kjwykkjwykkjwykk",
+        "bg-db-i30bfci30bfci30b",
+        "bg-db-wocn9hwocn9hwocn",
+        "3a311783-fd9e-4a4e-b93f-d0ce491df525",
+        "1b99ba4b-31eb-4edf-abd0-66d517e4c68f",
+        "1bd70b4e-d8e8-4919-99d9-2ba41c74a98e",
+        "82b32ac9-bd04-4504-ab3c-e1785217fd07",
+        "83d02713-72e6-4de5-bd44-2846e37f1a61",
+        "427c835e-5e1c-467b-ad96-a8d938fe23dd",
+        "5c13df2e-adb6-494f-bef7-01007bcee3d4",
+        "c3497489-ae92-4448-a5fb-d37cb8f87df7",
+        "f7e8cbbb-45be-4694-83ad-0c550a85c2cd"
+      ],
+      "ownedShutdownListeners": 13
+    }
+  ],
+  "checks": [
+    {
+      "label": "Paused foundry",
+      "scenery": "Quiet foundry",
+      "mode": "motion",
+      "view": true,
+      "roots": 1,
+      "decoded": true,
+      "playing": false,
+      "time": 8.419,
+      "duration": 20.5,
+      "bufferedEnd": 20.5,
+      "seekableEnd": 20.5,
+      "cadence": {
+        "wraps": [],
+        "frameGapP95": 50.1,
+        "frameGapMax": 65.8
+      },
+      "loopCount": 5,
+      "nativeLoopCount": 0,
+      "nativeLoops": [],
+      "handoffs": [
+        {
+          "outgoingTime": 20.361446,
+          "outgoingDuration": 20.5,
+          "incomingTime": 1.798638,
+          "fadeSeconds": 1.7904000000000004,
+          "sceneKey": "bg-db-wocn9hwocn9hwocn"
+        },
+        {
+          "outgoingTime": 20.368532,
+          "outgoingDuration": 20.5,
+          "incomingTime": 1.800262,
+          "fadeSeconds": 1.7836769999999995,
+          "sceneKey": "bg-db-wocn9hwocn9hwocn"
+        },
+        {
+          "outgoingTime": 20.364532,
+          "outgoingDuration": 20.5,
+          "incomingTime": 1.793222,
+          "fadeSeconds": 1.7787959999999985,
+          "sceneKey": "bg-db-wocn9hwocn9hwocn"
+        },
+        {
+          "outgoingTime": 20.358614,
+          "outgoingDuration": 20.5,
+          "incomingTime": 1.800146,
+          "fadeSeconds": 1.7954719999999988,
+          "sceneKey": "bg-db-wocn9hwocn9hwocn"
+        },
+        {
+          "outgoingTime": 20.367022,
+          "outgoingDuration": 20.5,
+          "incomingTime": 1.79539,
+          "fadeSeconds": 1.7848050000000009,
+          "sceneKey": "bg-db-wocn9hwocn9hwocn"
+        }
+      ],
+      "blendSamples": [
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44
+      ],
+      "videoStates": [
+        {
+          "role": "menu-atmosphere-buffer",
+          "alpha": 0,
+          "frameReady": true,
+          "paused": true,
+          "time": 0
+        },
+        {
+          "role": "menu-atmosphere-video",
+          "alpha": 1,
+          "frameReady": true,
+          "paused": true,
+          "time": 8.419238
+        }
+      ],
+      "videoCount": 2,
+      "videoSources": [
+        "sprites/backgrounds/menu-atmosphere-v2/quiet-foundry.mp4",
+        "sprites/backgrounds/menu-atmosphere-v2/quiet-foundry.mp4"
+      ],
+      "effectiveVideoOpacity": 0.44,
+      "muted": true,
+      "audioTracks": 0,
+      "viewState": "Preparing your expedition",
+      "videoOpacity": 1,
+      "failedMedia": false,
+      "mediaFallbacks": [],
+      "textureCount": 20,
+      "textureKeys": [
+        "__NORMAL",
+        "__DEFAULT",
+        "__MISSING",
+        "__WHITE",
+        "brand-logo",
+        "bg-db-f1frtjf1frtjf1fr",
+        "bg-db-g6ozmlg6ozmlg6oz",
+        "bg-db-rimx2primx2primx",
+        "bg-db-kjwykkjwykkjwykk",
+        "bg-db-i30bfci30bfci30b",
+        "bg-db-wocn9hwocn9hwocn",
+        "e64ab1fc-dbb4-4c1f-a251-4e96516515cd",
+        "7616ce29-f3e5-4900-97f0-03842b12abc6",
+        "181984a8-19bd-406b-b55a-a733041a6aa7",
+        "c35f67da-efff-4252-90a5-5f1869c12ac4",
+        "45e13526-981e-4186-9dc9-94f20cabc77e",
+        "4ff43400-f33a-48b3-8089-ac761040629a",
+        "e0d2b70c-9109-4f0b-9d60-4f53e232808a",
+        "b9caffe0-6108-43ec-9cca-b9b3dbafae34",
+        "d5a35ef6-c082-4e66-8bc8-ecb030511b18"
+      ],
+      "ownedShutdownListeners": 13
+    },
+    {
+      "label": "Pause remained stable",
+      "scenery": "Quiet foundry",
+      "mode": "motion",
+      "view": true,
+      "roots": 1,
+      "decoded": true,
+      "playing": false,
+      "time": 8.419,
+      "duration": 20.5,
+      "bufferedEnd": 20.5,
+      "seekableEnd": 20.5,
+      "cadence": {
+        "wraps": [],
+        "frameGapP95": 50.1,
+        "frameGapMax": 65.8
+      },
+      "loopCount": 5,
+      "nativeLoopCount": 0,
+      "nativeLoops": [],
+      "handoffs": [
+        {
+          "outgoingTime": 20.361446,
+          "outgoingDuration": 20.5,
+          "incomingTime": 1.798638,
+          "fadeSeconds": 1.7904000000000004,
+          "sceneKey": "bg-db-wocn9hwocn9hwocn"
+        },
+        {
+          "outgoingTime": 20.368532,
+          "outgoingDuration": 20.5,
+          "incomingTime": 1.800262,
+          "fadeSeconds": 1.7836769999999995,
+          "sceneKey": "bg-db-wocn9hwocn9hwocn"
+        },
+        {
+          "outgoingTime": 20.364532,
+          "outgoingDuration": 20.5,
+          "incomingTime": 1.793222,
+          "fadeSeconds": 1.7787959999999985,
+          "sceneKey": "bg-db-wocn9hwocn9hwocn"
+        },
+        {
+          "outgoingTime": 20.358614,
+          "outgoingDuration": 20.5,
+          "incomingTime": 1.800146,
+          "fadeSeconds": 1.7954719999999988,
+          "sceneKey": "bg-db-wocn9hwocn9hwocn"
+        },
+        {
+          "outgoingTime": 20.367022,
+          "outgoingDuration": 20.5,
+          "incomingTime": 1.79539,
+          "fadeSeconds": 1.7848050000000009,
+          "sceneKey": "bg-db-wocn9hwocn9hwocn"
+        }
+      ],
+      "blendSamples": [
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44
+      ],
+      "videoStates": [
+        {
+          "role": "menu-atmosphere-buffer",
+          "alpha": 0,
+          "frameReady": true,
+          "paused": true,
+          "time": 0
+        },
+        {
+          "role": "menu-atmosphere-video",
+          "alpha": 1,
+          "frameReady": true,
+          "paused": true,
+          "time": 8.419238
+        }
+      ],
+      "videoCount": 2,
+      "videoSources": [
+        "sprites/backgrounds/menu-atmosphere-v2/quiet-foundry.mp4",
+        "sprites/backgrounds/menu-atmosphere-v2/quiet-foundry.mp4"
+      ],
+      "effectiveVideoOpacity": 0.44,
+      "muted": true,
+      "audioTracks": 0,
+      "viewState": "Preparing your expedition",
+      "videoOpacity": 1,
+      "failedMedia": false,
+      "mediaFallbacks": [],
+      "textureCount": 20,
+      "textureKeys": [
+        "__NORMAL",
+        "__DEFAULT",
+        "__MISSING",
+        "__WHITE",
+        "brand-logo",
+        "bg-db-f1frtjf1frtjf1fr",
+        "bg-db-g6ozmlg6ozmlg6oz",
+        "bg-db-rimx2primx2primx",
+        "bg-db-kjwykkjwykkjwykk",
+        "bg-db-i30bfci30bfci30b",
+        "bg-db-wocn9hwocn9hwocn",
+        "e64ab1fc-dbb4-4c1f-a251-4e96516515cd",
+        "7616ce29-f3e5-4900-97f0-03842b12abc6",
+        "181984a8-19bd-406b-b55a-a733041a6aa7",
+        "c35f67da-efff-4252-90a5-5f1869c12ac4",
+        "45e13526-981e-4186-9dc9-94f20cabc77e",
+        "4ff43400-f33a-48b3-8089-ac761040629a",
+        "e0d2b70c-9109-4f0b-9d60-4f53e232808a",
+        "b9caffe0-6108-43ec-9cca-b9b3dbafae34",
+        "d5a35ef6-c082-4e66-8bc8-ecb030511b18"
+      ],
+      "ownedShutdownListeners": 13
+    },
+    {
+      "label": "Media failure restores still artwork",
+      "scenery": "Quiet foundry",
+      "mode": "motion",
+      "view": true,
+      "roots": 1,
+      "decoded": false,
+      "playing": false,
+      "time": 0,
+      "duration": 0,
+      "bufferedEnd": 0,
+      "seekableEnd": 0,
+      "cadence": {
+        "wraps": [],
+        "frameGapP95": 50.1,
+        "frameGapMax": 65.8
+      },
+      "loopCount": 5,
+      "nativeLoopCount": 0,
+      "nativeLoops": [],
+      "handoffs": [
+        {
+          "outgoingTime": 20.361446,
+          "outgoingDuration": 20.5,
+          "incomingTime": 1.798638,
+          "fadeSeconds": 1.7904000000000004,
+          "sceneKey": "bg-db-wocn9hwocn9hwocn"
+        },
+        {
+          "outgoingTime": 20.368532,
+          "outgoingDuration": 20.5,
+          "incomingTime": 1.800262,
+          "fadeSeconds": 1.7836769999999995,
+          "sceneKey": "bg-db-wocn9hwocn9hwocn"
+        },
+        {
+          "outgoingTime": 20.364532,
+          "outgoingDuration": 20.5,
+          "incomingTime": 1.793222,
+          "fadeSeconds": 1.7787959999999985,
+          "sceneKey": "bg-db-wocn9hwocn9hwocn"
+        },
+        {
+          "outgoingTime": 20.358614,
+          "outgoingDuration": 20.5,
+          "incomingTime": 1.800146,
+          "fadeSeconds": 1.7954719999999988,
+          "sceneKey": "bg-db-wocn9hwocn9hwocn"
+        },
+        {
+          "outgoingTime": 20.367022,
+          "outgoingDuration": 20.5,
+          "incomingTime": 1.79539,
+          "fadeSeconds": 1.7848050000000009,
+          "sceneKey": "bg-db-wocn9hwocn9hwocn"
+        }
+      ],
+      "blendSamples": [
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44
+      ],
+      "videoStates": [],
+      "videoCount": 0,
+      "videoSources": [],
+      "effectiveVideoOpacity": 0,
+      "muted": true,
+      "audioTracks": 0,
+      "viewState": "Preparing your expedition",
+      "videoOpacity": 0,
+      "failedMedia": true,
+      "mediaFallbacks": [
+        {
+          "role": "menu-atmosphere-video",
+          "reason": "Review media failure"
+        }
+      ],
+      "textureCount": 18,
+      "textureKeys": [
+        "__NORMAL",
+        "__DEFAULT",
+        "__MISSING",
+        "__WHITE",
+        "brand-logo",
+        "bg-db-f1frtjf1frtjf1fr",
+        "bg-db-g6ozmlg6ozmlg6oz",
+        "bg-db-rimx2primx2primx",
+        "bg-db-kjwykkjwykkjwykk",
+        "bg-db-i30bfci30bfci30b",
+        "bg-db-wocn9hwocn9hwocn",
+        "e64ab1fc-dbb4-4c1f-a251-4e96516515cd",
+        "7616ce29-f3e5-4900-97f0-03842b12abc6",
+        "181984a8-19bd-406b-b55a-a733041a6aa7",
+        "c35f67da-efff-4252-90a5-5f1869c12ac4",
+        "45e13526-981e-4186-9dc9-94f20cabc77e",
+        "4ff43400-f33a-48b3-8089-ac761040629a",
+        "e0d2b70c-9109-4f0b-9d60-4f53e232808a"
+      ],
+      "ownedShutdownListeners": 13
+    },
+    {
+      "label": "Destroy returns to baseline",
+      "scenery": "Quiet foundry",
+      "mode": "motion",
+      "view": false,
+      "roots": 0,
+      "decoded": false,
+      "playing": false,
+      "time": 0,
+      "duration": 0,
+      "bufferedEnd": 0,
+      "seekableEnd": 0,
+      "cadence": {
+        "wraps": [],
+        "frameGapP95": 50.1,
+        "frameGapMax": 65.8
+      },
+      "loopCount": 5,
+      "nativeLoopCount": 0,
+      "nativeLoops": [],
+      "handoffs": [
+        {
+          "outgoingTime": 20.361446,
+          "outgoingDuration": 20.5,
+          "incomingTime": 1.798638,
+          "fadeSeconds": 1.7904000000000004,
+          "sceneKey": "bg-db-wocn9hwocn9hwocn"
+        },
+        {
+          "outgoingTime": 20.368532,
+          "outgoingDuration": 20.5,
+          "incomingTime": 1.800262,
+          "fadeSeconds": 1.7836769999999995,
+          "sceneKey": "bg-db-wocn9hwocn9hwocn"
+        },
+        {
+          "outgoingTime": 20.364532,
+          "outgoingDuration": 20.5,
+          "incomingTime": 1.793222,
+          "fadeSeconds": 1.7787959999999985,
+          "sceneKey": "bg-db-wocn9hwocn9hwocn"
+        },
+        {
+          "outgoingTime": 20.358614,
+          "outgoingDuration": 20.5,
+          "incomingTime": 1.800146,
+          "fadeSeconds": 1.7954719999999988,
+          "sceneKey": "bg-db-wocn9hwocn9hwocn"
+        },
+        {
+          "outgoingTime": 20.367022,
+          "outgoingDuration": 20.5,
+          "incomingTime": 1.79539,
+          "fadeSeconds": 1.7848050000000009,
+          "sceneKey": "bg-db-wocn9hwocn9hwocn"
+        }
+      ],
+      "blendSamples": [
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44
+      ],
+      "videoStates": [],
+      "videoCount": 0,
+      "videoSources": [],
+      "effectiveVideoOpacity": 0,
+      "muted": true,
+      "audioTracks": 0,
+      "viewState": "closed",
+      "videoOpacity": 0,
+      "failedMedia": true,
+      "mediaFallbacks": [
+        {
+          "role": "menu-atmosphere-video",
+          "reason": "Review media failure"
+        }
+      ],
+      "textureCount": 11,
+      "textureKeys": [
+        "__NORMAL",
+        "__DEFAULT",
+        "__MISSING",
+        "__WHITE",
+        "brand-logo",
+        "bg-db-f1frtjf1frtjf1fr",
+        "bg-db-g6ozmlg6ozmlg6oz",
+        "bg-db-rimx2primx2primx",
+        "bg-db-kjwykkjwykkjwykk",
+        "bg-db-i30bfci30bfci30b",
+        "bg-db-wocn9hwocn9hwocn"
+      ],
+      "ownedShutdownListeners": 12
+    },
+    {
+      "label": "Default route uses stronger v2 clips",
+      "scenery": "Aurora sanctuary",
+      "mode": "motion",
+      "view": true,
+      "roots": 1,
+      "decoded": true,
+      "playing": true,
+      "time": 5.524,
+      "duration": 20.5,
+      "bufferedEnd": 20.5,
+      "seekableEnd": 20.5,
+      "cadence": {
+        "wraps": [],
+        "frameGapP95": 50.1,
+        "frameGapMax": 50.2
+      },
+      "loopCount": 8,
+      "nativeLoopCount": 0,
+      "nativeLoops": [],
+      "handoffs": [
+        {
+          "outgoingTime": 20.360908,
+          "outgoingDuration": 20.5,
+          "incomingTime": 1.799394,
+          "fadeSeconds": 1.7912060000000012,
+          "sceneKey": "bg-db-f1frtjf1frtjf1fr"
+        },
+        {
+          "outgoingTime": 20.368359,
+          "outgoingDuration": 20.5,
+          "incomingTime": 1.797958,
+          "fadeSeconds": 1.782303000000001,
+          "sceneKey": "bg-db-f1frtjf1frtjf1fr"
+        },
+        {
+          "outgoingTime": 20.367674,
+          "outgoingDuration": 20.5,
+          "incomingTime": 1.800977,
+          "fadeSeconds": 1.784418000000001,
+          "sceneKey": "bg-db-f1frtjf1frtjf1fr"
+        },
+        {
+          "outgoingTime": 20.370446,
+          "outgoingDuration": 20.5,
+          "incomingTime": 1.815172,
+          "fadeSeconds": 1.7992140000000014,
+          "sceneKey": "bg-db-f1frtjf1frtjf1fr"
+        },
+        {
+          "outgoingTime": 20.366739,
+          "outgoingDuration": 20.5,
+          "incomingTime": 1.798967,
+          "fadeSeconds": 1.7850570000000006,
+          "sceneKey": "bg-db-f1frtjf1frtjf1fr"
+        },
+        {
+          "outgoingTime": 20.368356,
+          "outgoingDuration": 20.5,
+          "incomingTime": 1.798599,
+          "fadeSeconds": 1.7835619999999985,
+          "sceneKey": "bg-db-f1frtjf1frtjf1fr"
+        },
+        {
+          "outgoingTime": 20.3677,
+          "outgoingDuration": 20.5,
+          "incomingTime": 1.79862,
+          "fadeSeconds": 1.7840900000000013,
+          "sceneKey": "bg-db-f1frtjf1frtjf1fr"
+        },
+        {
+          "outgoingTime": 20.351164,
+          "outgoingDuration": 20.5,
+          "incomingTime": 1.785304,
+          "fadeSeconds": 1.7842410000000002,
+          "sceneKey": "bg-db-f1frtjf1frtjf1fr"
+        }
+      ],
+      "blendSamples": [
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44,
+        0.44
+      ],
+      "videoStates": [
+        {
+          "role": "menu-atmosphere-buffer",
+          "alpha": 0,
+          "frameReady": true,
+          "paused": true,
+          "time": 0
+        },
+        {
+          "role": "menu-atmosphere-video",
+          "alpha": 1,
+          "frameReady": true,
+          "paused": false,
+          "time": 5.523579
+        }
+      ],
+      "videoCount": 2,
+      "videoSources": [
+        "sprites/backgrounds/menu-atmosphere-v2/aurora.mp4",
+        "sprites/backgrounds/menu-atmosphere-v2/aurora.mp4"
+      ],
+      "effectiveVideoOpacity": 0.44,
+      "muted": true,
+      "audioTracks": 0,
+      "viewState": "Preparing your expedition",
+      "videoOpacity": 1,
+      "failedMedia": false,
+      "mediaFallbacks": [],
+      "textureCount": 20,
+      "textureKeys": [
+        "__NORMAL",
+        "__DEFAULT",
+        "__MISSING",
+        "__WHITE",
+        "brand-logo",
+        "bg-db-f1frtjf1frtjf1fr",
+        "bg-db-g6ozmlg6ozmlg6oz",
+        "bg-db-rimx2primx2primx",
+        "bg-db-kjwykkjwykkjwykk",
+        "bg-db-i30bfci30bfci30b",
+        "bg-db-wocn9hwocn9hwocn",
+        "3a311783-fd9e-4a4e-b93f-d0ce491df525",
+        "1b99ba4b-31eb-4edf-abd0-66d517e4c68f",
+        "1bd70b4e-d8e8-4919-99d9-2ba41c74a98e",
+        "82b32ac9-bd04-4504-ab3c-e1785217fd07",
+        "83d02713-72e6-4de5-bd44-2846e37f1a61",
+        "427c835e-5e1c-467b-ad96-a8d938fe23dd",
+        "5c13df2e-adb6-494f-bef7-01007bcee3d4",
+        "c3497489-ae92-4448-a5fb-d37cb8f87df7",
+        "f7e8cbbb-45be-4694-83ad-0c550a85c2cd"
+      ],
+      "ownedShutdownListeners": 13
+    },
+    {
+      "label": "Still artwork preference remains static",
+      "scenery": "Aurora sanctuary",
+      "mode": "static",
+      "view": true,
+      "roots": 1,
+      "decoded": false,
+      "playing": false,
+      "time": 0,
+      "duration": 0,
+      "bufferedEnd": 0,
+      "seekableEnd": 0,
+      "cadence": {
+        "wraps": [],
+        "frameGapP95": 0,
+        "frameGapMax": 0
+      },
+      "loopCount": 0,
+      "nativeLoopCount": 0,
+      "nativeLoops": [],
+      "handoffs": [],
+      "blendSamples": [],
+      "videoStates": [],
+      "videoCount": 0,
+      "videoSources": [],
+      "effectiveVideoOpacity": 0,
+      "muted": true,
+      "audioTracks": 0,
+      "viewState": "Preparing your expedition",
+      "videoOpacity": 0,
+      "failedMedia": false,
+      "mediaFallbacks": [],
+      "textureCount": 18,
+      "textureKeys": [
+        "__NORMAL",
+        "__DEFAULT",
+        "__MISSING",
+        "__WHITE",
+        "brand-logo",
+        "bg-db-f1frtjf1frtjf1fr",
+        "bg-db-g6ozmlg6ozmlg6oz",
+        "bg-db-rimx2primx2primx",
+        "bg-db-i30bfci30bfci30b",
+        "bg-db-kjwykkjwykkjwykk",
+        "bg-db-wocn9hwocn9hwocn",
+        "91f46d55-61f8-4dc4-ad70-5090af120338",
+        "9f3c25ea-d2fc-4afc-8a5c-60ec614e3f41",
+        "48c4ab49-f7e2-4118-bd7e-a56c0d01191f",
+        "c1fd78dd-5eec-4b78-a8d8-a7f96e621969",
+        "2c031656-76e0-4c8e-8a93-cedfa5769f25",
+        "2010292e-36e4-4558-8b28-8f418a55dc21",
+        "b27109ec-211e-4f03-8a21-38b5ca94bee9"
+      ],
+      "ownedShutdownListeners": 13
+    }
+  ],
+  "diagnosticsBeforeFix": [
+    {
+      "label": "Before correction: buffer discarded",
+      "id": "aurora",
+      "scenery": "Aurora sanctuary",
+      "mode": "motion",
+      "view": true,
+      "roots": 1,
+      "decoded": true,
+      "playing": true,
+      "time": 1.522,
+      "duration": 20.5,
+      "cadence": {
+        "wraps": [],
+        "frameGapP95": 66.6,
+        "frameGapMax": 100.1
+      },
+      "loopCount": 0,
+      "nativeLoopCount": 1,
+      "handoffs": [],
+      "blendSamples": [],
+      "videoStates": [
+        {
+          "role": "menu-atmosphere-video",
+          "alpha": 1,
+          "paused": false,
+          "time": 1.522401
+        }
+      ],
+      "videoCount": 1,
+      "videoSources": [
+        "sprites/backgrounds/menu-atmosphere-v2/aurora.mp4"
+      ],
+      "effectiveVideoOpacity": 0.44,
+      "muted": true,
+      "audioTracks": 0,
+      "viewState": "Preparing your expedition",
+      "videoOpacity": 1,
+      "failedMedia": false,
+      "textureCount": 19,
+      "textureKeys": [
+        "__NORMAL",
+        "__DEFAULT",
+        "__MISSING",
+        "__WHITE",
+        "brand-logo",
+        "bg-db-f1frtjf1frtjf1fr",
+        "bg-db-g6ozmlg6ozmlg6oz",
+        "bg-db-rimx2primx2primx",
+        "bg-db-kjwykkjwykkjwykk",
+        "bg-db-i30bfci30bfci30b",
+        "bg-db-wocn9hwocn9hwocn",
+        "9f321477-0e39-41ab-ab13-61cb842d8496",
+        "8b9db42d-c3b9-41c7-8aa1-5eee0a73a3ab",
+        "4dd89954-bc17-4471-b1e0-d2992dc37c4e",
+        "63bbf168-250b-4dec-976b-97aced6862c7",
+        "b41c0ef4-d6d4-49a5-b82a-6d8adde16056",
+        "a6a1989f-bfbd-4f1d-8c31-0ce234b44751",
+        "7d47c8ea-546f-4ee5-9099-5e20c4ed6e88",
+        "da725210-7bfa-4f74-a833-76959a3d20c4"
+      ],
+      "ownedShutdownListeners": 13
+    },
+    {
+      "label": "Before correction: native pause/play AbortError diagnosed",
+      "scenery": "Distant starfall",
+      "mode": "motion",
+      "view": true,
+      "roots": 1,
+      "decoded": true,
+      "playing": true,
+      "time": 2.637,
+      "duration": 20.5,
+      "cadence": {
+        "wraps": [],
+        "frameGapP95": 66.7,
+        "frameGapMax": 66.8
+      },
+      "loopCount": 0,
+      "nativeLoopCount": 0,
+      "handoffs": [],
+      "blendSamples": [],
+      "videoStates": [
+        {
+          "role": "menu-atmosphere-video",
+          "alpha": 1,
+          "frameReady": true,
+          "paused": false,
+          "time": 2.636703
+        }
+      ],
+      "videoCount": 1,
+      "videoSources": [
+        "sprites/backgrounds/menu-atmosphere-v2/starfall.mp4"
+      ],
+      "effectiveVideoOpacity": 0.44,
+      "muted": true,
+      "audioTracks": 0,
+      "viewState": "Preparing your expedition",
+      "videoOpacity": 1,
+      "failedMedia": false,
+      "mediaFallbacks": [
+        {
+          "role": "menu-atmosphere-buffer",
+          "reason": "The play() request was interrupted by a call to pause(). https://goo.gl/LdLk22"
+        }
+      ],
+      "textureCount": 19,
+      "textureKeys": [
+        "__NORMAL",
+        "__DEFAULT",
+        "__MISSING",
+        "__WHITE",
+        "brand-logo",
+        "bg-db-f1frtjf1frtjf1fr",
+        "bg-db-g6ozmlg6ozmlg6oz",
+        "bg-db-rimx2primx2primx",
+        "bg-db-kjwykkjwykkjwykk",
+        "bg-db-i30bfci30bfci30b",
+        "bg-db-wocn9hwocn9hwocn",
+        "a3b7b7c4-63a3-41bf-930a-d635a1d178a1",
+        "300b045a-8267-4de4-af69-c3064c42fa03",
+        "287981cc-616b-4e8a-b817-a028a6a300eb",
+        "2d407d31-f0c0-438f-8e07-627e999b7d37",
+        "908bbe03-1ec8-4e5a-98b2-5093df843083",
+        "13e30f55-5a87-49fa-a190-dec4ec66fd42",
+        "a44db4bf-044b-49f4-9f8e-1a8cad95a18f",
+        "64a775e1-daf7-409a-acca-1400c4db3f7d"
+      ],
+      "ownedShutdownListeners": 13
+    }
+  ],
+  "verification": {
+    "menuFirstLoadingOrder": "PASS",
+    "loadingMinigameArchive": "PASS",
+    "mainMenuNativeResolution": "PASS",
+    "changedJavaScriptSyntax": "PASS",
+    "credentialScan": "PASS"
+  },
+  "finalPreview": {
+    "url": "http://127.0.0.1:8080/testing/2026-09-07-menu-atmosphere/",
+    "scenery": "Aurora sanctuary",
+    "mode": "motion",
+    "view": true,
+    "roots": 1,
+    "decoded": true,
+    "playing": true,
+    "time": 14.498,
+    "duration": 20.5,
+    "bufferedEnd": 20.5,
+    "seekableEnd": 20.5,
+    "cadence": {
+      "wraps": [],
+      "frameGapP95": 50.1,
+      "frameGapMax": 50.9
+    },
+    "loopCount": 2,
+    "nativeLoopCount": 0,
+    "nativeLoops": [],
+    "handoffs": [
+      {
+        "outgoingTime": 20.368024,
+        "outgoingDuration": 20.5,
+        "incomingTime": 1.79923,
+        "fadeSeconds": 1.7833470000000013,
+        "sceneKey": "bg-db-f1frtjf1frtjf1fr"
+      },
+      {
+        "outgoingTime": 20.351774,
+        "outgoingDuration": 20.5,
+        "incomingTime": 1.783518,
+        "fadeSeconds": 1.7827420000000012,
+        "sceneKey": "bg-db-f1frtjf1frtjf1fr"
+      }
+    ],
+    "blendSamples": [
+      0.44,
+      0.44,
+      0.44,
+      0.44,
+      0.44,
+      0.44,
+      0.44,
+      0.44,
+      0.44
+    ],
+    "videoStates": [
+      {
+        "role": "menu-atmosphere-buffer",
+        "alpha": 0,
+        "frameReady": true,
+        "paused": true,
+        "time": 0
+      },
+      {
+        "role": "menu-atmosphere-video",
+        "alpha": 1,
+        "frameReady": true,
+        "paused": false,
+        "time": 14.497749
+      }
+    ],
+    "videoCount": 2,
+    "videoSources": [
+      "sprites/backgrounds/menu-atmosphere-v2/aurora.mp4",
+      "sprites/backgrounds/menu-atmosphere-v2/aurora.mp4"
+    ],
+    "effectiveVideoOpacity": 0.44,
+    "muted": true,
+    "audioTracks": 0,
+    "viewState": "Preparing your expedition",
+    "videoOpacity": 1,
+    "failedMedia": false,
+    "mediaFallbacks": [],
+    "textureCount": 20,
+    "textureKeys": [
+      "__NORMAL",
+      "__DEFAULT",
+      "__MISSING",
+      "__WHITE",
+      "brand-logo",
+      "bg-db-f1frtjf1frtjf1fr",
+      "bg-db-g6ozmlg6ozmlg6oz",
+      "bg-db-rimx2primx2primx",
+      "bg-db-kjwykkjwykkjwykk",
+      "bg-db-i30bfci30bfci30b",
+      "bg-db-wocn9hwocn9hwocn",
+      "c38829c7-56f8-45e2-8408-c039547ade7c",
+      "8711663e-a318-480e-b4aa-0d1c152d8a4b",
+      "beb38338-ff57-41d5-b4f4-e817b943df9a",
+      "de3ad736-cd79-4976-b315-27759c217ccf",
+      "937449b4-feda-43e9-a745-c8bfb6043df6",
+      "66063700-d098-4591-a3e2-0fd56dab1b50",
+      "6b6d0d31-5142-4f5f-a1b6-7c7c998c2a75",
+      "37f7a757-b19e-48d5-bb7a-1bcda0d5c6db",
+      "9c15078b-e261-4e0b-a7b4-06898e202218"
+    ],
+    "ownedShutdownListeners": 13
+  }
+}

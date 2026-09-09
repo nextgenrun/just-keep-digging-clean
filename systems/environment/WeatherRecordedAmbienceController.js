@@ -1,5 +1,8 @@
+import { REVIEWED_AUDIO_ASSETS } from "../../values/reviewedAudioAssets.js";
+import { REVIEWED_AUDIO_MIX } from "../../values/reviewedAudioMix.js";
+import { AudioLayerBus } from "../../sound/AudioLayerBus.js";
 import { ASSET_KEYS } from "../../values/assetKeys.js";
-import { clamp01, lerp } from "../../values/mathUtils.js";
+import { clamp01 } from "../../values/mathUtils.js";
 import { WEATHER_CONFIG } from "../../values/weatherConfig.js";
 
 
@@ -78,14 +81,10 @@ export function resolveWeatherAmbienceMix(
 export class WeatherRecordedAmbienceController {
   constructor(scene, weatherConfig, assets = ASSET_KEYS.audio.weatherAmbience) {
     this.scene = scene;
-    this.config = weatherConfig.audio?.recorded || {
-      ...WEATHER_CONFIG.audio.recorded,
-      enabled: false,
-    };
+    this.config = weatherConfig.audio?.recorded || { ...WEATHER_CONFIG.audio.recorded, enabled: false };
     this.assets = assets;
-    this.tracks = new Map();
-    this.pending = new Map();
-    this.failedAt = new Map();
+    this.bus = null;
+    this.variants = new Map();
     this.selectedRainRole = null;
     this.selectedWindRole = null;
     this._destroyed = false;
@@ -93,154 +92,85 @@ export class WeatherRecordedAmbienceController {
   }
 
   update(state) {
-    const soundSystem = this.scene.soundSystem;
-    const canPlay = Boolean(
-      soundSystem?.audioInitialized
-      && soundSystem?.sfxEnabled
-      && this.scene.sound?.context,
-    );
-    const mix = canPlay
-      ? resolveWeatherAmbienceMix(
-        state,
-        this.config,
-        this.selectedRainRole,
-        this.selectedWindRole,
-      )
-      : { rainRole: null, rainVolume: 0, windRole: null, windVolume: 0 };
+    if (this._destroyed) return this._snapshot;
+    const system = this.scene.soundSystem;
+    if (!this.bus && system) this.bus = new AudioLayerBus(system, REVIEWED_AUDIO_MIX.weather);
+    const canPlay = Boolean(system?.audioInitialized && system.sfxEnabled && this.scene.sound?.context
+      && this.scene.gameState !== "paused");
+    const mix = resolveWeatherAmbienceMix(state, { ...this.config, enabled: this.config.enabled && canPlay },
+      this.selectedRainRole, this.selectedWindRole);
     this.selectedRainRole = mix.rainRole;
     this.selectedWindRole = mix.windRole;
-
-    if (mix.rainRole) this._ensureTrack(mix.rainRole);
-    if (mix.windRole) this._ensureTrack(mix.windRole);
-
-    const targets = new Map();
-    if (mix.rainRole) targets.set(mix.rainRole, mix.rainVolume * soundSystem.sfxVolume);
-    if (mix.windRole) targets.set(mix.windRole, mix.windVolume * soundSystem.sfxVolume);
-    const delta = Math.min(
-      Math.max(Number(state.delta) || 0, 0),
-      this.config.maxDeltaMs,
-    );
-    this._updateTracks(targets, delta);
-
-    const rainCurrent = this._sumVolumes(RAIN_ROLES);
-    const windCurrent = this._sumVolumes(WIND_ROLES);
-    const rainTarget = (mix.rainVolume || 0) * (soundSystem?.sfxVolume ?? 1);
-    const windTarget = (mix.windVolume || 0) * (soundSystem?.sfxVolume ?? 1);
+    const targets = [];
+    const shelteredWindGain = 1 - clamp01(state.occlusion?.coveredAmount ?? 0)
+      * (1 - REVIEWED_AUDIO_MIX.weather.coveredWindMultiplier);
+    for (const kind of ["rain", "wind"]) {
+      const role = mix[kind + "Role"];
+      if (!role) continue;
+      if (kind === "wind" && targets.some(layer => layer.asset.id === "rainReference")) continue;
+      const asset = this._select(role, state);
+      if (!asset) continue;
+      const amount = mix[kind + "Volume"] / Math.max(0.0001, this.config.volumes[role]);
+      targets.push({ asset, gain: asset.gain * amount * (kind === "wind" ? shelteredWindGain : 1), role, kind });
+      // This reviewed mix includes wind; it replaces, rather than stacks with,
+      // the separately selected wind bed. Both stems load atomically.
+      if (asset.id === "rainReference") targets.push({
+        asset: { ...REVIEWED_AUDIO_ASSETS.windReference, weatherRole: "windOpen" },
+        gain: REVIEWED_AUDIO_ASSETS.windReference.gain * amount * shelteredWindGain, role: "windOpen", kind: "wind",
+      });
+    }
+    this.bus?.update(targets, state.delta);
+    const snapshot = this.bus?.snapshot() || { active: [], pending: [] };
+    const coverage = kind => {
+      const target = targets.find(layer => layer.kind === kind);
+      if (!target || target.gain <= 0) return 0;
+      // Include the outgoing bed during crossfade; do not re-enable procedural
+      // noise just because a new recorded variant has not reached full gain.
+      const keys = kind === "rain" ? RAIN_ROLES : WIND_ROLES;
+      const gain = [...(this.bus?.tracks.values() || [])].reduce((sum, track) => {
+        const role = this._roleForAsset(track.asset);
+        return sum + (keys.includes(role) ? track.effectiveGain : 0);
+      }, 0);
+      return clamp01(gain / target.gain);
+    };
     this._snapshot = {
-      rainRole: mix.rainRole,
-      windRole: mix.windRole,
-      rainManaged: Boolean(mix.rainRole),
-      windManaged: Boolean(mix.windRole),
-      rainCoverage: rainTarget > 0 ? clamp01(rainCurrent / rainTarget) : 0,
-      windCoverage: windTarget > 0 ? clamp01(windCurrent / windTarget) : 0,
-      stormCoverage: mix.rainRole === "stormOpen" && rainTarget > 0
-        ? clamp01(rainCurrent / rainTarget)
-        : 0,
-      loadedRoles: [...this.tracks.keys()],
-      pendingRoles: [...this.pending.keys()],
+      rainRole: mix.rainRole, windRole: mix.windRole,
+      rainManaged: Boolean(mix.rainRole), windManaged: Boolean(mix.windRole),
+      rainCoverage: coverage("rain"), windCoverage: coverage("wind"),
+      stormCoverage: mix.rainRole === "stormOpen" ? coverage("rain") : 0,
+      loadedRoles: snapshot.active.map(row => row.id || row.key),
+      pendingRoles: snapshot.pending, layers: snapshot.active,
     };
     return this._snapshot;
   }
 
-  getSnapshot() {
-    return { ...this._snapshot };
-  }
-
-  destroy() {
-    if (this._destroyed) return;
-    this._destroyed = true;
-    for (const handle of this.pending.values()) handle?.cancel?.();
-    this.pending.clear();
-    for (const track of this.tracks.values()) this._disposeTrack(track);
-    this.tracks.clear();
-    this._snapshot = this._emptySnapshot();
-  }
-
-  _ensureTrack(role) {
-    if (this._destroyed || this.tracks.has(role) || this.pending.has(role)) return;
-    const asset = this.assets?.[role];
-    if (!asset) return;
+  _select(role, state) {
+    const cfg = REVIEWED_AUDIO_MIX.weather;
+    const night = (this.scene.dayNightCycle?.getNightAmount?.() ?? 0) >= 0.5;
+    const profile = role === "windOpen" ? (night ? "windNight" : "windDay")
+      : role === "rainOpen" && state.kind === "drizzle" ? "drizzle" : role;
+    const ids = cfg[profile];
+    if (!Array.isArray(ids)) {
+      const old = this.assets[role];
+      return old ? { ...old, id: role, gain: this.config.volumes[role], peak: 1, weatherRole: role } : null;
+    }
     const now = Number(this.scene.time?.now) || 0;
-    if (now - (this.failedAt.get(role) ?? -Infinity) < this.config.loadRetryMs) return;
-    if (this.scene.cache?.audio?.exists?.(asset.key)) {
-      this._startTrack(role, asset);
-      return;
+    let selected = this.variants.get(profile);
+    if (!selected || now >= selected.until) {
+      const pool = ids.filter(id => id !== selected?.id);
+      const choices = pool.length ? pool : ids;
+      selected = { id: choices[Math.floor(Math.random() * choices.length)], until: now + cfg.variantHoldMs };
+      this.variants.set(profile, selected);
     }
-
-    const manager = this.scene.soundSystem?.runtimeAudioAssetManager;
-    const handle = manager?.ensure?.(asset, {
-      onReady: () => {
-        this.pending.delete(role);
-        if (!this._destroyed && (this.selectedRainRole === role || this.selectedWindRole === role)) {
-          this._startTrack(role, asset);
-        }
-      },
-      onError: (_failedAsset, error) => {
-        this.pending.delete(role);
-        this.failedAt.set(role, Number(this.scene.time?.now) || 0);
-        console.warn(`[WeatherRecordedAmbienceController] Load failed: ${asset.key}`, error);
-      },
-    });
-    if (handle) this.pending.set(role, handle);
+    return { ...REVIEWED_AUDIO_ASSETS[selected.id], weatherRole: role };
   }
 
-  _startTrack(role, asset) {
-    if (this._destroyed || this.tracks.has(role)) return;
-    try {
-      const sound = this.scene.sound.add(asset.key, { loop: true, volume: 0 });
-      sound.play();
-      this.tracks.set(role, { role, sound, volume: 0 });
-    } catch (error) {
-      this.failedAt.set(role, Number(this.scene.time?.now) || 0);
-      console.warn(`[WeatherRecordedAmbienceController] Playback failed: ${asset.key}`, error);
-    }
-  }
-
-  _updateTracks(targets, delta) {
-    for (const [role, track] of this.tracks) {
-      const target = targets.get(role) || 0;
-      const rate = target > track.volume
-        ? this.config.fadeInRatePerSecond
-        : this.config.fadeOutRatePerSecond;
-      const blend = 1 - Math.exp(-rate * delta / 1000);
-      track.volume = lerp(track.volume, target, blend);
-      try {
-        track.sound.volume = clamp01(track.volume);
-      } catch (_) {
-        this._disposeTrack(track);
-        this.tracks.delete(role);
-        continue;
-      }
-      if (target <= 0 && track.volume <= this.config.stopVolumeEpsilon) {
-        this._disposeTrack(track);
-        this.tracks.delete(role);
-      }
-    }
-  }
-
-  _sumVolumes(roles) {
-    return roles.reduce(
-      (total, role) => total + (this.tracks.get(role)?.volume || 0),
-      0,
-    );
-  }
-
-  _disposeTrack(track) {
-    try { track.sound.stop(); } catch (_) {}
-    try { track.sound.destroy(); } catch (_) {}
-  }
-
+  _roleForAsset(asset) { return asset.weatherRole; }
+  getSnapshot() { return { ...this._snapshot }; }
+  stop() { this.bus?.stop(); this._snapshot = this._emptySnapshot(); }
+  destroy() { this._destroyed = true; this.bus?.destroy(); this._snapshot = this._emptySnapshot(); }
   _emptySnapshot() {
-    return {
-      rainRole: null,
-      windRole: null,
-      rainManaged: false,
-      windManaged: false,
-      rainCoverage: 0,
-      windCoverage: 0,
-      stormCoverage: 0,
-      loadedRoles: [],
-      pendingRoles: [],
-    };
+    return { rainRole: null, windRole: null, rainManaged: false, windManaged: false,
+      rainCoverage: 0, windCoverage: 0, stormCoverage: 0, loadedRoles: [], pendingRoles: [], layers: [] };
   }
 }

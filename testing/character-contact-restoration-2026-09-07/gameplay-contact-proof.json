@@ -1,0 +1,952 @@
+{
+  "errors": [],
+  "consoleErrors": [],
+  "activation": {
+    "activation": {
+      "ok": true,
+      "activationId": "ability-block:1:101347",
+      "engineId": "comet-engine",
+      "gpSpent": 0,
+      "temporaryGrant": true
+    },
+    "fixture": "existing temporary-ability activation",
+    "saveWritesBlocked": true,
+    "god": false,
+    "player": {
+      "x": 2804.499,
+      "y": 8084
+    }
+  },
+  "proof": {
+    "shots": [
+      {
+        "launch": {
+          "shot": 1,
+          "origin": {
+            "x": 2840.7099375,
+            "y": 8024.453125
+          },
+          "originSource": "authored-hand-foot",
+          "palette": "blue",
+          "releasedAtMs": 103616,
+          "releaseFrame": 2435,
+          "contactPose": {
+            "sheet": "survival-mixamo-v3-complex-dig-jab-sheet",
+            "contactFrame": 9,
+            "visibleFrame": 9,
+            "animationKey": "survival-mixamo-v3-complex-dig-jab-anim",
+            "flipX": false
+          },
+          "contactEvent": {
+            "actionId": 1,
+            "animationKey": "survival-mixamo-v3-complex-dig-jab-anim",
+            "contactFrame": 9,
+            "contactSequenceIndex": 6,
+            "contactIndex": 0,
+            "contactCount": 1,
+            "trigger": "animationupdate"
+          }
+        },
+        "frame": 2435,
+        "pose": {
+          "sheet": "survival-mixamo-v3-complex-dig-jab-sheet",
+          "contactFrame": 9,
+          "visibleFrame": 9,
+          "animationKey": "survival-mixamo-v3-complex-dig-jab-anim",
+          "x": 2804.499,
+          "y": 8084,
+          "scaleX": 0.201171875,
+          "scaleY": 0.201171875,
+          "width": 512,
+          "height": 512,
+          "originX": 0.5,
+          "originY": 0.890625,
+          "flipX": false,
+          "rotation": 0
+        },
+        "rawPoint": {
+          "x": 2840.7099375,
+          "y": 8027.671875
+        },
+        "authored": true,
+        "body": {
+          "x": 2840.7099375,
+          "y": 8024.453125,
+          "w": 64,
+          "h": 28,
+          "originX": 0.02,
+          "bounds": {
+            "type": 5,
+            "x": 2839.4299374999996,
+            "y": 8009.893125,
+            "width": 64,
+            "height": 28
+          },
+          "alpha": 1
+        }
+      },
+      {
+        "launch": {
+          "shot": 2,
+          "origin": {
+            "x": 2840.7099375,
+            "y": 8024.453125
+          },
+          "originSource": "authored-hand-foot",
+          "palette": "purple",
+          "releasedAtMs": 105117.7,
+          "releaseFrame": 2512,
+          "contactPose": {
+            "sheet": "survival-mixamo-v3-complex-dig-jab-sheet",
+            "contactFrame": 9,
+            "visibleFrame": 9,
+            "animationKey": "survival-mixamo-v3-complex-dig-jab-anim",
+            "flipX": false
+          },
+          "contactEvent": {
+            "actionId": 2,
+            "animationKey": "survival-mixamo-v3-complex-dig-jab-anim",
+            "contactFrame": 9,
+            "contactSequenceIndex": 6,
+            "contactIndex": 0,
+            "contactCount": 1,
+            "trigger": "animationupdate"
+          }
+        },
+        "frame": 2512,
+        "pose": {
+          "sheet": "survival-mixamo-v3-complex-dig-jab-sheet",
+          "contactFrame": 9,
+          "visibleFrame": 9,
+          "animationKey": "survival-mixamo-v3-complex-dig-jab-anim",
+          "x": 2804.499,
+          "y": 8084,
+          "scaleX": 0.201171875,
+          "scaleY": 0.201171875,
+          "width": 512,
+          "height": 512,
+          "originX": 0.5,
+          "originY": 0.890625,
+          "flipX": false,
+          "rotation": 0
+        },
+        "rawPoint": {
+          "x": 2840.7099375,
+          "y": 8027.671875
+        },
+        "authored": true,
+        "body": {
+          "x": 2840.7099375,
+          "y": 8024.453125,
+          "w": 64,
+          "h": 28,
+          "originX": 0.02,
+          "bounds": {
+            "type": 5,
+            "x": 2839.4299374999996,
+            "y": 8009.893125,
+            "width": 64,
+            "height": 28
+          },
+          "alpha": 1
+        }
+      },
+      {
+        "launch": {
+          "shot": 3,
+          "origin": {
+            "x": 2843.9286875,
+            "y": 8013.9921875
+          },
+          "originSource": "authored-hand-foot",
+          "palette": "red",
+          "releasedAtMs": 106619.2,
+          "releaseFrame": 2601,
+          "contactPose": {
+            "sheet": "survival-mixamo-v3-complex-dig-roundhouse-sheet",
+            "contactFrame": 9,
+            "visibleFrame": 9,
+            "animationKey": "survival-mixamo-v3-complex-dig-roundhouse-anim",
+            "flipX": false
+          },
+          "contactEvent": {
+            "actionId": 3,
+            "animationKey": "survival-mixamo-v3-complex-dig-roundhouse-anim",
+            "contactFrame": 9,
+            "contactSequenceIndex": 7,
+            "contactIndex": 0,
+            "contactCount": 1,
+            "trigger": "animationupdate"
+          }
+        },
+        "frame": 2601,
+        "pose": {
+          "sheet": "survival-mixamo-v3-complex-dig-roundhouse-sheet",
+          "contactFrame": 9,
+          "visibleFrame": 9,
+          "animationKey": "survival-mixamo-v3-complex-dig-roundhouse-anim",
+          "x": 2804.499,
+          "y": 8084,
+          "scaleX": 0.201171875,
+          "scaleY": 0.201171875,
+          "width": 512,
+          "height": 512,
+          "originX": 0.5,
+          "originY": 0.890625,
+          "flipX": false,
+          "rotation": 0
+        },
+        "rawPoint": {
+          "x": 2843.9286875,
+          "y": 8017.2109375
+        },
+        "authored": true,
+        "body": {
+          "x": 2843.9286875,
+          "y": 8013.9921875,
+          "w": 64,
+          "h": 28,
+          "originX": 0.02,
+          "bounds": {
+            "type": 5,
+            "x": 2842.6486874999996,
+            "y": 7999.4321875,
+            "width": 64,
+            "height": 28
+          },
+          "alpha": 1
+        }
+      },
+      {
+        "launch": {
+          "shot": 4,
+          "origin": {
+            "x": 2842.3193125,
+            "y": 8018.015625
+          },
+          "originSource": "authored-hand-foot",
+          "palette": "blue",
+          "releasedAtMs": 108037.3,
+          "releaseFrame": 2674,
+          "contactPose": {
+            "sheet": "survival-mixamo-v3-complex-dig-jab-elbow-sheet",
+            "contactFrame": 9,
+            "visibleFrame": 9,
+            "animationKey": "survival-mixamo-v3-complex-dig-jab-elbow-anim",
+            "flipX": false
+          },
+          "contactEvent": {
+            "actionId": 4,
+            "animationKey": "survival-mixamo-v3-complex-dig-jab-elbow-anim",
+            "contactFrame": 9,
+            "contactSequenceIndex": 8,
+            "contactIndex": 0,
+            "contactCount": 2,
+            "trigger": "animationupdate"
+          }
+        },
+        "frame": 2674,
+        "pose": {
+          "sheet": "survival-mixamo-v3-complex-dig-jab-elbow-sheet",
+          "contactFrame": 9,
+          "visibleFrame": 9,
+          "animationKey": "survival-mixamo-v3-complex-dig-jab-elbow-anim",
+          "x": 2804.499,
+          "y": 8084,
+          "scaleX": 0.201171875,
+          "scaleY": 0.201171875,
+          "width": 512,
+          "height": 512,
+          "originX": 0.5,
+          "originY": 0.890625,
+          "flipX": false,
+          "rotation": 0
+        },
+        "rawPoint": {
+          "x": 2842.3193125,
+          "y": 8021.234375
+        },
+        "authored": true,
+        "body": {
+          "x": 2842.3193125,
+          "y": 8018.015625,
+          "w": 64,
+          "h": 28,
+          "originX": 0.02,
+          "bounds": {
+            "type": 5,
+            "x": 2841.0393124999996,
+            "y": 8003.455625,
+            "width": 64,
+            "height": 28
+          },
+          "alpha": 1
+        }
+      },
+      {
+        "launch": {
+          "shot": 5,
+          "origin": {
+            "x": 2831.45603125,
+            "y": 8022.44140625
+          },
+          "originSource": "authored-hand-foot",
+          "palette": "purple",
+          "releasedAtMs": 108371,
+          "releaseFrame": 2691,
+          "contactPose": {
+            "sheet": "survival-mixamo-v3-complex-dig-jab-elbow-sheet",
+            "contactFrame": 20,
+            "visibleFrame": 20,
+            "animationKey": "survival-mixamo-v3-complex-dig-jab-elbow-anim",
+            "flipX": false
+          },
+          "contactEvent": {
+            "actionId": 4,
+            "animationKey": "survival-mixamo-v3-complex-dig-jab-elbow-anim",
+            "contactFrame": 20,
+            "contactSequenceIndex": 19,
+            "contactIndex": 1,
+            "contactCount": 2,
+            "trigger": "animationupdate"
+          }
+        },
+        "frame": 2691,
+        "pose": {
+          "sheet": "survival-mixamo-v3-complex-dig-jab-elbow-sheet",
+          "contactFrame": 20,
+          "visibleFrame": 20,
+          "animationKey": "survival-mixamo-v3-complex-dig-jab-elbow-anim",
+          "x": 2804.499,
+          "y": 8084,
+          "scaleX": 0.201171875,
+          "scaleY": 0.201171875,
+          "width": 512,
+          "height": 512,
+          "originX": 0.5,
+          "originY": 0.890625,
+          "flipX": false,
+          "rotation": 0
+        },
+        "rawPoint": {
+          "x": 2831.45603125,
+          "y": 8025.66015625
+        },
+        "authored": true,
+        "body": {
+          "x": 2831.45603125,
+          "y": 8022.44140625,
+          "w": 64,
+          "h": 28,
+          "originX": 0.02,
+          "bounds": {
+            "type": 5,
+            "x": 2830.1760312499996,
+            "y": 8007.88140625,
+            "width": 64,
+            "height": 28
+          },
+          "alpha": 1
+        }
+      },
+      {
+        "launch": {
+          "shot": 6,
+          "origin": {
+            "x": 2846.74509375,
+            "y": 8055.8359375
+          },
+          "originSource": "authored-hand-foot",
+          "palette": "red",
+          "releasedAtMs": 109605.6,
+          "releaseFrame": 2764,
+          "contactPose": {
+            "sheet": "survival-mixamo-v3-complex-dig-low-kick-sheet",
+            "contactFrame": 8,
+            "visibleFrame": 8,
+            "animationKey": "survival-mixamo-v3-complex-dig-low-kick-anim",
+            "flipX": false
+          },
+          "contactEvent": {
+            "actionId": 5,
+            "animationKey": "survival-mixamo-v3-complex-dig-low-kick-anim",
+            "contactFrame": 8,
+            "contactSequenceIndex": 6,
+            "contactIndex": 0,
+            "contactCount": 1,
+            "trigger": "animationupdate"
+          }
+        },
+        "frame": 2764,
+        "pose": {
+          "sheet": "survival-mixamo-v3-complex-dig-low-kick-sheet",
+          "contactFrame": 8,
+          "visibleFrame": 8,
+          "animationKey": "survival-mixamo-v3-complex-dig-low-kick-anim",
+          "x": 2804.499,
+          "y": 8084,
+          "scaleX": 0.201171875,
+          "scaleY": 0.201171875,
+          "width": 512,
+          "height": 512,
+          "originX": 0.5,
+          "originY": 0.890625,
+          "flipX": false,
+          "rotation": 0
+        },
+        "rawPoint": {
+          "x": 2846.74509375,
+          "y": 8059.0546875
+        },
+        "authored": true,
+        "body": {
+          "x": 2846.74509375,
+          "y": 8055.8359375,
+          "w": 64,
+          "h": 28,
+          "originX": 0.02,
+          "bounds": {
+            "type": 5,
+            "x": 2845.4650937499996,
+            "y": 8041.2759375,
+            "width": 64,
+            "height": 28
+          },
+          "alpha": 1
+        }
+      },
+      {
+        "launch": {
+          "shot": 7,
+          "origin": {
+            "x": 2842.72165625,
+            "y": 8020.02734375
+          },
+          "originSource": "authored-hand-foot",
+          "palette": "blue",
+          "releasedAtMs": 111090.5,
+          "releaseFrame": 2853,
+          "contactPose": {
+            "sheet": "survival-mixamo-v3-complex-dig-high-kick-sheet",
+            "contactFrame": 9,
+            "visibleFrame": 9,
+            "animationKey": "survival-mixamo-v3-complex-dig-high-kick-anim",
+            "flipX": false
+          },
+          "contactEvent": {
+            "actionId": 6,
+            "animationKey": "survival-mixamo-v3-complex-dig-high-kick-anim",
+            "contactFrame": 9,
+            "contactSequenceIndex": 7,
+            "contactIndex": 0,
+            "contactCount": 1,
+            "trigger": "animationupdate"
+          }
+        },
+        "frame": 2853,
+        "pose": {
+          "sheet": "survival-mixamo-v3-complex-dig-high-kick-sheet",
+          "contactFrame": 9,
+          "visibleFrame": 9,
+          "animationKey": "survival-mixamo-v3-complex-dig-high-kick-anim",
+          "x": 2804.499,
+          "y": 8084,
+          "scaleX": 0.201171875,
+          "scaleY": 0.201171875,
+          "width": 512,
+          "height": 512,
+          "originX": 0.5,
+          "originY": 0.890625,
+          "flipX": false,
+          "rotation": 0
+        },
+        "rawPoint": {
+          "x": 2842.72165625,
+          "y": 8023.24609375
+        },
+        "authored": true,
+        "body": {
+          "x": 2842.72165625,
+          "y": 8020.02734375,
+          "w": 64,
+          "h": 28,
+          "originX": 0.02,
+          "bounds": {
+            "type": 5,
+            "x": 2841.4416562499996,
+            "y": 8005.46734375,
+            "width": 64,
+            "height": 28
+          },
+          "alpha": 1
+        }
+      },
+      {
+        "launch": {
+          "shot": 8,
+          "origin": {
+            "x": 2839.90525,
+            "y": 8013.9921875
+          },
+          "originSource": "authored-hand-foot",
+          "palette": "purple",
+          "releasedAtMs": 112658.8,
+          "releaseFrame": 2947,
+          "contactPose": {
+            "sheet": "survival-mixamo-v3-complex-dig-spinning-back-kick-sheet",
+            "contactFrame": 12,
+            "visibleFrame": 12,
+            "animationKey": "survival-mixamo-v3-complex-dig-spinning-back-kick-anim",
+            "flipX": false
+          },
+          "contactEvent": {
+            "actionId": 7,
+            "animationKey": "survival-mixamo-v3-complex-dig-spinning-back-kick-anim",
+            "contactFrame": 12,
+            "contactSequenceIndex": 10,
+            "contactIndex": 0,
+            "contactCount": 1,
+            "trigger": "animationupdate"
+          }
+        },
+        "frame": 2947,
+        "pose": {
+          "sheet": "survival-mixamo-v3-complex-dig-spinning-back-kick-sheet",
+          "contactFrame": 12,
+          "visibleFrame": 12,
+          "animationKey": "survival-mixamo-v3-complex-dig-spinning-back-kick-anim",
+          "x": 2804.499,
+          "y": 8084,
+          "scaleX": 0.201171875,
+          "scaleY": 0.201171875,
+          "width": 512,
+          "height": 512,
+          "originX": 0.5,
+          "originY": 0.890625,
+          "flipX": false,
+          "rotation": 0
+        },
+        "rawPoint": {
+          "x": 2839.90525,
+          "y": 8017.2109375
+        },
+        "authored": true,
+        "body": {
+          "x": 2839.90525,
+          "y": 8013.9921875,
+          "w": 64,
+          "h": 28,
+          "originX": 0.02,
+          "bounds": {
+            "type": 5,
+            "x": 2838.6252499999996,
+            "y": 7999.4321875,
+            "width": 64,
+            "height": 28
+          },
+          "alpha": 1
+        }
+      },
+      {
+        "launch": {
+          "shot": 9,
+          "origin": {
+            "x": 2828.23728125,
+            "y": 8022.44140625
+          },
+          "originSource": "authored-hand-foot",
+          "palette": "red",
+          "releasedAtMs": 114026.8,
+          "releaseFrame": 3029,
+          "contactPose": {
+            "sheet": "survival-mixamo-v3-complex-dig-elbow-uppercut-sheet",
+            "contactFrame": 8,
+            "visibleFrame": 8,
+            "animationKey": "survival-mixamo-v3-complex-dig-elbow-uppercut-anim",
+            "flipX": false
+          },
+          "contactEvent": {
+            "actionId": 8,
+            "animationKey": "survival-mixamo-v3-complex-dig-elbow-uppercut-anim",
+            "contactFrame": 8,
+            "contactSequenceIndex": 7,
+            "contactIndex": 0,
+            "contactCount": 2,
+            "trigger": "animationupdate"
+          }
+        },
+        "frame": 3029,
+        "pose": {
+          "sheet": "survival-mixamo-v3-complex-dig-elbow-uppercut-sheet",
+          "contactFrame": 8,
+          "visibleFrame": 8,
+          "animationKey": "survival-mixamo-v3-complex-dig-elbow-uppercut-anim",
+          "x": 2804.499,
+          "y": 8084,
+          "scaleX": 0.201171875,
+          "scaleY": 0.201171875,
+          "width": 512,
+          "height": 512,
+          "originX": 0.5,
+          "originY": 0.890625,
+          "flipX": false,
+          "rotation": 0
+        },
+        "rawPoint": {
+          "x": 2828.23728125,
+          "y": 8025.66015625
+        },
+        "authored": true,
+        "body": {
+          "x": 2828.23728125,
+          "y": 8022.44140625,
+          "w": 64,
+          "h": 28,
+          "originX": 0.02,
+          "bounds": {
+            "type": 5,
+            "x": 2826.9572812499996,
+            "y": 8007.88140625,
+            "width": 64,
+            "height": 28
+          },
+          "alpha": 1
+        }
+      },
+      {
+        "launch": {
+          "shot": 10,
+          "origin": {
+            "x": 2814.9599375,
+            "y": 8009.96875
+          },
+          "originSource": "authored-hand-foot",
+          "palette": "blue",
+          "releasedAtMs": 114243.8,
+          "releaseFrame": 3042,
+          "contactPose": {
+            "sheet": "survival-mixamo-v3-complex-dig-elbow-uppercut-sheet",
+            "contactFrame": 16,
+            "visibleFrame": 16,
+            "animationKey": "survival-mixamo-v3-complex-dig-elbow-uppercut-anim",
+            "flipX": false
+          },
+          "contactEvent": {
+            "actionId": 8,
+            "animationKey": "survival-mixamo-v3-complex-dig-elbow-uppercut-anim",
+            "contactFrame": 16,
+            "contactSequenceIndex": 15,
+            "contactIndex": 1,
+            "contactCount": 2,
+            "trigger": "animationupdate"
+          }
+        },
+        "frame": 3042,
+        "pose": {
+          "sheet": "survival-mixamo-v3-complex-dig-elbow-uppercut-sheet",
+          "contactFrame": 16,
+          "visibleFrame": 16,
+          "animationKey": "survival-mixamo-v3-complex-dig-elbow-uppercut-anim",
+          "x": 2804.499,
+          "y": 8084,
+          "scaleX": 0.201171875,
+          "scaleY": 0.201171875,
+          "width": 512,
+          "height": 512,
+          "originX": 0.5,
+          "originY": 0.890625,
+          "flipX": false,
+          "rotation": 0
+        },
+        "rawPoint": {
+          "x": 2814.9599375,
+          "y": 8013.1875
+        },
+        "authored": true,
+        "body": {
+          "x": 2814.9599375,
+          "y": 8009.96875,
+          "w": 64,
+          "h": 28,
+          "originX": 0.02,
+          "bounds": {
+            "type": 5,
+            "x": 2813.6799374999996,
+            "y": 7995.40875,
+            "width": 64,
+            "height": 28
+          },
+          "alpha": 1
+        }
+      },
+      {
+        "launch": {
+          "shot": 11,
+          "origin": {
+            "x": 2823.8115,
+            "y": 8022.84375
+          },
+          "originSource": "authored-hand-foot",
+          "palette": "purple",
+          "releasedAtMs": 115678.5,
+          "releaseFrame": 3128,
+          "contactPose": {
+            "sheet": "survival-mixamo-v3-complex-dig-single-elbow-sheet",
+            "contactFrame": 10,
+            "visibleFrame": 10,
+            "animationKey": "survival-mixamo-v3-complex-dig-single-elbow-anim",
+            "flipX": false
+          },
+          "contactEvent": {
+            "actionId": 9,
+            "animationKey": "survival-mixamo-v3-complex-dig-single-elbow-anim",
+            "contactFrame": 10,
+            "contactSequenceIndex": 7,
+            "contactIndex": 0,
+            "contactCount": 1,
+            "trigger": "animationupdate"
+          }
+        },
+        "frame": 3128,
+        "pose": {
+          "sheet": "survival-mixamo-v3-complex-dig-single-elbow-sheet",
+          "contactFrame": 10,
+          "visibleFrame": 10,
+          "animationKey": "survival-mixamo-v3-complex-dig-single-elbow-anim",
+          "x": 2804.499,
+          "y": 8084,
+          "scaleX": 0.201171875,
+          "scaleY": 0.201171875,
+          "width": 512,
+          "height": 512,
+          "originX": 0.5,
+          "originY": 0.890625,
+          "flipX": false,
+          "rotation": 0
+        },
+        "rawPoint": {
+          "x": 2823.8115,
+          "y": 8026.0625
+        },
+        "authored": true,
+        "body": {
+          "x": 2823.8115,
+          "y": 8022.84375,
+          "w": 64,
+          "h": 28,
+          "originX": 0.02,
+          "bounds": {
+            "type": 5,
+            "x": 2822.5314999999996,
+            "y": 8008.28375,
+            "width": 64,
+            "height": 28
+          },
+          "alpha": 1
+        }
+      }
+    ],
+    "samples": [
+      {
+        "at": 103616,
+        "shot": 1,
+        "x": 2840.7099375,
+        "y": 8024.453125,
+        "w": 64,
+        "h": 28,
+        "alpha": 1
+      },
+      {
+        "at": 103916.4,
+        "shot": 1,
+        "x": 2840.7099375,
+        "y": 8024.453125,
+        "w": 64,
+        "h": 28,
+        "alpha": 1
+      },
+      {
+        "at": 105117.7,
+        "shot": 2,
+        "x": 2840.7099375,
+        "y": 8024.453125,
+        "w": 64,
+        "h": 28,
+        "alpha": 1
+      },
+      {
+        "at": 105134.3,
+        "shot": 2,
+        "x": 2840.7099375,
+        "y": 8024.453125,
+        "w": 64,
+        "h": 28,
+        "alpha": 1
+      },
+      {
+        "at": 106619.2,
+        "shot": 3,
+        "x": 2843.9286875,
+        "y": 8013.9921875,
+        "w": 64,
+        "h": 28,
+        "alpha": 1
+      },
+      {
+        "at": 106635.9,
+        "shot": 3,
+        "x": 2843.9286875,
+        "y": 8013.9921875,
+        "w": 64,
+        "h": 28,
+        "alpha": 1
+      },
+      {
+        "at": 108037.3,
+        "shot": 4,
+        "x": 2842.3193125,
+        "y": 8018.015625,
+        "w": 64,
+        "h": 28,
+        "alpha": 1
+      },
+      {
+        "at": 108054,
+        "shot": 4,
+        "x": 2842.3193125,
+        "y": 8018.015625,
+        "w": 64,
+        "h": 28,
+        "alpha": 1
+      },
+      {
+        "at": 108371,
+        "shot": 5,
+        "x": 2831.45603125,
+        "y": 8022.44140625,
+        "w": 64,
+        "h": 28,
+        "alpha": 1
+      },
+      {
+        "at": 108387.7,
+        "shot": 5,
+        "x": 2831.45603125,
+        "y": 8022.44140625,
+        "w": 64,
+        "h": 28,
+        "alpha": 1
+      },
+      {
+        "at": 109605.6,
+        "shot": 6,
+        "x": 2846.74509375,
+        "y": 8055.8359375,
+        "w": 64,
+        "h": 28,
+        "alpha": 1
+      },
+      {
+        "at": 109622.4,
+        "shot": 6,
+        "x": 2846.74509375,
+        "y": 8055.8359375,
+        "w": 64,
+        "h": 28,
+        "alpha": 1
+      },
+      {
+        "at": 111090.5,
+        "shot": 7,
+        "x": 2842.72165625,
+        "y": 8020.02734375,
+        "w": 64,
+        "h": 28,
+        "alpha": 1
+      },
+      {
+        "at": 111107.2,
+        "shot": 7,
+        "x": 2842.72165625,
+        "y": 8020.02734375,
+        "w": 64,
+        "h": 28,
+        "alpha": 1
+      },
+      {
+        "at": 112658.8,
+        "shot": 8,
+        "x": 2839.90525,
+        "y": 8013.9921875,
+        "w": 64,
+        "h": 28,
+        "alpha": 1
+      },
+      {
+        "at": 112675.4,
+        "shot": 8,
+        "x": 2839.90525,
+        "y": 8013.9921875,
+        "w": 64,
+        "h": 28,
+        "alpha": 1
+      },
+      {
+        "at": 114026.8,
+        "shot": 9,
+        "x": 2828.23728125,
+        "y": 8022.44140625,
+        "w": 64,
+        "h": 28,
+        "alpha": 1
+      },
+      {
+        "at": 114043.5,
+        "shot": 9,
+        "x": 2828.23728125,
+        "y": 8022.44140625,
+        "w": 64,
+        "h": 28,
+        "alpha": 1
+      },
+      {
+        "at": 114243.8,
+        "shot": 10,
+        "x": 2814.9599375,
+        "y": 8009.96875,
+        "w": 64,
+        "h": 28,
+        "alpha": 1
+      },
+      {
+        "at": 114260.4,
+        "shot": 10,
+        "x": 2814.9599375,
+        "y": 8009.96875,
+        "w": 64,
+        "h": 28,
+        "alpha": 1
+      },
+      {
+        "at": 115678.5,
+        "shot": 11,
+        "x": 2823.8115,
+        "y": 8022.84375,
+        "w": 64,
+        "h": 28,
+        "alpha": 1
+      },
+      {
+        "at": 115695.3,
+        "shot": 11,
+        "x": 2823.8115,
+        "y": 8022.84375,
+        "w": 64,
+        "h": 28,
+        "alpha": 1
+      }
+    ],
+    "pauseNext": false
+  },
+  "status": "PASS"
+}

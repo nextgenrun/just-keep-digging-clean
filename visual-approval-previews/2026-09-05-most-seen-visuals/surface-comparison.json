@@ -1,0 +1,40 @@
+{
+  "placement": true,
+  "before": {
+    "tile": {
+      "tx": 4,
+      "ty": 64
+    },
+    "camera": {
+      "x": 0,
+      "y": 5814
+    },
+    "playerFrame": 108,
+    "saveBlocked": true,
+    "errors": []
+  },
+  "after": {
+    "tile": {
+      "tx": 4,
+      "ty": 64
+    },
+    "camera": {
+      "x": 0,
+      "y": 5814
+    },
+    "playerFrame": 108,
+    "saveBlocked": true,
+    "errors": []
+  },
+  "proposal": {
+    "reviewOnly": true,
+    "productionChanged": false,
+    "changedObjects": 19,
+    "addedObjects": 7,
+    "collapsedLockedSlots": 5,
+    "campfirePreserved": true,
+    "quieterDecorations": 0,
+    "saveBlocked": true
+  },
+  "sameGameState": true
+}

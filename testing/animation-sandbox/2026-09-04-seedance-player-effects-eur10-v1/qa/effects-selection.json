@@ -1,0 +1,117 @@
+{
+  "schemaVersion": "seedance-effects-selection-v1",
+  "reviewOnly": true,
+  "productionChanged": false,
+  "status": "partial-core-pass",
+  "selectionRules": [
+    "forward frame order only",
+    "one physical expansion or fall with no suction return",
+    "clean black carrier at the end",
+    "no generated player, tool, tile, scenery, text, or watermark",
+    "trim only; no interpolation, reverse frames, or ping-pong"
+  ],
+  "selections": [
+    {
+      "id": "fx-stone-contact-v01",
+      "profileId": "fx-stone-contact",
+      "role": "masked-one-shot-aftereffect",
+      "status": "accepted",
+      "trimStartSeconds": 0.75,
+      "trimDurationSeconds": 2.85,
+      "intendedUse": "ordinary stone mining contact, anchored at the exact fist or foot contact point",
+      "reason": "compact burst, clean carrier, outward chips and gravity-led fall"
+    },
+    {
+      "id": "fx-stone-contact-v02",
+      "profileId": "fx-stone-contact",
+      "role": "masked-one-shot-aftereffect",
+      "status": "rejected",
+      "reason": "dark smoke wheel and persistent crosshair-like center are less native to the current material language"
+    },
+    {
+      "id": "fx-metal-contact-v01",
+      "profileId": "fx-metal-contact",
+      "role": "additive-one-shot-aftereffect",
+      "status": "accepted",
+      "trimStartSeconds": 0.62,
+      "trimDurationSeconds": 2.6,
+      "intendedUse": "ore and metal mining contact, scaled down and tinted by material family",
+      "reason": "single warm spark fan with outward momentum and a clean decay"
+    },
+    {
+      "id": "fx-metal-contact-v02",
+      "profileId": "fx-metal-contact",
+      "role": "additive-one-shot-aftereffect",
+      "status": "rejected",
+      "reason": "radial streaks fill too much of the screen for frequent contact feedback"
+    },
+    {
+      "id": "fx-crystal-contact-v01",
+      "profileId": "fx-crystal-contact",
+      "role": "additive-one-shot-aftereffect",
+      "status": "accepted",
+      "trimStartSeconds": 0.2,
+      "trimDurationSeconds": 2.9,
+      "intendedUse": "rare crystal contact or shatter accent, composited additively at reduced scale",
+      "reason": "high-impact faceted burst with forward radial travel, stable identity, and full decay"
+    },
+    {
+      "id": "fx-crystal-contact-v02",
+      "profileId": "fx-crystal-contact",
+      "role": "additive-one-shot-aftereffect",
+      "status": "rejected",
+      "reason": "action is already bright on its first source frame, creating a visible trigger pop"
+    },
+    {
+      "id": "fx-magma-contact-v01",
+      "profileId": "fx-magma-contact",
+      "role": "additive-one-shot-aftereffect",
+      "status": "accepted",
+      "trimStartSeconds": 0.72,
+      "trimDurationSeconds": 2.9,
+      "intendedUse": "magma and ember-ore hit response at the contact point",
+      "reason": "compact molten chips and droplets continue outward and downward without reversing"
+    },
+    {
+      "id": "fx-magma-contact-v02",
+      "profileId": "fx-magma-contact",
+      "role": "additive-one-shot-aftereffect",
+      "status": "rejected",
+      "reason": "excellent spectacle but too large for the most frequent hit event"
+    },
+    {
+      "id": "fx-dirt-break-v01",
+      "profileId": "fx-dirt-break",
+      "role": "masked-destructive-one-shot",
+      "status": "accepted",
+      "trimStartSeconds": 0.72,
+      "trimDurationSeconds": 2.9,
+      "intendedUse": "normal dirt tile destruction, centered over the tile as it is removed",
+      "reason": "localized eruption, coherent debris fall, natural residue, and clean final carrier"
+    },
+    {
+      "id": "fx-dirt-break-v02",
+      "profileId": "fx-dirt-break",
+      "role": "masked-destructive-one-shot",
+      "status": "rejected",
+      "reason": "vertical plume is strong but reads as a heavy ground rupture rather than routine mining"
+    },
+    {
+      "id": "fx-stone-break-v01",
+      "profileId": "fx-stone-break",
+      "role": "masked-destructive-one-shot",
+      "status": "accepted",
+      "trimStartSeconds": 0.96,
+      "trimDurationSeconds": 2.7,
+      "intendedUse": "stone destruction swap; hide the exact tile as the keyed fracture covers its bounds",
+      "reason": "readable gray fracture, outward angular shards, and clean forward fall"
+    },
+    {
+      "id": "fx-stone-break-v02",
+      "profileId": "fx-stone-break",
+      "role": "masked-destructive-one-shot",
+      "status": "rejected",
+      "reason": "beautiful but crystalline symmetry conflicts with ordinary stone"
+    }
+  ]
+}

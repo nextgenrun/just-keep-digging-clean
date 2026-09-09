@@ -7,15 +7,18 @@ import { RESOURCE_COLORS, getResourceDisplayName } from "../../values/resourceTy
 import { PlayerController } from "../../player/PlayerController.js?rev=20260821-moving-complex-dig-v1";
 import { resolvePlayerTargetDirection } from "../../player/playerDirectionalTargets.js";
 import { DigSystem } from "../../systems/mining/DigSystem.js";
-import { TileCollisionSystem } from "../../systems/mining/TileCollisionSystem.js";
+import { TileCollisionSystem } from "../../systems/mining/TileCollisionSystem.js?rev=20260831-moving-drop-v1";
 import { FloatingTextSystem } from "../../systems/visual/FloatingTextSystem.js";
 import { showMiningDamageFeedback } from "../../systems/visual/miningDamageFeedback.js";
 import { PlayerSolidOcclusionSystem } from "../../systems/visual/PlayerSolidOcclusionSystem.js";
 import { PlayerKinematicMotionSystem } from "../../systems/visual/PlayerKinematicMotionSystem.js";
 import { PlayerRigContactSystem } from "../../systems/visual/PlayerRigContactSystem.js";
 import { FlightFootParticleSystem } from "../../systems/visual/FlightFootParticleSystem.js";
+import { PlayerRunDashFxSystem } from "../../systems/visual/PlayerRunDashFxSystem.js";
 import { GroundFootstepFxSystem } from "../../systems/visual/GroundFootstepFxSystem.js";
-import { CaveActionAnimationRuntime } from "./CaveActionAnimationRuntime.js?rev=20260821-moving-complex-dig-v1";
+import { SpeedBlockFxSystem } from "../../systems/visual/SpeedBlockFxSystem.js";
+import { DigImpactFxSystem } from "../../systems/visual/DigImpactFxSystem.js";
+import { CaveActionAnimationRuntime } from "./CaveActionAnimationRuntime.js?rev=20260831-stable-animation-size-v1";
 import { dispatchCaveMineFeedback } from "./caveMineFeedback.js";
 import { PlayerInputHandler } from "./PlayerInputHandler.js";
 
@@ -27,9 +30,10 @@ function copyAbilityState(source, target) {
 }
 
 function miningOptionsForAuthoredContact(contactEvent, actionStartedAtMs) {
-  if ((contactEvent?.contactIndex ?? 0) === 0) return { actionStartedAtMs };
+  if ((contactEvent?.contactIndex ?? 0) === 0) return { actionStartedAtMs, contactEvent };
   return {
     actionStartedAtMs,
+    contactEvent,
     ignoreCooldown: true,
     skipAbilityCost: true,
     skipHeavyPunch: true,
@@ -130,9 +134,17 @@ export class CaveGameplayController {
       this.playerController,
       this.worldModel,
       this.scene.playerAssetProfile,
-      { onFootstep: () => this.originScene?.soundSystem?.playFootstep?.() },
+      { onFootstep: () => this.originScene?.soundSystem?.playFootstep?.({ controller: this.playerController, worldModel: this.worldModel }) },
     );
     this.groundFootstepFxSystem.create();
+    this.scene.playerRunDashFx = new PlayerRunDashFxSystem(this.scene, this.scene.player, this.playerController);
+    this.scene.speedBlockFxSystem = new SpeedBlockFxSystem(
+      this.scene, this.scene.player, this.playerController,
+      origin.specialBlockEffectsManager,
+    );
+    this.scene.digImpactFxSystem = new DigImpactFxSystem(
+      this.scene, this.scene.player, this.playerController, this.scene.playerAssetProfile,
+    );
     this.actionAnimationRuntime.create();
     this.playerSolidOcclusion = new PlayerSolidOcclusionSystem(
       this.scene,
@@ -154,6 +166,7 @@ export class CaveGameplayController {
       this.actionAnimationRuntime.cancelThunderStrike(time);
     }
     this.playerController.update(delta);
+    this.originScene?.soundSystem?.reviewedAmbience?.observeMotion(this.playerController, delta, this.worldModel);
     this.playerKinematicMotion?.samplePhysics(delta);
     this.playerRigContact?.update(delta);
     const playerTile = this.playerController.getPlayerTile();
@@ -181,6 +194,7 @@ export class CaveGameplayController {
     );
     this._updateThunderStrike(time);
     this._updateLocomotionVisual(time, delta);
+    this.scene.speedBlockFxSystem?.update(delta);
     this.flightFootParticleSystem?.update(
       delta,
       !this.actionAnimationRuntime.isUalActionLocked
@@ -203,7 +217,13 @@ export class CaveGameplayController {
     this.playerKinematicMotion?.destroy();
     this.playerRigContact?.destroy();
     this.flightFootParticleSystem?.destroy();
+    this.scene.playerRunDashFx?.destroy();
+    this.scene.playerRunDashFx = null;
     this.groundFootstepFxSystem?.destroy();
+    this.scene.speedBlockFxSystem?.destroy();
+    this.scene.digImpactFxSystem?.destroy();
+    this.scene.digImpactFxSystem = null;
+    this.scene.speedBlockFxSystem = null;
     this.scene.playerKinematicMotion = null;
     this.scene.playerRigContact = null;
     this.inputHandler?.destroy();
@@ -218,16 +238,24 @@ export class CaveGameplayController {
     ) return;
     if (abilities.isQuickslashActive()) {
       const direction = abilities.getQuickslashDirection();
-      const quickslashTarget = this.inputHandler.resolveAimTargetTileForVector({
-        x: direction,
-        y: 0,
-      });
-      this._tryMine(
-        quickslashTarget,
+      const quickslashTargets = [direction, -direction]
+        .map(side => {
+          const target = this.inputHandler.resolveAimTargetTileForVector({
+            x: side,
+            y: 0,
+          });
+          if (!target) return null;
+          return {
+            ...target,
+            aimDirection: side > 0 ? "RIGHT" : "LEFT",
+          };
+        })
+        .filter(Boolean);
+      this._tryQuickslash(
+        quickslashTargets,
         time,
         direction > 0 ? "RIGHT" : "LEFT",
         abilities,
-        "quickslash"
       );
       return;
     }
@@ -238,6 +266,66 @@ export class CaveGameplayController {
       }
       this._tryMine(targetTile, time, effectiveAimLabel, abilities, "mine");
     }
+  }
+
+  _tryQuickslash(targets, time, aim, abilities) {
+    const targetTile = targets[0];
+    if (!targetTile) return;
+    const targetDirection = resolvePlayerTargetDirection(
+      this.playerController?.physicsBody,
+      this.scene.config?.tileSize,
+      targetTile,
+    );
+    const resolvedAim = targetDirection?.aimLabel || aim;
+    const mineBothSides = () => {
+      const result = this.digSystem.tryMineArea(
+        targets,
+        this.scene.time?.now ?? time,
+        resolvedAim,
+        abilities,
+        { projectilePerEntry: true, skipHeavyPunch: false },
+      );
+      this._applyQuickslashAreaResult(result);
+      return result;
+    };
+    const profile = this.scene.playerAssetProfile || ASSET_KEYS.player;
+    if (profile.isUalNative) {
+      this._playMiningAnimation(
+        "quickslash",
+        resolvedAim,
+        time,
+        abilities,
+        mineBothSides,
+        targetTile,
+        targetDirection,
+      );
+      return;
+    }
+    const result = mineBothSides();
+    if (result.reason !== "cooldown") {
+      this._playMiningAnimation("quickslash", resolvedAim, time);
+    }
+  }
+
+  _applyQuickslashAreaResult(areaResult) {
+    if (!areaResult || areaResult.reason === "cooldown") return;
+    let applied = false;
+    for (const hit of areaResult.hits || []) {
+      const projectileHits = hit.result?.celestialProjectile?.hits;
+      const resolvedHits = Array.isArray(projectileHits) && projectileHits.length > 0
+        ? projectileHits
+        : [hit];
+      for (const resolvedHit of resolvedHits) {
+        if (!resolvedHit.result?.success) continue;
+        this._applyMineResult(
+          resolvedHit.result,
+          { tx: resolvedHit.tx, ty: resolvedHit.ty },
+          { sync: false },
+        );
+        applied = true;
+      }
+    }
+    if (applied) this._syncResources();
   }
 
   _tryMine(targetTile, time, aim, abilities, action) {
@@ -269,7 +357,7 @@ export class CaveGameplayController {
           abilities,
           miningOptionsForAuthoredContact(contactEvent, time),
         );
-        if (result.success) this._applyMineResult(result, targetTile);
+        if (result.success) this._applyMineResult(result, targetTile, { contactEvent });
       }, targetTile, targetDirection);
       return;
     }
@@ -279,7 +367,7 @@ export class CaveGameplayController {
     if (result.success) this._applyMineResult(result, targetTile);
   }
 
-  _applyMineResult(result, targetTile) {
+  _applyMineResult(result, targetTile, { sync = true, contactEvent = null } = {}) {
     this._scaleCaveReward(result, "resourceType", "resourceAmount");
     this._scaleCaveReward(result, "behindResourceType", "behindResourceAmount");
     const tileSize = this.scene.config.tileSize;
@@ -302,8 +390,15 @@ export class CaveGameplayController {
       const behindY = result.heavyPunchTile.ty * tileSize + tileSize / 2;
       this._showResource(result.behindResourceType, result.behindResourceAmount, behindX, behindY);
     }
-    dispatchCaveMineFeedback(this.scene, this.originScene, result);
-    this._syncResources();
+    let queued = false;
+    if (result.success) {
+      queued = this.scene.digImpactFxSystem?.play({ result, targetTile, contactEvent });
+      if (!queued) this.scene.speedBlockFxSystem?.onMineImpact(targetTile);
+    }
+    dispatchCaveMineFeedback(this.scene, this.originScene, result, {
+      contactFeedback: queued && this.scene.digImpactFxSystem?.feedback?.enabled === true,
+    });
+    if (sync) this._syncResources();
   }
 
   _scaleCaveReward(result, resourceField, amountField) {
@@ -386,8 +481,8 @@ export class CaveGameplayController {
   }
 
   _playAnim(key, time, holdMs) {
-    this._applyPlayerDisplaySize(key);
     if (key && this.scene.anims.exists(key)) this.scene.player.play(key, true);
+    this._applyPlayerDisplaySize(key);
     this.playerController?._syncSpriteWithPhysics?.();
     this._actionUntilMs = holdMs === Infinity ? Infinity : time + holdMs;
   }

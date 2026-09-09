@@ -1,0 +1,116 @@
+{
+  "version": 2,
+  "date": "2026-09-03",
+  "builtInImageGen": true,
+  "processing": "Native RGBA plants; exact existing Star atlas frame extraction. No repainting or resizing.",
+  "assets": [
+    {
+      "name": "hanging-vine",
+      "path": "sprites/environment/worldroot-sanctuary-v2/hanging-vine.png",
+      "width": 1024,
+      "height": 1536,
+      "hasAlpha": true,
+      "sourcePixelsPreserved": true,
+      "bytes": 1783335,
+      "sha256": "cddea7df76e6f6ffd8ecab5e3a80bc17cf8c1e13af176238f109a8826e2b1ce8",
+      "pixelSha256": "476cfd8d046e93093b50ec3e70f0a3186e6f6b72517b179d996d7c897f5f2334",
+      "kind": "imagegen-plant",
+      "source": "source/hanging-vine.png",
+      "sourceSha256": "f391ec3cc7903bed94eb2dffa45820b497d9084d2f64fd0554867254145fdb39"
+    },
+    {
+      "name": "root-fern",
+      "path": "sprites/environment/worldroot-sanctuary-v2/root-fern.png",
+      "width": 1536,
+      "height": 1024,
+      "hasAlpha": true,
+      "sourcePixelsPreserved": true,
+      "bytes": 2177555,
+      "sha256": "6bc974b56fbe577bd25b9d566176a9cd5dec000974a58f0569f81bff14ce53d3",
+      "pixelSha256": "96568e5515bf779738c71fcc83b6d1f90ddc4df40881094fa9a6978d541fa0cf",
+      "kind": "imagegen-plant",
+      "source": "source/root-fern.png",
+      "sourceSha256": "3879e682a9373ec1aadfb51d33f4d0c5a3a6705954351208fa318b9056ce6ad2"
+    },
+    {
+      "name": "falling-leaf",
+      "path": "sprites/environment/worldroot-sanctuary-v2/falling-leaf.png",
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "sourcePixelsPreserved": true,
+      "bytes": 696366,
+      "sha256": "14352de136406b6ae9419f97b7231b4bcec91bafbe69558c8ae49d87af6c59fc",
+      "pixelSha256": "190c307eb2508ded4b55e344b4cfc8c7f3d7e759408b660a6ea5c6618a0576d1",
+      "kind": "imagegen-plant",
+      "source": "source/falling-leaf.png",
+      "sourceSha256": "520c18f21aee451d2eb7e77c4f513b723547cda65e345cb1b24b42e5e1d88391"
+    },
+    {
+      "name": "signal-star",
+      "path": "sprites/environment/worldroot-sanctuary-v2/signal-star.png",
+      "width": 256,
+      "height": 256,
+      "hasAlpha": true,
+      "sourcePixelsPreserved": true,
+      "bytes": 88148,
+      "sha256": "4abfda1365ab595f9965ec90a19331880a3528448b54eaefdeaf6da3528e0950",
+      "pixelSha256": "3f401b4fc2a20aa3d6e62aee676cd5e563ab266cbd53890854224232ebdfb0f3",
+      "kind": "existing-game-star",
+      "identity": "moonwhite",
+      "source": "sprites/environment/star-identities-v2/star-identities-common-atlas-v2.png",
+      "frame": "star-identity-common-2",
+      "rect": {
+        "left": 512,
+        "top": 0,
+        "width": 256,
+        "height": 256
+      },
+      "sourceSha256": "169c2ccdc1427b4f6573467b8f7da92cce887533f4ac5ef7926820880eb19e52"
+    },
+    {
+      "name": "talent-star",
+      "path": "sprites/environment/worldroot-sanctuary-v2/talent-star.png",
+      "width": 256,
+      "height": 256,
+      "hasAlpha": true,
+      "sourcePixelsPreserved": true,
+      "bytes": 95342,
+      "sha256": "a0c16a5b0d1f83bd1995003a1132e8da3239b667230f07781ad420251f6287e8",
+      "pixelSha256": "c409125e88bdbf86c7803893cdc5ca9a557f7e2f91cfb2ed890cc3f0b7126545",
+      "kind": "existing-game-star",
+      "identity": "frost-lilac",
+      "source": "sprites/environment/star-identities-v2/star-identities-common-atlas-v2.png",
+      "frame": "star-identity-common-5",
+      "rect": {
+        "left": 1280,
+        "top": 0,
+        "width": 256,
+        "height": 256
+      },
+      "sourceSha256": "169c2ccdc1427b4f6573467b8f7da92cce887533f4ac5ef7926820880eb19e52"
+    },
+    {
+      "name": "crown-star",
+      "path": "sprites/environment/worldroot-sanctuary-v2/crown-star.png",
+      "width": 256,
+      "height": 256,
+      "hasAlpha": true,
+      "sourcePixelsPreserved": true,
+      "bytes": 93775,
+      "sha256": "c6c26bfa0b4e84645e5272febe064aa6da388ac6fe9d810c918f3bff306bc7fd",
+      "pixelSha256": "cbe6fc07abfb5ed06da8ae82a4ca09da9d79b45839f6472d207db34f95aa3a55",
+      "kind": "existing-game-star",
+      "identity": "soft-amber",
+      "source": "sprites/environment/star-identities-v2/star-identities-common-atlas-v2.png",
+      "frame": "star-identity-common-9",
+      "rect": {
+        "left": 2304,
+        "top": 0,
+        "width": 256,
+        "height": 256
+      },
+      "sourceSha256": "169c2ccdc1427b4f6573467b8f7da92cce887533f4ac5ef7926820880eb19e52"
+    }
+  ]
+}

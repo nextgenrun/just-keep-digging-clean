@@ -1,8 +1,14 @@
+import { applyUnifiedDigContactPresentation } from "./digImpactPresentation.js";
+
 const VERSION = "survival-unified-animation-runtime-v1-20260825";
 const RUNTIME_ROOT = "sprites/character/survival-character-unified-v1/runtime";
 const DISPLAY_SIZE_PX = 101;
 const FRAME_SIZE_PX = 256;
 const MOVING_COMPLEX_FRAME_SIZE_PX = 192;
+// The 192 px running-side composites occupy less of their cells than the
+// 256 px locomotion sheets. 117 px yields a measured 76.5 px median silhouette,
+// matching the 76 px run rather than shrinking to the former 66 px median.
+const MOVING_COMPLEX_DISPLAY_SIZE_PX = 117;
 const GROUNDED_ORIGIN = Object.freeze({ x: 0.5, y: 0.890625 });
 const TRANSITION_COHESION = Object.freeze({
   enabledByDefault: true,
@@ -30,6 +36,7 @@ export const SURVIVAL_UNIFIED_ANIMATION_RUNTIME_V1 = Object.freeze({
   displaySizePx: DISPLAY_SIZE_PX,
   frameSizePx: FRAME_SIZE_PX,
   movingComplexFrameSizePx: MOVING_COMPLEX_FRAME_SIZE_PX,
+  movingComplexDisplaySizePx: MOVING_COMPLEX_DISPLAY_SIZE_PX,
   groundedOrigin: GROUNDED_ORIGIN,
   rollbackQuery: "unifiedAnimation",
   disabledQueryValue: "0",
@@ -76,6 +83,9 @@ function calibratedAnimationSizes(profile) {
   return Object.freeze({
     ...uniformValues(profile.displaySizePxByAnimation, DISPLAY_SIZE_PX),
     ...(profile.displaySizePxByAnimation || {}),
+    ...Object.fromEntries((profile.movingComplexDigAnimationKeys || []).map(
+      animationKey => [animationKey, MOVING_COMPLEX_DISPLAY_SIZE_PX],
+    )),
   });
 }
 
@@ -122,6 +132,7 @@ export function applySurvivalUnifiedAnimationRuntimeV1(profile, enabled = true) 
   return Object.freeze({
     ...profile,
     renderPipeline: "survival-unified-animation-runtime-v1",
+    actionContactByAnimation: applyUnifiedDigContactPresentation(profile),
     version: VERSION,
     basePath: RUNTIME_ROOT,
     coreAnimationPolicy: "One Survival V4 mesh, rig, material, light and camera contract; one fixed scale per animation family keeps visible stature continuous without per-frame pulsing",
@@ -144,11 +155,11 @@ export function applySurvivalUnifiedAnimationRuntimeV1(profile, enabled = true) 
     preferAuthoredActionRecovery: presentationContinuityEnabled,
     // The legacy marker manifest was projected through several rejected crops
     // and origins. Unified actions are body-locked, so retaining those stale
-    // coordinates would reintroduce sprite/hitbox drift; footsteps safely use
-    // the physics-body floor fallback until unified markers are authored.
+    // coordinates would reintroduce sprite/hitbox drift. Footstep FX use their
+    // own current-sheet sole samples projected onto the physics-body floor.
     rigManifestKey: null,
     rigManifestFile: null,
-    rigMarkerPolicy: "body-locked contacts with physics-floor footstep fallback",
+    rigMarkerPolicy: "body-locked contacts; current-sheet footstep samples on the physics floor",
     unifiedAnimationRuntime: SURVIVAL_UNIFIED_ANIMATION_RUNTIME_V1,
   });
 }

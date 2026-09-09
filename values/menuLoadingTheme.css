@@ -1,0 +1,28 @@
+/* Quiet foreground: the scene and logo carry the composition. */
+.menu-loading {
+  --loading-ink: #fff0cd;
+  --loading-muted: #e6dcc8;
+  --loading-gold: #c4b18b;
+  --loading-focus: #95cfc7;
+  --loading-warning: #e2b2a0;
+  --loading-track: rgba(202, 199, 179, .18);
+  --loading-fill: linear-gradient(90deg, #8b825f, #d8cda3);
+  --loading-text-shadow: 0 1px 5px #050b13, 0 1px 12px #050b13;
+  --loading-error-edge: rgba(196, 177, 139, .32);
+  --loading-error-surface: rgba(8, 15, 22, .9);
+  --loading-font: Georgia, "Times New Roman", serif;
+  --loading-label-size: calc(15px * var(--loading-text-scale, 1));
+  --loading-percentage-size: calc(12px * var(--loading-text-scale, 1));
+  --loading-edition-size: calc(14px * var(--loading-text-scale, 1));
+  --loading-detail-size: calc(13px * var(--loading-text-scale, 1));
+  --loading-error-height: 96px;
+  --loading-gap: 16px;
+  --loading-track-gap: 12px;
+  --loading-well-height: 25%;
+  --loading-well-top: 31.25%;
+  --loading-well-inset: 3.1%;
+  --loading-retry-width: 220px;
+  --loading-retry-height: 44px;
+  --loading-ease: cubic-bezier(.22, 1, .36, 1);
+  --loading-transition: 220ms;
+}

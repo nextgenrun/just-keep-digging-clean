@@ -1,5 +1,13 @@
 # RoboPlaytest
 
+The `worldroot` profile captures all nine real Campfire upgrade transitions and
+their settled tree states. `2026-09-03-roboplaytest-hearth-evolution.mjs` also mines
+two genuine generated Ember seams through normal `S + F`, captures first/refill
+and repeat/charge reveals, dismisses them with `E`, and uses slot `6`. Access
+tunnels, positioning and temporary real Dragon Pickaxe/Strength/Quick Reflexes
+grants are explicitly accelerated fixtures; target ore health, mining input and
+reward authority are unchanged. Original equipment is restored after each find.
+
 `../2026-08-03-roboplaytest.mjs` is an isolated, deep beginning-to-end playtest
 for the current Phaser game. The default `deep` profile runs the critical path
 and broad system analysis; `--profile=critical` keeps only the shorter route.
@@ -25,6 +33,8 @@ The deep profile also audits:
 - Hardcore stress/cost/save rules in a fresh in-memory rules engine;
 - special tiles, retention, Journey, Stars, Titans, crafting, and map snapshots;
 - Starlight lazy loading while open and asset release while closed;
+- every Worldroot growth stage, memory/current threshold, route, terrace, and
+  Star-arrival lifecycle;
 - eleven World 1/World 2 visual checkpoints from the surface to 4990 m.
 
 ## Run
@@ -59,6 +69,15 @@ node ai-tools\2026-08-03-roboplaytest.mjs --profile=ui --viewport-width=960 --vi
 
 # Exercise real movement and the guided first test block
 node ai-tools\2026-08-03-roboplaytest.mjs --profile=opening --tutorial=guided
+
+# Audit the normal-play ground sanctuary and each original Campfire form
+node ai-tools\2026-08-03-roboplaytest.mjs --profile=worldroot
+
+# Use the desktop GPU backend for the local source-server check
+node ai-tools\2026-08-03-roboplaytest.mjs --profile=worldroot --native-gpu=1 --url=http://127.0.0.1:8081/index.html?cinematics=0 --no-server=1
+
+# Audit the collision-first Gate A layout against an already-running server
+node ai-tools\2026-08-03-roboplaytest.mjs --profile=worldroot --url='http://127.0.0.1:8092/?worldrootWhitebox=1'
 ```
 
 Use `--help` for all options.
@@ -84,6 +103,42 @@ software-rendered headless Edge, an individual depth sample can take 60–90
 seconds and should not be treated as a shipping-frame-rate measurement.
 Hardcore destructive death is not triggered—the rules are exercised in an
 isolated in-memory instance instead.
+
+In normal play, the focused `worldroot` profile uses the ground-only V3
+sanctuary: actual A/D walking, E blessing, a generated Star visited and mined
+with S+F (including its typed destruction acknowledgement), growth and death,
+all ten original Campfire forms with real upgrade clicks and exact payments,
+Talent/Map/Titan/Crown routes, and a screenshot after every action. Placement,
+bulk map discovery, purchase funds, Titan discovery, and bulk consumption are
+explicitly accelerated through their existing authorities. Only the final
+Crown-requirements case uses a labeled preview fixture, which is restored.
+No tree platforms are expected. `2026-09-03-roboplaytest-sanctuary.mjs` owns this
+route; its actions helper contains the real keyboard/pointer operations.
+Each return checks the active tall-tree texture, zero extra Star light layers,
+exactly fifteen living bush instances, surface headroom and visible canopy
+Stars. Every paid Campfire tier must grow the trunk while leaving the ground
+interaction coordinates unchanged.
+
+`--native-gpu=1` opts into Chromium's normal desktop GPU backend. The default
+remains software-rendered SwiftShader for CI; neither run is a shipping FPS
+benchmark. All runs retain a fresh isolated browser context.
+
+With an explicit `?worldrootArt=v4` or `?worldrootArt=v3`, the legacy route
+accelerates only the unlock setup. It still
+uses the real E key for every Hearth, biome, intact/consumed Star, Titan, and
+Crown route. It validates all twenty-five sprite-alpha V4 branch contacts with
+real falling-body landings (or thirteen under the V3 rollback), then waits for
+live Star-arrival objects to complete and clean themselves up. Real movement
+lands on the Crown approach, walks across it, and drops through it with Down.
+A dedicated live-Titan phase reveals
+the surface statues, measures the grounded and vertical gaps, checks that the
+statues render in front, and captures both systems in the same camera.
+
+With `?worldrootWhitebox=1`, the profile instead records the complete
+51.6-tile Gate A overview and drives the actual player across Rootways,
+Cobalt/Amber, Mirrorstone, Starfire, and Crown. It uses real D, Shift+W, Down,
+and E inputs; checks all fifty empty Star sockets and all 25 live Titans; and
+never loads the rejected tree composite into the review view.
 
 ## Save safety
 

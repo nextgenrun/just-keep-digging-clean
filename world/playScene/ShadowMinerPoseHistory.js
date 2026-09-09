@@ -8,12 +8,17 @@ function distance(left, right) {
   return Math.hypot(right.x - left.x, right.y - left.y);
 }
 
-function capturePose(time, sprite, playerTile, actionTokens) {
+function capturePose(time, sprite, playerTile, actionTokens, actionContext) {
   const textureKey = sprite?.texture?.key;
   const frameName = sprite?.frame?.name;
   if (!textureKey || frameName === undefined || frameName === null) return null;
   const animationKey = sprite.anims?.currentAnim?.key || null;
   const normalizedAnimationKey = String(animationKey || "").toLowerCase();
+  const targetTile = actionContext?.targetTile;
+  const hasRelativeTarget = Number.isFinite(targetTile?.tx)
+    && Number.isFinite(targetTile?.ty)
+    && Number.isFinite(playerTile?.tx)
+    && Number.isFinite(playerTile?.ty);
   return {
     time,
     x: finite(sprite.x),
@@ -29,7 +34,23 @@ function capturePose(time, sprite, playerTile, actionTokens) {
     originY: finite(sprite.originY, 0.5),
     displayWidth: Math.max(1, finite(sprite.displayWidth, sprite.width || 1)),
     displayHeight: Math.max(1, finite(sprite.displayHeight, sprite.height || 1)),
-    action: actionTokens.some(token => normalizedAnimationKey.includes(token)),
+    action: Boolean(actionContext)
+      || actionTokens.some(token => normalizedAnimationKey.includes(token)),
+    actionTargetOffsetX: hasRelativeTarget
+      ? Math.round(targetTile.tx - playerTile.tx)
+      : null,
+    actionTargetOffsetY: hasRelativeTarget
+      ? Math.round(targetTile.ty - playerTile.ty)
+      : null,
+    actionDirectionX: Number.isFinite(actionContext?.direction?.x)
+      ? Math.sign(actionContext.direction.x)
+      : null,
+    actionDirectionY: Number.isFinite(actionContext?.direction?.y)
+      ? Math.sign(actionContext.direction.y)
+      : null,
+    actionTileType: Number.isFinite(actionContext?.tileType)
+      ? actionContext.tileType
+      : null,
   };
 }
 
@@ -41,7 +62,7 @@ export class ShadowMinerPoseHistory {
     this.lastSampleAt = Number.NEGATIVE_INFINITY;
   }
 
-  record(time, sprite, playerTile) {
+  record(time, sprite, playerTile, actionContext = null) {
     if (!Number.isFinite(time)) return false;
     if (time - this.lastSampleAt < this.config.sampleIntervalMs) return false;
     const pose = capturePose(
@@ -49,6 +70,7 @@ export class ShadowMinerPoseHistory {
       sprite,
       playerTile,
       this.config.actionAnimationTokens,
+      actionContext,
     );
     if (!pose) return false;
 
@@ -97,6 +119,16 @@ export class ShadowMinerPoseHistory {
     };
   }
 
+  findFirstPose(startTime, endTime, predicate) {
+    if (typeof predicate !== "function") return null;
+    const pose = this.samples.find(sample => (
+      sample.time >= startTime
+      && sample.time <= endTime
+      && predicate(sample)
+    ));
+    return pose ? { ...pose } : null;
+  }
+
   getWindowSummary(startTime, endTime) {
     const poses = this.samples.filter(sample => (
       sample.time >= startTime && sample.time <= endTime
@@ -115,6 +147,42 @@ export class ShadowMinerPoseHistory {
       startPose: this.sampleAt(startTime),
       endPose: this.sampleAt(endTime),
     });
+  }
+
+  getNearestActionWindow(referenceTime = this.lastSampleAt) {
+    const windows = [];
+    let active = [];
+    const commit = () => {
+      if (active.length >= this.config.minimumActionReplaySamples) {
+        windows.push({
+          startTime: active[0].time,
+          endTime: active.at(-1).time,
+          samples: active.length,
+        });
+      }
+      active = [];
+    };
+    for (const sample of this.samples) {
+      const previous = active.at(-1);
+      if (
+        sample.action !== true
+        || (previous && sample.time - previous.time > this.config.maximumSampleGapMs)
+      ) {
+        commit();
+      }
+      if (sample.action === true) active.push(sample);
+    }
+    commit();
+    if (windows.length === 0) return null;
+    const distanceToWindow = window => {
+      if (referenceTime < window.startTime) return window.startTime - referenceTime;
+      if (referenceTime > window.endTime) return referenceTime - window.endTime;
+      return 0;
+    };
+    const selected = windows.sort(
+      (left, right) => distanceToWindow(left) - distanceToWindow(right),
+    )[0];
+    return Object.freeze({ ...selected });
   }
 
   replaceSamples(samples = []) {

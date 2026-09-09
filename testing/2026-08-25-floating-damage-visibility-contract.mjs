@@ -76,30 +76,26 @@ scene.time.now += 1000;
 floating.showDamage(100, 200, 15);
 assert.equal(textObjects.length, 2, "switching back to FULL must restore damage text immediately");
 scene.time.now += 1000;
-floating.showCriticalHit(100, 200, 24, 1.5);
-scene.time.now += 1000;
 floating.showHeavyPunchDamage(100, 200, 8);
-assert.equal(textObjects.length, 4, "FULL must present normal, critical, and Heavy Punch damage");
+assert.equal(textObjects.length, 3, "FULL must present normal and Heavy Punch damage");
 assert.deepEqual(
-  textObjects.slice(-2).map(text => text.depth),
-  [HUD_LAYOUT.floatingTextDepth, HUD_LAYOUT.floatingTextDepth],
+  textObjects.slice(-1).map(text => text.depth),
+  [HUD_LAYOUT.floatingTextDepth],
   "specialized damage styles must use the same visible world-feedback layer",
 );
 
 scene.time.now += 1000;
-const beforeCriticalRoute = textObjects.length;
+const beforeMiningRoute = textObjects.length;
 assert.equal(
   showMiningDamageFeedback(floating, 100, 200, {
     damage: 30,
-    isCriticalHit: true,
-    critMultiplier: 1.5,
   }),
-  "critical",
+  "normal",
 );
 assert.equal(
   textObjects.length,
-  beforeCriticalRoute + 1,
-  "one critical mining hit must create exactly one floating number",
+  beforeMiningRoute + 1,
+  "one mining hit must create exactly one floating number",
 );
 assert.equal(textObjects.at(-1).value.trim(), "30");
 
@@ -114,12 +110,12 @@ const caveGameplaySource = readFileSync(
 assert.doesNotMatch(
   playSceneUpdateSource,
   /floatingTextSystem\.show(?:Damage|CriticalHit)\(/,
-  "main-world mining must route normal and critical numbers through one selector",
+  "main-world mining must route damage numbers through one selector",
 );
 assert.doesNotMatch(
   caveGameplaySource,
   /floatingTextSystem\.show(?:Damage|CriticalHit)\(/,
-  "compact-cave mining must route normal and critical numbers through one selector",
+  "compact-cave mining must route damage numbers through one selector",
 );
 
 const darknessCeiling = Math.max(

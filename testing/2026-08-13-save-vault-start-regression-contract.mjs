@@ -33,7 +33,8 @@ for (const asset of preloadAssets) {
 }
 
 const fullscreenRule = styleSource.match(/#fs-btn\s*\{([\s\S]*?)\}/)?.[1] || "";
-assert.match(fullscreenRule, /bottom:\s*10px/);
-assert.doesNotMatch(fullscreenRule, /top:\s*104px/);
+assert.match(fullscreenRule, /top:\s*50%/);
+assert.match(fullscreenRule, /transform:\s*translateY\(-50%\)/);
+assert.doesNotMatch(fullscreenRule, /bottom:/);
 
 console.log("SAVE_VAULT_START_REGRESSION_CONTRACT_OK");

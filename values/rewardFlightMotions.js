@@ -6,6 +6,7 @@ export const REWARD_FLIGHT_CHANNELS = Object.freeze({
 export const REWARD_FLIGHT_MOTION_CONFIG = Object.freeze({
   selector: Object.freeze({
     recentWindow: 4,
+    strictRecentExclusion: true,
     immediateRepeatMultiplier: 0,
     recentProfileMultiplier: 0.16,
     matchingResourceMultiplier: 2.35,
@@ -18,6 +19,13 @@ export const REWARD_FLIGHT_MOTION_CONFIG = Object.freeze({
     levelUpSurgeMultiplier: 1.9,
     specialMinimumBandIndex: 2,
     levelUpMinimumBandIndex: 3,
+    starRareMinimumRarity: 2,
+    routingFloorBands: Object.freeze({
+      star: "large",
+      rareStar: "surge",
+      special: "large",
+      levelUp: "surge",
+    }),
   }),
   random: Object.freeze({
     hashOffset: 2166136261,
@@ -29,6 +37,9 @@ export const REWARD_FLIGHT_MOTION_CONFIG = Object.freeze({
     control2XSalt: 59,
     control2YSalt: 71,
     durationSalt: 89,
+    routeAmplitudeSalt: 97,
+    routeCyclesSalt: 101,
+    routePhaseSalt: 107,
   }),
   geometry: Object.freeze({
     minimumDistancePx: 1,
@@ -43,6 +54,16 @@ export const REWARD_FLIGHT_MOTION_CONFIG = Object.freeze({
     durationJitterRatio: 0.07,
     durationMinimumMs: 280,
     durationMaximumMs: 640,
+    routeVariationId: "normal-wave",
+    routeWaveDistanceFactor: 0.014,
+    routeWaveMinimumPx: 4,
+    routeWaveMaximumPx: 14,
+    routeWaveAmplitudeMinimumRatio: 0.58,
+    routeWaveCyclesMinimum: 0.7,
+    routeWaveCyclesMaximum: 1.45,
+    routeWaveBandStepRatio: 0.08,
+    routeWaveTangentMinimum: 0.001,
+    routeWaveFullTurnRadians: 6.283185307179586,
   }),
   channels: Object.freeze({
     loot: Object.freeze({ baseDurationMs: 455, durationPerIndexMs: 24, rotationRadians: 0.52 }),
@@ -201,6 +222,30 @@ export const REWARD_FLIGHT_MOTION_CONFIG = Object.freeze({
       lootWeight: 3, xpWeight: 5, control1Progress: 0.15, control2Progress: 0.77,
       side1: 0.58, side2: -0.32, lift1: 1.18, lift2: 0.86,
       durationMultiplier: 1.2, rotationMultiplier: 1.18, ease: "Quart.easeInOut",
+    }),
+    Object.freeze({
+      id: "slingshot-left", resourceAffinity: "star", amountAffinity: "surge",
+      lootWeight: 6.6, xpWeight: 8.6, control1Progress: 0.08, control2Progress: 0.62,
+      side1: -0.95, side2: 0.72, lift1: 0.42, lift2: 0.9,
+      durationMultiplier: 1.17, rotationMultiplier: -1.04, ease: "Expo.easeInOut",
+    }),
+    Object.freeze({
+      id: "slingshot-right", resourceAffinity: "any", amountAffinity: "surge",
+      lootWeight: 5.6, xpWeight: 7.6, control1Progress: 0.09, control2Progress: 0.63,
+      side1: 0.96, side2: -0.74, lift1: 0.44, lift2: 0.92,
+      durationMultiplier: 1.19, rotationMultiplier: 1.06, ease: "Expo.easeInOut",
+    }),
+    Object.freeze({
+      id: "halo-dive-left", resourceAffinity: "star", amountAffinity: "surge",
+      lootWeight: 4.6, xpWeight: 6.6, control1Progress: 0.24, control2Progress: 0.88,
+      side1: -0.18, side2: -0.82, lift1: 1.28, lift2: 0.15,
+      durationMultiplier: 1.21, rotationMultiplier: -1.22, ease: "Quart.easeInOut",
+    }),
+    Object.freeze({
+      id: "halo-dive-right", resourceAffinity: "any", amountAffinity: "surge",
+      lootWeight: 3.6, xpWeight: 5.6, control1Progress: 0.25, control2Progress: 0.89,
+      side1: 0.2, side2: 0.84, lift1: 1.3, lift2: 0.17,
+      durationMultiplier: 1.22, rotationMultiplier: 1.24, ease: "Quart.easeInOut",
     }),
   ]),
 });

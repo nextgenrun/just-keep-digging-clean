@@ -1,5 +1,5 @@
 {
-  "version": "complex-dig-animations-v2-20260821",
+  "version": "complex-dig-animations-v4-20260906",
   "generatedAt": "2026-08-21",
   "runtimeWired": true,
   "enabledByDefault": true,
@@ -18,9 +18,10 @@
     "scalePolicy": "one-fixed-scale-per-family-no-per-frame-resize",
     "report": "sprites/character/survival-character-blender-v2/piskel-polish/complex-dig-v2/complex-dig-piskel-polish-v2-report.json"
   },
+  "excludedSideClips": [],
   "sideSequence": [
-    "cross",
     "jab",
+    "cross",
     "roundhouse",
     "jabElbow",
     "lowKick",

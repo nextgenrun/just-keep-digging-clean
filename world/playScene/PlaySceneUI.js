@@ -3,9 +3,11 @@
  * Handles overlays, status bars, safe return line, and save/load functionality
  */
 
+import { TOWN_REST } from '../../values/townRest.js';
 import { WelcomeMessageGenerator } from "../model/WelcomeMessageGenerator.js";
 import { UI_CONFIG } from "../../values/uiConfig.js";
 import { HUD_LAYOUT } from "../../values/hudLayout.js";
+import { fitLiveUiText } from "../../systems/visual/bakedUiArt.js";
 import { UI_COLORS } from "../../values/uiColors.js";
 import {
   PAUSE_MENU_LAYOUT,
@@ -25,6 +27,7 @@ import {
   activateCelestialActionBarEntry,
   getCelestialActionBarAbilityState,
   getCelestialActionBarMetrics,
+  presentAbilityBlockChoiceEvent,
 } from "./CelestialActionBarRuntime.js";
 import {
   applyCelestialOverhaulState,
@@ -32,7 +35,6 @@ import {
 import {
   isHardcoreMode,
   isHardcoreModeArmed,
-  isHardcoreRunActive,
 } from "../../values/hardcoreMode.js";
 import { resolveTitanDiscoveriesEnabled } from "../../values/titanDiscoveries.js";
 import {
@@ -40,7 +42,12 @@ import {
   RUNTIME_FEATURE_ASSET_GROUP_IDS,
 } from "../../values/runtimeAssetLoading.js";
 import { JOURNEY_CONFIG } from "../../values/journeyConfig.js";
+import { addBakedUiCaption, getBakedPauseStat, fitBakedUiImage } from "../../systems/visual/bakedUiArt.js";
+import { PLAYER_HINT_CONFIG } from "../../values/playerHints.js";
+import { BAKED_UI_ART } from "../../values/bakedUiArt.js";
+import { PAUSE_MENU_COPY } from "../../values/playerFacingCopy.js";
 import { SCENE_BASE_PHASES, SCENE_SUSPENSION_KINDS } from "../../values/sceneRuntime.js";
+import { SAVE_SCHEDULING_CONFIG } from "../../values/saveScheduling.js";
 import {
   loadGraveborerWurmSaveData,
 } from "./GraveborerWurmBridge.js";
@@ -51,12 +58,31 @@ import {
 import { hasEscapeClosableUi } from "./hasEscapeClosableUi.js";
 import { enterSceneBasePhase, releaseSceneSuspension } from "./SceneModeBridge.js";
 
+export async function awaitBoundedMainMenuSave(
+  saveOperation,
+  timeoutMs = SAVE_SCHEDULING_CONFIG.mainMenuFlushTimeoutMs,
+) {
+  const limit = Math.max(0, Number(timeoutMs) || 0);
+  let timeoutId = null;
+  const settled = Promise.resolve(saveOperation).then(
+    value => ({ timedOut: false, value }),
+    error => ({ timedOut: false, error }),
+  );
+  const timeout = new Promise(resolve => {
+    timeoutId = setTimeout(() => resolve({ timedOut: true, value: false }), limit);
+  });
+  const outcome = await Promise.race([settled, timeout]);
+  if (timeoutId !== null) clearTimeout(timeoutId);
+  if ("error" in outcome) throw outcome.error;
+  return outcome;
+}
+
 /**
  * Mix in UI methods to PlayScene prototype
  */
 export function setupUIMethods(prototype, dependencies) {
   const { createButton, createFocusController, createHintLegend, createIconBadge,
-    createCelestialTalentTreeView, createJourneyPanelContent, createModalShell, createPanel,
+    createCelestialTalentTreeView, createJourneyPanelContent, createHintsPanelContent, createModalShell, createPanel,
     createPauseFeatureLoadingView,
     createSaveTransferPanelContent, createSettingsPanelContent, createTabBar, ShopOverlay,
     TitanArchiveView, UIMuteToggle, UINotificationSystem, UIInventoryPopup, WorldMapOverlay,
@@ -104,6 +130,9 @@ export function setupUIMethods(prototype, dependencies) {
         );
       },
     });
+    this.specialBlockEffectsManager?.setAbilityChoiceListener?.(
+      event => presentAbilityBlockChoiceEvent(this, event),
+    );
     this.celestialActionBarInputBridge = new CelestialActionBarInputBridge(
       this,
       this.celestialActionBarSystem,
@@ -212,9 +241,10 @@ export function setupUIMethods(prototype, dependencies) {
         flightLocked
           ? "FLIGHT UNLOCKS AFTER TRAINING"
           : approvedLayout
-            ? `GP  ${gpRaw} / ${gpMax}`
+            ? `${gpRaw} / ${gpMax}`
             : `GP: ${gpRaw}/${gpMax}`,
       );
+      if (approvedLayout) fitLiveUiText(this._gpLabelText, approvedLayout.width);
     }
   };
 
@@ -248,7 +278,9 @@ export function setupUIMethods(prototype, dependencies) {
 
   // Unified pause menu implementation.
   prototype.showPauseMenu = function(options = {}) {
-    if (this._pausePanel) return false;
+    if (this._pausePanel || this.townRestSystem?.isActive()) return false;
+    this.soundSystem?._suspendAudio?.();
+    this.soundSystem?.playMenuOpen?.();
     this._pauseSuspension ||= this.acquireSceneSuspension(
       SCENE_SUSPENSION_KINDS.PAUSE,
       "pause-menu",
@@ -257,8 +289,8 @@ export function setupUIMethods(prototype, dependencies) {
     this.openingFlightArtifactSystem?.view?.hideHud?.();
 
     const shell = createModalShell(this, {
-      title: "PAUSED",
-      subtitle: "Run controls, progression, and settings",
+      title: PAUSE_MENU_COPY.title,
+      subtitle: PAUSE_MENU_COPY.subtitle,
       icon: "pause",
       maxWidth: PAUSE_MENU_LAYOUT.maxWidth,
       maxHeight: PAUSE_MENU_LAYOUT.maxHeight,
@@ -277,6 +309,7 @@ export function setupUIMethods(prototype, dependencies) {
       settings: null,
       saveTransfer: null,
       journeyView: null,
+      hintsView: null,
       talentTree: null,
       titanArchive: null,
       activeFeatureGroup: null,
@@ -291,6 +324,7 @@ export function setupUIMethods(prototype, dependencies) {
     const pauseTabs = [
       { key: "general", label: "GENERAL", icon: "journal" },
       { key: "saves", label: "SAVES", icon: "journal" },
+      { key: "hints", label: PLAYER_HINT_CONFIG.copy.tab, skinKey: PLAYER_HINT_CONFIG.skinKey },
       ...(systemFeatureAvailable("journey") ? [{ key: "journey", label: JOURNEY_CONFIG.copy.tabLabel, icon: "stats" }] : []),
       ...(resolveTitanDiscoveriesEnabled()
         ? [{ key: "titans", label: "TITANS", icon: "journal" }]
@@ -348,12 +382,14 @@ export function setupUIMethods(prototype, dependencies) {
       state.settings?.destroy?.();
       state.saveTransfer?.destroy?.();
       state.journeyView?.destroy?.();
+      state.hintsView?.destroy?.();
       state.talentTree?.destroy?.();
       state.titanArchive?.destroy?.();
       state.featureLoadingView?.destroy?.();
       state.settings = null;
       state.saveTransfer = null;
       state.journeyView = null;
+      state.hintsView = null;
       state.talentTree = null;
       state.titanArchive = null;
       state.featureLoadingView = null;
@@ -364,9 +400,12 @@ export function setupUIMethods(prototype, dependencies) {
 
     const setTalentImmersive = active => {
       const visible = !active;
+      // The focused talent surface owns its frame; keep the modal backdrop/input lock.
+      shell.root?.setVisible?.(visible);
       state.tabs?.root?.setVisible?.(visible);
       state.hint?.root?.setVisible?.(visible);
-      shell.titleText?.setVisible?.(visible);
+      shell.titleText?.setVisible?.(visible && !shell.titleArt);
+      shell.titleArt?.setVisible?.(visible);
       shell.subtitleText?.setVisible?.(visible);
       shell.icon?.setVisible?.(visible);
       shell.closeButton?.root?.setVisible?.(visible);
@@ -386,6 +425,7 @@ export function setupUIMethods(prototype, dependencies) {
         wordWrap: style.wordWrap,
       }).setOrigin(originX, originY);
       tabContent.add(text);
+      addBakedUiCaption(this, tabContent, text);
       return text;
     };
 
@@ -409,7 +449,7 @@ export function setupUIMethods(prototype, dependencies) {
       addSurface(rect.left, bodyTop, leftWidth, bodyHeight, false);
       addSurface(rightX, bodyTop, rightWidth, bodyHeight, true);
 
-      addText(rect.left + 18, bodyTop + 17, "RUN ACTIONS", {
+      addText(rect.left + 18, bodyTop + 17, PAUSE_MENU_COPY.actionsTitle, {
         fontFamily: UI_FONTS.display,
         fontSize: "15px",
         fontStyle: "bold",
@@ -428,7 +468,7 @@ export function setupUIMethods(prototype, dependencies) {
           }) || 0
         : 0;
       const definitions = [
-        { label: "RESUME GAME", icon: "play", accent: UI_COLORS.borderSel, action: () => this.resumeGame() },
+        { label: PAUSE_MENU_COPY.resume, icon: "play", accent: UI_COLORS.borderSel, action: () => this.resumeGame() },
         ...(systemFeatureAvailable("specialTiles") && deepestPortal ? [{
           label: `QUICK RESUME  •  L${deepestPortal.levelId} ${deepestPortal.depth}m`
             + (quickResumeCost > 0 ? `  •  ${quickResumeCost.toLocaleString()} M` : ""),
@@ -439,9 +479,9 @@ export function setupUIMethods(prototype, dependencies) {
             if (result?.success) this.resumeGame();
           },
         }] : []),
-        { label: "SAVE GAME", icon: "journal", accent: UI_COLORS.borderGood, action: null },
-        { label: "RETURN TO SAFETY", icon: "prev", accent: UI_COLORS.borderHov, action: () => this.unstuckPlayer() },
-        { label: "MAIN MENU", icon: "close", accent: UI_COLORS.borderBad, action: () => this.returnToMainMenu() },
+        { label: PAUSE_MENU_COPY.save, icon: "journal", accent: UI_COLORS.borderGood, action: null },
+        { label: PAUSE_MENU_COPY.returnToSafety, icon: "prev", accent: UI_COLORS.borderHov, action: () => this.unstuckPlayer() },
+        { label: PAUSE_MENU_COPY.mainMenu, icon: "close", accent: UI_COLORS.borderBad, action: () => this.returnToMainMenu() },
       ];
       definitions.forEach((definition, index) => {
         let button;
@@ -459,7 +499,7 @@ export function setupUIMethods(prototype, dependencies) {
           parent: tabContent,
           onFocus: () => state.focus?.setIndex?.(index),
           onClick: () => {
-            if (definition.label === "SAVE GAME") {
+            if (definition.label === PAUSE_MENU_COPY.save) {
               this.saveGame({ setText: value => button.setLabel(value) });
             } else {
               definition.action?.();
@@ -469,7 +509,14 @@ export function setupUIMethods(prototype, dependencies) {
         state.controls.push(button);
       });
 
-      createIconBadge(this, "journal", {
+      const bakedHeader = getBakedPauseStat(this, "header");
+      const bakedLayout = BAKED_UI_ART.pauseStats.layout;
+      if (bakedHeader) {
+        tabContent.add(fitBakedUiImage(this.add.image(rightX + rightWidth / 2,
+          bodyTop + bakedLayout.headerY, bakedHeader.key, bakedHeader.frame),
+        rightWidth - 34, bakedLayout.headerHeight));
+      } else {
+        createIconBadge(this, "journal", {
         x: rightX + 56,
         y: bodyTop + 58,
         size: 70,
@@ -477,17 +524,18 @@ export function setupUIMethods(prototype, dependencies) {
         selected: true,
         parent: tabContent,
       });
-      addText(rightX + 104, bodyTop + 28, "RUN SNAPSHOT", {
+      addText(rightX + 104, bodyTop + 28, PAUSE_MENU_COPY.snapshotTitle, {
         fontFamily: UI_FONTS.display,
         fontSize: "20px",
         fontStyle: "bold",
         color: UI_COLORS.title,
       });
-      addText(rightX + 104, bodyTop + 58, "Current progress at a glance", {
+      addText(rightX + 104, bodyTop + 58, PAUSE_MENU_COPY.snapshotSubtitle, {
         fontFamily: UI_FONTS.mono,
         fontSize: "11px",
         color: UI_COLORS.gold,
       });
+      }
 
       const tile = this.playerController?.getPlayerTile?.();
       const depth = tile ? Math.max(0, tile.ty - this.config.topAirRows + 1) : 0;
@@ -509,12 +557,19 @@ export function setupUIMethods(prototype, dependencies) {
         ["MATERIALS", Math.floor(materials).toLocaleString()],
         ...(systemFeatureAvailable("relics") ? [["ANCIENT RELICS", relicCount]] : []),
         ...(systemFeatureAvailable("titans") ? [["TITANS", titanCount + " / 25"]] : []),
-        ...(systemFeatureAvailable("campfire") ? [["CAMPFIRE", buff ? buff.name.toUpperCase() : "NO ACTIVE BUFF"]] : []),
+        ...(systemFeatureAvailable("campfire") ? [["CAMPFIRE", buff ? buff.name.toUpperCase() : PAUSE_MENU_COPY.noActiveCampfire]] : []),
       ];
-      const snapshotTop = bodyTop + 118;
+      const snapshotTop = bodyTop + (bakedHeader ? bakedLayout.rowsTop : 118);
+      const bakedRowWidth = Math.min(rightWidth - 34, bakedLayout.rowHeight * bakedLayout.rowAspectRatio);
       snapshot.forEach((entry, index) => {
         const rowY = snapshotTop + index * 38;
-        if (index % 2 === 0) {
+        const bakedRow = bakedHeader && getBakedPauseStat(this, entry[0]);
+        let rowArt = null;
+        if (bakedRow) {
+          rowArt = fitBakedUiImage(this.add.image(rightX + rightWidth / 2, rowY + 14,
+            bakedRow.key, bakedRow.frame), bakedRowWidth, bakedLayout.rowHeight);
+          tabContent.add(rowArt);
+        } else if (index % 2 === 0) {
           const row = this.add.rectangle(
             rightX + rightWidth / 2,
             rowY + 14,
@@ -525,17 +580,19 @@ export function setupUIMethods(prototype, dependencies) {
           );
           tabContent.add(row);
         }
-        addText(rightX + 24, rowY + 14, entry[0], {
+        if (!bakedRow) addText(rightX + 24, rowY + 14, entry[0], {
           fontFamily: UI_FONTS.mono,
           fontSize: "10px",
           color: UI_COLORS.dim,
         }, 0, 0.5);
-        addText(rightX + rightWidth - 24, rowY + 14, String(entry[1]), {
+        const valueX = rowArt ? rowArt.x + rowArt.displayWidth / 2 - bakedLayout.valueInset : rightX + rightWidth - 24;
+        const liveValue = addText(valueX, rowY + 14, String(entry[1]), {
           fontFamily: UI_FONTS.display,
-          fontSize: "14px",
+          fontSize: bakedRow ? `${bakedLayout.valueFontSize}px` : "14px",
           fontStyle: "bold",
           color: index === 2 ? UI_COLORS.gold : UI_COLORS.title,
         }, 1, 0.5);
+        fitLiveUiText(liveValue, (rowArt?.displayWidth || rightWidth) * bakedLayout.valueWidthRatio);
       });
     };
 
@@ -547,18 +604,17 @@ export function setupUIMethods(prototype, dependencies) {
         height: bodyHeight,
         parent: tabContent,
         slotId: this.saveSlot,
-        allowExport: !isHardcoreRunActive(getHardcoreModeSaveData(this)),
-        exportDisabledReason: "OATH LOCKED",
         onFocus: index => state.focus?.setIndex?.(index),
         onSave: async () => {
           const saved = await this.saveGame();
           return {
             success: saved,
-            message: saved ? "Current progress saved." : "Save failed. Nothing was exported.",
+            message: saved ? "Current progress saved." : this.townRestSystem
+              ? TOWN_REST.copy.bedOnly : "Save failed. Nothing was exported.",
           };
         },
         onExport: async () => {
-          const saved = await this.saveGame();
+          const saved = this.townRestSystem ? true : await this.saveGame();
           if (!saved) {
             return { success: false, message: "Save failed. Export was cancelled." };
           }
@@ -571,7 +627,7 @@ export function setupUIMethods(prototype, dependencies) {
           };
         },
         onImport: async file => {
-          const saved = await this.saveGame();
+          const saved = this.townRestSystem ? true : await this.saveGame();
           if (!saved) {
             return { success: false, message: "Current progress could not be secured. Import cancelled." };
           }
@@ -595,6 +651,18 @@ export function setupUIMethods(prototype, dependencies) {
       state.controls = state.saveTransfer.getControls();
     };
 
+    const buildHints = () => {
+      state.hintsView = createHintsPanelContent(this, {
+        x: rect.left, y: bodyTop, width: rect.width, height: bodyHeight, parent: tabContent,
+        onFocus: index => state.focus?.setIndex?.(index),
+        onControlsChanged: (controls, index) => {
+          state.controls = controls;
+          state.focus?.setItems?.(controls, index);
+        },
+      });
+      state.controls = state.hintsView.getControls();
+    };
+
     const buildJourney = () => {
       state.journeyView = createJourneyPanelContent(this, {
         x: rect.left,
@@ -613,6 +681,10 @@ export function setupUIMethods(prototype, dependencies) {
         progression: this.celestialTalentProgressionSystem,
         getMoney: () => this.upgradeSystem?.getMoney?.() || 0,
         onClose: () => state.tabs?.setActive?.(0),
+        onControlsChanged: (controls, index) => {
+          state.controls = controls;
+          state.focus?.setItems?.(controls, index);
+        },
         onNodePurchased: result => {
           const unlockedEngineIds = result.snapshot?.unlockedAbilityIds
             || this.celestialTalentProgressionSystem?.getSnapshot?.()?.unlockedAbilityIds
@@ -621,7 +693,6 @@ export function setupUIMethods(prototype, dependencies) {
             ?.syncTalentUnlockedEngines?.(unlockedEngineIds);
           this.celestialActionBarSystem?.sync?.();
           this.celestialCurrencyHudSystem?.update?.(true);
-          this.soundSystem?.playUiConfirm?.();
           this.queueDugTilesSave?.();
         },
       });
@@ -642,6 +713,9 @@ export function setupUIMethods(prototype, dependencies) {
         inputHandler: this.inputHandler,
         uiMuteToggle: this.uiMuteToggle,
         manageFocus: true,
+        onSectionChange: direction => state.tabs.setActive(
+          (state.activeTab + direction + pauseTabs.length) % pauseTabs.length,
+        ),
         compact: (
           rect.width < SETTINGS_PANEL_LAYOUT.compactWidth
           || bodyHeight < SETTINGS_PANEL_LAYOUT.compactHeight
@@ -712,7 +786,7 @@ export function setupUIMethods(prototype, dependencies) {
             state.pendingFeatureConsumer = null;
             manager.releaseGroup(groupId, consumer);
             this.hudSystem?.flashStatus?.(
-              "Feature art could not be loaded",
+              PAUSE_MENU_COPY.featureLoadFailed,
               "#E07030",
               1800,
             );
@@ -752,6 +826,7 @@ export function setupUIMethods(prototype, dependencies) {
       state.tabs?.setActive?.(tabIndex, true);
       if (tabKey === "general") buildGeneral();
       else if (tabKey === "saves") buildSaves();
+      else if (tabKey === "hints") buildHints();
       else if (tabKey === "journey") buildJourney();
       else if (tabKey === "talents") buildTalents();
       else if (tabKey === "titans") buildTitans();
@@ -788,12 +863,18 @@ export function setupUIMethods(prototype, dependencies) {
     state.hint = createHintLegend(this, {
       x: 0,
       y: shell.height / 2 - 24,
-      text: "WASD / Arrows: move    Enter / Space: select    ESC: resume",
+      text: PAUSE_MENU_COPY.navigationHint,
       parent: shell.root,
     });
     state.focus = createFocusController(this, {
       items: [],
-      enabled: () => Boolean(this._pausePanel) && !this._settingsKeyCaptureActive,
+      enabled: () => Boolean(this._pausePanel) && !this._settingsKeyCaptureActive
+        && state.activeTab !== settingsTabIndex,
+      onTab: (direction, event) => {
+        if (!event?.ctrlKey) return false;
+        state.tabs.setActive((state.activeTab + direction + pauseTabs.length) % pauseTabs.length);
+        return true;
+      },
       onCancel: () => this.resumeGame(),
       onFocus: index => {
         state.titanArchive?.selectControl?.(index);
@@ -822,6 +903,7 @@ export function setupUIMethods(prototype, dependencies) {
     this._pausePanel = { shell, state };
     buildContent(initialTabIndex);
     shell.show();
+    setTalentImmersive(Boolean(state.talentTree));
     return true;
   };
 
@@ -861,6 +943,7 @@ export function setupUIMethods(prototype, dependencies) {
     pause.state?.settings?.destroy?.();
     pause.state?.saveTransfer?.destroy?.();
     pause.state?.journeyView?.destroy?.();
+    pause.state?.hintsView?.destroy?.();
     pause.state?.talentTree?.destroy?.();
     pause.state?.titanArchive?.destroy?.();
     pause.state?.releaseFeatureAssets?.();
@@ -869,8 +952,20 @@ export function setupUIMethods(prototype, dependencies) {
     pause.shell?.hide?.(() => pause.shell?.destroy?.());
   };
 
-  prototype.showWorldMap = function() {
-    if (this.worldMapOverlay?.isOpen || this._worldMapFeatureLoading || this.gameState !== "playing") return false;
+  prototype.showWorldMap = function(options = {}) {
+    if (this.gameState !== "playing" || this.townRestSystem?.isActive()) return false;
+    const focusTile = options.focusTile;
+    if (Number.isFinite(focusTile?.tx) && Number.isFinite(focusTile?.ty)) {
+      this._pendingWorldMapFocusTile = { tx: focusTile.tx, ty: focusTile.ty };
+    }
+    if (this.worldMapOverlay?.isOpen) {
+      const centered = this.worldMapOverlay.centerOnTile?.(
+        this._pendingWorldMapFocusTile,
+      ) === true;
+      if (centered) this._pendingWorldMapFocusTile = null;
+      return centered;
+    }
+    if (this._worldMapFeatureLoading) return true;
     const manager = this.runtimeFeatureAssetManager;
     const groupId = RUNTIME_FEATURE_ASSET_GROUP_IDS.worldMap;
     const consumer = RUNTIME_FEATURE_ASSET_CONSUMERS.worldMap;
@@ -886,10 +981,11 @@ export function setupUIMethods(prototype, dependencies) {
         }
         this._worldMapFeatureLoading = false;
         if (!result.ready || this.gameState !== "playing") {
+          this._pendingWorldMapFocusTile = null;
           manager.releaseGroup(groupId, consumer);
           return;
         }
-        this.showWorldMap();
+        this.showWorldMap({ focusTile: this._pendingWorldMapFocusTile });
       });
       return true;
     }
@@ -901,7 +997,9 @@ export function setupUIMethods(prototype, dependencies) {
         activityRegistry: this.worldMapActivityRegistry,
       });
     }
-    const opened = this.worldMapOverlay.open();
+    const requestedFocus = this._pendingWorldMapFocusTile;
+    const opened = this.worldMapOverlay.open({ focusTile: requestedFocus });
+    if (opened) this._pendingWorldMapFocusTile = null;
     if (!opened) manager?.releaseGroup?.(groupId, consumer);
     return opened;
   };
@@ -915,6 +1013,7 @@ export function setupUIMethods(prototype, dependencies) {
       this._worldMapFeatureLoading = false;
       this._worldMapFeatureRequestId = (this._worldMapFeatureRequestId || 0) + 1;
     }
+    this._pendingWorldMapFocusTile = null;
     const overlay = this.worldMapOverlay;
     const closed = overlay?.close?.() || false;
     overlay?.destroy?.();
@@ -1006,6 +1105,11 @@ export function setupUIMethods(prototype, dependencies) {
   };
 
   prototype.saveGame = async function(labelObj) {
+    if (this.townRestSystem) {
+      if (this._pausePanel || this.gameState === 'paused') this.resumeGame();
+      this.townRestSystem.showSaveHint();
+      return false;
+    }
     if (labelObj) labelObj.setText('SAVING...');
     this.queueDugTilesSave();
     let saved = false;
@@ -1019,6 +1123,7 @@ export function setupUIMethods(prototype, dependencies) {
     } finally {
       if (labelObj) labelObj.setText('SAVE GAME');
     }
+    if (saved !== false) this.soundSystem?.playManualSave?.();
     return saved !== false;
   };
 
@@ -1050,13 +1155,29 @@ export function setupUIMethods(prototype, dependencies) {
       } catch (error) {
         console.warn('[PlayScene] Pause cleanup failed while returning to the main menu:', error);
       }
-      enterSceneBasePhase(this, SCENE_BASE_PHASES.TRANSITIONING, "return-main-menu");
+      try {
+        releaseSceneSuspension(this, "_pauseSuspension");
+      } catch (error) {
+        console.warn('[PlayScene] Pause ownership release failed while returning to the main menu:', error);
+      }
+      try {
+        enterSceneBasePhase(this, SCENE_BASE_PHASES.TRANSITIONING, "return-main-menu");
+      } catch (error) {
+        console.warn('[PlayScene] Transition-state cleanup failed while returning to the main menu:', error);
+      }
 
       let saved = true;
       try {
         this.queueDugTilesSave?.();
-        if (typeof this.flushDugTilesSave === "function") {
-          saved = await this.flushDugTilesSave({ scheduled: false, force: true });
+        if (!this.townRestSystem && typeof this.flushDugTilesSave === "function") {
+          const saveOutcome = await awaitBoundedMainMenuSave(
+            this.flushDugTilesSave({ scheduled: false, force: true }),
+            this._mainMenuSaveTimeoutMs ?? SAVE_SCHEDULING_CONFIG.mainMenuFlushTimeoutMs,
+          );
+          saved = saveOutcome.value;
+          if (saveOutcome.timedOut) {
+            console.warn('[PlayScene] Save timed out while returning to the main menu; continuing exit.');
+          }
         }
       } catch (error) {
         saved = false;
@@ -1131,6 +1252,7 @@ export function setupUIMethods(prototype, dependencies) {
     if (this.soundSystem) {
       this.soundSystem.startAudioAfterUserGesture();
     }
+    this.sessionAwakeningController?.begin();
   };
 
   prototype.enterDeathState = function(depth) {
@@ -1142,7 +1264,7 @@ export function setupUIMethods(prototype, dependencies) {
     enterSceneBasePhase(this, SCENE_BASE_PHASES.TRANSITIONING, "restart-run");
     this.playerController?.setControlsEnabled?.(false);
     this.queueDugTilesSave();
-    const saved = await this.flushDugTilesSave();
+    const saved = this.townRestSystem ? true : await this.flushDugTilesSave();
     if (saved === false) {
       this.setSceneBasePhase(SCENE_BASE_PHASES.ACTIVE, { owner: "restart-save-failed" });
       this.playerController?.setControlsEnabled?.(true);
@@ -1257,6 +1379,7 @@ export function setupUIMethods(prototype, dependencies) {
     // Restore day/night cycle state
     if (savedData.dayNightData && this.dayNightCycle) {
       this.dayNightCycle.fromJSON(savedData.dayNightData);
+      this.weatherSystem?.fromJSON?.(savedData.dayNightData.weather);
     }
     this.journeySystem?.loadSaveData?.(savedData.journeyData);
     this.journeySystem?.seedCurrentState?.();

@@ -25,6 +25,7 @@ const resolvedHeightTiles = (jumpVelocity ** 2 / (2 * gravity)) / tileSize;
 assert.ok(Math.abs(resolvedHeightTiles - 1.2) < Number.EPSILON * 8);
 assert.equal(PLAYER_TRAVERSAL_CONFIG.jump.heightTiles, 1.2);
 assert.equal(createDefaultKeybinds().jump, "SPACE");
+assert.equal(createDefaultKeybinds().fly, "SHIFT");
 
 const jumpBody = { vy: 0, onGround: true };
 const jump = new PlayerJumpMotion(jumpBody, config);
@@ -105,5 +106,7 @@ assert.ok(diveRight <= UAL_NATIVE_ACTION_TUNING.flight.maxDiveAngleDegrees);
 const abilitiesSource = await readFile(new URL("../player/PlayerAbilities.js", import.meta.url), "utf8");
 assert.doesNotMatch(abilitiesSource, /body\.vy\s*=\s*-this\._getFlightSpeed/,
   "flight authority must not restore constant upward levitation");
+
+await import("./2026-09-03-player-traversal-input-regressions.js");
 
 console.log("player jump and momentum-flight contract: PASS");

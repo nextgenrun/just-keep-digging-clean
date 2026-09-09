@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sideways digs — pick a number</title>
+<style>
+:root{color-scheme:dark;font-family:Segoe UI,Arial,sans-serif;background:#0c1119;color:#e9edf5}
+*{box-sizing:border-box}body{margin:0}main{max-width:1440px;margin:auto;padding:26px 28px 32px}
+header{margin-bottom:20px}.eyebrow{font-size:11px;letter-spacing:.18em;color:#8a9eb8;margin:0 0 8px}
+h1{font-size:30px;font-weight:650;letter-spacing:-.025em;margin:0 0 8px}
+header>p:last-child{margin:0;color:#aab8ca;font-size:15px}
+nav{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:13px 15px;background:#141d2a;border:1px solid #29364a;border-radius:10px}
+label{display:flex;align-items:center;gap:8px;font-size:13px;color:#b8c7da}
+button,select{font:inherit;color:#ecf2fb;background:#1c293d;border:1px solid #3c4b63;border-radius:6px;padding:8px 10px;cursor:pointer}
+button:hover,select:hover{border-color:#8ab6ef}
+button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid #8ab6ef;outline-offset:3px}
+input{accent-color:#9fc5fb}.scrub{margin-left:auto}.scrub input{width:120px}
+#selection{color:#f1d28f;font-size:14px;margin:17px 0 5px;min-height:20px}
+#loading{margin:0 0 17px;min-height:17px;font-size:12px}.muted{color:#8295af}
+.grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
+.card{display:flex;flex-direction:column;text-align:left;padding:0;overflow:hidden;border:1px solid #2c3b51;border-radius:10px;background:#131d2a;color:#e9edf5;min-width:0}
+.card:hover{border-color:#90b3e5}.card[aria-pressed=true]{border-color:#f1d28f;box-shadow:0 0 0 2px #f1d28f;background:#222636}
+.card-heading{display:flex;align-items:center;gap:9px;padding:12px 12px 4px;font-size:13px;font-weight:600;min-height:42px}
+.number{display:inline-grid;place-items:center;background:#2a3c54;color:#dceaff;border-radius:6px;min-width:29px;height:29px;font-size:16px;font-variant-numeric:tabular-nums}
+.card[aria-pressed=true] .number{background:#f1d28f;color:#1b2330}
+.card-note{font-size:10px;font-weight:400;color:#f1d28f;margin-left:50px;min-height:13px}
+canvas{width:100%;height:auto;display:block}
+.readout{padding:7px 12px 10px;font-size:10px;color:#7f94ae;border-top:1px solid #243248;white-space:nowrap;font-variant-numeric:tabular-nums}
+details{margin-top:23px;border-top:1px solid #2a394e;padding-top:18px}
+summary{cursor:pointer;color:#b2c5dd;font-size:14px}details>p{font-size:13px}
+#legacy{max-width:550px;grid-template-columns:repeat(2,minmax(0,1fr));margin-top:14px}
+footer{margin-top:22px;color:#71869f;font-size:11px;line-height:1.65;max-width:970px}
+@media(max-width:1050px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.scrub{margin-left:0}}
+@media(max-width:650px){main{padding:20px 14px}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}h1{font-size:26px}.card-heading{font-size:12px;padding:10px 8px 4px}nav{gap:9px}.scrub{display:none}}
+</style>
+</head>
+<body>
+<main>
+<header><p class="eyebrow">UNDERSTAR / ANIMATION REVIEW</p><h1>Which sideways dig?</h1>
+<p>Watch the loops, then tell me the number. Click a card to highlight it.</p></header>
+<nav aria-label="Playback controls">
+<label>Movement <select id="movement"><option value="standing">Standing</option><option value="moving">Moving</option></select></label>
+<label>Speed <select id="speed"><option value="0.25">¼ speed</option><option value="0.5" selected>½ speed</option><option value="1">Full speed</option></select></label>
+<button id="play" type="button">Pause</button><button id="restart" type="button">Restart all</button>
+<label><input id="flip" type="checkbox">Face left</label>
+<label class="scrub">Frame <input id="scrub" type="range" min="0" max="1000" value="0" aria-label="Scrub all animations"></label>
+</nav>
+<p id="selection" role="status">Pick any number below.</p>
+<p id="loading" class="muted" role="status">Loading current game animations…</p>
+<section id="current" class="grid" aria-label="Current sideways dig animations"></section>
+<details id="older" open><summary>Original punches (#11–12) — restored</summary>
+<p class="muted">These two original punches now follow the ten moves above in gameplay, using the current fixed floor anchor.</p>
+<section id="legacy" class="grid" aria-label="Older sideways dig animations"></section></details>
+<footer>Exact current sprites and frame order, enlarged uniformly for inspection. One-shot attacks loop here with a short hold. Moving view uses one representative foot phase. Selecting a card only marks this review.</footer>
+</main>
+<script type="module">
+import { SIDEWAYS_DIG_REVIEW as VIEW } from "../values/sidewaysDigReview.js";
+import { COMPLEX_DIG_ANIMATIONS } from "../values/complexDigAnimations.js";
+import { SURVIVAL_UAL_PLAYER_ASSET_PROFILE as profile } from "../values/survivalUalPlayerAssetProfile.js";
+import { getUniquePlayerSheetEntries } from "../player/PlayerAssetSheetCatalog.js";
+import { createUalNativePlayerAnimations } from "../player/UalNativePlayerAnimations.js";
+
+const registrations = new Map();
+createUalNativePlayerAnimations({
+  anims: { exists: key => registrations.has(key), create: spec => registrations.set(spec.key, spec) },
+  textures: { exists: () => true, get: () => ({ setFilter() {} }) },
+}, profile);
+const sheets = new Map(getUniquePlayerSheetEntries(profile).map(sheet => [sheet.key, sheet]));
+const images = new Map();
+const cards = [];
+const movement = document.querySelector("#movement");
+const play = document.querySelector("#play");
+const scrub = document.querySelector("#scrub");
+const flip = document.querySelector("#flip");
+const selection = document.querySelector("#selection");
+const loading = document.querySelector("#loading");
+let playing = true;
+let elapsedMs = 0;
+let speed = VIEW.defaultSpeed;
+let selected = null;
+let modeRequest = 0;
+let previousTime = performance.now();
+
+function loadImage(sheet) {
+  if (!images.has(sheet.key)) {
+    images.set(sheet.key, new Promise((resolve, reject) => {
+      const image = new Image();
+      image.onload = () => resolve(image);
+      image.onerror = () => reject(new Error("Could not load " + sheet.fileName));
+      image.src = new URL("../" + sheet.path, location.href).href;
+    }));
+  }
+  return images.get(sheet.key);
+}
+
+function describeSelection() {
+  selection.textContent = selected
+    ? "Selected: #" + selected.number + " " + selected.name + " (" + movement.selectedOptions[0].text + "). Tell me this number."
+    : "Pick any number below.";
+}
+
+function addCard(baseKey, name, number, container, restored = false) {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "card";
+  button.setAttribute("aria-pressed", "false");
+  button.setAttribute("aria-label", "Select " + number + ": " + name);
+  const heading = document.createElement("span");
+  heading.className = "card-heading";
+  const badge = document.createElement("span");
+  badge.className = "number";
+  badge.textContent = number;
+  const title = document.createElement("span");
+  title.textContent = name;
+  heading.append(badge, title);
+  const note = document.createElement("span");
+  note.className = "card-note";
+  note.textContent = restored ? "Restored in this task" : "";
+  const canvas = document.createElement("canvas");
+  canvas.width = VIEW.canvasWidth * VIEW.pixelRatio;
+  canvas.height = VIEW.canvasHeight * VIEW.pixelRatio;
+  canvas.setAttribute("aria-label", name + " animation");
+  const readout = document.createElement("span");
+  readout.className = "readout";
+  readout.textContent = "Loading…";
+  const card = { baseKey, name, number, button, canvas, readout, context: canvas.getContext("2d"), active: null };
+  button.append(heading, note, canvas, readout);
+  button.addEventListener("click", () => {
+    selected = card;
+    cards.forEach(entry => entry.button.setAttribute("aria-pressed", String(entry === card)));
+    describeSelection();
+  });
+  container.append(button);
+  cards.push(card);
+}
+
+COMPLEX_DIG_ANIMATIONS.sideSequence.forEach((id, index) => addCard(
+  COMPLEX_DIG_ANIMATIONS.clips[id].animationKey,
+  VIEW.labels[id], index + 1, document.querySelector("#current"), id === VIEW.restoredClip,
+));
+[...new Set(profile.digSidewaysHitAnims)].forEach((key, index) => addCard(
+  key, VIEW.legacyLabels[index], cards.length + 1, document.querySelector("#legacy"), true,
+));
+
+async function setMode() {
+  const request = ++modeRequest;
+  const mode = movement.value;
+  elapsedMs = 0;
+  loading.textContent = "Loading " + mode + " animations…";
+  describeSelection();
+  try {
+    await Promise.all(cards.map(async card => {
+      card.active = null;
+      card.readout.textContent = "Loading…";
+      const key = mode === "moving" ? profile.movingSideDigAnimationMap[card.baseKey] : card.baseKey;
+      const animation = registrations.get(key);
+      if (!animation?.frames?.length) throw new Error("Missing animation for " + card.name);
+      const sheetKey = animation.frames[0].key;
+      const sheet = sheets.get(sheetKey);
+      if (!sheet) throw new Error("Missing sheet for " + card.name);
+      const image = await loadImage(sheet);
+      if (request !== modeRequest) return;
+      const origin = profile.visualOriginByAnimation?.[key]
+        || profile.visualOriginBySheet?.[sheetKey]
+        || { x: profile.visualOriginX, y: profile.visualOriginY };
+      card.active = {
+        animation, sheet, image, origin,
+        displaySize: profile.displaySizePxByAnimation?.[key] || profile.displaySizePx,
+      };
+      card.canvas.dataset.animation = key;
+    }));
+    if (request === modeRequest) loading.textContent = "10 current moves ready · 2 older punches below · click a card to select";
+  } catch (error) {
+    if (request === modeRequest) loading.textContent = "Preview error: " + error.message;
+  }
+}
+
+function draw(card) {
+  const { context: ctx, active } = card;
+  ctx.setTransform(VIEW.pixelRatio, 0, 0, VIEW.pixelRatio, 0, 0);
+  ctx.clearRect(0, 0, VIEW.canvasWidth, VIEW.canvasHeight);
+  if (!active) return;
+  const { animation, sheet, image, origin, displaySize } = active;
+  const { frameWidth, frameHeight } = sheet.frameConfig;
+  const duration = animation.frames.length / animation.frameRate * VIEW.millisecondsPerSecond;
+  const phase = elapsedMs % (duration + VIEW.loopHoldMs);
+  const index = Math.min(animation.frames.length - 1, Math.floor(phase / duration * animation.frames.length));
+  const frame = animation.frames[index].frame;
+  const columns = Math.floor(image.naturalWidth / frameWidth);
+  const size = displaySize * VIEW.displayScale;
+  const width = size * frameWidth / frameHeight;
+  ctx.save();
+  ctx.translate(VIEW.canvasWidth / 2, VIEW.floorY);
+  if (flip.checked) ctx.scale(-1, 1);
+  ctx.imageSmoothingEnabled = true;
+  ctx.drawImage(image, frame % columns * frameWidth, Math.floor(frame / columns) * frameHeight,
+    frameWidth, frameHeight, -origin.x * width, -origin.y * size, width, size);
+  ctx.restore();
+  card.readout.textContent = movement.selectedOptions[0].text + " · frame " + (index + 1) + "/" + animation.frames.length;
+}
+
+function render(now) {
+  if (playing) elapsedMs += Math.min(VIEW.maxDeltaMs, now - previousTime) * speed;
+  previousTime = now;
+  for (const card of cards) draw(card);
+  requestAnimationFrame(render);
+}
+
+movement.addEventListener("change", setMode);
+play.addEventListener("click", () => { playing = !playing; play.textContent = playing ? "Pause" : "Play"; });
+document.querySelector("#restart").addEventListener("click", () => { elapsedMs = 0; scrub.value = 0; });
+document.querySelector("#speed").addEventListener("change", event => { speed = Number(event.target.value); });
+scrub.addEventListener("input", () => {
+  playing = false;
+  play.textContent = "Play";
+  const reference = (selected || cards[0]).active?.animation;
+  if (reference) elapsedMs = Number(scrub.value) / VIEW.scrubSteps
+    * (reference.frames.length - 1) / reference.frameRate * VIEW.millisecondsPerSecond;
+});
+void setMode();
+requestAnimationFrame(render);
+</script>
+</body>
+</html>

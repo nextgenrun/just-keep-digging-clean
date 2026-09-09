@@ -11,6 +11,8 @@ import {
 } from "../values/runtimeAssetLoading.js";
 import { runtimeAssetExists } from
   "../world/rendering/RuntimeAssetTextureRegistry.js";
+import { hasLiveTextureConsumer } from
+  "../world/rendering/hasLiveTextureConsumer.js";
 
 function now(scene) {
   const sceneNow = Number(scene?.time?.now);
@@ -149,6 +151,9 @@ export class PlayerDeferredAnimationAssetController {
           if (state.status !== "loading") return;
           state.pending -= 1;
           if (state.pending === 0) this._settle(packId, state, true);
+          // Each completed atlas is already atomic. Expose its animations while
+          // the remaining pack loads, avoiding a wrong-pose fallback on Cross.
+          else createUalNativePlayerAnimations(this.scene, this.profile);
         },
         onError: () => this._settle(packId, state, false, "load-failed"),
       });
@@ -191,12 +196,17 @@ export class PlayerDeferredAnimationAssetController {
   }
 
   _evict(packId, state, sampledAtMs) {
+    const assets = getPlayerDeferredAssetPack(this.profile, packId);
+    if (assets.some(asset => hasLiveTextureConsumer(this.scene, asset.key))) {
+      state.lastUsedAtMs = sampledAtMs;
+      return false;
+    }
     for (const animationKey of this.keysByPack.get(packId) || []) {
       if (this.scene.anims?.exists?.(animationKey)) {
         this.scene.anims.remove?.(animationKey);
       }
     }
-    for (const asset of getPlayerDeferredAssetPack(this.profile, packId)) {
+    for (const asset of assets) {
       if (this.coordinator?.textureMemory?.isManaged?.(asset.key) === false) continue;
       if (this.scene.textures?.exists?.(asset.key)) this.scene.textures.remove(asset.key);
       this.coordinator?.releaseDecodedSource?.(asset.key);
@@ -204,6 +214,7 @@ export class PlayerDeferredAnimationAssetController {
     state.status = "idle";
     state.lastUsedAtMs = sampledAtMs;
     this.evictions += 1;
+    return true;
   }
 
   _settle(packId, state, ready, reason = null) {

@@ -7,17 +7,20 @@ export class WeatherAudioController {
     this.weatherConfig = weatherConfig;
     this._rainNoise = null;
     this._windNoise = null;
+    this._thunder = new Map();
+    this._rainVolume = 0;
+    this._windVolume = 0;
     this.recordedAmbience = new WeatherRecordedAmbienceController(scene, weatherConfig);
     this._recordedSnapshot = this.recordedAmbience.getSnapshot();
   }
 
   update(state) {
     const soundSystem = this.scene.soundSystem;
-    const canPlay = soundSystem?.audioInitialized && soundSystem?.sfxEnabled && this.scene.sound?.context;
+    const canPlay = soundSystem?.audioInitialized && soundSystem?.sfxEnabled && this.scene.sound?.context
+      && this.scene.gameState !== "paused";
     this._recordedSnapshot = this.recordedAmbience.update(state);
     if (!canPlay) {
-      this._setRainNoiseVolume(0);
-      this._setWindNoiseVolume(0);
+      this.stop();
       return this.getSnapshot();
     }
 
@@ -47,14 +50,13 @@ export class WeatherAudioController {
       this._ensureRainNoise();
       const openVolume = rainIntensity * openRain * cfg.rainVolume;
       const roofVolume = rainIntensity * roofRain * cfg.roofRainVolume;
-      const caveVolume = underground * cfg.caveDripVolume;
+      const caveVolume = soundSystem?.reviewedAmbience?.entered ? 0 : underground * cfg.caveDripVolume;
       const recordedFallback = this._recordedSnapshot.rainManaged
         ? 1 - this._recordedSnapshot.rainCoverage
         : 1;
       this._setRainNoiseVolume(
         (openVolume + roofVolume + caveVolume)
-        * recordedFallback
-        * (soundSystem?.sfxVolume ?? 1),
+        * recordedFallback,
       );
       this._setRainLowpass(lerp(cfg.coverLowpassHz, cfg.openLowpassHz, state.occlusion.openSkyAmount));
     }
@@ -69,7 +71,7 @@ export class WeatherAudioController {
       ? 1 - this._recordedSnapshot.windCoverage
       : 1;
     this._setWindNoiseVolume(
-      windAmount * cfg.windVolume * recordedFallback * (soundSystem?.sfxVolume ?? 1),
+      windAmount * cfg.windVolume * recordedFallback,
     );
     return this.getSnapshot();
   }
@@ -102,18 +104,20 @@ export class WeatherAudioController {
     const recordedDuck = 1
       - this._recordedSnapshot.stormCoverage
         * this.recordedAmbience.config.proceduralThunderDuck;
-    gain.gain.value = cfg.thunderVolume
-      * (soundSystem.sfxVolume ?? 1)
+    const level = cfg.thunderVolume
       * muffle
       * clamp01(strength)
       * recordedDuck;
+    gain.gain.value = level * this._mixVolume();
 
     source.buffer = buffer;
     source.connect(lowpass);
     lowpass.connect(gain);
     gain.connect(this.scene.sound.destination || ctx.destination);
     source.start(0);
+    this._thunder.set(source, { gain, level });
     source.onended = () => {
+      this._thunder.delete(source);
       try {
         source.disconnect();
         lowpass.disconnect();
@@ -124,10 +128,18 @@ export class WeatherAudioController {
     };
   }
 
-  destroy() {
-    this.recordedAmbience.destroy();
+  stop() {
+    this.recordedAmbience.stop();
     this._stopRainNoise();
     this._stopWindNoise();
+    for (const source of this._thunder.keys()) { try { source.stop(); } catch (_) {} }
+    this._thunder.clear();
+    this._recordedSnapshot = this.recordedAmbience.getSnapshot();
+  }
+
+  destroy() {
+    this.stop();
+    this.recordedAmbience.destroy();
   }
 
   getSnapshot() {
@@ -195,10 +207,11 @@ export class WeatherAudioController {
   }
 
   _setRainNoiseVolume(volume) {
+    this._rainVolume = volume;
     if (!this._rainNoise?.gain || !this.scene.sound?.context) return;
     const ctx = this.scene.sound.context;
     this._rainNoise.gain.gain.cancelScheduledValues(ctx.currentTime);
-    this._rainNoise.gain.gain.setTargetAtTime(clamp01(volume), ctx.currentTime, 0.18);
+    this._rainNoise.gain.gain.setTargetAtTime(clamp01(volume * this._mixVolume()), ctx.currentTime, 0.18);
   }
 
   _setRainLowpass(frequency) {
@@ -209,10 +222,28 @@ export class WeatherAudioController {
   }
 
   _setWindNoiseVolume(volume) {
+    this._windVolume = volume;
     if (!this._windNoise?.gain || !this.scene.sound?.context) return;
     const ctx = this.scene.sound.context;
     this._windNoise.gain.gain.cancelScheduledValues(ctx.currentTime);
-    this._windNoise.gain.gain.setTargetAtTime(clamp01(volume), ctx.currentTime, 0.35);
+    this._windNoise.gain.gain.setTargetAtTime(clamp01(volume * this._mixVolume()), ctx.currentTime, 0.35);
+  }
+
+  _mixVolume() {
+    const system = this.scene.soundSystem;
+    return system?.getSfxMixVolume?.() ?? system?.sfxVolume ?? 1;
+  }
+
+  refreshVolume() {
+    const ctx = this.scene.sound?.context;
+    if (!ctx) return;
+    const mix = this._mixVolume();
+    for (const [node, level] of [[this._rainNoise, this._rainVolume], [this._windNoise, this._windVolume],
+      ...[...this._thunder.values()].map(t => [t, t.level])]) {
+      if (!node?.gain) continue;
+      node.gain.gain.cancelScheduledValues(ctx.currentTime);
+      node.gain.gain.setValueAtTime(clamp01(level * mix), ctx.currentTime);
+    }
   }
 
   _stopRainNoise() {

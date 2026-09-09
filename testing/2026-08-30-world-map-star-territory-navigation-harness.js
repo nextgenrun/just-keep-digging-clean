@@ -152,7 +152,7 @@ class HarnessDiscovery {
 class WorldMapStarTerritoryHarness extends Phaser.Scene {
   constructor() {
     super("WorldMapStarTerritoryHarness");
-    this.playerTile = { tx: 70, ty: 78 };
+    this.playerTile = { tx: 70, ty: 120 };
   }
 
   preload() {
@@ -199,6 +199,7 @@ class WorldMapStarTerritoryHarness extends Phaser.Scene {
     document.body.dataset.currentStarKnown = String(
       stats.currentStarTerritory?.discovered === true,
     );
+    document.body.dataset.currentStarBiome = stats.currentStarTerritory?.biomeName || "";
     document.body.dataset.knownStarTerritories = String(stats.knownStarTerritoryCount);
     document.body.dataset.consumedStarTerritories = String(stats.knownConsumedStarCount);
     document.body.dataset.markerCount = String(stats.markerCount);

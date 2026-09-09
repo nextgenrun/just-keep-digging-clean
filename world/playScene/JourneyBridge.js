@@ -79,10 +79,6 @@ export function createJourneySnapshot(scene) {
       pickaxePower: number(upgradeEffects.pickaxeDamage),
       gemPowerMax: number(scene.playerController?.getGemPowerMax?.()),
       flightSpeedPxPerSec: flightSpeed,
-      criticalChancePercent: number(
-        scene.playerLevelSystem?.getCriticalHitChance?.(),
-      ) * 100,
-      resourceLuckPercent: number(levelBonuses.resourceLuck) * 100,
     },
     upgradeEffects: { ...upgradeEffects },
     progress: {

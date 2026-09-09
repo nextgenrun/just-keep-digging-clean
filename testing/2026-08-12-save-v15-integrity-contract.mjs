@@ -6,6 +6,7 @@ import { PlayerLevelSystem } from "../systems/progression/PlayerLevelSystem.js";
 import { UpgradeSystem } from "../systems/progression/UpgradeSystem.js";
 import { DugTilesSaveStore } from "../world/model/DugTilesSaveStore.js";
 import { RESOURCE_ZERO_TOTALS } from "../values/resourceTypes.js";
+import { SAVE_PAYLOAD_V15_VERSION } from "../values/savePayloadV15.js";
 import { validateSaveSnapshotIntegrity } from "../values/progressionInvariants.js";
 import { STAR_RARITY_PROGRESSION_CONFIG } from "../values/starRarityProgression.js";
 
@@ -28,9 +29,16 @@ const payload = store.createPayload(
   { constellationCounts: { dirt: 2 }, signXp: { dirt: 3 }, rarityCounts: [1], unlockedConstellations: ["dirt"] },
 );
 assert.equal(payload.version, 15);
+assert.equal(payload.version, SAVE_PAYLOAD_V15_VERSION);
 assert.equal(payload.revisionMetadata.revision, 1);
 assert.deepEqual(payload.milestoneData.reachedDepths, [100]);
 assert.equal(payload.starCollectionData.constellationCounts.dirt, 2);
+const futurePayload = store.normalizePayload({
+  ...payload,
+  version: SAVE_PAYLOAD_V15_VERSION + 1,
+});
+assert.deepEqual(futurePayload.milestoneData, payload.milestoneData);
+assert.deepEqual(futurePayload.starCollectionData, payload.starCollectionData);
 
 storage.setItem("dig-game-save-slot-3", JSON.stringify({
   ...payload,

@@ -1,7 +1,7 @@
 // ==================== MINING CONFIG ====================
 export const MINING_CONFIG = Object.freeze({
   // Mining
-  mineCooldownMs: 750,
+  mineCooldownMs: 1500, // Level-1 rate is 50% of the previous 750 ms baseline
   maxTileHp: 5, // Reduced from 3 for faster early game
   
   // Base damage

@@ -56,14 +56,6 @@ export const HUD_LAYOUT = Object.freeze({
   
   floatResourceDurationMs: 1000, floatResourceFontSize: 20,
 
-  // Critical hit floating text (extra large with flash)
-  floatCriticalColor: "#ff3333", floatCriticalDurationMs: 1100, floatCriticalFontSize: 36,
-  floatCriticalStrokeThickness: 4, floatCriticalShadowX: 3, floatCriticalShadowY: 3, floatCriticalUpPx: 60,
-
-  // Resource luck bonus floating text (extra large with flash)
-  floatLuckDurationMs: 1200, floatLuckFontSize: 28,
-  floatLuckStrokeThickness: 4, floatLuckShadowX: 2, floatLuckShadowY: 2, floatLuckUpPx: 50,
-
   // Heavy punch hit floating text (orange, distinct from normal damage)
   floatHeavyPunchFontSize: 28, floatHeavyPunchDurationMs: 900, floatHeavyPunchUpPx: 50,
   floatHeavyPunchStrokeThickness: 3, floatHeavyPunchShadowX: 2, floatHeavyPunchShadowY: 2,
@@ -106,11 +98,9 @@ export const HUD_LAYOUT = Object.freeze({
   buffTimerColors: {
     miningSpeedBoost: "#FFD700",   // Gold — speed
     damageBoost: "#DC143C",        // Crimson — berserk
-    guaranteedCrit: "#FF0000",     // Red — crit
   },
   buffTimerLabels: {
     miningSpeedBoost: "SPD",
     damageBoost: "DMG",
-    guaranteedCrit: "CRIT",
   },
 });

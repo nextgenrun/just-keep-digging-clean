@@ -1,0 +1,103 @@
+{
+  "errors": [],
+  "consoleErrors": [],
+  "activation": {
+    "activation": {
+      "ok": true,
+      "activationId": "ability-block:1:21495",
+      "engineId": "comet-engine",
+      "gpSpent": 0,
+      "temporaryGrant": true
+    },
+    "fixture": "existing temporary-ability activation",
+    "saveWritesBlocked": true,
+    "god": false,
+    "player": {
+      "x": 2804.499,
+      "y": 8084
+    }
+  },
+  "proof": {
+    "shots": [
+      {
+        "launch": {
+          "shot": 1,
+          "origin": {
+            "x": 2840.7099375,
+            "y": 8024.453125
+          },
+          "originSource": "authored-hand-foot",
+          "palette": "blue",
+          "releasedAtMs": 30588.1,
+          "releaseFrame": 280,
+          "contactPose": {
+            "sheet": "survival-mixamo-v3-complex-dig-jab-sheet",
+            "contactFrame": 9,
+            "visibleFrame": 9,
+            "animationKey": "survival-mixamo-v3-complex-dig-jab-anim",
+            "flipX": false
+          },
+          "contactEvent": {
+            "actionId": 1,
+            "animationKey": "survival-mixamo-v3-complex-dig-jab-anim",
+            "contactFrame": 9,
+            "contactSequenceIndex": 6,
+            "contactIndex": 0,
+            "contactCount": 1,
+            "trigger": "wall-clock-contact-watchdog"
+          }
+        },
+        "frame": 280,
+        "pose": {
+          "sheet": "survival-mixamo-v3-complex-dig-jab-sheet",
+          "contactFrame": 9,
+          "visibleFrame": 9,
+          "animationKey": "survival-mixamo-v3-complex-dig-jab-anim",
+          "x": 2804.499,
+          "y": 8084,
+          "scaleX": 0.40234375,
+          "scaleY": 0.40234375,
+          "width": 256,
+          "height": 256,
+          "originX": 0.5,
+          "originY": 0.890625,
+          "flipX": false,
+          "rotation": 0
+        },
+        "rawPoint": {
+          "x": 2840.7099375,
+          "y": 8027.671875
+        },
+        "authored": true,
+        "body": {
+          "x": 2840.7099375,
+          "y": 8024.453125,
+          "w": 64,
+          "h": 28,
+          "originX": 0.02,
+          "bounds": {
+            "type": 5,
+            "x": 2839.4299374999996,
+            "y": 8009.893125,
+            "width": 64,
+            "height": 28
+          },
+          "alpha": 1
+        }
+      }
+    ],
+    "samples": [
+      {
+        "at": 30588.1,
+        "shot": 1,
+        "x": 2840.7099375,
+        "y": 8024.453125,
+        "w": 64,
+        "h": 28,
+        "alpha": 1
+      }
+    ],
+    "pauseNext": false
+  },
+  "status": "PASS"
+}

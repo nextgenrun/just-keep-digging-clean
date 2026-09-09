@@ -1,0 +1,38 @@
+{
+  "runtimeEnabled": true,
+  "clothEnabled": false,
+  "scope": "main world; cave discontinued per user",
+  "animations": 214,
+  "sheets": 55,
+  "frames": 3041,
+  "gpuBytes": 987158480,
+  "oldGpuBytes": 793772032,
+  "mainWorld": {
+    "errors": [],
+    "frames": 861,
+    "poses": [
+      "survival-blender-v2-idle-breath-fidget-anim",
+      "survival-mixamo-v1-crouch-enter-anim",
+      "survival-mixamo-v1-crouch-exit-anim",
+      "survival-mixamo-v1-flight-loop-anim",
+      "survival-mixamo-v1-hard-landing-anim",
+      "survival-mixamo-v1-walk-start-anim",
+      "survival-ual-player-v1-airborne-anim",
+      "survival-ual-player-v1-falling-anim",
+      "survival-ual-player-v1-idle-anim",
+      "survival-ual-player-v1-run-anim",
+      "survival-ual-player-v1-walk-loop-anim"
+    ]
+  },
+  "downwardMining": {
+    "errors": [],
+    "contacts": 5,
+    "crouchInterruptions": 0,
+    "heldFrames": 181
+  },
+  "sourceRigsUnchanged": true,
+  "preexistingContractLimits": [
+    "2026-08-25-survival-unified-animation-runtime-contract.mjs had stale contact and asset-count assumptions before this profile was enabled",
+    "2026-08-25-player-animation-transition-cohesion-v3-contract.mjs expects the previous SIDE prewarm list"
+  ]
+}

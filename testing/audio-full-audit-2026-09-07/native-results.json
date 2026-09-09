@@ -1,0 +1,102 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "name": "Native Phaser effect starts",
+      "passed": true
+    },
+    {
+      "name": "Native stop frees the active mixer slot",
+      "passed": true
+    },
+    {
+      "name": "External native effect destruction completes without recursive teardown",
+      "passed": true
+    },
+    {
+      "name": "Silent native voice leaves music unducked",
+      "passed": true
+    },
+    {
+      "name": "Raising Voice during playback ducks music",
+      "passed": true
+    },
+    {
+      "name": "Paused native speech cleans up and restores the mix",
+      "passed": true
+    },
+    {
+      "name": "External native voice destruction completes and restores ducking",
+      "passed": true
+    },
+    {
+      "name": "Video audio follows Master zero",
+      "passed": true
+    },
+    {
+      "name": "Video audio multiplies Master and Voice once",
+      "passed": true
+    },
+    {
+      "name": "SFX toggle silences the cinematic mix",
+      "passed": true
+    },
+    {
+      "name": "Real NPC silence edit changes native duration and fades both edges",
+      "passed": true
+    },
+    {
+      "name": "Native NPC volume includes calibration and NPC trim once",
+      "passed": true
+    },
+    {
+      "name": "Native Star sound inserts its owned 20 Hz high-pass",
+      "passed": true
+    },
+    {
+      "name": "Native rendered Star DC is removed and its measured peak fits the mixer metadata",
+      "passed": true
+    },
+    {
+      "name": "Stopping Star disposes its filtered sound",
+      "passed": true
+    },
+    {
+      "name": "SFX zero immediately silences existing native rain, wind and thunder",
+      "passed": true
+    },
+    {
+      "name": "Raising SFX restores existing weather at the new bus gain",
+      "passed": true
+    },
+    {
+      "name": "SFX zero silences an already running native earthquake tone",
+      "passed": true
+    },
+    {
+      "name": "Earthquake tone follows a live SFX gain change",
+      "passed": true
+    },
+    {
+      "name": "Scene audio suspension releases all procedural earthquake nodes",
+      "passed": true
+    },
+    {
+      "name": "Native music settles at its calibrated source gain",
+      "passed": true
+    },
+    {
+      "name": "Native music transition disposes the old track and preserves calibration",
+      "passed": true
+    }
+  ],
+  "measurements": {
+    "star": {
+      "rawFilteredPeak": 1.155442237854004,
+      "absoluteDcOffset": 0.0000021874640405127605,
+      "sourcePeakAllowance": 1.17
+    }
+  },
+  "engine": "WebAudioSoundManager",
+  "context": "running"
+}

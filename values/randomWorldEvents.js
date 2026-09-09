@@ -8,15 +8,18 @@ import {
   isGameplayFeatureEnabled,
 } from "./gameplayDevFlags.js";
 
+import { SIGNAL_EVENT } from "./signalEvent.js";
+
 export const RANDOM_EVENT_TYPES = Object.freeze({
   CRYSTAL_CHOIR: "crystalChoir",
+  SIGNAL: "signal",
   BLACKOUT_BLOOM: "blackoutBloom",
   MONEY_MONSTER_RUSH: "moneyMonsterRush",
 });
 
 export const RANDOM_EVENT_TYPE_ORDER = Object.freeze([
   RANDOM_EVENT_TYPES.CRYSTAL_CHOIR,
-  RANDOM_EVENT_TYPES.BLACKOUT_BLOOM,
+  RANDOM_EVENT_TYPES.SIGNAL,
 ]);
 
 export const RANDOM_EVENT_PRELOAD_ASSETS = Object.freeze([
@@ -25,7 +28,8 @@ export const RANDOM_EVENT_PRELOAD_ASSETS = Object.freeze([
 ]);
 
 export const RANDOM_WORLD_EVENT_CONFIG = Object.freeze({
-  version: 2,
+  version: 4,
+  signal: Object.freeze({ durationMs: SIGNAL_EVENT.durationMs }),
   query: Object.freeze({
     master: "randomEvents",
     crystalChoir: "crystalChoir",
@@ -119,8 +123,8 @@ export const RANDOM_WORLD_EVENT_CONFIG = Object.freeze({
       panelHeight: 630,
       maxViewportWidthRatio: 0.94,
       maxViewportHeightRatio: 0.92,
-      titleY: -250,
-      subtitleY: -214,
+      titleY: -300,
+      subtitleY: -268,
       cardCenterX: 222,
       cardY: -12,
       cardWidth: 390,
@@ -141,9 +145,9 @@ export const RANDOM_WORLD_EVENT_CONFIG = Object.freeze({
     }),
   }),
   copy: Object.freeze({
-    sleepingPrompt: "SLEEPING JACKPOT  •  CHOOSE ITS FATE",
+    sleepingPrompt: "SLEEPING JACKPOT  •  CHOOSE NOW OR WAIT",
     sleepingTitle: "SLEEPING JACKPOT",
-    sleepingSubtitle: "GAMBLE NOW — OR RISK EVERYTHING AT MATURITY",
+    sleepingSubtitle: "TAKE A REWARD NOW — OR WAIT FOR A RISKIER PAYOUT",
     sealedPrompt: depth => `SLEEPING  •  MATURES AT ${depth}M`,
     awakePrompt: "AWAKENED JACKPOT  •  REVEAL FATE",
     choirRibbon: "CRYSTAL CHOIR  •  REPEAT THE SONG",
@@ -169,7 +173,8 @@ export function resolveRandomEventFlags(search = globalThis.location?.search || 
   return Object.freeze({
     master,
     crystalChoir: master && enabledParam(params, query.crystalChoir),
-    blackoutBloom: master && enabledParam(params, query.blackoutBloom),
+    signal: master && enabledParam(params, "signal"),
+    blackoutBloom: false,
     moneyMonsterRush: false,
     debug: devCheatsEnabled
       && (params.get(query.debug) === "1" || params.get("jkd_e2e") === "1"),

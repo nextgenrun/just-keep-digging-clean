@@ -1,0 +1,283 @@
+{
+  "schemaVersion": "seedance-effects-qa-v1",
+  "reviewOnly": true,
+  "productionChanged": false,
+  "method": {
+    "decode": "320x180 at 8 fps",
+    "screeningOnly": true,
+    "manualThreeCyclePlaybackStillRequired": true,
+    "noOpticalFlow": true
+  },
+  "results": [
+    {
+      "id": "fx-crystal-contact-v01",
+      "source": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/raw/fx-crystal-contact-v01.mp4",
+      "sourceSha256": "02cba954427a442e81620a4949b6f251ff3c5d45e41bba702da3ff1839a79f1c",
+      "decodedFrames": 32,
+      "sampleFps": 8,
+      "contactSheet": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/qa/fx-crystal-contact-v01-contact-sheet.png",
+      "metrics": {
+        "peakTimeSeconds": 0.5,
+        "peakMeanLight": 93.20708465576172,
+        "peakActivePixelsPercent": 100.0,
+        "startActivityToPeak": 4.656596672703017e-07,
+        "endActivityToPeak": 5.587916120930458e-07,
+        "lateReboundToPeak": 0.08896949887275696,
+        "maxBorderLight": 58.91374969482422,
+        "frameDeltaMedian": 10.366833686828613,
+        "frameDeltaP95": 45.240760803222656,
+        "reverseVelocityCosine": 0.019104721024632454,
+        "screeningFlags": [
+          "scene-or-background-generation"
+        ]
+      }
+    },
+    {
+      "id": "fx-crystal-contact-v02",
+      "source": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/raw/fx-crystal-contact-v02.mp4",
+      "sourceSha256": "84030f59daa9a21017ebf7041b2b01e647e49f2ce67fd2117f787ba68af73303",
+      "decodedFrames": 32,
+      "sampleFps": 8,
+      "contactSheet": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/qa/fx-crystal-contact-v02-contact-sheet.png",
+      "metrics": {
+        "peakTimeSeconds": 0.125,
+        "peakMeanLight": 60.47975540161133,
+        "peakActivePixelsPercent": 100.0,
+        "startActivityToPeak": 0.5,
+        "endActivityToPeak": 3.616912727011368e-05,
+        "lateReboundToPeak": 0.017741817981004715,
+        "maxBorderLight": 36.13308334350586,
+        "frameDeltaMedian": 5.075023174285889,
+        "frameDeltaP95": 24.497982025146484,
+        "reverseVelocityCosine": 0.015463552437722683,
+        "screeningFlags": [
+          "unclean-start",
+          "scene-or-background-generation"
+        ]
+      }
+    },
+    {
+      "id": "fx-dirt-break-v01",
+      "source": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/raw/fx-dirt-break-v01.mp4",
+      "sourceSha256": "24573d0d3ff4eb039860cd8358f680bcd0b6272b4932e14bab57af4f799b3086",
+      "decodedFrames": 32,
+      "sampleFps": 8,
+      "contactSheet": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/qa/fx-dirt-break-v01-contact-sheet.png",
+      "metrics": {
+        "peakTimeSeconds": 1.625,
+        "peakMeanLight": 6.219982624053955,
+        "peakActivePixelsPercent": 6.473958333333334,
+        "startActivityToPeak": 0.0008401460945606232,
+        "endActivityToPeak": 0.0006294118356890976,
+        "lateReboundToPeak": 0.4471726715564728,
+        "maxBorderLight": 0.14749999344348907,
+        "frameDeltaMedian": 0.5278877019882202,
+        "frameDeltaP95": 2.193286895751953,
+        "reverseVelocityCosine": 0.08803927153348923,
+        "screeningFlags": [
+          "late-rebound"
+        ]
+      }
+    },
+    {
+      "id": "fx-dirt-break-v02",
+      "source": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/raw/fx-dirt-break-v02.mp4",
+      "sourceSha256": "151bdc1897909e7db7e3a7425744c4903e5430aeedd1e119ebabc39281754a44",
+      "decodedFrames": 32,
+      "sampleFps": 8,
+      "contactSheet": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/qa/fx-dirt-break-v02-contact-sheet.png",
+      "metrics": {
+        "peakTimeSeconds": 2.125,
+        "peakMeanLight": 17.48050308227539,
+        "peakActivePixelsPercent": 25.45659722222222,
+        "startActivityToPeak": 4.965850166627206e-07,
+        "endActivityToPeak": 2.90502212010324e-05,
+        "lateReboundToPeak": 0.36365315318107605,
+        "maxBorderLight": 7.451000213623047,
+        "frameDeltaMedian": 2.639681816101074,
+        "frameDeltaP95": 7.841134071350098,
+        "reverseVelocityCosine": -0.01521983277052641,
+        "screeningFlags": [
+          "late-rebound"
+        ]
+      }
+    },
+    {
+      "id": "fx-magma-contact-v01",
+      "source": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/raw/fx-magma-contact-v01.mp4",
+      "sourceSha256": "166ad578c6063cde2954b39cb2a0b2fda9e96380ea5bc1abb5cc95f187a26d28",
+      "decodedFrames": 32,
+      "sampleFps": 8,
+      "contactSheet": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/qa/fx-magma-contact-v01-contact-sheet.png",
+      "metrics": {
+        "peakTimeSeconds": 1.375,
+        "peakMeanLight": 16.132673263549805,
+        "peakActivePixelsPercent": 18.73263888888889,
+        "startActivityToPeak": 0.0,
+        "endActivityToPeak": 1.3182787370169535e-05,
+        "lateReboundToPeak": 0.32306763529777527,
+        "maxBorderLight": 5.659249782562256,
+        "frameDeltaMedian": 3.754565954208374,
+        "frameDeltaP95": 6.31419563293457,
+        "reverseVelocityCosine": 0.026767786592245102,
+        "screeningFlags": [
+          "late-rebound"
+        ]
+      }
+    },
+    {
+      "id": "fx-magma-contact-v02",
+      "source": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/raw/fx-magma-contact-v02.mp4",
+      "sourceSha256": "956cb1fe3de4dbc0380abfcbc0938a86e5669acdfeac8429f39882322fc20004",
+      "decodedFrames": 32,
+      "sampleFps": 8,
+      "contactSheet": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/qa/fx-magma-contact-v02-contact-sheet.png",
+      "metrics": {
+        "peakTimeSeconds": 1.0,
+        "peakMeanLight": 42.24656295776367,
+        "peakActivePixelsPercent": 32.920138888888886,
+        "startActivityToPeak": 8.218946163651708e-07,
+        "endActivityToPeak": 0.0003376959066372365,
+        "lateReboundToPeak": 0.09208383411169052,
+        "maxBorderLight": 11.002249717712402,
+        "frameDeltaMedian": 5.807905197143555,
+        "frameDeltaP95": 16.12846565246582,
+        "reverseVelocityCosine": 0.02758747525513172,
+        "screeningFlags": []
+      }
+    },
+    {
+      "id": "fx-metal-contact-v01",
+      "source": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/raw/fx-metal-contact-v01.mp4",
+      "sourceSha256": "1a08bf1b9cb2e3e471e8184583c2395121fa9dda0a8f2706438c2196bdba009d",
+      "decodedFrames": 32,
+      "sampleFps": 8,
+      "contactSheet": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/qa/fx-metal-contact-v01-contact-sheet.png",
+      "metrics": {
+        "peakTimeSeconds": 1.0,
+        "peakMeanLight": 34.81291580200195,
+        "peakActivePixelsPercent": 69.35069444444444,
+        "startActivityToPeak": 2.4934871589721297e-07,
+        "endActivityToPeak": 6.420729187084362e-05,
+        "lateReboundToPeak": 0.026780052110552788,
+        "maxBorderLight": 12.923250198364258,
+        "frameDeltaMedian": 0.778003454208374,
+        "frameDeltaP95": 14.219644546508789,
+        "reverseVelocityCosine": 0.029973644763231277,
+        "screeningFlags": [
+          "scene-or-background-generation"
+        ]
+      }
+    },
+    {
+      "id": "fx-metal-contact-v02",
+      "source": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/raw/fx-metal-contact-v02.mp4",
+      "sourceSha256": "6de4a62559f18e6324946b688d5c1accc554fe624bf7d6d5ac8d7511a2b7acdd",
+      "decodedFrames": 32,
+      "sampleFps": 8,
+      "contactSheet": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/qa/fx-metal-contact-v02-contact-sheet.png",
+      "metrics": {
+        "peakTimeSeconds": 1.375,
+        "peakMeanLight": 46.958126068115234,
+        "peakActivePixelsPercent": 76.04861111111111,
+        "startActivityToPeak": 2.772860398181365e-06,
+        "endActivityToPeak": 3.1795465474715456e-05,
+        "lateReboundToPeak": 0.08958853036165237,
+        "maxBorderLight": 14.804583549499512,
+        "frameDeltaMedian": 0.6987211108207703,
+        "frameDeltaP95": 18.214513778686523,
+        "reverseVelocityCosine": 0.04827428609132767,
+        "screeningFlags": [
+          "scene-or-background-generation"
+        ]
+      }
+    },
+    {
+      "id": "fx-stone-break-v01",
+      "source": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/raw/fx-stone-break-v01.mp4",
+      "sourceSha256": "c603c92eb573874baa23309ce5dc8b0bb9648d0b1ffc20a38785e83920281943",
+      "decodedFrames": 32,
+      "sampleFps": 8,
+      "contactSheet": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/qa/fx-stone-break-v01-contact-sheet.png",
+      "metrics": {
+        "peakTimeSeconds": 1.25,
+        "peakMeanLight": 12.1015625,
+        "peakActivePixelsPercent": 17.07638888888889,
+        "startActivityToPeak": 4.303852165321587e-06,
+        "endActivityToPeak": 0.0019159313524141908,
+        "lateReboundToPeak": 0.21107667684555054,
+        "maxBorderLight": 4.2557501792907715,
+        "frameDeltaMedian": 2.032193422317505,
+        "frameDeltaP95": 6.259852409362793,
+        "reverseVelocityCosine": 0.03174760937690735,
+        "screeningFlags": []
+      }
+    },
+    {
+      "id": "fx-stone-break-v02",
+      "source": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/raw/fx-stone-break-v02.mp4",
+      "sourceSha256": "7216d2c258f2bb3a98635d024dacc9554d6de239ae4c965b3406cd82de65fc65",
+      "decodedFrames": 32,
+      "sampleFps": 8,
+      "contactSheet": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/qa/fx-stone-break-v02-contact-sheet.png",
+      "metrics": {
+        "peakTimeSeconds": 1.0,
+        "peakMeanLight": 45.721614837646484,
+        "peakActivePixelsPercent": 70.38194444444444,
+        "startActivityToPeak": 3.4174208849435672e-06,
+        "endActivityToPeak": 0.007462128531187773,
+        "lateReboundToPeak": 0.2812146246433258,
+        "maxBorderLight": 12.59416675567627,
+        "frameDeltaMedian": 5.753524303436279,
+        "frameDeltaP95": 20.210798263549805,
+        "reverseVelocityCosine": 0.02849956974387169,
+        "screeningFlags": [
+          "late-rebound",
+          "scene-or-background-generation"
+        ]
+      }
+    },
+    {
+      "id": "fx-stone-contact-v01",
+      "source": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/raw/fx-stone-contact-v01.mp4",
+      "sourceSha256": "8971d4b0f589cf7e19bb1e7b85821cfc6363527d6466eab2505d444efb5c4b1f",
+      "decodedFrames": 32,
+      "sampleFps": 8,
+      "contactSheet": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/qa/fx-stone-contact-v01-contact-sheet.png",
+      "metrics": {
+        "peakTimeSeconds": 1.25,
+        "peakMeanLight": 12.268073081970215,
+        "peakActivePixelsPercent": 9.614583333333334,
+        "startActivityToPeak": 0.0001761856401572004,
+        "endActivityToPeak": 0.0007167712901718915,
+        "lateReboundToPeak": 0.17905555665493011,
+        "maxBorderLight": 4.898333549499512,
+        "frameDeltaMedian": 4.856666564941406,
+        "frameDeltaP95": 10.163370132446289,
+        "reverseVelocityCosine": 0.015170633792877197,
+        "screeningFlags": []
+      }
+    },
+    {
+      "id": "fx-stone-contact-v02",
+      "source": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/raw/fx-stone-contact-v02.mp4",
+      "sourceSha256": "22646d7e04004b2716b537afb77643b9129978b75caa702b4cfc8d3c0cd59af6",
+      "decodedFrames": 32,
+      "sampleFps": 8,
+      "contactSheet": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/qa/fx-stone-contact-v02-contact-sheet.png",
+      "metrics": {
+        "peakTimeSeconds": 1.375,
+        "peakMeanLight": 12.520885467529297,
+        "peakActivePixelsPercent": 14.75173611111111,
+        "startActivityToPeak": 0.0001878805342130363,
+        "endActivityToPeak": 0.0015515742124989629,
+        "lateReboundToPeak": 0.10407194495201111,
+        "maxBorderLight": 7.697083473205566,
+        "frameDeltaMedian": 0.4505903124809265,
+        "frameDeltaP95": 8.870744705200195,
+        "reverseVelocityCosine": 0.013465979136526585,
+        "screeningFlags": []
+      }
+    }
+  ]
+}

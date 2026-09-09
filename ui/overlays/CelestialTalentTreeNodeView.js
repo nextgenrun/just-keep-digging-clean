@@ -1,122 +1,58 @@
-// One image-backed node in the full Celestial talent tree.
-
+// One complete talent face; its rank and explanation live in the fixed dossier.
 import { CELESTIAL_TALENT_TREE_UI_CONFIG } from "../../values/celestialTalentTreeUi.js";
-import { UI_FONTS } from "../../values/uiLayout.js";
+import { CELESTIAL_FOCUS_LAYOUT as G } from "../../values/celestialTalentFocusUi.js";
+import { BAKED_TALENT_NODES } from "../../values/bakedCelestialUi.js";
+import { prepareArt, fitBakedUiImage } from "../../systems/visual/bakedUiArt.js";
 
 export class CelestialTalentTreeNodeView {
-  constructor(scene, node, iconKey, accent, callbacks = {}) {
+  constructor(scene, node, iconKey, accent) {
     this.scene = scene;
     this.node = node;
-    this.callbacks = callbacks;
-    const { assets, layout, presentation } = CELESTIAL_TALENT_TREE_UI_CONFIG;
-    const size = layout.nodeSizeByKindPx[node.kind]
-      || layout.nodeSizeByKindPx.upgrade;
+    const { assets, layout } = CELESTIAL_TALENT_TREE_UI_CONFIG;
+    const size = layout.nodeSizeByKindPx[node.kind] || layout.nodeSizeByKindPx.upgrade;
     this.root = scene.add.container(0, 0);
     this.halo = scene.add.image(0, 0, assets.nodeHalo.key)
       .setDisplaySize(size * layout.haloWidthScale, size * layout.haloHeightScale)
-      .setTint(accent)
-      .setAlpha(0);
-    this.icon = scene.add.image(0, 0, iconKey)
-      .setDisplaySize(size, size);
-    this.frame = scene.add.image(0, 0, assets.nodeFrame.key)
-      .setDisplaySize(
-        size * layout.nodeFrameScale,
-        size * layout.nodeFrameScale,
-      );
-    this.lock = scene.add.image(0, 0, assets.lock.key)
-      .setDisplaySize(layout.lockWidthPx, layout.lockHeightPx)
-      .setVisible(false);
-    this.status = scene.add.text(0, layout.nodeStatusOffsetYPx, "", {
-      fontFamily: UI_FONTS.mono,
-      fontSize: `${presentation.nodeStatusFontSizePx}px`,
-      fontStyle: "bold",
-      color: presentation.bodyColor,
-      stroke: presentation.shadowColor,
-      strokeThickness: presentation.shadowThicknessPx,
-      align: "center",
-    }).setOrigin(0.5);
-    // Reuse the authored halo as a near-transparent display hit target. The
-    // immersive container transform made Phaser Zone hit tests unreliable in
-    // real browser input, while an Image retains the same visual-art contract.
-    this.hit = scene.add.image(
-      0,
-      0,
-      assets.nodeHalo.key,
-    )
-      .setDisplaySize(layout.nodeHitWidthPx, layout.nodeHitHeightPx)
-      .setAlpha(0.001)
+      .setTint(accent).setAlpha(0);
+    const art = prepareArt(scene, BAKED_TALENT_NODES[node.id].face);
+    this.icon = fitBakedUiImage(scene.add.image(0, 0, art?.key || iconKey, art?.frame), size, size);
+    this.icon.setData("bakedTalentNode", node.id);
+    this.hit = scene.add.image(0, 0, assets.nodeHalo.key)
+      .setDisplaySize(G.nodeHitWidth, G.nodeHitHeight).setAlpha(G.invisibleHitAlpha)
       .setInteractive({ useHandCursor: true });
-    this.root.add([
-      this.halo,
-      this.icon,
-      this.frame,
-      this.lock,
-      this.status,
-      this.hit,
-    ]);
-    this._fitIcon(size * layout.nodeIconScale);
-    this._bind();
-  }
-
-  _fitIcon(maxSize) {
-    const frame = this.scene.textures?.getFrame?.(this.icon.texture?.key);
-    const width = Number(frame?.realWidth || frame?.width) || maxSize;
-    const height = Number(frame?.realHeight || frame?.height) || maxSize;
-    const scale = Math.min(maxSize / width, maxSize / height);
-    this.icon.setDisplaySize(width * scale, height * scale);
-  }
-
-  _bind() {
-    this.hit.on("pointerover", () => this.callbacks.onHover?.(this));
-    this.hit.on("pointerout", () => this.callbacks.onOut?.(this));
+    this.root.add([this.halo, this.icon, this.hit]);
+    this.hit.on("pointerover", () => {
+      this.hovered = true;
+      if (this.snapshot) this.setState(this.snapshot, this.selected);
+    });
+    this.hit.on("pointerout", () => {
+      this.hovered = false;
+      if (this.snapshot) this.setState(this.snapshot, this.selected);
+    });
   }
 
   setState(snapshot, selected = false) {
     this.snapshot = snapshot;
-    const { presentation } = CELESTIAL_TALENT_TREE_UI_CONFIG;
-    const purchased = snapshot?.purchased === true;
+    this.selected = selected;
+    const { presentation: p } = CELESTIAL_TALENT_TREE_UI_CONFIG;
+    const owned = snapshot?.purchased === true;
     const available = snapshot?.available === true;
+    const waiting = snapshot?.reason === "insufficient-talent-points";
     this.icon.clearTint();
-    if (purchased) {
-      this.icon.setAlpha(presentation.purchasedAlpha);
-      this.status.setText(CELESTIAL_TALENT_TREE_UI_CONFIG.copy.nodeOwned)
-        .setColor(presentation.ownedColor);
-    } else if (available) {
-      this.icon.setAlpha(presentation.availableAlpha);
-      this.status.setText(snapshot.starsCost > 0 ? `${snapshot.starsCost} SP` : "FREE")
-        .setColor(presentation.readyColor);
-    } else {
-      this.icon.setTint(presentation.lockedTint).setAlpha(presentation.lockedAlpha);
-      const preLevelGate = snapshot?.reason === "talents-locked";
-      this.status.setText(preLevelGate
-        ? this.node.kind === "ability" ? "LV 20" : ""
-        : CELESTIAL_TALENT_TREE_UI_CONFIG.copy.nodeLocked)
-        .setColor(presentation.lockedColor);
-    }
-    const preLevelGate = snapshot?.reason === "talents-locked";
-    this.lock.setVisible(
-      !purchased
-        && !available
-        && (!preLevelGate || this.node.kind === "ability"),
-    );
-    this.halo.setAlpha(selected
-      ? presentation.haloAlpha
-      : purchased
-        ? presentation.purchasedHaloAlpha
-        : 0);
-    this.root.setScale(selected ? presentation.selectedScale : 1);
+    if (owned || available) this.icon.setAlpha(p.purchasedAlpha);
+    else if (waiting) this.icon.setAlpha(p.waitingAlpha);
+    else this.icon.setTint(p.lockedTint).setAlpha(p.lockedAlpha);
+    this.halo.setAlpha(selected || this.hovered ? p.haloAlpha : owned ? p.purchasedHaloAlpha
+      : available ? p.availableHaloAlpha : waiting ? p.waitingHaloAlpha : 0);
   }
 
-  setCompactStatus(compact) {
-    this.status.setVisible(compact !== true);
+  setBranchVisible(visible) {
+    this.root.setVisible(visible);
+    this.hit.input.enabled = visible;
+    if (!visible) this.hovered = false;
   }
 
-  setPosition(x, y) {
-    this.root.setPosition(x, y);
-  }
-
-  destroy() {
-    this.hit?.removeAllListeners?.();
-    this.root.destroy(true);
-  }
+  setViewportScale() {}
+  setPosition(x, y) { this.root.setPosition(x, y); }
+  destroy() { this.hit.removeAllListeners(); this.root.destroy(true); }
 }

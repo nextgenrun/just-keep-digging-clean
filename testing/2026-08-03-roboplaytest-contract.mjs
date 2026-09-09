@@ -25,11 +25,25 @@ const humanCampaignSource = fs.readFileSync(
   path.join(moduleRoot, "2026-08-14-roboplaytest-human-campaign.mjs"),
   "utf8",
 );
+const openingGateSource = fs.readFileSync(
+  path.join(moduleRoot, "2026-08-30-roboplaytest-opening-gate.mjs"),
+  "utf8",
+);
+const scenarioSource = fs.readFileSync(
+  path.join(moduleRoot, "2026-08-03-roboplaytest-scenarios.mjs"),
+  "utf8",
+);
 const deepModules = [
   "2026-08-03-roboplaytest-deep-core.mjs",
   "2026-08-03-roboplaytest-deep-ui.mjs",
   "2026-08-03-roboplaytest-deep-world.mjs",
   "2026-08-03-roboplaytest-deep-scenarios.mjs",
+  "2026-08-30-roboplaytest-opening-gate.mjs",
+  "2026-08-30-roboplaytest-worldroot.mjs",
+  "2026-08-30-roboplaytest-worldroot-motion.mjs",
+  "2026-09-03-roboplaytest-worldroot-interactions.mjs",
+  "2026-09-03-roboplaytest-sanctuary.mjs",
+  "2026-09-03-roboplaytest-sanctuary-actions.mjs",
 ];
 
 assert.equal(fs.existsSync(launchPath), true, "date-stamped launcher must exist");
@@ -52,6 +66,8 @@ const config = parseRoboplaytestConfig([
   "--headed=1",
 ], new Date("2026-08-03T12:00:00.000Z"));
 assert.equal(config.headed, true);
+assert.equal(config.nativeGpu, false, "CI software rendering remains the default");
+assert.equal(parseRoboplaytestConfig(["--native-gpu=1"]).nativeGpu, true);
 assert.equal(config.profile, "deep");
 assert.equal(config.tutorial, "skip");
 assert.equal(config.schema, "dig-game-roboplaytest@2");
@@ -73,6 +89,9 @@ assert.equal(opening.profile, "opening");
 assert.equal(new URL(opening.url).searchParams.get("gameplayProfile"), "demo");
 const ui = parseRoboplaytestConfig(["--profile=ui"]);
 assert.equal(ui.profile, "ui");
+const worldroot = parseRoboplaytestConfig(["--profile=worldroot"]);
+assert.equal(worldroot.profile, "worldroot");
+assert.equal(new URL(worldroot.url).searchParams.get("gameplayProfile"), "full-review");
 const human = parseRoboplaytestConfig(["--profile=human", "--goal-money=2000"]);
 assert.equal(human.profile, "human");
 assert.equal(human.goalMoney, 2000);
@@ -81,11 +100,16 @@ assert.equal(new URL(human.url).searchParams.get("gameplayProfile"), "demo");
 const focusedHuman = parseRoboplaytestConfig(["--profile=human", "--human-stage=abilities"]);
 assert.equal(focusedHuman.humanStage, "abilities");
 assert.throws(() => parseRoboplaytestConfig(["--human-stage=fast"]), /full or abilities/);
-assert.throws(() => parseRoboplaytestConfig(["--profile=wide"]), /deep, critical, opening, ui, or human/);
+assert.throws(() => parseRoboplaytestConfig(["--profile=wide"]), /deep, critical, opening, ui, human, or worldroot/);
 assert.match(harnessSource, /dialogVisible: Boolean\(scene\.overlayManager\?\.shell\?\.root\?\.visible\)/);
+assert.match(harnessSource, /scene\.hideWorldMap\?\.\(\)/);
 assert.match(harnessSource, /isLocalGameplayProfileHost/);
 assert.match(harnessSource, /__DIG_GAME_PRODUCTION__ === true/);
 assert.match(driverSource, /prepareGuidedTutorialMineTarget/);
+assert.match(openingGateSource, /OpeningCinematicScene/);
+assert.match(openingGateSource, /skipHoldDurationMs/);
+assert.match(openingGateSource, /keyboard\.down\("Escape"\)/);
+assert.match(scenarioSource, /runWorldrootScenarios/);
 assert.match(guidedOpeningSource, /stage === "dig"/);
 assert.match(humanCampaignSource, /humanPress\(driver\.page, "e", 1_000\)/);
 assert.match(humanCampaignSource, /closeAfter: nextMerchant !== merchant/);

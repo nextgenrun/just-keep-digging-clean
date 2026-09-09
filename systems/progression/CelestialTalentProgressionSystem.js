@@ -1,10 +1,11 @@
 import {
   CELESTIAL_TALENT_NODES_BY_ID,
   CELESTIAL_TALENT_PROGRESSION_CONFIG,
-  getCelestialTalentPrerequisiteState,
+  getEarnedCelestialTalentPoints,
   getCelestialStarPointYield,
   sanitizeCelestialTalentProgressionData,
 } from "../../values/celestialTalentProgression.js";
+import { getCelestialTalentNodeAvailability } from "./celestialTalentAvailability.js";
 
 const ORDERED_NODE_IDS = Object.freeze(
   CELESTIAL_TALENT_PROGRESSION_CONFIG.branches.flatMap(
@@ -53,6 +54,7 @@ export class CelestialTalentProgressionSystem {
   }
 
   grantStars(amount, detail = null) {
+    if (!Number.isFinite(Number(amount))) return 0;
     const requested = Math.max(0, Math.floor(Number(amount) || 0));
     if (requested <= 0) return 0;
     const maximum = CELESTIAL_TALENT_PROGRESSION_CONFIG.currency.maximumBalance;
@@ -90,17 +92,21 @@ export class CelestialTalentProgressionSystem {
 
   purchaseNode(nodeId, playerLevel) {
     const availability = this.getNodeAvailability(nodeId, playerLevel);
+    if (availability.action === "upgrade") {
+      return { ...availability, ok: false, available: false, reason: "already-purchased" };
+    }
     if (!availability.available) return { ok: false, ...availability };
 
     const node = CELESTIAL_TALENT_NODES_BY_ID[nodeId];
     const godMode = this.isGodModeActive();
-    const starsSpent = godMode ? 0 : node.starsCost;
+    const starsSpent = 0;
+    const talentPointsSpent = availability.talentPointsCost;
     const completedBefore = new Set(completedBranchIds(purchasedSet(this._data)));
-    this._data.stars -= starsSpent;
-    this._data.spentStars += starsSpent;
+    this._data.spentTalentPoints += talentPointsSpent;
     const purchased = new Set(this._data.purchasedNodeIds);
     purchased.add(nodeId);
     this._data.purchasedNodeIds = ORDERED_NODE_IDS.filter(id => purchased.has(id));
+    this._data.nodeRanks[nodeId] = 1;
 
     const completedAfter = new Set(completedBranchIds(purchasedSet(this._data)));
     const branchCompleted = !completedBefore.has(node.branchId)
@@ -109,6 +115,9 @@ export class CelestialTalentProgressionSystem {
       nodeId,
       branchId: node.branchId,
       starsSpent,
+      talentPointsSpent,
+      rank: 1,
+      action: "unlock",
       godMode,
       branchCompleted,
       unlockedRootSelection: branchCompleted,
@@ -117,9 +126,29 @@ export class CelestialTalentProgressionSystem {
     return { ok: true, reason: null, ...detail, snapshot: this.getSnapshot() };
   }
 
+  upgradeNode(nodeId, playerLevel) {
+    const availability = this.getNodeAvailability(nodeId, playerLevel);
+    if (availability.action === "unlock") {
+      return { ...availability, ok: false, available: false, reason: "node-not-owned" };
+    }
+    if (!availability.available) return { ok: false, ...availability };
+    const rank = availability.rank + 1;
+    const starsSpent = availability.starsCost;
+    this._data.stars -= starsSpent;
+    this._data.spentStars += starsSpent;
+    this._data.nodeRanks[nodeId] = rank;
+    const detail = {
+      nodeId, branchId: CELESTIAL_TALENT_NODES_BY_ID[nodeId].branchId,
+      rank, starsSpent, talentPointsSpent: 0, action: "upgrade",
+      godMode: this.isGodModeActive(),
+    };
+    this._emit("node-upgraded", true, detail);
+    return { ok: true, reason: null, ...detail, snapshot: this.getSnapshot() };
+  }
+
   getSaveData() {
     const clean = sanitizeCelestialTalentProgressionData(this._data);
-    return { ...clean, purchasedNodeIds: [...clean.purchasedNodeIds] };
+    return { ...clean, purchasedNodeIds: [...clean.purchasedNodeIds], nodeRanks: { ...clean.nodeRanks } };
   }
 
   getSnapshot(playerLevel) {
@@ -167,6 +196,8 @@ export class CelestialTalentProgressionSystem {
     return {
       ...data,
       playerLevel: level,
+      earnedTalentPoints: getEarnedCelestialTalentPoints(level),
+      talentPoints: Math.max(0, getEarnedCelestialTalentPoints(level) - data.spentTalentPoints),
       requiredPlayerLevel: CELESTIAL_TALENT_PROGRESSION_CONFIG.access.requiredPlayerLevel,
       accessUnlocked: godMode
         || level >= CELESTIAL_TALENT_PROGRESSION_CONFIG.access.requiredPlayerLevel,
@@ -205,45 +236,12 @@ export class CelestialTalentProgressionSystem {
   }
 
   _buildNodeAvailability(node, playerLevel, purchased) {
-    const prerequisiteState = getCelestialTalentPrerequisiteState(node, purchased);
-    const godMode = this.isGodModeActive();
-    const base = {
-      nodeId: node.id,
-      requiredLevel: node.requiredLevel,
-      playerLevel,
-      starsCost: godMode ? 0 : node.starsCost,
-      normalStarsCost: node.starsCost,
-      starsBalance: this._data.stars,
-      godMode,
-      prerequisiteMode: prerequisiteState.mode,
-      purchasedPrerequisiteIds: prerequisiteState.purchasedPrerequisiteIds,
-      missingPrerequisiteIds: prerequisiteState.missingPrerequisiteIds,
-    };
-    if (purchased.has(node.id)) {
-      return { ...base, available: false, reason: "already-purchased" };
-    }
-    if (godMode) return { ...base, available: true, reason: null };
-    if (playerLevel < CELESTIAL_TALENT_PROGRESSION_CONFIG.access.requiredPlayerLevel) {
-      return { ...base, available: false, reason: "talents-locked" };
-    }
-    if (playerLevel < node.requiredLevel) {
-      return { ...base, available: false, reason: "level-locked" };
-    }
-    if (node.kind === "ability") {
-      const roots = purchasedRootIds(purchased);
-      const completed = completedBranchIds(purchased);
-      const capacity = this._getRootSelectionCapacity(roots.length, completed.length);
-      if (roots.length >= capacity) {
-        return { ...base, available: false, reason: "root-choice-locked" };
-      }
-    }
-    if (!prerequisiteState.satisfied) {
-      return { ...base, available: false, reason: "prerequisite-locked" };
-    }
-    if (this._data.stars < node.starsCost) {
-      return { ...base, available: false, reason: "insufficient-stars" };
-    }
-    return { ...base, available: true, reason: null };
+    const rootCount = purchasedRootIds(purchased).length;
+    const completedCount = completedBranchIds(purchased).length;
+    return getCelestialTalentNodeAvailability(node, {
+      data: this._data, playerLevel, purchased, godMode: this.isGodModeActive(),
+      rootCount, rootCapacity: this._getRootSelectionCapacity(rootCount, completedCount),
+    });
   }
 
   _getRootSelectionCapacity(rootCount, completedCount) {

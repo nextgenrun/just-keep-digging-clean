@@ -1,6 +1,10 @@
 /** Owns cave-only character action timing, authored UAL contacts, and flight animation selection. */
 import { UalActionContactTimeline } from "../../player/UalActionContactTimeline.js";
 import { UalMiningComboSelector } from "../../player/UalMiningComboSelector.js";
+import {
+  canStartUalMiningAction,
+  resolveUalMiningRecoveryHoldUntilMs,
+} from "../../player/ualMiningActionCadence.js";
 import { resolveMovingDiagonalDigAnimation } from "../../player/UalMovingDiagonalDigSelector.js";
 import { resolveMovingSideDigAnimation } from "../../player/UalMovingSideDigSelector.js?rev=20260821-moving-complex-dig-v1";
 import { UalActionRecoverySelector } from "../../systems/visual/UalActionRecoverySelector.js";
@@ -13,9 +17,10 @@ import {
   normalizeHorizontalDirection,
   resolveAuthoredHorizontalFlipX,
 } from "../../player/playerDirectionalTargets.js";
-import { updateCaveLocomotionVisual } from "./CaveLocomotionAnimationRuntime.js";
+import { updateCaveLocomotionVisual } from "./CaveLocomotionAnimationRuntime.js?rev=20260831-stable-animation-size-v1";
 import { ThunderStrikeActionRuntime } from "./ThunderStrikeActionRuntime.js";
 import {
+  prewarmComplexDigSelection,
   resolveComplexDigSelection,
   resolveComplexDigSourceFacesRight,
 } from "./ComplexDigAnimationRuntime.js";
@@ -121,9 +126,22 @@ export class CaveActionAnimationRuntime {
       && this.timeline?.isActive
       && !this._cancelMiningRecovery(time, abilities)
     ) return false;
+    if (
+      profile.isUalNative
+      && !canStartUalMiningAction({
+        digSystem: this.controller.digSystem,
+        nowMs: time,
+        abilities,
+        actionKind: action === "quickslash" ? "quickslash" : "normal",
+      })
+    ) return false;
     let key;
     let sourceFacesRight;
     let deferredFallbackKey = profile.digDownAnim || ASSET_KEYS.player.digDownAnim;
+    if (action !== "quickslash" && aim.startsWith("DOWN")) {
+      this.controller.originScene?.playerDeferredAnimationAssetController
+        ?.ensureForAnimation?.(profile.downwardDigPrewarmAnimationKey);
+    }
     if (action === "quickslash") {
       key = profile.quickslashAnim;
       sourceFacesRight = profile.quickslashSourceFacesRight
@@ -163,6 +181,7 @@ export class CaveActionAnimationRuntime {
         sourceFacesRight = profile.digDownSourceFacesRight === true;
       } else {
         const selection = resolveComplexDigSelection(scene, profile, "side", profile.digSidewaysHitAnims, profile.digSidewaysAnim);
+        prewarmComplexDigSelection(this.controller.originScene || scene, selection);
         deferredFallbackKey = selection.fallback;
         key = select(selection.family, selection.animationKeys, selection.fallback);
         sourceFacesRight = resolveComplexDigSourceFacesRight(
@@ -269,6 +288,7 @@ export class CaveActionAnimationRuntime {
       frameCount: animation.frames?.length || 1,
       frameRate: animation.frameRate || 30,
       effectiveCooldownMs: controller.digSystem.getEffectiveCooldownMs(abilities),
+      miningSpeedMultiplier: controller.digSystem.getMiningSpeedBoostMultiplier?.() || 1,
       kind,
     });
     this._activeMiningActionKind = kind;
@@ -277,8 +297,8 @@ export class CaveActionAnimationRuntime {
       ? rigContext.resumeJogFrame
       : null;
     controller._actionUntilMs = Infinity;
-    controller._applyPlayerDisplaySize(key);
     scene.player.play(key, true);
+    controller._applyPlayerDisplaySize(key);
     scene.player.setAngle?.(0);
     scene.player.anims.timeScale = timeScale;
     controller.playerController?._syncSpriteWithPhysics?.();
@@ -304,6 +324,12 @@ export class CaveActionAnimationRuntime {
         onContact?.(event);
       },
       onComplete: () => {
+        const actionKind = this._activeMiningActionKind;
+        const recoveryHoldUntilMs = resolveUalMiningRecoveryHoldUntilMs({
+          digSystem: controller.digSystem,
+          abilities,
+          actionKind,
+        });
         controller._actionUntilMs = 0;
         this._activeMiningActionKind = null;
         this._contactAtMs = -Infinity;
@@ -316,7 +342,10 @@ export class CaveActionAnimationRuntime {
         if (Number.isFinite(resumeJogFrame) && moving) {
           this.locomotion?.requestRunResume(resumeJogFrame);
         } else {
-          this.actionRecovery?.begin(key, scene.player.flipX === true);
+          this.actionRecovery?.begin(key, scene.player.flipX === true, {
+            holdUntilMs: recoveryHoldUntilMs,
+            holdCompletedAnimation: actionKind === "normal",
+          });
         }
       },
     });

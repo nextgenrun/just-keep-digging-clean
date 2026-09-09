@@ -6,6 +6,13 @@ function cssColor(value, fallback) {
   return `#${Math.max(0, Math.min(0xffffff, value)).toString(16).padStart(6, "0")}`;
 }
 
+function liftColor(value, amount) {
+  if (!Number.isFinite(value)) return value;
+  const channel = shift => (value >> shift) & 0xff;
+  const lift = source => Math.round(source + (255 - source) * amount);
+  return (lift(channel(16)) << 16) | (lift(channel(8)) << 8) | lift(channel(0));
+}
+
 /** Pools authored map symbols and discovery-safe labels above the map graphics. */
 export class WorldMapAnnotationView {
   constructor(scene) {
@@ -82,7 +89,11 @@ export class WorldMapAnnotationView {
       entry.text
         .setText(`${marker.label}${detail}`)
         .setColor(cssColor(marker.color, config.colors.body))
-        .setPosition(marker.x, marker.y + config.annotations.markerLabelOffsetYPx)
+        .setOrigin(0.5, marker.labelOriginY ?? 0)
+        .setPosition(
+          marker.labelX ?? marker.x,
+          marker.labelY ?? marker.y + config.annotations.markerLabelOffsetYPx,
+        )
         .setVisible(true);
     } else {
       entry.text.setVisible(false);
@@ -95,6 +106,10 @@ export class WorldMapAnnotationView {
     entry.seen = true;
     entry.text
       .setText(label.label)
+      .setColor(cssColor(
+        liftColor(label.color, WORLD_MAP_CONFIG.annotations.biomeIdentityLift),
+        WORLD_MAP_CONFIG.colors.biomeLabel,
+      ))
       .setPosition(label.x, label.y)
       .setAlpha(WORLD_MAP_CONFIG.annotations.biomeLabelAlpha)
       .setVisible(true);

@@ -1,0 +1,416 @@
+{
+  "title": "UNDERSTAR — The Depths Are Calling",
+  "version": 1,
+  "duration": 180,
+  "width": 1920,
+  "height": 1080,
+  "fps": 60,
+  "soundtrack": "sound/playlists/tor-music-boss-breakthrough-final-opening-heroic-impact-i04-b03-c01-v01.mp3",
+  "logo": "steam-marketing/2026-08-16-static-upload-pack-v1/source-runtime-logo-transparent.png",
+  "cuts": [
+    {
+      "id": "01-lance",
+      "source": "161552-clean-lance",
+      "in": 4,
+      "duration": 4,
+      "zoom": 1.07,
+      "timelineIn": 0,
+      "timelineOut": 4
+    },
+    {
+      "id": "02-wayward-hook",
+      "source": "161748-clean-wayward",
+      "in": 2.8,
+      "duration": 3,
+      "zoom": 1.07,
+      "timelineIn": 4,
+      "timelineOut": 7
+    },
+    {
+      "id": "03-titan-hook",
+      "source": "161523-clean-titan",
+      "in": 5.7,
+      "duration": 3,
+      "zoom": 1,
+      "timelineIn": 7,
+      "timelineOut": 10
+    },
+    {
+      "id": "04-understar",
+      "source": "161124-clean-worldroot",
+      "in": 0,
+      "duration": 6,
+      "zoom": 1,
+      "timelineIn": 10,
+      "timelineOut": 16
+    },
+    {
+      "id": "05-surface",
+      "source": "155418-town",
+      "in": 0.2,
+      "duration": 6,
+      "zoom": 1,
+      "timelineIn": 16,
+      "timelineOut": 22
+    },
+    {
+      "id": "06-first-dig",
+      "source": "155604-mine",
+      "in": 4,
+      "duration": 7,
+      "zoom": 1,
+      "timelineIn": 22,
+      "timelineOut": 29
+    },
+    {
+      "id": "07-mining-flow",
+      "source": "archive-02",
+      "in": 1,
+      "duration": 8,
+      "zoom": 1,
+      "timelineIn": 29,
+      "timelineOut": 37
+    },
+    {
+      "id": "08-deeper",
+      "source": "160012-blue",
+      "in": 8,
+      "duration": 6,
+      "zoom": 1,
+      "timelineIn": 37,
+      "timelineOut": 43
+    },
+    {
+      "id": "09-flight",
+      "source": "archive-01",
+      "in": 1.5,
+      "duration": 5,
+      "zoom": 1,
+      "timelineIn": 43,
+      "timelineOut": 48
+    },
+    {
+      "id": "10-star-sighting",
+      "source": "archive-01",
+      "in": 7,
+      "duration": 5,
+      "zoom": 1,
+      "timelineIn": 48,
+      "timelineOut": 53
+    },
+    {
+      "id": "11-pink-star",
+      "source": "161153-clean-star",
+      "in": 0,
+      "duration": 5,
+      "zoom": 1.08,
+      "timelineIn": 53,
+      "timelineOut": 58
+    },
+    {
+      "id": "12-three-stars",
+      "source": "triptych",
+      "in": 0,
+      "duration": 8,
+      "zoom": 1,
+      "timelineIn": 58,
+      "timelineOut": 66
+    },
+    {
+      "id": "13-sky-flight",
+      "source": "155535-flight",
+      "in": 7.4,
+      "duration": 4,
+      "zoom": 1,
+      "timelineIn": 66,
+      "timelineOut": 70
+    },
+    {
+      "id": "14-iron-veins",
+      "source": "160012-blue",
+      "in": 18,
+      "duration": 2,
+      "zoom": 1,
+      "timelineIn": 70,
+      "timelineOut": 72
+    },
+    {
+      "id": "15-combo",
+      "source": "archive-02",
+      "in": 16,
+      "duration": 8,
+      "zoom": 1,
+      "timelineIn": 72,
+      "timelineOut": 80
+    },
+    {
+      "id": "16-wayward-star",
+      "source": "161748-clean-wayward",
+      "in": 0,
+      "duration": 6,
+      "zoom": 1.06,
+      "timelineIn": 80,
+      "timelineOut": 86
+    },
+    {
+      "id": "17-hollow-sun",
+      "source": "161817-clean-hollow",
+      "in": 0,
+      "duration": 6,
+      "zoom": 1.05,
+      "timelineIn": 86,
+      "timelineOut": 92
+    },
+    {
+      "id": "18-comet-engine",
+      "source": "161552-clean-lance",
+      "in": 3,
+      "duration": 6,
+      "zoom": 1.07,
+      "timelineIn": 92,
+      "timelineOut": 98
+    },
+    {
+      "id": "19-power-through",
+      "source": "163655-clean-shadow",
+      "in": 2,
+      "duration": 7,
+      "zoom": 1.06,
+      "timelineIn": 98,
+      "timelineOut": 105
+    },
+    {
+      "id": "20-golden-depths",
+      "source": "161817-clean-hollow",
+      "in": 6,
+      "duration": 8,
+      "zoom": 1.05,
+      "timelineIn": 105,
+      "timelineOut": 113
+    },
+    {
+      "id": "21-mossback-reveal",
+      "source": "161523-clean-titan",
+      "in": 0,
+      "duration": 8,
+      "zoom": 1,
+      "timelineIn": 113,
+      "timelineOut": 121
+    },
+    {
+      "id": "22-ancient-presence",
+      "source": "161523-clean-titan",
+      "in": 9,
+      "duration": 4,
+      "zoom": 1,
+      "timelineIn": 121,
+      "timelineOut": 125
+    },
+    {
+      "id": "23-worldroot",
+      "source": "161124-clean-worldroot",
+      "in": 3.5,
+      "duration": 6,
+      "zoom": 1,
+      "timelineIn": 125,
+      "timelineOut": 131
+    },
+    {
+      "id": "24-return-to-town",
+      "source": "archive-03",
+      "in": 7.5,
+      "duration": 5,
+      "zoom": 1,
+      "timelineIn": 131,
+      "timelineOut": 136
+    },
+    {
+      "id": "25-keep-digging",
+      "source": "archive-02",
+      "in": 33,
+      "duration": 6,
+      "zoom": 1,
+      "timelineIn": 136,
+      "timelineOut": 142
+    },
+    {
+      "id": "26-celestial-rush",
+      "source": "161748-clean-wayward",
+      "in": 10,
+      "duration": 5,
+      "zoom": 1.1,
+      "timelineIn": 142,
+      "timelineOut": 147
+    },
+    {
+      "id": "27-charged-strikes",
+      "source": "163655-clean-shadow",
+      "in": 11,
+      "duration": 5,
+      "zoom": 1.1,
+      "timelineIn": 147,
+      "timelineOut": 152
+    },
+    {
+      "id": "28-mining-storm",
+      "source": "163334-clean-thunder",
+      "in": 10,
+      "duration": 5,
+      "zoom": 1.08,
+      "timelineIn": 152,
+      "timelineOut": 157
+    },
+    {
+      "id": "29-silver-descent",
+      "source": "161552-clean-lance",
+      "in": 7,
+      "duration": 4,
+      "zoom": 1.08,
+      "timelineIn": 157,
+      "timelineOut": 161
+    },
+    {
+      "id": "30-gold-descent",
+      "source": "161817-clean-hollow",
+      "in": 12,
+      "duration": 4,
+      "zoom": 1.08,
+      "timelineIn": 161,
+      "timelineOut": 165
+    },
+    {
+      "id": "31-wayward-finale",
+      "source": "161748-clean-wayward",
+      "in": 15,
+      "duration": 3,
+      "zoom": 1.1,
+      "timelineIn": 165,
+      "timelineOut": 168
+    },
+    {
+      "id": "32-last-strike",
+      "source": "163655-clean-shadow",
+      "in": 14,
+      "duration": 3,
+      "zoom": 1.1,
+      "timelineIn": 168,
+      "timelineOut": 171
+    },
+    {
+      "id": "33-comet-finale",
+      "source": "161552-clean-lance",
+      "in": 4.5,
+      "duration": 3,
+      "zoom": 1.1,
+      "timelineIn": 171,
+      "timelineOut": 174
+    },
+    {
+      "id": "34-wishlist",
+      "source": "161124-clean-worldroot",
+      "in": 0,
+      "duration": 6,
+      "zoom": 1,
+      "timelineIn": 174,
+      "timelineOut": 180
+    }
+  ],
+  "titles": [
+    {
+      "start": 11,
+      "end": 15.6,
+      "text": "THE DEPTHS ARE CALLING",
+      "style": "Eyebrow",
+      "y": 590
+    },
+    {
+      "start": 22.6,
+      "end": 27.8,
+      "text": "MINE YOUR OWN PATH",
+      "style": "Feature",
+      "y": 170
+    },
+    {
+      "start": 38,
+      "end": 42.6,
+      "text": "GO DEEPER",
+      "style": "Feature",
+      "y": 170
+    },
+    {
+      "start": 53.5,
+      "end": 57.8,
+      "text": "FOLLOW THE STARS",
+      "style": "Feature",
+      "y": 170
+    },
+    {
+      "start": 80.5,
+      "end": 84.8,
+      "text": "UNLEASH CELESTIAL POWER",
+      "style": "Feature",
+      "y": 150
+    },
+    {
+      "start": 86.5,
+      "end": 90.7,
+      "text": "HOLLOW SUN",
+      "style": "Power",
+      "y": 927
+    },
+    {
+      "start": 92.5,
+      "end": 96.8,
+      "text": "COMET ENGINE",
+      "style": "Power",
+      "y": 927
+    },
+    {
+      "start": 113.4,
+      "end": 118.3,
+      "text": "UNEARTH ANCIENT TITANS",
+      "style": "Feature",
+      "y": 145
+    },
+    {
+      "start": 125.5,
+      "end": 130.6,
+      "text": "BRING THE LIGHT HOME",
+      "style": "Feature",
+      "y": 925
+    },
+    {
+      "start": 136.5,
+      "end": 140.8,
+      "text": "DIG. DISCOVER. GROW.",
+      "style": "Feature",
+      "y": 150
+    },
+    {
+      "start": 174.8,
+      "end": 179.5,
+      "text": "THE DEPTHS ARE CALLING",
+      "style": "Eyebrow",
+      "y": 247
+    },
+    {
+      "start": 175,
+      "end": 179.5,
+      "text": "WISHLIST ON STEAM",
+      "style": "CTA",
+      "y": 803
+    }
+  ],
+  "provenance": {
+    "visual": "Native game recordings. New recordings use an isolated local filming session with staged progression and native actions. No fabricated gameplay or generated cinematics.",
+    "speed": "All selected gameplay runs at its original timing. Modest editorial crops and a three-panel star montage only.",
+    "audio": "Game-owned music, native recorded effects and approved discovery chimes. No narration.",
+    "exclusions": [
+      "Two accidental God Mode takes (162136 and162205)",
+      "Underlit recordings",
+      "Treasure capture from disabled Level2",
+      "Surface flight seams before7.4s and after11.4s"
+    ],
+    "publishing": "Local deliverable only; no upload performed."
+  }
+}

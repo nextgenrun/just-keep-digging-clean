@@ -1,0 +1,10 @@
+{
+  "id": "C2",
+  "voice": "leo",
+  "text": "We didn't part as friends.",
+  "model": "x-ai/grok-voice-tts-1.0",
+  "requestSha256": "34486106fe66306e68b8587d9e93c5efd01dd073510d1c00a5e00bfc2b439f7b",
+  "contentType": "audio/mpeg",
+  "generationId": "gen-tts-1788736849-vPE3lRrkYbBz6rsqe6s3",
+  "rawSha256": "b1d7a588b2db235556a41aa02a7d71ded951fb2fa9c1d00d391858dd2780f023"
+}

@@ -1,6 +1,9 @@
 import { INVENTORY_CODEX_CONFIG } from
   "../../values/inventoryCodex.js?rev=20260826-inventory-codex-v2";
 
+import { RESOURCE_ICON_ART } from "../../values/resourceIconArt.js";
+import { fitBakedUiImage } from "../../systems/visual/bakedUiArt.js";
+
 function requireTexture(scene, key) {
   if (!key || !scene.textures?.exists?.(key)) {
     throw new Error(`[UIInventoryCodexArt] Required texture was not preloaded: ${key}`);
@@ -90,6 +93,14 @@ export function installResourceCodexFrames(
 }
 
 export function addResourceCodexPortrait(scene, parent, resourceKey, options) {
+  const approved = RESOURCE_ICON_ART[resourceKey];
+  if (approved && scene.textures?.exists?.(approved.key)) {
+    const image = scene.add.image(options.x, options.y, approved.key)
+      .setAlpha(options.alpha ?? 1);
+    fitBakedUiImage(image, options.width ?? options.size, options.height ?? options.size);
+    parent.add(image);
+    return image;
+  }
   const config = INVENTORY_CODEX_CONFIG;
   const frameName = getResourceCodexPortraitFrameName(resourceKey, config);
   if (!frameName) return null;

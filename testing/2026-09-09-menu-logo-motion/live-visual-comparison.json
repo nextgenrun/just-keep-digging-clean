@@ -1,0 +1,10 @@
+{
+  "logo": {
+    "meanAbsoluteChannelDifference": 1.937350867162188,
+    "changedPixelsPercent": 71.67638650657518
+  },
+  "scenery": {
+    "meanAbsoluteChannelDifference": 13.343868534482759,
+    "changedPixelsPercent": 98.26921695402298
+  }
+}

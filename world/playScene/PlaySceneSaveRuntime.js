@@ -1,3 +1,5 @@
+import { canPersistTownRest } from './TownRestSavePolicy.js';
+import { isHardcoreModeExhausted } from "../../values/hardcoreMode.js";
 import { validateSaveSnapshotIntegrity } from "../../values/progressionInvariants.js";
 import { GameSaveCoordinator } from "./PlaySceneSaveScheduler.js";
 import { captureCelestialOverhaulState } from "./CelestialOverhaulRuntime.js";
@@ -27,7 +29,9 @@ export function capturePlaySceneSaveSnapshot(scene, revisionMetadata) {
       randomWorldEvents: scene.randomEventBridge?.getSaveData?.() ?? null,
     } : null,
     depthGateData: scene.depthGateSystem?.getSaveData?.() ?? null,
-    dayNightData: scene.dayNightCycle?.toJSON?.() ?? null,
+    dayNightData: scene.dayNightCycle ? {
+      ...scene.dayNightCycle.toJSON(), weather: scene.weatherSystem?.toJSON?.() ?? null,
+    } : null,
     playerCharacterId: scene.playerCharacterId,
     caveSceneData: scene.caveEntryController?.getSaveData?.() ?? null,
     ancientRelicData: scene.ancientRelicSystem?.getSaveData?.() ?? null,
@@ -52,11 +56,31 @@ export function createPlaySceneSaveCoordinator(scene) {
   return new GameSaveCoordinator({
     initialRevision,
     isBlocked: () => isPlaySceneSaveBlocked(scene),
+    canPersist: () => canPersistTownRest(scene) || (
+      scene._hardcoreDeathInProgress === true
+      && scene._hardcoreLifeStateSaveInProgress === true
+      && isHardcoreModeExhausted(scene.hardcoreModeData)
+    ),
     capture: metadata => capturePlaySceneSaveSnapshot(scene, metadata),
     validate: validateSaveSnapshotIntegrity,
-    write: snapshot => scene.dugTileSaveStore.saveSnapshot(snapshot),
+    write: async snapshot => {
+      const saved = await scene.dugTileSaveStore.saveSnapshot(snapshot);
+      if (saved !== false) {
+        try {
+          scene.game?.events?.emit('player-data-save-committed', {
+            slot: Number(scene.saveSlot), store: scene.dugTileSaveStore,
+            revision: snapshot.revisionMetadata?.revision,
+          });
+        } catch { /* Observers cannot turn a committed local save into a failure. */ }
+      }
+      return saved;
+    },
     onRejected: finding => {
       if (scene._saveWritesBlocked) return;
+      if (
+        (scene._townRestCommit || scene._hardcoreLifeStateSaveInProgress)
+        && finding.id === 'game-save-write'
+      ) return;
       const issues = finding.validation?.issues?.join(", ");
       const error = finding.error || new Error(issues || "Save snapshot validation failed");
       scene._handleAuthorityFailure?.({

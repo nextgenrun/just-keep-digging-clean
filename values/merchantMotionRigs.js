@@ -1,0 +1,57 @@
+// Approved joints and painted-region weights, in a 1024-square source space.
+// Parents carry attachments; higher priority regions replace the torso influence.
+export const MERCHANT_MOTION_RIGS = Object.freeze({
+  playerUpgrades: [
+    { name: 'body', pivot: [505, 750], field: [500, 440, 275, 360], priority: 0 },
+    { name: 'head', parent: 'body', pivot: [500, 249], field: [503, 143, 120, 121], priority: 3 },
+    { name: 'blueprint', parent: 'body', pivot: [365, 462], field: [310, 353, 88, 159], priority: 4 },
+    { name: 'thumb', parent: 'body', pivot: [626, 449], field: [566, 435, 76, 79], priority: 4 },
+    { name: 'eyeL', parent: 'head', pivot: [471, 164], field: [471, 164, 17, 15], priority: 8 },
+    { name: 'eyeR', parent: 'head', pivot: [520, 161], field: [520, 161, 19, 16], priority: 8 },
+  ],
+  gearMerchant: [
+    { name: 'body', pivot: [509, 752], field: [505, 460, 282, 348], priority: 0 },
+    { name: 'pack', parent: 'body', pivot: [664, 566], field: [696, 299, 116, 197], priority: 1 },
+    { name: 'head', parent: 'body', pivot: [476, 337], field: [478, 176, 124, 144], priority: 3 },
+    { name: 'beard', parent: 'head', pivot: [474, 261], field: [459, 303, 94, 81], priority: 4 },
+    { name: 'strap', parent: 'body', pivot: [253, 495], field: [307, 418, 80, 87], priority: 5 },
+    { name: 'hand', parent: 'body', pivot: [704, 522], field: [694, 609, 77, 95], priority: 4 },
+    { name: 'eyeL', parent: 'head', pivot: [425, 193], field: [425, 193, 16, 12], priority: 8 },
+    { name: 'eyeR', parent: 'head', pivot: [491, 188], field: [491, 188, 18, 12], priority: 8 },
+  ],
+  boboMerchant: [
+    { name: 'body', pivot: [517, 787], field: [504, 483, 291, 338], priority: 0 },
+    { name: 'tail', pivot: [765, 720], field: [839, 684, 73, 109], priority: 2 },
+    { name: 'head', parent: 'body', pivot: [497, 365], field: [504, 192, 226, 191], priority: 3 },
+    { name: 'earL', parent: 'head', pivot: [381, 191], field: [343, 274, 58, 105], priority: 4 },
+    { name: 'earR', parent: 'head', pivot: [596, 190], field: [651, 260, 77, 113], priority: 4 },
+    { name: 'paw', parent: 'body', pivot: [694, 558], field: [680, 649, 76, 84], priority: 3 },
+    { name: 'medallion', parent: 'body', pivot: [408, 465], field: [406, 509, 46, 56], priority: 3 },
+    { name: 'eyeL', parent: 'head', pivot: [414, 227], field: [414, 227, 30, 35], priority: 8 },
+    { name: 'eyeR', parent: 'head', pivot: [514, 231], field: [514, 231, 35, 38], priority: 8 },
+  ],
+  moneyMonster: [
+    { name: 'body', pivot: [512, 784], field: [512, 447, 313, 356], priority: 0 },
+    { name: 'head', parent: 'body', pivot: [494, 406], field: [493, 235, 162, 175], priority: 3 },
+    { name: 'coin', parent: 'body', pivot: [277, 576], field: [222, 432, 100, 128], priority: 4 },
+    { name: 'purse', parent: 'body', pivot: [720, 564], field: [627, 635, 131, 142], priority: 4 },
+    { name: 'pendant', parent: 'body', pivot: [432, 423], field: [432, 476, 56, 65], priority: 4 },
+    { name: 'eye', parent: 'head', pivot: [462, 254], field: [462, 254, 65, 51], priority: 8 },
+  ],
+  gemPowerMerchant: [
+    { name: 'body', pivot: [528, 772], field: [516, 488, 273, 331], priority: 0 },
+    { name: 'head', parent: 'body', pivot: [510, 413], field: [512, 252, 182, 184], priority: 3 },
+    { name: 'staff', pivot: [252, 870], field: [207, 570, 85, 327], priority: 4 },
+    { name: 'pouch', parent: 'body', pivot: [787, 592], field: [738, 592, 126, 231], priority: 4 },
+    { name: 'pendant', parent: 'body', pivot: [454, 435], field: [454, 487, 48, 62], priority: 4 },
+  ],
+  magmaMoneyMonster: [
+    { name: 'body', pivot: [542, 787], field: [559, 461, 322, 343], priority: 0 },
+    { name: 'head', parent: 'body', pivot: [489, 342], field: [486, 181, 168, 175], priority: 3 },
+    { name: 'fist', parent: 'body', pivot: [258, 458], field: [211, 278, 89, 116], priority: 3 },
+    { name: 'scales', parent: 'fist', pivot: [216, 334], field: [218, 439, 148, 138], priority: 4 },
+    { name: 'chest', parent: 'body', pivot: [798, 546], field: [684, 550, 157, 158], priority: 4 },
+    { name: 'pendant', parent: 'body', pivot: [453, 353], field: [453, 396, 51, 57], priority: 4 },
+    { name: 'eye', parent: 'head', pivot: [474, 214], field: [474, 214, 58, 48], priority: 8 },
+  ],
+});

@@ -1,3 +1,4 @@
+import { getBakedUiLabel } from "../../systems/visual/bakedUiArt.js";
 import { SAVE_MENU_PRESENTATION, getSaveMenuAssetEntries } from "../../values/saveMenuPresentation.js";
 import { createButton } from "../PhaserUiKit.js";
 
@@ -52,7 +53,13 @@ export function createSaveModalChrome(scene, { kind, x, y, width, height }) {
   return scene.add.image(x, y, art.key).setDisplaySize(width, height);
 }
 
-export function createSaveChoiceChrome(scene, { x = 0, y = 0, width, height }) {
+export function createSaveChoiceChrome(scene, {
+  x = 0,
+  y = 0,
+  width,
+  height,
+  blendMode = null,
+}) {
   const art = SAVE_MENU_PRESENTATION.choice;
   if (!texturesExist(scene, [art.idleKey, art.selectedKey])) return null;
 
@@ -61,6 +68,10 @@ export function createSaveChoiceChrome(scene, { x = 0, y = 0, width, height }) {
   const selected = scene.add.image(0, 0, art.selectedKey)
     .setDisplaySize(width, height)
     .setAlpha(0);
+  if (blendMode != null) {
+    idle.setBlendMode(blendMode);
+    selected.setBlendMode(blendMode);
+  }
   root.add([idle, selected]);
   return {
     root,
@@ -72,6 +83,7 @@ export function createSaveChoiceChrome(scene, { x = 0, y = 0, width, height }) {
 }
 
 export function createSaveMenuButton(scene, options = {}) {
+  if (getBakedUiLabel(scene, options.label)) return createButton(scene, options);
   const art = SAVE_MENU_PRESENTATION.button;
   const useAuthoredArt = options.useAuthoredArt
     ?? scene._useAuthoredSaveMenuArt

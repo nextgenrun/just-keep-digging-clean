@@ -23,6 +23,6 @@ export const OBSERVATORY_LAYERED_ATMOSPHERE_REVIEW = Object.freeze({
   ]),
   defaults: Object.freeze({ motionStrength: 1.0, lightStrength: 1.0, paused: false, view: "split" }),
   limits: Object.freeze({ motionStrength: 1.4, lightStrength: 1.6 }),
-  lightMotion: Object.freeze({ baseIntensity: 0.72, pulseRange: 0.32, flutterRange: 0.10, bloomGain: 1.18 }),
+  lightMotion: Object.freeze({ baseIntensity: 0.70, pulseRange: 0.42, flutterRange: 0.14, bloomGain: 1.28 }),
   viewModes: Object.freeze(["source", "runtime", "split", "layers", "lights"]),
 });

@@ -71,6 +71,7 @@ export class WorldVisualRuntime {
     this.created = false;
     this.tutorialTileVisual = null;
     this.tutorialTileKey = null;
+    this.resourceDepletionProvider = null;
     this.performanceTracker = new WorldVisualPerformanceTracker(runtimeConfig);
     this._onResize = () => this.resize();
   }
@@ -138,6 +139,9 @@ export class WorldVisualRuntime {
       this.materialField.geometryMask
     );
     this.semanticAssetLayer.create();
+    this.semanticAssetLayer.setResourceDepletionProvider(
+      this.resourceDepletionProvider,
+    );
     this.feedbackLayer = new WorldVisualFeedbackLayer(
       this.scene,
       this.worldModel,
@@ -145,6 +149,9 @@ export class WorldVisualRuntime {
       this.runtimeConfig
     );
     this.feedbackLayer.create();
+    this.feedbackLayer.setResourceDepletionProvider(
+      this.resourceDepletionProvider,
+    );
     this.gameplayEffectLayer = new WorldVisualGameplayEffectLayer(
       this.scene,
       this.worldModel,
@@ -317,7 +324,7 @@ export class WorldVisualRuntime {
       .join(":");
   }
 
-  applyTileUpdate(tx, ty) {
+  applyTileUpdate(tx, ty, options = {}) {
     if (!this.created) return;
     this._syncTutorialTileVisual(tx, ty);
     this.performanceTracker.recordTileInvalidation();
@@ -325,9 +332,78 @@ export class WorldVisualRuntime {
     this.materialField.invalidateCell(tx, ty, lighting);
     this.terrainVariationLayer?.invalidateCell(tx, ty, lighting);
     this.semanticAssetLayer?.invalidateCell(tx, ty);
-    if (this.lastBounds) this.feedbackLayer.sync(this.lastBounds, false);
+    if (this.lastBounds) {
+      const updatedDestroyedTile = options.destroyed === true
+        && this.feedbackLayer.updateDestroyedTile(
+          tx,
+          ty,
+          options.typeBeforeDamage,
+          this.lastReduced,
+        ) === true;
+      if (!updatedDestroyedTile) {
+        this.feedbackLayer.sync(this.lastBounds, false);
+      }
+    }
     this.gameplayEffectLayer.invalidateCell(tx, ty);
     this.titanDiscoverySystem?.invalidateTile(tx, ty);
+  }
+
+  applyTileDamageUpdate(tx, ty) {
+    if (!this.created) return;
+    this._syncTutorialTileVisual(tx, ty);
+    this.performanceTracker.recordTileInvalidation();
+    if (this.lastBounds) {
+      const updated = this.feedbackLayer.updateDamageTile?.(
+        tx,
+        ty,
+        this.lastReduced,
+      );
+      if (updated !== true) {
+        this.feedbackLayer.sync(this.lastBounds, this.lastReduced);
+      }
+    }
+  }
+
+  applyTileUpdates(tiles = []) {
+    if (!this.created || !Array.isArray(tiles) || tiles.length === 0) return;
+    const validTiles = tiles.filter(tile => (
+      Number.isInteger(tile?.tx) && Number.isInteger(tile?.ty)
+    ));
+    if (!validTiles.length) return;
+    for (const tile of validTiles) {
+      this._syncTutorialTileVisual(tile.tx, tile.ty);
+      this.performanceTracker.recordTileInvalidation();
+      this.titanDiscoverySystem?.invalidateTile(tile.tx, tile.ty);
+    }
+    if (!this.lastBounds) return;
+    const visible = validTiles.some(tile => (
+      tile.tx >= this.lastBounds.left - 1
+      && tile.tx < this.lastBounds.right + 1
+      && tile.ty >= this.lastBounds.top - 1
+      && tile.ty < this.lastBounds.bottom + 1
+    ));
+    if (!visible) return;
+    const lighting = this.lightingBridge.sample();
+    this.materialField.sync(this.lastBounds, lighting, false);
+    this.terrainVariationLayer?.sync(this.lastBounds, lighting, false);
+    this.semanticAssetLayer?.invalidateResourcePresentation();
+    this.feedbackLayer.sync(this.lastBounds, this.lastReduced);
+    this.gameplayEffectLayer.sync(this.lastBounds);
+  }
+
+  setResourceDepletionProvider(provider) {
+    this.resourceDepletionProvider = typeof provider === "function" ? provider : null;
+    this.semanticAssetLayer?.setResourceDepletionProvider(
+      this.resourceDepletionProvider,
+    );
+    this.feedbackLayer?.setResourceDepletionProvider(
+      this.resourceDepletionProvider,
+    );
+  }
+
+  invalidateResourcePresentation() {
+    this.semanticAssetLayer?.invalidateResourcePresentation();
+    this.feedbackLayer?.invalidateResourcePresentation();
   }
 
   setTutorialTileVisual(tx, ty, tileType, visible = true) {
@@ -391,6 +467,55 @@ export class WorldVisualRuntime {
     return this.performanceTracker.snapshotRuntime(this);
   }
 
+  getTransitionPreparationSnapshot() {
+    const sources = [
+      {
+        active: this.materialField?.activeMaterialKeys,
+        pending: this.materialField?.pendingMaterialKeys,
+      },
+      {
+        active: this.depthBackdropStage?.activeAssetKeys,
+        pending: this.depthBackdropStage?.pendingAssetKeys,
+      },
+      {
+        active: this.terrainVariationLayer?.activeAssetKeys,
+        pending: this.terrainVariationLayer?.pendingAssetKeys,
+      },
+      {
+        active: this.groundStructureLayer?.activeAssetKeys,
+        pending: this.groundStructureLayer?.pendingAssetKeys,
+      },
+      {
+        active: this.undergroundDetailLayer?.activeAssetKeys,
+        pending: this.undergroundDetailLayer?.pendingAssetKeys,
+      },
+      {
+        active: this.backdropEnhancerLayer?.activeAssetKeys,
+        pending: this.backdropEnhancerLayer?.pendingAssetKeys,
+      },
+      {
+        active: this.skyCohesionLayer?.activeAssetKeys,
+        pending: this.skyCohesionLayer?.pendingAssetKeys,
+      },
+    ];
+    let totalAssets = 0;
+    let pendingAssets = 0;
+    for (const item of sources) {
+      const active = item.active instanceof Set ? item.active : new Set();
+      const pending = item.pending instanceof Set ? item.pending : new Set();
+      totalAssets += active.size;
+      for (const key of pending) {
+        if (active.has(key)) pendingAssets += 1;
+      }
+    }
+    return {
+      totalAssets,
+      loadedAssets: Math.max(0, totalAssets - pendingAssets),
+      pendingAssets,
+      ready: pendingAssets === 0,
+    };
+  }
+
   getTitanArchiveAssetProvider() {
     return this.titanDiscoverySystem?.getArchiveAssetProvider() || null;
   }
@@ -432,8 +557,8 @@ export class WorldVisualRuntime {
   }
 
 
-  updateSpecialBlockGlow() {
-    return this.gameplayEffectLayer?.updateSpecialBlockGlow() || false;
+  updateSpecialBlockGlow(playerTile, viewRange) {
+    return this.gameplayEffectLayer?.updateSpecialBlockGlow(playerTile, viewRange) || false;
   }
 
   playerTileToPixel(playerTile) {
@@ -475,6 +600,7 @@ export class WorldVisualRuntime {
     this.landmarkLayer?.destroy();
     this.feedbackLayer = null;
     this.semanticAssetLayer = null;
+    this.resourceDepletionProvider = null;
     this.undergroundDetailLayer = null;
     this.groundStructureLayer = null;
     this.terrainVariationLayer = null;

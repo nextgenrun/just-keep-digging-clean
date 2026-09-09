@@ -1,3 +1,4 @@
+import { resolveScenicFocusAlpha } from "../../../values/gameplayPresentation.js";
 import {
   setAlphaIfChanged,
   setTintIfChanged,
@@ -64,13 +65,22 @@ export class WorldVisualUndergroundDetailRegionView {
   }
 
   resolveRequiredAssets(bounds) {
-    if (!this._resolveRange(bounds)) return [];
+    const range = this._resolveRange(bounds);
+    if (!range) return [];
     const sources = this.region.biomeFieldRegionsById;
     if (!sources) return this.region.assets;
     const assets = new Map();
-    Object.values(sources).forEach(sourceRegion => {
-      sourceRegion.assets.forEach(asset => assets.set(asset.key, asset));
-    });
+    for (let row = range.firstRow; row <= range.lastRow; row += 1) {
+      for (let column = range.firstColumn; column <= range.lastColumn; column += 1) {
+        const sourceRegion = this._resolveBiomeFieldRegion(column, row);
+        if (this.region.kinds.textures && sourceRegion.textureAtlas) {
+          assets.set(sourceRegion.textureAtlas.key, sourceRegion.textureAtlas);
+        }
+        if (this.region.kinds.props && sourceRegion.propAtlas) {
+          assets.set(sourceRegion.propAtlas.key, sourceRegion.propAtlas);
+        }
+      }
+    }
     return [...assets.values()];
   }
 
@@ -254,9 +264,9 @@ export class WorldVisualUndergroundDetailRegionView {
     const baseDepth = isTexture
       ? config.render.textureDepth
       : config.render.propDepth;
-    const baseAlpha = isTexture
+    const baseAlpha = resolveScenicFocusAlpha(atlas.key, isTexture
       ? config.render.textureAlpha
-      : config.render.propAlpha;
+      : config.render.propAlpha);
     const image = scene.add.image(
       centerTileX * tileSize,
       centerTileY * tileSize,

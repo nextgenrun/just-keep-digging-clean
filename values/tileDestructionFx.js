@@ -50,10 +50,10 @@ const FAMILY_BY_TILE = Object.freeze({
   [TILE_TYPES.GEM_POWER_BLOCK]: "special",
   [TILE_TYPES.SPEED_BLOCK]: "special",
   [TILE_TYPES.XP_BLOCK]: "special",
-  [TILE_TYPES.CRIT_BLOCK]: "special",
   [TILE_TYPES.BERSERK_BLOCK]: "special",
   [TILE_TYPES.COMBO_BLOCK]: "special",
   [TILE_TYPES.LEGEND_BLOCK]: "special",
+  [TILE_TYPES.ABILITY_BLOCK]: "special",
   [TILE_TYPES.CAVE_WALL]: "hard",
   [TILE_TYPES.GEODE_INTERIOR]: "geode",
   [TILE_TYPES.GEODE_WALL]: "geode",
@@ -95,14 +95,14 @@ const TINT_BY_TILE = Object.freeze({
   [TILE_TYPES.XP_BLOCK]: softenTint(
     SPECIAL_BLOCKS_CONFIG.glowEffects.xpBlock.color,
   ),
-  [TILE_TYPES.CRIT_BLOCK]: softenTint(
-    SPECIAL_BLOCKS_CONFIG.glowEffects.critBlock.color,
-  ),
   [TILE_TYPES.BERSERK_BLOCK]: softenTint(
     SPECIAL_BLOCKS_CONFIG.glowEffects.berserkBlock.color,
   ),
   [TILE_TYPES.COMBO_BLOCK]: SPECIAL_BLOCKS_CONFIG.glowEffects.comboBlock.color,
   [TILE_TYPES.LEGEND_BLOCK]: 0xffe28a,
+  [TILE_TYPES.ABILITY_BLOCK]: softenTint(
+    SPECIAL_BLOCKS_CONFIG.glowEffects.abilityBlock.color,
+  ),
   [TILE_TYPES.CAVE_WALL]: 0x8499a8,
   [TILE_TYPES.GEODE_INTERIOR]: 0x70ffd6,
   [TILE_TYPES.GEODE_WALL]: 0xb675ff,

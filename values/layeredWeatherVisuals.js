@@ -1,0 +1,35 @@
+// Level 1 candidate weather presentation. Simulation/collision remain in WeatherSystem.
+export const LAYERED_WEATHER_VISUALS = Object.freeze({
+  surfaceAtmosphere: Object.freeze({mistScale:0,steamScale:0}),
+  cloudFront: Object.freeze({periodSeconds:82,detailPeriodSeconds:47,phase:.10,detailWeight:.16,
+    sunExtinction:.32,exposureExtinction:.12,forecastBuild:.72,
+    ranges:Object.freeze({clear:[.035,.65],drizzle:[.30,.74],rain:[.58,.93],storm:[.84,1],snow:[.65,.96]})}),
+  atlas: Object.freeze({key:"regenerated-horizon-v2-weather",framePrefix:"layered-weather-v4:",
+    rainRects:Object.freeze([[193,23,64,453],[616,9,97,490],[1033,14,150,489],[1452,0,190,522]]),
+    impactRects:Object.freeze([[0,560,444,327],[444,560,443,327],[887,560,443,327],[1330,560,444,327]]),
+    impactOriginY:.75}),
+  rain: Object.freeze({
+    impact:Object.freeze({maxActiveDrops:640,maxEventsPerFrame:36,impactAlpha:.96,hardStopPaddingPx:3,
+      visualStyles:Object.freeze({
+        foreground:{widthPx:8.5,lengthPx:82,alphaScale:1,depth:58},
+        midground:{widthPx:5.5,lengthPx:58,alphaScale:.78,depth:-4.2},
+        sheet:{widthPx:3.5,lengthPx:42,alphaScale:.60,depth:-7.5},
+      })}),
+    layers:Object.freeze({
+      foreground:{ratePerSecond:440,maxBurst:16,amountScale:1,minSpeedY:1020,maxSpeedY:1660,windScale:1.85,windSpread:65,xJitterPx:52,alpha:.86},
+      midground:{ratePerSecond:410,maxBurst:14,amountScale:.85,minSpeedY:740,maxSpeedY:1240,windScale:1.4,windSpread:48,xJitterPx:54,alpha:.62},
+      sheet:{ratePerSecond:260,maxBurst:10,calmAmountScale:.20,stormAmountScale:.90,minSpeedY:600,maxSpeedY:940,windScale:1.15,windSpread:35,xJitterPx:54,alpha:.45},
+    }),
+  }),
+  ripplePresentation: Object.freeze({scale:Object.freeze({start:.08,end:.15}),rotate:0}),
+  rainMotion: Object.freeze({shutterSeconds:.052,minLengthFraction:.64,maxLengthFraction:1.15,
+    alphaFloor:.42,alphaGain:.58,widthVariance:[.72,1.16],lengthVariance:[.78,1.16],
+    dayTint:0xf2f6ff,nightTint:0xbacfe8,nearFrameIndices:[1,2,3],farFrameIndices:[0,1]}),
+  splashes: Object.freeze({maxActive:150,splashDurationMs:230,rippleDurationMs:520,
+    splashWidthPx:48,splashHeightPx:30,rippleWidthPx:64,rippleHeightPx:14,
+    snowPowderWidthPx:30,snowPowderHeightPx:16,startAlpha:.94,startScale:.78,endScale:1.12,
+    rippleChance:.24,snowPowderChance:.22}),
+  snow: Object.freeze({sizePx:[3,11],minSpeedY:72,maxSpeedY:164,alpha:.72,
+    maxActiveFlakes:340,ratePerSecond:195,maxBurst:14,windScale:.42,
+    driftAmplitudePx:[5,20],driftPeriodMs:[1800,4600]}),
+});

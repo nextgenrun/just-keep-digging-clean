@@ -2,68 +2,117 @@
 
 const point = (x, y) => Object.freeze({ x, y });
 const rect = (x, y, width, height) => Object.freeze({ x, y, width, height });
+const terrace = (id, stage, left, right, y, dropGroup = null) => Object.freeze({
+  id,
+  stage,
+  left,
+  right,
+  y,
+  ...(dropGroup ? { dropGroup } : {}),
+});
 
 const REGION_LAYOUTS = Object.freeze([
   Object.freeze({
     id: "surface-entry",
     label: "ROOTWAYS",
     color: 0x8e62d8,
-    mask: rect(0.00, 0.43, 0.34, 0.50),
+    mask: rect(0.00, 0.28, 0.28, 0.69),
     path: Object.freeze([
-      point(0.19, 0.83), point(0.08, 0.70), point(0.04, 0.58),
-      point(0.12, 0.52), point(0.24, 0.58), point(0.31, 0.70),
+      point(0.125, 0.94), point(0.15, 0.75), point(0.14, 0.52),
+      point(0.18, 0.35), point(0.28, 0.38),
     ]),
   }),
   Object.freeze({
     id: "level1-blue",
     label: "COBALT AQUIFER",
     color: 0x49bfff,
-    mask: rect(0.23, 0.34, 0.30, 0.38),
+    mask: rect(0.11, 0.18, 0.35, 0.52),
     path: Object.freeze([
-      point(0.28, 0.62), point(0.32, 0.54), point(0.38, 0.47),
-      point(0.46, 0.49), point(0.50, 0.57),
+      point(0.22, 0.64), point(0.28, 0.56), point(0.20, 0.37),
+      point(0.34, 0.32), point(0.40, 0.47),
     ]),
   }),
   Object.freeze({
     id: "level1-amber",
     label: "AMBER FAULT",
     color: 0xe3a13a,
-    mask: rect(0.42, 0.31, 0.31, 0.39),
+    mask: rect(0.28, 0.18, 0.34, 0.42),
     path: Object.freeze([
-      point(0.45, 0.60), point(0.50, 0.52), point(0.55, 0.42),
-      point(0.64, 0.40), point(0.70, 0.48),
+      point(0.35, 0.55), point(0.42, 0.47), point(0.40, 0.30),
+      point(0.48, 0.25), point(0.55, 0.38),
     ]),
   }),
   Object.freeze({
     id: "level1-silver",
     label: "MIRRORSTONE",
     color: 0xb8d0e4,
-    mask: rect(0.47, 0.52, 0.38, 0.31),
+    mask: rect(0.52, 0.24, 0.27, 0.35),
     path: Object.freeze([
-      point(0.50, 0.68), point(0.58, 0.70), point(0.66, 0.67),
-      point(0.74, 0.70), point(0.82, 0.68),
+      point(0.54, 0.48), point(0.60, 0.38), point(0.68, 0.38),
+      point(0.73, 0.28), point(0.76, 0.42),
     ]),
   }),
   Object.freeze({
     id: "level1-magma",
     label: "STARFIRE RIFT",
     color: 0xff673d,
-    mask: rect(0.72, 0.45, 0.28, 0.45),
+    mask: rect(0.72, 0.28, 0.28, 0.32),
     path: Object.freeze([
-      point(0.75, 0.61), point(0.82, 0.63), point(0.88, 0.67),
-      point(0.95, 0.64), point(0.98, 0.58),
+      point(0.74, 0.48), point(0.82, 0.40), point(0.90, 0.36),
+      point(0.94, 0.46), point(0.88, 0.55),
     ]),
   }),
 ]);
 
+const CURRENT_ROUTES = Object.freeze([
+  Object.freeze({
+    id: "root-hearth",
+    point: point(0.125, 0.94),
+    color: 0xff7f45,
+    seed: 0,
+  }),
+  Object.freeze({
+    id: "world-memory",
+    point: point(0.48, 0.25),
+    color: 0x76d88c,
+    seed: 1.31,
+  }),
+  Object.freeze({
+    id: "star-memory",
+    point: point(0.35, 0.47),
+    color: 0x83ecff,
+    seed: 2.62,
+  }),
+  Object.freeze({
+    id: "celestial-mastery",
+    point: point(0.23, 0.90),
+    color: 0xdd66ff,
+    seed: 3.93,
+  }),
+  Object.freeze({
+    id: "titan-chorus",
+    point: point(0.91, 0.48),
+    color: 0xc878ff,
+    seed: 5.24,
+  }),
+]);
+
+// These contact lines are authored against worldroot-living-v3.png. Each line
+// sits on a thick visible branch top; none are free-floating helper platforms.
 const TERRACES = Object.freeze([
-  Object.freeze({ id: "root-hearth", left: 0.14, right: 0.29, y: 0.872, stage: 0 }),
-  Object.freeze({ id: "rootways-road", left: 0.03, right: 0.31, y: 0.625, stage: 1 }),
-  Object.freeze({ id: "cobalt-road", left: 0.26, right: 0.49, y: 0.495, stage: 2 }),
-  Object.freeze({ id: "amber-road", left: 0.45, right: 0.68, y: 0.425, stage: 3 }),
-  Object.freeze({ id: "mirror-road", left: 0.49, right: 0.82, y: 0.700, stage: 3 }),
-  Object.freeze({ id: "starfire-road", left: 0.73, right: 0.985, y: 0.650, stage: 4 }),
-  Object.freeze({ id: "crown-road", left: 0.68, right: 0.94, y: 0.430, stage: 6 }),
+  terrace("root-balcony", 1, 0.075, 0.300, 0.647),
+  terrace("cobalt-lower", 1, 0.260, 0.440, 0.558, "lower-road"),
+  terrace("amber-lower", 2, 0.420, 0.630, 0.565, "lower-road"),
+  terrace("memory-road-west", 2, 0.240, 0.520, 0.462, "memory-road"),
+  terrace("memory-road-east", 2, 0.520, 0.780, 0.468, "memory-road"),
+  terrace("titan-overlook", 3, 0.720, 0.960, 0.535),
+  terrace("fungal-canopy", 3, 0.120, 0.300, 0.352),
+  terrace("aquifer-canopy", 3, 0.270, 0.470, 0.325),
+  terrace("amber-temple", 4, 0.320, 0.580, 0.268),
+  terrace("silver-spine", 4, 0.540, 0.720, 0.365),
+  terrace("crown-approach", 5, 0.600, 0.860, 0.255),
+  terrace("upper-crown-bough", 6, 0.500, 0.660, 0.185),
+  terrace("red-high-road", 5, 0.780, 0.920, 0.345),
 ]);
 
 export const WORLDROOT_CONFIG = Object.freeze({
@@ -72,39 +121,67 @@ export const WORLDROOT_CONFIG = Object.freeze({
   disabledValues: Object.freeze(["0", "false", "off", "legacy"]),
   assets: Object.freeze({
     living: Object.freeze({
-      key: "environment-worldroot-living-v1",
-      path: "sprites/environment/worldroot-v1/worldroot-living-v1.png",
+      key: "environment-worldroot-living-v3",
+      path: "sprites/environment/worldroot-v3/worldroot-living-v3.png?rev=20260830-elevated-v2",
     }),
     consumed: Object.freeze({
-      key: "environment-worldroot-consumed-v1",
-      path: "sprites/environment/worldroot-v1/worldroot-consumed-v1.png",
+      key: "environment-worldroot-consumed-v3",
+      path: "sprites/environment/worldroot-v3/worldroot-consumed-v3.png?rev=20260830-elevated-v2",
     }),
   }),
   source: Object.freeze({ width: 1536, height: 1024 }),
   placement: Object.freeze({
-    displayWidthTiles: 38,
-    hearthTileX: 23.5,
-    hearthSourceX: 0.217,
-    surfaceSourceY: 0.872,
-    depth: 8,
-    overlayDepth: 11,
+    displayWidthTiles: 28,
+    maximumSourceScale: 1.75,
+    hearthTileX: 21.5,
+    hearthSourceX: 0.125,
+    surfaceSourceY: 0.96,
+    depth: 3.5,
+    overlayDepth: 4.5,
     promptDepth: 22,
   }),
   reveal: Object.freeze({
+    hardCropEnabled: false,
     bodyLeft: 0.025,
-    bodyTop: 0.28,
+    bodyTop: 0.4,
     bodyBottom: 0.99,
-    root: rect(0.06, 0.62, 0.34, 0.37),
-    crown: rect(0.64, 0.00, 0.36, 0.44),
+    root: rect(0.00, 0.28, 0.30, 0.70),
+    crown: rect(0.58, 0.00, 0.42, 0.32),
     rightByStage: Object.freeze([0.34, 0.43, 0.54, 0.72, 0.88, 0.96, 1]),
+  }),
+  consumedMask: Object.freeze({
+    strokeWidthRatio: 0.32,
+    nodeRadiusRatio: 0.18,
+  }),
+  currents: Object.freeze({
+    crownPoint: point(0.75, 0.15),
+    routes: CURRENT_ROUTES,
+    lineAlpha: 0.12,
+    lineWidthPx: 1.4,
   }),
   regions: REGION_LAYOUTS,
   terraces: TERRACES,
+  traversal: Object.freeze({
+    enabled: true,
+    availableAcrossGrowth: true,
+  }),
+  clearance: Object.freeze({
+    visibleLeftSourceX: 0.02,
+    groundedFootprintRightSourceX: 0.315,
+    titanCorridorStartSourceX: 0.28,
+    lowestElevatedDetailSourceY: 0.665,
+    minimumTitanAirGapTiles: 1,
+  }),
   interaction: Object.freeze({
     proximityTiles: 1.75,
     verticalTiles: 1.4,
-    rootTalent: point(0.217, 0.858),
-    crownStar: point(0.82, 0.31),
+    rootHearth: point(0.125, 0.94),
+    // The talent shrine is a separate authored alcove three tiles east of the
+    // Campfire socket, so both E interactions remain readable and reachable.
+    rootTalent: point(0.23, 0.92),
+    rootProximityTiles: 1.8,
+    rootVerticalTiles: 2,
+    crownStar: point(0.75, 0.20),
     crownProximityTiles: 4,
   }),
   markers: Object.freeze({
@@ -119,11 +196,33 @@ export const WORLDROOT_CONFIG = Object.freeze({
     arrivalDurationMs: 1150,
     arrivalStaggerMs: 220,
   }),
+  motion: Object.freeze({
+    revealDurationMs: 1350,
+    crownPulsePeriodMs: 1380,
+    gpPulsePeriodMs: 1850,
+    gpRoute: Object.freeze([
+      point(0.125, 0.94),
+      point(0.24, 0.55),
+      point(0.48, 0.38),
+      point(0.70, 0.26),
+    ]),
+  }),
+  feedback: Object.freeze({
+    starMemoryDurationMs: 2200,
+    titanMemoryDurationMs: 2600,
+    crownDormantDurationMs: 5200,
+    crownReadyDurationMs: 4200,
+  }),
   syncIntervalMs: 350,
   endgame: Object.freeze({
     requiredKnownStars: 50,
     requiredRegions: 5,
     requiredCompletedTalentBranches: 3,
+    talentBranchIds: Object.freeze([
+      "wayward-star",
+      "hollow-sun",
+      "comet-engine",
+    ]),
     requiredCampfireLevel: 10,
     requiredTitans: 25,
     worldrootTitanId: "worldroot-titan",
@@ -154,6 +253,7 @@ export const WORLDROOT_CONFIG = Object.freeze({
     crownReadyPrompt: "Touch the Crown Star • Begin Endgame",
     crownDormantTitle: "THE CROWN STAR IS STILL BEYOND REACH",
     crownReadyTitle: "THE WORLDROOT HAS REACHED THE CROWN STAR",
+    unknownStarLabel: "Unknown Star Signal",
   }),
 });
 
@@ -169,7 +269,11 @@ export function isWorldrootEnabled(
 export function sampleWorldrootPath(path, progress) {
   if (!Array.isArray(path) || path.length === 0) return point(0.5, 0.5);
   if (path.length === 1) return path[0];
-  const scaled = Math.max(0, Math.min(1, progress)) * (path.length - 1);
+  const numericProgress = Number(progress);
+  const safeProgress = Number.isFinite(numericProgress)
+    ? Math.max(0, Math.min(1, numericProgress))
+    : 0;
+  const scaled = safeProgress * (path.length - 1);
   const index = Math.min(path.length - 2, Math.floor(scaled));
   const local = scaled - index;
   const first = path[index];

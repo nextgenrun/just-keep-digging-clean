@@ -3,6 +3,9 @@ import { destroyGraveborerWurmRuntime } from "./GraveborerWurmBridge.js";
 import { destroyHardcoreModeRuntime } from "./HardcoreModeBridge.js";
 
 const SYSTEM_DISPOSAL_SEQUENCE = Object.freeze([
+  "sessionAwakeningController",
+  "townRestSystem",
+  "teleportTransitionController",
   "caveEntryController",
   "understarEndingSystem",
   "gameSaveCoordinator",
@@ -16,6 +19,7 @@ const SYSTEM_DISPOSAL_SEQUENCE = Object.freeze([
   "npcManager",
   "overlayManager",
   "startZoneScenicBackgroundSystem",
+  "starScarResourcePresentationSystem",
   "levelOneGroundFacadeSystem",
   "startZoneGroundFacadeSystem",
   "deepWorldLivingBackdropSystem",
@@ -43,9 +47,11 @@ const SYSTEM_DISPOSAL_SEQUENCE = Object.freeze([
   "nextPromiseHudSystem",
   "miningIntentPreviewSystem",
   "_gpLabelText",
+  "playerRunDashFx",
   "groundFootstepFxSystem",
+  "speedBlockFxSystem",
+  "digImpactFxSystem",
   "tileDestructionFxSystem",
-  "hitstopSystem",
   "screenFlashSystem",
   "screenRecordSystem",
   "pickaxeTrailSystem",
@@ -54,6 +60,7 @@ const SYSTEM_DISPOSAL_SEQUENCE = Object.freeze([
   "postFxSystem",
   "playerBodyLanguage",
   "playerContactShadow",
+  "playerWorldAppearance",
   "playerMotionPolish",
   "playerKinematicMotion",
   "playerRigContact",
@@ -82,6 +89,7 @@ const SYSTEM_DISPOSAL_SEQUENCE = Object.freeze([
   "dayNightCycle",
   "lightSystem",
   "shadowMinerSystem",
+  "dynamicEventRuntime",
   "voiceLineManager",
   "depthGateSystem",
   "surfaceTunnelDoorSystem",
@@ -118,6 +126,7 @@ const NULL_AFTER_DISPOSE = new Set([
   "playerAbilityAssetController",
   "runtimeFeatureAssetManager",
   "runtimeAssetLoadCoordinator",
+  "teleportTransitionController",
   "_recoveryOverlay",
 ]);
 

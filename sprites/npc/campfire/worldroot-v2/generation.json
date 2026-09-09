@@ -1,0 +1,181 @@
+{
+  "version": 2,
+  "generator": "Built-in ImageGen",
+  "status": "Native RGB sources preserved; transparent runtime outputs pending",
+  "referenceSets": {
+    "tiers01And10": [
+      "sprites/environment/worldroot-sanctuary-v1/trunk.png",
+      "sprites/npc/campfire/generated/campfire-tier-10.png"
+    ],
+    "tiers02Through09": [
+      "sprites/environment/worldroot-sanctuary-v1/trunk.png",
+      "sprites/npc/campfire/worldroot-v2/sources/campfire-tier-10.png"
+    ]
+  },
+  "sources": [
+    {
+      "level": 1,
+      "file": "sprites/npc/campfire/worldroot-v2/sources/campfire-tier-01.png",
+      "width": 1254,
+      "height": 1254,
+      "channels": 3,
+      "estimatedBounds": {
+        "x": 22,
+        "y": 448,
+        "width": 1211,
+        "height": 556
+      },
+      "sha256": "489d4e687c6a6d6f10f1979b2c0044af86a416d13db8c9b5020789e5feca0bb1",
+      "prompt": "Use case: stylized-concept. Asset type: one production 2D side-view game Campfire sprite, genuinely transparent RGBA background. Image 1 is a material/style reference for the living tree: rich carved golden-brown bark, dark creases and restrained moss. Image 2 is only the game's crisp painted-pixel rendering and fire-colour reference; DO NOT copy its rectangular metal box. Generate a new standalone hearth in this same detailed fantasy game style. Front-facing side elevation with only a little visible top surface, a straight grounded foot baseline, centered flame column, complete silhouette visible with clear transparent margins. Square canvas. Clear large readable shapes at small in-game sizes; warm orange/gold flame, dark brown roots and natural charcoal stone. No background, floor tile, tree canopy, characters, scene, text, labels, grid, crystals, star emblems or floating particle field. Do not draw a black background or checkerboard. Preserve true alpha. All artwork including flame and feet must be fully inside the canvas.\nEARLIEST LEVEL 1 of a ten-upgrade progression. A humble low pile of three short charred logs resting between three small dark stones, with one small healthy amber flame. No vessel, pillars, metal trim, crown or elaborate ornaments. Very simple, low broad silhouette. This should feel like the tiny beginning of the tree's hearth, not a completed brazier.",
+      "generatedFile": "exec-c09040f7-a39f-4b09-b5c6-8918eb6bb0a3.png"
+    },
+    {
+      "level": 2,
+      "file": "sprites/npc/campfire/worldroot-v2/sources/campfire-tier-02.png",
+      "width": 1254,
+      "height": 1254,
+      "channels": 3,
+      "estimatedBounds": {
+        "x": 108,
+        "y": 227,
+        "width": 1036,
+        "height": 792
+      },
+      "sha256": "04c9f2caa68b6e04c57b0bbbea694640bbcb37555f39fb17b483dc39989a272d",
+      "prompt": "Use case: stylized-concept. Asset type: one production 2D side-view game Campfire sprite, genuinely transparent RGBA background. Image 1 is a material/style reference for the living tree: rich carved golden-brown bark, dark creases and restrained moss. Image 2 is the FINAL level-10 hearth style reference only. Create the requested EARLIER simpler form, keeping the same rich bark/stone/fire materials and painted-pixel rendering. Do not copy its finished architecture or background. Generate a new standalone hearth in this same detailed fantasy game style. Front-facing side elevation with only a little visible top surface, a straight grounded foot baseline, centered flame column, complete silhouette visible with clear transparent margins. Square canvas. Clear large readable shapes at small in-game sizes; warm orange/gold flame, dark brown roots and natural charcoal stone. No background, floor tile, tree canopy, characters, scene, text, labels, grid, crystals, star emblems or floating particle field. Do not draw a black background or checkerboard. Preserve true alpha. All artwork including flame and feet must be fully inside the canvas.\nSTAGE: LEVEL 2, still early and simple. A complete low oval circle of dark charcoal stones around a stack of four charred logs, one sturdy golden-brown root binding around the lower rim, and two lively orange flames. Wider and slightly more established than loose kindling, with an unmistakable rounded stone-ring silhouette. NO metal clasps, tall uprights, elaborate roots, foliage or crown.",
+      "generatedFile": "exec-ea93fd21-0229-4bbd-80a2-ee4bf6f44905.png"
+    },
+    {
+      "level": 3,
+      "file": "sprites/npc/campfire/worldroot-v2/sources/campfire-tier-03.png",
+      "width": 1254,
+      "height": 1254,
+      "channels": 3,
+      "estimatedBounds": {
+        "x": 149,
+        "y": 188,
+        "width": 947,
+        "height": 851
+      },
+      "sha256": "693a2d72dfa74d384a595944ccd78b4bdd14be0a301a484554f30d1c3f8e6ab6",
+      "prompt": "Use case: stylized-concept. Asset type: one production 2D side-view game Campfire sprite, genuinely transparent RGBA background. Image 1 is a material/style reference for the living tree: rich carved golden-brown bark, dark creases and restrained moss. Image 2 is the FINAL level-10 hearth style reference only. Create the requested EARLIER simpler form, keeping the same rich bark/stone/fire materials and painted-pixel rendering. Do not copy its finished architecture or background. Generate a new standalone hearth in this same detailed fantasy game style. Front-facing side elevation with only a little visible top surface, a straight grounded foot baseline, centered flame column, complete silhouette visible with clear transparent margins. Square canvas. Clear large readable shapes at small in-game sizes; warm orange/gold flame, dark brown roots and natural charcoal stone. No background, floor tile, tree canopy, characters, scene, text, labels, grid, crystals, star emblems or floating particle field. Do not draw a black background or checkerboard. Preserve true alpha. All artwork including flame and feet must be fully inside the canvas.\nSTAGE: LEVEL 3. A raised wooden cradle made from two thick forked golden-brown roots, firmly embracing a small shallow charcoal-stone basin, with a stacked-log orange fire between the upward-curving short root prongs. Strong U-shaped silhouette, compact, earthy, no metal, gold trim, leafy crown or tall antlers. This is the first clearly living-root hearth, far simpler than the grand reference.",
+      "generatedFile": "exec-53ec8f7e-c304-45be-b13b-e45ca236ffb1.png"
+    },
+    {
+      "level": 4,
+      "file": "sprites/npc/campfire/worldroot-v2/sources/campfire-tier-04.png",
+      "width": 1254,
+      "height": 1254,
+      "channels": 3,
+      "estimatedBounds": {
+        "x": 137,
+        "y": 59,
+        "width": 969,
+        "height": 1064
+      },
+      "sha256": "f49f4d9a55cdfe065c4c5e2143ed34974ea02c875f925cca572c9f13ffd036fb",
+      "prompt": "Use case: stylized-concept. Asset type: one production 2D side-view game Campfire sprite, genuinely transparent RGBA background. Image 1 is a material/style reference for the living tree: rich carved golden-brown bark, dark creases and restrained moss. Image 2 is the FINAL level-10 hearth style reference only. Create the requested EARLIER simpler form, keeping the same rich bark/stone/fire materials and painted-pixel rendering. Do not copy its finished architecture or background. Generate a new standalone hearth in this same detailed fantasy game style. Front-facing side elevation with only a little visible top surface, a straight grounded foot baseline, centered flame column, complete silhouette visible with clear transparent margins. Square canvas. Clear large readable shapes at small in-game sizes; warm orange/gold flame, dark brown roots and natural charcoal stone. No background, floor tile, tree canopy, characters, scene, text, labels, grid, crystals, star emblems or floating particle field. Do not draw a black background or checkerboard. Preserve true alpha. All artwork including flame and feet must be fully inside the canvas.\nSTAGE: LEVEL 4. A sturdy round carved charcoal-stone hearth raised on three short gnarled brown root legs, a thick woven-root rim and two small copper binding straps. A broad orange fire fans up from the bowl. Distinct squat pedestal silhouette, visibly crafted but still rustic. No tall side roots, horns, crown, leaves, ornate gold decoration or geometric box.",
+      "generatedFile": "exec-774ed271-3253-4542-8f6d-0fbb3e182740.png"
+    },
+    {
+      "level": 5,
+      "file": "sprites/npc/campfire/worldroot-v2/sources/campfire-tier-05.png",
+      "width": 1254,
+      "height": 1254,
+      "channels": 3,
+      "estimatedBounds": {
+        "x": 126,
+        "y": 183,
+        "width": 1002,
+        "height": 898
+      },
+      "sha256": "d24f21d327696760d740b65c79e2a0ef2e33f8220b3ca3be3170821d9ef80500",
+      "prompt": "Use case: stylized-concept. Asset type: one production 2D side-view game Campfire sprite, genuinely transparent RGBA background. Image 1 is a material/style reference for the living tree: rich carved golden-brown bark, dark creases and restrained moss. Image 2 is the FINAL level-10 hearth style reference only. Create the requested EARLIER simpler form, keeping the same rich bark/stone/fire materials and painted-pixel rendering. Do not copy its finished architecture or background. Generate a new standalone hearth in this same detailed fantasy game style. Front-facing side elevation with only a little visible top surface, a straight grounded foot baseline, centered flame column, complete silhouette visible with clear transparent margins. Square canvas. Clear large readable shapes at small in-game sizes; warm orange/gold flame, dark brown roots and natural charcoal stone. No background, floor tile, tree canopy, characters, scene, text, labels, grid, crystals, star emblems or floating particle field. Do not draw a black background or checkerboard. Preserve true alpha. All artwork including flame and feet must be fully inside the canvas.\nSTAGE: LEVEL 5. A mature compact oval charcoal-stone fire bowl held by two powerful intertwined golden-brown roots. The two roots rise as chunky short outward-curving tusks either side of the orange flame, terminating at HALF the flame height, making a clear winged silhouette. One simple aged-bronze band and very sparse small green buds. No tall antlers, crown or crystal.",
+      "generatedFile": "exec-d214feac-01e7-4902-ba23-b5cde7a264ad.png"
+    },
+    {
+      "level": 6,
+      "file": "sprites/npc/campfire/worldroot-v2/sources/campfire-tier-06.png",
+      "width": 1254,
+      "height": 1254,
+      "channels": 3,
+      "estimatedBounds": {
+        "x": 31,
+        "y": 144,
+        "width": 1194,
+        "height": 991
+      },
+      "sha256": "a41b4e64cedd63ec8f402b75cd2c36ea2ede62169e1811240a4ba2d15e00d57c",
+      "prompt": "Use case: stylized-concept. Asset type: one production 2D side-view game Campfire sprite, genuinely transparent RGBA background. Image 1 is a material/style reference for the living tree: rich carved golden-brown bark, dark creases and restrained moss. Image 2 is the FINAL level-10 hearth style reference only. Create the requested EARLIER simpler form, keeping the same rich bark/stone/fire materials and painted-pixel rendering. Do not copy its finished architecture or background. Generate a new standalone hearth in this same detailed fantasy game style. Front-facing side elevation with only a little visible top surface, a straight grounded foot baseline, centered flame column, complete silhouette visible with clear transparent margins. Square canvas. Clear large readable shapes at small in-game sizes; warm orange/gold flame, dark brown roots and natural charcoal stone. No background, floor tile, tree canopy, characters, scene, text, labels, grid, crystals, star emblems or floating particle field. Do not draw a black background or checkerboard. Preserve true alpha. All artwork including flame and feet must be fully inside the canvas.\nSTAGE: LEVEL 6. A substantial deep rounded stone brazier on a broad braided living-root pedestal. Two upward-curling living root arms with distinct clusters of small green leaves frame a strong amber flame. Front of bowl bound by a simple weathered bronze belt. Clear leafy lower-shouldered silhouette: root tips stay LOWER than flame tip. More alive and grand than early campfires, simpler than the final giant antler-crown.",
+      "generatedFile": "exec-86ebd3f5-7be7-40c7-835e-4637916c9b3a.png"
+    },
+    {
+      "level": 7,
+      "file": "sprites/npc/campfire/worldroot-v2/sources/campfire-tier-07.png",
+      "width": 1254,
+      "height": 1254,
+      "channels": 3,
+      "estimatedBounds": {
+        "x": 171,
+        "y": 32,
+        "width": 903,
+        "height": 1159
+      },
+      "sha256": "1c8456bb65f417f1f5fe88c1b3f1d80d6a2edcacc0dc6207ef76d9a5885a8d31",
+      "prompt": "Use case: stylized-concept. Asset type: one production 2D side-view game Campfire sprite, genuinely transparent RGBA background. Image 1 is a material/style reference for the living tree: rich carved golden-brown bark, dark creases and restrained moss. Image 2 is the FINAL level-10 hearth style reference only. Create the requested EARLIER simpler form, keeping the same rich bark/stone/fire materials and painted-pixel rendering. Do not copy its finished architecture or background. Generate a new standalone hearth in this same detailed fantasy game style. Front-facing side elevation with only a little visible top surface, a straight grounded foot baseline, centered flame column, complete silhouette visible with clear transparent margins. Square canvas. Clear large readable shapes at small in-game sizes; warm orange/gold flame, dark brown roots and natural charcoal stone. No background, floor tile, tree canopy, characters, scene, text, labels, grid, crystals, star emblems or floating particle field. Do not draw a black background or checkerboard. Preserve true alpha. All artwork including flame and feet must be fully inside the canvas.\nSTAGE: LEVEL 7. A tall open fire pedestal: a deep charcoal-stone bowl supported by three clearly separated thick golden-brown root arches forming an open triangular space below the bowl, then wide spreading grounded feet. Two short carved root shoulders and small leaf clusters at the bowl sides, powerful orange-gold flame above. The raised bowl/open-legged pedestal must distinguish this stage, with no tall enclosing antlers or crown.",
+      "generatedFile": "exec-dcd4e048-8ca4-4357-9e10-cb23a6887d1b.png"
+    },
+    {
+      "level": 8,
+      "file": "sprites/npc/campfire/worldroot-v2/sources/campfire-tier-08.png",
+      "width": 1254,
+      "height": 1254,
+      "channels": 3,
+      "estimatedBounds": {
+        "x": 61,
+        "y": 105,
+        "width": 1137,
+        "height": 998
+      },
+      "sha256": "67061fb58f7cb339537cdc98c90f450cb578a127df550966afd5aecc92c60e1e",
+      "prompt": "Use case: stylized-concept. Asset type: one production 2D side-view game Campfire sprite, genuinely transparent RGBA background. Image 1 is a material/style reference for the living tree: rich carved golden-brown bark, dark creases and restrained moss. Image 2 is the FINAL level-10 hearth style reference only. Create the requested EARLIER simpler form, keeping the same rich bark/stone/fire materials and painted-pixel rendering. Do not copy its finished architecture or background. Generate a new standalone hearth in this same detailed fantasy game style. Front-facing side elevation with only a little visible top surface, a straight grounded foot baseline, centered flame column, complete silhouette visible with clear transparent margins. Square canvas. Clear large readable shapes at small in-game sizes; warm orange/gold flame, dark brown roots and natural charcoal stone. No background, floor tile, tree canopy, characters, scene, text, labels, grid, crystals, star emblems or floating particle field. Do not draw a black background or checkerboard. Preserve true alpha. All artwork including flame and feet must be fully inside the canvas.\nSTAGE: LEVEL 8. A regal broad low stone fire bowl rooted into a substantial knotted living-root plinth. FIVE short upward golden-brown root prongs grow from the bowl rim like a natural wooden crown, with the two outside prongs curving outwards. Big central gold flame. Restrained bronze clasps, sparse emerald leaves and luminous amber seams. Silhouette should read crown-shaped around the basin, not the tall enclosing antlers of final level 10. No crystals or gemstones.",
+      "generatedFile": "exec-5372942d-a039-4a2f-b1ad-822197cb1dae.png"
+    },
+    {
+      "level": 9,
+      "file": "sprites/npc/campfire/worldroot-v2/sources/campfire-tier-09.png",
+      "width": 1254,
+      "height": 1254,
+      "channels": 3,
+      "estimatedBounds": {
+        "x": 12,
+        "y": 176,
+        "width": 1229,
+        "height": 931
+      },
+      "sha256": "6cd8f4fec10ff27e35ea6686ae45a5b122b743ea6a65f68f3d4939c4310afec0",
+      "prompt": "Use case: stylized-concept. Asset type: one production 2D side-view game Campfire sprite, genuinely transparent RGBA background. Image 1 is a material/style reference for the living tree: rich carved golden-brown bark, dark creases and restrained moss. Image 2 is the FINAL level-10 hearth style reference only. Create the requested EARLIER simpler form, keeping the same rich bark/stone/fire materials and painted-pixel rendering. Do not copy its finished architecture or background. Generate a new standalone hearth in this same detailed fantasy game style. Front-facing side elevation with only a little visible top surface, a straight grounded foot baseline, centered flame column, complete silhouette visible with clear transparent margins. Square canvas. Clear large readable shapes at small in-game sizes; warm orange/gold flame, dark brown roots and natural charcoal stone. No background, floor tile, tree canopy, characters, scene, text, labels, grid, crystals, star emblems or floating particle field. Do not draw a black background or checkerboard. Preserve true alpha. All artwork including flame and feet must be fully inside the canvas.\nSTAGE: LEVEL 9, almost ultimate. A powerful deep charcoal-stone hearth basin bound in braided golden-brown roots with a thick ornate aged-gold rim. Behind and either side of a brilliant pale-gold/orange flame rise TWO HEAVY, SOLID, SHORT branching root horns with emerald leaf fans, outward crescent silhouette and amber seams. Broad dense intertwined root base. Short horns only reach two thirds of flame height; reserve the tall slim enclosing tree-antler arch for final level 10. No crystals, gems, stars or building walls.",
+      "generatedFile": "exec-f3ba2ea9-a955-4269-9bfd-b1028bf8a4dc.png"
+    },
+    {
+      "level": 10,
+      "file": "sprites/npc/campfire/worldroot-v2/sources/campfire-tier-10.png",
+      "width": 1254,
+      "height": 1254,
+      "channels": 3,
+      "estimatedBounds": {
+        "x": 27,
+        "y": 38,
+        "width": 1196,
+        "height": 1120
+      },
+      "sha256": "6830cd86a3767ad946c1c99edbadc4f53f3950fcfbb37309f48dfb261f036f14",
+      "prompt": "Use case: stylized-concept. Asset type: one production 2D side-view game Campfire sprite, genuinely transparent RGBA background. Image 1 is a material/style reference for the living tree: rich carved golden-brown bark, dark creases and restrained moss. Image 2 is only the game's crisp painted-pixel rendering and fire-colour reference; DO NOT copy its rectangular metal box. Generate a new standalone hearth in this same detailed fantasy game style. Front-facing side elevation with only a little visible top surface, a straight grounded foot baseline, centered flame column, complete silhouette visible with clear transparent margins. Square canvas. Clear large readable shapes at small in-game sizes; warm orange/gold flame, dark brown roots and natural charcoal stone. No background, floor tile, tree canopy, characters, scene, text, labels, grid, crystals, star emblems or floating particle field. Do not draw a black background or checkerboard. Preserve true alpha. All artwork including flame and feet must be fully inside the canvas.\nFINAL LEVEL 10 of a ten-upgrade progression. A magnificent ancient ROOT-CROWN HEARTH: a deep rounded charcoal-stone fire bowl embraced by three substantial woven golden-brown living roots, a broad stable knotted-root foot, two tall outward-curving root antlers framing a strong central gold-white flame. Sparse small emerald leaves on the outer root curves, delicate amber seams through the bark, restrained aged-gold clasps. Heroic tall and substantial silhouette while still clearly a campfire, not a throne, fireplace wall, tree, building or metal treasure chest. The root architecture and luminous flame must read as the ultimate grown heart of the reference tree. Keep the flame column taller than the bowl; no jewel or crystal centerpiece.",
+      "generatedFile": "exec-329b010f-f3b2-4f08-b6a7-136d1d9cc4b3.png"
+    }
+  ],
+  "transparencyRetry": {
+    "prompt": "Use case: background-extraction. Edit target: the supplied Campfire sprite. Remove the entire white and grey checkerboard so the background is ACTUALLY TRANSPARENT with an alpha channel (alpha 0), not a painted checkerboard, not white, not black. Preserve exactly the fire, charred wood, brown roots, stones, fine leaf and root edges, colours, complete silhouette and original composition. Do not add or redraw objects, do not crop the feet or flame. Output one transparent PNG cutout ready for a 2D game. The checkerboard in the input is an unwanted solid background, not part of the artwork.",
+    "result": "Both retries also returned RGB images. Original first-pass art retained."
+  }
+}

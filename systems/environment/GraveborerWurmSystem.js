@@ -1,3 +1,4 @@
+import { selectWurmVariant, configureWurmVariant, applyWurmVariantDifficulty, updateWurmBrood } from "./graveborerWurmVariants.js";
 import {
   GRAVEBORER_WURM_CONFIG,
   GRAVEBORER_WURM_PHASES,
@@ -32,6 +33,13 @@ const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
 export class GraveborerWurmSystem {
   constructor(options = {}) {
     this.config = options.config || GRAVEBORER_WURM_CONFIG;
+    this.baseConfig = this.config;
+    this.variant = null;
+    this.selection = {};
+    this.isOffspring = options.isOffspring === true;
+    this.offspring = [];
+    this.broodSpawned = false;
+    this.heartbeat = 0;
     this.enabled = options.enabled ?? this.config.featureFlags.enabled;
     this.devTest10x = options.devTest10x ?? this.config.featureFlags.devTest10x;
     this._events = [];
@@ -62,6 +70,16 @@ export class GraveborerWurmSystem {
     const restored = resolveGraveborerWurmRestoredState(data, this.config);
     if (!restored) return this.getSaveData();
     Object.assign(this, restored);
+    this.selection = { difficulty: data.variantDifficulty, size: data.variantSize };
+    this.variant = selectWurmVariant(this.encounterDepthTiles, this.encounterCount, this.selection);
+    this.config = configureWurmVariant(this.baseConfig, this.variant);
+    this.selection = {};
+    this.broodSpawned = data.broodSpawned === true;
+    this.offspring = this.isOffspring ? [] : (restored.offspring || []).map(saved => {
+      const child = new GraveborerWurmSystem({ config: this.baseConfig, isOffspring: true });
+      child.loadSaveData(saved);
+      return child;
+    });
     this._lastCarveProgress = restored.progress;
     this._refreshDifficulty();
     this._rebuildPath();
@@ -86,7 +104,10 @@ export class GraveborerWurmSystem {
     return this.noise;
   }
 
-  forceEncounter(tile = null) {
+  forceEncounter(tile = null, selection = {}) {
+    this.selection = { ...selection };
+    this.offspring = [];
+    this.broodSpawned = false;
     const target = copyGraveborerTile(tile);
     if (target) this.lastNoiseTile = target;
     Object.assign(
@@ -97,6 +118,7 @@ export class GraveborerWurmSystem {
   }
 
   update(deltaMs, context = {}) {
+    this.heartbeat += 1;
     this.active = this.enabled === true && context.active === true;
     const dtMs = clamp(
       Number.isFinite(deltaMs) ? deltaMs : 0,
@@ -108,6 +130,8 @@ export class GraveborerWurmSystem {
     this._lastWorldWidth = Number.isFinite(context.worldWidthTiles)
       ? context.worldWidthTiles
       : this._lastWorldWidth;
+    updateWurmBrood(this, dtMs, { ...context, active: this.active },
+      () => new GraveborerWurmSystem({ config: this.baseConfig, isOffspring: true }));
     if (!this.enabled) return this.getSnapshot();
     if (!this.active) {
       if (
@@ -161,6 +185,11 @@ export class GraveborerWurmSystem {
         this.config.activation.minDepthTiles,
         Number(depthTiles) || this.config.activation.minDepthTiles,
       );
+      this.variant = selectWurmVariant(this.encounterDepthTiles, this.encounterCount + 1, this.selection);
+      this.config = configureWurmVariant(this.baseConfig, this.variant);
+      this.selection = {};
+      this.broodSpawned = false;
+      this.offspring = [];
       this.passIndex = 1;
       this.passCount = resolveGraveborerWurmDifficulty(
         this.encounterDepthTiles,
@@ -168,6 +197,7 @@ export class GraveborerWurmSystem {
         this.devTest10x,
         this.config,
       ).passCount;
+      this.passCount = this.variant.difficulty.passes;
       this.huntHitCount = 0;
       this.targetTile = copyGraveborerTile(this.lastNoiseTile)
         || copyGraveborerTile(playerTile);
@@ -228,6 +258,7 @@ export class GraveborerWurmSystem {
       if (sample) {
         this._events.push({
           type: "carve",
+          laneOffsets: this.config.path.carveLaneOffsetsTiles,
           point: { x: sample.x, y: sample.y },
           tangent: { x: sample.tangentX, y: sample.tangentY },
           progress: this._lastCarveProgress,
@@ -275,7 +306,7 @@ export class GraveborerWurmSystem {
           this.encounterDepthTiles,
           false,
         );
-      } else {
+      } else if (this.offspring.every(child => child.phase === GRAVEBORER_WURM_PHASES.cooldown)) {
         this._completeEncounter(true);
       }
     }
@@ -305,6 +336,7 @@ export class GraveborerWurmSystem {
       this.devTest10x,
       this.config,
     );
+    this.difficulty = applyWurmVariantDifficulty(this.difficulty, this.variant);
   }
 
   _rebuildPath() {
@@ -320,7 +352,7 @@ export class GraveborerWurmSystem {
   }
 
   getRenderState(timeMs = 0, progress = this.progress) {
-    return createGraveborerWurmRenderState({
+    const render = createGraveborerWurmRenderState({
       active: this.active,
       phase: this.phase,
       progress,
@@ -328,10 +360,16 @@ export class GraveborerWurmSystem {
       config: this.config,
       timeMs,
     });
+    render.scale = this.variant?.size.scale || 1;
+    render.offspring = this.offspring.map(child => child.getRenderState(timeMs));
+    return render;
   }
 
   getSnapshot() {
-    return createGraveborerWurmSnapshot(this);
+    return { ...createGraveborerWurmSnapshot(this), heartbeat: this.heartbeat,
+      variant: this.variant ? { difficulty: this.variant.difficulty.id, size: this.variant.size.id,
+        label: this.variant.difficulty.label, scale: this.variant.size.scale } : null,
+      offspring: this.offspring.map(child => child.getSnapshot()) };
   }
 
   drainEvents() {

@@ -4,6 +4,8 @@ import {
   RANDOM_WORLD_EVENT_CONFIG,
 } from "../../values/randomWorldEvents.js";
 
+import { planSignalEvent } from "./SignalEventPlanner.js";
+
 const OFFSETS = Object.freeze([
   Object.freeze({ tx: 1, ty: 0 }),
   Object.freeze({ tx: -1, ty: 0 }),
@@ -144,7 +146,7 @@ export function buildRandomEventPlans(scene, playerTile, director) {
   const choirPlan = planCrystalChoir(scene, reachable, depth, serial);
   plans[RANDOM_EVENT_TYPES.CRYSTAL_CHOIR] = choirPlan && !director.hasCompletedChoir(choirPlan.choirId)
     ? choirPlan : null;
-  plans[RANDOM_EVENT_TYPES.BLACKOUT_BLOOM] = planBlackoutBloom(scene, reachable, playerTile, serial);
+  plans[RANDOM_EVENT_TYPES.SIGNAL] = planSignalEvent(scene, playerTile, serial);
   return { plans, depth };
 }
 

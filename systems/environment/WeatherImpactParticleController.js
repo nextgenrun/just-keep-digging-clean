@@ -43,16 +43,17 @@ export class WeatherImpactParticleController {
     const frames = this.visualAssets.frames[profile.frameGroup];
     if (!frames?.length) return;
 
+    const textureKey = this.visualAssets.groupTextureKeys?.[profile.frameGroup] || this.visualAssets.textureKey;
     const sprite = this._spritePool.pop()
-      || this.scene.add.image(0, 0, this.visualAssets.textureKey);
+      || this.scene.add.image(0, 0, textureKey);
     const normalX = event.normalX ?? 0;
     const normalY = event.normalY ?? -1;
     const groundContact = normalY < 0;
     const sourceScale = groundContact ? 1 : cfg.ceilingScale;
     const rotation = Math.atan2(normalY, normalX) + Math.PI * 0.5;
     sprite
-      .setTexture(this.visualAssets.textureKey, frames[0])
-      .setOrigin(0.5)
+      .setTexture(textureKey, frames[0])
+      .setOrigin(0.5, kind === "snowPowder" ? 0.5 : (this.visualAssets.impactOriginY ?? 0.5))
       .setScrollFactor(1)
       .setDepth(this.weatherConfig.renderDepths.rain + profile.depthOffset)
       .setPosition(

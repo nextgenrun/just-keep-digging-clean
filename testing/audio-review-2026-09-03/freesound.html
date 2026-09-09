@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>UNDERSTAR · Freesound review inbox</title>
+<style>
+:root{color-scheme:dark;font:16px/1.5 system-ui;background:#0d151e;color:#e5edf5}body{max-width:1050px;margin:auto;padding:28px}h1{font-size:26px;margin:0}h2{margin:10px 0}p{color:#b3c6d7}a{color:#a5d7ff}nav,.bar{display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin:14px 0}button,input,select{font:inherit}button,select,input[type=search]{background:#1c2d3e;color:inherit;border:1px solid #668298;border-radius:6px;padding:10px 13px}button{cursor:pointer}button:hover{background:#35536c}button:disabled{opacity:.45;cursor:default}:focus-visible{outline:3px solid #b4e5ff;outline-offset:3px}#status{padding:12px 16px;background:#292c27;border-left:4px solid #d8bf74}article{background:#152332;border:1px solid #3d5870;border-radius:10px;padding:24px;margin:20px 0}#decision{display:inline-block;padding:3px 12px;border:1px solid #7993a8;border-radius:20px}#decision[data-state=approved],.approve{background:#1b573e}#decision[data-state=rejected],.reject{background:#633631}.stop{background:#613e32}dl{display:grid;grid-template-columns:145px 1fr;gap:8px}dt{color:#9fb8cc}dd{margin:0;overflow-wrap:anywhere}audio{width:100%;margin:14px 0}#now{min-height:28px;color:#b6e9d6}#notice{min-height:26px}#search{flex:1;min-width:200px}.quiet{color:#92aabd;font-size:14px}#progress{margin-left:auto}@media(max-width:650px){body{padding:15px}article{padding:16px}dl{grid-template-columns:1fr;gap:3px}dd{margin-bottom:10px}}
+</style>
+</head>
+<body>
+<h1>Freesound · review inbox</h1>
+<p>562 sources from the approved export (2) are now wired. Your export supplies the starting ratings; any local changes take precedence. Editing here does not change gameplay until you export it and request a new wiring pass.</p>
+<nav><a href="orchestra.html">Wired orchestra / Star pockets</a><a href="./">Earlier runtime stage</a><a href="../animation-sandbox/2026-08-31-audio-mix-review-v1/">Original 85-source library</a></nav>
+<div id="status" role="status">Loading catalog…</div>
+<div class="bar"><input id="search" type="search" placeholder="Search title, creator or tags" aria-label="Search candidates"><select id="family" aria-label="Audio gap"><option value="">All audio gaps</option></select><select id="filter" aria-label="Review status"><option value="">All decisions</option><option value="open">Unreviewed</option><option value="approved">Approved</option><option value="rejected">Rejected</option></select></div>
+<div class="bar"><button id="prev">← Previous · K</button><button id="next">Next · J →</button><span id="progress"></span></div>
+<article id="candidate" hidden>
+<span id="decision">Unreviewed</span><h2 id="title"></h2><p id="byline"></p>
+<div id="now" role="status">Stopped — no audio is playing.</div>
+<audio id="audio" controls preload="none"></audio>
+<div class="bar"><button id="play">Play / pause · Space</button><button id="stop" class="stop">Stop · 0</button><a id="source" target="_blank" rel="noopener noreferrer">Open original on Freesound ↗</a></div>
+<dl id="metadata"></dl>
+<div class="bar"><button id="approve" class="approve">Approve · A</button><button id="reject" class="reject">Reject · R</button><button id="unreview">Reset to unreviewed · U</button></div>
+<p class="quiet">This player auditions the original HQ preview. The wired batch uses separately trimmed, measured derivatives, not downloaded lossless masters. Its complete source/license credits are linked from the orchestra.</p>
+</article>
+<p id="empty" hidden>No candidates match this filter.</p><div id="notice" role="status" aria-live="polite"></div>
+<div class="bar"><button id="export">Export review decisions</button><button id="import">Import decisions</button><input id="file" type="file" accept="application/json,.json" hidden></div>
+<p class="quiet">J / K move one item. A approves, R rejects, U resets. Space plays or pauses; 0 or Escape stops. Changing candidates stops the previous sound. Only one preview can play; audio loads only after you press play.</p>
+<script type="module">
+import { FREESOUND_APPROVED_ASSETS as WIRED_BATCH } from "../../values/generated/approved-freesound/index.js";
+const BASE = "/sound/library-v2/SoundLibrary_Review/00_INBOX_RAW_EXPORTS/";
+const STORE = "understar-freesound-review-2026-09-03";
+const $ = id => document.getElementById(id), audio = $("audio");
+const valid = new Set(["approved", "rejected", "open"]);
+let rows = [], filtered = [], index = 0, decisions = {}, baseline = {}, playing = null, playbackRequest = 0;
+const reviewChoice = id => valid.has(decisions[id]) ? decisions[id] : valid.has(baseline[id]) ? baseline[id] : "open";
+const current = () => filtered[index], tell = text => { $("notice").textContent = text; };
+try { decisions = JSON.parse(localStorage.getItem(STORE) || "{}"); } catch (_) {}
+if (!decisions || typeof decisions !== "object" || Array.isArray(decisions)) decisions = {};
+function safeUrl(value, preview = false) {
+  try { const url = new URL(value); return url.protocol === "https:" && !url.username && !url.password
+    && (preview ? ["freesound.org", "cdn.freesound.org"] : ["freesound.org"]).includes(url.hostname) ? url.href : null;
+  } catch (_) { return null; }
+}
+function stop() { playbackRequest++; playing = null; audio.pause(); audio.removeAttribute("src"); audio.load(); $("now").textContent = "Stopped — no audio is playing."; }
+async function play() {
+  const row = current(), url = safeUrl(row?.previewUrl, true);
+  if (!url) return tell("This is a source-page lead, not an imported preview. Open the original on Freesound to audition it.");
+  if (playing === row.id && !audio.paused) { playbackRequest++; return audio.pause(); }
+  if (playing !== row.id) { stop(); audio.src = url; audio.volume = 0.35; playing = row.id; }
+  const request = ++playbackRequest;
+  tell(""); $("now").textContent = `Loading: ${row.title} · HQ preview`;
+  try { await audio.play(); } catch (error) {
+    if (request !== playbackRequest || playing !== row.id || error.name === "AbortError") return;
+    $("now").textContent = "Preview unavailable — try the original source page.";
+    tell("Preview could not play. Try the original source page.");
+  }
+}
+function metadata(label, value) {
+  const dt = document.createElement("dt"), dd = document.createElement("dd");
+  dt.textContent = label; dd.textContent = String(value ?? "Unknown"); $("metadata").append(dt, dd);
+}
+function paint() {
+  stop(); const row = current(); $("candidate").hidden = !row; $("empty").hidden = Boolean(row);
+  $("prev").disabled = !row || index === 0; $("next").disabled = !row || index >= filtered.length - 1;
+  const approved = rows.filter(row => reviewChoice(row.id) === "approved").length;
+  const rejected = rows.filter(row => reviewChoice(row.id) === "rejected").length;
+  $("progress").textContent = `${row ? index + 1 : 0} / ${filtered.length} shown · ${approved} approved · ${rejected} rejected`;
+  if (!row) return;
+  const choice = reviewChoice(row.id);
+  $("decision").textContent = choice === "open" ? "Unreviewed" : choice === "approved"
+    ? WIRED_BATCH[row.id] ? "Approved — included in wired batch (2)" : "Approved for next wiring pass"
+    : WIRED_BATCH[row.id] ? "Rejected in review — export to request removal from gameplay" : "Rejected — review only";
+  $("decision").dataset.state = choice; $("title").textContent = row.title; $("byline").textContent = `${row.creator} · ${row.family}`;
+  $("metadata").replaceChildren();
+  metadata("Source ID", row.soundId || row.id); metadata("Length", `${Number(row.durationSeconds || 0).toFixed(2)} seconds`);
+  metadata("Wired batch (2)", WIRED_BATCH[row.id] ? `Included — ${WIRED_BATCH[row.id].role}; review changes need a new export` : "Not included in this 562-source batch");
+  metadata("Original format", `${row.format || "?"} · ${row.sampleRateHz || "?"} Hz · ${row.channels || "?"} channel(s)`);
+  metadata("Declared license", row.licenseDeclared || "Unknown — verify before use");
+  metadata("License review", row.licenseReview || "API declaration only — recheck at promotion");
+  metadata("Availability", safeUrl(row.previewUrl, true) ? "HQ preview on demand; original not downloaded" : "Earlier source-page lead; preview not imported");
+  metadata("Quality", row.qualityStatus || "Not yet human-audited for this game"); metadata("Tags", (row.tags || []).join(", ") || "Not supplied");
+  $("source").href = safeUrl(row.sourceUrl) || "https://freesound.org/";
+  $("play").disabled = !safeUrl(row.previewUrl, true); audio.hidden = $("play").disabled;
+  for (const [id, state] of [["approve", "approved"], ["reject", "rejected"], ["unreview", "open"]]) $(id).setAttribute("aria-pressed", String(choice === state));
+}
+function filter() {
+  const text = $("search").value.trim().toLowerCase();
+  filtered = rows.filter(row => (!$("family").value || row.family === $("family").value)
+    && (!$("filter").value || reviewChoice(row.id) === $("filter").value)
+    && `${row.title} ${row.creator} ${row.family} ${row.soundId || row.id} ${(row.tags || []).join(" ")}`.toLowerCase().includes(text));
+  index = 0; paint();
+}
+function move(delta) { index = Math.max(0, Math.min(filtered.length - 1, index + delta)); paint(); }
+function decide(choice) {
+  const row = current(); if (!row) return; decisions[row.id] = choice; paint();
+  try { localStorage.setItem(STORE, JSON.stringify(decisions)); tell(`${row.title}: ${choice}. Gameplay unchanged. Press J for next.`); }
+  catch (_) { tell("Browser storage unavailable. Export decisions before leaving."); }
+}
+$("prev").onclick = () => move(-1); $("next").onclick = () => move(1); $("play").onclick = play; $("stop").onclick = stop;
+$("approve").onclick = () => decide("approved"); $("reject").onclick = () => decide("rejected"); $("unreview").onclick = () => decide("open");
+$("search").oninput = filter; $("family").onchange = filter; $("filter").onchange = filter;
+audio.onplaying = () => { $("now").textContent = `Playing: ${current()?.title} · HQ preview at ${Math.round(audio.volume * 100)}%`; };
+audio.onpause = () => { if (playing) $("now").textContent = `Paused: ${current()?.title}`; };
+audio.onended = () => { $("now").textContent = `Finished: ${current()?.title}`; };
+audio.onerror = () => { if (playing) $("now").textContent = "Preview unavailable — try the original source page."; };
+document.addEventListener("keydown", event => {
+  if (/INPUT|SELECT|TEXTAREA|AUDIO/.test(event.target.tagName) || event.ctrlKey || event.altKey || event.metaKey || event.repeat) return;
+  if (event.key === " " && /BUTTON|A/.test(event.target.tagName)) return;
+  const action = { j: () => move(1), k: () => move(-1), arrowright: () => move(1), arrowleft: () => move(-1),
+    a: () => decide("approved"), r: () => decide("rejected"), u: () => decide("open"), " ": play, "0": stop, escape: stop }[event.key.toLowerCase()];
+  if (action) { event.preventDefault(); action(); }
+});
+$("export").onclick = () => {
+  const reviewed = rows.filter(row => valid.has(decisions[row.id]) || valid.has(baseline[row.id]));
+  const data = { schemaVersion: 3, reviewOnly: true, runtimeWired: false, exportedAt: new Date().toISOString(), provider: "Freesound.org",
+    decisions: Object.fromEntries(reviewed.map(row => [row.id, reviewChoice(row.id)])),
+    sources: reviewed.map(row => ({ id: row.id, soundId: row.soundId, sourceUrl: row.sourceUrl, licenseDeclared: row.licenseDeclared })) };
+  const url = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], { type: "application/json" }));
+  const a = document.createElement("a"); a.href = url; a.download = "understar-freesound-review-decisions.json"; a.click();
+  setTimeout(() => URL.revokeObjectURL(url), 1000); tell("Exported. This file does not change runtime approval automatically.");
+};
+$("import").onclick = () => $("file").click();
+$("file").onchange = async event => {
+  try {
+    const file = event.target.files[0]; if (!file || file.size > 10_000_000) throw new Error();
+    const data = JSON.parse(await file.text()), known = new Set(rows.map(row => row.id)), next = { ...decisions }; let count = 0;
+    for (const [id, choice] of Object.entries(data.decisions || {})) if (known.has(id) && valid.has(choice)) { next[id] = choice; count++; }
+    localStorage.setItem(STORE, JSON.stringify(next)); decisions = next; filter(); tell(`Imported ${count} matching decisions. Gameplay unchanged.`);
+  } catch (_) { tell("Import failed. Existing decisions are unchanged."); }
+  event.target.value = "";
+};
+window.addEventListener("pagehide", stop);
+document.addEventListener("visibilitychange", () => { if (document.hidden) stop(); });
+try {
+  const [catalog, leads, applied] = await Promise.all([
+    fetch(BASE + "freesound-review-2026-09-03/catalog.json", { cache: "no-store" }).then(r => { if (!r.ok) throw new Error(); return r.json(); }),
+    fetch(BASE + "public-candidate-index-2026-09-01/manifest.json").then(r => r.json()).catch(() => ({ candidates: [] })),
+    fetch("./freesound-approved-decisions.json", { cache: "no-store" }).then(r => { if (!r.ok) throw new Error(); return r.json(); }),
+  ]);
+  baseline = applied.decisions || {};
+  const unique = new Map();
+  for (const row of [...catalog.candidates, ...leads.candidates]) { const url = safeUrl(row.sourceUrl); if (url && !unique.has(url)) unique.set(url, row); }
+  rows = [...unique.values()]; const ready = catalog.candidates.filter(row => safeUrl(row.previewUrl, true)).length;
+  $("status").textContent = `${ready.toLocaleString()} imported HQ-preview candidates / ${catalog.target.toLocaleString()} target (85 × 50). ${rows.length - catalog.candidates.length} earlier source-page leads shown separately. ${catalog.status === "needs-api-key" ? "Bulk expansion is waiting for a locally configured Freesound API key." : "Importer status: " + catalog.status + "."}`;
+  for (const family of [...new Set(rows.map(row => row.family))].sort()) { const option = document.createElement("option"); option.value = family; option.textContent = family; $("family").append(option); }
+  filter();
+} catch (_) { $("status").textContent = "Catalog unavailable. Start canonical serve.py from the repository root."; }
+</script>
+</body>
+</html>

@@ -64,7 +64,7 @@ assert.deepEqual(
 );
 assert.deepEqual(
   tiers.map(tier => tier.multiplier),
-  [2, 3, 5, 8, 14, 25],
+  [500, 1000, 2500, 5000, 10000, 25000],
 );
 assert.deepEqual(
   CELESTIAL_ENGINE_CONFIG.charge.starChargeByRarity,

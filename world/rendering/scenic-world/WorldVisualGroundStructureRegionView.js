@@ -1,3 +1,4 @@
+import { resolveScenicFocusAlpha } from "../../../values/gameplayPresentation.js";
 import {
   setAlphaIfChanged,
   setTintIfChanged,
@@ -80,9 +81,9 @@ function resolveSegmentDepth(region, config, column, row) {
 }
 
 function resolveSegmentAlpha(region, config) {
-  return region.seamBlendEnabled
+  return resolveScenicFocusAlpha("world-visual-ground-structure", region.seamBlendEnabled
     ? config.seamBlendV6.alpha
-    : config.render.alpha;
+    : config.render.alpha);
 }
 
 export class WorldVisualGroundStructureRegionView {

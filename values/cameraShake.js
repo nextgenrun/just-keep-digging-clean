@@ -63,8 +63,6 @@ export const CAMERA_SHAKE_SIGNATURES = Object.freeze({
     light:   { duration: 45,  intensity: 0.9, freqX: 7.0,  freqY: 9.5,  decay: 'exp', priority: 10 },
     medium:  { duration: 65,  intensity: 1.4, freqX: 8.0,  freqY: 11.0, decay: 'exp', priority: 11 },
     heavy:   { duration: 90,  intensity: 2.2, freqX: 9.0,  freqY: 12.5, decay: 'exp', priority: 12 },
-    crit:    { duration: 125, intensity: 3.4, freqX: 10.5, freqY: 13.5, decay: 'exp', priority: 20,
-               color: 0xFFE066, flashAlpha: 0.016 },
     skyTile: { duration: 150, intensity: 3.8, freqX: 9.5,  freqY: 12.0, decay: 'exp', priority: 18,
                color: 0xFFD700, flashAlpha: 0.02 },
   },

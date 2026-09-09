@@ -1,5 +1,12 @@
+import { MINING_IMPACT_POLISH_CONFIG } from "../../values/miningImpactPolish.js";
+
+const installed = new WeakSet();
+
 function installGridFrames(texture, asset, families, frameNameFor) {
   if (!texture?.add) return false;
+  if (installed.has(texture)) return true;
+  const filter = globalThis.Phaser?.Textures?.FilterMode?.[MINING_IMPACT_POLISH_CONFIG.texture.linearFilter];
+  if (filter !== undefined) texture.setFilter?.(filter);
   for (const [family, row] of Object.entries(families)) {
     for (let column = 0; column < asset.columns; column += 1) {
       const name = frameNameFor(family, column);
@@ -14,6 +21,7 @@ function installGridFrames(texture, asset, families, frameNameFor) {
       );
     }
   }
+  installed.add(texture);
   return true;
 }
 

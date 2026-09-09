@@ -50,6 +50,22 @@ export default class BiomeSystem {
   }
 
   /**
+   * Resolve the authored depth zone without changing presentation state.
+   */
+  getBiomeAtDepth(depth) {
+    const normalizedDepth = Math.max(0, Number(depth) || 0);
+    const match = this.biomes.find(biome => (
+      normalizedDepth >= biome.minDepth && normalizedDepth < biome.maxDepth
+    ));
+    return match || this.biomes[this.biomes.length - 1];
+  }
+
+  getActiveBiomeName(depth = undefined) {
+    if (this._activeBiomeName) return this._activeBiomeName;
+    return Number.isFinite(depth) ? this.getBiomeAtDepth(depth).name : null;
+  }
+
+  /**
    * Update the biome overlay based on player depth
    * @param {number} depth - Current player depth in tiles
    */
@@ -57,26 +73,9 @@ export default class BiomeSystem {
     if (!this._overlay || !this._overlay.active) return;
 
     // Find the current biome zone
-    let targetColor = 0x000000;
-    let targetAlpha = 0;
-    let targetBiome = this.biomes[0];
-
-    for (const biome of this.biomes) {
-      if (depth >= biome.minDepth && depth < biome.maxDepth) {
-        targetColor = biome.color;
-        targetAlpha = biome.alpha;
-        targetBiome = biome;
-        break;
-      }
-    }
-
-    // Edge case: at or beyond max depth
-    if (depth >= this.biomes[this.biomes.length - 1].maxDepth) {
-      const last = this.biomes[this.biomes.length - 1];
-      targetColor = last.color;
-      targetAlpha = last.alpha;
-      targetBiome = last;
-    }
+    const targetBiome = this.getBiomeAtDepth(depth);
+    const targetColor = targetBiome.color;
+    const targetAlpha = targetBiome.alpha;
 
     const previousBiomeName = this._activeBiomeName;
     this._activeBiomeName = targetBiome.name;

@@ -1,12 +1,15 @@
 export const PLAYER_TRAVERSAL_CONFIG = Object.freeze({
   jump: Object.freeze({
     heightTiles: 1.2,
+    inputBufferMs: 180,
     momentumEnabledByDefault: true,
     momentumRollbackQuery: "jumpMomentum",
     maxSpeedMultiplier: 1.05,
     accelerationTilesPerSecondSquared: 7,
     reverseAccelerationTilesPerSecondSquared: 10.5,
-    releaseDragTilesPerSecondSquared: 1.1,
+    releaseDragTilesPerSecondSquared: 0.45,
+    landingReleaseToStopMs: 260,
+    landingReverseBrakeMs: 180,
     stopSpeedPxPerSecond: 4,
     maxDeltaSeconds: 0.05,
   }),

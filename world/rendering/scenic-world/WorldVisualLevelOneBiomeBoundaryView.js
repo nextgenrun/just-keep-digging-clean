@@ -1,6 +1,5 @@
 import {
   LEVEL_ONE_BIOME_FIELD,
-  getLevelOneBiomeBoundaryAssets,
   resolveLevelOneBiomeBoundaryAssets,
   resolveLevelOneBiomeFieldAtTile,
   resolveLevelOneBiomeFieldEnabled,
@@ -63,7 +62,12 @@ export class WorldVisualLevelOneBiomeBoundaryView {
   }
 
   resolveRequiredAssets(bounds) {
-    return this.intersects(bounds) ? getLevelOneBiomeBoundaryAssets(this.config) : [];
+    if (!this.intersects(bounds)) return [];
+    const assets = new Map();
+    for (const entry of this._resolvePlacements(bounds)) {
+      assets.set(entry.asset.key, entry.asset);
+    }
+    return [...assets.values()];
   }
 
   getActiveAssets() {

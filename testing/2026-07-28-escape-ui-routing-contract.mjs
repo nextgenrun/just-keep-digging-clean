@@ -187,6 +187,27 @@ function createFixture() {
   assert.equal(calls.pause, 0);
 }
 
+// A rest cinematic suspends the normal input loop. Keys pressed during it
+// must not become new menu requests when gameplay resumes.
+{
+  const { calls, handler, hardEscape, keys, scene } = createFixture();
+  scene.gameState = "shop";
+  keys.escape = new FakeKey();
+  keys.map = new FakeKey();
+  hardEscape.press();
+  keys.escape.press();
+  keys.map.press();
+  handler.discardOverlayInput();
+  scene.gameState = "playing";
+  assert.equal(handler.handleEscapeInput(), false);
+  assert.equal(Phaser.Input.Keyboard.JustDown(keys.map), false);
+  assert.equal(calls.pause, 0, "blocked menu input must not reopen Pause after rest");
+  hardEscape.press();
+  assert.equal(handler.handleEscapeInput(), true);
+  assert.equal(calls.pause, 1, "a fresh Escape press still opens Pause after rest");
+  handler.destroy();
+}
+
 const emptyScene = { gameState: "playing" };
 assert.equal(hasEscapeClosableUi(emptyScene), false);
 assert.equal(hasEscapeClosableUi({ ...emptyScene, _pausePanel: {} }), true);

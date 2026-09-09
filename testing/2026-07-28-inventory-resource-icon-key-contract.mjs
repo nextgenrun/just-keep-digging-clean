@@ -42,9 +42,9 @@ for (const [key, config] of entries) {
   );
 }
 
-assert.equal(UI_INVENTORY_COPY.iconKeyTitle, "RESOURCE ICON KEY");
-assert.match(UI_INVENTORY_COPY.subtitle, /icon is named/i);
-assert.match(UI_INVENTORY_COPY.undiscoveredStatus, /NOT YET MINED/);
+assert.equal(UI_INVENTORY_COPY.iconKeyTitle, "YOUR MATERIALS");
+assert.match(UI_INVENTORY_COPY.subtitle, /carry.*discovered/i);
+assert.match(UI_INVENTORY_COPY.undiscoveredStatus, /NOT FOUND YET/);
 
 const desktopContentWidth = UI_INVENTORY_LAYOUT.maxWidth
   - UI_MODAL_LAYOUT.contentPadding * 2;
@@ -77,18 +77,18 @@ assert(
 
 assert.match(
   holdingsSource,
-  /addResourceCodexPortrait\(scene, shell\.content/,
-  "inventory resources must use authored Codex portraits"
+  /RewardPickupVisualResolver/,
+  "inventory resources must share the authored pickup visual resolver"
 );
 assert.match(
   holdingsSource,
-  /installResourceCodexFrames\(scene\)/,
-  "inventory resources must install the authored portrait atlas frames"
+  /resolveResourcePickup/,
+  "I-key resources must resolve the same mini visual family as pickup flight"
 );
 assert.doesNotMatch(
   holdingsSource,
   /addInventoryWorldTile|addInventoryLavaDirtTile|UIInventoryWorldTilePreview/,
-  "I-key resource cards must not paste ores onto legacy gameplay tiles"
+  "I-key resource cards must not return to legacy gameplay-tile previews"
 );
 assert.match(INVENTORY_CODEX_CONFIG.assets.portraits.path, /resource-dossier-atlas-v1/);
 assert.doesNotMatch(

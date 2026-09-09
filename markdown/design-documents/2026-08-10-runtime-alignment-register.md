@@ -15,10 +15,10 @@ until browser evidence passes.
 | ALIGN-003 | Guided Dig/Flight opening is authored, persisted, and idempotent | `TownSquareTutorialSystem`, normal-HP site, Flight grant/bank, focused contracts | SHIPPED | Continue regression coverage |
 | ALIGN-004 | Guided town exit remains blocked until Flight ascent is proven | `TutorialTownExitBarrierSystem`, release on protected Portal → Sell return | PARTIAL | Browser collision/release proof |
 | ALIGN-005 | First portal is always exactly 15 m in every mode/tutorial combination | `FirstSessionPortalSystem`, x=12, y=`topAirRows+15`, self-heal | PARTIAL | Four-combination browser/save activation-return proof |
-| ALIGN-006 | A/D and arrows move/aim; F and Space dig | Input handler fixed aliases and `PlayerInput` OR logic | PARTIAL | Browser held-input proof, diagonal aim, overlay non-leak |
+| ALIGN-006 | A/D and arrows move/aim; F digs; Space jumps exactly 1.2 tiles; Shift powers momentum-based Flight | `PlayerInput`, jump buffer, motion values, `2026-08-20-player-jump-flight-motion-contract.mjs`; documentation reconciled 2026-09-04 | PARTIAL | Browser held-input proof, jump/Flight handoff, diagonal aim, overlay non-leak |
 | ALIGN-007 | Inventory and ESC Menu are visible and clickable | Approved bitmap targets, 102×102/164×44 hit zones, browser-proven Inventory close/open and Pause open/resume | SHIPPED | Continue cleanup/resize regression coverage |
-| ALIGN-008 | Casual loses no lives; Hardcore is free revive then 2→1→0; One-Life is 1→0 | `hardcoreMode.js` reducer, shared PlayScene death path, Wurm handoff | PARTIAL | Focused reducer/save contract and in-browser death surfaces |
-| ALIGN-009 | R or Enter resolves a death outside debug mode | `GameInputHandler.handleDeadStateInput`, async save-before-revive | PARTIAL | Browser death input and save-failure behavior |
+| ALIGN-008 | Casual loses no lives; Hardcore is one life, no revives, then 1→0 | `hardcoreMode.js` reducer, shared PlayScene death path, Wurm handoff | PARTIAL | Focused reducer/save contract and in-browser death surface |
+| ALIGN-009 | R or Enter resolves a death outside debug mode | `GameInputHandler.handleDeadStateInput`, async save-before-exit | PARTIAL | Browser death input and save-failure behavior |
 | ALIGN-010 | Save slot displays persisted mode | StartMenu load/display uses normalized mode label | PARTIAL | Visual fit at 1280x720 and imported legacy save |
 | ALIGN-011 | First-run handoff continues Portal → Sell → Upgrade | Town Square tutorial, portal system, retention Sell/Upgrade stages | PARTIAL | Clean-save timing/playtest; prevent overlapping objectives |
 | ALIGN-012 | Ghost demonstrator helps only if current guidance fails | No active ghost system; authored markers/prompts are current teaching | TARGET | Usability test first; approved player art and bounded replay design if needed |
@@ -77,7 +77,7 @@ normal player can complete the route under one coherent release profile.
 1. Run the focused static contract.
 2. Browser-test all four Casual/Hardcore × Guided/Skip combinations.
 3. Verify portal activation/return and save reload.
-4. Verify free-revive/life transitions and readable death surfaces.
+4. Verify first-death exhaustion, legacy-save normalization, and the readable death surface.
 5. Capture the 1280x720 setup/HUD result and fix only observed defects.
 
 ### Gate 2 — tune the first two hours
@@ -118,8 +118,9 @@ dependency evidence.
 - 2026-08-10: The Golden Five draft established the desired authored route.
 - 2026-08-10: Tutorial Skip grants prerequisite Flight but no guided cache or
   free-bank rewards.
-- 2026-08-10: Hardcore means two lives plus one free first revive; it does not
-  automatically delete the slot at exhaustion.
+- 2026-08-10: Hardcore originally used two lives plus one free first revive.
+- 2026-09-04: Hardcore now has exactly one life and no revives; the first death
+  exhausts the run without deleting the slot.
 - 2026-08-10: The first portal is a universal deterministic 15 m invariant.
 - 2026-08-10: Arrow and Space aliases are fixed safety inputs in addition to
   remappable primaries.

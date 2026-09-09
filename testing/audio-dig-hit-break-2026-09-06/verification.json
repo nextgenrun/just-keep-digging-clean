@@ -1,0 +1,41 @@
+{
+  "passed": true,
+  "sourceCount": 19,
+  "routeCount": 116,
+  "checks": [
+    "Every current core hit/break source and fallback is present exactly once",
+    "All recorded routing cases resolve; cooldown and no-target input stay silent",
+    "Cave material audio matches corresponding main-world gain, rate and source choices",
+    "All review IDs, original audio hashes and supplied rejected-source exclusions are preserved",
+    "Loading missing material audio never causes a late queued hit"
+  ],
+  "cold": [
+    {
+      "tile": "DIRT",
+      "immediate": [],
+      "afterLoad": 0,
+      "nextContact": [
+        "fs-approved-651293"
+      ]
+    },
+    {
+      "tile": "STONE",
+      "immediate": [],
+      "afterLoad": 0,
+      "nextContact": [
+        "fs-approved-674386"
+      ]
+    },
+    {
+      "tile": "COPPER",
+      "immediate": [],
+      "afterLoad": 0,
+      "nextContact": [
+        "fs-approved-728758"
+      ]
+    }
+  ],
+  "manualPlaythrough": false,
+  "browserPlaybackVerified": false,
+  "listeningApproved": false
+}

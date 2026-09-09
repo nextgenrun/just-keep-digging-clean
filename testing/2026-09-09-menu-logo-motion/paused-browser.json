@@ -1,0 +1,45 @@
+{
+  "reviewOnly": true,
+  "style": "quiet-sky",
+  "source": "optimized",
+  "canvas": [
+    1920,
+    1080
+  ],
+  "scenery": {
+    "name": "Scenery",
+    "time": 2.1,
+    "duration": 29.9,
+    "width": 1280,
+    "height": 720,
+    "paused": true,
+    "readyState": 4,
+    "error": null,
+    "sampleSeconds": 27,
+    "totalFrames": 0,
+    "droppedFrames": 0,
+    "callbacks": 0,
+    "gapP95": 0,
+    "gapMax": 0,
+    "wraps": [],
+    "hiddenBreaks": 0
+  },
+  "logo": {
+    "name": "Logo",
+    "time": 15.91,
+    "duration": 22.4,
+    "width": 1120,
+    "height": 332,
+    "paused": true,
+    "readyState": 4,
+    "error": null,
+    "sampleSeconds": 27,
+    "totalFrames": 0,
+    "droppedFrames": 0,
+    "callbacks": 0,
+    "gapP95": 0,
+    "gapMax": 0,
+    "wraps": [],
+    "hiddenBreaks": 0
+  }
+}

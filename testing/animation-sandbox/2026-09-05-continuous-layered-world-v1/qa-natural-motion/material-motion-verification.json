@@ -1,0 +1,89 @@
+{
+  "water": {
+    "bounds": [
+      648,
+      291,
+      675,
+      388
+    ],
+    "meanRgbDifference": [
+      11.473844978999619,
+      12.778923253150058,
+      8.082856051928216
+    ],
+    "changedBounds": [
+      1,
+      0,
+      27,
+      97
+    ]
+  },
+  "rock": {
+    "bounds": [
+      361,
+      343,
+      450,
+      447
+    ],
+    "meanRgbDifference": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "changedBounds": null
+  },
+  "rolling_cloud": {
+    "bounds": [
+      164,
+      131,
+      1062,
+      430
+    ],
+    "meanRgbDifference": [
+      1.3912857259908677,
+      1.3813602878190852,
+      1.4594602647280095
+    ],
+    "changedBounds": [
+      82,
+      40,
+      851,
+      220
+    ]
+  },
+  "treetops": {
+    "bounds": [
+      177,
+      135,
+      1299,
+      384
+    ],
+    "meanRgbDifference": [
+      0.5662471633414228,
+      0.7661268961765064,
+      0.8808567603748326
+    ],
+    "changedBounds": [
+      0,
+      70,
+      1122,
+      249
+    ]
+  },
+  "tree_roots": {
+    "bounds": [
+      239,
+      463,
+      1237,
+      517
+    ],
+    "meanRgbDifference": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "changedBounds": null
+  },
+  "passed": true,
+  "method": "Read-only pixel comparison of rendered sprites at fixed positions, with simulation and camera paused."
+}

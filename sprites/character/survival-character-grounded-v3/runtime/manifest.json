@@ -1,0 +1,116 @@
+{
+  "version": "character-grounded-v3-20260907",
+  "sourceSizePx": 1024,
+  "frameSizePx": 512,
+  "clothEnabled": false,
+  "sheets": {
+    "survival-blender-v2-idle-sheet": {
+      "frames": 48,
+      "pages": [
+        {
+          "file": "survival-blender-v2-idle-sheet-0.webp",
+          "width": 2048,
+          "height": 2048,
+          "sha256": "8918ded423f72be32a95ea6c73dcc4f2a47d712873adb6eec78226e7f4723c06"
+        }
+      ],
+      "gpuBytesIncludingMips": 22369621
+    },
+    "survival-blender-v2-walk-sheet": {
+      "frames": 24,
+      "pages": [
+        {
+          "file": "survival-blender-v2-walk-sheet-0.webp",
+          "width": 2048,
+          "height": 2048,
+          "sha256": "4d08d886bcc1fad769c1c3066ead05317fabbadd64e318c15a453190358b8856"
+        }
+      ],
+      "gpuBytesIncludingMips": 22369621
+    },
+    "survival-mixamo-v1-walk-loop-sheet": {
+      "frames": 24,
+      "pages": [
+        {
+          "file": "survival-mixamo-v1-walk-loop-sheet-0.webp",
+          "width": 2048,
+          "height": 2048,
+          "sha256": "50acf998be947f97ca5baad1a4494dd2b35c90d69a12e598da22b7c8544556a8"
+        }
+      ],
+      "gpuBytesIncludingMips": 22369621
+    },
+    "survival-mixamo-v2-walk-handoff-sheet": {
+      "frames": 67,
+      "pages": [
+        {
+          "file": "survival-mixamo-v2-walk-handoff-sheet-0.webp",
+          "width": 2048,
+          "height": 2048,
+          "sha256": "c11d9376f4785573722c01c231e3af0aee281c7138af8cf7a804905990f2b7b3"
+        },
+        {
+          "file": "survival-mixamo-v2-walk-handoff-sheet-1.webp",
+          "width": 2048,
+          "height": 2048,
+          "sha256": "75139db6699b128eb9832e00d553b2ccb8075ed10737a0d66bb36837778c42ec"
+        }
+      ],
+      "gpuBytesIncludingMips": 44739242
+    },
+    "survival-held-torch-v1-idle-sheet": {
+      "frames": 48,
+      "pages": [
+        {
+          "file": "survival-held-torch-v1-idle-sheet-0.webp",
+          "width": 2048,
+          "height": 2048,
+          "sha256": "aa83adca8a1943902afd9143477b8a534bc6d9bf3fb912e4b2368dba2ea5daae"
+        }
+      ],
+      "gpuBytesIncludingMips": 22369621
+    },
+    "survival-held-torch-v1-walkLoop-sheet": {
+      "frames": 24,
+      "pages": [
+        {
+          "file": "survival-held-torch-v1-walkLoop-sheet-0.webp",
+          "width": 2048,
+          "height": 2048,
+          "sha256": "229fc5864c33aef64b422d828e06c2e07b1e578b041179dea02dafe3159940c1"
+        }
+      ],
+      "gpuBytesIncludingMips": 22369621
+    },
+    "survival-held-torch-v2-run-sheet": {
+      "frames": 24,
+      "pages": [
+        {
+          "file": "survival-held-torch-v2-run-sheet-0.webp",
+          "width": 2048,
+          "height": 2048,
+          "sha256": "44a4356ac361ea73502f341ca3f63f9d218bd0c05eaa98d681cafad8cfbdcf12"
+        }
+      ],
+      "gpuBytesIncludingMips": 22369621
+    },
+    "survival-held-torch-v2-run-handoff-sheet": {
+      "frames": 67,
+      "pages": [
+        {
+          "file": "survival-held-torch-v2-run-handoff-sheet-0.webp",
+          "width": 2048,
+          "height": 2048,
+          "sha256": "ecafedee66d9842f520f54bf980800b0d40be304a5b908b4c386ffae289f0975"
+        },
+        {
+          "file": "survival-held-torch-v2-run-handoff-sheet-1.webp",
+          "width": 2048,
+          "height": 2048,
+          "sha256": "7b84ce6f7e076b778a6c60e5a9f2028d6f8a7b7b3d8a9080d55978969b76113b"
+        }
+      ],
+      "gpuBytesIncludingMips": 44739242
+    }
+  }
+}

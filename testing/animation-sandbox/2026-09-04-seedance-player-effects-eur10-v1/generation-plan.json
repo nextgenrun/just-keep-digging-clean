@@ -1,0 +1,457 @@
+{
+  "schemaVersion": "seedance-player-effects-eur10-plan-v1",
+  "reviewOnly": true,
+  "productionChanged": false,
+  "model": "bytedance/seedance-2.0-mini",
+  "currency": {
+    "budgetEur": 10,
+    "eurUsdReference": 1.1615,
+    "hardCapUsd": 11.0,
+    "referenceDate": "2026-09-03",
+    "source": "ECB euro foreign exchange reference rates"
+  },
+  "estimate": {
+    "resolution": "720p",
+    "usdPerSecond": 0.03024,
+    "maxVideoTokenSkuUsd": 3.5e-06,
+    "plannedSeconds": 360,
+    "plannedUsd": 10.8864,
+    "plannedEur": 9.3727,
+    "unallocatedEur": 0.6273,
+    "committedFirstPassSeconds": 192,
+    "committedFirstPassUsd": 5.80608,
+    "committedFirstPassEur": 4.9988
+  },
+  "allocation": [
+    {
+      "stage": "calibration",
+      "seconds": 48,
+      "estimatedEur": 1.25,
+      "purpose": "Player/effect feasibility gate"
+    },
+    {
+      "stage": "core-effects-pass",
+      "seconds": 96,
+      "estimatedEur": 2.5,
+      "purpose": "Frequent mining, break, XP, loot and movement feedback"
+    },
+    {
+      "stage": "celestial-effects-pass",
+      "seconds": 48,
+      "estimatedEur": 1.25,
+      "purpose": "Six signature power moments"
+    },
+    {
+      "stage": "adaptive-reserve",
+      "seconds": 168,
+      "estimatedEur": 4.375,
+      "purpose": "QA-driven replacements and highest-value extensions only"
+    }
+  ],
+  "globalConstraints": [
+    "fixed orthographic side-on camera and crop",
+    "preserve exact player face, hair, clothing, backpack, proportions and shading",
+    "fixed feet or tile anchor",
+    "forward-time motion only",
+    "no ping-pong, reversed playback or backwards recovery",
+    "no optical-flow interpolation",
+    "no rubber limbs, stretching, morphing, duplicate anatomy, texture crawl or flicker",
+    "silent with no text, logo, UI or watermark",
+    "background and floor stay registered to their opening pixels"
+  ],
+  "stages": {
+    "calibration": [
+      {
+        "id": "cal-walk-loop",
+        "label": "Player walk loop source",
+        "role": "sprite-atlas-source",
+        "duration": 8,
+        "resolution": "720p",
+        "aspectRatio": "16:9",
+        "firstFrame": "references/walk-loop-first.png",
+        "lastFrame": "references/walk-loop-last.png",
+        "references": [
+          "references/walk-loop-storyboard.png"
+        ],
+        "seeds": [
+          26090401,
+          26090402,
+          26090403
+        ],
+        "prompt": "Create a fixed-camera side-on game animation study of the exact supplied miner. Keep his face, hair, blue-gray clothing, gloves, shoes, backpack, body proportions, materials, lighting and scale unchanged. The supplied five-pose strip is motion guidance, while the first and last images are exact endpoint frames. Produce four continuous natural right-facing in-place walk cycles across eight seconds. Alternate planted feet with no foot skating; keep the pelvis, head and backpack coherent and the foot baseline fixed. Continue forward in time through the final-to-first boundary with no pause, rewind, reverse motion or ping-pong. The body must remain one articulated skeleton: no rubber limbs, morphing, extra anatomy, texture crawl, flicker or camera motion. Keep every magenta background pixel and the slate floor perfectly static. Silent. No text, UI, logo or watermark."
+      },
+      {
+        "id": "cal-side-dig",
+        "label": "Player moving side-dig source",
+        "role": "sprite-atlas-source",
+        "duration": 4,
+        "resolution": "720p",
+        "aspectRatio": "16:9",
+        "firstFrame": "references/side-dig-first.png",
+        "lastFrame": "references/side-dig-last.png",
+        "references": [
+          "references/side-dig-storyboard.png"
+        ],
+        "seeds": [
+          26090411,
+          26090412,
+          26090413
+        ],
+        "prompt": "Create one forward-time fixed-camera side-on moving side-dig strike using the exact supplied miner and the five current-game poses as motion authority. Preserve his face, hair, blue-gray clothes, gloves, shoes, backpack, proportions, scale, materials and lighting exactly; add no tool or prop. Begin in the supplied running pose, drive the right arm to the authored straight contact pose near 1.35 seconds, carry the body and rear leg through a clean follow-through, then recover naturally into the supplied last frame by four seconds. Keep the contact hand attached, the torso solid, the feet grounded at contact and the baseline fixed. One strike only. No rubberbanding, stretching, morphing, duplicate limbs, flicker, texture crawl, pause, rewind, reverse motion, ping-pong or camera motion. Keep every magenta background pixel and the slate floor perfectly static. Silent. No text, UI, logo or watermark."
+      },
+      {
+        "id": "cal-soil-impact",
+        "label": "Soil contact aftereffect",
+        "role": "masked-one-shot-aftereffect",
+        "duration": 4,
+        "resolution": "720p",
+        "aspectRatio": "16:9",
+        "firstFrame": "references/soil-impact-first.png",
+        "lastFrame": "references/soil-impact-last.png",
+        "references": [
+          "references/soil-impact-first.png"
+        ],
+        "seeds": [
+          26090421,
+          26090422,
+          26090423
+        ],
+        "prompt": "Create one compact side-on game soil-impact aftereffect on the exact locked plate. Keep the dirt tile, black field, ground edge, camera, crop and exposure completely static. Hold clean for the first 0.45 seconds. At 0.8 seconds, strike the upper-left face of the dirt tile with one crisp localized impact: six to ten irregular brown soil chips, a low dense dust cone, two tiny pebble arcs and a short warm contact flash. Fragments follow gravity forward and down, decelerate, settle or leave frame, and fully clear by 3.25 seconds so the last frame exactly matches the supplied clean plate. One burst only. No looping, reverse playback, ping-pong, suction back to origin, morphing, flicker, smoke billboards, player, hand, tool, text, logo, UI, watermark or camera motion. Silent."
+      }
+    ],
+    "core-effects": [
+      {
+        "id": "fx-stone-contact",
+        "label": "Stone contact",
+        "role": "masked-one-shot-aftereffect",
+        "duration": 4,
+        "resolution": "720p",
+        "aspectRatio": "16:9",
+        "firstFrame": "references/fx-clean-first.png",
+        "lastFrame": "references/fx-clean-last.png",
+        "references": [
+          "references/style-stone-contact.png"
+        ],
+        "seeds": [
+          26090501,
+          26090502
+        ],
+        "prompt": "Create one isolated forward-time 2D game aftereffect on the supplied pure-black locked plate. Use the supplied current-game art only as palette, material and rendering-style authority. Do not draw the referenced icon, tile, weapon, character, floor, scenery or UI. Keep the camera, crop, exposure and every untouched black pixel perfectly static. Hold completely clean through 0.25 seconds. At 0.42 seconds create one tight pale-gray impact cross at screen center, followed by eight to twelve angular stone chips and a low granular dust fan moving outward and down under gravity. The action must progress once, decelerate naturally, and fully disappear by 3.35 seconds so the final frame exactly matches the clean plate. No loop, rewind, reverse motion, ping-pong, suction return, rubberbanding, morphing, duplicated particles, texture crawl, flicker, smoke billboard, text, logo, UI or watermark. Silent."
+      },
+      {
+        "id": "fx-metal-contact",
+        "label": "Metal and ore contact",
+        "role": "masked-one-shot-aftereffect",
+        "duration": 4,
+        "resolution": "720p",
+        "aspectRatio": "16:9",
+        "firstFrame": "references/fx-clean-first.png",
+        "lastFrame": "references/fx-clean-last.png",
+        "references": [
+          "references/style-metal-contact.png"
+        ],
+        "seeds": [
+          26090511,
+          26090512
+        ],
+        "prompt": "Create one isolated forward-time 2D game aftereffect on the supplied pure-black locked plate. Use the supplied current-game art only as palette, material and rendering-style authority. Do not draw the referenced icon, tile, weapon, character, floor, scenery or UI. Keep the camera, crop, exposure and every untouched black pixel perfectly static. Hold completely clean through 0.25 seconds. At 0.42 seconds create one crisp warm-white contact flash at screen center, a narrow fan of six to ten short copper, iron and gold sparks, and three tiny angular ore chips that continue outward and fall. The action must progress once, decelerate naturally, and fully disappear by 3.35 seconds so the final frame exactly matches the clean plate. No loop, rewind, reverse motion, ping-pong, suction return, rubberbanding, morphing, duplicated particles, texture crawl, flicker, smoke billboard, text, logo, UI or watermark. Silent."
+      },
+      {
+        "id": "fx-crystal-contact",
+        "label": "Crystal contact",
+        "role": "masked-one-shot-aftereffect",
+        "duration": 4,
+        "resolution": "720p",
+        "aspectRatio": "16:9",
+        "firstFrame": "references/fx-clean-first.png",
+        "lastFrame": "references/fx-clean-last.png",
+        "references": [
+          "references/style-crystal-contact.png"
+        ],
+        "seeds": [
+          26090521,
+          26090522
+        ],
+        "prompt": "Create one isolated forward-time 2D game aftereffect on the supplied pure-black locked plate. Use the supplied current-game art only as palette, material and rendering-style authority. Do not draw the referenced icon, tile, weapon, character, floor, scenery or UI. Keep the camera, crop, exposure and every untouched black pixel perfectly static. Hold completely clean through 0.25 seconds. At 0.42 seconds create one sharp faceted crystal contact flash at screen center, six thin spectral rays, and eight small luminous crystal splinters that travel outward, rotate consistently and fade while continuing forward. The action must progress once, decelerate naturally, and fully disappear by 3.35 seconds so the final frame exactly matches the clean plate. No loop, rewind, reverse motion, ping-pong, suction return, rubberbanding, morphing, duplicated particles, texture crawl, flicker, smoke billboard, text, logo, UI or watermark. Silent."
+      },
+      {
+        "id": "fx-magma-contact",
+        "label": "Magma contact",
+        "role": "masked-one-shot-aftereffect",
+        "duration": 4,
+        "resolution": "720p",
+        "aspectRatio": "16:9",
+        "firstFrame": "references/fx-clean-first.png",
+        "lastFrame": "references/fx-clean-last.png",
+        "references": [
+          "references/style-magma-contact.png"
+        ],
+        "seeds": [
+          26090531,
+          26090532
+        ],
+        "prompt": "Create one isolated forward-time 2D game aftereffect on the supplied pure-black locked plate. Use the supplied current-game art only as palette, material and rendering-style authority. Do not draw the referenced icon, tile, weapon, character, floor, scenery or UI. Keep the camera, crop, exposure and every untouched black pixel perfectly static. Hold completely clean through 0.25 seconds. At 0.42 seconds create one compact ember-orange impact flare at screen center, four heavy glowing slag chips, six tiny hot sparks and three molten droplets that arc outward and fall without reversing. The action must progress once, decelerate naturally, and fully disappear by 3.35 seconds so the final frame exactly matches the clean plate. No loop, rewind, reverse motion, ping-pong, suction return, rubberbanding, morphing, duplicated particles, texture crawl, flicker, smoke billboard, text, logo, UI or watermark. Silent."
+      },
+      {
+        "id": "fx-dirt-break",
+        "label": "Dirt tile break",
+        "role": "masked-destructive-one-shot",
+        "duration": 4,
+        "resolution": "720p",
+        "aspectRatio": "16:9",
+        "firstFrame": "references/fx-clean-first.png",
+        "lastFrame": "references/fx-clean-last.png",
+        "references": [
+          "references/style-break-dirt.png"
+        ],
+        "seeds": [
+          26090541,
+          26090542
+        ],
+        "prompt": "Create one isolated forward-time 2D game aftereffect on the supplied pure-black locked plate. Use the supplied current-game art only as palette, material and rendering-style authority. Do not draw the referenced icon, tile, weapon, character, floor, scenery or UI. Keep the camera, crop, exposure and every untouched black pixel perfectly static. Hold completely clean through 0.25 seconds. At 0.42 seconds create one tile-sized dry-soil collapse centered in frame: twelve to eighteen irregular brown chunks, a dense low dust cone and a few grains that burst outward and down, then settle or leave the effect bounds. The action must progress once, decelerate naturally, and fully disappear by 3.35 seconds so the final frame exactly matches the clean plate. No loop, rewind, reverse motion, ping-pong, suction return, rubberbanding, morphing, duplicated particles, texture crawl, flicker, smoke billboard, text, logo, UI or watermark. Silent."
+      },
+      {
+        "id": "fx-stone-break",
+        "label": "Stone tile break",
+        "role": "masked-destructive-one-shot",
+        "duration": 4,
+        "resolution": "720p",
+        "aspectRatio": "16:9",
+        "firstFrame": "references/fx-clean-first.png",
+        "lastFrame": "references/fx-clean-last.png",
+        "references": [
+          "references/style-break-stone.png"
+        ],
+        "seeds": [
+          26090551,
+          26090552
+        ],
+        "prompt": "Create one isolated forward-time 2D game aftereffect on the supplied pure-black locked plate. Use the supplied current-game art only as palette, material and rendering-style authority. Do not draw the referenced icon, tile, weapon, character, floor, scenery or UI. Keep the camera, crop, exposure and every untouched black pixel perfectly static. Hold completely clean through 0.25 seconds. At 0.42 seconds create one tile-sized stone fracture centered in frame: a bright compression crack, ten to fourteen angular gray shards and a compact chalky dust ring, all moving outward and down under gravity. The action must progress once, decelerate naturally, and fully disappear by 3.35 seconds so the final frame exactly matches the clean plate. No loop, rewind, reverse motion, ping-pong, suction return, rubberbanding, morphing, duplicated particles, texture crawl, flicker, smoke billboard, text, logo, UI or watermark. Silent."
+      },
+      {
+        "id": "fx-crystal-break",
+        "label": "Crystal tile break",
+        "role": "masked-destructive-one-shot",
+        "duration": 4,
+        "resolution": "720p",
+        "aspectRatio": "16:9",
+        "firstFrame": "references/fx-clean-first.png",
+        "lastFrame": "references/fx-clean-last.png",
+        "references": [
+          "references/style-break-crystal.png"
+        ],
+        "seeds": [
+          26090561,
+          26090562
+        ],
+        "prompt": "Create one isolated forward-time 2D game aftereffect on the supplied pure-black locked plate. Use the supplied current-game art only as palette, material and rendering-style authority. Do not draw the referenced icon, tile, weapon, character, floor, scenery or UI. Keep the camera, crop, exposure and every untouched black pixel perfectly static. Hold completely clean through 0.25 seconds. At 0.42 seconds create one tile-sized crystal shatter centered in frame: a white-violet faceted core flash, ten sharp shards, fine glitter and a thin prismatic ring that expands once and fades. The action must progress once, decelerate naturally, and fully disappear by 3.35 seconds so the final frame exactly matches the clean plate. No loop, rewind, reverse motion, ping-pong, suction return, rubberbanding, morphing, duplicated particles, texture crawl, flicker, smoke billboard, text, logo, UI or watermark. Silent."
+      },
+      {
+        "id": "fx-xp-arrival",
+        "label": "XP arrival",
+        "role": "masked-ui-arrival-one-shot",
+        "duration": 4,
+        "resolution": "720p",
+        "aspectRatio": "16:9",
+        "firstFrame": "references/fx-clean-first.png",
+        "lastFrame": "references/fx-clean-last.png",
+        "references": [
+          "references/style-xp-gathering.png"
+        ],
+        "seeds": [
+          26090571,
+          26090572
+        ],
+        "prompt": "Create one isolated forward-time 2D game aftereffect on the supplied pure-black locked plate. Use the supplied current-game art only as palette, material and rendering-style authority. Do not draw the referenced icon, tile, weapon, character, floor, scenery or UI. Keep the camera, crop, exposure and every untouched black pixel perfectly static. Hold completely clean through 0.25 seconds. From 0.35 seconds, send three small emerald-and-gold motes along distinct curved paths from the lower sides into screen center; they arrive once near 1.15 seconds, compress into a bright pinprick and release one tiny gold ring before clearing. The action must progress once, decelerate naturally, and fully disappear by 3.35 seconds so the final frame exactly matches the clean plate. No loop, rewind, reverse motion, ping-pong, suction return, rubberbanding, morphing, duplicated particles, texture crawl, flicker, smoke billboard, text, logo, UI or watermark. Silent."
+      },
+      {
+        "id": "fx-level-up",
+        "label": "Level-up crest",
+        "role": "masked-ui-celebration-one-shot",
+        "duration": 4,
+        "resolution": "720p",
+        "aspectRatio": "16:9",
+        "firstFrame": "references/fx-clean-first.png",
+        "lastFrame": "references/fx-clean-last.png",
+        "references": [
+          "references/style-xp-gathering.png"
+        ],
+        "seeds": [
+          26090581,
+          26090582
+        ],
+        "prompt": "Create one isolated forward-time 2D game aftereffect on the supplied pure-black locked plate. Use the supplied current-game art only as palette, material and rendering-style authority. Do not draw the referenced icon, tile, weapon, character, floor, scenery or UI. Keep the camera, crop, exposure and every untouched black pixel perfectly static. Hold completely clean through 0.25 seconds. At 0.45 seconds build one compact emerald-and-gold level-up flourish at screen center: a crown-like star crest, a single expanding rune ring and six upward rays, reaching its peak near 1.05 seconds and dissolving upward. The action must progress once, decelerate naturally, and fully disappear by 3.35 seconds so the final frame exactly matches the clean plate. No loop, rewind, reverse motion, ping-pong, suction return, rubberbanding, morphing, duplicated particles, texture crawl, flicker, smoke billboard, text, logo, UI or watermark. Silent."
+      },
+      {
+        "id": "fx-rare-pickup",
+        "label": "Rare pickup arrival",
+        "role": "masked-ui-arrival-one-shot",
+        "duration": 4,
+        "resolution": "720p",
+        "aspectRatio": "16:9",
+        "firstFrame": "references/fx-clean-first.png",
+        "lastFrame": "references/fx-clean-last.png",
+        "references": [
+          "references/style-xp-gathering.png"
+        ],
+        "seeds": [
+          26090591,
+          26090592
+        ],
+        "prompt": "Create one isolated forward-time 2D game aftereffect on the supplied pure-black locked plate. Use the supplied current-game art only as palette, material and rendering-style authority. Do not draw the referenced icon, tile, weapon, character, floor, scenery or UI. Keep the camera, crop, exposure and every untouched black pixel perfectly static. Hold completely clean through 0.25 seconds. From 0.35 seconds, curl five tiny emerald-and-gold glints upward around screen center in a short helix; converge once at 1.0 seconds into a warm reward flash with two small outward rings, then continue fading outward. The action must progress once, decelerate naturally, and fully disappear by 3.35 seconds so the final frame exactly matches the clean plate. No loop, rewind, reverse motion, ping-pong, suction return, rubberbanding, morphing, duplicated particles, texture crawl, flicker, smoke billboard, text, logo, UI or watermark. Silent."
+      },
+      {
+        "id": "fx-landing-dust",
+        "label": "Player landing dust",
+        "role": "masked-ground-one-shot",
+        "duration": 4,
+        "resolution": "720p",
+        "aspectRatio": "16:9",
+        "firstFrame": "references/fx-clean-first.png",
+        "lastFrame": "references/fx-clean-last.png",
+        "references": [
+          "references/style-break-dirt.png"
+        ],
+        "seeds": [
+          26090601,
+          26090602
+        ],
+        "prompt": "Create one isolated forward-time 2D game aftereffect on the supplied pure-black locked plate. Use the supplied current-game art only as palette, material and rendering-style authority. Do not draw the referenced icon, tile, weapon, character, floor, scenery or UI. Keep the camera, crop, exposure and every untouched black pixel perfectly static. Hold completely clean through 0.25 seconds. At 0.42 seconds create a low symmetrical landing response along an invisible ground line at screen center: two compact brown-gray dust puffs push left and right, six grains hop outward and fall, and the center clears immediately. The action must progress once, decelerate naturally, and fully disappear by 3.35 seconds so the final frame exactly matches the clean plate. No loop, rewind, reverse motion, ping-pong, suction return, rubberbanding, morphing, duplicated particles, texture crawl, flicker, smoke billboard, text, logo, UI or watermark. Silent."
+      },
+      {
+        "id": "fx-neutral-contact",
+        "label": "Tintable mining contact",
+        "role": "masked-one-shot-aftereffect",
+        "duration": 4,
+        "resolution": "720p",
+        "aspectRatio": "16:9",
+        "firstFrame": "references/fx-clean-first.png",
+        "lastFrame": "references/fx-clean-last.png",
+        "references": [
+          "references/style-material-icons.png"
+        ],
+        "seeds": [
+          26090611,
+          26090612
+        ],
+        "prompt": "Create one isolated forward-time 2D game aftereffect on the supplied pure-black locked plate. Use the supplied current-game art only as palette, material and rendering-style authority. Do not draw the referenced icon, tile, weapon, character, floor, scenery or UI. Keep the camera, crop, exposure and every untouched black pixel perfectly static. Hold completely clean through 0.25 seconds. At 0.42 seconds create one small neutral pale-gold impact cross at screen center, one thin compression ring and six short wedge-shaped streaks moving outward. Keep it clean and readable at 64-pixel game size with no material object. The action must progress once, decelerate naturally, and fully disappear by 3.35 seconds so the final frame exactly matches the clean plate. No loop, rewind, reverse motion, ping-pong, suction return, rubberbanding, morphing, duplicated particles, texture crawl, flicker, smoke billboard, text, logo, UI or watermark. Silent."
+      }
+    ],
+    "celestial-effects": [
+      {
+        "id": "fx-wayward-bounce",
+        "label": "Wayward Star bounce",
+        "role": "additive-one-shot-aftereffect",
+        "duration": 4,
+        "resolution": "720p",
+        "aspectRatio": "16:9",
+        "firstFrame": "references/fx-clean-first.png",
+        "lastFrame": "references/fx-clean-last.png",
+        "references": [
+          "references/style-wayward-star.png"
+        ],
+        "seeds": [
+          26090701,
+          26090702
+        ],
+        "prompt": "Create one isolated forward-time 2D game aftereffect on the supplied pure-black locked plate. Use the supplied current-game art only as palette, material and rendering-style authority. Do not draw the referenced icon, tile, weapon, character, floor, scenery or UI. Keep the camera, crop, exposure and every untouched black pixel perfectly static. Hold completely clean through 0.25 seconds. At 0.42 seconds create one cyan-and-gold ricochet contact at screen center: a five-point star flash, a tight curved deflection arc toward the upper right and six tiny stardust sparks that keep traveling away. The action must progress once, decelerate naturally, and fully disappear by 3.35 seconds so the final frame exactly matches the clean plate. No loop, rewind, reverse motion, ping-pong, suction return, rubberbanding, morphing, duplicated particles, texture crawl, flicker, smoke billboard, text, logo, UI or watermark. Silent."
+      },
+      {
+        "id": "fx-hollow-pulse",
+        "label": "Hollow Sun pulse",
+        "role": "additive-one-shot-aftereffect",
+        "duration": 4,
+        "resolution": "720p",
+        "aspectRatio": "16:9",
+        "firstFrame": "references/fx-clean-first.png",
+        "lastFrame": "references/fx-clean-last.png",
+        "references": [
+          "references/style-hollow-sun.png"
+        ],
+        "seeds": [
+          26090711,
+          26090712
+        ],
+        "prompt": "Create one isolated forward-time 2D game aftereffect on the supplied pure-black locked plate. Use the supplied current-game art only as palette, material and rendering-style authority. Do not draw the referenced icon, tile, weapon, character, floor, scenery or UI. Keep the camera, crop, exposure and every untouched black pixel perfectly static. Hold completely clean through 0.25 seconds. At 0.42 seconds create one violet gravity pulse centered in frame: a dark circular core, a thin luminous lensing ring that expands once, three warped arc fragments and sparse purple motes drifting outward. The action must progress once, decelerate naturally, and fully disappear by 3.35 seconds so the final frame exactly matches the clean plate. No loop, rewind, reverse motion, ping-pong, suction return, rubberbanding, morphing, duplicated particles, texture crawl, flicker, smoke billboard, text, logo, UI or watermark. Silent."
+      },
+      {
+        "id": "fx-hollow-implosion",
+        "label": "Hollow Sun implosion",
+        "role": "additive-one-shot-aftereffect",
+        "duration": 4,
+        "resolution": "720p",
+        "aspectRatio": "16:9",
+        "firstFrame": "references/fx-clean-first.png",
+        "lastFrame": "references/fx-clean-last.png",
+        "references": [
+          "references/style-hollow-sun.png"
+        ],
+        "seeds": [
+          26090721,
+          26090722
+        ],
+        "prompt": "Create one isolated forward-time 2D game aftereffect on the supplied pure-black locked plate. Use the supplied current-game art only as palette, material and rendering-style authority. Do not draw the referenced icon, tile, weapon, character, floor, scenery or UI. Keep the camera, crop, exposure and every untouched black pixel perfectly static. Hold completely clean through 0.25 seconds. From 0.38 seconds draw twelve violet motes and three curved lensing arcs physically inward toward screen center; collapse once at 1.05 seconds into a tiny white-violet singularity flash, then extinguish without re-expanding. The action must progress once, decelerate naturally, and fully disappear by 3.35 seconds so the final frame exactly matches the clean plate. No loop, rewind, reverse motion, ping-pong, suction return, rubberbanding, morphing, duplicated particles, texture crawl, flicker, smoke billboard, text, logo, UI or watermark. Silent."
+      },
+      {
+        "id": "fx-lance-launch",
+        "label": "Stellar Lance launch",
+        "role": "additive-one-shot-aftereffect",
+        "duration": 4,
+        "resolution": "720p",
+        "aspectRatio": "16:9",
+        "firstFrame": "references/fx-clean-first.png",
+        "lastFrame": "references/fx-clean-last.png",
+        "references": [
+          "references/style-stellar-lance.png"
+        ],
+        "seeds": [
+          26090731,
+          26090732
+        ],
+        "prompt": "Create one isolated forward-time 2D game aftereffect on the supplied pure-black locked plate. Use the supplied current-game art only as palette, material and rendering-style authority. Do not draw the referenced icon, tile, weapon, character, floor, scenery or UI. Keep the camera, crop, exposure and every untouched black pixel perfectly static. Hold completely clean through 0.25 seconds. At 0.42 seconds launch one right-facing violet crescent energy wave from just left of screen center. It sharpens, travels continuously to the right with a short tapered plasma wake, exits the frame, and never stalls or reverses. The action must progress once, decelerate naturally, and fully disappear by 3.35 seconds so the final frame exactly matches the clean plate. No loop, rewind, reverse motion, ping-pong, suction return, rubberbanding, morphing, duplicated particles, texture crawl, flicker, smoke billboard, text, logo, UI or watermark. Silent."
+      },
+      {
+        "id": "fx-lance-impact",
+        "label": "Stellar Lance impact",
+        "role": "additive-one-shot-aftereffect",
+        "duration": 4,
+        "resolution": "720p",
+        "aspectRatio": "16:9",
+        "firstFrame": "references/fx-clean-first.png",
+        "lastFrame": "references/fx-clean-last.png",
+        "references": [
+          "references/style-stellar-lance.png"
+        ],
+        "seeds": [
+          26090741,
+          26090742
+        ],
+        "prompt": "Create one isolated forward-time 2D game aftereffect on the supplied pure-black locked plate. Use the supplied current-game art only as palette, material and rendering-style authority. Do not draw the referenced icon, tile, weapon, character, floor, scenery or UI. Keep the camera, crop, exposure and every untouched black pixel perfectly static. Hold completely clean through 0.25 seconds. At 0.42 seconds create one concentrated violet Stellar Lance impact at screen center: a white-hot contact core, one expanding purple ring, eight radial energy shards and a brief forward-right plasma spray. The action must progress once, decelerate naturally, and fully disappear by 3.35 seconds so the final frame exactly matches the clean plate. No loop, rewind, reverse motion, ping-pong, suction return, rubberbanding, morphing, duplicated particles, texture crawl, flicker, smoke billboard, text, logo, UI or watermark. Silent."
+      },
+      {
+        "id": "fx-star-heart-activation",
+        "label": "Star Heart activation",
+        "role": "additive-one-shot-aftereffect",
+        "duration": 4,
+        "resolution": "720p",
+        "aspectRatio": "16:9",
+        "firstFrame": "references/fx-clean-first.png",
+        "lastFrame": "references/fx-clean-last.png",
+        "references": [
+          "references/style-star-heart.png"
+        ],
+        "seeds": [
+          26090751,
+          26090752
+        ],
+        "prompt": "Create one isolated forward-time 2D game aftereffect on the supplied pure-black locked plate. Use the supplied current-game art only as palette, material and rendering-style authority. Do not draw the referenced icon, tile, weapon, character, floor, scenery or UI. Keep the camera, crop, exposure and every untouched black pixel perfectly static. Hold completely clean through 0.25 seconds. At 0.42 seconds create one turquoise, violet and gold Star Heart awakening flourish at screen center: three nested heart-like arcs lock into place, a star core flashes once, and a crown of fine rays rises and dissolves. The action must progress once, decelerate naturally, and fully disappear by 3.35 seconds so the final frame exactly matches the clean plate. No loop, rewind, reverse motion, ping-pong, suction return, rubberbanding, morphing, duplicated particles, texture crawl, flicker, smoke billboard, text, logo, UI or watermark. Silent."
+      }
+    ]
+  },
+  "strategyRevision": {
+    "date": "2026-09-04",
+    "reason": "Calibration accepted isolated effects and rejected raw player-video use because of traversal, prop invention and identity drift.",
+    "playerVideoDisposition": "reference-only; never direct runtime playback",
+    "remainingSpendRule": "Two candidates per effect, then spend reserve only on failed high-frequency roles."
+  }
+}

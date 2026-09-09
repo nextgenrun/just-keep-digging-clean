@@ -1,9 +1,9 @@
 import { CelestialActivationBudget } from
   "../systems/celestial/CelestialActivationBudget.js";
 import { HollowSunClusterEngine } from
-  "../systems/celestial/HollowSunClusterEngine.js?rev=20260830-multi-hole-v1";
+  "../systems/celestial/HollowSunClusterEngine.js?rev=20260831-actionbar-balance-v1";
 import { StellarRageEngine } from
-  "../systems/celestial/StellarRageEngine.js?rev=20260830-projectile-v1";
+  "../systems/celestial/StellarRageEngine.js?rev=20260903-lance-wave-v1";
 import { WaywardStarSwarmEngine } from
   "../systems/celestial/WaywardStarSwarmEngine.js";
 import { CelestialEngineHudSystem } from
@@ -59,6 +59,15 @@ class CelestialAbilitiesHarnessScene extends Phaser.Scene {
     this.load.image(ASSET_KEYS.celestialEngines.waywardStar, `../${CELESTIAL_ENGINE_CORE_ASSETS.waywardStar}`);
     this.load.image(ASSET_KEYS.celestialEngines.hollowSun, `../${CELESTIAL_ENGINE_CORE_ASSETS.hollowSun}`);
     this.load.image(ASSET_KEYS.celestialEngines.cometEngine, `../${CELESTIAL_ENGINE_CORE_ASSETS.cometEngine}`);
+    for (const role of [
+      "stellarLanceProjectile",
+      "stellarLanceWaveBlue",
+      "stellarLanceWavePurple",
+      "stellarLanceWaveRed",
+      "stellarLanceImpact",
+    ]) {
+      this.load.image(ASSET_KEYS.celestialEngines[role], `../${CELESTIAL_ENGINE_CORE_ASSETS[role]}`);
+    }
     const core = TILE_DESTRUCTION_FX_CONFIG.assets.core;
     this.load.spritesheet(core.key, `../${core.path}`, {
       frameWidth: core.frameWidth,
@@ -78,7 +87,12 @@ class CelestialAbilitiesHarnessScene extends Phaser.Scene {
     this.bounces = 0;
     this.completion = null;
     this.nextProjectileAt = 520;
-    this.anchor = { x: width / 2, y: height / 2 };
+    this.anchor = {
+      x: selectedEngineId === CELESTIAL_ENGINE_IDS.STELLAR_RAGE
+        ? width * 0.3
+        : width / 2,
+      y: height / 2,
+    };
     this._drawBackdrop();
     this._createLabels();
     this._createHud();
@@ -179,7 +193,12 @@ class CelestialAbilitiesHarnessScene extends Phaser.Scene {
     }
     return new StellarRageEngine({
       ...common,
-      assetKey: ASSET_KEYS.celestialEngines.cometEngine,
+      projectileAssetKeys: [
+        ASSET_KEYS.celestialEngines.stellarLanceWaveBlue,
+        ASSET_KEYS.celestialEngines.stellarLanceWavePurple,
+        ASSET_KEYS.celestialEngines.stellarLanceWaveRed,
+      ],
+      impactAssetKey: ASSET_KEYS.celestialEngines.stellarLanceImpact,
       getAnchor: () => this.anchor,
     });
   }
@@ -198,25 +217,68 @@ class CelestialAbilitiesHarnessScene extends Phaser.Scene {
       tx: anchorTile.tx + direction.x,
       ty: anchorTile.ty,
     };
-    const lanes = [-1, 0, 1];
+    const lanes = Array.from(
+      { length: this.definition.projectileSideLanes * 2 + 1 },
+      (_, index) => index - this.definition.projectileSideLanes,
+    );
+    const viewportEndTileX = direction.x > 0 ? Math.floor(width / tileSize) - 3 : 2;
+    const viewportDistance = Math.abs(viewportEndTileX - targetTile.tx) + 1;
+    const endDistance = this.definition.projectileInfiniteRange
+      ? viewportDistance
+      : Math.min(viewportDistance, this.definition.projectileRangeTiles);
+    const endTileX = targetTile.tx + direction.x * (endDistance - 1);
+    const resolveState = distance => {
+      let selected = this.definition.projectileStates[0];
+      this.definition.projectileStates.forEach((state, index) => {
+        if (distance >= state.minimumDistanceTiles) selected = { ...state, index };
+      });
+      return selected;
+    };
+    const stateFields = distance => {
+      const state = resolveState(distance);
+      return {
+        projectileStateId: state.id,
+        projectileStateIndex: state.index,
+        projectileStateDamageMultiplier: state.damageMultiplier,
+      };
+    };
     const endTiles = lanes.map(lane => ({
-      tx: targetTile.tx + direction.x * (this.definition.projectileRangeTiles - 1),
+      tx: endTileX,
       ty: targetTile.ty + lane,
       lane,
-      distance: this.definition.projectileRangeTiles,
+      distance: endDistance,
+      ...stateFields(endDistance),
     }));
-    const hitDistances = [2, 5, 8, 11];
+    const visualPaths = endTiles.map(endTile => ({
+      lane: endTile.lane,
+      transitions: this.definition.projectileStates
+        .map(state => state.minimumDistanceTiles)
+        .filter(distance => distance <= endDistance)
+        .map(distance => ({
+          tx: targetTile.tx + direction.x * (distance - 1),
+          ty: targetTile.ty + endTile.lane,
+          lane: endTile.lane,
+          distance,
+          ...stateFields(distance),
+        })),
+      endTile,
+    }));
+    const hitDistances = [2, 4, 7, 10].filter(distance => distance <= endDistance);
     const hits = lanes.flatMap(lane => hitDistances.map(distance => ({
       tx: targetTile.tx + direction.x * (distance - 1),
       ty: targetTile.ty + lane,
       lane,
       distance,
+      ...stateFields(distance),
     })));
     this.effect.launchProjectile({
       direction,
       targetTile,
       rangeTiles: this.definition.projectileRangeTiles,
+      infiniteRange: this.definition.projectileInfiniteRange,
+      traversedRangeTiles: endDistance,
       endTiles,
+      visualPaths,
       hits,
       impactedCount: hits.length,
       destroyedCount: hits.length,
@@ -254,7 +316,7 @@ class CelestialAbilitiesHarnessScene extends Phaser.Scene {
     const abilityDetail = snapshot?.holeCount
       ? `HOLES ${snapshot.activeHoles}/${snapshot.holeCount}`
       : snapshot?.projectileEnabled
-        ? `SHOTS ${snapshot.shotsFired}  •  RANGE ${snapshot.projectileRangeTiles}`
+        ? `SHOTS ${snapshot.shotsFired}  •  RANGE ${this.definition.projectileInfiniteRange ? "∞" : this.definition.projectileRangeTiles}  •  FORMS ${snapshot.projectileStateCount}`
         : `BOUNCES ${this.bounces}`;
     this.status.setText(`IMPACTS ${snapshot?.impacts ?? this.impacts}  •  ${abilityDetail}`);
     this._publish(snapshot);
@@ -271,8 +333,14 @@ class CelestialAbilitiesHarnessScene extends Phaser.Scene {
         lifetimeMs: this.definition.lifetimeMs,
         simultaneousStars: this.definition.simultaneousStars || 0,
         simultaneousHoles: this.definition.simultaneousHoles || 0,
-        projectileRangeTiles: this.definition.projectileRangeTiles || 0,
+        projectileInfiniteRange: this.definition.projectileInfiniteRange === true,
+        projectileRangeTiles: this.definition.projectileInfiniteRange
+          ? "infinite"
+          : this.definition.projectileRangeTiles || 0,
         projectileDamageMultiplier: this.definition.projectileDamageMultiplier || 0,
+        projectileMaximumDamageMultiplier:
+          this.effect?.getBuffSnapshot?.(this.time.now)?.projectileMaximumDamageMultiplier || 0,
+        projectileStateCount: this.definition.projectileStates?.length || 0,
         projectileSideLanes: this.definition.projectileSideLanes || 0,
       },
       snapshot,

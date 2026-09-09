@@ -41,6 +41,8 @@ const scene = {
   },
 };
 const soundSystem = {
+  getVoiceMixVolume() { return this.voiceVolume; },
+  refreshMixVolumes() {},
   masterVolume: 1,
   musicVolume: 1,
   sfxVolume: 1,

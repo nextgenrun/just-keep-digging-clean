@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <base href="/">
+  <title>UNDERSTAR · Approved audio runtime audit</title>
+  <style>
+    :root{color-scheme:dark;font:15px/1.5 system-ui;background:#0c1219;color:#e2ecf6}body{margin:0 auto;padding:24px;max-width:1180px}h1{margin:0;font-size:25px}p{color:#aec0d1;margin:8px 0 16px}a{color:#a7d5ff}.toolbar{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}button,select,input{font:inherit}button,select{padding:9px 13px;background:#1e3040;border:1px solid #55738b;border-radius:6px;color:inherit;cursor:pointer}button:hover{background:#304b60}button:focus-visible{outline:3px solid #9eddff}button:disabled{opacity:.45;cursor:wait}.stop{background:#62342f}.grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(290px,1fr);gap:18px}canvas{max-width:100%;height:auto!important;border-radius:8px}section{background:#131f2b;border:1px solid #30495d;border-radius:8px;padding:16px}h2{font-size:17px;margin:0 0 8px}pre{font:12px/1.45 ui-monospace,monospace;white-space:pre-wrap;overflow:auto;max-height:320px}.meter{color:#b3edd1}output{display:block}label{display:inline-flex;gap:10px;align-items:center}@media(max-width:850px){.grid{grid-template-columns:1fr}body{padding:14px}}
+  </style>
+  <script src="libs/phaser.js"></script>
+  <script type="module" src="testing/audio-review-2026-09-03/runtime-stage.js"></script>
+</head>
+<body>
+  <h1>Approved audio · runtime check</h1>
+  <p>Real Phaser SoundSystem + live mining feedback dispatch. Save-free test stage; gameplay physics are not simulated here.</p>
+  <nav><a href="testing/audio-review-2026-09-03/orchestra.html">NEW: 562-source wired orchestra and Star pockets</a> · <a href="testing/animation-sandbox/2026-08-31-audio-mix-review-v1/">Original 82-item review</a> · <a href="testing/audio-review-2026-09-03/freesound.html">Freesound review inbox</a></nav>
+  <div class="toolbar"><button id="start" disabled>Loading approved assets…</button><button class="stop" id="stop">Stop all · 0</button><button id="mute">Mute SFX</button><label>Master <input id="master" type="range" min="0" max="1" value="0.5" step="0.05"><output id="master-value">50%</output></label></div>
+  <div class="grid">
+    <section><div id="stage"></div><output id="status" aria-live="polite">Loading…</output>
+      <h2>1 · Timing / event ownership</h2>
+      <div class="toolbar"><button data-cue="dirt">Dig dirt · D</button><button data-cue="stone">Break stone · S</button><button data-cue="star">Destroy Star</button><button data-cue="level">Level up</button><button data-cue="landing">Landing</button></div>
+      <div class="toolbar"><button data-cue="hover">Hover</button><button data-cue="click">Click</button><button data-cue="confirm">Confirm</button><button data-cue="menu">Menu</button><button data-cue="purchase">Purchase success</button><button data-cue="save">Save success</button><button data-cue="resource">Resource arrival</button><button data-cue="coins">Coin reward</button><button data-cue="torch">Torch off</button></div>
+      <div class="toolbar"><button data-cue="warning">Stress warning</button><button data-cue="critical">Critical stress</button><button data-cue="calm">Calm / clear warning</button></div>
+      <output id="timing">No contact measured yet.</output>
+    </section>
+    <section><h2>2 · Layering / volume</h2>
+      <div class="toolbar"><button data-bed="cave">Deep cave bed</button><button data-bed="composite">Approved creepy mix</button><button data-bed="voice">Creepy detail</button><button data-bed="rain">Open rain</button><button data-bed="shelter">Sheltered rain</button><button data-bed="wind">Night wind</button><button data-bed="quiet">Quiet</button></div>
+      <div class="toolbar"><button id="speech">Simulate speech duck</button><button id="pressure">Overlap stress test</button><button id="export">Export runtime evidence</button></div>
+      <output id="meter" class="meter">Master output meter waiting for audio.</output>
+      <p>Preloaded earlier sources: <span id="loaded">0</span> / 51. Event buttons may load the newly approved variants on demand. Use the wired orchestra for Star pockets and the full 562-source batch.</p>
+      <h2>Now playing — exact keys and gains</h2><pre id="playing">None</pre>
+      <details><summary>Recent event log</summary><pre id="events"></pre></details>
+    </section>
+  </div>
+</body>
+</html>

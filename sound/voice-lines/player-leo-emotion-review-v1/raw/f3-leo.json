@@ -1,0 +1,10 @@
+{
+  "id": "F3",
+  "voice": "leo",
+  "text": "Still alive. Sorry to disappoint.",
+  "ttsInput": "Still alive. <laugh-speak>Sorry to disappoint.</laugh-speak>",
+  "requestSha256": "eecc4e45e8c52eebb559f6a1b1968e8b555e28ea722191b9a797c95e957fe3b5",
+  "contentType": "audio/mpeg",
+  "generationId": "gen-tts-1788745523-aegfzHvvCsgHs7nXVmEw",
+  "rawSha256": "be923d8fad6726ad88114601c0cb5784aafb1cc4797e9400caee03d17311495a"
+}

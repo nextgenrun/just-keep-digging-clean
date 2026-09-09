@@ -179,7 +179,7 @@ const [
 assert.match(hudSource, /CAMPFIRE — \$\{buff\.name\.toUpperCase\(\)\}/);
 assert.match(hudSource, /buff\.effectText/);
 assert.match(eventSource, /CLICK \/ SPACE \/ E TO CONTINUE|continueHint/);
-assert.match(setupSource, /new EmberDiscoveryEventSystem\(this\)/);
+assert.match(setupSource, /new EmberDiscoveryEventSystem\(\s*this,\s*undefined,\s*new EmberDiscoveryEvolutionView\(this\),?\s*\)/);
 assert.match(digSource, /collectEmberCharge\?\.\(1, \{ tile \}\)/);
 assert.match(contextualTutorialSource, /emberDiscoveryEventSystem\?\.active === true/);
 assert.match(nextPromiseSource, /emberDiscoveryEventSystem\?\.active === true/);

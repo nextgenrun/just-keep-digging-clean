@@ -4,7 +4,10 @@ import { HudQuickControls } from "../systems/visual/HudQuickControls.js";
 import { XPProgressBar } from "../ui/hud/XPProgressBar.js";
 import { APPROVED_HUD_SKIN } from "../values/approvedHudSkin.js";
 import { ASSET_KEYS } from "../values/assetKeys.js";
-import { CAMPFIRE_CONFIG } from "../values/campfireConfig.js";
+import {
+  CAMPFIRE_CONFIG,
+  getCampfireTierAsset,
+} from "../values/campfireConfig.js";
 import {
   CELESTIAL_ACTION_BAR_EAGER_ASSETS,
   CELESTIAL_ACTION_BAR_ENTRY_IDS,
@@ -39,10 +42,8 @@ class EmptyActionBarScene extends Phaser.Scene {
       CELESTIAL_TALENT_TREE_UI_CONFIG.assets.nodeFrame.key,
       `../${CELESTIAL_TALENT_TREE_UI_CONFIG.assets.nodeFrame.path}`,
     );
-    this.load.image(
-      CAMPFIRE_CONFIG.spriteKeys[0],
-      "../sprites/npc/campfire/generated/campfire-tier-01.png",
-    );
+    const campfire = getCampfireTierAsset(1);
+    this.load.image(campfire.key, "../" + campfire.path);
     for (const [key, filename] of engineAssets) {
       this.load.image(key, `../sprites/UI/starlight-talent-tree-v4/${filename}`);
     }

@@ -1,0 +1,57 @@
+{
+  "tool": "built-in image_gen",
+  "date": "2026-09-06",
+  "mountains": [
+    {
+      "id": "ridge-west",
+      "prompt": "Use case: stylized-concept. Create ORIGINAL premium painterly dark-fantasy mountain terrain layer for a side-view game. Reference image1 supplies the dramatic layered valley depth and intricate jagged mountain texture; reference image2 supplies the deep moonlit-blue palette and dense forests. Match this rich, atmospheric quality. Generate a BRAND NEW landscape, not a crop or recolor. Output wide 3:1 panorama, about2172x724, REAL RGBA transparency above the irregular mountain silhouette. No sky, moon, sun, stars, clouds, interface, text, buildings, characters or foreground props. Highest mountain summits around y180 of724, and an opaque dark forested lower third extending all the way to bottom. Detailed stratified dark slate crags, blue moonlit ridgelines, massive overlapping mountain forms, dense black-indigo conifer valleys, subtle icy blue accents; rich midtone variation within deep shadows. Preserve natural scale and dramatic majestic silhouettes. No broad white snow blankets, gray daylight, featureless white triangles, mesa cliffs, rock needle towers, oversized foreground tree, obvious repeated peaks or flat polygon mountains. Top180px should be transparent, and all area beyond the terrain contour transparent. The terrain must be natural, sharp, lush and intricately painted. Do not include any of the sky or UI from the references. Only terrain: moving cloud and fog planes will be composited separately. Subtle atmospheric distance within the terrain, not opaque sky mist beyond its silhouette. Match edges' heights near300px so adjoining transparent panoramas can overlap. Variant WEST: broad pine-filled valley opening left-of-center, interlocking broken ridges on both sides, a few grand irregular peaks toward the right; moody welcoming wild forest, deep layered horizon."
+    },
+    {
+      "id": "ridge-central",
+      "prompt": "Use case: stylized-concept. Create ORIGINAL premium painterly dark-fantasy mountain terrain layer for a side-view game. Reference image1 supplies the dramatic layered valley depth and intricate jagged mountain texture; reference image2 supplies the deep moonlit-blue palette and dense forests. Match this rich, atmospheric quality. Generate a BRAND NEW landscape, not a crop or recolor. Output wide 3:1 panorama, about2172x724, REAL RGBA transparency above the irregular mountain silhouette. No sky, moon, sun, stars, clouds, interface, text, buildings, characters or foreground props. Highest mountain summits around y180 of724, and an opaque dark forested lower third extending all the way to bottom. Detailed stratified dark slate crags, blue moonlit ridgelines, massive overlapping mountain forms, dense black-indigo conifer valleys, subtle icy blue accents; rich midtone variation within deep shadows. Preserve natural scale and dramatic majestic silhouettes. No broad white snow blankets, gray daylight, featureless white triangles, mesa cliffs, rock needle towers, oversized foreground tree, obvious repeated peaks or flat polygon mountains. Top180px should be transparent, and all area beyond the terrain contour transparent. The terrain must be natural, sharp, lush and intricately painted. Do not include any of the sky or UI from the references. Only terrain: moving cloud and fog planes will be composited separately. Subtle atmospheric distance within the terrain, not opaque sky mist beyond its silhouette. Match edges' heights near300px so adjoining transparent panoramas can overlap. Variant CENTRAL: dramatic serrated mountain range with three irregular overlapping massifs and long diagonal forested saddles, deep valley through center-right, strong crag texture and many distant receding ridges."
+    },
+    {
+      "id": "ridge-east",
+      "prompt": "Use case: stylized-concept. Create ORIGINAL premium painterly dark-fantasy mountain terrain layer for a side-view game. Reference image1 supplies the dramatic layered valley depth and intricate jagged mountain texture; reference image2 supplies the deep moonlit-blue palette and dense forests. Match this rich, atmospheric quality. Generate a BRAND NEW landscape, not a crop or recolor. Output wide 3:1 panorama, about2172x724, REAL RGBA transparency above the irregular mountain silhouette. No sky, moon, sun, stars, clouds, interface, text, buildings, characters or foreground props. Highest mountain summits around y180 of724, and an opaque dark forested lower third extending all the way to bottom. Detailed stratified dark slate crags, blue moonlit ridgelines, massive overlapping mountain forms, dense black-indigo conifer valleys, subtle icy blue accents; rich midtone variation within deep shadows. Preserve natural scale and dramatic majestic silhouettes. No broad white snow blankets, gray daylight, featureless white triangles, mesa cliffs, rock needle towers, oversized foreground tree, obvious repeated peaks or flat polygon mountains. Top180px should be transparent, and all area beyond the terrain contour transparent. The terrain must be natural, sharp, lush and intricately painted. Do not include any of the sky or UI from the references. Only terrain: moving cloud and fog planes will be composited separately. Subtle atmospheric distance within the terrain, not opaque sky mist beyond its silhouette. Match edges' heights near300px so adjoining transparent panoramas can overlap. Variant EAST: grand dramatic eastern peaks, long steep forest-clad slopes and winding shadowy basin left-of-center, one broad rugged high massif on left-third and lower receding ranges toward right; no thin rock needles."
+    }
+  ],
+  "mountainReferences": [
+    "C:/xampp/_Backups/dig-game-simple/dig-game-dev-env-cleaned/testing/2026-09-05-surface-viewfield-audit/review-observatory.jpg",
+    "C:/xampp/_Backups/dig-game-simple/dig-game-dev-env-cleaned/sprites/backgrounds/world-visual-v2/far/moonlit-mountain-forest-v1.png"
+  ],
+  "landmarks": [
+    {
+      "id": "moonfall-escarpment",
+      "prompt": "Use case: stylized-concept. Asset for a premium side-view dark fantasy game's distant landscape. A spectacular tall wooded basalt escarpment, deep midnight-indigo rugged cliffs, tiny dense pines along ridges, a monumental natural stone arch in its upper left shoulder, two majestic luminous pale-cyan waterfalls plunging from the upper basin into a forested gorge and delicate spray at the base. Painterly richly detailed hand-painted fantasy terrain, realistic monumental scale, moody blue palette, intricate dark crags and subtle silver water highlights. Composition: 3:2 landscape PNG about1536x1024, the complete landmark fills the width below top15%, base extends to bottom. Main waterfall down x56% from y27% to y88%; smaller fall x72% from y44% to y90%. The water is visibly bright cool blue-white against deep blue-black rock. NO sky, moon, stars, particles, people, foreground props, buildings, text, interface or checkerboard. Entire sky surrounding the irregular landform silhouette must be a REAL TRANSPARENT RGBA alpha channel; transparent_background true. Clean antialiased transparent silhouette, opaque cliff and forest. No flat white or gray background, no checkerboard pixels. Only the cliff, forest and waterfalls."
+    },
+    {
+      "id": "crownfall-sanctuary",
+      "prompt": "Use case: stylized-concept. Asset for a premium side-view dark fantasy game's distant landscape. An awe-inspiring ancient mountain sanctuary formed by a colossal BROKEN STONE RING arching over a stepped forested gorge, tiny overgrown stone ruins nestled on ledges, THREE elegant pale-cyan waterfalls spilling from the high terraces and through the arch into a deep pine valley. No floating particles. Richly detailed dark indigo moonlit basalt, dense black-blue conifers, moss, grand majestic silhouette, sophisticated painterly fantasy landscape. Ruins are distant and monumental, not a playable foreground building. Composition3:2 landscape PNG about1536x1024, highest arch at y12%, opaque forested base extends to bottom. Waterfalls at x34% from y40% to y92%, x51% from y27% to y85%, x65% from y46% to y92%. Bright cool blue-white water against dark rock. NO sky, sun, moon, stars, people, birds, foreground props, text, interface or checkerboard. Real TRANSPARENT RGBA alpha sky around and inside the arch; transparent_background true. Preserve rich opaque detailed rock and tree painting, clean transparent edges. Transparent means actual alpha=0, no white/black/gray/checkered background image."
+    }
+  ],
+  "backgroundExtractionAttempt": "Use case: background-extraction. Precisely preserve this complete mountain and forest painting, its intricate detail, blue colors, panoramic aspect ratio and exact terrain composition. Remove ALL checkerboard sky above and between the mountain silhouettes and export REAL TRANSPARENT RGBA PNG. Background must be actual alpha=0, not a checkerboard picture, not white, black or colored. No sky pixels, no added clouds, no stars. Keep the opaque mountain terrain fully opaque down to the bottom, with clean antialiased edges against true transparency. Only remove the checkerboard background; do not redraw or recolor the mountain artwork.",
+  "mattePreparation": "Use case: background-extraction. Precisely preserve ALL of this detailed terrain artwork, its colors, lighting, mountains, trees, stone arches, buildings and waterfalls where present. Change ONLY the empty background above the irregular terrain silhouette and within the arch openings: replace that background with a completely FLAT SOLID PURE MAGENTA RGB(255,0,255) #ff00ff chroma matte. No checkerboard, no shadows, no gradient, no glow on the magenta. Magenta is a technical compositing matte. Keep natural intricate tree/rock silhouettes with clean tight edges. Absolutely do not recolor or paint magenta on any rocks, foliage, water or structure. Preserve all waterfall detail. Keep the source canvas dimensions and panoramic framing. Every empty sky pixel should be pure flat magenta. Preserve the original foreground terrain painting without creative redesign.",
+  "selected": [
+    {
+      "id": "ridge-west",
+      "source": "C:\\Users\\Mila\\.codex\\generated_images\\01a072c3-6b8d-76c1-8064-6398be841847\\exec-b7371c7d-ddd6-45e5-98bc-8e89ccba7f40.png"
+    },
+    {
+      "id": "ridge-central",
+      "source": "C:\\Users\\Mila\\.codex\\generated_images\\01a072c3-6b8d-76c1-8064-6398be841847\\exec-19a32304-0ec3-4956-be8d-fcd9c7820733.png"
+    },
+    {
+      "id": "ridge-east",
+      "source": "C:\\Users\\Mila\\.codex\\generated_images\\01a072c3-6b8d-76c1-8064-6398be841847\\exec-b24932cc-6efe-4580-806c-f156e3eff124.png"
+    },
+    {
+      "id": "moonfall-escarpment",
+      "source": "C:\\Users\\Mila\\.codex\\generated_images\\01a072c3-6b8d-76c1-8064-6398be841847\\exec-5291f2d1-aab1-447f-82fb-38d2a2ed7c1c.png"
+    },
+    {
+      "id": "crownfall-sanctuary",
+      "source": "C:\\Users\\Mila\\.codex\\generated_images\\01a072c3-6b8d-76c1-8064-6398be841847\\exec-8fe13848-9ab8-4ab8-8ed5-5fcf05e7825f.png"
+    }
+  ],
+  "notes": "The tool returned RGB for transparency requests. A subsequent tool edit supplied an explicit magenta compositing matte. The renderer derives alpha in owned canvas textures; source files are preserved byte-for-byte."
+}

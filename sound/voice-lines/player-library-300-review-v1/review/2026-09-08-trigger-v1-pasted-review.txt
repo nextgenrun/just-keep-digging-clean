@@ -1,0 +1,167 @@
+← Your 300-script review
+UNDERSTAR / LEO / SILENT TRIGGER MOCKUP
+
+Leo, in the moment.
+You see what happened. He reacts to that.
+
+Approved words, proposed triggers. No new audio. Gameplay is unchanged.
+
+25 s
+minimum between ordinary remarks
+
+No chance roll
+a fresh, eligible event earns the line
+
+~30 min
+between rare thought opportunities
+
+01 / SEE THE CONNECTION
+
+Which moment earns his voice?
+19 yes · 5 no · 0 to review
+
+Moment to preview
+24 · A rare wandering thought
+←
+24 / 24
+→
+QUIET ACTIVE PLAY
+REVIEW OVERLAY
+BEFORE THE QUIET OPENING
+The active-play clock is still running
+LEO · WAITING FOR THE MOMENT
+
+A thought needs a quiet opening.
+1 · Confirmation
+2 · Reaction
+3 · Music returns
+Show quiet opening → Leo thinks
+Reset preview
+Test the same event when…
+The speech channel is clear
+Ready. The highlighted confirmation will earn the line.
+
+Music level · visual simulation
+100%
+0.9 s down · hold under the sentence · 2.4 s back up
+
+Silent, illustrative timing. Caption length is not a measured recording duration. The highlight is a review aid; final game presentation is not being installed.
+
+T24 · RARE THOUGHT
+L289 · APPROVED WORDING
+A rare wandering thought
+“Some nights, I remember a different moon.”
+wistful · An absent, puzzled recollection. He hears himself say it too.
+
+TRIGGER · what you can see
+After 27–33 active minutes, wait for safety, 20 s without other speech and 90 s since Leo last spoke.
+WHEN HE SPEAKS
+Only inside the quiet opportunity. There is no event to explain.
+HOW OFTEN
+One thought opportunity. Allow a 2 min quiet window, then skip it and schedule anew.
+Proposed change
+Keep mystery rare and independent of events; events take priority.
+
+What must stay silent
+Does this trigger + line feel connected?
+
+Yes, keep this
+No, rework it
+Optional note
+Too frequent? Wrong cue? Wrong feeling?
+
+Yes · this proposed trigger works.
+
+02 / HOW OFTEN IT FEELS
+
+A few minutes of an ordinary trip.
+An illustrative route, not a promise to talk on a timer. Each spoken row has a fresh event. Click one to inspect it above.
+
+
+00:08
+Cross 20 m on a new trip
+LEO REACTS
+“Underground again. Lovely career choice.”
+
+00:19
+Bronze pickup, only 11 s later
+SILENT
+Breathing room. The next fresh pickup can qualify.
+
+00:39
+Another bronze pickup
+LEO REACTS
+“Bronze. An honest start.”
+
+00:54
+More bronze, only 15 s later
+SILENT
+No remark for every block.
+
+01:26
+Iron joins the haul, 47 s later
+LEO REACTS
+“Iron. Useful. Unlike my last employer.”
+
+01:58
+Level-up effect appears
+LEO REACTS
+“Another level. Earned that one.”
+
+02:12
+Gold pickup during NPC dialogue
+SILENT
+The NPC keeps the speech channel. No delayed gold line.
+
+02:50
+Fresh gold pickup in quiet gameplay
+LEO REACTS
+“Gold. My favourite bad influence.”
+
+30:00
+A quiet opening after active play
+RARE THOUGHT
+“Some nights, I remember a different moon.”
+The five event remarks below three minutes show a brief busy stretch. Proposed ceiling: eight ordinary remarks in any five active minutes. Quiet stretches stay quiet.
+
+03 / THE PERSONALITY & THE RULES
+
+A person, with room to breathe.
+Ordinary life first.
+Pay, sore knees, supper, bad employers. Warmth around the fire and Stars. A blunt swear after a real scare. His stranger memories surface occasionally, attached to something you can see.
+
+One clear feeling per line. The default examples use only words you already accepted; these delivery notes are direction for a later recording pass.
+
+Fresh events beat silence.
+Common ore pickups can recur, sharing a 45-second gap. New trips get a fresh departure. No exact sentence repeats in a session. If its suitable pool is exhausted, that family rests.
+
+Normal breathing room is 25 seconds. A skipped pickup does not use up its opportunity: a later, genuinely new pickup may qualify. Nothing waits in a stale queue.
+
+One moment, one voice.
+Cinematics, narration and NPC conversations reserve the channel, including gaps between their sentences. Event remarks come next; wandering thoughts come last.
+
+No voice interrupts another. If an NPC requests speech mid-Leo sentence, finish it and hand over. Wait 1.2 seconds after other dialogue; a fresh cue must still be visible. Colliding rewards receive one reaction.
+
+Danger stays clear.
+An actionable warning can bypass ordinary chatter spacing, with its own 45-second gap. It still cannot interrupt speech. The visual warning always remains available.
+
+Relief waits for safety. If Leo just warned you and the relief would be late, skip the joke. Urgent warnings start immediately while music eases down.
+
+A thought, every so often.
+After 27–33 active minutes, allow a two-minute window for safety, 20 seconds without other speech and 90 seconds since Leo spoke. A new event wins that opening.
+
+Menus, pause and hidden tabs stop the clock. Missed windows are skipped, never accumulated. This is the only context-free family.
+
+The music yields gently.
+Ease to 24% of the player’s chosen music level over 0.9 seconds. Start a normal line during that descent. Hold through speech and a 0.45-second breath; return over 2.4 seconds.
+
+Successive voices share the lowered bed. No dip for a rejected Leo attempt. Muted speech creates no caption or music dip; the player’s music preference remains the baseline.
+
+Your trigger verdict.
+These 24 decisions concern the new trigger proposal. Your submitted 300-script yes/no receipt stays separate.
+
+Prepare reply for chat
+Download trigger decisions
+Trigger decisions saved in this browser. The 300-script receipt is unchanged.
+
+LEO / TRIGGER REVIEW V1 · NO AUDIO GENERATION · NO RUNTIME INTEGRATION

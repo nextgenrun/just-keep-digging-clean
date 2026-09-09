@@ -62,7 +62,9 @@ export class WorldVisualFeedbackLayer {
     this.decals = null;
     this.damagePainter = null;
     this.markerPool = [];
+    this.activeDamageCells = new Map();
     this.activeBounds = null;
+    this.resourceDepletionProvider = null;
   }
 
   create() {
@@ -85,6 +87,7 @@ export class WorldVisualFeedbackLayer {
     this.activeBounds = bounds;
     this.decals.clear();
     this.damagePainter?.clear();
+    this.activeDamageCells.clear();
     this.markerPool.forEach(image => image.setVisible(false));
     const tileSize = this.scene.config.tileSize;
     let markerIndex = 0;
@@ -119,10 +122,19 @@ export class WorldVisualFeedbackLayer {
           ? this.worldModel.getSkyTileOriginalType(tx, ty)
           : tileType;
         const resourceKey = RESOURCE_BY_TILE_TYPE[resourceType];
+        const resourceDepleted = Boolean(
+          resourceKey
+          && this.resourceDepletionProvider?.({
+            tileX: tx,
+            tileY: ty,
+            tileType: resourceType,
+            resourceKey,
+          }) === true
+        );
         const marker = resourceKey
           ? resolveWorldVisualFeedbackMarker(resourceKey, resourceType, this.feedbackConfig)
           : null;
-        if (!this.semanticAssetsEnabled && marker && visibleResources < markerCap) {
+        if (!resourceDepleted && !this.semanticAssetsEnabled && marker && visibleResources < markerCap) {
           if (resourceKey && this.resourceVeinsEnabled) {
             this._drawEmbeddedResource(tx, ty, resourceKey, marker, tileSize);
           } else {
@@ -134,13 +146,98 @@ export class WorldVisualFeedbackLayer {
 
         const hp = this.worldModel.getTileHp(tx, ty);
         const maxHp = this.worldModel.getTileMaxHp(tx, ty, tileType);
-        if (maxHp > 0 && hp > 0 && hp < maxHp && damaged < damageCap) {
-          this._drawDamage(tx, ty, 1 - hp / maxHp, tileSize, tileType);
+        if (!resourceDepleted && maxHp > 0 && hp > 0 && hp < maxHp && damaged < damageCap) {
+          const damage = 1 - hp / maxHp;
+          this.activeDamageCells.set(`${tx},${ty}`, {
+            tx,
+            ty,
+            damage,
+            size: tileSize,
+            tileType,
+          });
+          this._drawDamage(tx, ty, damage, tileSize, tileType);
           damaged += 1;
         }
       }
     }
   }
+
+  updateDamageTile(tx, ty, reduced = false) {
+    const bounds = this.activeBounds;
+    if (!bounds || (
+      tx < bounds.left
+      || tx >= bounds.right
+      || ty < bounds.top
+      || ty >= bounds.bottom
+    )) return true;
+
+    const tileType = this.worldModel.getTileType(tx, ty);
+    const resourceType = tileType === TILE_TYPES.SKY_TILE
+      ? this.worldModel.getSkyTileOriginalType(tx, ty)
+      : tileType;
+    const resourceKey = RESOURCE_BY_TILE_TYPE[resourceType];
+    const resourceDepleted = Boolean(
+      resourceKey
+      && this.resourceDepletionProvider?.({
+        tileX: tx,
+        tileY: ty,
+        tileType: resourceType,
+        resourceKey,
+      }) === true
+    );
+    const hp = this.worldModel.getTileHp(tx, ty);
+    const maxHp = this.worldModel.getTileMaxHp(tx, ty, tileType);
+    const key = `${tx},${ty}`;
+    const damaged = !resourceDepleted
+      && tileType !== TILE_TYPES.AIR
+      && maxHp > 0
+      && hp > 0
+      && hp < maxHp;
+
+    if (damaged) {
+      const damageCap = reduced
+        ? Math.floor(this.config.streaming.maxVisibleDamageCells / 2)
+        : this.config.streaming.maxVisibleDamageCells;
+      if (!this.activeDamageCells.has(key) && this.activeDamageCells.size >= damageCap) {
+        // Let the full sync preserve the capped row-major selection.
+        return false;
+      }
+      this.activeDamageCells.set(key, {
+        tx,
+        ty,
+        damage: 1 - hp / maxHp,
+        size: this.scene.config.tileSize,
+        tileType,
+      });
+    } else if (!this.activeDamageCells.delete(key)) {
+      return true;
+    }
+
+    this.damagePainter?.clear();
+    for (const cell of this.activeDamageCells.values()) {
+      this._drawDamage(
+        cell.tx,
+        cell.ty,
+        cell.damage,
+        cell.size,
+        cell.tileType,
+      );
+    }
+    return true;
+  }
+
+  updateDestroyedTile(tx, ty, typeBeforeDamage, reduced = false) {
+    if (typeBeforeDamage === TILE_TYPES.SKY_TILE) return false;
+    if (RESOURCE_BY_TILE_TYPE[typeBeforeDamage] && !this.semanticAssetsEnabled) {
+      return false;
+    }
+    const markerKey = WORLD_VISUAL_SPECIAL_MARKER_KEY_BY_TYPE[typeBeforeDamage];
+    const semanticSpecial = this.semanticAssetsEnabled
+      && Number.isInteger(resolveWorldVisualSemanticSpecialFrame(typeBeforeDamage));
+    if (markerKey && !semanticSpecial) return false;
+    return this.updateDamageTile(tx, ty, reduced);
+  }
+
   _showMarker(index, tx, ty, type, marker, size) {
     const frameIndex = resolveWorldVisualFeedbackFrame(tx, ty, type, marker);
     const frame = `${this.feedbackConfig.atlas.framePrefix}${frameIndex}`;
@@ -297,6 +394,15 @@ export class WorldVisualFeedbackLayer {
     this.markerPool.forEach(image => image.setDepth(depth));
   }
 
+  setResourceDepletionProvider(provider) {
+    this.resourceDepletionProvider = typeof provider === "function" ? provider : null;
+    this.invalidateResourcePresentation();
+  }
+
+  invalidateResourcePresentation() {
+    if (this.activeBounds) this.sync(this.activeBounds, false);
+  }
+
   destroy() {
     this.decals?.destroy();
     this.damagePainter?.destroy();
@@ -304,5 +410,7 @@ export class WorldVisualFeedbackLayer {
     this.decals = null;
     this.damagePainter = null;
     this.markerPool = [];
+    this.activeDamageCells.clear();
+    this.resourceDepletionProvider = null;
   }
 }

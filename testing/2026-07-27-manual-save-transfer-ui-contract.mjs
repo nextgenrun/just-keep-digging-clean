@@ -106,10 +106,13 @@ const [startMenuSource, pauseSource] = await Promise.all([
 assert.match(startMenuSource, /_buildSaveTransferControls\(W\)/);
 assert.match(startMenuSource, /SAVE_TRANSFER_UI\.copy\.startExport/);
 assert.match(startMenuSource, /SAVE_TRANSFER_UI\.copy\.startImport/);
+assert.doesNotMatch(startMenuSource, /hardcoreExportLocked/);
+assert.doesNotMatch(startMenuSource, /hasData\s*&&\s*!isHardcoreRunActive/);
 assert.match(pauseSource, /\{\s*key:\s*"saves",\s*label:\s*"SAVES"/);
 assert.match(pauseSource, /\{\s*key:\s*"talents",\s*label:\s*"STARS"/);
 assert.match(pauseSource, /\{\s*key:\s*"titans",\s*label:\s*"TITANS"/);
 assert.match(pauseSource, /createSaveTransferPanelContent/);
+assert.doesNotMatch(pauseSource, /allowExport:/);
 assert.match(pauseSource, /saveGame\(\)[\s\S]*importSave\(file\)/);
 assert.match(pauseSource, /scene\.start\("WorldLoadScene"/);
 

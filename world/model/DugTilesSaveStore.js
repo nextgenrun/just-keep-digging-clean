@@ -9,9 +9,9 @@ import { RESOURCE_ZERO_TOTALS } from "../../values/resourceTypes.js";
 import {
   isHardcoreMode,
   isHardcoreModeArmed,
-  isHardcoreRunActive,
   sanitizeHardcoreModeData,
 } from "../../values/hardcoreMode.js";
+import { PORTABLE_SAVE_FILE } from "../../values/saveTransfer.js";
 import { sanitizePlayerPersistenceData } from "../../values/playerPersistence.js";
 import { LegacyProgressSidecarRepository } from
   "../../systems/save-system/LegacyProgressSidecarRepository.js";
@@ -530,6 +530,7 @@ export class DugTilesSaveStore {
   }
 
   beginNewSave() {
+    this._liveArmedRun = false;
     this.clearSave();
     this.deleteAllBackups();
     this.clear();
@@ -568,7 +569,12 @@ export class DugTilesSaveStore {
     }
   }
 
+  recordLiveArmedRun(mode) {
+    this._liveArmedRun = isHardcoreModeArmed(sanitizeHardcoreModeData(mode));
+  }
+
   _hasStoredArmedHardcoreRun() {
+    if (this._liveArmedRun === true) return true;
     const current = this.normalizePayload(this.loadFromLocalStorage());
     if (isHardcoreModeArmed(current?.hardcoreModeData)) return true;
     try {
@@ -689,17 +695,24 @@ export class DugTilesSaveStore {
       const payload = this.loadFromLocalStorage();
       if (!payload) { console.warn('[DugTilesSaveStore] No save data to export'); return false; }
       const normalized = this.normalizePayload(payload);
-      if (isHardcoreRunActive(normalized?.hardcoreModeData)) {
-        console.warn('[DugTilesSaveStore] Active Hardcore saves cannot be exported as rollback files');
-        return false;
-      }
-      const exportData = { version: payload.version, exportedAt: new Date().toISOString(), slotId: this.slotId, saveData: payload };
+      if (!normalized) { console.warn('[DugTilesSaveStore] Invalid save data cannot be exported'); return false; }
+      const exportData = {
+        format: PORTABLE_SAVE_FILE.format,
+        formatVersion: PORTABLE_SAVE_FILE.formatVersion,
+        version: normalized.version,
+        payloadVersion: normalized.version,
+        checksumAlgorithm: PORTABLE_SAVE_FILE.checksumAlgorithm,
+        payloadChecksum: this.backupManager.calculateChecksum(normalized),
+        exportedAt: new Date().toISOString(),
+        slotId: this.slotId,
+        saveData: normalized,
+      };
       const json = JSON.stringify(exportData, null, 2);
-      const blob = new Blob([json], { type: 'application/json' });
+      const blob = new Blob([json], { type: PORTABLE_SAVE_FILE.mimeType });
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
-      link.download = filename || `save-slot-${this.slotId || 'export'}-${Date.now()}.json`;
+      link.download = filename || `${PORTABLE_SAVE_FILE.filenamePrefix}-${this.slotId || 'export'}-${Date.now()}.${PORTABLE_SAVE_FILE.fileExtension}`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -712,17 +725,54 @@ export class DugTilesSaveStore {
     try {
       const text = await file.text();
       const importData = JSON.parse(text);
+      const hasPortableEnvelope = importData.format !== undefined || importData.formatVersion !== undefined;
+      if (
+        hasPortableEnvelope
+        && (
+          importData.format !== PORTABLE_SAVE_FILE.format
+          || importData.formatVersion !== PORTABLE_SAVE_FILE.formatVersion
+        )
+      ) {
+        return { success: false, error: 'Unsupported portable save format' };
+      }
       if (!importData.saveData || typeof importData.saveData !== 'object') return { success: false, error: 'Invalid save file structure' };
+      if (
+        hasPortableEnvelope
+        && importData.checksumAlgorithm !== undefined
+        && importData.checksumAlgorithm !== PORTABLE_SAVE_FILE.checksumAlgorithm
+      ) {
+        return { success: false, error: 'Unsupported portable save checksum' };
+      }
+      if (
+        hasPortableEnvelope
+        && typeof importData.payloadChecksum === 'string'
+        && !this.backupManager.verifyChecksum(importData.saveData, importData.payloadChecksum)
+      ) {
+        return { success: false, error: 'Portable save failed its integrity check' };
+      }
       const saveData = this.normalizePayload(importData.saveData);
       if (!saveData) return { success: false, error: 'Invalid save data' };
-      if (isHardcoreRunActive(saveData.hardcoreModeData)) {
+      if (
+        hasPortableEnvelope
+        && importData.payloadVersion !== undefined
+        && importData.payloadVersion !== saveData.version
+      ) {
         return {
           success: false,
-          error: "Active Hardcore saves cannot be imported because external rollback files break the oath",
+          error: "Portable save payload version does not match its save data",
         };
       }
-      if (this.isDeathTombstoned()) {
-        this.clearDeathTombstone();
+      const hadDeathTombstone = this.isDeathTombstoned();
+      let deathTombstoneRaw = null;
+      if (hadDeathTombstone) {
+        try {
+          deathTombstoneRaw = window.localStorage.getItem(this.deathTombstoneKey);
+        } catch {
+          return { success: false, error: 'Could not preserve the current permadeath marker' };
+        }
+        if (deathTombstoneRaw === null) {
+          return { success: false, error: 'Could not preserve the current permadeath marker' };
+        }
       }
       const currentSave = this.loadFromLocalStorage();
       if (currentSave && this.slotId) {
@@ -731,7 +781,18 @@ export class DugTilesSaveStore {
           return { success: false, error: 'Could not create a safety backup for the current slot' };
         }
       }
+      if (hadDeathTombstone && !this.clearDeathTombstone()) {
+        return { success: false, error: 'Could not unlock the selected slot for import' };
+      }
       if (!this.saveToLocalStorage(saveData)) {
+        if (hadDeathTombstone) {
+          try {
+            window.localStorage.setItem(this.deathTombstoneKey, deathTombstoneRaw);
+            this._deathTombstoned = true;
+          } catch (error) {
+            console.error('[DugTilesSaveStore] Could not restore permadeath marker after failed import:', error);
+          }
+        }
         return { success: false, error: 'Could not write the imported save' };
       }
       this.clearHardcoreCheckpoint();

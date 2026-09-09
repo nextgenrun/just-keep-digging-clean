@@ -1,6 +1,7 @@
 import { PLAYER_ABILITIES_CONFIG } from "../values/playerAbilities.js";
 import { MINING_CONFIG } from "../values/miningConfig.js";
 import { GEM_POWER_CONFIG } from "../values/gemPower.js";
+import { PLAYER_RUNNING_CONFIG } from "../values/playerRunning.js";
 import {
   CONSTELLATION_BUFFS,
   computeAbilityStats,
@@ -52,10 +53,12 @@ export class PlayerAbilities {
     this._gemPowerChangeListener = null;
     this._gemPowerFloorProvider = null;
     this._flying = false;
+    this._running = false;
     this._flyToggleCooldown = 0;
     this._groundLevelY = this.body ? this.body.y + this.body.h : 0;
     this._warnedLowGemPower = false;
     this._freeFlightProvider = null;
+    this._freeAbilityProvider = null;
     this._quickslashActive = false;
     this._quickslashDirection = 1;
     this._quickslashTimer = 0;
@@ -81,6 +84,12 @@ export class PlayerAbilities {
   setFreeFlightProvider(provider) {
     this._freeFlightProvider = typeof provider === "function" ? provider : null;
   }
+  setFreeAbilityProvider(provider) {
+    this._freeAbilityProvider = typeof provider === "function" ? provider : null;
+  }
+  _isFreeAbilityActive(abilityId) {
+    return this._freeAbilityProvider?.(abilityId) === true;
+  }
   setGemPowerChangeListener(listener) {
     this._gemPowerChangeListener = typeof listener === "function" ? listener : null;
   }
@@ -98,7 +107,13 @@ export class PlayerAbilities {
     return false;
   }
 
-  update(dt, input, isGrounded, facingRight, { actionLocked = false } = {}) {
+  update(
+    dt,
+    input,
+    isGrounded,
+    facingRight,
+    { actionLocked = false, groundRunRequested = false } = {},
+  ) {
     this._refreshConstellationStats();
 
     if (this._godMode) {
@@ -110,6 +125,7 @@ export class PlayerAbilities {
     }
 
     let usingGemPowerMovement = false;
+    this._running = false;
 
     const freeFlightActive = this._isFreeFlightActive();
     const flightAvailable = this._godMode
@@ -186,6 +202,24 @@ export class PlayerAbilities {
       this._warnedLowGemPower = false;
     }
 
+    const wantsGroundRun = groundRunRequested === true
+      && !actionLocked
+      && isGrounded
+      && !this._flying;
+    if (!usingGemPowerMovement && wantsGroundRun) {
+      const runContext = { source: PLAYER_RUNNING_CONFIG.gemPowerSource };
+      const runDrainRequest = this.getEffectiveGemPowerCost(
+        PLAYER_RUNNING_CONFIG.gemPowerDrainPerSecond * dt,
+        runContext,
+      );
+      const consumed = this.consumeGemPower(runDrainRequest, runContext);
+      this._running = runDrainRequest <= Number.EPSILON
+        || consumed + Number.EPSILON >= runDrainRequest;
+      // A held run attempt owns GP recovery even after the reserve is empty.
+      // Releasing Ctrl lets normal regeneration resume without gait flicker.
+      usingGemPowerMovement = true;
+    }
+
     if (!usingGemPowerMovement) {
       this._updateGemPower(dt);
     }
@@ -242,8 +276,9 @@ export class PlayerAbilities {
     this.gemPower = Math.min(maxGP, this.gemPower + this._getGemPowerRegen() * dt);
   }
 
-  resetFlyingState() { this._flying = false; }
+  resetFlyingState() { this._flying = false; this._running = false; }
   isFlying() { return this._flying; }
+  isRunning() { return this._running; }
 
   isQuickslashActive() { return this._quickslashActive; }
   getQuickslashDirection() { return this._quickslashDirection || 1; }
@@ -262,6 +297,7 @@ export class PlayerAbilities {
 
   _isQuickslashUnlocked() {
     if (this._godMode) return true;
+    if (this._isFreeAbilityActive("quickslash")) return true;
     if (this.upgradeSystem?.isQuickslashUnlocked) return this.upgradeSystem.isQuickslashUnlocked();
     const effects = this.upgradeSystem?.getUpgradeEffects?.() ?? {};
     return (effects.unlockQuickslash || 0) > 0;
@@ -273,6 +309,7 @@ export class PlayerAbilities {
 
   _isThunderStrikeUnlocked() {
     if (this._godMode) return true;
+    if (this._isFreeAbilityActive("thunderStrike")) return true;
     if (this.upgradeSystem?.isThunderStrikeUnlocked) return this.upgradeSystem.isThunderStrikeUnlocked();
     const effects = this.upgradeSystem?.getUpgradeEffects?.() ?? {};
     return (effects.unlockThunderStrike || 0) > 0;
@@ -309,7 +346,9 @@ export class PlayerAbilities {
     if (discountThreshold > 0 && this.getGemPowerPercent() >= discountThreshold * 100) {
       cost *= PLAYER_ABILITIES_CONFIG.quickslashHighGpCostMultiplier;
     }
-    return Math.round(cost * 10) / 10;
+    return Math.round(
+      this.getEffectiveGemPowerCost(cost, { source: "quickslash" }) * 10,
+    ) / 10;
   }
 
   canPayQuickslashCost() {
@@ -570,12 +609,13 @@ export class PlayerAbilities {
   getThunderStrikeCost() {
     if (this._godMode) return 0;
     const stats = this.getConstellationStats();
-    return Math.max(
+    const baseCost = Math.max(
       0,
       (PLAYER_ABILITIES_CONFIG.thunderStrikeCost || 100)
         * THUNDER_STRIKE_CHAIN_CONFIG.upfrontCostMultiplier
         - (stats.thunderstrikeCostReduction || 0),
     );
+    return this.getEffectiveGemPowerCost(baseCost, { source: "thunderStrike" });
   }
 
   getGemPowerPercent() {
@@ -602,6 +642,17 @@ export class PlayerAbilities {
     return this.getSpendableGemPower(context) > Number.EPSILON;
   }
   canSpendGemPower(amount, context = {}) { return canSpendGemPower(this, amount, context); }
+  getEffectiveGemPowerCost(amount, context = {}) {
+    if (this._godMode) return 0;
+    const abilityId = context.abilityId
+      || (context.source === "quickslash" ? "quickslash" : null)
+      || (context.source === "thunderStrike" ? "thunderStrike" : null);
+    if (this._isFreeAbilityActive(abilityId)) return 0;
+    if (this.upgradeSystem?.getEffectiveGemPowerCost) {
+      return this.upgradeSystem.getEffectiveGemPowerCost(amount, context);
+    }
+    return Math.max(0, Number(amount) || 0);
+  }
   fillGemPower(context = { source: "fill" }) { return fillGemPower(this, context); }
   restoreGemPower(amount, context = { source: "restore" }) { return restoreGemPower(this, amount, context); }
   setGemPowerExact(amount, options = {}) { return setGemPowerExact(this, amount, options); }
@@ -661,7 +712,8 @@ export class PlayerAbilities {
   _getFlyStartCost() {
     if (this._godMode) return 0;
     const startCost = GEM_POWER_CONFIG.flightStartCost;
-    return Number.isFinite(startCost) ? Math.max(0, startCost) : 0;
+    const baseCost = Number.isFinite(startCost) ? Math.max(0, startCost) : 0;
+    return this.getEffectiveGemPowerCost(baseCost, { source: "flight" });
   }
 
   _warnFlightPowerUnavailable(context) {

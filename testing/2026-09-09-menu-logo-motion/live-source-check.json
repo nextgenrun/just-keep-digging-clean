@@ -1,0 +1,30 @@
+[
+  {
+    "path": "values/branding.js",
+    "status": 202,
+    "bytes": 203,
+    "contentType": "text/html",
+    "javascript": false
+  },
+  {
+    "path": "values/menuAtmosphere.js",
+    "status": 202,
+    "bytes": 209,
+    "contentType": "text/html",
+    "javascript": false
+  },
+  {
+    "path": "ui/components/LoadingScreenView.js",
+    "status": 202,
+    "bytes": 221,
+    "contentType": "text/html",
+    "javascript": false
+  },
+  {
+    "path": "ui/components/BrandLogoView.js",
+    "status": 202,
+    "bytes": 217,
+    "contentType": "text/html",
+    "javascript": false
+  }
+]

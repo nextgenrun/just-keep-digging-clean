@@ -1,3 +1,4 @@
+import { WURM_POLISH } from "../../values/graveborerWurmVariants.js";
 const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
 
 export function copyGraveborerTile(tile) {
@@ -31,7 +32,7 @@ export function createGraveborerWurmPath(targetTile, direction, config) {
     x: targetTile.tx + direction * pathConfig.targetLeadTiles,
     y: targetTile.ty,
   };
-  return {
+  const path = {
     start: {
       x: target.x - direction * pathConfig.spawnDistanceTiles,
       y: target.y + pathConfig.verticalOffsetTiles,
@@ -50,9 +51,35 @@ export function createGraveborerWurmPath(targetTile, direction, config) {
       y: target.y - pathConfig.verticalOffsetTiles,
     },
   };
+  const count = pathConfig.arcSamples || WURM_POLISH.arcSamples;
+  path.arc = [{ progress: 0, distance: 0 }];
+  let previous = sampleRawGraveborerWurmPath(path, 0), length = 0;
+  for (let index = 1; index <= count; index += 1) {
+    const progress = index / count;
+    const point = sampleRawGraveborerWurmPath(path, progress);
+    length += Math.hypot(point.x - previous.x, point.y - previous.y);
+    path.arc.push({ progress, distance: length });
+    previous = point;
+  }
+  path.length = length;
+  return path;
 }
 
 export function sampleGraveborerWurmPath(path, progress) {
+  if (!path?.arc) return sampleRawGraveborerWurmPath(path, progress);
+  const distance = clamp(progress, 0, 1) * path.length;
+  let low = 0, high = path.arc.length - 1;
+  while (high - low > 1) {
+    const middle = Math.floor((low + high) / 2);
+    if (path.arc[middle].distance < distance) low = middle;
+    else high = middle;
+  }
+  const a = path.arc[low], b = path.arc[high];
+  const ratio = (distance - a.distance) / Math.max(Number.EPSILON, b.distance - a.distance);
+  return sampleRawGraveborerWurmPath(path, a.progress + (b.progress - a.progress) * ratio);
+}
+
+function sampleRawGraveborerWurmPath(path, progress) {
   if (!path) return null;
   const t = clamp(progress, 0, 1);
   const firstHalf = t <= 0.5;
@@ -96,13 +123,16 @@ export function createGraveborerWurmRenderState({
       timeMs,
     };
   };
-  const lag = config.path.segmentLagProgress;
+  const length = path?.length || 1;
+  const lag = (config.path.segmentSpacingTiles || WURM_POLISH.segmentSpacingTiles) / length;
+  const neck = (config.path.neckSpacingTiles || WURM_POLISH.neckSpacingTiles) / length;
   const bodies = Array.from(
     { length: config.path.segmentCount },
-    (_, index) => makePart("body", progress - (index + 1) * lag, index),
+    (_, index) => makePart("body", progress - neck - index * lag, index),
   );
   const tailProgress = progress
-    - (config.path.segmentCount + 1) * config.path.tailLagProgress;
+    - neck - (config.path.segmentCount - 1) * lag
+    - (config.path.tailSpacingTiles || WURM_POLISH.tailSpacingTiles) / length;
   const warningPoints = path
     ? Array.from({ length: config.path.warningDecalCount }, (_, index) => {
         const span = config.path.warningEndProgress - config.path.warningStartProgress;

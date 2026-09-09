@@ -5,6 +5,7 @@ export const SAVE_SCHEDULING_CONFIG = Object.freeze({
   idleTimeoutMs: 750,
   fallbackDelayMs: 16,
   autosaveIntervalMs: 60000,
+  mainMenuFlushTimeoutMs: 2500,
   recentSampleLimit: 60,
   events: Object.freeze({
     visibilityChange: "visibilitychange",

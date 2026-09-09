@@ -1,0 +1,154 @@
+{
+  "passed": true,
+  "canonicalUrl": "http://127.0.0.1:8080/",
+  "files": [
+    {
+      "path": "sound/SoundSystem.js",
+      "sha256": "baa2e2984329b1292d89c64394afc8ab512c26dd900b453dfa369afe7d63992e",
+      "byteIdentical": true
+    },
+    {
+      "path": "sound/ReviewedSfxController.js",
+      "sha256": "d784240eab4c9c85400b0a1a9e426d261c8d91d53603d451b4aa355f4bc990e7",
+      "byteIdentical": true
+    },
+    {
+      "path": "sound/coreSfxWindow.js",
+      "sha256": "daa7e62eb21512a379cd91293e6b8631f44969cf8c1d28371ef91b7bc84f336b",
+      "byteIdentical": true
+    },
+    {
+      "path": "values/coreSfxWindows.js",
+      "sha256": "c980dbfc30be384c25590995b67c9602693145db8fd7e8fd93a5a934c119adf0",
+      "byteIdentical": true
+    },
+    {
+      "path": "systems/visual/LootPickupFxSystem.js",
+      "sha256": "db2515cf6ea3a31bbec6b8b7c0ddfa84bad335656451acc07897170d909cf276",
+      "byteIdentical": true
+    },
+    {
+      "path": "systems/visual/LootPickupFlightView.js",
+      "sha256": "3739d877d11bb65e3232184757acfb8b0ec5a1bbd41e753823bebe803215f6a0",
+      "byteIdentical": true
+    },
+    {
+      "path": "systems/visual/XPGatheringFlightView.js",
+      "sha256": "0cf6cf30308dfd29c2f20d9384c7b3afd18e1bfea9449e52661460f3694642eb",
+      "byteIdentical": true
+    },
+    {
+      "path": "testing/audio-runtime-reaudit-2026-09-04/review.js",
+      "sha256": "bb042a154f36d3d559a7e88baa726b08f5f34bd4f8f597a77de8a722fc4998f1",
+      "byteIdentical": true
+    },
+    {
+      "path": "testing/audio-runtime-reaudit-2026-09-04/catalog.json",
+      "sha256": "8e4ac22955d4ac7fcb41442408b6863232ad3f02b811f86369541f75a2e87e74",
+      "byteIdentical": true
+    },
+    {
+      "path": "testing/audio-destruction-pickup-2026-09-05/index.html",
+      "sha256": "100d50398e2674bf1fdc00e4a3a775849b08b9ccb2ba3248fb9254205f761c38",
+      "byteIdentical": true
+    },
+    {
+      "path": "testing/audio-destruction-pickup-2026-09-05/browser-check.js",
+      "sha256": "4feb7fd7f892807b5310c02da240545a9814a859101b41b009b02dd0d2807b5a",
+      "byteIdentical": true
+    },
+    {
+      "path": "testing/audio-destruction-pickup-2026-09-05/renders/libDirtBreak.wav",
+      "sha256": "04365e7e7f2026d4c7d97b72931245d91e6543807d92ae6fa714127e80ffde46",
+      "byteIdentical": true
+    },
+    {
+      "path": "testing/audio-destruction-pickup-2026-09-05/renders/libStoneBreak.wav",
+      "sha256": "3f2851d8deef6eb199088b77aabb3164ba204a98868f23db58435f749dfe8c1f",
+      "byteIdentical": true
+    },
+    {
+      "path": "testing/audio-destruction-pickup-2026-09-05/renders/libResourcePop.wav",
+      "sha256": "7d0f2b19892e47e3fcfe6896683079833266f855ec56634dec3107f077d190cb",
+      "byteIdentical": true
+    },
+    {
+      "path": "testing/audio-destruction-pickup-2026-09-05/renders/freesound-536921.wav",
+      "sha256": "3a22544cdde6202f95a5d956c3d3de9026c5e016da945c659d928ed033f04f52",
+      "byteIdentical": true
+    },
+    {
+      "path": "testing/audio-destruction-pickup-2026-09-05/renders/freesound-703115.wav",
+      "sha256": "6d8109cdf025a89183ce72a8b5a72c9dbae8dde247727964977e67be27c26775",
+      "byteIdentical": true
+    },
+    {
+      "path": "values/coreActionAudio.js",
+      "sha256": "877ebe0e3502bf7dd9583e4ad92fc158b24f1ac53573fe87086ab67bea929863",
+      "byteIdentical": true
+    },
+    {
+      "path": "testing/audio-destruction-pickup-2026-09-05/live-examples.js",
+      "sha256": "6256186e87c4d2c124d9a9a5895f9a4e6bc00324b37e858e91c9aa56394b3b7a",
+      "byteIdentical": true
+    },
+    {
+      "path": "testing/audio-pickup-footstep-2026-09-05/index.html",
+      "sha256": "8c71b27061337201755cea20b8d8b4f8381b0123acdeed5e59e54e8e6287a634",
+      "byteIdentical": true
+    },
+    {
+      "path": "testing/audio-runtime-reaudit-2026-09-04/catalog-builder.mjs",
+      "sha256": "3fb7e0a7ce77e483e5eef6a714174f9e72f424296650bd21bd73682824216d30",
+      "byteIdentical": true
+    },
+    {
+      "path": "testing/audio-destruction-pickup-2026-09-05/window-measurements.json",
+      "sha256": "6a0098934e8505e17050b70712b7ec54cad7b74c0daedd87fad544e0cb016aa0",
+      "byteIdentical": true
+    },
+    {
+      "path": "testing/audio-destruction-pickup-2026-09-05/renders/footsteps-1.wav",
+      "sha256": "1c0e8bf84329fedb65b342f9152019b9c7307ab0c0d9166d94bf6229cfa53689",
+      "byteIdentical": true
+    },
+    {
+      "path": "testing/audio-destruction-pickup-2026-09-05/renders/footsteps-2.wav",
+      "sha256": "fbcccdc79021e4752e18c350a95f2f44bf6e28de040922bf28db5f7c23ff3c5b",
+      "byteIdentical": true
+    },
+    {
+      "path": "testing/audio-destruction-pickup-2026-09-05/renders/freesound-270415.wav",
+      "sha256": "d22d6372747b07b5245c41ac820d06ae2ef95d69d279852d3c05b2cf633c882d",
+      "byteIdentical": true
+    },
+    {
+      "path": "testing/audio-destruction-pickup-2026-09-05/renders/freesound-270419.wav",
+      "sha256": "b5c5c1ac72301f296c0b9213beb2f569d6ef00ddb543d51953f02d755a719bf5",
+      "byteIdentical": true
+    },
+    {
+      "path": "testing/audio-destruction-pickup-2026-09-05/renders/freesound-270418.wav",
+      "sha256": "39851843bd72ba2ba2fdbb90a3b21973967953b26de5ec945fd7ff5667aefeb1",
+      "byteIdentical": true
+    },
+    {
+      "path": "testing/audio-destruction-pickup-2026-09-05/renders/freesound-270417.wav",
+      "sha256": "527a93d704e6ba69143dc9bba686603ceebcaf396deacb15f385a5596e6cd85d",
+      "byteIdentical": true
+    }
+  ],
+  "sourceExportPreserved": true,
+  "walks": {
+    "hard": {
+      "contacts": 9,
+      "allCompleted": true,
+      "overlapping": false
+    },
+    "dirt": {
+      "contacts": 9,
+      "allCompleted": true,
+      "overlapping": false
+    }
+  }
+}

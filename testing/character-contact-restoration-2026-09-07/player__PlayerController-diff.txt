@@ -1,0 +1,86 @@
+--- testing\character-contact-restoration-2026-09-07\pre-change\player__PlayerController.js
+
++++ player\PlayerController.js
+
+@@ -100,4 +100,5 @@
+
+     this.movement.resetGroundMotionState();
+     this.flightMotion?.reset();
++    this.jumpMotion?.reset();
+     this._syncSpriteWithPhysics();
+     if (placed === false) return false;
+@@ -124,4 +125,5 @@
+
+       this.movement.resetGroundMotionState();
+       this.flightMotion?.reset();
++      this.jumpMotion?.reset();
+       // Clear flying state to prevent getting stuck
+       this.abilities.resetFlyingState();
+@@ -264,4 +266,5 @@
+
+     this.movement?.resetGroundMotionState();
+     this.flightMotion?.reset();
++    this.jumpMotion?.reset();
+     body.resetVelocity();
+     this.state?.refreshAfterPhysics?.(this.input, this.abilities, this.collisionSystem);
+@@ -306,4 +309,5 @@
+
+       this.physicsBody.setFlightActive(false);
+       this.flightMotion?.reset();
++      this.jumpMotion?.reset();
+       this.movement.resetGroundMotionState();
+       this.state.refreshAfterPhysics(this.input, this.abilities, this.collisionSystem);
+@@ -320,6 +324,7 @@
+
+       // Consume Space in powered frames too; it must not become a delayed
+       // jump when Flight ends or runs out of GP.
+-      this.jumpMotion.tryStart(this.input, this.state.isGrounded(), flightActive);
++      const jumpStarted = this.jumpMotion.tryStart(this.input, this.state.isGrounded(), flightActive);
+       if (flightActive) {
++        this.jumpMotion.reset();
+         this.flightMotion.updatePowered(
+           dt,
+@@ -336,7 +341,8 @@
+
+           walkSpeed,
+         );
++        if (coasting) this.jumpMotion.reset();
+         if (!coasting) {
+-          const smoothGroundMotion = this.state.isGrounded();
+-          const jumpMomentumHandled = this.jumpMotion.updateAirborneHorizontal(
++          const smoothGroundMotion = this.state.isGrounded() && !jumpStarted;
++          const jumpMomentumHandled = jumpStarted || this.jumpMotion.updateAirborneHorizontal(
+             dt,
+             horizMove,
+@@ -345,5 +351,8 @@
+
+             walkSpeed,
+           );
+-          if (jumpMomentumHandled) {
++          const landingMomentumHandled = !jumpMomentumHandled && this.jumpMotion.updateGroundedHorizontal(
++            dt, horizMove, smoothGroundMotion, flightActive, walkSpeed,
++          );
++          if (jumpMomentumHandled || landingMomentumHandled) {
+             if (horizMove.left !== horizMove.right) {
+               this.movement.setFacingRight(horizMove.right);
+@@ -381,4 +390,5 @@
+
+       this.movingSideDigStandOff.end();
+       this.flightMotion?.reset();
++      this.jumpMotion?.reset();
+       this.movement.resetGroundMotionState();
+       this.state.setFlightActive(false);
+@@ -619,4 +629,5 @@
+
+     this.movingSideDigStandOff.end();
+     this.flightMotion?.reset();
++    this.jumpMotion?.reset();
+     this._forceCollisionPolishProfile("upright");
+     const placed = body.setPosition(normalized.bodyX, normalized.bodyY);
+@@ -645,4 +656,5 @@
+
+     this.movement.resetGroundMotionState();
+     this.flightMotion?.reset();
++    this.jumpMotion?.reset();
+     this.externalKnockbackMs = PLAYER_MOTION_POLISH_CONFIG.hitReaction.externalKnockbackLockMs;
+     this.state?.setFlightActive(false);

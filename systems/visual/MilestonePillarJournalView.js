@@ -11,7 +11,7 @@ import {
 } from "./milestonePillarUiPrimitives.js";
 
 function formatJournalEntry(key) {
-  if (key === "treasure-chest") return "Authored Treasure Chest";
+  if (key === "treasure-chest") return "Treasure Chest";
   if (key === "sky-star") return "Constellation Star";
   if (key === "ancient-relic") return "Ancient Relic Cache";
   if (key === "earthquake") return "Earthquake Aftermath";
@@ -32,7 +32,7 @@ function formatJournalEntry(key) {
   if (key.startsWith("geode-")) return "Crystal Geode";
   if (key.startsWith("hiddenTreasure-")) return "Hidden Treasure Room";
   if (key.startsWith("hiddenCave-")) return "Hidden Cave";
-  if (key.startsWith("cave-")) return "Integrated Cave";
+  if (key.startsWith("cave-")) return "Cave";
   return String(key).replace(/[-_:]+/g, " ");
 }
 

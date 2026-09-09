@@ -1,0 +1,10 @@
+{
+  "id": "A3",
+  "voice": "leo",
+  "text": "Gold. There goes my conscience.",
+  "ttsInput": "Gold. <laugh-speak>There goes my conscience.</laugh-speak>",
+  "requestSha256": "7a97f94cf302152c8952fd45e722949c5dc59f0c3a3bf0fdc82113d858516799",
+  "contentType": "audio/mpeg",
+  "generationId": "gen-tts-1788745470-0N1MIAviMZlr5IMCn8IH",
+  "rawSha256": "e620c7f565ebe584da0f4b9322cce453410f7c2ae3a2718d73fbee6d8851b9aa"
+}

@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><base href="/testing/">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>Celestial animation preview</title>
+<style>
+body{margin:0;background:#020711;color:#d9e8ef;font:14px/1.4 system-ui}canvas{display:block;width:min(1280px,100vw);height:auto}
+nav{position:fixed;top:84px;left:18px;z-index:10;width:170px;padding:14px;background:#08121ded;border:1px solid #365160;border-radius:10px}
+strong{display:block;margin-bottom:12px}a,button{display:block;box-sizing:border-box;width:100%;margin:6px 0;padding:8px 10px;border:1px solid #375469;border-radius:6px;background:#0e2331;color:#dfedf5;text-decoration:none;text-align:left;cursor:pointer;font:inherit}
+a[aria-current="page"]{background:#254458;border-color:#83bcbc}small{display:block;color:#a0b8c4;margin:10px 0}button:disabled{opacity:.5}#download[hidden]{display:none}
+</style></head><body>
+<nav aria-label="Animation preview"><strong>Celestial powers</strong>
+<a href="2026-09-05-celestial-presentation/index.html?ability=star&rank=3">Wayward Star</a>
+<a href="2026-09-05-celestial-presentation/index.html?ability=hollow&rank=3">Hollow Sun</a>
+<a href="2026-09-05-celestial-presentation/index.html?ability=rage&rank=3">Stellar Lance</a>
+<a href="2026-09-05-celestial-presentation/index.html?ability=star&rank=3&passives=1">Passive companions</a>
+<small>Maximum-rank animation preview. Each effect repeats automatically.</small>
+<button id="record">Record 5-second preview</button><small id="record-status" role="status">Save-free review</small>
+<a id="download" hidden>Download preview</a></nav>
+<script src="../libs/phaser.js"></script>
+<script type="module" src="2026-09-05-celestial-presentation/review.js"></script>
+</body></html>

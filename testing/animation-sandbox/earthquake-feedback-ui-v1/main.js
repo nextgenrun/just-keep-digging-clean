@@ -8,6 +8,7 @@ const VIEWPORT_WIDTH = GAME_CONFIG.viewportWidth;
 const VIEWPORT_HEIGHT = GAME_CONFIG.viewportHeight;
 const TILE_SIZE = GAME_CONFIG.tileSize;
 const PHASE = new URLSearchParams(window.location.search).get("phase") || "warning";
+const IS_AFTERSHOCK = PHASE === "aftershock";
 
 class EarthquakeFeedbackReviewScene extends Phaser.Scene {
   constructor() { super("EarthquakeFeedbackReviewScene"); }
@@ -33,11 +34,12 @@ class EarthquakeFeedbackReviewScene extends Phaser.Scene {
     this._drawPlayer();
 
     this.earthquakeSource = {
-      state: PHASE === "escape" ? "idle" : PHASE,
+      state: PHASE === "escape" ? "idle" : (IS_AFTERSHOCK ? "aftermath" : PHASE),
       intensity: "major",
-      stateRemaining: PHASE === "warning" ? 3200 : 8000,
+      stateRemaining: PHASE === "warning" ? 3200 : (IS_AFTERSHOCK ? 0 : 8000),
       stateTotalMs: PHASE === "warning" ? 5000 : 12000,
-      chainPending: false,
+      chainPending: IS_AFTERSHOCK,
+      chainTimer: IS_AFTERSHOCK ? 7600 : 0,
       config: { caveInWarningMs: 1800 },
       caveIns: PHASE === "escape" ? [] : [
         {
@@ -80,6 +82,7 @@ class EarthquakeFeedbackReviewScene extends Phaser.Scene {
         this.earthquakeHazardOverlay.markRestoredRubble(tile.tx, tile.ty);
       }
     }
+    if (IS_AFTERSHOCK) this.earthquakeFeedbackUI.activateAftershockWarning();
     this.earthquakeFeedbackUI.update();
     this.earthquakeHazardOverlay.update();
     if (PHASE === "earthquake") {

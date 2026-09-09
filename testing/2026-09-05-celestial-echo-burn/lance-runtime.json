@@ -1,0 +1,179 @@
+{
+  "missingTextures": [],
+  "runtimeErrors": [],
+  "snapshot": {
+    "activationId": "visual:comet-engine",
+    "active": true,
+    "ageMs": 18519.200000000004,
+    "bounces": 0,
+    "contactPresentation": {
+      "count": 63,
+      "lastContact": {
+        "colour": "mint",
+        "x": 333.9355739303033,
+        "y": 438.5164570143805
+      }
+    },
+    "earnedLifetimeMs": 4000,
+    "empowered": true,
+    "engineId": "comet-engine",
+    "finalWindow": true,
+    "impactMomentCount": 63,
+    "impacts": 72,
+    "lastConsumedBreakCharge": 0.51,
+    "lastProjectilePalette": "purple",
+    "launchFlashCount": 0,
+    "launchHistory": [
+      {
+        "origin": {
+          "x": 661.2096937937134,
+          "y": 349.7530853934966
+        },
+        "originSource": "fallback",
+        "palette": "blue",
+        "shot": 1
+      },
+      {
+        "origin": {
+          "x": 694.8981903001836,
+          "y": 356.3391628660492
+        },
+        "originSource": "fallback",
+        "palette": "prismatic",
+        "shot": 2
+      },
+      {
+        "origin": {
+          "x": 526.7427037947461,
+          "y": 376.9851695660522
+        },
+        "originSource": "fallback",
+        "palette": "red",
+        "shot": 3
+      },
+      {
+        "origin": {
+          "x": 774.9999195337286,
+          "y": 332.3973859397395
+        },
+        "originSource": "fallback",
+        "palette": "blue",
+        "shot": 4
+      },
+      {
+        "origin": {
+          "x": 526.8928765682452,
+          "y": 393.8220405389028
+        },
+        "originSource": "fallback",
+        "palette": "prismatic",
+        "shot": 5
+      },
+      {
+        "origin": {
+          "x": 694.6287408417502,
+          "y": 325.3504196984085
+        },
+        "originSource": "fallback",
+        "palette": "red",
+        "shot": 6
+      },
+      {
+        "origin": {
+          "x": 661.5007761671508,
+          "y": 389.9560430269472
+        },
+        "originSource": "fallback",
+        "palette": "blue",
+        "shot": 7
+      },
+      {
+        "origin": {
+          "x": 549.3209834505875,
+          "y": 339.51152086081487
+        },
+        "originSource": "fallback",
+        "palette": "purple",
+        "shot": 8
+      }
+    ],
+    "lifetimeMs": 19000,
+    "liveProjectileCount": 3,
+    "liveVfxCount": 15,
+    "liveWakes": 6,
+    "maxBounces": 0,
+    "maxImpacts": 0,
+    "maxRedirects": 0,
+    "nextShot": 9,
+    "paletteHistory": [
+      "blue",
+      "prismatic",
+      "red",
+      "blue",
+      "prismatic",
+      "red",
+      "blue",
+      "purple"
+    ],
+    "playerVisualCount": 0,
+    "projectileDamageMultiplier": 2.12,
+    "projectileDestroyed": 72,
+    "projectileEnabled": true,
+    "projectileImpacts": 72,
+    "projectileInfiniteRange": false,
+    "projectileMaximumDamageMultiplier": 2.86,
+    "projectilePaletteCycle": [
+      "blue",
+      "purple",
+      "red",
+      "prismatic"
+    ],
+    "projectilePassesGeodeWalls": true,
+    "projectileRangeTiles": 9,
+    "projectileSafetyMaxTiles": 8,
+    "projectileSideLanes": 2,
+    "projectileSpeedPxPerSecond": 225,
+    "projectileStateCount": 3,
+    "projectileStates": [
+      {
+        "alpha": 0.94,
+        "damageMultiplier": 1,
+        "displayScale": 0.9,
+        "id": "violet-edge",
+        "impactTint": 14795519,
+        "label": "VIOLET EDGE",
+        "minimumDistanceTiles": 1,
+        "tint": 12619007
+      },
+      {
+        "alpha": 0.95,
+        "damageMultiplier": 1.35,
+        "displayScale": 1,
+        "id": "amethyst-surge",
+        "impactTint": 14198783,
+        "label": "AMETHYST SURGE",
+        "minimumDistanceTiles": 3,
+        "tint": 11032055
+      },
+      {
+        "alpha": 1,
+        "damageMultiplier": 1.35,
+        "displayScale": 1.1,
+        "id": "voidpiercer",
+        "impactTint": 15918591,
+        "label": "VOIDPIERCER",
+        "minimumDistanceTiles": 5,
+        "tint": 8141549
+      }
+    ],
+    "redirects": 0,
+    "remainingMs": 480.7999999999956,
+    "resonantReady": false,
+    "scheduledImpactCount": 72,
+    "shotsFired": 8,
+    "stateBurstCount": 0,
+    "storedBreakCharge": 0.51,
+    "uniqueTargets": 0,
+    "wakeCount": 582
+  }
+}

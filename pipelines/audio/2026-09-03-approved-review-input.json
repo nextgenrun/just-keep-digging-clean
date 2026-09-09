@@ -1,0 +1,848 @@
+{
+  "schemaVersion": 1,
+  "decisionExportSha256": "f75b9ceee77ba998a9f98ef11c51a906a5f98751c431926732ffd3918c238cc4",
+  "exportedAt": "2026-09-02T22:33:30.742Z",
+  "sources": [
+    {
+      "id": "libSupportCreak",
+      "key": "review-library-libSupportCreak",
+      "label": "Timber support strain",
+      "role": "oneShot",
+      "previewPath": "sound/library-v2/SoundLibrary_Review/00_INBOX_RAW_EXPORTS/sonniss-ingame-sfx-mockup-v1-2026-08-27/slices/deep-cave-danger-05-SONNISS19-SRC-077-000350ms.wav",
+      "provenance": "SONNISS GDC19 · Old wood floor creak",
+      "collection": "SONNISS GDC19",
+      "approval": "sandbox-candidate",
+      "runtimeEligible": false,
+      "cooldownMs": 0,
+      "peakLinear": 0.9,
+      "approvedBy": [
+        "libSupportCreak"
+      ],
+      "mixOnly": false
+    },
+    {
+      "id": "libFarCollapse",
+      "key": "review-library-libFarCollapse",
+      "label": "Distant rock collapse",
+      "role": "oneShot",
+      "previewPath": "sound/library-v2/SoundLibrary_Review/00_INBOX_RAW_EXPORTS/sonniss-ingame-sfx-mockup-v1-2026-08-27/slices/deep-cave-danger-06-SONNISS19-MINE-28-003100ms.wav",
+      "provenance": "SONNISS GDC19 · Rocks falling",
+      "collection": "SONNISS GDC19",
+      "approval": "sandbox-candidate",
+      "runtimeEligible": false,
+      "cooldownMs": 0,
+      "peakLinear": 0.9,
+      "approvedBy": [
+        "libFarCollapse"
+      ],
+      "mixOnly": false
+    },
+    {
+      "id": "miningMars",
+      "runtimeEligible": false,
+      "key": "review-ambience-mining-mars",
+      "label": "B · Mining on Mars",
+      "role": "loop",
+      "previewPath": "sound/library-v2/SoundLibrary_Review/00_INBOX_RAW_EXPORTS/sonniss-gdc2019-recorded-mining-pilot-2026-08-26/previews/mining-on-mars.mp3",
+      "provenance": "Sonniss GameAudioGDC 2019",
+      "approval": "audition-only",
+      "approvedBy": [
+        "creepyIndustrialSolo",
+        "deepCave"
+      ],
+      "mixOnly": false
+    },
+    {
+      "id": "libPressureRumble",
+      "key": "review-library-libPressureRumble",
+      "label": "Pressure rumble",
+      "role": "oneShot",
+      "previewPath": "sound/library-v2/SoundLibrary_Review/00_INBOX_RAW_EXPORTS/sonniss-ingame-sfx-mockup-v1-2026-08-27/slices/deep-cave-danger-08-SONNISS19-SRC-101-041000ms.wav",
+      "provenance": "SONNISS GDC19 · Distant thunder-like mass",
+      "collection": "SONNISS GDC19",
+      "approval": "sandbox-candidate",
+      "runtimeEligible": false,
+      "cooldownMs": 0,
+      "peakLinear": 0.9,
+      "approvedBy": [
+        "libPressureRumble"
+      ],
+      "mixOnly": false
+    },
+    {
+      "id": "libTorchReact",
+      "key": "review-library-libTorchReact",
+      "label": "Torch heat reaction",
+      "role": "oneShot",
+      "previewPath": "sound/library-v2/SoundLibrary_Review/00_INBOX_RAW_EXPORTS/sonniss-ingame-sfx-mockup-v1-2026-08-27/slices/deep-cave-danger-09-SONNISS19-SRC-097-000300ms.wav",
+      "provenance": "SONNISS GDC19 · Water sizzle on hot pan",
+      "collection": "SONNISS GDC19",
+      "approval": "sandbox-candidate",
+      "runtimeEligible": false,
+      "cooldownMs": 0,
+      "peakLinear": 0.9,
+      "approvedBy": [
+        "libTorchReact"
+      ],
+      "mixOnly": false
+    },
+    {
+      "id": "libDeepCaveBedA",
+      "key": "review-library-libDeepCaveBedA",
+      "label": "Deep cave bed A",
+      "role": "loop",
+      "previewPath": "sound/library-v2/SoundLibrary_Review/00_INBOX_RAW_EXPORTS/sonniss-ingame-sfx-mockup-v1-2026-08-27/slices/deep-cave-danger-01-SONNISS19-MINE-02-030000ms.wav",
+      "provenance": "SONNISS GDC19 · Eerie cave, water drips, interior wind",
+      "collection": "SONNISS GDC19",
+      "approval": "sandbox-candidate",
+      "runtimeEligible": false,
+      "cooldownMs": 0,
+      "peakLinear": 0.9,
+      "approvedBy": [
+        "libDeepCaveBedA"
+      ],
+      "mixOnly": false
+    },
+    {
+      "id": "caveEerie",
+      "runtimeEligible": false,
+      "key": "review-ambience-eerie-cave",
+      "label": "A · Eerie cave",
+      "role": "loop",
+      "previewPath": "sound/library-v2/SoundLibrary_Review/00_INBOX_RAW_EXPORTS/sonniss-gdc2019-recorded-mining-pilot-2026-08-26/previews/ATMO-EERIE-Cave-Water-Drips-Emptyness-Ho.mp3",
+      "provenance": "Sonniss GameAudioGDC 2019",
+      "approval": "audition-only",
+      "approvedBy": [
+        "deepCave"
+      ],
+      "mixOnly": true
+    },
+    {
+      "id": "evilSpell",
+      "runtimeEligible": false,
+      "key": "review-ambience-evil-spell",
+      "label": "C · Dark spell drone",
+      "role": "loop",
+      "previewPath": "sound/library-v2/SoundLibrary_Review/00_INBOX_RAW_EXPORTS/sonniss-gdc2026-recorded-pilot-2026-08-26/previews/15_AMBDsgn_Evil-Spell-Ambience_344-Audio_Ghostly-Pr.mp3",
+      "provenance": "Sonniss GameAudioGDC 2026",
+      "approval": "audition-only",
+      "approvedBy": [
+        "deepCave"
+      ],
+      "mixOnly": true
+    },
+    {
+      "id": "panicTimber",
+      "runtimeEligible": false,
+      "key": "review-panic-timber",
+      "label": "Mine-shaft timber stress",
+      "role": "oneShot",
+      "previewPath": "sound/library-v2/SoundLibrary_Review/00_INBOX_RAW_EXPORTS/sonniss-gdc2019-recorded-mining-pilot-2026-08-26/previews/BROKEN---DESIGNED---MINE-SHAFT-Wood-Meta.mp3",
+      "provenance": "Sonniss GameAudioGDC 2019",
+      "approval": "audition-only",
+      "cooldownMs": 9000,
+      "approvedBy": [
+        "deepCave"
+      ],
+      "mixOnly": true
+    },
+    {
+      "id": "libWaterSeep",
+      "key": "review-library-libWaterSeep",
+      "label": "Underground water seep",
+      "role": "oneShot",
+      "previewPath": "sound/library-v2/SoundLibrary_Review/00_INBOX_RAW_EXPORTS/sonniss-ingame-sfx-mockup-v1-2026-08-27/slices/deep-cave-danger-03-SONNISS19-SRC-109-000300ms.wav",
+      "provenance": "SONNISS GDC19 · Water pouring",
+      "collection": "SONNISS GDC19",
+      "approval": "sandbox-candidate",
+      "runtimeEligible": false,
+      "cooldownMs": 0,
+      "peakLinear": 0.9,
+      "approvedBy": [
+        "libWaterSeep"
+      ],
+      "mixOnly": false
+    },
+    {
+      "id": "libDeepCaveBedB",
+      "key": "review-library-libDeepCaveBedB",
+      "label": "Deep cave bed B",
+      "role": "loop",
+      "previewPath": "sound/library-v2/SoundLibrary_Review/00_INBOX_RAW_EXPORTS/sonniss-ingame-sfx-mockup-v1-2026-08-27/slices/mining-material-loop-01-SONNISS19-MINE-02-020000ms.wav",
+      "provenance": "SONNISS GDC19 · Eerie cave alternate window",
+      "collection": "SONNISS GDC19",
+      "approval": "sandbox-candidate",
+      "runtimeEligible": false,
+      "cooldownMs": 0,
+      "peakLinear": 0.9,
+      "approvedBy": [
+        "libDeepCaveBedB"
+      ],
+      "mixOnly": false
+    },
+    {
+      "id": "libCreepySingerA",
+      "key": "review-library-libCreepySingerA",
+      "label": "Distant creepy singer A",
+      "role": "loop",
+      "previewPath": "sound/library-v2/SoundLibrary_Review/02_ACCEPTED_CANDIDATES/deep_scary/Creepy Girl Singing In The Dinstance.mp3",
+      "provenance": "LOCAL ACCEPTED · Creepy Girl Singing In The Dinstance.mp3",
+      "collection": "LOCAL ACCEPTED",
+      "approval": "sandbox-candidate",
+      "runtimeEligible": false,
+      "cooldownMs": 0,
+      "peakLinear": 0.9,
+      "approvedBy": [
+        "libCreepySingerA"
+      ],
+      "mixOnly": false
+    },
+    {
+      "id": "libCreepySingerB",
+      "key": "review-library-libCreepySingerB",
+      "label": "Distant creepy singer B",
+      "role": "loop",
+      "previewPath": "sound/library-v2/SoundLibrary_Review/02_ACCEPTED_CANDIDATES/deep_scary/Creepy Girl Singing In The Dinstance(1).mp3",
+      "provenance": "LOCAL ACCEPTED · Creepy Girl Singing In The Dinstance(1).mp3",
+      "collection": "LOCAL ACCEPTED",
+      "approval": "sandbox-candidate",
+      "runtimeEligible": false,
+      "cooldownMs": 0,
+      "peakLinear": 0.9,
+      "approvedBy": [
+        "libCreepySingerB"
+      ],
+      "mixOnly": false
+    },
+    {
+      "id": "libCreepySingerC",
+      "key": "review-library-libCreepySingerC",
+      "label": "Distant creepy singer C",
+      "role": "loop",
+      "previewPath": "sound/library-v2/SoundLibrary_Review/02_ACCEPTED_CANDIDATES/deep_scary/Creepy Girl Singing In The Dinstance(2).mp3",
+      "provenance": "LOCAL ACCEPTED · Creepy Girl Singing In The Dinstance(2).mp3",
+      "collection": "LOCAL ACCEPTED",
+      "approval": "sandbox-candidate",
+      "runtimeEligible": false,
+      "cooldownMs": 0,
+      "peakLinear": 0.9,
+      "approvedBy": [
+        "libCreepySingerC"
+      ],
+      "mixOnly": false
+    },
+    {
+      "id": "libCreepySingerD",
+      "key": "review-library-libCreepySingerD",
+      "label": "Distant creepy singer D",
+      "role": "loop",
+      "previewPath": "sound/library-v2/SoundLibrary_Review/02_ACCEPTED_CANDIDATES/deep_scary/Creepy Singing In The Dinstance.mp3",
+      "provenance": "LOCAL ACCEPTED · Creepy Singing In The Dinstance.mp3",
+      "collection": "LOCAL ACCEPTED",
+      "approval": "sandbox-candidate",
+      "runtimeEligible": false,
+      "cooldownMs": 0,
+      "peakLinear": 0.9,
+      "approvedBy": [
+        "libCreepySingerD"
+      ],
+      "mixOnly": false
+    },
+    {
+      "id": "libDeepVoicesA",
+      "key": "review-library-libDeepVoicesA",
+      "label": "Deep voices A",
+      "role": "loop",
+      "previewPath": "sound/library-v2/SoundLibrary_Review/02_ACCEPTED_CANDIDATES/deep_scary/Deep Underground Voices Creepy.mp3",
+      "provenance": "LOCAL ACCEPTED · Deep Underground Voices Creepy.mp3",
+      "collection": "LOCAL ACCEPTED",
+      "approval": "sandbox-candidate",
+      "runtimeEligible": false,
+      "cooldownMs": 0,
+      "peakLinear": 0.9,
+      "approvedBy": [
+        "libDeepVoicesA"
+      ],
+      "mixOnly": false
+    },
+    {
+      "id": "libDeepVoicesB",
+      "key": "review-library-libDeepVoicesB",
+      "label": "Deep voices B",
+      "role": "loop",
+      "previewPath": "sound/library-v2/SoundLibrary_Review/02_ACCEPTED_CANDIDATES/deep_scary/Deep Underground Voices Creepy(1).mp3",
+      "provenance": "LOCAL ACCEPTED · Deep Underground Voices Creepy(1).mp3",
+      "collection": "LOCAL ACCEPTED",
+      "approval": "sandbox-candidate",
+      "runtimeEligible": false,
+      "cooldownMs": 0,
+      "peakLinear": 0.9,
+      "approvedBy": [
+        "libDeepVoicesB"
+      ],
+      "mixOnly": false
+    },
+    {
+      "id": "libSoundsDeep",
+      "key": "review-library-libSoundsDeep",
+      "label": "Sounds from the deep",
+      "role": "loop",
+      "previewPath": "sound/library-v2/SoundLibrary_Review/02_ACCEPTED_CANDIDATES/deep_scary/Sounds From The Deep Creepy.mp3",
+      "provenance": "LOCAL ACCEPTED · Sounds From The Deep Creepy.mp3",
+      "collection": "LOCAL ACCEPTED",
+      "approval": "sandbox-candidate",
+      "runtimeEligible": false,
+      "cooldownMs": 0,
+      "peakLinear": 0.9,
+      "approvedBy": [
+        "libSoundsDeep"
+      ],
+      "mixOnly": false
+    },
+    {
+      "id": "libWhispersDeep",
+      "key": "review-library-libWhispersDeep",
+      "label": "Whispers from the deep",
+      "role": "loop",
+      "previewPath": "sound/library-v2/SoundLibrary_Review/02_ACCEPTED_CANDIDATES/deep_scary/Wispers From The Deep Creepy.mp3",
+      "provenance": "LOCAL ACCEPTED · Wispers From The Deep Creepy.mp3",
+      "collection": "LOCAL ACCEPTED",
+      "approval": "sandbox-candidate",
+      "runtimeEligible": false,
+      "cooldownMs": 0,
+      "peakLinear": 0.9,
+      "approvedBy": [
+        "libWhispersDeep"
+      ],
+      "mixOnly": false
+    },
+    {
+      "id": "digOne",
+      "runtimeEligible": true,
+      "key": "review-runtime-dig-one",
+      "label": "Runtime dig variant 1",
+      "role": "oneShot",
+      "previewPath": "sound/soundEffects/costume-sounds/dig/dig-1.ogg",
+      "provenance": "Current randomized runtime dig pool",
+      "approval": "runtime-reference",
+      "cooldownMs": 150,
+      "approvedBy": [
+        "digSequence"
+      ],
+      "mixOnly": false
+    },
+    {
+      "id": "digTwo",
+      "runtimeEligible": true,
+      "key": "review-runtime-dig-two",
+      "label": "Runtime dig variant 2",
+      "role": "oneShot",
+      "previewPath": "sound/soundEffects/costume-sounds/dig/dig-2.ogg",
+      "provenance": "Current randomized runtime dig pool",
+      "approval": "runtime-reference",
+      "cooldownMs": 150,
+      "approvedBy": [
+        "digSequence"
+      ],
+      "mixOnly": false
+    },
+    {
+      "id": "libDirtSwingA",
+      "key": "review-library-libDirtSwingA",
+      "label": "Dirt swing A",
+      "role": "oneShot",
+      "previewPath": "sound/library-v2/SoundLibrary_Review/00_INBOX_RAW_EXPORTS/sonniss-ingame-sfx-mockup-v1-2026-08-27/slices/mining-material-loop-02-SONNISS19-SRC-110-000000ms.wav",
+      "provenance": "SONNISS GDC19 · Breathy glove whoosh",
+      "collection": "SONNISS GDC19",
+      "approval": "sandbox-candidate",
+      "runtimeEligible": false,
+      "cooldownMs": 0,
+      "peakLinear": 0.9,
+      "approvedBy": [
+        "libDirtSwingA"
+      ],
+      "mixOnly": false
+    },
+    {
+      "id": "libDirtBreak",
+      "key": "review-library-libDirtBreak",
+      "label": "Dirt block break",
+      "role": "oneShot",
+      "previewPath": "sound/library-v2/SoundLibrary_Review/00_INBOX_RAW_EXPORTS/sonniss-ingame-sfx-mockup-v1-2026-08-27/slices/mining-material-loop-07-SONNISS19-MINE-24-000000ms.wav",
+      "provenance": "SONNISS GDC19 · Heavy dry-ground contact",
+      "collection": "SONNISS GDC19",
+      "approval": "sandbox-candidate",
+      "runtimeEligible": false,
+      "cooldownMs": 0,
+      "peakLinear": 0.9,
+      "approvedBy": [
+        "libDirtBreak"
+      ],
+      "mixOnly": false
+    },
+    {
+      "id": "libToolContact",
+      "key": "review-library-libToolContact",
+      "label": "Pick metal contact",
+      "role": "oneShot",
+      "previewPath": "sound/library-v2/SoundLibrary_Review/00_INBOX_RAW_EXPORTS/sonniss-ingame-sfx-mockup-v1-2026-08-27/slices/mining-material-loop-10-SONNISS19-SRC-070-000120ms.wav",
+      "provenance": "SONNISS GDC19 · Sledgehammer on metal sheet",
+      "collection": "SONNISS GDC19",
+      "approval": "sandbox-candidate",
+      "runtimeEligible": false,
+      "cooldownMs": 0,
+      "peakLinear": 0.9,
+      "approvedBy": [
+        "libToolContact"
+      ],
+      "mixOnly": false
+    },
+    {
+      "id": "libStoneBreak",
+      "key": "review-library-libStoneBreak",
+      "label": "Stone block break",
+      "role": "oneShot",
+      "previewPath": "sound/library-v2/SoundLibrary_Review/00_INBOX_RAW_EXPORTS/sonniss-ingame-sfx-mockup-v1-2026-08-27/slices/mining-material-loop-11-SONNISS19-MINE-18-001200ms.wav",
+      "provenance": "SONNISS GDC19 · Large falling-rock impact",
+      "collection": "SONNISS GDC19",
+      "approval": "sandbox-candidate",
+      "runtimeEligible": false,
+      "cooldownMs": 0,
+      "peakLinear": 0.9,
+      "approvedBy": [
+        "libStoneBreak"
+      ],
+      "mixOnly": false
+    },
+    {
+      "id": "starDestruction",
+      "runtimeEligible": true,
+      "key": "review-approved-star-destruction",
+      "label": "Approved Star destruction",
+      "role": "oneShot",
+      "previewPath": "sound/soundEffects/approved-sfx-findings-v1/star-destruction-shockwave-freesound-814053.mp3",
+      "provenance": "Freesound 814053 · qubodup · CC0 1.0",
+      "approval": "approved-runtime",
+      "peakLinear": 0.977,
+      "approvedBy": [
+        "starDestruction"
+      ],
+      "mixOnly": false
+    },
+    {
+      "id": "libLandingDebris",
+      "key": "review-library-libLandingDebris",
+      "label": "Heavy landing debris",
+      "role": "oneShot",
+      "previewPath": "sound/library-v2/SoundLibrary_Review/00_INBOX_RAW_EXPORTS/sonniss-ingame-sfx-mockup-v1-2026-08-27/slices/robot-flight-movement-14-SONNISS19-MINE-18-000050ms.wav",
+      "provenance": "SONNISS GDC19 · Falling rock debris",
+      "collection": "SONNISS GDC19",
+      "approval": "sandbox-candidate",
+      "runtimeEligible": false,
+      "cooldownMs": 0,
+      "peakLinear": 0.9,
+      "approvedBy": [
+        "libLandingDebris"
+      ],
+      "mixOnly": false
+    },
+    {
+      "id": "libMenuOpen",
+      "key": "review-library-libMenuOpen",
+      "label": "Mechanical menu open",
+      "role": "oneShot",
+      "previewPath": "sound/library-v2/SoundLibrary_Review/00_INBOX_RAW_EXPORTS/sonniss-ingame-sfx-mockup-v1-2026-08-27/slices/ui-reward-flow-01-SONNISS19-SRC-093-000000ms.wav",
+      "provenance": "SONNISS GDC19 · Small mechanism open",
+      "collection": "SONNISS GDC19",
+      "approval": "sandbox-candidate",
+      "runtimeEligible": false,
+      "cooldownMs": 0,
+      "peakLinear": 0.9,
+      "approvedBy": [
+        "libMenuOpen"
+      ],
+      "mixOnly": false
+    },
+    {
+      "id": "libUiHover",
+      "key": "review-library-libUiHover",
+      "label": "Mechanical hover",
+      "role": "oneShot",
+      "previewPath": "sound/library-v2/SoundLibrary_Review/00_INBOX_RAW_EXPORTS/sonniss-ingame-sfx-mockup-v1-2026-08-27/slices/ui-reward-flow-02-SONNISS19-SRC-107-000000ms.wav",
+      "provenance": "SONNISS GDC19 · Mechanical UI move",
+      "collection": "SONNISS GDC19",
+      "approval": "sandbox-candidate",
+      "runtimeEligible": false,
+      "cooldownMs": 0,
+      "peakLinear": 0.9,
+      "approvedBy": [
+        "libUiHover"
+      ],
+      "mixOnly": false
+    },
+    {
+      "id": "libUiClick",
+      "key": "review-library-libUiClick",
+      "label": "Mechanical click",
+      "role": "oneShot",
+      "previewPath": "sound/library-v2/SoundLibrary_Review/00_INBOX_RAW_EXPORTS/sonniss-ingame-sfx-mockup-v1-2026-08-27/slices/ui-reward-flow-03-SONNISS19-SRC-050-000000ms.wav",
+      "provenance": "SONNISS GDC19 · Door lock click",
+      "collection": "SONNISS GDC19",
+      "approval": "sandbox-candidate",
+      "runtimeEligible": false,
+      "cooldownMs": 0,
+      "peakLinear": 0.9,
+      "approvedBy": [
+        "libUiClick"
+      ],
+      "mixOnly": false
+    },
+    {
+      "id": "libUiConfirm",
+      "key": "review-library-libUiConfirm",
+      "label": "Mechanical confirm",
+      "role": "oneShot",
+      "previewPath": "sound/library-v2/SoundLibrary_Review/00_INBOX_RAW_EXPORTS/sonniss-ingame-sfx-mockup-v1-2026-08-27/slices/ui-reward-flow-04-SONNISS19-SRC-105-000150ms.wav",
+      "provenance": "SONNISS GDC19 · Mechanical UI confirm",
+      "collection": "SONNISS GDC19",
+      "approval": "sandbox-candidate",
+      "runtimeEligible": false,
+      "cooldownMs": 0,
+      "peakLinear": 0.9,
+      "approvedBy": [
+        "libUiConfirm"
+      ],
+      "mixOnly": false
+    },
+    {
+      "id": "libSaveCard",
+      "key": "review-library-libSaveCard",
+      "label": "Soft save-card cue",
+      "role": "oneShot",
+      "previewPath": "sound/library-v2/SoundLibrary_Review/00_INBOX_RAW_EXPORTS/sonniss-ingame-sfx-mockup-v1-2026-08-27/slices/ui-reward-flow-12-SONNISS19-MINE-14-000000ms.wav",
+      "provenance": "SONNISS GDC19 · Coins in drawstring sack",
+      "collection": "SONNISS GDC19",
+      "approval": "sandbox-candidate",
+      "runtimeEligible": false,
+      "cooldownMs": 0,
+      "peakLinear": 0.9,
+      "approvedBy": [
+        "libSaveCard"
+      ],
+      "mixOnly": false
+    },
+    {
+      "id": "levelUpShort",
+      "runtimeEligible": true,
+      "key": "review-approved-level-up-short",
+      "label": "Approved level up · short",
+      "role": "oneShot",
+      "previewPath": "sound/soundEffects/approved-sfx-findings-v1/level-up-short-freesound-320655.mp3",
+      "provenance": "Freesound 320655 · rhodesmas · CC BY 4.0",
+      "approval": "approved-runtime",
+      "peakLinear": 0.822,
+      "approvedBy": [
+        "levelUpShort"
+      ],
+      "mixOnly": false
+    },
+    {
+      "id": "levelUpEpic",
+      "runtimeEligible": true,
+      "key": "review-approved-level-up-epic",
+      "label": "Approved level up · epic",
+      "role": "oneShot",
+      "previewPath": "sound/soundEffects/approved-sfx-findings-v1/level-up-epic-freesound-682633.mp3",
+      "provenance": "Freesound 682633 · Bastianhallo · CC0 1.0",
+      "approval": "approved-runtime",
+      "peakLinear": 0.32,
+      "approvedBy": [
+        "levelUpEpic"
+      ],
+      "mixOnly": false
+    },
+    {
+      "id": "libPurchaseCoin",
+      "key": "review-library-libPurchaseCoin",
+      "label": "Purchase coin",
+      "role": "oneShot",
+      "previewPath": "sound/library-v2/SoundLibrary_Review/00_INBOX_RAW_EXPORTS/sonniss-ingame-sfx-mockup-v1-2026-08-27/slices/ui-reward-flow-05-SONNISS19-MINE-11-000000ms.wav",
+      "provenance": "SONNISS GDC19 · Coin slide",
+      "collection": "SONNISS GDC19",
+      "approval": "sandbox-candidate",
+      "runtimeEligible": false,
+      "cooldownMs": 0,
+      "peakLinear": 0.9,
+      "approvedBy": [
+        "libPurchaseCoin"
+      ],
+      "mixOnly": false
+    },
+    {
+      "id": "libResourcePop",
+      "key": "review-library-libResourcePop",
+      "label": "Resource pop",
+      "role": "oneShot",
+      "previewPath": "sound/library-v2/SoundLibrary_Review/00_INBOX_RAW_EXPORTS/sonniss-ingame-sfx-mockup-v1-2026-08-27/slices/mining-material-loop-12-SONNISS19-MINE-13-000000ms.wav",
+      "provenance": "SONNISS GDC19 · Coin drop on carpet",
+      "collection": "SONNISS GDC19",
+      "approval": "sandbox-candidate",
+      "runtimeEligible": false,
+      "cooldownMs": 0,
+      "peakLinear": 0.9,
+      "approvedBy": [
+        "libResourcePop"
+      ],
+      "mixOnly": false
+    },
+    {
+      "id": "libRewardCoins",
+      "key": "review-library-libRewardCoins",
+      "label": "Coin reward cluster",
+      "role": "oneShot",
+      "previewPath": "sound/library-v2/SoundLibrary_Review/00_INBOX_RAW_EXPORTS/sonniss-ingame-sfx-mockup-v1-2026-08-27/slices/ui-reward-flow-09-SONNISS19-MINE-12-000000ms.wav",
+      "provenance": "SONNISS GDC19 · Bottlecap coin cluster",
+      "collection": "SONNISS GDC19",
+      "approval": "sandbox-candidate",
+      "runtimeEligible": false,
+      "cooldownMs": 0,
+      "peakLinear": 0.9,
+      "approvedBy": [
+        "libRewardCoins"
+      ],
+      "mixOnly": false
+    },
+    {
+      "id": "rainReference",
+      "runtimeEligible": true,
+      "key": "review-weather-rain-reference",
+      "label": "Approved rain reference",
+      "role": "loop",
+      "previewPath": "sound/soundEffects/weather-ambience-v1/rain-open-soft-v1.wav",
+      "provenance": "Approved weather ambience v1",
+      "approval": "runtime-reference",
+      "approvedBy": [
+        "rainReference"
+      ],
+      "mixOnly": false
+    },
+    {
+      "id": "windReference",
+      "runtimeEligible": true,
+      "key": "review-weather-wind-reference",
+      "label": "Approved wind reference",
+      "role": "loop",
+      "previewPath": "sound/soundEffects/weather-ambience-v1/wind-open-v1.wav",
+      "provenance": "Approved weather ambience v1",
+      "approval": "runtime-reference",
+      "approvedBy": [
+        "rainReference"
+      ],
+      "mixOnly": true
+    },
+    {
+      "id": "libRainDirtA",
+      "key": "review-library-libRainDirtA",
+      "label": "Rain on dirt A",
+      "role": "loop",
+      "previewPath": "sound/library-v2/SoundLibrary_Review/01_REVIEW_BY_TAG/GOOD/Loopable Field Recording Medium Rain Falling On Dirt Ground And Scattered Gr_1.mp3",
+      "provenance": "LOCAL GOOD LOOP · Loopable Field Recording Medium Rain Falling On Dirt Ground And Scattered Gr_1.mp3",
+      "collection": "LOCAL GOOD LOOP",
+      "approval": "sandbox-candidate",
+      "runtimeEligible": false,
+      "cooldownMs": 0,
+      "peakLinear": 0.9,
+      "approvedBy": [
+        "libRainDirtA"
+      ],
+      "mixOnly": false
+    },
+    {
+      "id": "libRainDirtB",
+      "key": "review-library-libRainDirtB",
+      "label": "Rain on dirt B",
+      "role": "loop",
+      "previewPath": "sound/library-v2/SoundLibrary_Review/01_REVIEW_BY_TAG/GOOD/Loopable Field Recording Medium Rain Falling On Dirt Ground And Scattered Gr_2.mp3",
+      "provenance": "LOCAL GOOD LOOP · Loopable Field Recording Medium Rain Falling On Dirt Ground And Scattered Gr_2.mp3",
+      "collection": "LOCAL GOOD LOOP",
+      "approval": "sandbox-candidate",
+      "runtimeEligible": false,
+      "cooldownMs": 0,
+      "peakLinear": 0.9,
+      "approvedBy": [
+        "libRainDirtB"
+      ],
+      "mixOnly": false
+    },
+    {
+      "id": "libRainDirtC",
+      "key": "review-library-libRainDirtC",
+      "label": "Rain on dirt C",
+      "role": "loop",
+      "previewPath": "sound/library-v2/SoundLibrary_Review/01_REVIEW_BY_TAG/GOOD/Loopable Field Recording Medium Rain Falling On Dirt Ground And Scattered Gr.mp3",
+      "provenance": "LOCAL GOOD LOOP · Loopable Field Recording Medium Rain Falling On Dirt Ground And Scattered Gr.mp3",
+      "collection": "LOCAL GOOD LOOP",
+      "approval": "sandbox-candidate",
+      "runtimeEligible": false,
+      "cooldownMs": 0,
+      "peakLinear": 0.9,
+      "approvedBy": [
+        "libRainDirtC"
+      ],
+      "mixOnly": false
+    },
+    {
+      "id": "libShopRainInside",
+      "key": "review-library-libShopRainInside",
+      "label": "Shop rain interior",
+      "role": "loop",
+      "previewPath": "sound/library-v2/SoundLibrary_Review/01_REVIEW_BY_TAG/GOOD/Loopable Foley Recording Inside Empty Wooden Shop During Rain Raindrops On_1.mp3",
+      "provenance": "LOCAL GOOD LOOP · Loopable Foley Recording Inside Empty Wooden Shop During Rain Raindrops On_1.mp3",
+      "collection": "LOCAL GOOD LOOP",
+      "approval": "sandbox-candidate",
+      "runtimeEligible": false,
+      "cooldownMs": 0,
+      "peakLinear": 0.9,
+      "approvedBy": [
+        "libShopRainInside"
+      ],
+      "mixOnly": false
+    },
+    {
+      "id": "libShopRainOutside",
+      "key": "review-library-libShopRainOutside",
+      "label": "Shop rain exterior",
+      "role": "loop",
+      "previewPath": "sound/library-v2/SoundLibrary_Review/01_REVIEW_BY_TAG/GOOD/Loopable Foley Recording Outside A Small Wooden Shop In A Mining Town During.mp3",
+      "provenance": "LOCAL GOOD LOOP · Loopable Foley Recording Outside A Small Wooden Shop In A Mining Town During.mp3",
+      "collection": "LOCAL GOOD LOOP",
+      "approval": "sandbox-candidate",
+      "runtimeEligible": false,
+      "cooldownMs": 0,
+      "peakLinear": 0.9,
+      "approvedBy": [
+        "libShopRainOutside"
+      ],
+      "mixOnly": false
+    },
+    {
+      "id": "libNightWindDirtB",
+      "key": "review-library-libNightWindDirtB",
+      "label": "Night wind over dirt B",
+      "role": "loop",
+      "previewPath": "sound/library-v2/SoundLibrary_Review/01_REVIEW_BY_TAG/GOOD/Loopable Natural Foley Sound Empty Dry Ground At Night Light Wind Over Dirt_2.mp3",
+      "provenance": "LOCAL GOOD LOOP · Loopable Natural Foley Sound Empty Dry Ground At Night Light Wind Over Dirt_2.mp3",
+      "collection": "LOCAL GOOD LOOP",
+      "approval": "sandbox-candidate",
+      "runtimeEligible": false,
+      "cooldownMs": 0,
+      "peakLinear": 0.9,
+      "approvedBy": [
+        "libNightWindDirtB"
+      ],
+      "mixOnly": false
+    },
+    {
+      "id": "libWoodRainInside",
+      "key": "review-library-libWoodRainInside",
+      "label": "Wood building rain",
+      "role": "loop",
+      "previewPath": "sound/library-v2/SoundLibrary_Review/01_REVIEW_BY_TAG/GOOD/Loopable Natural Indoor Sound Rain Heard From Inside Wooden Building With Wa.mp3",
+      "provenance": "LOCAL GOOD LOOP · Loopable Natural Indoor Sound Rain Heard From Inside Wooden Building With Wa.mp3",
+      "collection": "LOCAL GOOD LOOP",
+      "approval": "sandbox-candidate",
+      "runtimeEligible": false,
+      "cooldownMs": 0,
+      "peakLinear": 0.9,
+      "approvedBy": [
+        "libWoodRainInside"
+      ],
+      "mixOnly": false
+    },
+    {
+      "id": "libLightRainStoneA",
+      "key": "review-library-libLightRainStoneA",
+      "label": "Light rain on stone A",
+      "role": "loop",
+      "previewPath": "sound/library-v2/SoundLibrary_Review/01_REVIEW_BY_TAG/GOOD/Loopable Natural Rain Foley Light Rain Tapping On Small Stones And Compact D_1.mp3",
+      "provenance": "LOCAL GOOD LOOP · Loopable Natural Rain Foley Light Rain Tapping On Small Stones And Compact D_1.mp3",
+      "collection": "LOCAL GOOD LOOP",
+      "approval": "sandbox-candidate",
+      "runtimeEligible": false,
+      "cooldownMs": 0,
+      "peakLinear": 0.9,
+      "approvedBy": [
+        "libLightRainStoneA"
+      ],
+      "mixOnly": false
+    },
+    {
+      "id": "libLightRainStoneB",
+      "key": "review-library-libLightRainStoneB",
+      "label": "Light rain on stone B",
+      "role": "loop",
+      "previewPath": "sound/library-v2/SoundLibrary_Review/01_REVIEW_BY_TAG/GOOD/Loopable Natural Rain Foley Light Rain Tapping On Small Stones And Compact D.mp3",
+      "provenance": "LOCAL GOOD LOOP · Loopable Natural Rain Foley Light Rain Tapping On Small Stones And Compact D.mp3",
+      "collection": "LOCAL GOOD LOOP",
+      "approval": "sandbox-candidate",
+      "runtimeEligible": false,
+      "cooldownMs": 0,
+      "peakLinear": 0.9,
+      "approvedBy": [
+        "libLightRainStoneB"
+      ],
+      "mixOnly": false
+    },
+    {
+      "id": "libTownHeavyRain",
+      "key": "review-library-libTownHeavyRain",
+      "label": "Mining town heavy rain",
+      "role": "loop",
+      "previewPath": "sound/library-v2/SoundLibrary_Review/01_REVIEW_BY_TAG/GOOD/Loopable Natural Sound Effect Heavy Rain On A Small Mining Town Exterior Ra_1.mp3",
+      "provenance": "LOCAL GOOD LOOP · Loopable Natural Sound Effect Heavy Rain On A Small Mining Town Exterior Ra_1.mp3",
+      "collection": "LOCAL GOOD LOOP",
+      "approval": "sandbox-candidate",
+      "runtimeEligible": false,
+      "cooldownMs": 0,
+      "peakLinear": 0.9,
+      "approvedBy": [
+        "libTownHeavyRain"
+      ],
+      "mixOnly": false
+    },
+    {
+      "id": "libNightWindOnly",
+      "key": "review-library-libNightWindOnly",
+      "label": "Night wind only",
+      "role": "loop",
+      "previewPath": "sound/library-v2/SoundLibrary_Review/01_REVIEW_BY_TAG/GOOD/Loopable Natural Sound Effect Wind Only Over Empty Dry Ground At Night Smoo_1.mp3",
+      "provenance": "LOCAL GOOD LOOP · Loopable Natural Sound Effect Wind Only Over Empty Dry Ground At Night Smoo_1.mp3",
+      "collection": "LOCAL GOOD LOOP",
+      "approval": "sandbox-candidate",
+      "runtimeEligible": false,
+      "cooldownMs": 0,
+      "peakLinear": 0.9,
+      "approvedBy": [
+        "libNightWindOnly"
+      ],
+      "mixOnly": false
+    },
+    {
+      "id": "libTownDayBreeze",
+      "key": "review-library-libTownDayBreeze",
+      "label": "Mining town day breeze",
+      "role": "loop",
+      "previewPath": "sound/library-v2/SoundLibrary_Review/01_REVIEW_BY_TAG/GOOD/Loopable Outdoor Foley Daytime Wooden Mining Town Exterior Light Breeze Mov_1.mp3",
+      "provenance": "LOCAL GOOD LOOP · Loopable Outdoor Foley Daytime Wooden Mining Town Exterior Light Breeze Mov_1.mp3",
+      "collection": "LOCAL GOOD LOOP",
+      "approval": "sandbox-candidate",
+      "runtimeEligible": false,
+      "cooldownMs": 0,
+      "peakLinear": 0.9,
+      "approvedBy": [
+        "libTownDayBreeze"
+      ],
+      "mixOnly": false
+    }
+  ]
+}

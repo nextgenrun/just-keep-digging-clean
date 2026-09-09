@@ -1,5 +1,12 @@
 # Player
 
+The grounded Survival traversal profile keeps the sprite renderer and existing controls, with native Standard Walk / Standard Run frames and phase-matched torch handoffs. Animation creation applies the profile-owned sampling mode.
+
+The accepted V2 character uses fixed 512 px frame coordinates in trimmed Phaser atlases. Initial and deferred loading wait for every page; the separate skeletal walk/run renderer is disconnected. See `../markdown/2026-09-06-character-definition-runtime-v2.md` for alignment and gameplay proof.
+
+
+The original Jab and Cross now follow the ten Mixamo SIDE moves in the active Survival mining sequence. Jab registers independently of Quickslash; both punches retain the unified floor anchor, fixed animation scale, body-locked contacts, phase-matched moving variants and authored recovery.
+
 player directory.
 
 `PlayerAssetLoader.js` loads the selected character in WorldLoad, including full
@@ -28,7 +35,11 @@ for a full left/right reversal. `PlayerJumpMotion.js` derives one fixed Spacebar
 impulse from gravity and the 1.2-tile height contract, then preserves takeoff
 momentum with progressive air steering, gentle release drag, and a stronger
 but non-instant reversal. `?jumpMomentum=0` restores the previous direct
-airborne response. `PlayerFlightMotion.js`
+airborne response. `PlayerJumpInputBuffer.js` captures a short Space press for
+180 ms, including a key-up before the next physics frame. Each request is
+consumed once, including rejected Flight/airborne/knockback requests; pause,
+rebind, and scene shutdown clear it. Shift never becomes a jump fallback at
+empty GP. `PlayerFlightMotion.js`
 owns Shift takeoff assist, A/D/W/S acceleration, neutral braking, reversal, and
 post-power coast; Flight no longer overwrites upward velocity each frame.
 `PlayerLedgeAssist.js` detects collision-safe solid lips while descending. The
@@ -39,9 +50,23 @@ The deferred ledge sheet warms on descent so first contact does not flash idle.
 `?ledgeAssist=0` restores the previous traversal unchanged.
 `?smoothGroundRun=0` is the isolated grounded-physics rollback.
 
+`PlayerPhysicsBody.js` retains the newest collision-clean position and collider
+profile. Guarded teleports, ledge motion and other scripted placements first use
+normal tile-face recovery; if every exit is blocked, they restore that snapshot
+and clear velocity instead of leaving the player clipped into terrain.
+
+`ualMiningActionCadence.js` prevents ordinary UAL mining animations from
+starting while the authoritative dig cooldown is still active. Level 1 keeps
+its readable bounded swing, but every displayed swing now reaches a real
+authored contact instead of inserting a no-impact attack between hits. After a
+stationary mining clip completes, its combat-ready final pose remains visible
+through the next legal-hit boundary plus a bounded 180 ms input/render grace;
+the next action still interrupts immediately. The short idle-settle bridge is
+reserved for actions that are not waiting on the ordinary mining cooldown.
+
 `UalActionContactTimeline.js` turns Phaser animation updates into one or more deterministic authored gameplay contacts per visible action. Single-hit mining, Quickslash, and Thunder retain one contact; reviewed multi-hit combos expose every ordered impact, including skipped-frame, completion, and wall-clock fallback coverage. Recovery cannot be replaced until the final authored contact plus the configured delay has passed. The first contact owns cooldown/ability cost/Heavy Punch authority, while later contacts hit the same committed tile without duplicating those per-action effects.
 
-`UalMiningComboSelector.js` owns the shared resettable UAL mining chain. The default Survivor advances repeated stationary SIDE hits through Cross, Jab, Roundhouse, Jab-Elbow, Low Kick, High Kick, Spinning Back Kick, Elbow-Uppercut, Single Elbow, and Hook; exact UP uses Uppercut. Jab-Elbow and Elbow-Uppercut retain both reviewed contacts. UP-SIDE, DOWN-SIDE and DOWN retain their prior families. Changing direction, changing enabled family, or pausing beyond the configured combo window returns to stage one in both the main world and compact caves. `?complexDig=0`, Ctrl+Alt+9, or `__DIG_GAME_COMPLEX_DIG_ANIMATIONS__.setEnabled(false)` restores the legacy SIDE/UP selection on the next action.
+`UalMiningComboSelector.js` owns the shared resettable UAL mining chain. The default Survivor advances repeated stationary SIDE hits through Jab, Cross, Roundhouse, Jab-Elbow, Low Kick, High Kick, Spinning Back Kick, Elbow-Uppercut, Single Elbow, and Hook; repeated exact-UP hits alternate the unified Blender Dig Up and Mixamo Uppercut. Cross Punch is restored after it was mistakenly removed; the resident Jab remains the first stage and prewarms Cross with the rest of the SIDE pack. Repeated DOWN and DOWN-SIDE hits rotate the retained ground strike, reviewed low body punch, and reviewed leg sweep instead of replaying one clip. Jab-Elbow and Elbow-Uppercut retain both reviewed contacts. Changing direction, changing enabled family, or pausing beyond the configured combo window returns to stage one in both the main world and compact caves. `?complexDig=0`, Ctrl+Alt+9, or `__DIG_GAME_COMPLEX_DIG_ANIMATIONS__.setEnabled(false)` restores the prior SIDE/UP selection; `?downDigCombo=0` independently restores the former single-stage DOWN family.
 
 `PlayerAssetLoader.js` also queues the generated UAL runtime manifest. Game Rig
 v2 consumes its packed-frame hand/foot/pelvis/head markers while preserving the
@@ -56,7 +81,7 @@ pointer instead selects the closest in-bounds body-edge cell on the dominant
 cardinal axis, allowing the authoritative projectile to dig through air and
 tiles without turning normal mouse mining into a ranged action.
 
-The promoted complex SIDE/UP subset stays on the production 160-bone Survival skeleton and V4 material treatment. Its eleven editable Piskel sources use one shared highlight-preserving tone curve, round-trip the runtime pixels exactly, and keep one fixed 103 px family scale. The measured result matches existing idle/walk median luminance within 0.001, visible height within 0.55 game pixels, and action-to-idle handoff drift within 0.51 game pixels without suppressing intentional kick lift. The prior native Jab/Cross and Blender upward dig remain immediate visual rollback sources; DOWN, diagonals and Thunder retain their existing routing. `PlayerKinematicMotionSystem` exposes signed post-collision velocity for shared locomotion transitions and flight banking. The measured 31x75 body and one-cell contact perimeter are authoritative in both world implementations; projected limb-marker validation is diagnostic evidence and visual alignment only, never a gate on an otherwise valid dig.
+The promoted complex SIDE/UP subset stays on the production 160-bone Survival skeleton and V4 material treatment. Its eleven editable Piskel sources use one shared highlight-preserving tone curve, round-trip the runtime pixels exactly, and keep one fixed 103 px family scale. The measured result matches existing idle/walk median luminance within 0.001, visible height within 0.55 game pixels, and action-to-idle handoff drift within 0.51 game pixels without suppressing intentional kick lift. The prior native Jab/Cross and Blender upward dig remain immediate visual rollback sources. DOWN keeps its existing ground strike as stage one and adds two reviewed 103 px Mixamo-derived stages; moving down-diagonals keep phase-matched legs rather than sliding the planted source clips. UP-diagonal and Thunder routing remain unchanged. `PlayerKinematicMotionSystem` exposes signed post-collision velocity for shared locomotion transitions and flight banking. The measured 31x75 body and one-cell contact perimeter are authoritative in both world implementations; projected limb-marker validation is diagnostic evidence and visual alignment only, never a gate on an otherwise valid dig.
 
 `SURVIVAL_UAL_PLAYER_ASSET_PROFILE` is the approved default player visual. It promotes the Blender Survivor v2 idle and idle-talk plus the accepted prone Mixamo flight loop; the prone-v3 Superman sheet remains transition/rollback evidence. Live grounded movement always selects the UAL `Jog_Fwd_Loop` run slot and the compatible UAL-retarget action set. Existing `ualNative` / `legacy` save selections migrate to Survivor, while `?character=ualNative` remains the explicit native-placeholder rollback. The 31x75 collider, contacts, action timing, and fist-only policy remain identical to native UAL.
 
@@ -110,13 +135,30 @@ body position rather than a tile approximation. Restore bounds-checks the exact
 pixel coordinates, resolves any now-solid overlap safely, then restores facing
 and exact GP before the first playable frame.
 
-`PlayerSurfaceDropController` consumes a fresh DOWN/S press only while grounded
-on the full-width surface. It asks `TileCollisionSystem` to release the
-one-way surface only when the complete player footprint is on dedicated
-town-floor cells with the configured full AIR row immediately below. Ordinary
-mineable tiles begin beneath that clearance instead of intersecting the player
-or the surface art. The protected Level 1/Level 2 divider remains blocking.
-`?surfaceDrop=0` restores the former collision behavior.
+`PlayerPhysicsBody` also retains the most recent collision-clean position and
+pose profile. Normal overlap ejection remains the first response; if no valid
+tile-face escape exists, scripted placement or frame validation restores that
+snapshot, clears velocity, and cancels the blocked traversal instead of leaving
+the player embedded in diggable terrain.
+
+`PlayerSurfaceDropController` consumes a fresh DOWN/S press while grounded on
+either the full-width surface or a grown Worldroot terrace. A Worldroot drop
+releases the current continuous branch surface, including its adjacent authored
+pieces, until the complete body clears it. Neither drop path cancels horizontal
+velocity, so the same input works while walking or holding Ctrl to run. Only ledge
+candidates on the configured top surface row are excluded during its active
+drop-through interval. Ledges at every other height retain their normal capture
+rules, including during a surface drop.
+Ctrl+S remains a gameplay chord while the bound Run key is held. A surface drop still requires
+the complete player footprint on dedicated town-floor
+cells with the configured full AIR row immediately below. Quick released S taps
+are retained through the next gameplay input sample, while key repeat, rebind,
+pause, scene shutdown, and Shift-powered Flight cannot replay a stale drop.
+Ordinary mineable
+tiles begin beneath that clearance instead of intersecting the player or the
+surface art. The protected Level 1/Level 2 divider remains blocking.
+`?surfaceDrop=0` restores the former surface behavior; Worldroot terraces
+remain independently tied to `?worldrootPillar=legacy`.
 
 `UalMovingSideDigSelector` promotes grounded LEFT/RIGHT mining and Quickslash
 while movement points toward the target. It maps the Survival Jab/Cross combo
@@ -176,8 +218,15 @@ removes first-use fallback poses and planted-stop skating without changing
 movement speed or action timing. `?transitionCohesion=0` restores on-demand
 loading for those traversal packs. `PlayerDeferredAnimationAssetController`
 keeps the rare ledge climb plus the largest complex and moving-complex mining
-atlases out of the idle baseline. Main-world and cave selectors request those
-packs at first use and retain a valid core mining fallback while decoding
-completes. Complex mining remains warm for 60 seconds after use, preventing
+atlases out of the idle baseline. The approved complex Jab stays resident as
+the SIDE fallback, and the first selection prewarms the remaining active pack;
+neither runtime can insert a legacy punch while decoding completes. Complex
+mining remains warm for 60 seconds after use, preventing
 five-second stop/start mining loops from repeatedly decoding large atlases;
 automatic idle and torch traversal sheets remain resident.
+
+The grounded Ctrl run now uses PlayerSkeletalRunPresentation and SkeletalRunMeshRenderer with the retained jog on the public Survival rig. See ../markdown/2026-09-06-skeletal-running-and-speed-dashes.md.
+
+Walking now uses the original Mixamo Standard Walk action in the same live mesh presenter; Ctrl running keeps the retained Quaternius jog. The walking asset stores only compatible bone tracks, and the two actions blend while keeping their own speed-matched stride. See the walking correction in ../markdown/2026-09-06-skeletal-running-and-speed-dashes.md.
+
+The 2026-09-07 contact restoration keeps running takeoff speed in `PlayerJumpMotion`, including on the launch frame. Released jumps use gentle air drag and a short grounded brake. Continued travel uses ordinary ground acceleration. Jump state resets with Flight ownership, teleports, ledge grabs, disabled controls, collision recovery and knockback. Vertical jump height remains 1.2 tiles.

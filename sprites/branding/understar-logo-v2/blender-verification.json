@@ -1,0 +1,18 @@
+{
+  "blender": "5.1.2",
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "nativeCutout": [
+    1813,
+    532
+  ],
+  "masterSize": [
+    4096,
+    1216
+  ],
+  "contours": 22,
+  "native4kTexture": false,
+  "method": "ImageGen raster face; alpha traced relief; bump detail; Cycles studio lighting"
+}

@@ -1,0 +1,10 @@
+{
+  "version": "5.1.2",
+  "frameStart": 1,
+  "frameEnd": 10800,
+  "fps": 60,
+  "cuts": 34,
+  "strips": 60,
+  "allMediaPresent": true,
+  "titleRendering": "Editable native text; the delivered MP4 uses titles.ass for exact letter spacing."
+}

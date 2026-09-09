@@ -5,7 +5,6 @@ import {
   TOWN_TUTORIAL_STAGES,
 } from "../../values/retentionConfig.js";
 import { TITAN_DEFINITIONS } from "../../values/titanDiscoveries.js";
-import { TREASURE_CHEST_CONFIG } from "../../values/treasureChestConfig.js";
 import { RESOURCE_PRICES_CONFIG } from "../../values/resourcePrices.js";
 import { isContextualMechanicTutorialId } from
   "../../values/contextualMechanicTutorials.js";
@@ -27,7 +26,6 @@ export class RetentionProgressSystem {
     this.expedition = createRetentionExpedition();
     this.events = [];
     this.pendingUpgradePayoff = null;
-    this.chestCritBuffUntil = 0;
     this._lastDepth = 0;
     this._lastBestToastDepth = 0;
     this._sessionBestTarget = 0;
@@ -292,11 +290,6 @@ export class RetentionProgressSystem {
 
   recordMiningResult(result = {}) {
     if (!result?.success) return;
-    if (result.isCriticalHit) {
-      this.data.stats.criticalHits += 1;
-      this._advanceObjective("criticalHit", 1);
-    }
-    if (result.isLuckyDrop) this.data.stats.luckyDrops += 1;
     if (finiteRetentionInt(result.overkillDamage) > 0) this.data.stats.overkills += 1;
     if (!result.destroyed) return;
 
@@ -429,29 +422,6 @@ export class RetentionProgressSystem {
 
   getDiscoveredTitans() {
     return [...this.data.discoveries.titans];
-  }
-
-  activateChestCritBuff(nowMs) {
-    const now = Number.isFinite(nowMs) ? nowMs : 0;
-    this.chestCritBuffUntil = Math.max(
-      this.chestCritBuffUntil,
-      now + TREASURE_CHEST_CONFIG.critBuff.durationMs
-    );
-    return this.chestCritBuffUntil;
-  }
-
-  setChestCritBuffUntil(untilMs) {
-    this.chestCritBuffUntil = Math.max(0, Number(untilMs) || 0);
-  }
-
-  getChestCritBuffRemaining(nowMs) {
-    return Math.max(0, this.chestCritBuffUntil - (Number(nowMs) || 0));
-  }
-
-  getChestCritDamageBonus(nowMs) {
-    return this.getChestCritBuffRemaining(nowMs) > 0
-      ? TREASURE_CHEST_CONFIG.critBuff.criticalDamageMultiplierBonus
-      : 0;
   }
 
   _setTutorialStage(stage) {

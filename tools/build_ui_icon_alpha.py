@@ -1,6 +1,7 @@
 from pathlib import Path
+from collections import deque
 
-from PIL import Image
+from PIL import Image, ImageFilter
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -11,17 +12,22 @@ GRID_SIZE = 6
 OUTER_CLEAR_PX = 18
 BACKGROUND_COMPONENT_MIN = 64
 MIN_ICON_PIXELS = 450
-LEAKAGE_MIN_CHANNEL = 135
-LEAKAGE_MAX_SPREAD = 24
+CHECKER_MIN_CHANNEL = 232
+CHECKER_MAX_SPREAD = 12
+LEAKAGE_MIN_CHANNEL = 120
+LEAKAGE_MAX_SPREAD = 60
+LEAKAGE_MAX_DISTANCE_PX = 5
 EDGE_COMPONENT_MARGIN = 24
 EDGE_COMPONENT_MAX_PIXELS = 700
+MASK_REPAIR_DIAMETER_PX = 9
 
 
 def is_checker_background(pixel):
     red, green, blue, _alpha = pixel
     return (
-        min(red, green, blue) >= 216
-        and max(red, green, blue) - min(red, green, blue) <= 20
+        min(red, green, blue) >= CHECKER_MIN_CHANNEL
+        and max(red, green, blue) - min(red, green, blue)
+        <= CHECKER_MAX_SPREAD
     )
 
 
@@ -97,10 +103,12 @@ def clear_neutral_edge_leakage(image, left, top, width, height):
             if pixels[left + local_x, top + local_y][3] == 0:
                 index = local_y * width + local_x
                 visited[index] = 1
-                stack.append(index)
+                stack.append((index, 0))
 
     while stack:
-        index = stack.pop()
+        index, distance = stack.pop()
+        if distance >= LEAKAGE_MAX_DISTANCE_PX:
+            continue
         x = index % width
         y = index // width
         for nx, ny in (
@@ -108,6 +116,10 @@ def clear_neutral_edge_leakage(image, left, top, width, height):
             (x + 1, y),
             (x, y - 1),
             (x, y + 1),
+            (x - 1, y - 1),
+            (x + 1, y - 1),
+            (x - 1, y + 1),
+            (x + 1, y + 1),
         ):
             if nx < 0 or nx >= width or ny < 0 or ny >= height:
                 continue
@@ -128,7 +140,7 @@ def clear_neutral_edge_leakage(image, left, top, width, height):
             visited[neighbor] = 1
             if not is_transparent:
                 pixels[left + nx, top + ny] = (red, green, blue, 0)
-            stack.append(neighbor)
+            stack.append((neighbor, distance + 1))
 
 
 def clear_small_edge_components(image, left, top, width, height):
@@ -189,6 +201,69 @@ def clear_small_edge_components(image, left, top, width, height):
                 pixels[left + x, top + y] = (red, green, blue, 0)
 
 
+def repair_narrow_mask_gaps(image, left, top, width, height):
+    frame = image.crop((left, top, left + width, top + height)).convert("RGBA")
+    alpha = frame.getchannel("A")
+    closed_alpha = alpha.filter(
+        ImageFilter.MaxFilter(MASK_REPAIR_DIAMETER_PX)
+    ).filter(ImageFilter.MinFilter(MASK_REPAIR_DIAMETER_PX))
+    source_bytes = frame.tobytes()
+    source_pixels = [
+        tuple(source_bytes[index:index + 4])
+        for index in range(0, len(source_bytes), 4)
+    ]
+    source_alpha = list(alpha.tobytes())
+    repaired_alpha = list(closed_alpha.tobytes())
+    distance = [-1] * (width * height)
+    propagated_rgb = [None] * (width * height)
+    queue = deque()
+
+    for index, alpha_value in enumerate(source_alpha):
+        if alpha_value == 0:
+            continue
+        distance[index] = 0
+        propagated_rgb[index] = source_pixels[index][:3]
+        queue.append(index)
+
+    max_distance = MASK_REPAIR_DIAMETER_PX // 2
+    while queue:
+        index = queue.popleft()
+        if distance[index] >= max_distance:
+            continue
+        x = index % width
+        y = index // width
+        for nx, ny in (
+            (x - 1, y),
+            (x + 1, y),
+            (x, y - 1),
+            (x, y + 1),
+            (x - 1, y - 1),
+            (x + 1, y - 1),
+            (x - 1, y + 1),
+            (x + 1, y + 1),
+        ):
+            if nx < 0 or nx >= width or ny < 0 or ny >= height:
+                continue
+            neighbor = ny * width + nx
+            if repaired_alpha[neighbor] == 0 or distance[neighbor] >= 0:
+                continue
+            distance[neighbor] = distance[index] + 1
+            propagated_rgb[neighbor] = propagated_rgb[index]
+            queue.append(neighbor)
+
+    repaired_pixels = list(source_pixels)
+    for index, alpha_value in enumerate(source_alpha):
+        if alpha_value > 0 or repaired_alpha[index] == 0:
+            continue
+        rgb = propagated_rgb[index]
+        if rgb is None:
+            continue
+        repaired_pixels[index] = (*rgb, 255)
+
+    frame.putdata(repaired_pixels)
+    image.paste(frame, (left, top))
+
+
 def frame_opaque_count(image, left, top, width, height):
     pixels = image.load()
     count = 0
@@ -238,6 +313,13 @@ def main():
                 frame_height,
             )
             clear_small_edge_components(
+                image,
+                left,
+                top,
+                frame_width,
+                frame_height,
+            )
+            repair_narrow_mask_gaps(
                 image,
                 left,
                 top,

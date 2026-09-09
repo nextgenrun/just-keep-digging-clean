@@ -8,8 +8,9 @@ High-resolution authored bitmap chrome for the production Play → save flow.
   existing logical panel geometry.
 - Buttons reuse the approved authored main-menu plate family while retaining
   the existing text, icon, hint, hit zone, enabled state, and callback contract.
-- Dynamic save dates, levels, depths, currency, stars, hardcore state, backup
-  data, and all action labels remain Phaser-rendered text rather than baked art.
+- This pack retains the modal, setup and rollback frame family. The Save Slots
+  screen uses ../save-menu-baked-v2/ complete cards and instruction plaques;
+  only saved values and changing save state remain live there.
 - `?saveMenuArt=0` restores the previous Graphics surfaces without changing
   any save, file-transfer, input, or scene-transition behavior.
 

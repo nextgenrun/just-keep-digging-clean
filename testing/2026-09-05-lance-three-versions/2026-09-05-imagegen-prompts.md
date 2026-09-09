@@ -1,0 +1,12 @@
+# ImageGen prompts — 2026-09-05
+
+Built-in image generation; one new fireball source and one background correction.
+
+## Initial generation
+
+Use case: stylized-concept. Asset type: one isolated 2D fantasy action-game fireball projectile sprite for a review of Stellar Lance. Input image role: STYLE REFERENCE ONLY, the existing violet energy wave; create a distinct compact fireball, do not recreate the wide crescent. Generate a single clean high-end hand-painted VFX sprite on a genuinely transparent RGBA background. Horizontal travel to the RIGHT, perfectly horizontal centerline. A dense small near-spherical pear-shaped white-hot lavender fire core at the leading RIGHT end, clear round leading contour, saturated violet and amethyst fire shell, and just two or three clean swept-back violet flame tongues making a SHORT tapered tail to the LEFT. It should look like a powerful compact burning projectile with mass and a very clear silhouette, not a bubble, cloudy orb or floating magic icon. Fine sharp internal hot filaments, crisp violet rim and restrained close bloom, no diffuse haze, no surrounding aura or ring, no disconnected spray or sparks, no starbursts, no speed lines, no shockwave, no decoration, no text. The small bright core and directional shape must remain readable at approximately 50 by 24 game pixels. Do not make a long laser or spear; this option is the round compact fireball. Whole flame silhouette should be roughly 2.2 times as wide as tall, with the head accounting for about 45 percent of its width. One sprite, centered with ample clean transparent padding on every side, all flame tips fully inside the canvas. Landscape 1536 by 1024. Nothing else, no ground, no scene, no checkerboard.
+
+## Background correction
+
+Edit target: the supplied newly created single violet fireball sprite. Change ONLY the backdrop: remove the entire light gray and white checkerboard and replace it with perfectly uniform pure black #000000 all around the fireball, including between every flame tongue. The checkerboard is unwanted. Preserve the fireball's exact shape, internal white-hot details, existing violet colors, orientation, scale, placement and short left-facing tail; do not redesign the fireball. The result is for additive compositing in a game, so black background is intentional. Every pixel away from the luminous flame must be pure black, no gradient, no grey, no checkerboard, no ground, no alpha illustration, no text. Keep canvas size 1536 by 1024.
+

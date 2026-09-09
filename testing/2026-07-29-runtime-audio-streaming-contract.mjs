@@ -12,10 +12,12 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const { ASSET_KEYS } = await import("../values/assetKeys.js");
 const {
   AUDIO_CONFIG,
+  APPROVED_SFX_FAMILIES,
   AUDIO_RUNTIME_LOADING,
   resolveRuntimeAudioStreamingEnabled,
 } = await import("../values/audioConfig.js");
 const { RUNTIME_ASSET_LOADING } = await import("../values/runtimeAssetLoading.js");
+const { REVIEWED_AUDIO_ASSETS } = await import("../values/reviewedAudioAssets.js");
 const { WORLD_VISUAL_SEMANTIC_ASSETS } = await import(
   "../values/worldVisualSemanticAssets.js"
 );
@@ -75,9 +77,18 @@ const streamedBoot = makeBootHarness();
 await streamedBoot.boot.preloadAudio();
 const registeredCount = Object.keys(ASSET_KEYS.audio.runtime.paths).length;
 assert.equal(resolveRuntimeAudioStreamingEnabled(AUDIO_RUNTIME_LOADING, ""), true);
-assert.equal(playlist.length, 144, "the expanded music catalog must remain fully registered");
+assert.equal(playlist.length, 143, "the accepted music catalog must remain fully registered");
 assert.ok(registeredCount > 250, "all music and voice assets must remain addressable");
-assert.equal(streamedBoot.queued.length, 21, "Boot must queue 1 music + 14 SFX + 6 voice seeds");
+const bootEffects = new Set([
+  "dig-0", "dig-1", "dig-star-0", "footsteps-0", "footsteps-1", "footsteps-2", "tileBreak-0", "tileHit-0",
+  ASSET_KEYS.audio.sfx.uiSelect, ASSET_KEYS.audio.sfx.uiConfirm,
+  ...Object.values(APPROVED_SFX_FAMILIES).flat().map(asset => asset.key),
+  ...Object.values(REVIEWED_AUDIO_ASSETS).filter(asset => asset.preload).map(asset => asset.key),
+]);
+assert.equal(streamedBoot.queued.length, 1 + bootEffects.size + 6,
+  "Boot queues its existing seeds plus the approved contact/UI working set, never long review beds");
+assert.ok(Object.values(REVIEWED_AUDIO_ASSETS).filter(asset => !asset.preload)
+  .every(asset => !streamedBoot.queued.some(row => row.key === asset.key)));
 assert.deepEqual(ASSET_KEYS.audio.runtime.bootQueuedKeys, streamedBoot.queued.map(item => item.key));
 let streamedBootBytes = 0;
 for (const asset of streamedBoot.queued) {
@@ -94,8 +105,8 @@ await eagerBoot.boot.preloadAudio();
 assert.equal(resolveRuntimeAudioStreamingEnabled(AUDIO_RUNTIME_LOADING, globalThis.location.search), false);
 assert.equal(
   eagerBoot.queued.length,
-  Object.keys(ASSET_KEYS.audio.runtime.paths).length,
-  "runtimeAudioQueue=0 must restore the complete eager preload",
+  Object.keys(ASSET_KEYS.audio.runtime.paths).length - Object.keys(ASSET_KEYS.audio.weatherAmbience).length,
+  "runtimeAudioQueue=0 eagerly loads music/voice/SFX while optional recorded weather stays contextual",
 );
 globalThis.fetch = originalFetch;
 globalThis.location = originalLocation;
@@ -211,6 +222,8 @@ const voiceCache = new Set(["player-random-0"]);
 const voiceLoads = [];
 const voicePrefetches = [];
 const voiceSystem = {
+  getVoiceMixVolume() { return this.voiceVolume; },
+  refreshMixVolumes() {},
   voiceVolume: 1,
   masterVolume: 1,
   musicVolume: 1,
@@ -246,10 +259,21 @@ const musicCache = new Set(["music-track-2"]);
 const delayedCalls = [];
 const musicEnsures = [];
 const musicSystem = {
+  // SoundSystem now always supplies the contextual director. Keep this
+  // loader-focused fixture deterministic without bypassing its selection API.
+  musicDirector: {
+    selectNextIndex({ availableIndexes, currentIndex }) {
+      return (availableIndexes?.length ? availableIndexes : [0, 1, 2])
+        .find(index => index !== currentIndex) ?? 0;
+    },
+  },
+  getMusicMixVolume() { return this.musicVolume; },
+  _isUsableSound(sound) { return sound && !sound.destroyed; },
+  _setSoundVolume(sound, volume) { sound.volume = volume; return true; },
   scene: {
     cache: { audio: { exists: key => musicCache.has(key) } },
     sound: { add: () => new FakeSound() },
-    tweens: { add: config => config.onComplete?.() },
+    tweens: { add: config => { config.targets.gain = config.gain; config.onUpdate?.(); config.onComplete?.(); } },
     time: {
       delayedCall(delay, callback) {
         const call = { delay, callback, remove() { this.removed = true; } };
@@ -276,7 +300,7 @@ const musicAssets = {
 };
 const musicController = new MusicStreamController(musicSystem, musicAssets);
 musicController.start();
-assert.equal(musicSystem.currentTrackIndex, 1, "the random Boot seed must start immediately");
+assert.equal(musicSystem.currentTrackIndex, 1, "the cached director-approved Boot seed must start immediately");
 const prefetchCall = delayedCalls.find(call => call.delay === AUDIO_RUNTIME_LOADING.musicPrefetchDelayMs);
 assert.ok(prefetchCall, "next-track prefetch must be delayed until gameplay settles");
 prefetchCall.callback();

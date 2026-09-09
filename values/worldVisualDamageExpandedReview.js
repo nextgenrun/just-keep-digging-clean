@@ -45,7 +45,6 @@ export const WORLD_VISUAL_DAMAGE_EXPANDED_REVIEW = Object.freeze({
     Object.freeze({ tileType: "GEM_POWER_BLOCK", family: "special", material: "shallowBlue", semantic: "special" }),
     Object.freeze({ tileType: "SPEED_BLOCK", family: "special", material: "blackglass", semantic: "special" }),
     Object.freeze({ tileType: "XP_BLOCK", family: "special", material: "blackglass", semantic: "special" }),
-    Object.freeze({ tileType: "CRIT_BLOCK", family: "special", material: "magma", semantic: "special" }),
     Object.freeze({ tileType: "BERSERK_BLOCK", family: "special", material: "magma", semantic: "special" }),
     Object.freeze({ tileType: "COMBO_BLOCK", family: "special", material: "blackglass", semantic: "special" }),
     Object.freeze({ tileType: "LEGEND_BLOCK", family: "special", material: "shallowBlue", semantic: "special" }),

@@ -70,6 +70,7 @@ export class GameSaveCoordinator {
     if (alreadyPending) this.metrics.coalescedRequests += 1;
     else this.firstQueuedAtMs = now;
     this._cancelHandles();
+    if (this.ports.canPersist?.() === false) return true;
     const elapsed = Math.max(0, now - (this.firstQueuedAtMs ?? now));
     const delay = Math.max(0, Math.min(this.config.debounceMs, this.config.maxDelayMs - elapsed));
     this.timer = this.setTimer?.(() => {
@@ -84,6 +85,7 @@ export class GameSaveCoordinator {
 
   flush({ force = false, scheduled = false, reason = "flush" } = {}) {
     if (this.destroyed || this.ports.isBlocked?.()) return Promise.resolve(false);
+    if (this.ports.canPersist?.() === false) return Promise.resolve(false);
     if (force) {
       this.metrics.forcedFlushes += 1;
       this._dirty = true;
@@ -122,6 +124,10 @@ export class GameSaveCoordinator {
         if (value === false) return false;
         mutated = true;
         this._dirty = true;
+        if (this.ports.canPersist?.() === false) {
+          this._completedTransactions.add(transactionId);
+          return Object.freeze({ success: true, persisted: false, deferred: true, transactionId, value });
+        }
         const saved = await this._captureAndWrite({ reason, transactionId });
         if (!saved) throw new Error(`Save transaction failed: ${transactionId}`);
         this._completedTransactions.add(transactionId);
@@ -178,6 +184,7 @@ export class GameSaveCoordinator {
 
   async _captureAndWrite({ reason, transactionId }) {
     if (!this._dirty || this.destroyed || this.ports.isBlocked?.()) return false;
+    if (this.ports.canPersist?.() === false) return false;
     this._dirty = false;
     const totalStartedAtMs = this.now();
     const revision = this._committedRevision + 1;

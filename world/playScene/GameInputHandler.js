@@ -32,8 +32,10 @@ export class GameInputHandler {
     this.inputHandler = inputHandler;
     this.playerInput = playerInput;
     this._hardEscapeHandledOnDown = false;
+    this._hardEscapePendingOnDown = false;
     this._hardEscapeKey = inputHandler.getKeys().hardEscape;
-    this._onHardEscapeDown = () => this._handleHardEscapeDown();
+    this._hardEscapeEvent = null;
+    this._onHardEscapeDown = (_key, event) => this._handleHardEscapeDown(event);
     this._mapHandledOnDown = false;
     this._onMapDown = event => this._handleMapDown(event);
     this._onSceneShutdown = () => this.destroy();
@@ -42,8 +44,12 @@ export class GameInputHandler {
     scene.events?.once?.(Phaser.Scenes.Events.SHUTDOWN, this._onSceneShutdown);
   }
 
-  _handleHardEscapeDown() {
+  _handleHardEscapeDown(event) {
+    if (event && event === this._hardEscapeEvent) return;
+    this._hardEscapeEvent = event || null;
     this._hardEscapeHandledOnDown = false;
+    // Keep a short press until the next game frame, even if key-up clears JustDown.
+    this._hardEscapePendingOnDown = true;
 
     // Escape cancels key capture without also closing the Settings / Pause UI.
     if (this.scene._settingsKeyCaptureActive) {
@@ -68,11 +74,20 @@ export class GameInputHandler {
     this._mapHandledOnDown = true;
   }
 
+  discardOverlayInput() {
+    const keys = this.inputHandler.getKeys();
+    for (const key of new Set([keys.hardEscape, keys.escape, keys.map])) justDown(key);
+    this._hardEscapePendingOnDown = false;
+    this._hardEscapeHandledOnDown = false;
+    this._mapHandledOnDown = false;
+  }
+
   handleEscapeInput() {
     if (this.scene._settingsKeyCaptureActive) return false;
 
     const keys = this.inputHandler.getKeys();
-    const hardEscapePressed = justDown(keys.hardEscape);
+    const hardEscapePressed = justDown(keys.hardEscape) || this._hardEscapePendingOnDown;
+    this._hardEscapePendingOnDown = false;
     const pausePressed = keys.escape === keys.hardEscape
       ? hardEscapePressed
       : justDown(keys.escape) || hardEscapePressed;
@@ -105,8 +120,10 @@ export class GameInputHandler {
       Phaser.Scenes.Events.SHUTDOWN,
       this._onSceneShutdown,
     );
+    this._hardEscapePendingOnDown = false;
     this._hardEscapeKey = null;
     this._onHardEscapeDown = null;
+    this._hardEscapeEvent = null;
     this._onMapDown = null;
     this._onSceneShutdown = null;
   }

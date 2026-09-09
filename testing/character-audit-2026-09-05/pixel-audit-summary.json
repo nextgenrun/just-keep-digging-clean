@@ -1,0 +1,267 @@
+{
+  "summary": {
+    "registeredAnimations": 213,
+    "registeredSheets": 53,
+    "requiredSheets": 55,
+    "uniqueFrameSequences": 194,
+    "heldTorchBindings": 26,
+    "continuousFlightLoop": true,
+    "rigManifestKey": null,
+    "missingAssets": [],
+    "missingRecoveryTargets": [],
+    "nullRecoveryMappings": [
+      [
+        "survival-ual-player-v1-moving-complex-dig-cross-jab-phase-01-anim",
+        null
+      ],
+      [
+        "survival-ual-player-v1-moving-complex-dig-cross-cross-phase-15-anim",
+        null
+      ],
+      [
+        "survival-ual-player-v1-moving-complex-dig-cross-jab-phase-05-anim",
+        null
+      ],
+      [
+        "survival-ual-player-v1-moving-complex-dig-cross-cross-phase-19-anim",
+        null
+      ],
+      [
+        "survival-ual-player-v1-moving-complex-dig-cross-jab-phase-09-anim",
+        null
+      ],
+      [
+        "survival-ual-player-v1-moving-complex-dig-cross-cross-phase-23-anim",
+        null
+      ],
+      [
+        "survival-ual-player-v1-moving-complex-dig-cross-cross-phase-10-anim",
+        null
+      ],
+      [
+        "survival-ual-player-v1-moving-complex-dig-cross-jab-phase-24-anim",
+        null
+      ]
+    ],
+    "requiredSheetsWithoutAnimation": [
+      "survival-ual-player-v1-punch-jab-sheet",
+      "survival-ual-player-v1-animation-polish-run-sheet"
+    ],
+    "manifestSheets": 54,
+    "manifestSourceFrames": 3082,
+    "additionalSheetsMeasured": 2,
+    "integrityIssues": 0
+  },
+  "manifestOmissions": [
+    {
+      "sheet": "survival-mixamo-v3-downward-dig-body-low-sheet",
+      "assetPath": "sprites/character/survival-character-unified-v1/runtime/2026-08-25-survival-mixamo-v3-downward-dig-body-low-sheet.webp",
+      "registeredSourceFrames": 19
+    },
+    {
+      "sheet": "survival-mixamo-v3-downward-dig-leg-sweep-sheet",
+      "assetPath": "sprites/character/survival-character-unified-v1/runtime/2026-08-25-survival-mixamo-v3-downward-dig-leg-sweep-sheet.webp",
+      "registeredSourceFrames": 24
+    }
+  ],
+  "sheetIssues": [],
+  "transitions": [
+    {
+      "label": "Ordinary walk starts directly from idle",
+      "max": 0.2683,
+      "median": 0.2553
+    },
+    {
+      "label": "Ordinary walk stops directly to idle",
+      "max": 0.5854,
+      "median": 0.4877
+    },
+    {
+      "label": "Ctrl run starts through an authored bridge",
+      "max": 0.0027,
+      "median": 0.0027
+    },
+    {
+      "label": "Ctrl run start to gait",
+      "max": 0.1238,
+      "median": 0.1238
+    },
+    {
+      "label": "Flight loop: last to first",
+      "max": 0.6566,
+      "median": 0.6566
+    },
+    {
+      "label": "Airborne phase directly to flight",
+      "max": 0.8555,
+      "median": 0.8377
+    },
+    {
+      "label": "Flight phase directly to falling",
+      "max": 0.8672,
+      "median": 0.8549
+    },
+    {
+      "label": "Hard landing to idle",
+      "max": 0.4818,
+      "median": 0.4818
+    },
+    {
+      "label": "Hard landing early movement exit to walk",
+      "max": 0.5409,
+      "median": 0.5409
+    },
+    {
+      "label": "Crouch exit to idle",
+      "max": 0.4883,
+      "median": 0.4883
+    },
+    {
+      "label": "Torch start to gait",
+      "max": 0.5352,
+      "median": 0.5352
+    },
+    {
+      "label": "Torch gait to a stop entry",
+      "max": 0.6368,
+      "median": 0.5156
+    },
+    {
+      "label": "Torch idle to ordinary torch gait",
+      "max": 0.227,
+      "median": 0.2247
+    },
+    {
+      "label": "Torch flight loop wrap",
+      "max": 0.6543,
+      "median": 0.6543
+    },
+    {
+      "label": "Falling phase to ledge catch",
+      "max": 0.7067,
+      "median": 0.7011
+    },
+    {
+      "label": "Ledge catch to hang",
+      "max": 0.0,
+      "median": 0.0
+    },
+    {
+      "label": "Ledge climb to idle",
+      "max": 0.7197,
+      "median": 0.7197
+    },
+    {
+      "label": "Ledge drop to falling",
+      "max": 0.6147,
+      "median": 0.6147
+    },
+    {
+      "label": "Torch idle to bare-handed Quick Slash",
+      "max": 0.7222,
+      "median": 0.7215
+    }
+  ],
+  "notableMetrics": [
+    {
+      "key": "survival-ual-player-v1-idle-anim",
+      "sheet": "survival-blender-v2-idle-sheet",
+      "frames": 48,
+      "frameRate": 12,
+      "repeat": -1,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 74.0,
+      "visibleHeightRangePx": 0,
+      "baselineRangePx": 0,
+      "centerXRangePx": 0.0,
+      "worstConsecutiveSeam": 0.0143,
+      "medianConsecutiveSeam": 0.0054,
+      "worstConsecutivePair": [
+        35,
+        36
+      ],
+      "loopSeam": 0.0,
+      "loopToMedianRatio": 0.0
+    },
+    {
+      "key": "survival-ual-player-v1-walk-loop-anim",
+      "sheet": "survival-blender-v2-walk-sheet",
+      "frames": 24,
+      "frameRate": 30,
+      "repeat": -1,
+      "displaySizePx": 104,
+      "visibleHeightMedianPx": 74.0,
+      "visibleHeightRangePx": 4,
+      "baselineRangePx": 4,
+      "centerXRangePx": 8.0,
+      "worstConsecutiveSeam": 0.4511,
+      "medianConsecutiveSeam": 0.3375,
+      "worstConsecutivePair": [
+        7,
+        8
+      ],
+      "loopSeam": 0.3855,
+      "loopToMedianRatio": 1.142
+    },
+    {
+      "key": "survival-ual-player-v1-run-anim",
+      "sheet": "survival-mixamo-v1-walk-loop-sheet",
+      "frames": 24,
+      "frameRate": 24,
+      "repeat": -1,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 76.0,
+      "visibleHeightRangePx": 3,
+      "baselineRangePx": 2,
+      "centerXRangePx": 8.5,
+      "worstConsecutiveSeam": 0.2469,
+      "medianConsecutiveSeam": 0.1837,
+      "worstConsecutivePair": [
+        1,
+        2
+      ],
+      "loopSeam": 0.1655,
+      "loopToMedianRatio": 0.901
+    },
+    {
+      "key": "survival-mixamo-v1-flight-loop-anim",
+      "sheet": "survival-mixamo-v1-flight-loop-sheet",
+      "frames": 48,
+      "frameRate": 18,
+      "repeat": -1,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 25.0,
+      "visibleHeightRangePx": 1,
+      "baselineRangePx": 7,
+      "centerXRangePx": 0.5,
+      "worstConsecutiveSeam": 0.0412,
+      "medianConsecutiveSeam": 0.0227,
+      "worstConsecutivePair": [
+        27,
+        28
+      ],
+      "loopSeam": 0.6566,
+      "loopToMedianRatio": 28.862
+    },
+    {
+      "key": "survival-ual-player-v1-death-anim",
+      "sheet": "survival-ual-player-v1-death-sheet",
+      "frames": 73,
+      "frameRate": 30,
+      "repeat": 0,
+      "displaySizePx": 101,
+      "visibleHeightMedianPx": 38,
+      "visibleHeightRangePx": 48,
+      "baselineRangePx": 13,
+      "centerXRangePx": 11.5,
+      "worstConsecutiveSeam": 0.3681,
+      "medianConsecutiveSeam": 0.0546,
+      "worstConsecutivePair": [
+        29,
+        30
+      ],
+      "loopSeam": null,
+      "loopToMedianRatio": null
+    }
+  ]
+}

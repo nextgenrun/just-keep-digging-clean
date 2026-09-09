@@ -1,4 +1,5 @@
 import { UPGRADES, getUpgradeCost, getUpgradeEffect, calculateHeavyPunchEffect } from "../../values/upgradeFormulas.js";
+import { UPGRADE_PROGRESSION_VERSION } from "../../values/upgradeDefinitions.js";
 import { isCraftOnlyUpgrade } from "../../values/craftingRecipes.js";
 import { EARTHQUAKE_SUPPRESSION_UPGRADE } from "../../values/earthquakes.js";
 import { resolveFirstFiveMinutesEnabled } from "../../values/firstFiveMinutes.js";
@@ -14,6 +15,11 @@ import {
   isGameplayUpgradeEnabled,
 } from "../../values/gameplayDevFlags.js";
 import { RUNTIME_GAMEPLAY_CAPABILITIES } from "../../values/gameplayCapabilities.js";
+import {
+  clampUpgradeLevel,
+  normalizeUpgradeLevels,
+  resolveUpgradeSaveState,
+} from "./upgradeSaveState.js";
 
 export class UpgradeSystem {
   constructor(digSystem = null, playerLevelSystem = null, options = {}) {
@@ -98,12 +104,7 @@ export class UpgradeSystem {
   }
 
   setUpgradeLevels(levels) {
-    const nextLevels = {};
-    for (const upgradeId in UPGRADES) {
-      const value = levels?.[upgradeId];
-      nextLevels[upgradeId] = Number.isFinite(value) ? Math.max(0, Math.floor(value)) : 0;
-    }
-    this.upgradeLevels = nextLevels;
+    this.upgradeLevels = normalizeUpgradeLevels(levels);
     this.invalidateEffectsCache();
   }
 
@@ -137,9 +138,10 @@ export class UpgradeSystem {
     }
 
     const currentLevel = this.getUpgradeLevel(upgradeId);
-    const nextLevel = upgrade.oneTimePurchase
+    const requestedLevel = upgrade.oneTimePurchase
       ? Math.max(currentLevel, 1)
       : Math.max(currentLevel, Math.floor(level));
+    const nextLevel = clampUpgradeLevel(upgradeId, requestedLevel);
     this.upgradeLevels[upgradeId] = nextLevel;
     if (upgrade.category === "pickaxes") {
       this.ownedPickaxe = upgradeId;
@@ -188,6 +190,10 @@ export class UpgradeSystem {
       return { canPurchase: false, reason: "max_level" };
     }
     
+    if (upgrade.acquisitionMode === "signal") {
+      return { canPurchase: false, reason: "requires_signal_rescue" };
+    }
+
     if (upgrade.maxLevel && currentLevel >= upgrade.maxLevel) {
       return { canPurchase: false, reason: "max_level" };
     }
@@ -297,10 +303,12 @@ export class UpgradeSystem {
     const effects = {
       gemPowerMax: 0,
       gemPowerDrainReduction: 0,
+      gemPowerCostReduction: 0,
       gemPowerRegenIncrease: 0,
       torchDrainReduction: 0,
       torchBonusRadius: 0,
       noTorchMinVisibilityRadius: 0,
+      caveEyesPanicReduction: 0,
       gemLevitation: 0,
       levitationSpeed: 0,
       walkSpeed: 0,
@@ -314,12 +322,9 @@ export class UpgradeSystem {
       nextResourceBonus: 0,
       deepResourceBonus: 0,
       marketBonus: 0,
-      luckySales: 0,
       marketReports: 0,
       depthEconomyEnabled: this.depthEconomyEnabled,
-      critChance: 0,
       heavyPunchDamage: 0,
-      luckyCollector: 0,
       unlockQuickslash: 0,
       unlockThunderStrike: 0,
       [EARTHQUAKE_SUPPRESSION_UPGRADE.effectType]: 0,
@@ -333,6 +338,8 @@ export class UpgradeSystem {
       if (!isGameplayUpgradeEnabled(upgradeId, this.gameplayCapabilities)) continue;
       
       const upgrade = UPGRADES[upgradeId];
+      // Retired upgrade ids can remain in old saves; they have no live effect.
+      if (!upgrade) continue;
       if (upgrade.firstFiveOnly && !this.firstFiveEnabled) continue;
       if (upgrade.depthEconomyOnly && !this.depthEconomyEnabled) continue;
       
@@ -360,6 +367,12 @@ export class UpgradeSystem {
         } else {
           effects[upgrade.effectType] += effect;
         }
+      }
+      if (upgrade.hardcorePanicReductionPerLevel) {
+        effects.caveEyesPanicReduction += Math.min(
+          upgrade.hardcorePanicReductionMax || 1,
+          level * upgrade.hardcorePanicReductionPerLevel,
+        );
       }
     }
 
@@ -425,8 +438,25 @@ export class UpgradeSystem {
 
   getEffectiveGemPowerDrain(baseDrain) {
     const effects = this.getUpgradeEffects();
-    const drainReduction = effects.gemPowerDrainReduction + effects.gemLevitation;
-    return Math.max(0, baseDrain - drainReduction);
+    const drainAfterLevitation = Math.max(
+      0,
+      baseDrain - effects.gemPowerDrainReduction - effects.gemLevitation,
+    );
+    return this.getEffectiveGemPowerCost(drainAfterLevitation);
+  }
+
+  getGemPowerCostMultiplier() {
+    const reduction = Math.max(
+      0,
+      Math.min(0.80, this.getUpgradeEffects().gemPowerCostReduction || 0),
+    );
+    return 1 - reduction;
+  }
+
+  getEffectiveGemPowerCost(baseCost) {
+    const cost = Number(baseCost);
+    if (!Number.isFinite(cost) || cost <= 0) return 0;
+    return cost * this.getGemPowerCostMultiplier();
   }
 
   getEffectiveGemPowerRegen(baseRegen, depthRatio) {
@@ -487,6 +517,7 @@ export class UpgradeSystem {
 
   toJSON() {
     return {
+      upgradeProgressionVersion: UPGRADE_PROGRESSION_VERSION,
       upgradeLevels: this.upgradeLevels,
       money: this.money,
       ownedPickaxe: this.ownedPickaxe
@@ -494,14 +525,9 @@ export class UpgradeSystem {
   }
 
   fromJSON(data) {
-    if (data.upgradeLevels) {
-      const upgradeLevels = { ...data.upgradeLevels };
-      // Saves created before the opening artifact always had flight. Preserve
-      // those players while allowing new saves to persist an explicit lock.
-      if (!Object.hasOwn(upgradeLevels, "gemPowerUnlock")) {
-        upgradeLevels.gemPowerUnlock = 1;
-      }
-      this.setUpgradeLevels(upgradeLevels);
+    const resolvedSave = resolveUpgradeSaveState(data);
+    if (resolvedSave) {
+      this.setUpgradeLevels(resolvedSave.upgradeLevels);
     }
     if (typeof data.money === 'number') {
       this.setMoney(data.money);

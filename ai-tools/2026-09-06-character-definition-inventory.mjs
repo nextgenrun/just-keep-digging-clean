@@ -1,0 +1,11 @@
+import fs from 'node:fs';
+import { PLAYER_ASSET_PROFILES } from '../values/playerAssetProfiles.js';
+import { createUalNativePlayerAnimations } from '../player/UalNativePlayerAnimations.js';
+import { getUniquePlayerSheetEntries } from '../player/PlayerAssetSheetCatalog.js';
+const profile = PLAYER_ASSET_PROFILES.survivalUal;
+if (profile.characterDefinitionRuntime) throw new Error("The pre-wiring inventory is an immutable baseline. Reuse the saved inventory when rebuilding V2; do not replace it with atlas paths.");
+const animations = [], seen = new Set(), available = new Set(profile.requiredSheets);
+createUalNativePlayerAnimations({anims:{exists:k=>seen.has(k),create:a=>{seen.add(a.key);animations.push(a);}},textures:{exists:k=>available.has(k),get:()=>({setFilter(){}})}},profile);
+const sheets=getUniquePlayerSheetEntries(profile).map(entry=>({...entry,frames:[...new Set([...entry.frames,...animations.flatMap(a=>a.frames.filter(f=>f.key===entry.key).map(f=>f.frame))])].sort((a,b)=>a-b)}));
+fs.writeFileSync('testing/character-definition-v2-export/inventory.json',JSON.stringify({profile,animations,sheets},null,2));
+console.log(JSON.stringify({animations:animations.length,sheets:sheets.length,referencedFrames:sheets.reduce((n,s)=>n+s.frames.length,0),missingConfig:sheets.filter(s=>!JSON.parse(fs.readFileSync('values/survivalUnifiedAnimationRuntimeV1.json')).sheets[s.key]).map(s=>s.key)}));

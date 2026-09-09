@@ -1,0 +1,29 @@
+--- testing\character-contact-restoration-2026-09-07\pre-change\systems__visual__digImpactContact.js
+
++++ systems\visual\digImpactContact.js
+
+@@ -1,2 +1,3 @@
+
++import { CHARACTER_DEFINITION_IMPACT_CONTACTS } from "../../values/characterDefinitionImpactContacts.js";
+ import { DIG_IMPACT_CONTACTS } from "../../values/digImpactContacts.generated.js";
+ import { DIG_IMPACT_FX_CONFIG as CONFIG } from "../../values/digImpactFx.js";
+@@ -58,9 +59,14 @@
+
+   if (length < CONFIG.directionEpsilon) { nx = pose?.flipX ? 1 : -1; ny = 0; }
+   else { nx /= length; ny /= length; }
+-  const sheet = DIG_IMPACT_CONTACTS[pose?.sheet];
+-  const record = sheet && sheet.size === pose?.width && sheet.size === pose?.height
++  const definitionSheet = CHARACTER_DEFINITION_IMPACT_CONTACTS[pose?.sheet];
++  const sheet = definitionSheet && definitionSheet.size === pose?.width && pose.width === pose.height
++    ? definitionSheet : DIG_IMPACT_CONTACTS[pose?.sheet];
++  // Markers use the full authored cell, never the atlas's trimmed rectangle.
++  const ratio = sheet?.size > 0 && Number.isFinite(pose?.width)
++    && pose.width > 0 && pose.width === pose.height ? pose.width / sheet.size : 0;
++  const record = ratio
+     ? Object.values(sheet.contacts).find(entry => entry[0] === pose.contactFrame) : null;
+-  const projected = record && project([record[1], record[2]], pose);
+-  const previous = record && project([record[3], record[4]], pose);
++  const projected = record && project([record[1] * ratio, record[2] * ratio], pose);
++  const previous = record && project([record[3] * ratio, record[4] * ratio], pose);
+   const rawPoint = finite(projected) ? projected : near;
+   const inset = tileSize * CONFIG.faceInsetTiles;

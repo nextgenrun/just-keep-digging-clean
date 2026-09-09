@@ -1,0 +1,271 @@
+{
+  "date": "2026-09-06",
+  "url": "http://127.0.0.1:8195/testing/animation-sandbox/2026-09-05-continuous-layered-world-v1/",
+  "pageErrors": [],
+  "failedRequests": [],
+  "views": [
+    {
+      "name": "final-handoff",
+      "ready": true,
+      "mode": "candidate",
+      "x": 100,
+      "y": 57,
+      "playing": false,
+      "held": false,
+      "renderer": {
+        "reviewOnly": true,
+        "ready": true,
+        "paused": false,
+        "skyCards": 16,
+        "cloudSprites": 70,
+        "pooledCloudSprites": 71,
+        "layers": [
+          {
+            "id": "upper",
+            "parallaxX": 0.26,
+            "speed": 2.8
+          },
+          {
+            "id": "horizon",
+            "parallaxX": 0.44,
+            "speed": 4.7
+          },
+          {
+            "id": "lower",
+            "parallaxX": 0.64,
+            "speed": 6.8
+          },
+          {
+            "id": "near",
+            "parallaxX": 0.9,
+            "speed": 9.5
+          }
+        ],
+        "traveledSeconds": 0.4737000000000007,
+        "blendedHeavenblocks": 0
+      }
+    },
+    {
+      "name": "final-east-handoff",
+      "ready": true,
+      "mode": "candidate",
+      "x": 117,
+      "y": 57,
+      "playing": false,
+      "held": false,
+      "renderer": {
+        "reviewOnly": true,
+        "ready": true,
+        "paused": false,
+        "skyCards": 16,
+        "cloudSprites": 68,
+        "pooledCloudSprites": 73,
+        "layers": [
+          {
+            "id": "upper",
+            "parallaxX": 0.26,
+            "speed": 2.8
+          },
+          {
+            "id": "horizon",
+            "parallaxX": 0.44,
+            "speed": 4.7
+          },
+          {
+            "id": "lower",
+            "parallaxX": 0.64,
+            "speed": 6.8
+          },
+          {
+            "id": "near",
+            "parallaxX": 0.9,
+            "speed": 9.5
+          }
+        ],
+        "traveledSeconds": 1.1710000000000003,
+        "blendedHeavenblocks": 0
+      }
+    },
+    {
+      "name": "final-mine-handoff",
+      "ready": true,
+      "mode": "candidate",
+      "x": 134,
+      "y": 57,
+      "playing": false,
+      "held": false,
+      "renderer": {
+        "reviewOnly": true,
+        "ready": true,
+        "paused": false,
+        "skyCards": 12,
+        "cloudSprites": 66,
+        "pooledCloudSprites": 75,
+        "layers": [
+          {
+            "id": "upper",
+            "parallaxX": 0.26,
+            "speed": 2.8
+          },
+          {
+            "id": "horizon",
+            "parallaxX": 0.44,
+            "speed": 4.7
+          },
+          {
+            "id": "lower",
+            "parallaxX": 0.64,
+            "speed": 6.8
+          },
+          {
+            "id": "near",
+            "parallaxX": 0.9,
+            "speed": 9.5
+          }
+        ],
+        "traveledSeconds": 1.7516000000000012,
+        "blendedHeavenblocks": 0
+      }
+    },
+    {
+      "name": "final-town",
+      "ready": true,
+      "mode": "candidate",
+      "x": 20,
+      "y": 63,
+      "playing": false,
+      "held": false,
+      "renderer": {
+        "reviewOnly": true,
+        "ready": true,
+        "paused": false,
+        "skyCards": 12,
+        "cloudSprites": 66,
+        "pooledCloudSprites": 75,
+        "layers": [
+          {
+            "id": "upper",
+            "parallaxX": 0.26,
+            "speed": 2.8
+          },
+          {
+            "id": "horizon",
+            "parallaxX": 0.44,
+            "speed": 4.7
+          },
+          {
+            "id": "lower",
+            "parallaxX": 0.64,
+            "speed": 6.8
+          },
+          {
+            "id": "near",
+            "parallaxX": 0.9,
+            "speed": 9.5
+          }
+        ],
+        "traveledSeconds": 2.4286999999999996,
+        "blendedHeavenblocks": 3
+      }
+    },
+    {
+      "name": "final-sky",
+      "ready": true,
+      "mode": "candidate",
+      "x": 100,
+      "y": 46,
+      "playing": false,
+      "held": false,
+      "renderer": {
+        "reviewOnly": true,
+        "ready": true,
+        "paused": false,
+        "skyCards": 16,
+        "cloudSprites": 55,
+        "pooledCloudSprites": 86,
+        "layers": [
+          {
+            "id": "upper",
+            "parallaxX": 0.26,
+            "speed": 2.8
+          },
+          {
+            "id": "horizon",
+            "parallaxX": 0.44,
+            "speed": 4.7
+          },
+          {
+            "id": "lower",
+            "parallaxX": 0.64,
+            "speed": 6.8
+          },
+          {
+            "id": "near",
+            "parallaxX": 0.9,
+            "speed": 9.5
+          }
+        ],
+        "traveledSeconds": 3.0926000000000013,
+        "blendedHeavenblocks": 3
+      }
+    },
+    {
+      "name": "final-heavenblocks",
+      "ready": true,
+      "mode": "candidate",
+      "x": 230,
+      "y": 30,
+      "playing": false,
+      "held": false,
+      "renderer": {
+        "reviewOnly": true,
+        "ready": true,
+        "paused": false,
+        "skyCards": 12,
+        "cloudSprites": 62,
+        "pooledCloudSprites": 79,
+        "layers": [
+          {
+            "id": "upper",
+            "parallaxX": 0.26,
+            "speed": 2.8
+          },
+          {
+            "id": "horizon",
+            "parallaxX": 0.44,
+            "speed": 4.7
+          },
+          {
+            "id": "lower",
+            "parallaxX": 0.64,
+            "speed": 6.8
+          },
+          {
+            "id": "near",
+            "parallaxX": 0.9,
+            "speed": 9.5
+          }
+        ],
+        "traveledSeconds": 3.6899000000000006,
+        "blendedHeavenblocks": 3
+      }
+    }
+  ],
+  "pausePassed": true,
+  "crop": {
+    "x": 33,
+    "y": 105,
+    "width": 1470,
+    "height": 826
+  },
+  "motionRecording": {
+    "frames": 210,
+    "duration": 13.972947120666504
+  },
+  "motionAdvanced": true,
+  "lifecycle": {
+    "inspector": false,
+    "owned": []
+  },
+  "passed": true
+}

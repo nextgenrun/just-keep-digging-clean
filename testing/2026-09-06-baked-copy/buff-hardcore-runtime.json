@@ -1,0 +1,395 @@
+{
+  "hardcorePassive": {
+    "phase": "playing",
+    "savesBlocked": true,
+    "viewport": {
+      "width": 1280,
+      "height": 720
+    },
+    "density": 2,
+    "buffs": {
+      "state": {
+        "visibleEntries": 1,
+        "icons": [
+          "power"
+        ],
+        "hitAreas": [
+          {
+            "width": 131,
+            "height": 44
+          }
+        ],
+        "hoveredIndex": 0,
+        "tooltipVisible": true,
+        "tooltipTitle": "ECHO LANCE — PERMANENT",
+        "tooltipBody": "FIRST BLOCK: 0.35–0.47× DAMAGE\n4 TILE RANGE • ALWAYS ON\nOnly leftover damage continues. Full Stellar Lance temporarily replaces this echo."
+      },
+      "entries": [
+        {
+          "text": "ECHO LANCE",
+          "icon": "power",
+          "color": "#C084FC",
+          "tooltip": {
+            "title": "ECHO LANCE — PERMANENT",
+            "color": "#C084FC",
+            "body": "FIRST BLOCK: 0.35–0.47× DAMAGE\n4 TILE RANGE • ALWAYS ON\nOnly leftover damage continues. Full Stellar Lance temporarily replaces this echo."
+          }
+        }
+      ],
+      "frames": [
+        {
+          "type": 5,
+          "x": 14,
+          "y": 161,
+          "width": 131,
+          "height": 30
+        }
+      ],
+      "texts": [
+        {
+          "text": "ECHO LANCE",
+          "bounds": {
+            "type": 5,
+            "x": 58.5,
+            "y": 168.5,
+            "width": 58,
+            "height": 15
+          }
+        }
+      ],
+      "tooltip": {
+        "frame": {
+          "type": 5,
+          "x": 6,
+          "y": 270,
+          "width": 320,
+          "height": 92
+        },
+        "title": {
+          "type": 5,
+          "x": 94.89999999999999,
+          "y": 285,
+          "width": 142.20000000000005,
+          "height": 18
+        },
+        "body": {
+          "type": 5,
+          "x": 81.4375,
+          "y": 306,
+          "width": 169.125,
+          "height": 44
+        }
+      },
+      "hardcore": {
+        "state": {
+          "ready": true,
+          "band": "calm",
+          "severity": "stable",
+          "sanityPercent": 100,
+          "panicIntensity": 0,
+          "statusCueIntensity": 0,
+          "statusVisible": true,
+          "statusSuppressedForOverlay": false,
+          "statusIconKey": "ui-hardcore-oath-crest-v1",
+          "title": "HARDCORE  •  1 LIFE  •  SANITY 100%",
+          "detail": "PANIC STARTS 22M  •  LEVEL PROTECTION +0M",
+          "panicLineReady": true,
+          "panicLineVisible": true,
+          "panicLineDepth": 22,
+          "panicLineWorldY": 8084,
+          "panicLineWidth": 1280,
+          "panicLineTitle": "PANIC STARTS HERE  •  22M",
+          "panicLineDetail": "DARKNESS BUILDS PANIC BELOW  •  TORCHLIGHT HOLDS IT BACK",
+          "panicVisible": false,
+          "highPanicVisible": false,
+          "bannerOwnsSignal": false,
+          "edgeAlpha": 0,
+          "echoAlpha": 0,
+          "slipAlpha": 0,
+          "bannerAlpha": 0,
+          "targetPanicIntensity": 0,
+          "peripheralIntensity": 0,
+          "echoIntensity": 0,
+          "realitySlipIntensity": 0,
+          "overlayTitle": "",
+          "overlayDetail": ""
+        },
+        "frame": {
+          "type": 5,
+          "x": 12,
+          "y": 206,
+          "width": 336,
+          "height": 56
+        }
+      },
+      "empower": {
+        "passiveEcho": true,
+        "remainingMs": 9007199254689037
+      }
+    },
+    "errors": [],
+    "failure": null
+  },
+  "timedActivation": {
+    "phase": "playing",
+    "savesBlocked": true,
+    "viewport": {
+      "width": 1280,
+      "height": 720
+    },
+    "density": 2,
+    "buffs": {
+      "state": {
+        "visibleEntries": 1,
+        "icons": [
+          "power"
+        ],
+        "hitAreas": [
+          {
+            "width": 131,
+            "height": 44
+          }
+        ],
+        "hoveredIndex": 0,
+        "tooltipVisible": true,
+        "tooltipTitle": "STELLAR LANCE — ACTIVE",
+        "tooltipBody": "FIRST BLOCK: 1.61–2.17× DAMAGE\n9 TILE RANGE • 5 LANES • 1.9s left.\nOnly leftover damage continues. Shots: blue, purple, red."
+      },
+      "entries": [
+        {
+          "text": "LANCE 1.9s",
+          "icon": "power",
+          "color": "#C084FC",
+          "tooltip": {
+            "title": "STELLAR LANCE — ACTIVE",
+            "color": "#C084FC",
+            "body": "FIRST BLOCK: 1.61–2.17× DAMAGE\n9 TILE RANGE • 5 LANES • 1.9s left.\nOnly leftover damage continues. Shots: blue, purple, red."
+          }
+        }
+      ],
+      "frames": [
+        {
+          "type": 5,
+          "x": 14,
+          "y": 161,
+          "width": 131,
+          "height": 30
+        }
+      ],
+      "texts": [
+        {
+          "text": "LANCE 1.9s",
+          "bounds": {
+            "type": 5,
+            "x": 62,
+            "y": 168.5,
+            "width": 51,
+            "height": 15
+          }
+        }
+      ],
+      "tooltip": {
+        "frame": {
+          "type": 5,
+          "x": 6,
+          "y": 199,
+          "width": 320,
+          "height": 92
+        },
+        "title": {
+          "type": 5,
+          "x": 98.5,
+          "y": 214,
+          "width": 135,
+          "height": 18
+        },
+        "body": {
+          "type": 5,
+          "x": 39.95833333333334,
+          "y": 235,
+          "width": 252.0833333333333,
+          "height": 44
+        }
+      },
+      "hardcore": {
+        "state": {
+          "ready": true,
+          "band": "calm",
+          "severity": "stable",
+          "sanityPercent": null,
+          "panicIntensity": 0,
+          "statusCueIntensity": 0,
+          "statusVisible": false,
+          "statusSuppressedForOverlay": false,
+          "statusIconKey": "ui-hardcore-oath-crest-v1",
+          "title": "HARDCORE  •  1 LIFE  •  SANITY 100%",
+          "detail": "PANIC STARTS 22M  •  LEVEL PROTECTION +0M",
+          "panicLineReady": true,
+          "panicLineVisible": false,
+          "panicLineDepth": 22,
+          "panicLineWorldY": 8084,
+          "panicLineWidth": 1280,
+          "panicLineTitle": "PANIC STARTS HERE  •  22M",
+          "panicLineDetail": "DARKNESS BUILDS PANIC BELOW  •  TORCHLIGHT HOLDS IT BACK",
+          "panicVisible": false,
+          "highPanicVisible": false,
+          "bannerOwnsSignal": false,
+          "edgeAlpha": 0,
+          "echoAlpha": 0,
+          "slipAlpha": 0,
+          "bannerAlpha": 0,
+          "targetPanicIntensity": 0,
+          "peripheralIntensity": 0,
+          "echoIntensity": 0,
+          "realitySlipIntensity": 0,
+          "overlayTitle": "",
+          "overlayDetail": ""
+        },
+        "frame": {
+          "type": 5,
+          "x": 12,
+          "y": 206,
+          "width": 336,
+          "height": 56
+        }
+      },
+      "empower": {
+        "passiveEcho": false,
+        "remainingMs": 1919.7999999999884
+      }
+    },
+    "errors": [],
+    "failure": null
+  },
+  "afterExpiry": {
+    "phase": "playing",
+    "savesBlocked": true,
+    "viewport": {
+      "width": 1280,
+      "height": 720
+    },
+    "density": 2,
+    "buffs": {
+      "state": {
+        "visibleEntries": 1,
+        "icons": [
+          "power"
+        ],
+        "hitAreas": [
+          {
+            "width": 131,
+            "height": 44
+          }
+        ],
+        "hoveredIndex": 0,
+        "tooltipVisible": true,
+        "tooltipTitle": "ECHO LANCE — PERMANENT",
+        "tooltipBody": "FIRST BLOCK: 0.35–0.47× DAMAGE\n4 TILE RANGE • ALWAYS ON\nOnly leftover damage continues. Full Stellar Lance temporarily replaces this echo."
+      },
+      "entries": [
+        {
+          "text": "ECHO LANCE",
+          "icon": "power",
+          "color": "#C084FC",
+          "tooltip": {
+            "title": "ECHO LANCE — PERMANENT",
+            "color": "#C084FC",
+            "body": "FIRST BLOCK: 0.35–0.47× DAMAGE\n4 TILE RANGE • ALWAYS ON\nOnly leftover damage continues. Full Stellar Lance temporarily replaces this echo."
+          }
+        }
+      ],
+      "frames": [
+        {
+          "type": 5,
+          "x": 14,
+          "y": 161,
+          "width": 131,
+          "height": 30
+        }
+      ],
+      "texts": [
+        {
+          "text": "ECHO LANCE",
+          "bounds": {
+            "type": 5,
+            "x": 58.5,
+            "y": 168.5,
+            "width": 58,
+            "height": 15
+          }
+        }
+      ],
+      "tooltip": {
+        "frame": {
+          "type": 5,
+          "x": 6,
+          "y": 270,
+          "width": 320,
+          "height": 92
+        },
+        "title": {
+          "type": 5,
+          "x": 94.89999999999999,
+          "y": 285,
+          "width": 142.20000000000005,
+          "height": 18
+        },
+        "body": {
+          "type": 5,
+          "x": 81.4375,
+          "y": 306,
+          "width": 169.125,
+          "height": 44
+        }
+      },
+      "hardcore": {
+        "state": {
+          "ready": true,
+          "band": "calm",
+          "severity": "stable",
+          "sanityPercent": 100,
+          "panicIntensity": 0,
+          "statusCueIntensity": 0,
+          "statusVisible": true,
+          "statusSuppressedForOverlay": false,
+          "statusIconKey": "ui-hardcore-oath-crest-v1",
+          "title": "HARDCORE  •  1 LIFE  •  SANITY 100%",
+          "detail": "PANIC STARTS 22M  •  LEVEL PROTECTION +0M",
+          "panicLineReady": true,
+          "panicLineVisible": true,
+          "panicLineDepth": 22,
+          "panicLineWorldY": 8084,
+          "panicLineWidth": 1280,
+          "panicLineTitle": "PANIC STARTS HERE  •  22M",
+          "panicLineDetail": "DARKNESS BUILDS PANIC BELOW  •  TORCHLIGHT HOLDS IT BACK",
+          "panicVisible": false,
+          "highPanicVisible": false,
+          "bannerOwnsSignal": false,
+          "edgeAlpha": 0,
+          "echoAlpha": 0,
+          "slipAlpha": 0,
+          "bannerAlpha": 0,
+          "targetPanicIntensity": 0,
+          "peripheralIntensity": 0,
+          "echoIntensity": 0,
+          "realitySlipIntensity": 0,
+          "overlayTitle": "",
+          "overlayDetail": ""
+        },
+        "frame": {
+          "type": 5,
+          "x": 12,
+          "y": 206,
+          "width": 336,
+          "height": 56
+        }
+      },
+      "empower": {
+        "passiveEcho": true,
+        "remainingMs": 9007199254528221
+      }
+    },
+    "errors": [],
+    "failure": null
+  }
+}

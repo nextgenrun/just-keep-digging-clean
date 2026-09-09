@@ -1,0 +1,18 @@
+{
+  "imageQuality": 90,
+  "uiQuality": 95,
+  "minimumBytes": 50000,
+  "minimumSavingRatio": 0.9,
+  "method": 6,
+  "workers": 4,
+  "logoGamma": 0.68,
+  "logoWidth": 2048,
+  "logoHeight": 608,
+  "videoCrf": 24,
+  "videoMaxRate": "3M",
+  "videoBuffer": "6M",
+  "audioBitrate": "128k",
+  "sourceVideo": "sprites/cinematics/understar-cinematics-v1/understar-opening-v1.mp4",
+  "runtimeVideo": "sprites/runtime-startup-v1/understar-opening.mp4",
+  "videoPreset": "medium"
+}

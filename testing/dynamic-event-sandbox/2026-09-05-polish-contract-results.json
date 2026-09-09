@@ -1,0 +1,107 @@
+{
+  "createdAt": "2026-09-06T18:12:07.299Z",
+  "scope": "Focused controller and presentation contracts",
+  "browserEvidence": "testing/dynamic-event-sandbox/2026-09-05-polish-browser-proof.json",
+  "results": [
+    {
+      "file": "2026-09-05-wurm-variants-contract.mjs",
+      "passed": true,
+      "exitCode": 0,
+      "output": "{\"passed\":\"25 Wurm size/behaviour combinations, continuous body spacing, bounded offspring and reload\",\"results\":[{\"size\":\"tiny\",\"difficulty\":\"drifter\",\"durationMs\":13350,\"offspring\":0,\"hits\":2},{\"size\":\"tiny\",\"difficulty\":\"raider\",\"durationMs\":15575,\"offspring\":0,\"hits\":3},{\"size\":\"tiny\",\"difficulty\":\"hunter\",\"durationMs\":12725,\"offspring\":0,\"hits\":3},{\"size\":\"tiny\",\"difficulty\":\"ancient\",\"durationMs\":28800,\"offspring\":0,\"hits\":5},{\"size\":\"tiny\",\"difficulty\":\"broodmother\",\"durationMs\":22200,\"offspring\":2,\"hits\":6},{\"size\":\"small\",\"difficulty\":\"drifter\",\"durationMs\":13350,\"offspring\":0,\"hits\":2},{\"size\":\"small\",\"difficulty\":\"raider\",\"durationMs\":15575,\"offspring\":0,\"hits\":3},{\"size\":\"small\",\"difficulty\":\"hunter\",\"durationMs\":12725,\"offspring\":0,\"hits\":3},{\"size\":\"small\",\"difficulty\":\"ancient\",\"durationMs\":28800,\"offspring\":0,\"hits\":5},{\"size\":\"small\",\"difficulty\":\"broodmother\",\"durationMs\":22200,\"offspring\":2,\"hits\":6},{\"size\":\"medium\",\"difficulty\":\"drifter\",\"durationMs\":13350,\"offspring\":0,\"hits\":2},{\"size\":\"medium\",\"difficulty\":\"raider\",\"durationMs\":15575,\"offspring\":0,\"hits\":3},{\"size\":\"medium\",\"difficulty\":\"hunter\",\"durationMs\":12725,\"offspring\":0,\"hits\":3},{\"size\":\"medium\",\"difficulty\":\"ancient\",\"durationMs\":28800,\"offspring\":0,\"hits\":5},{\"size\":\"medium\",\"difficulty\":\"broodmother\",\"durationMs\":22200,\"offspring\":2,\"hits\":6},{\"size\":\"large\",\"difficulty\":\"drifter\",\"durationMs\":13350,\"offspring\":0,\"hits\":2},{\"size\":\"large\",\"difficulty\":\"raider\",\"durationMs\":15575,\"offspring\":0,\"hits\":3},{\"size\":\"large\",\"difficulty\":\"hunter\",\"durationMs\":12725,\"offspring\":0,\"hits\":3},{\"size\":\"large\",\"difficulty\":\"ancient\",\"durationMs\":28800,\"offspring\":0,\"hits\":5},{\"size\":\"large\",\"difficulty\":\"broodmother\",\"durationMs\":22200,\"offspring\":2,\"hits\":6},{\"size\":\"giant\",\"difficulty\":\"drifter\",\"durationMs\":13350,\"offspring\":0,\"hits\":2},{\"size\":\"giant\",\"difficulty\":\"raider\",\"durationMs\":15575,\"offspring\":0,\"hits\":3},{\"size\":\"giant\",\"difficulty\":\"hunter\",\"durationMs\":12725,\"offspring\":0,\"hits\":3},{\"size\":\"giant\",\"difficulty\":\"ancient\",\"durationMs\":28800,\"offspring\":0,\"hits\":5},{\"size\":\"giant\",\"difficulty\":\"broodmother\",\"durationMs\":22200,\"offspring\":2,\"hits\":6}]}",
+      "error": ""
+    },
+    {
+      "file": "2026-09-05-earthquake-local-hazards-contract.mjs",
+      "passed": true,
+      "exitCode": 0,
+      "output": "{\"passed\":\"minor quake danger, fixed-lane dodge, removed floor and solid cover\",\"minor\":{\"started\":1,\"completed\":1,\"queued\":3,\"rocks\":3,\"hits\":2,\"cancelledCeilings\":0,\"emptySearches\":0},\"dodgeHits\":0,\"coverHits\":0}",
+      "error": ""
+    },
+    {
+      "file": "2026-09-05-shadow-mining-and-event-health-contract.mjs",
+      "passed": true,
+      "exitCode": 0,
+      "output": "{\"passed\":\"animated bounded Shadowminer mining, distance-aware torch, healthy gates and failed heartbeat\",\"mined\":1,\"rewards\":0,\"gpCalls\":0,\"minimumObserveMs\":6500}",
+      "error": ""
+    },
+    {
+      "file": "2026-09-05-event-feedback-controls-contract.mjs",
+      "passed": true,
+      "exitCode": 0,
+      "output": "persistent earthquake card, pending rock warning, production-disabled F2/manual triggers, F2 cleanup and readable encounter completion passed",
+      "error": ""
+    },
+    {
+      "file": "2026-09-06-dynamic-event-outcomes-contract.mjs",
+      "passed": true,
+      "exitCode": 0,
+      "output": "Encounter-scoped results passed: repeated quake deltas, empty/ordinary Shadowminer work, cancellation, real Wurm/brood completion after reset.",
+      "error": ""
+    },
+    {
+      "file": "2026-09-05-dynamic-event-admission-contract.mjs",
+      "passed": true,
+      "exitCode": 0,
+      "output": "dynamic-event admission contract passed: retired migration, real gates, repeated Wurm, Shadowminer reasons, rubble clock, seeded review, isolated storage\nforced ambient request retries without being dropped or substituted\n27 Shadowminer personality/depth fixture combinations passed",
+      "error": ""
+    },
+    {
+      "file": "2026-07-26-graveborer-wurm-contract.mjs",
+      "passed": true,
+      "exitCode": 0,
+      "output": "Graveborer Wurm Hardcore contract passed.",
+      "error": ""
+    },
+    {
+      "file": "2026-07-28-graveborer-wurm-hud-contract.mjs",
+      "passed": true,
+      "exitCode": 0,
+      "output": "Graveborer Wurm production HUD without demo cheats contract passed.",
+      "error": ""
+    },
+    {
+      "file": "2026-07-30-random-world-events-contract.mjs",
+      "passed": true,
+      "exitCode": 0,
+      "output": "random-world-events contract ok",
+      "error": ""
+    },
+    {
+      "file": "2026-08-30-shadow-miner-runtime-contract.mjs",
+      "passed": true,
+      "exitCode": 0,
+      "output": "shadow miner signature echo contract: visible entry, depth bands, continuous light hesitation/echo, player pose replay, directed torch/Star flee, bounded residue, exact local 10x cadence, no mutation without mining assets, and lifecycle passed",
+      "error": ""
+    },
+    {
+      "file": "2026-08-30-shadow-miner-dynamic-behavior-contract.mjs",
+      "passed": true,
+      "exitCode": 0,
+      "output": "shadow miner dynamic behavior contract: weighted personalities, bounded numeric rolls, action-biased admission, coherent depth plans, light hesitation, local overrides, and no mutation without mining assets passed",
+      "error": ""
+    },
+    {
+      "file": "2026-08-30-shadow-miner-presence-contract.mjs",
+      "passed": true,
+      "exitCode": 0,
+      "output": "shadow miner presence contract: recorded dig targets, authored purple crack/break art, one block per action, hard visual-only authority, one-shot directional awareness, and preview tile restoration passed",
+      "error": ""
+    },
+    {
+      "file": "2026-08-30-earthquake-event-cohesion-contract.mjs",
+      "passed": true,
+      "exitCode": 0,
+      "output": "earthquake event cohesion contract passed",
+      "error": ""
+    },
+    {
+      "file": "2026-07-26-earthquake-feedback-lifecycle-contract.mjs",
+      "passed": true,
+      "exitCode": 0,
+      "output": "earthquake feedback lifecycle contract passed",
+      "error": ""
+    }
+  ],
+  "passed": 14,
+  "total": 14
+}

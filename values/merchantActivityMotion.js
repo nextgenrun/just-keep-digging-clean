@@ -1,0 +1,26 @@
+// Approved recovered-pose motion, shared by the runtime and its review.
+export const MERCHANT_ACTIVITY_MOTION = Object.freeze({
+  fadeInDelayMs: 240,
+  fadeInMs: 180,
+  fadeOutMs: 220,
+  calmTailMs: 1680,
+  settleMs: 220,
+  bodyAngle: 0.16,
+  bodyLift: 1.05,
+  headAngle: 0.38,
+  headLift: 0.65,
+  shopIntroMs: 680,
+  shopCueAtMs: 430,
+  shopAnticipationMs: 70,
+  shopFadeInMs: 180,
+  shopBodyAngles: Object.freeze([[0,0],[0.14,-0.3],[0.32,0.55],[0.52,0.15],[0.68,0]]),
+  shopHeadAngles: Object.freeze([[0,0],[0.13,-1.3],[0.31,2.6],[0.52,0.8],[0.68,0]]),
+  shopActivities: Object.freeze({
+    playerUpgrades: 'showcase',
+    gearMerchant: 'player',
+    boboMerchant: 'player',
+    moneyMonster: 'showcase',
+    gemPowerMerchant: 'showcase',
+    magmaMoneyMonster: 'showcase',
+  }),
+});

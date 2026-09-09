@@ -1,0 +1,16 @@
+[
+  {
+    "path": "sprites/backgrounds/menu-atmosphere-v6/quiet-foundry.mp4",
+    "status": 206,
+    "contentType": "video/mp4",
+    "range": "bytes 0-1023/13295200",
+    "bytes": 1024
+  },
+  {
+    "path": "sprites/branding/understar-motion-review-20260909/logo-full.webm",
+    "status": 206,
+    "contentType": "video/webm",
+    "range": "bytes 0-1023/14755175",
+    "bytes": 1024
+  }
+]

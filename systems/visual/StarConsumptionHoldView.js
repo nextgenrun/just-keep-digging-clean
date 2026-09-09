@@ -1,5 +1,6 @@
 import { STAR_SANCTUARY_CONFIG } from "../../values/starSanctuary.js";
 import { UI_FONTS } from "../../values/uiLayout.js";
+import { STAR_SANCTUARY_COPY } from "../../values/playerFacingCopy.js";
 
 const clamp01 = value => Math.max(0, Math.min(1, Number(value) || 0));
 
@@ -36,11 +37,11 @@ export class StarConsumptionHoldView {
       ui.fillColor,
       ui.fillAlpha,
     ).setOrigin(0, 0.5);
-    this.title = this._addText(ui.titleY, ui.title, ui.titleFontPx, ui.titleColor);
+    this.title = this._addText(ui.titleY, STAR_SANCTUARY_COPY.hold.title, ui.titleFontPx, ui.titleColor);
     this.status = this._addText(ui.statusY, "", ui.statusFontPx, ui.statusColor);
     this.consequence = this._addText(
       ui.consequenceY,
-      ui.consequence,
+      STAR_SANCTUARY_COPY.hold.consequence,
       ui.consequenceFontPx,
       ui.consequenceColor,
     );
@@ -77,7 +78,7 @@ export class StarConsumptionHoldView {
     }
     this.progress = clamp01(pendingConsumption.progress);
     const percent = Math.round(this.progress * 100);
-    const copy = this.config.consumption.holdUi.status
+    const copy = STAR_SANCTUARY_COPY.hold.status
       .replace("{percent}", String(percent));
     this.status.setText(copy);
     this.root.setVisible(true);

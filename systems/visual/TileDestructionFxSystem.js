@@ -6,6 +6,8 @@ import {
   resolveTileDestructionTint,
 } from "../../values/tileDestructionFx.js";
 import { installTileDestructionFxAtlasFrames } from "./tileDestructionFxAtlasFrames.js";
+import { MATERIAL_PARTICLE_POLISH as POLISH, isMaterialParticlePolishEnabled, materialParticleResponse } from "../../values/materialParticlePolish.js";
+import { materialParticleFrame, sizeMaterialParticle } from "./materialParticleFrame.js";
 
 const clamp = (value, minimum, maximum) => Math.max(minimum, Math.min(maximum, value));
 const randomBetween = (minimum, maximum) => minimum + Math.random() * (maximum - minimum);
@@ -14,16 +16,19 @@ export class TileDestructionFxSystem {
   constructor(scene, config = TILE_DESTRUCTION_FX_CONFIG) {
     this.scene = scene;
     this.config = config;
-    this.enabled = resolveTileDestructionFxEnabled();
+    this.enabled = resolveTileDestructionFxEnabled(undefined, config);
+    this.polished = isMaterialParticlePolishEnabled();
+    this.sequence = 0;
     this.reducedMotion = globalThis.matchMedia?.(config.reducedMotionMediaQuery)?.matches === true;
     this.activeObjects = new Set();
     this.activeTimers = new Set();
     this.activeTweens = new Set();
+    this.tweenTargets = new Map();
     this.ready = this.enabled && installTileDestructionFxAtlasFrames(this.scene, this.config);
   }
 
   play({ worldX, worldY, tileType }) {
-    if (!this.ready || !this.scene?.add?.image) return false;
+    if (!this.ready || !this.scene?.add?.image || !Number.isFinite(worldX) || !Number.isFinite(worldY)) return false;
     const family = resolveTileDestructionFamily(tileType, this.config);
     const tint = resolveTileDestructionTint(tileType, this.config);
     const material = getMaterialFeedback(tileType);
@@ -33,12 +38,16 @@ export class TileDestructionFxSystem {
       1.22,
     );
     const facing = this._resolvePlayerFacing(worldX, worldY);
+    const sequence = this.sequence++;
     const core = this._createCore(worldX, worldY, family, tint, materialScale, facing);
     if (!core) return false;
     this._animateCore(core, family);
     this._schedule(
-      this.reducedMotion ? 54 : this.config.core.phaseTimesMs[2],
-      () => this._spawnShards(worldX, worldY, family, tint, materialScale, facing),
+      this.polished ? (this.reducedMotion ? POLISH.destruction.reducedShardDelayMs : POLISH.destruction.shardDelayMs)
+        : this.reducedMotion ? 54 : this.config.core.phaseTimesMs[2],
+      () => {
+        if (core.active !== false) this._spawnShards(worldX, worldY, family, tint, materialScale, facing, sequence);
+      },
     );
     return true;
   }
@@ -82,7 +91,7 @@ export class TileDestructionFxSystem {
     core.setScale?.(baseScaleX * cfg.startScale, baseScaleY * cfg.startScale);
     core.__tileBreakBaseScaleX = baseScaleX;
     core.__tileBreakBaseScaleY = baseScaleY;
-    this.activeObjects.add(core);
+    this._trackObject(core);
     return core;
   }
 
@@ -94,23 +103,23 @@ export class TileDestructionFxSystem {
       targets: core,
       scaleX: baseScaleX * cfg.impactScale,
       scaleY: baseScaleY * cfg.impactScale,
-      duration: cfg.enterMs,
-      ease: "Back.Out",
+      duration: this.polished ? POLISH.destruction.enterMs : cfg.enterMs,
+      ease: this.polished ? POLISH.destruction.enterEase : "Back.Out",
     });
     const phaseIndexes = this.reducedMotion ? [2, 3] : [1, 2, 3];
     for (const phaseIndex of phaseIndexes) {
       const delay = this.reducedMotion
         ? (phaseIndex === 2 ? 45 : 105)
-        : cfg.phaseTimesMs[phaseIndex];
+        : (this.polished ? POLISH.destruction.phaseTimesMs : cfg.phaseTimesMs)[phaseIndex];
       this._schedule(delay, () => {
         if (core.active === false) return;
         core.setFrame?.(`${family}-${cfg.phases[phaseIndex]}`);
-        if (phaseIndex === 3) this._fadeCore(core, baseScaleX, baseScaleY);
+        if (phaseIndex === 3) this._fadeCore(core, baseScaleX, baseScaleY, family);
       });
     }
   }
 
-  _fadeCore(core, baseScaleX, baseScaleY) {
+  _fadeCore(core, baseScaleX, baseScaleY, family) {
     const cfg = this.config.core;
     if (!this.scene?.tweens?.add) {
       this._schedule(cfg.fadeMs, () => this._releaseObject(core));
@@ -121,46 +130,55 @@ export class TileDestructionFxSystem {
       alpha: 0,
       scaleX: baseScaleX * cfg.settleScale,
       scaleY: baseScaleY * cfg.settleScale,
-      duration: this.reducedMotion ? Math.min(130, cfg.fadeMs) : cfg.fadeMs,
+      duration: this.reducedMotion ? Math.min(130, cfg.fadeMs)
+        : this.polished ? POLISH.destruction.fadeMs * materialParticleResponse(family).fade : cfg.fadeMs,
       ease: "Sine.Out",
       onComplete: () => this._releaseObject(core),
     });
   }
 
-  _spawnShards(worldX, worldY, family, tint, materialScale, facing) {
+  _spawnShards(worldX, worldY, family, tint, materialScale, facing, sequence) {
     const cfg = this.config.shards;
     const tileSize = this.scene.config?.tileSize || 94;
     const count = this.reducedMotion ? cfg.reducedMotionCount : cfg.count;
     for (let index = 0; index < count; index += 1) {
+      const sizeRange = this.polished ? POLISH.destruction.sizeTiles : [cfg.displayMinTiles, cfg.displayMaxTiles];
+      const fineScale = this.polished && index % 2 ? POLISH.destruction.fineScale : 1;
+      const displayTiles = randomBetween(...sizeRange) * materialScale * fineScale;
+      const detail = this.polished && materialParticleFrame(this.scene, family, sequence + index,
+        tileSize * displayTiles * Math.max(cfg.midScale, POLISH.destruction.cameraScale));
       const shard = this.scene.add.image(
         worldX + randomBetween(-1, 1) * tileSize * cfg.spawnRadiusTiles,
         worldY + randomBetween(-1, 1) * tileSize * cfg.spawnRadiusTiles,
         this.config.assets.shards.key,
-        `${family}-s${String((index % cfg.count) + 1).padStart(2, "0")}`,
+        detail ? detail.name : `${family}-s${String((index % cfg.count) + 1).padStart(2, "0")}`,
       );
       if (!shard) continue;
-      const displayTiles = randomBetween(cfg.displayMinTiles, cfg.displayMaxTiles) * materialScale;
       shard.setOrigin?.(0.5);
       shard.setDepth?.(cfg.depth + index * 0.01);
-      shard.setDisplaySize?.(tileSize * displayTiles, tileSize * displayTiles);
+      if (detail) sizeMaterialParticle(shard, detail, tileSize * displayTiles);
+      else shard.setDisplaySize?.(tileSize * displayTiles, tileSize * displayTiles);
       shard.setTint?.(tint);
       shard.setFlipX?.(facing.x > 0);
       shard.setRotation?.(randomBetween(-0.35, 0.35));
       const baseScaleX = shard.scaleX ?? 1;
       const baseScaleY = shard.scaleY ?? 1;
       shard.setScale?.(baseScaleX * cfg.startScale, baseScaleY * cfg.startScale);
-      this.activeObjects.add(shard);
-      this._launchShard(shard, tileSize, baseScaleX, baseScaleY, facing);
+      this._trackObject(shard);
+      this._launchShard(shard, tileSize, baseScaleX, baseScaleY, facing, family);
     }
   }
 
-  _launchShard(shard, tileSize, baseScaleX, baseScaleY, facing) {
+  _launchShard(shard, tileSize, baseScaleX, baseScaleY, facing, family) {
     const cfg = this.config.shards;
-    const outward = randomBetween(cfg.launchMinTiles, cfg.launchMaxTiles) * tileSize;
-    const spread = randomBetween(-cfg.lateralSpreadTiles, cfg.lateralSpreadTiles) * tileSize;
-    const rotation = randomBetween(cfg.rotationMin, cfg.rotationMax) * (Math.random() < 0.5 ? -1 : 1);
+    const material = materialParticleResponse(family);
+    const travel = this.polished ? material.travel * (this.reducedMotion ? POLISH.foot.reducedTravel : 1) : 1;
+    const outward = randomBetween(cfg.launchMinTiles, cfg.launchMaxTiles) * tileSize * travel;
+    const spread = randomBetween(-cfg.lateralSpreadTiles, cfg.lateralSpreadTiles) * tileSize * travel;
+    const rotation = randomBetween(cfg.rotationMin, cfg.rotationMax) * (Math.random() < 0.5 ? -1 : 1)
+      * (this.polished ? material.spin : 1);
     const launchX = shard.x + facing.x * outward + facing.perpendicularX * spread;
-    const launchY = shard.y + facing.y * outward + facing.perpendicularY * spread - tileSize * cfg.liftTiles;
+    const launchY = shard.y + facing.y * outward + facing.perpendicularY * spread - tileSize * cfg.liftTiles * travel;
     if (!this.scene?.tweens?.add) {
       this._schedule(cfg.launchMaxMs + cfg.settleMaxMs, () => this._releaseObject(shard));
       return;
@@ -172,17 +190,18 @@ export class TileDestructionFxSystem {
       rotation: shard.rotation + rotation * 0.58,
       scaleX: baseScaleX * cfg.midScale,
       scaleY: baseScaleY * cfg.midScale,
-      duration: randomBetween(cfg.launchMinMs, cfg.launchMaxMs),
+      duration: randomBetween(...(this.polished ? POLISH.destruction.launchMs : [cfg.launchMinMs, cfg.launchMaxMs])),
       ease: "Cubic.Out",
       onComplete: () => this._tween({
         targets: shard,
-        x: launchX + facing.x * tileSize * 0.1,
-        y: launchY + tileSize * cfg.gravityTiles,
+        x: launchX + facing.x * tileSize * 0.1 * travel,
+        y: launchY + tileSize * cfg.gravityTiles * (this.polished ? material.gravity : 1) * travel,
         rotation: shard.rotation + rotation,
-        scaleX: baseScaleX * cfg.cameraScale,
-        scaleY: baseScaleY * cfg.cameraScale,
+        scaleX: baseScaleX * (this.polished ? POLISH.destruction.cameraScale : cfg.cameraScale),
+        scaleY: baseScaleY * (this.polished ? POLISH.destruction.cameraScale : cfg.cameraScale),
         alpha: 0,
-        duration: randomBetween(cfg.settleMinMs, cfg.settleMaxMs),
+        duration: randomBetween(...(this.polished ? POLISH.destruction.settleMs : [cfg.settleMinMs, cfg.settleMaxMs]))
+          * (this.polished ? material.fade : 1),
         ease: "Quad.In",
         onComplete: () => this._releaseObject(shard),
       }),
@@ -211,15 +230,29 @@ export class TileDestructionFxSystem {
       ...config,
       onComplete: (...args) => {
         this.activeTweens.delete(tween);
+        this.tweenTargets.delete(tween);
         complete?.(...args);
       },
     });
     this.activeTweens.add(tween);
+    this.tweenTargets.set(tween, config.targets);
     return tween;
+  }
+
+  _trackObject(object) {
+    while (this.activeObjects.size >= POLISH.destruction.maxLive) this._releaseObject(this.activeObjects.values().next().value);
+    this.activeObjects.add(object);
   }
 
   _releaseObject(object) {
     if (!object) return;
+    for (const tween of [...this.activeTweens]) {
+      if (this.tweenTargets.get(tween) !== object) continue;
+      tween.stop?.();
+      tween.remove?.();
+      this.activeTweens.delete(tween);
+      this.tweenTargets.delete(tween);
+    }
     this.activeObjects.delete(object);
     object.destroy?.();
   }
@@ -233,6 +266,7 @@ export class TileDestructionFxSystem {
     for (const object of this.activeObjects) object.destroy?.();
     this.activeTimers.clear();
     this.activeTweens.clear();
+    this.tweenTargets.clear();
     this.activeObjects.clear();
     this.ready = false;
     this.scene = null;

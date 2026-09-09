@@ -1,0 +1,303 @@
+{
+  "schemaVersion": 1,
+  "target": 4250,
+  "baseline": 85,
+  "minSampleRate": 44100,
+  "maxChannels": 2,
+  "maxPerCreator": 100,
+  "maxPerPack": 40,
+  "requestIntervalSeconds": 2.1,
+  "pageSize": 150,
+  "maxPagesPerQuery": 4,
+  "excludeSoundIds": [
+    320655,
+    682633,
+    814053
+  ],
+  "families": [
+    {
+      "id": "mining-earth",
+      "queries": [
+        "dig dirt",
+        "shovel soil",
+        "gravel impact",
+        "earth rubble",
+        "sand dig"
+      ],
+      "quota": 240,
+      "maxDuration": 8,
+      "minDuration": 0.04
+    },
+    {
+      "id": "mining-stone",
+      "queries": [
+        "pickaxe stone",
+        "rock break",
+        "stone impact",
+        "mining rock",
+        "rock crumble"
+      ],
+      "quota": 280,
+      "maxDuration": 12,
+      "minDuration": 0.04
+    },
+    {
+      "id": "mining-metal",
+      "queries": [
+        "metal hit",
+        "hammer anvil",
+        "metal scrape",
+        "pickaxe metal",
+        "ore mining"
+      ],
+      "quota": 240,
+      "maxDuration": 8,
+      "minDuration": 0.04
+    },
+    {
+      "id": "mining-ice",
+      "queries": [
+        "ice crack",
+        "ice break",
+        "snow crunch",
+        "frozen impact"
+      ],
+      "quota": 160,
+      "maxDuration": 12,
+      "minDuration": 0.04
+    },
+    {
+      "id": "wood-supports",
+      "queries": [
+        "wood creak",
+        "wood break",
+        "timber strain",
+        "wood door"
+      ],
+      "quota": 200,
+      "maxDuration": 25,
+      "minDuration": 0.04
+    },
+    {
+      "id": "footsteps",
+      "queries": [
+        "footsteps dirt",
+        "footsteps gravel",
+        "footsteps stone",
+        "footsteps wood",
+        "footsteps snow"
+      ],
+      "quota": 300,
+      "maxDuration": 20,
+      "minDuration": 0.04
+    },
+    {
+      "id": "landing-movement",
+      "queries": [
+        "bodyfall dirt",
+        "landing stone",
+        "jump landing",
+        "cloth movement",
+        "rope pull"
+      ],
+      "quota": 220,
+      "maxDuration": 15,
+      "minDuration": 0.04
+    },
+    {
+      "id": "flight-air",
+      "queries": [
+        "air whoosh",
+        "wind rush",
+        "jet burst",
+        "thruster",
+        "air release"
+      ],
+      "quota": 240,
+      "maxDuration": 18,
+      "minDuration": 0.04
+    },
+    {
+      "id": "mechanisms",
+      "queries": [
+        "lever",
+        "gear turn",
+        "ratchet",
+        "chain rattle",
+        "mechanism"
+      ],
+      "quota": 240,
+      "maxDuration": 16,
+      "minDuration": 0.04
+    },
+    {
+      "id": "robot-power",
+      "queries": [
+        "power up",
+        "servo",
+        "motor stop",
+        "machine start",
+        "mechanical switch"
+      ],
+      "quota": 200,
+      "maxDuration": 20,
+      "minDuration": 0.04
+    },
+    {
+      "id": "ui-tactile",
+      "queries": [
+        "button click",
+        "switch click",
+        "interface",
+        "menu open",
+        "soft click"
+      ],
+      "quota": 300,
+      "maxDuration": 6,
+      "minDuration": 0.04
+    },
+    {
+      "id": "reward-economy",
+      "queries": [
+        "coin",
+        "coins drop",
+        "level up",
+        "reward chime",
+        "pouch coins"
+      ],
+      "quota": 260,
+      "maxDuration": 12,
+      "minDuration": 0.04
+    },
+    {
+      "id": "star-destruction",
+      "queries": [
+        "implosion",
+        "shockwave",
+        "space explosion",
+        "energy impact",
+        "crystal fracture"
+      ],
+      "quota": 250,
+      "maxDuration": 25,
+      "minDuration": 0.04
+    },
+    {
+      "id": "star-texture",
+      "queries": [
+        "electric crackle",
+        "energy hum",
+        "crystal resonance",
+        "magnetic",
+        "spark"
+      ],
+      "quota": 220,
+      "maxDuration": 45,
+      "minDuration": 0.04
+    },
+    {
+      "id": "portal-transit",
+      "queries": [
+        "portal",
+        "teleport",
+        "transition whoosh",
+        "power down"
+      ],
+      "quota": 180,
+      "maxDuration": 20,
+      "minDuration": 0.04
+    },
+    {
+      "id": "danger-panic",
+      "queries": [
+        "heartbeat",
+        "rumble",
+        "collapse",
+        "warning",
+        "breathing"
+      ],
+      "quota": 260,
+      "maxDuration": 60,
+      "minDuration": 0.04
+    },
+    {
+      "id": "cave-beds",
+      "queries": [
+        "cave ambience",
+        "cavern",
+        "underground ambience",
+        "tunnel wind",
+        "mine ambience"
+      ],
+      "quota": 300,
+      "maxDuration": 360,
+      "minDuration": 4
+    },
+    {
+      "id": "creepy-details",
+      "queries": [
+        "whisper",
+        "distant voice",
+        "creepy",
+        "ghost",
+        "horror ambience"
+      ],
+      "quota": 250,
+      "maxDuration": 120,
+      "minDuration": 0.04
+    },
+    {
+      "id": "water",
+      "queries": [
+        "water drip",
+        "underground stream",
+        "water splash",
+        "water seep",
+        "water drops"
+      ],
+      "quota": 240,
+      "maxDuration": 180,
+      "minDuration": 0.04
+    },
+    {
+      "id": "fire-heat",
+      "queries": [
+        "fire crackle",
+        "torch fire",
+        "sizzle",
+        "embers",
+        "lava"
+      ],
+      "quota": 220,
+      "maxDuration": 180,
+      "minDuration": 0.04
+    },
+    {
+      "id": "rain-shelter",
+      "queries": [
+        "rain dirt",
+        "rain roof",
+        "rain wood",
+        "rain window",
+        "heavy rain"
+      ],
+      "quota": 300,
+      "maxDuration": 360,
+      "minDuration": 4
+    },
+    {
+      "id": "wind-town",
+      "queries": [
+        "wind ambience",
+        "night wind",
+        "gentle breeze",
+        "wind wood",
+        "empty town"
+      ],
+      "quota": 280,
+      "maxDuration": 360,
+      "minDuration": 4
+    }
+  ],
+  "source": "https://freesound.org/docs/api/resources_apiv2.html"
+}

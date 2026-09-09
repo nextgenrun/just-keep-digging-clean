@@ -1,3 +1,4 @@
+import { applyCharacterDefinitionRuntimeV2 } from "./characterDefinitionRuntimeV2.js";
 import { PLAYER_CHARACTER_IDS } from "./playerCharacters.js";
 import { MOVING_COMPLEX_DIG_ANIMATION } from "./movingComplexDigAnimation.js";
 import { MOVING_COMPLEX_DIG_ANIMATION_UNIFIED_V1 } from
@@ -7,9 +8,14 @@ import { PLAYER_ANIMATION_POLISH } from "./playerAnimationPolish.js";
 import { MIXAMO_ACCEPTED_PLAYER_ANIMATIONS } from "./mixamoAcceptedPlayerAnimations.js?rev=20260819-hurricane-quickslash-v2";
 import { SURVIVAL_BLENDER_V2_RUNTIME } from "./survivalBlenderV2Runtime.js?rev=20260815-animation-contract-repair-v2";
 import { COMPLEX_DIG_ANIMATIONS } from "./complexDigAnimations.js";
+import {
+  DOWNWARD_DIG_ANIMATIONS,
+  resolveDownwardDigAnimationsEnabled,
+} from "./downwardDigAnimations.js";
 import { MIXAMO_LEDGE_ASSIST_ANIMATION } from "./mixamoLedgeAssistAnimation.js";
 import { resolvePlayerLedgeAssistEnabled } from "./playerTraversal.js";
 import { SURVIVAL_COMPLEX_DIG_PROFILE } from "./survivalComplexDigProfile.js";
+import { SURVIVAL_DOWNWARD_DIG_PROFILE } from "./survivalDownwardDigProfile.js";
 import {
   SURVIVAL_MIXAMO_WALK_RUNTIME,
   buildSurvivalMixamoWalkHandoffAnimations,
@@ -72,6 +78,11 @@ const heldTorch = SURVIVAL_HELD_TORCH_RUNTIME;
 const heldTorchEnabled = unifiedAnimationEnabled
   && resolveSurvivalHeldTorchRuntimeEnabled();
 const complexDig = SURVIVAL_COMPLEX_DIG_PROFILE;
+const downwardDig = SURVIVAL_DOWNWARD_DIG_PROFILE;
+const downwardDigEnabled = resolveDownwardDigAnimationsEnabled();
+const downwardDigAnimationKeys = downwardDigEnabled
+  ? downwardDig.animationKeys
+  : Object.freeze([]);
 const ledgeAssist = MIXAMO_LEDGE_ASSIST_ANIMATION;
 const ledgeAssistEnabled = resolvePlayerLedgeAssistEnabled();
 const groundedVisual = blenderV2.groundedVisualCalibration;
@@ -178,7 +189,17 @@ const animationPolish = buildSurvivalUalAnimationPolishProfile({
   profile: remappedProfile,
   movingSideDig: MOVING_SIDE_DIG_ANIMATION,
   polish: PLAYER_ANIMATION_POLISH,
-  retainedLegacyAnimationKeys: [remappedProfile.digDownAnim],
+  retainedLegacyAnimationKeys: [
+    remappedProfile.digDownAnim,
+    ...remappedProfile.digUpHitAnims,
+    ...remappedProfile.digUpSidewaysHitAnims,
+  ],
+});
+const movingDownwardDigAnimationMap = Object.freeze({
+  ...animationPolish.movingDiagonalDigAnimationMap,
+  ...Object.fromEntries(
+    downwardDigAnimationKeys.map(animationKey => [animationKey, "down"]),
+  ),
 });
 // Blender derives both sides of the handoff from the exact Standard Walk
 // action. Stops select the next even gait phase, then settle to the idle pose.
@@ -207,6 +228,12 @@ const complexDigActionRecovery = Object.freeze({
   [COMPLEX_DIG_ANIMATIONS.clips.hook.animationKey]: PLAYER_ANIMATION_POLISH.actionRecovery.families.cross.key,
   [COMPLEX_DIG_ANIMATIONS.clips.uppercut.animationKey]: PLAYER_ANIMATION_POLISH.actionRecovery.families.up.key,
 });
+const downwardDigActionRecovery = Object.freeze(Object.fromEntries(
+  downwardDigAnimationKeys.map(animationKey => [
+    animationKey,
+    PLAYER_ANIMATION_POLISH.actionRecovery.families.down.key,
+  ]),
+));
 const movingComplexActionRecovery = Object.freeze(Object.fromEntries(
   movingComplexAliases.map((alias) => [
     alias.animationKey,
@@ -216,6 +243,10 @@ const movingComplexActionRecovery = Object.freeze(Object.fromEntries(
 const digUpAnimationKeys = Object.freeze(Array.from(new Set([
   ...remappedProfile.digUpHitAnims,
   ...remappedProfile.digUpSidewaysHitAnims,
+])));
+const complexDigUpAnimationKeys = Object.freeze(Array.from(new Set([
+  remappedProfile.digUpAnim,
+  ...complexDig.profileProperties.complexDigUpAnimationKeys,
 ])));
 const digUpContact = Object.freeze({
   textureFrame: digUpSheet.contactFrame,
@@ -314,6 +345,7 @@ const sheetFiles = Object.freeze([
   ].map(Object.freeze)),
   ...heldTorchSheetFiles,
   ...complexDig.sheetFiles,
+  ...(downwardDigEnabled ? downwardDig.sheetFiles : []),
   ...(ledgeAssistEnabled ? [Object.freeze([
     "ledgeClimbSheet",
     ledgeAssist.sheet.fileName,
@@ -351,6 +383,7 @@ const requiredSheets = Object.freeze(Array.from(new Set(
       ? Object.values(heldTorch.variants).map((variant) => variant.sheetKey)
       : []),
     ...complexDig.requiredSheets,
+    ...(downwardDigEnabled ? downwardDig.requiredSheets : []),
     ...(ledgeAssistEnabled ? [ledgeAssist.sheet.key] : []),
   ],
 )));
@@ -398,6 +431,7 @@ const blenderCoreDisplaySizeByAnimation = Object.freeze({
     heldTorch.variants.idle.displaySizePx,
   ])),
   ...complexDig.displaySizeByAnimation,
+  ...(downwardDigEnabled ? downwardDig.displaySizeByAnimation : {}),
   ...(ledgeAssistEnabled ? {
     [ledgeAssist.animations.catch]: ledgeAssist.sheet.displaySizePx,
     [ledgeAssist.animations.hang]: ledgeAssist.sheet.displaySizePx,
@@ -430,6 +464,7 @@ const blenderCoreOriginBySheet = Object.freeze({
   ])),
   [mixamoWalkHandoff.sheet.key]: mixamoWalkHandoff.sheet.origin,
   ...complexDig.originBySheet,
+  ...(downwardDigEnabled ? downwardDig.originBySheet : {}),
   ...(ledgeAssistEnabled ? {
     [ledgeAssist.sheet.key]: ledgeAssist.sheet.origin,
   } : {}),
@@ -438,6 +473,22 @@ const blenderCoreOriginBySheet = Object.freeze({
 const survivalUalMixedPlayerAssetProfile = Object.freeze({
   ...remappedProfile,
   ...complexDig.profileProperties,
+  ...(downwardDigEnabled ? downwardDig.profileProperties : {}),
+  complexDigUpAnimationKeys,
+  // Keep the current SIDE repertoire, then include the original planted
+  // Jab/Cross pair using the same unified body anchor and moving handoffs.
+  complexDigSideAnimationKeys: Object.freeze([
+    ...complexDig.profileProperties.complexDigSideAnimationKeys,
+    ...new Set(remappedProfile.digSidewaysHitAnims),
+  ]),
+  // Warm the original moving-punch pack before the pair reaches its turn.
+  complexDigSidePrewarmAnimationKeys: Object.freeze([
+    complexDig.profileProperties.complexDigSidePrewarmAnimationKey,
+    movingSideDig.animationMap[remappedProfile.digSidewaysAnim],
+  ]),
+  downwardDigEnabled,
+  downwardDigConfig: DOWNWARD_DIG_ANIMATIONS,
+  downwardDigPrewarmAnimationKey: downwardDigAnimationKeys[0] || null,
   ...heldTorchProfileProperties,
   characterId: PLAYER_CHARACTER_IDS.survivalUal,
   renderPipeline: "survival-blender-v2-piskel-polish-v2-mixamo-complex-dig-moving-v1",
@@ -490,6 +541,7 @@ const survivalUalMixedPlayerAssetProfile = Object.freeze({
   ledgeAssistEnabled,
   ledgeClimbSheet: ledgeAssistEnabled ? ledgeAssist.sheet.key : null,
   ...animationPolish,
+  movingDiagonalDigAnimationMap: movingDownwardDigAnimationMap,
   animationPolishAnimations: Object.freeze([
     ...animationPolish.animationPolishAnimations,
     ...(mixamoWalkEnabled ? mixamoWalkHandoff.animations : []),
@@ -497,6 +549,7 @@ const survivalUalMixedPlayerAssetProfile = Object.freeze({
   actionRecoveryAnimationByCompletedAnimation: Object.freeze({
     ...animationPolish.actionRecoveryAnimationByCompletedAnimation,
     ...complexDigActionRecovery,
+    ...downwardDigActionRecovery,
     ...movingComplexActionRecovery,
   }),
   // Accepted Mixamo replacements intentionally win over the retained Piskel
@@ -595,6 +648,7 @@ const survivalUalMixedPlayerAssetProfile = Object.freeze({
   sourceClips: Object.freeze({
     ...remappedProfile.sourceClips,
     ...complexDig.sourceClips,
+    ...(downwardDigEnabled ? downwardDig.sourceClips : {}),
     idle: "Blender MINER_idle",
     idleTalk: "Blender MINER_idle",
     walk: "Blender MINER_walk",
@@ -662,14 +716,32 @@ const survivalUalMixedPlayerAssetProfile = Object.freeze({
       ledgeAssist.animations.climb,
     ] : []),
   ]))),
+  digDownHitAnims: Object.freeze([
+    remappedProfile.digDownAnim,
+    ...downwardDigAnimationKeys,
+  ]),
+  digDownSidewaysHitAnims: Object.freeze([
+    remappedProfile.digDownAnim,
+    ...downwardDigAnimationKeys,
+  ]),
   digAnimationVariants: Object.freeze([
     ...remappedProfile.digAnimationVariants.filter((variant) => !digUpAnimationKeys.includes(variant.key)),
     ...digUpVariants,
+    // Jab used to be registered by Quickslash, before that ability acquired
+    // its own animation. SIDE mining must register its original clip itself.
+    Object.freeze({
+      key: remappedProfile.digSidewaysAnim,
+      sheet: remappedProfile.digSidewaysSheet,
+      frames: remappedProfile.digSidewaysFrames,
+      frameRate: remappedProfile.digSidewaysAnimationFps,
+      repeat: 0,
+    }),
     ...movingSideDig.variants,
     ...movingSideDig.quickslashVariants,
     ...movingComplexDigVariants,
     ...animationPolish.diagonalDigAnimationVariants,
     ...complexDig.animations,
+    ...(downwardDigEnabled ? downwardDig.animations : []),
   ]),
   digAnims: Object.freeze(Array.from(new Set([
     ...remappedProfile.digAnims,
@@ -678,6 +750,7 @@ const survivalUalMixedPlayerAssetProfile = Object.freeze({
     ...movingComplexAnimationKeys,
     ...animationPolish.movingDiagonalDigAnimationKeys,
     ...complexDig.animationKeys,
+    ...downwardDigAnimationKeys,
   ]))),
   punchActionAnims: Object.freeze(Array.from(new Set([
     ...remappedProfile.punchActionAnims,
@@ -686,6 +759,7 @@ const survivalUalMixedPlayerAssetProfile = Object.freeze({
     mixamoAnimations.quickslash,
     ...animationPolish.movingDiagonalDigAnimationKeys,
     ...complexDig.animationKeys,
+    ...downwardDigAnimationKeys,
   ]))),
   movingSideDigConfig: MOVING_SIDE_DIG_ANIMATION,
   movingSideDigAnimationMap: movingComplexDigAnimationMap,
@@ -708,6 +782,7 @@ const survivalUalMixedPlayerAssetProfile = Object.freeze({
     ...animationPolish.stationaryContactByAnimation,
     ...animationPolish.verticalDigContactByAnimation,
     ...complexDig.contactByAnimation,
+    ...(downwardDigEnabled ? downwardDig.contactByAnimation : {}),
     // The old Quickslash shared Punch Jab with SIDE mining. Splitting the
     // ability onto Hurricane Kick must not move the existing Jab tile contact.
     [remappedProfile.quickslashAnim]: Object.freeze({
@@ -773,8 +848,9 @@ const survivalUalMixedPlayerAssetProfile = Object.freeze({
   }),
 });
 
-export const SURVIVAL_UAL_PLAYER_ASSET_PROFILE =
+export const SURVIVAL_UAL_PLAYER_ASSET_PROFILE = applyCharacterDefinitionRuntimeV2(
   applySurvivalUnifiedAnimationRuntimeV1(
     survivalUalMixedPlayerAssetProfile,
     unifiedAnimationEnabled,
-  );
+  ),
+);

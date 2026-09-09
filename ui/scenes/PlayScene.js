@@ -7,7 +7,7 @@ import {
   updatePlayScenePresentationPhase,
   updatePlaySceneWorld,
   updatePlaySceneWorldPhase,
-} from "../../world/PlayScene.js?rev=20260826-surface-motion-v2";
+} from "../../world/PlayScene.js?rev=20260901-worldroot-v4-clean-matte-v2";
 import { setupUIMethods } from "../../world/playScene/PlaySceneUI.js?rev=20260818-feedback-session-v1";
 import { SceneModeController } from "../../systems/runtime/SceneModeController.js";
 import { SceneLifecycleRegistry } from "../../systems/runtime/SceneLifecycleRegistry.js";
@@ -19,6 +19,7 @@ import {
   SCENE_BASE_PHASES,
   SCENE_SUSPENSION_KINDS,
 } from "../../values/sceneRuntime.js";
+import { SessionAwakeningController } from "../../world/playScene/SessionAwakeningController.js";
 import { installUiReviewHarness } from "../../testing/UiReviewHarness.js";
 import { PLAY_SCENE_UI_METHOD_DEPENDENCIES, PLAY_SCENE_UI_PORTS } from
   "./PlayScenePorts.js?rev=20260826-inventory-codex-v3";
@@ -37,7 +38,11 @@ export class PlayScene extends Phaser.Scene {
     this._resetSceneAuthorities();
     this.gameplayCapabilities = this.registry?.get?.("gameplayCapabilities")
       || DEFAULT_GAMEPLAY_CAPABILITIES;
+    this.sessionAwakeningController = new SessionAwakeningController(
+      this, this.uiPorts.createSessionAwakeningView, { enabled: data.autoStart !== false },
+    );
     this._sceneSetupReady = await createPlaySceneWorld(this, data, this.uiPorts) === true;
+    if (!this._sceneSetupReady) this.sessionAwakeningController?.destroy();
     this._uiReviewHarness = installUiReviewHarness(this);
   }
 
@@ -146,7 +151,7 @@ export class PlayScene extends Phaser.Scene {
   _handlePresentationFailure(finding) {
     reportSceneRuntimeFailure(finding);
     this.uiNotifications?.warning?.(
-      `${finding.id || "Presentation subsystem"} was disabled for this session.`,
+      "A visual effect was turned off so you can keep playing.",
       { key: `presentation-quarantine-${finding.id}`, priority: 9 },
     );
   }

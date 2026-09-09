@@ -1,4 +1,9 @@
 import {
+  CAVE_VISUAL_COMPOSITION,
+  applyCaveBackdropTone,
+  resolveCaveCompositionWeight,
+} from "./caveVisualComposition.js";
+import {
   LEVEL_ONE_BIOME_FIELD,
   doesLevelOneBiomeFieldAffectRegion,
   resolveLevelOneBiomeFieldEnabled,
@@ -424,9 +429,14 @@ export function resolveWorldVisualDepthBackdropTint(
   config = WORLD_VISUAL_DEPTH_BACKDROPS,
   suppliedRegion = null
 ) {
-  const farTint = Number.isFinite(lightingState?.farTint)
+  const sourceFarTint = Number.isFinite(lightingState?.farTint)
     ? lightingState.farTint
     : 0xffffff;
+  const caveWeight = lightingState?.caveCompositionEnabled
+    ? resolveCaveCompositionWeight(centerTileY - config.regions[0].topTile)
+    : 0;
+  const surfaceInfluence = 1 - caveWeight * (1 - CAVE_VISUAL_COMPOSITION.surfaceLightRetention);
+  const farTint = mixWorldVisualTint(sourceFarTint, 0xffffff, 1 - surfaceInfluence);
   if (!lightingState) return farTint;
   const region = suppliedRegion || config.regions.find(entry => (
     centerTileY >= entry.topTile
@@ -441,10 +451,11 @@ export function resolveWorldVisualDepthBackdropTint(
   const tintMix = grade.surfaceTintMix
     + (grade.deepTintMix - grade.surfaceTintMix) * depthRatio;
   const gradedTint = mixWorldVisualTint(farTint, grade.deepTint, tintMix);
-  const lightningMix = lightingState.lightning * grade.lightningTintMix;
-  return lightningMix > 0
+  const lightningMix = lightingState.lightning * grade.lightningTintMix * surfaceInfluence;
+  const litTint = lightningMix > 0
     ? mixWorldVisualTint(gradedTint, grade.lightningTint, lightningMix)
     : gradedTint;
+  return applyCaveBackdropTone(litTint, caveWeight);
 }
 
 function isDisabledQuery(config, search, queryParam) {

@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>UNDERSTAR — logo remaster</title>
+<style>
+:root{color-scheme:dark;font-family:Inter,Segoe UI,sans-serif;background:#0b1017;color:#e7edf3}
+*{box-sizing:border-box}body{margin:0;padding:42px max(24px,5vw) 64px}
+header{display:flex;justify-content:space-between;gap:24px;align-items:end;border-bottom:1px solid #33404b;padding-bottom:24px;margin-bottom:26px}
+h1{font-size:28px;letter-spacing:.04em;margin:6px 0}p{color:#95a6b4;line-height:1.6;margin:4px 0}
+.kicker{font-size:11px;letter-spacing:.18em;color:#68d9e8}a{color:#91e5ed;text-underline-offset:4px}
+.controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:18px 0}
+button{border:1px solid #495766;background:#17222d;color:#dce6ef;border-radius:5px;padding:9px 15px;cursor:pointer}
+button[aria-pressed=true]{background:#23434c;border-color:#69d6e0}
+.gallery{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.card{border:1px solid #35414b;border-radius:9px;overflow:hidden}
+.label{display:flex;justify-content:space-between;padding:14px 18px;font-size:12px;color:#a7b9c7;background:#121c26}
+.stage{background:var(--stage,#070e18);min-height:220px;display:flex;align-items:center;justify-content:center;padding:24px;overflow:hidden}
+.stage img{display:block;width:560px;max-width:100%;height:auto}
+.hero{margin-top:26px}.hero .stage{min-height:330px;overflow:auto;justify-content:flex-start}
+.hero img{width:1120px;max-width:none;margin:auto}
+body.light{--stage:#e6e9ec}body.checker .stage{background-color:#d8dce0;background-image:linear-gradient(45deg,#bec5ca 25%,transparent 25%),linear-gradient(-45deg,#bec5ca 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#bec5ca 75%),linear-gradient(-45deg,transparent 75%,#bec5ca 75%);background-size:24px 24px;background-position:0 0,0 12px,12px -12px,-12px 0}
+footer{display:flex;gap:22px;flex-wrap:wrap;margin-top:22px;font-size:13px}
+@media(max-width:850px){.gallery{grid-template-columns:1fr}header{display:block}.stage{min-height:180px}.hero img{width:900px}}
+</style>
+<header><div><div class="kicker">UNDERSTAR / RIFT MONOLITH</div><h1>Carved deeper. Readable at a glance.</h1><p>ImageGen material remaster with a subtle Blender relief and lighting pass.</p></div><div><p>4,096 × 1,216 master</p><p>2,048 × 608 menu texture</p></div></header>
+<div class="controls" aria-label="Preview background">
+<button data-bg="" aria-pressed="true">Game dark</button><button data-bg="light" aria-pressed="false">Light</button><button data-bg="checker" aria-pressed="false">Transparency</button>
+</div>
+<div class="gallery">
+<section class="card"><div class="label"><span>ORIGINAL · 1,555 × 462</span><span>560 px display</span></div><div class="stage"><img id="before" src="../understar-logo-v1/understar-rift-monolith-runtime.png" alt="Original UNDERSTAR logo"></div></section>
+<section class="card"><div class="label"><span>REMASTER · 2,048 × 608</span><span>560 px display</span></div><div class="stage"><img id="after" src="understar-rift-monolith-runtime.webp" alt="Remastered UNDERSTAR logo"></div></section>
+</div>
+<section class="card hero"><div class="label"><span>MASTER DETAIL</span><span>Scroll to inspect on a small screen</span></div><div class="stage"><img id="master" src="understar-rift-monolith-4k.png" alt="Large remastered UNDERSTAR logo detail"></div></section>
+<footer><a href="understar-rift-monolith-4k.png" download>Transparent master PNG</a><a href="understar-rift-monolith-runtime.webp" download>Menu WebP</a><a href="understar-logo-hd-v2.blend" download>Editable Blender scene</a><a href="generation.json">Prompts and provenance</a></footer>
+<p style="font-size:12px;margin-top:18px">The master is a Blender render from ImageGen artwork with added relief. Its source texture is not native 4K.</p>
+<script>document.querySelectorAll('[data-bg]').forEach(button=>button.addEventListener('click',()=>{document.body.className=button.dataset.bg;document.querySelectorAll('[data-bg]').forEach(b=>b.setAttribute('aria-pressed',String(b===button)))}))</script>
+</html>

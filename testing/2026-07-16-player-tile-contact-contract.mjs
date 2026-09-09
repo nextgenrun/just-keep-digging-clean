@@ -4,6 +4,7 @@ import { readFileSync } from "node:fs";
 import {
   PLAYER_TARGET_VARIANTS,
   PLAYER_TILE_CONTACT_CONFIG,
+  resolvePlayerSolidOcclusionEnabled,
 } from "../values/playerTileContact.js";
 import { TILE_TYPES } from "../values/tileTypes.js";
 import {
@@ -153,7 +154,7 @@ assert.deepEqual(
   assert.equal(strike.results[0].ty, 11);
 }
 
-function createMaskHarness(rendererType, isUalNative = true) {
+function createMaskHarness(rendererType, isUalNative = true, search = "") {
   const listeners = new Map();
   const graphics = {
     rects: [],
@@ -194,7 +195,14 @@ function createMaskHarness(rendererType, isUalNative = true) {
     inBounds: (tx, ty) => tx >= 0 && tx < 5 && ty >= 0 && ty < 5,
     isSolid: (tx, ty) => solids.has(`${tx},${ty}`),
   };
-  const system = new PlayerSolidOcclusionSystem(scene, player, world, { isUalNative });
+  const system = new PlayerSolidOcclusionSystem(
+    scene,
+    player,
+    world,
+    { isUalNative },
+    PLAYER_TILE_CONTACT_CONFIG.solidOcclusion,
+    search,
+  );
   return { system, scene, player, graphics, solids, listeners, get graphicsCreated() { return graphicsCreated; } };
 }
 
@@ -206,20 +214,34 @@ globalThis.Phaser = {
 };
 
 try {
+  assert.equal(resolvePlayerSolidOcclusionEnabled(undefined, ""), true);
+  assert.equal(resolvePlayerSolidOcclusionEnabled(undefined, "?playerSolidOcclusion=1"), true);
+  assert.equal(resolvePlayerSolidOcclusionEnabled(undefined, "?playerSolidOcclusion=0"), false);
+
   const webgl = createMaskHarness(globalThis.Phaser.WEBGL);
   assert.equal(webgl.system.create(), true);
   assert.equal(webgl.graphicsCreated, 1);
-  assert.equal(webgl.player.mask.inverted, true);
+  assert.equal(webgl.player.mask.inverted, false);
   assert.deepEqual(webgl.graphics.style, {
     color: PLAYER_TILE_CONTACT_CONFIG.solidOcclusion.maskFillColor,
     alpha: PLAYER_TILE_CONTACT_CONFIG.solidOcclusion.maskFillAlpha,
   });
-  assert.deepEqual(webgl.graphics.rects, [{ x: 188, y: 94, width: 94, height: 94 }]);
+  assert.equal(webgl.graphics.rects.length, 8);
+  assert.equal(
+    webgl.graphics.rects.some(rect => rect.x === 188 && rect.y === 94),
+    false,
+    "the solid cell must be the only hole in the positive air-cell mask",
+  );
   assert.equal(webgl.listeners.has("postupdate"), true);
 
   webgl.solids.clear();
   assert.equal(webgl.system.update(), 0);
-  assert.deepEqual(webgl.graphics.rects, []);
+  assert.equal(webgl.graphics.rects.length, 9);
+  assert.equal(
+    webgl.graphics.rects.some(rect => rect.x === 188 && rect.y === 94),
+    true,
+    "destroying the tile must reveal the same animated pixels immediately",
+  );
   const ownedMask = webgl.player.mask;
   webgl.system.destroy();
   assert.equal(webgl.player.mask, null);
@@ -229,9 +251,19 @@ try {
   assert.equal(webgl.listeners.has("postupdate"), false);
 
   const canvas = createMaskHarness(globalThis.Phaser.CANVAS);
-  assert.equal(canvas.system.create(), false);
-  assert.equal(canvas.graphicsCreated, 0);
-  assert.equal(canvas.player.mask, null);
+  assert.equal(canvas.system.create(), true);
+  assert.equal(canvas.graphicsCreated, 1);
+  assert.equal(canvas.player.mask.inverted, false);
+  assert.equal(canvas.graphics.rects.length, 8);
+
+  const rollback = createMaskHarness(
+    globalThis.Phaser.WEBGL,
+    true,
+    "?playerSolidOcclusion=0",
+  );
+  assert.equal(rollback.system.create(), false);
+  assert.equal(rollback.graphicsCreated, 0);
+  assert.equal(rollback.player.mask, null);
 
   const nonUal = createMaskHarness(globalThis.Phaser.WEBGL, false);
   assert.equal(nonUal.system.create(), false);
@@ -270,5 +302,6 @@ console.log(JSON.stringify({
   bodySpan: getPlayerBodyTileSpan(body, TILE_SIZE),
   targetVariants: targetDirectionCases.length,
   webglOcclusion: true,
-  canvasGuard: true,
+  canvasOcclusion: true,
+  rollbackQuery: PLAYER_TILE_CONTACT_CONFIG.solidOcclusion.queryParam,
 }, null, 2));

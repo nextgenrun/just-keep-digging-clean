@@ -22,6 +22,8 @@ const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 class FakeObject {
   constructor(type, x = 0, y = 0, key = null, frame = null, text = "") {
     Object.assign(this, { type, x, y, key, frame, text, visible: true, active: true });
+    this.width = 320;
+    this.height = 320;
     this.events = new Map();
     this.children = [];
   }
@@ -68,7 +70,10 @@ function makeScene(textureKeys) {
   scale.height = 720;
   const scene = {
     scale,
-    textures: { exists: key => textureKeys.has(key) },
+    textures: {
+      exists: key => textureKeys.has(key),
+      get: () => ({ has: () => false, add() {} }),
+    },
     input: {
       setDraggable(target, enabled) { target.draggable = enabled; },
     },
@@ -249,11 +254,16 @@ function dragTo(system, sourceIndex, targetIndex) {
   const campfireSlot = system.slotsById.get("campfire");
   assert.equal(campfireSlot.quantityText.text, "1");
   assert.equal(campfireSlot.quantityText.visible, true);
-  assert.equal(campfireSlot.icon.displayWidth, layout.campfireIconWidthPx);
-  assert.equal(campfireSlot.icon.displayHeight, layout.campfireIconHeightPx);
+  assert.ok(campfireSlot.icon.displayWidth <= layout.campfireIconWidthPx);
+  assert.ok(campfireSlot.icon.displayHeight <= layout.campfireIconHeightPx);
+  assert.equal(campfireSlot.icon.displayWidth / campfireSlot.icon.width,
+    campfireSlot.icon.displayHeight / campfireSlot.icon.height, "campfire keeps its authored proportions");
 
   const lockedSlot = system.slotsById.get("quickslash");
   assert.equal(lockedSlot.icon.visible, false, "unowned abilities must leave empty sockets");
+  assert.equal(lockedSlot.root.visible, false, "locked slots stay collapsed while their saved key number remains stable");
+  assert.equal(lockedSlot.containsScreenPoint(lockedSlot.basePosition.x, lockedSlot.basePosition.y), false);
+  assert.equal(system.metrics.gpText.visible, false, "GP remains in the player core without an actionbar duplicate");
   assert.equal(lockedSlot.keyText.visible, true, "empty sockets retain their shortcut number");
   lockedSlot.root.emit("pointerover", { x: lockedSlot.basePosition.x, y: lockedSlot.basePosition.y });
   assert.equal(system.getHealthSnapshot().tooltipVisible, true);

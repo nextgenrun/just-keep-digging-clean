@@ -1,3 +1,4 @@
+import { resolveScenicFocusAlpha } from "../../../values/gameplayPresentation.js";
 import { resolveWorldVisualTerrainCohesionPlacement } from
   "../../../values/worldVisualTerrainVariation.js?rev=20260729-underground-seam-v6";
 import {
@@ -56,7 +57,7 @@ export class WorldVisualTerrainCohesionView {
     )
       .setOrigin(0)
       .setDepth(this.config.render.cohesionDepth)
-      .setAlpha(this.config.render.cohesionAlpha)
+      .setAlpha(resolveScenicFocusAlpha(placement.asset.key, this.config.render.cohesionAlpha))
       .setScale(placement.displayScale)
       .setMask(this.terrainMask);
     image.name = `world-visual-terrain-cohesion-${this.region.id}`;
@@ -71,7 +72,7 @@ export class WorldVisualTerrainCohesionView {
   update(lighting) {
     if (!this.image || !lighting) return;
     setTintIfChanged(this.image, lighting.terrainTint);
-    setAlphaIfChanged(this.image, this.config.render.cohesionAlpha);
+    setAlphaIfChanged(this.image, resolveScenicFocusAlpha(this.image.texture.key, this.config.render.cohesionAlpha));
   }
 
   destroyImage() {

@@ -3,7 +3,8 @@ import { STAR_CONSTELLATION_CONFIG } from "./starConstellations.js";
 import { STAR_IDENTITY_LIBRARY_CONFIG } from "./starIdentityLibrary.js";
 import { STAR_RARITY_PROGRESSION_CONFIG } from "./starRarityProgression.js";
 
-export const SAVE_PAYLOAD_VERSION = 15;
+export const SAVE_PAYLOAD_V15_VERSION = 15;
+export const SAVE_PAYLOAD_VERSION = SAVE_PAYLOAD_V15_VERSION;
 export const MAX_SAVE_REVISION = Number.MAX_SAFE_INTEGER;
 
 const MILESTONE_DEPTHS = new Set(DEPTH_MILESTONES.map(entry => entry.depth));

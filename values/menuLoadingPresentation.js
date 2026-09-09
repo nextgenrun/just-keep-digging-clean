@@ -1,0 +1,30 @@
+// Foreground-only loading UI; scenery and branding remain owned by Phaser.
+export const MENU_LOADING_PRESENTATION = Object.freeze({
+  logo: Object.freeze({ y: 152, width: 740, height: 220 }),
+  overlayAlpha: 0,
+  width: 420,
+  bottom: 68,
+  editionTop: 286,
+  fadeMs: 300,
+  textScaleMax: 2,
+  rail: Object.freeze({
+    path: "sprites/UI/hud-approved-v1/xp-frame.png",
+    width: 659,
+    height: 50,
+  }),
+  copy: Object.freeze({
+    launchLabel: "Preparing your expedition",
+    launchDetail: "Opening the world of Understar...",
+    launchFailure: "The game could not finish downloading. Retry to reconnect.",
+    loading: "LOADING",
+    ready: "READY TO EXPLORE",
+    failed: "LOADING PAUSED",
+    label: "Preparing your expedition",
+    progress: "Game loading progress",
+    failure: "Some game files could not be loaded.",
+    failureTitle: "Loading paused",
+    failureDetail: "Please try loading again.",
+    retry: "Retry loading",
+    retrying: "Retrying…",
+  }),
+});

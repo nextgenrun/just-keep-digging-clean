@@ -1,0 +1,64 @@
+:root {
+  color-scheme: dark;
+  font-family: Inter, "Segoe UI", sans-serif;
+  background: #050911;
+  color: #e8dfcc;
+}
+
+* { box-sizing: border-box; }
+html, body, #map { width: 100%; height: 100%; margin: 0; overflow: hidden; }
+body { background: radial-gradient(circle at 50% 28%, #15263b 0, #050911 68%); }
+canvas { display: block; width: 100% !important; height: 100% !important; object-fit: contain; }
+
+.panel {
+  position: fixed;
+  z-index: 3;
+  border: 1px solid rgba(125, 180, 218, .26);
+  background: linear-gradient(145deg, rgba(5, 12, 21, .91), rgba(8, 19, 31, .78));
+  box-shadow: 0 18px 52px rgba(0, 0, 0, .38), inset 0 1px rgba(255, 255, 255, .025);
+  backdrop-filter: blur(11px);
+}
+
+.identity { top: 16px; left: 16px; width: min(500px, calc(100vw - 400px)); padding: 15px 17px; border-radius: 9px; }
+.eyebrow { color: #8ccaf0; font: 800 10px/1.2 ui-monospace, Consolas, monospace; letter-spacing: .15em; }
+h1 { margin: 5px 0 3px; color: #f4ead6; font: 600 23px/1.15 Georgia, serif; }
+.chapter-name { color: #b8d8ed; font-size: 14px; font-weight: 700; }
+.chapter-plan { margin-top: 4px; color: #91a6b7; font-size: 11px; line-height: 1.42; }
+.badges { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
+.badges span { border: 1px solid rgba(133, 181, 212, .2); border-radius: 99px; padding: 4px 7px; color: #9fb5c5; background: rgba(31, 55, 73, .34); font-size: 9px; letter-spacing: .05em; }
+.badges .safe { color: #9ed1ae; border-color: rgba(93, 182, 119, .28); }
+
+.inspector { top: 16px; right: 16px; width: 300px; padding: 14px; border-radius: 9px; }
+.inspector label { display: grid; gap: 5px; margin-top: 11px; color: #a8bac8; font-size: 11px; }
+.inspector output { justify-self: end; margin-top: -15px; color: #efc977; font-family: ui-monospace, Consolas, monospace; }
+.calibration { margin-top: 5px; color: #6e879a; font-size: 9px; }
+input, select, button { min-height: 34px; border: 1px solid rgba(126, 178, 212, .27); border-radius: 5px; background: #0d1a27; color: #e8dfcc; font: inherit; }
+input[type="range"] { min-height: auto; accent-color: #77bfe9; }
+input[type="number"], select { width: 100%; padding: 0 8px; }
+button { padding: 0 10px; cursor: pointer; }
+.control-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+#pause { width: 100%; margin-top: 12px; color: #b7ccda; }
+.telemetry { margin: 12px 0 0; padding-top: 9px; border-top: 1px solid rgba(121, 168, 199, .13); }
+.telemetry div { display: flex; justify-content: space-between; padding: 3px 0; font: 9px/1.25 ui-monospace, Consolas, monospace; }
+.telemetry dt { color: #668196; text-transform: uppercase; letter-spacing: .08em; }
+.telemetry dd { margin: 0; color: #abc4d6; }
+
+.route { left: 50%; bottom: 16px; transform: translateX(-50%); width: min(1120px, calc(100vw - 32px)); min-height: 61px; display: grid; grid-template-columns: 38px minmax(190px, 1fr) minmax(320px, 3fr) 38px auto; gap: 8px; align-items: center; padding: 9px; border-radius: 9px; }
+.arrow { padding: 0; font-size: 22px; }
+.chapter-strip { display: grid; grid-template-columns: repeat(14, 1fr); gap: 3px; }
+.chapter-dot { height: 7px; border-radius: 3px; background: #29435a; box-shadow: inset 0 0 0 1px rgba(149, 201, 233, .12); }
+.chapter-dot.active { background: #d4a95c; box-shadow: 0 0 13px rgba(218, 175, 96, .48); }
+.hint { color: #70899c; font-size: 9px; line-height: 1.35; white-space: nowrap; }
+.truth-chip { position: fixed; left: 16px; bottom: 91px; z-index: 2; border: 1px solid rgba(115, 175, 214, .26); border-radius: 5px; padding: 6px 9px; background: rgba(4, 11, 19, .78); color: #80c7ef; font: 800 9px/1 ui-monospace, Consolas, monospace; letter-spacing: .09em; }
+
+.loading { position: fixed; inset: 0; z-index: 8; display: grid; place-items: center; background: #050911; color: #9bcbea; font: 800 10px/1 ui-monospace, Consolas, monospace; letter-spacing: .17em; }
+body.ready .loading { display: none; }
+
+@media (max-width: 900px) {
+  .identity { width: calc(100vw - 32px); }
+  .inspector { top: auto; right: 10px; bottom: 88px; width: 250px; }
+  .inspector .telemetry, .identity .chapter-plan { display: none; }
+  .route { grid-template-columns: 36px 1fr 36px; }
+  .chapter-strip, .hint { display: none; }
+  .truth-chip { display: none; }
+}

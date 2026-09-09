@@ -42,3 +42,4 @@ presentation; the unlocked surface Titan Walk uses the same sharp inventory
 with identity-specific larger scales over the much thinner shared basalt dais
 inside the prop-free town-edge corridor.
 
+`menu-atmosphere-v4/` is the current set of six 1920x1080 silent menu loops. Each selected landscape repeats into itself with scene-specific slower timing. The original PNG artwork remains unchanged; v1-v3 are retained as historical comparisons.

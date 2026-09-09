@@ -69,7 +69,6 @@ for (const special of [
   TILE_TYPES.GEM_POWER_BLOCK,
   TILE_TYPES.SPEED_BLOCK,
   TILE_TYPES.XP_BLOCK,
-  TILE_TYPES.CRIT_BLOCK,
   TILE_TYPES.BERSERK_BLOCK,
   TILE_TYPES.COMBO_BLOCK,
   TILE_TYPES.LEGEND_BLOCK,
@@ -181,11 +180,11 @@ assert.ok(core.frames.includes("copper-p03"));
 const shards = images.slice(1);
 assert.equal(shards.length, TILE_DESTRUCTION_FX_CONFIG.shards.count);
 assert.deepEqual(shards.map(shard => shard.frame), [
-  "copper-s01",
-  "copper-s02",
-  "copper-s03",
-  "copper-s04",
-  "copper-s05",
+  "copper-s02-detail",
+  "copper-s03-detail",
+  "copper-s04-detail",
+  "copper-s05-detail",
+  "copper-s02-detail",
 ]);
 assert.ok(shards.every(shard => shard.flipX === true));
 

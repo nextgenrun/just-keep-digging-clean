@@ -1,0 +1,252 @@
+{
+  "errors": [],
+  "failed": [],
+  "captures": [
+    {
+      "id": "promenade",
+      "ready": true,
+      "mode": "candidate",
+      "x": 47,
+      "y": 63,
+      "playing": false,
+      "held": false,
+      "renderer": {
+        "reviewOnly": true,
+        "ready": true,
+        "paused": false,
+        "skyCards": 9,
+        "cloudSprites": 66,
+        "pooledCloudSprites": 52,
+        "layers": [
+          {
+            "id": "upper",
+            "parallaxX": 0.26,
+            "speed": 2.8
+          },
+          {
+            "id": "horizon",
+            "parallaxX": 0.44,
+            "speed": 4.7
+          },
+          {
+            "id": "lower",
+            "parallaxX": 0.64,
+            "speed": 6.8
+          },
+          {
+            "id": "near",
+            "parallaxX": 0.9,
+            "speed": 9.5
+          }
+        ],
+        "traveledSeconds": 5.468800000000015,
+        "blendedHeavenblocks": 3
+      }
+    },
+    {
+      "id": "town-handoff",
+      "ready": true,
+      "mode": "candidate",
+      "x": 20,
+      "y": 63,
+      "playing": false,
+      "held": false,
+      "renderer": {
+        "reviewOnly": true,
+        "ready": true,
+        "paused": false,
+        "skyCards": 12,
+        "cloudSprites": 69,
+        "pooledCloudSprites": 61,
+        "layers": [
+          {
+            "id": "upper",
+            "parallaxX": 0.26,
+            "speed": 2.8
+          },
+          {
+            "id": "horizon",
+            "parallaxX": 0.44,
+            "speed": 4.7
+          },
+          {
+            "id": "lower",
+            "parallaxX": 0.64,
+            "speed": 6.8
+          },
+          {
+            "id": "near",
+            "parallaxX": 0.9,
+            "speed": 9.5
+          }
+        ],
+        "traveledSeconds": 7.821300000000039,
+        "blendedHeavenblocks": 3
+      }
+    },
+    {
+      "id": "open-sky",
+      "ready": true,
+      "mode": "candidate",
+      "x": 100,
+      "y": 46,
+      "playing": false,
+      "held": false,
+      "renderer": {
+        "reviewOnly": true,
+        "ready": true,
+        "paused": false,
+        "skyCards": 16,
+        "cloudSprites": 55,
+        "pooledCloudSprites": 80,
+        "layers": [
+          {
+            "id": "upper",
+            "parallaxX": 0.26,
+            "speed": 2.8
+          },
+          {
+            "id": "horizon",
+            "parallaxX": 0.44,
+            "speed": 4.7
+          },
+          {
+            "id": "lower",
+            "parallaxX": 0.64,
+            "speed": 6.8
+          },
+          {
+            "id": "near",
+            "parallaxX": 0.9,
+            "speed": 9.5
+          }
+        ],
+        "traveledSeconds": 10.157100000000005,
+        "blendedHeavenblocks": 3
+      }
+    },
+    {
+      "id": "forest-edge",
+      "ready": true,
+      "mode": "candidate",
+      "x": 100,
+      "y": 57,
+      "playing": false,
+      "held": false,
+      "renderer": {
+        "reviewOnly": true,
+        "ready": true,
+        "paused": false,
+        "skyCards": 16,
+        "cloudSprites": 69,
+        "pooledCloudSprites": 66,
+        "layers": [
+          {
+            "id": "upper",
+            "parallaxX": 0.26,
+            "speed": 2.8
+          },
+          {
+            "id": "horizon",
+            "parallaxX": 0.44,
+            "speed": 4.7
+          },
+          {
+            "id": "lower",
+            "parallaxX": 0.64,
+            "speed": 6.8
+          },
+          {
+            "id": "near",
+            "parallaxX": 0.9,
+            "speed": 9.5
+          }
+        ],
+        "traveledSeconds": 12.526199999999958,
+        "blendedHeavenblocks": 3
+      }
+    },
+    {
+      "id": "observatory",
+      "ready": true,
+      "mode": "candidate",
+      "x": 231,
+      "y": 63,
+      "playing": false,
+      "held": false,
+      "renderer": {
+        "reviewOnly": true,
+        "ready": true,
+        "paused": false,
+        "skyCards": 9,
+        "cloudSprites": 67,
+        "pooledCloudSprites": 68,
+        "layers": [
+          {
+            "id": "upper",
+            "parallaxX": 0.26,
+            "speed": 2.8
+          },
+          {
+            "id": "horizon",
+            "parallaxX": 0.44,
+            "speed": 4.7
+          },
+          {
+            "id": "lower",
+            "parallaxX": 0.64,
+            "speed": 6.8
+          },
+          {
+            "id": "near",
+            "parallaxX": 0.9,
+            "speed": 9.5
+          }
+        ],
+        "traveledSeconds": 14.908499999999922,
+        "blendedHeavenblocks": 3
+      }
+    },
+    {
+      "id": "heavenblocks",
+      "ready": true,
+      "mode": "candidate",
+      "x": 230,
+      "y": 30,
+      "playing": false,
+      "held": false,
+      "renderer": {
+        "reviewOnly": true,
+        "ready": true,
+        "paused": false,
+        "skyCards": 12,
+        "cloudSprites": 63,
+        "pooledCloudSprites": 72,
+        "layers": [
+          {
+            "id": "upper",
+            "parallaxX": 0.26,
+            "speed": 2.8
+          },
+          {
+            "id": "horizon",
+            "parallaxX": 0.44,
+            "speed": 4.7
+          },
+          {
+            "id": "lower",
+            "parallaxX": 0.64,
+            "speed": 6.8
+          },
+          {
+            "id": "near",
+            "parallaxX": 0.9,
+            "speed": 9.5
+          }
+        ],
+        "traveledSeconds": 17.260899999999882,
+        "blendedHeavenblocks": 3
+      }
+    }
+  ]
+}

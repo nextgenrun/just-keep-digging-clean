@@ -1,0 +1,156 @@
+{
+  "schemaVersion": "seedance-review-aftereffects-v1",
+  "reviewOnly": true,
+  "productionChanged": false,
+  "sourceSelection": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/qa/effects-selection.json",
+  "processing": {
+    "blackKey": {
+      "color": "#000000",
+      "similarity": 0.075,
+      "blend": 0.16
+    },
+    "temporalInterpolation": false,
+    "frameOrderChanged": false,
+    "playbackDirection": "forward"
+  },
+  "outputs": [
+    {
+      "id": "fx-stone-contact-v01",
+      "role": "masked-one-shot-aftereffect",
+      "intendedUse": "ordinary stone mining contact, anchored at the exact fist or foot contact point",
+      "source": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/raw/fx-stone-contact-v01.mp4",
+      "sourceSha256": "8971d4b0f589cf7e19bb1e7b85821cfc6363527d6466eab2505d444efb5c4b1f",
+      "output": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/processed/fx-stone-contact-v01-alpha.webm",
+      "outputSha256": "cbba585445c96a3e13210a839a4a5ee4fd4d79d6284048eb802607a5f290acbd",
+      "bytes": 1084643,
+      "playback": "forward-only one-shot; restart from time zero; never reverse or ping-pong",
+      "sourceTrim": {
+        "startSeconds": 0.75,
+        "durationSeconds": 2.85
+      },
+      "composite": "straight alpha over exact current sprites; additive/screen optional only for luminous roles",
+      "alphaEvidence": {
+        "sampleFrames": 11,
+        "minimumAlpha": 0,
+        "maximumAlpha": 255,
+        "transparentPixelsPercent": 94.4955808080808,
+        "partialAlphaPixelsPercent": 2.7847222222222223
+      }
+    },
+    {
+      "id": "fx-metal-contact-v01",
+      "role": "additive-one-shot-aftereffect",
+      "intendedUse": "ore and metal mining contact, scaled down and tinted by material family",
+      "source": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/raw/fx-metal-contact-v01.mp4",
+      "sourceSha256": "1a08bf1b9cb2e3e471e8184583c2395121fa9dda0a8f2706438c2196bdba009d",
+      "output": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/processed/fx-metal-contact-v01-alpha.webm",
+      "outputSha256": "0b83e094d6f0114a415561db16e8ae8798e87ad26b0a355ef8bba311687acfdb",
+      "bytes": 1273439,
+      "playback": "forward-only one-shot; restart from time zero; never reverse or ping-pong",
+      "sourceTrim": {
+        "startSeconds": 0.62,
+        "durationSeconds": 2.6
+      },
+      "composite": "straight alpha over exact current sprites; additive/screen optional only for luminous roles",
+      "alphaEvidence": {
+        "sampleFrames": 10,
+        "minimumAlpha": 0,
+        "maximumAlpha": 255,
+        "transparentPixelsPercent": 89.79791666666667,
+        "partialAlphaPixelsPercent": 8.070833333333335
+      }
+    },
+    {
+      "id": "fx-crystal-contact-v01",
+      "role": "additive-one-shot-aftereffect",
+      "intendedUse": "rare crystal contact or shatter accent, composited additively at reduced scale",
+      "source": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/raw/fx-crystal-contact-v01.mp4",
+      "sourceSha256": "02cba954427a442e81620a4949b6f251ff3c5d45e41bba702da3ff1839a79f1c",
+      "output": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/processed/fx-crystal-contact-v01-alpha.webm",
+      "outputSha256": "4141824ee9bf8d1379ed86513b1b3da67d3c348392d9b9f2621e91fb59e78b12",
+      "bytes": 2850071,
+      "playback": "forward-only one-shot; restart from time zero; never reverse or ping-pong",
+      "sourceTrim": {
+        "startSeconds": 0.2,
+        "durationSeconds": 2.9
+      },
+      "composite": "straight alpha over exact current sprites; additive/screen optional only for luminous roles",
+      "alphaEvidence": {
+        "sampleFrames": 12,
+        "minimumAlpha": 0,
+        "maximumAlpha": 255,
+        "transparentPixelsPercent": 62.7662037037037,
+        "partialAlphaPixelsPercent": 21.544560185185187
+      }
+    },
+    {
+      "id": "fx-magma-contact-v01",
+      "role": "additive-one-shot-aftereffect",
+      "intendedUse": "magma and ember-ore hit response at the contact point",
+      "source": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/raw/fx-magma-contact-v01.mp4",
+      "sourceSha256": "166ad578c6063cde2954b39cb2a0b2fda9e96380ea5bc1abb5cc95f187a26d28",
+      "output": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/processed/fx-magma-contact-v01-alpha.webm",
+      "outputSha256": "665364f668dd4e2877d55d274d9d232ee5521b807db9dc113928491183128e34",
+      "bytes": 1306292,
+      "playback": "forward-only one-shot; restart from time zero; never reverse or ping-pong",
+      "sourceTrim": {
+        "startSeconds": 0.72,
+        "durationSeconds": 2.9
+      },
+      "composite": "straight alpha over exact current sprites; additive/screen optional only for luminous roles",
+      "alphaEvidence": {
+        "sampleFrames": 12,
+        "minimumAlpha": 0,
+        "maximumAlpha": 255,
+        "transparentPixelsPercent": 92.76157407407408,
+        "partialAlphaPixelsPercent": 4.581018518518518
+      }
+    },
+    {
+      "id": "fx-dirt-break-v01",
+      "role": "masked-destructive-one-shot",
+      "intendedUse": "normal dirt tile destruction, centered over the tile as it is removed",
+      "source": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/raw/fx-dirt-break-v01.mp4",
+      "sourceSha256": "24573d0d3ff4eb039860cd8358f680bcd0b6272b4932e14bab57af4f799b3086",
+      "output": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/processed/fx-dirt-break-v01-alpha.webm",
+      "outputSha256": "4d94d595e8af36760f5bab79fc87561945cda1f4513f6ed0e5ddef08684c2678",
+      "bytes": 700808,
+      "playback": "forward-only one-shot; restart from time zero; never reverse or ping-pong",
+      "sourceTrim": {
+        "startSeconds": 0.72,
+        "durationSeconds": 2.9
+      },
+      "composite": "straight alpha over exact current sprites; additive/screen optional only for luminous roles",
+      "alphaEvidence": {
+        "sampleFrames": 12,
+        "minimumAlpha": 0,
+        "maximumAlpha": 255,
+        "transparentPixelsPercent": 96.22800925925927,
+        "partialAlphaPixelsPercent": 2.1886574074074074
+      }
+    },
+    {
+      "id": "fx-stone-break-v01",
+      "role": "masked-destructive-one-shot",
+      "intendedUse": "stone destruction swap; hide the exact tile as the keyed fracture covers its bounds",
+      "source": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/raw/fx-stone-break-v01.mp4",
+      "sourceSha256": "c603c92eb573874baa23309ce5dc8b0bb9648d0b1ffc20a38785e83920281943",
+      "output": "testing/animation-sandbox/2026-09-04-seedance-player-effects-eur10-v1/processed/fx-stone-break-v01-alpha.webm",
+      "outputSha256": "ea214a3336fb5d1052e079e34e214141c4d5c861069eececc79e2356a6fc9e4f",
+      "bytes": 890193,
+      "playback": "forward-only one-shot; restart from time zero; never reverse or ping-pong",
+      "sourceTrim": {
+        "startSeconds": 0.96,
+        "durationSeconds": 2.7
+      },
+      "composite": "straight alpha over exact current sprites; additive/screen optional only for luminous roles",
+      "alphaEvidence": {
+        "sampleFrames": 11,
+        "minimumAlpha": 0,
+        "maximumAlpha": 255,
+        "transparentPixelsPercent": 95.09469696969697,
+        "partialAlphaPixelsPercent": 2.746212121212121
+      }
+    }
+  ]
+}

@@ -299,8 +299,6 @@ export class SpecialTileSystem {
     this.openedChestKeys.add(key);
     this.worldModel.applyDugTileKeys([key]);
     this.scene.worldRenderer?.applyTileUpdate?.(tile.tx, tile.ty);
-    const now = this.scene.time?.now || 0;
-    this.scene.retentionProgressSystem?.activateChestCritBuff?.(now);
 
     const worldPos = this.worldModel.tileToWorld(tile.tx, tile.ty);
     let starType = null;
@@ -320,9 +318,6 @@ export class SpecialTileSystem {
       `+${money.toLocaleString()} ${feedback.moneyUnit}`,
     ];
     if (hasStar) rewardParts.push(feedback.starAwardLabel);
-    rewardParts.push(
-      `${TREASURE_CHEST_CONFIG.critBuff.name} ${feedback.activeLabel}`,
-    );
     const rewardMessage = rewardParts.join(feedback.separator);
     const rewardColor = hasStar ? feedback.starColor : feedback.moneyColor;
     this.floatingTextSystem?.showFloatingText?.(
@@ -339,7 +334,7 @@ export class SpecialTileSystem {
       rewardColor,
       feedback.statusDurationMs,
     );
-    this.scene.screenFlashSystem?.flashLucky?.();
+    this.scene.screenFlashSystem?.flashReward?.();
     this.scene.soundSystem?.playUiConfirm?.();
     this.scene.queueDugTilesSave?.();
     this.promptText.setVisible(false);
@@ -816,23 +811,28 @@ export class SpecialTileSystem {
       return { success: false, reason: "hardcore-teleport-cost", cost: payment.cost };
     }
 
-    this.playerController.teleportToTile(target.tx, target.ty);
-    this.scene.earthquakeFeedbackUI?.clearEscapeObjective?.();
-    this.scene.earthquakeHazardOverlay?.clear?.();
-    this._playSound("teleport");
-    if (firstActivation) this._celebratePortalActivation(pairData, target);
-    else if (tutorialPortal) {
-      this.scene.townSquareTutorialSystem?.recordFirstPortalActivated?.(
-        this._getPairLabel(pairData),
-        tutorialTile,
-      );
-    }
+    const pending = this._commitPortalTravel(target, {
+      label: this._getPairLabel(pairData),
+      afterCommit: () => {
+        this.scene.earthquakeFeedbackUI?.clearEscapeObjective?.();
+        this.scene.earthquakeHazardOverlay?.clear?.();
+        this._playSound("teleport");
+        if (firstActivation) this._celebratePortalActivation(pairData, target);
+        else if (tutorialPortal) {
+          this.scene.townSquareTutorialSystem?.recordFirstPortalActivated?.(
+            this._getPairLabel(pairData),
+            tutorialTile,
+          );
+        }
+      },
+    });
 
     return {
       success: true,
       type: "teleport",
       target: "skyIsland",
       pairData,
+      ...(pending ? { pending: true } : {}),
       ...(payment.cost > 0 ? { cost: payment.cost } : {}),
     };
   }
@@ -863,15 +863,20 @@ export class SpecialTileSystem {
       return { success: false, reason: "hardcore-teleport-cost", cost: payment.cost };
     }
 
-    this.playerController.teleportToTile(target.tx, target.ty);
-    this.scene.earthquakeFeedbackUI?.clearEscapeObjective?.();
-    this.scene.earthquakeHazardOverlay?.clear?.();
-    this._playSound("teleport");
+    const pending = this._commitPortalTravel(target, {
+      label: `LEVEL ${levelId} SURFACE GATE`,
+      afterCommit: () => {
+        this.scene.earthquakeFeedbackUI?.clearEscapeObjective?.();
+        this.scene.earthquakeHazardOverlay?.clear?.();
+        this._playSound("teleport");
+      },
+    });
     return {
       success: true,
       type: "teleport",
       target: "skyIslandGroundPortal",
       levelId,
+      ...(pending ? { pending: true } : {}),
       ...(payment.cost > 0 ? { cost: payment.cost } : {}),
     };
   }
@@ -915,22 +920,53 @@ export class SpecialTileSystem {
       return { success: false, reason: "hardcore-teleport-cost", cost: payment.cost };
     }
 
-    this.playerController.teleportToTile(target.tx, target.ty);
-    this.scene.earthquakeFeedbackUI?.clearEscapeObjective?.();
-    this._playSound("teleport");
-    if (options.kind === "skyToDungeon") {
-      const completed = this.scene.retentionProgressSystem
-        ?.recordTutorialPortalResume?.() === true;
-      if (completed) this.scene.queueDugTilesSave?.();
-    }
+    const pending = this._commitPortalTravel(target, {
+      label: this._getPairLabel(pair),
+      allowFromPaused: options.kind === "quickResume",
+      afterCommit: () => {
+        this.scene.earthquakeFeedbackUI?.clearEscapeObjective?.();
+        this._playSound("teleport");
+        if (options.kind === "skyToDungeon") {
+          const completed = this.scene.retentionProgressSystem
+            ?.recordTutorialPortalResume?.() === true;
+          if (completed) this.scene.queueDugTilesSave?.();
+        }
+      },
+    });
 
     return {
       success: true,
       type: "teleport",
       target: "dungeon",
       pairData: pair,
+      ...(pending ? { pending: true } : {}),
       ...(payment.cost > 0 ? { cost: payment.cost } : {}),
     };
+  }
+
+  _commitPortalTravel(target, {
+    label = "PORTAL",
+    afterCommit = null,
+    allowFromPaused = false,
+  } = {}) {
+    let committed = false;
+    const finish = () => {
+      if (committed) return;
+      committed = true;
+      afterCommit?.();
+    };
+    const pending = this.scene.teleportTransitionController?.begin?.({
+      target,
+      label,
+      allowFromPaused,
+      commit: () => this.playerController.teleportToTile(target.tx, target.ty),
+      afterCommit: finish,
+    }) === true;
+    if (!pending) {
+      this.playerController.teleportToTile(target.tx, target.ty);
+      finish();
+    }
+    return pending;
   }
 
   _celebratePortalActivation(pairData, targetTile) {
@@ -956,7 +992,7 @@ export class SpecialTileSystem {
     if (!tutorialRecorded) {
       this.scene.retentionProgressSystem?.recordPortalActivated?.(label);
     }
-    this.scene.screenFlashSystem?.flashLucky?.();
+    this.scene.screenFlashSystem?.flashReward?.();
     this.scene.shakeSystem?.shake?.("misc.depthMilestone", 0.55);
     this.scene.soundSystem?.playSfx?.("reward");
     this.scene.queueDugTilesSave?.();

@@ -12,6 +12,7 @@ export const PLAYER_DEFERRED_ASSET_PACK_IDS = Object.freeze({
   movingComplexMining: "moving-complex-mining",
   complexSideMining: "complex-side-mining",
   complexUpMining: "complex-up-mining",
+  complexDownMining: "complex-down-mining",
 });
 
 const COMPLEX_MINING_RELEASE_DELAY_MS = 60_000;
@@ -22,6 +23,8 @@ export const PLAYER_DEFERRED_ASSET_PACK_RELEASE_DELAYS_MS = Object.freeze({
   [PLAYER_DEFERRED_ASSET_PACK_IDS.complexSideMining]:
     COMPLEX_MINING_RELEASE_DELAY_MS,
   [PLAYER_DEFERRED_ASSET_PACK_IDS.complexUpMining]:
+    COMPLEX_MINING_RELEASE_DELAY_MS,
+  [PLAYER_DEFERRED_ASSET_PACK_IDS.complexDownMining]:
     COMPLEX_MINING_RELEASE_DELAY_MS,
 });
 
@@ -52,8 +55,8 @@ const PACK_BY_SHEET_PROPERTY = Object.freeze({
     PLAYER_DEFERRED_ASSET_PACK_IDS.diagonalMining,
   ledgeClimbSheet: PLAYER_DEFERRED_ASSET_PACK_IDS.ledgeClimb,
   movingComplexDigSheet: PLAYER_DEFERRED_ASSET_PACK_IDS.movingComplexMining,
+  // Jab stays resident as the modern fallback while the other SIDE clips load.
   complexDigCrossSheet: PLAYER_DEFERRED_ASSET_PACK_IDS.complexSideMining,
-  complexDigJabSheet: PLAYER_DEFERRED_ASSET_PACK_IDS.complexSideMining,
   complexDigRoundhouseSheet: PLAYER_DEFERRED_ASSET_PACK_IDS.complexSideMining,
   complexDigJabElbowSheet: PLAYER_DEFERRED_ASSET_PACK_IDS.complexSideMining,
   complexDigLowKickSheet: PLAYER_DEFERRED_ASSET_PACK_IDS.complexSideMining,
@@ -66,6 +69,8 @@ const PACK_BY_SHEET_PROPERTY = Object.freeze({
     PLAYER_DEFERRED_ASSET_PACK_IDS.complexSideMining,
   complexDigHookSheet: PLAYER_DEFERRED_ASSET_PACK_IDS.complexSideMining,
   complexDigUppercutSheet: PLAYER_DEFERRED_ASSET_PACK_IDS.complexUpMining,
+  downwardDigBodyLowSheet:
+    PLAYER_DEFERRED_ASSET_PACK_IDS.complexDownMining,
 });
 
 export function resolvePlayerDeferredAssetPackId(sheetProperty) {

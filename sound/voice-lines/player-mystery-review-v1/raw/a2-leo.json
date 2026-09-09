@@ -1,0 +1,10 @@
+{
+  "id": "A2",
+  "voice": "leo",
+  "text": "Gold. That used to buy silence.",
+  "model": "x-ai/grok-voice-tts-1.0",
+  "requestSha256": "ec4575d63ceadf4a7029c335815e9a16f6945ef17f13f7cbeb19f3aa1b941935",
+  "contentType": "audio/mpeg",
+  "generationId": "gen-tts-1788736840-CAArLwOt4wS7byYDk2ui",
+  "rawSha256": "e9a3b5d17d52a230dab7f0488db5318ce0fea790e11f73f99eff6ca410a3ea24"
+}

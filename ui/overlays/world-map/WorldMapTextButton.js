@@ -4,7 +4,10 @@ import { WORLD_MAP_CONFIG } from "../../../values/worldMapConfig.js";
 export class WorldMapTextButton {
   constructor(scene, root, label, options) {
     this.scene = scene;
-    this.label = label;
+    this.label = label?.bakedCaption || label;
+    this.sourceLabel = label;
+    this.labelScaleX = this.label?.scaleX ?? 1;
+    this.labelScaleY = this.label?.scaleY ?? 1;
     this.activate = options.activate;
     this.baseColor = options.baseColor || WORLD_MAP_CONFIG.colors.body;
     this.enabled = true;
@@ -30,7 +33,7 @@ export class WorldMapTextButton {
   _onPointerOut() {
     this.hovered = false;
     this.scene?.tweens?.killTweensOf?.(this.label);
-    this.label?.setScale?.(1);
+    this.label?.setScale?.(this.labelScaleX, this.labelScaleY);
     this._applyVisualState();
   }
 
@@ -44,10 +47,11 @@ export class WorldMapTextButton {
     if (!this.label) return;
     const label = this.label;
     scene?.tweens?.killTweensOf?.(label);
-    label.setScale?.(1);
+    label.setScale?.(this.labelScaleX, this.labelScaleY);
     scene?.tweens?.add?.({
       targets: label,
-      scale: WORLD_MAP_CONFIG.input.pressScale,
+      scaleX: this.labelScaleX * WORLD_MAP_CONFIG.input.pressScale,
+      scaleY: this.labelScaleY * WORLD_MAP_CONFIG.input.pressScale,
       duration: WORLD_MAP_CONFIG.input.pressDurationMs,
       yoyo: true,
       ease: "Quad.out",
@@ -59,6 +63,7 @@ export class WorldMapTextButton {
       ? WORLD_MAP_CONFIG.colors.active
       : this.baseColor;
     this.label?.setColor?.(color);
+    this.label?.setTint?.(Number.parseInt(color.replace("#", ""), 16));
     this.label?.setAlpha?.(this.enabled ? 1 : WORLD_MAP_CONFIG.input.disabledAlpha);
     if (this.zone?.input) {
       this.zone.input.cursor = this.enabled
@@ -67,9 +72,9 @@ export class WorldMapTextButton {
     }
     if (!this.scene?.tweens || !this.label) return;
     if (this.hovered && this.enabled) {
-      this.label.setScale(WORLD_MAP_CONFIG.input.hoverScale);
+      this.label.setScale(this.labelScaleX * WORLD_MAP_CONFIG.input.hoverScale, this.labelScaleY * WORLD_MAP_CONFIG.input.hoverScale);
     } else {
-      this.label.setScale(1);
+      this.label.setScale(this.labelScaleX, this.labelScaleY);
     }
   }
 
@@ -88,6 +93,8 @@ export class WorldMapTextButton {
     this.zone?.removeAllListeners?.();
     this.zone?.destroy?.();
     this.label?.destroy?.();
+    if (this.sourceLabel !== this.label) this.sourceLabel?.destroy?.();
+    this.sourceLabel = null;
     this.scene = null;
     this.zone = null;
     this.label = null;

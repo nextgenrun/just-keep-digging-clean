@@ -12,16 +12,17 @@ restores wallet, inventory, event state, Journey, retention, and chest ownership
 when the authoritative save returns false or throws.
 
 Authoritative tuning, player copy, feature flags, and asset descriptors live in
-`values/randomWorldEvents.js`. Only one of the two active ambient events may be
-active at a time. Money Monster Rush Order is retired from the schedulable type
-order; its old save records are sanitized through the existing retired-event
-migration. Completed Crystal Choir chambers are permanent; Sleeping Jackpot is
+`values/randomWorldEvents.js`. Crystal Choir and Signal are the schedulable ambient events. Money Monster Rush Order
+and Blackout Bloom are retired; old save records are sanitized without payout. Completed Crystal Choir chambers are permanent; Sleeping Jackpot is
 persisted separately so it can mature without suppressing ambient events.
 
-Save schema V2 rejects unknown or retired active records, removes those types
+signalRiskRules.js resolves solid-rock cover and value-based gift rewards. Save schema V4 also carries bounded Signal choices, serialized trap fuses and sampled fatal results; it rejects unknown or retired active records, removes those types
 from recent rotation history, and queues a cleaned save with the normal retry
 cooldown. Jackpot, Choir history, scheduler stats, and resource history survive
 that migration.
 
 `?randomEvents=0` suppresses all presentation and protects any sealed Jackpot
 record.
+
+Admission analysis and the save-free multi-encounter review are documented in
+`markdown/2026-09-05-dynamic-event-admission-and-sandbox.md`.

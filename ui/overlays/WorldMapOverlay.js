@@ -96,6 +96,16 @@ export class WorldMapOverlay {
     return Boolean(tile);
   }
 
+  centerOnTile(tile) {
+    const tileX = Number(tile?.tx ?? tile?.tileX);
+    const tileY = Number(tile?.ty ?? tile?.tileY);
+    if (!Number.isFinite(tileX) || !Number.isFinite(tileY)) return false;
+    this.viewState.centerTileX = tileX;
+    this.viewState.centerTileY = tileY;
+    this.render();
+    return true;
+  }
+
   render() {
     if (!this.view?.root || !this.discoverySystem || !this.activityRegistry) return;
     this.discoverySystem.updatePlayerDiscovery();
@@ -104,10 +114,25 @@ export class WorldMapOverlay {
       this.view.viewport,
       this.viewState,
     );
-    this.view.render(stats, this.viewState);
+    const { pixelsPerTile } = this.renderer.getMetrics(
+      this.view.viewport,
+      this.viewState,
+    );
+    const terrainStats = this.view.renderTerrain({
+      layout: this.view.viewport,
+      viewState: this.viewState,
+      model: this.scene.worldModel,
+      discoverySystem: this.discoverySystem,
+      pixelsPerTile,
+      worldToScreen: (tileX, tileY, layout) => (
+        this.renderer.worldToScreen(tileX, tileY, layout, this.viewState)
+      ),
+      biomeFieldEnabled: stats.totalBiomeCount > 0,
+    });
+    this.view.render({ ...stats, ...terrainStats }, this.viewState);
   }
 
-  open() {
+  open(options = {}) {
     if (this.isOpen || this._destroyed) return false;
     this._modeToken = this.scene.acquireSceneSuspension(
       SCENE_SUSPENSION_KINDS.PAUSE,
@@ -118,7 +143,7 @@ export class WorldMapOverlay {
     this.discoverySystem.updatePlayerDiscovery(true);
     this.isOpen = true;
     this.view.setVisible(true);
-    this.centerOnPlayer();
+    if (!this.centerOnTile(options.focusTile)) this.centerOnPlayer();
     return true;
   }
 

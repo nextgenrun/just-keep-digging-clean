@@ -1,0 +1,25 @@
+{
+  "model": "bytedance/seedance-2.0-mini",
+  "jobId": "2c2SdslVNQp3aMXR5BdW",
+  "costUsd": 0.4570804,
+  "requested": {
+    "duration": 15,
+    "resolution": "720p",
+    "aspectRatio": "21:9"
+  },
+  "delivered": {
+    "width": 1470,
+    "height": 630,
+    "fps": 24,
+    "frames": 360,
+    "durationSeconds": 15,
+    "audio": false
+  },
+  "nativeDurationSeconds": 15.041667,
+  "loopTreatment": "0.75-second tail blend to the decoded first frame, with a brief matching endpoint; 360 frames total.",
+  "firstLastSsim": 0.993099,
+  "nativeFirstLastSsim": 0.925029,
+  "runtimeUses": "transparent static WebP",
+  "videoFile": "understar-logo-loop-15s.mp4",
+  "credentialStored": false
+}

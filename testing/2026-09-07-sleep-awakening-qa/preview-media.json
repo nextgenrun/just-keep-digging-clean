@@ -1,0 +1,32 @@
+{
+  "passed": true,
+  "clockChecks": [
+    {
+      "cycle": 1,
+      "hoursAdvanced": 8.00000000000125,
+      "sharpFrames": 213
+    },
+    {
+      "cycle": 2,
+      "hoursAdvanced": 8.00005560000098,
+      "sharpFrames": 213
+    }
+  ],
+  "clips": [
+    {
+      "src": "sleep-and-wake-1.webm?v=eight-hours",
+      "width": 1920,
+      "height": 1080,
+      "audioTracks": 1,
+      "decodedFrames": 5
+    },
+    {
+      "src": "sleep-and-wake-2.webm?v=eight-hours",
+      "width": 1920,
+      "height": 1080,
+      "audioTracks": 1,
+      "decodedFrames": 6
+    }
+  ],
+  "errors": []
+}

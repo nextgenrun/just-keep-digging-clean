@@ -41,7 +41,6 @@ export class CelestialActionBarSystem {
     this.scene.scale?.on?.("resize", this._resizeHandler);
     this.refreshAssets();
   }
-
   _readLoadout() {
     try {
       return this.loadoutProvider?.getLoadout?.() || null;
@@ -50,7 +49,6 @@ export class CelestialActionBarSystem {
       return null;
     }
   }
-
   refreshAssets() {
     if (this.destroyed || this.mounted) return this.mounted;
     this.assetHealth = inspectCelestialActionBarAssets(
@@ -64,7 +62,6 @@ export class CelestialActionBarSystem {
     this.setVisible(this.visible);
     return true;
   }
-
   refreshEntryIcons() {
     if (this.destroyed || !this.mounted) return false;
     const assetHealth = inspectCelestialActionBarAssets(this.scene, this.config.entries);
@@ -75,7 +72,6 @@ export class CelestialActionBarSystem {
     });
     return true;
   }
-
   _build() {
     this.foundationView = new CelestialActionBarFoundationView(
       this.scene,
@@ -96,7 +92,6 @@ export class CelestialActionBarSystem {
       );
       this.slotsById.set(entry.id, slot);
     }
-
     this.tooltip = new CelestialActionBarTooltipView(
       this.scene,
       this.assetHealth.chrome.tooltip,
@@ -104,7 +99,6 @@ export class CelestialActionBarSystem {
     this.metrics = new CelestialActionBarMetricsView(this.scene, this.getMetrics);
     this.mounted = true;
   }
-
   _resolveState(entry) {
     let source = null;
     try {
@@ -126,7 +120,6 @@ export class CelestialActionBarSystem {
       unavailableReason: source?.unavailableReason || this.config.copy.unavailable,
     });
   }
-
   sync(pulseEntryId = null) {
     if (!this.mounted && !this.refreshAssets()) return this.getHealthSnapshot();
     for (const entry of this.config.entries) {
@@ -134,10 +127,10 @@ export class CelestialActionBarSystem {
     }
     this.slotsById.get(pulseEntryId)?.pulse?.();
     this.metrics?.sync();
+    this._syncSlotVisibility();
     if (this.tooltipVisible && this.hoveredSlot) this._showTooltip(this.hoveredSlot);
     return this.getHealthSnapshot();
   }
-
   _activateEntry(slot, source) {
     const state = this._resolveState(slot.entry);
     slot.setState(state);
@@ -163,14 +156,15 @@ export class CelestialActionBarSystem {
       return { ok: false, reason: "activation-error" };
     }
   }
-
   activateSlot(slotNumber, source = this.config.interaction.keyboardActivationSource) {
     const entryId = this.order[slotNumber - 1];
     const slot = this.slotsById.get(entryId);
     if (!slot) return { ok: false, reason: "invalid-slot" };
     return this._activateEntry(slot, source);
   }
-
+  pulseEntries(entryIds = []) {
+    for (const entryId of entryIds) this.slotsById.get(entryId)?.pulse?.();
+  }
   _finishDrag(slot, pointer) {
     const sourceIndex = this.order.indexOf(slot.entry.id);
     const targetIndex = this.order.findIndex(entryId => (
@@ -189,9 +183,9 @@ export class CelestialActionBarSystem {
       this.order = previousOrder;
     }
     this._layoutSlots();
+    this._syncSlotVisibility();
     return true;
   }
-
   _persistOrder(previousOrder, sourceIndex, targetIndex) {
     const nextOrder = [...this.order];
     const metadata = Object.freeze({
@@ -211,7 +205,6 @@ export class CelestialActionBarSystem {
       return false;
     }
   }
-
   _showTooltip(slot) {
     if (!this.mounted || !slot) return;
     const state = slot.state || this._resolveState(slot.entry);
@@ -225,13 +218,11 @@ export class CelestialActionBarSystem {
     this.tooltip.show(slot, `${slot.slotNumber}  ${slot.entry.label}`, body);
     this.tooltip.setParentVisible(this.visible);
   }
-
   _hideTooltip() {
     this.hoveredSlot = null;
     this.tooltipVisible = false;
     this.tooltip?.hide();
   }
-
   resize() {
     if (!this.mounted) return false;
     const layout = this.config.layout;
@@ -249,7 +240,6 @@ export class CelestialActionBarSystem {
     );
     return true;
   }
-
   _layoutSlots() {
     if (!this.mounted) return;
     this.order.forEach((entryId, index) => {
@@ -259,19 +249,24 @@ export class CelestialActionBarSystem {
       slot?.setBasePosition(position.x, position.y, this.uiScale);
     });
   }
-
   setVisible(visible) {
     this.visible = visible === true;
-    this.foundationView?.setVisible(this.visible);
-    for (const slot of this.slotsById.values()) slot.setVisible(this.visible);
+    this._syncSlotVisibility();
     this.metrics?.setVisible(this.visible);
     this.tooltip?.setParentVisible(this.visible);
   }
-
+  _syncSlotVisibility() {
+    const slots = this.order.map(id => this.slotsById.get(id));
+    const last = slots.length - 1;
+    this.foundationView?.foundation.setVisible(this.visible
+      && slots.slice(0, last).some(slot => slot?.state?.unlocked));
+    this.foundationView?.detachedSlot.setVisible(this.visible && slots[last]?.state?.unlocked === true);
+    for (const slot of slots) slot?.setVisible(this.visible && slot.state?.unlocked === true);
+    if (this.hoveredSlot?.root?.visible === false) this._hideTooltip();
+  }
   getLoadout() {
     return [...this.order];
   }
-
   loadLoadout(order) {
     if (this.destroyed) return false;
     this.order = sanitizeCelestialActionBarOrder(order);
@@ -279,11 +274,9 @@ export class CelestialActionBarSystem {
     this.sync();
     return this.getLoadout();
   }
-
   getHealthSnapshot() {
     return buildCelestialActionBarHealth(this);
   }
-
   destroy() {
     if (this.destroyed) return;
     this.destroyed = true;

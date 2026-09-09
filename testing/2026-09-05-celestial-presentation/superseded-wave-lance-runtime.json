@@ -1,0 +1,228 @@
+{
+  "bounces": 0,
+  "buff": {
+    "hitAreas": [
+      {
+        "height": 44,
+        "width": 131
+      }
+    ],
+    "hoveredIndex": -1,
+    "icons": [
+      "power"
+    ],
+    "tooltipBody": "",
+    "tooltipTitle": "",
+    "tooltipVisible": false,
+    "visibleEntries": 1
+  },
+  "completion": {
+    "health": {
+      "activationId": "visual:comet-engine",
+      "active": false,
+      "ageMs": 19002.89999999999,
+      "bounces": 0,
+      "earnedLifetimeMs": 4000,
+      "empowered": false,
+      "engineId": "comet-engine",
+      "finalWindow": false,
+      "impactMomentCount": 66,
+      "impacts": 72,
+      "lastConsumedBreakCharge": 0.51,
+      "lastProjectilePalette": "purple",
+      "launchFlashCount": 8,
+      "lifetimeMs": 19000,
+      "liveVfxCount": 30,
+      "liveWakes": 18,
+      "maxBounces": 0,
+      "maxImpacts": 0,
+      "maxRedirects": 0,
+      "nextShot": 9,
+      "paletteHistory": [
+        "blue",
+        "purple",
+        "red",
+        "blue",
+        "purple",
+        "red",
+        "blue",
+        "purple"
+      ],
+      "playerVisualCount": 0,
+      "projectileDamageMultiplier": 2.12,
+      "projectileDestroyed": 72,
+      "projectileEnabled": false,
+      "projectileImpacts": 72,
+      "projectileInfiniteRange": false,
+      "projectileMaximumDamageMultiplier": 2.86,
+      "projectilePaletteCycle": [
+        "blue",
+        "purple",
+        "red"
+      ],
+      "projectilePassesGeodeWalls": true,
+      "projectileRangeTiles": 9,
+      "projectileSafetyMaxTiles": 8,
+      "projectileSideLanes": 1,
+      "projectileStateCount": 3,
+      "projectileStates": [
+        {
+          "alpha": 0.94,
+          "damageMultiplier": 1,
+          "displayScale": 0.9,
+          "id": "violet-edge",
+          "impactTint": 14795519,
+          "label": "VIOLET EDGE",
+          "minimumDistanceTiles": 1,
+          "tint": 12619007
+        },
+        {
+          "alpha": 0.95,
+          "damageMultiplier": 1.35,
+          "displayScale": 1,
+          "id": "amethyst-surge",
+          "impactTint": 14198783,
+          "label": "AMETHYST SURGE",
+          "minimumDistanceTiles": 3,
+          "tint": 11032055
+        },
+        {
+          "alpha": 1,
+          "damageMultiplier": 1.35,
+          "displayScale": 1.1,
+          "id": "voidpiercer",
+          "impactTint": 15918591,
+          "label": "VOIDPIERCER",
+          "minimumDistanceTiles": 5,
+          "tint": 8141549
+        }
+      ],
+      "redirects": 0,
+      "remainingMs": 0,
+      "resonantReady": false,
+      "scheduledImpactCount": 72,
+      "shotsFired": 8,
+      "stateBurstCount": 45,
+      "storedBreakCharge": 0.51,
+      "uniqueTargets": 0,
+      "wakeCount": 700
+    },
+    "reason": "projectile-buff-ended"
+  },
+  "definition": {
+    "lifetimeMs": 15000,
+    "name": "STELLAR LANCE",
+    "projectileDamageMultiplier": 1.61,
+    "projectileInfiniteRange": false,
+    "projectileMaximumDamageMultiplier": 3.13,
+    "projectileRangeTiles": 9,
+    "projectileSideLanes": 1,
+    "projectileStateCount": 3,
+    "reviewSlowMotion": false,
+    "simultaneousHoles": 0,
+    "simultaneousStars": 0
+  },
+  "engineId": "comet-engine",
+  "harnessDigPush": {
+    "attempts": 0,
+    "lastAccepted": null
+  },
+  "impacts": 0,
+  "liveProjectiles": 3,
+  "livePulledFragments": 0,
+  "missingTextures": [],
+  "passives": null,
+  "pulledFragments": 0,
+  "ready": true,
+  "runtimeErrors": [],
+  "snapshot": {
+    "activationId": "visual:comet-engine",
+    "active": true,
+    "ageMs": 17284.59999999999,
+    "bounces": 0,
+    "earnedLifetimeMs": 4000,
+    "empowered": true,
+    "engineId": "comet-engine",
+    "finalWindow": true,
+    "impactMomentCount": 63,
+    "impacts": 63,
+    "lastConsumedBreakCharge": 0.51,
+    "lastProjectilePalette": "blue",
+    "launchFlashCount": 7,
+    "lifetimeMs": 19000,
+    "liveVfxCount": 19,
+    "liveWakes": 16,
+    "maxBounces": 0,
+    "maxImpacts": 0,
+    "maxRedirects": 0,
+    "nextShot": 8,
+    "paletteHistory": [
+      "blue",
+      "purple",
+      "red",
+      "blue",
+      "purple",
+      "red",
+      "blue"
+    ],
+    "playerVisualCount": 0,
+    "projectileDamageMultiplier": 2.32,
+    "projectileDestroyed": 63,
+    "projectileEnabled": true,
+    "projectileImpacts": 63,
+    "projectileInfiniteRange": false,
+    "projectileMaximumDamageMultiplier": 3.13,
+    "projectilePaletteCycle": [
+      "blue",
+      "purple",
+      "red"
+    ],
+    "projectilePassesGeodeWalls": true,
+    "projectileRangeTiles": 9,
+    "projectileSafetyMaxTiles": 8,
+    "projectileSideLanes": 3,
+    "projectileStateCount": 3,
+    "projectileStates": [
+      {
+        "alpha": 0.94,
+        "damageMultiplier": 1,
+        "displayScale": 0.9,
+        "id": "violet-edge",
+        "impactTint": 14795519,
+        "label": "VIOLET EDGE",
+        "minimumDistanceTiles": 1,
+        "tint": 12619007
+      },
+      {
+        "alpha": 0.95,
+        "damageMultiplier": 1.35,
+        "displayScale": 1,
+        "id": "amethyst-surge",
+        "impactTint": 14198783,
+        "label": "AMETHYST SURGE",
+        "minimumDistanceTiles": 3,
+        "tint": 11032055
+      },
+      {
+        "alpha": 1,
+        "damageMultiplier": 1.35,
+        "displayScale": 1.1,
+        "id": "voidpiercer",
+        "impactTint": 15918591,
+        "label": "VOIDPIERCER",
+        "minimumDistanceTiles": 5,
+        "tint": 8141549
+      }
+    ],
+    "redirects": 0,
+    "remainingMs": 1715.4000000000087,
+    "resonantReady": true,
+    "scheduledImpactCount": 63,
+    "shotsFired": 7,
+    "stateBurstCount": 42,
+    "storedBreakCharge": 0.51,
+    "uniqueTargets": 0,
+    "wakeCount": 684
+  },
+  "talentRank": 3
+}

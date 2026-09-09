@@ -84,7 +84,7 @@ const lowGpEngineState = getCelestialActionBarAbilityState(gpEngineScene, "waywa
 assert.equal(CELESTIAL_ENGINE_CONFIG.activation.gpCost, 100);
 assert.equal(lowGpEngineState.available, false);
 assert.match(lowGpEngineState.unavailableReason, /100 GP/);
-assert.match(lowGpEngineState.unavailableReason, /Spendable GP: 40/);
+assert.match(lowGpEngineState.unavailableReason, /You can spend 40/);
 assert.doesNotMatch(lowGpEngineState.unavailableReason, /Celestial Charge/);
 engineGp = 100;
 assert.equal(

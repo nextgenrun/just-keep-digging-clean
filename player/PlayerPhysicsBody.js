@@ -30,6 +30,12 @@ export class PlayerPhysicsBody {
     // Ground detection
     this.onGround = false;
     this.surfaceDropThroughRow = null;
+    this.oneWayPlatformDropId = null;
+    this.oneWayPlatformDropIds = null;
+
+    // Collision rollback state is refreshed only after a collision-clean commit.
+    this._collisionValidator = null;
+    this._lastCollisionSafeState = null;
     
     // Flight state; flight suspends gravity while Shift is held.
     this.isFlightActive = false;
@@ -133,6 +139,48 @@ export class PlayerPhysicsBody {
     return true;
   }
 
+  captureCollisionSafeState() {
+    this._lastCollisionSafeState = {
+      profile: this.getCollisionProfileSnapshot(),
+      onGround: this.onGround === true,
+      surfaceDropThroughRow: this.surfaceDropThroughRow,
+      oneWayPlatformDropId: this.oneWayPlatformDropId,
+      oneWayPlatformDropIds: Array.isArray(this.oneWayPlatformDropIds)
+        ? [...this.oneWayPlatformDropIds]
+        : null,
+    };
+    return true;
+  }
+
+  restoreCollisionSafeState() {
+    const snapshot = this._lastCollisionSafeState;
+    if (!snapshot || !this.restoreCollisionProfileSnapshot(snapshot.profile)) return false;
+    this.onGround = snapshot.onGround;
+    this.surfaceDropThroughRow = snapshot.surfaceDropThroughRow;
+    this.oneWayPlatformDropId = snapshot.oneWayPlatformDropId;
+    this.oneWayPlatformDropIds = Array.isArray(snapshot.oneWayPlatformDropIds)
+      ? [...snapshot.oneWayPlatformDropIds]
+      : null;
+    this.resetVelocity();
+    return true;
+  }
+
+  getCollisionSafeStateSnapshot() {
+    const snapshot = this._lastCollisionSafeState;
+    if (!snapshot) return null;
+    return {
+      ...snapshot,
+      profile: { ...snapshot.profile },
+      oneWayPlatformDropIds: Array.isArray(snapshot.oneWayPlatformDropIds)
+        ? [...snapshot.oneWayPlatformDropIds]
+        : null,
+    };
+  }
+
+  setCollisionValidator(validator) {
+    this._collisionValidator = typeof validator === "function" ? validator : null;
+  }
+
   forceRectProfile(profileId, profile, { preserveVisualAnchor = true } = {}) {
     if (!(profile?.widthPx > 0) || !(profile?.heightPx > 0)) return false;
     const centerX = this.getCenterX();
@@ -189,10 +237,12 @@ export class PlayerPhysicsBody {
    * Set position
    * @param {number} x - X position (top-left)
    * @param {number} y - Y position (top-left)
+   * @returns {boolean} Whether the requested position committed safely
    */
   setPosition(x, y) {
     this.x = x;
     this.y = y;
+    return this._collisionValidator?.(this) !== false;
   }
 
   /**
@@ -205,5 +255,10 @@ export class PlayerPhysicsBody {
 
   clearSurfaceDropThrough() {
     this.surfaceDropThroughRow = null;
+  }
+
+  clearOneWayPlatformDropThrough() {
+    this.oneWayPlatformDropId = null;
+    this.oneWayPlatformDropIds = null;
   }
 }

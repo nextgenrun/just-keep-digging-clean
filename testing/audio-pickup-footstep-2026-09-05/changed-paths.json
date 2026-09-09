@@ -1,0 +1,7 @@
+{
+  "values/coreActionAudio.js": 50,
+  "values/freesoundAudio.js": 80,
+  "sound/SoundSystem.js": 906,
+  "testing/audio-runtime-reaudit-2026-09-04/catalog-builder.mjs": 428,
+  "testing/audio-design-cleanup-2026-09-05/verify.mjs": 141
+}

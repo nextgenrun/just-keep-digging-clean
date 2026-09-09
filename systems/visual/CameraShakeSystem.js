@@ -1,22 +1,8 @@
 /**
- * CameraShakeSystem
- * ─────────────────
- * Unified signature dispatcher for mining, earthquakes, thunder, combos, and
- * one-shot impacts. Each event owns its duration, intensity, frequency, decay,
- * priority, and optional companion flash.
- *
- * The shake is implemented via `camera.setFollowOffset(x, y)` which offsets
- * the follow target (Phaser 3.60+). The actual offset is recomputed each
- * frame from the active signature so the amplitude naturally decays and the
- * motion is multi-frequency (organic) rather than Phaser's pure random noise.
- *
- * Usage:
- *   scene.shakeSystem.shake('mining.crit')            // by signature path
- *   scene.shakeSystem.shake('earthquake.major')       // long deep rumble
- *   scene.shakeSystem.shake('weatherThunder.mid', 0.8) // scaled intensity
- *
- * Falls back to offsetting camera scroll if `setFollowOffset`
- * isn't available (Phaser < 3.60).
+ * One signature/priority dispatcher for mining, earthquakes, thunder and rewards.
+ * Authored mining impulses use CameraImpactOffset after follow/deadzone with
+ * exact post-render restoration. Existing other events retain follow-offset
+ * motion and their signatures, settings, priorities and optional companion flash.
  */
 
 import {
@@ -27,6 +13,8 @@ import {
 } from "../../values/cameraShake.js";
 import { GAMEFEEL_CONFIG } from "../../values/gamefeel.js";
 import { resolveCameraShakeOffset } from "./cameraShakeMath.js";
+import { CameraImpactOffset } from "./CameraImpactOffset.js";
+import { MINING_IMPACT_POLISH_CONFIG } from "../../values/miningImpactPolish.js";
 
 export class CameraShakeSystem {
   /**
@@ -43,6 +31,7 @@ export class CameraShakeSystem {
     // Active shake state — only one at a time, priority decides replacement.
     // { name, group, startTime, duration, intensity, freqX, freqY, decay, priority }
     this._active = null;
+    this._baseFollowOffset = { x: 0, y: 0 };
     this._getDisplaySettings = typeof this._options.getDisplaySettings === "function"
       ? this._options.getDisplaySettings
       : null;
@@ -51,6 +40,9 @@ export class CameraShakeSystem {
 
     // Fallback detection: Phaser 3.60+ has camera.setFollowOffset
     this._hasFollowOffset = typeof scene.cameras.main.setFollowOffset === "function";
+    this._impactOffset = null;
+    this._onShutdown = () => this.destroy();
+    scene.events?.once?.(MINING_IMPACT_POLISH_CONFIG.events.shutdown, this._onShutdown);
   }
 
   _readDisplaySettings() {
@@ -59,6 +51,16 @@ export class CameraShakeSystem {
     } catch (_) {
       return null;
     }
+  }
+
+  setBaseFollowOffset(x = 0, y = 0) {
+    this._baseFollowOffset.x = Number.isFinite(x) ? x : 0;
+    this._baseFollowOffset.y = Number.isFinite(y) ? y : 0;
+  }
+
+  _applyFollowOffset(x = 0, y = 0) {
+    this.scene.cameras?.main?.setFollowOffset?.(
+      this._baseFollowOffset.x + x, this._baseFollowOffset.y + y);
   }
 
   _resolveEventGroup(signatureName) {
@@ -108,7 +110,7 @@ export class CameraShakeSystem {
 
   /**
    * Trigger a shake by signature name.
-   * @param {string} signatureName  e.g. 'mining.crit', 'earthquake.major'
+   * @param {string} signatureName  e.g. 'mining.heavy', 'earthquake.major'
    * @param {number} [intensityScale=1]  multiplier on signature intensity
    * @param {Object} [options]
    * @param {number} [options.durationScale=1] multiplier on signature duration
@@ -187,7 +189,13 @@ export class CameraShakeSystem {
       freqY: sig.freqY ?? this._runtimeConfig.defaultFrequencyYHz,
       decay: sig.decay ?? "exp",
       priority: nextPriority,
+      renderImpulse: options.renderImpulse === true,
+      direction: options.direction,
     };
+    if (this._active.renderImpulse) {
+      this._impactOffset ||= new CameraImpactOffset(this.scene);
+      if (this._hasFollowOffset) this._applyFollowOffset();
+    } else this._impactOffset?.clear();
 
     // Companion screen flash if the signature has a color
     if (sig.color && this._getFlashEnabled(displaySettings) && this.scene.screenFlashSystem) {
@@ -197,18 +205,20 @@ export class CameraShakeSystem {
         Math.min(180, duration * 0.6)
       );
     }
+    if (options.applyImmediately) this.update(now, 0);
     return true;
   }
 
   /**
-   * Cancel any active shake immediately. Restores camera follow offset to zero.
+   * Cancel shake immediately while retaining the scene's intentional framing.
    */
   stop() {
     this._active = null;
+    this._impactOffset?.clear();
     const cam = this.scene.cameras?.main;
     if (!cam) return;
     if (this._hasFollowOffset) {
-      try { cam.setFollowOffset(0, 0); } catch (_) { /* ignore */ }
+      try { this._applyFollowOffset(); } catch (_) { /* ignore */ }
     }
     if (cam.shakeEffect?.isRunning) {
       try { cam.shakeEffect.stop(); } catch (_) { /* ignore */ }
@@ -222,7 +232,10 @@ export class CameraShakeSystem {
    * @param {number} delta   ms since last frame
    */
   update(time, delta) {
-    if (!this._active) return;
+    if (!this._active) {
+      if (this._hasFollowOffset) this._applyFollowOffset();
+      return;
+    }
     const displaySettings = this._readDisplaySettings();
     if (!this._getMasterEnabled(displaySettings)) {
       this.stop();
@@ -245,10 +258,11 @@ export class CameraShakeSystem {
     const t = elapsedMs / shake.duration;
 
     if (t >= 1) {
-      // End the shake cleanly
+      // Expire only our offset, without stopping a newer native camera effect.
       this._active = null;
+      this._impactOffset?.clear();
       if (this._hasFollowOffset) {
-        try { cam.setFollowOffset(0, 0); } catch (_) { /* ignore */ }
+        try { this._applyFollowOffset(); } catch (_) { /* ignore */ }
       }
       return;
     }
@@ -260,8 +274,10 @@ export class CameraShakeSystem {
       this._runtimeConfig,
     );
 
-    if (this._hasFollowOffset) {
-      try { cam.setFollowOffset(offsetX, offsetY); } catch (_) { /* fallback below */ }
+    if (shake.renderImpulse && this._impactOffset?.ready) {
+      this._impactOffset.set(offsetX, offsetY);
+    } else if (this._hasFollowOffset) {
+      try { this._applyFollowOffset(offsetX, offsetY); } catch (_) { /* fallback below */ }
     } else {
       // Old Phaser: apply offset directly to camera scroll
       // Only works while camera is following
@@ -272,7 +288,7 @@ export class CameraShakeSystem {
     }
   }
 
-  /** Lookup signature by dotted path, e.g. 'mining.crit' or 'weatherThunder.mid' */
+  /** Lookup signature by dotted path, e.g. 'mining.heavy' or 'weatherThunder.mid' */
   _lookup(name) {
     if (!name) return null;
     const parts = name.split(".");
@@ -294,6 +310,16 @@ export class CameraShakeSystem {
       intensity: this._active ? this._active.intensity : 0,
       durationMs: this._active ? this._active.duration : 0,
       hasFollowOffset: this._hasFollowOffset,
+      renderImpulse: this._active?.renderImpulse === true,
+      offset: this._impactOffset ? { ...this._impactOffset.offset } : null,
     };
+  }
+
+  destroy() {
+    this.setBaseFollowOffset();
+    this.stop();
+    this._impactOffset?.destroy();
+    this._impactOffset = null;
+    this.scene.events?.off?.(MINING_IMPACT_POLISH_CONFIG.events.shutdown, this._onShutdown);
   }
 }

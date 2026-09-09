@@ -1,0 +1,4 @@
+Options -Indexes
+<FilesMatch "^(?!player-data[.]php$).*$">
+Require all denied
+</FilesMatch>

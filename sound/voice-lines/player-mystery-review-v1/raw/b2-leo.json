@@ -1,0 +1,10 @@
+{
+  "id": "B2",
+  "voice": "leo",
+  "text": "The Stars used to know me.",
+  "model": "x-ai/grok-voice-tts-1.0",
+  "requestSha256": "9921935faa2ccf6be5a1b1a81a0fd10fed04b1aaa763bab49f6109d62f8666cf",
+  "contentType": "audio/mpeg",
+  "generationId": "gen-tts-1788736844-8Pwq4JRldZ4u3Bm3bxzO",
+  "rawSha256": "b7bf7e0e524f802a575bf5080d3e236c78f8fe7f17ae906bb5b8d83f42d55745"
+}

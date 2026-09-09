@@ -59,7 +59,8 @@ export class CelestialEngineHudSystem {
     const definition = CELESTIAL_ENGINE_CONFIG.engines[snapshot.selectedEngine];
     const assetKey = ENGINE_ASSETS[snapshot.selectedEngine] || ASSET_KEYS.celestialEngines.starHeart;
     this.icon.setTexture(assetKey);
-    this.title.setText(definition?.shortName || "STAR HEART READY");
+    this.title.setText(definition?.shortName || "STAR HEART READY")
+      .setColor("#DDF9FF");
 
     const key = this.getKeyLabel?.() || "X";
     const chargeText = `${snapshot.charge}/${snapshot.chargeCapacity}`;
@@ -78,10 +79,34 @@ export class CelestialEngineHudSystem {
       return;
     }
     if (snapshot.projectileEnabled) {
+      const definition = CELESTIAL_ENGINE_CONFIG.engines[snapshot.engineId];
       const lanes = 1 + Math.max(0, snapshot.projectileSideLanes || 0) * 2;
+      const range = snapshot.projectileInfiniteRange ? "∞ RANGE" : `${snapshot.projectileRangeTiles} TILE`;
+      const maximumDamage = Number(snapshot.projectileMaximumDamageMultiplier)
+        || Number(snapshot.projectileDamageMultiplier)
+        || 1;
+      const damage = maximumDamage > snapshot.projectileDamageMultiplier
+        ? `${snapshot.projectileDamageMultiplier}–${maximumDamage}`
+        : `${snapshot.projectileDamageMultiplier}`;
       this.state.setText(
-        `LANCE ${(snapshot.remainingMs / 1000).toFixed(1)}S  •  ${snapshot.projectileRangeTiles} TILE  •  ${lanes}× ${snapshot.projectileDamageMultiplier} DMG`,
+        `LANCE ${(snapshot.remainingMs / 1000).toFixed(1)}S  •  ${range}  •  ${lanes}× ${damage} DMG`,
       );
+      this.title?.setText(
+        `${definition?.shortName
+          || CELESTIAL_ENGINE_CONFIG.engines[CELESTIAL_ENGINE_IDS.STELLAR_RAGE].shortName}`
+          + `  •  ${CELESTIAL_ENGINE_CONFIG.hud.activeSuffix}`,
+      ).setColor(
+        definition?.cssAccent
+          || CELESTIAL_ENGINE_CONFIG.hud.stellarLanceBuff.cssAccent,
+      );
+      if (this.bg && this.bar) {
+        this._draw(
+          this.snapshot,
+          definition?.accent
+            || CELESTIAL_ENGINE_CONFIG.engines[CELESTIAL_ENGINE_IDS.STELLAR_RAGE].accent,
+          snapshot.remainingMs / Math.max(1, snapshot.lifetimeMs),
+        );
+      }
       return;
     }
     if (snapshot.starCount >= 1) {
@@ -101,7 +126,7 @@ export class CelestialEngineHudSystem {
     );
   }
 
-  _draw(snapshot, accent) {
+  _draw(snapshot, accent, ratioOverride = null) {
     const cfg = CELESTIAL_ENGINE_CONFIG.hud;
     const left = -cfg.widthPx / 2;
     const top = -cfg.heightPx / 2;
@@ -115,7 +140,9 @@ export class CelestialEngineHudSystem {
 
     const barX = left + 59;
     const barY = top + cfg.heightPx - 12;
-    const ratio = Math.max(0, Math.min(1, snapshot.charge / snapshot.chargeCapacity));
+    const ratio = ratioOverride == null
+      ? Math.max(0, Math.min(1, snapshot.charge / snapshot.chargeCapacity))
+      : Math.max(0, Math.min(1, Number(ratioOverride) || 0));
     this.bar.clear();
     this.bar.fillStyle(0x0b1c29, 1);
     this.bar.fillRoundedRect(barX, barY, cfg.barWidthPx, cfg.barHeightPx, 3);

@@ -1,0 +1,126 @@
+{
+  "status": "local timing cleanup verified",
+  "focus": "block destruction and resource pickup arrival",
+  "sourceApprovalsPreserved": true,
+  "reviewExportByteIdentical": true,
+  "reviewItems": 753,
+  "requiredContracts": [
+    {
+      "script": "testing/2026-07-16-ual-action-contact-timeline-contract.mjs",
+      "exitCode": 0
+    },
+    {
+      "script": "testing/2026-09-03-reviewed-audio-timing-contract.mjs",
+      "exitCode": 0
+    },
+    {
+      "script": "testing/2026-09-03-reviewed-audio-volume-contract.mjs",
+      "exitCode": 0
+    },
+    {
+      "script": "testing/2026-09-03-freesound-audio-timing-contract.mjs",
+      "exitCode": 0
+    },
+    {
+      "script": "testing/2026-09-03-freesound-audio-volume-contract.mjs",
+      "exitCode": 0
+    },
+    {
+      "script": "testing/2026-09-04-active-gametime-audio-reaudit-contract.mjs",
+      "exitCode": 0
+    },
+    {
+      "script": "testing/2026-08-26-xp-gathering-polish-contract.mjs",
+      "exitCode": 0
+    },
+    {
+      "script": "testing/2026-08-31-loot-pickup-continuity-v2-contract.mjs",
+      "exitCode": 0
+    },
+    {
+      "script": "testing/audio-design-cleanup-2026-09-05/verify.mjs",
+      "exitCode": 0
+    },
+    {
+      "script": "testing/audio-pickup-footstep-2026-09-05/verify.mjs",
+      "exitCode": 0
+    }
+  ],
+  "focusedChecks": {
+    "passed": true,
+    "checks": [
+      "Playback windows preserve source PCM, stereo, rate and zero-ended fades; edited buffers are reused",
+      "Phaser HTMLAudio fallback marker retains live mixer config and crops the same source interval",
+      "Real contact timeline dispatches exactly one final destruction at the crossed frame, with no late cancelled hit",
+      "Pickup belongs to resource arrival even when special XP arrives beyond the previous cooldown",
+      "Loot completion does not fire before arrival and ignores a removed visual",
+      "Cancelled XP flight cannot run its final arrival callback",
+      "Current review keeps source IDs and gains, with exact matching trimmed preview metadata"
+    ],
+    "manualPlaythrough": false,
+    "listeningApproved": false
+  },
+  "nativeBrowser": {
+    "passed": true,
+    "backend": "Phaser WebAudio",
+    "checks": [
+      {
+        "id": "libDirtBreak",
+        "originalMs": 972.2708333333333,
+        "bufferMs": 320,
+        "rate": 1,
+        "observedCompletionMs": 327,
+        "sourcePreserved": true,
+        "gainControl": true,
+        "previewDecoded": true
+      },
+      {
+        "id": "libStoneBreak",
+        "originalMs": 1800,
+        "bufferMs": 300,
+        "rate": 0.9,
+        "observedCompletionMs": 347,
+        "sourcePreserved": true,
+        "gainControl": true,
+        "previewDecoded": true
+      },
+      {
+        "id": "libResourcePop",
+        "originalMs": 617.3333333333333,
+        "bufferMs": 180,
+        "rate": 1,
+        "observedCompletionMs": 181,
+        "sourcePreserved": true,
+        "gainControl": true,
+        "previewDecoded": true
+      },
+      {
+        "id": "freesound-536921",
+        "originalMs": 229.125,
+        "bufferMs": 140,
+        "rate": 1,
+        "observedCompletionMs": 148,
+        "sourcePreserved": true,
+        "gainControl": true,
+        "previewDecoded": true
+      },
+      {
+        "id": "freesound-703115",
+        "originalMs": 419.1458333333333,
+        "bufferMs": 155,
+        "rate": 1,
+        "observedCompletionMs": 165,
+        "sourcePreserved": true,
+        "gainControl": true,
+        "previewDecoded": true
+      }
+    ],
+    "manualPlaythrough": false,
+    "listeningApproved": false,
+    "delayedXpSilent": true
+  },
+  "httpVerifiedFiles": 16,
+  "fullMiningPlaythrough": false,
+  "listeningApproved": false,
+  "sourceAudioFilesChanged": false
+}

@@ -178,10 +178,9 @@ the current demo world bounds is **PARTIAL/GATED** and cannot be called shipped.
 ## Failure journey
 
 - **Casual:** death pauses the run, consumes no lives, and revives at town.
-- **Hardcore first death:** consumes the free revive; both lives remain.
-- **Hardcore later deaths:** consume one life each. Zero lives marks the
-  expedition exhausted and returns the player to the menu.
-- **One-Life Hardcore:** the first death exhausts the expedition.
+- **Hardcore first death:** consumes the only life, marks the expedition
+  exhausted, and returns the player to the save menu. There are no revives.
+- **Legacy One-Life Hardcore:** follows the same first-death exhaustion rule.
 - Exhaustion disables Hardcore hazard admission for that save, but the save and
   backups remain available for inspection, export, or explicit player clearing.
 
@@ -194,7 +193,8 @@ A clean-save acceptance run must prove, in order:
 
 1. both mode cards and both tutorial cards work with pointer and keyboard;
 2. Skip cannot start without `YES`;
-3. A/D and arrows both move; F and Space both dig;
+3. A/D and arrows move/aim; F digs; Space makes one fixed 1.2-tile jump;
+   Shift Flight uses directional acceleration and braking;
 4. Guided town exit is blocked before the first ascent and restored after it;
 5. Flight unlock and cache reward survive reload without duplication;
 6. the 15 m portal exists in all four mode/tutorial combinations;

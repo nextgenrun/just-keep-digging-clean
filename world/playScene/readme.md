@@ -1,6 +1,19 @@
 # Playscene
 
+Main-world character grounding uses immediate physics velocity for gait state, measured displacement for cadence, and lifecycle-owned neutral appearance and soft contact shadows. See `markdown/2026-09-07-character-grounding-polish.md`.
+
 World layer module — playScene.
+
+`PlaySceneSetup` injects `CampfireEvolutionPresentation` into `CampfireSystem`
+and `EmberDiscoveryEvolutionView` into `EmberDiscoveryEventSystem`. Their hosts
+own cancellation and destruction through the existing scene lifecycle; no new
+save state or global effect manager is introduced.
+
+`worldrootSurfaceFraming.js` eases in extra canopy headroom near the ground-only
+Root Sanctuary and returns to normal follow underground or farther through
+town. It composes with CameraShakeSystem, changes no zoom/HUD/input geometry,
+and resizes the existing deadzone without Phaser's scroll-snapping setter.
+Scene setup clears its transient state on restart.
 
 ## Composition and lifecycle boundary
 
@@ -38,7 +51,7 @@ through their exit tween. Opening any such menu cancels a held mouse dig, and
 the event-time Phaser hit list still belongs to UI even when that same click
 already hid or destroyed its visible target.
 
-UAL main-world and compact-cave actions share contact-synchronised damage. The default Survivor uses the approved ten-stage complex SIDE chain and Uppercut-only exact UP replacement; UP-SIDE, DOWN-SIDE and DOWN retain their previous actions, while Quickslash and Thunder remain separate one-contact actions. Every complex clip is retimed through the existing visible-action cadence and fires exactly one authoritative tile contact even when its source motion contains multiple strikes. `?complexDig=0`, Ctrl+Alt+9, or the runtime global restores the previous SIDE/UP visuals on the next action. Held mining can replace only post-contact recovery after the authoritative cooldown is ready. Both runtimes route every grounded speed through Jog with immediate input-facing, use resolved body velocity for first-step/reversal cadence, apply frame-rate-independent velocity-aware flight pitch and playback, skip soft landing clips, and allow movement to cancel harder landing recovery after its readable prefix.
+UAL main-world and compact-cave actions share contact-synchronised damage. The default Survivor uses the approved nine-stage complex SIDE chain, alternates unified Blender Dig Up with Mixamo Uppercut for repeated exact-UP hits, and rotates ground strike, low body punch, and leg sweep for repeated DOWN or DOWN-SIDE hits. Cross Punch remains source/review evidence but is absent from gameplay registration after its game-scale contact entered the wall. The resident Jab is the only SIDE decode fallback and prewarms the other active clips, so no legacy punch can appear between complex actions. UP-SIDE retains its previous action, while Quickslash and Thunder remain separate one-contact actions. Every active complex clip is retimed through the existing visible-action cadence and fires its authored authoritative tile contact. `?complexDig=0`, Ctrl+Alt+9, or the runtime global restores the previous SIDE/UP visuals; `?downDigCombo=0` independently restores the former one-clip DOWN family. Stationary ordinary mining holds the completed combat-ready action pose through the cooldown boundary plus a bounded 180 ms handoff grace instead of settling through Idle; movement and non-mining actions retain their authored recovery paths. Both runtimes route every grounded speed through Jog with immediate input-facing, use resolved body velocity for first-step/reversal cadence, apply frame-rate-independent velocity-aware flight pitch and playback, skip soft landing clips, and allow movement to cancel harder landing recovery after its readable prefix. Blocked A/D movement uses the unified UAL wall-push loop while the short authored brace entry/release remains presentation-only.
 
 UAL locomotion cadence and grounded start/stop activity are measured from resolved body displacement, while facing comes from current input. A blocked body therefore stops producing fake jog cycles, and releasing input keeps Jog stride-matched through the short physical slowdown before the planted stop begins. Input intent and facing react on the current frame, while grounded velocity uses the shared 120 ms acceleration, 90 ms release, and 150 ms full-reversal envelope; upgraded or weather-adjusted speed remains stride-matched, and airborne flight timing stays consistent across both world implementations. The production Jog is now Piskel-round-tripped with one uniform 5-source-pixel root correction, a zero-drift bottom row, unchanged 28-frame cadence, and identically transformed rig markers. Its sequence-13/27 plants drive the existing footstep sound plus small material-matched bitmap fragments at the collision-owned floor. Idle and standing actions retain the 109px base presentation; UAL Jog and Piskel moving strikes use a normalized 123px canvas while preserving the same apparent body height. Moving Quickslash reuses the phase-nearest Jog lower body, keeps its original 16-frame/sequence-4 hit timing, and never applies contact-driven sprite translation. Both worlds apply the chosen animation, display size, and origin before beginning rig contact, preventing a one-frame scale or anchor bootstrap mismatch.
 Moving SIDE actions also hold the authoritative 31 px body 21 px away from a
@@ -72,21 +85,23 @@ Abilities, stress, falling rocks, cave traps, crush boundary, and Wurm hits can
 therefore resolve through one lives reducer. Darkness, rapid descent, and
 excessive depth build stress; the bridge passes the stable torch intensity so
 brighter burn levels reduce darkness stress and recover sanity more strongly.
+The bridge also passes cumulative level panic resistance, shifting the visible
+`PANIC LINE` deeper while leaving the lighting system's actual depth unchanged.
 High stress drains GP. Flight and torch upkeep are the deliberate exception at
 the final point: both
 stop at exactly 1 GP and cannot restart without spendable GP. Stress, combat
 abilities, rocks, traps, the Wurm, and other hazards can still consume that
-last point and trigger a revive or life loss.
+last point and end the one-life Hardcore run.
 The bridge records exact position, fractional GP, and stress every second,
 with an immediate checkpoint when GP first falls into the one-GP danger band.
 Teleport costs are quoted and charged before movement. Both modes require a
 typed `YES` for unstuck, lose half of every carried resource stack, and enter
 the configured cooldown.
 
-Death consumes the shared reducer: the first Hardcore death uses the free
-revive, later deaths spend lives 2→1→0, and One-Life reaches zero immediately.
-Surviving outcomes save and restart at town with full GP. Zero lives marks the
-expedition exhausted, records its memorial, and returns to the Save Vault; the
+Death consumes the shared reducer: Hardcore starts at one life and its first
+death always reaches zero. There is no free or multi-life restart path. Zero
+lives marks the expedition exhausted, records its memorial, and returns to the
+Save Vault; the
 slot remains intact and exportable until the player explicitly clears it. A
 failed life-state write switches the recap to `RETRY SAVE` and keeps every exit
 locked until the retry succeeds.
@@ -104,14 +119,29 @@ shared approved typed modal; only exact `DESTROY` acknowledges the permanent
 loss, and closing or pressing Escape leaves the Star untouched. Afterwards,
 every Star still requires a fresh continuous mining hold. The bridge feeds the
 current held input and target into the environment guard, so release or target
-change resets progress, while the visual layer shows the exact scar radius and
+change resets progress, while the visual layer shows the exact consequence area and
 an approved framed percentage meter before normal `DigSystem` damage resumes.
+Production territory mode previews the Star's complete owned section; the
+14-tile radius is only a defensive fallback when territory authority is absent.
 
 `PlaySceneSetup` also creates the lazy `WorldMapStarTerritorySystem`. Opening M
 derives one nearest-Star owner for every discovered underground map cell, shows
 the current route, and exposes unidentified signals without naming undiscovered
 Stars. A consumed Star remains the permanent severed owner of its territory;
 the map cannot reassign that damage or mutate discovery, rewards, or saves.
+The bridge gives `DigSystem` the same consumed-territory predicate, so ordinary
+materials and their XP stop paying there without cancelling the Star's own
+destruction reward. When every Star is consumed, every underground cell has a
+consumed owner and is therefore dark, depleted, and subject to 4x darkness
+Stress in Hardcore, pushing the player to burn the GP-driven torch or flee.
+`StarScarResourcePresentationSystem` follows that same front in the visual
+renderers: depleted resource and crack sprites disappear while independent
+authored break-core and shard sprites play over camera-visible cells. It never
+changes tile collision, HP, rewards, or save data.
+`StarSanctuaryBridge` injects a separate `WorldVisualAssetCache` into the scar
+view, so the twenty biome palettes load only when visible and release after
+their sprites are destroyed; the original four Boot assets remain the readable
+fallback during streaming.
 
 ## Hardcore Graveborer Wurm
 
@@ -121,18 +151,17 @@ depth 120 or deeper. Once a warning begins, leaving that depth cannot freeze or
 erase the committed encounter. Mining adds source-weighted noise; the Wurm
 carves only ordinary resource terrain, gives no rewards, and cannot damage
 special blocks, town foundations, bedrock, cave walls, relics, or sky tiles.
-There is no jump counterplay: the telegraphed line is avoided with lateral
-flight, retreat, or existing terrain geometry.
+Walking, retreat, digging, cover, jumping and Flight can all be used to clear
+its committed line; no jump-only or Flight-only response is required.
 
-One encounter is a depth-frozen hunt of two to six passes. Every pass marks and
-commits a fresh line, exits completely, then retargets for the next warning.
-The shallow warning is capped at 3.6 seconds and late deep passes compress to
-1.2 seconds; breach travel scales from 1.9 seconds to roughly half a second.
-A direct head strike leaves only 4% GP on the first shallow pass, executes an
-already wounded player, and becomes a full-GP kill at depth. Body contact
-removes most GP and becomes lethal on late deep passes. Swept collision closes
-low-FPS tunnelling without enlarging the hit circles, so every committed line
-remains dodgeable by clearing it before the breach.
+A hunt now chooses one of five depth-unlocked behavior profiles: Drifter,
+Raider, Hunter, Ancient or Broodmother. They vary speed, warning, damage and
+persistence (two to five passes). Five independent body scales range from a
+Hatchling to a Giant. Every pass retains at least 1.8 seconds of warning and
+1.15 seconds of travel. Broodmother adds at most two smaller, independently
+warned Wurms using the same controller and view. Saves preserve the selected
+variant and active offspring; reloading re-warns committed paths. Developer
+selections apply to one hunt. Natural selection resumes afterwards.
 
 Development builds expose the existing generated threat medallion as a summon
 button. The exact `?wurm=0|1` and `?wurm10x=0|1` flags plus
@@ -242,15 +271,16 @@ routes each power to the controller, which atomically spends 100 GP, records the
 Heart milestone activation without consuming Celestial Charge, enforces every
 configured activation cap, and routes
 Wayward and Hollow tile damage through `DigSystem.applyCelestialDamage`, feeds
-Stellar Lance's bounded projectile snapshot and visual listener into normal dig
+Stellar Lance's finite-range snapshot and visual listener into normal dig
 actions, updates the fixed HUD and runtime-canary snapshot, and supports the
 independent `?starHearts=0` rollback. One Wayward activation may contain one to
 five independent stars; this is still one GP-paid active power, and re-press
-redirection is retired. Hollow Sun deploys two to five independently pulsing
+redirection is retired. Hollow Sun deploys three to six independently pulsing
 black holes and pulls destroyed-block fragments inward without relocating
-intact grid cells. Stellar Lance crosses air and diggable tiles, applies a
-fresh full mining transaction to every hit, and does not alter Stress or global
-damage/cadence.
+intact grid cells. Stellar Lance crosses air and diggable tiles, advances
+through three purple visual forms, applies a fresh mining transaction to every
+hit, stops at protected terrain or its configured 5-to-8-tile range, and does not alter
+Stress or global damage/cadence.
 The debug `V` God Mode refreshes this same progression object: all three powers
 become freely switchable at the pillar and GP-free, while the permanent
 ownership save remains untouched and each activation keeps its normal caps.
@@ -314,22 +344,47 @@ without deleting saved ids.
 
 ## Shadow Miner runtime
 
-`ShadowMinerRuntime` owns a rare underground stress echo. It records a short
-rolling history of the selected player's real position, texture frame,
-animation key, facing, origin, and authored display size. An encounter replays
-that trail as a solid-purple silhouette: without protection its playback runs
-faster than real time and closes on the player; an active torch or nearby intact
-Star reverses the same valid trail so it visibly flees. Catch-up produces a
-brief stare before the echo dissolves. It never collides, damages terrain,
-grants rewards, queues saves, or writes stress.
+`ShadowMinerRuntime` records the player's recent visible trail, then admits a
+purple echo at least four tiles away. Its approach is capped at 0.7 tiles per
+second and 1.7 seconds; the observing phase lasts at least 6.5 seconds. It
+stays at its work position instead of replaying rapidly into the player.
+`ShadowMinerWorkLoop` plays resident idle, side-jab and downward-strike frames
+and can remove up to three adjacent ordinary dirt/stone blocks at the authored
+contact beat. It honors the world/event tile guard, refreshes the renderer,
+and requests the normal terrain save. It cannot mine ore or special blocks,
+grant items/rewards, spend GP, or change Stress. Missing animation prevents
+terrain damage and appears in event health diagnostics.
+
+A distant torch does not instantly dismiss the encounter. The arrival has
+1.6 seconds of grace, torch interaction requires proximity within 3.2 tiles,
+and exposure remains visibly readable before retreat. Intact Star light keeps
+its existing protection. Retreat is capped at 1.2 tiles per second, followed by
+a longer fade. The history-based phantom-block view remains available for
+replayed historical actions; the observing work loop now changes real ordinary
+terrain. Both reuse existing approved player and tile assets.
 
 Casual and calm Hardcore play use the rare ambient profile. Canonical Hardcore
 warning and critical stress progressively raise chance, shorten starting delay,
 accelerate approach, and strengthen visibility. `values/shadowMiner.js` owns
-these constants. `?shadowMiner=0` is the rollback. Local testing can use
-`?shadowMiner10x=1` for exactly 10x faster admission timers or
-`?shadowMiner=review` for deterministic frequency. With `?jkd_e2e=1`, key `7`
-stages a save-safe walk/dig replay and then lights the torch to prove fleeing.
+these constants. Real player depth also selects a shallow/lower/deep/abyss
+profile; deeper echoes are stronger and bolder, but every band remains reliably
+repelled by light. `?shadowMiner=0` is the rollback. Local testing can use
+`?shadowMiner10x=1` for exactly 10x faster first-check, retry, and recurring
+admission timers (without multiplying chance a second time), or
+`?shadowMiner=review` for deterministic frequency. Local QA can pin a personality
+with `?shadowMinerBehavior=lurker`, `mimic`, or `stalker`; remote hosts ignore
+that override and retain weighted random selection. Local QA can add
+`?shadowMinerDepth=1400` to simulate abyss intensity without moving a save;
+remote hosts ignore it. With `?jkd_e2e=1`, key `7`
+stages a save-safe walk/dig replay and logs the tell, purple awareness cue,
+phantom block/crack/break state, recognition, light pressure/exposure/delay,
+directed flee, bounded residue, personality, depth band, rolled target/rates,
+and completion
+beats. That preview alone
+temporarily suspends Guided Opening surface recovery, then restores the original
+player tile and tutorial-safety policy with controls, torch, and GP.
+`shadowMinerSpawnPlan.js` owns the one-time plan/window/admission assembly so the
+runtime state machine remains focused on encounter transitions.
 
 ## Integrated cave gameplay
 
@@ -342,7 +397,7 @@ cave is discovered.
 Main-world `PlaySceneGameplay` and compact-cave `CaveActionAnimationRuntime`
 share `UalMovingSideDigSelector`. Grounded side mining while pressing toward
 the target uses phase-selected Jog + attack composites for both legacy
-Jab/Cross and the approved ten-stage complex SIDE family, then resumes Jog at
+Jab/Cross and the approved nine-stage complex SIDE family, then resumes Jog at
 the exact next lower-body phase. Two-hit actions retain both contacts without
 compressing or skipping the run cycle. Both paths pass the live texture frame
 into the shared locomotion selector, which also activates the two-frame planted
@@ -352,6 +407,9 @@ main world. The existing combo selector, 360 ms minimum action cadence, contact
 callback, damage logic, and all non-side directions remain authoritative.
 Resolved zero velocity deliberately selects the stationary clip; this prevents
 run-in-place when collision has anchored the body at a solid tile face.
+The same two runtimes now reject ordinary mining playback until the shared dig
+cooldown is ready, so the slower Level-1 rhythm cannot show an empty swing
+between authoritative animation contacts.
 
 The main world and compact caves also share the centralized animation-polish
 contract. Jog first uses the root-centered, baseline-locked Piskel sheet;
@@ -405,3 +463,50 @@ record, earthquake-recap, and expedition-summary events; `PlayerVoiceInventoryBr
 emits only the rising edge into the final HUD fullness band. Setup and update
 also route confirmed Star release, combo, and depth-milestone transitions into
 the shared LEO director.
+
+Confirmed resource, special-tile, and Star pickups also cross a presentation-
+only descriptor bridge into `LootPickupFxSystem`. Star release forwards its
+exact rendered core/light pair only after becoming visible; ordinary Star
+destruction suppresses the generic material duplicate. The bridge never grants
+loot, advances progress, or writes a save.
+
+During an Ability Block choice, `CelestialActionBarRuntime` temporarily
+presents the five eligible sockets as available and reserves normal mining
+until the player clicks a socket or presses 1-5. The selected Quick Slash,
+Thunder Strike, or Celestial Engine uses its production activation path with
+zero GP for twenty seconds; Campfire stays outside the choice and no permanent
+talent or progression state is modified.
+
+## Dynamic event review and health
+
+`DynamicEventRuntime` samples the three production controllers, keeps phase
+instructions visible, and exposes the local-only EVENTS / F2 panel. Requests
+report accepted, queued, started, blocked, cancelled or completed outcomes;
+health distinguishes admission gates from stopped updates, missing artwork,
+missing work animation and encounters that exceed their phase budget. The
+existing runtime canary also samples it. F2 respects custom key bindings.
+The E2E harness keeps cave preview on Ctrl+Alt+C when this panel owns F2.
+Developer triggers act on the current scene; use the save-free encounter lab
+when terrain/GP changes should be isolated. F2 itself does not disable saves.
+
+The lab is `/testing/dynamic-event-sandbox/index.html`. Full details and test
+evidence: `markdown/2026-09-05-dynamic-event-polish.md`.
+
+`GraveborerWurmEventBridge` retains the completed parent's pass/hit/offspring
+summary before the controller clears its counters. `DynamicEventRuntime`
+provides it to the health observer so result cards cannot read the reset count.
+
+The default town-bed flow supersedes automatic main-menu/exit checkpoints and partial expedition saves. TownRestBridge admits a full checkpoint only after sleep and blessing selection at the town bed. Main-menu exit and restart retain the last bed checkpoint. TownRestSavePolicy also excludes compact CaveScene activity.
+
+`SessionAwakeningController` owns the once-per-session entry reveal and repeated town-bed doze/wake presentations, safe input handoff, and teardown. `TownRestBridge` connects the bed's existing clock and suspension; `sessionAwakeningPresentation` samples the dozing curve, clear outdoor time-lapse fades, and three varied wake profiles. See `markdown/2026-09-07-session-awakening.md`.
+
+The Pause overview Save button and Saves-tab Save action both route through
+saveGame() to TownRestSystem.showSaveHint(). They close the pause menu,
+resume gameplay and request optional bed directions, without writing a checkpoint.
+TownRestBridge injects the guidance owner/view and the actual bed arrival test.
+
+TownRestBridge routes blocked menu input to GameInputHandler.discardOverlayInput during sleep, blessing choice and checkpoint completion. Pause/Map presses made during rest cannot reopen a menu on the first resumed gameplay frame.
+
+SignalTrapRuntime owns approach/fuse/detonation and once-only resolution through the existing outcome authority. SignalEventBridge, SignalEventPlanner, SignalMinicamp and SignalEventOutcome wire the Signal encounter to the world, save transaction and death authorities. SurfaceMiaCompanion restores rescued Mia beside Bobo from upgradeLevels.mia. See markdown/2026-09-07-signal-event.md.
+
+Rest acquires the shared UI input lock for the entire sleep/choice/save flow and releases it only on successful completion or teardown; a failed save keeps ownership for retry. Pause and World Map entry refuse active rest. A pending map asset load also postpones bed admission. NPCManager includes the bed distance when choosing which E prompt to show, so a closer bed hides the competing merchant sign.

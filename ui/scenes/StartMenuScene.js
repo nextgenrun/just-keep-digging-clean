@@ -1,4 +1,10 @@
+import { addBrandLogo } from "../components/BrandLogoView.js";
+import { RELEASE_PRESENTATION } from "../../values/releasePresentation.js";
+import { MENU_ATMOSPHERE } from "../../values/menuAtmosphere.js";
+import { addBakedUiCaption } from "../../systems/visual/bakedUiArt.js";
 import { ASSET_KEYS } from "../../values/assetKeys.js";
+import { BAKED_SAVE_MENU } from "../../values/bakedSaveMenu.js";
+import { createBakedSaveSlot, createBakedSaveCopy, setSaveMenuPrompt } from "../components/BakedSaveMenuView.js";
 
 import {
   DEFAULT_PLAYER_CHARACTER_ID,
@@ -28,19 +34,20 @@ import {
   isHardcoreMode,
   isHardcoreModeArmed,
   isHardcoreModeExhausted,
-  isHardcoreRunActive,
   sanitizeHardcoreModeData,
 } from "../../values/hardcoreMode.js";
 import { NewRunSetupOverlay } from "./NewRunSetupOverlay.js";
+import { NEW_RUN_SETUP_CONFIG } from "../../values/newRunSetup.js";
 
 const SLOT_PRESENTATION = SAVE_MENU_PRESENTATION.slot;
+const COPY = SAVE_MENU_PRESENTATION.copy;
 const SLOT_TEXT_LAYOUT = SLOT_PRESENTATION.textLayout;
 const CARD_W = SLOT_PRESENTATION.displayWidthPx;
 const CARD_H = SLOT_PRESENTATION.displayHeightPx;
 const CARD_GAP = 24;
 const CARDS_TOTAL_W = 3 * CARD_W + 2 * CARD_GAP;
 const CARD_START_X = (1280 - CARDS_TOTAL_W) / 2; // 163
-const CARD_CENTER_Y = 390;
+const CARD_CENTER_Y = BAKED_SAVE_MENU.layout.cardY;
 
 const COL = {
   bg:         UI_COLORS.bg,
@@ -102,6 +109,12 @@ export class StartMenuScene extends Phaser.Scene {
         this.load.image(asset.key, asset.path);
       }
     }
+    for (const [assetId, path] of Object.entries(NEW_RUN_SETUP_CONFIG.assets)) {
+      const key = ASSET_KEYS.ui.newRunSetup[assetId];
+      if (key && !this.textures.exists(key)) {
+        this.load.image(key, path);
+      }
+    }
   }
 
   async create() {
@@ -117,12 +130,12 @@ export class StartMenuScene extends Phaser.Scene {
       width: W,
       height: H,
       key: getSelectedMenuBackgroundKey(),
-      alpha: 0.26,
+      // The shared background owns the scenery presentation.
     });
 
-    // Dark gradient overlay (top dark, bottom darker)
+    // Versioned scenery overlay
     const grad = this.add.graphics();
-    grad.fillStyle(0x000000, 0.32);
+    grad.fillStyle(0x000000, MENU_ATMOSPHERE.menuOverlayAlpha);
     grad.fillRect(0, 0, W, H);
 
     // Subtle horizontal separator line
@@ -130,7 +143,7 @@ export class StartMenuScene extends Phaser.Scene {
     sepLine.lineStyle(1, 0x2a3a4a, 0.6);
     sepLine.lineBetween(80, 200, W - 80, 200);
 
-    this.add.text(W / 2, 226, "SAVE VAULT", {
+    const saveTitle = this.add.text(W / 2, 226, COPY.title, {
       fontFamily: UI_FONTS.display,
       fontSize: "22px",
       fontStyle: "bold",
@@ -140,16 +153,12 @@ export class StartMenuScene extends Phaser.Scene {
       strokeThickness: 3,
     }).setOrigin(0.5);
 
-    this.add.text(W / 2, 253, "CHOOSE A RECORD TO CONTINUE", {
-      fontFamily: UI_FONTS.mono,
-      fontSize: "10px",
-      color: COL.hint,
-      letterSpacing: 2,
-    }).setOrigin(0.5);
+    addBakedUiCaption(this, this.children, saveTitle);
+    // The authored instruction plaque below the cards provides the next step.
 
     // --- Title ---
     // Brand logo instead of text title
-    const logo = this.add.image(W / 2, 85, ASSET_KEYS.branding.logo);
+    const logo = addBrandLogo(this, W / 2, 85);
     const scale = Math.min(520 / logo.width, 160 / logo.height);
     logo.setScale(scale);
 
@@ -162,7 +171,9 @@ export class StartMenuScene extends Phaser.Scene {
     this._newRunSetup = new NewRunSetupOverlay(this);
 
     // --- Start prompt (shown below cards once a slot is selected) ---
-    this._startPrompt = this.add.text(W / 2, SAVE_TRANSFER_UI.startMenu.startPromptY, 'SELECT  A  SLOT,  THEN  PRESS  ENTER  OR  SPACE', {
+    this._startPrompt = (this._useAuthoredSaveMenuArt ? createBakedSaveCopy(this, {
+      x: W / 2, y: BAKED_SAVE_MENU.layout.promptY, id: "choose", width: BAKED_SAVE_MENU.layout.promptWidth,
+    }) : null) || this.add.text(W / 2, SAVE_TRANSFER_UI.startMenu.startPromptY, COPY.startPrompt, {
       fontFamily: UI_FONTS.mono,
       fontSize: '16px',
       color: COL.dim,
@@ -174,18 +185,25 @@ export class StartMenuScene extends Phaser.Scene {
     sepLine2.lineBetween(80, SAVE_TRANSFER_UI.startMenu.dividerY, W - 80, SAVE_TRANSFER_UI.startMenu.dividerY);
 
     // --- Hint bar ---
-    this.add.text(W / 2, SAVE_TRANSFER_UI.startMenu.hintY, '1 / 2 / 3: choose     ENTER / SPACE: start     DEL: clear     B: backups     E: export     I: import     ESC: menu', {
+    (this._useAuthoredSaveMenuArt ? createBakedSaveCopy(this, {
+      x: W / 2, y: BAKED_SAVE_MENU.layout.hintY, id: "controls", width: BAKED_SAVE_MENU.layout.hintWidth,
+    }) : null) || this.add.text(W / 2, SAVE_TRANSFER_UI.startMenu.hintY, COPY.controlsHint, {
       fontFamily: UI_FONTS.mono,
       fontSize: '12px',
       color: COL.hint,
     }).setOrigin(0.5);
 
     // --- Version ---
-    this.add.text(W - 14, H - 10, 'v0.1-alpha', {
+    const releaseFooter = RELEASE_PRESENTATION.footer;
+    this.add.text(W - releaseFooter.insetX, H - releaseFooter.insetY, RELEASE_PRESENTATION.label, {
       fontFamily: UI_FONTS.mono,
-      fontSize: '11px',
-      color: COL.version,
-    }).setOrigin(1, 1);
+      fontSize: releaseFooter.fontSize,
+      fontStyle: releaseFooter.fontStyle,
+      color: releaseFooter.color,
+      stroke: releaseFooter.stroke,
+      strokeThickness: releaseFooter.strokeThickness,
+      shadow: { ...releaseFooter.shadow },
+    }).setOrigin(1, 1).setName(releaseFooter.name);
 
     this._setupInput();
 
@@ -281,7 +299,8 @@ export class StartMenuScene extends Phaser.Scene {
       // Presentation swaps to authored bitmap chrome when available. The
       // Graphics fallback remains the exact pre-overhaul rollback path.
       const g = (this._useAuthoredSaveMenuArt
-        ? createSaveSlotChrome(this, { x: cx, y: cy, width: CARD_W, height: CARD_H })
+        ? (createBakedSaveSlot(this, { x: cx, y: cy, width: CARD_W, height: CARD_H, slot })
+          || createSaveSlotChrome(this, { x: cx, y: cy, width: CARD_W, height: CARD_H }))
         : null) || this.add.graphics();
       objs.push(g);
       this._updateCard(g, cx, cy, COL.cardBase, COL.borderDim);
@@ -291,131 +310,138 @@ export class StartMenuScene extends Phaser.Scene {
         .setInteractive({ useHandCursor: true });
       objs.push(hit);
 
-      // Slot number label
-      const slotLabel = this.add.text(
-        cx - CARD_W / 2 + SLOT_TEXT_LAYOUT.horizontalSafeInsetPx,
-        cy - CARD_H / 2 + SLOT_TEXT_LAYOUT.headerOffsetYPx,
-        `SLOT  ${slot.id}`,
-        {
-          fontFamily: UI_FONTS.mono,
-          fontSize: `${SLOT_TEXT_LAYOUT.headerFontSizePx}px`,
-          fontStyle: 'bold',
-          color: '#6a8a9a',
-        },
-      );
-      objs.push(slotLabel);
-
-      // Divider
-      const divG = this.add.graphics();
-      divG.lineStyle(1, 0x2a3a4a, 0.7);
-      divG.lineBetween(
-        cx - CARD_W / 2 + 24,
-        cy - CARD_H / 2 + SLOT_TEXT_LAYOUT.dividerOffsetYPx,
-        cx + CARD_W / 2 - 24,
-        cy - CARD_H / 2 + SLOT_TEXT_LAYOUT.dividerOffsetYPx,
-      );
-      objs.push(divG);
-
-      if (slot.hasData) {
-        // Status — date
-        const date = slot.updatedAt ? new Date(slot.updatedAt).toLocaleDateString() : 'Unknown date';
-        const statusTxt = this.add.text(
-          cx + CARD_W / 2 - SLOT_TEXT_LAYOUT.horizontalSafeInsetPx,
+      if (!g.__saveMenuChrome?.baked) {
+        // Slot number label
+        const slotLabel = this.add.text(
+          cx - CARD_W / 2 + SLOT_TEXT_LAYOUT.horizontalSafeInsetPx,
           cy - CARD_H / 2 + SLOT_TEXT_LAYOUT.headerOffsetYPx,
-          `LAST  ${date}`,
+          `${COPY.slotPrefix}  ${slot.id}`,
           {
             fontFamily: UI_FONTS.mono,
             fontSize: `${SLOT_TEXT_LAYOUT.headerFontSizePx}px`,
-            color: UI_COLORS.gold,
-          },
-        ).setOrigin(1, 0);
-        fitTextToWidth(statusTxt, SLOT_TEXT_LAYOUT.headerMaxWidthPx, SLOT_TEXT_LAYOUT.headerMinimumFontSizePx);
-        objs.push(statusTxt);
-
-        const modeIsHardcore = isHardcoreMode(slot.hardcoreModeData);
-        const modeIsArmed = isHardcoreModeArmed(slot.hardcoreModeData);
-        const modeIsExhausted = isHardcoreModeExhausted(slot.hardcoreModeData);
-        const modeData = sanitizeHardcoreModeData(slot.hardcoreModeData);
-        const modeLabel = getHardcoreModeLabel(modeData);
-        const modeTxt = this.add.text(
-          cx,
-          cy + SLOT_TEXT_LAYOUT.modeOffsetYPx,
-          modeIsHardcore
-            ? modeIsExhausted
-              ? `${modeLabel}  •  EXPEDITION ENDED`
-              : modeIsArmed
-                ? `${modeLabel}  •  ${modeData.livesRemaining} ${modeData.livesRemaining === 1 ? 'LIFE' : 'LIVES'}`
-                : `${modeLabel}  •  ARMS AT FLIGHT`
-            : 'CASUAL',
-          {
-            fontFamily: UI_FONTS.mono,
-            fontSize: `${SLOT_TEXT_LAYOUT.modeFontSizePx}px`,
             fontStyle: 'bold',
-            color: modeIsHardcore ? '#ff7566' : '#72b9e8',
+            color: '#6a8a9a',
           },
-        ).setOrigin(0.5);
-        fitTextToWidth(modeTxt, SLOT_TEXT_LAYOUT.modeMaxWidthPx, SLOT_TEXT_LAYOUT.summaryMinimumFontSizePx);
-        objs.push(modeTxt);
+        );
+        objs.push(slotLabel);
 
-        // Compact dossier rows keep every dynamic value inside the authored inner rail.
-        const summaryTxt = this.add.text(
-          cx,
-          cy + SLOT_TEXT_LAYOUT.summaryOffsetYPx,
-          [
-            `LV ${slot.level}  •  DEPTH ${slot.currentDepth}m`,
-            `BEST DEPTH ${slot.bestDepth}m`,
-            `${Number(slot.wallet).toLocaleString()} M  •  ${slot.stars} STARS`,
-            `${slot.dugTiles.toLocaleString()} TILES DUG`,
-          ].join('\n'),
-          {
+        // Divider
+        const divG = this.add.graphics();
+        divG.lineStyle(1, 0x2a3a4a, 0.7);
+        divG.lineBetween(
+          cx - CARD_W / 2 + 24,
+          cy - CARD_H / 2 + SLOT_TEXT_LAYOUT.dividerOffsetYPx,
+          cx + CARD_W / 2 - 24,
+          cy - CARD_H / 2 + SLOT_TEXT_LAYOUT.dividerOffsetYPx,
+        );
+        objs.push(divG);
+
+        if (slot.hasData) {
+          // Status — date
+          const date = slot.updatedAt ? new Date(slot.updatedAt).toLocaleDateString() : COPY.unknownDate;
+          const statusTxt = this.add.text(
+            cx + CARD_W / 2 - SLOT_TEXT_LAYOUT.horizontalSafeInsetPx,
+            cy - CARD_H / 2 + SLOT_TEXT_LAYOUT.headerOffsetYPx,
+            `${COPY.lastPlayedPrefix}  ${date}`,
+            {
+              fontFamily: UI_FONTS.mono,
+              fontSize: `${SLOT_TEXT_LAYOUT.headerFontSizePx}px`,
+              color: UI_COLORS.gold,
+            },
+          ).setOrigin(1, 0);
+          fitTextToWidth(statusTxt, SLOT_TEXT_LAYOUT.headerMaxWidthPx, SLOT_TEXT_LAYOUT.headerMinimumFontSizePx);
+          objs.push(statusTxt);
+
+          const modeIsHardcore = isHardcoreMode(slot.hardcoreModeData);
+          const modeIsArmed = isHardcoreModeArmed(slot.hardcoreModeData);
+          const modeIsExhausted = isHardcoreModeExhausted(slot.hardcoreModeData);
+          const modeData = sanitizeHardcoreModeData(slot.hardcoreModeData);
+          const modeLabel = getHardcoreModeLabel(modeData);
+          const modeTxt = this.add.text(
+            cx,
+            cy + SLOT_TEXT_LAYOUT.modeOffsetYPx,
+            modeIsHardcore
+              ? modeIsExhausted
+                ? `${modeLabel}  •  ${COPY.runEnded}`
+                : modeIsArmed
+                  ? `${modeLabel}  •  ${modeData.livesRemaining} ${modeData.livesRemaining === 1 ? COPY.life : COPY.lives}`
+                  : `${modeLabel}  •  ${COPY.startsWithFlight}`
+              : COPY.casual,
+            {
+              fontFamily: UI_FONTS.mono,
+              fontSize: `${SLOT_TEXT_LAYOUT.modeFontSizePx}px`,
+              fontStyle: 'bold',
+              color: modeIsHardcore ? '#ff7566' : '#72b9e8',
+            },
+          ).setOrigin(0.5);
+          fitTextToWidth(modeTxt, SLOT_TEXT_LAYOUT.modeMaxWidthPx, SLOT_TEXT_LAYOUT.summaryMinimumFontSizePx);
+          objs.push(modeTxt);
+
+          // Compact dossier rows keep every dynamic value inside the authored inner rail.
+          const summaryTxt = this.add.text(
+            cx,
+            cy + SLOT_TEXT_LAYOUT.summaryOffsetYPx,
+            [
+              `LV ${slot.level}  •  DEPTH ${slot.currentDepth}m`,
+              `BEST DEPTH ${slot.bestDepth}m`,
+              `${Number(slot.wallet).toLocaleString()} M  •  ${slot.stars} STARS`,
+              `${slot.dugTiles.toLocaleString()} TILES DUG`,
+            ].join('\n'),
+            {
+              fontFamily: UI_FONTS.mono,
+              fontSize: `${SLOT_TEXT_LAYOUT.summaryFontSizePx}px`,
+              fontStyle: 'bold',
+              color: COL.white,
+              align: 'center',
+              lineSpacing: SLOT_TEXT_LAYOUT.summaryLineSpacingPx,
+              stroke: '#05090d',
+              strokeThickness: 1,
+            },
+          ).setOrigin(0.5, 0.5);
+          fitTextToWidth(summaryTxt, SLOT_TEXT_LAYOUT.summaryMaxWidthPx, SLOT_TEXT_LAYOUT.summaryMinimumFontSizePx);
+          objs.push(summaryTxt);
+
+
+          // Continue indicator
+          const continueIcon = createUiIcon(this, 'play', {
+            x: cx - 50,
+            y: cy + CARD_H / 2 - 39,
+            size: 22,
+            alpha: 0.92,
+          });
+          if (continueIcon) objs.push(continueIcon);
+          const contTxt = this.add.text(cx + 10, cy + CARD_H / 2 - 30, COPY.continue, {
             fontFamily: UI_FONTS.mono,
-            fontSize: `${SLOT_TEXT_LAYOUT.summaryFontSizePx}px`,
-            fontStyle: 'bold',
-            color: COL.white,
-            align: 'center',
-            lineSpacing: SLOT_TEXT_LAYOUT.summaryLineSpacingPx,
-            stroke: '#05090d',
-            strokeThickness: 1,
-          },
-        ).setOrigin(0.5, 0.5);
-        fitTextToWidth(summaryTxt, SLOT_TEXT_LAYOUT.summaryMaxWidthPx, SLOT_TEXT_LAYOUT.summaryMinimumFontSizePx);
-        objs.push(summaryTxt);
+            fontSize: '14px',
+            color: '#4ecb71',
+          }).setOrigin(0.5, 1);
+          objs.push(contTxt);
+          const continueArt = addBakedUiCaption(this, this.children, contTxt);
+          if (continueArt) objs.push(continueArt);
 
+        } else {
+          // Empty slot
+          const emptyIcon = createUiIcon(this, 'save', {
+            x: cx,
+            y: cy - 15,
+            size: 42,
+            alpha: 0.38,
+          });
+          if (emptyIcon) objs.push(emptyIcon);
 
-        // Continue indicator
-        const continueIcon = createUiIcon(this, 'play', {
-          x: cx - 50,
-          y: cy + CARD_H / 2 - 39,
-          size: 22,
-          alpha: 0.92,
-        });
-        if (continueIcon) objs.push(continueIcon);
-        const contTxt = this.add.text(cx + 10, cy + CARD_H / 2 - 30, 'CONTINUE', {
-          fontFamily: UI_FONTS.mono,
-          fontSize: '14px',
-          color: '#4ecb71',
-        }).setOrigin(0.5, 1);
-        objs.push(contTxt);
+          const newTxt = this.add.text(cx, cy + CARD_H / 2 - 30, COPY.newSave, {
+            fontFamily: UI_FONTS.mono,
+            fontSize: '14px',
+            color: '#7ab8f5',
+          }).setOrigin(0.5, 1);
+          objs.push(newTxt);
+          const newSaveArt = addBakedUiCaption(this, this.children, newTxt);
+          if (newSaveArt) objs.push(newSaveArt);
+        }
 
-      } else {
-        // Empty slot
-        const emptyIcon = createUiIcon(this, 'save', {
-          x: cx,
-          y: cy - 15,
-          size: 42,
-          alpha: 0.38,
-        });
-        if (emptyIcon) objs.push(emptyIcon);
-
-        const newTxt = this.add.text(cx, cy + CARD_H / 2 - 30, 'NEW SAVE', {
-          fontFamily: UI_FONTS.mono,
-          fontSize: '14px',
-          color: '#7ab8f5',
-        }).setOrigin(0.5, 1);
-        objs.push(newTxt);
+        // Hover / click with scale animation
       }
 
-      // Hover / click with scale animation
       hit.on('pointerover', () => {
         if (this.selectedSlot !== slot.id) {
           this.soundSystem?.playUiSelect?.();
@@ -520,12 +546,7 @@ export class StartMenuScene extends Phaser.Scene {
 
     // Animate the prompt text
     const selectedSave = this.saveSlots?.find((slot) => slot.id === slotId);
-    this._startPrompt.setText(
-      selectedSave?.hasData
-        ? 'PRESS  ENTER  OR  SPACE  TO  CONTINUE'
-        : 'PRESS  ENTER  OR  SPACE  TO  CHOOSE  SAVE  RULES',
-    );
-    this._startPrompt.setColor(COL.green);
+    setSaveMenuPrompt(this, selectedSave?.hasData ? COPY.selectedContinue : COPY.selectedNew, COL.green);
     this.tweens.killTweensOf(this._startPrompt);
     this.tweens.add({ targets: this._startPrompt, alpha: { from: 0.3, to: 1.0 }, duration: 260, ease: 'Power2.out' });
     this._syncSaveTransferControls();
@@ -552,11 +573,11 @@ export class StartMenuScene extends Phaser.Scene {
     const offsetX = layout.buttonWidth / 2 + layout.buttonGap / 2;
     const exportButton = createSaveMenuButton(this, {
       x: width / 2 - offsetX,
-      y: layout.buttonRowY,
+      y: BAKED_SAVE_MENU.layout.buttonY,
       width: layout.buttonWidth,
       height: layout.buttonHeight,
       label: SAVE_TRANSFER_UI.copy.startExport,
-      hint: "E",
+      hint: "",
       icon: "journal",
       accent: UI_COLORS.borderGood,
       depth: 0,
@@ -566,11 +587,11 @@ export class StartMenuScene extends Phaser.Scene {
     });
     const importButton = createSaveMenuButton(this, {
       x: width / 2 + offsetX,
-      y: layout.buttonRowY,
+      y: BAKED_SAVE_MENU.layout.buttonY,
       width: layout.buttonWidth,
       height: layout.buttonHeight,
       label: SAVE_TRANSFER_UI.copy.startImport,
-      hint: "I",
+      hint: "",
       icon: "next",
       accent: UI_COLORS.borderSel,
       depth: 0,
@@ -584,36 +605,57 @@ export class StartMenuScene extends Phaser.Scene {
     const [exportButton, importButton] = this._saveTransferControls;
     if (!exportButton || !importButton) return;
     const selectedSave = this.saveSlots?.find(slot => slot.id === this.selectedSlot);
-    const hardcoreExportLocked = isHardcoreRunActive(selectedSave?.hardcoreModeData);
-    exportButton.setEnabled(
-      Boolean(selectedSave?.hasData) && !hardcoreExportLocked,
-      hardcoreExportLocked ? "OATH LOCKED" : "",
-    );
+    exportButton.setEnabled(Boolean(selectedSave?.hasData));
     importButton.setEnabled(Boolean(this.selectedSlot));
   }
 
   // ─── Input ───────────────────────────────────────────────────────────────
 
   _setupInput() {
+    this.input.keyboard.addCapture("TAB");
+    const hasDialog = () => Boolean(this._confirmPanel || this._backupPanel
+      || this._importPanel || this._newRunSetup?.isVisible || this._isStartingGame);
+    const moveSlot = direction => {
+      if (hasDialog()) return;
+      const slots = this.saveSlots || [];
+      if (!slots.length) return;
+      const current = slots.findIndex(slot => slot.id === this.selectedSlot);
+      this._selectSlot(slots[(current + direction + slots.length) % slots.length].id);
+    };
+    const slotNavigation = [
+      ['keydown-LEFT', () => moveSlot(-1)],
+      ['keydown-A', () => moveSlot(-1)],
+      ['keydown-RIGHT', () => moveSlot(1)],
+      ['keydown-D', () => moveSlot(1)],
+      ['keydown-TAB', event => {
+        if (hasDialog()) return;
+        event?.preventDefault?.();
+        moveSlot(event?.shiftKey ? -1 : 1);
+      }],
+    ];
+    slotNavigation.forEach(([key, handler]) => this.input.keyboard.on(key, handler));
+    this.events.once('shutdown', () => {
+      slotNavigation.forEach(([key, handler]) => this.input.keyboard.off(key, handler));
+    });
     this.input.keyboard.on('keydown-ONE', () => {
-      if (!this._newRunSetup?.isVisible) this._selectSlot(1);
+      if (!hasDialog()) this._selectSlot(1);
     });
     this.input.keyboard.on('keydown-TWO', () => {
-      if (!this._newRunSetup?.isVisible) this._selectSlot(2);
+      if (!hasDialog()) this._selectSlot(2);
     });
     this.input.keyboard.on('keydown-THREE', () => {
-      if (!this._newRunSetup?.isVisible) this._selectSlot(3);
+      if (!hasDialog()) this._selectSlot(3);
     });
 
-    const startSelectedSlot = () => {
-      if (this._confirmPanel || this._newRunSetup?.isVisible) return;
+    const startSelectedSlot = event => {
+      if (hasDialog() || event?.repeat) return;
       if (this.selectedSlot !== null) this._startGame();
     };
     this.input.keyboard.on('keydown-ENTER', startSelectedSlot);
     this.input.keyboard.on('keydown-SPACE', startSelectedSlot);
 
     this.input.keyboard.on('keydown-DELETE', () => {
-      if (this._confirmPanel || this._newRunSetup?.isVisible) return;
+      if (hasDialog()) return;
       if (this.selectedSlot !== null) this._showConfirm(this.selectedSlot);
     });
 
@@ -625,7 +667,7 @@ export class StartMenuScene extends Phaser.Scene {
     this.input.keyboard.on('keydown-E', () => {
       if (this._confirmPanel || this._backupPanel || this._importPanel || this._newRunSetup?.isVisible) return;
       const selectedSave = this.saveSlots?.find(slot => slot.id === this.selectedSlot);
-      if (selectedSave?.hasData && !isHardcoreRunActive(selectedSave.hardcoreModeData)) {
+      if (selectedSave?.hasData) {
         this._exportSave(this.selectedSlot);
       }
     });
@@ -662,9 +704,7 @@ export class StartMenuScene extends Phaser.Scene {
     }
 
     if (isHardcoreModeExhausted(selectedSave.hardcoreModeData)) {
-      this._startPrompt
-        ?.setText("EXPEDITION ENDED  •  EXPORT OR CLEAR THIS SLOT")
-        ?.setColor(COL.warning);
+      setSaveMenuPrompt(this, COPY.endedPrompt, COL.warning);
       this.soundSystem?.playUiSelect?.();
       return;
     }
@@ -733,14 +773,14 @@ export class StartMenuScene extends Phaser.Scene {
     const shade = this.add.rectangle(px, py, W, H, 0x000000, 0.55).setInteractive();
     const panelG = this._createModalSurface("confirm", px, py, pw, ph, 0xe07030);
 
-    const qText = this.add.text(px, py - 28, `Clear save slot  ${slotId}?`, {
+    const qText = this.add.text(px, py - 28, COPY.clearQuestion.replace("{slot}", slotId), {
       fontFamily: UI_FONTS.display,
       fontSize: '22px',
       fontStyle: 'bold',
       color: '#f7f0df',
     }).setOrigin(0.5);
 
-    const hintText = this.add.text(px, py + 16, 'Y — yes        N / ESC — cancel', {
+    const hintText = this.add.text(px, py + 16, COPY.clearHint, {
       fontFamily: UI_FONTS.mono,
       fontSize: '15px',
       color: COL.dim,
@@ -751,7 +791,7 @@ export class StartMenuScene extends Phaser.Scene {
       y: py + 52,
       width: 150,
       height: 38,
-      label: 'CLEAR',
+      label: COPY.clear,
       accent: UI_COLORS.borderBad,
       labelColor: UI_COLORS.danger,
       depth: 10,
@@ -765,7 +805,7 @@ export class StartMenuScene extends Phaser.Scene {
       y: py + 52,
       width: 150,
       height: 38,
-      label: 'CANCEL',
+      label: COPY.cancel,
       accent: UI_COLORS.borderHov,
       depth: 10,
       onClick: () => this._closeConfirm(),
@@ -819,8 +859,7 @@ export class StartMenuScene extends Phaser.Scene {
       this._animateCardEntry();
       if (this.selectedSlot === slotId) {
         this.selectedSlot = null;
-        this._startPrompt.setText('SELECT A SLOT TO BEGIN');
-        this._startPrompt.setColor(COL.dim);
+        setSaveMenuPrompt(this, COPY.startPrompt, COL.dim);
         this._syncSaveTransferControls();
       } else if (this.selectedSlot !== null) {
         this._selectSlot(this.selectedSlot);
@@ -857,7 +896,7 @@ export class StartMenuScene extends Phaser.Scene {
       UI_COLORS.borderHov,
     );
 
-    const title = this.add.text(px, py - ph / 2 + 76, `Backups for Slot ${slotId}`, {
+    const title = this.add.text(px, py - ph / 2 + 76, COPY.backupsTitle.replace("{slot}", slotId), {
       fontFamily: UI_FONTS.display,
       fontSize: '20px',
       fontStyle: 'bold',
@@ -865,7 +904,7 @@ export class StartMenuScene extends Phaser.Scene {
     }).setOrigin(0.5);
 
     const statsText = this.add.text(px, py - ph / 2 + 100,
-      `${backups.length} ${currentHardcore ? "oath-locked backups" : "backups available"}`
+      `${backups.length} ${currentHardcore ? COPY.lockedBackups : COPY.backupsAvailable}`
         + ` • ${stats.backupStats?.totalSizeBytes ? (stats.backupStats.totalSizeBytes / 1024).toFixed(1) + ' KB' : '0 KB'}`, {
       fontFamily: UI_FONTS.mono,
       fontSize: '13px',
@@ -876,7 +915,7 @@ export class StartMenuScene extends Phaser.Scene {
     const controls = [];
 
     if (backups.length === 0) {
-      const noBackups = this.add.text(px, py, 'No backups available', {
+      const noBackups = this.add.text(px, py, COPY.noBackups, {
         fontFamily: UI_FONTS.mono,
         fontSize: '16px',
         color: COL.dim,
@@ -888,7 +927,7 @@ export class StartMenuScene extends Phaser.Scene {
       backups.slice(0, 5).forEach((backup, i) => {
         const date = new Date(backup.timestamp).toLocaleString();
         const backupText = this.add.text(px - pw / 2 + 30, startY + i * 40,
-          `Backup ${i + 1}: ${date}`, {
+          `${COPY.backupPrefix} ${i + 1}: ${date}`, {
           fontFamily: UI_FONTS.mono,
           fontSize: '13px',
           color: COL.white,
@@ -900,7 +939,7 @@ export class StartMenuScene extends Phaser.Scene {
           y: startY + i * 40,
           width: 112,
           height: 30,
-          label: 'RESTORE',
+          label: COPY.restore,
           accent: UI_COLORS.borderGood,
           labelColor: UI_COLORS.success,
           depth: 10,
@@ -914,7 +953,7 @@ export class StartMenuScene extends Phaser.Scene {
         );
         restoreBtn.setEnabled(
           !currentHardcore && !backupHardcore,
-          currentHardcore || backupHardcore ? "OATH LOCKED" : "",
+          currentHardcore || backupHardcore ? COPY.hardcoreBackupLock : "",
         );
         controls.push(restoreBtn);
       });
@@ -925,7 +964,7 @@ export class StartMenuScene extends Phaser.Scene {
       y: py + ph / 2 - 40,
       width: 140,
       height: 34,
-      label: 'CLOSE',
+      label: COPY.close,
       hint: 'ESC',
       accent: UI_COLORS.borderHov,
       depth: 10,
@@ -938,8 +977,8 @@ export class StartMenuScene extends Phaser.Scene {
       px,
       py + ph / 2 - 80,
       currentHardcore
-        ? "Hardcore backups cannot rewind an oath; ended saves remain intact"
-        : "Click restore on any Casual backup",
+        ? COPY.hardcoreBackupHint
+        : COPY.casualBackupHint,
       {
       fontFamily: UI_FONTS.mono,
       fontSize: '12px',
@@ -1022,7 +1061,7 @@ export class StartMenuScene extends Phaser.Scene {
       UI_COLORS.borderHov,
     );
 
-    const title = this.add.text(px, py - ph / 2 + layout.importPanelTitleInsetY + 30, 'Import Save File', {
+    const title = this.add.text(px, py - ph / 2 + layout.importPanelTitleInsetY + 30, COPY.importTitle, {
       fontFamily: UI_FONTS.display,
       fontSize: '20px',
       fontStyle: 'bold',
@@ -1030,8 +1069,7 @@ export class StartMenuScene extends Phaser.Scene {
     }).setOrigin(0.5);
 
     const hintText = this.add.text(px, py + layout.importPanelDescriptionOffsetY,
-      'Click the button below to select a save file to import.\n' +
-      'The current slot is backed up before the imported save replaces it.', {
+      COPY.importBody, {
       fontFamily: UI_FONTS.mono,
       fontSize: '13px',
       color: COL.dim,
@@ -1051,7 +1089,7 @@ export class StartMenuScene extends Phaser.Scene {
       y: py + layout.importPanelButtonOffsetY,
       width: 160,
       height: 38,
-      label: 'SELECT FILE',
+      label: COPY.selectFile,
       accent: UI_COLORS.borderGood,
       labelColor: UI_COLORS.success,
       depth: 10,
@@ -1062,14 +1100,14 @@ export class StartMenuScene extends Phaser.Scene {
       y: py + layout.importPanelButtonOffsetY,
       width: 140,
       height: 38,
-      label: 'CANCEL',
+      label: COPY.cancel,
       hint: 'ESC',
       accent: UI_COLORS.borderHov,
       depth: 10,
       onClick: () => this._closeImportPanel(),
     });
 
-    const closeHint = this.add.text(px, py + ph / 2 - 46, 'JSON save files only', {
+    const closeHint = this.add.text(px, py + ph / 2 - 46, COPY.jsonOnly, {
       fontFamily: UI_FONTS.mono,
       fontSize: '12px',
       color: COL.dim,

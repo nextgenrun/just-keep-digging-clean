@@ -1,0 +1,10 @@
+{
+  "id": "B1",
+  "voice": "leo",
+  "text": "I remember that light.",
+  "model": "x-ai/grok-voice-tts-1.0",
+  "requestSha256": "3f5367529178df7ba33dfd485be01bb0e3bbfe96af372ec9e50492b51c4c5bf6",
+  "contentType": "audio/mpeg",
+  "generationId": "gen-tts-1788736842-mJYBwyJbZFyJnY3RrkvA",
+  "rawSha256": "9e4c85e931df9fd191322039349a5835ab9ba1ddd3ae18abddc60149988e9c8e"
+}

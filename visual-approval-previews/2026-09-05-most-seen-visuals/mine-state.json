@@ -1,0 +1,7358 @@
+{
+  "result": {
+    "found": [],
+    "top": 65
+  },
+  "after": {
+    "tile": {
+      "tx": 4,
+      "ty": 64
+    },
+    "depth": 0,
+    "quick": [
+      "scene",
+      "config",
+      "depth",
+      "visible",
+      "onInventory",
+      "onPause",
+      "onMap",
+      "inventoryContainer",
+      "inventoryIcon",
+      "inventoryKeyFrame",
+      "inventoryKey",
+      "inventoryHit",
+      "inventoryFullnessState",
+      "inventoryFullnessTextureKeys",
+      "pauseContainer",
+      "pauseFrame",
+      "pauseLabel",
+      "pauseHit",
+      "mapContainer",
+      "mapFrame",
+      "mapLabel",
+      "mapHit",
+      "wikiShortcut",
+      "_destroyed"
+    ],
+    "actionKeys": [
+      "scene",
+      "config",
+      "loadoutProvider",
+      "getAbilityState",
+      "getMetrics",
+      "onActivate",
+      "onBlockedActivate",
+      "onLoadoutChange",
+      "visible",
+      "destroyed",
+      "mounted",
+      "tooltipVisible",
+      "slotsById",
+      "lastStateError",
+      "lastPersistenceError",
+      "lastActivationError",
+      "order",
+      "assetHealth",
+      "_resizeHandler",
+      "foundationView",
+      "tooltip",
+      "metrics",
+      "placement",
+      "uiScale",
+      "centerX",
+      "centerY"
+    ],
+    "objects": [
+      {
+        "type": "Rectangle",
+        "x": 0,
+        "y": 0,
+        "alpha": 1,
+        "depth": -10.21,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-sky-atmosphere-foundation-v2",
+        "x": 0,
+        "y": 0,
+        "alpha": 1,
+        "depth": -10.2,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-sky-atmosphere-foundation-v2",
+        "x": 1024,
+        "y": 0,
+        "alpha": 1,
+        "depth": -10.2,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-sky-atmosphere-foundation-v2",
+        "x": 2048,
+        "y": 0,
+        "alpha": 1,
+        "depth": -10.2,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-sky-atmosphere-foundation-v2",
+        "x": 3072,
+        "y": 0,
+        "alpha": 1,
+        "depth": -10.2,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-sky-atmosphere-foundation-v2",
+        "x": 4096,
+        "y": 0,
+        "alpha": 1,
+        "depth": -10.2,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-sky-atmosphere-foundation-v2",
+        "x": 5120,
+        "y": 0,
+        "alpha": 1,
+        "depth": -10.2,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-sky-atmosphere-foundation-v2",
+        "x": 6144,
+        "y": 0,
+        "alpha": 1,
+        "depth": -10.2,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-sky-atmosphere-foundation-v2",
+        "x": 7168,
+        "y": 0,
+        "alpha": 1,
+        "depth": -10.2,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-sky-atmosphere-foundation-v2",
+        "x": 8192,
+        "y": 0,
+        "alpha": 1,
+        "depth": -10.2,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-sky-atmosphere-foundation-v2",
+        "x": 9216,
+        "y": 0,
+        "alpha": 1,
+        "depth": -10.2,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-sky-atmosphere-foundation-v2",
+        "x": 10240,
+        "y": 0,
+        "alpha": 1,
+        "depth": -10.2,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-sky-atmosphere-foundation-v2",
+        "x": 11264,
+        "y": 0,
+        "alpha": 1,
+        "depth": -10.2,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-sky-atmosphere-foundation-v2",
+        "x": 12288,
+        "y": 0,
+        "alpha": 1,
+        "depth": -10.2,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-sky-atmosphere-foundation-v2",
+        "x": 13312,
+        "y": 0,
+        "alpha": 1,
+        "depth": -10.2,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-sky-atmosphere-foundation-v2",
+        "x": 14336,
+        "y": 0,
+        "alpha": 1,
+        "depth": -10.2,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-sky-atmosphere-foundation-v2",
+        "x": 15360,
+        "y": 0,
+        "alpha": 1,
+        "depth": -10.2,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-sky-atmosphere-foundation-v2",
+        "x": 16384,
+        "y": 0,
+        "alpha": 1,
+        "depth": -10.2,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-sky-atmosphere-foundation-v2",
+        "x": 17408,
+        "y": 0,
+        "alpha": 1,
+        "depth": -10.2,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-sky-atmosphere-foundation-v2",
+        "x": 18432,
+        "y": 0,
+        "alpha": 1,
+        "depth": -10.2,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-sky-atmosphere-foundation-v2",
+        "x": 19456,
+        "y": 0,
+        "alpha": 1,
+        "depth": -10.2,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-sky-atmosphere-foundation-v2",
+        "x": 20480,
+        "y": 0,
+        "alpha": 1,
+        "depth": -10.2,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-sky-atmosphere-foundation-v2",
+        "x": 21504,
+        "y": 0,
+        "alpha": 1,
+        "depth": -10.2,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-sky-atmosphere-foundation-v2",
+        "x": 22528,
+        "y": 0,
+        "alpha": 1,
+        "depth": -10.2,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-sky-atmosphere-foundation-v2",
+        "x": 23552,
+        "y": 0,
+        "alpha": 1,
+        "depth": -10.2,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-sky-atmosphere-foundation-v2",
+        "x": 24576,
+        "y": 0,
+        "alpha": 1,
+        "depth": -10.2,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-sky-atmosphere-foundation-v2",
+        "x": 25600,
+        "y": 0,
+        "alpha": 1,
+        "depth": -10.2,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-far-moonlit-mountains",
+        "x": -1096,
+        "y": 6149.48,
+        "alpha": 1,
+        "depth": -10,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-far-moonlit-mountains",
+        "x": 0,
+        "y": 6149.48,
+        "alpha": 1,
+        "depth": -10,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-far-moonlit-mountains",
+        "x": 1096,
+        "y": 6149.48,
+        "alpha": 1,
+        "depth": -10,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-far-moonlit-mountains",
+        "x": 2192,
+        "y": 6149.48,
+        "alpha": 1,
+        "depth": -10,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-far-moonlit-mountains",
+        "x": 3288,
+        "y": 6149.48,
+        "alpha": 1,
+        "depth": -10,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-far-moonlit-mountains",
+        "x": 4384,
+        "y": 6149.48,
+        "alpha": 1,
+        "depth": -10,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-far-moonlit-mountains",
+        "x": 5480,
+        "y": 6149.48,
+        "alpha": 1,
+        "depth": -10,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-far-moonlit-mountains",
+        "x": 6576,
+        "y": 6149.48,
+        "alpha": 1,
+        "depth": -10,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-far-moonlit-mountains",
+        "x": 7672,
+        "y": 6149.48,
+        "alpha": 1,
+        "depth": -10,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-far-moonlit-mountains",
+        "x": 8768,
+        "y": 6149.48,
+        "alpha": 1,
+        "depth": -10,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-far-moonlit-mountains",
+        "x": 9864,
+        "y": 6149.48,
+        "alpha": 1,
+        "depth": -10,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-far-moonlit-mountains",
+        "x": 10960,
+        "y": 6149.48,
+        "alpha": 1,
+        "depth": -10,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-far-moonlit-mountains",
+        "x": 12056,
+        "y": 6149.48,
+        "alpha": 1,
+        "depth": -10,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-far-moonlit-mountains",
+        "x": 13152,
+        "y": 6149.48,
+        "alpha": 1,
+        "depth": -10,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-far-moonlit-mountains",
+        "x": 14248,
+        "y": 6149.48,
+        "alpha": 1,
+        "depth": -10,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-far-moonlit-mountains",
+        "x": 15344,
+        "y": 6149.48,
+        "alpha": 1,
+        "depth": -10,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-far-moonlit-mountains",
+        "x": 16440,
+        "y": 6149.48,
+        "alpha": 1,
+        "depth": -10,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-far-moonlit-mountains",
+        "x": 17536,
+        "y": 6149.48,
+        "alpha": 1,
+        "depth": -10,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-far-moonlit-mountains",
+        "x": 18632,
+        "y": 6149.48,
+        "alpha": 1,
+        "depth": -10,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-far-moonlit-mountains",
+        "x": 19728,
+        "y": 6149.48,
+        "alpha": 1,
+        "depth": -10,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-far-moonlit-mountains",
+        "x": 20824,
+        "y": 6149.48,
+        "alpha": 1,
+        "depth": -10,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-far-moonlit-mountains",
+        "x": 21920,
+        "y": 6149.48,
+        "alpha": 1,
+        "depth": -10,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-far-moonlit-mountains",
+        "x": 23016,
+        "y": 6149.48,
+        "alpha": 1,
+        "depth": -10,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-far-moonlit-mountains",
+        "x": 24112,
+        "y": 6149.48,
+        "alpha": 1,
+        "depth": -10,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-far-moonlit-mountains",
+        "x": 25208,
+        "y": 6149.48,
+        "alpha": 1,
+        "depth": -10,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-far-moonlit-mountains",
+        "x": 26304,
+        "y": 6149.48,
+        "alpha": 1,
+        "depth": -10,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-far-moonlit-mountains",
+        "x": 27400,
+        "y": 6149.48,
+        "alpha": 1,
+        "depth": -10,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-far-moonlit-mountains",
+        "x": 28496,
+        "y": 6149.48,
+        "alpha": 1,
+        "depth": -10,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-far-moonlit-mountains",
+        "x": -1096,
+        "y": 2186,
+        "alpha": 1,
+        "depth": -10,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-far-moonlit-mountains",
+        "x": 0,
+        "y": 2186,
+        "alpha": 1,
+        "depth": -10,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-far-moonlit-mountains",
+        "x": 1096,
+        "y": 2186,
+        "alpha": 1,
+        "depth": -10,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-far-moonlit-mountains",
+        "x": 2192,
+        "y": 2186,
+        "alpha": 1,
+        "depth": -10,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-far-moonlit-mountains",
+        "x": 3288,
+        "y": 2186,
+        "alpha": 1,
+        "depth": -10,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-far-moonlit-mountains",
+        "x": 4384,
+        "y": 2186,
+        "alpha": 1,
+        "depth": -10,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-far-moonlit-mountains",
+        "x": 5480,
+        "y": 2186,
+        "alpha": 1,
+        "depth": -10,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-far-moonlit-mountains",
+        "x": 6576,
+        "y": 2186,
+        "alpha": 1,
+        "depth": -10,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-far-moonlit-mountains",
+        "x": 7672,
+        "y": 2186,
+        "alpha": 1,
+        "depth": -10,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-far-moonlit-mountains",
+        "x": 8768,
+        "y": 2186,
+        "alpha": 1,
+        "depth": -10,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-far-moonlit-mountains",
+        "x": 9864,
+        "y": 2186,
+        "alpha": 1,
+        "depth": -10,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-far-moonlit-mountains",
+        "x": 10960,
+        "y": 2186,
+        "alpha": 1,
+        "depth": -10,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-far-moonlit-mountains",
+        "x": 12056,
+        "y": 2186,
+        "alpha": 1,
+        "depth": -10,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-far-moonlit-mountains",
+        "x": 13152,
+        "y": 2186,
+        "alpha": 1,
+        "depth": -10,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-far-moonlit-mountains",
+        "x": 14248,
+        "y": 2186,
+        "alpha": 1,
+        "depth": -10,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-far-moonlit-mountains",
+        "x": 15344,
+        "y": 2186,
+        "alpha": 1,
+        "depth": -10,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-far-moonlit-mountains",
+        "x": 16440,
+        "y": 2186,
+        "alpha": 1,
+        "depth": -10,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-far-moonlit-mountains",
+        "x": 17536,
+        "y": 2186,
+        "alpha": 1,
+        "depth": -10,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-far-moonlit-mountains",
+        "x": 18632,
+        "y": 2186,
+        "alpha": 1,
+        "depth": -10,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-far-moonlit-mountains",
+        "x": 19728,
+        "y": 2186,
+        "alpha": 1,
+        "depth": -10,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-far-moonlit-mountains",
+        "x": 20824,
+        "y": 2186,
+        "alpha": 1,
+        "depth": -10,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-far-moonlit-mountains",
+        "x": 21920,
+        "y": 2186,
+        "alpha": 1,
+        "depth": -10,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-far-moonlit-mountains",
+        "x": 23016,
+        "y": 2186,
+        "alpha": 1,
+        "depth": -10,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-far-moonlit-mountains",
+        "x": 24112,
+        "y": 2186,
+        "alpha": 1,
+        "depth": -10,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-far-moonlit-mountains",
+        "x": 25208,
+        "y": 2186,
+        "alpha": 1,
+        "depth": -10,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-far-moonlit-mountains",
+        "x": 26304,
+        "y": 2186,
+        "alpha": 1,
+        "depth": -10,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-far-moonlit-mountains",
+        "x": 27400,
+        "y": 2186,
+        "alpha": 1,
+        "depth": -10,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-far-moonlit-mountains",
+        "x": 28496,
+        "y": 2186,
+        "alpha": 1,
+        "depth": -10,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-sky-cohesion-v1-sky02",
+        "x": 313,
+        "y": 5381.5,
+        "alpha": 0.35279999999999995,
+        "depth": -9.558,
+        "scroll": 1
+      },
+      {
+        "type": "Rectangle",
+        "x": 0,
+        "y": 6110,
+        "alpha": 1,
+        "depth": -6.41,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-biome-weathered-roots-root-canyon",
+        "x": 1.5e-323,
+        "y": 6110,
+        "alpha": 1,
+        "depth": -6.4,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-biome-expansion-v5-weathered-roots-rootwater-sink-valley",
+        "x": 1008,
+        "y": 6110,
+        "alpha": 1,
+        "depth": -6.399990000000001,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-biome-expansion-v3-weathered-roots-rainwell-canopy",
+        "x": 2016,
+        "y": 6110,
+        "alpha": 1,
+        "depth": -6.39998,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-biome-weathered-roots-root-canyon",
+        "x": 1.5e-323,
+        "y": 6738,
+        "alpha": 1,
+        "depth": -6.39974,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-biome-expansion-v5-weathered-roots-rootwater-sink-valley",
+        "x": 1008,
+        "y": 6738,
+        "alpha": 1,
+        "depth": -6.39973,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-biome-expansion-v3-weathered-roots-rainwell-canopy",
+        "x": 2016,
+        "y": 6738,
+        "alpha": 1,
+        "depth": -6.39972,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-backdrop-enhancer-v7-weathered-roots-twin-rootstone-arches",
+        "x": 0,
+        "y": 6110,
+        "alpha": 0.6151071638893336,
+        "depth": -6.394,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-backdrop-enhancer-v7-weathered-roots-twin-rootstone-arches",
+        "x": 1008,
+        "y": 6110,
+        "alpha": 0.6115486954897642,
+        "depth": -6.3939900000000005,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-backdrop-enhancer-v7-weathered-roots-twin-rootstone-arches",
+        "x": 0,
+        "y": 6738,
+        "alpha": 0.7047852760925889,
+        "depth": -6.39374,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-backdrop-enhancer-v7-weathered-roots-ceiling-root-crown",
+        "x": 1008,
+        "y": 6738,
+        "alpha": 0.6272453201562167,
+        "depth": -6.39373,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "titan-underground-dais-v1",
+        "x": 3008,
+        "y": 15408.48,
+        "alpha": 0.24,
+        "depth": -5.995,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "titan-underground-dais-v1",
+        "x": 7755,
+        "y": 21142.48,
+        "alpha": 0.24,
+        "depth": -5.995,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "titan-underground-dais-v1",
+        "x": 3008,
+        "y": 15408.48,
+        "alpha": 0.016711847307707563,
+        "depth": -5.99,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "titan-underground-dais-v1",
+        "x": 7755,
+        "y": 21142.48,
+        "alpha": 0.014997601954159105,
+        "depth": -5.99,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "titan-surface-stance-mossback-wanderer-v1",
+        "x": 3008,
+        "y": 15353.050000000001,
+        "alpha": 0.9,
+        "depth": -5.96,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "titan-surface-stance-bellhorn-grazer-v1",
+        "x": 7755,
+        "y": 21087.05,
+        "alpha": 0.9,
+        "depth": -5.96,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "titan-surface-stance-mossback-wanderer-v1",
+        "x": 3008,
+        "y": 15353.050000000001,
+        "alpha": 0.02586024049239557,
+        "depth": -5.95,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "titan-surface-stance-bellhorn-grazer-v1",
+        "x": 7755,
+        "y": 21087.05,
+        "alpha": 0.01598618725595645,
+        "depth": -5.95,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "titan-ground-contact-v1",
+        "x": 3008,
+        "y": 15429.16,
+        "alpha": 0.78,
+        "depth": -5.93,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "titan-ground-contact-v1",
+        "x": 7755,
+        "y": 21163.16,
+        "alpha": 0.78,
+        "depth": -5.93,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "titan-ground-contact-v1",
+        "x": 3008,
+        "y": 15429.16,
+        "alpha": 0.02842369461541513,
+        "depth": -5.925,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "titan-ground-contact-v1",
+        "x": 7755,
+        "y": 21163.16,
+        "alpha": 0.024995203908318213,
+        "depth": -5.925,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-clouds",
+        "x": 610.6724554005579,
+        "y": 5477.812958492355,
+        "alpha": 0.07187498688865078,
+        "depth": -4.745,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-clouds",
+        "x": 1618.7960140864361,
+        "y": 5394.039013952486,
+        "alpha": 0.06468748819978569,
+        "depth": -4.745,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-clouds",
+        "x": 2486.344517596789,
+        "y": 5353.813362585812,
+        "alpha": 0.07906248557751584,
+        "depth": -4.745,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-clouds",
+        "x": 3624.613021107129,
+        "y": 5274.180441898801,
+        "alpha": 0.08624998426638092,
+        "depth": -4.745,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-clouds",
+        "x": 4827.953997029783,
+        "y": 5210.040667540781,
+        "alpha": 0.10062498164411109,
+        "depth": -4.745,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-clouds",
+        "x": 5630.430028127916,
+        "y": 5136.25347416936,
+        "alpha": 0.08624998426638092,
+        "depth": -4.745,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-clouds",
+        "x": 5337.104138568929,
+        "y": 5470.012410189786,
+        "alpha": 0.07187498688865078,
+        "depth": -4.745,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-clouds",
+        "x": 6074.507697254791,
+        "y": 5402.684514547537,
+        "alpha": 0.06468748819978569,
+        "depth": -4.745,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-clouds",
+        "x": 7212.776200765143,
+        "y": 5344.7311602554455,
+        "alpha": 0.07906248557751584,
+        "depth": -4.745,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-clouds",
+        "x": 8080.324704275501,
+        "y": 5283.270473845361,
+        "alpha": 0.08624998426638092,
+        "depth": -4.745,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-clouds",
+        "x": 9283.665680198132,
+        "y": 5201.37204782075,
+        "alpha": 0.10062498164411109,
+        "depth": -4.745,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-clouds",
+        "x": 10086.141711296294,
+        "y": 5144.0913393938445,
+        "alpha": 0.08624998426638092,
+        "depth": -4.745,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-clouds",
+        "x": 9792.815821737126,
+        "y": 5463.375412539821,
+        "alpha": 0.07187498688865078,
+        "depth": -4.745,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-clouds",
+        "x": 10530.219380423132,
+        "y": 5407.807237902495,
+        "alpha": 0.06468748819978569,
+        "depth": -4.745,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-clouds",
+        "x": 11668.487883933525,
+        "y": 5341.364612128878,
+        "alpha": 0.07906248557751584,
+        "depth": -4.745,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-clouds",
+        "x": 12536.036387443815,
+        "y": 5284.721874439575,
+        "alpha": 0.08624998426638092,
+        "depth": -4.745,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-clouds",
+        "x": 13739.377363366353,
+        "y": 5201.9043315769095,
+        "alpha": 0.10062498164411109,
+        "depth": -4.745,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-clouds",
+        "x": 14541.853394464611,
+        "y": 5141.6005063430985,
+        "alpha": 0.08624998426638092,
+        "depth": -4.745,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-clouds",
+        "x": 14248.527504905443,
+        "y": 5467.707174861912,
+        "alpha": 0.07187498688865078,
+        "depth": -4.745,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-clouds",
+        "x": 15256.651063591447,
+        "y": 5401.83909714587,
+        "alpha": 0.06468748819978569,
+        "depth": -4.745,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-clouds",
+        "x": 16124.199567101843,
+        "y": 5348.687308797218,
+        "alpha": 0.07906248557751584,
+        "depth": -4.745,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-clouds",
+        "x": 17262.468070612045,
+        "y": 5276.390408082303,
+        "alpha": 0.08624998426638092,
+        "depth": -4.745,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-clouds",
+        "x": 18195.089046534424,
+        "y": 5210.851146126648,
+        "alpha": 0.10062498164411109,
+        "depth": -4.745,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-clouds",
+        "x": 19268.28507763274,
+        "y": 5132.46082255219,
+        "alpha": 0.08624998426638092,
+        "depth": -4.745,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-clouds",
+        "x": 18704.239188073527,
+        "y": 5476.6081414336895,
+        "alpha": 0.07187498688865078,
+        "depth": -4.745,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-clouds",
+        "x": 19712.362746759703,
+        "y": 5393.597161749842,
+        "alpha": 0.06468748819978569,
+        "depth": -4.745,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-clouds",
+        "x": 20579.91125026965,
+        "y": 5355.881019276728,
+        "alpha": 0.07906248557751584,
+        "depth": -4.745,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-clouds",
+        "x": 21718.17975378043,
+        "y": 5270.5846178647325,
+        "alpha": 0.08624998426638092,
+        "depth": -4.745,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-clouds",
+        "x": 22650.80072970274,
+        "y": 5214.99485994001,
+        "alpha": 0.10062498164411109,
+        "depth": -4.745,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-clouds",
+        "x": 23723.99676080106,
+        "y": 5130.174856111314,
+        "alpha": 0.08624998426638092,
+        "depth": -4.745,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-clouds",
+        "x": 23159.950871241846,
+        "y": 5476.92841451757,
+        "alpha": 0.07187498688865078,
+        "depth": -4.745,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-clouds",
+        "x": 24168.07442992802,
+        "y": 5395.257705689107,
+        "alpha": 0.06468748819978569,
+        "depth": -4.745,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-clouds",
+        "x": 25035.622933437964,
+        "y": 5352.318071123461,
+        "alpha": 0.07906248557751584,
+        "depth": -4.745,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-clouds",
+        "x": 26173.89143694875,
+        "y": 5275.881723691173,
+        "alpha": 0.08624998426638092,
+        "depth": -4.745,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-clouds",
+        "x": -447.1501085027731,
+        "y": 5208.213731916194,
+        "alpha": 0.10062498164411109,
+        "depth": -4.745,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-benchmark-v1",
+        "x": 0,
+        "y": 6110,
+        "alpha": 0,
+        "depth": -4.2,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-benchmark-v1",
+        "x": 1672,
+        "y": 6110,
+        "alpha": 0,
+        "depth": -4.2,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-benchmark-v1",
+        "x": 1680.0625,
+        "y": 6110,
+        "alpha": 0,
+        "depth": -4.2,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-benchmark-v1",
+        "x": 1688.125,
+        "y": 6110,
+        "alpha": 0,
+        "depth": -4.2,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-benchmark-v1",
+        "x": 1696.1875,
+        "y": 6110,
+        "alpha": 0,
+        "depth": -4.2,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-benchmark-v1",
+        "x": 1704.25,
+        "y": 6110,
+        "alpha": 0,
+        "depth": -4.2,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-benchmark-v1",
+        "x": 1712.3125,
+        "y": 6110,
+        "alpha": 0,
+        "depth": -4.2,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-benchmark-v1",
+        "x": 1720.375,
+        "y": 6110,
+        "alpha": 0,
+        "depth": -4.2,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-benchmark-v1",
+        "x": 1728.4375,
+        "y": 6110,
+        "alpha": 0,
+        "depth": -4.2,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-benchmark-v1",
+        "x": 1736.5,
+        "y": 6110,
+        "alpha": 0,
+        "depth": -4.2,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-benchmark-v1",
+        "x": 1744.5625,
+        "y": 6110,
+        "alpha": 0,
+        "depth": -4.2,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-benchmark-v1",
+        "x": 1752.625,
+        "y": 6110,
+        "alpha": 0,
+        "depth": -4.2,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-benchmark-v1",
+        "x": 1760.6875,
+        "y": 6110,
+        "alpha": 0,
+        "depth": -4.2,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-benchmark-v1",
+        "x": 1768.75,
+        "y": 6110,
+        "alpha": 0,
+        "depth": -4.2,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-benchmark-v1",
+        "x": 1776.8125,
+        "y": 6110,
+        "alpha": 0,
+        "depth": -4.2,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-benchmark-v1",
+        "x": 1784.875,
+        "y": 6110,
+        "alpha": 0,
+        "depth": -4.2,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-benchmark-v1",
+        "x": 1792.9375,
+        "y": 6110,
+        "alpha": 0,
+        "depth": -4.2,
+        "scroll": 1
+      },
+      {
+        "type": "Video",
+        "key": "4c5b6a14-b2d1-4773-9e62-92394629da58",
+        "x": 0,
+        "y": 6110,
+        "alpha": 1,
+        "depth": -4.195,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-benchmark-v1",
+        "x": 0,
+        "y": 6110,
+        "alpha": 0,
+        "depth": -4.19,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-benchmark-v1",
+        "x": 1672,
+        "y": 6110,
+        "alpha": 0,
+        "depth": -4.19,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-benchmark-v1",
+        "x": 1680.0625,
+        "y": 6110,
+        "alpha": 0,
+        "depth": -4.19,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-benchmark-v1",
+        "x": 1688.125,
+        "y": 6110,
+        "alpha": 0,
+        "depth": -4.19,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-benchmark-v1",
+        "x": 1696.1875,
+        "y": 6110,
+        "alpha": 0,
+        "depth": -4.19,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-benchmark-v1",
+        "x": 1704.25,
+        "y": 6110,
+        "alpha": 0,
+        "depth": -4.19,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-benchmark-v1",
+        "x": 1712.3125,
+        "y": 6110,
+        "alpha": 0,
+        "depth": -4.19,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-benchmark-v1",
+        "x": 1720.375,
+        "y": 6110,
+        "alpha": 0,
+        "depth": -4.19,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-benchmark-v1",
+        "x": 1728.4375,
+        "y": 6110,
+        "alpha": 0,
+        "depth": -4.19,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-benchmark-v1",
+        "x": 1736.5,
+        "y": 6110,
+        "alpha": 0,
+        "depth": -4.19,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-benchmark-v1",
+        "x": 1744.5625,
+        "y": 6110,
+        "alpha": 0,
+        "depth": -4.19,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-benchmark-v1",
+        "x": 1752.625,
+        "y": 6110,
+        "alpha": 0,
+        "depth": -4.19,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-benchmark-v1",
+        "x": 1760.6875,
+        "y": 6110,
+        "alpha": 0,
+        "depth": -4.19,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-benchmark-v1",
+        "x": 1768.75,
+        "y": 6110,
+        "alpha": 0,
+        "depth": -4.19,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-benchmark-v1",
+        "x": 1776.8125,
+        "y": 6110,
+        "alpha": 0,
+        "depth": -4.19,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-benchmark-v1",
+        "x": 1784.875,
+        "y": 6110,
+        "alpha": 0,
+        "depth": -4.19,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-benchmark-v1",
+        "x": 1792.9375,
+        "y": 6110,
+        "alpha": 0,
+        "depth": -4.19,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-material-town-earth",
+        "x": 0,
+        "y": 6110,
+        "alpha": 0.2163035673078617,
+        "depth": -3.5,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-material-town-earth",
+        "x": 1254,
+        "y": 6110,
+        "alpha": 0.2163035673078617,
+        "depth": -3.5,
+        "scroll": 1
+      },
+      {
+        "type": "Graphics",
+        "x": 0,
+        "y": 0,
+        "alpha": 1,
+        "depth": -3.42,
+        "scroll": 1
+      },
+      {
+        "type": "Graphics",
+        "x": 0,
+        "y": 0,
+        "alpha": 1,
+        "depth": -3.34,
+        "scroll": 1
+      },
+      {
+        "type": "Graphics",
+        "x": 0,
+        "y": 0,
+        "alpha": 1,
+        "depth": -3.26,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "v11-sky-island-level-1-platform",
+        "x": 7520,
+        "y": 2186,
+        "alpha": 1,
+        "depth": -0.5,
+        "scroll": 1
+      },
+      {
+        "type": "Graphics",
+        "x": 0,
+        "y": 0,
+        "alpha": 1,
+        "depth": 0,
+        "scroll": 1
+      },
+      {
+        "type": "Graphics",
+        "x": 0,
+        "y": 0,
+        "alpha": 1,
+        "depth": 0,
+        "scroll": 1
+      },
+      {
+        "type": "Shader",
+        "key": "__jkd_shader_layer_weatherAtmosphere",
+        "x": 640,
+        "y": 360,
+        "depth": 0,
+        "scroll": 0
+      },
+      {
+        "type": "Shader",
+        "key": "__jkd_shader_layer_darknessLight",
+        "x": 640,
+        "y": 360,
+        "depth": 0,
+        "scroll": 0
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-material-town-earth",
+        "x": 0,
+        "y": 6110,
+        "alpha": 1,
+        "depth": 0.1,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-material-town-earth",
+        "x": 1254,
+        "y": 6110,
+        "alpha": 1,
+        "depth": 0.1,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-level1-biome-ground-material-v2-weathered-rootways-tertiary",
+        "x": 0,
+        "y": 6110,
+        "alpha": 1,
+        "depth": 0.12,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-terrain-seam-v6-weathered-roots-mycelial-clay",
+        "x": 1152,
+        "y": 6110,
+        "alpha": 1,
+        "depth": 0.1200005,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-level1-biome-ground-material-v2-fungal-rainwells-tertiary",
+        "x": 2304,
+        "y": 6110,
+        "alpha": 1,
+        "depth": 0.120001,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-level1-biome-ground-material-v2-weathered-rootways-tertiary",
+        "x": 0,
+        "y": 6878,
+        "alpha": 1,
+        "depth": 0.12000999999999999,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-terrain-seam-v6-weathered-roots-mycelial-clay",
+        "x": 1152,
+        "y": 6878,
+        "alpha": 1,
+        "depth": 0.12001049999999999,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-level1-biome-ground-material-v2-fungal-rainwells-tertiary",
+        "x": 2304,
+        "y": 6878,
+        "alpha": 1,
+        "depth": 0.12001099999999999,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-underground-foreground-textures-v6-weathered-roots",
+        "x": 1632.264817813473,
+        "y": 6378.459611998001,
+        "alpha": 0.58,
+        "depth": 0.14500570766115692,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-underground-foreground-textures-v6-weathered-roots",
+        "x": 1268.0070209963262,
+        "y": 6562.6702625276685,
+        "alpha": 0.58,
+        "depth": 0.14505988534937142,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-underground-foreground-textures-v6-weathered-roots",
+        "x": 278.6584465828395,
+        "y": 6184.053999969049,
+        "alpha": 0.58,
+        "depth": 0.14510668255344653,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-underground-foreground-textures-v6-weathered-roots",
+        "x": 487.3263789898079,
+        "y": 7538.651225784992,
+        "alpha": 0.58,
+        "depth": 0.145153232710006,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-underground-foreground-textures-v6-weathered-roots",
+        "x": 1137.8335194148667,
+        "y": 6944.108512538277,
+        "alpha": 0.58,
+        "depth": 0.1452883150202195,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-underground-foreground-textures-v6-weathered-roots",
+        "x": 642.0849030831096,
+        "y": 7027.521455747941,
+        "alpha": 0.58,
+        "depth": 0.14531185223914492,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-ground-v1",
+        "x": 0,
+        "y": 6110,
+        "alpha": 1,
+        "depth": 0.15,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-ground-v1",
+        "x": 1222,
+        "y": 6110,
+        "alpha": 0.9375,
+        "depth": 0.15,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-ground-v1",
+        "x": 1227.875,
+        "y": 6110,
+        "alpha": 0.875,
+        "depth": 0.15,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-ground-v1",
+        "x": 1233.75,
+        "y": 6110,
+        "alpha": 0.8125,
+        "depth": 0.15,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-ground-v1",
+        "x": 1239.625,
+        "y": 6110,
+        "alpha": 0.75,
+        "depth": 0.15,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-ground-v1",
+        "x": 1245.5,
+        "y": 6110,
+        "alpha": 0.6875,
+        "depth": 0.15,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-ground-v1",
+        "x": 1251.375,
+        "y": 6110,
+        "alpha": 0.625,
+        "depth": 0.15,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-ground-v1",
+        "x": 1257.25,
+        "y": 6110,
+        "alpha": 0.5625,
+        "depth": 0.15,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-ground-v1",
+        "x": 1263.125,
+        "y": 6110,
+        "alpha": 0.5,
+        "depth": 0.15,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-ground-v1",
+        "x": 1269,
+        "y": 6110,
+        "alpha": 0.4375,
+        "depth": 0.15,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-ground-v1",
+        "x": 1274.875,
+        "y": 6110,
+        "alpha": 0.375,
+        "depth": 0.15,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-ground-v1",
+        "x": 1280.75,
+        "y": 6110,
+        "alpha": 0.3125,
+        "depth": 0.15,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-ground-v1",
+        "x": 1286.625,
+        "y": 6110,
+        "alpha": 0.25,
+        "depth": 0.15,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-ground-v1",
+        "x": 1292.5,
+        "y": 6110,
+        "alpha": 0.1875,
+        "depth": 0.15,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-ground-v1",
+        "x": 1298.375,
+        "y": 6110,
+        "alpha": 0.125,
+        "depth": 0.15,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-ground-v1",
+        "x": 1304.25,
+        "y": 6110,
+        "alpha": 0.0625,
+        "depth": 0.15,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-ground-v1",
+        "x": 1310.125,
+        "y": 6110,
+        "alpha": 0,
+        "depth": 0.15,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-ground-v1",
+        "x": 0,
+        "y": 6110,
+        "alpha": 0.049654208170622494,
+        "depth": 0.16,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-ground-v1",
+        "x": 1222,
+        "y": 6110,
+        "alpha": 0.04655082015995858,
+        "depth": 0.16,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-ground-v1",
+        "x": 1227.875,
+        "y": 6110,
+        "alpha": 0.04344743214929468,
+        "depth": 0.16,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-ground-v1",
+        "x": 1233.75,
+        "y": 6110,
+        "alpha": 0.040344044138630776,
+        "depth": 0.16,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-ground-v1",
+        "x": 1239.625,
+        "y": 6110,
+        "alpha": 0.03724065612796687,
+        "depth": 0.16,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-ground-v1",
+        "x": 1245.5,
+        "y": 6110,
+        "alpha": 0.034137268117302964,
+        "depth": 0.16,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-ground-v1",
+        "x": 1251.375,
+        "y": 6110,
+        "alpha": 0.03103388010663906,
+        "depth": 0.16,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-ground-v1",
+        "x": 1257.25,
+        "y": 6110,
+        "alpha": 0.027930492095975153,
+        "depth": 0.16,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-ground-v1",
+        "x": 1263.125,
+        "y": 6110,
+        "alpha": 0.024827104085311247,
+        "depth": 0.16,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-ground-v1",
+        "x": 1269,
+        "y": 6110,
+        "alpha": 0.02172371607464734,
+        "depth": 0.16,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-ground-v1",
+        "x": 1274.875,
+        "y": 6110,
+        "alpha": 0.018620328063983435,
+        "depth": 0.16,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-ground-v1",
+        "x": 1280.75,
+        "y": 6110,
+        "alpha": 0.01551694005331953,
+        "depth": 0.16,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-ground-v1",
+        "x": 1286.625,
+        "y": 6110,
+        "alpha": 0.012413552042655623,
+        "depth": 0.16,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-ground-v1",
+        "x": 1292.5,
+        "y": 6110,
+        "alpha": 0.009310164031991718,
+        "depth": 0.16,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-ground-v1",
+        "x": 1298.375,
+        "y": 6110,
+        "alpha": 0.006206776021327812,
+        "depth": 0.16,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-ground-v1",
+        "x": 1304.25,
+        "y": 6110,
+        "alpha": 0.003103388010663906,
+        "depth": 0.16,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-ground-v1",
+        "x": 1310.125,
+        "y": 6110,
+        "alpha": 0,
+        "depth": 0.16,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-ground-structure-v6-weathered-roots-rainworn-stone-root-corner",
+        "x": 0,
+        "y": 6110,
+        "alpha": 1,
+        "depth": 0.16,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-ground-structure-v6-weathered-roots-mycorrhizal-strata-seam",
+        "x": 1152,
+        "y": 6110,
+        "alpha": 1,
+        "depth": 0.1600005,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-ground-structure-v6-weathered-roots-mycorrhizal-strata-seam",
+        "x": 2304,
+        "y": 6110,
+        "alpha": 1,
+        "depth": 0.160001,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-ground-structure-v6-weathered-roots-rainworn-stone-root-corner",
+        "x": 0,
+        "y": 6878,
+        "alpha": 1,
+        "depth": 0.16001,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-ground-structure-v6-weathered-roots-mycorrhizal-strata-seam",
+        "x": 1152,
+        "y": 6878,
+        "alpha": 1,
+        "depth": 0.1600105,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-ground-structure-v6-weathered-roots-mycorrhizal-strata-seam",
+        "x": 2304,
+        "y": 6878,
+        "alpha": 1,
+        "depth": 0.16001100000000001,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-ground-v1",
+        "x": 0,
+        "y": 6110,
+        "alpha": 0,
+        "depth": 0.16999999999999998,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-ground-v1",
+        "x": 1222,
+        "y": 6110,
+        "alpha": 0,
+        "depth": 0.16999999999999998,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-ground-v1",
+        "x": 1227.875,
+        "y": 6110,
+        "alpha": 0,
+        "depth": 0.16999999999999998,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-ground-v1",
+        "x": 1233.75,
+        "y": 6110,
+        "alpha": 0,
+        "depth": 0.16999999999999998,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-ground-v1",
+        "x": 1239.625,
+        "y": 6110,
+        "alpha": 0,
+        "depth": 0.16999999999999998,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-ground-v1",
+        "x": 1245.5,
+        "y": 6110,
+        "alpha": 0,
+        "depth": 0.16999999999999998,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-ground-v1",
+        "x": 1251.375,
+        "y": 6110,
+        "alpha": 0,
+        "depth": 0.16999999999999998,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-ground-v1",
+        "x": 1257.25,
+        "y": 6110,
+        "alpha": 0,
+        "depth": 0.16999999999999998,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-ground-v1",
+        "x": 1263.125,
+        "y": 6110,
+        "alpha": 0,
+        "depth": 0.16999999999999998,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-ground-v1",
+        "x": 1269,
+        "y": 6110,
+        "alpha": 0,
+        "depth": 0.16999999999999998,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-ground-v1",
+        "x": 1274.875,
+        "y": 6110,
+        "alpha": 0,
+        "depth": 0.16999999999999998,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-ground-v1",
+        "x": 1280.75,
+        "y": 6110,
+        "alpha": 0,
+        "depth": 0.16999999999999998,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-ground-v1",
+        "x": 1286.625,
+        "y": 6110,
+        "alpha": 0,
+        "depth": 0.16999999999999998,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-ground-v1",
+        "x": 1292.5,
+        "y": 6110,
+        "alpha": 0,
+        "depth": 0.16999999999999998,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-ground-v1",
+        "x": 1298.375,
+        "y": 6110,
+        "alpha": 0,
+        "depth": 0.16999999999999998,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-ground-v1",
+        "x": 1304.25,
+        "y": 6110,
+        "alpha": 0,
+        "depth": 0.16999999999999998,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-ground-v1",
+        "x": 1310.125,
+        "y": 6110,
+        "alpha": 0,
+        "depth": 0.16999999999999998,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-underground-overlay-props-v6-weathered-roots",
+        "x": 1693.9085305391598,
+        "y": 6521.883820945696,
+        "alpha": 0.9,
+        "depth": 0.1751125399734854,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-underground-overlay-props-v6-weathered-roots",
+        "x": 2629.6422089049693,
+        "y": 7701.649082601594,
+        "alpha": 0.9,
+        "depth": 0.17512690311452067,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-underground-overlay-props-v6-weathered-roots",
+        "x": 1296.5076035221357,
+        "y": 6582.590444033125,
+        "alpha": 0.9,
+        "depth": 0.1753704499571748,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-underground-overlay-props-v6-weathered-roots",
+        "x": 633.8119426597403,
+        "y": 7116.175495036033,
+        "alpha": 0.9,
+        "depth": 0.17542311306284347,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-underground-overlay-props-v6-weathered-roots",
+        "x": 2566.112171528794,
+        "y": 6300.93055294946,
+        "alpha": 0.9,
+        "depth": 0.17544681051942676,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-underground-overlay-props-v6-weathered-roots",
+        "x": 1191.3959576441432,
+        "y": 7486.390215415272,
+        "alpha": 0.9,
+        "depth": 0.17546299936924198,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-terrain-caps-v5-weathered-roots",
+        "x": -2,
+        "y": 6298,
+        "alpha": 0.98,
+        "depth": 0.19,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-terrain-caps-v4-weathered-roots",
+        "x": 92,
+        "y": 6298,
+        "alpha": 0.98,
+        "depth": 0.19,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-terrain-caps-v5-weathered-roots",
+        "x": 186,
+        "y": 6298,
+        "alpha": 0.98,
+        "depth": 0.19,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-terrain-caps-v4-weathered-roots",
+        "x": 280,
+        "y": 6298,
+        "alpha": 0.98,
+        "depth": 0.19,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-terrain-caps-v5-weathered-roots",
+        "x": 374,
+        "y": 6298,
+        "alpha": 0.98,
+        "depth": 0.19,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-terrain-caps-v4-weathered-roots",
+        "x": 468,
+        "y": 6298,
+        "alpha": 0.98,
+        "depth": 0.19,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-terrain-caps-v5-weathered-roots",
+        "x": 562,
+        "y": 6298,
+        "alpha": 0.98,
+        "depth": 0.19,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-terrain-caps-v4-weathered-roots",
+        "x": 656,
+        "y": 6298,
+        "alpha": 0.98,
+        "depth": 0.19,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-terrain-caps-v5-weathered-roots",
+        "x": 750,
+        "y": 6298,
+        "alpha": 0.98,
+        "depth": 0.19,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-terrain-caps-v4-weathered-roots",
+        "x": 844,
+        "y": 6298,
+        "alpha": 0.98,
+        "depth": 0.19,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-terrain-caps-v5-weathered-roots",
+        "x": 938,
+        "y": 6298,
+        "alpha": 0.98,
+        "depth": 0.19,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-terrain-caps-v4-weathered-roots",
+        "x": 1032,
+        "y": 6298,
+        "alpha": 0.98,
+        "depth": 0.19,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-terrain-caps-v5-weathered-roots",
+        "x": 1126,
+        "y": 6298,
+        "alpha": 0.98,
+        "depth": 0.19,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-terrain-caps-v4-weathered-roots",
+        "x": 1220,
+        "y": 6298,
+        "alpha": 0.98,
+        "depth": 0.19,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-terrain-caps-v5-weathered-roots",
+        "x": 1314,
+        "y": 6298,
+        "alpha": 0.98,
+        "depth": 0.19,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-terrain-caps-v4-weathered-roots",
+        "x": 1408,
+        "y": 6298,
+        "alpha": 0.98,
+        "depth": 0.19,
+        "scroll": 1
+      },
+      {
+        "type": "Graphics",
+        "x": 0,
+        "y": 0,
+        "alpha": 1,
+        "depth": 0.2,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "v11-sky-island-level-1-portal",
+        "x": 7614,
+        "y": 1692,
+        "alpha": 1,
+        "depth": 2,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "v11-sky-island-level-1-portal",
+        "x": 7990,
+        "y": 1692,
+        "alpha": 1,
+        "depth": 2,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "v11-sky-island-level-1-portal",
+        "x": 8366,
+        "y": 1692,
+        "alpha": 1,
+        "depth": 2,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "v11-sky-island-level-1-portal",
+        "x": 8742,
+        "y": 1692,
+        "alpha": 1,
+        "depth": 2,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-town-surface-edge-thin-v2",
+        "x": 0,
+        "y": 6110,
+        "alpha": 1,
+        "depth": 2.2,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-town-surface-edge-thin-v2",
+        "x": 1669,
+        "y": 6110,
+        "alpha": 1,
+        "depth": 2.2,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-town-surface-edge-thin-v2",
+        "x": 3338,
+        "y": 6110,
+        "alpha": 1,
+        "depth": 2.2,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-town-surface-edge-thin-v2",
+        "x": 5007,
+        "y": 6110,
+        "alpha": 1,
+        "depth": 2.2,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-town-surface-edge-thin-v2",
+        "x": 6676,
+        "y": 6110,
+        "alpha": 1,
+        "depth": 2.2,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-town-surface-edge-thin-v2",
+        "x": 8345,
+        "y": 6110,
+        "alpha": 1,
+        "depth": 2.2,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-town-surface-edge-thin-v2",
+        "x": 10014,
+        "y": 6110,
+        "alpha": 1,
+        "depth": 2.2,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-town-surface-edge-thin-v2",
+        "x": 11683,
+        "y": 6110,
+        "alpha": 1,
+        "depth": 2.2,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-town-surface-edge-thin-v2",
+        "x": 13352,
+        "y": 6110,
+        "alpha": 1,
+        "depth": 2.2,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-town-surface-edge-thin-v2",
+        "x": 15021,
+        "y": 6110,
+        "alpha": 1,
+        "depth": 2.2,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-town-surface-edge-thin-v2",
+        "x": 16690,
+        "y": 6110,
+        "alpha": 1,
+        "depth": 2.2,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-town-surface-edge-thin-v2",
+        "x": 18359,
+        "y": 6110,
+        "alpha": 1,
+        "depth": 2.2,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-town-surface-edge-thin-v2",
+        "x": 20028,
+        "y": 6110,
+        "alpha": 1,
+        "depth": 2.2,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-town-surface-edge-thin-v2",
+        "x": 21697,
+        "y": 6110,
+        "alpha": 1,
+        "depth": 2.2,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-town-surface-edge-thin-v2",
+        "x": 23366,
+        "y": 6110,
+        "alpha": 1,
+        "depth": 2.2,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-town-surface-edge-thin-v2",
+        "x": 25035,
+        "y": 6110,
+        "alpha": 1,
+        "depth": 2.2,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-town-surface-edge-thin-v2",
+        "x": 26704,
+        "y": 6110,
+        "alpha": 1,
+        "depth": 2.2,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-ground-variation-v5-surface-rain-polished-slate-and-loam-v5",
+        "x": -1344,
+        "y": 6110,
+        "alpha": 1,
+        "depth": 2.21,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-ground-variation-v5-surface-mossy-stone-root-break-v5",
+        "x": 0,
+        "y": 6110,
+        "alpha": 1,
+        "depth": 2.21,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-ground-variation-v5-surface-weathered-cobble-clay-v5",
+        "x": 1344,
+        "y": 6110,
+        "alpha": 1,
+        "depth": 2.21,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-ground-variation-v5-surface-frost-wet-slate-v5",
+        "x": 2688,
+        "y": 6110,
+        "alpha": 1,
+        "depth": 2.21,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-ground-variation-v5-surface-ironwater-gravel-v5",
+        "x": 4032,
+        "y": 6110,
+        "alpha": 1,
+        "depth": 2.21,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-ground-variation-v5-surface-storm-scoured-earth-v5",
+        "x": 5376,
+        "y": 6110,
+        "alpha": 1,
+        "depth": 2.21,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-ground-variation-v5-surface-orchard-root-stone-v5",
+        "x": 6720,
+        "y": 6110,
+        "alpha": 1,
+        "depth": 2.21,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-ground-variation-v5-surface-broken-town-slate-v5",
+        "x": 8064,
+        "y": 6110,
+        "alpha": 1,
+        "depth": 2.21,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-ground-variation-v5-surface-mist-soaked-peat-stone-v5",
+        "x": 9408,
+        "y": 6110,
+        "alpha": 1,
+        "depth": 2.21,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-ground-variation-v5-surface-eastern-expedition-rock-v5",
+        "x": 10752,
+        "y": 6110,
+        "alpha": 1,
+        "depth": 2.21,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-ground-variation-v5-surface-rain-polished-slate-and-loam-v5",
+        "x": 12096,
+        "y": 6110,
+        "alpha": 1,
+        "depth": 2.21,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-ground-variation-v5-surface-mossy-stone-root-break-v5",
+        "x": 13440,
+        "y": 6110,
+        "alpha": 1,
+        "depth": 2.21,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-ground-variation-v5-surface-weathered-cobble-clay-v5",
+        "x": 14784,
+        "y": 6110,
+        "alpha": 1,
+        "depth": 2.21,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-ground-variation-v5-surface-frost-wet-slate-v5",
+        "x": 16128,
+        "y": 6110,
+        "alpha": 1,
+        "depth": 2.21,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-ground-variation-v5-surface-ironwater-gravel-v5",
+        "x": 17472,
+        "y": 6110,
+        "alpha": 1,
+        "depth": 2.21,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-ground-variation-v5-surface-storm-scoured-earth-v5",
+        "x": 18816,
+        "y": 6110,
+        "alpha": 1,
+        "depth": 2.21,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-ground-variation-v5-surface-orchard-root-stone-v5",
+        "x": 20160,
+        "y": 6110,
+        "alpha": 1,
+        "depth": 2.21,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-ground-variation-v5-surface-broken-town-slate-v5",
+        "x": 21504,
+        "y": 6110,
+        "alpha": 1,
+        "depth": 2.21,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-ground-variation-v5-surface-mist-soaked-peat-stone-v5",
+        "x": 22848,
+        "y": 6110,
+        "alpha": 1,
+        "depth": 2.21,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-ground-variation-v5-surface-eastern-expedition-rock-v5",
+        "x": 24192,
+        "y": 6110,
+        "alpha": 1,
+        "depth": 2.21,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-ground-variation-v5-surface-rain-polished-slate-and-loam-v5",
+        "x": 25536,
+        "y": 6110,
+        "alpha": 1,
+        "depth": 2.21,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-ground-variation-v5-surface-mossy-stone-root-break-v5",
+        "x": 26880,
+        "y": 6110,
+        "alpha": 1,
+        "depth": 2.21,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-ground-variation-v5-surface-weathered-cobble-clay-v5",
+        "x": 28224,
+        "y": 6110,
+        "alpha": 1,
+        "depth": 2.21,
+        "scroll": 1
+      },
+      {
+        "type": "Graphics",
+        "x": 0,
+        "y": 0,
+        "alpha": 1,
+        "depth": 2.29,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-mine-entrance-pilot-beauty",
+        "x": 16450,
+        "y": 10622,
+        "alpha": 1,
+        "depth": 2.3,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-mine-entrance-pilot-emissive",
+        "x": 16450,
+        "y": 10622,
+        "alpha": 0.13197844705821596,
+        "depth": 2.31,
+        "scroll": 1
+      },
+      {
+        "type": "Graphics",
+        "x": 0,
+        "y": 0,
+        "alpha": 1,
+        "depth": 2.31,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 14805,
+        "y": 406080,
+        "alpha": 0.9938160803877125,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 22231,
+        "y": 70970,
+        "alpha": 0.995648308067239,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 14335,
+        "y": 444714,
+        "alpha": 0.9938160803877125,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 22043,
+        "y": 93436,
+        "alpha": 0.9948055755151755,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 4183,
+        "y": 234530,
+        "alpha": 0.9965041843204292,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 23547,
+        "y": 68526,
+        "alpha": 0.9980185395035968,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 5781,
+        "y": 311704,
+        "alpha": 0.9990301285175488,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 16685,
+        "y": 133292,
+        "alpha": 0.999758513078683,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 2209,
+        "y": 473760,
+        "alpha": 1,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 23547,
+        "y": 439450,
+        "alpha": 0.9997310067239044,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 6439,
+        "y": 437946,
+        "alpha": 0.9992405773412605,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 12643,
+        "y": 217610,
+        "alpha": 0.9982579236423302,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 17531,
+        "y": 375060,
+        "alpha": 0.9968639561559618,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 18283,
+        "y": 263200,
+        "alpha": 0.9949995001240012,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 13113,
+        "y": 36096,
+        "alpha": 0.9929814742747869,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 17155,
+        "y": 36002,
+        "alpha": 0.9907030587086844,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 8507,
+        "y": 451764,
+        "alpha": 0.9882297086198883,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 24393,
+        "y": 425538,
+        "alpha": 0.9853652942467138,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 18565,
+        "y": 422154,
+        "alpha": 0.9826778665215774,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 17907,
+        "y": 243742,
+        "alpha": 0.9912406626084482,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 10763,
+        "y": 340280,
+        "alpha": 0.9938160803877125,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 6815,
+        "y": 265926,
+        "alpha": 0.995648308067239,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 1457,
+        "y": 467274,
+        "alpha": 0.9938160803877125,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 18565,
+        "y": 221370,
+        "alpha": 0.9948055755151755,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 3995,
+        "y": 471786,
+        "alpha": 0.9965041843204292,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 14523,
+        "y": 433810,
+        "alpha": 0.9980185395035968,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 17343,
+        "y": 268934,
+        "alpha": 0.9990301285175488,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 21949,
+        "y": 434750,
+        "alpha": 0.999758513078683,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 21291,
+        "y": 171644,
+        "alpha": 1,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 21855,
+        "y": 311516,
+        "alpha": 0.9997310067239044,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 15463,
+        "y": 19552,
+        "alpha": 0.9982579236423302,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 5123,
+        "y": 342066,
+        "alpha": 0.9968639561559618,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 15275,
+        "y": 429298,
+        "alpha": 0.9949995001240012,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 21479,
+        "y": 235940,
+        "alpha": 0.9929814742747869,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 12737,
+        "y": 448568,
+        "alpha": 0.9907030587086844,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 26273,
+        "y": 361242,
+        "alpha": 0.9882297086198883,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 11045,
+        "y": 367352,
+        "alpha": 0.9853652942467138,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 22983,
+        "y": 26696,
+        "alpha": 0.9826778665215774,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 5499,
+        "y": 393202,
+        "alpha": 0.9938160803877125,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 22137,
+        "y": 393014,
+        "alpha": 0.995648308067239,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 7003,
+        "y": 407114,
+        "alpha": 0.9938160803877125,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 18377,
+        "y": 21996,
+        "alpha": 0.9948055755151755,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 3055,
+        "y": 395834,
+        "alpha": 0.9965041843204292,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 13959,
+        "y": 416702,
+        "alpha": 0.9990301285175488,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 22983,
+        "y": 347236,
+        "alpha": 0.999758513078683,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 7379,
+        "y": 246092,
+        "alpha": 1,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 7567,
+        "y": 436912,
+        "alpha": 0.9997310067239044,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 18001,
+        "y": 201348,
+        "alpha": 0.9992405773412605,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 22983,
+        "y": 69184,
+        "alpha": 0.9982579236423302,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 15745,
+        "y": 379384,
+        "alpha": 0.9968639561559618,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 22325,
+        "y": 27542,
+        "alpha": 0.9949995001240012,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 5123,
+        "y": 307192,
+        "alpha": 0.9929814742747869,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 17813,
+        "y": 127746,
+        "alpha": 0.9907030587086844,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 18659,
+        "y": 372146,
+        "alpha": 0.9882297086198883,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 1175,
+        "y": 379478,
+        "alpha": 0.9853652942467138,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 17719,
+        "y": 280308,
+        "alpha": 0.9912406626084482,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 7661,
+        "y": 445560,
+        "alpha": 0.9938160803877125,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 5405,
+        "y": 251074,
+        "alpha": 0.995648308067239,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 24581,
+        "y": 327120,
+        "alpha": 0.9938160803877125,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 19129,
+        "y": 283504,
+        "alpha": 0.9948055755151755,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 21573,
+        "y": 239230,
+        "alpha": 0.9965041843204292,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 6063,
+        "y": 212910,
+        "alpha": 0.9980185395035968,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 1551,
+        "y": 250698,
+        "alpha": 0.9990301285175488,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 5405,
+        "y": 473196,
+        "alpha": 0.999758513078683,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 18753,
+        "y": 438792,
+        "alpha": 1,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 3149,
+        "y": 256996,
+        "alpha": 0.9997310067239044,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 17531,
+        "y": 90146,
+        "alpha": 0.9992405773412605,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 14241,
+        "y": 60348,
+        "alpha": 0.9968639561559618,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 18659,
+        "y": 216294,
+        "alpha": 0.9929814742747869,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 23077,
+        "y": 301082,
+        "alpha": 0.9882297086198883,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 21291,
+        "y": 437570,
+        "alpha": 0.9853652942467138,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 13959,
+        "y": 282376,
+        "alpha": 0.9826778665215774,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 20915,
+        "y": 458156,
+        "alpha": 0.9912406626084482,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 20163,
+        "y": 218832,
+        "alpha": 0.9938160803877125,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 18565,
+        "y": 170704,
+        "alpha": 0.995648308067239,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 23359,
+        "y": 272318,
+        "alpha": 0.9938160803877125,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 5029,
+        "y": 466240,
+        "alpha": 0.9948055755151755,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 21479,
+        "y": 46248,
+        "alpha": 0.9965041843204292,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 22419,
+        "y": 327402,
+        "alpha": 0.9990301285175488,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 7943,
+        "y": 341502,
+        "alpha": 0.999758513078683,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 2209,
+        "y": 303996,
+        "alpha": 1,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 14617,
+        "y": 421778,
+        "alpha": 0.9997310067239044,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 2397,
+        "y": 191760,
+        "alpha": 0.9992405773412605,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 19599,
+        "y": 276736,
+        "alpha": 0.9982579236423302,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 9729,
+        "y": 358986,
+        "alpha": 0.9968639561559618,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 3525,
+        "y": 315182,
+        "alpha": 0.9949995001240012,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 9541,
+        "y": 245434,
+        "alpha": 0.9929814742747869,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 5311,
+        "y": 336708,
+        "alpha": 0.9907030587086844,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 15369,
+        "y": 348364,
+        "alpha": 0.9882297086198883,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 19787,
+        "y": 147392,
+        "alpha": 0.9853652942467138,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 21197,
+        "y": 308508,
+        "alpha": 0.9826778665215774,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 9071,
+        "y": 302868,
+        "alpha": 0.9912406626084482,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 13489,
+        "y": 408712,
+        "alpha": 0.9938160803877125,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 22231,
+        "y": 12314,
+        "alpha": 0.995648308067239,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 12361,
+        "y": 31020,
+        "alpha": 0.9938160803877125,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 11233,
+        "y": 16544,
+        "alpha": 0.9948055755151755,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 11891,
+        "y": 12220,
+        "alpha": 0.9965041843204292,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 11421,
+        "y": 65142,
+        "alpha": 0.9980185395035968,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 12267,
+        "y": 71252,
+        "alpha": 0.9990301285175488,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 11703,
+        "y": 59314,
+        "alpha": 0.999758513078683,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 6721,
+        "y": 106972,
+        "alpha": 1,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 12267,
+        "y": 101614,
+        "alpha": 0.9997310067239044,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 11233,
+        "y": 75200,
+        "alpha": 0.9992405773412605,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 11515,
+        "y": 129626,
+        "alpha": 0.9982579236423302,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 11797,
+        "y": 133480,
+        "alpha": 0.9968639561559618,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 12079,
+        "y": 112424,
+        "alpha": 0.9949995001240012,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 11515,
+        "y": 125584,
+        "alpha": 0.9929814742747869,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 11891,
+        "y": 138838,
+        "alpha": 0.9907030587086844,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 11609,
+        "y": 180010,
+        "alpha": 0.9882297086198883,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 10199,
+        "y": 181514,
+        "alpha": 0.9853652942467138,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 5123,
+        "y": 148896,
+        "alpha": 0.9826778665215774,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "cave-scene-overworld-mouth-scenic-v1",
+        "x": 11327,
+        "y": 180856,
+        "alpha": 0.9912406626084482,
+        "depth": 2.32,
+        "scroll": 1
+      },
+      {
+        "type": "Graphics",
+        "x": 0,
+        "y": 0,
+        "alpha": 1,
+        "depth": 2.4,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-semantic-resource-ground-veins-v6",
+        "x": 987,
+        "y": 6345,
+        "alpha": 1,
+        "depth": 2.41,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-semantic-resource-ground-veins-v6",
+        "x": 1175,
+        "y": 6439,
+        "alpha": 1,
+        "depth": 2.41,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-semantic-resource-ground-veins-v6",
+        "x": 1457,
+        "y": 6439,
+        "alpha": 1,
+        "depth": 2.41,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-semantic-resource-ground-veins-v6",
+        "x": 987,
+        "y": 6627,
+        "alpha": 1,
+        "depth": 2.41,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-v2-semantic-special-blocks-imagegen-gp-tiers-v3",
+        "x": 987,
+        "y": 6533,
+        "alpha": 1,
+        "depth": 2.44,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-square-slate-strip-v3",
+        "x": 0,
+        "y": 6108,
+        "alpha": 1,
+        "depth": 2.445,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-square-slate-strip-v3",
+        "x": 0,
+        "y": 6108,
+        "alpha": 0.049654208170622494,
+        "depth": 2.4459999999999997,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "world-visual-surface-pack-town-square-slate-strip-v3",
+        "x": 0,
+        "y": 6108,
+        "alpha": 0,
+        "depth": 2.4469999999999996,
+        "scroll": 1
+      },
+      {
+        "type": "Graphics",
+        "x": 0,
+        "y": 0,
+        "alpha": 1,
+        "depth": 2.45,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "worldroot-sanctuary-trunk-v3",
+        "x": 1686.776860625,
+        "y": 5750.6422006249995,
+        "alpha": 1,
+        "depth": 3.555,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "worldroot-sanctuary-foliage-living-v3",
+        "x": 1787.991342265625,
+        "y": 5929.59069828125,
+        "alpha": 1,
+        "depth": 3.557,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "worldroot-sanctuary-foliage-living-v3",
+        "x": 1889.20582390625,
+        "y": 5851.072479921875,
+        "alpha": 0,
+        "depth": 3.557,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "worldroot-sanctuary-foliage-living-v3",
+        "x": 2029.183298515625,
+        "y": 5818.204388515625,
+        "alpha": 0,
+        "depth": 3.557,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "worldroot-sanctuary-foliage-living-v3",
+        "x": 2156.23977546875,
+        "y": 5856.55049515625,
+        "alpha": 0,
+        "depth": 3.557,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "worldroot-sanctuary-foliage-living-v3",
+        "x": 2253.147257890625,
+        "y": 5935.068713515625,
+        "alpha": 0,
+        "depth": 3.557,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "worldroot-sanctuary-foliage-living-v3",
+        "x": 1749.917469171875,
+        "y": 5940.035447328125,
+        "alpha": 1,
+        "depth": 3.5574000000000003,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "worldroot-sanctuary-foliage-living-v3",
+        "x": 1849.3014761445313,
+        "y": 5862.019380365235,
+        "alpha": 0,
+        "depth": 3.5574000000000003,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "worldroot-sanctuary-foliage-living-v3",
+        "x": 1989.2789507539062,
+        "y": 5829.151288958984,
+        "alpha": 0,
+        "depth": 3.5574000000000003,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "worldroot-sanctuary-foliage-living-v3",
+        "x": 2117.7998074414063,
+        "y": 5867.095674482422,
+        "alpha": 0,
+        "depth": 3.5574000000000003,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "worldroot-sanctuary-foliage-living-v3",
+        "x": 2215.8055746640625,
+        "y": 5945.312602003906,
+        "alpha": 0,
+        "depth": 3.5574000000000003,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "worldroot-sanctuary-foliage-living-v3",
+        "x": 1826.065215359375,
+        "y": 5921.044994515625,
+        "alpha": 1,
+        "depth": 3.5578000000000003,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "worldroot-sanctuary-foliage-living-v3",
+        "x": 1929.1101716679686,
+        "y": 5842.115925013672,
+        "alpha": 0,
+        "depth": 3.5578000000000003,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "worldroot-sanctuary-foliage-living-v3",
+        "x": 2069.0876462773435,
+        "y": 5809.247833607422,
+        "alpha": 0,
+        "depth": 3.5578000000000003,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "worldroot-sanctuary-foliage-living-v3",
+        "x": 2194.6797434960936,
+        "y": 5847.922621162109,
+        "alpha": 0,
+        "depth": 3.5578000000000003,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "worldroot-sanctuary-foliage-living-v3",
+        "x": 2290.4889411171876,
+        "y": 5926.687350207031,
+        "alpha": 0,
+        "depth": 3.5578000000000003,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "worldroot-sanctuary-foliage-consumed-v3",
+        "x": 1787.991342265625,
+        "y": 5929.59069828125,
+        "alpha": 0,
+        "depth": 3.559,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "worldroot-sanctuary-foliage-consumed-v3",
+        "x": 1889.20582390625,
+        "y": 5851.072479921875,
+        "alpha": 0,
+        "depth": 3.559,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "worldroot-sanctuary-foliage-consumed-v3",
+        "x": 2029.183298515625,
+        "y": 5818.204388515625,
+        "alpha": 0,
+        "depth": 3.559,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "worldroot-sanctuary-foliage-consumed-v3",
+        "x": 2156.23977546875,
+        "y": 5856.55049515625,
+        "alpha": 0,
+        "depth": 3.559,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "worldroot-sanctuary-foliage-consumed-v3",
+        "x": 2253.147257890625,
+        "y": 5935.068713515625,
+        "alpha": 0,
+        "depth": 3.559,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "worldroot-sanctuary-hanging-vine-v2",
+        "x": 1803.06583953125,
+        "y": 5946.024743984375,
+        "alpha": 0.856,
+        "depth": 3.561,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "worldroot-sanctuary-root-fern-v2",
+        "x": 1763.234375,
+        "y": 6107.796875,
+        "alpha": 0.856,
+        "depth": 3.561,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "worldroot-sanctuary-hanging-vine-v2",
+        "x": 1915.04781921875,
+        "y": 5883.940571328125,
+        "alpha": 0.58,
+        "depth": 3.561,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "worldroot-sanctuary-root-fern-v2",
+        "x": 1844.75,
+        "y": 6109.44921875,
+        "alpha": 0.58,
+        "depth": 3.561,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "worldroot-sanctuary-hanging-vine-v2",
+        "x": 2061.48579265625,
+        "y": 5867.506525625,
+        "alpha": 0.58,
+        "depth": 3.561,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "worldroot-sanctuary-root-fern-v2",
+        "x": 2214.875,
+        "y": 6106.14453125,
+        "alpha": 0.58,
+        "depth": 3.561,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "worldroot-sanctuary-hanging-vine-v2",
+        "x": 2156.23977546875,
+        "y": 5900.37461703125,
+        "alpha": 0.58,
+        "depth": 3.561,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "worldroot-sanctuary-root-fern-v2",
+        "x": 2291.984375,
+        "y": 6109.44921875,
+        "alpha": 0.58,
+        "depth": 3.561,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "worldroot-sanctuary-hanging-vine-v2",
+        "x": 2246.6867590625,
+        "y": 5949.676754140625,
+        "alpha": 0.58,
+        "depth": 3.561,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "worldroot-sanctuary-root-fern-v2",
+        "x": 2363.5859375,
+        "y": 6110,
+        "alpha": 0.58,
+        "depth": 3.561,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "worldroot-sanctuary-talent-star-v2",
+        "x": 2214.875,
+        "y": 6047.76171875,
+        "alpha": 0.7751446865510087,
+        "depth": 3.563,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "worldroot-sanctuary-crown-star-v2",
+        "x": 2029.183298515625,
+        "y": 5778.032276796875,
+        "alpha": 0.3327170298265131,
+        "depth": 3.563,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "worldroot-sanctuary-crown-star-v2",
+        "x": 2341.5546875,
+        "y": 6083.5625,
+        "alpha": 0.3327170298265131,
+        "depth": 3.563,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "worldroot-sanctuary-falling-leaf-v2",
+        "x": 1797.3683699694732,
+        "y": 5935.897722671494,
+        "alpha": 0.12231216326848174,
+        "depth": 3.563,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "worldroot-sanctuary-signal-star-v2",
+        "x": 1787.991342265625,
+        "y": 5928.9053551326315,
+        "alpha": 0.9628664212845309,
+        "depth": 3.565,
+        "scroll": 1
+      },
+      {
+        "type": "Graphics",
+        "x": 0,
+        "y": 0,
+        "alpha": 1,
+        "depth": 4,
+        "scroll": 1
+      },
+      {
+        "type": "Text",
+        "key": "762f6bf0-4f58-4265-8b2f-d7fb12c1dfd2",
+        "text": "SAFE RETURN  •  ~3 tiles",
+        "x": 0,
+        "y": null,
+        "alpha": 1,
+        "depth": 5,
+        "scroll": 1
+      },
+      {
+        "type": "Text",
+        "key": "64478714-cec2-4e9b-9fee-ee9f912030c8",
+        "text": "⚠  Gem Power critical zone — returning is very difficult",
+        "x": 0,
+        "y": null,
+        "alpha": 1,
+        "depth": 5,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "campfire-worldroot-v2-tier-01",
+        "x": 2021,
+        "y": 6111,
+        "alpha": 1,
+        "depth": 5,
+        "scroll": 1
+      },
+      {
+        "type": "Text",
+        "key": "2fb3b1dd-58da-435e-98d2-ab378150932b",
+        "text": "Campfire",
+        "x": 2021,
+        "y": 6051,
+        "alpha": 1,
+        "depth": 5,
+        "scroll": 1
+      },
+      {
+        "type": "Arc",
+        "x": 2011.0524009235953,
+        "y": 6067.37785847009,
+        "alpha": 0.3670145253569187,
+        "depth": 6,
+        "scroll": 1
+      },
+      {
+        "type": "Arc",
+        "x": 2025.1875826858986,
+        "y": 6075.379792216656,
+        "alpha": 0.5407546782522503,
+        "depth": 6,
+        "scroll": 1
+      },
+      {
+        "type": "Arc",
+        "x": 2017.0754170276814,
+        "y": 6078.4978741055875,
+        "alpha": 0.8324350374530459,
+        "depth": 6,
+        "scroll": 1
+      },
+      {
+        "type": "Graphics",
+        "x": 0,
+        "y": 0,
+        "alpha": 1,
+        "depth": 7.2,
+        "scroll": 1
+      },
+      {
+        "type": "Ellipse",
+        "x": 329,
+        "y": 6105.9,
+        "alpha": 0.10187581822089654,
+        "depth": 11,
+        "scroll": 1
+      },
+      {
+        "type": "Ellipse",
+        "x": 8319,
+        "y": 1680.1,
+        "alpha": 0.19962266916369656,
+        "depth": 11,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "environment-milestone-pillar-stage-1-v1",
+        "x": 329,
+        "y": 6115,
+        "alpha": 1,
+        "depth": 12,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "environment-star-pillar-stage-1-v1",
+        "x": 8319,
+        "y": 1692,
+        "alpha": 1,
+        "depth": 12,
+        "scroll": 1
+      },
+      {
+        "type": "Video",
+        "key": "58390f83-8673-47ea-bd24-6394b8afa8ff",
+        "x": 517,
+        "y": 6120.97861328125,
+        "alpha": 1,
+        "depth": 15,
+        "scroll": 1
+      },
+      {
+        "type": "Video",
+        "key": "4c136e19-4bc8-489b-9e68-fbfd87379a01",
+        "x": 705,
+        "y": 6119.75556640625,
+        "alpha": 1,
+        "depth": 15,
+        "scroll": 1
+      },
+      {
+        "type": "Video",
+        "key": "969c9836-2d17-4662-87f9-88668ea5e429",
+        "x": 1010.5,
+        "y": 6124.03623046875,
+        "alpha": 1,
+        "depth": 15,
+        "scroll": 1
+      },
+      {
+        "type": "Video",
+        "key": "a43d66e9-d5eb-422a-b294-1c1fb85187c3",
+        "x": 1410,
+        "y": 6121.743017578125,
+        "alpha": 1,
+        "depth": 15,
+        "scroll": 1
+      },
+      {
+        "type": "Video",
+        "key": "bf8af4c9-6298-4419-9161-a4d5125de0ad",
+        "x": 1645,
+        "y": 6125.717919921875,
+        "alpha": 1,
+        "depth": 15,
+        "scroll": 1
+      },
+      {
+        "type": "Ellipse",
+        "x": 423,
+        "y": 6108,
+        "alpha": 0.1,
+        "depth": 17,
+        "scroll": 1
+      },
+      {
+        "type": "Ellipse",
+        "x": 423,
+        "y": 6108,
+        "alpha": 0.16,
+        "depth": 17.01,
+        "scroll": 1
+      },
+      {
+        "type": "Graphics",
+        "x": 0,
+        "y": 0,
+        "alpha": 1,
+        "depth": 18,
+        "scroll": 1
+      },
+      {
+        "type": "Graphics",
+        "x": 0,
+        "y": 0,
+        "alpha": 1,
+        "depth": 18,
+        "scroll": 1
+      },
+      {
+        "type": "Graphics",
+        "x": 0,
+        "y": 0,
+        "alpha": 1,
+        "depth": 18.05,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "titan-underground-dais-v1",
+        "x": 2773,
+        "y": 6107.18,
+        "alpha": 0.38,
+        "depth": 18.8,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "titan-underground-dais-v1",
+        "x": 3092.6,
+        "y": 6107.18,
+        "alpha": 0.38,
+        "depth": 18.8,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "titan-underground-dais-v1",
+        "x": 2773,
+        "y": 6107.18,
+        "alpha": 0,
+        "depth": 18.9,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "titan-underground-dais-v1",
+        "x": 3092.6,
+        "y": 6107.18,
+        "alpha": 0,
+        "depth": 18.9,
+        "scroll": 1
+      },
+      {
+        "type": "Graphics",
+        "x": 0,
+        "y": 0,
+        "alpha": 1,
+        "depth": 19,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "titan-surface-stance-mossback-wanderer-v1",
+        "x": 2773,
+        "y": 6086.03,
+        "alpha": 0,
+        "depth": 19.2,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "titan-surface-stance-bellhorn-grazer-v1",
+        "x": 3092.6,
+        "y": 6086.782,
+        "alpha": 0,
+        "depth": 19.2,
+        "scroll": 1
+      },
+      {
+        "type": "Text",
+        "key": "427120c9-b004-48c6-b963-94cc75a76701",
+        "text": "[E] Bobo's Shop",
+        "x": 517,
+        "y": 5951.614013671874,
+        "alpha": 1,
+        "depth": 20,
+        "scroll": 1
+      },
+      {
+        "type": "Sprite",
+        "key": "survival-blender-v2-idle-sheet",
+        "x": 423,
+        "y": 6110,
+        "alpha": 1,
+        "depth": 20,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 5467.602776603618,
+        "y": 6138.929196024204,
+        "alpha": 0,
+        "depth": 20,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 5802.995577791004,
+        "y": 6133.708982442802,
+        "alpha": 0,
+        "depth": 20,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 2423.7750193731763,
+        "y": 6126.421902835339,
+        "alpha": 0,
+        "depth": 20,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 3998.6944650895757,
+        "y": 6138.709545593456,
+        "alpha": 0,
+        "depth": 20,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 1371.815283283613,
+        "y": 6130.57868851432,
+        "alpha": 0,
+        "depth": 20,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 4700.500381777386,
+        "y": 6138.449542868494,
+        "alpha": 0,
+        "depth": 20,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 5504.642591003951,
+        "y": 6125.402610055583,
+        "alpha": 0,
+        "depth": 20,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 1288.2632242808183,
+        "y": 6140.468948596684,
+        "alpha": 0,
+        "depth": 20,
+        "scroll": 1
+      },
+      {
+        "type": "Graphics",
+        "x": 0,
+        "y": 0,
+        "alpha": 0,
+        "depth": 25,
+        "scroll": 1
+      },
+      {
+        "type": "Graphics",
+        "x": 0,
+        "y": 0,
+        "alpha": 0,
+        "depth": 25,
+        "scroll": 1
+      },
+      {
+        "type": "Graphics",
+        "x": 0,
+        "y": 0,
+        "alpha": 0,
+        "depth": 25,
+        "scroll": 1
+      },
+      {
+        "type": "Graphics",
+        "x": 0,
+        "y": 0,
+        "alpha": 0,
+        "depth": 25,
+        "scroll": 1
+      },
+      {
+        "type": "Graphics",
+        "x": 0,
+        "y": 0,
+        "alpha": 0,
+        "depth": 25,
+        "scroll": 1
+      },
+      {
+        "type": "Graphics",
+        "x": 0,
+        "y": 0,
+        "alpha": 0,
+        "depth": 25,
+        "scroll": 1
+      },
+      {
+        "type": "Graphics",
+        "x": 0,
+        "y": 0,
+        "alpha": 0,
+        "depth": 25,
+        "scroll": 1
+      },
+      {
+        "type": "Graphics",
+        "x": 0,
+        "y": 0,
+        "alpha": 0,
+        "depth": 25,
+        "scroll": 1
+      },
+      {
+        "type": "Graphics",
+        "x": 0,
+        "y": 0,
+        "alpha": 0,
+        "depth": 25,
+        "scroll": 1
+      },
+      {
+        "type": "Graphics",
+        "x": 0,
+        "y": 0,
+        "alpha": 0,
+        "depth": 25,
+        "scroll": 1
+      },
+      {
+        "type": "Graphics",
+        "x": 0,
+        "y": 0,
+        "alpha": 0,
+        "depth": 25,
+        "scroll": 1
+      },
+      {
+        "type": "Graphics",
+        "x": 0,
+        "y": 0,
+        "alpha": 0,
+        "depth": 25,
+        "scroll": 1
+      },
+      {
+        "type": "Graphics",
+        "x": 0,
+        "y": 0,
+        "alpha": 0,
+        "depth": 25,
+        "scroll": 1
+      },
+      {
+        "type": "Graphics",
+        "x": 0,
+        "y": 0,
+        "alpha": 0,
+        "depth": 25,
+        "scroll": 1
+      },
+      {
+        "type": "Graphics",
+        "x": 0,
+        "y": 0,
+        "alpha": 0,
+        "depth": 25,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 14965.859816407077,
+        "y": 5857.33761239454,
+        "alpha": 0.04907755755414848,
+        "depth": 35,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 11083.858458042647,
+        "y": 6029.522997350169,
+        "alpha": 0.10001428052479908,
+        "depth": 35,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 7471.998256182537,
+        "y": 5886.715422977846,
+        "alpha": 0.1502842458531659,
+        "depth": 35,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 4049.5910309107267,
+        "y": 5974.892499517938,
+        "alpha": 0.12344060532976397,
+        "depth": 35,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 757.6794549370147,
+        "y": 5989.027541935872,
+        "alpha": 0.1817579559652083,
+        "depth": 35,
+        "scroll": 1
+      },
+      {
+        "type": "Graphics",
+        "x": -200,
+        "y": -200,
+        "alpha": 1,
+        "depth": 46,
+        "scroll": 1
+      },
+      {
+        "type": "Graphics",
+        "x": -200,
+        "y": -200,
+        "alpha": 1,
+        "depth": 46,
+        "scroll": 1
+      },
+      {
+        "type": "Container",
+        "x": 0,
+        "y": 0,
+        "alpha": 1,
+        "depth": 49,
+        "scroll": 1
+      },
+      {
+        "type": "Rectangle",
+        "x": 31320,
+        "y": 238055,
+        "alpha": 1,
+        "depth": 50,
+        "scroll": 1
+      },
+      {
+        "type": "Graphics",
+        "x": 0,
+        "y": 0,
+        "alpha": 0,
+        "depth": 50,
+        "scroll": 0
+      },
+      {
+        "type": "Container",
+        "x": 0,
+        "y": 0,
+        "alpha": 1,
+        "depth": 51,
+        "scroll": 0
+      },
+      {
+        "type": "Graphics",
+        "x": 0,
+        "y": 0,
+        "alpha": 1,
+        "depth": 53,
+        "scroll": 1
+      },
+      {
+        "type": "Graphics",
+        "x": 0,
+        "y": 0,
+        "alpha": 1,
+        "depth": 54,
+        "scroll": 1
+      },
+      {
+        "type": "Rectangle",
+        "x": 640,
+        "y": 360,
+        "alpha": 1,
+        "depth": 55,
+        "scroll": 0
+      },
+      {
+        "type": "ParticleEmitter",
+        "key": "weather-v11-particles-v2",
+        "x": 0,
+        "y": 0,
+        "alpha": 0.020149717632897968,
+        "depth": 56,
+        "scroll": 1
+      },
+      {
+        "type": "ParticleEmitter",
+        "key": "weather-v11-particles-v2",
+        "x": 0,
+        "y": 0,
+        "alpha": 0.19861683268248997,
+        "depth": 56,
+        "scroll": 1
+      },
+      {
+        "type": "Rectangle",
+        "x": 640,
+        "y": 360,
+        "alpha": 1,
+        "depth": 56,
+        "scroll": 0
+      },
+      {
+        "type": "ParticleEmitter",
+        "key": "weather-v11-particles-v2",
+        "x": 0,
+        "y": 0,
+        "alpha": 0.025330003586250673,
+        "depth": 57,
+        "scroll": 1
+      },
+      {
+        "type": "ParticleEmitter",
+        "key": "weather-v11-particles-v2",
+        "x": 0,
+        "y": 0,
+        "alpha": 0.07635627333753188,
+        "depth": 57,
+        "scroll": 1
+      },
+      {
+        "type": "ParticleEmitter",
+        "key": "weather-v11-particles-v2",
+        "x": 0,
+        "y": 0,
+        "alpha": 0,
+        "depth": 57,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-atmosphere",
+        "x": 344.0722999999938,
+        "y": 518.4,
+        "alpha": 0.04742855944105218,
+        "depth": 57.2,
+        "scroll": 0
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-atmosphere",
+        "x": 801.7012200000241,
+        "y": 543.6,
+        "alpha": 0.04742855944105218,
+        "depth": 57.2,
+        "scroll": 0
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-atmosphere",
+        "x": 1259.3301400000748,
+        "y": 568.8000000000001,
+        "alpha": 0.04742855944105218,
+        "depth": 57.2,
+        "scroll": 0
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-atmosphere",
+        "x": 1716.9590599999608,
+        "y": 594,
+        "alpha": 0.04742855944105218,
+        "depth": 57.2,
+        "scroll": 0
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 737.87076104466,
+        "y": 6107,
+        "alpha": 0.017232364351111383,
+        "depth": 57.98,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 1216.9429175595017,
+        "y": 6107,
+        "alpha": 0.0578617609999912,
+        "depth": 57.98,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 50.27500470195664,
+        "y": 6107,
+        "alpha": 0.05392638000000144,
+        "depth": 57.98,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 93.11584360285275,
+        "y": 6107,
+        "alpha": 0.07176442113876465,
+        "depth": 57.98,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 516.0745385897254,
+        "y": 6107,
+        "alpha": 0.17689571943135288,
+        "depth": 57.98,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 169.77360227347492,
+        "y": 6107,
+        "alpha": 0.15093755999999928,
+        "depth": 57.98,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 146.10226487782487,
+        "y": 6107,
+        "alpha": 0.18323815817527975,
+        "depth": 57.98,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 881.2721152007487,
+        "y": 6107,
+        "alpha": 0.00914015596487572,
+        "depth": 57.98,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 803.446388867463,
+        "y": 6107,
+        "alpha": 0.013084560000001072,
+        "depth": 57.98,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 1288.116418922587,
+        "y": 6107,
+        "alpha": 0.013084560000001072,
+        "depth": 57.98,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 580.2437694849798,
+        "y": 6107,
+        "alpha": 0.018191700000001802,
+        "depth": 57.98,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 410.24407429198277,
+        "y": 6107,
+        "alpha": 0.023298840000000747,
+        "depth": 57.98,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 847.8333794565139,
+        "y": 6107,
+        "alpha": 0.028402920000002177,
+        "depth": 57.98,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 794.4394966377926,
+        "y": 6107,
+        "alpha": 0.03861108000000144,
+        "depth": 57.98,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 238.2637416472221,
+        "y": 6107,
+        "alpha": 0.052513348757735306,
+        "depth": 57.98,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 708.575407473431,
+        "y": 6107,
+        "alpha": 0.05392638000000144,
+        "depth": 57.98,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 1111.6097437499704,
+        "y": 6107,
+        "alpha": 0.07945289999999999,
+        "depth": 57.98,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 681.3920549052957,
+        "y": 6107,
+        "alpha": 0.10948846746777836,
+        "depth": 57.98,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 977.812559164298,
+        "y": 6107,
+        "alpha": 0.12621869436364494,
+        "depth": 57.98,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 1096.764684929448,
+        "y": 6107,
+        "alpha": 0.1151906400000007,
+        "depth": 57.98,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 561.5506097189141,
+        "y": 6107,
+        "alpha": 0.12029777999999963,
+        "depth": 57.98,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 481.660836864438,
+        "y": 6107,
+        "alpha": 0.13051205999999926,
+        "depth": 57.98,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 813.2782166081867,
+        "y": 6107,
+        "alpha": 0.13561919999999997,
+        "depth": 57.98,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 1311.9306262647456,
+        "y": 6107,
+        "alpha": 0.15327426547933207,
+        "depth": 57.98,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 1302.8662410193144,
+        "y": 6107,
+        "alpha": 0.16401343477147726,
+        "depth": 57.98,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 833.2166690953109,
+        "y": 6107,
+        "alpha": 0.17444990643115552,
+        "depth": 57.98,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 230.818878520199,
+        "y": 6107,
+        "alpha": 0.15604163999999893,
+        "depth": 57.98,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 393.8325552309821,
+        "y": 6107,
+        "alpha": 0.1814471517951501,
+        "depth": 57.98,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 579.6421934197688,
+        "y": 5738.324190695253,
+        "alpha": 0.2867376910524524,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 740.5124094157432,
+        "y": 5755.838439548087,
+        "alpha": 0.306293163152457,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 78.68203080449793,
+        "y": 5986.326198362531,
+        "alpha": 0.06928013613574661,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 764.2838762264009,
+        "y": 6080.62792812217,
+        "alpha": 0.0792404318067524,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 1257.3589032400732,
+        "y": 5946.435556044495,
+        "alpha": 0.3131652435130238,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 232.54884358122962,
+        "y": 5797.40598377157,
+        "alpha": 0.3681445655033128,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 1034.3811036320817,
+        "y": 6010.172560435874,
+        "alpha": 0.0856276918371405,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 783.2379154545865,
+        "y": 5794.291514979742,
+        "alpha": 0.08965698072404517,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 681.3138637249116,
+        "y": 6099.821553741562,
+        "alpha": 0.08256097175770404,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 354.7869440213593,
+        "y": 5985.549023659518,
+        "alpha": 0.4117511985503208,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 155.50246040295906,
+        "y": 5918.306744085363,
+        "alpha": 0.2902803894930162,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 1038.6513695456115,
+        "y": 6020.169335236318,
+        "alpha": 0.06696459437768235,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 1062.8993020569133,
+        "y": 5967.288013935135,
+        "alpha": 0.3599181274708779,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 812.0593371719453,
+        "y": 5892.183983478305,
+        "alpha": 0.07044087284080024,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 160.32691765895174,
+        "y": 6021.624358528565,
+        "alpha": 0.08146780360027578,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 593.7961129985288,
+        "y": 6048.490967473388,
+        "alpha": 0.417716745675779,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 384.1759816977744,
+        "y": 6096.1091390651145,
+        "alpha": 0.35608887842934517,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 158.2861674997343,
+        "y": 5928.650152892114,
+        "alpha": 0.41736151342967603,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 720.2125459163206,
+        "y": 5763.619760341693,
+        "alpha": 0.09802573367788711,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 273.13787516317984,
+        "y": 6010.11306503645,
+        "alpha": 0.3033717242244639,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 377.0558024225887,
+        "y": 5803.5236494097,
+        "alpha": 0.4000827492228067,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 402.2479976660169,
+        "y": 6035.147313250136,
+        "alpha": 0.0037791374272859732,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 327.2298687636951,
+        "y": 5891.527289464415,
+        "alpha": 0.08527535960026499,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 365.61141063365847,
+        "y": 5918.124731305856,
+        "alpha": 0.08896900159672998,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 207.81818221955365,
+        "y": 5802.508113653736,
+        "alpha": 0.08951591663348528,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 1069.8715006555085,
+        "y": 5813.14305095681,
+        "alpha": 0.34956714526058696,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 1042.3790061129807,
+        "y": 5835.05505824492,
+        "alpha": 0.2911673767419187,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 630.609934173724,
+        "y": 5853.225648813155,
+        "alpha": 0.28845693596830224,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 389.9349596729621,
+        "y": 5884.604309603742,
+        "alpha": 0.31150429584372,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 1087.5497875241128,
+        "y": 5946.270878686206,
+        "alpha": 0.3543660922138716,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 180.08083356774955,
+        "y": 5806.743234016826,
+        "alpha": 0.08431487773978234,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 87.38255062273038,
+        "y": 5778.179802608529,
+        "alpha": 0.32455121682659177,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 465.36846588814717,
+        "y": 5807.650643485245,
+        "alpha": 0.09093394599391898,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 1223.1975292039792,
+        "y": 5965.429651732764,
+        "alpha": 0.2823963099372583,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 1294.09468714389,
+        "y": 6023.5709029253685,
+        "alpha": 0.29255461726474247,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 42.23960754617791,
+        "y": 5856.675971863842,
+        "alpha": 0.37572202912878033,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 757.6872436296089,
+        "y": 5853.850669353127,
+        "alpha": 0.07134379686041317,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 717.4489008347493,
+        "y": 5704.930936183039,
+        "alpha": 0.09997244905880803,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 1309.8332457812576,
+        "y": 5970.080458160684,
+        "alpha": 0.3866575515440925,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 759.292103463582,
+        "y": 5693.216114728669,
+        "alpha": 0.3302511141274221,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 1006.7608327583359,
+        "y": 5991.998218259811,
+        "alpha": 0.30936545390598746,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 680.943502578402,
+        "y": 6077.511607760649,
+        "alpha": 0.2930827477627014,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 800.715032835835,
+        "y": 5851.31228533069,
+        "alpha": 0.2822009667306194,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 278.6133764158236,
+        "y": 5874.827413204821,
+        "alpha": 0.3581311639195327,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 317.1191472120341,
+        "y": 5871.388018097815,
+        "alpha": 0.07575009373732557,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 1137.9152103536762,
+        "y": 6011.565494125418,
+        "alpha": 0.2915849209411425,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 618.9074844547895,
+        "y": 5973.358793525318,
+        "alpha": 0.3962868570594951,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 408.3523675811707,
+        "y": 5851.204545131035,
+        "alpha": 0.07681348126575606,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 1123.7872682695374,
+        "y": 5744.865755438104,
+        "alpha": 0.0922914758175054,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 128.45795098374276,
+        "y": 5779.036800739097,
+        "alpha": 0.33099896652953736,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 968.4525820647126,
+        "y": 6061.784966409327,
+        "alpha": 0.31847839547283746,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 1055.8862707305964,
+        "y": 6028.681507316495,
+        "alpha": 0.09683838571217297,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 673.9568120477043,
+        "y": 5986.7394897930735,
+        "alpha": 0.3963805024891255,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 728.6613500320004,
+        "y": 5829.856095325613,
+        "alpha": 0.003336331555484635,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 35.67108934038128,
+        "y": 5828.86820084582,
+        "alpha": 0.31570334594607885,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 480.5066878368689,
+        "y": 5973.4284817551925,
+        "alpha": 0.41804042031940203,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 336.20049845088306,
+        "y": 6059.320803104474,
+        "alpha": 0.09294728897134946,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 457.12896266244616,
+        "y": 5777.416404823945,
+        "alpha": 0.06840506873135435,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 166.47409391312024,
+        "y": 5925.335838112821,
+        "alpha": 0.07046065442093158,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 436.95731619458513,
+        "y": 5693.27188512224,
+        "alpha": 0.29616824952563087,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 1199.6828434134952,
+        "y": 5860.427612221101,
+        "alpha": 0.41944663755427336,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 187.4616912836472,
+        "y": 5980.210810197499,
+        "alpha": 0.3296066099910836,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 210.3663272690769,
+        "y": 5888.134679422243,
+        "alpha": 0.3728518816158079,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 1159.932746168041,
+        "y": 5736.181247067881,
+        "alpha": 0.3272677894440232,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 187.37556410769378,
+        "y": 5717.745986043925,
+        "alpha": 0.08729445268669866,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 494.0662885564448,
+        "y": 5824.449803623034,
+        "alpha": 0.3516688957836351,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 928.8072207660937,
+        "y": 6086.740610692194,
+        "alpha": 0.305500961207375,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 1108.9569831861054,
+        "y": 5750.801970136659,
+        "alpha": 0.2937464683854375,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 1240.2725038263998,
+        "y": 5692.674939033239,
+        "alpha": 0.32764453719171116,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 57.21367644763401,
+        "y": 5837.1340789928745,
+        "alpha": 0.37713890404980316,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 890.7115948404767,
+        "y": 5763.984262588998,
+        "alpha": 0.07998762800508823,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 408.7597894900604,
+        "y": 5890.723501031461,
+        "alpha": 0.3199453087370998,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 1068.9468206434701,
+        "y": 6071.522379737891,
+        "alpha": 0.36401159611249856,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 238.5133158407777,
+        "y": 5751.845290596852,
+        "alpha": 0.34408373657141994,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 703.1091751058441,
+        "y": 5786.599329460498,
+        "alpha": 0.285569549249756,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 1109.2463455713187,
+        "y": 6097.120172893661,
+        "alpha": 0.08928571986822859,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 1186.8134958369074,
+        "y": 5731.98918129865,
+        "alpha": 0.07149266978413064,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 480.4473186252585,
+        "y": 5929.90261106519,
+        "alpha": 0.07820346245724509,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 238.14238448404592,
+        "y": 5979.818241643938,
+        "alpha": 0.0938457271884629,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 155.65586558134925,
+        "y": 5917.889192932878,
+        "alpha": 0.0870427817870832,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 159.88315362999703,
+        "y": 5935.86877111428,
+        "alpha": 0.3527576946685289,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 444.58226744564917,
+        "y": 6073.189408765458,
+        "alpha": 0.08340350913437719,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 1033.222458560756,
+        "y": 6030.72495609584,
+        "alpha": 0.39014261640854336,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 100.43906352676257,
+        "y": 6093.015447289964,
+        "alpha": 0.4016374857661893,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 813.5283005291685,
+        "y": 6046.067818222181,
+        "alpha": 0.3381801280162008,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 43.812390657049704,
+        "y": 5946.047070884399,
+        "alpha": 0.30040055419925255,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 343.27125677870544,
+        "y": 5692.854326019782,
+        "alpha": 0.3553293856717091,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 727.0461902554405,
+        "y": 5830.678057043575,
+        "alpha": 0.35839721046431205,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 1176.677076626165,
+        "y": 6032.7941433907845,
+        "alpha": 0.085462347001593,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 1276.485796331549,
+        "y": 5856.211124728232,
+        "alpha": 0.4145885573421157,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 1092.2734306252444,
+        "y": 5967.471575480938,
+        "alpha": 0.09048713097698644,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 821.805438829766,
+        "y": 5882.72387169894,
+        "alpha": 0.08428747302067259,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 478.0128842221074,
+        "y": 6091.934713615054,
+        "alpha": 0.29063939070825595,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 251.25616230275654,
+        "y": 5711.719486968974,
+        "alpha": 0.3816398004181783,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 531.1070688066274,
+        "y": 6016.442580349679,
+        "alpha": 0.3967762235004251,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 631.8307064234523,
+        "y": 5761.241428254663,
+        "alpha": 0.3949536992190518,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 201.86796520898878,
+        "y": 5902.50571343964,
+        "alpha": 0.3459465943392261,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 1303.862584965767,
+        "y": 5737.508434519188,
+        "alpha": 0.3136160228530882,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 554.5487465064028,
+        "y": 5972.087631783446,
+        "alpha": 0.0753157775462433,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 746.9402501120362,
+        "y": 5785.504603810747,
+        "alpha": 0.3225805754719557,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 460.27953424776035,
+        "y": 5788.216322666451,
+        "alpha": 0.09389729642172172,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 902.295115297241,
+        "y": 5713.568504568656,
+        "alpha": 0.31296417674237326,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 1139.6402988612813,
+        "y": 5973.276725046474,
+        "alpha": 0.3880319598430174,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 1341.4136328213963,
+        "y": 6035.074788054993,
+        "alpha": 0.37953343568850334,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 753.6624331760019,
+        "y": 5908.884597010394,
+        "alpha": 0.3108088311545725,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 1250.2362443617562,
+        "y": 5989.700326318191,
+        "alpha": 0.34811564127074923,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 642.5058539069908,
+        "y": 5954.44813150673,
+        "alpha": 0.08603473060087186,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 1344.5523879617049,
+        "y": 5836.5899267213845,
+        "alpha": 0.07074744827454012,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 1177.2554093616936,
+        "y": 5733.429685756124,
+        "alpha": 0.07983967515500721,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 772.7352671094453,
+        "y": 6089.481527318238,
+        "alpha": 0.37518699060091026,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 1237.008265701938,
+        "y": 5917.895453500711,
+        "alpha": 0.361403364393694,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 277.2966836791392,
+        "y": 5704.382404123087,
+        "alpha": 0.09661743990969002,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 631.8095160756748,
+        "y": 5713.771399419444,
+        "alpha": 0.34093640750159687,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 523.2531640056915,
+        "y": 6064.466218509469,
+        "alpha": 0.09902869195378024,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 272.40881261920185,
+        "y": 5806.5369327257695,
+        "alpha": 0.4028678670725062,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 245.60357126461366,
+        "y": 5872.707558145265,
+        "alpha": 0.39581408356441833,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 131.30890977763423,
+        "y": 6034.074097849752,
+        "alpha": 0.08138105529983937,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 807.2538422144445,
+        "y": 5933.859887439705,
+        "alpha": 0.39339143647529357,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 751.8122845608216,
+        "y": 5737.801669082411,
+        "alpha": 0.3316103792383424,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 466.92583742033116,
+        "y": 6044.790556542974,
+        "alpha": 0.3261021933947417,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 890.0101969002259,
+        "y": 5716.039288153009,
+        "alpha": 0.3083852650819557,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 1334.9371078158651,
+        "y": 5845.034259420423,
+        "alpha": 0.06779779055766054,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 1038.249870279554,
+        "y": 5794.927802214169,
+        "alpha": 0.33311515554114657,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 873.2701032951738,
+        "y": 6069.946595970998,
+        "alpha": 0.3666876398136968,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 732.8692890257248,
+        "y": 5831.603183444238,
+        "alpha": 0.06826206202667312,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 822.5647641418897,
+        "y": 6089.590293098798,
+        "alpha": 0.3746128419997067,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 230.69484982396526,
+        "y": 5919.8248055107,
+        "alpha": 0.08204754640417622,
+        "depth": 58,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 450.88179237795055,
+        "y": 6107,
+        "alpha": 0.23211045834512586,
+        "depth": 58.02,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 1123.9150605074094,
+        "y": 6107,
+        "alpha": 0.20538081512222944,
+        "depth": 58.02,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 169.77360227347492,
+        "y": 6107,
+        "alpha": 0.13051511999999857,
+        "depth": 58.02,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 1029.6080922688586,
+        "y": 6107,
+        "alpha": 0.12873059020657415,
+        "depth": 58.02,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 788.8958745546422,
+        "y": 6107,
+        "alpha": 0.13620128671087894,
+        "depth": 58.02,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 991.2201118135054,
+        "y": 6107,
+        "alpha": 0.08966411999999857,
+        "depth": 58.02,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 1178.920876710875,
+        "y": 6107,
+        "alpha": 0.05157435318486942,
+        "depth": 58.02,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 462.3615731778712,
+        "y": 6107,
+        "alpha": 0.010271364882486901,
+        "depth": 58.02,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 1327.324651285918,
+        "y": 6107,
+        "alpha": 0.16114571999999855,
+        "depth": 58.02,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 433.76295949360775,
+        "y": 6107,
+        "alpha": 0.15093143999999714,
+        "depth": 58.02,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 637.6142903523635,
+        "y": 6107,
+        "alpha": 0.14072327999999784,
+        "depth": 58.02,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 230.818878520199,
+        "y": 6107,
+        "alpha": 0.14072327999999784,
+        "depth": 58.02,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 418.04217718213704,
+        "y": 6107,
+        "alpha": 0.12030083999999715,
+        "depth": 58.02,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 280.2091359327358,
+        "y": 6107,
+        "alpha": 0.09987839999999996,
+        "depth": 58.02,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 379.52346044307245,
+        "y": 6107,
+        "alpha": 0.08966411999999857,
+        "depth": 58.02,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 561.5506097189141,
+        "y": 6107,
+        "alpha": 0.06923555999999927,
+        "depth": 58.02,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 1096.764684929448,
+        "y": 6107,
+        "alpha": 0.059021280000001404,
+        "depth": 58.02,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 405.22759476379633,
+        "y": 6107,
+        "alpha": 0.04881312000000214,
+        "depth": 58.02,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 1326.9836017775756,
+        "y": 6107,
+        "alpha": 0.028384560000002824,
+        "depth": 58.02,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 977.812559164298,
+        "y": 6107,
+        "alpha": 0.03587243730980055,
+        "depth": 58.02,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 579.5961055937948,
+        "y": 6107,
+        "alpha": 0.018182520000002145,
+        "depth": 58.02,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 146.10226487782487,
+        "y": 6107,
+        "alpha": 0.17760924492143598,
+        "depth": 58.02,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 1147.8610178860854,
+        "y": 6107,
+        "alpha": 0.13208641095476373,
+        "depth": 58.02,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 516.0745385897254,
+        "y": 6107,
+        "alpha": 0.1120657540781515,
+        "depth": 58.02,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 930.4443876679757,
+        "y": 6107,
+        "alpha": 0.06546145193440443,
+        "depth": 58.02,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 433.591655741315,
+        "y": 6107,
+        "alpha": 0.04071864387784122,
+        "depth": 58.02,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 745.3807220559775,
+        "y": 6107,
+        "alpha": 0.04908993423494325,
+        "depth": 58.02,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 1352.5868968065438,
+        "y": 6107,
+        "alpha": 0.16114571999999855,
+        "depth": 58.02,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 694.1474755359637,
+        "y": 6107,
+        "alpha": 0.15093143999999714,
+        "depth": 58.02,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 1008.8330028006754,
+        "y": 6107,
+        "alpha": 0.17029727998286023,
+        "depth": 58.02,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 813.2782166081867,
+        "y": 6107,
+        "alpha": 0.09987839999999996,
+        "depth": 58.02,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 481.660836864438,
+        "y": 6107,
+        "alpha": 0.08966411999999857,
+        "depth": 58.02,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 715.2175216647933,
+        "y": 6107,
+        "alpha": 0.06923555999999927,
+        "depth": 58.02,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 847.5998260100998,
+        "y": 6107,
+        "alpha": 0.04881312000000214,
+        "depth": 58.02,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 1223.9608444649155,
+        "y": 6107,
+        "alpha": 0.03925090894089483,
+        "depth": 58.02,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 267.8073761912772,
+        "y": 6107,
+        "alpha": 0.054139703631033494,
+        "depth": 58.02,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 879.4410615893944,
+        "y": 6107,
+        "alpha": 0.19840985106901868,
+        "depth": 58.02,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 833.2166690953109,
+        "y": 6107,
+        "alpha": 0.15732443614848635,
+        "depth": 58.02,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 1012.7048284257614,
+        "y": 6107,
+        "alpha": 0.14691827951179043,
+        "depth": 58.02,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 1311.9306262647456,
+        "y": 6107,
+        "alpha": 0.11990914182555273,
+        "depth": 58.02,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 988.3407972859353,
+        "y": 6107,
+        "alpha": 0.06722685293278602,
+        "depth": 58.02,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 545.7382708574206,
+        "y": 6107,
+        "alpha": 0.018182520000002145,
+        "depth": 58.02,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 1324.4551600376258,
+        "y": 6107,
+        "alpha": 0.13051511999999857,
+        "depth": 58.02,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 1168.60223233377,
+        "y": 6107,
+        "alpha": 0.09698933358632375,
+        "depth": 58.02,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 393.8325552309821,
+        "y": 6107,
+        "alpha": 0.169946058166114,
+        "depth": 58.02,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 966.0319134641618,
+        "y": 6107,
+        "alpha": 0.05890845279023786,
+        "depth": 58.02,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 546.3983848397526,
+        "y": 6107,
+        "alpha": 0.16310281170979976,
+        "depth": 58.02,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 935.4575692232908,
+        "y": 6107,
+        "alpha": 0.07944371999999857,
+        "depth": 58.02,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 1299.380248751127,
+        "y": 6107,
+        "alpha": 0.007968240000000681,
+        "depth": 58.02,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 1302.8662410193144,
+        "y": 6107,
+        "alpha": 0.13530067303031595,
+        "depth": 58.02,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 398.37219902170904,
+        "y": 6107,
+        "alpha": 0,
+        "depth": 58.02,
+        "scroll": 1
+      },
+      {
+        "type": "Image",
+        "key": "weather-v11-particles-v2",
+        "x": 1324.5335568383741,
+        "y": 6107,
+        "alpha": 0.228356904939699,
+        "depth": 58.02,
+        "scroll": 1
+      },
+      {
+        "type": "Rectangle",
+        "x": 640,
+        "y": 360,
+        "alpha": 0,
+        "depth": 59,
+        "scroll": 0
+      },
+      {
+        "type": "Image",
+        "key": "__jkd_shader_layer_weatherAtmosphere",
+        "x": 640,
+        "y": 360,
+        "alpha": 1,
+        "depth": 60,
+        "scroll": 0
+      },
+      {
+        "type": "Graphics",
+        "x": 0,
+        "y": 0,
+        "alpha": 1,
+        "depth": 898,
+        "scroll": 1
+      },
+      {
+        "type": "Graphics",
+        "x": 0,
+        "y": 0,
+        "alpha": 1,
+        "depth": 898,
+        "scroll": 1
+      },
+      {
+        "type": "Graphics",
+        "x": 0,
+        "y": 0,
+        "alpha": 1,
+        "depth": 898,
+        "scroll": 1
+      },
+      {
+        "type": "Graphics",
+        "x": 0,
+        "y": 0,
+        "alpha": 1,
+        "depth": 898,
+        "scroll": 1
+      },
+      {
+        "type": "RenderTexture",
+        "key": "",
+        "x": 0,
+        "y": 0,
+        "alpha": 0.08175808730431494,
+        "depth": 900,
+        "scroll": 0
+      },
+      {
+        "type": "Image",
+        "key": "__jkd_shader_layer_darknessLight",
+        "x": 640,
+        "y": 360,
+        "alpha": 1,
+        "depth": 901,
+        "scroll": 0
+      },
+      {
+        "type": "Image",
+        "key": "ui-hud-approved-xp",
+        "x": 388,
+        "y": 669,
+        "alpha": 1,
+        "depth": 999,
+        "scroll": 0
+      },
+      {
+        "type": "Text",
+        "key": "53fa4785-fda3-4de5-971a-0b9e44868b58",
+        "text": "",
+        "x": 500,
+        "y": 190,
+        "alpha": 1,
+        "depth": 1000,
+        "scroll": 0
+      },
+      {
+        "type": "Graphics",
+        "x": 0,
+        "y": 0,
+        "alpha": 1,
+        "depth": 1000,
+        "scroll": 0
+      },
+      {
+        "type": "Graphics",
+        "x": 0,
+        "y": 0,
+        "alpha": 1,
+        "depth": 1001,
+        "scroll": 0
+      },
+      {
+        "type": "Container",
+        "x": 14,
+        "y": 528.5,
+        "alpha": 1,
+        "depth": 1001,
+        "scroll": 0
+      },
+      {
+        "type": "Rectangle",
+        "x": 0,
+        "y": 0,
+        "alpha": 0,
+        "depth": 1002,
+        "scroll": 0
+      },
+      {
+        "type": "Graphics",
+        "x": 0,
+        "y": 0,
+        "alpha": 1,
+        "depth": 1002,
+        "scroll": 0
+      },
+      {
+        "type": "Text",
+        "key": "46e9bfab-9840-4c4d-ba81-7ccd3a2880e2",
+        "text": "LEVEL 1",
+        "x": 406,
+        "y": 688,
+        "alpha": 1,
+        "depth": 1002,
+        "scroll": 0
+      },
+      {
+        "type": "Text",
+        "key": "04bc05fd-7506-4eb3-9ace-ecb9a45eac40",
+        "text": "0 / 2.417 XP",
+        "x": 874,
+        "y": 688,
+        "alpha": 1,
+        "depth": 1002,
+        "scroll": 0
+      },
+      {
+        "type": "Image",
+        "key": "ui-hud-approved-player-core-shell-v2",
+        "x": 12,
+        "y": 14,
+        "alpha": 1,
+        "depth": 1003,
+        "scroll": 0
+      },
+      {
+        "type": "Image",
+        "key": "ui-hud-approved-player-core-torch-off",
+        "x": 314,
+        "y": 35,
+        "alpha": 1,
+        "depth": 1004,
+        "scroll": 0
+      },
+      {
+        "type": "Graphics",
+        "x": 0,
+        "y": 0,
+        "alpha": 1,
+        "depth": 1004,
+        "scroll": 0
+      },
+      {
+        "type": "Text",
+        "key": "a68f9de1-d29e-43c6-9479-47b0f96ba333",
+        "text": "DEPTH  0 m",
+        "x": 102,
+        "y": 29,
+        "alpha": 1,
+        "depth": 1005,
+        "scroll": 0
+      },
+      {
+        "type": "Image",
+        "key": "ui-icon-atlas-v1",
+        "x": 54,
+        "y": 55,
+        "alpha": 1,
+        "depth": 1005,
+        "scroll": 0
+      },
+      {
+        "type": "Text",
+        "key": "69d97ff6-a597-4bed-b843-b40445fea7a4",
+        "text": "TORCH POWER",
+        "x": 288,
+        "y": 27,
+        "alpha": 1,
+        "depth": 1005,
+        "scroll": 0
+      },
+      {
+        "type": "Text",
+        "key": "67f57ba7-27bf-4a46-a1f9-bc6b13d2f502",
+        "text": "100%",
+        "x": 307,
+        "y": 40,
+        "alpha": 1,
+        "depth": 1005,
+        "scroll": 0
+      },
+      {
+        "type": "Graphics",
+        "x": 0,
+        "y": 0,
+        "alpha": 1,
+        "depth": 1005,
+        "scroll": 0
+      },
+      {
+        "type": "Text",
+        "key": "9bd63707-9343-4a5d-b178-d0eca8098bf8",
+        "text": "STARTER",
+        "x": 257,
+        "y": 25,
+        "alpha": 1,
+        "depth": 1006,
+        "scroll": 0
+      },
+      {
+        "type": "Zone",
+        "x": 307,
+        "y": 55,
+        "depth": 1006,
+        "scroll": 0
+      },
+      {
+        "type": "Text",
+        "key": "9938eb80-6020-4168-a11f-c1d9297fc8e5",
+        "text": "GP  110 / 110",
+        "x": 105,
+        "y": 65,
+        "alpha": 1,
+        "depth": 1006,
+        "scroll": 0
+      },
+      {
+        "type": "Image",
+        "key": "celestial-actionbar-foundation-v2",
+        "x": 1008.6666666666666,
+        "y": 673.6666666666666,
+        "alpha": 1,
+        "depth": 1959,
+        "scroll": 0
+      },
+      {
+        "type": "Image",
+        "key": "ui-celestial-talent-node-frame-v2",
+        "x": 1138.6984126984125,
+        "y": 675.6984126984127,
+        "alpha": 1,
+        "depth": 1959,
+        "scroll": 0
+      },
+      {
+        "type": "Container",
+        "x": 935.7066666666667,
+        "y": 675.6984126984127,
+        "alpha": 1,
+        "depth": 1960,
+        "scroll": 0
+      },
+      {
+        "type": "Container",
+        "x": 973.4666666666667,
+        "y": 675.6984126984127,
+        "alpha": 1,
+        "depth": 1960,
+        "scroll": 0
+      },
+      {
+        "type": "Container",
+        "x": 1008.6666666666666,
+        "y": 675.6984126984127,
+        "alpha": 1,
+        "depth": 1960,
+        "scroll": 0
+      },
+      {
+        "type": "Container",
+        "x": 1043.8666666666668,
+        "y": 675.6984126984127,
+        "alpha": 1,
+        "depth": 1960,
+        "scroll": 0
+      },
+      {
+        "type": "Container",
+        "x": 1081.6266666666666,
+        "y": 675.6984126984127,
+        "alpha": 1,
+        "depth": 1960,
+        "scroll": 0
+      },
+      {
+        "type": "Container",
+        "x": 1138.6984126984125,
+        "y": 675.6984126984127,
+        "alpha": 1,
+        "depth": 1960,
+        "scroll": 0
+      },
+      {
+        "type": "Text",
+        "key": "426a577a-375e-40c9-b15c-79fa247f37af",
+        "text": "GP 110/110",
+        "x": 951.2698412698412,
+        "y": 649.2857142857142,
+        "alpha": 1,
+        "depth": 1960,
+        "scroll": 0
+      },
+      {
+        "type": "Text",
+        "key": "79970118-969a-48bf-a4ec-c25863d2f658",
+        "text": "MINE DMG 16",
+        "x": 1066.063492063492,
+        "y": 649.2857142857142,
+        "alpha": 1,
+        "depth": 1960,
+        "scroll": 0
+      },
+      {
+        "type": "Container",
+        "x": 14,
+        "y": 677.75,
+        "alpha": 1,
+        "depth": 1965,
+        "scroll": 0
+      },
+      {
+        "type": "Container",
+        "x": 1219,
+        "y": 660,
+        "alpha": 1,
+        "depth": 1970,
+        "scroll": 0
+      },
+      {
+        "type": "Container",
+        "x": 1189,
+        "y": 586,
+        "alpha": 1,
+        "depth": 1970,
+        "scroll": 0
+      },
+      {
+        "type": "Container",
+        "x": 1189,
+        "y": 543,
+        "alpha": 1,
+        "depth": 1970,
+        "scroll": 0
+      },
+      {
+        "type": "Container",
+        "x": 1189,
+        "y": 500,
+        "alpha": 1,
+        "depth": 1970,
+        "scroll": 0
+      },
+      {
+        "type": "Container",
+        "x": 1242,
+        "y": 33,
+        "alpha": 1,
+        "depth": 2000,
+        "scroll": 0
+      }
+    ]
+  }
+}

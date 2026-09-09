@@ -41,7 +41,7 @@ export async function requestHardcoreConversion(scene, dependencies) {
       if (!saved) {
         dependencies.flash(
           scene,
-          "Hardcore conversion save failed • retry SAVE GAME",
+          runtime.config.copy.conversionSaveFailed,
           runtime.config.feedback.errorColor,
           runtime.config.feedback.errorFlashMs,
         );

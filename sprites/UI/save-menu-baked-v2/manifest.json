@@ -1,0 +1,21 @@
+{
+  "mode": "built-in image_gen",
+  "sourcePixelsPreserved": true,
+  "runtime": "Phaser atlas rectangles with measured silhouette clips",
+  "assets": {
+    "save-cards-original.png": {
+      "path": "sprites/UI/save-menu-baked-v2/save-cards-original.png",
+      "width": 1536,
+      "height": 1024,
+      "mode": "RGB",
+      "sha256": "e1c9e88e717f413ac57280ea1c0e6ba5fee8f32eb6ce576ace0894db14af75c6"
+    },
+    "save-copy-original.png": {
+      "path": "sprites/UI/save-menu-baked-v2/save-copy-original.png",
+      "width": 1536,
+      "height": 1024,
+      "mode": "RGB",
+      "sha256": "b7afae4b98720a6cd060bb2b9c1d2d167f58ed7c2cb105a78441da585f57afaf"
+    }
+  }
+}

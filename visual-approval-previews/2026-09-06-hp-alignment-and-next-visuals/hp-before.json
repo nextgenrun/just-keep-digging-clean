@@ -1,0 +1,82 @@
+{
+  "target": {
+    "frame": {
+      "x": 354,
+      "y": 38,
+      "w": 172,
+      "h": 48,
+      "centerY": 62
+    },
+    "title": {
+      "x": 423,
+      "y": 44,
+      "w": 34,
+      "h": 16,
+      "centerY": 52
+    },
+    "hp": {
+      "x": 413,
+      "y": 62,
+      "w": 54,
+      "h": 20,
+      "centerY": 72
+    },
+    "text": "HP 88/88"
+  },
+  "gp": {
+    "x": 134,
+    "y": 76,
+    "w": 37,
+    "h": 15,
+    "centerY": 83.5
+  },
+  "gpText": "110 / 110",
+  "root": {
+    "x": 354,
+    "y": 38,
+    "scale": 1
+  },
+  "core": {
+    "x": 12,
+    "y": 14,
+    "w": 335.8333333333333,
+    "h": 92,
+    "centerY": 60
+  },
+  "player": null,
+  "sceneKeys": [
+    "openingFlightArtifactSystem",
+    "lights",
+    "rewardFlightMotionSystem",
+    "lootPickupFxSystem",
+    "flightFootParticleSystem",
+    "playerContactShadow",
+    "lightSystem",
+    "lightFrameSync",
+    "levelUpRewardPresentation",
+    "armHardcoreAfterFlightUnlock",
+    "syncHardcoreArmingFromFlight",
+    "shadowMinerSystem",
+    "_ualFlightTravelVisual",
+    "_cameraLightingStartedAtMs"
+  ],
+  "rendererKeys": [
+    "skyCohesionLayer",
+    "surfacePropLayer",
+    "surfacePropExpansionLayer",
+    "surfaceHeroLandmarkLayer",
+    "surfaceAtmosphereLayer",
+    "backdropEnhancerLayer",
+    "terrainVariationLayer",
+    "groundStructureLayer",
+    "undergroundDetailLayer",
+    "semanticAssetLayer",
+    "feedbackLayer",
+    "gameplayEffectLayer",
+    "landmarkLayer",
+    "performanceTracker"
+  ],
+  "saveBlocked": true,
+  "width": 1280,
+  "height": 720
+}

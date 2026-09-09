@@ -28,6 +28,13 @@ import {
 } from "../values/survivalUnifiedAnimationRuntimeV1.js";
 
 const profile = SURVIVAL_UAL_PLAYER_ASSET_PROFILE;
+const activePolishAnimationKeys = profile.animationPolishAnimations
+  .map(animation => animation.key);
+assert.equal(
+  new Set(activePolishAnimationKeys).size,
+  activePolishAnimationKeys.length,
+  "the active animation tree must not retain competing legacy definitions",
+);
 const pinnedIds = profile.preloadDeferredAnimationPackIds;
 assert.deepEqual(pinnedIds, ["crouch", "flight", "locomotion-polish"]);
 assert.equal(resolveSurvivalTransitionCohesionEnabled(""), true);
@@ -66,7 +73,7 @@ for (const asset of deathAssets) assert.equal(queuedKeys.has(asset.key), false);
 const optionalPackExpectations = new Map([
   [PLAYER_DEFERRED_ASSET_PACK_IDS.ledgeClimb, 1],
   [PLAYER_DEFERRED_ASSET_PACK_IDS.movingComplexMining, 1],
-  [PLAYER_DEFERRED_ASSET_PACK_IDS.complexSideMining, 10],
+  [PLAYER_DEFERRED_ASSET_PACK_IDS.complexSideMining, 9],
   [PLAYER_DEFERRED_ASSET_PACK_IDS.complexUpMining, 1],
 ]);
 for (const [packId, expectedCount] of optionalPackExpectations) {
@@ -76,6 +83,16 @@ for (const [packId, expectedCount] of optionalPackExpectations) {
     assert.equal(queuedKeys.has(asset.key), false, `${asset.key} must be on demand`);
   }
 }
+assert.equal(
+  queuedKeys.has(profile.complexDigJabSheet),
+  true,
+  "the modern SIDE fallback must be resident before the first attack",
+);
+assert.equal(
+  getPlayerDeferredAssetPack(profile, PLAYER_DEFERRED_ASSET_PACK_IDS.complexSideMining)
+    .some(asset => asset.key === profile.complexDigJabSheet),
+  false,
+);
 
 const mappingController = new PlayerDeferredAnimationAssetController(
   { runtimeAssetLoadCoordinator: null },
@@ -88,7 +105,9 @@ assert.ok(mappingController.keysByPack
   ).key));
 
 const caveFallbackRequests = [];
-const caveFallbackAnimationKey = profile.digSidewaysAnim;
+const cavePrewarmRequests = [];
+const caveFallbackAnimationKey = profile.complexDigSideFallbackAnimationKey;
+const cavePlaybackOrder = [];
 const cavePlayer = {
   anims: {
     currentAnim: { key: profile.idleAnim },
@@ -99,6 +118,7 @@ const cavePlayer = {
   setAngle: () => {},
   setFlipX: () => {},
   play(key) {
+    cavePlaybackOrder.push(`play:${key}`);
     this.lastPlayedKey = key;
     this.anims.currentAnim = { key };
     this.anims.isPlaying = true;
@@ -119,6 +139,10 @@ const caveController = {
   },
   originScene: {
     playerDeferredAnimationAssetController: {
+      ensureForAnimation(requested) {
+        cavePrewarmRequests.push(requested);
+        return Promise.resolve({ ready: false });
+      },
       resolveOrRequest(requested, fallback) {
         caveFallbackRequests.push({ requested, fallback });
         return fallback;
@@ -134,7 +158,7 @@ const caveController = {
   },
   digSystem: { getEffectiveCooldownMs: () => 200 },
   _actionUntilMs: 0,
-  _applyPlayerDisplaySize: () => {},
+  _applyPlayerDisplaySize: key => cavePlaybackOrder.push(`size:${key}`),
 };
 const caveActionRuntime = new CaveActionAnimationRuntime(caveController);
 caveActionRuntime.timeline = { isActive: false, begin: () => 1 };
@@ -149,9 +173,13 @@ assert.equal(
   ),
   true,
 );
-assert.equal(caveFallbackRequests.length, 1);
-assert.equal(caveFallbackRequests[0].fallback, caveFallbackAnimationKey);
+assert.deepEqual(cavePrewarmRequests, [profile.complexDigSidePrewarmAnimationKey]);
+assert.equal(caveFallbackRequests.length, 0);
 assert.equal(cavePlayer.lastPlayedKey, caveFallbackAnimationKey);
+assert.deepEqual(cavePlaybackOrder.slice(-2), [
+  `play:${caveFallbackAnimationKey}`,
+  `size:${caveFallbackAnimationKey}`,
+], "cave actions must size the newly selected atlas frame");
 
 const locomotionFallbackRequests = [];
 caveController._actionUntilMs = 0;
@@ -264,7 +292,17 @@ const caveRuntime = readFileSync(
 assert.doesNotMatch(mainRuntime, /groundMovementActive\s*:/);
 assert.doesNotMatch(caveRuntime, /groundMovementActive\s*:/);
 assert.match(mainRuntime, /playerController\._syncSpriteWithPhysics\?\.\(\);/);
-assert.match(caveRuntime, /_applyPlayerDisplaySize\(key\)[\s\S]*?player\.play\(key/);
+assert.match(caveRuntime, /player\.play\(key[\s\S]*?_applyPlayerDisplaySize\(key\)/);
+assert.doesNotMatch(
+  caveRuntime,
+  /_applyPlayerDisplaySize\(key\)[\s\S]{0,120}?player\.play\(key/,
+  "cave locomotion must not size the outgoing frame before changing atlases",
+);
+assert.match(
+  mainRuntime,
+  /player\.play\(targetAnim[\s\S]{0,500}?player\.setDisplaySize\(displaySize, displaySize\)/,
+  "main locomotion must size the frame selected by play()",
+);
 
 const entries = getUniquePlayerSheetEntries(profile);
 const pinnedSet = new Set(pinnedIds);

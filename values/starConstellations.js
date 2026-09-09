@@ -136,6 +136,8 @@ export const STAR_CONSTELLATION_CONFIG = Object.freeze({
     swayCyclesMax: 0.75,
     durationMs: 10800,
     rarityDurationBonusMs: 260,
+    maxActiveReleases: 8,
+    maxActiveReleases: 8,
     liftDelayMs: 520,
     flashInMs: 280,
     settleMs: 1800,

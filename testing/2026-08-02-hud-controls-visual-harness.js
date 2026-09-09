@@ -18,6 +18,11 @@ class HudControlsVisualHarnessScene extends Phaser.Scene {
 
   create() {
     this.cameras.main.setBackgroundColor(0x05090d);
+    const search = new URLSearchParams(location.search);
+    this.cameras.main.setScroll(
+      Number(search.get("scrollX")) || 0,
+      Number(search.get("scrollY")) || 0,
+    );
     this.dayNightCycle = {
       getCurrentPhaseLabel: () => "Night",
       getDay: () => 7,
@@ -77,7 +82,7 @@ class HudControlsVisualHarnessScene extends Phaser.Scene {
       combo: false,
       buff: false,
     });
-    this.hudSystem.updateClockWeather();
+
 
     this.uiMuteToggle = new UIMuteToggle(this, this.soundSystem);
     this.uiInventoryPopup = new UIInventoryPopup(this);
@@ -111,8 +116,21 @@ class HudControlsVisualHarnessScene extends Phaser.Scene {
       const lootHit = this.hudSystem.lootBagHit;
       const pauseHit = this.hudSystem.pauseMenuHit;
       const hitSize = hit => [hit?.input?.hitArea?.width || 0, hit?.input?.hitArea?.height || 0];
+      const controls = this.hudSystem.quickControls;
+      const camera = this.cameras.main;
+      const screenHitTests = Object.fromEntries([
+        ["inventory", controls?.inventoryContainer, controls?.inventoryHit],
+        ["pause", controls?.pauseContainer, controls?.pauseHit],
+        ["map", controls?.mapContainer, controls?.mapHit],
+        ["wiki", controls?.wikiShortcut?.container, controls?.wikiShortcut?.hit],
+      ].map(([name, container, hit]) => [name, Boolean(hit && container
+        && this.input.manager.hitTest(
+          { x: container.x + hit.x, y: container.y + hit.y }, [hit], camera,
+        ).includes(hit))]));
       return {
         ready: true,
+        cameraScroll: { x: camera.scrollX, y: camera.scrollY },
+        screenHitTests,
         approvedSkinActive: this.hudSystem.approvedSkin?.active === true,
         musicEnabled: this.soundSystem.musicEnabled,
         sfxEnabled: this.soundSystem.sfxEnabled,

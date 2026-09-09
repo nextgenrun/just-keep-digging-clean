@@ -6,8 +6,11 @@ import { USER_SETTINGS } from "../UserSettings.js";
 import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { HUD_JUICE_CONFIG } from "../../values/hudJuiceConfig.js";
 import { HUD_QUICK_CONTROLS } from "../../values/hudQuickControls.js";
+import { SPEED_BLOCK_FX_CONFIG } from "../../values/speedBlockFx.js";
+import { getCelestialActionBarEntry } from "../../values/celestialActionBar.js";
 import { ApprovedHudSkin } from "./ApprovedHudSkin.js";
 import { HudQuickControls } from "./HudQuickControls.js";
+import { createStellarLanceHudBuffEntry } from "./stellarLanceHudBuffEntry.js";
 import { TorchIntensityControl } from "./TorchIntensityControl.js";
 
 function setTextIfChanged(textObject, value) {
@@ -317,7 +320,9 @@ export class HUDSystem {
     this.torchIntensityControl?.setVisible(
       approvedSkinActive || this._systemVisibility.torch,
     );
-    if (!this._systemVisibility.buff) this.approvedSkin?.setBuffLines([]);
+    if (!this._systemVisibility.buff && !this._hasActiveSpecialBlockBuff()) {
+      this.approvedSkin?.setBuffLines([]);
+    }
   }
   _createQuickControls() {
     const featureFlags = this.scene.config?.featureFlags;
@@ -681,8 +686,14 @@ export class HUDSystem {
     this.comboTimerBar.fillRect(barX, barY, timerW, barH);
   }
 
+  _hasActiveSpecialBlockBuff() {
+    return this.specialBlockEffectsManager?.getMiningSpeedMultiplier?.() > 1
+      || this.specialBlockEffectsManager?.getDamageMultiplier?.() > 1
+      || this.specialBlockEffectsManager?.getFreeAbilitySnapshot?.().active === true;
+  }
+
   updateBuffTimers() {
-    if (!this._systemVisibility.buff) {
+    if (!this._systemVisibility.buff && !this._hasActiveSpecialBlockBuff()) {
       this.buffTimerText?.setVisible(false);
       this.approvedSkin?.setBuffEntries([]);
       return;
@@ -697,11 +708,14 @@ export class HUDSystem {
         const secs = this.specialBlockEffectsManager.getRemainingTime('miningSpeedBoost');
         const pct = Math.round((effects.miningSpeedBoost.multiplier - 1) * 100);
         entries.push({
-          text: `SPEED +${pct}% ${secs}s`,
+          text: `${SPEED_BLOCK_FX_CONFIG.hud.label} +${pct}% ${secs}s`,
           icon: "speed",
+          color: SPEED_BLOCK_FX_CONFIG.hud.color,
           tooltip: {
-            title: labels.miningSpeedBoost,
-            body: `Mining speed is increased by ${pct}%. ${secs}s remaining.`,
+            title: SPEED_BLOCK_FX_CONFIG.hud.title,
+            color: SPEED_BLOCK_FX_CONFIG.hud.color,
+            body: SPEED_BLOCK_FX_CONFIG.hud.description
+              .replace("{percent}", pct).replace("{seconds}", secs),
           },
         });
       }
@@ -719,17 +733,25 @@ export class HUDSystem {
         });
       }
 
-      if (effects.guaranteedCrit.active) {
-        const secs = this.specialBlockEffectsManager.getRemainingTime('guaranteedCrit');
-        entries.push({
-          text: `CRIT ${secs}s`,
-          icon: "critical",
+      const freeAbility = this.specialBlockEffectsManager.getFreeAbilitySnapshot?.();
+      if (freeAbility?.active) {
+        const ability = getCelestialActionBarEntry(freeAbility.abilityId);
+        const label = ability?.shortLabel || "POWER";
+        const color = Number.isInteger(ability?.accent)
+          ? `#${ability.accent.toString(16).padStart(6, "0").toUpperCase()}`
+          : "#C69BFF";
+        entries.unshift({
+          text: `FREE ${label} ${freeAbility.remainingSeconds}s`,
+          icon: "power",
+          color,
           tooltip: {
-            title: labels.guaranteedCrit,
-            body: `Every mining hit is a guaranteed critical strike. ${secs}s remaining.`,
+            title: `ABILITY BLOCK — ${ability?.label || "FREE POWER"}`,
+            color,
+            body: `This power is unlocked and costs no GP. ${freeAbility.remainingSeconds}s remaining.`,
           },
         });
       }
+
     }
 
     const campfire = this.scene.campfireSystem;
@@ -749,6 +771,13 @@ export class HUDSystem {
         });
       }
     }
+
+    const stellarLance = createStellarLanceHudBuffEntry(
+      this.scene.celestialEngineController?.getEmpowerSnapshot?.(
+        this.scene.time?.now || 0,
+      ),
+    );
+    if (stellarLance) entries.unshift(stellarLance);
 
     if (entries.length > 0) {
       if (this.approvedSkin?.active) {
@@ -852,7 +881,8 @@ export class HUDSystem {
   refresh() {
     if (this._destroyed || !this.statsText?.active) return;
     const displayDepth = Math.round(this._displayedDepth);
-    this.statsText.setText(this.approvedSkin?.active ? `DEPTH  ${displayDepth} m` : `Depth: ${displayDepth}m`);
+    this.statsText.setText(this.approvedSkin?.active ? `${displayDepth} m` : `Depth: ${displayDepth}m`);
+    this.approvedSkin?.fitDepthText();
   }
 
   bindGemPowerObjects(bg, fill, label) {
@@ -895,6 +925,11 @@ export class HUDSystem {
       duration: strong ? 320 : 220,
       ease: "Quad.out",
     });
+  }
+
+  getGemPowerValueBounds() {
+    return this._gemPowerLabelObject?.active === false
+      ? null : this._gemPowerLabelObject?.getBounds?.() || null;
   }
 
   getGemPowerLayout() {

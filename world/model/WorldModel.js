@@ -10,7 +10,6 @@ import {
 } from "../../values/caveSceneConfig.js";
 import { ANCIENT_RELIC_CONFIG } from "../../values/ancientRelics.js";
 import { getTileHealth } from "../../values/tileHealth.js";
-import { getResourceHpMultiplier } from "../../values/dynamicSoil.js";
 import { TILED_WORLD_OVERRIDE } from "../../values/tiledWorldOverrideData.js";
 import { WORLD_GAMEPLAY_LAYOUT } from "../../values/worldGameplayLayout.js";
 import {
@@ -41,6 +40,7 @@ import { supplementAuthoredCaveGaps } from "./CaveGapSupplementGenerator.js";
 import { SeededRandom } from "./SeededRandom.js";
 import { enforceUndergroundBedrockLayout } from "./UndergroundBedrockLayout.js";
 import {
+  applyConfiguredAbilityBlockSpawns,
   applyConfiguredStarSpawns,
   resolveAuthoredMaterialType,
 } from "./WorldSpawnAuthority.js";
@@ -54,10 +54,10 @@ const DIGGABLE_TYPES = new Set([
   TILE_TYPES.GEM_POWER_BLOCK,
   TILE_TYPES.SPEED_BLOCK,
   TILE_TYPES.XP_BLOCK,
-  TILE_TYPES.CRIT_BLOCK,
   TILE_TYPES.BERSERK_BLOCK,
   TILE_TYPES.COMBO_BLOCK,
   TILE_TYPES.LEGEND_BLOCK,
+  TILE_TYPES.ABILITY_BLOCK,
   TILE_TYPES.GEODE_INTERIOR,
   TILE_TYPES.ANCIENT_RELIC_CACHE,
 ]);
@@ -243,9 +243,14 @@ export class WorldModel {
       `[WorldModel] Enforced Level 1/2 separator outside surface clearance: `
       + `${bedrockLayout.retainedDivider} divider tiles retained, `
       + `${bedrockLayout.repairedDivider} divider gaps repaired, `
-      + `${bedrockLayout.removedLevelOne + bedrockLayout.removedLevelTwo} stray tiles replaced`,
+      + `${bedrockLayout.removedLevelOne + bedrockLayout.removedLevelTwo} stray tiles replaced `
+      + `(${bedrockLayout.removedCaveWalls} cave-wall leftovers)`,
     );
     this.applyGameplayModeBoundaries();
+    this.generatedAbilityBlockCount = applyConfiguredAbilityBlockSpawns(this);
+    console.info(
+      `[WorldModel] Applied ${this.generatedAbilityBlockCount} early-world Ability Blocks`,
+    );
     const configuredStarTiles = this.generateSkyTiles();
     console.info(
       `[WorldModel] Applied ${configuredStarTiles} configured Stars at probability `
@@ -335,10 +340,6 @@ export class WorldModel {
     for (let ty = zone.cy - Math.ceil(wallRy); ty <= zone.cy + Math.ceil(wallRy); ty += 1) {
       for (let tx = zone.cx - Math.ceil(wallRx); tx <= zone.cx + Math.ceil(wallRx); tx += 1) {
         if (!this.inBounds(tx, ty) || ty <= this.topAirRows) continue;
-        if (isInsideEllipse(tx, ty, zone.cx, zone.cy, wallRx, wallRy) &&
-            !isInsideEllipse(tx, ty, zone.cx, zone.cy, zone.rx, zone.ry)) {
-          this.setTile(tx, ty, TILE_TYPES.CAVE_WALL, 0);
-        }
         if (isInsideEllipse(tx, ty, zone.cx, zone.cy, zone.rx, zone.ry)) {
           this.setTile(tx, ty, TILE_TYPES.AIR, 0);
         }
@@ -372,18 +373,12 @@ export class WorldModel {
   applyStandaloneCaveMouth(zone) {
     const cfg = WORLD_GEN_CONFIG.caves?.standaloneScene || {};
     const mouthWidth = Math.max(1, cfg.mouthWidthTiles || 1);
-    const shellThickness = Math.max(1, cfg.shellThicknessTiles || 1);
     const left = zone.cx - Math.floor(mouthWidth / 2);
     const right = left + mouthWidth - 1;
-    const top = zone.cy - shellThickness;
-    const bottom = zone.cy + Math.max(1, cfg.mouthHeightTiles || 1) * shellThickness;
 
-    for (let tx = left; tx <= right + shellThickness; tx += 1) {
-      for (let ty = top; ty <= bottom; ty += 1) {
-        if (!this.inBounds(tx, ty) || ty <= this.topAirRows) continue;
-        const isOpening = ty === zone.cy && tx >= left && tx <= right;
-        this.setTile(tx, ty, isOpening ? TILE_TYPES.AIR : TILE_TYPES.CAVE_WALL, 0);
-      }
+    for (let tx = left; tx <= right; tx += 1) {
+      if (!this.inBounds(tx, zone.cy) || zone.cy <= this.topAirRows) continue;
+      this.setTile(tx, zone.cy, TILE_TYPES.AIR, 0);
     }
     zone.entry = { tx: right, ty: zone.cy };
     zone.mouthAnchor = { tx: (left + right) / 2, ty: zone.cy };
@@ -779,15 +774,7 @@ export class WorldModel {
     if (!this.inBounds(tileX, tileY)) return 0;
     const renderType = type === TILE_TYPES.SKY_TILE ? this.getSkyTileOriginalType(tileX, tileY) : type;
     const depthTiles = tileY - this.topAirRows;
-    const hpMult = getResourceHpMultiplier(
-      renderType,
-      tileX,
-      tileY,
-      depthTiles,
-      this.config.seed,
-      this.config.resourceEconomyEnabled !== false,
-    );
-    return getTileHealth(renderType, depthTiles, hpMult);
+    return getTileHealth(renderType, depthTiles);
   }
 
   getRenderIndex(tileX, tileY) {
