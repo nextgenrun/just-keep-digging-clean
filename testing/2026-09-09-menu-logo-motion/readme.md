@@ -8,4 +8,6 @@ Three animated logo treatments, six selected-scene loops, loading/menu compositi
 
 Values: `../../values/menuMotionReview20260909.json`. Builder: `../../ai-tools/2026-09-09-optimize-menu-motion.py`. Results and limitations: `../../markdown/2026-09-09-menu-logo-motion-review.md`.
 
-Local mockups only. Production logo choices and media defaults have not been changed or deployed. `optimized-media.json`, `optimized-final-browser.json`, and `current-final-browser.json` describe the final files. Preliminary evidence is explicitly named first or described in the report.
+Quiet sky was approved and applied to the local game on 9 September. No live deployment was performed. `optimized-media.json`, `optimized-final-browser.json`, and `current-final-browser.json` describe the final files. Preliminary evidence is explicitly named first or described in the report.
+
+`approved-runtime.patch` is the scoped integration diff. The runtime loading fixture lives at `../2026-09-07-menu-atmosphere/?motionReview=v6`; `approved-runtime-*.json` records media state and destruction/recreation checks.

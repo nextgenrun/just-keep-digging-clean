@@ -60,3 +60,5 @@ markdown/2026-09-07-menu-motion-smoothing.md.
 Loading network/readability (2026-09-08): LoadingScreenView uses static scenery and the brighter, larger shared logo while assets load. Menu scenes retain their animation. See markdown/2026-09-08-startup-recovery-and-size.md.
 
 Loading presentation (2026-09-08): the logo uses a lightweight copy of its approved moving-light layer, larger bounds and a poster-only brightness grade. Loading backgrounds use their own stronger contrast veil; menus keep their existing presentation. Reduced-motion and data-saver preferences retain the static poster.
+
+Approved Quiet sky (2026-09-09): BrandLogoView now replaces the ungraded original poster with the full transparent v6 animation, uses a shared-texture dark contour, and exposes addBrandLogoShade for a localized sky shade. LoadingScreenView enables v6 scenery with no full-screen brightness/contrast veil. Texture/lifecycle, fallback and actual menu-flow evidence: markdown/2026-09-09-menu-logo-motion-review.md. Local integration; no live release.

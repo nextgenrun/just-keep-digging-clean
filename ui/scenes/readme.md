@@ -120,3 +120,5 @@ chroma sources, alpha masters, scale sheets, and retained Level 2 v1 tone
 sources are never loaded at runtime.
 
 `LaunchScene.js` paints the approved loading artwork before importing the game scene graph through `RuntimeScenes.js`. It remains visible during Boot mini-preload; Boot removes it after its own loading UI is ready. An import failure exposes a real reload/retry action.
+
+Approved menu motion (2026-09-09): Launch/Boot skip the disabled plaque preload. MainMenu uses the approved Quiet sky shade and shared 740 × 220 logo bounds; loading and menu retain the full original-color logo animation. Gameplay and input behavior are unchanged.

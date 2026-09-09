@@ -1,16 +1,16 @@
 # Animated menu logo and video optimization review — 9 September 2026
 
-## Result and scope
+## Approved result and scope
 
 Open http://127.0.0.1:8080/testing/2026-09-09-menu-logo-motion/ for three working animated mockups. All use the approved full logo animation and original logo colors. The title treatment switches without restarting either player. Both loading and main-menu compositions are included.
 
-Recommended: **Quiet sky**, a soft dark shade behind the title plus a dark contour. **Clear silhouette** leaves the scenery undimmed and uses the contour alone. **Stone plaque** uses the existing approved matte backing. There is no brightness post-effect, gamma adjustment, fullscreen color filter, or viewfinder frame.
+Approved by the user on 9 September 2026: **Quiet sky**, a soft dark shade behind the title plus a dark contour. **Clear silhouette** leaves the scenery undimmed and uses the contour alone. **Stone plaque** uses the existing approved matte backing. There is no brightness post-effect, gamma adjustment, fullscreen color filter, or viewfinder frame.
 
-These are local review files. No live upload, release, production configuration change, or new API generation was performed. The existing game defaults remain unchanged pending selection of the logo treatment. The optimized files are used by the review; they are not yet the deployed media.
+The approved design is now integrated into the local game: `BrandLogoView`, `LoadingScreenView`, `MainMenuScene`, `LaunchScene`, `BootScene`, and their presentation values. The v6 scenery is the local runtime default; the original-color full animation is promoted to `sprites/branding/understar-motion-v6/understar-logo-loop.webm`. No live upload/release or new API generation was performed. The deployed beta remains unchanged.
 
-## Existing implementation and live observation
+## Previous implementation and live observation
 
-`values/branding.js` points at a gamma-brightened readable poster, with an additional loading-only brightness factor of 1.45. `BrandLogoView` holds those letters still and adds only a colored light video. `LoadingScreenView` disables background motion with `motion:false`. The full approved alpha animation remains available as `understar-logo-loop-alpha-v2.webm`.
+Before this integration, `values/branding.js` pointed at a gamma-brightened readable poster, with an additional loading-only brightness factor of 1.45. `BrandLogoView` held those letters still and added only a colored light video. `LoadingScreenView` disabled background motion with `motion:false`. The full approved alpha animation remains available as `understar-logo-loop-alpha-v2.webm`.
 
 The public beta opened successfully in the in-app browser, passed its intro gate, and showed the forest menu with the stone plaque and no console warnings/errors in the sampled logs. Two live screenshots show changes in the logo region and scenery; this does not prove the exact deployed configuration. Direct HTTP source reads returned SiteGround 202 challenge HTML and were not treated as app source. No claim that the complete live logo animation is entirely disabled is made.
 
@@ -53,3 +53,11 @@ Run `testing/2026-09-09-menu-logo-motion/serve-review.py` with Python, then open
 The dated builder is `ai-tools/2026-09-09-optimize-menu-motion.py`; configuration is `values/menuMotionReview20260909.json`. It takes FFmpeg and ffprobe paths from `FFMPEG_EXE` / `FFPROBE_EXE`, needs NumPy, preserves source assets, writes candidates atomically, and resumes from `optimized-media.json`. To intentionally rebuild after changing encoder settings, preserve or remove that review-only result JSON first.
 
 The three `mockup-*.png` loading screenshots and main-menu screenshot accompany the live animated HTML. Earlier `first-*` / `*-first-browser` files are preliminary evidence and do not describe the final candidate.
+
+## Approved runtime verification
+
+The actual local game passed its launch/retry, cinematic gate, cinematic and main-menu flow with the approved larger logo and original colors. The dedicated production loading-component fixture reported the full logo playing at opacity 1 with NORMAL blend, hidden poster, no backing plaque, and v6 scenery at opacity 1. One native scenery decoder plus one shared logo decoder were present; the contour uses the logo texture.
+
+Destroying the loading screen removed both owned video textures (14 → 12 textures in the fixture), zero scenery players remained, and recreation restored playback with the same texture count. A simulated scenery media error fell back to the still scene while retaining the animated logo and usable loading UI. The main-menu native-resolution contract and menu-first loading-order contract passed. `approved-game-menu.png`, `approved-runtime-*.json`, and `approved-runtime.patch` capture the result and scope. The patch compares against the specific files immediately before this integration, preserving unrelated checkout work.
+
+The approved integration is local only. The comparison page remains available, and `runtime-before/` retains the scoped pre-integration source for review.

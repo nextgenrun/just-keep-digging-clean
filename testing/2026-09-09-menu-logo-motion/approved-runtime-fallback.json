@@ -1,0 +1,71 @@
+{
+  "scenery": "Aurora sanctuary",
+  "mode": "motion",
+  "view": true,
+  "roots": 1,
+  "decoded": false,
+  "playing": false,
+  "time": 0,
+  "duration": 0,
+  "bufferedEnd": 0,
+  "seekableEnd": 0,
+  "cadence": {
+    "wraps": [],
+    "frameGapP95": 33.5,
+    "frameGapMax": 33.5
+  },
+  "loopCount": 0,
+  "nativeLoopCount": 1,
+  "nativeLoops": [
+    {
+      "time": 0,
+      "blending": false
+    }
+  ],
+  "handoffs": [],
+  "blendSamples": [],
+  "renderFps": 60,
+  "videoQuality": [],
+  "logo": {
+    "state": "playing",
+    "backing": false,
+    "posterVisible": false,
+    "videoAlpha": 1,
+    "blendMode": 0,
+    "playbackRate": 1,
+    "source": "sprites/branding/understar-motion-v6/understar-logo-loop.webm"
+  },
+  "videoStates": [],
+  "videoCount": 0,
+  "videoSources": [],
+  "effectiveVideoOpacity": 0,
+  "posterOpacity": 1,
+  "muted": true,
+  "audioTracks": 0,
+  "viewState": "Tip: Default F mines the aimed tile",
+  "videoOpacity": 0,
+  "failedMedia": true,
+  "mediaFallbacks": [
+    {
+      "role": "menu-atmosphere-video",
+      "reason": "Review media failure"
+    }
+  ],
+  "textureCount": 13,
+  "textureKeys": [
+    "__NORMAL",
+    "__DEFAULT",
+    "__MISSING",
+    "__WHITE",
+    "brand-logo",
+    "brand-logo-backing",
+    "bg-db-f1frtjf1frtjf1fr",
+    "bg-db-g6ozmlg6ozmlg6oz",
+    "bg-db-rimx2primx2primx",
+    "bg-db-kjwykkjwykkjwykk",
+    "bg-db-i30bfci30bfci30b",
+    "bg-db-wocn9hwocn9hwocn",
+    "24397bd3-42fe-4b55-9109-f8c0e9e21f38"
+  ],
+  "ownedShutdownListeners": 16
+}
