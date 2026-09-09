@@ -51,6 +51,8 @@ export const SCREEN_RECORD_CONFIG = Object.freeze({
     preRender: "prerender",
     postRender: "postrender",
   }),
+  saveToBrowser: globalThis.__DIG_GAME_PRODUCTION__ === true,
+  downloadRevokeDelayMs: 60000,
   endpoint: "/screenrecord",
   uploadField: "recording",
   fileNamePrefix: "screenrecord",

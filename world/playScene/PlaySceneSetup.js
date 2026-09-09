@@ -914,7 +914,9 @@ async function _setupSceneSafe(data = {}, uiPorts = {}) {
   this.lightFrameSync = new LightFrameSync(this);
   this.atmosphereSystem = new AtmosphereSystem(this, this.config);
   this.gameInputHandler = new GameInputHandler(this, this.inputHandler, this.playerController.input);
-  this.screenRecordSystem = GAME_CONFIG.debugMode ? new ScreenRecordSystem(this) : null;
+  this.screenRecordSystem = isGameplayFeatureEnabled(
+    GAMEPLAY_FEATURE_IDS.SCREEN_CAPTURE, this.gameplayCapabilities,
+  ) ? new ScreenRecordSystem(this) : null;
   this._refreshSafeReturnLine();
   this._gemPowerBarBg = this.add.graphics().setScrollFactor(0).setDepth(HUD_LAYOUT.hudDepth);
   this._gemPowerBarFill = this.add.graphics().setScrollFactor(0).setDepth(HUD_LAYOUT.hudOverlayDepth);

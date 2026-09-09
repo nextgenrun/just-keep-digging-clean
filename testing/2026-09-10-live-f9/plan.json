@@ -1,0 +1,34 @@
+{
+  "values/gameplayCapabilities.js": {
+    "before": "48a2c43ee94aa7296015660b094e282381979920f135ba3dc222190407c8b41b",
+    "after": "149514217ff2c4637aabf6b24e11db8e6bd5e79aa02e5b7c33b0875b08e505b9"
+  },
+  "values/screenRecordConfig.js": {
+    "before": "602ae9c972954038bb29deb61e165dc8b93b4abf33fa13afbe16c4b69587bfad",
+    "after": "a1fec873eb928aaf4d658b620da73723cf0da5d4629c58990dd97ff6df729d12"
+  },
+  "world/playScene/PlayerInputHandler.js": {
+    "before": "a6a0810553312f091f4eca49d7d96cf02132449e675bb281948d7129213e51df",
+    "after": "5ac1685c9bf8d5a9970a10c709d3b6e41ec990b2ca7150120ceb52e4a8ddfcaa"
+  },
+  "world/playScene/GameInputHandler.js": {
+    "before": "e580761555f49ca7cd0e4956bd19925f27596a0d2dffb6627c58e4a8f73765c8",
+    "after": "5adee37beccf2296a2e49d5120098c8e2e2857a4e730599eb7808f97ccd05b73"
+  },
+  "world/playScene/PlaySceneSetup.js": {
+    "before": "f6a9c903450049e2f8e71c5a9aa8e6598b6e635ee0c81cea68e5c2510e4fd7c2",
+    "after": "8cd3e6e11a90e3ff5dbfc14977482f9f8bbcbf055ed74c98b2f1209473ec262e"
+  },
+  "systems/visual/ScreenRecordSystem.js": {
+    "before": "728f41d67c639b8d56f52954240bd667600c099a2350373b82d90d627fc776fb",
+    "after": "d88c0545ddf4fc4d7564bab44063333bc16aa45f8eb850f9915e061f7576c88c"
+  },
+  "index.html": {
+    "before": "2f5d7ecb893730d9d0d95d4bc5763a3c0fcd4d7edccdcbfcb0538baba3d8b43a",
+    "after": "1e41736e215f345c71029feb791f22524a15ae5ac52771f7631e11bdd5f41f0c"
+  },
+  "values/keybindActions.js": {
+    "before": "8477682f979e7760d36f0dd9c2e5999eafc0aac82f39a48b86b9035636a6b4cb",
+    "after": "c32f85dcdf6479c605142830850527ab57b6c31de8ed901ffa026c3d6a256909"
+  }
+}

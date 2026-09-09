@@ -238,3 +238,5 @@ existing opt-in route. See `markdown/2026-09-06-level-one-live-backgrounds-v6.md
 and `testing/2026-09-06-level-one-live-v6/gallery.html`.
 
 - [7 September: relevant Hints and public wiki release](markdown/2026-09-07-hints-and-wiki.md) — Esc field guide, useful search, current screenshots, public browser proof and guarded rollback.
+
+Local server stability (2026-09-10): serve.py prevents duplicate Windows port binding, serves media byte ranges and suppresses successful-request logging. Close an existing server before restarting it. Details: markdown/2026-09-10-local-startup-logo-stability.md.

@@ -161,7 +161,7 @@ export class GameInputHandler {
     }
 
     if (
-      GAME_CONFIG.debugMode && justDown(keys.screenRecord)
+      justDown(keys.screenRecord)
       && isGameplayFeatureEnabled(
         GAMEPLAY_FEATURE_IDS.SCREEN_CAPTURE,
         this.scene.gameplayCapabilities,

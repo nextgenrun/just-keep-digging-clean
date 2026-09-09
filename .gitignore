@@ -72,3 +72,7 @@ sound/library-v2/SoundLibrary_Review/00_INBOX_RAW_EXPORTS/freesound-review-2026-
 
 # Reinstallable logo-authoring Python dependencies stay local.
 ai-tools/2026-09-07-logo-animation/pydeps/
+
+# Reproducible F9 deployment copies stay local; retain tooling and evidence.
+testing/2026-09-10-live-f9/before/
+testing/2026-09-10-live-f9/candidate/

@@ -61,3 +61,7 @@ The actual local game passed its launch/retry, cinematic gate, cinematic and mai
 Destroying the loading screen removed both owned video textures (14 → 12 textures in the fixture), zero scenery players remained, and recreation restored playback with the same texture count. A simulated scenery media error fell back to the still scene while retaining the animated logo and usable loading UI. The main-menu native-resolution contract and menu-first loading-order contract passed. `approved-game-menu.png`, `approved-runtime-*.json`, and `approved-runtime.patch` capture the result and scope. The patch compares against the specific files immediately before this integration, preserving unrelated checkout work.
 
 The approved integration is local only. The comparison page remains available, and `runtime-before/` retains the scoped pre-integration source for review.
+
+## Live publication
+
+The approved version was subsequently published at the explicit user request as build `6793e7c5ce64`. The live release supersedes the local-only status recorded above. See [SSH release verification](2026-09-09-menu-motion-live-release.md).

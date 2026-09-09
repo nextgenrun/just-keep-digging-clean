@@ -21,6 +21,7 @@ export const BRAND_CONFIG = Object.freeze({
     referenceWidth: 740,
     shadowAlpha: 0.78,
     shadowTint: 0x000000,
+    silhouetteTint: 0x000000,
     shadowOffsets: Object.freeze([[-2, 0], [2, 0], [0, -2], [0, 2], [0, 5]].map(Object.freeze)),
   }),
   layout: Object.freeze({ y: 152, width: 740, height: 220 }),

@@ -34,7 +34,7 @@ const KEYBIND_ACTION_DEFINITIONS = Object.freeze([
   { id: "thunderStrike", label: "Thunderstrike", description: "Use Thunderstrike after you unlock it.", defaultKey: "V", group: "Abilities" },
   { id: "torch", label: "Torch", description: "Turn your torch on or off.", defaultKey: "T", group: "Abilities" },
   { id: "fullscreen", label: "Fullscreen", description: "Enter or leave fullscreen.", defaultKey: "F10", group: "Display", rebindable: false },
-  { id: "screenRecord", label: "Screen Recording", description: "Start or stop recording the game canvas.", defaultKey: "F9", group: "Display", devOnly: true },
+  { id: "screenRecord", label: "Screen Recording", description: "Start or stop recording the game canvas.", defaultKey: "F9", group: "Display" },
 ]);
 
 export const KEYBIND_ACTIONS = Object.freeze(

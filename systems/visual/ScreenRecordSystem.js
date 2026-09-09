@@ -1,5 +1,4 @@
 import { SCREEN_RECORD_CONFIG } from "../../values/screenRecordConfig.js";
-import { GAME_CONFIG } from "../../values/gameConfig.js";
 import { ScreenRecordUiVisibility } from "./ScreenRecordUiVisibility.js";
 import {
   GAMEPLAY_FEATURE_IDS,
@@ -24,7 +23,7 @@ export class ScreenRecordSystem {
   constructor(scene, config = SCREEN_RECORD_CONFIG) {
     this.scene = scene;
     this.config = config;
-    this.enabled = GAME_CONFIG.debugMode && isGameplayFeatureEnabled(
+    this.enabled = isGameplayFeatureEnabled(
       GAMEPLAY_FEATURE_IDS.SCREEN_CAPTURE,
       scene?.gameplayCapabilities,
     );
@@ -47,7 +46,7 @@ export class ScreenRecordSystem {
   }
 
   async toggle() {
-    if (!this.enabled || !GAME_CONFIG.debugMode) return false;
+    if (!this.enabled) return false;
     const now = Date.now();
     if (now - this.lastToggleAt < 250) return false;
     this.lastToggleAt = now;
@@ -191,13 +190,26 @@ export class ScreenRecordSystem {
     try {
       const mimeType = recorder?.mimeType || "video/webm";
       const recording = new Blob(chunks, { type: mimeType });
-      const formData = new FormData();
-      formData.append(this.config.uploadField, recording, this._fileName(modeId));
-      const response = await fetch(this.config.endpoint, { method: "POST", body: formData });
-      if (!response.ok) throw new Error(`Upload failed (${response.status})`);
-      const result = await response.json();
-      if (!result?.ok || !result.file) throw new Error("Upload response was incomplete");
-      this._notify(this.config.notices.saved.replace("{file}", result.file), "success");
+      const fileName = this._fileName(modeId);
+      if (this.config.saveToBrowser) {
+        const url = URL.createObjectURL(recording);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = fileName;
+        (document.fullscreenElement || document.body).appendChild(link);
+        try { link.click(); } finally {
+          link.remove();
+          setTimeout(() => URL.revokeObjectURL(url), this.config.downloadRevokeDelayMs);
+        }
+      } else {
+        const formData = new FormData();
+        formData.append(this.config.uploadField, recording, fileName);
+        const response = await fetch(this.config.endpoint, { method: "POST", body: formData });
+        if (!response.ok) throw new Error(`Upload failed (${response.status})`);
+        const result = await response.json();
+        if (!result?.ok || !result.file) throw new Error("Upload response was incomplete");
+        this._notify(this.config.notices.saved.replace("{file}", result.file), "success");
+      }
       this.indicator?.remove?.();
       this.indicator = null;
     } catch (error) {

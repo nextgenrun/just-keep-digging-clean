@@ -182,3 +182,9 @@ entry dependency and the deferred LaunchScene-to-RuntimeScenes boundary.
 same guarded release workflow, pinned to the tested initial-boot/motion build
 `35b25aa356da`. The verified plan and release result are stored in
 `.tmp/startup-motion-production-deploy-20260908/`.
+
+## Approved menu delta — 9 September 2026
+
+`2026-09-09-prepare-menu-release.py` reconstructs the saved approved menu patch on a fresh SSH live snapshot. It preserves other live code, refreshes module cache keys, includes eight approved media assets, and verifies the prior deployed package used for the local overlay preview. `2026-09-09-check-menu-release.cjs` checks every module with V8 module parsing.
+
+`2026-09-09-deploy-menu-release.py stage|apply|verify|rollback` uses the saved `cline-local` SSH connection and the target fixed in `2026-09-09-menu-release-remote.py`. Stage verifies incoming hashes privately. Apply uses the existing deployment lock, checks the whole live baseline, preserves changed-file transaction copies, briefly enables maintenance, verifies all resulting hashes, and restores the exact original server configuration. No game files are deleted; no backend/PHP changes are included. Evidence is under `.tmp/menu-motion-live-20260909/`.

@@ -1,0 +1,9 @@
+{
+  "scripts": [
+    "http://127.0.0.1:49432/session-logging.js?v=6793e7c5ce64",
+    "http://127.0.0.1:49432/libs/phaser.js?v=6793e7c5ce64",
+    "http://127.0.0.1:49432/main.js?v=6793e7c5ce64"
+  ],
+  "logs": [],
+  "menuReached": true
+}

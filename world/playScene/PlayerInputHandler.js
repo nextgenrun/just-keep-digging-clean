@@ -100,7 +100,7 @@ export class PlayerInputHandler {
     const muteSfx = addBoundKey("muteSfx");
     const mainMenuKey = addBoundKey("mainMenu");
     const fullscreen = addBoundKey("fullscreen");
-    const screenRecord = GAME_CONFIG.debugMode ? addBoundKey("screenRecord") : null;
+    const screenRecord = addBoundKey("screenRecord");
 
     // Prevent browser default behavior for captured keys
     const captureKeys = new Set([

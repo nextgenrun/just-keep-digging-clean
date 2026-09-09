@@ -42,12 +42,6 @@ export function addBrandLogo(scene, x, y, options = {}) {
   ).setDisplaySize(poster.width, poster.height).setTint(VISIBILITY.shadowTint)
     .setAlpha(VISIBILITY.shadowAlpha));
   root.addAt(shadows, 0);
-  let shadowTexture = MENU_ASSET_KEYS.logo;
-  const syncShadows = key => {
-    if (key === shadowTexture) return;
-    shadowTexture = key;
-    shadows.forEach(shadow => shadow.setTexture(key).setDisplaySize(poster.width, poster.height));
-  };
   root.setData("state", "poster");
   const motionQuery = globalThis.matchMedia?.(CFG.reducedMotionQuery);
   const allowed = () => options.motion !== false && CFG.enabled && isMenuMotionAllowed()
@@ -70,16 +64,18 @@ export function addBrandLogo(scene, x, y, options = {}) {
     if (disposed) return;
     failed = true;
     clearTimeout(timer);
-    poster.setVisible(true);
-    syncShadows(MENU_ASSET_KEYS.logo);
+    poster.setVisible(true).clearTint();
     video.setAlpha(0).setPaused(true);
     root.setData("state", "poster");
   };
   const sync = () => {
     if (disposed || failed || !ready) return;
     const reduced = !allowed();
-    syncShadows(reduced ? MENU_ASSET_KEYS.logo : video.videoTexture.key);
-    poster.setVisible(reduced || Boolean(CFG.keepPoster));
+    // A stable authored silhouette blocks scenery through changing video alpha.
+    // Keep the contour static too; only the original-color video is animated.
+    poster.setVisible(true);
+    if (reduced || CFG.keepPoster) poster.clearTint();
+    else poster.setTint(VISIBILITY.silhouetteTint);
     video.setAlpha(reduced ? 0 : (presentation.opacity ?? 1));
     video.setPaused(reduced || suspended || Boolean(globalThis.document?.hidden));
     root.setData("state", reduced ? "poster" : "playing");

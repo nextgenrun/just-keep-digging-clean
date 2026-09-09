@@ -1,0 +1,14 @@
+<!doctype html><title>Production F9 recording test</title><div id="game-root"><p id="state">Loading</p></div><script>globalThis.__DIG_GAME_PRODUCTION__=true;globalThis.prompt=()=>"short";</script><script src="../libs/phaser.js"></script><script type="module">
+import {PlayerInputHandler} from '../world/playScene/PlayerInputHandler.js';
+import {GameInputHandler} from '../world/playScene/GameInputHandler.js';
+import {ScreenRecordSystem} from '../systems/visual/ScreenRecordSystem.js';
+import {DEFAULT_GAMEPLAY_CAPABILITIES} from '../values/gameplayCapabilities.js';
+class TestInput extends PlayerInputHandler{_createAimBox(){}}
+const state=document.getElementById('state');
+const makeUrl=URL.createObjectURL.bind(URL);
+URL.createObjectURL=blob=>{state.dataset.bytes=blob.size;state.dataset.mime=blob.type;return makeUrl(blob);};
+new Phaser.Game({type:Phaser.CANVAS,parent:'game-root',width:640,height:360,scene:{create(){
+this.gameState='playing';this.gameplayCapabilities=DEFAULT_GAMEPLAY_CAPABILITIES;this.screenRecordSystem=new ScreenRecordSystem(this);
+const input=new TestInput(this);this.input.keyboard.on("keydown", e=>{state.dataset.lastKey=e.code;state.dataset.binding=input.keys.screenRecord?.keyCode;});this.handler=new GameInputHandler(this,input,{});this.dot=this.add.circle(100,150,30,0xff8844);this.uiNotifications={danger:msg=>state.dataset.error=msg};
+},update(t){this.dot.x=320+Math.sin(t/200)*150;this.handler.handleGlobalInput();state.textContent='F9: '+(this.screenRecordSystem.recorder?.state||'idle')+'; downloaded bytes: '+(state.dataset.bytes||0);}}});
+</script>

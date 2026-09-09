@@ -1192,3 +1192,5 @@ Approved Quiet sky (2026-09-09): branding.js owns full alpha logo motion, origin
 ## Approved presentation patch — 2026-09-09
 
 approvedAssetPolish.js owns shop/death presentation values; approvedPolishArt.js owns generated world-art keys, bounded effect settings and seals; approvedAssetPolishBuild.json configures reproducible asset packing. Upgrade icon mappings add only the twelve approved identities.
+
+BRAND_CONFIG.visibility.silhouetteTint owns the stable dark authored logo underlay beneath the alpha animation.

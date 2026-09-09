@@ -1938,3 +1938,5 @@ a real reload/retry, and zero motion requests with reduced motion enabled.
 ## Approved presentation patch — 2026-09-09
 
 2026-09-09-approved-polish-contract.mjs covers death ordering/fall/cancellation, floating-only resource icons, buff authority and bounded terrain. The matching local save-free review fixture and approved-polish gallery retain runtime evidence and two unwired mockups.
+
+2026-09-10-local-server-contract.py exercises real media ranges, HEAD/416 responses, exclusive binding and 1,200 parallel module requests without successful-request console output.
