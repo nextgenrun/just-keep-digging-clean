@@ -2,11 +2,14 @@ import { APPROVED_ASSET_POLISH } from "../../values/approvedAssetPolish.js";
 import { resolvePlayerDisplaySizePx, resolvePlayerVisualOrigin } from
   "../../values/playerAssetProfiles.js?rev=20260821-moving-complex-dig-v1";
 
+const activeCinematics = new WeakMap();
+
 /** Plays the authored collapse before revealing the recap; never owns death or saves. */
 export function startPlayerDeathCinematic(scene, reveal) {
   const player = scene.player;
   const profile = scene.playerAssetProfile;
   if (!player?.play || !profile?.deathAnim || !scene.time?.delayedCall) return false;
+  activeCinematics.get(scene)?.();
   const cfg = APPROVED_ASSET_POLISH.death;
   let finished = false;
   let loadTimer = null;
@@ -21,6 +24,7 @@ export function startPlayerDeathCinematic(scene, reveal) {
     fallTween?.stop?.();
     player.off?.(event, collapsed);
     scene.events?.off?.("shutdown", cancel);
+    if (activeCinematics.get(scene) === cancel) activeCinematics.delete(scene);
   };
   const cancel = () => { finished = true; cleanup(); };
   const complete = () => {
@@ -34,6 +38,7 @@ export function startPlayerDeathCinematic(scene, reveal) {
     animationTimer?.remove?.(false);
     holdTimer = scene.time.delayedCall(cfg.finalPoseHoldMs, complete);
   };
+  activeCinematics.set(scene, cancel);
   scene.events?.once?.("shutdown", cancel);
   const play = () => {
     if (finished) return;
@@ -50,7 +55,13 @@ export function startPlayerDeathCinematic(scene, reveal) {
     player.anims.timeScale = 1;
     const duration = scene.anims.get?.(profile.deathAnim)?.duration
       || profile.deathFrames.length / profile.deathAnimationFps * 1000;
-    animationTimer = scene.time.delayedCall(duration + cfg.animationSafetyMs, collapsed);
+    animationTimer = scene.time.delayedCall(duration + cfg.animationSafetyMs, () => {
+      if (finished) return;
+      // A stalled/skipped animation event still ends on the grounded collapse pose.
+      player.anims.stop?.();
+      player.setTexture?.(profile.deathSheet, profile.deathFrames.at(-1));
+      collapsed();
+    });
   };
   const prepare = () => {
     if (finished) return;

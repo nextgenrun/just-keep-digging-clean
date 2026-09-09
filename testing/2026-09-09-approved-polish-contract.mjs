@@ -45,6 +45,7 @@ function deathFixture() {
   f.advance(100+APPROVED_ASSET_POLISH.death.animationSafetyMs);
   assert.equal(reveals,0);f.advance(APPROVED_ASSET_POLISH.death.finalPoseHoldMs);
   assert.equal(reveals,1,'lost animation event cannot trap the player');
+  assert.deepEqual(f.player.setTextureArgs,['collapse-sheet',2],'watchdog must land on the final collapse pose');
 }
 {
   const f=deathFixture();let tween;let reveals=0;
@@ -58,6 +59,14 @@ function deathFixture() {
   tween.onComplete();assert.equal(f.player.played,'collapse');assert.equal(reveals,0);
   f.player.emit('animationcomplete-collapse');f.advance(APPROVED_ASSET_POLISH.death.finalPoseHoldMs);
   assert.equal(reveals,1);
+}
+{
+  const f=deathFixture();let oldReveals=0;let currentReveals=0;
+  startPlayerDeathCinematic(f.scene,()=>oldReveals++);
+  startPlayerDeathCinematic(f.scene,()=>currentReveals++);
+  f.player.emit('animationcomplete-collapse');f.advance(APPROVED_ASSET_POLISH.death.finalPoseHoldMs);
+  assert.equal(oldReveals,0,'a replaced cinematic must not reveal a newer recap');
+  assert.equal(currentReveals,1);
 }
 {
   const scene={config:{},textures:{exists:()=>true},tweens:{add(c){c.onComplete?.();}}};
