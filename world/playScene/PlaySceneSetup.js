@@ -110,7 +110,8 @@ import { PickaxeTrailSystem } from "../../systems/visual/PickaxeTrailSystem.js";
 import { FlightFootParticleSystem } from "../../systems/visual/FlightFootParticleSystem.js";
 import { PlayerRunDashFxSystem } from "../../systems/visual/PlayerRunDashFxSystem.js";
 import { GroundFootstepFxSystem } from "../../systems/visual/GroundFootstepFxSystem.js";
-import { SpeedBlockFxSystem } from "../../systems/visual/SpeedBlockFxSystem.js";
+import { PLAYER_DEFERRED_ASSET_PACK_IDS } from "../../values/playerDeferredAssetPacks.js";
+import { TimedBuffFxSystem } from "../../systems/visual/TimedBuffFxSystem.js";
 import { DigImpactFxSystem } from "../../systems/visual/DigImpactFxSystem.js";
 import { PostFxSystem } from "../../systems/visual/PostFxSystem.js";
 import { FullWorldMaterialSystem } from "../../systems/visual/FullWorldMaterialSystem.js";
@@ -654,6 +655,11 @@ async function _setupSceneSafe(data = {}, uiPorts = {}) {
   );
   this.playerDeferredAnimationAssetController =
     new PlayerDeferredAnimationAssetController(this, this.playerAssetProfile);
+  // Prewarm the authored collapse without delaying playable startup.
+  if (this.playerAssetProfile.deathAnim) {
+    this.playerDeferredAnimationAssetController.pinnedPackIds.add(PLAYER_DEFERRED_ASSET_PACK_IDS.death);
+    void this.playerDeferredAnimationAssetController.ensureForAnimation(this.playerAssetProfile.deathAnim);
+  }
   this.teleportTransitionController = new TeleportTransitionController(
     this,
     uiPorts.createTeleportLoadingOverlay,
@@ -806,7 +812,7 @@ async function _setupSceneSafe(data = {}, uiPorts = {}) {
   );
   this.groundFootstepFxSystem.create();
   this.playerRunDashFx = new PlayerRunDashFxSystem(this, this.player, this.playerController);
-  this.speedBlockFxSystem = new SpeedBlockFxSystem(
+  this.speedBlockFxSystem = new TimedBuffFxSystem(
     this, this.player, this.playerController, this.specialBlockEffectsManager,
   );
   this.digImpactFxSystem = new DigImpactFxSystem(

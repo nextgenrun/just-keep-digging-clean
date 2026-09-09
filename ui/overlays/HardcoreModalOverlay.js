@@ -1,3 +1,4 @@
+import { APPROVED_ASSET_POLISH } from "../../values/approvedAssetPolish.js";
 import { HARDCORE_MODE_CONFIG } from "../../values/hardcoreMode.js";
 import { UI_COLORS } from "../../values/uiColors.js";
 import { HardcoreDeathRecapView } from "./HardcoreDeathRecapView.js";
@@ -83,7 +84,7 @@ export class HardcoreModalOverlay {
     return true;
   }
 
-  showDeath({ reason, depth, pages, onRetry, onReturn, presentation }) {
+  showDeath({ reason, depth, pages, onRetry, onReturn, presentation, deferReveal = false }) {
     const deathView = this._ensureDeathView();
     this._showRecap("death", true, () => deathView.show({
       reason,
@@ -93,6 +94,14 @@ export class HardcoreModalOverlay {
       onRetry: () => this._finishRecap(onRetry),
       onReturn: () => this._finishRecap(onReturn),
     }));
+    if (deferReveal) this.root.setVisible(false);
+  }
+
+  revealDeath() {
+    if (!this.root || this.mode !== "death") return;
+    this.root.setVisible(true).setAlpha(0);
+    this.scene.tweens.add({ targets: this.root, alpha: 1,
+      duration: APPROVED_ASSET_POLISH.death.revealMs, ease: "Sine.Out" });
   }
 
   showMemorial({ reason, depth, slotId, pages, onClose }) {
@@ -141,7 +150,7 @@ export class HardcoreModalOverlay {
   }
 
   setError(message) {
-    if (!this.isVisible) return;
+    if (!this.isVisible && this.mode !== "death") return;
     this.busy = false;
     if (this.mode === "death") {
       this.deathView.setError(message);

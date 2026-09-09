@@ -132,7 +132,7 @@ export const NPC_ACTIVITY_CONFIG = Object.freeze({
     disableValues: Object.freeze(["0", "off", "false"]),
   }),
   render: Object.freeze({
-    displayScale: 1.55,
+    displayScale: 1.15,
     depth: 15,
     activityDepthOffset: 0.01,
     referenceCanvasSizePx: 512,

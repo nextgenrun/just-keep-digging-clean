@@ -454,3 +454,8 @@ SignalTrapView assembles the approved ember frames for the pack tell and local e
 
 
 StartupImageVariants substitutes configured WebP delivery paths when Boot/Opening enqueue images, preserving texture keys, exact pixel dimensions and alpha. The generated values/startupImageVariants.js map owns the substitutions.
+
+
+## Approved presentation patch — 2026-09-09
+
+TimedBuffFxSystem preserves the yellow speed effect and adds authority-driven orange damage / violet free-ability channels. QuickslashContactFx and FlightFootParticleSystem use approved raster effects. Generated resource minis are exclusive to LootPickupFxSystem flight; inventory continuity retains the original world descriptor.

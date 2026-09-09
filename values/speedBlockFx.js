@@ -42,6 +42,7 @@ export const SPEED_BLOCK_FX_CONFIG = Object.freeze({
   }),
   hud: Object.freeze({
     label: "ATK",
+    damageColor: "#ffad64",
     title: "ATTACK SPEED",
     color: "#ffe13b",
     description: "+{percent}% attack speed from a Speed Block. {seconds}s remaining.",
@@ -54,3 +55,11 @@ export function isSpeedBlockFxEnabled(search = globalThis.location?.search || ""
   return SPEED_BLOCK_FX_CONFIG.enabled
     && !SPEED_BLOCK_FX_CONFIG.disabledValues.includes(value);
 }
+
+// Damage and free-ability rewards share the proven yellow-buff particle lifecycle.
+export const SPECIAL_BLOCK_BUFF_FX = Object.freeze({
+  damage: Object.freeze({ colors: [0xff7851, 0xffad64], maxParticles: 16,
+    intervalMs: 180, ambientCount: 2, activationCount: 7, impactCount: 4 }),
+  freeAbility: Object.freeze({ colors: [0xcda2ff, 0x9971ff], maxParticles: 16,
+    intervalMs: 220, ambientCount: 2, activationCount: 7, impactCount: 3 }),
+});

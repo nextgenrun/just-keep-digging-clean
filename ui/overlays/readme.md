@@ -161,3 +161,8 @@ non-baked presentation; see the 2026-09-06 event/UI alignment report.
 `HintsPanelContent.js` provides the Esc Hints library with relevant advice first, keyboard/pointer paging, remapped controls, and direct wiki answer links. It uses the approved HUD chip artwork on the pause modal.
 
 Inventory admission checks the shared UI input lock, scene mode and gameplay state before its direct keyboard listener can open a popup. This prevents I from stacking Inventory over sleep, the waking blessing choice, shops, maps or Pause, and respects modal closing transitions. Closing Inventory consumes its pending world-interaction press so an E tap inside the popup cannot trigger the nearby bed or shop after the closing transition.
+
+
+## Approved presentation patch — 2026-09-09
+
+The September 9 approved patch restores original open-inventory resource art, adds approved merchant title signs and owned/max seals, and defers death recap visibility until collapse completes. Mockups 26 and 28 are not runtime UI.

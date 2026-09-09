@@ -10,6 +10,7 @@ export const MERCHANT_ACTIVITY_MOTION = Object.freeze({
   headAngle: 0.38,
   headLift: 0.65,
   shopIntroMs: 680,
+  shopFarewellMs: 1250,
   shopCueAtMs: 430,
   shopAnticipationMs: 70,
   shopFadeInMs: 180,

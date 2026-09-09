@@ -121,6 +121,7 @@ import { getTileDestructionFxPreloadAssets } from "../../values/tileDestructionF
 import { getMiningTargetFeedbackPreloadAssets } from "../../values/miningTargetFeedback.js";
 import { UI_ICON_ATLAS } from "../../values/uiIcons.js";
 import { RESOURCE_ICON_ART } from "../../values/resourceIconArt.js";
+import { APPROVED_POLISH_ART } from "../../values/approvedPolishArt.js";
 import { ABILITY_UPGRADE_ICON_ART } from "../../values/abilityUpgradeIconArt.js";
 import { selectMenuMusicSeedIndex } from "../../sound/musicTrackCatalog.js";
 import {
@@ -1337,6 +1338,7 @@ export class BootScene extends Phaser.Scene {
         },
       );
     }
+    Object.values(APPROVED_POLISH_ART).forEach(asset => this.load.image(asset.key, asset.path));
     Object.values(ABILITY_UPGRADE_ICON_ART).forEach(asset => {
       this.load.image(asset.key, asset.path);
     });

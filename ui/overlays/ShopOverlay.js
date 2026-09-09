@@ -1,3 +1,7 @@
+import { APPROVED_POLISH_ART, UPGRADE_STATE_SEAL } from "../../values/approvedPolishArt.js";
+import { APPROVED_ASSET_POLISH } from "../../values/approvedAssetPolish.js";
+import { MERCHANT_SIGN_ART } from "../../values/merchantSignArt.js";
+import { fitBakedUiImage } from "../../systems/visual/bakedUiArt.js";
 import { SIGNAL_MIA } from "../../values/signalMia.js";
 import { UPGRADES } from "../../values/upgradeDefinitions.js";
 import { resolveFirstFiveMinutesEnabled } from "../../values/firstFiveMinutes.js";
@@ -150,6 +154,20 @@ export class ShopOverlay {
     this.shell.layout();
     this.walletText.setPosition(this.shell.width / 2 - 82, this.shell.titleText.y);
     this.helpText.setPosition(0, this.shell.height / 2 - 25);
+    const art = MERCHANT_SIGN_ART.merchants[this.currentMerchant];
+    if (art && this.scene.textures?.exists?.(art.key)) {
+      if (!this.merchantTitleArt) {
+        this.merchantTitleArt = this.scene.add.image(0, 0, art.key).setOrigin(0, 0.5);
+        this.shell.root.add(this.merchantTitleArt);
+      }
+      const cfg = APPROVED_ASSET_POLISH.shop;
+      this.merchantTitleArt.setTexture(art.key).setVisible(true)
+        .setPosition(this.shell.titleText.x, this.shell.titleText.y);
+      fitBakedUiImage(this.merchantTitleArt, Math.min(cfg.signWidthPx,
+        this.walletText.x - this.shell.titleText.x - cfg.walletGapPx), cfg.signHeightPx);
+      this.shell.titleText.setVisible(false);
+      this.shell.titleArt?.setVisible(false);
+    } else this.merchantTitleArt?.setVisible(false);
   }
 
   refreshKeybindHints() {
@@ -222,6 +240,8 @@ export class ShopOverlay {
     this.isVisible = false;
     this.scene.setShopOpen?.(false);
     this.shell.hide();
+    const manager = this.scene.npcManager;
+    manager?.activitySystem?.beginShopFarewell?.(this.currentMerchant, manager.activityTimeMs);
   }
 
   _syncMerchantChrome() {
@@ -557,6 +577,17 @@ export class ShopOverlay {
           selected,
           parent: this.upgradesContainer,
         });
+      }
+      if (this.moneyMonsterMode === "buy" && !item.isHardcoreConversion && !progressionLocked) {
+        const level = this.upgradeSystem?.getUpgradeLevel?.(item.id) || 0;
+        const owned = item.oneTimePurchase && level > 0;
+        const maxed = level > 0 && (level >= item.maxLevel || getUpgradeCost(item.id, level) >= Infinity);
+        const seal = APPROVED_POLISH_ART[owned ? "owned-seal" : maxed ? "max-seal" : ""];
+        if (seal && this.scene.textures?.exists?.(seal.key)) {
+          const cfg = UPGRADE_STATE_SEAL;
+          this.upgradesContainer.add(this.scene.add.image(x + cfg.xOffset, rowY + cfg.yOffset, seal.key)
+            .setDisplaySize(cfg.sizePx, cfg.sizePx));
+        }
       }
       if (progressionLocked) {
         createUiIcon(this.scene, "lock", {

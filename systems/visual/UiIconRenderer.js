@@ -1,7 +1,6 @@
 import { UI_ICON_ATLAS, UI_ICON_FRAMES } from "../../values/uiIcons.js";
 import { ASSET_KEYS } from "../../values/assetKeys.js";
 import { fitBakedUiImage } from "./bakedUiArt.js";
-import { RESOURCE_ICON_ART } from "../../values/resourceIconArt.js";
 import { ABILITY_UPGRADE_ICON_ART } from "../../values/abilityUpgradeIconArt.js";
 
 const PICKAXE_ICON_ASSETS = Object.freeze(
@@ -21,7 +20,7 @@ export function getUiIconFrame(iconName) {
 
 export function createUiIcon(scene, iconName, options = {}) {
   if (!scene?.add) return null;
-  const textureKey = RESOURCE_ICON_ART[iconName]?.key || iconName;
+  const textureKey = iconName;
   const directTexture = scene.textures?.exists(textureKey) === true;
   const atlasIconName = getDirectIconFallback(iconName);
   if (!directTexture && !scene.textures?.exists(UI_ICON_ATLAS.key)) return null;
@@ -43,7 +42,7 @@ export function createUiIcon(scene, iconName, options = {}) {
 
 export function setUiIcon(image, iconName) {
   if (!image?.active) return;
-  const textureKey = RESOURCE_ICON_ART[iconName]?.key || iconName;
+  const textureKey = iconName;
   if (image.scene?.textures?.exists(textureKey)) {
     image.setTexture(textureKey);
   } else {

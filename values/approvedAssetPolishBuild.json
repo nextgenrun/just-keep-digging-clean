@@ -1,0 +1,6 @@
+{
+  "iconSize": 256, "iconSubjectSize": 224, "alphaThreshold": 8,
+  "edgeWidth": 768, "fxSize": 256,
+  "reviewColumns": 4, "reviewCellWidth": 240, "reviewCellHeight": 252,
+  "backgrounds": ["#121720", "#e6dfcf"], "displaySizes": [34, 64, 96]
+}

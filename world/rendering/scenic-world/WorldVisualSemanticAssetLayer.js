@@ -1,3 +1,4 @@
+import { ExcavatedEdgeArtView } from "./ExcavatedEdgeArtView.js";
 import { RESOURCE_BY_TILE_TYPE } from "../../../values/resourceTypes.js";
 import { TILE_TYPES, isUnbreakableMiningSurface } from "../../../values/tileTypes.js";
 import {
@@ -31,6 +32,7 @@ export class WorldVisualSemanticAssetLayer {
     this.enabled = resolveWorldVisualSemanticAssetsEnabled(config);
     this.starIdleEnabled = false;
     this.bedrockLayer = null;
+    this.excavatedEdges = new ExcavatedEdgeArtView(scene, worldModel);
     this.resourcePool = [];
     this.resourceDepletionProvider = null;
     this.starBeautyPool = [];
@@ -81,6 +83,7 @@ export class WorldVisualSemanticAssetLayer {
     this.lastLighting = lighting;
     this.lastReduced = reduced;
     this.bedrockLayer.sync(bounds, lighting);
+    this.excavatedEdges.sync(bounds, lighting, reduced);
     this.resourcePool.forEach(image => image.setVisible(false));
     this.starBeautyPool.forEach(image => image.setVisible(false));
     this.starEmissivePool.forEach(image => image.setVisible(false));
@@ -270,6 +273,7 @@ export class WorldVisualSemanticAssetLayer {
     this.starBeautyPool.forEach(image => image.visible && setTintIfChanged(image, starTint));
     this.specialBeautyPool.forEach(image => image.visible && setTintIfChanged(image, tint));
     this.bedrockLayer?.setLighting(lighting);
+    this.excavatedEdges.setLighting(lighting);
   }
 
   setEmissiveDepth(depth) {
@@ -308,6 +312,7 @@ export class WorldVisualSemanticAssetLayer {
 
   destroy() {
     this.bedrockLayer?.destroy();
+    this.excavatedEdges.destroy();
     this.resourcePool.forEach(image => image.destroy());
     this.starBeautyPool.forEach(image => image.destroy());
     this.starEmissivePool.forEach(image => image.destroy());
@@ -315,6 +320,7 @@ export class WorldVisualSemanticAssetLayer {
     this.specialBeautyPool.forEach(image => image.destroy());
     this.specialEmissivePool.forEach(image => image.destroy());
     this.bedrockLayer = null;
+    this.excavatedEdges = new ExcavatedEdgeArtView(scene, worldModel);
     this.resourcePool = [];
     this.starBeautyPool = [];
     this.starEmissivePool = [];

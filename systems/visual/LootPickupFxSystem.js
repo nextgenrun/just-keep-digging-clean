@@ -1,3 +1,4 @@
+import { RESOURCE_ICON_ART } from "../../values/resourceIconArt.js";
 import { GAME_CONFIG } from "../../values/gameConfig.js";
 import {
   LOOT_PICKUP_PRESENTATION,
@@ -47,12 +48,19 @@ export class LootPickupFxSystem {
     skyTileRarity = null,
   } = {}) {
     if (!this._canShow(worldX, worldY) || !resourceType) return false;
-    const descriptor = normalizeLootPickupDescriptor(this.visualResolver.resolveResourcePickup({
+    const inventoryDescriptor = normalizeLootPickupDescriptor(this.visualResolver.resolveResourcePickup({
       resourceType, tileX, tileY,
     }));
-    if (!descriptor) return false;
+    if (!inventoryDescriptor) return false;
+    const art = RESOURCE_ICON_ART[resourceType];
+    const descriptor = art && this.scene.textures?.exists?.(art.key)
+      ? normalizeLootPickupDescriptor({
+        ...inventoryDescriptor, textureKey: art.key, textureFrame: null,
+        frameName: null, lightTextureKey: null, lightTextureFrame: null,
+        visualId: art.key, exactWorldFrame: false,
+      }) : inventoryDescriptor;
     return this._show({
-      worldX, worldY, resourceType, amount, descriptor,
+      worldX, worldY, resourceType, amount, descriptor, inventoryDescriptor,
       tileX, tileY, isSkyTileBonus, isStarResource, skyTileRarity,
       special: isSkyTileBonus,
     });
@@ -198,7 +206,9 @@ export class LootPickupFxSystem {
               context.resourceType,
               context.special || context.isStarResource,
             );
-            rememberRewardPickupVisual(this.scene, context);
+            rememberRewardPickupVisual(this.scene, {
+              ...context, descriptor: context.inventoryDescriptor || context.descriptor,
+            });
             this.lastArrivalTarget = Object.freeze({ ...liveTarget });
           },
         });

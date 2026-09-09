@@ -14,7 +14,6 @@ import { RewardPickupVisualResolver } from
 import { getRememberedResourcePickupVisual } from
   "../../systems/visual/RewardPickupContinuityState.js";
 
-import { RESOURCE_ICON_ART } from "../../values/resourceIconArt.js";
 
 function addText(scene, shell, x, y, value, style = {}, originX = 0, originY = 0) {
   const text = scene.add.text(x, y, value, {
@@ -40,12 +39,6 @@ function addSurface(scene, shell, x, y, width, height, selected = false) {
 }
 
 function addResourceArtwork(scene, shell, resolver, key, x, y, size, discovered) {
-  const approved = RESOURCE_ICON_ART[key];
-  if (approved && scene.textures?.exists?.(approved.key)) {
-    return addResourceCodexPortrait(scene, shell.content, key, {
-      x, y, size, alpha: discovered ? 1 : 0.5,
-    });
-  }
   const descriptor = getRememberedResourcePickupVisual(scene, key)
     || resolver.resolveResourcePickup({
       resourceType: key,

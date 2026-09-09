@@ -1,3 +1,4 @@
+import { MERCHANT_ACTIVITY_MOTION as A } from "../../values/merchantActivityMotion.js";
 import { chooseMerchantActivity } from './merchantActivityMotion.js';
 import {
   NPC_ACTIVITY_CONFIG,
@@ -143,7 +144,6 @@ export class NPCActivitySystem {
     const dueActors = this.actors
       .filter(actor => (
         actor.state === "quiet" && !actor.motion?.isSettling
-        && !actor.playerNear
         && time >= actor.nextEventAt
       ))
       .sort((a, b) => a.nextEventAt - b.nextEventAt);
@@ -166,6 +166,14 @@ export class NPCActivitySystem {
     for (const other of this.actors) {
       if (other !== actor && other.state !== "quiet") finishNpcActor(other, time, this.config, this.random);
     }
+    return true;
+  }
+
+  beginShopFarewell(merchantId, time = this.scene.time?.now || 0) {
+    if (!this.beginShopIntro(merchantId, time)) return false;
+    const actor = this.actorById.get(merchantId);
+    actor.stateEndsAt = time + A.shopFarewellMs;
+    actor.reactedDuringVisit = true;
     return true;
   }
 

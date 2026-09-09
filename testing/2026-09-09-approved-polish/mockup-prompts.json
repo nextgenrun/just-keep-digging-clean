@@ -1,0 +1,12 @@
+[
+  {
+    "id": "mockup-26-distant-cave",
+    "path": "mockup-26-distant-cave.png",
+    "prompt": "Use case: precise-object-edit. Input is an older Understar cave screenshot used as composition/style reference. Review-only concept for proposal 26: deepen the cave vista with two restrained distant silhouette layers: a huge broken stone arch far behind the blue left stairs, and barely visible narrow stone needles fading into orange haze on the right. Preserve the scale, existing foreground cave masses, player, entrance and walkable floor. Keep background contrast lower than player/foreground. No new props or UI redesign. This is a visual concept, not a runtime screenshot. Replace only the old green debug square with adjacent ordinary stone so the concept has no debug placeholder. Hand-painted semi-realistic fantasy cave art, muted blue and warm amber lighting. Preserve all other composition and visible UI text."
+  },
+  {
+    "id": "mockup-28-mining-remains",
+    "path": "mockup-28-mining-remains.png",
+    "prompt": "Use case: precise-object-edit. Input is an older Understar cave screenshot used as composition/style reference. Review-only concept for proposal 28: add one small abandoned mining vignette on the walkable floor well to the right of the player: a collapsed low wooden ore cart, short broken rail segment, one tipped unlit miner lantern. The largest prop must be no taller than the player's waist and all props must look incidental and grounded. Keep the original background, player, entrance, lighting and gameplay clearance. Do not fill the scene with clutter. No distant silhouette changes or UI redesign. This is a visual concept, not a runtime screenshot. Replace only the old green debug square with adjacent ordinary stone so the concept has no debug placeholder. Hand-painted semi-realistic fantasy cave art, muted blue and warm amber lighting. Preserve all other composition and visible UI text."
+  }
+]

@@ -1,3 +1,4 @@
+import { startPlayerDeathCinematic } from "./PlayerDeathCinematic.js";
 import { HardcoreMemorialStore } from "../../systems/hardcore/HardcoreMemorialStore.js";
 import {
   buildHardcoreDeathRecapPages,
@@ -210,7 +211,9 @@ export async function beginHardcorePermanentDeath(scene, context = {}) {
     scene.scene.start("StartMenuScene");
     return true;
   };
+  const deferReveal = startPlayerDeathCinematic(scene, () => runtime.modal.revealDeath?.());
   runtime.modal.showDeath({
+    deferReveal,
     reason: record.reason,
     depth: record.depth,
     pages: memorial.pages,

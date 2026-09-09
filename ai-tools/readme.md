@@ -618,3 +618,8 @@ Outdated import fixers from the initial restructuring have been archived to `/ar
 Motion smoothing (2026-09-07): 2026-09-07-build-smooth-menu.py derives slower 60 fps H.264 scenery and additive logo lighting from the existing approved videos. values/menuMotionRefinement.json owns per-scene timing and encoding. It makes no generation requests.
 
 `2026-09-09-optimize-menu-motion.py` creates smaller native-resolution 30 fps scenery and an original-color full alpha logo from approved sources. It verifies source hashes, media cadence, boundaries and transparency; settings and evidence are confined to the dated logo motion review.
+
+
+## Approved presentation patch — 2026-09-09
+
+2026-09-09-pack-approved-polish.py reproduces 24 runtime assets from the approved source images and manifest, validates real alpha and creates the 34/64/96-pixel readability review.

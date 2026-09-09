@@ -422,3 +422,8 @@ curtains while keeping ridge interiors opaque and original assets intact.
 Forest silhouette joins retain the V5 treatment. Historical Review class names
 and the inspector remain for tool compatibility. See
 `markdown/2026-09-06-level-one-live-backgrounds-v6.md` for runtime evidence.
+
+
+## Approved presentation patch — 2026-09-09
+
+ExcavatedEdgeArtView adds bounded, material-specific excavation rims and sparse ceiling roots through WorldVisualSemanticAssetLayer. It only reads the world and follows existing render-window updates and destruction.

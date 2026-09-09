@@ -10,7 +10,8 @@ export class SpeedBlockFxSystem {
     this.player = player;
     this.controller = controller;
     this.effects = effects;
-    this.config = SPEED_BLOCK_FX_CONFIG;
+    this.config = options.config || SPEED_BLOCK_FX_CONFIG;
+    this.activeProvider = options.activeProvider || (() => this.effects?.getMiningSpeedMultiplier?.() > 1);
     this.enabled = isSpeedBlockFxEnabled(options.search);
     this.reducedMotion = options.reducedMotion
       ?? globalThis.matchMedia?.(this.config.reducedMotionMediaQuery)?.matches === true;
@@ -26,7 +27,7 @@ export class SpeedBlockFxSystem {
   isActive() {
     return !this.destroyed && this.enabled
       && Boolean(this.player && this.controller?.physicsBody)
-      && this.effects?.getMiningSpeedMultiplier?.() > 1
+      && this.activeProvider()
       && this.player?.active !== false && this.player?.visible !== false
       && (!this.scene.gameState || this.scene.gameState === "playing");
   }

@@ -725,6 +725,7 @@ export class HUDSystem {
         const pct = Math.round((effects.damageBoost.multiplier - 1) * 100);
         entries.push({
           text: `POWER +${pct}% ${secs}s`,
+          color: SPEED_BLOCK_FX_CONFIG.hud.damageColor,
           icon: "strength",
           tooltip: {
             title: labels.damageBoost,

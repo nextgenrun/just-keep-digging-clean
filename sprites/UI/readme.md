@@ -113,3 +113,8 @@ folder remains intact as the presentation rollback source.
 `merchant-signs-v1/` contains six enabled ImageGen merchant signs with names and shop actions baked into the artwork, approved transparent cutouts, untouched sources, exact prompts, hashes, and an all-six review page.
 
 Save Slots (2026-09-07): save-menu-baked-v2/ contains complete ImageGen book/save cards and fixed instruction plaques, with original PNGs, exact prompts and source hashes.
+
+
+## Approved presentation patch — 2026-09-09
+
+approved-polish-2026-09-09 contains 24 approved source/runtime image pairs, prompts, hashes, alpha verification and a readability sheet. The two cave concepts live under testing and remain unwired.

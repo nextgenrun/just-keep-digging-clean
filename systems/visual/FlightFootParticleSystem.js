@@ -1,4 +1,5 @@
 /** Emits a restrained two-foot trail behind the approved horizontal Survivor flight pose. */
+import { APPROVED_POLISH_ART, APPROVED_ABILITY_FX as ART } from "../../values/approvedPolishArt.js";
 import { PLAYER_FLIGHT_FOOT_FX_CONFIG } from "../../values/playerFlightFootFx.js";
 
 const finite = (value, fallback = 0) => Number.isFinite(value) ? value : fallback;
@@ -27,13 +28,15 @@ export class FlightFootParticleSystem {
   update(deltaMs, poweredFlight) {
     const active = this._isEligible(poweredFlight);
     if (!active) {
+      if (this._wasActive && this.scene.gameState === "playing"
+        && this.player?.active !== false) this._spawnBurst(ART.flightBrakeScale);
       this._elapsedMs = 0;
       this._wasActive = false;
       return;
     }
 
     if (!this._wasActive) {
-      this._spawnBurst();
+      this._spawnBurst(ART.flightActivationScale);
       this._wasActive = true;
     }
 
@@ -62,11 +65,13 @@ export class FlightFootParticleSystem {
       && this.profile?.visualSkin === this.config.requiredVisualSkin;
   }
 
-  _spawnBurst() {
-    this.config.footOffsets.forEach((offset) => this._spawnParticle(offset));
+  _spawnBurst(scale = 1) {
+    this.config.footOffsets.forEach((offset) => this._spawnParticle(offset, scale));
   }
 
-  _spawnParticle(offset) {
+  _spawnParticle(offset, scale = 1) {
+    const art = APPROVED_POLISH_ART["flight-fx"];
+    if (this._live.size >= ART.flightMaxLive || !this.scene.textures?.exists?.(art.key)) return;
     const player = this.player;
     const rotation = finite(player.rotation, finite(player.angle) * Math.PI / 180);
     const flipDirection = player.flipX ? -1 : 1;
@@ -85,15 +90,9 @@ export class FlightFootParticleSystem {
     const jitterY = (Math.random() * 2 - 1) * this.config.lateralJitterPx;
     const startX = finite(player.x) + localFoot.x + jitterX;
     const startY = finite(player.y) + localFoot.y + jitterY;
-    const colors = this.config.colors;
-    const color = colors[Math.floor(Math.random() * colors.length)] ?? colors[0];
-    const particle = this.scene.add.circle(
-      startX,
-      startY,
-      randomBetween(this.config.radiusPx),
-      color,
-      this.config.startAlpha,
-    );
+    const particle = this.scene.add.image(startX, startY, art.key)
+      .setDisplaySize(ART.flightWispWidthPx * scale, ART.flightWispHeightPx * scale)
+      .setFlipX(player.flipX).setRotation(rotation).setAlpha(this.config.startAlpha);
 
     particle.setDepth?.(finite(player.depth) + this.config.depthOffset);
     particle.setBlendMode?.(globalThis.Phaser?.BlendModes?.ADD ?? "ADD");
@@ -104,7 +103,8 @@ export class FlightFootParticleSystem {
       x: startX + localTravel.x,
       y: startY + localTravel.y,
       alpha: 0,
-      scale: this.config.endScale,
+      scaleX: particle.scaleX * this.config.endScale,
+      scaleY: particle.scaleY * this.config.endScale,
       duration: randomBetween(this.config.lifetimeMs),
       ease: "Cubic.Out",
       onComplete: () => {

@@ -1,3 +1,4 @@
+import { APPROVED_POLISH_ART, APPROVED_DEBRIS_BY_FAMILY } from "../../values/approvedPolishArt.js";
 import { getMaterialFeedback } from "../../values/materialFeedback.js";
 import {
   TILE_DESTRUCTION_FX_CONFIG,
@@ -147,16 +148,18 @@ export class TileDestructionFxSystem {
       const displayTiles = randomBetween(...sizeRange) * materialScale * fineScale;
       const detail = this.polished && materialParticleFrame(this.scene, family, sequence + index,
         tileSize * displayTiles * Math.max(cfg.midScale, POLISH.destruction.cameraScale));
+      const art = APPROVED_POLISH_ART[APPROVED_DEBRIS_BY_FAMILY[family]];
+      const generated = art && this.scene.textures?.exists?.(art.key);
       const shard = this.scene.add.image(
         worldX + randomBetween(-1, 1) * tileSize * cfg.spawnRadiusTiles,
         worldY + randomBetween(-1, 1) * tileSize * cfg.spawnRadiusTiles,
-        this.config.assets.shards.key,
-        detail ? detail.name : `${family}-s${String((index % cfg.count) + 1).padStart(2, "0")}`,
+        generated ? art.key : this.config.assets.shards.key,
+        generated ? undefined : detail ? detail.name : `${family}-s${String((index % cfg.count) + 1).padStart(2, "0")}`,
       );
       if (!shard) continue;
       shard.setOrigin?.(0.5);
       shard.setDepth?.(cfg.depth + index * 0.01);
-      if (detail) sizeMaterialParticle(shard, detail, tileSize * displayTiles);
+      if (detail && !generated) sizeMaterialParticle(shard, detail, tileSize * displayTiles);
       else shard.setDisplaySize?.(tileSize * displayTiles, tileSize * displayTiles);
       shard.setTint?.(tint);
       shard.setFlipX?.(facing.x > 0);

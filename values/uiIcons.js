@@ -50,17 +50,17 @@ export const UI_MERCHANT_ICONS = Object.freeze({
 });
 
 export const UI_UPGRADE_ICONS = Object.freeze({
-  gemPowerUnlock: "gem", gemPowerTank: "gem", gemPowerEfficiency: "power",
-  gemPowerRegeneration: "power", gemFlySpeed: ABILITY_UPGRADE_ICON_ART.gemFlySpeed.key, agility: "speed",
-  strength: "strength", quickReflexes: "speed", heavyPunch: "strength",
+  gemPowerUnlock: ABILITY_UPGRADE_ICON_ART.gemPowerUnlock.key, gemPowerTank: ABILITY_UPGRADE_ICON_ART.gemPowerTank.key, gemPowerEfficiency: ABILITY_UPGRADE_ICON_ART.gemPowerEfficiency.key,
+  gemPowerRegeneration: ABILITY_UPGRADE_ICON_ART.gemPowerRegeneration.key, gemFlySpeed: ABILITY_UPGRADE_ICON_ART.gemFlySpeed.key, agility: ABILITY_UPGRADE_ICON_ART.agility.key,
+  strength: ABILITY_UPGRADE_ICON_ART.strength.key, quickReflexes: ABILITY_UPGRADE_ICON_ART.quickReflexes.key, heavyPunch: ABILITY_UPGRADE_ICON_ART.heavyPunch.key,
   bronzePickaxe: "pickaxe",
   ironPickaxe: "pickaxe", steelPickaxe: "pickaxe", mithrilPickaxe: "pickaxe",
   adamantPickaxe: "pickaxe", runePickaxe: "pickaxe", dragonPickaxe: "pickaxe",
   sellAllButton: "sell", startResourcePrices: "sell", nextResourcePrices: "sell",
   marketInsight: "stats", quickslashAbility: ABILITY_UPGRADE_ICON_ART.quickslashAbility.key,
-  thunderStrikeAbility: ABILITY_UPGRADE_ICON_ART.thunderStrikeAbility.key, torchDrainEfficiency: "torch", torchRange: "torch",
-  boboCaveEyes: "bobo", worldTwoTunnelAccess: "lock", mia: "bobo",
-  arcCoreVehicle: "power", boboWisdom: "info", upOrDown: "gem",
+  thunderStrikeAbility: ABILITY_UPGRADE_ICON_ART.thunderStrikeAbility.key, torchDrainEfficiency: ABILITY_UPGRADE_ICON_ART.torchDrainEfficiency.key, torchRange: ABILITY_UPGRADE_ICON_ART.torchRange.key,
+  boboCaveEyes: ABILITY_UPGRADE_ICON_ART.boboCaveEyes.key, worldTwoTunnelAccess: "lock", mia: "bobo",
+  arcCoreVehicle: "power", boboWisdom: ABILITY_UPGRADE_ICON_ART.boboWisdom.key, upOrDown: "gem",
 });
 
 export const UI_RESOURCE_PRESENTATION = Object.freeze({
@@ -89,7 +89,7 @@ export const UI_INVENTORY_COPY = Object.freeze({
   discoveredCountSuffix: "FOUND",
   totalUnitsSuffix: "TOTAL UNITS",
   walletSuffix: "M",
-  lockedAmount: "—",
+  lockedAmount: "â€”",
   returnLabel: "RETURN TO GAME",
 });
 

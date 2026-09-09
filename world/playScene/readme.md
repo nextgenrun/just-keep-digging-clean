@@ -510,3 +510,8 @@ TownRestBridge routes blocked menu input to GameInputHandler.discardOverlayInput
 SignalTrapRuntime owns approach/fuse/detonation and once-only resolution through the existing outcome authority. SignalEventBridge, SignalEventPlanner, SignalMinicamp and SignalEventOutcome wire the Signal encounter to the world, save transaction and death authorities. SurfaceMiaCompanion restores rescued Mia beside Bobo from upgradeLevels.mia. See markdown/2026-09-07-signal-event.md.
 
 Rest acquires the shared UI input lock for the entire sleep/choice/save flow and releases it only on successful completion or teardown; a failed save keeps ownership for retry. Pause and World Map entry refuse active rest. A pending map asset load also postpones bed admission. NPCManager includes the bed distance when choosing which E prompt to show, so a closer bed hides the competing merchant sign.
+
+
+## Approved presentation patch — 2026-09-09
+
+PlayerDeathCinematic plays a bounded visual fall to a nearby floor, the authored collapse, a final-pose hold, then recap reveal. HardcoreDeathBridge still records death and saves immediately. The death animation pack is prewarmed and pinned. Shutdown cancels delayed presentation.

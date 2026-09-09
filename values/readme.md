@@ -1187,3 +1187,8 @@ playerVoiceTriggerBreadthV2.js owns the broader silent Leo proposal, including 1
 `menuMotionReview20260909.json` owns review-only encoding, logo treatment and mockup layout values. It does not change the production branding or scenery defaults.
 
 Approved Quiet sky (2026-09-09): branding.js owns full alpha logo motion, original poster, dark contour, localized sky shade and shared menu bounds. menuAtmosphere.js defaults to optimized v6 scenery; menuLoadingPresentation.js removes the full-screen dark veil. The local runtime was updated after mockup approval; live deployment is separate.
+
+
+## Approved presentation patch — 2026-09-09
+
+approvedAssetPolish.js owns shop/death presentation values; approvedPolishArt.js owns generated world-art keys, bounded effect settings and seals; approvedAssetPolishBuild.json configures reproducible asset packing. Upgrade icon mappings add only the twelve approved identities.

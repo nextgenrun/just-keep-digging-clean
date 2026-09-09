@@ -1,0 +1,362 @@
+{
+  "gp-unlock": {
+    "source": "gp-unlock-source.png",
+    "runtime": "gp-unlock.png",
+    "prompt": "Use case: stylized-concept. Create ONE finished premium fantasy mining game upgrade inventory icon: a faceted violet amethyst core newly seated in a sturdy open bronze socket, one clear glowing core. Understar art style: sculpted semi-realistic hand-painted 3D, aged bronze hardware, silver bevel highlights, violet crystal, directional soft light upper left. Strong recognizable chunky silhouette readable at 34px, centered isolated object occupies 80 percent of square canvas. True transparent RGBA background, no ground, no panel, no text, no border, no spark cloud. Not a sheet, one asset.",
+    "generator": "built-in image_gen",
+    "alphaExtrema": [
+      0,
+      255
+    ],
+    "size": [
+      256,
+      256
+    ],
+    "sha256": "6139f874ade5c04da05c558b4c5fd9ed75139bca12161f80fa8ecb903bf2ab0e"
+  },
+  "gp-tank": {
+    "source": "gp-tank-source.png",
+    "runtime": "gp-tank.png",
+    "prompt": "Use case: stylized-concept. Create ONE finished premium fantasy mining game upgrade inventory icon: a compact bronze reservoir vessel filled with violet crystal energy, broad rounded tank silhouette with one small glass viewing window. Understar art style: sculpted semi-realistic hand-painted 3D, aged bronze hardware, silver bevel highlights, violet crystal, directional soft light upper left. Strong recognizable chunky silhouette readable at 34px, centered isolated object occupies 80 percent of square canvas. True transparent RGBA background, no ground, no panel, no text, no border, no spark cloud. Not a sheet, one asset.",
+    "generator": "built-in image_gen",
+    "alphaExtrema": [
+      0,
+      255
+    ],
+    "size": [
+      256,
+      256
+    ],
+    "sha256": "07065b2951d7ecb3f772692aaed79bba9bca0d6f0587ce2fb4782b67f37959dc"
+  },
+  "gp-efficiency": {
+    "source": "gp-efficiency-source.png",
+    "runtime": "gp-efficiency.png",
+    "prompt": "Use case: stylized-concept. Create ONE finished premium fantasy mining game upgrade inventory icon: a precision bronze regulator ring cradling a small violet crystal, three strong mechanical spokes and a restrained energy loop. Understar art style: sculpted semi-realistic hand-painted 3D, aged bronze hardware, silver bevel highlights, violet crystal, directional soft light upper left. Strong recognizable chunky silhouette readable at 34px, centered isolated object occupies 80 percent of square canvas. True transparent RGBA background, no ground, no panel, no text, no border, no spark cloud. Not a sheet, one asset.",
+    "generator": "built-in image_gen",
+    "alphaExtrema": [
+      0,
+      255
+    ],
+    "size": [
+      256,
+      256
+    ],
+    "sha256": "57b861d58d1e9c0b692cdf3714aaa882c6be3ea81e371b0ee4a5d950903cc0d6"
+  },
+  "gp-regeneration": {
+    "source": "gp-regeneration-source.png",
+    "runtime": "gp-regeneration.png",
+    "prompt": "Use case: stylized-concept. Create ONE finished premium fantasy mining game upgrade inventory icon: an upright violet crystal growing from a bronze cradle with two upward sweeping silver leaves, replenishing energy. Understar art style: sculpted semi-realistic hand-painted 3D, aged bronze hardware, silver bevel highlights, violet crystal, directional soft light upper left. Strong recognizable chunky silhouette readable at 34px, centered isolated object occupies 80 percent of square canvas. True transparent RGBA background, no ground, no panel, no text, no border, no spark cloud. Not a sheet, one asset.",
+    "generator": "built-in image_gen",
+    "alphaExtrema": [
+      0,
+      255
+    ],
+    "size": [
+      256,
+      256
+    ],
+    "sha256": "b8eb821c860342ea7f4c7b318ee9106de7226d2deaf80f9443d981e6fcefc8bc"
+  },
+  "torch-range": {
+    "source": "torch-range-source.png",
+    "runtime": "torch-range.png",
+    "prompt": "Use case: stylized-concept. ONE premium fantasy mining game upgrade icon: a bronze lantern with an oversized clear amber focusing lens, hooded iron top, readable projecting light direction. Understar sculpted semi-realistic hand-painted 3D art, aged bronze hardware, silver bevels, restrained gem accents, directional upper-left soft light. Bold distinct chunky silhouette legible at 34px. Centered object 80 percent of square canvas. True transparent RGBA background. No ground, text, border, UI panel or spark cloud. One isolated asset, not a sheet.",
+    "generator": "built-in image_gen",
+    "alphaExtrema": [
+      0,
+      255
+    ],
+    "size": [
+      256,
+      256
+    ],
+    "sha256": "a9bbaaad2f818dd21b1b89555d6ecad4644244af72ae16baedfcf149b5584b73"
+  },
+  "torch-efficiency": {
+    "source": "torch-efficiency-source.png",
+    "runtime": "torch-efficiency.png",
+    "prompt": "Use case: stylized-concept. ONE premium fantasy mining game upgrade icon: a protected amber ember nested in a compact bronze vented torch chamber, low steady flame, no lens. Understar sculpted semi-realistic hand-painted 3D art, aged bronze hardware, silver bevels, restrained gem accents, directional upper-left soft light. Bold distinct chunky silhouette legible at 34px. Centered object 80 percent of square canvas. True transparent RGBA background. No ground, text, border, UI panel or spark cloud. One isolated asset, not a sheet.",
+    "generator": "built-in image_gen",
+    "alphaExtrema": [
+      0,
+      255
+    ],
+    "size": [
+      256,
+      256
+    ],
+    "sha256": "49ec5a930b8bb53e8ad92accdf728aa0a5b079e912d278d19fff665d1f3a8b2f"
+  },
+  "strength": {
+    "source": "strength-source.png",
+    "runtime": "strength.png",
+    "prompt": "Use case: stylized-concept. ONE premium fantasy mining game upgrade icon: a thick bronze forearm bracer with strong leather straps, solid squared silhouette. Understar sculpted semi-realistic hand-painted 3D art, aged bronze hardware, silver bevels, restrained gem accents, directional upper-left soft light. Bold distinct chunky silhouette legible at 34px. Centered object 80 percent of square canvas. True transparent RGBA background. No ground, text, border, UI panel or spark cloud. One isolated asset, not a sheet.",
+    "generator": "built-in image_gen",
+    "alphaExtrema": [
+      0,
+      255
+    ],
+    "size": [
+      256,
+      256
+    ],
+    "sha256": "fb1b9736260d9733080757b57a35cb00c9207ff93efcbeac5bc7641ba38acfd5"
+  },
+  "heavy-punch": {
+    "source": "heavy-punch-source.png",
+    "runtime": "heavy-punch.png",
+    "prompt": "Use case: stylized-concept. ONE premium fantasy mining game upgrade icon: a clenched weighted silver and bronze mining gauntlet, large knuckle plates, dynamic three-quarter view. Understar sculpted semi-realistic hand-painted 3D art, aged bronze hardware, silver bevels, restrained gem accents, directional upper-left soft light. Bold distinct chunky silhouette legible at 34px. Centered object 80 percent of square canvas. True transparent RGBA background. No ground, text, border, UI panel or spark cloud. One isolated asset, not a sheet.",
+    "generator": "built-in image_gen",
+    "alphaExtrema": [
+      0,
+      255
+    ],
+    "size": [
+      256,
+      256
+    ],
+    "sha256": "d0d0ad818ce0735ff8f34c310b4199d05309ec8fb0ac4d964cf43c044295298f"
+  },
+  "agility": {
+    "source": "agility-source.png",
+    "runtime": "agility.png",
+    "prompt": "Use case: stylized-concept. ONE premium fantasy mining game upgrade icon: one supple dark leather adventurer boot with silver toe and bronze clasp, small swept fin on heel. Understar sculpted semi-realistic hand-painted 3D art, aged bronze hardware, silver bevels, restrained gem accents, directional upper-left soft light. Bold distinct chunky silhouette legible at 34px. Centered object 80 percent of square canvas. True transparent RGBA background. No ground, text, border, UI panel or spark cloud. One isolated asset, not a sheet.",
+    "generator": "built-in image_gen",
+    "alphaExtrema": [
+      0,
+      255
+    ],
+    "size": [
+      256,
+      256
+    ],
+    "sha256": "3df03fe271c59699ac07bdc1930dcc3fd8f83f0be7913386b336e3c8e4ec5ba9"
+  },
+  "quick-reflexes": {
+    "source": "quick-reflexes-source.png",
+    "runtime": "quick-reflexes.png",
+    "prompt": "Use case: stylized-concept. ONE premium fantasy mining game upgrade icon: a light silver wrist guard deflecting one tiny bronze projectile along a short curved cyan streak. Understar sculpted semi-realistic hand-painted 3D art, aged bronze hardware, silver bevels, restrained gem accents, directional upper-left soft light. Bold distinct chunky silhouette legible at 34px. Centered object 80 percent of square canvas. True transparent RGBA background. No ground, text, border, UI panel or spark cloud. One isolated asset, not a sheet.",
+    "generator": "built-in image_gen",
+    "alphaExtrema": [
+      0,
+      255
+    ],
+    "size": [
+      256,
+      256
+    ],
+    "sha256": "85c10c405dbee1b21f9e8f90aae88a491e8e2b37f73f2067f7f7c2fc6b5fcb1c"
+  },
+  "cave-eyes": {
+    "source": "cave-eyes-source.png",
+    "runtime": "cave-eyes.png",
+    "prompt": "Use case: stylized-concept. ONE premium fantasy mining game upgrade icon: a dark-adapted luminous amber eye inside a rugged bronze monocular lens, dark green leather collar. Understar sculpted semi-realistic hand-painted 3D art, aged bronze hardware, silver bevels, restrained gem accents, directional upper-left soft light. Bold distinct chunky silhouette legible at 34px. Centered object 80 percent of square canvas. True transparent RGBA background. No ground, text, border, UI panel or spark cloud. One isolated asset, not a sheet.",
+    "generator": "built-in image_gen",
+    "alphaExtrema": [
+      0,
+      255
+    ],
+    "size": [
+      256,
+      256
+    ],
+    "sha256": "39c661325c8bda771a0de23d8c595c3626886fb85ced5289a2545e61d8d302ab"
+  },
+  "wisdom": {
+    "source": "wisdom-source.png",
+    "runtime": "wisdom.png",
+    "prompt": "Use case: stylized-concept. ONE premium fantasy mining game upgrade icon: a small worn leather field journal with bronze corner fittings, emerald clasp and one folded page marker. Understar sculpted semi-realistic hand-painted 3D art, aged bronze hardware, silver bevels, restrained gem accents, directional upper-left soft light. Bold distinct chunky silhouette legible at 34px. Centered object 80 percent of square canvas. True transparent RGBA background. No ground, text, border, UI panel or spark cloud. One isolated asset, not a sheet.",
+    "generator": "built-in image_gen",
+    "alphaExtrema": [
+      0,
+      255
+    ],
+    "size": [
+      256,
+      256
+    ],
+    "sha256": "97334b5c60ad9a1b504e038e9e6a95cdbc13cee6e0ae14b00a7e40ca10641e73"
+  },
+  "soil-edge": {
+    "source": "soil-edge-source.png",
+    "runtime": "soil-edge.png",
+    "prompt": "Use case: stylized-concept. Single game-ready asset for Understar fantasy mining game: a narrow horizontal irregular exposed soil lip, crumbly dark umber earth with tiny compact clods, thin broken lower silhouette; side-on cutaway mining terrain, no roots, no stone blocks. Premium restrained hand-painted semi-realistic sculpted art. Directional soft upper-left lighting. wide 4:1 composition with generous transparent margin. True transparent RGBA background. No scene, no ground shadow, no text, no panel, no border. One asset only.",
+    "generator": "built-in image_gen",
+    "alphaExtrema": [
+      0,
+      255
+    ],
+    "size": [
+      768,
+      96
+    ],
+    "sha256": "b0ff38198b988630b536f915024d4aec11faf1a7faa116c5cb1ca167b2e2f00d"
+  },
+  "stone-edge": {
+    "source": "stone-edge-source.png",
+    "runtime": "stone-edge.png",
+    "prompt": "Use case: stylized-concept. Single game-ready asset for Understar fantasy mining game: a narrow horizontal fractured slate rock rim, layered dark gray stone chips along a rough thin lower edge, side-on cutaway mining terrain, no soil, no large boulders. Premium restrained hand-painted semi-realistic sculpted art. Directional soft upper-left lighting. wide 4:1 composition with generous transparent margin. True transparent RGBA background. No scene, no ground shadow, no text, no panel, no border. One asset only.",
+    "generator": "built-in image_gen",
+    "alphaExtrema": [
+      0,
+      255
+    ],
+    "size": [
+      768,
+      75
+    ],
+    "sha256": "521fec7b14b1737a8735eb31090824183c0ab1cc33165e12d0f73e90259db862"
+  },
+  "metal-edge": {
+    "source": "metal-edge-source.png",
+    "runtime": "metal-edge.png",
+    "prompt": "Use case: stylized-concept. Single game-ready asset for Understar fantasy mining game: a narrow horizontal copper-bearing dark rock lip with a few exposed warm copper seams and angular fragments, side-on cutaway mining terrain, no pipes or machinery. Premium restrained hand-painted semi-realistic sculpted art. Directional soft upper-left lighting. wide 4:1 composition with generous transparent margin. True transparent RGBA background. No scene, no ground shadow, no text, no panel, no border. One asset only.",
+    "generator": "built-in image_gen",
+    "alphaExtrema": [
+      0,
+      255
+    ],
+    "size": [
+      768,
+      170
+    ],
+    "sha256": "6d0adcb7ae8a5edb629e44ca86a2234af0beb48816aa14d90a3aa350feda5888"
+  },
+  "cave-roots": {
+    "source": "cave-roots-source.png",
+    "runtime": "cave-roots.png",
+    "prompt": "Use case: stylized-concept. Single game-ready asset for Understar fantasy mining game: one sparse tangled cluster of thin dark brown roots dangling downward from a short rocky ceiling lip, slender branching silhouette with much transparent space, no leaves or bright glow. Premium restrained hand-painted semi-realistic sculpted art. Directional soft upper-left lighting. square composition with generous transparent margin. True transparent RGBA background. No scene, no ground shadow, no text, no panel, no border. One asset only.",
+    "generator": "built-in image_gen",
+    "alphaExtrema": [
+      0,
+      255
+    ],
+    "size": [
+      397,
+      768
+    ],
+    "sha256": "7ad00feef253aefb807155330c9a12f2253ff7839a3c3cad306af3bad8938210"
+  },
+  "soil-chip": {
+    "source": "soil-chip-source.png",
+    "runtime": "soil-chip.png",
+    "prompt": "Use case: stylized-concept. Single game-ready asset for Understar fantasy mining game: one small irregular crumbly umber earth clod, compact chunky shape, three-quarter sculpted view. Premium restrained hand-painted semi-realistic sculpted art. Directional soft upper-left lighting. square composition with generous transparent margin. True transparent RGBA background. No scene, no ground shadow, no text, no panel, no border. One asset only.",
+    "generator": "built-in image_gen",
+    "alphaExtrema": [
+      0,
+      255
+    ],
+    "size": [
+      256,
+      256
+    ],
+    "sha256": "75ee8d161d4a5ca7609b5b433bf755b57a4e5b70ea91ad2c46726a0434a2c910"
+  },
+  "stone-chip": {
+    "source": "stone-chip-source.png",
+    "runtime": "stone-chip.png",
+    "prompt": "Use case: stylized-concept. Single game-ready asset for Understar fantasy mining game: one small angular chipped dark slate rock fragment with a pale fracture plane, compact shape. Premium restrained hand-painted semi-realistic sculpted art. Directional soft upper-left lighting. square composition with generous transparent margin. True transparent RGBA background. No scene, no ground shadow, no text, no panel, no border. One asset only.",
+    "generator": "built-in image_gen",
+    "alphaExtrema": [
+      0,
+      255
+    ],
+    "size": [
+      256,
+      256
+    ],
+    "sha256": "7bb3866b24264ed8dfbdee54b91e6fd29a8e50941ce34efb312bbb341463e703"
+  },
+  "metal-chip": {
+    "source": "metal-chip-source.png",
+    "runtime": "metal-chip.png",
+    "prompt": "Use case: stylized-concept. Single game-ready asset for Understar fantasy mining game: one small curled rough copper ore flake still attached to a little dark stone, copper vein catching light. Premium restrained hand-painted semi-realistic sculpted art. Directional soft upper-left lighting. square composition with generous transparent margin. True transparent RGBA background. No scene, no ground shadow, no text, no panel, no border. One asset only.",
+    "generator": "built-in image_gen",
+    "alphaExtrema": [
+      0,
+      255
+    ],
+    "size": [
+      256,
+      256
+    ],
+    "sha256": "4790a326e5099638cead4503b586370e6f76ff55c138a518a3fb5dcca2c666ed"
+  },
+  "crystal-chip": {
+    "source": "crystal-chip-source.png",
+    "runtime": "crystal-chip.png",
+    "prompt": "Use case: stylized-concept. Single game-ready asset for Understar fantasy mining game: one small translucent pale violet crystal splinter with sharp silver illuminated edge, compact shape, no glow cloud. Premium restrained hand-painted semi-realistic sculpted art. Directional soft upper-left lighting. square composition with generous transparent margin. True transparent RGBA background. No scene, no ground shadow, no text, no panel, no border. One asset only.",
+    "generator": "built-in image_gen",
+    "alphaExtrema": [
+      0,
+      255
+    ],
+    "size": [
+      256,
+      256
+    ],
+    "sha256": "b344d6be30cc1307e9c65e9fca8ded22e37dc5c4ec57ae653f643ec176eaf5a6"
+  },
+  "quickslash-fx": {
+    "source": "quickslash-fx-source.png",
+    "runtime": "quickslash-fx.png",
+    "prompt": "Use case: stylized-concept. Single game-ready asset for Understar fantasy mining game: one elegant thin silver white crescent slash trail with cyan inner edge, tapering sharp tips, short painterly motion streaks, no weapon or solid object, a translucent VFX sprite. Premium restrained hand-painted semi-realistic sculpted art. Directional soft upper-left lighting. square composition with generous transparent margin. True transparent RGBA background. No scene, no ground shadow, no text, no panel, no border. One asset only.",
+    "generator": "built-in image_gen",
+    "alphaExtrema": [
+      0,
+      255
+    ],
+    "size": [
+      256,
+      256
+    ],
+    "sha256": "25d95ae4a48f998e480f41199fbff586d7c9f74e74347b0da6d9d3e8c753e873"
+  },
+  "flight-fx": {
+    "source": "flight-fx-source.png",
+    "runtime": "flight-fx.png",
+    "prompt": "Use case: stylized-concept. Single game-ready asset for Understar fantasy mining game: one narrow violet and silver magical feather-shaped energy wisp, pointed tapered trail flowing horizontally left, translucent luminous core, no physical wing or object, a VFX sprite. Premium restrained hand-painted semi-realistic sculpted art. Directional soft upper-left lighting. wide 2:1 composition with generous transparent margin. True transparent RGBA background. No scene, no ground shadow, no text, no panel, no border. One asset only.",
+    "generator": "built-in image_gen",
+    "alphaExtrema": [
+      0,
+      255
+    ],
+    "size": [
+      256,
+      256
+    ],
+    "sha256": "9fcbe6c034f8d512d29241d2e67cf7378992c39aeccc1954d1972623a9c5ee49"
+  },
+  "owned-seal": {
+    "source": "owned-seal-source.png",
+    "runtime": "owned-seal.png",
+    "prompt": "Use case: stylized-concept. Single game-ready asset for Understar fantasy mining game: one small aged bronze seal with an inset silver check mark, hand-carved mining guild quality, no text, compact round silhouette. Premium restrained hand-painted semi-realistic sculpted art. Directional soft upper-left lighting. square composition with generous transparent margin. True transparent RGBA background. No scene, no ground shadow, no text, no panel, no border. One asset only.",
+    "generator": "built-in image_gen",
+    "alphaExtrema": [
+      0,
+      255
+    ],
+    "size": [
+      256,
+      256
+    ],
+    "sha256": "02c754c9b9527297bb3c3a24bffcbcfdafac8f9f6183285e323a09ad74e78042"
+  },
+  "max-seal": {
+    "source": "max-seal-source.png",
+    "runtime": "max-seal.png",
+    "prompt": "Use case: stylized-concept. Single game-ready asset for Understar fantasy mining game: one small silver and gold mastery seal with a solid three-point crown emblem, mining guild quality, no text, compact round silhouette. Premium restrained hand-painted semi-realistic sculpted art. Directional soft upper-left lighting. square composition with generous transparent margin. True transparent RGBA background. No scene, no ground shadow, no text, no panel, no border. One asset only.",
+    "generator": "built-in image_gen",
+    "alphaExtrema": [
+      0,
+      255
+    ],
+    "size": [
+      256,
+      256
+    ],
+    "sha256": "8394ce93cfb4f8bdc4940f0f7b5b2c5d25a428334f0fe6a02b2a428cce2652ab"
+  }
+}

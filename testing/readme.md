@@ -1933,3 +1933,8 @@ preview at 7 Mbps. `launch-contract.cjs` tests a failed early module download,
 a real reload/retry, and zero motion requests with reduced motion enabled.
 
 `2026-09-09-menu-logo-motion/` compares three original-color animated logo treatments and 30/60 fps scenery using the production media component and renderer density. Its range-capable loopback server, media checks, screenshots and frame-callback evidence are local review only.
+
+
+## Approved presentation patch — 2026-09-09
+
+2026-09-09-approved-polish-contract.mjs covers death ordering/fall/cancellation, floating-only resource icons, buff authority and bounded terrain. The matching local save-free review fixture and approved-polish gallery retain runtime evidence and two unwired mockups.
