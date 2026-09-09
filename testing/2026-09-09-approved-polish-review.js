@@ -19,7 +19,7 @@ function button(label, action) {
 }
 button('Warm death animation',scene=>void scene.playerDeferredAnimationAssetController.ensureForAnimation(scene.playerAssetProfile.deathAnim));
 button('Preview collapse then recap',async scene=>{
-  if(previewing)return;
+  if(previewing || scene.gameState !== 'playing'){status.textContent='Wait for playable startup before the collapse preview';return;}
   const loaded=await scene.runtimeFeatureAssetManager.ensureGroup(RUNTIME_FEATURE_ASSET_GROUP_IDS.hardcoreMode,{consumer:'local-polish-preview',adoptExisting:true});
   if(!loaded.ready){status.textContent='Hardcore preview artwork failed to load';return;}
   window.__jkdE2E?.closeAll();
