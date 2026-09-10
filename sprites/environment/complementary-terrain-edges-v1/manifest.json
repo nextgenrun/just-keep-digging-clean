@@ -1,0 +1,106 @@
+{
+  "generator": "built-in ImageGen",
+  "coreTilesChanged": false,
+  "assets": [
+    {
+      "id": "crevice-shadow",
+      "source": "crevice-shadow-source.png",
+      "runtime": "crevice-shadow.png",
+      "crop": [
+        11,
+        270,
+        2162,
+        443
+      ],
+      "size": [
+        512,
+        41
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "sha256": "f4281daedaf86fba0f9ed70b3b798c936cde62cd18bbf4cee2808f08d8ef6b27"
+    },
+    {
+      "id": "soil-corner",
+      "source": "soil-corner-source.png",
+      "runtime": "soil-corner.png",
+      "crop": [
+        97,
+        79,
+        1212,
+        1155
+      ],
+      "size": [
+        256,
+        247
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "sha256": "43d1827081f40ec215fc30b5ad7581131c4c526e6a90cb2f05cad936367834e3"
+    },
+    {
+      "id": "soil-rim",
+      "source": "soil-rim-source.png",
+      "runtime": "soil-rim.png",
+      "crop": [
+        0,
+        251,
+        2172,
+        500
+      ],
+      "size": [
+        1024,
+        117
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "sha256": "d217276d39ba7fdeda4d8f7b8a766eb63365a4d8584000588a71419a9ed78dbc"
+    },
+    {
+      "id": "stone-corner",
+      "source": "stone-corner-source.png",
+      "runtime": "stone-corner.png",
+      "crop": [
+        146,
+        157,
+        1124,
+        1114
+      ],
+      "size": [
+        256,
+        251
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "sha256": "8ee4a07d8a06ff9061506276b13bf124038737804b79ad2930b08bdaa739b3f7"
+    },
+    {
+      "id": "stone-rim",
+      "source": "stone-rim-source.png",
+      "runtime": "stone-rim.png",
+      "crop": [
+        0,
+        295,
+        2172,
+        455
+      ],
+      "size": [
+        1024,
+        75
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "sha256": "8f4ca27cfb83650b67872ed8b955afcf0a302bf5eb50753d1a15951c6628acda"
+    }
+  ]
+}

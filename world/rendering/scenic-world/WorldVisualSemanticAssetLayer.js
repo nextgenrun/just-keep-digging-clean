@@ -320,7 +320,7 @@ export class WorldVisualSemanticAssetLayer {
     this.specialBeautyPool.forEach(image => image.destroy());
     this.specialEmissivePool.forEach(image => image.destroy());
     this.bedrockLayer = null;
-    this.excavatedEdges = new ExcavatedEdgeArtView(scene, worldModel);
+    this.excavatedEdges = null;
     this.resourcePool = [];
     this.starBeautyPool = [];
     this.starEmissivePool = [];

@@ -94,6 +94,7 @@ function deathFixture() {
   let writes=0;const scene={config:{tileSize:94,topAirRows:0},textures:{exists:()=>true},add:{image:()=>imageNode()}};
   const world={getTileType:(x,y)=> y%2===0?1:0,setTileType(){writes++;}};
   const view=new ExcavatedEdgeArtView(scene,world);
+  view.enhanced=false; // Preserve coverage of the original September 9 fallback.
   view.sync({left:0,top:3,right:100,bottom:100},{terrainTint:0xabcdef});
   assert.ok(view.edges.length<=EXCAVATED_EDGE_ART.maxEdges);assert.ok(view.roots.length<=EXCAVATED_EDGE_ART.maxRoots);
   assert.equal(writes,0);const nodes=[...view.edges,...view.roots];view.destroy();assert.ok(nodes.every(n=>!n.active));

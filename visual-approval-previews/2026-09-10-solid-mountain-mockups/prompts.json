@@ -1,0 +1,24 @@
+{
+  "generator": "Built-in ImageGen",
+  "reviewOnly": true,
+  "scope": [
+    1,
+    2,
+    3,
+    5,
+    7
+  ],
+  "runtimeChanged": false,
+  "images": [
+    {
+      "id": "01-gameplay-treatment",
+      "prompt": "Create a review-only visual edit of reference image 1, an actual UNDERSTAR side-view mining screenshot. References 2 and 3 are the approved stone and soil exposed-edge art style. Preserve the exact rectangular central dug opening, original miner size and position, camera framing, top and bottom HUD, all ore patches and purple special block locations. For clarity remove ONLY the temporary bed arrow above the miner and large 'RETURN TO YOUR TOWN BED' toast; reconstruct terrain where the temporary toast was. Show only these five proposed presentation upgrades: (1) detailed exposed vertical stone/soil faces, subtle ceiling undersides, and fitted corner caps wrapping the existing opening, with shallow irregularities no greater than a tenth of a tile; (2) replace only the opening's existing distant woody background with a dark recessed geological rear wall, noticeably darker and lower contrast than solid foreground, no apparent traversable ledges; (3) surrounding common dirt and rock get restrained broad natural strata and fractured slab variation spanning several blocks rather than repeating noisy identical motifs, preserving all ore identity patches; (5) soft dark occlusion creases immediately inside ceiling and side corners to make foreground terrain look thick; (7) several different edge chip and slab silhouettes in the approved reference style, no repeated stamp. Match existing restrained realistic fantasy game lighting. Keep the original mine footprint and air clearance unchanged, thin edges not giant borders. No new tunnels, props, carts, rails, distant arches, landmarks, ore veins, damage states, dust particles, roots or material-transition overlays. No captions or callouts. This is a concept screenshot, not a new game layout. Output landscape at reference 1 aspect ratio.",
+      "source": "C:\\Users\\Mila\\.codex\\generated_images\\01a08594-0e6f-7a73-89e7-ae5804bf1cbb\\exec-e8217986-3baf-4282-815b-6c4835579240.png"
+    },
+    {
+      "id": "02-tunnel-detail",
+      "prompt": "Generate a review-only close-up environmental concept for UNDERSTAR side-view tile mining. Reference 1 establishes the game art style, materials and small human miner scale; reference 2 is the approved grey stone edge and reference 3 the approved brown soil edge. Make a landscape side-on cross-section of a simple excavated horizontal tunnel connected to a short vertical shaft on the left, using consistent square excavation steps about one human height each, generous clear walking room, no isometric view. A single miner matching reference 1 stands right of center as scale reference, around one fifth image height. Demonstrate exactly five approved visual improvements together: exposed vertical faces, ceiling undersides and fitted 90-degree corner caps of realistically thin chipped rock/soil; dark recessed low-contrast geological rear wall inside tunnel; foreground solid stone and brown soil with broad strata/slab variation spanning multiple invisible grid cells; soft inner-corner and overhang crevice shadows; multiple different chip silhouettes along long rims. Solid foreground should frame the opening above and below, with edges only 5-10% of a tile thick, not huge decorative chunks. Keep the rear wall dark desaturated blue-grey and clearly recessed while foreground grey stone and brown soil stay crisp and readable. Restrained painterly-realistic fantasy render, consistent upper-left diffuse light, no overdramatic lighting. Maintain generous negative space around miner silhouette. Do not add ore-vein systems, blended material transitions, damage, debris particles, roots, mine carts, rails, props, arches or distant landmarks. No UI, captions or labels. This is a detail concept, not an assertion of the existing world layout.",
+      "source": "C:\\Users\\Mila\\.codex\\generated_images\\01a08594-0e6f-7a73-89e7-ae5804bf1cbb\\exec-084519bf-f7d8-40cd-8851-bf2054341833.png"
+    }
+  ]
+}

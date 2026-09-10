@@ -1,0 +1,27 @@
+import assert from 'node:assert/strict';
+import { ExcavatedEdgeArtView } from '../world/rendering/scenic-world/ExcavatedEdgeArtView.js';
+import { COMPLEMENTARY_EDGES as C, COMPLEMENTARY_EDGE_ART as ART } from '../values/complementaryTerrainEdges.js';
+import { TILE_TYPES as T } from '../values/tileTypes.js';
+import { WorldVisualSemanticAssetLayer } from '../world/rendering/scenic-world/WorldVisualSemanticAssetLayer.js';
+const textures=new Map();
+function node(key){const n={visible:true,active:true,key};for(const k of ['Texture','Origin','Position','DisplaySize','Angle','Alpha','Depth','Tint','FlipX'])n['set'+k]=function(...v){this[k]=v;return this;};n.setVisible=function(v){this.visible=v;return this;};n.destroy=function(){this.active=false;};return n;}
+const scene={config:{tileSize:94,topAirRows:0},add:{image:(x,y,key)=>node(key)},textures:{exists:()=>true,get(key){if(!textures.has(key)){const frames=new Map();textures.set(key,{has:k=>frames.has(k),getSourceImage:()=>({width:1024,height:128}),add:(k,...v)=>frames.set(k,v)});}return textures.get(key);}}};
+let empty=false;let queries=0;
+const world={getTileType(x,y){queries++;return empty || y<3 || x<0 || x>7 || y>6?T.AIR:(x===2&&y===4?T.COPPER:T.DIRT);}};
+const view=new ExcavatedEdgeArtView(scene,world);view.sync({left:-1,top:2,right:9,bottom:8},{terrainTint:0xabcdef});
+const snap=view.getSnapshot();assert.ok(snap.edges>0&&snap.corners>0&&snap.shadows>0);
+assert.equal(Object.keys(ART).length,5);assert.ok(Object.keys(ART).every(k=>!/(strata|recessed)/.test(k)));
+assert.ok(view.edges.every(i=>i.DisplaySize[1]<=94*C.thicknessTiles));
+assert.ok(view.corners.every(i=>i.DisplaySize[0]===94*C.cornerSizeTiles));
+assert.ok(view.shadows.every(i=>i.DisplaySize[1]===94*C.shadowThicknessTiles));
+const variants=new Set(view.edges.map(i=>i.Texture[1]));assert.ok(variants.size>=C.variants);
+const before=JSON.stringify(view.edges.map(i=>[i.Texture,i.Position,i.Angle]));
+const pool=snap.pooled;view.sync({left:-1,top:2,right:9,bottom:8},{terrainTint:0xabcdef});
+assert.equal(view.getSnapshot().pooled,pool);assert.equal(JSON.stringify(view.edges.map(i=>[i.Texture,i.Position,i.Angle])),before);
+view.sync({left:-1,top:2,right:100,bottom:100},null,true);
+assert.ok(view.getSnapshot().edges<=Math.floor(C.maxEdges/2));
+empty=true;view.sync({left:-1,top:2,right:9,bottom:8},null);assert.equal(view.getSnapshot().edges,0);assert.equal(view.getSnapshot().corners,0);assert.equal(view.getSnapshot().shadows,0);
+const all=[...view.edges,...view.corners,...view.shadows,...view.roots];view.destroy();assert.ok(all.every(i=>!i.active));
+const layer=Object.create(WorldVisualSemanticAssetLayer.prototype);Object.assign(layer,{excavatedEdges:{destroy(){}},resourcePool:[],starBeautyPool:[],starEmissivePool:[],starIdlePool:[],specialBeautyPool:[],specialEmissivePool:[]});
+assert.doesNotThrow(()=>layer.destroy());assert.equal(layer.excavatedEdges,null);
+console.log('COMPLEMENTARY_EDGES_OK: boundary-only geometry, four variants, stable pooling, caps, empty-air cleanup, and scene teardown.');

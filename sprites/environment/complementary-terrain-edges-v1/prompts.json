@@ -1,0 +1,27 @@
+[
+  {
+    "id": "stone-rim",
+    "prompt": "Production raster asset for UNDERSTAR side-view mining, matching the approved attached reference. Realistic painterly rock and earth, restrained neutral upper-left lighting. No text, UI, miner, objects, roots, ore veins, gems, props or scene layout. A single long horizontal grey slate excavation edge strip, transparent background, approximately 6:1 artwork aspect ratio. Side-on thin solid rock lip with shallow visible top plane and irregular chipped underside. Across its length vary between flat fractured slabs, chipped short blocks and a few shallow notches, no repeating stamps. Connected material extends cleanly to both ends; no isolated flying fragments. Make it compatible with rotating to vertical walls and ceilings under diffuse neutral light. Center ribbon with transparent margins, true alpha not black or checkerboard.",
+    "source": "C:\\Users\\Mila\\.codex\\generated_images\\01a08594-0e6f-7a73-89e7-ae5804bf1cbb\\exec-824d23d5-8263-4828-9cbd-94acf97a676e.png"
+  },
+  {
+    "id": "soil-rim",
+    "prompt": "Production raster asset for UNDERSTAR side-view mining, matching the approved attached reference. Realistic painterly rock and earth, restrained neutral upper-left lighting. No text, UI, miner, objects, roots, ore veins, gems, props or scene layout. A single long horizontal brown earth excavation edge strip, transparent background, approximately 6:1 artwork aspect ratio. Side-on compacted soil lip with an irregular crumbling underside and narrow top edge. Several varied clod sizes, shallow broken profiles and a few restrained notches across its length. Connected material extends to both ends, no floating particles or roots. Compatible with rotating for vertical walls and ceilings using diffuse neutral lighting. Center ribbon with transparent margins, true alpha not black or checkerboard.",
+    "source": "C:\\Users\\Mila\\.codex\\generated_images\\01a08594-0e6f-7a73-89e7-ae5804bf1cbb\\exec-d32b440d-a03b-47f5-9c8c-eaa8f493223f.png"
+  },
+  {
+    "id": "stone-corner",
+    "prompt": "Production raster asset for UNDERSTAR side-view mining, matching the approved attached reference. Realistic painterly rock and earth, restrained neutral upper-left lighting. No text, UI, miner, objects, roots, ore veins, gems, props or scene layout. One modular grey slate corner cap isolated on true transparent background. Flat side-view graphic of the upper-left convex 90-degree corner of a solid rock block: short horizontal rim extends right from the corner, short vertical rim extends down from the corner, forming a tight connected L. Open transparent area everywhere except the L shaped narrow strip of fractured grey stone. Equal arms, each about 4 times the strip thickness. Small irregular chips but unmistakable square corner, no perspective cube or bevel icon. Neutral diffuse lighting, matches stone tunnel boundary.",
+    "source": "C:\\Users\\Mila\\.codex\\generated_images\\01a08594-0e6f-7a73-89e7-ae5804bf1cbb\\exec-99060b06-3a89-4287-98e8-302b5065c486.png"
+  },
+  {
+    "id": "soil-corner",
+    "prompt": "Production raster asset for UNDERSTAR side-view mining, matching the approved attached reference. Realistic painterly rock and earth, restrained neutral upper-left lighting. No text, UI, miner, objects, roots, ore veins, gems, props or scene layout. One modular brown compacted-earth corner cap isolated on true transparent background. Flat side-view graphic of upper-left convex 90-degree corner of a solid dirt block: short horizontal rim extends right, short vertical rim extends down, connected tight L. Open transparent area everywhere except the L shaped narrow strip of crumbly brown earth. Equal arms about 4 times strip thickness. Irregular clods but unmistakable square corner. No perspective cube, no roots, no particles. Neutral diffuse lighting, matches soil tunnel boundary.",
+    "source": "C:\\Users\\Mila\\.codex\\generated_images\\01a08594-0e6f-7a73-89e7-ae5804bf1cbb\\exec-5dd8f232-5145-4838-9c1c-71ce558537ce.png"
+  },
+  {
+    "id": "crevice-shadow",
+    "prompt": "Production raster asset for UNDERSTAR side-view mining, matching the approved attached reference. Realistic painterly rock and earth, restrained neutral upper-left lighting. No text, UI, miner, objects, roots, ore veins, gems, props or scene layout. One very wide horizontal soft crevice shadow strip on true transparent background for layering just beneath a cave ceiling. Black charcoal occlusion with a slightly irregular dense upper edge at center height fading smoothly downward into completely transparent alpha, no visible rock, no grey background, no rectangular border, no glow, no white edge. Width about 8 times height, varies subtly along its length but joins at ends. A raster shadow overlay, not a scene. Transparent margins.",
+    "source": "C:\\Users\\Mila\\.codex\\generated_images\\01a08594-0e6f-7a73-89e7-ae5804bf1cbb\\exec-6bfc1d9c-3beb-41b7-ab6a-d9b607d1840f.png"
+  }
+]
