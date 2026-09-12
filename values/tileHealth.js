@@ -28,6 +28,14 @@ export const TILE_HEALTH = Object.freeze({
 });
 
 export const TILE_HEALTH_CONFIG = Object.freeze({
+  // Celestial talents can multiply the amount of ground cleared during a
+  // single activation. Make the approach to the 300m gate keep pace with
+  // that power curve, while keeping the authored material ordering intact.
+  earlyDepthScaling: Object.freeze({
+    thresholdMeters: 300,
+    maximumMultiplier: 4,
+    exponent: 2,
+  }),
   tileHealth: {
     [TILE_TYPES.DIRT]: { min: 45, max: 200 },
     [TILE_TYPES.DARK_DIRT_NORMAL]: { min: 125, max: 362 },
@@ -64,7 +72,15 @@ export function getTileHealth(tileType, depthTiles) {
   if (!hc) return 10;
   if (hc.min === hc.max) return hc.min;
   const maxDepth = WORLD_DEPTH_CONFIG.levelTwoDepthMeters;
-  const dr = Math.min(1, Math.max(0, depthTiles / maxDepth));
-  const bh = Math.floor(hc.min + (hc.max - hc.min) * dr);
-  return bh;
+  const depth = Math.max(0, Number(depthTiles) || 0);
+  const depthRatio = Math.min(1, depth / maxDepth);
+  const baseHealth = hc.min + (hc.max - hc.min) * depthRatio;
+
+  // The multiplier rises exponentially through the early expedition and
+  // then holds its 300m value, avoiding a durability cliff at the gate.
+  const early = TILE_HEALTH_CONFIG.earlyDepthScaling;
+  const earlyRatio = Math.min(1, depth / early.thresholdMeters);
+  const earlyMultiplier = 1 + (early.maximumMultiplier - 1)
+    * (earlyRatio ** early.exponent);
+  return Math.floor(baseHealth * earlyMultiplier);
 }
