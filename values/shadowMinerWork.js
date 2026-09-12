@@ -1,7 +1,7 @@
 import { TILE_TYPES } from "./tileTypes.js";
 export const SHADOW_MINER_WORK = Object.freeze({
-  minimumObserveMs: 6500, maximumApproachMs: 1700,
-  approachTilesPerSecond: 0.7, fleeTilesPerSecond: 1.2,
+  minimumObserveMs: 6500, maximumApproachMs: 2100,
+  approachTilesPerSecond: 0.9, fleeTilesPerSecond: 1.2,
   torchRangeTiles: 3.2, torchArrivalGraceMs: 1600,
   cycleMs: 1800, actionMs: 1150, contactRatio: 0.56,
   maximumBlocks: 3, minimumPlayerDistanceTiles: 3,

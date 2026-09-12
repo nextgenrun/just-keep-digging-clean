@@ -1,0 +1,1542 @@
+{
+  "phase": "complete",
+  "results": [
+    {
+      "phase": "surface",
+      "estimatedMiB": 1473.3215827941895,
+      "sourceCount": 703,
+      "owners": {
+        "boot-core": 816595980,
+        "celestial-threshold": 62386452,
+        "level-two": 421552,
+        "heavenblocks": 20480,
+        "feature-campfire": 12580128,
+        "typed-confirmation": 6291456,
+        "player-core": 478483924,
+        "player-mode": 20090192,
+        "depth-backdrop": 12582912,
+        "feature-star-block-fx": 57645344,
+        "terrain-variation": 38535168,
+        "ground-structure": 12582912,
+        "underground-detail": 13107200,
+        "backdrop-enhancer": 12582912,
+        "high-impact-fx-thunder": 983040
+      },
+      "eagerPresent": true,
+      "lazyPresent": 0,
+      "lazyCount": 17,
+      "talentViewReady": false,
+      "missingViewTextures": [],
+      "playerPacks": {
+        "evictions": 0,
+        "packs": {
+          "crouch": {
+            "status": "idle",
+            "pinned": true,
+            "ready": true
+          },
+          "flight": {
+            "status": "idle",
+            "pinned": true,
+            "ready": true
+          },
+          "teleport": {
+            "status": "idle",
+            "pinned": false,
+            "ready": true
+          },
+          "upward-aim": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "impact": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "death": {
+            "status": "ready",
+            "pinned": true,
+            "ready": true
+          },
+          "locomotion-polish": {
+            "status": "idle",
+            "pinned": true,
+            "ready": true
+          },
+          "side-mining": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "diagonal-mining": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "ledge-climb": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "moving-complex-mining": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "complex-side-mining": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "complex-up-mining": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "complex-down-mining": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "idle-fidget": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          }
+        }
+      },
+      "featureGroups": {
+        "enabled": true,
+        "groups": [
+          {
+            "id": "campfire-tier:1",
+            "status": "ready",
+            "consumers": 1,
+            "pendingAssets": 0,
+            "loadedAssets": 1,
+            "totalAssets": 1,
+            "progress": 1,
+            "managedTextures": 1,
+            "lastUsedAtMs": 101146.89999999106
+          },
+          {
+            "id": "star-rarity:1",
+            "status": "ready",
+            "consumers": 1,
+            "pendingAssets": 0,
+            "loadedAssets": 3,
+            "totalAssets": 3,
+            "progress": 1,
+            "managedTextures": 3,
+            "lastUsedAtMs": 101154.29999999702
+          },
+          {
+            "id": "star-rarity:0",
+            "status": "ready",
+            "consumers": 1,
+            "pendingAssets": 0,
+            "loadedAssets": 3,
+            "totalAssets": 3,
+            "progress": 1,
+            "managedTextures": 3,
+            "lastUsedAtMs": 103881.79999999702
+          }
+        ],
+        "readyGroups": 3,
+        "loadingGroups": 0,
+        "pendingAssets": 0,
+        "evictions": 0,
+        "failedGroups": 0,
+        "cancelledGroups": 0,
+        "pressure": {
+          "deferredGroups": 0,
+          "timedOutGroups": 0
+        }
+      },
+      "frame": {
+        "sampleCount": 600,
+        "last": 16.6,
+        "median": 16.7,
+        "p95": 17.1,
+        "p99": 45,
+        "max": 278.3
+      }
+    },
+    {
+      "phase": "800m",
+      "estimatedMiB": 1727.8904914855957,
+      "sourceCount": 742,
+      "owners": {
+        "boot-core": 851107884,
+        "celestial-threshold": 62386452,
+        "level-two": 421552,
+        "heavenblocks": 20480,
+        "feature-campfire": 12580128,
+        "typed-confirmation": 6291456,
+        "player-core": 478483924,
+        "player-mode": 20090192,
+        "feature-star-block-fx": 107098688,
+        "terrain-variation": 88866816,
+        "high-impact-fx-thunder": 983040,
+        "depth-backdrop": 44040192,
+        "material-field": 25160256,
+        "ground-structure": 31457280,
+        "underground-detail": 45087424,
+        "backdrop-enhancer": 37748736
+      },
+      "eagerPresent": true,
+      "lazyPresent": 0,
+      "lazyCount": 17,
+      "talentViewReady": false,
+      "missingViewTextures": [],
+      "playerPacks": {
+        "evictions": 0,
+        "packs": {
+          "crouch": {
+            "status": "idle",
+            "pinned": true,
+            "ready": true
+          },
+          "flight": {
+            "status": "idle",
+            "pinned": true,
+            "ready": true
+          },
+          "teleport": {
+            "status": "idle",
+            "pinned": false,
+            "ready": true
+          },
+          "upward-aim": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "impact": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "death": {
+            "status": "ready",
+            "pinned": true,
+            "ready": true
+          },
+          "locomotion-polish": {
+            "status": "idle",
+            "pinned": true,
+            "ready": true
+          },
+          "side-mining": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "diagonal-mining": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "ledge-climb": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "moving-complex-mining": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "complex-side-mining": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "complex-up-mining": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "complex-down-mining": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "idle-fidget": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          }
+        }
+      },
+      "featureGroups": {
+        "enabled": true,
+        "groups": [
+          {
+            "id": "campfire-tier:1",
+            "status": "ready",
+            "consumers": 1,
+            "pendingAssets": 0,
+            "loadedAssets": 1,
+            "totalAssets": 1,
+            "progress": 1,
+            "managedTextures": 1,
+            "lastUsedAtMs": 101146.89999999106
+          },
+          {
+            "id": "star-rarity:1",
+            "status": "ready",
+            "consumers": 2,
+            "pendingAssets": 0,
+            "loadedAssets": 3,
+            "totalAssets": 3,
+            "progress": 1,
+            "managedTextures": 3,
+            "lastUsedAtMs": 109904.59999999404
+          },
+          {
+            "id": "star-rarity:0",
+            "status": "ready",
+            "consumers": 1,
+            "pendingAssets": 0,
+            "loadedAssets": 3,
+            "totalAssets": 3,
+            "progress": 1,
+            "managedTextures": 3,
+            "lastUsedAtMs": 103881.79999999702
+          },
+          {
+            "id": "star-rarity:2",
+            "status": "ready",
+            "consumers": 1,
+            "pendingAssets": 0,
+            "loadedAssets": 3,
+            "totalAssets": 3,
+            "progress": 1,
+            "managedTextures": 3,
+            "lastUsedAtMs": 109904.59999999404
+          },
+          {
+            "id": "star-rarity:3",
+            "status": "ready",
+            "consumers": 1,
+            "pendingAssets": 0,
+            "loadedAssets": 3,
+            "totalAssets": 3,
+            "progress": 1,
+            "managedTextures": 3,
+            "lastUsedAtMs": 109904.69999998808
+          }
+        ],
+        "readyGroups": 5,
+        "loadingGroups": 0,
+        "pendingAssets": 0,
+        "evictions": 0,
+        "failedGroups": 0,
+        "cancelledGroups": 0,
+        "pressure": {
+          "deferredGroups": 0,
+          "timedOutGroups": 0
+        }
+      },
+      "frame": {
+        "sampleCount": 600,
+        "last": 17.4,
+        "median": 16.7,
+        "p95": 17.1,
+        "p99": 19.2,
+        "max": 39.6
+      }
+    },
+    {
+      "phase": "talents-open-1",
+      "estimatedMiB": 1813.2274475097656,
+      "sourceCount": 774,
+      "owners": {
+        "boot-core": 851107944,
+        "celestial-threshold": 62386452,
+        "level-two": 421552,
+        "heavenblocks": 20480,
+        "feature-campfire": 12580128,
+        "typed-confirmation": 6291456,
+        "player-core": 478483924,
+        "player-mode": 20090192,
+        "feature-star-block-fx": 107098688,
+        "terrain-variation": 88866816,
+        "high-impact-fx-thunder": 983040,
+        "depth-backdrop": 44040192,
+        "material-field": 25160256,
+        "ground-structure": 31457280,
+        "underground-detail": 45087424,
+        "backdrop-enhancer": 37748736,
+        "feature-starlight": 89482224
+      },
+      "eagerPresent": true,
+      "lazyPresent": 17,
+      "lazyCount": 17,
+      "talentViewReady": true,
+      "missingViewTextures": [],
+      "playerPacks": {
+        "evictions": 0,
+        "packs": {
+          "crouch": {
+            "status": "idle",
+            "pinned": true,
+            "ready": true
+          },
+          "flight": {
+            "status": "idle",
+            "pinned": true,
+            "ready": true
+          },
+          "teleport": {
+            "status": "idle",
+            "pinned": false,
+            "ready": true
+          },
+          "upward-aim": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "impact": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "death": {
+            "status": "ready",
+            "pinned": true,
+            "ready": true
+          },
+          "locomotion-polish": {
+            "status": "idle",
+            "pinned": true,
+            "ready": true
+          },
+          "side-mining": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "diagonal-mining": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "ledge-climb": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "moving-complex-mining": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "complex-side-mining": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "complex-up-mining": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "complex-down-mining": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "idle-fidget": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          }
+        }
+      },
+      "featureGroups": {
+        "enabled": true,
+        "groups": [
+          {
+            "id": "campfire-tier:1",
+            "status": "ready",
+            "consumers": 1,
+            "pendingAssets": 0,
+            "loadedAssets": 1,
+            "totalAssets": 1,
+            "progress": 1,
+            "managedTextures": 1,
+            "lastUsedAtMs": 101146.89999999106
+          },
+          {
+            "id": "star-rarity:1",
+            "status": "ready",
+            "consumers": 2,
+            "pendingAssets": 0,
+            "loadedAssets": 3,
+            "totalAssets": 3,
+            "progress": 1,
+            "managedTextures": 3,
+            "lastUsedAtMs": 109904.59999999404
+          },
+          {
+            "id": "star-rarity:0",
+            "status": "ready",
+            "consumers": 1,
+            "pendingAssets": 0,
+            "loadedAssets": 3,
+            "totalAssets": 3,
+            "progress": 1,
+            "managedTextures": 3,
+            "lastUsedAtMs": 103881.79999999702
+          },
+          {
+            "id": "star-rarity:2",
+            "status": "ready",
+            "consumers": 1,
+            "pendingAssets": 0,
+            "loadedAssets": 3,
+            "totalAssets": 3,
+            "progress": 1,
+            "managedTextures": 3,
+            "lastUsedAtMs": 109904.59999999404
+          },
+          {
+            "id": "star-rarity:3",
+            "status": "ready",
+            "consumers": 1,
+            "pendingAssets": 0,
+            "loadedAssets": 3,
+            "totalAssets": 3,
+            "progress": 1,
+            "managedTextures": 3,
+            "lastUsedAtMs": 109904.69999998808
+          },
+          {
+            "id": "starlight",
+            "status": "ready",
+            "consumers": 1,
+            "pendingAssets": 0,
+            "loadedAssets": 23,
+            "totalAssets": 23,
+            "progress": 1,
+            "managedTextures": 17,
+            "lastUsedAtMs": 115826.09999999404
+          }
+        ],
+        "readyGroups": 6,
+        "loadingGroups": 0,
+        "pendingAssets": 0,
+        "evictions": 0,
+        "failedGroups": 0,
+        "cancelledGroups": 0,
+        "pressure": {
+          "deferredGroups": 0,
+          "timedOutGroups": 0
+        }
+      },
+      "frame": {
+        "sampleCount": 600,
+        "last": 16.8,
+        "median": 16.7,
+        "p95": 17.2,
+        "p99": 19.8,
+        "max": 39.6
+      },
+      "openMs": 2665.9000000059605
+    },
+    {
+      "phase": "talents-closed-1",
+      "estimatedMiB": 1727.8904914855957,
+      "sourceCount": 742,
+      "owners": {
+        "boot-core": 851107884,
+        "celestial-threshold": 62386452,
+        "level-two": 421552,
+        "heavenblocks": 20480,
+        "feature-campfire": 12580128,
+        "typed-confirmation": 6291456,
+        "player-core": 478483924,
+        "player-mode": 20090192,
+        "feature-star-block-fx": 107098688,
+        "terrain-variation": 88866816,
+        "high-impact-fx-thunder": 983040,
+        "depth-backdrop": 44040192,
+        "material-field": 25160256,
+        "ground-structure": 31457280,
+        "underground-detail": 45087424,
+        "backdrop-enhancer": 37748736
+      },
+      "eagerPresent": true,
+      "lazyPresent": 0,
+      "lazyCount": 17,
+      "talentViewReady": false,
+      "missingViewTextures": [],
+      "playerPacks": {
+        "evictions": 0,
+        "packs": {
+          "crouch": {
+            "status": "idle",
+            "pinned": true,
+            "ready": true
+          },
+          "flight": {
+            "status": "idle",
+            "pinned": true,
+            "ready": true
+          },
+          "teleport": {
+            "status": "idle",
+            "pinned": false,
+            "ready": true
+          },
+          "upward-aim": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "impact": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "death": {
+            "status": "ready",
+            "pinned": true,
+            "ready": true
+          },
+          "locomotion-polish": {
+            "status": "idle",
+            "pinned": true,
+            "ready": true
+          },
+          "side-mining": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "diagonal-mining": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "ledge-climb": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "moving-complex-mining": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "complex-side-mining": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "complex-up-mining": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "complex-down-mining": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "idle-fidget": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          }
+        }
+      },
+      "featureGroups": {
+        "enabled": true,
+        "groups": [
+          {
+            "id": "campfire-tier:1",
+            "status": "ready",
+            "consumers": 1,
+            "pendingAssets": 0,
+            "loadedAssets": 1,
+            "totalAssets": 1,
+            "progress": 1,
+            "managedTextures": 1,
+            "lastUsedAtMs": 101146.89999999106
+          },
+          {
+            "id": "star-rarity:1",
+            "status": "ready",
+            "consumers": 2,
+            "pendingAssets": 0,
+            "loadedAssets": 3,
+            "totalAssets": 3,
+            "progress": 1,
+            "managedTextures": 3,
+            "lastUsedAtMs": 109904.59999999404
+          },
+          {
+            "id": "star-rarity:0",
+            "status": "ready",
+            "consumers": 1,
+            "pendingAssets": 0,
+            "loadedAssets": 3,
+            "totalAssets": 3,
+            "progress": 1,
+            "managedTextures": 3,
+            "lastUsedAtMs": 103881.79999999702
+          },
+          {
+            "id": "star-rarity:2",
+            "status": "ready",
+            "consumers": 1,
+            "pendingAssets": 0,
+            "loadedAssets": 3,
+            "totalAssets": 3,
+            "progress": 1,
+            "managedTextures": 3,
+            "lastUsedAtMs": 109904.59999999404
+          },
+          {
+            "id": "star-rarity:3",
+            "status": "ready",
+            "consumers": 1,
+            "pendingAssets": 0,
+            "loadedAssets": 3,
+            "totalAssets": 3,
+            "progress": 1,
+            "managedTextures": 3,
+            "lastUsedAtMs": 109904.69999998808
+          },
+          {
+            "id": "starlight",
+            "status": "idle",
+            "consumers": 0,
+            "pendingAssets": 17,
+            "loadedAssets": 6,
+            "totalAssets": 23,
+            "progress": 0.2608695652173913,
+            "managedTextures": 0,
+            "lastUsedAtMs": 118487.29999999702
+          }
+        ],
+        "readyGroups": 5,
+        "loadingGroups": 0,
+        "pendingAssets": 17,
+        "evictions": 1,
+        "failedGroups": 0,
+        "cancelledGroups": 0,
+        "pressure": {
+          "deferredGroups": 0,
+          "timedOutGroups": 0
+        }
+      },
+      "frame": {
+        "sampleCount": 600,
+        "last": 17.1,
+        "median": 16.7,
+        "p95": 17.2,
+        "p99": 19.1,
+        "max": 24.5
+      }
+    },
+    {
+      "phase": "talents-open-2",
+      "estimatedMiB": 1813.2274475097656,
+      "sourceCount": 774,
+      "owners": {
+        "boot-core": 851107928,
+        "celestial-threshold": 62386452,
+        "level-two": 421552,
+        "heavenblocks": 20480,
+        "feature-campfire": 12580128,
+        "typed-confirmation": 6291456,
+        "player-core": 478483924,
+        "player-mode": 20090192,
+        "feature-star-block-fx": 107098688,
+        "terrain-variation": 88866816,
+        "high-impact-fx-thunder": 983040,
+        "depth-backdrop": 44040192,
+        "material-field": 25160256,
+        "ground-structure": 31457280,
+        "underground-detail": 45087424,
+        "backdrop-enhancer": 37748736,
+        "feature-starlight": 89482224,
+        "catalog-unclassified": 16
+      },
+      "eagerPresent": true,
+      "lazyPresent": 17,
+      "lazyCount": 17,
+      "talentViewReady": true,
+      "missingViewTextures": [],
+      "playerPacks": {
+        "evictions": 0,
+        "packs": {
+          "crouch": {
+            "status": "idle",
+            "pinned": true,
+            "ready": true
+          },
+          "flight": {
+            "status": "idle",
+            "pinned": true,
+            "ready": true
+          },
+          "teleport": {
+            "status": "idle",
+            "pinned": false,
+            "ready": true
+          },
+          "upward-aim": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "impact": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "death": {
+            "status": "ready",
+            "pinned": true,
+            "ready": true
+          },
+          "locomotion-polish": {
+            "status": "idle",
+            "pinned": true,
+            "ready": true
+          },
+          "side-mining": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "diagonal-mining": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "ledge-climb": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "moving-complex-mining": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "complex-side-mining": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "complex-up-mining": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "complex-down-mining": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "idle-fidget": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          }
+        }
+      },
+      "featureGroups": {
+        "enabled": true,
+        "groups": [
+          {
+            "id": "campfire-tier:1",
+            "status": "ready",
+            "consumers": 1,
+            "pendingAssets": 0,
+            "loadedAssets": 1,
+            "totalAssets": 1,
+            "progress": 1,
+            "managedTextures": 1,
+            "lastUsedAtMs": 101146.89999999106
+          },
+          {
+            "id": "star-rarity:1",
+            "status": "ready",
+            "consumers": 2,
+            "pendingAssets": 0,
+            "loadedAssets": 3,
+            "totalAssets": 3,
+            "progress": 1,
+            "managedTextures": 3,
+            "lastUsedAtMs": 109904.59999999404
+          },
+          {
+            "id": "star-rarity:0",
+            "status": "ready",
+            "consumers": 1,
+            "pendingAssets": 0,
+            "loadedAssets": 3,
+            "totalAssets": 3,
+            "progress": 1,
+            "managedTextures": 3,
+            "lastUsedAtMs": 103881.79999999702
+          },
+          {
+            "id": "star-rarity:2",
+            "status": "ready",
+            "consumers": 1,
+            "pendingAssets": 0,
+            "loadedAssets": 3,
+            "totalAssets": 3,
+            "progress": 1,
+            "managedTextures": 3,
+            "lastUsedAtMs": 109904.59999999404
+          },
+          {
+            "id": "star-rarity:3",
+            "status": "ready",
+            "consumers": 1,
+            "pendingAssets": 0,
+            "loadedAssets": 3,
+            "totalAssets": 3,
+            "progress": 1,
+            "managedTextures": 3,
+            "lastUsedAtMs": 109904.69999998808
+          },
+          {
+            "id": "starlight",
+            "status": "ready",
+            "consumers": 1,
+            "pendingAssets": 0,
+            "loadedAssets": 23,
+            "totalAssets": 23,
+            "progress": 1,
+            "managedTextures": 17,
+            "lastUsedAtMs": 126001.19999998808
+          }
+        ],
+        "readyGroups": 6,
+        "loadingGroups": 0,
+        "pendingAssets": 0,
+        "evictions": 1,
+        "failedGroups": 0,
+        "cancelledGroups": 0,
+        "pressure": {
+          "deferredGroups": 0,
+          "timedOutGroups": 0
+        }
+      },
+      "frame": {
+        "sampleCount": 600,
+        "last": 16.6,
+        "median": 16.7,
+        "p95": 17.2,
+        "p99": 17.8,
+        "max": 24.5
+      },
+      "openMs": 1231.0999999940395
+    },
+    {
+      "phase": "talents-closed-2",
+      "estimatedMiB": 1727.8904914855957,
+      "sourceCount": 742,
+      "owners": {
+        "boot-core": 851107884,
+        "celestial-threshold": 62386452,
+        "level-two": 421552,
+        "heavenblocks": 20480,
+        "feature-campfire": 12580128,
+        "typed-confirmation": 6291456,
+        "player-core": 478483924,
+        "player-mode": 20090192,
+        "feature-star-block-fx": 107098688,
+        "terrain-variation": 88866816,
+        "high-impact-fx-thunder": 983040,
+        "depth-backdrop": 44040192,
+        "material-field": 25160256,
+        "ground-structure": 31457280,
+        "underground-detail": 45087424,
+        "backdrop-enhancer": 37748736
+      },
+      "eagerPresent": true,
+      "lazyPresent": 0,
+      "lazyCount": 17,
+      "talentViewReady": false,
+      "missingViewTextures": [],
+      "playerPacks": {
+        "evictions": 0,
+        "packs": {
+          "crouch": {
+            "status": "idle",
+            "pinned": true,
+            "ready": true
+          },
+          "flight": {
+            "status": "idle",
+            "pinned": true,
+            "ready": true
+          },
+          "teleport": {
+            "status": "idle",
+            "pinned": false,
+            "ready": true
+          },
+          "upward-aim": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "impact": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "death": {
+            "status": "ready",
+            "pinned": true,
+            "ready": true
+          },
+          "locomotion-polish": {
+            "status": "idle",
+            "pinned": true,
+            "ready": true
+          },
+          "side-mining": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "diagonal-mining": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "ledge-climb": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "moving-complex-mining": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "complex-side-mining": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "complex-up-mining": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "complex-down-mining": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "idle-fidget": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          }
+        }
+      },
+      "featureGroups": {
+        "enabled": true,
+        "groups": [
+          {
+            "id": "campfire-tier:1",
+            "status": "ready",
+            "consumers": 1,
+            "pendingAssets": 0,
+            "loadedAssets": 1,
+            "totalAssets": 1,
+            "progress": 1,
+            "managedTextures": 1,
+            "lastUsedAtMs": 101146.89999999106
+          },
+          {
+            "id": "star-rarity:1",
+            "status": "ready",
+            "consumers": 2,
+            "pendingAssets": 0,
+            "loadedAssets": 3,
+            "totalAssets": 3,
+            "progress": 1,
+            "managedTextures": 3,
+            "lastUsedAtMs": 109904.59999999404
+          },
+          {
+            "id": "star-rarity:0",
+            "status": "ready",
+            "consumers": 1,
+            "pendingAssets": 0,
+            "loadedAssets": 3,
+            "totalAssets": 3,
+            "progress": 1,
+            "managedTextures": 3,
+            "lastUsedAtMs": 103881.79999999702
+          },
+          {
+            "id": "star-rarity:2",
+            "status": "ready",
+            "consumers": 1,
+            "pendingAssets": 0,
+            "loadedAssets": 3,
+            "totalAssets": 3,
+            "progress": 1,
+            "managedTextures": 3,
+            "lastUsedAtMs": 109904.59999999404
+          },
+          {
+            "id": "star-rarity:3",
+            "status": "ready",
+            "consumers": 1,
+            "pendingAssets": 0,
+            "loadedAssets": 3,
+            "totalAssets": 3,
+            "progress": 1,
+            "managedTextures": 3,
+            "lastUsedAtMs": 109904.69999998808
+          },
+          {
+            "id": "starlight",
+            "status": "idle",
+            "consumers": 0,
+            "pendingAssets": 17,
+            "loadedAssets": 6,
+            "totalAssets": 23,
+            "progress": 0.2608695652173913,
+            "managedTextures": 0,
+            "lastUsedAtMs": 127230.19999998808
+          }
+        ],
+        "readyGroups": 5,
+        "loadingGroups": 0,
+        "pendingAssets": 17,
+        "evictions": 2,
+        "failedGroups": 0,
+        "cancelledGroups": 0,
+        "pressure": {
+          "deferredGroups": 0,
+          "timedOutGroups": 0
+        }
+      },
+      "frame": {
+        "sampleCount": 600,
+        "last": 16.5,
+        "median": 16.7,
+        "p95": 17.3,
+        "p99": 19.5,
+        "max": 24.9
+      }
+    },
+    {
+      "phase": "optional-animation-ready",
+      "estimatedMiB": 1757.8100204467773,
+      "sourceCount": 768,
+      "owners": {
+        "boot-core": 851107984,
+        "celestial-threshold": 62386452,
+        "level-two": 421552,
+        "heavenblocks": 20480,
+        "feature-campfire": 12580128,
+        "typed-confirmation": 6291456,
+        "player-core": 478483924,
+        "player-mode": 51462992,
+        "feature-star-block-fx": 107098688,
+        "terrain-variation": 88866816,
+        "high-impact-fx-thunder": 983040,
+        "depth-backdrop": 44040192,
+        "material-field": 25160256,
+        "ground-structure": 31457280,
+        "underground-detail": 45087424,
+        "backdrop-enhancer": 37748736
+      },
+      "eagerPresent": true,
+      "lazyPresent": 0,
+      "lazyCount": 17,
+      "talentViewReady": false,
+      "missingViewTextures": [],
+      "playerPacks": {
+        "evictions": 0,
+        "packs": {
+          "crouch": {
+            "status": "idle",
+            "pinned": true,
+            "ready": true
+          },
+          "flight": {
+            "status": "idle",
+            "pinned": true,
+            "ready": true
+          },
+          "teleport": {
+            "status": "idle",
+            "pinned": false,
+            "ready": true
+          },
+          "upward-aim": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "impact": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "death": {
+            "status": "ready",
+            "pinned": true,
+            "ready": true
+          },
+          "locomotion-polish": {
+            "status": "idle",
+            "pinned": true,
+            "ready": true
+          },
+          "side-mining": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "diagonal-mining": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "ledge-climb": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "moving-complex-mining": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "complex-side-mining": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "complex-up-mining": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "complex-down-mining": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "idle-fidget": {
+            "status": "ready",
+            "pinned": false,
+            "ready": true
+          }
+        }
+      },
+      "featureGroups": {
+        "enabled": true,
+        "groups": [
+          {
+            "id": "campfire-tier:1",
+            "status": "ready",
+            "consumers": 1,
+            "pendingAssets": 0,
+            "loadedAssets": 1,
+            "totalAssets": 1,
+            "progress": 1,
+            "managedTextures": 1,
+            "lastUsedAtMs": 101146.89999999106
+          },
+          {
+            "id": "star-rarity:1",
+            "status": "ready",
+            "consumers": 2,
+            "pendingAssets": 0,
+            "loadedAssets": 3,
+            "totalAssets": 3,
+            "progress": 1,
+            "managedTextures": 3,
+            "lastUsedAtMs": 109904.59999999404
+          },
+          {
+            "id": "star-rarity:0",
+            "status": "ready",
+            "consumers": 1,
+            "pendingAssets": 0,
+            "loadedAssets": 3,
+            "totalAssets": 3,
+            "progress": 1,
+            "managedTextures": 3,
+            "lastUsedAtMs": 103881.79999999702
+          },
+          {
+            "id": "star-rarity:2",
+            "status": "ready",
+            "consumers": 1,
+            "pendingAssets": 0,
+            "loadedAssets": 3,
+            "totalAssets": 3,
+            "progress": 1,
+            "managedTextures": 3,
+            "lastUsedAtMs": 109904.59999999404
+          },
+          {
+            "id": "star-rarity:3",
+            "status": "ready",
+            "consumers": 1,
+            "pendingAssets": 0,
+            "loadedAssets": 3,
+            "totalAssets": 3,
+            "progress": 1,
+            "managedTextures": 3,
+            "lastUsedAtMs": 109904.69999998808
+          },
+          {
+            "id": "starlight",
+            "status": "idle",
+            "consumers": 0,
+            "pendingAssets": 17,
+            "loadedAssets": 6,
+            "totalAssets": 23,
+            "progress": 0.2608695652173913,
+            "managedTextures": 0,
+            "lastUsedAtMs": 127230.19999998808
+          }
+        ],
+        "readyGroups": 5,
+        "loadingGroups": 0,
+        "pendingAssets": 17,
+        "evictions": 2,
+        "failedGroups": 0,
+        "cancelledGroups": 0,
+        "pressure": {
+          "deferredGroups": 0,
+          "timedOutGroups": 0
+        }
+      },
+      "frame": {
+        "sampleCount": 600,
+        "last": 16.8,
+        "median": 16.7,
+        "p95": 17.3,
+        "p99": 19.5,
+        "max": 99
+      }
+    },
+    {
+      "phase": "optional-animation-cooled",
+      "estimatedMiB": 1733.8923530578613,
+      "sourceCount": 743,
+      "owners": {
+        "boot-core": 857401292,
+        "celestial-threshold": 62386452,
+        "level-two": 421552,
+        "heavenblocks": 20480,
+        "feature-campfire": 12580128,
+        "typed-confirmation": 6291456,
+        "player-core": 478483924,
+        "player-mode": 20090192,
+        "feature-star-block-fx": 107098688,
+        "terrain-variation": 88866816,
+        "high-impact-fx-thunder": 983040,
+        "depth-backdrop": 44040192,
+        "material-field": 25160256,
+        "ground-structure": 31457280,
+        "underground-detail": 45087424,
+        "backdrop-enhancer": 37748736
+      },
+      "eagerPresent": true,
+      "lazyPresent": 0,
+      "lazyCount": 17,
+      "talentViewReady": false,
+      "missingViewTextures": [],
+      "playerPacks": {
+        "evictions": 1,
+        "packs": {
+          "crouch": {
+            "status": "idle",
+            "pinned": true,
+            "ready": true
+          },
+          "flight": {
+            "status": "idle",
+            "pinned": true,
+            "ready": true
+          },
+          "teleport": {
+            "status": "idle",
+            "pinned": false,
+            "ready": true
+          },
+          "upward-aim": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "impact": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "death": {
+            "status": "ready",
+            "pinned": true,
+            "ready": true
+          },
+          "locomotion-polish": {
+            "status": "idle",
+            "pinned": true,
+            "ready": true
+          },
+          "side-mining": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "diagonal-mining": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "ledge-climb": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "moving-complex-mining": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "complex-side-mining": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "complex-up-mining": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "complex-down-mining": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          },
+          "idle-fidget": {
+            "status": "idle",
+            "pinned": false,
+            "ready": false
+          }
+        }
+      },
+      "featureGroups": {
+        "enabled": true,
+        "groups": [
+          {
+            "id": "campfire-tier:1",
+            "status": "ready",
+            "consumers": 1,
+            "pendingAssets": 0,
+            "loadedAssets": 1,
+            "totalAssets": 1,
+            "progress": 1,
+            "managedTextures": 1,
+            "lastUsedAtMs": 101146.89999999106
+          },
+          {
+            "id": "star-rarity:1",
+            "status": "ready",
+            "consumers": 2,
+            "pendingAssets": 0,
+            "loadedAssets": 3,
+            "totalAssets": 3,
+            "progress": 1,
+            "managedTextures": 3,
+            "lastUsedAtMs": 109904.59999999404
+          },
+          {
+            "id": "star-rarity:0",
+            "status": "ready",
+            "consumers": 1,
+            "pendingAssets": 0,
+            "loadedAssets": 3,
+            "totalAssets": 3,
+            "progress": 1,
+            "managedTextures": 3,
+            "lastUsedAtMs": 103881.79999999702
+          },
+          {
+            "id": "star-rarity:2",
+            "status": "ready",
+            "consumers": 1,
+            "pendingAssets": 0,
+            "loadedAssets": 3,
+            "totalAssets": 3,
+            "progress": 1,
+            "managedTextures": 3,
+            "lastUsedAtMs": 109904.59999999404
+          },
+          {
+            "id": "star-rarity:3",
+            "status": "ready",
+            "consumers": 1,
+            "pendingAssets": 0,
+            "loadedAssets": 3,
+            "totalAssets": 3,
+            "progress": 1,
+            "managedTextures": 3,
+            "lastUsedAtMs": 109904.69999998808
+          },
+          {
+            "id": "starlight",
+            "status": "idle",
+            "consumers": 0,
+            "pendingAssets": 17,
+            "loadedAssets": 6,
+            "totalAssets": 23,
+            "progress": 0.2608695652173913,
+            "managedTextures": 0,
+            "lastUsedAtMs": 127230.19999998808
+          }
+        ],
+        "readyGroups": 5,
+        "loadingGroups": 0,
+        "pendingAssets": 17,
+        "evictions": 2,
+        "failedGroups": 0,
+        "cancelledGroups": 0,
+        "pressure": {
+          "deferredGroups": 0,
+          "timedOutGroups": 0
+        }
+      },
+      "frame": {
+        "sampleCount": 600,
+        "last": 16.7,
+        "median": 16.7,
+        "p95": 17,
+        "p99": 17.3,
+        "max": 21.2
+      }
+    }
+  ],
+  "errors": []
+}

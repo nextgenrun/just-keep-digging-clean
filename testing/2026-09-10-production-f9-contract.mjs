@@ -1,6 +1,8 @@
 import assert from 'node:assert/strict';
 globalThis.__DIG_GAME_PRODUCTION__ = true;
 const { DEFAULT_GAMEPLAY_CAPABILITIES: caps, GAMEPLAY_FEATURE_IDS: ids } = await import('../values/gameplayCapabilities.js');
+const { createDefaultKeybinds } = await import('../values/keybindActions.js');
+assert.equal(createDefaultKeybinds().screenRecord, 'F9');
 const { GAME_CONFIG } = await import('../values/gameConfig.js');
 const { SCREEN_RECORD_CONFIG } = await import('../values/screenRecordConfig.js');
 const { ScreenRecordSystem } = await import('../systems/visual/ScreenRecordSystem.js');
@@ -14,7 +16,7 @@ const recorder = new ScreenRecordSystem({gameplayCapabilities:caps});
 assert.equal(recorder.enabled,true);
 let toggles=0;
 globalThis.Phaser={Input:{Keyboard:{JustDown:key=>Boolean(key?.pressed)}}};
-assert.equal(GameInputHandler.prototype.handleGlobalInput.call({scene:{gameplayCapabilities:caps,screenRecordSystem:{toggle(){toggles++;}}},inputHandler:{getKeys:()=>({screenRecord:{pressed:true}})}}),true);
+GameInputHandler.prototype._handleScreenRecordDown.call({scene:{gameplayCapabilities:caps,screenRecordSystem:{toggle(){toggles++;}}}}, {code:'F9',preventDefault(){}});
 assert.equal(toggles,1);
 let downloads=0,removed=0,revoked=0;
 const link={click(){downloads++;assert.match(this.download,/\.webm$/);assert.match(this.href,/^blob:/);},remove(){removed++;}};
@@ -29,3 +31,4 @@ await recorder._finish();
 assert.equal(downloads,1);assert.equal(removed,1);assert.equal(revoked,1);assert.equal(recorder.saving,false);
 URL.createObjectURL=realCreate;URL.revokeObjectURL=realRevoke;globalThis.setTimeout=realTimeout;
 console.log('PRODUCTION_F9_OK: debug disabled, recording enabled, F9 toggles, WebM download, no upload, other gates preserved');
+

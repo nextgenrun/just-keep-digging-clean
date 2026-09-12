@@ -459,3 +459,10 @@ StartupImageVariants substitutes configured WebP delivery paths when Boot/Openin
 ## Approved presentation patch — 2026-09-09
 
 TimedBuffFxSystem preserves the yellow speed effect and adds authority-driven orange damage / violet free-ability channels. QuickslashContactFx and FlightFootParticleSystem use approved raster effects. Generated resource minis are exclusive to LootPickupFxSystem flight; inventory continuity retains the original world descriptor.
+
+ScreenRecordFrameSource reads the completed default WebGL framebuffer into reusable capture buffers, restores the previous binding and flips rows for upright video. ScreenRecordSystem uses this only while recording; Canvas renderers retain direct copies.
+
+
+### 2026-09-12 runtime smoothing
+
+AnimatedCacheVisualSystem caches discovery by bounds, tile type revision, and opened chest set changes while animating every frame. CelestialCurrencyHudSystem formats only changed balances.

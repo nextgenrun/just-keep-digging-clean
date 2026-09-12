@@ -59,11 +59,13 @@ assert.ok(EARTHQUAKE_FEEDBACK_CONFIG.timing.escapeVisibleMs <= 3400);
 assert.equal("recapVisibleMs" in EARTHQUAKE_FEEDBACK_CONFIG.timing, false);
 assert.deepEqual(
   EARTHQUAKE_FEEDBACK_CONFIG.timing.phaseVisibleMs,
-  { warning: null, earthquake: null, aftermath: null },
+  { warning: 1_100, earthquake: 1_400, aftermath: 1_000 },
 );
 assert.ok(EARTHQUAKE_FEEDBACK_CONFIG.timing.hideFailsafePaddingMs > 0);
 assert.ok(EARTHQUAKE_FEEDBACK_CONFIG.card.width <= 420);
 assert.ok(EARTHQUAKE_FEEDBACK_CONFIG.card.height <= 80);
+assert.equal(EARTHQUAKE_FEEDBACK_CONFIG.notificationActiveBaseY, null);
+assert.ok(EARTHQUAKE_FEEDBACK_CONFIG.card.panelAlpha < 1);
 assert.ok(
   EARTHQUAKE_FEEDBACK_CONFIG.hazards.maxFallZones
     >= EARTHQUAKE_CONFIG.maxConcurrentFallZones,

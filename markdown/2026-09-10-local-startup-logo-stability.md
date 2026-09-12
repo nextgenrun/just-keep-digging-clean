@@ -32,3 +32,5 @@ The existing threaded-server contract and logo JavaScript syntax check passed.
 These repairs are local; no production deployment was performed in this turn.
 
 Final browser verification reached the animated main menu without warnings/errors; screenshot and log evidence are testing/2026-09-10-logo-stability-menu.png and testing/2026-09-10-logo-stability-browser.json. The repaired server is running on port 8080.
+
+Launcher follow-up: an occupied port now verifies the existing game entry page and opens it in the default browser instead of exiting without a window. The existing-server browser-open assertion and HTTP contract pass. Local save slot 2 was loaded through Play and Continue into the actual world, and the pause menu responded. No fatal browser errors occurred; existing optional MemoryReliquary anchor warnings were observed.

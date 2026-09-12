@@ -319,10 +319,7 @@ function applyContractWurmHit(difficulty, part, initialGp = 1000) {
 
 const shallowHeadHit = applyContractWurmHit(shallowDanger, "head");
 assert.equal(shallowHeadHit.gp, 40);
-assert.match(
-  shallowHeadHit.notices[0],
-  new RegExp(GRAVEBORER_WURM_CONFIG.labels.criticalHitPrefix),
-);
+assert.equal(shallowHeadHit.notices.length, 0, "Wurm hits stay in-world without a blocking popup");
 assert.equal(shallowHeadHit.damageContexts[0]?.source, "graveborerWurm");
 
 const woundedShallowHeadHit = applyContractWurmHit(shallowDanger, "head", 800);
@@ -331,10 +328,7 @@ assert.equal(
   0,
   "A shallow direct strike must execute a player who was not nearly full",
 );
-assert.match(
-  woundedShallowHeadHit.notices[0],
-  new RegExp(GRAVEBORER_WURM_CONFIG.labels.fatalHitPrefix),
-);
+assert.equal(woundedShallowHeadHit.notices.length, 0, "fatal Wurm hits do not create a notification popup");
 
 const deepHeadHit = applyContractWurmHit(deepDanger, "head");
 assert.equal(deepHeadHit.gp, 0, "Deep head contact must trigger zero-GP death");
@@ -412,6 +406,20 @@ assert.equal(
   false,
   "The summon function must be unavailable outside the development runtime",
 );
+const previousProductionMarker = globalThis.__DIG_GAME_PRODUCTION__;
+try {
+  globalThis.__DIG_GAME_PRODUCTION__ = true;
+  assert.equal(
+    forceGraveborerWurmEncounter({
+      graveborerWurmRuntime: { system: new GraveborerWurmSystem(), devToolsEnabled: true },
+    }),
+    false,
+    "production blocks the developer summon path even when a stale control survives",
+  );
+} finally {
+  if (previousProductionMarker === undefined) delete globalThis.__DIG_GAME_PRODUCTION__;
+  else globalThis.__DIG_GAME_PRODUCTION__ = previousProductionMarker;
+}
 
 const restored = new GraveborerWurmSystem();
 restored.loadSaveData({

@@ -1,0 +1,242 @@
+[
+  {
+    "id": "stone-walls-01",
+    "family": "stone-walls",
+    "variant": "thin overlapping slate flakes with a shallow sawtooth edge",
+    "prompt": "Create a production-art candidate for a 2D side-view mining game. ONE isolated complementary terrain boundary overlay sprite: thin overlapping slate flakes with a shallow sawtooth edge. ONE narrow vertical boundary strip; solid attachment on LEFT, irregular exposed RIGHT silhouette. At least five times taller than wide. No complete wall or tile. Detailed realistic hand-painted game asset; subdued natural colors, soft neutral upper-left lighting, readable silhouette. Match grounded grey stone and brown earth art, not cartoon or pixel art. Existing core tiles remain visible; only an edge accessory. Entire object fully inside frame with margins. GENUINE TRANSPARENT PNG ALPHA around sprite and through holes. Hard clean cutout for solid objects; preserve soft alpha only within damp stains. NO surrounding haze, glow, cast shadow, backdrop, baked checkerboard, labels, UI or scene. Do not fill the canvas with a texture."
+  },
+  {
+    "id": "stone-walls-02",
+    "family": "stone-walls",
+    "variant": "rounded weathered limestone with shallow scalloped erosion",
+    "prompt": "Create a production-art candidate for a 2D side-view mining game. ONE isolated complementary terrain boundary overlay sprite: rounded weathered limestone with shallow scalloped erosion. ONE narrow vertical boundary strip; solid attachment on LEFT, irregular exposed RIGHT silhouette. At least five times taller than wide. No complete wall or tile. Detailed realistic hand-painted game asset; subdued natural colors, soft neutral upper-left lighting, readable silhouette. Match grounded grey stone and brown earth art, not cartoon or pixel art. Existing core tiles remain visible; only an edge accessory. Entire object fully inside frame with margins. GENUINE TRANSPARENT PNG ALPHA around sprite and through holes. Hard clean cutout for solid objects; preserve soft alpha only within damp stains. NO surrounding haze, glow, cast shadow, backdrop, baked checkerboard, labels, UI or scene. Do not fill the canvas with a texture."
+  },
+  {
+    "id": "stone-walls-03",
+    "family": "stone-walls",
+    "variant": "chunky fractured granite with alternating small and medium shelves",
+    "prompt": "Create a production-art candidate for a 2D side-view mining game. ONE isolated complementary terrain boundary overlay sprite: chunky fractured granite with alternating small and medium shelves. ONE narrow vertical boundary strip; solid attachment on LEFT, irregular exposed RIGHT silhouette. At least five times taller than wide. No complete wall or tile. Detailed realistic hand-painted game asset; subdued natural colors, soft neutral upper-left lighting, readable silhouette. Match grounded grey stone and brown earth art, not cartoon or pixel art. Existing core tiles remain visible; only an edge accessory. Entire object fully inside frame with margins. GENUINE TRANSPARENT PNG ALPHA around sprite and through holes. Hard clean cutout for solid objects; preserve soft alpha only within damp stains. NO surrounding haze, glow, cast shadow, backdrop, baked checkerboard, labels, UI or scene. Do not fill the canvas with a texture."
+  },
+  {
+    "id": "stone-walls-04",
+    "family": "stone-walls",
+    "variant": "dark basalt with irregular vertical splits and restrained ledges",
+    "prompt": "Create a production-art candidate for a 2D side-view mining game. ONE isolated complementary terrain boundary overlay sprite: dark basalt with irregular vertical splits and restrained ledges. ONE narrow vertical boundary strip; solid attachment on LEFT, irregular exposed RIGHT silhouette. At least five times taller than wide. No complete wall or tile. Detailed realistic hand-painted game asset; subdued natural colors, soft neutral upper-left lighting, readable silhouette. Match grounded grey stone and brown earth art, not cartoon or pixel art. Existing core tiles remain visible; only an edge accessory. Entire object fully inside frame with margins. GENUINE TRANSPARENT PNG ALPHA around sprite and through holes. Hard clean cutout for solid objects; preserve soft alpha only within damp stains. NO surrounding haze, glow, cast shadow, backdrop, baked checkerboard, labels, UI or scene. Do not fill the canvas with a texture."
+  },
+  {
+    "id": "stone-walls-05",
+    "family": "stone-walls",
+    "variant": "compressed grey sedimentary layers, one diagonal fracture, subtle notches",
+    "prompt": "Create a production-art candidate for a 2D side-view mining game. ONE isolated complementary terrain boundary overlay sprite: compressed grey sedimentary layers, one diagonal fracture, subtle notches. ONE narrow vertical boundary strip; solid attachment on LEFT, irregular exposed RIGHT silhouette. At least five times taller than wide. No complete wall or tile. Detailed realistic hand-painted game asset; subdued natural colors, soft neutral upper-left lighting, readable silhouette. Match grounded grey stone and brown earth art, not cartoon or pixel art. Existing core tiles remain visible; only an edge accessory. Entire object fully inside frame with margins. GENUINE TRANSPARENT PNG ALPHA around sprite and through holes. Hard clean cutout for solid objects; preserve soft alpha only within damp stains. NO surrounding haze, glow, cast shadow, backdrop, baked checkerboard, labels, UI or scene. Do not fill the canvas with a texture."
+  },
+  {
+    "id": "soil-walls-01",
+    "family": "soil-walls",
+    "variant": "fine compact earth with thin sediment bands and almost no pebbles",
+    "prompt": "Create a production-art candidate for a 2D side-view mining game. ONE isolated complementary terrain boundary overlay sprite: fine compact earth with thin sediment bands and almost no pebbles. ONE narrow vertical boundary strip; solid attachment on LEFT, irregular exposed RIGHT silhouette. At least five times taller than wide. No complete wall or tile. Detailed realistic hand-painted game asset; subdued natural colors, soft neutral upper-left lighting, readable silhouette. Match grounded grey stone and brown earth art, not cartoon or pixel art. Existing core tiles remain visible; only an edge accessory. Entire object fully inside frame with margins. GENUINE TRANSPARENT PNG ALPHA around sprite and through holes. Hard clean cutout for solid objects; preserve soft alpha only within damp stains. NO surrounding haze, glow, cast shadow, backdrop, baked checkerboard, labels, UI or scene. Do not fill the canvas with a texture."
+  },
+  {
+    "id": "soil-walls-02",
+    "family": "soil-walls",
+    "variant": "crumbly dark loam, eroded scoops and two tiny exposed roots",
+    "prompt": "Create a production-art candidate for a 2D side-view mining game. ONE isolated complementary terrain boundary overlay sprite: crumbly dark loam, eroded scoops and two tiny exposed roots. ONE narrow vertical boundary strip; solid attachment on LEFT, irregular exposed RIGHT silhouette. At least five times taller than wide. No complete wall or tile. Detailed realistic hand-painted game asset; subdued natural colors, soft neutral upper-left lighting, readable silhouette. Match grounded grey stone and brown earth art, not cartoon or pixel art. Existing core tiles remain visible; only an edge accessory. Entire object fully inside frame with margins. GENUINE TRANSPARENT PNG ALPHA around sprite and through holes. Hard clean cutout for solid objects; preserve soft alpha only within damp stains. NO surrounding haze, glow, cast shadow, backdrop, baked checkerboard, labels, UI or scene. Do not fill the canvas with a texture."
+  },
+  {
+    "id": "soil-walls-03",
+    "family": "soil-walls",
+    "variant": "warm clay, dry cracked edge with small angular crumbs",
+    "prompt": "Create a production-art candidate for a 2D side-view mining game. ONE isolated complementary terrain boundary overlay sprite: warm clay, dry cracked edge with small angular crumbs. ONE narrow vertical boundary strip; solid attachment on LEFT, irregular exposed RIGHT silhouette. At least five times taller than wide. No complete wall or tile. Detailed realistic hand-painted game asset; subdued natural colors, soft neutral upper-left lighting, readable silhouette. Match grounded grey stone and brown earth art, not cartoon or pixel art. Existing core tiles remain visible; only an edge accessory. Entire object fully inside frame with margins. GENUINE TRANSPARENT PNG ALPHA around sprite and through holes. Hard clean cutout for solid objects; preserve soft alpha only within damp stains. NO surrounding haze, glow, cast shadow, backdrop, baked checkerboard, labels, UI or scene. Do not fill the canvas with a texture."
+  },
+  {
+    "id": "soil-walls-04",
+    "family": "soil-walls",
+    "variant": "gravelly earth with many small embedded muted pebbles",
+    "prompt": "Create a production-art candidate for a 2D side-view mining game. ONE isolated complementary terrain boundary overlay sprite: gravelly earth with many small embedded muted pebbles. ONE narrow vertical boundary strip; solid attachment on LEFT, irregular exposed RIGHT silhouette. At least five times taller than wide. No complete wall or tile. Detailed realistic hand-painted game asset; subdued natural colors, soft neutral upper-left lighting, readable silhouette. Match grounded grey stone and brown earth art, not cartoon or pixel art. Existing core tiles remain visible; only an edge accessory. Entire object fully inside frame with margins. GENUINE TRANSPARENT PNG ALPHA around sprite and through holes. Hard clean cutout for solid objects; preserve soft alpha only within damp stains. NO surrounding haze, glow, cast shadow, backdrop, baked checkerboard, labels, UI or scene. Do not fill the canvas with a texture."
+  },
+  {
+    "id": "soil-walls-05",
+    "family": "soil-walls",
+    "variant": "dense brown soil with irregular shallow root pockets",
+    "prompt": "Create a production-art candidate for a 2D side-view mining game. ONE isolated complementary terrain boundary overlay sprite: dense brown soil with irregular shallow root pockets. ONE narrow vertical boundary strip; solid attachment on LEFT, irregular exposed RIGHT silhouette. At least five times taller than wide. No complete wall or tile. Detailed realistic hand-painted game asset; subdued natural colors, soft neutral upper-left lighting, readable silhouette. Match grounded grey stone and brown earth art, not cartoon or pixel art. Existing core tiles remain visible; only an edge accessory. Entire object fully inside frame with margins. GENUINE TRANSPARENT PNG ALPHA around sprite and through holes. Hard clean cutout for solid objects; preserve soft alpha only within damp stains. NO surrounding haze, glow, cast shadow, backdrop, baked checkerboard, labels, UI or scene. Do not fill the canvas with a texture."
+  },
+  {
+    "id": "ceiling-edges-01",
+    "family": "ceiling-edges",
+    "variant": "grey slate underside, short alternating broken plates",
+    "prompt": "Create a production-art candidate for a 2D side-view mining game. ONE isolated complementary terrain boundary overlay sprite: grey slate underside, short alternating broken plates. ONE long shallow horizontal underside trim, attached along TOP, irregular silhouette below. At least six times wider than thick. Detailed realistic hand-painted game asset; subdued natural colors, soft neutral upper-left lighting, readable silhouette. Match grounded grey stone and brown earth art, not cartoon or pixel art. Existing core tiles remain visible; only an edge accessory. Entire object fully inside frame with margins. GENUINE TRANSPARENT PNG ALPHA around sprite and through holes. Hard clean cutout for solid objects; preserve soft alpha only within damp stains. NO surrounding haze, glow, cast shadow, backdrop, baked checkerboard, labels, UI or scene. Do not fill the canvas with a texture."
+  },
+  {
+    "id": "ceiling-edges-02",
+    "family": "ceiling-edges",
+    "variant": "compact brown soil underside, three short sparse root tufts",
+    "prompt": "Create a production-art candidate for a 2D side-view mining game. ONE isolated complementary terrain boundary overlay sprite: compact brown soil underside, three short sparse root tufts. ONE long shallow horizontal underside trim, attached along TOP, irregular silhouette below. At least six times wider than thick. Detailed realistic hand-painted game asset; subdued natural colors, soft neutral upper-left lighting, readable silhouette. Match grounded grey stone and brown earth art, not cartoon or pixel art. Existing core tiles remain visible; only an edge accessory. Entire object fully inside frame with margins. GENUINE TRANSPARENT PNG ALPHA around sprite and through holes. Hard clean cutout for solid objects; preserve soft alpha only within damp stains. NO surrounding haze, glow, cast shadow, backdrop, baked checkerboard, labels, UI or scene. Do not fill the canvas with a texture."
+  },
+  {
+    "id": "ceiling-edges-03",
+    "family": "ceiling-edges",
+    "variant": "dark basalt underside with two small blunt fractured teeth",
+    "prompt": "Create a production-art candidate for a 2D side-view mining game. ONE isolated complementary terrain boundary overlay sprite: dark basalt underside with two small blunt fractured teeth. ONE long shallow horizontal underside trim, attached along TOP, irregular silhouette below. At least six times wider than thick. Detailed realistic hand-painted game asset; subdued natural colors, soft neutral upper-left lighting, readable silhouette. Match grounded grey stone and brown earth art, not cartoon or pixel art. Existing core tiles remain visible; only an edge accessory. Entire object fully inside frame with margins. GENUINE TRANSPARENT PNG ALPHA around sprite and through holes. Hard clean cutout for solid objects; preserve soft alpha only within damp stains. NO surrounding haze, glow, cast shadow, backdrop, baked checkerboard, labels, UI or scene. Do not fill the canvas with a texture."
+  },
+  {
+    "id": "ceiling-edges-04",
+    "family": "ceiling-edges",
+    "variant": "weathered limestone underside with rounded shallow scallops",
+    "prompt": "Create a production-art candidate for a 2D side-view mining game. ONE isolated complementary terrain boundary overlay sprite: weathered limestone underside with rounded shallow scallops. ONE long shallow horizontal underside trim, attached along TOP, irregular silhouette below. At least six times wider than thick. Detailed realistic hand-painted game asset; subdued natural colors, soft neutral upper-left lighting, readable silhouette. Match grounded grey stone and brown earth art, not cartoon or pixel art. Existing core tiles remain visible; only an edge accessory. Entire object fully inside frame with margins. GENUINE TRANSPARENT PNG ALPHA around sprite and through holes. Hard clean cutout for solid objects; preserve soft alpha only within damp stains. NO surrounding haze, glow, cast shadow, backdrop, baked checkerboard, labels, UI or scene. Do not fill the canvas with a texture."
+  },
+  {
+    "id": "ceiling-edges-05",
+    "family": "ceiling-edges",
+    "variant": "crumbly clay underside with uneven earth clods and sparse grit",
+    "prompt": "Create a production-art candidate for a 2D side-view mining game. ONE isolated complementary terrain boundary overlay sprite: crumbly clay underside with uneven earth clods and sparse grit. ONE long shallow horizontal underside trim, attached along TOP, irregular silhouette below. At least six times wider than thick. Detailed realistic hand-painted game asset; subdued natural colors, soft neutral upper-left lighting, readable silhouette. Match grounded grey stone and brown earth art, not cartoon or pixel art. Existing core tiles remain visible; only an edge accessory. Entire object fully inside frame with margins. GENUINE TRANSPARENT PNG ALPHA around sprite and through holes. Hard clean cutout for solid objects; preserve soft alpha only within damp stains. NO surrounding haze, glow, cast shadow, backdrop, baked checkerboard, labels, UI or scene. Do not fill the canvas with a texture."
+  },
+  {
+    "id": "corner-trims-01",
+    "family": "corner-trims",
+    "variant": "grey slate wall-to-floor INNER corner, open L shape",
+    "prompt": "Create a production-art candidate for a 2D side-view mining game. ONE isolated complementary terrain boundary overlay sprite: grey slate wall-to-floor INNER corner, open L shape. ONE narrow open corner border, thin arms. At least 80 percent of canvas remains transparent. No filled panel. Fractured junction stays compact. Detailed realistic hand-painted game asset; subdued natural colors, soft neutral upper-left lighting, readable silhouette. Match grounded grey stone and brown earth art, not cartoon or pixel art. Existing core tiles remain visible; only an edge accessory. Entire object fully inside frame with margins. GENUINE TRANSPARENT PNG ALPHA around sprite and through holes. Hard clean cutout for solid objects; preserve soft alpha only within damp stains. NO surrounding haze, glow, cast shadow, backdrop, baked checkerboard, labels, UI or scene. Do not fill the canvas with a texture."
+  },
+  {
+    "id": "corner-trims-02",
+    "family": "corner-trims",
+    "variant": "brown compact soil wall-to-floor INNER corner, open L shape",
+    "prompt": "Create a production-art candidate for a 2D side-view mining game. ONE isolated complementary terrain boundary overlay sprite: brown compact soil wall-to-floor INNER corner, open L shape. ONE narrow open corner border, thin arms. At least 80 percent of canvas remains transparent. No filled panel. Fractured junction stays compact. Detailed realistic hand-painted game asset; subdued natural colors, soft neutral upper-left lighting, readable silhouette. Match grounded grey stone and brown earth art, not cartoon or pixel art. Existing core tiles remain visible; only an edge accessory. Entire object fully inside frame with margins. GENUINE TRANSPARENT PNG ALPHA around sprite and through holes. Hard clean cutout for solid objects; preserve soft alpha only within damp stains. NO surrounding haze, glow, cast shadow, backdrop, baked checkerboard, labels, UI or scene. Do not fill the canvas with a texture."
+  },
+  {
+    "id": "corner-trims-03",
+    "family": "corner-trims",
+    "variant": "rounded limestone wall-to-ceiling INNER corner, inverted open L shape",
+    "prompt": "Create a production-art candidate for a 2D side-view mining game. ONE isolated complementary terrain boundary overlay sprite: rounded limestone wall-to-ceiling INNER corner, inverted open L shape. ONE narrow open corner border, thin arms. At least 80 percent of canvas remains transparent. No filled panel. Fractured junction stays compact. Detailed realistic hand-painted game asset; subdued natural colors, soft neutral upper-left lighting, readable silhouette. Match grounded grey stone and brown earth art, not cartoon or pixel art. Existing core tiles remain visible; only an edge accessory. Entire object fully inside frame with margins. GENUINE TRANSPARENT PNG ALPHA around sprite and through holes. Hard clean cutout for solid objects; preserve soft alpha only within damp stains. NO surrounding haze, glow, cast shadow, backdrop, baked checkerboard, labels, UI or scene. Do not fill the canvas with a texture."
+  },
+  {
+    "id": "corner-trims-04",
+    "family": "corner-trims",
+    "variant": "dark basalt wall-to-floor INNER corner, small broken wedge at junction",
+    "prompt": "Create a production-art candidate for a 2D side-view mining game. ONE isolated complementary terrain boundary overlay sprite: dark basalt wall-to-floor INNER corner, small broken wedge at junction. ONE narrow open corner border, thin arms. At least 80 percent of canvas remains transparent. No filled panel. Fractured junction stays compact. Detailed realistic hand-painted game asset; subdued natural colors, soft neutral upper-left lighting, readable silhouette. Match grounded grey stone and brown earth art, not cartoon or pixel art. Existing core tiles remain visible; only an edge accessory. Entire object fully inside frame with margins. GENUINE TRANSPARENT PNG ALPHA around sprite and through holes. Hard clean cutout for solid objects; preserve soft alpha only within damp stains. NO surrounding haze, glow, cast shadow, backdrop, baked checkerboard, labels, UI or scene. Do not fill the canvas with a texture."
+  },
+  {
+    "id": "corner-trims-05",
+    "family": "corner-trims",
+    "variant": "crumbly earth wall-to-ceiling INNER corner, inverted open L shape with tiny roots",
+    "prompt": "Create a production-art candidate for a 2D side-view mining game. ONE isolated complementary terrain boundary overlay sprite: crumbly earth wall-to-ceiling INNER corner, inverted open L shape with tiny roots. ONE narrow open corner border, thin arms. At least 80 percent of canvas remains transparent. No filled panel. Fractured junction stays compact. Detailed realistic hand-painted game asset; subdued natural colors, soft neutral upper-left lighting, readable silhouette. Match grounded grey stone and brown earth art, not cartoon or pixel art. Existing core tiles remain visible; only an edge accessory. Entire object fully inside frame with margins. GENUINE TRANSPARENT PNG ALPHA around sprite and through holes. Hard clean cutout for solid objects; preserve soft alpha only within damp stains. NO surrounding haze, glow, cast shadow, backdrop, baked checkerboard, labels, UI or scene. Do not fill the canvas with a texture."
+  },
+  {
+    "id": "rubble-skirts-01",
+    "family": "rubble-skirts",
+    "variant": "thin grey slate shards in three low asymmetric clusters",
+    "prompt": "Create a production-art candidate for a 2D side-view mining game. ONE isolated complementary terrain boundary overlay sprite: thin grey slate shards in three low asymmetric clusters. ONE long very low horizontal skirt along a tunnel floor, at least seven times wider than high. Small fragments only, no large boulders, no ground slab. Detailed realistic hand-painted game asset; subdued natural colors, soft neutral upper-left lighting, readable silhouette. Match grounded grey stone and brown earth art, not cartoon or pixel art. Existing core tiles remain visible; only an edge accessory. Entire object fully inside frame with margins. GENUINE TRANSPARENT PNG ALPHA around sprite and through holes. Hard clean cutout for solid objects; preserve soft alpha only within damp stains. NO surrounding haze, glow, cast shadow, backdrop, baked checkerboard, labels, UI or scene. Do not fill the canvas with a texture."
+  },
+  {
+    "id": "rubble-skirts-02",
+    "family": "rubble-skirts",
+    "variant": "brown earth crumbs and scattered small rounded pebbles",
+    "prompt": "Create a production-art candidate for a 2D side-view mining game. ONE isolated complementary terrain boundary overlay sprite: brown earth crumbs and scattered small rounded pebbles. ONE long very low horizontal skirt along a tunnel floor, at least seven times wider than high. Small fragments only, no large boulders, no ground slab. Detailed realistic hand-painted game asset; subdued natural colors, soft neutral upper-left lighting, readable silhouette. Match grounded grey stone and brown earth art, not cartoon or pixel art. Existing core tiles remain visible; only an edge accessory. Entire object fully inside frame with margins. GENUINE TRANSPARENT PNG ALPHA around sprite and through holes. Hard clean cutout for solid objects; preserve soft alpha only within damp stains. NO surrounding haze, glow, cast shadow, backdrop, baked checkerboard, labels, UI or scene. Do not fill the canvas with a texture."
+  },
+  {
+    "id": "rubble-skirts-03",
+    "family": "rubble-skirts",
+    "variant": "small dark basalt chips with two modest flat fragments",
+    "prompt": "Create a production-art candidate for a 2D side-view mining game. ONE isolated complementary terrain boundary overlay sprite: small dark basalt chips with two modest flat fragments. ONE long very low horizontal skirt along a tunnel floor, at least seven times wider than high. Small fragments only, no large boulders, no ground slab. Detailed realistic hand-painted game asset; subdued natural colors, soft neutral upper-left lighting, readable silhouette. Match grounded grey stone and brown earth art, not cartoon or pixel art. Existing core tiles remain visible; only an edge accessory. Entire object fully inside frame with margins. GENUINE TRANSPARENT PNG ALPHA around sprite and through holes. Hard clean cutout for solid objects; preserve soft alpha only within damp stains. NO surrounding haze, glow, cast shadow, backdrop, baked checkerboard, labels, UI or scene. Do not fill the canvas with a texture."
+  },
+  {
+    "id": "rubble-skirts-04",
+    "family": "rubble-skirts",
+    "variant": "pale dull limestone grit and shallow chalky rubble",
+    "prompt": "Create a production-art candidate for a 2D side-view mining game. ONE isolated complementary terrain boundary overlay sprite: pale dull limestone grit and shallow chalky rubble. ONE long very low horizontal skirt along a tunnel floor, at least seven times wider than high. Small fragments only, no large boulders, no ground slab. Detailed realistic hand-painted game asset; subdued natural colors, soft neutral upper-left lighting, readable silhouette. Match grounded grey stone and brown earth art, not cartoon or pixel art. Existing core tiles remain visible; only an edge accessory. Entire object fully inside frame with margins. GENUINE TRANSPARENT PNG ALPHA around sprite and through holes. Hard clean cutout for solid objects; preserve soft alpha only within damp stains. NO surrounding haze, glow, cast shadow, backdrop, baked checkerboard, labels, UI or scene. Do not fill the canvas with a texture."
+  },
+  {
+    "id": "rubble-skirts-05",
+    "family": "rubble-skirts",
+    "variant": "mixed neutral gravel with a sparse broken trail between clusters",
+    "prompt": "Create a production-art candidate for a 2D side-view mining game. ONE isolated complementary terrain boundary overlay sprite: mixed neutral gravel with a sparse broken trail between clusters. ONE long very low horizontal skirt along a tunnel floor, at least seven times wider than high. Small fragments only, no large boulders, no ground slab. Detailed realistic hand-painted game asset; subdued natural colors, soft neutral upper-left lighting, readable silhouette. Match grounded grey stone and brown earth art, not cartoon or pixel art. Existing core tiles remain visible; only an edge accessory. Entire object fully inside frame with margins. GENUINE TRANSPARENT PNG ALPHA around sprite and through holes. Hard clean cutout for solid objects; preserve soft alpha only within damp stains. NO surrounding haze, glow, cast shadow, backdrop, baked checkerboard, labels, UI or scene. Do not fill the canvas with a texture."
+  },
+  {
+    "id": "mineral-crusts-01",
+    "family": "mineral-crusts",
+    "variant": "dull chalk-white calcite powder and tiny flat flakes, NO large crystals",
+    "prompt": "Create a production-art candidate for a 2D side-view mining game. ONE isolated complementary terrain boundary overlay sprite: dull chalk-white calcite powder and tiny flat flakes, NO large crystals. ONE small sparse irregular decal of connected thin flakes and scattered patches, mostly transparent holes. No solid rock backing, no gems, no collectible ore, no glow. Detailed realistic hand-painted game asset; subdued natural colors, soft neutral upper-left lighting, readable silhouette. Match grounded grey stone and brown earth art, not cartoon or pixel art. Existing core tiles remain visible; only an edge accessory. Entire object fully inside frame with margins. GENUINE TRANSPARENT PNG ALPHA around sprite and through holes. Hard clean cutout for solid objects; preserve soft alpha only within damp stains. NO surrounding haze, glow, cast shadow, backdrop, baked checkerboard, labels, UI or scene. Do not fill the canvas with a texture."
+  },
+  {
+    "id": "mineral-crusts-02",
+    "family": "mineral-crusts",
+    "variant": "muted rusty brown iron oxide flecks and hairline deposits",
+    "prompt": "Create a production-art candidate for a 2D side-view mining game. ONE isolated complementary terrain boundary overlay sprite: muted rusty brown iron oxide flecks and hairline deposits. ONE small sparse irregular decal of connected thin flakes and scattered patches, mostly transparent holes. No solid rock backing, no gems, no collectible ore, no glow. Detailed realistic hand-painted game asset; subdued natural colors, soft neutral upper-left lighting, readable silhouette. Match grounded grey stone and brown earth art, not cartoon or pixel art. Existing core tiles remain visible; only an edge accessory. Entire object fully inside frame with margins. GENUINE TRANSPARENT PNG ALPHA around sprite and through holes. Hard clean cutout for solid objects; preserve soft alpha only within damp stains. NO surrounding haze, glow, cast shadow, backdrop, baked checkerboard, labels, UI or scene. Do not fill the canvas with a texture."
+  },
+  {
+    "id": "mineral-crusts-03",
+    "family": "mineral-crusts",
+    "variant": "desaturated grey-beige salt crust with thin irregular lace edges",
+    "prompt": "Create a production-art candidate for a 2D side-view mining game. ONE isolated complementary terrain boundary overlay sprite: desaturated grey-beige salt crust with thin irregular lace edges. ONE small sparse irregular decal of connected thin flakes and scattered patches, mostly transparent holes. No solid rock backing, no gems, no collectible ore, no glow. Detailed realistic hand-painted game asset; subdued natural colors, soft neutral upper-left lighting, readable silhouette. Match grounded grey stone and brown earth art, not cartoon or pixel art. Existing core tiles remain visible; only an edge accessory. Entire object fully inside frame with margins. GENUINE TRANSPARENT PNG ALPHA around sprite and through holes. Hard clean cutout for solid objects; preserve soft alpha only within damp stains. NO surrounding haze, glow, cast shadow, backdrop, baked checkerboard, labels, UI or scene. Do not fill the canvas with a texture."
+  },
+  {
+    "id": "mineral-crusts-04",
+    "family": "mineral-crusts",
+    "variant": "dark manganese staining with sparse charcoal granular flecks",
+    "prompt": "Create a production-art candidate for a 2D side-view mining game. ONE isolated complementary terrain boundary overlay sprite: dark manganese staining with sparse charcoal granular flecks. ONE small sparse irregular decal of connected thin flakes and scattered patches, mostly transparent holes. No solid rock backing, no gems, no collectible ore, no glow. Detailed realistic hand-painted game asset; subdued natural colors, soft neutral upper-left lighting, readable silhouette. Match grounded grey stone and brown earth art, not cartoon or pixel art. Existing core tiles remain visible; only an edge accessory. Entire object fully inside frame with margins. GENUINE TRANSPARENT PNG ALPHA around sprite and through holes. Hard clean cutout for solid objects; preserve soft alpha only within damp stains. NO surrounding haze, glow, cast shadow, backdrop, baked checkerboard, labels, UI or scene. Do not fill the canvas with a texture."
+  },
+  {
+    "id": "mineral-crusts-05",
+    "family": "mineral-crusts",
+    "variant": "pale muted ochre clay-mineral crust, broken porous flakes",
+    "prompt": "Create a production-art candidate for a 2D side-view mining game. ONE isolated complementary terrain boundary overlay sprite: pale muted ochre clay-mineral crust, broken porous flakes. ONE small sparse irregular decal of connected thin flakes and scattered patches, mostly transparent holes. No solid rock backing, no gems, no collectible ore, no glow. Detailed realistic hand-painted game asset; subdued natural colors, soft neutral upper-left lighting, readable silhouette. Match grounded grey stone and brown earth art, not cartoon or pixel art. Existing core tiles remain visible; only an edge accessory. Entire object fully inside frame with margins. GENUINE TRANSPARENT PNG ALPHA around sprite and through holes. Hard clean cutout for solid objects; preserve soft alpha only within damp stains. NO surrounding haze, glow, cast shadow, backdrop, baked checkerboard, labels, UI or scene. Do not fill the canvas with a texture."
+  },
+  {
+    "id": "damp-patches-01",
+    "family": "damp-patches",
+    "variant": "narrow charcoal seep stain with two short subtle wet streaks",
+    "prompt": "Create a production-art candidate for a 2D side-view mining game. ONE isolated complementary terrain boundary overlay sprite: narrow charcoal seep stain with two short subtle wet streaks. ONE small low-opacity irregular decal, feathered organic edges, no full rock backing. Mostly transparent. No large puddle or waterfall. Detailed realistic hand-painted game asset; subdued natural colors, soft neutral upper-left lighting, readable silhouette. Match grounded grey stone and brown earth art, not cartoon or pixel art. Existing core tiles remain visible; only an edge accessory. Entire object fully inside frame with margins. GENUINE TRANSPARENT PNG ALPHA around sprite and through holes. Hard clean cutout for solid objects; preserve soft alpha only within damp stains. NO surrounding haze, glow, cast shadow, backdrop, baked checkerboard, labels, UI or scene. Do not fill the canvas with a texture."
+  },
+  {
+    "id": "damp-patches-02",
+    "family": "damp-patches",
+    "variant": "small irregular damp patch with sparse dull olive moss specks",
+    "prompt": "Create a production-art candidate for a 2D side-view mining game. ONE isolated complementary terrain boundary overlay sprite: small irregular damp patch with sparse dull olive moss specks. ONE small low-opacity irregular decal, feathered organic edges, no full rock backing. Mostly transparent. No large puddle or waterfall. Detailed realistic hand-painted game asset; subdued natural colors, soft neutral upper-left lighting, readable silhouette. Match grounded grey stone and brown earth art, not cartoon or pixel art. Existing core tiles remain visible; only an edge accessory. Entire object fully inside frame with margins. GENUINE TRANSPARENT PNG ALPHA around sprite and through holes. Hard clean cutout for solid objects; preserve soft alpha only within damp stains. NO surrounding haze, glow, cast shadow, backdrop, baked checkerboard, labels, UI or scene. Do not fill the canvas with a texture."
+  },
+  {
+    "id": "damp-patches-03",
+    "family": "damp-patches",
+    "variant": "thin dark horizontal damp band with three tiny downward drip trails",
+    "prompt": "Create a production-art candidate for a 2D side-view mining game. ONE isolated complementary terrain boundary overlay sprite: thin dark horizontal damp band with three tiny downward drip trails. ONE small low-opacity irregular decal, feathered organic edges, no full rock backing. Mostly transparent. No large puddle or waterfall. Detailed realistic hand-painted game asset; subdued natural colors, soft neutral upper-left lighting, readable silhouette. Match grounded grey stone and brown earth art, not cartoon or pixel art. Existing core tiles remain visible; only an edge accessory. Entire object fully inside frame with margins. GENUINE TRANSPARENT PNG ALPHA around sprite and through holes. Hard clean cutout for solid objects; preserve soft alpha only within damp stains. NO surrounding haze, glow, cast shadow, backdrop, baked checkerboard, labels, UI or scene. Do not fill the canvas with a texture."
+  },
+  {
+    "id": "damp-patches-04",
+    "family": "damp-patches",
+    "variant": "broken vertical wet stain with soft porous edge and restrained highlights",
+    "prompt": "Create a production-art candidate for a 2D side-view mining game. ONE isolated complementary terrain boundary overlay sprite: broken vertical wet stain with soft porous edge and restrained highlights. ONE small low-opacity irregular decal, feathered organic edges, no full rock backing. Mostly transparent. No large puddle or waterfall. Detailed realistic hand-painted game asset; subdued natural colors, soft neutral upper-left lighting, readable silhouette. Match grounded grey stone and brown earth art, not cartoon or pixel art. Existing core tiles remain visible; only an edge accessory. Entire object fully inside frame with margins. GENUINE TRANSPARENT PNG ALPHA around sprite and through holes. Hard clean cutout for solid objects; preserve soft alpha only within damp stains. NO surrounding haze, glow, cast shadow, backdrop, baked checkerboard, labels, UI or scene. Do not fill the canvas with a texture."
+  },
+  {
+    "id": "damp-patches-05",
+    "family": "damp-patches",
+    "variant": "small crescent of dark moisture staining and sparse tiny moss in cracks",
+    "prompt": "Create a production-art candidate for a 2D side-view mining game. ONE isolated complementary terrain boundary overlay sprite: small crescent of dark moisture staining and sparse tiny moss in cracks. ONE small low-opacity irregular decal, feathered organic edges, no full rock backing. Mostly transparent. No large puddle or waterfall. Detailed realistic hand-painted game asset; subdued natural colors, soft neutral upper-left lighting, readable silhouette. Match grounded grey stone and brown earth art, not cartoon or pixel art. Existing core tiles remain visible; only an edge accessory. Entire object fully inside frame with margins. GENUINE TRANSPARENT PNG ALPHA around sprite and through holes. Hard clean cutout for solid objects; preserve soft alpha only within damp stains. NO surrounding haze, glow, cast shadow, backdrop, baked checkerboard, labels, UI or scene. Do not fill the canvas with a texture."
+  },
+  {
+    "id": "root-accents-01",
+    "family": "root-accents",
+    "variant": "three thin dry brown roots dangling from a short soil seam",
+    "prompt": "Create a production-art candidate for a 2D side-view mining game. ONE isolated complementary terrain boundary overlay sprite: three thin dry brown roots dangling from a short soil seam. ONE sparse boundary accessory of short roots with minimal soil at the attachment. Mostly transparent. No tree, no large plant, no scenery. Detailed realistic hand-painted game asset; subdued natural colors, soft neutral upper-left lighting, readable silhouette. Match grounded grey stone and brown earth art, not cartoon or pixel art. Existing core tiles remain visible; only an edge accessory. Entire object fully inside frame with margins. GENUINE TRANSPARENT PNG ALPHA around sprite and through holes. Hard clean cutout for solid objects; preserve soft alpha only within damp stains. NO surrounding haze, glow, cast shadow, backdrop, baked checkerboard, labels, UI or scene. Do not fill the canvas with a texture."
+  },
+  {
+    "id": "root-accents-02",
+    "family": "root-accents",
+    "variant": "one small tangled root knot hugging a vertical soil boundary",
+    "prompt": "Create a production-art candidate for a 2D side-view mining game. ONE isolated complementary terrain boundary overlay sprite: one small tangled root knot hugging a vertical soil boundary. ONE sparse boundary accessory of short roots with minimal soil at the attachment. Mostly transparent. No tree, no large plant, no scenery. Detailed realistic hand-painted game asset; subdued natural colors, soft neutral upper-left lighting, readable silhouette. Match grounded grey stone and brown earth art, not cartoon or pixel art. Existing core tiles remain visible; only an edge accessory. Entire object fully inside frame with margins. GENUINE TRANSPARENT PNG ALPHA around sprite and through holes. Hard clean cutout for solid objects; preserve soft alpha only within damp stains. NO surrounding haze, glow, cast shadow, backdrop, baked checkerboard, labels, UI or scene. Do not fill the canvas with a texture."
+  },
+  {
+    "id": "root-accents-03",
+    "family": "root-accents",
+    "variant": "sparse thin branching roots exposed along a narrow earth edge",
+    "prompt": "Create a production-art candidate for a 2D side-view mining game. ONE isolated complementary terrain boundary overlay sprite: sparse thin branching roots exposed along a narrow earth edge. ONE sparse boundary accessory of short roots with minimal soil at the attachment. Mostly transparent. No tree, no large plant, no scenery. Detailed realistic hand-painted game asset; subdued natural colors, soft neutral upper-left lighting, readable silhouette. Match grounded grey stone and brown earth art, not cartoon or pixel art. Existing core tiles remain visible; only an edge accessory. Entire object fully inside frame with margins. GENUINE TRANSPARENT PNG ALPHA around sprite and through holes. Hard clean cutout for solid objects; preserve soft alpha only within damp stains. NO surrounding haze, glow, cast shadow, backdrop, baked checkerboard, labels, UI or scene. Do not fill the canvas with a texture."
+  },
+  {
+    "id": "root-accents-04",
+    "family": "root-accents",
+    "variant": "two short old broken roots protruding from tiny soil clumps",
+    "prompt": "Create a production-art candidate for a 2D side-view mining game. ONE isolated complementary terrain boundary overlay sprite: two short old broken roots protruding from tiny soil clumps. ONE sparse boundary accessory of short roots with minimal soil at the attachment. Mostly transparent. No tree, no large plant, no scenery. Detailed realistic hand-painted game asset; subdued natural colors, soft neutral upper-left lighting, readable silhouette. Match grounded grey stone and brown earth art, not cartoon or pixel art. Existing core tiles remain visible; only an edge accessory. Entire object fully inside frame with margins. GENUINE TRANSPARENT PNG ALPHA around sprite and through holes. Hard clean cutout for solid objects; preserve soft alpha only within damp stains. NO surrounding haze, glow, cast shadow, backdrop, baked checkerboard, labels, UI or scene. Do not fill the canvas with a texture."
+  },
+  {
+    "id": "root-accents-05",
+    "family": "root-accents",
+    "variant": "fine threadlike roots following an open wall-to-ceiling corner",
+    "prompt": "Create a production-art candidate for a 2D side-view mining game. ONE isolated complementary terrain boundary overlay sprite: fine threadlike roots following an open wall-to-ceiling corner. ONE sparse boundary accessory of short roots with minimal soil at the attachment. Mostly transparent. No tree, no large plant, no scenery. Detailed realistic hand-painted game asset; subdued natural colors, soft neutral upper-left lighting, readable silhouette. Match grounded grey stone and brown earth art, not cartoon or pixel art. Existing core tiles remain visible; only an edge accessory. Entire object fully inside frame with margins. GENUINE TRANSPARENT PNG ALPHA around sprite and through holes. Hard clean cutout for solid objects; preserve soft alpha only within damp stains. NO surrounding haze, glow, cast shadow, backdrop, baked checkerboard, labels, UI or scene. Do not fill the canvas with a texture."
+  }
+]

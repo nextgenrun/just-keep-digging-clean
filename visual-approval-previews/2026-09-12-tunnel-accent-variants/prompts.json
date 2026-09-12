@@ -1,0 +1,52 @@
+[
+  {
+    "id": "stone-wall-slate",
+    "prompt": "Use case: stylized-concept. Create ONE isolated 2D side-view mining-game environmental overlay sprite. A single tall narrow vertical slate wall EDGE strip, thin overlapping dark grey plates, subtle diagonal fractures, varied shallow ledges. Straight attachment side on left, irregular exposed silhouette on right. Width about one fifth height. Detailed realistic hand-painted game art, restrained natural material colors, subtle upper-left light. This is complementary edge decoration over existing core tiles, never a replacement full tile. Entire asset visible with margins. Output PNG with genuine transparent alpha background. No checkerboard painted into pixels, no black backdrop, no colored backdrop, no aura or outer shadow. No text, labels, frame, characters, UI, or complete cave scene.",
+    "source": "C:\\Users\\Mila\\.codex\\generated_images\\01a08594-0e6f-7a73-89e7-ae5804bf1cbb\\exec-a62ecc03-66f0-4287-a5f4-40d8c20293a2.png"
+  },
+  {
+    "id": "stone-wall-rounded",
+    "prompt": "Use case: stylized-concept. Create ONE isolated 2D side-view mining-game environmental overlay sprite. A single tall narrow vertical stone wall EDGE strip of weathered rounded grey rock, small eroded pockets and shallow chipped shelves. Straight attachment on left, irregular exposed side on right. Width about one fifth height. Detailed realistic hand-painted game art, restrained natural material colors, subtle upper-left light. This is complementary edge decoration over existing core tiles, never a replacement full tile. Entire asset visible with margins. Output PNG with genuine transparent alpha background. No checkerboard painted into pixels, no black backdrop, no colored backdrop, no aura or outer shadow. No text, labels, frame, characters, UI, or complete cave scene.",
+    "source": "C:\\Users\\Mila\\.codex\\generated_images\\01a08594-0e6f-7a73-89e7-ae5804bf1cbb\\exec-1dec3ac7-258c-47f8-b00d-69a4218e4c49.png"
+  },
+  {
+    "id": "soil-wall-pebbles",
+    "prompt": "Use case: stylized-concept. Create ONE isolated 2D side-view mining-game environmental overlay sprite. A single tall narrow vertical brown compacted earth EDGE strip with embedded small pebbles, eroded scallops and thin sediment bands. Sparse short roots. Straight attachment on left, ragged exposed side on right. Width about one fifth height. Detailed realistic hand-painted game art, restrained natural material colors, subtle upper-left light. This is complementary edge decoration over existing core tiles, never a replacement full tile. Entire asset visible with margins. Output PNG with genuine transparent alpha background. No checkerboard painted into pixels, no black backdrop, no colored backdrop, no aura or outer shadow. No text, labels, frame, characters, UI, or complete cave scene.",
+    "source": "C:\\Users\\Mila\\.codex\\generated_images\\01a08594-0e6f-7a73-89e7-ae5804bf1cbb\\exec-5ced553b-e3a9-4580-91e2-ffca12020340.png"
+  },
+  {
+    "id": "soil-ceiling-roots",
+    "prompt": "Use case: stylized-concept. Create ONE isolated 2D side-view mining-game environmental overlay sprite. A single wide shallow brown soil ceiling underside EDGE strip, uneven earth clumps with three sparse short dangling root clusters, tiny embedded stones. Attached at top, ragged downward-facing silhouette. Width about six times height. Detailed realistic hand-painted game art, restrained natural material colors, subtle upper-left light. This is complementary edge decoration over existing core tiles, never a replacement full tile. Entire asset visible with margins. Output PNG with genuine transparent alpha background. No checkerboard painted into pixels, no black backdrop, no colored backdrop, no aura or outer shadow. No text, labels, frame, characters, UI, or complete cave scene.",
+    "source": "C:\\Users\\Mila\\.codex\\generated_images\\01a08594-0e6f-7a73-89e7-ae5804bf1cbb\\exec-0f41aa6d-30da-4b3c-a42d-0cbce71feb93.png"
+  },
+  {
+    "id": "rubble-skirt-slate",
+    "prompt": "Use case: stylized-concept. Create ONE isolated 2D side-view mining-game environmental overlay sprite. A single wide very low rubble skirt of small angular grey slate chips and a few medium flat fragments, accumulated at a tunnel wall foot. Uneven sparse clusters separated by thin gravel trails, asymmetric heights, maximum height one seventh width. No large boulders. Detailed realistic hand-painted game art, restrained natural material colors, subtle upper-left light. This is complementary edge decoration over existing core tiles, never a replacement full tile. Entire asset visible with margins. Output PNG with genuine transparent alpha background. No checkerboard painted into pixels, no black backdrop, no colored backdrop, no aura or outer shadow. No text, labels, frame, characters, UI, or complete cave scene.",
+    "source": "C:\\Users\\Mila\\.codex\\generated_images\\01a08594-0e6f-7a73-89e7-ae5804bf1cbb\\exec-3585b275-e117-4d5d-8f36-16360ab63fa3.png"
+  },
+  {
+    "id": "rubble-skirt-earth",
+    "prompt": "Use case: stylized-concept. Create ONE isolated 2D side-view mining-game environmental overlay sprite. A single wide very low rubble skirt of brown earth crumbs and small muted grey pebbles at a tunnel wall foot. Three irregular clusters joined by sparse grit, maximum height one seventh width. No large rocks. Detailed realistic hand-painted game art, restrained natural material colors, subtle upper-left light. This is complementary edge decoration over existing core tiles, never a replacement full tile. Entire asset visible with margins. Output PNG with genuine transparent alpha background. No checkerboard painted into pixels, no black backdrop, no colored backdrop, no aura or outer shadow. No text, labels, frame, characters, UI, or complete cave scene.",
+    "source": "C:\\Users\\Mila\\.codex\\generated_images\\01a08594-0e6f-7a73-89e7-ae5804bf1cbb\\exec-c1ae88dd-eb83-4af7-bf35-0c3327dc9f03.png"
+  },
+  {
+    "id": "mineral-crust-calcite",
+    "prompt": "Use case: stylized-concept. Create ONE isolated 2D side-view mining-game environmental overlay sprite. A single narrow irregular mineral crust accent hugging a vertical rock edge. Dull ivory and pale grey chalky calcite deposits, granular flakes with a few shallow tiny crystals. Sparse broken connected crust with open holes. No valuable ore appearance, no glow. Mostly transparent, no full rock backing. Detailed realistic hand-painted game art, restrained natural material colors, subtle upper-left light. This is complementary edge decoration over existing core tiles, never a replacement full tile. Entire asset visible with margins. Output PNG with genuine transparent alpha background. No checkerboard painted into pixels, no black backdrop, no colored backdrop, no aura or outer shadow. No text, labels, frame, characters, UI, or complete cave scene.",
+    "source": "C:\\Users\\Mila\\.codex\\generated_images\\01a08594-0e6f-7a73-89e7-ae5804bf1cbb\\exec-2e6c5593-b678-4a13-88ff-19be5f146fc9.png"
+  },
+  {
+    "id": "mineral-crust-iron",
+    "prompt": "Use case: stylized-concept. Create ONE isolated 2D side-view mining-game environmental overlay sprite. A single narrow irregular mineral crust accent for a stone wall boundary: muted rusty ochre and dark brown oxidized mineral flakes, sparse thin crust islands connected by hairline deposits. Mostly transparent, no rock slab backing, no metal treasure, no glow. Detailed realistic hand-painted game art, restrained natural material colors, subtle upper-left light. This is complementary edge decoration over existing core tiles, never a replacement full tile. Entire asset visible with margins. Output PNG with genuine transparent alpha background. No checkerboard painted into pixels, no black backdrop, no colored backdrop, no aura or outer shadow. No text, labels, frame, characters, UI, or complete cave scene.",
+    "source": "C:\\Users\\Mila\\.codex\\generated_images\\01a08594-0e6f-7a73-89e7-ae5804bf1cbb\\exec-f18fb516-7391-4b32-be9a-137200b29868.png"
+  },
+  {
+    "id": "damp-wall-seep",
+    "prompt": "Use case: stylized-concept. Create ONE isolated 2D side-view mining-game environmental overlay sprite. A single subtle irregular vertical damp wall decal: charcoal wet mineral staining with two short narrow water trails and very restrained cool specular glints. Organic ragged feathered edges and transparent holes. Mostly transparent soft low-opacity stain, no solid rectangular backing, no pool, no scenery. Detailed realistic hand-painted game art, restrained natural material colors, subtle upper-left light. This is complementary edge decoration over existing core tiles, never a replacement full tile. Entire asset visible with margins. Output PNG with genuine transparent alpha background. No checkerboard painted into pixels, no black backdrop, no colored backdrop, no aura or outer shadow. No text, labels, frame, characters, UI, or complete cave scene.",
+    "source": "C:\\Users\\Mila\\.codex\\generated_images\\01a08594-0e6f-7a73-89e7-ae5804bf1cbb\\exec-e3f584fd-86b7-4b84-b602-3c8eb42fd07a.png"
+  },
+  {
+    "id": "damp-wall-moss",
+    "prompt": "Use case: stylized-concept. Create ONE isolated 2D side-view mining-game environmental overlay sprite. A single narrow irregular damp wall edge accent: dark charcoal wet staining with sparse desaturated olive moss in crevices and tiny subdued moisture glints. Broken organic silhouette, mostly transparent, no large plants, no neon green, no solid wall backing. Detailed realistic hand-painted game art, restrained natural material colors, subtle upper-left light. This is complementary edge decoration over existing core tiles, never a replacement full tile. Entire asset visible with margins. Output PNG with genuine transparent alpha background. No checkerboard painted into pixels, no black backdrop, no colored backdrop, no aura or outer shadow. No text, labels, frame, characters, UI, or complete cave scene.",
+    "source": "C:\\Users\\Mila\\.codex\\generated_images\\01a08594-0e6f-7a73-89e7-ae5804bf1cbb\\exec-cdf267fe-c1bc-487d-8f86-1878dd9a4789.png"
+  }
+]

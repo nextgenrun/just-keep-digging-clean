@@ -53,6 +53,10 @@ export class CelestialTalentProgressionSystem {
     return this.getSnapshot();
   }
 
+  getStars() {
+    return this._data.stars;
+  }
+
   grantStars(amount, detail = null) {
     if (!Number.isFinite(Number(amount))) return 0;
     const requested = Math.max(0, Math.floor(Number(amount) || 0));

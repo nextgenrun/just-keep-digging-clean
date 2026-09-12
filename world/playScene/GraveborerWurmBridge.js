@@ -19,6 +19,7 @@ import {
   GAMEPLAY_FEATURE_IDS,
   isGameplayFeatureEnabled,
 } from "../../values/gameplayDevFlags.js";
+import { isLocalGameplayProfileHost } from "../../values/gameplayCapabilities.js";
 
 function readBooleanQuery(params, name, fallback) {
   if (!params.has(name)) return fallback;
@@ -79,7 +80,11 @@ export function resolveGraveborerWurmActivation(
 
 export function forceGraveborerWurmEncounter(scene, selection = {}) {
   const runtime = scene.graveborerWurmRuntime;
-  if (!runtime || (!runtime.devToolsEnabled && !scene.dynamicEventRuntime?.devEnabled)) return false;
+  if (
+    !runtime
+    || globalThis.__DIG_GAME_PRODUCTION__ === true
+    || (!runtime.devToolsEnabled && !scene.dynamicEventRuntime?.devEnabled)
+  ) return false;
   const controls = GRAVEBORER_WURM_CONFIG.devControls;
   if (!runtime.system.enabled) {
     scene.uiNotifications?.warning?.(
@@ -184,7 +189,9 @@ export function createGraveborerWurmRuntime(scene) {
     system,
     visual: new GraveborerWurmVisualSystem(scene),
     hud: null,
-    devToolsEnabled: GAME_CONFIG.debugMode === true
+    devToolsEnabled: globalThis.__DIG_GAME_PRODUCTION__ !== true
+      && GAME_CONFIG.debugMode === true
+      && isLocalGameplayProfileHost(globalThis.location?.hostname)
       && isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.DEV_CHEATS),
     devSummonKeys: [],
     forcedDevEncounter: false,
@@ -197,7 +204,10 @@ export function createGraveborerWurmRuntime(scene) {
     diagnosticsApi: null,
   };
   runtime.devSummonKeys = createDevSummonKeys(scene, runtime.devToolsEnabled);
-  runtime.hud = new GraveborerWurmHudSystem(scene, GRAVEBORER_WURM_CONFIG);
+  // The medallion is a developer encounter monitor, never player-facing HUD.
+  runtime.hud = runtime.devToolsEnabled
+    ? new GraveborerWurmHudSystem(scene, GRAVEBORER_WURM_CONFIG)
+    : null;
   scene.graveborerWurmRuntime = runtime;
   scene.graveborerWurmSystem = system;
   scene.graveborerWurmData = system.getSaveData();
@@ -242,9 +252,7 @@ export function updateGraveborerWurmRuntime(scene, time, delta, playerTile) {
   });
   handleGraveborerWurmEvents(scene, runtime);
   runtime.visual.update(runtime.system.getRenderState(time), time);
-  runtime.hud.update(snapshot, time, {
-    noticeVisible: scene.dynamicEventRuntime?.awareness?.cards.get("wurm")?.root.visible === true,
-  });
+  runtime.hud?.update(snapshot, time);
   return snapshot;
 }
 

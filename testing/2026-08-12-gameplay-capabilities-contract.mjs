@@ -13,7 +13,7 @@ assert.equal(Object.isFrozen(DEFAULT_GAMEPLAY_CAPABILITIES), true);
 assert.equal(DEFAULT_GAMEPLAY_CAPABILITIES.profileId, GAMEPLAY_PROFILE_IDS.DEMO);
 assert.equal(DEFAULT_GAMEPLAY_CAPABILITIES.demoMode, true);
 for (const featureId of Object.values(GAMEPLAY_FEATURE_IDS)) {
-  assert.equal(DEFAULT_GAMEPLAY_CAPABILITIES.isEnabled(featureId), false, featureId);
+  assert.equal(DEFAULT_GAMEPLAY_CAPABILITIES.isEnabled(featureId), featureId === GAMEPLAY_FEATURE_IDS.SCREEN_CAPTURE, featureId);
 }
 assert.equal(DEFAULT_GAMEPLAY_CAPABILITIES.isShowcaseEnabled("campfire"), true);
 assert.equal(DEFAULT_GAMEPLAY_CAPABILITIES.isShowcaseEnabled("constellations"), true);

@@ -92,22 +92,22 @@ const mainSource = fs.readFileSync(new URL("../main.js", import.meta.url), "utf8
 const serverSource = fs.readFileSync(new URL("../serve.py", import.meta.url), "utf8");
 const recordSource = fs.readFileSync(new URL("../systems/visual/ScreenRecordSystem.js", import.meta.url), "utf8");
 
-assert.match(keybindSource, /id: "screenRecord"[\s\S]*defaultKey: "F9"[\s\S]*devOnly: true/);
+assert.match(keybindSource, /id: "screenRecord"[\s\S]*defaultKey: "F9"/);
 assert.match(
   keybindSource,
   /id: "fullscreen"[\s\S]*defaultKey: "F10"[\s\S]*rebindable: false/,
 );
-assert.match(inputSource, /GAME_CONFIG\.debugMode \? addBoundKey\("screenRecord"\) : null/);
-assert.match(globalInputSource, /GAME_CONFIG\.debugMode && justDown\(keys\.screenRecord\)/);
+assert.match(inputSource, /const screenRecord = addBoundKey\("screenRecord"\)/);
+assert.match(globalInputSource, /_handleScreenRecordDown\(event\)/);
 assert.match(globalInputSource, /screenRecordSystem\?\.toggle\(\)/);
-assert.match(setupSource, /GAME_CONFIG\.debugMode \? new ScreenRecordSystem\(this\) : null/);
+assert.match(setupSource, /GAMEPLAY_FEATURE_IDS\.SCREEN_CAPTURE, this\.gameplayCapabilities,[\s\S]*new ScreenRecordSystem\(this\)/);
 assert.match(lifecycleSource, /screenRecordSystem/);
 assert.match(gameConfigSource, /preserveDrawingBuffer: DEBUG_MODE/);
 assert.match(
   mainSource,
   /preserveDrawingBuffer: GAME_CONFIG\.rendererQuality\.preserveDrawingBuffer/,
 );
-assert.match(recordSource, /if \(!this\.enabled \|\| !GAME_CONFIG\.debugMode\) return false/);
+assert.match(recordSource, /if \(!this\.enabled\) return false/);
 assert.match(recordSource, /uiNotifications\?\.\[kind\]/);
 assert.doesNotMatch(recordSource, /notificationSystem\?\.\[kind\]/);
 assert.match(recordSource, /__isGameFullscreen/);
@@ -135,15 +135,15 @@ if (GAME_CONFIG.debugMode !== false) throw new Error("production debugMode staye
 if (GAME_CONFIG.rendererQuality.preserveDrawingBuffer !== false) {
   throw new Error("production preserveDrawingBuffer stayed enabled");
 }
-if (KEYBIND_ACTIONS.some(action => action.id === "screenRecord")) {
-  throw new Error("production keybind list exposes screenRecord");
+if (!KEYBIND_ACTIONS.some(action => action.id === "screenRecord")) {
+  throw new Error("production keybind list omits screenRecord");
 }
-if (Object.prototype.hasOwnProperty.call(createDefaultKeybinds(), "screenRecord")) {
-  throw new Error("production defaults expose screenRecord");
+if (!Object.prototype.hasOwnProperty.call(createDefaultKeybinds(), "screenRecord")) {
+  throw new Error("production defaults omit screenRecord");
 }
 if (
   RUNTIME_GAMEPLAY_CAPABILITIES.isEnabled(GAMEPLAY_FEATURE_IDS.GOD_MODE)
-  || RUNTIME_GAMEPLAY_CAPABILITIES.isEnabled(GAMEPLAY_FEATURE_IDS.SCREEN_CAPTURE)
+  || !RUNTIME_GAMEPLAY_CAPABILITIES.isEnabled(GAMEPLAY_FEATURE_IDS.SCREEN_CAPTURE)
 ) {
   throw new Error("production runtime admits development capabilities");
 }
@@ -158,8 +158,8 @@ globalThis.prompt = () => {
   return "short";
 };
 const result = await new ScreenRecordSystem(null).toggle();
-if (result !== false || prompted) {
-  throw new Error("production recorder toggle reached the capture chooser");
+if (result !== false || !prompted) {
+  throw new Error("production recorder failed to reach the capture chooser");
 }
 `,
   ],

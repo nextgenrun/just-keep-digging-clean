@@ -180,8 +180,10 @@ export class CaveEntryController {
     let nearest = null;
     let nearestDistance = Infinity;
     for (const zone of zones) {
-      if (!this._isInteractiveZone(zone)) continue;
+      if (!zone?.entry) continue;
       const distance = getDistance(playerTile, zone.entry);
+      if (distance > CAVE_SCENE_CONFIG.interactionRangeTiles || distance >= nearestDistance) continue;
+      if (!this._isInteractiveZone(zone)) continue;
       if (distance <= CAVE_SCENE_CONFIG.interactionRangeTiles && distance < nearestDistance) {
         nearest = zone;
         nearestDistance = distance;

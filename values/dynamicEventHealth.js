@@ -47,9 +47,12 @@ export const DYNAMIC_EVENT_HEALTH = Object.freeze({
   phaseLabels: Object.freeze({ spawning: "APPEARING", approaching: "NEARBY", observing: "MINING",
     fleeing: "RETREATING", vanishing: "FADING", warning: "INCOMING", burrowing: "BURROWING" }),
   notice: Object.freeze({
-    width: 460, height: 96, top: 220, gap: 108, depth: 3490,
-    iconX: -185, iconSize: 64, textX: -136, titleY: -24, detailY: 10,
-    titleSize: "18px", detailSize: "14px", textWidth: 326, titleHeight: 22, detailHeight: 36, inset: 16,
+    // Only the short earthquake completion cue is player-facing. Encounter
+    // controls and the other events keep their information in-world.
+    visibleEventIds: Object.freeze(["earthquake"]),
+    width: 340, height: 64, top: 88, gap: 76, depth: 3490,
+    iconX: -135, iconSize: 40, textX: -94, titleY: -14, detailY: 8,
+    titleSize: "14px", detailSize: "12px", textWidth: 220, titleHeight: 18, detailHeight: 22, inset: 12,
   }),
   dev: Object.freeze({
     key: "F2", width: 500, height: 395, x: 270, bottom: 445, depth: 5000,

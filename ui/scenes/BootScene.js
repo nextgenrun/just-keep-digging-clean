@@ -23,7 +23,7 @@ import { CELESTIAL_ACTION_BAR_EAGER_ASSETS } from "../../values/celestialActionB
 import { CELESTIAL_ENGINE_CORE_ASSETS } from "../../values/celestialEngines.js";
 import { CELESTIAL_CURRENCY_HUD_PRELOAD_ASSETS } from
   "../../values/celestialCurrencyHud.js";
-import { CELESTIAL_TALENT_TREE_PRELOAD_ASSETS } from
+import { CELESTIAL_TALENT_TREE_PRELOAD_ASSETS, CELESTIAL_TALENT_TREE_EAGER_ASSETS } from
   "../../values/celestialTalentTreeUi.js";
 import { SKYLINE_WEATHER_VFX } from "../../values/skylineWeatherVfx.js";
 import { GEM_POWER_BLOCK_TIERS } from "../../values/specialBlocks.js";
@@ -759,10 +759,10 @@ export class BootScene extends Phaser.Scene {
   }
 
   preloadConstellationSprites() {
-    // ESC and the physical Star Pillar share one complete resident asset pack.
-    // The pack owns every visible node icon as well as its authored chrome so
-    // memory-pressure cleanup cannot leave loaded sockets with missing art.
-    for (const asset of CELESTIAL_TALENT_TREE_PRELOAD_ASSETS) {
+    // Keep shared gameplay art; the existing feature loader owns screen-only art.
+    const assets = this._deferFeatureAssets
+      ? CELESTIAL_TALENT_TREE_EAGER_ASSETS : CELESTIAL_TALENT_TREE_PRELOAD_ASSETS;
+    for (const asset of assets) {
       this.queueResidentUiImage(asset.key, asset.path, "starlight-ui");
     }
   }

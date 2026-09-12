@@ -85,8 +85,15 @@ export class CelestialCurrencyHudSystem {
 
   update(force = false) {
     if (this.destroyed) return false;
-    const moneyText = formatCelestialMoney(readProvider(this.getMoney));
-    const starsText = formatCelestialStars(readProvider(this.getStars));
+    const money = Math.max(0, Number(readProvider(this.getMoney)) || 0);
+    const stars = Math.max(0, Math.floor(Number(readProvider(this.getStars)) || 0));
+    if (!force && money === this.lastMoneyValue && stars === this.lastStarsValue) return false;
+    const moneyText = !force && money === this.lastMoneyValue
+      ? this.lastMoneyText : formatCelestialMoney(money);
+    const starsText = !force && stars === this.lastStarsValue
+      ? this.lastStarsText : formatCelestialStars(stars);
+    this.lastMoneyValue = money;
+    this.lastStarsValue = stars;
     let changed = false;
     if (force || moneyText !== this.lastMoneyText) {
       this.moneyText.setText(moneyText);

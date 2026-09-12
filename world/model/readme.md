@@ -97,3 +97,8 @@ from the upper Tiled map: the map retains its solid/air shapes and landmarks,
 while live ratios remain authoritative for material composition.
 
 The default town-bed runtime supersedes periodic Hardcore position/GP checkpoints. It records armed-run authorization on the active store in memory, preserving permanent-death handling before a new bed save without writing a resumable expedition position. Older stored checkpoints remain readable for migration.
+
+
+### 2026-09-12 runtime smoothing
+
+WorldModel.tileTypeRevision is transient visual invalidation state; tile type changes and destruction advance it, HP-only writes do not. It is not saved.

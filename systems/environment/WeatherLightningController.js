@@ -26,6 +26,8 @@ export class WeatherLightningController {
     const thunderDelay = this._randomRange(lightningCfg.thunderDelayMs);
     const thunderShake = this._pickWeatherThunderShake(lightningCfg, flashAlpha, state.intensity);
     const timer = this.scene.time.delayedCall(thunderDelay, () => {
+      const index = this._timers.indexOf(timer);
+      if (index !== -1) this._timers.splice(index, 1);
       if (state.destroyed) return;
       this.scene.shakeSystem?.shake(
         thunderShake.signature,

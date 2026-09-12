@@ -145,13 +145,9 @@ const awareness = playShadowMinerArrivalAwareness({
   screenFlashSystem: { flashCustom: (...args) => flashCalls.push(args) },
   hudSystem: { flashStatus: (...args) => statusCalls.push(args) },
 }, SHADOW_MINER_CONFIG, { x: 100 }, 1.2);
-assert.equal(awareness.direction, "left");
-assert.ok(awareness.flashAlpha >= SHADOW_MINER_CONFIG.visual.awareness.flashAlpha);
-assert.ok(awareness.flashAlpha <= SHADOW_MINER_CONFIG.visual.awareness.flashMaximumAlpha);
-assert.equal(flashCalls.length, 1);
-assert.equal(statusCalls.length, 1);
-assert.match(statusCalls[0][0], /^◀/);
-assert.match(statusCalls[0][0], /SHADOW MINER NEARBY/);
+assert.equal(awareness, null);
+assert.equal(flashCalls.length, 0);
+assert.equal(statusCalls.length, 0);
 
 const labels = [];
 const labelTweens = [];
@@ -186,12 +182,10 @@ const screenAwareness = playShadowMinerArrivalAwareness({
   },
   tweens: { add: config => labelTweens.push(config) },
 }, SHADOW_MINER_CONFIG, { x: 400 }, 1);
-assert.equal(screenAwareness.direction, "right");
-assert.equal(screenAwareness.labelCreated, true);
-assert.equal(labels.length, 1);
-assert.match(labels[0].text, /SHADOW MINER NEARBY.*▶$/);
-assert.equal(labelTweens.length, 1);
-assert.equal(labelTimers.length, 1);
+assert.equal(screenAwareness, null);
+assert.equal(labels.length, 0);
+assert.equal(labelTweens.length, 0);
+assert.equal(labelTimers.length, 0);
 
 const previewTiles = new Map();
 const previewWorld = {
@@ -238,5 +232,5 @@ assert.equal(previewWorld.dugTileSource.get("2,8"), "contract-source");
 assert.ok(previewRendererUpdates.length > 0);
 
 console.log(
-  "shadow miner presence contract: recorded dig targets, authored purple crack/break art, one block per action, hard visual-only authority, one-shot directional awareness, and preview tile restoration passed",
+  "shadow miner presence contract: recorded dig targets, authored purple crack/break art, one block per action, hard visual-only authority, silent in-world arrival, and preview tile restoration passed",
 );

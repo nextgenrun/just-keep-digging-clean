@@ -1,0 +1,81 @@
+{
+  "cave": [
+    {
+      "zones": 100,
+      "solidQueriesPerStationaryFrame": 200,
+      "nearbyZones": 0
+    },
+    {
+      "zones": 1000,
+      "solidQueriesPerStationaryFrame": 2000,
+      "nearbyZones": 0
+    },
+    {
+      "zones": 5000,
+      "solidQueriesPerStationaryFrame": 10000,
+      "nearbyZones": 0
+    }
+  ],
+  "cache": [
+    {
+      "worldViewWidth": 1280,
+      "worldViewHeight": 720,
+      "frames": 60,
+      "tileQueries": 40020
+    },
+    {
+      "worldViewWidth": 1920,
+      "worldViewHeight": 1080,
+      "frames": 60,
+      "tileQueries": 58320
+    }
+  ],
+  "materialMask": [
+    {
+      "individualVisibleInvalidations": 1,
+      "viewportCells": 660,
+      "maskRedraws": 1,
+      "tileQueries": 3300
+    },
+    {
+      "individualVisibleInvalidations": 10,
+      "viewportCells": 660,
+      "maskRedraws": 10,
+      "tileQueries": 33000
+    },
+    {
+      "individualVisibleInvalidations": 50,
+      "viewportCells": 660,
+      "maskRedraws": 50,
+      "tileQueries": 165000
+    }
+  ],
+  "telemetry": [
+    {
+      "queued": 16,
+      "batchEvents": 16,
+      "medianMs": 0.06689999999998975,
+      "p95Ms": 0.22099999999999653
+    },
+    {
+      "queued": 64,
+      "batchEvents": 64,
+      "medianMs": 0.7390999999999934,
+      "p95Ms": 1.0594999999999999
+    },
+    {
+      "queued": 128,
+      "batchEvents": 128,
+      "medianMs": 2.974500000000006,
+      "p95Ms": 4.170000000000002
+    }
+  ],
+  "currency": {
+    "unchangedValueCalls": 1000,
+    "medianPerCallMs": 0.0187962
+  },
+  "telemetryPolicy": {
+    "maxBatchEvents": 128,
+    "flushIntervalMs": 5000
+  }
+}

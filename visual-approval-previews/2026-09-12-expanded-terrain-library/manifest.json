@@ -1,0 +1,606 @@
+{
+  "generator": "built-in ImageGen",
+  "runtimeChanged": false,
+  "assets": [
+    {
+      "id": "stone-walls-01",
+      "family": "stone-walls",
+      "description": "thin overlapping slate flakes with a shallow sawtooth edge",
+      "file": "stone-walls-01.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "mode": "RGBA",
+      "alphaRange": [
+        0,
+        254
+      ]
+    },
+    {
+      "id": "stone-walls-02",
+      "family": "stone-walls",
+      "description": "rounded weathered limestone with shallow scalloped erosion",
+      "file": "stone-walls-02.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "mode": "RGBA",
+      "alphaRange": [
+        0,
+        254
+      ]
+    },
+    {
+      "id": "stone-walls-03",
+      "family": "stone-walls",
+      "description": "chunky fractured granite with alternating small and medium shelves",
+      "file": "stone-walls-03.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "mode": "RGBA",
+      "alphaRange": [
+        0,
+        254
+      ]
+    },
+    {
+      "id": "stone-walls-04",
+      "family": "stone-walls",
+      "description": "dark basalt with irregular vertical splits and restrained ledges",
+      "file": "stone-walls-04.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "mode": "RGBA",
+      "alphaRange": [
+        0,
+        254
+      ]
+    },
+    {
+      "id": "stone-walls-05",
+      "family": "stone-walls",
+      "description": "compressed grey sedimentary layers, one diagonal fracture, subtle notches",
+      "file": "stone-walls-05.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "mode": "RGBA",
+      "alphaRange": [
+        0,
+        254
+      ]
+    },
+    {
+      "id": "soil-walls-01",
+      "family": "soil-walls",
+      "description": "fine compact earth with thin sediment bands and almost no pebbles",
+      "file": "soil-walls-01.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "mode": "RGBA",
+      "alphaRange": [
+        0,
+        254
+      ]
+    },
+    {
+      "id": "soil-walls-02",
+      "family": "soil-walls",
+      "description": "crumbly dark loam, eroded scoops and two tiny exposed roots",
+      "file": "soil-walls-02.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "mode": "RGBA",
+      "alphaRange": [
+        0,
+        254
+      ]
+    },
+    {
+      "id": "soil-walls-03",
+      "family": "soil-walls",
+      "description": "warm clay, dry cracked edge with small angular crumbs",
+      "file": "soil-walls-03.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "mode": "RGBA",
+      "alphaRange": [
+        0,
+        254
+      ]
+    },
+    {
+      "id": "soil-walls-04",
+      "family": "soil-walls",
+      "description": "gravelly earth with many small embedded muted pebbles",
+      "file": "soil-walls-04.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "mode": "RGBA",
+      "alphaRange": [
+        0,
+        254
+      ]
+    },
+    {
+      "id": "soil-walls-05",
+      "family": "soil-walls",
+      "description": "dense brown soil with irregular shallow root pockets",
+      "file": "soil-walls-05.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "mode": "RGBA",
+      "alphaRange": [
+        0,
+        254
+      ]
+    },
+    {
+      "id": "ceiling-edges-01",
+      "family": "ceiling-edges",
+      "description": "grey slate underside, short alternating broken plates",
+      "file": "ceiling-edges-01.png",
+      "size": [
+        2172,
+        724
+      ],
+      "mode": "RGBA",
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "ceiling-edges-02",
+      "family": "ceiling-edges",
+      "description": "compact brown soil underside, three short sparse root tufts",
+      "file": "ceiling-edges-02.png",
+      "size": [
+        2172,
+        724
+      ],
+      "mode": "RGBA",
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "ceiling-edges-03",
+      "family": "ceiling-edges",
+      "description": "dark basalt underside with two small blunt fractured teeth",
+      "file": "ceiling-edges-03.png",
+      "size": [
+        2172,
+        724
+      ],
+      "mode": "RGBA",
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "ceiling-edges-04",
+      "family": "ceiling-edges",
+      "description": "weathered limestone underside with rounded shallow scallops",
+      "file": "ceiling-edges-04.png",
+      "size": [
+        2172,
+        724
+      ],
+      "mode": "RGBA",
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "ceiling-edges-05",
+      "family": "ceiling-edges",
+      "description": "crumbly clay underside with uneven earth clods and sparse grit",
+      "file": "ceiling-edges-05.png",
+      "size": [
+        2172,
+        724
+      ],
+      "mode": "RGBA",
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "corner-trims-01",
+      "family": "corner-trims",
+      "description": "grey slate wall-to-floor INNER corner, open L shape",
+      "file": "corner-trims-01.png",
+      "size": [
+        1230,
+        1278
+      ],
+      "mode": "RGBA",
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "corner-trims-02",
+      "family": "corner-trims",
+      "description": "brown compact soil wall-to-floor INNER corner, open L shape",
+      "file": "corner-trims-02.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "alphaRange": [
+        0,
+        254
+      ]
+    },
+    {
+      "id": "corner-trims-03",
+      "family": "corner-trims",
+      "description": "rounded limestone wall-to-ceiling INNER corner, inverted open L shape",
+      "file": "corner-trims-03.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "alphaRange": [
+        0,
+        254
+      ]
+    },
+    {
+      "id": "corner-trims-04",
+      "family": "corner-trims",
+      "description": "dark basalt wall-to-floor INNER corner, small broken wedge at junction",
+      "file": "corner-trims-04.png",
+      "size": [
+        1236,
+        1272
+      ],
+      "mode": "RGBA",
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "corner-trims-05",
+      "family": "corner-trims",
+      "description": "crumbly earth wall-to-ceiling INNER corner, inverted open L shape with tiny roots",
+      "file": "corner-trims-05.png",
+      "size": [
+        1448,
+        1086
+      ],
+      "mode": "RGBA",
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "rubble-skirts-01",
+      "family": "rubble-skirts",
+      "description": "thin grey slate shards in three low asymmetric clusters",
+      "file": "rubble-skirts-01.png",
+      "size": [
+        2172,
+        724
+      ],
+      "mode": "RGBA",
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "rubble-skirts-02",
+      "family": "rubble-skirts",
+      "description": "brown earth crumbs and scattered small rounded pebbles",
+      "file": "rubble-skirts-02.png",
+      "size": [
+        2172,
+        724
+      ],
+      "mode": "RGBA",
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "rubble-skirts-03",
+      "family": "rubble-skirts",
+      "description": "small dark basalt chips with two modest flat fragments",
+      "file": "rubble-skirts-03.png",
+      "size": [
+        1774,
+        887
+      ],
+      "mode": "RGBA",
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "rubble-skirts-04",
+      "family": "rubble-skirts",
+      "description": "pale dull limestone grit and shallow chalky rubble",
+      "file": "rubble-skirts-04.png",
+      "size": [
+        2172,
+        724
+      ],
+      "mode": "RGBA",
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "rubble-skirts-05",
+      "family": "rubble-skirts",
+      "description": "mixed neutral gravel with a sparse broken trail between clusters",
+      "file": "rubble-skirts-05.png",
+      "size": [
+        2172,
+        724
+      ],
+      "mode": "RGBA",
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "mineral-crusts-01",
+      "family": "mineral-crusts",
+      "description": "dull chalk-white calcite powder and tiny flat flakes, NO large crystals",
+      "file": "mineral-crusts-01.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "alphaRange": [
+        0,
+        254
+      ]
+    },
+    {
+      "id": "mineral-crusts-02",
+      "family": "mineral-crusts",
+      "description": "muted rusty brown iron oxide flecks and hairline deposits",
+      "file": "mineral-crusts-02.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "alphaRange": [
+        0,
+        254
+      ]
+    },
+    {
+      "id": "mineral-crusts-03",
+      "family": "mineral-crusts",
+      "description": "desaturated grey-beige salt crust with thin irregular lace edges",
+      "file": "mineral-crusts-03.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "alphaRange": [
+        0,
+        254
+      ]
+    },
+    {
+      "id": "mineral-crusts-04",
+      "family": "mineral-crusts",
+      "description": "dark manganese staining with sparse charcoal granular flecks",
+      "file": "mineral-crusts-04.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "alphaRange": [
+        0,
+        254
+      ]
+    },
+    {
+      "id": "mineral-crusts-05",
+      "family": "mineral-crusts",
+      "description": "pale muted ochre clay-mineral crust, broken porous flakes",
+      "file": "mineral-crusts-05.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "alphaRange": [
+        0,
+        254
+      ]
+    },
+    {
+      "id": "damp-patches-01",
+      "family": "damp-patches",
+      "description": "narrow charcoal seep stain with two short subtle wet streaks",
+      "file": "damp-patches-01.png",
+      "size": [
+        1206,
+        1305
+      ],
+      "mode": "RGBA",
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "damp-patches-02",
+      "family": "damp-patches",
+      "description": "small irregular damp patch with sparse dull olive moss specks",
+      "file": "damp-patches-02.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "alphaRange": [
+        0,
+        254
+      ]
+    },
+    {
+      "id": "damp-patches-03",
+      "family": "damp-patches",
+      "description": "thin dark horizontal damp band with three tiny downward drip trails",
+      "file": "damp-patches-03.png",
+      "size": [
+        1774,
+        887
+      ],
+      "mode": "RGBA",
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "damp-patches-04",
+      "family": "damp-patches",
+      "description": "broken vertical wet stain with soft porous edge and restrained highlights",
+      "file": "damp-patches-04.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "mode": "RGBA",
+      "alphaRange": [
+        0,
+        254
+      ]
+    },
+    {
+      "id": "damp-patches-05",
+      "family": "damp-patches",
+      "description": "small crescent of dark moisture staining and sparse tiny moss in cracks",
+      "file": "damp-patches-05.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "alphaRange": [
+        0,
+        254
+      ]
+    },
+    {
+      "id": "root-accents-01",
+      "family": "root-accents",
+      "description": "three thin dry brown roots dangling from a short soil seam",
+      "file": "root-accents-01.png",
+      "size": [
+        1213,
+        1297
+      ],
+      "mode": "RGBA",
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "root-accents-02",
+      "family": "root-accents",
+      "description": "one small tangled root knot hugging a vertical soil boundary",
+      "file": "root-accents-02.png",
+      "size": [
+        1226,
+        1283
+      ],
+      "mode": "RGBA",
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "root-accents-03",
+      "family": "root-accents",
+      "description": "sparse thin branching roots exposed along a narrow earth edge",
+      "file": "root-accents-03.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "alphaRange": [
+        0,
+        254
+      ]
+    },
+    {
+      "id": "root-accents-04",
+      "family": "root-accents",
+      "description": "two short old broken roots protruding from tiny soil clumps",
+      "file": "root-accents-04.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "alphaRange": [
+        0,
+        254
+      ]
+    },
+    {
+      "id": "root-accents-05",
+      "family": "root-accents",
+      "description": "fine threadlike roots following an open wall-to-ceiling corner",
+      "file": "root-accents-05.png",
+      "size": [
+        1312,
+        1199
+      ],
+      "mode": "RGBA",
+      "alphaRange": [
+        0,
+        255
+      ]
+    }
+  ]
+}

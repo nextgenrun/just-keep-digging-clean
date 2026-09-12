@@ -1,0 +1,458 @@
+[
+  {
+    "key": "survival-blender-v2-idle-sheet",
+    "property": "idleSheet",
+    "MiB": 16.0,
+    "deferredId": null,
+    "abilityId": null,
+    "pages": 1
+  },
+  {
+    "key": "survival-blender-v2-walk-sheet",
+    "property": "walkSheet",
+    "MiB": 16.0,
+    "deferredId": null,
+    "abilityId": null,
+    "pages": 1
+  },
+  {
+    "key": "survival-ual-player-v1-airborne-sheet",
+    "property": "airborneSheet",
+    "MiB": 11.303466796875,
+    "deferredId": null,
+    "abilityId": null,
+    "pages": 1
+  },
+  {
+    "key": "survival-ual-player-v1-falling-sheet",
+    "property": "fallingSheet",
+    "MiB": 17.173492431640625,
+    "deferredId": null,
+    "abilityId": null,
+    "pages": 1
+  },
+  {
+    "key": "survival-blender-v2-fly-sheet",
+    "property": "legacyFlightTransitionSheet",
+    "MiB": 7.913932800292969,
+    "deferredId": "flight",
+    "abilityId": null,
+    "pages": 1
+  },
+  {
+    "key": "survival-ual-player-v1-punch-jab-sheet",
+    "property": "punchJabSheet",
+    "MiB": 11.159420013427734,
+    "deferredId": null,
+    "abilityId": null,
+    "pages": 1
+  },
+  {
+    "key": "survival-ual-player-v1-punch-cross-sheet",
+    "property": "punchCrossSheet",
+    "MiB": 11.1236572265625,
+    "deferredId": null,
+    "abilityId": null,
+    "pages": 1
+  },
+  {
+    "key": "survival-blender-v2-dig-up-polished-sheet",
+    "property": "uppercutSheet",
+    "MiB": 10.500396728515625,
+    "deferredId": null,
+    "abilityId": null,
+    "pages": 1
+  },
+  {
+    "key": "survival-ual-player-v1-ground-strike-sheet",
+    "property": "groundStrikeSheet",
+    "MiB": 14.356658935546875,
+    "deferredId": null,
+    "abilityId": null,
+    "pages": 1
+  },
+  {
+    "key": "survival-ual-player-v1-wall-push-sheet",
+    "property": "wallPushSheet",
+    "MiB": 27.41185760498047,
+    "deferredId": "locomotion-polish",
+    "abilityId": null,
+    "pages": 1
+  },
+  {
+    "key": "survival-ual-player-v1-teleport-sheet",
+    "property": "teleportInSheet",
+    "MiB": 13.303207397460938,
+    "deferredId": "teleport",
+    "abilityId": null,
+    "pages": 1
+  },
+  {
+    "key": "survival-ual-player-v1-thunder-charge-sheet",
+    "property": "thunderStrikeChargeSheet",
+    "MiB": 22.897018432617188,
+    "deferredId": "upward-aim",
+    "abilityId": null,
+    "pages": 1
+  },
+  {
+    "key": "survival-ual-player-v1-hit-react-sheet",
+    "property": "earthquakeReactSheet",
+    "MiB": 2.531543731689453,
+    "deferredId": "impact",
+    "abilityId": null,
+    "pages": 1
+  },
+  {
+    "key": "survival-ual-player-v1-death-sheet",
+    "property": "deathSheet",
+    "MiB": 19.159500122070312,
+    "deferredId": "death",
+    "abilityId": null,
+    "pages": 1
+  },
+  {
+    "key": "survival-ual-player-v1-moving-side-dig-jab-sheet",
+    "property": "movingSideDigJabSheet",
+    "MiB": 10.306957244873047,
+    "deferredId": "side-mining",
+    "abilityId": null,
+    "pages": 1
+  },
+  {
+    "key": "survival-ual-player-v1-moving-side-dig-cross-sheet",
+    "property": "movingSideDigCrossSheet",
+    "MiB": 10.415290832519531,
+    "deferredId": "side-mining",
+    "abilityId": null,
+    "pages": 1
+  },
+  {
+    "key": "survival-ual-player-v1-moving-side-dig-phase-handoff-sheet",
+    "property": "movingSideDigPhaseHandoffSheet",
+    "MiB": 47.34781265258789,
+    "deferredId": "side-mining",
+    "abilityId": null,
+    "pages": 1
+  },
+  {
+    "key": "survival-ual-player-v1-moving-complex-dig-sheet",
+    "property": "movingComplexDigSheet",
+    "MiB": 273.5216407775879,
+    "deferredId": "moving-complex-mining",
+    "abilityId": null,
+    "pages": 5
+  },
+  {
+    "key": "survival-ual-player-v1-animation-polish-run-sheet",
+    "property": "animationPolishRunSheet",
+    "MiB": 10.410404205322266,
+    "deferredId": null,
+    "abilityId": null,
+    "pages": 1
+  },
+  {
+    "key": "survival-ual-player-v1-animation-polish-transitions-sheet",
+    "property": "animationPolishTransitionSheet",
+    "MiB": 24.8511962890625,
+    "deferredId": "locomotion-polish",
+    "abilityId": null,
+    "pages": 1
+  },
+  {
+    "key": "survival-ual-player-v1-animation-polish-diagonal-dig-sheet",
+    "property": "animationPolishDiagonalDigSheet",
+    "MiB": 37.251346588134766,
+    "deferredId": "diagonal-mining",
+    "abilityId": null,
+    "pages": 1
+  },
+  {
+    "key": "survival-mixamo-v1-walk-loop-sheet",
+    "property": "walkRunSheet",
+    "MiB": 16.0,
+    "deferredId": null,
+    "abilityId": null,
+    "pages": 1
+  },
+  {
+    "key": "survival-mixamo-v2-walk-handoff-sheet",
+    "property": "walkHandoffSheet",
+    "MiB": 32.0,
+    "deferredId": null,
+    "abilityId": null,
+    "pages": 2
+  },
+  {
+    "key": "survival-mixamo-v1-idle-fidget-sheet",
+    "property": "mixamoIdleFidgetSheet",
+    "MiB": 29.91943359375,
+    "deferredId": "idle-fidget",
+    "abilityId": null,
+    "pages": 1
+  },
+  {
+    "key": "survival-mixamo-v1-crouch-idle-sheet",
+    "property": "duckSheet",
+    "MiB": 9.314460754394531,
+    "deferredId": "crouch",
+    "abilityId": null,
+    "pages": 1
+  },
+  {
+    "key": "survival-mixamo-v1-crouch-enter-sheet",
+    "property": "crouchEnterSheet",
+    "MiB": 9.99631118774414,
+    "deferredId": "crouch",
+    "abilityId": null,
+    "pages": 1
+  },
+  {
+    "key": "survival-mixamo-v1-crouch-exit-sheet",
+    "property": "crouchExitSheet",
+    "MiB": 5.7245635986328125,
+    "deferredId": "crouch",
+    "abilityId": null,
+    "pages": 1
+  },
+  {
+    "key": "survival-mixamo-v1-flight-loop-sheet",
+    "property": "flySheet",
+    "MiB": 9.907905578613281,
+    "deferredId": "flight",
+    "abilityId": null,
+    "pages": 1
+  },
+  {
+    "key": "survival-mixamo-v1-hard-landing-sheet",
+    "property": "landingSheet",
+    "MiB": 5.775810241699219,
+    "deferredId": "locomotion-polish",
+    "abilityId": null,
+    "pages": 1
+  },
+  {
+    "key": "survival-mixamo-v1-thunder-ground-sheet",
+    "property": "thunderStrikeStrikeSheet",
+    "MiB": 12.15164566040039,
+    "deferredId": null,
+    "abilityId": "thunderStrike",
+    "pages": 1
+  },
+  {
+    "key": "survival-mixamo-v2-hurricane-quickslash-sheet",
+    "property": "quickslashSheet",
+    "MiB": 9.297481536865234,
+    "deferredId": null,
+    "abilityId": "quickslash",
+    "pages": 1
+  },
+  {
+    "key": "survival-held-torch-v1-idle-sheet",
+    "property": "heldTorchIdleSheet",
+    "MiB": 16.0,
+    "deferredId": null,
+    "abilityId": null,
+    "pages": 1
+  },
+  {
+    "key": "survival-held-torch-v1-walkStart-sheet",
+    "property": "heldTorchWalkStartSheet",
+    "MiB": 4.272247314453125,
+    "deferredId": null,
+    "abilityId": null,
+    "pages": 1
+  },
+  {
+    "key": "survival-held-torch-v1-walkLoop-sheet",
+    "property": "heldTorchWalkLoopSheet",
+    "MiB": 16.0,
+    "deferredId": null,
+    "abilityId": null,
+    "pages": 1
+  },
+  {
+    "key": "survival-held-torch-v1-walkStop-sheet",
+    "property": "heldTorchWalkStopSheet",
+    "MiB": 4.1571044921875,
+    "deferredId": null,
+    "abilityId": null,
+    "pages": 1
+  },
+  {
+    "key": "survival-held-torch-v1-airborne-sheet",
+    "property": "heldTorchAirborneSheet",
+    "MiB": 11.42633056640625,
+    "deferredId": null,
+    "abilityId": null,
+    "pages": 1
+  },
+  {
+    "key": "survival-held-torch-v1-falling-sheet",
+    "property": "heldTorchFallingSheet",
+    "MiB": 23.596160888671875,
+    "deferredId": null,
+    "abilityId": null,
+    "pages": 1
+  },
+  {
+    "key": "survival-held-torch-v1-flight-sheet",
+    "property": "heldTorchFlightSheet",
+    "MiB": 14.025077819824219,
+    "deferredId": "flight",
+    "abilityId": null,
+    "pages": 1
+  },
+  {
+    "key": "survival-held-torch-v1-hardLanding-sheet",
+    "property": "heldTorchHardLandingSheet",
+    "MiB": 10.603034973144531,
+    "deferredId": "locomotion-polish",
+    "abilityId": null,
+    "pages": 1
+  },
+  {
+    "key": "survival-held-torch-v1-crouchEnter-sheet",
+    "property": "heldTorchCrouchEnterSheet",
+    "MiB": 9.99631118774414,
+    "deferredId": "crouch",
+    "abilityId": null,
+    "pages": 1
+  },
+  {
+    "key": "survival-held-torch-v1-crouch-sheet",
+    "property": "heldTorchCrouchSheet",
+    "MiB": 9.314460754394531,
+    "deferredId": "crouch",
+    "abilityId": null,
+    "pages": 1
+  },
+  {
+    "key": "survival-held-torch-v1-crouchExit-sheet",
+    "property": "heldTorchCrouchExitSheet",
+    "MiB": 5.7245635986328125,
+    "deferredId": "crouch",
+    "abilityId": null,
+    "pages": 1
+  },
+  {
+    "key": "survival-mixamo-v3-complex-dig-cross-sheet",
+    "property": "complexDigCrossSheet",
+    "MiB": 3.6134033203125,
+    "deferredId": "complex-side-mining",
+    "abilityId": null,
+    "pages": 1
+  },
+  {
+    "key": "survival-mixamo-v3-complex-dig-jab-sheet",
+    "property": "complexDigJabSheet",
+    "MiB": 2.9757957458496094,
+    "deferredId": null,
+    "abilityId": null,
+    "pages": 1
+  },
+  {
+    "key": "survival-mixamo-v3-complex-dig-roundhouse-sheet",
+    "property": "complexDigRoundhouseSheet",
+    "MiB": 5.4340362548828125,
+    "deferredId": "complex-side-mining",
+    "abilityId": null,
+    "pages": 1
+  },
+  {
+    "key": "survival-mixamo-v3-complex-dig-jab-elbow-sheet",
+    "property": "complexDigJabElbowSheet",
+    "MiB": 11.569576263427734,
+    "deferredId": "complex-side-mining",
+    "abilityId": null,
+    "pages": 1
+  },
+  {
+    "key": "survival-mixamo-v3-complex-dig-low-kick-sheet",
+    "property": "complexDigLowKickSheet",
+    "MiB": 4.896846771240234,
+    "deferredId": "complex-side-mining",
+    "abilityId": null,
+    "pages": 1
+  },
+  {
+    "key": "survival-mixamo-v3-complex-dig-high-kick-sheet",
+    "property": "complexDigHighKickSheet",
+    "MiB": 10.593929290771484,
+    "deferredId": "complex-side-mining",
+    "abilityId": null,
+    "pages": 1
+  },
+  {
+    "key": "survival-mixamo-v3-complex-dig-spinning-back-kick-sheet",
+    "property": "complexDigSpinningBackKickSheet",
+    "MiB": 10.805068969726562,
+    "deferredId": "complex-side-mining",
+    "abilityId": null,
+    "pages": 1
+  },
+  {
+    "key": "survival-mixamo-v3-complex-dig-elbow-uppercut-sheet",
+    "property": "complexDigElbowUppercutSheet",
+    "MiB": 11.194648742675781,
+    "deferredId": "complex-side-mining",
+    "abilityId": null,
+    "pages": 1
+  },
+  {
+    "key": "survival-mixamo-v3-complex-dig-single-elbow-sheet",
+    "property": "complexDigSingleElbowSheet",
+    "MiB": 2.8823699951171875,
+    "deferredId": "complex-side-mining",
+    "abilityId": null,
+    "pages": 1
+  },
+  {
+    "key": "survival-mixamo-v3-complex-dig-hook-sheet",
+    "property": "complexDigHookSheet",
+    "MiB": 4.0826568603515625,
+    "deferredId": "complex-side-mining",
+    "abilityId": null,
+    "pages": 1
+  },
+  {
+    "key": "survival-mixamo-v3-complex-dig-uppercut-sheet",
+    "property": "complexDigUppercutSheet",
+    "MiB": 4.750782012939453,
+    "deferredId": "complex-up-mining",
+    "abilityId": null,
+    "pages": 1
+  },
+  {
+    "key": "survival-mixamo-v3-downward-dig-body-low-sheet",
+    "property": "downwardDigBodyLowSheet",
+    "MiB": 8.352306365966797,
+    "deferredId": "complex-down-mining",
+    "abilityId": null,
+    "pages": 1
+  },
+  {
+    "key": "survival-mixamo-v4-ledge-climb-sheet",
+    "property": "ledgeClimbSheet",
+    "MiB": 9.763092041015625,
+    "deferredId": "ledge-climb",
+    "abilityId": null,
+    "pages": 1
+  },
+  {
+    "key": "survival-held-torch-v2-run-sheet",
+    "property": "heldTorchRunSheet",
+    "MiB": 16.0,
+    "deferredId": null,
+    "abilityId": null,
+    "pages": 1
+  },
+  {
+    "key": "survival-held-torch-v2-run-handoff-sheet",
+    "property": "heldTorchRunHandoffSheet",
+    "MiB": 32.0,
+    "deferredId": null,
+    "abilityId": null,
+    "pages": 2
+  }
+]

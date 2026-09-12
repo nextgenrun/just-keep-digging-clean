@@ -13,7 +13,7 @@ Historical September 5 evidence. The September 6 crisp presentation supersedes t
   incoming path with the struck tile face; Lance keeps its authored hand/foot
   release and scheduled surface contacts.
 - Star fire trails pivot behind the core. Cinder retains its fixed 64x28 size
-  and 225 px/s speed, fades to 32% opacity, and emits bounded fading echoes.
+  and 480 px/s speed, fades to 32% opacity, and emits bounded fading echoes.
   The previously approved rare prismatic Cinder shot remains available.
 
 No new raster art, procedural placeholder graphics, damage changes, hitstop

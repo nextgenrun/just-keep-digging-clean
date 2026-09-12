@@ -1,4 +1,5 @@
 import { WORLD_VISUAL_LAYERED_SKY_REVIEW as LAYERED, resolveLayeredSkyReviewEnabled } from "../../../values/worldVisualLayeredSkyReview.js";
+import { destroyScenicVideo } from "./destroyScenicVideo.js";
 import {
   clearTintIfChanged,
   setAlphaIfChanged,
@@ -132,9 +133,7 @@ export class WorldVisualSurfaceMotionView {
   }
 
   destroy() {
-    this.video?.stop?.(false);
-    this.video?.clearMask?.(false);
-    this.video?.destroy?.();
+    destroyScenicVideo(this.video);
     this.featherMask?.destroy?.();
     this.featherObject?.destroy?.();
     this.video = null;

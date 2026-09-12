@@ -40,13 +40,14 @@ export class EarthquakeFeedbackUI {
       0,
       0,
       this.config.assets.statusFrame.key,
-    ).setDisplaySize(card.width, card.height);
+    ).setDisplaySize(card.width, card.height).setAlpha(card.panelAlpha);
     this.iconArt = this.scene.add.image(
       card.iconX,
       0,
       this.config.assets.medallion.key,
     ).setDisplaySize(card.iconSize, card.iconSize);
     fitBakedUiImage(this.iconArt, card.iconSize, card.iconSize);
+    this.iconArt.setAlpha(card.iconAlpha);
     this._iconBaseScaleX = this.iconArt.scaleX;
     this._iconBaseScaleY = this.iconArt.scaleY;
     this.title = this.scene.add.text(card.textX, card.titleY, "", {
@@ -56,7 +57,7 @@ export class EarthquakeFeedbackUI {
       color: font.gold,
       stroke: font.shadow,
       strokeThickness: font.strokeThickness,
-    }).setOrigin(0, 0.5);
+    }).setOrigin(0, 0.5).setAlpha(card.textAlpha);
     this.detail = this.scene.add.text(card.textX, card.detailY, "", {
       fontFamily: font.family,
       fontSize: card.detailFontSize,
@@ -64,7 +65,7 @@ export class EarthquakeFeedbackUI {
       stroke: font.shadow,
       strokeThickness: 1,
       wordWrap: { width: card.textWidth, useAdvancedWrap: false },
-    }).setOrigin(0, 0.5);
+    }).setOrigin(0, 0.5).setAlpha(card.textAlpha);
     this.root.add([this.panelArt, this.iconArt, this.title, this.detail]);
 
     this._onResize = () => this._layout();
@@ -232,8 +233,8 @@ export class EarthquakeFeedbackUI {
       this._hide();
       return;
     }
-    this.title.setText(presentation.title).setColor(hexColor(presentation.accent));
-    this.detail.setText(presentation.detail);
+    this.title.setText(presentation.title).setColor(hexColor(presentation.accent)).setAlpha(this.config.card.textAlpha);
+    this.detail.setText(presentation.detail).setAlpha(this.config.card.textAlpha);
     fitLiveUiText(this.title, this.config.card.textWidth, this.config.card.titleHeight);
     fitLiveUiText(this.detail, this.config.card.textWidth, this.config.card.detailHeight);
     const pulse = 1 + Math.sin(now / this.config.timing.iconPulsePeriodMs * Math.PI * 2)

@@ -71,15 +71,15 @@ export const CAMERA_SHAKE_SIGNATURES = Object.freeze({
   // Long, low-frequency rumble that builds. The intensity grows with the
   // depth-band so deep quakes feel catastrophic.
   earthquake: {
-    minor:       { duration: 650,  intensity: 1.5, freqX: 1.0, freqY: 1.8, decay: 'linear', priority: 60 },
-    moderate:    { duration: 850,  intensity: 2.4, freqX: 1.1, freqY: 2.0, decay: 'linear', priority: 65 },
-    major:       { duration: 1050, intensity: 3.6, freqX: 1.2, freqY: 2.3, decay: 'linear', priority: 70 },
-    cataclysmic: { duration: 1300, intensity: 5.2, freqX: 1.3, freqY: 2.6, decay: 'linear', priority: 75 },
+    minor:       { duration: 850,  intensity: 2.4, freqX: 1.0, freqY: 1.8, decay: 'linear', priority: 60 },
+    moderate:    { duration: 1100, intensity: 3.7, freqX: 1.1, freqY: 2.0, decay: 'linear', priority: 65 },
+    major:       { duration: 1450, intensity: 5.3, freqX: 1.2, freqY: 2.3, decay: 'linear', priority: 70 },
+    cataclysmic: { duration: 1800, intensity: 7.2, freqX: 1.3, freqY: 2.6, decay: 'linear', priority: 75 },
     // The very brief "warning" rumble that happens between tremble phases
-    warning:     { duration: 240,  intensity: 0.7, freqX: 1.6, freqY: 2.4, decay: 'exp', priority: 45 },
-    caveIn:      { duration: 420,  intensity: 5.8, freqX: 2.8, freqY: 6.0, decay: 'exp', priority: 82 },
+    warning:     { duration: 360,  intensity: 1.15, freqX: 1.6, freqY: 2.4, decay: 'exp', priority: 45 },
+    caveIn:      { duration: 560,  intensity: 7, freqX: 2.8, freqY: 6.0, decay: 'exp', priority: 82 },
     // A single falling-rock impact
-    rockImpact:  { duration: 180,  intensity: 3.0, freqX: 5.0, freqY: 8.0, decay: 'exp', priority: 80 },
+    rockImpact:  { duration: 230,  intensity: 3.8, freqX: 5.0, freqY: 8.0, decay: 'exp', priority: 80 },
   },
 
   // ─── Player Thunder Strike (ability) ────────────────────────────────────

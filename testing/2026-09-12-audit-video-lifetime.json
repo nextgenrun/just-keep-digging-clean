@@ -1,0 +1,34 @@
+{
+  "phase": "complete",
+  "results": [
+    {
+      "cycle": 0,
+      "key": "60ac8579-c278-4e63-9255-2e9af18975c9",
+      "rgbaBytes": 6291456,
+      "retainedAfterProductionDestroy": true,
+      "extraTextureCount": 1
+    },
+    {
+      "cycle": 1,
+      "key": "9ad09987-8da0-4696-8fd3-0734e6b5db25",
+      "rgbaBytes": 6291456,
+      "retainedAfterProductionDestroy": true,
+      "extraTextureCount": 2
+    },
+    {
+      "cycle": 2,
+      "key": "e92490f2-53c5-43d5-9412-85a0e6860351",
+      "rgbaBytes": 6291456,
+      "retainedAfterProductionDestroy": true,
+      "extraTextureCount": 3
+    },
+    {
+      "cycle": 3,
+      "key": "0029e21a-de0d-4ded-bf51-e53bebfedf23",
+      "rgbaBytes": 6291456,
+      "retainedAfterProductionDestroy": true,
+      "extraTextureCount": 4
+    }
+  ],
+  "extraTexturesAfterOwnedCleanup": 0
+}

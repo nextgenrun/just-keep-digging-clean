@@ -1,0 +1,3038 @@
+{
+  "mode": "production-demo",
+  "renderer": {
+    "pixelArt": false,
+    "antialias": true,
+    "antialiasGL": true,
+    "roundPixels": false,
+    "powerPreference": "high-performance",
+    "preserveDrawingBuffer": false,
+    "defaultDensityPreset": "high",
+    "defaultDisplayDensityCap": 2,
+    "densityPresets": {
+      "legacy": 1,
+      "balanced": 1,
+      "high": 1.5,
+      "ultra": 2,
+      "uhd": 3
+    },
+    "query": {
+      "qualityParam": "renderQuality",
+      "densityRollbackParam": "nativeDensity",
+      "rendererParam": "renderer",
+      "autoRendererValue": "auto",
+      "disabledValue": "0"
+    }
+  },
+  "stages": [
+    {
+      "method": "preloadBranding",
+      "count": 0
+    },
+    {
+      "method": "preloadBackgrounds",
+      "count": 51
+    },
+    {
+      "method": "preloadSurfaceSkyPropAtlasesV3",
+      "count": 10
+    },
+    {
+      "method": "preloadWeatherVfx",
+      "count": 4
+    },
+    {
+      "method": "preloadConstellationSprites",
+      "count": 23
+    },
+    {
+      "method": "preloadPillarSprites",
+      "count": 30
+    },
+    {
+      "method": "preloadOpeningFlightSprites",
+      "count": 5
+    },
+    {
+      "method": "preloadNPCs",
+      "count": 46
+    },
+    {
+      "method": "preloadTileSprites",
+      "count": 146
+    },
+    {
+      "method": "preloadFxSprites",
+      "count": 8
+    },
+    {
+      "method": "preloadHeavenblocksSkyAltars",
+      "count": 0
+    },
+    {
+      "method": "preloadGraveborerWurmSprites",
+      "count": 5
+    },
+    {
+      "method": "preloadUiSprites",
+      "count": 208
+    },
+    {
+      "method": "preloadAudio",
+      "count": 41
+    }
+  ],
+  "queued": [
+    {
+      "key": "brand-logo",
+      "type": "image",
+      "path": "sprites/branding/understar-world-within-v4/understar-world-logo-runtime.webp"
+    },
+    {
+      "key": "bg-db-f1frtjf1frtjf1fr",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/b5c123e318983a8c.webp"
+    },
+    {
+      "key": "ui-thunderstrike-chain-frame-v1",
+      "type": "image",
+      "path": "sprites/UI/thunderstrike-chain-v1/thunderstrike-chain-frame-v1.webp"
+    },
+    {
+      "key": "ui-hud-approved-combo",
+      "type": "image",
+      "path": "sprites/UI/hud-approved-v1/combo-frame.png"
+    },
+    {
+      "key": "fx-mining-target-corners-v1",
+      "type": "image",
+      "path": "sprites/UI/mining-target-v1/mining-target-corners-v1.webp"
+    },
+    {
+      "key": "ui-starlight-modal-crest-v2",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/992475ff958203c3.webp"
+    },
+    {
+      "key": "world-visual-v2-town-surface-edge-thin-v2",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/c6a530085ffac3b1.webp"
+    },
+    {
+      "key": "regenerated-horizon-v2-sky",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/22ac5573e9d70810.webp"
+    },
+    {
+      "key": "regenerated-horizon-v2-ridge-west",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/4466805ffdbdc4b2.webp"
+    },
+    {
+      "key": "regenerated-horizon-v2-ridge-central",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/67ba08878c51939e.webp"
+    },
+    {
+      "key": "regenerated-horizon-v2-ridge-east",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/b7f87c42a5f36dd5.webp"
+    },
+    {
+      "key": "regenerated-horizon-v2-forest",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/d55bfd33bc9b3496.webp"
+    },
+    {
+      "key": "regenerated-horizon-v2-clouds",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/f79a54838e288129.webp"
+    },
+    {
+      "key": "regenerated-horizon-v2-cumulus",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/88ed845673cd1629.webp"
+    },
+    {
+      "key": "regenerated-horizon-v2-cloud-banks",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/4f5596dccdd9650a.webp"
+    },
+    {
+      "key": "regenerated-horizon-v2-celestial",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/d4ae71719675203a.webp"
+    },
+    {
+      "key": "regenerated-horizon-v2-weather",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/d843aa0623046545.webp"
+    },
+    {
+      "key": "layered-canopy-leaf",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/9fb3024fe5d26dc2.webp"
+    },
+    {
+      "key": "layered-canopy-glimmer",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/cd135c6870d46cb6.webp"
+    },
+    {
+      "key": "level-one-swallow-v6",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/016950a83c99d252.webp"
+    },
+    {
+      "key": "world-visual-surface-ground-variation-v5-surface-rain-polished-slate-and-loam-v5",
+      "type": "image",
+      "path": "sprites/backgrounds/world-visual-v2/surface/surface-ground-variation-v5/surface-rain-polished-slate-and-loam-v5.webp"
+    },
+    {
+      "key": "world-visual-surface-ground-variation-v5-surface-mossy-stone-root-break-v5",
+      "type": "image",
+      "path": "sprites/backgrounds/world-visual-v2/surface/surface-ground-variation-v5/surface-mossy-stone-root-break-v5.webp"
+    },
+    {
+      "key": "world-visual-surface-ground-variation-v5-surface-weathered-cobble-clay-v5",
+      "type": "image",
+      "path": "sprites/backgrounds/world-visual-v2/surface/surface-ground-variation-v5/surface-weathered-cobble-clay-v5.webp"
+    },
+    {
+      "key": "world-visual-surface-ground-variation-v5-surface-frost-wet-slate-v5",
+      "type": "image",
+      "path": "sprites/backgrounds/world-visual-v2/surface/surface-ground-variation-v5/surface-frost-wet-slate-v5.webp"
+    },
+    {
+      "key": "world-visual-surface-ground-variation-v5-surface-ironwater-gravel-v5",
+      "type": "image",
+      "path": "sprites/backgrounds/world-visual-v2/surface/surface-ground-variation-v5/surface-ironwater-gravel-v5.webp"
+    },
+    {
+      "key": "world-visual-surface-ground-variation-v5-surface-storm-scoured-earth-v5",
+      "type": "image",
+      "path": "sprites/backgrounds/world-visual-v2/surface/surface-ground-variation-v5/surface-storm-scoured-earth-v5.webp"
+    },
+    {
+      "key": "world-visual-surface-ground-variation-v5-surface-orchard-root-stone-v5",
+      "type": "image",
+      "path": "sprites/backgrounds/world-visual-v2/surface/surface-ground-variation-v5/surface-orchard-root-stone-v5.webp"
+    },
+    {
+      "key": "world-visual-surface-ground-variation-v5-surface-broken-town-slate-v5",
+      "type": "image",
+      "path": "sprites/backgrounds/world-visual-v2/surface/surface-ground-variation-v5/surface-broken-town-slate-v5.webp"
+    },
+    {
+      "key": "world-visual-surface-ground-variation-v5-surface-mist-soaked-peat-stone-v5",
+      "type": "image",
+      "path": "sprites/backgrounds/world-visual-v2/surface/surface-ground-variation-v5/surface-mist-soaked-peat-stone-v5.webp"
+    },
+    {
+      "key": "world-visual-surface-ground-variation-v5-surface-eastern-expedition-rock-v5",
+      "type": "image",
+      "path": "sprites/backgrounds/world-visual-v2/surface/surface-ground-variation-v5/surface-eastern-expedition-rock-v5.webp"
+    },
+    {
+      "key": "world-visual-surface-pack-town-benchmark-v1",
+      "type": "image",
+      "path": "sprites/backgrounds/start-zone-scenic-v1/npc-town-scenic-composite-v2.webp"
+    },
+    {
+      "key": "world-visual-surface-pack-town-square-slate-strip-v3",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/ba8939416ec7f7ae.webp"
+    },
+    {
+      "key": "world-visual-surface-pack-town-ground-v1",
+      "type": "image",
+      "path": "sprites/backgrounds/world-scenic-regions-v1/level1-ground-facade-01-v2.webp?v=benchmark-20260717"
+    },
+    {
+      "key": "world-visual-surface-motion-town-air-v1",
+      "type": "video",
+      "path": "sprites/backgrounds/start-zone-scenic-v1/living-background-v1/surface-town-air-v1.mp4",
+      "extra": true
+    },
+    {
+      "key": "world-visual-v2-material-town-earth",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/89f8e48767ce8650.webp"
+    },
+    {
+      "key": "world-visual-biome-weathered-roots-root-canyon",
+      "type": "image",
+      "path": "sprites/backgrounds/world-visual-v2/depth/biome-variation-v2/weathered-roots-root-canyon-v2.webp"
+    },
+    {
+      "key": "world-visual-backdrop-card-blend-mask-atlas-v5",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/689d72da2c20aceb.webp"
+    },
+    {
+      "key": "world-visual-v2-feedback-atlas-v7",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/1c4b3244436bb0f9.webp?v=imagegen-ground-veins-20260728e"
+    },
+    {
+      "key": "world-visual-v2-ground-damage-imagegen-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/571601397b38035d.webp?v=20260730a"
+    },
+    {
+      "key": "world-visual-v2-semantic-resource-ground-veins-v6",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/70c92216572e4f3b.webp?v=20260728e"
+    },
+    {
+      "key": "world-visual-v2-semantic-bedrock-seamless-v1",
+      "type": "image",
+      "path": "sprites/backgrounds/world-visual-v2/semantic-decals-v1/bedrock-seamless-v1.webp?v=20260729a"
+    },
+    {
+      "key": "tile-bedrock",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/95d83bdbf42cff36.webp"
+    },
+    {
+      "key": "world-visual-v2-semantic-sky-stars-floating-crystal-beauty-v2",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/61482eb4147ec668.webp?v=20260728a"
+    },
+    {
+      "key": "world-visual-v2-semantic-sky-stars-floating-crystal-emissive-v2",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/210273d02c986909.webp?v=20260728a"
+    },
+    {
+      "key": "star-block-idle-motion-atlas-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/a771246eeaaf50ee.webp?v=20260826b"
+    },
+    {
+      "key": "world-visual-v2-semantic-special-blocks-imagegen-gp-tiers-v3",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/a525a4145c19518a.webp?v=20260728c"
+    },
+    {
+      "key": "world-visual-v2-mine-entrance-pilot-beauty",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/d6b1bea2f66e7fbe.webp"
+    },
+    {
+      "key": "world-visual-v2-mine-entrance-pilot-emissive",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/39f71d0887281b20.webp"
+    },
+    {
+      "key": "surface-prop-level1-well-v1",
+      "type": "image",
+      "path": "sprites/environment/surface-props-v1/level1-well-v1.webp"
+    },
+    {
+      "key": "surface-prop-level1-wagon-v1",
+      "type": "image",
+      "path": "sprites/environment/surface-props-v1/level1-wagon-v1.webp"
+    },
+    {
+      "key": "surface-prop-level1-pergola-v1",
+      "type": "image",
+      "path": "sprites/environment/surface-props-v1/level1-pergola-v1.webp"
+    },
+    {
+      "key": "surface-prop-level1-bench-v1",
+      "type": "image",
+      "path": "sprites/environment/surface-props-v1/level1-bench-v1.webp"
+    },
+    {
+      "key": "surface-prop-level1-handcart-v1",
+      "type": "image",
+      "path": "sprites/environment/surface-props-v1/level1-handcart-v1.webp"
+    },
+    {
+      "key": "surface-prop-level1-supplies-v1",
+      "type": "image",
+      "path": "sprites/environment/surface-props-v1/level1-supplies-v1.webp"
+    },
+    {
+      "key": "surface-prop-level1-fence-v1",
+      "type": "image",
+      "path": "sprites/environment/surface-props-v1/level1-fence-v1.webp"
+    },
+    {
+      "key": "surface-prop-level1-plants-v1",
+      "type": "image",
+      "path": "sprites/environment/surface-props-v1/level1-plants-v1.webp"
+    },
+    {
+      "key": "surface-prop-level1-lantern-v1",
+      "type": "image",
+      "path": "sprites/environment/surface-props-v1/level1-lantern-v1.webp"
+    },
+    {
+      "key": "surface-sky-props-v3-arrival-forge",
+      "type": "atlas",
+      "path": "sprites/environment/surface-sky-props-v3/surface-sky-props-v3-arrival-forge.webp",
+      "extra": "sprites/environment/surface-sky-props-v3/surface-sky-props-v3-arrival-forge.json"
+    },
+    {
+      "key": "surface-sky-props-v3-caravan-rest",
+      "type": "atlas",
+      "path": "sprites/environment/surface-sky-props-v3/surface-sky-props-v3-caravan-rest.webp",
+      "extra": "sprites/environment/surface-sky-props-v3/surface-sky-props-v3-caravan-rest.json"
+    },
+    {
+      "key": "surface-sky-props-v3-starwell-herb",
+      "type": "atlas",
+      "path": "sprites/environment/surface-sky-props-v3/surface-sky-props-v3-starwell-herb.webp",
+      "extra": "sprites/environment/surface-sky-props-v3/surface-sky-props-v3-starwell-herb.json"
+    },
+    {
+      "key": "surface-sky-props-v3-timberwright",
+      "type": "atlas",
+      "path": "sprites/environment/surface-sky-props-v3/surface-sky-props-v3-timberwright.webp",
+      "extra": "sprites/environment/surface-sky-props-v3/surface-sky-props-v3-timberwright.json"
+    },
+    {
+      "key": "surface-sky-props-v3-observatory",
+      "type": "atlas",
+      "path": "sprites/environment/surface-sky-props-v3/surface-sky-props-v3-observatory.webp",
+      "extra": "sprites/environment/surface-sky-props-v3/surface-sky-props-v3-observatory.json"
+    },
+    {
+      "key": "surface-sky-props-v3-frontier-survey",
+      "type": "atlas",
+      "path": "sprites/environment/surface-sky-props-v3/surface-sky-props-v3-frontier-survey.webp",
+      "extra": "sprites/environment/surface-sky-props-v3/surface-sky-props-v3-frontier-survey.json"
+    },
+    {
+      "key": "surface-sky-props-v3-far-east",
+      "type": "atlas",
+      "path": "sprites/environment/surface-sky-props-v3/surface-sky-props-v3-far-east.webp",
+      "extra": "sprites/environment/surface-sky-props-v3/surface-sky-props-v3-far-east.json"
+    },
+    {
+      "key": "surface-sky-props-v3-sky-islands",
+      "type": "atlas",
+      "path": "sprites/environment/surface-sky-props-v3/surface-sky-props-v3-sky-islands.webp",
+      "extra": "sprites/environment/surface-sky-props-v3/surface-sky-props-v3-sky-islands.json"
+    },
+    {
+      "key": "surface-sky-props-v3-cloud-angel",
+      "type": "atlas",
+      "path": "sprites/environment/surface-sky-props-v3/surface-sky-props-v3-cloud-angel.webp",
+      "extra": "sprites/environment/surface-sky-props-v3/surface-sky-props-v3-cloud-angel.json"
+    },
+    {
+      "key": "surface-sky-props-v3-devil-eclipse",
+      "type": "atlas",
+      "path": "sprites/environment/surface-sky-props-v3/surface-sky-props-v3-devil-eclipse.webp",
+      "extra": "sprites/environment/surface-sky-props-v3/surface-sky-props-v3-devil-eclipse.json"
+    },
+    {
+      "key": "weather-v11-clouds",
+      "type": "image",
+      "path": "sprites/environment/v11-skyline-weather-vfx-v1/clouds-screen.webp"
+    },
+    {
+      "key": "weather-v11-atmosphere",
+      "type": "image",
+      "path": "sprites/environment/v11-skyline-weather-vfx-v1/atmosphere-screen.webp"
+    },
+    {
+      "key": "weather-v11-lightning",
+      "type": "image",
+      "path": "sprites/environment/v11-skyline-weather-vfx-v1/lightning-screen.webp"
+    },
+    {
+      "key": "weather-v11-particles-v2",
+      "type": "spritesheet",
+      "path": "sprites/runtime-startup-v1/5a5a7adcc146ae6b.webp",
+      "extra": {
+        "frameWidth": 256,
+        "frameHeight": 256
+      }
+    },
+    {
+      "key": "ui-celestial-focus-wayward-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/533503ab84e2f6d8.webp"
+    },
+    {
+      "key": "ui-celestial-talent-connector-v2",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/468e0a5d5dfbe29c.webp"
+    },
+    {
+      "key": "ui-celestial-talent-node-frame-v2",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/4c5e413de4f2aad1.webp"
+    },
+    {
+      "key": "ui-celestial-talent-node-halo-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/bba5f90df71af02b.webp"
+    },
+    {
+      "key": "ui-celestial-talent-tooltip-v2",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/ee51fbf3db41fcf8.webp"
+    },
+    {
+      "key": "ui-celestial-talent-lock-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/33dd5eebaa51ed95.webp"
+    },
+    {
+      "key": "ui-baked-celestial-talents-wayward-v2",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/5dd503ec0ad8c616.webp"
+    },
+    {
+      "key": "ui-baked-celestial-talents-hollow-v2",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/6f822ad0ffbe2cc2.webp"
+    },
+    {
+      "key": "ui-baked-celestial-talents-lance-v2",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/ab4d6654e244b50c.webp"
+    },
+    {
+      "key": "ui-baked-celestial-labels-v2",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/5fb61380dfef8d51.webp"
+    },
+    {
+      "key": "ui-baked-celestial-messages-v2",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/3d0ad5e89b9a56c7.webp"
+    },
+    {
+      "key": "ui-baked-celestial-descriptions-0-v2",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/644d12dfe44a98fd.webp"
+    },
+    {
+      "key": "ui-baked-celestial-descriptions-1-v2",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/bbdb9686ee237edd.webp"
+    },
+    {
+      "key": "ui-baked-celestial-descriptions-2-v2",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/349bbffba152bb1a.webp"
+    },
+    {
+      "key": "ui-baked-celestial-descriptions-3-v2",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/5ec9d13243814f52.webp"
+    },
+    {
+      "key": "ui-baked-celestial-descriptions-4-v2",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/9ee7ffc73052d995.webp"
+    },
+    {
+      "key": "ui-baked-celestial-descriptions-5-v2",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/6e53eabd92ac154b.webp"
+    },
+    {
+      "key": "ui-celestial-focus-selector-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/e782d47bf5043e90.webp"
+    },
+    {
+      "key": "ui-celestial-focus-hollow-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/b1ff389dedbb5b89.webp"
+    },
+    {
+      "key": "ui-celestial-focus-lance-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/faeb75b7349024b7.webp"
+    },
+    {
+      "key": "ui-celestial-focus-controls-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/752f3fbb78e9b15e.webp"
+    },
+    {
+      "key": "ui-celestial-focus-feedback-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/23d11acc485daa8c.webp"
+    },
+    {
+      "key": "ui-celestial-focus-free-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/1a55c6edfa93d597.webp"
+    },
+    {
+      "key": "environment-milestone-pillar-stage-1-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/8f106f8aceec5bcb.webp"
+    },
+    {
+      "key": "environment-milestone-pillar-stage-2-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/3a39c88bd997f138.webp"
+    },
+    {
+      "key": "environment-milestone-pillar-stage-3-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/310de17442b1098e.webp"
+    },
+    {
+      "key": "environment-milestone-pillar-stage-4-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/7d889749352133b0.webp"
+    },
+    {
+      "key": "environment-milestone-pillar-stage-5-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/12529db8b626ce86.webp"
+    },
+    {
+      "key": "environment-star-pillar-stage-1-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/ffd28c184256731f.webp"
+    },
+    {
+      "key": "environment-star-pillar-stage-2-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/a483bf181bc09aae.webp"
+    },
+    {
+      "key": "environment-star-pillar-stage-3-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/5d46b15e0948da3b.webp"
+    },
+    {
+      "key": "environment-star-pillar-stage-4-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/404171e65b88e8bd.webp"
+    },
+    {
+      "key": "environment-star-pillar-stage-5-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/79471fd644c2e436.webp"
+    },
+    {
+      "key": "worldroot-sanctuary-trunk-v3",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/9979dd4f9f5cb3bd.webp?rev=20260903-tall-tree-v3"
+    },
+    {
+      "key": "worldroot-sanctuary-foliage-living-v3",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/2b23b2f8c26d96e2.webp?rev=20260903-tall-tree-v3"
+    },
+    {
+      "key": "worldroot-sanctuary-foliage-consumed-v3",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/29356bc03b19bec3.webp?rev=20260903-tall-tree-v3"
+    },
+    {
+      "key": "worldroot-sanctuary-talent-star-v2",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/ae46f8c5d84578ab.webp?rev=20260903-growth-v2"
+    },
+    {
+      "key": "worldroot-sanctuary-crown-star-v2",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/cd135c6870d46cb6.webp?rev=20260903-growth-v2"
+    },
+    {
+      "key": "worldroot-sanctuary-signal-star-v2",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/bb9727d6d0527035.webp?rev=20260903-growth-v2"
+    },
+    {
+      "key": "worldroot-sanctuary-star-scar-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/9a57e99ddf0aa244.webp"
+    },
+    {
+      "key": "worldroot-sanctuary-hanging-vine-v2",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/e9d9d5e212d2954e.webp?rev=20260903-growth-v2"
+    },
+    {
+      "key": "worldroot-sanctuary-root-fern-v2",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/97752d88aef724e5.webp?rev=20260903-growth-v2"
+    },
+    {
+      "key": "worldroot-sanctuary-falling-leaf-v2",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/9fb3024fe5d26dc2.webp?rev=20260903-growth-v2"
+    },
+    {
+      "key": "celestial-star-heart-core-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/01102feaf48dbd10.webp"
+    },
+    {
+      "key": "celestial-wayward-star-core-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/7e646dbb665a9088.webp"
+    },
+    {
+      "key": "celestial-hollow-sun-core-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/a70d7e41e34bbdda.webp"
+    },
+    {
+      "key": "celestial-comet-engine-core-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/a7537d8788cff5d4.webp"
+    },
+    {
+      "key": "celestial-stellar-lance-projectiles-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/1bc71a4e1d3ce590.webp"
+    },
+    {
+      "key": "celestial-stellar-lance-wave-blue-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/dfdb0e3365a2f4ca.webp"
+    },
+    {
+      "key": "celestial-stellar-lance-wave-purple-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/d4b5d56c14028364.webp"
+    },
+    {
+      "key": "celestial-stellar-lance-wave-red-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/aa03dfa7c51b1aec.webp"
+    },
+    {
+      "key": "celestial-stellar-lance-prismatic-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/f31bc01073219d52.webp"
+    },
+    {
+      "key": "celestial-stellar-lance-impact-purple-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/43894c570855a96d.webp"
+    },
+    {
+      "key": "opening-flight-v2-artifact",
+      "type": "image",
+      "path": "sprites/onboarding/opening-flight-v2/runtime/flight-artifact-v2.webp"
+    },
+    {
+      "key": "opening-flight-v2-shaft-marker",
+      "type": "image",
+      "path": "sprites/onboarding/opening-flight-v2/runtime/shaft-marker-v2.webp"
+    },
+    {
+      "key": "opening-flight-v2-flight-ring",
+      "type": "image",
+      "path": "sprites/onboarding/opening-flight-v2/runtime/flight-ring-v2.webp"
+    },
+    {
+      "key": "opening-flight-v2-ascent-cache",
+      "type": "image",
+      "path": "sprites/onboarding/opening-flight-v2/runtime/first-ascent-cache-compact-v3.webp"
+    },
+    {
+      "key": "opening-flight-v2-objective-hud-frame",
+      "type": "image",
+      "path": "sprites/onboarding/opening-flight-v2/runtime/objective-hud-frame-v2.webp"
+    },
+    {
+      "key": "npc-v13-money-monster-baseline",
+      "type": "image",
+      "path": "sprites/npc/npc-v13-polished-baselines/static/money-monster.webp?v=silhouette-chroma-polish-v1-20260728"
+    },
+    {
+      "key": "npc-v13-player-upgrades-baseline",
+      "type": "image",
+      "path": "sprites/npc/npc-v13-polished-baselines/static/player-upgrades.webp?v=silhouette-chroma-polish-v1-20260728"
+    },
+    {
+      "key": "npc-v13-gear-merchant-baseline",
+      "type": "image",
+      "path": "sprites/npc/npc-v13-polished-baselines/static/gear-merchant.webp?v=silhouette-chroma-polish-v1-20260728"
+    },
+    {
+      "key": "npc-v13-bobo-merchant-baseline",
+      "type": "image",
+      "path": "sprites/npc/npc-v13-polished-baselines/static/bobo-merchant.webp?v=silhouette-chroma-polish-v1-20260728"
+    },
+    {
+      "key": "npc-v13-gem-power-merchant-baseline",
+      "type": "image",
+      "path": "sprites/npc/npc-v13-polished-baselines/static/gem-power-merchant.webp?v=silhouette-chroma-polish-v1-20260728"
+    },
+    {
+      "key": "npc-v13-player-upgrades-work",
+      "type": "image",
+      "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/player-upgrades-work.webp?v=piskel-polished-activities-v2-20260728"
+    },
+    {
+      "key": "npc-v13-player-upgrades-rare",
+      "type": "image",
+      "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/player-upgrades-rare.webp?v=piskel-polished-activities-v2-20260728"
+    },
+    {
+      "key": "npc-v13-player-upgrades-player",
+      "type": "image",
+      "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/player-upgrades-player.webp?v=piskel-polished-activities-v2-20260728"
+    },
+    {
+      "key": "npc-v13-player-upgrades-inspect",
+      "type": "image",
+      "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/player-upgrades-inspect.webp?v=piskel-polished-activities-v2-20260728"
+    },
+    {
+      "key": "npc-v13-player-upgrades-habit",
+      "type": "image",
+      "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/player-upgrades-habit.webp?v=piskel-polished-activities-v2-20260728"
+    },
+    {
+      "key": "npc-v13-player-upgrades-signature",
+      "type": "image",
+      "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/player-upgrades-signature.webp?v=piskel-polished-activities-v2-20260728"
+    },
+    {
+      "key": "npc-v13-player-upgrades-showcase",
+      "type": "image",
+      "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/player-upgrades-showcase.webp?v=piskel-polished-activities-v2-20260728"
+    },
+    {
+      "key": "npc-v13-gear-merchant-work",
+      "type": "image",
+      "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/gear-merchant-work.webp?v=piskel-polished-activities-v2-20260728"
+    },
+    {
+      "key": "npc-v13-gear-merchant-rare",
+      "type": "image",
+      "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/gear-merchant-rare.webp?v=piskel-polished-activities-v2-20260728"
+    },
+    {
+      "key": "npc-v13-gear-merchant-player",
+      "type": "image",
+      "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/gear-merchant-player.webp?v=piskel-polished-activities-v2-20260728"
+    },
+    {
+      "key": "npc-v13-gear-merchant-inspect",
+      "type": "image",
+      "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/gear-merchant-inspect.webp?v=piskel-polished-activities-v2-20260728"
+    },
+    {
+      "key": "npc-v13-gear-merchant-habit",
+      "type": "image",
+      "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/gear-merchant-habit.webp?v=piskel-polished-activities-v2-20260728"
+    },
+    {
+      "key": "npc-v13-gear-merchant-signature",
+      "type": "image",
+      "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/gear-merchant-signature.webp?v=piskel-polished-activities-v2-20260728"
+    },
+    {
+      "key": "npc-v13-gear-merchant-showcase",
+      "type": "image",
+      "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/gear-merchant-showcase.webp?v=piskel-polished-activities-v2-20260728"
+    },
+    {
+      "key": "npc-v13-bobo-merchant-work",
+      "type": "image",
+      "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/bobo-merchant-work.webp?v=piskel-polished-activities-v2-20260728"
+    },
+    {
+      "key": "npc-v13-bobo-merchant-rare",
+      "type": "image",
+      "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/bobo-merchant-rare.webp?v=piskel-polished-activities-v2-20260728"
+    },
+    {
+      "key": "npc-v13-bobo-merchant-player",
+      "type": "image",
+      "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/bobo-merchant-player.webp?v=piskel-polished-activities-v2-20260728"
+    },
+    {
+      "key": "npc-v13-bobo-merchant-inspect",
+      "type": "image",
+      "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/bobo-merchant-inspect.webp?v=piskel-polished-activities-v2-20260728"
+    },
+    {
+      "key": "npc-v13-bobo-merchant-habit",
+      "type": "image",
+      "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/bobo-merchant-habit.webp?v=piskel-polished-activities-v2-20260728"
+    },
+    {
+      "key": "npc-v13-bobo-merchant-signature",
+      "type": "image",
+      "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/bobo-merchant-signature.webp?v=piskel-polished-activities-v2-20260728"
+    },
+    {
+      "key": "npc-v13-bobo-merchant-showcase",
+      "type": "image",
+      "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/bobo-merchant-showcase.webp?v=piskel-polished-activities-v2-20260728"
+    },
+    {
+      "key": "npc-v13-money-monster-work",
+      "type": "image",
+      "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/money-monster-work.webp?v=piskel-polished-activities-v2-20260728"
+    },
+    {
+      "key": "npc-v13-money-monster-rare",
+      "type": "image",
+      "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/money-monster-rare.webp?v=piskel-polished-activities-v2-20260728"
+    },
+    {
+      "key": "npc-v13-money-monster-player",
+      "type": "image",
+      "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/money-monster-player.webp?v=piskel-polished-activities-v2-20260728"
+    },
+    {
+      "key": "npc-v13-money-monster-inspect",
+      "type": "image",
+      "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/money-monster-inspect.webp?v=piskel-polished-activities-v2-20260728"
+    },
+    {
+      "key": "npc-v13-money-monster-habit",
+      "type": "image",
+      "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/money-monster-habit.webp?v=piskel-polished-activities-v2-20260728"
+    },
+    {
+      "key": "npc-v13-money-monster-signature",
+      "type": "image",
+      "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/money-monster-signature.webp?v=piskel-polished-activities-v2-20260728"
+    },
+    {
+      "key": "npc-v13-money-monster-showcase",
+      "type": "image",
+      "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/money-monster-showcase.webp?v=piskel-polished-activities-v2-20260728"
+    },
+    {
+      "key": "npc-v13-gem-power-merchant-work",
+      "type": "image",
+      "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/gem-power-merchant-work.webp?v=piskel-polished-activities-v2-20260728"
+    },
+    {
+      "key": "npc-v13-gem-power-merchant-rare",
+      "type": "image",
+      "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/gem-power-merchant-rare.webp?v=piskel-polished-activities-v2-20260728"
+    },
+    {
+      "key": "npc-v13-gem-power-merchant-player",
+      "type": "image",
+      "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/gem-power-merchant-player.webp?v=piskel-polished-activities-v2-20260728"
+    },
+    {
+      "key": "npc-v13-gem-power-merchant-inspect",
+      "type": "image",
+      "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/gem-power-merchant-inspect.webp?v=piskel-polished-activities-v2-20260728"
+    },
+    {
+      "key": "npc-v13-gem-power-merchant-habit",
+      "type": "image",
+      "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/gem-power-merchant-habit.webp?v=piskel-polished-activities-v2-20260728"
+    },
+    {
+      "key": "npc-v13-gem-power-merchant-signature",
+      "type": "image",
+      "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/gem-power-merchant-signature.webp?v=piskel-polished-activities-v2-20260728"
+    },
+    {
+      "key": "npc-v13-gem-power-merchant-showcase",
+      "type": "image",
+      "path": "sprites/npc/npc-v13-piskel-polished-activities/singles/gem-power-merchant-showcase.webp?v=piskel-polished-activities-v2-20260728"
+    },
+    {
+      "key": "merchant-welcome-blend-v1",
+      "type": "audio",
+      "path": "sound/soundEffects/merchant-entrance-2026-09-07/merchant-welcome.ogg"
+    },
+    {
+      "key": "npc-v13-money-monster-idle-video",
+      "type": "video",
+      "path": "sprites/npc/npc-v13-polished-baselines/video/money-monster-idle-alpha.webm?v=silhouette-chroma-polish-v1-20260728",
+      "extra": true
+    },
+    {
+      "key": "npc-v13-player-upgrades-idle-video",
+      "type": "video",
+      "path": "sprites/npc/npc-v13-polished-baselines/video/player-upgrades-idle-alpha.webm?v=silhouette-chroma-polish-v1-20260728",
+      "extra": true
+    },
+    {
+      "key": "npc-v13-gear-merchant-idle-video",
+      "type": "video",
+      "path": "sprites/npc/npc-v13-polished-baselines/video/gear-merchant-idle-alpha.webm?v=silhouette-chroma-polish-v1-20260728",
+      "extra": true
+    },
+    {
+      "key": "npc-v13-bobo-merchant-idle-video",
+      "type": "video",
+      "path": "sprites/npc/npc-v13-polished-baselines/video/bobo-merchant-idle-alpha.webm?v=silhouette-chroma-polish-v1-20260728",
+      "extra": true
+    },
+    {
+      "key": "npc-v13-gem-power-merchant-idle-video",
+      "type": "video",
+      "path": "sprites/npc/npc-v13-polished-baselines/video/gem-power-merchant-idle-alpha.webm?v=silhouette-chroma-polish-v1-20260728",
+      "extra": true
+    },
+    {
+      "key": "v11-sky-island-level-1-platform",
+      "type": "image",
+      "path": "sprites/backgrounds/world-v11-sky-islands-v1/level1-platform.webp"
+    },
+    {
+      "key": "v11-sky-island-level-1-portal",
+      "type": "image",
+      "path": "sprites/backgrounds/world-v11-sky-islands-v1/level1-eclipse-gate.webp"
+    },
+    {
+      "key": "tile-approved-cave-wall",
+      "type": "image",
+      "path": "sprites/tiles/approved-world/cave-wall.webp"
+    },
+    {
+      "key": "cave-scene-overworld-mouth-scenic-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/cfe9280ad518aea8.webp"
+    },
+    {
+      "key": "tile-approved-cave-edge",
+      "type": "image",
+      "path": "sprites/tiles/approved-world/cave-edge.webp"
+    },
+    {
+      "key": "tile-approved-cave-ceiling",
+      "type": "image",
+      "path": "sprites/tiles/approved-world/cave-ceiling.webp"
+    },
+    {
+      "key": "tile-approved-cave-ceiling-chains",
+      "type": "image",
+      "path": "sprites/tiles/approved-world/cave-ceiling-chains.webp"
+    },
+    {
+      "key": "tile-approved-treasure-stone",
+      "type": "image",
+      "path": "sprites/tiles/approved-world/treasure-stone.webp"
+    },
+    {
+      "key": "tile-approved-sky-island-top",
+      "type": "image",
+      "path": "sprites/tiles/approved-world/sky-island-top.webp"
+    },
+    {
+      "key": "tile-approved-chest-normal",
+      "type": "image",
+      "path": "sprites/tiles/approved-world/chest-normal.webp"
+    },
+    {
+      "key": "tile-approved-chest-rare",
+      "type": "image",
+      "path": "sprites/tiles/approved-world/chest-rare.webp"
+    },
+    {
+      "key": "tile-approved-ancient-relic-cache-v1",
+      "type": "image",
+      "path": "sprites/tiles/approved-world/ancient-relic-cache-v1.webp"
+    },
+    {
+      "key": "tile-approved-town-exit",
+      "type": "image",
+      "path": "sprites/tiles/approved-world/town-exit.webp"
+    },
+    {
+      "key": "shadow-miner-phantom-stone-runtime",
+      "type": "image",
+      "path": "sprites/tiles/resource-tiles-imagegen-v3/stone.webp"
+    },
+    {
+      "key": "shadow-miner-phantom-dark-dirt-runtime",
+      "type": "image",
+      "path": "sprites/tiles/tiles-under-1000/dirt-tiles/dark-dirt/dark-dirt-strong/5-of-5-hp.webp"
+    },
+    {
+      "key": "shadow-miner-phantom-obsidian-runtime",
+      "type": "image",
+      "path": "sprites/tiles/resource-tiles-imagegen-v3/obsidian.webp"
+    },
+    {
+      "key": "shadow-miner-phantom-crack-1-runtime",
+      "type": "image",
+      "path": "sprites/tiles/dynamic-soil/overlays/crack-stage-1.png"
+    },
+    {
+      "key": "shadow-miner-phantom-crack-2-runtime",
+      "type": "image",
+      "path": "sprites/tiles/dynamic-soil/overlays/crack-stage-2.png"
+    },
+    {
+      "key": "shadow-miner-phantom-crack-3-runtime",
+      "type": "image",
+      "path": "sprites/tiles/dynamic-soil/overlays/crack-stage-3.png"
+    },
+    {
+      "key": "shadow-miner-phantom-crack-4-runtime",
+      "type": "image",
+      "path": "sprites/tiles/dynamic-soil/overlays/crack-stage-4.png"
+    },
+    {
+      "key": "shadow-miner-phantom-crack-5-runtime",
+      "type": "image",
+      "path": "sprites/tiles/dynamic-soil/overlays/crack-stage-5.png"
+    },
+    {
+      "key": "tile-soil-band-0-variant-0",
+      "type": "image",
+      "path": "sprites/tiles/dynamic-soil/bases/soil-000-200-v1.webp"
+    },
+    {
+      "key": "tile-soil-band-0-variant-1",
+      "type": "image",
+      "path": "sprites/tiles/dynamic-soil/bases/soil-000-200-v2.webp"
+    },
+    {
+      "key": "tile-soil-band-0-variant-2",
+      "type": "image",
+      "path": "sprites/tiles/dynamic-soil/bases/soil-000-200-v3.webp"
+    },
+    {
+      "key": "tile-soil-band-1-variant-0",
+      "type": "image",
+      "path": "sprites/tiles/dynamic-soil/bases/soil-200-400-v1.webp"
+    },
+    {
+      "key": "tile-soil-band-1-variant-1",
+      "type": "image",
+      "path": "sprites/tiles/dynamic-soil/bases/soil-200-400-v2.webp"
+    },
+    {
+      "key": "tile-soil-band-1-variant-2",
+      "type": "image",
+      "path": "sprites/tiles/dynamic-soil/bases/soil-200-400-v3.webp"
+    },
+    {
+      "key": "tile-soil-band-2-variant-0",
+      "type": "image",
+      "path": "sprites/tiles/dynamic-soil/bases/soil-400-600-v1.webp"
+    },
+    {
+      "key": "tile-soil-band-2-variant-1",
+      "type": "image",
+      "path": "sprites/tiles/dynamic-soil/bases/soil-400-600-v2.webp"
+    },
+    {
+      "key": "tile-soil-band-2-variant-2",
+      "type": "image",
+      "path": "sprites/tiles/dynamic-soil/bases/soil-400-600-v3.webp"
+    },
+    {
+      "key": "tile-soil-band-3-variant-0",
+      "type": "image",
+      "path": "sprites/tiles/dynamic-soil/bases/soil-600-800-v1.webp"
+    },
+    {
+      "key": "tile-soil-band-3-variant-1",
+      "type": "image",
+      "path": "sprites/tiles/dynamic-soil/bases/soil-600-800-v2.webp"
+    },
+    {
+      "key": "tile-soil-band-3-variant-2",
+      "type": "image",
+      "path": "sprites/tiles/dynamic-soil/bases/soil-600-800-v3.webp"
+    },
+    {
+      "key": "tile-soil-band-4-variant-0",
+      "type": "image",
+      "path": "sprites/tiles/dynamic-soil/bases/soil-800-1000-v1.webp"
+    },
+    {
+      "key": "tile-soil-band-4-variant-1",
+      "type": "image",
+      "path": "sprites/tiles/dynamic-soil/bases/soil-800-1000-v2.webp"
+    },
+    {
+      "key": "tile-soil-band-4-variant-2",
+      "type": "image",
+      "path": "sprites/tiles/dynamic-soil/bases/soil-800-1000-v3.webp"
+    },
+    {
+      "key": "tile-deep-soil-band-0-variant-0",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/2bcaa888b1fdf909.webp"
+    },
+    {
+      "key": "tile-deep-soil-band-0-variant-1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/de378640a41cf69d.webp"
+    },
+    {
+      "key": "tile-deep-soil-band-0-variant-2",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/d999edb2d5d021b0.webp"
+    },
+    {
+      "key": "tile-deep-soil-band-0-variant-3",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/d45462d646071522.webp"
+    },
+    {
+      "key": "tile-deep-soil-band-0-variant-4",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/09de7971bc215d92.webp"
+    },
+    {
+      "key": "tile-deep-soil-band-0-variant-5",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/655f5b109f416bfc.webp"
+    },
+    {
+      "key": "tile-deep-soil-band-1-variant-0",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/48f2b3530638db59.webp"
+    },
+    {
+      "key": "tile-deep-soil-band-1-variant-1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/12f10b113f6d6d42.webp"
+    },
+    {
+      "key": "tile-deep-soil-band-1-variant-2",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/d9b4eefb3bfb2fc4.webp"
+    },
+    {
+      "key": "tile-deep-soil-band-1-variant-3",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/c88ef392d9cc29a6.webp"
+    },
+    {
+      "key": "tile-deep-soil-band-1-variant-4",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/5bd21fc9ecd620ff.webp"
+    },
+    {
+      "key": "tile-deep-soil-band-1-variant-5",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/460724cb4ef5cfb3.webp"
+    },
+    {
+      "key": "tile-deep-soil-band-2-variant-0",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/eef1a80f6a843a88.webp"
+    },
+    {
+      "key": "tile-deep-soil-band-2-variant-1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/707eb6b21fa552d5.webp"
+    },
+    {
+      "key": "tile-deep-soil-band-2-variant-2",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/f4910f18fdc40007.webp"
+    },
+    {
+      "key": "tile-deep-soil-band-2-variant-3",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/55d48d8e878f7611.webp"
+    },
+    {
+      "key": "tile-deep-soil-band-2-variant-4",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/677f9d7e85fffca6.webp"
+    },
+    {
+      "key": "tile-deep-soil-band-2-variant-5",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/b5e265e4dd14173c.webp"
+    },
+    {
+      "key": "tile-deep-soil-band-3-variant-0",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/814515842f70aee6.webp"
+    },
+    {
+      "key": "tile-deep-soil-band-3-variant-1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/f526a56850702015.webp"
+    },
+    {
+      "key": "tile-deep-soil-band-3-variant-2",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/47b5fff0c2e9d0d0.webp"
+    },
+    {
+      "key": "tile-deep-soil-band-3-variant-3",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/e849ef654950e8a4.webp"
+    },
+    {
+      "key": "tile-deep-soil-band-3-variant-4",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/29f7c2ac39bd8036.webp"
+    },
+    {
+      "key": "tile-deep-soil-band-3-variant-5",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/c3519658cc9b3816.webp"
+    },
+    {
+      "key": "tile-soil-crack-stage-1",
+      "type": "image",
+      "path": "sprites/tiles/dynamic-soil/overlays/crack-stage-1.png"
+    },
+    {
+      "key": "tile-soil-crack-stage-2",
+      "type": "image",
+      "path": "sprites/tiles/dynamic-soil/overlays/crack-stage-2.png"
+    },
+    {
+      "key": "tile-soil-crack-stage-3",
+      "type": "image",
+      "path": "sprites/tiles/dynamic-soil/overlays/crack-stage-3.png"
+    },
+    {
+      "key": "tile-soil-crack-stage-4",
+      "type": "image",
+      "path": "sprites/tiles/dynamic-soil/overlays/crack-stage-4.png"
+    },
+    {
+      "key": "tile-soil-crack-stage-5",
+      "type": "image",
+      "path": "sprites/tiles/dynamic-soil/overlays/crack-stage-5.png"
+    },
+    {
+      "key": "tile-soil-hardness-compact",
+      "type": "image",
+      "path": "sprites/tiles/dynamic-soil/overlays/hardness-compact.png"
+    },
+    {
+      "key": "tile-soil-hardness-strong",
+      "type": "image",
+      "path": "sprites/tiles/dynamic-soil/overlays/hardness-strong.png"
+    },
+    {
+      "key": "tile-soil-material-damp",
+      "type": "image",
+      "path": "sprites/tiles/dynamic-soil/overlays/material-damp.png"
+    },
+    {
+      "key": "tile-soil-material-ash",
+      "type": "image",
+      "path": "sprites/tiles/dynamic-soil/overlays/material-ash.png"
+    },
+    {
+      "key": "tile-soil-material-rubble",
+      "type": "image",
+      "path": "sprites/tiles/dynamic-soil/overlays/material-rubble.png"
+    },
+    {
+      "key": "tile-dirt-hp1",
+      "type": "image",
+      "path": "sprites/tiles/tiles-under-1000/dirt-tiles/1-of-5-hp.webp"
+    },
+    {
+      "key": "tile-dirt-hp2",
+      "type": "image",
+      "path": "sprites/tiles/tiles-under-1000/dirt-tiles/2-of-5-hp.webp"
+    },
+    {
+      "key": "tile-dirt-hp3",
+      "type": "image",
+      "path": "sprites/tiles/tiles-under-1000/dirt-tiles/3-of-5-hp.webp"
+    },
+    {
+      "key": "tile-dirt-hp4",
+      "type": "image",
+      "path": "sprites/tiles/tiles-under-1000/dirt-tiles/4-of-5-hp.webp"
+    },
+    {
+      "key": "tile-dirt-hp5",
+      "type": "image",
+      "path": "sprites/tiles/tiles-under-1000/dirt-tiles/5-of-5-hp.webp"
+    },
+    {
+      "key": "tile-stone-hp1",
+      "type": "image",
+      "path": "sprites/tiles/resource-tiles-imagegen-v3/stone.webp"
+    },
+    {
+      "key": "tile-stone-hp2",
+      "type": "image",
+      "path": "sprites/tiles/resource-tiles-imagegen-v3/stone.webp"
+    },
+    {
+      "key": "tile-stone-hp3",
+      "type": "image",
+      "path": "sprites/tiles/resource-tiles-imagegen-v3/stone.webp"
+    },
+    {
+      "key": "tile-stone-hp4",
+      "type": "image",
+      "path": "sprites/tiles/resource-tiles-imagegen-v3/stone.webp"
+    },
+    {
+      "key": "tile-stone-hp5",
+      "type": "image",
+      "path": "sprites/tiles/resource-tiles-imagegen-v3/stone.webp"
+    },
+    {
+      "key": "tile-copper-hp1",
+      "type": "image",
+      "path": "sprites/tiles/resource-tiles-imagegen-v3/copper.webp"
+    },
+    {
+      "key": "tile-copper-hp2",
+      "type": "image",
+      "path": "sprites/tiles/resource-tiles-imagegen-v3/copper.webp"
+    },
+    {
+      "key": "tile-copper-hp3",
+      "type": "image",
+      "path": "sprites/tiles/resource-tiles-imagegen-v3/copper.webp"
+    },
+    {
+      "key": "tile-copper-hp4",
+      "type": "image",
+      "path": "sprites/tiles/resource-tiles-imagegen-v3/copper.webp"
+    },
+    {
+      "key": "tile-copper-hp5",
+      "type": "image",
+      "path": "sprites/tiles/resource-tiles-imagegen-v3/copper.webp"
+    },
+    {
+      "key": "tile-dark-dirt-normal-hp1",
+      "type": "image",
+      "path": "sprites/tiles/tiles-under-1000/dirt-tiles/dark-dirt/dark-dirt-normal/1-of-5-hp.webp"
+    },
+    {
+      "key": "tile-dark-dirt-normal-hp2",
+      "type": "image",
+      "path": "sprites/tiles/tiles-under-1000/dirt-tiles/dark-dirt/dark-dirt-normal/2-of-5-hp.webp"
+    },
+    {
+      "key": "tile-dark-dirt-normal-hp3",
+      "type": "image",
+      "path": "sprites/tiles/tiles-under-1000/dirt-tiles/dark-dirt/dark-dirt-normal/3-of-5-hp.webp"
+    },
+    {
+      "key": "tile-dark-dirt-normal-hp4",
+      "type": "image",
+      "path": "sprites/tiles/tiles-under-1000/dirt-tiles/dark-dirt/dark-dirt-normal/4-of-5-hp.webp"
+    },
+    {
+      "key": "tile-dark-dirt-normal-hp5",
+      "type": "image",
+      "path": "sprites/tiles/tiles-under-1000/dirt-tiles/dark-dirt/dark-dirt-normal/5-of-5-hp.webp"
+    },
+    {
+      "key": "tile-dark-dirt-strong-hp1",
+      "type": "image",
+      "path": "sprites/tiles/tiles-under-1000/dirt-tiles/dark-dirt/dark-dirt-strong/1-of-5-hp.webp"
+    },
+    {
+      "key": "tile-dark-dirt-strong-hp2",
+      "type": "image",
+      "path": "sprites/tiles/tiles-under-1000/dirt-tiles/dark-dirt/dark-dirt-strong/2-of-5-hp.webp"
+    },
+    {
+      "key": "tile-dark-dirt-strong-hp3",
+      "type": "image",
+      "path": "sprites/tiles/tiles-under-1000/dirt-tiles/dark-dirt/dark-dirt-strong/3-of-5-hp.webp"
+    },
+    {
+      "key": "tile-dark-dirt-strong-hp4",
+      "type": "image",
+      "path": "sprites/tiles/tiles-under-1000/dirt-tiles/dark-dirt/dark-dirt-strong/4-of-5-hp.webp"
+    },
+    {
+      "key": "tile-dark-dirt-strong-hp5",
+      "type": "image",
+      "path": "sprites/tiles/tiles-under-1000/dirt-tiles/dark-dirt/dark-dirt-strong/5-of-5-hp.webp"
+    },
+    {
+      "key": "tile-bronze-hp1",
+      "type": "image",
+      "path": "sprites/tiles/resource-tiles-imagegen-v3/bronze.webp"
+    },
+    {
+      "key": "tile-bronze-hp2",
+      "type": "image",
+      "path": "sprites/tiles/resource-tiles-imagegen-v3/bronze.webp"
+    },
+    {
+      "key": "tile-bronze-hp3",
+      "type": "image",
+      "path": "sprites/tiles/resource-tiles-imagegen-v3/bronze.webp"
+    },
+    {
+      "key": "tile-bronze-hp4",
+      "type": "image",
+      "path": "sprites/tiles/resource-tiles-imagegen-v3/bronze.webp"
+    },
+    {
+      "key": "tile-bronze-hp5",
+      "type": "image",
+      "path": "sprites/tiles/resource-tiles-imagegen-v3/bronze.webp"
+    },
+    {
+      "key": "tile-steel-hp1",
+      "type": "image",
+      "path": "sprites/tiles/resource-tiles-imagegen-v3/steel.webp"
+    },
+    {
+      "key": "tile-steel-hp2",
+      "type": "image",
+      "path": "sprites/tiles/resource-tiles-imagegen-v3/steel.webp"
+    },
+    {
+      "key": "tile-steel-hp3",
+      "type": "image",
+      "path": "sprites/tiles/resource-tiles-imagegen-v3/steel.webp"
+    },
+    {
+      "key": "tile-steel-hp4",
+      "type": "image",
+      "path": "sprites/tiles/resource-tiles-imagegen-v3/steel.webp"
+    },
+    {
+      "key": "tile-steel-hp5",
+      "type": "image",
+      "path": "sprites/tiles/resource-tiles-imagegen-v3/steel.webp"
+    },
+    {
+      "key": "tile-iron-hp1",
+      "type": "image",
+      "path": "sprites/tiles/resource-tiles-imagegen-v3/iron.webp"
+    },
+    {
+      "key": "tile-iron-hp2",
+      "type": "image",
+      "path": "sprites/tiles/resource-tiles-imagegen-v3/iron.webp"
+    },
+    {
+      "key": "tile-iron-hp3",
+      "type": "image",
+      "path": "sprites/tiles/resource-tiles-imagegen-v3/iron.webp"
+    },
+    {
+      "key": "tile-iron-hp4",
+      "type": "image",
+      "path": "sprites/tiles/resource-tiles-imagegen-v3/iron.webp"
+    },
+    {
+      "key": "tile-iron-hp5",
+      "type": "image",
+      "path": "sprites/tiles/resource-tiles-imagegen-v3/iron.webp"
+    },
+    {
+      "key": "tile-silver-hp1",
+      "type": "image",
+      "path": "sprites/tiles/resource-tiles-imagegen-v3/silver.webp"
+    },
+    {
+      "key": "tile-silver-hp2",
+      "type": "image",
+      "path": "sprites/tiles/resource-tiles-imagegen-v3/silver.webp"
+    },
+    {
+      "key": "tile-silver-hp3",
+      "type": "image",
+      "path": "sprites/tiles/resource-tiles-imagegen-v3/silver.webp"
+    },
+    {
+      "key": "tile-silver-hp4",
+      "type": "image",
+      "path": "sprites/tiles/resource-tiles-imagegen-v3/silver.webp"
+    },
+    {
+      "key": "tile-silver-hp5",
+      "type": "image",
+      "path": "sprites/tiles/resource-tiles-imagegen-v3/silver.webp"
+    },
+    {
+      "key": "tile-gold-hp1",
+      "type": "image",
+      "path": "sprites/tiles/resource-tiles-imagegen-v3/gold.webp"
+    },
+    {
+      "key": "tile-gold-hp2",
+      "type": "image",
+      "path": "sprites/tiles/resource-tiles-imagegen-v3/gold.webp"
+    },
+    {
+      "key": "tile-gold-hp3",
+      "type": "image",
+      "path": "sprites/tiles/resource-tiles-imagegen-v3/gold.webp"
+    },
+    {
+      "key": "tile-gold-hp4",
+      "type": "image",
+      "path": "sprites/tiles/resource-tiles-imagegen-v3/gold.webp"
+    },
+    {
+      "key": "tile-gold-hp5",
+      "type": "image",
+      "path": "sprites/tiles/resource-tiles-imagegen-v3/gold.webp"
+    },
+    {
+      "key": "tile-lava-dirt-hp1",
+      "type": "image",
+      "path": "sprites/tiles/second-world/lava-dirt/1-of-5-hp.webp"
+    },
+    {
+      "key": "tile-lava-dirt-hp2",
+      "type": "image",
+      "path": "sprites/tiles/second-world/lava-dirt/2-of-5-hp.webp"
+    },
+    {
+      "key": "tile-lava-dirt-hp3",
+      "type": "image",
+      "path": "sprites/tiles/second-world/lava-dirt/3-of-5-hp.webp"
+    },
+    {
+      "key": "tile-lava-dirt-hp4",
+      "type": "image",
+      "path": "sprites/tiles/second-world/lava-dirt/4-of-5-hp.webp"
+    },
+    {
+      "key": "tile-lava-dirt-hp5",
+      "type": "image",
+      "path": "sprites/tiles/second-world/lava-dirt/5-of-5-hp.webp"
+    },
+    {
+      "key": "tile-ember-ore-hp1",
+      "type": "image",
+      "path": "sprites/tiles/resource-tiles-imagegen-v3/ember-ore.webp"
+    },
+    {
+      "key": "tile-ember-ore-hp2",
+      "type": "image",
+      "path": "sprites/tiles/resource-tiles-imagegen-v3/ember-ore.webp"
+    },
+    {
+      "key": "tile-ember-ore-hp3",
+      "type": "image",
+      "path": "sprites/tiles/resource-tiles-imagegen-v3/ember-ore.webp"
+    },
+    {
+      "key": "tile-ember-ore-hp4",
+      "type": "image",
+      "path": "sprites/tiles/resource-tiles-imagegen-v3/ember-ore.webp"
+    },
+    {
+      "key": "tile-ember-ore-hp5",
+      "type": "image",
+      "path": "sprites/tiles/resource-tiles-imagegen-v3/ember-ore.webp"
+    },
+    {
+      "key": "tile-teleport",
+      "type": "image",
+      "path": "sprites/tiles/special-tiles-v2/teleport-tile.webp"
+    },
+    {
+      "key": "tile-gamble",
+      "type": "image",
+      "path": "sprites/tiles/special-tiles-imagegen-v3/gamble.webp"
+    },
+    {
+      "key": "tile-floor-town-1",
+      "type": "image",
+      "path": "sprites/tiles/base-tiles/floor-town-1.webp"
+    },
+    {
+      "key": "tile-floor-town-2",
+      "type": "image",
+      "path": "sprites/tiles/base-tiles/floor-town-2.webp"
+    },
+    {
+      "key": "gempower-block",
+      "type": "image",
+      "path": "sprites/tiles/special-tiles-imagegen-v4/gem-power-100.webp"
+    },
+    {
+      "key": "gempower-block-250",
+      "type": "image",
+      "path": "sprites/tiles/special-tiles-imagegen-v4/gem-power-250.webp"
+    },
+    {
+      "key": "gempower-block-500",
+      "type": "image",
+      "path": "sprites/tiles/special-tiles-imagegen-v4/gem-power-500.webp"
+    },
+    {
+      "key": "gempower-block-1000",
+      "type": "image",
+      "path": "sprites/tiles/special-tiles-imagegen-v4/gem-power-1000.webp"
+    },
+    {
+      "key": "gempower-block-1700",
+      "type": "image",
+      "path": "sprites/tiles/special-tiles-imagegen-v4/gem-power-1700.webp"
+    },
+    {
+      "key": "speed-block",
+      "type": "image",
+      "path": "sprites/tiles/special-tiles-imagegen-v3/speed.webp"
+    },
+    {
+      "key": "xp-block",
+      "type": "image",
+      "path": "sprites/tiles/special-tiles-imagegen-v3/level-up.webp"
+    },
+    {
+      "key": "sell-block",
+      "type": "image",
+      "path": "sprites/tiles/special-tiles-imagegen-v3/sell.webp"
+    },
+    {
+      "key": "berserk-block",
+      "type": "image",
+      "path": "sprites/tiles/special-tiles-imagegen-v3/berserk.webp"
+    },
+    {
+      "key": "combo-block",
+      "type": "image",
+      "path": "sprites/tiles/special-tiles-imagegen-v3/combo.webp"
+    },
+    {
+      "key": "crown-block",
+      "type": "image",
+      "path": "sprites/tiles/special-tiles-imagegen-v3/legend.webp"
+    },
+    {
+      "key": "ability-block",
+      "type": "image",
+      "path": "sprites/tiles/special-tiles-imagegen-v3/crit.webp"
+    },
+    {
+      "key": "fx-break-1",
+      "type": "image",
+      "path": "sprites/tiles/tiles-under-1000/dirt-tiles/breaking-animation/breaking-1.webp"
+    },
+    {
+      "key": "fx-break-2",
+      "type": "image",
+      "path": "sprites/tiles/tiles-under-1000/dirt-tiles/breaking-animation/breaking-2.webp"
+    },
+    {
+      "key": "environment-starless-scar-walkable-ground-v3",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/c40c1b995f5d58fd.webp"
+    },
+    {
+      "key": "environment-starless-scar-territory-material-v2",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/c7f846753fa6da70.webp"
+    },
+    {
+      "key": "environment-starless-scar-dead-center-v3",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/9a57e99ddf0aa244.webp"
+    },
+    {
+      "key": "environment-starless-scar-frontier-edge-v3",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/b745120cd6d13313.webp"
+    },
+    {
+      "key": "fire-light-v3-flame-steady",
+      "type": "spritesheet",
+      "path": "sprites/runtime-startup-v1/3f74aac37f66557f.webp",
+      "extra": {
+        "frameWidth": 313,
+        "frameHeight": 313,
+        "startFrame": 0,
+        "endFrame": 15
+      }
+    },
+    {
+      "key": "fire-light-v3-flame-states",
+      "type": "spritesheet",
+      "path": "sprites/runtime-startup-v1/fa31ace0de4d89c8.webp",
+      "extra": {
+        "frameWidth": 313,
+        "frameHeight": 313,
+        "startFrame": 0,
+        "endFrame": 15
+      }
+    },
+    {
+      "key": "graveborer-wurm-head-v1",
+      "type": "image",
+      "path": "sprites/environment/graveborer-wurm-v1/graveborer-head-runtime-v1.webp"
+    },
+    {
+      "key": "graveborer-wurm-body-v1",
+      "type": "image",
+      "path": "sprites/environment/graveborer-wurm-v1/graveborer-body-runtime-v1.webp"
+    },
+    {
+      "key": "graveborer-wurm-tail-v1",
+      "type": "image",
+      "path": "sprites/environment/graveborer-wurm-v1/graveborer-tail-runtime-v1.webp"
+    },
+    {
+      "key": "graveborer-wurm-medallion-v1",
+      "type": "image",
+      "path": "sprites/environment/graveborer-wurm-v1/graveborer-medallion-runtime-v1.webp"
+    },
+    {
+      "key": "graveborer-wurm-warning-v1",
+      "type": "image",
+      "path": "sprites/environment/graveborer-wurm-v1/graveborer-burrow-warning-runtime-v1.webp"
+    },
+    {
+      "key": "celestial-actionbar-foundation-v2",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/a46e37ae648ce27b.webp"
+    },
+    {
+      "key": "celestial-actionbar-quickslash-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/ff75b444aadfba78.webp"
+    },
+    {
+      "key": "celestial-actionbar-thunderstrike-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/d35ee7bb038a6731.webp"
+    },
+    {
+      "key": "ui-celestial-currency-baked-v2",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/56b5681ce1f6d45c.webp"
+    },
+    {
+      "key": "ui-celestial-star-point-icon-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/d12780977993f964.webp"
+    },
+    {
+      "key": "resource-codex-foundation-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/a56b7fbdde8c6783.webp?v=20260826b"
+    },
+    {
+      "key": "resource-dossier-atlas-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/5414cf562350ab60.webp?v=20260826"
+    },
+    {
+      "key": "ui-icon-atlas-v1",
+      "type": "spritesheet",
+      "path": "sprites/runtime-startup-v1/7c84cc451df24578.webp",
+      "extra": {
+        "frameWidth": 209,
+        "frameHeight": 209
+      }
+    },
+    {
+      "key": "ui-pickaxe-bronze-v1",
+      "type": "image",
+      "path": "sprites/UI/pickaxe-icons-v1/bronze-pickaxe-v1.png"
+    },
+    {
+      "key": "ui-pickaxe-iron-v1",
+      "type": "image",
+      "path": "sprites/UI/pickaxe-icons-v1/iron-pickaxe-v1.png"
+    },
+    {
+      "key": "ui-pickaxe-steel-v1",
+      "type": "image",
+      "path": "sprites/UI/pickaxe-icons-v1/steel-pickaxe-v1.png"
+    },
+    {
+      "key": "ui-pickaxe-mithril-v1",
+      "type": "image",
+      "path": "sprites/UI/pickaxe-icons-v1/mithril-pickaxe-v1.png"
+    },
+    {
+      "key": "ui-pickaxe-adamant-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/f53d808231fec898.webp"
+    },
+    {
+      "key": "ui-pickaxe-rune-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/eff4b8c2aae6b62f.webp"
+    },
+    {
+      "key": "ui-pickaxe-dragon-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/c3ed8133ea629fdc.webp"
+    },
+    {
+      "key": "ui-pickaxe-hud-bronze-v1",
+      "type": "image",
+      "path": "sprites/UI/pickaxe-hud-v1/bronze-pickaxe-hud-overlay-v1.png"
+    },
+    {
+      "key": "ui-pickaxe-hud-iron-v1",
+      "type": "image",
+      "path": "sprites/UI/pickaxe-hud-v1/iron-pickaxe-hud-overlay-v1.png"
+    },
+    {
+      "key": "ui-pickaxe-hud-steel-v1",
+      "type": "image",
+      "path": "sprites/UI/pickaxe-hud-v1/steel-pickaxe-hud-overlay-v1.png"
+    },
+    {
+      "key": "ui-pickaxe-hud-mithril-v1",
+      "type": "image",
+      "path": "sprites/UI/pickaxe-hud-v1/mithril-pickaxe-hud-overlay-v1.png"
+    },
+    {
+      "key": "ui-pickaxe-hud-adamant-v1",
+      "type": "image",
+      "path": "sprites/UI/pickaxe-hud-v1/adamant-pickaxe-hud-overlay-v1.png"
+    },
+    {
+      "key": "ui-pickaxe-hud-rune-v1",
+      "type": "image",
+      "path": "sprites/UI/pickaxe-hud-v1/rune-pickaxe-hud-overlay-v1.png"
+    },
+    {
+      "key": "ui-pickaxe-hud-dragon-v1",
+      "type": "image",
+      "path": "sprites/UI/pickaxe-hud-v1/dragon-pickaxe-hud-overlay-v1.png"
+    },
+    {
+      "key": "terrain-edge-v1-stone-rim",
+      "type": "image",
+      "path": "sprites/environment/complementary-terrain-edges-v1/stone-rim.png"
+    },
+    {
+      "key": "terrain-edge-v1-soil-rim",
+      "type": "image",
+      "path": "sprites/environment/complementary-terrain-edges-v1/soil-rim.png"
+    },
+    {
+      "key": "terrain-edge-v1-stone-corner",
+      "type": "image",
+      "path": "sprites/environment/complementary-terrain-edges-v1/stone-corner.png"
+    },
+    {
+      "key": "terrain-edge-v1-soil-corner",
+      "type": "image",
+      "path": "sprites/environment/complementary-terrain-edges-v1/soil-corner.png"
+    },
+    {
+      "key": "terrain-edge-v1-crevice-shadow",
+      "type": "image",
+      "path": "sprites/environment/complementary-terrain-edges-v1/crevice-shadow.png"
+    },
+    {
+      "key": "approved-polish-soil-edge",
+      "type": "image",
+      "path": "sprites/UI/approved-polish-2026-09-09/soil-edge.png"
+    },
+    {
+      "key": "approved-polish-stone-edge",
+      "type": "image",
+      "path": "sprites/UI/approved-polish-2026-09-09/stone-edge.png"
+    },
+    {
+      "key": "approved-polish-metal-edge",
+      "type": "image",
+      "path": "sprites/UI/approved-polish-2026-09-09/metal-edge.png"
+    },
+    {
+      "key": "approved-polish-cave-roots",
+      "type": "image",
+      "path": "sprites/UI/approved-polish-2026-09-09/cave-roots.png"
+    },
+    {
+      "key": "approved-polish-soil-chip",
+      "type": "image",
+      "path": "sprites/UI/approved-polish-2026-09-09/soil-chip.png"
+    },
+    {
+      "key": "approved-polish-stone-chip",
+      "type": "image",
+      "path": "sprites/UI/approved-polish-2026-09-09/stone-chip.png"
+    },
+    {
+      "key": "approved-polish-metal-chip",
+      "type": "image",
+      "path": "sprites/UI/approved-polish-2026-09-09/metal-chip.png"
+    },
+    {
+      "key": "approved-polish-crystal-chip",
+      "type": "image",
+      "path": "sprites/UI/approved-polish-2026-09-09/crystal-chip.png"
+    },
+    {
+      "key": "approved-polish-quickslash-fx",
+      "type": "image",
+      "path": "sprites/UI/approved-polish-2026-09-09/quickslash-fx.png"
+    },
+    {
+      "key": "approved-polish-flight-fx",
+      "type": "image",
+      "path": "sprites/UI/approved-polish-2026-09-09/flight-fx.png"
+    },
+    {
+      "key": "approved-polish-owned-seal",
+      "type": "image",
+      "path": "sprites/UI/approved-polish-2026-09-09/owned-seal.png"
+    },
+    {
+      "key": "approved-polish-max-seal",
+      "type": "image",
+      "path": "sprites/UI/approved-polish-2026-09-09/max-seal.png"
+    },
+    {
+      "key": "ui-approved-polish-gp-unlock",
+      "type": "image",
+      "path": "sprites/UI/approved-polish-2026-09-09/gp-unlock.png"
+    },
+    {
+      "key": "ui-approved-polish-gp-tank",
+      "type": "image",
+      "path": "sprites/UI/approved-polish-2026-09-09/gp-tank.png"
+    },
+    {
+      "key": "ui-approved-polish-gp-efficiency",
+      "type": "image",
+      "path": "sprites/UI/approved-polish-2026-09-09/gp-efficiency.png"
+    },
+    {
+      "key": "ui-approved-polish-gp-regeneration",
+      "type": "image",
+      "path": "sprites/UI/approved-polish-2026-09-09/gp-regeneration.png"
+    },
+    {
+      "key": "ui-approved-polish-torch-range",
+      "type": "image",
+      "path": "sprites/UI/approved-polish-2026-09-09/torch-range.png"
+    },
+    {
+      "key": "ui-approved-polish-torch-efficiency",
+      "type": "image",
+      "path": "sprites/UI/approved-polish-2026-09-09/torch-efficiency.png"
+    },
+    {
+      "key": "ui-approved-polish-strength",
+      "type": "image",
+      "path": "sprites/UI/approved-polish-2026-09-09/strength.png"
+    },
+    {
+      "key": "ui-approved-polish-heavy-punch",
+      "type": "image",
+      "path": "sprites/UI/approved-polish-2026-09-09/heavy-punch.png"
+    },
+    {
+      "key": "ui-approved-polish-agility",
+      "type": "image",
+      "path": "sprites/UI/approved-polish-2026-09-09/agility.png"
+    },
+    {
+      "key": "ui-approved-polish-quick-reflexes",
+      "type": "image",
+      "path": "sprites/UI/approved-polish-2026-09-09/quick-reflexes.png"
+    },
+    {
+      "key": "ui-approved-polish-cave-eyes",
+      "type": "image",
+      "path": "sprites/UI/approved-polish-2026-09-09/cave-eyes.png"
+    },
+    {
+      "key": "ui-approved-polish-wisdom",
+      "type": "image",
+      "path": "sprites/UI/approved-polish-2026-09-09/wisdom.png"
+    },
+    {
+      "key": "ui-ability-upgrade-quickslash-v1",
+      "type": "image",
+      "path": "sprites/UI/ability-upgrade-icons-v1/quickslash-v1.png"
+    },
+    {
+      "key": "ui-ability-upgrade-thunder-strike-v1",
+      "type": "image",
+      "path": "sprites/UI/ability-upgrade-icons-v1/thunder-strike-v1.png"
+    },
+    {
+      "key": "ui-ability-upgrade-flight-v1",
+      "type": "image",
+      "path": "sprites/UI/ability-upgrade-icons-v1/flight-v1.png"
+    },
+    {
+      "key": "ui-resource-dirt-imagegen-v2",
+      "type": "image",
+      "path": "sprites/UI/resource-icons-imagegen-2026-09-09/dirt-runtime-v2.png"
+    },
+    {
+      "key": "ui-resource-dirt",
+      "type": "image",
+      "path": "sprites/UI/resource-icons-imagegen-2026-09-09/dirt-runtime-v2.png"
+    },
+    {
+      "key": "ui-resource-stone-imagegen-v2",
+      "type": "image",
+      "path": "sprites/UI/resource-icons-imagegen-2026-09-09/stone-runtime-v2.png"
+    },
+    {
+      "key": "ui-resource-stone",
+      "type": "image",
+      "path": "sprites/UI/resource-icons-imagegen-2026-09-09/stone-runtime-v2.png"
+    },
+    {
+      "key": "ui-resource-copper-imagegen-v2",
+      "type": "image",
+      "path": "sprites/UI/resource-icons-imagegen-2026-09-09/copper-runtime-v2.png"
+    },
+    {
+      "key": "ui-resource-copper",
+      "type": "image",
+      "path": "sprites/UI/resource-icons-imagegen-2026-09-09/copper-runtime-v2.png"
+    },
+    {
+      "key": "ui-loot-inventory-bag",
+      "type": "image",
+      "path": "sprites/UI/loot-pickups/inventory-bag.png"
+    },
+    {
+      "key": "ui-hud-approved-player-core-shell-v2",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/dbc508b9e138151f.webp"
+    },
+    {
+      "key": "ui-hud-approved-player-core",
+      "type": "image",
+      "path": "sprites/UI/hud-approved-v1/player-core.png"
+    },
+    {
+      "key": "ui-hud-approved-player-core-torch-off",
+      "type": "image",
+      "path": "sprites/UI/hud-approved-v1/player-core-torch-off.png"
+    },
+    {
+      "key": "ui-hud-approved-buff-chip",
+      "type": "image",
+      "path": "sprites/UI/hud-approved-v1/buff-chip.png"
+    },
+    {
+      "key": "ui-hud-approved-notification",
+      "type": "image",
+      "path": "sprites/UI/hud-approved-v1/notification-frame.png"
+    },
+    {
+      "key": "ui-hud-hardcore-status-shell-v2",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/918c1f5e8b0204c0.webp"
+    },
+    {
+      "key": "ui-hud-level-up-shell-v2",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/60b3da0337f36700.webp"
+    },
+    {
+      "key": "ui-hud-approved-world-state",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/69ea8f7ab0b56d23.webp"
+    },
+    {
+      "key": "ui-hud-approved-audio-music",
+      "type": "image",
+      "path": "sprites/UI/hud-approved-v1/audio-music.png"
+    },
+    {
+      "key": "ui-hud-approved-audio-sfx",
+      "type": "image",
+      "path": "sprites/UI/hud-approved-v1/audio-sfx.png"
+    },
+    {
+      "key": "ui-hud-approved-xp",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/1c5dad2075c5c0e1.webp"
+    },
+    {
+      "key": "ui-hud-approved-inventory",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/040ada17b1389360.webp"
+    },
+    {
+      "key": "ui-hud-inventory-fullness-01",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/287a1cb8b49a8c2b.webp"
+    },
+    {
+      "key": "ui-hud-inventory-fullness-02",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/24edde9841efa732.webp"
+    },
+    {
+      "key": "ui-hud-inventory-fullness-03",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/458bfbeb4c7f85f7.webp"
+    },
+    {
+      "key": "ui-hud-inventory-fullness-04",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/f6c4358cae8b7bd0.webp"
+    },
+    {
+      "key": "ui-hud-inventory-fullness-05",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/1ea70e1f8e264f87.webp"
+    },
+    {
+      "key": "ui-hud-inventory-fullness-06",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/43d0d72445a6eb8f.webp"
+    },
+    {
+      "key": "ui-hud-inventory-fullness-07",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/047e8343a81708cd.webp"
+    },
+    {
+      "key": "ui-hud-inventory-fullness-08",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/c7538e297c3063fa.webp"
+    },
+    {
+      "key": "ui-hud-inventory-fullness-09",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/5fdc40eb6d78680a.webp"
+    },
+    {
+      "key": "ui-hud-inventory-fullness-10",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/d8b5c89ffaeb70f6.webp"
+    },
+    {
+      "key": "ui-hud-approved-inventory-keycap-v1",
+      "type": "image",
+      "path": "sprites/UI/hud-cohesion-v1/inventory-keycap-v1.png"
+    },
+    {
+      "key": "ui-hud-approved-tutorial-current-action-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/8dedc0b14c3a521a.webp"
+    },
+    {
+      "key": "ui-baked-pause-stats-v2",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/3c20c7be078a3a56.webp"
+    },
+    {
+      "key": "ui-baked-utility-final-v2",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/8636658995c493e4.webp"
+    },
+    {
+      "key": "ui-baked-hud-details-v2",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/f76a9f64df58cf99.webp"
+    },
+    {
+      "key": "ui-baked-wiki-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/a9012a4d86f6c0fe.webp"
+    },
+    {
+      "key": "ui-baked-menu-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/8d46acb8876d5508.webp"
+    },
+    {
+      "key": "ui-baked-world-map-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/887a0b96310a6f07.webp"
+    },
+    {
+      "key": "ui-baked-expedition-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/e19221abc17eae02.webp"
+    },
+    {
+      "key": "ui-baked-expedition-one-life-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/6a758a6d5eb7da2d.webp"
+    },
+    {
+      "key": "ui-baked-controls-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/aba35a642f6a750d.webp"
+    },
+    {
+      "key": "ui-baked-controls-extra-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/8472b1fd7c19fa31.webp"
+    },
+    {
+      "key": "ui-baked-headingsa-hd-v2",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/9a0bcce6644a6c32.webp"
+    },
+    {
+      "key": "ui-baked-headingsb-hd-v2",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/cd7cb6c1e3cde3f0.webp"
+    },
+    {
+      "key": "ui-baked-headingsc-hd-v2",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/3de73ff45d0fb812.webp"
+    },
+    {
+      "key": "ui-baked-icon-badges-v2",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/b047a9653e0d8a91.webp"
+    },
+    {
+      "key": "ui-baked-inventory-settings-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/8e363673ed19a54e.webp"
+    },
+    {
+      "key": "ui-baked-keybind-labels-alpha-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/ea90b18241914180.webp"
+    },
+    {
+      "key": "ui-baked-navigation-labels-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/91203fe330a5c3e8.webp"
+    },
+    {
+      "key": "ui-baked-campfire-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/241a15d8a3bd66de.webp"
+    },
+    {
+      "key": "ui-merchant-sign-player-upgrades-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/9d8504960e393355.webp"
+    },
+    {
+      "key": "ui-merchant-sign-gear-merchant-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/78a40c91035f8370.webp"
+    },
+    {
+      "key": "ui-merchant-sign-bobo-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/6f9834fc3f61a729.webp"
+    },
+    {
+      "key": "ui-merchant-sign-money-monster-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/ae3f95368c63a480.webp"
+    },
+    {
+      "key": "ui-merchant-sign-gem-merchant-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/8b8dcf3e93f2c8ac.webp"
+    },
+    {
+      "key": "ui-merchant-sign-molten-money-monster-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/8a5d874c473a33f9.webp"
+    },
+    {
+      "key": "ui-notification-previous-v1",
+      "type": "image",
+      "path": "sprites/UI/notification-controls-v1/notification-previous-v1.png"
+    },
+    {
+      "key": "ui-notification-next-v1",
+      "type": "image",
+      "path": "sprites/UI/notification-controls-v1/notification-next-v1.png"
+    },
+    {
+      "key": "ui-notification-clear-v1",
+      "type": "image",
+      "path": "sprites/UI/notification-controls-v1/notification-clear-v1.png"
+    },
+    {
+      "key": "ui-sleeping-jackpot-panel-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/83db2d976531839f.webp"
+    },
+    {
+      "key": "environment-random-event-sigils-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/ba760e88e11539af.webp"
+    },
+    {
+      "key": "ui-thunderstrike-target-gate-v2",
+      "type": "image",
+      "path": "sprites/UI/thunderstrike-chain-v2/thunderstrike-target-gate-v2.webp"
+    },
+    {
+      "key": "ui-thunderstrike-needle-v2",
+      "type": "image",
+      "path": "sprites/UI/thunderstrike-chain-v2/thunderstrike-needle-v2.webp"
+    },
+    {
+      "key": "titan-surface-stance-mossback-wanderer-v1",
+      "type": "image",
+      "path": "sprites/backgrounds/titan-surface-stances-v1/01-mossback-wanderer-surface-stance-v1.webp"
+    },
+    {
+      "key": "titan-surface-stance-bellhorn-grazer-v1",
+      "type": "image",
+      "path": "sprites/backgrounds/titan-surface-stances-v1/02-bellhorn-grazer-surface-stance-v1.webp"
+    },
+    {
+      "key": "titan-surface-stance-lantern-jaw-v1",
+      "type": "image",
+      "path": "sprites/backgrounds/titan-surface-stances-v1/03-lantern-jaw-surface-stance-v1.webp"
+    },
+    {
+      "key": "titan-surface-stance-archwalker-v1",
+      "type": "image",
+      "path": "sprites/backgrounds/titan-surface-stances-v1/04-archwalker-surface-stance-v1.webp"
+    },
+    {
+      "key": "titan-surface-stance-shale-mother-v1",
+      "type": "image",
+      "path": "sprites/backgrounds/titan-surface-stances-v1/05-shale-mother-surface-stance-v1.webp"
+    },
+    {
+      "key": "titan-surface-stance-ribbon-wyrm-v1",
+      "type": "image",
+      "path": "sprites/backgrounds/titan-surface-stances-v1/06-ribbon-wyrm-surface-stance-v1.webp"
+    },
+    {
+      "key": "titan-surface-stance-crowned-mole-v1",
+      "type": "image",
+      "path": "sprites/backgrounds/titan-surface-stances-v1/07-crowned-mole-surface-stance-v1.webp"
+    },
+    {
+      "key": "titan-surface-stance-hammerhead-pilgrim-v1",
+      "type": "image",
+      "path": "sprites/backgrounds/titan-surface-stances-v1/08-hammerhead-pilgrim-surface-stance-v1.webp"
+    },
+    {
+      "key": "titan-surface-stance-cathedral-stag-v1",
+      "type": "image",
+      "path": "sprites/backgrounds/titan-surface-stances-v1/09-cathedral-stag-surface-stance-v1.webp"
+    },
+    {
+      "key": "titan-surface-stance-hollowback-bear-v1",
+      "type": "image",
+      "path": "sprites/backgrounds/titan-surface-stances-v1/10-hollowback-bear-surface-stance-v1.webp"
+    },
+    {
+      "key": "titan-surface-stance-silver-strider-v1",
+      "type": "image",
+      "path": "sprites/backgrounds/titan-surface-stances-v1/11-silver-strider-surface-stance-v1.webp"
+    },
+    {
+      "key": "titan-surface-stance-mirror-ray-v1",
+      "type": "image",
+      "path": "sprites/backgrounds/titan-surface-stances-v1/12-mirror-ray-surface-stance-v1.webp"
+    },
+    {
+      "key": "titan-surface-stance-needlecrown-v1",
+      "type": "image",
+      "path": "sprites/backgrounds/titan-surface-stances-v1/13-needlecrown-surface-stance-v1.webp"
+    },
+    {
+      "key": "titan-surface-stance-moon-shell-v1",
+      "type": "image",
+      "path": "sprites/backgrounds/titan-surface-stances-v1/14-moon-shell-surface-stance-v1.webp"
+    },
+    {
+      "key": "titan-surface-stance-veilwing-v1",
+      "type": "image",
+      "path": "sprites/backgrounds/titan-surface-stances-v1/15-veilwing-surface-stance-v1.webp"
+    },
+    {
+      "key": "titan-surface-stance-ember-tusk-v1",
+      "type": "image",
+      "path": "sprites/backgrounds/titan-surface-stances-v1/16-ember-tusk-surface-stance-v1.webp"
+    },
+    {
+      "key": "titan-surface-stance-furnace-drake-v1",
+      "type": "image",
+      "path": "sprites/backgrounds/titan-surface-stances-v1/17-furnace-drake-surface-stance-v1.webp"
+    },
+    {
+      "key": "titan-surface-stance-ash-colossus-v1",
+      "type": "image",
+      "path": "sprites/backgrounds/titan-surface-stances-v1/18-ash-colossus-surface-stance-v1.webp"
+    },
+    {
+      "key": "titan-surface-stance-magma-whale-v1",
+      "type": "image",
+      "path": "sprites/backgrounds/titan-surface-stances-v1/19-magma-whale-surface-stance-v1.webp"
+    },
+    {
+      "key": "titan-surface-stance-cinder-centipede-v1",
+      "type": "image",
+      "path": "sprites/backgrounds/titan-surface-stances-v1/20-cinder-centipede-surface-stance-v1.webp"
+    },
+    {
+      "key": "titan-surface-stance-rift-heron-v1",
+      "type": "image",
+      "path": "sprites/backgrounds/titan-surface-stances-v1/22-rift-heron-surface-stance-v1.webp"
+    },
+    {
+      "key": "titan-surface-stance-star-eater-v1",
+      "type": "image",
+      "path": "sprites/backgrounds/titan-surface-stances-v1/23-star-eater-surface-stance-v1.webp"
+    },
+    {
+      "key": "titan-surface-stance-deep-crown-v1",
+      "type": "image",
+      "path": "sprites/backgrounds/titan-surface-stances-v1/24-deep-crown-surface-stance-v1.webp"
+    },
+    {
+      "key": "titan-surface-stance-worldroot-titan-v1",
+      "type": "image",
+      "path": "sprites/backgrounds/titan-surface-stances-v1/25-worldroot-titan-surface-stance-v1.webp"
+    },
+    {
+      "key": "titan-discovery-walk-plinth-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/62d47d7839a39b94.webp"
+    },
+    {
+      "key": "titan-underground-dais-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/64dcfc459818d7c0.webp"
+    },
+    {
+      "key": "titan-cover-resonance-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/1fb3aa64f339bba5.webp"
+    },
+    {
+      "key": "titan-ground-contact-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/9ae0cc2bf3b8e69e.webp"
+    },
+    {
+      "key": "titan-unlock-resonance-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/44e73f8efeadd2df.webp"
+    },
+    {
+      "key": "ui-titan-resonance-pointer-v1",
+      "type": "image",
+      "path": "sprites/UI/titan-guidance-v1/titan-resonance-pointer-v1.png"
+    },
+    {
+      "key": "titan-discovery-mossback-wanderer",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/8d825c827b028a87.webp"
+    },
+    {
+      "key": "titan-discovery-bellhorn-grazer",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/cae941d6d6dc96dd.webp"
+    },
+    {
+      "key": "titan-discovery-lantern-jaw",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/fda6996de85ed942.webp"
+    },
+    {
+      "key": "titan-discovery-archwalker",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/7f53265e85c980e0.webp"
+    },
+    {
+      "key": "titan-discovery-shale-mother",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/36234da556979e5b.webp"
+    },
+    {
+      "key": "titan-discovery-ribbon-wyrm",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/72b31c2b93c546b8.webp"
+    },
+    {
+      "key": "titan-discovery-crowned-mole",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/712752f9bad65fd3.webp"
+    },
+    {
+      "key": "titan-discovery-hammerhead-pilgrim",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/623827faefc57fdf.webp"
+    },
+    {
+      "key": "titan-discovery-cathedral-stag",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/e49ba80428ce1ec9.webp"
+    },
+    {
+      "key": "titan-discovery-hollowback-bear",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/c3bc7b929decdf86.webp"
+    },
+    {
+      "key": "titan-discovery-silver-strider",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/db7eda6ebcb8657a.webp"
+    },
+    {
+      "key": "titan-discovery-mirror-ray",
+      "type": "image",
+      "path": "sprites/backgrounds/titan-discoveries-v1/12-mirror-ray.png"
+    },
+    {
+      "key": "titan-discovery-needlecrown",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/a7ec7bb63178a8eb.webp"
+    },
+    {
+      "key": "titan-discovery-moon-shell",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/31ca0b40fe350fdc.webp"
+    },
+    {
+      "key": "titan-discovery-veilwing",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/8fc0fe7ef823f0ae.webp"
+    },
+    {
+      "key": "titan-discovery-ember-tusk",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/93e5f28b324e50e5.webp"
+    },
+    {
+      "key": "titan-discovery-furnace-drake",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/c3f525e22d74ded6.webp"
+    },
+    {
+      "key": "titan-discovery-ash-colossus",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/e924637bccc84e11.webp"
+    },
+    {
+      "key": "titan-discovery-magma-whale",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/f6067cd985c084f8.webp"
+    },
+    {
+      "key": "titan-discovery-cinder-centipede",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/47b54e513b5fcae5.webp"
+    },
+    {
+      "key": "titan-discovery-rift-heron",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/c24320c734ebda0b.webp"
+    },
+    {
+      "key": "titan-discovery-star-eater",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/6c203543c69bd644.webp"
+    },
+    {
+      "key": "titan-discovery-deep-crown",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/dc73d6992da42b05.webp"
+    },
+    {
+      "key": "titan-discovery-worldroot-titan",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/3d428c3cf6024b51.webp"
+    },
+    {
+      "key": "ui-earthquake-status-frame-v2",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/911e8f4cc67b4839.webp"
+    },
+    {
+      "key": "ui-earthquake-medallion-v2",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/495dc32f0cda8533.webp"
+    },
+    {
+      "key": "fx-earthquake-tile-fracture-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/46c12489f8659622.webp"
+    },
+    {
+      "key": "fx-earthquake-tile-collapse-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/e4126084b4298223.webp"
+    },
+    {
+      "key": "fx-earthquake-rubble-return-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/2039695fdd6df1d7.webp"
+    },
+    {
+      "key": "fx-earthquake-landing-footprint-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/f52e80bc4248dc4e.webp"
+    },
+    {
+      "key": "fx-earthquake-falling-boulder-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/27da8b6bc95ff6d6.webp"
+    },
+    {
+      "key": "fx-earthquake-ceiling-fracture-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/7568d3e8fd5ddab1.webp"
+    },
+    {
+      "key": "fx-earthquake-impact-debris-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/29c0b0d94aae41bc.webp"
+    },
+    {
+      "key": "tile-destruction-core-v3",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/02b2d7302f79cc58.webp"
+    },
+    {
+      "key": "tile-destruction-shards-v3",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/6c4a4552cafc6011.webp"
+    },
+    {
+      "key": "ui-loot-soil-mini-atlas-v1",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/2f8fd09e2ac2dd7d.webp?v=20260831"
+    },
+    {
+      "key": "loot-pickup-dirt",
+      "type": "image",
+      "path": "sprites/UI/loot-pickups/dirt.png"
+    },
+    {
+      "key": "loot-pickup-stone",
+      "type": "image",
+      "path": "sprites/UI/loot-pickups/stone.png"
+    },
+    {
+      "key": "loot-pickup-copper",
+      "type": "image",
+      "path": "sprites/UI/loot-pickups/copper.png"
+    },
+    {
+      "key": "loot-pickup-dark-dirt-normal",
+      "type": "image",
+      "path": "sprites/UI/loot-pickups/dark-dirt-normal.png"
+    },
+    {
+      "key": "loot-pickup-dark-dirt-strong",
+      "type": "image",
+      "path": "sprites/UI/loot-pickups/dark-dirt-strong.png"
+    },
+    {
+      "key": "loot-pickup-steel",
+      "type": "image",
+      "path": "sprites/UI/loot-pickups/steel.png"
+    },
+    {
+      "key": "loot-pickup-iron",
+      "type": "image",
+      "path": "sprites/UI/loot-pickups/iron.png"
+    },
+    {
+      "key": "loot-pickup-bronze",
+      "type": "image",
+      "path": "sprites/UI/loot-pickups/bronze.png"
+    },
+    {
+      "key": "loot-pickup-silver",
+      "type": "image",
+      "path": "sprites/UI/loot-pickups/silver.png"
+    },
+    {
+      "key": "loot-pickup-gold",
+      "type": "image",
+      "path": "sprites/UI/loot-pickups/gold.png"
+    },
+    {
+      "key": "ui-xp-gather-routine-core-v2",
+      "type": "image",
+      "path": "sprites/UI/xp-gathering-v2/xp-mote-core-v2.png"
+    },
+    {
+      "key": "ui-xp-gather-routine-facet-v2",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/38c755777f0315db.webp"
+    },
+    {
+      "key": "ui-xp-gather-routine-compass-v2",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/62ad02070c4555a8.webp"
+    },
+    {
+      "key": "ui-xp-gather-routine-kite-v2",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/38bc0a3fdb0a50d8.webp"
+    },
+    {
+      "key": "ui-xp-gather-cluster-twin-v2",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/49a80a75dbe6a1b1.webp"
+    },
+    {
+      "key": "ui-xp-gather-cluster-orbit-v2",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/2acadcc7401147c3.webp"
+    },
+    {
+      "key": "ui-xp-gather-cluster-triad-v2",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/ef2a3533e7a63e4e.webp"
+    },
+    {
+      "key": "ui-xp-gather-special-core-v2",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/cb19e4555eee4f2e.webp"
+    },
+    {
+      "key": "ui-xp-gather-special-rune-v2",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/760ae93cad665df4.webp"
+    },
+    {
+      "key": "ui-xp-gather-special-legend-v2",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/ffee58abedea555e.webp"
+    },
+    {
+      "key": "ui-xp-gather-level-core-v2",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/6583e9440833c9df.webp"
+    },
+    {
+      "key": "ui-xp-gather-level-crown-v2",
+      "type": "image",
+      "path": "sprites/runtime-startup-v1/dd1ac242fbc9d4c9.webp"
+    },
+    {
+      "key": "heavenblocks-ancient-relic-token-v1",
+      "type": "image",
+      "path": "sprites/UI/heavenblocks-v1/ancient-relic-token-v1.png"
+    },
+    {
+      "key": "heavenblocks-ancient-relic-icon-v1",
+      "type": "image",
+      "path": "sprites/UI/heavenblocks-v1/ancient-relic-icon-v1.png"
+    },
+    {
+      "key": "ui-resource-ember-ore",
+      "type": "image",
+      "path": "sprites/UI/second-world/ember-ore-icon.webp"
+    },
+    {
+      "key": "loot-pickup-ember-ore",
+      "type": "image",
+      "path": "sprites/UI/second-world/ember-ore-icon.webp"
+    },
+    {
+      "key": "music-track-89",
+      "type": "audio",
+      "path": "sound/playlists/tor-music-title-active-run-base-i00-b02-c01-v01.mp3"
+    },
+    {
+      "key": "dig-0",
+      "type": "audio",
+      "path": "sound/soundEffects/costume-sounds/dig/dig-1.ogg"
+    },
+    {
+      "key": "dig-1",
+      "type": "audio",
+      "path": "sound/soundEffects/costume-sounds/dig/dig-2.ogg"
+    },
+    {
+      "key": "dig-star-0",
+      "type": "audio",
+      "path": "sound/soundEffects/costume-sounds/dig/dig-star/MUSCChim_Chimes dream 3 (ID 2081)_BigSoundBank.com.ogg"
+    },
+    {
+      "key": "footsteps-0",
+      "type": "audio",
+      "path": "sound/soundEffects/costume-sounds/footsteps/footstep-1.ogg"
+    },
+    {
+      "key": "footsteps-1",
+      "type": "audio",
+      "path": "sound/soundEffects/costume-sounds/footsteps/footstep-3.ogg"
+    },
+    {
+      "key": "footsteps-2",
+      "type": "audio",
+      "path": "sound/soundEffects/costume-sounds/footsteps/footstep-4.ogg"
+    },
+    {
+      "key": "tileBreak-0",
+      "type": "audio",
+      "path": "sound/soundEffects/costume-sounds/tile-break/CERMBrk_Broken plate 7 (ID 1649)_BigSoundBank.com.ogg"
+    },
+    {
+      "key": "tileHit-0",
+      "type": "audio",
+      "path": "sound/soundEffects/costume-sounds/hit-reource-tile/dig-1.ogg"
+    },
+    {
+      "key": "sfx-ui-select",
+      "type": "audio",
+      "path": "sound/soundEffects/ui/ui-select.wav"
+    },
+    {
+      "key": "sfx-ui-confirm",
+      "type": "audio",
+      "path": "sound/soundEffects/ui/ui-confirm.wav"
+    },
+    {
+      "key": "sfx-seismic-warning-0",
+      "type": "audio",
+      "path": "sound/soundEffects/approved-sfx-findings-v1/seismic-warning-distant-collapse.ogg"
+    },
+    {
+      "key": "sfx-seismic-warning-1",
+      "type": "audio",
+      "path": "sound/soundEffects/approved-sfx-findings-v1/seismic-warning-heavy-collapse.ogg"
+    },
+    {
+      "key": "sfx-hardcore-near-death-0",
+      "type": "audio",
+      "path": "sound/soundEffects/approved-sfx-findings-v1/hardcore-near-death-warning.wav"
+    },
+    {
+      "key": "sfx-star-destruction-0",
+      "type": "audio",
+      "path": "sound/soundEffects/approved-sfx-findings-v1/star-destruction-shockwave-freesound-814053.mp3"
+    },
+    {
+      "key": "sfx-level-up-reward-0",
+      "type": "audio",
+      "path": "sound/soundEffects/approved-sfx-findings-v1/level-up-short-freesound-320655.mp3"
+    },
+    {
+      "key": "sfx-level-up-reward-1",
+      "type": "audio",
+      "path": "sound/soundEffects/approved-sfx-findings-v1/level-up-epic-freesound-682633.mp3"
+    },
+    {
+      "key": "approved-review-libSupportCreak",
+      "type": "audio",
+      "path": "sound/soundEffects/approved-review-2026-09-03/libSupportCreak.ogg"
+    },
+    {
+      "key": "approved-review-libFarCollapse",
+      "type": "audio",
+      "path": "sound/soundEffects/approved-review-2026-09-03/libFarCollapse.ogg"
+    },
+    {
+      "key": "approved-review-libPressureRumble",
+      "type": "audio",
+      "path": "sound/soundEffects/approved-review-2026-09-03/libPressureRumble.ogg"
+    },
+    {
+      "key": "approved-review-libTorchReact",
+      "type": "audio",
+      "path": "sound/soundEffects/approved-review-2026-09-03/libTorchReact.ogg"
+    },
+    {
+      "key": "approved-review-libWaterSeep",
+      "type": "audio",
+      "path": "sound/soundEffects/approved-review-2026-09-03/libWaterSeep.ogg"
+    },
+    {
+      "key": "approved-review-libDirtSwingA",
+      "type": "audio",
+      "path": "sound/soundEffects/approved-review-2026-09-03/libDirtSwingA.ogg"
+    },
+    {
+      "key": "approved-review-libDirtBreak",
+      "type": "audio",
+      "path": "sound/soundEffects/approved-review-2026-09-03/libDirtBreak.ogg"
+    },
+    {
+      "key": "approved-review-libToolContact",
+      "type": "audio",
+      "path": "sound/soundEffects/approved-review-2026-09-03/libToolContact.ogg"
+    },
+    {
+      "key": "approved-review-libStoneBreak",
+      "type": "audio",
+      "path": "sound/soundEffects/approved-review-2026-09-03/libStoneBreak.ogg"
+    },
+    {
+      "key": "approved-review-libLandingDebris",
+      "type": "audio",
+      "path": "sound/soundEffects/approved-review-2026-09-03/libLandingDebris.ogg"
+    },
+    {
+      "key": "approved-review-libMenuOpen",
+      "type": "audio",
+      "path": "sound/soundEffects/approved-review-2026-09-03/libMenuOpen.ogg"
+    },
+    {
+      "key": "approved-review-libUiHover",
+      "type": "audio",
+      "path": "sound/soundEffects/approved-review-2026-09-03/libUiHover.ogg"
+    },
+    {
+      "key": "approved-review-libUiClick",
+      "type": "audio",
+      "path": "sound/soundEffects/approved-review-2026-09-03/libUiClick.ogg"
+    },
+    {
+      "key": "approved-review-libUiConfirm",
+      "type": "audio",
+      "path": "sound/soundEffects/approved-review-2026-09-03/libUiConfirm.ogg"
+    },
+    {
+      "key": "approved-review-libSaveCard",
+      "type": "audio",
+      "path": "sound/soundEffects/approved-review-2026-09-03/libSaveCard.ogg"
+    },
+    {
+      "key": "approved-review-libPurchaseCoin",
+      "type": "audio",
+      "path": "sound/soundEffects/approved-review-2026-09-03/libPurchaseCoin.ogg"
+    },
+    {
+      "key": "approved-review-libResourcePop",
+      "type": "audio",
+      "path": "sound/soundEffects/approved-review-2026-09-03/libResourcePop.ogg"
+    },
+    {
+      "key": "approved-review-libRewardCoins",
+      "type": "audio",
+      "path": "sound/soundEffects/approved-review-2026-09-03/libRewardCoins.ogg"
+    },
+    {
+      "key": "player-random-0",
+      "type": "audio",
+      "path": "sound/voice-lines/player-voice-lines/random-voice-lines/4usu0-g4ks0.ogg"
+    },
+    {
+      "key": "npc-moneyMonster-0",
+      "type": "audio",
+      "path": "sound/voice-lines/npc-voicelines/voice-lines-money-monster/c1coj-ox77x.ogg"
+    },
+    {
+      "key": "npc-gearUpgrades-0",
+      "type": "audio",
+      "path": "sound/voice-lines/npc-voicelines/gear-upgrade-npc-voicelines/gear-upgrades.ogg"
+    },
+    {
+      "key": "npc-playerUpgrades-0",
+      "type": "audio",
+      "path": "sound/voice-lines/npc-voicelines/player-upgrade-npc-voicelines/player-upgrades.ogg"
+    },
+    {
+      "key": "npc-gemPowerMerchant-0",
+      "type": "audio",
+      "path": "sound/voice-lines/npc-voicelines/gem-merchant-voice-lines/update-2/A A A A A A.wav"
+    },
+    {
+      "key": "npc-boboMerchant-0",
+      "type": "audio",
+      "path": "sound/voice-lines/npc-voicelines/bobo-voice-lines/Bobo2.ogg"
+    }
+  ]
+}

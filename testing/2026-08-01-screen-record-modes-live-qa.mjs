@@ -191,7 +191,7 @@ async function main() {
       broad.fullscreen !== true
       || broad.recordingSize?.[0] !== broad.sourceSize?.[0]
       || broad.recordingSize?.[1] !== broad.sourceSize?.[1]
-      || broad.uiVisible !== broad.uiTotal
+      || broad.uiVisible !== 0
       || !broad.indicator.includes("BROAD FULLSCREEN")
     ) {
       throw new Error(`Broad capture state is invalid: ${JSON.stringify(broad)}`);

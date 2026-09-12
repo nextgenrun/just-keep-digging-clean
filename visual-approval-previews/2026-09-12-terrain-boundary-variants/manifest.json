@@ -1,0 +1,52 @@
+{
+  "generator": "built-in ImageGen",
+  "reviewOnly": true,
+  "runtimeChanged": false,
+  "assets": [
+    {
+      "file": "layered-stone-wall.png",
+      "mode": "RGBA",
+      "size": [
+        1024,
+        1536
+      ],
+      "alphaRange": [
+        0,
+        254
+      ]
+    },
+    {
+      "file": "eroded-soil-wall.png",
+      "mode": "RGBA",
+      "size": [
+        1024,
+        1536
+      ],
+      "alphaRange": [
+        0,
+        254
+      ]
+    },
+    {
+      "file": "broken-ceiling-shelf.png",
+      "mode": "RGBA",
+      "size": [
+        2172,
+        724
+      ],
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "stone-corner-shoulder.png",
+      "mode": "RGB",
+      "size": [
+        1536,
+        1024
+      ],
+      "alphaRange": null
+    }
+  ]
+}

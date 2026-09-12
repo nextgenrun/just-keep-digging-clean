@@ -493,10 +493,8 @@ assert.equal(snapshot.encounterBand, SHADOW_MINER_ENCOUNTER_BANDS.CRITICAL);
 assert.equal(snapshot.depthProfile.id, "shallow");
 assert.equal(snapshot.behavior.depthMeters, 61);
 assert.equal(approach.view.spawnCalls[0].visualIntensity, snapshot.behavior.visualIntensity);
-assert.equal(approach.flashCalls.length, 1, "one purple awareness flash per admission");
-assert.ok(approach.flashCalls[0][1] >= 0.27, "arrival flash is intentionally visible");
-assert.equal(approach.statusCalls.length, 1, "arrival direction uses the shared status lane");
-assert.match(approach.statusCalls[0][0], /SHADOW MINER NEARBY/);
+assert.equal(approach.flashCalls.length, 0, "arrival leaves its purple tell in-world without a screen flash");
+assert.equal(approach.statusCalls.length, 0, "arrival does not use the shared status lane");
 const initialDistance = snapshot.distanceToPlayerTiles;
 
 now += SHADOW_MINER_CONFIG.timing.spawnMs;

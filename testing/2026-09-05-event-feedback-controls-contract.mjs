@@ -46,14 +46,17 @@ ui.update();
 assert.equal(ui.root.visible, true);
 assert.equal(ui.root.scaleX * scene.cameras.main.zoom, 1, "zoom does not shrink earthquake instructions");
 assert.ok(Math.abs((ui.root.y - 360) * 0.65 + 360 - EARTHQUAKE_FEEDBACK_CONFIG.card.topY) < 0.001);
-scene.time.now = 4000; source.stateRemaining = 1000; ui.update();
-assert.equal(ui.root.visible, true, "warning persists after the former 2.4 second cut-off");
+scene.time.now = EARTHQUAKE_FEEDBACK_CONFIG.timing.phaseVisibleMs.warning + 1; source.stateRemaining = 1000; ui.update();
+assert.equal(ui.root.visible, false, "warning leaves room for play after its short cue");
 source.state = "earthquake"; source.stateRemaining = 20000; ui.update();
-scene.time.now = 18000; source.stateRemaining = 6000; ui.update();
-assert.equal(ui.root.visible, true, "quake indication remains visible throughout a long encounter");
+assert.equal(ui.root.visible, true);
+scene.time.now += EARTHQUAKE_FEEDBACK_CONFIG.timing.phaseVisibleMs.earthquake + 1; source.stateRemaining = 6000; ui.update();
+assert.equal(ui.root.visible, false, "quake indication is brief rather than persistent");
 assert.match(ui.detail.text, /LEAVE MARKED GROUND/);
 source.state = "aftermath"; source.stateRemaining = 0; source.fallingRocks = [{ id: 1 }]; ui.update();
 assert.equal(ui.detail.text, EARTHQUAKE_FEEDBACK_CONFIG.labels.pendingRocks);
+scene.time.now += EARTHQUAKE_FEEDBACK_CONFIG.timing.phaseVisibleMs.aftermath + 1; ui.update();
+assert.equal(ui.root.visible, false);
 source.state = "idle"; source.fallingRocks = []; ui.update();
 scene.time.now += 1000; ui.update();
 assert.equal(ui.root.visible, false);
@@ -102,7 +105,7 @@ keys.get("keydown-F2")({ preventDefault() {} });
 assert.equal(panel.open, true);
 // Phaser hit tests read the interactive child scroll factor, independently of its container.
 const pointerTargets = [...panel.root.children, ...panel.launcher.children].filter(child => child.input);
-assert.equal(pointerTargets.length, 8);
+assert.equal(pointerTargets.length, DYNAMIC_EVENT_HEALTH.ids.length + 7);
 assert.ok(pointerTargets.every(child => child.scrollFactorX === 0 && child.scrollFactorY === 0),
   "event buttons remain clickable at their rendered positions while the world camera scrolls");
 for (let index = 0; index < WURM_DIFFICULTIES.length; index++) {
@@ -125,24 +128,19 @@ assert.equal(keys.size, 0, "scene teardown unregisters its shortcut");
 const awareness = new DynamicEventAwarenessView(scene);
 const events = { shadow: { active: true, phase: "observing", detail: "LEFT · MINING", finishedAt: -Infinity } };
 awareness.update({ events }, 1000);
-assert.equal(awareness.cards.get("shadow").root.visible, true);
-assert.equal(awareness.cards.get("shadow").root.scaleX * scene.cameras.main.zoom, 1, "camera zoom does not shrink encounter notices");
-events.shadow.active = false; events.shadow.finishedAt = 2000;
-events.shadow.result = { title: "SHADOWMINER VANISHED", detail: "2 blocks mined nearby." };
-awareness.update({ events }, 3000);
-assert.equal(awareness.cards.get("shadow").root.visible, true, "fast events retain a completion indication");
-awareness.update({ events }, 2000 + DYNAMIC_EVENT_HEALTH.completeHoldMs + 1);
-assert.equal(awareness.cards.get("shadow").root.visible, false);
+assert.equal(awareness.cards.has("shadow"), false, "Shadowminer stays an in-world encounter");
 events.earthquake = { active: false, finishedAt: 8000,
   result: { title: "EARTHQUAKE SETTLED", detail: "3 rocks fell · 2 hits" } };
 awareness.update({ events }, 8100);
 assert.equal(awareness.cards.get("earthquake").root.visible, true);
+assert.equal(awareness.cards.get("earthquake").root.scaleX * scene.cameras.main.zoom, 1, "camera zoom does not shrink completion notices");
 assert.equal(awareness.cards.get("earthquake").detail.text, "3 rocks fell · 2 hits");
 events.wurm = { active: true, phase: "burrowing", detail: "Broodmother · 4/4 · Move off the marked tunnel now." };
 awareness.update({ events }, 8150);
+assert.equal(awareness.cards.has("wurm"), false, "Wurm stays an in-world hazard");
 for (const card of awareness.cards.values()) {
   assert.ok(card.title.width * card.title.scaleX <= DYNAMIC_EVENT_HEALTH.notice.textWidth);
   assert.ok(card.detail.height * card.detail.scaleY <= DYNAMIC_EVENT_HEALTH.notice.detailHeight);
 }
 awareness.destroy();
-console.log("persistent earthquake card, pending rock warning, production-disabled F2/manual triggers, F2 cleanup and readable encounter completion passed");
+console.log("brief earthquake cue, in-world Wurm and Shadowminer hazards, production-disabled F2/manual triggers, F2 cleanup and readable earthquake completion passed");

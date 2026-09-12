@@ -2,7 +2,7 @@
 
 Open through the checkout's canonical `serve.py`: http://localhost:8080/testing/2026-09-05-lance-three-versions/index.html
 
-The current preview develops selected direction 03 into violet, azure, ember and prismatic. It uses the actual measured jab and roundhouse contact frames; Punch / Kick and direction controls show the same extremity coordinates used in gameplay. Inspect contact freezes exactly at release. All bodies are 64 × 28 px at full opacity, with short matching echoes and straight travel at 225 px/s (85% below the original 1500 px/s study). The fourth row demonstrates the rare art; runtime rarity is 4% per shot.
+The current preview develops selected direction 03 into violet, azure, ember and prismatic. It uses the actual measured jab and roundhouse contact frames; Punch / Kick and direction controls show the same extremity coordinates used in gameplay. Inspect contact freezes exactly at release. All bodies are 64 × 28 px at full opacity, with short matching echoes and straight travel at 480 px/s (three times base walking speed). The fourth row demonstrates the rare art; runtime rarity is 4% per shot.
 
 Runtime integration uses `StellarLanceContactPresenter` at postupdate so the launch includes the final rendered player position. DigSystem forwards authored contact metadata. Early watchdog requests wait for the visible contact pose. The presenter temporarily protects that pose from frame catch-up and restores playback at the end of the same update; cancelled or replaced actions cannot emit a late shot. The finite mining range, damage, overkill carry, charge and lifetime rules remain authoritative. The core keeps a fixed silhouette; separate echoes retain the same shape and palette.
 
@@ -16,7 +16,7 @@ Current validation covers full opacity throughout flight, steady echoes, the vis
 
 ## September 6 fist launch correction
 
-The rear of the flame now anchors to the upper surface of the striking fist or foot, using a scale-aware offset from the measured contact marker. Previously its leading tip was anchored there, placing most of the art over the character. Runtime and gallery share the same origin resolver; the leading edge still controls subsequent impact timing and the route endpoint. Contact-frame release, fixed size, palettes and 225 px/s remain unchanged.
+The rear of the flame now anchors to the upper surface of the striking fist or foot, using a scale-aware offset from the measured contact marker. Previously its leading tip was anchored there, placing most of the art over the character. Runtime and gallery share the same origin resolver; the leading edge still controls subsequent impact timing and the route endpoint. Contact-frame release, fixed size, palettes and the configured three-times-walk speed remain unchanged.
 
 ## September 6 crisp presentation
 

@@ -1,3 +1,4 @@
+import { ScreenRecordFrameSource } from "./ScreenRecordFrameSource.js";
 import { SCREEN_RECORD_CONFIG } from "../../values/screenRecordConfig.js";
 import { ScreenRecordUiVisibility } from "./ScreenRecordUiVisibility.js";
 import {
@@ -34,6 +35,7 @@ export class ScreenRecordSystem {
     this.discardOnStop = false;
     this.recordingCanvas = null;
     this.recordingContext = null;
+    this.frameSource = null;
     this.renderFrameId = 0;
     this.audioCapture = null;
     this.lastToggleAt = 0;
@@ -86,10 +88,16 @@ export class ScreenRecordSystem {
 
   _requestCaptureMode() {
     if (typeof globalThis.prompt !== "function") return this.config.defaultMode;
-    const response = globalThis.prompt(
-      this.config.modePrompt.message,
-      this.config.modePrompt.defaultValue,
-    );
+    let response;
+    try {
+      response = globalThis.prompt(
+        this.config.modePrompt.message,
+        this.config.modePrompt.defaultValue,
+      );
+    } catch {
+      // Embedded browsers can expose prompt() but reject its use.
+      return this.config.defaultMode;
+    }
     if (response === null) return null;
     const modeId = normalizeCaptureMode(response, this.config);
     if (!modeId) this._notify(this.config.notices.invalidMode, "warning");
@@ -141,7 +149,7 @@ export class ScreenRecordSystem {
       this.recordingContext = this.recordingCanvas.getContext("2d", { alpha: false });
       if (!this.recordingContext) throw new Error("2D recording context unavailable");
       this._clearCaptureFrame();
-      if (!mode.hideUi) this._drawCaptureFrame(canvas, mode);
+      this.frameSource = new ScreenRecordFrameSource(this.scene.game.renderer);
       this.stream = this.recordingCanvas.captureStream(this.config.frameRate);
       this._attachGameAudio();
       const mimeType = selectSupportedMimeType(mediaRecorder, this.config.preferredMimeTypes);
@@ -241,6 +249,7 @@ export class ScreenRecordSystem {
     this.stream = null;
     this.recordingCanvas = null;
     this.recordingContext = null;
+    this.frameSource = null;
   }
 
   _clearCaptureFrame() {
@@ -251,6 +260,8 @@ export class ScreenRecordSystem {
 
   _drawCaptureFrame(sourceCanvas, mode) {
     if (!this.recordingContext || !this.recordingCanvas || !sourceCanvas) return;
+    sourceCanvas = this.frameSource?.read(sourceCanvas) ?? (this.frameSource?.gl ? null : sourceCanvas);
+    if (!sourceCanvas) return;
     const ctx = this.recordingContext;
     const width = this.recordingCanvas.width;
     const height = this.recordingCanvas.height;

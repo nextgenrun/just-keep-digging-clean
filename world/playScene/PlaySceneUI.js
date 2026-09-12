@@ -104,7 +104,7 @@ export function setupUIMethods(prototype, dependencies) {
     this.celestialCurrencyHudSystem = new CelestialCurrencyHudSystem(this, {
       getMoney: () => this.upgradeSystem?.getMoney?.() || 0,
       getStars: () => (
-        this.celestialTalentProgressionSystem?.getSnapshot?.()?.stars || 0
+        this.celestialTalentProgressionSystem?.getStars?.() || 0
       ),
     });
     this.celestialActionBarSystem = new CelestialActionBarSystem(this, {

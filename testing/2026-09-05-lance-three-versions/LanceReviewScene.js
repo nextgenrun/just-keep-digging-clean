@@ -62,7 +62,7 @@ export class LanceReviewScene extends Phaser.Scene {
       .setOrigin(0.5).setDisplaySize(v.width * C.detailScale, v.height * C.detailScale)
       .setBlendMode(Phaser.BlendModes.ADD).setDepth(10);
     this.text(C.width - C.detailWidth + 19, top + 192, "3× STILL DETAIL / FIXED SILHOUETTE", 9, C.colors.muted).setDepth(10);
-    this.text(22, top + 207, "225 px/s · hand / foot contact · fixed silhouette", 10, C.colors.muted);
+    this.text(22, top + 207, `${C.speedPxPerSecond} px/s · hand / foot contact · fixed silhouette`, 10, C.colors.muted);
     return { presentation, player, detail, top };
   }
   text(x, y, text, size, color, family = "Arial") {

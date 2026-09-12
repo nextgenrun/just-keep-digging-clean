@@ -587,7 +587,7 @@ assert.ok(hardcoreSource.includes("save failed"));
 assert.ok(!wurmEventSource.includes("graveborer-wurm-warning"));
 assert.ok(!wurmEventSource.includes("graveborer-wurm-breach"));
 assert.ok(!wurmEventSource.includes("PASSES DODGED"));
-assert.ok(wurmEventSource.includes("graveborer-wurm-hit"));
+assert.ok(!wurmEventSource.includes("graveborer-wurm-hit"));
 assert.ok(!lightSource.includes("Torch turned off"));
 assert.ok(!lightSource.includes("Torch relit"));
 assert.ok(!lightSource.includes("Torch extinguished - no GP"));

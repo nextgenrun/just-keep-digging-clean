@@ -39,8 +39,10 @@ export function resolveStellarLanceHit(travel, hit, tileSize) {
   const projected = (center.x - travel.origin.x) * travel.unit.x
     + (center.y - travel.origin.y) * travel.unit.y;
   const face = tileSize / 2 / Math.max(Math.abs(travel.unit.x), Math.abs(travel.unit.y));
-  const distance = hit.distance <= 1 ? 0
-    : Math.min(travel.distance + travel.noseOffset, Math.max(0, projected - face));
+  // Every impact, including the first mined tile, waits for the visible flame
+  // head to enter that tile.  The resolver's distance remains authoritative;
+  // this only aligns its cosmetic impact cue with the rendered leading edge.
+  const distance = Math.min(travel.distance + travel.noseOffset, Math.max(0, projected - face));
   return { delayMs: Math.max(0, distance - travel.noseOffset) / C.speedPxPerSecond * 1000,
     worldPoint: { x: travel.origin.x + travel.unit.x * distance,
       y: travel.origin.y + travel.unit.y * distance } };

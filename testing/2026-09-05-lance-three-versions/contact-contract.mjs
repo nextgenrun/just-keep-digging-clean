@@ -4,6 +4,7 @@ import { StellarLanceContactPresenter } from "../../world/playScene/StellarLance
 import { resolveStellarLanceOrigin, resolveStellarLanceTravel, resolveStellarLanceHit } from "../../systems/celestial/stellarLanceTravel.js";
 import { StellarRageEngine } from "../../systems/celestial/StellarRageEngine.js";
 import { STELLAR_LANCE_PRESENTATION as C } from "../../values/stellarLancePresentation.js";
+import { PLAYER_STATS_CONFIG } from "../../values/playerStats.js";
 import { CELESTIAL_ENGINE_CONFIG, CELESTIAL_ENGINE_IDS } from "../../values/celestialEngines.js";
 globalThis.Phaser={BlendModes:{ADD:"ADD"}};
 const definitions=[
@@ -41,15 +42,24 @@ assert.deepEqual(resolveStellarLanceOrigin({authored:false,point:{x:80,y:90}},{}
 for(const dir of [{x:1,y:0},{x:-1,y:0},{x:0,y:-1},{x:0,y:1}]){
  const origin={x:470,y:470}, path={lane:0,endTile:{tx:5+dir.x*3,ty:5+dir.y*3}};
  const travel=resolveStellarLanceTravel(origin,path,dir,94);
- assert.ok(Math.abs(travel.distance/travel.durationMs*1000-225)<1e-9);
+ assert.ok(Math.abs(travel.distance/travel.durationMs*1000-C.speedPxPerSecond)<1e-9);
  assert.equal(dir.x?travel.end.y:travel.end.x,470);
  const first=resolveStellarLanceHit(travel,{tx:5,ty:5,distance:1},94);
  assert.equal(first.delayMs,0); assert.deepEqual(first.worldPoint,origin);
  const next=resolveStellarLanceHit(travel,{tx:5+dir.x*2,ty:5+dir.y*2,distance:3},94);
- const headAtImpact={x:origin.x+dir.x*(next.delayMs*225/1000+travel.noseOffset),
-  y:origin.y+dir.y*(next.delayMs*225/1000+travel.noseOffset)};
+ const headAtImpact={x:origin.x+dir.x*(next.delayMs*C.speedPxPerSecond/1000+travel.noseOffset),
+  y:origin.y+dir.y*(next.delayMs*C.speedPxPerSecond/1000+travel.noseOffset)};
  assert.ok(Math.hypot(headAtImpact.x-next.worldPoint.x,headAtImpact.y-next.worldPoint.y)<1e-8,
   "later impacts align with the flame's leading edge");
+}
+// A first tile that starts beyond the launch pose still waits for the flame's
+// leading edge to reach the entered face instead of flashing on the fist.
+{
+ const origin={x:320,y:517},travel=resolveStellarLanceTravel(origin,{lane:0,endTile:{tx:8,ty:5}},{x:1,y:0},94);
+ const first=resolveStellarLanceHit(travel,{tx:5,ty:5,distance:1},94);
+ const headX=origin.x+first.delayMs*C.speedPxPerSecond/1000+travel.noseOffset;
+ assert.ok(first.delayMs>0,"a distant first tile does not impact at the emitter");
+ assert.ok(Math.abs(headX-first.worldPoint.x)<1e-8,"first impact aligns with the flame's leading edge");
 }
 // A slow renderer must not launch a watchdog contact from a future hand pose.
 {
@@ -119,6 +129,6 @@ for(const p of engine.projectiles){
 }
 assert.equal(engine.getSnapshot(1).wakeCount,0);
 engine.destroy();assert.ok(displays.every(p=>p.destroyed));assert.equal(engine.projectiles.size,0);
-assert.equal(C.speedPxPerSecond,1500*.15);
-console.log("CINDER_CONTACT_CONTRACT_PASS: mirrored punches/kicks, final rendered pose, single contact, teardown, 225px/s, 4% rare boundary, stable silhouette");
-
+assert.equal(C.speedPxPerSecond, PLAYER_STATS_CONFIG.walkSpeedPxPerSec*C.minimumWalkSpeedRatio,
+ "Cinder must remain visibly faster than ordinary walking");
+console.log("CINDER_CONTACT_CONTRACT_PASS: mirrored punches/kicks, leading-edge contact, teardown, walk-outpacing Cinder speed, 4% rare boundary, stable silhouette");

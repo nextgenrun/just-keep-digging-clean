@@ -34,7 +34,22 @@ export class AnimatedCacheVisualSystem {
       this.openedBaselineCaptured = true;
     }
 
-    const needed = this._collectNeeded(openedKeys, playerTile);
+    const bounds = this._getCameraBounds(playerTile);
+    const revision = this.worldModel.tileTypeRevision;
+    const previous = this.discoveryBounds;
+    const changed = !Number.isFinite(revision) || !previous
+      || bounds.left !== previous.left || bounds.right !== previous.right
+      || bounds.top !== previous.top || bounds.bottom !== previous.bottom
+      || revision !== this.discoveryRevision
+      || openedKeys !== this.discoveryOpenedKeys || openedKeys.size !== this.discoveryOpenedCount;
+    if (changed) {
+      this.needed = this._collectNeeded(openedKeys, playerTile, bounds);
+      this.discoveryBounds = bounds;
+      this.discoveryRevision = revision;
+      this.discoveryOpenedKeys = openedKeys;
+      this.discoveryOpenedCount = openedKeys.size;
+    }
+    const needed = this.needed;
     for (const [key, entry] of needed) {
       const newlyOpened = entry.opened && !this.knownOpenedKeys.has(key);
       this._syncRecord(key, entry, playerTile, timeMs, newlyOpened);
@@ -44,11 +59,10 @@ export class AnimatedCacheVisualSystem {
       this._destroyRecord(record);
       this.records.delete(key);
     }
-    for (const key of openedKeys) this.knownOpenedKeys.add(key);
+    if (changed) this.knownOpenedKeys = new Set(openedKeys);
   }
 
-  _collectNeeded(openedKeys, playerTile) {
-    const bounds = this._getCameraBounds(playerTile);
+  _collectNeeded(openedKeys, playerTile, bounds = this._getCameraBounds(playerTile)) {
     const needed = new Map();
     for (let tileY = bounds.top; tileY <= bounds.bottom; tileY += 1) {
       for (let tileX = bounds.left; tileX <= bounds.right; tileX += 1) {
@@ -225,6 +239,8 @@ export class AnimatedCacheVisualSystem {
     for (const record of this.records.values()) this._destroyRecord(record);
     this.records.clear();
     this.knownOpenedKeys.clear();
+    this.needed?.clear();
+    this.discoveryOpenedKeys = null;
     this.scene = null;
     this.worldModel = null;
     this.textureBank = null;

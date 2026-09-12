@@ -1,0 +1,21 @@
+{
+  "status": "F9_LIVE_DEPLOYED",
+  "files": {
+    "systems/visual/ScreenRecordSystem.js": "d88c0545ddf4fc4d7564bab44063333bc16aa45f8eb850f9915e061f7576c88c",
+    "systems/visual/ScreenRecordSystem.js.gz": "e7df4c24ccf3aa702ffce50890d7bd918c320e7c04bb19cca3f5fe4c2aa3fa24",
+    "values/gameplayCapabilities.js": "149514217ff2c4637aabf6b24e11db8e6bd5e79aa02e5b7c33b0875b08e505b9",
+    "values/gameplayCapabilities.js.gz": "51b4d49336c9009852fafaba0a222f02e23ac9506e8115cba622a93ce563650e",
+    "values/keybindActions.js": "c32f85dcdf6479c605142830850527ab57b6c31de8ed901ffa026c3d6a256909",
+    "values/keybindActions.js.gz": "ebbe5545e155c99338e3a4013b13d3cede3435135d5c5c7f7b98d458287e15a7",
+    "values/screenRecordConfig.js": "a1fec873eb928aaf4d658b620da73723cf0da5d4629c58990dd97ff6df729d12",
+    "values/screenRecordConfig.js.gz": "755b09baad69efb25e333bfcb4d479c0f2e094ef1fe0249fd1edb9b3180edb62",
+    "world/playScene/GameInputHandler.js": "21fee68c1abd82f30aea3603d8b47e9a7e9d18872eb664db11c122a458c30fe5",
+    "world/playScene/GameInputHandler.js.gz": "1f909232d8abf1694f9fadb36642d381804ed7eefdd9936c988e22a3954e64d5",
+    "world/playScene/PlaySceneSetup.js": "8cd3e6e11a90e3ff5dbfc14977482f9f8bbcbf055ed74c98b2f1209473ec262e",
+    "world/playScene/PlaySceneSetup.js.gz": "394a15bcd365a22cd8b8ef1189cebfca8d71e74bdd91bfd9f9edc3ae4d83cea7",
+    "world/playScene/PlayerInputHandler.js": "5ac1685c9bf8d5a9970a10c709d3b6e41ec990b2ca7150120ceb52e4a8ddfcaa",
+    "world/playScene/PlayerInputHandler.js.gz": "d7ee47446d1f197ecf6e4867bc242935c7b026989ea9d97bf3688bb3a358c9b4",
+    "index.html": "1e41736e215f345c71029feb791f22524a15ae5ac52771f7631e11bdd5f41f0c",
+    "index.html.gz": "dad374c1f159c806e17dbc79ae4c114d69b3c8789eac0b38349efcb54282387c"
+  }
+}

@@ -1194,3 +1194,7 @@ Approved Quiet sky (2026-09-09): branding.js owns full alpha logo motion, origin
 approvedAssetPolish.js owns shop/death presentation values; approvedPolishArt.js owns generated world-art keys, bounded effect settings and seals; approvedAssetPolishBuild.json configures reproducible asset packing. Upgrade icon mappings add only the twelve approved identities.
 
 BRAND_CONFIG.visibility.silhouetteTint owns the stable dark authored logo underlay beneath the alpha animation.
+
+SCREEN_RECORD_CONFIG hides game UI in both SHORT and BROAD recordings; size/crop and fullscreen behavior remain format-specific.
+
+Memory residency (2026-09-12): celestialTalentTreeUi defines six shared eager assets; screen-only art uses the Starlight feature group. playerDeferredAssetPacks gives the optional idle fidget a 60-second warm window. See ../markdown/2026-09-12-memory-residency-pass.md.

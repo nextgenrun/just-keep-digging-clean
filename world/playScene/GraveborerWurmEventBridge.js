@@ -93,23 +93,6 @@ function applyWurmHit(scene, runtime, event) {
   }
   const remaining = Math.max(0, controller?.getGemPowerExact?.() || 0);
   const remainingRatio = remaining / maxGp;
-  const hitPrefix = remaining <= 0
-    ? GRAVEBORER_WURM_CONFIG.labels.fatalHitPrefix
-    : remainingRatio <= GRAVEBORER_WURM_CONFIG.combat.criticalRemainingMaxGpRatio
-      ? GRAVEBORER_WURM_CONFIG.labels.criticalHitPrefix
-      : GRAVEBORER_WURM_CONFIG.labels.hitPrefix;
-  const dangerSuffix = remaining <= 1 && runtime.lastGate?.hardcoreArmed
-    ? "  •  ONE TOUCH FROM A HARDCORE DEATH"
-    : remaining <= 1
-      ? "  •  CASUAL SAVE REMAINS SAFE"
-      : "";
-  scene.uiNotifications?.danger?.(
-    `${hitPrefix}`
-      + `  •  ${GRAVEBORER_WURM_CONFIG.labels.passPrefix} ${event.passIndex}/${event.passCount}`
-      + `  •  -${Math.ceil(consumed)} GP`
-      + `  •  ${Math.floor(remaining)} GP LEFT${dangerSuffix}`,
-    { key: "graveborer-wurm-hit", durationMs: 5200 },
-  );
   scene.soundSystem?.playTileBreak?.({ volume: 0.95, rate: 0.62 });
   scene.shakeSystem?.shake?.("earthquake.caveIn", 1.05);
   runtime.lastHit = {

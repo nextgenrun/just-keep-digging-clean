@@ -13,11 +13,13 @@ export const PLAYER_DEFERRED_ASSET_PACK_IDS = Object.freeze({
   complexSideMining: "complex-side-mining",
   complexUpMining: "complex-up-mining",
   complexDownMining: "complex-down-mining",
+  idleFidget: "idle-fidget",
 });
 
 const COMPLEX_MINING_RELEASE_DELAY_MS = 60_000;
 
 export const PLAYER_DEFERRED_ASSET_PACK_RELEASE_DELAYS_MS = Object.freeze({
+  [PLAYER_DEFERRED_ASSET_PACK_IDS.idleFidget]: 60_000,
   [PLAYER_DEFERRED_ASSET_PACK_IDS.movingComplexMining]:
     COMPLEX_MINING_RELEASE_DELAY_MS,
   [PLAYER_DEFERRED_ASSET_PACK_IDS.complexSideMining]:
@@ -29,6 +31,7 @@ export const PLAYER_DEFERRED_ASSET_PACK_RELEASE_DELAYS_MS = Object.freeze({
 });
 
 const PACK_BY_SHEET_PROPERTY = Object.freeze({
+  mixamoIdleFidgetSheet: PLAYER_DEFERRED_ASSET_PACK_IDS.idleFidget,
   duckSheet: PLAYER_DEFERRED_ASSET_PACK_IDS.crouch,
   crouchEnterSheet: PLAYER_DEFERRED_ASSET_PACK_IDS.crouch,
   crouchExitSheet: PLAYER_DEFERRED_ASSET_PACK_IDS.crouch,

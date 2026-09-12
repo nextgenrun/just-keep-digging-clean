@@ -1,0 +1,1 @@
+Three UNDERSTAR round profile mockups generated with built-in ImageGen. Review only; no runtime changes. Exact prompts are in prompts.json. Square PNGs contain circular artwork on charcoal backgrounds.

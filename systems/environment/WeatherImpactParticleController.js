@@ -78,7 +78,7 @@ export class WeatherImpactParticleController {
 
   _updateActors(deltaMs) {
     const cfg = this.weatherConfig.splashes.impactVfx;
-    const survivors = [];
+    let survivorCount = 0;
     for (const actor of this.actors) {
       actor.ageMs += deltaMs;
       const progress = clamp01(actor.ageMs / Math.max(1, actor.durationMs));
@@ -97,9 +97,9 @@ export class WeatherImpactParticleController {
         .setFrame(actor.frames[frameIndex])
         .setDisplaySize(actor.widthPx * scale, actor.heightPx * scale)
         .setAlpha(actor.alpha * (1 - progress));
-      survivors.push(actor);
+      this.actors[survivorCount++] = actor;
     }
-    this.actors = survivors;
+    this.actors.length = survivorCount;
   }
 
   _profile(kind) {

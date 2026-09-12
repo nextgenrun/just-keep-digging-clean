@@ -1,0 +1,37 @@
+[
+  {
+    "suite": "2026-07-28-performance-foundation-contract.mjs",
+    "exitCode": 0,
+    "output": "[WorldVisualAssetCache] Streaming one\n[WorldVisualAssetCache] Streaming two\nperformance foundation contract: ok\n"
+  },
+  {
+    "suite": "2026-08-12-runtime-feature-residency-contract.mjs",
+    "exitCode": 0,
+    "output": "runtime feature residency contract: PASS\n"
+  },
+  {
+    "suite": "2026-08-22-world-background-texture-lifetime-contract.mjs",
+    "exitCode": 0,
+    "output": "world background texture lifetime contract: ok\n"
+  },
+  {
+    "suite": "2026-08-26-world-visual-texture-lifetime-contract.mjs",
+    "exitCode": 0,
+    "output": "world visual texture lifetime contract: ok\n"
+  },
+  {
+    "suite": "2026-08-31-deep-teleport-performance-contract.mjs",
+    "exitCode": 0,
+    "output": "DEEP_TELEPORT_PERFORMANCE_CONTRACT_OK\n"
+  },
+  {
+    "suite": "2026-07-30-play-scene-save-scheduling-contract.mjs",
+    "exitCode": 0,
+    "output": "game save coordinator contract: ordered revisions, coalescing, transactions, lifecycle flush\n"
+  },
+  {
+    "suite": "2026-09-12-weather-performance-contract.mjs",
+    "exitCode": 0,
+    "output": "{\n  \"status\": \"WEATHER_PERFORMANCE_CONTRACT_OK\",\n  \"frames\": 1000,\n  \"depth\": 800,\n  \"beforeQueries\": 12125,\n  \"deepTerrainQueries\": 0,\n  \"completedTimersRetained\": 0\n}\n"
+  }
+]

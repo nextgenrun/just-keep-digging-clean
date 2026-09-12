@@ -1,6 +1,11 @@
+import { PLAYER_STATS_CONFIG } from "./playerStats.js";
+
 // Approved Cinder Core presentation. Palette changes are cosmetic only.
 export const STELLAR_LANCE_PRESENTATION = Object.freeze({
-  speedPxPerSecond: 225, // 85% reduction from the 1500 px/s approved preview.
+  // Three times the unupgraded walk speed, so a launched Cinder always reads
+  // as a projectile rather than a player-paced effect.
+  speedPxPerSecond: PLAYER_STATS_CONFIG.walkSpeedPxPerSec * 3,
+  minimumWalkSpeedRatio: 3,
   displayWidthPx: 64, displayHeightPx: 28,
   frame: Object.freeze({ name: "cinder-core", x: 352, y: 340, width: 772, height: 337 }),
   // Attach the visible flame tail to the fist; the crop has ~1 px of dark rear padding.

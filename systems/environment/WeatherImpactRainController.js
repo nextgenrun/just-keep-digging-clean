@@ -112,8 +112,14 @@ export class WeatherImpactRainController {
 
   _updateDrops(dt, state) {
     const impactCfg = this.weatherConfig.rain.impact;
-    const survivors = [];
+    let survivorCount = 0;
     for (const drop of this.drops) {
+      // Teleports can leave surface drops hundreds of rows behind. Discard
+      // them before any of their swept collision rays or impact effects run.
+      if (this._isOutsideWorldView(drop, state.occlusion.worldView, impactCfg.cullMarginPx)) {
+        this._releaseDropSprite(drop);
+        continue;
+      }
       drop.previousX = drop.x;
       drop.previousY = drop.y;
       const nextX = drop.x + drop.speedX * dt;
@@ -160,10 +166,10 @@ export class WeatherImpactRainController {
       if (this._isOutsideWorldView(drop, state.occlusion.worldView, impactCfg.cullMarginPx)) {
         this._releaseDropSprite(drop);
       } else {
-        survivors.push(drop);
+        this.drops[survivorCount++] = drop;
       }
     }
-    this.drops = survivors;
+    this.drops.length = survivorCount;
   }
 
   _findSweptImpact(drop, nextX, nextY, occlusion, impactCfg) {

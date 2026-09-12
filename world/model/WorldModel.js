@@ -85,6 +85,7 @@ export class WorldModel {
 
     const tileCount = this.widthTiles * this.depthTiles;
     this._types = new Uint8Array(tileCount);
+    this.tileTypeRevision = 0;
     this._hp = new Float32Array(tileCount);
     this.tileType = this._types;
     this.tileHp = this._hp;
@@ -126,7 +127,9 @@ export class WorldModel {
 
   setType(tileX, tileY, type) {
     if (!this.inBounds(tileX, tileY)) return;
-    this._types[this.index(tileX, tileY)] = type;
+    const index = this.index(tileX, tileY);
+    if (this._types[index] !== type) this.tileTypeRevision += 1;
+    this._types[index] = type;
   }
 
   getHp(tileX, tileY) {
@@ -145,6 +148,7 @@ export class WorldModel {
     if (!this.inBounds(tileX, tileY)) return;
     const idx = this.index(tileX, tileY);
     const key = makeTileKey(tileX, tileY);
+    if (this._types[idx] !== type) this.tileTypeRevision += 1;
     this._types[idx] = type;
     this._hp[idx] = hp;
     this.rubbleTiles.delete(key);
@@ -954,6 +958,7 @@ export class WorldModel {
         type: typeBeforeDamage,
         maxHp: this.getTileMaxHp(tileX, tileY, typeBeforeDamage),
       });
+      this.tileTypeRevision += 1;
       this._types[idx] = TILE_TYPES.AIR;
       this._hp[idx] = 0;
       this.dugTiles.set(key, { tileX, tileY, dugAt: Date.now() });

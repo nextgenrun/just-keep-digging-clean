@@ -129,12 +129,27 @@ if (oversizedWorkingFiles.length) {
 }
 
 if (flags.has("--staged")) {
-  for (const relativePath of candidatePaths) {
-    const blobSize = runGit(["cat-file", "-s", `:${relativePath}`], undefined, true);
-    if (blobSize.status === 0) {
+  const stagedEntries = nulPaths(runGit([
+    "ls-files",
+    "--stage",
+    "-z",
+    "--",
+    ...candidatePaths,
+  ]).stdout);
+  const stagedObjectIds = [...new Set(stagedEntries
+    .map((entry) => entry.split(/\s+/, 3)[1])
+    .filter(Boolean))];
+  const stagedObjectChecks = runGit(
+    ["cat-file", "--batch-check=%(objecttype) %(objectname) %(objectsize)"],
+    `${stagedObjectIds.join("\n")}\n`,
+  ).stdout.split(/\r?\n/).filter(Boolean);
+  for (const [type, objectId, size] of stagedObjectChecks
+    .map((line) => line.split(/\s+/))) {
+    assert.notEqual(type, "missing", `staged Git object is missing: ${objectId}`);
+    if (type === "blob") {
       assert.ok(
-        Number.parseInt(blobSize.stdout.trim(), 10) < maxGitBlobBytes,
-        `staged Git blob exceeds 95 MiB: ${relativePath}`,
+        Number.parseInt(size, 10) < maxGitBlobBytes,
+        `staged Git blob exceeds 95 MiB: ${objectId}`,
       );
     }
   }
@@ -149,12 +164,20 @@ assert.ok(
   "the third-party video-audio MCP checkout must not be embedded",
 );
 
-const headTree = runGit(["ls-tree", "-r", "-l", "HEAD"]).stdout.split(/\r?\n/);
-const oversizedHeadBlobs = headTree
-  .map((line) => line.match(/^\d+\s+blob\s+[0-9a-f]+\s+(\d+)\t(.+)$/))
+const headObjectIds = runGit(["rev-list", "--objects", "HEAD"]).stdout
+  .split(/\r?\n/)
   .filter(Boolean)
-  .filter((match) => Number.parseInt(match[1], 10) >= maxGitBlobBytes)
-  .map((match) => `${match[2]} (${match[1]} bytes)`);
+  .map((line) => line.split(/\s+/, 1)[0]);
+const headObjectChecks = runGit(
+  ["cat-file", "--batch-check=%(objecttype) %(objectname) %(objectsize)"],
+  `${headObjectIds.join("\n")}\n`,
+).stdout.split(/\r?\n/).filter(Boolean);
+const oversizedHeadBlobs = headObjectChecks
+  .map((line) => line.split(/\s+/))
+  .filter(([type, , size]) =>
+    type === "blob" && Number.parseInt(size, 10) >= maxGitBlobBytes,
+  )
+  .map(([, objectId, size]) => `${objectId} (${size} bytes)`);
 assert.deepEqual(oversizedHeadBlobs, [], `HEAD contains oversized Git blobs: ${oversizedHeadBlobs.join(", ")}`);
 
 console.log(

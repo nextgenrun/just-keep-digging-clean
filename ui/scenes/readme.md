@@ -122,3 +122,5 @@ sources are never loaded at runtime.
 `LaunchScene.js` paints the approved loading artwork before importing the game scene graph through `RuntimeScenes.js`. It remains visible during Boot mini-preload; Boot removes it after its own loading UI is ready. An import failure exposes a real reload/retry action.
 
 Approved menu motion (2026-09-09): Launch/Boot skip the disabled plaque preload. MainMenu uses the approved Quiet sky shade and shared 740 × 220 logo bounds; loading and menu retain the full original-color logo animation. Gameplay and input behavior are unchanged.
+
+Memory residency (2026-09-12): BootScene keeps only shared talent art eager when feature deferral is enabled; the existing talent-screen loader owns the remaining textures. See ../../markdown/2026-09-12-memory-residency-pass.md.

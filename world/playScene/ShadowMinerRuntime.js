@@ -17,6 +17,7 @@ import { ShadowMinerView } from "./ShadowMinerView.js";
 import { createShadowMinerRuntimeSnapshot } from "./shadowMinerRuntimeSnapshot.js";
 import { createShadowMinerSpawnPlan } from "./shadowMinerSpawnPlan.js";
 import { playShadowMinerArrivalAwareness } from "./shadowMinerArrivalAwareness.js";
+import { resolveShadowMinerGroundedPose } from "./shadowMinerGrounding.js";
 import {
   isShadowMinerPoseInsideCamera,
   measureShadowMinerDistanceToPlayer,
@@ -210,9 +211,17 @@ export class ShadowMinerRuntime {
       admissionPose,
       admittedWindow,
     } = spawnPlan;
+    const groundedAdmissionPose = resolveShadowMinerGroundedPose(
+      this.scene,
+      this.config,
+      admissionPose,
+    );
+    if (!groundedAdmissionPose) {
+      return reject("ground", this.profile.placementRetryMs);
+    }
     const admissionDistance = measureShadowMinerDistanceToPlayer(
       this.scene,
-      admissionPose,
+      groundedAdmissionPose,
     );
     if (
       Number.isFinite(admissionDistance)
@@ -221,7 +230,7 @@ export class ShadowMinerRuntime {
       return reject("space", this.profile.placementRetryMs);
     }
     const spawned = this.view.spawn?.({
-      pose: admissionPose,
+      pose: groundedAdmissionPose,
       visualIntensity: behaviorPlan.visualIntensity,
       time,
     });
@@ -236,24 +245,24 @@ export class ShadowMinerRuntime {
     this.behaviorPlan = behaviorPlan;
     this.lastBehaviorPlan = behaviorPlan;
     this.lastUpdateAtMs = time;
-    this.playbackTimeMs = admissionPose.time;
+    this.playbackTimeMs = groundedAdmissionPose.time;
     this.encounterEndsAtMs = time + behaviorPlan.maximumEncounterMs;
     this.lastWindowSummary = Object.freeze({
       samples: admittedWindow.samples,
       travelTiles: admittedWindow.travelTiles,
       actionSamples: admittedWindow.actionSamples,
-      selectedStartOffsetMs: admissionPose.time - replayStartAt,
-      selectedStartAction: admissionPose.action === true,
+      selectedStartOffsetMs: groundedAdmissionPose.time - replayStartAt,
+      selectedStartAction: groundedAdmissionPose.action === true,
     });
     this.distanceToPlayerTiles = measureShadowMinerDistanceToPlayer(
       this.scene,
-      admissionPose,
+      groundedAdmissionPose,
     );
     this.lastEntryDistanceTiles = this.distanceToPlayerTiles;
     this.lastEntryVisible = isShadowMinerPoseInsideCamera(
       this.scene,
       this.config,
-      admissionPose,
+      groundedAdmissionPose,
     );
     this.repelledBy = null;
     this.lightExposureProgress = 0;
@@ -270,7 +279,7 @@ export class ShadowMinerRuntime {
     this.lastAwarenessCue = playShadowMinerArrivalAwareness(
       this.scene,
       this.config,
-      admissionPose,
+      groundedAdmissionPose,
       behaviorPlan.visualIntensity,
     );
     this.scene.soundSystem?.playApprovedSfxFamily?.(
@@ -305,7 +314,12 @@ export class ShadowMinerRuntime {
           * this.behaviorPlan.approachPlaybackRate
           * lightSlowMultiplier,
     );
-    const pose = this.workLoop.limitTravel(this.history.sampleAt(this.playbackTimeMs), delta);
+    const groundedPose = resolveShadowMinerGroundedPose(
+      this.scene,
+      this.config,
+      this.history.sampleAt(this.playbackTimeMs),
+    );
+    const pose = this.workLoop.limitTravel(groundedPose, delta);
     if (!pose) {
       this._beginObserve(time);
       return;

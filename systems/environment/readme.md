@@ -1,5 +1,11 @@
 # Environment
 
+Deep-weather optimization and verification are recorded in
+`markdown/2026-09-12-deep-weather-performance.md`. Occlusion sampling stops
+after the configured full depth fade, returning immediately on surface
+re-entry. Rain culls before collision, rain/impact arrays compact in place,
+and completed thunder timers are released.
+
 Game system — environment.
 
 Campfire upgrades keep payment, save data, blessings and charge ownership in

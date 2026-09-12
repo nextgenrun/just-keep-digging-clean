@@ -161,9 +161,12 @@ try {
   assert.equal(broadRecorder.activeMode, "broad");
   assert.equal(broadHarness.recordingCanvas.width, 2560);
   assert.equal(broadHarness.recordingCanvas.height, 1440);
-  assert.equal(broadHarness.hud.visible, true);
+  assert.equal(broadHarness.hud.visible, false);
+  assert.equal(broadHarness.draws.length, 0);
+  broadHarness.events.emit("postrender");
   assert.deepEqual(broadHarness.draws[0].slice(1), [0, 0, 2560, 1440]);
   broadRecorder.destroy();
+  assert.equal(broadHarness.hud.visible, true);
 } finally {
   globalThis.document = priorGlobals.document;
   globalThis.MediaRecorder = priorGlobals.mediaRecorder;
@@ -172,3 +175,12 @@ try {
 }
 
 console.log("screen-record modes contract: ok");
+
+const nativePrompt = globalThis.prompt;
+try {
+  globalThis.prompt = () => { throw new Error('prompt() is not supported'); };
+  assert.equal(new ScreenRecordSystem(null)._requestCaptureMode(), 'short');
+  globalThis.prompt = () => null;
+  assert.equal(new ScreenRecordSystem(null)._requestCaptureMode(), null);
+} finally { globalThis.prompt = nativePrompt; }
+console.log('Unsupported prompt fallback and explicit cancellation: ok');

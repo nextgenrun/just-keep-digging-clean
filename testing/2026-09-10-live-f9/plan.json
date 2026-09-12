@@ -13,7 +13,7 @@
   },
   "world/playScene/GameInputHandler.js": {
     "before": "e580761555f49ca7cd0e4956bd19925f27596a0d2dffb6627c58e4a8f73765c8",
-    "after": "5adee37beccf2296a2e49d5120098c8e2e2857a4e730599eb7808f97ccd05b73"
+    "after": "21fee68c1abd82f30aea3603d8b47e9a7e9d18872eb664db11c122a458c30fe5"
   },
   "world/playScene/PlaySceneSetup.js": {
     "before": "f6a9c903450049e2f8e71c5a9aa8e6598b6e635ee0c81cea68e5c2510e4fd7c2",

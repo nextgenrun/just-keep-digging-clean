@@ -12,7 +12,7 @@ export const SCREEN_RECORD_CONFIG = Object.freeze({
     message: [
       "Choose capture format:",
       "SHORT = clean 9:16 capture without game UI",
-      "BROAD = complete wide game screen in fullscreen",
+      "BROAD = clean wide fullscreen capture without game UI",
     ].join("\n\n"),
     defaultValue: "short",
   }),
@@ -33,7 +33,7 @@ export const SCREEN_RECORD_CONFIG = Object.freeze({
       aliases: Object.freeze(["broad", "b", "2", "wide", "fullscreen", "landscape"]),
       captureSourceSize: true,
       fit: "contain",
-      hideUi: false,
+      hideUi: true,
       requireFullscreen: true,
       fileNameToken: "broad",
       indicator: "REC • BROAD FULLSCREEN • F9 TO STOP",

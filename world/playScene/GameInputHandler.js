@@ -38,9 +38,11 @@ export class GameInputHandler {
     this._onHardEscapeDown = (_key, event) => this._handleHardEscapeDown(event);
     this._mapHandledOnDown = false;
     this._onMapDown = event => this._handleMapDown(event);
+    this._onScreenRecordDown = event => this._handleScreenRecordDown(event);
     this._onSceneShutdown = () => this.destroy();
     this._hardEscapeKey?.on?.("down", this._onHardEscapeDown);
     scene.input?.keyboard?.on?.("keydown", this._onMapDown);
+    scene.input?.keyboard?.on?.("keydown", this._onScreenRecordDown);
     scene.events?.once?.(Phaser.Scenes.Events.SHUTDOWN, this._onSceneShutdown);
   }
 
@@ -64,6 +66,14 @@ export class GameInputHandler {
     // the frame-level JustDown cannot reopen Pause after another listener runs.
     this._hardEscapeHandledOnDown = true;
     this.scene.closeTopOverlay?.("escape");
+  }
+
+  _handleScreenRecordDown(event) {
+    if (event?.repeat || this.scene._settingsKeyCaptureActive
+      || normalizeKeyboardEvent(event) !== USER_SETTINGS.getKey("screenRecord")) return;
+    if (!isGameplayFeatureEnabled(GAMEPLAY_FEATURE_IDS.SCREEN_CAPTURE, this.scene.gameplayCapabilities)) return;
+    event.preventDefault?.();
+    this.scene.screenRecordSystem?.toggle();
   }
 
   _handleMapDown(event) {
@@ -116,6 +126,7 @@ export class GameInputHandler {
   destroy() {
     this._hardEscapeKey?.off?.("down", this._onHardEscapeDown);
     this.scene?.input?.keyboard?.off?.("keydown", this._onMapDown);
+    this.scene?.input?.keyboard?.off?.("keydown", this._onScreenRecordDown);
     this.scene?.events?.off?.(
       Phaser.Scenes.Events.SHUTDOWN,
       this._onSceneShutdown,
@@ -125,6 +136,7 @@ export class GameInputHandler {
     this._onHardEscapeDown = null;
     this._hardEscapeEvent = null;
     this._onMapDown = null;
+    this._onScreenRecordDown = null;
     this._onSceneShutdown = null;
   }
 
@@ -157,17 +169,6 @@ export class GameInputHandler {
       if (typeof window !== 'undefined' && window.__toggleGameFullscreen) {
         window.__toggleGameFullscreen().catch(error => console.warn('[Fullscreen] Toggle failed:', error));
       }
-      return true;
-    }
-
-    if (
-      justDown(keys.screenRecord)
-      && isGameplayFeatureEnabled(
-        GAMEPLAY_FEATURE_IDS.SCREEN_CAPTURE,
-        this.scene.gameplayCapabilities,
-      )
-    ) {
-      this.scene.screenRecordSystem?.toggle();
       return true;
     }
 

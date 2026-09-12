@@ -34,7 +34,7 @@ export const SHADOW_MINER_VISUAL_CONFIG = Object.freeze({
   depth: 19.85,
   echoDepth: 19.75,
   awareness: Object.freeze({
-    enabled: true,
+    enabled: false,
     flashColor: 0x721bc4,
     flashAlpha: 0.3,
     flashMaximumAlpha: 0.38,

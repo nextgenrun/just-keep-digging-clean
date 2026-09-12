@@ -1,3 +1,4 @@
+import { destroyScenicVideo } from "./destroyScenicVideo.js";
 import {
   resolveWorldVisualDepthBackdropTint,
 } from "../../../values/worldVisualDepthBackdrops.js?rev=20260729-native-density-v14";
@@ -538,9 +539,11 @@ export class WorldVisualDepthBackdropRegionView {
 
   _destroySegment(segment) {
     if (!segment) return;
-    if (segment.isSmoothVideo) segment.backwall.stop();
-    segment.backwall.clearMask?.(false);
-    segment.backwall.destroy();
+    if (segment.isSmoothVideo) destroyScenicVideo(segment.backwall);
+    else {
+      segment.backwall.clearMask?.(false);
+      segment.backwall.destroy();
+    }
     segment.bitmapMask?.destroy?.();
     segment.blendMaskImage?.destroy?.();
   }

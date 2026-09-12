@@ -1940,3 +1940,22 @@ a real reload/retry, and zero motion requests with reduced motion enabled.
 2026-09-09-approved-polish-contract.mjs covers death ordering/fall/cancellation, floating-only resource icons, buff authority and bounded terrain. The matching local save-free review fixture and approved-polish gallery retain runtime evidence and two unwired mockups.
 
 2026-09-10-local-server-contract.py exercises real media ranges, HEAD/416 responses, exclusive binding and 1,200 parallel module requests without successful-request console output.
+
+2026-09-10-f9-review.html loads the real local game in an iframe with SHORT/BROAD recorder controls for browsers without prompt support. It uses jkd_e2e to prevent save writes. The framebuffer contract checks row orientation, binding restoration, buffer reuse, context loss and Canvas fallback.
+
+
+## Deep weather performance
+
+`2026-09-12-weather-performance-contract.mjs` guards deep sampling, surface return, rain culling/compaction and thunder timer release. `2026-09-12-depth-weather-profile.html` is a local save-disabled surface/800m/1200m clear/storm CPU and frame-interval fixture. See `markdown/2026-09-12-deep-weather-performance.md` for the current browser loading limitation.
+
+
+## 2026-09-12 full performance audit
+
+Read markdown/2026-09-12-full-performance-audit.md for ranked findings, measured limits, and reproduction steps. The dated audit-boot/inventory/hotpaths tools write JSON evidence only. full-performance-entry.html runs the isolated no-save depth/weather capture; auditTravel adds a return cooldown. audit-video-lifetime.html reproduces retained private Phaser video textures using the production destructor and then cleans up its own test textures. None are production entry points.
+
+
+### 2026-09-12 runtime smoothing
+
+2026-09-12-smooth-runtime-contract.mjs checks owned video cleanup, chest invalidation and live animation, tile revisions, nearby cave checks, and unchanged HUD formatting. The video lifetime fixture accepts ?soak=1 for twenty real-Phaser cycles.
+
+2026-09-12 memory residency: memory-residency-contract.mjs validates pressure-safe screen loading, release/reopen, cancellation and shared art preservation. The dated memory-residency-entry.html and profile.js run a no-save production-scene lifecycle check; memory-residency-result.json records its observations.

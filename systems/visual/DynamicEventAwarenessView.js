@@ -27,8 +27,7 @@ export class DynamicEventAwarenessView {
   update(snapshot, time) {
     const n = cfg.notice;
     let index = 0;
-    for (const id of cfg.ids) {
-      if (id === "signal") continue; // Signal owns its sparse sound/caption cue.
+    for (const id of cfg.notice.visibleEventIds || []) {
       const row = snapshot.events[id];
       const visible = row && ((row.active && id !== "earthquake")
         || (!row.active && row.result && time - row.finishedAt < cfg.completeHoldMs));

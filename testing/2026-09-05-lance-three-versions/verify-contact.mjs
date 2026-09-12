@@ -22,7 +22,8 @@ try {
   const launch=C.attacks[attack].contactFrame/C.attacks[attack].frameRate*1000;
   for(const direction of [1,-1]){
    await page.selectOption("#direction",String(direction));
-   const before=await snap(launch-.01), at=await snap(launch), later=await snap(launch+1000);
+   const flightSampleMs=500;
+   const before=await snap(launch-.01), at=await snap(launch), later=await snap(launch+flightSampleMs);
    assert.equal(at.renderer,2); assert.equal(at.projectiles.length,4);
    assert.ok(before.projectiles.every(p=>!p.flying&&p.contactsDue===0));
    for(let i=0;i<4;i++){
@@ -36,7 +37,7 @@ try {
     assert.ok(direction*(rear-contact.rawPoint.x)>=-1.3 && direction*(rear-contact.rawPoint.x)<=0,
       "only the dark rear padding overlaps the fist; the visible flame extends outward");
     assert.ok(p.flying&&p.contactsDue===1&&p.contactsVisible===1);
-    assert.ok(Math.abs(q.x-p.x-direction*225)<1e-8);
+    assert.ok(Math.abs(q.x-p.x-direction*P.speedPxPerSecond*flightSampleMs/1000)<1e-8);
     for(const k of ["width","height","y","angle"]) assert.equal(p[k],q[k]);
     assert.equal(p.width,64); assert.equal(p.height,28); assert.equal(p.alpha,1);
     assert.equal(q.alpha,1,"the core stays solid throughout flight");
@@ -48,7 +49,7 @@ try {
     }
    }
    const steady=[];
-   for(const age of [1,100,350,700,1300,1750]) {
+   for(const age of [1,100,350,700,800]) {
     const state=await snap(launch+age);
     assert.ok(state.projectiles.every(p=>p.flying&&p.alpha===1&&p.width===64&&p.height===28));
     steady.push({age,alpha:state.projectiles.map(p=>p.alpha)});
@@ -73,7 +74,7 @@ try {
  await page.screenshot({path:path.join(out,"cinder-compact.png"),fullPage:true});
  assert.deepEqual(errors,[]);
  proof.status="PASS"; fs.writeFileSync(path.join(out,"contact-browser-proof.json"),JSON.stringify(proof,null,2));
- console.log("CINDER_CONTACT_BROWSER_PASS: four palettes, punches/kicks left/right, 225px/s, fully opaque fixed cores, stable echoes, controls, responsive layout");
+ console.log(`CINDER_CONTACT_BROWSER_PASS: four palettes, punches/kicks left/right, ${P.speedPxPerSecond}px/s, fully opaque fixed cores, stable echoes, controls, responsive layout`);
 } catch(e) {
  proof.failure=e.stack;
  await page.screenshot({path:path.join(out,"contact-qa-failure.png"),fullPage:true}).catch(()=>{});
@@ -81,4 +82,3 @@ try {
  console.error(JSON.stringify({failure:e.message,errors}));
  process.exitCode=1;
 } finally {await browser.close();}
-

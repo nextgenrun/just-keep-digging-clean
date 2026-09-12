@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+<base href="/">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>UNDERSTAR — Open Beta Demo</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="./css/menu-shell.css">
+  <link rel="stylesheet" href="./css/style.css">
+  <link rel="stylesheet" href="./css/menu-loading.css">
+  <link rel="preload" href="./assets/fonts/barlow-semi-condensed/BarlowSemiCondensed-Regular.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="preload" href="./assets/fonts/barlow-semi-condensed/BarlowSemiCondensed-SemiBold.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="preload" href="./assets/fonts/barlow-semi-condensed/BarlowSemiCondensed-Bold.ttf" as="font" type="font/ttf" crossorigin>
+</head>
+<body>
+  <div id="game-root" class="relative isolate flex h-dvh w-full items-center justify-center overflow-hidden" aria-label="Game canvas">
+    <button id="fs-btn" class="transition-colors duration-300 motion-reduce:transition-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-amber-200" title="Enter fullscreen" aria-label="Toggle fullscreen" aria-pressed="false">&#x26F6;</button>
+  </div>
+
+  <script type="module" src="./session-logging.js"></script>
+  <script src="./libs/phaser.js"></script>
+  <script type="module" src="./main.js?rev=20260831-worldroot-v4-despill-v1"></script>
+  <script type="module">
+    import { BROWSER_CONTROLS } from './values/browserControls.js';
+
+    (function() {
+      'use strict';
+
+      var fsBtn = document.getElementById('fs-btn');
+      var gameRoot = document.getElementById('game-root');
+      var fallbackFullscreen = false;
+
+      function getFullscreenElement() {
+        return document.fullscreenElement ||
+          document.webkitFullscreenElement ||
+          document.msFullscreenElement ||
+          null;
+      }
+
+      function isGameFullscreen() {
+        return getFullscreenElement() === gameRoot || fallbackFullscreen;
+      }
+
+      function requestGameFullscreen() {
+        var request = gameRoot.requestFullscreen ||
+          gameRoot.webkitRequestFullscreen ||
+          gameRoot.msRequestFullscreen;
+        if (!request) {
+          return Promise.resolve(enterFallbackFullscreen());
+        }
+        return Promise.resolve(request.call(gameRoot)).then(function() {
+          // Native fullscreen also works without Keyboard Lock (e.g. Firefox).
+          if (!navigator.keyboard || typeof navigator.keyboard.lock !== 'function') return;
+          return navigator.keyboard.lock(BROWSER_CONTROLS.fullscreenLockCodes).catch(function(error) {
+            console.warn('[Fullscreen] Keyboard lock unavailable; keeping native fullscreen:', error);
+          });
+        });
+      }
+
+      function exitGameFullscreen() {
+        var exit = document.exitFullscreen ||
+          document.webkitExitFullscreen ||
+          document.msExitFullscreen;
+        if (!exit) return Promise.resolve();
+        return Promise.resolve(exit.call(document));
+      }
+
+      function enterFallbackFullscreen() {
+        fallbackFullscreen = true;
+        gameRoot.classList.add('fullscreen-fallback');
+      }
+
+      function exitFallbackFullscreen() {
+        fallbackFullscreen = false;
+        gameRoot.classList.remove('fullscreen-fallback');
+      }
+
+      function unlockFullscreenKeyboard() {
+        if (navigator.keyboard && typeof navigator.keyboard.unlock === 'function') {
+          navigator.keyboard.unlock();
+        }
+      }
+
+      function refreshPhaserLayout() {
+        var game = window.__phaserGame;
+        if (!game || !game.scene) return;
+
+        var refresh = function() {
+          try {
+            var scenes = game.scene.getScenes ? game.scene.getScenes(true) : [];
+            scenes.forEach(function(scene) {
+              if (scene.scale && typeof scene.scale.refresh === 'function') {
+                scene.scale.refresh();
+              }
+              var cam = scene.cameras && scene.cameras.main;
+              if (cam && typeof cam.setFollowOffset === 'function') {
+                cam.setFollowOffset(0, 0);
+              }
+            });
+            window.dispatchEvent(new Event('resize'));
+          } catch (error) {
+            console.warn('[Fullscreen] Failed to refresh Phaser layout:', error);
+          }
+        };
+
+        requestAnimationFrame(refresh);
+        window.setTimeout(refresh, 120);
+      }
+
+      function syncFullscreenButton() {
+        var active = isGameFullscreen();
+        fsBtn.setAttribute('aria-pressed', active ? 'true' : 'false');
+        fsBtn.classList.toggle('is-fullscreen', active);
+        fsBtn.title = active ? 'Exit fullscreen' : 'Enter fullscreen';
+      }
+
+      window.__isGameFullscreen = isGameFullscreen;
+      window.__toggleGameFullscreen = function() {
+        var nativeFullscreen = getFullscreenElement() === gameRoot;
+        var entering = !nativeFullscreen && !fallbackFullscreen;
+        var action;
+        if (nativeFullscreen) {
+          action = exitGameFullscreen().then(function() {
+            exitFallbackFullscreen();
+            unlockFullscreenKeyboard();
+          });
+        } else if (fallbackFullscreen) {
+          action = Promise.resolve().then(function() {
+            exitFallbackFullscreen();
+            unlockFullscreenKeyboard();
+          });
+        } else {
+          action = requestGameFullscreen().catch(function(error) {
+            console.warn('[Fullscreen] Native fullscreen unavailable, using viewport fallback:', error);
+            enterFallbackFullscreen();
+          });
+        }
+        return action.then(function() {
+          if (entering && !getFullscreenElement() && !fallbackFullscreen) {
+            enterFallbackFullscreen();
+          }
+          syncFullscreenButton();
+          refreshPhaserLayout();
+          return isGameFullscreen();
+        });
+      };
+
+      fsBtn.addEventListener('click', function() {
+        window.__toggleGameFullscreen().catch(function(error) {
+          console.warn('[Fullscreen] Toggle failed:', error);
+        });
+      });
+
+      function onFullscreenChange() {
+        if (getFullscreenElement() === gameRoot) {
+          exitFallbackFullscreen();
+        } else if (!fallbackFullscreen) {
+          unlockFullscreenKeyboard();
+        }
+        syncFullscreenButton();
+        refreshPhaserLayout();
+      }
+
+      document.addEventListener('fullscreenchange', onFullscreenChange);
+      document.addEventListener('webkitfullscreenchange', onFullscreenChange);
+      document.addEventListener('MSFullscreenChange', onFullscreenChange);
+
+      // Windowed tabs cannot intercept Ctrl+W. Protect an open run with the
+      // browser's leave-page confirmation, including while the game is paused.
+      window.addEventListener('beforeunload', function(event) {
+        var scenes = window.__phaserGame && window.__phaserGame.scene;
+        if (!scenes || !BROWSER_CONTROLS.confirmExitSceneKeys.some(function(key) {
+          return scenes.isActive(key) || scenes.isPaused(key);
+        })) return;
+        event.preventDefault();
+        event.returnValue = true;
+      });
+
+      syncFullscreenButton();
+    })();
+  </script>
+<pre id="audit-status" style="position:fixed;left:0;top:0;z-index:99999;background:#111;color:white;max-width:100%;max-height:100px;overflow:auto;font:10px monospace">Audit booting</pre><script type="module" src="/testing/2026-09-12-full-performance-profile.js"></script></body>
+</html>

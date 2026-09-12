@@ -183,6 +183,8 @@ export const RUNTIME_ASSET_LOADING = Object.freeze({
         priority: RUNTIME_ASSET_LOAD_PRIORITIES.featureStarlight,
         residencyClass: RUNTIME_ASSET_RESIDENCY_CLASSES.onDemand,
         releaseWhenUnused: true,
+        // Opening the bounded talent screen must work above the global watermark.
+        bypassPressureGate: true,
       }),
       [RUNTIME_FEATURE_ASSET_GROUP_IDS.titanArchive]: Object.freeze({
         owner: RUNTIME_ASSET_LOAD_OWNERS.featureTitanArchive,

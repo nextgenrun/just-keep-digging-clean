@@ -15,10 +15,36 @@ export class WeatherOcclusionSampler {
     this._worldPerScreenPixelX = 1;
     this._debugEnabled = Boolean(weatherConfig.debug?.enabled);
     this._debugGraphics = null;
+    this._deepInactive = false;
     this._worldCollision = new WeatherWorldCollision(scene, config, weatherConfig);
   }
 
-  update(time) {
+  update(time, state = {}) {
+    // Past the existing full weather fade, no precipitation/shelter geometry
+    // is visible or influences the fully underground player's exposure.
+    const deepInactive = state.depth?.deepFade === 0 && !this._debugEnabled;
+    if (deepInactive) {
+      if (!this._deepInactive || !this._snapshot.worldView) {
+        this.resize();
+        this._snapshot = this._emptySnapshot();
+        this._snapshot.openSkyAmount = 0;
+        this._snapshot.coveredAmount = 1;
+        this._snapshot.worldView = {};
+      }
+      this._deepInactive = true;
+      const cam = this.scene.cameras.main;
+      Object.assign(this._snapshot.worldView, {
+        x: cam.worldView?.x ?? cam.scrollX ?? 0,
+        y: cam.worldView?.y ?? cam.scrollY ?? 0,
+        width: cam.worldView?.width ?? cam.width,
+        height: cam.worldView?.height ?? cam.height,
+      });
+      return this._snapshot;
+    }
+    if (this._deepInactive) {
+      this._deepInactive = false;
+      this._nextSampleAt = 0;
+    }
     const cfg = this.weatherConfig.occlusion;
     if (time >= this._nextSampleAt || this.samples.length === 0) {
       this._sampleColumns();

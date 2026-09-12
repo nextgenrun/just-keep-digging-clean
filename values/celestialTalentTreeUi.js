@@ -1,6 +1,6 @@
 // Authored full-screen multi-path talent layout, art routing, and hover copy.
 
-import { BAKED_TALENT_NODES, BAKED_TALENT_ASSETS } from "./bakedCelestialUi.js";
+import { BAKED_TALENT_NODES, BAKED_TALENT_ASSETS, BAKED_CELESTIAL_ASSETS } from "./bakedCelestialUi.js";
 import { CELESTIAL_FOCUS_ASSETS, CELESTIAL_FOCUS_LAYOUT } from "./celestialTalentFocusUi.js";
 import { CELESTIAL_TALENT_NODES_BY_ID } from "./celestialTalentProgression.js";
 import { CELESTIAL_TALENT_RANK_BONUSES } from "./celestialTalentRanks.js";
@@ -34,6 +34,14 @@ export const CELESTIAL_TALENT_TREE_PRELOAD_ASSETS = Object.freeze([
   foundation, connector, nodeFrame, nodeHalo, tooltip, lock, ...BAKED_TALENT_ASSETS,
   ...Object.values(CELESTIAL_FOCUS_ASSETS).filter(asset => asset !== foundation),
 ]);
+// Action-bar faces/chrome and shared Codex lettering remain available at once.
+const sharedTalentKeys = new Set([
+  ...CELESTIAL_TALENT_NODE_ICON_ASSETS.map(asset => asset.key),
+  nodeFrame.key, tooltip.key, BAKED_CELESTIAL_ASSETS.labels.key,
+]);
+export const CELESTIAL_TALENT_TREE_EAGER_ASSETS = Object.freeze(
+  CELESTIAL_TALENT_TREE_PRELOAD_ASSETS.filter(asset => sharedTalentKeys.has(asset.key)),
+);
 const nodeIconKeys = Object.freeze(Object.fromEntries(
   Object.entries(BAKED_TALENT_NODES).map(([id, node]) => [id, node.face.key]),
 ));

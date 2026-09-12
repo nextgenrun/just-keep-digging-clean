@@ -1,0 +1,146 @@
+{
+  "phase": "complete",
+  "results": [
+    {
+      "cycle": 0,
+      "key": "e0280f1d-16ca-435d-8fbe-0b0236aaaa9b",
+      "rgbaBytes": 6291456,
+      "retainedAfterProductionDestroy": false,
+      "extraTextureCount": 0
+    },
+    {
+      "cycle": 1,
+      "key": "e3a35c5d-85f0-493b-af60-51480e1cfee4",
+      "rgbaBytes": 6291456,
+      "retainedAfterProductionDestroy": false,
+      "extraTextureCount": 0
+    },
+    {
+      "cycle": 2,
+      "key": "7c733140-aa6b-438a-9ba1-ccc82ecd199d",
+      "rgbaBytes": 6291456,
+      "retainedAfterProductionDestroy": false,
+      "extraTextureCount": 0
+    },
+    {
+      "cycle": 3,
+      "key": "5bceeba2-72b6-4d6f-8440-bd919ca6c416",
+      "rgbaBytes": 6291456,
+      "retainedAfterProductionDestroy": false,
+      "extraTextureCount": 0
+    },
+    {
+      "cycle": 4,
+      "key": "2dcec37c-74a2-4b45-8786-5dc69cc93a26",
+      "rgbaBytes": 6291456,
+      "retainedAfterProductionDestroy": false,
+      "extraTextureCount": 0
+    },
+    {
+      "cycle": 5,
+      "key": "6832d6f0-0630-4e01-843c-96f75772dfe6",
+      "rgbaBytes": 6291456,
+      "retainedAfterProductionDestroy": false,
+      "extraTextureCount": 0
+    },
+    {
+      "cycle": 6,
+      "key": "2e19fc8c-d424-4fec-9f00-33c607615327",
+      "rgbaBytes": 6291456,
+      "retainedAfterProductionDestroy": false,
+      "extraTextureCount": 0
+    },
+    {
+      "cycle": 7,
+      "key": "c36b3527-660c-4b75-90ee-8b52f441dda7",
+      "rgbaBytes": 6291456,
+      "retainedAfterProductionDestroy": false,
+      "extraTextureCount": 0
+    },
+    {
+      "cycle": 8,
+      "key": "41126356-e4a7-47c1-ab0e-95b157b38c7b",
+      "rgbaBytes": 6291456,
+      "retainedAfterProductionDestroy": false,
+      "extraTextureCount": 0
+    },
+    {
+      "cycle": 9,
+      "key": "eed574d8-9e7b-4658-9e5f-9008e0c9d3c2",
+      "rgbaBytes": 6291456,
+      "retainedAfterProductionDestroy": false,
+      "extraTextureCount": 0
+    },
+    {
+      "cycle": 10,
+      "key": "041abe22-0408-44d8-a338-9e7697a0e084",
+      "rgbaBytes": 6291456,
+      "retainedAfterProductionDestroy": false,
+      "extraTextureCount": 0
+    },
+    {
+      "cycle": 11,
+      "key": "5da8535c-bfea-44a9-b492-0312af9fa2e8",
+      "rgbaBytes": 6291456,
+      "retainedAfterProductionDestroy": false,
+      "extraTextureCount": 0
+    },
+    {
+      "cycle": 12,
+      "key": "897c52be-01b0-46f2-a007-def3695ad933",
+      "rgbaBytes": 6291456,
+      "retainedAfterProductionDestroy": false,
+      "extraTextureCount": 0
+    },
+    {
+      "cycle": 13,
+      "key": "26580302-8d00-4c00-b90b-f43c5a3af391",
+      "rgbaBytes": 6291456,
+      "retainedAfterProductionDestroy": false,
+      "extraTextureCount": 0
+    },
+    {
+      "cycle": 14,
+      "key": "b0a082d5-f128-4263-badf-7a083f4b26d7",
+      "rgbaBytes": 6291456,
+      "retainedAfterProductionDestroy": false,
+      "extraTextureCount": 0
+    },
+    {
+      "cycle": 15,
+      "key": "1f368da2-d532-423e-bd6e-4bb87fcf2f2e",
+      "rgbaBytes": 6291456,
+      "retainedAfterProductionDestroy": false,
+      "extraTextureCount": 0
+    },
+    {
+      "cycle": 16,
+      "key": "00cc42c6-b656-4bd0-a0ef-b55a23fb1f4e",
+      "rgbaBytes": 6291456,
+      "retainedAfterProductionDestroy": false,
+      "extraTextureCount": 0
+    },
+    {
+      "cycle": 17,
+      "key": "41740ded-55ac-434b-822e-6f5455f51a0c",
+      "rgbaBytes": 6291456,
+      "retainedAfterProductionDestroy": false,
+      "extraTextureCount": 0
+    },
+    {
+      "cycle": 18,
+      "key": "3c3ed9d8-b37d-414a-b46f-6b9b06960260",
+      "rgbaBytes": 6291456,
+      "retainedAfterProductionDestroy": false,
+      "extraTextureCount": 0
+    },
+    {
+      "cycle": 19,
+      "key": "118bdf4e-672b-4ca1-a414-33701dad8833",
+      "rgbaBytes": 6291456,
+      "retainedAfterProductionDestroy": false,
+      "extraTextureCount": 0
+    }
+  ],
+  "extraTexturesAfterOwnedCleanup": 0
+}

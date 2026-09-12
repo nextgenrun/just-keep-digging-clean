@@ -45,8 +45,7 @@ ui/           ← Layer 3: Reads from all layers above
 
 `values/gameplayCapabilities.js` owns the immutable `demo` and `full-review`
 profiles. Production always resolves the production-safe `demo`, excluding
-Level Two and its gate, Arc Core, Heavenblocks, developer cheats, and screen
-capture. The local development `demo` keeps the same bounded world but admits
+Level Two and its gate, Arc Core, Heavenblocks, developer cheats. Screen capture is available in the production demo. The local development `demo` keeps the same bounded world but admits
 the V-key God Mode cheat and F9 screen capture. Local review can request
 `?gameplayProfile=full-review`; remote and production hosts ignore that override.
 `gameplayDevFlags.js` is the compatibility facade for untouched code.
@@ -240,3 +239,5 @@ and `testing/2026-09-06-level-one-live-v6/gallery.html`.
 - [7 September: relevant Hints and public wiki release](markdown/2026-09-07-hints-and-wiki.md) — Esc field guide, useful search, current screenshots, public browser proof and guarded rollback.
 
 Local server stability (2026-09-10): serve.py prevents duplicate Windows port binding, serves media byte ranges and suppresses successful-request logging. Close an existing server before restarting it. Details: markdown/2026-09-10-local-startup-logo-stability.md.
+
+Launching serve.py again now opens the existing local game in your default browser after verifying its entry page; it does not start a second listener.

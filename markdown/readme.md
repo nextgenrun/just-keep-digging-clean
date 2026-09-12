@@ -1,5 +1,13 @@
 # Dig Game Dev Environment — README
 
+Implemented follow-up: [2026-09-12 Runtime smoothing](2026-09-12-runtime-smoothing.md)
+records video texture cleanup, CPU reductions, and before/after validation.
+
+Full performance audit and reproduced video texture retention:
+[2026-09-12 Full performance audit](2026-09-12-full-performance-audit.md).
+Includes surface/deep rain timings, texture residency, travel/cooldown evidence,
+Boot/package inventory, CPU hotspots, validation, and ordered optimization work.
+
 `2026-09-07-character-grounding-polish.md` records the wired character crispness, ground contact, measured gait and validation evidence.
 
 **Last updated:** 2026-07-30
@@ -436,3 +444,5 @@ Town bed rest and checkpoint rules: [2026-09-07 Town bed rest](2026-09-07-town-b
 [2026-09-08 Initial boot and logo motion](2026-09-08-initial-boot-logo-motion.md)
 records the small launch graph, improved loading contrast, compact approved
 light loop, failure recovery and production candidate evidence.
+
+- [2026-09-12 memory residency pass](2026-09-12-memory-residency-pass.md): deferred talent-screen art and optional idle animation, measured texture reductions and lifecycle evidence.

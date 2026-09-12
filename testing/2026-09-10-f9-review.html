@@ -1,0 +1,25 @@
+<!doctype html><meta charset="utf-8"><title>Local F9 capture verification</title>
+<style>body{margin:0;background:#111;color:white;font:14px system-ui}iframe{width:100%;height:90vh;border:0}button{margin:8px}</style>
+<button id="short" disabled>Record short</button><button id="broad" disabled>Record broad</button><button id="stop" disabled>Stop recording</button><span id="status">Load a save in the game below.</span>
+<iframe id="game" src="/index.html?jkd_e2e=1&cinematics=0" allow="fullscreen" allowfullscreen></iframe>
+<script type="module">
+const frame=document.querySelector('#game');
+const status=document.querySelector('#status');
+let recorder;
+setInterval(()=>{
+ const game=frame.contentWindow?.__phaserGame;
+ const scene=game?.scene?.getScenes(true).find(s=>s.screenRecordSystem);
+ recorder=scene?.screenRecordSystem;
+ const running=recorder?.recorder?.state==='recording';
+ document.querySelector('#short').disabled=!recorder||running;
+ document.querySelector('#broad').disabled=!recorder||running;
+ document.querySelector('#stop').disabled=!running;
+ status.textContent=running?'Recording '+recorder.activeMode:recorder?.saving?'Saving':recorder?'Ready':'Load a save in the game below.';
+},250);
+for(const mode of ['short','broad'])document.querySelector('#'+mode).onclick=async()=>{
+ const request=recorder._requestCaptureMode;
+ recorder._requestCaptureMode=()=>mode;
+ try{await recorder.toggle();}finally{recorder._requestCaptureMode=request;}
+};
+document.querySelector('#stop').onclick=()=>recorder.toggle();
+</script>
